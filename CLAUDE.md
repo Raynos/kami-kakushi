@@ -36,6 +36,9 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   be driven and observed headlessly — see the `capture-game-states` skill.
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `journal/`
   says **how it got here**. One doc per concern; edit living docs in place (don't fork copies).
+- **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp/) for all scratch /
+  working files (intermediate output, throwaway scripts, scratch notes) — **not** the global system
+  scratchpad. Anything worth keeping graduates to `docs/`, `brainstorms/`, `audit/`, or `journal/`.
 
 ## Layout
 
@@ -53,5 +56,6 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   [`_TEMPLATE.md`](journal/_TEMPLATE.md).
 - [`archive/`](archive/) — superseded markdown docs kept for reference (archive, don't delete).
 - [`audit/`](audit/) — QA screenshots/recordings + findings, from the `capture-game-states` skill.
+- [`tmp/`](tmp/) — repo-local scratchpad for throwaway working files (git-ignored except its README).
 - `.claude/skills/` — `grill-me` (stress-test a design / extract one into a doc) and
   `capture-game-states` (drive the game headlessly and screenshot/record its states).
