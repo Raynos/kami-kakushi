@@ -17,11 +17,11 @@ decisions locked as ADRs before the next section is drafted.
 | § | Section | Status |
 |---|---------|--------|
 | 1 | Vision, pillars, factions, world & endgame | **DRAFT — integrated (staleness fixed); awaiting review** |
-| 2 | Systems & mechanics catalog | _not started_ |
+| 2 | Systems & mechanics catalog | **DRAFT — awaiting review** (`prd-sections/section-2-systems.md`) |
 | 3 | Incremental unlock ladder (UI-as-progression) | _not started_ |
 | 4 | Combat, progression & balance model | _not started_ |
-| 5 | Full act-by-act narrative & content | _not started_ |
-| 6 | Tech architecture & data model | _not started_ |
+| 5 | Full act-by-act narrative & content | **DRAFT — awaiting review** (`prd-sections/section-5-content.md`) |
+| 6 | Tech architecture & data model | **DRAFT — awaiting review** (`prd-sections/section-6-tech.md`) |
 | 7 | Milestone roadmap, v1 scope & deployment | _not started_ |
 
 ---
