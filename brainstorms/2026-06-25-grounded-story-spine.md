@@ -27,6 +27,11 @@ These are **non-negotiable** and every story beat below honors them (see ADRs D-
 
 Working title: **Kamikakushi** (神隠し).
 
+> **Canonical name correction (ADR D-006):** this doc drafted the protagonist's true name as the
+> placeholder **"Ren"**. The locked canonical true name is **Tahei** (revealed Act 4); he goes by the
+> borrowed village-name **"Tama"** until then; **male, fixed, no rename**. Read every "Ren" below as
+> "Tahei".
+
 ---
 
 ## Premise (one line)

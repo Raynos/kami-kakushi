@@ -16,7 +16,7 @@ decisions locked as ADRs before the next section is drafted.
 
 | § | Section | Status |
 |---|---------|--------|
-| 1 | Vision, pillars & grounded story spine | **DRAFT — in review** |
+| 1 | Vision, pillars & grounded story spine | **✅ Locked** (ADRs D-001…D-006) |
 | 2 | Systems & mechanics catalog | _not started_ |
 | 3 | Incremental unlock ladder (UI-as-progression) | _not started_ |
 | 4 | Combat, progression & balance model | _not started_ |
@@ -109,10 +109,11 @@ back, a patient temper, a refusal to stop getting up — exactly what the increm
   reps, better technique, rest, and better tools. Combat capacity is **gated behind labour-built
   conditioning** ("the spear is just a long hoe held with intent").
 
-**Naming note (minor, see Decision D-§1-e):** the village calls him **"Tama"** (the borrowed name) for
-most of the game; his **true name is a late reveal**. The synthesis used "Ren"; the authenticity pass
-flags it as faintly modern and suggests a more period-typical commoner given name (e.g. *Tahei*,
-*Kichizō*, *Sutekichi*). To be chosen.
+**Naming note (locked — ADR D-006):** the village calls him **"Tama"** (the borrowed name) for most of
+the game; his **true name — _Tahei_ — is a late reveal** (Act 4). *Tahei* is a plain, period-typical
+commoner name (the synthesis's "Ren" was dropped as faintly modern). The protagonist is **male, with a
+fixed name and no player rename** — the legend's gender-drift clue (the village misremembers the real
+Tama as a boy) depends on it.
 
 ## 1.5 The central mystery & the grounded truth
 
@@ -286,22 +287,17 @@ the line on while authoring:
   culture — specific and correct **without lecturing**. Child-selling-for-debt kept off-screen and
   framed as human tragedy, not exploitation.
 
-## 1.12 Decisions to lock for §1
+## 1.12 Decisions for §1 — all locked
 
-These are the §1 calls to confirm and record as ADRs:
-
-- **D-§1-a — Story spine.** Adopt this grounded mistaken-identity / kamikakushi-red-herring / rice-quota
-  cover-up spine as canon. *(Recommend: yes.)*
-- **D-§1-b — Mediocre-start contract & guardrails.** Lock the no-hidden-edge rules (porter's-knot, dream,
-  grind-not-gift) as binding on both writing and code. *(Recommend: yes.)*
-- **D-§1-c — Folklore = belief→cause, ambiguity capped at two off-screen beats.** *(Recommend: yes.)*
-- **D-§1-d — Partial-justice, bittersweet ending; one grounded diegetic reset.** *(Recommend: yes.)*
-- **D-§1-e — Protagonist name & customization.** Village-name "Tama" throughout; true name a late reveal.
-  Pick the true name (period-typical, e.g. *Tahei*) and decide whether the player may rename him.
-  Protagonist is **male and fixed** (the legend's gender-drift clue depends on it). *(Recommend: fixed
-  male; allow the player to choose/confirm the true name at the Act 4 reveal.)*
-- **D-§1-f — Working title.** Keep *Kamikakushi* (confirmed); revisit store title before launch.
+| Decision | Resolution | ADR |
+|---|---|---|
+| **D-§1-a — Story spine** | Adopt the grounded mistaken-identity / kamikakushi-red-herring / rice-quota cover-up spine as canon | D-001 |
+| **D-§1-b — Mediocre-start contract & guardrails** | No-hidden-edge rules (porter's-knot = zero bonus, dream = memory-only, grind-not-gift) binding on writing *and* code | D-003 |
+| **D-§1-c — Folklore = belief→cause** | Every yokai resolves to a human/natural cause; residual ambiguity capped at two off-screen, mundane-readable beats; the fox is de-fanged | D-002 |
+| **D-§1-d — Bittersweet partial justice + one grounded reset** | Reachable culprits answer; the untouchable magistrate escapes; one diegetic season-cycle reset carries meta-progress | D-001, D-004 |
+| **D-§1-e — Protagonist identity** | True name **Tahei** (revealed Act 4); borrowed village-name "Tama" until then; **male, fixed name, no rename** (protects the gender-drift clue) | D-006 |
+| **D-§1-f — Working title** | *Kamikakushi* (revisit the store title before launch) | D-005 |
 
 ---
 
-_Sections 2–7 will be authored after §1 is approved._
+_§1 is locked. §2 (Systems & mechanics catalog) is authored next._
