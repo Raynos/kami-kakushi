@@ -70,7 +70,8 @@
   - **ORIGIN (side, memory-gated SUPPORT track)** — Tahei's **living** family/friends in post-town
     **Sawatari-juku**: mother **Oyuki**, **father Jinpachi** (re-added; renamed from the colliding
     "Kuranosuke"), sister **Okimi**, employer **Denbei**,
-    friend **Kanta**, sweetheart **Ohana**, the porter guild. **Opens at T2 Region**; the **dream
+    friend **Kanta**, sweetheart **Osen** (renamed to disambiguate from the lost-child **Otsuru**), the
+    porter guild. **Opens at T2 Region**; the **dream
     foreshadows from early game**; they **support** his estate achievements (pride/allies/trade-ties);
     access-only, ZERO mechanical gift.
 - **Allegiance (Tama ↔ farmhand):** a **continuous, re-swingable** leaning; shifts standing-gain **rates &
@@ -141,7 +142,7 @@
   mistaken-identity legend); the MC is **not** her. The grown lost-child is named **Otsuru** (LOCKED — name now
   **confirmed**; the substance "a girl who ran" unchanged). **Amnesia** = a mundane mountain accident (flood/
   rockfall hit Tahei's porter caravan on the pass; head trauma + near-drowning; found at the weir).
-- **Relationships = narrative-only** (Sayo, Ohana, found-family); no dating-sim.
+- **Relationships = narrative-only** (Sayo, Osen, found-family); no dating-sim.
 - **Tone:** grounded, warm, bittersweet; dark beats handled **off-screen**.
 
 ## G. Core loop, systems & content discipline

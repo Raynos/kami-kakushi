@@ -3,9 +3,11 @@
 Design docs live here — **living documents**, each the *current* truth for its concern, edited **in
 place** (no stale "v2" copies; the *why* of a change goes to a journal entry).
 
-Nothing's here yet — we add docs **when we start designing the game**, not before. Likely first ones:
+The single living PRD is **[`prd.md`](prd.md)** — one coherent document (top-matter + §§1–7, authored
+section by section). It is the current truth for the game's design; edit it in place.
 
-- `prd.md` — vision, pillars, core loop, scope.
+Likely future additions:
+
 - `design/` — the living design surfaces (game design, architecture, progression, story).
 
 The **[history/](history/)** subfolder already exists: it holds the **ADR log**
