@@ -222,7 +222,7 @@ late-game convenience only (§1.12, canon §G).
 | **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun; the **simple Crafting tab + loot→craft loop** (Smith Gonta). |
 | **R5 — Gate-guard (*monban*)** | combat | Stand a real watch; clear the first pest/animal threats; weapon-skill milestones reached. (Combat Standing gate; conditioning floor at R3.) | Estate-defence duties; **PEST-CONTROL / HUNT / CLEAR / DEFEND** quest types; **Arms deeds begin accruing** (the standing itself is recorded at R6). |
 | **R6 — Foreman of works (*kogashira*)** | labour | Drive the *shinden* reclamation and the workshops to recorded yield; the house edging toward solvency. | The workshops and granary; the low palisade; proto-industry levers; **the FIRST combat-earned Arms standing is recorded**; **errands beyond the estate — the VILLAGE TIER opens here.** |
-| **R7 — Bailiff of the home fields (*jitō-dai*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **House Influence made visible and tracked** (the four-bar standing panel); cash-crop levers; the **tier-expansion map**. The capstone bridge to T1. |
+| **R7 — Bailiff of the home fields (*jikata-yaku*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **House Influence made visible and tracked** (the four-bar standing panel); cash-crop levers; the **tier-expansion map**. The capstone bridge to T1. |
 
 **T1 — The estate's domain expands into the valley (~8 rungs; a fresh ladder, not a continuation of T0).**
 The HOUSE's standing climbs **friendly → TRUSTED**, and its domain grows from bare *survival* to **anchoring its
@@ -375,7 +375,7 @@ so the grind stays load-bearing.
 |---|---|---|---|
 | **Arms** (martial) | 武威 *bu-i* | combat / weapon-skills / men-at-arms leadership | recognised martial deeds (a road declared safe; a nest cleared; the grain store defended; a rival's enforcer broken) + seasonal security **judged results** (fired on a new high-water mark, never repeatable maintenance) |
 | **Estate & Wealth** (economic) | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation), **TREASURY** (debt→solvency→creditworthiness, *goyōkin*), **TRADE** (routes, broker standing, the signature ***meibutsu*: silk / sericulture**) |
-| **Standing & Office** (political/territorial) *(exact kanji TBD at the §5 authenticity pass)* | — | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
+| **Standing & Office** (political/territorial) | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
 | **Name & Honour** (prestige/cultural) | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition; the house off the foreclosure list; a sponsored rite; an inspector's report; a recorded merit-elevation |
 
 > **Trade is demoted to 1-of-3 sub-engines inside Estate & Wealth and hard-capped to ~⅓ of that one pillar**
@@ -383,8 +383,9 @@ so the grind stays load-bearing.
 > silk / sericulture (LOCKED)** that was once the whole endgame is now **one capped strand in one sub-engine of
 > one pillar** (still subject to the trade ≤⅓ cap).
 >
-> **Note:** the **Standing & Office** pillar is labelled in plain English; its **exact kanji is deferred to the
-> §5 authenticity pass.** (Resolved: no coined compound is committed to here.)
+> **Note:** the **Standing & Office** pillar's kanji is **RESOLVED = 官威 (*kan'i*)**, "authority of office"
+> (set at the §5 authenticity pass, 2026-06-25; the earlier coined 政威 was rejected). Awareness: 官威 is a
+> spoken homophone of 官位 ("court rank") — disambiguated by the kanji.
 
 ### 1.6.2 Accrual
 
@@ -419,7 +420,7 @@ over years.
 | **T1 — The Valley** | The estate's domain expands to **anchor its own valley** (standing friendly→**trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the valley. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
 | **T2 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region's **rival houses Tomita & Akagi** are the incumbents to surpass (G7 = rivals dethroned). | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
 | **T3 — Castle-town** *(stub in v1)* | The estate's domain expands to **become a castle-town power holding key domain offices** (standing **honorary member → chief steward / *yōnin*** — the MC's personal CEILING): the *daikan* / *tedai* officialdom and inter-*han* markets acknowledge, contend with, and cede to the house. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
-| **T4 — Edo** *(roadmap)* | The **HOUSE** rises to **national standing — ranked at the capital** while the **MC stays *yōnin*** (the arc is the house's, not the man's; indirect/mediated Edo ceiling, canon §F / D-010): restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
+| **T4 — Edo** *(roadmap)* | The **HOUSE** rises to **national standing — ranked at the capital** while the **MC stays *yōnin*** (the arc is the house's, not the man's; indirect/mediated Edo ceiling, canon §F / D-010): restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **called to staff & run the *domain's* Edo establishment** (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
 
 > **Castle-town takeover = MULTI-ROUTE** (peaceful: office / economy / marriage / out-maneuvering rivals; AND
 > assertive: martial-security leverage). "Take over" = becoming the **dominant house holding key domain
@@ -466,7 +467,7 @@ existing cast and pay off the spine directly.
 | **The Neighbouring Valleys** | T2 | Side. **Hard-capped at exactly two named valleys (Hibara + Tōge-mura)** — Asagiri fractally replicated, slimmer. Courting them is an optional accelerant. |
 | **The High Mountains & The Pass** | T2–T3 | Shared wilderness, top of the conditioning gradient. The lethal terrain where his caravan died; the "one-eyed mountain god" (= Hanzaki + fog-blind terrain). |
 | **The Daikan's Office (castle-town officialdom)** | T3 | **Spine-critical** for formal T3 recognition; the racket's nerve-centre. Where most T3 Influence is minted. No folklore here — the rational, ledgered counter-world. |
-| **The Edo *yashiki* / rusui + sankin-kōtai conduit (one cluster)** | T4 | **Spine.** The mediated capital conduit (rusui **Konoe**; the lord's biennial attendance), with the **Nihonbashi/*banzuke*** payoff and the **touring-inspector set-piece** folded in as its two payoff beats. |
+| **The *domain's* Edo *yashiki* / *rusui-yaku* + *sankin-kōtai* conduit (one cluster)** | T4 | **Spine.** The mediated capital conduit — the house **staffs & runs the domain's establishment** (rusui **Konoe**) under the **daimyō's** biennial *sankin-kōtai* (never its own) — with the **Nihonbashi/*banzuke*** payoff and the **touring-inspector set-piece** folded in as its two payoff beats. |
 
 > **Marriage / adoption-into-higher-status is a REAL late-game (T3/T4) lever (NOT cut).** Kept lean — a
 > grounded alliance/status move (not a relationship or people-management sim) that lifts **Standing & Office**
@@ -748,10 +749,10 @@ Folded in from the locked-rule fixes (to apply at integration and hold through �
   standing army**; "de-facto security" = the house the daimyo *deputises* (sanctioned, revocable). Re-balance
   toward **labour-plurality** (peaceful labour the dominant daily texture; combat the strong mid-game-onward
   second pillar).
-- **Standing & Office pillar uses a plain-English label (RESOLVED)** — no coined compound is committed; the
-  **exact kanji is deferred to the §5 authenticity pass.** The top-rung title is **RESOLVED = chief steward /
-  *yōnin*** ("the lord's right hand"); keep grand *karō*/adoption vocabulary as **aspirational narration only**
-  for a modest *goshi* house.
+- **Standing & Office pillar kanji (RESOLVED)** — the earlier coined 政威 was rejected; its **kanji is now
+  RESOLVED = 官威 (*kan'i*)**, "authority of office" (§5 authenticity pass, 2026-06-25). The top-rung title is
+  **RESOLVED = chief steward / *yōnin*** ("the lord's right hand"); keep grand *karō*/adoption vocabulary as
+  **aspirational narration only** for a modest *goshi* house.
 - ***Meibutsu* product is LOCKED = silk / sericulture** (Round A). No placeholder; author the T3/T4
   trade/prestige payload directly against silk (weaver Onatsu leads the sub-engine; it stays under the trade
   ≤⅓ cap).
@@ -797,8 +798,8 @@ reset); **D-006 is amended** (Tahei reveal softened to a late side beat; age ~18
   sumo-rank vocabulary** (Maegashira/Komusubi for the attainable band, Ōzeki/Yokozuna for the sealed top); the
   **Naoyuki rival→brotherhood** in-house arc; **Rival House Tomita** lineage (head **Sōzaemon**, heir
   **Kageyuki**, agent **Yasubei**); **Rival House Akagi** (head **Gennai**).
-- **Standing & Office pillar label = plain English** (LOCKED — no coined compound committed; the exact kanji is
-  deferred to the **§5 authenticity pass**, not an open design question).
+- **Standing & Office pillar kanji = 官威 (*kan'i*)** ("authority of office") (RESOLVED at the **§5 authenticity
+  pass**, 2026-06-25; the earlier coined 政威 was rejected).
 - **Top-rung title = chief steward / *yōnin*** ("the lord's right hand") (LOCKED); aspirational *karō*/adoption
   vocabulary stays **narration only** for a modest *goshi* house.
 - **Romanization convention = macrons (proper Hepburn) project-wide** (LOCKED — Tōkichi, Yagōemon, Jūbei,
@@ -1432,7 +1433,7 @@ lockstep, each mapping to a distinct protagonist domain:
 |--------|-------|--------------------|----------|
 | **Arms** | 武威 *bu-i* | combat / weapon-skills / men-at-arms leadership | recognized martial deeds + seasonal security judged results (new high-water mark) |
 | **Estate & Wealth** | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation) / **TREASURY** (debt→solvency→creditworthiness, *goyōkin*) / **TRADE** (routes, broker standing, the silk *meibutsu*) — **TRADE hard-capped to ≤ ⅓ of this pillar** |
-| **Standing & Office** | *(plain-English label; exact kanji deferred to the §5 authenticity pass)* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed (incl. the **marriage / adoption lever**, 2.16.1 — T3+ parked), rivals eclipsed |
+| **Standing & Office** | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed (incl. the **marriage / adoption lever**, 2.16.1 — T3+ parked), rivals eclipsed |
 | **Name & Honour** | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition, off the foreclosure list, a sponsored rite, an inspector's report, a recorded merit-elevation |
 
 **Accrual = two shapes only — never a passive time-trickle, never a flat per-action increment (canon):**
@@ -1460,7 +1461,7 @@ floor+overflow formula is **REJECTED**). The only structural cap that survives i
 | **T1 Village** | enough estate work + **basic repairs** → sent into the village | **Arms + Estate**, first **Office** (errand-authority; headman's regard; cash-crops online) |
 | **T2 Region** | **"clean your room"** (estate healthy, village happy, fires out) → grow regional influence; rival houses appear | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here |
 | **T3 Castle-town** *(stub in v1)* | **win the region** → rulers confer leadership + invite the house in | **Office + Name** dominant (won socially); Arms/Estate as leverage |
-| **T4 Edo** *(roadmap)* | a **"taste of Edo"** — forced to build & fund an Edo estate → grow influence | **Name + Office** (the national *banzuke* on all four pillars) |
+| **T4 Edo** *(roadmap)* | a **"taste of Edo"** — staff & run the *domain's* Edo establishment (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence | **Name + Office** (the national *banzuke* on all four pillars) |
 
 **(b) Player-facing behaviour / loop.** Perform recognized deeds → watch the relevant pillar JUMP (capped)
 or rise on the seasonal appraisal → cross a tier's required-pillar thresholds **and** trigger its story
@@ -1698,8 +1699,8 @@ These are the load-bearing or genuinely-open calls in §2 that should be confirm
 6. **Skill/quest-type lean-set for v1 (2.7 / 2.12).** Confirm the **lean core skills** (farming, foraging,
    woodcutting, fishing, smithing, cooking; conditioning; 2–3 weapon lines) and **~4 quest types** (PEST
    CONTROL, HUNT, CLEAR, DEFEND) are the v1 surface, with the rest parked.
-7. **Standing & Office kanji (2.16).** Still deferred to the **§5 authenticity pass** (plain-English label
-   only here) — noted, not an open §2 design question.
+7. **Standing & Office kanji (2.16).** RESOLVED at the **§5 authenticity pass** (2026-06-25) = **官威
+   (*kan'i*)**, "authority of office" (the earlier coined 政威 was rejected).
 
 ---
 
@@ -1801,7 +1802,7 @@ Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5
 | **R4 — Trusted hand & houseman** | `RANK` Estate Service (win **Lady Chiyo's** regard for indoor work + heir **Naoyuki's** grudging vouch; authored trust beats) | **The Main House / *Omoya*** interior area (kitchen, inner rooms, household shrine); the **household domestic economy** rows (textiles, kitchen, provisioning — feeds **Cooking** §2.6 and the satiety loop §2.3); the **first *shinden* reclamation** begins (a LAND lever toward Estate & Wealth); the **simple Crafting tab** (§2.11, hybrid — *simple recipes first*) opens with the early **loot→craft loop** (Smith **Gonta**, §2.10/§2.11). **[THREAD: Tama — seed only]** the house simply sees a proven, honest hand; **no one speaks the name "Tama"** yet (the village ignites the legend at T1-V0). | *"Lady Chiyo nods you indoors. Naoyuki, bored: 'He'll do.' The inner rooms open; the first fallow plot is yours to bring back. You earned this with honest hands."* |
 | **R5 — Gate-guard (*monban*)** | `RANK` Combat Standing (stand a real watch; clear first pest/animal threats; weapon-skill milestones — conditioning floor set at R3) | The **Quest log** (§2.12) + the **four v1 quest types**, revealed as each is first taken: **PEST CONTROL → HUNT → CLEAR → DEFEND** (DEFEND is the Arms standing-earner). **Arms deeds begin accruing here** — the standing itself is first *recorded* at R6 and the full panel waits for R7 (earn → recognised → see). | *"You stand the gate, and the work finds you: vermin in the stores, a boar in the paddies, a night-watch to hold. Your sword starts to matter — not just your back."* |
 | **R6 — Foreman of works (*kogashira*)** | `RANK` Estate Service (drive the *shinden* + workshops to recorded yield; house edging toward solvency) | The **Workshops** and **Granary** areas; **proto-industry levers** (LAND/TREASURY strands of Estate & Wealth); the **low palisade** (martial fabric); **THE FIRST COMBAT-EARNED HOUSE STANDING is recorded** — the first **Arms** achievement-jump formally enters the books (§2.16, capped; the four-bar panel still waits for R7); **errands beyond the estate are authorised — the VILLAGE TIER OPENS** (the **tier-expansion map** seed + the road out). | *"The frame of a workshop is raised; the granary takes shape; the ledger is no longer only red — and for the first time the books record the house's* Arms *standing rising by your sword. Genemon, grudging: 'Carry the house's business down to the village.' A road opens past the gate."* |
-| **R7 — Bailiff of the home fields (*jitō-dai*)** *(capstone bridge to T1)* | `RANK` Estate Service + `PILLAR` (Arms + Estate thresholds; first *shinden* recorded; kura solvent) | The **lord's study** (ledgers) in the Main House; **jobs-as-offices** begin (field administration framed as **the MC's own quests/offices — NOT a management layer**, §2.6); **THE FOUR-BAR HOUSE INFLUENCE PANEL becomes visible** (§2.16) — revealed **bar-by-bar** in fractal order as each pillar has first scored (Arms first recorded at R6, Estate from the *shinden*; Office/Name appear as faint, not-yet-scored bars); **cash-crop levers**; the **per-tier domain ranking** read (§2.18) first appears here as "unranked." **Gate met → T1.** | *"The lord enters your name in his own ledger. You see, for the first time, what the house has become — four standings, rising. 'Now: the valley.'"* |
+| **R7 — Bailiff of the home fields (*jikata-yaku*)** *(capstone bridge to T1)* | `RANK` Estate Service + `PILLAR` (Arms + Estate thresholds; first *shinden* recorded; kura solvent) | The **lord's study** (ledgers) in the Main House; **jobs-as-offices** begin (field administration framed as **the MC's own quests/offices — NOT a management layer**, §2.6); **THE FOUR-BAR HOUSE INFLUENCE PANEL becomes visible** (§2.16) — revealed **bar-by-bar** in fractal order as each pillar has first scored (Arms first recorded at R6, Estate from the *shinden*; Office/Name appear as faint, not-yet-scored bars); **cash-crop levers**; the **per-tier domain ranking** read (§2.18) first appears here as "unranked." **Gate met → T1.** | *"The lord enters your name in his own ledger. You see, for the first time, what the house has become — four standings, rising. 'Now: the valley.'"* |
 
 > **T0 deliberately withheld (fractal discipline):** coin/*mon* (a T1 reveal — there is no market yet); the inn
 > & **rumours board** / folklore (T1, §2.13); the **component/quality** crafting system (T1+ — T0 is *simple*
@@ -2143,7 +2144,7 @@ offices**, **never rebellion** (canon §B).
 | **C3–C4 — The house holds a minor domain office** | **Jobs-as-offices at castle scale**; the **debt-restructuring / *goyōkin* TREASURY mega-lever** (Marutaya / *fudasashi* network, §1.7.1). | `PILLAR` Office |
 | **C5 — The house's alliance-maker** | **THE MARRIAGE / ADOPTION lever** (§2.16.1, T3+ ONLY) — a brokered **Standing & Office + Name & Honour** one-time jump and a **takeover route** for the house (NOT a relationship sim). | `STORY` + `PILLAR` Name |
 | **C6 — The house eclipses its rivals** | The **antagonist Tedai Kuroiwa** ("the gracious door") arc; the racket's nerve-centre (the *Daikan's* Office, §1.7.1) out-maneuvered — **never rebellion** (canon §B). | `STORY` |
-| **C7 — The dominant house of the castle-town; the MC made chief steward / *yōnin*** *(bridge to T4)* | The **domain *banzuke*** shows the house atop the castle-town (holding the key offices); the MC's estate standing reaches its **CEILING — chief steward / *yōnin*** (canon §I); the **T3→T4 "taste of Edo"** (the house forced to build & fund an Edo estate). | `RANK` + `PILLAR` |
+| **C7 — The dominant house of the castle-town; the MC made chief steward / *yōnin*** *(bridge to T4)* | The **domain *banzuke*** shows the house atop the castle-town (holding the key offices); the MC's estate standing reaches its **CEILING — chief steward / *yōnin*** (canon §I); the **T3→T4 "taste of Edo"** (the house called to staff & run the *domain's* Edo establishment — the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own). | `RANK` + `PILLAR` |
 
 > **T3 side-tracks (forward — sketch only):** the **village web** (T1) and the **Origin track** (T2) persist as
 > fully-completable optional accelerants (never gating). T3 *may* seed a **new optional castle-town side-track**
@@ -2170,7 +2171,7 @@ ceiling** holds — the **HOUSE** is recognised; the MC's personal ceiling stays
 
 | Forward rung (sketch) | First-reveal of note | Trigger kind |
 |---|---|---|
-| **E0–E2 — The house's Edo *yashiki* conduit** | The **Edo screen / map** (one cluster); the **rusui Konoe** + *sankin-kōtai* mediated conduit (§1.7.1) — the house reaches the capital **through** its agent; the MC works the conduit, never attends a shogunal audience (the indirect ceiling). | `STORY` T3→T4 |
+| **E0–E2 — The *domain's* Edo *yashiki* conduit (worked by the house)** | The **Edo screen / map** (one cluster); the **rusui Konoe** + the **daimyō's** *sankin-kōtai* mediated conduit (§1.7.1) — the house reaches the capital **through** the domain's rusui, **staffing the domain's establishment (never its own)**; the MC works the conduit, never attends a shogunal audience (the indirect ceiling). | `STORY` T3→T4 |
 | **E3–E5 — The house's national trade & finance reach** | The **Osaka / Edo *fudasashi*** top of the finance network; the full silk *meibutsu* prestige payload carries the house's name to the capital (still trade ≤⅓). | `PILLAR` |
 | **E6 — The touring-inspector set-piece** | The impartial-test antagonist beat; the **HOUSE's Name & Honour** climax via an inspector's national report. | `STORY` |
 | **E7 — The HOUSE ranked at the capital** *(authored ending)* | **THE NATIONAL *MITATE* / PARODY *BANZUKE*** broadsheet (§2.18) — sumo-rank vocabulary: **Maegashira / Komusubi** attainable band, **Ōzeki / Yokozuna** the **structurally sealed top**; the **house** climbs from "the chart that omits you" into the attainable band (the MC stays *yōnin* — its architect, never personally ennobled); **post-game free-play, NO reset**; defend-the-spot on the biennial heartbeat (recoverable, **never a decay-tax**). | `PILLAR` Name + Office |
@@ -2186,8 +2187,9 @@ ceiling** holds — the **HOUSE** is recognised; the MC's personal ceiling stays
 - **Numbers → §4** (combat/progression/balance): every rung threshold, pillar threshold, conversion weight, cost
   curve, soft-stamina rate, market-saturation rate, and the **K/M/B** formatting rules are deferred. §3 fixes the
   **order and the triggers' kinds**, never the values.
-- **Final log-line wording → §5 authenticity pass** (macron romanization, exact kanji for the **Standing &
-  Office** pillar). §3 fixes the **substance** of each `revealLogLineId`; copy may be polished.
+- **Final log-line wording → §5 authenticity pass** (macron romanization). The **Standing & Office** pillar's
+  kanji is now RESOLVED = **官威 (*kan'i*)** (2026-06-25). §3 fixes the **substance** of each `revealLogLineId`;
+  copy may be polished.
 - **Data shapes → §2 / §6:** every reveal is a `RevealableEntry` with a pure `unlockPredicate` over `GameState`,
   fired via the `process_rewards` bus as one event (§2.1, §6.3); the renderer does one `render(state)`
   reconciliation showing only unlocked entries (§6.9); every reveal is **headlessly regression-testable** via
@@ -3660,8 +3662,9 @@ inter-*han* markets. The takeover is won **socially** (canon §B: multi-route �
 out-maneuvering rivals; AND assertive martial-security leverage; **never open rebellion**). "Take over" =
 becoming the **dominant house holding key domain offices.**
 
-**Transition gate (T3→T4):** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** →
-grow influence → the national tier. **Required pillars:** **Office + Name** dominant; Arms/Estate as leverage.
+**Transition gate (T3→T4):** a **"taste of Edo"** — the house is **called to staff & run the *domain's* Edo
+establishment** (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence → the
+national tier. **Required pillars:** **Office + Name** dominant; Arms/Estate as leverage.
 **Estate stage span:** E3 Prosperous → E4 Fortified Seat.
 
 ## T3.2 Main-quest beats (forward stub)
@@ -3681,7 +3684,8 @@ grow influence → the national tier. **Required pillars:** **Office + Name** do
    the optional **marriage/adoption alliance** lever matures (a real, lean Standing/Name move + a takeover
    route).
 7. **Win the region's confidence (the gate).** Become the dominant house holding key offices → the "taste of
-   Edo" forces the house to build & fund an Edo estate. **Gate met.**
+   Edo" calls the house to staff & run the *domain's* Edo establishment (the *rusui-yaku* under the daimyō's
+   *sankin-kōtai*, never its own). **Gate met.**
 
 ## T3.3 Antagonist arc — **Tedai Kuroiwa**, the gracious door (forward)
 
@@ -3754,14 +3758,17 @@ ceiling stays **chief steward / *yōnin* — the lord's right hand** (grand *kar
 aspirational narration only). The house's *banzuke* rank keeps climbing post-cap (personal vs house ascension
 decoupled).
 
-**The tier's mechanism:** the house's hands reach Edo **only inside the lord's body of work** — the MC equips,
-provisions, and burnishes the lord's biennial **sankin-kōtai** attendance; credit accrues to the lord, and
-thence to the house. The Edo *yashiki* is a corner of someone else's compound, known only through letters.
+**The tier's mechanism:** the house's hands reach Edo **only inside the domain's body of work** — as the
+daimyō's leading retainers, the Kurosawa help **staff & run the domain's Edo establishment** (the *rusui-yaku*),
+and the MC equips, provisions, and burnishes the **daimyō's** biennial **sankin-kōtai** attendance; credit
+accrues to the daimyō, and thence to the house. The Edo *yashiki* is the **domain's** — a corner of the
+daimyō's compound, known to the house only through letters.
 
 ## T4.2 Main-quest beats (roadmap)
 
-1. **The two conduits open (seeded late T3).** Genemon hands the MC a share of outfitting the lord's biennial
-   journey (sankin-kōtai); the first sealed dispatch arrives from the domain's Edo residence (rusui **Konoe**).
+1. **The two conduits open (seeded late T3).** Genemon hands the MC a share of outfitting the **daimyō's**
+   biennial journey (*sankin-kōtai*); the first sealed dispatch arrives from the domain's Edo residence (rusui
+   **Konoe**).
 2. **The *meibutsu* reaches Edo.** Silk rides the procession up as tribute; a Nihonbashi *tonya* sends a single
    trial order (the silk's first capital-side buyer).
 3. **The chart that omits you.** Konoe forwards a popular ***mitate*/parody broadsheet** (sumo-rank vocabulary)
@@ -3828,19 +3835,23 @@ estate-as-sandbox **teaching layer** re-homed onto **Tokujirō** + recruited ori
   formatting are §4's job.
 - **Rung copy belongs in §3.** T2's region-ladder rung wording, and all per-tier reveal cadences, are §3's job;
   §5 fixes only the *story shape* of each ladder.
-- **Authenticity pass (the Standing & Office pillar's exact kanji; martial-title hardening).** Canon defers the
-  **Standing & Office** kanji and the authenticity-hardening of new martial/office titles to **this section's
-  authenticity pass** — a follow-up sweep over the names used above (e.g. confirm humble *ashigaru*/household-
-  tier titles vs grander aspirational narration). Tracked here, not yet executed. **[FLAG-HUMAN]**
+- **Authenticity pass — RESOLVED (2026-06-25).** The **Standing & Office** pillar kanji is set to **官威
+  (*kan'i*)**, "authority of office" (coined 政威 rejected); the R7 rung title is **地方役 (*jikata-yaku*)**,
+  "home-field bailiff" (the grander *jitō-dai* dropped); *michi-ban* (road-warden) is **diegetic-only** (an
+  in-house role the estate confers, not an attested bakufu office); and the **T4** arc has the house **staff and
+  run the *domain's* Edo establishment** (the *rusui-yaku* under the daimyō's *sankin-kōtai*), never its own.
+  A routine follow-up confirm of humble *ashigaru*/household-tier titles vs aspirational narration may still
+  run, but no design item is open.
 - **Belief→cause tables are binding inputs to §2/§6** (the bestiary registry must contain **no belief-creatures**;
   yokai are INVESTIGATE-then-confront one-shots; exactly one ambiguous token at the boundary-stone).
 
 ## Items flagged for the human
 
-1. **Authenticity pass not yet run.** The Standing & Office pillar's exact kanji and the hardening of new
-   martial/office title vocabulary (humble *ashigaru*/household-tier vs aspirational narration) are deferred to
-   this section's authenticity pass and are **not yet executed** — they need a research-harden sweep before
-   T0–T2 dialogue is finalised.
+1. **Authenticity pass — RESOLVED (2026-06-25).** The Standing & Office pillar kanji = **官威 (*kan'i*)**; R7 =
+   **地方役 (*jikata-yaku*)** (home-field bailiff); *michi-ban* stays **diegetic-only**; **T4** = the house runs
+   the *domain's* Edo conduit (*rusui-yaku* under the daimyō's *sankin-kōtai*), not its own. A routine confirm of
+   humble *ashigaru*/household-tier title vocabulary vs aspirational narration may still run before T0–T2 dialogue
+   is finalised, but no design item is open.
 2. **Jinpachi's reunion kept un-stacked (confirm tone).** Authored as a **clean warm reunion**, deliberately
    **not** a third "debt-bondage / debt-machine-ate-a-person" arc beside Tahei's caravan and Otsuru's near-sale
    (the superseded father draft stacked exactly that; the verifier flagged it). Confirm this lighter framing —
