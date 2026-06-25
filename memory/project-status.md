@@ -23,16 +23,17 @@ metadata:
   steering + QA answers, the audit lens) · `docs/fun-factor.md` (the what/why of fun) · `docs/ui-design.md`
   (the woodblock/ink UI design-language bible) · `docs/plans/qa-playtesting.md` (the QA/playtest harness +
   loops) · `brainstorms/2026-06-25-locked-decisions.md` (the canon).
-- **Decisions locked:** ADRs **D-001…D-017** in `docs/history/decisions.md` (grounded/no-magic; estate-rise
+- **Decisions locked:** ADRs **D-001…D-020** in `docs/history/decisions.md` (grounded/no-magic; estate-rise
   spine + tiers; 3-reputation model [estate 5-tier spine gates tiers; village & origin = one-tier optional
   side-tracks]; 4-pillar Influence; combat-earns-Arms; tech [Vite+TS+Vitest, pure-core, IndexedDB,
   splitmix64, active-only]; per-tier antagonists; no management sim; balance locks [v1≈28.5h, ≥30-min/rung,
-  70/30 accrual, no respec]; §7 execution plan M0–M7). **Pending ADRs:** D-018 (UI design language),
-  D-019 (fun-factor process), D-020 (docs-explosion).
+  70/30 accrual, no respec]; §7 execution plan M0–M7; **D-018** UI design language [woodblock/ink, strong CSS,
+  no asset pipeline]; **D-019** fun-as-priority + the QA/playtest discipline; **D-020** post-freeze
+  docs-explosion). All recorded.
 - **How to resume:**
   1. Read the newest [`../journal/`](../journal/) entry (`2026-06-25-session-02.md`) — RESUME-HERE at top.
   2. The PRD (`../docs/prd.md`) is the spec; `../docs/prd_human_feedback.md` §A–K is the human-intent lens.
-  3. Next phase (post-freeze): **explode `prd.md` into per-concern living docs + generate-don't-duplicate**;
-     record ADRs **D-018/D-019/D-020**; then **scaffold the toolchain & build M0** (per §7.2 / D-017).
+  3. Next phase (post-freeze): **explode `prd.md` into per-concern living docs + generate-don't-duplicate**
+     (freeze prd.md as the vision, per D-020); then **scaffold the toolchain & build M0** (per §7.2 / D-017).
 - **Next decision from the human:** the final "PRD is frozen, start building" go-ahead → then M0 (toolchain
   + cold open + save spine) begins. `npm run verify` command: {{not created yet — lands in M0}}.

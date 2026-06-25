@@ -321,4 +321,7 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   seasonal judged result, up-only + dents. **D-013a** §6 tech architecture (reduce/tick, splitmix64 +
   sub-streams, IndexedDB, forward migrations, stored tier). **D-016** §4 balance locks (pacing/accrual shape).
   **D-017** v1 execution plan (M0–M8 incl. fixed M2a/M2b, itch.io deploy, verify gate, no pre-planned cut).
-  (ADR numbering finalized.)
+  **D-018** UI design language (woodblock/ink, strong CSS, no asset pipeline → `docs/ui-design.md`).
+  **D-019** fun as a first-class priority + the QA/playtest discipline (`docs/fun-factor.md` +
+  `docs/plans/qa-playtesting.md`). **D-020** post-freeze docs-explosion (freeze prd.md as the vision; explode
+  into living docs + generate-don't-duplicate). (ADR numbering finalized; D-001…D-020 all recorded.)
