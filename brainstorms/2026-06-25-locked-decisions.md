@@ -264,7 +264,10 @@ PROPOSED (tunable). The shape below is human-locked; the rebalance must honour i
   Akagi** (the "one more" of D-014 = **Akagi**); the region tier is about **surpassing** them — **G7 "leading
   house of the region" = the rivals dethroned.** Currently under-mentioned → flesh out across §3.6 / §5 T2.
 
-This is the clean model the per-tier §3 reframes implement (§3.4 T1 via workflow `w82yterx8`; §3.6 T2 next).
+This is the clean model the per-tier §3 reframes implement: **§3.4 (T1) DONE** (estate-domain spine + village
+side-track) and **§3.6 (T2) DONE** (estate-domain spine trusted→honorary; **Origin upgraded to a one-tier rep
+ladder `O0→O5`**; rivals **Tomita** = money/capital & **Akagi** = honour/precedence, surpassed by G7). T3/T4
+stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-transition pattern.
 
 ### Whole-PRD QA resolutions (2026-06-25, human-signed)
 - **§4 balance dials:** deeds/seasonal = **70/30**; per-event cap = **0.04**; per-rung escalation =

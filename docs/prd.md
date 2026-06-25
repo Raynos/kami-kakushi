@@ -243,12 +243,15 @@ a gate; see §1.5.4.)*
 | **V7 — Agent of the house, the valley anchored** | labour→admin (as narration) | Estate healthy, valley anchored under it, immediate fires out — the capstone "clean your room" beat. | The **region** map and the **T1→T2** quest to grow the house's regional influence; rival samurai houses appear. The capstone bridge to T2 (the domain expands again, to the Region). |
 
 **T2 — Region ladder (v1 scope; enumerated as a per-tier ladder).** v1 completes T2, so its ~8-rung ladder
-ships too: a region-facing hierarchy (e.g. **valley-envoy → road-captain of the cluster → broker of the post-town
+ships too: the estate's domain expands again — a region-facing hierarchy framed as **the house's** agent over an
+ever-larger domain (e.g. the house's **valley-envoy → road-captain of the cluster → broker of the post-town
 trade → arbiter between valleys → recognised regional retainer → captain of the road-security detail →
-alliance-broker → leading house of the region**), still interleaving labour and combat, with the **personal-mystery
-payoff** (Kuzuhara, the origin reunions incl. father **Jinpachi**, the lost-child truth) landing across it. Exact
-rung copy is detailed at §3 (the unlock ladder); the **shape** — fresh ~8-rung ladder, combat woven throughout —
-is locked here. T3/T4 ladders are **scoped forward** (T3 stub, T4 roadmap).
+alliance-broker → leading house of the region**), estate standing climbing **trusted → HONORARY MEMBER of the
+house**, still interleaving labour and combat, with the **rival houses Tomita & Akagi** as the region's
+incumbents to surpass (G7 = the rivals dethroned). The **personal-mystery payoff** (Kuzuhara on the spine; the
+origin reunions incl. father **Jinpachi** + the lost-child truth on the **Origin one-tier rep side-track**,
+`O0→O5`) lands across it. Exact rung copy is detailed at §3.6 (the unlock ladder); the **shape** — fresh ~8-rung
+ladder, combat woven throughout — is locked here. T3/T4 ladders are **scoped forward** (T3 stub, T4 roadmap).
 
 > **Estate physical growth runs *ahead* of top personal rank** (buildings gate on the relevant **pillars**
 > — primarily **Estate & Wealth** (and **Arms** for defensive works) — plus a **low** rank floor + cost, not
@@ -291,11 +294,15 @@ transport-and-goods house. This track is a memory-gated, late-blooming **support
 day one. It stays dark — foreshadowed for hours by the dream so its absence reads as anticipation — and
 **opens at T2 (the region tier)**, when the dream has returned enough memory **AND** the protagonist's
 standing lets him physically travel the controlled *kaidō* (*sekisho* checkpoints make free travel
-impossible without standing). It then opens as per-contact **"restored ties"** — discrete one-time milestones
-(father **Jinpachi**, mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**, sweetheart
-**Osen**, the porter-guild). *(Father **Jinpachi** is re-added per the Round-A lock — renamed from the
-colliding "Kuranosuke" to a clean period name; he resolves at T2 with an optional later emotional callback at
-T4 — see §1.9, §1.11.)*
+impossible without standing). It is a **one-tier standalone reputation side-track with its OWN rung ladder**
+(`O0→O5`, §3.6.2 — **upgraded** from the older "discrete restored-ties milestones" framing per canon
+§"Reputation systems model") — optional, fully completable, an **accelerant**, narrative-only with **ZERO
+mechanical gift**, and it **NEVER gates the spine**. Its rungs walk the reunion in sequence: recognised at the
+post-town → the household reopens (mother **Oyuki**, sister **Okimi**) → the old trade welcomes him (employer
+**Denbei**, friend **Kanta**, the porter-guild) → the half-remembered tie (sweetheart **Osen**) → the father
+returns (**Jinpachi**) → his name set down (the **Tama-payoff** capstone, at G6). *(Father **Jinpachi** is
+re-added per the Round-A lock — renamed from the colliding "Kuranosuke" to a clean period name; he resolves at
+T2 with an optional later emotional callback at T4 — see §1.9, §1.11.)*
 
 Payoff is **support, not local power**:
 
@@ -312,17 +319,20 @@ the wider post-town commercial region are T2+ expansion nodes — see §1.7.1.)
 
 ### 1.5.4 How the three interrelate — and the Tama-vs-farmhand allegiance
 
-**The estate rank ladder is the SPINE that gates the tiers; the village reputation web is a PARALLEL optional
-side-track.** The estate ladder (its per-tier rungs + their pillar milestones) is the **only** thing whose
-completion advances a tier — and each tier is **the estate's domain expanding**: survival on its own land (T0)
-→ **+ the village & surrounding valley** (T1) → **+ the region** (T2), and onward. The **village reputation web**
-runs **alongside** that spine as a second, fully-completable reputation (how the villagers *personally* regard
-you) — an **accelerant that NEVER gates** the climb. Origin ties (T2+) are a third, support-only track.
+**THREE reputation systems, two shapes (canon §"Reputation systems model").** The **ESTATE = the FIVE-TIER
+SPINE** — the only thing that gates tier advancement. Per tier the estate-rep arc climbs (T0 stranger→friendly ·
+T1 friendly→**TRUSTED** · **T2 trusted→HONORARY MEMBER of the house** · T3 … · T4 …) and the estate's **domain
+expands**: survival on its own land (T0) → **+ the village & surrounding valley** (T1) → **+ the region** (T2) →
++ the castle-town (T3) → + Edo (T4). The **VILLAGE (T1)** and **ORIGIN (T2)** reputations are **ONE-TIER
+standalone side-tracks**, each with its **own ranks/rungs**, optional and fully completable — **accelerants that
+NEVER gate** the climb. The **village web** (how the villagers *personally* regard you) carries forward through
+T2; the **Origin track** (Tahei's living family/friends at Sawatari-juku) is a one-tier rep side-track with its
+own `O0→O5` rung ladder (§3.6.2), narrative-only.
 
 **Separate earned standing meters** keep them from collapsing into one bar: **Estate Service** (steep geometric)
-and **Combat Standing** (the estate's two rank-gating meters — progress meters, **not** economy currencies),
-**Village Reputation** (gentle per-node meters — the optional side-track), and **Origin Ties** (discrete memory
-milestones). Above all of them sits **House Influence**, the macro-resource
+and **Combat Standing** (the estate spine's two rank-gating meters — progress meters, **not** economy
+currencies), **Village Reputation** (gentle per-node meters — the optional T1 side-track), and **Origin Ties**
+(the optional T2 side-track's own rung meter). Above all of them sits **House Influence**, the macro-resource
 the estate spends to expand: the estate generates it directly, while village allies and origin trade-ties act
 as **multipliers/feeders** — they don't unlock the next tier, they make conquering it faster and cheaper
 (tuned so weaving both in shaves **~10–15%** off time-to-next-tier — *felt, never a wall*).
@@ -405,7 +415,7 @@ over years.
 |---|---|---|---|
 | **T0 — Estate** | Earn your keep and a place at the table. One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **Arms + Estate** (humbling first fight survived; first *shinden* begun; kura solvent). |
 | **T1 — The Valley** | The estate's domain expands to **anchor its own valley** (standing friendly→**trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the valley. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
-| **T2 — Region** | Reach beyond the home valley: a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho*. | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region introduces **rival samurai houses** with more sway to surpass. | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
+| **T2 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region's **rival houses Tomita & Akagi** are the incumbents to surpass (G7 = rivals dethroned). | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
 | **T3 — Castle-town** *(stub in v1)* | Be reckoned with by the people who actually rule: the castle-town, *daikan*/*tedai*, inter-*han* markets. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
 | **T4 — Edo** *(roadmap)* | Recognition at the capital — restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
 
@@ -1360,14 +1370,17 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
   Yagōemon — a weighted roll-up). **Gentle curves** (linear/soft-cap) for frequent small dopamine.
   **Cast mostly STATIC.** **Village standing NEVER gates the UI ladder or the tier climb** (ignoring it
   leaves you poorer and lonelier — a viable-but-poorer playstyle, never a wall).
-- **ORIGIN (side, memory-gated SUPPORT track) — discrete MILESTONES.** Tahei's **living** family/friends
-  in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, employer Denbei, friend Kanta,
-  sweetheart Osen, the porter guild). **Opens at T2** (the dream foreshadows from early game). Per-
-  contact **"restored ties"** one-time milestones. Payoff = **support, not local power**: pride/morale (a
-  modest global skill-XP buff framed as a *present-day relationship*, never a retroactive gift), allies
-  (recruited porter mates), trade ties (origin-town goods/routes plugging into expansion). **Hard
-  guardrail: returning memory grants ACCESS only, ZERO mechanical bonus**; at least one origin beat is
-  always available **without** reputation-gating (the thread never stalls).
+- **ORIGIN (side, memory-gated SUPPORT track) — a ONE-TIER standalone rep ladder (`O0→O5`).** Tahei's
+  **living** family/friends in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, employer
+  Denbei, friend Kanta, sweetheart Osen, the porter guild). **Opens at T2-G2** on the **doubly-earned** gate
+  (dream-memory **AND** travel-standing); the dream foreshadows it from early game. **Upgraded** from
+  "discrete restored-ties milestones" to a **proper one-tier reputation side-track with its own short rung
+  ladder** (`O0→O5`, §3.6.2 — kept LIGHT, 6 rungs, never a second spine), tracking the MC's standing with his
+  origin community. Payoff = **support, not local power**: pride/morale (a modest global skill-XP buff framed
+  as a *present-day relationship*, never a retroactive gift), allies (recruited porter mates), trade ties
+  (origin-town goods/routes plugging into expansion). **Hard guardrail: returning memory grants ACCESS only,
+  ZERO mechanical bonus**; at least one origin beat is always available **without** reputation-gating (the
+  thread never stalls); the track **NEVER gates the spine**.
 - **The Tama-vs-farmhand allegiance** — a **continuous, re-swingable leaning** (village-leaning ↔
   estate-leaning, default neutral, never frozen). **Rebalances rates & flavour, NEVER availability** —
   both factions fully completable on either lean; neutral is a valid in-character stance. **Faction
@@ -1385,8 +1398,9 @@ next-tier — *felt, never a wall; never a new pillar*).
   'admin-as-narration'), earnedBy (EstateService|CombatStanding thresholds + trustBeats),
   unlocks: RewardBundle }`. Two meters: `EstateService` (steep geometric), `CombatStanding`.
 - `VillageWeb { nodes: { shopId|familyId|guildId → meter (gentle curve) }, chiefRegard (rollup) }`.
-- `OriginTies { perContactMilestone: boolean, prideBuff (global skill-XP, access-framed),
-  allies[], tradeTies[] }` — every asset still grind-built.
+- `OriginLadder { tier:'T2', rungs: RankDef[] (O0–O5), meter: OriginTies (gentle), prideBuff (global
+  skill-XP, access-framed), allies[], tradeTies[] }` — a one-tier standalone rep ladder; every asset still
+  grind-built; never a spine trigger.
 - `Allegiance { value (-1 village … +1 estate, default 0), affects: rates+flavour only }`.
 - `FactionMultiplier { source (village|origin), influenceSpeedup, budgetShare (apportioned so the
   combined ≈ ½ time, never exceeded) }`.
@@ -1398,7 +1412,8 @@ flavour*, never which pillars are reachable.
 
 **(e) When introduced / fractal reveal.** **T0** — the estate ladder (R0→R7) and its two standing
 meters. **T1** — the village web (one contact/one shop first, then meters fan out) + the silk sub-engine.
-**T2** — the origin support track opens (memory + travel-standing gated) and a fresh region ladder mints.
+**T2** — the origin support track opens at G2 (memory + travel-standing gated) as its own one-tier rep ladder
+(`O0→O5`, §3.6.2) and a fresh region estate ladder (`G0→G7`) mints alongside.
 Each new faction/zone arrives **minimal** (one contact, one place, one verb) and unlocks fractally.
 
 ---
@@ -1945,7 +1960,7 @@ sequence (data: `RevealableEntry kind:'navLink'|'screen'`). It cross-cuts the ti
 | **"House" / Influence screen** | `RANK` R7 (four-bar panel, §2.16) | A dedicated **House** screen (the four pillars + the domain-ranking read, §2.18). | *"A page for the house itself — what it is becoming."* |
 | **"Village" screen** | `RANK` V0 (T1 opens) | A **Village** screen (shop row, reputation web, inn) joins the nav. | *"A new page: Asagiri, and everyone in it."* |
 | **"Region" screen** | `RANK` V7 / `STORY` T1→T2 | A **Region** screen (the cluster map, the post-town, the roads) joins the nav. | *"The map grows a page wider: the region."* |
-| **"Ties" / Origin screen** | `STORY` T2 origin-faction open | An **Origin / Ties** screen (the Sawatari-juku contacts, restored-ties milestones). | *"A page you didn't know you'd been missing: people who knew your name."* |
+| **"Ties" / Origin screen** | `STORY`+`PILLAR` T2-G2 Origin track opens (doubly-earned) | An **Origin / Ties** screen (the Sawatari-juku contacts + the **`O0→O5` Origin reputation ladder**, §3.6.2). | *"A page you didn't know you'd been missing: people who knew your name."* |
 | **"Castle-town" screen** | `STORY` T2→T3 *(stub in v1)* | A **Castle-town** screen stub (the cliff-hanger first-contact). | *"A page opens onto stone walls and a magistrate's seal — and then the story pauses."* |
 
 > **Responsive note (canon §H, §6.9):** on mobile the same nav reveals collapse into a bottom tab-bar / drawer
@@ -1954,35 +1969,135 @@ sequence (data: `RevealableEntry kind:'navLink'|'screen'`). It cross-cuts the ti
 
 ---
 
-## 3.6 T2 — Region ladder (full; v1) — `G0 → G7` (a FRESH ladder)
+## 3.6 T2 — The estate's domain expands to the region (full; v1) — `G0 → G7` (a FRESH ladder)
 
-**The third fresh ladder** (region-scale, ~8 rungs; canon §I; §5 T2.2). The canvas becomes a **region** (a
-cluster of valleys, the post-town **Sawatari-juku**, the upstream **Kuzuhara** ruins, roads & *sekisho*). **Both
-personal threads RESOLVE here** (lost-child **Otsuru**; the **origin reunions**, incl. father **Jinpachi**) and
-the **Origin faction OPENS** (memory-gated). **Required pillars drift** toward **Estate + Office** (Arms secures
-roads). Estate stage span: **E2 → early E3** (estate fabric runs *ahead* of top personal rank, on pillars + a
-**low** rank floor — never the capstone; §1.5.1).
+> **What this tier IS (read this first).** Like T1, T2 is **not** "the region track" — it is the **HOUSE
+> rising**, a **fresh per-tier rank ladder** (canon §C, §I) on which the Kurosawa estate's standing climbs from
+> **TRUSTED → HONORARY MEMBER of the house** (you stop being merely the lord's reliable agent and become
+> *family in all but blood* — the house's name spoken in the same breath as yours) and its **domain expands
+> again** — from anchoring its own valley (T1) to the estate **effectively leading a region** (T2). Every rung
+> is still a **rank within the house's theme**; at every rung you act **FOR THE ESTATE**, carrying its business,
+> its arms, and its authority across **all three** scales at once: **the estate, the village, and the region**
+> (a cluster of valleys, the post-town **Sawatari-juku**, the upstream **Kuzuhara** ruins, the roads &
+> *sekisho*). Region figures — the post-town *toiya*, neighbouring headmen, the castle-town's distant officials,
+> and the **rival samurai houses Tomita & Akagi** — **acknowledge, contend with, and finally cede to** the
+> house's rise; they do not promote you — **the house does** (§3.6.1), and at the very top the castle-town
+> authorities **confer regional leadership** and **invite the house in**. *(Carried forward: **T3** is the
+> domain expanding **again — to the castle-town**; §3.7.1.)*
 
-Ladder shape (LOCKED, §1.5.1 / §5 T2.2): **valley-envoy → road-captain of the cluster → broker of the post-town
-trade → arbiter between valleys → recognised regional retainer → captain of the road-security detail →
-alliance-broker → leading house of the region.**
+**THREE parallel reputation tracks (only one gates the tier):**
+
+- **(SPINE) Estate domain & standing — the MAIN QUEST.** The `G0→G7` ladder below. Its milestones are the
+  **gate to T3 / the castle-town** — completing them advances the tier (canon §"Reputation systems model"). Rising it raises
+  **House Influence** and grows the estate's reach to **region** scale. Labour and combat keep interleaving at
+  region scale; the four-pillar panel exists from T0-R7, and T2 drives **Office** to the fore (the "win it
+  socially" steepening, §4.8.3). Estate standing climbs **trusted → HONORARY MEMBER of the house**.
+- **(SIDE-TRACK A) Village reputation web — carried from T1, still OPTIONAL.** The Asagiri per-shop / per-family
+  meters, the headman's **personal** regard, the inn/rumours web, and the **Tama-vs-farmhand allegiance**
+  (§1.5.4, §2.15) persist as a fully-completable accelerant — it shaves **~10–15%** off time-to-T3 but
+  **NEVER gates the spine**.
+- **(SIDE-TRACK B) Origin reputation — NEW this tier (`O0→O5`; see §3.6.2).** Tahei's **living** origin
+  community at **Sawatari-juku** is **upgraded from "discrete restored-ties milestones" to a proper one-tier
+  standalone reputation side-track with its OWN rung ladder** (elaborates D-009 / canon §"Reputation systems
+  model"). It **opens at G2** (doubly-earned: dream-memory **AND** travel-standing), is **optional, fully
+  completable, an accelerant, narrative-only with ZERO mechanical gift**, and **NEVER gates the spine**. The
+  **Tama-payoff** and the reunions land on *this* track.
+
+> **Only the estate spine (the `G0→G7` rungs + their pillar milestones) gates T2→T3.** Village and Origin are
+> both fully-completable optional side-tracks — ignoring either leaves you only poorer and lonelier, never
+> walled (canon §"Reputation systems model").
+
+Estate stage span: **E2 Recovering → early E3** (estate fabric runs *ahead* of top personal rank, on pillars +
+a **low** rank floor — never the capstone; §1.5.1). **Required pillars drift** toward **Estate + Office** (Arms
+secures roads). Ladder shape (LOCKED, §1.5.1 / §5 T2.2): the house's **valley-envoy → road-captain of the
+cluster → broker of the post-town trade → arbiter between valleys → recognised regional retainer → captain of
+the road-security detail → alliance-broker → leading house of the region** (the rivals dethroned).
 
 | Rung | Trigger (rung gate) | What this rung REVEALS (fractal order) | Diegetic event-log line(s) |
 |---|---|---|---|
-| **G0 — Valley-envoy** | `STORY` (T1→T2 quest; broker surplus beyond Asagiri) | The **trade backbone** opens **minimally** (one route, one porter, one verb) — friend **Kanta** runs the first consignment off the books (§1.7.1, the Kaidō Porters' & Transport Guild seed). **[THREAD: Origin]** first origin contact made (faction still closed). | *"A familiar face on the road — Kanta. 'I'll run your goods, for old times' sake.' One route. One load. (Why does his face ache to remember?)"* |
-| **G1 — Road-captain of the cluster** | `RANK` Combat Standing (secure the cluster's roads; first *sekisho* turn-back → obtain a pass) | The ***sekisho* / pass-tier travel layer** (travel-standing made felt); **region-scale combat rings** (the pass; **ronin / bandits / smugglers** as grindable human mobs, §2.9); rumours of the **"one-eyed mountain god"** (= **Hanzaki** + fog-blind terrain) surface on the board. | *"The barrier-guard turns you back — then, seeing the house's seal, waves you through. The roads of the cluster are yours to keep. On the pass, they whisper of a one-eyed god."* |
-| **G2 — Broker of the post-town trade** *(Origin faction OPENS)* | `STORY` + `PILLAR` (dream-gate returned enough memory **AND** travel-standing aligned) | **Sawatari-juku** post-town area opens; the **toiya** transport office registers the estate (regional broker runway — the export ramp to T3); **the ORIGIN faction track opens** (§2.15) — the **Origin / Ties screen** (§3.5) and the first **"restored ties"** milestone (a per-contact one-time milestone, **ZERO mechanical gift**). | *"You walk into Sawatari-juku and the street stops. An old woman drops her basket. 'Tahei…?' The name lands like a stone in still water. Your own past opens."* |
-| **G3 — Arbiter between valleys** | `RANK` Estate Service (court / supply / arbitrate the two neighbouring valleys) | **The Neighbouring Valleys** — **Hibara** + **Tōge-mura** (hard-capped at exactly two, §1.7.1), Asagiri fractally replicated, slimmer; **optional accelerant** contested meters (flip by out-supplying, never force). | *"Two valleys, watching to see who's worth following. You arbitrate, you supply, you out-give. They lean your way."* |
-| **G4 — Recognised regional retainer** | `STORY` (reach Kuzuhara with conditioning + standing) | **Kuzuhara** — the drowned upstream hamlet (the house's **root-sin**: Sadamune's neglected flood-works); a multi-stage **river-works (*seki*)** project (a LAND mega-lever); **resettlement** re-founds the hamlet (a region node); **the drowned are named** (grief-work + temple register — **not a rite**). | *"The broken embankment. The empty houses underwater. Dowager Toku's shame made real. You begin to raise the* seki *— and to name the drowned."* |
-| **G5 — Captain of the road-security detail** | `RANK` Combat Standing (break the brigand roost; secure the trade pass) | A **hard-capped 2–3-man detail** (martial scale capped, canon §E; §2.17); escalating **Hanzaki** encounters (**survived, not won** — trained, never gifted); a **CLEAR/CAPTURE-with-mercy** branch (a famine-band can be fed/resettled, not killed). | *"You and two others hold the pass. Hanzaki tests you — and you live. Endurance, not talent. The starving you can feed instead of kill."* |
-| **G6 — Alliance-broker** *(personal threads RESOLVE)* | `STORY` + `PILLAR` (Office rising; the two threads land) | **[THREAD: Tama] — PAYOFF:** the living, grown **Otsuru** is found — Tama was a **girl** who **ran**; the MC is **not** her (resolution grounded + **partial**). **[THREAD: Origin] — PAYOFF:** the reunions complete (incl. father **Jinpachi**); **Tahei claims his true name** (a late, de-emphasised side beat). The **pride/morale** support buff lands (framed as a *present-day relationship*, **ZERO retroactive gift**). | *"She is real, and grown, and not you. 'Tama ran. Tama lived.' And you — you have a name again: Tahei. You set it down quietly, and pick your work back up."* |
-| **G7 — Leading house of the region** *(capstone bridge to T3 — stub)* | `RANK` + `PILLAR` (**win the region**: Estate + Office thresholds; rivals no longer the leaders) | The **rival houses (Tomita / Akagi) eclipsed** (détente / commercial defeat / restored Akagi precedence — **Tomita never killed**); the castle-town rulers **confer regional leadership** and **invite** the house in; the **region domain-ranking** read shows the house leading; the **Castle-town screen STUB** (§3.5) appears as the **T3 cliff-hanger first-contact** (the Kaidō Guild's first castle-town node). **Gate met → T3 (stub).** | *"The region's leaders are the Kurosawa now. A messenger in finer cloth than you've seen: 'The castle-town invites your house.' The page turns onto stone walls — and the story pauses here."* |
+| **G0 — The house's valley-envoy** | `STORY` (T1→T2 quest; broker the estate's surplus beyond Asagiri) | The estate pushes its business past the valley — the **trade backbone** opens **minimally** (one route, one porter, one verb): friend **Kanta** runs the house's first consignment off the books (§1.7.1, the Kaidō Porters' & Transport Guild seed). **[RIVALS]** the names **Tomita** and **Akagi** harden from distant rumour into the region's **two incumbent samurai houses** — Tomita's agent **Yasubei** is already brokering the route you want. **[THREAD: Origin]** first origin contact made (the `O0→O5` track still closed). | *"You carry the house's surplus past the ridge — and find the road already worked. 'Tomita's man bought that consignment yesterday,' says a familiar face: Kanta. 'I'll run yours, for old times' sake.' One route. One load. (Why does his face ache to remember?)"* |
+| **G1 — Road-captain of the cluster (for the house)** | `RANK` Combat Standing (secure the cluster's roads **in the estate's name**; first *sekisho* turn-back → obtain a pass under the house's seal) | The estate's writ reaches the **region's roads** — the ***sekisho* / pass-tier travel layer** (travel-standing made felt); **region-scale combat rings** (the pass; **ronin / bandits / smugglers** as grindable human mobs, §2.9); rumours of the **"one-eyed mountain god"** (= **Hanzaki** + fog-blind terrain) surface on the board. **[RIVALS]** the unsafe roads are partly **Tomita's** doing (their muscle-for-hire, often **Hanzaki**, lets rivals' caravans pass and harries the Kurosawa's). | *"The barrier-guard turns you back — then, seeing the Kurosawa seal, waves you through. The cluster's roads are the house's to keep now. The brigands who skip Tomita's wagons and hit yours whisper of a one-eyed god on the pass."* |
+| **G2 — Broker of the post-town trade (the house's factor)** *(Origin track OPENS — §3.6.2)* | `STORY` + `PILLAR` (dream-gate returned enough memory **AND** travel-standing aligned — the **doubly-earned** gate) | **Sawatari-juku** post-town area opens; the **toiya** transport office registers **the estate** as a regional factor (the export ramp to T3); **the ORIGIN reputation side-track opens at `O0`** (§3.6.2) — the **Origin / Ties screen** (§3.5). **[RIVALS]** at the *toiya* the Kurosawa factor sits **below Tomita's** established berth and **outside Akagi's** old precedence — the regional pecking order is now visible and contestable. | *"You register the house's mon at the Sawatari-juku* toiya *— third behind Tomita and Akagi. Then the street stops: an old woman drops her basket. 'Tahei…?' The name lands like a stone in still water. Your own past opens."* |
+| **G3 — Arbiter between valleys (for the house)** | `RANK` Estate Service (court / supply / arbitrate the two neighbouring valleys **on the estate's behalf**) | The estate's authority extends over **The Neighbouring Valleys** — **Hibara** + **Tōge-mura** (hard-capped at exactly two, §1.7.1), Asagiri fractally replicated, slimmer. **[RIVALS]** both valleys are **already courted by Tomita** (cheaper grain) and watched by **Akagi** (older ties); you win them by **out-supplying and out-arbitrating** — contested meters flip your way, **never by force** (canon §B). The two rivals can be **played against each other** (money vs precedence). | *"Two valleys, weighing the houses courting them. Tomita undercuts you on rice; Akagi sniffs that the Kurosawa are upstarts. You arbitrate, you supply, you out-give — and the valleys lean the house's way."* |
+| **G4 — Recognised regional retainer of the house** | `STORY` (reach Kuzuhara with conditioning + standing; the house takes on a region-scale work) | The house's name attaches to **Kuzuhara** — the drowned upstream hamlet (the Kurosawa's own **root-sin**: ancestor Sadamune's neglected flood-works); a multi-stage **river-works (*seki*)** project (a LAND mega-lever); **resettlement** re-founds the hamlet as a region node; **the drowned are named** (grief-work + temple register — **not a rite**). **[RIVALS]** the works the rivals never bothered with become the region's proof the **Kurosawa** lead by *building*, not just trading. | *"The broken embankment; the empty houses underwater; Dowager Toku's shame made real. Neither Tomita nor Akagi ever touched it. You begin to raise the* seki *under the house's name — and to name the drowned."* |
+| **G5 — Captain of the house's road-security detail** | `RANK` Combat Standing (break the brigand roost; secure the trade pass **for the region, in the house's name**) | The estate becomes the **region's shield** — a **hard-capped 2–3-man detail** (martial scale capped, canon §E; §2.17); escalating **Hanzaki** encounters (**survived, not won** — trained, never gifted); a **CLEAR/CAPTURE-with-mercy** branch (a famine-band can be fed/resettled, not killed). **[RIVALS]** breaking the roost cuts off **Tomita's** hired teeth — Hanzaki is exposed as their muscle, and securing the pass flips the region's safest road to the **Kurosawa's** wagons. | *"You and two others hold the pass for the house. Hanzaki — Tomita's hired edge — tests you, and you live: endurance, not talent. With the roost broken, the safe road is the Kurosawa's, not theirs."* |
+| **G6 — The house's alliance-broker** *(personal threads RESOLVE — on the Origin track, §3.6.2)* | `STORY` + `PILLAR` (Office rising; the rivals' contest tips; the two personal threads land) | **[RIVALS]** the house brokers the region's alliances over the rivals' heads: **Akagi** is settled by *restoring its old precedence* (the proud line gets its honour back and stands with you), isolating **Tomita** commercially — the détente that sets up G7. **[THREAD: Tama] — PAYOFF (Origin `O5`):** the living, grown **Otsuru** is found — Tama was a **girl** who **ran**; the MC is **not** her (grounded + **partial**). **[THREAD: Origin] — PAYOFF:** the reunions complete (incl. father **Jinpachi**); **Tahei claims his true name** (a late, de-emphasised side beat). The Origin **pride/morale** buff lands (a *present-day relationship*, **ZERO retroactive gift**). | *"You broker the region's alliances over the rivals' heads — Akagi at your side, Tomita boxed in. And down-valley: she is real, and grown, and not you. 'Tama ran. Tama lived.' You have a name again: Tahei. You set it down quietly, and pick the house's work back up."* |
+| **G7 — Leading house of the region** *(capstone bridge to T3 — stub; the rivals DETHRONED)* | `RANK` + `PILLAR` (**win the region**: Estate + Office thresholds met; the rivals **no longer the leaders**) | The estate-domain milestone: the **rival houses Tomita & Akagi are surpassed** (Akagi allied with restored precedence; **Tomita** out-competed into commercial détente — **never killed**, canon §B). The estate's standing is now **HONORARY MEMBER of the house**; the **region domain-ranking** read shows the Kurosawa **leading**; the castle-town rulers **confer regional leadership** and **invite** the house in; the **Castle-town screen STUB** (§3.5) appears as the **T3 cliff-hanger first-contact**. **Gate met → T3 (stub; the domain expands again, to the castle-town).** | *"The region's leading house is the Kurosawa now — Tomita and Akagi behind them. A messenger in finer cloth than you've seen: 'The castle-town confers the region on your house, and invites it in.' The page turns onto stone walls — and the story pauses here."* |
 
 > **T2 honours the dream rule (binding):** returning memory grants **access only** (new nodes/allies/quests) and
-> **ZERO mechanical bonus**; at least one origin beat is always available **without** reputation-gating so the
+> **ZERO mechanical bonus**; at least one Origin beat is always available **without** reputation-gating so the
 > thread never stalls (§1.5.3, §5 T2.2). **Belief-creatures stay out of spawn tables** — the "one-eyed mountain
 > god" is an **INVESTIGATE-then-confront one-shot** (Hanzaki + terrain), never a population (canon §E; §2.9,
 > §2.13).
+
+> **T2 deliberately withheld** (fractal discipline): **auto-producers** (T3+, §2.5 — Kuzuhara's first returnee
+> producer is the *latest-game* exception); the **marriage / adoption** lever (T3+, §2.16.1); the castle-town
+> *daikan*/*tedai* officialdom and inter-*han* markets (the T3 stub only teases them, §3.7.1). Folklore rumours
+> keep unlocking **organically and per-tier** (§2.13) — never an all-at-once dump.
+
+### 3.6.1 The earned-transition spine — *why* each promotion happens (T2)
+
+> **Audit rule: no rung is granted for free** (mirrors §3.2.1 / §3.4.1). Each promotion has a concrete in-game
+> **trigger** (what you did **for the house**, out across the region), an in-fiction **reason** (why the *house's
+> domain* expands to region scale), and a **named granter** — and **the GRANTERS stay HOUSE-side and escalate**
+> (chief steward **Genemon** → the **Lord Munenori** / heir **Naoyuki**), with the region's figures (the *toiya*,
+> neighbouring headmen, the **rival houses Tomita & Akagi**) **acknowledging, contending with, and finally
+> ceding to** the house — never conferring rank — until the **capstone**, where the **castle-town authorities**
+> confer regional leadership and invite the house in (the T2→T3 gate). The throughline: **the estate's domain
+> expands to region scale because you, its agent, deliver** — *the estate anchors its valley* (T1) becomes *the
+> estate leads its region* (T2); standing **TRUSTED → HONORARY MEMBER of the house**.
+
+| Promotion | Earned by (trigger) | Why the house grants it (its domain expands to region scale) | Granter |
+|---|---|---|---|
+| **G0 → G1** | Run the house's first surplus past the valley (Kanta's off-books route) **and** survive the region's roads where **Tomita's** brokers already operate | The house, having anchored its valley, must now **trade and travel at region scale** — but the roads are unsafe and the rivals already worked. A man who can carry its business and hold the cluster's roads is worth raising → it names him **road-captain** | Genemon *(the *toiya* and Tomita's agent **Yasubei** merely **note** the new Kurosawa man)* |
+| **G1 → G2** | A **Combat-Standing** threshold — secure the cluster's roads in the estate's name; earn the first *sekisho* pass under the house's seal | The estate's writ can't reach the region while its caravans are turned back at the barriers and harried on the pass. Proving you can move the house freely and safely earns it a **factor's** standing at the post-town → it makes you its **broker** *(and the **doubly-earned** dream + travel-standing conjunction opens the Origin track, §3.6.2 — narrative-only, NOT a promotion trigger)* | Genemon (in the **Lord's** name) *(the **toiya** registers the house — third behind **Tomita & Akagi**)* |
+| **G2 → G3** | An **Estate-Service** threshold — court, supply, and arbitrate **Hibara** + **Tōge-mura** on the house's behalf, out-supplying **Tomita** and out-precedence-ing **Akagi** | Region leadership means the neighbouring valleys lean on **your** house, not the rivals'. Winning them by giving more (never force) proves the estate can **govern beyond its own valley** → it makes you its **arbiter between valleys** | **Lord Munenori** *(the two valleys **lean** the house's way; the rivals **contest** but cede)* |
+| **G3 → G4** | A **STORY** beat — reach Kuzuhara with conditioning + standing and commit the house to the multi-stage **river-works (*seki*)** the rivals never touched | A house that **builds** what others wouldn't — atoning for its own root-sin while re-founding a region node — earns recognition as a true regional retainer, not just a trader. The works are the region's proof the **Kurosawa lead by building** → the Lord recognises you as his **regional retainer** | **Lord Munenori** *(Dowager **Toku** and carpenter **Risuke** vouch; the region marks that **neither rival** did this)* |
+| **G4 → G5** | A **Combat-Standing** threshold — break the brigand roost and secure the trade pass for the region, exposing **Hanzaki** as **Tomita's** hired teeth | The region now leans on the house for **safety**, not just supply. A house that **shields the region's roads** — and cuts off a rival's muscle doing it — needs a sworn captain → the Lord names you captain of its **road-security detail** (hard-capped, canon §E) | **Lord Munenori** + Genemon *(heir **Naoyuki** now turns from internal rival into **ally against Tomita**)* |
+| **G5 → G6** | An **Office** (Standing) threshold **+** a **STORY** beat — broker the region's alliances over the rivals' heads: settle **Akagi** by restoring its precedence and isolate **Tomita** commercially | With supply, build, and arms all carrying the house's name, it can now **broker the region's alliances itself** — turning a proud rival into a partner and boxing in the other. You are the only agent who has run all of it → he makes you the house's **alliance-broker** *(the personal threads resolve in this same span — on the Origin track, §3.6.2 — narrative-only, NOT a trigger)* | **Lord Munenori** *(Akagi's **Gennai** allies; **Tomita's Sōzaemon** concedes ground)* |
+| **G6 → G7** | The **tier gate** — **win the region**: Estate + Office thresholds met; **Tomita & Akagi no longer the leaders** (Akagi allied, Tomita out-competed into détente — never killed) | The estate-domain milestone: the rivals are **surpassed** and the Kurosawa are the region's **leading house**. The estate's standing is now **HONORARY MEMBER of the house**. Convinced the house *leads*, the **castle-town authorities confer regional leadership** and **invite the house in** → the **T2→T3 quest** opens; the domain must expand **again — to the castle-town** | **Lord Munenori** (house-side rank) *+ the **castle-town authorities** (confer regional leadership / invite the house in) — capstone: "the castle-town invites your house."* |
+
+The capabilities **stack** (trade the region → secure its roads → broker its post-town → arbitrate its valleys
+→ build its works → shield its roads → broker its alliances → lead it) and the granters stay **HOUSE-side and
+climb** (Genemon → the Lord / Naoyuki), with the region (the *toiya*, the valleys, **Tomita & Akagi**)
+**acknowledging, contending, and ceding** rather than conferring — until the **castle-town** confers regional
+leadership at the top. So the tier reads, start to finish, as **the estate's domain expanding to the region**,
+not as climbing region society. The **G6→G7 gate** is the ESTATE-domain milestone (**rivals dethroned; region
+led**) → the castle-town invites the house in → **T3 opens**. *(The **village web** and the new **Origin track**
+(§3.6.2) run alongside as **optional** accelerants — neither ever appears as a trigger above; canon
+§"Reputation systems model".)*
+
+### 3.6.2 SIDE-TRACK B — the Origin reputation ladder (`O0 → O5`, a one-tier standalone track)
+
+> **What this is.** Tahei's **living** origin community at **Sawatari-juku** — **upgraded** from D-009's
+> "discrete restored-ties milestones" to a **proper one-tier standalone reputation side-track with its OWN rung
+> ladder** (canon §"Reputation systems model"). It mirrors how T1's village web is a parallel side-track, but
+> shaped as a **short laddered arc** (the reunion *is* a sequence) rather than a multi-node web. **Prefix `O`**
+> (Origin) — distinct from the estate rung scheme `R/V/G/C/E` *and* the estate physical stages `E0–E5`.
+
+**Hard rules (binding, canon §C / §"Reputation systems model").** The Origin track is **OPTIONAL, fully
+completable, an accelerant, narrative-only with ZERO mechanical gift**, and **NEVER gates the spine** (it is not
+a trigger anywhere in §3.6.1). It is **deliberately LIGHT** (6 rungs, not 8 — it must never read as a second
+spine). It **opens at G2** on the **doubly-earned** gate (**STORY** — the dream returned enough memory — **AND**
+**PILLAR** — travel-standing to walk the checkpointed *kaidō*; §1.5.3, F11). The Origin "pride/morale" buff is
+framed as a **present-day relationship** ("a man with people behind him works harder"), **never a retroactive
+gift from remembering**; **at least one Origin beat is always available without rep-gating** so the thread never
+stalls. The **Tama-payoff** (Otsuru) and **Tahei claiming his true name** land on this track's capstone.
+
+| Origin rung | Earned by (trigger — own meter: **Origin Ties**) | Beat | Diegetic event-log line |
+|---|---|---|---|
+| **O0 — Recognised at Sawatari-juku** | `STORY` + `PILLAR` (the **doubly-earned** G2 gate: dream-memory **AND** travel-standing) | The track **opens**: the old woman in the street names "Tahei"; the post-town's people half-remember a vanished porter-boy. The **Origin / Ties screen** lights (§3.5). | *"An old woman drops her basket. 'Tahei…?' The street remembers a boy who never came home. A page opens onto people who knew your name."* |
+| **O1 — The household reopens** | `RANK` Origin Ties (return often enough to be let back over the threshold) | Mother **Oyuki** (the emotional core) and sister **Okimi** take him back in — grieved-as-lost, now home. Earned and a little costly. | *"Oyuki's hands stop at the loom. 'You're thin.' She feeds you anyway. Okimi just cries, then scolds. You are, somehow, home."* |
+| **O2 — The old trade welcomes him** | `RANK` Origin Ties (work a few honest runs with the old crew) | Old employer **Master Denbei** and the **porter guild** take his hand again; friend **Kanta** (met at G0) is rekindled comic-warm. The porter's-knot is just *how the men here tie loads* — **ZERO bonus**, confirmed mundane. | *"Denbei grunts: 'Still tie a load like my house taught you.' The guild makes room. Kanta's already laughing. (The knot was never a secret — just home.)"* |
+| **O3 — The half-remembered tie** | `RANK` Origin Ties (a gentle, optional thread the dream surfaces) | Sweetheart **Osen** — half-remembered, gentle, **narrative-only** (no dating-sim). Optional even within this optional track. | *"Osen, at the well, doesn't run. 'I waited a while. Then I stopped.' Neither of you knows what's left — only that it's not nothing."* |
+| **O4 — The father returns** | `RANK` Origin Ties (the deepest tie; opens late on the track) | Father **Jinpachi** — grieved as away/lost — returns. A **clean, warm, un-stacked** reunion (NOT a third debt-bondage arc; the source of the porter's-knot lineage, **ZERO bonus**). Optional later T4 callback. | *"Jinpachi, older, leaner: 'They said the pass took you.' A long silence. Then: 'Tie off that load properly, boy.' It is the most he can say, and it is everything."* |
+| **O5 — His name set down** *(capstone — lands at G6; the Tama-payoff)* | `RANK` Origin Ties (the track completes; coincides with the G6 spine beat) | **[THREAD: Tama] — PAYOFF:** the living, grown **Otsuru** is found — Tama was a **girl** who **ran**; the MC is **not** her (grounded + **partial** — she may not forgive; she is freed to choose). **Tahei claims his true name** (a late, de-emphasised side beat). The Origin **pride/morale** buff lands (present-day relationship; **ZERO retroactive gift**). | *"She is real, and grown, and not you. 'Tama ran. Tama lived.' And you have a name again: Tahei. You set it down quietly — and pick your work back up."* |
+
+> **Why `O0→O5` and not `O0→O7`:** the Origin track is a **support arc, not a frontier** — a short reunion
+> sequence, kept light so it never competes with the estate spine for the player's attention or reads as a
+> second main quest (canon §C, lean discipline). It runs **entirely inside T2** (G2 → G6), is fully completable,
+> and shaves a felt-but-small slice off the climb (folded into the ~10–15% side-faction speedup, §1.5.4) —
+> **never required, never a wall.**
 
 ---
 
@@ -3285,12 +3400,16 @@ before resolving.
 
 ## T2.1 Overview
 
-**Theme:** *reach beyond the home valley.* A cluster of valleys, the post-town **Sawatari-juku**, the upstream
-**Kuzuhara** ruins, the roads and *sekisho* checkpoints. A third fresh **rank ladder** is minted (region-scale,
-~8 rungs; see T2.2). Two **rival samurai houses** contest the region. **This is where both personal threads
-RESOLVE** (canon §F): the **lost-child truth (Otsuru)** and the **origin / family reunions (incl. father
-Jinpachi)**. The **Origin faction opens** here (memory-gated; the dream has returned enough, and standing now
-lets the MC travel the controlled *kaidō*).
+**Theme:** *the estate's domain expands to lead a region.* The HOUSE rises — a third fresh **estate rank
+ladder** is minted (`G0→G7`, region-scale, ~8 rungs; see T2.2) on which the Kurosawa's standing climbs
+**trusted → HONORARY MEMBER of the house** and its domain expands again, now spanning **estate + village +
+region**: a cluster of valleys, the post-town **Sawatari-juku**, the upstream **Kuzuhara** ruins, the roads and
+*sekisho* checkpoints. The region's **two incumbent rival samurai houses, Tomita & Akagi**, are the contest the
+house must surpass (**G7 "leading house of the region" = the rivals dethroned**). **This is where both personal
+threads RESOLVE** (canon §F): the **lost-child truth (Otsuru)** and the **origin / family reunions (incl. father
+Jinpachi)** — both landing on the **Origin one-tier reputation side-track** (`O0→O5`, §3.6.2), which **opens at
+G2** (doubly-earned: the dream has returned enough memory, and standing now lets the MC travel the controlled
+*kaidō*) as an optional, fully-completable accelerant that **never gates the spine**.
 
 **Transition gate (T2→T3):** *win the region* (the rival houses are no longer the leaders) → the castle-town
 rulers **confer regional leadership** on the house and **invite** it in. **Required pillars:** Estate + Office
@@ -3303,10 +3422,14 @@ payoff of the game); the house out-competes older/richer rivals; the spine's per
 
 ## T2.2 Main-quest beats (toward the T2→T3 gate)
 
-The region ladder shape (LOCKED at §1.5.1; exact rung copy detailed in §3): **valley-envoy → road-captain of
-the cluster → broker of the post-town trade → arbiter between valleys → recognised regional retainer → captain
-of the road-security detail → alliance-broker → leading house of the region.** Labour and combat interleave
-throughout. The two personal threads land across this ladder.
+The region estate-ladder shape (LOCKED at §1.5.1; exact rung copy detailed in §3.6): the house's
+**valley-envoy → road-captain of the cluster → broker of the post-town trade → arbiter between valleys →
+recognised regional retainer → captain of the road-security detail → alliance-broker → leading house of the
+region** (the rivals dethroned). Every rung stays in the **theme of the house** — you act FOR THE ESTATE across
+estate + village + region, and the **house** confers each rank while the region's figures (the *toiya*, the
+neighbouring headmen, **Tomita & Akagi**) acknowledge, contend, and finally cede (§3.6.1). Labour and combat
+interleave throughout. The two personal threads land across the **Origin one-tier rep side-track** (`O0→O5`,
+§3.6.2), which runs alongside this spine as an optional accelerant (it never gates).
 
 1. **Out into the region (valley-envoy).** The estate sends the MC to broker its surplus beyond Asagiri. The
    **trade backbone** opens minimally: friend **Kanta** runs the estate's first consignment off the books as a
@@ -3346,12 +3469,26 @@ throughout. The two personal threads land across this ladder.
 
 ## T2.3 Antagonist arc — **Rival House Tomita** (spine) + **Rival House Akagi** (foil), with **Hanzaki** as the road's teeth
 
-The T2 antagonist is the **two rival houses** (canon §F: exactly two), with the scarred *rōnin* **Hanzaki** as
-the dangerous combat beat. The "win the region" gate is contested.
+The T2 antagonist is the **two rival houses** (canon §F: exactly two) — the region's **incumbent samurai
+houses** when the Kurosawa arrive — with the scarred *rōnin* **Hanzaki** as the dangerous combat beat. They are
+the **contest layer that rides the spine**: the "win the region" gate (G7) *is* surpassing them. **Both are
+*goshi*/samurai houses that prospered while the Kurosawa fell**; both fight on **bought, lucked, or trained**
+advantages — **never innate** (the talent-foil rule).
 
-- **What they block:** **Tomita** underbids deals and courts the same valleys (contests on **money** + capital +
-  connections + ruthlessness — **never innate gift**); **Akagi** blocks the upstart Kurosawa on **precedence**
-  (contests on **honour**); **Hanzaki** makes the trade pass unsafe (muscle-for-hire, often Tomita's).
+- **What they block:** **Tomita** (head **Sōzaemon**, heir **Kageyuki**, agent **Yasubei**) underbids deals and
+  courts the same valleys — contests on **money** + capital + connections + ruthlessness; **Akagi** (head
+  **Gennai**) blocks the upstart Kurosawa on **precedence** — contests on **honour** + old standing;
+  **Hanzaki** makes the trade pass unsafe (muscle-for-hire, often Tomita's).
+- **How the rivalry ESCALATES across the `G0→G7` rungs (mirrors §3.6 / §3.6.1):**
+  - **G0** — Tomita & Akagi harden from distant rumour into the region's two **incumbents**; Yasubei has already
+    bought the consignment you wanted.
+  - **G1** — the unsafe roads are partly Tomita's doing (their muscle, **Hanzaki**, skips their wagons and harries yours).
+  - **G2** — at the Sawatari-juku *toiya* the Kurosawa factor registers **third**, below Tomita's berth and outside Akagi's precedence — the pecking order made visible.
+  - **G3** — both neighbouring valleys are already courted by Tomita (cheaper grain) and watched by Akagi (older ties); you flip them by **out-supplying / out-arbitrating**, never force; the rivals can be **played against each other**.
+  - **G4** — Kuzuhara's river-works (which neither rival touched) become the region's proof the **Kurosawa lead by building**.
+  - **G5** — breaking the brigand roost **cuts off Tomita's hired teeth** (Hanzaki exposed as their muscle) and flips the safest road to Kurosawa wagons.
+  - **G6** — the house brokers the region's alliances **over the rivals' heads**: **Akagi** settled by restoring its precedence (now at your side), **Tomita** isolated commercially — the détente that sets up the capstone.
+  - **G7** — the rivals are **dethroned**: Akagi allied, Tomita out-competed into commercial détente (**never killed**) → the Kurosawa are the region's leading house → the castle-town invites the house in.
 - **Incremental reveal:** **Tomita** first a *name* underbidding one deal → agent **Yasubei** (the legible
   day-to-day face) → heir **Kageyuki** → head **Sōzaemon**. **Akagi** first a *snub* → a precedence dispute →
   head **Gennai**. **Hanzaki:** a rumour ("one-eyed mountain god") → a survived-not-won encounter → a recurring
@@ -3454,8 +3591,8 @@ All optional; none gate the spine. Inn-rumour folklore continues to unlock organ
 
 - **The lost-child truth (Otsuru) resolves.** **[THREAD: Tama]** — the spine's personal payoff (also a
   main-quest beat; listed here as the optional-depth investigation that *finds* her).
-- **The origin reunions.** **[THREAD: Origin]** Jinpachi, Oyuki, Okimi, Denbei, Kanta, Osen — each a discrete
-  "restored ties" milestone; **access-only, ZERO gift.**
+- **The origin reunions.** **[THREAD: Origin]** Jinpachi, Oyuki, Okimi, Denbei, Kanta, Osen — the rungs of the
+  **Origin one-tier rep side-track** (`O0→O5`, §3.6.2); **access-only, ZERO gift; never gates the spine.**
 - **Kuzuhara re-founding + naming the drowned.** Grief-work + a temple register (not a rite); the cover-up
   evidence surfaces here. **[MOTIF: rigged box]**
 - **The "one-eyed mountain god" investigated.** **[FOLKLORE → cause]** = Hanzaki + fog-blind terrain. One-shot.
@@ -4385,7 +4522,7 @@ backbone** opening minimally (one route/porter/verb via Kanta, §3.6 G0); the **
 layer** (§3.6 G1); **region-scale grounded human mobs** (ronin / bandits / smugglers — still the ~5-mob
 cut-set, scaled; NO belief-creatures); the **Origin faction OPENS** at G2 (memory-gated, **double-gated**:
 STORY dream-memory **AND** PILLAR travel-standing — §1.5.3, §3.6 G2) with the **Origin / Ties screen** and
-per-contact "restored ties" milestones (**ZERO mechanical gift** — access only); **Sawatari-juku** +
+the **`O0→O5` Origin reputation ladder** (§3.6.2; **ZERO mechanical gift** — access only); **Sawatari-juku** +
 the two **Neighbouring Valleys** (Hibara + Tōge-mura, hard-capped at 2); **Kuzuhara** re-foundable hamlet +
 the multi-stage **river-works (*seki*)** LAND mega-lever (G4); the capped **2–3-man road-security detail**
 + the **Hanzaki** encounters (**survived, not won**) + the CLEAR/CAPTURE-with-mercy branch (G5); **the

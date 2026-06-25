@@ -302,7 +302,8 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   estate**; T2 rungs themed **estate + village + region** (the domain expands again). The **Origin faction =
   its own standalone reputation side-track with its own ranks/rungs** (a full side-quest). The **rival houses
   Tomita & Akagi were barely mentioned** — flesh them out (G7 "leading house of the region" = the rivals
-  dethroned). ⏳ (§3.6 redesign queued behind §3.4).
+  dethroned). ✅ (§3.6 reframe done: trusted→honorary; Origin one-tier ladder `O0→O5`; Tomita/Akagi fleshed
+  out across G0→G7; §3.6.1 earned-transition spine; §3.6.2 Origin ladder).
 - **I6. The 3-reputation model (generalised & locked).** **Estate = a FIVE-TIER spine** (the only thing that
   gates tier advancement; per-tier rep arc stranger→friendly→trusted→honorary→…; domain expands each tier).
   **Village (T1) & Origin (T2) = ONE-TIER standalone rep side-tracks**, each with its own ranks/rungs,
