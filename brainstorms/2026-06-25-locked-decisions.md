@@ -9,6 +9,15 @@
 > root-cause):** *meibutsu* = **silk**; **full maps at every tier**; **simple** per-tier-pillar thresholds
 > (the floor+overflow formula is **REJECTED**); origin **father re-added & renamed** Kuranosuke → **Jinpachi**;
 > **marriage/adoption = a real late-game lever**; **combat introduced early**.
+>
+> **Updated 2026-06-25 (§1 sign-off round — these are now LOCKED, not flagged):** grown lost-child = **Otsuru**
+> (substance "a girl who ran" unchanged); the **Standing & Office** pillar takes a **plain-English label, exact
+> kanji deferred to the §5 authenticity pass** (no coined 政威); top-rung title = **chief steward / *yōnin***
+> ("the lord's right hand"; *karō* aspirational narration only); **romanization = macrons (proper Hepburn)
+> project-wide** (Tōkichi, Yagōemon, Jūbei, *kyō-masu*…); **estate T0 room/area reveals are SEPARATE** (stables,
+> woodlot edge, drill yard each reveal individually); and the **national *mitate*/parody-*banzuke* + sumo-rank
+> framing**, the **Naoyuki rival→brotherhood** arc, and the **Tomita** (head Sōzaemon / heir Kageyuki / agent
+> Yasubei) **+ Akagi** (head Gennai) lineages are all **confirmed**.
 
 ## A. Core identity (grounded constraints — still binding)
 - **Grounded / no magic.** Nothing supernatural ever happens; every belief/omen resolves to a human or
@@ -71,8 +80,9 @@
   incremental**; side content never blocks the spine.
 
 ## D. House Influence (家威) — the macro-resource
-- **FOUR achievement-driven pillars:** **Arms (武威)** · **Estate & Wealth (家産)** · **Standing & Office
-  (政威 — coined; consider 領)** · **Name & Honour (家格)**.
+- **FOUR achievement-driven pillars:** **Arms (武威)** · **Estate & Wealth (家産)** · **Standing & Office**
+  (plain-English label; **exact kanji deferred to the §5 authenticity pass** — no coined compound committed) ·
+  **Name & Honour (家格)**.
 - **Trade is demoted** to **1-of-3 sub-engines** inside Estate & Wealth (land / treasury / trade),
   **hard-capped to ~⅓ of that one pillar** — so trade can never dominate. The signature **meibutsu = SILK /
   sericulture** (LOCKED) — the famous product within the trade sub-engine (still capped); not an
@@ -108,20 +118,26 @@
   Kuroiwa / Rival House **Tomita** / an Edo factor — across the tiers; **at most a light optional
   connective thread**; decide the racket's residual role.) **Estate decline = a simpler debt/misfortune**,
   NOT conspiracy-linked.
-- **Two rival samurai houses** contest the region (Tomita + one more).
+- **Two rival samurai houses** contest the region (LOCKED lineages): **Rival House Tomita** (head **Sōzaemon**,
+  heir **Kageyuki**, agent **Yasubei**; contests on money) + **Rival House Akagi** (head **Gennai**; contests on
+  honour/precedence). These names are now **confirmed** (formerly flagged for sign-off).
 - **Generational succession beat:** aging **Lord Munenori**'s decline → heir **Naoyuki** comes into his own
-  (MC as right-hand); secure the house's future across a generation.
+  (MC as right-hand); secure the house's future across a generation. The **Naoyuki rival→brotherhood** in-house
+  arc is now **LOCKED** (formerly author-elaborated / flagged).
 - **Endgame STORY centers on the house's POWER** (office / debt-rescue / takeover / the national
   *banzuke* ranking) — **trade is OUT of the finale spine** (a supporting thread only).
 - **Edo finale = a national multi-pillar *banzuke* ranking of the HOUSE** on all four pillars (D-010 ceiling
-  kept).
+  kept). **LOCKED presentation:** a popular ***mitate*/parody broadsheet** (not an official register) using
+  **sumo-rank vocabulary** (Maegashira/Komusubi for the attainable band; Ōzeki/Yokozuna for the sealed top) —
+  now **confirmed** (formerly flagged for sign-off).
 - **One authored ending** (house restored & ranked) + **post-game free-play** (no reset); branches are in
   *how* you got there (allegiance / takeover route), not separate endings.
 - **Justice = partial:** the *osso* over-the-head petition (historically deadly) — an **ally / *gimin*-
   martyr NPC bears the risk**; reachable culprits answer; the truly powerful largely escape.
 - **Personal side-mysteries (lost-child + origin/family) RESOLVE at the Region tier (T2)**; T3/T4 carry the
   house's power rise. **Lost-child (Tama)** truth = a **girl who ran** from a debt-sale (the villagers'
-  mistaken-identity legend); the MC is **not** her. **Amnesia** = a mundane mountain accident (flood/
+  mistaken-identity legend); the MC is **not** her. The grown lost-child is named **Otsuru** (LOCKED — name now
+  **confirmed**; the substance "a girl who ran" unchanged). **Amnesia** = a mundane mountain accident (flood/
   rockfall hit Tahei's porter caravan on the pass; head trauma + near-drowning; found at the weir).
 - **Relationships = narrative-only** (Sayo, Ohana, found-family); no dating-sim.
 - **Tone:** grounded, warm, bittersweet; dark beats handled **off-screen**.
@@ -157,6 +173,8 @@
 - **Time:** an **abstract clock advanced by active play** (days/seasons drive harvest/weather/festivals +
   the seasonal Influence results). **ACTIVE-ONLY — NO offline progress.**
 - **Art:** **text + emoji + CSS** (woodblock palette; kanji season tags, colour-coded rarities, flourishes).
+- **Romanization:** **macrons (proper Hepburn) project-wide (LOCKED)** — e.g. Tōkichi, Yagōemon, Jūbei,
+  *kyō-masu*; no plain-ASCII slips.
 - **UI shell:** **multi-screen navigation with screens/nav PROGRESSIVELY REVEALED** (appears single-screen
   early; more screens unlock as you progress). **Responsive (desktop + mobile), NOT hover-dependent.**
 - **Cold open:** wake in the **kura** — one verb + persistent event log, short recovery, then first labour;
@@ -175,9 +193,14 @@
 - **FULL maps at EVERY tier, always** (T0–T2 built in v1; T3–T4 maps built later — NOT abstract-board-only
   by design). **A fresh rank ladder PER TIER** — enumerate the T0/T1/T2 ladders for v1. Lean within:
   ~8-rung per-tier ladder, ~5 mobs, ~4 quest types, ~6–8-node world cut-set (rest parked as "later").
+- **Estate T0 room/area reveals = SEPARATE (LOCKED)** — the stables, woodlot edge, and drill yard each reveal
+  individually (no fold-into-forecourt; the "fold vs separate" question is resolved).
+- **MC's top-rung personal-ceiling title = chief steward / *yōnin* (LOCKED)** ("the lord's right hand"); grand
+  *karō*/adoption vocabulary stays **aspirational narration only** for a modest *goshi* house.
 - **Locked-rule fixes to apply at integration:** no belief-creatures in spawn tables; reaffirm ≤1 ambiguity;
   no permanent holding-loss ("never a wipe"); no labour→combat cross-feed; force-fictionalise real names;
-  hard-cap martial scale; replace coined 政威 if a better attested term exists; resolve name collisions.
+  hard-cap martial scale; resolve name collisions. **(RESOLVED: the Standing & Office pillar uses a
+  plain-English label — no coined 政威 committed — with its exact kanji deferred to the §5 authenticity pass.)**
 
 ## J. ADR mapping (to record in `../docs/history/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
