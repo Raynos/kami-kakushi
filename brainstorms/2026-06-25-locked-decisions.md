@@ -247,6 +247,25 @@ PROPOSED (tunable). The shape below is human-locked; the rebalance must honour i
   allegiance goes live in T1; grounded/partial payoff at **T2-G6** (Tama = Otsuru; the MC is not her).
   Narrative-only — never gates stats/availability.
 
+### Reputation systems model — the spine vs the side-tracks (2026-06-25, human-signed)
+**THREE reputation systems, two shapes:**
+- **ESTATE = the FIVE-TIER SPINE** (T0→T4) — the main quest. Per tier the MC's estate standing climbs an arc
+  (**T0** stranger→friendly · **T1** friendly→trusted · **T2** trusted→**honorary member of the house** ·
+  T3 … · T4 …), and the estate's **DOMAIN expands each tier**: T0 estate (survival) → T1 estate+village → T2
+  estate+village+**region** → T3 +castle-town → T4 +Edo (national). **The rungs at every tier stay in the
+  THEME OF THE HOUSE** — you act as the estate's agent over an ever-larger domain. **Completing the
+  estate-domain milestones is the ONLY gate that advances tiers.**
+- **VILLAGE (T1) and ORIGIN (T2) = ONE-TIER standalone reputation side-tracks**, each with its **own
+  ranks/rungs**, optional and fully completable, an **accelerant** — they **NEVER gate the spine.** Village =
+  the Asagiri rep web + the Tama-vs-farmhand allegiance. Origin = Tahei's living family/friends at
+  Sawatari-juku — **upgraded from "discrete restored-ties milestones" to a proper one-tier rep track with its
+  own rungs (elaborates D-009)**, still narrative-only / ZERO mechanical gift.
+- **Per-tier antagonist/contest layer rides the spine.** T2 introduces the **rival samurai houses Tomita &
+  Akagi** (the "one more" of D-014 = **Akagi**); the region tier is about **surpassing** them — **G7 "leading
+  house of the region" = the rivals dethroned.** Currently under-mentioned → flesh out across §3.6 / §5 T2.
+
+This is the clean model the per-tier §3 reframes implement (§3.4 T1 via workflow `w82yterx8`; §3.6 T2 next).
+
 ### Whole-PRD QA resolutions (2026-06-25, human-signed)
 - **§4 balance dials:** deeds/seasonal = **70/30**; per-event cap = **0.04**; per-rung escalation =
   **front-loaded floor then ramp** (T0 30/30/30/35/40/45/55); **~8 seasons/tier**; **Office tier-step keeps
