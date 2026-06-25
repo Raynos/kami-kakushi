@@ -227,6 +227,16 @@ PROPOSED (tunable). The shape below is human-locked; the rebalance must honour i
   -lever numbers → T3 authoring.
 - **UI reveal grain = ONE tab/screen at a time** (each nav entry unlocks individually as a beat) — confirms §3.5.
 
+### §3 ladder review resolutions (2026-06-25, human-signed)
+- **T2-G2 Origin gate = BOTH required** — STORY (dream returned enough memory) **AND** PILLAR (travel-standing
+  to walk the checkpointed *kaidō*). The warmest payoff stays doubly earned (per §1.5.3).
+- **T0 R5 de-densified** — simple **Crafting + loot→craft loop moved UP to R4**; the **first combat-earned Arms
+  standing RECORD moved DOWN to R6** (R5 now reveals only the Quest log + the four quest types; Arms deeds
+  *begin* at R5, are *recorded* at R6, the four-bar panel shows at R7 — earn → recognised → see). Each rung
+  reveals less (one-at-a-time grain). Propagated to §1.5.1 / §1.12 / §2.10 / §2.15 / §5 T0.2.
+- **T3/T4 late first-reveals confirmed as sketched** — auto-producers at **T3-C1**, marriage/adoption lever at
+  **T3-C5**, national *banzuke* at **T4-E7** (full rung-copy deferred with T3/T4).
+
 ## J. ADR mapping (to record in `../docs/history/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
 - **D-004 ⛔ REVERSED** — no reset (tiers replace prestige).

@@ -219,9 +219,9 @@ late-game convenience only (§1.12, canon §G).
 | **R1 — Day-labourer (*hiyatoi*)** | labour | Chief Steward **Genemon** ("another mouth, soft and clumsy") assigns the first real work; complete it, earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the *koku* heartbeat); the basic labour loop. |
 | **R2 — Bonded hand (*genin*)** | labour | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the **Skills tab**; the near-satoyama (conditioning-gated). |
 | **R3 — Yard-hand under arms (*buke-hōkōnin*)** | **combat (entry)** | A wolf at the grain store forces the **humbling, near-fatal first fight** early; **survive it**, then beg **Jūbei** for drills. The deliberately-incompetent floor of the combat track — surfaced inside T0, not mid-ladder. | The drill yard; the **Combat panel** + idle-combat/training; first crude weapon + **Equipment & Inventory**; the **Bestiary**. Combat stats start near-zero. |
-| **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun. |
-| **R5 — Gate-guard (*monban*)** | combat | Stand a real watch; clear the first pest/animal threats; weapon-skill milestones reached. (Combat Standing gate; conditioning floor at R3.) | Estate-defence duties; **PEST-CONTROL / HUNT / CLEAR / DEFEND** quest types; loot + craft (Smith Gonta spearheads via the component chain); **the FIRST combat-earned standing.** |
-| **R6 — Foreman of works (*kogashira*)** | labour | Drive the *shinden* reclamation and the workshops to recorded yield; the house edging toward solvency. | The workshops and granary; the low palisade; proto-industry levers; **errands beyond the estate — the VILLAGE TIER opens here.** |
+| **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun; the **simple Crafting tab + loot→craft loop** (Smith Gonta). |
+| **R5 — Gate-guard (*monban*)** | combat | Stand a real watch; clear the first pest/animal threats; weapon-skill milestones reached. (Combat Standing gate; conditioning floor at R3.) | Estate-defence duties; **PEST-CONTROL / HUNT / CLEAR / DEFEND** quest types; **Arms deeds begin accruing** (the standing itself is recorded at R6). |
+| **R6 — Foreman of works (*kogashira*)** | labour | Drive the *shinden* reclamation and the workshops to recorded yield; the house edging toward solvency. | The workshops and granary; the low palisade; proto-industry levers; **the FIRST combat-earned Arms standing is recorded**; **errands beyond the estate — the VILLAGE TIER opens here.** |
 | **R7 — Bailiff of the home fields (*jitō-dai*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **House Influence made visible and tracked** (the four-bar standing panel); cash-crop levers; the **tier-expansion map**. The capstone bridge to T1. |
 
 **T1 — Village ladder (~8 rungs; a fresh ladder, not a continuation of T0).** Rank resets to a new
@@ -440,7 +440,7 @@ existing cast and pay off the spine directly.
 | **Sawatari-juku & the wider post-town region** | T2 | **Mixed.** The origin reunion hub (optional) + the *toiya* transport office / waystation trade layer (the practical surplus-export runway to T3). |
 | **The Kaidō Porters' & Transport Guild** | T2→T4 | **Spine-thin.** Routes, *sekisho* pass-tiers, route-risk — the trade backbone. Met via friend Kanta's first favour run; the T3 stub cliff-hanger is **this one node's first-contact**. |
 | **The Rice & Silver finance network** | T2→T4 | **Spine-thin.** The conversion engine: village broker → regional warehouse → *Marutaya* debt-restructuring → *goyōkin* → Osaka/Edo *fudasashi*. |
-| **The Neighbouring Valleys** | T2 | Side. **Hard-capped at exactly two named valleys (Hibara + Toge-mura)** — Asagiri fractally replicated, slimmer. Courting them is an optional accelerant. |
+| **The Neighbouring Valleys** | T2 | Side. **Hard-capped at exactly two named valleys (Hibara + Tōge-mura)** — Asagiri fractally replicated, slimmer. Courting them is an optional accelerant. |
 | **The High Mountains & The Pass** | T2–T3 | Shared wilderness, top of the conditioning gradient. The lethal terrain where his caravan died; the "one-eyed mountain god" (= Hanzaki + fog-blind terrain). |
 | **The Daikan's Office (castle-town officialdom)** | T3 | **Spine-critical** for formal T3 recognition; the racket's nerve-centre. Where most T3 Influence is minted. No folklore here — the rational, ledgered counter-world. |
 | **The Edo *yashiki* / rusui + sankin-kōtai conduit (one cluster)** | T4 | **Spine.** The mediated capital conduit (rusui **Konoe**; the lord's biennial attendance), with the **Nihonbashi/*banzuke*** payoff and the **touring-inspector set-piece** folded in as its two payoff beats. |
@@ -677,9 +677,9 @@ one continuous R0→R7 climb. **Combat surfaces inside the FIRST tier (T0)**, no
 - **R1** — labour loop + paddies + *koku*.
 - **R2** — Skills tab + foraging/woodcutting + the near-satoyama.
 - **R3** — **drill yard + Combat panel + Equipment/Inventory + Bestiary** (after the humbling first fight — combat is live this early).
-- **R4** — main-house interior + the household domestic economy; first *shinden* begun.
-- **R5** — pest-control/hunt/clear/defend quests + craft chain + **the first combat-earned standing.**
-- **R6** — workshops + granary + proto-industry levers; **errands beyond the estate (the village tier opens).**
+- **R4** — main-house interior + the household domestic economy; first *shinden* begun; **simple Crafting + loot→craft loop**.
+- **R5** — pest-control/hunt/clear/defend quest types; **Arms deeds begin accruing** (standing recorded at R6).
+- **R6** — workshops + granary + proto-industry levers; **the first combat-earned Arms standing is recorded**; **errands beyond the estate (the village tier opens).**
 - **R7** — the four-bar House Influence panel made visible + cash-crop levers + the tier-expansion map (capstone bridge to T1).
 
 **T1 — Village ladder reveals (a FRESH ladder, V0→V7):** the village tier opens minimal (one contact, one shop)
@@ -1107,7 +1107,7 @@ scripted, recoverable — never a wipe).
 
 **(e) When introduced / fractal reveal.** **T0, R3** — after the **humbling first fight** (a wolf at
 the grain store), the drill yard + **Combat panel** + idle-combat/training reveal (combat is live this
-early). Combat-earned **standing** first appears at **R5** (gate-guard). It then interleaves through
+early). Combat-earned **standing** begins accruing at **R5** (gate-guard) and is first recorded at **R6** (foreman). It then interleaves through
 every per-tier ladder (V2 road-warden, V5 sworn man-at-arms at T1; road-captain / road-security detail
 at T2). Reveals are woven throughout, **never dumped at one Act-close.**
 
@@ -1175,7 +1175,7 @@ Gear itself is never a standing source — the *recognized deed* is.
 
 **(e) When introduced / fractal reveal.** **T0, R3** — first crude weapon + **Equipment & Inventory**
 panels reveal with the Combat panel. The **loot + craft loop** (Smith Gonta spearheads via the
-component chain) comes online at **R5** (gate-guard). Better loot/craft tiers unlock per tier and per
+component chain) comes online at **R4** (trusted hand & houseman). Better loot/craft tiers unlock per tier and per
 danger ring (worn blades from rōnin at T2; Hanzaki's worn gear as a late FOUND prize).
 
 ---
@@ -1209,7 +1209,7 @@ levers feed the LAND/TREASURY strands. Crafted **gear** feeds **Arms** (via 2.10
 later feeds **Name & Honour** (a famous product celebrated up-tier).
 
 **(e) When introduced / fractal reveal.** **T0** — simple crafting (the Craft tab / first tool) around
-R5. The **component/quality system + processing chains** unlock at **T1+** (smithing chains, then the
+R4. The **component/quality system + processing chains** unlock at **T1+** (smithing chains, then the
 silk sub-engine at V3). Each chain arrives minimal (one recipe, one station) and deepens fractally.
 
 ---
@@ -1245,8 +1245,8 @@ office quests feed **Estate & Wealth** / **Standing & Office**; recognition/peti
 per-event capped).
 
 **(e) When introduced / fractal reveal.** **T0** — dialogue from the open (the guide/steward beats);
-the **quest log** reveals around **R5** (with the pest-control/hunt/clear/defend types and the first
-combat-earned standing). Quest scope grows per tier (valley-scale at T1, region-scale at T2 with the
+the **quest log** reveals around **R5** (with the pest-control/hunt/clear/defend types; Arms deeds begin
+accruing — the first combat-earned standing is recorded at R6). Quest scope grows per tier (valley-scale at T1, region-scale at T2 with the
 personal-mystery payoff). Parked quest types reintroduce at T2+.
 
 ---
@@ -1680,13 +1680,1186 @@ deliberately deferred to §4. Next: §3 — the incremental unlock ladder (UI-as
 
 # §3 — Incremental Unlock Ladder (UI-as-progression)
 
-_Not yet authored — Wave 2._
+> **DRAFT — awaiting human review.** Authored end-to-end from the LOCKED CANON
+> ([`../../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md),
+> incl. all three "Updated 2026-06-25" header blocks) and the merged PRD §1, §2, §5, §6. This section makes the
+> **signature feature** concrete: it specifies the **ordered reveal of every panel, tab, screen, system,
+> resource-row, and area** across the game — **T0–T2 in full (v1)**, with **T3/T4 sketched**. It references the
+> §2 systems by name and **defers all exact numbers to §4** (thresholds, costs, curves, conversion weights).
+>
+> **Canon honoured throughout:** grounded / no-magic; mediocre-start (no hidden edge); **the core loop is the
+> MC's own actions, NOT a management sim**; the four-pillar House Influence (Arms / Estate & Wealth [trade ≤⅓] /
+> Standing & Office / Name & Honour) with **achievement-jumps + per-season judged results**, **up-only + minor
+> recoverable dents**, **simple per-tier required-pillar thresholds (no floor/overflow)**; combat first-class &
+> **EARLY (T0-R3)** & **earns Arms**; tiers **T0–T4** with per-tier story gates; a **fresh rank ladder PER
+> TIER**; **full maps every tier**; **active-only / no offline**; abstract clock; **fractal incrementality**;
+> LEAN / high-impact, immediate-vs-later; **auto-producers T3+ only**; rich attributes; **soft** stamina;
+> **hybrid** crafting; **K/M/B** number formatting; **macron** romanization; names per canon.
+
+## 3.0 How to read this section
+
+The whole game is built on **one engine: the UI-reveal engine + event log (§2.1)**. Every panel, tab, resource
+row, button, area, and screen is **DATA with an unlock predicate over `GameState`** (a `RevealableEntry`,
+§2.1c). When a predicate flips true, **one event** fires through the universal rewards/unlock bus
+(`process_rewards`) that *simultaneously*: pushes the **diegetic event-log line**, reveals the
+panel/tab/resource/area, grants the perk, and advances a story flag — so **a feature unlock IS a plot beat,
+never silent menu growth** (§2.1a, §1.12).
+
+**Trigger taxonomy** (the four predicate kinds used in every table below):
+
+| Code | Trigger kind | Predicate source |
+|---|---|---|
+| **RANK** | an estate rank rung reached (a fresh ladder per tier: T0 `R0–R7`, T1 `V0–V7`, T2 `G0–G7`) | the two earned standing meters — **Estate Service** + **Combat Standing** (§2.15) — crossing a rung |
+| **PILLAR** | a House Influence pillar threshold crossed (Arms / Estate & Wealth / Standing & Office / Name & Honour) | `Influence.*` ≥ threshold (§2.16; numbers → §4) |
+| **STORY** | a story / quest / dialogue flag set | a `flagsSet` from a quest or `TextLine` (§2.12) |
+| **FIRST-USE** | first acquisition / first action / discover-by-doing | first resource gained, first XP in a skill, first entry into an area/danger ring (§2.4, §2.7, §2.9) |
+
+**Reading the tables.** Each tier is **one coherent ladder table** (a *fresh* ladder, never a continuation —
+canon §C, §I; §1.5.1). Rows are in **reveal order**. Each reveal gives: the **trigger**, **what becomes
+visible**, and the **diegetic event-log line** that announces it (the `revealLogLineId` copy; final wording is a
+§5 authenticity-pass concern, but the substance is locked here).
+
+**Two cross-cutting rules that shape the whole ladder:**
+
+1. **Fractal incrementality (§1.2 pillar 2).** Nothing is dumped. A composite system reveals **one piece at a
+   time**: the drill yard reveals one post → one rack → sparring slots; a new region reveals one road → one
+   threat → one contact; the four-bar Influence panel reveals **bar-by-bar** as each pillar first scores, not
+   all four at once.
+2. **The multi-screen UI appears single-screen early (§2.1b, §1.12, canon §H).** v1 begins as **one screen** (a
+   single column: event log + one verb). **Navigation chrome and additional screens unlock progressively** — the
+   first nav tab appears only when there is a second place to go. The "screen / nav reveals" are called out
+   explicitly in §3.5 (the navigation reveal track) so the shell's growth is legible as its own ladder.
+
+---
+
+## 3.1 The cold open — minute one (T0, before R0)
+
+The lone hand-authored, pre-ladder state. Built from **§2.1 (reveal engine + log)**, **§2.3 (soft stamina)**,
+and **§2.4 (koku)**. This is the *only* moment with no nav, no tabs, no map — **one verb and a log.**
+
+| Order | Trigger | What becomes visible | Diegetic event-log line |
+|---|---|---|---|
+| 1 | At launch (`STORY`: new game) | The **single screen**: the **persistent event log** (§2.1) — colour-coded, capped — and nothing else. | *"Cold. Wet straw. The dark smells of old rice. You do not know your name."* |
+| 2 | Log advances (`STORY`) | The **one verb button**: **"Open your eyes."** (the entire interactable UI). | *"Somewhere above, a bird. You make yourself look."* |
+| 3 | First verb pressed (`FIRST-USE`) | The **body / rest bar** (HP + soft satiety, §2.3) and the **rice counter** (koku, §2.4) — the two readouts of the *kura*. The verb changes to **"Rake the spilled rice."** | *"You are in a storehouse — a* kura*. Your head is bound. A pallet, a rake, rice spilled across a cracked floor."* |
+| 4 | First rice raked (`FIRST-USE`: first koku) | The koku row lights its own panel (§2.4); the **rest verb** ("Lie back and breathe") appears beside the work verb (soft-stamina recovery, §2.3). Physician **Ranpo** speaks (grounds the amnesia — no visions). | *"You rake. A grain at a time. Ranpo, the physician: 'Head's been knocked, lad. You near drowned. Rest, and work when you can.'"* |
+
+> **Canon checks:** matches the **cold-open spec** (canon §H; §5 T0.2 beat 1) — *kura*, one verb, persistent
+> log, body/rest bar + rice counter, "no visions." The **first dream-fragment** (§5 T0.2 beat 1, Origin thread)
+> is seeded as a log line here with **ZERO mechanical effect** (no panel, no bonus). After step 4 the player is
+> at **R0** and the T0 ladder (§3.2) takes over.
+
+---
+
+## 3.2 T0 — Estate ladder (full; v1) — `R0 → R7`
+
+**The tutorial tier.** One declining hill estate (the Kurosawa *goshi* house), **unlocked room by room** — and
+T0 room/area reveals are **SEPARATE** (LOCKED): stables, woodlot edge, and drill yard each reveal individually,
+never folded into the forecourt. **Combat surfaces EARLY at R3** (the humbling first fight). The ladder
+**interleaves labour and combat** and is driven by two meters: **Estate Service** (labour rungs) and **Combat
+Standing** (martial rungs). **No auto-producers appear** (canon §G — early game is the MC's own active grind).
+The **four-bar House Influence panel reveals at R7** (the player *does* deeds first, *sees* the standing last).
+
+Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5.1, §5 T0.4).
+
+| Rung | Trigger (rung gate) | What this rung REVEALS (in fractal order) | Diegetic event-log line(s) |
+|---|---|---|---|
+| **R0 — Stray ("another mouth")** | `STORY` (met at the open; cold-open §3.1 complete) | The bare **diegetic estate dashboard** as a single screen (the *kura* room readout); the body/rest bar + rice counter carried from the cold open. | *"You can stand. Barely. The household calls you nothing yet — 'another mouth.'"* |
+| **R1 — Day-labourer (*hiyatoi*)** | `RANK` Estate Service (complete the spilled-rice task; Chief Steward **Genemon** assigns first real work) | **The Gate & Forecourt (*genkan*)** area (the promotions stage); **The Home Paddies & Dry Fields** area; the **basic labour loop** (Farming via §2.6); the **world-clock display** (day/season tag, §2.2) appears with the *koku* heartbeat; a **sleeping-place** (rest is now safe). | *"A door slides. Genemon, dry as a husk: 'Another mouth — soft, clumsy. Earn your sleep.' He points you to the paddies. The seasons begin to turn."* |
+| **R2 — Bonded hand (*genin*)** | `RANK` Estate Service (a season of reliable labour; Genemon enters you on the books) | The **Skills tab** (§2.7) — first nav tab; surfaces by-doing as XP lands (Farming first, then **Foraging / Woodcutting / Hauling**); **The Stables & Woodlot Edge** area (revealed *separately*); **The Near Satoyama** wilderness ring (first danger ring, conditioning-gated, §2.9 — its actual surfacing is the `FIRST-USE` reveal at the conditioning floor, see §3.3); new resource rows light as gathered (wood, *sansai*). The **porter's-knot beat** fires (Origin clue, **ZERO bonus**). | *"Your name goes on the household books. You forage the near hills, fell timber, haul loads. A groom grunts: 'Huh — you've tied that knot before.' (You don't know why.)"* |
+| **R3 — Yard-hand under arms (*buke-hōkōnin*)** | `STORY` the **humbling, near-fatal first fight** (a wolf at the grain store — survived by luck, **never rescued, never skill**), THEN beg drillmaster **Jūbei** for drills | **COMBAT GOES LIVE (EARLY).** Reveals fractally: **The Drill Yard** area (one post → Jūbei's rack → sparring slots); the **Combat panel** (§2.8, idle auto-resolve + active setup: stance / ability / item / retreat); **idle-combat / training**; the **first crude weapon** + **Equipment & Inventory** panels (§2.10); the **Bestiary** panel (§2.9, fills by-encounter; the **wild boar** is the first grindable threat). Combat stats start near-zero; combat/weapon **skills surface** in the Skills tab. | *"The wolf left you in the dirt — ribs cracked, alive only by luck. You crawl to Jūbei. 'Talent is a story the lucky tell. You are not lucky. So you will work.' The drill yard opens."* |
+| **R4 — Trusted hand & houseman** | `RANK` Estate Service (win **Lady Chiyo's** regard for indoor work + heir **Naoyuki's** grudging vouch; authored trust beats) | **The Main House / *Omoya*** interior area (kitchen, inner rooms, household shrine); the **household domestic economy** rows (textiles, kitchen, provisioning — feeds **Cooking** §2.6 and the satiety loop §2.3); the **first *shinden* reclamation** begins (a LAND lever toward Estate & Wealth); the **simple Crafting tab** (§2.11, hybrid — *simple recipes first*) opens with the early **loot→craft loop** (Smith **Gonta**, §2.10/§2.11). **[THREAD: Tama]** the estate's flat *disbelief* established in dialogue. | *"Lady Chiyo nods you indoors. Naoyuki, bored: 'He'll do.' The inner rooms open; the first fallow plot is yours to bring back. To this house you are a farmhand — not 'Tama.'"* |
+| **R5 — Gate-guard (*monban*)** | `RANK` Combat Standing (stand a real watch; clear first pest/animal threats; weapon-skill milestones — conditioning floor set at R3) | The **Quest log** (§2.12) + the **four v1 quest types**, revealed as each is first taken: **PEST CONTROL → HUNT → CLEAR → DEFEND** (DEFEND is the Arms standing-earner). **Arms deeds begin accruing here** — the standing itself is first *recorded* at R6 and the full panel waits for R7 (earn → recognised → see). | *"You stand the gate, and the work finds you: vermin in the stores, a boar in the paddies, a night-watch to hold. Your sword starts to matter — not just your back."* |
+| **R6 — Foreman of works (*kogashira*)** | `RANK` Estate Service (drive the *shinden* + workshops to recorded yield; house edging toward solvency) | The **Workshops** and **Granary** areas; **proto-industry levers** (LAND/TREASURY strands of Estate & Wealth); the **low palisade** (martial fabric); **THE FIRST COMBAT-EARNED HOUSE STANDING is recorded** — the first **Arms** achievement-jump formally enters the books (§2.16, capped; the four-bar panel still waits for R7); **errands beyond the estate are authorised — the VILLAGE TIER OPENS** (the **tier-expansion map** seed + the road out). | *"The frame of a workshop is raised; the granary takes shape; the ledger is no longer only red — and for the first time the books record the house's* Arms *standing rising by your sword. Genemon, grudging: 'Carry the house's business down to the village.' A road opens past the gate."* |
+| **R7 — Bailiff of the home fields (*jitō-dai*)** *(capstone bridge to T1)* | `RANK` Estate Service + `PILLAR` (Arms + Estate thresholds; first *shinden* recorded; kura solvent) | The **lord's study** (ledgers) in the Main House; **jobs-as-offices** begin (field administration framed as **the MC's own quests/offices — NOT a management layer**, §2.6); **THE FOUR-BAR HOUSE INFLUENCE PANEL becomes visible** (§2.16) — revealed **bar-by-bar** in fractal order as each pillar has first scored (Arms first recorded at R6, Estate from the *shinden*; Office/Name appear as faint, not-yet-scored bars); **cash-crop levers**; the **per-tier domain ranking** read (§2.18) first appears here as "unranked." **Gate met → T1.** | *"The lord enters your name in his own ledger. You see, for the first time, what the house has become — four standings, rising. 'Now: the valley.'"* |
+
+> **T0 deliberately withheld (fractal discipline):** coin/*mon* (a T1 reveal — there is no market yet); the inn
+> & **rumours board** / folklore (T1, §2.13); the **component/quality** crafting system (T1+ — T0 is *simple*
+> recipes only, §2.11); seasons/weather/**festivals** as a live layer (the *clock* shows at R1; the world-sim
+> deepens at T1, §2.14); **auto-producers** (T3+, §2.5); the **origin** track (T2, §2.15). Holding these back
+> keeps the screen lean (canon §G, lean discipline).
+
+---
+
+## 3.3 T0 estate growth — room-by-room reveals (the SEPARATE-reveal rule, expanded)
+
+A focused expansion of the LOCKED **separate T0 room/area reveals** (canon §I; §5 T0.4): the estate dashboard
+**grows room by room**, each room its own reveal beat on its own trigger — never a single "estate unlocked"
+dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, surfaced here as one view so the
+"rank ladder made of doors" (§1.12) is legible.
+
+| Estate room / area | Stage | Trigger | Diegetic event-log line |
+|---|---|---|---|
+| **The Kura Storehouse** | E0 | `STORY` (cold open) | *"A storehouse. A pallet. Spilled rice."* |
+| **The Gate & Forecourt (*genkan*)** | E0→E1 | `RANK` R1 | *"The forecourt gate, leaning on its post, opens to you."* |
+| **The Home Paddies & Dry Fields** | E0→E1 | `RANK` R1 | *"Fallow paddies and dry fields stretch below — yours to work."* |
+| **The Stables & Woodlot Edge** | E1 | `RANK` R2 *(revealed SEPARATELY)* | *"You're trusted past the yard — the stables, and the woodlot's edge."* |
+| **The Near Satoyama** (shared wilderness, ring 1) | E1 | `FIRST-USE` (conditioning floor at R2) | *"The near hills open — foraging groves, a bamboo stand. Something rustles deeper in."* |
+| **The Drill Yard** | E1 | `STORY` R3 (after the humbling fight) *(revealed SEPARATELY)* | *"Jūbei kicks open the drill-yard gate. One post. One rack. Begin."* |
+| **The Main House / *Omoya*** (inner) | E1 | `RANK` R4 | *"The screens slide back — kitchen, inner rooms, the household shrine."* |
+| **The Workshops & Granary** | E1 | `RANK` R6 | *"A workshop frame; a granary rising. The Kurosawa works begin."* |
+| **The lord's study** (ledgers) | E1 | `RANK` R7 | *"You are called to the lord's study, where the ledgers live."* |
+
+> **Binding:** each is a diegetic beat; building/recruiting is **flavour / light systems wired to the reveal bus
+> — NOT a people-management sim** (no assignment panel, no labour-gang; §2.17, canon §G). Recruit **Tokujirō**
+> joins at the E1 seam as a **light roster card** (the future "teach from zero" mirror), announced as a beat, not
+> a managed unit.
+
+---
+
+## 3.4 T1 — Village ladder (full; v1) — `V0 → V7` (a FRESH ladder)
+
+**Rank resets** to a village-facing service hierarchy (canon §C, §I). The **village tier opens minimal** (one
+contact, one shop — fractal) and grows into the **static reputation web** (§2.15; **never gates the spine**).
+The **four-pillar Influence panel already exists** (from R7); T1 **lights its Office bar** for the first time
+and deepens the world-sim. Labour and combat keep interleaving, now past the estate gate.
+
+Estate stage span: **E1 Stabilising → E2 Recovering** (§5 T1.4). Coin (*mon*), the **component/quality**
+crafting system, the **inn rumours board**, and the **silk/sericulture *meibutsu*** sub-engine all first appear
+this tier.
+
+| Rung | Trigger (rung gate) | What this rung REVEALS (fractal order) | Diegetic event-log line(s) |
+|---|---|---|---|
+| **V0 — Estate errand-runner in the valley** | `STORY` (T0-R6 authorised it; first village errand) | **The Market / Shop Row** area (opens with **ONE shop first** — Smith **Gonta's** forge — then fractally adds Obaa Sato's herb stall, Tokuemon's brewery, Onatsu's silk); **coin (*mon*)** resource row appears (§2.4); **per-shop "patron/regular" reputation meters** begin (§2.15, gentle curves). **[THREAD: Tama]** headman's daughter **Sayo** names him "Tama" on sight. | *"You carry the house's business into Asagiri. A girl, Sayo, stops dead: 'Tama? You're alive?' The shop row — and coin — opens to you."* |
+| **V1 — Recognised hand of the house** | `RANK` Estate Service (build standing with shops + headman) | **The Chief's House** area (Yagōemon's receiving room); **The Inn & Rumours Board** area — the **rumours board** (§2.13) goes live with its **first optional folklore tidbit** (the "kappa" of the ford); **deeper satoyama rings** (combat keeps pace on valley pests). | *"The headman receives you. At the inn, Sukezō taps a board of rumours: 'Folk say a* kappa *takes children at the ford…' (You may look, or not.)"* |
+| **V2 — Road-warden (*michi-ban*)** | `RANK` Combat Standing (make a stretch of road / the ford safe; survive a real bandit/animal clear) | **HUNT / CLEAR at valley scale**; **The River, Ford & Weir** and **The Foothills & Charcoal Grounds** wilderness rings open (§2.9, ring 2); **better loot / craft tiers**; **combat-earned Arms standing at valley scale** (Arms jump). | *"You clear the ford road. 'The road is declared safe — it's in the village book.' Your name reaches past the gate now."* |
+| **V3 — Granary & cash-crop steward** | `RANK` Estate Service (bring the village economy + estate cash-crops to a recorded seasonal result) | The **TRADE sub-engine** of Estate & Wealth begins — the **silk / sericulture *meibutsu*** (LOCKED) under weaver **Onatsu**: cocoon → reeled silk → woven textile rows (§2.11); the **component/quality crafting system** unlocks (hybrid → component chains, §2.11); **broker meters** appear; the **market-saturation damper** becomes visible (§2.4). **(Trade hard-capped ≤⅓ of Estate & Wealth — §2.16.)** | *"Onatsu shows you the reeling-frame: 'Silk pays, if you're patient.' The first bolt is graded and sold. (Trade is one strand of one pillar — no more.)"* |
+| **V4 — Trusted of the headman** | `STORY` (resolve a village-affecting threat — **Magobei's** rice-skim surfaces; earn Yagōemon's regard) | The **Standing & Office pillar lights for the FIRST time** on the four-bar panel (first **Office** achievement-jump, §2.16); the **headman's roll-up quest** node; the **[MOTIF: rigged box]** doctored-*masu* thread (optional through-line). | *"You set the doctored measuring-box on the table. The skim ends; the village breathes. For the first time, the house holds an* office's *regard — a new bar rises."* |
+| **V5 — Sworn man-at-arms** | `RANK` Combat Standing (stand a real watch for the village; survive the first dangerous-road encounter; weapon-line milestones) | The **first paid martial outsiders** (**Gohei & Yatarō**) join as a **light flavour retinue** (E2 rota, §2.17 — roster cards, **not** managed units); valley-defence **DEFEND** quests; festivals/seasonal social beats deepen (§2.14, e.g. Brewer **Tokuemon's** festival hub). | *"Two old* ashigaru *take the house's coin and stand its watch. The valley starts calling it 'the Kurosawa works.'"* |
+| **V6 — Right-hand-in-waiting** | `RANK` Estate Service + `STORY` (Lord **Munenori** first believes impact *beyond* the estate is possible) | **Authority across the valley**; the **alliance / standing levers** that point at the region; the **region map seed** appears on the horizon of the tier-expansion map. | *"Munenori, watching the valley settle: 'Perhaps… beyond this estate.' A far ridge, and a wider road, appear on the map."* |
+| **V7 — Agent of the house in the valley** *(capstone bridge to T2)* | `RANK` + `PILLAR` (the **"clean your room"** beat: estate healthy, village happy, fires out — Arms + Estate + first Office thresholds) | The **REGION map** fully opens; the **T1→T2 quest** to grow regional influence begins; **rival samurai houses appear** on the horizon (Tomita / Akagi named as distant names); the **village domain-ranking** read updates. **Gate met → T2.** | *"The room is clean — house, valley, all of it. The lord: 'Now, the region.' Two rival names surface from beyond the ridge: Tomita. Akagi."* |
+
+> **T1 deliberately withheld:** the **origin** track (still dark/foreshadowed by the dream — opens at T2); the
+> *sekisho* / pass-tier travel layer; region-scale combat (the pass, ronin/bandits as a population); **marriage
+> / adoption** (T3+, §2.16.1); **auto-producers** (T3+). Folklore rumours unlock **organically and per-tier**
+> (§2.13) — never an all-at-once dump.
+
+---
+
+## 3.5 The navigation / screen-reveal track (the multi-screen shell, made explicit)
+
+The UI shell **appears single-screen and grows into multi-screen navigation** (canon §H; §2.1b; §1.12). Because
+this is the *signature* "UI as progression" feature, the nav chrome itself is laddered here as its own reveal
+sequence (data: `RevealableEntry kind:'navLink'|'screen'`). It cross-cuts the tier ladders above.
+
+| Nav / screen reveal | Trigger | What appears | Diegetic event-log line |
+|---|---|---|---|
+| **(none) — single column** | cold open → R1 | Just the event log + verb(s) + the two readouts. **No nav exists yet.** | *(no nav line — there is only one place to be)* |
+| **First tab: "Skills"** | `RANK` R2 (Skills tab, §2.7) | The **first navigation appears** — the screen splits into *Work* + *Skills*. | *"You begin to notice you're getting better at this. (A way to track it appears.)"* |
+| **"Combat" / "Yard" tab** | `RANK` R3 (Combat panel, §2.8) | A **Combat** nav node joins Work + Skills (drill yard, Bestiary, Equipment live under it). | *"There is fighting to track now, too."* |
+| **"Map" screen** | `RANK` R6 (errands authorised) | The **first map screen** (the estate, with a road leading out) becomes a distinct navigable screen. | *"You can picture the land now — the estate, and a road past the gate."* |
+| **"House" / Influence screen** | `RANK` R7 (four-bar panel, §2.16) | A dedicated **House** screen (the four pillars + the domain-ranking read, §2.18). | *"A page for the house itself — what it is becoming."* |
+| **"Village" screen** | `RANK` V0 (T1 opens) | A **Village** screen (shop row, reputation web, inn) joins the nav. | *"A new page: Asagiri, and everyone in it."* |
+| **"Region" screen** | `RANK` V7 / `STORY` T1→T2 | A **Region** screen (the cluster map, the post-town, the roads) joins the nav. | *"The map grows a page wider: the region."* |
+| **"Ties" / Origin screen** | `STORY` T2 origin-faction open | An **Origin / Ties** screen (the Sawatari-juku contacts, restored-ties milestones). | *"A page you didn't know you'd been missing: people who knew your name."* |
+| **"Castle-town" screen** | `STORY` T2→T3 *(stub in v1)* | A **Castle-town** screen stub (the cliff-hanger first-contact). | *"A page opens onto stone walls and a magistrate's seal — and then the story pauses."* |
+
+> **Responsive note (canon §H, §6.9):** on mobile the same nav reveals collapse into a bottom tab-bar / drawer
+> that **grows the same number of entries in the same order** — **not** hover-dependent. The reveal *data* is
+> shared; only the chrome differs (§6.9).
+
+---
+
+## 3.6 T2 — Region ladder (full; v1) — `G0 → G7` (a FRESH ladder)
+
+**The third fresh ladder** (region-scale, ~8 rungs; canon §I; §5 T2.2). The canvas becomes a **region** (a
+cluster of valleys, the post-town **Sawatari-juku**, the upstream **Kuzuhara** ruins, roads & *sekisho*). **Both
+personal threads RESOLVE here** (lost-child **Otsuru**; the **origin reunions**, incl. father **Jinpachi**) and
+the **Origin faction OPENS** (memory-gated). **Required pillars drift** toward **Estate + Office** (Arms secures
+roads). Estate stage span: **E2 → early E3** (estate fabric runs *ahead* of top personal rank, on pillars + a
+**low** rank floor — never the capstone; §1.5.1).
+
+Ladder shape (LOCKED, §1.5.1 / §5 T2.2): **valley-envoy → road-captain of the cluster → broker of the post-town
+trade → arbiter between valleys → recognised regional retainer → captain of the road-security detail →
+alliance-broker → leading house of the region.**
+
+| Rung | Trigger (rung gate) | What this rung REVEALS (fractal order) | Diegetic event-log line(s) |
+|---|---|---|---|
+| **G0 — Valley-envoy** | `STORY` (T1→T2 quest; broker surplus beyond Asagiri) | The **trade backbone** opens **minimally** (one route, one porter, one verb) — friend **Kanta** runs the first consignment off the books (§1.7.1, the Kaidō Porters' & Transport Guild seed). **[THREAD: Origin]** first origin contact made (faction still closed). | *"A familiar face on the road — Kanta. 'I'll run your goods, for old times' sake.' One route. One load. (Why does his face ache to remember?)"* |
+| **G1 — Road-captain of the cluster** | `RANK` Combat Standing (secure the cluster's roads; first *sekisho* turn-back → obtain a pass) | The ***sekisho* / pass-tier travel layer** (travel-standing made felt); **region-scale combat rings** (the pass; **ronin / bandits / smugglers** as grindable human mobs, §2.9); rumours of the **"one-eyed mountain god"** (= **Hanzaki** + fog-blind terrain) surface on the board. | *"The barrier-guard turns you back — then, seeing the house's seal, waves you through. The roads of the cluster are yours to keep. On the pass, they whisper of a one-eyed god."* |
+| **G2 — Broker of the post-town trade** *(Origin faction OPENS)* | `STORY` + `PILLAR` (dream-gate returned enough memory **AND** travel-standing aligned) | **Sawatari-juku** post-town area opens; the **toiya** transport office registers the estate (regional broker runway — the export ramp to T3); **the ORIGIN faction track opens** (§2.15) — the **Origin / Ties screen** (§3.5) and the first **"restored ties"** milestone (a per-contact one-time milestone, **ZERO mechanical gift**). | *"You walk into Sawatari-juku and the street stops. An old woman drops her basket. 'Tahei…?' The name lands like a stone in still water. Your own past opens."* |
+| **G3 — Arbiter between valleys** | `RANK` Estate Service (court / supply / arbitrate the two neighbouring valleys) | **The Neighbouring Valleys** — **Hibara** + **Tōge-mura** (hard-capped at exactly two, §1.7.1), Asagiri fractally replicated, slimmer; **optional accelerant** contested meters (flip by out-supplying, never force). | *"Two valleys, watching to see who's worth following. You arbitrate, you supply, you out-give. They lean your way."* |
+| **G4 — Recognised regional retainer** | `STORY` (reach Kuzuhara with conditioning + standing) | **Kuzuhara** — the drowned upstream hamlet (the house's **root-sin**: Sadamune's neglected flood-works); a multi-stage **river-works (*seki*)** project (a LAND mega-lever); **resettlement** re-founds the hamlet (a region node); **the drowned are named** (grief-work + temple register — **not a rite**). | *"The broken embankment. The empty houses underwater. Dowager Toku's shame made real. You begin to raise the* seki *— and to name the drowned."* |
+| **G5 — Captain of the road-security detail** | `RANK` Combat Standing (break the brigand roost; secure the trade pass) | A **hard-capped 2–3-man detail** (martial scale capped, canon §E; §2.17); escalating **Hanzaki** encounters (**survived, not won** — trained, never gifted); a **CLEAR/CAPTURE-with-mercy** branch (a famine-band can be fed/resettled, not killed). | *"You and two others hold the pass. Hanzaki tests you — and you live. Endurance, not talent. The starving you can feed instead of kill."* |
+| **G6 — Alliance-broker** *(personal threads RESOLVE)* | `STORY` + `PILLAR` (Office rising; the two threads land) | **[THREAD: Tama] — PAYOFF:** the living, grown **Otsuru** is found — Tama was a **girl** who **ran**; the MC is **not** her (resolution grounded + **partial**). **[THREAD: Origin] — PAYOFF:** the reunions complete (incl. father **Jinpachi**); **Tahei claims his true name** (a late, de-emphasised side beat). The **pride/morale** support buff lands (framed as a *present-day relationship*, **ZERO retroactive gift**). | *"She is real, and grown, and not you. 'Tama ran. Tama lived.' And you — you have a name again: Tahei. You set it down quietly, and pick your work back up."* |
+| **G7 — Leading house of the region** *(capstone bridge to T3 — stub)* | `RANK` + `PILLAR` (**win the region**: Estate + Office thresholds; rivals no longer the leaders) | The **rival houses (Tomita / Akagi) eclipsed** (détente / commercial defeat / restored Akagi precedence — **Tomita never killed**); the castle-town rulers **confer regional leadership** and **invite** the house in; the **region domain-ranking** read shows the house leading; the **Castle-town screen STUB** (§3.5) appears as the **T3 cliff-hanger first-contact** (the Kaidō Guild's first castle-town node). **Gate met → T3 (stub).** | *"The region's leaders are the Kurosawa now. A messenger in finer cloth than you've seen: 'The castle-town invites your house.' The page turns onto stone walls — and the story pauses here."* |
+
+> **T2 honours the dream rule (binding):** returning memory grants **access only** (new nodes/allies/quests) and
+> **ZERO mechanical bonus**; at least one origin beat is always available **without** reputation-gating so the
+> thread never stalls (§1.5.3, §5 T2.2). **Belief-creatures stay out of spawn tables** — the "one-eyed mountain
+> god" is an **INVESTIGATE-then-confront one-shot** (Hanzaki + terrain), never a population (canon §E; §2.9,
+> §2.13).
+
+---
+
+## 3.7 T3 / T4 — sketched ladders (forward; stub + roadmap)
+
+Per v1 scope (canon §I), **T3 is a stub cliff-hanger** and **T4 is a roadmap**. Their fresh ladders are
+**scoped forward** here — *shape only*, not authored rung-copy — so the per-tier-ladder motion is legible and so
+the later reveals (**auto-producers**, the **marriage/adoption lever**, the **national *banzuke***) have an
+explicit home. Full authoring deferred.
+
+### 3.7.1 T3 — Castle-town ladder (stub; `C0 → C7`, forward)
+
+Required pillars drift to **Office + Name dominant** (the takeover is **won socially**; Arms/Estate as
+leverage). **MULTI-ROUTE takeover** (peaceful: office / economy / **marriage** / out-maneuvering rivals; AND
+assertive: martial-security leverage) — "take over" = becoming the **dominant house holding key domain
+offices**, **never rebellion** (canon §B).
+
+| Forward rung (sketch) | First-reveal of note | Trigger kind |
+|---|---|---|
+| **C0 — Petitioner at the castle-town gate** | The **Castle-town map / screen** proper (beyond the T2 stub); the *daikan*/*tedai* officialdom layer. | `STORY` T2→T3 (forced/invited in) |
+| **C1–C2 — Office-seeker / inter-*han* trader** | **AUTO-PRODUCERS first appear** (§2.5, T3+ ONLY) — seconded/recruited helpers as **light roster cards** trickling a resource (no assignment panel, ever); inter-*han* market rows. | `PILLAR` Office + `RANK` |
+| **C3–C4 — Holder of a minor office** | **Jobs-as-offices at castle scale**; the **debt-restructuring / *goyōkin* TREASURY mega-lever** (Marutaya / *fudasashi* network, §1.7.1). | `PILLAR` Office |
+| **C5 — Alliance-maker** | **THE MARRIAGE / ADOPTION lever** (§2.16.1, T3+ ONLY) — a brokered **Standing & Office + Name & Honour** one-time jump and a **takeover route** (NOT a relationship sim). | `STORY` + `PILLAR` Name |
+| **C6 — Rival-eclipser** | The **antagonist Tedai Kuroiwa** ("the gracious door") arc; the racket's nerve-centre (the *Daikan's* Office, §1.7.1). | `STORY` |
+| **C7 — Dominant house of the castle-town** *(bridge to T4)* | The **domain *banzuke*** shows the house atop the castle-town; the **T3→T4 "taste of Edo"** (forced to build & fund an Edo estate). | `RANK` + `PILLAR` |
+
+### 3.7.2 T4 — Edo ladder (roadmap; `E0 → E7`, forward)
+
+> **Note — label namespace:** these `E#` are **Edo rung labels** (the R/V/G/C/E per-tier rung scheme),
+> distinct from the estate physical **stages** `E0–E5` (Foreclosure's Edge → Restored) used in
+> §3.2/§3.3/§4.7.5. Context disambiguates; a rename candidate if T4 is ever fully authored.
+
+Required pillars: **Name + Office** (the **national *banzuke*** on all four pillars). The **indirect/mediated
+ceiling** holds — the **HOUSE** is recognised; the MC's personal ceiling stays **chief steward / *yōnin***
+(no *hatamoto* / shogunal audience; canon §F, §I; §2.18).
+
+| Forward rung (sketch) | First-reveal of note | Trigger kind |
+|---|---|---|
+| **E0–E2 — The Edo *yashiki* conduit** | The **Edo screen / map** (one cluster); the **rusui Konoe** + *sankin-kōtai* mediated conduit (§1.7.1). | `STORY` T3→T4 |
+| **E3–E5 — National trade & finance reach** | The **Osaka/Edo *fudasashi*** top of the finance network; the full silk *meibutsu* prestige payload (still trade ≤⅓). | `PILLAR` |
+| **E6 — The touring-inspector set-piece** | The impartial-test antagonist beat; **Name & Honour** climax via an inspector's national report. | `STORY` |
+| **E7 — Ranked at the capital** *(authored ending)* | **THE NATIONAL *MITATE* / PARODY *BANZUKE*** broadsheet (§2.18) — sumo-rank vocabulary: **Maegashira / Komusubi** attainable band, **Ōzeki / Yokozuna** the **structurally sealed top**; the house climbs from "the chart that omits you" into the attainable band; **post-game free-play, NO reset**; defend-the-spot on the biennial heartbeat (recoverable, **never a decay-tax**). | `PILLAR` Name + Office |
+
+> **The whole ladder is the same motion, five times:** arrive minimal → the world fades in one panel/area/system
+> at a time, each a logged plot beat → the canvas and the numbers enlarge together → a fresh ladder is minted for
+> the next, larger frontier. **No reset, ever** (canon §B).
+
+---
+
+## 3.8 Cross-references & deferrals
+
+- **Numbers → §4** (combat/progression/balance): every rung threshold, pillar threshold, conversion weight, cost
+  curve, soft-stamina rate, market-saturation rate, and the **K/M/B** formatting rules are deferred. §3 fixes the
+  **order and the triggers' kinds**, never the values.
+- **Final log-line wording → §5 authenticity pass** (macron romanization, exact kanji for the **Standing &
+  Office** pillar). §3 fixes the **substance** of each `revealLogLineId`; copy may be polished.
+- **Data shapes → §2 / §6:** every reveal is a `RevealableEntry` with a pure `unlockPredicate` over `GameState`,
+  fired via the `process_rewards` bus as one event (§2.1, §6.3); the renderer does one `render(state)`
+  reconciliation showing only unlocked entries (§6.9); every reveal is **headlessly regression-testable** via
+  the DEV play API (`window.__qa`, §2.20, §6.10) — the unlock ladder is a generated/verifiable table (§6.6).
+
+## 3.9 Items flagged for the human (review checklist)
+
+> **Status (human-reviewed 2026-06-25):** items 2–5 RESOLVED; item 1 remains a routine confirm. Resolutions
+> folded into the ladder above.
+
+1. **The trigger *mix* per tier is an authored pacing choice (numbers → §4).** §3 assigns each reveal a trigger
+   *kind* (RANK / PILLAR / STORY / FIRST-USE). Whether, e.g., R7 should gate on **PILLAR (Arms+Estate)** vs
+   **pure RANK** — and the exact thresholds — is deferred to §4; confirm the *kinds* read right (esp. R7, V4,
+   V7, G2, G6, G7, which mix RANK + PILLAR + STORY). *(Routine — leave for the §4 review.)*
+2. ~~**Navigation-reveal granularity (§3.5).**~~ **RESOLVED:** **one nav entry at a time** (first tab at R2) is
+   the locked grain — the signature progressive-reveal feel.
+3. ~~**R5 bundles four things.**~~ **RESOLVED:** R5 **de-densified** — simple Crafting + the loot→craft loop moved
+   **up to R4**; the first combat-earned **Arms standing record** moved **down to R6**; R5 now reveals only the
+   **Quest log + the four quest types** (Arms deeds *begin* at R5). Each rung reveals less (one-at-a-time grain).
+4. ~~**T2-G2 double-gate (Origin opens).**~~ **RESOLVED:** **BOTH** conditions required — STORY (dream returned
+   enough memory) **AND** PILLAR (travel-standing) — so the warmest payoff stays doubly earned (per §1.5.3).
+5. ~~**T3/T4 late first-reveal placement.**~~ **RESOLVED (confirmed as sketched):** **auto-producers at T3-C1**,
+   the **marriage/adoption lever at T3-C5**, the **national *banzuke* at T4-E7**. Full rung-copy deferred with T3/T4.
+
 
 ---
 
 # §4 — Combat, Progression & Balance Model
 
-_Not yet authored — Wave 2 (the parked balance numbers land here)._
+> **STATUS: DRAFT — awaiting human review.** Nothing here is locked until reviewed with the human and
+> recorded as an ADR in [`../history/decisions.md`](../history/decisions.md). This section is authored
+> end-to-end from the LOCKED CANON
+> ([`../../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md),
+> incl. all three "Updated 2026-06-25" header blocks) and the drafted PRD §§1, 2, 6.
+>
+> **⚠️ ALL NUMBERS IN THIS SECTION ARE TAGGED `proposed v1 balance — for human review` EXCEPT the
+> pacing SHAPE the human signed off on** (saga length / per-tier hour budget / per-rank ≥30-min floor /
+> first-fight win-rate / soft-setback severity / deeds-dominate split / no-respec), which are tagged
+> **`LOCKED by human 2026-06-25`** (canon §I-bal). Everything else is a *coherent first-pass*, chosen so the
+> whole curve is self-consistent and the locked pacing targets (§4.8) hold; **every proposed number is a
+> lever, tunable later** without touching architecture. Per canon §H + §6.4, every value lives in
+> `core/content/balance.ts` (the single home for tunables) and derived numbers reflow with **no save
+> migration**. The shapes (data types, accrual modes, the trade ≤⅓ invariant, no-floor/overflow gating, no
+> labour→combat cross-feed) are **canon and NOT tunable**; only the magnitudes are.
+>
+> **REBALANCE NOTE (2026-06-25).** This draft was rewritten to honour the human-signed **§4 BALANCE LOCKS**
+> (canon §I-bal): **LONGER saga** (v1 T0–T2 ≈ **28.5 h**: T0 ≈ 4.5 h, T1 ≈ 8 h, T2 ≈ 16 h), a **per-rank
+> ≈30-min floor**, **deeds dominate accrual** (≈70 % deeds / ≈30 % seasonal), and **smaller/steadier
+> deed jumps** (per-event cap dropped 0.08 → **0.04**). The whole curve below is derived **backward** from
+> the per-rank time floor + the per-tier hour budget (see the **§4.8 rank-by-rank pacing table**, the new
+> centrepiece). The old "leave T0 in ~45–75 min, v1 ~12–20 h" targets are **superseded.**
+
+## How to read this section
+
+This is where the **parked balance numbers** from §§1–2 finally land. Each subsection states the **shape**
+(canon, fixed), then a **proposed v1 number set** (tunable), then the **levers** to turn during tuning.
+Units throughout: **koku** (rice, base currency), **coin/mon** (trade currency), **House Influence** in
+abstract **Influence points (ip)** per pillar, displayed with **K/M/B** abbreviation (canon §H — not
+scientific, not myriad units). One **tick** = the atomic active-play time-step; **1 action ≈ 1–4 ticks**;
+**1 day ≈ 200 ticks**; **1 season ≈ 30 days ≈ 6,000 ticks**; **1 year = 4 seasons = 120 days** (abstract,
+active-only — §2.2). These tick/day mappings are themselves levers.
+
+**Wall-clock anchor (NEW — required by the locked time budget).** Because the saga length and the
+per-rank ≥30-min floor are now *locked in real minutes*, the balance must commit a **wall-clock ⇄ game-time
+binding**: at the intended active-play pace, **1 season ≈ 34 min of real play** in T0 (so T0's ~8 seasons
+span its ~4.5 h), stretching to **~60 min/season in T1** and **~120 min/season in T2** (the player does more
+*per* season as the world enlarges, not more seasons). This binding is what lets the §4.8 pacing table be
+read in minutes. The binding itself is a **lever** (`SEASON_WALLCLOCK_MIN[tier]`), but the *targets* it
+serves (≥30 min/rank; 4.5/8/16 h tiers) are **LOCKED by human 2026-06-25**.
+
+---
+
+## §4.0 The number spine — magnitudes per tier (the master scale)
+
+Everything below hangs off one **per-tier magnitude band** so K/M/B abbreviation reads naturally and "the
+next goal never balloons > ~2–3× the prior" (canon §G / §1.2 pillar 3 / pacing §4.8). The house's
+**total resource & Influence magnitudes** grow ~**one order of magnitude per tier** (≈10×), but **within a
+tier** every individual step is a gentle **~1.15× geometric** so no single jump feels like a wall.
+
+> **T0 koku band reconciled (2026-06-25 fix).** The T0 lifetime-produced band reads **~21K** to match the
+> §4.8.1 rung-by-rung sum exactly (R1…R7 = 0.75K+1.05K+1.2K+2.1K+3.2K+4.95K+8.25K = **21.5K ≈ 21K**); the two
+> figures are now the same round number.
+
+**Rebalanced for the LONGER saga (canon §I-bal).** "More grind, more numbers" means the *koku* bands are
+**wider** than the old draft (you produce far more over a 4.5-h tier than over a 45-min one), while the
+**Influence-per-pillar** bands stay close to the old gate magnitudes — Influence is the *slow, judged*
+measure, deliberately lagging the raw resource counters. The widened *koku* bands below come straight out of
+the §4.8 throughput model (end-T0 *lifetime-produced* koku ≈ 21K; end-T0 *held* koku ≈ a few K).
+
+| Tier | koku band (lifetime-produced → held) | Influence-per-pillar band (display) | Typical single number the player sees |
+|---|---|---|---|
+| **T0 Estate** | tens → ~**21K** produced (~**3–5K** held) | 0 → ~**1K** ip | "**3.4K koku**", "**Arms 0.5K**" |
+| **T1 Village** | ~10K → ~**250K** produced | ~0.5K → ~**10K** ip | "**42K koku**", "**Estate 8K**" |
+| **T2 Region** | ~100K → low **M** | ~5K → ~**80K** ip | "**1.8M koku**", "**Office 50K**" |
+| **T3 Castle-town** *(stub)* | low **M** → ~**100M** | ~50K → ~**900K** ip | "**240M koku**", "**Name 900K**" |
+| **T4 Edo** *(roadmap)* | ~100M → low **B** | ~1M → ~**12M** ip | "**3.4B koku**", "**Name 11M**" |
+
+**Lever:** the **per-tier multiplier `TIER_MAG = 10`** (the order-of-magnitude step) and the
+**intra-tier growth `r_intra = 1.15`** are the two master dials. The Influence bands still step ~**10×**
+for Arms/Estate; the **Standing & Office** band steps **harder** (≈10× → ≈25× at the T1→T2 boundary) by
+design, because the required-pillar gate **drifts** from "survive/get strong" to "win it socially" (§4.1).
+**v1 only ships T0–T2** fully (T3 stub, T4 roadmap), so only the first three bands are load-bearing for
+launch tuning. Note: lengthening the saga was done by **stretching wall-clock-per-rung** (the ≥30-min floor)
+and **fattening the *koku* counters**, *not* by inflating `TIER_MAG` — the chapter-break feel of ~10× is
+preserved (canon §I-bal: "a slower release of incremental features," not bigger walls).
+
+---
+
+## §4.1 Per-tier REQUIRED-PILLAR thresholds (SIMPLE bands — NO floor/overflow)
+
+**Shape (canon §D, §1.6.3, §2.16 — fixed).** Tier-up requires **(1)** the named **required pillar(s)** for
+that tier to each independently clear a **single stated threshold**, **AND (2)** the per-tier **transition
+story gate**. There is **NO** global floor across all four pillars, **NO** overflow/substitution arithmetic
+(that formula is REJECTED). The required pillars **drift** per tier (early = Arms+Estate; upper = Office+Name).
+The only structural cap that survives is **trade ≤⅓ of Estate & Wealth** (§4.2.3) — so trade can never carry
+a gate. Each threshold is a **flat ip number on that pillar's `value`** (a simple `value ≥ threshold` check);
+no weighting between pillars, no product, no sum.
+
+**Proposed v1 thresholds** *(proposed v1 balance — for human review; magnitudes re-derived so each gate's
+required-pillar total = the deeds + seasonal accrual the §4.8 pacing table actually delivers over that tier)*:
+
+| Tier-up | Required pillar thresholds (each independent, simple `≥`) | Story gate (also required — §1.6.3) |
+|---|---|---|
+| **T0 → T1** | **Arms ≥ 0.5K** ip · **Estate ≥ 0.8K** ip | humbling first fight survived; first *shinden* begun; kura solvent; basic repairs done |
+| **T1 → T2** | **Arms ≥ 5K** · **Estate ≥ 8K** · **Office ≥ 2K** | "clean your room" — estate healthy, village happy, immediate fires out |
+| **T2 → T3** *(v1 end-gate)* | **Estate ≥ 60K** · **Office ≥ 50K** · **Arms ≥ 30K** | win the region (rival houses Tomita & Akagi no longer the leaders) |
+| **T3 → T4** *(stub)* | **Office ≥ 600K** · **Name ≥ 500K** | win the castle-town socially; rulers confer leadership & invite the house in |
+| **T4 (national rank)** *(roadmap)* | **Name ≥ 6M** · **Office ≥ 5M** | the national *banzuke* ranking on all four pillars |
+
+> **Why the threshold *magnitudes* survived the rebalance.** The locked saga-lengthening was applied to
+> **wall-clock per rung** (the ≥30-min floor) and to the *koku* counters, **not** to the Influence gates —
+> so these ip thresholds are unchanged from the first pass. What changed is **how the player reaches them**:
+> with deeds now ≈70 % of growth and the per-deed cap halved (0.08 → 0.04), the **0.8K Estate** gate is now
+> the sum of **30 small deeds (≤32 ip each) summing to 560 ip + 8 seasonal high-water hits summing to 240 ip**
+> spread over ~4.5 h, not a handful of spikes (full derivation in §4.2.1 / §4.2.2 / §4.8). The *texture* is
+> grindier; the *destination* is the same number.
+
+**Reading the drift:** Arms+Estate dominate the T0/T1 gates ("survive and get strong"); Office enters as a
+*required* gate at T1→T2 and rises; by T3→T4 the gate is **Office+Name** ("win it socially"). A pillar that
+is *not named* for a given tier is **never** a gate for it (you can advance with that pillar low) — this is
+the whole point of "simple thresholds, no floor." Each threshold sits at roughly **the top of the prior
+tier's band** (§4.0): T0→T1 is ~**10×** T0's start; T1→T2 keeps ~**6–10×** on Arms/Estate but the **Office
+gate steps ~25×** (2K → 50K) — the deliberate "win it socially" steepening, NOT a violation of the
+within-tier ≤2–3× rule (that rule binds *consecutive within-tier goals*, never the chapter-break tier step).
+
+**Levers:** the **5 threshold rows above** (15 numbers total, only the first 3 rows ship in v1). Tune each
+independently against playtest time-to-tier (§4.8). Keeping a gate's required-pillar **threshold ≈ band-top**
+of that tier is the design invariant; the absolute values are free. The **per-tier hour budget each gate
+must take to fill** (T0 ≈ 4.5 h, T1 ≈ 8 h, T2 ≈ 16 h) is **LOCKED by human 2026-06-25** — retune yields, not
+these thresholds, if a playtest time-to-tier drifts.
+
+---
+
+## §4.2 The four-pillar ACCRUAL model
+
+**Shape (canon §D, §1.6.2, §2.16 — fixed).** Influence accrues in **exactly two shapes — never a passive
+time-trickle, never a flat per-action increment**:
+
+- **(A) Achievement JUMPS** — a concrete deed *recognized* by the relevant authority, **per-event capped**.
+  **(PRIMARY growth driver — ≈70 % of each pillar's growth; LOCKED by human 2026-06-25 as "more from deeds.")**
+- **(B) Periodic JUDGED RESULTS** — fired **every season** (4×/year; autumn harvest the headline), raising a
+  pillar **only on a new high-water mark** (never repeatable maintenance). **(SMALLER top-up — ≈30 % of each
+  pillar's growth; the appraisal seasons your deeds, it doesn't carry the tier.)**
+
+**The accrual split is LOCKED by human 2026-06-25:** **deeds ≈⅔–¾ (we use 70 %)**, **seasonal ≈¼–⅓ (30 %)**
+of every pillar's growth toward its gate. This replaces the old draft's "~⅓–½ from seasonal." The split is a
+*design target*, realised by sizing the deed inventory (§4.2.1) and the seasonal `JUDGE_K` (§4.2.2) so the
+two streams add to the §4.1 gate in that ratio; the **exact 70/30** is a tunable *(proposed)* realisation of
+the locked "deeds dominate" shape.
+
+Up-only, with small scripted **per-pillar recoverable dents** (§4.2.4). The **trade ≤⅓** cap is a hard
+invariant (§4.2.3).
+
+### §4.2.1 Achievement JUMPS — concrete values + per-event caps
+
+A jump fires when a recognized deed completes (a recorded yield, a granted title, a sealed contract, a road
+declared safe in the books, a won petition, a nest cleared, the grain store defended). Each deed carries a
+**base jump value** and is subject to a **per-event cap** = a fraction of the *current tier's pillar band*,
+so **no single fight or harvest spikes a pillar** (§2.7/§2.16 per-event-cap discipline). Formula:
+
+```
+jump = min( deedBaseValue, PER_EVENT_CAP_FRACTION * tierPillarBandTop(pillar, currentTier) )
+```
+
+*(proposed v1 balance — for human review)* — **`PER_EVENT_CAP_FRACTION = 0.04`** (one deed can move a pillar
+at most ~**4 %** of the way across its tier band). **This is HALF the old draft's `0.08`** — the change is
+mandated by canon §I-bal **"deed-jump size = SMALLER / STEADIER (grindier)"**: growth is the sum of *many
+small acts*, never a few spikes. The per-deed cap is computed against **that pillar's own band-top for the
+current tier** (= its §4.1 gate threshold): T0 Estate cap = 0.04·0.8K = **32 ip**, T0 Arms = 0.04·0.5K =
+**20 ip**, T1 Office = 0.04·2K = **80 ip**, T2 Arms = 0.04·30K = **1.2K**, T2 Office = 0.04·50K = **2K**, etc.
+**Every deed base in the table below now sits at or under its own pillar/tier cap** (the rightmost column lists
+each cap; a handful of intentional *at-cap* anchors — the DEFEND deed, the top road/alliance deeds — are
+labelled *(cap)*). So **the cap virtually never silently clamps** a deed: bases were tuned *down* to fit under
+the cap rather than being clamped by it — the texture is *quantity of small deeds*, not a clamp on big ones.
+Representative **deed base values**, scaled by tier band (§4.0) and re-tuned **downward** so the per-deed
+contribution is small and a full tier needs **dozens** of deeds:
+
+| Deed class | Pillar | T0 base | T1 base | T2 base | per-deed cap (0.04·band-top) |
+|---|---|---|---|---|---|
+| Minor clear (boar/monkey nest) | Arms | 8 | 70 | 700 | T0 20 · T1 200 · T2 1.2K |
+| Road/ford declared safe (in the books) | Arms | 18 | 150 | 1.2K *(cap)* | T0 20 · T1 200 · T2 1.2K |
+| Grain-store / valley defended (DEFEND quest) | Arms | 20 *(cap)* | 200 *(cap)* | 1.2K *(cap)* | T0 20 · T1 200 · T2 1.2K |
+| First *shinden* plot recorded | Estate | 30 | — | — | T0 32 |
+| Recorded seasonal yield milestone | Estate | 16 | 130 | 1.3K | T0 32 · T1 320 · T2 2.4K |
+| Debt tranche cleared → solvency step | Estate | 26 | 200 | 2K | T0 32 · T1 320 · T2 2.4K |
+| Sealed trade contract *(TRADE strand — ≤⅓ capped)* | Estate(trade) | 12 | 90 | 900 | T0 32 · T1 320 · T2 2.4K |
+| Office granted / bailiff duty / dispute arbitrated | Office | — | 60 | 1.3K | T1 80 · T2 2K |
+| Valley allied / rival eclipsed | Office | — | 80 *(cap)* | 2K *(cap)* | T1 80 · T2 2K |
+| Lord's recognition / off foreclosure list | Name | 20 | 160 | 1.6K | T0 40 · T1 400 · T2 3.2K |
+| Sponsored rite / inspector's favourable report | Name | — | 180 | 1.8K | T0 40 · T1 400 · T2 3.2K |
+
+**Deed-count sanity — the itemizations that PROVE the 70 % share (corrected 2026-06-25).** Each gate pillar's
+deed inventory below sums **exactly** to 70 % of that pillar's §4.1 gate, within ~20–35 recognised deeds, every
+base ≤ its cap. (The earlier draft's T0 itemizations summed to only ~61 %; these are the corrected figures.)
+
+**T0 — gate 70 % = 560 ip Estate / 350 ip Arms:**
+- **Estate (560 ip, 30 deeds):** 1 *shinden* (30) + 14 yield milestones (14×16 = 224) + 9 solvency steps
+  (9×26 = 234) + 6 trade contracts (6×12 = 72) = **30 + 224 + 234 + 72 = 560** ✔. (Trade = 72 ip = **12.9 %**
+  of the Estate deed-ip — comfortably under the ≤⅓ cap, §4.2.3.)
+- **Arms (350 ip, 30 deeds):** 20 minor clears (20×8 = 160) + 5 road-clears (5×18 = 90) + 5 defends
+  (5×20 = 100) = **160 + 90 + 100 = 350** ✔.
+- **Cadence:** ~30 Estate + ~30 Arms = **~56–60 total recognised deeds** across T0's ~4.5 h ≈ **one act every
+  ~4.5–5 min** (≈9–10 min *per individual pillar*).
+
+**T1 — gate 70 % = 5,600 ip Estate / 3,500 Arms / 1,400 Office:**
+- **Estate (5,600, 35 deeds):** 9 yield (9×130 = 1,170) + 19 solvency (19×200 = 3,800) + 7 trade
+  (7×90 = 630) = **5,600** ✔ (trade 11.25 %).
+- **Arms (3,500, 35 deeds):** 25 minor (25×70 = 1,750) + 5 road (5×150 = 750) + 5 defend (5×200 = 1,000) =
+  **3,500** ✔.
+- **Office (1,400, 20 deeds):** 10 granted (10×60 = 600) + 10 allied (10×80 = 800) = **1,400** ✔.
+
+**T2 — gate 70 % = 42,000 ip Estate / 21,000 Arms / 35,000 Office:**
+- **Estate (42,000, 31 deeds):** 16 yield (16×1.3K = 20,800) + 7 solvency (7×2K = 14,000) + 8 trade
+  (8×900 = 7,200) = **42,000** ✔ (trade 17.1 %).
+- **Arms (21,000, 20 deeds):** 6 minor (6×700 = 4,200) + 7 road (7×1.2K = 8,400) + 7 defend (7×1.2K = 8,400) =
+  **21,000** ✔.
+- **Office (35,000, 21 deeds):** 10 granted (10×1.3K = 13,000) + 11 allied (11×2K = 22,000) = **35,000** ✔.
+
+Every line above sums to exactly **70 %** of its gate (the residual **30 %** comes from the seasonal stream,
+§4.2.2). That cadence — a small recognised act every few minutes — *is* the "more grind, more numbers" texture
+the human locked.
+
+**Levers:** `PER_EVENT_CAP_FRACTION` *(now 0.04 — proposed; the **direction** "smaller than 0.08" is LOCKED
+by human 2026-06-25)*; each deed's per-tier base value; the deed→tier scaling (here ~**9–10×** per tier
+within a deed class, ≈`TIER_MAG`, with the seasonal stream supplying the residual 30 %).
+
+### §4.2.2 Seasonal JUDGED RESULT — the per-season formula (fires every season; high-water-mark only)
+
+**Shape (canon — fixed).** Every season the scheduler (§2.2/§6.3 per-season hook) computes a **judged score**
+per pillar from *accumulated state*, and **raises the pillar only if the score exceeds its stored
+`highWater`** — then sets the pillar to that new score (Δ = newScore − highWater) and records the new
+high-water mark. If the score does **not** beat the high-water mark, **nothing accrues** (no maintenance
+trickle). Autumn is the headline (harvest), but **all four pillars are appraised every season**.
+
+```
+// 1. Read the pillar's raw judged basis from accumulated state (domain-specific, any scale).
+rawBasis = b_pillar(accumulatedState)
+// 2. NORMALIZE by the tier reference magnitude so the basis is O(1) at the tier band-top.
+fracBasis = clamp( rawBasis / TIER_REF[pillar][tier], 0, 1 )
+// 3. Sub-linear (sqrt) shaping AFTER normalization, so f_pillar ∈ [0,1].
+f_pillar  = sqrt( fracBasis )
+// 4. The seasonal score; JUDGE_K is the pillar's seasonal ip budget for this tier (see back-solve below).
+seasonalScore = JUDGE_K[pillar][tier] * f_pillar
+if seasonalScore > influence[pillar].highWater:
+    Δ = seasonalScore - influence[pillar].highWater
+    influence[pillar].value    += Δ
+    influence[pillar].highWater  = seasonalScore   // up-only; never decreases here
+```
+
+> **F2/F4 fix (2026-06-25) — the seasonal basis is now DIMENSIONALLY CONTROLLED for every pillar.** The earlier
+> draft fed each pillar a raw basis of wildly different scale (Estate `sqrt(landKoku)` ≈ O(50–70); Arms/Office
+> small integers; Name ≈ O(0.3)) into four un-co-derived `JUDGE_K` (45/55/38/34) — so Estate's seasonal alone
+> could be several × the whole gate, and the F4 normalization was applied **only to Name**. The fix introduces
+> an **explicit named normalizer `TIER_REF[pillar][tier]`** (a reference magnitude = the pillar's band-top in
+> that tier, in the basis's own units) applied to **all four pillars** *before* the `sqrt` shaping, so every
+> `f_pillar ∈ [0,1]` and reaches **1.0 only at the tier's band-top**. With `f` bounded in [0,1], the seasonal
+> stream is bounded and back-solvable (below).
+
+Where `b_pillar(state)` reads the house's *current standing* in that domain (a slowly-growing function of
+holdings, not a per-action counter), and `TIER_REF` is its band-top reference (in the basis's own units):
+
+| Pillar | `b_pillar(state)` — raw judged basis | `TIER_REF[tier]` (basis units; the normalizer) |
+|---|---|---|
+| **Arms** | `securedNodeCount · avgClearedDanger + retinueReadiness` (a "secured-danger" index) | T0 `ARMS_REF` · T1 10·ref · T2 100·ref (the secured-danger reachable at each band-top) |
+| **Estate & Wealth** | `landReclaimedKoku + treasurySolvency + min(tradeIndex, ⅓·estateTotal)` (a koku-scaled index) | T0 `ESTATE_REF_KOKU` · T1 10× · T2 100× (the koku-index reachable at each band-top) |
+| **Standing & Office** | `officesHeld·officeWeight + alliancesSealed·allianceWeight` (a standing index) | T0 — · T1 `OFFICE_REF` · T2 10× (the standing reachable at each band-top) |
+| **Name & Honour** | `armsHW + estateHW + officeHW + deedsPatronageBonus` (reflects the other three + deeds) | `TIER_REF_NAME[tier] = armsGate + estateGate + officeGate` (T1 = 15K · T2 = 140K) |
+
+> **F4 double-scale resolved.** The old Name basis `0.25·(armsHW+estateHW+officeHW)/1000` carried a bare
+> `/1000` scaler; the prior F4 patch folded it into `JUDGE_NAME_BLEND = 0.00025` **and** still multiplied by
+> `JUDGE_K[Name] = 34` — an accidental **34× change** in the effective Name coefficient. That ad-hoc blend is
+> **RETIRED.** Name now uses the **same** scheme as every other pillar: its normalizer is the **explicit**
+> `TIER_REF_NAME = armsGate + estateGate + officeGate` (so `f_Name = sqrt((armsHW+estateHW+officeHW) / TIER_REF_NAME)
+> ∈ [0,1]`), and its seasonal budget is the same back-solved `JUDGE_K[Name][tier]`. There is **no** remaining
+> `JUDGE_NAME_BLEND` magic number — the effective Name coefficient is now `JUDGE_K[Name][tier] / TIER_REF_NAME[tier]`,
+> fully explicit and intended.
+
+**Back-solving `JUDGE_K` (so each pillar's seasonal stream = exactly 30 % of its gate).** Because the basis is
+monotone-rising over the tier and `f_pillar` is normalized to reach **1.0 at the band-top (final autumn)**, the
+**cumulative high-water seasonal gain** over the tier's ~8 seasons telescopes to `JUDGE_K · max(f) = JUDGE_K · 1`.
+So the back-solve is exact and dimensionless:
+
+```
+JUDGE_K[pillar][tier]  =  SEASONAL_SHARE · gate[pillar][tier]          // SEASONAL_SHARE = 0.30
+```
+
+i.e. `JUDGE_K` **is** the pillar's seasonal ip headroom this tier — one constant (`SEASONAL_SHARE = 0.30`)
+applied to the §4.1 gate table. The four old scalar `JUDGE_K` (45/55/38/34) are **replaced** by this co-derived
+per-pillar-per-tier table. (**Name & Honour** gates no v1 tier, so its 0.30 is taken of its reference
+`TIER_REF_NAME` = armsGate + estateGate + officeGate = **15K (T1) / 140K (T2)**, not a gate — same 30 %
+philosophy applied to its basis reference.)
+
+| `JUDGE_K[pillar][tier]` = 0.30 · gate (Name: 0.30 · `TIER_REF_NAME`) | T0 | T1 | T2 |
+|---|---|---|---|
+| **Arms** | **150** | **1,500** | **9,000** |
+| **Estate & Wealth** | **240** | **2,400** | **18,000** |
+| **Standing & Office** | — (no T0 gate) | **600** | **15,000** |
+| **Name & Honour** | — (not gated) | **4,500** | **42,000** |
+
+The **`sqrt`** shaping is deliberate: each pillar's judged score grows **sub-linearly** in raw holdings, so
+doubling your land does *not* double the appraisal — the high-water mark advances in **diminishing, earned
+steps**, and the **autumn headline** (Estate gets a ~12 % harvest bump to its basis on autumn seasons) is the
+one most likely to set a fresh mark. **Seasonal results supply the SMALLER ~30 % of pillar growth; deed jumps
+(§4.2.1) supply the punchy ~70 % foreground.**
+
+**WORKED 8-SEASON TIE-OUT (proves each `JUDGE_K` lands the seasonal stream on exactly 30 % of its gate).** The
+basis fraction `rawBasis/TIER_REF` ramps from ~4 % (season 1) to **100 %** (season 8, the final autumn);
+Estate's autumn seasons (4 & 8) carry a ~12 % harvest bump. `f = sqrt(frac)`; score `= JUDGE_K·f`; Δ accrues
+only on a new high-water mark; the **accumulated** column is the running cumulative seasonal ip. Each table ends
+at exactly **30 % of the gate** (because `f` ends at 1.0 ⇒ cumulative = `JUDGE_K`). Seasons read
+Sp→Su→**Au**→Wi ×2 (Au = autumn headline).
+
+*T0 Estate — `JUDGE_K = 240`, target 30 % of 0.8K = **240 ip*** ✔
+
+| season | basis% | f | score | Δ | accumulated |
+|---|---|---|---|---|---|
+| 1 Sp | 4 % | 0.200 | 48.0 | 48.0 | 48.0 |
+| 2 Su | 18 % | 0.421 | 101.0 | 53.0 | 101.0 |
+| 3 **Au** | 31 % | 0.561 | 134.5 | 33.5 | 134.5 |
+| 4 Wi | 51 % | 0.711 | 170.7 | 36.1 | 170.7 |
+| 5 Sp | 59 % | 0.767 | 184.1 | 13.5 | 184.1 |
+| 6 Su | 73 % | 0.852 | 204.5 | 20.3 | 204.5 |
+| 7 **Au** | 86 % | 0.929 | 222.9 | 18.5 | 222.9 |
+| 8 Wi | 100 % | 1.000 | **240.0** | 17.1 | **240.0** |
+
+*T0 Arms — `JUDGE_K = 150`, target 30 % of 0.5K = **150 ip*** ✔ (smooth ramp, no autumn bump): season Δs
+30.0 → 33.1 → 21.0 → 16.7 → 14.3 → 12.7 → 11.6 → 10.7, **accumulated = 150.0**.
+
+The same scheme back-solves every gated pillar at every tier (each ends on its 30 % target by construction):
+
+| Pillar / tier | `JUDGE_K` | per-season accumulated (s1 … s8) | end = 30 % gate |
+|---|---|---|---|
+| **T1 Estate** | 2,400 | 480 · 1,010 · 1,346 · 1,707 · 1,841 · 2,045 · 2,229 · **2,400** | **2,400** ✔ |
+| **T1 Arms** | 1,500 | 300 · 631 · 841 · 1,008 · 1,151 · 1,278 · 1,393 · **1,500** | **1,500** ✔ |
+| **T1 Office** | 600 | 120 · 253 · 336 · 403 · 460 · 511 · 557 · **600** | **600** ✔ |
+| **T2 Estate** | 18,000 | 3,600 · 7,576 · 10,091 · 12,799 · 13,809 · 15,334 · 16,720 · **18,000** | **18,000** ✔ |
+| **T2 Arms** | 9,000 | 1,800 · 3,788 · 5,046 · 6,047 · 6,905 · 7,667 · 8,360 · **9,000** | **9,000** ✔ |
+| **T2 Office** | 15,000 | 3,000 · 6,313 · 8,409 · 10,078 · 11,508 · 12,778 · 13,934 · **15,000** | **15,000** ✔ |
+
+So at every tier the seasonal stream is **exactly 30 %** of each gate, the deed inventory (§4.2.1) supplies the
+other **70 %**, and the two add to the §4.1 gate — the locked 70/30 split, verifiable line-by-line. *(Note the
+season-1 Δ is the largest because the high-water mark starts at 0; the **autumn** marks are the diegetic
+headlines even when their numeric Δ is mid-pack. This tie-out is headlessly regression-testable via §6.10.)*
+
+**Levers:** `SEASONAL_SHARE = 0.30` (the one dial that sets the whole seasonal stream — its 30 % value realises
+the LOCKED deeds-dominate split); `JUDGE_K[pillar][tier]` (the derived seasonal-ip table above = `SEASONAL_SHARE
+· gate`); the **`TIER_REF[pillar][tier]`** normalizers (incl. `TIER_REF_NAME = armsGate+estateGate+officeGate`)
+that make each `f_pillar` O(1) at band-top; the **autumn-basis bump** (~12 %); the exponents inside each
+`f_pillar` (default `0.5`; lower = harsher diminishing returns). The high-water-mark rule, the every-season
+cadence, **and the ≈30 %-seasonal / ≈70 %-deeds split direction (LOCKED by human 2026-06-25)** are not free to
+invert; only the magnitudes (`SEASONAL_SHARE`, the `TIER_REF` values, the exponents) that realise it are levers.
+
+### §4.2.3 The trade ≤⅓ cap (HARD INVARIANT — not a lever)
+
+**Shape (canon §D — fixed, verifier-enforced §6.6).** Within Estate & Wealth's three sub-engines
+(LAND / TREASURY / TRADE), the **TRADE strand's contribution is hard-clamped to ≤ ⅓ of the Estate & Wealth
+pillar total**, applied at **every** accrual point (both jump and judged):
+
+```
+// WORKING FORM (non-circular — this is the implementation):
+tradeAllowed = 0.5 * (land + treasury)
+trade        = min( rawTrade, tradeAllowed )
+estateTotal  = land + treasury + trade
+
+// PROOF the working form yields trade ≤ ⅓ of the Estate total (the HARD INVARIANT):
+//   at the cap, trade = 0.5·(land+treasury)
+//   ⇒ estateTotal = (land+treasury) + 0.5·(land+treasury) = 1.5·(land+treasury)
+//   ⇒ trade / estateTotal = 0.5·(land+treasury) / 1.5·(land+treasury) = 1/3   (exactly, at the cap)
+//   below the cap trade is smaller, so trade/estateTotal < 1/3 always. ✔
+```
+
+> **F1 fix.** The previous first line `tradeContribution = min(rawTrade, (1/3)*(land+treasury+tradeContribution_clamped))`
+> was **self-referential** (`tradeContribution` on both sides) and not implementable. It is **deleted**. The
+> working form above (`tradeAllowed = 0.5·(land+treasury)`) is mathematically equivalent to "trade ≤ ⅓ of the
+> Estate total" — verified by the proof block — and is the canonical implementation. The **≤⅓ HARD INVARIANT
+> is intact** (and unchanged by this rebalance).
+
+A pure-trade run therefore maxes **~⅓ of one of four pillars** (≈ **8%** of total House Influence) and can
+**never carry a tier gate**. The signature *meibutsu* (**silk / sericulture**, LOCKED) lives entirely inside
+this capped strand. **The ⅓ ratio is canon and NOT tunable**; the *raw* trade yields feeding into it (§4.7)
+are levers.
+
+### §4.2.4 Recoverable DENTS (up-only with minor, scripted, per-pillar dips)
+
+**Shape (canon §D, §1.6.2 — fixed).** Up-only **except** rare, scripted, **per-pillar** dents
+(scandal→Name, called debt→Estate, lost battle→Arms), **MINOR & quickly recoverable**, **never a wipe**, and
+the dent **never touches `highWater`** (so it self-heals as play resumes the appraisal).
+
+*(proposed v1 balance — for human review)*: a dent removes **`DENT_FRACTION = 0.10`** of the *current pillar
+`value`* (max one dent active per pillar), and `value` regrows toward `highWater` at the normal accrual rate —
+**clawed back within ~1–2 seasons** by design (canon: "a small dip clawed back within a season or two"). Dents
+are scripted story beats only (a finite authored list per tier), **never** procedural/random.
+
+**Levers:** `DENT_FRACTION` (default 0.10); the authored dent list per tier (count & which pillar). The
+"never a wipe / never below 0 / never touches highWater / recoverable in ≤2 seasons" rules are **canon.**
+
+---
+
+## §4.3 Pillar conversion weights (labour / combat / office / deeds → pillar gains)
+
+**Shape (canon — fixed).** Each *protagonist domain* funnels into **one primary pillar** via the accrual
+shapes above; there is **no cross-pillar leakage except** the explicit roll-ups (Name reflects the other
+three; trade folds into Estate under the ⅓ cap). Skills/levels never grant Influence **directly** — they make
+the *recognized deed* more achievable (§2.7d). The "weights" below are the **multipliers applied to a deed's
+base value** based on *how well it was performed* (quality/scale), then capped per §4.2.1.
+
+| Domain → pillar | Conversion weight (multiplier on deed base) *(proposed)* | Notes |
+|---|---|---|
+| **Combat** → **Arms** | `1.0 + 0.05·(combatLevel) + 0.10·(dangerRingClearedAbove)` | scale of the threat clears more Arms; **per-event cap (0.04) still binds** |
+| **Labour (LAND/TREASURY)** → **Estate** | `1.0 + 0.04·(skillLevel of the labour skill)` | better farmer → bigger recorded yield jump (still capped at 0.04·band) |
+| **Trade** → **Estate(trade strand)** | `1.0 + 0.04·(tradeSkill)`, then **⅓-clamped** (§4.2.3) | silk *meibutsu* graded quality raises the raw, both caps still bind |
+| **Office/admin** → **Standing & Office** | `1.0 + 0.06·(officeRank) + 0.15·(allianceSealed?1:0)` | alliances (incl. marriage/adoption lever, T3+) weigh heaviest |
+| **Recognition/deeds/patronage** → **Name** | `1.0 + 0.25·((armsHW+estateHW+officeHW) / TIER_REF_NAME)` *(normalized by the same explicit `TIER_REF_NAME` as §4.2.2 — no bare `/1000` scaler)* | Name is *derivative* — it lags the other three by design |
+
+**The marriage/adoption lever (T3+, parked):** a one-time **alliance** deed with an unusually large base
+(roughly **a full per-event cap** into *both* Office and Name simultaneously) — canon's "real late-game lever."
+Numbers detailed when T3 is authored.
+
+**Interaction with the locked deeds-dominate split.** These multipliers grow a deed's *base* with how well
+it was performed, but **every result is still clamped by the §4.2.1 per-event cap of 0.04**. So even a
+high-skill master cannot turn one deed into a spike — the cap keeps growth in the *many-small-acts* regime
+the human locked (§I-bal). The conversion weights therefore tune **which deeds feel rewarding to specialise
+in**, not the overall deeds-vs-seasonal balance (that's fixed by §4.2.1/§4.2.2 sizing).
+
+**Levers:** the per-domain coefficients (the `0.04`–`0.25` multipliers). The **structural routing** (which
+domain → which pillar, no cross-feed, Name-as-derivative) and the **deeds-dominate split** are **not levers**;
+the coefficients that realise them are.
+
+---
+
+## §4.4 The rich ATTRIBUTE system (STR / AGI / INT / SPD / LUCK)
+
+**Shape (canon §G, §2.7 — fixed).** Five interacting attributes, **stored as base values** (recompute
+effective on load = base + gear + milestones, §6.4). Attributes start **near-mediocre** and rise only via
+character levels / milestones / gear (mediocre-start; **no labour→combat cross-feed** — labour skills never
+feed combat attributes, §1.13). Each attribute has **labour effects and combat effects** so it is never a
+dump stat.
+
+| Attr | Combat effect *(proposed)* | Labour effect *(proposed)* |
+|---|---|---|
+| **STR** (力) | `attackPower += 1.2·STR` (melee); raises carry/durability damage | labour yield `+0.8%·STR`; hauling capacity `+2·STR`; lower stamina cost on heavy work |
+| **AGI** (体) | `evasion += 0.6·AGI`; `critChance += 0.2%·AGI`; hit-accuracy `+0.4·AGI` | gathering speed `+0.6%·AGI` (forage/fish); craft success `+0.3%·AGI` |
+| **INT** (智) | `+0.5%` damage vs known bestiary entries; better stance/ability effects | craft quality `+0.7%·INT`; recipe unlock thresholds eased; office/admin deed weight `+0.5%·INT` |
+| **SPD** (速) | `attackSpeed += 0.5%·SPD` (faster swings — see cadence §4.6); turn-order/first-strike | action tick-cost `−0.3%·SPD` (faster labour cycles, floored) |
+| **LUCK** (運) | `critChance += 0.1%·LUCK`; `blockChance += 0.1%·LUCK`; rare-loot weight `+0.5%·LUCK` | better gather/forage rare-drop odds; market price-swing favourability |
+
+**Starting attributes (mediocre-start contract):** all five start at **5** (out of an early soft-cap of ~30
+by end-T0, ~80 by end-T2). The MC's only edge is *temperament* (narrative), **never a stat** (canon §A,
+§1.4). **Attribute points:** **+1 point every 2 character levels**, plus milestone grants.
+
+> **NO RESPEC IN v1 (LOCKED by human 2026-06-25, canon §I-bal).** Attribute-point allocations are
+> **committed** — there is **no reset / re-spend lever in v1**. Every point spent on STR/AGI/INT/SPD/LUCK is
+> permanent; the build you grow is the build you keep. (A late-game respec lever may be reconsidered post-v1,
+> but it is explicitly **out** of the v1 balance lock and must NOT be implemented as a v1 dial.) This makes
+> the dual labour+combat purpose of each attribute (every attr does double duty) load-bearing: because you
+> can't undo a choice, no attribute may be a dump stat — which the §4.4 table already guarantees.
+
+**Levers:** every coefficient in the table; starting value (5); points-per-level cadence; the soft-caps per
+tier. The **five-attribute identity, the dual labour+combat purpose of each, the no-cross-feed rule, and the
+no-respec-in-v1 rule** are **not levers** (the last is LOCKED by human 2026-06-25).
+
+---
+
+## §4.5 Per-skill XP curves, per-event caps & milestone perks
+
+**Shape (canon §G, §2.7 — fixed).** Per-skill `total_xp` pools (stored), **levels derived** from a curve;
+skills are **hidden until a small visibility threshold** (discover-by-doing); **per-event XP caps force
+breadth** (no single action spikes a skill); **milestone perks** at thresholds. Lean core skills at T0; more
+unlock per tier.
+
+### §4.5.1 The XP→level curve
+
+A standard incremental geometric curve, shared by all skills (one curve, per-skill *speed* differs):
+
+```
+xpForLevel(L)      = round( XP_BASE * XP_GROWTH^(L-1) )
+totalXpForLevel(L) = sum_{i=1..L} xpForLevel(i)
+```
+
+*(proposed v1 balance — for human review)*: `XP_BASE = 50`, `XP_GROWTH = 1.18`. So L1→L2 costs 50 xp, L10
+cumulatively ~**2.1K**, L25 ~**41K**, L50 ~**1.5M** xp. **Visibility threshold** = a skill surfaces in the UI
+at **cumulative 30 xp** (~one good session) so it reads as a discovery, not a pre-listed menu. **Soft level
+cap per tier**: T0 ≈ **L15**, T1 ≈ **L30**, T2 ≈ **L50** (you *can* exceed, but XP cost makes the next tier's
+content the efficient path — this is what stops a player grinding T0 to god-tier).
+
+### §4.5.2 Per-event XP caps (breadth-forcing)
+
+```
+xpGain = min( actionXp, PER_EVENT_XP_CAP_FRACTION * xpForLevel(currentLevel+1) )
+```
+
+*(proposed)* `PER_EVENT_XP_CAP_FRACTION = 0.25` — **one action can advance a skill at most ¼ of the way to its
+next level**, so leveling always takes **≥4 actions** and a lucky big harvest/kill can't one-shot a level.
+This is the same per-event-cap discipline canon mandates for combat *and* Influence.
+
+### §4.5.3 Milestone perks (the build web)
+
+Milestones at **levels 5 / 10 / 25 / 50** per skill (lever). Perk magnitudes *(proposed)*:
+
+| Milestone | Typical perk | Example |
+|---|---|---|
+| **L5** | small flat stat or `+5%` skill efficiency | Farming L5: `+5%` koku/harvest |
+| **L10** | a title (feeds Name flavour) + `+1` related attribute **(combat skills only — see no-cross-feed constraint below)** or a recipe unlock | Smithing L10 (labour): unlocks component-craft tier (a recipe unlock, **no attribute**); Swordsmanship L10 (combat): `+1 STR` |
+| **L25** | a `×1.10` multiplier or a cross-skill XP bonus (`+5%` to a *sibling* skill) | Foraging L25: `+5%` XP to Cooking |
+| **L50** | a `×1.25` capstone multiplier + a marquee unlock | Combat-weapon L50: stance slot / signature ability |
+
+**No milestone ever reads a returning-memory or porter's-knot flag** (no-hidden-edge guard, §1.4/§2.7c —
+canon, encoded at the type level). Cross-skill bonuses go skill→sibling-skill **only**; **no
+labour-skill→combat-attribute edge exists** (canon §E).
+
+> **No-cross-feed wall — type-level enforced on the L10 `+1 attribute` perk (2026-06-25 fix).** The L10
+> milestone's `+1 related attribute` grant is **constrained so a LABOUR skill can NEVER grant a combat-feeding
+> attribute (STR or AGI)**. Concretely, each skill is typed `combat | labour`, each attribute is typed by
+> whether it feeds a **combat-derived stat** (STR, AGI feed attackPower/evasion/etc. per §4.6.1 → *combat-feed*;
+> INT/SPD/LUCK's combat effects are minor/incidental but to be safe the wall is: **labour-skill milestones may
+> grant attribute points ONLY to a non-combat-feed attribute, or — preferably — grant no attribute at all and
+> take the recipe-unlock branch instead** (e.g. Smithing/Farming/Foraging L10 → a recipe/efficiency unlock, never
+> `+STR`/`+AGI`). Only **combat-skill** milestones (weapon lines, conditioning's combat facet) may grant STR/AGI.
+> This makes the canon "no labour→combat cross-feed" (canon §E, §1.13, §4.4) **enforceable at the type level**
+> rather than relying on hand-authored perk lists: a labour-skill milestone with a combat-feed attribute grant is
+> a type error.
+
+> **NO RESPEC IN v1 (LOCKED by human 2026-06-25, canon §I-bal).** Where a milestone offers a *choice* (e.g. a
+> branch perk, a stance slot, or a "pick one of two" unlock), that choice is **committed** — there is **no
+> reset / re-pick lever in v1**. Skills themselves still level freely by doing (no skill is locked out), but a
+> milestone *selection* once taken is permanent. Mirrors the attribute no-respec rule (§4.4): the build you
+> grow is the build you keep. A post-v1 respec is explicitly **out** of the v1 balance lock.
+
+**Levers:** `XP_BASE`, `XP_GROWTH`, `PER_EVENT_XP_CAP_FRACTION`, visibility threshold (30), per-tier soft
+caps, milestone levels & perk magnitudes. The curve *shape* (geometric), the discover-by-doing reveal,
+per-event capping, and the no-cross-feed wall are **canon.**
+
+---
+
+## §4.6 The COMBAT math (idle auto-resolve)
+
+**Shape (canon §E, §2.8 — fixed).** Idle auto-resolve + active setup: prepare gear/stance/area → a
+**deterministic seeded fight** resolves on a fixed-step sub-tick sim (one RNG, §6.7) → intervene with
+stance/ability/item/retreat. **Mediocre-start preserved** (start near-zero; humbling near-fatal first fight;
+earned via grind; **no cross-feed**). **Failure = soft setback** (HP/time, maybe drop carried loot, take a
+rest-off injury) — **never** lose levels/gear/permanent progress.
+
+### §4.6.1 Combatant model & derived stats
+
+```
+attackPower  = weaponBase + 1.2·STR + gearAtk + skillBonus      (skillBonus = 0.3·weaponSkillLevel)
+attackSpeed  = baseSpeed · (1 + 0.005·SPD) · stance.speedMod    (swings per "combat second"; see cadence)
+evasion      = 0.6·AGI + gearEva + stance.evasionMod            (an evasion *rating*, not a flat %)
+accuracy     = 10 + 0.4·AGI + 0.3·weaponSkillLevel              (an accuracy rating)
+defense      = gearDef + 0.5·STR + stance.defMod
+critChance   = 0.02 + 0.002·AGI + 0.001·LUCK   (cap 0.50)
+blockChance  = gearBlock + 0.001·LUCK          (cap 0.40, requires a shield/guard)
+hpMax        = 40 + 8·characterLevel + 2·STR + gearHp
+```
+
+### §4.6.2 Attack-speed cadence
+
+Combat runs on an internal **sub-tick accumulator** (§2.8c). `baseSpeed = 1.0` swing per **20 combat
+sub-ticks** at SPD 5; each point of SPD shaves cadence per the `+0.5%·SPD` above. A typical T0 fight is
+**~6–12 swings** (a handful of real ticks). **Lever:** `baseSpeed` and the `0.005·SPD` coefficient set how
+twitchy-vs-grindy fights feel (canon: low-APM, strategic — keep fights short).
+
+### §4.6.3 Hit vs evasion, damage minus defence (with a floor)
+
+```
+hitChance = clamp( accuracy / (accuracy + evasion), 0.15, 0.95 )      // logistic; never auto-miss/auto-hit
+rawDamage = attackPower · rngVariance(0.85 … 1.15)                    // seeded ±15%
+damage    = max( DAMAGE_FLOOR, rawDamage − defense )                  // the canon damage FLOOR
+DAMAGE_FLOOR = max( 1, 0.10·attackPower )                             // chip damage always lands → fights end
+```
+
+The **damage floor** (`max(1, 10% of attackPower)`) guarantees even a heavily-armoured foe takes chip damage,
+so a fight always resolves (no infinite stalemate) — the canon "damage minus defence (with a floor)".
+
+### §4.6.4 Crit / block
+
+```
+on hit:  if rngChance(critChance) → damage ·= CRIT_MULT   (CRIT_MULT = 1.5)
+         if defender rngChance(blockChance) → damage ·= (1 − BLOCK_REDUCTION)   (BLOCK_REDUCTION = 0.5)
+```
+Crit and block are **separate seeded rolls** (§2.8c). **Levers:** `CRIT_MULT` (1.5), `BLOCK_REDUCTION` (0.5),
+the chance caps (0.50 / 0.40).
+
+### §4.6.5 On-kill rewards (XP + loot)
+
+- **Combat XP** = `mobLevel · COMBAT_XP_K`, then per-event capped (§4.5.2). `COMBAT_XP_K = 12` *(proposed)*.
+- **Skill XP** to the equipped weapon line, separately per-event capped.
+- **Loot** = one seeded roll on the mob's `LootTable` (§4.7.3); rare-tier weight scaled by `+0.5%·LUCK`.
+- **Arms deed** (only for *recognized* clears/defends, not every trash mob) → an achievement jump (§4.2.1),
+  per-event capped — so grinding boars does **not** balloon Arms; the *recognized* road-cleared deed does.
+
+### §4.6.6 The mediocre-start curve & the soft-setback-on-loss rule
+
+- **Start near-zero, earned only by grind, no cross-feed.** At R3 (first drills) the MC has weaponSkill 0,
+  attributes 5, a crude weapon (`weaponBase ≈ 3`). The **humbling first fight** (a wolf, §2.8/§2.9) is tuned
+  so a fresh MC wins only **~20–35%** of the time **(LOCKED by human 2026-06-25, canon §I-bal —
+  "humbling-but-winnable; drives the player to train")** — survivable by luck/stubbornness, never skill; it is
+  meant to be *barely* survived, then motivate training. After ~a season of drills (weaponSkill ~5, attrs ~10,
+  a smith-forged blade), win-rate against that same wolf is **~85%+**. **No labour conditioning bonus enters
+  any of these numbers** — conditioning is a one-way *enablement gate* only (canon §E, §1.13). Note: under the
+  longer saga, "~a season of drills" is now ~30–40 min of real R3 play (the per-rank floor) — the climb from
+  ~25 % to ~85 % is felt as *earned over real time*, exactly the locked intent.
+- **Soft setback on loss** **(LOCKED by human 2026-06-25 "as proposed", canon §I-bal)**: a lost fight → MC
+  drops to **1 HP** (not death), advances **~½ a day** of clock (the recovery), takes a **random light injury**
+  (`InjuryState`, heals in ~**1–2 days** of rest, a small `−10%` to one stat meanwhile), and **may drop
+  carried loot** (a seeded roll, **never equipped gear, never levels, never Influence** — the only Influence
+  movement on a loss is a *scripted* Arms dent if the lost fight was a defence-deed, §4.2.4). **Never** a
+  level/gear/permanent loss (canon §E). The **severity SHAPE** (1 HP + ~½-day + light injury + *possible*
+  carried-loot drop, never permanent progress) is **LOCKED**; the exact magnitudes below remain levers.
+  **Levers (magnitudes only):** the drop-loot chance, injury severity/duration, the ½-day clock cost. The
+  **first-fight win-rate target (20–35%)** and the **soft-setback shape** are **LOCKED, not levers.**
+
+---
+
+## §4.7 Producer / cost curves (gathering yields, crafting, T3+ auto-producers)
+
+**Shape (canon §G — fixed).** **Auto-producers are LATE-GAME (T3+) ONLY** (§2.5); v1's T0–T2 is the MC's own
+**active grind** — so for v1 the load-bearing curves are **gathering yields**, **crafting costs/quality**, and
+**building/upgrade costs**. The genre-standard `cost = base · r^owned` is used **only** for the late-game
+auto-producers and for repeatable upgrades, **never** to fake an early idle layer.
+
+### §4.7.1 Gathering / labour yields (active)
+
+```
+yieldPerAction = baseYield · (1 + 0.04·skillLevel) · toolMult · seasonMult · (soft-stamina rate)
+ticksPerAction = baseTicks · (1 − 0.003·SPD)   (floored at 1)
+```
+
+*(proposed v1 base yields, koku/material per action — UNCHANGED in magnitude from the first pass; the longer
+saga is paid in TIME at the per-rank floor, not in shrunk yields)*:
+
+| Node | baseYield | baseTicks | toolMult range | season gate |
+|---|---|---|---|---|
+| Rake/farm rice (paddy) | 2 koku | 3 | 1.0 → 2.5 (sickle→fine tools) | grows spring/summer, **harvest autumn** |
+| Forage *sansai* | 1 greens | 2 | 1.0 → 1.8 | spring/summer windows |
+| Woodcut | 2 wood | 3 | 1.0 → 2.2 | year-round |
+| Fish (ford) | 1 fish | 2 | 1.0 → 2.0 | year-round, peak autumn |
+| Sericulture (silk, T1+) | 1 cocoon | 4 | 1.0 → 3.0 | **summer** (mulberry) |
+
+**Throughput tie-out (how these yields produce the §4.8 pacing).** A T0 rice action runs
+`2·(1+0.04·skill)·toolMult` koku. At **R1** (skill ~1, crude tools 1.0) that's **~2.1 koku/action**; at
+**R7** (skill ~12, fine tools 2.0) it's **~5.9 koku/action**. At the intended active pace, the *net
+koku-equivalent throughput* (after stamina, food, and re-investment) rises across T0's rungs roughly:
+**R1 ~25 → R2 ~35 → R3 ~40 → R4 ~60 → R5 ~80 → R6 ~110 → R7 ~150 koku/min** (combat rungs trade some labour
+minutes for loot value; crafting/cash-crop rungs add value per action). Multiplying each by its rung's
+wall-clock minutes (§4.8) gives **lifetime-produced koku over T0 ≈ 21K** (held ≈ 3–5K after spend) — which is
+the §4.0 T0 band, and which clears the E1/E2 building costs (§4.7.5) on schedule. **This throughput table is
+the bridge between the yields here and the rank-time table in §4.8; retune the `0.04·skillLevel` slope and
+tool multipliers, never the per-rank time floor, to fix pacing drift.**
+
+**Seasonal headline:** the autumn rice harvest is a **`×3` season multiplier** on paddy yield (drives the
+Estate judged-result high-water mark, §4.2.2 — the autumn appraisal is the one most likely to set a fresh
+mark). **Levers:** every baseYield/baseTicks, the `0.04·skillLevel` and `0.003·SPD` coefficients, tool
+multipliers, season multipliers, the autumn `×3`, and the **per-rung net-throughput assumptions** (§4.8).
+
+### §4.7.2 Crafting cost & quality (hybrid: simple → component)
+
+- **Simple recipes (early):** flat `inputs → output`; cost a fixed small material bundle; success ~100%.
+- **Component recipes (T1+):** `outputQualityTier = floor( (crafterSkill·0.4 + avgComponentQuality·0.4 +
+  stationTier·0.2) / QUALITY_DIVISOR )`, `QUALITY_DIVISOR = 10` → quality tiers **0–5** (crude → masterwork).
+  Each quality tier multiplies the item's stat/value by **`1.25^tier`**. Disassembly returns **~60%** of
+  materials. **Levers:** the 0.4/0.4/0.2 quality weights, `QUALITY_DIVISOR`, the `1.25^tier` value step, the
+  60% disassembly return. *(Crafting magnitudes are unchanged by the rebalance — the value-add they provide is
+  already folded into the rising per-rung throughput in §4.7.1/§4.8.)*
+
+### §4.7.3 Loot tables (seeded)
+
+A mob/node drops on a weighted table; **rarity tiers common/uncommon/rare/fine** with default weights
+**70 / 22 / 6 / 2** (rare/fine weight scaled by `+0.5%·LUCK`). **Levers:** the rarity weights and the LUCK
+coefficient.
+
+### §4.7.4 Auto-producers (T3+ ONLY — parked, scaffold only)
+
+```
+cost(n)  = producerBase · PRODUCER_GROWTH^owned          (PRODUCER_GROWTH = 1.5, ~5× per few buys)
+output   = producerBaseRate · (1 + 0.1·tier)              (per active tick — NO offline accrual, canon §H)
+```
+
+Gated on **Influence band + a LOW rank floor + cost** (NOT the capstone — §1.5.1 estate-growth rule), bound to
+a `RosterMember` (a face, not a slider; §2.5). **All values parked until T3 is authored**; only the
+**shape/`PRODUCER_GROWTH` scaffold** is fixed here.
+
+### §4.7.5 Building / upgrade costs (estate stages E0→E2, v1)
+
+Estate physical stages gate on **Estate & Wealth (+ Arms for defensive works) + a LOW rank floor + cost**
+(§1.5.1 — never the capstone). *(proposed)*:
+
+| Stage | Gate (pillar floor + rank) | koku cost | material cost |
+|---|---|---|---|
+| **E0 Foreclosure's Edge** | start | — | — |
+| **E1 Stabilising** (kura patched, first *shinden*, drill yard, night-watch) | Estate ≥ 0.3K, rank ≥ R4 | 400 koku | 30 wood |
+| **E2 Recovering** (granary, 2 workshops, low palisade, men-at-arms rota) | Estate ≥ 1K + Arms ≥ 0.4K, rank ≥ R6 | 2K koku | 120 wood, 40 stone |
+
+**Affordability tie-out (vs the §4.7.1/§4.8 throughput).** E1's **400 koku** falls due around **R4**, by which
+point lifetime-produced koku ≈ **5.1K** — comfortably affordable while leaving headroom for food/tools/crafting
+spend (the held balance is what's tight, by design). E2's **2K koku** falls due around **R6**, by which point
+lifetime-produced koku ≈ **13.3K**. Both costs are thus **paced to be reached, not trivially pre-bought** — and
+their **rank floors (R4/R6) plus Estate/Arms pillar floors** keep building gated on standing, never the
+capstone (§1.5.1). E3–E5 parked (§1.5.2). **Levers:** every cost & pillar/rank floor above (all *proposed*).
+
+---
+
+## §4.8 PACING targets — the LOCKED time budget + the rank-by-rank pacing table
+
+These are the **playtest acceptance criteria** the numbers above are derived *backward from*; they are
+headlessly regression-tested via the DEV play API (§6.10) so a retune that breaks pacing fails CI. Canon hard
+rules: **first action < 5 s**, **the next goal never balloons > ~2–3× the prior** (within a tier; canon §G,
+§1.2), and — **NEW, LOCKED by human 2026-06-25 (canon §I-bal)** — **every single rank takes ≥ ~30 min**, and
+the **per-tier budgets are T0 ≈ 4.5 h · T1 ≈ 8 h · T2 ≈ 16 h** ("more grind, more numbers, a slower release of
+incremental features"). **v1 total (T0–T2) ≈ 28.5 h** (the canon "≈32 h" figure includes the T3-stub
+runway/free-play tail past the T2→T3 gate).
+
+### §4.8.0 Headline beats
+
+| Beat | Target | Lock status | How measured |
+|---|---|---|---|
+| **First action available** | **< 5 s** from load (rake spilled rice in the kura) | canon | time-to-first-interactable |
+| **First meaningful reveal** | **< 30 s** (rice counter ticks → Skills tab fades in) | proposed | first `unlock` event |
+| **Per-rank minimum** | **≥ ~30 min per rung** (no rung advances faster) | **LOCKED 2026-06-25** | per-rung tick-count floor |
+| **Humbling first fight (R3)** | **~60–75 min** in (start of R3) | proposed | tick-count to the wolf encounter |
+| **Time-to-T1** (sent to village) | **≈ 4.5 h** active play | **LOCKED (T0 budget)** | tick-count to T0→T1 gate |
+| **Time-to-T2** (region opens) | **≈ 12.5 h** cumulative (4.5 + 8) | **LOCKED (T1 budget)** | tick-count to T1→T2 gate |
+| **v1 completion** (T2→T3 gate / stub) | **≈ 28.5 h** cumulative (4.5 + 8 + 16) | **LOCKED (T2 budget)** | tick-count to T2→T3 gate |
+| **Goal-to-goal step ratio** | **≤ 2–3×** between consecutive within-tier goals | canon | max ratio of consecutive costs |
+| **Tier-to-tier step** | **~10×** (Arms/Estate) — a chapter, not a wall; Office steepens | proposed | band-top ratio across tiers |
+| **Side-faction speedup** | village+origin weaving **shaves** time-to-next-tier (felt, never required) | proposed | with/without multipliers |
+
+> The old draft's "leave T0 in ~45–75 min; v1 ~12–20 h" row is **deleted** — superseded by the locked
+> longer budget above.
+
+### §4.8.1 ⭐ T0 rank-by-rank pacing table (the centrepiece — all 8 rungs, full resolution)
+
+This is the table the rest of §4 is tuned to satisfy. **Each rung's expected wall-clock ≥ ~30 min (R0 aside,
+the cold-open story rung)**, escalating toward the capstone, **summing to ≈4.5 h**. "Gating cost" is in the
+units defined above: **koku** (lifetime-produced, the labour/economy currency), **deed-count → ip** (the
+pillar-accrual units, §4.2.1), and the **rank-meter** (Estate Service / Combat Standing crossings, §3 / §2.15).
+"Throughput" is the net koku-equivalent/min from §4.7.1. *(Times & costs: proposed; the ≥30-min floor and the
+4.5-h sum: **LOCKED**.)*
+
+| Rung (what it gates — from §3) | Gating cost to LEAVE it | Throughput assumption | ⏱ wall-clock |
+|---|---|---|---|
+| **R0 Stray** — cold open done; bare estate dashboard | *(story only — the cold open §3.1)*; ~0 koku, 0 deeds | n/a (tutorial) | **~5 min** |
+| **R1 Day-labourer** — paddies, basic labour loop, world-clock | ~750 koku produced; **~3 Estate deeds** (first yields); Estate Service x1 | ~25 koku/min | **~30 min** *(floor)* |
+| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, near satoyama | ~1.05K koku; **~4 Estate deeds**; 1 season appraisal passed; Estate Service x2 | ~35 koku/min | **~30 min** *(floor)* |
+| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary | survive the wolf (20–35% win); **~4 deeds (mixed)**; weaponSkill→~3; Combat Standing x1 | ~40 koku/min | **~30 min** *(floor)* |
+| **R4 Trusted hand** — Main House, domestic economy, **first *shinden*** (E1), **simple Crafting + loot→craft loop** | **400 koku** (build E1); **first *shinden* deed (30 ip)** + ~4 Estate deeds; Estate ≥ 0.3K; Estate Service x3 | ~60 koku/min | **~35 min** |
+| **R5 Gate-guard** — Quest log + 4 quest types (**Arms deeds BEGIN accruing**) | **first DEFEND deed (20 ip)** + ~6 Arms deeds (Arms→~0.25K); ~5 Estate deeds; Combat Standing x2 | ~80 koku/min | **~40 min** |
+| **R6 Foreman of works** — Workshops/Granary (E2), proto-industry, **FIRST combat-earned Arms standing RECORDED**, **village tier seed** | **2K koku** (build E2); Estate ≥ 1K + Arms ≥ 0.4K; ~6 Estate + ~5 Arms deeds; Estate Service x4 | ~110 koku/min | **~45 min** |
+| **R7 Bailiff** *(capstone → T1)* — lord's study, **four-bar Influence panel**, T0→T1 gate | **Arms ≥ 0.5K · Estate ≥ 0.8K** (the §4.1 gate); the autumn-harvest seasonal top-up; Estate Service x5 + PILLAR | ~150 koku/min | **~55 min** |
+
+**Totals & checks (T0):** wall-clock **5 + 30 + 30 + 30 + 35 + 40 + 45 + 55 = 270 min = 4.5 h** ✔ (every grind
+rung ≥ 30 min ✔; escalating ✔). Lifetime koku produced ≈ **0.75K + 1.05K + 1.2K + 2.1K + 3.2K + 4.95K + 8.25K
+= 21.5K ≈ ~21K** ✔ (the **same round figure** as the §4.0 T0 band; clears E1@R4 and E2@R6 ✔). Deeds across T0 =
+**30 Estate + 30 Arms = ~56–60 total recognised deeds, one act every ~4.5–5 min (≈9–10 min per individual
+pillar)** ✔ (the locked "many small deeds" texture). Pillars at the R7 gate: **Estate = 0.8K (70 % = 560 ip
+from 30 deeds + 30 % = 240 ip from 8 seasonal hits)**, **Arms = 0.5K (70 % = 350 deed-ip from 30 deeds + 30 % =
+150 seasonal-ip)** ✔ (the locked 70/30 split — itemizations in §4.2.1, seasonal tie-out in §4.2.2). Consecutive
+within-rung *cost* ratios stay ≤ ~2× (750→1.05K→1.2K→2.1K…), honouring the ≤2–3× rule ✔.
+
+> **R0 floor carve-out — flag for human confirmation.** The ≥30-min per-rank floor (canon §I-bal) applies to
+> the **7 grind rungs R1–R7**; **R0 is the exempt ~5-min cold-open story rung** (the *kura* cold open §3.1 — a
+> scripted beat, not a grind rung). So T0's **4.5 h** comes from *floor + escalation across R1–R7*, **not** a
+> literal "8 rungs × 30 min" reading of canon. This is a deliberate carve-out from canon's literal "8 rungs"
+> phrasing — **flag for human confirmation** (if the human wants R0 also ≥30 min, the T0 budget rises to ~4.9 h
+> and the escalation must be re-cut to hold 4.5 h).
+
+### §4.8.2 T1 rank-by-rank pacing (lower resolution — targets ≈8 h, avg ~1 h/rung)
+
+T1 spends its longer budget on **wider** content (market, coin, component crafting, silk *meibutsu*, rumours
+board, valley-scale combat) at **~60 min/season** wall-clock. Throughput rises ~10× over T0 (koku into the
+tens-of-thousands). Office becomes a *required* gate. Each rung ≥ ~40 min; capstone longest.
+
+| Rung (§3.4) | Gating cost to leave it (summary) | ⏱ wall-clock |
+|---|---|---|
+| **V0 Errand-runner** — market/coin opens (one shop first) | first valley errands; coin row lit; ~few K koku | **~40 min** |
+| **V1 Recognised hand** — chief's house, inn & rumours board | shop+headman standing; Estate Service | **~55 min** |
+| **V2 Road-warden** — HUNT/CLEAR at valley scale; ford safe | road-safe Arms deed (150 ip) + valley clears; Combat Standing | **~60 min** |
+| **V3 Granary/cash-crop steward** — silk *meibutsu* + component crafting | recorded seasonal result; trade strand opens (≤⅓-capped); Estate Service | **~65 min** |
+| **V4 Trusted of the headman** — **Office bar lights** (first Office jump) | first Office deeds (Magobei's skim); Office→toward 2K | **~70 min** |
+| **V5 Sworn man-at-arms** — paid retinue (flavour), DEFEND quests | valley DEFEND deeds (200 ip); Combat Standing; Arms→toward 5K | **~70 min** |
+| **V6 Right-hand-in-waiting** — authority across the valley; region seed | alliance/standing levers; Estate Service + STORY | **~55 min** |
+| **V7 Agent of the house** *(capstone → T2)* — "clean your room"; region opens | **Arms ≥ 5K · Estate ≥ 8K · Office ≥ 2K** (§4.1 gate); RANK+PILLAR | **~65 min** |
+
+**Totals & checks (T1):** **40+55+60+65+70+70+55+65 = 480 min = 8.0 h** ✔. Deeds supply **70 %** of each gate
+(§4.2.1 itemizations): **Estate 5,600 ip (35 deeds) · Arms 3,500 (35) · Office 1,400 (20)**, ~20–35
+deeds/required-pillar over the tier ✔. Per-deed cap = 0.04 · T1 band-top (Estate 8K → ≤320; Arms 5K → ≤200;
+**Office 2K → ≤80**) — every T1 base sits ≤ its cap (Office bases retuned to 60 / 80 to fit the 80 cap) ✔.
+Seasonal supplies the residual **30 %** (Estate 2,400 · Arms 1,500 · Office 600; §4.2.2 tie-out) ✔. Tier step
+Arms/Estate ≈10×; **Office 2K is a fresh required gate** (it was 0 at T0). Season ≈ 60 min ⇒ ~8 seasons over T1.
+
+### §4.8.3 T2 rank-by-rank pacing (lower resolution — targets ≈16 h, avg ~2 h/rung)
+
+T2 is the longest, widest tier: region map, *sekisho* travel, region-scale human mobs, the Origin faction +
+both personal payoffs, Kuzuhara river-works, the rival houses. **~120 min/season** wall-clock. Required
+pillars drift to **Estate + Office** (Arms secures roads). Each rung ≥ ~75 min; capstone among the longest.
+
+| Rung (§3.6) | Gating cost to leave it (summary) | ⏱ wall-clock |
+|---|---|---|
+| **G0 Valley-envoy** — trade backbone opens minimally; first Origin contact | first off-the-books consignment; ~100K-scale koku | **~75 min** |
+| **G1 Road-captain** — *sekisho* layer; region-scale combat (ronin/bandits) | secure cluster roads; first pass obtained; Combat Standing | **~110 min** |
+| **G2 Broker of the post-town** *(Origin OPENS)* — Sawatari-juku, toiya | STORY(dream)+PILLAR(travel-standing); Office deeds → toward 50K | **~120 min** |
+| **G3 Arbiter between valleys** — Hibara + Tōge-mura (capped at 2) | out-supply/arbitrate; Estate Service; Estate → toward 60K | **~130 min** |
+| **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | multi-stage *seki* project; big Estate deeds; resettlement | **~140 min** |
+| **G5 Captain of the road-detail** — brigand roost; Hanzaki (survived) | secure the trade pass; Arms deeds (700 ip–1.2K, at cap); Combat Standing | **~140 min** |
+| **G6 Alliance-broker** *(threads RESOLVE)* — Otsuru + Tahei's name | Office rising; STORY+PILLAR; alliance Office/Name deeds | **~120 min** |
+| **G7 Leading house of the region** *(capstone → T3 stub)* — rivals eclipsed | **Estate ≥ 60K · Office ≥ 50K · Arms ≥ 30K** (§4.1 v1 end-gate); RANK+PILLAR | **~125 min** |
+
+**Totals & checks (T2):** **75+110+120+130+140+140+120+125 = 960 min = 16.0 h** ✔. Deeds supply **70 %** of
+each gate (§4.2.1 itemizations): **Estate 42,000 ip (31 deeds) · Arms 21,000 (20) · Office 35,000 (21)**,
+~20–35 deeds/required-pillar ✔. Per-deed cap = 0.04 · band-top (Estate 60K → ≤2.4K; **Arms 30K → ≤1.2K**;
+Office 50K → ≤2K) — every T2 base sits ≤ its cap (Arms road/defend retuned to 1.2K, Office allied to 2K, each
+at-cap by design) ✔. Seasonal supplies the residual **30 %** (Estate 18,000 · Arms 9,000 · Office 15,000;
+§4.2.2 tie-out) ✔. Tier step Arms 5K→30K (6×), Estate 8K→60K (7.5×), Office 2K→50K (25× — the locked "win it
+socially" steepening, §4.0/§4.1). Season ≈ 120 min ⇒ ~8 seasons over T2.
+
+### §4.8.4 The v1 budget at a glance
+
+| Tier | rungs | per-rung avg | season wall-clock | tier wall-clock | lock |
+|---|---|---|---|---|---|
+| **T0 Estate** | R0–R7 (8) | ~34 min (grind rungs ≥30) | ~34 min | **≈ 4.5 h** | LOCKED budget |
+| **T1 Village** | V0–V7 (8) | ~60 min | ~60 min | **≈ 8 h** | LOCKED budget |
+| **T2 Region** | G0–G7 (8) | ~120 min | ~120 min | **≈ 16 h** | LOCKED budget |
+| **v1 total (T0–T2)** | 24 | — | — | **≈ 28.5 h** | LOCKED budget |
+
+**The two single most important invariants now:** (1) **every rung ≥ ~30 min** (LOCKED) — enforced as a CI
+pacing floor: if a headless playthrough clears any rung in < ~28 min the pacing test fails; and (2) the
+**goal-to-goal ratio ≤ 2–3×** *within* a tier (canon) — the 1.15× intra-tier growth keeps consecutive costs
+gentle, while the ~10× tier step is the deliberate chapter break. **Levers:** all per-rung *times/costs* are
+tunable *proposed* numbers, but the **<5 s first action**, the **≤2–3× never-balloon rule**, the **≥30-min
+per-rank floor**, and the **4.5/8/16-h tier budgets** are constraints the tuning must always satisfy (the last
+two LOCKED by human 2026-06-25).
+
+---
+
+## §4.9 Levers index (the tuning dashboard) & open questions
+
+**Master dials:** `TIER_MAG = 10`, `r_intra = 1.15`, `SEASON_WALLCLOCK_MIN[tier]` (T0≈34 / T1≈60 / T2≈120).
+**Accrual:** **`PER_EVENT_CAP_FRACTION = 0.04`** *(halved from 0.08; the "smaller than 0.08" direction is
+LOCKED 2026-06-25)*, the **deeds/seasonal split ≈ 70/30** *(the deeds-dominate direction is LOCKED; the exact
+70/30 is the proposed realisation)*, the **deed-base table** (§4.2.1, every base ≤ its 0.04·band-top cap),
+**`SEASONAL_SHARE = 0.30`** *(the single dial that sets the whole seasonal stream; realises the locked 30 %
+seasonal share — replaces the old scalar `JUDGE_K` quartet)*, the derived **`JUDGE_K[pillar][tier] =
+SEASONAL_SHARE · gate`** table *(T0 Arms 150 / Estate 240 · T1 Arms 1,500 / Estate 2,400 / Office 600 / Name
+3,000 · T2 Arms 9,000 / Estate 18,000 / Office 15,000 / Name 24,000)*, the **`TIER_REF[pillar][tier]`**
+seasonal-basis normalizers *(make each `f_pillar` O(1) at band-top — Estate koku ref, Arms secured-danger ref,
+Office standing ref)*, **`TIER_REF_NAME[tier] = armsGate + estateGate + officeGate`** *(the explicit Name
+normalizer — REPLACES the retired `JUDGE_NAME_BLEND` magic scaler; the F4 double-scale is resolved)*, the
+**autumn-basis bump** (~12 %), `f_pillar` exponents (0.5), `DENT_FRACTION = 0.10`. **Gating:** the 5 threshold
+rows (§4.1) **+ the per-tier hour budgets (LOCKED) the gates must take to fill**. **Skills:** `XP_BASE = 50`, `XP_GROWTH = 1.18`,
+`PER_EVENT_XP_CAP_FRACTION = 0.25`, visibility 30, per-tier soft caps, milestone levels/perks; **no-respec
+(LOCKED, not a lever)**. **Attributes:** all coefficients (§4.4), start = 5, +1 pt / 2 levels; **no-respec
+(LOCKED, not a lever)**. **Combat:** `baseSpeed`, SPD coeff 0.005, `DAMAGE_FLOOR = max(1, 0.10·atk)`,
+`CRIT_MULT = 1.5`, `BLOCK_REDUCTION = 0.5`, `COMBAT_XP_K = 12`; **first-fight win-rate 20–35% (LOCKED, not a
+lever)**; soft-setback *magnitudes* (lever) but its *shape* (LOCKED). **Pacing:** all per-rung times/costs in
+§4.8 (proposed) under the **≥30-min floor + 4.5/8/16-h budgets (LOCKED)**. **Producers/costs:** gather base
+yields/ticks + per-rung net throughput (§4.7.1/§4.8), autumn `×3`, crafting quality weights +
+`QUALITY_DIVISOR = 10` + `1.25^tier`, loot rarity 70/22/6/2, `PRODUCER_GROWTH = 1.5` (T3+), E1/E2 costs.
+
+**LOCKED by human 2026-06-25 (§I-bal — shape fixed, not free to invert; only the magnitudes that realise
+them are tunable):** saga length / per-tier hour budget (T0 ≈ 4.5 h · T1 ≈ 8 h · T2 ≈ 16 h · v1 ≈ 28.5 h) ·
+the **≥30-min per-rank floor** · **first-fight win-rate 20–35 %** · **soft-setback severity shape** (1 HP +
+~½-day + light injury + possible carried-loot drop; never levels/gear/Influence) · **deeds-dominate accrual
+split (~70 % deeds / ~30 % seasonal)** · **deed-jump size smaller than the old 0.08 cap** · **no respec in
+v1** (attributes & skill-milestone choices committed).
+
+**HARD INVARIANTS (canon — NOT levers):** trade ≤⅓ of Estate & Wealth; simple per-tier thresholds with **no
+floor/overflow**; accrual = jumps + seasonal-judged-on-high-water-mark only (no time-trickle, no flat
+per-action); up-only with minor recoverable per-pillar dents (never a wipe, never touches highWater); no
+labour→combat cross-feed; auto-producers T3+ only & active-only (no offline); combat first-class & EARLY (T0);
+mediocre-start (start near-zero, grind-only); K/M/B display; macron romanization.
+
+**RESOLVED — now LOCKED (no longer open; moved to the levers index above as "LOCKED by human 2026-06-25"):**
+saga length / per-tier hour budget (§I-bal) · first-fight harshness 20–35 % · seasonal-vs-jump split
+(deeds dominate ~70/30) · soft-setback severity · no-respec-in-v1. **Do not re-open these.**
+
+**Open questions for the human (still genuinely open — do not self-resolve):**
+1. **Exact deeds/seasonal ratio inside the locked "deeds dominate" band.** We implement **70/30** (within the
+   locked ⅔–¾ deeds / ¼–⅓ seasonal band). Is 70/30 the sweet spot, or push further to ~75/25 (even grindier,
+   the appraisal almost ceremonial) or ease to ~65/35 (the seasonal headline carries a bit more weight)?
+2. **Exact per-event cap value within "smaller than 0.08."** We chose **0.04** (half the old cap). Is 0.04 the
+   right "many small acts" granularity, or go to **0.03** (≈40 deeds/pillar/tier — even more granular) or
+   **0.05** (slightly punchier individual deeds)? The *direction* is locked; the exact value is not.
+3. **Per-rung escalation shape inside a tier.** T0 escalates 30/30/30/35/40/45/55 across its grind rungs. Is
+   front-loaded-floor-then-ramp right, or should the *capstone* rung be much longer (a held-breath finale,
+   e.g. R7 ~75 min) at the cost of shorter mid-rungs? (All must stay ≥30 min and sum to ~4.5 h.)
+4. **Wall-clock-per-season binding.** We bind T0≈34 / T1≈60 / T2≈120 min/season so each tier spans ~8 seasons.
+   Is "~8 seasons per tier (≈2 in-game years)" the right *narrative* density, or fewer/longer seasons (so the
+   autumn headline lands less often but heavier)?
+5. **Tier-step magnitude for the Office pillar.** Arms/Estate keep ~10× per tier, but Office deliberately steps
+   ~25× (2K→50K) at T1→T2 to express "win it socially." Is that steepening the right *feel*, or should Office
+   ramp more gently (a lower T2 Office gate) so the social pivot is less of a wall?
+6. **Side-faction speedup magnitude.** Village/origin multipliers (§4.3) should *shave* time-to-next-tier
+   without making the spine feel required. How much shave is "felt but optional" under the longer budget —
+   ~10 %? ~20 %? (The old "≈halves" target is likely too strong now that tiers are 4–16 h.)
+
 
 ---
 
@@ -1739,11 +2912,12 @@ dominant.
    **Naoyuki's** grudging vouching via authored trust beats (return a mislaid ledger; help hold the grain
    store). **[THREAD: Tama]** the estate flatly disbelieves he is "Tama" — to them he is simply a farmhand —
    establishing the allegiance tension from the estate side.
-7. **The first standing watch (first combat-earned standing).** Stand a real gate-watch; clear the first
-   pest/animal threats. This produces the **first combat-earned Arms standing** — "the gate held, and the books
-   say so" — the load-bearing proof that combat earns recognition (canon §E).
+7. **The first standing watch.** Stand a real gate-watch; clear the first pest/animal threats. Your **Arms
+   deeds begin to accrue** — combat starts earning the house recognition (canon §E). The standing itself is
+   formally **recorded at the foreman step** (beat 8 / R6: "the gate held, and the books say so").
 8. **Basic repairs & the first *shinden* (the gate).** Drive the kura repair and begin the first *shinden*
-   reclamation to a recorded result; the house edges off the foreclosure cliff. Genemon, grudging, entrusts him
+   reclamation to a recorded result; the house edges off the foreclosure cliff; the **first combat-earned Arms
+   standing is now recorded** ("the gate held, and the books say so"). Genemon, grudging, entrusts him
    with **errands beyond the estate** — the village tier opens. The four-bar House Influence panel becomes
    visible at the capstone. **Gate met.**
 
@@ -2848,4 +4022,422 @@ at integration.
 
 # §7 — Milestone Roadmap, v1 Scope & Deployment
 
-_Not yet authored._
+> **DRAFT — awaiting human review.** Authored end-to-end from the LOCKED CANON
+> ([`../../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md),
+> incl. its **§I v1 scope** and the human-signed **§I-bal §4 BALANCE LOCKS**) and the drafted PRD
+> §§1–6 (esp. §1 vision/pillars/factions/endgame, §2 systems catalog, §3 the unlock ladder, §4 the
+> balance model, §5 the narrative, §6 the tech architecture). This is the **last PRD section** and the
+> one that, once approved, unlocks code (§ "How to read this document": *no code is written until §7 is
+> approved*). It commits the **definitive v1 scope**, an ordered **milestone roadmap** of verifiable
+> vertical slices, the **deployment** path to itch.io, and a **risk register + minimum-shippable
+> fallback**. It references other sections by number and **defers all numbers to §4**; here we fix the
+> *build order*, the *cut-set*, and the *release gate*, never the magnitudes.
+>
+> **Canon honoured throughout:** pure-core / deterministic / **single seeded RNG** (§6.2, §6.7);
+> **active-only v1 — NO idle/offline layer** (auto-producers T3+ only, §4.7.4); **no
+> people-management sim** (building/recruiting are flavour wired to the reveal bus, §1.5.1); **combat
+> first-class & EARLY, combat EARNS Arms** (§1.2 pillar 4, §4.6); **no magic / grounded** (§1.2
+> pillar 7); **K/M/B** number display + **macron** romanization (§6.9, §6.6); **no reset, ever**
+> (§1.2 pillar 1). Locked pacing shape (saga ≈ 28.5 h; T0 ≈ 4.5 h / T1 ≈ 8 h / T2 ≈ 16 h; ≥30-min
+> per-rank floor) is **LOCKED by human 2026-06-25** (canon §I-bal) and treated as a release acceptance
+> criterion, not a lever.
+
+## 7.0 How to read this section
+
+§7 turns the design (§§1–6) into a **build plan**. It has four parts:
+
+1. **§7.1 v1 scope (definitive)** — exactly what ships, the lean cut-set, the locked pacing target, and an
+   explicit PARKED/CUT list (so "what's *not* in v1" is as legible as what is).
+2. **§7.2 Milestone roadmap (M0…M7)** — the build order as a sequence of **vertical slices**, each
+   leaving the build working, `npm run verify` green, and a crisp **definition-of-done**. Sequenced to the
+   §3 reveal ladder and the §6 architecture.
+3. **§7.3 Deployment** — the static itch.io build, the export/import save path, the `npm run verify`
+   release gate, and a brief "how to ship."
+4. **§7.4 Risk register + cut-down ladder** — the top risks and the **minimum shippable** fallback if time
+   is short.
+
+**The cardinal build rule (from CLAUDE.md + §6):** every milestone is a *vertical slice* — it touches
+core + content + renderer + tests together and **leaves `npm run verify` green and the game playable** to
+its current frontier. We never build a horizontal layer (e.g. "all of combat") in isolation; we build the
+**next playable beat** end-to-end. This is the agentic working cadence (*pick → build → verify → commit →
+journal → repeat*) made into a roadmap.
+
+---
+
+## 7.1 v1 scope (definitive)
+
+### 7.1.1 What v1 IS
+
+**v1 = Tiers 0–2 complete** (canon §I): the **Estate** (T0), the **Village** of Asagiri (T1), and the
+**Region** (T2) **including the T2 personal-mystery payoff** (the lost-child **Otsuru** resolution and the
+**Origin** reunions incl. father **Jinpachi** — §3.6 G6, §5 T2). **T3 Castle-town ships only as a STUB
+cliff-hanger** (the §3.7.1 first-contact screen at the G7 capstone — "the page turns onto stone walls, and
+the story pauses"); **T4 Edo is roadmap only** (sketched in §3.7.2, not built).
+
+**The lean cut-set (canon §I; §1.2 pillar 3) — what "complete" means per tier:**
+
+| Dimension | v1 cut-set | Source |
+|---|---|---|
+| **Rank ladders** | a **fresh ~8-rung ladder per tier** × 3 tiers: T0 `R0–R7`, T1 `V0–V7`, T2 `G0–G7` (24 rungs total) | §3.2 / §3.4 / §3.6 |
+| **Bestiary** | **~5 grounded mobs** core (boar, wolf, monkey, bandit, ronin/smuggler) — NO belief-creatures in spawn tables | §4.6, §6.5 `enemies.ts`, canon §E |
+| **Quest types** | the **4 types**: PEST-CONTROL · HUNT · CLEAR · DEFEND (DEFEND is the Arms earner) | §3.2 R5, canon §I |
+| **World** | **full walkable maps T0–T2** within a **~6–8-node-per-tier** cut-set (canon: full maps every tier, not abstract boards) | §1.7, §3, canon §I |
+| **Skills (LOCKED v1 set)** | **farming · foraging · woodcutting · fishing · smithing · cooking** + **conditioning** + **2–3 weapon lines** | §1.5.1, §4.5, canon §G |
+| **Estate stages** | **E0 → E1 → E2** (Foreclosure's Edge → Stabilising → Recovering); E3–E5 parked | §1.5.1, §4.7.5 |
+| **House Influence** | the **four pillars** (Arms / Estate & Wealth [trade ≤⅓] / Standing & Office / Name & Honour), the four-bar panel, achievement-jump + seasonal-judged accrual, simple per-tier required-pillar thresholds | §1.6, §4.1–§4.2 |
+| **Crafting** | **hybrid**: simple recipes from T0-R4; the component/quality system from T1-V3 | §4.7.2, §3.4 |
+| **Save** | IndexedDB single autosave + base64 export/import; versioned minimal-state | §6.8 |
+
+### 7.1.2 The locked pacing target (acceptance criterion, not a lever)
+
+Per canon **§I-bal** (human-signed) and §4.8: **v1 total ≈ 28.5 h** of active play —
+**T0 ≈ 4.5 h · T1 ≈ 8 h · T2 ≈ 16 h** — with a **≥ ~30-min-per-rank floor** (no single rung advances
+faster). (The canon "≈ 32 h" figure includes the post-T2 stub runway / free-play tail; the *built*
+content sums to ≈ 28.5 h — §4.8.4.) This is **LOCKED**: the **M6 balance pass** (§7.2) treats the
+per-tier hour budgets and the ≥30-min floor as **CI-enforced acceptance criteria** (a headless
+playthrough that clears any rung in < ~28 min, or misses a tier budget, **fails the pacing test** —
+§4.8.4, §6.10). Tuning retunes *yields*, never these targets.
+
+### 7.1.3 PARKED / CUT for v1 (designed, not deleted — "park, don't delete")
+
+Per the lean discipline (§1.2 pillar 3, §1.7.1). **Parked = reintroduce later, deliberately**; nothing
+here is a design hedge — the *shape* is decided, only the *authoring* is deferred.
+
+| Parked item | Where it returns | Source |
+|---|---|---|
+| **Estate stages E3–E5** (fortified seat → restored-and-surpassed) | T3+ | §1.5.1 |
+| **The Matagi hunters, the Pilgrimage Order, the Scholars-&-Physicians *network*** (keep Ranpo / Obaa Sato as seeds only) | T3+ | §1.7.1 |
+| **Auto-producers** (any idle/seconded-helper layer) — **v1 is active-only, no idle layer** | T3-C1 first; scaffold only in v1 | §4.7.4, canon §G/§H |
+| **The marriage / adoption status lever** (a real T3/T4 alliance lever; numbers deferred) | T3-C5 | §1.7.1, §4.3 |
+| **Deeper upper-tier world nodes** (the *Daikan's* office, the Edo *yashiki* / rusui conduit, the full finance network, the High Mountains & Pass) | T3 / T4 | §1.7.1 |
+| **The national *mitate* / parody-*banzuke*** (the Edo finale presentation) | T4-E7 | §3.7.2 |
+| **No respec** (attributes & skill-milestone choices committed — explicitly out of v1) | post-v1, reconsider | §4.4, §4.5, canon §I-bal |
+
+> **Hard guardrails that v1 must NOT violate** (canon, machine-checked by the content verifier §6.6 — see
+> M6): no belief-creature in any spawn table; trade ≤⅓ of Estate & Wealth; ≤1 residual-ambiguity token;
+> no labour→combat training-rate cross-feed; no passive Influence trickle (jumps + seasonal-judged only);
+> no permanent holding-loss / no Influence wipe; force-fictionalised real names; macron romanization;
+> hard-capped martial scale (a small named retinue, never a standing army).
+
+---
+
+## 7.2 Milestone roadmap (M0 … M7)
+
+Each milestone is a **vertical slice** ending **green** (`npm run verify` passes — §6.1) with the game
+playable to its frontier. The spine follows the §3 reveal ladder (cold open → T0 rungs → T1 → T2) layered
+onto the §6 architecture (core boundary first, content registries throughout). "Lands" lists the
+§-systems the slice makes real; "Definition of done" is the verifiable bar.
+
+> **Granularity note.** M1–M5 are content-tier slices; each is internally **rung-by-rung** (a sub-slice
+> per `RevealableEntry`, per §3 / §6.5) so a milestone never stalls the build — the smallest shippable
+> unit is *one rung's reveal end-to-end*. M2 (combat) is called out as the densest single milestone; if it
+> runs long it splits at the natural seam **M2a = idle auto-resolve + first fight**, **M2b = bestiary /
+> equipment / loot→craft** (the §3.2 R3→R4 boundary).
+
+### M0 — Toolchain bootstrap + the cold open + save spine
+
+**Goal:** stand up the deterministic, testable foundation and the one hand-authored pre-ladder state — the
+narrowest possible *complete* game (one screen, one verb, a save you can export).
+
+**Lands (§-systems):**
+- The **toolchain** (§6.1): Vite + TypeScript (strict) + Vitest, ESLint + Prettier, the committed
+  `package.json` + lockfile, and the **`npm run verify`** gate wired (typecheck + lint + format + unit +
+  the content-verifier + `gen:docs --check`).
+- The **pure-core / renderer split** (§6.2): `src/core` (pure, no DOM), `src/ui` (thin DOM), `src/app`
+  (composition root + the active-only tick loop), `src/persistence` — with the **ESLint boundary rules**
+  (no `Math.random` in core; no DOM/window/`Date.now` in core) live as build failures.
+- The **one seeded RNG** (§6.7) in `GameState`; the `reduce` / `tick` contracts (§6.3); the **rewards /
+  unlock bus** (`applyRewards`, §6.5) and the **UI-reveal engine + event log** (§2.1, §3.0) — the engine
+  the entire game is built on.
+- The **content-verifier harness** (§6.6) and **`gen:docs`** (even with a near-empty registry — the
+  scaffolding that makes generate-don't-duplicate enforceable from commit #1).
+- The **DEV play API** `window.__qa` (§6.10), DEV-only / dead-code-eliminated.
+- The **cold open** (§3.1, §5 T0.2 beat 1): the single screen, the persistent event log, the one verb
+  ("Open your eyes" → "Rake the spilled rice"), the body/rest bar + rice counter, Ranpo's grounding line,
+  the first dream-fragment (ZERO bonus).
+- **IndexedDB single autosave + base64 export/import** + versioned minimal-state + the migration chain
+  scaffold (§6.8).
+
+**Definition of done:** `npm run verify` green; a fresh game loads in **< 5 s to first interactable**
+(§4.8.0); pressing the verb rakes rice, ticks the koku counter, and pushes a log line; the state autosaves,
+exports to base64, and re-imports identically; a Vitest **determinism test** asserts a fixed seed + fixed
+intent/tick script yields a byte-identical `GameState` (§6.3); `__qa.newGame(seed)` / `dispatch` / `tick`
+drive the real intents headlessly. **No game logic in the renderer; no `Math.random` in core** (lint
+proves it).
+
+### M1 — T0 labour loop + rank ladder R0→R2 + skills + estate E0→E1 (start)
+
+**Goal:** the peaceful-labour spine — earn your keep room by room, the first three rungs, the Skills tab,
+the first separate estate-room reveals.
+
+**Lands:** the **labour loop** (§2.6: farming → foraging → woodcutting → hauling) on the *koku*/rice
+heartbeat (§2.4); **rungs R0→R2** (§3.2) on the **Estate Service** meter (§2.15); the **Skills tab**
+(§2.7) as the **first nav reveal** (§3.5) with discover-by-doing visibility (§4.5); the **separate** T0
+room reveals — Gate & Forecourt, Home Paddies, Stables & Woodlot Edge — each its own beat (§3.3, canon §I
+LOCKED-separate rule); the **world-clock** (day/season tag, §2.2) and **soft stamina/satiety** (§2.3); the
+**porter's-knot** identity beat (ZERO bonus); the **Near Satoyama** first danger ring (conditioning-gated,
+discover-by-doing). Estate stage **E0 → start of E1**.
+
+**Definition of done:** verify green; a headless run via `__qa` reaches **R2**, the Skills tab fades in on
+schedule, ≥3 skills surface by-doing, the world-clock advances and seasons turn, soft stamina paces the day
+(slows, never hard-blocks); the first generated content doc (`docs/content/ranks.md`) regenerates and
+`gen:docs --check` passes; per-rung pacing is *instrumented* (the ≥30-min-floor test exists, even if final
+tuning lands at M6).
+
+### M2 — Combat goes live at R3 (idle auto-resolve + active setup) + the humbling first fight + bestiary/equipment
+
+**Goal:** combat as a first-class pillar **from T0** — the humbling near-fatal first fight, the drill yard,
+the deterministic auto-battler, and the find→craft gear loop. *(The densest milestone; split M2a/M2b at the
+R3→R4 seam if needed — see the granularity note.)*
+
+**Lands:** the **R3** rung (§3.2) gated on the **humbling first fight** (the wolf at the grain store,
+survived by luck — §5 T0.4); the **Combat panel** (§2.8) and the **deterministic, seeded auto-battler**
+(§4.6: idle auto-resolve + active stance/ability/item/retreat; the §4.6 combat math, damage floor,
+crit/block, attack-speed cadence); the **first-fight win-rate 20–35%** target (§4.6.6, **LOCKED**); the
+**soft-setback-on-loss** rule (1 HP + ~½-day + light injury + possible carried-loot drop — **never**
+levels/gear/Influence; **LOCKED** shape, §4.6.6); the **Bestiary** (§2.9, the ~5 grounded mobs filling
+by-encounter); **Equipment & Inventory** (§2.10) + the first crude weapon; combat/weapon **skills** in the
+Skills tab; the **Drill Yard** revealed *separately* (§3.3); the **Combat nav node** (§3.5). The
+**no-cross-feed** wall is enforced (conditioning is a one-way enablement gate; §4.4/§4.6.6).
+
+**Definition of done:** verify green; a headless run reaches R3 and triggers the first fight; a fixed-seed
+fight **replays byte-identically** (§6.7) and a forced-seed rare crit/loot renders correctly via `__qa`; a
+Vitest test confirms the fresh-MC first-fight win-rate sits in **20–35%** and a post-drills MC ~85%+
+(§4.6.6); a loss applies the soft setback and **never** removes a level/gear/Influence (asserted); the
+Bestiary fills by-encounter; **no labour conditioning bonus enters any combat number** (asserted).
+
+### M3 — Quests + crafting + four-pillar accrual + the four-bar panel (R4→R7) → T0 complete
+
+**Goal:** close out T0 — the quest system, hybrid crafting, the four House-Influence pillars accruing, and
+the four-bar panel revealing bar-by-bar at the capstone.
+
+**Lands:** rungs **R4→R7** (§3.2); the **simple Crafting tab** + the early **loot→craft loop** at R4
+(§4.7.2, Smith Gonta seed); the **Main House** interior + domestic economy (Cooking, provisioning) at R4;
+the first ***shinden* reclamation** (a LAND lever) and **E1 build** (§4.7.5); the **Quest log + the 4 quest
+types** at R5 (PEST-CONTROL → HUNT → CLEAR → DEFEND, §3.2); the **four-pillar accrual model** (§4.2:
+achievement jumps **≈70%** + seasonal judged-on-high-water-mark **≈30%**, per-event-capped, up-only + the
+recoverable-dent scaffold); the **first combat-earned Arms standing recorded at R6** (canon: combat earns
+Arms); the **Workshops & Granary** + **E2 start**; the **four-bar House Influence panel** revealed
+**bar-by-bar** at R7 (§3.2, §2.16); the **House screen** + the per-tier domain-ranking "unranked" read
+(§3.5, §2.18); the **T0→T1 gate** (Arms ≥ 0.5K · Estate ≥ 0.8K + the story gate, §4.1) wired.
+
+**Definition of done:** verify green; a headless run completes **all of T0** to the T0→T1 gate; the
+four-bar panel reveals one bar at a time as each pillar first scores; the **trade ≤⅓** invariant holds at
+every accrual point (verifier-asserted, §4.2.3); accrual is **jumps + seasonal only** (no time-trickle / no
+flat per-action — verifier-asserted); the deeds/seasonal split lands ≈70/30 over T0 (§4.8.1); the autumn
+harvest sets the headline seasonal high-water mark; the T0→T1 transition fires its story beat + log line.
+
+### M4 — T1 Village (rep web · rumours board · coin · component crafting · silk) — V0→V7
+
+**Goal:** the second fresh ladder and the static reputation web — the estate as a presence in its valley.
+
+**Lands:** the **T1 ladder V0→V7** (§3.4) as a **fresh ladder** (rank resets); the **Village screen** +
+the **Market / Shop Row** opening **one shop first** then fractally (§3.4 V0); **coin (*mon*)** (§2.4); the
+**static reputation web** (§1.5.2, §2.15: per-shop, per-family, artisans' guild, the chief Yagōemon's
+regard) — **gentle curves**, **never gates the spine**; the **Inn & Rumours Board** (§2.13) with optional
+folklore tidbits unlocking **organically / per-tier** (never an all-at-once dump); the
+**component/quality crafting system** (§4.7.2) from V3; the **silk / sericulture *meibutsu*** TRADE
+sub-engine (§3.4 V3, trade ≤⅓-capped); the **Standing & Office pillar lighting for the first time** at V4
+(Magobei's rice-skim thread); valley-scale combat (HUNT/CLEAR, road-warden) + the **first paid martial
+outsiders** as **flavour roster cards** (§2.17 — not managed units); the festival/seasonal social layer
+deepening (§2.14); estate **E1 → E2** completing; the **T1→T2 gate** (Arms ≥ 5K · Estate ≥ 8K · Office ≥
+2K + "clean your room", §4.1).
+
+**Definition of done:** verify green; a headless run completes **all of T1**; the village can be **ignored
+without blocking the spine** (a spine-only headless run still reaches the T1→T2 gate, just slower —
+asserted); the rumours board unlocks tidbits **per-tier organically**; the component crafting quality
+tiers compute per §4.7.2; the Office bar first lights at V4; rep-web curves are gentle (frequent small
+gains); the responsive nav (§6.9) shows the same reveals in the same order on a narrow viewport.
+
+### M5 — T2 Region (trade backbone · Origin faction · the G6 payoff) — G0→G7 → v1 content complete
+
+**Goal:** the third fresh ladder, the region canvas, and **both personal threads resolving** — the warmest,
+widest tier; on completion **v1 content is feature-complete**.
+
+**Lands:** the **T2 ladder G0→G7** (§3.6) as a **fresh ladder**; the **Region screen** + the **trade
+backbone** opening minimally (one route/porter/verb via Kanta, §3.6 G0); the ***sekisho* / pass-tier travel
+layer** (§3.6 G1); **region-scale grounded human mobs** (ronin / bandits / smugglers — still the ~5-mob
+cut-set, scaled; NO belief-creatures); the **Origin faction OPENS** at G2 (memory-gated, **double-gated**:
+STORY dream-memory **AND** PILLAR travel-standing — §1.5.3, §3.6 G2) with the **Origin / Ties screen** and
+per-contact "restored ties" milestones (**ZERO mechanical gift** — access only); **Sawatari-juku** +
+the two **Neighbouring Valleys** (Hibara + Tōge-mura, hard-capped at 2); **Kuzuhara** re-foundable hamlet +
+the multi-stage **river-works (*seki*)** LAND mega-lever (G4); the capped **2–3-man road-security detail**
++ the **Hanzaki** encounters (**survived, not won**) + the CLEAR/CAPTURE-with-mercy branch (G5); **the
+G6 personal-mystery PAYOFF** — the grown **Otsuru** found (Tama was a *girl* who *ran*; the MC is **not**
+her — partial, grounded) and the **Origin reunions** complete incl. father **Jinpachi**; **Tahei claims
+his true name** (a late, de-emphasised side beat) and the pride/morale support buff lands (a *present-day*
+relationship, **ZERO retroactive gift**); the **rival houses (Tomita / Akagi) eclipsed** (Tomita never
+killed); the **T2→T3 v1 end-gate** (Estate ≥ 60K · Office ≥ 50K · Arms ≥ 30K + win-the-region, §4.1).
+
+**Definition of done:** verify green; a headless run completes **all of T2** to the T2→T3 gate; the Origin
+faction is **double-gated** (it does not open on memory alone, nor on standing alone — asserted); **at
+least one origin beat is always available without reputation-gating** so the thread never stalls (§1.5.3 —
+asserted); returning memory grants **access only, ZERO mechanical bonus** (no stat/recipe/tool/combat
+bonus traceable to a memory or porter's-knot flag — verifier-asserted, §4.5.3); the "one-eyed mountain
+god" is an INVESTIGATE-then-confront **one-shot** (Hanzaki + terrain), **never a spawn population** (§3.6,
+canon §E); the G6 payoff fires its full story beat; ≤1 residual-ambiguity token across all content
+(verifier-asserted).
+
+### M6 — Balance pass to the §4 targets + content-verifier green + the T3 stub + polish
+
+**Goal:** make the whole curve hit the **LOCKED** pacing budget, prove every canon invariant by machine,
+ship the T3 cliff-hanger stub, and polish to a launchable feel.
+
+**Lands:** the **balance pass** — tune `balance.ts` so a headless full playthrough hits **T0 ≈ 4.5 h · T1 ≈
+8 h · T2 ≈ 16 h**, **every rung ≥ ~30 min**, the **≤2–3× never-balloon** within-tier ratio, and the
+**≈70/30 deeds/seasonal** split (§4.8); the **CI pacing tests** (a headless playthrough that clears any
+rung in < ~28 min or misses a tier budget **fails** — §4.8.4, §6.10); the **content verifier** green on
+**all** canon invariants (§6.6: no belief-creature spawns; trade ≤⅓; ≤1 ambiguity; no passive Influence
+trickle; no labour→combat cross-feed; **macron / K/M/B** lints; no orphan ids); the **T3 Castle-town STUB**
+— the §3.7.1 first-contact screen at the G7 capstone (the cliff-hanger "the story pauses here"; the Kaidō
+Guild's first castle-town node only — **no T3 ladder, no auto-producers, no marriage lever** built);
+**accessibility** pass (§6.11: scalable text, colourblind-safe cues, keyboard + touch, reduced-motion,
+pause, ARIA live-region log, mute); **art/feel** polish (text + emoji + CSS woodblock register, kanji
+season tags, colour-coded rarities, K/M/B formatter, light ambient audio + SFX + mute, §6.9); a
+**`capture-game-states` audit** sweep of the key beats (audit/ screenshots).
+
+**Definition of done:** verify green; the headless **pacing regression** confirms the locked T0/T1/T2 hour
+budgets and the ≥30-min floor; **every §6.6 canon invariant passes as a machine check**; the T3 stub
+renders the cliff-hanger and then *stops* cleanly (no half-built T3 systems reachable); accessibility
+basics verified (keyboard-only and touch-only playthrough of the cold open + a rung; live-region announces
+reveals); the generated docs (`docs/balance/`, `docs/content/`) are current (`gen:docs --check` passes);
+no plain-ASCII romaji slips (macron lint clean); all large numbers display **K/M/B**.
+
+### M7 — Deploy
+
+**Goal:** ship the static build to itch.io as free / pay-what-you-want.
+
+**Lands:** `build:itch` (= `vite build` → `dist/` → zipped, §6.1) with the **base path** set for itch's
+served subpath and a **single static HTML bundle** (no backend, §6.1/§7.3); a final **export/import
+save** round-trip smoke test on the built artifact; the itch.io page (free / PWYW per canon §H), the build
+uploaded, a **fresh-browser smoke test** of the deployed build (load < 5 s to first interactable; save
+persists across reload; export/import works).
+
+**Definition of done:** the zipped `dist/` runs from itch.io's static host with the correct base path;
+loading the live URL reaches the cold open and the first verb works; IndexedDB autosave + base64
+export/import work against the deployed origin; **no backend, no network calls**; the release artifact was
+cut from a **verify-green** commit.
+
+### 7.2.1 Milestone summary
+
+| M | Goal (one line) | Frontier reached | §-systems landed (primary) |
+|---|---|---|---|
+| **M0** | Toolchain + cold open + save spine | one screen, one verb | §6.1/§6.2/§6.3/§6.7/§6.8/§6.10, §3.1 |
+| **M1** | T0 labour + R0→R2 + skills + E0→E1 | R2 | §2.6/§2.7/§2.15, §3.2/§3.3/§3.5 |
+| **M2** | Combat live at R3 + first fight + bestiary/gear | R3 | §2.8/§2.9/§2.10, §4.6 |
+| **M3** | Quests + crafting + 4-pillar panel → T0 done | R7 / T0→T1 gate | §2.11/§2.12/§2.16, §4.1/§4.2 |
+| **M4** | T1 Village (rep web, rumours, coin, silk) | V7 / T1→T2 gate | §1.5.2/§2.13/§2.14, §3.4 |
+| **M5** | T2 Region (trade, Origin, G6 payoff) | G7 / T2→T3 gate | §1.5.3/§3.6, §5 T2 |
+| **M6** | Balance to §4 + verifier green + T3 stub + polish | v1 launchable | §4.8/§6.6/§6.11, §3.7.1 |
+| **M7** | Deploy to itch.io | live | §6.1/§7.3 |
+
+> **Milestones map to ADR-able checkpoints.** Each milestone's *design* is already locked in §§1–6; the
+> roadmap adds no new design decisions, so M0–M7 are **execution** checkpoints (commit + journal per the
+> CLAUDE.md cadence), not new ADRs. The only ADR §7 itself proposes is recording the **v1 scope + the
+> M0…M7 build order** as the project's execution plan (see §7.5).
+
+---
+
+## 7.3 Deployment
+
+**No backend. Fully static.** Per §6.1 / canon §H: `vite build` emits a static `dist/` (a **single HTML
+bundle** + hashed JS/CSS assets), zipped and uploaded to **itch.io**.
+
+- **Static itch.io build.** `npm run build:itch` = `vite build` + zip `dist/`. itch.io serves the unzipped
+  bundle from a project subpath, so Vite's **`base`** must be set to a **relative base** (`base: './'`) so
+  asset URLs resolve under itch's served path — this is the single most common static-host break and is
+  pinned in `vite.config.ts`. The DEV play API and any dev-only helpers are stripped via
+  `import.meta.env.DEV` (dead-code-eliminated), so the shipped bundle carries **no** `__qa` surface.
+- **The export/import save path.** Persistence is **IndexedDB single autosave** + **base64 export/import**
+  to a text file (§6.8). Because itch.io is a static host with no server, the base64 export is the **only**
+  portable backup / hand-off path — the player's safety net against a cleared browser store. Import
+  validates + migrates (versioned minimal-state, ordered migrations, pre-migration raw backup; a corrupt
+  save degrades gracefully, never a "save is kill" wall).
+- **The `npm run verify` release gate.** The **same** one-command gate that guards every commit (§6.1) is
+  the release gate: `tsc --noEmit && eslint . && prettier --check . && vitest run && verify-content &&
+  gen:docs --check` — i.e. **typecheck + unit tests + the content-verifier (incl. the K/M/B + macron + the
+  canon-invariant machine checks) + lints**, plus the **§4.8 headless pacing regression** added at M6. A
+  release artifact is **only ever cut from a verify-green commit**; CI runs `verify` on every push.
+- **How to ship to itch.io (brief).** (1) `npm run verify` green; (2) `npm run build:itch` → a zipped
+  `dist/`; (3) on itch.io, create / edit the project, set **Kind = HTML**, upload the zip, tick **"This
+  file will be played in the browser,"** set the viewport (a sensible default frame; the layout is
+  responsive per §6.9), and set pricing to **free / pay-what-you-want** (canon §H); (4) save as a draft,
+  open the draft URL, run the **fresh-browser smoke test** (load < 5 s to first interactable; rake rice;
+  reload → autosave persists; export → clear store → import → identical); (5) publish.
+
+> **Out of scope for v1 deployment:** any server, account system, cloud save, analytics backend, or
+> network call. The game is wholly client-side and offline-capable after first load (active-only; no
+> offline *progress*, but it runs with no network).
+
+---
+
+## 7.4 Risk register + cut-down ladder
+
+### 7.4.1 Top risks
+
+| # | Risk | Likelihood / impact | Mitigation |
+|---|---|---|---|
+| **R1 — Scope creep on T2** (the widest, warmest tier: region map + Origin faction + two payoffs + Kuzuhara + rivals) blows the timeline | **High / High** | Hold the **~6–8-node** cut-set and the **hard caps** (exactly 2 neighbouring valleys; 2–3-man detail; ~5 mobs) as *invariants*, not suggestions; build T2 **rung-by-rung** (M5) so partial T2 still ships if time runs short (fall back to the §7.4.2 ladder); park anything not on the §1.7.1 spine list. |
+| **R2 — Balance-tuning time** (hitting the LOCKED 4.5/8/16-h budgets + the ≥30-min floor + ≈70/30 split across 24 rungs) is open-ended | **High / Medium** | The §4.8 curve is derived **backward** from the locked floor, so M6 tunes *yields* against a fixed target, not the target itself; the **headless pacing regression** (§6.10) makes drift a CI failure, so tuning is measured, not vibes; every number lives in `balance.ts` (§6.4) and reflows with **no save migration** — tuning is cheap and continuous, not a big-bang at the end. |
+| **R3 — Save migration** (a stored-shape change orphans players' saves) | **Medium / High** | Store **only non-derivable state** (§6.4) so the migratable surface is minimal; **ordered, unit-tested migrations** + a **pre-migration raw backup**; base64 export as the player's own safety net; degrade gracefully on a bad save (never a hard wall). The stored/computed split (§6.4) means balance retunes **never** migrate. |
+| **R4 — Art / feel** (text + emoji + CSS must read as a *coherent woodblock world*, not a spreadsheet) | **Medium / Medium** | The art register is locked **low-risk** (no asset pipeline: text + emoji + CSS, §6.9); a dedicated **M6 polish pass** + a **`capture-game-states` audit** sweep catches feel regressions; the diegetic event log carries most of the "feel," so feel scales with *writing* (a known quantity) more than with art production. |
+| **R5 — The combat slice (M2) is the densest single milestone** and could stall the whole roadmap | **Medium / Medium** | Pre-planned **M2a / M2b split** at the R3→R4 seam (idle auto-resolve + first fight, *then* bestiary/gear); the deterministic seeded auto-battler is **unit-testable in isolation** (§6.7) before it's wired to the UI; the first-fight win-rate (20–35%) and soft-setback shape are **LOCKED**, so the target is fixed. |
+
+### 7.4.2 The cut-down ladder (minimum shippable if time is short)
+
+If the timeline compresses, **cut whole tiers from the top, never gut a tier's spine** — a complete T0–T1
+is a far better ship than a threadbare T0–T2. The fallback order:
+
+1. **Full v1 (target):** T0–T2 complete + T3 stub (M0→M7). *(The plan.)*
+2. **Drop the T3 stub:** T0–T2 complete, end on the T2→T3 gate as the cliff-hanger (skip the §3.7.1 stub
+   screen). Saves M6's stub work; loses only the teaser. *(Smallest cut.)*
+3. **MINIMUM SHIPPABLE — T0–T1 only:** Estate + Village complete (M0→M4 + a trimmed M6/M7), ending on the
+   **T1→T2 gate** as the cliff-hanger ("Now, the region" — the region map appears, then pauses). This is a
+   genuinely **complete, satisfying arc** (earn your keep → become the house's hand in the valley) — combat,
+   the four pillars, crafting, the rep web, and the rumours board all ship; it just stops before the Region.
+   T2 (incl. the personal-mystery payoff) becomes the first **post-launch** content drop.
+4. **Floor (only if dire) — T0 only:** the Estate tutorial tier as a vertical-slice demo (M0→M3 + trim).
+   This is a *demo*, not a launch — use only to prove the loop, not as the intended v1.
+
+> **The cut-down rule:** at every fallback the build stays **verify-green, deterministic, and a complete
+> playable arc to its cliff-hanger** — no half-finished tier is ever shipped. The pacing floor (≥30 min /
+> rung) and all canon invariants hold at every level. Because there is **no reset** and saves are
+> forward-migratable (§6.8), a player who finishes a cut-down v1 carries their save **forward** into the
+> tier added by a later update — the cut-down ship is a true *first chapter*, not a throwaway.
+
+---
+
+## 7.5 §7 decisions → ADR (proposed)
+
+§7 opens **no new design decisions** — it sequences the already-locked design (§§1–6) into an execution
+plan. Proposed ADR: record **the v1 scope (§7.1) + the M0…M7 build order (§7.2) + the static-itch.io
+deployment + verify-gate (§7.3) + the cut-down ladder (§7.4.2)** as **D-016 — v1 execution plan**, an
+execution checkpoint rather than a design reversal. Final ADR numbering is set at integration. **Approving
+§7 is the gate that unlocks code** (per the PRD preamble: *no code until §7 is approved*).
+
+### Flagged for the human
+
+> Everything below is tagged **proposed — for review**; none of it changes *what the game is* (§§1–6), only
+> *how/when we build and ship it*.
+
+1. **Milestone granularity / the M2 split — proposed — for review.** M2 (combat) is the densest slice; we
+   propose a pre-planned **M2a / M2b** split at the R3→R4 seam if it runs long. Confirm you're happy
+   treating that as the agent's call at build time (the autonomous default), or do you want M2a/M2b as
+   fixed, separate milestones up front?
+2. **The cut-down floor — proposed — for review.** We propose **T0–T1 only** as the *minimum shippable*
+   (a complete two-tier arc ending on the T1→T2 cliff-hanger), with **T0-only** as a demo-grade floor used
+   only in dire circumstances. Confirm T0–T1 is the right "if we must cut, cut here" line (it preserves
+   combat, the four pillars, crafting, and the rep web — the full *systems* showcase, minus the Region).
+3. **itch.io page specifics — proposed — for review.** We assume **free / pay-what-you-want** (canon §H),
+   **Kind = HTML / play-in-browser**, **relative `base: './'`**, and a sensible responsive default frame.
+   Confirm there are no other store-page constraints (a fixed canvas size? a particular embed width?) you
+   want pinned before M7.
+4. **CI host for `npm run verify` — proposed — for review.** The release gate is `npm run verify` + the
+   §4.8 pacing regression; we assume it runs in **GitHub Actions** (or equivalent) on every push. Confirm
+   the CI host, or that running `verify` locally as the pre-push gate is sufficient for a solo/agentic
+   workflow (no hosted CI).
+5. **"How to ship" is documented, not automated, for v1 — proposed — for review.** The itch.io upload is a
+   **manual** step (§7.3) — outward-facing / hard-to-reverse, so per CLAUDE.md it needs human approval each
+   release. We do **not** propose automating deploy (no itch CLI / butler pipeline) for v1. Confirm manual
+   upload is the intended release process.
+
