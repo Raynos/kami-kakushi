@@ -236,6 +236,16 @@ PROPOSED (tunable). The shape below is human-locked; the rebalance must honour i
   reveals less (one-at-a-time grain). Propagated to §1.5.1 / §1.12 / §2.10 / §2.15 / §5 T0.2.
 - **T3/T4 late first-reveals confirmed as sketched** — auto-producers at **T3-C1**, marriage/adoption lever at
   **T3-C5**, national *banzuke* at **T4-E7** (full rung-copy deferred with T3/T4).
+- **T0 earned-transition spine (§3.2.1) — every rung is EARNED.** Each promotion has a concrete trigger + an
+  in-fiction reason + a named granter; granters escalate Genemon→Jūbei→Chiyo→**the Lord**, capabilities stack
+  (labour→reliability→arms→honesty→post→recovery→restoration). Two engines: (1) the dying, short-staffed house
+  elevates the proven all-rounder out of necessity; (2) you rise purely on **merit** — R4 indoor access is
+  earned on honesty+competence+house-need, NOT identity.
+- **Tama thread staging (LOCKED order, kept LIGHT):** **T0 = foreshadow only** (dream + porter's-knot); **no
+  one at the estate ever speaks "Tama."** The legend **IGNITES at T1-V0** (Sayo names him on sight); the
+  estate's plain "we only ever saw a hand" baseline becomes the counterweight to the village's certainty. The
+  allegiance goes live in T1; grounded/partial payoff at **T2-G6** (Tama = Otsuru; the MC is not her).
+  Narrative-only — never gates stats/availability.
 
 ### Whole-PRD QA resolutions (2026-06-25, human-signed)
 - **§4 balance dials:** deeds/seasonal = **70/30**; per-event cap = **0.04**; per-rung escalation =

@@ -1768,7 +1768,7 @@ Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5
 | **R1 — Day-labourer (*hiyatoi*)** | `RANK` Estate Service (complete the spilled-rice task; Chief Steward **Genemon** assigns first real work) | **The Gate & Forecourt (*genkan*)** area (the promotions stage); **The Home Paddies & Dry Fields** area; the **basic labour loop** (Farming via §2.6); the **world-clock display** (day/season tag, §2.2) appears with the *koku* heartbeat; a **sleeping-place** (rest is now safe). | *"A door slides. Genemon, dry as a husk: 'Another mouth — soft, clumsy. Earn your sleep.' He points you to the paddies. The seasons begin to turn."* |
 | **R2 — Bonded hand (*genin*)** | `RANK` Estate Service (a season of reliable labour; Genemon enters you on the books) | The **Skills tab** (§2.7) — first nav tab; surfaces by-doing as XP lands (Farming first, then **Foraging / Woodcutting / Hauling**); **The Stables & Woodlot Edge** area (revealed *separately*); **The Near Satoyama** wilderness ring (first danger ring, conditioning-gated, §2.9 — its actual surfacing is the `FIRST-USE` reveal at the conditioning floor, see §3.3); new resource rows light as gathered (wood, *sansai*). The **porter's-knot beat** fires (Origin clue, **ZERO bonus**). | *"Your name goes on the household books. You forage the near hills, fell timber, haul loads. A groom grunts: 'Huh — you've tied that knot before.' (You don't know why.)"* |
 | **R3 — Yard-hand under arms (*buke-hōkōnin*)** | `STORY` the **humbling, near-fatal first fight** (a wolf at the grain store — survived by luck, **never rescued, never skill**), THEN beg drillmaster **Jūbei** for drills | **COMBAT GOES LIVE (EARLY).** Reveals fractally: **The Drill Yard** area (one post → Jūbei's rack → sparring slots); the **Combat panel** (§2.8, idle auto-resolve + active setup: stance / ability / item / retreat); **idle-combat / training**; the **first crude weapon** + **Equipment & Inventory** panels (§2.10); the **Bestiary** panel (§2.9, fills by-encounter; the **wild boar** is the first grindable threat). Combat stats start near-zero; combat/weapon **skills surface** in the Skills tab. | *"The wolf left you in the dirt — ribs cracked, alive only by luck. You crawl to Jūbei. 'Talent is a story the lucky tell. You are not lucky. So you will work.' The drill yard opens."* |
-| **R4 — Trusted hand & houseman** | `RANK` Estate Service (win **Lady Chiyo's** regard for indoor work + heir **Naoyuki's** grudging vouch; authored trust beats) | **The Main House / *Omoya*** interior area (kitchen, inner rooms, household shrine); the **household domestic economy** rows (textiles, kitchen, provisioning — feeds **Cooking** §2.6 and the satiety loop §2.3); the **first *shinden* reclamation** begins (a LAND lever toward Estate & Wealth); the **simple Crafting tab** (§2.11, hybrid — *simple recipes first*) opens with the early **loot→craft loop** (Smith **Gonta**, §2.10/§2.11). **[THREAD: Tama]** the estate's flat *disbelief* established in dialogue. | *"Lady Chiyo nods you indoors. Naoyuki, bored: 'He'll do.' The inner rooms open; the first fallow plot is yours to bring back. To this house you are a farmhand — not 'Tama.'"* |
+| **R4 — Trusted hand & houseman** | `RANK` Estate Service (win **Lady Chiyo's** regard for indoor work + heir **Naoyuki's** grudging vouch; authored trust beats) | **The Main House / *Omoya*** interior area (kitchen, inner rooms, household shrine); the **household domestic economy** rows (textiles, kitchen, provisioning — feeds **Cooking** §2.6 and the satiety loop §2.3); the **first *shinden* reclamation** begins (a LAND lever toward Estate & Wealth); the **simple Crafting tab** (§2.11, hybrid — *simple recipes first*) opens with the early **loot→craft loop** (Smith **Gonta**, §2.10/§2.11). **[THREAD: Tama — seed only]** the house simply sees a proven, honest hand; **no one speaks the name "Tama"** yet (the village ignites the legend at T1-V0). | *"Lady Chiyo nods you indoors. Naoyuki, bored: 'He'll do.' The inner rooms open; the first fallow plot is yours to bring back. You earned this with honest hands."* |
 | **R5 — Gate-guard (*monban*)** | `RANK` Combat Standing (stand a real watch; clear first pest/animal threats; weapon-skill milestones — conditioning floor set at R3) | The **Quest log** (§2.12) + the **four v1 quest types**, revealed as each is first taken: **PEST CONTROL → HUNT → CLEAR → DEFEND** (DEFEND is the Arms standing-earner). **Arms deeds begin accruing here** — the standing itself is first *recorded* at R6 and the full panel waits for R7 (earn → recognised → see). | *"You stand the gate, and the work finds you: vermin in the stores, a boar in the paddies, a night-watch to hold. Your sword starts to matter — not just your back."* |
 | **R6 — Foreman of works (*kogashira*)** | `RANK` Estate Service (drive the *shinden* + workshops to recorded yield; house edging toward solvency) | The **Workshops** and **Granary** areas; **proto-industry levers** (LAND/TREASURY strands of Estate & Wealth); the **low palisade** (martial fabric); **THE FIRST COMBAT-EARNED HOUSE STANDING is recorded** — the first **Arms** achievement-jump formally enters the books (§2.16, capped; the four-bar panel still waits for R7); **errands beyond the estate are authorised — the VILLAGE TIER OPENS** (the **tier-expansion map** seed + the road out). | *"The frame of a workshop is raised; the granary takes shape; the ledger is no longer only red — and for the first time the books record the house's* Arms *standing rising by your sword. Genemon, grudging: 'Carry the house's business down to the village.' A road opens past the gate."* |
 | **R7 — Bailiff of the home fields (*jitō-dai*)** *(capstone bridge to T1)* | `RANK` Estate Service + `PILLAR` (Arms + Estate thresholds; first *shinden* recorded; kura solvent) | The **lord's study** (ledgers) in the Main House; **jobs-as-offices** begin (field administration framed as **the MC's own quests/offices — NOT a management layer**, §2.6); **THE FOUR-BAR HOUSE INFLUENCE PANEL becomes visible** (§2.16) — revealed **bar-by-bar** in fractal order as each pillar has first scored (Arms first recorded at R6, Estate from the *shinden*; Office/Name appear as faint, not-yet-scored bars); **cash-crop levers**; the **per-tier domain ranking** read (§2.18) first appears here as "unranked." **Gate met → T1.** | *"The lord enters your name in his own ledger. You see, for the first time, what the house has become — four standings, rising. 'Now: the valley.'"* |
@@ -1778,6 +1778,40 @@ Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5
 > recipes only, §2.11); seasons/weather/**festivals** as a live layer (the *clock* shows at R1; the world-sim
 > deepens at T1, §2.14); **auto-producers** (T3+, §2.5); the **origin** track (T2, §2.15). Holding these back
 > keeps the screen lean (canon §G, lean discipline).
+
+### 3.2.1 The earned-transition spine — *why* each promotion happens
+
+> **Audit rule: no rung is granted for free.** Each promotion has a concrete in-game **trigger** (what you
+> did), an in-fiction **reason** (why the house grants it), and a **named granter** — and the granters
+> *escalate* as your standing rises.
+
+Two engines make a rise from "another mouth" to the lord's bailiff believable inside one tier:
+
+- **The house is dying and short-staffed.** The Kurosawa are a broke *goshi* household of ~a dozen people,
+  buried in inherited debt (§5 T0.3), with a rusty door-bar for defence. A house this thin **can't be
+  choosy** — it spends its scarce trust on whoever keeps proving capable. Every promotion below is that
+  necessity in action.
+- **You earn it on merit; identity is a later, lighter thread.** Across T0 you rise purely on demonstrated
+  work — labour, grit, honesty, restoring the land. The "are you the lost *Tama*?" question is only
+  **foreshadowed** here (the dream, the porter's-knot); **no one at the estate ever speaks the name "Tama."**
+  To the house you are simply a hand who keeps earning his place. The legend only **ignites in T1**, when the
+  village (Sayo) names you Tama on sight (§3.4 V0) — and the estate's plain "we only ever saw a hand"
+  *becomes* the counterweight to the village's certainty. (Allegiance goes live at T1; grounded, partial
+  payoff at T2-G6. Kept **light** — narrative-only, never gates stats/availability, canon §C.)
+
+| Promotion | Earned by (trigger) | Why the house grants it | Granter |
+|---|---|---|---|
+| **R0 → R1** | Complete the spilled-rice task; the rest-bar recovers enough to work | Charity bought you a pallet, not a place. Raking the rice proves you'll work despite your state → casual day-labour ("earn your sleep") | Genemon |
+| **R1 → R2** | A full **season** of reliable labour to an Estate-Service output threshold, never shirking | A casual *hiyatoi* is a transient the house owes nothing. A whole season of reliable work proves you're worth keeping → your name goes on the books (*genin*). *(Porter's-knot beat foreshadows the Origin thread.)* | Genemon |
+| **R2 → R3** | Working the wild **Near Satoyama** (an exposure/conditioning threshold) **triggers** the wolf-at-the-grain-store incident; you survive by luck, then beg Jūbei | The undefended house is exposed; the attack proves it. Shamed at being thrashed, you beg for drills; an understaffed house that can't hire a guard trains the willing hand it has | Jūbei |
+| **R3 → R4** | An authored **trust beat** — return the mislaid **debt-ledger** you could have pocketed; keep your head in the grain-store scare — plus a trust threshold | A broke house needs an **honest** hand near its dwindling affairs (the debt, the pawnable valuables) more than another field-hand. You've proven reliable, capable, **and** honest → Lady Chiyo brings you into the *Omoya*, strictly as a trusted servant | Lady Chiyo (+ heir **Naoyuki's** grudging vouch — seeds the rivalry→respect arc) |
+| **R4 → R5** | A **Combat-Standing** threshold — weapon-skill milestones from drilling + clearing the first pest/animal threats | You've drilled (R3) and you're trusted (R4), and the threats keep coming with still no real guard. Drilling earns a real night-watch post → **Arms deeds begin to accrue** | Jūbei + Genemon |
+| **R5 → R6** | **Estate & Wealth** thresholds — drive the first *shinden* reclamation + restart a workshop to a **recorded yield** | Solvency is the house's only survival path, Genemon is aging, and there's no coin to hire an overseer. You're the only proven **all-rounder** (labour + arms + trust) → he makes you foreman of the recovery; there is no one else, and the stakes are existential | Genemon |
+| **R6 → R7** | The **tier gate** — Arms + Estate pillar thresholds + first *shinden* recorded + kura solvent | The works **succeed** — the house is off the foreclosure cliff, and it's materially your doing. The **Lord himself**, roused from despair, enters your name in his own ledger as **bailiff** and points at the next horizon: *"Now: the valley."* | **Lord Munenori** |
+
+The capabilities **stack** (labour → reliability → arms → honesty → a real post → driving the recovery →
+restoring the estate) and the granters **climb** (Genemon → Jūbei → Chiyo → the Lord) — so at every rung the
+player knows exactly *what they did* to rise, and the capstone coming from the lord himself reads as earned.
 
 ---
 
@@ -2901,8 +2935,10 @@ dominant.
    weapon, Equipment/Inventory, and the Bestiary. Combat stats start near-zero.
 6. **Earning the house's trust (indoor + the heir).** Win **Lady Chiyo's** regard for indoor work and heir
    **Naoyuki's** grudging vouching via authored trust beats (return a mislaid ledger; help hold the grain
-   store). **[THREAD: Tama]** the estate flatly disbelieves he is "Tama" — to them he is simply a farmhand —
-   establishing the allegiance tension from the estate side.
+   store). The promotion is earned on **honesty + competence + the house's need** for a trustworthy indoor
+   hand — *not* on identity. **[THREAD: Tama — seed only]** to the house he is simply a proven hand; **no one
+   speaks the name "Tama"** yet. This plain baseline becomes the counterweight once the village names him at
+   **T1-V0** (where the allegiance tension actually goes live).
 7. **The first standing watch.** Stand a real gate-watch; clear the first pest/animal threats. Your **Arms
    deeds begin to accrue** — combat starts earning the house recognition (canon §E). The standing itself is
    formally **recorded at the foreman step** (beat 8 / R6: "the gate held, and the books say so").
@@ -2967,8 +3003,10 @@ prove the MC's growth and seed the "you now teach others from zero" layer.
 - **Dowager Toku** — backstory keeper. Beat: her first memory of the fall (Sadamune) — "no shortcuts; he
   thought he'd bought one."
 - **Ranpo** — the rational, kami-disbelieving voice; grounds the amnesia.
-- **[THREAD: Tama] estate-side:** the household's flat disbelief is the counterweight to the village's
-  certainty (paid off at T1–T2). Establish that **nobody in the house calls him Tama.**
+- **[THREAD: Tama] estate-side (SEED ONLY):** in T0 the house simply sees a hand who earns his place —
+  **nobody speaks the name "Tama."** The legend **ignites in T1** (Sayo, V0); the estate's plain baseline then
+  reads as the counterweight to the village's certainty (paid off T1–T2). Keep it foreshadow-only in T0
+  (the dream + the porter's-knot); do not stage a Tama "debate" before the village raises it.
 
 ## T0.6 Areas & mob roster
 
