@@ -1,0 +1,737 @@
+{
+  "summary": "Redesign Kamikakushi §1.5 estate: a growing estate, a longer rank ladder interleaving labor & combat ranks, an earlier-opening canvas, and rich RPG combat content (mobs/quests, search far and wide). Parallel facets → synthesize → verify.",
+  "agentCount": 6,
+  "logs": [],
+  "result": {
+    "synth": {
+      "combat_as_core": "COMBAT IS NOW A FIRST-CLASS PILLAR ALONGSIDE LABOUR — both/and, not the rare exception. It uses the locked data-driven, auto-resolving, seeded-RNG combat model already specced in the mechanics doc (per-combatant `attack_speed` sub-tick, hit-vs-evasion, damage minus defence with a floor, on-kill XP+loot+bestiary+quest events) — no new architecture, only distributed reveals.\n\nFIVE classic-RPG combat systems, all present and central:\n(1) CHARACTER COMBAT LEVEL — a Combat Deeds pool (combat-XP + a deed-count of kills/clears/defended-against) that levels the protagonist as a fighter, parallel to the existing per-skill total_xp pools. It uses the same steep curve + per-event cap (~0.1 of a level/kill) so breadth and grind are forced, never a quick spike.\n(2) COMBAT SKILLS — weapon-skill lines (spear/yari, staff/bo, hatchet/nata, later sword/kodachi, bow/yumi) plus martial sub-skills (footwork, conditioning, parry) under the existing Skills \"Combat/Weapon\" categories, each with milestone perks (flat stats, multipliers, titles). Skills surface by doing, exactly like labour skills.\n(3) MOBS TO GRIND — a grounded bestiary across the existing danger gradient (near satoyama → foothills/charcoal grounds → upstream Kuzuhara → high pass), spawned by weighted tables on entering an area or a danger event firing.\n(4) LOOT + EQUIPMENT, FIND AND CRAFT — enemies and nodes drop materials, coin, and occasional found gear; equipment slots with durability (weapon, body/dou, head, hands, foot/waraji, charm) are filled by FINDING (a dropped nata, a fallen ronin's worn kodachi, a boar-hide vest) AND by CRAFTING through the component chain (wood→charcoal→Smith Gonta's forge→spearheads/blades/tools; hides→tanner→armour; quality from crafter skill + component quality + station tier). Disassembly returns materials. Gear progression is real and visible.\n(5) GEAR PROGRESSION — from a borrowed carrying-pole and a crude hatchet to a fitted yari, padded jacket, and a smith-forged blade, each tier a measurable step.\n\nCOMBAT EARNS STANDING / HOUSE INFLUENCE (the one clause that deliberately revises old §1.2 Pillar-4's \"combat is the rare exception, never a source of standing\" — authorized by the human, must be re-locked as a superseding ADR). A samurai house values martial service: clearing a bandit nest, securing a valley road, defending the grain store or the estate gate, repelling a raid — each is recorded martial service that converts to House Influence when the relevant authority acknowledges it (\"the road is safe, and the books say so\"), exactly like reclaimed paddy converting to Influence on a recorded yield. Combat Deeds feed BOTH promotions on the combat rungs AND the macro Influence ledger as a seventh conversion lever (martial security) sitting beside shinden/cash-crops/river-works/etc.\n\nTHE GROUNDED MEDIOCRE-START IS FULLY PRESERVED ON THE COMBAT TRACK (binding, D-003). He starts WEAK at combat too — zero combat stats, no hidden edge, no body that \"remembers.\" The FIRST REAL FIGHT (a humbling set-piece staged between R4 and R5) is near-fatal: he grabs a carrying-pole or hatchet, lands one lucky blow, is thrashed, disarmed, ribs cracked, left in the dirt, surviving only by luck or Jubei's arrival — NEVER by skill. Combat capacity is then EARNED: it is gated behind labour-built conditioning (\"the spear is just a long hoe held with intent\" — R4 entry requires R2-level Estate Service first), and trained through Jubei's drills (\"Talent is a story the lucky tell. You are not lucky. So you will work.\"). The porter's-knot and returning memory grant ZERO combat bonus. The talent-foils (Hanzaki, Naoyuki) are trained/lucky/ruthless, never innately gifted past what work could match. Combat thus rises believably from weakness, the same montage-you-earn as labour.",
+      "combat_quest_types": [
+        {
+          "type": "PEST CONTROL (clear nuisance animals/insects threatening crops or stores)",
+          "example": "The home paddies are being trampled and gorged by a boar; clear the field-edge of the boar and its warren before the rice is lost.",
+          "open_ended_note": "Given as 'something is in the lower field at night' — the player goes out, reads the churned mud and broken fence, finds whether it is one boar or a sounder, and where it dens; not a waypoint to a marked boar."
+        },
+        {
+          "type": "HUNT (track and take a specific or valuable quarry across the satoyama)",
+          "example": "A rogue bear has been raiding the charcoal-burners' camp up the foothills; track it by sign and take it, returning hide and gall (loot + craft + bounty).",
+          "open_ended_note": "The suggestion is 'bring back the bear'; the trail, the second carcass it left, and whether it is sick or merely hungry are found in the world."
+        },
+        {
+          "type": "CLEAR (drive out or destroy a fixed nest of threats)",
+          "example": "Bandits have built a lean-to over the valley's main road and are levying their own 'toll'; clear the nest and pull down the lean-to.",
+          "open_ended_note": "You are told the road is unsafe and roughly where; the size of the band, whether they are starving deserters or organised, and the back-trail are discovered on site — and how you handle them (rout, kill, take a captive) has consequences."
+        },
+        {
+          "type": "DEFEND (hold a place/asset against an incoming threat — the standing-earning core)",
+          "example": "Word comes that raiders mean to hit the granary before the rice census; muster the gate-watch and defend the grain store — success is recorded service and converts to Influence.",
+          "open_ended_note": "You learn an attack is coming, not the exact hour or numbers; preparation (who you arm, where you post the watch, what you barricade) is yours, and the fight resolves on what you built."
+        },
+        {
+          "type": "ESCORT / PORTER-GUARD (move goods or people through dangerous ground)",
+          "example": "Accompany Heisuke hauling the season's surplus down-valley to the post-town market — fight off a road-side boar or a lone rice-thief en route, see the region as muscle, not master.",
+          "open_ended_note": "The destination is set; the road is the content (a feared ford, a fox-fire ridge, a toll-spot) and what happens on it emerges as you travel, not as a scripted A→B→C."
+        },
+        {
+          "type": "PATROL (range a circuit keeping ground secure — idle/repeatable)",
+          "example": "As patrol-leader, run the valley-road circuit with your 2-3 man detail; repeated patrols suppress bandit respawn, keep the road's Influence ticking, and surface the occasional ambush.",
+          "open_ended_note": "A standing duty, not a quest with an end — the player sets the circuit; encounters are seeded, and a quiet road is itself the reward (visible security)."
+        },
+        {
+          "type": "BOUNTY (take a named, posted target — poacher, smuggler, deserter, enforcer)",
+          "example": "The house posts a bounty on poachers thinning its woodlot deer; tag along under a senior at first, later lead it — bring proof, collect coin and recognition.",
+          "open_ended_note": "A name and a rough haunt; you find the man by his sign and his neighbours' fear, and whether he is a hardened killer or a desperate father is something the world tells you."
+        },
+        {
+          "type": "DUEL (a single, framed fight — honour, rivalry, or a recurring nemesis)",
+          "example": "Hanzaki, the scarred ronin of the pass, blocks the high route; a one-on-one against a trained, brutal foe survived only by labour-built endurance, never out-talented.",
+          "open_ended_note": "You know who and roughly where; the approach (when, how rested, what gear, whether you can avoid it once) is open, and early attempts are meant to be survived more than won."
+        },
+        {
+          "type": "EXPEDITION / RAID (lead an armed party deep into hostile region/mountain)",
+          "example": "Lead an armed expedition into the high pass to break the bandit roost in Hanzaki's territory — logistics, supply, and a multi-stage push that earns regional standing.",
+          "open_ended_note": "The objective is the roost; the route, the rate of march, what you carry, and which fights you pick are yours, and the mountain itself (weather, the fog-blind pass) is an adversary."
+        },
+        {
+          "type": "SIEGE / RAID DEFENCE (the set-piece — hold the estate itself)",
+          "example": "As Captain of retainers, command the men-at-arms in defence of the estate against a raiding party — a martial capstone-but-one that lifts House Influence at the domain's notice.",
+          "open_ended_note": "You know a strike is coming and roughly when; the whole preparation (walls manned, gate held, where the reserve sits) is the open-ended layer, and the outcome can dent or lift Influence and even cost or spare a holding."
+        },
+        {
+          "type": "RELIEF / RESCUE under threat (a peaceful-aim quest that turns dangerous)",
+          "example": "Haul relief-rice to a flood-hit hamlet up the road; the road is cut and you must fight or talk past desperate, displaced men to get the rice through.",
+          "open_ended_note": "The aim (get the rice there) is given; whether the obstacle is bandits, a washout, or starving refugees is found on the road, and force is not always the answer."
+        },
+        {
+          "type": "INVESTIGATE-then-confront (folklore/mystery that resolves to a human threat)",
+          "example": "The 'one-eyed mountain god' and 'fox-fire' on the ridge — investigated through ordinary travel — turn out to be Hanzaki's lookout and a hidden charcoal-kiln smugglers' signal; the confrontation is with men, never a monster.",
+          "open_ended_note": "A rumour from the inn board is the only prompt; you go and find out, and the unease lingers before it resolves one-to-one to a grounded cause (honours the belief→cause folklore rule)."
+        }
+      ],
+      "origin_father": {
+        "name": "Kuranosuke (蔵之介)",
+        "role": "Tahei's father, ~50; a former senior porter / pack-train master of Master Denbei's transport house in Sawatari-juku — the man who FIRST taught Tahei the porter's-knot (Denbei the employer, Kuranosuke the hand who actually showed him). Presumed dead at the origin track's open (Oyuki framed as a widow); revealed mid-origin to be ALIVE but broken — injured years earlier on the same kind of mountain consignment that later took Tahei, then trapped in debt-bondage to the transport guild (Guildmaster Zenroku) over a 'lost' short-weighted load he was blamed for, and hiding in shame. The family told the children he was 'taken on a far route' — their own small kamikakushi-shaped lie, shame dressed as absence, mirroring the master theme.",
+        "function": "Three grounded functions, all access-only and grind-built (ZERO mechanical gift, binding the dream/no-hidden-edge rule): (1) MEMORY-GATED ORIGIN MILESTONE — a 'find/free the father' beat that requires the player to have ranged the region (ties Reach/regional adventuring to faction-3); his freedom is BOUGHT with resources the player earned (buy out the debt / win the petition), never magically granted by the son's rank. (2) EVIDENCE NODE for the central conspiracy — Kuranosuke witnessed the same short-weighting / contraband racket (Zenroku → Tedai Kuroiwa), so freeing him both reunites the family AND hands the conspiracy a witness, knitting the origin into the 'one rotten root' (the debt-and-quota machine that drowned Kuzuhara, menaced Tama, and wrote off Tahei's caravan). His witness angle stays DISTINCT (the porter / short-weighting angle specifically) so he is not a redundant guilt-sick witness beside Naozane/Naozane-types. (3) LATE ALLY PRODUCER — once redeemed by the son's standing he joins the estate's expansion as a trade/logistics contributor (old pack-train master who unlocks/upgrades the origin caravan/porter route — access only, the route exists once he's free but is still grind-built); slots in as a late E4/E5 roster card. His redemption is the origin track's emotional capstone — the son's estate achievements literally buy back the father's freedom and name, running the 'they support his achievements' frame in reverse. Returns BROKEN and ashamed; redemption is partial, not a clean restoration — preserving the origin track's bittersweet edge. His reveal re-reads Oyuki from grieving widow to a wife who let a comforting lie stand."
+      },
+      "estate_summary": "The Kurosawa estate is redesigned as a single persistent, visibly-mutating object — the spine's progress bar made of timber, fields, and faces — that the player builds across SIX growth STAGES (E0 Foreclosure's Edge → E1 Stabilising → E2 Recovering → E3 Prosperous → E4 Fortified Seat → E5 Restored-and-Surpassed). It remains the ONLY faction shaped as a discrete, gated rank LADDER (vs. the village's reputation web and the origin's memory milestones), but the ladder is lengthened to 15 interleaved rungs (R0 Stray → R14 chief steward / the lord's right hand) that braid LABOUR and COMBAT as twin paths up, and the estate as a PLACE now grows both an economic fabric (kura → granary → workshops → counting-house → meibutsu quarter → branch holdings) AND a martial fabric (a rusty door-bar → a cleared drill yard → palisade + men-at-arms → roofed dojo + barracks → wall + gatehouse + armoury + standing patrol → retainer barracks + training-school) in lockstep, because a goshi house earns Influence by rice AND by martial service. Each stage is a readable silhouette gated by a House Influence band (mapped to the five outward tiers, E4/E5 living inside T4-T5) plus a LOW rank floor — but per the human's §1.5.4 decouple, the estate's physical growth runs slightly AHEAD of the top personal ranks (a patrol-leader-rank fighter already sees a palisade and barracks rising mid-climb). The roster is the emotional payload: ~5-8 named members join per stage (retainers, men-at-arms, staff, servants, artisans, apprentices), each a light card with a role, a one-line arc hook, and a production-or-garrison contribution, so the rise is felt as a growing FAMILY of faces. Growth is a buildable spend-loop (koku/coin/materials/labour, sometimes a martial prerequisite like 'roads cleared') wired to the universal reveal/Influence bus — every build is a diegetic 'the frame is raised' beat, never silent menu inflation, and is fractal (a drill yard reveals one post, then a rack, then sparring slots). Combat and economy are systemically fused: securing roads/clearing bandits is literally what lets the next economic node be built, and the estate's barracks/armoury/dojo materially grow combat capacity. The estate flatly disbelieves the kamikakushi legend (to them he is a reliable hand who became a fighting one), it generates House Influence directly, and it persists with NO reset — E5 is the endgame tableau (rebuilt grand omoya beyond the three-generations-ago original, a famous-meibutsu workshop quarter, and the school where the climber now TEACHES from zero).",
+      "rank_ladder": [
+        {
+          "rank": "R0 — Stray / 'another mouth'",
+          "track": "labour",
+          "how_earned": "Found half-drowned and taken in; survive convalescence and the first labour. (Already met at the open.)",
+          "unlocks": "The kura storehouse (one room, one verb); the body/rest bar and rice counter; the bare diegetic estate dashboard."
+        },
+        {
+          "rank": "R1 — Day-labourer / hiyatoi",
+          "track": "labour",
+          "how_earned": "Chief Steward Genemon, calling him 'another mouth, soft and clumsy,' assigns the first real work; complete it and earn a sleeping-place.",
+          "unlocks": "The gate & forecourt; the home paddies and dry fields (the koku heartbeat); the basic labour loop and first producers."
+        },
+        {
+          "rank": "R2 — Bonded hand / genin",
+          "track": "labour",
+          "how_earned": "Sustained, reliable labour across a season; Genemon grants a place on the household's books. (Estate Service XP gate.)",
+          "unlocks": "Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the Skills tab reveals."
+        },
+        {
+          "rank": "R3 — Trusted hand & houseman",
+          "track": "mixed",
+          "how_earned": "Win Lady Chiyo's regard for indoor work and heir Naoyuki's grudging vouching; complete authored trust beats (return a lost ledger, defend the grain store).",
+          "unlocks": "The main-house interior; the household domestic economy (textiles, kitchen, provisioning); errands beyond the estate — the VILLAGE TIER opens here, and the first regional ESCORT/ERRAND DISPATCHES (Reach begins leading rank)."
+        },
+        {
+          "rank": "R4 — Yard-hand under arms / buke-hokonin",
+          "track": "combat (entry)",
+          "how_earned": "Conditioning floor (R2-level Estate Service: 'the spear is just a long hoe held with intent') + SURVIVE the humbling, near-fatal first fight, then beg Jubei for drills. The deliberately-incompetent FLOOR of the combat ladder.",
+          "unlocks": "The drill yard; the Combat panel + idle-combat/training; first crude weapon + Equipment & Inventory panels; the Bestiary. Combat stats start at near-zero."
+        },
+        {
+          "rank": "R5 — Foreman of works / kogashira",
+          "track": "labour→management",
+          "how_earned": "Demonstrate command of a labour-gang and a managed sub-economy; the first shinden reclamation begun. (Estate Service XP gate.)",
+          "unlocks": "The workshops and granary; a labour-gang to assign (Sota, Mago, seconded hands as idle producers); the first managed sub-economy; +1 helper slot; the assignment/management panel."
+        },
+        {
+          "rank": "R6 — Gate-guard / monban",
+          "track": "combat",
+          "how_earned": "Stand a real watch and survive pest/animal clears; weapon-skill milestones reached. (Combat Deeds gate; conditioning floor at R5.)",
+          "unlocks": "Estate-defence duties; the near-satoyama hunting grounds; PEST-CONTROL/HUNT/CLEAR quest types; loot + craft (Smith Gonta spearheads via the component chain); the FIRST combat-earned standing."
+        },
+        {
+          "rank": "R7 — Bailiff of the home fields / jito-dai",
+          "track": "labour→management",
+          "how_earned": "The first reclamation recorded and the house edging toward solvency; the lord begins to notice. (Estate Service XP gate.)",
+          "unlocks": "Field administration; HOUSE INFLUENCE made visible and tracked; cash-crop and proto-industry levers come online."
+        },
+        {
+          "rank": "R8 — Patrol-leader / kachi-gashira",
+          "track": "combat (leadership)",
+          "how_earned": "Lead a 2-3 man patrol clearing bandits and securing the valley roads; an authored 'the road declared safe' trust beat. (Combat Deeds gate; conditioning floor at R7.)",
+          "unlocks": "THE REGIONAL CANVAS OPENS HERE (mid-climb, decoupled from the capstone): the tier-expansion road map, a fighting detail to assign, ESCORT/CLEAR/BOUNTY/PATROL quest types, road-security duties; combat now VISIBLY earns House Influence."
+        },
+        {
+          "rank": "R9 — Steward's deputy / yonin-hojo",
+          "track": "management",
+          "how_earned": "Help clerk Tanomo restructure the strangling debt; Genemon comes to rely on him; Lord Munenori's explicit recognition. (Estate Service XP + trust beat.)",
+          "unlocks": "The lord's study and the ledgers; the estate's whole books; +X% Influence per season; debt-restructuring lever."
+        },
+        {
+          "rank": "R10 — Expedition leader / sakite-gashira",
+          "track": "combat (leadership)",
+          "how_earned": "Lead armed expeditions into the high mountains and deep region (the lethal pass, Hanzaki's territory). (Combat Deeds gate; regional Reach.)",
+          "unlocks": "The high mountains & deep region; expedition logistics/supply for armed parties; RAID/HUNT/clear-a-region quest types; expedition combat earns REGIONAL standing; green recruit Tokujiro arrives (teach-from-zero seed)."
+        },
+        {
+          "rank": "R11 — Master of the storehouse & arms / kura-bugyo-kaku",
+          "track": "mixed (management)",
+          "how_earned": "Thresholds in BOTH Estate Service and Combat Deeds + a trust beat; run the granary AND the armoury as one logistics base.",
+          "unlocks": "Unified granary+armoury logistics; scaled equipment crafting/upkeep; the men-at-arms ROSTER on wages and equipment as a managed system; the house's whole material backbone."
+        },
+        {
+          "rank": "R12 — Captain of retainers / monogashira",
+          "track": "combat (leadership)",
+          "how_earned": "Command the house's growing men-at-arms in DEFENCE OF THE ESTATE — the raid/siege-defence set-piece. (Combat Deeds gate + trust beat.)",
+          "unlocks": "The men-at-arms corps; the siege-defence set-piece; the martial-leadership capstone-but-one; martial service that lifts House Influence at the DOMAIN's notice."
+        },
+        {
+          "rank": "R13 — House overseer / sodoshiyori-kaku",
+          "track": "management/leadership",
+          "how_earned": "Thresholds in BOTH tracks + a trust beat; oversee the labour economy and the martial corps together; succession is openly discussed.",
+          "unlocks": "Unified oversight of economy + corps; all sub-economies and defences report to him; the estate operates as one coherent machine."
+        },
+        {
+          "rank": "R14 — Chief steward / the lord's right hand / yonin",
+          "track": "leadership (capstone)",
+          "how_earned": "The top a non-born man can reach by merit — sustained service in BOTH tracks, solvency secured, a merit-elevation; Genemon names him deputy and successor. (Trust-beat capstone.)",
+          "unlocks": "Authority to PROJECT the house outward (direct expansion, plant holdings, negotiate, commit Influence); named deputy/successor. CONFIRMS (does not first-open) the higher macro tiers — House Influence has gated those in parallel since R7/R8. Finishing the ladder RESETS NOTHING."
+        }
+      ],
+      "estate_growth_stages": [
+        {
+          "stage": "E0 — Foreclosure's Edge",
+          "what_it_looks_like": "A leaning gate, a sagging cracked kura, fallow paddies, a household drowning in inherited debt. The only 'defence' is a rusty bar on the kura door. The estate looks like it is dying.",
+          "new_members_and_buildings": "Just the household + old Jubei (lone drillmaster) + bottom-rung peers Sota & Mago and the household staff (Oai, Kyusuke, Ranpo). Economic fabric: the cracked kura. Martial fabric: a rusty door-bar.",
+          "tier_or_influence": "Tier 1 (Estate), Influence band 0; rank floor R0-R2."
+        },
+        {
+          "stage": "E1 — Stabilising",
+          "what_it_looks_like": "The kura patched and re-roofed, the first shinden plot reclaimed, the drill yard cleared (one post), a night-watch lantern lit at the gate, a household ledger that no longer only shows red.",
+          "new_members_and_buildings": "Green recruit Tokujiro (the mirror who is later taught); a first day-labour gang. Economic: repaired kura + first reclaimed shinden. Martial: cleared drill yard (one post) + a gate night-watch.",
+          "tier_or_influence": "Tier 1, low Influence band; rank floor R3-R4."
+        },
+        {
+          "stage": "E2 — Recovering",
+          "what_it_looks_like": "A proper granary raised, two workshops (textile + charcoal/smith-adjacent), a repaired forecourt and a real (if low) palisade fence, 2-3 men-at-arms on a rota, a woodlot under management — the valley starts calling it 'the Kurosawa works.'",
+          "new_members_and_buildings": "First paid outsiders: men-at-arms Gohei & Yataro (ex-ashigaru hired off the road), maidservant expansion under Oai, a carpenter-apprentice (via village Carpenter Risuke), a charcoal artisan. Economic: granary + 2 workshops + managed woodlot. Martial: 2-3 men-at-arms on rota + low palisade.",
+          "tier_or_influence": "Tier 2 (Village); rank floor R5-R6."
+        },
+        {
+          "stage": "E3 — Prosperous",
+          "what_it_looks_like": "A counting-house, guest quarters for visiting brokers, a finished roofed dojo replacing the open yard, a barracks for a small standing squad, a sake/sericulture sub-economy, the mon flying on village contracts, a branch woodlot/charcoal holding up-valley.",
+          "new_members_and_buildings": "A seconded village artisan team (Weaver Onatsu's apprentices), a patrol-leader NPC and the player's 2-3 man patrol detail (Heisuke in the field), a sake-brewer partnership (Tokuemon's stake), a counting-house clerk under Tanomo, kitchen + guest staff. Economic: counting-house + sake/silk sub-economy + first branch holding. Martial: roofed dojo + barracks + small standing squad.",
+          "tier_or_influence": "Tier 2→Tier 3 (early regional reach); rank floor R6-R8 (note: estate fabric runs ahead of rank)."
+        },
+        {
+          "stage": "E4 — Fortified Seat",
+          "what_it_looks_like": "The palisade becomes a proper wall + gatehouse, an armoury and a watchtower, a standing patrol securing the roads (combat-earned Influence made physical), branch holdings in a cluster of valleys — a minor fortified manor that garrisons men it pays.",
+          "new_members_and_buildings": "A standing squad of named men-at-arms (a kumigashira/patrol-corporal + 2-3 named soldiers), origin-recruited porters/guards (Kanta + guild mates), branch-holding stewards; the origin FATHER Kuranosuke joins late here as a trade/logistics contributor. Economic: multi-valley branch holdings + meibutsu groundwork. Martial: wall+gatehouse + armoury + watchtower + standing road-patrol.",
+          "tier_or_influence": "Tier 3→Tier 4 (Domain/Castle-Town); rank floor R10-R12."
+        },
+        {
+          "stage": "E5 — Restored-and-Surpassed",
+          "what_it_looks_like": "A rebuilt grand omoya beyond the three-generations-ago original, a famous-meibutsu workshop quarter, a school/training-hall where the protagonist now TEACHES, formal retainer barracks, the restored-and-surpassed house seal — the epilogue tableau.",
+          "new_members_and_buildings": "The protagonist's OWN students (Tokujiro now teaches under him; famine-orphan recruits 'started from zero'), a master artisan for the meibutsu product, Kuranosuke fully integrated as caravan/route master. Economic: famous-product quarter surpassing the original + onward (Osaka/Edo) supply chains. Martial: formal retainer barracks + the training-school.",
+          "tier_or_influence": "Tier 4→Tier 5 (Edo, indirect ceiling); rank floor R13-R14."
+        }
+      ],
+      "earlier_canvas": "THE CANVAS OPENS EARLIER by DECOUPLING three loosely-coupled progress axes that advance at different rates, with the rule of thumb the whole game obeys: REACH leads, RANK follows, INFLUENCE trails.\n\n(1) HOUSEHOLD RANK — your title/authority INSIDE the Kurosawa house (the 15-rung interleaved labour+combat ladder). Gates what you may COMMAND (helpers, sub-economies, the books, retainers, the men-at-arms corps). It is the SOLE gate on the estate's own systems.\n\n(2) REACH — a new explicit axis = 'where you may travel and what you may do out there on the house's behalf,' expressed as a small ordered set of discrete travel-PERMITS/commissions (Estate grounds → Valley/Village → Near satoyama → Region roads & post-town → Domain seat → Edo-by-attendance). Reach is granted as authored DISPATCH beats — a named NPC (Genemon, Jubei, Heisuke, later Naoyuki) hands you a writ, a manifest, or a marching order that takes you somewhere new — gated by a LOW conditioning floor + a sponsor's leave + a story flag, explicitly NOT by high rank. The sekisho-checkpoint authenticity is preserved: your travel-permit IS the Reach unlock (the house's seal on a pass-document). The fiction: a mediocre nobody is sent out FIRST precisely BECAUSE he is junior and dispatchable — you range the region as the house's HANDS, not its master.\n\n(3) HOUSE INFLUENCE / TIER — the macro standing of the HOUSE; still the SOLE gate on when each macro canvas (village→region→domain→Edo) becomes a real owned economic/holdings layer. Unchanged from locked §1.6, never resets.\n\nCONCRETE DECOUPLING: the first regional ESCORT/ERRAND dispatches fire around R3-R4 (mid-climb) — e.g. (a) ESCORT/PORTER: accompany Heisuke hauling surplus to the post-town, fight off a road-side boar or rice-thief, see the region but make no decisions; (b) ERRAND: carry a sealed letter to the next valley's headman; (c) EXPEDITION MEMBER: the junior spear under Jubei clearing a boar-warren or bandit lean-to; (d) BOUNTY-TAG-ALONG under a senior; (e) RELIEF-RUN: haul relief-rice to a flood-hit hamlet (peaceful, but regional ground at R3). Real wilderness/region combat opens by R4-R6. The full regional ADVENTURING canvas (own quest-board, assign a detail) opens at R8 Patrol-leader — roughly the MIDDLE of the ladder — when the player is sent to secure the valley roads. From R8 onward he adventures regionally while still climbing R9-R14 back home.\n\nCAPSTONE REFRAMED: the top rank (R14) now grants AUTHORITY over the region (to plant a branch holding, negotiate, command an expedition rather than march in one, commit Influence to a project) — NOT first ACCESS to it. By then he has ranged the region for in-world years as the house's hands. 'Finishing the ladder opens the next canvas' survives in spirit — but it opens the canvas as a thing you now RUN, decoupled from when you first walked it. Personal-rank and influence-tier become two parallel bars that cross-feed but neither hard-gates the other above R8 (a patrol-secured road is BOTH a combat deed AND recorded Influence). The macro tiers tick over on Influence bands, NOT on personal rank; personal rank tops out at R14 while Influence keeps climbing to the indirect Edo ceiling.",
+      "mobs_bestiary": [
+        {
+          "enemy": "Wild boar (inoshishi)",
+          "type": "animal",
+          "locale_tier": "Home paddies / near satoyama (T1)",
+          "note": "The first real grindable threat after the humbling fight; tramples and gorges crops. Drops boar hide (armour craft) + meat. The classic 'something is in the lower field' pest-control intro."
+        },
+        {
+          "enemy": "Crop-raiding monkeys (saru) troop",
+          "type": "animal",
+          "locale_tier": "Field-edge / near satoyama (T1)",
+          "note": "Pack nuisance, fast and evasive; thieve rice and produce. Low danger, high annoyance — teaches multi-target combat and evasion."
+        },
+        {
+          "enemy": "Rice-rats & field serpents (mamushi)",
+          "type": "pest/wildlife",
+          "locale_tier": "Granary / paddies (T1)",
+          "note": "Store pests and a venomous snake (status-damage poison). Cheap early grind; mamushi gall is a craft/medicine drop."
+        },
+        {
+          "enemy": "Giant hornets (suzumebachi) nest",
+          "type": "insect",
+          "locale_tier": "Woodlot edge / satoyama (T1-2)",
+          "note": "Swarm/AoE threat near foraging and charcoal work; a CLEAR-the-nest beat. Tests conditioning (status: stings) early."
+        },
+        {
+          "enemy": "Leeches & the 'kappa ford' river creatures",
+          "type": "river wildlife",
+          "locale_tier": "The river, ford & weir (T1-2)",
+          "note": "Leeches drain on fishing; the 'kappa' of the ford is an undertow + a snapping turtle/large catfish — folklore resolves to grounded cause. Ties combat to the fishing/river economy."
+        },
+        {
+          "enemy": "Wolves (okami) pack",
+          "type": "animal",
+          "locale_tier": "Foothills & charcoal grounds (T2)",
+          "note": "Coordinated pack — the first fight that punishes a lone, under-geared player; drives the need for a detail or better gear. HUNT/escort threat."
+        },
+        {
+          "enemy": "Rogue bear (kuma)",
+          "type": "animal",
+          "locale_tier": "Foothills / charcoal-burners' camp (T2)",
+          "note": "A named HUNT quarry; high HP, high damage; bear hide + gall are valuable craft/bounty loot. The 'track and take' archetype."
+        },
+        {
+          "enemy": "Wild dogs / feral pack & poachers' snares",
+          "type": "animal/hazard",
+          "locale_tier": "Woodlot & foothills (T2)",
+          "note": "Ambient threat on patrol; pairs with the poacher bounty (the dogs are the poacher's, the snares are evidence)."
+        },
+        {
+          "enemy": "Foxes & tanuki (the 'fox-fire' / rice-thief)",
+          "type": "wildlife",
+          "locale_tier": "The ridge / foothills (T2)",
+          "note": "De-fanged folklore mobs — fox-fire is a hidden charcoal-kiln smugglers' signal, the rice-thieving tanuki is just a tanuki. Low-threat, lore-bearing; the helpful fox is flatly explicable (honours the ≤1 ambiguity cap and belief→cause rule)."
+        },
+        {
+          "enemy": "Bandits / starving deserters (nobushi)",
+          "type": "human",
+          "locale_tier": "Valley roads / bandit lean-to (T2)",
+          "note": "The first HUMAN threat and the road-security core; mixed motives (organised toll-takers vs desperate deserters) make CLEAR/CAPTURE choices matter. Drop worn weapons (FOUND gear) + coin; clearing them earns recorded Influence."
+        },
+        {
+          "enemy": "Poachers thinning the woodlot deer",
+          "type": "human",
+          "locale_tier": "Estate woodlot edge (T2)",
+          "note": "BOUNTY archetype; the deer they hunt are also a peaceful HUNT node, fusing combat and economy. Some poachers are reachable consciences, not pure villains."
+        },
+        {
+          "enemy": "Rice-thieves & smugglers' muscle",
+          "type": "human",
+          "locale_tier": "Region roads / post-town outskirts (T2-3)",
+          "note": "Tied to the short-weighting/contraband racket (Zenroku→Kuroiwa); fighting them feeds both standing AND the conspiracy evidence thread."
+        },
+        {
+          "enemy": "Masterless ronin / road toughs",
+          "type": "human",
+          "locale_tier": "Region roads & post-town (T3)",
+          "note": "Better-trained than bandits — drop the first decent FOUND blades (a worn kodachi, a fitted yari). Escort/duel fodder; the talent-foil's lesser kin (made, not born)."
+        },
+        {
+          "enemy": "Rival-house Tomita toughs",
+          "type": "human",
+          "locale_tier": "Region / contested holdings (T3-4)",
+          "note": "Hired muscle of the inter-house rival; harassment of branch holdings and trade routes. Status competitor's enforcers — beaten and out-maneuvered, the rival himself is never killed."
+        },
+        {
+          "enemy": "Corrupt official's muscle / the daikan's enforcers",
+          "type": "human",
+          "locale_tier": "Domain roads / castle-town (T4)",
+          "note": "The dangerous edge of the cover-up's protectors; raids on the estate's interests. The Tedai Kuroiwa thread is defeated by EVIDENCE not violence, but his muscle is a real combat threat."
+        },
+        {
+          "enemy": "Mountain raiders / brigand roost",
+          "type": "human",
+          "locale_tier": "High mountains & the pass (T3-4)",
+          "note": "The EXPEDITION/RAID target — an organised band to break with a led armed party; the regional-standing payoff and the approach to Hanzaki's territory."
+        },
+        {
+          "enemy": "Hanzaki, the scarred ronin ('one-eyed mountain god')",
+          "type": "human (named nemesis)",
+          "locale_tier": "The fog-blind pass / lookout (T3-4)",
+          "note": "The recurring DUEL nemesis and talent-gone-rotten mirror — edge is TRAINED and brutal, never innate; survived by labour-built endurance, never out-talented. Early encounters are meant to be survived, not won; his worn gear is a late FOUND prize."
+        },
+        {
+          "enemy": "Yamanba / tengu of the high cedars (rumoured)",
+          "type": "wildlife/human (misread)",
+          "locale_tier": "High woods & cedars (T3-4)",
+          "note": "Rumours-board folklore that resolves to grounded cause — a hermit, a charcoal-recluse, eagles/large raptors, or wind in the cedars. INVESTIGATE-then-confront with humans/animals, never a monster (folklore rule)."
+        },
+        {
+          "enemy": "The raiding party on the estate",
+          "type": "human",
+          "locale_tier": "The estate itself (T4)",
+          "note": "The SIEGE/RAID-DEFENCE set-piece mob — the test of the men-at-arms corps and the estate's martial fabric; outcome can dent or lift Influence and cost or spare a holding."
+        }
+      ],
+      "stays_incremental": "Five disciplines keep all of this incremental/fractal and never overloading:\n\n(1) THE LADDER IS THE PROGRESS BAR. The 15 rungs pace the reveal so NO rung dumps more than ~2-3 new affordances. Steep geometric Estate Service gates space the big labour promotions; Combat Deeds gates space the martial promotions; smaller responsibility/perk drips fill BETWEEN gates. Because labour and combat rungs ALTERNATE, the player is never starved of a 'next reveal' on either track — a labour wall is relieved by chasing the next combat rung and vice-versa, doubling the dopamine cadence vs. a single-track ladder, while the combat reveals (Combat panel, Bestiary, Equipment, Inventory, the men-at-arms roster, the expansion map at R8) are woven THROUGHOUT the climb instead of dumped at one Act-close — smoothing the old 'big combat dump at Rank 3' spike.\n\n(2) FRACTAL FRONTIERS. Every new zone/building/faction arrives MINIMAL and itself unlocks: a new region is one road, one threat, one contact; a drill yard is one post then a rack then sparring slots; a new bestiary tier reveals one mob at a time. The whole-game UI-reveal motion repeats in miniature at every frontier — exactly Pillar 7.\n\n(3) SPARSE AUTHORED REACH, not a fourth grind. Reach unlocks are a HANDFUL of authored dispatch beats (each a plot event with a log line + reveal + flag through the universal bus), NOT a grindable bar — so the three axes (Rank, Reach, Influence) read as facets of ONE climb feeding ONE House Influence, not three games. They are never all surfaced as three visible meters at once.\n\n(4) DIEGETIC, CAPPED BUILDS. Estate growth is story-framed beats ('the frame is raised'), not a build-queue; the number of simultaneously-active build/quest choices is capped; the minute-to-minute texture stays labour+combat GRIND ('the hero getting better at what he does'), not estate micromanagement — guarding against the city-builder/4X drift §1.13 warns of.\n\n(5) LIGHT ROSTER CARDS + REUSE. ~5-8 named members per stage are mostly LIGHT cards (role + one-line hook + a data-driven contribution slotting into existing idle-producer/garrison systems); existing cast is reused (village artisans seconded, origin friends recruited) so only a few get full arcs — containing cast bloat. Everything stays pure-core data-driven (rungs, holdings, mobs, quests, permits as registry rows with unlock predicates over GameState), deterministic under the one seeded RNG, generated into docs/ as single source of truth, and headlessly regression-testable via the DEV play API (force Estate Service + Combat Deeds + Influence + a permit, fast-forward, assert each reveal fires at the intended state and that NO rung/build/memory grants a hidden stat).",
+      "decisions_to_lock": [
+        {
+          "question": "Reverse the locked 'combat is the rare exception, never a source of standing' clause (old §1.2 Pillar-4) — combat is now a core pillar that EARNS House Influence?",
+          "recommendation": "YES — re-lock as a superseding ADR (D-007): combat is a first-class pillar alongside labour; martial service (clear/secure/defend/repel) converts to House Influence via a seventh conversion lever, gated behind labour-built conditioning and the humbling first fight; mediocre-start preserved.",
+          "why": "The human's instruction #1 explicitly authorizes it; it is the load-bearing reframe of the whole redesign and directly contradicts a still-live locked pillar, so it must be an entry in the decision log before this is canon."
+        },
+        {
+          "question": "Final rung count for the estate ladder — 15 interleaved rungs, or trim to ~13?",
+          "recommendation": "Lock 15 for now (in the human's stated ~12-16 band), with R11 (storehouse & arms) and R13 (house overseer) as the candidates to fold (R11→R9, R13→R14) if the §4 balance pass finds either thin.",
+          "why": "15 gives a real braided climb with both a 'next labour goal' and a 'next combat goal' at every step; but pacing may prefer fewer, fatter rungs — flag the fold candidates now so the trim is cheap later."
+        },
+        {
+          "question": "Where does the regional adventuring CANVAS first open relative to rank?",
+          "recommendation": "Lock the three-axis decouple: first regional ESCORT/ERRAND dispatches at R3-R4, real region combat by R6, the full regional quest-board/assignable-detail at R8 Patrol-leader; the R14 capstone grants AUTHORITY over the region, not first ACCESS.",
+          "why": "Directly executes the human's §1.5.4 'canvas opens earlier' mandate; pins the offset (Reach leads rank) so §2/§4/§5 can pace against it."
+        },
+        {
+          "question": "Two earned currencies (Estate Service XP + Combat Deeds) feeding promotions AND Influence — is the model right?",
+          "recommendation": "YES — keep them independent grind tracks; labour CONDITIONING is a one-way enablement gate on combat rungs (R4/R6/R8 floors) but grants ZERO combat stat bonus (honours no-hidden-edge); the §4 balance pass tunes relative gate costs and the alternation.",
+          "why": "Two tracks are what make both labour and combat real paths up; the one-way conditioning gate keeps labour mandatory underneath the martial climb so a combat-only player can't skip the cozy core (§1.13 'must not drift')."
+        },
+        {
+          "question": "Add the father Kuranosuke to the origin faction, as designed (porter's-knot teacher, debt-bonded witness, late ally producer, partial bittersweet reunion)?",
+          "recommendation": "YES — lock as part of the origin ADR amendment; keep his witness angle DISTINCT (the porter/short-weighting angle), his freedom GRIND-BOUGHT (access-only), and his return broken/ashamed (partial redemption).",
+          "why": "Fills the human's instruction #6 (faction-3 has no father); knits the origin into the 'one rotten root' conspiracy without redundancy; honours the dream/no-hidden-edge rule and the origin track's bittersweet edge."
+        },
+        {
+          "question": "Does the estate's physical growth run AHEAD of the top personal ranks (E1-E3 martial/economic buildings appear mid-climb)?",
+          "recommendation": "YES — gate buildings on Influence band + a LOW rank floor + cost (not the capstone); the 'other fabric follows close behind' rule (a lean never leaves the estate half-built for long) gets concrete pacing rules in the balance pass.",
+          "why": "Makes 'the canvas opens earlier' true at the estate scale too; but the rank floors + story flags must be tuned so the estate LEADS without LEAPING the narrative rank gates."
+        },
+        {
+          "question": "Authenticity of the new martial titles (monban, kachi-gashira, sakite-gashira, monogashira, kura-bugyo-kaku) for a modest goshi house?",
+          "recommendation": "Flag for the §4/§5 research-harden alongside the existing yonin-vs-karo top-title note; keep grander terms as aspirational in-fiction narration if humbler ashigaru-tier titles prove more defensible.",
+          "why": "kachi/monogashira/bugyo are arguably grander than a threadbare lower-samurai house would field; same discipline already applied to the top rung must apply to the new martial rungs."
+        }
+      ],
+      "open_questions": [
+        "Final rung count: lock 15, or trim to ~13 by folding R11→R9 and R13→R14? (In the ~12-16 band; pacing may prefer fewer, fatter rungs.)",
+        "Should the two currencies (Estate Service XP, Combat Deeds) be fully independent, or have a small ONE-WAY cross-feed (labour conditioning slightly accelerates combat TRAINING speed per 'the spear is a long hoe') — with strictly ZERO combat stat bonus to honour no-hidden-edge?",
+        "Is REACH modeled as a small ordered set of discrete named travel-permits (recommended) or a continuous range number? And exactly how many rungs ahead of rank should Reach run (first regional dispatch at R3 of 15)?",
+        "Where does the men-at-arms ROSTER first appear as a managed system — R8 (small detail), R11 (wages/equip, recommended), or R12 (full corps)? Must stay in lockstep with the estate-growth stages.",
+        "How literal is the estate's spatial representation per stage — a redrawn estate map/visual each stage, or growth conveyed via panels + a roster list + a schematic? (Ties to the macro-tier spatiality open question.)",
+        "Is the standing patrol/garrison a real assignable resource the player tunes (men allocated to road vs gate vs branch holding), or narrative flavour with a derived strength number? Determines how deep the martial-estate management goes.",
+        "Can the player permanently LOSE a holding (e.g. a failed siege-defence costs a branch holding, raising combat stakes), or are all dents recoverable per the locked 'never a wipe' rule?",
+        "Roster depth: how many of the ~30-40 new members across six stages get real arcs/dialogue vs being light contribution-cards — and do village-seconded artisans cost village production (a real loan) when they join the estate roster?",
+        "Does combat-earned standing on a low-rank dispatch ever advance REACH itself ('he came back alive AND useful'), in addition to feeding Estate Service / Influence? (Recommend yes.)",
+        "Authenticity: which Edo martial-title set survives the §5 research-harden for a modest goshi house — keep the grander monogashira/bugyo terms as aspirational narration, or pick humbler ashigaru-tier titles?",
+        "Confirm the alive-but-ruined father framing is not too dark for the warm 'they support his achievements' frame, and that re-reading Oyuki from grieving widow to a wife who let a comforting lie stand is wanted.",
+        "Does R14 remain the HARD ceiling of the personal ladder while House Influence keeps climbing to the indirect Edo ceiling afterward (recommend yes — personal rank tops at R14; macro tiers continue on Influence alone)?"
+      ]
+    },
+    "verify": {
+      "passes": false,
+      "violations": [
+        {
+          "constraint": "Locked folklore rule D-002 + PRD §1.10: residual ambiguity HARD-CAPPED at ≤1 unresolved off-screen beat (the boundary-stone offering); every yokai resolves one-to-one to a human/natural cause; linger in unease then debunk with dawning dread, never a Scooby-Doo unmasking.",
+          "problem": "The bestiary mass-produces 'misread' folklore mobs as GRINDABLE enemies — 'kappa ford river creatures,' 'foxes & tanuki (fox-fire / rice-thief),' 'Yamanba / tengu of the high cedars (rumoured),' 'Hanzaki the one-eyed mountain god.' Each is individually grounded, but turning belief-creatures into a repeatable spawn-table population breaks the rule two ways: (1) the ≤1 ambiguity cap is never re-affirmed anywhere in the redesign; (2) a weighted spawn table that respawns 'kappa' on entering the ford CANNOT 'linger in unease then resolve one-to-one' — it resolves on first kill then farms the corpse, which is exactly the Scooby-Doo unmasking forbidden. The locked 'helpful fox de-fanged to flatly explicable' is re-fanged by listing foxes/tanuki as a combat tier. This converts grief-coping folklore into monster-of-the-week content."
+        },
+        {
+          "constraint": "Locked PRD §1.6: House Influence dents are 'small, recoverable, NEVER a wipe'; Influence 'never resets'; everything persists as the canvas grows.",
+          "problem": "The SIEGE/RAID-DEFENCE quest entry and the E4 estate stage both assert a failed defence 'can cost or spare a holding,' and an open question proposes permanently LOSING a branch holding 'to raise combat stakes.' Permanently destroying an owned, recognized holding is a wipe of accrued Influence and contradicts the locked 'never a wipe' rule. The contradiction is live in body text (two places), not merely flagged as a question."
+        },
+        {
+          "constraint": "Locked D-003 / PRD §1.4 no-hidden-edge: no returning memory or instinctive habit ever grants a starting stat, recipe, tool, or combat bonus; growth is grind, not gift; porter's-knot and dream grant ZERO mechanical bonus.",
+          "problem": "The redesign's open question proposes a 'small ONE-WAY cross-feed: labour conditioning slightly accelerates combat TRAINING speed.' A training-rate multiplier IS a mechanical combat bonus derived from a non-combat source — it makes him better at combat per unit of combat effort because of his labour body, indistinguishable in feel from 'his body takes to it.' Even with 'zero combat STAT bonus,' this is the soft hidden edge D-003 forbids. It should be killed outright, not left open; conditioning may GATE combat (one-way enablement) but must not ACCELERATE it."
+        },
+        {
+          "constraint": "Process rule (PRD §1.13/§1.14): direction-changing calls that contradict still-live locked ADRs/pillars must be re-locked as superseding ADRs BEFORE the section is canon. The decision log holds only D-001–D-006; no D-007 exists.",
+          "problem": "The load-bearing reframe — reversing locked Pillar-4's 'combat is the rare exception, never a source of standing' — is asserted as authorized but PRD §1.2 Pillar 4 still literally reads 'never a source of standing,' and no D-007 is written. Additionally the locked §1.14 recommends EIGHT ranks; this redesign unilaterally ships FIFTEEN. Reversing a still-live pillar and a recommended-lock rank count inside a draft, without the ADRs, makes the whole redesign non-canonical until D-007 (combat-earns-standing) and a rank-count ADR are written and human-approved."
+        }
+      ],
+      "weaknesses": [
+        "SCOPE BLOAT — the single biggest risk. Build surface for what is still a §1 (vision) DRAFT with ZERO code written: 15 interleaved ranks (each with how-earned + unlocks + track), 6 estate growth stages (silhouette + buildings + roster each), ~30–48 named roster members across stages (atop ~40 existing §1.8 cast), 19 mob entries across 4 tiers, 12 open-ended quest TYPES, 2 new earned currencies (Combat Deeds + conditioning gate), a 3rd progress axis (Reach permits), a 7th Influence lever, plus the father subplot. Against the locked v1 ('Tiers 1–2 complete, Tier 3 stubbed') and the project memory ('start lean... don't over-build'), this is several launches of content presented as one section. The 'stays_incremental' discipline is asserted but the raw COUNTS contradict it.",
+        "Combat not overwhelming the cozy core is asserted, not structurally guaranteed. Of 15 rungs the combat/martial track owns or co-owns R4, R6, R8, R10, R11, R12, R13 (7–8 rungs) vs pure cozy-labour R0, R1, R2, R5, R7 (5). By rung-count combat is the MAJORITY of the back half. Locked tone is 'the dominant texture is peaceful Edo labour.' Reversing 'combat is rare' does NOT authorize 'combat is the majority of mid-late progression' — the redesign over-corrects.",
+        "Interleaving front-loads cozy and back-loads combat-leadership, undercutting the brief's 'woven THROUGHOUT.' First combat rung is R4 and first combat-earned standing is R6 — ~40% into the ladder; the humbling fight lands after four labour rungs. Defensible for mediocre-start, but the text claims 'throughout' while the structure says 'from the middle.' Own it as a mid-game second pillar or seed a tiny earlier combat taste.",
+        "The canvas DOES open earlier (R3–R4 dispatches, full board at R8, capstone reframed to authority-not-access) — satisfies brief §4. BUT the 'Reach leads, Rank follows, Influence trails' three-axis model adds a THIRD progression axis on top of TWO earned currencies (Estate Service XP + Combat Deeds) — heavy bookkeeping for an incremental game whose pillar is gentle UI-reveal. Real risk the player can't tell why something is gated. Reach should be pure authored story-flags, NEVER a meter — lock that, don't leave it open.",
+        "The father Kuranosuke fits thematically and keeps his porter/short-weighting witness angle distinct from Naozane (good). BUT he partially DUPLICATES locked Master Denbei, whom §1.8 already names as 'the grounded source of the porter's-knot identity (he taught it).' Reassigning the teaching to Kuranosuke retcons a locked cast function — must be flagged as amending Denbei, not silent. Also 'alive but broken, debt-bonded, written off' stacks a THIRD debt-machine-ate-a-person arc beside Tahei's caravan and Oharu's near-sale, risking tonal monotony and over-darkening the warm 'they support him' frame.",
+        "Estate growth is tangible and well-staged (E0→E5 readable silhouettes, economic+martial fabric in lockstep, roster as emotional payload) — delivers brief §2. Weakness is roster math: '~5–8 per stage' × 6 = 30–48 NEW named NPCs atop the existing ~40. 'Mostly light cards' still need names, roles, hooks, contribution rows, and reuse-checks — cast bloat the locked design explicitly guards against ('NPCs do double duty to keep the web legible').",
+        "Authenticity of the new martial titles: kachi-gashira, sakite-gashira, monogashira, kura-bugyo-kaku are arguably grander than a threadbare goshi house would field. monogashira (company-commander) and bugyo (commissioner/magistrate) are domain/han-administration ranks, not titles a single declining country-samurai household confers internally — it reads as a small daimyo, contradicting 'modest goshi, works its own land.' Humbler ashigaru-tier vocabulary (monban, kogashira, kachi, ashigaru-kashira) should be the DEFAULT; grand terms aspirational narration only, same discipline already applied to yonin-vs-karo at the top rung. The redesign flags this but defers it.",
+        "Minor: the bestiary's 'locale_tier (T1)/(T2)' labels conflate the danger-gradient conditioning rings (locked §1.7: wilderness is 'shared T1–3, gated by conditioning') with the Influence-tier authority canvas (§1.6), muddying the very Reach-vs-Influence decouple the redesign is establishing. Use a separate 'danger ring' label, not the Influence-tier number, for mob locales."
+      ],
+      "fixes": [
+        "CUT TO A SANE v1 SUBSET: (a) ~8-rung ladder (locked recommended count) interleaving exactly TWO combat rungs — R4 yard-hand-under-arms (humbling-fight floor) and R6 gate-guard (first combat-earned standing) — inside the labour spine; defer patrol-leader/expedition/captain/overseer rungs to post-v1. (b) Estate stages E0–E2 only, matching locked 'Tiers 1–2 complete.' (c) ~5 mobs (boar, monkeys, hornets-nest, wolves-or-bear, bandits/deserters), one per shipped quest type. (d) ~4 quest types (PEST CONTROL, HUNT, CLEAR, DEFEND — DEFEND as the standing-earner); defer escort/patrol/bounty/duel/expedition/siege/relief/investigate. (e) ~5–8 NEW roster members TOTAL for v1, not per stage. Keeps both/and combat real while fitting lean-v1 and 'don't over-build.'",
+        "WRITE THE ADRs FIRST: (1) D-007 'combat is a first-class pillar earning House Influence via a 7th conversion lever (martial security), gated behind labour-conditioning and the humbling first fight; mediocre-start preserved' — and strike PRD §1.2 Pillar 4's 'never a source of standing' as REVERSED by D-007. (2) An ADR pinning rank count (8 for v1, documented growth path to ~12–15), superseding the §1.14 'recommend eight ranks' note. (3) An ADR amending Denbei/Kuranosuke porter's-knot ownership. Don't let body text assert the reversal while the locked pillar reads the opposite.",
+        "RE-AFFIRM AND ENFORCE FOLKLORE RULES IN COMBAT CONTENT: explicitly restate the ≤1 residual-ambiguity cap survives (boundary-stone only). Pull belief-creatures OUT of grindable spawn tables — 'kappa,' 'fox-fire fox/tanuki,' 'yamanba/tengu,' 'one-eyed mountain god' stay INVESTIGATE-then-confront one-shot beats that linger-then-resolve to a human/animal cause, NOT respawning populations. Grindable mobs = honestly-mundane ones (boar, monkeys, wolves, bear, hornets, leeches, rats/mamushi, bandits, ronin, poachers). The de-fanged 'helpful fox' stays flavour, never a combatant.",
+        "KILL the labour→combat training-rate cross-feed entirely (don't leave open). Lock: labour conditioning is a ONE-WAY ENABLEMENT GATE on combat rungs (R4/R6 floors) granting ZERO bonus of any kind — no stat, no XP-rate, no training-speed multiplier. Combat XP comes only from combat. Only formulation honouring D-003 in feel and letter.",
+        "RESOLVE the holding-loss question toward the locked rule, in body text: a failed siege/raid DENTS Influence and can damage/disable a holding TEMPORARILY (recoverable by rebuild) but NEVER permanently destroys an owned recognized holding — 'never a wipe.' Remove 'can cost a holding' from the SIEGE quest and E4 stage, or rewrite as 'can dent Influence and force a costly rebuild.'",
+        "RE-BALANCE the ladder so labour stays the clear plurality and cozy texture stays dominant: at the eventual full count keep labour/economy rungs ≥ combat rungs, keep minute-to-minute texture labour-weighted, state a target (e.g. peaceful-labour ≥60% of typical play-time). Reframe combat honestly as a strong MID-GAME-onward second pillar braided into the back half, not 'woven from minute one' — the structure (first combat at R4) and the mediocre-start both require it.",
+        "DEMOTE the grand martial titles to aspirational narration NOW (don't defer). Default to ashigaru/household-tier vocabulary (monban, kogashira, kachi, ashigaru-kashira) for a goshi house; keep monogashira/bugyo/sakite-gashira as in-fiction reach-words only, exactly as the top rung does with yonin-vs-karo. Cheap fix; prevents the house reading as a mini-daimyo.",
+        "COLLAPSE the three-axis surface area: surface only Rank (the one visible ladder) and Influence (the one macro gate-number); make Reach authored story-flags/permits that fire as plot beats, NEVER a meter or grindable bar. Lock this rather than leave it open — preserves the 'UI-as-progression, reveals-as-plot' pillar and prevents three-meter overload. Also relabel mob locales as 'danger rings,' not Influence tiers.",
+        "TONE-GUARD the father: keep alive-but-broken + PARTIAL redemption (good) but lighten the debt-bondage stacking so his predicament reads distinct from Tahei's-caravan and Oharu's-near-sale (avoid the same beat thrice). Flag the Denbei retcon. Confirm with the human that re-reading Oyuki from widow to 'wife who let a comforting lie stand' is wanted, since it re-colours a locked sympathetic character."
+      ],
+      "scope_assessment": "Severely over-scoped for the project's stated v1 and working style. Locked plan (PRD §1.14) recommends an 8-rank ladder and a v1 of 'Tiers 1–2 complete, Tier 3 stubbed'; the user's standing memory is 'start lean, add pieces back deliberately; don't over-build.' This redesign proposes 15 ranks, 6 estate stages, 30–48 new roster NPCs (atop ~40 existing), 19 mobs across 4 tiers, 12 open-ended quest TYPES, 2 new earned currencies, a 3rd progression axis (Reach), and a 7th Influence lever — while §1 is still a DRAFT with no code written and the required superseding ADRs (D-007+) unlogged. The design THINKING is strong and largely internally consistent; the design VOLUME is years of content in one section. A sane v1: ~8 rungs (2 combat-interleaved), estate stages E0–E2, ~5 mobs, ~4 quest types (incl. DEFEND as standing-earner), the conditioning GATE (no cross-feed), the father as a Tier-3 stub, ADRs written first. Build that, verify incrementally, grow the ladder/bestiary/quest-taxonomy in later tiers — the fractal-incrementality the design itself preaches.",
+      "verdict": "DOES NOT PASS as canon-ready — fixable, not fatal. The combat-as-core reframe, earlier canvas, estate-growth staging, and the father are conceptually sound and mostly honour the grounded/mediocre-start spine. But the redesign (1) ships content at several-times v1 scope against a locked lean-v1 and an explicit 'don't over-build' instruction; (2) leaves four locked-rule contradictions live in body text — belief-creatures turned into grindable spawns plus an un-reaffirmed ≤1 ambiguity cap; a permanent-holding-loss violating 'never a wipe'; an open labour→combat training-rate cross-feed violating no-hidden-edge; and the combat-earns-standing reversal asserted without the required D-007 ADR; and (3) tilts the back-half rung-count toward combat, risking the locked 'peaceful labour is the dominant texture' feel. Write the ADRs first, cut to the sane v1 subset, kill the cross-feed and the permanent-loss, pull belief-creatures out of the spawn tables, demote the grand titles, and re-balance toward labour-plurality — then it becomes a strong both/and pillar inside the locked foundation. Relevant locked sources: /Users/raynos/projects/games/incremental-game-1/docs/prd.md (§1.2 Pillar 4, §1.4, §1.6, §1.10, §1.13–1.14) and /Users/raynos/projects/games/incremental-game-1/docs/history/decisions.md (D-002, D-003, missing D-007)."
+    },
+    "facets": [
+      {
+        "facet": "FACET A — The redesigned estate rank ladder (15 rungs, labour & combat interleaved)",
+        "summary": "I redesigned the Kurosawa estate rank ladder from the old 8 labour/steward-only rungs (Ranks 0–7) into a 15-rung ladder (Rank 0 \"stray\" → Rank 14 \"chief steward / lord's right hand\") that INTERLEAVES labour-focused and combat-focused rungs, makes combat a first-class path up that EARNS standing, and DECOUPLES personal rank from the outward tier-canvas so regional adventuring opens mid-climb. The grounded mediocre-start contract is fully preserved: the protagonist starts weak at BOTH labour and combat, the first real fight (between Rank 4 and Rank 5) is humbling and near-fatal, and combat capacity is earned through drills under Jūbei — no hidden edge.\n\nCore structure (TRACK in brackets):\n- R0 Stray / \"another mouth\" [labour] — convalescence; kura, body/rest bar, rice counter.\n- R1 Day-labourer / hiyatoi [labour] — first real work; gate & forecourt, paddies, koku heartbeat, labour loop.\n- R2 Bonded hand / genin [labour] — a season of reliable toil; foraging/woodcutting/hauling, Skills tab, porter's-knot beat.\n- R3 Trusted hand & houseman [mixed] — Lady Chiyo's regard + Naoyuki's vouching; main-house interior, domestic economy, village errands (village tier opens here).\n- R4 Yard-hand under arms / buke-hōkōnin [combat — entry] — survive the HUMBLING FIRST FIGHT then beg Jūbei for drills; the drill yard, training/idle-combat, the Combat panel, first crude weapon + Equipment/Inventory, the Bestiary; the FLOOR of the combat ladder, deliberately incompetent.\n- R5 Foreman of works / kogashira [labour→management] — command a labour-gang; workshops, granary, the assignment/management panel, first managed sub-economy, +helper slots.\n- R6 Gate-guard / monban [combat] — stand a real watch + survive pest/animal clears; estate-defense duties, near-satoyama hunting grounds, weapon-skill milestones, loot/craft (Smith Gonta spearheads), first combat-earned standing.\n- R7 Bailiff of the home fields / jitō-dai [labour→management] — first shinden reclamation recorded, house edging to solvency; field administration, House Influence made VISIBLE, cash-crop/proto-industry levers.\n- R8 Patrol-leader / kachi-gashira [combat — leadership] — lead a 2–3 man patrol clearing bandits & securing the valley roads; ESCORT/CLEAR/BOUNTY quests, a small fighting detail to assign, road-security duties; combat now visibly EARNS House Influence (\"the road is safe, and the books say so\"). THE CANVAS OPENS HERE — regional questing/combat reach unlocks MID-CLIMB, decoupled from the top ranks.\n- R9 Steward's deputy / yōnin-hojo [management] — help Tanomo restructure the debt; the lord's study, the ledgers, the tier-expansion map, +% Influence/season.\n- R10 Expedition leader / sakite-gashira [combat — leadership] — lead armed expeditions into the high mountains & deep region (the lethal pass, Hanzaki's territory); RAID/HUNT/clear-a-region quests, logistics/supply for armed parties, expedition combat earns regional standing.\n- R11 Master of the storehouse & arms / kura-bugyō-kaku [mixed management] — run the granary AND the armory as one logistics base; equipment crafting/upkeep at scale, men-at-arms roster equip & wages, the house's whole material backbone.\n- R12 Captain of retainers / monogashira [combat — leadership] — command the house's growing men-at-arms in DEFENSE OF THE ESTATE (raid/siege-defense set-piece); the martial leadership capstone-but-one; martial service that lifts House Influence at the domain's notice.\n- R13 House overseer / sōdoshiyori-kaku [management/leadership] — oversee BOTH the labour economy and the martial corps together; the whole estate's operations, sub-economies, and defenses report to him; succession is openly discussed.\n- R14 Chief steward / the lord's right hand / yōnin [leadership — capstone] — the top a non-born man can reach by merit; authority to project the house outward, named deputy and successor. Finishing the ladder RESETS NOTHING; it confirms (not opens) the higher macro tiers, which House Influence has been gating in parallel since R8.\n\nPacing principle: labour rungs (R0–R3, R5, R7, R9) and combat rungs (R4, R6, R8, R10, R12) alternate so the player always has a \"next labour goal\" AND a \"next combat goal,\" each a separate XP/deed track; mixed/management rungs (R11, R13) and the leadership capstone (R14) braid them. The two earned currencies are Estate Service XP (labour) and Combat Deeds (martial), both feeding promotions + House Influence; trust beats (authored story gates) sit on top so numbers can never skip narrative.",
+        "key_designs": [
+          {
+            "name": "15-rung interleaved ladder (labour ⇄ combat ⇄ management ⇄ leadership)",
+            "description": "R0 Stray[labour] · R1 Day-labourer/hiyatoi[labour] · R2 Bonded hand/genin[labour] · R3 Trusted hand & houseman[mixed] · R4 Yard-hand under arms/buke-hōkōnin[combat-entry] · R5 Foreman of works/kogashira[labour→mgmt] · R6 Gate-guard/monban[combat] · R7 Bailiff of the home fields/jitō-dai[labour→mgmt] · R8 Patrol-leader/kachi-gashira[combat-leadership] · R9 Steward's deputy/yōnin-hojo[mgmt] · R10 Expedition leader/sakite-gashira[combat-leadership] · R11 Master of storehouse & arms/kura-bugyō-kaku[mixed-mgmt] · R12 Captain of retainers/monogashira[combat-leadership] · R13 House overseer/sōdoshiyori-kaku[mgmt-leadership] · R14 Chief steward/yōnin[leadership-capstone]. Combat and labour rungs alternate so both paths feel like real climbs; mgmt/leadership braid them late. Maps the old 8 rungs cleanly: old R0→new R0, R1→R1, R2→R2, R3→R3, R4(foreman)→R5, R5(bailiff)→R7, R6(deputy)→R9, R7(chief steward)→R14 — the 7 new rungs inserted are the combat/martial spine (R4,R6,R8,R10,R12) plus two logistics/leadership braids (R11,R13)."
+          },
+          {
+            "name": "How each rung is earned (two earned currencies + trust beats)",
+            "description": "Two separate grindable tracks plus authored gates: (1) Estate Service XP — labour duties & survived seasons — paces labour rungs R0–R3, R5, R7, R9; (2) Combat Deeds — kills/clears/defended-against, a combat-XP + deed-count pool — paces combat rungs R4, R6, R8, R10, R12; mixed/mgmt rungs (R11, R13, R14) require thresholds in BOTH plus an authored trust beat (a named story gate, e.g. 'defend the grain store,' 'first shinden recorded,' 'the road declared safe,' 'the raid repelled,' 'named successor'). Combat Deeds EARN standing/House Influence directly (clearing bandits, securing roads, defending the estate are recorded martial service a samurai house values) — this reverses the old 'combat is never a source of standing' rule. Trust beats sit on top of the numbers so a player can never grind a meter to skip the narrative; each promotion fires the universal rewards/unlock bus (diegetic log line + panel/area reveal + perk + story flag)."
+          },
+          {
+            "name": "What each rung unlocks (systems / areas / responsibilities / story)",
+            "description": "R0 kura+rest/rice. R1 gate/forecourt, paddies, koku, labour loop. R2 forage/woodcut/haul, Skills tab, porter's-knot. R3 main-house interior, domestic economy, VILLAGE TIER errands. R4 (after humbling fight) drill yard, Combat panel, idle-combat, first crude weapon + Equipment/Inventory + Bestiary. R5 workshops, granary, assignment/management panel, labour-gang, first sub-economy. R6 estate-defense duties, near-satoyama hunting grounds, weapon-skill milestones, loot+craft (Gonta spearheads), pest/animal CLEAR & HUNT quests. R7 field administration, HOUSE INFLUENCE made visible, cash-crop/proto-industry levers. R8 the regional canvas + tier-expansion road map, a fighting detail to assign, ESCORT/CLEAR/BOUNTY/PATROL quest types, road-security; combat-earned Influence. R9 lord's study, ledgers, debt-restructuring, +%Influence/season. R10 high mountains & deep region, expedition logistics, RAID/HUNT quest types, regional combat standing. R11 unified granary+armory logistics, scaled equipment crafting/upkeep, men-at-arms wages/equip roster. R12 the men-at-arms corps, the raid/SIEGE-DEFENSE set-piece, domain-noticed martial service. R13 unified oversight of economy+corps, succession discussed. R14 outward-projection authority, named deputy/successor; CONFIRMS the higher macro tiers (does not open them — they opened in parallel)."
+          },
+          {
+            "name": "Decoupling: the canvas opens at R8, not at the capstone",
+            "description": "The human's §1.5.4 mandate. In the OLD design the Rank-7 capstone was 'the diegetic bridge that opens the higher tiers.' In the redesign, the outward tier-canvas (regional questing & combat reach) opens at R8 Patrol-leader — roughly the MIDDLE of the ladder — when the player is sent out to secure the valley roads and clear bandits regionally. From R8 onward the player adventures regionally (escort/bounty/clear/raid) while STILL climbing the personal ladder (R9–R14) back home. House Influence still gates the MACRO tiers (village→region→domain→Edo) as an independent currency that has been accruing since R7; the macro tiers tick over on Influence bands, NOT on personal rank. Finishing the ladder (R14) therefore CONFIRMS and formalizes outward-projection authority rather than first-opening it — 'finishing the ladder resets nothing; the canvas was already open, the ladder catches up to it.' This makes personal-rank and influence-tier two parallel progress bars that cross-feed but neither hard-gates the other above R8."
+          },
+          {
+            "name": "The grounded mediocre-start, preserved across BOTH paths",
+            "description": "R0–R3 he is a weak, soft-handed labourer who grinds up only by reps. The combat ladder's FLOOR (R4 Yard-hand under arms) is reached by SURVIVING the humbling first fight — he swings a carrying-pole/hatchet, lands one lucky blow, is thrashed, disarmed, ribs cracked, left in the dirt, surviving only by luck or Jūbei's arrival, NEVER by skill. R4 is deliberately the rung of an incompetent: he can now train, but his combat stats are near-zero. Combat capacity is gated entirely behind labour-built conditioning (R4 requires R2-level Estate Service first — 'the spear is just a long hoe held with intent') and then earned through drills (Jūbei's creed: 'Talent is a story the lucky tell. You are not lucky. So you will work.'). No hidden edge: the porter's-knot and returning memory grant ZERO combat bonus; every combat number starts at the bottom. The talent-foils (Hanzaki, Naoyuki) are trained/lucky/ruthless, never innately gifted past what work could match."
+          },
+          {
+            "name": "Roster-growth alignment (ladder rungs add cast/holdings)",
+            "description": "Each rung visibly grows the estate's roster, tying Facet A to the human's 'the estate grows / growing roster' mandate: R5 grants a labour-gang (Sota, Mago, seconded village hands as idle producers); R6 adds the gate-watch peers; R8 grants a 2–3 man patrol detail (Heisuke joins the field); R11 puts the men-at-arms on wages/equipment as a managed roster; R12 commands a real men-at-arms corps (artisans, porters, soldiers, servants now a full cast). Green recruit Tokujirō arrives once the player is high enough to teach-from-zero (R10+), seeding the late 'you now start others from the bottom' layer. This makes the ladder the spine that the estate's physical/roster growth hangs on."
+          },
+          {
+            "name": "UI-reveal pacing (the ladder IS the progress bar)",
+            "description": "The 15 rungs pace the incremental reveal so no rung dumps more than ~2–3 new affordances. Steep geometric Estate Service gates space the big labour promotions; Combat Deeds gates space the martial promotions; smaller responsibility/perk drips fill BETWEEN gates so each path has texture. Because labour and combat rungs alternate, the player is never starved of a 'next reveal' on either track — a labour wall is relieved by chasing the next combat rung and vice-versa, doubling the dopamine cadence vs. the old single-track ladder. Every reveal carries an Influence/flag/skill predicate and fires one diegetic log line; combat-track reveals (Combat panel, Bestiary, Equipment, Inventory, the men-at-arms roster, the expansion road map at R8) are now woven THROUGHOUT the climb instead of dumped at one Act-close, smoothing the old 'big combat dump at Rank 3' spike."
+          }
+        ],
+        "ties_to_vision": "Honors §1.1's 'climb rung by sweat-bought rung from taken-in stray to the lord's right hand' and §1.2 Pillar 1 (the estate-rise is the spine) — but now realizes the human's §1.5 redesign that combat is a CORE PILLAR alongside labour. The longer interleaved ladder makes 'the dignity of a nobody becoming someone real, by hand' a climb the player makes as BOTH a worker and a fighter, exactly the both/and the human demanded. It preserves §1.4's mediocre-start contract and §1.2 Pillar 4's no-hidden-edge rule on both tracks (the old Pillar-4 line 'combat is the rare exception, never a source of standing' is the single clause this facet deliberately revises per the human's explicit instruction #1 — combat now earns standing). It keeps §1.5's three-faction shapes intact: this is still the gated rank LADDER (vs. the village web / origin milestones); I only lengthened and braided it. The R8 canvas-opening realizes §1.5.4's decoupling and keeps House Influence (§1.6) as the macro gate, so 'numbers go up and the world enlarges are one motion' (§1.12) still holds — with combat deeds now feeding that one motion. No reset (§1.11): R14 confirms, never resets.",
+        "ties_to_mechanics": "Reuses the locked pure-core, data-driven, deterministic stack from the mechanics doc without new architecture: each rung is a data row with an unlock predicate over GameState (Estate Service XP, Combat Deeds, flags, House Influence band), consumed by the UI-reveal engine that already drives 'every panel/tab/resource/area is DATA with an unlock predicate.' Combat rungs slot onto the existing auto-resolving, seeded-RNG combat model (attack_speed sub-tick, on-kill XP+loot+bestiary+quest events) and the Combat/Skills/Equipment/Inventory/Bestiary panels already specified — I simply distribute their reveals across R4/R6/R8/R10/R12 instead of one Act-I-close dump (the doc's S7/M7 'first danger' beat becomes new R4). Combat Deeds is a new earned pool parallel to the existing per-skill total_xp pools and uses the same steep-curve + per-event-cap pattern (combat ~0.1 cap forces breadth). Promotions fire the existing universal rewards/unlock bus (items/xp/locations/dialogues/flags). All of it stays headlessly regression-testable via the DEV play API: force Estate Service + Combat Deeds + Influence, fast-forward, assert each rung's reveal fires at the intended GameState and that no rung grants a hidden stat. The ladder table generates into docs/ as single-source-of-truth, like the planned skills/balance tables.",
+        "risks": [
+          "Rung count creep: 15 rungs across labour+combat+mgmt risks pacing drag or reveal fatigue if any rung is thin. Mitigation: every rung must justify a distinct system/area/responsibility reveal; if R11 (storehouse & arms) or R13 (house overseer) feel like filler, fold them (e.g. merge R11 into R9, R13 into R14) to land at 13 rungs.",
+          "Two parallel earned currencies (Estate Service XP + Combat Deeds) plus House Influence is a balance surface the old single-track ladder avoided — risk of one track outpacing the other or of unclear 'what do I grind next.' Needs the §4 balance pass to tune relative gate costs and confirm the alternation actually feels braided, not forked.",
+          "Decoupling personal rank from the tier-canvas at R8 risks two progress bars that confuse the player about 'what unlocks what.' Mitigation: keep House Influence the SOLE macro-tier gate and personal rank the SOLE estate-systems gate, and make their cross-feeds diegetic (a patrol-secured road is BOTH a combat deed AND recorded Influence).",
+          "Combat-earns-standing reverses locked §1.2 Pillar 4 and the spine doc's 'combat-is-the-exception' framing — this contradicts the still-live ADRs' spirit and must be re-locked as a superseding ADR before treated as canon (the human's instruction #1 authorizes it, but the decision log needs the entry).",
+          "Authenticity of the new martial titles (monban, kachi-gashira, sakite-gashira, monogashira, kura-bugyō-kaku) for a modest goshi house — kachi/monogashira/bugyō are arguably grander than a threadbare lower-samurai house would field. Flag for the §4/§5 research-harden alongside the existing top-title (yōnin vs karō) note.",
+          "Combat as a standing-source could let a combat-only player skip the cozy labour texture the game is built around (§1.13 'must not drift'). Mitigation: gate combat rungs on labour-built conditioning (R4 needs R2 Service; R6 needs R5) so labour stays mandatory underneath the martial climb."
+        ],
+        "open_questions": [
+          "Final rung count: lock 15, or trim to ~13 by folding R11→R9 and R13→R14? The human asked for ≈12–16, so 15 is in-band, but pacing may prefer fewer, fatter rungs.",
+          "Exact R8 canvas-open timing: is Patrol-leader (R8, mid-ladder) the right rung to first open regional adventuring, or should it open a rung earlier (R6 Gate-guard) or later (R10)? Depends on how early the village-tier (R3) vs region-tier reach should stagger.",
+          "Do combat rungs require a MINIMUM labour rung (conditioning gate) at every step, or only at the R4 entry? Recommend a conditioning floor at R4, R6, R8 then free divergence — confirm with the balance pass.",
+          "Should the two currencies (Estate Service XP, Combat Deeds) be fully independent, or should a small cross-feed exist (labour conditioning slightly accelerates combat training, per 'the spear is a long hoe')? The fiction supports a one-way labour→combat enablement but ZERO stat bonus per the no-hidden-edge rule.",
+          "Naming/authenticity: which Edo retainer-title set for the martial rungs survives the §5 research-harden for a modest goshi house — keep the grander monogashira/bugyō terms as aspirational narration (like the yōnin/karō note) or pick humbler ashigaru-tier titles?",
+          "Where does the men-at-arms ROSTER first appear as a managed system — R8 (a small detail), R11 (wages/equip), or R12 (full corps)? Coordinate with the Estate-Growth facet so roster growth and rank growth stay in lockstep.",
+          "Does R14 (chief steward) remain the hard ceiling of the PERSONAL ladder while House Influence keeps climbing to Edo afterward, confirming the §1.6 'indirect Edo ceiling'? Recommend yes — personal rank tops out at R14; the macro tiers continue on Influence alone."
+        ]
+      },
+      {
+        "facet": "B — The Growing Estate",
+        "summary": "The Kurosawa estate is designed as a single persistent, visibly-mutating object — the spine's progress bar made of timber, fields, and faces — that the player builds across SIX growth STAGES (E0 Foreclosure's Edge → E1 Stabilising → E2 Recovering → E3 Prosperous → E4 Fortified Seat → E5 Restored-and-Surpassed). Each stage is a coherent silhouette the player can read at a glance and is gated by a House Influence band (mapped 1:1 to the five outward tiers, with E4/E5 both living inside Tiers 4-5 as the domain/Edo capstone arc) AND a personal-rank floor — but per the human's §1.5.4 decouple, the estate's PHYSICAL growth runs slightly AHEAD of the top personal ranks, so a patrol-leader-rank fighter already sees a drill yard, barracks, and palisade rising while he is still mid-climb. Growth is delivered through the universal reveal bus as diegetic beats (a raising-of-the-frame log line + a new panel/area/roster card), never silent menu inflation, and is fractal: each new building arrives minimal and itself unlocks (a drill yard reveals one post, then a rack, then sparring slots). Crucially this facet reconciles the §1.5.2 redesign by making the estate BOTH a peaceful-labour holding AND a martial seat: every stage adds martial fabric (watch → men-at-arms → barracks → drill yard/dōjō → palisade/gate → standing patrol) in lockstep with economic fabric (storehouse → workshops → granary → counting-house → branch holdings), because a samurai house earns Influence by martial service as much as by rice. The roster is the emotional payload: ~5-8 NAMED representative members join per stage (retainers, men-at-arms, staff, servants, artisans, apprentices), each a small card with a role, a one-line arc hook, and a production/garrison contribution, so the estate's rise is felt as a growing FAMILY of faces, not a number. The father (Origin facet's addition) is hooked in as a late roster/trade contributor. The estate is the tangible, buildable reward: the player spends koku/coin/labour/materials → completes a build or recruits a member → it is recognized → Influence accrues → the next stage's silhouette unlocks.",
+        "key_designs": [
+          {
+            "name": "Six estate growth STAGES, each a readable silhouette gated by an Influence band + rank floor",
+            "description": "E0 Foreclosure's Edge (T1, Rank 0-2): a leaning gate, a sagging kura, fallow paddies, a cracked storehouse, ONE old guardsman (Jūbei) — the estate looks like it's dying; the only 'defence' is a rusty bar on the kura door. E1 Stabilising (T1, Rank 3-4): the kura is patched and re-roofed, the first shinden plot reclaimed, the drill yard cleared (one post), a night-watch lantern lit at the gate, a household ledger that no longer only shows red. E2 Recovering (T2, Rank 5-6): a proper granary raised, two workshops (textile + charcoal/smith-adjacent), a repaired forecourt and a real (if low) palisade fence, 2-3 men-at-arms on a rota, a woodlot under management — the valley starts calling it 'the Kurosawa works.' E3 Prosperous (T2→T3, Rank 6-7 + early regional reach): a counting-house, guest quarters for visiting brokers, a finished dōjō (roofed drill hall) replacing the open yard, a barracks for a small standing squad, a sake/sericulture sub-economy, the mon flying on village contracts, a branch woodlot/charcoal holding up-valley. E4 Fortified Seat (T3→T4): the palisade becomes a proper wall+gatehouse, an armoury and a watchtower, a standing patrol securing the roads (combat-earned Influence made physical), branch holdings in a cluster of valleys, the estate now garrisons men it pays — it looks like a minor fortified manor. E5 Restored-and-Surpassed (T4→T5): a rebuilt grand omoya beyond the three-generations-ago original, a famous-meibutsu workshop quarter, a school/training-hall where the protagonist now TEACHES (Tokujirō + origin friends), formal retainer barracks, the restored-and-surpassed house seal — the epilogue tableau. Each stage's entry is a single diegetic 'the frame is raised' beat through the reveal bus."
+          },
+          {
+            "name": "Decoupled physical growth: the estate's fabric runs AHEAD of the top personal ranks",
+            "description": "Per the human's §1.5.4 decouple note, the estate as a PLACE grows on its own gating (Influence band + a LOW rank floor + a build cost), not gated behind the capstone rank. Concretely: the drill yard/dōjō, barracks, palisade, and watch appear during E1-E3 while the player is still a foreman/bailiff/patrol-leader — so a combat-leaning player who is climbing the martial rungs sees the martial estate (barracks, armoury, drill hall) materialise around him mid-climb, and a labour-leaning player sees the economic estate (granary, workshops, counting-house) fill in first, with the OTHER half following close behind so neither lean leaves the estate looking lopsided for long. The capstone rank (chief steward) is reserved for opening the OUTWARD canvas (region/domain), not for unlocking the home estate's own buildings. This makes 'the canvas opens earlier' true at the estate scale: you are building barracks and reclaiming branch woodlots well before you are the lord's right hand."
+          },
+          {
+            "name": "Dual-fabric per stage: every stage grows ECONOMIC and MARTIAL holdings together",
+            "description": "Reconciling the combat-is-a-core-pillar reframe: each stage adds BOTH an economic layer and a martial layer, because a goshi house earns standing by rice AND by service. Economic spine: kura(E0) → reclaimed shinden + repaired kura(E1) → granary + 2 workshops(E2) → counting-house + sake/silk sub-economy + branch holding(E3) → meibutsu workshop quarter + multi-valley holdings(E4) → famous-product quarter surpassing the original(E5). Martial spine: rusty door-bar + lone Jūbei(E0) → cleared drill yard + a gate night-watch(E1) → 2-3 men-at-arms on rota + low palisade(E2) → roofed dōjō + barracks + small standing squad(E3) → wall+gatehouse + armoury + watchtower + road-patrol that secures trade (combat-earned Influence made visible)(E4) → formal retainer barracks + training-school(E5). The two fabrics are SYSTEMICALLY linked: the standing patrol (martial) is what makes the branch holdings and trade routes (economic) safe enough to exist, so defences are not decoration — clearing bandits and garrisoning roads is literally what lets the next economic node be built, fusing combat and economy as the design briefs demand."
+          },
+          {
+            "name": "The growing ROSTER — named representative members joining per stage, as cards",
+            "description": "The roster is the felt reward. ~5-8 NAMED members join per stage, each a small card (name, role, one-line arc hook, a production OR garrison contribution, and a faction-source tag: estate-hired / village-seconded / origin-recruited). E0: just the household + Jūbei (drillmaster) + bottom-rung peers Sota & Mago. E1 adds: green recruit Tokujirō (the mirror who later gets taught), a first day-labour gang. E2 adds the first paid outsiders: men-at-arms Gohei & Yataro (ex-ashigaru hired off the road), maidservant-expansion under Oai, carpenter-apprentice (via village Carpenter Risuke), a charcoal artisan. E3 adds: a seconded village artisan team (Weaver Onatsu's apprentices), a patrol-leader NPC, a sake-brewer partnership (Tokuemon's stake), a counting-house clerk under Tanomo, kitchen + guest staff. E4 adds: a standing squad of named men-at-arms (a kumigashira/patrol-corporal, 2-3 named soldiers), origin-recruited porters/guards (Kanta + guild mates), branch-holding stewards. E5 adds: the protagonist's OWN students (Tokujirō now teaches under him; famine-orphan recruits 'started from zero'), a master artisan for the meibutsu product, and the Origin FATHER as a late trade/logistics contributor (see ties-to-vision). Each card's contribution is data-driven and slots into the existing idle-producer / garrison systems."
+          },
+          {
+            "name": "Estate growth is a buildable spend-loop wired to the universal reveal/Influence bus",
+            "description": "Each holding/building/defence/recruit is a registry entry with: a cost (koku/coin/materials/labour-time + sometimes a martial prerequisite like 'roads cleared of bandits'), an unlock predicate (Influence band + rank floor + story flags), a diegetic reveal line, and an Influence-on-recognition payoff (the build only converts to Influence when the relevant authority acknowledges it — a recorded granary census, a domain noting the secured road). This keeps estate growth diegetic ('the books now show a granary, a drill hall, and eleven on the roster'), deterministic (costs/payoffs are data, RNG-free), and headlessly testable (force an Influence band, assert the right buildings/roster cards are revealed and that no build was free). Buildings can be upgraded fractally (drill yard → roofed dōjō → school), and a small scripted set of dents (a fire, a debt called, a raid that the garrison must repel) can damage a holding — small, recoverable, never a wipe — giving the estate visible tension as well as growth."
+          }
+        ],
+        "ties_to_vision": "This facet IS the §1.2 pillar-1 spine ('the estate-rise is a perseverance fantasy at grand scale') and pillar-2 ('the interface is the reward') made physically tangible: the estate's silhouette is the progress bar, and each new building/roster card is a diegetic UI reveal, not silent menu growth. It honours pillar-5 (no reset — the estate persists and accretes across all six stages and five tiers) and pillar-7 (fractal incrementality — each building arrives minimal and itself unlocks). It directly executes the human's redesign §2 ('the estate visibly grows … declining → recovering → prosperous → grandeur-surpassed, with a growing roster') and §4 ('the canvas opens earlier' — the estate's physical growth, especially its martial buildings, is decoupled from and runs ahead of the top personal ranks). It folds in the Origin FATHER (redesign §6) cleanly: the father is added as a late E4/E5 roster card — a grounded role as an old porter/teamster or small-trade contact from Sawatari-juku who, once memory + standing reconnect the origin faction, joins the estate's expansion as a trade/logistics contributor (caravan know-how, a route, a steady supply contract), with the deliberately bittersweet edge the origin thread already carries (he and Tahei have a strained reunion; his help is earned, never a mechanical gift — access only, per the dream rule). The restored-and-surpassed E5 estate is the §1.11 endgame tableau (rebuilt omoya, the house seal, the school where the climber now teaches Tokujirō and origin friends 'from zero').\"",
+        "ties_to_mechanics": "The estate is a pure-core data registry of HOLDINGS (each with type: land/building/defence/sub-economy/roster), each carrying an unlock predicate over GameState (Influence band + rank floor + flags), a spend cost, and an Influence-on-recognition payoff — fully deterministic and RNG-free, so balance/roster tables generate into docs/ from the same data the game runs on (single source of truth). Roster members plug into the EXISTING idle-producer and (per the combat reframe) garrison/patrol systems as assignable contributors, so the estate's growth feeds both the economy loop and the combat loop without new bespoke systems. Growth events fire through the universal rewards/unlock bus as single events (log line + panel/area reveal + perk + flag), the same bus that drives rank-ups and tier-ups, so estate growth, rank climb, and tier escalation are one coherent reveal motion. Defences/garrison are the systemic bridge to the combat pillar: securing roads/clearing bandits (combat) is a build PREREQUISITE for branch holdings and trade routes (economy), and the standing patrol's strength is a roster-derived stat — so combat materially grows the estate and the estate's barracks/armoury/dōjō materially grow combat capacity. Everything is headlessly verifiable via the DEV play API: force an Influence band + rank, assert the expected stage silhouette (buildings + roster cards) is revealed, that costs were paid, that no build granted a hidden stat, and that a scripted dent is recoverable.\"",
+        "risks": [
+          "City-builder/4X drift (flagged in PRD §1.13): six stages of buildings/holdings/roster could slide into management tedium and dilute the cozy-labour-plus-character core. Mitigation: keep builds diegetic and story-framed (each is a beat, not a build-queue), cap the number of simultaneously-active build choices, and keep the minute-to-minute texture as labour+combat grind, not estate micromanagement.",
+          "Number-range/scope blowup across five tiers (PRD §1.13 scope guard): six estate stages × dual fabric × growing roster is a lot of content; v1 (Tiers 1-2 = stages E0-E2/early E3) must be the vertical slice, with E3-E5 as roadmap, or the facet over-scopes.",
+          "Roster bloat / cast legibility: ~5-8 named members per stage across six stages is 30-40+ NPCs on top of the existing cast — risks the same bloat the PRD warns about. Mitigation: most new roster members are LIGHT cards (role + one-line hook + contribution), reuse existing cast where possible (village artisans seconded, origin friends recruited), and only a few get full arcs.",
+          "Martial fabric vs the mediocre-start / 'no standing from combat' tension: the OLD §1.2 pillar-4 said combat is never a source of standing; the redesign reverses this, but the estate's martial buildings/garrison must still respect the humbling-start contract — the protagonist earns the barracks by service, and early defences are pathetic (a rusty bar, one old man), so the martial estate rises believably from weakness, not handed.",
+          "Lopsided-lean risk: a hard labour-vs-combat lean could leave the estate looking half-built for a long stretch (all granaries, no dōjō or vice-versa); the 'other fabric follows close behind' rule needs concrete pacing rules in the balance pass so neither lean produces an incoherent silhouette.",
+          "Decoupling tension: running estate physical growth ahead of the top ranks must not let a player skip the narrative rank gates by grinding Influence/builds — the rank floors and story flags on each holding need careful tuning so the estate leads but does not LEAP the spine."
+        ],
+        "open_questions": [
+          "Exact Influence-band thresholds per stage and the koku/coin/material/labour cost curve for each building — defer to the balance facet / PRD §4, but the six-stage-to-five-tier mapping (E4 and E5 both inside T4-T5) needs the human to confirm whether E4 'Fortified Seat' is a distinct gated stage or folded into the T4 domain arc.",
+          "How literal is the estate's spatial representation? Does each stage get a redrawn estate map/visual (per capture-game-states), or is growth conveyed via panels + a roster list + a schematic? (PRD open Q: 'macro-tier spatiality — full sub-area maps vs abstract holdings boards'.)",
+          "Is the standing patrol / garrison a real assignable resource the player tunes (men-at-arms allocated to road vs gate vs branch holding), or narrative flavour with a derived strength number? This determines how deep the martial-estate management goes.",
+          "Roster member depth: how many of the ~30-40 new members get real arcs/dialogue vs being light contribution-cards? (Echoes the PRD's 'NPC roster volume for v1 vs post-launch' open question.)",
+          "The FATHER's exact grounded role and name (Origin facet owns this) — this facet assumes a late trade/logistics roster contributor with a strained-reunion hook; confirm with the Origin-facet design so the estate hook matches.",
+          "Can the player LOSE a holding permanently, or are all dents recoverable? PRD leans 'never a wipe'; confirm whether a failed raid-defence can cost a branch holding (raising combat stakes) or only damage it.",
+          "Do village-seconded artisans/allies count against village production (a real loan with a cost) when they join the estate roster? (PRD open Q on seconded-ally cost) — this affects whether roster growth is purely additive or a tradeoff."
+        ]
+      },
+      {
+        "facet": "test",
+        "summary": "test",
+        "key_designs": [
+          {
+            "name": "a",
+            "description": "b"
+          }
+        ],
+        "ties_to_vision": "test",
+        "ties_to_mechanics": "test",
+        "risks": [
+          "r1"
+        ],
+        "open_questions": [
+          "q1"
+        ]
+      },
+      {
+        "facet": "Facet D — Rank↔Tier decoupling, the earlier canvas, and adding the Father to the Origin faction",
+        "summary": "Today's design has a single coupled spine: an 8-rung household-rank ladder where the **village** only opens at Rank 3 and the **region** opens *only* at the Rank 7 capstone (\"the estate gate to the wider world\"). That is exactly the \"you can't leave until you're right-hand-man\" trap the human flagged. The fix is to split the one spine into **three loosely-coupled progress axes** and decouple them: (1) **Household RANK** — your standing/authority *inside* the Kurosawa house (steward and martial rungs, interleaved); (2) **REACH** — a new, separate \"where you may go / what you may do on the house's behalf\" axis, granted as *errands and expeditions* and gated mostly by personal conditioning + a sponsor's leave, NOT by high rank; and (3) **House INFLUENCE / TIER** — the macro standing of the *house*, which still gates when each macro canvas (region→domain→Edo) becomes a real economic/holdings layer. The key reframe: **Reach runs AHEAD of Rank.** A low-mid-rank player is *sent out* as an errand-runner, escort, and expedition member long before he runs anything — he ranges the region as the *house's hands*, not as its master. Rank determines authority you wield; Reach determines ground you cover; Influence determines how big the house's footprint on that ground is. Concretely, the first regional errands fire around Rank 3–4 (mid-climb), real wilderness/region combat opens by Rank 4–5, and the *capstone now opens AUTHORITY over the region (running it), not first ACCESS to it.* I also add the missing **Father — Tahei's father Kuranosuke**, a former porter-guild man now broken/indentured by the same debt-and-quota machine, whose grounded arc (presumed-dead → found alive but ruined → redeemed by the son's standing) ties faction-3 directly into the central conspiracy and gives the origin track a male elder to complement mother Oyuki.",
+        "key_designs": [
+          {
+            "name": "Three decoupled axes: RANK ≠ REACH ≠ INFLUENCE (the core fix)",
+            "description": "Replace the single coupled spine with three orthogonal progress axes that advance at different rates. (1) HOUSEHOLD RANK — your title/authority inside the Kurosawa house (the interleaved labor+martial ladder from the parallel facet); gates what you may COMMAND (helpers, sub-economies, the books, retainers under you). (2) REACH — a new explicit axis = 'where you may travel and what you may do out there on the house's behalf,' expressed as discrete travel-permits/commissions (Estate grounds → Valley/Village → Near satoyama → Region roads & post-town → Domain seat → Edo-by-attendance). Reach is gated by personal CONDITIONING + a SPONSOR'S LEAVE (an NPC vouching/dispatching you), explicitly NOT by high rank. (3) HOUSE INFLUENCE/TIER — the macro standing of the house; still the gate-currency for when a macro region becomes a real holdings/economy layer the house OWNS. Rule of thumb the whole game obeys: REACH leads, RANK follows, INFLUENCE trails. You walk a road as an errand-boy (Reach) long before you have rank to command anyone on it, and long before the house has the Influence to plant holdings along it."
+          },
+          {
+            "name": "Reach is granted as commissions/dispatches, not earned as a number to grind",
+            "description": "Reach advances through discrete, authored DISPATCH beats: a named NPC (Genemon, Jūbei, Heisuke, later Naoyuki) hands you a writ, a manifest, or a marching order that *takes you somewhere new*. Each dispatch is a one-time 'now you may go here' unlock (like the origin track's chunky milestones), gated by a low conditioning floor + a story flag (someone trusts you to not die / not embarrass the house) — never by a household promotion. This means the canvas opens via the *fiction of being useful and expendable enough to send*, which fits a mediocre nobody perfectly: you go first precisely BECAUSE you're junior and dispatchable, not despite it. The *sekisho*-checkpoint authenticity is preserved — your travel-permit IS the Reach unlock (the house's seal on a pass-document), so 'controlled roads' becomes the diegetic gate-object rather than an abstract level."
+          },
+          {
+            "name": "Concrete early regional quests taken BEFORE high rank (mid-climb, Rank 3–5)",
+            "description": "Examples the player gets while still a trusted-hand / junior man-at-arms, NOT a steward: (a) ESCORT/PORTER — accompany Heisuke hauling the season's surplus to the down-valley market or post-town; you're muscle and a load-bearer, you SEE the region, fight off a road-side boar or a lone rice-thief, but make no decisions. (b) ERRAND/MESSAGE — carry a sealed letter to the next valley's headman; the road itself is the content (a feared ford, a 'fox-fire' ridge to misread, a bandit toll-spot). (c) EXPEDITION MEMBER — join Jūbei and two retainers clearing a boar-warren or a bandit lean-to threatening the house's outfields; you're the junior spear, you survive more than you win. (d) BOUNTY-TAG-ALONG — the house posts a small bounty on poachers in its woodlot edge; you tag along under a senior. (e) RELIEF-RUN — haul relief-rice to a flood-hit hamlet up the road (peaceful, but it's REGIONAL ground at Rank 3). Each is open-ended (a suggestion + a road you find out in the world), each earns Estate Service XP + conditioning + maybe a loot drop + a sliver of recognition — but the DECISIONS, the holdings, and the authority over that ground come much later with Rank+Influence. This is how the world opens at minute ~90 instead of hour ~15."
+          },
+          {
+            "name": "Capstone reframed: the top rank now grants AUTHORITY over the region, not first ACCESS to it",
+            "description": "Today Rank 7's reward is literally 'the estate gate to the wider world' — i.e. the world is locked behind it. Reframe: by the time you reach the upper rungs you've ALREADY ranged the region for in-game years as the house's hands. What the capstone (and the deputy rungs before it) now unlock is the right to *direct* outward expansion: to plant a branch holding, to negotiate on the house's behalf, to command an expedition rather than march in one, to commit House Influence to a region project. So 'finishing the ladder opens the next canvas' survives in spirit — but it opens the canvas as a thing you now RUN, decoupled from when you first walked it. The macro tier-up of the HOUSE (region→domain→Edo as owned economic layers) stays gated on House Influence, exactly as locked. Personal adventuring reach simply runs years ahead of both."
+          },
+          {
+            "name": "Mapping table: which axis gates each unlock (replaces the all-in-one rank table)",
+            "description": "A concrete remap of today's reveals across the three axes. EARLY (Rank 1–3 / Reach: estate→village→near-region / Influence: T1): labour loops, skills, village errands AND first out-of-valley escort/expedition dispatches; first humbling fight; drill yard; first loot. MID (Rank 4–6 / Reach: region roads, post-town, mountain rings / Influence: T2→early T3): you range widely as agent/escort/hunter; combat content peaks in variety; origin track opens (dream-gated memory + a travel-permit you now hold); you FIGHT for standing (clear a bandit nest = recognized Influence) before you ADMINISTER anything. LATE (Rank 7 / Reach: domain seat, Edo-by-attendance / Influence: T3→T5): you direct expeditions, plant holdings, negotiate, commit Influence to projects. The predicate on each UI reveal becomes a small boolean over (rank flag) OR (reach permit) OR (influence band) — data-driven, so the pure core can gate each panel on the *right* axis instead of forcing everything through rank."
+          },
+          {
+            "name": "Why this stays coherent & incremental (anti-chaos guardrails)",
+            "description": "Decoupling risks the player feeling scattered, so: (1) Reach unlocks are SPARSE and authored (a handful of dispatch beats, not a grindable bar) — each is a story event, preserving 'every reveal is a plot beat.' (2) Conditioning is the shared floor — you can't accept a dangerous dispatch your body can't survive, so the mediocre-start contract still paces outward reach (no skipping ahead by sheer will). (3) Fractal incrementality holds: each newly-reached region arrives minimal (one road, one threat, one contact) and unfolds. (4) The three axes share ONE economy and feed ONE House Influence, so they read as facets of a single climb, not three games. (5) Reach NEVER grants power — only access — mirroring the locked dream-rule/no-hidden-edge discipline; what you can DO out there is still your grind-built skills and gear."
+          },
+          {
+            "name": "ADD THE FATHER — Kuranosuke, Tahei's father (Origin faction-3)",
+            "description": "Name: KURANOSUKE (蔵之介) — a plain, period-typical commoner name echoing Tahei/Oyuki. Role: Tahei's father, ~50, a former senior porter / pack-train man of Master Denbei's transport house — the man who FIRST taught Tahei the porter's-knot (folding the existing 'Denbei taught it' note into a warmer father-son origin: Denbei the employer, Kuranosuke the actual hand who showed him; still ZERO mechanical bonus). GROUNDED ARC: not a clean reunion. He went out on the same kind of mountain consignment that later took Tahei, was injured/ruined years earlier, fell into debt-bondage to the very guild (Zenroku) over a 'lost' short-weighted load he was blamed for, and the family told the children he was 'taken on a far route' (their own small kamikakushi-shaped lie — shame dressed as absence) — mirroring the master theme. He is presumed-gone at the origin track's open (Oyuki a 'widow'); a mid-origin beat reveals he is ALIVE but broken — indentured, ashamed, hiding. GAMEPLAY FUNCTION: (1) a memory-gated origin milestone (find/free the father) that requires the player to have ranged the region (ties Reach to faction-3); (2) a hard EVIDENCE node — Kuranosuke witnessed the same short-weighting/contraband racket (Zenroku/Kuroiwa), so freeing him both reunites the family AND hands the conspiracy a witness, knitting origin into the central plot; (3) once redeemed by the son's standing, he becomes an ALLY producer — an old pack-train master who unlocks/upgrades the origin caravan/porter trade-tie (access-only: the route exists once he's free, but is still grind-built). His redemption is the origin track's emotional capstone: the son's estate achievements literally buy back the father's freedom and name — the 'they support his achievements' frame run in reverse (the achievement supports THEM)."
+          }
+        ],
+        "ties_to_vision": "Directly serves the locked vision's core motion — 'as you rise, the world you can reach grows with you' — by making REACH an explicit, early-leading axis instead of a reward bolted onto the capstone, so the canvas genuinely opens room-by-room AND road-by-road as a continuous reveal (the signature UI-as-progression), not in one late dump. It honours the mediocre-start contract: the nobody is sent out FIRST because he is junior and dispatchable, ranging the region as the house's hands before its master — 'access, not power.' It keeps the locked tier escalation intact (House Influence still gates the macro tier-up; no reset) while removing the coupling that made the spine feel like a single locked corridor. The Father deepens the origin thread's pay-off-in-feeling-not-power principle and reinforces the 'one rotten root' theme (the same debt-and-quota machine that drowned Kuzuhara and wrote off Tahei's caravan also broke his father), tying faction-3 to the central conspiracy exactly as the cast's double-duty design intends.",
+        "ties_to_mechanics": "Implements cleanly in the pure-core/data-driven model: REACH becomes a third small enum/flag-set on GameState (a set of held travel-permits) alongside rank flags and the Influence band; every area/panel/quest unlock predicate becomes a boolean over (rank) OR (reach permit) OR (influence band) — replacing the current 'everything keyed off rank' table — so each reveal is gated on the correct axis and stays headlessly regression-testable via the DEV play API (assert a region escort dispatch is acceptable at Rank 3 with the right permit but NOT before conditioning floor). Dispatch/Reach unlocks are authored one-time beats fired through the existing universal rewards/unlock bus (log line + reveal + flag), so no new UI metaphor is needed. The Father slots into the existing origin 'restored ties' milestone list (chunky one-time unlocks on a guaranteed cadence) and the existing ally-producer + trade-tie systems; his evidence-node role reuses the planned investigation/evidence layer. All randomness (road encounters on dispatches) flows through the single seeded RNG. Cross-facet dependency: the interleaved labor+martial RANK ladder is owned by the parallel estate/combat facet — this facet consumes it as the 'authority' axis and must stay consistent with whatever rung list that facet lands; the combat content of early dispatches likewise hooks the combat-as-core-pillar facet.",
+        "risks": [
+          "Three axes can read as scattered/confusing if surfaced as three visible bars — mitigate by keeping Reach as sparse authored dispatch beats (not a grindable meter) and by framing all three in-fiction as one climb feeding one House Influence.",
+          "Decoupling could let a player range far while staying very low rank, creating a tonal mismatch (a Rank-2 nobody wandering the domain seat) — the conditioning floor + sponsor-leave gate + sparse permits must be tuned so Reach leads rank by a believable margin, not absurdly.",
+          "Cross-facet coupling risk: this design assumes the parallel facet's longer interleaved labor/combat rank ladder; if that ladder's rung names/count change, the rank↔reach mapping table here must be re-synced (these two facets must be reconciled before §1 is re-locked).",
+          "The Father risks cast bloat and over-stuffing the conspiracy with witnesses (already has Naozane, Oharu, Zenroku) — keep his evidence role distinct (the porter/short-weighting angle specifically) so he isn't a redundant 'another guilt-sick witness.'",
+          "Making the father's rescue require regional Reach + estate standing must stay access-only — risk of implying the son's RANK magically frees him; keep it grind-built (you buy out the debt / win the petition with resources you earned), honouring the no-mechanical-gift rule.",
+          "Adding a living father slightly softens the origin track's bittersweet edge (mother already 'furious he was written off'; sweetheart may have moved on) — preserve costliness: Kuranosuke returns broken and ashamed, redemption is partial, not a clean restoration."
+        ],
+        "open_questions": [
+          "Should REACH be modeled as discrete named permits (recommended: a small ordered set of travel-permits) or as a continuous 'range' number? Discrete fits the authored-beat philosophy better but the human may want finer granularity.",
+          "Exact rank↔reach offset: how many rungs ahead of rank should reach typically run (e.g. first regional dispatch at Rank 3 of ~12 interleaved rungs)? Needs a pacing pass once the parallel facet locks the rung count.",
+          "Does combat-earned standing (clearing a bandit nest while on a low-rank dispatch) feed Estate Service XP, House Influence directly, or both — and does it ever advance REACH (proving you can be trusted farther)? Recommend: yes, martial success can unlock the next Reach permit ('he came back alive AND useful').",
+          "Is the capstone-grants-authority-not-access reframe acceptable to the human, given they said 'ladder opens next canvas is OK in principle but must open earlier' — confirm the capstone's reward is now 'run the region' rather than 'reach the region.'",
+          "Father's name: confirm Kuranosuke vs an alternative (e.g. Sōbei, Heikurō); confirm he is the porter's-knot teacher (folding/refining the existing Denbei attribution) vs keeping Denbei as teacher and giving Kuranosuke a different signature.",
+          "How alive-but-ruined is too dark? Confirm the father's indenture/shame framing fits the 'they support his achievements' warm frame, or whether the human wants a less grim paternal arc.",
+          "Does the father's reveal change Oyuki's framing (currently a grieving widow)? If he's alive, her arc shifts from widowhood to a wife who let a comforting lie stand — confirm that re-read is wanted."
+        ]
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Design"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Synthesize"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "facet:ladder",
+      "phaseIndex": 1,
+      "phaseTitle": "Design",
+      "agentId": "a54e2aa635b5e7ac7",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782391023073,
+      "queuedAt": 1782391023066,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "FACET A — The redesigned estate rank ladder (15 rungs, labo…",
+      "promptPreview": "KAMIKAKUSHI — locked foundation (design WITHIN it): a grounded Edo-period **estate-restoration incremental RPG**. SPINE = a mediocre young man (no hidden edge; grows only via perseverance/grind) rises through the **Kurosawa** lower-samurai (goshi) house and expands **House Influence (家威)** across tiers (estate→village→region→domain/castle-town→Edo, indirect Edo ceiling), restoring AND surpassing t…",
+      "lastProgressAt": 1782391170066,
+      "tokens": 65691,
+      "toolCalls": 9,
+      "durationMs": 146992,
+      "resultPreview": "{\"facet\":\"FACET A — The redesigned estate rank ladder (15 rungs, labour & combat interleaved)\",\"summary\":\"I redesigned the Kurosawa estate rank ladder from the old 8 labour/steward-only rungs (Ranks 0–7) into a 15-rung ladder (Rank 0 \\\"stray\\\" → Rank 14 \\\"chief steward / lord's right hand\\\") that INTERLEAVES labour-focused and combat-focused rungs, makes combat a first-class path up that EARNS sta…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "facet:growth",
+      "phaseIndex": 1,
+      "phaseTitle": "Design",
+      "agentId": "a5ed5723028597463",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782391023074,
+      "queuedAt": 1782391023066,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "B — The Growing Estate",
+      "promptPreview": "KAMIKAKUSHI — locked foundation (design WITHIN it): a grounded Edo-period **estate-restoration incremental RPG**. SPINE = a mediocre young man (no hidden edge; grows only via perseverance/grind) rises through the **Kurosawa** lower-samurai (goshi) house and expands **House Influence (家威)** across tiers (estate→village→region→domain/castle-town→Edo, indirect Edo ceiling), restoring AND surpassing t…",
+      "lastProgressAt": 1782391167466,
+      "tokens": 67152,
+      "toolCalls": 11,
+      "durationMs": 144392,
+      "resultPreview": "{\"facet\":\"B — The Growing Estate\",\"summary\":\"The Kurosawa estate is designed as a single persistent, visibly-mutating object — the spine's progress bar made of timber, fields, and faces — that the player builds across SIX growth STAGES (E0 Foreclosure's Edge → E1 Stabilising → E2 Recovering → E3 Prosperous → E4 Fortified Seat → E5 Restored-and-Surpassed). Each stage is a coherent silhouette the pl…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "facet:combat-content",
+      "phaseIndex": 1,
+      "phaseTitle": "Design",
+      "agentId": "af9e422727ab54d25",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782391023074,
+      "queuedAt": 1782391023066,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "test",
+      "promptPreview": "KAMIKAKUSHI — locked foundation (design WITHIN it): a grounded Edo-period **estate-restoration incremental RPG**. SPINE = a mediocre young man (no hidden edge; grows only via perseverance/grind) rises through the **Kurosawa** lower-samurai (goshi) house and expands **House Influence (家威)** across tiers (estate→village→region→domain/castle-town→Edo, indirect Edo ceiling), restoring AND surpassing t…",
+      "lastProgressAt": 1782391484145,
+      "tokens": 106225,
+      "toolCalls": 23,
+      "durationMs": 461071,
+      "resultPreview": "{\"facet\":\"test\",\"summary\":\"test\",\"key_designs\":[{\"name\":\"a\",\"description\":\"b\"}],\"ties_to_vision\":\"test\",\"ties_to_mechanics\":\"test\",\"risks\":[\"r1\"],\"open_questions\":[\"q1\"]}"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "facet:canvas-and-father",
+      "phaseIndex": 1,
+      "phaseTitle": "Design",
+      "agentId": "a9a1e936d41efb6f3",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782391023074,
+      "queuedAt": 1782391023066,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Facet D — Rank↔Tier decoupling, the earlier canvas, and add…",
+      "promptPreview": "KAMIKAKUSHI — locked foundation (design WITHIN it): a grounded Edo-period **estate-restoration incremental RPG**. SPINE = a mediocre young man (no hidden edge; grows only via perseverance/grind) rises through the **Kurosawa** lower-samurai (goshi) house and expands **House Influence (家威)** across tiers (estate→village→region→domain/castle-town→Edo, indirect Edo ceiling), restoring AND surpassing t…",
+      "lastProgressAt": 1782391174501,
+      "tokens": 69950,
+      "toolCalls": 11,
+      "durationMs": 151427,
+      "resultPreview": "{\"facet\":\"Facet D — Rank↔Tier decoupling, the earlier canvas, and adding the Father to the Origin faction\",\"summary\":\"Today's design has a single coupled spine: an 8-rung household-rank ladder where the **village** only opens at Rank 3 and the **region** opens *only* at the Rank 7 capstone (\\\"the estate gate to the wider world\\\"). That is exactly the \\\"you can't leave until you're right-hand-man\\\"…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "synthesize:estate-combat",
+      "phaseIndex": 2,
+      "phaseTitle": "Synthesize",
+      "agentId": "adcdb92e5c0646fdc",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782391484163,
+      "queuedAt": 1782391484148,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "COMBAT IS NOW A FIRST-CLASS PILLAR ALONGSIDE LABOUR — both/…",
+      "promptPreview": "You are the design lead for \"Kamikakushi\". Synthesize the four facet designs below into ONE coherent redesign of the ESTATE faction + COMBAT integration, applying ALL of the human's §1.5 notes. Produce: a revised estate summary; the LONGER interleaved (labour+combat) rank ladder; the estate-growth stages (visible growth: land/buildings/roster/defences); the earlier-canvas / rank↔tier decoupling de…",
+      "lastProgressAt": 1782391752032,
+      "tokens": 69121,
+      "toolCalls": 8,
+      "durationMs": 267869,
+      "resultPreview": "{\"combat_as_core\":\"COMBAT IS NOW A FIRST-CLASS PILLAR ALONGSIDE LABOUR — both/and, not the rare exception. It uses the locked data-driven, auto-resolving, seeded-RNG combat model already specced in the mechanics doc (per-combatant `attack_speed` sub-tick, hit-vs-evasion, damage minus defence with a floor, on-kill XP+loot+bestiary+quest events) — no new architecture, only distributed reveals.\\n\\nFI…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "verify:estate-combat",
+      "phaseIndex": 3,
+      "phaseTitle": "Verify",
+      "agentId": "ab7427793e76ca15f",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782391752046,
+      "queuedAt": 1782391752037,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Severely over-scoped for the project's stated v1 and workin…",
+      "promptPreview": "You are a skeptical design editor & Edo authenticity checker. Adversarially review the estate+combat redesign below against the locked foundation and the human's notes. Flag every: trace of magic / non-grounded enemy; any break of the mediocre-start (a hidden edge, combat power not earned by grind, the first fight not humbling); combat NOT actually core OR conversely combat overwhelming the cozy-l…",
+      "lastProgressAt": 1782391993933,
+      "tokens": 97510,
+      "toolCalls": 10,
+      "durationMs": 241887,
+      "resultPreview": "{\"passes\":false,\"violations\":[{\"constraint\":\"Locked folklore rule D-002 + PRD §1.10: residual ambiguity HARD-CAPPED at ≤1 unresolved off-screen beat (the boundary-stone offering); every yokai resolves one-to-one to a human/natural cause; linger in unease then debunk with dawning dread, never a Scooby-Doo unmasking.\",\"problem\":\"The bestiary mass-produces 'misread' folklore mobs as GRINDABLE enemies…"
+    }
+  ],
+  "totalTokens": 475649,
+  "totalToolCalls": 72
+}
