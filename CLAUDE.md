@@ -39,6 +39,15 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp/) for all scratch /
   working files (intermediate output, throwaway scripts, scratch notes) — **not** the global system
   scratchpad. Anything worth keeping graduates to `docs/`, `brainstorms/`, `audit/`, or `journal/`.
+- **Durable capture of workflow / subagent outputs.** `Workflow` results live only in ephemeral session
+  scratch (`<session>/tasks/<id>.output`) and **die with the session** — never leave research stranded
+  there. After **every workflow**: (1) **snapshot the raw `.output` JSON verbatim** into
+  [`brainstorms/raw/`](brainstorms/raw/) (timestamped) via `scripts/snapshot-research.sh <output-file>
+  <slug>` — cheap, lossless insurance; (2) **distill** the useful parts into the right living doc
+  (`docs/`) or discovery doc (`brainstorms/`); (3) **commit immediately** (a small checkpoint). Subagent
+  (Agent-tool) results are returned to the main agent — capture their substance in a doc, but do **not**
+  copy subagent `.output` files (huge JSONL transcripts). Raw snapshots are verbatim insurance; the
+  distillations are the source of truth.
 
 ## Layout
 
@@ -52,6 +61,8 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   (`R`-items) only a person can action.
 - [`brainstorms/`](brainstorms/) — raw discovery / Q&A capture (the `grill-me` skill writes here);
   settled designs graduate to `docs/`. [PARKED-THREADS.md](brainstorms/PARKED-THREADS.md) indexes tangents.
+  [`raw/`](brainstorms/raw/) holds **verbatim** `Workflow`-output JSON snapshots (durable insurance).
+- `scripts/` — repo dev/maintenance scripts (e.g. [`snapshot-research.sh`](scripts/snapshot-research.sh)).
 - `journal/` — one short markdown log per work session (newest summary at the top); see
   [`_TEMPLATE.md`](journal/_TEMPLATE.md).
 - [`archive/`](archive/) — superseded markdown docs kept for reference (archive, don't delete).

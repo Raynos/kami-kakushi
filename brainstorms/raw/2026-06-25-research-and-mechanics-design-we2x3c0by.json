@@ -1,0 +1,859 @@
+{
+  "summary": "Research the two inspiration games, the incremental genre, Edo-era setting, and itch.io deployment; synthesize a concrete game-design proposal",
+  "agentCount": 6,
+  "logs": [
+    "parallel[4] failed: agent({schema}): StructuredOutput retry cap (5) exceeded — 5 failed calls with no valid output"
+  ],
+  "result": {
+    "design": {
+      "vision_statement": "Kamikakushi (working title): a single-player, story-driven incremental RPG set on a rural goshi (country-samurai) estate in Edo-era Japan. You are a 17-year-old landless farmhand who wakes in a storehouse with no memory of arriving — the village whispers you were \"spirited away\" by a tengu years ago and have come back changed. The signature feature is that the UI itself is incremental: minute one is a single line of text and one clickable verb (rake the rice store); over hours and days, panels, tabs, resources, skills, areas and whole subsystems fade in one at a time — and every reveal is a story beat, never a silent menu inflation. The base loop is honest-Edo labor (farm, forage, fish, woodcut, charcoal, craft) with idle/auto-resolving combat reserved for yokai and the dangerous mountains. The koku (rice) economy is the numbers-go-up heartbeat; the central mystery — who you really are and what the thinning boundary between worlds did to you — is the retention engine, gated on active play. Built as a pure deterministic TypeScript core (one seeded RNG, data as single source of truth) with a thin DOM renderer, deployable as a static Vite build to itch.io.",
+      "pillars": [
+        "UI-as-progression: the interface is the reward. Start with one verb and a story log; reveal each panel/tab/resource/skill exactly when first earned, and announce every reveal diegetically through the log so feature unlocks read as plot, not menu growth.",
+        "Numbers-go-up on an authentic koku spine: rice is both the satisfying exponential currency and the historically real unit of wealth/tax. Manual click -> purchased producer -> upgrade -> automation is the active->idle backbone, themed as a farmhand quietly earning standing.",
+        "Story and systems are the same dependency graph: a single rewards/unlock bus, emitted by dialogue, quests, gathering thresholds and combat, drives BOTH the narrative flags and the UI reveals. Lore (read in-world scrolls/ledgers that cost in-game time) is how meta-features unlock.",
+        "Lived-in folklore, not set-dressing: yokai are how rural people explain weather, luck and disappearances. Combat is the exception (yokai, bandits, the mountains), labor is the daily texture. The mystery resolves the isekai hook through real Edo folklore (kamikakushi).",
+        "Deterministic, testable, generated: pure-core boundary, one seeded RNG, save only non-derivable state, generate balance docs from the same data the game runs on, and a DEV play API so every unlock and pacing beat is headlessly regression-tested."
+      ],
+      "first_minute": "Black screen, then one line of narration fades in: \"You wake on cold straw in a storehouse that is not yours. Dawn light through the slats. Your head aches; you do not know how you got here.\" Below it sits a persistent message/event log (present from second one so the screen is never dead) and a SINGLE interactive element: a button labeled \"Rake the spilled rice\" with a counter showing 0 rice. Clicking it raises the number by 1 each press, with a tiny flavor line every few clicks (\"...grain by grain. Your hands know this work, even if your mind does not.\"). No tabs, no stats, no menu — just the verb, the number, and the log. Within ~5 seconds the player has done the first meaningful action. At ~10 rice, the log announces footsteps and a door sliding: a panel for the guide (Oharu, a kind senior farmhand) fades in offering the first words of dialogue. That dialogue click reveals the second element. The empty screen IS the hook.",
+      "first_hour": "Following A Dark Room's resource-reveals-panel cadence (a new \"thing appeared\" every 1-3 minutes early), the first hour walks the player from one button to a small working estate dashboard. Oharu's dialogue reveals the Estate location panel (storehouse -> forecourt -> the paddy belt) and frames the mystery (\"They say you're the child the mountain took. The master will want to see you, but earn your keep first.\"). Gathering rice past a threshold reveals a first auto-producer (you \"show a younger hand how to rake\" — an idle rice/sec trickle) and the grayed-out next purchase. New resources each light their own panel: foraging sansai in the satoyama reveals the Foraging panel; firewood reveals Woodcutting; the first time you gain a skill reveals the Skills tab; reading the household Journal scroll reveals the Journal/quest log; the first crafted good (a sickle from the village smith) reveals the Craft tab. Time advances on an abstract clock (day/season in kanji, weather, a soft satiety/energy gate). By the hour's end the player has 5-8 distinct reveals, a handful of resources trickling idle, two or three NPCs talked to, the first questline (\"Earn your keep / Who am I?\") active, and the first locked teaser dangling: the gate to the village and a rumor of something wrong at the neglected shrine. No combat yet — that is the Act I cliffhanger.",
+      "unlock_ladder": [
+        {
+          "stage": "S0 Cold open",
+          "trigger": "New game",
+          "unlocks": [
+            "Narration line",
+            "Persistent event log",
+            "One verb: Rake the rice (manual rice counter)"
+          ]
+        },
+        {
+          "stage": "S1 The guide",
+          "trigger": "Reach ~10 rice",
+          "unlocks": [
+            "Guide dialogue panel (Oharu)",
+            "Estate location panel (storehouse)",
+            "Rice resource row"
+          ]
+        },
+        {
+          "stage": "S2 First producer",
+          "trigger": "Reach rice cost of first helper",
+          "unlocks": [
+            "Auto-producer purchase (idle rice/sec)",
+            "Grayed next-purchase goal",
+            "in-game clock + day/season display"
+          ]
+        },
+        {
+          "stage": "S3 Leaving the storehouse",
+          "trigger": "Oharu quest 'Earn your keep' step 1",
+          "unlocks": [
+            "Travel: storehouse -> forecourt -> paddy belt",
+            "Satiety/energy soft gate",
+            "Foraging panel (sansai) on entering satoyama"
+          ]
+        },
+        {
+          "stage": "S4 First skill",
+          "trigger": "First skill XP gained from any labor",
+          "unlocks": [
+            "Skills tab",
+            "skill visibility threshold reveal (skills appear by doing)",
+            "first skill milestone perk"
+          ]
+        },
+        {
+          "stage": "S5 The Journal",
+          "trigger": "Read the household Journal scroll (costs in-game time)",
+          "unlocks": [
+            "Journal tab (quests + lore)",
+            "Quest log",
+            "Bestiary stub (empty until first yokai)"
+          ]
+        },
+        {
+          "stage": "S6 Tools & trade",
+          "trigger": "Visit village smith / first crafted item",
+          "unlocks": [
+            "Craft tab",
+            "Village location + market/trader",
+            "money (mon/coin) alongside koku"
+          ]
+        },
+        {
+          "stage": "S7 First danger (Act I close)",
+          "trigger": "Quest: investigate the neglected shrine grove at dusk",
+          "unlocks": [
+            "Combat panel (auto-resolving)",
+            "first weapon equip + Equipment panel",
+            "Bestiary first entry (kappa at the paddy pond)",
+            "Inventory panel"
+          ]
+        },
+        {
+          "stage": "S8 Processing chains",
+          "trigger": "Stockpile raw materials past a threshold",
+          "unlocks": [
+            "Charcoal burning + smithing chains",
+            "component-based crafting",
+            "storehouse (kura) upgrades / capacity"
+          ]
+        },
+        {
+          "stage": "S9 The wider satoyama",
+          "trigger": "Act II begins (master grants standing)",
+          "unlocks": [
+            "Map/navigation menu (multiple sectors)",
+            "Fishing (river/ponds)",
+            "Reputation per faction (estate/village/shrine)",
+            "scheduler-driven seasonal festival events"
+          ]
+        },
+        {
+          "stage": "S10 Automation & QoL",
+          "trigger": "Skill milestones / quest rewards in Act II-III",
+          "unlocks": [
+            "Auto-gather toggles per node",
+            "auto-combat continue",
+            "offline-progress summary ('while you were away')",
+            "scientific/short-number formatting milestone"
+          ]
+        },
+        {
+          "stage": "S11 The mountains",
+          "trigger": "Act III: re-consecrate shrines, ascend toward the pass",
+          "unlocks": [
+            "Deep-mountain areas (tengu/yamauba/oni)",
+            "Ki/Mastery system",
+            "memory-fragment mechanic (the mystery)",
+            "UI retheme for the otherworld threshold"
+          ]
+        },
+        {
+          "stage": "S12 The threshold (prestige-as-plot)",
+          "trigger": "Act III climax at the pass",
+          "unlocks": [
+            "Diegetic reset/new-cycle carrying meta-progress (the loop IS the story)",
+            "post-game free-play with all panels",
+            "achievements-as-checklist surfaced"
+          ]
+        }
+      ],
+      "systems": [
+        {
+          "name": "UI-reveal engine",
+          "summary": "First-class pure-core system: every panel, tab, resource row, button, skill and area is DATA with an unlock predicate over game state (flags, resources, level, story node, season). The renderer shows only what is currently unlocked. 'The UI is incremental' is a tunable content table, not hardcoded view logic. Each first-time reveal pushes a diegetic line to the event log.",
+          "when_introduced": "M0 (the engine exists from the first build; it controls everything that appears thereafter)"
+        },
+        {
+          "name": "Event/story log",
+          "summary": "Persistent scrolling, color-coded, capped message feed present from second one. Doubles as narration channel and unlock announcer (every panel/tab arrives as an in-fiction message). Prevents the empty-screen bounce (the Amir Rajan lesson).",
+          "when_introduced": "M0"
+        },
+        {
+          "name": "Resource & producer economy (koku spine)",
+          "summary": "Rice (koku) is the base exponential currency: manual click -> auto-producers (helpers/upgrades) with cost = base * 1.15^owned and ~5x jumps between tiers; production grows linear/polynomial while cost grows exponential. Coin (mon) is the secondary trade currency. Each new resource lights its own panel on first acquisition.",
+          "when_introduced": "M1 (rice), expanding through M2-M5 (sansai, firewood, charcoal, fish, crafted goods, coin)"
+        },
+        {
+          "name": "Gathering nodes (labor)",
+          "summary": "Tiered, season-gated nodes: farming (rice paddy cycle), foraging (sansai/mushrooms/herbs), woodcutting + bamboo, fishing, hunting. Clickable + idle: do it manually first, then earn an auto-gather toggle as a reward (Trimps active->idle pacing). Each yields resource + skill XP.",
+          "when_introduced": "M3 (farming/foraging), expanding through M6-M8"
+        },
+        {
+          "name": "Skills + milestone web",
+          "summary": "Per-skill total_xp with a steep curve and per-event XP caps (forces breadth). Skills hidden until total_xp crosses a small visibility threshold (discover by doing). Milestones at thresholds grant flat stats, multipliers, titles and cross-skill XP bonuses — a cheap-to-author interconnected upgrade web.",
+          "when_introduced": "M4"
+        },
+        {
+          "name": "Dialogue + quests (story/unlock bus)",
+          "summary": "Dialogue = textlines that grant a universal rewards object (items/xp/money/locations/dialogues/textlines/recipes/quests/flags/locks) and can lock other lines (branching). display_conditions gate lines on reputation/level/season/skills/flags. Quests = sequential tasks advanced by game events. This is the primary narrative + unlock delivery vehicle.",
+          "when_introduced": "M2 (dialogue/guide), M5 (quest log + Journal)"
+        },
+        {
+          "name": "Lore scrolls (diegetic feature unlocks)",
+          "summary": "Reading in-world texts (household Journal, ryu scrolls, temple sutras, merchant ledgers) costs in-game time and unlocks whole subsystems (Journal, Bestiary, recipes, the map). Time-gated so complexity is paced; perfect Edo fit.",
+          "when_introduced": "M5"
+        },
+        {
+          "name": "Combat (auto-resolving)",
+          "summary": "Deterministic, idle auto-battler driven by data (attack_speed) and the single seeded RNG. Reserved for yokai/bandits/mountains. See combat_model.",
+          "when_introduced": "M7"
+        },
+        {
+          "name": "Equipment + component crafting",
+          "summary": "Equip slots with durability; component-based crafting (item = components; quality from crafter skill + component quality + station tier; quality folded into stack key). Processing chains: wood->charcoal->forge->tools->blades. Disassembly returns materials.",
+          "when_introduced": "M7 (equip), M8 (component crafting + chains)"
+        },
+        {
+          "name": "World simulation (time/season/weather/lunar)",
+          "summary": "Abstract in-game clock advanced by a single tick driver with per-tick/per-day/per-week scheduler (plans[0..2]). Drives day/night, seasons (kanji), weather hazards (cold/wet), lunar phases, food rotting/fermenting, vendor restocks, and seasonal festival events.",
+          "when_introduced": "M3 (clock), M9 (seasons/festivals/weather hazards)"
+        },
+        {
+          "name": "Reputation + economy damper",
+          "summary": "Per-faction reputation (estate/village/shrine) gates dialogue and content. Market saturation depresses sell prices when you flood one good, recovering over in-game days — keeps grinding interesting.",
+          "when_introduced": "M9"
+        },
+        {
+          "name": "Memory-fragment / mystery system",
+          "summary": "Collectible memory fragments (from shrines, NPC reveals, mountain encounters) assemble the truth of your arrival. Gated on active play; drives Act III and the final reveal/choice.",
+          "when_introduced": "M11"
+        },
+        {
+          "name": "Save/load + offline progress",
+          "summary": "Versioned save of ONLY non-derivable state (total_xp per skill, unlock/finished flags, inventory counts, kill/clear counts, current location/time, story flags); recompute derived stats on load. Ordered version migrations. Capped offline grind (8-24h) with a 'while you were away' summary; STORY never advances offline. base64 export/import to file.",
+          "when_introduced": "M2 (minimal save), hardened across M5/M10"
+        },
+        {
+          "name": "DEV play API + content verifier",
+          "summary": "DEV-only window.__qa wrapping core verbs + read state + loop control (pause/resume/step/frames) + force-state helpers, for headless capture and pacing regression. A Verify_Game_Objects() cross-checks all ids/refs across registries; balance tables are generated into docs/ from the same data.",
+          "when_introduced": "M1 (skeleton), grows every milestone"
+        }
+      ],
+      "story_beats": [
+        {
+          "act": "Prologue — Waking",
+          "summary": "You wake amnesiac in the Akiyama estate's storehouse. Oharu, a kind senior farmhand, takes pity and becomes your guide. The household took you in out of duty and superstition: the village believes you are the child the mountain (a tengu) spirited away years ago, now returned aged and strange. Earn your keep by labor; the first question — am I that lost child? — is planted."
+        },
+        {
+          "act": "Act I — Earning your keep",
+          "summary": "Work the estate (farm, forage, woodcut). Meet the roster: the steward Yagoro (wary), the heir Akiyama Shinnosuke (rival or ally), the daughter Sayo (confidante), the retired patriarch Soan (keeper of family history), the old nanny full of folk tales. Clues accumulate that the estate's fortune has quietly slipped — a zashiki-warashi presence shifted the night you appeared. Act closes at dusk at the neglected shrine grove, where a kappa at the paddy pond forces your first fight: your hands fight better than a farmhand's should."
+        },
+        {
+          "act": "Act II — Standing & the thinning boundary",
+          "summary": "The master Akiyama Genzaemon grants you limited standing; the world opens (village, river, temple, map). You learn the local ujigami/Inari shrine was let fall and the boundary between worlds is thinning — which is why you slipped through. Re-consecrating shrines area by area structures map progression and reputation. A kitsune (Inari's messenger) drops fragments of an old wrong the estate's ancestors did the land. The central question sharpens: are you a returnee, an impostor, a reincarnation, or something a tengu wears? NPC trust gates the reveals."
+        },
+        {
+          "act": "Act III — The mountains & the truth",
+          "summary": "Trails climb into the okuyama. Tengu, yamauba and oni guard the pass; a memory-fragment mechanic reassembles what the otherworld did to you (you were trained/altered by a tengu, explaining your skills). Confront the breach at the pass. Resolve the double/missing-heir question. Climax forces a choice that triggers a diegetic reset/new cycle (reincarnation/time-loop framing) carrying meta-progress forward — prestige as the chapter break, not a context-free grind reset."
+        },
+        {
+          "act": "Epilogue / free-play",
+          "summary": "All panels unlocked; the estate restored (or transformed by your choice). Post-game free-play, achievements-as-checklist, optional liminal dungeons (ruined manor, plague hamlet, old battlefield with gashadokuro/jorogumo/yurei) for the long tail."
+        }
+      ],
+      "combat_model": "Idle / auto-resolving, deterministic, data-driven — NOT twitch. Combat is a pure-core fixed-step simulation seeded by the single RNG, so every fight is reproducible and unit-testable. When you enter a combat area (or a yokai event fires), the core auto-spawns an enemy from a weighted population table and runs a deterministic step loop: cadence is DATA (each combatant has an attack_speed; the core advances an internal sub-tick counter and fires an attack when a combatant's bar fills — no real-time per-combatant timers, just deterministic accumulation in the step function). Resolution per swing: hit chance from attacker (dexterity-like stat) vs target evasion; damage = attack_power ± a small seeded variance, reduced by defense with a damage floor; separate seeded crit and block rolls; status effects applied per-tick by an effect system. On kill: XP + skill XP + seeded loot roll + bestiary update + quest kill events. The player's verbs are strategic, not reflexive: choose area, equip gear, pick a stance (data that shifts attack/speed/evasion/target-count), use a consumable, and (once unlocked) toggle auto-continue so cleared areas re-spawn idly. HP and satiety are managed via rest/eat between fights. Combat is rare in the daily texture (reserved for yokai/bandits/mountains) and is itself an unlock — the Combat panel appears only at the Act I close, so early game is pure peaceful labor. The renderer animates the deterministic result (filling bars, floating numbers); it never computes outcomes.",
+      "progression_model": "Three interlocking curves. (1) RESOURCES: base currency rice/koku with producer cost = base * 1.15^owned and ~5x base-cost jumps between producer tiers; production grows linearly/polynomially per purchase while cost grows exponentially, so each purchase takes slightly longer — this gap paces the game. Secondary resources (sansai, wood, charcoal, fish, coin) each have their own producer/upgrade trees. (2) SKILLS: per-skill total_xp with a steep curve (xp_scaling ~1.8) and a per-event XP cap (combat ~0.1, crafting ~0.25 of a level) to force breadth and repetition; skills are hidden until total_xp crosses a small visibility threshold (discover by doing); milestones at set levels grant flat stats, stat multipliers, titles, and cross-skill/category XP multipliers, creating an emergent build web and long-tail goals. Categories: Farming/Labor, Gathering, Crafting, Combat, Weapon, Environmental. (3) CHARACTER: level + XP (geometric ~1.6 curve) granting HP, satiety capacity, attribute points (STR/AGI/INT/SPD-style) and a compounding skill-XP multiplier; core stats layer base/additive/multiplier and recompute on load. Equipment adds quality tiers (component-based, derived from crafter skill + component quality + station tier). Meta-progression: diegetic prestige (the Act III reset) carries forward a permanent multiplier currency + automation/QoL unlocks framed as story-justified capabilities. Pacing targets: first action <5s, first auto-producer <30s, 5-8 reveals in the first 20-30 min, Act I in one ~1-2h sitting, Act II over a few days of check-ins, full story over 2-4 weeks of casual play; never let the next visible goal balloon past ~2-3x the previous wait without injecting a new mechanic or multiplier. Capped offline grind (8-24h); story gated on active play. Balance tables (cost/income curves, time-to-milestone) are GENERATED into docs/ from the same data the game runs, so walls are auditable before players hit them.",
+      "tech_architecture": {
+        "build_tooling": "Vite + TypeScript (recommended as in the brief; matches static itch.io deploy via `vite build` -> dist/ zipped and uploaded). Vitest for unit tests of the pure core. ESLint + Prettier. Committed package.json + lockfile (fix YAIRPG's ad-hoc-toolchain weakness). Vite handles dev server (HMR), TS compile, bundling, and cache-busting; output is fully static (no server). A separate `npm run gen:docs` script runs a Node entry that imports the core data and writes generated balance/content tables into docs/. CI-friendly verify command: `npm run verify` = tsc --noEmit && vitest run && content-verifier && gen:docs --check.",
+        "core": "Pure-core boundary (the project's load-bearing rule and the one place we deliberately diverge from both inspirations): all rules/state/math in src/core/ with ZERO DOM/canvas/window imports. Structure: core/state (the GameState type + initial state), core/step (the deterministic tick reducer + per-tick/per-day/per-week scheduler), core/combat (fixed-step auto-battler), core/economy (producers/costs), core/skills, core/rewards (the universal process_rewards unlock bus), core/unlock (predicate evaluation for the UI-reveal engine), core/intents (the verb/action dispatcher: every player action is a typed intent applied by a pure reducer), core/rng (the single seeded RNG), and core/content (data registries). The core exposes a reduce(state, intent) -> state and a tick(state, dt) -> state; nothing else mutates state.",
+        "rng": "ONE seeded RNG for the entire game (e.g. a small splitmix64/mulberry32 PRNG seeded at new-game and persisted). All randomness — combat, loot, weather, dialogue flavor — draws from it via core/rng so every run is reproducible. The RNG state (seed + counter/stream) is part of GameState and is saved/loaded, so resumed games stay deterministic. No Math.random() anywhere in the core (lint-enforced).",
+        "state": "A single immutable-ish GameState object reduced by pure functions (reduce/tick). Derived values (stats, current production rates, what's unlocked) are COMPUTED, never stored. The renderer subscribes to state snapshots; updates are a single render(state) reconciliation against the previous snapshot rather than YAIRPG-style scattered manual update_displayed_* push calls (fixes their stale-UI risk).",
+        "save": "Versioned, minimal-state save to localStorage: persist ONLY non-derivable state — rng seed+counter, current time, total_xp per skill, unlock/finished/story flags, inventory counts, kill/clear counts, current location, reputation, quest/task status, active-effect remainders, prestige meta — and recompute all derived stats on load. Ordered version migrations (store schemaVersion; run compare-and-migrate steps). Validate on load and degrade gracefully (clear, explained recovery — NOT proto23's scary red 'save is kill' wall). base64 export/import to a text file. Autosave on a counter; periodic backup slot.",
+        "render": "Thin DOM renderer in src/ui/ (no game logic). Static HTML shell + imperative DOM updates driven by render(state); panels/tabs/rows are described by the core's unlock data and the renderer just shows/hides/populates them. Text + emoji + CSS (MS-Gothic-ish feel) for the bulk; a small canvas only for optional ambient FX (seasonal particles) and never for logic. Universal hover tooltips, a Shift-for-extra-detail layer, color-coded rarities/messages — cheap legibility wins.",
+        "play_api": "DEV-only window.__qa (stripped from production builds via Vite import.meta.env.DEV / define): state() snapshot read, the game's verbs as drive methods (the same typed intents the UI dispatches), tick/step/frames(n,ms), pause()/resume(), new()/load()/save(), and force-state helpers to jump to a late unlock / rare outcome / terminal screen. Powers the capture-game-states skill and lets us headlessly regression-test that each unlock fires at the intended GameState and that pacing milestones hit on schedule.",
+        "data": "Single source of truth: content authored as plain TypeScript data registries in core/content (one module per content type: items, enemies, locations, skills, dialogues, quests, recipes, activities, effects, panels/unlocks) — data-as-code, consumed by the pure core (inverting both inspirations' mistake of co-locating data with DOM/behavior). A content verifier (Verify_Game_Objects equivalent) cross-checks all ids/refs at test time. Per the 'generate, don't duplicate' rule, balance/content docs in docs/ are GENERATED from these registries (npm run gen:docs), never hand-maintained twice."
+      },
+      "milestones": [
+        {
+          "id": "M0",
+          "title": "Wake up: one verb, one number, the log",
+          "scope": "Vite+TS+Vitest scaffold (committed package.json + lockfile, `npm run verify`). Pure-core skeleton: GameState, seeded RNG, reduce(state,intent), a tick driver, and the UI-reveal engine + event log as the core abstractions. Renderer shows ONLY: the wake-up narration line, the persistent event log, and one button 'Rake the spilled rice' that increments a rice counter. One Vitest test proving the reducer is deterministic.",
+          "deliverable": "A static build that opens to black -> narration -> log + one button; clicking raises rice; reproducible from a seed. This is recognizably the game (the cold open)."
+        },
+        {
+          "id": "M1",
+          "title": "The guide & the first reveal",
+          "scope": "Add the UI-reveal data table + unlock predicates. At ~10 rice, fade in the guide dialogue panel (Oharu) and the Estate location panel, each announced in the log. Stand up the dialogue system (textlines + the universal rewards/unlock bus) minimally. Skeleton DEV play API (window.__qa: state/drive/step). gen:docs script stub.",
+          "deliverable": "Cold open -> rake rice -> guide appears as a story beat -> first dialogue. Two panels reveal diegetically. Headlessly drivable via __qa."
+        },
+        {
+          "id": "M2",
+          "title": "First producer + minimal save",
+          "scope": "Economy module: rice auto-producer (cost=base*1.15^owned), grayed next-purchase goal, idle rice/sec on the tick. In-game clock display (day/season kanji). Versioned minimal-state save/load to localStorage with one migration scaffold + graceful-fail. Determinism test for the tick + producer.",
+          "deliverable": "Numbers go up idly; buy a helper; reload and resume exactly where you were. The active->idle spine exists."
+        },
+        {
+          "id": "M3",
+          "title": "Leave the storehouse: travel, satiety, foraging",
+          "scope": "Location graph + travel (storehouse->forecourt->paddy belt->satoyama). Satiety/energy soft gate on the tick. Second gathering node (foraging sansai) revealing the Foraging panel on first entry. Per-tick/per-day scheduler in place.",
+          "deliverable": "Move between areas; a second resource lights its own panel; energy paces labor. 4-5 distinct reveals achieved in a natural run."
+        },
+        {
+          "id": "M4",
+          "title": "Skills & the milestone web",
+          "scope": "Skill registry + total_xp curves + per-event caps + visibility threshold (skills appear by doing) -> reveals the Skills tab on first XP. First milestone perks (flat stat / cross-skill multiplier / title). Generate the skills balance table into docs/.",
+          "deliverable": "Doing labor levels hidden skills that surface and grant perks; a generated docs/skills table proves single-source-of-truth."
+        },
+        {
+          "id": "M5",
+          "title": "Journal, quests & lore scrolls",
+          "scope": "Quest system (sequential tasks via game events) + Journal tab, unlocked by reading the household Journal scroll (time-gated, diegetic). Seed the spine quest 'Earn your keep / Who am I?'. Bestiary stub. Harden save to cover quests/flags.",
+          "deliverable": "A readable in-world scroll unlocks the Journal; the first quest tracks and advances. Story + unlock graph is one system."
+        },
+        {
+          "id": "M6",
+          "title": "Village, trade & coin",
+          "scope": "Village location + smith + a trader (buy/sell), coin currency revealed alongside koku. Craft tab stub with one recipe (rice + iron -> sickle) gating a gathering bonus. NPC roster dialogue (steward, heir, daughter, patriarch).",
+          "deliverable": "Travel to the village, trade for coin, craft your first tool, talk to the household. Act I content largely playable."
+        },
+        {
+          "id": "M7",
+          "title": "First danger: combat, equipment, the kappa",
+          "scope": "Pure-core deterministic auto-battler (data-driven attack_speed, seeded hit/crit/block/damage/loot). Combat panel + Equipment + Inventory panels reveal at the Act I-close shrine quest. First weapon equip; kappa as first bestiary entry. Combat unit tests (reproducible fights).",
+          "deliverable": "Act I closes with your first auto-resolving fight at dusk; combat, equipment and inventory all reveal as one story beat. End-to-end Act I is committable and playable."
+        },
+        {
+          "id": "M8",
+          "title": "Processing chains & component crafting",
+          "scope": "Woodcutting + charcoal burning + smithing chains (wood->charcoal->forge->tools). Component-based crafting with quality from skill+component+station; disassembly. Storehouse (kura) capacity upgrades. Auto-gather toggle as a first automation reward.",
+          "deliverable": "A real production tech-ladder; first automation toggle frees attention. Crafting depth from a small component vocabulary."
+        },
+        {
+          "id": "M9",
+          "title": "Act II: the wider world, seasons, reputation",
+          "scope": "Map/navigation menu (sectors), fishing node, per-faction reputation gating dialogue/content, market saturation damper, seasonal/festival events via the scheduler, weather hazards (cold/wet). Shrine re-consecration drives map progression. Act II story beats (master grants standing, kitsune fragments).",
+          "deliverable": "The world opens; seasons/festivals/weather feel alive; reputation and the economy damper add texture. Act II playable across check-ins."
+        },
+        {
+          "id": "M10",
+          "title": "Idle polish: offline progress, automation, formatting",
+          "scope": "Capped offline progress (8-24h) with a 'while you were away' summary (story never advances offline). Background-tab-accurate timing (Web Worker tick). More auto-continue/auto-gather automation as milestone rewards. Number-formatting milestone (short/scientific) as its own reveal. Achievements-as-checklist scaffold.",
+          "deliverable": "Honest idle behavior, smooth active->idle handoff, legible big numbers. Genre-correct retention loop in place."
+        },
+        {
+          "id": "M11",
+          "title": "Act III: the mountains, mystery, memory fragments",
+          "scope": "Deep-mountain areas (tengu/yamauba/oni), Ki/Mastery system, memory-fragment mechanic assembling the truth, UI retheme for the otherworld threshold. Act III story beats and the central-mystery reveals gated on active play + trust.",
+          "deliverable": "The climb to the pass; the mystery resolves through folklore; the UI metamorphoses at the threshold. Story spine complete to the climax."
+        },
+        {
+          "id": "M12",
+          "title": "The threshold: diegetic prestige & free-play",
+          "scope": "Act III climax choice -> diegetic reset/new-cycle carrying meta-progress (reincarnation/time-loop). Post-game free-play with all panels, achievements surfaced, optional liminal dungeons (gashadokuro/jorogumo/yurei) for the long tail. Final save-migration + balance pass; full docs generation; itch.io static deploy.",
+          "deliverable": "A complete loop: story -> diegetic prestige -> meaningful free-play, deployable as a static build to itch.io."
+        }
+      ],
+      "decisions_to_lock": [
+        {
+          "question": "What is the nature of the protagonist / the answer to the central mystery?",
+          "options": [
+            "Genuine returnee (the real child the tengu took, altered by the otherworld)",
+            "Reincarnation/soul-swap (a modern or other-era person in the lost child's body — leans isekai)",
+            "Something a tengu wears / a constructed double (uncanny, horror-tinged)",
+            "Player-chosen at the climax (the game keeps it ambiguous until Act III)"
+          ],
+          "recommendation": "Keep it ambiguous and player-chosen at the Act III climax, with the tengu-apprentice frame (you were trained/altered in the mountains) as the in-world explanation for your fighting skill. This preserves the mystery as the retention engine the longest and lets the diegetic prestige be a genuine choice.",
+          "why": "This is the single most identity-defining call — it determines the entire story spine, the tone (folk-mystery vs isekai vs horror), and what the prestige reset means. It must be locked before authoring Act II/III dialogue, but the early milestones (M0-M7) are agnostic to it, so we can mass-build the front half while the human decides."
+        },
+        {
+          "question": "How strong is the isekai framing?",
+          "options": [
+            "Pure Edo folk-mystery: no modern/other-world person; you are a folklore kamikakushi case (most authentic)",
+            "Soft isekai: hints of out-of-place memories/foreknowledge but never breaks the Edo frame",
+            "Overt isekai: explicit modern-person-in-Edo, genre-savvy tone"
+          ],
+          "recommendation": "Soft isekai (option B): out-of-place memories as a clue and a resource, never breaking the Edo frame.",
+          "why": "Determines tone, dialogue voice, and whether 'foreknowledge' is a mechanic. The research flags overt samurai/isekai cliche as a risk to authenticity; soft framing keeps the lived-in folklore pillar intact while preserving an isekai hook for marketing."
+        },
+        {
+          "question": "Does the game use prestige/reset at all, and is it diegetic?",
+          "options": [
+            "No reset — single linear story to a fixed ending",
+            "Diegetic reset at Act III climax (reincarnation/time-loop) carrying meta-progress (recommended)",
+            "Classic repeatable prestige loop (multiple cycles for the long tail)"
+          ],
+          "recommendation": "One diegetic reset at the Act III climax that reads as a chapter break and carries meta-progress forward; reserve repeatable prestige for an optional post-game mode only if the long tail needs it.",
+          "why": "Prestige clashes with narrative if context-free; making the one reset a story event (and gating story on active play) is the genre-correct way to keep a crafted single-player RPG from feeling like grinding in circles. Affects late-game architecture (meta-progress save fields) so should be locked before M10-M12."
+        },
+        {
+          "question": "Art/visual register: text+emoji+CSS, or light sprite/pixel art?",
+          "options": [
+            "Pure text + emoji + CSS gradients (proto23 style — fastest, agent-friendly, deploys instantly)",
+            "Minimal hand/AI sprite art for key NPCs/areas (more evocative, more asset work)",
+            "Hybrid: text-first UI with a few decorative kanji/woodblock-style CSS flourishes"
+          ],
+          "recommendation": "Hybrid (option C): text-first for all systems/legibility, with tasteful kanji season tags, color-coded rarities, and woodblock-palette CSS flourishes; defer real sprite art unless a human wants to invest.",
+          "why": "Determines the renderer's complexity budget and how achievable the milestones are for an AI agent committing in small steps. Text-first keeps the pure-core/renderer split clean and the build trivially static; it is reversible (art can be layered later) so it is safe to default but worth a human nod."
+        },
+        {
+          "question": "Time model: abstract in-game clock decoupled from real time, or real-time idle accrual?",
+          "options": [
+            "Abstract clock advanced by the tick (deterministic, testable; idle = faster accrual)",
+            "Real-time idle (wall-clock seconds map to resources, classic idle feel)",
+            "Hybrid: abstract clock for story/seasons, real-time-rate for idle accrual + offline cap"
+          ],
+          "recommendation": "Hybrid (option C): an abstract in-game clock for seasons/story/festivals, with idle accrual rates tuned to real check-in cadence and a capped offline summary.",
+          "why": "Affects determinism (the pure-core rule), the save model, and offline-progress design. The hybrid keeps combat/story reproducible while delivering genuine idle satisfaction; this is foundational and should be confirmed before M2/M3 lock the tick and save schema."
+        },
+        {
+          "question": "Working title",
+          "options": [
+            "Kamikakushi (Spirited Away — descriptive, folklore-accurate)",
+            "Mizuho (the rice-abundance village name — gentle, agrarian)",
+            "The Borrowed Year / The Returned (English, evocative of the mystery)",
+            "Other / defer"
+          ],
+          "recommendation": "Use 'Kamikakushi' as the working title now; revisit before the itch.io deploy (M12).",
+          "why": "Low-stakes and reversible, but worth a quick human nod since it colors tone and store presence. Not blocking for any milestone."
+        }
+      ],
+      "open_questions": [
+        "Offline cap value and idle-to-online rate ratio: what exact cap (8h vs 24h) and what % of online rate best fits a story RPG where story is active-only? Needs a pacing playtest once M2-M3 exist.",
+        "Exact first-session pacing numbers: confirm first-producer cost, the 1.15 multiplier vs a gentler r, and the precise reveal cadence (target 5-8 reveals in 20-30 min) via headless __qa pacing tests in M2-M4.",
+        "Combat frequency and difficulty: how rare should fights be in the daily texture, and should there be any fail state (death penalty) or purely soft setbacks? Affects whether combat is a real risk or flavor.",
+        "Satiety/energy: hard gate (blocks labor when depleted) or soft (slows it)? Research suggests avoiding energy timers that block play — likely soft, but needs confirmation against the authentic 'hard labor' theme.",
+        "Scope of the NPC roster and side-quest volume for v1 vs post-launch: how many of the ~20 plausible NPCs and 12 areas ship in the first complete story pass?",
+        "Authenticity sensitivity read: the research flags that shrines/kami/ancestor rites are living traditions and regional/decade variation is large — when do we get a Japanese-history/folklore sensitivity pass, and on which content (especially Inari, burial customs, festival depictions)?",
+        "Number formatting threshold: at what magnitude do we switch to short/scientific notation, and should the koku economy even reach magnitudes that require it given a 2-4 week story length?",
+        "Does the diegetic prestige carry meta-progress as a flat multiplier, unlocked automation, or narrative-only memory? Affects whether the post-game has mechanical teeth.",
+        "Web Worker tick for background-tab accuracy (HackTimer-style): build our own or vendor one, and is it needed before M10 given the abstract-clock model?",
+        "Itch.io specifics (deploy field was null in research): confirm static-HTML upload settings, viewport/embed size, and whether we want a downloadable + playable-in-browser dual listing."
+      ]
+    },
+    "findings": {
+      "proto23": {
+        "game_name": "Proto23 (GitHub repo \"23html/23html.github.io\", page title \"Proto23\")",
+        "tech_stack": "Pure vanilla web, zero frameworks, zero build tooling, zero dependencies. The entire game is ONE file: index.html (~838 KB, ~14,768 lines) served from GitHub Pages. Lines 1-139 are inline CSS; a single inline <script> from line 143 to end-of-file holds ALL logic and content. Other repo files are just changelog/changelog.html, favicon.ico, ctst.png, laugh6.wav. No JS modules, no JSON data files, no package.json. GitHub reports the language as \"HTML\". Rendering is DOM-driven (516 innerHTML assignments; a tiny addElement(parent, tag, id, cls) createElement helper). Canvas is barely used (only a dev-only dungeon \"map\" preview around line 14238 and a commented-out snow effect). Font is MS Gothic; the whole UI is text/emoji plus CSS gradients, no sprite art. Persistence via window.localStorage. First committed 2022-10-21, still updated 2026; internal version number is 470, shown bottom-corner and linking to the changelog. Observed directly in the source, not inferred.",
+        "code_architecture": "NOT a pure-core architecture; logic and DOM are deeply intertwined (the opposite of our intended pure-core rule). No model/view separation: content callbacks (use/onLevel/onStay) directly call msg(), dom.*.update(), appear(), and combat resolution writes to the DOM mid-loop. All state lives in a handful of global namespace objects created at the top (lines 144-196): global (flags/stats/config), you (player), creature, item/wpn/eqp/acc/sld, skl, abl, rcp, area, sector, vendor, quest, act, effect, furniture, ttl (titles), chss (scenes/dialogue), home, container, mastery, timers, dom (cached element refs). Content uses constructor functions as lightweight \"classes\": You, Creature, Item, Eqp, Skill, Quest, Title, Furniture, Recipe, Container, Sector, Area, Vendor, Action, Weather, Effect, Ability, Mastery, Chs, Plan, Time. Every content instance is hand-authored inline (e.g. `item.bstr = new Item(); item.bstr.id=...; item.bstr.use=function(){...}`), so data and behavior are co-located per entity but there is NO central data table, lots of duplication, and one giant file. The \"engine\" portion (constructors + core functions like fght/attack/giveItem/giveSkExp/save/load/ontick) is maybe 10-15% of the file; the other 85% is hand-written content. There is one master tick driver, an IIFE `(function update(){ setTimeout(()=>{update();ontick();}, 1000/global.fps); })()` at line ~13879 (fps default 1), and many ad-hoc setInterval timers stashed on the `timers` object that are individually cleared on load/death.",
+        "core_loop": "Minute-to-minute: you stand in a location (\"scene\" = a Chs object) and click text choices. Combat areas auto-spawn an enemy (area_init picks from a weighted population table); combat is then fully automatic on a timer loop (fght/attack at lines 10379/10428) driven by SPD differential (the faster combatant lands extra \"multi-hits\" proportional to the speed gap), repeating while global.flags.btl is true. Killing grants EXP, drops, and skill EXP; you heal/eat to manage HP and SAT (satiety/energy, which constantly drains each tick via you.mods.sdrate and is worsened by cold/wet weather). Hour-to-hour: every tick advances in-game time (time.minute += timescale), cycling day/night, weather (wManager), seasons, and lunar phases; this gates events, vendor restocks, and item changes (food rots, alcohol ferments, power sources charge). You loop between hunting areas (XP/loot), your home (rest/sleep/cook/store), and town vendors (buy/sell, with shop reputation). Progress is spent leveling many skills, crafting/disassembling gear, reading books (which consume in-game time and unlock features), scouting areas for hidden secrets, doing menial jobs for money, and pushing a light questline. A slow doom timer (global.offline_evil_index, \"Evil slowly consumes the world\") ticks up over real calendar time.",
+        "ui_structure": "Single-screen dashboard built from absolutely-positioned panels referenced as dom.d0..d8 (and many sub-panels like d5_1_1, d7m). Top bars show name/title, HP/EXP/SAT meters, location header (d_loc), and a clock with day-of-week, season tag (Japanese kanji 春夏秋冬), lunar-phase emoji, and weather/rain/snow indicators. Center-left is the location/scene with clickable choice lines (the chs() renderer). Center is combat (your stats vs enemy stats and their effect icons). Bottom-left is a scrolling message log (capped at global.msgs_max=36). A right-hand inventory/equipment panel uses grid \"slots\" with hover tooltips (addDesc shows a floating description box; holding Shift reveals extra info). A row of ~5 main tabs (ct_bt1..ct_bt6: assemble/skills/actions/options/.../journal) switches the right pane between crafting, skills, actions, options, and journal/bestiary/quests/stats sub-screens. A separate map/navigation menu (mn_1..mn_4) lets you travel between sectors/areas. Windows are draggable (draggable() at line 14015). A fixed bottom bar holds save/load and the version number. There is a full-screen LOADING overlay and a dramatic red \"SOMETHING BROKE\" overlay on load failure.",
+        "ui_unlock_mechanics": "This is the standout feature and the most actionable lesson. The game opens almost EMPTY: the entire main UI (dom.d0, d1m, inventory, message log, controls, location) is hidden behind global.flags.aw_u and stays hidden until the scripted intro reveals it. The intro (chss.t1, line 11532) is a dialogue where each click fades in (appear(), a 0->1 opacity tween) exactly ONE more UI element in sequence: first ctr_1, then d0, then inventory + location bar, then the controls bar, and only then sets aw_u=true and hands you your first weapon (a stick, wpn.stk1) and herbs. After that, tabs are \"earned\" by DOING the relevant activity for the first time: the first skill gained sets global.flags.sklu and turns a placeholder tab into \"skills\" (line 13752); the first craft sets asbu -> \"assemble\" (line 10893); the first action sets actsu -> \"actions\" (line 9055); reading the Journal book sets jnlu -> \"journal\" (line 5584); another item sets m_un to reveal the map/navigation menu (line 4944, with mn_1 further gated behind stat.mndrgnu). Whole subsystems unlock via consumable BOOKS: reading the Hunter's Encyclopedia (item.bstr) sets global.flags.bstu to unlock the Bestiary; the Journal book unlocks the Journal; recipe books grant recipes. Areas/passages unlock via per-scene boolean flags set when you scout/discover them (e.g. frstnscgr reveals a hidden path). Reading takes real in-game time (data.time = HOUR*17 etc.), so unlocks are paced, not instant. On load(), every flag is re-checked to re-show the correct UI state, so unlocks persist. Net effect: the player is never overwhelmed; complexity is revealed exactly when first used.",
+        "progression_systems": [
+          "Player level + EXP with a steep curve (expnext = lvl*((lvl*2)^2)+lvl^2); leveling raises core stats",
+          "~60 skills (skl.*), each with its own EXP/level curve, gained the first time you perform the action, then trained by repeated use (giveSkExp); skills include combat, weapon masteries, cooking, reading, meditation, scouting, dodging, cold/wet resistance, etc.",
+          "Skill MILESTONES (perks): each skill has an mlstn array firing functions at specific levels that grant permanent stat boosts, new Titles, and cross-skill EXP multipliers (skl.x.p += ...), creating a deeply interconnected upgrade web",
+          "108 Titles (ttl.*) earned from milestones/achievements; some carry permanent 'talents' (passive bonuses re-applied on load)",
+          "Core stats STR/AGL/INT/SPD plus HP, SAT (satiety/energy), luck, karma, crit, plus base/additive/multiplier layering (str_r/stra/strm recomputed in you.stat_r())",
+          "Resistances (poison/burn/frost/paralyze/blind/sleep/curse/death/bleed/venom...) and elemental affinities/classes",
+          "Ki accumulation and a Mastery system (Mastery constructor, level-capped nodes)",
+          "Equipment with durability (dp/dpmax), 10 equip slots, and gear that tracks kills made with it",
+          "Shop reputation per vendor; menial jobs for money; a light questline (5 quests)",
+          "A long-horizon decay meter (offline_evil_index) that slowly 'consumes the world' over calendar time"
+        ],
+        "content_systems": [
+          "Combat: automatic, SPD-differential multi-hit resolution (fght/attack), hit/crit/miss, status effects on both sides, ~38 creatures generated via mon_gen with random level within an area's range",
+          "Items: ~351 plain items + ~195 equipment/weapons/accessories/shields (~546 total), each with id, rarity, description, and a use() function; consumables, food, herbs, materials, books",
+          "Crafting (rcp.*, 62 recipes) via an 'assemble' tab, with repeatable crafting and auto-prioritizing broken gear; plus DISASSEMBLE to break items back into materials (skill-scaled yields)",
+          "Cooking/food with satiety restoration and food that ROTS over time (the rotting system was generalized to any time-changing item: fermenting, charging, etc.)",
+          "Books: read over in-game time to unlock features (Bestiary, Journal), grant recipes, or give one-time stat boosts; books recycle",
+          "Locations: 69 scenes (Chs), 21 combat areas, 5 sectors (areas can belong to multiple sectors); home, dojo, forest, town",
+          "Vendors (5) with stock, conditional spawns, periodic restock, and reputation",
+          "Storage containers (generalized: bags, chests, altars) that can trigger events",
+          "Furniture (14) placed in your home with passive per-tick effects (use())",
+          "Weather/seasons/day-night/lunar phases driving environmental hazards (cold, rain makes you wet) and synergies",
+          "Effects (29) typed by tick-phase, applied to player and enemies",
+          "Actions (scout/run/etc.), Abilities, a Planner/Plan scheduler (plans[0]=per-tick, plans[1]=per-day, plans[2]=per-week), Bestiary, Journal, Quests, and a deep Statistics screen tracking dozens of counters"
+        ],
+        "save_system": "Single localStorage slot under the hardcoded key \"v0.3\" (NOT derived from global.ver=470). save() serializes ~20 sub-structures (player, effects, skills+milestones, global skills, global stats/flags, recipes, inventory partitioned by item-class via id/10000, area sizes, world data, furniture, vendors+stock, titles, home layout, quests, actions, sectors, containers, scene data, and a tget-titles list) by JSON.stringify-ing each and joining with '|', inserting a literal 'savevalid' sentinel near the end, then base64-encoding the whole string (utf8_to_b64) and storing it. Autosave every 30s (setInterval save(true), 30000). load() base64-decodes, splits on '|', and JSON.parses each segment back onto the live objects by matching ids. There is essentially NO migration system: a parse/structure mismatch shows a full-screen red 'SOMETHING BROKE / PERHAPS DUE TO STUPIDITY OR DATA STRUCTURE CHANGES / DELETING THE SAVE IS ADVISED' overlay, and the changelog literally records 'save is kill' when the structure changed. Manual import/export to text files is supported (download/upload of the same base64 blob, tagged with version + timestamp). global.stat.lastver is stored so the game knows the prior version, but no automatic upgrade path is implemented.",
+        "notable_strengths": [
+          "Outstanding progressive UI disclosure: starts nearly blank and reveals each panel/tab/subsystem exactly when first used, so the player is never overwhelmed despite enormous depth",
+          "Diegetic unlocks: features (Bestiary, Journal, recipes) are gained by reading in-world books that cost in-game time, making meta-progression feel like part of the fiction",
+          "Huge, interconnected content for a hobby project: ~546 items, 60 skills with cross-multiplying perk webs, 108 titles, 38 creatures, 62 recipes, 69 scenes",
+          "Rich systemic simulation: time/seasons/weather/lunar phases feed hazards, food rotting, fermenting, vendor restocks, and a long-horizon doom meter",
+          "Zero-friction tech: one static HTML file, no build, instant deploy to GitHub Pages, trivially forkable",
+          "Clean per-content 'class' pattern (one constructor per content type) makes adding an item/skill/area a small, local, copy-paste-and-tweak edit",
+          "Strong information UX: hover tooltips everywhere plus a Shift-for-extra-detail layer, color-coded rarities/messages, and a deep statistics screen",
+          "Sensible global tick architecture with a per-tick / per-day / per-week 'plans' scheduler and accumulating idle-style time"
+        ],
+        "notable_weaknesses": [
+          "No pure-core / no model-view separation: logic calls DOM directly, so it is not unit-testable or deterministic in isolation (directly violates the rule we want to follow)",
+          "Everything in one 14.7k-line file with global mutable state and cryptic short names (d5_1_1, asbu, frstnscgr, ddd_1) — very hard to navigate, refactor, or onboard",
+          "Fragile saves with no migration: structure changes brick old saves ('save is kill'); the error UX is a scary red wall of text",
+          "Determinism not enforced: uses Math.random() directly (random()/rand()) rather than a single seeded RNG, so runs are not reproducible",
+          "Massive content duplication because data and behavior are hand-written per entity with no shared data tables or generators",
+          "Many independent setInterval timers manually cleared in several places — easy to leak or double-register (the changelog repeatedly mentions culling memory leaks and a 'recursive timer' purge)",
+          "Magic-number conventions (item id / 10000 picks the item class/array) are brittle and undocumented",
+          "No accessibility, no responsive layout (fixed pixel panels), desktop-mouse-and-hover centric"
+        ],
+        "lessons_for_us": [
+          "Adopt the progressive-UI-reveal pattern as a core design pillar: ship a near-empty first screen and fade in one panel/tab per first-use milestone (Proto23 gates the whole UI behind an 'awake' flag and earns tabs via sklu/asbu/actsu/jnlu/m_un). This is the single most reusable idea here for an Edo-era incremental RPG.",
+          "Make unlocks diegetic and time-gated: unlock Bestiary/Journal/recipes/quests by reading in-world scrolls/manuals that consume in-game time — fits an Edo setting perfectly (temple texts, ryu scrolls, merchant ledgers) and paces complexity.",
+          "Keep their per-content 'class' pattern (one constructor/factory per content type: Item, Skill, Creature, Area, Vendor, Quest, Title, Effect, Recipe, Furniture) but invert their mistake — put the DATA in plain tables/JSON in the PURE CORE and let the renderer consume it, so we get their easy authoring AND our testability.",
+          "Steal the skill-milestone web: each skill grants perks at thresholds that give stats, titles, and cross-skill multipliers — cheap to author, creates emergent build depth and long-tail goals.",
+          "Use a single tick driver with a per-tick / per-day / per-week scheduler (their plans[0..2]) so seasonal/festival/lunar Edo events and idle accrual fall out naturally; advance an abstract in-game clock decoupled from real time.",
+          "Borrow the satiety/energy resource as a soft pacing gate and the systemic flavor layer (seasons in kanji, weather, lunar phases, food rotting) — but route ALL randomness through one seeded RNG, which they did not do.",
+          "Fix what they got wrong on saves: design a versioned save schema with explicit migration up front, validate on load, and degrade gracefully instead of a red 'save is kill' wall; keep their nice base64 import/export-to-file feature.",
+          "Their one-file approach is great for instant deploy but does not scale for agentic multi-file work; split into pure-core modules + a thin DOM renderer, but preserve their no-build, static-hosting simplicity (plain ES modules, no bundler needed).",
+          "Adopt their information UX: universal hover tooltips, a Shift-for-extra-detail layer, color-coded rarities/messages, a capped scrolling message log, and a deep statistics screen — cheap wins that make a numbers-heavy game legible."
+        ]
+      },
+      "yairpg": {
+        "game_name": "Yet Another Idle RPG (by miktaew)",
+        "tech_stack": "IMPORTANT CORRECTION to the brief: this is NOT a Vue app. It is plain vanilla JavaScript (ES modules, \"use strict\"), with NO framework, NO reactivity library, and NO virtual DOM. The UI is hand-written static HTML in index.html, styled by style.css, mutated imperatively via direct DOM calls (document.getElementById, element.style, classList) and CSS custom properties (document.documentElement.style.setProperty('--inventory_div_display', ...)).\n\nBuild: esbuild only. src/build.js calls esbuild.build with entry src/main.js, bundle:true, minify:true, sourcemap:true, format:'iife', target es2020 -> dist/bundle.js. There is NO package.json committed; esbuild is run ad-hoc (README mentions npm run build / live-server). build.js also rewrites the ?version= query string on the script and link tags in index.html from src/game_version.js (game_version = \"v0.5.5.29\") so cache-busting tracks the version constant.\n\nScale: ~35,600 lines of JS across ~30 src modules. Largest: main.js (5,979), display.js (5,723), items.js (5,034), locations.js (3,762), skills.js (3,380), dialogues.js (2,349), crafting_recipes.js (1,861). Third-party: HackTimer (keeps setTimeout/setInterval accurate in background tabs via a Web Worker -- essential for an idle game) and an Inkfree.ttf font. Hosted on GitHub Pages; master = dev code, gh-pages = live release.",
+        "code_architecture": "Clear two-layer split, but NOT the \"pure-core\" boundary our CLAUDE.md wants -- logic and DOM are entangled in main.js.\n\n1) DATA/CONTENT modules -- one file per content type, each exporting a plain object keyed by id whose values are class instances: items.js (item_templates), enemies.js (enemy_templates), locations.js (locations), skills.js (skills), dialogues.js (dialogues), quests.js (quests), activities.js (activities), crafting_recipes.js (recipes), combat_stances.js (stances), traders.js (traders), active_effects.js (effect_templates). Each defines a class (Item/Enemy/Location/Skill/Dialogue/Quest...) plus a giant literal that instantiates dozens of entries, e.g. enemy_templates[\"Wolf\"] = new Enemy({...}); locations[\"Infested field\"] = new Combat_zone({...}). This is the registry pattern -- content is data-as-code.\n\n2) display.js -- the entire rendering/DOM layer (~5,700 lines). All update_displayed_* functions live here (update_displayed_health, update_displayed_character_inventory, update_displayed_stats, update_character_attack_bar, update_displayed_enemies, create_displayed_crafting_recipes...). Game logic in main.js calls these explicitly after every state change; there is no observer/binding, updates are manual push.\n\n3) main.js -- the orchestrator / God file (~6,000 lines): imports everything, holds mutable global game state (current_location, current_enemies, current_activity, global_flags, active_effects, total_kills, etc.), runs the loops, and contains save/load. It both mutates state AND calls display.js, so logic is not DOM-free.\n\nSupport modules: misc.js (helpers incl. compare_game_version, get_hit_chance, random_range), rewards.js, pathfinding.js (for fast-travel between unlocked locations), market_saturation.js + trade.js + traders.js (economy that depresses prices when you over-sell), reputation.js, weather.js + game_time.js (day/season/temperature), particles.js (canvas snow/rain/stars), verifier.js (Verify_Game_Objects() -- a content-integrity checker callable from console, validates ids/refs across all registries), translation.js + locales/english.js (i18n via key lookup). src/mods/glassmaking.js shows a mod-extension seam. Inheritance is used in content classes (Hero extends InventoryHaver; Combat_zone and Challenge_zone extend Location; Gathering extends an Activity base; many *Recipe subclasses).",
+        "core_loop": "Two decoupled clocks. (a) A 1-second world tick: update() reschedules itself with setTimeout(...,1000/tickrate) and on each tick advances game time, applies weather/temperature effects, regenerates HP/stamina while resting/sleeping, ticks active-effect durations, recovers market prices on day change, and auto-saves on a counter. (b) Combat runs on SEPARATE self-rescheduling setTimeout loops, one per combatant, paced by attack_speed -- NOT on the world tick. set_new_combat sets per-enemy cooldowns; do_character_attack_loop and do_enemy_attack_loop count 0..60 sub-ticks to animate the attack bar, then fire do_character_combat_action / do_enemy_combat_action. Both loops self-correct timing drift via a variance accumulator capped at maximum_time_correction.\n\nMinute-to-minute: pick a location -> if it's a Combat_zone, auto-combat starts and repeats until enemy_count clears (rewarding XP + skill XP + loot per kill); if it's a safe Location, choose an activity (job for money, training for stats, gathering for materials), talk to NPCs (dialogue), craft, trade, sleep, or read books. Everything is idle/auto once started.\n\nHour-to-hour: clear a zone enough times to trigger rewards_with_clear_requirement -> unlocks new connected locations, reputation, recipes, activities, or quest progress; level skills past milestones for stat/xp bonuses; craft better gear from gathered + smelted + forged components; advance the questline via dialogue. The fresh-start flow (bottom of main.js) seeds the player at \"Village\" with starter items + 102 money and starts the quest \"Lost memory\" -- the narrative spine.",
+        "ui_structure": "Single static HTML page (index.html), all panels authored up front. A loading_screen (title, progress text that prints whimsical messages, PLAY button) gates a main_content area. Panels: character info (name field + XP/HP/stamina/mana bars), character stats (attributes, attack power/speed, crit, defense), equipment (head/torso/arms/legs/feet/ring/amulet/artifact/cape + weapon/off-hand + tool slots), combat management (stance picker, attack bar), location info (name/types/description), combat area (up to 8 enemy slots with HP bars), inventory (money + filterable/sortable items), trade and storage overlays (reuse the inventory area), skills list (sortable, hide-max-level toggle), stances table, magic list, a journal with tabs (Quests, Bestiary, Anthology/books, Data/reputation+item-log), a crafting window with 7 categories (tinkering, butchering, cooking, woodworking, smelting, forging, alchemy) each with items/components/equipment subpages, a filterable message log, time/weather display, and an options overlay. Heavy use of CSS custom properties for show/hide (e.g. --inventory_div_display vs --character_combat_div_display, --equipment_display, --options_display) and a content_stack for nested modal flows (dialogue -> action -> result with clean back-navigation).",
+        "ui_unlock_mechanics": "Two distinct mechanisms, both data-driven rather than hard-coded screens:\n\n1) CONTENT-FILTERED LISTS (the dominant pattern). The fixed panels always exist; what they show is recomputed on demand. When you change location, display.js rebuilds the action/dialogue/trader/activity/connection lists by FILTERING the location's content to entries that are is_unlocked && !is_finished (and, for activities, whose required skills are themselves unlocked). So a dialogue line, a trader, a crafting station, a neighbouring location, or an activity simply \"appears\" the moment its is_unlocked flag flips. Connected locations also hide once is_finished, pruning the map as zones are exhausted.\n\n2) GLOBAL FEATURE FLAGS for whole subsystems. global_flags (e.g. is_gathering_unlocked, is_crafting_unlocked, is_strength_proved) gate categories of content; when set, a templated message in unlock_text is logged (\"You have gained the ability to craft items and equipment!\") and gathering/crafting options begin passing their filter checks. Skills are progressively revealed too: a Skill stays hidden until total_xp exceeds its visibility_treshold (default 10), so you discover skills by accidentally using them. Dialogue/quest rewards are the engine that flips all these flags -- selecting a textline grants a rewards object that can unlock locations, dialogues, textlines, items, quests, recipes, activities, AND lock other lines (locks/locks_lines), driving a branching, self-revealing progression with almost no imperative UI code.",
+        "progression_systems": [
+          "Character XP/level: geometric curve (xp_scaling 1.6); each level grants HP (10*ceil(level/10)), +5 stamina, attribute points (odd/even level split), and a compounding skill-XP multiplier (1.03/level).",
+          "Skills (the core depth): Skill class with current/total_xp, per-level total-XP formula base_xp_cost*(1 - xp_scaling^n)/(1 - xp_scaling) with xp_scaling default 1.8 (steep). Single XP gains are CAPPED per event (skill_xp_gains_cap 0.1 for combat, 0.25 for crafting) so no skill can level in one action -- forces repetition. Milestones at set levels grant flat stats (+1 dexterity), stat multipliers (x1.05 strength), or XP multipliers to other skills/whole categories (category_Combat:1.05). Categories: Combat, Weapon, Stance, Activity, Crafting, Environmental.",
+          "Combat stances: level a related skill to strengthen a stance's multipliers and soften its penalties; stances change attack_power/speed/evasion/block and target_count (multi-target).",
+          "Zone clears: enemy_count per zone; first_reward (one-time), repeatable_reward, and tiered rewards_with_clear_requirement (e.g. after 4 clears unlock a hidden tunnel + reputation).",
+          "Reputation per faction (e.g. Village) gates dialogue lines and content via display_conditions.",
+          "Equipment quality/rarity tiers (trash->mythical, x1->x2.5 multiplier) from crafting skill.",
+          "Quests/questlines with sequential tasks tracked via game events.",
+          "Books grant passive XP bonuses while reading; an 'export reward' nudges players to back up saves on a timer."
+        ],
+        "content_systems": [
+          "Combat: stat-based auto-battler. Hit chance from get_hit_chance(attacker dexterity*sqrt(intuition) vs target evasion_points). Damage = attack_power with +/-20% variance, reduced by max(defense - armor_penetration) with a 10% damage floor; crits multiply by crit_multiplier (enemy crit fixed 0.1 chance / x2). Block and evade are separate rolls. Multi-target via stance target_count. On kill: XP scaled by group size, loot rolled, bestiary updated, quest 'kill'/'kill_any'(by tag) events fired.",
+          "Enemies: Enemy class with stats {health, attack, agility, dexterity, intuition, magic, attack_speed, defense}, xp_value (1..300), rank, size (SMALL/MEDIUM/LARGE), tags (beast/living), and loot_list of {item_name, chance, optional count range}; get_loot applies skill-based droprate modifiers (e.g. Butchering on beasts).",
+          "Locations: Location (safe) vs Combat_zone vs Challenge_zone (one-time); connected_locations form a directed graph with travel_time and optional skill gates; LocationType adds environmental modifiers (dark/narrow/bright) whose penalties shrink as the related environmental skill levels.",
+          "Items/equipment: class hierarchy Item -> OtherItem/Material/ItemComponent/UsableItem/Equippable/Book. Equipment is COMPONENT-BASED: weapons = head+handle, armor = internal+external, shields = base+handle; quality is computed from crafter skill and component quality. inventory_key is JSON.stringify({id,components,quality}) so different qualities stack separately.",
+          "Crafting: recipes nested as recipes[category][subcategory][id]; categories crafting/cooking/smelting/forging/alchemy/butchering/woodworking; success chance and output quality scale with the relevant skill and station tier (quality formula folds skill level, component quality, and tier).",
+          "Dialogue/story: Dialogue holds Textlines; selecting a line shows text, grants a rewards object, and can lock other lines (branching). display_conditions/required_flags gate lines on reputation/level/season/skills/flags. This is the primary story + unlock delivery vehicle.",
+          "Quests: Quest with sequential QuestTasks; conditions (any/all -> type kill/reach_skill/enter -> target -> current/target) advanced by catchQuestEvent; finishQuest grants rewards.",
+          "Economy: traders refresh inventory on a timer; market_saturation depresses sell prices when you flood a region with one item, recovering over in-game days.",
+          "Activities: Job (money), Training (continuous skill XP), Gathering (needs a tool, yields loot + skill XP on completion).",
+          "Weather/time: day/season cycle with dynamic temperature; cold/wet active effects from being outside; canvas particle FX."
+        ],
+        "save_system": "localStorage, manual + auto. create_save() builds a plain object and returns it as a JSON STRING. Design principle: save ONLY the minimal non-derivable state and recompute everything else on load. Specifically it stores: game version, current_game_time, language, lifetime stats (playtime/deaths/kills/crits/hits/strongest_hit), global_flags; character = {name, titles, money, xp.total_xp, hp_to_full & stamina_to_full as deltas, reputation, inventory as {key:{count}}, equipment} -- NOTE stats are NOT saved, comment says they are recalculated on load; per-skill ONLY {total_xp} (level re-derived); per-location only is_unlocked/is_finished + enemy_groups_killed + unlocked_activities + per-action is_unlocked/is_finished/progress; per-dialogue/textline/action is_unlocked/is_finished; recipes is_unlocked/is_finished; traders (with refresh timestamp, skipping inventory if it would refresh anyway); books accumulated_time; quests is_active/is_finished + task_status; player_storage; favourites; current_activity progress.\n\nPersistence: save_to_localStorage({key}) writes the JSON string; keys are \"save data\" / \"dev save data\" plus \"backup save\" / \"dev backup save\". Auto-save fires off a counter (save_period ~60), backups on backup_period ~3600. Export: save_to_file() returns btoa(create_save()) (base64) and grants a periodic 'export reward' to incentivize backups; load_from_file does atob then JSON.parse then load(). Versioning/migration: load() runs many compare_game_version(...) checks against save_data[\"game version\"] to migrate old saves (e.g. x100 quality before the quality rework, renaming is_deep_forest_beaten -> is_strength_proved pre-0.5, economy rework before v0.3.5). compare_game_version (in misc.js) splits on dots, zero-pads, compares numerically.",
+        "notable_strengths": [
+          "Data-as-code content registries: every system is a {id: new ClassInstance({...})} table, so adding content (an enemy, location, recipe, dialogue) is a localized, declarative edit with no engine changes -- huge for agentic/incremental authoring.",
+          "Minimal-state save model: persist only total_xp + unlock/finished flags + item counts + kill counts, recompute all derived stats on load. This makes saves tiny, forward-compatible, and migration-friendly, and means balance retuning of formulas doesn't corrupt old saves.",
+          "Reward object as a universal unlock bus: one rewards schema (items/xp/money/locations/dialogues/textlines/recipes/quests/flags/locks) is processed by one process_rewards() and emitted from kills, dialogue, quests, actions -- progression is wired declaratively, not with bespoke code per unlock.",
+          "Progressive reveal for free: panels are static; visibility is just filtering content on is_unlocked && !is_finished plus a skill visibility_treshold. The UI 'grows' as data flips, with almost no UI-state code.",
+          "Combat decoupled from the world tick onto per-combatant self-correcting timers paced by attack_speed -- clean, and naturally supports different attack speeds and multi-target.",
+          "Built-in content integrity verifier (Verify_Game_Objects) cross-checks all cross-references (effects, items, locations, skills) -- a self-test for content authored as data.",
+          "HackTimer integration so idle progress is accurate in background tabs -- a must-have for the genre that is easy to forget.",
+          "Thoughtful idle UX: caps on per-action skill XP force engagement breadth, export-reward timer nudges backups, market saturation discourages mindless grinding of one drop."
+        ],
+        "notable_weaknesses": [
+          "No pure-core boundary: main.js (6k lines) mixes state mutation, combat math, save/load, AND direct display.js calls. Logic is not DOM-free, so it is NOT unit-testable in isolation -- directly contrary to our CLAUDE.md 'pure-core' rule.",
+          "main.js and display.js are God files (~6k and ~5.7k lines); hard to navigate and review.",
+          "Manual push-rendering: every logic path must remember to call the right update_displayed_* function. Easy to miss one -> stale UI; no single render() reconciliation.",
+          "Determinism is violated: randomness uses Math.random() scattered everywhere (combat, loot, dialogue flavor), not a single seeded RNG -- runs are not reproducible, contrary to our 'one seeded RNG' rule.",
+          "No package.json / locked toolchain committed; build is ad-hoc esbuild. Reproducible setup is on the reader.",
+          "Content tables are enormous hand-written literals (items.js 5k lines) -- balance tables live in code, not generated, so cross-referencing/tuning is manual (mitigated only by the verifier).",
+          "Heavy reliance on stringly-typed ids and CSS-custom-property toggles for UI state makes refactors fragile.",
+          "No automated tests; correctness rests on the runtime verifier + playtesting.",
+          "Acknowledged WIP balance; steep skill curve (xp_scaling 1.8) plus per-gain caps can feel grindy."
+        ],
+        "lessons_for_us": [
+          "Adopt their content-registry pattern (one module per content type, {id: data} tables) for Edo-era content -- but author it as PURE DATA consumed by our pure core, so we keep their fast content-authoring while honoring our pure-core/testable rule (the one place we should deliberately diverge from their architecture).",
+          "Steal the minimal-state save model wholesale: persist only total_xp per skill, unlock/finished flags, inventory counts, kill/clear counts, and current location/time; recompute every derived stat on load. Pair it with their version-tagged migration approach (store version, run ordered compare_game_version migrations). This makes balance retuning safe and saves tiny.",
+          "Use one universal 'rewards' object + one process_rewards() as the unlock bus (locations/skills/dialogues/textlines/recipes/quests/flags/locks), emitted by combat, quests, dialogue, and actions. It collapses all progression wiring into declarative data -- ideal for our autonomous, incremental build cadence.",
+          "Implement progressive UI reveal the cheap way: author panels once, render by filtering content on is_unlocked && !is_finished, and hide skills until they cross a small visibility_treshold so players discover mechanics by doing. Avoid bespoke per-feature reveal code.",
+          "Decouple combat from the world tick: run a fixed-step pure-core simulation, but let attack cadence be data (attack_speed). Keep their idea, but drive it from our seeded RNG and a deterministic step function so combat is reproducible and unit-testable (their Math.random() everywhere is the anti-pattern to avoid).",
+          "Centralize randomness through a single seeded RNG from day one -- the one thing this game gets wrong and our CLAUDE.md explicitly requires.",
+          "Port two idle-genre essentials they nailed: (a) background-tab-accurate timers (HackTimer or our own Web Worker tick) so offline/background idle progress is honest; (b) an export/backup affordance (base64 string export) with a gentle incentive to use it.",
+          "Build a content verifier early (their Verify_Game_Objects): a function that cross-checks all ids/refs across registries. With our 'generate, don't duplicate' rule, go further and GENERATE balance tables into docs/ from the same data the game uses, instead of hand-maintaining 5k-line literals.",
+          "Make dialogue the story+unlock delivery vehicle: Textlines with rewards + locks + display_conditions (reputation/level/season/skills/flags) give branching narrative with almost no code -- a great fit for an Edo-era story spine, and seed a single starter quest at new-game to anchor direction.",
+          "Borrow component-based crafting (item = combination of components; quality derived from skill + component quality + station tier; quality folded into the stack key) to get deep gear progression from a small component vocabulary -- and add an economy damper like their market_saturation so selling loot has diminishing returns and grinding stays interesting.",
+          "Avoid their God-file trap: keep our core split into small, single-concern, DOM-free modules with the renderer as a separate consumer of plain core state, so we stay reviewable and testable as the codebase grows toward their 35k-line scale."
+        ]
+      },
+      "genre": {
+        "defining_traits": [
+          "Numbers-go-up core loop: an exponentially scaling currency/stat is the heartbeat; nearly all satisfaction comes from watching a number cross thresholds and accelerate. The genre is fundamentally about the DERIVATIVE (rate of growth), not the absolute number.",
+          "Layered automation: the player's manual action (clicking the fire/cookie) is replaced by purchased producers, which are replaced by upgrades, which are replaced by automation systems. Each layer removes the prior layer's chore. Active->idle transition is the spine of the experience.",
+          "Progressive content reveal as the primary 'fun' delivery mechanism: the genre's signature pleasure is the 'wait, there's MORE?' moment when a new system/tab/mechanic appears. New mechanics, not bigger numbers, are what re-hook players. (This is the trait most relevant to a UI-incremental story RPG.)",
+          "Threshold-gated unlocks: features appear when a resource/level/story-flag crosses a value, never on a timer the player can't see. Unlocks feel earned because they're tied to player progress.",
+          "Compounding/multiplicative systems: producers feed upgrades that multiply producers; late game is a web of cross-multipliers (e.g. Cookie Clicker grandma synergies, NGU resource interplay). Multiplication is what makes numbers go up fast enough to feel exciting.",
+          "Goal-laddering / known-unknowns: at any moment the player can see the next 1-2 things they're saving toward (a grayed-out next building, a locked tab with a teaser). There is never a moment of 'what do I do now?'",
+          "Determinism + reproducibility friendly: most great ones are pure-state machines (state + tick + RNG-from-seed), which is exactly the pure-core architecture your CLAUDE.md mandates.",
+          "Long, asymptotic tail with reset loops (prestige) to recycle content; the best in genre wrap the whole thing in a fiction so the grind has meaning (A Dark Room, Universal Paperclips)."
+        ],
+        "ui_incrementality_patterns": [
+          "RESOURCE-REVEALS-PANEL (A Dark Room's signature pattern, steal this first): the UI is a set of panels each bound to a resource/flag. A panel does not exist until its trigger resource is first acquired. In ADR: gaining 1 Fur reveals the Trading Post + Tannery; first Meat reveals the Lodge + Smokehouse; first Leather reveals the Workshop; discovering Iron+Coal reveals the Steelworks. Implementation: render `panels.filter(p => state.flags.has(p.unlockFlag))`; set the flag the first time a resource appears. Each new resource line item in the 'stores' list is itself a micro-reveal.",
+          "ONE-BUTTON COLD OPEN: start with a SINGLE interactive element and literally nothing else (ADR = 'light fire'; Paperclips = 'make paperclip'; AD = buy 1st dimension). The empty screen IS the hook because it provokes 'what is this?'. Do not show tabs, stats, or menus yet. Reveal the second element only after the first is used.",
+          "GHOST/GRAYED NEXT ITEM (Cookie Clicker pattern): the very next purchasable is shown grayed-out and unaffordable, with its cost visible, BEFORE the player can buy it. This creates a visible savings goal. The item AFTER that is hidden entirely. So the player always sees exactly one 'locked but known' item — a tight known-unknown horizon.",
+          "TAB-PER-SYSTEM, UNLOCKED BY TRIGGER (Kittens Game / NGU Idle pattern): each major system is a tab; tabs are hidden until unlocked and appear with a subtle 'new' badge. Kittens: Workshop tab appears when you first get minerals; Time tab appears when you research Calendar. NGU: a new gameplay tab unlocks per boss defeated. The tab BAR itself grows over the game — the navigation chrome is part of the incremental reveal.",
+          "WHOLESALE UI METAMORPHOSIS AT PHASE BOUNDARIES (Universal Paperclips pattern): at major story/prestige beats, don't just add a panel — replace the screen. Paperclips goes from a business sim (price/marketing/wire panels) to a resource-allocation strategy game (Ops/Trust/Projects, sliders) to an abstract space game (drones, probes, von Neumann combat). For a story RPG: each Act can retheme/relayout the whole UI, making progression feel like chapters.",
+          "PROJECT/UPGRADE GRID THAT FILLS IN (Paperclips 'Projects', AD 'upgrades row'): a grid of one-time unlocks where new cells pop in when prerequisites are met. Players watch empty space populate. Each purchased project can itself unlock a new mechanic or panel — upgrades that unlock UI, not just multipliers.",
+          "CAPACITY-GATED REVEAL (Paperclips 'Trust' / memory slots): a meta-resource limits how many systems can be active/visible at once, so the player chooses which panels to 'install.' This makes UI growth a player decision, not just automatic.",
+          "NARRATIVE-MESSAGE LOG AS THE BRIDGE (ADR's most important lesson): a scrolling event/notification feed sits beside the sparse early UI so the screen is never truly empty even when there's one button. Amir Rajan (ADR iOS) specifically added timed story messages early to stop players bouncing off the lone 'stoke fire' button and leaving 1-star reviews. For a story RPG this log is also your narration channel.",
+          "UNLOCK-AS-DIEGETIC-EVENT: announce each new panel/tab in-fiction through the message log ('A ragged stranger stumbles in...' precedes the build menu). The mechanic reveal and the story beat are the same event, so UI growth feels like plot, not menu inflation.",
+          "PROGRESSIVE AUTOMATION REVEAL (Trimps/NGU pattern): the chore the player has been doing manually gets an 'automate this' toggle as a reward, which then frees screen attention for the next manual system. Automation unlocks are permanent and framed as upgrades, pacing the active->idle shift.",
+          "SMALL-NUMBER FORMATTING UNTIL IT MATTERS: keep early numbers in plain integers/short form; only introduce scientific/engineering notation (AD-style 1.8e308) once magnitudes demand it, and treat that switch as its own 'you've leveled up' reveal.",
+          "DON'T REMOVE, RELOCATE: when an early mechanic becomes obsolete (manual clicking), keep it available but shrink/collapse it rather than deleting it, so the player feels growth (the old thing is now a footnote) rather than loss."
+        ],
+        "pacing_and_numbers": "\"Cost curve: use the genre-standard exponential building cost `price = base * r^owned` with r in the 1.07-1.15 band (Cookie Clicker uses 1.15 for all buildings; Clicker Heroes 1.07; AdVenture Capitalist 1.07-1.15). r=1.15 is a safe default. Income/production should grow LINEARLY or polynomially per purchase while cost grows exponentially — the widening gap between the cost curve and the income curve is what naturally paces the game and makes each purchase take a bit longer than the last. Between BUILDING TIERS, Cookie Clicker uses roughly a 5x base-cost jump (15, 100, 1100, ...), which sets how fast new producers are discovered vs. saturated. First-session targets (this is the make-or-break window): first meaningful action in <5 seconds; first automated producer purchasable in 15-30 seconds (Cookie Clicker's first cursor is 15 cookies; ADR's stranger arrives within ~1 min of stoking); a NEW system/panel/tab reveal roughly every 1-3 minutes for the first 10-15 minutes, then stretching to every 5-15 minutes. ADR reveals fire->stranger->wood->cart->hut->villagers->traps->trading post in the first ~10-30 min. A good first session should deliver 5-8 distinct 'new thing appeared' moments in the first 20-30 minutes. Time-to-milestone for prestige/Act boundaries (from idle-genre norms + Antimatter Dimensions' famous curve): first prestige/Act-end reachable in a single sitting of ~1-3 hours; subsequent loops should get FASTER on first pass then the NEXT layer should be markedly longer — AD's published pacing is first Infinity <1 day, first Eternity <1 week, first Reality ~1 month, each layer ~5-10x the previous in wall-clock. For a story RPG, compress this: Act 1 in one session (~1-2h), Act 2 over a few days of check-ins, full story over 2-4 weeks of casual play. Offline cap: grant offline progress but cap it (commonly 8-24h of accrual, or a fixed % of online rate) so returning feels rewarding but daily check-ins still matter. Avoid hard numeric walls — the moment time-to-next-unlock exceeds the player's tolerance (rule of thumb: never let the next visible goal be more than ~2-3x the wait of the previous one without giving a new mechanic to play with), introduce a new mechanic or a multiplier reset rather than asking for raw patience.\"",
+        "retention_mechanics": [
+          "OFFLINE/IDLE PROGRESS (use, but tune for a story RPG): grant resource accrual while away, but CAP it (8-24h or a % of online rate) and show a 'while you were away...' summary on return — the welcome message is a documented operant-conditioning hook that drives daily re-checks. For a story game, gate STORY beats on active play (don't let the plot advance offline) while letting GRIND advance offline; this makes idle time productive without spoiling narrative pacing.",
+          "STORY/CONTENT UNLOCKS AS THE PRIMARY RETENTION DRIVER (best fit for you): the strongest retention lever for a narrative incremental is the next chapter/panel/mechanic, not a leaderboard. Always keep one visible locked thing dangling (known-unknown). New MECHANICS re-hook players far more than bigger numbers — schedule a fresh system at every Act.",
+          "ACHIEVEMENTS that double as a checklist/guide (Cookie Clicker, Melvor, AD all do this): achievements quietly teach mechanics ('own 10 huts', 'survive a thief raid') and provide secondary goals during slow stretches. Some give small permanent bonuses (Cookie Clicker milk/AD rows) to make them feel worth chasing. Cheap to add, high value — recommended.",
+          "PRESTIGE/RESET LOOPS — USE CAREFULLY in a story RPG: classic prestige (wipe progress for a permanent multiplier currency) is the genre's endgame engine but can clash with narrative ('why am I doing this again?'). DIEGETIC prestige works (A Dark Room loops you to a new beginning as part of the plot; Paperclips' phase resets ARE the story). Recommendation: make resets narrative events (reincarnation, time loop, new map/era) that carry meta-progress forward, rather than a context-free 'ascend' button. Reserve the first prestige until AFTER the story's first arc resolves so it reads as a chapter break, not a grind reset.",
+          "DAILY/SESSION RITUAL via the return-summary + a couple of time-gated systems (raids/events in ADR, replicanti-style slow accruers in AD) so there's always a reason to open the tab once a day — but AVOID hard daily-login streak FOMO mechanics; they fit free-to-play mobile, not a self-contained story RPG and can feel manipulative.",
+          "PERMANENT META-PROGRESSION / automation unlocks (Trimps, NGU, AD perks): unlocking automation and quality-of-life as rewards keeps the long tail engaging and signals 'you've grown.' Strongly recommended — frame each as a story-justified capability.",
+          "AVOID for a story RPG: competitive leaderboards, PvP, gacha/lootbox randomness on core progression, energy/stamina timers that block play, and aggressive daily-streak guilt loops. These suit live-service mobile monetization and undercut a crafted, single-player narrative."
+        ],
+        "exemplars": [
+          {
+            "name": "A Dark Room",
+            "what_to_steal": "THE blueprint for you. (1) Resource-reveals-panel: every new resource silently unlocks a new building/store panel, so the UI literally grows out of play. (2) One-button cold open ('stoke the fire') with a scrolling event log beside it so the screen is never dead. (3) Mechanic reveals delivered AS story beats through that log (the stranger arriving = the build menu appearing). (4) Whole-game genre shift (idle survival -> village sim -> RPG world map + combat -> sci-fi reveal) proving a UI can metamorphose with the plot. (5) The Amir Rajan lesson: seed timed narrative messages in the sparse early minutes or players bounce off the empty screen."
+          },
+          {
+            "name": "Universal Paperclips",
+            "what_to_steal": "Wholesale UI metamorphosis at phase boundaries — three completely different interfaces (business sim -> ops/trust strategy -> abstract space conquest) map perfectly onto story Acts. The 'Projects' grid that fills in as prerequisites are met (upgrades that unlock NEW mechanics/panels, not just multipliers). The 'Trust' capacity-gating where a meta-resource limits how many systems you can have active — make UI growth a player choice. Tight fiction that gives the numbers meaning end to end."
+          },
+          {
+            "name": "Cookie Clicker",
+            "what_to_steal": "Cost-curve math (1.15 multiplier, ~5x jumps between tiers, base costs 15/100/1100...). The grayed-out next-building pattern: always show exactly one locked-but-priced item as the visible savings goal, hide the one after. Achievements-as-guide with small permanent bonuses. Building synergies (cross-multipliers) for late-game depth. Two-buttons-at-start restraint."
+          },
+          {
+            "name": "Kittens Game",
+            "what_to_steal": "Tab-per-system reveal with precise resource/research triggers (minerals -> Workshop tab; Calendar research -> Time tab). The growing tab BAR as part of the incremental UI. Deep simulation hidden behind a deceptively simple text UI — but ALSO a cautionary tale on complexity creep (see pitfalls)."
+          },
+          {
+            "name": "Trimps",
+            "what_to_steal": "Progressive AUTOMATION as the reward structure: you manually do something, then earn the toggle to automate it, freeing attention for the next manual layer — this is how to pace the active->idle transition. Permanent automation unlocks as you climb zones. Natural session break points (early progress in minutes, later in hours)."
+          },
+          {
+            "name": "NGU Idle",
+            "what_to_steal": "'Modular ever-expanding UI where new tabs unlock per boss defeated' — milestone-gated tab proliferation. Resource-allocation as the core decision (Energy/Magic split across features), and the namesake NGU infinite-but-diminishing upgrade sink for the very long tail. Bosses (story beats) as the unlock currency maps cleanly to a story RPG's progression gates."
+          },
+          {
+            "name": "Melvor Idle",
+            "what_to_steal": "Skill/feature unlocks gated behind level AND an increasing GP cost (Adventure Mode), forcing a deliberate unlock ORDER and giving the player meaningful sequencing choices. Skills that feed each other (mine ore -> smith gear -> combat) as an interdependence web. Explicitly non-competitive, set-your-own-goals framing suited to single-player."
+          },
+          {
+            "name": "Antimatter Dimensions",
+            "what_to_steal": "Sequential reveal of a row of producers (dimension 1 -> 2 -> ... -> 8), then second-order systems (Dimension Boosts, Galaxies, Tickspeed) appearing only once you've mastered the first, then the Infinity prestige. Clean nested prestige layers (Infinity/Eternity/Reality) with published, deliberately escalating pacing (<1 day / <1 week / ~1 month). The moment scientific notation 'turns on' as its own milestone."
+          }
+        ],
+        "pitfalls": [
+          "Empty-screen bounce: the cold-open one-button minimalism that makes ADR great also nearly tanked its iOS launch (feared 1-star reviews from players seeing only 'stoke fire'). If the early UI is sparse, you MUST fill the void with narrative/event messages and a fast first reveal, or players quit in the first 60 seconds.",
+          "Progression walls: an economy too tight -> player hits a multi-hour wait with nothing new to do and churns; too generous -> player maxes out and there's nothing left to chase. Never let the next visible goal balloon to many multiples of the previous wait without injecting a NEW mechanic. Rule of thumb: introduce a new system rather than asking for raw patience.",
+          "Automation timing errors: automate a chore too early and the player disengages (nothing to do); too late and they churn from tedium. The active->idle handoff must be tuned per system.",
+          "Prestige-reset feel-bad: context-free 'reset everything for a multiplier' clashes badly with narrative ('why redo the story?') and can make players feel they're grinding in circles. In a story RPG, resets must be diegetic (reincarnation/time-loop/new era) and carry meaning, or skipped early.",
+          "Complexity creep / spreadsheet syndrome (Kittens Game's own community flags this): late-game optimal play degenerating into monstrous calculations alienates casual/story-seeking players. Keep decisions legible; resist stacking interacting multipliers faster than you teach them.",
+          "Mistaking bigger numbers for content: players re-hook on NEW mechanics, not larger values. A long stretch of 'same loop, bigger number' with no new panel/system is where idle games lose people.",
+          "Narrative-mechanic desync: if the story advances on a separate track from the systems, the fiction feels bolted-on. ADR/Paperclips work because each mechanic reveal IS a story beat. Tie them or the narrative becomes ignorable flavor text.",
+          "Offline progress that trivializes the story: if plot or key unlocks accrue offline, players return to find decisions already made and tension drained. Let grind idle; gate STORY on active play.",
+          "Notation/legibility shock: dumping scientific notation or dozens of resources on the player at once is overwhelming. Reveal magnitude and resource count gradually; the formatting change should be a celebrated milestone, not a sudden wall of e-notation.",
+          "Tutorial over-explaining: the genre's joy is discovery ('revelatory moments are more fulfilling when not spelled out' — ADR's Townsend). Heavy hand-holding tutorials kill the very surprise the UI-reveal design exists to create. Teach through the reveal itself."
+        ],
+        "lessons_for_us": [
+          "Make the UI-reveal engine a first-class system in the pure core: represent every panel/tab/resource-row/button as DATA with an `unlock` predicate over game state (flags, resources, level, story node). The renderer just shows what's currently unlocked. This satisfies your pure-core boundary AND makes 'the UI is incremental' a tunable content table rather than hardcoded view logic.",
+          "Adopt A Dark Room's resource-reveals-panel as the default unlock idiom: the first time a resource/stat appears, it lights up its associated panel — and announce that reveal as a story event in a persistent message/log component that exists from second one (so the screen is never empty).",
+          "Open with literally one interactive element plus the event log. Get the first action under 5 seconds, the first automated producer under ~30 seconds, and aim for 5-8 distinct 'new thing appeared' reveals in the first 20-30 minutes. This window decides retention.",
+          "Fuse every mechanic reveal to a story beat. A panel/tab/automation should never appear silently; it arrives because something happened in the narrative. Treat the unlock table and the story-flag graph as the same dependency graph.",
+          "Use the genre's proven math as defaults: producer cost `base * 1.15^owned`, ~5x base-cost jumps between tiers, linear/polynomial production vs exponential cost. Generate the resulting balance/time-to-milestone tables into docs/ (per your 'generate, don't duplicate' rule) so pacing is auditable and you can spot walls before players do.",
+          "Structure the whole game as Acts that can RE-LAYOUT the UI (Paperclips-style), not just append panels. Each Act = a chapter with its own dominant systems and possibly a diegetic reset carrying meta-progress forward. This turns prestige into plot.",
+          "Pace automation unlocks as Trimps does: let the player do each new thing manually first, then GIVE them automation as a story-justified reward, freeing attention for the next layer. This is your active->idle dial.",
+          "Pick retention mechanics that fit a single-player story: capped offline grind + 'while you were away' summary, achievements-as-guide with small permanent bonuses, and diegetic prestige. Explicitly avoid leaderboards, gacha, energy timers, and daily-streak FOMO.",
+          "Gate STORY on active play, GRIND on idle: never advance plot or hand out narrative unlocks offline, so returning players still get to make the meaningful choices themselves.",
+          "Lean on discovery over tutorials: teach through the reveal, keep one known-unknown dangling at all times (a grayed locked item/tab with a teaser), and let players feel clever — that surprise is the product. Build a DEV-only window play-API (per your capture-game-states skill) to headlessly fast-forward and verify that each unlock fires at the intended state, so you can regression-test the reveal pacing."
+        ]
+      },
+      "setting": {
+        "social_structure": "The Edo period (1603-1868) is popularly framed by the shi-no-ko-sho idea: samurai (warriors/officials), no (farmers), ko (artisans), sho (merchants). IMPORTANT for authenticity: modern scholarship (since ~1995, now reflected in Japanese textbooks) treats this NOT as a rigid four-rung ladder but as a Confucian CONCEPTUAL ordering. The real hard line ran between the ruling warrior class (~5-7% of the population, the only ones allowed a public surname plus the daisho pair of swords) and everyone else, the commoners. Farmer/artisan/merchant were a CLASSIFICATION of commoners, not a strict pecking order, so avoid rendering it as a clean caste ladder.\n\nThe load-bearing relationship for the game is samurai-ruler vs peasant-producer. Peasants were ~80-85% of the population and paid tax in RICE (measured in koku); rice yield was the literal basis of samurai power, since a domain's wealth and a samurai's stipend were both denominated in koku. This makes farming the natural incremental base resource that everything else taxes or feeds off.\n\nThe nuance that fits your premise perfectly is the GOSHI (country samurai) and the rural landed elite, who blur the warrior/commoner line. A countryside estate is most plausibly headed by a goshi or a wealthy landholder holding samurai-adjacent privilege (surname, sword, partial tax exemption) earned through service or inherited from a warrior ancestor who settled the land generations ago. Below him the village self-administered through three commoner offices: the nanushi/shoya (village headman, usually the richest farmer, who collected tax and relayed the lord's orders), the kumigashira (ward/group heads), and the hyakushodai (peasant representative who watched the headman on the villagers' behalf). Peasant society itself was stratified: honbyakusho (landholding 'main' peasants with village voting rights) sat above mizunomi-byakusho ('water-drinking', i.e. landless tenants and day-laborers) and indentured servant households (genin/fudai). A 17-year-old farmhand belongs near the bottom of this ladder: a hired hand or servant with no land, no public surname, and no sword. That low status is good design fuel, the whole arc can be about quietly earning standing, trust, and eventually privileges normally reserved for those above you.",
+        "estate_setting": "A countryside warrior residence is a BUKE YASHIKI, but a RURAL goshi estate is humbler and more farm-like than the famous castle-town samurai blocks. Picture a walled or hedged compound: an earthen or plastered mud wall (or a thick living hedge / bamboo grove) enclosing the grounds, entered through a roofed gate (mon) whose scale signals rank. Inside is a swept earth/gravel forecourt, the main house (omoya) with a thatched (kayabuki) or tiled roof, raised tatami rooms for the family and guests, a large earthen-floored work area (doma) with the kamado cooking hearth and a sunken irori hearth in the living room. Surrounding it: a kura (thick-walled, fire-resistant storehouse for rice, tools, and valuables), stables/byre for an ox or horse, a well, a vegetable garden and persimmon/plum trees, a small private garden for the family, and a household shrine (kamidana inside, plus a small outdoor inari or ujigami shrine). A homestead woodland (yashikirin) of useful trees often rings the house. Just beyond lie the estate's own rice paddies and dry fields worked by tenants and hired hands.\n\nPlausible NPC roster: the master / goshi family head (your distant authority and the mystery's center); his wife / okamisan (runs the household economy); the heir son (rival or ally); a daughter (possible confidante); the elderly retired patriarch (inkyo, keeper of family history and secrets); the head retainer / steward (banto who manages the estate); a swordmaster or guard who drills the household; the village headman (nanushi) who liaises with the estate; senior farmhands and tenant-farmer families; the kitchen maids and a head housekeeper; the stable hand / oxherd; a gardener; a wet-nurse or old nanny full of folk tales; a resident or visiting priest (kannushi at the local shrine) and a Buddhist monk from the family temple (bodaiji); itinerant figures who pass through (peddler/gyosho, medicine seller, a komuso flute-monk, a ronin); and craft specialists tied to the land (the village smith, a charcoal-burner, a sake/miso brewer). One of these becomes your GUIDE, most naturally a kind senior farmhand, the old nanny, or the headman's child who takes pity on the confused newcomer.",
+        "daily_life_and_trades": [
+          "FARMING (core gathering loop): wet-rice paddy cultivation is the centerpiece, a seasonal cycle of seedling beds, flooding/transplanting (taue), weeding, harvest, threshing, and hulling. Dry fields add barley, millet, soybeans, daikon, and vegetables. Rice doubles as the world's base currency (koku). Green/leaf-litter fertilizer gathered from the satoyama and night-soil/ash recycling fit a 'nothing wasted' upgrade tree.",
+          "FORAGING / sansai (mountain vegetables): seasonal gathering of warabi/zenmai (bracken ferns), bamboo shoots, mushrooms (matsutake as a rare high-value drop), wild greens (fuki, seri), chestnuts, walnuts, persimmons, and medicinal herbs. Maps cleanly to a tiered, season-gated gathering node system.",
+          "FISHING & river/coast harvest: river and pond fishing (ayu/sweetfish, carp, eel, loach), weirs and traps, plus freshwater shellfish and, near water, duck/waterfowl. Eel and ayu are prized; a fishing minigame or node tier fits naturally.",
+          "WOODCUTTING & forestry: coppicing the village woodland for firewood and construction timber, with judicious thinning, an Edo-era sustainable-forestry practice. Bamboo harvesting is a distinct, fast-renewing resource for baskets, tools, and building.",
+          "CHARCOAL BURNING (sumiyaki): converting cordwood in earth kilns into charcoal, an essential fuel and a classic remote-forest trade, great as a 'processing' craft that turns gathered wood into a higher-value good (and powers the smithy).",
+          "SMITHING / metalwork: the village blacksmith makes and repairs farm tools, sickles, hoes, knives, and nails; charcoal feeds the forge. A crafting tree from raw iron/charcoal to tools to fine blades supports a satisfying tech ladder (and gates later weapons).",
+          "WEAVING, SPINNING & DYEING: women spun hemp/ramie (and silk where sericulture existed) and hand-loomed cloth; INDIGO (ai) dyeing was iconic and practical, believed to repel snakes/insects and hide field stains, and one of the few colors commoners were permitted. Boro patchwork mending fits a thrift/repair mechanic. A textile chain: fiber to thread to woven cloth to dyed garments.",
+          "SERICULTURE (silkworm raising): seasonal mulberry-leaf gathering and silkworm tending to produce raw silk, a high-value regional cash crop and a good mid-game economic upgrade.",
+          "PAPERMAKING (washi): kozo/mulberry-bark processing into handmade paper, a refined craft useful for trade goods, lanterns, and shoji.",
+          "POTTERY & LACQUERWARE: clay-dug ceramics (everyday bowls/jars, plus storage urns for the kura) and urushi lacquerwork, slow high-skill crafts that yield prestige goods.",
+          "BREWING & food processing: sake (rice + koji), miso, soy sauce, and pickling (tsukemono); rice-hulling and milling. These convert farm output into stored, tradeable value, a clean 'food/processing' branch of crafting.",
+          "HUNTING & trapping: in mountain districts, matagi-style hunting of boar, deer, and game birds (for meat, hide, antler), plus snaring small game, a higher-risk frontier trade that bridges gathering into the dangerous folklore-rich uplands.",
+          "CARPENTRY & thatching: woodworking for tools, furniture, buildings, and roof-thatch (kaya grass cut from managed grasslands), a construction craft that can gate base/estate upgrades."
+        ],
+        "folklore_and_myth": [
+          "KAPPA: river/pond water-imp with a water-filled dish on its head; drowns the careless and steals cucumbers. Ideal early water-area mob and a source of cautionary lore around paddies and ponds.",
+          "KITSUNE (fox spirits): shapeshifting tricksters AND divine messengers of Inari, the rice deity, so they tie directly to the farming theme and the local shrine. Use for illusion puzzles, a benevolent-or-malevolent quest-giver, and a possible thread in the central mystery.",
+          "TANUKI: jovial shapeshifting raccoon-dog of the satoyama woodlands; mischief, disguise, and trickery. Great comic-relief mob or a transforming NPC.",
+          "TENGU: mountain spirits, bird/long-nosed, masters of swordsmanship and guardians of high passes and the boundary to the otherworld. Classic late-game mountain boss and, critically, the folkloric agent of being 'spirited away', a direct hook to the protagonist's arrival.",
+          "YAMAUBA / YAMANBA (mountain hag) and YAMABITO (mountain hermits): dwellers of the deep forest, dangerous old-woman witch and reclusive mountain folk. Good for an eerie deep-forest area boss/encounter.",
+          "ONI: horned ogre-demons, the heavy-hitter brutes of the uplands and old battlefields; a staple dungeon/boss enemy and the target of ritual purification (setsubun bean-throwing) lore.",
+          "INARI / UJIGAMI and the kami of the land: the local tutelary kami and the rice god venerated at the estate's shrine; not enemies but the spiritual backbone, source of blessings, festivals, omikuji, and quests to restore neglected shrines.",
+          "ZASHIKI-WARASHI: a child-like house spirit that brings fortune to the home it haunts and ruin when it leaves, perfect as an estate-bound mystery presence and a soft tie to the household's luck and your arrival.",
+          "YUREI (vengeful ghosts): white-robed spirits with unfinished business; great for haunted-site quests, graveyard areas, and emotionally weighted late-game mysteries.",
+          "NOPPERA-BO (faceless ghost) and ROKUROKUBI (long-necked woman): unsettling night-road and household yokai for atmospheric scares and 'something is wrong with this NPC' reveals.",
+          "NURIKABE: an invisible wall yokai that blocks night travelers, a fun environmental/obstacle yokai gating a path until solved.",
+          "JOROGUMO: spider-woman who lures victims to her web, a seductive-trap boss for a deep-forest or abandoned-house lair.",
+          "GASHADOKURO: a giant skeleton assembled from the bones of the war-dead and the starved, an apocalyptic late-game boss tied to old battlefields and famine lore.",
+          "KAMIKAKUSHI / TENGU-KAKUSHI ('hidden by the kami/tengu'): not a monster but the FOLK EXPLANATION for sudden disappearances, recorded in Yanagita Kunio's Tono Monogatari. Victims sometimes return years later, utterly changed. This is the single best folkloric frame for your isekai-flavored central mystery."
+        ],
+        "geography_and_areas": [
+          "THE ESTATE & its grounds (hub): the walled compound, forecourt, kura storehouse, household shrine, garden, and well, the safe home base and quest hub.",
+          "THE PADDY & FIELD belt (sato): the estate's wet-rice paddies, dry fields, irrigation channels, and tenant cottages, the first gathering zone (farming) and home to kappa/paddy-spirit lore.",
+          "THE VILLAGE (mura): clustered farmhouses around the headman's house, the smith, a small market/crossroads, and the communal well, the social/trade hub with NPCs, rumors, and the festival ground.",
+          "THE CHINJU-NO-MORI (sacred shrine grove): the wooded local Shinto shrine at the foot of a hill, torii gate, fox/Inari statues, ema plaques, the spiritual node for blessings, omens, and kitsune encounters.",
+          "THE SATOYAMA WOODLAND (coppice forest): managed secondary forest for firewood, charcoal, foraging mushrooms/sansai, and bamboo groves, the mid-tier gathering zone where tanuki and minor yokai dwell.",
+          "THE RIVER & PONDS: the irrigation source, fishing weirs, a watermill, a bridge and ferry crossing, fishing zone and kappa territory; follow it upstream toward the mountains.",
+          "THE FAMILY TEMPLE (bodaiji) & graveyard: the Buddhist temple the estate is registered to, with its monk, bell, and ancestral graves, ties to death/ghost (yurei) content and family history clues.",
+          "THE HIGHWAY / KAIDO & post-stop: a road passing nearby with a teahouse, a stone jizo statue, milestones, and travelers (peddlers, monks, ronin), the conduit for outside news, trade, and wandering NPCs.",
+          "THE FOOTHILLS & TERRACED slopes: terraced paddies climbing into rougher land, abandoned fields, hunting trails, the transition into wilder, more dangerous territory.",
+          "THE DEEP MOUNTAINS (okuyama) & PASS (toge): misty high forest, waterfalls, a derelict mountain shrine, charcoal-burners' huts, and a treacherous pass, the late-game frontier of tengu, yamauba, oni, and the threshold of the 'otherworld' where kamikakushi happens, a fitting place for the mystery's climax.",
+          "ABANDONED / liminal sites: a ruined manor, a plague-emptied hamlet, an old battlefield, or a cave, optional dungeon-like areas hosting yurei, gashadokuro, jorogumo, and the darker lore."
+        ],
+        "story_hooks": [
+          "KAMIKAKUSHI return: the protagonist is locally believed to be a child who was 'spirited away' by a tengu/kami years ago and has now mysteriously returned, aged and amnesiac. The estate took them in out of duty/superstition; the mystery is whether they truly are that lost child, and what the otherworld did to them. This grounds the isekai hook in genuine Edo folklore (Yanagita's Tono Monogatari).",
+          "The zashiki-warashi bargain: the estate's fortunes have been quietly held up by a house spirit; the protagonist arrived the same night its presence shifted. Restoring or appeasing it (and learning why YOU appeared in its place) becomes the through-line, tying the mystery to the household's prosperity, an incremental-friendly fortune mechanic.",
+          "The shrine that was let fall: the local ujigami/Inari shrine has been neglected and a boundary between worlds is thinning, which is why you slipped through. Re-consecrating shrines area by area both explains your arrival and structures map progression toward the mountain where the breach is widest.",
+          "The fox's debt: a kitsune (Inari's messenger) pulled or sent you to settle an old wrong the estate's ancestors did to the land/foxes; the guide and the master each know fragments. Trickster-fox quests reveal the truth in pieces and let folklore drive the plot.",
+          "The double / the missing heir: you wear the face of a family member who vanished (the kamikakushi victim, a dead heir, or the master's runaway child). Whether you are a returnee, an impostor, a reincarnation, or something a tengu wears is the central question; NPC trust and your earned standing gate the reveals.",
+          "Across a famine/disaster threshold: you 'woke' having crossed from a time of famine, fire, or plague (real Edo calamities). The estate is on the eve of, or recovering from, such a disaster, and your foreknowledge or out-of-place memories are both a resource and the clue to how/why you crossed over.",
+          "The tengu's apprentice: you were taken to the mountains, trained/altered by a tengu, and released with skills you don't remember learning (explaining how a farmhand can fight/level). Reclaiming those memories pulls you back up the mountain toward a final confrontation at the pass."
+        ],
+        "naming_examples": {
+          "people": [
+            "Note: in public, Edo commoners used a given name plus their village or trade (e.g. 'Tasuke of Mizuho village'); only the warrior/landed family would bear a surname. Men (peasant/servant): Tarokichi, Sahei, Kanbei, Rokusuke, Yasukichi, Tasuke, Heita, Gonzo, Matakichi, Kyubei (birth-order names like Taro/first, Jiro/second, Saburo/third are very common).",
+            "Women (peasant/servant): often one or two syllables, sometimes with the polite O- prefix, e.g. Oharu, Okiku, Osen, Onatsu, Oyuki, Otami, Okane, Oshige, Otsuyu.",
+            "Estate/goshi family (surname allowed): Akiyama Genzaemon (head), his wife Onobu, heir Akiyama Shinnosuke, daughter Akiyama Sayo, retired patriarch Akiyama Soan (a Buddhist retirement name), steward Yagoro.",
+            "Religious/wandering: the shrine priest Kannushi Mitsuomi; the temple monk Ryokai or Tetsugen; a komuso flute-monk; a ronin named Kuranosuke or Hanbei; a peddler called Tokubei.",
+            "Plausible estate surnames (land/nature-derived, in the farmer-name tradition): Akiyama, Sugimoto, Kuroda, Nogami, Mizuno, Tachibana, Yamashiro, Sakai, Hara, Fuyuki."
+          ],
+          "places": [
+            "Villages (suffix -mura/-sato): Mizuho-mura ('abundant rice'), Inaba-mura, Kasuga-mura, Yamanaka-mura, Kogarashi-mura, Higashiyama-mura, Tobishima-mura.",
+            "Natural/landscape names: Tsukikage Pond, Kappa-buchi (kappa pool), Senzu River, Hotaru-no-sawa (firefly marsh), Akinashi Plain, Kareha Woods, Susuki-no-hara (pampas grassland).",
+            "Uplands/passes: Ookami-toge (Wolf Pass), Tengu-dake (Tengu Peak), Kumo-no-taira, Yamiyama ('dark mountain'), Shirakumo Falls, Oku-no-mori (the deep forest).",
+            "Sacred/built sites: Inari-jinja (the fox shrine), Chinju-no-mori (the tutelary grove), Komorebi-an (a hermitage), Jizo-zaka (the jizo slope on the highway), Kanezawa-ji (the family temple), Furumiya ('the old shrine').",
+            "The estate itself could be known simply as 'the Akiyama yashiki' or by its locale, e.g. 'the manor at Mizuho'."
+          ]
+        },
+        "authenticity_notes": [
+          "Don't present shi-no-ko-sho as a hard caste ladder; it was a Confucian ideal and a classification of commoners. The real divide was warrior vs commoner. Showing the goshi/village-headman gray zone is both more accurate and richer.",
+          "Religion was syncretic (shinbutsu shugo): the same household honored Shinto kami (kamidana, the ujigami/Inari shrine) AND Buddhist ancestors (the family bodaiji temple, butsudan altar). Don't split them into rival 'factions'; villagers used both as one continuous practice.",
+          "Yokai and the supernatural were genuinely woven into ordinary belief, not just spooky set-dressing. Treat them as part of how rural people explained weather, illness, disappearances, and luck, which makes the folklore feel lived-in rather than gimmicky.",
+          "Avoid samurai-fantasy cliches at a farm estate: a rural goshi is closer to landed gentry/yeoman than to a katana-duelist; most 'samurai' by mid-Edo were impoverished bureaucrats, and a country estate runs on agriculture, not constant swordfights. Let combat be the exception (yokai, bandits, the mountains), not the daily texture.",
+          "Get the economy right: tax and wealth are reckoned in rice (koku); coins coexist but rice is the deep unit. This is both authentic and great incremental-game scaffolding.",
+          "Respect the labor: peasant life was hard, communal, and dignified, not quaint. Foraging, mending (boro), recycling night-soil and ash, and sustainable coppicing reflect real ingenuity, lean into that rather than romanticizing poverty or playing it for misery.",
+          "Be careful with sacred and sensitive elements: shrines, kami, ancestor rites, and burial customs are living traditions for many people today. Represent rituals respectfully and avoid turning real deities (e.g. Inari) into trivial 'loot pinatas.'",
+          "Naming: keep public commoner identification as given-name-plus-place/trade, and reserve surnames for the warrior/landed family; use a Buddhist 'retirement name' (e.g. -an / -soan) for an elder who has formally retired (inkyo). This small detail signals real social literacy.",
+          "Geography: anchor the world in the satoyama mosaic (village + paddies + managed woodland + sacred grove + mountains). It is the historically correct rural template and conveniently maps to tiered game zones.",
+          "Source caveat: many details here come from general/secondary web sources; before locking lore, sanity-check specifics (regional variation is large, sericulture, fishing, and crops differed a lot by region and decade across the 265-year period) and consider a sensitivity read from someone versed in Japanese history/folklore."
+        ]
+      },
+      "deploy": null
+    }
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Research"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Synthesize"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "study:proto23",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a1005a44d6e7d600d",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782382115702,
+      "queuedAt": 1782382115688,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Proto23 (GitHub repo \"23html/23html.github.io\", page title …",
+      "promptPreview": "You are a game-design researcher. Study inspiration game #1, \"proto23\" by the 23html project.\nSources: repo https://github.com/23html/23html.github.io and the live game https://23html.github.io/ .\nUse WebSearch and WebFetch (fetch the repo's README, the GitHub file tree via the GitHub API e.g. https://api.github.com/repos/23html/23html.github.io/git/trees/master?recursive=1 , and a few key source …",
+      "lastProgressAt": 1782382633057,
+      "tokens": 71602,
+      "toolCalls": 35,
+      "durationMs": 517355,
+      "resultPreview": "{\"game_name\":\"Proto23 (GitHub repo \\\"23html/23html.github.io\\\", page title \\\"Proto23\\\")\",\"tech_stack\":\"Pure vanilla web, zero frameworks, zero build tooling, zero dependencies. The entire game is ONE file: index.html (~838 KB, ~14,768 lines) served from GitHub Pages. Lines 1-139 are inline CSS; a single inline <script> from line 143 to end-of-file holds ALL logic and content. Other repo files are …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "study:yairpg",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a266d756c7b1ec461",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782382115703,
+      "queuedAt": 1782382115688,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Yet Another Idle RPG (by miktaew)",
+      "promptPreview": "You are a game-design researcher. Study inspiration game #2, \"yet-another-idle-rpg\" by miktaew.\nSources: repo https://github.com/miktaew/yet-another-idle-rpg and the live game https://miktaew.github.io/yet-another-idle-rpg/ .\nUse WebSearch and WebFetch (fetch the repo README, the GitHub file tree via https://api.github.com/repos/miktaew/yet-another-idle-rpg/git/trees/master?recursive=1 — try 'main…",
+      "lastProgressAt": 1782382610913,
+      "tokens": 63322,
+      "toolCalls": 37,
+      "durationMs": 495210,
+      "resultPreview": "{\"game_name\":\"Yet Another Idle RPG (by miktaew)\",\"tech_stack\":\"IMPORTANT CORRECTION to the brief: this is NOT a Vue app. It is plain vanilla JavaScript (ES modules, \\\"use strict\\\"), with NO framework, NO reactivity library, and NO virtual DOM. The UI is hand-written static HTML in index.html, styled by style.css, mutated imperatively via direct DOM calls (document.getElementById, element.style, cl…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "study:genre",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a13c7d04eb1bf42d2",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782382115710,
+      "queuedAt": 1782382115688,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "\"Cost curve: use the genre-standard exponential building co…",
+      "promptPreview": "You are an expert on incremental/idle games. Produce a rigorous brief on the genre, optimized for designing a STORY-DRIVEN incremental RPG whose defining feature is that \"the UI itself is incremental\" — the first minutes show a tiny slice of UI, and more panels/features/tabs unlock as the player progresses through the story and levels.\nUse WebSearch/WebFetch as needed. Reference acknowledged exemp…",
+      "lastProgressAt": 1782382402082,
+      "tokens": 39127,
+      "toolCalls": 25,
+      "durationMs": 286372,
+      "resultPreview": "{\"defining_traits\":[\"Numbers-go-up core loop: an exponentially scaling currency/stat is the heartbeat; nearly all satisfaction comes from watching a number cross thresholds and accelerate. The genre is fundamentally about the DERIVATIVE (rate of growth), not the absolute number.\",\"Layered automation: the player's manual action (clicking the fire/cookie) is replaced by purchased producers, which ar…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "study:setting",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a7ee2384e5e17fddd",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782382115715,
+      "queuedAt": 1782382115688,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "The Edo period (1603-1868) is popularly framed by the shi-n…",
+      "promptPreview": "You are a historical & folklore researcher helping design the setting of an Edo-era Japan incremental RPG. The premise: the player is a 17-year-old farmhand who mysteriously wakes up on a countryside samurai estate, not knowing how they got there; estate members can be spoken to and one becomes a guide. There is a central mystery (an isekai-flavored hook is acceptable).\nUse WebSearch/WebFetch for …",
+      "lastProgressAt": 1782383000659,
+      "tokens": 44670,
+      "toolCalls": 20,
+      "durationMs": 884944,
+      "resultPreview": "{\"social_structure\":\"The Edo period (1603-1868) is popularly framed by the shi-no-ko-sho idea: samurai (warriors/officials), no (farmers), ko (artisans), sho (merchants). IMPORTANT for authenticity: modern scholarship (since ~1995, now reflected in Japanese textbooks) treats this NOT as a rigid four-rung ladder but as a Confucian CONCEPTUAL ordering. The real hard line ran between the ruling warri…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "study:deploy",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a83acfac85afe6d42",
+      "model": "claude-opus-4-8[1m]",
+      "state": "error",
+      "startedAt": 1782382115719,
+      "queuedAt": 1782382115688,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "HTML5 games on itch.io ship as a single ZIP (normal case fo…",
+      "promptPreview": "You are a web-game deployment expert. Research how to ship an HTML5 browser game to itch.io as a playable web build.\nUse WebSearch/WebFetch (itch.io docs on HTML5 uploads). Provide: the exact upload format (zip layout, where index.html must be, \"This file will be played in the browser\" setting), index.html requirements, size/performance limits, fullscreen & viewport/scaling expectations, mobile/to…",
+      "lastProgressAt": 1782382441229,
+      "error": "agent({schema}): StructuredOutput retry cap (5) exceeded — 5 failed calls with no valid output",
+      "tokens": 38712,
+      "toolCalls": 14,
+      "durationMs": 325510
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "synthesize:design",
+      "phaseIndex": 2,
+      "phaseTitle": "Synthesize",
+      "agentId": "a232d5aa243afdace",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782383000674,
+      "queuedAt": 1782383000661,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Kamikakushi (working title): a single-player, story-driven …",
+      "promptPreview": "You are the lead designer/architect for a new game. Synthesize the research below into a concrete, buildable design proposal for an Edo-era Japan STORY-DRIVEN INCREMENTAL RPG whose signature feature is that the UI itself unlocks incrementally.\n\nHard constraints from the project:\n- HTML5 + TypeScript, deployable as a static build to itch.io.\n- PURE CORE boundary: all game rules/state/math live in a…",
+      "lastProgressAt": 1782383226784,
+      "tokens": 49321,
+      "toolCalls": 7,
+      "durationMs": 226110,
+      "resultPreview": "{\"vision_statement\":\"Kamikakushi (working title): a single-player, story-driven incremental RPG set on a rural goshi (country-samurai) estate in Edo-era Japan. You are a 17-year-old landless farmhand who wakes in a storehouse with no memory of arriving — the village whispers you were \\\"spirited away\\\" by a tengu years ago and have come back changed. The signature feature is that the UI itself is i…"
+    }
+  ],
+  "totalTokens": 306754,
+  "totalToolCalls": 138
+}
