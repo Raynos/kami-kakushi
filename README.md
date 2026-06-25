@@ -1,4 +1,4 @@
-# Incremental RPG game
+# KamiKakushi : An Incremental RPG game.
 
 The goal is to build a web based HTML incremental RPG game. 
 Feel free to use HTML5 & Typescript in the implementation.
