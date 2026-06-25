@@ -314,7 +314,7 @@ and **Combat Standing** (the estate's two rank-gating meters — progress meters
 them sits **House Influence**, the macro-resource
 the estate spends to expand: the estate generates it directly, while village allies and origin trade-ties act
 as **multipliers/feeders** — they don't unlock the next tier, they make conquering it faster and cheaper
-(tuned so weaving both in roughly **halves** time-to-next-tier — *felt, never a wall*).
+(tuned so weaving both in shaves **~10–15%** off time-to-next-tier — *felt, never a wall*).
 
 **Tensions (chosen, not bugs):** high estate rank can hand duties that **extract** from the village (collect
 the rice quota), raising Estate Service but denting Village reputation — with an always-available "soften it
@@ -697,7 +697,7 @@ resources as registries with unlock predicates over GameState), deterministic un
 balance/unlock tables generated into `docs/` and headlessly regression-testable via the DEV play API. The
 estate, village, and origin tracks differ in **shape** to keep pacing varied (estate steep-geometric per-tier
 ladders; village gentle per-node meters; origin discrete milestones), and the side factions act as Influence
-**multipliers** (≈ halve time-to-tier — felt, never a wall). The presentation register throughout is
+**multipliers** (shave **~10–15%** off time-to-tier — felt, never a wall). The presentation register throughout is
 **text + emoji + CSS art** (woodblock palette; kanji season tags; colour-coded rarities — see D-013).
 
 ## 1.13 Risks & guardrails
@@ -817,8 +817,8 @@ reset); **D-006 is amended** (Tahei reveal softened to a late side beat; age ~18
 | 2.16 | House Influence — the four pillars (accrual + per-tier gating) | tracked visible at T0-R7 | the macro roll-up of all four |
 | 2.17 | Estate growth (build / recruit = flavour) | T0 (E0→E2 in v1) | Estate & Wealth; Arms (defensive works) |
 | 2.18 | The national *banzuke* / per-tier ranking | per-tier domain rank; national at T4 | reads all four pillars |
-| 2.19 | Save / load (IndexedDB + export/import) | T0 (M2 minimal) | — (infrastructure) |
-| 2.20 | The DEV play API + content verifier | T0 (M1 skeleton) | — (infrastructure/QA) |
+| 2.19 | Save / load (IndexedDB + export/import) | T0 (M0 minimal) | — (infrastructure) |
+| 2.20 | The DEV play API + content verifier | T0 (M0 skeleton) | — (infrastructure/QA) |
 | 2.21 | Accessibility, audio & presentation register | T0 | — (infrastructure) |
 
 The rest of §2 details each. **Systems 2.1, 2.16, and the pillar accrual rules in 2.15 are the most
@@ -1364,7 +1364,7 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
 meters by trade and open-ended help; restore origin ties as memory + travel-standing allow; nudge the
 allegiance through dialogue and where you invest labour. **Separate earned standing meters** keep the
 three from collapsing into one bar. Above them sits **House Influence** (2.16); village allies and
-origin trade-ties act as **multipliers/feeders** (tuned so weaving both in roughly **halves** time-to-
+origin trade-ties act as **multipliers/feeders** (tuned so weaving both in shaves **~10–15%** off time-to-
 next-tier — *felt, never a wall; never a new pillar*).
 
 **(c) Rough DATA shape.**
@@ -1582,7 +1582,7 @@ derivation never corrupts the save). Versioned migrations run in order; on a bad
 **(d) Ties to the four pillars.** Persists the `Influence` pillar values, dents, and high-water marks so
 the up-only macro-progress is durable (and the never-a-wipe rule survives reloads).
 
-**(e) When introduced / fractal reveal.** **T0 (M2)** — minimal save first, hardened across milestones as
+**(e) When introduced / fractal reveal.** **T0 (M0)** — minimal save first, hardened across milestones as
 new state (quests, combat, factions, estate) is added.
 
 ---
@@ -1613,7 +1613,7 @@ that **trade ≤ ⅓** holds, and that **no system ever wipes Influence/holdings
 **(d) Ties to the four pillars.** Indirect: it **regression-tests the pillar accrual rules** (caps,
 high-water-mark gating, dents-not-wipes, trade ≤ ⅓) so the four-pillar invariants can't silently break.
 
-**(e) When introduced / fractal reveal.** **T0 (M1 skeleton)**, grows every milestone. Developer
+**(e) When introduced / fractal reveal.** **T0 (M0 skeleton)**, grows every milestone. Developer
 infrastructure, present from early build.
 
 ---
@@ -2724,12 +2724,12 @@ from 30 deeds + 30 % = 240 ip from 8 seasonal hits)**, **Arms = 0.5K (70 % = 350
 150 seasonal-ip)** ✔ (the locked 70/30 split — itemizations in §4.2.1, seasonal tie-out in §4.2.2). Consecutive
 within-rung *cost* ratios stay ≤ ~2× (750→1.05K→1.2K→2.1K…), honouring the ≤2–3× rule ✔.
 
-> **R0 floor carve-out — flag for human confirmation.** The ≥30-min per-rank floor (canon §I-bal) applies to
-> the **7 grind rungs R1–R7**; **R0 is the exempt ~5-min cold-open story rung** (the *kura* cold open §3.1 — a
+> **R0 floor carve-out — blessed by the human (2026-06-25).** The ≥30-min per-rank floor (canon §I-bal) applies
+> to the **7 grind rungs R1–R7**; **R0 is the exempt ~5-min cold-open story rung** (the *kura* cold open §3.1 — a
 > scripted beat, not a grind rung). So T0's **4.5 h** comes from *floor + escalation across R1–R7*, **not** a
-> literal "8 rungs × 30 min" reading of canon. This is a deliberate carve-out from canon's literal "8 rungs"
-> phrasing — **flag for human confirmation** (if the human wants R0 also ≥30 min, the T0 budget rises to ~4.9 h
-> and the escalation must be re-cut to hold 4.5 h).
+> literal "8 rungs × 30 min" reading of canon. This is a settled, deliberate carve-out from canon's literal
+> "8 rungs" phrasing. *(Note: R0 is intentionally NOT held to the ≥30-min floor — keeping the cold open short
+> is the point; T0's budget stays ~4.5 h.)*
 
 ### §4.8.2 T1 rank-by-rank pacing (lower resolution — targets ≈8 h, avg ~1 h/rung)
 
@@ -2840,25 +2840,16 @@ mediocre-start (start near-zero, grind-only); K/M/B display; macron romanization
 saga length / per-tier hour budget (§I-bal) · first-fight harshness 20–35 % · seasonal-vs-jump split
 (deeds dominate ~70/30) · soft-setback severity · no-respec-in-v1. **Do not re-open these.**
 
-**Open questions for the human (still genuinely open — do not self-resolve):**
-1. **Exact deeds/seasonal ratio inside the locked "deeds dominate" band.** We implement **70/30** (within the
-   locked ⅔–¾ deeds / ¼–⅓ seasonal band). Is 70/30 the sweet spot, or push further to ~75/25 (even grindier,
-   the appraisal almost ceremonial) or ease to ~65/35 (the seasonal headline carries a bit more weight)?
-2. **Exact per-event cap value within "smaller than 0.08."** We chose **0.04** (half the old cap). Is 0.04 the
-   right "many small acts" granularity, or go to **0.03** (≈40 deeds/pillar/tier — even more granular) or
-   **0.05** (slightly punchier individual deeds)? The *direction* is locked; the exact value is not.
-3. **Per-rung escalation shape inside a tier.** T0 escalates 30/30/30/35/40/45/55 across its grind rungs. Is
-   front-loaded-floor-then-ramp right, or should the *capstone* rung be much longer (a held-breath finale,
-   e.g. R7 ~75 min) at the cost of shorter mid-rungs? (All must stay ≥30 min and sum to ~4.5 h.)
-4. **Wall-clock-per-season binding.** We bind T0≈34 / T1≈60 / T2≈120 min/season so each tier spans ~8 seasons.
-   Is "~8 seasons per tier (≈2 in-game years)" the right *narrative* density, or fewer/longer seasons (so the
-   autumn headline lands less often but heavier)?
-5. **Tier-step magnitude for the Office pillar.** Arms/Estate keep ~10× per tier, but Office deliberately steps
-   ~25× (2K→50K) at T1→T2 to express "win it socially." Is that steepening the right *feel*, or should Office
-   ramp more gently (a lower T2 Office gate) so the social pivot is less of a wall?
-6. **Side-faction speedup magnitude.** Village/origin multipliers (§4.3) should *shave* time-to-next-tier
-   without making the spine feel required. How much shave is "felt but optional" under the longer budget —
-   ~10 %? ~20 %? (The old "≈halves" target is likely too strong now that tiers are 4–16 h.)
+**Resolved by the human (2026-06-25):**
+1. **Deeds/seasonal ratio** — **70/30** (within the locked ⅔–¾ deeds / ¼–⅓ seasonal band). LOCKED.
+2. **Per-event cap value** — **0.04** (half the old 0.08 cap; the "many small acts" granularity). LOCKED.
+3. **Per-rung escalation shape** — **front-loaded floor then ramp** (T0 grind rungs = 30/30/30/35/40/45/55, all
+   ≥30 min, summing to ~4.5 h). LOCKED.
+4. **Wall-clock-per-season binding** — **~8 seasons per tier (≈2 in-game years)** at T0≈34 / T1≈60 / T2≈120
+   min/season. LOCKED.
+5. **Office tier-step magnitude** — **keep ~25×** (2K→50K at T1→T2); the social wall is intended. LOCKED.
+6. **Side-faction speedup magnitude** — **~10–15%** off time-to-next-tier (supersedes the stale "≈halve"
+   target, too strong now that tiers are 4–16 h); felt but optional, never required. LOCKED.
 
 
 ---
@@ -4002,21 +3993,26 @@ the verifier + generated-docs gate, the `__qa` surface). Proposed: record §6 as
 (or a child ADR **D-013a — Tech architecture detail**), not a new design reversal. Final ADR numbering is set
 at integration.
 
-### Flagged for the human
+### Flagged for the human — ALL RESOLVED/CONFIRMED (2026-06-25)
 
-1. **IndexedDB vs. localStorage.** Canon/D-013 say IndexedDB; this section commits to it (single autosave +
-   base64 export) for robustness. Confirm we accept IndexedDB's small async/boilerplate cost over
+> All four items below are **resolved by the human (2026-06-25)**: IndexedDB ✓ · RNG = **splitmix64 + named
+> sub-streams** ✓ · **ordered forward migrations + raw backup (no cross-major-rewrite guarantee)** ✓ · `tier`
+> **stored** ✓.
+
+1. **RESOLVED: IndexedDB vs. localStorage → IndexedDB.** Canon/D-013 say IndexedDB; this section commits to it
+   (single autosave + base64 export) for robustness. We accept IndexedDB's small async/boilerplate cost over
    localStorage's simpler-but-fragile sync API for a single-slot save.
-2. **RNG algorithm choice (mulberry32 vs. splitmix64) and the sub-stream split scheme.** Low-stakes and
-   reversible (it only affects the seed→sequence mapping, not any contract), but it pins save reproducibility
-   once content ships — worth a nod before we lock a seed format.
-3. **`schemaVersion` / migration policy ceiling.** Proposed: support ordered forward migrations indefinitely
-   + a pre-migration raw backup; confirm we will *not* guarantee cross-major-rewrite save compatibility (so a
-   future ground-up schema change may legitimately retire very old saves with a clear message).
-4. **`core/state.tier` stored vs. fully derived.** Tier is checkable from the influence thresholds, but a
-   tier-up is also a story beat (it fires rewards/log). Proposed: store `tier` as the committed value (set by
-   the tier-up intent) and treat threshold-progress as derived — confirm this stored/derived split is right
-   rather than re-deriving tier purely from pillars on every load.
+2. **RESOLVED: RNG algorithm → splitmix64 + named sub-streams.** Low-stakes and reversible (it only affects the
+   seed→sequence mapping, not any contract), but it pins save reproducibility once content ships — locked as
+   **splitmix64** with named sub-streams for the seed format.
+3. **RESOLVED: `schemaVersion` / migration policy → ordered forward migrations + raw backup.** Support ordered
+   forward migrations indefinitely + a pre-migration raw backup; we will *not* guarantee cross-major-rewrite
+   save compatibility (so a future ground-up schema change may legitimately retire very old saves with a clear
+   message).
+4. **RESOLVED: `core/state.tier` stored vs. fully derived → stored.** Tier is checkable from the influence
+   thresholds, but a tier-up is also a story beat (it fires rewards/log). Store `tier` as the committed value
+   (set by the tier-up intent) and treat threshold-progress as derived — rather than re-deriving tier purely
+   from pillars on every load.
 
 ---
 
@@ -4029,8 +4025,8 @@ at integration.
 > balance model, §5 the narrative, §6 the tech architecture). This is the **last PRD section** and the
 > one that, once approved, unlocks code (§ "How to read this document": *no code is written until §7 is
 > approved*). It commits the **definitive v1 scope**, an ordered **milestone roadmap** of verifiable
-> vertical slices, the **deployment** path to itch.io, and a **risk register + minimum-shippable
-> fallback**. It references other sections by number and **defers all numbers to §4**; here we fix the
+> vertical slices, the **deployment** path to itch.io, and a **risk register + scope-risk
+> posture**. It references other sections by number and **defers all numbers to §4**; here we fix the
 > *build order*, the *cut-set*, and the *release gate*, never the magnitudes.
 >
 > **Canon honoured throughout:** pure-core / deterministic / **single seeded RNG** (§6.2, §6.7);
@@ -4053,8 +4049,8 @@ at integration.
    §3 reveal ladder and the §6 architecture.
 3. **§7.3 Deployment** — the static itch.io build, the export/import save path, the `npm run verify`
    release gate, and a brief "how to ship."
-4. **§7.4 Risk register + cut-down ladder** — the top risks and the **minimum shippable** fallback if time
-   is short.
+4. **§7.4 Risk register + scope-risk posture** — the top risks and how we hold scope. **v1 = full T0–T2,
+   non-negotiable (no pre-planned descope).**
 
 **The cardinal build rule (from CLAUDE.md + §6):** every milestone is a *vertical slice* — it touches
 core + content + renderer + tests together and **leaves `npm run verify` green and the game playable** to
@@ -4130,9 +4126,10 @@ onto the §6 architecture (core boundary first, content registries throughout). 
 
 > **Granularity note.** M1–M5 are content-tier slices; each is internally **rung-by-rung** (a sub-slice
 > per `RevealableEntry`, per §3 / §6.5) so a milestone never stalls the build — the smallest shippable
-> unit is *one rung's reveal end-to-end*. M2 (combat) is called out as the densest single milestone; if it
-> runs long it splits at the natural seam **M2a = idle auto-resolve + first fight**, **M2b = bestiary /
-> equipment / loot→craft** (the §3.2 R3→R4 boundary).
+> unit is *one rung's reveal end-to-end*. Combat (the densest stretch) is **two fixed, planned milestones**
+> split up front at the natural seam: **M2a = idle auto-resolve + first fight**, **M2b = bestiary /
+> equipment / loot→craft** (the §3.2 R3→R4 boundary). This is not a conditional split — M2a and M2b are
+> separate milestones each ending verify-green.
 
 ### M0 — Toolchain bootstrap + the cold open + save spine
 
@@ -4184,27 +4181,43 @@ schedule, ≥3 skills surface by-doing, the world-clock advances and seasons tur
 `gen:docs --check` passes; per-rung pacing is *instrumented* (the ≥30-min-floor test exists, even if final
 tuning lands at M6).
 
-### M2 — Combat goes live at R3 (idle auto-resolve + active setup) + the humbling first fight + bestiary/equipment
+### M2a — Combat goes live at R3 (idle auto-resolve + active setup) + the humbling first fight
 
 **Goal:** combat as a first-class pillar **from T0** — the humbling near-fatal first fight, the drill yard,
-the deterministic auto-battler, and the find→craft gear loop. *(The densest milestone; split M2a/M2b at the
-R3→R4 seam if needed — see the granularity note.)*
+and the deterministic, seeded auto-battler — unit-testable in isolation. *(Fixed milestone; the first half of
+the combat slice, split up front at the R3→R4 seam — see the granularity note.)*
 
 **Lands:** the **R3** rung (§3.2) gated on the **humbling first fight** (the wolf at the grain store,
 survived by luck — §5 T0.4); the **Combat panel** (§2.8) and the **deterministic, seeded auto-battler**
 (§4.6: idle auto-resolve + active stance/ability/item/retreat; the §4.6 combat math, damage floor,
 crit/block, attack-speed cadence); the **first-fight win-rate 20–35%** target (§4.6.6, **LOCKED**); the
 **soft-setback-on-loss** rule (1 HP + ~½-day + light injury + possible carried-loot drop — **never**
-levels/gear/Influence; **LOCKED** shape, §4.6.6); the **Bestiary** (§2.9, the ~5 grounded mobs filling
-by-encounter); **Equipment & Inventory** (§2.10) + the first crude weapon; combat/weapon **skills** in the
-Skills tab; the **Drill Yard** revealed *separately* (§3.3); the **Combat nav node** (§3.5). The
-**no-cross-feed** wall is enforced (conditioning is a one-way enablement gate; §4.4/§4.6.6).
+levels/gear/Influence; **LOCKED** shape, §4.6.6); combat/weapon **skills** in the Skills tab seeded; the
+**Drill Yard** revealed *separately* (§3.3); the **Combat nav node** (§3.5). The **no-cross-feed** wall is
+enforced (conditioning is a one-way enablement gate; §4.4/§4.6.6).
 
 **Definition of done:** verify green; a headless run reaches R3 and triggers the first fight; a fixed-seed
 fight **replays byte-identically** (§6.7) and a forced-seed rare crit/loot renders correctly via `__qa`; a
 Vitest test confirms the fresh-MC first-fight win-rate sits in **20–35%** and a post-drills MC ~85%+
-(§4.6.6); a loss applies the soft setback and **never** removes a level/gear/Influence (asserted); the
-Bestiary fills by-encounter; **no labour conditioning bonus enters any combat number** (asserted).
+(§4.6.6); a loss applies the soft setback and **never** removes a level/gear/Influence (asserted); **no
+labour conditioning bonus enters any combat number** (asserted). The auto-battler is unit-testable in
+isolation (no bestiary/equipment dependency).
+
+### M2b — Bestiary + equipment + the loot→craft gear loop
+
+**Goal:** complete the combat slice — the bestiary fills by encounter, the equipment/inventory panels land,
+loot tables drop, and the find→craft gear loop closes (R3→R4). *(Fixed milestone; the second half of the
+combat slice.)*
+
+**Lands:** the **Bestiary** (§2.9, the ~5 grounded mobs filling **by-encounter**); **Equipment & Inventory**
+(§2.10) + the first crude weapon; **loot tables** wired into the auto-battler's seeded resolution; the
+**find→craft gear loop** (loot feeds the simple crafting recipes, §4.7.2) carrying into R4. Equipment stats
+flow into the §4.6 combat math; weapon-line skills surface by-doing in the Skills tab.
+
+**Definition of done:** verify green; a headless run via `__qa` fills the Bestiary by-encounter and drops
+seeded loot that **replays byte-identically** (§6.7); the equipment/inventory panels equip and the gear
+stats enter the combat numbers (asserted); a found→crafted weapon completes the loot→craft loop end-to-end;
+the generated content docs (e.g. `docs/content/enemies.md`) regenerate and `gen:docs --check` passes.
 
 ### M3 — Quests + crafting + four-pillar accrual + the four-bar panel (R4→R7) → T0 complete
 
@@ -4285,7 +4298,7 @@ ship the T3 cliff-hanger stub, and polish to a launchable feel.
 
 **Lands:** the **balance pass** — tune `balance.ts` so a headless full playthrough hits **T0 ≈ 4.5 h · T1 ≈
 8 h · T2 ≈ 16 h**, **every rung ≥ ~30 min**, the **≤2–3× never-balloon** within-tier ratio, and the
-**≈70/30 deeds/seasonal** split (§4.8); the **CI pacing tests** (a headless playthrough that clears any
+**≈70/30 deeds/seasonal** split (§4.8); the **pacing-regression tests** (run by the local `verify` gate — a headless playthrough that clears any
 rung in < ~28 min or misses a tier budget **fails** — §4.8.4, §6.10); the **content verifier** green on
 **all** canon invariants (§6.6: no belief-creature spawns; trade ≤⅓; ≤1 ambiguity; no passive Influence
 trickle; no labour→combat cross-feed; **macron / K/M/B** lints; no orphan ids); the **T3 Castle-town STUB**
@@ -4324,7 +4337,8 @@ cut from a **verify-green** commit.
 |---|---|---|---|
 | **M0** | Toolchain + cold open + save spine | one screen, one verb | §6.1/§6.2/§6.3/§6.7/§6.8/§6.10, §3.1 |
 | **M1** | T0 labour + R0→R2 + skills + E0→E1 | R2 | §2.6/§2.7/§2.15, §3.2/§3.3/§3.5 |
-| **M2** | Combat live at R3 + first fight + bestiary/gear | R3 | §2.8/§2.9/§2.10, §4.6 |
+| **M2a** | Combat live at R3 + idle auto-resolve + the humbling first fight | R3 | §2.8, §4.6 |
+| **M2b** | Bestiary + equipment + the loot→craft gear loop | R3→R4 | §2.9/§2.10, §4.6/§4.7.2 |
 | **M3** | Quests + crafting + 4-pillar panel → T0 done | R7 / T0→T1 gate | §2.11/§2.12/§2.16, §4.1/§4.2 |
 | **M4** | T1 Village (rep web, rumours, coin, silk) | V7 / T1→T2 gate | §1.5.2/§2.13/§2.14, §3.4 |
 | **M5** | T2 Region (trade, Origin, G6 payoff) | G7 / T2→T3 gate | §1.5.3/§3.6, §5 T2 |
@@ -4357,7 +4371,8 @@ bundle** + hashed JS/CSS assets), zipped and uploaded to **itch.io**.
   the release gate: `tsc --noEmit && eslint . && prettier --check . && vitest run && verify-content &&
   gen:docs --check` — i.e. **typecheck + unit tests + the content-verifier (incl. the K/M/B + macron + the
   canon-invariant machine checks) + lints**, plus the **§4.8 headless pacing regression** added at M6. A
-  release artifact is **only ever cut from a verify-green commit**; CI runs `verify` on every push.
+  release artifact is **only ever cut from a verify-green commit**; `verify` is run **locally** as the
+  pre-push / release gate (**no hosted CI, no deploy automation** — confirmed by the human 2026-06-25).
 - **How to ship to itch.io (brief).** (1) `npm run verify` green; (2) `npm run build:itch` → a zipped
   `dist/`; (3) on itch.io, create / edit the project, set **Kind = HTML**, upload the zip, tick **"This
   file will be played in the browser,"** set the viewport (a sensible default frame; the layout is
@@ -4371,73 +4386,60 @@ bundle** + hashed JS/CSS assets), zipped and uploaded to **itch.io**.
 
 ---
 
-## 7.4 Risk register + cut-down ladder
+## 7.4 Risk register + scope-risk posture
 
 ### 7.4.1 Top risks
 
 | # | Risk | Likelihood / impact | Mitigation |
 |---|---|---|---|
-| **R1 — Scope creep on T2** (the widest, warmest tier: region map + Origin faction + two payoffs + Kuzuhara + rivals) blows the timeline | **High / High** | Hold the **~6–8-node** cut-set and the **hard caps** (exactly 2 neighbouring valleys; 2–3-man detail; ~5 mobs) as *invariants*, not suggestions; build T2 **rung-by-rung** (M5) so partial T2 still ships if time runs short (fall back to the §7.4.2 ladder); park anything not on the §1.7.1 spine list. |
-| **R2 — Balance-tuning time** (hitting the LOCKED 4.5/8/16-h budgets + the ≥30-min floor + ≈70/30 split across 24 rungs) is open-ended | **High / Medium** | The §4.8 curve is derived **backward** from the locked floor, so M6 tunes *yields* against a fixed target, not the target itself; the **headless pacing regression** (§6.10) makes drift a CI failure, so tuning is measured, not vibes; every number lives in `balance.ts` (§6.4) and reflows with **no save migration** — tuning is cheap and continuous, not a big-bang at the end. |
+| **R1 — Scope creep on T2** (the widest, warmest tier: region map + Origin faction + two payoffs + Kuzuhara + rivals) blows the timeline | **High / High** | Hold the **~6–8-node** cut-set and the **hard caps** (exactly 2 neighbouring valleys; 2–3-man detail; ~5 mobs) as *invariants*, not suggestions; build T2 **rung-by-rung** (M5) so progress is always verify-green; park anything not on the §1.7.1 spine list. **v1 ships full T0–T2 — no pre-planned descope (§7.4.2)**; if genuinely blocked, the forward-migratable save (§6.8) lets a later update add tiers. |
+| **R2 — Balance-tuning time** (hitting the LOCKED 4.5/8/16-h budgets + the ≥30-min floor + ≈70/30 split across 24 rungs) is open-ended | **High / Medium** | The §4.8 curve is derived **backward** from the locked floor, so M6 tunes *yields* against a fixed target, not the target itself; the **headless pacing regression** (§6.10) makes drift a `verify`-gate failure, so tuning is measured, not vibes; every number lives in `balance.ts` (§6.4) and reflows with **no save migration** — tuning is cheap and continuous, not a big-bang at the end. |
 | **R3 — Save migration** (a stored-shape change orphans players' saves) | **Medium / High** | Store **only non-derivable state** (§6.4) so the migratable surface is minimal; **ordered, unit-tested migrations** + a **pre-migration raw backup**; base64 export as the player's own safety net; degrade gracefully on a bad save (never a hard wall). The stored/computed split (§6.4) means balance retunes **never** migrate. |
 | **R4 — Art / feel** (text + emoji + CSS must read as a *coherent woodblock world*, not a spreadsheet) | **Medium / Medium** | The art register is locked **low-risk** (no asset pipeline: text + emoji + CSS, §6.9); a dedicated **M6 polish pass** + a **`capture-game-states` audit** sweep catches feel regressions; the diegetic event log carries most of the "feel," so feel scales with *writing* (a known quantity) more than with art production. |
-| **R5 — The combat slice (M2) is the densest single milestone** and could stall the whole roadmap | **Medium / Medium** | Pre-planned **M2a / M2b split** at the R3→R4 seam (idle auto-resolve + first fight, *then* bestiary/gear); the deterministic seeded auto-battler is **unit-testable in isolation** (§6.7) before it's wired to the UI; the first-fight win-rate (20–35%) and soft-setback shape are **LOCKED**, so the target is fixed. |
+| **R5 — The combat slice is the densest stretch** and could stall the whole roadmap | **Medium / Medium** | **M2a / M2b are fixed milestones** split up front at the R3→R4 seam (M2a = idle auto-resolve + first fight; M2b = bestiary/gear), so the combat slice is two shippable, verify-green checkpoints by design; the deterministic seeded auto-battler is **unit-testable in isolation** (§6.7) before it's wired to the UI; the first-fight win-rate (20–35%) and soft-setback shape are **LOCKED**, so the target is fixed. |
 
-### 7.4.2 The cut-down ladder (minimum shippable if time is short)
+### 7.4.2 Scope-risk posture — no pre-planned descope
 
-If the timeline compresses, **cut whole tiers from the top, never gut a tier's spine** — a complete T0–T1
-is a far better ship than a threadbare T0–T2. The fallback order:
+**v1 = full T0–T2, non-negotiable.** The human chose **not** to pre-plan a reduced-scope cut (no "minimum
+shippable T0–T1" fallback, no cut-down ladder) — we build to the full T0–T2 target and ship it complete
+(plus the §3.7.1 T3 stub cliff-hanger). We do **not** design a T0–T1 fallback.
 
-1. **Full v1 (target):** T0–T2 complete + T3 stub (M0→M7). *(The plan.)*
-2. **Drop the T3 stub:** T0–T2 complete, end on the T2→T3 gate as the cliff-hanger (skip the §3.7.1 stub
-   screen). Saves M6's stub work; loses only the teaser. *(Smallest cut.)*
-3. **MINIMUM SHIPPABLE — T0–T1 only:** Estate + Village complete (M0→M4 + a trimmed M6/M7), ending on the
-   **T1→T2 gate** as the cliff-hanger ("Now, the region" — the region map appears, then pauses). This is a
-   genuinely **complete, satisfying arc** (earn your keep → become the house's hand in the valley) — combat,
-   the four pillars, crafting, the rep web, and the rumours board all ship; it just stops before the Region.
-   T2 (incl. the personal-mystery payoff) becomes the first **post-launch** content drop.
-4. **Floor (only if dire) — T0 only:** the Estate tutorial tier as a vertical-slice demo (M0→M3 + trim).
-   This is a *demo*, not a launch — use only to prove the loop, not as the intended v1.
-
-> **The cut-down rule:** at every fallback the build stays **verify-green, deterministic, and a complete
-> playable arc to its cliff-hanger** — no half-finished tier is ever shipped. The pacing floor (≥30 min /
-> rung) and all canon invariants hold at every level. Because there is **no reset** and saves are
-> forward-migratable (§6.8), a player who finishes a cut-down v1 carries their save **forward** into the
-> tier added by a later update — the cut-down ship is a true *first chapter*, not a throwaway.
+> **Holding scope:** every milestone stays **verify-green, deterministic, and a complete playable arc to its
+> frontier**, and we hold the §7.1 cut-set + hard caps as *invariants* (this is how we protect the budget —
+> by trimming *breadth within a tier*, never by dropping a tier). If a milestone is **genuinely blocked**,
+> the forward-migratable save (§6.8) plus **no reset** means a later update can add tiers without orphaning
+> anyone — but that is a recovery path, not a plan: **v1 ships complete T0–T2.**
 
 ---
 
 ## 7.5 §7 decisions → ADR (proposed)
 
 §7 opens **no new design decisions** — it sequences the already-locked design (§§1–6) into an execution
-plan. Proposed ADR: record **the v1 scope (§7.1) + the M0…M7 build order (§7.2) + the static-itch.io
-deployment + verify-gate (§7.3) + the cut-down ladder (§7.4.2)** as **D-016 — v1 execution plan**, an
-execution checkpoint rather than a design reversal. Final ADR numbering is set at integration. **Approving
-§7 is the gate that unlocks code** (per the PRD preamble: *no code until §7 is approved*).
+plan. Proposed ADR: record **the v1 scope (§7.1) + the M0…M7 build order (§7.2, with the combat slice as the
+fixed milestones M2a/M2b) + the static-itch.io deployment + verify-gate (§7.3) + the no-pre-planned-descope
+scope posture (§7.4.2: full T0–T2 is non-negotiable)** as **D-017 — v1 execution plan** (D-016 is the §4
+balance locks — distinct), an execution checkpoint rather than a design reversal. Final ADR numbering is set
+at integration. **Approving §7 is the gate that unlocks code** (per the PRD preamble: *no code until §7 is
+approved*).
 
-### Flagged for the human
+### Flagged for the human — ALL RESOLVED (2026-06-25)
 
-> Everything below is tagged **proposed — for review**; none of it changes *what the game is* (§§1–6), only
-> *how/when we build and ship it*.
+> All items below are **resolved by the human (2026-06-25)**; none of it changes *what the game is* (§§1–6),
+> only *how/when we build and ship it*.
 
-1. **Milestone granularity / the M2 split — proposed — for review.** M2 (combat) is the densest slice; we
-   propose a pre-planned **M2a / M2b** split at the R3→R4 seam if it runs long. Confirm you're happy
-   treating that as the agent's call at build time (the autonomous default), or do you want M2a/M2b as
-   fixed, separate milestones up front?
-2. **The cut-down floor — proposed — for review.** We propose **T0–T1 only** as the *minimum shippable*
-   (a complete two-tier arc ending on the T1→T2 cliff-hanger), with **T0-only** as a demo-grade floor used
-   only in dire circumstances. Confirm T0–T1 is the right "if we must cut, cut here" line (it preserves
-   combat, the four pillars, crafting, and the rep web — the full *systems* showcase, minus the Region).
-3. **itch.io page specifics — proposed — for review.** We assume **free / pay-what-you-want** (canon §H),
-   **Kind = HTML / play-in-browser**, **relative `base: './'`**, and a sensible responsive default frame.
-   Confirm there are no other store-page constraints (a fixed canvas size? a particular embed width?) you
-   want pinned before M7.
-4. **CI host for `npm run verify` — proposed — for review.** The release gate is `npm run verify` + the
-   §4.8 pacing regression; we assume it runs in **GitHub Actions** (or equivalent) on every push. Confirm
-   the CI host, or that running `verify` locally as the pre-push gate is sufficient for a solo/agentic
-   workflow (no hosted CI).
-5. **"How to ship" is documented, not automated, for v1 — proposed — for review.** The itch.io upload is a
-   **manual** step (§7.3) — outward-facing / hard-to-reverse, so per CLAUDE.md it needs human approval each
-   release. We do **not** propose automating deploy (no itch CLI / butler pipeline) for v1. Confirm manual
-   upload is the intended release process.
+1. **RESOLVED: Milestone granularity / the M2 split → fixed M2a / M2b milestones.** The combat slice is **two
+   fixed, separate milestones up front** (M2a = idle auto-resolve + first fight; M2b = bestiary / equipment /
+   loot→craft) at the R3→R4 seam — **not** a conditional "agent's call at build time" split.
+2. **RESOLVED: The cut-down floor → no pre-planned cut.** **Full T0–T2 is non-negotiable**; we do **not**
+   pre-plan a reduced-scope cut and we do **not** design a T0–T1 minimum-shippable fallback (§7.4.2). If
+   genuinely blocked, the forward-migratable save (§6.8) lets a later update add tiers — but v1 ships
+   complete T0–T2.
+3. **RESOLVED: itch.io page specifics → confirmed.** **Free / pay-what-you-want** (canon §H), **Kind = HTML /
+   play-in-browser**, **relative `base: './'`**, and a sensible responsive default frame. Confirmed.
+4. **RESOLVED: CI host for `npm run verify` → local verify gate, no hosted CI.** The release gate is
+   `npm run verify` + the §4.8 pacing regression, run **locally** as the pre-push/release gate — **no hosted
+   CI, no deploy automation** — sufficient for a solo/agentic workflow.
+5. **RESOLVED: "How to ship" → manual upload, confirmed.** The itch.io upload is a **manual** step (§7.3) —
+   outward-facing / hard-to-reverse, so per CLAUDE.md it needs human approval each release. **No** deploy
+   automation (no itch CLI / butler pipeline) for v1. Manual upload is the intended release process.
 

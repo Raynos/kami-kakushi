@@ -237,6 +237,20 @@ PROPOSED (tunable). The shape below is human-locked; the rebalance must honour i
 - **T3/T4 late first-reveals confirmed as sketched** — auto-producers at **T3-C1**, marriage/adoption lever at
   **T3-C5**, national *banzuke* at **T4-E7** (full rung-copy deferred with T3/T4).
 
+### Whole-PRD QA resolutions (2026-06-25, human-signed)
+- **§4 balance dials:** deeds/seasonal = **70/30**; per-event cap = **0.04**; per-rung escalation =
+  **front-loaded floor then ramp** (T0 30/30/30/35/40/45/55); **~8 seasons/tier**; **Office tier-step keeps
+  ~25×** at T1→T2 (the social wall is intended); **R0 ≥30-min-floor carve-out BLESSED** (floor applies to grind
+  rungs R1–R7; R0 = exempt ~5-min cold open).
+- **Side-faction speedup = ~10–15%** off time-to-next-tier (felt, never required) — **supersedes the old
+  "≈halve"** (patched in §1.5.4 / §1.12 / §2.15).
+- **§6 tech (re-confirmed):** IndexedDB; RNG = splitmix64 + named sub-streams; ordered forward migrations +
+  raw backup (no cross-major-rewrite guarantee); `tier` stored.
+- **§7 build/ship:** **M2a / M2b are FIXED milestones** (combat split up front: M2a auto-resolve + first fight;
+  M2b bestiary/equipment/loot-craft); **NO pre-planned cut — full T0–T2 is non-negotiable**; itch.io =
+  free/PWYW + HTML in-browser + relative base; release = **local `npm run verify` gate + manual upload** (no
+  hosted CI, no deploy automation).
+
 ## J. ADR mapping (to record in `../docs/history/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
 - **D-004 ⛔ REVERSED** — no reset (tiers replace prestige).
@@ -247,4 +261,7 @@ PROPOSED (tunable). The shape below is human-locked; the rebalance must honour i
   **D-011** combat earns standing (Arms pillar). **D-012** per-tier rank ladders + full maps every tier +
   v1=T0–2. **D-013** tech: Vite+TS+Vitest / IndexedDB+export / responsive desktop+mobile / active-only.
   **D-014** per-tier antagonists (not a single racket). **D-015** four-pillar accrual = achievement +
-  seasonal judged result, up-only + dents. (Final ADR numbering set at integration.)
+  seasonal judged result, up-only + dents. **D-013a** §6 tech architecture (reduce/tick, splitmix64 +
+  sub-streams, IndexedDB, forward migrations, stored tier). **D-016** §4 balance locks (pacing/accrual shape).
+  **D-017** v1 execution plan (M0–M8 incl. fixed M2a/M2b, itch.io deploy, verify gate, no pre-planned cut).
+  (ADR numbering finalized.)
