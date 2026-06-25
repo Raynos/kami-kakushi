@@ -4,6 +4,11 @@
 > (PRD §1 review rounds + a 12-round, 48-decision open-questions Q&A). The PRD (`../docs/prd.md`) and the
 > ADR log (`../docs/history/decisions.md`) are authored FROM this. If anything here conflicts with an
 > older brainstorm doc, **this wins.** Balance *numbers* are deliberately deferred to PRD §4.
+>
+> **Updated 2026-06-25 (post-Round-A + the §1.12 redo; audit `wkwulrwqx` found canon was the staleness
+> root-cause):** *meibutsu* = **silk**; **full maps at every tier**; **simple** per-tier-pillar thresholds
+> (the floor+overflow formula is **REJECTED**); origin **father re-added & renamed** Kuranosuke → **Jinpachi**;
+> **marriage/adoption = a real late-game lever**; **combat introduced early**.
 
 ## A. Core identity (grounded constraints — still binding)
 - **Grounded / no magic.** Nothing supernatural ever happens; every belief/omen resolves to a human or
@@ -54,7 +59,8 @@
     the inn & rumours board); the kamikakushi "are you Tama?" legend lives here. **Cast mostly STATIC.**
     Never gates the spine.
   - **ORIGIN (side, memory-gated SUPPORT track)** — Tahei's **living** family/friends in post-town
-    **Sawatari-juku**: mother **Oyuki**, **father Kuranosuke**, sister **Okimi**, employer **Denbei**,
+    **Sawatari-juku**: mother **Oyuki**, **father Jinpachi** (re-added; renamed from the colliding
+    "Kuranosuke"), sister **Okimi**, employer **Denbei**,
     friend **Kanta**, sweetheart **Ohana**, the porter guild. **Opens at T2 Region**; the **dream
     foreshadows from early game**; they **support** his estate achievements (pride/allies/trade-ties);
     access-only, ZERO mechanical gift.
@@ -68,15 +74,20 @@
 - **FOUR achievement-driven pillars:** **Arms (武威)** · **Estate & Wealth (家産)** · **Standing & Office
   (政威 — coined; consider 領)** · **Name & Honour (家格)**.
 - **Trade is demoted** to **1-of-3 sub-engines** inside Estate & Wealth (land / treasury / trade),
-  **hard-capped to ~⅓ of that one pillar** — so trade can never dominate.
+  **hard-capped to ~⅓ of that one pillar** — so trade can never dominate. The signature **meibutsu = SILK /
+  sericulture** (LOCKED) — the famous product within the trade sub-engine (still capped); not an
+  "optional/undecided" candidate.
 - **Accrual = achievement JUMPS + seasonal JUDGED RESULTS** (a week's harvest, seasonal appraisal) —
   **never a passive time-trickle, never a flat per-action increment.**
 - **Up-only + rare, scripted, recoverable dents** (scandal/called debt) — **never a wipe**.
-- **Tier gating = PER-TIER REQUIRED PILLARS** (early tiers weight Arms+Estate "survive & get strong";
-  upper tiers weight Office+Name "win it socially"). Side factions are **multipliers** into the pillars,
-  never new pillars.
+- **Tier gating = PER-TIER REQUIRED PILLARS via SIMPLE THRESHOLDS** (early tiers weight Arms+Estate
+  "survive & get strong"; upper tiers weight Office+Name "win it socially"). **NOT** a balanced-development
+  floor / ≤25%-overflow formula — that author-invented mechanic is **REJECTED** (Round A). Side factions
+  are **multipliers** into the pillars, never new pillars.
 
 ## E. Combat (a first-class core pillar)
+- **Introduced EARLY** — combat is a core pillar from the FIRST tier (T0), NOT a mid-ladder reveal; combat
+  rungs/threats weave throughout the per-tier ladders, and the humbling first real fight is an early beat.
 - **Style:** **idle auto-resolve + active setup** (prepare gear/stance/area; deterministic seeded fight;
   intervene with stance/ability/item/retreat). Low-APM, strategic.
 - **Systems:** character **combat level** + weapon/martial **skills** + **mobs/bestiary** + **loot** +
@@ -138,6 +149,9 @@
 - **Crafting:** **hybrid** — simple recipes early; the **component/quality** system unlocks later.
 - **Skills/jobs:** start **lean** (farming, foraging, woodcutting, fishing, smithing, cooking; 2–3 weapon
   lines + conditioning); **more unlock as you climb tiers/regions.**
+- **Marriage / adoption-into-higher-status:** a **REAL, lean late-game (T3/T4) alliance/status lever** that
+  lifts Standing & Office / Name & Honour (and is a castle-town takeover route) — **NOT** a people-
+  management / relationship sim.
 
 ## H. Time, presentation & tech
 - **Time:** an **abstract clock advanced by active play** (days/seasons drive harvest/weather/festivals +
@@ -158,8 +172,9 @@
 ## I. v1 scope
 - **v1 = Tiers 0–2 complete** (Estate + Village + Region, incl. the **T2 personal-mystery payoff**); **T3
   Castle-town = a STUB cliff-hanger**; **T4 Edo = roadmap.**
-- **Full maps + per-tier rank ladders for T0–T2.** Lean within: ~8-rung early ladder, ~5 mobs, ~4 quest
-  types, a ~6–8-node world cut-set (rest parked as "later").
+- **FULL maps at EVERY tier, always** (T0–T2 built in v1; T3–T4 maps built later — NOT abstract-board-only
+  by design). **A fresh rank ladder PER TIER** — enumerate the T0/T1/T2 ladders for v1. Lean within:
+  ~8-rung per-tier ladder, ~5 mobs, ~4 quest types, ~6–8-node world cut-set (rest parked as "later").
 - **Locked-rule fixes to apply at integration:** no belief-creatures in spawn tables; reaffirm ≤1 ambiguity;
   no permanent holding-loss ("never a wipe"); no labour→combat cross-feed; force-fictionalise real names;
   hard-cap martial scale; replace coined 政威 if a better attested term exists; resolve name collisions.
