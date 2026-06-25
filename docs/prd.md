@@ -258,7 +258,7 @@ ladder, combat woven throughout — is locked here. T3/T4 ladders are **scoped f
 > the capstone; never a single monolithic "Influence band"). v1 covers estate stages **E0 — Foreclosure's
 > Edge** (leaning gate, cracked *kura*, fallow paddies, a rusty door-bar) → **E1 — Stabilising** (kura
 > patched, first *shinden* reclaimed, drill yard cleared, gate night-watch) → **E2 — Recovering** (granary,
-> two workshops, a low palisade, 2–3 men-at-arms on a rota). Stages E3–E5 (fortified seat →
+> two workshops, a low palisade, 2–3 men-at-arms on a rota). Stages E3–E5 (prosperous → fortified seat →
 > restored-and-surpassed) are parked (§1.7.1). Estate growth pulls **seconded/recruited** faces; the
 > village's own cast does not balloon.
 
@@ -314,7 +314,7 @@ Payoff is **support, not local power**:
 
 **Hard guardrail:** returning memory grants **access only** (new nodes/allies/quests unlock narratively) and
 **ZERO mechanical bonus**; every asset must still be grind-built. At least one origin beat is always available
-**without** reputation-gating, so the thread never fully stalls. (The re-foundable **Kuzuhara** birthplace and
+**without** reputation-gating, so the thread never fully stalls. (The re-foundable **Kuzuhara** hamlet and
 the wider post-town commercial region are T2+ expansion nodes — see §1.7.1.)
 
 ### 1.5.4 How the three interrelate — and the Tama-vs-farmhand allegiance
@@ -460,7 +460,7 @@ existing cast and pay off the spine directly.
 
 | Node | Tier | Kind / role |
 |---|---|---|
-| **Kuzuhara — re-foundable upstream hamlet & embankment river-works** | T2 | **Spine.** The faction-3 fusion: the drowned hamlet (the disaster that nearly killed Tahei) becomes a resettlement node + the embankment (*seki*) river-works that secures the disaster. Access-only, grind-built; the backstory and lost-child evidence resolve here. |
+| **Kuzuhara — re-foundable upstream hamlet & embankment river-works** | T2 | **Spine.** The faction-3 fusion: the drowned hamlet — the house's own **root-sin** (ancestor Sadamune's neglected flood-works) — becomes a resettlement node + the embankment (*seki*) river-works that secures the disaster. Access-only, grind-built; the player **names the drowned** and re-founds the hamlet. **No personal tie to the MC** — his origin/backstory and the lost-child evidence resolve via the **dream → the Sawatari-juku family** (§5 T2.2/T2.5), not here. |
 | **Sawatari-juku & the wider post-town region** | T2 | **Mixed.** The origin reunion hub (optional) + the *toiya* transport office / waystation trade layer (the practical surplus-export runway to T3). |
 | **The Kaidō Porters' & Transport Guild** | T2→T4 | **Spine-thin.** Routes, *sekisho* pass-tiers, route-risk — the trade backbone. Met via friend Kanta's first favour run; the T3 stub cliff-hanger is **this one node's first-contact**. |
 | **The Rice & Silver finance network** | T2→T4 | **Spine-thin.** The conversion engine: village broker → regional warehouse → *Marutaya* debt-restructuring → *goyōkin* → Osaka/Edo *fudasashi*. |
@@ -1712,7 +1712,7 @@ deliberately deferred to §4. Next: §3 — the incremental unlock ladder (UI-as
 # §3 — Incremental Unlock Ladder (UI-as-progression)
 
 > **DRAFT — awaiting human review.** Authored end-to-end from the LOCKED CANON
-> ([`../../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md),
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md),
 > incl. all three "Updated 2026-06-25" header blocks) and the merged PRD §1, §2, §5, §6. This section makes the
 > **signature feature** concrete: it specifies the **ordered reveal of every panel, tab, screen, system,
 > resource-row, and area** across the game — **T0–T2 in full (v1)**, with **T3/T4 sketched**. It references the
@@ -2220,9 +2220,9 @@ ceiling** holds — the **HOUSE** is recognised; the MC's personal ceiling stays
 # §4 — Combat, Progression & Balance Model
 
 > **STATUS: DRAFT — awaiting human review.** Nothing here is locked until reviewed with the human and
-> recorded as an ADR in [`../history/decisions.md`](../history/decisions.md). This section is authored
+> recorded as an ADR in [`history/decisions.md`](history/decisions.md). This section is authored
 > end-to-end from the LOCKED CANON
-> ([`../../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md),
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md),
 > incl. all three "Updated 2026-06-25" header blocks) and the drafted PRD §§1, 2, 6.
 >
 > **⚠️ ALL NUMBERS IN THIS SECTION ARE TAGGED `proposed v1 balance — for human review` EXCEPT the
@@ -2650,7 +2650,7 @@ dump stat.
 
 | Attr | Combat effect *(proposed)* | Labour effect *(proposed)* |
 |---|---|---|
-| **STR** (力) | `attackPower += 1.2·STR` (melee); raises carry/durability damage | labour yield `+0.8%·STR`; hauling capacity `+2·STR`; lower stamina cost on heavy work |
+| **STR** (力) | `attackPower += 1.2·STR` (melee); `defense += 0.5·STR`; `hpMax += 2·STR` (§4.6.1); raises carry/durability damage | labour yield `+0.8%·STR`; hauling capacity `+2·STR`; lower stamina cost on heavy work |
 | **AGI** (体) | `evasion += 0.6·AGI`; `critChance += 0.2%·AGI`; hit-accuracy `+0.4·AGI` | gathering speed `+0.6%·AGI` (forage/fish); craft success `+0.3%·AGI` |
 | **INT** (智) | `+0.5%` damage vs known bestiary entries; better stance/ability effects | craft quality `+0.7%·INT`; recipe unlock thresholds eased; office/admin deed weight `+0.5%·INT` |
 | **SPD** (速) | `attackSpeed += 0.5%·SPD` (faster swings — see cadence §4.6); turn-order/first-strike | action tick-cost `−0.3%·SPD` (faster labour cycles, floored) |
@@ -2690,7 +2690,7 @@ totalXpForLevel(L) = sum_{i=1..L} xpForLevel(i)
 ```
 
 *(proposed v1 balance — for human review)*: `XP_BASE = 50`, `XP_GROWTH = 1.18`. So L1→L2 costs 50 xp, L10
-cumulatively ~**2.1K**, L25 ~**41K**, L50 ~**1.5M** xp. **Visibility threshold** = a skill surfaces in the UI
+cumulatively ~**1.2K**, L25 ~**17K**, L50 ~**1.1M** xp. **Visibility threshold** = a skill surfaces in the UI
 at **cumulative 30 xp** (~one good session) so it reads as a discovery, not a pre-listed menu. **Soft level
 cap per tier**: T0 ≈ **L15**, T1 ≈ **L30**, T2 ≈ **L50** (you *can* exceed, but XP cost makes the next tier's
 content the efficient path — this is what stops a player grinding T0 to god-tier).
@@ -2768,7 +2768,7 @@ hpMax        = 40 + 8·characterLevel + 2·STR + gearHp
 ### §4.6.2 Attack-speed cadence
 
 Combat runs on an internal **sub-tick accumulator** (§2.8c). `baseSpeed = 1.0` swing per **20 combat
-sub-ticks** at SPD 5; each point of SPD shaves cadence per the `+0.5%·SPD` above. A typical T0 fight is
+sub-ticks** at SPD 0 (the `(1 + 0.005·SPD)` factor is 1.0 at SPD 0, ≈1.025 at the starting SPD 5); each point of SPD shaves cadence per the `+0.5%·SPD` above. A typical T0 fight is
 **~6–12 swings** (a handful of real ticks). **Lever:** `baseSpeed` and the `0.005·SPD` coefficient set how
 twitchy-vs-grindy fights feel (canon: low-APM, strategic — keep fights short).
 
@@ -2908,7 +2908,7 @@ point lifetime-produced koku ≈ **5.1K** — comfortably affordable while leavi
 spend (the held balance is what's tight, by design). E2's **2K koku** falls due around **R6**, by which point
 lifetime-produced koku ≈ **13.3K**. Both costs are thus **paced to be reached, not trivially pre-bought** — and
 their **rank floors (R4/R6) plus Estate/Arms pillar floors** keep building gated on standing, never the
-capstone (§1.5.1). E3–E5 parked (§1.5.2). **Levers:** every cost & pillar/rank floor above (all *proposed*).
+capstone (§1.5.1). E3–E5 parked (§1.5.1). **Levers:** every cost & pillar/rank floor above (all *proposed*).
 
 ---
 
@@ -3053,7 +3053,7 @@ LOCKED 2026-06-25)*, the **deeds/seasonal split ≈ 70/30** *(the deeds-dominate
 **`SEASONAL_SHARE = 0.30`** *(the single dial that sets the whole seasonal stream; realises the locked 30 %
 seasonal share — replaces the old scalar `JUDGE_K` quartet)*, the derived **`JUDGE_K[pillar][tier] =
 SEASONAL_SHARE · gate`** table *(T0 Arms 150 / Estate 240 · T1 Arms 1,500 / Estate 2,400 / Office 600 / Name
-3,000 · T2 Arms 9,000 / Estate 18,000 / Office 15,000 / Name 24,000)*, the **`TIER_REF[pillar][tier]`**
+4,500 · T2 Arms 9,000 / Estate 18,000 / Office 15,000 / Name 42,000)*, the **`TIER_REF[pillar][tier]`**
 seasonal-basis normalizers *(make each `f_pillar` O(1) at band-top — Estate koku ref, Arms secured-danger ref,
 Office standing ref)*, **`TIER_REF_NAME[tier] = armsGate + estateGate + officeGate`** *(the explicit Name
 normalizer — REPLACES the retired `JUDGE_NAME_BLEND` magic scaler; the F4 double-scale is resolved)*, the
@@ -3138,7 +3138,7 @@ dominant.
    identity clue, **ZERO bonus.**
 4. **The wolf at the grain store (the humbling first fight).** A wolf gets into the grain store; cornered, he
    grabs a carrying-pole, lands at most **one lucky blow**, is thrashed — disarmed, ribs cracked, left in the
-   dirt — surviving **only** by luck / by drillmaster **Jūbei's** arrival, **never by skill.** The shame of
+   dirt — surviving **only** by luck and sheer stubbornness, **never by skill** — and **never rescued**: he lives through it on his own. The shame of
    limping home to confess drives him to beg Jūbei for drills. *(Off-screen restraint on the injury; the
    *lesson* is on-screen, the gore is not.)*
 5. **Begging for drills.** Jūbei's creed, stated here and paid off at the finale: *"Talent is a story the lucky
@@ -3558,7 +3558,7 @@ advantages — **never innate** (the talent-foil rule).
 
 > **Estate physical growth runs *ahead* of top personal rank** (gated on the relevant pillars — Estate & Wealth,
 > and Arms for defensive works — plus a **low** rank floor + cost, **not** the capstone). Stages E3–E5
-> (fortified seat → restored-and-surpassed) are **parked** for the T3/T4 build (see "Parked — later").
+> (prosperous → fortified seat → restored-and-surpassed) are **parked** for the T3/T4 build (see "Parked — later").
 
 ## T2.5 Key NPC & dialogue beats
 
@@ -4042,14 +4042,15 @@ interface GameState {
   schemaVersion: number;            // for ordered migrations (§6.8)
   rng: RngState;                    // seed + counter/stream — persisted (§6.7)
   clock: { tick: number; day: number; season: Season; year: number };  // abstract time
+  currentArea: AreaId;                            // where the player IS now (set by the `travel` intent) — non-derivable, persisted (§2.19 "current location")
   resources: Record<ResourceId, number>;         // koku, coin(mon), wood, fish, materials…
   producers: Record<ProducerId, number>;         // owned counts (late-game only)
   skills: Record<SkillId, { xp: number }>;       // total xp per skill; levels DERIVED
   character: { hp: number; satiety: number; attributePoints: number;
                attributes: Record<AttrId, number> };  // base attrs stored; effective DERIVED
   inventory: Record<ItemId, number>;             // counts (quality folded into the item key)
-  equipment: Partial<Record<EquipSlot, ItemInstanceId>>;
-  influence: Record<PillarId, { value: number; highWater: number }>;  // 4 pillars; dents recorded here
+  equipment: Partial<Record<EquipSlot, { equipDefId: EquipDefId; durability: number; qualityTier: QualityTier }>>;  // per-slot EquipState (§2.10) — durability/quality persist HERE, not in the counts-only inventory
+  influence: Record<PillarId, { value: number; highWater: number; dent: Dent | null }>;  // 4 pillars; value + high-water + the (≤1) active recoverable dent (§4.2.4) — matches §6.8 / §2.19
   tier: TierId;                                   // current macro tier T0..T4 (DERIVED-checkable, stored for clarity)
   ranks: Record<TierId, { estateService: number; combatStanding: number; rung: RankId }>;
   reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as milestones
@@ -4104,7 +4105,7 @@ binding data to the renderer, and it is the backbone of *generate-don't-duplicat
 | `content/balance.ts` | shared curve/constant definitions (cost growth, xp scaling, etc.) — the *single* home for tunables; §4 sets the values | (named) |
 
 **Rewards are one shape everywhere.** Dialogue, quests, gathering thresholds, and combat all grant the same
-`Rewards` object (`{ items?, xp?, resources?, unlocks?, areas?, recipes?, quests?, flags?, dialogues? }`),
+`Rewards` object (`{ items?, xp?, resources?, unlocks?, areas?, recipes?, quests?, flags?, dialogues?, pillarDeltas? }`),
 funnelled through `core/rewards.applyRewards`. Story flags and UI reveals ride the *same* bus — so "story" and
 "UI growth" are one dependency graph (a reveal reads as plot, not menu growth), exactly as §1/§3 require.
 
@@ -4140,7 +4141,7 @@ artifact of the one source of truth.
 ## 6.7 The one seeded RNG
 
 **One seeded RNG for the entire game** (canon §H, convention *one RNG*). A small, fast, well-distributed
-generator (e.g. **mulberry32** or **splitmix64**), seeded at new-game from a stored seed.
+generator — **splitmix64** (LOCKED, §6.13 #2), seeded at new-game from a stored seed.
 
 - **It is part of `GameState`** (`state.rng = { seed, counter }`) and is **saved & loaded**, so resumed games
   stay deterministic and reproduce exactly.
@@ -4167,9 +4168,10 @@ Per **D-013 / canon §H**: robust, durable, static-friendly, **no backend**.
 - **Export / import: base64 to a text file.** The same serialized save is base64-encoded for copy-paste / file
   export and import — the player's portable backup (and a hand-off path for QA). Import validates + migrates.
 - **Persist only non-derivable state (§6.4).** The save is the **stored** surface of `GameState`: schemaVersion,
-  RNG (seed + counter), clock, resources, producer counts, skill xp, base attributes, inventory, equipment,
-  influence pillars (value + high-water + dents), ranks, reputation, allegiance, flags, unlocked surfaces,
-  quest status, counts, active-effect remainders, settings. **All derived stats are recomputed on load** by
+  RNG (seed + counter), clock, resources, producer counts, skill xp, base attributes, current vitals (hp / satiety / attribute-points), inventory, equipment,
+  influence pillars (value + high-water + dents), stored tier, ranks, reputation, allegiance, flags, unlocked surfaces,
+  quest status, counts, the live combat encounter (present only while a fight is live), the capped event log,
+  active-effect remainders, settings. **All derived stats are recomputed on load** by
   the selectors — never serialized.
 - **Versioned with ordered migrations.** `schemaVersion` is stored; on load, an ordered list of
   `migrate_vN_to_vN+1(save)` steps runs in sequence to bring an old save current (each migration is a pure
@@ -4316,7 +4318,7 @@ at integration.
 # §7 — Milestone Roadmap, v1 Scope & Deployment
 
 > **DRAFT — awaiting human review.** Authored end-to-end from the LOCKED CANON
-> ([`../../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md),
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md),
 > incl. its **§I v1 scope** and the human-signed **§I-bal §4 BALANCE LOCKS**) and the drafted PRD
 > §§1–6 (esp. §1 vision/pillars/factions/endgame, §2 systems catalog, §3 the unlock ladder, §4 the
 > balance model, §5 the narrative, §6 the tech architecture). This is the **last PRD section** and the
@@ -4387,8 +4389,9 @@ Per canon **§I-bal** (human-signed) and §4.8: **v1 total ≈ 28.5 h** of activ
 **T0 ≈ 4.5 h · T1 ≈ 8 h · T2 ≈ 16 h** — with a **≥ ~30-min-per-rank floor** (no single rung advances
 faster). (The canon "≈ 32 h" figure includes the post-T2 stub runway / free-play tail; the *built*
 content sums to ≈ 28.5 h — §4.8.4.) This is **LOCKED**: the **M6 balance pass** (§7.2) treats the
-per-tier hour budgets and the ≥30-min floor as **CI-enforced acceptance criteria** (a headless
-playthrough that clears any rung in < ~28 min, or misses a tier budget, **fails the pacing test** —
+per-tier hour budgets and the ≥30-min floor as **verify-gate-enforced acceptance criteria** (a headless
+playthrough that clears any **grind** rung — R1–R7 and the V0–V7 / G0–G7 equivalents; the **R0 cold-open
+story rung is exempt** per §4.8.1 — in < ~28 min, or misses a tier budget, **fails the pacing test** —
 §4.8.4, §6.10). Tuning retunes *yields*, never these targets.
 
 ### 7.1.3 PARKED / CUT for v1 (designed, not deleted — "park, don't delete")
@@ -4398,7 +4401,7 @@ here is a design hedge — the *shape* is decided, only the *authoring* is defer
 
 | Parked item | Where it returns | Source |
 |---|---|---|
-| **Estate stages E3–E5** (fortified seat → restored-and-surpassed) | T3+ | §1.5.1 |
+| **Estate stages E3–E5** (prosperous → fortified seat → restored-and-surpassed) | T3+ | §1.5.1 |
 | **The Matagi hunters, the Pilgrimage Order, the Scholars-&-Physicians *network*** (keep Ranpo / Obaa Sato as seeds only) | T3+ | §1.7.1 |
 | **Auto-producers** (any idle/seconded-helper layer) — **v1 is active-only, no idle layer** | T3-C1 first; scaffold only in v1 | §4.7.4, canon §G/§H |
 | **The marriage / adoption status lever** (a real T3/T4 alliance lever; numbers deferred) | T3-C5 | §1.7.1, §4.3 |

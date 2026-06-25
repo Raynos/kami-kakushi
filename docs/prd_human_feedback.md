@@ -261,8 +261,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 - **H1. v1 skill set + ~4 quest types confirmed** (farming/foraging/woodcutting/fishing/smithing/cooking +
   conditioning + 2–3 weapon lines; Pest Control / Hunt / Clear / Defend). ✅
-- **H2. §5 authenticity pass kept deferred** (Standing & Office kanji + martial/office titles → a later
-  focused pass). ⏳
+- **H2. §5 authenticity pass** (Standing & Office kanji + martial/office titles). ✅ **RESOLVED & APPLIED 2026-06-25 (superseded by J4):** 官威 *kan'i*, R7 *jikata-yaku*, *michi-ban* diegetic-only, T4 *rusui-yaku* — all now in prd.md (§1.6.1, §3.2, §1.7).
 - **H3. Post-v1 parked list confirmed** (E3–E5 estate depth, Matagi, Pilgrimage order, Scholars network,
   auto-producers beyond the T3 scaffold, marriage-lever numbers, deeper upper-tier nodes). ✅
 - **H4. §6 tech defaults locked** — RNG = splitmix64 + named sub-streams; ordered forward migrations + raw
