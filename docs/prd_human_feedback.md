@@ -319,8 +319,10 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - **J2.** §3.6 (T2) reframe + Origin-as-rep-track + Tomita/Akagi development — **queued**.
 - **J3.** §3.5 (nav track) and §3.7 (T3/T4 sketch) — **not yet reviewed** by the human.
 - **J4.** §5 authenticity pass (kanji + period titles) — **deferred** to a later focused pass.
-- **J5.** The estate-rep arc labels for **T3 and T4** (continuing stranger→friendly→trusted→honorary→…) — not
-  yet named.
+- ~~**J5.** The estate-rep arc labels for **T3 and T4**.~~ **RESOLVED (2026-06-25):** full arc locked —
+  stranger→friendly (T0) → trusted (T1) → honorary member (T2) → **chief steward / *yōnin* (T3, the MC's
+  personal ceiling)** → **T4: MC stays *yōnin*; the arc shifts to the HOUSE's national standing** (indirect
+  ceiling). §3.7 light-reframed to match.
 - **J6.** Whole-project audit (the reason for this doc) — **pending** once §3 review completes.
 
 ---

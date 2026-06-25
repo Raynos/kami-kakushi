@@ -321,9 +321,11 @@ the wider post-town commercial region are T2+ expansion nodes — see §1.7.1.)
 
 **THREE reputation systems, two shapes (canon §"Reputation systems model").** The **ESTATE = the FIVE-TIER
 SPINE** — the only thing that gates tier advancement. Per tier the estate-rep arc climbs (T0 stranger→friendly ·
-T1 friendly→**TRUSTED** · **T2 trusted→HONORARY MEMBER of the house** · T3 … · T4 …) and the estate's **domain
+T1 friendly→**TRUSTED** · **T2 trusted→HONORARY MEMBER of the house** · **T3 honorary member→chief steward /
+*yōnin*** (the MC's personal CEILING) · **T4 the MC stays *yōnin*; the arc shifts to the HOUSE's national
+standing** — the indirect/mediated Edo ceiling, the *house* ranked, never the man) and the estate's **domain
 expands**: survival on its own land (T0) → **+ the village & surrounding valley** (T1) → **+ the region** (T2) →
-+ the castle-town (T3) → + Edo (T4). The **VILLAGE (T1)** and **ORIGIN (T2)** reputations are **ONE-TIER
+**+ the castle-town** (T3) → **+ Edo / the nation** (T4). The **VILLAGE (T1)** and **ORIGIN (T2)** reputations are **ONE-TIER
 standalone side-tracks**, each with its **own ranks/rungs**, optional and fully completable — **accelerants that
 NEVER gate** the climb. The **village web** (how the villagers *personally* regard you) carries forward through
 T2; the **Origin track** (Tahei's living family/friends at Sawatari-juku) is a one-tier rep side-track with its
@@ -416,8 +418,8 @@ over years.
 | **T0 — Estate** | Earn your keep and a place at the table. One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **Arms + Estate** (humbling first fight survived; first *shinden* begun; kura solvent). |
 | **T1 — The Valley** | The estate's domain expands to **anchor its own valley** (standing friendly→**trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the valley. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
 | **T2 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region's **rival houses Tomita & Akagi** are the incumbents to surpass (G7 = rivals dethroned). | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
-| **T3 — Castle-town** *(stub in v1)* | Be reckoned with by the people who actually rule: the castle-town, *daikan*/*tedai*, inter-*han* markets. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
-| **T4 — Edo** *(roadmap)* | Recognition at the capital — restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
+| **T3 — Castle-town** *(stub in v1)* | The estate's domain expands to **become a castle-town power holding key domain offices** (standing **honorary member → chief steward / *yōnin*** — the MC's personal CEILING): the *daikan* / *tedai* officialdom and inter-*han* markets acknowledge, contend with, and cede to the house. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
+| **T4 — Edo** *(roadmap)* | The **HOUSE** rises to **national standing — ranked at the capital** while the **MC stays *yōnin*** (the arc is the house's, not the man's; indirect/mediated Edo ceiling, canon §F / D-010): restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
 
 > **Castle-town takeover = MULTI-ROUTE** (peaceful: office / economy / marriage / out-maneuvering rivals; AND
 > assertive: martial-security leverage). "Take over" = becoming the **dominant house holding key domain
@@ -2108,7 +2110,26 @@ Per v1 scope (canon §I), **T3 is a stub cliff-hanger** and **T4 is a roadmap**.
 the later reveals (**auto-producers**, the **marriage/adoption lever**, the **national *banzuke***) have an
 explicit home. Full authoring deferred.
 
-### 3.7.1 T3 — Castle-town ladder (stub; `C0 → C7`, forward)
+> **Same spine, two more frontiers (canon §"Reputation systems model").** T3/T4 carry the **same model as
+> T0–T2**: the **estate's domain expands again** — **+ the castle-town** (T3), then **+ Edo / national** (T4) —
+> and **every rung stays in the house's theme** (the house becoming a castle-town power, then a
+> nationally-ranked house — **NOT** the MC climbing castle-town / Edo society; the castle-town & Edo figures
+> **acknowledge, contend with, and cede**, and **only the estate spine gates tiers**). The **estate-rep arc
+> continues**: **honorary member** (entering T3) **→ chief steward / *yōnin*** (T3 — the MC's personal
+> **CEILING**) **→ T4: the MC STAYS *yōnin*; the arc shifts to the HOUSE's national standing** — the
+> indirect / mediated Edo ceiling, the *house* ranked, never a personal *hatamoto* / shogunal rise (canon
+> §F / §I, D-010).
+
+### 3.7.1 T3 — The estate's domain expands to the castle-town (stub; `C0 → C7`, forward)
+
+> **What this tier IS (sketch).** Like T1/T2, T3 is **not** "the castle-town track" — it is the **HOUSE
+> rising**, a **fresh per-tier ladder** on which the Kurosawa estate's **domain expands again** (from leading
+> its region in T2 to the house **becoming a castle-town power that holds key domain offices** in T3), and the
+> MC's estate standing climbs **HONORARY MEMBER → chief steward / *yōnin*** (his **personal CEILING**, canon
+> §I). Every rung stays **in the house's theme**; the castle-town's figures (the *daikan* / *tedai*
+> officialdom, the rival merchant houses) **acknowledge, contend with, and finally cede to** the house — they
+> do not promote you; **the house does**. *(Carried forward: **T4** is the domain expanding **again — to Edo /
+> the nation**, where the MC **stays *yōnin*** and the arc becomes the **HOUSE's**; §3.7.2.)*
 
 Required pillars drift to **Office + Name dominant** (the takeover is **won socially**; Arms/Estate as
 leverage). **MULTI-ROUTE takeover** (peaceful: office / economy / **marriage** / out-maneuvering rivals; AND
@@ -2117,18 +2138,31 @@ offices**, **never rebellion** (canon §B).
 
 | Forward rung (sketch) | First-reveal of note | Trigger kind |
 |---|---|---|
-| **C0 — Petitioner at the castle-town gate** | The **Castle-town map / screen** proper (beyond the T2 stub); the *daikan*/*tedai* officialdom layer. | `STORY` T2→T3 (forced/invited in) |
-| **C1–C2 — Office-seeker / inter-*han* trader** | **AUTO-PRODUCERS first appear** (§2.5, T3+ ONLY) — seconded/recruited helpers as **light roster cards** trickling a resource (no assignment panel, ever); inter-*han* market rows. | `PILLAR` Office + `RANK` |
-| **C3–C4 — Holder of a minor office** | **Jobs-as-offices at castle scale**; the **debt-restructuring / *goyōkin* TREASURY mega-lever** (Marutaya / *fudasashi* network, §1.7.1). | `PILLAR` Office |
-| **C5 — Alliance-maker** | **THE MARRIAGE / ADOPTION lever** (§2.16.1, T3+ ONLY) — a brokered **Standing & Office + Name & Honour** one-time jump and a **takeover route** (NOT a relationship sim). | `STORY` + `PILLAR` Name |
-| **C6 — Rival-eclipser** | The **antagonist Tedai Kuroiwa** ("the gracious door") arc; the racket's nerve-centre (the *Daikan's* Office, §1.7.1). | `STORY` |
-| **C7 — Dominant house of the castle-town** *(bridge to T4)* | The **domain *banzuke*** shows the house atop the castle-town; the **T3→T4 "taste of Edo"** (forced to build & fund an Edo estate). | `RANK` + `PILLAR` |
+| **C0 — The house's envoy at the castle-town gate** | The **Castle-town map / screen** proper (beyond the T2 stub); the *daikan* / *tedai* officialdom layer the house must now operate within. | `STORY` T2→T3 (the house forced / invited in) |
+| **C1–C2 — The house's office-seeker & inter-*han* factor** | **AUTO-PRODUCERS first appear** (§2.5, T3+ ONLY) — seconded / recruited helpers as **light roster cards** trickling a resource (no assignment panel, ever); inter-*han* market rows as the house pushes its trade to castle scale. | `PILLAR` Office + `RANK` |
+| **C3–C4 — The house holds a minor domain office** | **Jobs-as-offices at castle scale**; the **debt-restructuring / *goyōkin* TREASURY mega-lever** (Marutaya / *fudasashi* network, §1.7.1). | `PILLAR` Office |
+| **C5 — The house's alliance-maker** | **THE MARRIAGE / ADOPTION lever** (§2.16.1, T3+ ONLY) — a brokered **Standing & Office + Name & Honour** one-time jump and a **takeover route** for the house (NOT a relationship sim). | `STORY` + `PILLAR` Name |
+| **C6 — The house eclipses its rivals** | The **antagonist Tedai Kuroiwa** ("the gracious door") arc; the racket's nerve-centre (the *Daikan's* Office, §1.7.1) out-maneuvered — **never rebellion** (canon §B). | `STORY` |
+| **C7 — The dominant house of the castle-town; the MC made chief steward / *yōnin*** *(bridge to T4)* | The **domain *banzuke*** shows the house atop the castle-town (holding the key offices); the MC's estate standing reaches its **CEILING — chief steward / *yōnin*** (canon §I); the **T3→T4 "taste of Edo"** (the house forced to build & fund an Edo estate). | `RANK` + `PILLAR` |
 
-### 3.7.2 T4 — Edo ladder (roadmap; `E0 → E7`, forward)
+> **T3 side-tracks (forward — sketch only):** the **village web** (T1) and the **Origin track** (T2) persist as
+> fully-completable optional accelerants (never gating). T3 *may* seed a **new optional castle-town side-track**
+> (a merchant / official rep web — e.g. the Marutaya factor or a *tedai* contact) — **forward note only, never a
+> gate**; full authoring deferred with the tier.
+
+### 3.7.2 T4 — The HOUSE's standing expands to the national stage (roadmap; `E0 → E7`, forward)
 
 > **Note — label namespace:** these `E#` are **Edo rung labels** (the R/V/G/C/E per-tier rung scheme),
 > distinct from the estate physical **stages** `E0–E5` (Foreclosure's Edge → Restored) used in
 > §3.2/§3.3/§4.7.5. Context disambiguates; a rename candidate if T4 is ever fully authored.
+
+> **What this tier IS (sketch).** T4 is the **same spine, last frontier** — the estate's **domain expands to the
+> national stage** — **but the arc is now the HOUSE's, not the man's.** The MC **stays *yōnin*** (his ceiling,
+> reached at T3); what climbs at T4 is the **HOUSE's national standing**, recognised **indirectly / mediated**
+> through the Edo conduit — the *house* is ranked on the national *banzuke*, **never** a personal *hatamoto* /
+> shogunal rise (the indirect Edo ceiling; canon §F / §I, D-010). The capital's figures (the rusui's
+> counterparts, the *fudasashi*, a touring inspector) **acknowledge and rank** the house; the MC remains its
+> **architect**, off-stage from any shogunal audience.
 
 Required pillars: **Name + Office** (the **national *banzuke*** on all four pillars). The **indirect/mediated
 ceiling** holds — the **HOUSE** is recognised; the MC's personal ceiling stays **chief steward / *yōnin***
@@ -2136,10 +2170,10 @@ ceiling** holds — the **HOUSE** is recognised; the MC's personal ceiling stays
 
 | Forward rung (sketch) | First-reveal of note | Trigger kind |
 |---|---|---|
-| **E0–E2 — The Edo *yashiki* conduit** | The **Edo screen / map** (one cluster); the **rusui Konoe** + *sankin-kōtai* mediated conduit (§1.7.1). | `STORY` T3→T4 |
-| **E3–E5 — National trade & finance reach** | The **Osaka/Edo *fudasashi*** top of the finance network; the full silk *meibutsu* prestige payload (still trade ≤⅓). | `PILLAR` |
-| **E6 — The touring-inspector set-piece** | The impartial-test antagonist beat; **Name & Honour** climax via an inspector's national report. | `STORY` |
-| **E7 — Ranked at the capital** *(authored ending)* | **THE NATIONAL *MITATE* / PARODY *BANZUKE*** broadsheet (§2.18) — sumo-rank vocabulary: **Maegashira / Komusubi** attainable band, **Ōzeki / Yokozuna** the **structurally sealed top**; the house climbs from "the chart that omits you" into the attainable band; **post-game free-play, NO reset**; defend-the-spot on the biennial heartbeat (recoverable, **never a decay-tax**). | `PILLAR` Name + Office |
+| **E0–E2 — The house's Edo *yashiki* conduit** | The **Edo screen / map** (one cluster); the **rusui Konoe** + *sankin-kōtai* mediated conduit (§1.7.1) — the house reaches the capital **through** its agent; the MC works the conduit, never attends a shogunal audience (the indirect ceiling). | `STORY` T3→T4 |
+| **E3–E5 — The house's national trade & finance reach** | The **Osaka / Edo *fudasashi*** top of the finance network; the full silk *meibutsu* prestige payload carries the house's name to the capital (still trade ≤⅓). | `PILLAR` |
+| **E6 — The touring-inspector set-piece** | The impartial-test antagonist beat; the **HOUSE's Name & Honour** climax via an inspector's national report. | `STORY` |
+| **E7 — The HOUSE ranked at the capital** *(authored ending)* | **THE NATIONAL *MITATE* / PARODY *BANZUKE*** broadsheet (§2.18) — sumo-rank vocabulary: **Maegashira / Komusubi** attainable band, **Ōzeki / Yokozuna** the **structurally sealed top**; the **house** climbs from "the chart that omits you" into the attainable band (the MC stays *yōnin* — its architect, never personally ennobled); **post-game free-play, NO reset**; defend-the-spot on the biennial heartbeat (recoverable, **never a decay-tax**). | `PILLAR` Name + Office |
 
 > **The whole ladder is the same motion, five times:** arrive minimal → the world fades in one panel/area/system
 > at a time, each a logged plot beat → the canvas and the numbers enlarge together → a fresh ladder is minted for
