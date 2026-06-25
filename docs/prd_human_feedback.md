@@ -26,7 +26,8 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   §7, [D-013](history/decisions.md), [D-017](history/decisions.md)).
 - **A2. Grounded, NO magic.** "I don't want **Tengu or reincarnation**… less magical, more normal. **Edo
   period**. Lean into some folklore but **not full magic**." Every yokai resolves to a human/natural cause;
-  folklore is *believed-atmosphere* only; thin, capped ambiguity; never player magic. ✅ (D-001, D-002).
+  folklore is *believed-atmosphere* only; thin, capped ambiguity (**residual unresolved ambiguity ≤ 1**,
+  off-screen, mundane-readable); never player magic. ✅ (D-001, D-002).
 - **A3. Mediocre-start protagonist.** "Start as a **normal farmhand — a median, average, even mediocre
   person — and get stronger by perseverance and training and never giving up.**" No hidden power/talent;
   returning memories/habits grant **ZERO mechanical bonus**. ✅ (D-003).
@@ -37,6 +38,11 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - **A5. Checkpoint everything into git.** "We want to **checkpoint more information from the session into the
   actual git repo**." → many small commits; snapshot raw workflow outputs into `brainstorms/raw/`; the
   journals; this feedback doc. ✅ (convention in CLAUDE.md).
+- **A6. Setting = mid-Edo, stable & commercial (~18th c.), kept FICTIONAL.** No real place/daimyo names
+  (drove the "force-fictionalise real names" integration fix). ✅ (canon §A; QA R2 #7).
+- **A7. Protagonist = fixed male, no name/gender creator, age ~18–20.** The fixed gender deliberately
+  protects the legend's gender-drift clue (the village "remembers" a boy; Tama was a girl); identity is a
+  side thread, not a character-creator. ✅ (D-006 + amendment).
 
 ---
 
@@ -113,6 +119,14 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   "Tama"*); the legend **ignites at T1-V0** (Sayo); allegiance lives in the **village side-track**; grounded
   partial payoff at **T2-G6** (Tama = Otsuru, a girl who ran; the MC is not her). Narrative-only. ✅ (canon
   §3-resolutions; §3.2.1; §3.4).
+- **C12. Generational succession beat (human-approved).** Aging Lord **Munenori**'s decline → heir
+  **Naoyuki** coming into his own, with the MC as right-hand; Naoyuki's rival→respect→brotherhood arc
+  confirmed (seeded T0, pays off T3/T4). ✅ (QA R7 #28; D-014/canon §F).
+- **C13. Named-canon human sign-offs.** Accepted the canonical name set (**Kurosawa** estate, **Asagiri**
+  village, **Sawatari-juku** origin town, **Tahei** true name, **"Tama"** borrowed name). Later
+  disambiguation calls the human signed: grown lost-child = **Otsuru** (substance "a girl who ran" unchanged);
+  sweetheart **Ohana → Osen** (to avoid confusion with Otsuru); father re-added as **Jinpachi**; and the
+  **Kuzuhara-survivor NPC was CUT** (Kuzuhara = a region node only). ✅ (QA R3 #9; §2/§5 sign-off).
 
 ---
 
@@ -150,6 +164,20 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - **D10. Tech & save.** Vite + TS + Vitest; **pure-core boundary** (no DOM/canvas in core) + thin renderer;
   one seeded RNG; **IndexedDB single autosave + base64 export/import**; versioned minimal-state; static
   itch.io build; **active-only — NO offline progress.** ✅ (D-013, D-013a).
+- **D11. Marriage / adoption = a REAL late-game lever** (NOT the cut management sim). A lean **T3/T4
+  alliance/status lever** that lifts Standing & Office / Name & Honour and is a castle-town **takeover
+  route** — a strategic one-time jump, not a relationship/dating sim. ✅ (QA R2 #5; §2.16.1; canon §G).
+- **D12. Currencies = koku (rice) base + coin (*mon*) trade currency + the four Influence pillars.** Other
+  resources (wood, fish, materials) feed crafting; coin is a T1 reveal (no market in T0). ✅ (QA R8 #29).
+- **D13. Rich attribute system** — STR / AGI / INT / SPD / LUCK with deep interactions, + per-skill levels +
+  gear. **No labour→combat cross-feed** (attributes do double duty; labour *skills* never feed combat
+  stats). ✅ (QA R8 #32; §4.4).
+- **D14. Crafting = HYBRID depth** — simple recipes early; the component/quality system **unlocks later**
+  (T1+). ✅ (QA R6 #21; §2.11).
+- **D15. Soft stamina/satiety meter** — it **slows** the day, never hard-blocks; rest/eat to refill; **no
+  hard timer-wall.** ✅ (QA R8 #31; §2.3).
+- **D16. v1 audio & accessibility.** Audio = light ambient beds + UI/event SFX + a mute toggle. Accessibility
+  = solid basics: scalable text, colourblind-safe cues, keyboard + touch, a pause. ✅ (QA R11 #44, R12 #45).
 
 ---
 
@@ -204,6 +232,10 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   (D-015).
 - **F10. v1 = Tiers 0–2 complete** (Estate + Village + Region incl. the T2 personal-mystery payoff); T3 =
   stub cliff-hanger; T4 = roadmap. Lean cut-set per tier. ✅ (D-012).
+- **F11. Origin opens at T2 and is DOUBLY earned.** The Origin track opens at T2-G2 on a **STORY (the dream
+  has returned enough memory) AND PILLAR (travel-standing to walk the checkpointed *kaidō*)** conjunction —
+  the warmest payoff stays earned, not free; the dream foreshadows it from early game (ZERO bonus). ✅ (canon
+  §3-resolutions; §1.5.3). *(Origin is later upgraded to a one-tier rep side-track — see I6.)*
 
 ---
 

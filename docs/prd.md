@@ -224,19 +224,23 @@ late-game convenience only (§1.12, canon §G).
 | **R6 — Foreman of works (*kogashira*)** | labour | Drive the *shinden* reclamation and the workshops to recorded yield; the house edging toward solvency. | The workshops and granary; the low palisade; proto-industry levers; **the FIRST combat-earned Arms standing is recorded**; **errands beyond the estate — the VILLAGE TIER opens here.** |
 | **R7 — Bailiff of the home fields (*jitō-dai*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **House Influence made visible and tracked** (the four-bar standing panel); cash-crop levers; the **tier-expansion map**. The capstone bridge to T1. |
 
-**T1 — Village ladder (~8 rungs; a fresh ladder, not a continuation of T0).** Rank resets to a new
-village-facing service hierarchy; labour and combat keep interleaving, now reaching past the estate gate.
+**T1 — The estate's domain expands into the valley (~8 rungs; a fresh ladder, not a continuation of T0).**
+The HOUSE's standing climbs **friendly → TRUSTED**, and its domain grows from bare *survival* to **anchoring its
+valley**. Rank is still a rung **within the house's theme**; at every rung you act **FOR THE ESTATE** across the
+village + estate + surrounding roads. Labour and combat keep interleaving, now reaching past the estate gate.
+*(The **village reputation web** — §1.5.2 — runs **alongside** this as a parallel **optional accelerant**, never
+a gate; see §1.5.4.)*
 
 | Rank | Track | How earned | Unlocks |
 |---|---|---|---|
-| **V0 — Estate errand-runner in the valley** | labour | The estate trusts him to carry its business into Asagiri; first village errands. | The village tier proper; per-shop reputation meters; the market/shop row. |
-| **V1 — Recognised hand of the house** | mixed | Build standing with the headman and shops; combat keeps pace clearing valley pests/animals. | The chief's house; the inn & rumours board; deeper satoyama rings. |
-| **V2 — Road-warden (*michi-ban*)** | combat | Make a stretch of valley road or the ford safe; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; combat-earned Arms standing. |
-| **V3 — Granary & cash-crop steward** | labour | Bring the village economy and the estate's cash-crops to a recorded seasonal result. | Cash-crop and trade levers (the silk/sericulture *meibutsu* sub-engine begins); the broker meters. |
-| **V4 — Trusted of the headman** | mixed | Resolve a village-affecting threat (Magobei's skim surfaces here); earn Yagōemon's regard. | The headman's roll-up quests; the doctored-ledger thread; first **Office** standing. |
-| **V5 — Sworn man-at-arms** | combat | Stand a real watch for the village; weapon-line milestones; survive the first dangerous-road encounter. | The first paid martial outsiders (Gohei & Yatarō) recruited as flavour retinue; defence of the valley. |
-| **V6 — Right-hand-in-waiting** | mixed | The lord first believes impact beyond the estate is possible; "clean your room" nearly done. | Authority across the valley; the alliance/standing levers that point at the region. |
-| **V7 — Agent of the house in the valley** | labour→admin (as narration) | Estate healthy, village happy, immediate fires out — the capstone "clean your room" beat. | The **region** map and the **T1→T2** quest to grow regional influence; rival samurai houses appear. The capstone bridge to T2. |
+| **V0 — Errand-runner FOR the house, in the valley** | labour | The house trusts him to carry its business past its own gate into Asagiri; first village errands. | The market/shop row; coin; the village reputation web seeds (optional). |
+| **V1 — Recognised hand of the house** | mixed | The valley begins to know the house's man (headman + shops acknowledge him); combat keeps pace clearing valley pests/animals. | The chief's house; deeper satoyama rings; the inn & rumours board (side). |
+| **V2 — Road-warden (*michi-ban*) for the house** | combat | Make a stretch of valley road or the ford safe in the estate's name; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; combat-earned Arms standing. |
+| **V3 — The house's steward of the valley economy** | labour | Bring the valley economy and the estate's cash-crops to a recorded seasonal result. | Cash-crop and trade levers (the silk/sericulture *meibutsu* sub-engine begins); the broker meters. |
+| **V4 — Trusted of the headman** | mixed | Put a valley fire out on the estate's behalf (Magobei's skim surfaces here); win the headman's regard (personal regard is a side accelerant). | The headman's roll-up quests; the doctored-ledger thread; first **Office** standing. |
+| **V5 — Sworn man-at-arms of the house** | combat | Stand a real watch for the valley in the house's name; weapon-line milestones; survive the first dangerous-road encounter. | The first paid martial outsiders (Gohei & Yatarō) recruited as flavour retinue; defence of the valley. |
+| **V6 — Right-hand-in-waiting (agent over the valley)** | mixed | The lord first believes the house's impact beyond the estate is possible; "clean your room" nearly done. | Authority across the valley; the alliance/standing levers that point at the region. |
+| **V7 — Agent of the house, the valley anchored** | labour→admin (as narration) | Estate healthy, valley anchored under it, immediate fires out — the capstone "clean your room" beat. | The **region** map and the **T1→T2** quest to grow the house's regional influence; rival samurai houses appear. The capstone bridge to T2 (the domain expands again, to the Region). |
 
 **T2 — Region ladder (v1 scope; enumerated as a per-tier ladder).** v1 completes T2, so its ~8-rung ladder
 ships too: a region-facing hierarchy (e.g. **valley-envoy → road-captain of the cluster → broker of the post-town
@@ -308,10 +312,17 @@ the wider post-town commercial region are T2+ expansion nodes — see §1.7.1.)
 
 ### 1.5.4 How the three interrelate — and the Tama-vs-farmhand allegiance
 
+**The estate rank ladder is the SPINE that gates the tiers; the village reputation web is a PARALLEL optional
+side-track.** The estate ladder (its per-tier rungs + their pillar milestones) is the **only** thing whose
+completion advances a tier — and each tier is **the estate's domain expanding**: survival on its own land (T0)
+→ **+ the village & surrounding valley** (T1) → **+ the region** (T2), and onward. The **village reputation web**
+runs **alongside** that spine as a second, fully-completable reputation (how the villagers *personally* regard
+you) — an **accelerant that NEVER gates** the climb. Origin ties (T2+) are a third, support-only track.
+
 **Separate earned standing meters** keep them from collapsing into one bar: **Estate Service** (steep geometric)
 and **Combat Standing** (the estate's two rank-gating meters — progress meters, **not** economy currencies),
-**Village Reputation** (gentle per-node meters), and **Origin Ties** (discrete memory milestones). Above all of
-them sits **House Influence**, the macro-resource
+**Village Reputation** (gentle per-node meters — the optional side-track), and **Origin Ties** (discrete memory
+milestones). Above all of them sits **House Influence**, the macro-resource
 the estate spends to expand: the estate generates it directly, while village allies and origin trade-ties act
 as **multipliers/feeders** — they don't unlock the next tier, they make conquering it faster and cheaper
 (tuned so weaving both in shaves **~10–15%** off time-to-next-tier — *felt, never a wall*).
@@ -393,7 +404,7 @@ over years.
 | Tier | Theme | Transition story gate (entry) | Required pillars (simple thresholds) |
 |---|---|---|---|
 | **T0 — Estate** | Earn your keep and a place at the table. One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **Arms + Estate** (humbling first fight survived; first *shinden* begun; kura solvent). |
-| **T1 — Village** | The estate as a presence in its own valley: Asagiri's shops, craftsmen, inn, shrine, and the legend. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the village. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
+| **T1 — The Valley** | The estate's domain expands to **anchor its own valley** (standing friendly→**trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the valley. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
 | **T2 — Region** | Reach beyond the home valley: a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho*. | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region introduces **rival samurai houses** with more sway to surpass. | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
 | **T3 — Castle-town** *(stub in v1)* | Be reckoned with by the people who actually rule: the castle-town, *daikan*/*tedai*, inter-*han* markets. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
 | **T4 — Edo** *(roadmap)* | Recognition at the capital — restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
@@ -610,7 +621,7 @@ magic; "yokai" are misread humans/animals), each **revealed incrementally** rath
 | Tier | Antagonist | What they block | Reveal | Resolution |
 |---|---|---|---|---|
 | **T0 — Estate** | **The Inherited Debt** (personified only by tired pawnbroker **Moneylender Tōkichi**; *a circumstance, not a conspirator*). | The estate is dying of compound interest from grandfather **Sadamune's** failed embankment-venture, plus thin harvests and a cracked kura. Can't leave until the immediate fires are out. | A leaning gate and a red ledger; clerk **Tanomo** drips "we owe coin" → "the interest is the problem" → Dowager **Toku**'s memory that the root is Sadamune's own failure, **not anyone's crime.** | Purely economic. **Peaceful:** out-grind the interest and renegotiate. **Assertive:** refuse the worst terms, force a fair table by proving solvency (no fight). Restructured, not erased; the house's **root-sin** it atones for at Kuzuhara — emotional payload, **no antagonist.** |
-| **T1 — Village** | **Foreman Magobei**, the "tanuki of the rumours board" — skimming rice with a doctored measuring-box (*kyō-masu*). The first, small human antagonist. | The T1→T2 gate needs the village happy; his skim keeps stores short and steals the surplus you need; he's the "tanuki" folklore beat. | The board's "rice-thieving tanuki" → one load measuring short twice → the doctored *masu* → the thread runs up to Headman **Yagōemon**, whose ledgers cover Magobei. Dawning unease, then a box of rigged wood. | **Peaceful:** expose the skim, Yagōemon makes restitution and keeps his post in disgrace. **Assertive:** force Magobei off the books (his hired muscle is the first small brawl). **Partial:** Magobei answers; better-connected Yagōemon mostly escapes with a quiet rebuke. |
+| **T1 — The Valley** | **Foreman Magobei**, the "tanuki of the rumours board" — skimming rice with a doctored measuring-box (*kyō-masu*). The first, small human antagonist. | The T1→T2 gate needs the village happy; his skim keeps stores short and steals the surplus you need; he's the "tanuki" folklore beat. | The board's "rice-thieving tanuki" → one load measuring short twice → the doctored *masu* → the thread runs up to Headman **Yagōemon**, whose ledgers cover Magobei. Dawning unease, then a box of rigged wood. | **Peaceful:** expose the skim, Yagōemon makes restitution and keeps his post in disgrace. **Assertive:** force Magobei off the books (his hired muscle is the first small brawl). **Partial:** Magobei answers; better-connected Yagōemon mostly escapes with a quiet rebuke. |
 | **T2 — Region** | **Rival House Tomita** (spine antagonist) + **Rival House Akagi** (the foil), with **Hanzaki** as the road's teeth. | "Win the region." Tomita underbids deals and courts the same valleys; Akagi blocks the upstart Kurosawa on **precedence**; Hanzaki makes the trade pass unsafe. | Tomita first a *name* underbidding one deal → agent Yasubei → the head. Akagi first a *snub* → a precedence dispute → Gennai. Hanzaki: rumour → a survived-not-won encounter → a recurring duel nemesis (**trained, never gifted**). | Multi-route. **Peaceful/commercial:** out-supply and out-arbitrate valleys; settle Akagi by *restoring its honour*. **Assertive:** secure the pass with a hard-capped 2–3-man detail; break the brigand roost; out-leverage Tomita's brokers. Tomita is **never killed**; a famine-band under Hanzaki can be **fed/resettled.** **The personal-mystery payoff lands here.** |
 | **T3 — Castle-town** | **Tedai Kuroiwa**, the gracious door — the magistrate's agent who *records* your achievements and secretly architects the rice-quota skim. | The gate is the rulers conferring leadership + inviting the house in. All T3 Influence is *minted by officialdom*, and Kuroiwa controls that gate (slow-walks recognition, misrecords yields, routes the rigged-quota friction). | The polite junior clerk who keeps you waiting → the facilitator who records your service (seems an ally) → a yield misrecorded "by error" → Naozane's flinch → the rigged *kyō-masu* at the weighing-yard cross-referenced against quota ledgers. The gracious man at the gate **is** the rot. | Multi-route, **partial justice.** **Peaceful:** outgrow him — become the dominant house holding key offices (Marutaya credit, a graded *meibutsu*, samurai-society standing) and make his skim irrelevant; **you need not prosecute him at all.** **Assertive:** mount the **osso over-the-head petition** on proof — Kuroiwa answers; **Daikan Iemasa largely escapes**; the petition's lethal risk falls on an **ally / *gimin*-martyr**, not the MC. "Take over" = dominant house, **never rebellion.** |
 | **T4 — Edo** | **The Edo factor, Echizen-ya Sōbei** (untouchable apex, laundering the silver) + **the Touring Inspector** (the impartial test). | The factor blocks *full justice* (the trail dies in Edo). The inspector blocks *final recognition* (only a house whose record survives the survey earns the mediated merit-commendation). | The factor a single glimpse (Konoe forwards a dispatch; a manifest dies at his name — you learn *who*, and that you can't touch him). The inspector: rumour down the *kaidō* → a looming date → the staged set-piece where the **lord** faces him and the record is read aloud, MC at the back. | The inspector set-piece is **won or dented**, not fought (a recoverable dent on neglect, never a wipe). **The factor escapes** — the deliberate, honoured incompleteness: reachable culprits answered at their tiers; the truly powerful walk. The win is **the house restored and ranked**, the rot's apex still out of reach. Bittersweet by design. |
@@ -682,11 +693,13 @@ one continuous R0→R7 climb. **Combat surfaces inside the FIRST tier (T0)**, no
 - **R6** — workshops + granary + proto-industry levers; **the first combat-earned Arms standing is recorded**; **errands beyond the estate (the village tier opens).**
 - **R7** — the four-bar House Influence panel made visible + cash-crop levers + the tier-expansion map (capstone bridge to T1).
 
-**T1 — Village ladder reveals (a FRESH ladder, V0→V7):** the village tier opens minimal (one contact, one shop)
-and progressively reveals shop-reputation meters → chief's house → inn & rumours board → road-security &
-valley-scale combat → the silk/sericulture *meibutsu* sub-engine → Office standing → the **region** map and the
-T1→T2 quest. **T2 mints another fresh ladder** the same way (region scale; the personal-mystery payoff lands
-across it). The point is the same motion repeating per tier, never an eight-rung-and-done staircase.
+**T1 — the estate's domain expands into the valley (a FRESH ladder, V0→V7):** the tier opens minimal (one
+contact, one shop) and progressively reveals — as the *house's* reach grows — the market/shop row → chief's
+house → road-security & valley-scale combat → the silk/sericulture *meibutsu* sub-engine → first Office standing
+→ the **region** map and the T1→T2 quest. The **village reputation web** (shop meters, the inn & rumours board)
+fans out **alongside** as a parallel **optional** side-track, never a gate (§1.5.4, §2.15). **T2 mints another
+fresh ladder** the same way (the domain expands again, to region scale; the personal-mystery payoff lands across
+it). The point is the same motion repeating per tier, never an eight-rung-and-done staircase.
 
 Because the climb is **active-only with no offline progress**, time is an **abstract clock advanced by active
 play** (days/seasons drive harvest/weather/festivals and the seasonal **judged** Influence results — fired on a
@@ -1841,12 +1854,30 @@ dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, 
 
 ---
 
-## 3.4 T1 — Village ladder (full; v1) — `V0 → V7` (a FRESH ladder)
+## 3.4 T1 — The estate's domain expands into the valley (full; v1) — `V0 → V7` (a FRESH ladder)
 
-**Rank resets** to a village-facing service hierarchy (canon §C, §I). The **village tier opens minimal** (one
-contact, one shop — fractal) and grows into the **static reputation web** (§2.15; **never gates the spine**).
-The **four-pillar Influence panel already exists** (from R7); T1 **lights its Office bar** for the first time
-and deepens the world-sim. Labour and combat keep interleaving, now past the estate gate.
+> **What this tier IS (read this first).** T1 is **not** "the village track." It is the **HOUSE rising** —
+> a **fresh per-tier rank ladder** (canon §C, §I) on which the Kurosawa estate's standing climbs from
+> **friendly → TRUSTED** and its **domain expands** from bare *survival* (T0) to **the estate effectively
+> anchoring / overseeing its valley** (T1). Every rung is still a **rank within the house's theme**; at every
+> rung you act **FOR THE ESTATE**, carrying its business and its authority across the **village, the estate,
+> and the surrounding satoyama/roads**. The valley's figures (headman **Yagōemon**, the shops, the inn)
+> **acknowledge** the estate's growing role; they do not promote you — **the house does** (§3.4.1). *(Carried
+> forward: **T2** is the domain expanding **again — to the Region**; §3.6.)*
+
+**Two parallel tracks (one gates, one accelerates):**
+
+- **(SPINE) Estate domain & standing — the MAIN QUEST.** The `V0→V7` ladder below. Its milestones are the
+  **gate to T2 / Region** — this is what must be completed to advance. Rising it raises **House Influence**
+  and grows the estate's reach over the valley. Labour and combat keep interleaving, now past the estate gate;
+  the **four-pillar Influence panel already exists** (from R7) and T1 **lights its Office bar** for the first time.
+- **(SIDE-TRACK) Village reputation web — an OPTIONAL accelerant.** A **second, parallel reputation** (§2.15):
+  how the **villagers personally regard you** — per-shop "patron/regular" meters, the headman's **personal**
+  regard, the inn/rumours social web, and the **Tama-vs-farmhand allegiance**. It is **fully completable** and
+  shaves **~10–15%** off time-to-T2 (§1.5.4), but it **NEVER gates the spine** — ignoring it leaves you only
+  poorer and lonelier, never walled. **Estate-rep advances the main quest; village-rep is a full optional
+  side-quest layer.** *(The two reputations are deliberately distinct in shape — a steep gated ladder vs. a
+  gentle multi-node web — so they never read as one bar painted twice; §2.15.)*
 
 Estate stage span: **E1 Stabilising → E2 Recovering** (§5 T1.4). Coin (*mon*), the **component/quality**
 crafting system, the **inn rumours board**, and the **silk/sericulture *meibutsu*** sub-engine all first appear
@@ -1854,19 +1885,48 @@ this tier.
 
 | Rung | Trigger (rung gate) | What this rung REVEALS (fractal order) | Diegetic event-log line(s) |
 |---|---|---|---|
-| **V0 — Estate errand-runner in the valley** | `STORY` (T0-R6 authorised it; first village errand) | **The Market / Shop Row** area (opens with **ONE shop first** — Smith **Gonta's** forge — then fractally adds Obaa Sato's herb stall, Tokuemon's brewery, Onatsu's silk); **coin (*mon*)** resource row appears (§2.4); **per-shop "patron/regular" reputation meters** begin (§2.15, gentle curves). **[THREAD: Tama]** headman's daughter **Sayo** names him "Tama" on sight. | *"You carry the house's business into Asagiri. A girl, Sayo, stops dead: 'Tama? You're alive?' The shop row — and coin — opens to you."* |
-| **V1 — Recognised hand of the house** | `RANK` Estate Service (build standing with shops + headman) | **The Chief's House** area (Yagōemon's receiving room); **The Inn & Rumours Board** area — the **rumours board** (§2.13) goes live with its **first optional folklore tidbit** (the "kappa" of the ford); **deeper satoyama rings** (combat keeps pace on valley pests). | *"The headman receives you. At the inn, Sukezō taps a board of rumours: 'Folk say a* kappa *takes children at the ford…' (You may look, or not.)"* |
-| **V2 — Road-warden (*michi-ban*)** | `RANK` Combat Standing (make a stretch of road / the ford safe; survive a real bandit/animal clear) | **HUNT / CLEAR at valley scale**; **The River, Ford & Weir** and **The Foothills & Charcoal Grounds** wilderness rings open (§2.9, ring 2); **better loot / craft tiers**; **combat-earned Arms standing at valley scale** (Arms jump). | *"You clear the ford road. 'The road is declared safe — it's in the village book.' Your name reaches past the gate now."* |
-| **V3 — Granary & cash-crop steward** | `RANK` Estate Service (bring the village economy + estate cash-crops to a recorded seasonal result) | The **TRADE sub-engine** of Estate & Wealth begins — the **silk / sericulture *meibutsu*** (LOCKED) under weaver **Onatsu**: cocoon → reeled silk → woven textile rows (§2.11); the **component/quality crafting system** unlocks (hybrid → component chains, §2.11); **broker meters** appear; the **market-saturation damper** becomes visible (§2.4). **(Trade hard-capped ≤⅓ of Estate & Wealth — §2.16.)** | *"Onatsu shows you the reeling-frame: 'Silk pays, if you're patient.' The first bolt is graded and sold. (Trade is one strand of one pillar — no more.)"* |
-| **V4 — Trusted of the headman** | `STORY` (resolve a village-affecting threat — **Magobei's** rice-skim surfaces; earn Yagōemon's regard) | The **Standing & Office pillar lights for the FIRST time** on the four-bar panel (first **Office** achievement-jump, §2.16); the **headman's roll-up quest** node; the **[MOTIF: rigged box]** doctored-*masu* thread (optional through-line). | *"You set the doctored measuring-box on the table. The skim ends; the village breathes. For the first time, the house holds an* office's *regard — a new bar rises."* |
-| **V5 — Sworn man-at-arms** | `RANK` Combat Standing (stand a real watch for the village; survive the first dangerous-road encounter; weapon-line milestones) | The **first paid martial outsiders** (**Gohei & Yatarō**) join as a **light flavour retinue** (E2 rota, §2.17 — roster cards, **not** managed units); valley-defence **DEFEND** quests; festivals/seasonal social beats deepen (§2.14, e.g. Brewer **Tokuemon's** festival hub). | *"Two old* ashigaru *take the house's coin and stand its watch. The valley starts calling it 'the Kurosawa works.'"* |
-| **V6 — Right-hand-in-waiting** | `RANK` Estate Service + `STORY` (Lord **Munenori** first believes impact *beyond* the estate is possible) | **Authority across the valley**; the **alliance / standing levers** that point at the region; the **region map seed** appears on the horizon of the tier-expansion map. | *"Munenori, watching the valley settle: 'Perhaps… beyond this estate.' A far ridge, and a wider road, appear on the map."* |
-| **V7 — Agent of the house in the valley** *(capstone bridge to T2)* | `RANK` + `PILLAR` (the **"clean your room"** beat: estate healthy, village happy, fires out — Arms + Estate + first Office thresholds) | The **REGION map** fully opens; the **T1→T2 quest** to grow regional influence begins; **rival samurai houses appear** on the horizon (Tomita / Akagi named as distant names); the **village domain-ranking** read updates. **Gate met → T2.** | *"The room is clean — house, valley, all of it. The lord: 'Now, the region.' Two rival names surface from beyond the ridge: Tomita. Akagi."* |
+| **V0 — Errand-runner FOR the house, in the valley** | `STORY` (T0-R6 authorised it; first village errand) | The house pushes its first business past its own gate — **The Market / Shop Row** area opens (**ONE shop first** — Smith **Gonta's** forge — then fractally adds Obaa Sato's herb stall, Tokuemon's brewery, Onatsu's silk); **coin (*mon*)** resource row appears (§2.4). **[SIDE-TRACK]** the **village reputation web** seeds here — **per-shop "patron/regular" meters** begin (§2.15, gentle curves; optional accelerant, never the gate). **[THREAD: Tama]** headman's daughter **Sayo** names him "Tama" on sight — the legend **ignites** (allegiance goes live this tier; §1.5.4). | *"You carry the house's business into Asagiri. A girl, Sayo, stops dead: 'Tama? You're alive?' The shop row — and coin — opens to you."* |
+| **V1 — Recognised hand of the house** | `RANK` Estate Service (the valley begins to know the house's man; shop + headman acknowledgment) | The house's reach widens: **The Chief's House** area (Yagōemon's receiving room, where the headman **acknowledges** the estate's man); **deeper satoyama rings** (combat keeps pace on valley pests, securing the estate's near-ground). **[SIDE-TRACK]** **The Inn & Rumours Board** area — the **rumours board** (§2.13) goes live with its **first optional folklore tidbit** (the "kappa" of the ford; look, or not). | *"The headman receives the house's man. At the inn, Sukezō taps a board of rumours: 'Folk say a* kappa *takes children at the ford…' (You may look, or not.)"* |
+| **V2 — Road-warden (*michi-ban*) for the house** | `RANK` Combat Standing (make a stretch of valley road / the ford safe **in the estate's name**; survive a real bandit/animal clear) | The estate's writ now reaches the **roads** — **HUNT / CLEAR at valley scale**; **The River, Ford & Weir** and **The Foothills & Charcoal Grounds** wilderness rings open (§2.9, ring 2); **better loot / craft tiers**; **combat-earned Arms standing at valley scale** (Arms jump). | *"You clear the ford road for the house. 'The road is declared safe — it's in the village book.' The Kurosawa name reaches past their own gate now."* |
+| **V3 — The house's steward of the valley economy** | `RANK` Estate Service (bring the valley economy + the estate's cash-crops to a recorded seasonal result) | The estate's domain grows to **the valley's livelihood** — the **TRADE sub-engine** of Estate & Wealth begins: the **silk / sericulture *meibutsu*** (LOCKED) under weaver **Onatsu** (cocoon → reeled silk → woven textile rows, §2.11); the **component/quality crafting system** unlocks (hybrid → component chains, §2.11); **broker meters** appear; the **market-saturation damper** becomes visible (§2.4). **(Trade hard-capped ≤⅓ of Estate & Wealth — §2.16.)** | *"Onatsu shows you the reeling-frame: 'Silk pays, if you're patient.' The first bolt is graded and sold under the house's name. (Trade is one strand of one pillar — no more.)"* |
+| **V4 — Trusted of the headman** (the house's hand puts a valley fire out) | `STORY` (resolve a village-affecting threat **on the estate's behalf** — **Magobei's** rice-skim surfaces; the headman's **personal** regard is earned as a SIDE accelerant) | The estate's **authority over valley affairs** is recognised in office: the **Standing & Office pillar lights for the FIRST time** on the four-bar panel (first **Office** achievement-jump, §2.16); the **headman's roll-up quest** node; the **[MOTIF: rigged box]** doctored-*masu* thread (optional through-line). **[SIDE-TRACK]** Yagōemon's **personal** regard rises on the village web (optional). | *"You set the doctored measuring-box on the table. The skim ends; the valley breathes. For the first time the* house *holds an office's regard — a new bar rises."* |
+| **V5 — Sworn man-at-arms of the house** (valley defence) | `RANK` Combat Standing (stand a real watch **for the valley, in the house's name**; survive the first dangerous-road encounter; weapon-line milestones) | The estate becomes the **valley's shield** — the **first paid martial outsiders** (**Gohei & Yatarō**) join as a **light flavour retinue** (E2 rota, §2.17 — roster cards, **not** managed units); valley-defence **DEFEND** quests; festivals/seasonal social beats deepen (§2.14, e.g. Brewer **Tokuemon's** festival hub). | *"Two old* ashigaru *take the house's coin and stand its watch. The valley starts calling it 'the Kurosawa works.'"* |
+| **V6 — Right-hand-in-waiting** (the house's agent over the valley) | `RANK` Estate Service + `STORY` (Lord **Munenori** first believes the house's impact *beyond* the estate is possible) | The estate now effectively **runs much of the valley** through its agent — **authority across the valley**; the **alliance / standing levers** that point the house toward the region; the **region map seed** appears on the horizon of the tier-expansion map. | *"Munenori, watching the valley settle around the house: 'Perhaps… beyond this estate.' A far ridge, and a wider road, appear on the map."* |
+| **V7 — Agent of the house, the valley anchored** *(capstone bridge to T2)* | `RANK` + `PILLAR` (the **"clean your room"** beat: the **estate** healthy, the **valley** anchored under it, immediate fires out — Arms + Estate + first Office thresholds) | The estate's domain is **secured at valley scale**; its standing is now **TRUSTED**. The **REGION map** fully opens; the **T1→T2 quest** to grow the house's *regional* influence begins; **rival samurai houses appear** on the horizon (Tomita / Akagi as distant names); the **domain-ranking** read updates. **Gate met → T2 (the domain expands again, to the Region).** | *"The room is clean — house, valley, all of it. The lord: 'Now, the region.' Two rival names surface from beyond the ridge: Tomita. Akagi."* |
 
 > **T1 deliberately withheld:** the **origin** track (still dark/foreshadowed by the dream — opens at T2); the
 > *sekisho* / pass-tier travel layer; region-scale combat (the pass, ronin/bandits as a population); **marriage
 > / adoption** (T3+, §2.16.1); **auto-producers** (T3+). Folklore rumours unlock **organically and per-tier**
 > (§2.13) — never an all-at-once dump.
+
+### 3.4.1 The earned-transition spine — *why* each promotion happens (T1)
+
+> **Audit rule: no rung is granted for free** (mirrors §3.2.1). Each promotion has a concrete in-game
+> **trigger** (what you did **for the house**, out in the valley), an in-fiction **reason** (why the *house's
+> domain* expands), and a **named granter** — and **the GRANTERS are HOUSE-side** (the **Lord Munenori** /
+> chief steward **Genemon**), with the valley's figures (headman **Yagōemon**) **acknowledging** the estate's
+> growing role, never conferring rank. The throughline: **the estate's domain expands because you, its agent,
+> deliver results in the valley** — survival (T0) becomes *the estate anchors its valley* (T1), standing
+> **friendly → TRUSTED**.
+
+| Promotion | Earned by (trigger) | Why the house grants it (its domain expands) | Granter |
+|---|---|---|---|
+| **V0 → V1** | Run the house's first errands into Asagiri to an Estate-Service threshold; open shop dealings (Gonta first) and survive valley pests on the near satoyama | The house, off the foreclosure cliff, must now **operate** in the valley, not just survive on its own land. A man who can carry its business and hold its near-ground is worth recognising → the valley starts knowing "the house's man" | Genemon *(Yagōemon **acknowledges** him at the receiving room — does not promote)* |
+| **V1 → V2** | A **Combat-Standing** threshold — make a stretch of valley road / the ford safe in the estate's name; survive a real bandit/animal clear | The estate's reach can't stop at its gate while its own road is unsafe. Proving you can **secure the valley's roads** extends the house's writ past its fence → it names you its **road-warden** | Genemon (in the **Lord's** name) |
+| **V2 → V3** | An **Estate & Wealth** threshold — bring the valley economy + the estate's cash-crops to a **recorded seasonal result**; the silk *meibutsu* comes online | Solvency must scale beyond the home fields. You've proven you can run not just the estate's land but **the valley's livelihood** → the house makes you its **steward of the valley economy** | Genemon *(weaver **Onatsu** vouches for the silk hand)* |
+| **V3 → V4** | A **STORY** trust beat — surface and end **Magobei's** rice-skim (the doctored *masu*) on the estate's behalf; cross a trust/Office threshold | A house that puts out the valley's fires is owed a voice in the valley's affairs. Resolving the skim earns the estate its **first office-holder's regard** → the Lord records the house's first **Office** standing | **Lord Munenori** *(Yagōemon, the reachable culprit's patron, **acknowledges** the house's standing in disgrace)* |
+| **V4 → V5** | A **Combat-Standing** threshold — stand a real watch for the valley in the house's name; survive the first dangerous-road encounter; weapon-line milestones; the first paid retinue (Gohei & Yatarō) stands up | The estate has become the thing the valley leans on for safety. A house that **shields its valley** needs sworn arms → the Lord swears you its **man-at-arms** and funds the first (light, flavour) retinue | **Lord Munenori** + Genemon |
+| **V5 → V6** | An **Estate-Service** threshold **+** a **STORY** beat — the valley visibly settles **under the house**; the alliance/standing levers come into reach | With the valley anchored, the Lord — for the first time — believes the house's impact can reach **beyond** the estate. You are the only agent who has run all of it (errands, roads, economy, office, arms) → he makes you his **right-hand-in-waiting** | **Lord Munenori** |
+| **V6 → V7** | The **tier gate** — the **"clean your room"** beat: Arms + Estate + first Office thresholds met; estate healthy, **valley anchored under the house**, immediate fires out | The estate's domain is **secured at valley scale** and its standing is now **TRUSTED**. The Lord, convinced wider impact is real, points past the ridge: the house's domain must expand **again — to the Region** → the **T1→T2 quest** opens; Tomita & Akagi surface as distant rivals | **Lord Munenori** *(capstone — "Now, the region.")* |
+
+The capabilities **stack** (operate in the valley → secure its roads → run its economy → hold an office in its
+affairs → shield it → run all of it → anchor it) and the granters stay **HOUSE-side and climb** (Genemon → the
+Lord), with the valley **acknowledging** rather than conferring — so the tier reads, start to finish, as **the
+estate's domain expanding into the valley**, not as climbing village society. The **V7→T2 gate** is the
+ESTATE-domain milestone ("clean your room"): estate healthy, valley anchored, fires out → the lord believes
+wider impact is possible → **Region opens**. *(The **village reputation web** runs alongside all of this as a
+parallel **optional** track — it can be fully completed and shaves ~10–15% off the climb, but it **never**
+appears as a trigger above; §1.5.4, §2.15.)*
 
 ---
 
@@ -2776,7 +2836,7 @@ tens-of-thousands). Office becomes a *required* gate. Each rung ≥ ~40 min; cap
 | **V0 Errand-runner** — market/coin opens (one shop first) | first valley errands; coin row lit; ~few K koku | **~40 min** |
 | **V1 Recognised hand** — chief's house, inn & rumours board | shop+headman standing; Estate Service | **~55 min** |
 | **V2 Road-warden** — HUNT/CLEAR at valley scale; ford safe | road-safe Arms deed (150 ip) + valley clears; Combat Standing | **~60 min** |
-| **V3 Granary/cash-crop steward** — silk *meibutsu* + component crafting | recorded seasonal result; trade strand opens (≤⅓-capped); Estate Service | **~65 min** |
+| **V3 Steward of the valley economy** — silk *meibutsu* + component crafting | recorded seasonal result; trade strand opens (≤⅓-capped); Estate Service | **~65 min** |
 | **V4 Trusted of the headman** — **Office bar lights** (first Office jump) | first Office deeds (Magobei's skim); Office→toward 2K | **~70 min** |
 | **V5 Sworn man-at-arms** — paid retinue (flavour), DEFEND quests | valley DEFEND deeds (200 ip); Combat Standing; Arms→toward 5K | **~70 min** |
 | **V6 Right-hand-in-waiting** — authority across the valley; region seed | alliance/standing levers; Estate Service + STORY | **~55 min** |
@@ -3044,47 +3104,62 @@ All optional; none gate the spine. Open-ended (a suggestion + a story found in t
 
 ---
 
-# T1 — Village (v1 full)
+# T1 — The Valley (estate domain expands) (v1 full)
 
 ## T1.1 Overview
 
-**Theme:** *the estate as a presence in its own valley.* Asagiri's shops, craftsmen, inn, shrine, and the
-**kamikakushi legend** open up. A fresh **village rank ladder** is minted (V0→V7; cross-ref §1.5.1) — rank
-resets to a village-facing service hierarchy, labour and combat still interleaving, now reaching past the estate
-gate. The village is a **static reputation web** (it never gates the spine); the inn's **rumours board** begins
-delivering optional light folklore.
+**Theme:** *the estate's domain expands from survival to anchoring its valley.* This tier is the **HOUSE
+rising** — its standing climbs **friendly → TRUSTED** and its reach grows from its own land out across the
+**village + estate + surrounding roads**. A fresh **estate rank ladder** is minted (V0→V7; cross-ref §1.5.1):
+every rung is a rung **within the house's theme**, and at every rung you act **FOR THE ESTATE** out in the
+valley — carrying its business, securing its roads, running its economy, holding office in its affairs, shielding
+it. Asagiri's shops, craftsmen, inn, shrine, and the **kamikakushi legend** open up **around** that spine.
 
-**Transition gate (T1→T2):** *"clean your room"* — estate healthy, village happy, immediate fires out → Lord
-**Munenori** first believes impact *beyond* the estate is possible → a quest to grow **regional influence**;
-the region will introduce **rival samurai houses** with more sway to surpass. **Required pillars:** Arms +
-Estate, first **Office** (errand-authority; the headman's regard; cash-crops online). **Estate stage span:**
-E1 Stabilising → E2 Recovering.
+**Two parallel tracks:** the **estate ladder is the spine** (its milestones gate T2). Running alongside it is the
+**village reputation web** — a *second, parallel reputation* (how the villagers *personally* regard you; per-shop
+meters, the headman's personal regard, the inn/rumours social web, the Tama-vs-farmhand allegiance) that is
+**fully completable** and an **optional accelerant** (~10–15% faster to T2), but **NEVER gates the spine**
+(§1.5.4, §2.15). The inn's **rumours board** begins delivering optional light folklore on the side-track.
 
-**Felt arc:** the world enlarges from one estate to a whole valley of faces; the legend's warmth and ache pull
-at the MC; the first cash-crop (silk) and the first valley-scale danger arrive; the lord's horizon lifts.
+**Transition gate (T1→T2):** *"clean your room"* — estate healthy, **valley anchored under the house**, immediate
+fires out → Lord **Munenori** first believes the house's impact *beyond* the estate is possible → a quest to grow
+the house's **regional influence** (the domain expands again, to the Region); the region will introduce **rival
+samurai houses** with more sway to surpass. **Required pillars:** Arms + Estate, first **Office** (errand-
+authority; office in valley affairs; cash-crops online). **Estate stage span:** E1 Stabilising → E2 Recovering.
+
+**Felt arc:** the *house's* world enlarges from one estate to a whole valley it comes to anchor; the legend's
+warmth and ache pull at the MC; the first cash-crop (silk) and the first valley-scale danger arrive; the lord's
+horizon lifts past the ridge.
 
 ## T1.2 Main-quest beats (toward the T1→T2 gate)
 
-1. **Errands into the valley (V0).** The estate trusts the MC to carry its business into Asagiri; first village
-   errands open the market/shop row and per-shop reputation meters. **[THREAD: Tama]** the headman's daughter
-   **Sayo** names him "Tama" on sight — the living heart of the legend.
-2. **Becoming a recognised hand (V1).** Build standing with headman **Yagōemon** and the shops; combat keeps
-   pace clearing valley pests/animals. The inn & rumours board unlock (folklore begins, optional).
-3. **Making the road safe (V2, road-warden).** Secure a stretch of valley road or the ford against
-   bandits/animals; survive a real clear. Combat-earned **Arms** standing at valley scale.
-4. **The cash-crop comes online (V3).** Bring the village economy and the estate's cash-crops to a recorded
-   seasonal result — the **silk / sericulture *meibutsu*** sub-engine begins under weaver **Onatsu** (LOCKED;
-   trade hard-capped ≤⅓ of Estate & Wealth). Broker meters appear.
-5. **Trusted of the headman (V4) — the skim surfaces.** Resolve a village-affecting threat: **Foreman
-   Magobei's** rice-skim surfaces here (the T1 antagonist; see T1.3). Earn Yagōemon's regard. **First Office
-   standing.**
-6. **Sworn man-at-arms (V5).** Stand a real watch for the village; survive the first dangerous-road encounter;
-   the first paid martial outsiders (**Gohei & Yatarō**) join as flavour retinue (E2). Defence of the valley.
-7. **Right-hand-in-waiting (V6).** The lord first believes impact beyond the estate is possible; "clean your
-   room" nearly done; the alliance/standing levers that point at the region appear.
-8. **Agent of the house in the valley (V7) — the gate.** Estate healthy, village happy, immediate fires out —
-   the capstone "clean your room" beat. The **region** map and the **T1→T2** quest open; rival samurai houses
-   appear on the horizon. **Gate met.**
+1. **Errands FOR the house, into the valley (V0).** The estate trusts the MC to carry its business past its own
+   gate into Asagiri; first errands open the market/shop row (and, on the side, per-shop reputation meters).
+   **[THREAD: Tama]** the headman's daughter **Sayo** names him "Tama" on sight — the living heart of the
+   legend, igniting it this tier.
+2. **Becoming a recognised hand of the house (V1).** The valley starts knowing the house's man — headman
+   **Yagōemon** and the shops **acknowledge** him; combat keeps pace clearing valley pests/animals, securing the
+   estate's near-ground. The inn & rumours board unlock (folklore begins, optional side-track).
+3. **Securing the house's roads (V2, road-warden).** Make a stretch of valley road or the ford safe **in the
+   estate's name** against bandits/animals; survive a real clear. The house's writ now reaches the roads;
+   combat-earned **Arms** standing at valley scale.
+4. **Running the valley economy for the house (V3).** Bring the valley economy and the estate's cash-crops to a
+   recorded seasonal result — the **silk / sericulture *meibutsu*** sub-engine begins under weaver **Onatsu**
+   (LOCKED; trade hard-capped ≤⅓ of Estate & Wealth). Broker meters appear. The estate's domain now reaches the
+   valley's livelihood.
+5. **Trusted of the headman (V4) — the skim surfaces.** Put a valley fire out on the estate's behalf: **Foreman
+   Magobei's** rice-skim surfaces here (the T1 antagonist; see T1.3). The house earns its **first Office
+   standing**; Yagōemon's *personal* regard rises on the side-track.
+6. **Sworn man-at-arms of the house (V5).** Stand a real watch for the valley **in the house's name**; survive
+   the first dangerous-road encounter; the first paid martial outsiders (**Gohei & Yatarō**) join as flavour
+   retinue (E2). The estate becomes the valley's shield.
+7. **Right-hand-in-waiting (V6) — agent over the valley.** The lord first believes the house's impact beyond the
+   estate is possible; "clean your room" nearly done; the alliance/standing levers that point the house at the
+   region appear.
+8. **Agent of the house, the valley anchored (V7) — the gate.** Estate healthy, valley anchored under the house,
+   immediate fires out — the capstone "clean your room" beat; standing now **TRUSTED**. The **region** map and
+   the **T1→T2** quest open (the domain expands again, to the Region); rival samurai houses appear on the
+   horizon. **Gate met.**
 
 > **Allegiance, live this tier. [THREAD: Tama]** The continuous Tama-vs-farmhand leaning (canon §C, §1.5.4) is
 > nudged through dialogue and where the MC invests labour. Leaning "I am Tama" warms the village (faster rep,
