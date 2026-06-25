@@ -16,7 +16,7 @@ decisions locked as ADRs before the next section is drafted.
 
 | § | Section | Status |
 |---|---------|--------|
-| 1 | Vision, pillars, factions & world | **DRAFT — in review (estate-restoration redesign)** |
+| 1 | Vision, pillars, factions, world & endgame | **DRAFT — integrated; awaiting final review** |
 | 2 | Systems & mechanics catalog | _not started_ |
 | 3 | Incremental unlock ladder (UI-as-progression) | _not started_ |
 | 4 | Combat, progression & balance model | _not started_ |
@@ -26,85 +26,88 @@ decisions locked as ADRs before the next section is drafted.
 
 ---
 
-# §1 — Vision, Pillars, Factions & World
+# §1 — Vision, Pillars, Factions, World & Endgame
 
-> **DRAFT — in review (estate-restoration redesign).** This section supersedes the earlier
-> lost-child-mystery framing of §1. The spine has changed: the game is now a **perseverance fantasy at
-> grand scale** — a nobody and a dying house both rising from nothing. Four direction-changing calls
-> here **reverse or amend the previously locked ADRs** and must be re-locked with the human before this
-> section is treated as canon (see §1.13–§1.14).
+> **DRAFT — integrated; awaiting final review.** This section is authored end-to-end from the locked
+> decisions canon ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md))
+> and the three redesign discovery docs (estate & combat; world-expansion factions; endgame & influence
+> rebalance). It supersedes every earlier framing of §1. Tiers are renumbered **T0–T4** (0-indexed)
+> throughout; v1 scope is **T0–T2 complete**, with **T3 a stub cliff-hanger** and **T4 a roadmap**.
 
-## 1.1 Vision statement
+## 1.1 Vision
 
-You are a **mediocre young man** (~18–20) — weak, slow, unskilled, and nameless — pulled half-drowned
-from a mountain river and taken in, out of plain kindness, by the **Kurosawa**: a proud, threadbare
-lower-samurai (*goshi*) house two generations past its grandeur and quietly drowning in debt. You begin
-as "another mouth," soft and clumsy, with no place at the table. Through nothing but **daily toil and a
+You are a **mediocre young man** (~18–20) — weak, slow, unskilled, and nameless — pulled half-drowned from
+a mountain river and taken in, out of plain kindness, by the **Kurosawa**: a proud, threadbare
+lower-samurai (*goshi*) house two generations past its grandeur and quietly drowning in inherited debt. You
+begin as "another mouth," with no place at the table. Through nothing but **daily toil, drills, and a
 refusal to quit**, you earn your keep, then their trust, then your name on the household roster — and you
-**climb, rung by sweat-bought rung**, from taken-in stray to the lord's right hand and the architect of
-the house's revival.
+climb, rung by sweat-bought rung, from taken-in stray to the lord's right hand and the **architect of the
+house's revival**.
 
-As you rise, the world you can reach grows with you: first the **estate**, then the valley **village**,
-then the **region**, then the domain's **castle-town**, and finally indirect recognition at the **Edo**
-capital itself — until the Kurosawa name stands **restored *and* surpassed** beyond anything it held three
-generations ago. The estate-rise *is* the perseverance fantasy at grand scale, and it is the same motion
-as the game's **signature feature: the UI itself unlocks as you progress.** Minute one is a single line
-of narration, one verb, and a persistent event log; every panel, tab, resource, skill, and area
-thereafter fades in one at a time — **each reveal a story beat, never silent menu growth.**
+As you rise, the world you can reach grows with you: first the **estate**, then the valley **village of
+Asagiri**, then the **region**, then the domain's **castle-town**, and finally **indirect, mediated
+recognition at Edo** — until the Kurosawa name stands **restored *and* surpassed** beyond anything it held
+three generations ago. The estate-rise *is* the perseverance fantasy at grand scale, and it is the same
+motion as the game's **signature feature: the UI itself unlocks as you progress** — minute one is one verb
+and a persistent event log; every panel, tab, resource, skill, and area thereafter fades in one at a time,
+each reveal a story beat, never silent menu growth.
 
-Two grounded side-threads run quietly beneath the climb and pay off only in **feeling, allies, and
-flavour — never in power**: a grieving village is certain you are **"Tama,"** their child spirited away
-by the kami ten years ago (the estate flatly disbelieves it; to them you are simply a farmhand), and a
-**recurring dream** slowly returns the memory of who you truly were and the living family and friends who
-will come to back you. Nothing supernatural ever happens; every omen resolves to a human cause; every
-climbing number is **earned sweat**.
-
-This is the **dignity of a nobody — and a dying house — becoming someone real, by hand**, and forcing a
-forgotten name to be spoken at the capital.
-
-Built as a **pure, deterministic TypeScript core** (one seeded RNG, data as single source of truth) with
-a thin DOM renderer, shipped as a static HTML5 build for itch.io.
+Two grounded side-threads run quietly beneath the climb and pay off only in **feeling, allies, and flavour
+— never in power**: a grieving village is certain you are **"Tama,"** their child spirited away ten years
+ago (the estate flatly disbelieves it; to them you are simply a farmhand), and a **recurring dream** slowly
+returns the memory of who you truly were and the living family who will come to back you. **Nothing
+supernatural ever happens; every omen resolves to a human or natural cause; every climbing number is earned
+sweat.** This is the **dignity of a nobody — and a dying house — becoming someone real, by hand**, and
+forcing a forgotten name to be spoken at the capital. Built as a **pure, deterministic TypeScript core**
+(one seeded RNG, data as single source of truth) with a thin DOM renderer, shipped as a static HTML5 build
+for itch.io.
 
 ## 1.2 Design pillars
 
-1. **The estate-rise is the spine — a perseverance fantasy at grand scale.** The single load-bearing
-   track is the protagonist's climb up the Kurosawa service hierarchy
-   (stray → day-labourer → bonded hand → trusted hand → foreman → bailiff → steward's deputy → chief
-   steward / the lord's right hand), fused to the house's outward expansion across **five influence
-   tiers** (estate → village → region → domain/castle-town → Edo). Rising through the ranks and
-   restoring-then-surpassing the house **are** the main quest; everything else enriches but never
-   replaces it.
-2. **UI-as-progression — the interface is the reward.** Start with one verb and a story log; reveal each
-   panel / tab / resource / skill / area exactly when first earned, and announce every reveal
-   **diegetically** through the event log, so feature unlocks read as *plot*, never menu inflation. The
-   protagonist's accessible **space** and accessible **systems** literally *are* the progress bar of the
-   rank climb; each tier opens a fresh, larger canvas with bigger numbers.
-3. **Three factions, three shapes, one web.** The estate (main — a discrete, gated rank **ladder**), the
-   village (rich side faction — a continuous multi-node reputation **web**), and the origin (his living
-   family/friends in a post-town — a memory-gated **support** track) are deliberately distinct in shape
-   and payoff, so they never feel like one bar painted three colours — yet they are coupled by a shared
-   economy and the **Tama-vs-farmhand allegiance**, and the side factions feed the spine without ever
-   gating it.
-4. **Numbers-go-up is a training montage you earn — no hidden edge, ever.** The protagonist starts
-   genuinely **weak and slow** (not a bedridden invalid, but unskilled, low-stat, blistered-handed) and
-   rises *only* through repetition, rest, technique, and crafted tools. No bloodline, no secret training,
-   no body that "remembers" combat. Returning memory and the porter's-knot habit are identity clues that
-   confer **ZERO mechanical bonus**. Combat is the rare, dangerous exception, gated behind labour-built
-   conditioning — never a source of standing.
-5. **Influence is the macro-resource; tiers replace prestige — no reset of any kind.** **House Influence**
-   (家威, *ka-i*) is the estate's recognized standing — the single number the whole UI-reveal is gated on
-   — accruing only when concrete achievements are recognized by the relevant authority. The long game is a
-   pure **tier escalation** (each tier a bigger canvas and an order-of-magnitude bigger number range):
-   **there is NO diegetic reset, NO prestige reset; everything persists as the canvas grows.**
-6. **Grounded Edo folk-mystery — folklore is light flavour; quests are open-ended, not checklists.** Every
-   belief/omen resolves one-to-one to a human/natural cause; a thin, capped, off-screen margin of
-   ambiguity is kept for *unease* only, never confirmed magic, never player magic. Folklore arrives as
-   optional, light-hearted tidbits via the village inn's **rumours board**. Quests are a **suggestion + a
-   story the player goes and finds out in the world**, never an A→B→C waypoint list; the dominant
+1. **The estate-rise is the spine — a perseverance fantasy at grand scale.** The single load-bearing track
+   is the protagonist's climb up the Kurosawa service hierarchy fused to the house's outward expansion
+   across **five influence tiers** (T0 estate → T1 village → T2 region → T3 castle-town → T4 Edo). Rising
+   through the ranks and restoring-then-surpassing the house **are** the main quest. There is **no reset of
+   any kind**: tiers *replace* prestige; everything persists as the canvas grows.
+
+2. **Fractal incrementality.** Every new zone, area, faction, skill, and rumour is **itself incremental**:
+   you arrive minimal (one contact, one place, one verb), slowly learn its people and systems, and never
+   get overloaded — **everything unlocks.** The whole-game UI-reveal motion repeats in miniature at every
+   frontier. Concretely: a drill yard reveals one post, then a rack, then sparring slots; a new region is
+   one road, one threat, one contact.
+
+3. **Lean and high-impact — no fluff, no half-built features.** Grinding/slow growth is the core, not
+   filler. When scope balloons, **split into "immediate" vs a parked "later"** bucket (e.g. §1.7 →
+   §1.7 + §1.7.1) — *park, don't delete.* v1 is deliberately small: **T0–T2 complete**, an **~8-rung early
+   rank ladder**, **~5 mobs**, **~4 quest types**, a **~6–8-node world cut-set**. (This honours the standing
+   "start lean, add pieces back deliberately; don't over-build" preference.)
+
+4. **Combat is a first-class core pillar, alongside labour.** Combat uses an **idle auto-resolve + active
+   setup** model (prepare gear/stance/area; a deterministic seeded fight resolves; you intervene with
+   stance/ability/item/retreat — low-APM, strategic). It carries the five classic-RPG combat systems
+   (character combat level; weapon/martial skills; a grounded bestiary; loot + equipment you **FIND and
+   CRAFT**; gear progression) and **earns House Influence** via the Arms pillar (clear bandits, secure
+   roads, defend the estate). The mediocre-start contract holds on the combat track too: start weak, the
+   first real fight is humbling/near-fatal, capacity is earned through labour-built conditioning, with **no
+   labour→combat training-rate cross-feed** and no hidden edge. Daily texture stays **peaceful labour
+   dominant**; combat is the strong mid-game-onward second pillar.
+
+5. **The core loop is the MC's OWN actions.** Combat, skills, jobs, crafting (classic RPG). The meta
+   (Influence, tiers, ranking) sits *above*, fed by his grind. Building structures and recruiting members
+   are **flavour / light systems wired to the reveal bus — NOT a people-management sim**. The dominant
    minute-to-minute behaviour is the incremental grind — **the hero getting better at what he does.**
-7. **Fractal incrementality.** Every new zone, area, and faction is **itself incremental**: you arrive
-   minimal, slowly learn its people, places, and systems, and never get overloaded — everything unlocks.
-   The whole-game UI-reveal motion repeats in miniature at every new frontier.
+
+6. **No hidden edge, ever.** No bloodline, no secret training, no weapon that "answers to him," no body
+   that "remembers." The **porter's-knot habit** and the **recurring dream** are identity flavour with
+   **ZERO mechanical bonus** — memory grants *access*, not power. The talent-foils (Hanzaki, the rival heir,
+   Rival House Tomita) are always **trained, lucky, or ruthless — made, not born.**
+
+7. **Grounded Edo folk-mystery — folklore is light flavour; quests are open-ended.** Every belief/omen
+   resolves one-to-one to a human/natural cause; a thin, **capped-at-≤1**, off-screen margin of ambiguity is
+   kept for unease only. Folklore arrives as optional tidbits via the village inn's **rumours board**, which
+   unlock organically as the estate and village grow. Quests are a **suggestion + a story the player finds
+   out in the world**, never an A→B→C waypoint list; fewer checklists overall.
+
 8. **Deterministic, testable, generated.** Pure-core boundary (no DOM in logic), one seeded RNG, save only
    non-derivable state, generate balance/content docs from the same data the game runs on, and a DEV-only
    play API so every unlock and pacing beat is headlessly regression-tested.
@@ -113,615 +116,578 @@ a thin DOM renderer, shipped as a static HTML5 build for itch.io.
 
 > *A mediocre young man wakes injured and nameless in the storehouse of the Kurosawa, a declining
 > lower-samurai (goshi) house in a remote mountain valley, having been found half-drowned and pulled from
-> the river out of plain kindness. The grieving village below is certain he is Tama, the child "spirited
-> away by the kami" ten years ago; the estate flatly disbelieves it. Through nothing but daily toil and a
-> refusal to quit, he rises through the estate's service ranks from "another mouth" to the lord's right
-> hand and the architect of its revival, hauling the house from near-foreclosure up an outward climb of
-> influence — valley, region, castle-town, and finally recognition at Edo — until the Kurosawa name is
-> restored and surpassed.*
+> the river out of plain kindness. The grieving village below is certain he is Tama, the child spirited away
+> ten years ago; the estate flatly disbelieves it. Through daily toil, drills, and a refusal to quit, he
+> rises through the estate's service ranks from "another mouth" to the lord's right hand and the architect of
+> its revival, hauling the house from near-foreclosure up an outward climb of influence — valley, region,
+> castle-town, and finally recognition at Edo — until the Kurosawa name is restored and surpassed.*
 
-**Tone:** grounded, warm, bittersweet **Edo folk-mystery** wrapped around a cozy, satisfying
-**restoration fantasy**. The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft)
-over a *koku*/rice base economy — numbers-go-up as honest sweat — with the steady dignity of a man and a
-house both rising from nothing. Beneath the warmth runs a quiet, grim undercurrent: a house bankrupted by
-an ancestor's hubris and cover-up, a village grieving a child it nearly sold, official negligence dressed
-as fate. The darkest material (a child nearly sold for debt, a drowned hamlet, a covered-up disaster) is
-handled with **off-screen restraint** and counter-weighted by found-family warmth (the Kurosawa household,
-Sayo, old Jūbei).
-
-The catharsis is **never power** — it is a nobody becoming someone real by his own hands, and lifting a
-dying house back into the light. Justice, where the side-mysteries reach it, is **partial**: the reachable
-culprits answer, the truly powerful largely escape — and the house's own rise meets a real, honest
-**ceiling** the powerful set, which is the same thesis made structural.
+**Tone:** grounded, warm, bittersweet **Edo folk-mystery** wrapped around a cozy, satisfying **restoration
+fantasy** (mid-Edo, stable and commercial, ~18th century, kept **fictional** — no real place or daimyo
+names). The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a *koku*/rice
+base economy — numbers-go-up as honest sweat — with combat as a dangerous, earned second pillar. Beneath the
+warmth runs a quiet grim undercurrent: a house broken by an ancestor's failed venture, a village grieving a
+child it nearly sold, official negligence dressed as fate. The darkest material is handled with **off-screen
+restraint** and counter-weighted by found-family warmth. The catharsis is **never power** — it is a nobody
+becoming someone real by his own hands, and lifting a dying house back into the light. Justice, where the
+side-mysteries reach it, is **partial**: the reachable culprits answer, the truly powerful largely escape —
+the same thesis made structural by the honest **ceiling** at Edo. Relationships are **narrative-only** (no
+dating-sim).
 
 ## 1.4 The protagonist & the mediocre-start contract
 
 The protagonist is an **authored, fixed male character** (~18–20) — there is **no name/appearance/gender
-creator and no player rename**. He is the same person in every playthrough. The village calls him
-**"Tama"** (the borrowed legend-name) for most of the game; his true name — **Tahei**, a plain,
-period-typical commoner name — returns to him as a **late, de-emphasised memory beat** in the origin
-thread (no longer the spine's climax, since identity is explicitly a side thread). The **fixed male gender
-is load-bearing**: the village's legend has drifted to "remember" the real lost child as a *boy*, when
-Tama was in fact a *girl* — a fair, re-readable clue that only works if the protagonist is fixed-male.
+creator and no player rename**. He is the same person in every playthrough. The village calls him **"Tama"**
+(the borrowed legend-name) for most of the game; his true name — **Tahei**, a plain commoner name — returns
+to him as a **late, de-emphasised side beat** in the origin thread (identity is explicitly a side thread, not
+the spine's climax). The **fixed male gender is load-bearing**: the village's legend has drifted to
+"remember" the real lost child as a *boy*, when Tama was in fact a *girl* — a fair, re-readable clue that
+only works if the protagonist is fixed-male.
 
-**The refined mediocre-start contract (locked direction, enforced in writing *and* code).** He is **NOT a
-bedridden invalid** at the open. He can rest and recover a little in the first hours, but he **starts weak
-and slow** — unskilled, low-stat, soft-handed, slower than the boy who shows him the paddy, blistering on
-the first hoe. His one genuine asset is **temperament**: stubbornness, a strong back, a patient temper, a
-refusal to stop getting up — exactly what the incremental grind rewards. He grows **only** through
-perseverance, repetition, rest, technique, and crafted tools. Plateaus are real; the answer to a wall is
-never a magic item, only more reps and better tools. Combat capacity is gated entirely behind
-labour-built conditioning ("the spear is just a long hoe held with intent"), and the first real fight is
-humbling and near-fatal — motivating training.
+**The mediocre-start contract (binding, enforced in writing *and* code).** He is **NOT a bedridden invalid**;
+he can rest and recover a little in the first hours, but he **starts weak and slow** — unskilled, low-stat,
+soft-handed, slower than the boy who shows him the paddy, blistering on the first hoe. His one genuine asset
+is **temperament**: stubbornness, a strong back, a patient temper, a refusal to stop getting up. He grows
+**only** through perseverance, repetition, rest, technique, and crafted tools. The answer to a wall is never a
+magic item, only more reps and better tools. Combat capacity is gated entirely behind labour-built
+conditioning, and the first real fight is humbling and near-fatal — motivating training.
 
 **No-hidden-edge guardrails (binding):**
 
-- **No hidden edge, ever.** No bloodline, no secret training, no weapon that "answers to him," no body
-  that "remembers" combat. The one thing the village treats as special about him — that he is the returned
-  Tama — is **false**.
+- **No hidden edge, ever.** No bloodline, secret training, weapon that "answers to him," or body that
+  "remembers" combat. The one thing the village treats as special — that he is the returned Tama — is
+  **false.**
 - **The porter's-knot rule.** He sometimes ties a porter's/labourer's load-knot on instinct. This is
   **procedural body-memory** (like still knowing how to walk after amnesia), framed as a labourer's habit
-  ("huh, you've hauled before") — a **narrative identity clue only that confers ZERO mechanical bonus.**
-- **Growth is grind, not gift.** Every number starts at the bottom; no returning memory or instinctive
-  habit ever grants a starting stat, recipe, tool, or combat bonus. What memory grants is **access**, not
-  power.
-- **The talent-foils are made, not born.** The antagonists (the enforcer Hanzaki, the rival heir Naoyuki,
-  the rival house Tomita) must always be shown as **trained, lucky, or ruthless** — never innately gifted
-  in a way the protagonist could not match by work — so the effort-over-talent thesis is never undercut.
+  ("huh, you've hauled before") — a **narrative identity clue only, ZERO mechanical bonus.**
+- **The dream rule.** The recurring dream is **returning autobiographical memory only** — never clairvoyance,
+  never a psychic tether, **ZERO mechanical bonus.** It returns only things he actually lived; it never
+  surfaces facts he could not have known firsthand. What memory grants is **access**, not power.
+- **Growth is grind, not gift.** No returning memory or instinctive habit ever grants a starting stat,
+  recipe, tool, or combat bonus.
+- **The talent-foils are made, not born.** Hanzaki, the rival heir, and Rival House Tomita are always shown
+  as trained, lucky, or ruthless — never innately gifted in a way the protagonist could not match by work.
 
-## 1.5 The three factions
+## 1.5 Factions
 
-Three parallel standing tracks, each earned diegetically by labour and quests, but **mechanically
-distinct so they never feel like one bar painted three colours.** They share an economy and the
-Tama-vs-farmhand allegiance, with chosen tensions *and* synergies, and **no faction is ever a dead end.**
+Three starter factions span T0–T2, deliberately distinct in **shape** so they never read as one bar painted
+three colours. They share an economy and the Tama-vs-farmhand allegiance, and the side factions **feed the
+spine without ever gating it.** More factions/zones bloom per tier beyond the three starters (see §1.7.1 and
+§1.11); each is itself incremental and side content never blocks the spine.
 
-### 1.5.1 The estate — the Kurosawa *goshi* household (MAIN, a gated rank ladder)
+### 1.5.1 ESTATE — the Kurosawa *goshi* household (MAIN — a fresh rank ladder PER TIER)
 
-The **Kurosawa** are a lower-samurai (*goshi*) house holding a modest hill estate in **Asagiri valley** —
-proud, threadbare, two generations past their grandeur, working much of their own land, and quietly
-drowning in a ruinous debt inherited from a grandfather's failed flood-control venture. This is the
-**only** faction structured as a discrete, named, gated **rank ladder** with hard thresholds, because
-rising through it *is* the perseverance fantasy and it is the dominant driver of the UI-as-progression
-reveal.
+The **Kurosawa** hold a modest hill estate in **Asagiri valley** — proud, threadbare, working much of their
+own land, quietly drowning in a ruinous debt inherited from grandfather **Sadamune's** failed flood-control
+venture. This is the **only** faction structured as a discrete, gated **rank ladder**, because rising through
+it *is* the perseverance fantasy and the dominant driver of the UI-reveal. **A fresh rank ladder is minted
+per tier** (per-tier service/standing hierarchies); **rungs interleave LABOUR and COMBAT as twin paths up**,
+and **combat earns standing** alongside labour. The estate **cast and buildings GROW per tier** — the player
+builds structures and recruits members, framed as **flavour / light systems, not a management sim**. The
+household flatly **disbelieves** the *kamikakushi* legend — to them he is a reliable hand who became a
+fighting one.
 
-Standing is earned by **Estate Service** (a faction-XP pool from completed duties and survived seasons)
-**AND** by authored **trust beats** (named story gates), so you can never grind a number to skip the
-narrative — rank is where numbers-go-up and story fuse. Each promotion fires through the universal
-rewards/unlock bus: a diegetic log line, the next panel/area reveal, a concrete perk, and a story flag.
-The household is genuinely populated (a full roster), and it flatly **disbelieves** the *kamikakushi*
-legend — to them he is a reliable hand, not a returned spirit. The estate generates House Influence
-directly; the capstone is the diegetic **bridge** that opens each next tier.
+**Twin earned currencies** drive the ladder: **Estate Service XP** gates the big labour promotions; **Combat
+Deeds** gates the martial ones; smaller responsibility/perk drips fill between gates so there is always a
+"next reveal" on either track. **Labour conditioning is a one-way enablement gate** on combat rungs (it
+unlocks them; it grants ZERO combat stat bonus). The capstone rung **confirms** (does not first-open) the
+higher macro tiers — Influence has gated those in parallel.
 
-> **Title note (folded fix).** The top rung is written here as **"chief steward / the lord's right hand."**
-> The grander vocabulary — *karō*/*karō-kaku*, "symbolic adoption into the house name" — is kept as
-> **in-fiction aspirational narration only**; a modest *goshi* house arguably does not warrant a true
-> *karō* (a daimyo-house elder). The accurate top-rung title (a *yōnin*/house-steward "right hand") and
-> whether merit-elevation/adoption is a real late-game lever or pure flavour are flagged for the §4/§5
-> research-harden (see §1.13).
+**v1 early ladder (T0–T1, ~8 rungs)** — interleaving **exactly two combat rungs** (R4 humbling-fight floor,
+R6 first combat-earned standing) inside the labour spine. Grander martial titles are **aspirational narration
+only**; default to humble household/ashigaru-tier titles. *(Patrol-leader / expedition / captain / overseer
+rungs and the full 15-rung braid are parked for T2+ — see §1.7.1 and §1.14.)*
 
-| Rank | How earned | Unlocks |
-|---|---|---|
-| **0 — Stray / "another mouth"** | Found half-drowned and taken in; survive convalescence and the first labour. *(Already met at the open.)* | The *kura* storehouse (one room, one verb); the body/rest bar and rice counter. The estate dashboard begins bare and diegetic. |
-| **1 — Day-labourer (*hiyatoi*)** | Chief Steward Genemon, who calls him "another mouth, soft and clumsy," assigns the first real work; complete it and earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the rice/*koku* heartbeat); the basic labour loop and first producers. |
-| **2 — Bonded hand (*genin*)** | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot; the porter's-knot beat surfaces. **Skills tab** reveals. |
-| **3 — Trusted hand & houseman** | Win Lady Chiyo's regard for indoor work and heir Naoyuki's grudging vouching; complete authored trust beats (defend the grain store, return a lost ledger). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); **errands beyond the estate (the village unlocks here)**. The **drill yard** opens after the humbling first fight; training/idle-combat under Jūbei. |
-| **4 — Foreman of works (*kogashira*)** | Demonstrate command of a labour-gang and a managed sub-economy; the first *shinden* reclamation begun. | The workshops and granary; a labour-gang to assign; the first managed sub-economy; +1 assignable helper slot. The **assignment/management panel** reveals. |
-| **5 — Bailiff of the home fields (*jitō-dai*)** | The first reclamation recorded and the house edging toward solvency; the lord begins to notice. | The granary and the estate's field administration; the **House Influence macro-resource becomes visible and tracked**; cash-crop and proto-industry levers come online. |
-| **6 — Steward's deputy (*yōnin-hojo*)** | Help clerk Tanomo balance the books and restructure the strangling debt; Genemon comes to rely on him; Lord Munenori's explicit recognition. | The lord's study and the ledgers; the estate's whole books; the **tier-expansion map**; +X% Influence per season. The **village tier** becomes a reachable canvas. |
-| **7 — Chief steward / the lord's right hand** | The top a non-born man can plausibly reach by merit — sustained service, solvency secured, and a merit-elevation (the capstone). Genemon names him deputy and eventual successor. | The estate gate to the wider world; authority to project the house's influence outward. **This capstone is the diegetic bridge that opens the higher tiers (region/domain/Edo); finishing the ladder resets NOTHING — it opens the next, larger canvas.** |
+| Rank | Track | How earned | Unlocks |
+|---|---|---|---|
+| **R0 — Stray / "another mouth"** | labour | Found half-drowned and taken in; survive convalescence and the first labour. *(Met at the open.)* | The *kura* storehouse (one room, one verb); the body/rest bar and rice counter; the bare diegetic estate dashboard. |
+| **R1 — Day-labourer (*hiyatoi*)** | labour | Chief Steward **Genemon** ("another mouth, soft and clumsy") assigns the first real work; complete it, earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the *koku* heartbeat); the basic labour loop and first producers. |
+| **R2 — Bonded hand (*genin*)** | labour | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the **Skills tab** reveals. |
+| **R3 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; defend the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); **errands beyond the estate — the VILLAGE TIER opens here.** |
+| **R4 — Yard-hand under arms (*buke-hōkōnin*)** | **combat (entry)** | Conditioning floor (R2-level Estate Service: "the spear is just a long hoe held with intent") + **SURVIVE the humbling, near-fatal first fight**, then beg **Jūbei** for drills. The deliberately-incompetent floor of the combat ladder. | The drill yard; the **Combat panel** + idle-combat/training; first crude weapon + **Equipment & Inventory**; the **Bestiary**. Combat stats start near-zero. |
+| **R5 — Foreman of works (*kogashira*)** | labour→mgmt | Demonstrate command of a labour-gang and a managed sub-economy; the first *shinden* reclamation begun. | The workshops and granary; a labour-gang to assign (Sota, Mago, seconded hands as idle producers); the first managed sub-economy; +1 helper slot; the **assignment/management panel**. |
+| **R6 — Gate-guard (*monban*)** | combat | Stand a real watch; survive pest/animal clears; weapon-skill milestones reached. (Combat Deeds gate; conditioning floor at R5.) | Estate-defence duties; the near-satoyama hunting grounds; **PEST-CONTROL / HUNT / CLEAR** quest types; loot + craft (Smith Gonta spearheads via the component chain); **the FIRST combat-earned standing.** |
+| **R7 — Bailiff of the home fields (*jitō-dai*)** | labour→mgmt | First reclamation recorded; the house edging toward solvency; the lord begins to notice. | Field administration; **House Influence made visible and tracked** (the four-bar standing panel); cash-crop and proto-industry levers come online; the **tier-expansion map**. The capstone bridge to the next tier. |
 
-### 1.5.2 The village of Asagiri (rich SIDE faction, a reputation web)
+> **Estate physical growth runs *ahead* of top personal rank** (buildings gate on Influence band + a **low**
+> rank floor + cost, not the capstone). v1 covers estate stages **E0 — Foreclosure's Edge** (leaning gate,
+> cracked *kura*, fallow paddies, a rusty door-bar) → **E1 — Stabilising** (kura patched, first *shinden*
+> reclaimed, drill yard cleared, gate night-watch) → **E2 — Recovering** (granary, two workshops, a low
+> palisade, 2–3 men-at-arms on a rota). Stages E3–E5 (fortified seat → restored-and-surpassed) are parked
+> (§1.7.1). Estate growth pulls **seconded/recruited** faces; the village's own cast does not balloon.
 
-A rich side faction with its own problems the player **may choose** to help — a feared ford, a skimming
-foreman, debt owed to the estate, and the unhealed grief over the lost child. It is deliberately shaped
-**unlike** the estate so the two feel different in the hand: instead of one rank ladder it is a continuous,
-**multi-node reputation web**. It is the home of the *kamikakushi* / "are you Tama?" legend, which the
-villagers **believe** and the estate does not. Folklore lives here as **light flavour**, delivered through
-the **inn's rumours board.** The village's deepest optional side-quest is uncovering what really happened
-to the real lost child.
+### 1.5.2 VILLAGE of Asagiri (SIDE — a static reputation web)
 
-**Crucially, village standing NEVER gates the UI ladder or the tier climb** — a player who ignores the
-village is never *blocked* on the spine, only poorer and lonelier. It is a viable-but-poorer playstyle to
-skip, never a wall.
+A rich side faction shaped deliberately **unlike** the estate: instead of one rank ladder it is a continuous,
+**multi-node reputation web**. Its cast is **mostly static** (it is a reputation web, not a recruitable
+roster). It is the home of the *kamikakushi* / "are you Tama?" legend, which the villagers **believe** and the
+estate does not; folklore lives here as **light flavour**, delivered through the inn's **rumours board**.
+**Village standing NEVER gates the UI ladder or the tier climb** — ignoring it leaves you only poorer and
+lonelier, a viable-but-poorer playstyle, never a wall.
 
 Several **continuous meters** rather than one ladder:
 
-- **Per-shop "patron/regular" standing** (the smith, the dry-goods/rice broker, the herbalist's stall, the
-  brewer, the weaver) — each unlocks stock, discounts, and exclusives as you trade, and high standing
-  **softens the market-saturation price-crash** from flooding a good.
-- **Per-family goodwill**, raised by **open-ended help** (you hear a family has trouble and go figure out
-  how to help — never a checklist).
+- **Per-shop "patron/regular" standing** (smith, dry-goods/rice broker, herbalist, brewer, weaver) — each
+  unlocks stock, discounts, and exclusives, and high standing **softens the market-saturation price-crash**.
+- **Per-family goodwill**, raised by **open-ended help** (you hear a family has trouble and figure out how to
+  help — never a checklist).
 - An **artisans'/craft-guild standing** gating recipes, component tiers, and master-craft commissions.
-- The **Village Chief's regard** — historically the **shōya/nanushi** headman, **Yagoemon**, drawn from
-  the local elite and assisted by the village's self-governing body (*kumigashira*, *hyakushōdai*) under
-  *murauke* — a weighted roll-up of the others plus chief-specific quests.
+- The **Village Chief's regard** — headman (*shōya/nanushi*) **Yagoemon**, a weighted roll-up of the others
+  plus chief-specific quests.
 
-Village reputation unlocks **recipes, crafting tiers, trade** (prices, exclusives, contracts), **allies**
-(villagers seconded to the estate as idle producers/co-producers), and **lore** (rumours-board folklore +
-clues for the lost-child thread). Curves are **gentle** (linear/soft-cap) for frequent small dopamine
-across many nodes, in contrast to the estate's steep geometric rank gates. Yagoemon does honest civic
-double-duty: warm quest-giver up front, and the humanly-reachable culprit of the lost-child side-mystery
-later (a frightened middle-man who doctored ledgers and let the "cursed" story stand — **never a
-monster**).
+Curves are **gentle** (linear/soft-cap) for frequent small dopamine across many nodes, contrasting the
+estate's steep geometric rank gates.
 
-### 1.5.3 The origin — his living family & friends (memory-gated SUPPORT track)
+### 1.5.3 ORIGIN — his living family & friends (SIDE — a memory-gated support track, opens at T2)
 
-The protagonist's **original family & friends** — **living** people in a nearby post-town
-(**Sawatari-juku**, a day-plus down the *kaidō* road), **not** the local village. His true name is
-**Tahei**; his old life was as a young porter/errand-hand for a small transport-and-goods house. This is a
-side faction unlocked as his memory returns via the recurring dream, and its defining feature is that it
-**supports him for his effort and achievements at the estate** — pride, allies, resources, and trade ties
-that plug into the estate's outward expansion.
+The protagonist's **original family & friends** are **living** people in a nearby post-town
+(**Sawatari-juku**, an invented town on an unnamed *kaidō*, a day-plus down the road) — **not** the local
+village. His true name is **Tahei**; his old life was as a young porter/errand-hand for a small
+transport-and-goods house. This track is a memory-gated, late-blooming **support track**, NOT grindable from
+day one. It stays dark — foreshadowed for hours by the dream so its absence reads as anticipation — and
+**opens at T2 (the region tier)**, when the dream has returned enough memory **AND** the protagonist's
+standing lets him physically travel the controlled *kaidō* (*sekisho* checkpoints make free travel
+impossible without standing). It then opens as per-contact **"restored ties"** — discrete one-time milestones
+(mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**, sweetheart **Ohana**, the
+porter-guild).
 
-> **Place-name note (folded fix).** The post-town is the **invented** *Sawatari-juku* on an unnamed
-> *kaidō*, restoring the generic-rural guardrail. The earlier facet's real, famous Nakasendō post-town
-> was renamed to avoid pinning the otherwise-fictional world (Kurosawa estate, Asagiri valley, Kuzuhara
-> hamlet) to an identifiable place. (Confirm the canonical name with the human; see §1.14.)
+Payoff is **support, not local power**:
 
-Structured **differently** from the estate and village: a memory-gated, late-blooming **support track**,
-NOT grindable from day one. It stays dark — foreshadowed for hours, so its absence reads as anticipation —
-until the recurring dream returns enough memory **AND** the protagonist's estate standing lets him
-physically travel the controlled *kaidō* (*sekisho* checkpoints make free travel impossible without
-standing). It then opens as a set of per-contact **"restored ties"** — discrete, chunky one-time
-milestones (mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**, sweetheart
-**Ohana**, the porter-guild), re-engaged in **authored beats** rather than a from-zero grind.
-
-Payoff is deliberately **support, not local power**:
-
-- **Pride/morale** — a modest **global** skill-XP/producer buff framed strictly as a **new present-day
-  relationship** ("a man with people behind him works harder"), **never a retroactive gift from
-  remembering.**
+- **Pride/morale** — a modest global skill-XP/producer buff framed as a **new present-day relationship** ("a
+  man with people behind him works harder"), **never a retroactive gift from remembering.**
 - **Allies** — old porter/guild mates recruited to the expansion.
 - **Trade ties** — origin-town goods, contracts, and ready-made caravan/porter routes that plug into the
-  estate's region/domain/Edo expansion.
+  estate's region/castle-town/Edo expansion.
 
-As the protagonist reaches the region tier, the reconnected contacts and the re-foundable **Kuzuhara**
-(his birthplace, an upstream hamlet) become concrete **expansion nodes** (a resettlement labour/producer
-base; the post-town as trade partner and information broker; the embankment that killed his caravan as a
-Tier-3 river-works Influence project that also resolves his backstory). **Hard guardrail:** returning
-memory grants **access only** (new nodes/allies/quests unlock narratively) and **ZERO mechanical bonus**;
-every asset must still be grind-built. At least one origin beat is always available **without**
-reputation-gating so the thread never fully stalls. The track is **allegiance-neutral** — it is about who
-he *really* is (neither Tama nor merely-a-farmhand) — and resolving it softens both leans by giving him a
-true self to stand on. Curves use **discrete milestone steps**, distinct from the estate's geometric gates
-and the village's gentle per-node meters.
+**Hard guardrail:** returning memory grants **access only** (new nodes/allies/quests unlock narratively) and
+**ZERO mechanical bonus**; every asset must still be grind-built. At least one origin beat is always available
+**without** reputation-gating, so the thread never fully stalls. (The re-foundable **Kuzuhara** birthplace and
+the wider post-town commercial region are T2+ expansion nodes — see §1.7.1.)
 
 ### 1.5.4 How the three interrelate — and the Tama-vs-farmhand allegiance
 
-**Separate currencies** keep them from collapsing into one bar: **Estate Service XP** (steep geometric,
-per-duty caps, paces big rank gates), **Village Reputation** (gentle per-node meters), and **Origin Ties**
-(discrete memory milestones). Above all three sits **House Influence**, the macro-resource the estate
-spends to expand: the estate generates it directly, while village allies and origin trade-ties act as
-**multipliers/feeders** — they don't unlock the next tier, they make conquering it faster and cheaper
+**Separate currencies** keep them from collapsing into one bar: **Estate Service XP** (steep geometric) and
+**Combat Deeds** (the estate's twin spine currencies), **Village Reputation** (gentle per-node meters), and
+**Origin Ties** (discrete memory milestones). Above all of them sits **House Influence**, the macro-resource
+the estate spends to expand: the estate generates it directly, while village allies and origin trade-ties act
+as **multipliers/feeders** — they don't unlock the next tier, they make conquering it faster and cheaper
 (tuned so weaving both in roughly **halves** time-to-next-tier — *felt, never a wall*).
 
-**Tensions (chosen, not bugs):**
-
-- High estate rank can hand duties that **extract** from the village (collect the rice quota), raising
-  Estate Service but denting Village reputation — with an always-available "soften it quietly" option the
-  side-mystery rewards.
-- The legend pulls both ways — the village wants "Tama" to be theirs while the estate wants a reliable
-  hand, so being beloved in one can make the other wary of split loyalty.
-- The origin pulls him down-valley while the estate spine pulls him deeper in.
+**Tensions (chosen, not bugs):** high estate rank can hand duties that **extract** from the village (collect
+the rice quota), raising Estate Service but denting Village reputation — with an always-available "soften it
+quietly" option the side-mystery rewards. The legend pulls both ways; the origin pulls him down-valley while
+the spine pulls him deeper in. **Faction tension is light / flavour — no mechanical penalty.**
 
 **Synergies:** village allies become idle producers seconded to estate works; origin trade-ties become the
-supply chains that make region/Edo expansion affordable; high estate rank grants the standing and
-safe-passage to even reach the origin town and trade with it formally.
+supply chains that make region/Edo expansion affordable; high estate rank grants the standing and safe-passage
+to even reach the origin town.
 
-**The Tama-vs-farmhand allegiance** is a continuous **leaning** (village-leaning ↔ estate-leaning,
-default neutral, re-expressible and never frozen) the player nudges through dialogue and which faction he
-invests labour in. Leaning **"I am Tama"** warms the village (faster rep, grief-coded content, Bon rites)
-at slight friction with the estate (the estate finds the legend a superstitious distraction — slightly
-slower trust beats, **never blocked**). Leaning **"just a farmhand"** smooths estate trust and pragmatic
-respect at the cost of village warmth and Tama-only lore.
+**The Tama-vs-farmhand allegiance** is a **continuous, re-swingable leaning** (village-leaning ↔
+estate-leaning, default neutral, never frozen) the player nudges through dialogue and where he invests labour.
+Leaning **"I am Tama"** warms the village (faster rep, grief-coded content, Bon rites) at slight friction with
+the estate (slightly slower trust beats, **never blocked**). Leaning **"just a farmhand"** smooths estate
+trust at the cost of village warmth and Tama-only lore.
 
-> **Critical rule:** the choice rebalances **rates and flavour, never availability** — both factions
-> remain fully completable on either lean; neither is the "good" path; staying ambivalent is a valid
-> in-character stance. The spine is restored-and-surpassed fastest and richest when all three are woven
-> together — but it is still completable spine-only, just slower and lonelier.
+> **Critical rule:** the choice rebalances **rates and flavour, never availability** — both factions remain
+> fully completable on either lean; neither is the "good" path; staying ambivalent is a valid in-character
+> stance. The spine is restored-and-surpassed fastest and richest when all three are woven together, but is
+> still completable spine-only, just slower and lonelier.
 
-## 1.6 House Influence (家威) & the five tiers
+## 1.6 House Influence (家威) — the four pillars & the five tiers
 
-**House Influence** (家威, *ka-i*) is the single tracked macro-resource and the **one number the entire
-UI-reveal is gated on.** It is the estate's **recognized standing** in the eyes of progressively wider
-authorities — deliberately **NOT** *koku* and **NOT** coin. *Koku* and coin are the inputs you spend and
-grind; Influence is the cumulative, mostly-monotonic score of what the estate has visibly **become.** It
-accrues only when a concrete achievement is **recognized** by the relevant authority for the current tier:
-reclaiming a paddy adds *koku* immediately, but only converts to Influence when the village/steward/domain
-**acknowledges** it (a recorded yield, a granted title, a sealed contract, a won petition). This keeps
-Influence diegetic ("the books now show…") and makes it the **gate-currency** — every panel/tab/system/area
-unlock carries an Influence (plus flag/skill) predicate, so the macro spine literally paces the UI.
+**House Influence** (家威, *ka-i*) is the macro-resource — the estate's **recognized standing** in the eyes of
+progressively wider authorities — and the **one thing the entire UI-reveal is gated on.** It is deliberately
+**NOT** *koku* and **NOT** coin: those are the inputs you spend and grind; Influence is the cumulative score of
+what the house has visibly **become.** It is no longer a single trade-leaning number: it is the **umbrella
+roll-up of FOUR achievement-driven pillars** grown in lockstep, each mapping to a distinct protagonist domain
+so the grind stays load-bearing.
 
-Influence has named **bands** mapping 1:1 to the five tiers; crossing a band is the tier-up moment. It
-**never resets** (locked direction: no prestige). It can **stall** at a tier gate you haven't met, and a
-small, scripted set of beats can **dent** it (a debt called, a scandal) — small, recoverable, **never a
-wipe** — to keep tension.
+### 1.6.1 The four pillars
 
-**The conversion ledger** turns grind into Influence via authentic Edo upward-mobility levers, so
-"numbers go up" always reads as a real path a small declining *goshi* house could climb: (1) ***shinden*
-land reclamation** (the canonical *goshi*-advancement lever); (2) **cash crops & proto-industry**
-(sericulture/silk, sake brewing, textile weaving as village by-employments the estate organizes and takes
-a cut of, building toward a famous domain product / *meibutsu*); (3) **river & road works** (fords,
-embankments, *kaidō* upkeep — protect yield *and* earn official credit); (4) **debt restructuring** (from a
-strangling usurious loan to proper merchant finance / a domain loan — liability into solvency into
-creditworthiness); (5) **distinguished service to the domain** (relief-rice in a famine, flood control, a
-petition resolved in the house's favour); (6) **patronage & alliance** (strategic marriage and the real
-Edo practice of merchant/farmer buy-in via *goyokin* contributions and adoption into samurai rank, plus
-patrons who vouch upward); (7) **trade ties** (routes to the post-town, the origin town, and onward to the
-inter-*han* / Osaka market). Each lever is a small economic sub-loop (spend → produce → get recognized →
-Influence), and which levers are **available** is itself part of the tier reveal.
-
-> **Timescale (folded fix).** The full five-tier climb is paced over a **generational/decadal in-world
-> span** for the upper tiers (Tier 3→5), so "restore *and* surpass the three-generations-ago grandeur"
-> and the famous-*meibutsu*-at-Edo outcome read as **earned over years**, not compressed into a couple of
-> seasons.
-
-| Tier | Theme | Entry gate | Headline beats |
+| Pillar | Kanji | Protagonist domain | Grows on |
 |---|---|---|---|
-| **1 — Estate** | Earn your keep and a place at the table. The starting micro-world: one declining hill estate, unlocked room by room as trust rises. | Survive convalescence and the first labour *(already met at the open)*. | Be found half-drowned, taken in, survive convalescence in the *kura* (one room, one verb); become a trusted hand under Genemon; discover the house is quietly insolvent; propose and begin the first *shinden* reclamation (dowager Toku and clerk Tanomo part with why the house fell); survive the humbling, near-fatal first fight and beg old Jūbei for drills (training unlocks). |
-| **2 — Village** | The estate as a presence in its own valley. The first expansion frontier: Asagiri's shops, craftsmen, artisans, inn, shrine, and the *kamikakushi* legend. | First reclamation recorded + the house solvent enough to extend credit rather than beg it (and trusted to run errands beyond its gate). | The estate buys village output and contracts craftsmen; reputation builds with Headman Yagoemon and the self-governing body; cash crops/proto-industry come online (sericulture, sake, textiles); a river/ford works project earns official credit; the estate becomes the valley's economic anchor (its *mon* on village contracts; first proper retainers); the optional lost-child mystery and the inn's rumours board open; the Tama-vs-farmhand lean is most legible. |
-| **3 — Region** | Reach beyond the home valley. A larger canvas: a cluster of valleys, the down-valley post-town, the upstream Kuzuhara ruins, roads, porters, and *sekisho*. | Village anchored + a tradeable surplus + roads/porters under estate control (and enough standing to travel the controlled roads). | Open trade routes along the *kaidō* (the dream-gated origin faction becomes reachable, its trade ties plug in); **re-found Kuzuhara** as a resettlement node (faction-3 fusion, access-only, grind-built); secure the embankment so the disaster cannot recur (a river-works project that also resolves the backstory); the post-town becomes trade partner and information broker; the estate's name travels. |
-| **4 — Domain / Castle-Town** | Be reckoned with by the people who actually rule. The castle-town, domain officials (*daikan*, *tedai*), inter-*han* markets, Osaka rice shipping. | Distinguished **service** rendered to the domain — flood-control, surplus rice in a lean year, or a formal case/petition resolving in the house's favour. | Invited (warily) into domain affairs through the *daikan*→*tedai*→*shōya* chain; restructure the old debt through proper merchant/daimyo finance (the house becomes creditworthy); a strategic marriage/adoption alliance and *goyokin* lift formal standing; the estate's goods reach Osaka and become a renowned domain product. |
-| **5 — Edo** | Recognition at the capital — restore **and** surpass the grandeur of three generations ago. Edo, the bakufu status ladder, the realm's markets. | Domain sponsorship + enough standing to be presented (carried via the lord's *sankin-kōtai* attendance). | The house's renowned product is celebrated in Edo's markets via *sankin-kōtai* supply chains; the protagonist's labour materially lifts the **lord's** standing during his Edo attendance, so the **house** gains face; a rare, hard-won merit commendation/appointment is earned by documented service; the restored-and-surpassed house seal and an epilogue tableau. **The ceiling is honoured:** recognition is indirect and mediated — *not* the protagonist personally becoming a *hatamoto* or being received by the shogun. |
+| **Arms** (martial) | 武威 *bu-i* | combat / weapon-skills / men-at-arms leadership | recognised martial deeds (a road declared safe; a nest cleared; the grain store defended; a rival's enforcer broken) + seasonal security results |
+| **Estate & Wealth** (economic) | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation), **TREASURY** (debt→solvency→creditworthiness, *goyōkin*), **TRADE** (routes, broker standing, the optional *meibutsu*) |
+| **Standing & Office** (political/territorial) | 政威 *sei-i* *(coined — see below)* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
+| **Name & Honour** (prestige/cultural) | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition; the house off the foreclosure list; a sponsored rite; an inspector's report; a recorded merit-elevation |
 
-## 1.7 The world & areas
+> **Trade is demoted to 1-of-3 sub-engines inside Estate & Wealth and hard-capped to ~⅓ of that one pillar**
+> — so a pure-trade run maxes ~⅓ of one of four pillars and can never dominate. The famous *meibutsu* that was
+> once the whole endgame is now **one optional capstone in one sub-engine of one pillar.**
+>
+> **Authenticity flag:** 政威 *sei-i* is a **coined compound**; an attested alternative is **領 *ryō* /
+> "territorial sway."** Confirm at the §4/§5 authenticity-harden (see §1.13).
 
-The estate-rank climb spatially **embodies** the tier escalation: you start trapped in one storehouse room
-and earn the rest of the estate room by room (the rank ladder made of doors), then the village, then the
-wilderness (by conditioning), then your own past (by memory), then the region, the castle-town, and finally
-Edo. Each tier opens a fresh, larger canvas — **no reset** — so influence is something you can **see**
-growing as the world you can reach grows. Every frontier is **itself incremental** (fractal
-incrementality): arrive minimal, learn its people and systems, never overload.
+### 1.6.2 Accrual
 
-| Area | Region (tier) | Factions | Notable locations | Unlocks when |
+Influence accrues in **two shapes only — never a passive time-trickle and never a flat per-action increment:**
+
+- **(A) Achievement JUMPS** — a concrete deed **recognized** by the relevant authority (a recorded yield, a
+  granted title, a sealed contract, a road declared safe in the books, a won petition). Per-event caps carry
+  over from the Combat-Deeds discipline so no single fight or harvest spikes a pillar.
+- **(B) Periodic JUDGED RESULTS** — a season's harvest, an autumn audit, a security appraisal — a judged
+  result of accumulated state, fired on a **new high-water mark** (not repeatable maintenance awards).
+
+Influence is **up-only**, with a small, scripted, **per-pillar** set of **recoverable dents** (a lost battle
+dents Arms; a scandal dents Name; a called debt dents Estate) — small and **never a wipe** (no permanent
+holding-loss; a failed defence damages/disables a holding *temporarily*, recoverable by rebuild).
+
+### 1.6.3 The five tiers, transition story gates & per-tier required-pillar gating
+
+Tier-up is **not** crossing a single band: it is a **four-value gate** — a **balanced-development floor**
+(clear ALL FOUR per-pillar minimums) plus **capped overflow-substitution (≤25%)** so a strong pillar partly
+carries a lagging one. This structurally forbids a pure-trade or pure-combat tier-skip. **Per-tier weighting
+drifts:** early tiers weight **Arms + Estate** ("survive and get strong"); upper tiers weight **Office + Name**
+("win it socially"). Side factions are **multipliers** into the pillars, never new pillars. The full five-tier
+climb is paced over a **generational/decadal in-world span** for the upper tiers (T3→T4), so "restore *and*
+surpass" reads as earned over years.
+
+| Tier | Theme | Transition story gate (entry) | Required-pillar weighting |
+|---|---|---|---|
+| **T0 — Estate** | Earn your keep and a place at the table. One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **Arms + Estate** (humbling first fight survived; first *shinden* begun; kura solvent). |
+| **T1 — Village** | The estate as a presence in its own valley: Asagiri's shops, craftsmen, inn, shrine, and the legend. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the village. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
+| **T2 — Region** | Reach beyond the home valley: a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho*. | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region introduces **rival samurai houses** with more sway to surpass. | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
+| **T3 — Castle-town** *(stub in v1)* | Be reckoned with by the people who actually rule: the castle-town, *daikan*/*tedai*, inter-*han* markets. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
+| **T4 — Edo** *(roadmap)* | Recognition at the capital — restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **forced to build & fund an Edo estate** → grow influence → the **national** tier. | **Name + Office** (the national *banzuke* ranking on all four pillars). |
+
+> **Castle-town takeover = MULTI-ROUTE** (peaceful: office / economy / marriage / out-maneuvering rivals; AND
+> assertive: martial-security leverage). "Take over" = becoming the **dominant house holding key domain
+> offices** — **never open rebellion against the bakufu.** Martial scale is **hard-capped** throughout: a small
+> named retinue plus temporary corvée/levies for crises, **never a standing army.**
+
+## 1.7 World & areas — v1 IMMEDIATE (T0–T2)
+
+The estate-rank climb spatially **embodies** the tier escalation: you start trapped in one storehouse room and
+earn the rest of the estate room by room (the rank ladder made of doors), then the village, then the
+wilderness (by conditioning), then your own past (by memory). Each tier opens a fresh, larger canvas — **no
+reset** — and every frontier is **itself incremental** (arrive minimal, learn its people and systems). The
+wilderness is a **shared danger gradient gated by conditioning**, distinct from the Influence-tier authority
+canvas. v1 ships **full maps** for T0–T2 within a **~6–8-node cut-set** (the rest parked in §1.7.1).
+
+| Area | Region (tier) | Faction | Notable locations | Unlocks when |
 |---|---|---|---|---|
-| **The Kura Storehouse** | Kurosawa Estate & Grounds (T1) | Estate | The convalescence pallet; the spilled rice to rake | At the open (Rank 0, Stray). Home of the UI-reveal engine (body/rest bar, rice counter). |
-| **The Gate & Forecourt (*genkan*)** | Kurosawa Estate & Grounds (T1) | Estate | The *genkan*; the visitor's mat | Rank 1 (Day-labourer). The diegetic stage for promotions and the Tama-vs-farmhand framing. |
-| **The Main House / *Omoya*** | Kurosawa Estate & Grounds (T1) | Estate | The lord's study (ledgers); kitchen & inner rooms; the household shrine | Rank 3 (houseman); the study at Rank 6 (steward's deputy). |
-| **The Home Paddies & Dry Fields** | Kurosawa Estate & Grounds (T1) | Estate | The fallow plots to reclaim; the granary | Rank 1; *shinden* reclamation begins late Tier 1. The rice/*koku* heartbeat. |
-| **The Drill Yard** | Kurosawa Estate & Grounds (T1) | Estate | The training posts; Jūbei's weapon rack | Rank 3, after the humbling first fight. Conditioning & idle-combat. |
-| **The Stables & Woodlot Edge** | Kurosawa Estate & Grounds (T1) | Estate | The stables; the woodlot edge | Rank 2 (Bonded hand). The porter's-knot beat. *(May fold into the forecourt to avoid early reveal fatigue — see §1.14.)* |
-| **The Market / Shop Row** | Village of Asagiri (T2) | Village | Smith Gonta's forge; Obaa Sato's herb stall; Brewer Tokuemon's; Weaver Onatsu's | Tier 2 (estate trusts him to run errands; Rank 3+). Per-shop reputation meters. |
-| **The Artisan Workshops** | Village of Asagiri (T2) | Village | Carpenter Risuke's yard; the dyer's vats; the charcoal grounds | Tier 2, via craft-guild standing. Craft chains and apprenticeship side-quests. |
-| **The Chief's House** | Village of Asagiri (T2) | Village | Yagoemon's receiving room; the village ledgers | Tier 2, on building the chief's regard. Reputation roll-up + the doctored-ledger thread. |
-| **The Inn & Rumours Board** | Village of Asagiri (T2) | Village | The rumours board; the common room | Tier 2. Sukezō's inn — hub for optional, light folklore side-quests. **None gate tier progression.** |
-| **The Shrine / Temple** | Village of Asagiri (T2) | Village | The shrine (*shimenawa*); the temple register; the Bon offering site | Tier 2. The soul-calling rite, Priest Ryōa's register of the vanished (a mystery clue). |
-| **The Boundary-Stone / Jizō** | Village of Asagiri (T2) | Village / neutral | The boundary *jizō*; the offering left by an unknown hand | Tier 2. Where he was found — the **one** capped residual-ambiguity beat (lingers unresolved). |
-| **The Near Satoyama** | Satoyama & Mountains (shared, T1–3) | Shared wilderness | The foraging groves; the bamboo stand | Rank 2 / Tier 1, gated by conditioning. First ring of the danger gradient. |
-| **The River, Ford & Weir** | Satoyama & Mountains (shared, T1–3) | Shared wilderness | The ford (the "kappa" spot); the weir where he was found | Tier 1–2, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot, recoverable evidence). |
-| **The Foothills & Charcoal Grounds** | Satoyama & Mountains (shared, T1–3) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); the hunting trails | Tier 2, deeper conditioning. Second danger ring. |
-| **The Forbidden Upstream Ruins of Kuzuhara** | Satoyama & Mountains (shared, T1–3) / Origin overlap | Shared / Origin | The broken embankment (*seki*); the drowned hamlet ruins; the resettlement site | Tier 3 (memory returned + conditioning + standing to range). The geographic knot where the lost-child evidence, his origin, and the cover-up meet; a re-foundable region node. |
-| **The High Mountains & The Pass** | Satoyama & Mountains (shared, T1–3) | Shared wilderness | The fog-blind pass; Hanzaki's lookout | Tier 3, top of the conditioning gradient. The lethal terrain where his caravan died; the "one-eyed mountain god"; expeditions/logistics. |
-| **Sawatari-juku (the down-valley post-town)** | Origin: Kuzuhara & the Post-Town (T3) | Origin | Master Denbei's goods house; Oyuki's home; the transport guild; Naozane's office | Tier 3 (dream-gated memory + standing to travel the *kaidō*). The faction-3 support hub; where Tahei's living kin/friends and the grown "Tama" (Oharu) sit. |
-| **The Wider District / Region** | The Expansion Tiers (T3) | Estate (outward) | The trade-route map; branch holdings; allied villages | Tier 3 (capstone rank reached; village anchored). A logistics/holdings layer — a larger canvas, bigger numbers, no reset. |
-| **The Castle-Town / Domain Seat** | The Expansion Tiers (T4) | Estate / Domain officials | The *daikan*'s office; the inter-*han* market; the castle-town townhouse; the petition hall | Tier 4 (distinguished service rendered). Where the estate's standing is contested at the domain level. |
-| **Edo** | The Expansion Tiers (T5) | Estate (the capital) | The Edo market where the house's product is celebrated; the presentation set-piece; the epilogue tableau | Tier 5 (domain sponsorship + presentable standing). Indirect, mediated recognition — the honoured ceiling. |
+| **The Kura Storehouse** | Kurosawa Estate (T0) | Estate | The convalescence pallet; spilled rice to rake | At the open (R0, Stray). Home of the UI-reveal engine (body/rest bar, rice counter). |
+| **The Gate & Forecourt (*genkan*)** | Kurosawa Estate (T0) | Estate | The *genkan*; the visitor's mat | R1. The diegetic stage for promotions and the Tama-vs-farmhand framing. *(Stables/woodlot edge may fold in here to avoid early reveal fatigue — see §1.14.)* |
+| **The Home Paddies & Dry Fields** | Kurosawa Estate (T0) | Estate | Fallow plots to reclaim; the granary | R1; *shinden* reclamation begins late T0. The rice/*koku* heartbeat. |
+| **The Main House / *Omoya*** | Kurosawa Estate (T0) | Estate | Kitchen & inner rooms; the household shrine; the lord's study (ledgers) | R3 (houseman); the study at R7 (bailiff). |
+| **The Drill Yard** | Kurosawa Estate (T0) | Estate | Training posts; Jūbei's weapon rack | R4, after the humbling first fight. Conditioning & idle-combat. |
+| **The Market / Shop Row** | Village of Asagiri (T1) | Village | Smith Gonta's forge; Obaa Sato's herb stall; Brewer Tokuemon's; Weaver Onatsu's | T1 (estate trusts him to run errands; R3+). Per-shop reputation meters. |
+| **The Chief's House** | Village of Asagiri (T1) | Village | Yagoemon's receiving room; the village ledgers | T1, on building the chief's regard. Reputation roll-up + the doctored-ledger thread. |
+| **The Inn & Rumours Board** | Village of Asagiri (T1) | Village | The rumours board; the common room | T1. Sukezō's inn — hub for optional light folklore side-quests (unlocked organically). **None gate tier progression.** |
+| **The Shrine / Temple** | Village of Asagiri (T1) | Village | The shrine (*shimenawa*); the temple register; the Bon offering site | T1. Priest Ryōa's register of the vanished (a mystery clue). |
+| **The Boundary-Stone / Jizō** | Village of Asagiri (T1) | Village / neutral | The boundary *jizō*; an offering left by an unknown hand | T1. Where he was found — the **one** capped residual-ambiguity beat (lingers unresolved). |
+| **The Near Satoyama** | Satoyama & Mountains (shared, T0–T2) | Shared wilderness | Foraging groves; the bamboo stand | R2/T0, gated by conditioning. First ring of the danger gradient. |
+| **The River, Ford & Weir** | Satoyama & Mountains (shared, T0–T2) | Shared wilderness | The ford (the "kappa" spot); the weir where he was found | T0–T1, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). |
+| **The Foothills & Charcoal Grounds** | Satoyama & Mountains (shared, T0–T2) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T1, deeper conditioning. Second danger ring. |
 
-## 1.8 Cast
+## 1.7.1 World & areas — LATER (T2 deep + T3–T4 expansion; parked, not cut)
 
-Grouped by faction and area. Most NPCs do **double duty** — a gatekeeper *and* a story thread in the same
-beat — to keep the web legible.
+Parked per the lean discipline (§1.2 pillar 3): designed but **not authored as full areas in v1.** Per the
+world-expansion cut-set, beyond the three starters a sane buildable set is **~6–8 nodes** that reuse the
+existing cast and pay off the spine directly.
+
+| Node | Tier | Kind / role |
+|---|---|---|
+| **Kuzuhara — re-foundable upstream hamlet & embankment river-works** | T2 | **Spine.** The faction-3 fusion: the drowned hamlet (the disaster that nearly killed Tahei) becomes a resettlement node + the embankment (*seki*) river-works that secures the disaster. Access-only, grind-built; the backstory and lost-child evidence resolve here. |
+| **Sawatari-juku & the wider post-town region** | T2 | **Mixed.** The origin reunion hub (optional) + the *toiya* transport office / waystation trade layer (the practical surplus-export runway to T3). |
+| **The Kaidō Porters' & Transport Guild** | T2→T4 | **Spine-thin.** Routes, *sekisho* pass-tiers, route-risk — the trade backbone. Met via friend Kanta's first favour run; the T3 stub cliff-hanger is **this one node's first-contact**. |
+| **The Rice & Silver finance network** | T2→T4 | **Spine-thin.** The conversion engine: village broker → regional warehouse → *Marutaya* debt-restructuring → *goyōkin* → Osaka/Edo *fudasashi*. |
+| **The Neighbouring Valleys** | T2 | Side. **Hard-capped at exactly two named valleys (Hibara + Toge-mura)** — Asagiri fractally replicated, slimmer. Courting them is an optional accelerant. |
+| **The High Mountains & The Pass** | T2–T3 | Shared wilderness, top of the conditioning gradient. The lethal terrain where his caravan died; the "one-eyed mountain god" (= Hanzaki + fog-blind terrain). |
+| **The Daikan's Office (castle-town officialdom)** | T3 | **Spine-critical** for formal T3 recognition; the racket's nerve-centre. Where most T3 Influence is minted. No folklore here — the rational, ledgered counter-world. |
+| **The Edo *yashiki* / rusui + sankin-kōtai conduit (one cluster)** | T4 | **Spine.** The mediated capital conduit (rusui **Konoe**; the lord's biennial attendance), with the **Nihonbashi/*banzuke*** payoff and the **touring-inspector set-piece** folded in as its two payoff beats. |
+
+> **Cut for now (reintroduce later, "start lean, add back"):** the Matagi hunters, the Pilgrimage Order, and
+> the Scholars-&-Physicians as a *network* (keep Ranpo / Obaa Sato as the existing seed only), and the
+> Marriage/Adoption brokerage. **Macro-tier spatiality** (full walkable maps vs abstract holdings/
+> correspondence boards above T2) is a §1.14 open question — the human has indicated **full maps at every
+> tier**; design upper nodes so they *can* ship first as thin abstract boards.
+
+## 1.8 Cast (by faction & area)
+
+Grouped by faction. Most NPCs do **double duty** — a gatekeeper *and* a story thread in the same beat — to
+keep the web legible. The **estate roster GROWS per tier** (annotated below); the **village cast stays
+static**; the origin cast unlocks at T2.
 
 ### Estate (main) — the Kurosawa household & retainers
 
+| NPC | Role | Function | First appears |
+|---|---|---|---|
+| **Lord Kurosawa Munenori** | Head of the house, late 50s; weary, decent, stiff-backed pride papering over shame. | **Apex rank-gatekeeper** — upper-rung promotions need his explicit recognition; his approval *is* the main quest's measure. Believes ledgers, not omens. The **generational succession beat** runs through his aging decline. | E0 (T0) |
+| **Kurosawa Naoyuki** | The lord's son and heir, ~22; talented, restless, chafing at genteel poverty. | Early **rival inside the household** (gatekeeps mid rungs); the talent-foil *inside* the family until the grind outpaces his coasting. Arc: rivalry → grudging respect → brotherhood; **converted talent, not innate gift.** Later the **ally against Rival House Tomita**; comes into his own as the house's future. | E0 (T0) |
+| **Lady Kurosawa Chiyo** | The lord's wife, ~50; manages the inner household and its meagre purse. | Gatekeeps **houseman access (R3)** and the domestic economy; later the house's **alliance-strategist** at the castle-town. | E0 (T0) |
+| **Dowager Kurosawa Toku** | The lord's mother, ~75; sharp-memoried; the only one who lived through the fall as an adult. | Living **backstory keeper** — slowly parts with why the house declined (grandfather **Sadamune's** failed flood-venture). Embodies "no shortcuts." | E0 (T0) |
+| **Chief Steward Genemon** | Runs the estate day to day, ~60; dry, overworked, fiercely loyal. | The **spine's primary rank-gatekeeper and quest-giver** — first calls him "another mouth," assigns nearly all early labour, grants the rung-by-rung promotions. Arc: grudging tolerance → reliance → naming him deputy and successor. | E0 (T0) |
+| **Tanomo** | Estate accountant/clerk, ~45. | Gatekeeps the *koku*/economy and debt-repayment systems; the in-house thread into the ledger/debt mystery; later runs the debt-restructuring interface. | E0 (T0) |
+| **Jūbei** | Aging master-at-arms / drillmaster; competent-but-never-great old foot-soldier. | **The mentor** and combat/training gatekeeper — "Talent is a story the lucky tell. You are not lucky. So you will work." Gates the entire training/idle-combat suite after the humbling first fight. | E0 (T0) |
+| **Sota & Mago** | A grizzled groom and a cheeky teen field-labourer — the bottom-rung peers. | The field/stable labour loop and honest friendship at the floor of the ladder; the first assignable seconded hands. | E0 (T0) |
+| **Oai** | Head maidservant, ~40; runs the indoor staff and the servant-gossip network. | Quest-giver and information broker inside the house. | E0 (T0) |
+| **Kyūsuke** | Estate cook, ~50; warm comic relief. | Runs the food/provisioning sub-economy; a soft daily-life anchor. | E0 (T0) |
+| **Ranpo** | Estate physician, ~55; rational, plain-spoken. | Dresses the healing scalp wound (grounding the mundane amnesia), names symptoms not visions, gates healing/medicine; flatly disbelieves the kami story. *(Origin/Scholars seed.)* | E0 (T0) |
+| **Tokujirō** | Green recruit, ~16; joins after the protagonist has risen. | The mirror that proves the protagonist's growth; seeds the late-tier **"you now teach others from zero"** layer (re-homes the old reset's teaching idea). | E1 (T0→T1) |
+| **Gohei & Yatarō** | Ex-*ashigaru* men-at-arms hired off the road. | The first paid martial outsiders; the 2–3-man rota at E2. | E2 (T1) |
+| **Saburozaemon** *(later)* | Stern senior retainer, ~55; traditional, exacting. | Gatekeeps respect at the retainer rungs; later marshals the lord's procession. | T2+ |
+| **Heisuke** *(later)* | Friendly peer retainer, ~30; open-handed. | Shows the ropes of retainer life; low-friction quest-giver; later the field escort lead. | T2+ |
+| **Kanbei** *(later)* | Jealous middling retainer, ~35; cornered and proud, not evil. | **In-household antagonist-rival** who sees the rising stray as a threat; player-influenceable détente or self-inflicted washout. | T2+ |
+
+### Village (side) — Asagiri *(static cast)*
+
 | NPC | Role | Function |
 |---|---|---|
-| **Lord Kurosawa Munenori** | Head of the house, late 50s; weary, decent, stiff-backed pride papering over shame. | **Apex rank-gatekeeper** — upper-rung promotions need his explicit recognition. His approval *is* the main quest's measure. Believes ledgers, not omens; to him the protagonist is "a farmhand we took in." |
-| **Kurosawa Naoyuki** | The lord's son and heir, ~22; talented, restless, chafing at genteel poverty. | Early-game **rival inside the household** (gatekeeps the mid rungs); the talent-foil *inside* the family until the protagonist's grind outpaces his coasting. Arc: rivalry → grudging respect → brotherhood; converted-talent, not innate gift. |
-| **Lady Kurosawa Chiyo** | The lord's wife, ~50; manages the inner household and its meagre purse. | Gatekeeps **houseman access (Rank 3)** and the domestic economy (textiles, kitchen, hospitality); winning her regard unlocks indoor work and influence-entertaining systems. |
-| **Dowager Kurosawa Toku** | The lord's mother, ~75; sharp-memoried; the only one who lived through the fall as an adult. | Living **backstory keeper** — slowly parts with why the house declined (grandfather Sadamune's flood-venture). Embodies "no shortcuts." |
-| **Chief Steward Genemon** | Runs the estate day to day, ~60; dry, overworked, fiercely loyal. | The **spine's primary rank-gatekeeper and quest-giver** — first calls him "another mouth," assigns nearly all early labour, grants the rung-by-rung promotions. Arc: grudging tolerance → reliance → naming him deputy and successor. The old rice-debt records pass through him. |
-| **Tanomo** | Estate accountant/clerk, ~45. | Gatekeeps the *koku*/economy and debt-repayment systems; the in-house thread into the ledger/debt mystery. |
-| **Jūbei** | Aging master-at-arms / drillmaster; competent-but-never-great old foot-soldier. | **The mentor** and combat/training gatekeeper — "Talent is a story the lucky tell. You are not lucky. So you will work." Gates the entire training/idle-combat suite after the humbling first fight. |
-| **Saburozaemon** | Stern senior retainer, ~55; traditional, exacting. | Gatekeeps respect at the retainer rungs; warms last and means it most. |
-| **Heisuke** | Friendly peer retainer, ~30; open-handed. | Shows the ropes of retainer life; low-friction quest-giver and morale anchor. |
-| **Kanbei** | Jealous middling retainer, ~35; cornered and proud, not evil. | **In-household antagonist-rival** who sees the rising stray as a threat; sabotages and spreads doubt. Player-influenceable detente or self-inflicted washout. |
-| **Tokujirō** | Green recruit, ~16; joins after the protagonist has risen. | The mirror that proves the protagonist's growth; seeds the late-tier **"you now teach others from zero"** layer (re-homes the old reset's teaching idea). |
-| **Oai** | Head maidservant, ~40; runs the indoor staff and the servant-gossip network. | Quest-giver and information broker inside the house. |
-| **Kyūsuke** | Estate cook, ~50; warm comic relief. | Runs the food/provisioning sub-economy; a soft daily-life anchor. |
-| **Sota & Mago** | A grizzled groom and a cheeky teen field-labourer — the bottom-rung peers. | The field/stable labour loop and honest friendship at the floor of the ladder. |
-| **Ranpo** | Estate physician, ~55; rational, plain-spoken. | Dresses the healing scalp wound (grounding the mundane amnesia), names symptoms not visions, gates healing/medicine; flatly disbelieves the kami story. |
-
-### Village (side) — Asagiri
-
-| NPC | Role | Function |
-|---|---|---|
-| **Headman Yagoemon** | Village headman (*shōya/nanushi*); juggles *nengu* quotas, *corvée*, disputes, relief. | The **Village Chief reputation gatekeeper** AND the humanly-reachable culprit of the lost-child mystery (a frightened middle-man who doctored ledgers). Warm civic quest-giver up front; never a monster. |
-| **Sayo** | The headman's daughter, ~16; sharp, kind, keeper of the valley's news. | The village's main quest-giver and the **living heart of the red herring** — names him "Tama" on sight and needs him to be her lost friend. Tutorializes the village/trade loop; the person the truth most hurts and most frees. |
+| **Headman Yagoemon** | Village headman (*shōya/nanushi*). | The **Village Chief reputation gatekeeper** AND a humanly-reachable culprit (doctored ledgers cover the foreman's skim). Warm civic quest-giver up front; never a monster. |
+| **Sayo** | The headman's daughter, ~16; sharp, kind. | The village's main quest-giver and the **living heart of the legend** — names him "Tama" on sight. Tutorializes the village/trade loop; the person the truth most hurts and most frees. |
 | **Obaa Sato** | Village herbalist / wise-woman. | The village's **folklore-keeper** — narrates the *kamikakushi* legend sympathetically while knowing it is coping; teaches foraging/village-craft. |
-| **Priest Ryōa** | Shrine/temple keeper; runs the soul-calling rite and a register of the vanished. | Folklore-atmosphere quest-giver whose records become **hard evidence** in the lost-child thread. |
+| **Priest Ryōa** | Shrine/temple keeper. | Folklore-atmosphere quest-giver whose **register of the vanished** becomes hard evidence in the lost-child thread. |
 | **Smith Gonta** | Gruff village blacksmith. | Tools and later spearheads — gates metalcraft; values shown effort over flash. |
-| **Carpenter Risuke** | Village carpenter/builder. | Repairs and construction — gates building systems used to rebuild and expand the estate. |
-| **Weaver Onatsu** | Village weaver, a sharp widow. | Cloth/textile trade — ties into Lady Chiyo's household economy and origin-town routes. |
-| **Brewer Tokuemon** | Village sake brewer, jovial. | The village's festival/social hub; his brew greases reputation. |
-| **Innkeeper Sukezō** | Runs the village inn and the **rumours board**. | The dedicated delivery vector for optional light-folklore side-quests; information broker. |
-| **Peddler Sokichi** | Itinerant medicine-seller / peddler. | The **bridge** that lets the player chase clues and trade beyond the village (toward the origin town and the region tier); grounded source of yokai tales; helped the real Tama flee (a lost-child clue). |
-| **Foreman Magobei** | A skimming village foreman — the "tanuki" of the rumours board. | Ordinary-villager-turned-petty-antagonist; his theft is the first hard thread into the rice-quota racket. Reachable and human. |
+| **Carpenter Risuke** | Village carpenter/builder. | Repairs and construction — gates building systems; later the Kuzuhara river-works lead. |
+| **Weaver Onatsu** | Village weaver, a sharp widow. | Cloth/textile trade — ties into Lady Chiyo's economy and origin routes; lead *meibutsu* candidate. |
+| **Brewer Tokuemon** | Village sake brewer, jovial. | The village's festival/social hub; *meibutsu* (sake) candidate. |
+| **Innkeeper Sukezō** | Runs the inn and the **rumours board**. | The dedicated delivery vector for optional light-folklore side-quests; information broker. |
+| **Peddler Sokichi** | Itinerant medicine-seller / peddler. | The **bridge** beyond the village (toward the origin town and the region); grounded source of yokai tales; helped the real Tama flee (a lost-child clue). |
+| **Foreman Magobei** | A skimming village foreman — the "tanuki" of the rumours board. | The **T1 antagonist** and first hard thread into the rice-quota pattern (a doctored measuring-box). Reachable and human. |
 
-### Origin (side) — Sawatari-juku & Kuzuhara
-
-| NPC | Role | Function |
-|---|---|---|
-| **Oyuki** | Tahei's widowed mother, ~45. | Emotional core of the origin thread — grieved him as dead; the reunion is the warm payoff, kept earned and a little costly (she is furious he was written off; he barely remembers her). |
-| **Okimi** | Tahei's elder sister, ~20; married into a Magome trading family. | The concrete **trade-tie** that lets the origin town supply and route goods for the estate's expansion. |
-| **Master Denbei** | Tahei's old employer, ~55; runs the transport-and-goods house. | Supplies porter/logistics know-how and legitimate manifests; the grounded source of the porter's-knot identity (he taught it — **ZERO bonus**). |
-| **Kanta** | Tahei's childhood best friend and fellow porter, ~18. | Comic-warm friendship rekindled; an ally recruitable to the expansion. |
-| **Ohana** | A sweetheart Tahei half-remembers, ~17. | Optional relationship thread the dream surfaces; grounded and gentle, no melodrama. |
-| **Guildmaster Zenroku** | The transport-guild boss who wrote Tahei off, ~50. | The origin faction's **antagonist** — abandoned a missing porter to hide that his caravan ran short-weighted/contraband cargo; reachable later as witness/culprit, tying the origin into the rice-quota racket. |
-| **Oharu (the real Tama)** | The "spirited-away" child, alive and grown in the post-town. | Mystery payoff & living proof — a girl who ran from a violent stepfather and a near-sale for debt. Reunion kept **costly and incomplete** (she may not forgive). Connects the lost-child thread to the estate's old rice-debt cover-up. |
-
-### Region / Domain / Edo — antagonists, rivals & apex authority
+### Origin (side) — Sawatari-juku & Kuzuhara *(unlocks at T2)*
 
 | NPC | Role | Function |
 |---|---|---|
-| **Tedai Kuroiwa** | The deputy magistrate's agent (*tedai*) — polite, patient, dangerous. | The **primary human antagonist** of the regional tiers — architect of the tax-quota cover-up and racket; opposes the estate's rise because a rising house asks questions. **Defeated by evidence, not violence.** |
-| **Hanzaki** | A scarred *rōnin* enforcer — the "one-eyed mountain god" of the pass. | Recurring physical threat and the **talent-gone-rotten mirror** — his edge is **trained and brutal, never innate**; survived by labour-built endurance, never out-talented. |
-| **Clerk Naozane** | A guilt-sick junior clerk in the magistrate's office. | The crack in the cover-up; supplies documentary proof; a reachable conscience. |
-| **Rival House Tomita** | A competing *goshi*/merchant house that prospered as the Kurosawa fell. | The inter-house **rival** on the regional/domain tiers — a status competitor to out-maneuver, not kill; talent + luck + ruthlessness against the Kurosawa's earned comeback. |
-| **The Touring Inspector** | A senior domain/Edo official. | The **apex authority** reached only at the top tiers — the figure to whom the *osso*-style petition is made and before whom the house's standing is contested. Embodies the honoured ceiling. |
+| **Oyuki** | Tahei's widowed mother, ~45. | Emotional core of the origin thread — grieved him as dead; the reunion is the warm payoff, kept earned and a little costly. |
+| **Okimi** | Tahei's elder sister, ~20; married into a trading family. | The concrete **trade-tie** that lets the origin town supply and route goods for the expansion. |
+| **Master Denbei** | Tahei's old employer, ~55; runs the transport-and-goods house. | Supplies porter/logistics know-how and legitimate manifests; the grounded source of the porter's-knot identity (**ZERO bonus**). |
+| **Kanta** | Tahei's childhood best friend and fellow porter, ~18. | Comic-warm friendship rekindled; the first porter contact and recruitable lead carrier. |
+| **Ohana** | A sweetheart Tahei half-remembers, ~17. | Optional relationship thread the dream surfaces; grounded and gentle, narrative-only. |
+| **Oharu (the real Tama)** | The "spirited-away" child, alive and grown in the post-town. | Mystery payoff & living proof — a girl who **ran** from a violent stepfather and a near-sale for debt. Reunion kept **costly and incomplete** (she may not forgive). |
+
+### Region / Castle-town / Edo — antagonists, rivals & apex authority *(T2+, mostly parked)*
+
+| NPC | Role | Function |
+|---|---|---|
+| **Hanzaki** | A scarred *rōnin* enforcer — the "one-eyed mountain god" of the pass. | The **T2 dangerous combat beat** and the **talent-gone-rotten mirror** — edge **trained and brutal, never innate**; survived by labour-built endurance, never out-talented; muscle-for-hire (often Tomita's). |
+| **Rival House Tomita** (head **Sōzaemon**, heir **Kageyuki**, agent **Yasubei**) | A competing *goshi*/merchant house that prospered as the Kurosawa fell. | The **primary, persistent regional STATUS rival** (T2→T4) — capital + connections + ruthlessness, **never innate gift.** Out-maneuvered commercially/socially, **never killed** (détente, alliance, or clean defeat). |
+| **Rival House Akagi** (head **Gennai**) | An older, prouder, declining samurai line — prestige without coin. | The **second rival house** (canon-required): contests the region on **honour/precedence** while Tomita contests on money — so the two can be played against each other. |
+| **Tedai Kuroiwa** | The magistrate's agent (*tedai*) — the gracious facilitator who *records* your achievements. | The **T3 primary human antagonist** — outwardly an ally, secretly the local architect of the rice-quota skim. **Defeated by evidence, not violence.** Sits beneath Daikan **Iemasa** and above clerk **Naozane** (the crack). |
+| **Daikan Iemasa** | Deputy magistrate; incurious, status-conscious, not personally corrupt. | Signs what Kuroiwa hands him; **largely escapes** — the honoured ceiling. |
+| **Clerk Naozane** | A guilt-sick junior clerk. | The crack in the cover-up; supplies documentary proof; a reachable conscience. |
+| **Junkenshi Toyama Saemon-no-jō (the Touring Inspector)** | A senior shogunal inspector. | The **T4 impartial judge** — the apex human authority whose survey validates or threatens everything the house built. Not a villain; the antagonist-shaped *test*. The **lord** faces him; the MC stands at the back. |
+| **Echizen-ya Sōbei (the Edo factor)** | An Edo money-broker (*fudasashi*-adjacent) who launders the skimmed silver. | The **untouchable apex** of the quota machine — glimpsed, named, **never reached.** The antagonist as *system*. |
 
 ## 1.9 Side-threads — identity, origin & the dream rule
 
-Two grounded side-threads run quietly beneath the estate-rise spine; both pay off only in **feeling,
-allies, and flavour, never power**, and both resolve to human causes with no magic.
+Two grounded side-threads run quietly beneath the spine; both pay off only in **feeling, allies, and flavour,
+never power**, both resolve to human causes with no magic, and **both resolve at the Region tier (T2)** —
+T3/T4 carry the house's power rise.
 
-**(A) The Tama-vs-farmhand allegiance.** The valley grieves a child, **Tama**, "spirited away by the kami"
-ten years ago; a half-drowned, memoryless young man washing up below the estate reads to them as the kami
-giving Tama back. The estate flatly disbelieves it. This split powers the continuous **allegiance leaning**
-(§1.5.4): it shifts standing-gain rates, flavour, and which dialogue/quest-givers open first — **never**
-stats, drops, production, or availability. He may stay ambivalent the whole game (a valid stance: he
-genuinely doesn't know). This is the mechanical home of the locked **"who you are is a side thread,
-roleplay not creator"** decision.
+**(A) The Tama-vs-farmhand allegiance & the lost-child truth.** The valley grieves a child, **Tama**, taken
+ten years ago; a half-drowned, memoryless young man reads to them as Tama returned. The estate disbelieves
+it. This split powers the continuous **allegiance leaning** (§1.5.4): rates, flavour, and which quest-givers
+open first — **never** stats, drops, production, or availability. "What happened to Tama?" is a **suggestion +
+a story the player discovers in the world** (a sandal left yearly at the shrine; a household that flinches at
+her name; the legend "remembering" a boy; a debt-ledger mention; a post-town sighting). **The truth:** Tama
+was a **girl** (the gender-drift is the fair clue) who **ran** from a violent stepfather and a near-sale into
+service to clear a debt; she has been alive and grown the whole decade in the post-town (as **Oharu**),
+too ashamed to return. Resolution is grounded and **partial** (she may not forgive). The MC is **not** her.
 
-**The grounded lost-child truth (the village's deepest optional segment — open-ended, not a checklist).**
-"What happened to Tama?" is a **suggestion + a story the player pulls on and discovers in the world** —
-clues stumbled upon through labour, travel, and rising trust (a child's straw sandal left yearly at the
-shrine; a household that flinches at her name; the legend "remembering" a boy when an old woman
-misremembers "she"; a midwife's reluctance; a debt-ledger mention; a post-town sighting). **The truth:**
-Tama was a **girl** (the gender-drift is the fair clue) who **ran** from a violent stepfather and a
-household about to **sell her into service** to clear a rice debt owed to the Kurosawa estate; a midwife
-and the peddler Sokichi helped her flee; she has been **alive and grown the whole decade** in the
-down-valley post-town (under the name **Oharu**), too ashamed to return. The adults let "the kami took her"
-stand because a comforting miracle was easier than "we were about to sell a child." Resolution is grounded
-and **partial** — reuniting the valley with the living, grown Tama is costly and incomplete (she may not
-forgive). Notably, the **same rice debt-and-quota machine** that nearly sold Tama menaces the village and
-wrote off Tahei's caravan, and traces back to the Kurosawa grandfather's covered-up disaster — **one
-rotten root** under the side-mysteries, the origin, and the house's backstory.
+**(B) The grounded true-origin thread.** His real past is mundane: his true name is **Tahei**, a young
+porter/errand-hand for a small transport house in **Sawatari-juku**, with **living** family and friends
+there. **The origin story (no magic):** he left on a mundane errand escorting a goods consignment over the
+pass; a **flash flood (a neglected upstream embankment failing) and rockfall** struck the small caravan; he
+was struck, half-drowned, swept downriver, and snagged at the weir below the estate. His amnesia is ordinary
+**head trauma + near-drowning + exposure** — no magic. As memory returns he re-engages them; seeing what he
+is rebuilding, they back him with **pride, allies, resources, and trade ties** — **access only, never a
+mechanical gift.**
 
-**(B) The grounded true-origin thread (faction 3).** His real past is mundane and, per the locked "they
-support him" direction, **not a dead end**: his true name is **Tahei**, a young porter/errand-hand for a
-small transport-and-goods house in **Sawatari-juku**. His **living** family and friends are there (mother
-**Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**, sweetheart **Ohana**, his
-porter-guild mates). As memory returns he re-engages them; seeing what he is rebuilding at the estate, they
-back him with pride, allies, resources, and trade ties. Recovering who he was literally expands the house —
-but via **access only**, never a mechanical gift.
+**The dream rule (enforced in writing *and* code):** returning autobiographical **memory only** — never
+clairvoyance, **ZERO mechanical bonus**. **Memory-only** (only things he lived; the "voice in the water" is a
+real person recalled, not a spirit). **Zero mechanical bonus** (memory grants access, not power). **Guaranteed
+cadence** (at least one fragment within a capped number of in-game days OR a skill/standing threshold; at least
+one origin beat always available without reputation-gating, so the thread never goes cold). All variance flows
+through the one seeded RNG; cadence is headlessly regression-testable.
 
-**The grounded origin story (no magic).** Tahei left Sawatari-juku on a mundane errand — escorting a goods
-consignment over the mountain pass for Denbei. A flash flood (a neglected upstream embankment failing) and
-rockfall on the fog-blind pass struck the small caravan; he was struck, half-drowned, swept downriver, and
-snagged at a weir below the Kurosawa estate. His amnesia is ordinary head trauma + near-drowning +
-exposure — **no magic.** Physician Ranpo dresses his healing scalp wound, names symptoms not visions, and
-flatly disbelieves the kami story. (Guildmaster Zenroku wrote him off as dead to hide short-weighted /
-contraband cargo, tying the origin into the same racket.)
+### Per-tier side-quest list (lean)
 
-**The dream rule (enforced in writing *and* code).** The recurring dream is **returning autobiographical
-memory only** — never clairvoyance, never a psychic tether, **ZERO mechanical bonus.**
-
-- **Memory-only.** The dream returns only things he actually lived (his name Tahei, a face, a road, the
-  smell of paddy-mud, the porter's-knot habit's origin, Sawatari-juku, a person's voice in the water). It
-  **never** surfaces external facts he could not have known firsthand — no precognition. The "voice in the
-  water" is a real person he heard and is now recalling, not a spirit.
-- **Zero mechanical bonus.** A returning memory or instinctive habit never grants a starting stat, recipe,
-  tool, or combat edge. What memory grants is **access**: origin nodes/allies/quests unlock narratively,
-  and the assets must still be grind-built.
-- **Guaranteed cadence.** At least one origin/dream fragment is delivered within a capped number of in-game
-  days OR a skill/standing threshold, and at least one origin beat is always available **without**
-  reputation-gating, so the thread never goes cold. Each fragment is a short authored sensory beat in the
-  event log; all variance flows through the one seeded RNG, and the cadence is headlessly
-  regression-testable (force a late standing, fast-forward days, assert a fragment fired within N days AND
-  that no stat/recipe was granted).
+| Tier | Side-quests (open-ended; never gate the spine) |
+|---|---|
+| **T0** | The spilled-rice recovery; the porter's-knot beat ("you've hauled before"); first dream fragment; Dowager Toku's first memory of the fall. |
+| **T1** | The inn rumours-board opener (the "kappa" of the ford = undertow + smugglers' sinking-spot); Magobei's skim (the "tanuki"); a per-family goodwill help; Priest Ryōa's register entry; the boundary-stone offering (the one residual-ambiguity beat). |
+| **T2** | The lost-child truth (Oharu) resolves; the origin reunions (Oyuki, Okimi, Denbei, Kanta, Ohana); Kuzuhara re-founding + naming the drowned; the "one-eyed mountain god" = Hanzaki investigated; the fox-fire ridge = a hidden charcoal kiln. |
+| **T3+ (parked)** | The *osso* petition (a *gimin*-martyr bears the lethal risk); the rice-quota racket's reachable rungs answer; Naoyuki's coming-into-his-own; the succession secured. |
 
 ## 1.10 Folklore & quest-design philosophy
 
-**Folklore is light flavour, not the spine** — the estate-rise is the spine. The campaign is **NOT** built
-around named yokai; folklore arrives occasionally as small, light-hearted optional tidbits, concentrated in
-one diegetic hub: the village **inn's rumours board.** Each rumour is a lightweight yokai story the player
-**may** go investigate, open-endedly, out in the world (kappa at the ford, tanuki stealing rice, fox-fire
-on the ridge, a one-eyed mountain god of the pass, *yamanba* of the high woods, *tengu* of the high
-cedars).
+**Folklore is light flavour, not the spine.** The campaign is **NOT** built around named yokai; folklore
+arrives occasionally as small optional tidbits, concentrated in the village inn's **rumours board** and
+**unlocked organically** (conditions per tier; more unlock as the estate and village grow — never an
+all-at-once dump). Each rumour is a lightweight yokai story the player **may** go investigate open-endedly.
 
-**Hard rule:** every rumour-quest is **optional** and **none** gate main-quest tier progression. Every
-folk belief is introduced as genuine, respected village dread first, investigated through ordinary work,
-and resolved one-to-one to a concrete human/natural cause via a belief→cause table — but the game
-**lingers in the unease before resolving**, and debunks with **dawning dread, never a Scooby-Doo
-unmasking.** The master belief, *kamikakushi*, is itself a comforting lie covering a human truth (people
-who fled debt/violence/conscription, or died on a lethal fog-blind road — and the protagonist's own flood
-trauma); handled as grief-coping, not superstition to mock.
+**Hard rules:** every rumour-quest is **optional** and **none** gate tier progression. Every folk belief is
+introduced as genuine, respected village dread first, investigated through ordinary work, and resolved
+one-to-one to a concrete human/natural cause — but the game **lingers in the unease before resolving**, and
+debunks with **dawning dread, never a Scooby-Doo unmasking.** The master belief, *kamikakushi*, is itself a
+comforting lie covering a human truth (people who fled debt/violence, or died on a lethal road — and the
+protagonist's own flood trauma); handled as grief-coping, not superstition to mock.
 
-**Residual ambiguity is hard-capped at ≤1** unresolved, off-screen, mundane-readable beat (the
-recommended one: the unidentified-hand offering at the boundary-stone where he was found). The "helpful
-fox" is de-fanged to flatly explicable behaviour. **Nothing is ever confirmed supernatural; nothing is
-mechanized; there is never player magic.** Folk-religion texture is specific and respectful, distinguishing
-**Shinto** (shrine, *shimenawa*, boundary/mountain kami, the soul-calling rite) from **Buddhist** elements
-(roadside/boundary *jizō* as guardians of children and travellers — fitting both the lost child and the
-protagonist found at a boundary-stone — Bon offerings, the temple register of the vanished that becomes
-hard evidence) rather than blurring into generic "Shinto magic." No rite ever mechanically "works."
+**Residual ambiguity is hard-capped at ≤1** unresolved, off-screen, mundane-readable beat (the unidentified-
+hand offering at the boundary-stone where he was found). Folk-religion texture distinguishes **Shinto** (shrine,
+*shimenawa*, boundary/mountain kami, the soul-calling rite) from **Buddhist** elements (roadside/boundary
+*jizō* as guardians of children and travellers, Bon offerings, the temple register of the vanished that
+becomes hard evidence). **No rite ever mechanically "works"; nothing is confirmed supernatural; there is never
+player magic.**
 
 **Quest design — open-ended, not hand-holdy.** A quest is a **suggestion + a story you go find out in the
 world**, never an A→B→C waypoint checklist. There are **fewer checklists overall**; the dominant
 minute-to-minute behaviour is the **incremental grind — the hero getting better at what he does.**
 
-**Fractal incrementality (restated).** Every new zone/area/faction is itself incremental: you arrive
-minimal, slowly learn its people/places/systems, and never get overloaded. The whole-game UI-reveal motion
-repeats in miniature at every frontier — everything unlocks.
+**The ~4 v1 quest types** (combat- and labour-spanning, all open-ended): **PEST CONTROL**, **HUNT**, **CLEAR**,
+and **DEFEND** (the standing-earner). Escort/patrol/bounty/duel/expedition/siege/relief/investigate are parked
+for T2+.
 
-## 1.11 Endgame — restore & surpass
+## 1.11 Antagonists & endgame
 
-The endgame is **restore *and* surpass**, climaxing in **indirect recognition at Edo** — honoured as
-historically grounded, not a power fantasy. The protagonist, now the lord's right hand and the architect of
-the revival, completes the influence climb: the Kurosawa, hauled from near-foreclosure, stand restored
-**beyond** the grandeur they held three generations ago (before grandfather Sadamune's failed flood-venture
-and cover-up broke them).
+**One antagonist per tier**, escalating in scope (estate → village → region → castle-town → Edo), grounded (no
+magic; "yokai" are misread humans/animals), each **revealed incrementally** rather than unmasked. The
+**reachable culprits answer at their tier; the truly powerful largely escape** — **partial justice by design.**
+**T0 estate decline is a simple debt/misfortune, NOT conspiracy-linked** — the one antagonist with no villain.
 
-"Recognition at Edo" is reached as **indirect, mediated standing** — any of: the house's renowned domain
-product (built from the *shinden*/cash-crop/sericulture economy) celebrated in Edo's markets via
-*sankin-kōtai* supply chains; the protagonist's labour materially lifting the **lord's** standing during
-his Edo attendance so the **house** gains face; and/or a rare, hard-won merit commendation/appointment
-earned by distinguished, documented service. **Crucially**, the protagonist does **not** personally become
-a *hatamoto*, is **not** received by the shogun, and there is **no rags-to-daimyo arc** — the realistic
-ceiling is the emotional thesis made structural: effort takes a nobody and a dying house astonishingly far,
-then meets a wall the truly powerful built.
+| Tier | Antagonist | What they block | Reveal | Resolution |
+|---|---|---|---|---|
+| **T0 — Estate** | **The Inherited Debt** (personified only by tired pawnbroker **Moneylender Tōkichi**; *a circumstance, not a conspirator*). | The estate is dying of compound interest from grandfather **Sadamune's** failed embankment-venture, plus thin harvests and a cracked kura. Can't leave until the immediate fires are out. | A leaning gate and a red ledger; clerk **Tanomo** drips "we owe coin" → "the interest is the problem" → Dowager **Toku**'s memory that the root is Sadamune's own failure, **not anyone's crime.** | Purely economic. **Peaceful:** out-grind the interest and renegotiate. **Assertive:** refuse the worst terms, force a fair table by proving solvency (no fight). Restructured, not erased; the house's **root-sin** it atones for at Kuzuhara — emotional payload, **no antagonist.** |
+| **T1 — Village** | **Foreman Magobei**, the "tanuki of the rumours board" — skimming rice with a doctored measuring-box (*kyō-masu*). The first, small human antagonist. | The T1→T2 gate needs the village happy; his skim keeps stores short and steals the surplus you need; he's the "tanuki" folklore beat. | The board's "rice-thieving tanuki" → one load measuring short twice → the doctored *masu* → the thread runs up to Headman **Yagoemon**, whose ledgers cover Magobei. Dawning unease, then a box of rigged wood. | **Peaceful:** expose the skim, Yagoemon makes restitution and keeps his post in disgrace. **Assertive:** force Magobei off the books (his hired muscle is the first small brawl). **Partial:** Magobei answers; better-connected Yagoemon mostly escapes with a quiet rebuke. |
+| **T2 — Region** | **Rival House Tomita** (spine antagonist) + **Rival House Akagi** (the foil), with **Hanzaki** as the road's teeth. | "Win the region." Tomita underbids deals and courts the same valleys; Akagi blocks the upstart Kurosawa on **precedence**; Hanzaki makes the trade pass unsafe. | Tomita first a *name* underbidding one deal → agent Yasubei → the head. Akagi first a *snub* → a precedence dispute → Gennai. Hanzaki: rumour → a survived-not-won encounter → a recurring duel nemesis (**trained, never gifted**). | Multi-route. **Peaceful/commercial:** out-supply and out-arbitrate valleys; settle Akagi by *restoring its honour*. **Assertive:** secure the pass with a hard-capped 2–3-man detail; break the brigand roost; out-leverage Tomita's brokers. Tomita is **never killed**; a famine-band under Hanzaki can be **fed/resettled.** **The personal-mystery payoff lands here.** |
+| **T3 — Castle-town** | **Tedai Kuroiwa**, the gracious door — the magistrate's agent who *records* your achievements and secretly architects the rice-quota skim. | The gate is the rulers conferring leadership + inviting the house in. All T3 Influence is *minted by officialdom*, and Kuroiwa controls that gate (slow-walks recognition, misrecords yields, routes the rigged-quota friction). | The polite junior clerk who keeps you waiting → the facilitator who records your service (seems an ally) → a yield misrecorded "by error" → Naozane's flinch → the rigged *kyō-masu* at the weighing-yard cross-referenced against quota ledgers. The gracious man at the gate **is** the rot. | Multi-route, **partial justice.** **Peaceful:** outgrow him — become the dominant house holding key offices (Marutaya credit, a graded *meibutsu*, samurai-society standing) and make his skim irrelevant; **you need not prosecute him at all.** **Assertive:** mount the **osso over-the-head petition** on proof — Kuroiwa answers; **Daikan Iemasa largely escapes**; the petition's lethal risk falls on an **ally / *gimin*-martyr**, not the MC. "Take over" = dominant house, **never rebellion.** |
+| **T4 — Edo** | **The Edo factor, Echizen-ya Sōbei** (untouchable apex, laundering the silver) + **the Touring Inspector** (the impartial test). | The factor blocks *full justice* (the trail dies in Edo). The inspector blocks *final recognition* (only a house whose record survives the survey earns the mediated merit-commendation). | The factor a single glimpse (Konoe forwards a dispatch; a manifest dies at his name — you learn *who*, and that you can't touch him). The inspector: rumour down the *kaidō* → a looming date → the staged set-piece where the **lord** faces him and the record is read aloud, MC at the back. | The inspector set-piece is **won or dented**, not fought (a recoverable dent on neglect, never a wipe). **The factor escapes** — the deliberate, honoured incompleteness: reachable culprits answered at their tiers; the truly powerful walk. The win is **the house restored and ranked**, the rot's apex still out of reach. Bittersweet by design. |
 
-This mirrors the side-mysteries' **partial justice** (the reachable culprits — Magobei, Yagoemon, Zenroku,
-eventually Kuroiwa — answer; the untouchable magistrate largely escapes; the *osso* petition wins partial
-redress at terrible, deadly risk, never a clean courtroom victory). **There is no reset of any kind:** the
-tier climb *is* the ending, and everything built persists. The teaching/management layer an earlier design
-routed through a reset is **re-homed** onto green recruit **Tokujirō** and recruited origin friends — "a
-man who climbed once now starting others from zero." The epilogue is a tableau of everything built: the
-restored house seal, the reclaimed fields, the resettled Kuzuhara, the named drowned, the freed and
-self-determining Oharu, the recovered family proud behind him, and a true name (Tahei) and a life he built
-by hand.
+**The connective thread (light, optional — NOT the spine).** A single optional **investigation overlay — "the
+rigged measuring-box"** — recurs as a motif: Magobei's doctored *masu* (T1) → the same rigging in Kuroiwa's
+weighing-yard (T3) → the silver's trail dying at Echizen-ya (T4). A curious player who pulls it finds the rungs
+connect into one **quota machine** and can mount the *osso* petition for partial justice; an incurious player
+simply beats five separate antagonists and never notices the through-line. **No tier requires touching the
+racket to advance** — tier progress is always achievable by economic/social means alone. **Crucially the thread
+is NOT attached to T0:** estate decline stays a self-contained debt/misfortune (Sadamune's embankment), with no
+racket fingerprints; the "one rotten root behind everything" framing is **retired** — the motif is "*a pattern
+you may notice*," not "*the secret behind everything*."
+
+**The power-focused late game & the national *banzuke*.** The endgame story centres on the house's **POWER**
+(office / debt-rescue / takeover / ranking) — **trade is OUT of the finale spine** (a supporting thread only).
+The T3 castle-town becomes a multi-route "become the leading house" conquest (offices held in the house's name,
+the daimyo's confidence won, rivals subordinated — never killed by the player, never rebellion). The T4 Edo
+climax is a **national multi-pillar *banzuke* ranking of the HOUSE** on all four pillars — a **popular
+*mitate*/parody broadsheet, NOT an official bakufu register** — on which the Kurosawa climb from unranked to a
+named **upper-rank provincial house** (a respectable Maegashira/Komusubi; the **Ōzeki/Yokozuna slots are
+structurally sealed** — the wall the truly powerful built, made the chart's literal geometry). Per-tier rank
+ladders also rank the house at each tier (a domain *banzuke* precedes the national one).
+
+**One ending + post-game.** There is **one authored ending** (the house restored & ranked) + **post-game
+free-play (no reset)**; branches are in *how* you got there (allegiance / takeover route), not separate endings.
+**D-010's honest ceiling is preserved by ranking the HOUSE, not the man:** the protagonist does **not** become a
+*hatamoto* or get received by the shogun; recognition arrives **indirect and mediated** (down through rusui
+**Konoe** and **Lord Munenori**). His personal ceiling stays **chief steward / the lord's right hand**; the
+house's *banzuke* rank keeps climbing post-cap (decoupling personal vs house ascension). The post-game long-tail
+is escalation/mastery over what's already built (defend the top *banzuke* spot on the biennial *sankin-kōtai*
+heartbeat, recoverable and never a decay-tax; optional grounded super-bosses; per-pillar mastery goals; the
+estate-as-sandbox teaching layer re-homed onto **Tokujirō** and recruited origin friends).
+
+**Succession.** A generational beat: aging **Lord Munenori**'s decline → heir **Naoyuki** comes into his own
+(the MC as right-hand); the house's future is secured across a generation. The epilogue is a tableau of
+everything built: the restored-and-surpassed house seal, the reclaimed fields, the resettled Kuzuhara, the
+named drowned, the freed and self-determining Oharu, the recovered family proud behind him, and a true name
+(Tahei) and a life built by hand.
 
 ## 1.12 How §1 paces the incremental unlocks
 
-The estate-rank climb is the **dominant driver** of the UI-as-progression reveal, with House Influence as
-the underlying gate-currency, so **"numbers go up" and "the world enlarges" are one motion.**
+The estate-rank climb is the **dominant driver** of the UI-as-progression reveal, with House Influence as the
+underlying gate-currency, so **"numbers go up" and "the world enlarges" are one motion.**
 
 **Spatially:** the player starts trapped in one storehouse room (one verb) and earns the rest of the estate
-room by room (the rank ladder made of doors), then the village (errands at Rank 3+), then the wilderness
-(by conditioning), then his own past (by memory), then the region, the castle-town, and finally Edo.
-Because each tier opens a fresh, larger canvas with bigger numbers and **no reset**, the map physically
-embodies the tier escalation.
+room by room (the rank ladder made of doors), then the village (errands at R3+), then the wilderness (by
+conditioning), then his own past (by memory at T2), then the region. Each tier opens a fresh, larger canvas
+with bigger numbers and **no reset**, so the map physically embodies the tier escalation.
 
-**Systemically:** each rank-up fires through the universal rewards/unlock bus as **one** event that
-simultaneously pushes a diegetic log line, reveals the next panel/tab/resource/area, grants the perk, and
-advances a story flag — so feature unlocks read as plot, never silent menu growth. Concretely:
+**Systemically — the multi-screen UI that appears single-screen early.** The **UI shell is multi-screen
+navigation with screens/nav progressively revealed**: it *appears single-screen early* (one verb + a
+persistent event log) and **more screens unlock as you progress.** Each rank-up fires through the universal
+rewards/unlock bus as **one** event that simultaneously pushes a diegetic log line, reveals the next
+panel/tab/resource/area, grants the perk, and advances a story flag — so feature unlocks read as plot, never
+silent menu growth. Concretely (v1 ladder):
 
-- **Rank 0** — body/rest bar + rice counter.
-- **Rank 1** — labour loop + paddies + *koku*.
-- **Rank 2** — Skills tab + foraging/woodcutting.
-- **Rank 3** — main house + village tier + the drill yard / idle-combat (after the humbling fight).
-- **Rank 4** — the assignment/management panel + labour-gang.
-- **Rank 5** — the House Influence macro-resource made visible + cash-crop/proto-industry levers.
-- **Rank 6** — the ledgers + the tier-expansion map.
-- **Rank 7 (capstone)** — the estate gate to the wider world and the bridge to the higher tiers.
+- **R0** — body/rest bar + rice counter.
+- **R1** — labour loop + paddies + *koku*.
+- **R2** — Skills tab + foraging/woodcutting.
+- **R3** — main house + village tier (errands).
+- **R4** — drill yard + Combat panel + Equipment/Inventory + Bestiary (after the humbling fight).
+- **R5** — assignment/management panel + labour-gang.
+- **R6** — pest-control/hunt/clear quests + first combat-earned standing.
+- **R7** — the four-bar House Influence panel made visible + cash-crop/proto-industry levers + the tier-expansion map.
 
-Every reveal carries an Influence-band (plus flag/skill) predicate, so the macro spine literally paces the
-UI. The three faction tracks differ in **shape** to keep pacing varied: the estate's **steep geometric**
-rank gates space the big promotions (interleaved with smaller responsibility/perk drips so the climb has
-texture between gates — never letting the next goal exceed ~2–3× the prior); the village's **gentle
-per-node** meters give frequent small dopamine; the origin's **discrete memory milestones** are chunky
-one-time unlocks on a guaranteed cadence (foreshadowed for hours so its absence reads as anticipation). The
-side factions act as Influence **multipliers** (tuned so weaving them in roughly halves time-to-next-tier
-— *felt, never a wall*), so a curious player paces faster and a spine-only player still finishes, just
-slower and lonelier. The folklore rumours stay strictly optional and never gate tier progression.
-Everything is data-driven (areas/panels/resources as registries with unlock predicates over GameState),
-deterministic under the one seeded RNG, with balance/unlock tables generated into `docs/` and headlessly
-regression-testable via the DEV play API.
+Because the climb is **active-only with no offline progress**, time is an **abstract clock advanced by active
+play** (days/seasons drive harvest/weather/festivals and the seasonal Influence results); **auto-producers are
+limited / late-game only** (early game is active grind). Everything is data-driven (areas/panels/resources as
+registries with unlock predicates over GameState), deterministic under the one seeded RNG, with balance/unlock
+tables generated into `docs/` and headlessly regression-testable via the DEV play API. The three faction tracks
+differ in **shape** to keep pacing varied (estate steep-geometric gates; village gentle per-node meters; origin
+discrete milestones), and the side factions act as Influence **multipliers** (≈ halve time-to-tier — felt,
+never a wall).
 
-## 1.13 Risks & guardrails (from the adversarial verify)
+## 1.13 Risks & guardrails
 
-The adversarial review credited the design's hard constraints as **honoured and in several places
-exceeded** (no overt/player magic; no-hidden-edge protagonist; identity-as-side-thread; three distinct
-faction shapes; *shōya*-headman authenticity; folklore-as-light-flavour; cultural sensitivity). It **failed
-the section as "canonical" on process and two authenticity points** — folded in here as guardrails:
+Folded in from the locked-rule fixes (to apply at integration and hold through §§2–7):
 
-- **Lock the reversing ADRs before treating this as canon.** Four direction-changing calls contradict the
-  still-live locked ADRs and must be re-locked with the human first (see §1.14): reverse the reset (D-004),
-  broaden the origin to living family, cap the Edo ceiling, and reconfirm/soften the true-name reveal
-  (D-006). Until then, `prd.md` §1 is **draft**, and the old ADRs still encode the opposite.
-- **Keep the world generic-rural — no real place-names.** The post-town was renamed from a real, famous
-  Nakasendō *shukuba* to the **invented Sawatari-juku** on an unnamed *kaidō*, restoring the guardrail.
-  Confirm canonical place/house names and resolve any remaining collisions.
-- **Residual-ambiguity cap = ≤1.** Tightened from the facet's loose "~1–2" back to **≤1** unresolved,
-  off-screen, mundane-readable token, matching the locked folklore decision.
-- **State the protagonist age band.** Replaced the silently-dropped "17-year-old" / vague "young man" with
-  an explicit **~18–20** self-made young adult, so downstream dialogue/art authoring is consistent.
-- **Keep the top title authentic.** The top rung is "chief steward / the lord's right hand"; *karō*/*karō-kaku*
-  and "symbolic adoption into the house name" are **aspirational narration only**, flagged for the §4/§5
-  research-harden so a modest *goshi* house stays historically defensible.
-- **Commit to a decadal/generational timescale** for the upper-tier climb (T3→5), so the
-  restore-and-surpass arc reads as earned over years, not a few seasons.
-- **No-mechanical-bonus discipline holds at the faction-3 fusion.** Making the origin town a macro asset
-  must stay **access-only**; every asset is still grind-built (binds the dream rule).
+- **No belief-creatures in grindable spawn tables.** Grindable mobs are honestly-mundane (boars, monkeys,
+  hornets, wolves/bear, bandits/deserters — **~5 in v1**). Any "yokai" (kappa, fox-fire fox/tanuki,
+  yamanba/tengu, the one-eyed mountain god) is an **INVESTIGATE-then-confront one-shot** resolving to a
+  human/animal, never a respawn population.
+- **Residual ambiguity ≤1.** Re-affirmed: exactly one unresolved, off-screen, mundane-readable token, kept at
+  the **Asagiri boundary-stone.** No new ambiguity beats (e.g. the invented "T4 castle-town ghost-story wink"
+  is **deleted**). Provide a region-wide belief→cause table before authoring any node with new omens.
+- **No permanent holding-loss ("never a wipe").** A failed defence **dents/disables** a holding *temporarily*
+  (recoverable by rebuild); Influence can stall or take small per-pillar dents but is **never wiped**.
+- **No labour→combat cross-feed.** Labour conditioning is a **one-way enablement gate** on combat rungs and
+  grants **ZERO combat stat or training-rate bonus** (the soft hidden edge is killed outright).
+- **Fictionalise real names.** Keep the world generic-rural — no real place/daimyo/house names (the post-town
+  is the invented **Sawatari-juku**; sealed *banzuke* top ranks use fictionalised great-house analogues).
+  Resolve name collisions (the origin **father** is dropped/renamed to avoid colliding with any other
+  *Kuranosuke*; pick one macron romanization convention project-wide).
+- **Hard-cap martial scale.** A **small named retinue** + temporary corvée/levies for crises, **never a
+  standing army**; "de-facto security" = the house the daimyo *deputises* (sanctioned, revocable). Re-balance
+  toward **labour-plurality** (peaceful labour the dominant daily texture; combat the strong mid-game-onward
+  second pillar).
+- **Replace coined 政威 if a better-attested term exists** (candidate **領 *ryō***); confirm at the §4/§5
+  authenticity-harden, alongside the top-rung title (keep grand *karō*/adoption vocabulary as **aspirational
+  narration only** for a modest *goshi* house).
+- **Lock the *meibutsu* product** with the human before authoring any T3/T4 trade/prestige payload (it threads
+  through several nodes); until then author against a placeholder.
 - **Estate-restoration must not drift into city-builder/4X tedium** — Influence stays diegetic and
   story-framed; the cozy daily-labour texture and grounded character story remain the core.
-- **Number-range / scope guard.** Five order-of-magnitude tiers risk balance blowup and scope explosion;
-  define a v1 vertical slice (see §1.14) and confirm whether big-number formatting is needed.
-- **Talent-foils stay made, not born; partial justice stays deliberate; debunk with dread, not gotcha.**
-  Inherited from the prior review and still binding.
-- **Romanization policy:** pick one macron convention project-wide (e.g. *Yagōemon* vs *Yagoemon*).
 
-## 1.14 §1 decisions to lock
+## 1.14 §1 decisions → ADRs
 
-> Marked **DRAFT — in review.** The previously locked §1 ADRs (D-001…D-006) were written against the
-> earlier lost-child-mystery spine. **The reset decision is REVERSED** by the new direction, and several
-> others are amended. New superseding ADRs are flagged below for the human to weigh in on.
+The §1 decisions map to ADRs D-001…D-015 (final numbering set at integration). **D-004 is reversed** (no
+reset); **D-006 is amended** (Tahei reveal softened to a late side beat; age ~18–20).
 
-| Decision | Resolution / recommendation | ADR action |
+| ADR | Decision | Status |
 |---|---|---|
-| **The estate-rise spine** | Adopt the estate-restoration / rank-ladder / five-tier influence climb as the canonical spine. | **New ADR** (supersedes the old mistaken-identity spine framing). |
-| **Three-faction structure** | Estate (gated rank ladder, main) + Village (multi-node reputation web, side) + Origin (memory-gated support track, side); coupled by separate currencies feeding one House Influence macro-resource. | **New ADR.** |
-| **Reverse the reset (was ADR D-004)** | **Reverse D-004:** the tier climb (estate→village→region→domain→Edo) replaces prestige; **NO reset of any kind**; everything persists as the canvas grows. The teaching layer re-homes onto Tokujirō + recruited origin friends. | **Mark D-004 ⛔ REVERSED**; write the superseding ADR. |
-| **Broaden the origin (faction 3)** | Broaden from "family dead / drowned hamlet" to **living** kin, employer, friends, sweetheart, and guild in the post-town, with Kuzuhara as a re-foundable region node; keep a bittersweet edge (he was written off; some won't easily forgive). | **New ADR** (supersedes the family-death canon). |
-| **Cap the Edo ceiling** | Frame "recognition at Edo" as **indirect/mediated** (famous *meibutsu* + lord's lifted standing + a rare merit appointment); the protagonist never personally becomes *hatamoto* / is received by the shogun. | **New ADR** (touches the locked ambition). |
-| **Protagonist identity (amend D-006)** | Keep **fixed male, no rename**, "Tama" borrowed name, true name **Tahei**; but **soften** the true-name reveal from spine-climax to a **de-emphasised late side beat** (identity is explicitly a side thread). State age band **~18–20**. | **Amend/reconfirm D-006.** |
-| **Folklore = belief→cause** | Every belief resolves to a human/natural cause; residual ambiguity capped at **≤1** off-screen beat; the fox de-fanged; folklore is light flavour via the inn's rumours board. | **Reconfirm** (matches the locked folklore decision; tighten the cap wording). |
-| **Mediocre-start contract** | No-hidden-edge rules binding on writing *and* code; refined to **weak/slow, not bedridden invalid**; porter's-knot and dream = **zero bonus, access-only**. | **Reconfirm/amend** the locked mediocre-start ADR. |
+| **D-001 / D-002 / D-003 / D-005** | Grounded / no-magic; folklore = believed-atmosphere (light flavour); mediocre-start (no hidden edge); title *Kamikakushi* + fictional mid-Edo setting. | **Hold.** |
+| **D-004** | Reset / prestige. | **⛔ REVERSED** — tiers replace prestige; **NO reset of any kind**; everything persists. Teaching layer re-homed onto Tokujirō + recruited origin friends. |
+| **D-006** | Protagonist identity. | **Amended** — fixed male, no rename; "Tama" borrowed name, true name **Tahei**; reveal softened to a de-emphasised **late side beat**; age **~18–20**. |
+| **D-007** | Estate-rise spine + tiers **T0–T4** + per-tier transition story gates. | **New ADR** (supersedes the mistaken-identity spine). |
+| **D-008** | Three starter factions + **four-pillar** House Influence + **per-tier required-pillar gating** (floor + ≤25% overflow). | **New ADR.** |
+| **D-009** | Origin = **living** family/friends (Sawatari-juku) opening at **T2**; Kuzuhara a re-foundable region node; access-only. | **New ADR** (supersedes family-death canon). |
+| **D-010** | Indirect/mediated **Edo ceiling** — rank the HOUSE (national *mitate-banzuke*), not the man; no *hatamoto*/shogunal audience. | **New ADR** (Option A: provincial/parody chart; personal rank hard-capped at chief steward). |
+| **D-011** | **Combat earns standing** via the Arms pillar (reverses the old "never a source of standing"); mediocre-start preserved; conditioning gate, no cross-feed. | **New ADR.** |
+| **D-012** | Per-tier rank ladders + full maps every tier + **v1 = T0–2** (T3 stub, T4 roadmap); lean cut-set (~8 rungs, ~5 mobs, ~4 quest types, ~6–8 nodes). | **New ADR.** |
+| **D-013** | Tech: Vite + TS + Vitest; pure-core + thin DOM renderer; one seeded RNG; IndexedDB + base64 export/import; responsive desktop+mobile; **active-only, no offline progress**; static itch.io build. | **New ADR.** |
+| **D-014** | **Per-tier antagonists** (not a single racket); the racket demoted to a **light, optional connective thread**; T0 villain-less; two rival houses (Tomita + Akagi). | **New ADR.** |
+| **D-015** | Four-pillar accrual = **achievement JUMPS + seasonal JUDGED RESULTS** (new-high-water-mark only), up-only + rare recoverable **per-pillar** dents (never a wipe). | **New ADR.** |
 
-**Estate-rank count & shape (recommend lock):** **eight ranks** (Stray → chief steward) at the local tier;
-higher tiers track House Influence and outward expansion rather than a fresh personal rank ladder. *Exact
-count is a balance/pacing call to confirm.*
+### Items still flagged for the human
 
-**Side-faction multiplier (recommend lock intent, tune later):** **moderate** — weaving both side factions
-in roughly **halves** time-to-next-tier; felt, never a hard wall.
-
-**v1 launch scope (a §7 decision, gated on human review):** Tiers **1–2 complete** (estate + village), Tier
-3 stubbed as the cliff-hanger; Tiers 4–5 as roadmap.
-
-### Open questions (surfaced for the human)
-
-- **Tier count and naming** — are exactly five tiers right, or should "region" and "domain" merge / a
-  "province" tier be added? Needs a balance/pacing pass.
-- **Influence band thresholds & conversion-ledger weights** — how much Influence a *shinden* plot vs. a
-  paid debt vs. a won petition is worth. Defer to the balance facet / §4.
-- **Influence decay or only stall?** Recommend: never decays passively; a small set of scripted,
-  recoverable dents only. Confirm against the "no wipe" feel.
-- **Big-number formatting** — does the *koku*/Influence economy reach magnitudes across five tiers needing
-  scientific/abbreviated formatting?
-- **Pacing lock** — do the side-mysteries (lost-child, origin) and the tier climb climax **together** at
-  Tier 5/Edo, or resolve around Tier 3–4 with Tier 5 as a quieter restoration victory lap?
-- **Allegiance shape** — is Tama-vs-farmhand a continuous slider or discrete leanings, and can it be freely
-  re-swung or does it harden after key beats?
-- **Estate-vs-village penalty** — does the estate actively penalise high village standing
-  (jealousy/split-loyalty) as a live mechanic, or is that purely narrative flavour?
-- **Origin unlock timing & dream cadence cap** — where on the memory/tier timeline does the origin track
-  open, and what is the exact cadence cap (in-game days or skill/standing threshold)?
-- **Seconded allies cost** — do village allies seconded to the estate count against village production (a
-  real loan with a cost), or are they free helpers?
-- **Top-title authenticity** — chief steward (*karō*-equivalent) vs. a humbler *yōnin*/steward title for a
-  *goshi* house? An authenticity-vs-legibility call on vocabulary.
-- **Canonical setting template** — which decade/sub-period and domain archetype (keep fictional but pick a
-  template) to sharpen the rise-levers, the *meibutsu* product, and the *goshi*-treatment model.
-- **Adoption/marriage-up** — an actual late-game mechanic (the most authentic top-rung lever) or narrative
-  flavour, given it introduces relationship/family-line systems that may exceed v1 scope?
-- **Whose neck is on the line in the *osso* petition** — the protagonist, an ally, or a *gimin*-style
-  martyr NPC? The most affecting option is real personal risk; reconcile with the partial-justice
-  guardrail.
-- **Estate room-unlock granularity** — six separate reveals, or fold stables/woodlot into the forecourt to
-  avoid early reveal fatigue?
-- **Macro-tier spatiality** — do region/domain/Edo get full sub-area maps or more abstract
-  "holdings/influence" boards over a thinner location set?
-- **Inn rumour-quest count** — how many ship, and confirm the hard rule that all are optional and none
-  gate tier progression.
-- **Canonical place/house names** — confirm estate = Kurosawa, valley = Asagiri-dani, origin post-town =
-  the invented **Sawatari-juku**; resolve remaining name collisions (sister renamed **Okimi** to avoid the
-  superseded survivor "Kiku"; confirm whether any old-canon Kiku material salvages into the
-  Kuzuhara/origin thread).
-- **True-name reveal reconciliation** — does the late **Tahei** reveal and its timing survive the reframe
-  now that identity is explicitly a side thread, softened/optional rather than a spine climax? Reconcile
-  with D-006.
+- **The canonical *meibutsu* product** (silk/sericulture, sake, textile, lacquer, paper, or a rice brand) — gates the trade sub-engine capstone, the Nihonbashi category, and the *banzuke* product strand; lock before authoring any T3/T4 payload.
+- **政威 *sei-i* vs 領 *ryō*** for the Standing & Office pillar, and the top-rung title (chief steward / *yōnin* vs aspirational *karō*) — an authenticity-vs-legibility call for the §4/§5 harden.
+- **Macro-tier spatiality** — full walkable maps at every tier (the human's stated preference) vs thin abstract holdings/correspondence boards above T2, given the lean-v1 scope guard.
+- **The *osso* petition's "whose neck"** — recommend a *gimin*-martyr ally bears the lethal risk (the MC's hands stay clean); reconcile with partial-justice and the indirect ceiling.
+- **Second rival house confirmation** — Akagi (honour/precedence) as the canon-required second house beside Tomita; confirm it is not folded into Naoyuki-as-internal-foil.
+- **Romanization convention** (macron policy) and final **ADR numbering** at integration; confirm the origin **father** is cut/renamed to avoid the *Kuranosuke* collision.
+- **Estate room-unlock granularity** — fold the stables/woodlot edge into the forecourt to avoid early reveal fatigue, or keep separate.
+- **Balance values** — per-pillar thresholds, the seasonal judged-result formula, conversion weights, and big-number formatting — deferred to §4 but the SHAPE (floor + ≤25% overflow; min/geometric-mean roll-up; Estate ≤¼ of roll-up, trade ≤⅓ of Estate) needs sign-off.
 
 ---
 
-_§§2–7 to be authored after §1 is approved._
+_§§2–7 to be authored next._
