@@ -315,15 +315,53 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 ## J. Open / not-yet-resolved (for the audit's attention)
 
-- **J1.** §3.4 (T1) reframe — **in progress** (workflow `w82yterx8`); awaits human review of the result.
-- **J2.** §3.6 (T2) reframe + Origin-as-rep-track + Tomita/Akagi development — **queued**.
-- **J3.** §3.5 (nav track) and §3.7 (T3/T4 sketch) — **not yet reviewed** by the human.
-- **J4.** §5 authenticity pass (kanji + period titles) — **deferred** to a later focused pass.
-- ~~**J5.** The estate-rep arc labels for **T3 and T4**.~~ **RESOLVED (2026-06-25):** full arc locked —
-  stranger→friendly (T0) → trusted (T1) → honorary member (T2) → **chief steward / *yōnin* (T3, the MC's
-  personal ceiling)** → **T4: MC stays *yōnin*; the arc shifts to the HOUSE's national standing** (indirect
-  ceiling). §3.7 light-reframed to match.
-- **J6.** Whole-project audit (the reason for this doc) — **pending** once §3 review completes.
+- ~~**J1.** §3.4 (T1) reframe.~~ **DONE** ✅ (estate-domain spine + village side-track + §3.4.1).
+- ~~**J2.** §3.6 (T2) reframe.~~ **DONE** ✅ (trusted→honorary; Origin `O0→O5`; Tomita/Akagi; §3.6.1/§3.6.2).
+- ~~**J3.** §3.5 / §3.7.~~ **DONE** ✅ (§3.5 reviewed clean; §3.7 light-reframed to the estate-domain model).
+- ~~**J4.** §5 authenticity pass.~~ **RESOLVED (2026-06-25):** Standing & Office = **官威 (*kan'i*)**; soft
+  title fixes (R7 → *jikata-yaku* / "home-field bailiff"; *michi-ban* kept diegetic-only); **T4 reframe** —
+  the house runs the *domain's* Edo conduit (rusui-yaku), not its own estate. *(To APPLY after the §7
+  breakdown frees `prd.md`.)*
+- ~~**J5.** Estate-rep arc T3/T4.~~ **RESOLVED:** stranger→friendly (T0) → trusted (T1) → honorary member
+  (T2) → **chief steward / *yōnin* (T3, the MC's ceiling)** → **T4: MC stays *yōnin*; arc shifts to the
+  HOUSE's national standing** (indirect ceiling).
+- **J6.** Whole-project audit — **pending**; the **holistic consistency sweep is the final gate** (queued
+  after the §7 breakdown + the authenticity application land).
+- **J7.** §7 milestone breakdown (5–8 high-level tasks per milestone) — **in progress** (workflow `w46su5inn`).
+- **J8.** §4 balance — **human-delegated** ("I trust you on S4"); accept first-pass model, **tune at M6**.
+
+---
+
+## K. Post-PRD strategy & process (2026-06-25, human-signed)
+
+> The PRD is **not yet frozen** — the human is still reviewing. These set direction for *after* sign-off.
+
+- **K1. Art = a STRONG CSS design-language, NO asset pipeline.** Woodblock/ink aesthetic via a tight palette,
+  a real period-evoking font, CSS borders/seals, and reveal motion — text + emoji + CSS only (per §6.9).
+  **Anti-slop discipline:** lock the design language *first*; no screen is improvised.
+- **K2. Two gaps to author once the PRD is frozen (before/alongside M0):** (a) a **UI design-language bible**
+  (`docs/ui-design.md`, preceded by a visual-reference/ukiyo-e research pass); (b) a **fun-factor / playtest
+  plan**. Record both as ADRs. *(§6.9 names the palette but has no design VISION; the PRD has pacing targets
+  but no FUN proxies — these are the two real gaps.)*
+- **K3. Fun-factor process.** Fun is a *hypothesis tested by play*, not a spec. Loop: build → **instrument
+  headless fun-proxies** (dead-time, reward/unlock cadence, always-a-visible-next-goal, the first-5-min hook)
+  via the DEV play-API → get a **playable T0 vertical slice ASAP** (M0–M3) → **the AGENT drives the slice,
+  observes the flow/states (screenshots + telemetry) and forms its own pacing/feel opinions**, iterating →
+  **the human plays & makes the higher-level fun call.** The agent measures proxies *and* has its own read;
+  the human is the final judge of fun — not the only set of eyes.
+- **K4. UI-QA process — the agent is a capable visual reviewer (corrected 2026-06-25).** The agent has
+  **Playwright MCP + Chrome DevTools MCP + the `capture-game-states` skill + its own multimodal vision** — so
+  it **drives the game, screenshots every state / phase / transition / page, *looks at them itself*, critiques
+  against the UI bible, and iterates** — catching slop / misalignment / visual bugs **before** anything reaches
+  the human. The **human is the higher-level taste arbiter** on polished candidates, NOT the per-screen QA.
+  (Do **not** defer all visual judgment to the human — the agent has its own eyes and opinions and must use
+  them.)
+- **K5. Docs structure (after freeze).** Freeze `prd.md` as the vision; **explode into per-concern living
+  docs** (architecture / systems / narrative) + **generate-don't-duplicate** content/balance tables. Hold
+  until PRD sign-off.
+- **K6. Review posture (this session).** §4 = accept first-pass, tune at M6. The **consistency sweep is the
+  final gate** before lock. §5 story core **kept as-is**. §2 + the rest of §5 = **trust + spot-check** (during
+  the sweep).
 
 ---
 

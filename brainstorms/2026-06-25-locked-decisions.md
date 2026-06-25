@@ -283,6 +283,31 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   free/PWYW + HTML in-browser + relative base; release = **local `npm run verify` gate + manual upload** (no
   hosted CI, no deploy automation).
 
+### §5 authenticity decisions (2026-06-25, human-signed — APPLY after the §7 breakdown frees prd.md)
+- **Standing & Office pillar kanji = 官威 (*kan'i*)** — "authority of office," a real attested compound (not a
+  coinage like the rejected 政威). Register: **武威 / 官威** (achieved authority — martial / official) · **家産 /
+  家格** (house assets — wealth / status) → **家威** (House Influence umbrella). (Spoken homophone of 官位 court
+  rank — disambiguated by the on-screen kanji.)
+- **Title fixes:** R7 bailiff **地頭代 → 地方役 (*jikata-yaku*)** / "home-field bailiff" (jitō-dai is too grand
+  for a goshi house); **michi-ban** kept **diegetic-only** (an in-house role, not a real Edo office).
+- **T4 reframe:** the house **runs the *domain's* Edo conduit** (rusui-yaku under the daimyō's *sankin-kōtai*)
+  — NOT its own *sankin-kōtai* / Edo estate (a daimyō obligation). T4 is roadmap-only.
+- Rest of the PRD's period vocabulary **verified authentic** (koku/mon, kyō-masu, goyōkin, fudasashi, sekisho,
+  shinden, meibutsu, osso/gimin, yōnin, daikan/tedai, mitate-banzuke, etc.).
+
+### Post-PRD strategy (2026-06-25, human-signed — see `../docs/prd_human_feedback.md` §K)
+- **Art = a strong CSS design-language** (woodblock/ink), **no asset pipeline** (text+emoji+CSS). Anti-slop:
+  lock the design language first; **the AGENT itself screenshot-QAs every state** (Playwright + Chrome-DevTools
+  MCP + the `capture-game-states` skill + its own multimodal vision), critiques against the bible, and iterates
+  **before** the human sees it; the **human is the higher-level taste arbiter**, not the per-screen QA. (The
+  agent has its own eyes/opinions — it must use them, not defer all visual judgment.) Fun likewise = the
+  agent's measured proxies **+ its own observed read**, with the human making the final fun call.
+- **Two gaps to author once the PRD is FROZEN (before/alongside M0), recorded as ADRs:** a **UI
+  design-language bible** (`docs/ui-design.md`, with a visual-reference pass) + a **fun-factor / playtest
+  plan** (headless fun-proxies + a play-and-judge cadence; the agent measures, the human judges fun).
+- **Docs:** freeze `prd.md` as the vision; **explode into per-concern living docs + generate-don't-duplicate**
+  — only **after** PRD sign-off. **PRD review is still in progress.**
+
 ## J. ADR mapping (to record in `../docs/history/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
 - **D-004 ⛔ REVERSED** — no reset (tiers replace prestige).

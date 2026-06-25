@@ -33,7 +33,15 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
 - **Single source of truth — generate, don't duplicate.** Anything derivable from the game's data
   (balance tables, content lists) is **generated** into `docs/`, never hand-maintained twice.
 - **Playtest via code, not synthetic input.** Expose a DEV-only play API on `window` so the game can
-  be driven and observed headlessly — see the `capture-game-states` skill.
+  be driven and observed headlessly — see the `capture-game-states` skill and the
+  [QA & playtesting plan](docs/plans/qa-playtesting.md).
+- **QA fun & visuals, not just function.** A compiling build isn't the bar — the game must be *paced
+  and fun* and *look intentional* (woodblock/ink, **not** generic AI-slop). Three distinct living docs
+  own this: **what fun *is* & how to keep it high** → [`docs/fun-factor.md`](docs/fun-factor.md); **how
+  Claude drives / observes / screenshots the game to play-test it** (the harness + MCP tools + the
+  fun-proxy *measurement*) → [`docs/plans/qa-playtesting.md`](docs/plans/qa-playtesting.md); **the visual
+  language** → [`docs/ui-design.md`](docs/ui-design.md). The agent reviews its own screenshots with its
+  own vision and iterates; the human is the final fun & taste arbiter.
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `journal/`
   says **how it got here**. One doc per concern; edit living docs in place (don't fork copies).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp/) for all scratch /
@@ -54,7 +62,12 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
 - [README.md](README.md) — the game's vision.
 - [`memory/`](memory/) — durable per-fact notes: [working-agreements](memory/working-agreements.md)
   (cadence + autonomy) and [project-status](memory/project-status.md) (live snapshot + how to resume).
-- [`docs/`](docs/) — design docs (living, edited in place). Empty until we start designing the game.
+- [`docs/`](docs/) — design docs (living, edited in place): **[prd.md](docs/prd.md)** (the merged PRD /
+  vision spec), **[prd_human_feedback.md](docs/prd_human_feedback.md)** (the consolidated human-steering &
+  QA-answers audit record), **[plans/qa-playtesting.md](docs/plans/qa-playtesting.md)** (how Claude
+  play-tests the game), **[fun-factor.md](docs/fun-factor.md)** (what fun is & how to keep it high),
+  **[ui-design.md](docs/ui-design.md)** (the woodblock/ink UI design-language bible). Generated
+  content/balance tables will land under `docs/content/`.
 - [`docs/history/`](docs/history/) — the **ADR log** ([decisions.md](docs/history/decisions.md)) +
   changelogs: *why* the design is the way it is (not current state).
 - [`human-in-the-loop/`](human-in-the-loop/) — the human's queue: decisions (`H`-items) and reviews
