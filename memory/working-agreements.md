@@ -1,0 +1,24 @@
+---
+name: working-agreements
+description: How to work on this repo — cadence, autonomy, the commit/journal gate
+metadata:
+  type: feedback
+---
+
+# Working agreements
+
+**Cadence:** many small commits; journal each session in [`../journal/`](../journal/); durable design
+in [`../docs/`](../docs/) (added when we design the game); per-fact memory here. Locked design
+decisions are recorded as ADRs in [`../docs/history/decisions.md`](../docs/history/decisions.md).
+
+**Commit gate:** keep the build working, and stage a `journal/` change every commit (enforced by
+`.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Once a toolchain exists, also gate on
+its verify command and record it in [project-status](project-status.md).
+
+**Autonomy:** pick the next task → build → verify → commit → journal → repeat. Stop and ask only for
+(1) decisions that change what the game *is*, and (2) outward-facing / hard-to-reverse actions (push,
+deploy, delete) — never without explicit approval. State lives in commits + journal so a compaction
+never loses progress.
+
+**Architecture rule:** keep game logic in a **pure core** (no DOM/canvas imports), deterministic
+(one seeded RNG) and testable; the renderer consumes it as plain data.
