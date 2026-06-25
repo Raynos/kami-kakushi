@@ -130,7 +130,7 @@ for itch.io.
 > castle-town, and finally recognition at Edo — until the Kurosawa name is restored and surpassed.*
 
 **Tone:** grounded, warm, bittersweet **Edo folk-mystery** wrapped around a cozy, satisfying **restoration
-fantasy** (mid-Edo, stable and commercial, ~18th century, kept **fictional** — no real place or daimyo
+fantasy** (mid-Edo, stable and commercial, ~18th century, kept **fictional** — no real place or daimyō
 names). The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a *koku*/rice
 base economy — numbers-go-up as honest sweat — with combat as a dangerous, earned second pillar. Beneath the
 warmth runs a quiet grim undercurrent: a house broken by an ancestor's failed venture, a village grieving a
@@ -416,7 +416,7 @@ over years.
 
 | Tier | Theme | Transition story gate (entry) | Required pillars (simple thresholds) |
 |---|---|---|---|
-| **T0 — Estate** | Earn your keep and a place at the table. One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **Arms + Estate** (humbling first fight survived; first *shinden* begun; kura solvent). |
+| **T0 — Estate** | Earn your keep and a place at the table (standing **stranger→friendly**). One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **Arms + Estate** (humbling first fight survived; first *shinden* begun; kura solvent). |
 | **T1 — The Valley** | The estate's domain expands to **anchor its own valley** (standing friendly→**trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the valley. | **Arms + Estate**, first **Office** (errand-authority; the headman's regard; cash-crops online). |
 | **T2 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region's **rival houses Tomita & Akagi** are the incumbents to surpass (G7 = rivals dethroned). | **Estate + Office** rising; **Arms** secures roads; the **personal-mystery payoff** lands here. |
 | **T3 — Castle-town** *(stub in v1)* | The estate's domain expands to **become a castle-town power holding key domain offices** (standing **honorary member → chief steward / *yōnin*** — the MC's personal CEILING): the *daikan* / *tedai* officialdom and inter-*han* markets acknowledge, contend with, and cede to the house. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. | **Office + Name** dominant (the takeover is won socially); Arms/Estate as leverage. |
@@ -495,7 +495,7 @@ static**; the origin cast unlocks at T2.
 |---|---|---|---|
 | **Lord Kurosawa Munenori** | Head of the house, late 50s; weary, decent, stiff-backed pride papering over shame. | **Apex rank-gatekeeper** — upper-rung promotions need his explicit recognition; his approval *is* the main quest's measure. Believes ledgers, not omens. The **generational succession beat** runs through his aging decline. | E0 (T0) |
 | **Kurosawa Naoyuki** | The lord's son and heir, ~22; talented, restless, chafing at genteel poverty. | Early **rival inside the household** (gatekeeps mid rungs); the talent-foil *inside* the family until the grind outpaces his coasting. Arc: rivalry → grudging respect → brotherhood; **converted talent, not innate gift.** Later the **ally against Rival House Tomita**; comes into his own as the house's future. *(LOCKED: Naoyuki-rises-as-heir and the early in-house rival→brotherhood arc are confirmed.)* | E0 (T0) |
-| **Lady Kurosawa Chiyo** | The lord's wife, ~50; manages the inner household and its meagre purse. | Gatekeeps **houseman access (R3)** and the domestic economy; later the house's **alliance-strategist** at the castle-town. | E0 (T0) |
+| **Lady Kurosawa Chiyo** | The lord's wife, ~50; manages the inner household and its meagre purse. | Gatekeeps **houseman access (R4)** and the domestic economy; later the house's **alliance-strategist** at the castle-town. | E0 (T0) |
 | **Dowager Kurosawa Toku** | The lord's mother, ~75; sharp-memoried; the only one who lived through the fall as an adult. | Living **backstory keeper** — slowly parts with why the house declined (grandfather **Sadamune's** failed flood-venture). Embodies "no shortcuts." | E0 (T0) |
 | **Chief Steward Genemon** | Runs the estate day to day, ~60; dry, overworked, fiercely loyal. | The **spine's primary rank-gatekeeper and quest-giver** — first calls him "another mouth," assigns nearly all early labour, grants the rung-by-rung promotions. Arc: grudging tolerance → reliance → naming him deputy and successor. | E0 (T0) |
 | **Tanomo** | Estate accountant/clerk, ~45. | Gatekeeps the *koku*/economy and debt-repayment systems; the in-house thread into the ledger/debt mystery; later runs the debt-restructuring interface. | E0 (T0) |
@@ -652,7 +652,7 @@ you may notice*," not "*the secret behind everything*."
 **The power-focused late game & the national *banzuke*.** The endgame story centres on the house's **POWER**
 (office / debt-rescue / takeover / ranking) — **trade is OUT of the finale spine** (a supporting thread only).
 The T3 castle-town becomes a multi-route "become the leading house" conquest (offices held in the house's name,
-the daimyo's confidence won, rivals subordinated — never killed by the player, never rebellion). The T4 Edo
+the daimyō's confidence won, rivals subordinated — never killed by the player, never rebellion). The T4 Edo
 climax is a **national multi-pillar *banzuke* ranking of the HOUSE** on all four pillars (canon-locked: rank
 the house, D-010 ceiling kept), on which the Kurosawa climb from unranked toward the top, with the highest
 slots **structurally sealed** — the wall the truly powerful built, made the chart's literal geometry. Per-tier
@@ -722,7 +722,7 @@ assignment/management panel and no labour-gang to manage**, ever). Everything is
 resources as registries with unlock predicates over GameState), deterministic under the one seeded RNG, with
 balance/unlock tables generated into `docs/` and headlessly regression-testable via the DEV play API. The
 estate, village, and origin tracks differ in **shape** to keep pacing varied (estate steep-geometric per-tier
-ladders; village gentle per-node meters; origin discrete milestones), and the side factions act as Influence
+ladders; village gentle per-node meters; origin a short one-tier rep ladder `O0→O5`), and the side factions act as Influence
 **multipliers** (shave **~10–15%** off time-to-tier — felt, never a wall). The presentation register throughout is
 **text + emoji + CSS art** (woodblock palette; kanji season tags; colour-coded rarities — see D-013).
 
@@ -741,12 +741,12 @@ Folded in from the locked-rule fixes (to apply at integration and hold through �
   (recoverable by rebuild); Influence can stall or take small per-pillar dents but is **never wiped**.
 - **No labour→combat cross-feed.** Labour conditioning is a **one-way enablement gate** on combat rungs and
   grants **ZERO combat stat or training-rate bonus** (the soft hidden edge is killed outright).
-- **Fictionalise real names.** Keep the world generic-rural — no real place/daimyo/house names (the post-town
+- **Fictionalise real names.** Keep the world generic-rural — no real place/daimyō/house names (the post-town
   is the invented **Sawatari-juku**; sealed *banzuke* top ranks use fictionalised great-house analogues).
   Name collisions resolved: the origin **father is re-added as Jinpachi** (renamed from the colliding
   "Kuranosuke") — **settled, not dropped**; pick one macron romanization convention project-wide.
 - **Hard-cap martial scale.** A **small named retinue** + temporary corvée/levies for crises, **never a
-  standing army**; "de-facto security" = the house the daimyo *deputises* (sanctioned, revocable). Re-balance
+  standing army**; "de-facto security" = the house the daimyō *deputises* (sanctioned, revocable). Re-balance
   toward **labour-plurality** (peaceful labour the dominant daily texture; combat the strong mid-game-onward
   second pillar).
 - **Standing & Office pillar kanji (RESOLVED)** — the earlier coined 政威 was rejected; its **kanji is now
@@ -1406,7 +1406,7 @@ next-tier — *felt, never a wall; never a new pillar*).
   grind-built; never a spine trigger.
 - `Allegiance { value (-1 village … +1 estate, default 0), affects: rates+flavour only }`.
 - `FactionMultiplier { source (village|origin), influenceSpeedup, budgetShare (apportioned so the
-  combined ≈ ½ time, never exceeded) }`.
+  combined ≈ 10–15% off time-to-next-tier, never exceeded) }`.
 
 **(d) Ties to the four pillars.** The **estate ladder generates Influence directly** (labour → Estate &
 Wealth; combat → Arms; offices → Standing & Office; recognition → Name & Honour). **Village & origin are
@@ -1862,7 +1862,7 @@ dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, 
 | **The Near Satoyama** (shared wilderness, ring 1) | E1 | `FIRST-USE` (conditioning floor at R2) | *"The near hills open — foraging groves, a bamboo stand. Something rustles deeper in."* |
 | **The Drill Yard** | E1 | `STORY` R3 (after the humbling fight) *(revealed SEPARATELY)* | *"Jūbei kicks open the drill-yard gate. One post. One rack. Begin."* |
 | **The Main House / *Omoya*** (inner) | E1 | `RANK` R4 | *"The screens slide back — kitchen, inner rooms, the household shrine."* |
-| **The Workshops & Granary** | E1 | `RANK` R6 | *"A workshop frame; a granary rising. The Kurosawa works begin."* |
+| **The Workshops & Granary** | E1→E2 (begun) | `RANK` R6 | *"A workshop frame; a granary rising. The Kurosawa works begin."* |
 | **The lord's study** (ledgers) | E1 | `RANK` R7 | *"You are called to the lord's study, where the ledgers live."* |
 
 > **Binding:** each is a diegetic beat; building/recruiting is **flavour / light systems wired to the reveal bus
@@ -2082,7 +2082,7 @@ led**) → the castle-town invites the house in → **T3 opens**. *(The **villag
 completable, an accelerant, narrative-only with ZERO mechanical gift**, and **NEVER gates the spine** (it is not
 a trigger anywhere in §3.6.1). It is **deliberately LIGHT** (6 rungs, not 8 — it must never read as a second
 spine). It **opens at G2** on the **doubly-earned** gate (**STORY** — the dream returned enough memory — **AND**
-**PILLAR** — travel-standing to walk the checkpointed *kaidō*; §1.5.3, F11). The Origin "pride/morale" buff is
+**PILLAR** — travel-standing to walk the checkpointed *kaidō*; §1.5.3). The Origin "pride/morale" buff is
 framed as a **present-day relationship** ("a man with people behind him works harder"), **never a retroactive
 gift from remembering**; **at least one Origin beat is always available without rep-gating** so the thread never
 stalls. The **Tama-payoff** (Otsuru) and **Tahei claiming his true name** land on this track's capstone.
@@ -4124,7 +4124,9 @@ also asserts the **canon invariants** as machine checks so they cannot silently 
 - no content grants a combat stat/training-rate bonus from labour conditioning (no labour→combat cross-feed);
 - **macron / no-plain-ASCII-romaji lint:** display/name strings use proper-Hepburn **macrons** (Tōkichi,
   Yagōemon, Jūbei, *kyō-masu*) — the verifier flags plain-ASCII romaji that should carry a macron, so no
-  ASCII-slip can land in shipped text (canon §H).
+  ASCII-slip can land in shipped text (canon §H). **Allow-list:** naturalized English exonyms — *shogun,
+  ronin, yokai, samurai, Osaka, daimyō* (written with its macron) — are exempt and may stay in their common
+  English form.
 
 **Generated docs** (`scripts/gen-docs.ts`): a Node entry that imports the same registries the game runs on and
 writes balance/content tables into `docs/` (e.g. `docs/balance/curves.md`, `docs/content/bestiary.md`,
