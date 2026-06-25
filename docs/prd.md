@@ -289,7 +289,7 @@ day one. It stays dark — foreshadowed for hours by the dream so its absence re
 standing lets him physically travel the controlled *kaidō* (*sekisho* checkpoints make free travel
 impossible without standing). It then opens as per-contact **"restored ties"** — discrete one-time milestones
 (father **Jinpachi**, mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**, sweetheart
-**Ohana**, the porter-guild). *(Father **Jinpachi** is re-added per the Round-A lock — renamed from the
+**Osen**, the porter-guild). *(Father **Jinpachi** is re-added per the Round-A lock — renamed from the
 colliding "Kuranosuke" to a clean period name; he resolves at T2 with an optional later emotional callback at
 T4 — see §1.9, §1.11.)*
 
@@ -511,8 +511,8 @@ static**; the origin cast unlocks at T2.
 | **Okimi** | Tahei's elder sister, ~20; married into a trading family. | The concrete **trade-tie** that lets the origin town supply and route goods for the expansion. |
 | **Master Denbei** | Tahei's old employer, ~55; runs the transport-and-goods house. | Supplies porter/logistics know-how and legitimate manifests; the grounded source of the porter's-knot identity (**ZERO bonus**). |
 | **Kanta** | Tahei's childhood best friend and fellow porter, ~18. | Comic-warm friendship rekindled; the first porter contact and recruitable lead carrier. |
-| **Ohana** | A sweetheart Tahei half-remembers, ~17. | Optional relationship thread the dream surfaces; grounded and gentle, narrative-only. |
-| **Otsuru (the real Tama)** | The "spirited-away" child, alive and grown in the post-town. | Mystery payoff & living proof — a girl who **ran** from a violent stepfather and a near-sale for debt. Reunion kept **costly and incomplete** (she may not forgive). **"Otsuru" is LOCKED** (the substance — a girl who ran — was always canon; the name is now confirmed) — note it near-rhymes with **Ohana** (above) in the same post-town. |
+| **Osen** | A sweetheart Tahei half-remembers, ~17. | Optional relationship thread the dream surfaces; grounded and gentle, narrative-only. |
+| **Otsuru (the real Tama)** | The "spirited-away" child, alive and grown in the post-town. | Mystery payoff & living proof — a girl who **ran** from a violent stepfather and a near-sale for debt. Reunion kept **costly and incomplete** (she may not forgive). **"Otsuru" is LOCKED** (the substance — a girl who ran — was always canon; the name is now confirmed; deliberately distinct from sweetheart **Osen** to avoid confusion). |
 
 ### Region / Castle-town / Edo — antagonists, rivals & apex authority *(T2+, mostly parked)*
 
@@ -546,7 +546,7 @@ too ashamed to return. Resolution is grounded and **partial** (she may not forgi
 **(B) The grounded true-origin thread.** His real past is mundane: his true name is **Tahei**, a young
 porter/errand-hand for a small transport house in **Sawatari-juku**, with **living** family and friends
 there — father **Jinpachi**, mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**,
-sweetheart **Ohana**. **The origin story (no magic):** he left on a mundane errand escorting a goods
+sweetheart **Osen**. **The origin story (no magic):** he left on a mundane errand escorting a goods
 consignment over the pass; a **flash flood (a neglected upstream embankment failing) and rockfall** struck the
 small caravan; he was struck, half-drowned, swept downriver, and snagged at the weir below the estate. His
 amnesia is ordinary **head trauma + near-drowning + exposure** — no magic. As memory returns he re-engages
@@ -568,7 +568,7 @@ through the one seeded RNG; cadence is headlessly regression-testable.
 |---|---|
 | **T0** | The spilled-rice recovery; the porter's-knot beat ("you've hauled before"); first dream fragment; Dowager Toku's first memory of the fall. |
 | **T1** | The inn rumours-board opener (the "kappa" of the ford = undertow + smugglers' sinking-spot); Magobei's skim (the "tanuki"); a per-family goodwill help; Priest Ryōa's register entry; the boundary-stone offering (the one residual-ambiguity beat). |
-| **T2** | The lost-child truth (Otsuru) resolves; the origin reunions (Jinpachi, Oyuki, Okimi, Denbei, Kanta, Ohana); Kuzuhara re-founding + naming the drowned; the "one-eyed mountain god" = Hanzaki investigated; the fox-fire ridge = a hidden charcoal kiln. |
+| **T2** | The lost-child truth (Otsuru) resolves; the origin reunions (Jinpachi, Oyuki, Okimi, Denbei, Kanta, Osen); Kuzuhara re-founding + naming the drowned; the "one-eyed mountain god" = Hanzaki investigated; the fox-fire ridge = a hidden charcoal kiln. |
 | **T3+ (parked)** | The *osso* petition (a *gimin*-martyr bears the lethal risk); the rice-quota racket's reachable rungs answer; Naoyuki's coming-into-his-own; the succession secured. |
 
 ## 1.10 Folklore & quest-design philosophy
@@ -1349,7 +1349,7 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
   leaves you poorer and lonelier — a viable-but-poorer playstyle, never a wall).
 - **ORIGIN (side, memory-gated SUPPORT track) — discrete MILESTONES.** Tahei's **living** family/friends
   in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, employer Denbei, friend Kanta,
-  sweetheart Ohana, the porter guild). **Opens at T2** (the dream foreshadows from early game). Per-
+  sweetheart Osen, the porter guild). **Opens at T2** (the dream foreshadows from early game). Per-
   contact **"restored ties"** one-time milestones. Payoff = **support, not local power**: pride/morale (a
   modest global skill-XP buff framed as a *present-day relationship*, never a retroactive gift), allies
   (recruited porter mates), trade ties (origin-town goods/routes plugging into expansion). **Hard

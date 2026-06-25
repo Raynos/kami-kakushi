@@ -207,6 +207,26 @@
   hard-cap martial scale; resolve name collisions. **(RESOLVED: the Standing & Office pillar uses a
   plain-English label — no coined 政威 committed — with its exact kanji deferred to the §5 authenticity pass.)**
 
+## I-bal. §4 BALANCE LOCKS (2026-06-25, human-signed) — supersede the §4 first-pass draft
+These override any conflicting numbers/targets in the §4 balance draft. All other §4 numbers remain
+PROPOSED (tunable). The shape below is human-locked; the rebalance must honour it.
+- **Saga length = LONGER. v1 total ≈ 32h, escalating per tier: T0 ≈ 4h, T1 ≈ 8h, T2 ≈ 16h.** "More grind,
+  more numbers, a slower release of incremental features" is the explicit intent.
+- **Per-rank time FLOOR ≈ 30 min — no single rank may be advanced in under ~30 minutes.** With 8 rungs,
+  this makes T0 ≥ 4h *by construction*. Within a tier, per-rank time may escalate (later rungs longer);
+  derive thresholds/rates BACKWARD from this floor + the per-tier hour budget.
+- **First fight = 20–35% win-rate** (humbling-but-winnable; drives the player to train). LOCKED.
+- **Soft-setback-on-loss = as proposed** — drop to 1 HP + ~½-day clock + light injury + *possible* carried-loot
+  drop; NEVER levels/gear/Influence. LOCKED.
+- **Accrual split = MORE FROM DEEDS (active).** Punchy one-off deeds are the primary growth driver; the
+  per-season judged appraisal is a SMALLER top-up (shift weight away from the draft's ~⅓–½ seasonal share).
+- **Deed-jump size = SMALLER / STEADIER (grindier).** Lower the per-event cap so growth is the sum of many
+  small acts, not a few big spikes (reinforces "more grind, more numbers").
+- **No respec in v1** — attributes / skill-milestone choices are committed (no reset lever in v1).
+- **Deferred (NOT in the v1 balance lock):** Standing & Office kanji → §5 authenticity pass; marriage/adoption
+  -lever numbers → T3 authoring.
+- **UI reveal grain = ONE tab/screen at a time** (each nav entry unlocks individually as a beat) — confirms §3.5.
+
 ## J. ADR mapping (to record in `../docs/history/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
 - **D-004 ⛔ REVERSED** — no reset (tiers replace prestige).
