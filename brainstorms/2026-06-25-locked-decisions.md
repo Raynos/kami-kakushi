@@ -87,9 +87,11 @@
   **hard-capped to ~⅓ of that one pillar** — so trade can never dominate. The signature **meibutsu = SILK /
   sericulture** (LOCKED) — the famous product within the trade sub-engine (still capped); not an
   "optional/undecided" candidate.
-- **Accrual = achievement JUMPS + seasonal JUDGED RESULTS** (a week's harvest, seasonal appraisal) —
-  **never a passive time-trickle, never a flat per-action increment.**
-- **Up-only + rare, scripted, recoverable dents** (scandal/called debt) — **never a wipe**.
+- **Accrual = achievement JUMPS + seasonal JUDGED RESULTS** — the seasonal appraisal fires **PER SEASON
+  (4×/in-game year; the autumn harvest is the headline)** — **never a passive time-trickle, never a flat
+  per-action increment.**
+- **Up-only + rare, scripted, recoverable dents** (scandal/called debt) — **MINOR & quickly recoverable**
+  (a small dip clawed back within a season or two); **never a wipe**.
 - **Tier gating = PER-TIER REQUIRED PILLARS via SIMPLE THRESHOLDS** (early tiers weight Arms+Estate
   "survive & get strong"; upper tiers weight Office+Name "win it socially"). **NOT** a balanced-development
   floor / ≤25%-overflow formula — that author-invented mechanic is **REJECTED** (Round A). Side factions
@@ -173,6 +175,8 @@
 - **Time:** an **abstract clock advanced by active play** (days/seasons drive harvest/weather/festivals +
   the seasonal Influence results). **ACTIVE-ONLY — NO offline progress.**
 - **Art:** **text + emoji + CSS** (woodblock palette; kanji season tags, colour-coded rarities, flourishes).
+- **Numbers:** large values use **abbreviated K/M/B** formatting (not scientific, not myriad units);
+  magnitudes kept human-scaled.
 - **Romanization:** **macrons (proper Hepburn) project-wide (LOCKED)** — e.g. Tōkichi, Yagōemon, Jūbei,
   *kyō-masu*; no plain-ASCII slips.
 - **UI shell:** **multi-screen navigation with screens/nav PROGRESSIVELY REVEALED** (appears single-screen
