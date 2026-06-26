@@ -1,0 +1,36 @@
+{
+  "name": "kami-kakushi",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kamikakushi — a grounded, story-driven incremental RPG set in mid-Edo rural Japan. Built agentically.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:itch": "npm run build && cd dist && zip -r ../kami-kakushi-itch.zip . && cd ..",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "gen:docs": "tsx scripts/gen-docs.ts",
+    "verify": "tsc --noEmit && eslint . && prettier --check . && vitest run && tsx scripts/verify-content.ts && tsx scripts/gen-docs.ts --check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
+    "playwright": "^1.61.1",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,82 @@
+// Content verifier (PRD §6.6 / §6.6.1): cross-checks ids across the typed registries
+// and enforces the canon invariants. Grows additively as registries arrive. Run
+// inside `npm run verify`; a violation fails the build.
+export {};
+
+import {
+  SURFACES,
+  SURFACE_IDS,
+  SKILL_IDS,
+  AREA_IDS,
+  ACTIVITY_IDS,
+  ACTIVITIES,
+  RANKS,
+  NAMES,
+} from '../src/core';
+
+const errors: string[] = [];
+
+// 1. Surface ids unique + the set mirrors the registry.
+const seen = new Set<string>();
+for (const s of SURFACES) {
+  if (seen.has(s.id)) errors.push(`duplicate surface id: ${s.id}`);
+  seen.add(s.id);
+}
+if (seen.size !== SURFACE_IDS.size) {
+  errors.push(`SURFACE_IDS (${SURFACE_IDS.size}) does not mirror SURFACES (${seen.size})`);
+}
+
+// 2. Activities resolve their skill / area / surface.
+for (const a of ACTIVITIES) {
+  if (!SKILL_IDS.has(a.skill)) errors.push(`activity ${a.id}: unknown skill "${a.skill}"`);
+  if (!AREA_IDS.has(a.area)) errors.push(`activity ${a.id}: unknown area "${a.area}"`);
+  if (!SURFACE_IDS.has(a.surface)) errors.push(`activity ${a.id}: unknown surface "${a.surface}"`);
+}
+
+// 3. Rank eligibility ids resolve; rank rewards unlock only real surfaces.
+const META_ACTIONS = new Set(['rake_rice', 'rest', 'open_eyes']);
+for (const r of RANKS) {
+  for (const e of r.eligible) {
+    if (!ACTIVITY_IDS.has(e) && !META_ACTIONS.has(e)) {
+      errors.push(`rank ${r.id}: eligible id "${e}" is neither an activity nor a meta action`);
+    }
+  }
+  for (const u of r.rewardOnReach?.unlock ?? []) {
+    if (!SURFACE_IDS.has(u)) errors.push(`rank ${r.id}: reward unlocks unknown surface "${u}"`);
+  }
+}
+
+// 4. Real-name denylist — no real Edo figures may surface as canon names (D-042 / Q39).
+const DENYLIST = new Set([
+  'munenori',
+  'jubei',
+  'jūbei',
+  'ranpo',
+  'tadakuni',
+  'toyama',
+  'konoe',
+  'yagyu',
+  'yagyū',
+  'edogawa',
+  'tokugawa',
+  'ieyasu',
+  'nobunaga',
+  'hideyoshi',
+  'naozane',
+  'kuranosuke',
+]);
+for (const [key, value] of Object.entries(NAMES)) {
+  if (DENYLIST.has(String(value).toLowerCase())) {
+    errors.push(`real-name denylist hit: NAMES.${key} = "${value}"`);
+  }
+}
+
+if (errors.length > 0) {
+  console.error('verify-content FAILED:');
+  for (const e of errors) console.error('  - ' + e);
+  process.exit(1);
+}
+console.log(
+  `verify-content: OK (${SURFACES.length} surfaces, ${ACTIVITIES.length} activities, ${RANKS.length} ranks, ${Object.keys(NAMES).length} names).`,
+);
+process.exit(0);

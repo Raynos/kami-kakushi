@@ -1,0 +1,12 @@
+dist
+node_modules
+coverage
+*.md
+docs
+brainstorms
+journal
+memory
+archive
+audit
+human-in-the-loop
+tmp
