@@ -286,6 +286,20 @@ combat policy, B5 model, crafting-quality-broken+coin-dead). 4 new strengths. NE
 consistency + security/abuse + personas + edge-case catalogue + cross-consistency re-sweep + completeness.
 
 
+## 31 · Battery ROUND 4 (living-docs/security/personas/edge/localization) — NOT-DRY · B9/B10/B11 new
+Workflow w1fqkwjdk (18 agents, 1.34M tok, 24min). DRYNESS=NOT-DRY. 3 NEW blocking: B9 no load-time field-VALUE
+validation (NaN/negative/out-of-range/tampered save loads 'valid' → soft-locks, contradicts Q44 'never a scary
+save-is-dead wall'; needs anti-tamper policy ADR). B10 core.tick(dtTicks>1) scheduler semantics unspecified
+(multi-tick jump can skip the season-boundary JUDGED appraisal = the sole Phase-2 deed accrual → compounds B8 +
+desyncs the RNG cursor → breaks the determinism keystone; needs per-tick fold + intra-tick dispatch order ADR).
+B11 v1 terminal state undefined (post-T2-gate ending unspecified: tier=T3-empty vs hold? clock keeps ticking?
+no v1-complete closure surface; only a 'no-T3' negative test). 14 new trivial fixes (mostly living-doc↔PRD
+sync: nav-reveal order, XSS textContent guardrail, combat-controls-at-R3, House-panel-bars, fun-factor scope
+~28.5h-is-T0-T2, season emoji 🌾→🌸, createInitialState clock) — deferred to consolidated pass. 10 new questions.
+Net blocking = B1,B2,B3,B5,B6,B7,B8,B9,B10,B11 (10; B4 demoted). NEXT: round 5 = refute-pass on B8-B11 + combat/
+quest/§5-narrative deep + completeness. Still NOT converging — batteries keep finding real spec gaps.
+
+
 ---
 
 ## Next intended steps (current)

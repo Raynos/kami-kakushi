@@ -1,0 +1,633 @@
+{
+  "summary": "PRD V2 battery round 4 — last unused angles (living-docs cross-consistency, security/abuse, fresh personas, edge-case catalogue, post-fix consistency re-sweep, localization/text-pipeline) + completeness-critic; dedups vs B1-B8 + all logged; reports NEW actionable + dryness",
+  "agentCount": 18,
+  "logs": [
+    "round4: 39 findings, 33 NEW actionable, verifying 10 new crit/high"
+  ],
+  "result": {
+    "counts": {
+      "findings": 39,
+      "new_actionable": 33,
+      "confirmed": 8
+    },
+    "synthesis": {
+      "dryness": "NOT-DRY",
+      "new_actionable_count": 27,
+      "new_blocking": [
+        "B9 (new) — No load-time field-VALUE validation. Every load gate the PRD describes is structural-only: §6.8 L6060 names recovery for 'corrupt/unreadable/foreign-id' only, §6.8.1 adds magic-id + never-forward-schemaVersion, and §6.8.2 defaults fire only for MISSING fields. A hand-edited/imported save with resources.koku=-5, character.satiety=NaN, influence[Arms].value=1e308, tier:9, or a rung gate-flag pre-seeded loads as fully 'valid'; NaN then propagates through every derived selector (effectiveStats/gateProfile/productionPerTick/TIER_REF) and silently SOFT-LOCKS the game into a frozen/garbage UI — strictly worse than, and directly contradicting, the human-signed Q44 'never a scary save-is-dead wall'. The §6.6 verifier proves ≤1/3 + monotonicity only against build-time authored registries, never against a loaded blob. Fix: a single pure validateLoadedState() at the persistence->core boundary (Number.isFinite + documented bounds + enum/Set membership), run AFTER migrate / BEFORE core, on both autosave-load and import. Distinct from B3 (missing/structural residuals); the same boundary also closes the JSON NaN/Infinity->null corruption-laundering hole and the migrate-on-untrusted-bytes throw path. Closing it cleanly needs a human POLICY call (coerce-with-default vs reject-to-recovery per field; whether load re-asserts the ≤1/3 + up-only/high-water invariants — an anti-tamper stance the human has not signed) -> ADR.",
+        "B10 (new) — core.tick(dtTicks>1) scheduler semantics unspecified. §6.3 (L5704-5734) defines per-tick/day/week/season plans but never whether a multi-tick advance iterates per-tick (firing each crossed day/season boundary exactly once, in a fixed within-tick order) or jumps the clock and fires boundary plans 0/1/N times. dtTicks is explicitly VARIABLE (app-loop fractional-remainder + GC stalls) and the QA harness ships time-compression helpers (advanceSeason/toTier) that hand huge jumps. Teeth: (a) the season-boundary JUDGED appraisal is the SOLE Phase-2 pillar-deed accrual (shape B) — a jump that skips it under-accrues deeds and COMPOUNDS B8 (gate unclearable); (b) the persisted monotonic seasonal RNG cursor desyncs if boundary plans fire !=N times, and day-keyed +-10% weather can lock a different up-only high-water depending on chunking — so the SAME script under different frame chunking diverges, invalidating §6.3's own claim (L5743) that the DEV play API is a faithful pacing/unlock regression harness (and undermining the determinism keystone the whole pacing/fun gate rests on). Needs the internal per-tick fold + a pinned intra-tick dispatch order + the season-boundary-during-live-combat? rule; the obvious fold conflicts with the time-compression helpers' purpose -> ADR.",
+        "B11 (new) — v1 terminal state undefined. Clearing the T2 Phase-2 hybrid gate is the v1 end-gate, but the only committed end-artifacts are a cliff-hanger RENDER and a NEGATIVE test assertion ('NO T3 reachable', M6 L6871) — the live post-gate player experience is unspecified. M6 (L6844-6846/L6871) ties the 'the page turns onto stone walls, the story pauses' render to 'reaching the G7 capstone', yet G7 OPENS Phase 2 and the actual T2->T3 gate sits AFTER the bulk of T2's ~16h Phase-2 grind — so it is incoherent whether the ending fires before or after the climactic grind. Unspecified: (a) does the tier-up intent commit tier=T3 (a committed-but-empty macro tier no predicate keys on) or hold at T2-complete; (b) does the active-only tick loop keep running post-gate; (c) there is no v1-complete / bounded free-play closure surface distinct from the E7/T4.5 ROADMAP ending. (Honest correction: the finding's 'unbounded high-water' sub-claim is REFUTED — §4.2.2 clamps the seasonal stream to [0,1]*K, so it plateaus; the koku auto-repeat loop is a separate uncited vector.) Fix: pin the v1 terminal contract + an M6 PLAYER-FACING terminal assertion (reachable closure + defined post-gate clock/accrual policy), not just the 'no-T3' negative test -> ADR."
+      ],
+      "new_trivial_fixes": [
+        {
+          "where": "ui-design.md §5.6 (L375) + §10 (L539-545); qa-playtesting.md §4 (L151-152)",
+          "fix": "Insert Crafting (R4) and Quests (R5) into the §3.5 nav-reveal order (between Combat and Map) in ui-design §5.6's rail and as their own §10 delight bullets — author from the already-locked diegetic lines 'A page for making things appears.' / 'jobs taken, jobs done.'; add both to qa §4's nav-screen reveal list and reconcile the §4 panels line so crafting/quest-log aren't framed as nested panels (the panels-vs-top-level split Q10 resolved AGAINST). PRD §3.5/§6.9 (L6146-6148) already locks both as top-level tabs, pre-empting the 'nested under Combat' error — pure docs-sync, no design call."
+        },
+        {
+          "where": "prd.md §6.9 (L6129-6177) + ui-design.md §6 (event-log component spec)",
+          "fix": "Add a guardrail closing the stored-XSS vector via shared/imported saves: every state-derived/persisted/imported string — the event-log hero surface above all — renders via textContent / createElement'd styled fragments keyed off channel+colorClass; never innerHTML or a markup parser over persisted text (inline emphasis from a structured fragment list, never parsed from free text). The imported save is the SOLE untrusted-text channel (no player free-text input exists, L198). Pairs with persisting {messageId,args} not resolved text."
+        },
+        {
+          "where": "ui-design.md §10 'Combat / Yard (R3)' (L539)",
+          "fix": "Show only the bare auto-resolve loop + retreat (+ Equipment/Bestiary) at R3; move 'stance' to an R5 note and 'ability/item' to the weapon-L10 note, matching §3.2 R3 (L2633) / §3.5.1 FU12 which explicitly RETIRED the all-slots-at-once R3 dump. As written the bible paints all four combat controls present at first reveal — the precise anti-dump pattern the reveal ladder exists to prevent."
+        },
+        {
+          "where": "ui-design.md §10 'House / Influence (R7)' (L547) + §5.3 (L351)",
+          "fix": "Render the T0 House panel with exactly the two revealed bars (Arms + Estate); drop the 'Office/Name start as faint not-yet-scored bars' rendering, which pre-spoils the authored T1-V4 'a fourth standing appears' Office reveal and the later Name reveal. Add Office at V4 and Name at T2, each its own narrated reveal; reconcile with M3 DoD 'revealed-pillar set T0=2'. ('reveals bar-by-bar' is correct; only 'four bars present, two faint, at T0' conflicts.)"
+        },
+        {
+          "where": "fun-factor.md L7/L28/L198 (header/§1/§5)",
+          "fix": "Restate the scope as '~28.5 h / T0–T2 (v1 of a five-tier saga)', not 'the whole ~28.5 h / 5-tier climb' — PRD §4.8 (L3199) binds 28.5h to the THREE-tier v1 Phase-1 floor sum (T0 4.5 + T1 8 + T2 16); the doc's own §7 title ('T0–T2, the v1 scope') and §8 ('T3/T4 not yet designed') betray the mismatch. Defer the full T0–T4 horizon to §8's open threads."
+        },
+        {
+          "where": "ui-design.md §10 'Work (R1+)' (L533)",
+          "fix": "Change the Work-screen season tag from '🌾 + 春' to '🌸 + 春' — §7's own LOCKED iconography table assigns Spring 春 -> 🌸 (🌾 reserved for rice/koku) under a 'pick ONE per concept, never deviate' rule; the doc that owns and locks the emoji set breaks its own lock in its worked example, and it is the sole source of truth for the season-tag glyph."
+        },
+        {
+          "where": "fun-factor.md §3 (L155) + §2.1 (L68) + §5 (L257)",
+          "fix": "Carry the human-signed Q20 tier-relative deed cadence (T0~5 / T1~8 / T2~13 min) in the Reward-cadence row — fun-factor is the doc the PRD M6 gate (L6869) says OWNS the threshold, yet it states a flat '~4.5–5 min' that matches only T0 and contradicts T1/T2, leaving the M6-gated value with no home in its owning doc. Note ~4.5–5 is the T0 instance."
+        },
+        {
+          "where": "prd.md §6.2 createInitialState (L5657) + §6.4 clock (L5763)",
+          "fix": "Pin createInitialState's clock to explicit values (tick 0, day 1, season 'spring', year 1) and state the day index as 1-based; define season(day)=floor((day-1)/30) mod 4 and year(day)=1+floor((day-1)/120) with a day>=1 guard (a 0-origin yields JS -1%4 === -1 -> NEGATIVE season index at first render) and 1-based year display (else 'Year 0'); add a unit test for day-1 render + the day-120->121 single-year rollover. Distinct boundary from B6 (which covers store-vs-derive + lunar teleport, never the initial values / 0-vs-1 origin)."
+        },
+        {
+          "where": "ui-design.md L4/108/135/144/578 + open-choice #2 (L589-594)",
+          "fix": "Replace 'NO asset pipeline' with 'a small curated bundled asset set (self-hosted OFL fonts + a bundled audio set), no HEAVY art pipeline' per PRD §2.21a/§6.1.1; strike open-choice #2 / Option A (Google dynamic-subsetting) as RESOLVED by Q52 (self-hosted OFL, offline-safe); add the bundled AUDIO set the human-signed bible currently omits entirely. Keep open-choice #1 (font-family pairing) — legitimately still open."
+        },
+        {
+          "where": "prd.md §2.1(c) LogMessage (L1181) + §6.6 verifier scope",
+          "fix": "Give the event log a copy template/args seam: LogMessage carries {id, templateId, args, channel, ...} (or a token array), templates in a named registry (core/content/logLines.ts) the verifier imports; core stores templateId + raw integer/id args, the RENDERER applies the shared K/M/B formatter + agreement at display time. Required because reward/combat lines interpolate counts/names/K-M-B but the schema bakes a finished text literal — core can't reach the renderer's K/M/B formatter across the pure-core boundary, and the build-time macron/denylist lint never sees a runtime-concatenated string. Pairs with the XSS fix (persist ids+args, not resolved text); hit at M0/M1 so early-load-bearing. (Also note the §2.1 LogMessage vs §6.4 LogEntry type-name inconsistency.)"
+        },
+        {
+          "where": "prd.md §2.4(c) ResourceDef (L1289) / EnemyDef",
+          "fix": "Add a count-mode (countable|mass) + optional namePlural (or ICU plural rule) and a render-time pluralize(name,n,mode) helper, so '+3 hides' / '2 wolves' inflect while Japanese mass loanwords (koku/ryo/mon/sansai) stay invariant; default loanword units to mass. Add a verifier check that every countable interpolated noun has a plural form. EN-only v1 so bounded — a grammar/coherence defect on the most-read surface, not a localization concern."
+        },
+        {
+          "where": "prd.md §6.6 (L5900-5926) vs §6.11 (L6240)",
+          "fix": "Reconcile the macron/real-name lint scope: §6.6 'imports the registries' cannot see UI-chrome/ARIA literals in src/ui (nav labels, button verbs, settings, skip-link, accessible names), yet §6.11 claims the lint 'flags any untagged CJK in rendered strings' — two non-equivalent mechanisms. Pick one (funnel all user-facing text through a verifier-imported core/content/ui-copy.ts, OR add a static src/ui source-scan pass), name the same mechanism in both sections, and add 'chrome/ARIA strings' to the stated coverage. Also reframe §6.6's 'no ASCII-slip can land' as 'catches enumerated known macron words' + an allowlist-of-reviewed-terms gate for new bare-ASCII proper nouns (a denylist can't catch an un-enumerated new term as content grows)."
+        },
+        {
+          "where": "qa-playtesting.md L43 vs prd.md §6.10 / M7 (L6906-6927)",
+          "fix": "Reconcile the DEV surface inventory: qa-playtesting exposes window.__game ('the live instance') but every PRD strip/DCE/release gate names ONLY window.__qa and the M7 smoke assertion is 'no __qa surface present'. Either drop __game from the QA doc (fold its 'deeper poking' into __qa), or add __game to the §6.10 DEV-API inventory + the M7 import.meta.env.DEV DCE gate and broaden the smoke assertion to 'no dev surface (__qa AND __game)'. A live-MUTABLE __game shipped would be a cheat surface defeating the active-only thesis, and the current smoke test wouldn't catch it."
+        },
+        {
+          "where": "prd.md §6.8 import path (L6041-6044) + §6.8.2 (L6115-6118); brainstorms/2026-06-26-prd-v2-audit.md round-1 §7-header note (L51)",
+          "fix": "Two small ordering/consistency fixes: (a) order the import pipeline decode->parse->validateLoadedState->migrate (migrations must never be the first code to touch untrusted bytes — they're tested only against well-formed OLD saves and will throw on a removed/retyped node) and wrap the whole chain in one boundary try/catch funneling atob/JSON.parse/migration throws to the existing calm export-a-backup recovery; (b) pick ONE subsection-header convention (§4/§7 use '§N.N', §1/§2/§3/§6 are bare 'N.N') and apply uniformly, and correct the round-1 ledger note whose 'to match §1–§6' rationale was inverted (§1–§6 headers are in fact bare)."
+        }
+      ],
+      "new_human_questions": [
+        {
+          "severity": "high",
+          "q": "Save-durability posture (ADR): the multi-backend redundancy is failure-independent ONLY for itch iframe partition/eviction — every autosave writes the SAME envelope atomically to all 3 backends (§6.8 L6028-6037/L6083-6086), so one bad serialization/logic envelope is faithfully CLONED to IndexedDB+localStorage+sessionStorage in one pass, and the only pre-overwrite snapshot is scoped to destructive ACTIONS (L6063-6066), not routine autosave — so a bad autosave overwrites last-good everywhere, leaving only a manual export the player may never have made. Add an N-deep VALIDATED rolling autosave (write a 'pending' slot, run validateLoadedState to confirm round-trip, only then advance the 'current' pointer, retaining the prior good for one-click rollback)? At what depth, in which backends (vs the eviction quota it competes with), and should a failing pre-write envelope show the banner instead of overwriting last-good? Distinct from B3 (import residuals) and B7 (multi-tab concurrency)."
+        },
+        {
+          "severity": "high",
+          "q": "Phase-2 anti-undershoot CI (ADR): M6's undershoot floor is per-RUNG = Phase-1-only (L4459-4462), and §4.8.1b (L4380) declares ALL Phase-2 window minutes 'proposed / not verifier-asserted' — yet Phase 2 holds the BINDING tier-up hybrid gate and is >half of v1 playtime (T2 Phase-2 ~15.5h). Only the deed/seasonal SUMS and hybrid bands are asserted (not duration), so a retune of season-count, deed cadence, or gate bands could collapse Phase-2 pacing with fully-green CI. Add a Phase-2 duration floor / N-season minimum to the M6 regression, rate-limit deed-firing (per-deed cooldown / satiety cost) so great/excellent can't be instant once 'good' lands, lock the seasonal season-count as the floor mechanism, or consciously accept Phase-2 as CI-unprotected? Reconciles the locked budget-as-FLOOR + FU18 with the deliberate 'proposed Phase-2 minutes' stance. Distinct from B8's missing SUPPLY."
+        },
+        {
+          "severity": "high",
+          "q": "Mobile leave-and-return (ADR): FU23's 'leave it running, check the progress' core loop has no mobile equivalent — there is no visible-but-unfocused state on mobile (app-switch/lock -> visibilitychange->hidden -> §6.9 PAUSES), screen-sleep dims, iOS Safari may discard-reload, and no Screen Wake Lock is specified; with no offline accrual (D-013) a mobile player can't advance a tens-of-hours FLOOR unattended, yet ui-design §8/D-013 commit FIRST-CLASS responsive mobile. The only easy fix (bounded offline accrual) is BARRED by the locked active-only/no-offline acceptance criterion. Choose: Wake Lock + reframe mobile as accumulating short FOREGROUND sessions + document the limitation, vs declare desktop-primary and scope mobile down. Distinct in kind from the desktop background-throttle Q11 (which §6.9 already resolved via 'backgrounding pauses')."
+        },
+        {
+          "severity": "medium",
+          "q": "E2 estate anchor disagreement (resolve with B2/Q7): §4.7.5/§4.8.1 price+gate E2 'Recovering' (granary/workshops/palisade/men-at-arms rota, 2K koku) at R6/T0 and tie it out as 'E2@R6 ✔', but §5-T1.4 / §3.4-V5 / §7-M4 build E2's contents — including the SAME Gohei & Yataro men-at-arms rota — in T1. Pick one anchor (split E2 into an R6/T0 structure-build + a separate V5/T1 retinue recruit, OR move the whole E2 build to T1 and drop it from the R6 cost row + the 'E2@R6' tie-out) and re-derive the §4.7.5 '13.3K lifetime-koku @R6' affordability basis accordingly. Distinct from B2 (E2's pillarFloor unreachable) — this is the rung/tier ANCHOR of E2 disagreeing between cost-model and build-authoring."
+        },
+        {
+          "severity": "medium",
+          "q": "R3 durability policy: combat goes live at R3 (single starter weapon, the unattended auto-resolve 'leave it running' loop) but durability BANDS + Smith Gonta's repair don't reveal until R4, while wear is canon 'FIXED per fight' (a declared non-lever). Either suppress wear until R4 (and annotate the canon rule with the R3 exemption), or wear from R3 with a minimal indicator + interim repair path — and exclude/hold-fixed durability+satiety during the LOCKED 20–35% R3 win-rate sampling, so an unattended R3 session grinding the weapon toward band-0 doesn't silently confound the gate (a new confound atop the round-3 'no N/seed methodology' item)."
+        },
+        {
+          "severity": "medium",
+          "q": "Persistent-save-failure policy during a long unattended session (ADR): the spec's only response to quota/private-mode/torn-write is a passive 'couldn't save — export a backup' banner (L6035-6037), but the active-only loop keeps ticking with no durable checkpoint — an ABSENT FU23 player never sees the banner, so a later close/crash silently loses hours ('no silent loss' satisfied in letter, violated in practice). Define the post-failure policy: pause the tick loop and/or auto-trigger a base64 export, stop spamming doomed autosaves, surface a blocking-but-recoverable state. Also set the round-3-deferred event-log ring cap (the only playtime-scaling save field, written to all 3 backends every autosave) so quota isn't reachable in normal 60h play."
+        },
+        {
+          "severity": "medium",
+          "q": "Missable O5 'Tahei' name-reclaim — unsignposted second miss-path: a completionist who DOES engage the Origin track can lose it by being EFFICIENT on the estate spine (O0->O5 = 5 Ties-rungs must complete inside the ~4-rung G2->G6 window; O5 is gated on BOTH 'Ties completes' AND 'coincides with G6'). Unspecified: does O5 fire mid-climb at G6, wait for Ties, or close forever; is the track completable after G6 (T2 Phase 2 / T3); and there is NO point-of-no-return signpost for a permanently-losable beat — exactly the silent unrecoverable loss the UI bible forbids for locked items. Decide the miss-condition (decouple O5 from the literal G6 moment so it fires whenever Ties completes across T2, OR hard-close at G6/G7 WITH an explicit point-of-no-return signpost + the Ties-vs-spine race surfaced) and add a QA/verifier assertion for the chosen semantics."
+        },
+        {
+          "severity": "medium",
+          "q": "Returning-player re-orientation surface: a ~60h game played over weeks/months cold-loads into deep state (mid-T2, ~9 nav tabs, four pillars, a half-built Origin track, an in-flight season's deed plan) with NOTHING to re-orient — active-only guarantees 'nothing happened while you were away' but gives no 'last you did X / current objective is Y / the thread you were pursuing' recap; the fun-factor next-goal proxy surfaces the next rung but not the strategic/narrative thread. Add a lightweight diegetic 'on return' line (most-recent uncompleted spine beat + active-season pillar focus + a one-line 'since last you sat at this desk…' recap), data-driven from existing state? Distinct from Q9 (systems codex) and Q10 (first-session shape); amplifies the back-half-churn risk at every session boundary."
+        },
+        {
+          "severity": "medium",
+          "q": "Diegetic event-log prose VOLUME is un-budgeted: it is the biggest feel-carrier ('carries MOST of the feel', §7 R4 risk) yet the §7 risk register dismisses it as 'writing (a known quantity)' with no count — the unique log lines implied by ~218 deeds + ~24 rungs + per-season flavour + reveal beats + NPC dialogue are never estimated or scheduled. For an autonomous agentic build whose feel scales with writing more than art, this is the largest un-budgeted CONTENT risk (rounds 1-3 audited CODE-buildability, not prose). Estimate the v1 prose volume, schedule authoring into M3/M5/M6, and replace 'a known quantity' with a real count + an authoring cadence the capture-game-states loop can audit for repetition/staleness?"
+        },
+        {
+          "severity": "medium",
+          "q": "Mobile minimum viewport: ui-design §8 mandates a persistent global header (resources + next-gate vitals) + a >=44px bottom tab-bar + the log keeping most vertical space + the four-pillar 家威 panel, but never names a minimum supported viewport width or pins a small-device acceptance case ('test 999B' guards NUMBER width, not whether the chrome fits 320x568 at max textScale). Commit an explicit minimum (e.g. 320px) and add it (x largest textScale x 999B, naming the densest composite '家威 4.20K (+12/koku)') as a hard qa §4 screenshot/acceptance case; specify how the header + focus-trapped .frame modal degrade (stack/scroll); and decide/state the mobile reveal-beat treatment (a new primary tab pushing an older into the overflow drawer weakens the 'UI inks a new entry' delight and reshuffles a desktop-authored save's revealed-tab order). Largely trivial once the width + reveal-beat stance are chosen."
+        }
+      ],
+      "new_strengths": [
+        "Every locked balance/combat number is consistent across all three living docs and the PRD — PER_EVENT_CAP 0.04, the 70/30 deed/seasonal split, first-fight 20–35% climbing to ~85%, the soft-setback shape (1 HP / ~1/2-day / may drop carried loot / never levels-gear-Influence), the ≤2–3x never-balloon + 1.15x intra-tier curves, first-action <5s, the 5-label estate arc, the Office kanji 官威 kan'i, and the reveal rungs (Skills R2 / Combat R3 / Map R6 / House R7 / Office-bar V4). The drift found this round is confined to UI reveal-sequencing and scope-labels, not the locked numbers — a clean consistency baseline.",
+        "The save model is well-positioned for cheap hardening — the app-identity magic field, recompute-derived-on-load (a tampered DERIVED value can't persist; only the small non-derivable surface is attackable), and additive-optional-with-defaults are already in place. A single pure validateLoadedState() boundary (finite + bounds + enum/Set membership, run after migrate / before core, on autosave-load AND import) closes the value-validation soft-lock (B9), the JSON NaN/Infinity->null corruption-laundering, and the migrate-on-untrusted-bytes throw path at once — worth one consolidated security ADR.",
+        "Long-text expansion is already an acceptance case (max textScale CSS var + the 999B number layout case + the long-event-log case in qa §4), and RTL is correctly out of scope for v1 (EN LTR + a fixed ~40-80-glyph LTR JA label set) — no RTL gap exists. Only tightening: name the densest composite (家威 4.20K (+12/koku) at max textScale + a 999B value) as an explicit reflow sub-case.",
+        "Post-fix the PRD's internal §-cross-reference graph is complete (zero dangling section refs) and the renamed-names / watch-list invariants hold byte-stably across all sections — three combat tracks (level / Arms pillar / Combat-Rank rung-meter) never reconflated, revealed-pillar sets (T0=2 / T1=3 / T2=3-4), the weapon roster (1 starter +2/+3/+4 across spear/sword/staff), trade-≤1/3, the four pillar kanji, and the 4 durability bands (75/50/1/0 -> 1.0/0.9/0.75/0.55, WEAR 3%). The doc's internal-consistency machinery is in very good shape; worth a one-line CI lint resolving every §-ref against the header set."
+      ],
+      "summary": "Round 4 is NOT-DRY, but the signal has SHIFTED. Rounds 1-3 hammered the PRD-internal spine (balance/determinism/buildability/economy/renderer/a11y/perf); round 4 ran genuinely fresh lenses — cross-living-doc fidelity, security/abuse, edge-case boundaries, fresh personas, localization/text — and each was PRODUCTIVE, so the corpus has not yet reached the two-consecutive-dry stop. I spot-verified the highest-stakes claims against source and they reproduce.\\n\\nNEW BLOCKING (3, all in surfaces rounds 1-3 did not deeply run): B9 no load-time field-VALUE validation — NaN/negative/out-of-range/bad-enum saves load 'valid' and NaN soft-locks the game, directly contradicting the human-signed 'never a scary save wall'; closed by one pure validateLoadedState() boundary that also kills the JSON-NaN-laundering and migrate-on-untrusted-bytes findings. B10 core.tick(dtTicks>1) scheduler semantics unspecified — multi-tick boundary-crossing can skip the sole Phase-2 appraisal (compounds B8) and diverges under frame/GC chunking, breaking the determinism keystone the pacing/fun gate rests on. B11 v1 terminal state undefined — the climactic T2->T3 end-gate has no defined live player experience; M6 conflates the G7 cliff-hanger render with the post-Phase-2 gate, and tier-commit / post-gate-clock / closure are all unspecified (its 'unbounded high-water' sub-claim is refuted — §4.2.2 clamps).\\n\\nNEW TRIVIAL FIXES (14, apply-ready, no design call): mostly cross-living-doc drift in the human-signed bibles — Crafting/Quests dropped from the nav-reveal sequence (Q10 already locks them as top-level tabs), the R3 combat-panel all-slots dump (FU12 retired it), the T0 House panel showing 4 bars when T0=2, the 28.5h '5-tier' mislabel (it's three-tier v1), the spring 🌾-vs-locked-🌸 self-violation, fun-factor's flat deed cadence vs Q20 tier-relative, the stale 'NO asset pipeline' vs Q52, the __game DEV-surface mismatch, plus the stored-XSS textContent guardrail, the event-log templating/args + pluralization seams, the macron-lint UI-chrome scope, the createInitialState clock + negative-modulo guard, and import-pipeline ordering.\\n\\nNEW HUMAN QUESTIONS (10 ranked, 3 high): save-durability rolling-autosave posture (same-content corruption replicated to all 3 backends, no last-known-good); Phase-2 anti-undershoot CI (the binding gate + >half of playtime has zero pacing floor); mobile leave-and-return (FU23 structurally unavailable on mobile, the only easy fix barred by locked active-only). Mediums: E2 R6-vs-T1 anchor (with B2/Q7), R3 durability policy, quota-failure policy, O5 miss-path, returning-player re-orientation, prose-volume budget, mobile min-viewport.\\n\\nVERDICT: the PRD-internal SPINE is freeze-worthy and audited to saturation (record it). Recommend ONE final round 5 on the still-live residual surfaces — cross-living-doc fidelity, the save/persistence-hardening cluster (B9/B10 + durability), and content/prose scope — to confirm THOSE dry; if round 5 adds nothing actionable, that plus this round's spine-dryness gives the two consecutive dry signals to stop. Do NOT re-run the spine/balance/determinism lenses — they are saturated."
+    },
+    "confirmed": [
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "Both living docs drop the Crafting (R4) and Quests (R5) top-level nav tabs from the reveal sequence the PRD mandates",
+        "where": "ui-design.md §5.6 (L375) + §10 (L530-559); qa-playtesting.md §4 (L152-153) vs prd.md §3.5 (L2811-2812, L2803)",
+        "detail": "PRD §3.5 enumerates ten nav reveals after the single column — Skills(R2) → Combat(R3) → Crafting(R4) → Quests(R5) → Map(R6) → House(R7) → Village → Region → Ties → Castle-town — and §3.5/L2803 insists 'Distinct activities are TOP-LEVEL nav tabs, not nested panels (Q10)', each its own one-per-beat reveal with a diegetic log line (Crafting: 'A page for making things appears.'; Quests: 'jobs taken, jobs done.'). Both living docs cite §3.5 as their source yet skip Crafting and Quests: ui-design §5.6 lists 'Skills → Combat → Map → House → …' (Combat jumps straight to Map) and §10's per-screen notes have NO Crafting or Quests screen at all; qa-playtesting §4's 'every nav screen as it reveals' list is 'Work → Skills → Combat → Map → House(Influence) → …' (also adds a 'Work' nav entry the PRD's first row calls '(none) — single column'). Net effect: the UI bible gives zero design treatment to two of the nine revealed nav screens, and the visual-QA coverage checklist will never screenshot-review two signature reveal beats. qa-playtesting §4 even contradicts itself — it lists 'crafting' and 'the quest log' under PANELS to screenshot while omitting them from the nav-screen sequence, exactly the panels-vs-top-level-tabs split Q10 resolved against.",
+        "fix": "Insert Crafting (R4) and Quests (R5) into ui-design §5.6's nav-rail order and add their per-screen notes to §10; add both to qa-playtesting §4's nav-screen reveal coverage list; drop or relabel 'Work' (it is the single-column pre-nav state, not a tab) to match PRD §3.5's exact 10-entry order.",
+        "isNew": true,
+        "lens": "living-docs",
+        "real": true,
+        "disposition": "trivial-fix",
+        "verdict": "CONFIRMED (real, genuinely new, trivially fixable — docs-sync, no human design call).\n\nAll four cited locations reproduce verbatim:\n\n1. PRD §3.5 (source of truth) mandates Crafting and Quests as TOP-LEVEL nav tabs, each its own reveal beat:\n   - L2802-2804: \"Distinct activities are TOP-LEVEL nav tabs, not nested panels (Q10) — and each tab is its own one-per-beat reveal (FU4/Q17), never batched.\"\n   - Nav table L2806-2818 = 10 post-single-column reveals: Skills(R2)→Combat(R3)→Crafting(R4)→Quests(R5)→Map(R6)→House(R7)→Village→Region→Ties→Castle-town.\n   - L2811 Crafting: \"a top-level Crafting nav tab joins (Q10) ... its own page (NOT nested under Combat). 'A bench, a hammer, a handful of stock. A page for making things appears.'\" — the PRD pre-emptively forbids the exact nesting the living docs imply.\n   - L2812 Quests: \"a top-level Quests nav tab joins (Q10) ... 'jobs taken, jobs done.'\"\n\n2. ui-design.md §5.6 (L374-375): nav rail sequence is a FULL enumeration (no ellipsis) citing \"(§3.5 track)\" yet reads \"Skills → Combat → Map → House → ...\" — Combat jumps straight to Map. Crafting + Quests dropped.\n\n3. ui-design.md §10 (L525-559): intro commits to \"Each nav screen (revealed in the §3.5 order)\" but the per-screen delight bullets go Skills → Combat/Yard → Map with NO Crafting and NO Quests bullet. Two of the mandated reveal screens get zero UI-bible design treatment.\n\n4. qa-playtesting.md §4 (L151-152): \"Every nav screen as it reveals: Work → Skills → Combat → Map → House(Influence) → ... (§3.5)\" — Crafting + Quests dropped from the nav-reveal coverage list, so the visual-QA sweep will never screenshot-review those two reveal beats. AND L155-156 lists \"the quest log, crafting\" under \"Every panel\" — the doc contradicts itself, treating them as nested panels-to-screenshot, exactly the panels-vs-top-level-tabs split Q10 resolved AGAINST.\n\nNet effect as claimed is accurate: the UI bible gives no design/delight treatment to two of the ten §3.5 nav reveals, and the QA coverage checklist won't review two signature reveal beats as reveals.\n\nTwo immaterial caveats: (a) the claim's prose wobbles between \"ten nav reveals\" and \"nine revealed nav screens\" — the table has 10 post-single-column reveals; (b) the extra \"Work\" entry both living docs add is defensible, not a defect — Work is the real R1 labour-loop state worth screenshotting; the load-bearing finding is solely the Crafting/Quests omission.\n\nGenuinely new vs rounds 1-3: the round-3 'renderer-outside-verify' open question is about the renderer being outside the verify harness; this is a distinct PRD-vs-living-doc nav-reveal sync gap, not previously logged.\n\nDisposition = trivial-fix (NOT needs-human): the design intent is already locked — Q10 + §3.5 explicitly enumerate Crafting and Quests as top-level tabs with their own reveal beats and diegetic log lines, even pre-empting the 'not nested under Combat' error. So no open design decision exists; the repair is mechanical docs-sync within agent autonomy: (i) insert 'Crafting → Quests' between Combat and Map in ui-design.md §5.6's rail; (ii) add two §10 delight bullets authored from the already-locked diegetic lines ('A page for making things appears.' / 'jobs taken, jobs done.'); (iii) insert Crafting + Quests into qa-playtesting.md §4's nav-screen sequence and reconcile the §4 panels list so crafting/quest-log aren't framed as nested panels against Q10.\n\nFiles (all absolute):\n- /Users/raynos/projects/games/kami-kakushi/docs/prd.md §3.5 L2802-2818 (canon; correct, no change)\n- /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md §5.6 L374-375 and §10 L525-559\n- /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md §4 L151-152 and L155-156"
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "Persisted event-log text → DOM with no escaping spec'd = stored-XSS via shared/imported save",
+        "where": "prd.md §2.1 L1181 (LogMessage{id,text,…}); §6.4 L5789 (log: LogEntry[]); §6.8 L6053 (capped event log persisted); §6.9 renderer contract L6129-6177 (silent on escaping); ui-design.md L19/L200/L324/L581 (event log = hero; diegetic rich-text narration)",
+        "detail": "The resolved narration string is persisted in the save (log[].text), not just a message id, and the event log is the screen's hero surface rendered as rich diegetic text (the PRD's own lines use *italic*/**bold** emphasis, implying inline-markup rendering → innerHTML or a mini-parser). Saves are exported as base64 text files and re-imported — §6.8 L6041-6044 explicitly calls export 'a hand-off path for QA' and a 'periodically-nudged backup', so saves WILL be traded (itch forums). There is no player-name/free-text input field anywhere (L198 'no player rename'), so the imported save IS the sole untrusted-text channel — and a crafted log entry like `<img src=x onerror=…>` would execute in any importer's browser within the game's itch origin (reading their other saves / localStorage). No doc (§6.9, ui-design.md, qa-playtesting.md) mandates textContent / HTML-escaping / a no-innerHTML-with-state rule. This is the one finding with a genuine cross-user vector and it is trivially preventable.",
+        "fix": "Persist log entries as {messageId, paramValues} and resolve text from authored templates at render time (never store free text — also shrinks the save and removes the surface entirely); OR mandate that every state-derived string enters the DOM via textContent/createTextNode (emphasis via authored span structure, not parsed markup) plus a lint banning innerHTML in src/ui/ for state-derived content. Add this rule to §6.9 and ui-design.md §6 (the event-log component spec).",
+        "isNew": true,
+        "lens": "security-abuse",
+        "real": true,
+        "disposition": "trivial-fix",
+        "verdict": "CONFIRMED, genuinely new, trivially fixable (no human design call). All six load-bearing premises reproduce from the doc text: (1) resolved log text is PERSISTED, not id-only — §2.1 L1181 LogMessage{id,text,channel,colorClass,tick}, §6.4 L5789 log:LogEntry[], §6.8 L6052-53 \"capped event log\" in persisted set; reward/combat lines interpolate runtime values (+N, outcome words, ui-design L318-322) so they can't be re-derived from a static id. (2) Event log is the rich-text HERO surface — ui-design L19/L200/L318-324 (coloured +N spans, emoji bullets, shu/beni outcome words, seal stamps; prd example lines L2633/L2756 carry *italic* emphasis). (3) Saves are base64 text, EXPLICITLY traded — §6.8 L6041-44 \"hand-off path for QA … first-class periodically-nudged backup\"; import only \"validates magic field + migrates\" (no content sanitization). (4) prd L198 confirms \"no … creator and no player rename\" → no free-text input anywhere → the imported save is the SOLE untrusted-text channel and the only one with a cross-user vector. (5) §6.9 renderer contract L6129-6177 is silent on escaping. (6) Grep across docs/, README, memory for innerHTML|textContent|sanitiz|escap|xss|CSP|trusted-types|dompurify finds ZERO mitigation (the lone \"inline markup\" hit, ui-design L246, is SVG filters). NOT covered by rounds 1-3 save findings (B3 counter-rebase/truncation, B7 multi-tab clobber are integrity/concurrency, not content injection); absent from all open-question/deferred lists. HONEST CAVEAT (the claim's weakest link): the \"*italic*/**bold** → innerHTML/mini-parser\" step is an over-reach — the PRD markdown is plausibly doc-formatting convention, and every styling the spec actually mandates is achievable safely via createElement+textContent, so XSS is NOT inevitable, only contingent on an implementer choosing innerHTML or a markdown parser fed by persisted text. So this is correctly a MISSING-GUARDRAIL gap on a traded untrusted-text channel, not a designed-in vuln. FIX (within agent autonomy, no design call): add one bullet to §6.9 (mirror in §6.8 import-validate): all state-derived/persisted/imported text — the event log above all — renders via textContent / createElement'd styled fragments keyed off channel+colorClass; never innerHTML or a markup parser over persisted text; inline emphasis, if any, comes from a structured fragment list, never parsed from a free-text string. Secondary nit (separate, minor): LogMessage (§2.1) vs LogEntry (§6.4) type-name inconsistency."
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "No load-time field-VALUE validation: negative/NaN/out-of-range/bad-enum loads clean and breaks invariants",
+        "where": "prd.md §6.8 L6038-6062 (load checks only magic-id + corrupt/unreadable); §6.8.1 L6087-6098 (magic + forward-version only); §6.8.2 L6109-6112 (defaults apply to MISSING fields, not malformed present ones); §6.4 L5765-5791 (resources/character/influence/tier fields)",
+        "detail": "Every described load gate is structural-only: parseable, app:'kami-kakushi' magic field, and schemaVersion-not-forward. There is ZERO value-level validation. A hand-edited save with resources.koku=-5, character.satiety=NaN, influence[Arms].value=1e308, tier:9, or a flags array seeded with a gate flag loads as fully valid. The additive-with-defaults mechanism (§6.8.2) only fires for MISSING fields — a present-but-insane value is not missing, so no default applies. The up-only/never-a-wipe invariant and the trade-≤⅓ clamp are enforced inside reduce, not on load, so an imported state can already violate them, and the §6.6 post-clamp combo math assumes well-formed subEngine values. NaN is the worst case: it propagates through every derived selector (effectiveStats, gateProfile, productionPerTick), silently soft-locking the player's own game — directly defeating the stated 'never a scary save-is-dead wall' goal, because the failure is a frozen/garbage UI, not a caught recovery.",
+        "fix": "Add a single pure validateLoadedState(state) gate (unit-testable, lives in core/ as data→data or persistence/, runs AFTER migrate and BEFORE the state reaches the core/renderer): assert Number.isFinite on every numeric field and within documented bounds (koku≥0, satiety∈[0,1] or [0,satietyMax], tier∈0..4), enum/Set members are valid ids, then clamp-or-reject-to-recovery on violation. Spec it explicitly in §6.8 ('Validate + degrade gracefully on load' currently names only corrupt/unreadable/foreign-id).",
+        "isNew": true,
+        "lens": "security-abuse",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "CONFIRMED and genuinely new. Every load gate the PRD describes is structural-only, verified verbatim: §6.8 L6038-6044/L6060-6062 (magic-id + corrupt/unreadable/foreign-id only; \"Import validates THE MAGIC FIELD + migrates\"); §6.8.1 L6087-6098 (magic + newest-wins + never-forward-schemaVersion); §6.8.2 L6109-6112 (defaults are \"applied on read\" only when a field is ABSENT — a present malformed value is not absent, so no default fires); §6.4 L5765-5791 (stored surface is TS-typed only — compile-time, not a runtime range/finite/enum check on the deserialized blob). There is ZERO value-level validation anywhere in the save path. A hand-edited save with resources.koku=-5, character.satiety=NaN, influence[Arms].value=1e308, tier:9 (valid set is T0..T4, L5778), or flags seeded with a rung AND-gate story-flag (FU6) loads as fully \"valid.\" The §6.6/§6.6.1 verifier (L5898-5949) that \"proves\" trade-≤⅓ / gate-monotonicity / three-track separation runs in npm run verify against the AUTHORED content registries at BUILD time — it never executes against a loaded save, so it gives the imported blob zero protection. The trade-≤⅓ clamp and up-only/high-water invariants are enforced inside reduce \"at every accrual point\" (§4.2.3), not at load, so an imported state can already sit in violation and the §6.6 post-clamp combo math then runs on garbage subEngine values. NaN is the worst case: it flows through effectiveStats / gateProfile / productionPerTick / TIER_REF[pillar][tier] lookups and freezes the UI into garbage — a soft-lock that is strictly WORSE than, and directly contradicts, the locked Q44/§6.8 intent \"never a scary 'save is kill' wall... degrade gracefully\" (the corrupt-save case gets calm recovery; the malformed-value case gets a frozen game).\n\nGENUINELY NEW vs rounds 1-3: B3 covers MISSING/structural import residuals (counter-rebase, additive-fields-no-schemaVersion truncation) and the deferred \"settings-shape\" item is narrow — neither covers a PRESENT-but-insane field VALUE. Distinct, complementary failure mode.\n\nNEEDS-HUMAN (not trivial-fix): the mechanism (a load-time validate/coerce pass) is small, but the POLICY is a real design fork that amends a frozen, human-signed save model (Q37/Q44/Q45/Q46/FU1-2/FU5) and should be an ADR: (a) per-field, coerce-and-continue (negative koku->0, NaN satiety->default, out-of-range->clamp) vs reject-to-recovery (unknown enum / bad TierId / unknown PillarId); and (b) whether load RE-ASSERTS the ≤⅓ and up-only/high-water invariants — which crosses into an anti-tamper/anti-cheat stance the human has not signed (silently normalizing a hand-edited \"cheat\" save vs rejecting it). Sensible default the agent would otherwise take, for the human to ratify: route structurally-recoverable bad values through coerce-with-default + a logged note, and route bad-enum/unknown-id through the EXISTING calm reject-to-recovery path (extending the already-locked degrade-gracefully policy to value-level corruption) — but do not auto-decide the invariant-re-assertion question. Recommend logging as a new BLOCKING/needs-human item adjacent to B3."
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "Multi-backend redundancy is not failure-independent for the dominant failure mode — a bad envelope is atomically replicated to all 3 backends in one pass",
+        "where": "prd.md §6.8 L6028-6037 (write redundantly to every backend); §6.8.1 L6083-6086 (same envelope to all three); §6.8 L6063-6066 + §6.8.2 L6122 (pre-overwrite snapshot only on destructive ACTIONS, not autosave)",
+        "detail": "The redundancy target is itch's cross-origin-iframe partition/eviction (independent backend loss). But the redundant write puts the SAME envelope into IndexedDB + localStorage + sessionStorage every autosave. The likeliest real corruption is not independent eviction — it's a single logic/serialization bug producing one bad envelope, which is then faithfully cloned to all three backends in the same atomic pass. Redundancy gives zero protection against same-content corruption (the common case), and the only Q19 pre-overwrite snapshot is scoped to destructive actions (import-over / fresh-start) — NOT routine autosave — so a bad autosave overwrites the last-good across all three simultaneously, leaving only a manual export the player may never have made. This undercuts the headline durability claim. (Distinct from B7 multi-tab clobber, which is concurrency; this is single-writer correctness replication.)",
+        "fix": "Keep an N-deep validated rolling autosave in at least one backend: write the new envelope to a 'pending' slot, run validateLoadedState to confirm it round-trips, and ONLY THEN advance the 'current' pointer — retaining the prior good envelope as a one-click rollback. This is the redundancy that actually protects against the common failure and it is currently absent from §6.8.",
+        "isNew": true,
+        "lens": "security-abuse",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "CONFIRMED and genuinely new (Round 4). Reproducible from prd.md §6.8 / §6.8.1 / §6.8.2 (and §3 L2210-2224). The multi-backend redundancy is failure-independent ONLY for itch's iframe partition/eviction (independent backend loss) — L6030-6031 explicitly scopes it there. But every autosave writes the SAME envelope atomically to all three backends (L6028-6033, L6083-6085), so a single logic/serialization bug producing one bad-but-writable envelope is faithfully cloned to IndexedDB + localStorage + sessionStorage in one pass. Defenses that exist do NOT catch this: magic-field rejects only foreign/wrong-app blobs, not same-app semantic corruption (L6038-6040); validation runs only ON LOAD, never pre-write (L6060); newest-wins selects the highest readable saveCounter, i.e. the corrupt-but-parseable autosave (L6089-6098); the recompute-derived defense is scoped explicitly to DERIVED stats ('a bug in derivation never corrupts the save', L2219), leaving the stored §6.4 surface undefended. The only pre-overwrite snapshot is scoped to destructive ACTIONS (import-over / fresh-start / rare unrecoverable) — L6063-6066, L2221-2223 — NOT routine autosave, so there is no generational/last-known-good rolling backup; a bad autosave overwrites last-good across all three simultaneously. The doc's sole mitigation for 'silent autosave loss' is the manual-export NUDGE (L6043-6044) — relying on a backup the player may never have made. Distinct from B3 (import/additive-truncation) and B7 (multi-tab concurrency); this is single-writer correctness replication. Caveats: the doc never literally claims redundancy defends against content corruption (it's scoped to eviction), so 'undercuts the headline durability claim' is slightly strong, and 'dominant failure mode' is an unproven assertion (eviction may be equally common) — but the structural gap (zero failure-independence for same-content corruption + no rolling autosave backup) holds regardless. Minor adjacent inconsistency: L6122 'Before any overwrite of the live autosave' could be misread to cover every autosave, contradicting L6063-6066's destructive-only scope. NEEDS-HUMAN: the fix is a save-durability posture call (rolling-backup depth + which backends vs the eviction quota it competes with; whether to add a pre-write sanity/invariant gate so a failing envelope shows the banner instead of overwriting last-good; cadence interaction where debounced + visibilitychange + beforeunload can roll a shallow ring's good save out before the player notices) — ADR-worthy, not a prose tweak."
+      },
+      {
+        "kind": "risk",
+        "severity": "high",
+        "title": "SPEEDRUNNER: Phase 2 — the BINDING tier-gate and ~half of v1 playtime — has zero anti-undershoot CI coverage; only Phase 1 is floor-tested",
+        "where": "docs/prd.md §4.8.1b L4378-4397 (Phase-2 window minutes 'proposed', NOT verifier-asserted) × §4.8.4 L4459-4462 (undershoot regression is per-rung = Phase 1 only); qa-playtesting.md §2 L98-105 / §3; fun-factor.md §3 L158",
+        "detail": "The single hard pacing gate (M6: 'clears any RUNG in < ~28 min → fail') is per-rung, i.e. Phase-1-only. §4.8.1b states outright that the Phase-2 window minutes are 'proposed' and that 'only the §4.2.1/§4.2.2 deed/seasonal tie-outs and the §4.1 hybrid bands are the load-bearing invariants the verifier asserts' — none of which is a TIME floor. So the Phase-2 grind, which contains the actual tier-up gate and is comparable in length to the Phase-1 climb (T2 Phase-2 ~15.5h), has no undershoot guard whatsoever. The only thing time-gating Phase 2 is the seasonal stream (8-season back-credit), and that binds ONLY the 'good' band (deeds are hard-capped at exactly 70% of good; seasonal supplies the last 30% over ~8 seasons). The great/excellent specialization that §4.8.1b claims 'extends Phase 2 beyond its floor' (FU18) is deed-driven and deeds are NOT time-gated beyond satiety — so a deed-spamming speedrunner hits great/excellent the instant the seasonal credits 'good,' with no extension at all. A future retune of the deed inventory or gate bands could collapse Phase-2 pacing and no CI would catch it. (Independent of B8's missing supply — this is the absence of a pacing FLOOR, not of a costed band.)",
+        "fix": "Add a Phase-2 undershoot floor to the M6 regression (e.g. an N-season minimum or a per-tier Phase-2 wall-clock floor the optimal bot must not beat), and decide whether deed-firing is rate-limited (a per-deed cooldown / satiety cost) so great/excellent specialization can't be instant once 'good' lands.",
+        "isNew": true,
+        "lens": "personas-fresh",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "REAL — confirmed reproducible from doc text, and genuinely NEW (not Q4's per-rung floor-enforcement mechanism, not the pace-ceiling/~60h overshoot question; this is the inverse — no anti-UNDERSHOOT time floor for Phase 2).\n\nCORE CLAIM VERIFIED at all four cited sites:\n1. docs/prd.md §4.8.1b L4380-4381 (verbatim): \"All Phase-2 window minutes are **proposed**; only the §4.2.1/§4.2.2 deed/seasonal tie-outs and the §4.1 hybrid bands are the load-bearing invariants the §6.6 verifier asserts.\" None of those is a TIME floor — the verifier asserts Phase-2 SUPPLY (numeric deed/seasonal sums) and the gate BANDS, never Phase-2 DURATION.\n2. docs/prd.md §4.8.4 L4459-4462 (the smoking gun): the CI undershoot floor is explicitly PER-RUNG (\"clears any rung in < ~28 min → fail\"), and rungs are exclusively Phase-1 constructs (R0–R7/V0–V7/G0–G7 — the capstone rung merely OPENS Phase 2; Phase 2 has no rungs). M6 \"fails on UNDERSHOOT ONLY\" against the LOCKED Phase-1 FLOORs, and the tier is \"meant to run past its Phase-1 floor.\" So a Phase 2 that collapses toward ~0 leaves the tier total still ≥ its Phase-1 floor → the regression PASSES. You cannot assert a floor against a \"proposed\" number (L4465 lists the Phase-2 window minutes as tunable/proposed), so the M6 floor = the Phase-1 floors only.\n3. qa-playtesting.md §2 L101: the bot's stated pacing proof is \"the §4.8 pacing budget (T0≈4.5h/T1≈8h/T2≈16h)\" — Phase-1 floors only; the +4.5/+12/+15.5h Phase-2 grind is absent from the asserted set.\n4. fun-factor.md §3 L158: the ≥30-min floor proxy is scoped to \"a **grind** rung (R1–R7)\" — Phase-1 only.\n\nSTAKES VERIFIED: §4.8.4 table shows Phase 2 ~= or > Phase 1 (T2 Phase-2 ~15.5h vs Phase-1 16h; Phase-2 total ~32h vs Phase-1 28.5h, i.e. Phase 2 is actually >half of v1 playtime), and §4.8.1b/§4.1 confirm the BINDING tier-up hybrid gate (good-in-all + great/excellent counts) lives in Phase 2. So the half-of-playtime segment that contains the actual tier-gate has no undershoot guard.\n\nADVERSARIAL CAVEAT (refines but does not defeat the claim): the seasonal 30%-of-good residual DOES impose an implicit ~8-season floor on reaching \"good\" (seasonal can't be deed-spammed), so Phase 2 is not literally zero-floored and the claim's \"no extension at all\" overstates slightly. BUT the season-count, season-wallclock, and deed cadence (~5/8/13 min, Q20) are all \"proposed\" levers the verifier does NOT assert — only the deed/seasonal SUMS are asserted. So a retune of season-count, deed cadence, or gate bands collapses Phase-2 pacing with fully-green CI. The claim's bottom-line conclusion holds.\n\nNEEDS-HUMAN (not a trivial fix): closing this requires reconciling locked intent with a deliberate stance. §4.8.1b INTENTIONALLY declares Phase-2 minutes \"proposed / not load-bearing,\" yet the budget-as-FLOOR invariant + FU18 (\"extends Phase 2 beyond its floor\") are locked human intent — and Phase 2 holds the binding gate + >half the playtime. Deciding whether/how the FLOOR-enforcement philosophy should bind Phase 2 (add a Phase-2 duration floor to CI? lock the seasonal season-count as the floor mechanism? add a deed-cadence floor? or consciously accept Phase-2 pacing as CI-unprotected?) is a design call, not a one-line doc edit. Recommend logging as a new open question alongside Q4/pace-ceiling. Note B8 is adjacent but distinct — B8 = missing costed great/excellent SUPPLY; this = absence of a Phase-2 pacing FLOOR/undershoot test even if supply existed.\n\nRelevant files: /Users/raynos/projects/games/kami-kakushi/docs/prd.md (§4.8.1b L4371-4397, §4.8.4 L4450-4468), /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md (§2 L89-105, §3 L109-129), /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md (§3 L144-164)."
+      },
+      {
+        "kind": "risk",
+        "severity": "high",
+        "title": "MOBILE/TOUCH: the active-only + pause-on-background + no-offline trifecta makes the FU23 'leave it running, check back' core loop structurally UNAVAILABLE on mobile",
+        "where": "docs/prd.md §6.9 L6169-6174 ('auto-resolve/auto-repeat run while the tab is OPEN'; 'Backgrounding PAUSES'; 'strictly active-only: no offline catch-up') × FU23; ui-design.md §8 L482-495 (mobile responsive is explicitly supported)",
+        "detail": "The grind's palatability rests on FU23 — 'leave it running, check progress' — and the docs commit a fully responsive mobile layout (bottom tab-bar, thumb reach, ≥44px targets). But the two collide on real mobile platform behavior in a way that is worse than the desktop background-throttle question (Q11). On mobile there is no 'visible-but-not-foreground' window: switching apps or locking the phone backgrounds the tab, and §6.9 explicitly PAUSES on background — so unattended progress is impossible the moment the player does anything else. To make ANY progress a mobile player must hold the game full-screen, foregrounded, screen-on — which the OS dims/sleeps, and iOS Safari may discard-and-reload outright. With no offline accrual to compensate, a mobile player has no viable way to advance a ~60h grind; the auto-resolve/auto-repeat 'leave it running' payoff that justifies the long floor is desktop-only. (Data-loss is separately covered by autosave-on-visibilitychange, but the FEEL/loop is the casualty here.) This undercuts the responsive-mobile commitment for the game's central engagement bet.",
+        "fix": "Decide the mobile stance explicitly and document it: either (a) accept mobile as 'foreground active play only' and say so (and reconsider whether the long-floor grind is mobile-appropriate), or (b) add a bounded catch-up-on-focus reconciliation / a 'keep awake' (Screen Wake Lock API) affordance for mobile so 'check back' has meaning — but that reopens the active-only/D-013 lock and needs an ADR.",
+        "isNew": true,
+        "lens": "personas-fresh",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "REAL and genuinely NEW (round-4 mobile-platform angle, distinct from Q11). Needs a human design call.\n\nCITATIONS ALL CONFIRMED VERBATIM. prd.md §6.9 L6169-6174: tab-open auto-resolve/auto-repeat \"run unattended for hours\" but \"strictly active-only: no offline catch-up\" and \"Backgrounding pauses.\" ui-design.md §8 L482-495: first-class mobile layout (bottom tab-bar, thumb reach, >=44px, one panel at a time). FU23 (\"leave it running, check the progress\") is cited ~20x and is named a load-bearing palatability mechanism for the long FLOOR (R6 risk row L7005). Data-loss is separately covered by autosave on visibilitychange/beforeunload (L6033), as the claim concedes.\n\nTHE TENSION IS REAL. The precise mechanism is the visible-but-unfocused window: on desktop a tab beside another window stays document.visible (not hidden), so it keeps ticking — the genuine \"leave it running in the corner, glance over\" affordance. Mobile is single-foreground-app + aggressive screen-sleep: any app-switch or lock fires visibilitychange->hidden -> pause (no Wake Lock anywhere in the docs). So \"leave it (go away) AND have it run\" is contradictory on mobile by construction. This is distinct in KIND from Q11 (Q11 = desktop background-timer throttling, which the PRD already RESOLVED via \"backgrounding pauses\"); the mobile angle is \"no visible-but-unfocused state exists at all,\" which the four docs nowhere acknowledge despite committing responsive mobile as first-class (D-013, ui-design §8, Q19 mobile IA). For a 28.5-60h FLOOR whose palatability the PRD explicitly rests on FU23, the mobile experience silently degrades to \"foreground-only, screen must stay on, cannot multitask, iOS may discard-reload.\"\n\nTWO ADVERSARIAL CAVEATS (temper, don't refute): (1) \"structurally UNAVAILABLE\" is slightly overstated — the auto-repeat-instead-of-tapping half of FU23 IS available on mobile while foregrounded; only the leave-and-return half is broken. (2) fun-factor.md L112 already concedes active-only has no idle \"check back later\" hook and substitutes the seasonal exam — so the loop was never a true idle layer. But neither caveat dissolves the gap: the docs still use the literal \"leave it running, check the progress\" phrasing pervasively and never scope or flag the mobile degradation against a committed first-class mobile surface.\n\nWHY NEEDS-HUMAN (not trivial-fix): the natural mitigation — bounded offline/while-away accrual — DIRECTLY CONTRADICTS a human-LOCKED acceptance criterion (\"active-only / no offline progress\"; D-013, FU23, frozen intent per D-022/D-029), so it cannot be auto-applied. The remaining moves (adopt Screen Wake Lock to fight screen-sleep but not backgrounding; reframe mobile as many short foreground sessions accumulating toward the floor; or declare desktop-primary and document the limitation) are product/design decisions about what the game IS on mobile — the escalate-to-human category in CLAUDE.md.\n\nRECOMMENDED LEDGER ENTRY: new OPEN QUESTION \"mobile-leave-and-return-pause\" — FU23's leave-and-return affordance has no mobile equivalent (background=pause, no visible-but-unfocused state, screen-sleep, no Wake Lock), colliding with the first-class responsive-mobile commitment for a tens-of-hours FLOOR; the only easy fix (offline accrual) is barred by locked canon, so human must choose: Wake-Lock + foreground-session reframing + documented limitation, vs desktop-primary scoping. Files: /Users/raynos/projects/games/kami-kakushi/docs/prd.md (§6.9 L6169-6174, §6.8 L6033), /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md (§8 L482-495), /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md (L112), /Users/raynos/projects/games/kami-kakushi/docs/history/decisions.md (D-013, D-029)."
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "v1 terminal state is undefined: clearing the T2 Phase-2 gate has no specified live player experience beyond a cliff-hanger render and a TEST assertion",
+        "where": "docs/prd.md §3.7.1 L3037-3057 + G7 L2929 + 'Castle-town screen STUB' L2818; M6 phase-6 DoD L6871; post-game-free-play sited at E7/T4.5 L878/L3093/L5440; tier set by tier-up intent §6.4 L5778",
+        "detail": "Every boundary in the catalogue has SOME answer except the most important one: the end of v1. Clearing T2's Phase-2 hybrid profile is the climactic gate, and the ONLY two things the spec commits are (a) a diegetic cliff-hanger render ('the page turns onto stone walls, the story pauses', L2929) and (b) a MACHINE assertion that 'NO T3 ladder/auto-producers/marriage lever is reachable' (L6871). Neither describes what the PLAYER can DO afterward. Three sub-boundaries are all unspecified: (1) Does the tier-up intent fire and COMMIT tier=T3 (§6.4 L5778 'set by the tier-up intent')? If yes, the save now holds tier=T3 with zero T3 content/rungs/gate — a committed-but-empty macro tier no predicate keys on; if no, the gate is cleared yet tier stays T2, an equally odd state. (2) Does the active-only loop keep ticking? Nothing stops it, so the world clock advances and the per-season judged appraisal (the sole Phase-2 accrual, up-only high-water, §6.3 L5728) keeps RAISING pillar high-water marks UNBOUNDEDLY past the gate — straight into the round-3-deferred K/M/B-formatter boundary, with no goal to spend toward. (3) There is no 'v1 complete / thank you / free-play' framing: the only authored post-game ('no reset', defend-the-spot, L878/L3093/L5440) is explicitly the E7 / T4.5 AUTHORED ENDING — ROADMAP, not v1. So v1's saturating end is a goalless, closure-less, unbounded-accrual live session the spec never characterises.",
+        "fix": "Pin the v1 terminal contract: (a) decide and state whether clearing the T2 gate commits tier=T3 or holds at T2-complete; (b) author a minimal v1 'house restored — the page turns' terminal panel (distinct from the E7 roadmap ending) that frames continued play as bounded free-play and freezes/soft-caps post-gate seasonal accrual so high-water doesn't run unbounded into the formatter; (c) add an M6 acceptance assertion on the PLAYER-FACING terminal state (a reachable closure surface + a defined post-gate clock/accrual policy), not just the negative 'no T3 reachable' test.",
+        "isNew": true,
+        "lens": "edge-cases",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "REAL (core confirmed) — NEW; not covered by rounds 1-3. v1's live terminal experience after clearing the T2 end-gate is genuinely unspecified: every end-commitment in the doc is either a *render* (cliff-hanger screen, prd.md L2818/L2929/L3037-3057) or a *negative test assertion* (\"STOPS cleanly… NO T3 ladder/auto-producers/marriage reachable,\" L6860/L6871) — neither says what the player can DO.\n\nSTRONGEST NEW FINDING (sub-boundary 1): the spec contradicts itself on WHERE the v1 ending fires. M6 phase-6 DoD (L6871) and the M6 summary (L6844-6846) render the \"the page turns onto stone walls, the story pauses\" cliff-hanger at \"reaching the G7 capstone\" — but G7 is the END of Phase 1 / ENTRY to Phase 2 (L2929). The locked spine puts the actual v1 end-gate AFTER G7: G7 \"OPENS T2's Phase 2\" (L2929/L4441) and \"Clearing T2's Phase-2 hybrid profile → T3\" is the tier-up (L2929/L3343 \"v1 end-gate\"; nav-track L2818 triggers the stub on STORY T2→T3). The G7 diegetic line conflates both (\"Raise the house's standing to meet it — and… the story pauses\"), so it's incoherent whether the climactic ~Phase-2 hybrid grind (bulk of T2's ~16 h) happens before or after the ending. The tier-commit question is also open: tier is \"set by the tier-up intent\" (L5278/L6294-6297) but nothing says whether that intent fires at the unbuilt T2→T3 boundary, and L6860's assertion is about no T3 *system* being reachable, not about the committed `tier` value.\n\nTWO PARTS REFUTED (honesty): (2) \"appraisal raises high-water UNBOUNDEDLY\" is mechanically FALSE — §4.2.2 (L3554-3573) clamps fracBasis to [0,1], shapes f=sqrt(...)∈[0,1], so each pillar's seasonal stream is hard-bounded at JUDGE_K=0.30·goodBand and PLATEAUS; the doc states \"the seasonal stream is bounded.\" The cited vector converges, never reaching the K/M/B boundary (unbounded koku from the auto-repeat labour loop is a different, uncited mechanism). (3) \"no free-play framing at all\" overstates: L6393 references a \"post-T2 stub runway / free-play tail\" — but only as a pacing-budget aside, never characterized as player experience, so the substance (undefined) holds.\n\nDISPOSITION needs-human: the resolution is a design call on v1's climactic moment — post-gate experience (frozen end-card vs live goalless sandbox vs \"v1 complete / T3 coming\" framing), whether the tick loop keeps running, whether tier=T3 commits to the save, and how to split the G7 teaser from the post-Phase-2 ending render. Per CLAUDE.md these are \"decisions that change what the game is\" → lock with the human as an ADR; not a safe silent prose patch. Files: /Users/raynos/projects/games/kami-kakushi/docs/prd.md (§3.5 L2818, §3.6 G7 L2929, §3.7.1 L3037-3057, §4.2.2 L3538-3603, §6.3 L5728-5740, §6.4 L5778+L6294-6297, §7.1.2 L6393, M6 DoD L6844-6871)."
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "core.tick(dtTicks>1) scheduler semantics are unspecified: a multi-tick advance crossing a day/season boundary can skip the seasonal appraisal and breaks replay byte-identity",
+        "where": "docs/prd.md §6.3 tick signature L5708, per-tick/day/week/season plans L5719-5734, dtTicks whole-integer from variable elapsed time L5736-5737, determinism guarantee L5742; §4.0 L3214 (200 ticks/day, 6000/season); seasonal appraisal = sole Phase-2 accrual shape-B §2.2(d) L1224",
+        "detail": "tick(state, dtTicks) takes a WHOLE-INTEGER dtTicks that is explicitly VARIABLE (the app loop accumulates a fractional remainder across frames, L1217/L5737, so a slow frame/GC pause hands dtTicks of several ticks; forceState/bot time-compression hands very large jumps). §6.3 lists per-tick / per-day / per-week / per-season plans but NEVER says whether a multi-tick advance ITERATES per-tick internally (firing each crossed day/season boundary exactly once, in a fixed order) or JUMPS clock.tick by dtTicks and fires boundary plans 0/1/N times. Two real failures fall out: (1) DETERMINISM — replay byte-identity (the keystone the whole pacing/fun gate rests on, L5742) requires tick(s,N) ≡ N×tick(s,1); if tick doesn't iterate, the same script replayed with different frame chunking (1+1+1 vs 3 at once) diverges, silently failing the determinism guarantee. (2) CORRECTNESS — if a large dtTicks jumps PAST a 6000-tick season boundary, does the per-season JUDGED appraisal fire? It is the ONLY Phase-2 accrual mechanism (shape B); a skipped or double-fired appraisal loses/duplicates pillar deeds, compounding B8 (gate unclearable) — and a bot that time-compresses Phase 2 in one giant dtTicks could skip every appraisal. Separately, the intra-tick ORDER (per-tick auto-combat vs per-season appraisal vs the reward-bus reveals they trigger) is unpinned, yet determinism needs a fixed order; and a season appraisal landing while combat? is non-null (mid-fight, L5788) has no defined interaction. Distinct from the round-3-deferred RENDERER item (render reconciling per-FRAME across K>1 ticks) — this is core.tick's internal scheduler + determinism, not the DOM.",
+        "fix": "Specify tick(dtTicks) as an internal per-tick fold (loop dtTicks times, each iteration running per-tick then checking day/week/season boundary crossings exactly once, in a documented fixed order) so all boundary plans fire deterministically regardless of chunk size; add a Vitest assertion that tick(s,N) is byte-identical to N×tick(s,1) AND that a dtTicks jump across a season boundary fires the appraisal exactly once; pin the intra-tick order of combat-substep / day / season / reward-bus and the mid-fight-appraisal rule.",
+        "isNew": true,
+        "lens": "edge-cases",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "REAL and genuinely new. §6.3 (L5708/L5719, module table L5659) specifies WHAT fires per-tick/day/week/season but NEVER the loop structure for a dtTicks>1 advance: whether core.tick iterates per-tick (firing each crossed boundary once, in a fixed within-tick order) or jumps clock.tick+=dtTicks and fires boundary plans by end-state detection (0/1/N). dtTicks is explicitly variable (fractional remainder accumulates in the app loop, L1217/L5736; slow-frame/GC hands several ticks) AND the QA harness ships time-compression helpers advanceSeason/toRung/toTier (L6200) that hand very large jumps.\n\nTEETH (correctness) — confirmed and STRENGTHENED via §4.2.2 (L3554-3567), with two of the claim's own assertions CORRECTED:\n- CORRECTION 1 (overstated): the appraisal is UP-ONLY high-water, so a double-fire on an unchanged basis is IDEMPOTENT — the claim's \"double-fired duplicates deeds\" does NOT hold for pure double-fire. The divergence lives in the SKIP/chunking direction.\n- CORRECTION 2 (wrong lever): replay byte-identity as worded (L5742) is script-parameterized — same tickScript reproduces for ANY pure tick — so it does NOT literally require tick(s,N)≡N×tick(s,1). The correct lever: variable frame/GC dtTicks + the time-compression helpers make chunking vary in practice, and the doc's own model makes those chunkings diverge.\nReal divergence (survives up-only): (1) per-tick auto-labour/auto-combat (L5720-23) grows the basis BETWEEN crossed boundaries, and the within-tick order (labour vs appraisal) is unpinned — directly selects the scored basis; (2) weather is DAY-KEYED ±10% (L5733-34/L3441-43) so a +10% intermediate boundary can lock a permanently higher up-only high-water a single end-of-jump fire misses; (3) the seasonal RNG cursor is PERSISTED+monotonic (L5762/L5979) and is drawn by the appraisal (L5986) — firing ≠N times across N boundaries permanently desyncs it across the save. A bot time-compressing Phase 2 via toTier/advanceSeason under-fires appraisals → under-accrues the Phase-2 pillar deeds (sole shape-B accrual, §2.2(d) L1224; writes deeds only in Phase 2, L5731/L3546) → COMPOUNDS blocking B8, and invalidates §6.3's own claim (L5743-44) that the DEV play API is a faithful pacing/unlock regression harness.\n\nDISTINCT from prior items: not the deferred fractional-tick (app→core handoff), not the round-3 renderer-per-frame (DOM), deeper than the open bot-determinism Q (RNG seeding) — this is core.tick's internal scheduler iteration + the persisted-cursor contract.\n\nDISPOSITION needs-human: the obvious fix (iterate one tick at a time, fire each boundary once, fixed order) CONFLICTS with the time-compression helpers' purpose — toTier/advanceSeason cannot iterate millions of ticks running the auto-battler each step. Resolving it is an interacting design call touching the determinism keystone (the pacing/fun gate rests on it), the persisted seasonal-cursor contract (which crossed days' weather apply on a jump; whether boundary plans must fire per-crossing while per-tick sub-steps batch analytically), the within-tick dispatch order, and the undefined season-boundary-during-live-combat? interaction (L5788). ADR-worthy per CLAUDE.md; compounds blocking B8. File: docs/prd.md."
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Review"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "Synthesize"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "living-docs",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a1bd5910ba8e9507a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408972,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Living-docs ↔ PRD cross-consistency (round 4)",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782499800811,
+      "tokens": 126262,
+      "toolCalls": 19,
+      "durationMs": 391839,
+      "resultPreview": "{\"lens\":\"Living-docs ↔ PRD cross-consistency (round 4)\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"Both living docs drop the Crafting (R4) and Quests (R5) top-level nav tabs from the reveal sequence the PRD mandates\",\"where\":\"ui-design.md §5.6 (L375) + §10 (L530-559); qa-playtesting.md §4 (L152-153) vs prd.md §3.5 (L2811-2812, L2803)\",\"detail\":\"PRD §3.5 enumerates ten nav reveals afte…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "security-abuse",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "afb051b705acc9164",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408973,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Security / abuse / tamper — save-load attack surface (singl…",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782499668035,
+      "tokens": 82377,
+      "toolCalls": 16,
+      "durationMs": 259062,
+      "resultPreview": "{\"lens\":\"Security / abuse / tamper — save-load attack surface (single-player, calibrated severity)\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"Persisted event-log text → DOM with no escaping spec'd = stored-XSS via shared/imported save\",\"where\":\"prd.md §2.1 L1181 (LogMessage{id,text,…}); §6.4 L5789 (log: LogEntry[]); §6.8 L6053 (capped event log persisted); §6.9 renderer contract L612…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "personas-fresh",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a94471424b7ce60f9",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408973,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Round 4 until-dry — fresh personas rounds 1-3 didn't run: S…",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782499889273,
+      "tokens": 143461,
+      "toolCalls": 19,
+      "durationMs": 480300,
+      "resultPreview": "{\"lens\":\"Round 4 until-dry — fresh personas rounds 1-3 didn't run: SPEEDRUNNER (break/trivialize pacing & gates), COMPLETIONIST (100% reachability & missable-content), RETURNING-PLAYER (save migration across a deployed update + re-orientation), MOBILE/TOUCH (touch targets, small viewport, the always-running tab on mobile). Read: prd.md (full §3.0.1/§4.8/§6.8/§6.9 + §3.6.2/§1.5.x/§1.9), fun-factor.…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "edge-cases",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a6478178e2c25c67e",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408973,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Edge-case / failure-mode catalogue — boundary & terminal st…",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782499817578,
+      "tokens": 105814,
+      "toolCalls": 17,
+      "durationMs": 408605,
+      "resultPreview": "{\"lens\":\"Edge-case / failure-mode catalogue — boundary & terminal states (\\\"what does the spec say happens at the edges?\\\")\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"v1 terminal state is undefined: clearing the T2 Phase-2 gate has no specified live player experience beyond a cliff-hanger render and a TEST assertion\",\"where\":\"docs/prd.md §3.7.1 L3037-3057 + G7 L2929 + 'Castle-town sc…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "consistency-resweep",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "adc8d84e7bc3de9fe",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408973,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "post-fix consistency re-sweep (cross-ref resolution · namin…",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500186617,
+      "tokens": 140511,
+      "toolCalls": 36,
+      "durationMs": 777644,
+      "resultPreview": "{\"lens\":\"post-fix consistency re-sweep (cross-ref resolution · naming uniformity · watch-list invariants)\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"medium\",\"title\":\"E2 estate-stage is gated/priced at R6 (T0) by pacing+affordability but built (incl. its men-at-arms rota) in T1 by narrative+milestone canon\",\"where\":\"prd.md §4.7.5 L4282/L4284/L4287 + §4.8.1 R6 row L4355 + §4.8 L4361 (E2@R6, T0) vs §5…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "localization-text",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a7e2b4caafef64d4a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408973,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "localization / text pipeline",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782499662047,
+      "tokens": 70836,
+      "toolCalls": 13,
+      "durationMs": 253074,
+      "resultPreview": "{\"lens\":\"localization / text pipeline\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"medium\",\"title\":\"Event log has no templating/args model — `LogMessage{text}` is a baked literal but reward/combat lines interpolate counts + names + K/M/B\",\"where\":\"docs/prd.md §2.1(c) L1181 (`LogMessage { id, text, channel, colorClass, tick }`) + L1176 (`revealLogLineId`); ui-design.md §5.1 L319 (reward line = emoji b…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "completeness-critic",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a54d75fb3b953561c",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782499408973,
+      "queuedAt": 1782499408966,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Cross-living-doc fidelity + content-authoring scope (the fo…",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782499831683,
+      "tokens": 105759,
+      "toolCalls": 13,
+      "durationMs": 422710,
+      "resultPreview": "{\"lens\":\"Cross-living-doc fidelity + content-authoring scope (the four docs audited against EACH OTHER, not just the PRD internally) + completeness verdict\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"The fun/pacing QA instrument is calibrated to a stale budget the PRD §4.8 table itself now contradicts (qa: T1≈8h/T2≈16h; PRD: T1~12h/T2~15.5h; sum 28.5h vs ~32h)\",\"where\":\"docs/plans/qa-…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "verify:Both living docs drop the",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "af5f9156b34f02cb4",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186635,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "trivial-fix",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500296935,
+      "tokens": 27126,
+      "toolCalls": 5,
+      "durationMs": 110300,
+      "resultPreview": "{\"real\":true,\"disposition\":\"trivial-fix\",\"verdict\":\"CONFIRMED (real, genuinely new, trivially fixable — docs-sync, no human design call).\\n\\nAll four cited locations reproduce verbatim:\\n\\n1. PRD §3.5 (source of truth) mandates Crafting and Quests as TOP-LEVEL nav tabs, each its own reveal beat:\\n   - L2802-2804: \\\"Distinct activities are TOP-LEVEL nav tabs, not nested panels (Q10) — and each tab …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "verify:Persisted event-log text →",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a1fe26faae5ae61bc",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186636,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "trivial-fix",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500343946,
+      "tokens": 42970,
+      "toolCalls": 12,
+      "durationMs": 157310,
+      "resultPreview": "{\"real\":true,\"disposition\":\"trivial-fix\",\"verdict\":\"CONFIRMED, genuinely new, trivially fixable (no human design call). All six load-bearing premises reproduce from the doc text: (1) resolved log text is PERSISTED, not id-only — §2.1 L1181 LogMessage{id,text,channel,colorClass,tick}, §6.4 L5789 log:LogEntry[], §6.8 L6052-53 \\\"capped event log\\\" in persisted set; reward/combat lines interpolate run…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "verify:No load-time field-VALUE v",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a8c3355324725e28a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186636,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500323235,
+      "tokens": 49884,
+      "toolCalls": 9,
+      "durationMs": 136599,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"CONFIRMED and genuinely new. Every load gate the PRD describes is structural-only, verified verbatim: §6.8 L6038-6044/L6060-6062 (magic-id + corrupt/unreadable/foreign-id only; \\\"Import validates THE MAGIC FIELD + migrates\\\"); §6.8.1 L6087-6098 (magic + newest-wins + never-forward-schemaVersion); §6.8.2 L6109-6112 (defaults are \\\"applied on read\\…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "verify:Multi-backend redundancy i",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "acb0eeb0fa4c4c49d",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186636,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500363399,
+      "tokens": 35499,
+      "toolCalls": 4,
+      "durationMs": 176762,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"CONFIRMED and genuinely new (Round 4). Reproducible from prd.md §6.8 / §6.8.1 / §6.8.2 (and §3 L2210-2224). The multi-backend redundancy is failure-independent ONLY for itch's iframe partition/eviction (independent backend loss) — L6030-6031 explicitly scopes it there. But every autosave writes the SAME envelope atomically to all three backends (…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 12,
+      "label": "verify:SPEEDRUNNER: the LOCKED −1",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a452b0f7f68faff11",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186636,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "not-real",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500380503,
+      "tokens": 50905,
+      "toolCalls": 10,
+      "durationMs": 193867,
+      "resultPreview": "{\"real\":false,\"disposition\":\"not-real\",\"verdict\":\"REFUTED. The round-4 SPEEDRUNNER claim rests on three false premises, each contradicted by the actual doc text.\\n\\n(1) \\\"Mechanical locus is unspecified / the PRD picks neither\\\" is false. The ~10–15% is specified 5+ times as village allies + origin trade-ties acting as multipliers/feeders on House Influence: §1.5.4 L451-453 (\\\"Above all of them si…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 13,
+      "label": "verify:SPEEDRUNNER: Phase 2 — the",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "aac4595408908d3d3",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186637,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500382388,
+      "tokens": 46003,
+      "toolCalls": 7,
+      "durationMs": 195751,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"REAL — confirmed reproducible from doc text, and genuinely NEW (not Q4's per-rung floor-enforcement mechanism, not the pace-ceiling/~60h overshoot question; this is the inverse — no anti-UNDERSHOOT time floor for Phase 2).\\n\\nCORE CLAIM VERIFIED at all four cited sites:\\n1. docs/prd.md §4.8.1b L4380-4381 (verbatim): \\\"All Phase-2 window minutes a…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 14,
+      "label": "verify:MOBILE/TOUCH: the active-o",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a6c31afded53de67a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186637,
+      "queuedAt": 1782500186621,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500354687,
+      "tokens": 57572,
+      "toolCalls": 12,
+      "durationMs": 168050,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"REAL and genuinely NEW (round-4 mobile-platform angle, distinct from Q11). Needs a human design call.\\n\\nCITATIONS ALL CONFIRMED VERBATIM. prd.md §6.9 L6169-6174: tab-open auto-resolve/auto-repeat \\\"run unattended for hours\\\" but \\\"strictly active-only: no offline catch-up\\\" and \\\"Backgrounding pauses.\\\" ui-design.md §8 L482-495: first-class mobi…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 15,
+      "label": "verify:v1 terminal state is undef",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a273ae7338f901c21",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186637,
+      "queuedAt": 1782500186622,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500427157,
+      "tokens": 74166,
+      "toolCalls": 17,
+      "durationMs": 240520,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"REAL (core confirmed) — NEW; not covered by rounds 1-3. v1's live terminal experience after clearing the T2 end-gate is genuinely unspecified: every end-commitment in the doc is either a *render* (cliff-hanger screen, prd.md L2818/L2929/L3037-3057) or a *negative test assertion* (\\\"STOPS cleanly… NO T3 ladder/auto-producers/marriage reachable,\\\" …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 16,
+      "label": "verify:core.tick(dtTicks>1) sched",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ae907c6dd41f5326b",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186637,
+      "queuedAt": 1782500186622,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500445747,
+      "tokens": 61392,
+      "toolCalls": 11,
+      "durationMs": 259110,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"REAL and genuinely new. §6.3 (L5708/L5719, module table L5659) specifies WHAT fires per-tick/day/week/season but NEVER the loop structure for a dtTicks>1 advance: whether core.tick iterates per-tick (firing each crossed boundary once, in a fixed within-tick order) or jumps clock.tick+=dtTicks and fires boundary plans by end-state detection (0/1/N…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 17,
+      "label": "verify:The fun/pacing QA instrume",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ad9d8a94aa5f1413f",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500186638,
+      "queuedAt": 1782500186622,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "not-real",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500354343,
+      "tokens": 39595,
+      "toolCalls": 9,
+      "durationMs": 167705,
+      "resultPreview": "{\"real\":false,\"disposition\":\"not-real\",\"verdict\":\"REFUTED — the central claim does not reproduce; it rests on a mis-citation. It treats PRD §4.8 L4385-4387 as \\\"the §4.8 floor table reading T1~12h/T2~15.5h,\\\" but L4385-4387 is the §4.8.1b PHASE-2 WINDOW column, explicitly headed \\\"⏱ Phase-2 window (proposed, ADDS to the floor)\\\" — the Phase-2 grind that adds ON TOP of the Phase-1 floor, a differen…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 18,
+      "label": "synthesis",
+      "phaseIndex": 3,
+      "phaseTitle": "Synthesize",
+      "agentId": "a8fc7dac83172246f",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500445778,
+      "queuedAt": 1782500445753,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "NOT-DRY",
+      "promptPreview": "ROUND 4 (likely final angles) of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG).\nREAD /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) AND the three living docs /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-p…",
+      "lastProgressAt": 1782500839104,
+      "tokens": 77409,
+      "toolCalls": 7,
+      "durationMs": 393326,
+      "resultPreview": "{\"dryness\":\"NOT-DRY\",\"new_actionable_count\":27,\"new_blocking\":[\"B9 (new) — No load-time field-VALUE validation. Every load gate the PRD describes is structural-only: §6.8 L6060 names recovery for 'corrupt/unreadable/foreign-id' only, §6.8.1 adds magic-id + never-forward-schemaVersion, and §6.8.2 defaults fire only for MISSING fields. A hand-edited/imported save with resources.koku=-5, character.sa…"
+    }
+  ],
+  "totalTokens": 1337541,
+  "totalToolCalls": 236
+}
