@@ -257,6 +257,21 @@ human-questions captured → brainstorms/2026-06-26-prd-v2-audit.md (the cumulat
 angles + completeness-critic; loop until 2 consecutive dry rounds, then human glance.
 
 
+## 29 · Battery ROUND 2 (deep angles) — NOT-DRY · 4 NEW blocking + 21 questions
+Workflow warfkul5r (17 agents, 1.35M tok, 21min). DRYNESS=NOT-DRY (strongly productive). 4 NEW blocking of
+B1-B3 caliber: B4 rung-meter back-solved off ONE scalar RUNG_FLOOR_MIN=30 → clears R4-R7 5-25min early vs
+§4.8.1's escalating wall-clocks (breaks koku tie-out OR makes meter non-binding; REFUTES round-1's praised
+'≡one constant' strength → needs per-rung floor array). B5 cross-pillar-combo gate-EXCLUSION unrepresentable
+in §6.4 state + Model-A(both pillars) vs Model-B(third pillar Name) self-contradiction. B6 day-keyed world
+schema contradiction (§2.2 'only day+tick persist' vs §6.4/§2.19 store season/year; lunar-from-per-day-hash
+teleports). B7 multi-tab concurrent save clobber (no Web Locks/leader-election; scalar counter can't detect
+divergence; distinct from B3; amplified by FU23 leave-it-running). APPLIED 2 trivial (T1 stale denylist guard
+→ shipped names; Q49 phantom struck from 4 co-citations). DEFERRED 3 (audio-autoplay note, FU3 cursor note,
+§4.2.2 season-Δ table-math) + 2 standalone Q49 → human Q21. 21 new questions (incl narrative: Oyuki double-
+resurrection, gender-drift 'fair clue', M5 pre-split; + a11y/perf/renderer/bot-policy gaps). 5 new strengths.
+Ledger updated. NEXT: round 3 = a11y/perf/renderer/QA-bot deep + devil's-advocate refute of B1-B7 + completeness.
+
+
 ---
 
 ## Next intended steps (current)

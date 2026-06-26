@@ -2219,7 +2219,7 @@ player can export a save to a text file and import it back (portability / backup
 backend wins (counter, then timestamp); derived stats are recomputed (so a bug in derivation never corrupts
 the save). On any rejection a **calm "couldn't save — export a backup" notice** appears (never a scary "save
 is dead" wall). **Explicit CONFIRM on destructive / genuinely-unrecoverable actions** — import / fresh-start,
-plus the rare no-respec attribute allocation, rare-material consume, and narrative-route choices (Q19/Q49) —
+plus the rare no-respec attribute allocation, rare-material consume, and narrative-route choices (Q19) —
 with an **auto pre-overwrite snapshot.** Because **`Math.pow` is banned in core (integer-pow; §6)**, exported
 saves **replay byte-identically cross-engine.**
 
@@ -5965,8 +5965,8 @@ the three-track separation and the hybrid gate.
 - **Real-name DENYLIST lint (Q27/Q28/Q39/Q11).** A denylist flags **real surnames / places** (e.g. *Toyama*,
   *Konoe*, real daimyō / place names) so an invented-name slip can't land in shipped strings — maintained
   alongside the macron lint. **Allow-list:** naturalized exonyms + the **invented-place allow-list (incl.
-  *Nihonbashi*, Q12)**. It also guards the cast renames (field-lad **Mago** must not collide with antagonist
-  **Magobei**; *Naozane* / *Obaa Sato* kept non-colliding).
+  *Nihonbashi*, Q12)**. It also flags the **superseded** names **Mago** / **Naozane** / **Obaa Sato** so they can't be
+  reintroduced; the shipped names are **Heita** / **Mosuke** / **Obaa Kuni** (field-lad **Heita** ≠ antagonist **Magobei**; clerk **Mosuke** ≠ heir **Naoyuki**; herbalist **Obaa Kuni** ≠ **Sayo**).
 
 ---
 
@@ -6060,7 +6060,7 @@ eviction**. The **FULL layer is built in M0** (FU1); rich per-system fields are 
 - **Validate + degrade gracefully on load.** A corrupt/unreadable/foreign-id save shows a calm, explained
   recovery (offer re-import or a fresh start), **never** a scary "save is kill" wall. A pre-migration backup
   of the raw bytes is kept so a failed migration is recoverable.
-- **Save-safety on destructive actions (Q19/Q49).** Genuinely-destructive actions (import-over,
+- **Save-safety on destructive actions (Q19).** Genuinely-destructive actions (import-over,
   fresh-start, and only truly-unrecoverable rare actions) require an **explicit confirm**, and an
   **automatic pre-overwrite snapshot** (an extra write in the multi-backend matrix) is taken **before** any
   overwrite — so a misclick is recoverable.
@@ -6120,7 +6120,7 @@ under the documented §6.1 save-layer exemption.)
   degrade-gracefully recovery as a corrupt save (raw bytes preserved for re-import in a newer build) — never a
   silent half-load (ties to the §6.8.1 forward-version fall-through).
 - **Pre-overwrite snapshot.** Before any overwrite of the live autosave (incl. import-over / fresh-start), an
-  automatic snapshot is taken (Q19/Q49). We support ordered forward migrations indefinitely + the raw backup,
+  automatic snapshot is taken (Q19). We support ordered forward migrations indefinitely + the raw backup,
   but do **not** guarantee cross-major-rewrite compatibility — a future ground-up schema change may legitimately
   retire very old saves with a clear message.
 
@@ -6813,7 +6813,7 @@ conditionally; the "one-eyed mountain god" is an INVESTIGATE-then-confront **one
 **Goal:** make the whole curve hit the **LOCKED pacing FLOOR** (the per-tier hour budgets + the ≥30-min
 per-rung minimums — a FLOOR, not a ceiling; FU18), prove every **V2 canon invariant** by machine, **promote the
 fun-proxies from report-only to a GATING check** (Q4/FU9), land the **low-cost a11y acceptance** items (contrast
-/ keyboard / screen-reader — Q18/Q48/Q49), apply the **inline-SVG + audio** register (Q38/Q50), ship the **T3
+/ keyboard / screen-reader — Q18/Q48), apply the **inline-SVG + audio** register (Q38/Q50), ship the **T3
 castle-town / Daikan's-Office first-contact STUB** (Q24), and polish to a launchable feel. *(The grind can and
 should run **longer** than the floor — both regressions fail on **UNDERSHOOT only**, §7.1.2.)*
 
