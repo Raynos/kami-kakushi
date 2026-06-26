@@ -2,6 +2,12 @@
 # Journal-hygiene gate: every commit must stage a change under journal/ (a new or
 # updated *.md), so the build keeps a running, resumable log.
 #
+# JOURNAL CONVENTION (see journal/README.md + journal/_TEMPLATE.md):
+#   - The journal is a CHRONOLOGICAL LOG (history), NOT a live snapshot — live state
+#     lives in memory/project-status.md.
+#   - Summary at the TOP; APPEND new entries at the BOTTOM (oldest->newest). NEVER prepend.
+#   - No stale "current state" block inside the journal.
+#
 # Bypass a genuinely trivial commit:  SKIP_JOURNAL=1 git commit ...
 # Enable once per clone:              git config core.hooksPath .githooks
 
@@ -10,15 +16,20 @@ if [ "${SKIP_JOURNAL:-0}" = "1" ]; then
 fi
 
 if git diff --cached --name-only --diff-filter=ACMR | grep -qE '^journal/.*\.md$'; then
+  echo "  . journal staged - convention: summary at TOP, APPEND entries at the BOTTOM (never prepend); live state -> memory/project-status.md (see journal/README.md)" >&2
   exit 0
 fi
 
 cat >&2 <<'MSG'
 
-  ✗ commit blocked — no journal entry staged.
+  X commit blocked - no journal entry staged.
 
   Record what this commit does in journal/ (append to the current session log or add a
   checkpoint file), then stage it and commit again.
+
+  JOURNAL CONVENTION (journal/README.md): the journal is a chronological LOG, not a live
+  snapshot. Summary at the TOP; APPEND new entries at the BOTTOM (oldest->newest, never
+  prepend); no stale "current state" block (that lives in memory/project-status.md).
 
   Trivial commit? Bypass with:  SKIP_JOURNAL=1 git commit ...
 

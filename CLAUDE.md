@@ -19,8 +19,9 @@ in [README.md](README.md); this file is just how we work.
 - **Stop and ask only for** (1) design decisions that change what the game *is* — lock these with the
   human and record them as ADRs in [`docs/history/decisions.md`](docs/history/decisions.md); and
   (2) anything outward-facing or hard to reverse (push, deploy, delete) — never without approval.
-- **Leave it resumable.** All state lives in commits + `journal/` (newest summary at the top) + the
-  task list, so a cold pickup or a context compaction never loses progress.
+- **Leave it resumable.** All state lives in commits + the `journal/` log (chronological — summary at top,
+  entries appended at the **bottom**) + `memory/project-status.md` (the **live snapshot**) + the task list, so a
+  cold pickup or a context compaction never loses progress.
 
 Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
 
@@ -43,7 +44,8 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   language** → [`docs/ui-design.md`](docs/ui-design.md). The agent reviews its own screenshots with its
   own vision and iterates; the human is the final fun & taste arbiter.
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `journal/`
-  says **how it got here**. One doc per concern; edit living docs in place (don't fork copies).
+  says **how it got here** (a chronological log — append at the bottom, never prepend; the live snapshot is
+  `memory/project-status.md`). One doc per concern; edit living docs in place (don't fork copies).
 - **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to **locked intent** — the
   §1 vision + the human-signed acceptance criteria (no-magic / mediocre-start / trade ≤⅓ /
   active-only, the four pillars + estate spine, the ≥30-min-per-rank / 70-30 / ~28.5h / tier-gate
@@ -85,8 +87,9 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   settled designs graduate to `docs/`. [PARKED-THREADS.md](brainstorms/PARKED-THREADS.md) indexes tangents.
   [`raw/`](brainstorms/raw/) holds **verbatim** `Workflow`-output JSON snapshots (durable insurance).
 - `scripts/` — repo dev/maintenance scripts (e.g. [`snapshot-research.sh`](scripts/snapshot-research.sh)).
-- `journal/` — one short markdown log per work session (newest summary at the top); see
-  [`_TEMPLATE.md`](journal/_TEMPLATE.md).
+- `journal/` — per-session chronological **LOG** (history, not live state): **summary at top, entries appended
+  at the BOTTOM (never prepend)**; one file per session; the live snapshot is `memory/project-status.md`. See
+  [`README`](journal/README.md) + [`_TEMPLATE.md`](journal/_TEMPLATE.md).
 - [`archive/`](archive/) — superseded markdown docs kept for reference (archive, don't delete).
 - [`audit/`](audit/) — QA screenshots/recordings + findings, from the `capture-game-states` skill.
 - [`tmp/`](tmp/) — repo-local scratchpad for throwaway working files (git-ignored except its README).

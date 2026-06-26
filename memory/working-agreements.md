@@ -7,7 +7,9 @@ metadata:
 
 # Working agreements
 
-**Cadence:** many small commits; journal each session in [`../journal/`](../journal/); durable design
+**Cadence:** many small commits; journal each session in [`../journal/`](../journal/) — a chronological
+log (summary at top, **append entries at the bottom, never prepend**; live state lives in
+[`project-status.md`](project-status.md), see [`../journal/README.md`](../journal/README.md)); durable design
 in [`../docs/`](../docs/) (added when we design the game); per-fact memory here. Locked design
 decisions are recorded as ADRs in [`../docs/history/decisions.md`](../docs/history/decisions.md).
 
