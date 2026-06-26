@@ -244,6 +244,19 @@ now STRUCTURALLY COMPLETE. NEXT: until-dry battery rounds (user: 'multiple roads
 left'), then human glance.
 
 
+## 28 · Battery ROUND 1 (all-angles, complete doc) — 91 findings / 33 strengths / 7 confirmed defects
+Workflow wmz1px3fu (24 agents, 1.9M tok, 19min). VERDICT: NOT-READY to tag the freeze — spine is freeze-worthy
+but 3 confirmed correctness defects + ~4 unblessed locked-intent calls (none need structural rework). BLOCKING:
+B1 Name-pillar T2 tie-out broken (JUDGE_K[Name][T2]=42K off stale 140K ref, not Name's 28K good band → seasonal
+alone auto-clears the gate with ZERO Name deeds; falsifies 3 locked statements + §4.2.2 contradicts §4.1). B2
+estate builds E1/E2/E3 gated on pillar-Influence floors unreachable where placed (Phase-2-only accrual; impossible
+by ~2.7× at E3). B3 save import-over silently lost to higher-counter autosave (+ additive-fields-no-schemaVersion
+truncation). APPLIED 4 trivial fixes (T1 threshold falls-not-rises; T3 stray Obaa Sato→Obaa Kuni; T4 ronin→rōnin
+×7 + removed from macron allow-list; §7 headers §-prefixed ×14). DEFERRED 6 (entangled w/ design picks). 12 ranked
+human-questions captured → brainstorms/2026-06-26-prd-v2-audit.md (the cumulative ledger). NEXT: round 2 fresh
+angles + completeness-critic; loop until 2 consecutive dry rounds, then human glance.
+
+
 ---
 
 ## Next intended steps (current)
