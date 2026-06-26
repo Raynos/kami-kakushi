@@ -571,7 +571,25 @@ export function mount(
     }
   }
 
-  function render(state: GameState, _prev: GameState | null): void {
+  function showRankUp(state: GameState): void {
+    const rank = currentRank(state);
+    const overlay = el('div', 'rankup-seal');
+    overlay.setAttribute('role', 'status');
+    const inner = el('div', 'seal-inner');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      inner.classList.add('animate');
+    inner.append(el('div', 'rankup-kicker', 'Promoted'));
+    const seal = el('div', 'hanko-css');
+    seal.lang = 'ja';
+    seal.textContent = rank.kanji;
+    inner.append(seal);
+    inner.append(el('div', 'rankup-title', rank.title));
+    overlay.append(inner);
+    shell.append(overlay);
+    window.setTimeout(() => overlay.remove(), 1900);
+  }
+
+  function render(state: GameState, prev: GameState | null): void {
     lastState = state;
     renderVitals(state);
     renderNav(state);
@@ -581,6 +599,8 @@ export function mount(
     renderActions(state);
     renderSkills(state);
     renderCombat(state);
+    // the signature beat: a promotion presses the house seal (ui-design §6.2)
+    if (prev && prev.rung !== state.rung && !firstRender) showRankUp(state);
     firstRender = false;
   }
 

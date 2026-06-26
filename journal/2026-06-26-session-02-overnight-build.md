@@ -109,3 +109,9 @@ wolf "◆ 2% Risky" — an honest forecast that guides the grind. M2 tests rewri
 progression. **51 tests green.**
 
 This is exactly what the playtest discipline is for — and the demo arc is now genuinely fun end-to-end.
+
+## 8 · The signature beat — rank-up seal press
+
+A promotion now presses the house hanko: a vermilion seal stamps down (ease-press overshoot, mix-blend so
+the paper grain shows through), "PROMOTED · {kanji} · {rank title}", held ~1s then lifts — reduced-motion safe.
+The ui-design §6.2 signature juice moment, now live (audit/qa-10-rankup-seal.png).
