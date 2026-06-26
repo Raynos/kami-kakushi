@@ -51,13 +51,47 @@ async function boot(): Promise<void> {
   }
 
   let prev: GameState | null = null;
-  const render = mount(root, dispatch);
 
   // reveal tracking (for the __qa reveal-cadence proxy)
   const reveals: RevealMark[] = state.unlocked.map((id) => ({ id, tick: state.clock.tick }));
   let actionCount = 0;
   let paused = false;
   let crashed = false;
+
+  // app hooks for the Settings/About surface (export/import save, a11y, pause)
+  const hooks = {
+    exportSave: (): string => save.exportState(state),
+    importSave: (b64: string): void => {
+      void (async () => {
+        const res = await save.importState(b64);
+        if ('state' in res) {
+          prev = null;
+          state = res.state;
+          safely(() => render(state, null));
+        }
+      })();
+    },
+    newGame: (): void => {
+      prev = null;
+      state = createInitialState(DEFAULT_SEED);
+      reveals.length = 0;
+      actionCount = 0;
+      safely(() => render(state, null));
+      void flushSave();
+    },
+    setReducedMotion: (on: boolean): void => {
+      document.documentElement.classList.toggle('reduced-motion', on);
+    },
+    setTextScale: (s: number): void => {
+      document.documentElement.style.setProperty('--text-scale', String(s));
+    },
+    togglePause: (): boolean => {
+      paused = !paused;
+      return paused;
+    },
+  };
+
+  const render = mount(root, dispatch, hooks);
 
   // reveal-on-load: render existing log statically (no re-spam)
   safely(() => render(state, null));

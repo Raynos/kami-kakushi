@@ -54,6 +54,15 @@ const RESOURCE_LABEL: Record<string, string> = { koku: 'koku', wood: 'wood', san
 type Dispatch = (intent: Intent) => void;
 type Tab = 'work' | 'skills' | 'combat';
 
+export interface AppHooks {
+  exportSave: () => string;
+  importSave: (b64: string) => void;
+  newGame: () => void;
+  setReducedMotion: (on: boolean) => void;
+  setTextScale: (scale: number) => void;
+  togglePause: () => boolean;
+}
+
 function pct(n: number): string {
   return `${Math.round(n * 100)}%`;
 }
@@ -78,9 +87,147 @@ function vital(id: string, label: string): { wrap: HTMLElement; value: HTMLEleme
   return { wrap, value };
 }
 
+function brushRule(): HTMLElement {
+  return el('hr', 'brush-rule');
+}
+
+function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void } {
+  const scrim = el('div', 'modal-scrim');
+  scrim.hidden = true;
+  const card = el('div', 'modal-card frame');
+  card.setAttribute('role', 'dialog');
+  card.setAttribute('aria-modal', 'true');
+  card.setAttribute('aria-label', 'Settings and About');
+
+  const hide = (): void => {
+    scrim.hidden = true;
+  };
+  const close = el('button', 'modal-close', '×');
+  close.type = 'button';
+  close.setAttribute('aria-label', 'Close');
+  close.addEventListener('click', hide);
+  scrim.addEventListener('click', (e) => {
+    if (e.target === scrim) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hide();
+  });
+  card.append(close);
+
+  const h = el('h2', 'modal-title');
+  h.lang = 'ja';
+  h.append(el('span', 'kami', '神隠し'), el('span', 'roman', 'Kamikakushi'));
+  card.append(h);
+  card.append(
+    el(
+      'p',
+      'modal-sub',
+      'A grounded, story-driven incremental RPG in mid-Edo rural Japan — rise through a declining samurai house, one earned rung at a time.',
+    ),
+  );
+  card.append(brushRule());
+
+  // ── comfort / a11y ──
+  card.append(el('h3', undefined, 'Comfort'));
+  const comfort = el('div', 'settings-row');
+  let reduced = false;
+  const rm = el('button', 'auto-toggle', 'Reduced motion: off');
+  rm.type = 'button';
+  rm.addEventListener('click', () => {
+    reduced = !reduced;
+    hooks.setReducedMotion(reduced);
+    rm.textContent = `Reduced motion: ${reduced ? 'on' : 'off'}`;
+    rm.classList.toggle('on', reduced);
+  });
+  let scale = 1;
+  const ts = el('div', 'labour-row');
+  const tsLabel = el('span', 'lock-hint', 'Text size 100%');
+  const minus = el('button', 'auto-toggle', 'A−');
+  minus.type = 'button';
+  const plus = el('button', 'auto-toggle', 'A+');
+  plus.type = 'button';
+  const applyScale = (): void => {
+    hooks.setTextScale(scale);
+    tsLabel.textContent = `Text size ${Math.round(scale * 100)}%`;
+  };
+  minus.addEventListener('click', () => {
+    scale = Math.max(0.9, Math.round((scale - 0.1) * 10) / 10);
+    applyScale();
+  });
+  plus.addEventListener('click', () => {
+    scale = Math.min(1.5, Math.round((scale + 0.1) * 10) / 10);
+    applyScale();
+  });
+  ts.append(minus, plus, tsLabel);
+  const pause = el('button', 'auto-toggle', 'Pause');
+  pause.type = 'button';
+  pause.addEventListener('click', () => {
+    const p = hooks.togglePause();
+    pause.textContent = p ? 'Resume' : 'Pause';
+    pause.classList.toggle('on', p);
+  });
+  comfort.append(rm, ts, pause);
+  card.append(comfort);
+  card.append(brushRule());
+
+  // ── save ──
+  card.append(el('h3', undefined, 'Your save'));
+  const exportArea = el('textarea', 'save-area');
+  exportArea.readOnly = true;
+  exportArea.rows = 2;
+  exportArea.placeholder = 'Your exported save appears here — copy it somewhere safe.';
+  const importArea = el('textarea', 'save-area');
+  importArea.rows = 2;
+  importArea.placeholder = 'Paste a save here, then Import.';
+  const saveRow = el('div', 'settings-row');
+  const exp = el('button', 'auto-toggle', 'Export save');
+  exp.type = 'button';
+  exp.addEventListener('click', () => {
+    exportArea.value = hooks.exportSave();
+    exportArea.select();
+  });
+  const imp = el('button', 'auto-toggle', 'Import');
+  imp.type = 'button';
+  imp.addEventListener('click', () => {
+    const v = importArea.value.trim();
+    if (v) hooks.importSave(v);
+  });
+  const ng = el('button', 'auto-toggle', 'New game');
+  ng.type = 'button';
+  ng.addEventListener('click', () => {
+    if (confirm('Start a new game? Your current run will be overwritten.')) hooks.newGame();
+  });
+  saveRow.append(exp, imp, ng);
+  card.append(exportArea, importArea, saveRow);
+  card.append(brushRule());
+
+  // ── about / credits / license / content ──
+  card.append(
+    el(
+      'p',
+      'modal-meta',
+      `Built agentically with Claude Code · build ${__BUILD_SHA__} · ${__BUILD_DATE__}`,
+    ),
+  );
+  card.append(el('p', 'modal-meta', 'Code: MIT. Game content: all rights reserved.'));
+  card.append(
+    el('p', 'modal-meta', 'Content notes: mild thematic — child-disappearance, drowning, debt.'),
+  );
+
+  scrim.append(card);
+  return {
+    modal: scrim,
+    open: () => {
+      scrim.hidden = false;
+      close.focus();
+    },
+  };
+}
+
 export function mount(
   root: HTMLElement,
   dispatch: Dispatch,
+  hooks: AppHooks,
 ): (state: GameState, prev: GameState | null) => void {
   root.textContent = '';
   root.removeAttribute('aria-busy');
@@ -89,6 +236,20 @@ export function mount(
   let lastState: GameState | null = null;
 
   const shell = el('div', 'shell paper');
+
+  // ── title bar (the game's name + the settings entry) ──
+  const titlebar = el('header', 'titlebar');
+  const title = el('span', 'game-title');
+  title.lang = 'ja';
+  title.append(el('span', 'kami', '神隠し'));
+  title.append(el('span', 'roman', 'Kamikakushi'));
+  const settingsBtn = el('button', 'settings-btn', '⚙ Settings');
+  settingsBtn.type = 'button';
+  settingsBtn.setAttribute('aria-haspopup', 'dialog');
+  const settings = buildSettings(hooks);
+  settingsBtn.addEventListener('click', settings.open);
+  titlebar.append(title, settingsBtn);
+  shell.append(titlebar);
 
   // ── header / vitals ──
   const header = el('header', 'vitals');
@@ -140,7 +301,7 @@ export function mount(
   work.append(workHead, ladder, actions, skillsPane, combatPane);
 
   workspace.append(logSection, work);
-  shell.append(header, nav, workspace);
+  shell.append(header, nav, workspace, settings.modal);
   root.append(shell);
 
   let firstRender = true;
@@ -336,9 +497,13 @@ export function mount(
       head.append(
         el('span', 'skill-name', seen ? `${fc.mob.label} ${fc.mob.kanji}` : 'Unknown foe'),
       );
+      // a11y (D-Q-a11y): number + word carry meaning in ink; hue lives only on the pip.
+      const tier = fc.winRate >= 0.55 ? 'good' : fc.winRate >= 0.28 ? 'fair' : 'risky';
+      const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
       const wr = el('span', 'win-rate');
-      wr.textContent = `${pct(fc.winRate)} win`;
-      wr.classList.add(fc.winRate >= 0.55 ? 'good' : fc.winRate >= 0.28 ? 'fair' : 'risky');
+      const pip = el('span', `pip ${tier}`, '◆');
+      pip.setAttribute('aria-hidden', 'true');
+      wr.append(pip, document.createTextNode(` ${pct(fc.winRate)} · ${word}`));
       head.append(wr);
       row.append(head);
       if (seen) row.append(el('div', 'skill-blurb', fc.mob.blurb));
