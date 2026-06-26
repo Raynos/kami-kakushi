@@ -173,6 +173,17 @@ docs/prd_human_feedback.md — so that doc holds ALL cumulative feedback (A–M)
 block-agnostic (the latest block wins; M supersedes L/A–K on conflict).
 
 
+## 21 · PRD-V2 plan authored (10-agent workflow) + ADRs D-023–D-042
+The V2 change plan is done: 474 changes · 50 new subsections across §1-§7, ALL 79 decisions mapped (no
+unmapped; contradictions pre-resolved by D-022). Saved to brainstorms/2026-06-26-prd-v2-plan.md (overview +
+rewrite order + consistency watch-list + coverage + the detailed per-section change-maps). Recorded 20 new
+ADRs **D-023–D-042** (sequential tiers, rung-meter law, three combat tracks, incremental combat + weapon
+roster, per-skill perks, hybrid gate, budget=floor, multi-backend save, broader combos, no-quest-budget, E3,
+durability bands, satiety-combat, name-reclaim split, design-staggered reveals, determinism hardening,
+intra-line dialogue, castle-town ending, bundled assets, real-name lint). Rewrite order: §1→§2→§4→§6→§3→§5→§7
+→ consistency sweep. NEXT: write PRD V2 (archive v1, staged section rewrite), then the audit battery.
+
+
 ---
 
 ## Next intended steps (current)

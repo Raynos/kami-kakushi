@@ -189,3 +189,47 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Why:** the human wants skills to visibly make the MC "more capable" (the mediocre-start *grows*) without labour grinding *dominating* combat — the per-skill cap + the combat-only level/attribute economy bound it.
 - **Consequences:** §4.4 / §4.5.3 / §2.7 + canon §D get the bounded-bonus model in the **V2 reshape** (bonus size / cadence / caps are §4 *proposed* numbers, tuned in V2 + playtest per D-021); the §6.6 verifier's "no-cross-feed" assertion becomes a "**bounded** cross-feed within caps" assertion. The combat-only character-level/attribute economy (Q1) is the invariant that stays. Future V2 lock-changes are recorded the same way (resolution log + an ADR when load-bearing).
 - **Sequencing REFINED (2026-06-26, human-signed):** the design forks are settled into a strong PRD **before** coding. Full loop = **resolve the 56 battery decisions → author PRD V2 → build M0/M1 → playtest → resteer → PRD V3 → build → …** (iterative, versioned PRDs). This SUPERSEDES D-021's original "build M0/M1 FIRST, then resteer" ordering (the human's call: a much stronger spec up front beats learn-by-building). D-021's core principle is UNCHANGED — V2/V3 keep §4 numbers + §7 M2–M7 **provisional** (freeze = locked intent only), and the docs-explosion still waits (it can land at the V2 authoring step or after the first playtest — TBD).
+
+
+> **PRD V2 batch (D-023…D-042, 2026-06-26).** The load-bearing lock/scope changes from the 79-decision Q&A (prd_human_feedback Blocks L+M), recorded for the V2 reshape. Each is authoritative per D-022 (newest-wins). Per-decision detail: the master sheet + v2-followups doc; section impact: brainstorms/2026-06-26-prd-v2-plan.md.
+
+### D-023 ✅ — Sequential per-tier progression — Phase 1 (climb rungs) then Phase 2 (estate-influence/pillar grind); pillar DEEDS gated to Phase 2
+- **Driven by:** FU7, FU11, Q30, Q7. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-024 ✅ — The rung-meter accrual law — numeric per-rung-reset meter, threshold = ≥30-min floor × eligible curated-activity rate, AND-gated with story milestones
+- **Driven by:** FU6, Q30, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-025 ✅ — Three clean combat tracks de-conflated — character level←combat-XP (HP/attr/satietyMax), Arms pillar←recognised deeds, Combat Rank meter←per-rung curated activities; one defined combat-level curve + per-mob MobDef.level
+- **Driven by:** FU14, Q1, Q47, FU15, FU5. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-026 ✅ — Incremental combat + growing weapon roster + combat-reveal ladder — T0 starts with exactly ONE weapon; +2/+3/+4 per tier (~9-10); R3→R4→R5→weapon-L10→2nd line T1/3rd T2, one reveal per beat
+- **Driven by:** Q15, FU12, FU13, Q17. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-027 ✅ — Bounded per-skill combat perks — relaxes the absolute no-labour→combat wall to ~2-8 small stackable perks via a separate skillCombatBonus channel, NO global cap; conditioning stays the zero-stat enablement gate; verifier flips ==0 → small-magnitude
+- **Driven by:** Q6, FU8, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-028 ✅ — Hybrid good/great/excellent tier-gate — replaces simple thresholds: good in ALL revealed pillars, great in 2-3, excellent in 1-2 (T0 2-pillar special), NO overflow; per-pillar-per-tier overhaul vs the fixed deed inventory; trade ≤⅓ survives as the only structural cap
+- **Driven by:** Q7, FU10, FU11. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-029 ✅ — Budget is a FLOOR not a ceiling — a longer OSRS-rough minimum-grind model; active-only with tab-open auto-resolve + auto-repeat ('leave it running'); pacing gate fails on undershoot only
+- **Driven by:** FU18, FU23. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-030 ✅ — Multi-backend redundant save layer — IndexedDB+localStorage+sessionStorage, atomic write, app-identity magic field, monotonic save-counter newest-wins + timestamp tiebreaker (documented core-lint exemption), additive backwards-compatible schema; built full in M0
+- **Driven by:** Q37, FU1, FU2, Q44, Q45, Q46. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-031 ✅ — Broader cross-pillar combos as the T2 anti-slump — multiple pillar pairs / larger magnitude, computed POST trade-clamp, excluded from the gate-threshold check, verifier-proven never to breach ⅓; paired with seasonal-reward rotation
+- **Driven by:** Q22, FU20. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-032 ✅ — No fixed quest-type budget — supersedes D-012's lean-4; PEST/HUNT/CLEAR/DEFEND are the T0 starter set, author whatever quests fit each stage, more/interesting welcome at later tiers
+- **Driven by:** Q23. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-033 ✅ — Estate stage E3 authored in v1 — estate grows E0→E3 ('Prosperous'), folded into the G-rungs as a koku/Arms sink; E4-E5 remain parked
+- **Driven by:** Q8. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-034 ✅ — Graded durability bands — 4 bands on weapon attackPower (75+/50+/1+/0 → 1.0/0.9/0.75/0.55), fixed wear per fight, armour bands on defense, repair restores; NEVER auto-unequip / never weaponless
+- **Driven by:** Q33, FU17. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-035 ✅ — Satiety throttles combat — satietyRate multiplier on attackPower (flat above ~0.7 → ~0.5 floor, separate combat coefficient); the locked 20-35% first-fight win-rate re-measured 'at adequate satiety (≥~0.7)'
+- **Driven by:** Q31, FU16, Q47. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-036 ✅ — Name-reclaim split — reclaiming 'Tahei' is Origin-gated at O5 (earned + MISSABLE, conditional epilogue); the Otsuru/Tama TRUTH stays spine-guaranteed at G6 for every player
+- **Driven by:** Q5, Q25, Q40. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-037 ✅ — Design-staggered reveals, NO runtime reveal-queue (supersedes Q17's queue framing); distinct activities (Crafting, Quests) surface as top-level nav tabs, not nested panels
+- **Driven by:** FU4, Q17, Q10. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-038 ✅ — Determinism hardening — per-named-stream RNG cursors {seed,cursors:{combat,loot,seasonal,worldgen}} + stateless day-keyed weather/lunar (not stored); ban Math.pow/exp/log/trig in core (integer-pow, whitelist sqrt)
+- **Driven by:** Q2, Q3, FU3, Q36. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-039 ✅ — Intra-line dialogue branching in v1 — flat choices[]/ChoiceId with locksLineIds[]/flags effects; data-not-scripting, deterministic, only chosen-flags persist; content/dialogue.ts
+- **Driven by:** Q34, FU22. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-040 ✅ — V1 ending = castle-town / Daikan first-contact stub — drops the porter/Kaidō-guild first-contact framing (it re-ran spent T2 content)
+- **Driven by:** Q24. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-041 ✅ — Bundled asset set corrects the 'no asset pipeline' claim — self-hosted OFL fonts, inline-SVG load-bearing motifs (emoji cosmetic-only), a small synthesized Web Audio + original/CC0 audio set; commit-SHA build stamp + About/Credits + LICENSE + itch content descriptors
+- **Driven by:** Q38, Q50, Q52, Q54, Q51, Q53. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+### D-042 ✅ — Real-name fictionalization & lint — rename Toyama/Konoe (Q27), Mago/Naozane/Obaa Sato (Q11/Q39), allow-list Nihonbashi (Q12); a §6.6 real-name denylist lint prevents recurrence
+- **Driven by:** Q27, Q39, Q11, Q12, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
