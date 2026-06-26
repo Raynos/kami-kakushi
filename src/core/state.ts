@@ -18,6 +18,8 @@ import { HP_BASE, COLD_OPEN_SATIETY } from './content/balance';
 import type { RankId } from './content/ranks';
 import type { ActivityId } from './content/activities';
 import type { SkillId } from './content/skills';
+import type { MobId } from './content/enemies';
+import { getWeapon, type WeaponId } from './content/weapons';
 
 export type SurfaceId = string;
 export type ResourceId = string;
@@ -36,6 +38,8 @@ export interface Character {
   readonly attributePoints: number;
   /** The combat (character) level — fed by combat-XP only (Q1/FU14). Floors at 1. */
   readonly level: number;
+  /** Total combat XP earned from kills (level derives from it). */
+  readonly combatXp: number;
 }
 
 export interface GameState {
@@ -60,6 +64,12 @@ export interface GameState {
   readonly estateStage: number;
   /** The tab-open auto-repeat labour target, or null (FU23). */
   readonly autoActivity: ActivityId | null;
+
+  // ── combat (M2+, additive) ──
+  readonly equippedWeapon: WeaponId;
+  readonly weaponDurability: number;
+  /** The tab-open auto-fight target, or null (the combat "leave it running", FU23). */
+  readonly autoCombat: MobId | null;
 }
 
 export function createInitialState(seed: number): GameState {
@@ -72,6 +82,7 @@ export function createInitialState(seed: number): GameState {
       satiety: COLD_OPEN_SATIETY,
       attributePoints: 0,
       level: 1,
+      combatXp: 0,
     },
     resources: { koku: 0 },
     flags: {},
@@ -83,6 +94,9 @@ export function createInitialState(seed: number): GameState {
     rungMeter: 0,
     estateStage: 0,
     autoActivity: null,
+    equippedWeapon: 'carrying_pole',
+    weaponDurability: getWeapon('carrying_pole').durabilityMax,
+    autoCombat: null,
   };
 }
 

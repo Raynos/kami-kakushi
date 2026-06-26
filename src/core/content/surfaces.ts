@@ -104,6 +104,28 @@ export const SURFACES: readonly Surface[] = [
   { id: 'row-wood', kind: 'row', unlock: () => false },
   { id: 'row-sansai', kind: 'row', unlock: () => false },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
+  {
+    id: 'verb-face-wolf',
+    kind: 'verb',
+    unlock: () => false,
+    revealLine: narrate(
+      'A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.',
+    ),
+  },
+
+  // ── R3 — combat goes live (the drill yard, the Combat tab) ──
+  {
+    id: 'tab-combat',
+    kind: 'tab',
+    unlock: () => false,
+    revealLine: narrate(
+      'The drill yard opens to you — a place to train, and foes that must be met.',
+    ),
+  },
+  { id: 'panel-drill-yard', kind: 'panel', unlock: () => false },
+  { id: 'readout-combat-level', kind: 'readout', unlock: () => false },
+  { id: 'verb-repair', kind: 'verb', unlock: () => false },
+  { id: 'verb-equip-axe', kind: 'verb', unlock: () => false },
 
   // ── skills surface BY-DOING (discover-by-doing) ──
   { id: 'skill-farming', kind: 'row', unlock: (s) => skillVisible(s, 'farming') },

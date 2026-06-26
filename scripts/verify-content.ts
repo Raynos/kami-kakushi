@@ -12,6 +12,10 @@ import {
   ACTIVITIES,
   RANKS,
   NAMES,
+  MOBS,
+  MOB_IDS,
+  WEAPONS,
+  WEAPON_IDS,
 } from '../src/core';
 
 const errors: string[] = [];
@@ -46,7 +50,36 @@ for (const r of RANKS) {
   }
 }
 
-// 4. Real-name denylist — no real Edo figures may surface as canon names (D-042 / Q39).
+// 4. Bestiary: grounded mobs only (no belief-creatures in spawn tables, canon §E),
+//    ids mirror, levels ≥ 1; weapons mirror + sane stats.
+if (MOBS.length !== MOB_IDS.size) errors.push('MOB_IDS does not mirror MOBS');
+for (const m of MOBS) {
+  if (m.level < 1) errors.push(`mob ${m.id}: level < 1`);
+}
+const BELIEF_WORDS = [
+  'tengu',
+  'kappa',
+  'yokai',
+  'yōkai',
+  'oni',
+  'kami',
+  'yurei',
+  'yūrei',
+  'bakemono',
+];
+for (const m of MOBS) {
+  if (BELIEF_WORDS.some((w) => m.id.toLowerCase().includes(w))) {
+    errors.push(`belief-creature in the bestiary/spawn registry: ${m.id} (canon §E forbids it)`);
+  }
+}
+if (WEAPONS.length !== WEAPON_IDS.size) errors.push('WEAPON_IDS does not mirror WEAPONS');
+for (const w of WEAPONS) {
+  if (w.baseAttack <= 0 || w.baseSpeed <= 0 || w.durabilityMax <= 0) {
+    errors.push(`weapon ${w.id}: non-positive stat`);
+  }
+}
+
+// 5. Real-name denylist — no real Edo figures may surface as canon names (D-042 / Q39).
 const DENYLIST = new Set([
   'munenori',
   'jubei',
@@ -77,6 +110,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 console.log(
-  `verify-content: OK (${SURFACES.length} surfaces, ${ACTIVITIES.length} activities, ${RANKS.length} ranks, ${Object.keys(NAMES).length} names).`,
+  `verify-content: OK (${SURFACES.length} surfaces, ${ACTIVITIES.length} activities, ${RANKS.length} ranks, ${MOBS.length} mobs, ${WEAPONS.length} weapons, ${Object.keys(NAMES).length} names).`,
 );
 process.exit(0);

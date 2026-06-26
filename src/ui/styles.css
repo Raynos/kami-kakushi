@@ -594,3 +594,33 @@ h3 {
   color: var(--text-2);
   margin-top: var(--space-1);
 }
+
+/* ── combat pane ─────────────────────────────────────────────────────────── */
+.combat-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.weapon-card,
+.foe-row {
+  padding: var(--space-3) var(--space-4);
+}
+.foes-head {
+  font-size: var(--fs-h3);
+  color: var(--ai);
+  margin: var(--space-3) 0 0;
+}
+.win-rate {
+  font-family: var(--font-num);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+.win-rate.good {
+  color: var(--ai);
+}
+.win-rate.fair {
+  color: var(--ochre);
+}
+.win-rate.risky {
+  color: var(--beni);
+}

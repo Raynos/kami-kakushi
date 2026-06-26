@@ -53,3 +53,26 @@ Prettier. The **pure-core ESLint boundary** is live: `src/core/**` bans `Math.ra
 - M2a/M2b — combat (auto-resolve + analytic win-rate; bestiary/equipment/durability/loot→craft).
 - Reconcile `names.ts` with the workflow's renames; commit V2.2 (docs) → M0 → M1 → M2.
 - Full QA + visual polish pass (headless drive + screenshot review vs `ui-design.md`); itch packaging.
+
+---
+
+## 4 · M2 (a+b) — combat — DONE, verify-green (50 tests) + headless visual QA
+
+A complete combat slice, the demo's emotional spike:
+- **core/combat.ts** — derived MC stats (level + weapon × durability band × satiety throttle);
+  mob stats from `MobDef.level` (same curve family, Block N.1 #1); the **ANALYTIC closed-form
+  win-rate** (race-to-kill, no sampling — D-Q-winrate): fresh-MC-vs-wolf = **30.6%**, in the LOCKED
+  20–35% band; trained (Lv3) ~96%; the seeded auto-resolve sim (byte-identical replay).
+- **core/fight.ts** — win → combat-XP (→ character level, heals+offers the axe at Lv2) + koku;
+  **loss = soft, self-recovering setback** (limp to safety + forced rest, never lose level/gear/XP —
+  §4.6.6 LOCKED, no death-spiral). The **scripted grain-store wolf** = the humbling guaranteed-survival
+  beat that opens R3.
+- **Combat tab** (3rd nav reveal, 武) — combat rank + XP, equipped weapon + **graded durability band**
+  + repair (wood sink), equip the woodlot **axe** (2nd weapon at Lv2), the foe list with **forecasts**
+  (good/fair/risky) + Fight + auto-fight ("leave it running"). Bestiary fills by encounter.
+- A **rank-up refreshes vitals** (a renewal beat) so combat unlocks with the MC rested → honest forecasts.
+
+Demo arc now complete: cold open → labour R0–R2 → the wolf (R3) → combat grind. M0+M1+M2 = a playable,
+fun, woodblock-polished vertical slice. Screenshots: audit/qa-0[1-8]-*.png.
+
+NEXT: finish PRD V2.2 (workflow), QA/polish sweep, itch packaging (About/Credits, favicon, build stamp).

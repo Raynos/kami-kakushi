@@ -15,6 +15,7 @@ import {
   type Intent,
   type ActivityId,
   type RankId,
+  type MobId,
 } from '../core';
 import { createBrowserSaveManager, type SaveManager } from '../persistence';
 import { mount } from '../ui';
@@ -118,6 +119,18 @@ async function boot(): Promise<void> {
   // "leave it running" feel — strictly active-only (no offline catch-up). ──
   window.setInterval(() => {
     if (paused || document.hidden || crashed) return;
+    // auto-fight takes priority over auto-labour
+    if (state.autoCombat) {
+      if (
+        state.character.satiety < satietyMax(state) * 0.25 &&
+        availableActions(state).includes('rest')
+      ) {
+        dispatch({ type: 'rest' });
+      } else {
+        dispatch({ type: 'fight', mobId: state.autoCombat });
+      }
+      return;
+    }
     const auto = state.autoActivity;
     if (!auto) return;
     const act = getActivity(auto);
@@ -182,6 +195,9 @@ async function boot(): Promise<void> {
         }
         return state.rung;
       },
+      faceWolf: () => dispatch({ type: 'face_wolf' }),
+      fight: (mobId: MobId) => dispatch({ type: 'fight', mobId }),
+      autoCombat: (mobId: MobId | null) => dispatch({ type: 'set_auto_combat', mobId }),
       tick: (dt: number) => commit(coreTick(state, dt)),
       frames: (n: number) => {
         for (let i = 0; i < n; i++) safely(() => render(state, prev));
@@ -226,6 +242,8 @@ async function boot(): Promise<void> {
       selectors: {
         unlocked: () => state.unlocked.slice(),
         tier: () => 0,
+        rung: () => state.rung,
+        combatLevel: () => state.character.level,
       },
     };
     (window as unknown as { __qa?: typeof qa }).__qa = qa;

@@ -59,6 +59,7 @@ export function validateState(rawState: unknown): ValidateResult {
   const satiety = num(character.satiety, 0);
   const attributePoints = num(character.attributePoints, 0);
   const level = num(character.level, 1);
+  const combatXp = num(character.combatXp, 0);
   coerced = coerced || hp.coerced || satiety.coerced || attributePoints.coerced || level.coerced;
 
   // --- collections (structural shape; default-safe) ---
@@ -85,6 +86,7 @@ export function validateState(rawState: unknown): ValidateResult {
       satiety: Math.max(0, satiety.value),
       attributePoints: Math.max(0, attributePoints.value),
       level: Math.max(1, Math.floor(level.value)),
+      combatXp: Math.max(0, combatXp.value),
     },
     resources: rawState.resources as GameState['resources'],
     flags: rawState.flags as GameState['flags'],
@@ -95,6 +97,9 @@ export function validateState(rawState: unknown): ValidateResult {
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
     autoActivity: base.autoActivity ?? null,
+    equippedWeapon: base.equippedWeapon ?? 'carrying_pole',
+    weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
+    autoCombat: base.autoCombat ?? null,
   };
 
   return { ok: true, state, coerced };

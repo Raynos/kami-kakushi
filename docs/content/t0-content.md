@@ -10,7 +10,7 @@
 | R0 | Day-labourer | 日雇 | 14 | rake_rice | — |
 | R1 | Kept hand | 下人 | 30 | farm_paddy, haul_stores | Genemon |
 | R2 | Trusted hand | 手代 | 48 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R3 | Gate-watch | 門番 | 64 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Tsuneoka |
+| R3 | Gate-watch | 門番 | 80 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Tsuneoka |
 
 ## Skills (v1 labour set)
 
@@ -29,6 +29,23 @@
 | haul_stores | conditioning | gate-forecourt | 2 koku | 4 | 5 |
 | woodcut_edge | woodcutting | woodlot-edge | 3 wood | 4 | 5 |
 | forage_satoyama | foraging | near-satoyama | 2 sansai, 1 koku | 3 | 5 |
+
+## Weapons (T0 roster)
+
+| id | label | atk | speed | durability | archetype |
+|---|---|---|---|---|---|
+| carrying_pole | Worn carrying-pole | 5 | 0.9 | 40 | reach · blunt |
+| wood_axe | Woodlot axe | 8 | 0.8 | 55 | heavy · single |
+
+## Bestiary (grounded — no belief-creatures)
+
+| id | label | level | koku | scripted |
+|---|---|---|---|---|
+| wolf_scripted | Grain-store wolf | 2 | 0 | yes |
+| wolf | Lean wolf | 2 | 4 |  |
+| monkey | Crop-raiding monkey | 2 | 3 |  |
+| boar | Wild boar | 3 | 6 |  |
+| bandit | Road bandit | 4 | 10 |  |
 
 ## Surfaces (reveal registry)
 
@@ -55,6 +72,12 @@
 | `row-wood` | row |
 | `row-sansai` | row |
 | `skill-conditioning` | row |
+| `verb-face-wolf` | verb |
+| `tab-combat` | tab |
+| `panel-drill-yard` | panel |
+| `readout-combat-level` | readout |
+| `verb-repair` | verb |
+| `verb-equip-axe` | verb |
 | `skill-farming` | row |
 | `skill-foraging` | row |
 | `skill-woodcutting` | row |

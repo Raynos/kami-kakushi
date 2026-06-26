@@ -82,6 +82,7 @@ export const RANKS: readonly RankDef[] = [
         'room-near-satoyama',
         'verb-woodcut',
         'verb-forage',
+        'verb-face-wolf',
         'row-wood',
         'row-sansai',
         'skill-conditioning',
@@ -98,16 +99,27 @@ export const RANKS: readonly RankDef[] = [
       ],
     },
   },
-  // R3 — the combat gate (built at M2a: the humbling first fight opens it).
+  // R3 — Gate-watch: the humbling first fight (the grain-store wolf) opens it; combat
+  // goes live (Combat tab, the drill yard, the duty of estate defence).
   {
     id: 'R3',
     tier: 0,
     title: 'Gate-watch',
     kanji: '門番',
     granter: NAMES.drillmaster,
-    meterThreshold: 64,
+    meterThreshold: 80,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: () => false, // M2a fills this rung's onward gate
+    storyGate: () => false, // R3→R4 (the Phase-2 gate) is built at M3
+    rewardOnReach: {
+      flags: ['rank-r3', 'combat-unlocked'],
+      unlock: ['tab-combat', 'panel-drill-yard', 'readout-combat-level', 'verb-repair'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `${NAMES.drillmaster} sets you to the estate's defence — pests, beasts, and the masterless men on the woodlot road. A weapon, a yard to train in, and a duty that is yours. You are the gate-watch now.`,
+        },
+      ],
+    },
   },
 ];
 

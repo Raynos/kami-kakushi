@@ -8,6 +8,7 @@ import type { GameState } from './state';
 import { RANKS, getRank, nextRankId, type RankDef, type RankId } from './content/ranks';
 import { RUNG_POINTS_PER_ACT } from './content/balance';
 import { applyRewards } from './rewards';
+import { hpMax, satietyMax } from './selectors';
 
 export function currentRank(state: GameState): RankDef {
   return getRank(state.rung);
@@ -44,6 +45,11 @@ export function promoteRungs(state: GameState): GameState {
     const target = getRank(nid);
     next = { ...next, rung: nid, rungMeter: 0 };
     if (target.rewardOnReach) next = applyRewards(next, target.rewardOnReach);
+    // a promotion is a renewal — the house feasts a new rank; vitals refresh.
+    next = {
+      ...next,
+      character: { ...next.character, hp: hpMax(next), satiety: satietyMax(next) },
+    };
   }
   return next;
 }

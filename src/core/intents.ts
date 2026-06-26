@@ -11,6 +11,8 @@ import { advanceClock } from './step';
 import { clamp } from './math';
 import { satietyMax, staminaRate, season, canDoActivity } from './selectors';
 import { accrueRungMeter, promoteRungs } from './ranks';
+import { isUnlocked } from './unlock';
+import { applyGrindFight, applyScriptedWolf } from './fight';
 import {
   RICE_PER_RAKE,
   SATIETY_PER_ACT,
@@ -18,6 +20,7 @@ import {
   TICKS_PER_ACT,
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
+  REPAIR_WOOD_COST,
 } from './content/balance';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import {
@@ -26,13 +29,20 @@ import {
   type ActivityId,
   type LabourResource,
 } from './content/activities';
+import { getWeapon, type WeaponId } from './content/weapons';
+import type { MobId } from './content/enemies';
 
 export type Intent =
   | { type: 'open_eyes' }
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
-  | { type: 'set_auto'; activityId: ActivityId | null };
+  | { type: 'set_auto'; activityId: ActivityId | null }
+  | { type: 'face_wolf' }
+  | { type: 'fight'; mobId: MobId }
+  | { type: 'set_auto_combat'; mobId: MobId | null }
+  | { type: 'repair_weapon' }
+  | { type: 'equip_weapon'; weaponId: WeaponId };
 
 export type IntentType = Intent['type'];
 
@@ -120,6 +130,45 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'set_auto': {
       next = { ...next, autoActivity: intent.activityId };
+      break;
+    }
+    case 'face_wolf': {
+      if (!isUnlocked(next, 'verb-face-wolf') || hasFlag(next, 'first-fight-survived'))
+        return state;
+      next = applyScriptedWolf(next);
+      break;
+    }
+    case 'fight': {
+      if (!isUnlocked(next, 'tab-combat')) return state;
+      next = applyGrindFight(next, intent.mobId);
+      break;
+    }
+    case 'set_auto_combat': {
+      next = { ...next, autoCombat: intent.mobId };
+      break;
+    }
+    case 'repair_weapon': {
+      if ((next.resources.wood ?? 0) < REPAIR_WOOD_COST) return state;
+      const weapon = getWeapon(next.equippedWeapon);
+      next = withResource(next, 'wood', -REPAIR_WOOD_COST);
+      next = { ...next, weaponDurability: weapon.durabilityMax };
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood)`,
+          },
+        ],
+      });
+      break;
+    }
+    case 'equip_weapon': {
+      if (intent.weaponId === 'wood_axe' && !isUnlocked(next, 'verb-equip-axe')) return state;
+      const weapon = getWeapon(intent.weaponId);
+      next = { ...next, equippedWeapon: intent.weaponId, weaponDurability: weapon.durabilityMax };
+      next = applyRewards(next, {
+        log: [{ channel: 'system', text: `You take up the ${weapon.label.toLowerCase()}.` }],
+      });
       break;
     }
   }

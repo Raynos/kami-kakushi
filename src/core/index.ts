@@ -27,6 +27,25 @@ export type { AreaId, AreaDef } from './content/areas';
 export { RANKS, getRank, nextRankId, RANK_IDS } from './content/ranks';
 export type { RankId, RankDef } from './content/ranks';
 
+// ── combat (M2) ──
+export {
+  mcCombatStats,
+  mobCombatStats,
+  analyticWinRate,
+  combatLevelForXp,
+  combatXpProgress,
+  combatSatietyRate,
+  durabilityBand,
+  resolveFight,
+  foeForecasts,
+} from './combat';
+export type { CombatStats, FightResult, FoeForecast } from './combat';
+export { WEAPONS, getWeapon, WEAPON_IDS } from './content/weapons';
+export type { WeaponId, WeaponDef } from './content/weapons';
+export { MOBS, GRINDABLE_MOBS, getMob, MOB_IDS } from './content/enemies';
+export type { MobId, MobDef } from './content/enemies';
+export { applyGrindFight, applyScriptedWolf } from './fight';
+
 export type { Rng, RngStream } from './rng';
 export {
   createRng,

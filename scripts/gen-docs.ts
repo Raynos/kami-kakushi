@@ -4,7 +4,7 @@
 export {};
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS } from '../src/core';
+import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS } from '../src/core';
 
 const OUT = 'docs/content/t0-content.md';
 
@@ -43,6 +43,26 @@ function generate(): string {
       .map(([r, n]) => `${n} ${r}`)
       .join(', ');
     L.push(`| ${a.id} | ${a.skill} | ${a.area} | ${yields} | ${a.satietyCost} | ${a.xp} |`);
+  }
+  L.push('');
+
+  L.push('## Weapons (T0 roster)');
+  L.push('');
+  L.push('| id | label | atk | speed | durability | archetype |');
+  L.push('|---|---|---|---|---|---|');
+  for (const w of WEAPONS) {
+    L.push(
+      `| ${w.id} | ${w.label} | ${w.baseAttack} | ${w.baseSpeed} | ${w.durabilityMax} | ${w.archetype} |`,
+    );
+  }
+  L.push('');
+
+  L.push('## Bestiary (grounded — no belief-creatures)');
+  L.push('');
+  L.push('| id | label | level | koku | scripted |');
+  L.push('|---|---|---|---|---|');
+  for (const m of MOBS) {
+    L.push(`| ${m.id} | ${m.label} | ${m.level} | ${m.kokuReward} | ${m.scripted ? 'yes' : ''} |`);
   }
   L.push('');
 

@@ -4,11 +4,12 @@
 // lines ink in; loaded lines render statically — no re-spam). The rest of the UI is
 // cheap enough to rebuild each render.
 
-import type { GameState, Intent, LogEntry, LogChannel, Season, SkillId } from '../core';
+import type { GameState, Intent, LogEntry, LogChannel, Season, SkillId, MobId } from '../core';
 import {
   availableActions,
   availableLabours,
   isUnlocked,
+  hasFlag,
   formatKMB,
   satietyMax,
   staminaRate,
@@ -21,6 +22,10 @@ import {
   SKILLS,
   skillVisible,
   skillProgress,
+  foeForecasts,
+  combatXpProgress,
+  durabilityBand,
+  getWeapon,
 } from '../core';
 
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
@@ -47,7 +52,11 @@ const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }>
 const RESOURCE_LABEL: Record<string, string> = { koku: 'koku', wood: 'wood', sansai: 'sansai' };
 
 type Dispatch = (intent: Intent) => void;
-type Tab = 'work' | 'skills';
+type Tab = 'work' | 'skills' | 'combat';
+
+function pct(n: number): string {
+  return `${Math.round(n * 100)}%`;
+}
 
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -127,7 +136,8 @@ export function mount(
   const ladder = el('div', 'ladder');
   const actions = el('div', 'actions');
   const skillsPane = el('div', 'skills-pane');
-  work.append(workHead, ladder, actions, skillsPane);
+  const combatPane = el('div', 'combat-pane');
+  work.append(workHead, ladder, actions, skillsPane, combatPane);
 
   workspace.append(logSection, work);
   shell.append(header, nav, workspace);
@@ -141,17 +151,17 @@ export function mount(
     if (lastState) render(lastState, null);
   }
 
+  const TAB_LABEL: Record<Tab, string> = { work: 'Work', skills: 'Skills 技', combat: 'Combat 武' };
   function renderNav(state: GameState): void {
-    const hasSkills = isUnlocked(state, 'tab-skills');
-    nav.hidden = !hasSkills;
-    if (!hasSkills) return;
+    const tabs: Tab[] = ['work'];
+    if (isUnlocked(state, 'tab-skills')) tabs.push('skills');
+    if (isUnlocked(state, 'tab-combat')) tabs.push('combat');
+    nav.hidden = tabs.length < 2;
+    if (nav.hidden) return;
+    if (!tabs.includes(activeTab)) activeTab = 'work';
     nav.textContent = '';
-    for (const tab of ['work', 'skills'] as Tab[]) {
-      const btn = el(
-        'button',
-        `nav-tab${activeTab === tab ? ' active' : ''}`,
-        tab === 'work' ? 'Work' : 'Skills 技',
-      );
+    for (const tab of tabs) {
+      const btn = el('button', `nav-tab${activeTab === tab ? ' active' : ''}`, TAB_LABEL[tab]);
       btn.type = 'button';
       btn.addEventListener('click', () => setTab(tab));
       nav.append(btn);
@@ -198,6 +208,14 @@ export function mount(
       btn.type = 'button';
       btn.addEventListener('click', () => dispatch({ type: a } as Intent));
       actions.append(btn);
+    }
+
+    // the humbling first fight — a charged one-time beat (the wolf at the stores)
+    if (isUnlocked(state, 'verb-face-wolf') && !hasFlag(state, 'first-fight-survived')) {
+      const wolf = el('button', 'verb primary', '⚔️ Face the wolf at the grain store');
+      wolf.type = 'button';
+      wolf.addEventListener('click', () => dispatch({ type: 'face_wolf' }));
+      actions.append(wolf);
     }
 
     // labour activities (each: do-once + an auto-repeat toggle)
@@ -249,6 +267,95 @@ export function mount(
       meter.append(fill);
       card.append(meter);
       skillsPane.append(card);
+    }
+  }
+
+  function renderCombat(state: GameState): void {
+    combatPane.textContent = '';
+    const show = activeTab === 'combat' && isUnlocked(state, 'tab-combat');
+    combatPane.hidden = !show;
+    if (!show) return;
+
+    // combat rank + XP
+    const cx = combatXpProgress(state.character.combatXp);
+    const lvl = el('div', 'rung-card frame');
+    lvl.append(el('div', 'rung-now', `Combat rank ${cx.level} · 武`));
+    const lm = el('div', 'meter');
+    const lf = el('span');
+    lf.style.width = pct(cx.into / cx.needed);
+    lm.append(lf);
+    lvl.append(lm);
+    lvl.append(el('div', 'rung-hint', `Combat XP ${cx.into}/${cx.needed}`));
+    combatPane.append(lvl);
+
+    // equipped weapon + durability band + repair / equip
+    const weapon = getWeapon(state.equippedWeapon);
+    const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
+    const wc = el('div', 'weapon-card frame');
+    const wh = el('div', 'skill-head');
+    wh.append(el('span', 'skill-name', `${weapon.label} ${weapon.kanji}`));
+    wh.append(el('span', 'skill-lvl', band.name));
+    wc.append(wh);
+    wc.append(
+      el(
+        'div',
+        'skill-blurb',
+        `${weapon.archetype} · durability ${state.weaponDurability}/${weapon.durabilityMax}`,
+      ),
+    );
+    const wctrl = el('div', 'labour-row');
+    if (isUnlocked(state, 'verb-repair')) {
+      const rep = el('button', 'auto-toggle', 'Repair (5 wood)');
+      rep.type = 'button';
+      rep.disabled = (state.resources.wood ?? 0) < 5;
+      rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
+      wctrl.append(rep);
+    }
+    if (isUnlocked(state, 'verb-equip-axe') && state.equippedWeapon !== 'wood_axe') {
+      const eq = el('button', 'auto-toggle', 'Take up the axe 斧');
+      eq.type = 'button';
+      eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: 'wood_axe' }));
+      wctrl.append(eq);
+    } else if (state.equippedWeapon === 'wood_axe') {
+      const eq = el('button', 'auto-toggle', 'Carrying-pole 天秤棒');
+      eq.type = 'button';
+      eq.addEventListener('click', () =>
+        dispatch({ type: 'equip_weapon', weaponId: 'carrying_pole' }),
+      );
+      wctrl.append(eq);
+    }
+    if (wctrl.childElementCount > 0) wc.append(wctrl);
+    combatPane.append(wc);
+
+    // foes — the watch
+    combatPane.append(el('h3', 'foes-head', 'The watch'));
+    for (const fc of foeForecasts(state)) {
+      const seen = hasFlag(state, `mob-${fc.mob.id}`);
+      const row = el('div', 'foe-row frame');
+      const head = el('div', 'skill-head');
+      head.append(
+        el('span', 'skill-name', seen ? `${fc.mob.label} ${fc.mob.kanji}` : 'Unknown foe'),
+      );
+      const wr = el('span', 'win-rate');
+      wr.textContent = `${pct(fc.winRate)} win`;
+      wr.classList.add(fc.winRate >= 0.55 ? 'good' : fc.winRate >= 0.28 ? 'fair' : 'risky');
+      head.append(wr);
+      row.append(head);
+      if (seen) row.append(el('div', 'skill-blurb', fc.mob.blurb));
+      const ctrl = el('div', 'labour-row');
+      const fight = el('button', 'verb', 'Fight');
+      fight.type = 'button';
+      fight.addEventListener('click', () => dispatch({ type: 'fight', mobId: fc.mob.id as MobId }));
+      ctrl.append(fight);
+      const auto = state.autoCombat === fc.mob.id;
+      const at = el('button', `auto-toggle${auto ? ' on' : ''}`, auto ? '■ stop' : '▶ auto');
+      at.type = 'button';
+      at.addEventListener('click', () =>
+        dispatch({ type: 'set_auto_combat', mobId: auto ? null : (fc.mob.id as MobId) }),
+      );
+      ctrl.append(at);
+      row.append(ctrl);
+      combatPane.append(row);
     }
   }
 
@@ -308,6 +415,7 @@ export function mount(
     renderLadder(state);
     renderActions(state);
     renderSkills(state);
+    renderCombat(state);
     firstRender = false;
   }
 
