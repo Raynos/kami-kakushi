@@ -184,6 +184,18 @@ intra-line dialogue, castle-town ending, bundled assets, real-name lint). Rewrit
 → consistency sweep. NEXT: write PRD V2 (archive v1, staged section rewrite), then the audit battery.
 
 
+## 22 · PRD-V2 rewrite ATTEMPT 1 FAILED (caught at structural-check) — relaunching
+The staged full-section-regeneration workflow (wtx6q883g) produced INCOMPLETE sections: large sections
+(§2=253 lines vs ~889; §1/§3/§4/§7 missing their heads, §3 starts mid-word) because each section body
+exceeded one agent message, so only the TAIL was returned as the value. §5/§6 were ~ok. DID NOT assemble —
+**docs/prd.md is untouched (still v1)**; the failure was caught at the structural-check gate. Raw partial
+output snapshotted to brainstorms/raw/2026-06-26-prd-v2-write.json. FIX: relaunch with each section agent
+WRITING its full rewritten section to a file (Write + Edit-append chunks, self-verified start-heading/
+end/line-count) so output length is decoupled from message length; later stages READ earlier section files
+for the canon. Then assemble from the files. If attempt 2 also fails a structural check, STOP and report to
+the human rather than churn.
+
+
 ---
 
 ## Next intended steps (current)
