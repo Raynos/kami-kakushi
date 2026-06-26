@@ -196,6 +196,14 @@ for the canon. Then assemble from the files. If attempt 2 also fails a structura
 the human rather than churn.
 
 
+## 23 · CHUNKED V2 rewrite — §1 applied (salvaged from attempt-2's 18-min agent)
+Switched to a CHUNKED/checkpointed rewrite (one section = one chunk = one commit) after attempt 1 (truncation)
+and attempt 2 (JS bug `readFiles.map`, but its §1 file-output agent completed first). Salvaged
+scratchpad/v2out/s1.md (1095 lines, correct title, has the new §1.6.4 sequential-two-phase + three-combat-tracks
+canon, ends clean before §2). Applied: prd.md = V2 §1 + v1 §2-§7 (a valid V2-in-progress; each section committed
+as it lands). Next: §2 + §6 (read s1.md as canon), then §4, then §3/§5/§7 — each verified + committed.
+
+
 ---
 
 ## Next intended steps (current)
