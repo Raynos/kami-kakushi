@@ -581,3 +581,39 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - gatesSpine: assert always-false in v1 (content verifier).
 - §5 T2.1 Otsuru superlative vs §1.4 'side thread' prose harmonize.
 - §4.2.2 phase-reconciliation prose: now consistent with D-Q3 (Name gated) + the great/excellent supply — reword the season-1-Δ note + the 'gates no v1 tier' line.
+
+
+### Block N.1 — set-aside questions, recorded with a Claude-proposed default
+
+> These surfaced in the battery but were NOT put to the human in the 8 Q&A batches (mostly dedup/fold casualties).
+> Each carries a **Claude-proposed default** so it's visible, not buried. **Status: 🟡 PROPOSED — confirm at V2.1.**
+> The human may override any of these when reviewing PRD V2.1; until then V2.1 implements the proposed default.
+
+1. **Enemy combat model** (round 5; needed by the analytic-win-rate decision). §4.6 derives the MC fully but has
+   **no enemy-stat rule**. 🟡 **Proposed:** author an explicit `MobDef.level → {attackPower, defense, HP}` derivation
+   in §4.6 (same curve family as the MC's), so the analytic win-rate (D-Q-winrate) is computable in closed form.
+2. **Mobile / touch support** (round 4 ×2). 🟡 **Proposed:** v1 is **desktop-first**; mobile = best-effort responsive,
+   **not a v1 target** (touch targets meet the a11y minimum, but no dedicated mobile layout / no mobile leave-and-return
+   story). Revisit as a post-v1 pass. Consistent with the tight-v1-scope posture (multi-tab also unsupported).
+3. **Physician "Ranpo"** (round 2; same class as the renamed Munenori/Jūbei). 🟡 **Proposed:** **rename** — the
+   debunker-physician reads as Edogawa Ranpo; give him an original name per the Q39 fictionalised-name discipline
+   (sweep all occurrences + add to the §6.6 denylist).
+4. **G2 "Tahei…?" spoken aloud** (round 2). The spine-guaranteed G2 event-log line speaks the true name, spoiling the
+   **missable O5** name-reclaim. 🟡 **Proposed:** soften the G2 line so the true name does **not** surface ("a name
+   almost comes…"); the G6 Otsuru/Tama TRUTH still fires for everyone, but the **name** stays gated to the missable O5.
+5. **Save redundancy under itch's iframe partition** (rounds 2 & 4). The 3-backend redundancy is **not** failure-
+   independent inside one cross-origin iframe partition. 🟡 **Proposed:** document honestly that in the itch iframe the
+   3 backends may share one partition (redundancy degrades to ~1 effective there); the **crash-recovery last-known-good
+   ring + export/import** are the real durability guarantee. Drop any unqualified "3× redundant" claim in that context.
+   (Folds with B7/B9/B12.)
+6. **Repeating "upstream-flood" motif** (round 2, narrative polish). The MC's near-death, the estate's founding debt,
+   and the house's root-sin are **all** upstream-embankment floods. 🟡 **Proposed:** re-skin at least one to a different
+   disaster (fire / landslide / crop-failure / epidemic) so the water-motif doesn't feel repetitive.
+7. **O5 name-reclaim signposting** (round 4, lower). 🟡 **Proposed:** add a soft, non-spoiler signpost that the Origin
+   track has a missable capstone, so a completionist isn't blindsided — without revealing what it is.
+
+**Truly-minor items folded into the trivial-fix pass (no decision needed):** character-`level` store-vs-derive →
+derive (like season/year); R3 durability → use the graded bands as already specified; the M6 fun-proxy "blank"
+thresholds → fill from the tier-relative reward cadence (T0~5/T1~8/T2~13) + the pacing/perf gates; returning-player
+re-orientation → covered by the contextual-tooltips decision + reveal-on-load; Phase-2 anti-undershoot → extend the
+M6 pacing gate to cover the Phase-2 window, not just the Phase-1 rungs.

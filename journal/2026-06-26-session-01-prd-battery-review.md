@@ -342,6 +342,16 @@ schema-first). Source of truth = Block N (the scratchpad/v21plan.mjs planner is 
 build M0/M1. Zero open decisions for the human; zero uncommitted work.
 
 
+## 35 · Block N.1 — the ~7 set-aside questions recorded with Claude-proposed defaults
+Reconciliation of the 59 raw battery questions vs the 32 decided: most of the gap = dedup (same issue recurring
+across rounds, e.g. the Name-pillar = B1+Name-resolution+Name-cap+B13 → one D-Q3) + fold + refute-demotion + the
+~6 trivial fixes. Honest residual: ~7 genuine questions were under-surfaced (NOT auto-decided). Recorded in
+prd_human_feedback.md **Block N.1** as 🟡 PROPOSED (confirm at V2.1): enemy-combat-model (needed by analytic
+win-rate), mobile=desktop-first-not-a-target, rename Ranpo (Edogawa echo), soften G2 'Tahei' spoken-aloud
+(protect missable O5), save-redundancy-honest-under-iframe, re-skin one of the 3 flood-origins, O5 missable
+signpost. Plus 5 truly-minor folded into trivial. NEXT unchanged: implement V2.1 (Block N + N.1) → human glance.
+
+
 ---
 
 ## Next intended steps (current)
