@@ -119,6 +119,18 @@ first-fight win-rate "at adequate satiety"). All in the master-sheet resolution 
 15 of 56 decisions resolved (P0+P1 — the foundational tier + the spine). Next: P2 (22, lighter).
 
 
+## 15 · P2 decisions resolved (19, via decision UI)
+Worked all of P2 with the human. Several reshaped the design: Q15 combat is INCREMENTAL (T0 = 1 weapon, more
+unlock per tier — a new combat-progression-ladder surface); Q17 higher stamina floor + a general no-UI-dumps /
+stagger-gently rule; Q10 distinct activities = top-level tabs (main screen stays the active loop); Q8 author E3
+for v1 (estate E0→E3); Q22 T2 gets BOTH anti-slump devices (seasonal rotation + cross-pillar combos via a §4.3
+exception); Q37 multi-backend redundant saves (IndexedDB + localStorage, newest-timestamp wins); Q33 graded
+durability bands, never auto-unequip; Q45 backwards-compatible (protobuf-style) save schema. Recs accepted:
+Q16 retreat, Q47 satietyMax-grows, Q4 fun-in-milestones, Q35 weather ±10%, Q32 dent restore, Q28 verifier
+checks, Q55 world registry, Q27 swap real names, Q19 mobile+save-safety, Q18 a11y, Q38 inline-SVG+CC0.
+34/56 resolved. Next: P3 (19, bulk-accept with exceptions).
+
+
 ---
 
 ## Next intended steps (current)
