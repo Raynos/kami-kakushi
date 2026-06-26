@@ -300,6 +300,23 @@ Net blocking = B1,B2,B3,B5,B6,B7,B8,B9,B10,B11 (10; B4 demoted). NEXT: round 5 =
 quest/§5-narrative deep + completeness. Still NOT converging — batteries keep finding real spec gaps.
 
 
+## 32 · Round 5 + TRIVIAL-FIX PASS + interactive V2.1 decisions (batches 1-3)
+Round 5 (wjtkx3viq) DONE: NOT-DRY — B9 & B10 DEMOTED to spec-completion (recovery path exists; per-tick fold
+forced), B13 = the Name-gate contradiction → RESOLVED by D-Q3 (Name IS gated → T2 reveals 4 pillars). NEW
+blocking B12 (no crash boundary/safe-mode) + B14 (quest data-model contradictory). TRIVIAL-FIX workflow
+(whlr6kjit, 4 agents 1-per-file) APPLIED 18 prd.md + 7 ui-design + 2 fun-factor + 3 qa fixes (deriveDayKeyed
+[0,1), LOG_RING_MAX 300, reveal-latch add-only, reveal-on-load, DOM-node lifecycle, formatter→core, clock pin,
+3 phantom-Q49 struck, first-wolf-clarify, dialogue-no-RNG, fractional-tick, weapon#2@R4, settings-shape, audio-
+autoplay, FU3-cursor, XSS-textContent; ui: season-emoji 🌸, combat-controls-R3, House-2-bars, nav-order+Crafting/
+Quests, reduced-motion-tweens; fun: scope-T0-T2 + tier-relative cadence; qa: bot-determinism, gate-from-newgame).
+Nav-order reconciled (Combat R3 before Crafting R4). Human Q&A (AskUserQuestion) batches 1-3 ANSWERED & captured
+to tmp/v21-decisions.md: v1=~60h FLOOR; pace=floor-only on rung-meter points (resolves B4); gate-bands=author
+great/excellent + Name gated (B1/B8); Phase-2=inject reveals; load-val=coerce+recover (B9); multi-tab=unsupported
+(B7); world-clock=derive+ephemeris (B6); combos=Model-A (B5); estate-builds→Phase-2 (B2); v1-ending=bounded-
+complete+free-play (B11); crash-recovery=boundary+ring+safe-mode (B12); quests=order-free (B14). REMAINING Q&A:
+a11y-ADR, breadth-wall, M3/M5-split, unattended-combat, dent×trade, win-rate-method, crafting/coin, narrative.
+
+
 ---
 
 ## Next intended steps (current)

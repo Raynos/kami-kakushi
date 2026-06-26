@@ -1179,7 +1179,8 @@ the player feels: *act → something new fades in with a log line → explore it
   dialoguesUnlocked?, recipesUnlocked?, questsStarted?, flagsSet?, pillarDeltas? }` — the universal
   object every dialogue/quest/threshold/combat-deed can emit.
 - `LogMessage { id, text, channel ('narration'|'reward'|'combat'|'system'|'milestone'), colorClass, tick }`,
-  stored in a capped ring buffer.
+  stored in a **true ring buffer** with a pinned hard cap (`LOG_RING_MAX ≈ 300`, oldest evicted; only a
+  ~50-line tail persists — §6.4/§6.8).
 - Unlock predicates are **pure functions**; the renderer subscribes to state snapshots and does one
   `render(state)` reconciliation (no scattered push-updates → kills stale UI). **No reveal-queue state is
   persisted** (the schedule is authored, not buffered at runtime).
@@ -2850,7 +2851,8 @@ weapon**, not a line; §2.10.1). Signature abilities deepen at higher weapon-lin
 | Reveal point | Roster growth | Trigger KIND |
 |---|---|---|
 | **T0-R3** | the **single starter weapon** (Line 1) | combat rung (story) |
-| **T0-R6** + a 2nd T0 beat | **+2** more (completes Line 1 by end-T0) | character-level / weapon-skill milestone |
+| **T0-R4** (loot→craft loop) | **+1** — the found/crafted **2nd weapon** (§7.2.0) | loot→craft loop (`RANK`) |
+| **T0-R6** + a 2nd T0 beat | **+1** more — the **3rd weapon** (completes Line 1 by end-T0) | character-level / weapon-skill milestone |
 | **T1 (from V2)** | the **2nd archetype LINE** opens; **+3** across the V-rungs | combat rung (Combat Rank) |
 | **T2 (from G1/G5)** | the **3rd archetype LINE** opens; **+4** across the G-rungs | combat rung (Combat Rank) |
 
@@ -4349,7 +4351,7 @@ FLOOR)**. The **koku column is lifetime-produced** (the labour/economy currency,
 | **R0 Stray** — cold open done; bare estate dashboard | *(story only — the cold open §3.1)*; meter n/a | n/a (tutorial) | ~0 | **~5 min** *(floor-exempt)* |
 | **R1 Day-labourer** — paddies, basic labour loop, world-clock | **Estate Service ≥ ~18** (rake/recover rice · clear forecourt · first paddy turns) + Genemon assigns real work | ~25 koku/min | ~0.75K | **~30 min** *(floor)* |
 | **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, near *satoyama* | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 koku/min | ~1.05K | **~30 min** *(floor)* |
-| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the wolf [20–35 % win @ ≥0.7 satiety] · drill reps · first pest skirmishes) + drill-yard story | ~40 koku/min | ~1.2K | **~30 min** *(floor)* |
+| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the **scripted** first wolf [a **guaranteed-survival** beat — win-or-soft-setback, the R3 story trigger] · drill reps · the **grindable** wolf/sparring + first pest skirmishes [where the **LOCKED 20–35 % win @ ≥0.7 satiety** is measured, §4.8.0/§4.6.7]) + drill-yard story | ~40 koku/min | ~1.2K | **~30 min** *(floor)* |
 | **R4 Trusted hand** — Main House, domestic economy, **first *shinden* (E1)**, **loot→craft loop + durability bands** | **Estate Service ≥ ~17** (indoor errands · first *shinden* labour · craft a first tool) + invited to the Main House; **build E1 (400 koku)** | ~60 koku/min | ~2.1K | **~35 min** |
 | **R5 Gate-guard** — Quest log + quest types; the **stance** slot | **Combat Rank ≥ ~17** (stand a watch · pest-control / hunt / clear sweeps) + posted to the gate | ~80 koku/min | ~3.2K | **~40 min** |
 | **R6 Foreman of works** — Workshops/Granary (E2), proto-industry, **village tier seed** | **Estate Service ≥ ~15** (drive workshop/granary works · proto-industry shifts) + works commissioned; **build E2 (2K koku)** | ~110 koku/min | ~4.95K | **~45 min** |
@@ -5616,7 +5618,10 @@ change without regenerating its docs. `npm run gen:docs` (without `--check`) wri
   relative-base). The **OFL license text is bundled** alongside and credited on the About/Credits surface.
 - **A small curated audio set (Q50).** "Good audio" = a mix of **synthesized Web Audio** (light ambient
   beds + UI/event SFX generated in code) **and a few original / CC0 samples**, bundled into `dist/`. This is
-  the **one acknowledged small asset set.** A mute toggle is honoured (§6.11).
+  the **one acknowledged small asset set.** A mute toggle is honoured (§6.11). The Web Audio **`AudioContext`
+  starts SUSPENDED** and **resumes only on the first user gesture** (so there is **no ambient at the cold
+  open** — effectively muted until the player opts in), and it **suspends again on backgrounding / pause**
+  (§6.9 active-only loop).
 - **Inline SVG for load-bearing period motifs (Q38).** Pillar / season / rarity / rank-seal marks that must
   read **identically across OSes** are **inline SVG** (in the DOM, themeable by CSS custom properties), not
   emoji. **Emoji are cosmetic-only** — never the sole carrier of a load-bearing meaning (ties to §6.9/§6.11).
@@ -5662,12 +5667,13 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/economy` | Producers, costs, resource flows (the *koku*/coin spine; the capped Estate & Wealth sub-engines: land / treasury / trade incl. the silk *meibutsu*, trade ≤⅓-capped per canon §D). Holds the **market-saturation** damper (the only non-derivable economy state; §6.4). | yes |
 | `core/skills` | Per-skill XP curves, per-event caps, visibility thresholds, milestone web. **Each skill (labour included) carries a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, unlocked by leveling that skill) — the **bounded labour→combat channel** (FU8). The real bound is **incremental skill unlock** (skills reveal per rung/tier) + small per-perk magnitudes (the §6.6 verifier asserts *each perk* is small — **not** `== 0`, **not** a single global cap). **Conditioning stays the ZERO-stat enablement gate** (weak→capable), orthogonal to and never bypassed by these perks (Q6/FU8). | yes |
 | `core/rewards` | The universal **rewards/unlock bus** — `applyRewards(state, rewards) -> state` — the one funnel through which dialogue, **dialogue choices**, quests, thresholds, and combat grant items/xp/coin/locations/recipes/quests/**flags & unlocks**/`pillarDeltas`, and emit diegetic log lines. (`pillarDeltas` deed-accrual is **Phase-2-gated**, §6.5.) | yes |
-| `core/unlock` | Predicate evaluation for the UI-reveal engine: each panel/screen/tab/row/area is data with an unlock predicate over `GameState`; `isUnlocked(state, id)` and `visibleSurfaces(state)`. **Reveal staggering is a DESIGN property of the authored unlock schedule** (one-at-a-time **by construction**, FU4) — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
+| `core/unlock` | Predicate evaluation for the UI-reveal engine: each panel/screen/tab/row/area is data with an unlock predicate over `GameState`. **`reduce`/`tick` evaluate the predicates to ADD newly-earned surfaces to the stored write-once `unlocked` latch** (§6.3/§6.4); the reads `isUnlocked(state, id)` (per-id) and `unlockedSurfaces(state)` (the **ONE** set-selector name — replaces the old `visibleSurfaces`) are **pure projections of that stored Set**, never a live predicate re-eval. **Reveal staggering is a DESIGN property of the authored unlock schedule** (one-at-a-time **by construction**, FU4) — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
 | `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), achievement-jump + seasonal judged-result accrual (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the HYBRID good/great/excellent per-pillar-per-tier gate** (good in **all revealed** pillars · great in 2–3 · excellent in 1–2; **T0 is a 2-pillar special case**; **NO** overflow-substitution — §1.6.3/§1.6.4, Q7/FU10). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung; FU7). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1, FU20). | yes |
 | `core/ranks` | The **per-tier rung ladder** + the **per-rung-RESET rung-meters**: `estateService` (labour) and `combatRank` (martial — fed by per-rung **CURATED** activities, **not** raw kills/XP; renamed from v1 "Combat Standing" per Q9). Each rung promotes on an **AND-gate** — the numeric meter **≥** that rung's threshold (back-solved from the ≥30-min floor × the rung's eligible-activity rate, FU6) **AND** the rung's **story flags** — surfacing "awaiting X" when one lags. Owns the **phase-1 (climb the rungs) → phase-2 (the estate-influence / pillar grind unlocks after the final rung)** gate per tier; the phase marker is **DERIVED from the current rung**, never a separate stored flag (FU7). | yes |
 | `core/content` | The **data registries** (one module per content type; §6.5) + the registry index. Data-as-code. | yes |
-| `core/log` | The event/story log model (append, cap, severity/colour tag) — data only; the renderer paints it. | yes |
+| `core/log` | The event/story log model (append, severity/colour tag) — data only; the renderer paints it. A **true ring buffer** with a pinned hard cap **`LOG_RING_MAX ≈ 300`** (oldest entries evicted on overflow — never an unbounded list). | yes |
 | `core/selectors` | Derived/computed reads (current production rates, effective stats, `satietyMax`, `durabilityBand`, the gate profile, what's unlocked, current tier). **Pure functions of `GameState`; nothing stored.** | yes |
+| `core/format` | Pure display helpers — the shared **K/M/B** number formatter (`999,999 → '1.0M'`, etc.) + macron/label helpers — moved out of `src/ui/` so they're **table-driven boundary-tested under `npm run verify`**; the renderer imports them (§6.9). | yes |
 
 **Public surface of `core`:** the `GameState` type, `createInitialState`, `reduce`, `tick`, the selectors,
 the registries, and the RNG helpers. **Nothing else mutates state.** Everything is immutable-in/immutable-out
@@ -5712,6 +5718,9 @@ function tick(state: GameState, dtTicks: number): GameState;
 enough), applies the change, runs any triggered rewards through `core/rewards`, and re-checks unlock and
 tier-threshold predicates so newly-earned surfaces flip to unlocked and push their diegetic log line. An
 illegal intent is a no-op (returns the same state) plus an optional rejection note — never a throw.
+**`reduce`/`tick` are the SINGLE reveal authority and only ever ADD to the stored `unlocked` Set (write-once
+latch — a surface, once entered, is never removed); the once-per-game reveal log-line is emitted by this same
+latch transition, not by the renderer diff.**
 **Intra-line dialogue is data, not scripting (FU22):** an `advance_dialogue` carrying a `choiceId` writes
 **only chosen-flags** (the choice's `locksLineIds[]`/`flags` effects ride the *same* rewards bus) — it is
 deterministic and **save-light** (only the chosen flag persists, in `flags`; §6.4/§6.5).
@@ -5720,7 +5729,9 @@ deterministic and **save-light** (only the chosen flag persists, in `flags`; §6
 - **per-tick:** the **auto-resolve combat** sub-step (the auto-battler) and **auto-repeat labour** (the
   "leave it running, check progress" loop, FU23 — runs unattended while the tab is open, still strictly
   active-only), satiety/energy drain (soft — slows, never hard-blocks), active-activity progress,
-  auto-producer output (late-game / T3+ only).
+  auto-producer output (late-game / T3+ only). **It also decrements each `ActiveEffect`'s remaining duration
+  and DROPS expired effects** — so `effects[]` is **length-bounded** (live buffs/injuries only), never an
+  unbounded persisted collection.
 - **per-day / per-week:** vendor restocks, food rot/ferment, the market-saturation damper recovering, and
   the **day-keyed weather / festival resolution** — `deriveDayKeyed(seed, 'weather', day)` produces the
   day's bounded **±10%** *(proposed v1 balance)* mechanical modifier with **nothing weather-related stored**
@@ -5734,8 +5745,10 @@ deterministic and **save-light** (only the chosen flag persists, in `flags`; §6
   mechanically (bounded ±10%, day-keyed). Also: festival events.
 
 `dtTicks` is computed by the **app-layer** loop from real elapsed time *while the tab is active*, then handed
-to the pure `tick` as a **whole integer** (the loop accumulates the fractional remainder across frames). The
-core never reads a clock. **Active-only is enforced structurally:** there is no offline-accrual code path —
+to the pure `tick` as a **whole integer** (the loop accumulates the fractional remainder across frames). That
+**fractional-tick remainder is intentionally EPHEMERAL** — it lives only in the app loop, never in
+`GameState` and never in the save; `GameState` is **always tick-aligned at save**, so replay determinism is
+unaffected. The core never reads a clock. **Active-only is enforced structurally:** there is no offline-accrual code path —
 on load, the world resumes exactly where it was saved (no "while you were away"); the unattended
 auto-resolve/auto-repeat only runs while the tab is open.
 
@@ -5760,7 +5773,7 @@ interface GameState {
   schemaVersion: number;            // for the migration safety-net (§6.8.2)
   rng: { seed: number;
          cursors: { combat: number; loot: number; seasonal: number; worldgen: number } };  // per-named-stream MONOTONIC cursors — persisted (§6.7). Weather/lunar are NOT stored — derived day-keyed (§6.7.1).
-  clock: { tick: number; day: number; season: Season; year: number };  // abstract time
+  clock: { tick: number; day: number; season: Season; year: number };  // abstract time. createInitialState pins tick 0, day 1, season 'spring', year 1; the day index is 1-BASED. (season/year are also DERIVABLE — see season(day)/year(day) below; whether to keep them stored is left to a separate human ADR.)
   currentArea: AreaId;                            // where the player IS now (set by the `travel` intent) — non-derivable, persisted (§2.19 "current location")
   resources: Record<ResourceId, number>;         // koku, coin(mon), wood, fish, materials…
   producers: Record<ProducerId, number>;         // owned counts (late-game / T3+ only)
@@ -5781,13 +5794,14 @@ interface GameState {
   reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as the O0→O5 rung meter
   allegiance: number;                            // Tama ↔ farmhand lean, continuous
   flags: Set<FlagId>;                            // story/finished/one-shot flags (serialized as array) — also the home of dialogue CHOSEN-FLAGS (the only thing an intra-line choice persists; FU22)
-  unlocked: Set<SurfaceId>;                       // panels/screens/areas the player has earned — the ONLY reveal state (see the no-revealQueue callout below)
+  unlocked: Set<SurfaceId>;                       // panels/screens/areas the player has earned — the ONLY reveal state; a WRITE-ONCE latch (reduce/tick only ADD, never remove — see the no-revealQueue callout below + §6.6.1)
   quests: Record<QuestId, { status: QuestStatus; step: number }>;
   counts: Record<CountId, number>;               // kills, clears, harvests — drive quest advancement & bestiary tallies (NOT a separate player "achievements" feature; pillar achievement-JUMPS are recognized deeds, §2.16, not these raw counts)
   effects: ActiveEffect[];                        // active buffs/injuries with remaining duration
   combat?: CombatEncounterState;                  // present only while a fight is live; NON-derivable mid-fight (consumed RNG cursor, current HP/positions/statuses cannot be recomputed) — stored so a save resumes the exact encounter; cleared when the fight ends
-  log: LogEntry[];                                // capped event/story log
+  log: LogEntry[];                                // event/story log — a true ring buffer (LOG_RING_MAX ≈ 300, oldest evicted); only a small TAIL (~50 lines) is persisted (§6.8)
   settings: { textScale: number; colourblindMode: boolean; reducedMotion: boolean; muted: boolean };
+                                                 // CANONICAL persisted settings shape = §2.21(c) A11ySettings + AudioSettings (textScale, colorblindMode, reduceMotion, paused, liveRegionScope · ambientVolume, sfxVolume, muted); this field references that shape.
 }
 ```
 
@@ -5815,10 +5829,12 @@ interface GameState {
 `skillCombatBonus` perks, FU8); `satietyMax(state)` (base + per-level growth off `character.level`, Q47);
 `durabilityBand(state, slot)` (maps the stored durability integer to the 4-band multiplier, Q33/FU17);
 `gateProfile(state)` (the good/great/excellent distribution across the **revealed** pillars for the hybrid
-tier-gate, Q7/FU10); `productionPerTick(state)`; `unlockedSurfaces(state)`; `currentTier(state)` and
+tier-gate, Q7/FU10); `productionPerTick(state)`; `unlockedSurfaces(state)` (a pure projection of the stored `unlocked` Set — **not**
+a live predicate re-eval); `currentTier(state)` and
 `tierThresholdProgress(state)` (against the hybrid per-pillar-per-tier bands); `skillLevel(skillId, state)`
-(from xp + curve); `timeToNextGoal(state)` (for the greyed next-purchase). These are pure, cheap, memoizable
-per-snapshot, and **excluded from the save**.
+(from xp + curve); `timeToNextGoal(state)` (for the greyed next-purchase); and the clock derivations off the
+**1-based** day index — `season(day) = floor((day − 1) / 30) mod 4` and `year(day) = 1 + floor((day − 1) / 120)`.
+These are pure, cheap, memoizable per-snapshot, and **excluded from the save**.
 
 > **Why this split matters:** it keeps the save tiny and forward-compatible (you only ever migrate
 > non-derivable fields), makes the renderer a pure function of state, and means a balance retune (a curve
@@ -5967,6 +5983,8 @@ the three-track separation and the hybrid gate.
   alongside the macron lint. **Allow-list:** naturalized exonyms + the **invented-place allow-list (incl.
   *Nihonbashi*, Q12)**. It also flags the **superseded** names **Mago** / **Naozane** / **Obaa Sato** so they can't be
   reintroduced; the shipped names are **Heita** / **Mosuke** / **Obaa Kuni** (field-lad **Heita** ≠ antagonist **Magobei**; clerk **Mosuke** ≠ heir **Naoyuki**; herbalist **Obaa Kuni** ≠ **Sayo**).
+- **Unlock-latch monotonicity (FU4).** A guard asserts a surface **never leaves `unlocked` once entered** — `reduce`/`tick` only ever ADD to the latch (write-once); a scripted run that re-checks every prior unlock after each step proves no `SurfaceId` is ever removed.
+- **Save-envelope-size budget.** The persisted envelope stays within a size budget (**≤ ~64 KB typical**), provable from the **bounded** collections — the persisted log **tail (~50 lines)**, capped inventory/equipment/quest/flag sets — so no field is an unbounded persisted growth (ties to the `LOG_RING_MAX ≈ 300` ring eviction, §6.4/§6.8).
 
 ---
 
@@ -5983,8 +6001,9 @@ generator — **splitmix64** (LOCKED, §6.13 #2), seeded at new-game from a stor
   rooted in the one seed.)
 - The API is **pure**: `next(rng, stream) -> [n, rng']` returns the value *and* the advanced RNG (only that
   stream's cursor moves); helpers (`rngInt`, `rngChance`, `rngPick`, `rngWeighted`) thread the new RNG back
-  into `GameState` via `reduce`/`tick`. Combat, loot, seasonal appraisal, and dialogue flavour each draw from
-  **their own named stream**.
+  into `GameState` via `reduce`/`tick`. **Combat and loot** are the v1-active named streams; the **seasonal and
+  worldgen** cursors are **declared for forward-compat** and **no v1 consumer advances them** (FU3 — so the
+  cursor-usage verifier won't flag them as forever-zero). **Dialogue stays no-RNG** (§2.12).
 - **`Math.random()` is banned in `core/` by lint** (§6.1) — there is no second, hidden source of randomness —
   and so are **`Math.pow` / `Math.exp` / `Math.log` / trig** (§6.1, Q36): every growth-curve power is
   integer-pow, so a fixed seed replays **byte-identically** across engines and an exported save is portable.
@@ -6006,6 +6025,8 @@ minimal and replays stay byte-identical. The helper is:
 ```ts
 // PURE & STATELESS — not a persisted cursor; no GameState mutation.
 function deriveDayKeyed(seed: number, channel: 'weather' | 'lunar' | 'festival', day: number): number;
+// RETURNS a NORMALIZED fraction ∈ [0, 1) — e.g. (splitmix64(mix(seed, channel, day)) mod 2^53) / 2^53 —
+// so the ±10% weather / judged bands are well-defined and replay-stable.
 ```
 
 - **Weather / lunar / festival modifiers** are reproduced from `seed + day` whenever the per-day scheduler
@@ -6049,8 +6070,9 @@ eviction**. The **FULL layer is built in M0** (FU1); rich per-system fields are 
   attribute-points), **`character.level` + `combatXp`**, inventory, equipment, influence pillars (value +
   high-water + dents) **incl. `estateWealth.subEngines`**, stored tier, the **per-rung-reset rung-meters**
   (`estateService` / `combatRank`), reputation, allegiance, flags (incl. **dialogue chosen-flags**), unlocked
-  surfaces, quest status, counts, the live combat encounter (present only while a fight is live), the capped
-  event log, active-effect remainders, settings. **Heavier optional fields are added additively per milestone**
+  surfaces, quest status, counts, the live combat encounter (present only while a fight is live), **only a small TAIL
+  (~50 lines) of the event-log ring** (`LOG_RING_MAX ≈ 300`, §6.4 — the rest is runtime-only), active-effect
+  remainders, settings. **Heavier optional fields are added additively per milestone**
   (M3/M5), never pre-declared at M0. **All derived stats are recomputed on load** by the selectors — never
   serialized (weather/lunar are re-derived day-keyed, §6.7.1).
 - **Additive-schema-first, migrations as the safety net (Q45/FU5).** New stored fields are added as
@@ -6133,12 +6155,19 @@ of `GameState`: `render(state, prevState)` reconciles the DOM against the new sn
 outcomes and does **not** mutate state — it only **dispatches intents** back to the core. The combat renderer
 animates the deterministic result (filling bars, floating numbers); it never decides the fight.
 
+**Reveal-on-load (no re-spam).** On load the renderer's `prevState` is set to the **loaded `GameState`**, so the
+first `render(state, state)` yields an **empty reveal diff** — no re-animation, no re-played reveal lines.
+Once-per-game reveal log-lines are emitted by the `unlocked` write-once latch **inside `reduce`/`tick`** (§6.3),
+**not** by the renderer diff — so reloading a save never re-spams the log. *(Test note: `load(save)` →
+`render(state, state)` produces **zero animations and zero new log lines**.)*
+
 - **Data-driven surfaces.** Every panel/screen/tab/row/button is described by `core/content/surfaces.ts` with
   an unlock predicate; the renderer shows only `unlockedSurfaces(state)`. "The UI is incremental" is a tunable
   content table, **not** hardcoded view logic. **Reveals are DESIGN-staggered one-at-a-time** (the
   NO-UI-DUMPS principle) driven by the **authored unlock schedule** — there is **no runtime reveal-queue**
-  (FU4/Q17); the renderer just shows what the predicates currently pass. Each first-time reveal pushes a
-  diegetic line to the event log (the reveal reads as plot).
+  (FU4/Q17); the renderer just shows the surfaces in `state.unlocked` (the stored write-once latch — §6.4),
+  never a live predicate re-eval. Each first-time reveal pushes a diegetic line to the event log (the reveal
+  reads as plot) — emitted by the `reduce`/`tick` latch transition (§6.3), not the renderer diff.
 - **Multi-screen UI, progressively revealed (canon §H).** There is a real multi-screen shell with navigation
   (e.g. Estate / Village / Wilds / Skills / Combat / Influence / Map / Journal / Settings screens), but
   **nav and screens are revealed as earned** — so it *appears single-screen early* (minute one is one verb +
@@ -6164,8 +6193,10 @@ animates the deterministic result (filling bars, floating numbers); it never dec
   `--ink-faint` is decorative-only, and the meter fill is darkened for contrast.
 - **Number formatting = abbreviated K/M/B (canon §H).** Large values display **human-scaled, abbreviated**
   (e.g. `12.4K`, `3.1M`, `2.7B`) — **not** scientific notation (`1.2e7`) and **not** myriad units
-  (man/oku). A single shared display formatter in the renderer (a pure helper fed by the selectors) keeps the
-  scale legible as koku/coin/pillar numbers climb.
+  (man/oku). A single shared display formatter **lives in `core/format`** (a pure helper — and the other pure
+  display helpers — moved OUT of `src/ui/` into core, **table-driven boundary tests under `npm run verify`**:
+  `999,999 → '1.0M'`, etc.); **the renderer imports it**. It keeps the scale legible as koku/coin/pillar
+  numbers climb.
 - **Active-only loop, with the "leave it running" feel (FU23).** The app-layer tick loop runs only while the
   tab is active (driven by `requestAnimationFrame` / a paced timer); it computes whole-integer `dtTicks` from
   elapsed active time and calls the pure `tick`. **While the tab is OPEN, auto-resolve combat + auto-repeat
@@ -6174,6 +6205,15 @@ animates the deterministic result (filling bars, floating numbers); it never dec
   is supported.
 - **One render path.** Updates go through `render(state)` reconciliation — not scattered manual
   `update_displayed_*` push-calls — which kills the stale-UI class of bug by construction.
+- **Log DOM-node lifecycle.** The log renderer **reconciles by keyed `id`** and **removes / virtualizes the
+  DOM nodes for evicted ring entries** — so the **live log-node count stays ≤ the `LOG_RING_MAX ≈ 300` ring
+  cap** (§6.4/`core/log`) over an hours-long unattended run; this **live log-node-count ≤ ring-cap** budget is
+  an assertion in the M6 long-run perf/audit sweep.
+- **XSS guardrail (untrusted-text safety).** Every **state-derived / persisted / IMPORTED** string — the
+  **event log above all** — renders via **`textContent` / `createElement`'d fragments**, **never** `innerHTML`
+  and **never** a markup parser run over persisted text. The log persists **`{ messageId, args }`**, not
+  resolved markup, so text is templated at render time. The **imported save is the sole untrusted-text
+  channel**, so this closes the only injection surface.
 
 ---
 
@@ -6542,7 +6582,7 @@ core** (lint proves it).
 
 1. **Stand up the toolchain, the pure-core boundary & the verify gate** — `npm run verify` runs green on an empty src/core·ui·app·persistence skeleton, and the ESLint boundary rules FAIL the build on a planted Math.random, Math.pow/exp/log/trig, or DOM/window/Date.now/indexedDB import inside src/core (with the persistence-layer Date.now tiebreaker exemption documented). *(§6.1, §6.2)*
 2. **Build the core spine: GameState + the one seeded RNG (cursors) + reduce/tick** — The pure core compiles with a stored-vs-computed GameState (M0 surface: schemaVersion, rng = {seed, cursors:{combat,loot,seasonal,worldgen}}, clock, character {hp, satiety, attributePoints} + character.level (=1 floor) + satietyMax-at-floor — the §6.4 stored fields; subEngines / CombatEncounterState / dialogue are NOT pre-declared, added additively at their milestone per FU5; there is no separate top-level `vitals`, resources, flags, unlocked, log beyond M0 needs), createInitialState(seed), the seeded RNG living IN GameState (pure per-stream next + int/chance/pick helpers threading the advanced cursor back; integer-pow only), the stateless deriveDayKeyed weather helper (derived, not stored), and reduce(state,intent)/tick(state,dtTicks) as deterministic, immutable-in/out pure functions covering the cold-open intents (open_eyes / rake_rice / rest) and a per-tick·day·season scheduler skeleton. *(§6.2, §6.3, §6.4, §6.7, §6.7.1)*
-3. **Build the reveal engine: rewards/unlock bus + event log + the surfaces registry** — A flag/threshold flip fires exactly ONE event through core/rewards.applyRewards that simultaneously reveals a surface, pushes its diegetic log line (capped ring buffer in core/log), and sets the flag; visibleSurfaces(state)/isUnlocked drive a data-driven content/surfaces.ts holding only the cold-open RevealableEntries — all unit-tested. Reveal staggering is a design property of the authored schedule (NO revealQueue field in GameState; FU4). *(§2.1, §3.0, §6.5)*
+3. **Build the reveal engine: rewards/unlock bus + event log + the surfaces registry** — A flag/threshold flip fires exactly ONE event through core/rewards.applyRewards that simultaneously reveals a surface, pushes its diegetic log line (the LOG_RING_MAX≈300 ring in core/log), and sets the flag; unlockedSurfaces(state)/isUnlocked drive a data-driven content/surfaces.ts holding only the cold-open RevealableEntries — all unit-tested. Reveal staggering is a design property of the authored schedule (NO revealQueue field in GameState; FU4). *(§2.1, §3.0, §6.5)*
 4. **Make the content-verifier & gen:docs real** — scripts/verify-content.ts cross-checks ids across the (near-empty) registries with no orphan SurfaceIds and enforces the M0-applicable canon invariants (≤1 ambiguity token, macron/no-plain-ASCII-romaji lint, the real-name denylist scaffold per §6.6.1), and scripts/gen-docs.ts writes a generated doc into docs/content/ with `--check` failing on drift — both replace the task-1 stubs and run green inside npm run verify. *(§6.6, §6.6.1, §6.5)*
 5. **Build the FULL multi-backend save layer: redundant atomic write + newest-wins + base64 + migrations** — src/persistence round-trips the STORED surface of GameState (§6.4 only — derived recomputed on load) through save→base64→load byte-identically (unit-proven), writes atomically to all available backends (IndexedDB + localStorage + sessionStorage) with the app-identity magic field, selects newest on load by the monotonic saveCounter (timestamp tiebreaker — the only Date.now read, the documented core-lint exemption), runs an ordered, pure, unit-tested additive-schema migration chain with a pre-migration raw backup, rejects a wrong-`app` blob to recovery, degrades gracefully on a corrupt save, and is never imported by core. (The itch cross-origin-iframe survival smoke is the only save piece deferred — to M7.) *(§6.8, §6.8.1, §6.8.2, §6.4)*
 6. **Build the app composition root: active-only tick loop + DEV play API** — src/app wires core↔persistence↔ui with an active-only tick loop (computes dtTicks from active elapsed time → pure tick; pauses on background, no offline catch-up; tab-open auto-resolve/auto-repeat scaffold for later), debounced autosave-to-all-backends on meaningful intents + visibilitychange/beforeunload, and a DEV-only window.__qa (state/dispatch/tick/frames/pause/resume/newGame/save/load/forceState/setSeed/selectors) that drives the REAL typed intents and is dead-code-eliminated from the production bundle. *(§6.10, §6.3, §6.9, §6.8)*
@@ -6613,8 +6653,9 @@ orthogonal to and never bypassed by the bounded per-skill perks.
 
 **Definition of done:** verify green; a headless run reaches R3 and triggers the first fight; a fixed-seed
 fight **replays byte-identically** (§6.7, per-stream cursors) and a forced-seed rare crit/loot renders
-correctly via `__qa`; a Vitest test confirms the fresh-MC first-fight win-rate sits in **20–35% at adequate
-satiety (≥~0.7)** and a post-drills MC ~85%+ (§4.6.6/§4.6.8); the satiety throttle measurably lowers attackPower
+correctly via `__qa`; a Vitest test confirms the fresh-MC win-rate **on the grindable wolf/sparring
+encounters** sits in **20–35% at adequate satiety (≥~0.7)** (the scripted story-beat wolf is a separate
+guaranteed-survival beat) and a post-drills MC ~85%+ (§4.6.6/§4.6.8); the satiety throttle measurably lowers attackPower
 below the ~0.7 knee (never pushing win-rate below ~15%); a loss applies the soft setback and **never** removes a
 level/gear/Influence (asserted); a retreat keeps HP + loot and never dents Influence (except an abandoned
 DEFEND); **conditioning grants ZERO combat stat** (the enablement gate is access-only — asserted) and **each
@@ -6701,7 +6742,7 @@ gate** evaluates only the **revealed** pillars (never "good in ALL" against an u
 
 **Phases / high-level tasks:**
 
-1. **Build the four-pillar PHASE-2 Influence accrual engine (core + data + tests)** — Done when content/influence.ts holds the 4 pillars, the **hybrid good/great/excellent** per-tier bands (values referenced from §4.1, re-derived per-pillar-per-tier against the FIXED §4.2.1 deed inventory — NOT simple ratios) and the deed registry; applyRewards' pillarDeltas produce capped achievement JUMPS (PER_EVENT_CAP = 0.04·good-band) and the per-season tick hook produces JUDGED RESULTS (TIER_REF-normalized, sqrt-shaped [whitelisted sqrt], high-water-mark up-only, integer-pow only), **all GATED so they fire ONLY once Phase 2 is open** (derivable from the current rung — the R7 capstone; NO extra phase flag, §6.4); the trade≤⅓ clamp (tradeAllowed = ⅓·estateTotal) applies at every accrual point (no trade term at T0); the recoverable-dent scaffold exists — all pure core (no DOM/Date.now/Math.random/Math.pow); Vitest proves caps bind, trade≤⅓ holds, accrual is jumps+seasonal only (no trickle), up-only, deeds do NOT accrue before Phase 2, dent self-heals without touching highWater, and a fixed-seed scripted run is byte-identical. Panel stays hidden (reveals at R7). *(§2.16, §2.16(e), §4.0.1, §4.1, §4.2 (incl. §4.2.1/§4.2.2/§4.2.3/§4.2.4), §4.3, §6.3, §6.4, §6.5)*
+1. **Build the four-pillar PHASE-2 Influence accrual engine (core + data + tests)** — Done when content/influence.ts holds the 4 pillars, the **hybrid good/great/excellent** per-tier bands (values referenced from §4.1, re-derived per-pillar-per-tier against the FIXED §4.2.1 deed inventory — NOT simple ratios) and the deed registry; applyRewards' pillarDeltas produce capped achievement JUMPS (PER_EVENT_CAP = 0.04·good-band) and the per-season tick hook produces JUDGED RESULTS (TIER_REF-normalized, sqrt-shaped [whitelisted sqrt], high-water-mark up-only, integer-pow only), **all GATED so they fire ONLY once Phase 2 is open** (derivable from the current rung — the R7 capstone; NO extra phase flag, §6.4); the trade≤⅓ clamp (tradeAllowed = 0.5·(land+treasury), the non-circular form §4.2.3 mandates) applies at every accrual point (no trade term at T0); the recoverable-dent scaffold exists — all pure core (no DOM/Date.now/Math.random/Math.pow); Vitest proves caps bind, trade≤⅓ holds, accrual is jumps+seasonal only (no trickle), up-only, deeds do NOT accrue before Phase 2, dent self-heals without touching highWater, and a fixed-seed scripted run is byte-identical. Panel stays hidden (reveals at R7). *(§2.16, §2.16(e), §4.0.1, §4.1, §4.2 (incl. §4.2.1/§4.2.2/§4.2.3/§4.2.4), §4.3, §6.3, §6.4, §6.5)*
 2. **R4 rung — Crafting top-level tab + loot→craft loop + Main House domestic economy + first shinden + E1 build** — Done when the **simple Crafting tab reveals as its own TOP-LEVEL nav tab at R4** (Q10) and R4 content is wired to it — the craft *core* (content/recipes.ts + the craft/disassembly intents + the find→craft loop) was already built in **M2b**; M3 surfaces the tab and feeds found loot through it end-to-end; the Main House/Omoya area + domestic-economy activities (Cooking/provisioning) feed the satiety loop (§2.3); the first shinden reclamation (LAND lever) builds the Estate **basis** (the influence DEED for it does NOT score until Phase 2); and the E1 estate build fires on its §4.7.5 floor+cost. Each surfaces as its own separate diegetic reveal beat on the bus; verify green. *(§2.11, §4.7.2, §2.17, §4.7.5, §2.3, §3.2 R4, §3.3, §5 T0.4)*
 3. **R5 rung — Quests top-level tab + the 4 starter quest types + the stance combat beat (curated activities → Combat Rank)** — Done when content/quests.ts + the **Quest-log TOP-LEVEL nav tab** (Q10) land with the accept_quest intent and event-driven (non-waypoint, open-ended, gatesSpine:false) task advancement; the 4 STARTER quest types reveal as each is first taken — PEST_CONTROL → HUNT → CLEAR → DEFEND (a taxonomy, not a cap — author more as fits); the **R5 stance** slot reveals (the combat-reveal ladder beat); and the **curated combat activities (incl. DEFEND) feed the Combat Rank rung-meter (Phase 1) — the Arms PILLAR DEEDS still do NOT accrue (Phase-2-gated, post-R7)**; verify green and a headless run can take and complete one of each type. *(§2.8.2, §2.12, §3.2 R5, §4.1.1, §6.5)*
 4. **R6 rung — Workshops & Granary + E2 + ability/item slots + village-tier seed (basis climbs, no pillar scoring)** — Done when the Workshops and Granary areas reveal separately, proto-industry LAND/TREASURY Estate levers are driven by ACTIVE labour (explicitly NOT T3+ auto-producers — active-only, no idle accrual per canon §G/§2.5) building the Estate/Arms **basis** (no pillar DEED scores yet — Phase 1); the **first weapon-line L10 ability + item** intervention slots reveal (the combat-reveal ladder beat); the E2 build fires on its §4.7.5 Estate+Arms floor+cost; and errands-beyond-the-estate authorise the village-tier map seed + the road out. Verify green. *(§2.8.2, §3.2 R6, §4.7.5, §2.17, §2.16, §2.5, §5 T0.2 beat 7-8)*
@@ -6836,7 +6877,7 @@ the **revealed** pillars [gate-distribution + gate-monotonicity]; **bounded per-
 tie-out; the **`world.ts`** registry id-resolution [Q55]; the real-name denylist; macron / **K/M/B** lints; no
 orphan ids); the **a11y acceptance** pass (§6.11: functional/hint text on **`--ink-soft`** passing **WCAG AA** on
 every paper surface, **`--ink-faint`** decorative-only, darkened meter fills [Q48]; **full keyboard operability +
-comfortable touch targets** [Q49]; a **persistent quiet a11y entry from minute one**; the event log as an **ARIA
+comfortable touch targets**; a **persistent quiet a11y entry from minute one**; the event log as an **ARIA
 live region scoped to narration + milestones** ['polite']; a **large-textScale reflow** case; colourblind-safe
 cues [colour never the sole cue]; reduced-motion; user pause; mute; a **screen-reader acceptance** pass — Q18);
 the **inline-SVG load-bearing motifs** (pillar / season / rarity marks, identical across OSes; **emoji
@@ -6869,7 +6910,7 @@ numbers display **K/M/B**.
 4. **Promote the fun-proxies from report-only to a GATING check (the fun-risk mitigation)** — Done when the M1/M3 fun-proxies move from report-only into `npm run verify` as a GATE (Q4/FU9) — failing the build on undershoot of the fun floor (excess dead-time, a stalled reward/unlock cadence, a missing visible-next-goal, a weak first-5-min hook, a deed-cadence slower than the tier-relative target [T0~5/T1~8/T2~13 min, Q20], or a win-rate band outside its R3/V2/V5/G1/G5 envelope [§4.6.6]) — the thresholds owned by `fun-factor.md`, mirroring the pacing gate and catching the §7.4.1-R6 fun risk. *(Q4, FU9, Q20, §4.6.6, §6.1, §6.10, fun-factor.md, docs/plans/qa-playtesting.md)*
 5. **Content-verifier + generated-docs green on EVERY V2 canon invariant** — Done when `scripts/verify-content.ts` asserts ALL §6.6/§6.6.1 machine checks — no belief-creature in any spawn/population table; trade ≤⅓ with the cross-pillar combos proven POST-clamp, gate-excluded and ⅓-unbreachable; ≤1 residual-ambiguity token; the HYBRID good/great/excellent gate with NO overflow evaluated only against the REVEALED pillars (gate-distribution + gate-monotonicity); bounded per-skill perk magnitude (each perk small, NOT `==0`, no global cap) with conditioning `==0`; rung-meter monotonicity + the accrual (≈70/30, jumps+seasonal-only, up-only) tie-out; the `world.ts` (Q55) id-resolution; the real-name denylist; macron + K/M/B lints; no orphan ids — and `scripts/gen-docs.ts` regenerates docs/content/ + docs/balance/ with `gen:docs --check` passing — both wired into verify. *(§6.6, §6.6.1, §6.5, §6.1)*
 6. **Ship the T3 castle-town / Daikan's-Office STUB cliff-hanger (Q24)** — Done when reaching the G7 capstone renders the §3.7.1 first-contact screen (the castle-town / Daikan's-Office node — the old Porter / Kaidō-guild framing dropped, Q24) with the diegetic 'the page turns onto stone walls, and the story pauses' reveal, then STOPS cleanly — with a verifier/test assertion that NO T3 ladder, auto-producers, or marriage/adoption lever is reachable. *(§3.7.1 (T3 forward stub), §6.9 (renderer/reveal), §6.6 (no half-built-system assertion), §5 (G7 beat), Q24)*
-7. **a11y acceptance pass (§6.11 basics, wired so they cannot rot)** — Done when the low-cost a11y items are live AND verified: functional/hint text on `--ink-soft` (WCAG AA on every paper surface), `--ink-faint` decorative-only, darkened meter fills (Q48); full keyboard operability + comfortable touch targets (Q49); textScale (with a large-textScale reflow case), colourblindMode (colour never the sole cue — icon/text labels too), reducedMotion (+ prefers-reduced-motion), a user pause, the event log as an ARIA live region scoped to narration+milestone ('polite'), a persistent quiet a11y entry point from minute one, and a mute toggle — verified by a keyboard-only AND a touch-only run of the cold open + one rung AND of a force-loaded late state (via `window.__qa`) exercising the combat panel (stance/ability/item/retreat), the four-bar Influence panel, a focus-trapped modal, and the map screen, PLUS a screen-reader acceptance pass — so operability is proven on the dense revealed UI, not only the single-column open. *(§6.11 (accessibility), §6.9 (not-hover-dependent renderer / pause), Q18, Q48, Q49)*
+7. **a11y acceptance pass (§6.11 basics, wired so they cannot rot)** — Done when the low-cost a11y items are live AND verified: functional/hint text on `--ink-soft` (WCAG AA on every paper surface), `--ink-faint` decorative-only, darkened meter fills (Q48); full keyboard operability + comfortable touch targets; textScale (with a large-textScale reflow case), colourblindMode (colour never the sole cue — icon/text labels too), reducedMotion (+ prefers-reduced-motion), a user pause, the event log as an ARIA live region scoped to narration+milestone ('polite'), a persistent quiet a11y entry point from minute one, and a mute toggle — verified by a keyboard-only AND a touch-only run of the cold open + one rung AND of a force-loaded late state (via `window.__qa`) exercising the combat panel (stance/ability/item/retreat), the four-bar Influence panel, a focus-trapped modal, and the map screen, PLUS a screen-reader acceptance pass — so operability is proven on the dense revealed UI, not only the single-column open. *(§6.11 (accessibility), §6.9 (not-hover-dependent renderer / pause), Q18, Q48)*
 8. **Inline-SVG / audio register + presentation polish + the capture-game-states audit (verify-green checkpoint)** — Done when the inline-SVG load-bearing motifs (pillar/season/rarity marks, identical across OSes; emoji cosmetic-only — Q38), the colour-coded rarities, the single shared K/M/B display formatter, and the small curated audio set (synthesized Web Audio + original/CC0 samples, all behind mute — Q50) are applied across screens for a launchable feel; `__qa` is driven headlessly to the signature states (cold-open <5 s, R3 humbling fight, R7 two-bar Influence panel, V4 first Office bar, G6 personal payoff, G7→T3 Daikan stub) on desktop and a narrow viewport, lossless screenshots are saved under audit/, any findings recorded, and full `npm run verify` (incl. the M6 pacing + fun gates) is green. *(§6.9 (art register, K/M/B formatter, audio), §6.1.1 (bundled assets), §6.10 (__qa), §5 (act beats), the capture-game-states skill)*
 
 ### M7 — Deploy: self-hosted fonts + LICENSE + About/Credits + itch content descriptors + the deferred cross-origin-iframe save test → live

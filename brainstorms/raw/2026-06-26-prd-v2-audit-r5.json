@@ -1,0 +1,446 @@
+{
+  "summary": "PRD V2 battery round 5 — REFUTE-pass on unrefuted blockers B5-B11 (validate/demote) + deep content angles (§5 narrative full read, combat-engine mechanics, quest/dialogue authoring) + completeness-critic; reports NEW actionable, refutations, dryness",
+  "agentCount": 13,
+  "logs": [
+    "round5: 34 findings, 22 NEW actionable, 9 refutations, verifying 6 new crit/high"
+  ],
+  "result": {
+    "counts": {
+      "findings": 34,
+      "new_actionable": 22,
+      "refutations": 9,
+      "confirmed": 4
+    },
+    "synthesis": {
+      "dryness": "NOT-DRY",
+      "new_actionable_count": 20,
+      "new_blocking": [
+        "B12 — No global error boundary / crash-recovery / safe-mode (VERIFIED, needs-human ADR). PRD's entire failure story is two narrow contracts that do NOT wrap the runtime: §6.3 L5714 'illegal intent is a no-op, never a throw' is scoped to reduce() rejecting bad INPUT; §6.8 L6060 recovery is structural-only ('corrupt/unreadable/foreign-id' = decode/parse/magic-id) and never catches a structurally-valid blob that THROWS on evaluate. §6.9 render(state,prevState) has no try-catch/fallback/crash-counter. Grep across prd.md/qa-playtesting.md/ui-design.md/fun-factor.md = ZERO window.onerror/unhandledrejection/error-boundary/safe-mode/try-catch (confirmed). Permanent-soft-lock mechanism reproduces from text: continuous autosave (§6.8) writes the poisoned-but-valid state; newest-readable-wins elects it on reload; recovery never fires (bytes valid); §6.8.2 pre-overwrite snapshot only fires on destructive intents, not autosave. A throw in the tick loop or render reconciler over a ~60h unattended session (made likelier by B9 NaN-poison + B10 multi-tick) white-screens and crash-loops every refresh. Independent of B9/B10. Needs an ADR: where the crash-counter persists (cannot live in poisoned GameState), last-known-good rolling ring, autosave-poison suppression, safe-mode boot UX, which boundaries to install.",
+        "B13 — Does Name gate the v1 T2→T3 ship-gate? (VERIFIED CONTRADICTION, needs-human, distinct from B1). GATED side: §4.1 table L3343 row header 'Arms + Estate + Office + Name → 3–4; good in ALL' under the 'required in ALL' column, with Name a full triple 28K/42K/60K (L3346); reveal 'T2 = 3–4' (§6.6.1 L5963). NOT-GATED side: §4.2.2 L3601 'Name & Honour gates no v1 tier', L3610 '(not gated)', and it derives JUDGE_K[Name][T2]=0.30·TIER_REF_NAME(140K)=42,000 deliberately IGNORING the §4.1 28K band — so under not-gated, the §4.1 Name 28K band is ORPHANED with no consumer. Three of four loci side not-gated by omitting Name from the requirement decomposition (§4.1 prose L3365 'Estate+Office great/excellent, Arms good'; §2.16 L2051; §4.2.2); only §4.1's TABLE asserts Name gates. The '3–4 revealed' is also un-assertable: §6.6.1 L5963 verifier requires the set to 'match §3 reveal schedule' but a size of '3-4' resolves to neither 3 nor 4. Defines the v1 terminal WIN CONDITION and makes the gate verifier un-runnable; gated⇒B1/B8 bite, not-gated⇒phantom required band. Blocking-caliber.",
+        "B14 — Quest progression data-model is triple-specified/disconnected + QuestStatus undefined (VERIFIED, needs-human). Quest (L1769-1771) carries flat unordered advanceEvents[] (element type undeclared) and NO tasks field; QuestTask (L1772) with the marquee open-ended-discovery payload optionalDiscoveryNodes[] is referenced NOWHERE (orphan, so the canon §1.10/§2.12 discovery mechanic has no schema home on the Quest the player accepts); §6.4 L5785 persists {status:QuestStatus; step:number} where 'step' indexes nothing in §2.12 and QuestStatus has NO 'type QuestStatus =' anywhere (grep confirmed; legal values taken/active/offered/abandoned/done/failed unspecified, yet §4.6.8 abandon-dent needs 'abandoned'); §6.5/M6-R5 L6706 call quests 'sequential/event-driven task advancement' but there is no advance_quest intent (only accept_quest, L5696). §5 multi-stage chains (Magobei skim, Kuzuhara river-works) cannot be authored deterministically. Same class as B5/B6 cross-section schema contradictions already treated as blocking. Design call: ordered step-chain (then §1.10 'never A→B→C' softens, Quest gets tasks[] w/ step as cursor) vs order-free advance-event set (then §6.5 'sequential steps' + step:number are wrong)."
+      ],
+      "new_trivial_fixes": [
+        {
+          "where": "§5 T2.1 felt-arc copy L5021 vs §1.4 L204",
+          "fix": "Otsuru/identity prose harmonization (VERIFIED, trivial). §1.4 L204 says 'Identity is explicitly a side thread, NOT the spine's climax' yet the T2.1 felt arc L5021 bills the optional/missable Origin opening as 'the warmest and most costly payoff of the game' with no optionality flag. Reconcile: flag the optionality / temper the superlative at L5021, OR clarify §1.4 that 'side thread' is the structural-mechanical role. D-036/Q5 NOT reopened; the 'instrumentalizing the reunion' prong is a misreading (doc deliberately separates the emotional reunion from a modest ~10-15% accelerant per the no-magic contract L419-423)."
+        },
+        {
+          "where": "§6.8 import pipeline (B9 demoted from blocking)",
+          "fix": "Add a validateLoadedState(state) field-VALUE pass (finite numbers; non-negative resources/vitals; enum membership for season/tier; in-range influence) routing failures to the EXISTING §6.8 reject-to-recovery. The reject-to-recovery PATH already exists, so this is spec-completion not a design pick. ONE one-line human residual: when an INTERNAL bug (not tamper) emits NaN, decide reject-to-recovery vs clamp-and-continue (loses a ~60h save either way)."
+        },
+        {
+          "where": "§6.3 (B10 demoted from blocking)",
+          "fix": "Add one sentence: 'tick() folds dtTicks one tick at a time; each perTick/perDay/perWeek/perSeason plan fires exactly once as its boundary is crossed, in fixed registry order; tick(s,a+b)===tick(tick(s,a),b) is unit-asserted.' Determinism (L5742 replay) + harness-as-sole-pacing-gate FORCE the per-tick fold; not a human choice. Also requires the pendingAppraisalDue schema change below."
+        },
+        {
+          "where": "§2.2 L1221 SeasonalAppraisalState",
+          "fix": "pendingAppraisalDue is a single BOOLEAN flag, cannot represent N-seasons-due; the seasonal judged appraisal is the SOLE Phase-2 deed channel (§6.3 L5728-5734). On any multi-season jump (QA harness toTier/advanceSeason, or a GC-stalled frame) it queues at most 1 appraisal for N crossed seasons → under-fires, polluting the harness 70/30 + pacing gates. Make it a counter `pendingAppraisals:number` (or derive due-count from clock vs lastJudged season) drained in a loop, OR commit the B10 per-tick fold. Assert tick(s,3·SEASON_TICKS) accrues exactly 3."
+        },
+        {
+          "where": "§4.6.3 L4019-4024 vs §4.6.4 L4030-4031",
+          "fix": "Crit/block ordering bug: §4.6.3 floors damage to DAMAGE_FLOOR and calls it 'the canon FLOOR (chip always lands)', but §4.6.4 THEN multiplies by (1−BLOCK_REDUCTION=0.5), so a blocked min-hit deals 0.5×floor — below the floor, falsifying the invariant. Fix: clamp the FINAL post-mitigation damage to DAMAGE_FLOOR, i.e. max(DAMAGE_FLOOR,(raw−def)·critMult·blockMult). HP is number-typed so 1v1 still terminates today, but any future integer-HP rounding re-introduces the stall the floor exists to prevent."
+        },
+        {
+          "where": "§5 §3.4 V5 / T1.4 E2 L2756/L4878",
+          "fix": "'the Kurosawa works' is a 19th-c industrial-English Anglicism (cf. 'the Krupp works') out of place in 1600s rural Asagiri; appears verbatim twice and is offered as a shipped sample event-log line. Replace with a period gloss ('the Kurosawa place', 'the Kurosawa house's hands') and add 'works (as enterprise)' to the §6.6 authenticity prose watch-list (no kanji lint will catch an English idiom)."
+        },
+        {
+          "where": "§7 M0 phase 6 DoD L6548 vs §6.8 L6032",
+          "fix": "§6.8 autosave fires 'on a tick interval' but the M0 build DoD omits the tick-interval clause (only 'meaningful intents + visibilitychange/beforeunload'). The interval trigger is what protects the marquee FU23 unattended auto-resolve loop (mutates via scheduler with NO intent); if implemented literally the least-attended longest session is least-protected. Add the tick-interval trigger to M0 DoD + a smoke assertion that an intent-free tick-only run persists."
+        },
+        {
+          "where": "§2.12 L1770 Quest.gatesSpine",
+          "fix": "gatesSpine has no consumer and no gatesSpine:true authored quest (spine gated solely by rung-meter AND-gate §2.15.1 + §2.16 hybrid profile; tests at L6750/L6809 only assert side-quests DON'T gate). Either document gatesSpine as a v1-invariant that must always be false and have the content verifier assert it, or wire it and define what a gatesSpine:true quest supplies (note: collides with B8 gate-supply)."
+        }
+      ],
+      "new_human_questions": [
+        {
+          "severity": "high",
+          "q": "v1 WIN CONDITION (B13): Does the Name/Honour pillar GATE the v1 T2→T3 ship-gate? §4.1's table says yes (Name 28K good, required in ALL); §4.2.2 says flatly 'Name gates no v1 tier'. Pick one and propagate: if NOT gated, delete Name's row from the §4.1 T2→T3 table, set the revealed count to a definite 3, and stop the verifier checking Name at the gate; if gated, normalize Name's seasonal by its own 28K band (not 140K) and add a costed Name deed inventory tying out to 70% of 28K (resolves B1)."
+        },
+        {
+          "severity": "high",
+          "q": "QUEST MODEL (B14): Are V2 quests an ORDERED step-chain (then §1.10 'never A→B→C' must soften, Quest gains tasks:QuestTask[] with step as cursor) or an ORDER-FREE set of advance-events with discovery hints (then §6.5 'sequential steps' and the step:number cursor are wrong → a count/set)? Where does the open-ended-discovery layer (optionalDiscoveryNodes[]) attach? Define `type QuestStatus` with its full value set, add advance_quest + abandon_quest intents, and add an availableWhen predicate so plain side-quests can self-gate."
+        },
+        {
+          "severity": "high",
+          "q": "CRASH-RECOVERY POLICY (B12): Need an ADR + §6.8/§6.9 sub-section. Where does the crash-counter persist (it CANNOT live in the poisoned GameState — needs a separate key surviving the crash-loop)? How is a rolling last-known-good clean-snapshot ring maintained (§6.8.2 only snapshots on destructive actions today)? Must autosave suppress writing a state that just threw? What is the safe-mode boot UX (calm rollback/export/fresh-start, per the §2.21 'never a save-is-kill wall' posture)? Which boundaries: window.onerror + unhandledrejection AND try-catch around tick + render?"
+        },
+        {
+          "severity": "high",
+          "q": "TERMINAL TRIGGER (B11, reframed): Which point fires the cliff-hanger — the G7 capstone = ENTRY to Phase 2 (per M6 L6871) or the POST-Phase-2 T2→T3 clear (per §4.1 L3343 'v1 end-gate' + §3.7.1 C0 trigger)? They are ~16h apart, so it is undefined whether T2's binding hybrid gate / combos / E3 sink are played before or after 'the story pauses'. If M6 is canonical, the binding T2 Phase-2 gate is structurally post-terminal and never reached in the narrated arc. Also state the post-terminal playable state for v1 (continue-T2-free-play vs frozen end card)."
+        },
+        {
+          "severity": "medium",
+          "q": "ENEMY COMBAT MODEL: §4.6.1 derives the MC's combatant fully but there is NO enemy-stat rule — MobDef.level is solely the on-kill XP scalar and never feeds enemy hp/attackPower/defense/evasion/attackSpeed (hand-authored, no values, no level→power curve). So the LOCKED 20-35% R3 win-rate anchor and the entire §4.6.7 band table have no computable opponent, and the comfortable-ceiling DROP across tiers (85%→75-80%) has no scaling rule to make mobs out-scale the MC. Define a level→{hp,attackPower,defense,evasion,attackSpeed} baseline curve + a verifier tying MobDef.level to a power band."
+        },
+        {
+          "severity": "medium",
+          "q": "CHARACTER-LEVEL CONVENTION: §4.6.5 says level is 'derived from cumulative combat-XP' yet §6.4 L5841 STORES both level and combatXp; combatXpForLevel(1)=60 means level 1 'costs' 60 XP while M0 hardcodes level=1 at 0 XP. Under a pure derive reading a fresh 0-XP MC computes to level 0 (hpMax 40 not 48), contradicting the level-1 floor on the first recompute after a kill. Pin: is level 1 the free starting level (first level-up at combatXpForLevel(1)→level 2)? Is `level` stored-and-incremented or recomputed-and-clamped(≥1)? Mirror the labour xpForLevel curve."
+        }
+      ],
+      "refutations": [
+        "B5 (combo Model-A vs Model-B) — KEEP. VERIFIED real contradiction; no resolving text. §6.6.1 L5958 literally reads '(combos computed post-clamp, landing on Name, excluded from gate checks)' = Model-B single-Name rebate. But canon §4.3.1 L3758 emits the combo 'into BOTH pillars of the pair', L3760 'broader than the old single Name-only rebate', proposed pairs Arms×Office/Estate×Office/Estate×Name/Arms×Name (L3773 — most never touch Name), and rule 1 L3763 requires 'a combo's Estate component is added to the already-clamped Estate total' (impossible if combos only land on Name). The §6.6.1 verifier as written proves the wrong property and cannot test an Arms×Office combo. Fix: rewrite the §6.6.1 bullet to drop 'landing on Name' and state both-pillars with the Estate component added post-trade-clamp.",
+        "B6 (day-keyed world schema) — KEEP. VERIFIED. §2.2 L1212 'only the day index and tick persist' (season/lunar/weather derived) vs §6.4 L5763 GameState stores `clock:{tick,day,season,year}` in the explicitly 'non-derivable' surface — season/year are derivable from day, so they don't belong there (divergence risk if a season-length constant changes). Stronger half stands: §2.2 L1214 derives lunar via `deriveDayKeyed(seed,'lunar',day)` — a per-day RNG HASH producing uncorrelated consecutive values, so the moon teleports daily instead of cycling ~29.5d (a hash-of-day cannot model a monotonic cycle). Fix: store only {tick,day}; derive lunar as floor(((day mod LUNAR_PERIOD)/LUNAR_PERIOD)·8), reserve the day-keyed hash for the genuinely-stochastic weather channel.",
+        "B7 (multi-tab concurrent save clobber) — KEEP. VERIFIED. Grep across prd.md/qa-playtesting.md/decisions.md for web-lock/navigator.locks/BroadcastChannel/leader-elect/single-instance/multi-tab/concurrent/storage-event/writerId = ZERO hits. Save model is redundant write to IndexedDB+localStorage+sessionStorage with newest-wins by scalar saveCounter (+savedAt tiebreaker). saveCounter is per-tab in-memory: two tabs loading at counter N both write N+1 with DIVERGENT state; a scalar (no vector clock / session-id / CAS) cannot detect divergence → newest-wins silently discards one tab's progress. §6.8.2 pre-overwrite snapshot only fires on destructive intents, not routine autosave. Edge-frequency for an active-only game but a genuine silent-data-loss path with zero mitigating text. Fix: navigator.locks single-writer lease or per-session writerId foreign-write detection.",
+        "B8 (no supra-good supply) — KEEP. VERIFIED; cited text confirms. The two costed/itemized ip sources sum to EXACTLY the good band: deeds=70% (§4.2.1 / §4.1 L3354) + seasonal=30% (§4.2.2). Seasonal is structurally clamped — f_pillar=sqrt(clamp(rawBasis/TIER_REF,0,1))≤1.0 and JUDGE_K=0.30·goodBand — so seasonal can NEVER exceed 30% of good. The gate REQUIRES great(≈1.4×) and excellent(≈1.9×) (§4.1 table). §4.1 L3355-3358 routes great/excellent to 'the Phase-2 window's ADDITIONAL recognised deeds' (un-itemized, open-ended, no respawn/renewability spec; debt-tranches/offices/first-shinden are inherently finite). Yet §6.6.1 asserts 'the gate band is achievable from the tier's available deeds' — which the §4.2.1 tie-out only establishes for GOOD. The verifier checks a vacuous good-only property or is unsatisfiable. Fix: itemize a renewable supra-good deed supply tying out to a stated count and amend the §6.6.1 invariant to assert great/excellent achievability; OR redefine excellent as a count-of-specialised-deeds milestone.",
+        "B9 (no load-time field-VALUE validation) — KEEP, DEMOTED to trivial-fix. Core claim REPRODUCES: every load/import gate is structural-only (§6.8 L6060 'corrupt/unreadable/foreign-id'; §6.8.2 defaults fire only for MISSING fields; §6.4 'recompute derivable on read' protects ONLY derived fields). A tampered/bit-rotted non-derivable stored value (koku=-5, satiety=NaN, influence=1e308, tier:9) loads 'valid' and NaN/Inf propagates. Grep = ZERO finiteness/range/enum/non-negative checks on load. CALIBRATION: B9's cited Q44 contradiction is loose (Q44 is atomic-write/no-silent-LOSS, says nothing about value validation; the real violated intent is the no-silent-soft-lock posture). DEMOTE rationale: the reject-to-recovery PATH already exists, so the residual is spec-completion (add a validateLoadedState field-value pass routing to existing recovery), not a design pick — see trivial fixes. ONE one-line human residual on internal-bug-NaN reject-vs-clamp.",
+        "B10 (tick(dtTicks>1) fold unspecified) — KEEP, DEMOTED to trivial-fix. VERIFIED no fold spec exists: §6.3 L5719 only says tick 'advances the clock by dtTicks and runs the scheduler'; grep finds no 'iterate / one tick at a time / once per season / each crossed'. So the gap is REAL. DEMOTE rationale: active-only with NO catch-up (§6.8 L6067) + fractional-remainder app loop means real play hands dtTicks≈0-1 — the ONLY source of dtTicks>>1 is the QA harness time-compression; and the determinism guarantee (L5742 replay) + harness-as-sole-pacing-instrument REQUIRE the jump path to equal per-tick play, which FORCES the per-tick fold (each plan fires once per crossed boundary, fixed order). Obvious correct behavior, not a human choice — one §6.3 sentence + the pendingAppraisalDue counter change (separate finding).",
+        "B11 (v1 terminal state undefined) — KEEP, REFRAMED. Partial refutation: B11 UNDERSTATED what is specified — the terminal beat IS authored (§3.7.1 first-contact screen 'the page turns onto stone walls, the story pauses'; M6 L6871 commits 'renders the cliff-hanger then STOPS cleanly, no half-built T3 reachable — asserted'). The render + stop-state EXIST. But the hole STANDS and sharpens into a VERIFIED 3-way TIMING contradiction: the same beat is placed at (a) the G7 capstone = ENTRY to Phase 2 (M6 phase-6 L6871) AND (b) the POST-Phase-2 T2→T3 clear (§4.1 L3343 'v1 end-gate'; §3.7.1 C0 trigger). (a) and (b) are ~16h apart, so it is undefined whether T2's binding hybrid gate / combos / E3 sink play before or after 'the story pauses'. If M6 is canonical, the binding T2 Phase-2 gate is structurally post-terminal and never reached in the narrated arc. Post-terminal playable state (free-play vs frozen) is thin (§1.13 L878 free-play is authored for the T4 ending, not asserted for v1). KEEP as human-ADR (entangled with Q2 budget + Q3 Phase-2-content).",
+        "POSITIVE refutation — 'multi-route' (peaceful/assertive) is mechanically PERSISTED, not cosmetic. Speculative gap REFUTED: route choices persist as story flags (lock dialogue lines, gate quests) + a continuous allegiance scalar (§6.4 L5790-5791; §2.15 L1942). Branching is DATA, deterministic, save-light by design. Honest caveat is design-scope not correctness: allegiance is 'rates+flavour only' so routes diverge in texture/pacing not terminal numeric state (consistent with L879 'branches are in HOW you got there') — a deliberate stance already covered by Q5/Q10, not a new defect.",
+        "POSITIVE refutation — browser-support / feature-detection gap is MOSTLY covered. Speculative gap mostly REFUTED: §7 M7 smokes both Chromium AND WebKit (L6910); §6.8 writes to all AVAILABLE backends (degrades when one is absent) and surfaces a private-mode/quota 'export a backup' banner; app is offline-after-first-load. The only genuine residual is the missing single-writer election = already logged as B7, plus an unstated explicit minimum-browser floor (low-value, folded into the round-4 save-failure-policy question)."
+      ],
+      "new_strengths": [
+        "The 1v1 auto-resolve combat CORE is internally consistent and buildable as one deterministic engine (§4.6.1-§4.6.4): hitChance clamped [0.15,0.95], damage = attackPower·seeded±15% − defense with a floor, crit/block as separate seeded rolls, per-weapon sub-tick cadence accumulator, every draw off the one seeded combat cursor with integer-pow only. Absent the block-ordering nit (logged), a 1v1 fight provably terminates and replays byte-identically. Unbuildable surface is confined to layers already logged (multi-target/reach/targetCount, ability+item intervention slots, status/initiative, enemy-stat model) — the duel resolver itself is solid.",
+        "Reveals and Origin/identity beats are cleanly expressible via the universal RewardBundle bus (§2.1(c) L1178-1180 + §2.12 dialogue rewards). The reveal cadence (panelsRevealed/locationsRevealed/dialoguesUnlocked/recipesUnlocked/questsStarted/flagsSet) and the no-stat-gift identity beats all ride one bus through TextLine.rewards; the Origin track has dedicated structural support (OriginLadder with prideBuff/allies/tradeTies/nameReclaimAtO5, §2.15(c)). Refutes the worry that §5's reveals/Origin content outrun the schema — the gaps are confined to the QUEST lifecycle and the choice/lock persistence model, NOT the reveal/Origin authoring surface."
+      ],
+      "summary": "ROUND 5 VERDICT: NOT-DRY — but strongly converging, with the yield now confined to ONE quadrant. I verified every load-bearing citation against prd.md (greps: ZERO error-boundary primitives, ZERO concurrency primitives, QuestStatus referenced once-never-defined; reads: §4.1 table vs §4.2.2 Name-gate split, §4.3.1 'both pillars' + rule-1 Estate-component vs §6.6.1 'landing on Name', §4.1 L3354 70/30 + §4.2.2 0.30 clamp, orphan QuestTask L1772 + accept_quest-only L5696, §6.8 structural-only recovery, §2.2 vs §6.4 clock, M6 L6871 vs §4.1 L3343 terminal trigger). REFUTATIONS: B5/B6/B7/B8 KEEP (all confirmed, no resolving text); B9 KEEP→DEMOTE to trivial-fix (reject-to-recovery path exists; residual is a validateLoadedState spec-completion + one human reject-vs-clamp line); B10 KEEP→DEMOTE to trivial-fix (per-tick fold is determinism-forced, one §6.3 sentence); B11 KEEP→REFRAMED (render+stop EXIST, but a verified 3-way timing contradiction places the cliff-hanger at both G7-entry and the post-Phase-2 T2→T3 clear, ~16h apart). Two speculative gaps REFUTED positively (multi-route IS persisted; browser-support mostly covered). I DISAGREE with the meta-judgment's 'zero new blocking': R5 surfaced THREE blocking-caliber new items — B12 (no global error boundary → permanent soft-lock of a 60h save, independently absent), B13 (does Name gate the v1 ship-gate? — defines the v1 win condition and makes the §6.6.1 verifier un-runnable), B14 (quest data-model triple-spec + undefined QuestStatus → §5 multi-step quests un-authorable). Plus ~17 medium/low new defects (enemy combat-power model undefined, crit/block ordering falsifies the damage floor, character-level derived-vs-stored, dead player-block, abandon_quest missing, Choice cannot carry RewardBundle, locksLineIds not persisted, content-id-orphan-on-load, pendingAppraisalDue flag-not-counter, Kurosawa+Kanbei Seven-Samurai collision, Kuzuhara rigged-box motif contradiction) and 2 strengths. The spine lenses (balance-math / determinism / narrative / buildability / a11y / economy) are now provably dry; the live corner is client-side OPERATIONAL RESILIENCE + version-evolution (the B3/B6/B7/B9/B10 save-integrity sibling). RECOMMEND: one more tightly-scoped runtime-failure/version-evolution round (crash recovery, content-id migration, autosave cadence under unattended play, 3-backend write-amplification cost over 60h, mid-fight resume integrity); do NOT re-run the spine lenses. Loop has NOT met the two-consecutive-DRY stop."
+    },
+    "confirmed": [
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "Is Name a required gate pillar at the v1 T2→T3 ship-gate? §4.1 table says yes (good=28K), §4.2.2 says 'gates no v1 tier'",
+        "where": "§4.1 lines 3343 & 3346 (table) vs §4.1 line 3365 (prose) vs §4.2.2 lines 3601 & 3610",
+        "detail": "Genuinely new (adjacent to but distinct from B1's 'Name over-posts'): the PRD never settles whether the v1 SHIP gate requires Name. §4.1's gate-band table lists the 'T2 → T3 (v1 end-gate)' row as 'Arms + Estate + Office + Name → 3–4; good in ALL' and gives Name a good band of 28K (lines 3343, 3346) — i.e. Name is a required-good pillar at the terminal v1 gate. But §4.2.2 states flatly '**Name & Honour** gates no v1 tier' (line 3601) and the JUDGE_K table marks Name '(not gated)' (line 3610). §4.1's own PROSE (line 3365) describes the T2 profile as 'Estate + Office great/excellent, Arms good' and conspicuously omits any Name requirement — siding with §4.2.2, against §4.1's table. The fuzzy '3–4 revealed' / 'Name surfacing' language (§4.1 3323/3365, §2.16 2051, §6.6.1 5963) makes the verifier's 'revealed set T2 = 3–4 must match §3' check non-deterministic (3 or 4?). This is load-bearing: if Name IS gated, B1 bites (Name seasonal at T2 = 0.30·140K = 42K already exceeds the 28K good band, with no itemized/costed Name deed tie-out); if Name is NOT gated, §4.1's table wrongly lists a 28K required band and the verifier should never check Name at the v1 gate.",
+        "fix": "Pick one and propagate: if Name is NOT a v1 gate pillar (per §4.2.2), remove Name's good/great/excellent row from §4.1's T2→T3 table and fix the revealed-count to a definite 3 (Name accrues but is un-gated in v1); if Name IS gated, change §4.2.2 to normalize Name's seasonal by its own 28K good band (JUDGE_K[Name][T2] = 0.30·28K = 8.4K) and add a costed Name deed inventory that ties out to 70% of 28K. Make '3–4' a single number so the §6.6.1 reveal-count check is deterministic.",
+        "isNew": true,
+        "lens": "refute-B5-B8",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "CONFIRMED REAL and genuinely NEW (distinct from B1). The PRD never settles whether Name gates the v1 T2→T3 ship-gate. GATED side: §4.1 table row header (L3343) lists `Arms + Estate + Office + Name → 3–4; good in ALL`, and Name gets a full required triple 28K/42K/60K (L3346) sitting under a column literally titled `good (baseline — required in ALL)` (L3336); combined with the reveal schedule `T2 = 3–4 (+ Name)` (L3323) and the core rule `good in ALL revealed pillars` (L3313–3320), the \"4\" branch makes Name required-good. NOT-GATED side: §4.2.2 states flatly `Name & Honour gates no v1 tier` (L3601) and `(not gated)` (L3610), and is internally consistent in it — it derives Name's seasonal coefficient from TIER_REF_NAME=140K (giving JUDGE_K=0.30·140K=42,000, L3583/3601-3603/3610), deliberately IGNORING the §4.1 28K good band (which would yield 8,400). So the §4.1 Name 28K band is orphaned with no consumer under the not-gated reading. Three of four loci side with not-gated by omitting Name from the requirement decomposition: §4.1 prose (L3365 `Estate + Office great/excellent, Arms good`), §2.16 (L2051 `Name surfacing → 3–4`, same omission), §4.2.2; only the §4.1 TABLE asserts Name gates. NEW angle confirmed: the §6.6 verifier (L5963) requires `T2 = 3–4 ... must match §3 reveal schedule` — a set size of \"3–4\" is un-assertable; it must resolve to 3 or 4, which is the unresolved bit, and if Name is revealed-but-ungated it violates §4.1's own breadth-floor invariant (`good in ALL revealed`). Distinct from B1: B1 presupposes Name is gated and finds the 42K-seasonal > 28K-band supply mismatch; this is the prior question of whether Name gates at all. Linked exactly as the claim states: gated ⇒ B1/B8 bite; not-gated ⇒ §4.1 table carries a phantom required band the verifier must never check. NEEDS-HUMAN: this defines the v1 terminal win condition (does winning the region require a Name/Honour score, or is Name purely the narrative mystery-payoff carved out of the breadth floor like combos?), touches the core gate invariant and v1 acceptance criteria — a design call, not a label typo. Loci: prd.md L3336,3343,3346,3313-3323,3365,3601-3603,3610,2051,5963."
+      },
+      {
+        "kind": "risk",
+        "severity": "high",
+        "title": "The guaranteed spine payoff answers Otsuru's identity, not the MC's — T2's \"warmest, most costly payoff of the game\" lives entirely in optional/missable Origin content",
+        "where": "§5 T2.1 felt arc (\"the MC's own past finally opens (the warmest and most costly payoff of the game)\", ~L5021); T2.2 beat 7 + the Q5 binding note (~L5060-5085); contrast §1.5.4/§2.15 Origin = ~10-15% accelerant",
+        "detail": "The G6 spine-guaranteed climax delivers \"Tama was a girl who ran; the MC is NOT her.\" For a player who skips the optional Origin track, that is the *only* identity answer they ever get — it tells the amnesiac protagonist who he ISN'T and frees a stranger (Otsuru), but never answers the question the cold open planted (\"who am I?\"). The actual positive answer (he is Tahei; the living family) is gated behind the missable O0→O5 side-track. So T2's felt-arc copy promises \"the MC's own past finally opens — the warmest payoff of the game\" while the guaranteed path delivers a *negative* identity reveal with no self-resolution. Worse, even for players who DO walk Origin, that emotional climax is framed mechanically as a \"morale / skill-XP buff + trade-ties worth ~10-15% off time-to-next-tier\" — instrumentalizing the reunion as a grind accelerator. Both symptoms share one root: T2's emotional core is structurally subordinated to the optional-accelerant model, leaving the guaranteed experience thinner than the prose advertises. This is distinct from the logged co-location and logged missable-name-*reward* items — it is about the spine payoff being emotionally hollow.",
+        "fix": "Either (a) author a guaranteed *positive* spine resolution of the MC's own identity (even a small grounded \"he chooses a name / accepts where he belongs\" beat that fires for skip-Origin players), or (b) rewrite T2.1's felt-arc copy to stop promising the optional payoff as the tier's emotional center — describe the guaranteed arc honestly (\"he learns who he is not, and frees the one the village mourned\"). Pick one; today the copy and the guaranteed content disagree.",
+        "isNew": true,
+        "lens": "narrative-full",
+        "real": true,
+        "disposition": "trivial-fix",
+        "verdict": "PARTIALLY REAL — confirmed at its narrow core, overstated elsewhere; trivially fixable as a prose harmonization. All factual premises are reproducible from the doc: the cold open literally plants the identity question (L2598 \"You do not know your name\"); the G6 spine payoff is the NEGATIVE Tama reveal that frees a stranger, Otsuru (\"she is real, and grown, and not you\", L2928/L5060-5064); the POSITIVE answer (he is Tahei; living family; name-reclaim) is gated behind the optional, MISSABLE Origin O0→O5 track (§1.4 L199-203, §1.5.3 L404-407, D-036); and the felt arc L5021 bills the optional \"MC's own past finally opens\" as \"the warmest and most costly payoff of the game\". The genuinely NEW, defensible issue (distinct from the logged co-location and missable-name-reward items) is a doc-internal FRAMING inconsistency: §1.4 L204 states \"Identity is explicitly a side thread, not the spine's climax\", yet the §5 T2.1 felt arc L5021 elevates that same optional/missable identity opening to \"the warmest and most costly payoff of the game\" with no optionality flag — so the prose over-describes the guaranteed-only experience and a \"warmest/most-costly-of-the-game\" payoff reads like the climax §1.4 says it is not. HOWEVER the claim overstates: (1) the \"emotional core subordinated / hollow guaranteed spine\" is the DELIBERATE, internally-consistent, locked decision D-036/Q5 (identity = optional side thread, Tama/Otsuru truth = spine climax) — a design value the claim disagrees with, not a defect; the human made it with explicit, repeated awareness. (2) The \"instrumentalizing the reunion as a grind accelerator\" prong is a misreading — the doc deliberately SEPARATES the emotional reunion from a modest ~10-15% mechanical accelerant, explicitly framed as \"a new present-day relationship, NOT a retroactive gift from remembering\" per the Q12 no-magic contract (L419-423). FIX: reconcile the felt-arc line with the locked intent — flag the optionality / temper the superlative at L5021, or clarify §1.4 that \"side thread\" is the structural/mechanical role while it may remain the emotional warmest payoff for those who walk Origin. Pure editorial harmonization; D-036 is not reopened. Not blocking; not a mechanical/save/determinism concern."
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "Multi-step quest model is triple-specified and disconnected; the canon open-ended-discovery mechanic has no home on Quest",
+        "where": "§2.12(c) L1769-1772 (Quest + orphan QuestTask) vs §6.4 L5785 (quests: Record<QuestId,{status,step}>) vs §6.5 L5880 (content/quests.ts 'sequential steps')",
+        "detail": "The Quest object (L1769-1770) carries a FLAT `advanceEvents[]` (an unordered event SET) and no step/task list. A separate `QuestTask { advancedBy, optionalDiscoveryNodes[] }` (L1772) is defined but NEVER referenced by Quest (Quest has no `tasks: QuestTask[]`). Yet §6.4 persists `{ status: QuestStatus; step: number }` where `step` is a cursor that indexes nothing in §2.12 (advanceEvents is a set, QuestTask is orphan), and §6.5 calls quests 'sequential steps.' So a quest is simultaneously a set of any-order events (advanceEvents), an ordered step cursor (step:number), and a sequence of tasks (QuestTask) — three models that don't compose. Worse, the canon quest-design philosophy ('a suggestion + a story you find in the world,' open-ended discovery, §1.10/§2.12) lives ONLY on `optionalDiscoveryNodes[]`, which sits on the ORPHAN QuestTask — so the marquee mechanic has no schema home on the Quest the player actually accepts. Compounding: `QuestStatus` is referenced at L5785 but never defined anywhere (no `type QuestStatus =`), so its legal values (taken/active/done/abandoned/failed?) are unspecified. A multi-step §5 quest (e.g. the Magobei skim's measures-short→twice→the rigged masu→up to Yagōemon chain, or the Kuzuhara multi-stage river-works) cannot be authored deterministically against this.",
+        "fix": "Pick ONE model: make `Quest.tasks: QuestTask[]` the ordered backbone (then `step` indexes tasks and `advanceEvents` is removed, or each task's `advancedBy` is the per-step event), OR keep advanceEvents as a set and drop `step` for a `completedEvents: Set`. Move `optionalDiscoveryNodes[]` onto Quest (or onto the task that is the player's current aim). Define `type QuestStatus` explicitly with its full value set.",
+        "isNew": true,
+        "lens": "quest-dialogue",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "REAL and NEW (not in rounds 1-4 ledger; only prior \"quest\" mentions are nav-reveal ordering). The quest progression data-model is under-specified and self-contradictory across three sections, all reproducible from doc text:\n\n(1) ORPHAN QuestTask. `QuestTask { advancedBy, optionalDiscoveryNodes[] }` appears ONLY at L1772 and is referenced nowhere. The Quest object (L1769-1771 = {id, type, suggestionText, openEnded, advanceEvents[], rewards, gatesSpine}) has no `tasks: QuestTask[]` field, and the element type of `advanceEvents[]` is undeclared. So QuestTask is the obvious-but-unwired candidate for advanceEvents' element type, but the doc never connects them.\n\n(2) HOMELESS MARQUEE MECHANIC. The canon open-ended-discovery payload (`optionalDiscoveryNodes[]`, §1.10/§2.12 \"a suggestion + a story you find, never A→B→C\") lives ONLY on the orphan QuestTask — so it has no schema home on the Quest the player actually accepts. CONFIRMED.\n\n(3) UNDEFINED QuestStatus. §6.4 L5785 persists `quests: Record<QuestId,{status: QuestStatus; step: number}>`, but QuestStatus appears only there — no `type QuestStatus =` anywhere (a grep for any `type *Status` union returns zero). Legal values (taken/active/done/abandoned/failed) are unspecified, yet §4.6.8 (\"abandoned DEFEND-deed → recoverable Arms dent\") implies at least `abandoned` is load-bearing. CONFIRMED.\n\n(4) NO ADVANCE MECHANISM. Intent surface (L5696) has only `accept_quest`; there is no `advance_quest` intent and nothing documents what increments `step` or how `advanceEvents` fire.\n\nCALIBRATION: The claim's \"triple-specified, three models that don't compose\" is somewhat OVERSTATED — under a charitable ordered-advanceEvents reading, advanceEvents + step:number + §6.5 \"sequential steps\" reconcile (step = cursor into ordered advanceEvents). But the irreducible residue is genuine: undeclared advanceEvents element type, orphan QuestTask, homeless discovery mechanic, undefined QuestStatus. And it surfaces a deeper NEW canon tension the claim only gestures at: §6.5 \"sequential steps\" + the §5 L850 Magobei chain (explicitly ordered: \"measuring short twice → the doctored masu → up to Yagōemon\") pull toward an ordered waypoint backbone, while §2.12/§1.10 canon insists quests are \"open-ended, NON-waypoint, never an A→B→C list.\" §5 multi-stage chains (Magobei L850, Kuzuhara river-works L662) confirm such quests must be authorable — so \"cannot be authored deterministically against this\" holds.\n\nDISPOSITION = needs-human. Defining QuestStatus is a trivial sub-fix, but the dominant unresolved question is a design call: are V2 quests an ordered step-chain (then §1.10 \"never A→B→C\" must soften, and Quest gets `tasks: QuestTask[]` with step as cursor) or an order-free set of advance-events with discovery hints (then §6.5 \"sequential steps\" and the `step:number` cursor are wrong and should be a count/set)? That choice — plus where the open-ended-discovery layer attaches — sets canon and only then makes the schema fix mechanical. Same class as the B5/B6 cross-section schema contradictions already treated as blocking."
+      },
+      {
+        "kind": "defect",
+        "severity": "high",
+        "title": "No global error boundary / crash-recovery / safe-mode — an uncaught throw bricks a 60h unattended tab with no recovery path",
+        "where": "docs/prd.md §6.3 L5714 (only error contract: reduce 'never a throw'), §7 M0 phase 6 L6548 (app loop), §6.9 (renderer), §6.8 L6060 (recovery is structural-only); grep across prd.md/qa-playtesting.md/ui-design.md returns ZERO window.onerror / addEventListener('error') / unhandledrejection / error-boundary / try-catch around tick or render",
+        "detail": "The entire failure story is two narrow contracts: an illegal INTENT is a no-op ('never a throw', L5714) and a STRUCTURALLY corrupt/unreadable/foreign-id save routes to recovery (§6.8 L6060). Nothing wraps the actual runtime. An uncaught exception in the tick scheduler, a selector, or the render(state,prevState) reconciler — very plausible over a ~60h unattended session, and made MORE likely by B9 (NaN/range-poisoned fields propagate into derived selectors) and B10 (under-specified multi-tick boundary firing) — has no catch, so the tab white-screens. Worse, because state is autosaved continuously, the poisoned state is the elected save on the next load, so a crash-on-render/crash-on-tick reproduces every refresh: a PERMANENT soft-lock whose only escape is the player destroying their own save. §6.8's recovery never fires for this class because the bytes are structurally valid — it only catches decode/parse/magic-id failures, not throw-on-evaluate. This is the operational sibling of B9/B10 (data validity / tick semantics) but is independently absent: there is no error boundary, no crash counter, no 'failed to render N times → fall back to the §6.8.2 pre-overwrite snapshot / boot a minimal safe-mode' path.",
+        "fix": "Add to §6.9/§7-M0: wrap the tick loop and the render reconciler in a top-level try/catch + a window.onerror/unhandledrejection handler that (a) freezes the loop, (b) shows a diegetic 'the brush slipped' recovery panel offering Export-backup / Reload-from-last-snapshot, and (c) on N consecutive boot-crashes auto-falls back to the §6.8.2 pre-overwrite snapshot or a safe-mode that loads only the non-derivable core and rebuilds the UI. Make 'survives a thrown exception without losing the save' an M0/M7 smoke assertion alongside the multi-backend persistence checks.",
+        "isNew": true,
+        "lens": "completeness-critic",
+        "real": true,
+        "disposition": "needs-human",
+        "verdict": "CONFIRMED — genuinely new, independently absent. The PRD specifies NO global runtime error boundary / crash-recovery / safe-mode. The entire failure story is two narrow contracts, and neither wraps the runtime: (1) §6.3 L5714 \"an illegal intent is a no-op... never a throw\" is scoped to reduce() rejecting illegal INPUT, NOT a guarantee that tick/selectors/render can't throw on poisoned state or a latent logic bug; (2) §6.8 L6060 / §6.8.1 recovery is explicitly structural-only — it rejects \"corrupt/unreadable/foreign-id\" (decode/parse/magic-id/forward-version) and never catches a structurally-valid blob that throws on EVALUATE. §6.9 (L6129-6176) describes render(state, prevState) reconciliation with no try-catch, no fallback render, no crash counter. Grep across prd.md/qa-playtesting.md/ui-design.md/fun-factor.md returns ZERO window.onerror / addEventListener('error') / unhandledrejection / error-boundary / safe-mode / try-catch; every \"crash\"=market, \"brick\"=pacing, \"recover/recovery/guard\"=gameplay dents or the structural save guard.\\n\\nThe permanent-soft-lock mechanism is reproducible from the text: autosave fires continuously (debounced + tick-interval + visibilitychange/beforeunload, §6.8/§6.8.1), so a poisoned-but-structurally-valid state is written; on reload the newest-wins selector elects the newest READABLE blob = the poisoned one; §6.8 recovery never fires (bytes are valid); §6.8.2 pre-overwrite snapshot is taken only before destructive actions (import-over/fresh-start), never on autosave — so there is no automatic rollback. A throw in the rAF tick loop or render reconciler over a ~60h unattended session (made more plausible by B9 NaN/range poisoning and B10 under-specified multi-tick boundary) white-screens the tab and crash-loops every refresh; the only escape is the player destroying their own save.\\n\\nIndependence: distinct from B9 (load-time value validation) and B10 (tick semantics). Even with both fixed, any residual bug (selector null-deref, reconciler undefined-access, a future combat-ability logic bug) still white-screens with no recovery. This is the operational defense-in-depth sibling — independently missing.\\n\\nDisposition: needs-human, not a trivial PRD edit. A correct spec requires real policy choices that should be an ADR + a new §6.8/§6.9 sub-section: (a) where the crash-counter persists — it CANNOT live in the poisoned GameState; it needs a separate persistent key that survives the crash-loop; (b) what counts as \"last-known-good\" and how a rolling clean-snapshot ring is maintained (the §6.8.2 snapshot only fires on destructive actions today); (c) the autosave-poison interaction — must suppress autosaving a state that just threw, or keep a last-clean backup; (d) the safe-mode boot UX (calm rollback/export/fresh-start screen, consistent with the §2.21 \"never a save-is-kill wall\" posture); (e) which boundaries to install (window.onerror + unhandledrejection AND try-catch around tick + render). Severity is comparable to B9/B10. Recommend logging as a new BLOCKING item (e.g. B12) and an open ADR on crash-recovery policy. Relevant text: /Users/raynos/projects/games/kami-kakushi/docs/prd.md §6.3 (L5714), §6.8 (L6060) / §6.8.1 (L6089-6098) / §6.8.2 snapshot scope (L6063-6066), §6.9 (L6129-6176), §7 M0 phase 6 (L6548)."
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Review"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "Synthesize"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "refute-B5-B8",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a79961b1537bc2f99",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500981369,
+      "queuedAt": 1782500981362,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Devil's-advocate refutation of blockers B5–B8 + new gate-sc…",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501347165,
+      "tokens": 78003,
+      "toolCalls": 14,
+      "durationMs": 365796,
+      "resultPreview": "{\"lens\":\"Devil's-advocate refutation of blockers B5–B8 + new gate-scope contradiction (Round 5)\",\"findings\":[{\"kind\":\"refutation\",\"severity\":\"high\",\"title\":\"B5 (combo model A vs B) — KEEP: §6.6.1 verifier still says combos land 'on Name'\",\"where\":\"§6.6.1 line 5958 vs §4.3.1 lines 3758/3760 + §2.16 line 2055\",\"detail\":\"Tried hard to refute; no resolving text exists. §6.6.1's 'Trade-≤⅓-holds-post-co…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "refute-B9-B11",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a6db0aa8454f18a2b",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500981369,
+      "queuedAt": 1782500981362,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "refute-pass on B9/B10/B11 (devil's advocate; round 5)",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501329640,
+      "tokens": 95113,
+      "toolCalls": 16,
+      "durationMs": 348271,
+      "resultPreview": "{\"lens\":\"refute-pass on B9/B10/B11 (devil's advocate; round 5)\",\"findings\":[{\"kind\":\"refutation\",\"severity\":\"medium\",\"title\":\"B9 (no load-time field-VALUE validation) — KEEP, but DOWNGRADE to trivial-fix\",\"where\":\"§6.8 L6044/L6060-6062, §6.8.1 L6087-6098, §6.8.2 L6109-6125, §6.4 L5750-5754; cf. Q44 (feedback L426)\",\"detail\":\"I tried to refute B9 and the core claim REPRODUCES: every load/import gat…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "narrative-full",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "ae38d48d2b112cf45",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500981370,
+      "queuedAt": 1782500981362,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "§5 act-by-act narrative deep read (T0→T2): plot logic, char…",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501379413,
+      "tokens": 76496,
+      "toolCalls": 5,
+      "durationMs": 398042,
+      "resultPreview": "{\"lens\":\"§5 act-by-act narrative deep read (T0→T2): plot logic, character arcs, reveal mechanics, tonal/Edo-authenticity at the prose level\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"Peddler Sokichi is a living witness who knows the real Tama ran and where she is — collapsing the central T1–T2 \\\"is the MC Tama?\\\" mystery before it starts\",\"where\":\"§5 T1.5 (\\\"Peddler Sokichi … helped …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "combat-engine",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a1c8de342ee714bca",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500981370,
+      "queuedAt": 1782500981362,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Combat engine mechanics deep (§4.6 auto-resolve math + §2.8)",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501374984,
+      "tokens": 76411,
+      "toolCalls": 11,
+      "durationMs": 393614,
+      "resultPreview": "{\"lens\":\"Combat engine mechanics deep (§4.6 auto-resolve math + §2.8)\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"Satiety throttle floor (~0.375x effective DPS) mathematically contradicts the canon 'never below ~15% win-rate' bound\",\"where\":\"§4.6.1b L3974-3984 (satietyRate / satietyRateSpeed); claim L3982-3984; baseline §4.6.6 L4073-4075\",\"detail\":\"At the floor, satietyRate clamps to …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "quest-dialogue",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a3ac6f387ba85626c",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500981370,
+      "queuedAt": 1782500981362,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Quest + dialogue authoring depth (§2.12 quests, §2.18 dialo…",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501303086,
+      "tokens": 117623,
+      "toolCalls": 19,
+      "durationMs": 321716,
+      "resultPreview": "{\"lens\":\"Quest + dialogue authoring depth (§2.12 quests, §2.18 dialogue/banzuke, §5 content) — can the schema express the authored content?\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"Multi-step quest model is triple-specified and disconnected; the canon open-ended-discovery mechanic has no home on Quest\",\"where\":\"§2.12(c) L1769-1772 (Quest + orphan QuestTask) vs §6.4 L5785 (quests: R…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "completeness-critic",
+      "phaseIndex": 1,
+      "phaseTitle": "Review",
+      "agentId": "a0df75053bb86be17",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782500981370,
+      "queuedAt": 1782500981363,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "completeness-critic — operational-resilience / runtime-fail…",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501382392,
+      "tokens": 83652,
+      "toolCalls": 11,
+      "durationMs": 401022,
+      "resultPreview": "{\"lens\":\"completeness-critic — operational-resilience / runtime-failure & version-evolution (round-5 dryness judgment)\",\"findings\":[{\"kind\":\"defect\",\"severity\":\"high\",\"title\":\"No global error boundary / crash-recovery / safe-mode — an uncaught throw bricks a 60h unattended tab with no recovery path\",\"where\":\"docs/prd.md §6.3 L5714 (only error contract: reduce 'never a throw'), §7 M0 phase 6 L6548 …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "verify:Is Name a required gate pi",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a8c27d9393a00a907",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501382410,
+      "queuedAt": 1782501382401,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501516067,
+      "tokens": 33529,
+      "toolCalls": 5,
+      "durationMs": 133657,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"CONFIRMED REAL and genuinely NEW (distinct from B1). The PRD never settles whether Name gates the v1 T2→T3 ship-gate. GATED side: §4.1 table row header (L3343) lists `Arms + Estate + Office + Name → 3–4; good in ALL`, and Name gets a full required triple 28K/42K/60K (L3346) sitting under a column literally titled `good (baseline — required in ALL…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "verify:Peddler Sokichi is a livin",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a1991e3a107844c77",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501382411,
+      "queuedAt": 1782501382401,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "not-real",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501572377,
+      "tokens": 47371,
+      "toolCalls": 7,
+      "durationMs": 189966,
+      "resultPreview": "{\"real\":false,\"disposition\":\"not-real\",\"verdict\":\"REFUTED. The claim's load-bearing assertions are not reproducible from the PRD text; several are directly contradicted by binding canon.\\n\\n(1) \\\"Resident villager co-located for two tiers\\\" — CONTRADICTED. The binding cast table at /Users/raynos/projects/games/kami-kakushi/docs/prd.md L727 defines Sokichi as an *itinerant* medicine-seller/peddler,…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "verify:The guaranteed spine payof",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a220d47690d2f3300",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501382411,
+      "queuedAt": 1782501382401,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "trivial-fix",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501681661,
+      "tokens": 63490,
+      "toolCalls": 13,
+      "durationMs": 299250,
+      "resultPreview": "{\"real\":true,\"disposition\":\"trivial-fix\",\"verdict\":\"PARTIALLY REAL — confirmed at its narrow core, overstated elsewhere; trivially fixable as a prose harmonization. All factual premises are reproducible from the doc: the cold open literally plants the identity question (L2598 \\\"You do not know your name\\\"); the G6 spine payoff is the NEGATIVE Tama reveal that frees a stranger, Otsuru (\\\"she is rea…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "verify:Satiety throttle floor (~0",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "abea2acb1c4a061ed",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501382411,
+      "queuedAt": 1782501382401,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "not-real",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501495395,
+      "tokens": 25268,
+      "toolCalls": 3,
+      "durationMs": 112984,
+      "resultPreview": "{\"real\":false,\"disposition\":\"not-real\",\"verdict\":\"REFUTED as a \\\"mathematical contradiction.\\\" The arithmetic in the claim is correct and well-sourced — worst-case (zero-satiety) effective DPS is indeed ~0.375× (satietyRate floor 0.5 × satietyRateSpeed 0.75; §4.6.1b L3974-3977 applied at §4.6.1 L3949-3950), and that compounds multiplicatively with the 0.55 durabilityBand. But the conclusion (\\\"col…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "verify:Multi-step quest model is",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a1e0d31a5d22feb3b",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501382411,
+      "queuedAt": 1782501382401,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501571480,
+      "tokens": 49779,
+      "toolCalls": 11,
+      "durationMs": 189069,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"REAL and NEW (not in rounds 1-4 ledger; only prior \\\"quest\\\" mentions are nav-reveal ordering). The quest progression data-model is under-specified and self-contradictory across three sections, all reproducible from doc text:\\n\\n(1) ORPHAN QuestTask. `QuestTask { advancedBy, optionalDiscoveryNodes[] }` appears ONLY at L1772 and is referenced nowh…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 12,
+      "label": "verify:No global error boundary /",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a849b210a847cdf01",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501382411,
+      "queuedAt": 1782501382401,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "needs-human",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501488532,
+      "tokens": 41859,
+      "toolCalls": 9,
+      "durationMs": 106121,
+      "resultPreview": "{\"real\":true,\"disposition\":\"needs-human\",\"verdict\":\"CONFIRMED — genuinely new, independently absent. The PRD specifies NO global runtime error boundary / crash-recovery / safe-mode. The entire failure story is two narrow contracts, and neither wraps the runtime: (1) §6.3 L5714 \\\"an illegal intent is a no-op... never a throw\\\" is scoped to reduce() rejecting illegal INPUT, NOT a guarantee that tick…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 13,
+      "label": "synthesis",
+      "phaseIndex": 3,
+      "phaseTitle": "Synthesize",
+      "agentId": "ad91cb85f072ac0ba",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782501681673,
+      "queuedAt": 1782501681663,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "NOT-DRY",
+      "promptPreview": "ROUND 5 of an until-dry battery on the Kamikakushi PRD V2 (Edo-era single-player incremental RPG). READ /Users/raynos/projects/games/kami-kakushi/docs/prd.md (~7000 lines) + /Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md, /Users/raynos/projects/games/kami-kakushi/docs/ui-design.md, /Users/raynos/projects/games/kami-kakushi/docs/plans/qa-playtesting.md as needed. Intent: /Users/raynos…",
+      "lastProgressAt": 1782501911674,
+      "tokens": 59606,
+      "toolCalls": 10,
+      "durationMs": 230001,
+      "resultPreview": "{\"dryness\":\"NOT-DRY\",\"new_actionable_count\":20,\"new_blocking\":[\"B12 — No global error boundary / crash-recovery / safe-mode (VERIFIED, needs-human ADR). PRD's entire failure story is two narrow contracts that do NOT wrap the runtime: §6.3 L5714 'illegal intent is a no-op, never a throw' is scoped to reduce() rejecting bad INPUT; §6.8 L6060 recovery is structural-only ('corrupt/unreadable/foreign-i…"
+    }
+  ],
+  "totalTokens": 848200,
+  "totalToolCalls": 134
+}

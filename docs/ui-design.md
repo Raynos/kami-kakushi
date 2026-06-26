@@ -349,7 +349,9 @@ bars (this is also the anti-"same-shadow flatness" fix):
 | Name & Honour | 家格 | `--pillar-name` | ⛩️ |
 | **House Influence (roll-up)** | **家威** | `--pillar-kai` (the **seal**) | 🔴 *(seal)* |
 
-Not-yet-scored pillars render as **faint** bars (a hinted future), not empty boxes. The Estate bar shows its
+Each pillar's bar **inks in only when that pillar comes online** — at T0 the panel shows just **Arms + Estate**
+(the two revealed pillars), the **Office** bar revealing at T1 (V4) and the **Name** bar at T2, so it grows
+bar-by-bar rather than rendering unscored pillars as faint placeholders. The Estate bar shows its
 three capped sub-engines (LAND / TREASURY / TRADE) as sub-segments, with the **trade ≤⅓** cap drawn as a hard
 registration mark at the one-third line.
 
@@ -372,7 +374,7 @@ at a glance. **Exactly one primary CTA per screen** wears the `--shu` seal treat
 ### 5.6 Nav (desktop rail + mobile bottom-bar/drawer)
 
 The "UI as progression" chrome. Entries are **revealed in order** (§3.5 track): single column (none) →
-Skills → Combat → Map → House → Village → Region → Ties → Castle-town stub. **Desktop:** a left sidebar of
+Skills → Combat → Crafting → Quests → Map → House → Village → Region → Ties → Castle-town stub. **Desktop:** a left sidebar of
 ink labels (kanji + emoji + romanized name); active = `--ai` text + a `--shu` seal pip + a `--surface`
 highlight; inactive tabs sit on `--surface-deep`. **Each new entry slides in** (animated, narrated) — never
 appears silently. **Mobile:** the same entries, same order, collapse to a **bottom tab-bar** (thumb reach) with
@@ -431,6 +433,11 @@ on the correct end state.
                          animation-iteration-count:1 !important; }
 }
 ```
+
+**JS tweens respect the setting too.** That CSS backstop only zeroes **CSS** animation/transition durations —
+the **JS-driven rAF tweens** (the §6.3 pillar count-up, the number-jump, the floating "+N mote") must read
+`prefers-reduced-motion` themselves and **snap straight to the final value** when it's set, since no CSS rule
+reaches them.
 
 | Beat | Where | Motion | Reduced-motion fallback |
 |---|---|---|---|
@@ -530,23 +537,32 @@ two at once.
   the body/rest bar + rice counter. Maximum *ma* — the empty paper reads as confident, not unfinished. The
   whole screen is one `.paper` field, one `.frame` log, one seal-less verb button. First impression = a quiet
   woodblock page. **Delight:** the very first verb makes a log line *ink in* — the game proves it listens.
-- **Work (R1+).** The labour loop: verb(s) + the koku/rate readout + the world-clock season tag (🌾 + 春).
+- **Work (R1+).** The labour loop: verb(s) + the koku/rate readout + the world-clock season tag (🌸 + 春).
   Still one calm column. **Delight:** the season tag turning, the koku rate ticking with a count-up — "honest
   sweat" made legible.
 - **Skills (R2 — first nav appears).** The *first navigation* — the screen splits Work / Skills; the nav rail
   is born with its first two entries. Skills surface **by doing** (fade in as XP first lands). **Delight:**
   the nav *itself* appearing is the signature beat — narrated: *"a way to track it appears."*
-- **Combat / Yard (R3).** Reveals fractally (one post → rack → sparring slots). The Combat panel (stance /
-  ability / item / retreat), Equipment, Bestiary. The first fight is **humbling**; the resolve uses the
-  ink-strike (§6.5), the near-loss flashed in `--beni`. **Delight:** danger enters the calm paper — the ⚔️
-  register and the slash motion contrast the farming quiet.
+- **Combat / Yard (R3).** Reveals fractally (one post → rack → sparring slots). The Combat panel at R3 is the
+  **bare auto-resolve loop + retreat**, plus Equipment and the Bestiary; the **stance** slot arrives at **R5**,
+  the **ability + item** slots at the **first weapon-L10 milestone** (never the all-slots-at-once dump). The
+  first fight is **humbling**; the resolve uses the ink-strike (§6.5), the near-loss flashed in `--beni`.
+  **Delight:** danger enters the calm paper — the ⚔️ register and the slash motion contrast the farming quiet.
+- **Crafting (R4).** *A page for making things appears.* A new **top-level tab** (not a nested panel — Q10):
+  the simple loot→craft loop (Smith Gonta), with **graded weapon-durability bands** surfacing alongside it.
+  **Delight:** the loop closes on itself — what you fought for becomes what you make.
+- **Quests (R5).** *Jobs taken, jobs done.* A **top-level Quests tab** (not a nested panel — Q10):
+  PEST-CONTROL / HUNT / CLEAR / DEFEND duties; the Combat panel's **stance** slot unlocks here too.
+  **Delight:** the watch begins — a board of jobs to take and to finish, work gaining intent.
 - **Map (R6).** The first distinct navigable *screen*: the estate + a road leading out. Pure-CSS schematic
   (ink lines on paper, registration-mark nodes), **not** an illustrated map. **Delight:** "you can picture
   the land now" — the world gains spatial scale for the first time.
-- **House / Influence (R7).** The capstone: the **four-bar 家威 panel** reveals **bar-by-bar** (§5.3), each
-  pillar in its own colour/kanji/emoji; Office/Name start as faint not-yet-scored bars; the domain-ranking
-  read shows "unranked." **Delight:** the payoff of "do deeds first, see the standing last" — the player
-  finally *sees what the house has become*, four standings rising, crowned by the 家威 seal.
+- **House / Influence (R7).** The capstone: the **家威 panel** reveals **bar-by-bar** (§5.3), each pillar in
+  its own colour/kanji/emoji, opening at T0 with exactly its **two revealed bars — Arms + Estate**; the
+  domain-ranking read shows "unranked." The other pillars ink in **later, each its own narrated reveal** —
+  the **Office** bar at **V4** (T1), the **Name** bar at **T2** — never pre-spoiled here as faint placeholders.
+  **Delight:** the payoff of "do deeds first, see the standing last" — the player finally *sees what the
+  house has become*, two standings rising, crowned by the 家威 seal.
 - **Village (T1 / V0).** Asagiri: a shop row, the reputation web, the inn 🏮 + rumours board. The first
   multi-actor social surface. **Delight:** the legend ignites — the village calls him "Tama"; the allegiance
   meter (§6.6) appears.

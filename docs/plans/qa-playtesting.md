@@ -84,6 +84,12 @@ tool). `window.__game` exposes the live instance for deeper poking.
 > **Mode-guarded, never throws.** Calling an intent that isn't currently legal is a no-op returning
 > `false`/`null` (mirrors the ironsight harness), so scripts degrade gracefully.
 
+> **Gate-run invariant — no fabricated state.** The M6 **pacing + fun + win-rate GATE** runs must each be
+> a **single, uninterrupted `newGame(seed)` → play-to-finish run**, *never* assembled via
+> `forceState`/`toRung`/`toTier` — those fabricate (or zero) the per-rung tick-counts, so a win-rate could
+> read green on a loadout that never paid its deed cost. The time-compression helpers stay for **spot-checks**,
+> not for the gate runs.
+
 ---
 
 ## 2. The headless auto-player ("the bot") — for the 28.5h no human can hand-play
@@ -98,6 +104,12 @@ full T0→T2 run headlessly in seconds and emits telemetry.
 - **Variants:** an **optimal-ish bot** (validates the *floor* — fastest sensible clear, checks the
   ≥30-min-per-rung floor isn't trivially broken) and a **casual bot** (sub-optimal play — checks the
   ceiling isn't a wall). Run both per seed; run several seeds.
+- **Determinism contract (the bot underwrites every deterministic gate, so it must reproduce
+  byte-identically):** a total, **stable action-id tie-break** so "do the highest-value available deed"
+  resolves identically whenever two deeds tie; a dedicated **seed-pinned bot-RNG sub-stream, separate from
+  the game's RNG cursors** (drives the casual/sub-optimal bot's choices without perturbing game state); an
+  **integer/rational value function with a fixed reduction order** (no float-ordering drift); and the **bot
+  seeds committed alongside the win-rate seed-set**.
 - **What it proves (hard data, not vibes):** the §4.8 pacing budget (T0≈4.5h / T1≈8h / T2≈16h),
   every gate is *reachable*, no pillar is un-satisfiable, the 70/30 deed/seasonal split actually
   lands, no dead-ends, the save survives a full arc + migration.
@@ -148,8 +160,9 @@ The loop (per the [UI design-language bible](../ui-design.md), authored before M
 
 **Coverage checklist (every one gets a screenshot + review):**
 - The **cold open** (single screen, one verb, the log) — the first impression.
-- **Every nav screen** as it reveals: Work → Skills → Combat → Map → House(Influence) → Village →
-  Region → Ties/Origin → Castle-town stub (§3.5).
+- **Every nav screen** as it reveals: Work → Skills → Combat → Crafting → Quests → Map →
+  House(Influence) → Village → Region → Ties/Origin → Castle-town stub (§3.5; Crafting + Quests are
+  top-level tab reveals, not nested panels).
 - **Every transition/beat:** a rank-up, a reveal (new tab/area), a pillar achievement-jump, the
   seasonal judged-result "headline", a combat resolve + the soft-setback, an allegiance swing.
 - **Every panel:** the four-bar Influence panel (bar-by-bar reveal), the rung ladder, the quest log,

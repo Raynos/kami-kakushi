@@ -4,7 +4,8 @@
 >
 > The design doc on **the game's fun**: *what* fun factor is for an incremental RPG, *why* it is the
 > make-or-break priority, *how* to measure it, *how* to improve it, and *how* to keep it high across the
-> whole **~28.5 h / 5-tier** climb. This doc sets the **targets**;
+> **~28.5 h, T0–T2** climb (v1 of a five-tier saga — ~28.5 h is the §4.8 Phase-1 floor sum; total realized
+> play is larger, a separate human budget decision pending). This doc sets the **targets**;
 > [`plans/qa-playtesting.md`](plans/qa-playtesting.md) §3 is the harness that **measures** them; the
 > UI design bible (`ui-design.md`) handles the **look**. When this doc and a balance/UI
 > doc disagree on a number, this doc owns the *intent* ("it should feel like X"); the other owns the
@@ -65,7 +66,7 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **Lever:** **juice + feedback latency.** First action < 5 s (§4.8); reward feedback effectively
   instant (number pop, sound, bar-fill — qa-playtesting.md §6 "number/reward juice"). Tune deed base
   values + the 0.04 per-event cap (§4.2.1) so it's *many small acts*, never a few spikes — the texture
-  is "a recognised act every ~4.5–5 min" (§4.8.1).
+  is "a recognised act every ~4.5–5 min" (the **T0** instance; tier-relative T0 ~5 / T1 ~8 / T2 ~13 min, Q20 — §4.8.1).
 
 ### 2.2 The rung-climb loop (~30–120 min) — *"one more rung"*
 - **What:** the estate-rank ladder (a fresh `R/V/G` ladder per tier, §3) — each rung a named promotion
@@ -152,7 +153,7 @@ proof of boredom — the human play-judgment at M3 is the real test; the proxies
 |---|---|---|---|
 | **First-5-min hook** | First action < 5 s (§4.8); within 5 min: a verb done, the log reacted, first koku earned, a next goal glimpsed | The hook decides whether there *is* a player. If the cold open doesn't grip, nothing else matters. | 2.1, 2.4 |
 | **No dead-time** | Never > ~N s with **no meaningful action and no reward incoming** | Dead air is *the* incremental killer; active-only has no idle excuse for it. Flags reward-deserts + choice-deserts. | 2.1, 2.3 |
-| **Reward cadence** | A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min (§4.8.1) | Variable-ratio dopamine needs a *floor frequency* or the grind reads as starvation. | 2.1, 2.5 |
+| **Reward cadence** | A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min in **T0**, **tier-relative** thereafter (T0 ~5 / T1 ~8 / T2 ~13 min, Q20) (§4.8.1) | Variable-ratio dopamine needs a *floor frequency* or the grind reads as starvation. | 2.1, 2.5 |
 | **Always-a-visible-next-goal** | At every state: 2–3 affordable goals + 2–3 visible-but-locked + 1 distant silhouette | The pull never empties. An empty or instant "next thing" is a motivation vacuum. | 2.2, 2.4 |
 | **Novelty drip** | A *new-thing* reveal on a steady, never-dumped rhythm; rotate the 3 reveal types | Plateau = churn. The first-time-X moment is our freshest pleasure; it must never run dry or arrive all at once. | 2.4 |
 | **≥30-min floor without a wall** | Optimal bot can't clear a **grind** rung (R1–R7; the ~5-min R0 cold-open is exempt, §4.8.1) < ~28 min (§4.8); casual bot never *stuck* (ceiling isn't a wall) | The floor is the deliberate grind; the wall-check ensures grind ≠ frustration. Both bots are needed. | 2.2 |
@@ -195,7 +196,7 @@ Six levers, in roughly the order to reach for them. Most fun problems are one of
 
 ---
 
-## 5. How to KEEP it high over 28.5 h / 5 tiers (the hard part)
+## 5. How to KEEP it high over ~28.5 h / T0–T2 (the hard part)
 
 The long game is where incrementals die — they front-load engagement and rot into a mid-game "content
 desert." Our defences, mapped to the no-reset, tier-replaces-prestige spine:
