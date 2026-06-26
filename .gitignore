@@ -6,3 +6,4 @@ dist/
 # Repo-local scratchpad: ignore everything except its README
 tmp/*
 !tmp/README.md
+kami-kakushi-itch.zip
