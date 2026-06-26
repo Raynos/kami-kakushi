@@ -1,5 +1,14 @@
 # Session 01 — 2026-06-26 — PRD battery & stress-test (14-lens audit)
 
+> **Checkpoint (round-1 bug-fixes applied).** Human steer: *"keep going, keep doing batteries, don't wait
+> for me."* Mode = **autonomous multi-round battery**. Applied the two named unambiguous defects from round 1
+> (held all design forks): **Q7a** — E2/R6 floor Estate ≥1K → **0.6K** (it exceeded the 0.8K tier gate =
+> deadlock; mirrors the adjacent Arms 80%-of-gate floor); **Q5** — the T2 Otsuru/true-name climax was
+> double-gated (guaranteed G6 spine beat *and* gated behind optional Origin O5); resolved to **spine-guaranteed
+> at G6** (forced by the locked "Origin never gates the spine"), O5 recast as optional reunions+buff. Now
+> launching **round 2+** battery passes from fresh/deeper angles, accumulating the decision queue.
+
+
 **Summary:** Ran a multi-agent workflow battery-testing `docs/prd.md` from 14 independent audit lenses with
 per-finding adversarial verification (93 agents · 78 raw → 60 confirmed findings). Applied **22 verified
 clerical fixes directly**; produced one consolidated findings-&-decision report with **12 questions** queued
