@@ -1,6 +1,6 @@
 # PRD Battery & Stress-Test — Findings & Decision Report
 
-> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **2** · Confirmed findings: **97** (R1 60 + R2 37) · Fixes applied: **30** (R1 24 + R2 6) · **Decision queue: Q1–Q28 (28 open)**. More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** is appended at the end.
+> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **2** · Confirmed findings: **97** (R1 60 + R2 37) · Fixes applied: **30** (R1 24 + R2 6) · **Decision queue: Q1–Q28 (28 open)**. More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **NEW: §P — Process decision PD-1** (freeze-vs-steer) added below.
 
 **Date:** 2026-06-26  ·  **Target:** `docs/prd.md` (4,833 lines) + canon/ADR/intent cross-docs  
 **Method:** a 3-phase multi-agent workflow — **14 independent hostile-auditor lenses** attacked the PRD in
@@ -17,6 +17,31 @@ it; a synthesis pass deduped across lenses and split clerical fixes from design 
 > never wired into the milestone plan**, **(5) the T2 emotional climax gated two incompatible ways**, and
 > **(6) one logically-impossible T0 balance gate**. I applied **22 clerical fixes directly**; the **12
 > questions below** are the ones that need you.
+
+---
+
+## P. PROCESS DECISIONS (higher-order than the Q-items)
+
+### PD-1. [PROCESS · high] Reconcile K3 (steer-by-playtest) with K5 (freeze + explode) — scope "freeze" to LOCKED INTENT, not the plan.
+
+**Context.** `prd_human_feedback.md` asserts BOTH **K3** ("fun is a hypothesis tested by play; the human makes the higher-level fun call") and **K5** ("freeze `prd.md` as the vision, then explode into living docs") without reconciling them. A hard freeze of the §4 balance + §7 M2–M7 plan would directly contradict K3 — you cannot steer-by-playtest a frozen plan.
+
+**Battery evidence (the decisive data point).** Across **97 findings in 2 rounds**, the split is stark:
+- The **VISION layer** (§1 pillars, story spine, the locked human constraints — no-magic, mediocre-start, trade ≤⅓, active-only, the four pillars, the estate spine) had **ZERO intent-drift** — round-1's intent-fidelity lens confirmed the PRD honours every human steer. This layer **survived adversarial audit; it is freezable.**
+- **EVERY** gap / under-specification / bug clusters in the **PLAN layer**: the §4 number-spine "calls itself frozen but is materially under-specified" (round-2 risk #1), §2 system specifics, §7 milestone detail. This layer is **hypotheses with holes** — exactly what must stay liquid and resolve via playtest.
+→ The data says: **freeze what survived the battery; keep liquid what's full of holes.**
+
+**Sharper framing than "vision vs plan".** The real freeze line is **LOCKED INTENT vs PROVISIONAL IMPLEMENTATION**:
+- **Frozen (locked intent):** §1 vision + the hard constraints + the human-SIGNED *acceptance criteria* (≥30-min floor, 70/30 deeds/seasonal, ~28.5h budget, the tier-gate **targets**). These are the *destinations*.
+- **Liquid (provisional implementation):** the yields, levers, milestone detail, and balance numbers that HIT those targets — already tagged **"proposed v1 balance"** throughout §4. These are the *route*.
+The levers move; the locked targets don't. This keeps the steer-loop alive **without infinite churn** (the risk the original analysis under-weighted: "keep the plan liquid" needs the signed acceptance criteria as an anchor, or M2–M7 re-plans forever and never ships).
+
+**Recommendation.**
+1. **Build M0+M1 against the CURRENT `prd.md`** (round-3's impl-readiness lens is checking it's buildable as-spec), **playtest, THEN explode** — reorganise once, on validated ground (lower overhead now; K5 says "hold until sign-off" and sign-off can legitimately come *after* the first build-and-play cycle).
+2. **When you explode:** freeze ONLY §1 + constraints as a tagged vision snapshot; move §7 roadmap to a **living** `docs/roadmap.md` (banner: "M0–M1 committed; M2–M7 provisional, re-planned after each playtest"); move §4 balance to **generated** `docs/content/` — *generate-don't-duplicate is what makes post-playtest re-tuning cheap* (rounds 2–3 keep flagging hand-typed derived tables that silently drift; **that pain IS the argument** for generating balance).
+3. **Never freeze M2–M7 as locked canon** — that is the actual mistake to reject, not the multi-doc structure.
+
+**Decision needed from you:** approve (a) the *build-M0/M1 → playtest → then explode* sequencing, and (b) the *locked-intent-vs-provisional-implementation* freeze line. I'll then wire it: a `freeze=vision-only` discipline + a living roadmap doc + generated balance.
 
 ---
 

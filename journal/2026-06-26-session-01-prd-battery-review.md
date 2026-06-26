@@ -1,5 +1,14 @@
 # Session 01 — 2026-06-26 — PRD battery & stress-test (multi-round)
 
+> **Checkpoint (Round 3 launched + PD-1).** Human raised a process question: build M0+M1, playtest, then steer —
+> does that collide with K5 (freeze prd.md + explode into living docs)? Logged **PD-1** in the report §P:
+> reconcile K3 (steer-by-play) vs K5 (freeze) by scoping "freeze" to **locked intent** (§1 vision + signed
+> acceptance criteria), NOT the **provisional implementation** (§4 levers / §7 M2–M7, already tagged "proposed").
+> Battery evidence backs it: vision layer = ZERO drift across 97 findings; all gaps cluster in the plan layer.
+> Rec: build M0/M1 on current prd.md → playtest → THEN explode (freeze=vision-only, living roadmap, generated
+> balance). Awaiting human approval of the sequencing + freeze line. Round 3 battery (task wh8xnl7sr) running.
+
+
 > **Checkpoint (Round 2 done).** 92 agents · 78 raw → 37 confirmed (5H/19M/13L). Applied 6 fixes: Stance.defMod
 > type; __qa pacing()/reveals() contract; §4.2.2 autumn-label (s8=winter, autumn=3&7); **completed the
 > impossible-gate fix** (E2/R6 Arms 0.4K→0.3K — devil's-advocate caught round-1 only fixed the Estate column);
