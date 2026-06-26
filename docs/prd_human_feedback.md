@@ -18,8 +18,8 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 > bottom), the same way the journal is kept. This is a living audit doc.
 >
 > **Precedence rule (human-signed 2026-06-26):** when entries CONFLICT, the **MOST RECENT applies** (newest
-> wins). **Block L** (the 2026-06-26 V2 decision-resolution Q&A) **supersedes A–K wherever they differ** — per
-> [D-022](history/decisions.md). The 🔁 markers in L flag the specific earlier locks it changed.
+> wins). the **LATEST block** (currently **Block M** — the wave-2 follow-ups — then **Block L**) **supersedes earlier
+> blocks/entries wherever they differ** — per [D-022](history/decisions.md). 🔁 markers flag the specific earlier locks a decision changed.
 
 ---
 
@@ -463,6 +463,47 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 **Process**
 - **PD-1 → ADR D-021.** "Freeze" = **locked intent only** (§1 vision + signed acceptance criteria), not the plan; the §4 numbers / §7 M2–M7 detail stay provisional. Iterative loop: **resolve decisions → PRD V2 → build M0/M1 → playtest → resteer → PRD V3 → build**.
 - **D-022 (governing).** These V2 decisions **supersede** any conflicting prior ADR/canon/K-item/lock (annotate, don't delete). Most-recent-wins.
+
+---
+
+## M. Wave-2 follow-up resolutions — the 23 second-order decisions (human-signed 2026-06-26)
+
+> The "how exactly" layer the 56 decisions (Block L) opened up. These **extend/refine Block L** (same precedence:
+> newest wins; M supersedes L/A–K where they differ). 🔁 = changed a prior lock/scope. Detail in the wave-2 doc
+> ([`../brainstorms/2026-06-26-prd-v2-followups.md`](../brainstorms/2026-06-26-prd-v2-followups.md)).
+
+**M0 — save & determinism**
+- **FU1.** Build the FULL multi-backend save layer in M0 (backend-abstraction + atomic write + magic field + newest-wins selector); rich per-system fields added additively later.
+- **FU2.** Newest-save selector = a **save-layer** timestamp (a documented core-lint exemption — metadata, not game logic) + a **monotonic save-counter** as the real selector. The deterministic core stays clock-free.
+- **FU3.** RNG = `{ seed, cursors:{combat,loot,seasonal,worldgen} }` (persisted); weather/lunar = a pure stateless `deriveDayKeyed(seed,'weather',day)` helper.
+- **FU5.** M0 GameState = `{hp,satiety,attributePoints}` + `character.level` (=1) + satietyMax-at-floor; do NOT pre-declare subEngines/combat/dialogue (add additively at their milestone).
+- **🔁 FU4.** NO runtime reveal-queue — **design the unlock schedule so reveals are inherently one-at-a-time**; genuine multi-element single-feature reveals are bespoke one-offs designed per case.
+
+**Progression — the sequential per-tier model**
+- **🔁 FU7.** **SEQUENTIAL per-tier:** Phase 1 = climb the rungs via **curated per-rung activities** (1-to-many; NOT a single repeat-counter) + the rung-meter + story → Phase 2 = the estate-influence/pillar grind **unlocks after the final rung** → tier-up. Pillar **deeds gated to phase 2** (prevents "half the rungs, maxed deeds").
+- **FU6.** Rung-meter: **per-rung-reset**; each rung's threshold = (≥30-min floor × that rung's eligible-activity rate), back-solved like the koku column; **AND-gate** (meter ≥ threshold AND story flags), "awaiting X" when one lags.
+- **🔁 FU10.** Hybrid-gate thresholds need a **per-pillar-per-tier OVERHAUL** (NOT simple ratios), balanced against the fixed deed inventory. Semantics: **good = expected baseline · great = really strong · excellent = above-and-beyond.**
+- **FU11.** *(resolved by FU7)* rung-meter + story gate each rung; the Q7 hybrid pillar profile is the separate phase-2 tier-gate.
+
+**Combat**
+- **🔁 FU8.** Bounded labour→combat via **PER-SKILL perks** (each skill ~2–8 perks / small flat bonuses, unlocked by leveling it); **stackable, NO hard global cap**; bounded by small magnitudes + **incremental skill unlock** + holistic balance (gear/level/attrs/enemy-scaling grow together); **risk accepted**. Conditioning stays the zero-stat gate.
+- **🔁 FU13.** **MORE weapons** (growing roster): T0 unlocks **2** · T1 **+3** · T2 **+4** (~9–10 across v1; T0 still starts with 1). Author a period-appropriate set, each with archetype params + a signature ability.
+- **FU12.** Combat-reveal ladder: R3 starter weapon + bare auto-resolve + retreat → durability bands at R4 → stance at R5 → ability/item slots at the first weapon-L10 milestone → 2nd line T1, 3rd T2. One reveal per beat.
+- **🔁 FU14.** **THREE clean combat tracks:** kills/combat-XP → **character level** (HP + attribute points); **deeds → the Arms pillar**; per-rung curated activities → the **Combat-Standing rung-meter**. Rewrite the conflated §2.8.
+- **FU15.** mobLevel = an explicit per-mob `MobDef.level` (defaults ~ the dangerRing's expected level).
+- **FU16.** Satiety→combat = a `satietyRate` multiplier on attackPower (lighter on attackSpeed), flat above ~0.7 → ~0.5 floor; the locked 20-35% first-fight win-rate measured at ≥~0.7 ("adequate satiety").
+- **FU17.** Durability = 4 bands on weapon attackPower (75+/50+/1+/0 → 1.0/0.9/0.75/0.55), fixed wear per fight; armour bands on defense; repair restores; **never auto-unequip**.
+
+**Pacing, fun, scope**
+- **FU9.** Fun-proxies instrumented at M1 as **REPORT-ONLY** (gate at M6); deed-cadence T0 ~5 min.
+- **FU21.** Labour satiety throttle: flat above ~0.7 satietyMax → ~0.5 floor; modest drain/action; rest refills; satietyMax = base + per-level growth.
+- **🔁 FU18.** The **~28.5h budget is a FLOOR, not a ceiling** — the game can be LONGER, a long **OSRS-rough grind** (enough grinding content; interleave, don't brick-wall; "leave it auto-running, check progress"). §4.8 = a minimum-grind model. *(→ D-016 annotated.)*
+- **FU19.** *(tune-later)* Win-rate bands: each key combat rung humbling-fresh (~30–45%), comfortable after that rung's training/gear.
+
+**Narrative-tech**
+- **FU22.** Intra-line dialogue = flat data choices (`choices[]`+`ChoiceId`) with `locksLineIds[]`/flags effects; data not scripting; deterministic; only chosen-flags persist.
+- **🔁 FU20.** *(tune-later)* **BROADER cross-pillar combos** (multiple pairs / larger magnitude); the **trade-≤⅓ cap stays HARD** (combos computed post-clamp; verifier-proven).
+- **FU23.** v1 **active-only** (no offline): tab-open **auto-resolve + auto-repeat** give the "leave it running" feel; auto-producers stay T3+.
 
 ---
 

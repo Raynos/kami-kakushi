@@ -167,6 +167,12 @@ auto-resolve (active-only holds). Recorded in brainstorms/2026-06-26-prd-v2-foll
 (budget=floor). Next phase: author the PRD-V2 plan → reshape prd.md → V2 → build M0/M1.
 
 
+## 20 · Wave-2 follow-ups folded into prd_human_feedback.md (Block M)
+Per the human (same rule as Block L): the 23 wave-2 follow-up resolutions added as **Block M** of
+docs/prd_human_feedback.md — so that doc holds ALL cumulative feedback (A–M). Made the precedence rule
+block-agnostic (the latest block wins; M supersedes L/A–K on conflict).
+
+
 ---
 
 ## Next intended steps (current)
