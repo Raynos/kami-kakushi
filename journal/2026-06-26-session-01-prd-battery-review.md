@@ -145,6 +145,16 @@ record alongside A–K. Added a **precedence rule** to the header: newest wins; 
 they differ (per D-022). Per-decision detail stays in the master sheet.
 
 
+## 18 · Wave-2 follow-up questions generated
+Per the human's plan (re-read everything → surface follow-ups BEFORE the V2 plan). A 9-lens workflow read the
+PRD + full feedback + the 56 decisions and surfaced the second-order questions the decisions opened up;
+synthesized to ~22 prioritized follow-ups in brainstorms/2026-06-26-prd-v2-followups.md (P0 blocks-M0 → P3
+tune-later), each with a proposed lean. Key ones: the save-layer M0 scope + determinism-safe newest-save
+selector; the RNG/reveal-queue shape; the rung-meter accrual law; the bounded labour→combat cross-feed
+channel+cap; the three combat-track disambiguation (level/rung-meter/Arms); mobLevel; the combat-unlock
+ladder; the hybrid-gate thresholds; the §7 scope re-cut. Next: human answers the wave-2 (UI), then the V2 plan.
+
+
 ---
 
 ## Next intended steps (current)

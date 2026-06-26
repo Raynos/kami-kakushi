@@ -1,0 +1,1018 @@
+{
+  "summary": "Wave 2: read the PRD + full human feedback + the 56 V2 decisions through 9 lenses; surface the second-order follow-up questions the decisions opened up (esp. cross-decision interactions + M0/M1-readiness); synthesize a prioritized wave-2 question list",
+  "agentCount": 10,
+  "logs": [
+    "Wave-2: 9 lenses reading PRD + feedback + the 56 decisions for follow-ups...",
+    "Raw follow-ups: 34"
+  ],
+  "result": {
+    "lenses": 7,
+    "rawCount": 34,
+    "rawFollowups": [
+      {
+        "id": "combat-progression-1",
+        "area": "The combat-progression ladder (incremental unlock schedule)",
+        "question": "Author the T0-T2 combat-progression ladder: an explicit rung-by-rung & tier-by-tier table of WHICH combat functionality reveals at which rung — stance slot, the ability slot, the item slot, retreat, status effects, multi-target (targetCount>1), the auto-continue toggle, durability bands, and the 2nd/3rd weapon line — staggered one reveal per beat. What is the T0 reveal order across R3-R7, and what slips to T1/T2?",
+        "why": "Q15 (combat INCREMENTAL, T0 = exactly one weapon, new functionality unlocks rung-to-rung) plus Q17 (NO UI-dumps; stagger every reveal one-per-beat) together demand a staggered schedule the PRD does not have. §3.2's R3 row and the M2a 'Lands' list (prd.md:1817, 4539-4546) currently dump the WHOLE combat system at R3 in a single beat: Combat panel + stance + ability + item + retreat + first weapon + Equipment + Inventory + Bestiary. A V2 author cannot rewrite the §3.2/§3.4/§3.6 reveal rows, and a coder cannot author the M2a/M2b surfaces.ts unlock predicates, without this ordering. It is the single largest new design surface Q15 opened ('a new combat-progression ladder').",
+        "relates_to": [
+          "Q15",
+          "Q17",
+          "Q33",
+          "Q16"
+        ],
+        "blocks": "M2",
+        "lean": "R3 = the single starter weapon + the bare auto-resolve loop + retreat only; stance slot at R5 (gate-guard, when real watches start); the ability/item slots at the first weapon-line L10 milestone; durability bands surface with the loot->craft loop at R4; 2nd weapon line at T1, 3rd at T2 (>=1/tier per Q15).",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-2",
+        "area": "Weapon-line identity & signature abilities",
+        "question": "Specify the 3 weapon lines (Q15 names spear/sword/staff): each line's archetype parameters that make it mechanically distinct in the §4.6 auto-battler (baseSpeed / reach-or-targetCount / attack profile), its signature ability (the §4.5.3 L50 marquee), and WHICH single weapon is the T0 starter — is the 'crude carrying-pole' an improvised 0th weapon or is it line 1? At which tier do lines 2 and 3 unlock?",
+        "why": "Q15 mandates '3 lines total, each archetype + signature ability,' but §2.8's Combatant model carries attackSpeed/targetCount only via STANCE, not per-weapon-line, so there is no per-line archetype data anywhere; the 3 signature abilities are unnamed; and §4.5.3's L50 perk only says 'stance slot / signature ability' generically. The M2a fixture is a 'crude carrying-pole' (prd.md:4557) of weaponBase~3 — the PRD never says whether that IS one of the three lines or a pre-line improvised weapon, and §2.7e/§2.8 still assert '2-3 weapon lines at T0,' contradicting Q15's 'exactly one.' A coder cannot build the weapon/skill registry or differentiate combat feel without this.",
+        "relates_to": [
+          "Q15"
+        ],
+        "blocks": "M2",
+        "lean": "Crude pole = a 0th improvised weapon (not a line); spear is the first real line learned at the R3 drills (reach, multi-target lean, signature sweep); sword arrives at T1 (balanced, crit-lean, signature iai strike); staff at T2 (fast, stagger/defensive, signature guard-break). Reconcile §2.7e/§2.8 wording down to 'one weapon at T0.'",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-3",
+        "area": "The bounded cross-feed (Q6) — magnitude, channel, conditioning carve-out",
+        "question": "Fully spec the bounded labour->combat cross-feed: (a) which combat quantity does a labour skill's small bonus feed (a flat attackPower addend? a capped % damage? hpMax?), (b) magnitude per skill level or per milestone, (c) the CADENCE (per-level vs per-3-5-level milestone per the master sheet), (d) the CAP that makes it 'bounded' (a per-skill ceiling? a global cap as a % of total combat power?), (e) is it pooled across all skills or per-skill, and (f) does it route through a NEW channel that bypasses attributes/character-level so the §4.4/§4.5.3 no-cross-feed wall survives? And does conditioning remain the ZERO-bonus enablement gate while sibling labour skills now give a bonus?",
+        "why": "Q6 relaxes the no-labour->combat lock into a bounded cross-feed but ships zero numbers ('bonus size/cadence/caps are §4 numbers tuned in V2'). Worse, it now CONTRADICTS the PRD's hard wall: §4.4 (prd.md:2664) and §4.5.3 (prd.md:2739-2749) make a labour-skill->combat-attribute grant 'a type error,' and the M2a DoD asserts 'no labour conditioning bonus enters any combat number' (prd.md:4551, 4559). Under Q6 that assertion is now only true for CONDITIONING, not for farming/smithing/etc. The V2 author must define the new channel AND reconcile/rewrite the wall, or the M1/M2a tests are wrong. Blocks M1 (skills + the no-cross-feed test land at M1).",
+        "relates_to": [
+          "Q6",
+          "Q1"
+        ],
+        "blocks": "M1",
+        "lean": "A separate effectiveStats addend (NOT via attributes or character level, so the §4.4/§4.5.3 attribute-wall stays intact): each non-conditioning skill grants a tiny capped attackPower/defense bonus at milestones (~every 5 levels), with a HARD global cap (e.g. total cross-feed <= ~10-15% of combat power) so big power stays combat-only per Q1. Conditioning stays the ZERO-stat enablement gate. Rewrite the M2a assertion to 'no conditioning bonus + cross-feed never exceeds the cap.'",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-4",
+        "area": "Character Combat Level — the missing XP curve & the three-track disambiguation",
+        "question": "Define the character Combat Level XP->level curve (Q1: level is its own stored track fed by COMBAT only; HP + attribute points scale off it). What converts accumulated combat XP into characterLevel, and what is the 'compounding skill-XP multiplier' (§2.7a) that level grants? Separately: reconcile §2.8's claim that 'Combat Level = a Combat Deeds Pool (combat-XP + a deed-count of kills/clears/defends)' with Q1's 'combat XP only' — does the deed-count still feed level, or only XP? And clearly disambiguate the THREE combat numeric tracks now in play: character Combat Level (Q1), the Combat Standing/Combat-Rank rung meter (Q30/Q9), and the Arms pillar — what feeds each.",
+        "why": "hpMax = 40 + 8·characterLevel (§4.6.1) and '+1 attribute point per 2 levels' (§4.4) both depend on characterLevel, and the M2a win-rate test needs a post-drills MC at a higher level for the ~85% assertion (prd.md:4550-4551) — yet §4 has NO character-level XP->level curve (only the per-SKILL curve §4.5.1). §2.8a (prd.md:1114, 1140) conflates 'Combat Level' with a 'CombatDeedsPool' that ALSO produces the Arms contribution, which Q1 (level = its own track) and Q30 (Influence pillars are a SEPARATE track from the rung meter) both cut against. The 'compounding skill-XP multiplier' has no formula and, if driven by combat level, means combat XP accelerates LABOUR skills — a combat->labour feedback that must be confirmed intended.",
+        "relates_to": [
+          "Q1",
+          "Q30",
+          "Q47"
+        ],
+        "blocks": "M2",
+        "lean": "Give characterLevel its own geometric XP curve (reuse XP_BASE/XP_GROWTH shape, slower) fed ONLY by combat XP; the deed-count feeds Combat Standing + Arms, NOT level; rewrite §2.8 to stop conflating Level with the deeds pool; keep the skill-XP multiplier small or scope it out of v1 to avoid an unintended combat->labour loop.",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-5",
+        "area": "mobLevel source for the on-kill XP path",
+        "question": "Where does mobLevel come from? §4.6.5 computes Combat XP = mobLevel · COMBAT_XP_K, but MobDef (§2.9c) has no level field — only 'stats (Combatant base)', dangerRing, and spawnWeightByRing. Is mobLevel authored per mob, derived from its dangerRing, or computed from its stat budget?",
+        "why": "The on-kill XP path (which feeds both the character Combat Level per Q1 and the weapon-skill XP) is built in M2a phase 2 and the enemy registry is authored in M2b phase 1 (prd.md:4558, 4583). The coder cannot implement the §4.6.5 XP formula or author content/enemies.ts without knowing the source of mobLevel — it is a referenced field with no defined origin.",
+        "relates_to": [
+          "Q1",
+          "Q15"
+        ],
+        "blocks": "M2",
+        "lean": "Author mobLevel as an explicit per-mob field on MobDef (most legible, lets the bestiary/danger-gradient be hand-tuned), defaulting to roughly the dangerRing's expected character-level so XP scales with the gradient.",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-6",
+        "area": "Durability bands -> stat-multiplier mapping (Q33)",
+        "question": "Define the graded durability model: (a) the exact band thresholds and their stat multipliers (e.g. 75+ -> 1.0, 50+ -> 0.9, 1+ -> 0.7, 0 -> 0.5×?), (b) which stats each band multiplies (weapon attackPower only, or all of a weapon's statMods; do armour/non-weapon slots also band?), (c) the wear RATE (per swing, per fight, or per recognized deed), and (d) the repair/re-craft restore path. The weapon must stay equipped & functional even at the 0 band (never weaponless).",
+        "why": "Q33 reverses the queue's 'binary auto-unequip at 0' recommendation into graded bands with no auto-unequip, but §2.10/§4 carry NO durability numbers (§2.10c lists only durabilityMax/current/repairCost). The M2b DoD applies durability wear in the §4.6 combat math (prd.md:4584: 'reduce... applies durability wear immutably') and the wear must be deterministic-friendly for byte-identical replay (Q2/Q36). A coder cannot implement stepped wear without the band thresholds, multipliers, scope, and wear rate.",
+        "relates_to": [
+          "Q33",
+          "Q2",
+          "Q36"
+        ],
+        "blocks": "M2",
+        "lean": "4 integer bands on the weapon's attackPower only (75+/50+/1+/0 -> 1.0/0.9/0.75/0.55), fixed wear per fight (not per swing, to keep ticks cheap and replay stable), armour bands identically on defense; repair/re-craft restores to max. Author values in balance.ts as levers.",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-7",
+        "area": "Satiety -> combat throttle term (Q31) and the LOCKED win-rate respec",
+        "question": "Specify the satiety->combat function Q31 adds to §4.6.1: which combat stats does satiety multiply (attackPower? attackSpeed? both?), the curve shape with floor ~0.5, and the numeric definition of 'adequate satiety' at which the LOCKED 20-35% first-fight win-rate is now measured. How does this compose with the §2.3/Q17 STAMINA_RATE_FLOOR ~0.5 used for labour — same multiplier or a separate combat one?",
+        "why": "Q31 (combat IS satiety-throttled; re-spec the LOCKED 20-35% win-rate as 'at adequate satiety'; floor ~0.5) explicitly perturbs a human-LOCKED acceptance criterion (per D-022) and adds a term §4.6.1 does not have (prd.md:2773-2782 has no satiety factor). The M2a win-rate test (prd.md:4550-4551, 4559) asserts the 20-35% band — that test is now under-defined: at what satiety? A coder cannot write the combat-math or the win-rate test without the satiety term and the 'adequate satiety' reference point.",
+        "relates_to": [
+          "Q31",
+          "Q17",
+          "Q47"
+        ],
+        "blocks": "M2",
+        "lean": "A single satietyRate multiplier on attackPower (and a lighter one on attackSpeed), flat above ~60% satiety and kneeing to a 0.5 floor below; 'adequate satiety' = the flat region (>=~60%); reuse the §2.3 throttle shape but as a separate combat coefficient so labour and combat tune independently. Tag the 20-35% as 'at adequate satiety.'",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "combat-progression-8",
+        "area": "Per-rung headless win-rate bands (Q16)",
+        "question": "Define the target headless win-rate bands at R3 / V2 / V5 / G1 / G5 that Q16 adds as the 2nd pacing proxy. Only R3 (20-35% fresh, ~85% post-drills) is specified today — what fresh-at-rung and geared/trained-at-rung win-rate targets should V2/V5/G1/G5 hit against their tier's representative threat?",
+        "why": "Q16 explicitly mandates 'headless win-rate bands at R3/V2/V5/G1/G5' as a combat-difficulty pacing proxy, and these are meant to be regression-tested headlessly (like the §4.8 pacing floor). The PRD only gives R3's numbers (§4.6.6); the four later rungs have no target band, so the proxy cannot be instrumented and the combat difficulty curve across T1-T2 is unanchored. A V2 author needs the band targets to tune mob stats and the gear/level curve per tier.",
+        "relates_to": [
+          "Q16",
+          "Q31",
+          "Q4"
+        ],
+        "blocks": "later",
+        "lean": "Keep each 'first encounter at a combat rung' humbling-but-winnable (~30-45% fresh) and each 'after that rung's intended training/gear' comfortable (~80%+), tightening slightly per tier; wire the bands into the M3/M6 fun-proxy harness alongside the pacing floor.",
+        "lens": "combat-progression"
+      },
+      {
+        "id": "progression-gates-1",
+        "area": "Rung-meter accrual law (the missing §4 third curve)",
+        "question": "What is the actual numeric law for the rung-meter(s)? Specifically: (a) the per-crossing increment magnitude for Estate Service vs Combat Rank; (b) the per-rung threshold CURVE — H5 locks the shape as 'front-loaded-then-ramp' but no base/ratio/values exist (§2.15's 'steep geometric' is unquantified); (c) whether the meter is per-rung-RESET (refills 0→threshold each rung) or CUMULATIVE-lifetime; and (d) how the threshold is back-solved against the LOCKED ≥30-min-per-rung wall-clock floor (the koku column in §4.8.1 is back-solved this way; the meter column is not).",
+        "why": "Q30 chose the HARD option (numeric meter + story, against the master-sheet's flag-only recommendation) and its own resolution note says '→ §4 gains a third balance curve (rung meter · pillars · XP).' That curve is simply absent from §4 — §4.8.1 shows only 'Estate Service ×1…×5 / Combat Standing ×1…×2' crossings (docs/prd.md:2970-2977) with no accrual math. A coder literally cannot decide when R1→R2 fires, and the M1 build is the R0→R2 ladder. Without the curve there is nothing to balance and the §6.6 gate-monotonicity verifier (Q28) has no rung target to check.",
+        "blocks": "M1",
+        "relates_to": [
+          "Q30",
+          "Q9",
+          "Q28"
+        ],
+        "lean": "Per-rung-reset meter; threshold for each rung = (≥30-min floor × that rung's eligible-activity rate), front-loaded-then-ramp — i.e. derive the meter curve the same way the koku column is already derived in §4.8.1, so the meter and the 30-min floor stay in lockstep.",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "progression-gates-2",
+        "area": "Rung-meter fuel vs the pillar-deed inventory (the double-count semantics)",
+        "question": "Which activities feed the rung-meter, and is that the SAME inventory as the §4.2.1 pillar-deed list or a SEPARATE authored set? Q30 says the meter is incremented by 'rung-specific, story-consistent activities (not all actions bump it)' AND that 'double-counting is allowed (one deed → rung meter + pillars + house).' Does each T0 rung get its own authored eligible-activity list (e.g. R1 = only spilled-rice/first-paddy labour), and when a deed double-counts, is its rung-meter contribution drawn from an INDEPENDENT budget or is it literally the same ip already itemized in §4.2.1's 56-60 T0 deeds?",
+        "why": "Q30's 'rung-specific' qualifier implies the meter fuel is a SUBSET/different set than the 70%-deeds pillar inventory, but §4.2.1 already itemizes exactly which deeds exist per tier (docs/prd.md:2424-2445). If the meter needs its own per-rung activity inventory, that is net-new authoring content for every rung (R0-R7, V0-V7, G0-G7) that M1 onward must surface. If double-counting shares one budget vs two, the §4.8.1 pacing (and the Q28 accrual tie-out) come out completely differently. The V2 author cannot size either the deed table or the meter without this.",
+        "blocks": "M1",
+        "relates_to": [
+          "Q30",
+          "Q28",
+          "Q23"
+        ],
+        "lean": "Reuse the §4.2.1 deeds as the meter fuel but tag each deed with the rung(s) it advances (a 'rungActivityTags' field) and let it double-count into an independent meter budget — avoids authoring a parallel activity inventory while honoring 'not all actions bump it.'",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "progression-gates-3",
+        "area": "Q7 hybrid gate — thresholds, counts, and reconciling the rejected-floor canon",
+        "question": "What are the numeric good/great/excellent thresholds per pillar per tier, and the EXACT counts (great in 2 or 3? excellent in 1 or 2?) — and which of §4.1/§2.16/§1.6.3 is now canonical? Q7 reverses 'simple thresholds, no floor/overflow,' but §4.1 (docs/prd.md:2317-2325), §2.16 (1467-1472) and §1.6.3 (422-428) all still state the floor+overflow formula is REJECTED and 'good in ALL' is exactly a breadth floor. Does 'good in ALL' reintroduce only a floor, or also overflow-substitution (can excellent in one pillar cover a missing 'good' in another)?",
+        "why": "Q7's own resolution explicitly defers 'exact thresholds + great/excellent counts (and 3-vs-4 pillars) — §4 provisional → ADR at V2.' The current §4.1 table gives ONE flat threshold for ONE-to-TWO named pillars per tier (e.g. T0 Arms≥0.5K, Estate≥0.8K); Q7 needs good<great<excellent for EVERY revealed pillar plus a distribution rule. The V2 author rewriting §4.1/§2.16/§1.6.3 cannot proceed without the numbers and must decide which three contradictory sections survive — this is the central deliverable of my lens.",
+        "blocks": "V2-author",
+        "relates_to": [
+          "Q7",
+          "Q30"
+        ],
+        "lean": "Map the existing §4.1 named-pillar threshold to 'excellent,' set 'great' ≈0.5× and 'good' ≈0.2× of it, require excellent in the tier's 1-2 named pillars + good in all others, NO overflow-substitution (floor only) — preserves the §4.8.1 pacing while satisfying 'breadth required, specialization rewarded.'",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "progression-gates-4",
+        "area": "Q7 per-tier pillar SET vs the pillar-reveal schedule (the T0 2-pillar problem)",
+        "question": "At each tier-up, which pillars are 'revealed' and therefore count toward Q7's 'good in ALL'? At the T0→T1 gate only Arms and Estate have scored anything (Office first lights at T1-V4, Name is a 'faint, not-yet-scored bar' at R7 per §2.16e / §3.2 line 1821) — so T0 has only 2 live pillars, contradicting Q7's '3-4 pillars per tier.' Does the hybrid gate apply at T0 over just 2 pillars, or is T0 EXEMPT (keeps the simple Arms+Estate gate) with the good/great/excellent distribution starting at T1 once ≥3 pillars exist?",
+        "why": "Q7's '3-4 pillars per tier as they reveal' is unimplementable at T0 where the reveal schedule yields 2. A breadth-floor 'good in ALL' is undefined if 'ALL' = {Arms, Estate} only. This directly changes the first tier gate the build reaches (R7, the M3 capstone) and whether M1's gate framing should even mention Office/Name. The V2 author must pin the per-tier pillar set before re-deriving any gate.",
+        "blocks": "V2-author",
+        "relates_to": [
+          "Q7",
+          "Q30"
+        ],
+        "lean": "Make the hybrid distribution apply only over pillars REVEALED at that gate (T0 = 2 pillars, both required 'good'+ ≥1 'excellent'; T1 = 3; T2+ = 4) — i.e. 'good in all REVEALED, great in 2-3, excellent in 1-2' degrades gracefully to the 2-pillar T0 case rather than forcing a phantom 3rd.",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "progression-gates-5",
+        "area": "Q7 × Q30 composition AT the capstone rung (which gate governs the tier transition)",
+        "question": "The capstone rung (R7/V7/G7) is simultaneously a rung (Q30: meter+story) AND the tier gate (Q7: the good/great/excellent pillar profile). How do these compose, and does the new 'good in ALL' floor now BLOCK a capstone that §3/§4.8.1 currently gate on only 2 pillars? §4.8.1's R7 row already reads 'Estate Service ×5 + PILLAR(Arms≥0.5K, Estate≥0.8K)' (docs/prd.md:2977) — but §2.15 (line 1381) says the capstone 'confirms, does not first-open' the tier because 'pillars gated those in parallel.' Is the tier transition gated by the rung-meter, by the Q7 hybrid pillar profile, by story, or by all three ANDed — and is the capstone the gate or merely the confirmation?",
+        "why": "Q30 (rungs gate on meter+story) and §2.15 (capstone confirms, pillars gate the tier in parallel) and Q7 (the tier gate is now a hybrid pillar distribution) give three different answers for the single most important transition in each tier. Two decisions composing ambiguously here is a model-coherence hole the V2 author must close to even write the gate predicate; left unspecified, the build cannot evaluate a tier transition deterministically.",
+        "blocks": "V2-author",
+        "relates_to": [
+          "Q30",
+          "Q7"
+        ],
+        "lean": "Capstone rung = rung-meter + story (per Q30) opens the capstone; the Q7 hybrid pillar profile is the ANDed tier-transition predicate evaluated AT the capstone — so the rung 'confirms' (§2.15) and the pillar-hybrid is the actual T-gate, both required, no overflow between them.",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "progression-gates-6",
+        "area": "Three combat-fed progression tracks (Q1 character-level / Q30 Combat-Rank meter / §4.2 Arms pillar)",
+        "question": "When a single combat encounter is won, what does it feed and by what independent curves? Combat now routes into THREE tracks with 'double-counting allowed': character level (Q1, fed by combat only, scales HP+attribute points), the Combat Rank rung-meter (Q30, gates martial rungs), and the Arms pillar (§4.2.1 deed jump, capped 0.04). Does one win increment all three, and what is the character-level XP curve — §4.5.1 (docs/prd.md:2699-2714) defines only PER-SKILL XP, not the standalone 'character level' track Q1 introduced?",
+        "why": "Q1 added character level as 'its own stored track' but no §4 curve defines its XP→level progression (only HP/attribute scaling OFF it is sketched). With Q30's Combat Rank meter and the Arms pillar also combat-fed and 'double-counting allowed,' a coder building combat (M2a, R3) needs to know the three are distinct stored fields with three distinct curves and exactly what a kill writes to each — otherwise combat power, rung promotion, and Arms-pillar accrual silently couple.",
+        "blocks": "M1",
+        "relates_to": [
+          "Q1",
+          "Q30",
+          "Q47",
+          "Q31"
+        ],
+        "lean": "Three distinct stored fields, one kill writes to all three but via three independent curves: a combat-XP→characterLevel curve (author it alongside §4.5.1, geometric like per-skill XP), the Combat-Rank meter (per-gates-1), and the capped Arms deed-ip (§4.2.1) — keep them additive, never one derived from another.",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "progression-gates-7",
+        "area": "Q22 cross-pillar combos as a §4.3 no-leakage exception (accrual spec)",
+        "question": "What exactly are the T2 'cross-pillar combos,' what magnitude do they grant, and how are they bounded so they don't break the locked §4.2 tie-outs? §4.3 (docs/prd.md:2629-2655) states 'no cross-pillar leakage except the explicit roll-ups'; Q22 authors combos as a 'narrow §4.3 no-leakage exception.' Which pillar pairs combo, is the bonus a deed-jump or a seasonal term, and does it count inside or on top of the LOCKED 70/30 deeds/seasonal split, the 0.04 per-event cap, and the trade-≤⅓ invariant?",
+        "why": "Q22 introduces a NEW accrual mechanic into the pillar system (my lens) that is explicitly an exception to the no-leakage rule the entire §4.2 gate math depends on. If the combo bonus lands outside the 70/30 envelope or the 0.04 cap, every §4.2.1/§4.2.2 tie-out (and the Q28 accrual-tie-out verifier) breaks for T2. The V2 author authoring §4.2.2/§4.8.3 needs the combo's accrual shape, not just the intent.",
+        "blocks": "later",
+        "relates_to": [
+          "Q22",
+          "Q7",
+          "Q6"
+        ],
+        "lean": "Make combos a capped deed-jump multiplier (not a new stream) that fires when two named pillars both clear a season threshold, counted INSIDE the 70% deeds budget and still subject to 0.04 — a flavour/anti-slump rebate, never new ip outside the gate envelope.",
+        "lens": "progression-gates"
+      },
+      {
+        "id": "stamina-1",
+        "area": "stamina",
+        "question": "q",
+        "why": "w",
+        "blocks": "M2",
+        "lens": "stamina"
+      },
+      {
+        "id": "save-tech-1",
+        "area": "save",
+        "question": "q",
+        "why": "w",
+        "blocks": "M0",
+        "lens": "save-tech"
+      },
+      {
+        "id": "narrative-1",
+        "area": "test",
+        "question": "q",
+        "why": "w",
+        "blocks": "V2-author",
+        "lens": "narrative"
+      },
+      {
+        "id": "cross-decision-interactions-1",
+        "area": "Progression gating (rung-meter × pillars × hybrid gate)",
+        "question": "There are now THREE progression currencies that can gate a tier-up — the Q30 numeric rung-meter (Estate Service / Combat Standing), the four Influence pillars, and the Q7 hybrid pillar-distribution — plus the per-rung story milestone. What is the exact composition rule for a tier-up gate? Specifically: is tier-up = (capstone rung's rung-meter cleared AND its story milestone) AND-separately (the Q7 hybrid pillar distribution), or are the pillar thresholds folded INTO the capstone rung's criteria (Q30 says 'an influence threshold MAY be a rung criterion')? And for the ~6 mid-rungs currently tagged pure RANK (R1/R2/R4/R6, V1/V3, G3), does Q30 add a story-milestone requirement to every rung or only the capstones?",
+        "why": "§4.1 currently encodes the tier-gate AS the simple pillar thresholds, while §3 gates the capstone rung on RANK+PILLAR — so 'the gate' and 'the capstone rung' are partly the same check. Q30 introduces a brand-new numeric rung-meter curve and Q7 reverses the pillar-threshold model simultaneously, so a V2 author cannot author §3/§4.1 without knowing whether these are one composite check or three independent ones (and whether double-counting one deed across all three is intended, which Q30 permits but never bounds).",
+        "relates_to": [
+          "Q30",
+          "Q7",
+          "Q1"
+        ],
+        "blocks": "V2-author",
+        "lean": "Make the rung-meter+story the per-rung gate; make the Q7 hybrid pillar distribution a SEPARATE capstone-only tier-gate check; allow the documented double-count but verifier-assert each stream sums independently.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-2",
+        "area": "Hybrid tier-gate × per-tier pillar-reveal count",
+        "question": "Q7's hybrid gate ('good in ALL · great in 2–3 · excellent in 1–2') assumes 3–4 revealed pillars, but the v1 tiers don't have that many gateable: T0 reveals only Arms+Estate (2), T1 adds Office (3, with Name appearing un-gated), T2 gates Estate+Office+Arms (3, Name never gates in v1). What is the explicit per-tier hybrid requirement, and what are the actual good/great/excellent ip band values per pillar per tier that replace the §4.1 simple-threshold table (e.g. T0→T1 was Arms ≥0.5K AND Estate ≥0.8K)? Does an un-gated-but-revealed Name count toward 'good in ALL'?",
+        "why": "Q7 explicitly reverses 'simple thresholds, no floor/overflow' (D-016/F3) — so the entire §4.1 table and its §4.2.1/§4.2.2 70/30 deed/seasonal back-solve must be re-authored, but the hybrid distribution is undefined for a 2-pillar tier and the three good/great/excellent bands have no numbers anywhere. The whole §4.8 pacing tie-out depends on these gate magnitudes, so V2 cannot re-derive pacing until the bands exist.",
+        "relates_to": [
+          "Q7",
+          "Q30"
+        ],
+        "blocks": "V2-author",
+        "lean": "Define 'revealed pillars' per tier (T0:2, T1:3, T2:3), set T0 = 'great in both' (2-pillar special case), and publish a good/great/excellent ip triple per pillar/tier so §4.2.1/§4.2.2 can re-tie-out to it.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-3",
+        "area": "Bounded cross-feed × combat-only level × the no-cross-feed invariant",
+        "question": "Q6 grants every skill (labour included) a small capped combat bonus, but Q1 keeps character level (HP + attribute points) combat-only, and the PRD currently lists 'no labour→combat cross-feed' as a §4.9 HARD INVARIANT plus a §4.5.3 TYPE-LEVEL wall (a labour-skill milestone granting STR/AGI is a type error). Through what channel does the Q6 bonus enter combat WITHOUT routing through level (Q1) or the banned attribute edge — a separate additive `skillCombatBonus` term on attackPower/derived stats? Capped against what (a flat ceiling vs a fraction of combat-derived power)? And which of the §4.9 invariant / §4.5.3 type-wall / §4.4 'no cross-feed' lines get rewritten vs kept?",
+        "why": "This is a direct contradiction, not an under-spec: Q6/D-022 supersedes a rule the PRD still states three times as canon/invariant. A coder building the M1 attributes/skills core needs the exact bonus channel and cap basis, and the verifier (§6.6 / §2.20 'no-hidden-edge') currently asserts the very edge Q6 now permits — so the invariant test must be redefined, not just the magnitude.",
+        "relates_to": [
+          "Q6",
+          "Q1"
+        ],
+        "blocks": "V2-author",
+        "lean": "Add a separate `labourSkillCombatBonus` term (not an attribute, not level), cap it at a small fraction of combat-derived attackPower per the level-cap Q6 mentions, and replace the §4.5.3/§4.9 absolute wall with a 'bounded ≤X% cross-feed' verifier assertion.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-4",
+        "area": "Combat satiety throttle × locked first-fight win-rate × satietyMax-by-level",
+        "question": "Q31 re-specs the LOCKED 20–35% first-fight win-rate as 'at adequate satiety' with a combat throttle floor ~0.5, but §4.6.1 has no satiety term at all. Three composed unknowns: (a) what is the satiety→combat-rate function and what satiety value defines 'adequate' (the level at which 20–35% is measured)?; (b) what is the win-rate at the 0.5 floor — since halving attackPower/speed could push it well below 20%, contradicting 'humbling but winnable, never a wall'?; and (c) with Q47 making satietyMax scale off the combat-only level (Q1), a fresh R3 MC has near-zero level → low satietyMax — does that make 'adequate satiety' trivially small or hard to reach at R3? Which satiety assumption do Q16's headless win-rate bands (R3/V2/V5/G1/G5) use?",
+        "why": "Q31, Q47, Q17, Q16 and the locked win-rate all touch the same combat-resolution math, but the win-rate is a human-signed acceptance criterion now being re-anchored to an undefined satiety axis. The M1 stamina formula (labour throttle) and the M2 combat throttle both need this function, and the CI pacing/win-rate tests can't assert against an un-anchored 'adequate satiety.'",
+        "relates_to": [
+          "Q31",
+          "Q47",
+          "Q17",
+          "Q16",
+          "Q1"
+        ],
+        "blocks": "V2-author",
+        "lean": "Define 'adequate satiety' = ≥some fixed fraction of satietyMax (e.g. ≥0.7), measure the locked 20–35% there, and bound the throttle so the floor (0.5) costs at most a few win-rate points — never below ~15%.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-5",
+        "area": "Cross-pillar combos × trade ≤⅓ cap × hybrid gate × no-leakage",
+        "question": "Q22 authors cross-pillar combos as a 'narrow §4.3 no-leakage exception' for the T2 anti-slump, but §4.2.3 trade ≤⅓ is a HARD verifier-enforced invariant and §4.3 currently states 'no cross-pillar leakage except the explicit roll-ups.' What is the combo spec, and how is it proven NOT to breach: (a) trade ≤⅓ (can a trade-heavy combo route value into Estate-non-trade or another pillar so the effective trade share exceeds ⅓?); (b) the Q7 hybrid gate (can a combo bonus substitute for being 'good in ALL,' letting a player skip a required pillar?); and (c) the no-floor/overflow rule (a combo that adds pillar A from pillar B's activity is functionally overflow)?",
+        "why": "Q22 carves an exception into the exact invariants (trade cap, no-leakage, no-overflow) that the verifier (§6.6) and the gate model (Q7) rely on, so without a bounded combo spec a V2 author either can't author it or risks silently re-opening the trade-carries-a-gate hole the trade ≤⅓ cap exists to prevent.",
+        "relates_to": [
+          "Q22",
+          "Q7",
+          "Q6"
+        ],
+        "blocks": "V2-author",
+        "lean": "Spec combos as a capped flat bonus to a THIRD pillar (Name) only, computed AFTER the trade-clamp and EXCLUDED from gate-threshold checks, so they speed play without ever satisfying a required pillar or moving the trade ratio.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-6",
+        "area": "Scope growth (E3 + more quests + intra-line dialogue) × the LOCKED time budget",
+        "question": "Q8 (author E3 for v1), Q23 (no quest-type budget — more quests, esp. later), and Q34 (intra-line dialogue branching in v1) all grow T2 content, but the 16h T2 budget and the per-rung ≥30-min floor are LOCKED and the §4.8.3 / §4.7.5 tables are already fully itemized across G0–G7 with only E0–E2 authored. Is the locked per-tier hour budget a CEILING (added E3/quest/dialogue content must be absorbed by re-tuning deed throughput so the tier still fits ~16h) or a FLOOR (E3 extends T2 past 16h)? And where does E3's §4.7.5 cost row + pillar/rank floor sit relative to the G0–G7 gates — inside an existing rung's spend, or does it add a rung?",
+        "why": "Three separate decisions inflate v1 scope while the budget that bounds v1 is locked and orthogonally held (K7 v1-scope-lock). A V2 author re-authoring §4.7.5/§4.8.3 must know whether to compress per-deed time or extend wall-clock — they cannot do both — and E3 needs a concrete cost/floor that the current 16h tie-out has no slot for.",
+        "relates_to": [
+          "Q8",
+          "Q23",
+          "Q34"
+        ],
+        "blocks": "V2-author",
+        "lean": "Treat the budget as a CEILING: E3 is an extra koku/Arms sink folded into G4–G7 (no new rung); more quests/dialogue add texture within existing rung minutes; retune throughput, never the locked hour budget.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-7",
+        "area": "Multi-backend newest-timestamp-wins × determinism / no-wall-clock",
+        "question": "Q37 picks the latest save by 'newest timestamp wins' across IndexedDB/localStorage/sessionStorage, while Q2/Q36 ban wall-clock from game logic (Date.now is lint-banned in core). Concretely: (a) where is the save timestamp sourced (a save-layer Date.now outside core?) and is that exemption documented?; (b) what is the tiebreaker when two backends carry equal timestamps, or when a backwards/skewed system clock makes an OLDER save look newer?; and (c) how does newest-wins compose with Q45's additive schema + future-version guard — if the newest-timestamp save is a FORWARD schema version the running build can't read, does newest-wins still pick it (and then reject-to-recovery per Q46), or fall through to the newest READABLE backend?",
+        "why": "Q37, Q2, Q44, Q45, Q46 all touch the same load path; 'newest timestamp wins' is a non-deterministic, wall-clock-dependent selector layered onto a determinism-first spec, and the equal/skewed/cross-version cases are exactly where players lose progress. M0 ships the save layer, so the conflict-resolution tiebreaker and timestamp source must be settled before any save code lands.",
+        "relates_to": [
+          "Q37",
+          "Q2",
+          "Q44",
+          "Q45",
+          "Q46"
+        ],
+        "blocks": "M0",
+        "lean": "Source the timestamp in the save layer (a documented core-lint exemption); add a monotonic save-counter as the real selector with timestamp as tiebreaker; never load a forward-version backend — fall through to newest READABLE, then reject-to-recovery.",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "cross-decision-interactions-8",
+        "area": "Incremental-combat unlock ladder × rung-meter × combat-only level",
+        "question": "Q15 makes combat incremental — exactly ONE weapon at T0, ≥1 new weapon/style/combat-skill per tier, 3 lines total each with a signature ability — but §2.7/§2.8 currently surface '2–3 weapon lines at R3' all at once. What is the explicit unlock schedule, and what TRIGGER kind gates each step: a combat rung (Combat Standing meter, Q30), a combat-only character level (Q1), a weapon-skill milestone (§4.5.3), or a STORY beat? With 3 lines across 3 v1 tiers, does that mean line-1 at T0, line-2 at T1, line-3 at T2 (so T0 truly has one weapon), and where do the per-line signature abilities and new stances reveal?",
+        "why": "Q15 is flagged as a NEW design surface (a combat-progression ladder) with zero spec and it contradicts the existing §2.7 'weapon lines at R3' wording. It composes with Q30 (rung-meter gating) and Q1 (combat-only level) — a V2 author must decide whether weapon unlocks ride the Combat Standing meter, the level, or story, and a coder building M2 combat can't author content/registries without the schedule and trigger kinds.",
+        "relates_to": [
+          "Q15",
+          "Q30",
+          "Q1"
+        ],
+        "blocks": "V2-author",
+        "lean": "One line/tier (T0 spear, T1 sword, T2 staff); gate each new weapon on a Combat Standing rung (RANK), gate its signature ability on a weapon-skill milestone (L25/L50), and rewrite §2.7's 'lines at R3' to 'first line at R3.'",
+        "lens": "cross-decision-interactions"
+      },
+      {
+        "id": "scope-m0m1-readiness-1",
+        "area": "scope/budget + milestone map (§7.1/§7.2)",
+        "question": "Now that Q8 un-parks E3 (estate grows E0→E3), Q15 makes combat an incremental rung-to-rung/tier-to-tier ladder (≥1 new weapon per tier), and Q23 removes the quest-type budget, how does §7 re-cut? Specifically: (a) §7.1.1/the PARKED table still say 'E0→E1→E2; E3-E5 parked' — a direct contradiction with Q8; which §4.7.5 cost row and which milestone (M5?) authors E3, and what does that do to the locked T2≈16h? (b) Q15 spreads weapon/style/combat-skill unlocks across M1-M5, so the 'combat = two fixed milestones M2a/M2b' model no longer contains all combat work — do M4 and M5 each gain a combat-progression sub-slice, and who authors the new combat-reveal ladder? (c) is the LOCKED ~28.5h still purely play-TIME (so the adds are build/authoring cost only), or do E3 + unbounded quests move a tier budget?",
+        "why": "§7's scope table and milestone map now literally contradict Q8 (E3) and structurally no longer fit Q15 (incremental combat) or Q23 (more quests). A V2 author cannot rewrite §7 without knowing which milestone absorbs E3 / the combat ladder / extra quests, and whether the play-time acceptance criterion is unchanged. Per D-021 the ~28.5h is a locked acceptance criterion, making this a 'where does the authoring land' question with E3 as the one real play-time risk.",
+        "relates_to": [
+          "Q8",
+          "Q15",
+          "Q23",
+          "Q34",
+          "Q37"
+        ],
+        "blocks": "V2-author",
+        "lean": "Keep ~28.5h play-time LOCKED (adds are build cost, not play-time); reconcile §7.1.1 to E0→E3 with E3 authored in M5; add a small combat-progression sub-slice to M4 and M5 while keeping M2a/M2b as the combat-ENGINE milestones.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-2",
+        "area": "RNG / determinism core (M0 §6.7)",
+        "question": "Q2 pins per-named-stream persisted cursors {combat,loot,seasonal,world-gen} with whole-integer dtTicks, but Q3/Q35 DERIVE weather/lunarPhase from a day-keyed sub-stream (re-derived from seed+day, not a monotonic persisted cursor). What is the canonical M0 stream set and the rng helper API that must serve BOTH patterns — persisted-monotonic-cursor streams AND stateless day-keyed derivations — and is day-keyed weather a 5th named stream or a pure (seed,'weather',day)→value function living outside GameState.rng? Also confirm where the fractional dtTicks remainder accumulates (app composition root) and what wall-time equals one tick.",
+        "why": "M0 builds GameState.rng + the tick contract + the seed helpers on day one, but the §7 M0 phase-2 text still describes 'the seeded RNG living IN GameState' as a single cursor — superseded by Q2/Q3. The dual pattern changes the rng field shape and the helper API; createInitialState() and tick() cannot be written without it.",
+        "relates_to": [
+          "Q2",
+          "Q3",
+          "Q35"
+        ],
+        "blocks": "M0",
+        "lean": "rng = { seed, cursors:{combat,loot,seasonal,worldgen} }; weather/lunar = a pure stateless deriveDayKeyed(seed,'weather',day) helper, NOT a persisted cursor; remainder accumulates in the app tick loop so tick() only ever receives whole integer ticks.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-3",
+        "area": "stored GameState skeleton (M0 §6.4)",
+        "question": "The §7 M0 GameState skeleton lists character {hp, satiety, attributePoints} but omits a level. Q1 adds a combat-fed stored level (HP + attribute points scale off it) and Q47 scales satietyMax off that level. (a) Add character.level to the M0 stored surface with what INITIAL value at the cold open — combat doesn't begin until R3/M2a, so level sits at its floor through all of M1; is the floor level 1 (hpMax=40+8·1+…), and what is satietyMax at that floor? (b) Given Q45's additive/backwards-compatible schema, does the M0 skeleton PRE-DECLARE the Q34 nested shapes (estateWealth.subEngines, CombatEncounterState, dialogue choices[]) or add them additively at their milestone (M3/M5)?",
+        "why": "M0 phase-2 freezes the stored surface and the determinism test hashes it; a wrong field set forces an early migration. Q1/Q47 add fields §7 omits, and Q34/Q45 leave pre-declare-vs-additive unresolved — a day-one data-model call.",
+        "relates_to": [
+          "Q1",
+          "Q34",
+          "Q45",
+          "Q47"
+        ],
+        "blocks": "M0",
+        "lean": "Add character.level (floor 1) to the M0 surface; rely on Q45 additive schema — do NOT pre-declare subEngines/CombatEncounterState/dialogue in M0, add them as optional fields at M3/M5, keeping the M0 skeleton minimal with no speculative storage.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-4",
+        "area": "reveal engine (M0 §2.1/§3.0)",
+        "question": "Q17 says simultaneous reveals 'serialize into a deterministic one-per-beat queue,' but M0's reveal engine (phase 3) currently fires exactly one event synchronously per flag-flip. Does the pending-reveal queue live in STORED GameState (so a save mid-queue resumes and replays byte-identically), what defines a 'beat' that dequeues the next reveal (a tick? a player action? a wall-clock gap?), and does the queue gate game progress or only pace the chrome/log?",
+        "why": "The reveal engine is the spine the whole game is built on and is built in M0; Q17 changed its contract from synchronous-one-shot to a paced deterministic queue. Both M0 DoD bars (byte-identical determinism + save round-trip identity) require the queue's storage and dequeue rule pinned before it's coded.",
+        "relates_to": [
+          "Q17",
+          "Q34"
+        ],
+        "blocks": "M0",
+        "lean": "Queue lives in stored state (a revealQueue[] in GameState); dequeue one per tick-beat; it paces presentation only and never blocks the sim — keeps determinism and save-resume trivial.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-5",
+        "area": "persistence layer (M0 §6.8)",
+        "question": "Q37/Q44/Q45/Q46 redefine the save layer (IndexedDB + localStorage [+ sessionStorage] redundant write; read-all/newest-timestamp-wins; atomic write + calm notice; app-identity magic field + reject-to-recovery), but the §7 M0 spec still says 'IndexedDB single autosave.' Is the full multi-backend redundant persistence built in M0 (where the persistence boundary lands), or does M0 ship single-IndexedDB with the fallback backends + newest-wins added later (M7, where itch cross-origin-iframe survival is tested)?",
+        "why": "Persistence is an M0 deliverable with its own boundary and round-trip/determinism tests; retrofitting multi-backend write + timestamp-arbitration + magic-field reject-to-recovery later means re-touching the save contract and its tests. The M0-vs-later split must be pinned to scope M0.",
+        "relates_to": [
+          "Q37",
+          "Q44",
+          "Q45",
+          "Q46"
+        ],
+        "blocks": "M0",
+        "lean": "Build the backend-abstraction + atomic write + magic field + newest-wins in M0 (cheap at the boundary; the tests want it once); defer only the itch cross-origin-iframe survival TEST to M7.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-6",
+        "area": "rung-meter / progression (M1 §2.15/§3.2)",
+        "question": "Q30 gates rung promotion on BOTH a numeric rung-meter (a real §4 curve fed by 'rung-specific, story-consistent activities — not all actions') AND story milestones, but M1 (phase 4) builds R0→R2 against the OLD single 'Estate Service meter accrues from recognized labour' text. Before M1 we need: (a) the rung-meter accrual law — which activities feed each rung's meter and at what magnitudes; (b) the R0/R1/R2 numeric thresholds (the new third balance curve: rung-meter · pillars · XP); (c) the R0-R2 story-milestone set and how AND-composition resolves (meter-ready-but-story-pending vs the reverse).",
+        "why": "Q30 is a P0 progression-mechanism change that introduces a third balance curve the PRD does not yet specify. M1's entire job is R0→R2 promotion, which can no longer be coded against the stale §2.15 single-meter description.",
+        "relates_to": [
+          "Q30",
+          "Q10"
+        ],
+        "blocks": "M1",
+        "lean": "Define the rung-meter as a small allow-list of rung-specific deeds per rung (data-as-code in ranks.ts), thresholds provisional in balance.ts; AND-gate = promote only when meter≥threshold AND all story flags set, surfacing an 'awaiting X' read when one side lags.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-7",
+        "area": "labour→combat cross-feed + verifier (M1/M2a §4.4/§6.6)",
+        "question": "Q6 relaxes the no-labour→combat lock into a BOUNDED capped cross-feed (every skill, labour included, grants a small capped combat bonus). This needs (a) a SHAPE before M1 builds skills.ts/skill-XP — per-skill-level vs per-milestone (~every 3–5 levels), which value carries the bonus, the cap formula, and the level-cap on the benefit; and (b) a rewrite of the M2a DoD assertion + Q28 verifier invariant 'no labour→combat cross-feed enters any combat number,' which now asserts the OPPOSITE of D-022. What is the cross-feed shape and the replacement verifier check?",
+        "why": "M1 authors the labour skills and the XP core; whether skills.ts carries a combatBonus field and how it's capped is a day-one data-model call. The existing machine-checked invariant now contradicts the governing V2 decision and would mis-gate M2a.",
+        "relates_to": [
+          "Q6",
+          "Q28",
+          "Q1"
+        ],
+        "blocks": "M1",
+        "lean": "Per-skill milestone bonus (a small flat combat-stat add every N skill-levels, hard-capped total ≤ a small fraction of combat-sourced power); the verifier check flips from '== 0' to 'total skill-derived combat bonus ≤ CAP'.",
+        "lens": "scope-m0m1-readiness"
+      },
+      {
+        "id": "scope-m0m1-readiness-8",
+        "area": "fun-proxy instrumentation (M1 §7/fun-factor.md)",
+        "question": "Q4 wires fun-proxies into M1 (+ a fun risk row), Q20 makes the deed-cadence proxy tier-relative (T0~5 min), and Q16 adds headless win-rate bands. For M1: which fun-proxies are instrumented at M1 (dead-time, reward/unlock cadence, always-a-visible-next-goal, first-5-min hook), what are their T0 pass thresholds, and are they REPORT-ONLY at M1 (like the ≥30-min pacing instrumentation, tuned at M6) or already gating the build?",
+        "why": "Q4 explicitly adds an M1 task that is not in the current §7 M1 phase list. The M1 author needs the proxy set, thresholds, and whether they fail the build, to know if it's a measurement tool or a hard gate.",
+        "relates_to": [
+          "Q4",
+          "Q20",
+          "Q16"
+        ],
+        "blocks": "M1",
+        "lean": "Instrument at M1 as REPORT-ONLY (mirror the pacing harness: exists at M1, gates at M6); take the proxy set + thresholds from fun-factor.md with deed-cadence T0~5 min.",
+        "lens": "scope-m0m1-readiness"
+      }
+    ],
+    "synthesis": {
+      "count": 19,
+      "coverage_notes": "Three lenses returned empty stubs (stamina-1, save-tech-1, narrative-1 = literal \"q\"/\"w\" placeholders), so two areas are surprisingly under-questioned and should be treated as KNOWN GAPS, not as \"clean\": (1) the LABOUR stamina/satiety throttle itself — only its combat-side coupling (Q31/Q47) got follow-ups; the §2.3 labour throttle shape, STAMINA_RATE_FLOOR, and how satietyMax-by-level (Q47) interacts with the T0 labour loop got no dedicated question even though it is M1's core formula; and (2) narrative/dialogue — Q34's intra-line dialogue branching only surfaced as a scope/data-model concern (cross-decision-6, scope-m0m1-3), never as a content/authoring-shape question. save-tech folded cleanly into the M0 persistence cluster, so its empty stub is harmless. The SINGLE most important interaction to resolve is the tier-up gate composition (cluster 'Hybrid tier-gate composition', E2): Q30's numeric rung-meter, the four Influence pillars, Q7's hybrid good/great/excellent distribution, and the per-rung story milestone now all converge on the one transition each tier, and §3/§4.1/§2.15 give three different answers for whether the capstone IS the gate or merely confirms it — the V2 author cannot write a deterministic gate predicate until this composition rule is pinned. The sharpest direct CONTRADICTION (not just under-spec) is the labour->combat cross-feed (cluster D): Q6/D-022 now permits an edge the PRD still states three times (§4.4, §4.5.3 type-wall, §4.9 invariant) as canon and that the §6.6 verifier actively asserts == 0 — that machine-checked test must be inverted, so it is P1 even though combat is M2.",
+      "clusters": [
+        {
+          "theme": "Save & persistence layer — M0 scope and the determinism-safe save selector",
+          "priority": "P0-blocks-M0",
+          "followup_ids": [
+            "cross-decision-interactions-7",
+            "scope-m0m1-readiness-5",
+            "save-tech-1"
+          ],
+          "questions": [
+            {
+              "q": "Does M0 build the FULL multi-backend save layer (IndexedDB + localStorage + sessionStorage redundant write, atomic write, app-identity magic field, reject-to-recovery), or ship single-IndexedDB now and add fallbacks + arbitration later?",
+              "why": "Persistence is an M0 deliverable with its own boundary + round-trip/determinism tests; retrofitting multi-backend write and magic-field reject-to-recovery later re-touches the save contract and its tests.",
+              "relates_to": [
+                "Q37",
+                "Q44",
+                "Q45",
+                "Q46"
+              ],
+              "lean": "Build the backend-abstraction + atomic write + magic field + newest-wins selector in M0 (cheap at the boundary, the tests want it once); defer ONLY the itch cross-origin-iframe survival TEST to M7."
+            },
+            {
+              "q": "How is the latest save selected without violating the no-wall-clock rule? Pin: timestamp source (a documented save-layer Date.now exemption?), the real selector (monotonic save-counter vs raw timestamp), the equal/skewed-clock tiebreaker, and forward-schema-version behaviour.",
+              "why": "'Newest-timestamp-wins' is a wall-clock-dependent, non-deterministic selector layered onto a determinism-first core (Date.now is lint-banned in core); the equal/skewed/cross-version cases are exactly where players silently lose progress, and M0 ships this load path.",
+              "relates_to": [
+                "Q37",
+                "Q2",
+                "Q44",
+                "Q45",
+                "Q46"
+              ],
+              "lean": "Source the timestamp in the save layer (a documented core-lint exemption); use a monotonic save-counter as the real selector with timestamp only as tiebreaker; never load a forward-version backend — fall through to the newest READABLE backend, then reject-to-recovery."
+            }
+          ]
+        },
+        {
+          "theme": "Determinism core — RNG stream set, reveal queue, and the M0 stored-state skeleton",
+          "priority": "P0-blocks-M0",
+          "followup_ids": [
+            "scope-m0m1-readiness-2",
+            "scope-m0m1-readiness-3",
+            "scope-m0m1-readiness-4"
+          ],
+          "questions": [
+            {
+              "q": "What is the canonical M0 RNG shape and helper API that serves BOTH persisted-monotonic-cursor streams (combat/loot/seasonal/worldgen) AND stateless day-keyed derivations (weather/lunar)? Is day-keyed weather a 5th named stream or a pure (seed,'weather',day)->value function outside GameState.rng, and where does the fractional dtTicks remainder accumulate?",
+              "why": "M0 builds GameState.rng + the tick contract on day one; the old §7 single-cursor text is superseded by Q2/Q3 and the dual pattern changes the rng field shape — createInitialState()/tick() can't be written without it.",
+              "relates_to": [
+                "Q2",
+                "Q3",
+                "Q35"
+              ],
+              "lean": "rng = { seed, cursors:{combat,loot,seasonal,worldgen} }; weather/lunar = a pure stateless deriveDayKeyed(seed,'weather',day) helper (NOT a persisted cursor); the dtTicks remainder accumulates in the app tick loop so tick() only ever receives whole integer ticks."
+            },
+            {
+              "q": "What is the reveal-queue contract? Does the pending-reveal queue live in STORED GameState (so a mid-queue save replays byte-identically), what 'beat' dequeues the next reveal (a tick? a player action?), and does the queue gate the sim or only pace presentation/chrome?",
+              "why": "Q17 changed the reveal engine — the game's spine, built in M0 — from synchronous one-shot to a paced deterministic queue; both M0 DoD bars (byte-identical determinism + save round-trip) require its storage and dequeue rule pinned before it's coded.",
+              "relates_to": [
+                "Q17",
+                "Q34"
+              ],
+              "lean": "Queue lives in stored state (revealQueue[] in GameState); dequeue one per tick-beat; it paces presentation only and never blocks the sim — keeps determinism and save-resume trivial."
+            },
+            {
+              "q": "What goes in the M0 stored-state skeleton beyond {hp, satiety, attributePoints}? Specifically: add character.level (Q1, combat-fed) with initial floor value 1 and its satietyMax-at-floor (Q47); and do we PRE-DECLARE Q34's nested shapes (subEngines, CombatEncounterState, dialogue choices[]) or add them additively at M3/M5?",
+              "why": "M0 freezes the stored surface and the determinism test hashes it; a wrong field set forces an early migration. Q1/Q47 add fields §7 omits and Q34/Q45 leave pre-declare-vs-additive open — a day-one data-model call.",
+              "relates_to": [
+                "Q1",
+                "Q47",
+                "Q34",
+                "Q45"
+              ],
+              "lean": "Add character.level (floor 1) to the M0 surface; rely on Q45's additive schema — do NOT pre-declare subEngines/CombatEncounterState/dialogue; add them as optional fields at M3/M5, keeping the M0 skeleton minimal with no speculative storage."
+            }
+          ]
+        },
+        {
+          "theme": "Rung-meter accrual law — the missing third balance curve + R0-R2 gates",
+          "priority": "P1-blocks-M1",
+          "followup_ids": [
+            "progression-gates-1",
+            "progression-gates-2",
+            "scope-m0m1-readiness-6"
+          ],
+          "questions": [
+            {
+              "q": "What is the numeric rung-meter law and the R0/R1/R2 thresholds? Pin: per-crossing increment, the per-rung threshold CURVE (H5's 'front-loaded-then-ramp', unquantified), per-rung-reset vs cumulative-lifetime, how it's back-solved against the LOCKED >=30-min-per-rung floor, and the R0-R2 story-milestone set + the AND-composition behaviour when meter and story are out of sync.",
+              "why": "Q30 took the HARD option (numeric meter + story) and adds a third §4 balance curve that simply does not exist; M1's whole job is the R0->R2 ladder, which can't be coded against the stale §2.15 single-meter text, and the §6.6 gate-monotonicity verifier has no rung target without it.",
+              "relates_to": [
+                "Q30",
+                "Q9",
+                "Q28",
+                "Q10"
+              ],
+              "lean": "Per-rung-reset meter; each rung's threshold = (>=30-min floor x that rung's eligible-activity rate), derived the SAME way the koku column already is in §4.8.1 so meter and floor stay in lockstep; thresholds provisional in balance.ts; AND-gate = promote only when meter>=threshold AND all story flags set, surfacing an 'awaiting X' read when one side lags."
+            },
+            {
+              "q": "What fuels the rung-meter — the SAME §4.2.1 pillar-deed inventory (tagged per-rung) or a SEPARATE authored per-rung activity set? And when a deed double-counts (Q30 allows meter + pillars + house), is its meter contribution an INDEPENDENT budget or literally the same ip already in §4.2.1?",
+              "why": "Q30's 'rung-specific, not all actions bump it' qualifier implies a subset/parallel inventory; if it needs its own per-rung activity list that is net-new authoring for every rung (R0-G7), and the shared-vs-independent-budget choice changes the §4.8.1 pacing and the Q28 tie-out completely.",
+              "relates_to": [
+                "Q30",
+                "Q28",
+                "Q23"
+              ],
+              "lean": "Reuse the §4.2.1 deeds as meter fuel but tag each with the rung(s) it advances (a rungActivityTags field) and let it double-count into an INDEPENDENT meter budget — avoids authoring a parallel inventory while honouring 'not all actions bump it'."
+            }
+          ]
+        },
+        {
+          "theme": "Labour->combat bounded cross-feed — channel, cap, and the inverted verifier",
+          "priority": "P1-blocks-M1",
+          "followup_ids": [
+            "combat-progression-3",
+            "cross-decision-interactions-3",
+            "scope-m0m1-readiness-7"
+          ],
+          "questions": [
+            {
+              "q": "Fully spec the bounded cross-feed: through what NEW channel does a labour skill's bonus enter combat without routing through attributes (the banned §4.5.3 edge) or character level (Q1) — a separate additive skillCombatBonus term? Which combat quantity, what magnitude + cadence (per-level vs ~every-5-level milestone), capped against what (flat ceiling vs a fraction of combat-derived power), pooled or per-skill, and does conditioning stay the ZERO-stat enablement gate? And which of §4.4 / §4.5.3 type-wall / §4.9 invariant lines get rewritten, with the §6.6 verifier flipped from '== 0' to '<= CAP'?",
+              "why": "This is a direct contradiction, not under-spec: Q6/D-022 supersedes a rule stated three times as canon and machine-checked by the verifier as exactly zero. M1 authors skills.ts/skill-XP, so whether it carries a combatBonus field and how it's capped is a day-one data-model call, and the M2a DoD assertion + Q28 invariant now assert the OPPOSITE of the governing decision.",
+              "relates_to": [
+                "Q6",
+                "Q1",
+                "Q28"
+              ],
+              "lean": "A separate effectiveStats addend (labourSkillCombatBonus — NOT an attribute, NOT level), granted at ~every-5-level milestones, with a HARD global cap (~10-15% of combat-derived power) so big power stays combat-only per Q1; conditioning stays the ZERO-stat gate; replace the §4.5.3/§4.9 absolute wall with a 'bounded <= CAP' verifier assertion."
+            }
+          ]
+        },
+        {
+          "theme": "Fun-proxy instrumentation at M1 — set, thresholds, report-only vs gating",
+          "priority": "P1-blocks-M1",
+          "followup_ids": [
+            "scope-m0m1-readiness-8"
+          ],
+          "questions": [
+            {
+              "q": "Which fun-proxies are instrumented at M1 (dead-time, reward/unlock cadence, always-a-visible-next-goal, first-5-min hook), what are their T0 pass thresholds, and are they REPORT-ONLY at M1 or already gating the build?",
+              "why": "Q4 adds an M1 task not in the current §7 phase list; the M1 author needs the proxy set, thresholds, and fail-the-build vs measurement-tool answer to know what they're building.",
+              "relates_to": [
+                "Q4",
+                "Q20",
+                "Q16"
+              ],
+              "lean": "Instrument at M1 as REPORT-ONLY (mirror the >=30-min pacing harness: exists at M1, gates at M6); take the proxy set + thresholds from fun-factor.md with deed-cadence T0 ~5 min."
+            }
+          ]
+        },
+        {
+          "theme": "Hybrid tier-gate (Q7) — thresholds, per-tier pillar set, and gate composition",
+          "priority": "P2-blocks-V2-author",
+          "followup_ids": [
+            "progression-gates-3",
+            "progression-gates-4",
+            "progression-gates-5",
+            "cross-decision-interactions-1",
+            "cross-decision-interactions-2"
+          ],
+          "questions": [
+            {
+              "q": "Publish the good/great/excellent ip triples per pillar per tier that replace the §4.1 simple-threshold table, the exact counts (great in 2 or 3, excellent in 1 or 2), the per-tier REVEALED-pillar set (T0=2 Arms+Estate, T1=3, T2=3), the T0 2-pillar special case, whether overflow-substitution is allowed, and which of §4.1 / §2.16 / §1.6.3 becomes canonical.",
+              "why": "Q7 reverses 'simple thresholds, no floor/overflow' (D-016) but three sections still call that formula REJECTED and the hybrid distribution is undefined for a 2-pillar T0; the whole §4.8 pacing tie-out and the §4.2.1/§4.2.2 70/30 back-solve depend on these magnitudes, so V2 can't re-derive pacing until the bands and pillar sets exist.",
+              "relates_to": [
+                "Q7",
+                "Q30"
+              ],
+              "lean": "Map the existing §4.1 named-pillar threshold to 'excellent', set 'great'~0.5x and 'good'~0.2x of it; require excellent in the tier's 1-2 named pillars + good in all REVEALED pillars; T0 = the 2-pillar special case ('good in both + excellent in 1', no phantom 3rd); NO overflow-substitution (floor only); make §4.1 canonical and rewrite §2.16/§1.6.3."
+            },
+            {
+              "q": "How do the three progression currencies compose AT the capstone? Is tier-up = (capstone rung-meter cleared AND its story milestone) AND-separately (the Q7 hybrid pillar profile), or are pillar thresholds folded INTO the capstone rung criteria? Is the capstone the GATE or merely the §2.15 'confirmation'? And do the ~6 pure-RANK mid-rungs (R1/R2/R4/R6, V1/V3, G3) gain a story-milestone requirement, or only capstones?",
+              "why": "Q30 (rungs gate on meter+story), §2.15 (capstone confirms, pillars gate in parallel), and Q7 (the tier gate is now a hybrid pillar distribution) give three different answers for the single most important transition each tier; the V2 author cannot write the gate predicate, and the build cannot evaluate a tier transition deterministically, until this is closed.",
+              "relates_to": [
+                "Q30",
+                "Q7",
+                "Q1"
+              ],
+              "lean": "Rung-meter + story = the per-rung gate (story only at capstones; mid-rungs stay RANK-only); the Q7 hybrid pillar distribution is a SEPARATE capstone-only tier-gate, both ANDed (so the rung 'confirms' per §2.15 and the pillar-hybrid is the actual T-gate); double-counting allowed but the verifier asserts each stream sums independently."
+            }
+          ]
+        },
+        {
+          "theme": "Combat progression ladder (Q15) — reveal schedule and the three weapon lines",
+          "priority": "P2-blocks-V2-author",
+          "followup_ids": [
+            "combat-progression-1",
+            "combat-progression-2",
+            "cross-decision-interactions-8"
+          ],
+          "questions": [
+            {
+              "q": "Author the T0-T2 staggered combat-reveal ladder: the rung-by-rung order in which stance / ability slot / item slot / retreat / status effects / multi-target / auto-continue / durability bands / 2nd & 3rd weapon lines reveal (one per beat, no UI-dump), what slips to T1/T2, and the TRIGGER kind per step (combat rung / combat-level / weapon-skill milestone / story). Rewrite §3.2's R3 row and §2.7/§2.8 'weapon lines at R3' which currently dump the whole combat system at once.",
+              "why": "Q15 (incremental, exactly one weapon at T0) + Q17 (no UI-dumps) demand a staggered schedule the PRD lacks — §3.2's R3 row and the M2a 'Lands' list dump panel+stance+ability+item+retreat+weapon+Equipment+Inventory+Bestiary in one beat; the V2 author can't rewrite the reveal rows and the coder can't author the M2a/M2b unlock predicates without it.",
+              "relates_to": [
+                "Q15",
+                "Q17",
+                "Q33",
+                "Q16",
+                "Q30",
+                "Q1"
+              ],
+              "lean": "R3 = the single starter weapon + bare auto-resolve loop + retreat only; stance slot at R5 (when real watches start); ability/item slots at the first weapon-line L10 milestone; durability bands surface with the loot->craft loop at R4; one new line per tier gated on a Combat Standing rung, its signature ability gated on a weapon-skill milestone (L25/L50); rewrite §2.7/§2.8 to 'first line at R3'."
+            },
+            {
+              "q": "Specify the 3 weapon lines (spear/sword/staff): each line's distinguishing §4.6 auto-battler params (baseSpeed / reach-or-targetCount / attack profile) and its signature L50 ability — and is the M2a 'crude carrying-pole' fixture a 0th improvised weapon or IS it line 1? Reconcile §2.7e/§2.8's '2-3 weapon lines at T0' down to Q15's 'exactly one'.",
+              "why": "Q15 mandates 3 archetype-distinct lines each with a signature ability, but §2.8's Combatant model carries attackSpeed/targetCount only via STANCE (no per-line archetype data), the 3 signatures are unnamed, and the PRD never says whether the crude pole is a line — a coder can't build the weapon/skill registry or differentiate combat feel without this.",
+              "relates_to": [
+                "Q15"
+              ],
+              "lean": "Crude pole = a 0th improvised weapon (not a line); spear = first real line at the R3 drills (reach, multi-target lean, signature sweep); sword arrives at T1 (balanced, crit-lean, iai strike); staff at T2 (fast, stagger/defensive, guard-break); reconcile §2.7e/§2.8 wording to 'one weapon at T0'."
+            }
+          ]
+        },
+        {
+          "theme": "Combat numeric tracks & throttles — character level, mobLevel, satiety, durability",
+          "priority": "P2-blocks-V2-author",
+          "followup_ids": [
+            "combat-progression-4",
+            "combat-progression-5",
+            "combat-progression-6",
+            "combat-progression-7",
+            "progression-gates-6",
+            "cross-decision-interactions-4"
+          ],
+          "questions": [
+            {
+              "q": "Define the character Combat Level XP->level curve (Q1: own stored track, combat-fed, HP + attribute points scale off it) and disambiguate the THREE combat-fed tracks — character Combat Level (Q1), the Combat Standing rung-meter (Q30), and the Arms pillar (§4.2.1) — stating exactly what one kill writes to each. Reconcile §2.8's 'Combat Level = CombatDeedsPool (XP + deed-count)' with Q1's 'XP only', and pin the §2.7a 'compounding skill-XP multiplier' (or scope it out).",
+              "why": "hpMax = 40 + 8*characterLevel and '+1 attribute point per 2 levels' both depend on a characterLevel curve that §4 does not define (only per-SKILL XP exists); the M2a ~85% post-drills win-rate test needs a leveled MC; and §2.8 conflates Level with a deeds pool that Q1/Q30 both cut against — left unspecified, combat power, rung promotion, and Arms accrual silently couple.",
+              "relates_to": [
+                "Q1",
+                "Q30",
+                "Q47"
+              ],
+              "lean": "Three distinct stored fields; one kill writes all three via INDEPENDENT curves: a geometric combat-XP->characterLevel curve (reuse the §4.5.1 shape, slower, fed by combat ONLY); the deed-count feeds Combat Standing + Arms, NOT level; rewrite §2.8 to stop conflating Level with the deeds pool; keep the skill-XP multiplier tiny or scope it out of v1 to avoid an unintended combat->labour loop."
+            },
+            {
+              "q": "Where does mobLevel come from for the §4.6.5 on-kill XP path? MobDef (§2.9c) has no level field (only stats, dangerRing, spawnWeights) — is mobLevel authored per-mob, derived from dangerRing, or computed from the stat budget?",
+              "why": "The on-kill XP path (feeding both character level and weapon-skill XP) is built in M2a and the enemy registry is authored in M2b; the coder can't implement the XP formula or author content/enemies.ts with a referenced field that has no defined origin.",
+              "relates_to": [
+                "Q1",
+                "Q15"
+              ],
+              "lean": "Author mobLevel as an explicit per-mob field on MobDef (most legible, hand-tunable bestiary/danger-gradient), defaulting to roughly the dangerRing's expected character-level so XP scales with the gradient."
+            },
+            {
+              "q": "Specify the satiety->combat throttle Q31 adds to §4.6.1 (which stats it multiplies — attackPower? attackSpeed?, the curve shape, floor ~0.5), the numeric 'adequate satiety' reference at which the LOCKED 20-35% first-fight win-rate is re-measured, whether it shares the §2.3/Q17 labour STAMINA_RATE_FLOOR or is a separate combat coefficient, and a bound so the floor never pushes win-rate below ~15%.",
+              "why": "Q31 perturbs a human-LOCKED acceptance criterion (D-022) and adds a term §4.6.1 lacks; the M2a win-rate test is now under-defined (20-35% at WHAT satiety?), Q47 ties satietyMax to the combat-only level so a fresh R3 MC may have a trivially small satietyMax, and the coder can't write the combat math or the test without the term and reference point.",
+              "relates_to": [
+                "Q31",
+                "Q47",
+                "Q17",
+                "Q16"
+              ],
+              "lean": "A single satietyRate multiplier on attackPower (lighter one on attackSpeed), flat above ~0.7 satietyMax kneeing to a 0.5 floor; 'adequate satiety' = the flat region (>=~0.7); a SEPARATE combat coefficient (not the labour floor) so they tune independently; bound the throttle so the floor costs only a few win-rate points (never below ~15%); tag the 20-35% as 'at adequate satiety'."
+            },
+            {
+              "q": "Define the graded durability model (Q33: bands, no auto-unequip, never weaponless): the band thresholds + stat multipliers, which stats each band multiplies (weapon attackPower only, or all statMods; do armour/non-weapon slots band too?), the wear RATE (per swing / per fight / per deed), and the repair/re-craft restore path.",
+              "why": "Q33 reverses the binary-unequip recommendation into graded bands with zero numbers in §2.10/§4; the M2b DoD applies durability wear in the §4.6 math and the wear must be deterministic-friendly for byte-identical replay — a coder can't implement stepped wear without thresholds, multipliers, scope, and rate.",
+              "relates_to": [
+                "Q33",
+                "Q2",
+                "Q36"
+              ],
+              "lean": "4 integer bands on the weapon's attackPower only (75+/50+/1+/0 -> 1.0/0.9/0.75/0.55), FIXED wear per fight (not per swing — cheap ticks + replay-stable), armour bands identically on defense; repair/re-craft restores to max; author all values in balance.ts as levers."
+            }
+          ]
+        },
+        {
+          "theme": "Scope/budget reconciliation — §7 milestone re-cut under E3 + more quests + combat ladder",
+          "priority": "P2-blocks-V2-author",
+          "followup_ids": [
+            "cross-decision-interactions-6",
+            "scope-m0m1-readiness-1"
+          ],
+          "questions": [
+            {
+              "q": "Is the LOCKED per-tier hour budget (T2~16h, total ~28.5h) a CEILING or a FLOOR under the scope growth from Q8 (author E3), Q23 (more quests), Q34 (intra-line dialogue), and Q15 (incremental combat)? And in the §7 re-cut: which milestone authors E3 and where does its §4.7.5 cost row / pillar-rank floor sit (inside a G-rung's spend or a new rung), do M4 and M5 each gain a combat-progression sub-slice, and is ~28.5h still purely play-TIME (adds = build cost only)?",
+              "why": "§7's scope table and milestone map now literally contradict Q8 (E3 still 'parked') and structurally no longer contain Q15 (combat spread across M1-M5) or Q23; the V2 author re-authoring §4.7.5/§4.8.3/§7 must know whether to compress per-deed throughput or extend wall-clock (cannot do both), with E3 the one real play-time risk.",
+              "relates_to": [
+                "Q8",
+                "Q23",
+                "Q34",
+                "Q15",
+                "Q37"
+              ],
+              "lean": "Budget is a CEILING: ~28.5h play-time stays LOCKED and all adds are build/authoring cost; reconcile §7.1.1 to E0->E3 with E3 authored in M5 as an extra koku/Arms sink folded into G4-G7 (NO new rung); add small combat-progression sub-slices to M4/M5 while keeping M2a/M2b as the combat-ENGINE milestones; retune throughput, never the hours."
+            }
+          ]
+        },
+        {
+          "theme": "Tune-later — per-rung win-rate bands and T2 cross-pillar combos",
+          "priority": "P3-tune-later",
+          "followup_ids": [
+            "combat-progression-8",
+            "progression-gates-7",
+            "cross-decision-interactions-5"
+          ],
+          "questions": [
+            {
+              "q": "Define the target headless win-rate bands at V2 / V5 / G1 / G5 (R3's 20-35% fresh / ~85% post-drills is already set) — the fresh-at-rung and geared/trained-at-rung targets against each tier's representative threat — so Q16's 2nd pacing proxy can be instrumented.",
+              "why": "Q16 mandates win-rate bands at R3/V2/V5/G1/G5 as a regression-tested combat-difficulty proxy, but only R3 has numbers; the four later rungs are unanchored so the proxy can't be wired and the T1-T2 difficulty curve is untuned.",
+              "relates_to": [
+                "Q16",
+                "Q31",
+                "Q4"
+              ],
+              "lean": "Keep each 'first encounter at a combat rung' humbling-but-winnable (~30-45% fresh) and each 'after that rung's intended training/gear' comfortable (~80%+), tightening slightly per tier; wire the bands into the M3/M6 fun-proxy harness alongside the pacing floor."
+            },
+            {
+              "q": "Spec the Q22 T2 cross-pillar combos (the anti-slump 'narrow §4.3 no-leakage exception'): which pillar pairs combo, the magnitude, and the proof they don't breach the LOCKED invariants — counted inside or on top of the 70/30 deeds/seasonal split and the 0.04 per-event cap, kept below the trade-<=1/3 ratio, and EXCLUDED from the Q7 gate-threshold check so a combo can't substitute for being 'good in ALL'.",
+              "why": "Q22 carves an exception into the exact invariants (trade cap, no-leakage, no-overflow) that the §6.6 verifier and the Q7 gate model rely on; if the bonus lands outside the 70/30 envelope or 0.04 cap every §4.2 tie-out breaks for T2, and an unbounded combo silently re-opens the trade-carries-a-gate hole.",
+              "relates_to": [
+                "Q22",
+                "Q7",
+                "Q6"
+              ],
+              "lean": "Spec combos as a capped FLAT bonus to a THIRD pillar (Name) only, computed AFTER the trade-clamp, counted INSIDE the 70% deeds budget and still subject to 0.04, and EXCLUDED from gate-threshold checks — a flavour/anti-slump rebate that speeds play without ever satisfying a required pillar or moving the trade ratio."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Analyze"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Synthesize"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "fu:combat-progression",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "a461bd7ec5d244b3a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940548,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Read my lens sections in full (§2.3, §2.7, §2.8, §2.9, §2.1…",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477223658,
+      "tokens": 124046,
+      "toolCalls": 12,
+      "durationMs": 283110,
+      "resultPreview": "{\"summary\":\"Read my lens sections in full (§2.3, §2.7, §2.8, §2.9, §2.10, §3.2/§3.4 ladder, §4.4-§4.8, §2.15, M1/M2a/M2b in §7) plus the full prd_human_feedback.md (Block L) and the master sheet. Surfaced 8 genuine combat-progression follow-ups. The dominant gap: Q15 makes combat INCREMENTAL and Q17 bans UI-dumps, but the PRD still reveals the entire combat system (panel + stance/ability/item/retr…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "fu:progression-gates",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "a230b1fed8db906c0",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940549,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Lens: progression-gates (Q30 rung-meter, Q7 hybrid pillar g…",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477271951,
+      "tokens": 118187,
+      "toolCalls": 12,
+      "durationMs": 331402,
+      "resultPreview": "{\"summary\":\"Lens: progression-gates (Q30 rung-meter, Q7 hybrid pillar gate). I read §1.6, §2.15, §2.16, §3.0-§3.6, §4.0-§4.3, §4.8.1-§4.8.3 of docs/prd.md in full, plus the full docs/prd_human_feedback.md (Block L + H5 + the §3 reputation-reframe) and the master sheet resolution log (brainstorms/2026-06-26-prd-decisions-master.md lines 125 [Q30] and 128 [Q7]). Two decisions in my lens open large, …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "fu:economy-balance",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "adb2434ad7519b626",
+      "model": "claude-opus-4-8[1m]",
+      "state": "error",
+      "startedAt": 1782476940549,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Economy-balance lens on the 56 V2 decisions. Biggest openin…",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477910360,
+      "error": "agent({schema}): StructuredOutput retry cap (5) exceeded — 5 failed calls with no valid output",
+      "tokens": 177299,
+      "toolCalls": 25,
+      "durationMs": 969811
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "fu:stamina",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "a4d4cb4f1af9199ba",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940550,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "test",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477247364,
+      "tokens": 71098,
+      "toolCalls": 14,
+      "durationMs": 306814,
+      "resultPreview": "{\"summary\":\"test\",\"followups\":[{\"id\":\"stamina-1\",\"area\":\"stamina\",\"question\":\"q\",\"why\":\"w\",\"blocks\":\"M2\"}]}"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "fu:save-tech",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "a6b2559f5eb0510f7",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940550,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "test",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477274330,
+      "tokens": 109324,
+      "toolCalls": 13,
+      "durationMs": 333780,
+      "resultPreview": "{\"summary\":\"test\",\"followups\":[{\"id\":\"save-tech-1\",\"area\":\"save\",\"question\":\"q\",\"why\":\"w\",\"blocks\":\"M0\"}]}"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "fu:narrative",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "aea8573b2da4c5fa7",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940550,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "test",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477570780,
+      "tokens": 170602,
+      "toolCalls": 14,
+      "durationMs": 630230,
+      "resultPreview": "{\"summary\":\"test\",\"followups\":[{\"id\":\"narrative-1\",\"area\":\"test\",\"question\":\"q\",\"why\":\"w\",\"blocks\":\"V2-author\"}]}"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "fu:ui-ux-a11y",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "a9f0c17a68524e365",
+      "model": "claude-opus-4-8[1m]",
+      "state": "error",
+      "startedAt": 1782476940550,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477366450,
+      "error": "agent({schema}): StructuredOutput retry cap (5) exceeded — 5 failed calls with no valid output",
+      "tokens": 143956,
+      "toolCalls": 18,
+      "durationMs": 425900
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "fu:cross-decision-interactions",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "aebb90fb9e38b6a8b",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940550,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Cross-decision-interactions lens: 8 follow-ups, each a seco…",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477206653,
+      "tokens": 154512,
+      "toolCalls": 12,
+      "durationMs": 266103,
+      "resultPreview": "{\"summary\":\"Cross-decision-interactions lens: 8 follow-ups, each a second-order question where 2+ of the 56 V2 decisions compose in a way the PRD does not yet resolve. I read my lens sections in full (§2 systems, §3 ladders/rung-gating, §4 balance/accrual/trade-cap/win-rate/pacing) plus the full feedback log + master sheet. I covered every interaction the lens brief named (Q6×Q1, Q30×Q7×influence,…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "fu:scope-m0m1-readiness",
+      "phaseIndex": 1,
+      "phaseTitle": "Analyze",
+      "agentId": "a8e0d93127b231520",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782476940550,
+      "queuedAt": 1782476940537,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Scope & M0/M1-readiness review of §7 against the 56 V2 deci…",
+      "promptPreview": "CONTEXT: Kamikakushi is an Edo-era incremental RPG (docs/prd.md, ~4850 lines). The PRD just went through a 56-decision human Q&A (the \"V2 decisions\" — provided below as Block L). MANY decisions CHANGED a prior lock or ADDED a system. The PRD will now be reshaped V1→V2 to incorporate them. BEFORE that reshape, we need the **follow-up questions** the decisions opened up — the second-order \"okay but …",
+      "lastProgressAt": 1782477212254,
+      "tokens": 87449,
+      "toolCalls": 7,
+      "durationMs": 271704,
+      "resultPreview": "{\"summary\":\"Scope & M0/M1-readiness review of §7 against the 56 V2 decisions. Key finding: several decisions silently changed M0/M1 deliverables whose §7 phase-text was NOT updated, so a coder starting today would build the stale spec. The ORDERED must-pin list:\\n\\nMUST-PIN-BEFORE-M0 (block the foundation a coder writes on day 1): (A) the RNG named-stream set + the dual persisted-cursor-vs-day-key…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "You are the synthesis lead. Below are 34 raw FOLLOW-UP quest",
+      "phaseIndex": 2,
+      "phaseTitle": "Synthesize",
+      "agentId": "a06e9b82d9084c1c3",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782477910390,
+      "queuedAt": 1782477910364,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Three lenses returned empty stubs (stamina-1, save-tech-1, …",
+      "promptPreview": "You are the synthesis lead. Below are 34 raw FOLLOW-UP questions (from 9 lenses) that the 56 V2 decisions opened up. Produce ONE clean, deduped, PRIORITIZED wave-2 question list for the human to answer before the PRD V2 reshape.\n1. DEDUPE aggressively (lenses overlap — esp. the cross-decision lens with the others). Merge near-duplicates.\n2. CLUSTER by theme; assign each cluster a PRIORITY: P0-bloc…",
+      "lastProgressAt": 1782478110816,
+      "tokens": 35166,
+      "toolCalls": 1,
+      "durationMs": 200425,
+      "resultPreview": "{\"count\":19,\"coverage_notes\":\"Three lenses returned empty stubs (stamina-1, save-tech-1, narrative-1 = literal \\\"q\\\"/\\\"w\\\" placeholders), so two areas are surprisingly under-questioned and should be treated as KNOWN GAPS, not as \\\"clean\\\": (1) the LABOUR stamina/satiety throttle itself — only its combat-side coupling (Q31/Q47) got follow-ups; the §2.3 labour throttle shape, STAMINA_RATE_FLOOR, and…"
+    }
+  ],
+  "totalTokens": 1191639,
+  "totalToolCalls": 128
+}
