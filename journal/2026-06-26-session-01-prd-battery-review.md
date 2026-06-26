@@ -272,6 +272,20 @@ resurrection, gender-drift 'fair clue', M5 pre-split; + a11y/perf/renderer/bot-p
 Ledger updated. NEXT: round 3 = a11y/perf/renderer/QA-bot deep + devil's-advocate refute of B1-B7 + completeness.
 
 
+## 30 · Battery ROUND 3 (unaudited surfaces + refute-pass) — NOT-DRY · B8 new · B4 DEMOTED
+Workflow w0nqruk5u (19 agents, 1.5M tok, 26min). DRYNESS=NOT-DRY. NEW blocking B8 (CRITICAL): great/excellent
+gate bands have NO costed/itemized/time-budgeted/schema-representable supply — everything the PRD costs stops at
+GOOD (deeds=70%, seasonal hard-capped at 30%) but every tier-gate needs supra-good → unclearable-as-costed;
+needs design+balance+schema (parallel to B1/B5). Devil's-advocate REFUTE-pass: B4 DEMOTED (koku not meter-gated
+→ prose fix, fold into Q1/Q4); B1 reframed (140K is correct good-band sum, not stale); B3 scoped (confirm+snapshot
+exist; residual = counter-rebase + schemaVersion); B5 narrowed to Model-A; B2/B6/B7 confirmed+strengthened.
+Net blocking = B1,B2,B3,B5,B6,B7,B8 (7). 12 new trivial fixes (reveal-latch add-only, deriveDayKeyed range,
+effects-expiry, log-ring-cap, clamp-formula, DOM-node lifecycle, formatter-to-core, bot determinism) ALL deferred
+to the consolidated pass. 10 new questions (a11y ADR, win-rate/pacing instrument validity, dent×trade, unattended-
+combat policy, B5 model, crafting-quality-broken+coin-dead). 4 new strengths. NEXT: round 4 = living-docs
+consistency + security/abuse + personas + edge-case catalogue + cross-consistency re-sweep + completeness.
+
+
 ---
 
 ## Next intended steps (current)
