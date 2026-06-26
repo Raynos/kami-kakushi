@@ -108,6 +108,17 @@ a bounded per-skill capped combat bonus. Annotated D-011, D-016, D13 → D-022; 
 the rule. (The combat-only level/attribute economy from Q1 stays the invariant — no uncapped back door.)
 
 
+## 14 · P1 decisions resolved (9, via decision UI)
+Worked P1 with the human. Q7 → a HYBRID "specialization" gate model (good in ALL pillars / great in 2-3 /
+excellent in 1-2 — breadth required, specialization rewarded; reverses the locked "no floor/overflow", per
+D-022). Q14 comfortable/net koku (~18-19K held, double-count killed). Q29 keep no-market-in-T0 (re-itemize
+land/treasury). Q36 ban Math.pow (integer-pow + lint). Q44 atomic autosave + calm "couldn't save" notice.
+Q13 defer coin/market to M4 placeholder. Q5 → name reclamation Origin-GATED/missable (truth stays spine);
+auto-resolves Q25+Q40. Q24 castle-town/Daikan ending. Q31 combat IS satiety-throttled (re-spec the locked
+first-fight win-rate "at adequate satiety"). All in the master-sheet resolution log; ⚠ Q7/Q31 change locks.
+15 of 56 decisions resolved (P0+P1 — the foundational tier + the spine). Next: P2 (22, lighter).
+
+
 ---
 
 ## Next intended steps (current)
