@@ -16,7 +16,7 @@ metadata:
   growing **House Influence** (4 pillars: 武威 Arms / 官威 Standing & Office / 家産 Estate & Wealth / 家格
   Name & Honour → 家威). Signature: **the UI itself unlocks incrementally**. No magic; growth only through
   perseverance; no reset. (Spec: `docs/prd.md`.)
-- **Phase:** **VISION-LOCKED — build M0+M1 against the current `docs/prd.md`, playtest, THEN explode.**
+- **Phase:** **DECISION-RESOLUTION → PRD V2 (pre-build).** Iterative loop (human-signed 2026-06-26, refines D-021 sequencing): **resolve the 56 battery decisions → author PRD V2 → build M0/M1 → playtest → resteer → PRD V3 → build → …** — the design forks are settled into a strong V2 BEFORE any code. CURRENT STEP: ranking the 56 decisions by impact, then an informed Q&A (tier-by-tier, one at a time, each with a decision-brief), recorded into a decisions-log → a PRD-improvement plan → the V2 reshape. Freeze=locked-intent still holds (V2 keeps §4/§7 provisional).
   §1–§7 authored, reviewed section-by-section, and passed a holistic consistency sweep; **no game code or
   toolchain yet** (building M0+M1 is the next phase). *Refines the prior framing — "PRD COMPLETE &
   internally verified — effectively FROZEN (pending the human's final word)": per **D-021** + the battery

@@ -1,5 +1,14 @@
 # Session 01 — 2026-06-26 — PRD battery & stress-test (multi-round)
 
+> **Checkpoint (process: iterative V1→V2→V3).** Human set the governing loop: **resolve 56 decisions → PRD V2
+> → build M0/M1 → playtest → resteer → PRD V3 → build → …** (settle design forks into a strong V2 BEFORE code).
+> Recorded as a sequencing refinement on **D-021** (supersedes its "build-first" order; freeze=locked-intent
+> principle unchanged) + project-status phase → "DECISION-RESOLUTION → PRD V2 (pre-build)". Ranking the 56 by
+> impact via a 5-perspective panel (task wj0all9n8). Q&A will be **tier-by-tier, one at a time**, with
+> **DYNAMIC-DEPTH decision briefs** (one-liner for obvious calls; fuller only for nuanced/low-context ones —
+> NOT 3 paragraphs each). Next: rewrite the master sheet in priority order + tag each decision's brief-depth.
+
+
 > **Checkpoint (Round 4 done — BATTERY CLOSED, SATURATED).** 58 agents · 49 raw → 26 confirmed (0H/14M/12L —
 > declining yield = saturation). Convergence-critic verdict: **STOP + CONSOLIDATE** (round 4 surfacing typos /
 > clerical omissions; remaining signal is build-gated). Re-verification lens caught **1 regression I introduced**
