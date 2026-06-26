@@ -6,7 +6,7 @@
 
 import type { GameState } from './state';
 import type { Rng } from './rng';
-import { nextChance } from './rng';
+import { nextChance, nextFloat, createRng } from './rng';
 import { clamp } from './math';
 import { hpMax, satietyMax } from './selectors';
 import { getWeapon } from './content/weapons';
@@ -142,6 +142,11 @@ function swing(rng: Rng, atk: CombatStats, def: CombatStats): [number, Rng] {
   r = r1;
   if (!hit) return [0, r];
   let raw = Math.max(DAMAGE_FLOOR, atk.attackPower - def.defense);
+  // per-hit damage spread (~±30%) — smooths the win-rate curve so a fight can be a
+  // genuine 30–70% race, not a binary outcome of the stat gap.
+  const [v, rv] = nextFloat(r, 'combat');
+  r = rv;
+  raw = Math.max(DAMAGE_FLOOR, Math.round(raw * (0.7 + 0.6 * v)));
   const [crit, r2] = nextChance(r, 'combat', atk.critChance);
   r = r2;
   if (crit) raw = Math.round(raw * CRIT_MULT);
@@ -163,10 +168,33 @@ export interface FoeForecast {
   readonly winRate: number;
 }
 
-/** The grindable foes with their analytic win-rate against the MC right now. */
+/**
+ * The displayed/decision win-rate: a small fixed-seed SAMPLE of the real sim (D-Q-winrate
+ * keeps the analytic form for the M6 gate, but the per-foe FORECAST samples so it's honest
+ * — the closed form over/under-states a lopsided race). Deterministic: seeds derive from the
+ * run seed + the foe, so a given stat-state yields a stable forecast.
+ */
+export function sampledWinRate(
+  mc: CombatStats,
+  enemy: CombatStats,
+  baseSeed: number,
+  n = 48,
+): number {
+  let wins = 0;
+  for (let i = 0; i < n; i++) {
+    const rng = createRng((baseSeed + i * 2654435761) >>> 0);
+    if (resolveFight(rng, mc, enemy).won) wins++;
+  }
+  return wins / n;
+}
+
+/** The grindable foes (danger order) with their win-rate against the MC right now. */
 export function foeForecasts(state: GameState): FoeForecast[] {
   const mc = mcCombatStats(state);
-  return GRINDABLE_MOBS.map((mob) => ({ mob, winRate: analyticWinRate(mc, mobCombatStats(mob)) }));
+  return GRINDABLE_MOBS.map((mob) => ({
+    mob,
+    winRate: sampledWinRate(mc, mobCombatStats(mob), (state.rng.seed + mob.level * 7919) >>> 0),
+  }));
 }
 
 export function resolveFight(rng: Rng, mc: CombatStats, enemy: CombatStats): FightResult {

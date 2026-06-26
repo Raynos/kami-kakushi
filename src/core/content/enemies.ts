@@ -30,27 +30,27 @@ export const MOBS: readonly MobDef[] = [
       'A starving wolf cornered among the rice-sacks. You live through this one on luck alone.',
   },
   {
+    id: 'monkey',
+    label: 'Crop-raiding monkey',
+    kanji: '猿',
+    level: 1,
+    kokuReward: 3,
+    blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
+  },
+  {
     id: 'wolf',
     label: 'Lean wolf',
     kanji: '狼',
     level: 2,
-    kokuReward: 4,
-    blurb: 'Comes down from the satoyama when the hunting is thin.',
-  },
-  {
-    id: 'monkey',
-    label: 'Crop-raiding monkey',
-    kanji: '猿',
-    level: 2,
-    kokuReward: 3,
-    blurb: 'Bold, quick, and a menace to the paddies.',
+    kokuReward: 5,
+    blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
   },
   {
     id: 'boar',
     label: 'Wild boar',
     kanji: '猪',
     level: 3,
-    kokuReward: 6,
+    kokuReward: 8,
     blurb: 'Tusked and furious. It will not turn aside.',
   },
   {
@@ -58,7 +58,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Road bandit',
     kanji: '野伏',
     level: 4,
-    kokuReward: 10,
+    kokuReward: 12,
     blurb: 'A masterless man gone to robbery on the woodlot road.',
   },
 ];
@@ -71,5 +71,7 @@ export function getMob(id: MobId): MobDef {
   return m;
 }
 
-/** The grindable (non-scripted) foes, in danger order. */
-export const GRINDABLE_MOBS: readonly MobDef[] = MOBS.filter((m) => !m.scripted);
+/** The grindable (non-scripted) foes, in danger order (easiest first). */
+export const GRINDABLE_MOBS: readonly MobDef[] = MOBS.filter((m) => !m.scripted)
+  .slice()
+  .sort((a, b) => a.level - b.level);

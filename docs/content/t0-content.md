@@ -42,10 +42,10 @@
 | id | label | level | koku | scripted |
 |---|---|---|---|---|
 | wolf_scripted | Grain-store wolf | 2 | 0 | yes |
-| wolf | Lean wolf | 2 | 4 |  |
-| monkey | Crop-raiding monkey | 2 | 3 |  |
-| boar | Wild boar | 3 | 6 |  |
-| bandit | Road bandit | 4 | 10 |  |
+| monkey | Crop-raiding monkey | 1 | 3 |  |
+| wolf | Lean wolf | 2 | 5 |  |
+| boar | Wild boar | 3 | 8 |  |
+| bandit | Road bandit | 4 | 12 |  |
 
 ## Surfaces (reveal registry)
 

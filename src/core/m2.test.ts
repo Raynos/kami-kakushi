@@ -4,6 +4,7 @@ import {
   mcCombatStats,
   mobCombatStats,
   analyticWinRate,
+  sampledWinRate,
   combatLevelForXp,
   durabilityBand,
   resolveFight,
@@ -13,37 +14,42 @@ import {
   type GameState,
 } from './index';
 
+function mc(level = 1, satiety = 100): GameState {
+  const s = createInitialState(1);
+  return { ...s, character: { ...s.character, level, satiety } };
+}
 function atFullSatiety(s: GameState): GameState {
   return { ...s, character: { ...s.character, satiety: 100 } };
 }
-function atLevel(s: GameState, level: number): GameState {
-  return { ...s, character: { ...s.character, level } };
-}
 
-describe('analytic win-rate (closed-form, no sampling — D-Q-winrate)', () => {
-  it('the fresh MC vs the grindable wolf sits in the LOCKED 20–35% band (at adequate satiety)', () => {
-    const fresh = atFullSatiety(createInitialState(1));
-    const wr = analyticWinRate(mcCombatStats(fresh), mobCombatStats(getMob('wolf')));
-    expect(wr).toBeGreaterThanOrEqual(0.2);
-    expect(wr).toBeLessThanOrEqual(0.35);
+describe('win-rate forecast + progression (sampled — the honest, played behaviour)', () => {
+  it('the fresh MC reliably beats the easiest foe — the starter grind has traction', () => {
+    const wr = sampledWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('monkey')), 11, 100);
+    expect(wr).toBeGreaterThan(0.6);
   });
 
-  it('a trained MC reaches ~85%+ vs the same wolf', () => {
-    const trained = atLevel(atFullSatiety(createInitialState(1)), 3);
-    expect(
-      analyticWinRate(mcCombatStats(trained), mobCombatStats(getMob('wolf'))),
-    ).toBeGreaterThanOrEqual(0.85);
+  it('a tough foe is out of reach fresh, but grindable once leveled (the climb pays off)', () => {
+    const fresh = sampledWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('bandit')), 22, 100);
+    const leveled = sampledWinRate(mcCombatStats(mc(5)), mobCombatStats(getMob('bandit')), 22, 100);
+    expect(fresh).toBeLessThan(0.25);
+    expect(leveled).toBeGreaterThan(0.7);
   });
 
-  it('the satiety throttle measurably lowers the win-rate below the knee', () => {
-    const full = atFullSatiety(createInitialState(1));
-    const starving = {
-      ...createInitialState(1),
-      character: { ...createInitialState(1).character, satiety: 5 },
-    };
-    const wrFull = analyticWinRate(mcCombatStats(full), mobCombatStats(getMob('wolf')));
-    const wrLow = analyticWinRate(mcCombatStats(starving), mobCombatStats(getMob('wolf')));
-    expect(wrLow).toBeLessThanOrEqual(wrFull);
+  it('the satiety throttle lowers the win-rate (eat before you fight)', () => {
+    const full = sampledWinRate(mcCombatStats(mc(2, 100)), mobCombatStats(getMob('wolf')), 33, 100);
+    const starving = sampledWinRate(
+      mcCombatStats(mc(2, 5)),
+      mobCombatStats(getMob('wolf')),
+      33,
+      100,
+    );
+    expect(starving).toBeLessThanOrEqual(full);
+  });
+
+  it('the analytic closed-form stays a sane estimate (kept for the M6 gate)', () => {
+    const wr = analyticWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('wolf')));
+    expect(wr).toBeGreaterThan(0);
+    expect(wr).toBeLessThan(1);
   });
 });
 

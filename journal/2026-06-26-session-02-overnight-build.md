@@ -95,3 +95,17 @@ Title bar (神隠し KAMIKAKUSHI + ⚙ Settings); a Settings/About modal (build 
 content · itch content descriptors · export/import save · reduced-motion + text-scale + pause a11y);
 an inline-SVG seal favicon; the a11y win-rate fix (meaning in ink, hue only on a pip + word — D-Q-a11y).
 Full headless QA sweep (audit/qa-0[1-9]-*.png) — woodblock-coherent, zero console errors.
+
+## 7 · Playtest → combat-balance fix (the dead-end the playtest caught)
+
+The headless auto-play (tmp/playtest.mjs) caught a real fun-killer: at R3 a level-1 MC **lost every wolf
+fight** (combatXp stayed 0 → never leveled → soft dead-end), AND the analytic forecast (31%) didn't match
+the sim (~0%). Fixes: (1) the per-foe forecast now SAMPLES the real sim (48 fixed-seed fights) → honest
+(the closed form over/under-states a lopsided race; analytic kept for the M6 gate); (2) the **monkey is now
+a level-1 winnable starter foe** (the grindable set sorts easiest-first) so the win→XP→level→harder-foe loop
+has traction; (3) per-hit damage spread (~±30%) for texture. Re-playtest: the MC climbs **1→4** over 200
+fights, monotonic, no stalls/anomalies, zero console errors. Combat tab now shows e.g. monkey "◆ 98% Steady",
+wolf "◆ 2% Risky" — an honest forecast that guides the grind. M2 tests rewritten to assert the sampled
+progression. **51 tests green.**
+
+This is exactly what the playtest discipline is for — and the demo arc is now genuinely fun end-to-end.

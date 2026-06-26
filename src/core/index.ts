@@ -32,6 +32,7 @@ export {
   mcCombatStats,
   mobCombatStats,
   analyticWinRate,
+  sampledWinRate,
   combatLevelForXp,
   combatXpProgress,
   combatSatietyRate,
