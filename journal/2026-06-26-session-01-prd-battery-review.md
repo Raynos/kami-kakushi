@@ -317,6 +317,20 @@ complete+free-play (B11); crash-recovery=boundary+ring+safe-mode (B12); quests=o
 a11y-ADR, breadth-wall, M3/M5-split, unattended-combat, dent×trade, win-rate-method, crafting/coin, narrative.
 
 
+## 33 · ALL 32 V2.1 decisions made (Q&A batches 1-8) + locked into the record
+Interactive AskUserQuestion flow with the human resolved every blocking defect B1-B14 + the design-question
+set — 32 decisions across 8 batches (captured live in tmp/v21-decisions.md). Promoted to the authoritative
+record: prd_human_feedback.md **Block N** (newest-wins per D-022) + decisions.md **D-043**. Headline locks:
+v1=~60h FLOOR; rung-floor on the meter-points (resolves B4); gates need great/excellent + authored deed supply
++ Name gated, T2 reveals 4 (B1/B8/B13); estate builds→Phase-2 (B2); combos Model-A + gate-eligible accumulator
+(B5); world-clock derive+ephemeris (B6); multi-tab unsupported (B7); load-val coerce+recover (B9); tick per-tick
+fold (B10); v1 ending bounded-complete+free-play (B11); crash recovery boundary+ring+safe-mode (B12); quests
+order-free (B14); Estate value derived (dent); win-rate analytic; a11y hues=fills/text=ink; idle combat full-
+auto+forced-retreat/0HP-rest; pre-split M3&M5; front-load pre-R3 variety; 53-bit-safe RNG+fixed pow; perf=M6
+gate. DECISIONS COMPLETE — zero left. NEXT: apply Block N to the PRD (V2 → V2.1 rewrite), then human glance,
+then build M0/M1.
+
+
 ---
 
 ## Next intended steps (current)

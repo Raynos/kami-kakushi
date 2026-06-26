@@ -508,3 +508,76 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 ---
 
 *Last updated: 2026-06-26. Keep appending as the human steers.*
+
+
+---
+
+## Block N — PRD V2.1 decisions (2026-06-26, the post-battery resolution)
+
+> **AUTHORITATIVE — newest block wins (per [D-022](history/decisions.md)).** These 32 decisions resolve the
+> 5-round adversarial battery on PRD V2 (the 14 blocking defects B1–B14 + the design-question set; full audit:
+> [`brainstorms/2026-06-26-prd-v2-audit.md`](../brainstorms/2026-06-26-prd-v2-audit.md)). Where any conflict
+> exists with Blocks A–M or the §4 numbers, **Block N governs.** They drive the PRD **V2 → V2.1** rewrite.
+
+## Batch 1 — grind feel + gate economy
+- **D-Q1 v1 length = ~60h FLOOR** (accept; budget=FLOOR per FU18; ~60h = Phase-1 ~28.5h floor + Phase-2 ~+32h; restate the 28.5h headline as the Phase-1 floor, not the total). Resolves Q2.
+- **D-Q2 pace = FLOOR-ONLY, no ceiling, floor is on the RUNG-METER POINTS specifically.** Even optimal FOCUSED play cannot fill a rung's numeric-points objective in <30 min (back-solve the meter threshold to guarantee the ≥30-min focused minimum). Unfocused play (multi-skilling, side-quests, off-objective) takes LONGER (60–120 min). The §4.8.1 35/40/45/55-min wall-clocks = EXPECTED real (somewhat-unfocused) play, NOT a contradiction with the 30-min floor. → resolves demoted-B4 (meter threshold = the focused-optimal ≥30-min floor; reconciles with the wall-clock column). Resolves Q1.
+- **D-Q3 gate bands (B1+B8) = author the great/excellent deed supply + make Name a REAL gated pillar.** Quantify supra-good surplus deed-counts per pillar/tier; add their Phase-2 minutes (compounds the ~60h, which is accepted); add a repeatable-deed + maxAwards schema field (§2.12); set Name's gate number off its OWN good band (0.30·28K=8.4K seasonal) + author a ~19.6K Name deed inventory; fix the Name cap column to 0.04·28K. Redefine §6.6.1 reachability as a Phase-2-window TIME budget, not an inventory-sum. Resolves B1+B8.
+- **D-Q4 Phase-2 = inject some Phase-2 reveals** (keep reveal cadence alive across the back half; not a dead consolidation half). Resolves Q3-ledger.
+
+## Batch 2 — save / determinism / world-model
+- **D-Q9 (B9) load-validation = coerce-safe-fields + reject-to-recovery on the unsalvageable.** validateLoadedState() at the persistence→core boundary; clamp/default cosmetic out-of-range, route structurally-broken → the existing §6.8 recovery flow (never a dead wall, honors Q44). Re-assert ≤⅓/up-only on load. (Round-5 DEMOTED B9 from blocking: the recovery PATH already exists → spec-completion; the internal-bug-NaN residual = reject-to-recovery, consistent with this answer.)
+- **D-Q7 (B7) multi-tab = last-writer-wins, documented as UNSUPPORTED.** No leader-election in v1; document that multi-tab play isn't supported. (Cheapest; accept the footgun. Revisit if it bites.)
+- **D-Q6 (B6) world-clock = derive season/year (don't store) + lunar = real ~29.5d ephemeris** (f(absoluteDay mod LUNAR_PERIOD), continuous, not a per-day RNG roll). Persist only absolute monotonic day + tick.
+- **D-Q5 (B5) combos = Model-A (combo → BOTH paired pillars).** Add an additive deed-only `gateEligibleValue` accumulator combos do NOT write (so combos never satisfy a required gate band nor breach trade-≤⅓). Rewrite §6.5/§6.6/§6.6.1's 'third-pillar Name' to Model-A.
+
+## Round-5 outcomes (folded in)
+- **B9 DEMOTED** → spec-completion (policy = D-Q9). **B10 DEMOTED** → spec-completion: specify tick() folds dtTicks one tick at a time, each per-day/week/season plan fires once in fixed registry order, tick(s,a+b)===tick(tick(s,a),b) unit-asserted; + change SeasonalAppraisalState.pendingAppraisalDue boolean → `pendingAppraisals:number` counter (drained in a loop) so multi-season jumps accrue all N appraisals.
+- **B13 = the Name-gate contradiction → RESOLVED by D-Q3** (Name IS gated). Consequence: T2 revealed-pillar set = **4** (Arms+Estate+Office+Name), NOT '3–4'; fix §4.1 table + §6.6.1 reveal assertion to a single value 4; the §4.1 Name 28K good band is now the live consumer (kill §4.2.2 'gates no v1 tier'/'(not gated)').
+- **NEW blocking from round 5: B12** (no crash boundary/safe-mode), **B14** (quest progression data-model contradictory: flat advanceEvents[] vs step:number cursor vs orphan QuestTask; QuestStatus undefined; no advance_quest intent).
+- **New trivial fixes from round 5** (queue for the fix-pass): §4.6.3/§4.6.4 crit/block ordering bug (clamp FINAL post-mitigation damage to DAMAGE_FLOOR); 'the Kurosawa works' Anglicism → period gloss (×2) + add to authenticity watch-list; autosave tick-interval trigger missing from M0 DoD; gatesSpine has no consumer (assert always-false in v1); §5 T2.1 Otsuru superlative vs §1.4 'side thread' prose harmonize.
+
+## Batch 3 — remaining structural blockers
+- **D-Q-B2 estate builds = MOVE into each tier's Phase 2** (where the pillar-Influence floors are reachable). Synergy: the E1/E2/E3 builds become Phase-2 content → directly serves D-Q4 (inject Phase-2 reveals). Update §4.7.5/§2.17/§3.x so builds are Phase-2 beats, not Phase-1.
+- **D-Q-B11 v1 ending = bounded 'v1 complete' screen, THEN free-play continues.** The cliff-hanger 'stone walls' becomes a real v1-complete ending surface; active loop keeps running for free-play/cleanup; hold tier at T2-complete (do NOT commit an empty T3). Add an M6 PLAYER-FACING terminal assertion (reachable closure + defined post-gate clock/accrual policy), not just the 'no-T3' negative test.
+- **D-Q-B12 crash-recovery = error boundary + last-known-good ring + safe-mode boot.** Wrap tick/render in an error boundary; persist a crash-counter OUTSIDE GameState; rolling last-known-good save ring; repeated crashes → safe-mode offering rollback; autosave-poison suppression. New ADR.
+- **D-Q-B14 quests = ORDER-FREE advance-event set.** Drop step:number + the 'sequential steps' wording; quests are a set of advance-events with no fixed order. Define the QuestStatus enum (taken/active/abandoned/done/failed) + the advance semantics; remove the orphan QuestTask/step cursor. (§1.10 'never rigid A→B→C' is now consistent — emergent/order-free.)
+
+## Batch 4 — design / UX
+- **D-Q-a11y = identity hues are FILLS/ACCENTS only; all meaning-bearing TEXT renders in AA-passing ink** (--ink-soft 7.3). Woodblock identity lives in chrome (fills, bars, pips, borders). Drop the coloured WIN/LOSS word-as-text and coloured label-text; drop the bare 'AA on every surface' overclaim. New UI/a11y ADR; update ui-design.md §5.1/§5.3 + prd.md §2.21d.
+- **D-Q-breadth-wall (Q5) = keep the HARD breadth gate, but surface the per-pillar shortfall EARLY + continuously** (from early Phase 2: 'Name is behind') so it's never an end-of-Phase-2 surprise. No substitution/overflow.
+- **D-Q-M3/M5-split (Q8) = PRE-SPLIT BOTH** at their seams (M3 at R6→R7 Phase-1/Phase-2; M5 at its subsystem seam), like M2a/M2b. Smaller verifiable milestones.
+- **D-Q-idle-combat = FULL AUTO with a self-recovering loss loop.** Auto-resolve fights everything; a LOSS forces a retreat (keep HP/loot per retreat semantics); a 0-HP loss forces the MC to travel to a safe place (home or elsewhere) and REST to recover (a time cost). No death-spiral, no hard stall — losses self-correct via forced rest. Resolves the unattended-combat-policy + active-combat questions. (Combat math: §4.6 needs the 0-HP→forced-rest transition + the retreat-on-loss rule specified.)
+
+## Batch 5 — economy / combat math
+- **D-Q-estate-dent = make Estate pillar value PURELY DERIVED (= land+treasury+trade sum, never stored).** A dent on a strand can't desync; trade-≤⅓ holds by construction. Schema refactor: drop the stored Estate `value` (§6.4/§2.x), compute on read. Resolves the dent×trade blocker.
+- **D-Q-winrate = ANALYTIC win-probability from the combat formula** (NOT sampling). The win-rate bands are COMPUTED from attackPower/defense math → deterministic by construction; no seed-set/N needed. Consequence: the §4.6 combat formula must be clean enough to compute expected win-rate in closed form (drives the combat-math cleanup).
+- **D-Q-craft+coin = fix the §4.7.2 quality formula (proper 0–1 score, no spurious divisor) + coin = a REAL T1+ sink** (market purchases / component-buying). Both load-bearing.
+- **D-Q-seasonal-rotation (Q22) = AUTHOR the seasonal-reward rotation** (per-season featured deed/bonus) as the 2nd T2 anti-slump lever alongside combos. Fulfills signed Q22.
+
+## Batch 6 — narrative / legibility
+- **D-Q-Oyuki = keep MC son-return; REWORK the Jinpachi/husband beat** so it's NOT a second resurrection (known-alive-but-estranged / long-dead-and-mourned / different relation). Avoids two resurrections on one mother.
+- **D-Q-gender-drift = grounded VILLAGE RATIONALIZATION** — the belief bends gender via a concrete in-world mechanism (years passed; kami 'changed' the child; ambiguous early memory) so man-as-returned-Tama is diegetically believable; 'truth wholly human' holds. Tighten §1.4's 'fair clue'.
+- **D-Q-name-collision (Q12) = RENAME** the lord and/or drillmaster to break the Yagyū Munenori + Jūbei echo (per Q39 fictionalised-name discipline). Grounded, not cosplay.
+- **D-Q-codex (Q9) = contextual TOOLTIPS only** (no dedicated codex); explain each system inline via tooltip/first-reveal copy as it unlocks. Relies on strong staggered onboarding.
+
+## Batch 7 — determinism / perf / pacing / combat depth
+- **D-Q-numeric (Q16+Q17) = fixed reduction order + 53-bit-safe RNG.** Pin one canonical left-to-right integer accumulation for pow (unit-asserted); store RNG state as BigInt OR use a 53-bit-safe splitmix variant so cursor arithmetic is exact in JS number. Byte-identical replay.
+- **D-Q-perf (Q15) = set interim budgets + an M6 perf-GATE** (save-envelope ≤~64KB, log-node ≤ ring cap, tick-loop allocation, long-run memory ceiling) — perf becomes a build-failing gate like pacing/fun.
+- **D-Q-first-session (Q10) = FRONT-LOAD a taste of variety before R3** (a small combat/variety beat or extra loop in the first hour, without the full combat UI). Protects first-session retention.
+- **D-Q-active-combat = LIGHT ACTIVE LAYER** — auto-resolve stays the spine; stance + timed ability/item interventions are optional mid-fight (for engaged players + hard fights); specify their effects in §4.6.
+- (Q4 floor-enforcement: RESOLVED by D-Q2 — the rung-meter threshold IS the runtime enforcement; back-solved so focused-optimal play needs ≥30 min.)
+
+## Batch 8 — final edges
+- **D-Q-meibutsu (Q20) = EXCLUDE combo credit from the trade ratio.** The Estate×Name meibutsu combo credits the pillars (Model-A) but its bonus does NOT count toward the trade sub-engine / the ≤⅓ denominator — can't bend the cap. Consistent with the B5 gate-eligible-exclusion model.
+- **D-Q-banzuke = author LIGHT rival stats** for the named houses (Tomita/Akagi + a few domain houses) so the G7 overtake is computed/real, not scripted. Not a full sim.
+- **D-Q-otsuru-locale = SEPARATE the threads across locales** — move one of {Tahei's family, Otsuru/Tama} to a different T2 node so they don't both land in Sawatari-juku. Needs a 2nd authored T2 locale (authenticity spread > narrative economy).
+- **D-Q-Q43/Q49 = UNSURE, leave a note to check** — verify against history whether Q43/Q49 were real dropped decisions or numbering gaps before finalizing V2.1. (Citations already struck; flag as an open provenance to-do.)
+
+## Trivial items I'll just apply (no human pick needed)
+- §4.6.3/§4.6.4 crit/block ordering: clamp FINAL post-mitigation damage to DAMAGE_FLOOR.
+- 'the Kurosawa works' Anglicism → period gloss (×2) + authenticity watch-list.
+- autosave tick-interval trigger → add to M0 DoD + smoke assert.
+- gatesSpine: assert always-false in v1 (content verifier).
+- §5 T2.1 Otsuru superlative vs §1.4 'side thread' prose harmonize.
+- §4.2.2 phase-reconciliation prose: now consistent with D-Q3 (Name gated) + the great/excellent supply — reword the season-1-Δ note + the 'gates no v1 tier' line.

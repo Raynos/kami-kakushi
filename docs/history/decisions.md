@@ -233,3 +233,21 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Driven by:** Q38, Q50, Q52, Q54, Q51, Q53. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-042 ✅ — Real-name fictionalization & lint — rename Toyama/Konoe (Q27), Mago/Naozane/Obaa Sato (Q11/Q39), allow-list Nihonbashi (Q12); a §6.6 real-name denylist lint prevents recurrence
 - **Driven by:** Q27, Q39, Q11, Q12, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
+
+
+## D-043 — PRD V2.1 decisions (post-battery, 2026-06-26)
+
+The 5-round adversarial battery on PRD V2 surfaced 14 blocking defects (B1–B14) + ~40 design questions; all 32
+were resolved with the human (full set: **[prd_human_feedback.md Block N](../prd_human_feedback.md)**; audit:
+[brainstorms/2026-06-26-prd-v2-audit.md](../../brainstorms/2026-06-26-prd-v2-audit.md)). Governing per D-022.
+Headline locks: **v1 = ~60h FLOOR** (28.5h is the Phase-1 floor, not the total); **rung-meter ≥30-min floor is
+on the numeric-points objective** (focused-optimal can't go under; unfocused runs longer — resolves B4);
+**tier-gates require great/excellent with an authored deed supply + Name IS a gated pillar** (T2 reveals 4)
+(B1/B8/B13); **estate builds move to Phase 2** (B2); **combos = Model-A → both pillars + a deed-only
+gate-eligible accumulator** (B5); **world-clock derives season/year + lunar ephemeris** (B6); **multi-tab
+unsupported** (B7); **load-validation = coerce-safe + reject-to-recovery** (B9); **tick() per-tick fold**
+(B10); **v1 ending = bounded-complete + free-play** (B11); **crash recovery = error-boundary + last-known-good
+ring + safe-mode** (B12); **quests = order-free advance-event set** (B14); **Estate value purely derived**
+(dent fix); **win-rate = analytic, not sampled**; **identity hues = fills/accents, text in ink** (a11y);
+**idle combat = full-auto with forced-retreat-on-loss + 0-HP→rest**; **pre-split M3 & M5**; **front-load
+pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets become an M6 gate**.
