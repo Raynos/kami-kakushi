@@ -76,3 +76,22 @@ Demo arc now complete: cold open → labour R0–R2 → the wolf (R3) → combat
 fun, woodblock-polished vertical slice. Screenshots: audit/qa-0[1-8]-*.png.
 
 NEXT: finish PRD V2.2 (workflow), QA/polish sweep, itch packaging (About/Credits, favicon, build stamp).
+
+---
+
+## 5 · PRD V2.2 — DONE (Block N applied + audit-fix)
+
+Two background workflows: (1) the main apply (8 agents, ~71 min, 886K tok) wove all 32 Block N + 7 Block N.1
+decisions into docs/prd.md (§6 schema, §4 balance — Name now a REAL T2 gate at 8.4K+19.6K=28K, analytic
+win-rate, enemy model; §2/§3/§1/§5/§7) — **943 insertions**; the 2 new ADRs D-044 (crash-recovery) /
+D-045 (a11y-ink) in decisions.md; the a11y update in ui-design.md. (2) An audit-fix (3 agents) reconciled the
+cross-section residuals: stale prose names (Munenori→Shigemasa, Jūbei→Kihei, Ranpo→Sōan), T2 "3–4"→"4",
+§2.2 appraisal boolean→counter, §7 lunar de-bundling, §2.12 order-free quest model. names.ts reconciled to
+the canonical V2.2 set (Shigemasa/Kihei/Sōan). Raw outputs snapshotted in brainstorms/raw/.
+
+## 6 · Demo polish
+
+Title bar (神隠し KAMIKAKUSHI + ⚙ Settings); a Settings/About modal (build stamp · MIT code + reserved
+content · itch content descriptors · export/import save · reduced-motion + text-scale + pause a11y);
+an inline-SVG seal favicon; the a11y win-rate fix (meaning in ink, hue only on a pip + word — D-Q-a11y).
+Full headless QA sweep (audit/qa-0[1-9]-*.png) — woodblock-coherent, zero console errors.

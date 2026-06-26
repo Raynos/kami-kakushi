@@ -10,7 +10,7 @@
 | R0 | Day-labourer | 日雇 | 14 | rake_rice | — |
 | R1 | Kept hand | 下人 | 30 | farm_paddy, haul_stores | Genemon |
 | R2 | Trusted hand | 手代 | 48 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R3 | Gate-watch | 門番 | 80 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Tsuneoka |
+| R3 | Gate-watch | 門番 | 80 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
 
 ## Skills (v1 labour set)
 
@@ -87,12 +87,12 @@
 | key | name |
 |---|---|
 | house | Kurosawa |
-| lord | Sadayori |
+| lord | Shigemasa |
 | heir | Naoyuki |
 | elder | Genemon |
-| drillmaster | Tsuneoka |
+| drillmaster | Kihei |
 | steward | Chiyo |
-| physician | Ryōan |
+| physician | Sōan |
 | villageChief | Yagoemon |
 | villageGirl | Sayo |
 | father | Jinpachi |

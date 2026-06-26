@@ -4,14 +4,14 @@
 // Edogawa-echo physician (Ranpo) per the Q39/D-Q-name-collision discipline.
 
 export const NAMES = {
-  // ── Estate (Kurosawa house) ──
+  // ── Estate (Kurosawa house) — names match docs/prd.md §1.8 V2.2 ──
   house: 'Kurosawa',
-  lord: 'Sadayori', // the aging lord (was "Munenori" — Yagyū echo, renamed)
+  lord: 'Shigemasa', // the aging lord (renamed off the Yagyū "Munenori" echo — Q39/Block N)
   heir: 'Naoyuki', // his heir (kept)
-  elder: 'Genemon', // the estate elder / first granter (§3.2.1)
-  drillmaster: 'Tsuneoka', // the combat drillmaster (was "Jūbei" — Yagyū echo, renamed)
-  steward: 'Chiyo', // the house steward (kept)
-  physician: 'Ryōan', // the debunker-physician (was "Ranpo" — Edogawa echo, renamed)
+  elder: 'Genemon', // chief steward / first granter (§3.2.1)
+  drillmaster: 'Kihei', // master-at-arms (renamed off the Yagyū "Jūbei" echo — Q12/Q39)
+  steward: 'Chiyo', // Lady Chiyo (kept)
+  physician: 'Sōan', // the debunker-physician (renamed off the Edogawa "Ranpo" echo — Q39/Block N.1)
 
   // ── Village of Asagiri ──
   villageChief: 'Yagoemon',

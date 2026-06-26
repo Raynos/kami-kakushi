@@ -10,70 +10,41 @@ metadata:
 > Keep this to one screen. Update it at the end of each session so a cold pickup is instant.
 
 - **Game:** a grounded, story-driven **incremental RPG** in mid-Edo (~18th c., fictional) rural Japan.
-  A mediocre ~18yo (true name **Tahei**) wakes amnesiac on a declining lower-samurai (*goshi*) estate;
-  the village believes he's their spirited-away child "**Tama**" returned, the truth is wholly human. You
-  rise through the **Kurosawa** house's ranks across **5 tiers** (Estate→Village→Region→Castle-town→Edo),
-  growing **House Influence** (4 pillars: 武威 Arms / 官威 Standing & Office / 家産 Estate & Wealth / 家格
-  Name & Honour → 家威). Signature: **the UI itself unlocks incrementally**. No magic; growth only through
-  perseverance; no reset. (Spec: `docs/prd.md`.)
-- **Phase:** **PRD V2 battery-audited + ALL V2.1 decisions made → V2.1 IMPLEMENTATION pending (pre-build).**
-  Iterative loop (human-signed 2026-06-26): resolve decisions → author PRD → build M0/M1 → playtest → resteer →
-  build. DONE THIS SESSION: PRD V2 written & committed (docs/prd.md ~7050 lines; v1 at archive/prd-v1.md) → a
-  **5-round adversarial battery** (110+ lens-agents, with devil's-advocate refute-passes) surfaced **14 blocking
-  defects (B1–B14) + ~40 design questions** → **30 trivial fixes applied directly** (4-agent pass) → the human +
-  Claude resolved **ALL 32 decisions together** (8 AskUserQuestion batches). The decisions are AUTHORITATIVE in
-  **`docs/prd_human_feedback.md` Block N** (newest-wins per D-022) + **ADR D-043**. Audit ledger:
-  `brainstorms/2026-06-26-prd-v2-audit.md` (raw rounds in `brainstorms/raw/2026-06-26-prd-v2-audit-r*.json`).
-  ▶ **NEXT = implement PRD V2.1**: apply Block N to docs/prd.md as a **chunked plan→apply** (proven V2 approach —
-  avoid full-section regen / truncation). ORDER: structural-schema first (Estate-value-DERIVED [dent fix],
-  order-free quests + QuestStatus enum, `pendingAppraisals:number` counter, Name-gated band + repeatable-deed
-  `maxAwards` field, crash-recovery §, tick per-tick fold) → rippling balance edits (great/excellent deed supply,
-  combos Model-A + gate-eligible accumulator, ~60h-floor framing, Phase-2 reveals + estate-builds-to-Phase-2,
-  win-rate analytic, craft+coin, seasonal rotation, breadth-wall early-surface) → local fixes (crit/block clamp,
-  name-rename Munenori/Jūbei, Oyuki-husband rework, gender-drift, Otsuru separate-locale, banzuke rivals) →
-  living-doc syncs (a11y hues=fills/text=ink, M3/M5 pre-split, codex→tooltips, idle-combat full-auto+rest). A
-  draft planner was staged at `scratchpad/v21plan.mjs` (EPHEMERAL session scratch — **Block N is the source of
-  truth**; re-derive the plan if gone). THEN human glances at V2.1 → build M0/M1. **No game code yet.**
-  §1–§7 authored, reviewed section-by-section, and passed a holistic consistency sweep; **no game code or
-  toolchain yet** (building M0+M1 is the next phase). *Refines the prior framing — "PRD COMPLETE &
-  internally verified — effectively FROZEN (pending the human's final word)": per **D-021** + the battery
-  review (§P · PD-1, `brainstorms/2026-06-26-prd-battery-review.md`), "freeze" is scoped to **locked
-  intent** (§1 vision + the hard human constraints + the signed acceptance targets — which showed zero
-  intent-drift across the adversarial audit), NOT the whole PRD; the §4 balance numbers and §7 M2–M7
-  milestone detail stay **provisional** and re-plan after each playtest. Sign-off legitimately comes AFTER
-  the first build-and-play cycle, so the docs do NOT explode yet.*
-- **Battery review (2026-06-26): COMPLETE — 4 rounds, SATURATED.** ~52 multi-agent lenses · 162 confirmed
-  findings · **42 fixes applied directly** (clerical + the impossible-gate & double-gated-climax defects;
-  re-verified in round 4, 1 self-regression caught & fixed) · **56 decisions queued + PD-1 (approved →
-  ADR D-021)**. The doc-level audit has saturated; remaining signal is **build-gated** (perf, real balance,
-  itch storage survival) → only resolved by building. **Start here:** the consolidated, prioritized
-  **[MASTER decision sheet](../brainstorms/2026-06-26-prd-decisions-master.md)** — its §1 lists the small
-  *build-gating* subset (M0 save-spine Q44-46/43; M1 satietyMax Q47; foundational level/rung/stamina/economy
-  Q1/Q30/Q31/Q7/Q29) you answer to begin; the rest ride the build per D-021.
-- **Key docs:** `docs/prd.md` (the ~4820-line vision spec) · `docs/prd_human_feedback.md` (all human
-  steering + QA answers, the audit lens) · `docs/fun-factor.md` (the what/why of fun) · `docs/ui-design.md`
-  (the woodblock/ink UI design-language bible) · `docs/plans/qa-playtesting.md` (the QA/playtest harness +
-  loops) · `brainstorms/2026-06-25-locked-decisions.md` (the canon).
-- **Decisions locked:** ADRs **D-001…D-021** in `docs/history/decisions.md` (grounded/no-magic; estate-rise
-  spine + tiers; 3-reputation model [estate 5-tier spine gates tiers; village & origin = one-tier optional
-  side-tracks]; 4-pillar Influence; combat-earns-Arms; tech [Vite+TS+Vitest, pure-core, IndexedDB,
-  splitmix64, active-only]; per-tier antagonists; no management sim; balance locks [v1≈28.5h, ≥30-min/rung,
-  70/30 accrual, no respec]; §7 execution plan M0–M7; **D-018** UI design language [woodblock/ink, strong CSS,
-  no asset pipeline]; **D-019** fun-as-priority + the QA/playtest discipline; **D-020** post-freeze
-  docs-explosion; **D-021** refines D-020 [scope "freeze" to vision-only & don't explode until AFTER the
-  M0/M1 playtest — §7 roadmap → living `docs/roadmap.md`, §4 balance → generated `docs/content/`; never
-  freeze M2–M7 as locked canon]). All recorded.
+  A mediocre ~18yo (true name **Tahei**) wakes amnesiac on a declining lower-samurai (*goshi*) estate
+  (the **Kurosawa** house); rise through **5 tiers** (Estate→Village→Region→Castle-town→Edo), growing
+  **House Influence** (4 pillars). Signature: **the UI itself unlocks incrementally**. No magic; growth
+  only through perseverance; no reset. (Spec: `docs/prd.md`.)
+- **Phase:** **PRD V2.2 DONE → DEMO BUILT (M0+M1+M2) & POLISHED.** The overnight build session
+  (2026-06-26, `journal/2026-06-26-session-02-overnight-build.md`). PRD V2.2 = all 32 Block N + 7 N.1
+  decisions woven into `docs/prd.md` (two workflows: apply 943 insertions + an audit-fix reconcile;
+  ADRs D-044 crash-recovery / D-045 a11y-ink). The **playable demo is built**: M0 (toolchain + pure-core
+  engine + the FULL multi-backend save spine + cold open), M1 (T0 Phase-1 labour: rung-meter R0→R2,
+  skills, season clock, soft stamina, the first nav reveal), M2 (combat: auto-resolve + analytic win-rate
+  + the humbling first fight + character level + gear/durability + self-recovering losses). **51 unit
+  tests green; `npm run verify` passes; headless visual QA clean (woodblock/ink, no console errors).**
+  Polish: title bar + Settings/About modal (build stamp · license · itch content descriptors · export/
+  import save · a11y toggles), favicon, a11y win-rate fix.
+- **Toolchain:** Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint boundary
+  live (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = tsc + eslint + prettier +
+  vitest + verify-content + `gen:docs --check`. `npm run dev` (Vite); `npm run build` (→ `dist/`, ~27 KB
+  JS gz 10 KB + 11 KB CSS — itch-ready, relative-base); `npm run build:itch` (zip). Headless QA harness:
+  `tmp/qa-shots.mjs` (Playwright) → screenshots in `audit/`.
+- **Key docs:** `docs/prd.md` (the V2.2 vision+spec) · `docs/prd_human_feedback.md` Block N (the
+  authoritative decisions) · `docs/ui-design.md` (woodblock/ink bible — the renderer is built to it) ·
+  `docs/fun-factor.md` · `docs/plans/qa-playtesting.md` (the __qa harness + fun-proxies) ·
+  `docs/history/decisions.md` (ADRs D-001…D-045).
+- **Code layout:** `src/core` (pure: rng, state, intents/reduce, step/tick, unlock/rewards/log, skills,
+  ranks, combat, fight, selectors, format, `content/*` registries) · `src/persistence` (save layer) ·
+  `src/ui` (render.ts + styles.css) · `src/app/main.ts` (composition root + `window.__qa`) ·
+  `scripts/{verify-content,gen-docs}.ts`.
 - **How to resume:**
-  1. Read the newest [`../journal/`](../journal/) entry (`2026-06-25-session-02.md`) — RESUME-HERE at top.
-  2. The PRD (`../docs/prd.md`) is the spec; `../docs/prd_human_feedback.md` §A–K is the human-intent lens.
-  3. Next phase: **scaffold the toolchain & build M0+M1 against the current `prd.md`** (per §7.2 / D-017) —
-     do NOT explode the docs yet. **THEN, after the first M0/M1 build-and-play cycle:** explode `prd.md`
-     per **D-021** — freeze ONLY §1 + the locked constraints as a tagged vision snapshot, move the §7
-     roadmap to a living `docs/roadmap.md` ("M0–M1 committed; M2–M7 provisional, re-planned after each
-     playtest"), and generate the §4 balance numbers into `docs/content/` tables (generate-don't-duplicate).
-     (Supersedes D-020's "explode before building" sequencing — sign-off comes after play, not before.)
-- **Next decision from the human:** none blocking — vision is locked, so **build M0+M1** (toolchain + cold
-  open + save spine) against the current `prd.md` starts now. (Supersedes the prior expectation — "the
-  final 'PRD is frozen, start building' go-ahead → then M0": per **D-021** the whole-PRD freeze + explode do
-  NOT precede the build; the full sign-off and the docs-explosion it gates come AFTER the first M0/M1
-  build-and-play cycle.) `npm run verify` command: {{not created yet — lands in M0}}.
+  1. Read the newest journal (`journal/2026-06-26-session-02-overnight-build.md`).
+  2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
+  3. Drive headlessly: `node tmp/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
+     `faceWolf`, `fight`, `auto`).
+  4. **Next (post-review):** M3 (T0 R4→R7 + the four-pillar Phase-2 grind + the hybrid gate) → close T0;
+     then T1/T2 per `docs/prd.md` §7.2. Pre-publish: self-host the OFL font (Q52) + a real perf/fun gate (M6).
+- **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
+  the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
+  (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:
+  `audit/qa-0[1-9]-*.png`.

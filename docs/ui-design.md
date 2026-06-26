@@ -43,7 +43,7 @@ ukiyo-e look. Two reds, two blues, two earths, ink, paper — no rainbow.
   /* ── INK (sumi 墨) — ALL text, borders, rules; never #000 ──────────────── */
   --ink:          #26221E;  /* body text, outlines, frames — the load-bearing line */
   --ink-soft:     #4A3F33;  /* secondary text, routine-log lines               */
-  --ink-faint:    #7A6C59;  /* muted labels, locked hints, captions            */
+  --ink-faint:    #7A6C59;  /* DECORATIVE / disabled-only: locked & silhouette hints — never an active value */
 
   /* ── INDIGO (ai 藍, aizuri) — the "second ink": structure & key numbers ── */
   --ai:           #27496D;  /* headers, active tab, key totals, links, House id */
@@ -93,8 +93,21 @@ ukiyo-e look. Two reds, two blues, two earths, ink, paper — no rainbow.
 - **The vermilion (`--shu`) is a stamp, not a coat of paint.** It appears on the House seal/crest, the single
   primary call-to-action of a region, and the rank-up beat. If two reds compete on one screen, the design is
   wrong — demote secondary reds to `--beni`.
-- **Deltas use indigo/beni, never generic green/red.** Gains in `--ai`, losses in `--beni` — backed by
-  sign + arrow glyph (▲/▼) and a label, so colour is **never the sole carrier of meaning** (PRD §6.9/§6.11).
+- **Deltas use indigo/beni, never generic green/red.** Gains in `--ai`, losses in `--beni` — and the hue is an
+  **accent on the ± number** (its sign + arrow glyph ▲/▼ and a label carry the meaning), so colour is **never the
+  sole carrier of meaning** (PRD §6.9/§6.11).
+- **Identity hues are FILLS / ACCENTS only; ink carries the meaning.** Every earth / accent / pillar hue lives
+  in **chrome** — bar fills, pips, icons, borders, seal stamps — and is **never** the sole carrier of a value.
+  **All meaning-bearing text renders in ink:** body in `--ink`, secondary / functional / hint text in
+  `--ink-soft`, and headers / key totals in indigo `--ai` — the AA-passing "second ink", not an identity hue.
+  So **there is no coloured WIN/LOSS word-as-text and no coloured label-text** — the outcome word
+  and panel labels render in ink, with the identity hue carried only by an adjacent fill / pip / icon (§5.1, §5.3).
+  **`--ink-faint` is decorative / disabled-state only** — it never carries an active value.
+- **Per-token contrast guarantees — not a blanket "AA on every surface".** The real promise is per token, per
+  surface: `--ink-soft` text clears **WCAG AA — ≈ 7.3:1 on `--surface`** (and on `--washi` / `--surface-deep`),
+  and `--ink` is darker still (higher); `--ink-faint` is decorative / disabled-only (WCAG exempts disabled
+  controls), so it makes no contrast promise and is never used for an active value. Meter / bar fills are
+  **darkened** so any value drawn on the fill stays AA (§5.3).
 - **One earth tone per context.** A category strip may use `--ochre` *or* `--kihada` *or* `--rokusho` — never
   all three. The four-pillar panel is the only place multiple earth/accent hues legitimately coexist, because
   there each is a *fixed identity*, not decoration.
@@ -317,8 +330,8 @@ It is an **ARIA live region** (PRD §6.11) so reveals/important events are annou
 |---|---|
 | `narration` | `--ink-soft`, regular weight — the ambient voice ("A rice-broker's letter arrives…"). |
 | `reward` | `--ink`, with a small resource emoji bullet + the `+N` in `--ai`. |
-| `combat` | `--ink`, a ⚔️ bullet; outcome word coloured `--shu` (win) / `--beni` (loss). |
-| `system` | `--ink-faint`, smaller — restocks, saves. The quietest tier. |
+| `combat` | `--ink`, a ⚔️ bullet; the **outcome word renders in `--ink-soft`** (ink, AA — never coloured), with the win/loss hue carried only by an **adjacent pip/icon**: a `--shu` seal pip (win) / a `--beni` mark (loss). |
+| `system` | `--ink-soft`, smaller — restocks, saves. The quietest tier; its quiet comes from **size/weight, not faint ink** (the text still clears AA — `--ink-faint` is decorative-only and never used for a log value). |
 | **milestone / reveal / rank-up** | **heavier weight, a `--shu` seal stamp** on the line + a held entry beat (§6). This is the highest-leverage juice surface. |
 
 Diegetic voice carries the whole game's character — this is where the Edo flavour lives.
@@ -333,12 +346,12 @@ log line; a panel never appears silently.
 ### 5.3 Meter / bar (and the four-pillar 家威 panel)
 
 **Bar = shape, number = precision, colour = state — never a naked bar, never a naked number.** Track is
-paper-grained `--surface-deep`; fill is an ink/indigo wash; threshold ticks are **registration marks** (small
+paper-grained `--surface-deep`; fill is an ink/indigo wash **darkened for contrast** (so any value drawn on the fill stays AA); threshold ticks are **registration marks** (small
 sumi crop-marks). Fills **ease** toward new values (momentum), and the **number count-ups alongside** (§6.3).
 Always **show the rate next to the total**: `家威 4.20K (+12/koku)`.
 
 **The four-pillar panel** (reveals **bar-by-bar** at T0-R7, §2.16 / §3.2): four horizontal bars, each with its
-**own identity** — kanji label + emoji + pillar colour — so it is peripherally scannable, not four identical
+**own identity** — a kanji label **in ink (`--ink`/`--ink-soft`)** + emoji + its pillar hue **on the bar fill / a pip only** (the hue is a fill/accent, never the label-text) — so it is peripherally scannable, not four identical
 bars (this is also the anti-"same-shadow flatness" fix):
 
 | Pillar | Kanji | Colour token | Emoji |
