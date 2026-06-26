@@ -100,6 +100,14 @@ combat-only (Q1). **Q30** adds a numeric rung-meter curve gated by BOTH the mete
 branching in v1. Recorded in the master-sheet resolution log; the two ⚠ items need ADRs in V2. Next: P1.
 
 
+## 13 · Governing rule + first lock change (ADR D-022)
+Human: "the decisions we make now override the previous decisions." Recorded **ADR D-022** — the V1→V2 Q&A
+decision log is AUTHORITATIVE; a V2 decision supersedes any conflicting prior ADR/canon/K-item/lock (annotate,
+don't delete). First application: **Q6 relaxes the no-labour→combat-cross-feed lock** (D-011 / D-016 / D13) into
+a bounded per-skill capped combat bonus. Annotated D-011, D-016, D13 → D-022; master sheet + project-status note
+the rule. (The combat-only level/attribute economy from Q1 stays the invariant — no uncapped back door.)
+
+
 ---
 
 ## Next intended steps (current)

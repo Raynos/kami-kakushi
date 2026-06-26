@@ -114,11 +114,13 @@
 
 *(Decisions made with the human, in order. This log → the PRD-improvement plan → the V2 reshape. ⚠ = changes a locked decision / adds scope, needs an ADR in V2.)*
 
+> **Governing rule (ADR D-022):** these V2 Q&A decisions are AUTHORITATIVE — where one conflicts with a prior ADR / canon / K-item / lock, the V2 decision **supersedes** it (prior decisions annotated, not deleted).
+
 ### P0 — RESOLVED ✅ (2026-06-26)
 - **Q1 — Character level = its own stored track, fed by COMBAT only.** Deeds/labour/non-combat actions NEVER raise it; HP + attribute points scale off it. (No labour→combat back door via the level/attribute economy.)
 - **Q2 — RNG = per-named-stream persisted cursors** `{ seed, cursors: {combat,loot,seasonal,world-gen} }`; `tick()` takes **whole-integer dtTicks** (remainder app-side). Honours the canon "named sub-streams never perturb each other" + byte-identical replay.
 - **Q3 — Persist market-saturation only**; flag-encode estate stage; **derive** weather/lunarPhase from a day-keyed RNG sub-stream; belief-beasts get their own `content/beliefBeasts.ts`. Honours "store only non-derivable."
-- **⚠ Q6 — RELAX the no-labour→combat lock (D13) into a BOUNDED cross-feed.** EVERY skill (labour included) grants a **small, capped** combat bonus (per-level or per-milestone ~every 3–5 levels); balanced via differential level-speed + a level-cap on the combat benefit. Conditioning = the labour/combat **capability gate** (weak→capable). Big combat power stays combat-only (Q1); skills add bounded *texture*. → **new ADR revising D13**; bonus size/cadence/caps are §4 numbers tuned in V2/playtest.
+- **⚠ Q6 — RELAX the no-labour→combat lock (D13) into a BOUNDED cross-feed.** EVERY skill (labour included) grants a **small, capped** combat bonus (per-level or per-milestone ~every 3–5 levels); balanced via differential level-speed + a level-cap on the combat benefit. Conditioning = the labour/combat **capability gate** (weak→capable). Big combat power stays combat-only (Q1); skills add bounded *texture*. → **ADR D-022 relaxes D13**; bonus size/cadence/caps are §4 numbers tuned in V2/playtest.
 - **⚠ Q34 — Feature-rich data model: intra-line dialogue branching IS in v1** (`choices[]` + `ChoiceId`). Plus nest `estateWealth.subEngines{land,treasury,trade}` so the trade-≤⅓ clamp has storage, and sketch `CombatEncounterState`.
 - **⚠ Q30 — Numeric rung meter (a real §4 curve), gated by BOTH meter AND story.** A rung advances only when **(a)** its numeric EstateService/CombatStanding **meter** clears a per-rung threshold **AND (b)** its **story milestones** are met. The meter is incremented by **rung-specific, story-consistent activities** (not all actions bump it). The four **Influence pillars are a separate track**; an influence threshold MAY be one criterion for some rungs. **Double-counting allowed** (one deed → rung meter + pillars + house). → §4 gains a third balance curve (rung meter · pillars · XP).
 

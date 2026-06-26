@@ -170,7 +170,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - **D12. Currencies = koku (rice) base + coin (*mon*) trade currency + the four Influence pillars.** Other
   resources (wood, fish, materials) feed crafting; coin is a T1 reveal (no market in T0). ✅ (QA R8 #29).
 - **D13. Rich attribute system** — STR / AGI / INT / SPD / LUCK with deep interactions, + per-skill levels +
-  gear. **No labour→combat cross-feed** (attributes do double duty; labour *skills* never feed combat
+  gear. **No labour→combat cross-feed** *(🔁 RELAXED to a **bounded** per-skill capped combat bonus — V2 Q6 / **D-022**)* (attributes do double duty; labour *skills* never feed combat
   stats). ✅ (QA R8 #32; §4.4).
 - **D14. Crafting = HYBRID depth** — simple recipes early; the component/quality system **unlocks later**
   (T1+). ✅ (QA R6 #21; §2.11).
