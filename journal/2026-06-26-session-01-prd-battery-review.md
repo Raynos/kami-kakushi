@@ -204,6 +204,13 @@ canon, ends clean before §2). Applied: prd.md = V2 §1 + v1 §2-§7 (a valid V2
 as it lands). Next: §2 + §6 (read s1.md as canon), then §4, then §3/§5/§7 — each verified + committed.
 
 
+## 24 · PRD V2 §2/§4/§6 applied (chunked, file-output)
+The corrected file-output workflow (w7ode33pe) wrote s2/s4/s6 to v2out; applied each via apply_section.py
+(validated start-heading + size). prd.md now: V2 §1/§2/§4/§6 + v1 §3/§5/§7 (6032 lines, all 7 §-headers).
+§3/§5/§7 still generating. Remaining 'CombatDeedsPool'/'Combat Standing' markers are in the not-yet-applied
+v1 §3/§5/§7 (will clear on apply). Each section = an independent committed checkpoint.
+
+
 ---
 
 ## Next intended steps (current)
