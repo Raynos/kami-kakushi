@@ -211,6 +211,14 @@ The corrected file-output workflow (w7ode33pe) wrote s2/s4/s6 to v2out; applied 
 v1 §3/§5/§7 (will clear on apply). Each section = an independent committed checkpoint.
 
 
+## 25 · PRD V2 FULLY ASSEMBLED (all 7 sections applied)
+Applied §3/§5/§7 (chunked, validated). docs/prd.md is now ALL V2 — §1-§7, 6426 lines, all headers present.
+Flag for the audit: 3 'CombatDeedsPool' + 14 'Combat Standing' leftovers remain (watch-list said rename
+Combat Standing→Combat Rank project-wide + delete CombatDeedsPool→three tracks) — the audit/consistency lens
+must verify these are legit (e.g. 'renamed from' notes / historical refs) or fix them. Next: audit battery
+(intent-fidelity vs feedback A-M + consistency watch-list + dropped-content diff vs v1), then human glance.
+
+
 ---
 
 ## Next intended steps (current)
