@@ -155,12 +155,24 @@ channel+cap; the three combat-track disambiguation (level/rung-meter/Arms); mobL
 ladder; the hybrid-gate thresholds; the §7 scope re-cut. Next: human answers the wave-2 (UI), then the V2 plan.
 
 
+## 19 · Wave-2 follow-ups answered — all 23 (decision UI)
+Went through all 23 wave-2 follow-ups with the human. Big direction shifts feeding V2: FU4 design reveals
+one-at-a-time (no runtime queue); FU7 SEQUENTIAL per-tier (climb rungs via curated per-rung activities → THEN
+the estate-influence/pillar grind unlocks → tier-up); FU8 stackable per-skill perks (2-8 each), no global cap,
+bounded by incremental unlock + holistic balance; FU10 gate thresholds need a per-pillar-per-tier overhaul
+(good=baseline/great=strong/excellent=above-and-beyond); FU13 MORE weapons (T0:2/T1:3/T2:4); FU14 three clean
+combat tracks (kills→level, deeds→Arms, per-rung activities→rung-meter); FU18 the 28.5h budget is a FLOOR not
+a ceiling (longer OSRS-grind); FU20 broader cross-pillar combos (trade-≤⅓ stays hard); FU23 tab-open
+auto-resolve (active-only holds). Recorded in brainstorms/2026-06-26-prd-v2-followups.md; D-016 annotated
+(budget=floor). Next phase: author the PRD-V2 plan → reshape prd.md → V2 → build M0/M1.
+
+
 ---
 
 ## Next intended steps (current)
-1. **Author the PRD-improvement plan** from the resolution log (all 56 decisions + the ~16 lock/scope changes) — what changes where in `prd.md`, and which need ADRs.
-2. **Reshape `prd.md` → PRD V2** per that plan; record the load-bearing lock-changes as ADRs (per D-022).
-3. Then build M0/M1 → playtest → resteer → V3 (the iterative loop).
+1. **Author the PRD-V2 plan** from BOTH the 56 decisions (master sheet) AND the 23 wave-2 follow-ups — what changes where in `prd.md`, the new sections (combat-progression ladder, rung-meter law, sequential per-tier model, weapon roster…), and which need ADRs.
+2. **Reshape `prd.md` → PRD V2** per that plan; record the load-bearing changes as ADRs (per D-022).
+3. **Then build M0/M1** → playtest → resteer → V3.
 
 ## Landmines (current)
 - **42 fixes already applied to `prd.md`** this session (re-verified in round 4; 1 self-regression caught & fixed).
