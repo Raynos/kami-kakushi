@@ -219,6 +219,18 @@ must verify these are legit (e.g. 'renamed from' notes / historical refs) or fix
 (intent-fidelity vs feedback A-M + consistency watch-list + dropped-content diff vs v1), then human glance.
 
 
+## 26 · PRD V2 audit — VERDICT: NOT READY (two truncations) + design flags
+Audit battery (w39q9l3fc, 9 lenses, 30 findings: 8 crit/4 high/10 med/8 low). Two CRITICAL truncations (the
+same length-cut the apply_section size-heuristic missed because each was >60% of v1): (1) §4 ends at §4.6.9 —
+§4.7 (yields/crafting/loot) + §4.8 (LOCKED pacing tables + budget-FLOOR) + §4.9 (levers index) GONE (~89
+dangling refs; G1/G2 pacing criteria orphaned); (2) §7 ends mid-M5 — M6/M7/§7.3/§7.4/§7.5 GONE (strands
+Q4 fun-gate, Q53 content-descriptors, Q56 perf-risk). FIX: regenerate the §4 TAIL (§4.7-§4.9) + the §7 TAIL
+(M5-complete + M6 + M7 + §7.3 + §7.4 + §7.5) as small reliable chunks + splice in (heads of §4/§7 are fine).
+Other findings (flag for human): HIGH Name-pillar gating contradiction + 70/30 tie-out; MED reveal-ladder
+seam (Bestiary R3 vs R4) + §4.2.2 phase-accrual; LOW clerical (ronin macron, name leftovers, E# overload,
+T2.6 weapon mis-seq). 5 trivial fixes. Then re-verify, write report, present for human glance (NOT M0 yet).
+
+
 ---
 
 ## Next intended steps (current)
