@@ -44,6 +44,15 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   own vision and iterates; the human is the final fun & taste arbiter.
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `journal/`
   says **how it got here**. One doc per concern; edit living docs in place (don't fork copies).
+- **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to **locked intent** — the
+  §1 vision + the human-signed acceptance criteria (no-magic / mediocre-start / trade ≤⅓ /
+  active-only, the four pillars + estate spine, the ≥30-min-per-rank / 70-30 / ~28.5h / tier-gate
+  targets) — **not** the route there: the §4 balance numbers and §7 M2–M7 milestone detail stay
+  **provisional** (already tagged "proposed v1 balance") and are revised by playtest. Build M0+M1
+  against the current [prd.md](docs/prd.md) **first**, playtest, **then** explode it — freeze §1 as a
+  tagged vision snapshot, move the roadmap to a **living** `docs/roadmap.md`, and **generate** balance
+  into `docs/content/`. Never freeze M2–M7 as locked canon; the v1 scope (T0–T2) lock is unchanged.
+  See **D-021** (refines D-020).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp/) for all scratch /
   working files (intermediate output, throwaway scripts, scratch notes) — **not** the global system
   scratchpad. Anything worth keeping graduates to `docs/`, `brainstorms/`, `audit/`, or `journal/`.

@@ -1,5 +1,17 @@
 # Session 01 — 2026-06-26 — PRD battery & stress-test (multi-round)
 
+> **Checkpoint (PD-1 APPROVED & wired).** Human signed the freeze-vs-steer reconciliation. Recorded as
+> **ADR D-021** (refines D-020, annotate-don't-delete) and propagated via a doc-alignment workflow (8 agents,
+> 21 byte-exact ops across 7 files, all verified count==1 before apply): canon `locked-decisions.md` (K2/D-020
+> row + preamble), intent-log **K7** (+ K3/K5 cross-refs), `memory/project-status.md` (phase → "VISION-LOCKED,
+> build M0+M1, THEN explode"), `CLAUDE.md` ("Freeze = locked intent, not the plan" convention), `docs/prd.md`
+> read-me preamble (the governing FRAMING blockquote) + §7.0/§4.0 nuance, `docs/README.md`. Freeze line stated
+> identically everywhere: LOCKED INTENT (§1 + hard constraints + signed acceptance criteria) frozen; §4 numbers
+> / §7 M2–M7 provisional; build M0/M1 → playtest → THEN explode (roadmap→living, balance→generated); never
+> freeze M2–M7; v1 T0–T2 scope lock unchanged. **Docs NOT exploded yet** (deliberate — build first). Report PD-1
+> marked ✅. Round 3 battery (wh8xnl7sr) still running.
+
+
 > **Checkpoint (Round 3 launched + PD-1).** Human raised a process question: build M0+M1, playtest, then steer —
 > does that collide with K5 (freeze prd.md + explode into living docs)? Logged **PD-1** in the report §P:
 > reconcile K3 (steer-by-play) vs K5 (freeze) by scoping "freeze" to **locked intent** (§1 vision + signed

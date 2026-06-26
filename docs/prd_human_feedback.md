@@ -347,7 +347,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   via the DEV play-API → get a **playable T0 vertical slice ASAP** (M0–M3) → **the AGENT drives the slice,
   observes the flow/states (screenshots + telemetry) and forms its own pacing/feel opinions**, iterating →
   **the human plays & makes the higher-level fun call.** The agent measures proxies *and* has its own read;
-  the human is the final judge of fun — not the only set of eyes.
+  the human is the final judge of fun — not the only set of eyes. *(This build→playtest cycle is the one that now **precedes and gates** the docs-explosion — see **K7** / D-021.)*
 - **K4. UI-QA process — the agent is a capable visual reviewer (corrected 2026-06-25).** The agent has
   **Playwright MCP + Chrome DevTools MCP + the `capture-game-states` skill + its own multimodal vision** — so
   it **drives the game, screenshots every state / phase / transition / page, *looks at them itself*, critiques
@@ -357,11 +357,28 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   them.)
 - **K5. Docs structure (after freeze).** Freeze `prd.md` as the vision; **explode into per-concern living
   docs** (architecture / systems / narrative) + **generate-don't-duplicate** content/balance tables. Hold
-  until PRD sign-off.
+  until PRD sign-off. **— REFINED by K7 / ADR D-021 (2026-06-26):** scope the freeze to **locked intent only** (§1 + the hard constraints + the human-signed acceptance criteria), **build M0+M1 against the current `prd.md` first**, and explode **after** the first playtest cycle — roadmap → living `docs/roadmap.md`, §4 balance → generated `docs/content/`; **never freeze M2–M7.**
 - **K6. Review posture (this session).** §4 = accept first-pass, tune at M6. The **consistency sweep is the
   final gate** before lock. §5 story core **kept as-is**. §2 + the rest of §5 = **trust + spot-check** (during
   the sweep).
+- **K7. Freeze = LOCKED INTENT, not the whole plan (refines K5 / D-020 → D-021; human-signed 2026-06-26).**
+  The freeze-vs-steer line is **locked intent vs provisional implementation**, NOT a whole-PRD freeze. **Build
+  M0+M1 against the CURRENT `prd.md` — do NOT explode the docs yet**; PRD sign-off legitimately lands *after* the
+  first build-and-play cycle, so we reorganise **once, later, on ground that has survived contact with play.**
+  When we *do* explode (post M0/M1 playtest): freeze **only §1 vision + the hard constraints** (no-magic,
+  mediocre-start, trade ≤⅓, active-only, the four pillars, the estate spine) **+ the human-signed acceptance
+  criteria** (≥30-min-per-rank floor, 70/30 deeds/seasonal, ~28.5h v1 budget, the tier-gate targets) as a tagged
+  vision snapshot; the **§7 milestone roadmap moves to a LIVING `docs/roadmap.md`** carrying the banner "M0–M1
+  committed; M2–M7 provisional, re-planned after each playtest"; the **§4 balance numbers move to GENERATED
+  `docs/content/` tables** (generate-don't-duplicate — this is what makes post-playtest re-tuning cheap, since
+  hand-typed derived tables silently drift). **NEVER freeze M2–M7 as locked canon** — *that* is the mistake to
+  reject, NOT the multi-doc structure. The **v1 scope lock** (full T0–T2, no pre-planned descope — §7.4.2 / H7)
+  is **orthogonal and STILL HOLDS**: it locks *what* ships, not the provisional *how*. Evidence: the battery
+  review found the **vision layer had ZERO intent-drift across 97 findings** (freezable — it survived adversarial
+  audit) while every gap/under-spec/bug clustered in the **plan layer** (§4 numbers, §2 specifics, §7 detail —
+  exactly what stays liquid and resolves via playtest). ✅ (human-signed 2026-06-26; battery
+  `brainstorms/2026-06-26-prd-battery-review.md` §P / PD-1; **ADR D-021** refines — does not delete — D-020).
 
 ---
 
-*Last updated: 2026-06-25. Keep appending as the human steers.*
+*Last updated: 2026-06-26. Keep appending as the human steers.*

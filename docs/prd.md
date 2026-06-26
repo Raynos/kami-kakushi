@@ -25,6 +25,22 @@ revised, and its load-bearing decisions locked as ADRs.
 | 6 | Tech architecture & data model | **Drafted** |
 | 7 | Milestone roadmap, v1 scope & deployment | **Not started** |
 
+> **FRAMING — the freeze line (ADR D-021, refines D-020).** Read this PRD as **LOCKED INTENT vs.
+> PROVISIONAL IMPLEMENTATION**, *not* "vision vs. plan." **LOCKED INTENT (the destinations — frozen):** §1
+> vision + the hard human constraints (no magic; mediocre start; trade ≤⅓; active-only v1; the four
+> pillars; the estate spine) + the human-signed **acceptance criteria** tagged `LOCKED` in §4 — the
+> **≥30-min-per-rank floor**, the **≈70/30 deeds/seasonal** split, the **≈28.5 h v1 budget**, and the
+> **tier-gate TARGETS**. **PROVISIONAL IMPLEMENTATION (the route — liquid, revised via playtest):**
+> everything tagged `proposed v1 balance` (the §4 yields/levers/magnitudes) and the **§7 M2–M7** milestone
+> detail — these *hit* the locked targets, so the levers move while the targets do not. The **v1 scope**
+> (full **T0–T2**, no pre-planned descope — §7.4.2) is **orthogonal and still LOCKED**: it fixes *what*
+> ships, not the provisional *how*. **Do NOT explode this doc yet** — **M0 + M1 build against this PRD
+> as-is**; full sign-off and the one-time reorganisation come **after the first build-and-play cycle**, on
+> ground that has survived contact with play. Then §1 + the locked constraints freeze as a tagged vision
+> snapshot, §7 moves to a living `docs/roadmap.md` ("M0–M1 committed; M2–M7 provisional, re-planned after
+> each playtest"), and the §4 numbers move to generated `docs/content/` tables. **M2–M7 are never frozen
+> as canon** (per ADR D-021).
+
 ---
 
 # §1 — Vision, Pillars, Factions, World & Endgame
@@ -4329,7 +4345,10 @@ at integration.
 > approved*). It commits the **definitive v1 scope**, an ordered **milestone roadmap** of verifiable
 > vertical slices, the **deployment** path to itch.io, and a **risk register + scope-risk
 > posture**. It references other sections by number and **defers all numbers to §4**; here we fix the
-> *build order*, the *cut-set*, and the *release gate*, never the magnitudes.
+> *build order*, the *cut-set*, and the *release gate*, never the magnitudes. *(Per **ADR D-021**: the
+> cut-set (v1 scope, §7.4.2) and the release gate (the §4-LOCKED acceptance criteria) stay locked, but
+> only the **M0–M1** build order is committed — **M2–M7 are provisional, re-planned after each playtest**,
+> never frozen as canon.)*
 >
 > **Canon honoured throughout:** pure-core / deterministic / **single seeded RNG** (§6.2, §6.7);
 > **active-only v1 — NO idle/offline layer** (auto-producers T3+ only, §4.7.4); **no
@@ -4739,7 +4758,10 @@ cut from a **verify-green** commit.
 | **M6** | Balance to §4 + verifier green + T3 stub + polish | v1 launchable | §4.8/§6.6/§6.11, §3.7.1 |
 | **M7** | Deploy to itch.io | live | §6.1/§7.3 |
 
-> **Milestones map to ADR-able checkpoints.** Each milestone's *design* is already locked in §§1–6; the
+> **Milestones map to ADR-able checkpoints.** Each milestone's *design* is already locked in §§1–6 — but
+> per **ADR D-021** read that "locked" as the **LOCKED-INTENT layer** (§1 + the hard constraints + the
+> §4-LOCKED acceptance criteria), **not** the `proposed v1 balance` numbers or the **M2–M7** milestone
+> detail, which stay **provisional** and are re-planned via playtest; the
 > roadmap adds no new design decisions, so M0–M7 are **execution** checkpoints (commit + journal per the
 > CLAUDE.md cadence), not new ADRs. The only ADR §7 itself proposes is recording the **v1 scope + the
 > M0…M7 build order** as the project's execution plan (see §7.5).

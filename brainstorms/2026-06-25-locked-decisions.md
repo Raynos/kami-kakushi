@@ -18,6 +18,16 @@
 > woodlot edge, drill yard each reveal individually); and the **national *mitate*/parody-*banzuke* + sumo-rank
 > framing**, the **Naoyuki rival→brotherhood** arc, and the **Tomita** (head Sōzaemon / heir Kageyuki / agent
 > Yasubei) **+ Akagi** (head Gennai) lineages are all **confirmed**.
+>
+> **Updated 2026-06-26 (D-021 refines D-020 — the "freeze + explode" scope is sharpened):** "freeze" is
+> scoped to **LOCKED INTENT only** — §1 vision + the hard human constraints + the human-signed acceptance
+> criteria are frozen (the *destinations*); the **§4 balance numbers** and the **§7 M2–M7 milestone detail**
+> stay **LIQUID** (the *route*). **Do NOT explode the docs yet** — build **M0+M1 against the current
+> `../docs/prd.md`** and reorganise **once, later**, after the first build-and-playtest cycle (NOT at PRD
+> sign-off, NOT before build). On explosion: §1 + the locked constraints become a tagged vision snapshot, the
+> **§7 roadmap → a LIVING `docs/roadmap.md`** ("M0–M1 committed; M2–M7 provisional, re-planned after each
+> playtest") and the **§4 balance → GENERATED `docs/content/` tables**; **M2–M7 is NEVER locked canon** (the
+> v1 full-T0–T2 scope lock still holds — it fixes WHAT ships, not the provisional HOW). See ADR D-021.
 
 ## A. Core identity (grounded constraints — still binding)
 - **Grounded / no magic.** Nothing supernatural ever happens; every belief/omen resolves to a human or
@@ -284,6 +294,10 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   hosted CI, no deploy automation).
 
 ### §5 authenticity decisions (2026-06-25, human-signed — APPLY after the §7 breakdown frees prd.md)
+> **[D-021, 2026-06-26]:** the "§7 breakdown" (the docs-explosion that frees `prd.md`) now happens **after
+> the M0+M1 build-and-playtest cycle**, not at PRD sign-off — so these §5 authenticity fixes apply **then**.
+> The decisions below are unchanged; only their *timing* shifts with the explosion. See ADR D-021 (refines D-020).
+
 - **Standing & Office pillar kanji = 官威 (*kan'i*)** — "authority of office," a real attested compound (not a
   coinage like the rejected 政威). Register: **武威 / 官威** (achieved authority — martial / official) · **家産 /
   家格** (house assets — wealth / status) → **家威** (House Influence umbrella). (Spoken homophone of 官位 court
@@ -307,6 +321,16 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   plan** (headless fun-proxies + a play-and-judge cadence; the agent measures, the human judges fun).
 - **Docs:** freeze `prd.md` as the vision; **explode into per-concern living docs + generate-don't-duplicate**
   — only **after** PRD sign-off. **PRD review is still in progress.**
+  - **↳ [REFINED — ADR D-021, 2026-06-26]:** "freeze" = **LOCKED INTENT only** (§1 vision + the hard human
+    constraints + the human-signed acceptance criteria), **not the whole PRD**. **Do NOT explode yet:** build
+    **M0+M1 against the current `prd.md`** — sign-off legitimately lands **after** the first build-and-play
+    cycle, so reorganise **once, later**, on ground that has survived play (NOT at PRD sign-off, NOT before
+    build). WHEN you explode (post-M0/M1 playtest): freeze ONLY §1 + the locked constraints as a tagged
+    vision snapshot; the **§7 milestone roadmap → a LIVING `docs/roadmap.md`** (banner "M0–M1 committed;
+    M2–M7 provisional, re-planned after each playtest"); the **§4 balance numbers → GENERATED `docs/content/`
+    tables** (generate-don't-duplicate, so post-playtest re-tuning is cheap). **M2–M7 is NEVER frozen as
+    locked canon** — rejecting *that* is the point, not the multi-doc structure. The v1 **full T0–T2 scope
+    lock (no pre-planned descope) still holds** — it fixes WHAT ships, not the provisional HOW.
 
 ## J. ADR mapping (to record in `../docs/history/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
@@ -324,4 +348,11 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   **D-018** UI design language (woodblock/ink, strong CSS, no asset pipeline → `docs/ui-design.md`).
   **D-019** fun as a first-class priority + the QA/playtest discipline (`docs/fun-factor.md` +
   `docs/plans/qa-playtesting.md`). **D-020** post-freeze docs-explosion (freeze prd.md as the vision; explode
-  into living docs + generate-don't-duplicate). (ADR numbering finalized; D-001…D-020 all recorded.)
+  into living docs + generate-don't-duplicate). **D-021** *refines D-020 (does not delete it)* — scope
+  "freeze" to **LOCKED INTENT** (§1 vision + the hard human constraints + the human-signed acceptance
+  criteria), **not the whole PRD**; **do NOT explode yet** — build **M0+M1 against the current `prd.md`** and
+  reorganise **once, later**, after the first build-and-playtest cycle (NOT at PRD sign-off, NOT before build);
+  on explosion the **§7 roadmap → a LIVING `docs/roadmap.md`** ("M0–M1 committed; M2–M7 provisional") and the
+  **§4 balance → GENERATED `docs/content/` tables**; **M2–M7 is NEVER frozen as locked canon** (the v1 full
+  T0–T2 scope lock still holds — WHAT ships, not the provisional HOW). (ADR numbering finalized;
+  D-001…D-021 all recorded.)

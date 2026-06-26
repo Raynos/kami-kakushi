@@ -1,6 +1,6 @@
 # PRD Battery & Stress-Test — Findings & Decision Report
 
-> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **2** · Confirmed findings: **97** (R1 60 + R2 37) · Fixes applied: **30** (R1 24 + R2 6) · **Decision queue: Q1–Q28 (28 open)**. More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **NEW: §P — Process decision PD-1** (freeze-vs-steer) added below.
+> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **2** · Confirmed findings: **97** (R1 60 + R2 37) · Fixes applied: **30** (R1 24 + R2 6) · **Decision queue: Q1–Q28 (28 open)**. More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **§P — Process decision PD-1** (freeze-vs-steer) — ✅ APPROVED, wired as ADR D-021 across 6 docs.
 
 **Date:** 2026-06-26  ·  **Target:** `docs/prd.md` (4,833 lines) + canon/ADR/intent cross-docs  
 **Method:** a 3-phase multi-agent workflow — **14 independent hostile-auditor lenses** attacked the PRD in
@@ -41,7 +41,7 @@ The levers move; the locked targets don't. This keeps the steer-loop alive **wit
 2. **When you explode:** freeze ONLY §1 + constraints as a tagged vision snapshot; move §7 roadmap to a **living** `docs/roadmap.md` (banner: "M0–M1 committed; M2–M7 provisional, re-planned after each playtest"); move §4 balance to **generated** `docs/content/` — *generate-don't-duplicate is what makes post-playtest re-tuning cheap* (rounds 2–3 keep flagging hand-typed derived tables that silently drift; **that pain IS the argument** for generating balance).
 3. **Never freeze M2–M7 as locked canon** — that is the actual mistake to reject, not the multi-doc structure.
 
-**Decision needed from you:** approve (a) the *build-M0/M1 → playtest → then explode* sequencing, and (b) the *locked-intent-vs-provisional-implementation* freeze line. I'll then wire it: a `freeze=vision-only` discipline + a living roadmap doc + generated balance.
+**✅ APPROVED & WIRED (2026-06-26).** The human signed both (a) the *build-M0/M1 → playtest → then explode* sequencing and (b) the *locked-intent-vs-provisional-implementation* freeze line. Recorded as **ADR D-021** (refines D-020) and propagated across 6 canonical docs (canon K2/D-020 row, intent-log **K7**, `memory/project-status.md`, `CLAUDE.md`, the `prd.md` read-me preamble, `docs/README.md`). The docs are **not** exploded yet — that waits for the post-M0/M1 playtest, by design.
 
 ---
 
