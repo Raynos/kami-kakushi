@@ -2943,7 +2943,7 @@ runway/free-play tail past the T2→T3 gate).
 | Beat | Target | Lock status | How measured |
 |---|---|---|---|
 | **First action available** | **< 5 s** from load (rake spilled rice in the kura) | canon | time-to-first-interactable |
-| **First meaningful reveal** | **< 30 s** (rice counter ticks → Skills tab fades in) | proposed | first `unlock` event |
+| **First meaningful reveal** | **< 30 s** (rice counter ticks → the koku row lights its own panel, §3.1) | proposed | first `unlock` event |
 | **Per-rank minimum** | **≥ ~30 min per rung** (no rung advances faster) | **LOCKED 2026-06-25** | per-rung tick-count floor |
 | **Humbling first fight (R3)** | **~60–75 min** in (start of R3) | proposed | tick-count to the wolf encounter |
 | **Time-to-T1** (sent to village) | **≈ 4.5 h** active play | **LOCKED (T0 budget)** | tick-count to T0→T1 gate |
@@ -3076,9 +3076,9 @@ normalizer — REPLACES the retired `JUDGE_NAME_BLEND` magic scaler; the F4 doub
 **autumn-basis bump** (~12 %), `f_pillar` exponents (0.5), `DENT_FRACTION = 0.10`. **Gating:** the 5 threshold
 rows (§4.1) **+ the per-tier hour budgets (LOCKED) the gates must take to fill**. **Skills:** `XP_BASE = 50`, `XP_GROWTH = 1.18`,
 `PER_EVENT_XP_CAP_FRACTION = 0.25`, visibility 30, per-tier soft caps, milestone levels/perks; **no-respec
-(LOCKED, not a lever)**. **Attributes:** all coefficients (§4.4), start = 5, +1 pt / 2 levels; **no-respec
+(LOCKED, not a lever)**. **Conversion weights (§4.3):** the per-domain deed-base multipliers (`0.05·combatLevel`, `0.10·dangerRing`, `0.04·skillLevel`, `0.04·tradeSkill`, `0.06·officeRank`, `0.15·allianceSealed`, `0.25·Name-blend`). **Attributes:** all coefficients (§4.4), start = 5, +1 pt / 2 levels; **no-respec
 (LOCKED, not a lever)**. **Combat:** `baseSpeed`, SPD coeff 0.005, `DAMAGE_FLOOR = max(1, 0.10·atk)`,
-`CRIT_MULT = 1.5`, `BLOCK_REDUCTION = 0.5`, `COMBAT_XP_K = 12`; **first-fight win-rate 20–35% (LOCKED, not a
+`CRIT_MULT = 1.5`, `BLOCK_REDUCTION = 0.5`, `COMBAT_XP_K = 12`, `hpMax` base 40 + per-level 8·characterLevel, `skillBonus = 0.3·weaponSkillLevel`, accuracy base 10, crit base 0.02, crit/block chance caps 0.50/0.40 (all §4.6.1/§4.6.4); **first-fight win-rate 20–35% (LOCKED, not a
 lever)**; soft-setback *magnitudes* (lever) but its *shape* (LOCKED). **Pacing:** all per-rung times/costs in
 §4.8 (proposed) under the **≥30-min floor + 4.5/8/16-h budgets (LOCKED)**. **Producers/costs:** gather base
 yields/ticks + per-rung net throughput (§4.7.1/§4.8), autumn `×3`, crafting quality weights +
@@ -4074,7 +4074,7 @@ interface GameState {
   flags: Set<FlagId>;                            // story/finished/one-shot flags (serialized as array)
   unlocked: Set<SurfaceId>;                       // panels/screens/areas the player has earned
   quests: Record<QuestId, { status: QuestStatus; step: number }>;
-  counts: Record<CountId, number>;               // kills, clears, harvests — drive achievements/quests
+  counts: Record<CountId, number>;               // kills, clears, harvests — drive quest advancement & bestiary tallies (NOT a separate player "achievements" feature; pillar achievement-JUMPS are recognized deeds, §2.16, not these raw counts)
   effects: ActiveEffect[];                        // active buffs/injuries with remaining duration
   combat?: CombatEncounterState;                  // present only while a fight is live; NON-derivable mid-fight (consumed RNG, current HP/positions/statuses cannot be recomputed) — stored so a save resumes the exact encounter; cleared when the fight ends
   log: LogEntry[];                                // capped event/story log
@@ -4258,7 +4258,7 @@ window.__qa = {
   setSeed(seed: number): void,              // pin RNG for reproducible rare rolls
   pacing(): PacingTelemetry,                // accumulated fun-proxy metrics this run (qa-playtesting.md §3)
   reveals(): RevealLogEntry[],              // what unlocked + when (tick/season) — the reveal-cadence proxy (qa-playtesting.md §1)
-  advanceSeason(): void, toRung(id: RungId): void, toTier(n: TierId): void,  // time-compression helpers — fast-forward to a checkpoint (qa-playtesting.md §1)
+  advanceSeason(): void, toRung(id: RankId): void, toTier(n: TierId): void,  // time-compression helpers — fast-forward to a checkpoint (qa-playtesting.md §1)
   selectors: { unlocked(): SurfaceId[]; tier(): TierId; production(): ... },  // read-only derived reads
 };
 ```
@@ -4773,7 +4773,7 @@ cut from a **verify-green** commit.
 **No backend. Fully static.** Per §6.1 / canon §H: `vite build` emits a static `dist/` (a **single HTML
 bundle** + hashed JS/CSS assets), zipped and uploaded to **itch.io**.
 
-- **Static itch.io build.** `npm run build:itch` = `vite build` + zip `dist/`. itch.io serves the unzipped
+- **Static itch.io build.** `npm run build:itch` = `vite build` + zip **the *contents* of** `dist/` (so `index.html` sits at the **archive root**, never nested under a `dist/` folder — itch.io requires `index.html` at the zip root or the embed shows a blank frame). itch.io serves the unzipped
   bundle from a project subpath, so Vite's **`base`** must be set to a **relative base** (`base: './'`) so
   asset URLs resolve under itch's served path — this is the single most common static-host break and is
   pinned in `vite.config.ts`. The DEV play API and any dev-only helpers are stripped via

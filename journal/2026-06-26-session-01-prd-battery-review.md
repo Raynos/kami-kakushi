@@ -1,5 +1,16 @@
 # Session 01 — 2026-06-26 — PRD battery & stress-test (multi-round)
 
+> **Checkpoint (Round 3 done).** 84 agents · 71 raw → 39 confirmed (3H/12M/24L). Applied 6 clerical fixes
+> (cold-open first-reveal=koku not Skills; §4.9 levers-index += §4.3 conversion weights & §4.6.1 combat
+> constants; RungId→RankId; achievements-comment; itch zip-contents-of-dist). Queued **Q29–Q42** (14) — mostly
+> plan-layer (data-model, durability/stamina/weather magnitudes, deploy/itch host matrix), framed PROVISIONAL
+> per PD-1. Genuine bugs flagged: **Q29** (T0 gate proof spends 72ip on trade deeds that can't exist in T0;
+> koku net/gross double-count), **Q37** (itch cross-origin-iframe IndexedDB can wipe the single 28.5h save).
+> **Cross-round conflict logged:** Q40 (keep name-reclaim on spine) vs Q25 (strip to Origin track) — opposite
+> recs on the same beat → human call. Totals: 136 findings, 36 fixes, 42 open Qs + PD-1. Completeness-critic's
+> round-4 target = the deploy/host-&-browser reality matrix. Launching Round 4.
+
+
 > **Checkpoint (PD-1 APPROVED & wired).** Human signed the freeze-vs-steer reconciliation. Recorded as
 > **ADR D-021** (refines D-020, annotate-don't-delete) and propagated via a doc-alignment workflow (8 agents,
 > 21 byte-exact ops across 7 files, all verified count==1 before apply): canon `locked-decisions.md` (K2/D-020

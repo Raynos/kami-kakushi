@@ -1,6 +1,6 @@
 # PRD Battery & Stress-Test — Findings & Decision Report
 
-> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **2** · Confirmed findings: **97** (R1 60 + R2 37) · Fixes applied: **30** (R1 24 + R2 6) · **Decision queue: Q1–Q28 (28 open)**. More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **§P — Process decision PD-1** (freeze-vs-steer) — ✅ APPROVED, wired as ADR D-021 across 6 docs.
+> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **3** · Confirmed findings: **136** (R1 60 + R2 37 + R3 39) · Fixes applied: **36** (R1 24 + R2 6 + R3 6) · **Decision queue: Q1–Q42 (42 open)** + PD-1 (approved). More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **§P — Process decision PD-1** (freeze-vs-steer) — ✅ APPROVED, wired as ADR D-021 across 6 docs.
 
 **Date:** 2026-06-26  ·  **Target:** `docs/prd.md` (4,833 lines) + canon/ADR/intent cross-docs  
 **Method:** a 3-phase multi-agent workflow — **14 independent hostile-auditor lenses** attacked the PRD in
@@ -1017,3 +1017,349 @@ Continuing the master queue (Q1–Q12 from round 1). Ordered by severity.
 - **`theme-authenticity-sensitivity-3` [Q]** _medium_ — The 'fictionalise real names' canon rule is the one canon invariant the §6.6 verifier does NOT machine-check — the structural reason real names keep leaking  
   <sub>docs/prd.md §6.6 lines 4119-4130 (invariant list) vs §1.13 line 744 + docs/history/decisions.md line 112</sub>  
   §6.6 asserts the canon invariants 'as machine checks so they cannot silently rot' and enumerates them (L4121-4130): no belief-creature in spawn tables; trade ≤⅓; ≤1 ambiguity token; no passive Influence trickle; no labour→combat cross-feed; and a *macron* lint. The 'fictionalise real names' rule — explicitly canon at §1.13 L744 ('no real place/daimyō/house names') and decisions.md L112 ('fictionalise real names') — i  
+
+
+---
+
+# ROUND 3 — specialized / deep-method battery (2026-06-26)
+
+**Scale:** 84 agents · 71 raw → **39 confirmed** (3 high · 12 medium · 24 low). 12 deep-method lenses (T0 numeric sim, system-interaction matrix, type-level data-model, number-spine re-derivation, naming concordance, impl-readiness, inspiration-genre-gap, prose/tone, T3/T4 coherence, generate-don't-duplicate, determinism-replay, completeness-critic). **Applied:** 6 clerical fixes. **New decisions:** **Q29–Q42** (14). Raw: [`raw/2026-06-26-prd-battery-review-r3.json`](raw/2026-06-26-prd-battery-review-r3.json).
+
+> **Round-3 headline.** The deep methods hit the **T0 economic proof** (the gate proof spends 72 ip on trade deeds that can't exist in T0 — trade is a locked T1 reveal; and koku held-vs-produced is a net/gross double-count), the **§2-type-sketch vs §6.4-persisted-state** gap, the **levers-index** omissions, and — newly owned — the **itch.io deploy target** (cross-origin-iframe IndexedDB can silently wipe the single 28.5h save; emoji render per-OS; audio has no licensing). **Per PD-1/D-021 these §4/§6/§7 items are PROVISIONAL-PLAN — resolve during the M0/M1 build & playtest, not pre-build blockers.**
+
+> **⚠ Cross-round conflict to resolve:** **Q40** (round 3, prose-tone) recommends keeping the Tahei name-reclamation on the **guaranteed G6 spine**; **Q25** (round 2, devil's-advocate) recommends **stripping** it to the optional Origin track. Same beat, opposite recs — a genuine taste call for you. (Both honour 'Otsuru truth = spine'; they differ only on whether reclaiming the *name* is guaranteed or earned.)
+
+## R3·A — Cross-cutting risks (round 3)
+
+1. The T0 economic spine's own proofs are internally invalid: the Estate gate is unreachable as itemized (trade deeds that can't exist in T0) and the koku held-vs-produced accounting is self-contradictory, so the affordability/soft-lock guarantees rounds 1-2 relied on are unproven. This is the single highest-leverage systemic theme.
+
+2. Pervasive 'declared in §2, deferred to §4, never delivered' pattern: rung-meter accrual, soft-stamina throttle magnitudes + its combat applicability, dent self-heal, durability wear, and weather/festival modifiers are all type-backed and milestone-scheduled but lack the rule or numbers needed to implement and test them — directly blocking M1/M2b/M5 and undermining the single-source-of-truth contract.
+
+3. The persisted data model (§6.4) is systematically narrower than the §2 type sketches: no field for the estateWealth sub-engines the ≤⅓ invariant reads, no CombatEncounterState shape for the one must-persist mid-fight blob, and no home for live weather — each threatens the save/byte-identical-resume and the machine-checked invariants.
+
+4. Deploy-target reality (itch.io) was never audited by any lens across three rounds: cross-origin-iframe storage partitioning can silently wipe the single 28.5h autosave, cross-platform emoji variance defeats the anti-AI-slop aesthetic pillar, audio has no licensing/credits, and the zip layout breaks the upload — a whole category of real launch defects.
+
+5. Over-claimed guarantees vs their enforcement: the cross-machine 'byte-identical replay' promise is contradicted by un-linted Math.pow in every growth curve; the 'robust/durable' save claim is inverted by the locked host; the 'no asset pipeline' claim ignores audio. Promises and their guardrails are drifting apart.
+
+6. Documentation drift / SSOT erosion: the §4.9 'complete' tuning dashboard omits whole lever families (§4.3 conversion weights, §4.6.1 combat constants), derived numbers are hand-restated in 4-6 places, the pillar table is duplicated, and a CLAUDE.md vs PRD output-path conflict — all latent maintenance traps on a doc that bills itself as single-source-of-truth.
+
+7. Authorial-voice register leaks: design-meta shorthand ('clean your room'), mechanics, and UI instructions surface in diegetic event-log copy, and the emotional-climax beat is duplicated with a payoff-ownership contradiction — small individually but collectively erode the 'grounded Edo, not AI-doc filler' tone bar.
+
+## R3·B — Fixes applied (round 3, this commit)
+
+| Finding | What changed |
+|---|---|
+| `sim-t0-first-reveal-skills-1` | §4.8.0's 'first reveal <30s' example names the Skills tab, which is an R2 reveal (tens of minutes in); the actual sub-30s reveal is the koku panel from the §3.1 cold open. The binding measurement colu |
+| `number-spine-rederive-2` | The §4.9 'levers index' omits the §4.3 conversion-weight coefficients that §4.3 itself declares are levers; clerical cross-reference append of existing values. |
+| `number-spine-rederive-3` | The §4.9 Combat lever line omits the §4.6.1 base constants (incl. hpMax base/slope that the wolf win-rate calibration depends on) that M6.2 must tune via §4.9 only; clerical append of existing constan |
+| `type-data-model-7` | RungId is referenced only here and never defined; the canonical id for a rung is RankId (§6.4/§6.5). Dead type drift that fails strict tsc; pure rename. |
+| `inspiration-genre-gap-3` | 'achievements' as a player feature appears only in this comment and no achievements registry/screen/milestone exists; v1 milestones never include the feature, so this is loose shorthand. Reword kills  |
+| `completeness-critic-4` | itch.io's HTML host needs index.html at the archive root; 'zip dist/' read literally nests it and yields a blank-frame upload. Factual clarification, no design judgement. |
+
+## R3·C — New decisions Q29–Q42 (14)
+
+Per PD-1, §4/§6/§7 items here are **provisional-plan revisions** (resolve during build/playtest), not must-fix-now. Ordered by severity.
+
+### Q29. [HIGH] Fix the two broken halves of the T0 economic proof. (A) The T0 Estate ≥0.8K gate proof spends 72/560 deed-ip on 'sealed trade contracts' at T0, but TRADE is a LOCKED T1 reveal ('no market in T0') — should T0 open a limited rice-sale/barter strand, or be re-itemized using only LAND/TREASURY deeds (e.g. +3 solvency @26 or +5 yield @16)? (B) Is the per-rung koku throughput GROSS o
+
+**Context.** These are the centrepiece T0 balance proofs that rounds 1-2 treated as sound. As itemized, the Estate gate reaches only 728<800, and the held-koku trajectory that affordability/soft-lock depend on is modelled nowhere — so a R6 soft-lock on the gating E2 build cannot be ruled out.
+
+**Rec.** Re-itemize the T0 Estate 560 with LAND/TREASURY deeds (preserves the locked 'no market in T0'), and declare throughput GROSS + author a minimal held-koku ledger so E2@R6 affordability is verified from held — both are needed to close the soft-lock risk.
+
+<sub>Findings: `sim-t0-trade-deeds-1`, `sim-t0-koku-net-gross-1`</sub>
+
+### Q30. [HIGH] How is an estate-ladder rung promotion gated? Pick ONE: (A) numeric meter — rungs flip when a stored estateService/combatStanding meter crosses a threshold, requiring §4 to add the accrual rule (what increments it, by how much, on the 'steep geometric' curve) and a per-rung threshold table; or (B) event/flag-gated — rungs flip on the §3.2.1 narrative triggers (spilled-rice done
+
+**Context.** M1 phase 4 requires the meter to accrue from recognized labour, cross R0→R1→R2, and be Vitest-asserted at the intended GameState — currently unwritable. §3.2.1 supplies codeable narrative triggers, so R0→R1 is implementable today; the missing piece is the meter accrual law + numeric thresholds the prose references.
+
+**Rec.** B (flag/event-gated) for T0 — the §3.2.1 triggers map straight to flags, nothing new to balance, and M1 phase 4's descriptions are already flag-shaped; keep the meters as a smoothed display.
+
+<sub>Findings: `impl-readiness-1`</sub>
+
+### Q37. [HIGH] What storage-survival posture should v1 commit to for itch.io's cross-origin game iframe (third-party IndexedDB is partitioned on Chrome/Firefox, blocked-by-default on Safari/WebKit), and what must M7's done criteria require? The single autosave's only backup (base64 export) is opt-in.
+
+**Context.** §6.8's 'robust, durable' single IndexedDB autosave can be silently wiped on Safari/private-mode, and M7's smoke test names no browser matrix — a 28.5h save loss is a real launch defect in a category no prior lens audited. (Note: itch fullscreen does NOT change the storage partition, so that mitigation is moot.)
+
+**Rec.** matrix+nudge: make base64 export a periodically-nudged first-class backup (low cost, high payoff for a single-slot 28.5h game) AND add the WebKit/Safari + embedded-iframe line to M7's done criteria; the writability probe is a worthwhile stretch.
+
+<sub>Findings: `completeness-critic-1`</sub>
+
+### Q31. [MEDIUM] Specify the soft-stamina/satiety system and whether it throttles combat. (A) Magnitudes: the rate-multiplier curve as a function of satiety %, its non-zero floor, per-action satiety drain + default staminaCost per node, and rest-recovery per tick. (B) Scope: does low satiety throttle combat (add a satiety term to §4.6.1 — which stat(s), enemy symmetry, floor; may shift the LOCK
+
+**Context.** §4.7.1's yield formula multiplies by an undefined '(soft-stamina rate)' and M1 phases 2-3 must implement + test it; §2.3(c)/§6.3 say the throttle hits 'labour/combat speed' but §4.6.1 has no satiety term while §4.7.1 does.
+
+**Rec.** Gentle curve, high floor, labour-only throttle — matches the 'never a wall, paces the day' intent and leaves the LOCKED first-fight win-rate untouched; satiety still drains in combat and is managed via rest/eat between fights (§2.8c). Register the four magnitudes as §4.9 levers.
+
+<sub>Findings: `impl-readiness-2`, `system-interaction-matrix-3`</sub>
+
+### Q32. [MEDIUM] How does a dented pillar's value return to its untouched highWater? The seasonal appraisal increments value only when seasonalScore > highWater; after a dent (HW unchanged) that condition never fires, so the §4.2.4 'self-heals via the appraisal / within 1-2 seasons' promise cannot work. Either (a) add an explicit below-high-water restore branch (a bounded maintenance award, whi
+
+**Context.** 'Recoverable dent, never a wipe, self-heals' is canon (ADR D-015). The only un-gated heal path today is fresh achievement jumps, i.e. re-grinding — which contradicts 'self-heals as play resumes the appraisal' and risks a player who exhausted a tier's deed inventory being stuck below earned standing.
+
+**Rec.** Option (a) — a small below-high-water restore branch that does NOT advance highWater preserves the 'self-heals, never a wipe' canon with a tightly-scoped exception; (b) risks dead-ending a tier whose authored deed inventory is spent.
+
+<sub>Findings: `system-interaction-matrix-1`</sub>
+
+### Q33. [MEDIUM] Define the durability wear/break model so M2b's deterministic reduce can apply it: (1) wear rate per combat hit / per labour action (constant or scaled by damage/tier); (2) at-zero behaviour (auto-unequip, function at base stats, or stay equipped contributing zero); (3) stat scaling (continuous falloff with durability, or full-until-break binary).
+
+**Context.** §2.10/§6.4 store durability and prose says it 'wears', but no rule exists; M2b phase 2 requires reduce to apply wear immutably inside the deterministic core. An ad-hoc rule would be determinism-affecting.
+
+**Rec.** Binary (fixed wear, auto-unequip at 0, full-until-break) — simplest, most legible, avoids a stat branch in the deterministic combat fold; document in §2.10 with numbers as §4.9 levers.
+
+<sub>Findings: `impl-readiness-4`</sub>
+
+### Q34. [MEDIUM] Resolve the persisted data-model gaps in §6.4 against the §2 type sketches: (a) how to store the estateWealth land/treasury/trade sub-engines the ≤⅓ clamp reads (nest on the pillar entry, a parallel subEngines map, or derive the pillar total from stored sub-engines); (b) sketch CombatEncounterState's fields (combatants/HP/statuses, rngCursor, subTickAccumulator, mobDefId) and u
+
+**Context.** §6.4 stores one scalar per pillar (no sub-engine field for the hardest invariant), never sketches the one must-persist mid-fight blob, and carries two undeclared id types (EquipDefId, ChoiceId) plus a verb-name drift — all load-bearing for save/determinism and the M2b clamp tests.
+
+**Rec.** Minimal: store subEngines (with per-strand high-water) on the estateWealth entry, sketch CombatEncounterState explicitly, collapse equipment to ItemId, and branch dialogue via locksLineIds[] (drop choiceId) unless intra-line choices are genuinely wanted in v1.
+
+<sub>Findings: `type-data-model-1`, `type-data-model-4`, `type-data-model-6`, `type-data-model-9`</sub>
+
+### Q35. [MEDIUM] For v1, do weather hazards and festivals carry MECHANICAL effects (needing §4 magnitudes AND a persisted home), or are they cosmetic-only with effects parked post-v1? If mechanical: add a bounded weatherMult to §4.7.1 + a combat-rate modifier to §4.6 (e.g. within ±10% so the locked first-fight/throughput bands hold), festival vendorRestock%/reputation-ip tables, a §4.9 lever en
+
+**Context.** §2.14/§6.4/§6.7/M5 type weather with labour/combat rateModifiers, schedule it, and reserve it an RNG sub-stream, yet §4 has zero magnitudes and no formula hook, and §6.4 gives the live per-day weather draw no persisted field (breaking byte-identical resume).
+
+**Rec.** If shipping the 'living world' pillar, go mechanical with bounded (±10%) modifiers + day-keyed deterministic weather; otherwise explicitly downgrade to cosmetic-v1 so §4 owes nothing — pick one rather than leaving it half-specified.
+
+<sub>Findings: `number-spine-rederive-1`, `type-data-model-8`</sub>
+
+### Q36. [MEDIUM] Determinism policy for growth-curve powers: (a) mandate integer-power-by-repeated-multiplication for all r^n curves AND extend the §6.1 core lint to ban Math.pow/exp/log/trig (whitelisting Math.sqrt), making byte-identical replay hold across machines/builds; or (b) accept that byte-identical replay is guaranteed only within one JS-engine build and re-word the §6.1/§6.7/§6.12 pr
+
+**Context.** All growth curves use integer-exponent `^`; ECMAScript guarantees correct rounding only for +−×÷ and sqrt, so Math.pow can differ by a ULP across engines and a round() near x.5 flips an integer level/cost threshold, desyncing exported saves reloaded under a different engine. CI runs one engine, so the practical break is cross-engine save portability + an overclaimed promise.
+
+**Rec.** (a) — every exponent is an integer so repeated multiplication is fully deterministic and nearly free; extending the lint closes the one cross-machine hole and keeps the LOCKED determinism principle honest.
+
+<sub>Findings: `determinism-replay-deep-1`</sub>
+
+### Q38. [MEDIUM] Resolve two un-audited presentation/asset risks for v1. (A) Emoji are load-bearing aesthetic carriers but render as different per-OS artwork / tofu where no colour-emoji font exists, defeating the 'consistent woodblock, not AI-slop' pillar that one CSS filter can't rescue — bundle a controlled emoji font subset (reintroduces an asset pipeline), replace the load-bearing motifs w
+
+**Context.** D-013 locks TEXT+EMOJI+CSS and §2.21 makes emoji carry pillar/season/rarity identity (emoji are aria-hidden so meaning is carried by kanji/word — no functional break, purely aesthetic). Audio licensing on a public PWYW release is real legal exposure; the PRD is otherwise meticulous about provenance but silent here. Both sit in the deploy/asset-reality category no lens owned.
+
+**Rec.** Replace the load-bearing period motifs (pillar/season/rarity marks) with inline SVG and reserve Unicode emoji for cosmetically-harmless roles; use original/CC0 audio (or add a one-line Credits surface if any third-party asset is used). Add a cross-platform emoji-rendering check to the capture-game-s
+
+<sub>Findings: `completeness-critic-2`, `completeness-critic-3`</sub>
+
+### Q40. [MEDIUM] Resolve the diegetic-register and climax-duplication prose issues (§3). The load-bearing one: the guaranteed G6 spine line and the optional O5 Origin capstone share four near-verbatim sentences and fire at the same moment, and the G6 spine already speaks the 'Tahei' naming that §3.6.2 reserves for the Origin track — who owns the naming? Also: re-cast the V7 'The room is clean' 
+
+**Context.** O5 is meant to DEEPEN G6, not echo it; as written an Origin-completing player reads a doubled log entry, and a non-Origin player still receives the naming the spec reserves for O5 — a payoff-ownership contradiction at the game's emotional peak. The other three are low tone-polish on illustrative spec copy.
+
+**Rec.** naming-on-spine: keep the naming on the guaranteed G6 spine (every player should reclaim the name) and rewrite O5 to genuinely deepen rather than restate; apply the trivial tone fixes (V7 concrete recast, strip the two parentheticals, re-aim the G0 ache). Confirm whether 'clean your room' is ever me
+
+<sub>Findings: `prose-tone-1`, `prose-tone-2`, `prose-tone-3`, `prose-tone-6`</sub>
+
+### Q39. [LOW] Authorial naming/cast hygiene (all low, several touch LOCKED canon). (a) Rename the non-locked T3 clerk Naozane off 'Nao-' to separate him from heir Naoyuki, and the herbalist 'Obaa Sato' off 'Sa-' to separate from Sayo? (b) The Kuroiwa/Kurosawa stem overlap — rename the antagonist (touches locked roster + ~10 uses) or accept as authentic? (c) Re-glyph AGI 体→敏 (or 技) so it matc
+
+**Context.** §1.8 is the cited cast concordance anchor; the collisions co-occur in the same scenes in a text-dense log UI. Most are mild and several names are LOCKED, so renames reopen locked decisions — these are taste calls only the human arbitrates.
+
+**Rec.** Minimal: rename the two non-locked names (Naozane, Obaa Sato), re-glyph AGI→敏, add a Konoe row, and reword Kanbei to a static flavour card (drop 'player-influenceable'); leave the locked names and the authentic -emon cluster alone.
+
+<sub>Findings: `naming-concordance-1`, `naming-concordance-2`, `naming-concordance-3`, `naming-concordance-4`, `naming-concordance-5`, `t3t4-coherence-4`</sub>
+
+### Q41. [LOW] Harden the single-source-of-truth doc surfaces (all low, no live drift today): (a) Name's per-deed-cap band-top (10K/80K) conflicts with its seasonal normalizer TIER_REF_NAME (15K/140K) and the cap formula cites a §4.1 gate Name lacks in v1 — pick one Name band-top and fix the '(= its §4.1 gate threshold)' gloss; (b) the per-deed cap (0.04·band-top) and the four-pillar table ar
+
+**Context.** These are latent drift traps and a cross-doc path contradiction the 'generate, don't duplicate' convention targets; currently consistent but each requires lockstep hand-edits on any retune.
+
+**Rec.** Lightweight now (tag derived values, choose Name's §4.0 display band-top + fix the gate gloss, update CLAUDE.md to docs/balance/ + docs/content/), add the §6.6 verifier assertion when balance.ts lands; full generation is premature for content that isn't yet game data.
+
+<sub>Findings: `generate-dont-duplicate-2`, `generate-dont-duplicate-4`, `generate-dont-duplicate-5`, `generate-dont-duplicate-6`</sub>
+
+### Q42. [LOW] Are these two genre-convention surfaces in scope for lean v1? (a) Bulk affordances — sell-N/sell-all/sell-to-floor on the broker and craft-N on stations — and critically, how does the market-saturation damper apply across a bulk sale (progressive per-unit walk-down vs single pre-sale price)? (b) An in-game changelog/'What's new' panel matching both inspirations.
+
+**Context.** Both are near-universal idle/incremental conventions, but TRADE is a deliberately hard-capped ≤⅓ minor strand and koku is not stack-sold, so bulk payoff is limited to trade goods; itch.io provides native devlogs as the conventional out-of-game changelog channel. The damper-vs-bulk rule is a genuine undecided balance invariant regardless of UI.
+
+**Rec.** Decide the damper bulk-application rule now (progressive per-unit walk-down, so the damper stays legible) as it's a balance invariant; treat bulk UI as an implementation nicety and rely on itch.io devlogs for the changelog given lean-v1 discipline.
+
+<sub>Findings: `inspiration-genre-gap-2`, `inspiration-genre-gap-5`</sub>
+
+## R3·D — Round-4 target (completeness-critic)
+
+"Round-3 verified findings concentrated in: T0 economic proofs (sim-t0 lens), the §2-vs-§6 data model, the number spine / levers index, naming/prose, and — newly — the deploy target. Items NOT yet verified or modelled and that remain open: (1) the held-koku per-rung trajectory is asserted but never computed, so E2@R6 soft-lock is unresolved pending Q29; (2) weather/festival magnitudes and persistence are entirely absent (Q35); (3) the rung-meter accrual law and soft-stamina/durability numbers are undefined (Q30/Q31/Q33) — no balance.ts exists yet to cross-check, so these are spec-only judgements; (4) cross-platform emoji fidelity and itch-iframe storage have NOT been empirically tested (the capture-game-states sweep samples one platform); (5) audio provenance is unstated. The completeness critic's recommended ROUND-4 TARGET is the deploy-target / host-and-browser reality matrix that no lens has owned: an actual itch.io cross-origin-iframe build smoke-tested on Chromium AND WebKit/Safari for IndexedDB save survival, cross-platform emoji rendering, bundle size against the <5s load budget, and audio licensing/credits — plus the adjacent un-owned categories of accessibility/screen-reader behaviour of the text-only UI, save-schema migration robustness, and legal/attribution surface. Secondary round-4 candidate: a held-koku ledger simulation to close the T0 affordability/soft-lock qu
+
+## R3·E — Full round-3 findings catalog (39, by cluster)
+
+### [HIGH] T0 balance-proof integrity: the centrepiece gate proofs are internally invalid
+*§4.2.1, §4.7.1, §4.7.5, §4.8.1, §4.0, §3.2* — The two pillars of the T0 economic proof are broken. (1) The T0 Estate ≥0.8K gate proof spends 72 of its 560 deed-ip (12.9%) on 6 'sealed trade contracts', but the TRADE strand is a LOCKED T1 reveal ('no market in T0') — removing them drops the gate to 728 < 800, so the proof rounds 1-2 trusted is unreachable as itemized. (2) The per-rung koku throughput is labelled both NET (after food/re-investment → ~19K held) and GROSS (lifetime-produced → 3-5K held); the two readings are mutually exclusive, the held trajectory is modelled nowhere, and §4.7.5 proves E2@R6 affordability against lifetime-produced rather than held, so a R6 soft-lock cannot be ruled out.
+
+- **`sim-t0-trade-deeds-1` [Q]** _high_ — T0 Estate gate's 70% proof spends 72 ip on TRADE contracts that cannot exist in T0 (trade strand opens at T1-V3; 'no market' in T0)  
+  <sub>docs/prd.md §4.2.1 lines 2398 & 2410 vs §3.2 line 1807 / §4.8.2 line 2990 / §1.7 line 446</sub>  
+  §4.2.1's T0 Estate 70%=560 itemization (line 2410): '...+ 6 trade contracts (6×12 = 72) = 30 + 224 + 234 + 72 = 560 ✔. (Trade = 72 ip = 12.9 %...)', and the deed table (line 2398) gives the 'Sealed trade contract (TRADE strand — ≤⅓ capped)' a T0 base of 12. But trade/market does not exist in T0: §3.2 line 1807 lists 'coin/*mon* (a T1 reveal — there is no market yet)' as deliber  
+
+- **`sim-t0-koku-net-gross-1` [Q]** _medium_ — Koku held-vs-produced is self-contradictory: throughput is defined NET of food/re-investment, which makes held ≈19K, yet the PRD asserts held ≈3-5K and proves affordability off lifetime-produced (double-count)  
+  <sub>docs/prd.md §4.7.1 lines 2854-2858, §4.7.5 lines 2906-2909, §4.0 line 2284</sub>  
+  §4.7.1 (line 2855-2858) defines the rung rates as 'the *net koku-equivalent throughput* (after stamina, food, and re-investment)' and says 'lifetime-produced koku over T0 ≈ 21K (held ≈ 3–5K after spend)'. If the 21.5K is already NET of food/re-investment, the only remaining sink is E1+E2 = 400+2,000 = 2,400 koku, so held = 21,500 − 2,400 ≈ 19,100 — not 3–5K. To land at 3–5K hel  
+
+### [HIGH] Implementation-blocking mechanic gaps: rules/magnitudes deferred to §4 but never delivered (M1/M2b blockers)
+*§2.3, §2.15, §4.6.1, §4.7.1, §2.10, §4.2.2, §4.2.4, §6.4, §7.2 M1/M2b* — Several core mechanics are declared in §2 and required by milestone DoD but have no codeable rule. (a) The Estate Service / Combat Standing rank-meters have no accrual rule and no per-rung crossing thresholds, yet M1 phase 4 must test rung flips — the T0 spine advance condition is unwritable. (b) The soft-stamina throttle function, per-action staminaCost, satiety drain, and rest recovery are all deferred to §4 and never defined, though §4.7.1's yield formula multiplies by '(soft-stamina rate)'. (c) §2.3/§6.3 say low satiety throttles combat, but §4.6.1's combat math has no satiety term (labour does) — affecting the LOCKED first-fight win-rate. (d) Equipment durability is stored and 'worn' but wear rate, at-zero behaviour, and stat scaling are undefined (M2b blocker). (e) The promised dent self-heal is mechanically impossible: the seasonal appraisal only fires on a strictly-new high-water, so a dented value (HW unchanged) can never refill via the appraisal as §4.2.4 claims.
+
+- **`impl-readiness-1` [Q]** _high_ — M1 BLOCKER: the Estate Service / Combat Standing rank-meters have no accrual rule and no per-rung crossing thresholds — the entire T0 spine has no codeable rung-flip condition  
+  <sub>docs/prd.md §2.15(c) line 1402; §6.4 line 4055; §4.8.1 lines 2955-2961; §7.2 M1 phase 4 line 4503</sub>  
+  The estate spine flips rungs on two meters: §2.15(c) (1402) declares only a SHAPE — "Two meters: `EstateService` (steep geometric), `CombatStanding`." §6.4 (4055) stores them as bare numbers — "ranks: Record<TierId, { estateService: number; combatStanding: number; rung: RankId }>" — but NOTHING in §4 says how `estateService` increments per labour action/deed, nor what value fli  
+
+- **`impl-readiness-2` [Q]** _medium_ — M1 BLOCKER: the soft-stamina throttle function and the staminaCost / drain / rest-recovery numbers are explicitly deferred to §4 but never defined there  
+  <sub>docs/prd.md §3.8 line 2188; §4.7.1 line 2837; §2.3(c) lines 940-941; §4.9 levers index lines 3047-3069; §7.2 M1 phases 2-3 lines 4501-4502</sub>  
+  §3.8 (2188) defers it: "Numbers → §4 ... soft-stamina rate ... are deferred." The §4.7.1 yield formula (2837) then embeds the factor without ever defining it: "yieldPerAction = baseYield · (1 + 0.04·skillLevel) · toolMult · seasonMult · (soft-stamina rate)". §2.3(c) (940-941) gives only prose: "a soft-throttle function maps low satiety → a *rate multiplier* on labour/combat spe  
+
+- **`impl-readiness-4` [Q]** _medium_ — M2b BLOCKER: durability is stored and 'worn' but its wear rate, zero-durability/break behaviour, and stat effect are undefined  
+  <sub>docs/prd.md §2.10(c) lines 1192-1196; §6.4 line 4052; §7.2 M2b phase 2 line 4559 and phase 6 line 4563</sub>  
+  §2.10(c) (1196) gives only "Durability { current, max, repairCost }" and (1186) the prose "durability that wears and is repaired/re-crafted". §6.4 (4052) stores per-slot "{ equipDefId; durability; qualityTier }". But the spec never says how MUCH durability is lost per swing/fight, what happens at durability 0 (does the item stop working, drop to base, become unequippable?), or   
+
+- **`system-interaction-matrix-1` [Q]** _medium_ — Dents × seasonal high-water gating: the stated dent self-heal is mechanically impossible  
+  <sub>docs/prd.md §4.2.4 (lines 2599, 2602-2604) vs §4.2.2 (lines 2443-2444, 2456)</sub>  
+  §4.2.4 promises a dent 'never touches `highWater` (so it self-heals as play resumes the appraisal)' (line 2599) and that '`value` regrows toward `highWater` at the normal accrual rate — clawed back within ~1–2 seasons by design' (lines 2602-2603). But §4.2.2 gates the seasonal stream strictly: it 'raises the pillar only if the score exceeds its stored `highWater`' and 'If the s  
+
+- **`system-interaction-matrix-3` [Q]** _medium_ — Soft-stamina × combat: §2.3 says low satiety slows combat, but the §4.6 combat math has no satiety term  
+  <sub>docs/prd.md §2.3 (lines 931, 941) · §4.6.1 (lines 2758-2766) · §4.7.1 (line 2837) · §6.3 (line 4014)</sub>  
+  §2.3(b): 'As the MC labours or fights, satiety/energy drains; depleted, actions get slower / less efficient' (line 931), and §2.3(c): 'a soft-throttle function maps low satiety → a rate multiplier on labour/combat speed (never to zero)' (line 941). §6.3 confirms satiety drains during the per-tick combat sub-step (line 4014). But the §4.6.1 combat formulas — `attackSpeed = baseS  
+
+### [HIGH] Deploy-target / hosting reality (itch.io) never audited
+*§6.8, §2.19, §2.21, §6.9, §7.3, §7.4.1, M6/M7, ui-design §7* — The locked deploy target collides with locked design choices in a category no prior lens owned. (a) The 'robust' single IndexedDB autosave runs in itch's cross-origin iframe where third-party storage is partitioned (Chrome/Firefox) or blocked-by-default (Safari/WebKit), and the only backup (base64 export) is opt-in — a 28.5h save can be silently lost on Safari; M7's smoke test names no browser matrix. (b) Load-bearing system emoji render as different artwork per OS / as tofu where no colour-emoji font exists, defeating the 'consistent woodblock, not AI-slop' pillar that one CSS filter cannot rescue. (c) Audio is a real asset pipeline with no stated licensing/credits surface (legal exposure on a public release), contradicting the 'no asset pipeline' R4 claim. (d) 'zip dist/' read literally nests index.html under a folder → blank-frame itch upload (clerical clarify).
+
+- **`completeness-critic-1` [Q]** _high_ — The chosen save stack (IndexedDB, single autosave) is unreliable in itch.io's cross-origin game iframe — the deploy target no lens audited  
+  <sub>§6.8 (docs/prd.md:4160-4167), §2.19 (1592-1595), §7.3 deploy (4749-4779), M7 (4704-4726)</sub>  
+  §6.8 picks IndexedDB "chosen over `localStorage` for robustness and capacity" and §7.3 ships "`vite build` emits a static `dist/`… zipped and uploaded to **itch.io**". But itch.io serves HTML games inside a SANDBOXED CROSS-ORIGIN iframe (html-classic.itch.zone) embedded on the itch.io page. Modern browser storage partitioning makes third-party-iframe IndexedDB/localStorage eith  
+
+- **`completeness-critic-2` [Q]** _medium_ — Emoji are a load-bearing art element but render completely differently per OS/browser — the locked register fights the locked anti-slop aesthetic  
+  <sub>D-013 art register (§1.14:778), §2.21 (1654-1659), §6.9 (4210-4212), ui-design §7 (docs/ui-design.md:451-477)</sub>  
+  D-013 locks "Art register = TEXT + EMOJI + CSS" and §2.21/§6.9 make emoji a carrier of pillar identity, season tags, rarity, and log bullets. ui-design.md §7 locks a set (🏯 ⛩️ 🎐 🍁 🍶 🏮 …) and tames them with one CSS filter: ".emoji { filter: sepia(.25) saturate(.7) brightness(.95) contrast(1.05); }". But a single emoji codepoint renders as entirely different artwork on Apple vs   
+
+- **`completeness-critic-3` [Q]** _low_ — Audio is a real asset pipeline with no licensing/credits, no autoplay-gesture handling, and contradicts the 'no-asset-pipeline' risk claim  
+  <sub>§2.21 audio (docs/prd.md:1658-1663), M6 phase 7 (4701), §7.4.1 R4 (4792)</sub>  
+  §2.21 canon: "Audio (canon): light ambient beds + UI/event SFX + mute toggle"; M6 phase 7 requires "a light ambient audio bed + UI/event SFX (all behind mute)". Three unowned problems: (1) PROVENANCE/LICENSING — the PRD never says where the audio comes from, under what license, or that a credits/attribution surface exists (grep: zero hits for credits/attribution/royalty/CC-BY/c  
+
+- **`completeness-critic-4` [applied]** _low_ — `zip dist/` as written produces a broken itch.io upload (index.html must be at the archive root)  
+  <sub>§7.3 (docs/prd.md:4754), also §6.1 (3931), M7 (4708, 4722)</sub>  
+  §7.3: "`npm run build:itch` = `vite build` + zip `dist/`. itch.io serves the unzipped bundle from a project subpath". itch.io's HTML-game host requires `index.html` at the ROOT of the uploaded zip; if the archive contains a top-level `dist/` folder (i.e. you zip the folder rather than its contents) the embed loads a blank frame and the game appears broken. The phrasing "zip `di  
+
+### [MEDIUM] Persisted data model is narrower than the §2 type sketches; id-identity drift
+*§6.3, §6.4, §6.5, §6.10, §2.8, §2.10, §2.12, §2.16* — The canonical persisted shape (§6.4) cannot hold what the §2 systems declare. (a) influence stores one scalar per pillar, so the estateWealth land/treasury/trade sub-engines that the ≤⅓ clamp reads have no field. (b) CombatEncounterState — the one must-persist non-derivable mid-fight blob — is sketched nowhere, and the mid-fight verb payload is named two ways (CombatAction vs CombatInterventionIntent). (c) equip is dispatched with ItemId but stored as the undeclared EquipDefId with no mapping. (d) advance_dialogue references choiceId/ChoiceId but the dialogue-line type has no choices field. (e) toRung uses an undeclared RungId where the model uses RankId (clerical).
+
+- **`type-data-model-1` [Q]** _medium_ — GameState.influence shape cannot store the estateWealth sub-engines (land/treasury/trade) that §2.16 declares and the trade ≤⅓ verifier reads  
+  <sub>docs/prd.md §6.4 line 4053 vs §2.16(c) line 1472 and §6.6 line 4122</sub>  
+  §6.4 types influence as `influence: Record<PillarId, { value: number; highWater: number; dent: Dent / null }>` — each pillar is one scalar `value`. But §2.16(c) declares `Influence { arms, estateWealth (subEngines: { land, treasury, trade(≤⅓ cap enforced) }), office, name }`, and §6.6's verifier asserts "the **trade** sub-engine of Estate & Wealth is capped at **≤⅓** of that pi  
+
+- **`type-data-model-4` [Q]** _low_ — Type-identity drift: equip is dispatched with ItemId but stored as EquipDefId, with no declared mapping between the two id spaces  
+  <sub>docs/prd.md §6.3 line 3990, §6.4 line 4052, §2.10(c) lines 1192-1194, §6.5 line 4094</sub>  
+  The equip intent is `{ type: 'equip'; itemId: ItemId; slot: EquipSlot }` (line 3990) and inventory is `Record<ItemId, number>` (line 4051). But the stored equipment slot is `{ equipDefId: EquipDefId; durability; qualityTier }` (line 4052) and §2.10(c) `EquipState { slot → { equipDefId, … } }`. Meanwhile §6.5 lists ONE registry `content/items.ts … keyed by ItemId` that holds 'it  
+
+- **`type-data-model-6` [Q]** _medium_ — Live-combat state type CombatEncounterState has no field sketch, and combat_action's payload type (CombatAction) drifts from §2.8's CombatInterventionIntent  
+  <sub>docs/prd.md §6.4 line 4063, §7 M2a line 4532, §6.3 line 3993, §2.8(c) lines 1122-1124</sub>  
+  §6.4 stores `combat?: CombatEncounterState` and M2a (line 4532) lists CombatEncounterState as a type core/combat 'exports', but §2.8(c) only sketches `Combatant`, `Stance { attackMod, defMod, speedMod, evasionMod, targetCount }`, `CombatDeedsPool`, `InjuryState`, and `CombatSim` — CombatEncounterState's fields (current HP/positions/statuses, consumed RNG cursor, which mob, sub-  
+
+- **`type-data-model-7` [applied]** _low_ — RankId vs RungId: the DEV API's toRung helper uses an undeclared RungId while the rest of the model uses RankId  
+  <sub>docs/prd.md §6.10 line 4245 vs §6.4 line 4055 / §6.5 line 4102</sub>  
+  §6.4 types the per-tier rung as `rung: RankId` and §6.5's ranks.ts registry is keyed by `RankId`. The DEV API declares `toRung(id: RungId): void` (line 4245). `RungId` appears nowhere else (grep: single hit) and is never defined; the canonical id for a rung/rank is `RankId`.  
+
+- **`type-data-model-9` [Q]** _low_ — advance_dialogue references choiceId/ChoiceId, but the Dialogue/TextLine type declares no choices field  
+  <sub>docs/prd.md §6.3 line 3994 vs §2.12(c) line 1261</sub>  
+  The intent is `{ type: 'advance_dialogue'; lineId: DialogueLineId; choiceId?: ChoiceId }` (line 3994), but §2.12(c) types a dialogue line as `Dialogue/TextLine { id, speaker, text, displayConditions (predicate), rewards: RewardBundle, locksLineIds[] }` — there is no `choices` / `choiceId` field on the line, and `ChoiceId` is referenced only here and never defined. So the verb a  
+
+### [MEDIUM] World-sim weather/festival: declared, type-backed, RNG-backed, milestone-scheduled — but no magnitudes, no formula hook, and no persisted home
+*§2.2, §2.14, §4.6, §4.7.1, §6.4, §6.7, §7.2 M5* — Weather rate-modifiers and festival economic effects are promised v1 (T1) mechanics but §4 delivers zero magnitudes and the §4.7.1 yield / §4.6 combat formulas have no weather term, so M5 cannot implement them from the balance model. Separately, the current day's weather is a stochastic per-day draw that modifies live rates but has no field in GameState.clock — on active-only reload it is lost or re-rolled, breaking byte-identical resume. Both resolve together: is weather mechanical (needs magnitudes + persistence) or cosmetic-only in v1?
+
+- **`number-spine-rederive-1` [Q]** _medium_ — Weather rate-modifiers and festival economic effects are promised v1 (T1) world-sim numbers but §4 delivers ZERO of them, and §4.7.1's yield formula has no weather term  
+  <sub>docs/prd.md §4.7.1 line 2837 (yield formula); §2.14(c) lines 1335-1338; §6.4 line 4019; §6.7 lines 4150-4152; §7 M5 line 4625</sub>  
+  §4 claims (preamble, line 2247) it is 'where the parked balance numbers from §§1–2 finally land.' §2.14 ships weather + festivals in T1/v1 (line 1346 'T1 brings seasons/weather/festivals to life') and types them as live mechanics: `WeatherHazard { kind, rateModifiers (labour/combat) }` (line 1338) and `Festival { ... effects (vendorRestock / socialBeat / reputationOpportunity)   
+
+- **`type-data-model-8` [Q]** _medium_ — GameState.clock drops the lunarPhase and weather fields that §2.2 WorldClock declares; live weather has no persisted home  
+  <sub>docs/prd.md §6.4 line 4044 vs §2.2(c) line 911 and §2.14(c) lines 1335-1338</sub>  
+  §2.2(c): `WorldClock { tick, day, season, year, lunarPhase, weather }`, and §2.14(c) 'Reuses WorldClock + Scheduler + SeasonalAppraisalState from 2.2'. §6.4 stores only `clock: { tick: number; day: number; season: Season; year: number }` — lunarPhase and weather are dropped. lunarPhase is a pure function of `day` (correctly derivable, fine to omit), but weather is a stochastic   
+
+### [MEDIUM] Determinism guarantee has a Math.pow-sized hole the lint does not cover
+*§6.1, §4.5.1, §4.7, §6.7, §6.12* — All growth curves use integer-exponent powers (XP_GROWTH^(L-1), r^owned, 1.25^tier), but ECMAScript guarantees correctly-rounded results only for +−×÷ and sqrt — Math.pow can differ by a ULP across engines/builds and a round() near x.5 then flips an integer level/cost threshold, desyncing the 'byte-identical cross-machine replay' promise. The §6.1 determinism lint bans nondeterministic inputs but not Math.pow/exp/log/trig. Practical break is limited to cross-engine save portability + an overclaimed promise (CI runs one engine).
+
+- **`determinism-replay-deep-1` [Q]** _medium_ — Growth curves use `^` (power), which ECMAScript does NOT guarantee correctly-rounded — cross-machine/cross-build byte-identical replay is unprovable, and the §6.1 determinism lint has a matching hole  
+  <sub>docs/prd.md §6.1 lint (lines 3903-3907); §4.5.1 line 2688; §4.7 lines 1008, 2887, 2873-2874; promise sites §6.1 line 3901, §6.3 lines 4025-4027, §6.7 </sub>  
+  The headline determinism promise is cross-machine/cross-build: §6.1 line 3901 'a fixed seed + a fixed intent/tick script produces a byte-identical GameState'; §6.12 line 4282 'Replays are byte-identical (Vitest-asserted)'; qa-playtesting.md line 23 'a fixed (seed, intent-script) reproduces byte-identically — every bug is reproducible'. The §6.1 determinism lint bans only nondet  
+
+### [MEDIUM] Diegetic prose register & emotional-climax duplication
+*§3.4, §3.6, §3.6.2* — Design-doc meta-voice and mechanics leak into in-fiction event-log copy, and a climax beat is duplicated. The V7 tier-capstone line says 'The room is clean' (the internal 'clean your room' design shorthand) as literal narration. Two T1 lines append non-diegetic parentheticals ('You may look, or not.'; 'Trade is one strand of one pillar — no more.'). The G6 spine line and the O5 Origin capstone share four near-verbatim sentences and fire at the same moment (O5 should DEEPEN, not echo), and the guaranteed G6 spine already speaks the 'Tahei' naming that §3.6.2 reserves for the optional Origin track — a payoff-ownership contradiction. The G0 dream-aside misattributes the ache-to-remember to Kanta's face rather than the MC.
+
+- **`prose-tone-1` [Q]** _low_ — The signature gate line surfaces the 'clean your room' design-meta as literal in-fiction narration  
+  <sub>docs/prd.md:1913 (§3.4 V7 diegetic event-log line)</sub>  
+  V7's player-facing log line reads: *"The room is clean — house, valley, all of it. The lord: 'Now, the region.' Two rival names surface from beyond the ridge: Tomita. Akagi."* — "clean your room" is a design shorthand used internally ~9 times (lines 421, 1462, 1944, 2317, 3275, etc.) as the gate label; here the metaphor leaks verbatim into the diegetic narration even though not  
+
+- **`prose-tone-2` [Q]** _low_ — Mechanics / UI-instruction parentheticals leak into diegetic event-log lines, breaking register  
+  <sub>docs/prd.md:1907 (§3.4 V1) and docs/prd.md:1909 (§3.4 V3)</sub>  
+  V1 ends its in-fiction line with a UI affordance instruction: *"…'Folk say a kappa takes children at the ford…' (You may look, or not.)"*. V3 ends with a balance-cap reminder: *"…The first bolt is graded and sold under the house's name. (Trade is one strand of one pillar — no more.)"* — the latter literally restates the ≤⅓ Estate & Wealth hard-cap that is already given in the s  
+
+- **`prose-tone-3` [Q]** _medium_ — G6 (spine) and O5 (Origin) climactic lines are near-duplicates that fire at the same moment  
+  <sub>docs/prd.md:2027 (§3.6 G6) and docs/prd.md:2097 (§3.6.2 O5)</sub>  
+  G6: *"…And down-valley: she is real, and grown, and not you. 'Tama ran. Tama lived.' You have a name again: Tahei. You set it down quietly, and pick the house's work back up."* O5: *"She is real, and grown, and not you. 'Tama ran. Tama lived.' And you have a name again: Tahei. You set it down quietly — and pick your work back up."* — they share the same four sentences nearly ve  
+
+- **`prose-tone-6` [Q]** _low_ — G0 dream-thread aside is a muddled/over-reaching image  
+  <sub>docs/prd.md:2021 (§3.6 G0 diegetic line)</sub>  
+  G0 closes: *"…'I'll run yours, for old times' sake.' One route. One load. (Why does his face ache to remember?)"* — 'his face ache to remember' attributes the aching/remembering to Kanta's face rather than to the MC who half-recognizes it.  
+
+### [LOW] Tuning-dashboard & single-source-of-truth doc drift
+*§4.9, §4.3, §4.6.1, §4.2.1, §4.8.2/3, §6.6, §7 M4/M6/M7, §1.6.1, §2.16, §4.8.0, CLAUDE.md* — Documentation-completeness/drift surfaces. The §4.9 'complete tuning dashboard' omits the §4.3 conversion-weight coefficients and the §4.6.1 combat base constants (hpMax base/slope, skillBonus, accuracy/crit bases) that M6.2 must tune 'via §4.9 only' (both clerical cross-ref appends). The per-deed cap (0.04·band-top) and the four-pillar table are hand-restated in 4-6 places (latent drift traps); Name's per-deed-cap band-top (10K/80K) conflicts with its seasonal normalizer (15K/140K) and the cap formula cites a §4.1 gate Name lacks in v1; §6.6/§7 emit balance tables to docs/balance/ while CLAUDE.md says docs/content/; and the §4.8.0 'first reveal <30s' example names the R2 Skills tab instead of the koku panel (clerical).
+
+- **`number-spine-rederive-2` [applied]** _low_ — §4.9 levers index (the 'complete tuning dashboard') omits the entire §4.3 conversion-weight coefficient set  
+  <sub>docs/prd.md §4.9 lines 3049-3069 (index) vs §4.3 lines 2619-2638</sub>  
+  §4.9 bills itself as 'Levers index (the tuning dashboard)' enumerating every tunable, and §4 preamble (line 2233) says 'every value lives in core/content/balance.ts (the single home for tunables).' §4.3 defines six pillar-conversion-weight coefficients used to scale every deed base — `1.0 + 0.05·combatLevel + 0.10·dangerRingClearedAbove` (line 2621), `0.04·skillLevel` (2622), `  
+
+- **`number-spine-rederive-3` [applied]** _low_ — §4.9 levers index omits the §4.6.1 combat-model base constants (hpMax base/per-level, skillBonus, accuracy base, crit base)  
+  <sub>docs/prd.md §4.9 line 3065 (Combat lever line) vs §4.6.1 lines 2758-2766</sub>  
+  §4.6.1 introduces global combat constants that are NOT in the §4.4 attribute table and NOT in the §4.9 index: `skillBonus = 0.3·weaponSkillLevel` (line 2758), `accuracy = 10 + ...` (base 10, line 2761), `critChance = 0.02 + ...` (base 0.02, line 2763), and `hpMax = 40 + 8·characterLevel + 2·STR` (base 40 and the per-level coefficient 8, line 2765). The §4.9 'Combat:' line (3064  
+
+- **`generate-dont-duplicate-2` [Q]** _low_ — Name's per-deed cap (§4.2.1) uses a band-top of 10K/80K, but its seasonal normalizer TIER_REF_NAME (§4.2.2) uses 15K/140K — two conflicting 'band-tops' for the same pillar/tier, and the cap formula's stated basis is undefined for ungated Name  
+  <sub>docs/prd.md §4.2.1 (L2381-2382, L2401-2402) vs §4.2.2 (L2479, L2502) and §4.1 (L2316-2318)</sub>  
+  §4.2.1: the per-deed cap is computed against "that pillar's own band-top for the current tier (= its §4.1 gate threshold)" (L2381). But §4.1's gate table names Name only at T3 (≥500K) / T4 (≥6M) — Name is UNGATED in v1 (T0–T2), so 'its §4.1 gate threshold' does not exist. The Name rows give caps T0 40 · T1 400 · T2 3.2K (L2401-2402) = 0.04 × {1K, 10K, 80K} (the §4.0 display-ban  
+
+- **`generate-dont-duplicate-4` [Q]** _low_ — The per-deed cap (= PER_EVENT_CAP_FRACTION · band-top) is a pure derivation hand-typed in four places — the structural twin of the JUDGE_K drift round 2 already caught  
+  <sub>docs/prd.md §4.2.1 table+prose (L2390-2402, L2381-2382), §4.8.2 (L2998), §4.8.3 (L3022)</sub>  
+  The cap is defined once as a formula — `jump = min(deedBaseValue, PER_EVENT_CAP_FRACTION * tierPillarBandTop(...))`, `PER_EVENT_CAP_FRACTION = 0.04` (L2374, L2377) — then the resulting numbers are written out by hand at least four times: §4.2.1 prose "T0 Estate cap = 0.04·0.8K = 32 ip, T0 Arms = 0.04·0.5K = 20 ip, T1 Office = 0.04·2K = 80 ip, T2 Arms = 0.04·30K = 1.2K, T2 Offic  
+
+- **`generate-dont-duplicate-5` [Q]** _low_ — §6.6/§7 emit balance tables to docs/balance/, but the CLAUDE.md convention says generated content/balance tables land under docs/content/  
+  <sub>docs/prd.md §6.6 (L4133), §7.2 M4 (L4620), §7.2 M6 (L4690), §7.2 M7 (L4698) vs CLAUDE.md Layout</sub>  
+  CLAUDE.md (project instructions, Layout/Conventions): "Generated content/balance tables will land under `docs/content/`." But §6.6 writes "`docs/balance/curves.md`" (L4133) and the milestones repeatedly reference the `docs/balance/` directory: M4 "the regenerated ranks/areas/influence/balance docs" (L4620), M6 "the generated docs (`docs/balance/`, `docs/content/`) are current"   
+
+- **`generate-dont-duplicate-6` [Q]** _low_ — The four-pillar table (kanji + domain + grows-on) is hand-duplicated in full in §1.6.1 and §2.16 (plus partial restatements in §1.13/§1.14/§2.22/§5) — a duplication surface with no canonical source  
+  <sub>docs/prd.md §1.6.1 (L374-379) and §2.16 (L1432-1437); restatements at L752-753, L801-802, L1702-1703, L3838-3839</sub>  
+  §1.6.1 (L374-379) and §2.16 (L1432-1437) carry near-identical pillar tables — Arms 武威 / Estate & Wealth 家産 / Standing & Office 官威 / Name & Honour 家格, each with protagonist domain and 'grows on' text. The Standing & Office kanji resolution (官威, rejecting 政威) is then re-asserted at L752-753, L801-802, L1702-1703, L2191, L3838-3839, L3850. They are currently all consistent (官威 eve  
+
+- **`sim-t0-first-reveal-skills-1` [applied]** _low_ — §4.8.0 'first meaningful reveal < 30 s' example names the Skills tab, but the Skills tab is an R2 reveal (~35-65 min); the sub-30s reveal is the koku panel  
+  <sub>docs/prd.md §4.8.0 line 2930 vs §3.1 line 1776 / §3.2 line 1800 / §3.5 line 1960 / §7.2 lines 4492,4506</sub>  
+  §4.8.0 (line 2930): 'First meaningful reveal / < 30 s (rice counter ticks → Skills tab fades in) / proposed / first `unlock` event'. But the Skills tab is unambiguously an R2 reveal everywhere else: §3.2 R2 (line 1800) 'The Skills tab (§2.7) — first nav tab'; §3.5 (line 1960) 'First tab: "Skills" / RANK R2'; §7.2 M1 DoD (lines 4492, 4506) 'a headless run via __qa reaches R2, th  
+
+### [LOW] Narrative naming, kanji glyph, cast roster & loose thread hygiene
+*§1.8, §1.11, §4.4, §5* — Authorial naming/concordance nits, all low. Near-collisions co-occurring in the same scenes: antagonist Kuroiwa vs house Kurosawa (both Kuro-); legend-women Sayo/Obaa Sato; heir Naoyuki vs clerk Naozane (Nao-), plus Kageyuki/Naoyuki (-yuki) and Sōzaemon/Sōbei (Sō-). AGI is glyphed 体 ('body', a constitution semantic) where all its effects are dexterity (recommend 敏). §1.8 — the cited cast concordance anchor — omits recurring T4 spine figure Konoe (and others). Kanbei's v1-seeded 'player-influenceable détente/washout' has no resolution beat and no host system. Note several names sit in LOCKED canon, so renames reopen locked decisions.
+
+- **`naming-concordance-1` [Q]** _low_ — Near-collision: T3 antagonist "Tedai Kuroiwa" vs the protagonist house "Kurosawa"  
+  <sub>docs/prd.md §1.8 line 548; §1.11 line 639; §5 T3.3 lines 3690-3702 (Kuroiwa: 12 uses); "Kurosawa" used 54× throughout</sub>  
+  §1.8 L548: "**Tedai Kuroiwa** / The magistrate's agent (*tedai*) — the gracious facilitator who *records* your achievements." The house is "the **Kurosawa**" everywhere (L185 "The **Kurosawa** hold a modest hill estate"). In all T3 material both appear together (e.g. §5 T3.3 repeatedly says "Kuroiwa" while the tier-wide subject is "the Kurosawa"). "Kuroiwa" and "Kurosawa" share  
+
+- **`naming-concordance-2` [Q]** _low_ — Near-collision: village legend-women "Sayo" and "Obaa Sato" (both folklore-central, near-identical names)  
+  <sub>docs/prd.md §1.8 lines 518-519; §5 T1.5 lines 3354-3360</sub>  
+  §1.8 L518: "**Sayo** / The headman's daughter, ~16 … names him \"Tama\" on sight … the **living heart of the legend**." L519: "**Obaa Sato** / Village herbalist / wise-woman … the village's **folklore-keeper** — narrates the *kamikakushi* legend." Both are Asagiri women whose entire function is the Tama/kamikakushi legend; their bare names "Sayo" / "Sato" are two syllables, sha  
+
+- **`naming-concordance-3` [Q]** _low_ — Kanji/romaji mismatch: AGI assigned 体 ("body"), not an agility glyph  
+  <sub>docs/prd.md §4.4 line 2654</sub>  
+  L2654: "/ **AGI** (体) / `evasion += 0.6·AGI`; `critChance += 0.2%·AGI`; hit-accuracy `+0.4·AGI` / gathering speed `+0.6%·AGI` (forage/fish); craft success `+0.3%·AGI` /". The glyph 体 reads *tai/karada* = "body/physique" (a constitution stat), but AGI = "agility" and its listed effects are all dexterity/finesse (evasion, crit, accuracy, gather speed, craft success). HP/constitut  
+
+- **`naming-concordance-4` [Q]** _low_ — §1.8 cast roster omits several named NPCs that the narrative actually uses (Tōkichi, Konoe, et al.)  
+  <sub>docs/prd.md §1.8 lines 486-552 (cast table) vs §1.11/§5 usages</sub>  
+  Named, used NPCs absent from the §1.8 cast tables: T0 personification **Moneylender Tōkichi** (defined only in §1.11 L636 and §5 T0.3 L3169-3170, yet a v1-active T0 figure); the T4 through-line face **rusui Konoe** ("the single recurring T4 through-line face", §5 T4.4 L3802; used 10×, in §1.7.1/§1.11 but not the §1.8 region cast L541-552); and §5-only T3/T4 NPCs **Proprietress   
+
+- **`naming-concordance-5` [Q]** _low_ — "Nao-" front-collision (heir Naoyuki vs clerk Naozane) plus a wider rhyming-name cluster  
+  <sub>docs/prd.md §1.8 lines 497 (Naoyuki), 546 (Kageyuki), 550 (Naozane), 552 (Sōbei); §2.5 retainer Kanbei L511</sub>  
+  Naoyuki (Kurosawa heir, 23×, §1.8 L497) and Naozane (guilt-sick T3 clerk, 6×, §1.8 L550) share the distinctive "Nao-" onset and both surface in T3 (§5 T3.5 L3719-3720 names "Naoyuki" and "Clerk Naozane" in adjacent clauses). Adjacent rhyming pairs also exist: rival heir **Kageyuki** vs Kurosawa heir **Naoyuki** (both -yuki, both "the heir", co-located in T2 §5 L3528-3539); **Sō  
+
+- **`t3t4-coherence-4` [Q]** _low_ — Kanbei's in-household rival thread is introduced in v1 but never resolved or handed off  
+  <sub>docs/prd.md §1.8 cast (line 511) & §5 T2.4 (line 3545); absent from §5 T3.4/T3.5 roster (lines 3704-3721) and §5 T4.4 (lines 3800-3811)</sub>  
+  §1.8 line 511: 'Kanbei (later) / Jealous middling retainer ... In-household antagonist-rival who sees the rising stray as a threat; player-influenceable détente or self-inflicted washout. / T2+'. §5 T2.4 line 3545 confirms he 'joins this tier' (T2/v1): 'Kanbei (jealous middling retainer — an in-household antagonist-rival, player-influenceable détente or self-inflicted washout,   
+
+### [LOW] Genre-convention coverage vs the named inspirations
+*§2.4, §2.11, §6.4, §6.9, §7.2 M7* — Near-universal idle/incremental conventions both inspirations ship are absent: no bulk/sell-all/sell-to-floor or craft-N affordance (and no stated rule for how the saturation damper applies across a bulk sale), no player-facing achievements/career-stats surface (yet §6.4's counts comment says 'drive achievements' — a dangling reference; reword is clerical), and no in-game changelog/'what's new' panel (only an engineering commit-SHA stamp).
+
+- **`inspiration-genre-gap-2` [Q]** _low_ — No bulk / sell-all / craft-batch affordance for trade and crafting — a near-universal genre convention both inspirations provide  
+  <sub>docs/prd.md §2.4 lines 963-967, §2.11 lines 1217-1219; grep for sell-all/buy-max/batch/queue returns nothing</sub>  
+  Trade is described as "convert surplus to coin via trade (brokers/shops)" with a "market-saturation damper [that] depresses sell prices when one good is flooded, recovering over in-game days" (§2.4 lines 963-967). Crafting is "gather inputs, craft a tool/item at a station" (§2.11 line 1217). With koku/material counts climbing into the tens-of-thousands→millions (§4.0 lines 2282  
+
+- **`inspiration-genre-gap-3` [applied]** _low_ — No achievements / career-stats surface, yet GameState.counts is documented as 'drive achievements' — a dangling feature reference and a genre-expected page that is absent  
+  <sub>docs/prd.md §6.4 line 4061 (`counts` comment), §6.9 line 4203 (screen list), §2.18 banzuke</sub>  
+  §6.4 stores `counts: Record<CountId, number>; // kills, clears, harvests — drive achievements/quests` (line 4061) — the only use of 'achievements' as a *player feature*; everywhere else 'achievement' means the pillar-accrual 'achievement JUMPS'. No achievement registry, no achievement type/screen, and no career-stats/totals page exists anywhere. The renderer screen list is "Est  
+
+- **`inspiration-genre-gap-5` [Q]** _low_ — No in-game changelog / patch-notes surface — only an engineering commit-SHA stamp; both inspirations ship a changelog  
+  <sub>docs/prd.md §7.2 M7 line 4722; grep for changelog/patch-note/what's-new returns only schemaVersion engineering uses</sub>  
+  The only versioning surface is engineering provenance: the build "stamps the source commit SHA / version into the Settings/About surface so any shipped zip is traceable to the commit" (line 4722). Grep for `changelog/patch note/what's new` finds no player-facing changelog anywhere; all other 'version' hits are `schemaVersion`/save-migration internals. proto23 (inspiration #1) k  
