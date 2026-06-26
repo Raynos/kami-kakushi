@@ -4168,6 +4168,388 @@ roster count & each weapon's archetype params + signatures; the reveal-beat plac
 levers** (canon).
 
 ---
+
+## §4.7 Producer / cost curves (gathering yields, crafting, T3+ auto-producers, building costs)
+
+**Shape (canon §G — fixed; V2-reconciled).** **Auto-producers are LATE-GAME (T3+) ONLY** (§2.5) and
+**ACTIVE-ONLY** (no offline accrual; FU23) — v1's T0–T2 is the MC's own **active grind**, so for v1 the
+load-bearing curves are **gathering yields**, **crafting costs/quality**, and **building/upgrade costs**. The
+genre-standard `cost = base · r^owned` is used **only** for the late-game auto-producers and repeatable
+upgrades, **never** to fake an early idle layer. **Yields are modelled already NET** of stamina/food/
+re-investment (Q14), which is why end-T0 *lifetime-produced* koku ≈ **21K** but *held* koku ≈ **18–19K NET**
+(§4.0) — the gap is genuine **sinks** (E1/E2/E3 builds, tools, craft inputs), not a hidden upkeep tax.
+
+### §4.7.1 Gathering / labour yields (active — already NET)
+
+```
+weatherMod   = 1 + 0.10·( 2·deriveDayKeyed(seed,'weather',day) − 1 )   // STATELESS day-keyed ±10%, NOT persisted (Q35/FU3; §2.19/§6.7)
+satietyFrac  = satiety / satietyMax                                    // satietyMax = SATIETY_BASE + SATIETY_PER_LEVEL·characterLevel (§4.6.1, Q47)
+staminaRate  = ( satietyFrac ≥ 0.7 ) ? 1.0
+             : lerp( STAMINA_RATE_FLOOR, 1.0, satietyFrac / 0.7 )      // flat above ~0.7·satietyMax, knee down to the floor (FU21)
+yieldPerAction = baseYield · (1 + 0.04·skillLevel) · toolMult · seasonMult · weatherMod · staminaRate
+ticksPerAction = baseTicks · (1 − 0.003·SPD)                          (floored at 1)
+```
+
+*(proposed v1 balance)*: **`STAMINA_RATE_FLOOR = 0.5`** — the **labour** rate multiplier, never to zero
+(modest drain per action; rest/eat refills, §2.3). It is a **SEPARATE coefficient from the combat
+`SATIETY_COMBAT_FLOOR`** (§4.6.1b), so labour-throttle and combat-throttle tune **independently** (FU16/FU21).
+The **±10 % weather/festival** modifier is a bounded, **MECHANICAL** effect derived from a **stateless,
+day-keyed** `deriveDayKeyed(seed,'weather',day)` helper (§2.19/§6.7) — it is **NOT stored** (only
+market-saturation persists; Q3/FU3), so two saves on the same day at the same seed see the same weather.
+
+*(proposed v1 base yields, koku/material per action — magnitudes UNCHANGED; the longer saga is paid in TIME at
+the per-rung FLOOR, not in shrunk yields)*:
+
+| Node | baseYield | baseTicks | toolMult range | season gate |
+|---|---|---|---|---|
+| Rake/farm rice (paddy) | 2 koku | 3 | 1.0 → 2.5 (sickle→fine tools) | grows spring/summer, **harvest autumn** |
+| Forage *sansai* | 1 greens | 2 | 1.0 → 1.8 | spring/summer windows |
+| Woodcut | 2 wood | 3 | 1.0 → 2.2 | year-round |
+| Fish (ford) | 1 fish | 2 | 1.0 → 2.0 | year-round, peak autumn |
+| Sericulture (silk, T1+) | 1 cocoon | 4 | 1.0 → 3.0 | **summer** (mulberry); **TRADE strand opens T1**, never T0 (§4.2.3) |
+
+**Throughput tie-out (how these yields produce the §4.8 pacing).** A T0 rice action runs
+`2·(1+0.04·skill)·toolMult` koku. At **R1** (skill ~1, crude tools 1.0) that's **~2.1 koku/action**; at **R7**
+(skill ~12, fine tools 2.0) it's **~5.9 koku/action**. At the intended active pace, the *net koku-equivalent
+throughput* (already net of stamina/food/re-investment, Q14) rises across T0's rungs roughly: **R1 ~25 → R2
+~35 → R3 ~40 → R4 ~60 → R5 ~80 → R6 ~110 → R7 ~150 koku/min** (combat rungs trade some labour minutes for loot
+value; crafting/cash-crop rungs add value per action). Multiplying each by its rung's wall-clock minutes
+(§4.8.1) gives **lifetime-produced koku over the T0 rung-climb ≈ 21K**, of which **~18–19K is HELD NET** at the
+T0→T1 gate (after the E1/E2 build sinks + tools/craft — §4.7.5). **This throughput table is the bridge between
+the yields here and the rank-time table in §4.8.1; retune the `0.04·skillLevel` slope and tool multipliers,
+never the per-rung time FLOOR, to fix pacing drift.**
+
+**Seasonal headline:** the autumn rice harvest is a **`×3` season multiplier** on paddy yield (drives the
+Estate judged-result high-water mark, §4.2.2 — the autumn appraisal is the one most likely to set a fresh
+mark). **Levers:** every baseYield/baseTicks, the `0.04·skillLevel` and `0.003·SPD` coefficients, tool
+multipliers, season multipliers, the autumn `×3`, `STAMINA_RATE_FLOOR` (0.5) and its 0.7 knee, the weather
+`±10 %` band, and the **per-rung net-throughput assumptions** (§4.8.1). The **stateless-day-keyed weather
+rule, the yields-already-NET model, and the separate labour/combat throttle coefficients** are **not levers**
+(canon).
+
+### §4.7.2 Crafting cost & quality (hybrid: simple → component)
+
+- **Simple recipes (early):** flat `inputs → output`; cost a fixed small material bundle; success ~100 %.
+- **Component recipes (T1+):** `outputQualityTier = floor( (crafterSkill·0.4 + avgComponentQuality·0.4 +
+  stationTier·0.2) / QUALITY_DIVISOR )`, `QUALITY_DIVISOR = 10` → quality tiers **0–5** (crude → masterwork).
+  Each quality tier multiplies the item's stat/value by **`1.25^tier`** (integer-pow, no `Math.pow`; §6.1).
+  Disassembly returns **~60 %** of materials.
+
+**Resource counts are UNBOUNDED** (Q13 — strike any "+caps"; K/M/B abbreviation reads them, §4.0). The
+**coin/market numbers** — the koku↔coin spread, the single coin sink, `MarketState` — are **M4 PLACEHOLDERS,
+NOT frozen here** (Q13; §2.4). **Bulk sales** apply the **saturation damper PROGRESSIVELY per-unit** (each
+unit walks the price down — legible, un-gameable; Q42 — §2.4), feeding the trade strand under the ≤⅓ clamp
+(§4.2.3). **Levers:** the 0.4/0.4/0.2 quality weights, `QUALITY_DIVISOR`, the `1.25^tier` value step, the
+60 % disassembly return, the (deferred) coin spread/sink/saturation-recovery. *(Crafting magnitudes are
+unchanged by the rebalance — the value-add they provide is folded into the rising per-rung throughput in
+§4.7.1/§4.8.1.)*
+
+### §4.7.3 Loot tables (seeded)
+
+A mob/node drops on a weighted table; **rarity tiers common/uncommon/rare/fine** with default weights
+**70 / 22 / 6 / 2** (rare/fine weight scaled by `+0.5 %·LUCK`), rolled on the **`loot` RNG cursor** (§6.7) so
+drops replay byte-identically. **Levers:** the rarity weights and the LUCK coefficient. The **seeded-single-
+cursor rule and the 70/22/6/… shape** are **not levers** (canon).
+
+### §4.7.4 Auto-producers (T3+ ONLY — active-only, no offline; parked, scaffold only)
+
+```
+cost(n)  = producerBase · PRODUCER_GROWTH^owned          (PRODUCER_GROWTH = 1.5, ~5× per few buys)
+output   = producerBaseRate · (1 + 0.1·tier)             (per ACTIVE tick — NO offline accrual, canon §H / FU23)
+```
+
+Gated on **Influence band + a LOW rank floor + cost** (NOT the capstone — §1.5.1 estate-growth rule), bound to
+a `RosterMember` (a face, not a slider; §2.5). **All values parked until T3 is authored**; only the
+**shape/`PRODUCER_GROWTH` scaffold** is fixed here.
+
+> **The v1 "leave it running" feel is NOT an idle/offline layer (FU23).** v1's E0–E3 estate is a **fully
+> active grind**; the "set it going and check the progress" texture comes entirely from **tab-open
+> AUTO-RESOLVE combat + AUTO-REPEAT labour** while the tab is open and active (§2.8/§2.6) — **not** from
+> offline accrual or early auto-producers (T3+ only, §2.5). Closing the tab pauses the world. This is the
+> canon **active-only / no-offline** rule (D-013a), and it is what makes the **budget-as-a-FLOOR** grind
+> (§4.8) feel like an idler without being one.
+
+### §4.7.5 Building / upgrade costs (estate stages E0→E3, v1)
+
+Estate physical stages gate on **Estate & Wealth (+ Arms for defensive works) + a LOW rank floor + cost**
+(§1.5.1 — never the capstone; §2.17). **V2 un-parks E3 "Prosperous"** (Q8 — estate grows **E0→E3** in v1;
+E4–E5 stay parked), folded into the **later G-rungs as a koku/Arms sink** (NO new rung; M5). *(proposed)*:
+
+| Stage | Gate (pillar floor + rank) | koku cost | material cost |
+|---|---|---|---|
+| **E0 Foreclosure's Edge** | start | — | — |
+| **E1 Stabilising** (kura patched, first *shinden*, drill yard, night-watch) | Estate ≥ 0.3K, rank ≥ R4 | 400 koku | 30 wood |
+| **E2 Recovering** (granary, 2 workshops, low palisade, men-at-arms rota) | Estate ≥ 0.6K + Arms ≥ 0.3K, rank ≥ R6 | 2K koku | 120 wood, 40 stone |
+| **E3 Prosperous** (3rd workshop + full granary, closed perimeter, standing 4–5-man rota, *shinden* reclamation paying out) | **Estate ≥ 40K + Arms ≥ 15K, rank ≥ G4** | **40K koku** *(staged across the river-works)* | **800 wood, 400 stone** *(+ corvée labour)* |
+
+**Affordability tie-out (vs the §4.7.1/§4.8.1 throughput).** **E1's 400 koku** falls due around **R4**, by
+which point lifetime-produced koku ≈ **5.1K** — comfortably affordable while the held NET balance keeps
+climbing. **E2's 2K koku** falls due around **R6**, by which point lifetime-produced koku ≈ **13.3K**. After
+both T0 sinks (2.4K koku) plus tools/craft inputs, the T0→T1 gate holds **~18–19K NET** out of ~21K produced
+(§4.0). **E3's 40K koku** falls due at **G4** (the Kuzuhara river-works, M5) — by which point T2 lifetime
+production is well into the **100K+** band (§4.0), so E3 is **paced to be reached, not trivially pre-bought**,
+and its **Estate ≥ 40K + Arms ≥ 15K floors sit BELOW the T2 good-bands** (Estate 60K / Arms 30K, §4.1) and its
+**rank floor G4 is far below the G7 capstone** — keeping building gated on standing, never the capstone
+(§1.5.1). **Levers:** every cost & pillar/rank floor above (all *proposed*); the E3 staging (one lump vs the
+multi-stage *seki*).
+
+---
+
+## §4.8 PACING — the budget is a FLOOR, not a ceiling
+
+These are the **playtest acceptance criteria** the numbers above are derived *backward from*; they are
+headlessly regression-tested via the DEV play API (§2.20/§6.10) so a retune that breaks pacing fails CI.
+Canon hard rules: **first action < 5 s**, **the next goal never balloons > ~2–3× the prior** (within a tier;
+canon §G, §1.2), and — **LOCKED by human (canon §I-bal), now read as a FLOOR (FU18)** — **every single rung
+takes ≥ ~30 min**, with **per-tier budgets T0 ≈ 4.5 h · T1 ≈ 8 h · T2 ≈ 16 h** ("more grind, more numbers, a
+slower release of incremental features"). **v1 (T0–T2) ≈ 28.5 h** at the FLOOR.
+
+> **REBALANCE — these figures are FLOORS / MINIMUMS, not ceilings (FU18; annotates D-016).** §4.8 is a
+> **minimum-grind model**: the ≥30-min/rung floor and the 4.5/8/16-h tier figures are the **least** a player
+> spends, and the **two-phase tier (Phase-1 rung climb + Phase-2 pillar grind) runs LONGER** than the
+> historical "tier budget," which now anchors the **Phase-1 climb FLOOR**. The saga **can and should run
+> longer** when content interleaves richly (a long, OSRS-rough grind you leave **auto-resolving / auto-
+> repeating** and check on, FU23). The **M6 pacing regression FAILS ON UNDERSHOOT ONLY** — a rung cleared
+> *too fast* — **never on overshoot** (§4.8.4). The old "leave T0 in ~45–75 min, v1 ~12–20 h" targets stay
+> deleted.
+
+### §4.8.0 Headline beats
+
+| Beat | Target | Lock status | How measured |
+|---|---|---|---|
+| **First action available** | **< 5 s** from load (rake spilled rice in the *kura*) | canon | time-to-first-interactable |
+| **First meaningful reveal** | **< 30 s** (rice counter ticks → the koku row lights its own panel, §3.1) | proposed | first `unlock` event |
+| **Per-rung minimum** | **≥ ~30 min per rung** *(a FLOOR; R0 cold-open exempt)* | **LOCKED — FLOOR** | per-rung tick-count floor (undershoot fails) |
+| **Humbling first fight (R3)** | **~60–75 min** in (start of R3), **win-rate 20–35 % at adequate satiety (≥~0.7)** | **LOCKED anchor** | tick-count to the wolf + win-rate proxy (§4.6.6/§4.6.7) |
+| **Win-rate bands** *(2nd fun-proxy, NEW)* | fresh-at-rung humbling (~20–45 %), comfortable after that rung's training/gear (~80 %+) — **at adequate satiety** | proposed (R3 anchor LOCKED) | the §4.6.7 win-rate-band harness |
+| **Phase-1 climb → T1** (rungs cleared) | **≈ 4.5 h** *(FLOOR)* active play | **LOCKED — FLOOR (T0)** | tick-count to the T0 capstone (opens Phase 2) |
+| **Phase-1 climb → T2** | **≈ 8 h** *(FLOOR)* | **LOCKED — FLOOR (T1)** | tick-count to the T1 capstone |
+| **Phase-1 climb (T2)** | **≈ 16 h** *(FLOOR)* | **LOCKED — FLOOR (T2)** | tick-count to the T2 capstone |
+| **v1 Phase-1 FLOOR sum** | **≈ 28.5 h** *(minimum; the two-phase saga runs longer)* | **LOCKED — FLOOR** | cumulative tick-count |
+| **Goal-to-goal step ratio** | **≤ 2–3×** between consecutive within-tier goals | canon | max ratio of consecutive costs |
+| **Tier-to-tier step** | **~10×** (Arms/Estate) — a chapter, not a wall; Office steepens (~25× at T1→T2) | proposed | band-top ratio across tiers |
+| **Side-faction speedup** | village+origin weaving **shaves ~10–15 %** off time-to-next-tier (felt, never required) | LOCKED (H6) | with/without multipliers |
+
+> The old draft's "leave T0 in ~45–75 min; v1 ~12–20 h" row is **deleted** — superseded by the locked
+> longer **FLOOR** budget above (FU18).
+
+### §4.8.1 ⭐ T0 PHASE-1 rank-by-rank pacing table (the centrepiece — all 8 rungs, full resolution)
+
+This is the table the rest of §4 is tuned to satisfy. **It is the PHASE-1 rung climb** (§4.0.1/§4.1.1): each
+rung promotes on an **AND-gate** — its **per-rung-reset rung-meter ≥ threshold** (fed by that rung's **curated
+activities**, §4.1.1) **AND** its **story flags** (the UI reads "awaiting X" when one side lags) — **NOT** on
+accumulating pillar deeds (those are **Phase 2**, §4.8.1b). Each grind rung's expected wall-clock **≥ ~30 min
+(R0 aside, the cold-open story rung)**, escalating toward the capstone, **summing to ≈4.5 h (the Phase-1
+FLOOR)**. The **koku column is lifetime-produced** (the labour/economy currency, already NET, §4.7.1); the
+**meter threshold** is in rung activity-points (§4.1.1); "throughput" is the net koku-equiv/min from §4.7.1.
+*(Times, costs & thresholds: **proposed**; the ≥30-min floor and the 4.5-h Phase-1 sum: **LOCKED as FLOORS**.)*
+
+| Rung (what it gates — from §3) | Meter + story gate to LEAVE it (Phase 1) | Throughput | koku (rung) | ⏱ wall-clock |
+|---|---|---|---|---|
+| **R0 Stray** — cold open done; bare estate dashboard | *(story only — the cold open §3.1)*; meter n/a | n/a (tutorial) | ~0 | **~5 min** *(floor-exempt)* |
+| **R1 Day-labourer** — paddies, basic labour loop, world-clock | **Estate Service ≥ ~18** (rake/recover rice · clear forecourt · first paddy turns) + Genemon assigns real work | ~25 koku/min | ~0.75K | **~30 min** *(floor)* |
+| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, near *satoyama* | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 koku/min | ~1.05K | **~30 min** *(floor)* |
+| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the wolf [20–35 % win @ ≥0.7 satiety] · drill reps · first pest skirmishes) + drill-yard story | ~40 koku/min | ~1.2K | **~30 min** *(floor)* |
+| **R4 Trusted hand** — Main House, domestic economy, **first *shinden* (E1)**, **loot→craft loop + durability bands** | **Estate Service ≥ ~17** (indoor errands · first *shinden* labour · craft a first tool) + invited to the Main House; **build E1 (400 koku)** | ~60 koku/min | ~2.1K | **~35 min** |
+| **R5 Gate-guard** — Quest log + quest types; the **stance** slot | **Combat Rank ≥ ~17** (stand a watch · pest-control / hunt / clear sweeps) + posted to the gate | ~80 koku/min | ~3.2K | **~40 min** |
+| **R6 Foreman of works** — Workshops/Granary (E2), proto-industry, **village tier seed** | **Estate Service ≥ ~15** (drive workshop/granary works · proto-industry shifts) + works commissioned; **build E2 (2K koku)** | ~110 koku/min | ~4.95K | **~45 min** |
+| **R7 Bailiff** *(capstone → OPENS Phase 2)* — lord's study, four-bar Influence panel | **Estate Service ≥ ~14** (field-office duties · record the first reclamation) + the Lord's recognition — **the capstone OPENS the Phase-2 pillar grind (§4.8.1b)** | ~150 koku/min | ~8.25K | **~55 min** |
+
+**Totals & checks (T0 Phase 1):** wall-clock **5 + 30 + 30 + 30 + 35 + 40 + 45 + 55 = 270 min = 4.5 h** ✔
+(every grind rung ≥ 30 min ✔; escalating ✔; the Phase-1 FLOOR). Lifetime koku produced ≈ **0.75K + 1.05K +
+1.2K + 2.1K + 3.2K + 4.95K + 8.25K = 21.5K ≈ ~21K** ✔ (the **same round figure** as the §4.0 T0 band; clears
+E1@R4 and E2@R6 ✔; held ≈ **18–19K NET** at the gate after sinks). Consecutive within-rung *cost* ratios stay
+≤ ~2× (0.75K→1.05K→1.2K→2.1K…), honouring the ≤2–3× rule ✔. **No pillar deeds appear in this table** — the
+~560 Estate / ~350 Arms deed-ip (§4.2.1) accrue **only in Phase 2** (§4.8.1b), which is what prevents the
+"half the rungs, maxed deeds" state (FU7).
+
+> **R0 floor carve-out — blessed by the human (2026-06-25).** The ≥30-min per-rung floor (canon §I-bal)
+> applies to the **7 grind rungs R1–R7**; **R0 is the exempt ~5-min cold-open story rung** (the *kura* cold
+> open §3.1 — a scripted beat, not a grind rung). So T0's **4.5 h Phase-1 floor** comes from *floor +
+> escalation across R1–R7*, **not** a literal "8 rungs × 30 min." A settled, deliberate carve-out.
+
+### §4.8.1b PHASE-2 pillar-grind block (the deeds + seasonal grind, per tier — NEW)
+
+When the **capstone rung opens Phase 2** (§4.0.1), the tier's **pillar DEEDS begin accruing** (§4.2.1) and the
+**seasonal appraisals begin crediting** (§4.2.2) toward the **HYBRID good/great/excellent gate** (§4.1) across
+the tier's **REVEALED pillars** (T0 = 2 · T1 = 3 · T2 = 3–4). The basis was **built across Phase 1** by labour
+(holdings near band-top), so Phase 2's first appraisal posts a large high-water jump, then diminishes (§4.2.2).
+**This grind is ADDED on top of the Phase-1 climb FLOOR** — the realisation of the budget-as-a-FLOOR intent
+(FU18): the two-phase tier runs **longer** than its Phase-1 floor. Deed cadence is **tier-relative** (Q20:
+~5 min/recognised act at T0 · ~8 min at T1 · ~13 min at T2), interleaved with the continuing auto-resolve /
+auto-repeat loop (FU23). *(All Phase-2 window minutes are **proposed**; only the §4.2.1/§4.2.2 deed/seasonal
+tie-outs and the §4.1 hybrid bands are the load-bearing invariants the §6.6 verifier asserts.)*
+
+| Tier (revealed pillars → hybrid gate) | Phase-2 deeds (§4.2.1) → 70 % | Seasonal (§4.2.2) → 30 % | great/excellent reached by | ⏱ Phase-2 window *(proposed, ADDS to the floor)* |
+|---|---|---|---|---|
+| **T0** *(Arms + Estate; **good in BOTH + excellent in 1**)* | **30 Arms (350 ip) + 26 Estate (560 ip)** = ~56 deeds @ ~5 min | Arms 150 · Estate 240 (8-season back-credit) | excellent in **one** (Estate→1.5K *or* Arms→0.95K) via additional capped deeds | **~4.5–5 h** |
+| **T1** *(Arms + Estate + Office; **good in ALL 3 + great in 2**)* | **35 Arms (3,500) + 35 Estate (5,600) + 20 Office (1,400)** = ~90 deeds @ ~8 min | Arms 1,500 · Estate 2,400 · Office 600 | great in **two** (e.g. Estate→11K + Arms→7.5K) | **~12 h** |
+| **T2** *(Arms + Estate + Office + Name → 3–4; **good in ALL + Estate/Office great/excellent, Arms good**)* | **20 Arms (21,000) + 31 Estate (42,000) + 21 Office (35,000)** = ~72 deeds @ ~13 min | Arms 9,000 · Estate 18,000 · Office 15,000 · Name 42,000 | Estate/Office to great/excellent; **cross-pillar combos** (§4.3.1) smooth the grind + the **E3 sink** (G4) folds in | **~15.5 h** |
+
+**Tie-out (Phase 2).** Each tier's deed inventory sums to **exactly 70 %** of every revealed pillar's **good**
+band and the seasonal stream supplies the **30 %** residual (the line-by-line proof is in §4.2.1/§4.2.2) — the
+two add to the §4.1 **good** band, the breadth floor every player reaches. **great/excellent** are reached by
+**specialising** the Phase-2 surplus into the chosen 1–2 pillars (each still per-event-capped at 0.04·good,
+many small acts, never spikes — §4.1/§4.2.1), which **extends Phase 2 beyond its floor** (FU18). **T2 layers in
+the cross-pillar combos** (multiple pillar pairs, post-trade-clamp, **excluded from the gate-check**; §4.3.1)
+as the anti-slump device and the **E3 "Prosperous" build** (40K koku + materials, §4.7.5) as a Phase-2 koku/
+Arms sink. **The whole tier = Phase-1 climb (≥ its 4.5/8/16-h FLOOR) + this Phase-2 grind**, so the realised
+tier always runs **above** its floor (the M6 regression fails on **undershoot only**, §4.8.4).
+
+### §4.8.2 T1 PHASE-1 rung pacing (lower resolution — Phase-1 FLOOR ≈ 8 h, avg ~1 h/rung)
+
+T1's Phase-1 spends its longer floor on **wider** content (market, coin, component crafting, silk *meibutsu*,
+rumours board, valley-scale combat, the 2nd weapon line) at **~60 min/season** wall-clock. Throughput rises
+~10× over T0 (koku into the tens-of-thousands). Each rung gates on the **rung-meter + story** (not deeds);
+**Office is revealed** here and becomes a *required* Phase-2 gate (§4.1). Each grind rung ≥ ~40 min; capstone
+longest. *(Combat Standing → **Combat Rank** throughout; Q9.)*
+
+| Rung (§3.4) | Meter + story gate to leave it (summary) | ⏱ wall-clock |
+|---|---|---|
+| **V0 Errand-runner** — market/coin opens (one shop first) | Estate Service ≥ thr + first valley errands; coin row lit | **~40 min** |
+| **V1 Recognised hand** — chief's house, inn & rumours board | Estate Service ≥ thr + shop+headman standing | **~55 min** |
+| **V2 Road-warden** — HUNT/CLEAR at valley scale; ford safe; **Sword line opens** | **Combat Rank ≥ thr** (valley clears; road-safe curated activities) + the ford story | **~60 min** |
+| **V3 Steward of the valley economy** — silk *meibutsu* + component crafting | Estate Service ≥ thr + recorded seasonal result; **TRADE strand opens** (≤⅓-capped, §4.2.3) | **~65 min** |
+| **V4 Trusted of the headman** — **Office bar lights** (first Office reveal) | Estate Service ≥ thr + the headman's trust beat | **~70 min** |
+| **V5 Sworn man-at-arms** — paid retinue (flavour), DEFEND quests; **Naoyuki beat** | **Combat Rank ≥ thr** (valley DEFEND watches) + the man-at-arms oath | **~70 min** |
+| **V6 Right-hand-in-waiting** — authority across the valley; region seed | Estate Service ≥ thr + STORY (alliance/standing) | **~55 min** |
+| **V7 Agent of the house** *(capstone → OPENS Phase 2)* — "clean your room"; region opens | Estate Service ≥ thr + the Lord sends you to the region — **opens the T1 Phase-2 grind to the hybrid gate (§4.8.1b)** | **~65 min** |
+
+**Totals & checks (T1 Phase 1):** **40+55+60+65+70+70+55+65 = 480 min = 8.0 h** ✔ (the Phase-1 FLOOR). The
+**Phase-2 deeds** (Estate 5,600 / Arms 3,500 / Office 1,400 ip — §4.2.1) + seasonal (2,400 / 1,500 / 600)
+accrue **after V7** (§4.8.1b), to the hybrid **good-in-3 + great-in-2** gate. Tier step Arms/Estate ≈10×;
+**Office is a fresh required gate** (0 at T0 → good-band 2K at T1). Season ≈ 60 min ⇒ ~8 seasons span the T1
+Phase-1 floor.
+
+### §4.8.3 T2 PHASE-1 rung pacing (lower resolution — Phase-1 FLOOR ≈ 16 h, avg ~2 h/rung)
+
+T2's Phase-1 is the longest, widest: region map, *sekisho* travel, region-scale human mobs (rōnin/bandits),
+the Origin faction + both personal payoffs, Kuzuhara river-works (the **E3** lever), the rival houses, the 3rd
+weapon line. **~120 min/season** wall-clock. Required Phase-2 pillars drift to **Estate + Office** (Arms
+secures roads); **Name** reveals (3–4 revealed). Each grind rung ≥ ~75 min; capstone among the longest. T2's
+**Phase 2** weaves in the **cross-pillar combos** (§4.3.1) and lands **E3 "Prosperous"** (§4.7.5).
+
+| Rung (§3.6) | Meter + story gate to leave it (summary) | ⏱ wall-clock |
+|---|---|---|
+| **G0 Valley-envoy** — trade backbone opens minimally; first Origin contact | Estate Service ≥ thr + first off-the-books consignment | **~75 min** |
+| **G1 Road-captain** — *sekisho* layer; region-scale combat (rōnin/bandits); **Staff line opens** | **Combat Rank ≥ thr** (secure cluster roads — curated combat) + first pass obtained | **~110 min** |
+| **G2 Broker of the post-town** *(Origin OPENS)* — Sawatari-juku, *toiya* | Estate Service ≥ thr + **STORY (dream) AND travel-standing** (the doubly-earned Origin gate, §3.6.2) | **~120 min** |
+| **G3 Arbiter between valleys** — Hibara + Tōge-mura (capped at 2) | Estate Service ≥ thr + out-supply/arbitrate story | **~130 min** |
+| **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | Estate Service ≥ thr **+ STORY** (commit the multi-stage *seki*) — **lands estate stage E3 "Prosperous"** (40K koku sink, §4.7.5) | **~140 min** |
+| **G5 Captain of the road-detail** — brigand roost; **Hanzaki survived**; **Naoyuki ally-flip** | **Combat Rank ≥ thr** (secure the trade pass — curated combat) + the roost broken | **~140 min** |
+| **G6 Alliance-broker** *(Otsuru/Tama TRUTH — spine-guaranteed)* — Tahei-name-reclaim is **Origin-O5 missable** (§3.6.2/Q5) | Estate Service ≥ thr + STORY (alliance) | **~120 min** |
+| **G7 Leading house of the region** *(capstone → OPENS Phase 2 → T3 stub)* — rivals eclipsed | Estate Service ≥ thr + the Lord names the house first of the region — **opens the T2 Phase-2 grind to the v1 end-gate (§4.8.1b)** | **~125 min** |
+
+**Totals & checks (T2 Phase 1):** **75+110+120+130+140+140+120+125 = 960 min = 16.0 h** ✔ (the Phase-1 FLOOR).
+The **Phase-2 deeds** (Estate 42,000 / Arms 21,000 / Office 35,000 ip — §4.2.1) + seasonal (18,000 / 9,000 /
+15,000 / Name 42,000) accrue **after G7** (§4.8.1b), to the hybrid **good-in-all + Estate/Office great/
+excellent, Arms good** end-gate, **plus the cross-pillar combos** (§4.3.1). Tier step Arms 5K→30K (6×), Estate
+8K→60K (7.5×), **Office 2K→50K (25× — the locked "win it socially" steepening**, §4.0/§4.1). Season ≈ 120 min
+⇒ ~8 seasons span the T2 Phase-1 floor.
+
+### §4.8.4 The v1 budget at a glance (all figures FLOORS)
+
+| Tier | rungs (Phase 1) | per-rung avg | season wall-clock | **Phase-1 FLOOR** | + Phase-2 grind (§4.8.1b) | lock |
+|---|---|---|---|---|---|---|
+| **T0 Estate** | R0–R7 (8) | ~34 min (grind rungs ≥30) | ~34 min | **≈ 4.5 h** | ~+4.5–5 h | LOCKED FLOOR |
+| **T1 Village** | V0–V7 (8) | ~60 min | ~60 min | **≈ 8 h** | ~+12 h | LOCKED FLOOR |
+| **T2 Region** | G0–G7 (8) | ~120 min | ~120 min | **≈ 16 h** | ~+15.5 h | LOCKED FLOOR |
+| **v1 total (T0–T2)** | 24 | — | — | **≈ 28.5 h (Phase-1 FLOOR sum)** | **the two-phase saga runs longer** | LOCKED FLOOR |
+
+**The three single most important invariants now:** (1) **every grind rung ≥ ~30 min** (LOCKED FLOOR) —
+enforced as a CI pacing floor: if a headless playthrough clears any rung in < ~28 min the pacing test **fails**
+(undershoot); (2) the **budget figures are FLOORS** — the M6 regression **fails on UNDERSHOOT ONLY, never on
+overshoot** (FU18), because the two-phase tier (climb + grind) is *meant* to run past its Phase-1 floor; and
+(3) the **goal-to-goal ratio ≤ 2–3×** *within* a tier (canon) — the gentle intra-tier growth keeps consecutive
+costs soft, while the ~10× tier step (Office ~25×) is the deliberate chapter break. **Levers:** all per-rung
+*times / costs / meter-thresholds* and the Phase-2 window minutes are tunable *proposed* numbers, but the
+**< 5 s first action**, the **≤2–3× never-balloon rule**, the **≥30-min per-rung FLOOR**, and the
+**4.5/8/16-h tier FLOORS** are constraints the tuning must always satisfy (the last two LOCKED by human as
+FLOORS, FU18).
+
+---
+
+## §4.9 Levers index (the tuning dashboard) & the LOCKED-constants index + open questions
+
+**Master dials:** `TIER_MAG = 10`, `r_intra = 1.15`, `SEASON_WALLCLOCK_MIN[tier]` (T0≈34 / T1≈60 / T2≈120 — a
+binding that *serves* the FLOORs, itself a lever). **Rung-meter — the third curve (§4.1.1):** `RUNG_FLOOR_MIN
+= 30` *(a FLOOR — the value is the minimum, not a ceiling)*, each rung's `eligibleActivityRate` + its curated-
+activity set + the per-rung thresholds (T0 ~14–19). **Accrual:** **`PER_EVENT_CAP_FRACTION = 0.04`** *(halved
+from 0.08; "smaller than 0.08" is LOCKED)*, the **deeds/seasonal split ≈ 70/30** *(deeds-dominate LOCKED; exact
+70/30 proposed)*, the **deed-base table** (§4.2.1, every base ≤ its 0.04·good-band cap), **`SEASONAL_SHARE =
+0.30`** (the single dial setting the whole seasonal stream), the derived **`JUDGE_K[pillar][tier] =
+SEASONAL_SHARE · goodBand`** table, the **`TIER_REF[pillar][tier]`** + **`TIER_REF_NAME = armsGood + estateGood
++ officeGood`** normalizers, the **autumn-basis bump** (~12 %), `f_pillar` exponents (0.5), `DENT_FRACTION =
+0.10` + the dent self-heal rate. **HYBRID gate (§4.1):** the **good/great/excellent triple per revealed pillar
+per tier** **+ the great/excellent COUNTS** (how many pillars must be great vs excellent); the revealed-pillar
+set (T0=2 / T1=3 / T2=3–4). **Gating:** the hybrid profile **ANDed with** the Phase-1 capstone rung-meter +
+story gate, **+ the per-tier hour FLOORS the gates must take to fill**. **Skills:** `XP_BASE = 50`, `XP_GROWTH
+= 1.18`, `PER_EVENT_XP_CAP_FRACTION = 0.25`, visibility 30, per-tier soft caps, milestone levels/perks.
+**Per-skill perks (§4.5.4):** each perk's `combatBonus` magnitude, the per-skill perk counts (~2–8), the
+unlock-level cadence, `PER_PERK_MAX`. **Conversion weights (§4.3):** `0.05·combatLevel`, `0.10·dangerRing`,
+`0.04·skillLevel`, `0.04·tradeSkill`, `0.06·officeRank`, `0.15·allianceSealed`, `0.25·Name-blend`.
+**Cross-pillar combos (§4.3.1):** which pillar pairs combo, the per-pair magnitude (≤ one cap), the T2 onset.
+**Attributes (§4.4):** all coefficients, start = 5, +1 pt / 2 levels, per-tier soft caps. **Character level
+(§4.6.5):** `CL_BASE = 60`, `CL_GROWTH = 1.18`, `COMBAT_XP_K = 12`, `MobDef.level` defaults, `hpMax = 40 +
+8·characterLevel`, `satietyMax = SATIETY_BASE(100) + SATIETY_PER_LEVEL(4)·characterLevel`. **Combat (§4.6):**
+each weapon's `baseSpeed`/`reach`/`targetCount`/signature (§4.6.9), SPD coeff 0.005, `DAMAGE_FLOOR = max(1,
+0.10·atk)`, `CRIT_MULT = 1.5`, `BLOCK_REDUCTION = 0.5`, chance caps 0.50/0.40, `skillBonus = 0.3·weaponSkill`,
+accuracy base 10, crit base 0.02; `SATIETY_COMBAT_FLOOR = 0.5` + the 0.7 knee + the attackSpeed-touch weight;
+the 4 durability bands (75/50/1/0 → 1.0/0.9/0.75/0.55) + `WEAR_PER_FIGHT ≈ 3 %`; the **win-rate bands**
+(§4.6.7) per combat-entry rung; the **retreat clock cost** (§4.6.8). **Pacing (§4.8):** all per-rung times /
+costs / meter-thresholds + the Phase-2 window minutes (proposed) under the **≥30-min FLOOR + 4.5/8/16-h tier
+FLOORS (LOCKED)**. **Producers/costs (§4.7):** gather base yields/ticks + per-rung net throughput, autumn `×3`,
+`STAMINA_RATE_FLOOR = 0.5` + the 0.7 knee, the weather `±10 %` band, crafting quality weights + `QUALITY_DIVISOR
+= 10` + `1.25^tier` + 60 % disassembly, loot rarity 70/22/6/2 + `0.5 %·LUCK`, `PRODUCER_GROWTH = 1.5` (T3+),
+the **E1 / E2 / E3** costs & floors (§4.7.5).
+
+**LOCKED-constants index (the fixed v1 dial values, for quick reference — all *proposed v1 balance* but
+self-consistent):** `TIER_MAG 10` · `r_intra 1.15` · `RUNG_FLOOR_MIN 30` · `PER_EVENT_CAP_FRACTION 0.04` ·
+`SEASONAL_SHARE 0.30` · `DENT_FRACTION 0.10` · `XP_BASE 50` · `XP_GROWTH 1.18` · `PER_EVENT_XP_CAP_FRACTION
+0.25` · `CL_BASE 60` · `CL_GROWTH 1.18` · `COMBAT_XP_K 12` · `SATIETY_BASE 100` · `SATIETY_PER_LEVEL 4` ·
+`SATIETY_COMBAT_FLOOR 0.5` (knee 0.7) · `STAMINA_RATE_FLOOR 0.5` (knee 0.7) · `WEAR_PER_FIGHT 3 %` ·
+durability bands `1.0/0.9/0.75/0.55` · `CRIT_MULT 1.5` · `BLOCK_REDUCTION 0.5` · crit/block caps `0.50/0.40` ·
+`DAMAGE_FLOOR max(1, 0.10·atk)` · `hpMax 40 + 8·level` · `QUALITY_DIVISOR 10` · quality step `1.25^tier` ·
+disassembly `0.60` · loot `70/22/6/2` + `0.5 %·LUCK` · weather `±10 %` · autumn paddy `×3` · `PRODUCER_GROWTH
+1.5` (T3+) · `SEASON_WALLCLOCK_MIN[T0/T1/T2] 34/60/120` · tier FLOORS `4.5/8/16 h` (v1 `28.5 h`).
+
+**LOCKED by human (§I-bal + the V2 Block-L/M signs — shape fixed, not free to invert; only the realising
+magnitudes are tunable):** saga length / per-tier hour budget **as FLOORS** (T0 ≥ 4.5 h · T1 ≥ 8 h · T2 ≥ 16 h
+· v1 ≥ 28.5 h Phase-1; the two-phase saga runs longer, FU18) · the **≥30-min per-rung FLOOR** · **first-fight
+win-rate 20–35 % at adequate satiety (≥~0.7)** · **soft-setback severity shape** (1 HP + ~½-day + light injury
++ possible carried-loot drop; never levels/gear/Influence) · **deeds-dominate accrual split (~70 % deeds /
+~30 % seasonal)** · **deed-jump size smaller than the old 0.08 cap** · **no respec in v1** · the **HYBRID
+good/great/excellent tier-gate** (breadth floor + no overflow) · the **THREE clean combat tracks** (character
+level / Arms pillar / Combat Rank meter — never reconflated) · the **SEQUENTIAL two-phase model** (rungs →
+pillar grind; deeds Phase-2-only) · **graded durability bands, never auto-unequip / never weaponless** ·
+**satiety throttles combat** (floor never below ~15 % win-rate).
+
+**HARD INVARIANTS (canon — NOT levers):** trade ≤⅓ of Estate & Wealth (post-combo-clamp, §4.2.3/§4.3.1); the
+**HYBRID good/great/excellent gate — good in ALL revealed pillars (breadth floor) · great in 2–3 · excellent
+in 1–2, NO overflow/substitution** *(REPLACES the old "simple per-tier thresholds, no floor/overflow", Q7/
+FU10/D-028)*; accrual = achievement jumps + seasonal-judged-on-high-water-mark only (no time-trickle, no flat
+per-action), **PHASE-2 only** (deeds don't accrue on the rungs; FU7); up-only with minor recoverable per-pillar
+dents (never a wipe, never touches `highWater`); the **bounded per-skill combat-perk channel**
+(`skillCombatBonus`, ~2–8 small perks/skill, no hard global cap — conditioning stays the **ZERO-stat
+enablement gate**) *(RELAXES the old "no labour→combat cross-feed", Q6/FU8/D-027)*; auto-producers **T3+ only &
+ACTIVE-ONLY (no offline)**; combat first-class & EARLY (T0-R3); **one combat-fed character level** (never
+raised by labour or deeds); mediocre-start (start near-zero, grind-only); K/M/B display; macron romanization.
+
+**RESOLVED — now LOCKED (do NOT re-open):** all of the above + the full **Block L (Q1–Q56)** + **Block M
+(FU1–FU23)** signs (2026-06-26), **D-022 governing (most-recent-block-wins; annotate-don't-delete)**. The
+budget is now a **FLOOR** (FU18 supersedes the old "ceiling/target" reading of D-016); the hybrid gate
+supersedes the simple thresholds (D-028); the bounded perks relax the cross-feed wall (D-027); the three
+clean tracks de-conflate the old fused "Combat Deeds pool" (D-025). **These are settled.**
+
+**Open questions (PROVISIONAL per D-021 — tune at M6 against playtest, the §4 magnitudes only):** the Phase-2
+window minutes (§4.8.1b) and the great/excellent **counts** (§4.1); the per-skill perk magnitudes &
+`PER_PERK_MAX` (§4.5.4); the `MobDef.level` defaults & win-rate-band magnitudes (§4.6.7); the cross-pillar
+combo pairs & per-pair magnitude (§4.3.1); the **E3** cost & staging (§4.7.5); the deferred **coin/market**
+numbers (M4 — §4.7.2/§2.4); the `SEASON_WALLCLOCK_MIN` binding. **None of these touch the LOCKED shapes
+above** — they are the liquid plan-layer (D-021), re-planned after each playtest; the FLOORS, the gate shape,
+the three tracks, and the accrual invariants are the frozen intent.
+
+---
 # §5 — Act-by-Act Narrative & Content
 
 > **STATUS: PRD V2.** This section is reshaped from the human-signed **Block L (Q1–Q56)** and **Block M (FU1–FU23)**
@@ -6425,3 +6807,214 @@ conditionally; the "one-eyed mountain god" is an INVESTIGATE-then-confront **one
 6. **Author the Origin reputation side-track O0→O5 and fire the G6 truth + the MISSABLE name-reclaim** — Done when the standalone Origin Ties ladder O0→O5 (own meter, opens at the doubly-earned G2 gate) plays on the Origin/Ties screen with the reunions (Oyuki/Okimi/Denbei/Kanta/Osen/Jinpachi) — the **G6 Otsuru/Tama TRUTH (Tama was a girl who ran; the MC is NOT her — grounded/partial) fires for EVERY player on the spine**, while the **O5 capstone name-reclaim ('Tahei') is earned + MISSABLE** (a spine-only / Origin-skipping run never reclaims it; the epilogue is conditional) and the present-day pride/morale buff lands — verifier-asserting the Origin track NEVER appears as a spine trigger, that returning memory grants access only with ZERO mechanical gift (no stat/recipe/tool/combat bonus traceable to a memory or porter's-knot flag), and that ≥1 Origin beat is always available without rep-gating so the thread never stalls. *(§3.6.2, §1.5.3, §3.5, §5 T2.5/T2.7, §4.5.3, Q5/D-036)*
 7. **Build the cross-pillar combos (T2 anti-slump) + seasonal-reward rotation** — Done when the broadened cross-pillar combos compute **POST the trade-≤⅓ clamp**, are **EXCLUDED** from the hybrid-gate-threshold check (they never satisfy a required pillar nor move the trade ratio), and the seasonal-reward rotation lands — with the §6.6 verifier **proving** a combo can never breach ⅓ nor satisfy a required pillar (the trade-post-combo proof, §6.6.1); unit tests cover the post-clamp ordering and the gate-exclusion; verify green. *(§4.3.1, §4.2.3, §2.16, §6.6.1, Q22/FU20)*
 8. **Wire the renderer + close out M5: verifier invariants as machine checks + headless QA + generated docs + audit** — Done when the thin DOM renderer paints the Region and Origin/Ties screens plus the trade-route, sekisho-pass, 2–3-man-detail, and 3rd-combat-line surfaces purely from GameState (no game logic in ui/), every first-time reveal pushes its diegetic log line in the §3.6 order, the responsive nav holds; AND verify is green with the M5 DoD machine-asserted via __qa: a headless run completes ALL of T2 to the T2→T3 gate AND a spine-only run still reaches it; the Origin double-gate, the always-available ungated beat, the zero-mechanical-gift rule, and the **G6-truth-guaranteed / O5-name-reclaim-missable** split are asserted; the cross-pillar-combo ⅓-unbreachable + gate-exclusion proofs, the one-eyed-mountain-god one-shot (never a population), and ≤1 residual-ambiguity token hold; generated docs (ranks/areas/bestiary/influence) are current; and a capture-game-states sweep audits the key beats (G2 Origin open, Kuzuhara works/E3, G6 payoff, G7→Daikan stub). *(§6.6, §6.6.1, §6.9, §6.10, §3.5, §6.11, §4.8.4)*
+
+### M6 — Balance pass to the §4 FLOOR + verifier & fun-proxy GATES green + a11y acceptance + inline-SVG / audio + the T3 Daikan-Office STUB → v1 launchable
+
+**Goal:** make the whole curve hit the **LOCKED pacing FLOOR** (the per-tier hour budgets + the ≥30-min
+per-rung minimums — a FLOOR, not a ceiling; FU18), prove every **V2 canon invariant** by machine, **promote the
+fun-proxies from report-only to a GATING check** (Q4/FU9), land the **low-cost a11y acceptance** items (contrast
+/ keyboard / screen-reader — Q18/Q48/Q49), apply the **inline-SVG + audio** register (Q38/Q50), ship the **T3
+castle-town / Daikan's-Office first-contact STUB** (Q24), and polish to a launchable feel. *(The grind can and
+should run **longer** than the floor — both regressions fail on **UNDERSHOOT only**, §7.1.2.)*
+
+**Lands:** the **balance pass** — tune `balance.ts` so a headless full playthrough is **AT LEAST** the floor:
+**T0 ≥ ~4.5 h · T1 ≥ ~8 h · T2 ≥ ~16 h** (minimums — *longer is fine and desired*), **every grind rung ≥ ~30
+min**, the within-tier **≤2–3× never-balloon** step, and the **≈70/30 deeds/seasonal** split (§4.8), by tuning
+the **§4.9 LOCKED levers** only (master dials, accrual, gating cadence, producer/cost curves), all magnitudes
+referenced from §4 (never invented); the **pacing regression** promoted to a hard `verify` gate that **fails on
+UNDERSHOOT only** — a **grind** rung cleared in **< ~28 min** (the R0 cold-open story rung exempt, §4.8.1), or a
+tier completed **under its hour floor**, fails; **overshoot never fails** (§4.8.4, §6.10); the **fun-proxy GATE**
+(Q4/FU9 — the M1/M3 report-only proxies now **GATE the build**: dead-time, reward/unlock cadence,
+always-a-visible-next-goal, the first-5-min hook, the **tier-relative deed-cadence** [T0 ~5 / T1 ~8 / T2 ~13 min,
+Q20], and the **win-rate bands** at R3/V2/V5/G1/G5 [§4.6.6 — fresh ~30–45% / trained ~80%+] — failing on
+**undershoot of the fun floor**, the mitigation for the new fun-risk row §7.4.1-R6); the **content verifier**
+green on **all** V2 canon invariants (§6.6/§6.6.1: no belief-creature in any spawn/population table; **trade ≤⅓**
+with the broadened cross-pillar combos proven **POST-clamp**, **gate-excluded**, and **⅓-unbreachable**; ≤1
+residual-ambiguity token; the **HYBRID good/great/excellent** gate with **NO overflow**, evaluated only against
+the **revealed** pillars [gate-distribution + gate-monotonicity]; **bounded per-skill perk magnitude** [each perk
+*small*, **NOT** `== 0`, no global cap] with **conditioning == 0**; rung-meter monotonicity + the accrual
+tie-out; the **`world.ts`** registry id-resolution [Q55]; the real-name denylist; macron / **K/M/B** lints; no
+orphan ids); the **a11y acceptance** pass (§6.11: functional/hint text on **`--ink-soft`** passing **WCAG AA** on
+every paper surface, **`--ink-faint`** decorative-only, darkened meter fills [Q48]; **full keyboard operability +
+comfortable touch targets** [Q49]; a **persistent quiet a11y entry from minute one**; the event log as an **ARIA
+live region scoped to narration + milestones** ['polite']; a **large-textScale reflow** case; colourblind-safe
+cues [colour never the sole cue]; reduced-motion; user pause; mute; a **screen-reader acceptance** pass — Q18);
+the **inline-SVG load-bearing motifs** (pillar / season / rarity marks, identical across OSes; **emoji
+cosmetic-only** — Q38/§6.1.1) + the **small curated audio set** (synthesized Web Audio + original/CC0 samples,
+all behind **mute** — Q50/§6.1.1); the **T3 castle-town / Daikan's-Office STUB** — the §3.7.1 first-contact
+screen at the **G7** capstone (the cliff-hanger "the page turns onto stone walls, and the story pauses"; the old
+Porter / Kaidō-guild framing dropped; **NO** T3 ladder, auto-producers, or marriage/adoption lever built — Q24);
+a **`capture-game-states` audit** sweep of the signature beats (audit/ screenshots).
+
+**Definition of done:** verify green; the headless **pacing regression** confirms the FLOOR and **fails on
+undershoot only** (a too-fast grind rung / an under-budget tier fails; a longer grind passes); the **fun-proxy
+GATE** passes and is **wired as a gate** (it would fail on undershoot of the fun floor — no longer report-only);
+**every V2 §6.6/§6.6.1 canon invariant passes as a machine check** (incl. the hybrid-gate-no-overflow against the
+revealed pillars, the bounded-perk-magnitude + conditioning `==0`, the trade-post-combo ⅓-proof, gate +
+rung-meter monotonicity, the accrual tie-out, the `world.ts` id-resolution, and the real-name + macron + K/M/B
+lints); the **a11y acceptance** passes — a **keyboard-only** and a **touch-only** playthrough of the cold open +
+one rung **AND** of a force-loaded late state (via `window.__qa`) exercising the combat panel
+(stance/ability/item/retreat), the four-bar Influence panel, a focus-trapped modal, and the map screen;
+`--ink-soft` clears WCAG AA on every paper surface; the live region announces reveals; the screen-reader pass
+holds; the **inline-SVG / audio** register is applied (emoji cosmetic-only; audio behind mute); the **T3 stub**
+renders the cliff-hanger and then **STOPS cleanly** (no half-built T3 system reachable — asserted); the generated
+docs (`docs/content/`, `docs/balance/`) are current (`gen:docs --check` passes); macron lint clean; all large
+numbers display **K/M/B**.
+
+**Phases / high-level tasks:**
+
+1. **Build the headless pacing + fun-proxy instrumentation harness (one measured report)** — Done when a `__qa`-driven full T0→T2 (and spine-only) playthrough runs headlessly and prints a per-rung tick→wall-clock + per-tier-total report measurable against the §4 floor PLUS the fun-proxy report (dead-time, reward/unlock cadence, always-a-visible-next-goal, the first-5-min hook, the tier-relative deed-cadence [T0~5/T1~8/T2~13 min, Q20], and the win-rate bands at R3/V2/V5/G1/G5) — promoting the M1/M3 report-only proxies into one measured harness, landed as a reporting tool only so verify stays green. *(§6.10 (DEV play API), §4.8 (pacing tables/floor), §4.6.6 (win-rate bands), fun-factor.md, docs/plans/qa-playtesting.md)*
+2. **Balance pass — tune balance.ts to the §4 FLOOR (minimums; longer-is-fine)** — Done when the measured playthrough is AT LEAST T0≈4.5 h / T1≈8 h / T2≈16 h, every grind rung ≥~30 min, the ≤2–3× within-tier never-balloon step, and the ~70/30 deeds/seasonal split — by tuning the §4.9 LOCKED levers only (master dials, accrual, gating cadence, producer/cost curves), **lengthening / interleaving** the grind to clear the floor (never retuning the floor itself), with all magnitudes taken from §4 (reference, never invented). *(§4.0/§4.1/§4.2/§4.7/§4.8/§4.9 (the LOCKED balance model + levers index), FU18)*
+3. **Promote pacing into a hard verify gate (UNDERSHOOT-only)** — Done when the harness assertions run inside `npm run verify` and FAIL the build **only** on undershoot — any **grind** rung clearing in <~28 min (the R0 cold-open story rung exempt, §4.8.1) or a tier completing under its hour floor — **never** on overshoot, and it passes green because the balance pass already clears the floor. *(§4.8.4 (the floor invariants + undershoot-only gate), §6.1 (the verify gate), §6.10)*
+4. **Promote the fun-proxies from report-only to a GATING check (the fun-risk mitigation)** — Done when the M1/M3 fun-proxies move from report-only into `npm run verify` as a GATE (Q4/FU9) — failing the build on undershoot of the fun floor (excess dead-time, a stalled reward/unlock cadence, a missing visible-next-goal, a weak first-5-min hook, a deed-cadence slower than the tier-relative target [T0~5/T1~8/T2~13 min, Q20], or a win-rate band outside its R3/V2/V5/G1/G5 envelope [§4.6.6]) — the thresholds owned by `fun-factor.md`, mirroring the pacing gate and catching the §7.4.1-R6 fun risk. *(Q4, FU9, Q20, §4.6.6, §6.1, §6.10, fun-factor.md, docs/plans/qa-playtesting.md)*
+5. **Content-verifier + generated-docs green on EVERY V2 canon invariant** — Done when `scripts/verify-content.ts` asserts ALL §6.6/§6.6.1 machine checks — no belief-creature in any spawn/population table; trade ≤⅓ with the cross-pillar combos proven POST-clamp, gate-excluded and ⅓-unbreachable; ≤1 residual-ambiguity token; the HYBRID good/great/excellent gate with NO overflow evaluated only against the REVEALED pillars (gate-distribution + gate-monotonicity); bounded per-skill perk magnitude (each perk small, NOT `==0`, no global cap) with conditioning `==0`; rung-meter monotonicity + the accrual (≈70/30, jumps+seasonal-only, up-only) tie-out; the `world.ts` (Q55) id-resolution; the real-name denylist; macron + K/M/B lints; no orphan ids — and `scripts/gen-docs.ts` regenerates docs/content/ + docs/balance/ with `gen:docs --check` passing — both wired into verify. *(§6.6, §6.6.1, §6.5, §6.1)*
+6. **Ship the T3 castle-town / Daikan's-Office STUB cliff-hanger (Q24)** — Done when reaching the G7 capstone renders the §3.7.1 first-contact screen (the castle-town / Daikan's-Office node — the old Porter / Kaidō-guild framing dropped, Q24) with the diegetic 'the page turns onto stone walls, and the story pauses' reveal, then STOPS cleanly — with a verifier/test assertion that NO T3 ladder, auto-producers, or marriage/adoption lever is reachable. *(§3.7.1 (T3 forward stub), §6.9 (renderer/reveal), §6.6 (no half-built-system assertion), §5 (G7 beat), Q24)*
+7. **a11y acceptance pass (§6.11 basics, wired so they cannot rot)** — Done when the low-cost a11y items are live AND verified: functional/hint text on `--ink-soft` (WCAG AA on every paper surface), `--ink-faint` decorative-only, darkened meter fills (Q48); full keyboard operability + comfortable touch targets (Q49); textScale (with a large-textScale reflow case), colourblindMode (colour never the sole cue — icon/text labels too), reducedMotion (+ prefers-reduced-motion), a user pause, the event log as an ARIA live region scoped to narration+milestone ('polite'), a persistent quiet a11y entry point from minute one, and a mute toggle — verified by a keyboard-only AND a touch-only run of the cold open + one rung AND of a force-loaded late state (via `window.__qa`) exercising the combat panel (stance/ability/item/retreat), the four-bar Influence panel, a focus-trapped modal, and the map screen, PLUS a screen-reader acceptance pass — so operability is proven on the dense revealed UI, not only the single-column open. *(§6.11 (accessibility), §6.9 (not-hover-dependent renderer / pause), Q18, Q48, Q49)*
+8. **Inline-SVG / audio register + presentation polish + the capture-game-states audit (verify-green checkpoint)** — Done when the inline-SVG load-bearing motifs (pillar/season/rarity marks, identical across OSes; emoji cosmetic-only — Q38), the colour-coded rarities, the single shared K/M/B display formatter, and the small curated audio set (synthesized Web Audio + original/CC0 samples, all behind mute — Q50) are applied across screens for a launchable feel; `__qa` is driven headlessly to the signature states (cold-open <5 s, R3 humbling fight, R7 two-bar Influence panel, V4 first Office bar, G6 personal payoff, G7→T3 Daikan stub) on desktop and a narrow viewport, lossless screenshots are saved under audit/, any findings recorded, and full `npm run verify` (incl. the M6 pacing + fun gates) is green. *(§6.9 (art register, K/M/B formatter, audio), §6.1.1 (bundled assets), §6.10 (__qa), §5 (act beats), the capture-game-states skill)*
+
+### M7 — Deploy: self-hosted fonts + LICENSE + About/Credits + itch content descriptors + the deferred cross-origin-iframe save test → live
+
+**Goal:** ship the static build to **itch.io** as **free / pay-what-you-want** — with the V2 deploy adds:
+**self-hosted OFL fonts**, a **LICENSE** file, the in-product **About/Credits** surface, the declared **itch
+content descriptors**, and the **deferred multi-backend cross-origin-iframe save-survival** test (the one M0 save
+item held back).
+
+**Lands:** `build:itch` (= `vite build` → `dist/` → zip **the *contents* of** dist/, so `index.html` sits at the
+archive root, §6.1) with the **relative base** (`base: './'`) for itch's served subpath and a **single static
+HTML bundle** (no backend, §6.1/§7.3); the **self-hosted OFL fonts** bundled (Google dynamic-subsetting killed —
+it breaks offline + the itch relative-base; the **OFL license** bundled, the **Reserved-Font-Name** rule honoured
+— Q52) so there are **zero font network calls**; the **inline-SVG motifs + the small synth/CC0 audio set** bundled
+into the static build (§6.1.1/§7.3.1); the **LICENSE** file — **permissive code** (MIT/Apache-2.0) **+ reserved
+game content** (all-rights-reserved or CC-BY-NC) — added before release (Q51); the **About/Credits** surface
+(authorship + the **commit-SHA build stamp** + font/audio attributions + a clean-room attestation + license /
+content-descriptor pointers — Q54, §7.3.2); the declared **itch content descriptors** (mild thematic:
+child-disappearance, drowning, debt — Q53); the **deferred itch cross-origin-iframe save-SURVIVAL test** on
+**Chromium AND WebKit** (the **multi-backend redundant save** — IndexedDB + localStorage + sessionStorage —
+survives the embed's storage partition/eviction; the only save piece held back from M0, FU1/Q37) + the **base64
+export/import** round-trip; an **offline smoke test** asserting **ZERO network calls**; final polish.
+
+**Definition of done:** the zipped `dist/` runs from itch.io's static host with the correct relative base;
+loading the live URL reaches the cold open and the first verb works; the **multi-backend autosave** (IndexedDB +
+localStorage + sessionStorage) + base64 export/import work against the deployed origin AND **survive the
+cross-origin-iframe partition on Chromium AND WebKit** (FU1/Q37); fonts / audio / SVG load with **NO network
+calls** (self-hosted); the **About/Credits** surface shows authorship + the commit-SHA stamp + attributions; the
+**LICENSE** file is present; the **itch content descriptors** are set; **no backend, no network calls**; the
+release artifact was cut from a **verify-green** commit (incl. the M6 pacing + fun + invariant gates).
+
+**Phases / high-level tasks:**
+
+1. **Pin the relative base path + strip the DEV surface** — Done when `vite.config.ts` sets `base: './'` and a production `vite build` emits a single static HTML bundle with hashed JS/CSS that resolves from a served subpath, containing NO `__qa`/dev helpers (DEV-only code dead-code-eliminated via `import.meta.env.DEV`). *(§6.1, §6.10, §7.3)*
+2. **Self-host the OFL fonts + bundle the inline-SVG motifs + the synth/CC0 audio set (zero network)** — Done when the SIL OFL fonts are self-hosted (Google dynamic-subsetting removed, the OFL license bundled, the Reserved-Font-Name rule honoured — Q52), the inline-SVG load-bearing motifs and the small synthesized-Web-Audio + original/CC0 audio set are bundled into dist/ (§6.1.1/§7.3.1), and the offline smoke confirms ZERO font/asset network calls. *(Q52, Q38, Q50, §6.1.1, §7.3.1)*
+3. **Add the LICENSE file + the About/Credits surface + the itch content descriptors** — Done when a LICENSE file lands before release (permissive code MIT/Apache-2.0 + reserved game content ARR or CC-BY-NC — Q51), the About/Credits surface (content/surfaces.ts) carries authorship + the commit-SHA build stamp + font/audio attributions + a clean-room attestation + license / content-descriptor pointers (Q54), and the itch content descriptors (child-disappearance, drowning, debt — Q53) are written into the deploy checklist. *(Q51, Q54, Q53, §7.3.2, §6.5, §2.21)*
+4. **Add the `build:itch` script (build → zip contents) + wire the verify release gate as the cut-rule** — Done when `npm run build:itch` runs `vite build` then zips the *contents* of dist/ (index.html at the archive root) into an upload-ready artifact stamped with the source commit SHA / version, and a local release flow refuses to cut a zip unless `npm run verify` is green (tsc --noEmit + eslint + prettier --check + vitest run + verify-content + gen:docs --check, PLUS the M6 §4.8 pacing regression + the fun-proxy gate) and the working tree is clean — so a release artifact is only ever cut from a verify-green commit (no hosted CI; local pre-push/release gate). *(§6.1, §7.3, §4.8, §6.6)*
+5. **Smoke-test the built artifact offline (itch-subpath + no-network + the deferred cross-origin-iframe save-survival)** — Done when the unzipped dist/ served from a subpath (mimicking itch via `vite preview` / a static server, and embedded in a cross-origin iframe) passes on Chromium AND WebKit: load < 5 s to first interactable, the first verb (rake rice) works, the multi-backend autosave persists across reload AND survives the iframe's storage partition/eviction (FU1/Q37), base64 export → clear store → import yields identical state, and there are ZERO network calls and no `__qa` surface present. *(§7.3, §7.3.1, §6.8, §6.9, §3.1, FU1, Q37)*
+6. **Prepare the itch.io page + upload the zip as a draft (human-gated)** — Done when the itch.io project is configured as a draft with the smoke-passed zip uploaded — Kind = HTML, "played in the browser" ticked, a sensible responsive viewport frame, pricing free / pay-what-you-want, AND the declared content descriptors set (Q53) — with the agent supplying the page copy + step-by-step upload runbook and the human performing the create/upload (outward-facing, approval-gated). *(§7.3, §7.3.2, canon §H)*
+7. **Fresh-browser smoke of the live draft, then publish (human-gated)** — Done when the live draft URL passes the fresh-browser smoke (load < 5 s to first interactable, first verb works, the multi-backend autosave persists across reload, export → clear store → import round-trips identical, the About/Credits + commit-SHA stamp is present, no backend / no network calls) and the game is then published free/PWYW — the milestone's go-live beat. *(§7.3, §6.8)*
+
+---
+
+## 7.3 Deployment & assets
+
+**No backend. Fully static.** Per §6.1 / canon §H: `vite build` emits a static `dist/` (a **single HTML
+bundle** + hashed JS/CSS + the **bundled asset set**, §7.3.1), zipped (contents-at-root) and uploaded to
+**itch.io**.
+
+- **Static itch.io build.** `npm run build:itch` = `vite build` + zip **the *contents* of** `dist/` (so
+  `index.html` sits at the **archive root**, never nested under a `dist/` folder — itch.io requires `index.html`
+  at the zip root or the embed shows a blank frame). itch.io serves the unzipped bundle from a project subpath,
+  so Vite's **`base`** must be a **relative base** (`base: './'`) so asset URLs resolve under itch's served path —
+  the single most common static-host break, pinned in `vite.config.ts`. The DEV play API and any dev-only helpers
+  are stripped via `import.meta.env.DEV` (dead-code-eliminated), so the shipped bundle carries **no** `__qa`
+  surface.
+- **The multi-backend save path.** Persistence is the **multi-backend redundant atomic save** — IndexedDB +
+  localStorage + sessionStorage, written to all available backends per autosave; the **app-identity magic field**
+  (reject-to-recovery on mismatch); the **monotonic save-counter newest-wins selector** (the timestamp is only
+  the tiebreaker — a documented core-lint exemption); the **additive backwards-compatible schema** + ordered
+  migrations + raw backup — **plus base64 export/import** as the portable backstop (§6.8). Because itch.io serves
+  the game inside a **cross-origin iframe** with no server, the redundant multi-backend write is the defence
+  against the embed's storage partition/eviction, and the base64 export is the player's own safety net — its
+  **cross-origin-iframe survival is tested at M7** on Chromium AND WebKit (the one M0 save item held back;
+  FU1/Q37). Import validates + migrates (versioned, ordered, pre-migration raw backup; a corrupt save degrades
+  gracefully, never a "save is kill" wall).
+- **The `npm run verify` release gate.** The **same** one-command gate that guards every commit (§6.1) is the
+  release gate: `tsc --noEmit && eslint . && prettier --check . && vitest run && verify-content &&
+  gen:docs --check` — i.e. **typecheck + unit tests + the content-verifier (incl. the K/M/B + macron + the V2
+  canon-invariant machine checks) + lints**, **plus the §4.8 headless pacing regression AND the fun-proxy gate
+  added at M6**. A release artifact is **only ever cut from a verify-green commit**; `verify` is run **locally** as
+  the pre-push / release gate (**no hosted CI, no deploy automation** — confirmed by the human 2026-06-25).
+- **How to ship to itch.io (brief).** (1) `npm run verify` green; (2) `npm run build:itch` → a zipped `dist/`
+  (contents at root); (3) on itch.io, create / edit the project, set **Kind = HTML**, upload the zip, tick
+  **"This file will be played in the browser,"** set the viewport (a sensible default frame; the layout is
+  responsive per §6.9), set pricing to **free / pay-what-you-want** (canon §H), **and declare the content
+  descriptors** (§7.3.2); (4) run the deploy-checklist gates — **fonts self-hosted** (no Google / no network),
+  the **About/Credits + commit-SHA stamp** present, the **LICENSE** file exists, and the **multi-backend
+  save-survival smoke** green on Chromium + WebKit; (5) save as a draft, open the draft URL, run the
+  **fresh-browser smoke test** (load < 5 s to first interactable; rake rice; reload → autosave persists; export →
+  clear store → import → identical); (6) publish.
+
+> **Out of scope for v1 deployment:** any server, account system, cloud save, analytics backend, or network call.
+> The game is wholly client-side and **offline-capable after first load** (active-only; no offline *progress*, but
+> it runs with no network — **fonts / audio / SVG are all self-hosted**, §7.3.1).
+
+### 7.3.1 Assets (the acknowledged small set)
+
+This **corrects the old "no asset pipeline" claim** (§6.1.1): v1 ships **one small, curated, fully-bundled asset
+set** — no CDN, no network.
+
+- **Self-hosted OFL fonts.** The period-evoking display + body fonts are **SIL OFL**, **self-hosted** (Google
+  dynamic-subsetting removed — it breaks offline play + the itch relative-base), with the **OFL license bundled**
+  and the **Reserved-Font-Name** rule honoured (Q52). The M7 offline smoke confirms **zero font network calls**.
+- **Inline-SVG load-bearing motifs.** The **pillar / season / rarity** marks (and the other load-bearing period
+  motifs) are **inline SVG** so they render **identically across OSes**; **emoji are cosmetic-only**, never
+  load-bearing (Q38).
+- **A small curated audio set.** Light ambient beds + UI/event SFX as a mix of **synthesized Web Audio** +
+  **original / CC0 samples** — the one acknowledged curated audio set — all behind the **mute** toggle (Q50).
+- **Build stamp.** The build injects the **commit-SHA / version** stamp into the About/Credits surface (§7.3.2)
+  so any shipped zip is traceable to the commit it was cut from.
+
+All of it is bundled into `dist/`; the M7 offline smoke asserts **zero network calls**.
+
+### 7.3.2 About/Credits, licensing & content rating
+
+- **About/Credits surface.** A small in-product **About/Credits** screen (content/surfaces.ts, §6.5 / §2.21)
+  carrying **authorship**, the **commit-SHA build stamp**, **font/audio attributions** (the OFL fonts + the CC0
+  samples), a **clean-room attestation**, and pointers to the license + content descriptors (Q54).
+- **Licensing.** A **LICENSE** file is added **before release** (M7): **permissive code** (MIT / Apache-2.0) **+
+  reserved game content** (all-rights-reserved or CC-BY-NC) — the split is surfaced in About/Credits (Q51). The
+  bundled **OFL** license covers the fonts (§7.3.1).
+- **Content rating (itch descriptors).** The itch.io page declares the **content descriptors** for the game's
+  **mild thematic** content — **child-disappearance, drowning, debt** — as a deploy-checklist step (Q53). (No
+  graphic violence, no sexual content; the register stays restrained.)
+- **World registry.** The world-sim content lives in a **`content/world.ts`** data-as-code registry (Q55),
+  id-resolved by the content verifier at M6 — the single source for the world-facing content that About/Credits +
+  the descriptors describe.
+
+---
+
+## 7.4 Risk register + scope-risk posture
+
+### 7.4.1 Top risks
+
+| # | Risk | Likelihood / impact | Mitigation (+ the milestone/gate that catches it) |
+|---|---|---|---|
+| **R1 — Scope creep on T2** (the widest, warmest tier: region map + Origin faction + two payoffs + Kuzuhara + rivals) blows the timeline | **High / High** | Hold the **~6–8-node** cut-set and the **hard caps** (exactly 2 neighbouring valleys; 2–3-man detail; ~5 mobs) as *invariants*, not suggestions; build T2 **rung-by-rung** (M5) so progress is always verify-green; park anything not on the §1.7.1 spine list. **v1 ships full T0–T2 — no pre-planned descope (§7.4.2)**; if genuinely blocked, the forward-migratable multi-backend save (§6.8) lets a later update add tiers. **Caught at:** M5 (rung-by-rung, verify-green). |
+| **R2 — Balance-tuning time to the FLOOR** (lengthening the grind to **at least** the 4.5/8/16-h minimums + the ≥30-min floor + ≈70/30 split across 24 rungs) is open-ended | **High / Medium** | The §4.8 curve is a **minimum-grind model** derived to be **AT LEAST** the floor, so M6 tunes *yields* to clear a fixed target — **lengthening / interleaving** the grind, never chasing a fixed total nor retuning the floor; the **headless pacing regression** makes **undershoot** (too fast / under budget) a `verify`-gate failure while **overshoot never fails** (§4.8.4) — tuning is measured, not vibes; every number lives in `balance.ts` (§6.4) and reflows with **no save migration**. **Caught at:** M6 (undershoot-only pacing gate). |
+| **R3 — Save migration / save-loss** (a stored-shape change orphans saves; the itch iframe partitions storage) | **Medium / High** | Store **only non-derivable state** (§6.4) so the migratable surface is minimal; the **multi-backend redundant write** (IndexedDB + localStorage + sessionStorage) + the **magic-field reject-to-recovery** + the **monotonic-counter + timestamp newest-wins** selector + the **additive backwards-compatible schema** (never remove/repurpose) + **ordered, unit-tested migrations** + a **pre-migration raw backup** + **base64 export**; degrade gracefully on a bad save. The stored/computed split means balance retunes **never** migrate. **Caught at:** M0 (built complete) + M7 (cross-origin-iframe survival test, Chromium + WebKit). |
+| **R4 — Art / feel** (inline SVG + emoji + CSS + a small audio set + self-hosted fonts must read as a *coherent woodblock world*, not a spreadsheet) | **Medium / Medium** | The register is a **small curated asset set** — inline-SVG load-bearing motifs + a synth/CC0 audio set + self-hosted OFL fonts (§7.3.1), **low-risk** (no heavy asset pipeline); a dedicated **M6 polish pass** + a **`capture-game-states` audit** sweep catch feel regressions; the diegetic event log carries most of the "feel," so feel scales with *writing* (a known quantity) more than with art production. **Caught at:** M6 (polish pass + audit sweep). |
+| **R5 — The combat slice is the densest stretch** and could stall the whole roadmap | **Medium / Medium** | **M2a / M2b are fixed milestones** split up front at the R3→R4 seam (M2a = auto-resolve + first fight; M2b = bestiary/gear), so the combat slice is two shippable, verify-green checkpoints by design; the deterministic seeded auto-battler is **unit-testable in isolation** (§6.7) before it's wired to the UI; the first-fight win-rate band (20–35% at adequate satiety) and soft-setback shape are **LOCKED**, so the target is fixed. **Caught at:** M2a / M2b (the fixed split). |
+| **R6 — Fun** (the LOCKED grind ships *balanced* but reads as a *slog* — Q4) | **Medium / High** | The **fun-proxies** are instrumented **report-only at M1/M3** and **promoted to a GATING check at M6** (Q4/FU9: dead-time, reward/unlock cadence, always-a-visible-next-goal, the first-5-min hook, the tier-relative deed-cadence [T0~5/T1~8/T2~13 min, Q20], and the win-rate bands [§4.6.6]) — **failing on undershoot of the fun floor**; FU18's *interleave-don't-brick-wall* + the **tab-open auto-resolve / auto-repeat** "leave it running, check the progress" loop (FU23) keep the long grind palatable. **Caught at:** M6 (fun-proxy gate). |
+| **R7 — Perf / memory** (long active sessions + a large multi-backend save) | **Medium / Medium** | A sustained-runtime **per-tick + render-ms budget** (and a save-size watch) is **DEFERRED** to be set after **M0/M1 profiling**, tracked here as intent (Q56); the pure-core / **derived-not-stored** split (§6.4) keeps the stored save minimal (weather/lunar re-derived, not persisted); re-checked at the M6 polish pass + the M7 fresh-browser smoke. **Caught at:** M0/M1 profiling → re-checked M6 / M7. |
+| **R8 — Bounded per-skill perks + the combat reveal-ladder spread** (per-skill perks have **no hard global cap**; the combat surface spreads across M2a→M5) | **Medium / Medium** | The per-skill perks carry **accepted** balance risk (FU8: no global cap, each small-magnitude) bounded by **holistic** scaling (gear / level / attrs / enemy-scaling grow together) — mitigated by the **§6.6.1 per-perk-magnitude verifier bound** (each perk *small*, **conditioning == 0**); the incremental combat reveal stays **one-per-beat** (no UI-dump) via the **FU12 design-staggered** schedule (§7.2.0) spread across M2a→M5. **Caught at:** M6 (verifier perk-magnitude bound) + M2a→M5 (the one-per-beat schedule). |
+
+### 7.4.2 Scope-risk posture — no pre-planned descope
+
+**v1 = full T0–T2, non-negotiable.** The human chose **not** to pre-plan a reduced-scope cut (no "minimum
+shippable T0–T1" fallback, no cut-down ladder) — we build to the full T0–T2 target and ship it complete (plus the
+§3.7.1 T3 stub cliff-hanger). We do **not** design a T0–T1 fallback.
+
+> **Holding scope:** every milestone stays **verify-green, deterministic, and a complete playable arc to its
+> frontier**, and we hold the §7.1 cut-set + hard caps as *invariants* (this is how we protect the FLOOR — by
+> trimming *breadth within a tier*, never by dropping a tier, and never by undershooting the grind). If a
+> milestone is **genuinely blocked**, the forward-migratable multi-backend save (§6.8) plus **no reset** means a
+> later update can add tiers without orphaning anyone — but that is a recovery path, not a plan: **v1 ships
+> complete T0–T2.**

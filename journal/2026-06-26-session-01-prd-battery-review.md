@@ -231,6 +231,19 @@ seam (Bestiary R3 vs R4) + §4.2.2 phase-accrual; LOW clerical (ronin macron, na
 T2.6 weapon mis-seq). 5 trivial fixes. Then re-verify, write report, present for human glance (NOT M0 yet).
 
 
+## 27 · PRD V2 truncations FIXED — §4 + §7 tails restored (doc complete, 7020 lines)
+Regen workflow w05mj51vo (2 file-output agents, 15min) restored both truncated tails. NOTE: the agents wrote
+DIRECTLY into docs/prd.md via targeted Edits (my prompt named no output path) — both survived (no race-clobber;
+line math 6426+594=7020 confirms). §4 tail: §4.7 (yields/cost/E0→E3 build row) + §4.8 (§4.8.0 headline, §4.8.1
+⭐ T0 pacing table, NEW §4.8.1b phase-2 grind block, §4.8.2/.3/.4) + §4.9 levers — placed §4.6→§4.7→§4.9→§5,
+contiguous; ~89 dangling refs resolve. §7 tail: M6 (balance-to-FLOOR + verifier/fun-proxy gates + a11y + T3
+Daikan stub) + M7 (deploy: fonts/LICENSE/credits/content-descriptors + iframe save test) + §7.3 (assets +
+credits/licensing) + §7.4 (top risks incl new R6 fun/R7 perf/R8 bounded-perks + scope posture). KNOWN NIT:
+§7's subsection headers are '## 7.N' (no §) vs §1-§6's '## §N.M' — batched into round-1 trivial fixes. PRD V2
+now STRUCTURALLY COMPLETE. NEXT: until-dry battery rounds (user: 'multiple roads of battery until no feedback
+left'), then human glance.
+
+
 ---
 
 ## Next intended steps (current)
