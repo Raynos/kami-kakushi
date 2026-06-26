@@ -25,6 +25,14 @@ metadata:
   intent-drift across the adversarial audit), NOT the whole PRD; the §4 balance numbers and §7 M2–M7
   milestone detail stay **provisional** and re-plan after each playtest. Sign-off legitimately comes AFTER
   the first build-and-play cycle, so the docs do NOT explode yet.*
+- **Battery review (2026-06-26): COMPLETE — 4 rounds, SATURATED.** ~52 multi-agent lenses · 162 confirmed
+  findings · **42 fixes applied directly** (clerical + the impossible-gate & double-gated-climax defects;
+  re-verified in round 4, 1 self-regression caught & fixed) · **56 decisions queued + PD-1 (approved →
+  ADR D-021)**. The doc-level audit has saturated; remaining signal is **build-gated** (perf, real balance,
+  itch storage survival) → only resolved by building. **Start here:** the consolidated, prioritized
+  **[MASTER decision sheet](../brainstorms/2026-06-26-prd-decisions-master.md)** — its §1 lists the small
+  *build-gating* subset (M0 save-spine Q44-46/43; M1 satietyMax Q47; foundational level/rung/stamina/economy
+  Q1/Q30/Q31/Q7/Q29) you answer to begin; the rest ride the build per D-021.
 - **Key docs:** `docs/prd.md` (the ~4820-line vision spec) · `docs/prd_human_feedback.md` (all human
   steering + QA answers, the audit lens) · `docs/fun-factor.md` (the what/why of fun) · `docs/ui-design.md`
   (the woodblock/ink UI design-language bible) · `docs/plans/qa-playtesting.md` (the QA/playtest harness +

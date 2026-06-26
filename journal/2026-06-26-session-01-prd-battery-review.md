@@ -1,5 +1,17 @@
 # Session 01 — 2026-06-26 — PRD battery & stress-test (multi-round)
 
+> **Checkpoint (Round 4 done — BATTERY CLOSED, SATURATED).** 58 agents · 49 raw → 26 confirmed (0H/14M/12L —
+> declining yield = saturation). Convergence-critic verdict: **STOP + CONSOLIDATE** (round 4 surfacing typos /
+> clerical omissions; remaining signal is build-gated). Re-verification lens caught **1 regression I introduced**
+> (currentArea added to §6.4 but omitted from the §6.8 persist list) — fixed first, + 5 other clerical (M0
+> surface-list type drift, future-version save guard, §6.11 a11y bullet, log 'milestone' channel + tICK→tick
+> typo, late-state keyboard/SR gate). Queued **Q43–Q56** (14). **Produced the consolidated
+> [MASTER decision sheet](../brainstorms/2026-06-26-prd-decisions-master.md)**: 56 decisions deduped/prioritized,
+> §1 = the build-gating subset (M0 save-spine Q44-46/43, M1 Q47, foundational Q1/Q30/Q31/Q7/Q29), the Q25-vs-Q40
+> name-reclaim conflict flagged. FINAL TOTALS: 4 rounds · ~52 lenses · 162 findings · 42 fixes · 56 Qs + PD-1.
+> **Loop wound down.** Next action = answer the §1 build-gating decisions, then START M0 (per D-021).
+
+
 > **Checkpoint (Round 3 done).** 84 agents · 71 raw → 39 confirmed (3H/12M/24L). Applied 6 clerical fixes
 > (cold-open first-reveal=koku not Skills; §4.9 levers-index += §4.3 conversion weights & §4.6.1 combat
 > constants; RungId→RankId; achievements-comment; itch zip-contents-of-dist). Queued **Q29–Q42** (14) — mostly

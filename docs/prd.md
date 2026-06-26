@@ -895,7 +895,7 @@ explore it → act more.*
 - `RewardBundle { items?, xp?, coin?, koku?, materials?, locationsRevealed?, panelsRevealed?,
   dialoguesUnlocked?, recipesUnlocked?, questsStarted?, flagsSet?, pillarDeltas? }` — the universal
   object every dialogue/quest/threshold/combat-deed can emit.
-- `LogMessage { id, text, channel ('narration'|'reward'|'combat'|'system'), colorClass, tICK }`,
+- `LogMessage { id, text, channel ('narration'|'reward'|'combat'|'system'|'milestone'), colorClass, tick }`,
   stored in a capped ring buffer.
 - Unlock predicates are **pure functions**; the renderer subscribes to state snapshots and does one
   `render(state)` reconciliation (no scattered push-updates → kills stale UI).
@@ -4184,14 +4184,14 @@ Per **D-013 / canon §H**: robust, durable, static-friendly, **no backend**.
 - **Export / import: base64 to a text file.** The same serialized save is base64-encoded for copy-paste / file
   export and import — the player's portable backup (and a hand-off path for QA). Import validates + migrates.
 - **Persist only non-derivable state (§6.4).** The save is the **stored** surface of `GameState`: schemaVersion,
-  RNG (seed + counter), clock, resources, producer counts, skill xp, base attributes, current vitals (hp / satiety / attribute-points), inventory, equipment,
+  RNG (seed + counter), clock, current area, resources, producer counts, skill xp, base attributes, current vitals (hp / satiety / attribute-points), inventory, equipment,
   influence pillars (value + high-water + dents), stored tier, ranks, reputation, allegiance, flags, unlocked surfaces,
   quest status, counts, the live combat encounter (present only while a fight is live), the capped event log,
   active-effect remainders, settings. **All derived stats are recomputed on load** by
   the selectors — never serialized.
 - **Versioned with ordered migrations.** `schemaVersion` is stored; on load, an ordered list of
   `migrate_vN_to_vN+1(save)` steps runs in sequence to bring an old save current (each migration is a pure
-  function, unit-tested). Migrations live in `persistence/migrations/`.
+  function, unit-tested). Migrations live in `persistence/migrations/`. **A save whose `schemaVersion` exceeds the running build's** (a future-version save opened by an older / CDN-stale build — there is no forward step to run) is treated as **incompatible** and takes the same calm degrade-gracefully recovery as a corrupt save, with the raw bytes preserved for re-import in a newer build — never a silent half-load and never a downgrade that overwrites the real autosave.
 - **Validate + degrade gracefully on load.** A corrupt/unreadable save shows a calm, explained recovery (offer
   re-import or a fresh start), **never** a scary "save is kill" wall. A pre-migration backup of the raw bytes
   is kept so a failed migration is recoverable.
@@ -4284,8 +4284,14 @@ Solid basics (canon §H), wired so they cannot be an afterthought:
 - **Reduced motion:** a `reducedMotion` setting (and `prefers-reduced-motion` honoured) downgrades the ambient
   canvas FX and number-float animations.
 - **Pause:** the active loop can be paused (also an accessibility/comfort feature).
-- **Semantic structure + live region:** the event/story log is an ARIA live region so reveals/important events
-  are announced to assistive tech; screens/panels use semantic landmarks and labelled controls.
+- **Semantic structure + live region:** the event/story log is an ARIA live region (with an accessible name)
+  so reveals/important events are announced to assistive tech; the shell uses **named ARIA landmarks**
+  (`banner` header, `navigation` rail, `main` workspace) and labelled controls, plus a **skip-to-log /
+  skip-to-content link** so keyboard and screen-reader users jump straight to the content instead of tabbing
+  through the growing (~9-entry) nav on every screen.
+- **Language of parts (WCAG 3.1.2):** every Japanese-script run (kanji pillar/rank/season labels) is marked
+  `lang="ja"` and romanized terms `lang="ja-Latn"`, so assistive tech pronounces them instead of reading
+  Unicode glyph names or skipping them; the §6.6 romanization lint also flags any untagged CJK in rendered strings.
 - **Mute:** light ambient beds + UI/event SFX with a mute toggle (canon §H audio note).
 
 ---
@@ -4487,7 +4493,7 @@ proves it).
 **Phases / high-level tasks:**
 
 1. **Stand up the toolchain, the pure-core boundary & the verify gate** — `npm run verify` runs green on an empty src/core·ui·app·persistence skeleton, and the ESLint boundary rules FAIL the build on a planted Math.random or DOM/window/Date.now/indexedDB import inside src/core. *(§6.1, §6.2)*
-2. **Build the core spine: GameState + the one seeded RNG + reduce/tick** — The pure core compiles with a stored-vs-computed GameState (M0 surface: schemaVersion, rng, clock, vitals, resources, flags, unlocked, log), createInitialState(seed), the seeded RNG living IN GameState (pure next + int/chance/pick helpers), and reduce(state,intent)/tick(state,dtTicks) as deterministic, immutable-in/out pure functions of (state,input) covering the cold-open intents (open_eyes / rake_rice / rest) and a per-tick·day·season scheduler skeleton. *(§6.2, §6.3, §6.4, §6.7)*
+2. **Build the core spine: GameState + the one seeded RNG + reduce/tick** — The pure core compiles with a stored-vs-computed GameState (M0 surface: schemaVersion, rng, clock, character {hp, satiety, attributePoints} — the §6.4 stored field; there is no separate top-level `vitals`, resources, flags, unlocked, log), createInitialState(seed), the seeded RNG living IN GameState (pure next + int/chance/pick helpers), and reduce(state,intent)/tick(state,dtTicks) as deterministic, immutable-in/out pure functions of (state,input) covering the cold-open intents (open_eyes / rake_rice / rest) and a per-tick·day·season scheduler skeleton. *(§6.2, §6.3, §6.4, §6.7)*
 3. **Build the reveal engine: rewards/unlock bus + event log + the surfaces registry** — A flag/threshold flip fires exactly ONE event through core/rewards.applyRewards that simultaneously reveals a surface, pushes its diegetic log line (capped ring buffer in core/log), and sets the flag; visibleSurfaces(state)/isUnlocked drive a data-driven content/surfaces.ts holding only the cold-open RevealableEntries — all unit-tested. *(§2.1, §3.0, §6.5)*
 4. **Make the content-verifier & gen:docs real** — scripts/verify-content.ts cross-checks ids across the (near-empty) registries with no orphan SurfaceIds and enforces the M0-applicable canon invariants (≤1 ambiguity token, macron/no-plain-ASCII-romaji lint), and scripts/gen-docs.ts writes a generated doc into docs/content/ with `--check` failing on drift — both replace the task-1 stubs and run green inside npm run verify. *(§6.6, §6.5)*
 5. **Build the save spine: IndexedDB autosave + base64 export/import + migration chain** — src/persistence round-trips the STORED surface of GameState (§6.4 only — derived recomputed on load) through save→base64→load byte-identically (unit-proven), runs an ordered, pure, unit-tested schemaVersion migration chain, degrades gracefully on a corrupt save, and is never imported by core. *(§6.8, §6.4)*
@@ -4716,7 +4722,7 @@ no plain-ASCII romaji slips (macron lint clean); all large numbers display **K/M
 3. **Promote pacing into a hard verify gate (pacing-regression tests)** — Done when the harness assertions run inside `npm run verify` and FAIL the build if any rung clears in <~28 min or a tier misses its locked hour budget — and it passes green because the balance pass already satisfies it. *(§4.8.4 (the two locked invariants + CI floor), §6.1 (the verify gate), §6.10)*
 4. **Content-verifier + generated-docs green on every canon invariant** — Done when scripts/verify-content.ts asserts ALL §6.6 machine checks (no belief-creature in any spawn table, trade ≤⅓, ≤1 residual-ambiguity token, no passive/flat Influence accrual, no labour→combat cross-feed, macron + K/M/B lints, no orphan ids) and scripts/gen-docs.ts regenerates docs/balance/ + docs/content/ with `gen:docs --check` passing — both wired into verify. *(§6.6 (verifier + generated docs), §6.1 (verify gate), §2.20)*
 5. **Ship the T3 Castle-town STUB cliff-hanger** — Done when reaching the G7 capstone renders the §3.7.1 C0 first-contact screen (Kaidō Guild's first castle-town node) with the diegetic 'the story pauses here' reveal, then STOPS cleanly — with a verifier/test assertion that NO T3 ladder, auto-producers, or marriage/adoption lever is reachable. *(§3.7.1 (T3 forward stub), §6.9 (renderer/reveal), §6.6 (no half-built-system assertion), §5 (G7 beat))*
-6. **Accessibility pass (§6.11 basics, wired so they cannot rot)** — Done when textScale, colourblindMode (colour never the sole cue — icon/text labels too), full keyboard operability + comfortable touch targets, reducedMotion (+ prefers-reduced-motion), user pause, the event log as an ARIA live region, and a mute toggle are all live and verified by a keyboard-only and a touch-only run of the cold open + one rung. *(§6.11 (accessibility), §6.9 (not-hover-dependent renderer / pause))*
+6. **Accessibility pass (§6.11 basics, wired so they cannot rot)** — Done when textScale, colourblindMode (colour never the sole cue — icon/text labels too), full keyboard operability + comfortable touch targets, reducedMotion (+ prefers-reduced-motion), user pause, the event log as an ARIA live region, and a mute toggle are all live and verified by a keyboard-only and a touch-only run of the cold open + one rung AND of a late state (force-loaded via `window.__qa`) exercising the combat panel (stance/ability/item/retreat), the four-bar Influence panel, a focus-trapped modal, and the map screen — so operability is proven on the dense revealed UI, not only the single-column open. *(§6.11 (accessibility), §6.9 (not-hover-dependent renderer / pause))*
 7. **Art/feel + presentation polish (the woodblock register)** — Done when the text+emoji+CSS woodblock palette/flourishes, kanji season tags, colour-coded rarities, the single shared K/M/B display formatter, and a light ambient audio bed + UI/event SFX (all behind mute) are applied across screens, giving a launchable feel. *(§6.9 (art register, K/M/B formatter, audio))*
 8. **capture-game-states audit sweep of the key beats** — Done when __qa is driven headlessly to the signature states (cold-open <5 s, R3 humbling fight, R7 four-bar Influence panel, V4 first Office light, G6 personal payoff, G7→T3 stub) on desktop and a narrow viewport, lossless screenshots are saved under audit/, and any findings are recorded. *(§6.10 (__qa), §5 (act beats), the capture-game-states skill, §6.9 (responsive nav))*
 

@@ -1,6 +1,6 @@
 # PRD Battery & Stress-Test — Findings & Decision Report
 
-> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **3** · Confirmed findings: **136** (R1 60 + R2 37 + R3 39) · Fixes applied: **36** (R1 24 + R2 6 + R3 6) · **Decision queue: Q1–Q42 (42 open)** + PD-1 (approved). More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **§P — Process decision PD-1** (freeze-vs-steer) — ✅ APPROVED, wired as ADR D-021 across 6 docs.
+> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **4 (SATURATED — battery closed)** · Confirmed findings: **162** (60+37+39+26) · Fixes applied: **42** · **Decision queue: Q1–Q56 + PD-1**. **See the consolidated [MASTER decision sheet](2026-06-26-prd-decisions-master.md) for the prioritized, build-gating cut.** More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** appended at the end. **§P — Process decision PD-1** (freeze-vs-steer) — ✅ APPROVED, wired as ADR D-021 across 6 docs.
 
 **Date:** 2026-06-26  ·  **Target:** `docs/prd.md` (4,833 lines) + canon/ADR/intent cross-docs  
 **Method:** a 3-phase multi-agent workflow — **14 independent hostile-auditor lenses** attacked the PRD in
@@ -1363,3 +1363,263 @@ Per PD-1, §4/§6/§7 items here are **provisional-plan revisions** (resolve dur
 - **`inspiration-genre-gap-5` [Q]** _low_ — No in-game changelog / patch-notes surface — only an engineering commit-SHA stamp; both inspirations ship a changelog  
   <sub>docs/prd.md §7.2 M7 line 4722; grep for changelog/patch-note/what's-new returns only schemaVersion engineering uses</sub>  
   The only versioning surface is engineering provenance: the build "stamps the source commit SHA / version into the Settings/About surface so any shipped zip is traceable to the commit" (line 4722). Grep for `changelog/patch note/what's new` finds no player-facing changelog anywhere; all other 'version' hits are `schemaVersion`/save-migration internals. proto23 (inspiration #1) k  
+
+
+---
+# ROUND 4 — targeted high-value battery + CONVERGENCE (2026-06-26)
+
+**Scale:** 58 agents · 49 raw → **26 confirmed** (0 high · 14 medium · 12 low — the declining, lower-severity yield is the saturation signal). 8 targeted lenses (fix-reverification, deploy-host-matrix, m0m1-blocker-triage, save-migration, a11y-text-ui, legal-attribution, least-audited-deep, convergence-critic). **Applied:** 6 fixes (incl. a **regression** the re-verification caught). **New decisions:** **Q43–Q56** (14). Raw: [`raw/2026-06-26-prd-battery-review-r4.json`](raw/2026-06-26-prd-battery-review-r4.json).
+
+> **🛑 CONVERGENCE VERDICT: STOP + CONSOLIDATE.** STOP + CONSOLIDATE — the doc-level audit has saturated. Round 4's targeted lenses are now surfacing single-token casing typos (tICK at line 898) and clerical list-omissions rather than structural intent or balance defects, which is the convergence-critic's own stated saturation signal. The remaining genuinely un-owned areas (sustained-runtime perf/memory, the numeric balance.ts simulation, build correctness) are BUILD-gated, not doc-gated — no further round of doc review can close them; they only yield signal from running M0/M1. Do NOT run another full review round. SINGLE HIGHEST-VALUE NEXT ACTION: apply the 6 trivial fixes (especially the fix-reverification-1 regression on the §6.8 persist list and the M0 surface-list type drift), get the ~3 M0 save-spine human decisions (Q44/Q45/Q46) answered alongside the version-ceiling hardening, then START M0 and let the first build/profiling pass resolve the build-to-learn residuals.
+
+## R4·A — Regression caught & fixed (QA on this session's own edits)
+
+- fix-reverification-1 (HIGH, INCOMPLETE applied fix): This session's own change added `currentArea: AreaId` to §6.4 GameState (line 4061) and simultaneously rewrote the §6.8 persisted-surface enumeration (lines 4186-4191) to add tier/live-combat/event-log/vitals — but did NOT add 'current area' to that enumeration. §2.19 (line 1621) and §6.4 both promise the player's location is non-derivable and persisted, yet the authoritative §6.8 serialization list (which the M0 save spine builds against) omits it; a literal serializer would silently reset the player to the start area on save/load. Correct via the trivial edit in trivial_fixes: insert 'current area' after 'clock' in the §6.8 list.
+
+## R4·B — Cross-cutting risks (round 4)
+
+1. DATA LOSS is the dominant cross-cutting risk and recurs across four independent lenses (save-migration, deploy-host-matrix, a11y, convergence): a no-reset 28.5h-progression game stakes everything on ONE continuously-overwriting autosave, yet write-failure, future-version downgrade, backup lifecycle, import integrity, third-party-iframe partition/eviction, and the unsurfaced base64 backstop are each individually under-specified. Any one can silently destroy the entire pitch (the long climb). These should be resolved as a single coherent persistence-hardening pass, not piecemeal.
+
+2. The base64 export is simultaneously named as the load-bearing safety net (§7.3) AND left undiscoverable (no revealed surface, no prompt, Settings absent from the §3.5 reveal ladder) — it is the connective tissue between the storage-durability finding, the export-discoverability finding, the write-failure finding, and the Credits/About-surface finding. Defining the Settings/About surface and placing it on the reveal ladder unblocks several findings at once.
+
+3. The 'no asset pipeline → low-risk' framing (R4) is quietly false in two places: audio (sourced clips, licensing, bundle, autoplay) and self-hosted fonts (OFL redistribution + Reserved Font Name). The PRD's risk posture and M7 acceptance gate both rest on a premise the content actually violates.
+
+4. M7 acceptance gates systematically under-test the hard cases: same-session/Chromium-only/raw-URL save smoke (misses real durability), keyboard-SR run scoped to cold-open+one-rung (misses the dense UI), zero audio criteria, and load-only perf gates (no sustained runtime). The release gate can go green while the riskiest surfaces are unverified.
+
+5. Locked decisions (D-018 palette, §4.4 no-respec, §6.8 single autosave, zero-network-calls) collide with newly-surfaced accessibility/durability needs (ink-faint AA contrast, no-undo on irreversible actions, font Option A). Several findings are genuinely human taste/policy calls precisely because the obvious technical fix would breach a locked decision.
+
+## R4·C — M0 / M1 build-blocker checklist (the actionable bridge to building)
+
+- RESOLVE-BEFORE-M0 (ordered):
+- 1. [trivial-apply] fix-reverification-1 — add 'current area' to the §6.8 persist enumeration so the M0 save spine round-trips player location (regression from this session's own incomplete fix). Save spine is the actionable build target.
+- 2. [trivial-apply] m0m1-blocker-triage-7 — repoint the M0 phase-2 surface list at the real §6.4 `character {hp, satiety, attributePoints}` field; there is no top-level `vitals` field. First type M0 builds.
+- 3. [trivial-apply] save-migration-future-version-1 — add the version-ceiling guard to §6.8 so a future-version save degrades gracefully instead of silently downgrading (built into the M0 save spine / migration chain, M0 phase 5).
+- 4. [needs-human, decide while building M0 save spine] Q44 save-write-failure-quota-1 (atomic single-put + write-failure notice), Q45 save-migration-atomicity-backup-1 (backup lifecycle + post-chain version assertion), Q46 save-game-identity-integrity-1 (magic field + import registry-integrity) — all shape the M0 persistence layer (phase 5); pick policies before that phase lands.
+- RESOLVE-BEFORE-M1 (ordered):
+- 1. [needs-human] Q47 m0m1-blocker-triage-2 — commit a satietyMax value (flat M1 stub recommended); M1 phase 3 builds the satiety bar / soft-stamina throttle and cannot render or test without a cap.
+- NOT M0/M1 BLOCKING (deferred): all a11y deep findings (M6/M7), all legal/licensing/audio (M7), the world-sim registry (M4), and perf/memory (build-to-learn) — schedule against their milestones, do not gate the build start on them.
+
+## R4·D — Fixes applied (round 4, this commit)
+| Finding | What changed |
+|---|---|
+| `fix-reverification-1` | This session added currentArea to §6.4 (persisted, non-derivable) and rewrote the §6.8 persist enumeration in the same pass, but omitted 'current area' from that enumeration. A literal §6.8  |
+| `m0m1-blocker-triage-7` | The M0 phase-2 surface list names a 'vitals' field that the canonical §6.4 GameState lacks (hp/satiety/attributePoints live under 'character'). Pointing the M0 line at the real §6.4 field pr |
+| `save-migration-future-version-1` | Forward-only migration chain no-ops on a future-version save (CDN-stale/PWA/re-imported newer backup), risking a silent downgrade that violates the locked 'never wipe Influence/holdings' inv |
+| `a11y-text-ui-deep-1+a11y-text-ui-deep-7 (merged — same §6.11 bullet)` | MERGE of two findings that both rewrite the same §6.11 bullet (would otherwise conflict). a11y-text-ui-deep-7 adds accessible-named log + named landmarks + skip-link; a11y-text-ui-deep-1 add |
+| `a11y-text-ui-deep-8 (supersedes convergence-critic-4)` | Adds the 5th 'milestone' channel that ui-design §5.1's table defines (so per-channel ARIA politeness can route reveals as assertive) AND fixes the unique tICK->tick casing typo. This single  |
+| `a11y-text-ui-deep-6` | The keyboard/SR operability gate covers only cold-open + one rung; the hard surfaces (combat verbs, four-bar Influence, modals, map) are never operability-verified, so the gate can pass with |
+
+## R4·E — New decisions Q43–Q56 (14)
+
+### Q43. [HIGH] What storage-durability posture does v1 commit to for itch.io's cross-origin iframe embed, and should it become M7 verify-gate acceptance criteria? The single autosave is the only copy of up to 28.5h of no-reset progress, living in third-party partitioned IndexedDB (Chrome/Firefox partition, WebKit ITP eviction) that the current same-sess
+
+**Context.** Provisional §7/M7 plan item (D-021). deploy-host-matrix-1 + deploy-host-matrix-2. §6.8 locks a single autosave with no write-probe/fallback. The export's home depends on accessibility-ux-1 (Settings missing from the §3.5 reveal ladder).
+
+**Rec.** (b) — it is the only path that actually catches silent autosave loss for most players and fixes the unsurfaced-backstop gap, at the cost of a WebKit/embed QA matrix the Chromium-only tooling does not cover plus a new §6.8 detection/fallback code path.
+
+<sub>Findings: `deploy-host-matrix-1`, `deploy-host-matrix-2`</sub>
+
+### Q44. [HIGH] How should a FAILED autosave WRITE be handled? §6.8/§2.19 robustness language is entirely LOAD-side; a rejected IndexedDB put (QuotaExceeded, transaction abort, private-mode unavailability) or a torn beforeunload commit has no spec, and nothing guarantees the write is atomic.
+
+**Context.** §6 tech-spec gap, does not block M0 but informs the M0 save spine (phase 5). save-write-failure-quota-1. Silent write failure is worse than a load error — the player keeps playing believing they are saved, then loses everything on reload.
+
+**Rec.** (A) — atomicity guarantee is non-negotiable on a single-slot autosave; the calm notice matches the existing 'never a scary wall' ethos without the intrusiveness of (C). Confirm notice loudness.
+
+<sub>Findings: `save-write-failure-quota-1`</sub>
+
+### Q45. [MEDIUM] Define the migration / pre-migration-backup lifecycle for §6.8. The spec says only 'a backup of the raw bytes is kept' — leaving atomicity, backup location, retention, restore trigger, and a post-chain version assertion all undefined.
+
+**Context.** §6 tech-spec gap (D-021), bounded, does not block M0. save-migration-atomicity-backup-1. The debounced autosave fires on a tick interval, so a backup sharing the single autosave slot would be clobbered; a per-step write-back corrupts the very save the backup protects.
+
+**Rec.** In-memory single atomic commit; raw bytes under a separate never-autosaved key; auto-rollback with the calm recovery UI; add the post-chain version assertion.
+
+<sub>Findings: `save-migration-atomicity-backup-1`</sub>
+
+### Q47. [MEDIUM] satietyMax has no formula while its sibling hpMax does (40 + 8·characterLevel + 2·STR + gearHp), yet §2.7 promises satiety capacity grows with level. Pick a committed value for M1.
+
+**Context.** Provisional §4 balance item (D-021); a true M1 blocker — M1 phase 3 builds the satiety bar / soft-stamina throttle and needs a cap to render, compute the throttle fraction, and write the test. m0m1-blocker-triage-2.
+
+**Rec.** (B) a flat stub for M1 to unblock the build, with a noted intent to promote to the (A) scaling formula by M6 — consistent with §4's provisional-numbers philosophy.
+
+<sub>Findings: `m0m1-blocker-triage-2`</sub>
+
+### Q48. [MEDIUM] --ink-faint #7A6C59 fails WCAG AA (4.5:1) on all three paper surfaces (4.23/3.66/3.31:1) yet carries load-bearing affordance text — locked-rung unlock hints (§5.4), the disabled-button 'why' reason (§5.5), captions/system-log. (Also --beni text ~4.0:1 on shade/deep cards, and the --ai-soft meter fill vs --washi-deep track 2.44:1, below th
+
+**Context.** ui-design.md locked palette (D-018). a11y-text-ui-deep-2. Does not block M0/M1.
+
+**Rec.** (b) — move functional hint/reason text to --ink-soft (passes on every surface) and keep --ink-faint purely decorative; separately switch the meter fill to --ai #27496D (or a darker track) to clear the 3:1 non-text floor.
+
+<sub>Findings: `a11y-text-ui-deep-2`</sub>
+
+### Q50. [MEDIUM] Audio (§2.21(a)/§6.9/M6) is the only v1 element outside the 'text + emoji + CSS' register, yet R4 rates art-risk low on the premise of 'no asset pipeline' and M7 ships with zero audio acceptance criteria (no licensing/credits surface, no bundle/lazy-load budget against the <5s load, no autoplay-gesture gating). Park audio, or scope it as 
+
+**Context.** Provisional §7/M7 plan item (D-021); also corrects an internal inconsistency in §7.4.1 R4. deploy-host-matrix-4. Unlicensed audio is a takedown exposure on a public PWYW page.
+
+**Rec.** (C) synthesized Web Audio if the feel allows (kills the licensing/bundle/credits exposure outright); else (B). Either way correct R4 to acknowledge audio as the one asset outside text+emoji+CSS.
+
+<sub>Findings: `deploy-host-matrix-4`</sub>
+
+### Q52. [MEDIUM] Lock the font delivery + licensing approach. The DRAFT stack is all SIL OFL Google Fonts; (a) Option A (Google dynamic subsetting) violates the LOCKED zero-network-calls criterion (§7.3) and adds GDPR IP-disclosure; (b) the recommended self-hosted Option B redistributes the .woff2 with no OFL.txt/copyright bundled (OFL breach) and (c) kee
+
+**Context.** Provisional §7/M7 + ui-design.md §3.2 (font deferred to M1, flagged for human). legal-attribution-2 + -3 + -4. Not M0/M1 blocking but the first itch zip is non-compliant without it.
+
+**Rec.** Lock Option B (kill Option A as network/GDPR-incompatible), rename the subset name table to clear the RFN rule, and add the OFL-bundling deploy step + a one-line 'all families OFL' note in §3.1. All three together.
+
+<sub>Findings: `legal-attribution-2`, `legal-attribution-3`, `legal-attribution-4`</sub>
+
+### Q55. [MEDIUM] Where should the §2.14(c) world-sim content (SeasonRules, Festival, WeatherHazard) be authored, and how should §6.5 reflect it? The registry catalog currently has no home for these mechanical (vendorRestock/reputationOpportunity + revealPredicate) shapes that M4 must author as data.
+
+**Context.** §6.5 registry / M4 content (D-021), medium, not M0/M1 blocking. least-audited-deep-4. The §6.6 verifier needs to cross-check festival effect/reveal ids.
+
+**Rec.** (c) — Festival is the only true keyed-entity gap; add a content/festivals.ts row to §6.5 and reference it in M4 phase-1's registry list, leaving season/weather modifiers in balance.ts/activities.ts where they partly live already.
+
+<sub>Findings: `least-audited-deep-4`</sub>
+
+### Q56. [MEDIUM] Do you want a minimal sustained-runtime perf/memory acceptance criterion (per-tick + render ms budget, bounded steady-state heap) plus a new perf/memory risk row in §7.4, or treat perf/memory purely as build-to-learn (keep load<5s as the only committed perf gate until profiling surfaces a real need)?
+
+**Context.** Provisional §7 item (D-021); does NOT block STARTING M0. convergence-critic-2. The big risks are already design-mitigated (active-only loop, no offline catch-up, capped ring-buffer log); residual is only knowable by profiling via the existing chrome-devtools/capture-game-states harness. NOTE: the new risk row should be R7, not R6 — R6 is already proposed for the fun-slog risk.
+
+**Rec.** (B) for now, with a noted intent to add the R7 row once the first M0/M1 profiling run gives real numbers — avoids inventing a budget before there is code to measure.
+
+<sub>Findings: `convergence-critic-2`</sub>
+
+### Q46. [LOW] Should the save import/load path add (1) a constant game-identity/magic field (e.g. app:"kami-kakushi") that import must match, and (2) a referential-integrity pass over stored ids (ItemId/QuestId/ProducerId/equipDefId/SurfaceId) against the live registries?
+
+**Context.** §6 tech policy (D-021), low severity. save-game-identity-integrity-1. Mainly bites hand-edited/foreign imports and unversioned content edits, since normal content changes ship with a unit-tested migration; the §6.6 verifier runs at test time only.
+
+**Rec.** Add the magic field (cheap fast-reject); for stale ids prefer (a) reject-to-recovery — silent item/quest loss is worse than a recovery prompt for a no-reset game.
+
+<sub>Findings: `save-game-identity-integrity-1`</sub>
+
+### Q49. [LOW] Should irreversible/destructive in-game actions (material-consuming craft, sell, committed attribute-point allocation — §4.4 no-respec is LOCKED, and later T3 narrative-route commitments) require a confirm step or a brief undo window, given the single continuously-overwriting autosave provides no 'reload last save' recovery?
+
+**Context.** §2.19/§6.11 UX policy, low severity, does not block M0/M1. a11y-text-ui-deep-10. WCAG 2.2 3.3.4/3.3.6. The 'dents not wipes' philosophy softens economic stalls but not an in-the-moment destructive misclick.
+
+**Rec.** (a) — guard only the genuinely unrecoverable, rare actions (allocation, narrative-route, rare-material consume) and record the action-class policy in §2.19/§6.11; keeps the fast loop frictionless.
+
+<sub>Findings: `a11y-text-ui-deep-10`</sub>
+
+### Q51. [LOW] Before any public release / itch.io upload (M7), what license(s) does the project adopt? There is no LICENSE file and no declared license anywhere, so the default is all-rights-reserved on a PWYW public-style repo.
+
+**Context.** Legal, low severity, M7-only (not M0/M1 blocking). legal-attribution-1. Affects what the PWYW community may do, whether the repo can be public, and what notice the itch page must carry.
+
+**Rec.** Decide before M7; a split of permissive code (MIT/Apache-2.0) + proprietary-or-CC-BY content is the common fit for a 'built agentically, inspired by two OSS games' ethos. Once decided the fix is clerical (add LICENSE + README note + itch page reference).
+
+<sub>Findings: `legal-attribution-1`</sub>
+
+### Q53. [LOW] What content rating and content-warning descriptors should the itch page declare, given themes of child-disappearance (kamikakushi), drowning/death imagery, grief, debt, and on-screen combat?
+
+**Context.** Provisional §7/M7 deploy-runbook item (D-021), low severity, human classification call. legal-attribution-5. itch does not mandate ratings for mild folklore/violence, but the uploader is prompted for them.
+
+**Rec.** (B) — near-zero cost, improves expectation-setting; add as a deploy-checklist step in §7.3/M7.
+
+<sub>Findings: `legal-attribution-5`</sub>
+
+### Q54. [LOW] Should the game define an in-product Credits/About surface (carrying authorship, the planned commit-SHA stamp, and font/asset attributions + license links), and add a pre-release check of the two named inspiration repos' licenses / no-copy confirmation?
+
+**Context.** §6.9 + legal, low severity, M7-ish. legal-attribution-6 + legal-attribution-7. The 'Settings/About' surface is alluded to (commit-SHA stamp only) but never defined or placed on the reveal ladder; README cites two inspiration repos with no recorded license check.
+
+**Rec.** (a) — define the About/Credits subsection (small scope, pre-satisfies attribution + gives the build stamp a home) and record the clean-room attestation; it also resolves the half-referenced surface.
+
+<sub>Findings: `legal-attribution-6`, `legal-attribution-7`</sub>
+
+## R4·F — Full round-4 findings catalog (26, by cluster)
+
+### [HIGH] Save-spine serialization correctness (M0 first artifact)
+*§6.8, §6.4, §2.19, §7.2 M0 phase 2* — Two clerical inconsistencies sit on the very first thing M0 builds (GameState + its stored surface). (1) This session ADDED currentArea to §6.4 and rewrote the §6.8 persist enumeration in the same pass but never added 'current area' to that enumeration — so the authoritative serialization list the M0 save spine builds against would silently drop player location on save/load, contradicting §6.4/§2.19. (2) The M0 phase-2 surface list names a 'vitals' field that the canonical §6.4 GameState does not have (hp/satiety/attributePoints live under 'character'). Both are safe clerical edits and should be applied before/at the start of M0.
+
+- **`fix-reverification-1` [applied]** _medium_ — This session added currentArea to §6.4 GameState (and the DEV API) but the §6.8 persisted-surface list it rewrote in the SAME pass omits it  
+  <sub>docs/prd.md §6.8 persist list lines 4186-4191; vs §6.4 line 4061 (currentArea) and §2.19 line 1621</sub>
+
+- **`m0m1-blocker-triage-7` [applied]** _low_ — 'vitals' vs 'character' field-name drift — M0 builds GameState against a field §6.4 doesn't have  
+  <sub>docs/prd.md §7.2 M0 phase 2 (L4490) + §6.8 (L4187) + §2.3 (L954) vs §6.4 GameState (L4065)</sub>
+
+### [HIGH] Save robustness & data durability on a backend-free static host
+*§6.8, §6.4, §2.19, §3.5, §7.2 M7, §7.3* — The single continuously-overwriting autosave is the only copy of up to 28.5h of no-reset progress, and its robustness story has systematic holes — all on the LOAD side, none on WRITE or durability. (a) Write failures (QuotaExceeded, transaction abort, torn beforeunload commit) have zero handling and no atomicity guarantee — silent data loss. (b) The forward-only migration chain no-ops on a FUTURE-version save (CDN-stale/PWA/re-imported newer backup), risking a silent downgrade that violates the locked 'never wipe Influence/holdings' invariant — this one is a safe-default hardening (trivial-apply). (c) The pre-migration raw-backup lifecycle (atomicity, where it lives vs the single autosave slot, retention, restore trigger, post-chain version assertion) is entirely unspecified. (d) No game-identity tag / import-time registry referential-integrity check. (e) itch serves the game in a cross-origin iframe where IndexedDB is partitioned/ITP-evicted; the M7 smoke is same-session, Chromium-only, never run in-embed or on WebKit/mobile, so it can certify 'save works' while most players lose progress. (f) The base64 export — the documented ONLY backstop — is never placed on a revealed surface and the player is never prompted to back up.
+
+- **`save-write-failure-quota-1` [Q]** _medium_ — Save-WRITE failures (quota-exceeded, transaction abort, torn mid-autosave) have no handling — graceful-degrade only covers READ  
+  <sub>docs/prd.md §6.8 lines 4180-4183 (Primary store: IndexedDB / autosave cadence)</sub>
+
+- **`save-migration-future-version-1` [applied]** _medium_ — Forward-only migration chain has no guard for a FUTURE-version save (downgrade) opened by an older build  
+  <sub>docs/prd.md §6.8 lines 4192-4194 (Versioned with ordered migrations)</sub>
+
+- **`save-migration-atomicity-backup-1` [Q]** _medium_ — Raw pre-migration backup lifecycle is undefined — atomicity of the multi-step chain, where the backup lives, when it's deleted, and how restore is triggered are all unspecified  
+  <sub>docs/prd.md §6.8 lines 4196-4197 (Validate + degrade gracefully)</sub>
+
+- **`save-game-identity-integrity-1` [Q]** _low_ — No game-identity tag and no save↔registry referential-integrity check — a foreign or edited import can pass and corrupt the run  
+  <sub>docs/prd.md §6.4 GameState lines 4057-4082 (envelope) + §6.8 line 4185 (Import validates)</sub>
+
+- **`deploy-host-matrix-1` [Q]** _medium_ — M7 save-survival smoke tests never exercise the itch cross-origin EMBED, WebKit, or mobile-in-frame — and a same-session reload can't detect third-party partition/eviction; the single 28.5h autosave can silently vanish for real players while the gate stays green  
+  <sub>docs/prd.md §7.2 M7 Definition-of-done (lines 4733-4736) + M7 phase 4 (line 4743) + phase 6 (line 4745); §7.3 (lines 4781-4785); §6.8 (lines</sub>
+
+- **`deploy-host-matrix-2` [Q]** _medium_ — The base64 export — the ONLY real backstop against silent storage loss on itch — is never surfaced on a revealed screen and the player is never prompted to back up  
+  <sub>docs/prd.md §2.19(b) (lines 1613-1616); §7.3 (lines 4781-4785); §6.8 (line 4184-4185)</sub>
+
+### [MEDIUM] Accessibility deep gaps (screen-reader / keyboard / contrast)
+*§6.11, §2.1c, §7.2 M7; ui-design §2/§3.2/§5.1/§5.4/§5.5* — Six distinct a11y gaps in a text-first UI whose labels ARE the information architecture. Trivial-apply: (1) Japanese-script runs are never lang-tagged (WCAG 3.1.2) so kanji pillar/rank/season labels read as glyph names or are skipped; (7) no skip-link and no NAMED landmarks, so keyboard/SR users tab the header vitals + the growing ~9-entry nav before the hero log on every screen; (8) LogMessage.channel enum (4 values) omits the 'milestone/reveal/rank-up' tier that ui-design §5.1 defines as a 5th channel — the one line that must be announced assertively (this edit also fixes the tICK->tick typo, subsuming convergence-critic-4); (6) the M7 keyboard/SR operability gate covers only cold-open + one rung, never the combat panel / four-bar Influence / modals / map. Needs-human: (2) --ink-faint #7A6C59 fails AA contrast (4.23/3.66/3.31:1) on all three paper surfaces yet carries locked-rung hints + disabled-reason text (+ --beni text ~4.0:1, --ai-soft meter 2.44:1) — the palette is locked under D-018 so it's a taste call; (10) no confirm/undo on irreversible actions given the single autosave removes the universal 'reload last save' recovery.
+
+- **`a11y-text-ui-deep-1` [applied]** _medium_ — Japanese-script runs are never lang-tagged — kanji/macron terms read as Unicode names or garbage to a screen reader (WCAG 3.1.2)  
+  <sub>docs/prd.md §6.11 (lines 4274-4289); docs/ui-design.md §3.2/§3.3/§5.3 (lines 137, 175-176, 344-350)</sub>
+
+- **`a11y-text-ui-deep-7` [applied]** _low_ — No skip-link and no named landmarks — keyboard/SR users tab through the header vitals + the growing (~9-entry) nav rail to reach the hero log on every screen  
+  <sub>docs/prd.md §6.9 (lines 4218-4221), §6.11 (line 4288); docs/ui-design.md §4.1 (lines 198-203), §5.6 (line 376)</sub>
+
+- **`a11y-text-ui-deep-8` [applied]** _low_ — LogMessage's 4-value `channel` enum omits the milestone/reveal/rank-up tier — the one line class that MUST be assertively announced has no channel to route politeness on  
+  <sub>docs/prd.md §2.1c (line 898); docs/ui-design.md §5.1 (lines 316-322)</sub>
+
+- **`a11y-text-ui-deep-6` [applied]** _medium_ — The keyboard-only / screen-reader acceptance test covers only the cold-open + one rung — the dense late UI (combat panel, four-bar Influence, map, modals, tooltips) is never operability-verified  
+  <sub>docs/prd.md §7.2 M7 (line 4719; also line 4708)</sub>
+
+- **`a11y-text-ui-deep-2` [Q]** _medium_ — `--ink-faint` text role fails WCAG AA contrast on all three paper surfaces — and it carries the locked-hint / disabled-reason / caption text  
+  <sub>docs/ui-design.md §2 palette (lines 46, 65-77), §5.4 (line 361), §5.5 (line 369), §3.3 (line 166)</sub>
+
+- **`a11y-text-ui-deep-10` [Q]** _low_ — No confirm/undo on irreversible in-game actions, and the single continuously-overwriting autosave removes the universal 'reload last save' recovery — a cognitive-accessibility risk  
+  <sub>docs/prd.md §6.8 (lines 4189-4199), §2.19; docs/ui-design.md §5.10 (lines 405-408)</sub>
+
+### [MEDIUM] Legal / licensing / attribution / deploy-page hygiene
+*README, §7.3, §7.2 M7, §7.4.1 R4, §6.9, §2.21; ui-design §3.1/§3.2* — A cluster of pre-publish (M7) legal/hygiene gaps, none blocking M0/M1. (1) No LICENSE file / declared license at all (defaults to all-rights-reserved) on a PWYW public release. (2/3/4) Fonts: licenses never recorded (all are SIL OFL); the recommended self-hosted Option B redistributes the .woff2 with no OFL.txt/copyright bundled (OFL breach) and keeps the Reserved Font Name on a subset (OFL §3 breach); the still-open Option A (Google dynamic subsetting) directly violates the LOCKED zero-network-calls criterion and adds GDPR IP-disclosure exposure. (5) No itch content rating/warnings despite child-spiriting, drowning, grief, debt, violence themes. (6) The half-referenced 'Settings/About' surface is undefined and absent from the reveal ladder — nothing owns in-product credits/attribution. (7) Two named inspiration repos with no recorded license-compatibility / no-copy check. (deploy-host-matrix-4) Audio re-introduces the exact 'asset pipeline' that R4 claims absent to justify its low-risk art rating — no licensing/credits surface, no bundle/lazy-load budget against <5s, no autoplay-gesture gating, zero M7 audio acceptance criteria.
+
+- **`legal-attribution-1` [Q]** _low_ — Repo/game has no LICENSE file and no declared license, yet ships PWYW on itch from a public-style repo (rights ambiguous)  
+  <sub>README.md (whole file, 24 lines); CLAUDE.md; repo root (find -iname 'LICENSE*' returns nothing); docs/prd.md §7.3 line 4795</sub>
+
+- **`legal-attribution-2` [Q]** _medium_ — Display fonts: license never specified and OFL distribution obligations (bundle OFL.txt + retain copyright) are absent from the build/deploy plan  
+  <sub>docs/ui-design.md §3.1 lines 116-119 and §3.2 lines 142-144; docs/prd.md §7.3 line 4776 (build:itch)</sub>
+
+- **`legal-attribution-3` [Q]** _low_ — Subsetting an OFL font but keeping its Reserved Font Name ('Shippori Mincho') likely breaches OFL clause 3  
+  <sub>docs/ui-design.md §3.2 lines 147-149</sub>
+
+- **`legal-attribution-4` [Q]** _low_ — Font delivery 'Option A' (Google dynamic subsetting) contradicts the LOCKED 'zero network calls' deploy criterion and adds a GDPR exposure  
+  <sub>docs/ui-design.md §3.2 line 140 and open-choice #2 lines 593-594; docs/prd.md §7.3 lines 4743 and 4745</sub>
+
+- **`legal-attribution-5` [Q]** _low_ — No content rating / content warnings planned for itch despite child-spiriting, drowning, grief, debt and violence themes  
+  <sub>docs/prd.md §7.3 lines 4794-4795 (itch page setup) and §7.2 M7 step 5 line 4744; §1 premise (e.g. §1.3/§1.7 the weir where he was 'found', §</sub>
+
+- **`legal-attribution-6` [Q]** _low_ — No in-game Credits / Attribution surface is specified; the half-referenced 'Settings/About' surface is undefined and absent from the nav-reveal ladder  
+  <sub>docs/prd.md §6.9 lines 4218-4219 (nav list) vs §7.2 M7 step 2 line 4741</sub>
+
+- **`legal-attribution-7` [Q]** _low_ — Two named inspiration repos in README — no recorded license-compatibility check before reusing any of their structure/code  
+  <sub>README.md lines 19-23</sub>
+
+- **`deploy-host-matrix-4` [Q]** _medium_ — Audio is an unaccounted ASSET PIPELINE: risk-register R4 justifies 'low-risk art' by claiming 'no asset pipeline', yet §2.21/§6.9/M6 ship ambient beds + SFX with no licensing/credits surface, no bundle/load budget, and no autoplay-gesture handling — and M7 has zero audio acceptance criteria  
+  <sub>docs/prd.md §7.4.1 R4 (line 4814); §2.21(a) (lines 1670-1675); §6.9 (line 4226-4228 / M6 phase 7 line 4720); §6.11 (line 4289); M7 (lines 47</sub>
+
+### [MEDIUM] M1 balance gap — satietyMax has no formula
+*§2.3, §2.7, §4 (missing), §7.2 M1 phase 3* — satietyMax appears only as a 'derived cap' in the Vitals struct and §2.7 promises satiety capacity scales with level, but no formula exists anywhere in §4 (whereas its sibling hpMax does: 40 + 8·characterLevel + 2·STR + gearHp). M1 phase 3 builds the satiety bar / soft-stamina throttle, which needs a committed cap to render, compute the throttle fraction, and write the test. Needs a committed value (scaling formula vs flat M1 stub) before M1.
+
+- **`m0m1-blocker-triage-2` [Q]** _medium_ — satietyMax has no formula anywhere — M1's satiety bar has no defined cap  
+  <sub>docs/prd.md §2.3 (L954) + §2.7 (L1079) + §4 (no formula); needed by §7.2 M1 phase 3 (L4521)</sub>
+
+### [MEDIUM] World-sim content has no registry home (M4)
+*§2.14(c), §6.5, §7.2 M4* — §2.14(c) declares typed world-sim shapes (SeasonRules, Festival{effects: vendorRestock/reputationOpportunity, revealPredicate}, WeatherHazard) and M4 must author the festival/seasonal social layer as data, but the §6.5 one-module-per-type registry catalog has no season/festival/weather module — so M4 cannot author it as data-as-code and the §6.6 verifier cannot cross-check its ids. Structural gap (missing registry), distinct from the known weather-numbers and belief-beast-registry gaps. Not M0/M1-blocking.
+
+- **`least-audited-deep-4` [Q]** _medium_ — World-sim content (SeasonRules / Festival / WeatherHazard) has typed shapes in §2.14 but no registry module in the §6.5 catalog  
+  <sub>docs/prd.md §2.14(c) lines 1351-1354; vs §6.5 registry catalog lines 4104-4121; M4 lines 4627 & 4644</sub>
+
+### [MEDIUM] Build-to-learn residuals & audit convergence
+*§7.2 M0 DoD, §7.4.1 risk register, §4.0* — convergence-critic-2: three genuinely un-owned areas remain after 4 rounds but are BUILD-gated, not doc-gated — sustained-runtime perf/memory (every perf gate is a one-time LOAD gate; no per-tick/render budget, no steady-state heap bound, no perf/memory row in §7.4.1 R1-R5), the numeric balance.ts simulation (deferred to code that doesn't exist), and build correctness (no src/ yet). All only yield signal from running M0/M1; record as build-to-learn, not doc-audit debt. convergence-critic-4: the tICK casing typo at line 898 — that round 4 is surfacing single-token typos rather than structural defects is itself the saturation signal (this typo is folded into the a11y-text-ui-deep-8 edit).
+
+- **`convergence-critic-2` [Q]** _medium_ — Genuinely un-owned after 4 rounds, but BUILD-gated not doc-gated: sustained-runtime perf/memory profile, the numeric balance.ts simulation, and build correctness  
+  <sub>docs/prd.md:4480-4485 (M0 DoD), 4805-4815 (§7.4 risk register R1-R5), 2204 (§4.0 numbers deferred)</sub>
+
+- **`convergence-critic-4` [applied]** _low_ — NEW trivial: LogMessage type field `tICK` is a casing typo for `tick` (saturation signal — round 4 is now surfacing char-level errors)  
+  <sub>docs/prd.md:898</sub>
