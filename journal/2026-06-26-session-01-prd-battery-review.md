@@ -90,6 +90,16 @@ dependency/merge clusters, low-agreement flags, and a resolution-log to fill dur
 `brainstorms/raw/2026-06-26-prd-decisions-ranking.json`.
 
 
+## 12 · P0 decisions resolved (human Q&A, AskUserQuestion UI)
+Worked the P0 tier with the human via the decision UI. Resolved Q1 (level=combat-only), Q2 (per-named-stream
+RNG cursors + int ticks), Q3 (market-only persist + derive weather + beliefBeasts module). Two LOCK/SCOPE
+changes the human chose: **Q6 relaxes D13** (the no-labour→combat wall) into a *bounded* cross-feed — every
+skill grants a small capped combat bonus (conditioning = the weak→capable gate); big combat power stays
+combat-only (Q1). **Q30** adds a numeric rung-meter curve gated by BOTH the meter AND story milestones
+(rung-specific activities feed it; pillars separate; double-counting OK). **Q34** puts intra-line dialogue
+branching in v1. Recorded in the master-sheet resolution log; the two ⚠ items need ADRs in V2. Next: P1.
+
+
 ---
 
 ## Next intended steps (current)
