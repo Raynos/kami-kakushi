@@ -1119,7 +1119,7 @@ between fights. **Texture stays peaceful-labour-dominant by volume**; combat is 
   dex-like vs target evasion) → damage (`attackPower ± seeded variance` minus defense, with a floor) →
   separate seeded crit/block rolls → status effects applied per tick. All draws from the **one seeded
   RNG** (reproducible, unit-testable).
-- `Stance { attackMod, speedMod, evasionMod, targetCount }`; `CombatInterventionIntent`
+- `Stance { attackMod, defMod, speedMod, evasionMod, targetCount }`; `CombatInterventionIntent`
   (stance/ability/item/retreat).
 - `CombatDeedsPool { combatXp, deedCounts (kills|clears|defends), perEventCap }` → the Combat Level
   and a gated **Arms** contribution.
@@ -2488,7 +2488,7 @@ holdings, not a per-action counter), and `TIER_REF` is its band-top reference (i
 > fully explicit and intended.
 
 **Back-solving `JUDGE_K` (so each pillar's seasonal stream = exactly 30 % of its gate).** Because the basis is
-monotone-rising over the tier and `f_pillar` is normalized to reach **1.0 at the band-top (final autumn)**, the
+monotone-rising over the tier and `f_pillar` is normalized to reach **1.0 at the band-top (the tier's final season)**, the
 **cumulative high-water seasonal gain** over the tier's ~8 seasons telescopes to `JUDGE_K · max(f) = JUDGE_K · 1`.
 So the back-solve is exact and dimensionless:
 
@@ -2516,8 +2516,8 @@ one most likely to set a fresh mark. **Seasonal results supply the SMALLER ~30 %
 (§4.2.1) supply the punchy ~70 % foreground.**
 
 **WORKED 8-SEASON TIE-OUT (proves each `JUDGE_K` lands the seasonal stream on exactly 30 % of its gate).** The
-basis fraction `rawBasis/TIER_REF` ramps from ~4 % (season 1) to **100 %** (season 8, the final autumn);
-Estate's autumn seasons (4 & 8) carry a ~12 % harvest bump. `f = sqrt(frac)`; score `= JUDGE_K·f`; Δ accrues
+basis fraction `rawBasis/TIER_REF` ramps from ~4 % (season 1) to **100 %** (season 8, the tier's final winter appraisal);
+Estate's autumn seasons (**3 & 7**, marked Au in the table) carry a ~12 % harvest bump. `f = sqrt(frac)`; score `= JUDGE_K·f`; Δ accrues
 only on a new high-water mark; the **accumulated** column is the running cumulative seasonal ip. Each table ends
 at exactly **30 % of the gate** (because `f` ends at 1.0 ⇒ cumulative = `JUDGE_K`). Seasons read
 Sp→Su→**Au**→Wi ×2 (Au = autumn headline).
@@ -2901,7 +2901,7 @@ Estate physical stages gate on **Estate & Wealth (+ Arms for defensive works) + 
 |---|---|---|---|
 | **E0 Foreclosure's Edge** | start | — | — |
 | **E1 Stabilising** (kura patched, first *shinden*, drill yard, night-watch) | Estate ≥ 0.3K, rank ≥ R4 | 400 koku | 30 wood |
-| **E2 Recovering** (granary, 2 workshops, low palisade, men-at-arms rota) | Estate ≥ 0.6K + Arms ≥ 0.4K, rank ≥ R6 | 2K koku | 120 wood, 40 stone |
+| **E2 Recovering** (granary, 2 workshops, low palisade, men-at-arms rota) | Estate ≥ 0.6K + Arms ≥ 0.3K, rank ≥ R6 | 2K koku | 120 wood, 40 stone |
 
 **Affordability tie-out (vs the §4.7.1/§4.8 throughput).** E1's **400 koku** falls due around **R4**, by which
 point lifetime-produced koku ≈ **5.1K** — comfortably affordable while leaving headroom for food/tools/crafting
@@ -2957,7 +2957,7 @@ pillar-accrual units, §4.2.1), and the **rank-meter** (Estate Service / Combat 
 | **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary | survive the wolf (20–35% win); **~4 deeds (mixed)**; weaponSkill→~3; Combat Standing x1 | ~40 koku/min | **~30 min** *(floor)* |
 | **R4 Trusted hand** — Main House, domestic economy, **first *shinden*** (E1), **simple Crafting + loot→craft loop** | **400 koku** (build E1); **first *shinden* deed (30 ip)** + ~4 Estate deeds; Estate ≥ 0.3K; Estate Service x3 | ~60 koku/min | **~35 min** |
 | **R5 Gate-guard** — Quest log + 4 quest types (**Arms deeds BEGIN accruing**) | **first DEFEND deed (20 ip)** + ~6 Arms deeds (Arms→~0.25K); ~5 Estate deeds; Combat Standing x2 | ~80 koku/min | **~40 min** |
-| **R6 Foreman of works** — Workshops/Granary (E2), proto-industry, **FIRST combat-earned Arms standing RECORDED**, **village tier seed** | **2K koku** (build E2); Estate ≥ 0.6K + Arms ≥ 0.4K; ~6 Estate + ~5 Arms deeds; Estate Service x4 | ~110 koku/min | **~45 min** |
+| **R6 Foreman of works** — Workshops/Granary (E2), proto-industry, **FIRST combat-earned Arms standing RECORDED**, **village tier seed** | **2K koku** (build E2); Estate ≥ 0.6K + Arms ≥ 0.3K; ~6 Estate + ~5 Arms deeds; Estate Service x4 | ~110 koku/min | **~45 min** |
 | **R7 Bailiff** *(capstone → T1)* — lord's study, **four-bar Influence panel**, T0→T1 gate | **Arms ≥ 0.5K · Estate ≥ 0.8K** (the §4.1 gate); the autumn-harvest seasonal top-up; Estate Service x5 + PILLAR | ~150 koku/min | **~55 min** |
 
 **Totals & checks (T0):** wall-clock **5 + 30 + 30 + 30 + 35 + 40 + 45 + 55 = 270 min = 4.5 h** ✔ (every grind
@@ -4240,6 +4240,9 @@ window.__qa = {
   save(): string, load(b64: string): void,  // round-trip the save (base64)
   forceState(patch: DeepPartial<GameState>): void,  // jump to a late unlock / rare outcome / terminal screen
   setSeed(seed: number): void,              // pin RNG for reproducible rare rolls
+  pacing(): PacingTelemetry,                // accumulated fun-proxy metrics this run (qa-playtesting.md §3)
+  reveals(): RevealLogEntry[],              // what unlocked + when (tick/season) — the reveal-cadence proxy (qa-playtesting.md §1)
+  advanceSeason(): void, toRung(id: RungId): void, toTier(n: TierId): void,  // time-compression helpers — fast-forward to a checkpoint (qa-playtesting.md §1)
   selectors: { unlocked(): SurfaceId[]; tier(): TierId; production(): ... },  // read-only derived reads
 };
 ```

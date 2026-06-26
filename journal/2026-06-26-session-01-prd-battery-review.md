@@ -1,4 +1,14 @@
-# Session 01 — 2026-06-26 — PRD battery & stress-test (14-lens audit)
+# Session 01 — 2026-06-26 — PRD battery & stress-test (multi-round)
+
+> **Checkpoint (Round 2 done).** 92 agents · 78 raw → 37 confirmed (5H/19M/13L). Applied 6 fixes: Stance.defMod
+> type; __qa pacing()/reveals() contract; §4.2.2 autumn-label (s8=winter, autumn=3&7); **completed the
+> impossible-gate fix** (E2/R6 Arms 0.4K→0.3K — devil's-advocate caught round-1 only fixed the Estate column);
+> fun-factor.md floor-proxy R0 exemption. **Devil's-advocate verdict:** no round-1 false positives; 2 round-1
+> fixes were incomplete (Arms floor + the name-reclamation half of the climax = now Q25). Queued **Q13–Q28**
+> (16 new decisions). Master report banner now tracks running totals (97 findings, 30 fixes, 28 open Qs).
+> Launching **Round 3** (per-section deep-dives, T0 sim, type-level §6 check, naming concordance, impl-readiness,
+> inspiration-game comparison, number-spine re-derivation).
+
 
 > **Checkpoint (round-1 bug-fixes applied).** Human steer: *"keep going, keep doing batteries, don't wait
 > for me."* Mode = **autonomous multi-round battery**. Applied the two named unambiguous defects from round 1

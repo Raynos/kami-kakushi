@@ -1,5 +1,7 @@
 # PRD Battery & Stress-Test — Findings & Decision Report
 
+> **⟳ LIVING REPORT — autonomous multi-round battery.** Rounds complete: **2** · Confirmed findings: **97** (R1 60 + R2 37) · Fixes applied: **30** (R1 24 + R2 6) · **Decision queue: Q1–Q28 (28 open)**. More rounds running back-to-back; this report + queue keep growing. Round-1 detail below; **Round 2 (Q13–Q28)** is appended at the end.
+
 **Date:** 2026-06-26  ·  **Target:** `docs/prd.md` (4,833 lines) + canon/ADR/intent cross-docs  
 **Method:** a 3-phase multi-agent workflow — **14 independent hostile-auditor lenses** attacked the PRD in
 parallel; **every finding was handed to an independent skeptic** that re-read the source to refute or confirm
@@ -634,3 +636,359 @@ The Origin track is called 'an accelerant ... with ZERO mechanical gift' in the 
 **Not in scope of this pass (by design):** no code exists yet (pre-M0), so all save/RNG/level/architecture
 findings are spec-level. §4 numbers are mostly tagged *proposed* and delegated to the M6 balance pass (J8) —
 the audit only flagged numbers that are *internally contradictory*, not ones that are merely untuned.
+
+
+---
+
+# ROUND 2 — deeper / fresh-angle battery (2026-06-26)
+
+**Scale:** 92 agents · 78 raw findings → **37 confirmed** (5 high · 19 medium · 13 low). 13 lenses ran (onboarding came back **clean** — 0 confirmed). **Applied this round:** 6 fixes (4 clerical + the **Arms-floor deadlock completion** + an autumn-season label). **New decisions:** **Q13–Q28** (16). Raw snapshot: [`raw/2026-06-26-prd-battery-review-r2.json`](raw/2026-06-26-prd-battery-review-r2.json).
+
+> **Round-2 headline.** Round 2 went after the **number spine, the satellite docs, and build-time specifics** — and found §4 defers load-bearing numbers (market/coin, soft-stamina floor, win-rates, weapon/stance rosters) with `(numbers → §4)` cross-refs that dangle, the satellite docs (fun-factor/qa-playtesting/ui-design) have **drifted** from the PRD, and combat — a first-class pillar — is the least-specified system. A devil's-advocate pass also caught that **both round-1 fixes were incomplete** (now fixed).
+
+## R2·A — Devil's-advocate verdicts on Round 1
+
+- **No round-1 finding was a false positive** — the adversarial verification held up.
+- **Two round-1 fixes were INCOMPLETE — both addressed this round:**
+  1. *Impossible-gate fix* only lowered the E2/R6 **Estate** floor; the adjacent **Arms ≥0.4K** floor at R6 is *also* unreachable (~0.36K). **Fixed:** Arms 0.4K→**0.3K** at §4.7.5 + §4.8.1.
+  2. *Climax fix* made the **Otsuru truth** spine-guaranteed but left the **name-reclamation** half contradictory (G6 gives 'Tahei' to all; §1.4/D-006 + O5 gate it to the optional Origin track). **Queued as Q25.**
+- **Down-weighted overstatements:** the 'unbounded money loop' is refuted by the trade-≤⅓ hard invariant + saturation damper (→ LOW gap); '0/4 anti-slump devices authored' is partly false (2 of 4 exist).
+
+## R2·B — Cross-cutting risks (round 2)
+
+1. The §4 'number spine' is the single biggest systemic hole: multiple independent lenses found that promised numbers — market/coin exchange rate & prices, the soft-stamina floor, the ~16K of T0 held-koku sinks, per-rung combat win-rates, weapon-line/stance content — are deferred to §4 with '(numbers → §4)' cross-refs that dangle, while §4.0 simultaneously describes itself as 'reconciled/frozen'. Balance is materially under-specified relative to the doc's own confidence.
+
+2. The sole release gate (§6.6 verifier) checks ids/flags/lint but no numeric or structural invariants, so the impossible-gate and accrual-arithmetic bug classes — and the hard-locked 'fictionalise real names' canon — can only be caught by humans reading, which is exactly why bugs and name-leaks recur across both rounds. The 'generate, don't duplicate' convention is also not applied to §4's own hand-typed derived tables.
+
+3. Combat — a first-class v1 pillar — is the least-specified system: weapon lines, stance roster, retreat resolution, difficulty past R3, and the 25%→85% recovery location are all undefined or self-contradictory. This is a coherent block of M2 build-blockers, not scattered nits.
+
+4. The satellite docs (fun-factor.md, qa-playtesting.md, ui-design.md) have drifted from the PRD body in both directions: the QA harness cites API methods the spec doesn't expose, the fun-proxies are mis-calibrated to T0-only numbers that false-fail the locked T2 tier, and ui-design palette/rate rules contradict canon invariants. The very layer meant to let the project self-test for fun/pacing is internally inconsistent with the spec it measures.
+
+5. Accessibility and save-safety are asserted as locked/'cannot be an afterthought' but lack the wiring and QA to guarantee them: no reachable a11y entry point at cold open, an un-scoped 5-channel ARIA live region with no screen-reader acceptance test, bare-CJK readouts for AT, no large-textScale reflow check, and a single-autosave slot with no destructive-action confirm or pre-overwrite backup on a no-reset ~28.5h saga.
+
+6. Narrative integrity fails on the most load-bearing beats: the v1 cliff-hanger node is doubly-defined (would ship a rerun), the titular G6 name-reclamation contradicts locked canon, and the locked Naoyuki arc disappears for an entire tier — the emotional spine has gaps precisely at the climax and ending.
+
+## R2·C — Fixes applied (round 2, in this commit)
+
+| Finding | File | What changed |
+|---|---|---|
+| `build-diversity-6` | `prd.md` | Added missing `defMod` to the `Stance` type (§4.6.1 reads `stance.defMod`; the type lacked it — wouldn't compile). |
+| `cross-doc-satellite-1` | `prd.md` | Added `pacing()`/`reveals()`/time-compression to the `window.__qa` contract (§6.10) the qa-playtesting harness already assumes. |
+| `devils-advocate-4 + L2491` | `prd.md` | Fixed §4.2.2 autumn-season labels: season 8 = final WINTER; autumn bump = seasons 3 & 7 (matches the doc's own Sp→Su→Au→Wi ×2 order). |
+| `devils-advocate-2` | `prd.md` | Completed the impossible-gate fix: E2/R6 Arms floor 0.4K → 0.3K (0.4K unreachable at R6, ~0.36K). |
+| `cross-doc-satellite-4` | `fun-factor.md` | Floor-proxy now exempts the blessed ~5-min R0 cold-open (grind rungs R1–R7 only). |
+
+## R2·D — New decisions Q13–Q28 (16)
+
+Continuing the master queue (Q1–Q12 from round 1). Ordered by severity.
+
+### Q13. [HIGH] What are the v1 market/coin numbers? Specifically: (a) the koku↔coin sell/buy spread (broker conversion), (b) at least one coin-denominated sink (shop goods/gear/repair, or a coin component on E1/E2 building costs which §2.17 already reserves a slot for), and (c) the MarketState numbers (base price index per good, saturation increment per sale, recovery rate/day, how shop standing softens the cras
+
+**Context.** §2.4(c) and §3.8 twice promise these numerics '→ §4' but §4.7 defines none; coin is gathered but unspendable in the numbers, so the T1 market (the headline 'coin row lit' reveal) cannot be implemented or balanced. The unbounded-loop risk is already structurally bounded by the trade ≤⅓ hard invariant and the saturation damper, so this is a completeness gap. §6.5 lists resource 'caps' but ResourceDef/GameState store uncapped counts with no cap value or overflow rule.
+
+**Rec.** Strike '+ caps' (unbounded counts, consistent with exponential koku and the counts-only GameState) now, and add a short §4 market subsection at M4 authoring time with the exchange rate, one coin sink, and MarketState numbers — flagging coin/market as a known v1-balance hole rather than a frozen spec so the cross-refs resolve.
+
+<sub>Findings: `exploit-degenerate-6`, `economy-simulation-1`, `failure-states-4`</sub>
+
+### Q14. [HIGH] Make the T0 accrual ledger tie out. (1) What are the actual T0 koku sinks that take ~21.5K produced down to the asserted 3–5K held? Only 2.4K (E1+E2) is currently priced; food/tools/crafting are koku-free and debt clearance ADDS Influence — so either enumerate the missing sinks (and recompute affordability against HELD, with a soft-lock check: held ≥ E2's 2K at R6 while sustaining upkeep), or decl
+
+**Context.** §4.0/§4.7.1 assert 21K→3–5K held implying ~16–18K sinks that don't exist as numbers, and the per-rung throughput is labelled 'net' then re-deducted as gross. Round-1's impossible-gate fix only audited E2's Estate column; the same gate's Arms floor is unreachable on the §4.8.1 ramp. Numbers are 'proposed' so this is a retune, but the master bookkeeping is self-inconsistent and could wall the player at R6.
+
+**Rec.** Pick the 'yields already net' model (simplest, kills the double-count) and restate the §4.0 held band; separately lower the R6/E2 Arms floor to ~0.35K or pull Arms-deed onset to R4, then re-derive the §4.2.1 Arms itemization against the rung schedule. Confirm R7's Arms-deed count so the 30-deed claim can be re-checked.
+
+<sub>Findings: `economy-simulation-2`, `devils-advocate-2`, `devils-advocate-4`</sub>
+
+### Q24. [HIGH] What does v1 actually ship as the T3 cliff-hanger stub node — the castle-town/Daikan first-contact (which G7, §3.5, §3.7.1 C0, and §5 T3.2 all describe), or the Porter-Guild first-contact (which the §5 T3 header alone claims, but which is already spent at T2-G0/G1)? If the castle-town (recommended), the §5 T3 header must be rewritten so the v1 ending opens a new frontier rather than rerunning the 
+
+**Context.** This is the single most load-bearing emotional moment of the release — the cliff-hanger that decides whether v1 lands as a satisfying 'to be continued.' A builder reading the stale §5 T3 header would ship a stub re-running content the player already did at the start of T2.
+
+**Rec.** Ship the castle-town/Daikan first-contact (overwhelming doc-weight, and it opens a genuinely new frontier). Rewrite the stale §5 T3 header to describe the castle-town stub and delete the porter-guild framing.
+
+<sub>Findings: `narrative-pacing-emotion-1`</sub>
+
+### Q27. [HIGH] Fix three authenticity issues that breach the human-locked 'fictionalise real names' canon (§1.13/A6). (1) The T4 inspector 'Junkenshi Toyama Saemon-no-jō' is the real Edo magistrate Tōyama Kagemoto ('Tōyama no Kin-san'), in his real wise-judge role — was a Kin-san homage intended (cf. the possibly-deliberate 'Kurosawa' house), or swap the surname 'Toyama' for an invented one (keeping the generic 
+
+**Context.** A6 is a hard, human-locked constraint and these sit on apex endgame characters; Konoe saturates the whole T4 tier as the sole recurring capital face. Round-1 already caught Nihonbashi. Intent (homage vs leak) is genuinely ambiguous for Toyama, hence a human call; the office 'junkenshi' and titles 'Saemon-no-jō'/'Settsu-no-suke' are generic and fine — only the surnames leak.
+
+**Rec.** Swap both surnames for invented ones (the leaks are conspicuous and on apex characters; don't rely on an ambiguous homage), keeping the generic offices/titles, and correct the broker line to 'Osaka kuramoto/kakeya → Edo fudasashi'. Pair with the Q28 real-name lint so this stops recurring.
+
+<sub>Findings: `theme-authenticity-sensitivity-1`, `theme-authenticity-sensitivity-2`, `theme-authenticity-sensitivity-6`</sub>
+
+### Q15. [MEDIUM] Combat build content: which 2-3 weapon lines ship in v1, what gives each a distinct mechanical identity, and what is the concrete v1 stance roster? For weapons: name the lines (e.g. yari/spear, uchigatana/sword, kodachi/staff) and decide whether per-line archetype (reach/targetCount/base-speed) lives in extended EquipDef.statMods, the skill line, or per-line L50 milestone perks — currently weapon 
+
+**Context.** §7.1.1/§2.7(e) LOCK '2-3 weapon lines' and M2a phase 1 asserts 'stances are defined', but neither is enumerated and the combat math treats every weapon skill identically. The Stance type vs formulas also disagree (defMod read but undeclared — see trivial fix; attackMod declared but unused). Non-blocking for M2a (crude-pole-only) but required before M2b authors weapon-line/stance content.
+
+**Rec.** Ship 3 lines (spear/sword/staff) with a light archetype profile (base-speed/reach/targetCount expressed in equipment data) plus distinct L50 signature abilities, and defer true multi-target resolution with a note. Author a small stance roster (Aggressive +attack −evasion; Defensive +def/+evasion −rate; Even) and reconcile the type/formula fields exactly. Lock before M2b.
+
+<sub>Findings: `build-diversity-3`, `build-diversity-4`</sub>
+
+### Q16. [MEDIUM] Combat resolution & difficulty rules: (1) What does a successful retreat resolve to mechanically — clock cost, whether HP/injury/loot carry, where the MC returns, and crucially whether retreat ever counts as a loss for the Arms dent (e.g. abandoning a defence-deed)? (2) Do you want an explicit win-rate-vs-rung band at the key combat rungs (R3, V2, V5, G1, G5) headless-tested like the R3 wolf, or l
+
+**Context.** Retreat is a first-class verb (§2.8/§6.3) but §4.6 only specifies win and loss — a builder must invent semantics, and mis-routing it as a loss-with-dent breaks the soft-setback/escape-valve intent. Difficulty is calibrated/CI-tested at exactly one point (R3 wolf); ~8 later rungs/~12 mobs have no win-rate target, so a spike/trough would ship silently. And the headline 25%→85% recovery is arithmetically impossible inside R3 (needs R4 crafting + ~R5 weaponSkill 5).
+
+**Rec.** Make retreat a clean escape valve (carry HP/loot, modest clock cost, never dents Influence — and decide defence-deed abandonment counts as a failed defence). Add a win-rate band at R3/V2/V5/G1/G5 as a second fun-proxy row (combat is a first-class pillar and §4.8's philosophy is regression-tested pacing). Correct §4.6.6 to locate the 85% recovery at R3–R5 rather than raising R3's budget.
+
+<sub>Findings: `failure-states-3`, `difficulty-curve-1`, `difficulty-curve-5`</sub>
+
+### Q17. [MEDIUM] Two missing pacing-engine rules: (1) Define the soft-stamina/satiety→rate-multiplier function in §4 and add it to the §4.9 levers index — what is STAMINA_RATE_FLOOR (the minimum labour/combat-speed multiplier at zero satiety that realizes 'never to zero', proposed ~0.25–0.5×) and the curve shape (linear vs flat-then-knee)? (2) When ≥2 reveal predicates flip true on the same reduce/tick, should rev
+
+**Context.** 'Soft stamina never to zero' has no realizing floor constant anywhere in §4 (absent even from the §4.9 levers index), so a naive satiety/satietyMax implementation hits 0 — the crawl-to-halt the system forbids. And §6.3 reduce lets plural surfaces flip true on one tick with no ordering, which can stack multiple panels/log lines and undermine the signature 'act → ONE thing fades in' cadence.
+
+**Rec.** Set STAMINA_RATE_FLOOR ≈ 0.3× with a flat-then-knee curve (only deep depletion bites) and add it to the §4.9 index. Serialize simultaneous reveals into a one-per-beat queue with a deterministic order (registry/reveal-order index, then trigger-kind priority) to keep both the cadence and replay determinism.
+
+<sub>Findings: `failure-states-1`, `failure-states-6`</sub>
+
+### Q18. [MEDIUM] Accessibility completeness — pin four things the spec leaves open: (1) Where do colourblindMode/mute/pause/textScale live so they are reachable at the bare cold open (a persistent header gear exempt from progressive reveal, a quieter overflow entry, or accept OS/browser backstops + defer)? (2) ARIA live-region politeness/scope — which of the 5 log channels announce and at what level (proposed: nar
+
+**Context.** A11y is locked canon (D16) and asserted 'cannot be an afterthought', but Settings is absent from the nav-reveal ladder, the 5-channel log is one un-scoped live region with no SR test, meaning rides on bare CJK glyphs with emoji aria-hidden, and textScale is offered with no reflow QA and a vw-based font clamp that bypasses it. Each is a UX judgement with a real trade-off (e.g. a header gear conflicts with the deliberately empty cold-open ma; per-label accessible names add authoring overhead vs the kanji-first aesthetic).
+
+**Rec.** Do the low-cost correctness items now (scope the live region to narration+milestone-only at aria-live=polite, add a large-textScale reflow case + a screen-reader acceptance pass, rem-anchor the §3.3 display clamp) and add a single persistent-but-quiet a11y entry affordance present from minute one. Scope kanji accessible-names/lang to the pillar panel + primary vitals first; defer full coverage to a later hardening pass with a note.
+
+<sub>Findings: `accessibility-ux-1`, `accessibility-ux-4`, `accessibility-ux-5`, `accessibility-ux-6`</sub>
+
+### Q19. [MEDIUM] Three UX/data hardening calls: (1) Mobile IA — for the 3-5-slot bottom tab-bar, which screens are 'primary' when ~8 are revealed by T2, and what rule governs the primary/overflow split (and the slide-in reveal beat for entries that land in the drawer)? (2) Save safety — on a no-reset ~28.5h saga with a single autosave slot, require an explicit destructive-action confirm on import and 'fresh start'
+
+**Context.** Mobile is a first-class target but the primary/overflow model is undefined (the most-used screens could be buried). A single slot + no required confirm + no pre-overwrite backup makes any accidental import/fresh-start catastrophic and unrecoverable. §2.21(c) drifts from authoritative §6.4: spelling (colorblindMode vs colourblindMode, reduceMotion vs reducedMotion — a silent key-mismatch bug), a persisted 'paused' that would reload into a frozen game, and over-scope volume sliders vs the locked mute toggle.
+
+**Rec.** Mobile: per-tier primary rule (current-tier core on the bar, older to drawer in reveal order). Save: require the destructive confirm AND auto pre-overwrite snapshot — cheap insurance on an unrecoverable saga. Settings: drop persisted 'paused', collapse AudioSettings to {muted}, and apply the spelling fix to match the locked mute-only scope.
+
+<sub>Findings: `accessibility-ux-3`, `accessibility-ux-7`, `accessibility-ux-8`</sub>
+
+### Q20. [MEDIUM] The fun-factor reward-cadence proxy cites a 'recognised deed every ~4.5–5 min' as the untiered deed-stream sizing target and reward-desert guardrail, but that figure is T0-only (§4.8.1); the locked T2 budget deliberately spaces deeds to ~13 min/deed. Should the deed-cadence proxy be (a) re-expressed as tier-relative (T0 ~5 / T1 ~7–8 / T2 ~13 min) with the broad 'reward/number-jump every ~X min' cl
+
+**Context.** A literal reading false-fails the entire 16h T2 tier — the doc's named mid-game slump zone, where accurate fun measurement matters most. The dense koku/XP/loot stream between deeds plausibly guards against reward-deserts while deed-jumps legitimately space out at higher tiers. Fix lives in fun-factor.md §2.1/§3/§6.
+
+**Rec.** Make the deed cadence tier-relative and let the broad reward/number-jump clause (koku/XP/loot between deeds) carry the reward-desert guard — the locked T2 budget is intentional and shouldn't be re-opened. Amend fun-factor.md §2.1 (L68), §3 (L155), §6 (L257).
+
+<sub>Findings: `cross-doc-satellite-2`</sub>
+
+### Q21. [MEDIUM] Reconcile two UI-bible palette/rate conflicts on the signature four-pillar panel (both fixes in ui-design.md; the PRD is correct). (1) §5.3 demos 'always show the rate next to the total' on the House-Influence roll-up (家威 +12/koku) — re-illustrate with a resource that actually flows (koku/coin), and specify what the event-driven pillar bars show instead (distance-to-next-gate and/or last deed-jump
+
+**Context.** Influence canon forbids any time-trickle/per-action rate, so a '+12/koku' demo on 家威 is a wrong example implying a banned trickle. The §6.3 flash spends the reserved seal colour on ~70% routine deeds and uses --ai (the §2 gain colour) for losses, making gain-vs-loss ambiguous — the exact colour-misuse the bible exists to prevent.
+
+**Rec.** Fix the rate demo to a resource and have pillar bars show distance-to-next-gate. For the flash, align §6.3 to the §2 delta tokens (gain=--ai, loss=--beni) and keep vermilion exclusive to rank-up/seal beats — preserving the 'stamp not paint' seal discipline on the highest-frequency surface.
+
+<sub>Findings: `cross-doc-satellite-3`, `cross-doc-satellite-5`</sub>
+
+### Q22. [MEDIUM] The fun-doc (§5d/§7) promises a four-part T2 anti-slump 'package', but only two parts are authored (front-loaded G0 trade verb; fractal re-run of village loops at region scale). The other two are unbuilt: no 'seasonal-twist that rotates the optimal strategy' (§4.2.2/§4.8.3 judge all four pillars identically every season), and no 'combinatorial cross-pillar combos' — which §4.3 explicitly forbids (
+
+**Context.** T2 is the doc's named biggest fun risk (the 16h slump); it has correctly diagnosed the cure but written half of it only as intent. The combos promise directly contradicts the §4.3 no-leakage invariant, which must be adjudicated either way.
+
+**Rec.** Author the seasonal-reward-rotation (high leverage, low §4.3 conflict) into §4.2.2/§4.8.3, and either drop the cross-pillar-combo promise or carve a narrow explicit §4.3 exception for it — don't leave the §4.3 contradiction unresolved.
+
+<sub>Findings: `content-volume-2`</sub>
+
+### Q25. [MEDIUM] At the G6 climax, should a player who SKIPS the optional Origin track still reclaim the titular name 'Tahei'? The G6 spine event-log line currently hands the name to every player, but the same cell's structured field, the O5 capstone, and LOCKED canon §1.4/D-006 all place name-reclamation on the optional Origin track only.
+
+**Context.** This is the thematic core of a game literally titled Kami-kakushi. The round-1 'climax→spine' fix correctly moved the Otsuru truth to the spine but left the name clause in the spine prose — now self-contradictory. An implementer cannot tell whether to show 'You have a name again: Tahei' to a skip-Origin player.
+
+**Rec.** Option A — strip the name clause from the G6 spine line so the spine carries only the Otsuru truth, keeping 'Tahei sets his true name down' on the optional Origin track. Honours the locked 'identity is a side thread, not the spine's climax' decision without reopening canon.
+
+<sub>Findings: `devils-advocate-1`</sub>
+
+### Q26. [MEDIUM] The locked Naoyuki rivalry→respect→brotherhood arc is heavily seeded in T0 but appears ZERO times in all of T1 (~8h) and gets only one v1 beat (the G5 ally-flip), with brotherhood cut to T4. Add an interstitial Naoyuki beat in v1 (a T1 or early-T2 moment where the rivalry visibly thaws toward grudging respect) so the G5 flip reads as earned, or accept 'seed → ally-flip → brotherhood-deferred' as t
+
+**Context.** For a deferred arc whose payoff is cut to a T3-stub release, the T0–T2 portion must satisfy on its own. As written the character disappears for the entire middle tier, the 'respect' stage is never beated, and the relationship jumps straight to 'ally against Tomita' with no connective tissue — likely reading as unearned.
+
+**Rec.** Add one low-cost interstitial beat in T1 or early T2 — it protects the emotional payoff of a locked character arc for minimal authored content and removes the 'rival who suddenly cooperates' read.
+
+<sub>Findings: `narrative-pacing-emotion-3`</sub>
+
+### Q28. [MEDIUM] Harden the sole release gate (§6.6 verifier) against the bug classes humans keep catching by hand. Add: (1) static balance invariants asserted from the registries — gate monotonicity & ceiling (no rung demands more Influence than its tier can grant) and accrual-arithmetic tie-out (deed inventories sum to the locked ~70% gate share, deed bases ≤ their 0.04·band-top cap, per-rung costs sum to the lo
+
+**Context.** verify is the only gate (no hosted CI). The two most design-breaking round-1 bugs (impossible R6 gate; T0 deed-count mismatch) and the round-1+2 real-name leaks (Nihonbashi, Toyama, Konoe) are all statically machine-checkable yet none are in the verifier. The '70/30 split' is a 'tunable proposed realisation' so a hard-equality assert risks brittleness (needs a tolerance), and the real-name lint needs a curated allow-list and an owner.
+
+**Rec.** Add the gate-monotonicity/ceiling check and the real-name lint now (cheap, catch the exact recurring failure classes), with the accrual tie-out as a tolerance-based check; for §4 derived tables, mark them illustrative-of-formula pointing to generated docs/balance/ as canonical rather than hand-maintaining them. Decide whether current T4 names are grandfathered or fictionalised (see Q27).
+
+<sub>Findings: `test-harness-adversarial-1`, `test-harness-adversarial-2`, `theme-authenticity-sensitivity-3`</sub>
+
+### Q23. [LOW] The v1 quest-type budget is stated two ways: §7.1.1/§2.12/§1.11/D-012 say 'the 4 types' (PEST-CONTROL/HUNT/CLEAR/DEFEND) with others 'parked for T2+', but v1 = T0–T2 and T2 authors DUEL (Hanzaki), BOUNTY (poacher), and INVESTIGATE one-shots. Keep '4' as the repeatable-grind cut-set and clarify that bounty/duel/investigate reappear at T2 only as bespoke one-shots (rewording 'parked for T2+'→'post-v
+
+**Context.** Engineering scoping off '4 types' would under-build T2; but the doc consistently distinguishes the 4 repeatable standing-earners from the parked types reintroduced as bespoke set-pieces. Either way the phrase 'parked for T2+' literally collides with v1 = T0–T2.
+
+**Rec.** Keep '4' as the repeatable-grind cut-set and add the one-line one-shot note + reword 'parked for T2+'→'post-v1' — preserves the lean-scope headline while removing the literal contradiction.
+
+<sub>Findings: `content-volume-3`</sub>
+
+## R2·E — Full round-2 findings catalog (37, by cluster)
+
+### [HIGH] Economy/market §4 number-spine is incomplete (coin is a dead-end currency; market engine has zero numbers; resource caps undefined)
+*§2.4(b)(c)(e), §3.8, §4.7* — Three lenses converge: §2.4(c) and §3.8 twice promise the market numerics (koku↔coin exchange rate, per-good buy/sell prices or spread, saturation/recovery rates) '→ §4', but §4.7 defines none — coin appears only as flavour, has sources (trade surplus, loot) but no priced sink, and the T1 market that the whole trade economy hangs off cannot be implemented or balanced. Separately §6.5 claims resources carry 'caps' but ResourceDef/GameState store uncapped counts with no cap value or overflow rule. The exploit-loop framing is structurally bounded by the trade ≤⅓ hard invariant and the saturation damper, so this is a completeness gap, not a live exploit — but coin/market/caps are all unspecified balance/data.
+
+- **`exploit-degenerate-6` [Q]** _low_ — The market/economy numbers (koku↔coin rate, buy-side prices, saturation) are promised in §4 but never defined — an unbounded craft/arbitrage money loop cannot be ruled out  
+  <sub>docs/prd.md §2.4(c) line 974 ("numbers → §4"); §2.4(b) line 966 (sell-side only); §4.7 lines 2827-2911 (no market table); §4.7.2 lines 2872-2874 (craft value st</sub>  
+  §2.4(c) line 974 defines `MarketState { perGoodPriceIndex, saturationByGood, recoveryRate }` and promises "**(numbers → §4)**" — but §4.7 (the producer/cost section) defines gathering yields, crafting, loot, and building costs and contains NO koku↔coin exchange rate, NO buy-side prices, and NO bid-ask spread. The saturation damper is sell-side ONLY (§2.4b line 966: "depresses **sell** prices when one good is flooded"  
+
+- **`economy-simulation-1` [Q]** _high_ — Coin (mon) is a dead-end currency: canon T1 currency with sources but no priced sink, no koku↔coin exchange rate, and a market engine with zero numbers  
+  <sub>docs/prd.md §2.4(b)(c)(e) L963-984; §4.7.5 L2900-2911; §3.8 L2187-2188; §4 (L2265-3100, grep-confirmed: coin appears only as flavour)</sub>  
+  §2.4(b) L963-967: "convert surplus to coin via trade (brokers/shops); spend koku/coin/materials on crafting, gear, building, and tier-expansion … A market-saturation damper (2.11/2.15) depresses sell prices". §2.4(c) L974: "MarketState { perGoodPriceIndex, saturationByGood, recoveryRate } (numbers → §4)." §2.4(e) L983-984: "Coin (mon) reveals at T1 when the village market/shop row opens." §3.8 L2187-2188 defers "mark  
+
+- **`failure-states-4` [Q]** _low_ — Resources: §6.5 says resources carry "caps" but the ResourceDef shape has none and §6.4 stores uncapped counts — overflow/hard-cap behavior is undefined  
+  <sub>docs/prd.md §6.5 registry table L4090 vs §2.4(c) ResourceDef L970-971 vs §6.4 GameState L4046 / L4051</sub>  
+  §6.5 L4090: "/ `content/resources.ts` / resources (koku, coin, wood, fish, materials…) + display/emoji + **caps** / `ResourceId` /". But §2.4(c) L970-971 ResourceDef enumerates its fields with no cap: "`ResourceDef { id, name, kind (...), revealPredicate, stackable, perishable?, spoilTicks? }`". And §6.4 stores them uncapped: L4046 "resources: Record<ResourceId, number>", L4051 "inventory: Record<ItemId, number>". No  
+
+### [HIGH] Accrual & gating arithmetic does not tie out (T0 held-koku ledger; R6/E2 Arms floor unreachable; §4.2.2 autumn-season prose vs table)
+*§4.0, §4.2.1, §4.2.2, §4.7.1, §4.7.5, §4.8.1* — §4.0/§4.7.1 assert ~21K koku produced → 3–5K held, implying ~16–18K of sinks, but the only koku-denominated sinks in §4 total 2.4K (E1+E2); food/tools/crafting are koku-free and debt clearance is an Influence GAIN — and the per-rung throughput is labelled 'net' then re-deducted as gross (double-count). Round-1's impossible-gate fix only audited E2's Estate side; the same gate's Arms ≥0.4K floor is unreachable on the §4.8.1 schedule (~0.36K reached at R6). And §4.2.2's worked tie-out prose mislabels seasons 4 & 8 as the autumn harvest-bump seasons when the table marks 3 & 7 (season 8 is winter) — an off-by-one in the canonical regression-tested example (trivially fixable). The master bookkeeping is internally inconsistent.
+
+- **`economy-simulation-2` [Q]** _high_ — The T0 held-koku ledger does not close: ~16K of koku sinks are asserted but never priced, so affordability/soft-lock can't be verified (and 'net' throughput is deducted twice)  
+  <sub>docs/prd.md §4.7.1 L2852-2858; §4.0 L2282-2284; §4.7.5 L2906-2909; §4.2.1 L2397</sub>  
+  §4.0 L2284 and §4.7.1 L2858 both assert T0 = "~21K produced (~3–5K held)" / "lifetime-produced koku over T0 ≈ 21K (held ≈ 3–5K after spend)". Going from 21.5K produced to 3-5K held requires ~16-18K koku of sinks. But the ONLY koku-denominated sinks defined anywhere in §4 are E1 (400 koku) + E2 (2K koku) = 2.4K (§4.7.5 L2903-2904). Food has no koku price (§2.3 FoodItem L942 = restoreSatiety only); crafting costs are m  
+
+- **`devils-advocate-2` [Q]** _medium_ — Round-1's impossible-gate fix only audited the ESTATE side of the R6/E2 gate — the ARMS side (Arms ≥ 0.4K at R6) is unreachable on the §4.8.1 schedule, and intent-fidelity-1 is understated as a result  
+  <sub>docs/prd.md §4.7.5 line 2904 / §4.8.1 R5-R6 lines 2959-2960 vs §4.2.1 Arms deed cap line 2381 + Arms itemization lines 2412-2413 / seasonal Δs line 2539</sub>  
+  Round-1 numbers-balance-1 fixed E2's ESTATE floor (1K→0.6K) but never checked E2's ARMS floor on the same gate: line 2904 E2 = 'Estate ≥ 0.6K + Arms ≥ 0.4K, rank ≥ R6'. Tracing the §4.8.1 Arms accrual: Arms deeds 'BEGIN accruing' only at R5 (line 2959: 'first DEFEND deed (20 ip) + ~6 Arms deeds (Arms→~0.25K)'); R6 adds '~5 Arms deeds' (line 2960). Each T0 Arms deed is capped at 20 ip (line 2381), so R6's 5 deeds add   
+
+- **`devils-advocate-4` [applied]** _low_ — §4.2.2 internally disagrees on WHICH seasons are autumn — the worked tie-out marks seasons 3 & 7 as Au, but the prose says the autumn bump lands on '(4 & 8)' and calls season 8 'the final autumn' (it is winter)  
+  <sub>docs/prd.md §4.2.2 line 2519-2520 vs table lines 2531 & 2535 and ordering line 2523</sub>  
+  Line 2523 fixes the order 'Seasons read Sp→Su→Au→Wi ×2', and the worked table marks season 3 ('3 **Au**', line 2531) and season 7 ('7 **Au**', line 2535) as the autumns; season 8 is '8 Wi' (line 2536), i.e. winter. But the prose immediately above contradicts the table twice: line 2519 says the basis reaches '100 % (season 8, the final autumn)' — season 8 is winter, not autumn — and line 2520 says 'Estate's autumn sea  
+
+### [HIGH] v1 narrative integrity at the climax/ending is contradictory or starved
+*§1.4, §1.8, §3.5, §3.6, §3.6.2, §5 T3/T4, D-006* — The single most load-bearing beats are broken. (1) The v1 T3 cliff-hanger stub is doubly-defined: the §5 T3 header alone says it is the Porter-Guild first-contact (already spent at T2-G0/G1), while every other section (G7, §3.5, §3.7.1 C0, §5 T3.2) opens onto the castle-town/Daikan — a builder following the header would ship a confused rerun. (2) The round-1 'climax→spine' fix is incomplete: the G6 spine event-log line hands the titular name 'Tahei' to every player, but the same cell's structured field, O5, and LOCKED §1.4/D-006 gate name-reclamation to the optional Origin track — self-contradictory at the emotional climax of a game titled Kami-kakushi. (3) The locked Naoyuki rivalry→respect→brotherhood arc vanishes for all of T1 (~8h); 'respect' is never beated and v1 jumps straight to a G5 ally-flip — likely reading as unearned.
+
+- **`narrative-pacing-emotion-1` [Q]** _high_ — The v1-ending cliff-hanger is doubly-defined: §5 T3 calls the buildable stub the Porter-Guild first-contact, but that is a T2-G0/G1 beat — every other section makes the stub the castle-town  
+  <sub>docs/prd.md §5 T3 header line 3653-3656 vs §3.6 G0/G1 (lines 2021-2022), G7 diegetic (line 2028), §3.5 (line 1967), §3.7.1 C0 (line 2142), §5 T3.2 beat 1 (line </sub>  
+  §5 T3 (3653): "The single buildable T3 node for v1 is the **Kaidō Porters' & Transport Guild first-contact** (Kanta's favour run + the first *sekisho* turn-back)... The T2 capstone opens onto exactly this one teaser, then ends." But those beats are already spent IN T2: §3.6 G0 (2021) "friend **Kanta** runs the house's first consignment off the books"; §3.6 G1 (2022) "first *sekisho* turn-back → obtain a pass". And th  
+
+- **`narrative-pacing-emotion-3` [Q]** _medium_ — The Naoyuki rival→respect→brotherhood arc is starved in v1: he vanishes for all of T1 (~8h), the 'respect' stage is never beated, and v1 delivers only a single G5 ally-flip before the brotherhood payoff is cut to T4  
+  <sub>docs/prd.md §1.8 (line 497), §5 T0.5 (lines 3212-3213), §3.6.1 G4→G5 (line 2059), §5 T4.5 (line 3805); NO Naoyuki mention anywhere in T1 (§3.4 V0-V7 lines 1906-</sub>  
+  The arc is seeded as three stages — §1.8 (497) 'Arc: rivalry → grudging respect → brotherhood'; §5 T0.5 (3213) 'grudging vouch in T0 that plants the rivalry → respect → brotherhood arc.' A grep for 'Naoyuki' returns hits in T0 (R4 vouch) and T2 (G5) and T3/T4 — but ZERO hits anywhere in T1's 8 hours. The sole v1 development is the abrupt G5 flip: §3.6.1 (2059) 'heir **Naoyuki** now turns from internal rival into **al  
+
+- **`devils-advocate-1` [Q]** _medium_ — Climax fix is INCOMPLETE: the round-1 'climax→spine-guaranteed' fix put the name-reclamation onto the SPINE event-log line, contradicting the locked §1.4/D-006 canon that the name is a side-thread beat (and the same cell's own Origin gating)  
+  <sub>docs/prd.md §3.6 G6 cell line 2027 + §3.6.2 O5 line 2097 vs §1.4 lines 148-149 / D-006 line 771</sub>  
+  The round-1 fix correctly moved the Otsuru/Tama truth to the spine, but its G6 SPINE event-log copy (line 2027) — the rung's own diegetic line shown to EVERY player — reads: "...And down-valley: she is real, and grown, and not you. 'Tama ran. Tama lived.' You have a name again: Tahei. You set it down quietly, and pick the house's work back up." That asserts the name-reclamation for all players. Yet the SAME cell's st  
+
+### [HIGH] Authenticity: real-name leaks & period/terminology slips break the hard-locked 'fictionalise real names' canon
+*§1.7.1, §1.8, §1.13, §3.7, §5 T4* — Two famous real-person/house names appear at the endgame: 'Junkenshi Toyama Saemon-no-jō' is the documented formal name of Tōyama Kagemoto ('Tōyama no Kin-san'), cast in his real wise-judge role and a period slip; and 'Rusui Konoe' uses a premier go-sekke regent court-noble house name on a minor samurai functionary (status anachronism), saturating the entire T4 tier as the sole recurring capital face. Both violate the human-locked A6/§1.13 'no real place/daimyō/house names' rule (round-1 caught Nihonbashi; these are fresh leaks). Plus a low terminology slip: 'Osaka fudasashi' conflates Edo-specific stipend brokers with Osaka's kuramoto/kakeya (§1.7.1 L466 / §3.7 L2175, trivially correctable).
+
+- **`theme-authenticity-sensitivity-1` [Q]** _high_ — Touring Inspector 'Toyama Saemon-no-jō' is a real historical magistrate — a real-name leak beyond round-1's Nihonbashi  
+  <sub>docs/prd.md §1.8 line 551; §5 T4.2 lines 3782-3783; §5 T4.3 line 3795</sub>  
+  §1.8 L551: "**Junkenshi Toyama Saemon-no-jō (the Touring Inspector)** / A senior shogunal inspector." Repeated at L3782-3783 ("**Junkenshi Toyama / Saemon-no-jō** will survey the domain") and L3795 ("**The Touring Inspector (Toyama Saemon-no-jō)**"). 'Tōyama Saemon-no-jō' is the documented formal name of Tōyama Kagemoto (遠山左衛門尉景元, 1793–1855), the famous Edo machi-bugyō universally known in jidaigeki as 'Tōyama no Kin  
+
+- **`theme-authenticity-sensitivity-2` [Q]** _high_ — Recurring T4 face 'Rusui Konoe' uses a real premier court-noble (sekke) house name and creates a status anachronism  
+  <sub>docs/prd.md §1.7.1 line 470; §1.11 lines 640/668; §3.7-area line 2174; §5 T4.1/T4.2 lines 3755/3771/3774/3780/3788; §5 T4.4 line 3802</sub>  
+  §1.7.1 L470: "the house **staffs & runs the domain's establishment** (rusui **Konoe**)"; §5 T4.4 L3802: "**Rusui Konoe Settsu-no-suke** (the MC's sole pen-pal proxy in the capital)". 'Konoe' (近衛) is one of the five sekke regent houses of the court nobility (and the surname of 20th-c. PM Konoe Fumimaro) — among the most recognisable real Japanese house names. It is used here, 8+ times, for a provincial domain's *rusui  
+
+- **`theme-authenticity-sensitivity-6` [Q]** _low_ — 'Osaka fudasashi' is a terminology slip — fudasashi were Edo-specific; Osaka's rice-finance brokers were kuramoto/kakeya  
+  <sub>docs/prd.md §1.7.1 line 466 (and §3.7 line 2175)</sub>  
+  §1.7.1 L466: "village broker → regional warehouse → *Marutaya* debt-restructuring → *goyōkin* → Osaka/Edo *fudasashi*." §3.7 L2175 repeats "The **Osaka / Edo *fudasashi***". *Fudasashi* (札差) were specifically the Edo (Asakusa) stipend-rice brokers for hatamoto/gokenin; Osaka's rice-market intermediaries for daimyō kurayashiki were *kuramoto* (warehouse managers) and *kakeya* (financial agents). 'Osaka fudasashi' conf  
+
+### [MEDIUM] Combat system underspecified for build (weapon lines, stance roster, retreat, difficulty calibration, recovery location)
+*§2.7, §2.8, §4.6, §4.8, §7.2 M2* — Combat is a first-class pillar but the least-specified system. The LOCKED '2-3 weapon lines' are never enumerated or differentiated (combat math treats every weapon skill identically — a pure reskin). Stances exist only as a TYPE with no concrete roster, and the type vs formulas disagree: defense reads stance.defMod (not declared — trivially addable), attackPower ignores the declared stance.attackMod, and targetCount has no multi-target resolution. Retreat is a first-class verb but its resolution (clock/HP/loot/Arms-dent) is undefined. Difficulty is calibrated/CI-tested at exactly one point (R3 wolf); ~8 later rungs and ~12 mobs have no win-rate target. And the headline 25%→85% recovery is mislocated: §4.6.6 says it happens 'over real R3 play' but the 85% endpoint needs weaponSkill 5 + a crafted blade, both gated to R4–R5.
+
+- **`failure-states-3` [Q]** _medium_ — Combat has three player exits (win / loss / retreat) but only win and loss are specified — retreat's resolution is undefined  
+  <sub>docs/prd.md §2.8(a) L1097 / §2.8(b) L1110 / §2.8(c) L1123 and §6.3 Intent L3993, vs §4.6.5 (win) L2796-2802 and §4.6.6 (loss) L2804-2823</sub>  
+  Retreat is a first-class verb: §2.8(a) L1097 "the player intervenes with stance / ability / item / **retreat**"; §6.3 L3993 "{ type: 'combat_action'; action: CombatAction } // ability/item/**retreat**". But §4.6.5 defines only the on-kill (win) path and §4.6.6 is titled "the soft-setback-on-**loss** rule" — there is no §4 rule for what a retreat does (clock cost? HP carried out? loot kept/dropped? does it count as a   
+
+- **`build-diversity-3` [Q]** _medium_ — The 2-3 weapon lines are named LOCKED v1 content but never enumerated or mechanically differentiated; the combat math treats every weapon skill identically  
+  <sub>docs/prd.md 7.1.1 line 4380 + 2.7(e) line 1088 (LOCKED '2-3 weapon lines') vs 4.6.1 lines 2758/2761 (generic weaponSkill terms)</sub>  
+  Line 4380 lists the LOCKED v1 skill set including '2-3 weapon lines' and line 1088 repeats it, but nowhere does the PRD say WHAT the lines are or how they differ. The only weapon-line hooks in the combat math are generic: attackPower's skillBonus = 0.3*weaponSkillLevel (line 2758) and accuracy = 10 + 0.4*AGI + 0.3*weaponSkillLevel (line 2761). There is no per-line speed/reach/damage/targetCount archetype (no fast-low  
+
+- **`build-diversity-4` [Q]** _medium_ — Stances - a core build/intervention axis - have no defined roster, and the Stance type vs the combat formulas disagree on which fields exist  
+  <sub>docs/prd.md 2.8(c) line 1122 (Stance type) vs 4.6.1 lines 2758-2762 (formula field usage); M2a phase 1 line 4529 ('stances are defined')</sub>  
+  Stance is defined only as a TYPE: Stance { attackMod, speedMod, evasionMod, targetCount } (line 1122). No concrete stances (e.g. aggressive/defensive/guard) with values are ever specified anywhere in 4.6 or 4.x, yet M2a phase 1 (line 4529) asserts 'stances are defined.' Worse, the type and the formulas are mutually inconsistent: defense = gearDef + 0.5*STR + stance.defMod (line 2762) reads a defMod field that the Sta  
+
+- **`build-diversity-6` [applied]** _low_ — Stance type omits the defMod field that the defense formula reads (undefined field reference)  
+  <sub>docs/prd.md 2.8(c) line 1122 (Stance type) vs 4.6.1 line 2762 (defense formula)</sub>  
+  Line 2762: defense = gearDef + 0.5*STR + stance.defMod. Line 1122 declares Stance { attackMod, speedMod, evasionMod, targetCount } - no defMod. The defense formula references a field the type does not declare. Grep confirms line 1122 is the only Stance type shape and 'defMod' appears only in the formula at line 2762.  
+
+- **`difficulty-curve-1` [Q]** _medium_ — The combat difficulty curve is calibrated at exactly ONE point (R3 wolf); every later mob/rung win-rate is unspecified and the pacing/fun regression only measures economy + the first fight  
+  <sub>docs/prd.md §4.8.1–§4.8.3 (lines 2952-3026), §4.6.6 (lines 2806-2814), §7.2 M5 line 4692, M2a lines 4520-4522; docs/fun-factor.md line 160</sub>  
+  The ONLY combat-difficulty anchor in the whole spec is the R3 wolf: §4.6.6 'wins only ~20–35% of the time' rising to '~85%+'. fun-factor.md line 160's combat proxy is identical and first-fight-only: 'Combat tension band / First-fight win ~20–35%; climbs to ~85% over the rung (§4.6.6)'. The §4.8.1-3 pacing tables track only 'Gating cost' (koku/deeds/ip) and 'wall-clock' — never a win-rate. The headless regression test  
+
+- **`difficulty-curve-5` [Q]** _medium_ — The 25%→85% recovery is mislocated: §4.6.6 says it happens 'over real R3 play', but 85% needs weaponSkill 5 + a crafted blade, while R3 reaches only weaponSkill 3 and crafting opens at R4  
+  <sub>docs/prd.md §4.6.6 lines 2811-2814 vs §4.8.1 R3 line 2957 & §3.2 R4 line 1802 / §2.10 line 1181</sub>  
+  §4.6.6: 'After ~a season of drills (weaponSkill ~5, attrs ~10, a smith-forged blade), win-rate against that same wolf is ~85%+ ... "~a season of drills" is now ~30–40 min of real R3 play (the per-rank floor) — the climb from ~25 % to ~85 % is felt as earned over real time'. But R3's own gating budget (§4.8.1 line 2957) only reaches 'weaponSkill→~3', not 5; the crafted/smith-forged blade requires the 'simple Crafting   
+
+### [MEDIUM] Pacing-engine rules missing: soft-stamina floor and simultaneous-reveal serialization
+*§2.1, §2.3, §4.7.1, §4.9, §6.3* — Two engine-level pacing contracts have no realizing rule. The 'soft stamina never to zero' guarantee has no floor constant or satiety→rate curve anywhere in §4 (it is even absent from the §4.9 levers index), so a naive implementation can asymptote the labour/combat-speed multiplier toward 0 — the crawl-to-halt the system explicitly forbids. And the signature 'act → ONE thing fades in' reveal cadence is undefined at simultaneity: §6.3 reduce lets plural surfaces flip true on one tick with no queue/ordering, so ≥2 predicates can stack multiple panels/log lines at once.
+
+- **`failure-states-1` [Q]** _medium_ — "Soft stamina never to zero" has no realizing floor constant — the low-satiety rate can asymptote to a halt  
+  <sub>docs/prd.md §2.3(c) L940-941 and §4.7.1 L2837 (and the whole of §4 — no constant exists)</sub>  
+  §2.3(c) L940-941: "a soft-throttle function maps low satiety → a *rate multiplier* on labour/combat speed (never to zero)." The only place the multiplier appears in the balance section is §4.7.1 L2837: "yieldPerAction = baseYield · (1 + 0.04·skillLevel) · toolMult · seasonMult · (soft-stamina rate)". No SATIETY/STAMINA floor value, curve, or minimum multiplier is defined anywhere in §4 (the throughput tie-out at L285  
+
+- **`failure-states-6` [Q]** _low_ — Two surfaces unlocking on the same reduce/tick has no defined serialization — the signature "one reveal at a time" pacing is undefined at simultaneity  
+  <sub>docs/prd.md §2.1(a) L862-865 / §2.1(b) and §6.3 reduce L4009-4011</sub>  
+  §2.1(a) L862-865 frames each reveal as a single beat ("one event that simultaneously: pushes a diegetic log line, reveals the next panel/tab/resource/area...") and §2.1(b) as fractal/one-at-a-time ("things *appear*, each announced in-fiction"). But §6.3 reduce L4009-4011: "re-checks unlock and tier-threshold predicates so **newly-earned surfaces** flip to unlocked and push their diegetic log line" — plural surfaces c  
+
+### [MEDIUM] Accessibility & UX gaps (entry point, mobile IA, ARIA live region, kanji labels, textScale, save-loss, settings drift)
+*§2.21, §3.5, §6.4, §6.8, §6.11; ui-design §3.3/§5/§8; qa-playtesting* — A11y is asserted as 'cannot be an afterthought' but lacks the wiring/QA to guarantee it. Settings has no always-available entry point at the bare cold open (colourblindMode/mute/pause unreachable). Mobile bottom-bar (3-5 slots) vs ~8-9 revealed nav surfaces has no primary/overflow rule. The 5-channel event log as one ARIA live region has unspecified politeness/scope (would flood AT) and the a11y acceptance runs keyboard+touch only, never a screen reader. Kanji-only labels + aria-hidden emoji + K/M/B abbreviations leave AT users with bare CJK and ambiguous numbers. textScale is offered but no QA tests large-scale reflow and the §3.3 display clamp uses vw units that bypass root-font scaling. Single autosave + import/'fresh start' overwrite with no required confirm or pre-overwrite backup on a no-reset ~28.5h saga. And §2.21(c) settings shapes drift from §6.4 (colorblindMode vs colourblindMode, reduceMotion vs reducedMotion — a silent key-mismatch build bug — plus a persisted 'paused' and over-scope volume sliders).
+
+- **`accessibility-ux-1` [Q]** _medium_ — Accessibility/audio controls have no always-available entry point — Settings is absent from the nav-reveal ladder, so textScale/colourblindMode/mute/pause are unreachable at the cold open when an a11y-dependent player needs them first  
+  <sub>docs/prd.md §3.5 nav-reveal (lines 1957-1967) & §6.9 (line 4205); docs/ui-design.md §5.6 (line 376); §6.11 (line 4257)</sub>  
+  §6.11 promises a11y basics are 'wired so they cannot be an afterthought' (line 4257), including a `textScale` setting, `colourblindMode`, a `mute` toggle and a `pause`. But the entry points are never made always-available. The §3.5 nav-reveal table (lines 1959-1967) ladders the nav as: '(none) — single column' → Skills → Combat → Map → House → Village → Region → Ties → Castle-town — **with no Settings row at all**. u  
+
+- **`accessibility-ux-3` [Q]** _low_ — Mobile information architecture at T2 is undefined: ~8-9 revealed nav surfaces vs a 3-5-slot bottom tab-bar, with no rule for the primary/overflow split — and in tension with 'same entries, same order, both layouts'  
+  <sub>docs/ui-design.md §8 (lines 485-487) vs §3.5 nav ladder (lines 1959-1967)</sub>  
+  ui-design §8 (line 485) states 'Desktop nav rail and mobile bottom-bar/drawer grow the same number of entries in the same order', then (lines 486-487) 'Mobile: bottom tab-bar for the 3–5 primary areas (thumb reach); secondary/overflow in a drawer/sheet'. But by T2 the §3.5 nav ladder reveals Skills, Combat, Map, House, Village, Region, Ties, plus the Castle-town stub — roughly 8-9 surfaces. A bottom bar capped at '3–  
+
+- **`accessibility-ux-4` [Q]** _low_ — ARIA live-region scope/politeness is unspecified — the whole 5-channel event log as one live region would flood assistive tech with combat/reward/system noise; and the a11y acceptance only runs keyboard+touch, never a screen-reader pass  
+  <sub>docs/prd.md §6.11 (line 4268) & §7.2 M7 phase 6 (line 4697); docs/ui-design.md §5.1 (lines 312-322)</sub>  
+  §6.11 (line 4268): 'the event/story log is an ARIA live region so reveals/important events are announced to assistive tech'. ui-design §5.1 (line 312) repeats it, but the same log carries FIVE channels (lines 316-322): narration, reward (every `+N`), combat (every fight outcome / `⚔️` line), system (restocks, saves — 'the quietest tier'), and milestone/reveal. Nothing specifies the live-region politeness level (polit  
+
+- **`accessibility-ux-5` [Q]** _low_ — Kanji-only labels with aria-hidden emoji give screen-reader users bare CJK glyphs (pillars, rank names, season tags) with no romaji/English accessible name or lang tag; K/M/B numbers are also unexpanded for AT  
+  <sub>docs/ui-design.md §7 (line 455), §5.3 pillar table (lines 344-350), §5.7 (lines 382-389); docs/prd.md §6.11 (line 4269)</sub>  
+  ui-design §7 (line 455): 'Emoji are decorative (aria-hidden="true"); the kanji/word always carries the meaning.' The four-pillar panel (§5.3, lines 344-350) renders each pillar as a kanji label (武威 / 官威 / 家産 / 家格 / 家威) + an aria-hidden emoji + a colour; rank cards (§5.4) show kanji titles; season tags are 春/夏/秋/冬. With the emoji hidden and meaning carried 'by the kanji', a non-Japanese screen-reader user is left with  
+
+- **`accessibility-ux-6` [Q]** _medium_ — textScale is offered as the core a11y lever but no acceptance/QA criterion tests that the dense multi-screen layout reflows at large text scale, and the display type scale uses `vw` units that bypass the root-font scaling model  
+  <sub>docs/prd.md §6.11 (line 4259); docs/ui-design.md §8 (line 494) & §3.3 (line 161); docs/plans/qa-playtesting.md (line 157)</sub>  
+  §6.11 (line 4259): 'Scalable text (a `textScale` setting on `GameState.settings`, applied via CSS custom property; respects the browser/root font size).' But the 'states that break layouts' checklists never include large textScale: ui-design §8 (line 494) lists 'K/M/B growth (test 999B), long logs, many revealed tabs, and the smallest viewport'; qa-playtesting line 157 lists 'K/M/B number growth ..., long event logs,  
+
+- **`accessibility-ux-7` [Q]** _medium_ — Single autosave + import/'fresh start' overwrite the one slot with no required confirm and no pre-import backup — real save-loss/accidental-overwrite anxiety over a no-reset ~28.5h saga  
+  <sub>docs/prd.md §6.8 (lines 4164, 4169, 4179-4181); docs/ui-design.md §5.10 (line 407)</sub>  
+  §6.8 (line 4164): 'A single object store holds one autosave slot (canon: single autosave).' Import is specified as '(line 4169) The same serialized save is base64-encoded ... and import — the player's portable backup ... Import validates + migrates.' — i.e. import overwrites the single live slot with no stated confirm and no automatic pre-import backup. The graceful-degrade path (lines 4179-4181) offers, on a corrupt  
+
+- **`accessibility-ux-8` [Q]** _low_ — §2.21(c) settings data shapes are out of sync with §6.4 — field-name drift (colorblindMode/reduceMotion vs colourblindMode/reducedMotion), a persisted `paused`, and ambient/sfx volume fields that exceed the locked 'mute toggle'  
+  <sub>docs/prd.md §2.21(c) (lines 1667-1668) vs §6.4 (line 4065) & §6.11 (lines 4262, 4265)</sub>  
+  §2.21(c) line 1667: '`A11ySettings { textScale, colorblindMode, reduceMotion, paused }` (persisted)' and line 1668: '`AudioSettings { ambientVolume, sfxVolume, muted }`'. §6.4 line 4065 stores: '`settings: { textScale: number; colourblindMode: boolean; reducedMotion: boolean; muted: boolean }`'. §6.11 uses `colourblindMode` (line 4262) and `reducedMotion` (line 4265). As literal TS field names these collide: `colorbl  
+
+### [MEDIUM] QA harness & fun-proxy drift from the PRD spec
+*§2.20, §6.10; fun-factor §2.1/§3/§6; qa-playtesting §1/§3* — The measurement layer the project self-tests with is inconsistent with the spec it measures. The canonical __qa/QaApi contract (§6.10/§2.20) omits pacing() and reveals() — the exact telemetry methods the fun-proxy regression suite and reveal-cadence proxy are built on (additive, trivially fixable). fun-factor's 'recognised deed every ~4.5-5 min' cadence is a T0-only figure stated as the global proxy/reward-desert guardrail, but the locked T2 budget deliberately delivers ~13 min/deed — a literal reading false-fails the doc's own named slump zone. And the ≥30-min floor proxy says 'a rung' not 'a grind rung', false-failing the blessed ~5-min R0 cold open (trivially qualifiable, and qa-playtesting already scopes it correctly).
+
+- **`cross-doc-satellite-1` [applied]** _medium_ — The DEV play API (§6.10 / §2.20) omits pacing() and reveals() — the exact methods the QA harness and fun-factor measurement are built on  
+  <sub>docs/prd.md §6.10 (window.__qa block, lines 4232-4244) and §2.20 QaApi (line 1639); vs docs/plans/qa-playtesting.md §1 (lines 50-52) and docs/fun-factor.md §3 (</sub>  
+  qa-playtesting.md §1 lists three Observe methods as the harness's primary interface: `state()`, `pacing()` ("pacing/telemetry object — Proxy metrics accumulated this run (§3)") and `reveals()` ("revealed-entry log — What's been unlocked + when (tick/season) — verifies the reveal cadence"), plus Drive helpers `advanceSeason()/toRung(id)/toTier(n)`. fun-factor.md §3 says the fun targets are measured by "the auto-player  
+
+- **`cross-doc-satellite-2` [Q]** _medium_ — fun-factor's "recognised deed every ~4.5-5 min" cadence is a T0-only figure but is stated as the global reward-cadence proxy — the locked T2 budget delivers ~13 min/deed  
+  <sub>docs/fun-factor.md §3 (line 155), §2.1 (line 68), §6 reward-deserts (line 257); vs docs/prd.md §4.8.3 (line 3021) and §4.8.1 (line 2966)</sub>  
+  fun-factor.md states the reward-cadence proxy threshold as "A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min (§4.8.1)" (§3), repeats it as "the texture is 'a recognised act every ~4.5–5 min' (§4.8.1)" (§2.1) and as the reward-desert guardrail "the ~70% deed stream sized to 'a recognised act every ~4.5–5 min' (§4.8.1)" (§6) — all unqualified by tier. But the cited §4.8.1 is explici  
+
+- **`cross-doc-satellite-4` [applied]** _low_ — fun-factor's ≥30-min-floor proxy says "a rung" not "a grind rung" — it would false-fail the blessed ~5-min R0 cold open, diverging from qa-playtesting which correctly scopes it  
+  <sub>docs/fun-factor.md §3 (line 158); vs docs/plans/qa-playtesting.md §3 (line 124) and docs/prd.md §4.8.1 R0 carve-out (lines 2972-2977)</sub>  
+  fun-factor.md §3 states the proxy as "Optimal bot can't clear a rung < ~28 min (§4.8); casual bot never *stuck*" — unqualified, so it covers R0. But the PRD blesses an R0 exemption: "R0 floor carve-out — blessed by the human (2026-06-25). The ≥30-min per-rank floor ... applies to the 7 grind rungs R1–R7; R0 is the exempt ~5-min cold-open story rung" (§4.8.1), and §4.8.4 enforces the CI floor only on rungs that should  
+
+### [MEDIUM] UI-design palette/rate rules contradict PRD canon and the bible's own §2 tokens
+*ui-design §2/§5.3/§5.7/§6.3; prd §1.6.2/§2.16/§4.9* — The UI bible has two internal/canon palette conflicts on the signature four-pillar panel. §5.3 illustrates 'always show the rate next to the total' on the House-Influence roll-up (家威 +12/koku), implying the very time-trickle the PRD HARD INVARIANT forbids for Influence. And §6.3's pillar number-jump flashes 'toward --shu on gain / --ai on loss', which spends the reserved vermilion seal colour on ~70% routine deeds and uses --ai (the §2 gain colour) for losses — flatly inverting/colliding with the §2 delta tokens (gain=--ai, loss=--beni) and §6's 'routine ticks stay quiet' rule. Both fixes live in ui-design.md; the PRD body is correct.
+
+- **`cross-doc-satellite-3` [Q]** _low_ — ui-design shows a continuous rate readout on the House-Influence roll-up (家威 +12/koku), contradicting the canon no-time-trickle accrual invariant  
+  <sub>docs/ui-design.md §5.3 (line 339); vs docs/prd.md §1.6.2 / §2.16 / §4.9 hard invariant (line 3079-3081)</sub>  
+  ui-design §5.3 illustrates the meter rate-display rule on the Influence roll-up: "Always **show the rate next to the total**: `家威 4.20K (+12/koku)`." But the PRD's HARD INVARIANT (§4.9) is "accrual = jumps + seasonal-judged-on-high-water-mark only (no time-trickle, no flat per-action)"; §2.2(d) "It never grants Influence by itself (no time-trickle)"; §6.6 verifier "no Influence path is a passive per-tick trickle or f  
+
+- **`cross-doc-satellite-5` [Q]** _medium_ — ui-design §6.3 pillar-jump colour-flash (--shu gain / --ai loss) contradicts the §2 delta tokens (--ai gain / --beni loss) and spends the reserved seal colour on routine ticks  
+  <sub>docs/ui-design.md §6.3 (line 439); vs §2 palette tokens (lines 75-76, 93, 96) and the §6 motion rule (line 416)</sub>  
+  §2 fixes the delta semantics as the source of truth: "--delta-pos: var(--ai); /* gains = indigo */", "--delta-neg: var(--beni); /* losses = beni */", and "Deltas use indigo/beni... Gains in --ai, losses in --beni." §2 also reserves vermilion: "The vermilion (--shu) is a stamp, not a coat of paint. It appears on the House seal/crest, the single primary CTA..., and the rank-up beat." But §6.3 (the pillar number-jump, t  
+
+### [MEDIUM] Content scope reconciliation: T2 anti-slump package and quest-type budget
+*§1.11, §2.12, §2.13, §3.6, §4.2.2, §4.3, §4.8.3, §7.1.1, D-012; fun-factor §5d/§7* — Two scope mismatches between intent and authored content. The fun-doc's four-part T2 anti-slump 'package' is only half-authored: the front-loaded G0 verb and the fractal re-run-at-scale ARE present, but the seasonal-twist strategy-rotation and the combinatorial cross-pillar combos are unwritten — and the combos directly conflict with §4.3's 'no cross-pillar leakage' invariant. Separately the quest-type budget is self-contradictory: locked at '~4 v1 quest types' with bounty/duel/investigate 'parked for T2+', yet v1 = T0–T2 and T2 authors all three (Hanzaki DUEL, poacher BOUNTY, INVESTIGATE one-shots) — so v1 ships ~7 archetypes while the cut-set advertises 4.
+
+- **`content-volume-2` [Q]** _medium_ — The fun-doc's prescribed T2 anti-slump package is NOT authored anywhere in the PRD content tables — the named cure for the named danger is unwritten  
+  <sub>docs/fun-factor.md §5d L231-239 & §7 T2 L299-303 vs docs/prd.md §3.6 G0–G7 L2021-2028, §4.8.3 L3003-3026, §5 T2.* L3435-3647 (grep for seasonal-twist/re-run/ref</sub>  
+  fun-factor.md §5d lists four CONCRETE counters "all scheduled into T2": (1) "Front-load T2's biggest new verb … at G0, so the longest tier *opens* with its freshest system"; (2) "Seasonal twists rotate the optimal strategy — change what the seasonal judge rewards each cycle"; (3) "Force re-engagement with early loops at new scale — a T2 reform that lets you re-run estate/village deeds for a new resource"; (4) "The cr  
+
+- **`content-volume-3` [Q]** _low_ — Quest-type budget is self-contradictory: locked at "~4 v1 quest types" yet T2 authors BOUNTY, DUEL, and INVESTIGATE as v1 content  
+  <sub>docs/prd.md §2.12(a) L1251-1252 & §2.12(e) L1276; D-012 L777; §1.11 L623; vs T2.6 Hanzaki L3618, T2.7 poacher L3638, §2.13 one-shots L1295-1298, M7 build L4658</sub>  
+  §2.12(a): "**~4 v1 quest types** … PEST CONTROL, HUNT, CLEAR, DEFEND. Escort/patrol/bounty/duel/expedition/siege/relief/investigate are **parked for T2+**." D-012 codifies the same lean cut-set: "~5 mobs, ~4 quest types, ~6–8 nodes." But v1 = T0–T2, so "parked for T2+" reintroduces them INSIDE v1 — §2.12(e): "Parked quest types reintroduce at T2+." And T2 indeed authors them: Hanzaki is "The recurring DUEL nemesis" (  
+
+### [MEDIUM] Verifier & generate-don't-duplicate coverage gaps (the sole release gate misses balance + real-name invariants)
+*§1.13, §2.20(c), §6.6; decisions.md* — verify is the only release gate (no hosted CI), yet §6.6 checks only ids/flags/lint — no gate-threshold monotonicity/reachability and no accrual-arithmetic tie-out, so the impossible-gate and deed-count bug classes (found only by human reading across both rounds) slip through automatically. The hard-locked 'fictionalise real names' canon is the one invariant NOT machine-checked — the structural reason real names keep leaking (round-1 Nihonbashi, round-2 Toyama/Konoe). And generate-don't-duplicate is not applied to §4 itself: gen-docs writes only docs/balance/+docs/content/, never the PRD's own hand-typed derived tables (JUDGE_K, deed-sums, XP points), where round-1 found JUDGE_K/XP drift.
+
+- **`test-harness-adversarial-1` [Q]** _medium_ — The §6.6 verifier checks ids + canon flags but ZERO numeric/structural balance invariants — so the only release gate cannot catch the round-1 impossible-gate OR the deed-count inconsistency  
+  <sub>docs/prd.md §6.6 lines 4119-4130 (machine-check list) & §2.20(c) line 1640 (VerifyReport)</sub>  
+  §6.6's enumerated machine checks are entirely id/flag/lint shaped: belief-creature-not-in-spawn (4121), trade ≤⅓ (4122), ≤1 ambiguity (4123), 'no Influence path is a passive per-tick trickle or flat per-action increment' (4124), 'no content grants a combat stat/training-rate bonus from labour conditioning' (4125), macron lint (4126-4130). There is NO check that gate thresholds are ordered/reachable, and NO check that  
+
+- **`test-harness-adversarial-2` [Q]** _medium_ — generate-don't-duplicate structurally cannot cover the PRD's own §4 — gen-docs writes only docs/balance/+docs/content/, never docs/prd.md, so every hand-typed derived number in §4 drifts undetected  
+  <sub>docs/prd.md §6.6 lines 4132-4137 (gen-docs targets) vs §4.9 JUDGE_K table (3054-3056), §4.2.1 itemizations (2408-2429), §4.5.1 XP figures (2692-2693)</sub>  
+  §6.6: gen-docs 'writes balance/content tables into docs/ (e.g. docs/balance/curves.md, docs/content/bestiary.md, docs/content/areas.md, docs/content/ranks.md, docs/content/influence.md). Run with --check ... to fail the build if the committed docs drift from the data.' The generated targets are NEW files under docs/balance/ and docs/content/ — gen-docs never touches docs/prd.md. But §4 of the PRD is itself dense with  
+
+- **`theme-authenticity-sensitivity-3` [Q]** _medium_ — The 'fictionalise real names' canon rule is the one canon invariant the §6.6 verifier does NOT machine-check — the structural reason real names keep leaking  
+  <sub>docs/prd.md §6.6 lines 4119-4130 (invariant list) vs §1.13 line 744 + docs/history/decisions.md line 112</sub>  
+  §6.6 asserts the canon invariants 'as machine checks so they cannot silently rot' and enumerates them (L4121-4130): no belief-creature in spawn tables; trade ≤⅓; ≤1 ambiguity token; no passive Influence trickle; no labour→combat cross-feed; and a *macron* lint. The 'fictionalise real names' rule — explicitly canon at §1.13 L744 ('no real place/daimyō/house names') and decisions.md L112 ('fictionalise real names') — i  

@@ -155,7 +155,7 @@ proof of boredom — the human play-judgment at M3 is the real test; the proxies
 | **Reward cadence** | A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min (§4.8.1) | Variable-ratio dopamine needs a *floor frequency* or the grind reads as starvation. | 2.1, 2.5 |
 | **Always-a-visible-next-goal** | At every state: 2–3 affordable goals + 2–3 visible-but-locked + 1 distant silhouette | The pull never empties. An empty or instant "next thing" is a motivation vacuum. | 2.2, 2.4 |
 | **Novelty drip** | A *new-thing* reveal on a steady, never-dumped rhythm; rotate the 3 reveal types | Plateau = churn. The first-time-X moment is our freshest pleasure; it must never run dry or arrive all at once. | 2.4 |
-| **≥30-min floor without a wall** | Optimal bot can't clear a rung < ~28 min (§4.8); casual bot never *stuck* (ceiling isn't a wall) | The floor is the deliberate grind; the wall-check ensures grind ≠ frustration. Both bots are needed. | 2.2 |
+| **≥30-min floor without a wall** | Optimal bot can't clear a **grind** rung (R1–R7; the ~5-min R0 cold-open is exempt, §4.8.1) < ~28 min (§4.8); casual bot never *stuck* (ceiling isn't a wall) | The floor is the deliberate grind; the wall-check ensures grind ≠ frustration. Both bots are needed. | 2.2 |
 | **70/30 feel** | Deeds supply ~70% / seasonal ~30% of each pillar's gate growth (§4.2) | The two reward shapes do different jobs (punchy vs anticipated); drift either way flattens the feel. | 2.1, 2.5, 2.3 |
 | **Combat tension band** | First-fight win ~20–35%; climbs to ~85% over the rung (§4.6.6) | Too easy = no stakes; too hard = a wall. The band is where "earned mastery" lives. | 2.6 |
 
