@@ -159,3 +159,26 @@
 - **Q38 — Inline SVG for the load-bearing period motifs** (pillar/season/rarity marks — identical across OSes); emoji only for cosmetically-harmless roles; original/CC0 audio + a one-line Credits surface.
 
 **P2 COMPLETE ✅ (19 decisions). 34 of 56 resolved (P0+P1+P2). P3 (clear-default/release-only) next.**
+
+### P3 — in progress (2026-06-26)
+- **Q51 — License: permissive code (MIT/Apache-2.0) + reserved game content** (all-rights-reserved or CC-BY-NC). Add a LICENSE file before M7.
+- **⚠ Q50 — "Good audio," mixed sourcing.** Synthesized Web Audio + original/CC0 samples as fit, with a Credits surface (Q54). Audio is the ONE acknowledged small asset set → correct R4's "no asset pipeline" to "text+emoji+CSS **+ a small curated audio set**."
+- **Q26 — Add one low-cost T1/early-T2 Naoyuki beat** (rivalry → grudging respect) so the G5 ally-flip reads as earned.
+- **Q9 — Rename the Arms rank-gate "Combat Standing" → "Combat Rank"** (so "Standing" = the 官威 pillar only); macronize gōshi + one rōnin form project-wide; defer an in-game glossary (v1 terms glossed inline).
+- **Q48 — Functional/hint text → `--ink-soft`** (passes WCAG AA everywhere); `--ink-faint` decorative-only; darken the meter fill for contrast.
+- **Q52 — Self-host the OFL fonts** (kill Google dynamic-subsetting; bundle the OFL license; clear the Reserved-Font-Name rule). Works offline + on itch's relative-base.
+- **Q21 — (ui-design.md) pillar bars show distance-to-next-gate**; gain/loss flash uses the §2 tokens (gain=`--ai`, loss=`--beni`); vermilion reserved for rank-up/seal beats.
+- **Q20 — Deed-cadence proxy → tier-relative** (T0~5 / T1~8 / T2~13 min); the broad "reward/number-jump every ~X min" clause carries the no-dead-time guard. The locked slower T2 budget stays intentional.
+- **⚠ Q23 — NO fixed quest-type budget** (supersedes D-012's "lean 4"). Author whatever quest types fit each stage; **more / interesting quests welcome, esp. later tiers.** "4 grind types" is just the T0 starting set, not a cap.
+- **Q41 — Tag duplicated derived values "illustrative — see generated";** pick Name's §4.0 display band-top + fix the gloss; align gen-docs paths (docs/balance/ + docs/content/); add the §6.6 verifier assertion when balance.ts lands.
+- **Q12 — Rescope Origin "ZERO gift"** → "no retroactive stat/recipe bonus from the backstory" (the ~10–15% speedup + skill-XP buff stay); add **Nihonbashi** to the §6.6 fictional allow-list; T2 social verbs stay deed-framed.
+- **Q39 — Rename non-locked Naozane + Obaa Sato** (off the Naoyuki / Sayo collisions); re-glyph AGI 体→**敏**; add the replacement cast row; locked names unchanged.
+- **Q11 — One find-spot** (co-locate the jizō at the weir/ford, anchoring the lone residual-ambiguity beat); **"presumed dead → back from the dead"** applied consistently; rename the T0 field-lad off "Mago".
+- **Q46 — Save integrity:** add an `app:'kami-kakushi'` magic field (fast-reject a foreign/corrupt save); reject-to-recovery prompt on a stale/broken id (no silent loss).
+- **Q49 — Confirm only the genuinely-unrecoverable rare actions** (no-respec attribute allocation, rare-material consume, narrative-route choices); record the action-class policy; the fast loop stays frictionless.
+- **Q42 — Saturation damper applies progressively per-unit on bulk sales** (each unit walks the price down — legible, un-gameable). Bulk UI (sell-N / craft-N) is an implementation nicety.
+- **Q56 — Defer the perf/memory acceptance criterion** until M0/M1 profiling gives real numbers; note the intent in the §7.4 risk register now.
+- **Q54 — Add a small About/Credits surface** (authorship, the commit-SHA build stamp, font/audio attributions, clean-room attestation).
+- **Q53 — Declare itch content descriptors** (mild thematic: child-disappearance, drowning, debt) as a §7.3 / M7 deploy-checklist step.
+
+**P3 COMPLETE ✅. 🎉 ALL 56 DECISIONS RESOLVED (P0+P1+P2+P3) + PD-1. Next: PRD-improvement plan → PRD V2 reshape.**

@@ -128,14 +128,28 @@ exception); Q37 multi-backend redundant saves (IndexedDB + localStorage, newest-
 durability bands, never auto-unequip; Q45 backwards-compatible (protobuf-style) save schema. Recs accepted:
 Q16 retreat, Q47 satietyMax-grows, Q4 fun-in-milestones, Q35 weather ±10%, Q32 dent restore, Q28 verifier
 checks, Q55 world registry, Q27 swap real names, Q19 mobile+save-safety, Q18 a11y, Q38 inline-SVG+CC0.
-34/56 resolved. Next: P3 (19, bulk-accept with exceptions).
+34/56 resolved. Next: P3 (19).
+
+## 16 · P3 decisions resolved — ALL 56 DONE
+Worked all of P3 with the human via the UI (they chose to go through every one, not bulk-accept). Notable:
+Q23 = NO quest-type budget (supersedes D-012's "lean 4" — add quests freely per stage); Q50 = "good audio",
+mixed synth + CC0/original (the one acknowledged small asset set); Q51 permissive code + reserved content;
+Q26 add a Naoyuki T1 beat. The rest accepted as recommended. **ALL 56 decisions + PD-1 resolved**, recorded in
+the master-sheet resolution log. ~16 changed a locked/scope decision (per D-022). Next: PRD-improvement plan → V2.
+
+## 17 · All feedback consolidated into prd_human_feedback.md (Block L + precedence rule)
+Human: "record all my feedback in one cumulative doc; if anything contradicts, favour the most recent."
+Added **Block L** to docs/prd_human_feedback.md — all 56 V2 Q&A decisions grouped by theme (🔁 marking the ~16
+that changed a prior lock/scope), plus PD-1 / D-022 — so that doc is now the single cumulative human-feedback
+record alongside A–K. Added a **precedence rule** to the header: newest wins; Block L supersedes A–K wherever
+they differ (per D-022). Per-decision detail stays in the master sheet.
 
 
 ---
 
 ## Next intended steps (current)
-1. **Start the informed Q&A at P0** — first decision is **Q1 (the level/attribute model)**; work top-down through the ranked queue, recording each call in the master sheet's resolution log.
-2. Resolution log → a **PRD-improvement plan** → reshape `prd.md` into **PRD V2**.
+1. **Author the PRD-improvement plan** from the resolution log (all 56 decisions + the ~16 lock/scope changes) — what changes where in `prd.md`, and which need ADRs.
+2. **Reshape `prd.md` → PRD V2** per that plan; record the load-bearing lock-changes as ADRs (per D-022).
 3. Then build M0/M1 → playtest → resteer → V3 (the iterative loop).
 
 ## Landmines (current)

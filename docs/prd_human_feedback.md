@@ -16,6 +16,10 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 > **Maintenance rule:** append new human feedback here as it arrives (newest within each section at the
 > bottom), the same way the journal is kept. This is a living audit doc.
+>
+> **Precedence rule (human-signed 2026-06-26):** when entries CONFLICT, the **MOST RECENT applies** (newest
+> wins). **Block L** (the 2026-06-26 V2 decision-resolution Q&A) **supersedes A–K wherever they differ** — per
+> [D-022](history/decisions.md). The 🔁 markers in L flag the specific earlier locks it changed.
 
 ---
 
@@ -378,6 +382,87 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   audit) while every gap/under-spec/bug clustered in the **plan layer** (§4 numbers, §2 specifics, §7 detail —
   exactly what stays liquid and resolves via playtest). ✅ (human-signed 2026-06-26; battery
   `brainstorms/2026-06-26-prd-battery-review.md` §P / PD-1; **ADR D-021** refines — does not delete — D-020).
+
+---
+
+## L. The V2 decision-resolution Q&A — all 56 decisions (human-signed 2026-06-26)
+
+> The cumulative record of the human's calls on the 56 battery-review decisions (Q1–Q56) + the process
+> decision PD-1. These were made tier-by-tier through the decision UI. **🔁 = changed a prior locked/scope
+> decision** (authoritative per the precedence rule + [D-022](history/decisions.md)). Per-decision context,
+> options, and rationale live in the master sheet
+> ([`../brainstorms/2026-06-26-prd-decisions-master.md`](../brainstorms/2026-06-26-prd-decisions-master.md));
+> the load-bearing changes flow into the **PRD V2** reshape (and get ADRs).
+
+**Combat, attributes & progression**
+- **Q1.** Character **level = its own stored track, fed by COMBAT only** (labour/deeds never raise it; HP + attribute points scale off it).
+- **Q6. 🔁** Every skill (labour incl.) grants a **small CAPPED combat bonus** — *relaxes the no-labour→combat lock* (D13 / D-011 / D-016) into a **bounded** cross-feed; conditioning = the weak→capable gate; big combat power stays combat-only. *(→ ADR D-022.)*
+- **Q15. 🔁** **Combat is INCREMENTAL** — T0 starts with **exactly one weapon**; new weapons/styles/combat-skills unlock rung-to-rung & tier-to-tier (**≥1 new weapon per tier**). 3 lines total, each archetype + signature ability. *(New design surface: a combat-progression ladder.)*
+- **Q7. 🔁** **Hybrid "specialization" tier-gate** (reverses "simple thresholds, no floor/overflow", D-016/F3): **good in ALL pillars · great in 2–3 · excellent in 1–2** (3–4 pillars per tier as they reveal). Breadth required, specialization rewarded.
+- **Q30. 🔁** Rung promotion gates on **BOTH a NUMERIC rung-meter** (a real §4 curve, fed by rung-specific story-consistent activities) **AND story milestones**. Influence pillars are a separate track (an influence threshold may be a rung criterion). **Double-counting allowed.**
+- **Q16.** **Retreat = clean escape** (keep HP/loot, modest clock cost, never dents Influence; abandoning a defence-deed = a failed defend). Headless win-rate bands at R3/V2/V5/G1/G5.
+- **Q33. 🔁** **Graded durability bands** (e.g. 75+/50+/1+/0 stepwise), **never auto-unequip** — a weapon stays functional even at 0 (auto-battler; never weaponless).
+
+**Economy & balance**
+- **Q14.** Koku is **comfortable / NET** — finish T0 holding ~18–19K (drop the 3–5K double-count).
+- **Q29.** **Keep no-market-in-T0**; re-itemize the T0 Estate gate proof with LAND/TREASURY deeds only (village shops = the first market).
+- **Q13.** **Defer coin/market numbers to M4** (placeholder, not frozen); resource counts stay unbounded.
+- **Q35.** Weather + festivals are **mechanical, bounded ±10%** (day-keyed RNG sub-stream).
+- **Q32.** Dent self-heal = a small **below-high-water seasonal restore** (never advances the high-water).
+- **Q22. 🔁** T2 anti-slump = **BOTH** the seasonal-reward-rotation **AND cross-pillar combos** (a narrow §4.3 no-leakage exception).
+- **Q8. 🔁** **Author an E3 estate stage for v1** → estate grows **E0→E3** (un-parks E3; expands the locked E0–E2).
+- **Q42.** Saturation damper applies **progressively per-unit** on bulk sales (legible, un-gameable).
+
+**Stamina**
+- **Q31. 🔁** **Combat IS satiety-throttled** ("eat before you fight"); re-spec the locked 20–35% first-fight win-rate **"at adequate satiety."** Floor ~0.5.
+- **Q47.** satietyMax **grows with (combat) level**.
+- **Q17. 🔁** STAMINA_RATE_FLOOR ~0.5 **+ a general NO-UI-DUMPS principle**: stagger ALL reveals one-per-beat, slowly & gently.
+
+**Tech — RNG, save, determinism**
+- **Q2.** RNG = **per-named-stream persisted cursors** `{ seed, cursors }` + **whole-integer dtTicks**.
+- **Q3.** Persist **market-saturation only**; derive weather from a day-keyed RNG sub-stream; belief-beasts get `content/beliefBeasts.ts`.
+- **Q34. 🔁** Feature-rich data model: **intra-line dialogue branching IS in v1**; nest `estateWealth.subEngines` (so the trade-≤⅓ clamp has storage); sketch `CombatEncounterState`.
+- **Q36.** **Ban `Math.pow` → integer-pow + a §6.1 lint** (cross-engine byte-identical replay + portable exported saves).
+- **Q44.** **Atomic autosave write** + a calm "couldn't save — export a backup" notice on any rejection.
+- **Q37. 🔁** **Multi-backend redundant save** (IndexedDB + localStorage [+ sessionStorage]); on load read ALL, **newest timestamp wins**. Survives itch cross-origin-iframe partition/eviction.
+- **Q45. 🔁** **Backwards-compatible (protobuf/thrift-style) save schema** — additive optional fields, never remove/repurpose → migrations rare; raw-backup + rollback as the safety net.
+- **Q46.** Save **app-identity magic field** + reject-to-recovery on a bad/foreign id.
+- **Q28.** §6.6 verifier gains **gate-monotonicity/ceiling + accrual tie-out + a real-name lint**.
+- **Q55.** World-sim content → a `content/world.ts` registry (data-as-code).
+- **Q41.** Tag duplicated derived values "illustrative — see generated"; align gen-docs paths.
+
+**Narrative**
+- **Q5. 🔁** The Otsuru/Tama **TRUTH = spine-guaranteed at G6**; reclaiming the name **"Tahei" = Origin-gated at O5** (earned, *missable*). *(Resolves Q25 + Q40.)*
+- **Q24.** v1 ends on the **castle-town / Daikan first-contact** (rewrite the stale §5 T3 header; drop the porter-guild framing).
+- **Q26.** Add **one T1/early-T2 Naoyuki beat** (rivalry → grudging respect) so the G5 ally-flip is earned.
+- **Q11.** **One find-spot** (jizō at the weir); **"presumed dead → back from the dead"**; rename the T0 field-lad off "Mago".
+- **Q27.** Swap the real surnames (**Toyama, Konoe**) for invented ones.
+- **Q39.** Rename non-locked **Naozane + Obaa Sato** (off the Naoyuki/Sayo collisions); re-glyph **AGI 体→敏**.
+- **Q12.** Rescope Origin **"ZERO gift"** to the backstory reveal only (the ~10–15% speedup + buff stay); allow-list **Nihonbashi**.
+- **Q23. 🔁** **NO quest-type budget** (supersedes D-012's "lean 4") — author whatever quests fit each stage; **more/interesting quests welcome**, esp. later tiers.
+
+**UI / UX / a11y**
+- **Q10. 🔁** Distinct activities (**Crafting, Quests**) = their own **top-level nav tabs** (the main screen stays the active labour/deeds/combat loop), not nested panels.
+- **Q4.** Wire **fun-proxies into M1/M3/M6** + a fun risk row (fun becomes milestone-gated).
+- **Q19.** Mobile = **per-tier primary tabs** + overflow drawer; **save-safety** confirms on destructive actions + a pre-overwrite snapshot.
+- **Q18.** Do the **low-cost a11y correctness items now** (persistent a11y entry, ARIA live-region scope, large-textScale reflow, a screen-reader pass).
+- **Q48.** Functional text → `--ink-soft` (passes WCAG AA); `--ink-faint` decorative-only.
+- **Q21.** Pillar bars show **distance-to-next-gate**; number-flash uses the §2 gain/loss tokens; vermilion reserved for rank-up/seal.
+- **Q20.** Deed-cadence fun-proxy → **tier-relative** (T0~5 / T1~8 / T2~13 min).
+- **Q9.** Rename the Arms rank-gate **"Combat Standing" → "Combat Rank"**; macronize gōshi/rōnin.
+
+**Assets / release**
+- **Q38.** **Inline SVG** for load-bearing period motifs (consistent across OSes); emoji cosmetic-only.
+- **Q50. 🔁** **"Good audio"** — mixed **synthesized Web Audio + original/CC0** samples (the ONE acknowledged small asset set; corrects the "no asset pipeline" claim).
+- **Q52.** **Self-host the OFL fonts** (kill Google dynamic-subsetting — breaks offline + itch relative-base).
+- **Q51.** **License = permissive code** (MIT/Apache-2.0) **+ reserved game content** (all-rights-reserved or CC-BY-NC).
+- **Q54.** Add a small **About/Credits surface** (authorship, commit-SHA build stamp, font/audio attributions).
+- **Q53.** Declare **itch content descriptors** (mild thematic: child-disappearance, drowning, debt).
+- **Q56.** **Defer a perf/memory acceptance criterion** to M0/M1 profiling (note the intent in the risk register).
+
+**Process**
+- **PD-1 → ADR D-021.** "Freeze" = **locked intent only** (§1 vision + signed acceptance criteria), not the plan; the §4 numbers / §7 M2–M7 detail stay provisional. Iterative loop: **resolve decisions → PRD V2 → build M0/M1 → playtest → resteer → PRD V3 → build**.
+- **D-022 (governing).** These V2 decisions **supersede** any conflicting prior ADR/canon/K-item/lock (annotate, don't delete). Most-recent-wins.
 
 ---
 
