@@ -80,12 +80,22 @@ stale snapshot. Studied `ironsight-saga`'s convention (summary-at-top + chronolo
 at the **bottom**; live state in a separate snapshot doc) and **adopted it**: restructured this file, and locked
 the convention in `CLAUDE.md` + `journal/_TEMPLATE.md`.
 
+## 11 · Decision ranking folded into the master sheet
+A 5-perspective panel (architect/designer/build-lead/risk-QA/holistic) scored all 56 decisions by impact;
+synthesis produced a consensus priority order (P0=6 · P1=9 · P2=22 · P3=19), dependency-corrected so every
+prerequisite outranks its dependents. **P0 (decide first):** Q1 level model · Q2 RNG/save spine · Q3 persisted
+surface · Q6 conditioning · Q30 rung-gating · Q34 data-model gaps. Rewrote
+`brainstorms/2026-06-26-prd-decisions-master.md` in priority order with brief-depth tags (●/●●/●●●), the
+dependency/merge clusters, low-agreement flags, and a resolution-log to fill during the Q&A. Raw:
+`brainstorms/raw/2026-06-26-prd-decisions-ranking.json`.
+
+
 ---
 
 ## Next intended steps (current)
-1. Fold the decision ranking into the master sheet — **priority order (P0→P3)** + a **brief-depth tag** per decision.
-2. Begin the **informed Q&A**, tier by tier, one at a time → record each answer + rationale into a **decisions-log**.
-3. Decisions-log → a **PRD-improvement plan** → reshape `prd.md` into **PRD V2** → *then* build M0/M1.
+1. **Start the informed Q&A at P0** — first decision is **Q1 (the level/attribute model)**; work top-down through the ranked queue, recording each call in the master sheet's resolution log.
+2. Resolution log → a **PRD-improvement plan** → reshape `prd.md` into **PRD V2**.
+3. Then build M0/M1 → playtest → resteer → V3 (the iterative loop).
 
 ## Landmines (current)
 - **42 fixes already applied to `prd.md`** this session (re-verified in round 4; 1 self-regression caught & fixed).

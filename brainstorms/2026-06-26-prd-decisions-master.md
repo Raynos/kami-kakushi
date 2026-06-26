@@ -1,111 +1,119 @@
-# Kamikakushi PRD — MASTER Decision Sheet (consolidated, all 4 battery rounds)
+# Kamikakushi PRD — MASTER Decision Sheet (priority-ranked)
 
-**Date:** 2026-06-26 · **Source:** the 4-round battery review ([full report](2026-06-26-prd-battery-review.md); raw snapshots in [`raw/`](raw/)).  
-**Totals:** 162 confirmed findings → **42 fixes applied directly** → **56 decisions for you** (Q1–Q56) + **PD-1** (approved & wired as ADR D-021). Severity: high 16, medium 30, low 10.
+**Date:** 2026-06-26 · **56 decisions (Q1–Q56) + PD-1 (approved → ADR D-021)** · ranked by a 5-lens impact panel (architect / designer / build-lead / risk-QA / holistic), dependency-corrected. Tiers: **P0=6, P1=9, P2=22, P3=19**. Full context per decision = the [battery report](2026-06-26-prd-battery-review.md); raw findings in [`raw/`](raw/).
 
-> **How to read this (per ADR D-021 / PD-1 — the freeze line you approved).** Most of these are **PROVISIONAL PLAN** decisions on the §4 balance numbers / §7 milestone detail — by design they get resolved *as you build and playtest*, NOT before. Only a small **build-gating** subset needs an answer to start M0/M1. The vision layer (§1 + the hard constraints + the signed acceptance criteria + the T0–T2 scope) is **locked and untouched**. So: answer §1 below to start building; let the rest ride the build.
+> **The process (human-signed).** `resolve these decisions → PRD **V2** → build M0/M1 → playtest → resteer → PRD **V3** → build → …`. We settle the design forks into a strong V2 **before** code. Per ADR D-021, the §4 numbers / §7 M2–M7 detail stay *provisional* (they evolve into V2/V3); the §1 vision + signed acceptance criteria + T0–T2 scope are locked.
 
----
-
-## §1 · START HERE — the build-gating decisions (answer these to begin M0/M1)
-
-The Round-4 M0/M1-blocker triage found the build can START once these are settled. Everything else can wait for its milestone.
-
-**✅ Already applied for you (no action needed):** the M0 save-spine clerical blockers — the `currentArea` persist-list omission (a regression caught by re-verification), the M0 surface-list `vitals`→`character{…}` type drift, and the future-version save guard. M0's save spine builds clean against the current §6.4/§6.8.
-
-**Answer before M0 (the save-spine policy — shapes M0 phase 5):**
-- **Q44 [HIGH]** — how a *failed* autosave write is handled (atomic single-put + a write-failure notice; today the robustness language is load-side only). *Rec: atomic put + calm 'export now' banner on failure.*
-- **Q45 [MED]** — the migration / pre-migration-backup lifecycle (atomicity, backup location, post-chain version assertion). *Rec: keep the raw backup until the migrated save verifies, assert version after.*
-- **Q46 [LOW]** — add a game-identity magic field + referential-integrity check on import. *Rec: yes — cheap guard against importing a foreign/corrupt save.*
-- **Q43 [HIGH]** — the itch.io cross-origin-iframe **storage-durability posture** (third-party IndexedDB is partitioned/evicted → the single 28.5h save can vanish). Strictly an **M7** gate, but decide the posture early since it shapes whether you nudge base64 export as a first-class backup. *Rec: write-probe + nudge export + test save-survival in the actual itch embed on Chromium AND WebKit.*
-
-**Answer before M1 (the T0 labour loop):**
-- **Q47 [MED]** — commit a `satietyMax` value (its sibling `hpMax` has a formula; satiety has none) — M1's satiety bar can't render/test without a cap. *Rec: flat M1 stub (e.g. 100), grow-with-level later.*
-
-**Decide early (clear recs; foundational to the T0 loop — settle as you reach the phase):**
-- **Q1 [HIGH]** — define the **character-level model** (characterLevel / Combat Level / mobLevel are referenced but undefined; drive HP, attribute points, combat XP). *Rec: own stored track sourced from combat/deeds XP, not raw labour (protects the no-cross-feed lock); built in M1, read in M2a.*
-- **Q30 [HIGH]** — how a rung promotion is gated (numeric meter vs flag/event). *Rec: flag/event-gated for T0 — nothing new to balance; meters are display only.*
-- **Q31 [MED]** — the soft-stamina/satiety→rate curve + floor, and whether it throttles combat. *Rec: gentle curve, high floor (~0.3×), labour-only throttle.*
-- **Q7 [MED]** — the T0 Estate/Arms gate values (the impossible floors are already lowered to 0.6K/0.3K; remaining: the 2-vs-3-pillar framing + the Arms-deed distribution). *Rec: keep 3 pillars, tighten the §1.6.3 prose.*
-- **Q29 [HIGH]** — the T0 economic proof (trade deeds that can't exist in T0; koku net/gross double-count). *Rec: re-itemize T0 Estate with LAND/TREASURY deeds; declare throughput GROSS + a held-koku ledger. (Provisional — verify in the M1 sim.)*
+> **How we work the queue.** Tier by tier, top down; one decision at a time. Each gets a **dynamic-depth brief** — `●` one-liner (obvious, confirm the rec) · `●●` short (question + just-enough context) · `●●●` full (real fork, options + trade-off). The ranking is a *recommendation* — challenge any placement.
 
 ---
 
-## §2 · The one cross-round CONFLICT to resolve
+## ⚡ Decide-first & how they cluster
 
-- **Q25 (R2) vs Q40 (R3) — the Tahei name-reclamation beat.** Both agree the *Otsuru truth* is spine-guaranteed at G6. They disagree on whether **reclaiming the name 'Tahei'** is *also* guaranteed (Q40: keep on the spine — every player reclaims it) or *earned* via the optional Origin O5 track (Q25: strip it from the spine line). Pick one; both are coherent. *My lean: Q40 (name on the spine) — the kamikakushi/identity beat is the titular payoff and shouldn't be missable; recast O5 to deepen, not gate it.*
+**P0 must-decide-first (6):** **Q1**, **Q2**, **Q3**, **Q6**, **Q30**, **Q34** — foundational data-model / determinism / core-invariant / progression-mechanism. Nothing downstream is safe to author until these land.
 
----
+**Decide-as-a-batch / dependency clusters:**
+- **Combat/attribute spine:** `Q1` → Q6 (conditioning), Q15/Q16 (combat content), Q31 (stamina).
+- **Save/determinism spine:** `Q2` → Q34 → Q44 → Q45/Q46; and Q2 → Q36/Q33.
+- **T0 economy (one sitting):** `Q7` → Q14 → Q29 (the impossible-gate fix must precede the tie-outs).
+- **G6 climax / name (MERGE into one):** `Q5` → Q25 → Q40 (Q25 even *contradicts* Q40 — settle as a batch).
+- **itch storage (MERGE — duplicates):** `Q37` = `Q43`. · **rung gating** `Q30` → Q10. · **stamina** `Q31` → Q17/Q47. · **weather** `Q35` → Q55.
 
-## §3 · Full decision index (Q1–Q56)
-
-Provisional-plan items (most of these) resolve during the build per PD-1. Full detail + context for each is in the [main report](2026-06-26-prd-battery-review.md) under its round section.
-
-| Q | Rnd | Sev | Decision | My recommendation |
-|---|---|---|---|---|
-| **Q1** | R1 | high | Define the level model and the attribute system, and close the labour→combat back door. (a) How does 'character level' a | Make character level its own stored track but source it from combat/deeds-inclusive XP (not raw labour) so labour-funded points can't silently raise S |
-| **Q2** | R1 | high | Pin the RNG sub-stream model and persisted shape. Canon D-013a/H4 lock 'splitmix64 + named sub-streams (combat/loot/seas | Adopt per-named-stream cursors derived as splitmix64(hash(seed, name)) with each cursor monotonic and persisted; keep mid-fight combat RNG in CombatEn |
-| **Q3** | R1 | high | Reconcile the persisted surface and content catalog. For each of {market-saturation state, estate stage/built-structures | Store market saturation (clearly non-derivable) and durability; derive weather from the day-keyed RNG sub-stream; decide estate-stage explicitly (flag |
-| **Q4** | R1 | high | Wire FUN into §7 and assign the unowned locked systems. Should §7 add (a) a risk row 'R6 — the locked ~28.5h grind ships | Add the fun risk row and fun-proxy tasks; resolve fishing to T1-V2 (where the ford actually opens) and correct §2.6; give M4 the Name bar first-light  |
-| **Q5** | R1 | high | Is the Tama/Otsuru truth reveal + Tahei claiming his true name SPINE-GUARANTEED at G6 for every player, or genuinely GAT | Make it spine-guaranteed at G6 (protect the game's emotional heart for all players); recast O5 as the Origin REUNION completing (warmth/buff) that ech |
-| **Q6** | R1 | high | What is 'conditioning', exactly — a single labour-built enablement gate granting ZERO combat stats, or a combat drill sk | Option (a) or (c): keep conditioning as a labour-built ZERO-bonus gate and, if a combat-drill stat path is wanted, give it a distinct name so the type |
-| **Q7** | R1 | high | Fix the T0 balance gates and the tier-pillar-count framing. (a) What should the E2/R6 Estate floor be? It's set at 1K bu | Set E2/R6 Estate floor ≈ 0.6K. Keep three pillars (matches the authored deed budgets) and tighten the §1.6.3/§4.8.3 prose to stop implying only two. F |
-| **Q8** | R1 | medium | Does v1's T2 reach the start of E3 (requires authoring an E3 estate stage + a §4.7.5 cost and removing E3 from the parke | Cap v1 at E2 Recovering (matches the only authored cost table and locked scope); change 'early E3' to 'E2 Recovering' in §3.6/§5 T2; keep E3-E5 as par |
-| **Q9** | R1 | medium | Resolve terminology and romanization. (a) The word 'Standing' labels three mechanics (the 官威 'Standing & Office' pillar, | Rename the Arms rank-gate to 'Combat Rank' (cheapest disambiguation); macronize gōshi project-wide and pick one ronin form; defer glossary to when T3/ |
-| **Q10** | R1 | medium | Settle the progression-ladder reveal/gate spec. (a) Are the R4 Crafting tab and R5 Quest log new top-level nav nodes (ad | Treat Crafting/Quests as nested panels (soften §3.2 wording); reword R6/V3 spines to 'Estate-Service threshold' (match the RANK tags + §3.9); place th |
-| **Q11** | R1 | medium | Settle the narrative canon loose ends. (a) Was the protagonist found at the weir or the village boundary-stone/jizō (bot | Co-locate the boundary-jizō at the weir/ford; pick 'presumed dead → back from the dead' (higher catharsis) and apply consistently; rename the field-la |
-| **Q12** | R1 | low | Low-severity canon/fun calls: (a) Rescope the Origin track's 'ZERO mechanical gift' phrasing (3 occurrences) to mean onl | Rescope the ZERO-gift phrase to the identity reveal; add Nihonbashi to the allow-list (or genericize); accept T2's social verbs as deed-framed but rel |
-| **Q13** | R2 | high | What are the v1 market/coin numbers? Specifically: (a) the koku↔coin sell/buy spread (broker conversion), (b) at least o | Strike '+ caps' (unbounded counts, consistent with exponential koku and the counts-only GameState) now, and add a short §4 market subsection at M4 aut |
-| **Q14** | R2 | high | Make the T0 accrual ledger tie out. (1) What are the actual T0 koku sinks that take ~21.5K produced down to the asserted | Pick the 'yields already net' model (simplest, kills the double-count) and restate the §4.0 held band; separately lower the R6/E2 Arms floor to ~0.35K |
-| **Q15** | R2 | medium | Combat build content: which 2-3 weapon lines ship in v1, what gives each a distinct mechanical identity, and what is the | Ship 3 lines (spear/sword/staff) with a light archetype profile (base-speed/reach/targetCount expressed in equipment data) plus distinct L50 signature |
-| **Q16** | R2 | medium | Combat resolution & difficulty rules: (1) What does a successful retreat resolve to mechanically — clock cost, whether H | Make retreat a clean escape valve (carry HP/loot, modest clock cost, never dents Influence — and decide defence-deed abandonment counts as a failed de |
-| **Q17** | R2 | medium | Two missing pacing-engine rules: (1) Define the soft-stamina/satiety→rate-multiplier function in §4 and add it to the §4 | Set STAMINA_RATE_FLOOR ≈ 0.3× with a flat-then-knee curve (only deep depletion bites) and add it to the §4.9 index. Serialize simultaneous reveals int |
-| **Q18** | R2 | medium | Accessibility completeness — pin four things the spec leaves open: (1) Where do colourblindMode/mute/pause/textScale liv | Do the low-cost correctness items now (scope the live region to narration+milestone-only at aria-live=polite, add a large-textScale reflow case + a sc |
-| **Q19** | R2 | medium | Three UX/data hardening calls: (1) Mobile IA — for the 3-5-slot bottom tab-bar, which screens are 'primary' when ~8 are  | Mobile: per-tier primary rule (current-tier core on the bar, older to drawer in reveal order). Save: require the destructive confirm AND auto pre-over |
-| **Q20** | R2 | medium | The fun-factor reward-cadence proxy cites a 'recognised deed every ~4.5–5 min' as the untiered deed-stream sizing target | Make the deed cadence tier-relative and let the broad reward/number-jump clause (koku/XP/loot between deeds) carry the reward-desert guard — the locke |
-| **Q21** | R2 | medium | Reconcile two UI-bible palette/rate conflicts on the signature four-pillar panel (both fixes in ui-design.md; the PRD is | Fix the rate demo to a resource and have pillar bars show distance-to-next-gate. For the flash, align §6.3 to the §2 delta tokens (gain=--ai, loss=--b |
-| **Q22** | R2 | medium | The fun-doc (§5d/§7) promises a four-part T2 anti-slump 'package', but only two parts are authored (front-loaded G0 trad | Author the seasonal-reward-rotation (high leverage, low §4.3 conflict) into §4.2.2/§4.8.3, and either drop the cross-pillar-combo promise or carve a n |
-| **Q23** | R2 | low | The v1 quest-type budget is stated two ways: §7.1.1/§2.12/§1.11/D-012 say 'the 4 types' (PEST-CONTROL/HUNT/CLEAR/DEFEND) | Keep '4' as the repeatable-grind cut-set and add the one-line one-shot note + reword 'parked for T2+'→'post-v1' — preserves the lean-scope headline wh |
-| **Q24** | R2 | high | What does v1 actually ship as the T3 cliff-hanger stub node — the castle-town/Daikan first-contact (which G7, §3.5, §3.7 | Ship the castle-town/Daikan first-contact (overwhelming doc-weight, and it opens a genuinely new frontier). Rewrite the stale §5 T3 header to describe |
-| **Q25** | R2 | medium | At the G6 climax, should a player who SKIPS the optional Origin track still reclaim the titular name 'Tahei'? The G6 spi | Option A — strip the name clause from the G6 spine line so the spine carries only the Otsuru truth, keeping 'Tahei sets his true name down' on the opt |
-| **Q26** | R2 | medium | The locked Naoyuki rivalry→respect→brotherhood arc is heavily seeded in T0 but appears ZERO times in all of T1 (~8h) and | Add one low-cost interstitial beat in T1 or early T2 — it protects the emotional payoff of a locked character arc for minimal authored content and rem |
-| **Q27** | R2 | high | Fix three authenticity issues that breach the human-locked 'fictionalise real names' canon (§1.13/A6). (1) The T4 inspec | Swap both surnames for invented ones (the leaks are conspicuous and on apex characters; don't rely on an ambiguous homage), keeping the generic office |
-| **Q28** | R2 | medium | Harden the sole release gate (§6.6 verifier) against the bug classes humans keep catching by hand. Add: (1) static balan | Add the gate-monotonicity/ceiling check and the real-name lint now (cheap, catch the exact recurring failure classes), with the accrual tie-out as a t |
-| **Q29** | R3 | high | Fix the two broken halves of the T0 economic proof. (A) The T0 Estate ≥0.8K gate proof spends 72/560 deed-ip on 'sealed  | Re-itemize the T0 Estate 560 with LAND/TREASURY deeds (preserves the locked 'no market in T0'), and declare throughput GROSS + author a minimal held-k |
-| **Q30** | R3 | high | How is an estate-ladder rung promotion gated? Pick ONE: (A) numeric meter — rungs flip when a stored estateService/comba | B (flag/event-gated) for T0 — the §3.2.1 triggers map straight to flags, nothing new to balance, and M1 phase 4's descriptions are already flag-shaped |
-| **Q31** | R3 | medium | Specify the soft-stamina/satiety system and whether it throttles combat. (A) Magnitudes: the rate-multiplier curve as a  | Gentle curve, high floor, labour-only throttle — matches the 'never a wall, paces the day' intent and leaves the LOCKED first-fight win-rate untouched |
-| **Q32** | R3 | medium | How does a dented pillar's value return to its untouched highWater? The seasonal appraisal increments value only when se | Option (a) — a small below-high-water restore branch that does NOT advance highWater preserves the 'self-heals, never a wipe' canon with a tightly-sco |
-| **Q33** | R3 | medium | Define the durability wear/break model so M2b's deterministic reduce can apply it: (1) wear rate per combat hit / per la | Binary (fixed wear, auto-unequip at 0, full-until-break) — simplest, most legible, avoids a stat branch in the deterministic combat fold; document in  |
-| **Q34** | R3 | medium | Resolve the persisted data-model gaps in §6.4 against the §2 type sketches: (a) how to store the estateWealth land/treas | Minimal: store subEngines (with per-strand high-water) on the estateWealth entry, sketch CombatEncounterState explicitly, collapse equipment to ItemId |
-| **Q35** | R3 | medium | For v1, do weather hazards and festivals carry MECHANICAL effects (needing §4 magnitudes AND a persisted home), or are t | If shipping the 'living world' pillar, go mechanical with bounded (±10%) modifiers + day-keyed deterministic weather; otherwise explicitly downgrade t |
-| **Q36** | R3 | medium | Determinism policy for growth-curve powers: (a) mandate integer-power-by-repeated-multiplication for all r^n curves AND  | (a) — every exponent is an integer so repeated multiplication is fully deterministic and nearly free; extending the lint closes the one cross-machine  |
-| **Q37** | R3 | high | What storage-survival posture should v1 commit to for itch.io's cross-origin game iframe (third-party IndexedDB is parti | matrix+nudge: make base64 export a periodically-nudged first-class backup (low cost, high payoff for a single-slot 28.5h game) AND add the WebKit/Safa |
-| **Q38** | R3 | medium | Resolve two un-audited presentation/asset risks for v1. (A) Emoji are load-bearing aesthetic carriers but render as diff | Replace the load-bearing period motifs (pillar/season/rarity marks) with inline SVG and reserve Unicode emoji for cosmetically-harmless roles; use ori |
-| **Q39** | R3 | low | Authorial naming/cast hygiene (all low, several touch LOCKED canon). (a) Rename the non-locked T3 clerk Naozane off 'Nao | Minimal: rename the two non-locked names (Naozane, Obaa Sato), re-glyph AGI→敏, add a Konoe row, and reword Kanbei to a static flavour card (drop 'play |
-| **Q40** | R3 | medium | Resolve the diegetic-register and climax-duplication prose issues (§3). The load-bearing one: the guaranteed G6 spine li | naming-on-spine: keep the naming on the guaranteed G6 spine (every player should reclaim the name) and rewrite O5 to genuinely deepen rather than rest |
-| **Q41** | R3 | low | Harden the single-source-of-truth doc surfaces (all low, no live drift today): (a) Name's per-deed-cap band-top (10K/80K | Lightweight now (tag derived values, choose Name's §4.0 display band-top + fix the gate gloss, update CLAUDE.md to docs/balance/ + docs/content/), add |
-| **Q42** | R3 | low | Are these two genre-convention surfaces in scope for lean v1? (a) Bulk affordances — sell-N/sell-all/sell-to-floor on th | Decide the damper bulk-application rule now (progressive per-unit walk-down, so the damper stays legible) as it's a balance invariant; treat bulk UI a |
-| **Q43** | R4 | high | What storage-durability posture does v1 commit to for itch.io's cross-origin iframe embed, and should it become M7 verif | (b) — it is the only path that actually catches silent autosave loss for most players and fixes the unsurfaced-backstop gap, at the cost of a WebKit/e |
-| **Q44** | R4 | high | How should a FAILED autosave WRITE be handled? §6.8/§2.19 robustness language is entirely LOAD-side; a rejected IndexedD | (A) — atomicity guarantee is non-negotiable on a single-slot autosave; the calm notice matches the existing 'never a scary wall' ethos without the int |
-| **Q45** | R4 | medium | Define the migration / pre-migration-backup lifecycle for §6.8. The spec says only 'a backup of the raw bytes is kept' — | In-memory single atomic commit; raw bytes under a separate never-autosaved key; auto-rollback with the calm recovery UI; add the post-chain version as |
-| **Q46** | R4 | low | Should the save import/load path add (1) a constant game-identity/magic field (e.g. app:"kami-kakushi") that import must | Add the magic field (cheap fast-reject); for stale ids prefer (a) reject-to-recovery — silent item/quest loss is worse than a recovery prompt for a no |
-| **Q47** | R4 | medium | satietyMax has no formula while its sibling hpMax does (40 + 8·characterLevel + 2·STR + gearHp), yet §2.7 promises satie | (B) a flat stub for M1 to unblock the build, with a noted intent to promote to the (A) scaling formula by M6 — consistent with §4's provisional-number |
-| **Q48** | R4 | medium | --ink-faint #7A6C59 fails WCAG AA (4.5:1) on all three paper surfaces (4.23/3.66/3.31:1) yet carries load-bearing afford | (b) — move functional hint/reason text to --ink-soft (passes on every surface) and keep --ink-faint purely decorative; separately switch the meter fil |
-| **Q49** | R4 | low | Should irreversible/destructive in-game actions (material-consuming craft, sell, committed attribute-point allocation —  | (a) — guard only the genuinely unrecoverable, rare actions (allocation, narrative-route, rare-material consume) and record the action-class policy in  |
-| **Q50** | R4 | medium | Audio (§2.21(a)/§6.9/M6) is the only v1 element outside the 'text + emoji + CSS' register, yet R4 rates art-risk low on  | (C) synthesized Web Audio if the feel allows (kills the licensing/bundle/credits exposure outright); else (B). Either way correct R4 to acknowledge au |
-| **Q51** | R4 | low | Before any public release / itch.io upload (M7), what license(s) does the project adopt? There is no LICENSE file and no | Decide before M7; a split of permissive code (MIT/Apache-2.0) + proprietary-or-CC-BY content is the common fit for a 'built agentically, inspired by t |
-| **Q52** | R4 | medium | Lock the font delivery + licensing approach. The DRAFT stack is all SIL OFL Google Fonts; (a) Option A (Google dynamic s | Lock Option B (kill Option A as network/GDPR-incompatible), rename the subset name table to clear the RFN rule, and add the OFL-bundling deploy step + |
-| **Q53** | R4 | low | What content rating and content-warning descriptors should the itch page declare, given themes of child-disappearance (k | (B) — near-zero cost, improves expectation-setting; add as a deploy-checklist step in §7.3/M7. |
-| **Q54** | R4 | low | Should the game define an in-product Credits/About surface (carrying authorship, the planned commit-SHA stamp, and font/ | (a) — define the About/Credits subsection (small scope, pre-satisfies attribution + gives the build stamp a home) and record the clean-room attestatio |
-| **Q55** | R4 | medium | Where should the §2.14(c) world-sim content (SeasonRules, Festival, WeatherHazard) be authored, and how should §6.5 refl | (c) — Festival is the only true keyed-entity gap; add a content/festivals.ts row to §6.5 and reference it in M4 phase-1's registry list, leaving seaso |
-| **Q56** | R4 | medium | Do you want a minimal sustained-runtime perf/memory acceptance criterion (per-tick + render ms budget, bounded steady-st | (B) for now, with a noted intent to add the R7 row once the first M0/M1 profiling run gives real numbers — avoids inventing a budget before there is c |
+**⚠ Low panel-agreement (rankers diverged sharply → most genuinely *your* taste call):** Q5, Q24, Q25, Q22, Q11, Q26, Q20, Q21.
 
 ---
 
-## §4 · What was already fixed (no decision needed)
+## The ranked queue
 
-**42 fixes applied across the 4 rounds** (clerical + unambiguous defects), each verified byte-exact / re-derived before applying, and **re-verified in Round 4** (1 regression found & fixed). Highlights: the two **impossible T0 gate** deadlocks (Estate 1K→0.6K, Arms 0.4K→0.3K); the **double-gated T2 climax** (Otsuru truth → spine-guaranteed); broken canon/ADR links; stale derived numbers (JUDGE_K, XP curve) synced to their authoritative tables; Kuzuhara no-personal-tie + 'never rescued' canon propagated; GameState/save surface gaps (currentArea, dent, EquipState, the §6.8 list); splitmix64 pinned; the §6.11 a11y bullet + log-channel set; the itch zip layout; +more. Full list: report §B / R2·C / R3·B / R4·D.
+*(`Rec` = my recommendation; `→` = depends on / decide after.)*
 
-## §5 · Where the remaining signal comes from
 
-The doc-level audit is **saturated** (Round 4 yielded only typos + clerical omissions). The genuinely un-resolvable-on-paper items — sustained-runtime perf/memory at a 28.5h save, the real numeric balance once `balance.ts` exists, itch-host storage survival, build correctness — are **build-gated**: they only yield signal from **building M0/M1 and playtesting**. That is the next action, exactly as PD-1 intended.
+### TIER P0 — foundational · decide FIRST (everything builds on these)
+
+| # | | Q | Decision | Rec | Notes |
+|--:|:--:|:--|:--|:--|:--|
+| 1 | ●●● | **Q1** | Define the level model and the attribute system, and close the labour→combat back door. (a) How does | Make character level its own stored track but source it from combat/deeds-inclusive XP (not raw |  |
+| 2 | ●●● | **Q2** | Pin the RNG sub-stream model and persisted shape. Canon D-013a/H4 lock 'splitmix64 + named sub-strea | Adopt per-named-stream cursors derived as splitmix64(hash(seed, name)) with each cursor monoton |  |
+| 3 | ●●● | **Q3** | Reconcile the persisted surface and content catalog. For each of {market-saturation state, estate st | Store market saturation (clearly non-derivable) and durability; derive weather from the day-key | → Q2 |
+| 4 | ●●● | **Q6** | What is 'conditioning', exactly — a single labour-built enablement gate granting ZERO combat stats,  | Option (a) or (c): keep conditioning as a labour-built ZERO-bonus gate and, if a combat-drill s | → Q1 |
+| 5 | ●●● | **Q30** | How is an estate-ladder rung promotion gated? Pick ONE: (A) numeric meter — rungs flip when a stored | B (flag/event-gated) for T0 — the §3.2.1 triggers map straight to flags, nothing new to balance |  |
+| 6 | ●●● | **Q34** | Resolve the persisted data-model gaps in §6.4 against the §2 type sketches: (a) how to store the est | Minimal: store subEngines (with per-strand high-water) on the estateWealth entry, sketch Combat | → Q2,Q3 |
+
+### TIER P1 — high-impact · the economy spine, the climax, the save/determinism shape
+
+| # | | Q | Decision | Rec | Notes |
+|--:|:--:|:--|:--|:--|:--|
+| 7 | ●●● | **Q7** | Fix the T0 balance gates and the tier-pillar-count framing. (a) What should the E2/R6 Estate floor b | Set E2/R6 Estate floor ≈ 0.6K. Keep three pillars (matches the authored deed budgets) and tight |  |
+| 8 | ●●● | **Q14** | Make the T0 accrual ledger tie out. (1) What are the actual T0 koku sinks that take ~21.5K produced  | Pick the 'yields already net' model (simplest, kills the double-count) and restate the §4.0 hel | → Q7 |
+| 9 | ●●● | **Q5** | Is the Tama/Otsuru truth reveal + Tahei claiming his true name SPINE-GUARANTEED at G6 for every play | Make it spine-guaranteed at G6 (protect the game's emotional heart for all players); recast O5  | ⚠ your call |
+| 10 | ●●● | **Q29** | Fix the two broken halves of the T0 economic proof. (A) The T0 Estate ≥0.8K gate proof spends 72/560 | Re-itemize the T0 Estate 560 with LAND/TREASURY deeds (preserves the locked 'no market in T0'), | → Q7 |
+| 11 | ●● | **Q36** | Determinism policy for growth-curve powers: (a) mandate integer-power-by-repeated-multiplication for | (a) — every exponent is an integer so repeated multiplication is fully deterministic and nearly | → Q2 |
+| 12 | ●● | **Q44** | How should a FAILED autosave WRITE be handled? §6.8/§2.19 robustness language is entirely LOAD-side; | (A) — atomicity guarantee is non-negotiable on a single-slot autosave; the calm notice matches  | → Q3,Q34 |
+| 13 | ●● | **Q13** | What are the v1 market/coin numbers? Specifically: (a) the koku↔coin sell/buy spread (broker convers | Strike '+ caps' (unbounded counts, consistent with exponential koku and the counts-only GameSta | → Q3 |
+| 14 | ●●● | **Q24** | What does v1 actually ship as the T3 cliff-hanger stub node — the castle-town/Daikan first-contact ( | Ship the castle-town/Daikan first-contact (overwhelming doc-weight, and it opens a genuinely ne | ⚠ your call |
+| 15 | ●● | **Q31** | Specify the soft-stamina/satiety system and whether it throttles combat. (A) Magnitudes: the rate-mu | Gentle curve, high floor, labour-only throttle — matches the 'never a wall, paces the day' inte | → Q1 |
+
+### TIER P2 — real but contained · system specs, scope picks, save/UX hardening
+
+| # | | Q | Decision | Rec | Notes |
+|--:|:--:|:--|:--|:--|:--|
+| 16 | ●● | **Q28** | Harden the sole release gate (§6.6 verifier) against the bug classes humans keep catching by hand. A | Add the gate-monotonicity/ceiling check and the real-name lint now (cheap, catch the exact recu | → Q7,Q14,Q27 |
+| 17 | ●● | **Q4** | Wire FUN into §7 and assign the unowned locked systems. Should §7 add (a) a risk row 'R6 — the locke | Add the fun risk row and fun-proxy tasks; resolve fishing to T1-V2 (where the ford actually ope |  |
+| 18 | ●● | **Q10** | Settle the progression-ladder reveal/gate spec. (a) Are the R4 Crafting tab and R5 Quest log new top | Treat Crafting/Quests as nested panels (soften §3.2 wording); reword R6/V3 spines to 'Estate-Se | → Q30 |
+| 19 | ●● | **Q15** | Combat build content: which 2-3 weapon lines ship in v1, what gives each a distinct mechanical ident | Ship 3 lines (spear/sword/staff) with a light archetype profile (base-speed/reach/targetCount e | → Q1 |
+| 20 | ●● | **Q25** | At the G6 climax, should a player who SKIPS the optional Origin track still reclaim the titular name | Option A — strip the name clause from the G6 spine line so the spine carries only the Otsuru tr | → Q5 · ⚠ your call |
+| 21 | ●● | **Q37** | What storage-survival posture should v1 commit to for itch.io's cross-origin game iframe (third-part | matrix+nudge: make base64 export a periodically-nudged first-class backup (low cost, high payof |  |
+| 22 | ●● | **Q16** | Combat resolution & difficulty rules: (1) What does a successful retreat resolve to mechanically — c | Make retreat a clean escape valve (carry HP/loot, modest clock cost, never dents Influence — an | → Q1 |
+| 23 | ●● | **Q35** | For v1, do weather hazards and festivals carry MECHANICAL effects (needing §4 magnitudes AND a persi | If shipping the 'living world' pillar, go mechanical with bounded (±10%) modifiers + day-keyed  | → Q3 |
+| 24 | ●● | **Q32** | How does a dented pillar's value return to its untouched highWater? The seasonal appraisal increment | Option (a) — a small below-high-water restore branch that does NOT advance highWater preserves  |  |
+| 25 | ●● | **Q22** | The fun-doc (§5d/§7) promises a four-part T2 anti-slump 'package', but only two parts are authored ( | Author the seasonal-reward-rotation (high leverage, low §4.3 conflict) into §4.2.2/§4.8.3, and  | ⚠ your call |
+| 26 | ●● | **Q17** | Two missing pacing-engine rules: (1) Define the soft-stamina/satiety→rate-multiplier function in §4  | Set STAMINA_RATE_FLOOR ≈ 0.3× with a flat-then-knee curve (only deep depletion bites) and add i | → Q31 |
+| 27 | ●● | **Q43** | What storage-durability posture does v1 commit to for itch.io's cross-origin iframe embed, and shoul | (b) — it is the only path that actually catches silent autosave loss for most players and fixes | → Q37 |
+| 28 | ●● | **Q33** | Define the durability wear/break model so M2b's deterministic reduce can apply it: (1) wear rate per | Binary (fixed wear, auto-unequip at 0, full-until-break) — simplest, most legible, avoids a sta | → Q2 |
+| 29 | ●● | **Q19** | Three UX/data hardening calls: (1) Mobile IA — for the 3-5-slot bottom tab-bar, which screens are 'p | Mobile: per-tier primary rule (current-tier core on the bar, older to drawer in reveal order).  |  |
+| 30 | ●● | **Q45** | Define the migration / pre-migration-backup lifecycle for §6.8. The spec says only 'a backup of the  | In-memory single atomic commit; raw bytes under a separate never-autosaved key; auto-rollback w | → Q44 |
+| 31 | ●● | **Q40** | Resolve the diegetic-register and climax-duplication prose issues (§3). The load-bearing one: the gu | naming-on-spine: keep the naming on the guaranteed G6 spine (every player should reclaim the na | → Q5,Q25 |
+| 32 | ●● | **Q8** | Does v1's T2 reach the start of E3 (requires authoring an E3 estate stage + a §4.7.5 cost and removi | Cap v1 at E2 Recovering (matches the only authored cost table and locked scope); change 'early  |  |
+| 33 | ●● | **Q47** | satietyMax has no formula while its sibling hpMax does (40 + 8·characterLevel + 2·STR + gearHp), yet | (B) a flat stub for M1 to unblock the build, with a noted intent to promote to the (A) scaling  | → Q31 |
+| 34 | ●● | **Q27** | Fix three authenticity issues that breach the human-locked 'fictionalise real names' canon (§1.13/A6 | Swap both surnames for invented ones (the leaks are conspicuous and on apex characters; don't r |  |
+| 35 | ●● | **Q55** | Where should the §2.14(c) world-sim content (SeasonRules, Festival, WeatherHazard) be authored, and  | (c) — Festival is the only true keyed-entity gap; add a content/festivals.ts row to §6.5 and re | → Q35 |
+| 36 | ●● | **Q18** | Accessibility completeness — pin four things the spec leaves open: (1) Where do colourblindMode/mute | Do the low-cost correctness items now (scope the live region to narration+milestone-only at ari |  |
+| 37 | ●● | **Q38** | Resolve two un-audited presentation/asset risks for v1. (A) Emoji are load-bearing aesthetic carrier | Replace the load-bearing period motifs (pillar/season/rarity marks) with inline SVG and reserve |  |
+
+### TIER P3 — clear-default / tune-later / release-only (mostly one-liners)
+
+| # | | Q | Decision | Rec | Notes |
+|--:|:--:|:--|:--|:--|:--|
+| 38 | ●● | **Q11** | Settle the narrative canon loose ends. (a) Was the protagonist found at the weir or the village boun | Co-locate the boundary-jizō at the weir/ford; pick 'presumed dead → back from the dead' (higher | ⚠ your call |
+| 39 | ●● | **Q26** | The locked Naoyuki rivalry→respect→brotherhood arc is heavily seeded in T0 but appears ZERO times in | Add one low-cost interstitial beat in T1 or early T2 — it protects the emotional payoff of a lo | ⚠ your call |
+| 40 | ● | **Q46** | Should the save import/load path add (1) a constant game-identity/magic field (e.g. app:"kami-kakush | Add the magic field (cheap fast-reject); for stale ids prefer (a) reject-to-recovery — silent i | → Q44 |
+| 41 | ● | **Q9** | Resolve terminology and romanization. (a) The word 'Standing' labels three mechanics (the 官威 'Standi | Rename the Arms rank-gate to 'Combat Rank' (cheapest disambiguation); macronize gōshi project-w |  |
+| 42 | ● | **Q48** | --ink-faint #7A6C59 fails WCAG AA (4.5:1) on all three paper surfaces (4.23/3.66/3.31:1) yet carries | (b) — move functional hint/reason text to --ink-soft (passes on every surface) and keep --ink-f |  |
+| 43 | ● | **Q52** | Lock the font delivery + licensing approach. The DRAFT stack is all SIL OFL Google Fonts; (a) Option | Lock Option B (kill Option A as network/GDPR-incompatible), rename the subset name table to cle |  |
+| 44 | ● | **Q42** | Are these two genre-convention surfaces in scope for lean v1? (a) Bulk affordances — sell-N/sell-all | Decide the damper bulk-application rule now (progressive per-unit walk-down, so the damper stay | → Q13 |
+| 45 | ● | **Q49** | Should irreversible/destructive in-game actions (material-consuming craft, sell, committed attribute | (a) — guard only the genuinely unrecoverable, rare actions (allocation, narrative-route, rare-m |  |
+| 46 | ● | **Q50** | Audio (§2.21(a)/§6.9/M6) is the only v1 element outside the 'text + emoji + CSS' register, yet R4 ra | (C) synthesized Web Audio if the feel allows (kills the licensing/bundle/credits exposure outri |  |
+| 47 | ● | **Q23** | The v1 quest-type budget is stated two ways: §7.1.1/§2.12/§1.11/D-012 say 'the 4 types' (PEST-CONTRO | Keep '4' as the repeatable-grind cut-set and add the one-line one-shot note + reword 'parked fo |  |
+| 48 | ● | **Q21** | Reconcile two UI-bible palette/rate conflicts on the signature four-pillar panel (both fixes in ui-d | Fix the rate demo to a resource and have pillar bars show distance-to-next-gate. For the flash, | ⚠ your call |
+| 49 | ● | **Q20** | The fun-factor reward-cadence proxy cites a 'recognised deed every ~4.5–5 min' as the untiered deed- | Make the deed cadence tier-relative and let the broad reward/number-jump clause (koku/XP/loot b | ⚠ your call |
+| 50 | ● | **Q41** | Harden the single-source-of-truth doc surfaces (all low, no live drift today): (a) Name's per-deed-c | Lightweight now (tag derived values, choose Name's §4.0 display band-top + fix the gate gloss,  |  |
+| 51 | ● | **Q56** | Do you want a minimal sustained-runtime perf/memory acceptance criterion (per-tick + render ms budge | (B) for now, with a noted intent to add the R7 row once the first M0/M1 profiling run gives rea |  |
+| 52 | ● | **Q54** | Should the game define an in-product Credits/About surface (carrying authorship, the planned commit- | (a) — define the About/Credits subsection (small scope, pre-satisfies attribution + gives the b |  |
+| 53 | ● | **Q12** | Low-severity canon/fun calls: (a) Rescope the Origin track's 'ZERO mechanical gift' phrasing (3 occu | Rescope the ZERO-gift phrase to the identity reveal; add Nihonbashi to the allow-list (or gener |  |
+| 54 | ● | **Q39** | Authorial naming/cast hygiene (all low, several touch LOCKED canon). (a) Rename the non-locked T3 cl | Minimal: rename the two non-locked names (Naozane, Obaa Sato), re-glyph AGI→敏, add a Konoe row, |  |
+| 55 | ● | **Q51** | Before any public release / itch.io upload (M7), what license(s) does the project adopt? There is no | Decide before M7; a split of permissive code (MIT/Apache-2.0) + proprietary-or-CC-BY content is |  |
+| 56 | ● | **Q53** | What content rating and content-warning descriptors should the itch page declare, given themes of ch | (B) — near-zero cost, improves expectation-setting; add as a deploy-checklist step in §7.3/M7. |  |
+
+---
+
+## Already fixed (no decision needed)
+
+**42 fixes applied this session** (clerical + the unambiguous defects: the two impossible-gate deadlocks Estate 1K→0.6K & Arms 0.4K→0.3K; the double-gated climax → spine-guaranteed; stale numbers synced; cut-canon propagated; save/GameState gaps; +more), each verified byte-exact and **re-verified in round 4** (1 regression caught & fixed). Detail: report §B / R2·C / R3·B / R4·D.
+
+## Resolution log
+
+*(As we answer each decision, record the call + 1-line rationale here, newest at the bottom. This log → the PRD-improvement plan → the V2 reshape.)*
+
+| Q | Decision made | Rationale | Date |
+|:--|:--|:--|:--|
+| _(none yet)_ | | | |
