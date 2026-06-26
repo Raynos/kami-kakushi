@@ -16,7 +16,24 @@ metadata:
   growing **House Influence** (4 pillars: 武威 Arms / 官威 Standing & Office / 家産 Estate & Wealth / 家格
   Name & Honour → 家威). Signature: **the UI itself unlocks incrementally**. No magic; growth only through
   perseverance; no reset. (Spec: `docs/prd.md`.)
-- **Phase:** **PRD V2 AUTHORED → AUDIT/FIX → human glance (pre-build).** Iterative loop (human-signed 2026-06-26): resolve decisions → author PRD V2 → build M0/M1 → playtest → resteer → V3 → build. CURRENT STEP: **PRD V2 is written & committed** (docs/prd.md, ~6400 lines, assembled from 7 section rewrites; v1 archived at archive/prd-v1.md). A first audit (w39q9l3fc) caught **two truncations** — §4 lost its balance spine (§4.7/§4.8/§4.9) and §7 lost its roadmap tail (M6/M7/§7.3/§7.4); **regen workflow `w05mj51vo` is restoring both tails** (file-output → splice via scratchpad/splice_tail.py s4|s7). After splice → run the **all-angles audit** (scratchpad/v2audit2.mjs: positive+negative+persona lenses) → apply trivial fixes → write brainstorms/2026-06-26-prd-v2-audit.md → **STOP for the human glance. Do NOT start M0/M1 until the human reviews.** (Cumulative feedback: prd_human_feedback.md Blocks A-M, most-recent-block-wins; ADRs D-001..D-042.)
+- **Phase:** **PRD V2 battery-audited + ALL V2.1 decisions made → V2.1 IMPLEMENTATION pending (pre-build).**
+  Iterative loop (human-signed 2026-06-26): resolve decisions → author PRD → build M0/M1 → playtest → resteer →
+  build. DONE THIS SESSION: PRD V2 written & committed (docs/prd.md ~7050 lines; v1 at archive/prd-v1.md) → a
+  **5-round adversarial battery** (110+ lens-agents, with devil's-advocate refute-passes) surfaced **14 blocking
+  defects (B1–B14) + ~40 design questions** → **30 trivial fixes applied directly** (4-agent pass) → the human +
+  Claude resolved **ALL 32 decisions together** (8 AskUserQuestion batches). The decisions are AUTHORITATIVE in
+  **`docs/prd_human_feedback.md` Block N** (newest-wins per D-022) + **ADR D-043**. Audit ledger:
+  `brainstorms/2026-06-26-prd-v2-audit.md` (raw rounds in `brainstorms/raw/2026-06-26-prd-v2-audit-r*.json`).
+  ▶ **NEXT = implement PRD V2.1**: apply Block N to docs/prd.md as a **chunked plan→apply** (proven V2 approach —
+  avoid full-section regen / truncation). ORDER: structural-schema first (Estate-value-DERIVED [dent fix],
+  order-free quests + QuestStatus enum, `pendingAppraisals:number` counter, Name-gated band + repeatable-deed
+  `maxAwards` field, crash-recovery §, tick per-tick fold) → rippling balance edits (great/excellent deed supply,
+  combos Model-A + gate-eligible accumulator, ~60h-floor framing, Phase-2 reveals + estate-builds-to-Phase-2,
+  win-rate analytic, craft+coin, seasonal rotation, breadth-wall early-surface) → local fixes (crit/block clamp,
+  name-rename Munenori/Jūbei, Oyuki-husband rework, gender-drift, Otsuru separate-locale, banzuke rivals) →
+  living-doc syncs (a11y hues=fills/text=ink, M3/M5 pre-split, codex→tooltips, idle-combat full-auto+rest). A
+  draft planner was staged at `scratchpad/v21plan.mjs` (EPHEMERAL session scratch — **Block N is the source of
+  truth**; re-derive the plan if gone). THEN human glances at V2.1 → build M0/M1. **No game code yet.**
   §1–§7 authored, reviewed section-by-section, and passed a holistic consistency sweep; **no game code or
   toolchain yet** (building M0+M1 is the next phase). *Refines the prior framing — "PRD COMPLETE &
   internally verified — effectively FROZEN (pending the human's final word)": per **D-021** + the battery

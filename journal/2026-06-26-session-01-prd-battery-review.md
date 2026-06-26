@@ -331,6 +331,17 @@ gate. DECISIONS COMPLETE — zero left. NEXT: apply Block N to the PRD (V2 → V
 then build M0/M1.
 
 
+## 34 · CLEAN EXIT — safe stopping point (decisions done, V2.1 implementation pending)
+Stopping here at the human's request. State: working tree CLEAN, everything committed (HEAD dbb8d1d); no tasks
+running; loop NOT re-armed (the stale battery /loop re-fire was correctly identified as already-complete — the
+saturate→present→decide mission is done). This session: PRD V2 → 5-round adversarial battery (110+ lenses) →
+14 blocking defects (B1-B14) + ~40 questions → 30 trivial fixes applied → ALL 32 decisions made with the human
+(8 Q&A batches) → locked in prd_human_feedback.md Block N + ADR D-043. NEXT SESSION resumes from
+memory/project-status.md ▶ NEXT: implement PRD V2.1 (apply Block N to docs/prd.md, chunked plan→apply, structural-
+schema-first). Source of truth = Block N (the scratchpad/v21plan.mjs planner is ephemeral). THEN human glance →
+build M0/M1. Zero open decisions for the human; zero uncommitted work.
+
+
 ---
 
 ## Next intended steps (current)
