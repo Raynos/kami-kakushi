@@ -126,6 +126,14 @@ export const COMBAT_MAX_LEVEL = 50;
 /** Combat-XP a kill grants = MobDef.level × this (§4.6.5). */
 export const COMBAT_XP_K = 5; // provisional (v0.2) — tune by playtest
 
+/** v0.2 narrative: the built-demo terminal beat (frontier capstone + 2nd dream) fires
+ *  once the gate-watch reaches this combat level — proof they've truly fought the system
+ *  R3 unlocks, not just clocked time. Recomputed for the v0.2 XP curve: cumXp(L3)=92
+ *  (COMBAT_XP_BASE 40) and a monkey grants level×COMBAT_XP_K = 1×5 = 5 xp/kill, so ≈19
+ *  monkey kills (the spec's '~12' was under the old BASE 30 / K 6). The now-~0.33 monkey
+ *  win-rate makes this a genuine "you've fought" gate. Provisional (v0.2) — tune by playtest. */
+export const R3_FRONTIER_COMBAT_LEVEL = 3;
+
 /** Soft-setback-on-loss (LOCKED shape, §4.6.6): never levels/gear/Influence. */
 export const SETBACK_HP = 1;
 export const SETBACK_TICKS = 12; // ~½ day

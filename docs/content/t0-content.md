@@ -88,6 +88,9 @@
 | `readout-combat-level` | readout |
 | `verb-repair` | verb |
 | `verb-equip-axe` | verb |
+| `panel-house-influence` | panel |
+| `screen-demo-frontier` | screen |
+| `dream-2` | panel |
 | `skill-farming` | row |
 | `skill-foraging` | row |
 | `skill-woodcutting` | row |

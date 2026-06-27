@@ -115,7 +115,13 @@ export const RANKS: readonly RankDef[] = [
     storyGate: () => false, // R3→R4 (the Phase-2 gate) is built at M3
     rewardOnReach: {
       flags: ['rank-r3', 'combat-unlocked'],
-      unlock: ['tab-combat', 'panel-drill-yard', 'readout-combat-level', 'verb-repair'],
+      unlock: [
+        'tab-combat',
+        'panel-drill-yard',
+        'readout-combat-level',
+        'verb-repair',
+        'panel-house-influence',
+      ],
       log: [
         {
           channel: 'milestone',

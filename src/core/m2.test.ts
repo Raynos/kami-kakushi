@@ -13,6 +13,10 @@ import {
   applyScriptedWolf,
   getMob,
   balance,
+  revealPass,
+  isUnlocked,
+  getRank,
+  applyRewards,
   type GameState,
 } from './index';
 
@@ -192,5 +196,65 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
     const after = applyScriptedWolf(s);
     expect(after.flags['first-fight-survived']).toBe(true);
     expect(after.character.hp).toBeGreaterThanOrEqual(1);
+  });
+});
+
+// The R3 terminal beat + 2nd-dream payoff + macro-teaser (audit #2/#6/#13). The two
+// live-gated surfaces (frontier capstone + dream-2) latch via revealPass only once the
+// gate-watch has actually fought (combat level ≥ the frontier gate); dream-2 is the FIRST
+// READER of the formerly write-only dream-1 + porters-knot flags; the macro teaser is
+// revealed by the R3 rank reward.
+describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', () => {
+  /** A state parked at R3 with the mystery flags written, before the new surfaces latch. */
+  function atR3(level: number, flagOverrides: Record<string, boolean> = {}): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      rung: 'R3',
+      character: { ...base.character, level },
+      flags: {
+        ...base.flags,
+        awake: true,
+        'dream-1': true,
+        'porters-knot': true,
+        'rank-r3': true,
+        ...flagOverrides,
+      },
+    };
+  }
+
+  it('the frontier beat + 2nd dream are gated on real combat (level ≥ R3_FRONTIER_COMBAT_LEVEL)', () => {
+    const below = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL - 1));
+    expect(isUnlocked(below, 'screen-demo-frontier')).toBe(false);
+    expect(isUnlocked(below, 'dream-2')).toBe(false);
+
+    const at = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL));
+    expect(isUnlocked(at, 'screen-demo-frontier')).toBe(true);
+    expect(isUnlocked(at, 'dream-2')).toBe(true);
+  });
+
+  it('the 2nd dream reads the earlier mystery flags — no longer write-only', () => {
+    const noKnot = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'porters-knot': false }));
+    expect(isUnlocked(noKnot, 'dream-2')).toBe(false);
+
+    const noDream1 = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'dream-1': false }));
+    expect(isUnlocked(noDream1, 'dream-2')).toBe(false);
+  });
+
+  it('the macro-teaser panel unlocks on reaching R3 (revealed by the rank reward)', () => {
+    const reward = getRank('R3').rewardOnReach;
+    expect(reward).toBeDefined();
+    const promoted = applyRewards(createInitialState(1), reward!);
+    expect(isUnlocked(promoted, 'panel-house-influence')).toBe(true);
+  });
+
+  it('the terminal beat fires exactly once (idempotent revealPass)', () => {
+    const once = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL));
+    const twice = revealPass(once);
+    expect(twice.unlocked.filter((id) => id === 'screen-demo-frontier')).toHaveLength(1);
+    const frontierLines = twice.log.entries.filter(
+      (e) => e.channel === 'milestone' && e.text.includes('a soldier in you under the farmhand'),
+    );
+    expect(frontierLines).toHaveLength(1);
   });
 });

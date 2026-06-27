@@ -7,7 +7,10 @@
 
 import type { GameState, SurfaceId } from '../state';
 import type { LogChannel } from '../log';
+import { hasFlag } from '../state';
 import { COLD_OPEN } from './coldOpen';
+import { NAMES } from './names';
+import { R3_FRONTIER_COMBAT_LEVEL } from './balance';
 import { skillVisible } from '../skills';
 
 export type SurfaceKind = 'screen' | 'panel' | 'tab' | 'readout' | 'verb' | 'row';
@@ -23,6 +26,15 @@ const narrate = (text: string): { channel: LogChannel; text: string } => ({
   channel: 'narration',
   text,
 });
+
+// ── v0.2 narrative beats (audit #2/#6/#13) — the R3 terminal capstone, the 2nd dream
+// payoff (first reader of the write-only dream-1 + porters-knot flags), and the locked
+// macro-teaser panel. Diegetic copy kept beside the registry it feeds. ──
+const MACRO_TEASER_REVEAL =
+  'Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.';
+const FRONTIER_BEAT = `You have become what the house needed at its gate — a hand it can trust with an edge to it. ${NAMES.drillmaster} watches you drill at first light and almost smiles. "There's a soldier in you under the farmhand. We'll find the rest of it yet." Past the gate the valley road climbs out of sight — toward the house's standing, its rivals, and the name you still cannot reach. That climb is for the days to come.`;
+const DREAM_2 =
+  "That night the dream comes again, and stays longer. The grey rain, the road — and now a load on your back, roped with the porter's knot your hands already knew. Water rising over the planks of a low bridge. A woman's voice behind you, calling a name through the flood — your name, you are almost sure, though the water closes over it before you can catch its shape.";
 
 export const SURFACES: readonly Surface[] = [
   // ── cold open ──
@@ -145,6 +157,34 @@ export const SURFACES: readonly Surface[] = [
   { id: 'readout-combat-level', kind: 'readout', unlock: () => false },
   { id: 'verb-repair', kind: 'verb', unlock: () => false },
   { id: 'verb-equip-axe', kind: 'verb', unlock: () => false },
+
+  // ── R3 terminal beats (v0.2 narrative) — the macro teaser (revealed by the R3
+  // reward, predicate ()=>false), then the live-gated frontier capstone + 2nd dream,
+  // fired once the gate-watch has actually fought (combat level ≥ the frontier gate).
+  // ORDER MATTERS: the milestone precedes dream-2 so one revealPass emits capstone then
+  // dream. dream-2 is the FIRST READER of the write-only dream-1 + porters-knot flags. ──
+  {
+    id: 'panel-house-influence',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate(MACRO_TEASER_REVEAL),
+  },
+  {
+    id: 'screen-demo-frontier',
+    kind: 'screen',
+    unlock: (s) => s.rung === 'R3' && s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
+    revealLine: { channel: 'milestone', text: FRONTIER_BEAT },
+  },
+  {
+    id: 'dream-2',
+    kind: 'panel',
+    unlock: (s) =>
+      hasFlag(s, 'dream-1') &&
+      hasFlag(s, 'porters-knot') &&
+      s.rung === 'R3' &&
+      s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
+    revealLine: narrate(DREAM_2),
+  },
 
   // ── skills surface BY-DOING (discover-by-doing) ──
   { id: 'skill-farming', kind: 'row', unlock: (s) => skillVisible(s, 'farming') },
