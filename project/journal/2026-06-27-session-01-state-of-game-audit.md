@@ -70,3 +70,10 @@ to M6, so the demo can't yet demonstrate that the grind is pleasurable.
   Verdict: **a beautifully-built chassis with no engine** — add the spend→compound loop, grade combat + give
   skills teeth, close the narrative chapter, and back the signed criteria with real (currently-red) tests +
   a wired migration path BEFORE layering the macro on top.
+
+### 6 · Residual-angle verification (loop re-fired post-convergence) → report §7.1
+- The loop's fallback heartbeat re-fired after convergence; rather than re-run the waves, did a cheap firsthand
+  pass on the 4 residual angles the convergence critic had judged immaterial-but-unchecked: **Lighthouse a11y
+  100 / best-practices 100** (cleared deep-a11y); **no innerHTML/eval/Function** + import validates app-id +
+  version (cleared untrusted-import security); deploy-pipeline = M7-deferred; mobile-depth items already in §3.
+  Folded "§7.1 Residual angles — checked & cleared" into the report. **Audit complete & stable; loop ended.**

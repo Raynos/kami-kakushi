@@ -359,9 +359,26 @@ Concrete, checkable gates to add to the M3a/M3b DoD:
   nudged: PRD-faithful 7→6.5, incremental 5→4.5, laziness 4→4.5.
 - **Verification:** every new high-severity code claim re-checked firsthand (migrate dead, write-only mystery
   flags, phantom `attributePoints`, the +3 gō/koku unit bug, 3-of-4 inert skills — all confirmed).
-- **Convergence:** an independent critic + the firsthand re-checks agree the audit has **converged** — the only
-  residual angles (deep-a11y, untrusted-import security, the itch deploy pipeline, mobile-UX depth) are
-  immaterial for an offline single-player T0 slice. No further wave is justified.
+- **Convergence:** an independent critic + the firsthand re-checks agree the audit has **converged**.
 
-*Scores are the calibrated consensus of the firsthand read + 14 fan-out lenses + 2 critics. Direction: higher =
-better for all dimensions except Laziness (higher = lazier).*
+### 7.1 Residual angles — checked & cleared (final pass)
+The convergence critic named four residual angles as "immaterial for an offline single-player T0 slice." A final
+firsthand pass confirms each is genuinely a non-issue (so the report is exhaustive, not merely declared done):
+
+- **Accessibility (deep):** a live **Lighthouse** audit of the build scores **Accessibility 100 / Best
+  Practices 100** (SEO 91). The only two failures sit under "Agentic Browsing" (agent-affordance/meta, not
+  player a11y). The one known player-facing a11y ding remains the save `<textarea>` lacking `id`/`name`
+  (already logged). The a11y foundation is genuinely excellent — cleared.
+- **Untrusted-save-import / client-side security:** no `innerHTML`/`outerHTML`/`insertAdjacentHTML`/`eval`/
+  `new Function` anywhere in `src/` (the renderer is `textContent`/`createTextNode` only); the import path
+  `JSON.parse`s then validates the app-id + rejects a newer schema version before use. XSS/injection surface is
+  minimal for an offline single-player game — cleared.
+- **Build/deploy pipeline + itch cross-origin-iframe save survival:** legitimately M7-deferred; the
+  export/import backstop is the built hedge — not material for M0–M2.
+- **Mobile-UX depth:** beyond the 390px reflow smoke-check (holds up, "best-effort" per Block N.1 #2); the real
+  mobile items are the sub-44px touch targets + the O(foes×sims) forecast cliff, both already in §3.
+
+No remaining angle is material. **The audit is complete and stable.**
+
+*Scores are the calibrated consensus of the firsthand read + 14 fan-out lenses + 2 critics + a residual-angle
+verification pass. Direction: higher = better for all dimensions except Laziness (higher = lazier).*
