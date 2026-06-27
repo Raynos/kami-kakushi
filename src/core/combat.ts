@@ -189,10 +189,10 @@ export interface FoeForecast {
 }
 
 /**
- * The displayed/decision win-rate: a small fixed-seed SAMPLE of the real sim (D-Q-winrate
- * keeps the analytic form for the M6 gate, but the per-foe FORECAST samples so it's honest
- * — the closed form over/under-states a lopsided race). Deterministic: seeds derive from the
- * run seed + the foe, so a given stat-state yields a stable forecast.
+ * The displayed/decision win-rate: a SAMPLE of the real sim (D-Q-winrate keeps the analytic
+ * form for the M6 gate, but the per-foe FORECAST samples so it's honest — the closed form
+ * over/under-states a lopsided race). Internally it averages over `n` independent sub-seeds,
+ * so it estimates the TRUE win-probability for the given stat-state.
  */
 export function sampledWinRate(
   mc: CombatStats,
@@ -208,12 +208,24 @@ export function sampledWinRate(
   return wins / n;
 }
 
-/** The grindable foes (danger order) with their win-rate against the MC right now. */
+// The displayed forecast uses a FIXED base seed (NOT the run seed) + a larger sample, so it
+// is SEED-ROBUST: every player sees the same representative win-rate for the same stat-state,
+// and it matches the test/gate value. (Coupling it to the run seed made n=48 vary the headline
+// — e.g. monkey@L1 read 0.33 at seed 1 but 0.48 at the shipped seed; the true value is ~0.30.)
+const FORECAST_SEED = 0x9e3779b9;
+const FORECAST_SAMPLES = 400; // converged (monkey@L1 ≈ 0.32, stable); ~5ms/forecast, fine off-frame
+
+/** The grindable foes (danger order) with their seed-robust win-rate against the MC right now. */
 export function foeForecasts(state: GameState): FoeForecast[] {
   const mc = mcCombatStats(state);
   return GRINDABLE_MOBS.map((mob) => ({
     mob,
-    winRate: sampledWinRate(mc, mobCombatStats(mob), (state.rng.seed + mob.level * 7919) >>> 0),
+    winRate: sampledWinRate(
+      mc,
+      mobCombatStats(mob),
+      (FORECAST_SEED + mob.level * 7919) >>> 0,
+      FORECAST_SAMPLES,
+    ),
   }));
 }
 

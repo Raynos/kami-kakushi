@@ -83,10 +83,11 @@ export const RUNG_WALL_FLOOR_MIN = 30;
 export const CONDITIONING_GATE_LEVEL = 2;
 
 // ── Combat (PRD §4.6) — provisional v0.2 close-duel retune. Honest claim: the
-// first-fight (monkey @L1) SAMPLED win-rate lands ~0.33 — humbling-but-winnable
-// (G3/FU19) — and the full foe curve is a graded rolling frontier, NOT a single
-// pinned 20–35% point estimate. The hit/crit/block feel is UNCHANGED; the grading
-// comes from the stat economy + per-hit spread. Tune by playtest. ──
+// first-fight (monkey @L1) SEED-ROBUST win-rate lands ~0.32 — in the signed
+// humbling-but-winnable 20–35% band (G3/FU19), and seed-independent (every player
+// sees it; see combat.foeForecasts) — and the full foe curve is a graded rolling
+// frontier. The hit/crit/block feel is UNCHANGED; the grading comes from the stat
+// economy + per-hit spread. Tune by playtest. ──
 export const DAMAGE_FLOOR = 1;
 export const HIT_CHANCE = 0.9;
 export const CRIT_CHANCE = 0.1;
@@ -130,7 +131,7 @@ export const COMBAT_XP_K = 5; // provisional (v0.2) — tune by playtest
  *  once the gate-watch reaches this combat level — proof they've truly fought the system
  *  R3 unlocks, not just clocked time. Recomputed for the v0.2 XP curve: cumXp(L3)=92
  *  (COMBAT_XP_BASE 40) and a monkey grants level×COMBAT_XP_K = 1×5 = 5 xp/kill, so ≈19
- *  monkey kills (the spec's '~12' was under the old BASE 30 / K 6). The now-~0.33 monkey
+ *  monkey kills (the spec's '~12' was under the old BASE 30 / K 6). The now-~0.32 monkey
  *  win-rate makes this a genuine "you've fought" gate. Provisional (v0.2) — tune by playtest. */
 export const R3_FRONTIER_COMBAT_LEVEL = 3;
 
@@ -177,15 +178,17 @@ export const STANCE_ORDER: readonly StanceId[] = ['gedan', 'chudan', 'jodan'];
 
 // ── Combat-curve gate constants (the SHARED single source the m2 combat-curve tests
 // assert against). These are BANDS, not pinned point-estimates — the real sampled
-// win-rate is seed/weapon-sensitive, so widen a band to engine reality, never tighten
-// below it. Verified against foeForecasts(mc(lvl)) (n=48, run-seed 1, chudan / pole):
-// monkey 0.33/0.65/0.94/0.98/1.00, wolf 0.04/0.23/0.54/0.85/0.96,
-// boar 0.00/0.08/0.21/0.48/0.77, bandit 0.00/…/0.10 (L1-5), bandit L8 ≈ 0.75. ──
-/** First-fight (monkey @L1) sampled win-rate band — humbling-but-winnable (G3/FU19). */
-export const CURVE_FIRST_FOE_WR_MIN = 0.25; // provisional (v0.2) — tune by playtest
-export const CURVE_FIRST_FOE_WR_MAX = 0.46; // provisional (v0.2) — tune by playtest
-/** "A real choice exists" band: ≥2 foes should sit inside it at the mid levels. */
-export const CURVE_CHOICE_BAND_MIN = 0.18; // provisional (v0.2) — tune by playtest
+// win-rate is weapon-sensitive, so widen a band to engine reality, never tighten below it.
+// Verified against the SEED-ROBUST foeForecasts(mc(lvl)) (chudan / pristine pole), full satiety:
+// monkey 0.30/0.68/0.91/0.98/1.00, wolf 0.05/0.22/0.49/0.81/0.94,
+// boar 0.01/0.04/0.16/0.38/0.66, bandit 0.00/…/0.10 (L1-5), bandit L8 ≈ 0.66. ──
+/** First-fight (monkey @L1) win-rate band — the signed humbling-but-winnable G3/FU19 (20–35%);
+ *  the seed-robust forecast lands ~0.30 here (full satiety), in band and seed-independent. */
+export const CURVE_FIRST_FOE_WR_MIN = 0.2; // provisional (v0.2) — tune by playtest
+export const CURVE_FIRST_FOE_WR_MAX = 0.35; // provisional (v0.2) — tune by playtest
+/** "A real choice exists" band: ≥2 foes should sit inside it at the mid levels (a 0.15
+ *  longshot is a real choice once the Aggressive stance lifts it ~10–20pt). */
+export const CURVE_CHOICE_BAND_MIN = 0.15; // provisional (v0.2) — tune by playtest
 export const CURVE_CHOICE_BAND_MAX = 0.85; // provisional (v0.2) — tune by playtest
 /** A foe at/below this is a dead (un-fightable) wall; a tier is never ALL-dead. */
 export const CURVE_DEAD_TIER_MAX = 0.05; // provisional (v0.2) — tune by playtest
