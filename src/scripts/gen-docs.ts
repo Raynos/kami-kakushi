@@ -4,7 +4,19 @@
 export {};
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS, ESTATE_STAGES } from '../core';
+import {
+  SURFACES,
+  NAMES,
+  SKILLS,
+  ACTIVITIES,
+  RANKS,
+  MOBS,
+  WEAPONS,
+  ESTATE_STAGES,
+  balance,
+} from '../core';
+
+const { RUNG_METER_THRESHOLDS } = balance;
 
 const OUT = 'docs/content/t0-content.md';
 
@@ -18,11 +30,11 @@ function generate(): string {
 
   L.push('## Rung ladder (T0 — Estate)');
   L.push('');
-  L.push('| rung | title | kanji | meter | eligible | granter |');
-  L.push('|---|---|---|---|---|---|');
+  L.push('| rung | title | kanji | meter (demo) | meter (real) | eligible | granter |');
+  L.push('|---|---|---|---|---|---|---|');
   for (const r of RANKS) {
     L.push(
-      `| ${r.id} | ${r.title} | ${r.kanji} | ${r.meterThreshold} | ${r.eligible.join(', ')} | ${r.granter ?? '—'} |`,
+      `| ${r.id} | ${r.title} | ${r.kanji} | ${r.meterThreshold} | ${RUNG_METER_THRESHOLDS.real[r.id]} | ${r.eligible.join(', ')} | ${r.granter ?? '—'} |`,
     );
   }
   L.push('');

@@ -17,7 +17,10 @@ import {
   WEAPONS,
   WEAPON_IDS,
   ESTATE_STAGES,
+  balance,
 } from '../core';
+
+const { RUNG_METER_THRESHOLDS } = balance;
 
 const errors: string[] = [];
 
@@ -48,6 +51,19 @@ for (const r of RANKS) {
   }
   for (const u of r.rewardOnReach?.unlock ?? []) {
     if (!SURFACE_IDS.has(u)) errors.push(`rank ${r.id}: reward unlocks unknown surface "${u}"`);
+  }
+}
+
+// 3b. Balance-profile drift guard (audit G-PACING): the DEMO map is the single source of
+//     truth mirrored by RankDef.meterThreshold, and REAL must cover every built rung.
+for (const r of RANKS) {
+  if (RUNG_METER_THRESHOLDS.demo[r.id] !== r.meterThreshold) {
+    errors.push(
+      `rank ${r.id}: RUNG_METER_THRESHOLDS.demo (${RUNG_METER_THRESHOLDS.demo[r.id]}) != RankDef.meterThreshold (${r.meterThreshold})`,
+    );
+  }
+  if (typeof RUNG_METER_THRESHOLDS.real[r.id] !== 'number') {
+    errors.push(`rank ${r.id}: missing REAL meter threshold`);
   }
 }
 

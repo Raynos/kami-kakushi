@@ -17,7 +17,10 @@ export interface RankDef {
   readonly title: string;
   readonly kanji: string;
   readonly granter?: string;
-  /** Points to fill THIS rung's meter, toward the next rung (per-rung-reset). */
+  /** Points to fill THIS rung's meter, toward the next rung (per-rung-reset). This is the
+   *  DEMO-profile value and the canonical mirror of balance.RUNG_METER_THRESHOLDS.demo (drift
+   *  is verifier-enforced). The ACTIVE threshold is resolved per-profile via
+   *  balance.rungThreshold(id, state.balanceProfile). */
   readonly meterThreshold: number;
   /** Action ids that feed the meter while AT this rung (curated, one-to-many). */
   readonly eligible: readonly string[];

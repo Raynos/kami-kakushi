@@ -17,6 +17,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "gen:docs": "tsx src/scripts/gen-docs.ts",
+    "pacing": "tsx src/scripts/pacing-report.ts --profile=real",
+    "pacing:demo": "tsx src/scripts/pacing-report.ts --profile=demo",
+    "pacing:check": "tsx src/scripts/pacing-report.ts --profile=real --check",
     "verify": "tsc --noEmit && eslint . && prettier --check . && vitest run && tsx src/scripts/verify-content.ts && tsx src/scripts/gen-docs.ts --check"
   },
   "devDependencies": {

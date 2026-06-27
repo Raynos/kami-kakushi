@@ -6,7 +6,7 @@
 
 import type { GameState } from './state';
 import { RANKS, getRank, nextRankId, type RankDef, type RankId } from './content/ranks';
-import { RUNG_POINTS_PER_ACT } from './content/balance';
+import { RUNG_POINTS_PER_ACT, rungThreshold } from './content/balance';
 import { applyRewards } from './rewards';
 import { hpMax, satietyMax } from './selectors';
 
@@ -24,10 +24,11 @@ export function accrueRungMeter(state: GameState, actionId: string): GameState {
 /** Distance-to-next-gate read for the rung ladder (ui-design §5.3). */
 export function rungProgress(state: GameState): { into: number; needed: number; ready: boolean } {
   const rank = getRank(state.rung);
-  const ready = state.rungMeter >= rank.meterThreshold && rank.storyGate(state.flags);
+  const needed = rungThreshold(rank.id, state.balanceProfile);
+  const ready = state.rungMeter >= needed && rank.storyGate(state.flags);
   return {
-    into: Math.min(state.rungMeter, rank.meterThreshold),
-    needed: rank.meterThreshold,
+    into: Math.min(state.rungMeter, needed),
+    needed,
     ready,
   };
 }
@@ -40,7 +41,8 @@ export function promoteRungs(state: GameState): GameState {
     const rank = getRank(next.rung);
     const nid = nextRankId(next.rung);
     if (!nid) break;
-    const gateOpen = next.rungMeter >= rank.meterThreshold && rank.storyGate(next.flags);
+    const threshold = rungThreshold(rank.id, next.balanceProfile);
+    const gateOpen = next.rungMeter >= threshold && rank.storyGate(next.flags);
     if (!gateOpen) break;
     const target = getRank(nid);
     next = { ...next, rung: nid, rungMeter: 0 };

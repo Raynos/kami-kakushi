@@ -3,6 +3,10 @@
 // gen:docs own them. DEMO-tuned so the M0→M2 slice is reviewable in minutes while
 // the auto-repeat "leave it running" feel reads true.
 
+// Type-only import (erased at runtime — no module cycle) so the rung-meter profile
+// map can be keyed by the canonical RankId.
+import type { RankId } from './ranks';
+
 // ── Vitals (PRD §2.3, §6.4) ─────────────────────────────────────────────────────
 export const HP_BASE = 32; // provisional (v0.2) — tune by playtest
 export const HP_PER_LEVEL = 4; // provisional (v0.2) — tune by playtest
@@ -36,6 +40,43 @@ export const HARVEST_AUTUMN_MULT_DEN = 10;
 // ── Rung meter (PRD §4.1.1 / FU6) — per-rung-reset; DEMO thresholds in ranks.ts ──
 /** Points a curated eligible activity adds to the current rung's meter. */
 export const RUNG_POINTS_PER_ACT = 2;
+
+// ── Balance profile (audit G-PACING) — the per-rung meter thresholds become a
+// profile map so the signed ≥30-min-per-rung floor is REACHABLE + MEASURABLE without
+// making the H1 DEMO-vs-REAL default call. DEMO stays the shipped default (review
+// velocity); REAL is reachable per-new-game via ?balance=real / VITE_BALANCE_PROFILE /
+// __qa (resolved in main.ts). Profile lives in GameState (set once, never mutated) so
+// the pure core stays deterministic and saves stay additive. ──
+export type BalanceProfile = 'demo' | 'real';
+/** Shipped default. NOT the human's H1 call — DEMO stays default for review velocity;
+ *  REAL is reachable per-new-game via ?balance=real / VITE_BALANCE_PROFILE / __qa. */
+export const DEFAULT_BALANCE_PROFILE: BalanceProfile = 'demo';
+
+/** Per-rung meter thresholds, by profile. Single source of truth (gen:docs + verify own
+ *  them). demo = minutes-to-review (the current shipped values; mirror of
+ *  RankDef.meterThreshold, verifier-enforced). real = back-solved so each rung clears the
+ *  signed ≥30-min wall floor on the focused-optimal auto path. Only R0..R3 are carried
+ *  (the built ladder) — extend when R4+ land. REAL values are PROVISIONAL (v0.2) — tune by
+ *  pacing-report (`npm run pacing`). */
+export const RUNG_METER_THRESHOLDS: Record<BalanceProfile, Partial<Record<RankId, number>>> = {
+  demo: { R0: 14, R1: 30, R2: 48, R3: 80 },
+  real: { R0: 7000, R1: 7600, R2: 8200, R3: 8800 }, // provisional (v0.2) — tune by playtest
+};
+/** The active meter threshold for a rung under a given profile. */
+export function rungThreshold(
+  rankId: RankId,
+  profile: BalanceProfile = DEFAULT_BALANCE_PROFILE,
+): number {
+  const t = RUNG_METER_THRESHOLDS[profile][rankId];
+  if (t === undefined) throw new Error(`no ${profile} meter threshold for rung ${rankId}`);
+  return t;
+}
+
+/** The active-only auto-loop cadence (ONE dispatched intent per interval). Single-sourced
+ *  here so the app loop AND the pacing report share it (was a magic 480 in main.ts). */
+export const AUTO_REPEAT_MS = 480;
+/** Signed ≥30-min-per-rung wall floor (the pacing acceptance criterion). provisional (v0.2). */
+export const RUNG_WALL_FLOOR_MIN = 30;
 
 // ── Conditioning gate (PRD §4.4/§4.6.1) — the ZERO-stat weak→capable enablement ──
 /** Conditioning level needed to enter the first danger ring / be combat-capable. */

@@ -11,11 +11,13 @@ import {
   canDoActivity,
   getActivity,
   satietyMax,
+  balance,
   type GameState,
   type Intent,
   type ActivityId,
   type RankId,
   type MobId,
+  type BalanceProfile,
 } from '../core';
 import { createBrowserSaveManager, type SaveManager } from '../persistence';
 import { mount } from '../ui';
@@ -23,7 +25,31 @@ import { mount } from '../ui';
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
 const AUTOSAVE_TICK_INTERVAL_MS = 15_000;
-const AUTO_REPEAT_MS = 480; // the "leave it running" cadence (active-only)
+const { AUTO_REPEAT_MS } = balance; // the "leave it running" cadence (active-only), single-sourced
+
+/** Resolve the balance profile for NEW games (app layer — URL/env/localStorage allowed
+ *  here, never in core). DEMO is the shipped default — this only makes REAL reachable, it
+ *  does NOT make the H1 DEMO-vs-REAL policy call. */
+function resolveBootProfile(): BalanceProfile {
+  const url = new URLSearchParams(location.search).get('balance');
+  if (url === 'real' || url === 'demo') {
+    try {
+      localStorage.setItem('kk.balanceProfile', url);
+    } catch {
+      /* private mode / disabled storage — ignore */
+    }
+    return url;
+  }
+  const env = import.meta.env.VITE_BALANCE_PROFILE;
+  if (env === 'real' || env === 'demo') return env;
+  try {
+    const ls = localStorage.getItem('kk.balanceProfile');
+    if (ls === 'real' || ls === 'demo') return ls;
+  } catch {
+    /* ignore */
+  }
+  return 'demo'; // shipped default — NOT the H1 call
+}
 
 interface RevealMark {
   id: string;
@@ -35,6 +61,7 @@ async function boot(): Promise<void> {
   if (!root) return;
 
   const save: SaveManager = createBrowserSaveManager();
+  const bootProfile = resolveBootProfile(); // applies to NEW games only; loads keep their profile
 
   // ── load newest, with crash-recovery safe-mode rollback (D-044) ──
   let state: GameState;
@@ -47,7 +74,7 @@ async function boot(): Promise<void> {
   } else if (loaded) {
     state = loaded.state;
   } else {
-    state = createInitialState(DEFAULT_SEED);
+    state = createInitialState(DEFAULT_SEED, bootProfile);
   }
 
   let prev: GameState | null = null;
@@ -73,7 +100,7 @@ async function boot(): Promise<void> {
     },
     newGame: (): void => {
       prev = null;
-      state = createInitialState(DEFAULT_SEED);
+      state = createInitialState(DEFAULT_SEED, bootProfile);
       reveals.length = 0;
       actionCount = 0;
       safely(() => render(state, null));
@@ -242,9 +269,22 @@ async function boot(): Promise<void> {
       resume: () => {
         paused = false;
       },
-      newGame: (seed = DEFAULT_SEED) => {
+      newGame: (seed = DEFAULT_SEED, p: BalanceProfile = bootProfile) => {
         prev = null;
-        state = createInitialState(seed);
+        state = createInitialState(seed, p);
+        reveals.length = 0;
+        actionCount = 0;
+        safely(() => render(state, null));
+      },
+      profile: () => state.balanceProfile,
+      setProfile: (p: BalanceProfile) => {
+        try {
+          localStorage.setItem('kk.balanceProfile', p);
+        } catch {
+          /* ignore */
+        }
+        prev = null;
+        state = createInitialState(DEFAULT_SEED, p);
         reveals.length = 0;
         actionCount = 0;
         safely(() => render(state, null));

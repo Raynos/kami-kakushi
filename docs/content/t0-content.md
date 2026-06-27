@@ -5,12 +5,12 @@
 
 ## Rung ladder (T0 — Estate)
 
-| rung | title | kanji | meter | eligible | granter |
-|---|---|---|---|---|---|
-| R0 | Day-labourer | 日雇 | 14 | rake_rice | — |
-| R1 | Kept hand | 下人 | 30 | farm_paddy, haul_stores | Genemon |
-| R2 | Trusted hand | 手代 | 48 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R3 | Gate-watch | 門番 | 80 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
+| rung | title | kanji | meter (demo) | meter (real) | eligible | granter |
+|---|---|---|---|---|---|---|
+| R0 | Day-labourer | 日雇 | 14 | 7000 | rake_rice | — |
+| R1 | Kept hand | 下人 | 30 | 7600 | farm_paddy, haul_stores | Genemon |
+| R2 | Trusted hand | 手代 | 48 | 8200 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R3 | Gate-watch | 門番 | 80 | 8800 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
 
 ## Skills (v1 labour set)
 

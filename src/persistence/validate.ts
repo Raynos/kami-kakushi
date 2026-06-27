@@ -5,7 +5,7 @@
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
 import type { GameState, StanceId } from '../core';
-import { APP_ID, SCHEMA_VERSION } from '../core';
+import { APP_ID, SCHEMA_VERSION, balance } from '../core';
 import type { SaveEnvelope } from './codec';
 
 export type ValidateResult =
@@ -115,6 +115,12 @@ export function validateState(rawState: unknown): ValidateResult {
     weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
     autoCombat: base.autoCombat ?? null,
     stance: (base.stance as StanceId) ?? 'chudan',
+    // Legacy DEMO saves stay on DEMO (reversible, no surprise re-tune); only NEW games
+    // pick up the boot profile (main.ts).
+    balanceProfile:
+      base.balanceProfile === 'real' || base.balanceProfile === 'demo'
+        ? base.balanceProfile
+        : balance.DEFAULT_BALANCE_PROFILE,
   };
 
   return { ok: true, state, coerced };
