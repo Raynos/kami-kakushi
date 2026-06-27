@@ -117,6 +117,18 @@ function pct(n: number): string {
   return `${Math.round(n * 100)}%`;
 }
 
+// Coalesced-log display (consumes LogEntry.count from the pure core): when a line has
+// repeated N×, multiply the authored single-resource "(+n unit)" suffix into a running
+// total "…×N (+total unit)". Multi-resource / non-matching lines fall back to a bare
+// "…×N" so a wrong total is impossible (the unit group excludes commas).
+export function formatLogText(entry: LogEntry): string {
+  const n = entry.count ?? 1;
+  if (n <= 1) return entry.text;
+  const m = entry.text.match(/^(.*?)\s*\(\+(\d+)\s+([^),]+)\)\s*$/);
+  if (m) return `${m[1]} ×${n} (+${Number(m[2]) * n} ${m[3]})`;
+  return `${entry.text} ×${n}`;
+}
+
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string,
@@ -149,8 +161,12 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   card.setAttribute('aria-modal', 'true');
   card.setAttribute('aria-label', 'Settings and About');
 
+  // focus management (D-Q-a11y): trap Tab inside the open dialog, restore focus to the
+  // control that opened it, and only act on Escape while actually open.
+  let opener: HTMLElement | null = null;
   const hide = (): void => {
     scrim.hidden = true;
+    opener?.focus();
   };
   const close = el('button', 'modal-close', '×');
   close.type = 'button';
@@ -160,7 +176,23 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
     if (e.target === scrim) hide();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') hide();
+    if (e.key === 'Escape' && !scrim.hidden) hide();
+  });
+  card.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const f = card.querySelectorAll<HTMLElement>(
+      'button, textarea, input, [href], [tabindex]:not([tabindex="-1"])',
+    );
+    if (f.length === 0) return;
+    const first = f[0]!;
+    const last = f[f.length - 1]!;
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
   card.append(close);
 
@@ -226,9 +258,15 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   exportArea.readOnly = true;
   exportArea.rows = 2;
   exportArea.placeholder = 'Your exported save appears here — copy it somewhere safe.';
+  exportArea.id = 'save-export';
+  exportArea.name = 'save-export';
+  exportArea.setAttribute('aria-label', 'Exported save code');
   const importArea = el('textarea', 'save-area');
   importArea.rows = 2;
   importArea.placeholder = 'Paste a save here, then Import.';
+  importArea.id = 'save-import';
+  importArea.name = 'save-import';
+  importArea.setAttribute('aria-label', 'Paste a save code to import');
   const saveRow = el('div', 'settings-row');
   const exp = el('button', 'auto-toggle', 'Export save');
   exp.type = 'button';
@@ -274,6 +312,7 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   return {
     modal: scrim,
     open: () => {
+      opener = (document.activeElement as HTMLElement) ?? null;
       scrim.hidden = false;
       close.focus();
     },
@@ -299,7 +338,8 @@ export function mount(
   title.lang = 'ja';
   title.append(el('span', 'kami', '神隠し'));
   title.append(el('span', 'roman', 'Kamikakushi'));
-  const settingsBtn = el('button', 'settings-btn', '⚙ Settings');
+  const settingsBtn = el('button', 'settings-btn');
+  settingsBtn.append(el('span', 'emoji', '⚙'), document.createTextNode(' Settings'));
   settingsBtn.type = 'button';
   settingsBtn.setAttribute('aria-haspopup', 'dialog');
   const settings = buildSettings(hooks);
@@ -379,6 +419,10 @@ export function mount(
 
   let firstRender = true;
   let lastKey = -1;
+  // track the last painted entry so a coalesced ×N bump (same key, higher count) repaints
+  // the existing DOM line in place rather than appending a duplicate.
+  let lastPaintedKey = -1;
+  let lastPaintedCount = 0;
   // staggered log reveal: new lines cascade in one-by-one (text-adventure feel)
   const LOG_STAGGER_MS = 240;
   const LOG_DOM_MAX = 300; // mirrors core LOG_RING_MAX
@@ -514,7 +558,11 @@ export function mount(
 
     // the humbling first fight — a charged one-time beat (the wolf at the stores)
     if (isUnlocked(state, 'verb-face-wolf') && !hasFlag(state, 'first-fight-survived')) {
-      const wolf = el('button', 'verb primary', '⚔️ Face the wolf at the grain store');
+      const wolf = el('button', 'verb primary');
+      wolf.append(
+        el('span', 'emoji', '⚔️'),
+        document.createTextNode(' Face the wolf at the grain store'),
+      );
       wolf.type = 'button';
       wolf.addEventListener('click', () => dispatch({ type: 'face_wolf' }));
       actions.append(wolf);
@@ -607,7 +655,7 @@ export function mount(
     // combat rank + XP
     const cx = combatXpProgress(state.character.combatXp);
     const lvl = el('div', 'rung-card frame');
-    lvl.append(el('div', 'rung-now', `Combat rank ${cx.level} · 武`));
+    lvl.append(el('div', 'rung-now', `Combat level ${cx.level} · 武`));
     const lm = el('div', 'meter');
     const lf = el('span');
     lf.style.width = pct(cx.into / cx.needed);
@@ -715,12 +763,20 @@ export function mount(
         el('span', 'skill-name', seen ? `${fc.mob.label} ${fc.mob.kanji}` : 'Unknown foe'),
       );
       // a11y (D-Q-a11y): number + word carry meaning in ink; hue lives only on the pip.
-      const tier = fc.winRate >= 0.55 ? 'good' : fc.winRate >= 0.28 ? 'fair' : 'risky';
-      const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
+      // Scout-by-fighting fog: an un-encountered foe shows neither a precise % nor a
+      // difficulty-coloured pip (the hue is info too) — only a hollow ◇ 'Unknown'.
       const wr = el('span', 'win-rate');
-      const pip = el('span', `pip ${tier}`, '◆');
-      pip.setAttribute('aria-hidden', 'true');
-      wr.append(pip, document.createTextNode(` ${pct(fc.winRate)} · ${word}`));
+      if (seen) {
+        const tier = fc.winRate >= 0.55 ? 'good' : fc.winRate >= 0.28 ? 'fair' : 'risky';
+        const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
+        const pip = el('span', `pip ${tier}`, '◆');
+        pip.setAttribute('aria-hidden', 'true');
+        wr.append(pip, document.createTextNode(` ${pct(fc.winRate)} · ${word}`));
+      } else {
+        const pip = el('span', 'pip unknown', '◇');
+        pip.setAttribute('aria-hidden', 'true');
+        wr.append(pip, document.createTextNode(' Unknown'));
+      }
       head.append(wr);
       row.append(head);
       if (seen) row.append(el('div', 'skill-blurb', fc.mob.blurb));
@@ -741,15 +797,32 @@ export function mount(
     }
   }
 
-  function renderVitals(state: GameState): void {
+  // increases-only number-pop (juice). prev===undefined (load / import / new game) never
+  // pops — popValue's guard avoids a false flash on the first paint of a loaded save.
+  function popValue(node: HTMLElement, cur: number, before: number | undefined): void {
+    if (before === undefined || cur <= before) return;
+    node.classList.remove('pop');
+    void node.offsetWidth; // reflow so the animation restarts on a fresh increment
+    node.classList.add('pop');
+  }
+
+  function renderVitals(state: GameState, prev: GameState | null): void {
     koku.wrap.hidden = !isUnlocked(state, 'readout-rice');
-    if (!koku.wrap.hidden) koku.value.textContent = formatKMB(state.resources.koku ?? 0);
+    if (!koku.wrap.hidden) {
+      const v = state.resources.koku ?? 0;
+      koku.value.textContent = formatKMB(v);
+      popValue(koku.value, v, prev?.resources.koku);
+    }
 
     clock.hidden = !isUnlocked(state, 'readout-clock');
     if (!clock.hidden) {
       const s = SEASON_TAG[season(state)];
       clockTag.lang = 'ja';
-      clockTag.textContent = `${s.emoji} ${s.kanji} ${s.name}`;
+      clockTag.textContent = '';
+      clockTag.append(
+        el('span', 'emoji', s.emoji),
+        document.createTextNode(` ${s.kanji} ${s.name}`),
+      );
       clockDay.textContent = `Year ${year(state)} · day ${state.clock.day + 1}`;
     }
 
@@ -761,26 +834,44 @@ export function mount(
     }
 
     wood.wrap.hidden = !isUnlocked(state, 'row-wood');
-    if (!wood.wrap.hidden) wood.value.textContent = formatKMB(state.resources.wood ?? 0);
+    if (!wood.wrap.hidden) {
+      const v = state.resources.wood ?? 0;
+      wood.value.textContent = formatKMB(v);
+      popValue(wood.value, v, prev?.resources.wood);
+    }
     sansai.wrap.hidden = !isUnlocked(state, 'row-sansai');
-    if (!sansai.wrap.hidden) sansai.value.textContent = formatKMB(state.resources.sansai ?? 0);
+    if (!sansai.wrap.hidden) {
+      const v = state.resources.sansai ?? 0;
+      sansai.value.textContent = formatKMB(v);
+      popValue(sansai.value, v, prev?.resources.sansai);
+    }
     void RESOURCE_LABEL;
   }
 
   function reduceMotion(): boolean {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
-  function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
-    const line = el('div', `log-line ${entry.channel}`);
+  function renderLineContent(line: HTMLElement, entry: LogEntry): void {
+    line.textContent = '';
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
-      const b = el('span', 'bullet', bullet);
+      const b = el('span', 'bullet emoji', bullet); // .emoji ties the bullet to the palette
       b.setAttribute('aria-hidden', 'true');
       line.append(b);
     }
-    line.append(document.createTextNode(entry.text));
+    line.append(document.createTextNode(formatLogText(entry)));
+  }
+  function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
+    const line = el('div', `log-line ${entry.channel}`);
+    renderLineContent(line, entry);
     if (animate) line.classList.add('reveal');
     return line;
+  }
+  // restart the tally-flash on a coalesced ×N bump (remove → reflow → re-add).
+  function flashTally(line: HTMLElement): void {
+    line.classList.remove('tally');
+    void line.offsetWidth;
+    line.classList.add('tally');
   }
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
@@ -798,27 +889,50 @@ export function mount(
     }, LOG_STAGGER_MS);
   }
   function renderLog(state: GameState): void {
-    const fresh: LogEntry[] = state.log.entries.filter((e) => e.key > lastKey);
-    if (fresh.length === 0) return;
+    const entries = state.log.entries;
+    if (entries.length === 0) return;
+    const last = entries[entries.length - 1]!;
+    const fresh: LogEntry[] = entries.filter((e) => e.key > lastKey);
+    if (fresh.length === 0) {
+      // in-place ×N growth: the last entry kept its key but bumped its count (a coalesce).
+      // Only paint while the reveal cascade is idle (it self-heals on the next render).
+      if (
+        last.key === lastPaintedKey &&
+        (last.count ?? 1) !== lastPaintedCount &&
+        revealQueue.length === 0 &&
+        revealTimer === undefined
+      ) {
+        const lineEl = logLines.lastElementChild as HTMLElement | null;
+        if (lineEl) {
+          renderLineContent(lineEl, last);
+          flashTally(lineEl);
+          logSection.scrollTop = logSection.scrollHeight;
+        }
+        lastPaintedCount = last.count ?? 1;
+      }
+      return;
+    }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
 
     // on load / reduced-motion / a single new line → append at once (no re-spam).
     if (firstRender || reduceMotion() || fresh.length === 1) {
       for (const e of fresh) appendLine(e, !firstRender && !reduceMotion());
-      return;
-    }
-    // a batch (the cold open, a rank-up reveal) → cascade the lines in one-by-one.
-    revealQueue.push(...fresh);
-    if (revealQueue.length > 12) {
-      // queue backed up during fast streaming — flush to catch up.
-      if (revealTimer !== undefined) {
-        window.clearTimeout(revealTimer);
-        revealTimer = undefined;
+    } else {
+      // a batch (the cold open, a rank-up reveal) → cascade the lines in one-by-one.
+      revealQueue.push(...fresh);
+      if (revealQueue.length > 12) {
+        // queue backed up during fast streaming — flush to catch up.
+        if (revealTimer !== undefined) {
+          window.clearTimeout(revealTimer);
+          revealTimer = undefined;
+        }
+        while (revealQueue.length) appendLine(revealQueue.shift()!, false);
+      } else {
+        pumpReveal();
       }
-      while (revealQueue.length) appendLine(revealQueue.shift()!, false);
-      return;
     }
-    pumpReveal();
+    lastPaintedKey = last.key;
+    lastPaintedCount = last.count ?? 1;
   }
 
   function showRankUp(state: GameState): void {
@@ -850,7 +964,7 @@ export function mount(
     }
     coldOpen.hidden = true;
     shell.hidden = false;
-    renderVitals(state);
+    renderVitals(state, prev);
     renderNav(state);
     renderLog(state);
     workHead.hidden = activeTab !== 'work';

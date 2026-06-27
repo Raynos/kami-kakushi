@@ -2,6 +2,27 @@
    Paper + sumi ink + one disciplined indigo + a rare vermilion seal. Text + CSS +
    inline SVG only; no asset pipeline. Every rule here defends against AI-slop. */
 
+/* ── self-hosted characterful faces (anti-slop first impression) ─────────────
+   Two SIL-OFL faces, subset to the game's glyph union (see src/scripts/subset-fonts.sh)
+   and vendored as .woff2 under ./fonts/. font-display:swap = NO blocking FOIT: the
+   system Mincho fallback (in --font-head / --font-display) paints first, then the
+   characterful face swaps in. If the woff2 are not vendored, the @font-face is a silent
+   no-op and the system fallback simply stays. Vite (base:'./') hashes/copies the woff2. */
+@font-face {
+  font-family: 'Shippori Mincho B1';
+  src: url('./fonts/shippori-mincho-b1-800-subset.woff2') format('woff2');
+  font-weight: 700 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Yuji Syuku';
+  src: url('./fonts/yuji-syuku-400-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* ── PAPER (washi) — the dominant field; never pure #FFF ─────────────── */
   --washi: #f3e9d2;
@@ -82,6 +103,7 @@
   --radius: 3px;
   --radius-seal: 6px;
   --maxw-text: 68ch;
+  --tap-min: 44px; /* a11y: minimum touch-target on named interactive controls */
 
   /* ── motion ─────────────────────────────────────────────────────────── */
   --ease-ink: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -141,6 +163,13 @@ h3 {
 .numeric {
   font-family: var(--font-num);
   font-variant-numeric: tabular-nums;
+}
+
+/* ── emoji: tie full-colour glyphs to the sumi/washi palette (anti-slop) ─────
+   every inline emoji is wrapped in a .emoji span; values are taste-tuned to read as
+   muted woodblock accents, not bright stickers. */
+.emoji {
+  filter: grayscale(0.55) sepia(0.25) saturate(0.65) brightness(0.96);
 }
 
 /* ── woodblock key-block frame ──────────────────────────────────────────── */
@@ -296,7 +325,8 @@ h3 {
 .log-line .bullet {
   margin-right: var(--space-2);
   opacity: 0.85;
-  filter: sepia(0.25) saturate(0.7) brightness(0.95);
+  /* desaturation now comes from the shared .emoji rule (the bullet carries .emoji) —
+     keeping a filter here would double-filter. */
 }
 .log-line.narration {
   color: var(--ink-soft);
@@ -350,6 +380,9 @@ h3 {
   border-radius: var(--radius);
   padding: var(--space-3) var(--space-4);
   text-align: left;
+  min-height: var(--tap-min); /* a11y touch target; justify defaults flex-start → copy stays left */
+  display: flex;
+  align-items: center;
   cursor: pointer;
   transition:
     background var(--dur-fast) var(--ease-ink),
@@ -394,6 +427,41 @@ h3 {
 }
 .reveal {
   animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+
+/* ── juice: number-pop on a vitals increment + tally-flash on a coalesced ×N log bump.
+   Both are auto-neutralised by the reduced-motion media query AND the .reduced-motion
+   class below (animation-duration forced ~0), so no JS RM branch is needed.
+   Durations provisional (v0.2) — tune by playtest. ── */
+@keyframes num-pop {
+  0% {
+    transform: scale(1);
+  }
+  28% {
+    transform: scale(1.16);
+    color: var(--shu);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.vital .value.pop {
+  animation: num-pop 360ms var(--ease-press);
+  transform-origin: right center; /* the value is right-aligned */
+}
+@keyframes tally-flash {
+  0% {
+    background-color: transparent;
+  }
+  20% {
+    background-color: #d7402c1f;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.log-line.tally {
+  animation: tally-flash 420ms var(--ease-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -478,6 +546,9 @@ h3 {
   border: 0;
   border-bottom: 3px solid transparent;
   padding: var(--space-2) var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target */
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
 }
 .nav-tab.active {
@@ -550,6 +621,11 @@ h3 {
   border: 1.5px solid var(--ink-faint);
   border-radius: var(--radius);
   padding: 0 var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target */
+  min-width: var(--tap-min); /* the square A−/A+ / +1 toggles become tappable */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -628,6 +704,9 @@ h3 {
 .win-rate .pip.risky {
   color: var(--beni);
 }
+.win-rate .pip.unknown {
+  color: var(--ink-faint); /* an un-encountered foe: neutral, no difficulty hue */
+}
 
 /* ── a11y: text scale + reduced-motion class (Settings) ──────────────────── */
 html {
@@ -676,6 +755,9 @@ html {
   border: 1px solid var(--washi-deep);
   border-radius: var(--radius);
   padding: var(--space-1) var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target */
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
 }
 .settings-btn:hover,
@@ -708,8 +790,8 @@ html {
   position: absolute;
   top: var(--space-2);
   right: var(--space-3);
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--tap-min); /* a11y touch target (was 2.25rem = 36px) */
+  height: var(--tap-min);
   display: grid;
   place-items: center;
   background: transparent;

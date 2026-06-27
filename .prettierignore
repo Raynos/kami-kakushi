@@ -1,6 +1,7 @@
 dist
 node_modules
 coverage
+src/ui/fonts
 scripts/*.mjs
 *.md
 docs
