@@ -1,0 +1,24 @@
+# Playtest feedback — manual-testing log
+
+> The human's live manual-testing feedback on the playable demo, captured as it's given so nothing is lost.
+> Each item gets an ID + a status; the agent triages → fixes → checks it off here and links the fix commit.
+> **Bugs / UX / feel / visual / polish live here.** Anything that changes *what the game is* (a design
+> decision) ALSO gets recorded as an ADR ([`../docs/history/decisions.md`](../docs/history/decisions.md))
+> or a [`prd_human_feedback.md`](../docs/prd_human_feedback.md) entry — this log will note when that happens.
+>
+> **Status legend:** 🔲 open · 🔧 in progress · ✅ fixed · 🅿️ parked (deliberate-later) · 💬 needs-discussion
+
+---
+
+## Session — 2026-06-27 · first human playthrough
+
+| # | Feedback | Type | Status | Resolution |
+|---|---|---|---|---|
+| F1 | Settings close-**X** can be larger | UX | ✅ | 2.25rem hit-area + focus ring · `67fc002` |
+| F2 | Settings X **red on hover** is not great | visual | ✅ | indigo (`--ai`) hover — vermilion is reserved for the seal/CTA per the bible · `67fc002` |
+| F3 | Cold-open log text appears all at once (and reads backwards); want it to **scroll into view** like a text adventure | feel | ✅ | log now reads newest-at-**bottom** (chronological) + lines **cascade in** one-by-one + auto-scroll, reduced-motion-safe · `67fc002` |
+| F4 | "**New game**" doesn't close the Settings panel after confirm | bug | ✅ | New game / Import now close the panel · `67fc002` |
+
+<!-- Append new feedback below. Template:
+| F5 | {what you observed} | {bug|UX|visual|feel|balance|content|perf} | 🔲 | |
+-->
