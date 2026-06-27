@@ -115,3 +115,12 @@ This is exactly what the playtest discipline is for — and the demo arc is now 
 A promotion now presses the house hanko: a vermilion seal stamps down (ease-press overshoot, mix-blend so
 the paper grain shows through), "PROMOTED · {kanji} · {rank title}", held ~1s then lifts — reduced-motion safe.
 The ui-design §6.2 signature juice moment, now live (audit/qa-10-rankup-seal.png).
+
+## 9 · UX fixes from the first human playthrough
+
+Five fixes from live play: (1) the Settings close-X is larger (2.25rem hit-area) with an INDIGO hover
+(vermilion is reserved for the seal, per the bible — not a routine affordance); (2) the event log now reads
+NEWEST-AT-BOTTOM in chronological order (a story reads top-to-bottom, not reversed) and new lines CASCADE in
+one-by-one with auto-scroll (the text-adventure feel) — staggered reveal queue, reduced-motion-safe, DOM capped
+at the ring; (3) "New game" and "Import" now close the Settings panel so the fresh/loaded game is visible.
+Screenshots: audit/log-cascade-*.png, audit/settings-*.png.

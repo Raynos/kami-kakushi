@@ -190,12 +190,18 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   imp.type = 'button';
   imp.addEventListener('click', () => {
     const v = importArea.value.trim();
-    if (v) hooks.importSave(v);
+    if (v) {
+      hooks.importSave(v);
+      hide(); // close so the loaded game is visible
+    }
   });
   const ng = el('button', 'auto-toggle', 'New game');
   ng.type = 'button';
   ng.addEventListener('click', () => {
-    if (confirm('Start a new game? Your current run will be overwritten.')) hooks.newGame();
+    if (confirm('Start a new game? Your current run will be overwritten.')) {
+      hooks.newGame();
+      hide(); // close so the fresh game is visible
+    }
   });
   saveRow.append(exp, imp, ng);
   card.append(exportArea, importArea, saveRow);
@@ -306,6 +312,11 @@ export function mount(
 
   let firstRender = true;
   let lastKey = -1;
+  // staggered log reveal: new lines cascade in one-by-one (text-adventure feel)
+  const LOG_STAGGER_MS = 240;
+  const LOG_DOM_MAX = 300; // mirrors core LOG_RING_MAX
+  const revealQueue: LogEntry[] = [];
+  let revealTimer: number | undefined;
 
   function setTab(tab: Tab): void {
     activeTab = tab;
@@ -550,25 +561,58 @@ export function mount(
     void RESOURCE_LABEL;
   }
 
+  function reduceMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
+    const line = el('div', `log-line ${entry.channel}`);
+    const bullet = CHANNEL_BULLET[entry.channel];
+    if (bullet) {
+      const b = el('span', 'bullet', bullet);
+      b.setAttribute('aria-hidden', 'true');
+      line.append(b);
+    }
+    line.append(document.createTextNode(entry.text));
+    if (animate) line.classList.add('reveal');
+    return line;
+  }
+  function appendLine(entry: LogEntry, animate: boolean): void {
+    logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
+    while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
+    logSection.scrollTop = logSection.scrollHeight; // auto-scroll to follow the newest line
+  }
+  function pumpReveal(): void {
+    if (revealTimer !== undefined) return;
+    const entry = revealQueue.shift();
+    if (!entry) return;
+    appendLine(entry, true);
+    revealTimer = window.setTimeout(() => {
+      revealTimer = undefined;
+      pumpReveal();
+    }, LOG_STAGGER_MS);
+  }
   function renderLog(state: GameState): void {
-    const entries = state.log.entries;
-    const fresh: LogEntry[] = entries.filter((e) => e.key > lastKey);
-    for (const entry of fresh) {
-      const line = el('div', `log-line ${entry.channel}`);
-      const bullet = CHANNEL_BULLET[entry.channel];
-      if (bullet) {
-        const b = el('span', 'bullet', bullet);
-        b.setAttribute('aria-hidden', 'true');
-        line.append(b);
+    const fresh: LogEntry[] = state.log.entries.filter((e) => e.key > lastKey);
+    if (fresh.length === 0) return;
+    for (const e of fresh) lastKey = Math.max(lastKey, e.key);
+
+    // on load / reduced-motion / a single new line → append at once (no re-spam).
+    if (firstRender || reduceMotion() || fresh.length === 1) {
+      for (const e of fresh) appendLine(e, !firstRender && !reduceMotion());
+      return;
+    }
+    // a batch (the cold open, a rank-up reveal) → cascade the lines in one-by-one.
+    revealQueue.push(...fresh);
+    if (revealQueue.length > 12) {
+      // queue backed up during fast streaming — flush to catch up.
+      if (revealTimer !== undefined) {
+        window.clearTimeout(revealTimer);
+        revealTimer = undefined;
       }
-      line.append(document.createTextNode(entry.text));
-      if (!firstRender) line.classList.add('reveal');
-      logLines.prepend(line);
-      lastKey = Math.max(lastKey, entry.key);
+      while (revealQueue.length) appendLine(revealQueue.shift()!, false);
+      return;
     }
-    while (logLines.childElementCount > entries.length) {
-      logLines.lastElementChild?.remove();
-    }
+    pumpReveal();
   }
 
   function showRankUp(state: GameState): void {
