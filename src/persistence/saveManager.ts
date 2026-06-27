@@ -3,7 +3,7 @@
 // rolling last-known-good ring for crash-recovery, a crash-counter stored OUTSIDE
 // GameState, safe-mode rollback, autosave-poison suppression, and base64 export/import.
 
-import type { GameState } from '../core';
+import { SCHEMA_VERSION, type GameState } from '../core';
 import type { StorageBackend } from './backends';
 import {
   makeEnvelope,
@@ -14,9 +14,19 @@ import {
   type SaveEnvelope,
 } from './codec';
 import { validateEnvelope, validateState } from './validate';
+import { migrate, type MigrateFn } from './migrate';
 
 const SAVE_PREFIX = 'kk:save:';
 const CRASH_KEY = 'kk:crash:v1';
+const PREMIGRATE_PREFIX = 'kk:premigrate:v';
+
+function isFiniteVersion(o: unknown): o is { schemaVersion: number } {
+  return (
+    typeof o === 'object' &&
+    o !== null &&
+    typeof (o as { schemaVersion?: unknown }).schemaVersion === 'number'
+  );
+}
 
 export interface SaveManagerOptions {
   readonly backends: readonly StorageBackend[];
@@ -24,6 +34,8 @@ export interface SaveManagerOptions {
   readonly now: () => number;
   readonly ringSlots?: number;
   readonly crashThreshold?: number;
+  /** Injectable migration seam (tests pass a fake chain; default = the real MIGRATIONS). */
+  readonly migrate?: MigrateFn;
 }
 
 export type SaveResult = { ok: true; saveCounter: number } | { ok: false; reason: string };
@@ -32,6 +44,7 @@ export interface LoadResult {
   readonly state: GameState;
   readonly saveCounter: number;
   readonly coerced: boolean;
+  readonly migrated: boolean;
   readonly safeMode: boolean;
   readonly source: string;
 }
@@ -41,6 +54,9 @@ interface Candidate {
   readonly saveCounter: number;
   readonly savedAt: number;
   readonly coerced: boolean;
+  readonly migrated: boolean;
+  readonly rawBytes: string;
+  readonly fromVersion: number;
   readonly source: string;
 }
 
@@ -49,6 +65,7 @@ export class SaveManager {
   private readonly now: () => number;
   private readonly ringSlots: number;
   private readonly crashThreshold: number;
+  private readonly migrateFn: MigrateFn;
   private counter = 0;
 
   constructor(opts: SaveManagerOptions) {
@@ -56,6 +73,7 @@ export class SaveManager {
     this.now = opts.now;
     this.ringSlots = opts.ringSlots ?? 3;
     this.crashThreshold = opts.crashThreshold ?? 3;
+    this.migrateFn = opts.migrate ?? migrate;
   }
 
   get hasBackends(): boolean {
@@ -104,7 +122,8 @@ export class SaveManager {
         } catch {
           continue; // unparseable / poisoned blob → ignored (recovery)
         }
-        const v = validateEnvelope(parsed);
+        const fromVersion = isFiniteVersion(parsed) ? parsed.schemaVersion : SCHEMA_VERSION;
+        const v = validateEnvelope(parsed, { migrate: this.migrateFn });
         if (!v.ok) continue; // foreign / structurally-broken → rejected to recovery
         const env = parsed as Partial<SaveEnvelope>;
         out.push({
@@ -112,6 +131,9 @@ export class SaveManager {
           saveCounter: typeof env.saveCounter === 'number' ? env.saveCounter : 0,
           savedAt: typeof env.savedAt === 'number' ? env.savedAt : 0,
           coerced: v.coerced,
+          migrated: v.migrated,
+          rawBytes: raw,
+          fromVersion,
           source: `${b.name}#${slot}`,
         });
       }
@@ -128,6 +150,9 @@ export class SaveManager {
     const winner = candidates[0]!;
     this.counter = Math.max(this.counter, winner.saveCounter);
     const safeMode = (await this.getCrashCount()) >= this.crashThreshold;
+    // Persist the pre-migration bytes ONCE if this load actually migrated, so a bad
+    // migration is recoverable / re-importable (PRD §6.8.2).
+    if (winner.migrated) await this.backupRaw(winner.fromVersion, winner.rawBytes);
     return { ...winner, safeMode };
   }
 
@@ -139,7 +164,13 @@ export class SaveManager {
     );
     const older = distinct[1] ?? distinct[0];
     if (!older) return null;
-    return { ...older, safeMode: false };
+    return { ...older, safeMode: false, migrated: false };
+  }
+
+  /** PRD §6.8.2 raw pre-migration backup: keep the original bytes so a bad migration is recoverable/re-importable. */
+  private async backupRaw(fromVersion: number, raw: string): Promise<void> {
+    const key = `${PREMIGRATE_PREFIX}${fromVersion}`;
+    await Promise.all(this.backends.map((b) => b.set(key, raw).catch(() => undefined)));
   }
 
   // ── crash counter (stored OUTSIDE GameState, D-044) ───────────────────────────
@@ -188,6 +219,7 @@ export class SaveManager {
       state: v.state,
       saveCounter: res.saveCounter,
       coerced: v.coerced,
+      migrated: false,
       safeMode: false,
       source: 'import',
     };

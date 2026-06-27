@@ -7,9 +7,10 @@
 import type { GameState, StanceId } from '../core';
 import { APP_ID, SCHEMA_VERSION, balance } from '../core';
 import type { SaveEnvelope } from './codec';
+import { migrate, type MigrateFn } from './migrate';
 
 export type ValidateResult =
-  | { ok: true; state: GameState; coerced: boolean }
+  | { ok: true; state: GameState; coerced: boolean; migrated: boolean }
   | { ok: false; reason: string };
 
 function isObject(v: unknown): v is Record<string, unknown> {
@@ -21,13 +22,22 @@ function num(v: unknown, fallback: number): { value: number; coerced: boolean } 
   return { value: fallback, coerced: true };
 }
 
-/** Validate a candidate envelope; returns the (possibly coerced) GameState or a reject reason. */
-export function validateEnvelope(raw: unknown): ValidateResult {
+/** Validate a candidate envelope; returns the (possibly coerced/migrated) GameState or a reject reason. */
+export function validateEnvelope(raw: unknown, opts?: { migrate?: MigrateFn }): ValidateResult {
   if (!isObject(raw)) return { ok: false, reason: 'not-an-object' };
   if (raw.app !== APP_ID) return { ok: false, reason: 'foreign-or-missing-app-id' };
   if (typeof raw.schemaVersion !== 'number') return { ok: false, reason: 'missing-schema-version' };
   if (raw.schemaVersion > SCHEMA_VERSION) return { ok: false, reason: 'from-a-newer-version' };
-  return validateState(raw.state);
+  // ── migration safety net (PRD §6.8.2): bring an OLD save's state to current schema
+  //    BEFORE structural validation. Additive growth needs none; this runs only when a
+  //    stored schemaVersion < SCHEMA_VERSION has a registered step. ──
+  const run = opts?.migrate ?? migrate;
+  const migratedState =
+    raw.schemaVersion < SCHEMA_VERSION ? run(raw.state, raw.schemaVersion) : raw.state;
+  const didMigrate = raw.schemaVersion < SCHEMA_VERSION && migratedState !== raw.state;
+  const res = validateState(migratedState);
+  if (!res.ok) return res;
+  return { ...res, migrated: didMigrate, coerced: res.coerced || didMigrate };
 }
 
 /** Structural M0 validation + cosmetic coercion. */
@@ -63,6 +73,28 @@ export function validateState(rawState: unknown): ValidateResult {
   const vigor = num(character.vigor, 0);
   const level = num(character.level, 1);
   const combatXp = num(character.combatXp, 0);
+  const validatedCharacter: GameState['character'] = {
+    hp: Math.max(0, hp.value),
+    satiety: Math.max(0, satiety.value),
+    attributePoints: Math.max(0, attributePoints.value),
+    might: Math.max(0, Math.floor(might.value)),
+    guard: Math.max(0, Math.floor(guard.value)),
+    vigor: Math.max(0, Math.floor(vigor.value)),
+    level: Math.max(1, Math.floor(level.value)),
+    combatXp: Math.max(0, combatXp.value),
+  };
+  // An out-of-range vital we had to clamp IS a coercion (e.g. a negative hp → 0): flag it
+  // alongside the wrong-type coercions so the "we mended a small problem" load notice
+  // (main.ts) actually fires for the most common repair, not just non-numeric corruption.
+  const clampChanged =
+    validatedCharacter.hp !== hp.value ||
+    validatedCharacter.satiety !== satiety.value ||
+    validatedCharacter.attributePoints !== attributePoints.value ||
+    validatedCharacter.might !== might.value ||
+    validatedCharacter.guard !== guard.value ||
+    validatedCharacter.vigor !== vigor.value ||
+    validatedCharacter.level !== level.value ||
+    validatedCharacter.combatXp !== combatXp.value;
   coerced =
     coerced ||
     hp.coerced ||
@@ -71,7 +103,9 @@ export function validateState(rawState: unknown): ValidateResult {
     might.coerced ||
     guard.coerced ||
     vigor.coerced ||
-    level.coerced;
+    level.coerced ||
+    combatXp.coerced ||
+    clampChanged;
 
   // --- collections (structural shape; default-safe) ---
   if (!isObject(rawState.resources)) return { ok: false, reason: 'resources-corrupt' };
@@ -85,23 +119,40 @@ export function validateState(rawState: unknown): ValidateResult {
   // Spread the raw state FIRST so additive (M1+) fields ride along, then override
   // the validated/coerced core fields and default any missing additive fields
   // (additive-schema hydration, PRD §6.8.2).
-  const base = rawState as unknown as GameState;
+  const base = rawState as unknown as Partial<GameState>; // honest: fields may be absent/defaulted below
+
+  // Compile-time ledger: every GameState key must be handled in the literal below.
+  // Adding a new field to GameState without a validated default here is a tsc error.
+  type _Handled =
+    | 'schemaVersion'
+    | 'rng'
+    | 'clock'
+    | 'character'
+    | 'resources'
+    | 'flags'
+    | 'unlocked'
+    | 'log'
+    | 'skillXp'
+    | 'rung'
+    | 'rungMeter'
+    | 'estateStage'
+    | 'autoActivity'
+    | 'balanceProfile'
+    | 'equippedWeapon'
+    | 'weaponDurability'
+    | 'autoCombat'
+    | 'stance';
+  type _AssertAllHandled = keyof GameState extends _Handled ? true : never;
+  const _exhaustive: _AssertAllHandled = true;
+  void _exhaustive;
+
   const state: GameState = {
     ...base,
-    schemaVersion:
-      typeof rawState.schemaVersion === 'number' ? rawState.schemaVersion : SCHEMA_VERSION,
+    // Always current after migrate+validate (closes the inner/outer divergence, audit §3 #9).
+    schemaVersion: SCHEMA_VERSION,
     rng: rng as unknown as GameState['rng'],
     clock: { tick: clock.tick, day: clock.day },
-    character: {
-      hp: Math.max(0, hp.value),
-      satiety: Math.max(0, satiety.value),
-      attributePoints: Math.max(0, attributePoints.value),
-      might: Math.max(0, Math.floor(might.value)),
-      guard: Math.max(0, Math.floor(guard.value)),
-      vigor: Math.max(0, Math.floor(vigor.value)),
-      level: Math.max(1, Math.floor(level.value)),
-      combatXp: Math.max(0, combatXp.value),
-    },
+    character: validatedCharacter,
     resources: rawState.resources as GameState['resources'],
     flags: rawState.flags as GameState['flags'],
     unlocked: rawState.unlocked as GameState['unlocked'],
@@ -135,7 +186,7 @@ export function validateState(rawState: unknown): ValidateResult {
         : balance.DEFAULT_BALANCE_PROFILE,
   };
 
-  return { ok: true, state, coerced };
+  return { ok: true, state, coerced, migrated: false };
 }
 
 export function envelopeIsOurs(raw: unknown): raw is SaveEnvelope {

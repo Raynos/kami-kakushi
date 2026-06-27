@@ -73,6 +73,11 @@ async function boot(): Promise<void> {
     note(root, 'Recovered from an earlier rough exit — rolled back to a stable point.');
   } else if (loaded) {
     state = loaded.state;
+    if (loaded.migrated) {
+      note(root, 'We updated your saved game to the latest version of Kamikakushi.');
+    } else if (loaded.coerced) {
+      note(root, 'We mended a small problem in your saved game and carried on — nothing was lost.');
+    }
   } else {
     state = createInitialState(DEFAULT_SEED, bootProfile);
   }

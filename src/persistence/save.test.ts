@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, reduce, type GameState } from '../core';
+import { createInitialState, reduce, SCHEMA_VERSION, type GameState } from '../core';
 import { SaveManager, MemoryBackend, createMemorySaveManager } from './index';
+import { migrate } from './migrate';
 
 function sample(seed = 7): GameState {
   return reduce(reduce(createInitialState(seed), { type: 'open_eyes' }), { type: 'rake_rice' });
@@ -87,5 +88,61 @@ describe('multi-backend redundant save', () => {
     const rb = await mgr.loadRollback();
     expect(rb).not.toBeNull();
     expect(JSON.stringify(rb!.state)).toBe(JSON.stringify(s1));
+  });
+});
+
+describe('migration wiring + pre-migration backup', () => {
+  it('migrates an older save on load, flags it, and keeps a raw backup', async () => {
+    const backend = new MemoryBackend();
+    // a v0 envelope whose inner state is missing a field the fake migration repairs
+    const old = {
+      app: 'kami-kakushi',
+      schemaVersion: 0,
+      saveCounter: 1,
+      savedAt: 1,
+      state: { ...sample(), schemaVersion: 0 },
+    };
+    await backend.set('kk:save:1', JSON.stringify(old));
+    const fakeMigrate = (st: unknown, from: number): unknown =>
+      migrate(st, from, SCHEMA_VERSION, {
+        0: (s: unknown) => ({ ...(s as object), estateStage: 0 }),
+      });
+    const mgr = new SaveManager({ backends: [backend], now: () => 9, migrate: fakeMigrate });
+    const loaded = await mgr.load();
+    expect(loaded).not.toBeNull();
+    expect(loaded!.migrated).toBe(true);
+    expect(loaded!.coerced).toBe(true);
+    expect(loaded!.state.schemaVersion).toBe(SCHEMA_VERSION); // footgun closed
+    expect(await backend.get('kk:premigrate:v0')).toBe(JSON.stringify(old)); // raw backup kept
+  });
+
+  it('still rejects a save from a newer schema (future-version guard)', async () => {
+    const backend = new MemoryBackend();
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({ app: 'kami-kakushi', schemaVersion: SCHEMA_VERSION + 1, state: sample() }),
+    );
+    const mgr = new SaveManager({ backends: [backend], now: () => 1 });
+    expect(await mgr.load()).toBeNull();
+  });
+
+  it('coerces an out-of-range vital and flags coerced (no migration)', async () => {
+    const backend = new MemoryBackend();
+    const bad = { ...sample(), character: { ...sample().character, hp: -5 } };
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({
+        app: 'kami-kakushi',
+        schemaVersion: SCHEMA_VERSION,
+        saveCounter: 1,
+        savedAt: 1,
+        state: bad,
+      }),
+    );
+    const mgr = new SaveManager({ backends: [backend], now: () => 1 });
+    const loaded = await mgr.load();
+    expect(loaded!.coerced).toBe(true);
+    expect(loaded!.migrated).toBe(false);
+    expect(loaded!.state.character.hp).toBeGreaterThanOrEqual(0);
   });
 });
