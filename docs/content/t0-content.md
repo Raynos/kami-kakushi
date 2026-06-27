@@ -34,8 +34,8 @@
 
 | id | label | atk | speed | durability | archetype |
 |---|---|---|---|---|---|
-| carrying_pole | Worn carrying-pole | 5 | 0.9 | 40 | reach · blunt |
-| wood_axe | Woodlot axe | 8 | 0.8 | 55 | heavy · single |
+| carrying_pole | Worn carrying-pole | 13 | 0.9 | 40 | reach · blunt |
+| wood_axe | Woodlot axe | 15 | 0.85 | 55 | heavy · single |
 
 ## Bestiary (grounded — no belief-creatures)
 
@@ -45,7 +45,7 @@
 | monkey | Crop-raiding monkey | 1 | 3 |  |
 | wolf | Lean wolf | 2 | 5 |  |
 | boar | Wild boar | 3 | 8 |  |
-| bandit | Road bandit | 4 | 12 |  |
+| bandit | Road bandit | 5 | 12 |  |
 
 ## Surfaces (reveal registry)
 

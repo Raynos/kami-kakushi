@@ -8,9 +8,11 @@ import {
   combatLevelForXp,
   durabilityBand,
   resolveFight,
+  foeForecasts,
   applyGrindFight,
   applyScriptedWolf,
   getMob,
+  balance,
   type GameState,
 } from './index';
 
@@ -21,18 +23,81 @@ function mc(level = 1, satiety = 100): GameState {
 function atFullSatiety(s: GameState): GameState {
   return { ...s, character: { ...s.character, satiety: 100 } };
 }
+/** Sampled win-rate of one grindable foe against the MC in this state (the UI forecast). */
+function foeWr(state: GameState, mobId: string): number {
+  const f = foeForecasts(state).find((x) => x.mob.id === mobId);
+  if (!f) throw new Error(`no grindable foe ${mobId}`);
+  return f.winRate;
+}
 
-describe('win-rate forecast + progression (sampled — the honest, played behaviour)', () => {
-  it('the fresh MC reliably beats the easiest foe — the starter grind has traction', () => {
-    const wr = sampledWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('monkey')), 11, 100);
-    expect(wr).toBeGreaterThan(0.6);
+// The merged combat-curve gate (audit #1 fix). ALL assertions are BANDS driven by the
+// shared balance.CURVE_* constants — point-estimates are seed/weapon-sensitive, so if a
+// value lands outside, WIDEN the constant to engine reality, never tighten below it.
+// Verified curve (foeForecasts mc(lvl), n=48 run-seed 1, chudan/pole):
+//   monkey 0.33/0.65/0.94/0.98/1.00 · wolf 0.04/0.23/0.54/0.85/0.96
+//   boar   0.00/0.08/0.21/0.48/0.77 · bandit 0.00/0.00/0.00/0.00/0.10 (L1-5) · bandit L8 0.75
+describe('combat curve — a graded close-duel rolling frontier (sampled forecast)', () => {
+  it('the first foe (monkey @L1) is humbling-but-winnable — G3/FU19', () => {
+    const wr = foeWr(mc(1), 'monkey');
+    expect(wr).toBeGreaterThanOrEqual(balance.CURVE_FIRST_FOE_WR_MIN);
+    expect(wr).toBeLessThanOrEqual(balance.CURVE_FIRST_FOE_WR_MAX);
   });
 
-  it('a tough foe is out of reach fresh, but grindable once leveled (the climb pays off)', () => {
-    const fresh = sampledWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('bandit')), 22, 100);
-    const leveled = sampledWinRate(mcCombatStats(mc(5)), mobCombatStats(getMob('bandit')), 22, 100);
-    expect(fresh).toBeLessThan(0.25);
-    expect(leveled).toBeGreaterThan(0.7);
+  it('no checkpoint level is ALL-dead or ALL-trivial (the invariant v0.1 violated)', () => {
+    for (const lvl of balance.CURVE_CHECKPOINT_LEVELS) {
+      const rates = foeForecasts(mc(lvl)).map((f) => f.winRate);
+      expect(rates.every((r) => r <= balance.CURVE_DEAD_TIER_MAX)).toBe(false);
+      expect(rates.every((r) => r >= balance.CURVE_TRIVIAL_TIER_MIN)).toBe(false);
+    }
+  });
+
+  it('the player has a real choice — ≥2 foes inside the choice band at L2 and L3', () => {
+    const inBand = (state: GameState) =>
+      foeForecasts(state).filter(
+        (f) =>
+          f.winRate >= balance.CURVE_CHOICE_BAND_MIN && f.winRate <= balance.CURVE_CHOICE_BAND_MAX,
+      ).length;
+    expect(inBand(mc(2))).toBeGreaterThanOrEqual(2);
+    expect(inBand(mc(3))).toBeGreaterThanOrEqual(2);
+  });
+
+  it('the mid-tier wolf is a genuine race once leveled (anchor: wolf @L3)', () => {
+    const wr = foeWr(mc(3), 'wolf');
+    expect(wr).toBeGreaterThanOrEqual(0.4);
+    expect(wr).toBeLessThanOrEqual(0.72);
+  });
+
+  it('mastering the easiest foe takes real investment (dozens of fights, not ~5 kills)', () => {
+    // the combat level at which the monkey first becomes trivial (≥ CURVE_TRIVIAL_TIER_MIN)
+    let masterLevel = 1;
+    for (let lvl = 1; lvl <= 12; lvl++) {
+      if (foeWr(mc(lvl), 'monkey') >= balance.CURVE_TRIVIAL_TIER_MIN) {
+        masterLevel = lvl;
+        break;
+      }
+    }
+    // monkey kills needed to climb to that level on the v0.2 XP curve
+    const xpPerKill = getMob('monkey').level * balance.COMBAT_XP_K;
+    let xp = 0;
+    let kills = 0;
+    while (combatLevelForXp(xp) < masterLevel) {
+      xp += xpPerKill;
+      kills++;
+    }
+    expect(kills).toBeGreaterThanOrEqual(balance.CURVE_MASTERY_MIN_KILLS);
+  });
+
+  it('the top foe (bandit) is a real wall — out of reach fresh, hard at L5, a challenge by L8', () => {
+    expect(foeWr(mc(1), 'bandit')).toBeLessThan(0.1);
+    expect(foeWr(mc(5), 'bandit')).toBeLessThan(0.35);
+    expect(foeWr(mc(8), 'bandit')).toBeGreaterThan(0.5);
+  });
+
+  it('the analytic closed-form diverges from the honest sample on a lopsided race (boar @L5)', () => {
+    const s = mc(5);
+    const analytic = analyticWinRate(mcCombatStats(s), mobCombatStats(getMob('boar')));
+    const sampled = foeWr(s, 'boar');
+    expect(Math.abs(analytic - sampled)).toBeGreaterThan(0.1);
   });
 
   it('the satiety throttle lowers the win-rate (eat before you fight)', () => {
@@ -46,18 +111,39 @@ describe('win-rate forecast + progression (sampled — the honest, played behavi
     expect(starving).toBeLessThanOrEqual(full);
   });
 
-  it('the analytic closed-form stays a sane estimate (kept for the M6 gate)', () => {
-    const wr = analyticWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('wolf')));
-    expect(wr).toBeGreaterThan(0);
-    expect(wr).toBeLessThan(1);
+  it('Aggressive (jodan) meaningfully raises the win-rate on a longshot (stance gap ≥ 0.08)', () => {
+    const chudan = foeWr({ ...mc(1), stance: 'chudan' }, 'monkey');
+    const jodan = foeWr({ ...mc(1), stance: 'jodan' }, 'monkey');
+    expect(jodan - chudan).toBeGreaterThanOrEqual(0.08);
+  });
+
+  it('stance mods stay in range and set the durability-wear axis (jodan 3 / chudan 2 / gedan 1)', () => {
+    for (const id of balance.STANCE_ORDER) {
+      const m = balance.STANCE_MODS[id];
+      expect(m.atkMult).toBeGreaterThan(0);
+      expect(m.wearMult).toBeGreaterThan(0);
+      for (const lvl of [1, 8]) {
+        const cs = mcCombatStats({ ...mc(lvl), stance: id });
+        expect(cs.critChance).toBeGreaterThanOrEqual(0);
+        expect(cs.critChance).toBeLessThanOrEqual(1);
+        expect(cs.blockChance).toBeGreaterThanOrEqual(0);
+        expect(cs.blockChance).toBeLessThanOrEqual(1);
+      }
+    }
+    const fresh = createInitialState(1);
+    const wearOf = (stance: GameState['stance']) =>
+      fresh.weaponDurability - applyGrindFight({ ...fresh, stance }, 'monkey').weaponDurability;
+    expect(wearOf('jodan')).toBe(3);
+    expect(wearOf('chudan')).toBe(2);
+    expect(wearOf('gedan')).toBe(1);
   });
 });
 
 describe('combat level curve + durability bands', () => {
   it('levels on the combat-XP curve', () => {
     expect(combatLevelForXp(0)).toBe(1);
-    expect(combatLevelForXp(29)).toBe(1);
-    expect(combatLevelForXp(30)).toBe(2);
+    expect(combatLevelForXp(39)).toBe(1);
+    expect(combatLevelForXp(40)).toBe(2);
   });
   it('durability bands step down attackPower, never to zero', () => {
     expect(durabilityBand(40, 40).mult).toBe(1.0);

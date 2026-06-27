@@ -31,6 +31,7 @@ import {
 } from './content/activities';
 import { getWeapon, type WeaponId } from './content/weapons';
 import type { MobId } from './content/enemies';
+import type { StanceId } from './content/balance';
 
 export type Intent =
   | { type: 'open_eyes' }
@@ -42,7 +43,8 @@ export type Intent =
   | { type: 'fight'; mobId: MobId }
   | { type: 'set_auto_combat'; mobId: MobId | null }
   | { type: 'repair_weapon' }
-  | { type: 'equip_weapon'; weaponId: WeaponId };
+  | { type: 'equip_weapon'; weaponId: WeaponId }
+  | { type: 'set_stance'; stance: StanceId };
 
 export type IntentType = Intent['type'];
 
@@ -145,6 +147,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'set_auto_combat': {
       next = { ...next, autoCombat: intent.mobId };
+      break;
+    }
+    case 'set_stance': {
+      if (!isUnlocked(next, 'tab-combat')) return state;
+      next = { ...next, stance: intent.stance };
       break;
     }
     case 'repair_weapon': {

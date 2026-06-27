@@ -57,7 +57,7 @@ export const MOBS: readonly MobDef[] = [
     id: 'bandit',
     label: 'Road bandit',
     kanji: '野伏',
-    level: 4,
+    level: 5, // provisional (v0.2) — tune by playtest
     kokuReward: 12,
     blurb: 'A masterless man gone to robbery on the woodlot road.',
   },

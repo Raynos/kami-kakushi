@@ -22,7 +22,7 @@ export const WEAPONS: readonly WeaponDef[] = [
     id: 'carrying_pole',
     label: 'Worn carrying-pole',
     kanji: '天秤棒',
-    baseAttack: 5,
+    baseAttack: 13, // provisional (v0.2) — tune by playtest
     baseSpeed: 0.9,
     durabilityMax: 40,
     archetype: 'reach · blunt',
@@ -32,8 +32,8 @@ export const WEAPONS: readonly WeaponDef[] = [
     id: 'wood_axe',
     label: 'Woodlot axe',
     kanji: '斧',
-    baseAttack: 8,
-    baseSpeed: 0.8,
+    baseAttack: 15, // provisional (v0.2) — tune by playtest
+    baseSpeed: 0.85, // provisional (v0.2) — tune by playtest
     durabilityMax: 55,
     archetype: 'heavy · single',
     blurb: 'A felling axe off the woodlot rack — heavy, slow, and it bites deep.',

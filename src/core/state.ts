@@ -14,7 +14,7 @@ import { createRng } from './rng';
 import type { LogState } from './log';
 import { emptyLog } from './log';
 import { SCHEMA_VERSION } from './constants';
-import { HP_BASE, COLD_OPEN_SATIETY } from './content/balance';
+import { HP_BASE, COLD_OPEN_SATIETY, type StanceId } from './content/balance';
 import type { RankId } from './content/ranks';
 import type { ActivityId } from './content/activities';
 import type { SkillId } from './content/skills';
@@ -70,6 +70,8 @@ export interface GameState {
   readonly weaponDurability: number;
   /** The tab-open auto-fight target, or null (the combat "leave it running", FU23). */
   readonly autoCombat: MobId | null;
+  /** Active combat stance (kendo kamae; PRD §2.8 D-Q-active-combat). */
+  readonly stance: StanceId;
 }
 
 export function createInitialState(seed: number): GameState {
@@ -97,6 +99,7 @@ export function createInitialState(seed: number): GameState {
     equippedWeapon: 'carrying_pole',
     weaponDurability: getWeapon('carrying_pole').durabilityMax,
     autoCombat: null,
+    stance: 'chudan',
   };
 }
 

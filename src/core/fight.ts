@@ -19,6 +19,7 @@ import {
   FORCED_REST_TICKS,
   DURABILITY_WEAR_PER_FIGHT,
   FIGHT_TICKS,
+  STANCE_MODS,
 } from './content/balance';
 
 function setHp(state: GameState, hp: number): GameState {
@@ -26,9 +27,14 @@ function setHp(state: GameState, hp: number): GameState {
 }
 
 function wearWeapon(state: GameState): GameState {
+  // Stance is the Aggressive cost axis: jodan 3 / chudan 2 / gedan 1 wear per fight.
+  const wear = Math.max(
+    1,
+    Math.round(DURABILITY_WEAR_PER_FIGHT * STANCE_MODS[state.stance].wearMult),
+  );
   return {
     ...state,
-    weaponDurability: Math.max(0, state.weaponDurability - DURABILITY_WEAR_PER_FIGHT),
+    weaponDurability: Math.max(0, state.weaponDurability - wear),
   };
 }
 

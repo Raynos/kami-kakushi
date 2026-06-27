@@ -1,8 +1,10 @@
 // The deterministic auto-battler (PRD §4.6). MC combat stats derive from the
-// character (combat) level + equipped weapon (× durability band × satiety throttle);
-// mob stats derive from MobDef.level (same curve family, Block N.1 #1). The win-rate
-// is ANALYTIC — a closed-form race-to-kill probability (D-Q-winrate), no sampling.
-// The actual fight is a seeded sim over the combat RNG cursor (deterministic replay).
+// character (combat) level + equipped weapon (× durability band × satiety throttle ×
+// stance); mob stats derive from MobDef.level (same curve family, Block N.1 #1). Two
+// win-rate lenses: analyticWinRate() is a closed-form race-to-kill estimate kept for
+// the M6 gate, while the displayed/decision FORECAST (foeForecasts → sampledWinRate)
+// is an honest fixed-seed SAMPLE of the real sim. The actual fight is a seeded sim
+// over the combat RNG cursor (deterministic replay).
 
 import type { GameState } from './state';
 import type { Rng } from './rng';
@@ -34,6 +36,9 @@ import {
   COMBAT_XP_GROWTH_DEN,
   COMBAT_MAX_LEVEL,
   DURABILITY_BANDS,
+  SPREAD_LO,
+  SPREAD_SPAN,
+  STANCE_MODS,
 } from './content/balance';
 
 export interface CombatStats {
@@ -44,6 +49,8 @@ export interface CombatStats {
   readonly hitChance: number;
   readonly critChance: number;
   readonly blockChance: number;
+  /** Incoming-damage multiplier applied to this combatant when it DEFENDS (stance). */
+  readonly damageTakenMult: number;
 }
 
 // Combat-XP → character level (integer 1.3× cumulative; combat-only, Q1/FU14).
@@ -93,15 +100,17 @@ export function mcCombatStats(state: GameState): CombatStats {
   const level = state.character.level;
   const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
   const satRate = combatSatietyRate(state);
+  const stance = STANCE_MODS[state.stance];
   const baseAtk = weapon.baseAttack + (level - 1) * MC_ATK_PER_LEVEL;
   return {
-    attackPower: Math.max(1, Math.round(baseAtk * band.mult * satRate)),
+    attackPower: Math.max(1, Math.round(baseAtk * band.mult * satRate * stance.atkMult)),
     defense: MC_DEF_BASE + (level - 1) * MC_DEF_PER_LEVEL,
     hp: hpMax(state),
     speed: weapon.baseSpeed,
     hitChance: HIT_CHANCE,
-    critChance: CRIT_CHANCE,
-    blockChance: BLOCK_CHANCE,
+    critChance: clamp(CRIT_CHANCE + stance.critAdd, 0, 1),
+    blockChance: clamp(BLOCK_CHANCE + stance.blockAdd, 0, 1),
+    damageTakenMult: stance.takenMult,
   };
 }
 
@@ -115,6 +124,7 @@ export function mobCombatStats(mob: MobDef): CombatStats {
     hitChance: HIT_CHANCE,
     critChance: CRIT_CHANCE,
     blockChance: 0, // grounded beasts don't parry
+    damageTakenMult: 1, // mobs take normal damage
   };
 }
 
@@ -142,17 +152,20 @@ function swing(rng: Rng, atk: CombatStats, def: CombatStats): [number, Rng] {
   r = r1;
   if (!hit) return [0, r];
   let raw = Math.max(DAMAGE_FLOOR, atk.attackPower - def.defense);
-  // per-hit damage spread (~±30%) — smooths the win-rate curve so a fight can be a
+  // per-hit damage spread (~±45%) — smooths the win-rate curve so a fight can be a
   // genuine 30–70% race, not a binary outcome of the stat gap.
   const [v, rv] = nextFloat(r, 'combat');
   r = rv;
-  raw = Math.max(DAMAGE_FLOOR, Math.round(raw * (0.7 + 0.6 * v)));
+  raw = Math.max(DAMAGE_FLOOR, Math.round(raw * (SPREAD_LO + SPREAD_SPAN * v)));
   const [crit, r2] = nextChance(r, 'combat', atk.critChance);
   r = r2;
   if (crit) raw = Math.round(raw * CRIT_MULT);
   const [block, r3] = nextChance(r, 'combat', def.blockChance);
   r = r3;
   if (block) raw = Math.max(DAMAGE_FLOOR, Math.round(raw * (1 - BLOCK_REDUCTION)));
+  // stance: the defender's incoming-damage multiplier (RNG-free post-processing — no
+  // new draw, so seeded replays stay byte-identical). Mobs have damageTakenMult = 1.
+  raw = Math.max(DAMAGE_FLOOR, Math.round(raw * def.damageTakenMult));
   return [raw, r];
 }
 

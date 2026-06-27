@@ -4,7 +4,7 @@
 // rejected to recovery (Q46). Re-asserting up-only / trade-≤⅓ lands additively once
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
-import type { GameState } from '../core';
+import type { GameState, StanceId } from '../core';
 import { APP_ID, SCHEMA_VERSION } from '../core';
 import type { SaveEnvelope } from './codec';
 
@@ -100,6 +100,7 @@ export function validateState(rawState: unknown): ValidateResult {
     equippedWeapon: base.equippedWeapon ?? 'carrying_pole',
     weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
     autoCombat: base.autoCombat ?? null,
+    stance: (base.stance as StanceId) ?? 'chudan',
   };
 
   return { ok: true, state, coerced };
