@@ -93,7 +93,7 @@
 | drillmaster | Kihei |
 | steward | Chiyo |
 | physician | Sōan |
-| villageChief | Yagoemon |
+| villageChief | Yagōemon |
 | villageGirl | Sayo |
 | father | Jinpachi |
 | mother | Oyuki |

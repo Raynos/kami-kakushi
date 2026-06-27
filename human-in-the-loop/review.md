@@ -12,4 +12,14 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 - **Verdict:** {filled in by the human}
 -->
 
-_None yet._
+### R1 🔲 — the M0–M2 demo: fun, pacing & look (the first human play/taste call)
+
+- **Asking for:** the higher-level **fun & visual-taste verdict** on the playable T0 slice — does the
+  cold open hook? does the reveal cadence (UI inking in) feel good? is the labour→wolf→combat arc paced
+  and fun? does it look like an intentional woodblock game (not AI-slop)? Anything that breaks the spell.
+- **How to look:** `npm run dev` → open the local URL and play (cold open → rake → labour to the rungs →
+  face the wolf → combat). Or skim the gallery in [`audit/`](../audit/) (`qa-01…10-*.png`,
+  `log-cascade-*.png`, `settings-*.png`). The agent has self-vetted it against `ui-design.md`; this is the
+  taste call the proxies + the agent's own review inform but can't replace.
+- **Verdict:** _(awaiting the human)_
+

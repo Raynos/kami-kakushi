@@ -1,5 +1,11 @@
 # KamiKakushi : An Incremental RPG game.
 
+> **Note — this is the preserved original seed prompt, kept as a historical artifact.** It is not
+> the current canon and some details have since evolved (e.g. the protagonist's age). For the
+> authoritative present-day vision see [`docs/prd.md`](docs/prd.md) §1, and for what is actually
+> built see the milestone tracker in [`docs/roadmap.md`](docs/roadmap.md). The original seed text is
+> preserved unchanged below.
+
 The goal is to build a web based HTML incremental RPG game. 
 Feel free to use HTML5 & Typescript in the implementation.
 
@@ -12,7 +18,7 @@ Each incremental RPG game has a story, a campaign, things to do, main quest, sid
 For our story I will seed you a hint.
 
  - It's based on EDO era japan, 
- - You start out as a 17 year old farmhand, who wakes up on a samurai estate in the country side. 
+ - You start out as a ~18 year old farmhand, who wakes up on a samurai estate in the country side. 
  - You don't quite know how you got here, but that's the fun, you can speak to the members of the estate, and someone from the estate will guide you. 
 
 

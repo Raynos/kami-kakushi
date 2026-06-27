@@ -124,3 +124,16 @@ NEWEST-AT-BOTTOM in chronological order (a story reads top-to-bottom, not revers
 one-by-one with auto-scroll (the text-adventure feel) — staggered reveal queue, reduced-motion-safe, DOM capped
 at the ring; (3) "New game" and "Import" now close the Settings panel so the fresh/loaded game is visible.
 Screenshots: audit/log-cascade-*.png, audit/settings-*.png.
+
+## 10 · Doc-reality sync (audit → fix)
+
+A 5-agent audit cross-checked all ~40 markdown files against the built reality and found ~25 stale items:
+verdict was code + project-status + journal + ADRs accurate, but ~a dozen design/process docs still read
+"pre-build / DRAFT / PLAN", with no milestone tracker and the D-021 docs-explosion overdue. Fixed (Phase 1 me
++ Phase 2 a 10-agent parallel pass): created the living **docs/roadmap.md** (M0–M2b ✅ / M3–M7 provisional);
+reclassified qa-playtesting from a "plan" → a LIVING GUIDE and moved docs/plans/→docs/ (20+ refs fixed);
+graduated the QA harness tmp/→scripts/; prd.md masthead→V2.2 + §7.2 completion banner + "§7 approved" notes;
+prd_human_feedback Block N/N.1 marked ✅ APPLIED + precedence pointer + footer; ADRs annotated + **D-046**
+(build-cycle-complete); ui-design/fun-factor/qa-playtesting DRAFT/PLAN→LIVING; CLAUDE/README/working-agreements
+present-tensed; root README age 17→~18 + seed-prompt pointer; names.ts Yagoemon→Yagōemon; filed review R1.
+Raw audit + fix reports snapshotted in brainstorms/raw/. verify green (51 tests) throughout.

@@ -347,7 +347,7 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   **D-017** v1 execution plan (M0–M8 incl. fixed M2a/M2b, itch.io deploy, verify gate, no pre-planned cut).
   **D-018** UI design language (woodblock/ink, strong CSS, no asset pipeline → `docs/ui-design.md`).
   **D-019** fun as a first-class priority + the QA/playtest discipline (`docs/fun-factor.md` +
-  `docs/plans/qa-playtesting.md`). **D-020** post-freeze docs-explosion (freeze prd.md as the vision; explode
+  `docs/qa-playtesting.md`). **D-020** post-freeze docs-explosion (freeze prd.md as the vision; explode
   into living docs + generate-don't-duplicate). **D-021** *refines D-020 (does not delete it)* — scope
   "freeze" to **LOCKED INTENT** (§1 vision + the hard human constraints + the human-signed acceptance
   criteria), **not the whole PRD**; **do NOT explode yet** — build **M0+M1 against the current `prd.md`** and

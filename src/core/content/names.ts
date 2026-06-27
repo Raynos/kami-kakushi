@@ -14,7 +14,7 @@ export const NAMES = {
   physician: 'Sōan', // the debunker-physician (renamed off the Edogawa "Ranpo" echo — Q39/Block N.1)
 
   // ── Village of Asagiri ──
-  villageChief: 'Yagoemon',
+  villageChief: 'Yagōemon',
   villageGirl: 'Sayo', // ignites the "Tama" legend at T1-V0
 
   // ── Origin (Sawatari-juku) ──

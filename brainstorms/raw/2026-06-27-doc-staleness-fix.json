@@ -1,0 +1,337 @@
+{
+  "summary": "Present-tense the stale pre-build/draft/plan framing across the docs to match built reality",
+  "agentCount": 10,
+  "logs": [],
+  "result": {
+    "reports": [
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/prd.md",
+        "edits": [
+          "Edit 1 (masthead ~L3): bumped \"Status: PRD V2 —\" to \"PRD V2.2 —\" and appended \"+ Block N (32 post-battery) + Block N.1 (7); ADRs D-043/D-044/D-045\"; updated §§ ref to §§L–N.",
+          "Edit 1 (status table ~L24/27/30): changed the three \"PRD V2 —\" cells (§1 locked intent, §4 numbers provisional, §7 M2–M7 provisional) to \"PRD V2.2 —\". (Plain \"PRD V2\" cells for §2/§3/§5/§6 left as-is per the instruction's \"PRD V2 —\" scope.)",
+          "Edit 2 (How-to-read ~L9): appended \"(Satisfied 2026-06-26: §7 approved → M0–M2b built & verify-green; M3–M7 provisional.)\" after the \"No code is written until §7 is approved\" rule — annotated as met, not deleted.",
+          "Edit 2 (§7 intro ~L6853): appended the same satisfied note to the repeated \"no code is written until §7 is approved\" line.",
+          "Edit 3 (top framing block ~L46): appended an Update 2026-06-26 note that the first build-and-play cycle is complete (M0–M2b built/verify-green/play-tested), linked the now-existing docs/roadmap.md and docs/content/t0-content.md, and flagged the remaining reorg (freeze §1, §4→generated) as queued next step. Forward \"Do NOT explode this doc yet\" rule preserved.",
+          "Edit 4 (§7.2 header ~L7009): added a STATUS banner \"M0 ✅ (8bf6ac9) · M1 ✅ (8bf6ac9) · M2a ✅ · M2b ✅ (248bf93/fc36172) — see the living roadmap.md; M3a is NEXT; M3b–M7 provisional.\"",
+          "Edit 5 (§1.10 V2 deltas ~L1062): extended ADR roster from \"D-016 … D-042\" to \"D-016 … D-045\" and added \"+ Block N → D-043 (V2.1), D-044 (crash-recovery), D-045 (a11y-ink)\".",
+          "Edit 6 (macron-lint positive example ~L6350): swapped retired name \"Jūbei\" for live macron name \"Kyūsuke\".",
+          "Edit 6 (real-name DENYLIST lint ~L2394): added the retired Yagyū/Edogawa echoes \"Munenori/Jūbei/Ranpo likewise denied (→ Shigemasa/Kihei/Sōan)\" and tagged Block N.1 #3 alongside the existing denylist names."
+        ],
+        "notes": "All edits were surgical Edit-tool changes to ONLY /Users/raynos/projects/games/kami-kakushi/docs/prd.md. Verified each landed via grep. Confirmed docs/roadmap.md, docs/content/t0-content.md, and docs/qa-playtesting.md all exist on disk, so the new links/claims are accurate. Left genuinely-future language (M3–M7, font self-host, auto-player) forward. NOTE: the masthead/table version label was bumped to V2.2, but the four prose status callouts that open §1.8 (~L1133), §3 (~L2532), §3.x (~L3322) and §7 (~L6845) still read \\\"PRD V2 — reshaped from the 79 ... V2 decisions\\\"; the task scoped Edit 1 to the masthead line + the §-status TABLE cells only, so I left those prose callouts' version labels untouched to stay surgical — flagging in case a follow-up wants them bumped to V2.2 for full consistency. Separately, `git diff` shows ~22 other files already modified in the working tree (CLAUDE.md, README.md, docs/*, src/core/content/names.ts, audit PNGs, etc.) — these are pre-existing uncommitted changes from another process, NOT made by me; I touched only docs/prd.md."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/prd_human_feedback.md",
+        "edits": [
+          "Edit 1 (Block N header, ~L520): changed \"They drive the PRD V2 -> V2.1 rewrite\" to past tense (\"drove\") and appended a blockquote line: \"APPLIED to prd.md in PRD V2.2 (commit 2b8d5e9, 943 insertions + an audit-fix reconcile). The decisions stand unless the human reopens them.\"",
+          "Edit 2 (Block N.1 status banner, ~L589): flipped \"Status: PROPOSED -- confirm at V2.1 ... until then V2.1 implements the proposed default\" to \"Status: APPLIED in PRD V2.2 (commit 2b8d5e9) -- the proposed defaults stand unless the human reopens them.\"",
+          "Edit 3 (precedence-rule pointer, ~L21): updated the latest-block chain from \"Block M -- the wave-2 follow-ups -- then Block L\" to \"Block N.1 -> Block N -> Block M -> Block L\".",
+          "Edit 4 (footer move, L510 -> true bottom): removed the orphaned \"Last updated: 2026-06-26\" footer sitting above Blocks N/N.1 and re-added it after Block N.1 as \"Last updated: 2026-06-27\", noting Blocks N + N.1 were applied to prd.md in PRD V2.2 (commit 2b8d5e9) and the M0+M1+M2a+M2b demo is built & verify-green (51 tests) and play-tested.",
+          "Edit 5 (Legend, ~L15): added \"yellow proposed (awaiting confirm)\" entry to the legend (the yellow glyph still appears throughout Block N.1 body text, so the legend now documents it).",
+          "Edit 6 (J6/J7 open-items, ~L331): struck both and marked DONE -- J6 (whole-project audit / consistency sweep) resolved via the 5-round PRD V2 battery -> Blocks N + N.1, applied in V2.2; J7 (S7 milestone breakdown) landed in PRD V2, roadmap now living at docs/roadmap.md with M0-M2b shipped."
+        ],
+        "notes": "All 6 requested edits were surgical Edit-tool changes to docs/prd_human_feedback.md only. Stale forward-language was present-tensed where contradicted by built reality (Blocks N/N.1 applied; demo built; J6/J7 done); genuinely-future items (M3-M7, font self-host, auto-player) were left untouched. I referenced docs/roadmap.md (per ground truth it exists). One note: Edit 4's target footer was NOT adjacent to FU14 as the prompt's line estimate implied -- the footer sat ~18 lines below FU14 (after FU15-FU23); I located the exact text via the full read before editing. Voice, markdown structure, and the relative [text](link) link style were preserved throughout."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/history/decisions.md",
+        "edits": [
+          "Edit 1 (D-020 Consequences, line 176): changed \"Do the docs-explosion at the start of the build phase\" to \"Do the docs-explosion AFTER the first M0+M1 build-and-play cycle (per the D-021 refinement), not at the start of the build phase\"; kept the gen:docs --check / read-mostly notes intact.",
+          "Edit 2 (D-021 Consequences, line 183): appended a dated 2026-06-27 annotation noting the first build-play cycle is complete (M0/M1/M2 demo, verify-green), the docs-explosion trigger has fired, docs/content/ and docs/roadmap.md exist, §1 freeze + §4-balance remain queued, pointing to ADR D-046.",
+          "Edit 3: added NEW ADR D-046 at the bottom in the same Context/Options/Decision/Why/Consequences format — records M0/M1/M2a/M2b built & verify-green (51 tests) + play-tested (commits 8bf6ac9, 248bf93, fc36172), the combat dead-end caught/fixed via sampled-win-rate forecast + winnable starter foe, the D-021 trigger firing (roadmap created, content generating), the deferred §1 freeze + §4-balance pending human sign-off, and the D-044/D-045 cross-reference."
+        ],
+        "notes": "Surgical Edit-tool changes only to docs/history/decisions.md. Preserved existing voice, bold-label markdown structure, and relative-link style. Forward-looking items genuinely still future (M3–M7, T3/T4) were left untouched; D-046 explicitly notes they are NOT built. NPC renames (Shigemasa/Kihei/Sōan) and the QA-doc reclassification to docs/qa-playtesting.md (LIVING GUIDE) are reflected in the D-046 Consequences. The three edits are self-consistent: D-020 and D-021 now point forward to D-046, and D-046 refines (does not delete) D-021."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/ui-design.md",
+        "edits": [
+          "Line 3 banner: relabeled \"DRAFT — for human review.\" to \"LIVING — the M1/M2 renderer (src/ui) is built to this bible. One open item: font self-hosting (Q52).\" preserving the LOCKED art-direction sentence.",
+          "Line 125 §3.1 heading: softened \"Font stack (DRAFT recommendation — final pick flagged for the human)\" to \"Font stack (adopted default; self-host pending Q52)\" and added an inline note that the stack is wired into src/ui/styles.css.",
+          "Line 153 §3.2: annotated \"Option A ... Google's dynamic subsetting\" as REJECTED (Q52/D-013, breaks offline / itch relative-base) and re-tagged Option B from \"recommended\" to \"ADOPTED\".",
+          "Open-choices #1 (font pick): changed from \"DRAFT default ... Confirm the pairing before M1\" to ADOPTED — M1/M2 shipped on Shippori Mincho + Yuji Syuku with a system-mincho fallback; self-host still pending (Q52).",
+          "Open-choices #2 (font delivery): marked RESOLVED (Q52/D-013) — self-hosted Option B chosen, Google Option A rejected, noted not yet implemented in the build (still system fallback).",
+          "Open-choices #3 (palette fine-tune): noted the palette shipped as authored with tokens matching src/ui/styles.css, so the \"eyeball on real screens\" is now done/actionable."
+        ],
+        "notes": "Surgical edits only to docs/ui-design.md; no other files touched. Genuinely-future items (font self-host Q52, M3-M7) kept forward-tense. Added two relative links to ../src/ui/styles.css matching the doc's existing link style. The CSS @font-face example block and the rest of §3 left intact."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/qa-playtesting.md",
+        "edits": [
+          "Link fix (line 4): [§6.10](../prd.md) -> [§6.10](prd.md)",
+          "Link fix (line 31): capture-game-states (../../.claude/skills/) -> (../.claude/skills/)",
+          "Link fix (line 124): [`../fun-factor.md`](../fun-factor.md) -> [`fun-factor.md`](fun-factor.md)",
+          "Link fix (line 224): capture-game-states (../../.claude/skills/) -> (../.claude/skills/)",
+          "Link fix (line 226): [`audit/`](../../audit/) -> [`audit/`](../audit/)",
+          "Link fix (line 244): [`../fun-factor.md`](../fun-factor.md) -> [`fun-factor.md`](fun-factor.md)",
+          "Link fix (line 245): [`../prd.md`](../prd.md) -> [`prd.md`](prd.md)",
+          "Link fix (line 246): [`ui-design.md`](../ui-design.md) -> [`ui-design.md`](ui-design.md)",
+          "Link fix (line 247): [`../prd_human_feedback.md`](../prd_human_feedback.md) -> [`prd_human_feedback.md`](prd_human_feedback.md)",
+          "Edit #1 (status banner, line 7): 'PLAN (the harness lands in M0; the loops run from M1 on).' -> 'LIVING GUIDE - the __qa harness is BUILT (src/app/main.ts, DEV-guarded); the visual/feel loop has run from M1 (audit/ screenshots). Still pending: the §2 headless auto-player bot + the §3 automated fun-proxy suite as a verify gate.'",
+          "Edit #2 (§1, line 43): dropped the 'window.__game exposes the live instance for deeper poking.' sentence (not built; only window.__qa exists).",
+          "Edit #5 (§4, line 148): '(per the UI design-language bible, authored before M1's first real UI)' -> '(per the UI design-language bible, which the M1/M2 renderer is built to)' + rebased its ui-design.md link.",
+          "Edit #4 (§5, line 182): replaced verify-gate description 'typecheck + unit + content-verifier + K/M/B + macron lints + the §4.8 pacing regression' with the real gate 'tsc + eslint + prettier + vitest + verify-content + gen:docs --check' and noted verify-content enforces id/canon invariants + real-name denylist, K/M/B is unit-tested, and macron lint + §4.8 pacing regression are planned additions not yet in the gate.",
+          "Edit #3 + Tooling (§7, line 227-229): 'Where the harness will live' -> 'Where the harness lives'; added that the screenshot/playtest drivers are tracked at scripts/qa-shots.mjs + scripts/playtest.mjs; kept the auto-player + fun-proxy collectors as still-pending."
+        ],
+        "notes": "All 9 own-doc relative links rebased one level up (docs/plans/ -> docs/); the two remaining `](../` matches (../.claude/skills/, ../audit/) are correct one-level-up-to-repo-root links and were left as-is. All link targets verified to exist (docs/prd.md, docs/fun-factor.md, docs/ui-design.md, docs/prd_human_feedback.md, .claude/skills/, audit/, scripts/qa-shots.mjs, scripts/playtest.mjs, src/app/main.ts). Reclassified PLAN -> LIVING GUIDE per ground truth (harness built, M0+M1+M2a+M2b shipped). Kept genuinely-future items forward (M2 auto-player bot, fun-proxy suite, macron lint, §4.8 pacing regression, M3-M7 references, font self-host). Surgical Edit-tool changes only; no section rewrites; voice/markdown/link style preserved."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/README.md",
+        "edits": [
+          "Added a living-docs inventory list after the prd.md paragraph — links prd_human_feedback.md, roadmap.md, fun-factor.md, ui-design.md, qa-playtesting.md (now framed as a living guide, not a plan), and content/ (noting it EXISTS now: t0-content.md generated by scripts/gen-docs.ts, checked by gen:docs --check). [points 3 + 4]",
+          "Rewrote the 'docs-explosion is deferred' paragraph to present tense: header now 'trigger is met'; states M0–M2b are built, verify-green (51 tests), and play-tested; links the now-existing roadmap.md and content/; updated the banner example from 'M0–M1 committed; M2–M7 provisional' to 'M0–M2b committed; M3–M7 provisional'; reframed the §1-freeze + §4→generated as the queued next step. [points 1 + 2]"
+        ],
+        "notes": "Two surgical Edit-tool changes, both within docs/README.md only. Verified docs/content/t0-content.md and docs/roadmap.md exist before editing. M3–M7 / T3-T4 kept forward-looking; the future `design/` split (\"Likely future additions\") left untouched since it is genuinely still future. Voice, markdown structure, and relative-link style preserved. Note: the file's own forward-language fix did not require touching the still-future font self-host or auto-player bot (those are not mentioned in this file)."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/CLAUDE.md",
+        "edits": [
+          "Layout > docs/ bullet: \"Generated content/balance tables will land under docs/content/.\" -> present tense \"...live under docs/content/ (e.g. t0-content.md), produced by scripts/gen-docs.ts.\"",
+          "Conventions > Freeze bullet: appended annotation \"(M0-M2b are built & play-tested; docs/content/ + docs/roadmap.md exist; the remaining freeze of §1 + §4->generated is the queued next step.)\" before the \"See D-021\" reference, leaving M2-M7 forward-language intact.",
+          "Conventions > Playtest bullet: link text \"[QA & playtesting plan]\" -> \"[QA & playtesting guide]\" (path already docs/qa-playtesting.md)."
+        ],
+        "notes": "All three requested fixes made as surgical Edit-tool changes; voice/markdown/link style preserved. Items 1 and 2 fully applied. For item 3: the only stale \\\"plan\\\" wording was the link text on line 38 (now \\\"guide\\\"); the path was already docs/qa-playtesting.md from an earlier sweep. The three quality docs (fun-factor.md, qa-playtesting.md, ui-design.md) already all reference docs/ in the Playtest/QA bullets and the Layout docs/ bullet, so no additional change was needed there. Genuinely-future language (M3-M7, T3/T4, no font self-host / auto-player text present here) left untouched."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/memory/working-agreements.md",
+        "edits": [
+          "Line 13: changed the `../docs/` parenthetical from \"(added when we design the game)\" to \"(living docs, edited in place)\" — docs/ is now richly populated.",
+          "Lines 17-18: replaced the forward-language \"Once a toolchain exists, also gate on its verify command and record it in project-status\" with the present-tense standing rule \"Gate every commit on `npm run verify` (tsc + eslint + prettier + vitest + verify-content + gen:docs --check), recorded in project-status.\""
+        ],
+        "notes": "Made 2 surgical edits. Scanned the remaining lines: the Cadence/journal append-rule, the Autonomy \\\"build → verify → commit → journal\\\" loop, and the Architecture pure-core rule are all already present-tense and not contradicted by the built reality, so I left them untouched. No genuinely-future items (M3–M7, font self-host, auto-player) appear in this file, so nothing future needed preserving. Voice, markdown structure, and link style preserved."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md",
+        "edits": [
+          "Line ~3 status banner: \"Status: DRAFT — for human review.\" → \"Status: LIVING — the fun targets the build is measured against; `pacing()` is instrumented (report-only), the auto-player bot + the gating fun-suite are still pending (M6).\"",
+          "Line ~147-150 §3 intro: removed the \"auto-player + pacing() proxies ... run on every build as a 'fun regression suite'\" present-tense claim; now states pacing() is built/instrumented (window.__qa.pacing(), report-only) but the auto-player bot + automated fun-regression suite are NOT yet wired into verify (planned for M6), and a one-off headless playtest has run (and caught a real combat dead-end). Also dropped the now-stale \"at M3\" anchor from \"the human play-judgment is the real test.\""
+        ],
+        "notes": "Two surgical Edit-tool changes only. Both fix forward/present-tense claims contradicted by built reality (pacing() exists; bot + gating suite do not). Voice, markdown table structure, and [`link`](path) style preserved. Did NOT touch genuinely-future references: M3-M7 watch-points (§7), T3/T4 fun threads (§8), the §3-table bot heuristics (left as target definitions for the M6-intended measurement, now correctly scoped by the softened §3 intro), and the tunable thresholds left for the M3 first-playable pass (§8). The \\\"Reading the dashboard\\\" guidance (lines ~163-165) reads as interpretation guidance for the targets, not a claim the dashboard runs on every build, so left as-is. No sections rewritten, no content invented."
+      },
+      {
+        "file": "/Users/raynos/projects/games/kami-kakushi/README.md",
+        "edits": [
+          "Added a blockquote header note at the very top marking the file as the preserved original seed prompt (not current canon) and pointing to docs/prd.md §1 for the authoritative vision and docs/roadmap.md for build status.",
+          "Fixed protagonist age in the story-hint bullet: \"17 year old farmhand\" -> \"~18 year old farmhand\" to match canon (docs/prd.md §1)."
+        ],
+        "notes": "Two surgical Edit-tool changes only, to /Users/raynos/projects/games/kami-kakushi/README.md. The original seed text below the note was left unchanged as a historical artifact, including the genuinely-pre-build/forward phrasing (\"Feel free to use HTML5 & Typescript\", \"I will seed you a hint\", \"look at proto23\", inspiration links) per the instruction to preserve the seed prompt verbatim — only the age contradiction was corrected inline, and the new header note flags the rest of the seed framing as non-canonical. Voice, markdown structure, and link style preserved."
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Per-file fixes"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "prd.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "ad79333bff8ff1ef3",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229607,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/prd.md",
+      "promptPreview": "Fix docs/prd.md (it's huge — grep to locate). \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone t…",
+      "lastProgressAt": 1782544382491,
+      "tokens": 51906,
+      "toolCalls": 27,
+      "durationMs": 152883,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/prd.md\",\"edits\":[\"Edit 1 (masthead ~L3): bumped \\\"Status: PRD V2 —\\\" to \\\"PRD V2.2 —\\\" and appended \\\"+ Block N (32 post-battery) + Block N.1 (7); ADRs D-043/D-044/D-045\\\"; updated §§ ref to §§L–N.\",\"Edit 1 (status table ~L24/27/30): changed the three \\\"PRD V2 —\\\" cells (§1 locked intent, §4 numbers provisional, §7 M2–M7 provisional) to \\\"PRD…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "prd_human_feedback.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "aa2d74afeee96896a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229608,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/prd_human_fe…",
+      "promptPreview": "Fix docs/prd_human_feedback.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now exi…",
+      "lastProgressAt": 1782544303886,
+      "tokens": 49489,
+      "toolCalls": 11,
+      "durationMs": 74278,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/prd_human_feedback.md\",\"edits\":[\"Edit 1 (Block N header, ~L520): changed \\\"They drive the PRD V2 -> V2.1 rewrite\\\" to past tense (\\\"drove\\\") and appended a blockquote line: \\\"APPLIED to prd.md in PRD V2.2 (commit 2b8d5e9, 943 insertions + an audit-fix reconcile). The decisions stand unless the human reopens them.\\\"\",\"Edit 2 (Block N.1 status …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "decisions.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "ab60c08dfac5b81d1",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229608,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/history/deci…",
+      "promptPreview": "Fix docs/history/decisions.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now exis…",
+      "lastProgressAt": 1782544287207,
+      "tokens": 26823,
+      "toolCalls": 7,
+      "durationMs": 57599,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/history/decisions.md\",\"edits\":[\"Edit 1 (D-020 Consequences, line 176): changed \\\"Do the docs-explosion at the start of the build phase\\\" to \\\"Do the docs-explosion AFTER the first M0+M1 build-and-play cycle (per the D-021 refinement), not at the start of the build phase\\\"; kept the gen:docs --check / read-mostly notes intact.\",\"Edit 2 (D-021 …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "ui-design.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "a7a300010b5a3f55a",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229608,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/ui-design.md",
+      "promptPreview": "Fix docs/ui-design.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now exists at do…",
+      "lastProgressAt": 1782544272279,
+      "tokens": 22911,
+      "toolCalls": 9,
+      "durationMs": 42671,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/ui-design.md\",\"edits\":[\"Line 3 banner: relabeled \\\"DRAFT — for human review.\\\" to \\\"LIVING — the M1/M2 renderer (src/ui) is built to this bible. One open item: font self-hosting (Q52).\\\" preserving the LOCKED art-direction sentence.\",\"Line 125 §3.1 heading: softened \\\"Font stack (DRAFT recommendation — final pick flagged for the human)\\\" to \\…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "qa-playtesting.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "ab155059b383fded9",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229609,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/qa-playtesti…",
+      "promptPreview": "Fix docs/qa-playtesting.md. NOTE: this file was JUST MOVED from docs/plans/qa-playtesting.md to docs/qa-playtesting.md, so its OWN relative links are now broken — FIX THEM FIRST: it links to \"../prd.md\" (→ \"prd.md\"), \"../fun-factor.md\" (→ \"fun-factor.md\"), \"../ui-design.md\" (already \"ui-design.md\" or \"../ui-design.md\" → \"ui-design.md\"), \"../prd_human_feedback.md\" (→ \"prd_human_feedback.md\"), \"../.…",
+      "lastProgressAt": 1782544315825,
+      "tokens": 31475,
+      "toolCalls": 15,
+      "durationMs": 86216,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/qa-playtesting.md\",\"edits\":[\"Link fix (line 4): [§6.10](../prd.md) -> [§6.10](prd.md)\",\"Link fix (line 31): capture-game-states (../../.claude/skills/) -> (../.claude/skills/)\",\"Link fix (line 124): [`../fun-factor.md`](../fun-factor.md) -> [`fun-factor.md`](fun-factor.md)\",\"Link fix (line 224): capture-game-states (../../.claude/skills/) -> …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "docs/README.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "a598d0f5c788c0e46",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229609,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/README.md",
+      "promptPreview": "Fix docs/README.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now exists at docs/…",
+      "lastProgressAt": 1782544278348,
+      "tokens": 21617,
+      "toolCalls": 5,
+      "durationMs": 48739,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/README.md\",\"edits\":[\"Added a living-docs inventory list after the prd.md paragraph — links prd_human_feedback.md, roadmap.md, fun-factor.md, ui-design.md, qa-playtesting.md (now framed as a living guide, not a plan), and content/ (noting it EXISTS now: t0-content.md generated by scripts/gen-docs.ts, checked by gen:docs --check). [points 3 + 4…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "CLAUDE.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "a9548e75f416a435d",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229609,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/CLAUDE.md",
+      "promptPreview": "Fix CLAUDE.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now exists at docs/roadm…",
+      "lastProgressAt": 1782544260832,
+      "tokens": 22358,
+      "toolCalls": 5,
+      "durationMs": 31223,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/CLAUDE.md\",\"edits\":[\"Layout > docs/ bullet: \\\"Generated content/balance tables will land under docs/content/.\\\" -> present tense \\\"...live under docs/content/ (e.g. t0-content.md), produced by scripts/gen-docs.ts.\\\"\",\"Conventions > Freeze bullet: appended annotation \\\"(M0-M2b are built & play-tested; docs/content/ + docs/roadmap.md exist; the rema…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "working-agreements.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "a1eef85c235d6ddf6",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229609,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/memory/working-ag…",
+      "promptPreview": "Fix memory/working-agreements.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now e…",
+      "lastProgressAt": 1782544251343,
+      "tokens": 18698,
+      "toolCalls": 4,
+      "durationMs": 21734,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/memory/working-agreements.md\",\"edits\":[\"Line 13: changed the `../docs/` parenthetical from \\\"(added when we design the game)\\\" to \\\"(living docs, edited in place)\\\" — docs/ is now richly populated.\",\"Lines 17-18: replaced the forward-language \\\"Once a toolchain exists, also gate on its verify command and record it in project-status\\\" with the pres…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "fun-factor.md",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "ab32ffaff12d94005",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229609,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md",
+      "promptPreview": "Fix docs/fun-factor.md. \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA living milestone tracker now exists at d…",
+      "lastProgressAt": 1782544268630,
+      "tokens": 29611,
+      "toolCalls": 4,
+      "durationMs": 39021,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/docs/fun-factor.md\",\"edits\":[\"Line ~3 status banner: \\\"Status: DRAFT — for human review.\\\" → \\\"Status: LIVING — the fun targets the build is measured against; `pacing()` is instrumented (report-only), the auto-player bot + the gating fun-suite are still pending (M6).\\\"\",\"Line ~147-150 §3 intro: removed the \\\"auto-player + pacing() proxies ... run …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "README (root)",
+      "phaseIndex": 1,
+      "phaseTitle": "Per-file fixes",
+      "agentId": "a4c7ddf8d42c18932",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1782544229610,
+      "queuedAt": 1782544229598,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/Users/raynos/projects/games/kami-kakushi/README.md",
+      "promptPreview": "Fix the ROOT README.md (the repo's \"game vision\" per CLAUDE.md). \nGROUND TRUTH (the docs must reflect this): the playable demo M0+M1+M2a+M2b is BUILT, verify-green (51 tests),\nand play-tested. PRD V2.2 = all 32 Block N + 7 Block N.1 decisions are APPLIED to docs/prd.md (commit 2b8d5e9).\nThe toolchain exists (Vite+TS+Vitest+ESLint, npm run verify). docs/content/ EXISTS (t0-content.md, generated).\nA…",
+      "lastProgressAt": 1782544244545,
+      "tokens": 18784,
+      "toolCalls": 4,
+      "durationMs": 14935,
+      "resultPreview": "{\"file\":\"/Users/raynos/projects/games/kami-kakushi/README.md\",\"edits\":[\"Added a blockquote header note at the very top marking the file as the preserved original seed prompt (not current canon) and pointing to docs/prd.md §1 for the authoritative vision and docs/roadmap.md for build status.\",\"Fixed protagonist age in the story-hint bullet: \\\"17 year old farmhand\\\" -> \\\"~18 year old farmhand\\\" to m…"
+    }
+  ],
+  "totalTokens": 293672,
+  "totalToolCalls": 91
+}

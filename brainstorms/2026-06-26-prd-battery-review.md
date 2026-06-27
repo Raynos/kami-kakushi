@@ -955,7 +955,7 @@ Continuing the master queue (Q1–Q12 from round 1). Ordered by severity.
   ui-design §7 (line 455): 'Emoji are decorative (aria-hidden="true"); the kanji/word always carries the meaning.' The four-pillar panel (§5.3, lines 344-350) renders each pillar as a kanji label (武威 / 官威 / 家産 / 家格 / 家威) + an aria-hidden emoji + a colour; rank cards (§5.4) show kanji titles; season tags are 春/夏/秋/冬. With the emoji hidden and meaning carried 'by the kanji', a non-Japanese screen-reader user is left with  
 
 - **`accessibility-ux-6` [Q]** _medium_ — textScale is offered as the core a11y lever but no acceptance/QA criterion tests that the dense multi-screen layout reflows at large text scale, and the display type scale uses `vw` units that bypass the root-font scaling model  
-  <sub>docs/prd.md §6.11 (line 4259); docs/ui-design.md §8 (line 494) & §3.3 (line 161); docs/plans/qa-playtesting.md (line 157)</sub>  
+  <sub>docs/prd.md §6.11 (line 4259); docs/ui-design.md §8 (line 494) & §3.3 (line 161); docs/qa-playtesting.md (line 157)</sub>  
   §6.11 (line 4259): 'Scalable text (a `textScale` setting on `GameState.settings`, applied via CSS custom property; respects the browser/root font size).' But the 'states that break layouts' checklists never include large textScale: ui-design §8 (line 494) lists 'K/M/B growth (test 999B), long logs, many revealed tabs, and the smallest viewport'; qa-playtesting line 157 lists 'K/M/B number growth ..., long event logs,  
 
 - **`accessibility-ux-7` [Q]** _medium_ — Single autosave + import/'fresh start' overwrite the one slot with no required confirm and no pre-import backup — real save-loss/accidental-overwrite anxiety over a no-reset ~28.5h saga  
@@ -970,7 +970,7 @@ Continuing the master queue (Q1–Q12 from round 1). Ordered by severity.
 *§2.20, §6.10; fun-factor §2.1/§3/§6; qa-playtesting §1/§3* — The measurement layer the project self-tests with is inconsistent with the spec it measures. The canonical __qa/QaApi contract (§6.10/§2.20) omits pacing() and reveals() — the exact telemetry methods the fun-proxy regression suite and reveal-cadence proxy are built on (additive, trivially fixable). fun-factor's 'recognised deed every ~4.5-5 min' cadence is a T0-only figure stated as the global proxy/reward-desert guardrail, but the locked T2 budget deliberately delivers ~13 min/deed — a literal reading false-fails the doc's own named slump zone. And the ≥30-min floor proxy says 'a rung' not 'a grind rung', false-failing the blessed ~5-min R0 cold open (trivially qualifiable, and qa-playtesting already scopes it correctly).
 
 - **`cross-doc-satellite-1` [applied]** _medium_ — The DEV play API (§6.10 / §2.20) omits pacing() and reveals() — the exact methods the QA harness and fun-factor measurement are built on  
-  <sub>docs/prd.md §6.10 (window.__qa block, lines 4232-4244) and §2.20 QaApi (line 1639); vs docs/plans/qa-playtesting.md §1 (lines 50-52) and docs/fun-factor.md §3 (</sub>  
+  <sub>docs/prd.md §6.10 (window.__qa block, lines 4232-4244) and §2.20 QaApi (line 1639); vs docs/qa-playtesting.md §1 (lines 50-52) and docs/fun-factor.md §3 (</sub>  
   qa-playtesting.md §1 lists three Observe methods as the harness's primary interface: `state()`, `pacing()` ("pacing/telemetry object — Proxy metrics accumulated this run (§3)") and `reveals()` ("revealed-entry log — What's been unlocked + when (tick/season) — verifies the reveal cadence"), plus Drive helpers `advanceSeason()/toRung(id)/toTier(n)`. fun-factor.md §3 says the fun targets are measured by "the auto-player  
 
 - **`cross-doc-satellite-2` [Q]** _medium_ — fun-factor's "recognised deed every ~4.5-5 min" cadence is a T0-only figure but is stated as the global reward-cadence proxy — the locked T2 budget delivers ~13 min/deed  
@@ -978,7 +978,7 @@ Continuing the master queue (Q1–Q12 from round 1). Ordered by severity.
   fun-factor.md states the reward-cadence proxy threshold as "A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min (§4.8.1)" (§3), repeats it as "the texture is 'a recognised act every ~4.5–5 min' (§4.8.1)" (§2.1) and as the reward-desert guardrail "the ~70% deed stream sized to 'a recognised act every ~4.5–5 min' (§4.8.1)" (§6) — all unqualified by tier. But the cited §4.8.1 is explici  
 
 - **`cross-doc-satellite-4` [applied]** _low_ — fun-factor's ≥30-min-floor proxy says "a rung" not "a grind rung" — it would false-fail the blessed ~5-min R0 cold open, diverging from qa-playtesting which correctly scopes it  
-  <sub>docs/fun-factor.md §3 (line 158); vs docs/plans/qa-playtesting.md §3 (line 124) and docs/prd.md §4.8.1 R0 carve-out (lines 2972-2977)</sub>  
+  <sub>docs/fun-factor.md §3 (line 158); vs docs/qa-playtesting.md §3 (line 124) and docs/prd.md §4.8.1 R0 carve-out (lines 2972-2977)</sub>  
   fun-factor.md §3 states the proxy as "Optimal bot can't clear a rung < ~28 min (§4.8); casual bot never *stuck*" — unqualified, so it covers R0. But the PRD blesses an R0 exemption: "R0 floor carve-out — blessed by the human (2026-06-25). The ≥30-min per-rank floor ... applies to the 7 grind rungs R1–R7; R0 is the exempt ~5-min cold-open story rung" (§4.8.1), and §4.8.4 enforces the CI floor only on rungs that should  
 
 ### [MEDIUM] UI-design palette/rate rules contradict PRD canon and the bible's own §2 tokens

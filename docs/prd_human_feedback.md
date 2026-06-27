@@ -12,13 +12,13 @@ is the record of intent** — fix the docs (or flag a deliberate, agreed change)
 
 **Sources.** The live conversation (verbatim human messages + every `AskUserQuestion` answer), the journals,
 the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs/history/decisions.md`).
-**Legend:** ✅ implemented · 🔄 in progress · ⏳ queued · 🔁 reversed/superseded.
+**Legend:** ✅ implemented · 🔄 in progress · ⏳ queued · 🟡 proposed (awaiting confirm) · 🔁 reversed/superseded.
 
 > **Maintenance rule:** append new human feedback here as it arrives (newest within each section at the
 > bottom), the same way the journal is kept. This is a living audit doc.
 >
 > **Precedence rule (human-signed 2026-06-26):** when entries CONFLICT, the **MOST RECENT applies** (newest
-> wins). the **LATEST block** (currently **Block M** — the wave-2 follow-ups — then **Block L**) **supersedes earlier
+> wins). the **LATEST block** (currently **Block N.1 → Block N → Block M → Block L**) **supersedes earlier
 > blocks/entries wherever they differ** — per [D-022](history/decisions.md). 🔁 markers flag the specific earlier locks a decision changed.
 
 ---
@@ -328,9 +328,10 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - ~~**J5.** Estate-rep arc T3/T4.~~ **RESOLVED:** stranger→friendly (T0) → trusted (T1) → honorary member
   (T2) → **chief steward / *yōnin* (T3, the MC's ceiling)** → **T4: MC stays *yōnin*; arc shifts to the
   HOUSE's national standing** (indirect ceiling).
-- **J6.** Whole-project audit — **pending**; the **holistic consistency sweep is the final gate** (queued
-  after the §7 breakdown + the authenticity application land).
-- **J7.** §7 milestone breakdown (5–8 high-level tasks per milestone) — **in progress** (workflow `w46su5inn`).
+- ~~**J6.** Whole-project audit — pending; the holistic consistency sweep is the final gate.~~ **DONE** ✅
+  (the 5-round adversarial battery on PRD V2 ran the holistic sweep → Blocks N + N.1; applied in PRD V2.2).
+- ~~**J7.** §7 milestone breakdown (5–8 high-level tasks per milestone) — in progress (workflow `w46su5inn`).~~
+  **DONE** ✅ (landed in PRD V2; the §7 roadmap now lives in [`roadmap.md`](roadmap.md), M0–M2b shipped).
 - **J8.** §4 balance — **human-delegated** ("I trust you on S4"); accept first-pass model, **tune at M6**.
 
 ---
@@ -507,9 +508,6 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 ---
 
-*Last updated: 2026-06-26. Keep appending as the human steers.*
-
-
 ---
 
 ## Block N — PRD V2.1 decisions (2026-06-26, the post-battery resolution)
@@ -517,7 +515,10 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 > **AUTHORITATIVE — newest block wins (per [D-022](history/decisions.md)).** These 32 decisions resolve the
 > 5-round adversarial battery on PRD V2 (the 14 blocking defects B1–B14 + the design-question set; full audit:
 > [`brainstorms/2026-06-26-prd-v2-audit.md`](../brainstorms/2026-06-26-prd-v2-audit.md)). Where any conflict
-> exists with Blocks A–M or the §4 numbers, **Block N governs.** They drive the PRD **V2 → V2.1** rewrite.
+> exists with Blocks A–M or the §4 numbers, **Block N governs.** They drove the PRD **V2 → V2.1** rewrite.
+>
+> ✅ **APPLIED to [`prd.md`](prd.md) in PRD V2.2** (commit `2b8d5e9`, 943 insertions + an audit-fix reconcile). The
+> decisions stand unless the human reopens them.
 
 ## Batch 1 — grind feel + gate economy
 - **D-Q1 v1 length = ~60h FLOOR** (accept; budget=FLOOR per FU18; ~60h = Phase-1 ~28.5h floor + Phase-2 ~+32h; restate the 28.5h headline as the Phase-1 floor, not the total). Resolves Q2.
@@ -586,8 +587,8 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 ### Block N.1 — set-aside questions, recorded with a Claude-proposed default
 
 > These surfaced in the battery but were NOT put to the human in the 8 Q&A batches (mostly dedup/fold casualties).
-> Each carries a **Claude-proposed default** so it's visible, not buried. **Status: 🟡 PROPOSED — confirm at V2.1.**
-> The human may override any of these when reviewing PRD V2.1; until then V2.1 implements the proposed default.
+> Each carries a **Claude-proposed default** so it's visible, not buried. **Status: ✅ APPLIED in PRD V2.2**
+> (commit `2b8d5e9`) — the proposed defaults stand unless the human reopens them.
 
 1. **Enemy combat model** (round 5; needed by the analytic-win-rate decision). §4.6 derives the MC fully but has
    **no enemy-stat rule**. 🟡 **Proposed:** author an explicit `MobDef.level → {attackPower, defense, HP}` derivation
@@ -617,3 +618,8 @@ derive (like season/year); R3 durability → use the graded bands as already spe
 thresholds → fill from the tier-relative reward cadence (T0~5/T1~8/T2~13) + the pacing/perf gates; returning-player
 re-orientation → covered by the contextual-tooltips decision + reveal-on-load; Phase-2 anti-undershoot → extend the
 M6 pacing gate to cover the Phase-2 window, not just the Phase-1 rungs.
+
+---
+
+*Last updated: 2026-06-27. Blocks N + N.1 are ✅ APPLIED to [`prd.md`](prd.md) in PRD V2.2 (commit `2b8d5e9`); the
+M0+M1+M2a+M2b playable demo is built & verify-green (51 tests) and play-tested. Keep appending as the human steers.*

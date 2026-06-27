@@ -1,12 +1,13 @@
 # Fun Factor — the #1 design priority for *Kamikakushi*
 
-> **Status: DRAFT — for human review.**
+> **Status: LIVING — the fun targets the build is measured against; `pacing()` is instrumented
+> (report-only), the auto-player bot + the gating fun-suite are still pending (M6).**
 >
 > The design doc on **the game's fun**: *what* fun factor is for an incremental RPG, *why* it is the
 > make-or-break priority, *how* to measure it, *how* to improve it, and *how* to keep it high across the
 > **~28.5 h, T0–T2** climb (v1 of a five-tier saga — ~28.5 h is the §4.8 Phase-1 floor sum; total realized
 > play is larger, a separate human budget decision pending). This doc sets the **targets**;
-> [`plans/qa-playtesting.md`](plans/qa-playtesting.md) §3 is the harness that **measures** them; the
+> [`qa-playtesting.md`](qa-playtesting.md) §3 is the harness that **measures** them; the
 > UI design bible (`ui-design.md`) handles the **look**. When this doc and a balance/UI
 > doc disagree on a number, this doc owns the *intent* ("it should feel like X"); the other owns the
 > *realisation* (the dial that gets it there).
@@ -144,10 +145,12 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 
 ## 3. How to MEASURE it — the fun targets (the "why" behind the proxies)
 
-Fun isn't unit-testable, but its **absence is measurable.** These are the **targets**; the auto-player +
-`pacing()` proxies in [`plans/qa-playtesting.md`](plans/qa-playtesting.md) §3 are the **measurement
-mechanism** (run on every build as a "fun regression suite"). A proxy fail is a *design smell*, not a
-proof of boredom — the human play-judgment at M3 is the real test; the proxies make the loop fast.
+Fun isn't unit-testable, but its **absence is measurable.** These are the **targets**; `pacing()` is
+built and instrumented (`window.__qa.pacing()`, report-only) in [`qa-playtesting.md`](qa-playtesting.md)
+§3, but the auto-player bot + the automated "fun regression suite" are **not yet wired into `verify`**
+(planned for M6) — a one-off headless playtest has run (and caught a real combat dead-end). A proxy
+fail is a *design smell*, not a proof of boredom — the human play-judgment is the real test; the
+proxies make the loop fast.
 
 | Fun target | Heuristic / threshold | Why this target (the fun job it protects) | Loop it guards |
 |---|---|---|---|
@@ -318,7 +321,7 @@ the whole climb). This is what makes hour 20 still mean something.
 
 ## See also
 
-- [`plans/qa-playtesting.md`](plans/qa-playtesting.md) §3 — the harness/proxies that **measure** these
+- [`qa-playtesting.md`](qa-playtesting.md) §3 — the harness/proxies that **measure** these
   targets (this doc owns *why*, that doc owns *how we check*).
 - `ui-design.md` — the visual bible that owns the **look** of every reveal/reward beat.
 - [`prd.md`](prd.md) — §1.2 (pillars), §1.6 (four pillars / five tiers), §1.12 (reveal pacing), §1.13

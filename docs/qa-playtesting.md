@@ -1,10 +1,12 @@
 # QA & Playtesting Plan — the harness, the fun-proxies, the visual loop
 
 How we **prove this game is correct, paced, and *fun* — not just that it compiles.** This is the
-plan for the QA spine (built in **M0**, per [§6.10](../prd.md) and the milestone roadmap) and the
+plan for the QA spine (built in **M0**, per [§6.10](prd.md) and the milestone roadmap) and the
 loops we run on top of it every milestone and in the **M6 polish pass**.
 
-> **Status:** PLAN (the harness lands in M0; the loops run from M1 on). Adapted from the
+> **Status:** LIVING GUIDE — the `__qa` harness is BUILT (`src/app/main.ts`, DEV-guarded); the
+> visual/feel loop has run from M1 (`audit/` screenshots). Still pending: the §2 headless auto-player
+> bot + the §3 automated fun-proxy suite as a verify gate. Adapted from the
 > ironsight-saga QA harness + polish-loop, retargeted from a turn-based FPS to a long-horizon
 > **incremental RPG**. The big differences for us: there's **no pointer-lock problem**, but there
 > *is* a **28.5h grind** no human can hand-play to validate, a **multi-screen reveal** that is the
@@ -28,7 +30,7 @@ and play** — each need a different QA tool. This plan covers all three.
   way to "play" 28.5h); (3) **visual/feel** (MCP browser drive + screenshots that **the agent itself
   reviews** with its own vision against the UI design-language bible).
 - **The agent is a capable reviewer, not a blind builder.** With Playwright MCP + Chrome DevTools MCP
-  + the [`capture-game-states`](../../.claude/skills/) skill + its own multimodal vision, the agent
+  + the [`capture-game-states`](../.claude/skills/) skill + its own multimodal vision, the agent
   **looks at every screen itself**, catches slop/misalignment/visual bugs, and iterates **before**
   the human sees it. The **human is the higher-level taste & fun arbiter** on self-vetted candidates.
 - **Fun is a hypothesis tested by play, not a spec verified once.** We instrument proxies for it,
@@ -40,7 +42,7 @@ and play** — each need a different QA tool. This plan covers all three.
 
 Built in M0 alongside the engine; gated on `import.meta.env.DEV`, **stripped from production**. It
 wraps the pure core so the game can be driven and observed from code (a console, or an MCP browser
-tool). `window.__game` exposes the live instance for deeper poking.
+tool).
 
 ### Observe
 
@@ -121,7 +123,7 @@ full T0→T2 run headlessly in seconds and emits telemetry.
 ## 3. Fun-proxy acceptance tests (measuring the fun-factor targets)
 
 > This section is the **measurement mechanism**. *What* fun is, *why* these targets matter, and *how to
-> improve / keep* fun live in **[`../fun-factor.md`](../fun-factor.md)** — the design doc this harness serves.
+> improve / keep* fun live in **[`fun-factor.md`](fun-factor.md)** — the design doc this harness serves.
 
 Fun isn't unit-testable, but its **absence** is measurable. The auto-player + `pacing()` assert these proxies
 (the fun-factor.md targets) on every build (the "fun regression suite"); a fail is a design smell to fix:
@@ -145,7 +147,7 @@ Fun isn't unit-testable, but its **absence** is measurable. The auto-player + `p
 ## 4. The visual / feel QA loop (every screen, every transition)
 
 The "UI as progression" is the signature feature, so the UI must look **intentional, not generic**.
-The loop (per the [UI design-language bible](../ui-design.md), authored before M1's first real UI):
+The loop (per the [UI design-language bible](ui-design.md), which the M1/M2 renderer is built to):
 
 1. **Drive** the game to a target state with `__qa` (or the `capture-game-states` skill).
 2. **Screenshot** it via Playwright / Chrome DevTools MCP (`take_screenshot`) — at desktop **and**
@@ -178,8 +180,10 @@ Each milestone (M0…M7) is **not "done" until its QA sweep passes** (this is it
 §7). The sweep, adapted from the ironsight per-chapter pass:
 
 - **Correctness:** the milestone's headless run reaches its target state; `state()`/`reveals()`
-  assertions pass; `npm run verify` green (typecheck + unit + content-verifier + K/M/B + macron lints
-  + the §4.8 pacing regression); a fixed-seed determinism test is byte-identical; save round-trips.
+  assertions pass; `npm run verify` green (tsc + eslint + prettier + vitest + verify-content +
+  `gen:docs --check` — verify-content enforces the id/canon invariants + a real-name denylist, and
+  K/M/B is unit-tested; the macron lint + the §4.8 pacing regression are **planned** additions, not
+  yet in the gate); a fixed-seed determinism test is byte-identical; save round-trips.
 - **Content/canon:** the content-verifier confirms the invariants (no belief-creatures in spawn
   tables, trade ≤⅓, ≤1 residual ambiguity, the reveal triggers, the earned-transition gates).
 - **Visual:** the §4 screenshot-review of every new/changed screen + transition.
@@ -221,12 +225,13 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   harness via their evaluate tools (`evaluate_script` / `browser_evaluate` with `() => window.__qa.…`),
   screenshot between steps, inspect console/network. Headless config takes effect only after a client
   restart; until then the game is headful but harmless (no pointer-lock to steal the cursor).
-- **The [`capture-game-states`](../../.claude/skills/) skill:** the project's purpose-built driver for
+- **The [`capture-game-states`](../.claude/skills/) skill:** the project's purpose-built driver for
   "drive the game headlessly and screenshot/record its states" — the front door for the §4 visual loop
-  and audit sweeps; outputs land in [`audit/`](../../audit/).
-- **Where the harness will live:** `src/app/` (the composition root) installs `window.__qa` under
-  `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the auto-player + fun-proxy collectors
-  live as a DEV/test module driven through the same API.
+  and audit sweeps; outputs land in [`audit/`](../audit/).
+- **Where the harness lives:** `src/app/` (the composition root) installs `window.__qa` under
+  `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the screenshot/playtest drivers are
+  tracked at `scripts/qa-shots.mjs` + `scripts/playtest.mjs`. The auto-player + fun-proxy collectors
+  will live as a DEV/test module driven through the same API (still pending).
 
 ---
 
@@ -241,7 +246,7 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   on self-vetted UI candidates — the judgments the proxies and the agent's review *inform* but can't
   replace.
 
-> See also: **[`../fun-factor.md`](../fun-factor.md)** (the *what/why* of fun — this harness measures its
-> targets), [`../prd.md`](../prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
-> §7 (milestone definitions-of-done), [`ui-design.md`](../ui-design.md) (the visual bible), and
-> [`../prd_human_feedback.md`](../prd_human_feedback.md) §K (the fun/UI process intent).
+> See also: **[`fun-factor.md`](fun-factor.md)** (the *what/why* of fun — this harness measures its
+> targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
+> §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible), and
+> [`prd_human_feedback.md`](prd_human_feedback.md) §K (the fun/UI process intent).

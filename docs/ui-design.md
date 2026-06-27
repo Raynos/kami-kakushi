@@ -1,9 +1,10 @@
 # UI Design-Language Bible — *the Kurosawa house*
 
-> **DRAFT — for human review.** The LOCKED art direction (human-signed): a **strong CSS design-language**,
+> **LIVING — the M1/M2 renderer (`src/ui`) is built to this bible.** One open item: font self-hosting (Q52).
+> The LOCKED art direction (human-signed): a **strong CSS design-language**,
 > **NO asset pipeline** — the whole game is **text + emoji + CSS** (+ inline SVG, which is markup, not a file).
 > This document is the **anti-slop foundation**: the single visual vision every screen is built against
-> *before* any UI code (per [`plans/qa-playtesting.md`](plans/qa-playtesting.md) §4 and PRD §6.9). It is the
+> *before* any UI code (per [`qa-playtesting.md`](qa-playtesting.md) §4 and PRD §6.9). It is the
 > source of truth for tokens, type, components, and motion; the renderer (PRD §6.9, a thin DOM layer) consumes
 > it. Numbers display as **K/M/B**; romanization uses **macrons**. Synthesized from three research briefs
 > (ukiyo-e/palette · typography/CSS · incremental-UI/juice) — sources at the end.
@@ -122,7 +123,10 @@ Type **is** the art here — there is no asset pipeline, so typography + layout 
 aesthetic. The plan: **two characterful, JP-capable families, served smart**, with the fixed UI kanji subset
 to a few KB.
 
-### 3.1 Font stack (DRAFT recommendation — final pick flagged for the human)
+### 3.1 Font stack (adopted default; self-host pending Q52)
+
+This stack is wired into [`src/ui/styles.css`](../src/ui/styles.css); the families below load from system
+fallbacks today and self-host once Q52 lands.
 
 | Role | Family | Why |
 |---|---|---|
@@ -150,9 +154,9 @@ h1,h2,h3 { font-family: var(--font-head); font-weight: 800; }
 The pillar labels **武威 / 官威 / 家産 / 家格 / 家威**, season tags **春 夏 秋 冬**, rank names, and a few
 UI words are a **small, fixed glyph set (~40–80 kanji)** — do **not** ship a multi-MB JP font.
 
-- **Option A (zero build step):** Google's dynamic subsetting — link the CSS and the browser downloads only
-  the `unicode-range` slices that contain glyphs we render.
-- **Option B (best for fixed content, fully offline, recommended):** self-host a hand-subset built once with
+- **Option A (zero build step) — REJECTED (Q52/D-013):** Google's dynamic subsetting breaks offline / the
+  itch relative-base; self-hosted Option B is the path.
+- **Option B (best for fixed content, fully offline, ADOPTED):** self-host a hand-subset built once with
   `pyftsubset`/`glyphhanger` → a few KB `.woff2`. It is a **font, not an art asset** — consistent with the
   no-asset-pipeline rule.
 
@@ -596,7 +600,7 @@ headlessly (`window.__qa` / the `capture-game-states` skill), screenshots deskto
 bottom-bar layout, and reviews each against §§1–10 with its own vision (woodblock/ink coherent? type/spacing/
 colour-roles right? log reading as the heart? reveal/rank-up motion satisfying? any slop/overflow/contrast/
 placeholder fail?) before surfacing self-vetted candidates to the human — per
-[`plans/qa-playtesting.md`](plans/qa-playtesting.md) §4. *This bible is the rubric that loop scores against.*
+[`qa-playtesting.md`](qa-playtesting.md) §4. *This bible is the rubric that loop scores against.*
 
 ---
 
@@ -615,15 +619,17 @@ hover-dependent.
 
 **Open choices flagged for the human:**
 
-1. **Final font pick (the one real open call).** DRAFT default = **Shippori Mincho** (body/heads) + **Yuji
-   Syuku** (rank-up + season headline only). Alternatives to audition: **Zen Old Mincho** (more
-   nostalgic/cultural), **Klee One** (textbook brush warmth), **Hina Mincho** (delicate hairline). Confirm the
-   pairing before M1.
-2. **Font delivery:** self-hosted hand-subset `.woff2` (Option B — offline, purest for "no asset pipeline") vs
-   Google dynamic subsetting (Option A — zero build step). Recommend **Option B**.
+1. **Final font pick — ADOPTED.** M1/M2 shipped on the draft default = **Shippori Mincho** (body/heads) + **Yuji
+   Syuku** (rank-up + season headline only), with a **system-mincho fallback**; this is the de-facto default.
+   Alternatives once auditioned: **Zen Old Mincho** (more nostalgic/cultural), **Klee One** (textbook brush
+   warmth), **Hina Mincho** (delicate hairline). Self-host still pending (Q52).
+2. **Font delivery — RESOLVED (Q52/D-013):** self-hosted hand-subset `.woff2` (**Option B** — offline, purest
+   for "no asset pipeline"); Google dynamic subsetting (Option A) rejected. Not yet implemented in the build —
+   still on the system fallback until self-host lands.
 3. **Palette fine-tune:** two source briefs gave near-identical but not identical hexes; this doc merged toward
-   the registry-anchored ukiyo-e values (e.g. `--shu #D7402C`, `--ink #26221E`). Worth a quick eyeball once
-   real screens render — trivially tunable since everything is a token.
+   the registry-anchored ukiyo-e values (e.g. `--shu #D7402C`, `--ink #26221E`). The palette shipped as
+   authored (tokens in [`src/ui/styles.css`](../src/ui/styles.css) match), so the "eyeball on real screens"
+   is now a done/actionable tune — trivially tunable since everything is a token.
 4. **"Standing & Office" kanji = 官威 (*kan'i*, "authority of office")** — RESOLVED 2026-06-25 (the coined 政威
    was rejected; spoken homophone of 官位 court-rank, disambiguated by the kanji). Label 官威 + 📜 / `--ai` identity.
 5. **Ambient canvas FX** (optional seasonal particles, PRD §6.9) are permitted but unspecified here — confirm
