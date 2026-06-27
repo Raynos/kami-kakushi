@@ -16,6 +16,8 @@ export const COLD_OPEN = {
   restAct: 'You rest against the post. The ache dulls; the light through the slats shifts.',
 } as const;
 
-export function rakeLine(amountGo: number): string {
-  return `You rake the spilled rice back toward the basket. (+${amountGo} gō)`;
+export function rakeLine(amount: number): string {
+  // The rake credits koku (RICE_PER_RAKE), so the line names koku — and shares the
+  // multiply-able "(+N koku)" suffix the renderer tallies on a coalesced run.
+  return `You rake the spilled rice back toward the basket. (+${amount} koku)`;
 }

@@ -56,7 +56,7 @@ function gainCombatXp(state: GameState, amount: number): GameState {
       log: [
         {
           channel: 'milestone',
-          text: `Your body has hardened with the fighting. Combat rank ${newLevel}.`,
+          text: `Your body has hardened with the fighting. Combat level ${newLevel}.`,
         },
       ],
     });

@@ -11,6 +11,10 @@ export const SCHEMA_VERSION = 1 as const;
 /** The event-log ring cap (PRD §6.4 / core/log): oldest entries evicted past this. */
 export const LOG_RING_MAX = 300 as const;
 
+/** Readability gate (audit §3 #3 / G-LOG): an auto-run must coalesce repeats — no more
+ *  than this many byte-identical consecutive log lines. Provisional (v0.2) — tune by playtest. */
+export const LOG_MAX_IDENTICAL_RUN = 3 as const;
+
 // ── World clock (PRD §2.2 / §6.7.1) — only `tick` and `day` are stored; season,
 // week and year are DERIVED on read (D-Q6), never persisted. ───────────────────
 export const TICKS_PER_DAY = 24 as const;

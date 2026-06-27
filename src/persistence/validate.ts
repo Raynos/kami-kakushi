@@ -105,7 +105,19 @@ export function validateState(rawState: unknown): ValidateResult {
     resources: rawState.resources as GameState['resources'],
     flags: rawState.flags as GameState['flags'],
     unlocked: rawState.unlocked as GameState['unlocked'],
-    log: { entries: log.entries, seq: log.seq } as unknown as GameState['log'],
+    // Normalize each loaded entry's coalescing count to ≥1 so a later pushLog onto a
+    // pre-v0.2 (count-less) entry bumps a real number, never NaN.
+    log: {
+      entries: log.entries.map((e) => {
+        const entry = e as Record<string, unknown>;
+        const c = entry.count;
+        return {
+          ...entry,
+          count: typeof c === 'number' && Number.isFinite(c) ? Math.max(1, Math.floor(c)) : 1,
+        };
+      }),
+      seq: log.seq,
+    } as unknown as GameState['log'],
     skillXp: base.skillXp ?? {},
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
