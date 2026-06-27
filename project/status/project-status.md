@@ -45,15 +45,22 @@ metadata:
   docs under `docs/living/`, generated tables under `docs/content/`), `project/` (the agentic-process umbrella:
   `status/` [this file], `journal/`, `brainstorms/`, `feedback/`, `human-in-the-loop/`, `audit/`, `archive/`),
   and `src/` (all game code + the web entry + dev/QA scripts). The ADR ledger is `docs/living/decisions.md`.
-- **Battery audit (2026-06-27):** a multi-wave state-of-the-game review →
+- **Phase update — v0.2 BUILT (2026-06-27).** The battery audit (below) was acted on: an autonomous **v0.2**
+  build (tag **`v0.2`**; baseline tagged **`v0.1`**) fixed the top findings → re-scored (independent workflow)
+  **Fun 4.5→6.5 · UI 7→8.5 · PRD-faithful 6.5→8 · README-spirit 7→7.5 · human-feedback 7.5→8 · Incremental
+  4.5→7 · Laziness 4.5→3**. **99 tests green.** Changelog: `project/audit/v0.2-changelog.md`. What v0.2 added:
+  graded combat curve + kendo stance decision (seed-robust forecast, first fight in the signed 20–35% band),
+  work→skill→yield reinvestment + cook/estate/attribute sinks (no more dead values), R3 chapter-close + dream-2
+  payoff + a greyed House-Influence 家威 macro **teaser**, the cold-open screen, log ×N, real RED→GREEN tests,
+  wired `migrate()`, DEMO/REAL pacing (`npm run pacing`). **Main remaining work:** the real four-pillar macro
+  *engine* (still only a teaser) + the human's H1–H6 + a few v0.2 tuning rough-edges (durability friction,
+  slower grind). The 6 H-items were deliberately NOT decided.
+- **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md)** (CONVERGED) +
-  6 H-items (`human-in-the-loop/decisions.md`). **Scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
+  6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
   PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 · Incremental 4.5 · Laziness 4.5/10. Verdict: a
-  **beautifully-built chassis with no engine** — excellent pure core / save / reveal engine + best-in-genre
-  cold-open prose, wrapping a hollow earn-only loop (binary combat, no skill-reinvestment, sink-less koku/sansai,
-  phantom `attributePoints`, macro absent, silent R3 dead-end). Top risks beyond content: a **false-green test
-  suite** (no signed criterion is guarded; two tests bless the combat bug) and a **dead/unwired `migrate()`**
-  the PRD claims was "built+tested." 10 M3 guardrails proposed (G-PACING/CURVE/FUN@M3a/TEST-TEETH/MIGRATION/…).
+  **beautifully-built chassis with no engine** (now substantially addressed by v0.2 above). 10 M3 guardrails
+  proposed (G-PACING/CURVE/FUN@M3a/TEST-TEETH/MIGRATION/…).
 - **How to resume:**
   1. Read the newest journal (`project/journal/2026-06-27-session-01-state-of-game-audit.md`) + the audit report.
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.

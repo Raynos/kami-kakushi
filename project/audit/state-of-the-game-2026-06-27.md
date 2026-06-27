@@ -20,6 +20,32 @@
 
 ---
 
+## ⏩ UPDATE — v0.2 shipped (2026-06-27, same day)
+
+This report audited **v0.1** (tag `v0.1`). It was then acted on: an autonomous **v0.2 build** fixed the
+highest-leverage findings (without deciding any of the §5 H-items). Full mapping + playtest verification:
+[`v0.2-changelog.md`](v0.2-changelog.md). An independent adversarial re-score
+([raw](../brainstorms/raw/2026-06-27-v02-rescore.json)) verified the fixes are real in code+tests and produced
+these deltas:
+
+| Dimension | v0.1 | **v0.2** | What moved it |
+|---|---|---|---|
+| Fun | 4.5 | **6.5** | graded combat curve + a real stance decision; deed juice; log ×N; the dead-end closed |
+| UI polish | 7 | **8.5** | the cold-open screen wired; macro teaser; number-pop; a11y/touch/label fixes; fonts vendored |
+| PRD-faithful | 6.5 | **8.0** | real RED→GREEN acceptance tests; `migrate()` wired; the false-green tests replaced |
+| README-spirit | 7 | **7.5** | the reveal arc no longer dies in silence (chapter-close + dream-2 + macro teaser) |
+| Human-feedback | 7.5 | **8.0** | ≥30-min floor now demonstrable (`npm run pacing`); first fight in the signed band (seed-robust) |
+| Incremental | 4.5 | **7.0** | the reinvestment loop + all four sinks wired; every dead value now consumed |
+| Laziness (↑=lazier) | 4.5 | **3.0** | the dead `migrate()`/inert fields/false-green tests are now wired + real |
+
+**v0.2 verdict (re-score):** *"a high-integrity audit-fix build whose headline fixes are verified real, not
+merely claimed."* The macro layer is now a perceivable **teaser**, not a playable engine — that (the four-pillar
+House Influence loop + the tier ascent) is the **main remaining work**, alongside the human's H1–H6 and a few
+v0.2 tuning rough-edges (durability friction, the slower grind). The §3 improvements below that v0.2 did **not**
+take (quests, crafting, NPC dialogue, the real macro engine, audio) remain the forward list.
+
+---
+
 ## 0 · TL;DR — the scorecard
 
 The seven scores you asked for *(higher = better, except Laziness where higher = lazier)*:
