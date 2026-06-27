@@ -12,7 +12,7 @@ Design docs — **living documents**, each the *current* truth for its concern, 
   - [`fun-factor.md`](living/fun-factor.md) — what fun *is* & how to keep it high.
   - [`qa-playtesting.md`](living/qa-playtesting.md) — how Claude drives & play-tests the game.
 - **[`content/`](content)** — **generated** balance/content tables (`t0-content.md`, by
-  `scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). Do not hand-edit.
+  `src/scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). Do not hand-edit.
 
 Human feedback lives **outside** `docs/`: the consolidated PRD-steering record is archived at
 [`../feedback/history/prd_human_feedback.md`](../project/feedback/history/prd_human_feedback.md); live feedback is in
@@ -24,4 +24,4 @@ generating into [`content/`](content). Queued: freeze **only** the §1 vision + 
 acceptance targets as a tagged snapshot, and finish migrating §4 to generated tables. M2–M7 are **never**
 frozen as canon.
 
-Keep it **Markdown only**; runnable tools and game code live under `src/` / `scripts/`.
+Keep it **Markdown only**; runnable tools and game code live under `src/` / `src/scripts/`.

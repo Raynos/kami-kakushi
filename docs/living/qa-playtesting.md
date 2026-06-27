@@ -230,7 +230,7 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   and audit sweeps; outputs land in [`audit/`](../../project/audit).
 - **Where the harness lives:** `src/app/` (the composition root) installs `window.__qa` under
   `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the screenshot/playtest drivers are
-  tracked at `scripts/qa-shots.mjs` + `scripts/playtest.mjs`. The auto-player + fun-proxy collectors
+  tracked at `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs`. The auto-player + fun-proxy collectors
   will live as a DEV/test module driven through the same API (still pending).
 
 ---

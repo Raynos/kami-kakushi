@@ -1,10 +1,10 @@
 // Headless QA screenshot harness (PRD §6.10 / qa-playtesting.md §4). Drives the DEV
 // __qa API to a sequence of states and screenshots each — fully headless (no GUI).
-// Usage: QA_URL=http://localhost:5174/ node tmp/qa-shots.mjs
+// Usage: QA_URL=http://localhost:5174/ node src/scripts/qa-shots.mjs
 import { chromium } from 'playwright';
 
 const URL = process.env.QA_URL || 'http://localhost:5174/';
-const OUT = 'audit';
+const OUT = 'project/audit';
 
 // Each step: optional `run` (a JS expression string evaluated in the page) + a screenshot name.
 const clickTab = (label) =>
@@ -18,7 +18,10 @@ const steps = [
   { name: '05-r2-skills', run: clickTab('Skills') },
   { name: '06-firstfight', run: `${clickTab('Work')}; __qa.faceWolf()` },
   { name: '07-r3-combat', run: `__qa.toRung('R3'); ${clickTab('Combat')}`, wait: 2200 },
-  { name: '08-after-fights', run: `__qa.fight('monkey'); __qa.fight('monkey'); __qa.fight('wolf')` },
+  {
+    name: '08-after-fights',
+    run: `__qa.fight('monkey'); __qa.fight('monkey'); __qa.fight('wolf')`,
+  },
   { name: '09-settings', run: `document.querySelector('.settings-btn').click()` },
   {
     name: '10-rankup-seal',
@@ -30,7 +33,10 @@ const steps = [
 const browser = await chromium.launch({ headless: true });
 const errors = [];
 try {
-  const page = await browser.newPage({ viewport: { width: 980, height: 740 }, deviceScaleFactor: 2 });
+  const page = await browser.newPage({
+    viewport: { width: 980, height: 740 },
+    deviceScaleFactor: 2,
+  });
   page.on('console', (m) => {
     if (m.type() === 'error') errors.push(m.text());
   });
@@ -47,7 +53,10 @@ try {
   }
 
   // mobile bottom-bar layout at the richest state
-  const mobile = await browser.newPage({ viewport: { width: 390, height: 780 }, deviceScaleFactor: 2 });
+  const mobile = await browser.newPage({
+    viewport: { width: 390, height: 780 },
+    deviceScaleFactor: 2,
+  });
   await mobile.goto(URL, { waitUntil: 'networkidle' });
   await mobile.waitForFunction(() => Boolean(window.__qa), { timeout: 8000 });
   await mobile.evaluate(`__qa.toRung('R2')`);

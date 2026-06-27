@@ -12,11 +12,12 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "cloc": "cloc --exclude-ext=json --vcs=git .",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "gen:docs": "tsx scripts/gen-docs.ts",
-    "verify": "tsc --noEmit && eslint . && prettier --check . && vitest run && tsx scripts/verify-content.ts && tsx scripts/gen-docs.ts --check"
+    "gen:docs": "tsx src/scripts/gen-docs.ts",
+    "verify": "tsc --noEmit && eslint . && prettier --check . && vitest run && tsx src/scripts/verify-content.ts && tsx src/scripts/gen-docs.ts --check"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

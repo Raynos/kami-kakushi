@@ -62,7 +62,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - **Durable capture of workflow / subagent outputs.** `Workflow` results live only in ephemeral session
   scratch (`<session>/tasks/<id>.output`) and **die with the session** — never leave research stranded
   there. After **every workflow**: (1) **snapshot the raw `.output` JSON verbatim** into
-  [`project/brainstorms/raw/`](project/brainstorms/raw) (timestamped) via `scripts/snapshot-research.sh <output-file>
+  [`project/brainstorms/raw/`](project/brainstorms/raw) (timestamped) via `src/scripts/snapshot-research.sh <output-file>
   <slug>` — cheap, lossless insurance; (2) **distill** the useful parts into the right living doc
   (`docs/`) or discovery doc (`project/brainstorms/`); (3) **commit immediately** (a small checkpoint). Subagent
   (Agent-tool) results are returned to the main agent — capture their substance in a doc, but do **not**
@@ -80,7 +80,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   milestone tracker), **[ui-design.md](docs/living/ui-design.md)** (the woodblock/ink UI bible),
   **[fun-factor.md](docs/living/fun-factor.md)** (what fun is), **[qa-playtesting.md](docs/living/qa-playtesting.md)**
   (how Claude play-tests). Generated content/balance tables live under **[`docs/content/`](docs/content)**
-  (e.g. t0-content.md), produced by `scripts/gen-docs.ts`.
+  (e.g. t0-content.md), produced by `src/scripts/gen-docs.ts`.
 - [`project/feedback/`](project/feedback) — the human's **direct feedback** (a live inbox; one dated file per session) +
   [`project/feedback/history/`](project/feedback/history) for closed records (e.g. `prd_human_feedback.md`, the PRD-feedback
   log, now applied to the PRD).
@@ -89,7 +89,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);
   settled designs graduate to `docs/`. [PARKED-THREADS.md](project/brainstorms/PARKED-THREADS.md) indexes tangents.
   [`raw/`](project/brainstorms/raw) holds **verbatim** `Workflow`-output JSON snapshots (durable insurance).
-- `scripts/` — repo dev/maintenance scripts (e.g. [`snapshot-research.sh`](scripts/snapshot-research.sh)).
+- `src/scripts/` — repo dev/maintenance scripts (e.g. [`snapshot-research.sh`](src/scripts/snapshot-research.sh)).
 - `project/journal/` — per-session chronological **LOG** (history, not live state): **summary at top, entries appended
   at the BOTTOM (never prepend)**; one file per session; the live snapshot is `project/status/project-status.md`. See
   [`README`](project/journal/README.md) + [`_TEMPLATE.md`](project/journal/_TEMPLATE.md).

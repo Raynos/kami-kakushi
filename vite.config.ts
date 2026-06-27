@@ -3,9 +3,12 @@ import { defineConfig } from 'vite';
 // Static build for itch.io: relative base so the bundle works inside itch's
 // cross-origin iframe sandbox (PRD §6.1 / §7.3). No server, no backend.
 export default defineConfig({
+  // index.html lives in src/ (the web root); outDir climbs back to repo-root dist/.
+  root: 'src',
   base: './',
   build: {
-    outDir: 'dist',
+    outDir: '../dist',
+    emptyOutDir: true,
     target: 'es2022',
     sourcemap: true,
   },
@@ -18,7 +21,8 @@ export default defineConfig({
     // Core is pure and Node-importable; UI tests opt into jsdom via a per-file
     // `// @vitest-environment jsdom` pragma.
     environment: 'node',
-    include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
+    // root is 'src' (above), so test globs are resolved relative to it.
+    include: ['**/*.test.ts'],
     globals: true,
   },
 });

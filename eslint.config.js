@@ -48,7 +48,15 @@ const CORE_FORBIDDEN_GLOBALS = [
 ];
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'project/archive/**', 'scripts/*.mjs'] },
+  {
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'coverage/**',
+      'project/archive/**',
+      'src/scripts/*.mjs',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -138,7 +146,7 @@ export default tseslint.config(
 
   // tests + scripts + config may use Node/DOM globals freely.
   {
-    files: ['**/*.test.ts', 'scripts/**/*.ts', 'vite.config.ts', 'eslint.config.js'],
+    files: ['**/*.test.ts', 'src/scripts/**/*.ts', 'vite.config.ts', 'eslint.config.js'],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 );

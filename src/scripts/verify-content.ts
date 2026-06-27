@@ -16,7 +16,7 @@ import {
   MOB_IDS,
   WEAPONS,
   WEAPON_IDS,
-} from '../src/core';
+} from '../core';
 
 const errors: string[] = [];
 

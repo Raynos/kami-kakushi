@@ -4,7 +4,7 @@
 export {};
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS } from '../src/core';
+import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS } from '../core';
 
 const OUT = 'docs/content/t0-content.md';
 

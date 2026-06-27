@@ -28,7 +28,7 @@ metadata:
   live (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = tsc + eslint + prettier +
   vitest + verify-content + `gen:docs --check`. `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
   JS [gz ~15 KB] + ~14 KB CSS [gz ~4 KB] — itch-ready, relative-base); `npm run build:itch` (zip). Headless
-  QA harness: `scripts/qa-shots.mjs` + `scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/`.
+  QA harness: `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/`.
 - **Key docs:** `docs/living/prd.md` (the V2.2 vision+spec) · `project/feedback/history/prd_human_feedback.md` Block N (the
   authoritative decisions) · `docs/living/ui-design.md` (woodblock/ink bible — the renderer is built to it) ·
   `docs/living/fun-factor.md` · `docs/living/qa-playtesting.md` (the __qa harness + fun-proxies) ·
@@ -36,11 +36,11 @@ metadata:
 - **Code layout:** `src/core` (pure: rng, state, intents/reduce, step/tick, unlock/rewards/log, skills,
   ranks, combat, fight, selectors, format, `content/*` registries) · `src/persistence` (save layer) ·
   `src/ui` (render.ts + styles.css) · `src/app/main.ts` (composition root + `window.__qa`) ·
-  `scripts/{verify-content,gen-docs}.ts`.
+  `src/scripts/{verify-content,gen-docs}.ts`.
 - **How to resume:**
   1. Read the newest journal (`project/journal/2026-06-26-session-02-overnight-build.md`).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
-  3. Drive headlessly: `node scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
+  3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
   4. **Next (post-review):** M3 (T0 R4→R7 + the four-pillar Phase-2 grind + the hybrid gate) → close T0;
      then T1/T2 per `docs/living/prd.md` §7.2. Pre-publish: self-host the OFL font (Q52) + a real perf/fun gate (M6).

@@ -34,7 +34,7 @@ complete. Status of the reorg:
 
 - ✅ **This `docs/living/roadmap.md`** — the living milestone tracker — created.
 - ✅ **Generated content tables** under [`docs/content/`](../content) (e.g. `t0-content.md`, via
-  `scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). More tables generate as registries grow.
+  `src/scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). More tables generate as registries grow.
 - ⏳ **Freeze §1 as a tagged vision snapshot** + retire the §7 roadmap detail into this file — **deferred**
   (a deliberate one-time move; `prd.md` stays the living spec until the human signs the freeze). The §4
   balance numbers stay "proposed v1 balance" in `prd.md` and re-tune by playtest until M6.

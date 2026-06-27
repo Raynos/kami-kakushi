@@ -166,3 +166,21 @@ Layout + project/status snapshot present-tensed to the new tree. Config also mov
 (journal regex `^project/journal/`, status path), `scripts/snapshot-research.sh` (raw dest),
 `eslint.config.js` (ignore `project/archive/**`). verify green (51 tests). Phase 2 (index.html + scripts → src/)
 next.
+
+## 13 · `src/` consolidation (Phase 2 — human-directed)
+
+Pulled the web entry + dev/maintenance scripts under `src/` (human: "push harder on index.html in src/ and
+scripts in src/scripts"). `git mv index.html → src/index.html` and `scripts/ → src/scripts/`. Vite now uses
+**`root: 'src'`** (so it serves `src/index.html`) with **`build.outDir: '../dist'`** + `emptyOutDir: true`
+(output still lands at repo-root `dist/`, itch-relative-base unchanged); index.html's entry became
+`/app/main.ts` (root-absolute under root=src). Knock-on edits: **Vitest** inherits Vite's root, so
+`test.include` → `['**/*.test.ts']` (root-relative — all 51 tests live under src/); `tsconfig` include drops
+the now-redundant `scripts`; `eslint` ignore + node-globals override repointed to `src/scripts/**`; `package.json`
+`tsx scripts/… → tsx src/scripts/…`; the two TS scripts' `'../src/core' → '../core'`; **snapshot-research.sh**
+`repo_root` climbs `../..` (one dir deeper); **qa-shots.mjs** `OUT 'audit' → 'project/audit'` (a Phase-1 miss —
+the audit dir had moved). Doc path-refs (`scripts/x` → `src/scripts/x`) fixed in CLAUDE/README/prd/qa-playtesting/
+roadmap/status; frozen `archive/prd-v1.md` left as-is. **Verified end-to-end:** `npm run verify` green (51 tests,
+Vitest root=src), `npm run build` clean (42 KB JS / 14 KB CSS → dist/), dev server serves src/index.html +
+transpiles `/app/main.ts` (200), and the headless QA harness drove the full cold-open→combat→rank-up→mobile
+sequence with **no console errors** (screenshots in project/audit/). Top-level is now just `docs/ project/ src/`
+(+ generated dist/ tmp/).

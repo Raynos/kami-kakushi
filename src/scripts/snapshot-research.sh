@@ -23,7 +23,7 @@ if [ ! -f "$src" ]; then
   exit 1
 fi
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 dest_dir="$repo_root/project/brainstorms/raw"
 mkdir -p "$dest_dir"
 dest="$dest_dir/$(date +%Y-%m-%d)-${slug}.json"
