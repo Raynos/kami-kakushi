@@ -73,7 +73,7 @@ Date: {date} · Goal: {one line}
 
 1. Final read of the capture file for contradictions/gaps; reconcile them.
 2. Promote settled decisions to their home — a `docs/` doc, and an ADR in
-   `docs/history/decisions.md` for locked design calls — or leave them explicitly PENDING in the
+   `docs/living/decisions.md` for locked design calls — or leave them explicitly PENDING in the
    recap. Pending items are debt; never let them be silent.
 3. If the session surfaced a rule that should shape every future session, propose a 1–2 line
    addition to `CLAUDE.md`.

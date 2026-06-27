@@ -2,7 +2,7 @@
 
 > **Status: PRD V2.2 — reshaped from the 79 human-signed V2 decisions** (Block L `Q1–Q56` + Block M `FU1–FU23`)
 > **+ Block N (32 post-battery) + Block N.1 (7); ADRs D-043/D-044/D-045**
-> (2026-06-26; see [`prd_human_feedback.md`](prd_human_feedback.md) §§L–N). Per **ADR D-022 (governing)** these
+> (2026-06-26; see [`prd_human_feedback.md`](../../feedback/history/prd_human_feedback.md) §§L–N). Per **ADR D-022 (governing)** these
 > V2 decisions **supersede** any conflicting prior lock / canon / ADR — **most-recent-wins, annotate-don't-delete.**
 > The V2 **LOCKED INTENT** is frozen per **ADR D-021** (the freeze-framing below); the §4 balance numbers and the
 > §7 M2–M7 milestone detail stay **provisional** and are re-planned after each playtest. No code is written until
@@ -42,13 +42,13 @@ revised, and its load-bearing decisions locked as ADRs.
 > ships, not the provisional *how*. **Do NOT explode this doc yet** — **M0 + M1 build against this PRD
 > as-is**; full sign-off and the one-time reorganisation come **after the first build-and-play cycle**, on
 > ground that has survived contact with play. Then §1 + the locked constraints freeze as a tagged vision
-> snapshot, §7 moves to a living `docs/roadmap.md` ("M0–M1 committed; M2–M7 provisional, re-planned after
+> snapshot, §7 moves to a living `docs/living/roadmap.md` ("M0–M1 committed; M2–M7 provisional, re-planned after
 > each playtest"), and the §4 numbers move to generated `docs/content/` tables. **M2–M7 are never frozen
 > as canon** (per ADR D-021).
 > *(Update 2026-06-26: the first build-and-play cycle is complete — **M0–M2b are built, verify-green and
 > play-tested**, and the living roadmap now exists at [`roadmap.md`](roadmap.md). The remaining one-time
 > reorg — freezing §1 as a tagged vision snapshot and moving the §4 numbers to generated `docs/content/`
-> ([`content/t0-content.md`](content/t0-content.md) already exists) — is the queued next step.)*
+> ([`content/t0-content.md`](../content/t0-content.md) already exists) — is the queued next step.)*
 
 ---
 
@@ -56,7 +56,7 @@ revised, and its load-bearing decisions locked as ADRs.
 
 > **PRD V2 — locked intent (D-021); reshaped per the V2 decisions (D-022 governing).** This section is authored
 > end-to-end from the PATCHED locked-decisions canon
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md), incl. its
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md), incl. its
 > 2026-06-25 Round-A deltas), the three redesign discovery docs, **and the 79 human-signed V2 decisions** (Block L
 > `Q1–Q56` + Block M `FU1–FU23`). It supersedes every earlier framing of §1 (most-recent-wins per D-022). Tiers are
 > **T0–T4** (0-indexed) throughout; v1 scope is **T0–T2 complete**, with **T3 a stub cliff-hanger** (the
@@ -2538,7 +2538,7 @@ the incremental unlock ladder (UI-as-progression)._
 
 > **PRD V2.2 — reshaped per the V2 decisions (D-022 governing; Block L `Q1–Q56` + Block M `FU1–FU23`).** Authored
 > end-to-end from the LOCKED CANON
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md), incl. all
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md), incl. all
 > three "Updated 2026-06-25" header blocks), the merged PRD §1, §2, §5, §6, **and the 79 human-signed V2
 > decisions**. This section makes the **signature feature** concrete: it specifies the **ordered reveal of every
 > panel, tab, screen, system, resource-row, and area** across the game — **T0–T2 in full (v1)**, with **T3/T4
@@ -6845,7 +6845,7 @@ weather** (Q2/FU3), the **`Math.pow` ban → integer-pow** (Q36), the **bounded 
 > **PRD V2.2 — reshaped from the 79 human-signed V2 decisions (Block L `Q1–Q56` + Block M `FU1–FU23`); per
 > ADR D-022 (governing) these supersede any conflicting prior lock, most-recent-wins, annotate-don't-delete.**
 > Authored end-to-end from the LOCKED CANON
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../brainstorms/2026-06-25-locked-decisions.md), incl. its
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md), incl. its
 > **§I v1 scope** and the human-signed **§I-bal §4 BALANCE LOCKS**, now re-read through the V2 decisions) and the
 > drafted PRD §§1–6 (esp. §1 vision/pillars/factions/endgame, §2 systems catalog, §3 the unlock ladder, §4 the
 > balance model, §5 the narrative, §6 the tech architecture). This is the **last PRD section** and the one that,
@@ -7493,10 +7493,10 @@ numbers display **K/M/B**.
 
 **Phases / high-level tasks:**
 
-1. **Build the headless pacing + fun-proxy instrumentation harness (one measured report)** — Done when a `__qa`-driven full T0→T2 (and spine-only) playthrough runs headlessly and prints a per-rung tick→wall-clock + per-tier-total report measurable against the §4 floor PLUS the fun-proxy report (dead-time, reward/unlock cadence, always-a-visible-next-goal, the first-5-min hook, the tier-relative deed-cadence [T0~5/T1~8/T2~13 min, Q20], and the win-rate bands at R3/V2/V5/G1/G5) PLUS a **PERF report** (save-envelope bytes, live event-log node-count vs the `LOG_RING_MAX` ring cap, per-tick allocation, and a long-run memory sample over an hours-long unattended run — D-Q-perf/Q15+Q56) — promoting the M1/M3a report-only proxies into one measured harness, landed as a reporting tool only so verify stays green. *(§6.10 (DEV play API), §4.8 (pacing tables/floor), §4.6.6 (win-rate bands), §6.6.1 (save-envelope budget), §6.9 (log node-count budget), fun-factor.md, docs/qa-playtesting.md)*
+1. **Build the headless pacing + fun-proxy instrumentation harness (one measured report)** — Done when a `__qa`-driven full T0→T2 (and spine-only) playthrough runs headlessly and prints a per-rung tick→wall-clock + per-tier-total report measurable against the §4 floor PLUS the fun-proxy report (dead-time, reward/unlock cadence, always-a-visible-next-goal, the first-5-min hook, the tier-relative deed-cadence [T0~5/T1~8/T2~13 min, Q20], and the win-rate bands at R3/V2/V5/G1/G5) PLUS a **PERF report** (save-envelope bytes, live event-log node-count vs the `LOG_RING_MAX` ring cap, per-tick allocation, and a long-run memory sample over an hours-long unattended run — D-Q-perf/Q15+Q56) — promoting the M1/M3a report-only proxies into one measured harness, landed as a reporting tool only so verify stays green. *(§6.10 (DEV play API), §4.8 (pacing tables/floor), §4.6.6 (win-rate bands), §6.6.1 (save-envelope budget), §6.9 (log node-count budget), fun-factor.md, docs/living/qa-playtesting.md)*
 2. **Balance pass — tune balance.ts to the §4 FLOOR (minimums; longer-is-fine)** — Done when the measured playthrough is AT LEAST T0≈4.5 h / T1≈8 h / T2≈16 h, every grind rung ≥~30 min, the ≤2–3× within-tier never-balloon step, and the ~70/30 deeds/seasonal split — by tuning the §4.9 LOCKED levers only (master dials, accrual, gating cadence, producer/cost curves), **lengthening / interleaving** the grind to clear the floor (never retuning the floor itself), with all magnitudes taken from §4 (reference, never invented). *(§4.0/§4.1/§4.2/§4.7/§4.8/§4.9 (the LOCKED balance model + levers index), FU18)*
 3. **Promote pacing + PERF into hard verify gates (UNDERSHOOT / breach-only)** — Done when the harness assertions run inside `npm run verify` and FAIL the build **only** on undershoot — any **grind** rung clearing in <~28 min (the R0 cold-open story rung exempt, §4.8.1) or a tier completing under its hour floor — **never** on overshoot, and it passes green because the balance pass already clears the floor; **AND the PERF budgets from task 1 are likewise wired as a build-failing gate** (D-Q-perf/Q15+Q56): **save-envelope ≤ ~64 KB**, **event-log node-count ≤ the `LOG_RING_MAX` ring cap**, **bounded tick-loop allocation**, and a **long-run memory ceiling** — failing the build on a breach (like the pacing/fun gates). *(§4.8.4 (the floor invariants + undershoot-only gate), §6.6.1/§6.9 (perf budgets), §6.1 (the verify gate), §6.10, D-Q-perf)*
-4. **Promote the fun-proxies from report-only to a GATING check (the fun-risk mitigation)** — Done when the M1/M3a fun-proxies move from report-only into `npm run verify` as a GATE (Q4/FU9) — failing the build on undershoot of the fun floor (excess dead-time, a stalled reward/unlock cadence, a missing visible-next-goal, a weak first-5-min hook, a deed-cadence slower than the tier-relative target [T0~5/T1~8/T2~13 min, Q20], or a win-rate band outside its R3/V2/V5/G1/G5 envelope [§4.6.6]) — the thresholds owned by `fun-factor.md`, mirroring the pacing gate and catching the §7.4.1-R6 fun risk. *(Q4, FU9, Q20, §4.6.6, §6.1, §6.10, fun-factor.md, docs/qa-playtesting.md)*
+4. **Promote the fun-proxies from report-only to a GATING check (the fun-risk mitigation)** — Done when the M1/M3a fun-proxies move from report-only into `npm run verify` as a GATE (Q4/FU9) — failing the build on undershoot of the fun floor (excess dead-time, a stalled reward/unlock cadence, a missing visible-next-goal, a weak first-5-min hook, a deed-cadence slower than the tier-relative target [T0~5/T1~8/T2~13 min, Q20], or a win-rate band outside its R3/V2/V5/G1/G5 envelope [§4.6.6]) — the thresholds owned by `fun-factor.md`, mirroring the pacing gate and catching the §7.4.1-R6 fun risk. *(Q4, FU9, Q20, §4.6.6, §6.1, §6.10, fun-factor.md, docs/living/qa-playtesting.md)*
 5. **Content-verifier + generated-docs green on EVERY V2 canon invariant** — Done when `scripts/verify-content.ts` asserts ALL §6.6/§6.6.1 machine checks — no belief-creature in any spawn/population table; trade ≤⅓ with the cross-pillar combos proven POST-clamp, gate-excluded and ⅓-unbreachable; ≤1 residual-ambiguity token; the HYBRID good/great/excellent gate with NO overflow evaluated only against the REVEALED pillars (gate-distribution + gate-monotonicity); bounded per-skill perk magnitude (each perk small, NOT `==0`, no global cap) with conditioning `==0`; rung-meter monotonicity + the accrual (≈70/30, jumps+seasonal-only, up-only) tie-out; the `world.ts` (Q55) id-resolution; the real-name denylist; macron + K/M/B lints; no orphan ids — and `scripts/gen-docs.ts` regenerates docs/content/ + docs/balance/ with `gen:docs --check` passing — both wired into verify. *(§6.6, §6.6.1, §6.5, §6.1)*
 6. **Ship the T3 castle-town / Daikan's-Office STUB cliff-hanger (Q24)** — Done when reaching the G7 capstone renders the §3.7.1 first-contact screen (the castle-town / Daikan's-Office node — the old Porter / Kaidō-guild framing dropped, Q24) with the diegetic 'the page turns onto stone walls, and the story pauses' reveal, then STOPS cleanly — with a verifier/test assertion that NO T3 ladder, auto-producers, or marriage/adoption lever is reachable, **AND a player-facing "v1 complete" terminal closure surface is reachable with a defined post-gate clock/accrual policy** (the active loop CONTINUES for free-play/cleanup; the tier is HELD at T2-complete; no empty T3 committed; no clock stall) — asserted as a **positive terminal-state test, not only the no-T3 negative test** (D-Q-B11). *(§3.7.1 (T3 forward stub), §6.8.3 (terminal/closure), §6.9 (renderer/reveal), §6.6 (no half-built-system assertion), §5 (G7 beat), Q24, D-Q-B11)*
 7. **a11y acceptance pass (§6.11 basics, wired so they cannot rot)** — Done when the low-cost a11y items are live AND verified: functional/hint text on `--ink-soft` (WCAG AA on every paper surface), `--ink-faint` decorative-only, darkened meter fills (Q48); full keyboard operability + comfortable touch targets; textScale (with a large-textScale reflow case), colourblindMode (colour never the sole cue — icon/text labels too), reducedMotion (+ prefers-reduced-motion), a user pause, the event log as an ARIA live region scoped to narration+milestone ('polite'), a persistent quiet a11y entry point from minute one, and a mute toggle — verified by a keyboard-only AND a touch-only run of the cold open + one rung AND of a force-loaded late state (via `window.__qa`) exercising the combat panel (stance/ability/item/retreat), the four-bar Influence panel, a focus-trapped modal, and the map screen, PLUS a screen-reader acceptance pass — so operability is proven on the dense revealed UI, not only the single-column open. *(§6.11 (accessibility), §6.9 (not-hover-dependent renderer / pause), Q18, Q48)*

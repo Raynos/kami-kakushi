@@ -3,7 +3,7 @@
 ## ☀️ SUMMARY (read this first)
 
 The session that **stress-tested the PRD and turned it into a prioritized decision queue.** Ran a **4-round
-multi-agent battery review** of `docs/prd.md` (~52 lenses · 162 confirmed findings), **auto-applied 42 verified
+multi-agent battery review** of `docs/living/prd.md` (~52 lenses · 162 confirmed findings), **auto-applied 42 verified
 fixes**, and queued **56 design decisions (Q1–Q56) + one process decision (PD-1 → ADR D-021)**. The battery has
 **SATURATED** (closed after round 4 on the convergence-critic's verdict). Resolved the freeze-vs-steer tension:
 **"freeze" = locked intent only** (§1 vision + signed acceptance criteria), the §4/§7 plan stays provisional.
@@ -139,7 +139,7 @@ the master-sheet resolution log. ~16 changed a locked/scope decision (per D-022)
 
 ## 17 · All feedback consolidated into prd_human_feedback.md (Block L + precedence rule)
 Human: "record all my feedback in one cumulative doc; if anything contradicts, favour the most recent."
-Added **Block L** to docs/prd_human_feedback.md — all 56 V2 Q&A decisions grouped by theme (🔁 marking the ~16
+Added **Block L** to feedback/history/prd_human_feedback.md — all 56 V2 Q&A decisions grouped by theme (🔁 marking the ~16
 that changed a prior lock/scope), plus PD-1 / D-022 — so that doc is now the single cumulative human-feedback
 record alongside A–K. Added a **precedence rule** to the header: newest wins; Block L supersedes A–K wherever
 they differ (per D-022). Per-decision detail stays in the master sheet.
@@ -169,7 +169,7 @@ auto-resolve (active-only holds). Recorded in brainstorms/2026-06-26-prd-v2-foll
 
 ## 20 · Wave-2 follow-ups folded into prd_human_feedback.md (Block M)
 Per the human (same rule as Block L): the 23 wave-2 follow-up resolutions added as **Block M** of
-docs/prd_human_feedback.md — so that doc holds ALL cumulative feedback (A–M). Made the precedence rule
+feedback/history/prd_human_feedback.md — so that doc holds ALL cumulative feedback (A–M). Made the precedence rule
 block-agnostic (the latest block wins; M supersedes L/A–K on conflict).
 
 
@@ -188,7 +188,7 @@ intra-line dialogue, castle-town ending, bundled assets, real-name lint). Rewrit
 The staged full-section-regeneration workflow (wtx6q883g) produced INCOMPLETE sections: large sections
 (§2=253 lines vs ~889; §1/§3/§4/§7 missing their heads, §3 starts mid-word) because each section body
 exceeded one agent message, so only the TAIL was returned as the value. §5/§6 were ~ok. DID NOT assemble —
-**docs/prd.md is untouched (still v1)**; the failure was caught at the structural-check gate. Raw partial
+**docs/living/prd.md is untouched (still v1)**; the failure was caught at the structural-check gate. Raw partial
 output snapshotted to brainstorms/raw/2026-06-26-prd-v2-write.json. FIX: relaunch with each section agent
 WRITING its full rewritten section to a file (Write + Edit-append chunks, self-verified start-heading/
 end/line-count) so output length is decoupled from message length; later stages READ earlier section files
@@ -212,7 +212,7 @@ v1 §3/§5/§7 (will clear on apply). Each section = an independent committed ch
 
 
 ## 25 · PRD V2 FULLY ASSEMBLED (all 7 sections applied)
-Applied §3/§5/§7 (chunked, validated). docs/prd.md is now ALL V2 — §1-§7, 6426 lines, all headers present.
+Applied §3/§5/§7 (chunked, validated). docs/living/prd.md is now ALL V2 — §1-§7, 6426 lines, all headers present.
 Flag for the audit: 3 'CombatDeedsPool' + 14 'Combat Standing' leftovers remain (watch-list said rename
 Combat Standing→Combat Rank project-wide + delete CombatDeedsPool→three tracks) — the audit/consistency lens
 must verify these are legit (e.g. 'renamed from' notes / historical refs) or fix them. Next: audit battery
@@ -233,7 +233,7 @@ T2.6 weapon mis-seq). 5 trivial fixes. Then re-verify, write report, present for
 
 ## 27 · PRD V2 truncations FIXED — §4 + §7 tails restored (doc complete, 7020 lines)
 Regen workflow w05mj51vo (2 file-output agents, 15min) restored both truncated tails. NOTE: the agents wrote
-DIRECTLY into docs/prd.md via targeted Edits (my prompt named no output path) — both survived (no race-clobber;
+DIRECTLY into docs/living/prd.md via targeted Edits (my prompt named no output path) — both survived (no race-clobber;
 line math 6426+594=7020 confirms). §4 tail: §4.7 (yields/cost/E0→E3 build row) + §4.8 (§4.8.0 headline, §4.8.1
 ⭐ T0 pacing table, NEW §4.8.1b phase-2 grind block, §4.8.2/.3/.4) + §4.9 levers — placed §4.6→§4.7→§4.9→§5,
 contiguous; ~89 dangling refs resolve. §7 tail: M6 (balance-to-FLOOR + verifier/fun-proxy gates + a11y + T3
@@ -337,7 +337,7 @@ running; loop NOT re-armed (the stale battery /loop re-fire was correctly identi
 saturate→present→decide mission is done). This session: PRD V2 → 5-round adversarial battery (110+ lenses) →
 14 blocking defects (B1-B14) + ~40 questions → 30 trivial fixes applied → ALL 32 decisions made with the human
 (8 Q&A batches) → locked in prd_human_feedback.md Block N + ADR D-043. NEXT SESSION resumes from
-memory/project-status.md ▶ NEXT: implement PRD V2.1 (apply Block N to docs/prd.md, chunked plan→apply, structural-
+memory/project-status.md ▶ NEXT: implement PRD V2.1 (apply Block N to docs/living/prd.md, chunked plan→apply, structural-
 schema-first). Source of truth = Block N (the scratchpad/v21plan.mjs planner is ephemeral). THEN human glance →
 build M0/M1. Zero open decisions for the human; zero uncommitted work.
 
@@ -361,7 +361,7 @@ signpost. Plus 5 truly-minor folded into trivial. NEXT unchanged: implement V2.1
 
 ## Landmines (current)
 - **42 fixes already applied to `prd.md`** this session (re-verified in round 4; 1 self-regression caught & fixed).
-  `git diff 0b60422..HEAD -- docs/prd.md` shows them all; the report tables list each with rationale.
+  `git diff 0b60422..HEAD -- docs/living/prd.md` shows them all; the report tables list each with rationale.
 - **§4/§7 findings are PROVISIONAL** per D-021 — they evolve into V2, they are not must-fix-now bugs.
 - This journal is **HISTORY**. Live state = `memory/project-status.md`; prioritized queue = the master decision sheet.
 - No code yet (pre-M0).

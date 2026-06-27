@@ -7,11 +7,11 @@ metadata:
 
 # Working agreements
 
-**Cadence:** many small commits; journal each session in [`../journal/`](../journal/) — a chronological
+**Cadence:** many small commits; journal each session in [`../journal/`](../journal) — a chronological
 log (summary at top, **append entries at the bottom, never prepend**; live state lives in
 [`project-status.md`](project-status.md), see [`../journal/README.md`](../journal/README.md)); durable design
-in [`../docs/`](../docs/) (living docs, edited in place); per-fact memory here. Locked design
-decisions are recorded as ADRs in [`../docs/history/decisions.md`](../docs/history/decisions.md).
+in [`../docs/`](../docs) (living docs, edited in place); per-fact memory here. Locked design
+decisions are recorded as ADRs in [`../docs/living/decisions.md`](../docs/living/decisions.md).
 
 **Commit gate:** keep the build working, and stage a `journal/` change every commit (enforced by
 `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Gate every commit on `npm run verify`

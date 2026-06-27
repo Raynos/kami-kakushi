@@ -515,7 +515,7 @@ lets depth be added without bloating the first playable slice.
    failure canon warns against.
 3. **Do-not-redesign / build outward from canon NPCs — contradicted.** NPCs are labelled "Existing" that are
    NOT in PRD §1.8. **Genza** is tagged "Existing region NPC" with a load-bearing matagi-bridge role, but Genza
-   appears only in the **explicitly SUPERSEDED** grounded-story-spine doc (0 hits in `docs/prd.md`) — reviving
+   appears only in the **explicitly SUPERSEDED** grounded-story-spine doc (0 hits in `docs/living/prd.md`) — reviving
    superseded canon as current is a direct contradiction. The expansion also silently RENAMES a canon-adjacent
    NPC (**"Onui" → "Osato"**) and hands many starter NPCs sweeping cross-tier portfolios with no arc-map.
 4. **Lock dependencies before authoring — the meibutsu is still an OPEN question.** Five nodes (Artisan Lineage
@@ -563,9 +563,9 @@ lets depth be added without bloating the first playable slice.
 | **Prove the "thin spine"** | For every node labelled spine-adjacent/enabling/critical, write the literally-minimal path and confirm it carries a player to the next tier, so these never become disguised gates. Re-classify everything else strictly as optional |
 | **Apportion the multiplier** | Split the "halves-time" budget explicitly across the kept accelerants (a fixed budget split) so the stack cannot exceed ~2×, and confirm the grind stays the dominant intended behaviour |
 
-> **Key canon files cited by the verifier:** `docs/prd.md` (authoritative §1 — §1.5 starters, §1.6 the 7
+> **Key canon files cited by the verifier:** `docs/living/prd.md` (authoritative §1 — §1.5 starters, §1.6 the 7
 > levers + 5 tiers, §1.10 optional-folklore rule, §1.13–§1.14 scope guards/open questions) and
-> `docs/history/decisions.md` (D-001..D-006; note D-004 reset is reversed by PRD §1.14). The superseded
+> `docs/living/decisions.md` (D-001..D-006; note D-004 reset is reversed by PRD §1.14). The superseded
 > `brainstorms/2026-06-25-grounded-story-spine.md` is where **Genza/Kiku** originate and is **NOT canon.**
 
 ### Open questions

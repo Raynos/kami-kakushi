@@ -1,6 +1,6 @@
 # Kamikakushi PRD — MASTER Decision Sheet (priority-ranked)
 
-**Date:** 2026-06-26 · **56 decisions (Q1–Q56) + PD-1 (approved → ADR D-021)** · ranked by a 5-lens impact panel (architect / designer / build-lead / risk-QA / holistic), dependency-corrected. Tiers: **P0=6, P1=9, P2=22, P3=19**. Full context per decision = the [battery report](2026-06-26-prd-battery-review.md); raw findings in [`raw/`](raw/).
+**Date:** 2026-06-26 · **56 decisions (Q1–Q56) + PD-1 (approved → ADR D-021)** · ranked by a 5-lens impact panel (architect / designer / build-lead / risk-QA / holistic), dependency-corrected. Tiers: **P0=6, P1=9, P2=22, P3=19**. Full context per decision = the [battery report](2026-06-26-prd-battery-review.md); raw findings in [`raw/`](raw).
 
 > **The process (human-signed).** `resolve these decisions → PRD **V2** → build M0/M1 → playtest → resteer → PRD **V3** → build → …`. We settle the design forks into a strong V2 **before** code. Per ADR D-021, the §4 numbers / §7 M2–M7 detail stay *provisional* (they evolve into V2/V3); the §1 vision + signed acceptance criteria + T0–T2 scope are locked.
 

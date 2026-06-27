@@ -3,7 +3,7 @@
 ## ☀️ SUMMARY (read this first)
 
 The **autonomous overnight build session.** Goal (human-signed `/goal`): take the PRD from V2.1 → **V2.2**
-(apply all of Block N + N.1 to `docs/prd.md`, with auto review/audit/fix), then **execute the roadmap** —
+(apply all of Block N + N.1 to `docs/living/prd.md`, with auto review/audit/fix), then **execute the roadmap** —
 build **M0 + M1 + M2a + M2b** — and deliver a **playable, fun, polished, itch-ready demo** for the morning.
 No human at the keyboard; work alone.
 
@@ -13,7 +13,7 @@ No human at the keyboard; work alone.
 
 ## 1 · PRD V2.2 — applying Block N (in flight via Workflow `wf_c01fa208-7d1`)
 
-A Workflow weaves all 32 Block N decisions + 7 Block N.1 defaults into `docs/prd.md` as **6 serial
+A Workflow weaves all 32 Block N decisions + 7 Block N.1 defaults into `docs/living/prd.md` as **6 serial
 section-scoped clusters** (§6 → §4 → §2 → §3 → §1/§5 → §7; serial because it's one 7k-line file, no write
 races) + **parallel sibling-doc** edits (new ADRs D-044 crash-recovery / D-045 a11y-ink in `decisions.md`;
 the a11y update in `ui-design.md`). Each agent makes surgical edits + returns a structured report. After it
@@ -82,7 +82,7 @@ NEXT: finish PRD V2.2 (workflow), QA/polish sweep, itch packaging (About/Credits
 ## 5 · PRD V2.2 — DONE (Block N applied + audit-fix)
 
 Two background workflows: (1) the main apply (8 agents, ~71 min, 886K tok) wove all 32 Block N + 7 Block N.1
-decisions into docs/prd.md (§6 schema, §4 balance — Name now a REAL T2 gate at 8.4K+19.6K=28K, analytic
+decisions into docs/living/prd.md (§6 schema, §4 balance — Name now a REAL T2 gate at 8.4K+19.6K=28K, analytic
 win-rate, enemy model; §2/§3/§1/§5/§7) — **943 insertions**; the 2 new ADRs D-044 (crash-recovery) /
 D-045 (a11y-ink) in decisions.md; the a11y update in ui-design.md. (2) An audit-fix (3 agents) reconciled the
 cross-section residuals: stale prose names (Munenori→Shigemasa, Jūbei→Kihei, Ranpo→Sōan), T2 "3–4"→"4",
@@ -130,10 +130,21 @@ Screenshots: audit/log-cascade-*.png, audit/settings-*.png.
 A 5-agent audit cross-checked all ~40 markdown files against the built reality and found ~25 stale items:
 verdict was code + project-status + journal + ADRs accurate, but ~a dozen design/process docs still read
 "pre-build / DRAFT / PLAN", with no milestone tracker and the D-021 docs-explosion overdue. Fixed (Phase 1 me
-+ Phase 2 a 10-agent parallel pass): created the living **docs/roadmap.md** (M0–M2b ✅ / M3–M7 provisional);
++ Phase 2 a 10-agent parallel pass): created the living **docs/living/roadmap.md** (M0–M2b ✅ / M3–M7 provisional);
 reclassified qa-playtesting from a "plan" → a LIVING GUIDE and moved docs/plans/→docs/ (20+ refs fixed);
 graduated the QA harness tmp/→scripts/; prd.md masthead→V2.2 + §7.2 completion banner + "§7 approved" notes;
 prd_human_feedback Block N/N.1 marked ✅ APPLIED + precedence pointer + footer; ADRs annotated + **D-046**
 (build-cycle-complete); ui-design/fun-factor/qa-playtesting DRAFT/PLAN→LIVING; CLAUDE/README/working-agreements
 present-tensed; root README age 17→~18 + seed-prompt pointer; names.ts Yagoemon→Yagōemon; filed review R1.
 Raw audit + fix reports snapshotted in brainstorms/raw/. verify green (51 tests) throughout.
+
+## 11 · Docs/feedback reorg (human-directed)
+
+Reorganized per the human: NEW top-level **feedback/** (live human-feedback inbox, one dated file per session;
+feedback/README.md) with **feedback/history/prd_human_feedback.md** (the finished PRD-feedback record, banner
+marks it ARCHIVED). Moved the living design docs into **docs/living/** (prd, ui-design, fun-factor,
+qa-playtesting, roadmap) and the **ADR ledger → docs/living/decisions.md** (it is live/append-only, so history/
+was the wrong bucket — dissolved docs/history/). All cross-references rewritten programmatically (tmp/relink.mjs,
+20 files) + bare path-mention seds; a link-checker (tmp/linkcheck.mjs) confirms 0 new broken links (only frozen
+archive/ + a template placeholder remain). docs/README + CLAUDE.md Layout updated to the new structure. verify
+green (51 tests). Broader top-level-hierarchy reorg = proposed to the human, NOT executed.

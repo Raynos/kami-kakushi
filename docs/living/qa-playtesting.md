@@ -30,7 +30,7 @@ and play** — each need a different QA tool. This plan covers all three.
   way to "play" 28.5h); (3) **visual/feel** (MCP browser drive + screenshots that **the agent itself
   reviews** with its own vision against the UI design-language bible).
 - **The agent is a capable reviewer, not a blind builder.** With Playwright MCP + Chrome DevTools MCP
-  + the [`capture-game-states`](../.claude/skills/) skill + its own multimodal vision, the agent
+  + the [`capture-game-states`](../../.claude/skills) skill + its own multimodal vision, the agent
   **looks at every screen itself**, catches slop/misalignment/visual bugs, and iterates **before**
   the human sees it. The **human is the higher-level taste & fun arbiter** on self-vetted candidates.
 - **Fun is a hypothesis tested by play, not a spec verified once.** We instrument proxies for it,
@@ -225,9 +225,9 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   harness via their evaluate tools (`evaluate_script` / `browser_evaluate` with `() => window.__qa.…`),
   screenshot between steps, inspect console/network. Headless config takes effect only after a client
   restart; until then the game is headful but harmless (no pointer-lock to steal the cursor).
-- **The [`capture-game-states`](../.claude/skills/) skill:** the project's purpose-built driver for
+- **The [`capture-game-states`](../../.claude/skills) skill:** the project's purpose-built driver for
   "drive the game headlessly and screenshot/record its states" — the front door for the §4 visual loop
-  and audit sweeps; outputs land in [`audit/`](../audit/).
+  and audit sweeps; outputs land in [`audit/`](../../audit).
 - **Where the harness lives:** `src/app/` (the composition root) installs `window.__qa` under
   `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the screenshot/playtest drivers are
   tracked at `scripts/qa-shots.mjs` + `scripts/playtest.mjs`. The auto-player + fun-proxy collectors
@@ -249,4 +249,4 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 > See also: **[`fun-factor.md`](fun-factor.md)** (the *what/why* of fun — this harness measures its
 > targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
 > §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible), and
-> [`prd_human_feedback.md`](prd_human_feedback.md) §K (the fun/UI process intent).
+> [`prd_human_feedback.md`](../../feedback/history/prd_human_feedback.md) §K (the fun/UI process intent).

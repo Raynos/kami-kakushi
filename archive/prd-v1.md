@@ -37,7 +37,7 @@ revised, and its load-bearing decisions locked as ADRs.
 > ships, not the provisional *how*. **Do NOT explode this doc yet** — **M0 + M1 build against this PRD
 > as-is**; full sign-off and the one-time reorganisation come **after the first build-and-play cycle**, on
 > ground that has survived contact with play. Then §1 + the locked constraints freeze as a tagged vision
-> snapshot, §7 moves to a living `docs/roadmap.md` ("M0–M1 committed; M2–M7 provisional, re-planned after
+> snapshot, §7 moves to a living `docs/living/roadmap.md` ("M0–M1 committed; M2–M7 provisional, re-planned after
 > each playtest"), and the §4 numbers move to generated `docs/content/` tables. **M2–M7 are never frozen
 > as canon** (per ADR D-021).
 

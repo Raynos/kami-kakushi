@@ -11,9 +11,9 @@ system temp / session scratchpad so working files stay inside the repo and are e
 - **Disposable.** Assume anything in `tmp/` can be deleted at any time. Never put the only copy of
   something important here.
 - **Graduate what matters.** If a file is worth keeping, move it to its real home:
-  - durable design / "what the game is now" → [`docs/`](../docs/)
-  - raw discovery / research capture → [`brainstorms/`](../brainstorms/)
-  - QA screenshots / recordings / findings → [`audit/`](../audit/)
-  - session logs → [`journal/`](../journal/)
+  - durable design / "what the game is now" → [`docs/`](../docs)
+  - raw discovery / research capture → [`brainstorms/`](../brainstorms)
+  - QA screenshots / recordings / findings → [`audit/`](../audit)
+  - session logs → [`journal/`](../journal)
 
 See the **Temporary files** convention in [`../CLAUDE.md`](../CLAUDE.md).

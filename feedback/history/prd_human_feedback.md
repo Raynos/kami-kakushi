@@ -1,9 +1,13 @@
 # PRD — Human Feedback & Decisions Log
 
+> **📦 ARCHIVED — closed record.** The completed PRD-building feedback log (Blocks A–N), **applied to the
+> PRD in V2.2** (commit `2b8d5e9`). **New human feedback goes to the live [`feedback/`](..) inbox, not here.**
+> Kept for the trail / the audit lens.
+
 **What this is.** A consolidated, chronological-and-thematic record of **every piece of concrete
 steering, guidance, and QA answer the human (Jake) has given** while we built the PRD. It exists so the
-whole project — the [PRD](prd.md), the [journals](../journal/), the [ADRs](history/decisions.md), and the
-[canon](../brainstorms/2026-06-25-locked-decisions.md) — can be **audited against the human's actual
+whole project — the [PRD](../../docs/living/prd.md), the [journals](../../journal), the [ADRs](../../docs/living/decisions.md), and the
+[canon](../../brainstorms/2026-06-25-locked-decisions.md) — can be **audited against the human's actual
 intent**, not just against what the docs happen to say.
 
 **How to use it.** Each entry is a piece of human direction + (where useful) where it landed. When auditing,
@@ -11,7 +15,7 @@ read an entry and confirm the PRD/canon/ADRs still honour it. If the docs and th
 is the record of intent** — fix the docs (or flag a deliberate, agreed change).
 
 **Sources.** The live conversation (verbatim human messages + every `AskUserQuestion` answer), the journals,
-the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs/history/decisions.md`).
+the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs/living/decisions.md`).
 **Legend:** ✅ implemented · 🔄 in progress · ⏳ queued · 🟡 proposed (awaiting confirm) · 🔁 reversed/superseded.
 
 > **Maintenance rule:** append new human feedback here as it arrives (newest within each section at the
@@ -19,7 +23,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 >
 > **Precedence rule (human-signed 2026-06-26):** when entries CONFLICT, the **MOST RECENT applies** (newest
 > wins). the **LATEST block** (currently **Block N.1 → Block N → Block M → Block L**) **supersedes earlier
-> blocks/entries wherever they differ** — per [D-022](history/decisions.md). 🔁 markers flag the specific earlier locks a decision changed.
+> blocks/entries wherever they differ** — per [D-022](../../docs/living/decisions.md). 🔁 markers flag the specific earlier locks a decision changed.
 
 ---
 
@@ -27,7 +31,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 - **A1. Build the game in README, ship it.** "Build the incremental RPG as outlined in README.md… deploy and
   upload to **itch.io**." Check the README + the two inspirations for the style of web RPG. ✅ (scope/deploy →
-  §7, [D-013](history/decisions.md), [D-017](history/decisions.md)).
+  §7, [D-013](../../docs/living/decisions.md), [D-017](../../docs/living/decisions.md)).
 - **A2. Grounded, NO magic.** "I don't want **Tengu or reincarnation**… less magical, more normal. **Edo
   period**. Lean into some folklore but **not full magic**." Every yokai resolves to a human/natural cause;
   folklore is *believed-atmosphere* only; thin, capped ambiguity (**residual unresolved ambiguity ≤ 1**,
@@ -71,9 +75,9 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - **B7. Keep Q&A going until satisfied.** "Basically **keep going with Q&A waves until you're 100%
   satisfied**." ✅
 - **B8. Commit the dependency correctly.** "Before you launch §2 and §6 shouldn't the **new §1 be committed**
-  into `docs/prd.md` first?" → commit dependencies before fanning out. ✅
+  into `docs/living/prd.md` first?" → commit dependencies before fanning out. ✅
 - **B9. Single PRD, clean docs.** "**Merge all sections into a single PRD** and clean up the docs folder." ✅
-  (one `docs/prd.md`; scratch `docs/prd-sections/` deleted after each merge).
+  (one `docs/living/prd.md`; scratch `docs/prd-sections/` deleted after each merge).
 - **B10. Audit for staleness.** "The PRD **reads stale** to me. Do a **full audit & review** of the session,
   the journals, the existing PRD, and see what's stale." → led to the staleness fixes + keeping canon current
   as the discipline. ✅
@@ -331,7 +335,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 - ~~**J6.** Whole-project audit — pending; the holistic consistency sweep is the final gate.~~ **DONE** ✅
   (the 5-round adversarial battery on PRD V2 ran the holistic sweep → Blocks N + N.1; applied in PRD V2.2).
 - ~~**J7.** §7 milestone breakdown (5–8 high-level tasks per milestone) — in progress (workflow `w46su5inn`).~~
-  **DONE** ✅ (landed in PRD V2; the §7 roadmap now lives in [`roadmap.md`](roadmap.md), M0–M2b shipped).
+  **DONE** ✅ (landed in PRD V2; the §7 roadmap now lives in [`roadmap.md`](../../docs/living/roadmap.md), M0–M2b shipped).
 - **J8.** §4 balance — **human-delegated** ("I trust you on S4"); accept first-pass model, **tune at M6**.
 
 ---
@@ -344,7 +348,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   a real period-evoking font, CSS borders/seals, and reveal motion — text + emoji + CSS only (per §6.9).
   **Anti-slop discipline:** lock the design language *first*; no screen is improvised.
 - **K2. Two gaps to author once the PRD is frozen (before/alongside M0):** (a) a **UI design-language bible**
-  (`docs/ui-design.md`, preceded by a visual-reference/ukiyo-e research pass); (b) a **fun-factor / playtest
+  (`docs/living/ui-design.md`, preceded by a visual-reference/ukiyo-e research pass); (b) a **fun-factor / playtest
   plan**. Record both as ADRs. *(§6.9 names the palette but has no design VISION; the PRD has pacing targets
   but no FUN proxies — these are the two real gaps.)*
 - **K3. Fun-factor process.** Fun is a *hypothesis tested by play*, not a spec. Loop: build → **instrument
@@ -362,7 +366,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   them.)
 - **K5. Docs structure (after freeze).** Freeze `prd.md` as the vision; **explode into per-concern living
   docs** (architecture / systems / narrative) + **generate-don't-duplicate** content/balance tables. Hold
-  until PRD sign-off. **— REFINED by K7 / ADR D-021 (2026-06-26):** scope the freeze to **locked intent only** (§1 + the hard constraints + the human-signed acceptance criteria), **build M0+M1 against the current `prd.md` first**, and explode **after** the first playtest cycle — roadmap → living `docs/roadmap.md`, §4 balance → generated `docs/content/`; **never freeze M2–M7.**
+  until PRD sign-off. **— REFINED by K7 / ADR D-021 (2026-06-26):** scope the freeze to **locked intent only** (§1 + the hard constraints + the human-signed acceptance criteria), **build M0+M1 against the current `prd.md` first**, and explode **after** the first playtest cycle — roadmap → living `docs/living/roadmap.md`, §4 balance → generated `docs/content/`; **never freeze M2–M7.**
 - **K6. Review posture (this session).** §4 = accept first-pass, tune at M6. The **consistency sweep is the
   final gate** before lock. §5 story core **kept as-is**. §2 + the rest of §5 = **trust + spot-check** (during
   the sweep).
@@ -373,7 +377,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
   When we *do* explode (post M0/M1 playtest): freeze **only §1 vision + the hard constraints** (no-magic,
   mediocre-start, trade ≤⅓, active-only, the four pillars, the estate spine) **+ the human-signed acceptance
   criteria** (≥30-min-per-rank floor, 70/30 deeds/seasonal, ~28.5h v1 budget, the tier-gate targets) as a tagged
-  vision snapshot; the **§7 milestone roadmap moves to a LIVING `docs/roadmap.md`** carrying the banner "M0–M1
+  vision snapshot; the **§7 milestone roadmap moves to a LIVING `docs/living/roadmap.md`** carrying the banner "M0–M1
   committed; M2–M7 provisional, re-planned after each playtest"; the **§4 balance numbers move to GENERATED
   `docs/content/` tables** (generate-don't-duplicate — this is what makes post-playtest re-tuning cheap, since
   hand-typed derived tables silently drift). **NEVER freeze M2–M7 as locked canon** — *that* is the mistake to
@@ -390,9 +394,9 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 > The cumulative record of the human's calls on the 56 battery-review decisions (Q1–Q56) + the process
 > decision PD-1. These were made tier-by-tier through the decision UI. **🔁 = changed a prior locked/scope
-> decision** (authoritative per the precedence rule + [D-022](history/decisions.md)). Per-decision context,
+> decision** (authoritative per the precedence rule + [D-022](../../docs/living/decisions.md)). Per-decision context,
 > options, and rationale live in the master sheet
-> ([`../brainstorms/2026-06-26-prd-decisions-master.md`](../brainstorms/2026-06-26-prd-decisions-master.md));
+> ([`../brainstorms/2026-06-26-prd-decisions-master.md`](../../brainstorms/2026-06-26-prd-decisions-master.md));
 > the load-bearing changes flow into the **PRD V2** reshape (and get ADRs).
 
 **Combat, attributes & progression**
@@ -471,7 +475,7 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 > The "how exactly" layer the 56 decisions (Block L) opened up. These **extend/refine Block L** (same precedence:
 > newest wins; M supersedes L/A–K where they differ). 🔁 = changed a prior lock/scope. Detail in the wave-2 doc
-> ([`../brainstorms/2026-06-26-prd-v2-followups.md`](../brainstorms/2026-06-26-prd-v2-followups.md)).
+> ([`../brainstorms/2026-06-26-prd-v2-followups.md`](../../brainstorms/2026-06-26-prd-v2-followups.md)).
 
 **M0 — save & determinism**
 - **FU1.** Build the FULL multi-backend save layer in M0 (backend-abstraction + atomic write + magic field + newest-wins selector); rich per-system fields added additively later.
@@ -512,12 +516,12 @@ the canon (`brainstorms/2026-06-25-locked-decisions.md`), and the ADR log (`docs
 
 ## Block N — PRD V2.1 decisions (2026-06-26, the post-battery resolution)
 
-> **AUTHORITATIVE — newest block wins (per [D-022](history/decisions.md)).** These 32 decisions resolve the
+> **AUTHORITATIVE — newest block wins (per [D-022](../../docs/living/decisions.md)).** These 32 decisions resolve the
 > 5-round adversarial battery on PRD V2 (the 14 blocking defects B1–B14 + the design-question set; full audit:
-> [`brainstorms/2026-06-26-prd-v2-audit.md`](../brainstorms/2026-06-26-prd-v2-audit.md)). Where any conflict
+> [`brainstorms/2026-06-26-prd-v2-audit.md`](../../brainstorms/2026-06-26-prd-v2-audit.md)). Where any conflict
 > exists with Blocks A–M or the §4 numbers, **Block N governs.** They drove the PRD **V2 → V2.1** rewrite.
 >
-> ✅ **APPLIED to [`prd.md`](prd.md) in PRD V2.2** (commit `2b8d5e9`, 943 insertions + an audit-fix reconcile). The
+> ✅ **APPLIED to [`prd.md`](../../docs/living/prd.md) in PRD V2.2** (commit `2b8d5e9`, 943 insertions + an audit-fix reconcile). The
 > decisions stand unless the human reopens them.
 
 ## Batch 1 — grind feel + gate economy
@@ -621,5 +625,5 @@ M6 pacing gate to cover the Phase-2 window, not just the Phase-1 rungs.
 
 ---
 
-*Last updated: 2026-06-27. Blocks N + N.1 are ✅ APPLIED to [`prd.md`](prd.md) in PRD V2.2 (commit `2b8d5e9`); the
+*Last updated: 2026-06-27. Blocks N + N.1 are ✅ APPLIED to [`prd.md`](../../docs/living/prd.md) in PRD V2.2 (commit `2b8d5e9`); the
 M0+M1+M2a+M2b playable demo is built & verify-green (51 tests) and play-tested. Keep appending as the human steers.*

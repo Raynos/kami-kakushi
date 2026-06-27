@@ -125,7 +125,7 @@ to a few KB.
 
 ### 3.1 Font stack (adopted default; self-host pending Q52)
 
-This stack is wired into [`src/ui/styles.css`](../src/ui/styles.css); the families below load from system
+This stack is wired into [`src/ui/styles.css`](../../src/ui/styles.css); the families below load from system
 fallbacks today and self-host once Q52 lands.
 
 | Role | Family | Why |
@@ -628,7 +628,7 @@ hover-dependent.
    still on the system fallback until self-host lands.
 3. **Palette fine-tune:** two source briefs gave near-identical but not identical hexes; this doc merged toward
    the registry-anchored ukiyo-e values (e.g. `--shu #D7402C`, `--ink #26221E`). The palette shipped as
-   authored (tokens in [`src/ui/styles.css`](../src/ui/styles.css) match), so the "eyeball on real screens"
+   authored (tokens in [`src/ui/styles.css`](../../src/ui/styles.css) match), so the "eyeball on real screens"
    is now a done/actionable tune — trivially tunable since everything is a token.
 4. **"Standing & Office" kanji = 官威 (*kan'i*, "authority of office")** — RESOLVED 2026-06-25 (the coined 政威
    was rejected; spoken homophone of 官位 court-rank, disambiguated by the kanji). Label 官威 + 📜 / `--ai` identity.

@@ -3,7 +3,7 @@
 Open design forks and questions only the human can close. IDs `H1…Hn`, never reused.
 Status: 🔲 open · ⏳ waiting on Claude prep · ✅ done. `⛔ blocks <task>` marks a blocker.
 
-Resolved decisions graduate into the ADR log: [`../docs/history/decisions.md`](../docs/history/decisions.md).
+Resolved decisions graduate into the ADR log: [`../docs/living/decisions.md`](../docs/living/decisions.md).
 
 ---
 

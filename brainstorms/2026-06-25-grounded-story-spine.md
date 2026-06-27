@@ -4,7 +4,7 @@
 > main spine**. The game's owner then pivoted to a larger vision: the spine is now the **estate-restoration
 > RPG** (rise through the Kurosawa *goshi* house's ranks; expand House Influence across tiers to Edo), with
 > the lost-child mystery **demoted to an optional VILLAGE side-thread**. The current, authoritative §1 lives
-> in [`../docs/prd.md`](../docs/prd.md). **What still survives from this doc:** the grounded / no-magic
+> in [`../docs/living/prd.md`](../docs/living/prd.md). **What still survives from this doc:** the grounded / no-magic
 > principles, the *grounded lost-child truth* (Tama was a girl who ran — now a village side-quest), the
 > folklore belief→cause approach, and the Edo authenticity notes. Kept for provenance; do not treat its
 > act structure / spine as canon.

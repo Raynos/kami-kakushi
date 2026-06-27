@@ -1,8 +1,8 @@
 # Kamikakushi — Locked Decisions (canon reference)
 
 > **Status:** the single source of truth for design decisions locked with the human during session 02
-> (PRD §1 review rounds + a 12-round, 48-decision open-questions Q&A). The PRD (`../docs/prd.md`) and the
-> ADR log (`../docs/history/decisions.md`) are authored FROM this. If anything here conflicts with an
+> (PRD §1 review rounds + a 12-round, 48-decision open-questions Q&A). The PRD (`../docs/living/prd.md`) and the
+> ADR log (`../docs/living/decisions.md`) are authored FROM this. If anything here conflicts with an
 > older brainstorm doc, **this wins.** Balance *numbers* are deliberately deferred to PRD §4.
 >
 > **Updated 2026-06-25 (post-Round-A + the §1.12 redo; audit `wkwulrwqx` found canon was the staleness
@@ -23,9 +23,9 @@
 > scoped to **LOCKED INTENT only** — §1 vision + the hard human constraints + the human-signed acceptance
 > criteria are frozen (the *destinations*); the **§4 balance numbers** and the **§7 M2–M7 milestone detail**
 > stay **LIQUID** (the *route*). **Do NOT explode the docs yet** — build **M0+M1 against the current
-> `../docs/prd.md`** and reorganise **once, later**, after the first build-and-playtest cycle (NOT at PRD
+> `../docs/living/prd.md`** and reorganise **once, later**, after the first build-and-playtest cycle (NOT at PRD
 > sign-off, NOT before build). On explosion: §1 + the locked constraints become a tagged vision snapshot, the
-> **§7 roadmap → a LIVING `docs/roadmap.md`** ("M0–M1 committed; M2–M7 provisional, re-planned after each
+> **§7 roadmap → a LIVING `docs/living/roadmap.md`** ("M0–M1 committed; M2–M7 provisional, re-planned after each
 > playtest") and the **§4 balance → GENERATED `docs/content/` tables**; **M2–M7 is NEVER locked canon** (the
 > v1 full-T0–T2 scope lock still holds — it fixes WHAT ships, not the provisional HOW). See ADR D-021.
 
@@ -309,7 +309,7 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
 - Rest of the PRD's period vocabulary **verified authentic** (koku/mon, kyō-masu, goyōkin, fudasashi, sekisho,
   shinden, meibutsu, osso/gimin, yōnin, daikan/tedai, mitate-banzuke, etc.).
 
-### Post-PRD strategy (2026-06-25, human-signed — see `../docs/prd_human_feedback.md` §K)
+### Post-PRD strategy (2026-06-25, human-signed — see `../feedback/history/prd_human_feedback.md` §K)
 - **Art = a strong CSS design-language** (woodblock/ink), **no asset pipeline** (text+emoji+CSS). Anti-slop:
   lock the design language first; **the AGENT itself screenshot-QAs every state** (Playwright + Chrome-DevTools
   MCP + the `capture-game-states` skill + its own multimodal vision), critiques against the bible, and iterates
@@ -317,7 +317,7 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   agent has its own eyes/opinions — it must use them, not defer all visual judgment.) Fun likewise = the
   agent's measured proxies **+ its own observed read**, with the human making the final fun call.
 - **Two gaps to author once the PRD is FROZEN (before/alongside M0), recorded as ADRs:** a **UI
-  design-language bible** (`docs/ui-design.md`, with a visual-reference pass) + a **fun-factor / playtest
+  design-language bible** (`docs/living/ui-design.md`, with a visual-reference pass) + a **fun-factor / playtest
   plan** (headless fun-proxies + a play-and-judge cadence; the agent measures, the human judges fun).
 - **Docs:** freeze `prd.md` as the vision; **explode into per-concern living docs + generate-don't-duplicate**
   — only **after** PRD sign-off. **PRD review is still in progress.**
@@ -326,13 +326,13 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
     **M0+M1 against the current `prd.md`** — sign-off legitimately lands **after** the first build-and-play
     cycle, so reorganise **once, later**, on ground that has survived play (NOT at PRD sign-off, NOT before
     build). WHEN you explode (post-M0/M1 playtest): freeze ONLY §1 + the locked constraints as a tagged
-    vision snapshot; the **§7 milestone roadmap → a LIVING `docs/roadmap.md`** (banner "M0–M1 committed;
+    vision snapshot; the **§7 milestone roadmap → a LIVING `docs/living/roadmap.md`** (banner "M0–M1 committed;
     M2–M7 provisional, re-planned after each playtest"); the **§4 balance numbers → GENERATED `docs/content/`
     tables** (generate-don't-duplicate, so post-playtest re-tuning is cheap). **M2–M7 is NEVER frozen as
     locked canon** — rejecting *that* is the point, not the multi-doc structure. The v1 **full T0–T2 scope
     lock (no pre-planned descope) still holds** — it fixes WHAT ships, not the provisional HOW.
 
-## J. ADR mapping (to record in `../docs/history/decisions.md`)
+## J. ADR mapping (to record in `../docs/living/decisions.md`)
 - **D-001/002/003/005** — still hold (grounded/no-magic; folklore=belief; mediocre-start; title).
 - **D-004 ⛔ REVERSED** — no reset (tiers replace prestige).
 - **D-006 amended** — Tahei reveal softened to a late side beat; age ~18–20.
@@ -345,14 +345,14 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
   seasonal judged result, up-only + dents. **D-013a** §6 tech architecture (reduce/tick, splitmix64 +
   sub-streams, IndexedDB, forward migrations, stored tier). **D-016** §4 balance locks (pacing/accrual shape).
   **D-017** v1 execution plan (M0–M8 incl. fixed M2a/M2b, itch.io deploy, verify gate, no pre-planned cut).
-  **D-018** UI design language (woodblock/ink, strong CSS, no asset pipeline → `docs/ui-design.md`).
-  **D-019** fun as a first-class priority + the QA/playtest discipline (`docs/fun-factor.md` +
-  `docs/qa-playtesting.md`). **D-020** post-freeze docs-explosion (freeze prd.md as the vision; explode
+  **D-018** UI design language (woodblock/ink, strong CSS, no asset pipeline → `docs/living/ui-design.md`).
+  **D-019** fun as a first-class priority + the QA/playtest discipline (`docs/living/fun-factor.md` +
+  `docs/living/qa-playtesting.md`). **D-020** post-freeze docs-explosion (freeze prd.md as the vision; explode
   into living docs + generate-don't-duplicate). **D-021** *refines D-020 (does not delete it)* — scope
   "freeze" to **LOCKED INTENT** (§1 vision + the hard human constraints + the human-signed acceptance
   criteria), **not the whole PRD**; **do NOT explode yet** — build **M0+M1 against the current `prd.md`** and
   reorganise **once, later**, after the first build-and-playtest cycle (NOT at PRD sign-off, NOT before build);
-  on explosion the **§7 roadmap → a LIVING `docs/roadmap.md`** ("M0–M1 committed; M2–M7 provisional") and the
+  on explosion the **§7 roadmap → a LIVING `docs/living/roadmap.md`** ("M0–M1 committed; M2–M7 provisional") and the
   **§4 balance → GENERATED `docs/content/` tables**; **M2–M7 is NEVER frozen as locked canon** (the v1 full
   T0–T2 scope lock still holds — WHAT ships, not the provisional HOW). (ADR numbering finalized;
   D-001…D-021 all recorded.)

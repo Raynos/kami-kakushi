@@ -1,7 +1,7 @@
 # Roadmap — milestone completion tracker (LIVING)
 
 > **M0–M2b committed & verify-green; M3–M7 provisional, re-planned after each playtest** (per
-> [D-021](history/decisions.md)). This is the **living** milestone tracker (the docs-explosion deliverable
+> [D-021](decisions.md)). This is the **living** milestone tracker (the docs-explosion deliverable
 > that the first M0/M1 build-and-play cycle was the trigger for). The full per-milestone **spec** stays in
 > [`prd.md` §7.2](prd.md) (which is provisional for M2–M7 and revised by playtest); this file records **what
 > is actually built** and **what's next**. Edit it in place as milestones land.
@@ -25,15 +25,15 @@
 
 The playable demo = **M0 + M1 + M2a + M2b** — a T0 slice: cold open → labour earns the kept-hand then
 trusted-hand rungs (the estate + Skills ink in) → the humbling grain-store wolf (R3) → combat goes live
-(forecasts, leveling, the woodlot axe, auto-fight). `npm run dev` to play; screenshots in [`audit/`](../audit/).
+(forecasts, leveling, the woodlot axe, auto-fight). `npm run dev` to play; screenshots in [`audit/`](../../audit).
 
 ## The docs-explosion (D-020 / D-021) — partial, the rest queued
 
 The first build-and-play cycle (M0/M1/M2) — the **trigger** for the one-time docs reorganisation — is
 complete. Status of the reorg:
 
-- ✅ **This `docs/roadmap.md`** — the living milestone tracker — created.
-- ✅ **Generated content tables** under [`docs/content/`](content/) (e.g. `t0-content.md`, via
+- ✅ **This `docs/living/roadmap.md`** — the living milestone tracker — created.
+- ✅ **Generated content tables** under [`docs/content/`](../content) (e.g. `t0-content.md`, via
   `scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). More tables generate as registries grow.
 - ⏳ **Freeze §1 as a tagged vision snapshot** + retire the §7 roadmap detail into this file — **deferred**
   (a deliberate one-time move; `prd.md` stays the living spec until the human signs the freeze). The §4

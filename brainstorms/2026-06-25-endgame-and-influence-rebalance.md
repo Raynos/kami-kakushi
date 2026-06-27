@@ -459,7 +459,7 @@ walkable maps, per the §1.13 scope guard — **superseded by the human's full-m
 becomes hatamoto, is never received by the shogun, no rags-to-daimyo).
 
 **Status note (load-bearing):** D-010 is referenced in PRD §1.14 as the "Cap the Edo ceiling" call but is **NOT yet
-written into `docs/history/decisions.md`** (the log ends at **D-006**). So this redesign must be locked **together with the
+written into `docs/living/decisions.md`** (the log ends at **D-006**). So this redesign must be locked **together with the
 D-010 ADR** — and with **D-007 ("combat earns standing")** and the **D-004 reversal**, both also authorized-but-unwritten
 (the Arms pillar's entire premise depends on D-007). All three should graduate to ADRs in the same lock.
 

@@ -316,8 +316,8 @@ and mostly honour the grounded/mediocre-start spine. But the redesign (1) ships 
 **several-times v1 scope** against a locked lean-v1 and an explicit "don't over-build"; (2) leaves
 **four locked-rule contradictions live in body text**; and (3) **tilts the back-half rung-count
 toward combat**, risking the locked "peaceful labour is the dominant texture" feel. Relevant locked
-sources: `docs/prd.md` (§1.2 Pillar 4, §1.4, §1.6, §1.10, §1.13–1.14) and
-`docs/history/decisions.md` (D-002, D-003, missing D-007).
+sources: `docs/living/prd.md` (§1.2 Pillar 4, §1.4, §1.6, §1.10, §1.13–1.14) and
+`docs/living/decisions.md` (D-002, D-003, missing D-007).
 
 **Scope assessment — SEVERELY over-scoped for the project's stated v1 and working style.** Locked
 plan (§1.14) recommends an **8-rank ladder** and a v1 of **"Tiers 1–2 complete, Tier 3 stubbed"**;

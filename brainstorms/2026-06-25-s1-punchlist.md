@@ -6,7 +6,7 @@
 
 All line references are confirmed. I now have full coverage to produce the merged punch-list.
 
-# §1 STALENESS PUNCH-LIST — `docs/prd.md`
+# §1 STALENESS PUNCH-LIST — `docs/living/prd.md`
 
 Merged & deduped from four audits (STORY, SYSTEMS, STRUCTURE, JOURNAL-CROSS-CHECK). Canon = `brainstorms/2026-06-25-locked-decisions.md`; journal = `journal/2026-06-25-session-02.md` (Round-2 review L113–225; 48-decision Q&A L260–409; Round A + §1.12 bug L447–459). Grouped by §1 subsection, BLOCKERS first within each group. All four audits independently corroborate the five BLOCKERS below.
 
@@ -131,7 +131,7 @@ CORRECT: Round A locked "FULL maps at EVERY tier, always (incl. Castle-town & Ed
 
 ## §1.14 — ADRs & flagged-items
 
-**[BLOCKER] L671 — D-008 ADR bakes in the rejected formula.** "per-tier required-pillar gating **(floor + ≤25% overflow)**." This is an ADR-level record of a decision the human REVERSED (journal L451); high-impact because it would propagate to `docs/history/decisions.md`. Change to "per-tier required-pillar gating via simple per-tier thresholds."
+**[BLOCKER] L671 — D-008 ADR bakes in the rejected formula.** "per-tier required-pillar gating **(floor + ≤25% overflow)**." This is an ADR-level record of a decision the human REVERSED (journal L451); high-impact because it would propagate to `docs/living/decisions.md`. Change to "per-tier required-pillar gating via simple per-tier thresholds."
 
 **[major] L689 — flagged-items presents the rejected gate SHAPE as "needs sign-off."** "the SHAPE (floor + ≤25% overflow; min/geometric-mean roll-up; Estate ≤¼ of roll-up, trade ≤⅓ of Estate) needs sign-off." The floor+overflow shape was decided AGAINST in Round A — it is not open. Strip "floor + ≤25% overflow"; only the trade ≤⅓ cap survives (canon §D L70).
 
@@ -180,4 +180,4 @@ A single §1 patch must, in one pass:
 9. **Make "seasonal results" consistently carry the new-high-water-mark / no-repeatable-maintenance qualifier** wherever it appears (§1.6.1 L309, §1.12 L621).
 10. **Out-of-§1 but required to prevent regression:** update the canon file with Round A + #5 + the father rename.
 
-Highest-leverage single lines: `docs/prd.md:337–339` (rejected gate formula), `:616` + `:208` (management-sim leftovers), `:615`/`:196–199` (combat-too-late), and the father absence across `:251`/`:453–458`/`:511`.
+Highest-leverage single lines: `docs/living/prd.md:337–339` (rejected gate formula), `:616` + `:208` (management-sim leftovers), `:615`/`:196–199` (combat-too-late), and the father absence across `:251`/`:453–458`/`:511`.
