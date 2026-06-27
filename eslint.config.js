@@ -55,6 +55,7 @@ export default tseslint.config(
       'coverage/**',
       'project/archive/**',
       'src/scripts/*.mjs',
+      'tmp/**',
     ],
   },
   js.configs.recommended,
