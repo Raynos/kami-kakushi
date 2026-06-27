@@ -39,14 +39,34 @@ to M6, so the demo can't yet demonstrate that the grind is pleasurable.
 - Most-named weaknesses (every lens): binary combat curve + no decision; log-spam; R3 dead-end; no reinvestment
   loop / sink-less economy; macro layer absent; dead `.coldopen` CSS + unloaded fonts; demo-tuned floor hidden.
 
-### 3 · Wave 2 (6 blind-spots + convergence critic) — `wf_8f75ff57-eb0` (in flight)
-- Targets the critic's named blind spots: test-integrity, narrative-sustain, onboarding-legibility,
-  save-migration-risk, runtime-performance, genre-benchmark. Folding into the report on completion.
+### 3 · Wave 2 (6 blind-spots + convergence critic) — `wf_8f75ff57-eb0` ✅ CONVERGED
+- Scores: test-integrity 5.5 · narrative-sustain 5.5 · onboarding 6 · save-migration 5 · performance 6 ·
+  genre-benchmark 5. Raw snapshot in `brainstorms/raw/2026-06-27-wave2-blindspots-audit.json`.
+- **Materially-new findings (all verified firsthand):** (1) **FALSE-GREEN test suite** — two tests enshrine the
+  broken combat as correct (`monkey wr>0.6`; an analytic test that asserts `0<wr<1` against a function clamped
+  to `[0.02,0.98]` = unfalsifiable); the signed 20–35% band is unguarded; the *played* first fight is ~6.7%.
+  (2) **Dead/unwired/untested `migrate()`** under a PRD claiming it was "built FULL + unit-tested in M0" — a
+  latent silent-corruption footgun at the first schema bump; plus an `as unknown as GameState` cast hiding
+  fields from tsc. (3) **Origin mystery abandoned in-window** — `dream-1`/`porters-knot` are write-only flags no
+  logic reads; R3 dead-ends in silence (violates §1.9). (4) **Dead values ship** — `sansai` consumed by nothing;
+  `attributePoints` a phantom persisted stat; 3 of 4 skills inert. (5) Perf is fine at T0 (0.6 ms/render) but a
+  named **mobile scaling cliff**. (6) Onboarding's explanatory half unbuilt (one tooltip total; a "+3 gō" vs
+  +3 koku ~1000× unit bug).
+- **Score changes:** PRD-faithful 7→6.5, incremental 5→4.5, laziness 4→4.5. The convergence critic + firsthand
+  re-checks agree: **converged** (residual angles — deep-a11y, untrusted-import security, deploy pipeline,
+  mobile depth — immaterial for an offline single-player T0 slice).
 
 ### 4 · Laziness / roadmap-gap / guardrails (report §6)
-- Shortcut inventory + a diagnosis that the roadmap is rigorous on engineering and **silent on experience**
-  (every fun/pacing/curve gate end-loaded to M6, contradicting the project's own D-019). Proposed 7 concrete M3
-  guardrails (pacing-at-real-balance gate, graded-curve gate, fun-proxies-as-gate@M3a, DEMO/REAL profile policy,
-  DoD-honesty CI manifest check + no-folded-features rule, log-readability gate, frontier-not-a-dead-end gate).
+- Shortcut inventory (16 rows) + a diagnosis that the roadmap is rigorous on engineering and **silent on
+  experience** (every fun/pacing/curve gate end-loaded to M6, contradicting the project's own D-019; no test
+  guards any signed criterion). Proposed **10 concrete M3 guardrails** (G-PACING / G-CURVE / G-FUN@M3a /
+  G-BALANCE-POLICY / G-DOD-HONESTY / G-TEST-TEETH / G-LOG / G-FRONTIER / G-NO-DEAD-VALUES / G-MIGRATION).
 
-**NEXT:** fold wave 2; run a convergence pass; if converged, finalize the report + refresh `project-status.md`.
+### 5 · Outcome
+- Deliverable finalized: **[`project/audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md)**
+  (CONVERGED) + 6 H-items + this journal + 2 raw snapshots. Live snapshot refreshed.
+- **Final scorecard:** Fun 4.5 · UI 7 · PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 ·
+  Incremental 4.5 · Laziness 4.5/10 (code-craft ~9/10; laziness is content/scope + a few polish-masked cuts).
+  Verdict: **a beautifully-built chassis with no engine** — add the spend→compound loop, grade combat + give
+  skills teeth, close the narrative chapter, and back the signed criteria with real (currently-red) tests +
+  a wired migration path BEFORE layering the macro on top.

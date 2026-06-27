@@ -45,13 +45,24 @@ metadata:
   docs under `docs/living/`, generated tables under `docs/content/`), `project/` (the agentic-process umbrella:
   `status/` [this file], `journal/`, `brainstorms/`, `feedback/`, `human-in-the-loop/`, `audit/`, `archive/`),
   and `src/` (all game code + the web entry + dev/QA scripts). The ADR ledger is `docs/living/decisions.md`.
+- **Battery audit (2026-06-27):** a multi-wave state-of-the-game review →
+  **[`project/audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md)** (CONVERGED) +
+  6 H-items (`human-in-the-loop/decisions.md`). **Scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
+  PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 · Incremental 4.5 · Laziness 4.5/10. Verdict: a
+  **beautifully-built chassis with no engine** — excellent pure core / save / reveal engine + best-in-genre
+  cold-open prose, wrapping a hollow earn-only loop (binary combat, no skill-reinvestment, sink-less koku/sansai,
+  phantom `attributePoints`, macro absent, silent R3 dead-end). Top risks beyond content: a **false-green test
+  suite** (no signed criterion is guarded; two tests bless the combat bug) and a **dead/unwired `migrate()`**
+  the PRD claims was "built+tested." 10 M3 guardrails proposed (G-PACING/CURVE/FUN@M3a/TEST-TEETH/MIGRATION/…).
 - **How to resume:**
-  1. Read the newest journal (`project/journal/2026-06-26-session-02-overnight-build.md`).
+  1. Read the newest journal (`project/journal/2026-06-27-session-01-state-of-game-audit.md`) + the audit report.
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
-  4. **Next (post-review):** M3 (T0 R4→R7 + the four-pillar Phase-2 grind + the hybrid gate) → close T0;
-     then T1/T2 per `docs/living/prd.md` §7.2. Pre-publish: self-host the OFL font (Q52) + a real perf/fun gate (M6).
+  4. **Next (post-review):** triage the audit's H1–H6 + the critical/high game improvements (grade combat +
+     one decision; close the R3 chapter + macro teaser; ×N log + deed juice; reinvestment loop + skill teeth;
+     resolve dead values; wire+test `migrate()`; real RED tests for the signed criteria) — ideally *before*
+     M3 (T0 R4→R7 + the four-pillar Phase-2 grind + the hybrid gate). Then T1/T2 per `docs/living/prd.md` §7.2.
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:
