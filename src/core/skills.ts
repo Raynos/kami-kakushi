@@ -10,6 +10,9 @@ import {
   SKILL_XP_GROWTH_DEN,
   SKILL_MAX_LEVEL,
   SKILL_VISIBILITY_XP,
+  SKILL_YIELD_DEN,
+  SKILL_YIELD_PER_LEVEL_NUM,
+  SKILL_YIELD_CAP_NUM,
 } from './content/balance';
 
 // CUM[level] = total XP needed to BE that level. CUM[1] = 0.
@@ -39,6 +42,16 @@ export function skillLevel(state: GameState, id: SkillId): number {
 
 export function skillVisible(state: GameState, id: SkillId): boolean {
   return skillXp(state, id) >= SKILL_VISIBILITY_XP;
+}
+
+/**
+ * The integer fixed-point labour-yield numerator for a skill level (audit #4): a
+ * bounded "work → skill up → faster output" accelerator. Returns SKILL_YIELD_DEN
+ * (×1.00) at L1 — so L1 yields are byte-identical to v0.1 — ramping +PER_LEVEL_NUM%
+ * per level to the +CAP_NUM% ceiling (×3.0 at L51). Deterministic, no Math.pow.
+ */
+export function skillYieldNum(level: number): number {
+  return SKILL_YIELD_DEN + Math.min((level - 1) * SKILL_YIELD_PER_LEVEL_NUM, SKILL_YIELD_CAP_NUM);
 }
 
 export interface SkillProgress {

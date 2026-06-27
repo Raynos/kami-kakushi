@@ -14,9 +14,18 @@ export { reduce, availableActions } from './intents';
 export { tick, advanceClock } from './step';
 
 // ── progression (M1) ──
-export { levelForXp, skillXp, skillLevel, skillVisible, skillProgress } from './skills';
+export {
+  levelForXp,
+  skillXp,
+  skillLevel,
+  skillVisible,
+  skillProgress,
+  skillYieldNum,
+} from './skills';
 export type { SkillProgress } from './skills';
 export { currentRank, accrueRungMeter, promoteRungs, rungProgress, phaseOf } from './ranks';
+export { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
+export type { EstateStageDef } from './content/estate';
 
 export { SKILLS, getSkill, SKILL_IDS } from './content/skills';
 export type { SkillId, SkillDef } from './content/skills';
@@ -70,6 +79,7 @@ export type { RewardBundle } from './rewards';
 export {
   hpMax,
   satietyMax,
+  estateSatietyBonus,
   season,
   week,
   year,

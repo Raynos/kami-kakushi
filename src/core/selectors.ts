@@ -11,7 +11,9 @@ import {
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
   CONDITIONING_GATE_LEVEL,
+  ATTR_VIGOR_HP,
 } from './content/balance';
+import { ESTATE_STAGES } from './content/estate';
 import {
   DAYS_PER_SEASON,
   DAYS_PER_WEEK,
@@ -25,12 +27,21 @@ import { isUnlocked } from './unlock';
 import { skillLevel } from './skills';
 
 export function hpMax(state: GameState): number {
-  return HP_BASE + (state.character.level - 1) * HP_PER_LEVEL;
+  return (
+    HP_BASE + (state.character.level - 1) * HP_PER_LEVEL + state.character.vigor * ATTR_VIGOR_HP
+  );
 }
 
-/** satietyMax grows with combat level (FU21/Q47). */
+/** Cumulative satietyMax bonus from the bought-out estate stages (the koku sink). */
+export function estateSatietyBonus(state: GameState): number {
+  let b = 0;
+  for (const s of ESTATE_STAGES) if (state.estateStage >= s.stage) b += s.satietyMaxBonus;
+  return b;
+}
+
+/** satietyMax grows with combat level (FU21/Q47) + the estate buffer (audit #5). */
 export function satietyMax(state: GameState): number {
-  return SATIETY_BASE + (state.character.level - 1) * SATIETY_PER_LEVEL;
+  return SATIETY_BASE + (state.character.level - 1) * SATIETY_PER_LEVEL + estateSatietyBonus(state);
 }
 
 /** Season derived from the absolute day — never stored (D-Q6). */

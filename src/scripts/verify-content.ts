@@ -16,6 +16,7 @@ import {
   MOB_IDS,
   WEAPONS,
   WEAPON_IDS,
+  ESTATE_STAGES,
 } from '../core';
 
 const errors: string[] = [];
@@ -78,6 +79,15 @@ for (const w of WEAPONS) {
     errors.push(`weapon ${w.id}: non-positive stat`);
   }
 }
+
+// 4b. Estate sink (audit #5): stages contiguous 1..N, costs strictly ascending, bonus ≥ 0.
+ESTATE_STAGES.forEach((e, i) => {
+  if (e.stage !== i + 1) errors.push(`estate stage #${i}: non-contiguous stage ${e.stage}`);
+  if (e.satietyMaxBonus < 0) errors.push(`estate stage E${e.stage}: negative satietyMaxBonus`);
+  if (i > 0 && e.kokuCost <= ESTATE_STAGES[i - 1]!.kokuCost) {
+    errors.push(`estate stage E${e.stage}: kokuCost not strictly ascending`);
+  }
+});
 
 // 5. Real-name denylist — no real Edo figures may surface as canon names (D-042 / Q39).
 const DENYLIST = new Set([

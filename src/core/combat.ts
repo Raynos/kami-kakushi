@@ -39,6 +39,8 @@ import {
   SPREAD_LO,
   SPREAD_SPAN,
   STANCE_MODS,
+  ATTR_MIGHT_ATK,
+  ATTR_GUARD_DEF,
 } from './content/balance';
 
 export interface CombatStats {
@@ -101,10 +103,15 @@ export function mcCombatStats(state: GameState): CombatStats {
   const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
   const satRate = combatSatietyRate(state);
   const stance = STANCE_MODS[state.stance];
+  const c = state.character;
   const baseAtk = weapon.baseAttack + (level - 1) * MC_ATK_PER_LEVEL;
   return {
-    attackPower: Math.max(1, Math.round(baseAtk * band.mult * satRate * stance.atkMult)),
-    defense: MC_DEF_BASE + (level - 1) * MC_DEF_PER_LEVEL,
+    // Might is a flat add AFTER durability/satiety/stance scaling — "your own muscle",
+    // not weakened by a broken weapon or hunger. At L1 defaults (0) this is identity.
+    attackPower:
+      Math.max(1, Math.round(baseAtk * band.mult * satRate * stance.atkMult)) +
+      c.might * ATTR_MIGHT_ATK,
+    defense: MC_DEF_BASE + (level - 1) * MC_DEF_PER_LEVEL + c.guard * ATTR_GUARD_DEF,
     hp: hpMax(state),
     speed: weapon.baseSpeed,
     hitChance: HIT_CHANCE,

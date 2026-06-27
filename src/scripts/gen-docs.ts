@@ -4,7 +4,7 @@
 export {};
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS } from '../core';
+import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS, ESTATE_STAGES } from '../core';
 
 const OUT = 'docs/content/t0-content.md';
 
@@ -63,6 +63,15 @@ function generate(): string {
   L.push('|---|---|---|---|---|');
   for (const m of MOBS) {
     L.push(`| ${m.id} | ${m.label} | ${m.level} | ${m.kokuReward} | ${m.scripted ? 'yes' : ''} |`);
+  }
+  L.push('');
+
+  L.push('## Estate improvements (koku sink)');
+  L.push('');
+  L.push('| stage | label | koku | +satietyMax |');
+  L.push('|---|---|---|---|');
+  for (const e of ESTATE_STAGES) {
+    L.push(`| E${e.stage} | ${e.label} | ${e.kokuCost} | +${e.satietyMaxBonus} |`);
   }
   L.push('');
 

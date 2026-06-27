@@ -35,7 +35,12 @@ export interface Clock {
 export interface Character {
   readonly hp: number;
   readonly satiety: number;
+  /** Unspent allocation POOL (granted on level-up); spent into might/guard/vigor. */
   readonly attributePoints: number;
+  /** Spent allocations — the manual Might/Guard/Vigor build (audit #5). Feed combat. */
+  readonly might: number;
+  readonly guard: number;
+  readonly vigor: number;
   /** The combat (character) level — fed by combat-XP only (Q1/FU14). Floors at 1. */
   readonly level: number;
   /** Total combat XP earned from kills (level derives from it). */
@@ -83,6 +88,9 @@ export function createInitialState(seed: number): GameState {
       hp: HP_BASE,
       satiety: COLD_OPEN_SATIETY,
       attributePoints: 0,
+      might: 0,
+      guard: 0,
+      vigor: 0,
       level: 1,
       combatXp: 0,
     },

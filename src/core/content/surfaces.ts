@@ -51,6 +51,16 @@ export const SURFACES: readonly Surface[] = [
   // ── R1 — the estate opens (revealed by the rank reward) ──
   { id: 'panel-rung-ladder', kind: 'panel', unlock: () => false },
   {
+    // STATE-PREDICATE reveal (keyed to the already-latched ladder) so it back-reveals
+    // for any mid-game save with no migrate() — the koku→estate sink dashboard.
+    id: 'panel-estate',
+    kind: 'panel',
+    unlock: (s) => s.unlocked.includes('panel-rung-ladder'),
+    revealLine: narrate(
+      "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
+    ),
+  },
+  {
     id: 'readout-clock',
     kind: 'readout',
     unlock: () => false,
@@ -103,6 +113,15 @@ export const SURFACES: readonly Surface[] = [
   { id: 'verb-forage', kind: 'verb', unlock: () => false },
   { id: 'row-wood', kind: 'row', unlock: () => false },
   { id: 'row-sansai', kind: 'row', unlock: () => false },
+  {
+    // STATE-PREDICATE reveal (keyed to the sansai row) — the sansai→satiety cook sink.
+    id: 'verb-cook',
+    kind: 'verb',
+    unlock: (s) => s.unlocked.includes('row-sansai'),
+    revealLine: narrate(
+      'You could boil the wild greens into a hot meal — plain fare, but it puts the strength back in your legs.',
+    ),
+  },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
   {
     id: 'verb-face-wolf',

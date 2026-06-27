@@ -58,9 +58,20 @@ export function validateState(rawState: unknown): ValidateResult {
   const hp = num(character.hp, 1);
   const satiety = num(character.satiety, 0);
   const attributePoints = num(character.attributePoints, 0);
+  const might = num(character.might, 0);
+  const guard = num(character.guard, 0);
+  const vigor = num(character.vigor, 0);
   const level = num(character.level, 1);
   const combatXp = num(character.combatXp, 0);
-  coerced = coerced || hp.coerced || satiety.coerced || attributePoints.coerced || level.coerced;
+  coerced =
+    coerced ||
+    hp.coerced ||
+    satiety.coerced ||
+    attributePoints.coerced ||
+    might.coerced ||
+    guard.coerced ||
+    vigor.coerced ||
+    level.coerced;
 
   // --- collections (structural shape; default-safe) ---
   if (!isObject(rawState.resources)) return { ok: false, reason: 'resources-corrupt' };
@@ -85,6 +96,9 @@ export function validateState(rawState: unknown): ValidateResult {
       hp: Math.max(0, hp.value),
       satiety: Math.max(0, satiety.value),
       attributePoints: Math.max(0, attributePoints.value),
+      might: Math.max(0, Math.floor(might.value)),
+      guard: Math.max(0, Math.floor(guard.value)),
+      vigor: Math.max(0, Math.floor(vigor.value)),
       level: Math.max(1, Math.floor(level.value)),
       combatXp: Math.max(0, combatXp.value),
     },

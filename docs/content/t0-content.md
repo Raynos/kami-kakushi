@@ -47,6 +47,14 @@
 | boar | Wild boar | 3 | 8 |  |
 | bandit | Road bandit | 5 | 12 |  |
 
+## Estate improvements (koku sink)
+
+| stage | label | koku | +satietyMax |
+|---|---|---|---|
+| E1 | Patch the kura | 100 | +20 |
+| E2 | Clear the drill yard | 300 | +20 |
+| E3 | Reclaim the first shinden | 700 | +30 |
+
 ## Surfaces (reveal registry)
 
 | id | kind |
@@ -58,6 +66,7 @@
 | `verb-rake` | verb |
 | `verb-rest` | verb |
 | `panel-rung-ladder` | panel |
+| `panel-estate` | panel |
 | `readout-clock` | readout |
 | `readout-stamina` | readout |
 | `room-gate-forecourt` | panel |
@@ -71,6 +80,7 @@
 | `verb-forage` | verb |
 | `row-wood` | row |
 | `row-sansai` | row |
+| `verb-cook` | verb |
 | `skill-conditioning` | row |
 | `verb-face-wolf` | verb |
 | `tab-combat` | tab |

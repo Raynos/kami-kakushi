@@ -10,6 +10,7 @@ import { revealPass } from './unlock';
 import { advanceClock } from './step';
 import { clamp } from './math';
 import { satietyMax, staminaRate, season, canDoActivity } from './selectors';
+import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, promoteRungs } from './ranks';
 import { isUnlocked } from './unlock';
 import { applyGrindFight, applyScriptedWolf } from './fight';
@@ -21,7 +22,11 @@ import {
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
   REPAIR_WOOD_COST,
+  SKILL_YIELD_DEN,
+  COOK_SANSAI_COST,
+  COOK_SATIETY_RESTORE,
 } from './content/balance';
+import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import {
   getActivity,
@@ -44,7 +49,10 @@ export type Intent =
   | { type: 'set_auto_combat'; mobId: MobId | null }
   | { type: 'repair_weapon' }
   | { type: 'equip_weapon'; weaponId: WeaponId }
-  | { type: 'set_stance'; stance: StanceId };
+  | { type: 'set_stance'; stance: StanceId }
+  | { type: 'cook_meal' }
+  | { type: 'improve_estate' }
+  | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' };
 
 export type IntentType = Intent['type'];
 
@@ -110,10 +118,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!canDoActivity(next, act)) return state;
       const rate = staminaRate(next);
       const autumn = act.seasonHarvest === true && season(next) === 'autumn';
+      // The skill→yield multiplier (audit #4). Skill level is read BEFORE this act's
+      // addSkillXp on purpose: the leveling act uses the pre-level mult; the bump shows
+      // on the NEXT act. skillYieldNum(1) === DEN → L1 yields are byte-identical to v0.1.
+      const yNum = skillYieldNum(skillLevel(next, act.skill));
       const gained: Partial<Record<LabourResource, number>> = {};
       for (const [res, amt] of Object.entries(act.yields) as [LabourResource, number][]) {
         let v = amt * rate;
         if (autumn) v = (v * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN;
+        v = (v * yNum) / SKILL_YIELD_DEN;
         gained[res] = Math.max(1, Math.round(v));
       }
       const xpGain = Math.max(1, Math.round(act.xp * rate));
@@ -176,6 +189,55 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = applyRewards(next, {
         log: [{ channel: 'system', text: `You take up the ${weapon.label.toLowerCase()}.` }],
       });
+      break;
+    }
+    case 'cook_meal': {
+      // sansai → satiety (audit #5). A 2-tick act that costs greens for a refuel.
+      if (!isUnlocked(next, 'verb-cook')) return state;
+      if ((next.resources.sansai ?? 0) < COOK_SANSAI_COST) return state;
+      next = withResource(next, 'sansai', -COOK_SANSAI_COST);
+      next = adjustSatiety(next, COOK_SATIETY_RESTORE);
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            text: `You boil the wild greens into a plain, hot meal. (−${COOK_SANSAI_COST} sansai, +${COOK_SATIETY_RESTORE} body)`,
+          },
+        ],
+      });
+      next = advanceClock(next, TICKS_PER_ACT);
+      break;
+    }
+    case 'improve_estate': {
+      // koku → estateStage (audit #5). A commissioning (no clock cost, like equipping).
+      if (!isUnlocked(next, 'panel-estate')) return state;
+      const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
+      if (!target) return state;
+      if ((next.resources.koku ?? 0) < target.kokuCost) return state;
+      next = withResource(next, 'koku', -target.kokuCost);
+      next = { ...next, estateStage: target.stage };
+      next = applyRewards(next, { log: [{ channel: 'milestone', text: target.logLine }] });
+      break;
+    }
+    case 'spend_attribute': {
+      // attributePoints → a real combat stat (audit #5). No clock cost.
+      const c = next.character;
+      if (c.attributePoints <= 0) return state;
+      const a = intent.attr;
+      const upd =
+        a === 'might'
+          ? { ...c, might: c.might + 1 }
+          : a === 'guard'
+            ? { ...c, guard: c.guard + 1 }
+            : { ...c, vigor: c.vigor + 1 };
+      next = { ...next, character: { ...upd, attributePoints: c.attributePoints - 1 } };
+      const line =
+        a === 'might'
+          ? 'You drill the cut until your shoulders burn. (Might +1)'
+          : a === 'guard'
+            ? 'You learn to turn the blow aside. (Guard +1)'
+            : 'You harden to the work; your wind comes easier. (Vigor +1)';
+      next = applyRewards(next, { log: [{ channel: 'system', text: line }] });
       break;
     }
   }

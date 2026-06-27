@@ -146,3 +146,22 @@ export const CURVE_TRIVIAL_TIER_MIN = 0.95; // provisional (v0.2) — tune by pl
 export const CURVE_CHECKPOINT_LEVELS: readonly number[] = [1, 2, 3, 4];
 /** Mastering the easiest foe must take real investment (dozens of fights, not ~5). */
 export const CURVE_MASTERY_MIN_KILLS = 8; // provisional (v0.2) — tune by playtest
+
+// ── Economy: skill → yield multiplier (audit #4) — a bounded "work → skill up →
+// faster output → work" accelerator. Integer fixed-point (no Math.pow), applied as
+// yield × (SKILL_YIELD_DEN + min((level-1)·PER_LEVEL_NUM, CAP_NUM)) / SKILL_YIELD_DEN.
+// Rung pacing is per-ACT (RUNG_POINTS_PER_ACT, fixed) so the multiplier accelerates
+// currency WITHOUT trivialising rung promotion. skillYieldNum(1) === DEN → L1 yields
+// are byte-identical to v0.1. ──
+export const SKILL_YIELD_DEN = 100; // fixed-point denominator for the skill yield multiplier
+export const SKILL_YIELD_PER_LEVEL_NUM = 4; // +4% labour yield per skill level above 1 — provisional (v0.2) — tune by playtest
+export const SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), reached at skill L51 — provisional (v0.2) — tune by playtest
+
+// ── Economy: sinks (audit #5) — the first-ever consumers of the surfaced labour
+// values. Cook turns sansai → satiety; the estate (estate.ts) turns koku → a soft
+// satietyMax buffer; spent attribute points feed combat (might/guard/vigor). ──
+export const COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
+export const COOK_SATIETY_RESTORE = 40; // satiety restored per meal (vs rest's +18) — provisional (v0.2) — tune by playtest
+export const ATTR_MIGHT_ATK = 1; // +attackPower per allocated Might point — provisional (v0.2) — tune by playtest
+export const ATTR_GUARD_DEF = 1; // +defense per allocated Guard point — provisional (v0.2) — tune by playtest
+export const ATTR_VIGOR_HP = 3; // +hpMax per allocated Vigor point — provisional (v0.2) — tune by playtest
