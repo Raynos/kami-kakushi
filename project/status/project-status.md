@@ -14,8 +14,11 @@ metadata:
   (the **Kurosawa** house); rise through **5 tiers** (Estate→Village→Region→Castle-town→Edo), growing
   **House Influence** (4 pillars). Signature: **the UI itself unlocks incrementally**. No magic; growth
   only through perseverance; no reset. (Spec: `docs/living/prd.md`.)
-- **Phase:** **PRD V2.2 DONE → DEMO BUILT (M0+M1+M2) & POLISHED.** The overnight build session
-  (2026-06-26, `project/journal/2026-06-26-session-02-overnight-build.md`). PRD V2.2 = all 32 Block N + 7 N.1
+- **Phase:** **PRD V2.2 DONE → DEMO BUILT (M0+M1+M2), POLISHED → now human play-testing.** The overnight
+  build session (2026-06-26, `project/journal/2026-06-26-session-02-overnight-build.md`) + a 2026-06-27
+  human-directed **repo reorg** (the 3-dir tree above) and first-playthrough UX fixes (log cascade
+  newest-at-bottom, bigger/indigo Settings ✕, modal closes on new-game). Live human feedback now lands in
+  `project/feedback/`. PRD V2.2 = all 32 Block N + 7 N.1
   decisions woven into `docs/living/prd.md` (two workflows: apply 943 insertions + an audit-fix reconcile;
   ADRs D-044 crash-recovery / D-045 a11y-ink). The **playable demo is built**: M0 (toolchain + pure-core
   engine + the FULL multi-backend save spine + cold open), M1 (T0 Phase-1 labour: rung-meter R0→R2,
@@ -36,7 +39,12 @@ metadata:
 - **Code layout:** `src/core` (pure: rng, state, intents/reduce, step/tick, unlock/rewards/log, skills,
   ranks, combat, fight, selectors, format, `content/*` registries) · `src/persistence` (save layer) ·
   `src/ui` (render.ts + styles.css) · `src/app/main.ts` (composition root + `window.__qa`) ·
-  `src/scripts/{verify-content,gen-docs}.ts`.
+  `src/index.html` (the web entry — Vite `root: 'src'`, builds to repo-root `dist/`) ·
+  `src/scripts/{verify-content,gen-docs}.ts` + `{qa-shots,playtest}.mjs` + `snapshot-research.sh`.
+- **Repo structure (2026-06-27 reorg):** only **3** content top-level dirs — `docs/` (current truth; living
+  docs under `docs/living/`, generated tables under `docs/content/`), `project/` (the agentic-process umbrella:
+  `status/` [this file], `journal/`, `brainstorms/`, `feedback/`, `human-in-the-loop/`, `audit/`, `archive/`),
+  and `src/` (all game code + the web entry + dev/QA scripts). The ADR ledger is `docs/living/decisions.md`.
 - **How to resume:**
   1. Read the newest journal (`project/journal/2026-06-26-session-02-overnight-build.md`).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
