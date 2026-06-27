@@ -38,21 +38,36 @@ const SKILL_LEDGER: Ledger = {
   woodcutting: { consumer: 'skillYieldNum yield multiplier on do_activity (intents + skills)' },
   conditioning: { consumer: 'CONDITIONING_GATE_LEVEL danger-ring gate (selectors)' },
 };
+// Character attributes — formerly the phantom `attributePoints` (audit §6.4 / §5). Each must
+// now have a live consumer, else the v0.2 "no more dead values" claim quietly rots.
+const SURFACED_ATTRIBUTES = new Set<string>(['attributePoints', 'might', 'guard', 'vigor']);
+const ATTRIBUTE_LEDGER: Ledger = {
+  attributePoints: { consumer: 'spend_attribute → might/guard/vigor (intents)' },
+  might: { consumer: 'mcCombatStats attackPower += might*ATTR_MIGHT_ATK (combat)' },
+  guard: { consumer: 'mcCombatStats defense += guard*ATTR_GUARD_DEF (combat)' },
+  vigor: { consumer: 'hpMax += vigor*ATTR_VIGOR_HP (selectors)' },
+};
 // Post-economy ledger: no surfaced value is inert any more (conflict J). The ratchet now
 // asserts the empty set — surfacing a NEW dead value (or letting an existing consumer rot)
 // flips this RED.
 const EXPECTED_INERT = new Set<string>([]);
 
 describe('G-NO-DEAD-VALUES — every surfaced value is ledgered (consumer or tracked-inert)', () => {
-  it('no surfaced currency/skill is missing from the ledger (no silent dead values)', () => {
+  it('no surfaced currency/skill/attribute is missing from the ledger (no silent dead values)', () => {
     for (const id of SURFACED_CURRENCIES)
       expect(CURRENCY_LEDGER[id], `currency '${id}'`).toBeDefined();
     for (const id of SURFACED_SKILLS) expect(SKILL_LEDGER[id], `skill '${id}'`).toBeDefined();
+    for (const id of SURFACED_ATTRIBUTES)
+      expect(ATTRIBUTE_LEDGER[id], `attribute '${id}'`).toBeDefined();
   });
 
   it('the inert set is exactly the frozen documented debt — empty post-economy (ratchet)', () => {
     const inert = new Set(
-      [...Object.entries(CURRENCY_LEDGER), ...Object.entries(SKILL_LEDGER)]
+      [
+        ...Object.entries(CURRENCY_LEDGER),
+        ...Object.entries(SKILL_LEDGER),
+        ...Object.entries(ATTRIBUTE_LEDGER),
+      ]
         .filter(([, v]) => 'inert' in v)
         .map(([k]) => k),
     );

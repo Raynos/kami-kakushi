@@ -145,4 +145,31 @@ describe('migration wiring + pre-migration backup', () => {
     expect(loaded!.migrated).toBe(false);
     expect(loaded!.state.character.hp).toBeGreaterThanOrEqual(0);
   });
+
+  it('a legacy save MISSING the v0.2 additive fields hydrates WITHOUT a false coerced flag', async () => {
+    const backend = new MemoryBackend();
+    // a pre-v0.2 character: no might/guard/vigor (additive hydration is not a "repair")
+    const legacyChar = { ...sample().character } as Record<string, unknown>;
+    delete legacyChar.might;
+    delete legacyChar.guard;
+    delete legacyChar.vigor;
+    const legacy = { ...sample(), character: legacyChar };
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({
+        app: 'kami-kakushi',
+        schemaVersion: SCHEMA_VERSION,
+        saveCounter: 1,
+        savedAt: 1,
+        state: legacy,
+      }),
+    );
+    const mgr = new SaveManager({ backends: [backend], now: () => 1 });
+    const loaded = await mgr.load();
+    expect(loaded!.coerced).toBe(false); // no false "we mended a problem" notice
+    expect(loaded!.migrated).toBe(false);
+    expect(loaded!.state.character.might).toBe(0);
+    expect(loaded!.state.character.guard).toBe(0);
+    expect(loaded!.state.character.vigor).toBe(0);
+  });
 });

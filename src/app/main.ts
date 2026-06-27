@@ -10,6 +10,8 @@ import {
   availableLabours,
   canDoActivity,
   getActivity,
+  getWeapon,
+  durabilityBand,
   satietyMax,
   balance,
   type GameState,
@@ -193,9 +195,23 @@ async function boot(): Promise<void> {
         availableActions(state).includes('rest')
       ) {
         dispatch({ type: 'rest' });
-      } else {
-        dispatch({ type: 'fight', mobId: state.autoCombat });
+        return;
       }
+      // auto-manage durability: a worn weapon's win-rate craters (Broken = ~0%), so an
+      // unattended grind must not silently fight a broken blade forever. Repair when wood
+      // allows; if Broken with no wood, STOP auto-combat rather than grind at ~0%.
+      const weapon = getWeapon(state.equippedWeapon);
+      const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
+      const worn = band.name === 'Battered' || band.name === 'Broken';
+      if (worn && (state.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) {
+        dispatch({ type: 'repair_weapon' });
+        return;
+      }
+      if (band.name === 'Broken') {
+        dispatch({ type: 'set_auto_combat', mobId: null });
+        return;
+      }
+      dispatch({ type: 'fight', mobId: state.autoCombat });
       return;
     }
     const auto = state.autoActivity;

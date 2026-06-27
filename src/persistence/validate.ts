@@ -22,6 +22,14 @@ function num(v: unknown, fallback: number): { value: number; coerced: boolean } 
   return { value: fallback, coerced: true };
 }
 
+// For ADDITIVE (later-milestone) numeric fields: an ABSENT field is normal additive
+// hydration of an older save, NOT a repair — so it must not trip the "we mended a small
+// problem" load notice. Only a PRESENT-but-invalid value counts as a coercion.
+function numAdditive(v: unknown, fallback: number): { value: number; coerced: boolean } {
+  if (v === undefined) return { value: fallback, coerced: false };
+  return num(v, fallback);
+}
+
 /** Validate a candidate envelope; returns the (possibly coerced/migrated) GameState or a reject reason. */
 export function validateEnvelope(raw: unknown, opts?: { migrate?: MigrateFn }): ValidateResult {
   if (!isObject(raw)) return { ok: false, reason: 'not-an-object' };
@@ -68,9 +76,9 @@ export function validateState(rawState: unknown): ValidateResult {
   const hp = num(character.hp, 1);
   const satiety = num(character.satiety, 0);
   const attributePoints = num(character.attributePoints, 0);
-  const might = num(character.might, 0);
-  const guard = num(character.guard, 0);
-  const vigor = num(character.vigor, 0);
+  const might = numAdditive(character.might, 0); // v0.2 additive — absence ≠ a repair
+  const guard = numAdditive(character.guard, 0);
+  const vigor = numAdditive(character.vigor, 0);
   const level = num(character.level, 1);
   const combatXp = num(character.combatXp, 0);
   const validatedCharacter: GameState['character'] = {
