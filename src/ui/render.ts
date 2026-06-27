@@ -423,6 +423,9 @@ export function mount(
   // the existing DOM line in place rather than appending a duplicate.
   let lastPaintedKey = -1;
   let lastPaintedCount = 0;
+  // the last log.seq we painted — drops back when the state is replaced (new game / import),
+  // which is how we detect a reset and clear the stale painted log (else old lines linger).
+  let lastSeq = 0;
   // staggered log reveal: new lines cascade in one-by-one (text-adventure feel)
   const LOG_STAGGER_MS = 240;
   const LOG_DOM_MAX = 300; // mirrors core LOG_RING_MAX
@@ -890,6 +893,22 @@ export function mount(
   }
   function renderLog(state: GameState): void {
     const entries = state.log.entries;
+    // a state replacement (new game / import) rewinds log.seq — clear the stale painted
+    // log + reveal queue and re-render the fresh log from scratch (tab-switches keep seq, so
+    // they never trigger this).
+    const didReset = state.log.seq < lastSeq;
+    if (didReset) {
+      logLines.textContent = '';
+      lastKey = -1;
+      lastPaintedKey = -1;
+      lastPaintedCount = 0;
+      revealQueue.length = 0;
+      if (revealTimer !== undefined) {
+        window.clearTimeout(revealTimer);
+        revealTimer = undefined;
+      }
+    }
+    lastSeq = state.log.seq;
     if (entries.length === 0) return;
     const last = entries[entries.length - 1]!;
     const fresh: LogEntry[] = entries.filter((e) => e.key > lastKey);
@@ -914,8 +933,8 @@ export function mount(
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
 
-    // on load / reduced-motion / a single new line → append at once (no re-spam).
-    if (firstRender || reduceMotion() || fresh.length === 1) {
+    // on load / reset / reduced-motion / a single new line → append at once (no re-spam).
+    if (firstRender || didReset || reduceMotion() || fresh.length === 1) {
       for (const e of fresh) appendLine(e, !firstRender && !reduceMotion());
     } else {
       // a batch (the cold open, a rank-up reveal) → cascade the lines in one-by-one.
