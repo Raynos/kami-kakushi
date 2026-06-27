@@ -4,7 +4,16 @@
 // lines ink in; loaded lines render statically — no re-spam). The rest of the UI is
 // cheap enough to rebuild each render.
 
-import type { GameState, Intent, LogEntry, LogChannel, Season, SkillId, MobId } from '../core';
+import type {
+  GameState,
+  Intent,
+  LogEntry,
+  LogChannel,
+  Season,
+  SkillId,
+  MobId,
+  StanceId,
+} from '../core';
 import {
   availableActions,
   availableLabours,
@@ -26,6 +35,10 @@ import {
   combatXpProgress,
   durabilityBand,
   getWeapon,
+  STANCE_ORDER,
+  AREAS,
+  ESTATE_STAGES,
+  balance,
 } from '../core';
 
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
@@ -33,6 +46,43 @@ const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
   rake_rice: 'Rake the spilled rice',
   rest: 'Rest a moment',
 };
+
+// the active combat decision (kendo kamae) — kanji avoid the foe-tier word collision
+// ('Steady'/'Even') used by the win-rate pips.
+const STANCE_UI: Record<StanceId, { kanji: string; gloss: string; hint: string }> = {
+  gedan: {
+    kanji: '下段',
+    gloss: 'Guarded',
+    hint: 'Block more, spare the blade — slower kills, sustainable grind',
+  },
+  chudan: { kanji: '中段', gloss: 'Balanced', hint: 'The even guard' },
+  jodan: {
+    kanji: '上段',
+    gloss: 'Aggressive',
+    hint: 'Hit harder, take more, wear the blade faster — best for a longshot',
+  },
+};
+
+// the pre-awake cold-open title card (the dead .coldopen CSS now has a home).
+const COLD_OPEN_TITLE = '神隠し';
+const COLD_OPEN_ROMAN = 'Kamikakushi';
+const COLD_OPEN_LEDE =
+  'Dark. Straw against your cheek, the smell of wet rice, a low roof you do not know. Your name, your past — gone, as if the night swallowed them whole.';
+
+// the four house-influence pillars (locked teaser — opens next chapter).
+const PILLARS: { label: string; kanji: string; token: string; when: string }[] = [
+  { label: 'Arms', kanji: '武威', token: 'arms', when: 'next chapter' },
+  { label: 'Estate & Wealth', kanji: '家産', token: 'estate', when: 'next chapter' },
+  { label: 'Standing & Office', kanji: '官威', token: 'office', when: 'later' },
+  { label: 'Name & Honour', kanji: '家格', token: 'name', when: 'later' },
+];
+
+const ESTATE_STAGE_NAMES = [
+  "E0 · Foreclosure's edge",
+  'E1 · Stabilising',
+  'E2 · Recovering',
+  'E3 · Prosperous',
+];
 
 const CHANNEL_BULLET: Record<LogChannel, string> = {
   narration: '',
@@ -301,14 +351,31 @@ export function mount(
   const work = el('section', 'work');
   const workHead = el('h2', undefined, 'What you can do');
   const ladder = el('div', 'ladder');
+  const estatePane = el('div', 'estate-pane');
+  const influence = el('div', 'influence');
   const actions = el('div', 'actions');
   const skillsPane = el('div', 'skills-pane');
   const combatPane = el('div', 'combat-pane');
-  work.append(workHead, ladder, actions, skillsPane, combatPane);
+  work.append(workHead, ladder, estatePane, influence, actions, skillsPane, combatPane);
 
   workspace.append(logSection, work);
   shell.append(header, nav, workspace, settings.modal);
-  root.append(shell);
+
+  // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
+  const coldOpen = el('div', 'coldopen');
+  const coFrame = el('div', 'frame');
+  const coTitle = el('h1');
+  coTitle.lang = 'ja';
+  coTitle.textContent = COLD_OPEN_TITLE;
+  const coRoman = el('p', 'coldopen-roman', COLD_OPEN_ROMAN);
+  const coLede = el('p', undefined, COLD_OPEN_LEDE);
+  const coVerb = el('button', 'verb primary', META_LABELS.open_eyes);
+  coVerb.type = 'button';
+  coVerb.addEventListener('click', () => dispatch({ type: 'open_eyes' }));
+  coFrame.append(coTitle, coRoman, coLede, coVerb);
+  coldOpen.append(coFrame);
+
+  root.append(coldOpen, shell);
 
   let firstRender = true;
   let lastKey = -1;
@@ -364,8 +431,71 @@ export function mount(
     if (nid) {
       const nextRank = getRank(nid);
       card.append(el('div', 'rung-next', `Next: ${nextRank.title} ${nextRank.kanji}`));
+    } else {
+      card.append(
+        el('div', 'rung-next frontier', 'Beyond the gate the road climbs on — to be continued.'),
+      );
     }
     ladder.append(card);
+  }
+
+  function renderEstate(state: GameState): void {
+    estatePane.textContent = '';
+    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
+    estatePane.hidden = !show;
+    if (!show) return;
+    const stage = state.estateStage;
+    const name = ESTATE_STAGE_NAMES[stage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
+    const card = el('div', 'rung-card frame');
+    card.append(el('div', 'rung-now', `Estate · ${name}`));
+    const next = ESTATE_STAGES.find((s) => s.stage === stage + 1);
+    if (next) {
+      card.append(el('div', 'skill-blurb', next.blurb));
+      const btn = el('button', 'verb', `${next.label} (${next.kokuCost} koku)`);
+      btn.type = 'button';
+      btn.disabled = (state.resources.koku ?? 0) < next.kokuCost;
+      if (btn.disabled) btn.title = `Needs ${next.kokuCost} koku`;
+      btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
+      card.append(btn);
+    } else {
+      card.append(el('div', 'rung-hint', 'The estate stands restored.'));
+    }
+    estatePane.append(card);
+  }
+
+  function renderHouseInfluence(state: GameState): void {
+    influence.textContent = '';
+    const show = activeTab === 'work' && isUnlocked(state, 'panel-house-influence');
+    influence.hidden = !show;
+    if (!show) return;
+    const card = el('div', 'influence-panel locked frame');
+    card.setAttribute('aria-label', 'House Influence — locked, opens next chapter');
+    const head = el('div', 'rung-now');
+    head.append(document.createTextNode('House Influence '));
+    const k = el('span', 'house-influence-kanji');
+    k.lang = 'ja';
+    k.textContent = '家威';
+    head.append(k);
+    card.append(head);
+    card.append(
+      el('div', 'skill-blurb', 'How a house is truly weighed. The grind that opens past the gate.'),
+    );
+    for (const p of PILLARS) {
+      const row = el('div', 'influence-row');
+      const name = el('span', 'influence-name');
+      const dot = el('span', `pillar-dot ${p.token}`, '◆');
+      dot.setAttribute('aria-hidden', 'true');
+      name.append(dot, document.createTextNode(` ${p.label} `));
+      const kj = el('span');
+      kj.lang = 'ja';
+      kj.textContent = p.kanji;
+      name.append(kj);
+      row.append(name);
+      row.append(el('span', 'influence-when lock-hint', `🔒 ${p.when}`));
+      card.append(row);
+    }
+    card.append(el('div', 'influence-foot lock-hint', 'Opens in the next chapter.'));
+    influence.append(card);
   }
 
   function renderActions(state: GameState): void {
@@ -390,29 +520,55 @@ export function mount(
       actions.append(wolf);
     }
 
-    // labour activities (each: do-once + an auto-repeat toggle)
-    for (const opt of availableLabours(state)) {
-      const row = el('div', 'labour-row');
-      const btn = el('button', 'verb', opt.activity.label);
-      btn.type = 'button';
-      btn.disabled = !opt.available;
-      if (!opt.available && opt.reason) btn.title = opt.reason;
-      btn.addEventListener('click', () =>
-        dispatch({ type: 'do_activity', activityId: opt.activity.id }),
-      );
-      row.append(btn);
-      if (opt.available) {
-        const auto = state.autoActivity === opt.activity.id;
-        const toggle = el('button', `auto-toggle${auto ? ' on' : ''}`, auto ? '■ stop' : '▶ auto');
-        toggle.type = 'button';
-        toggle.setAttribute('aria-pressed', String(auto));
-        toggle.addEventListener('click', () =>
-          dispatch({ type: 'set_auto', activityId: auto ? null : opt.activity.id }),
+    // labour activities, grouped by estate room (each: do-once + auto-repeat toggle)
+    const labours = availableLabours(state);
+    for (const area of AREAS) {
+      const opts = labours.filter((o) => o.activity.area === area.id);
+      if (opts.length === 0) continue; // e.g. kura has no labour activity
+      const group = el('div', 'area-group');
+      group.append(el('h3', 'area-head', area.label));
+      group.append(el('p', 'area-blurb', area.blurb));
+      for (const opt of opts) {
+        const row = el('div', 'labour-row');
+        const btn = el('button', 'verb', opt.activity.label);
+        btn.type = 'button';
+        btn.disabled = !opt.available;
+        if (!opt.available && opt.reason) btn.title = opt.reason;
+        btn.addEventListener('click', () =>
+          dispatch({ type: 'do_activity', activityId: opt.activity.id }),
         );
-        row.append(toggle);
-      } else if (opt.reason) {
-        row.append(el('span', 'lock-hint', opt.reason));
+        row.append(btn);
+        if (opt.available) {
+          const auto = state.autoActivity === opt.activity.id;
+          const toggle = el(
+            'button',
+            `auto-toggle${auto ? ' on' : ''}`,
+            auto ? '■ stop' : '▶ auto',
+          );
+          toggle.type = 'button';
+          toggle.setAttribute('aria-pressed', String(auto));
+          toggle.addEventListener('click', () =>
+            dispatch({ type: 'set_auto', activityId: auto ? null : opt.activity.id }),
+          );
+          row.append(toggle);
+        } else if (opt.reason) {
+          row.append(el('span', 'lock-hint', opt.reason));
+        }
+        group.append(row);
       }
+      actions.append(group);
+    }
+
+    // cook a meal (sansai → satiety sink)
+    if (isUnlocked(state, 'verb-cook')) {
+      const row = el('div', 'labour-row');
+      const cost = balance.COOK_SANSAI_COST;
+      const cook = el('button', 'verb', `Cook a meal (${cost} sansai)`);
+      cook.type = 'button';
+      cook.disabled = (state.resources.sansai ?? 0) < cost;
+      if (cook.disabled) cook.title = `Needs ${cost} sansai`;
+      cook.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
+      row.append(cook);
       actions.append(row);
     }
   }
@@ -460,6 +616,41 @@ export function mount(
     lvl.append(el('div', 'rung-hint', `Combat XP ${cx.into}/${cx.needed}`));
     combatPane.append(lvl);
 
+    // training — spend earned attribute points into Might / Guard / Vigor
+    const c = state.character;
+    const train = el('div', 'weapon-card frame');
+    const th = el('div', 'skill-head');
+    th.append(el('span', 'skill-name', 'Training 鍛錬'));
+    th.append(
+      el(
+        'span',
+        'skill-lvl',
+        `${c.attributePoints} point${c.attributePoints === 1 ? '' : 's'} to spend`,
+      ),
+    );
+    train.append(th);
+    const ATTRS: {
+      attr: 'might' | 'guard' | 'vigor';
+      label: string;
+      value: number;
+      gain: string;
+    }[] = [
+      { attr: 'might', label: 'Might 力', value: c.might, gain: '+atk' },
+      { attr: 'guard', label: 'Guard 守', value: c.guard, gain: '+def' },
+      { attr: 'vigor', label: 'Vigor 体', value: c.vigor, gain: '+body' },
+    ];
+    for (const a of ATTRS) {
+      const row = el('div', 'labour-row');
+      row.append(el('span', 'skill-name', `${a.label}  ${a.value}  (${a.gain})`));
+      const plus = el('button', 'auto-toggle', '+1');
+      plus.type = 'button';
+      plus.disabled = c.attributePoints <= 0;
+      plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: a.attr }));
+      row.append(plus);
+      train.append(row);
+    }
+    combatPane.append(train);
+
     // equipped weapon + durability band + repair / equip
     const weapon = getWeapon(state.equippedWeapon);
     const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
@@ -498,6 +689,21 @@ export function mount(
     }
     if (wctrl.childElementCount > 0) wc.append(wctrl);
     combatPane.append(wc);
+
+    // stance — the active combat decision (segmented control; pips recompute live)
+    const stanceRow = el('div', 'stance-row');
+    stanceRow.append(el('h3', undefined, 'Stance 構え'));
+    for (const s of STANCE_ORDER) {
+      const ui = STANCE_UI[s];
+      const on = state.stance === s;
+      const btn = el('button', `auto-toggle${on ? ' on' : ''}`, `${ui.kanji} ${ui.gloss}`);
+      btn.type = 'button';
+      btn.setAttribute('aria-pressed', String(on));
+      btn.title = ui.hint;
+      btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
+      stanceRow.append(btn);
+    }
+    combatPane.append(stanceRow);
 
     // foes — the watch
     combatPane.append(el('h3', 'foes-head', 'The watch'));
@@ -635,11 +841,22 @@ export function mount(
 
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
+    // pre-awake: show only the cold-open card; the shell (and its log) inks in on waking.
+    if (!hasFlag(state, 'awake')) {
+      coldOpen.hidden = false;
+      shell.hidden = true;
+      firstRender = false; // so the post-wake log cascades rather than dumping statically
+      return;
+    }
+    coldOpen.hidden = true;
+    shell.hidden = false;
     renderVitals(state);
     renderNav(state);
     renderLog(state);
     workHead.hidden = activeTab !== 'work';
     renderLadder(state);
+    renderEstate(state);
+    renderHouseInfluence(state);
     renderActions(state);
     renderSkills(state);
     renderCombat(state);

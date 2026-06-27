@@ -847,3 +847,61 @@ html {
   font-size: var(--fs-h2);
   color: var(--ink);
 }
+
+/* ── v0.2 feature surfaces: cold-open roman, room-grouped labour, house influence ── */
+.coldopen-roman {
+  font-family: var(--font-head);
+  letter-spacing: 0.3em;
+  font-size: var(--fs-h3);
+}
+.area-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.area-head {
+  font-family: var(--font-head);
+  color: var(--ai);
+  font-size: var(--fs-h3);
+}
+.area-blurb {
+  color: var(--ink-soft);
+  font-size: 0.9em;
+  margin-bottom: var(--space-1);
+}
+.influence-panel.locked {
+  opacity: 0.78;
+}
+.house-influence-kanji {
+  color: var(--pillar-kai);
+  font-family: var(--font-head);
+}
+.influence-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-1) 0;
+}
+.pillar-dot.arms {
+  color: var(--pillar-arms);
+}
+.pillar-dot.estate {
+  color: var(--pillar-estate);
+}
+.pillar-dot.office {
+  color: var(--pillar-office);
+}
+.pillar-dot.name {
+  color: var(--pillar-name);
+}
+.influence-panel.locked .pillar-dot {
+  filter: grayscale(0.6);
+}
+.influence-foot {
+  margin-top: var(--space-2);
+}
+.rung-next.frontier {
+  color: var(--ai);
+  font-style: italic;
+}

@@ -18,6 +18,7 @@ import {
   type RankId,
   type MobId,
   type BalanceProfile,
+  type StanceId,
 } from '../core';
 import { createBrowserSaveManager, type SaveManager } from '../persistence';
 import { mount } from '../ui';
@@ -264,6 +265,7 @@ async function boot(): Promise<void> {
       faceWolf: () => dispatch({ type: 'face_wolf' }),
       fight: (mobId: MobId) => dispatch({ type: 'fight', mobId }),
       autoCombat: (mobId: MobId | null) => dispatch({ type: 'set_auto_combat', mobId }),
+      setStance: (stance: StanceId) => dispatch({ type: 'set_stance', stance }),
       tick: (dt: number) => commit(coreTick(state, dt)),
       frames: (n: number) => {
         for (let i = 0; i < n; i++) safely(() => render(state, prev));
