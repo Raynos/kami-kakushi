@@ -326,4 +326,4 @@ the whole climb). This is what makes hour 20 still mean something.
 - `ui-design.md` — the visual bible that owns the **look** of every reveal/reward beat.
 - [`prd.md`](prd.md) — §1.2 (pillars), §1.6 (four pillars / five tiers), §1.12 (reveal pacing), §1.13
   (guardrails), §3 (unlock ladders), §4.2 (accrual), §4.6.6 (soft-setback), §4.8 (the locked pacing
-  budget). [`prd_human_feedback.md`](../../feedback/history/prd_human_feedback.md) §K — the fun/UI process intent.
+  budget). [`prd_human_feedback.md`](../../project/feedback/history/prd_human_feedback.md) §K — the fun/UI process intent.

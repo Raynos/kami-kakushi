@@ -227,7 +227,7 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   restart; until then the game is headful but harmless (no pointer-lock to steal the cursor).
 - **The [`capture-game-states`](../../.claude/skills) skill:** the project's purpose-built driver for
   "drive the game headlessly and screenshot/record its states" — the front door for the §4 visual loop
-  and audit sweeps; outputs land in [`audit/`](../../audit).
+  and audit sweeps; outputs land in [`audit/`](../../project/audit).
 - **Where the harness lives:** `src/app/` (the composition root) installs `window.__qa` under
   `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the screenshot/playtest drivers are
   tracked at `scripts/qa-shots.mjs` + `scripts/playtest.mjs`. The auto-player + fun-proxy collectors
@@ -249,4 +249,4 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 > See also: **[`fun-factor.md`](fun-factor.md)** (the *what/why* of fun — this harness measures its
 > targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
 > §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible), and
-> [`prd_human_feedback.md`](../../feedback/history/prd_human_feedback.md) §K (the fun/UI process intent).
+> [`prd_human_feedback.md`](../../project/feedback/history/prd_human_feedback.md) §K (the fun/UI process intent).

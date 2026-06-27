@@ -25,7 +25,7 @@
 
 The playable demo = **M0 + M1 + M2a + M2b** — a T0 slice: cold open → labour earns the kept-hand then
 trusted-hand rungs (the estate + Skills ink in) → the humbling grain-store wolf (R3) → combat goes live
-(forecasts, leveling, the woodlot axe, auto-fight). `npm run dev` to play; screenshots in [`audit/`](../../audit).
+(forecasts, leveling, the woodlot axe, auto-fight). `npm run dev` to play; screenshots in [`audit/`](../../project/audit).
 
 ## The docs-explosion (D-020 / D-021) — partial, the rest queued
 

@@ -2,7 +2,7 @@
 
 > **Status: PRD V2.2 — reshaped from the 79 human-signed V2 decisions** (Block L `Q1–Q56` + Block M `FU1–FU23`)
 > **+ Block N (32 post-battery) + Block N.1 (7); ADRs D-043/D-044/D-045**
-> (2026-06-26; see [`prd_human_feedback.md`](../../feedback/history/prd_human_feedback.md) §§L–N). Per **ADR D-022 (governing)** these
+> (2026-06-26; see [`prd_human_feedback.md`](../../project/feedback/history/prd_human_feedback.md) §§L–N). Per **ADR D-022 (governing)** these
 > V2 decisions **supersede** any conflicting prior lock / canon / ADR — **most-recent-wins, annotate-don't-delete.**
 > The V2 **LOCKED INTENT** is frozen per **ADR D-021** (the freeze-framing below); the §4 balance numbers and the
 > §7 M2–M7 milestone detail stay **provisional** and are re-planned after each playtest. No code is written until
@@ -56,7 +56,7 @@ revised, and its load-bearing decisions locked as ADRs.
 
 > **PRD V2 — locked intent (D-021); reshaped per the V2 decisions (D-022 governing).** This section is authored
 > end-to-end from the PATCHED locked-decisions canon
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md), incl. its
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
 > 2026-06-25 Round-A deltas), the three redesign discovery docs, **and the 79 human-signed V2 decisions** (Block L
 > `Q1–Q56` + Block M `FU1–FU23`). It supersedes every earlier framing of §1 (most-recent-wins per D-022). Tiers are
 > **T0–T4** (0-indexed) throughout; v1 scope is **T0–T2 complete**, with **T3 a stub cliff-hanger** (the
@@ -2538,7 +2538,7 @@ the incremental unlock ladder (UI-as-progression)._
 
 > **PRD V2.2 — reshaped per the V2 decisions (D-022 governing; Block L `Q1–Q56` + Block M `FU1–FU23`).** Authored
 > end-to-end from the LOCKED CANON
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md), incl. all
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. all
 > three "Updated 2026-06-25" header blocks), the merged PRD §1, §2, §5, §6, **and the 79 human-signed V2
 > decisions**. This section makes the **signature feature** concrete: it specifies the **ordered reveal of every
 > panel, tab, screen, system, resource-row, and area** across the game — **T0–T2 in full (v1)**, with **T3/T4
@@ -6845,7 +6845,7 @@ weather** (Q2/FU3), the **`Math.pow` ban → integer-pow** (Q36), the **bounded 
 > **PRD V2.2 — reshaped from the 79 human-signed V2 decisions (Block L `Q1–Q56` + Block M `FU1–FU23`); per
 > ADR D-022 (governing) these supersede any conflicting prior lock, most-recent-wins, annotate-don't-delete.**
 > Authored end-to-end from the LOCKED CANON
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../brainstorms/2026-06-25-locked-decisions.md), incl. its
+> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
 > **§I v1 scope** and the human-signed **§I-bal §4 BALANCE LOCKS**, now re-read through the V2 decisions) and the
 > drafted PRD §§1–6 (esp. §1 vision/pillars/factions/endgame, §2 systems catalog, §3 the unlock ladder, §4 the
 > balance model, §5 the narrative, §6 the tech architecture). This is the **last PRD section** and the one that,

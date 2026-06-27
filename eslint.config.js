@@ -48,7 +48,7 @@ const CORE_FORBIDDEN_GLOBALS = [
 ];
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'archive/**', 'scripts/*.mjs'] },
+  { ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'project/archive/**', 'scripts/*.mjs'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

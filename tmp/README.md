@@ -12,8 +12,8 @@ system temp / session scratchpad so working files stay inside the repo and are e
   something important here.
 - **Graduate what matters.** If a file is worth keeping, move it to its real home:
   - durable design / "what the game is now" → [`docs/`](../docs)
-  - raw discovery / research capture → [`brainstorms/`](../brainstorms)
-  - QA screenshots / recordings / findings → [`audit/`](../audit)
-  - session logs → [`journal/`](../journal)
+  - raw discovery / research capture → [`brainstorms/`](../project/brainstorms)
+  - QA screenshots / recordings / findings → [`audit/`](../project/audit)
+  - session logs → [`journal/`](../project/journal)
 
 See the **Temporary files** convention in [`../CLAUDE.md`](../CLAUDE.md).

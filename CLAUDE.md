@@ -12,18 +12,18 @@ in [README.md](README.md); this file is just how we work.
   don't stall for confirmation.
 - **Many small commits, straight to the working branch.** Don't branch for routine work — committing
   as you go *is* the workflow. *(This overrides the generic "branch off main / commit only when
-  asked" default.)* Each commit leaves the build working and stages a `journal/` entry (enforced by
+  asked" default.)* Each commit leaves the build working and stages a `project/journal/` entry (enforced by
   `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Enable the hook once per clone:
   `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out research, multi-file sweeps).
 - **Stop and ask only for** (1) design decisions that change what the game *is* — lock these with the
   human and record them as ADRs in [`docs/living/decisions.md`](docs/living/decisions.md); and
   (2) anything outward-facing or hard to reverse (push, deploy, delete) — never without approval.
-- **Leave it resumable.** All state lives in commits + the `journal/` log (chronological — summary at top,
-  entries appended at the **bottom**) + `memory/project-status.md` (the **live snapshot**) + the task list, so a
+- **Leave it resumable.** All state lives in commits + the `project/journal/` log (chronological — summary at top,
+  entries appended at the **bottom**) + `project/status/project-status.md` (the **live snapshot**) + the task list, so a
   cold pickup or a context compaction never loses progress.
 
-Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
+Full version: [`project/status/working-agreements.md`](project/status/working-agreements.md).
 
 ## Conventions
 
@@ -43,9 +43,9 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   fun-proxy *measurement*) → [`docs/living/qa-playtesting.md`](docs/living/qa-playtesting.md); **the visual
   language** → [`docs/living/ui-design.md`](docs/living/ui-design.md). The agent reviews its own screenshots with its
   own vision and iterates; the human is the final fun & taste arbiter.
-- **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `journal/`
+- **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `project/journal/`
   says **how it got here** (a chronological log — append at the bottom, never prepend; the live snapshot is
-  `memory/project-status.md`). One doc per concern; edit living docs in place (don't fork copies).
+  `project/status/project-status.md`). One doc per concern; edit living docs in place (don't fork copies).
 - **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to **locked intent** — the
   §1 vision + the human-signed acceptance criteria (no-magic / mediocre-start / trade ≤⅓ /
   active-only, the four pillars + estate spine, the ≥30-min-per-rank / 70-30 / ~28.5h / tier-gate
@@ -58,13 +58,13 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   §1 + §4→generated is the queued next step.) See **D-021** (refines D-020).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp) for all scratch /
   working files (intermediate output, throwaway scripts, scratch notes) — **not** the global system
-  scratchpad. Anything worth keeping graduates to `docs/`, `brainstorms/`, `audit/`, or `journal/`.
+  scratchpad. Anything worth keeping graduates to `docs/`, `project/brainstorms/`, `project/audit/`, or `project/journal/`.
 - **Durable capture of workflow / subagent outputs.** `Workflow` results live only in ephemeral session
   scratch (`<session>/tasks/<id>.output`) and **die with the session** — never leave research stranded
   there. After **every workflow**: (1) **snapshot the raw `.output` JSON verbatim** into
-  [`brainstorms/raw/`](brainstorms/raw) (timestamped) via `scripts/snapshot-research.sh <output-file>
+  [`project/brainstorms/raw/`](project/brainstorms/raw) (timestamped) via `scripts/snapshot-research.sh <output-file>
   <slug>` — cheap, lossless insurance; (2) **distill** the useful parts into the right living doc
-  (`docs/`) or discovery doc (`brainstorms/`); (3) **commit immediately** (a small checkpoint). Subagent
+  (`docs/`) or discovery doc (`project/brainstorms/`); (3) **commit immediately** (a small checkpoint). Subagent
   (Agent-tool) results are returned to the main agent — capture their substance in a doc, but do **not**
   copy subagent `.output` files (huge JSONL transcripts). Raw snapshots are verbatim insurance; the
   distillations are the source of truth.
@@ -72,8 +72,8 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
 ## Layout
 
 - [README.md](README.md) — the game's vision.
-- [`memory/`](memory) — durable per-fact notes: [working-agreements](memory/working-agreements.md)
-  (cadence + autonomy) and [project-status](memory/project-status.md) (live snapshot + how to resume).
+- [`project/status/`](project/status) — durable per-fact notes: [working-agreements](project/status/working-agreements.md)
+  (cadence + autonomy) and [project-status](project/status/project-status.md) (live snapshot + how to resume).
 - [`docs/`](docs) — design docs (living, edited in place), under **[`docs/living/`](docs/living)**:
   **[prd.md](docs/living/prd.md)** (the merged PRD / vision spec), **[decisions.md](docs/living/decisions.md)**
   (the **ADR log** — *why* the design is the way it is), **[roadmap.md](docs/living/roadmap.md)** (the
@@ -81,20 +81,20 @@ Full version: [`memory/working-agreements.md`](memory/working-agreements.md).
   **[fun-factor.md](docs/living/fun-factor.md)** (what fun is), **[qa-playtesting.md](docs/living/qa-playtesting.md)**
   (how Claude play-tests). Generated content/balance tables live under **[`docs/content/`](docs/content)**
   (e.g. t0-content.md), produced by `scripts/gen-docs.ts`.
-- [`feedback/`](feedback) — the human's **direct feedback** (a live inbox; one dated file per session) +
-  [`feedback/history/`](feedback/history) for closed records (e.g. `prd_human_feedback.md`, the PRD-feedback
+- [`project/feedback/`](project/feedback) — the human's **direct feedback** (a live inbox; one dated file per session) +
+  [`project/feedback/history/`](project/feedback/history) for closed records (e.g. `prd_human_feedback.md`, the PRD-feedback
   log, now applied to the PRD).
-- [`human-in-the-loop/`](human-in-the-loop) — the human's queue: decisions (`H`-items) and reviews
+- [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: decisions (`H`-items) and reviews
   (`R`-items) only a person can action.
-- [`brainstorms/`](brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);
-  settled designs graduate to `docs/`. [PARKED-THREADS.md](brainstorms/PARKED-THREADS.md) indexes tangents.
-  [`raw/`](brainstorms/raw) holds **verbatim** `Workflow`-output JSON snapshots (durable insurance).
+- [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);
+  settled designs graduate to `docs/`. [PARKED-THREADS.md](project/brainstorms/PARKED-THREADS.md) indexes tangents.
+  [`raw/`](project/brainstorms/raw) holds **verbatim** `Workflow`-output JSON snapshots (durable insurance).
 - `scripts/` — repo dev/maintenance scripts (e.g. [`snapshot-research.sh`](scripts/snapshot-research.sh)).
-- `journal/` — per-session chronological **LOG** (history, not live state): **summary at top, entries appended
-  at the BOTTOM (never prepend)**; one file per session; the live snapshot is `memory/project-status.md`. See
-  [`README`](journal/README.md) + [`_TEMPLATE.md`](journal/_TEMPLATE.md).
-- [`archive/`](archive) — superseded markdown docs kept for reference (archive, don't delete).
-- [`audit/`](audit) — QA screenshots/recordings + findings, from the `capture-game-states` skill.
+- `project/journal/` — per-session chronological **LOG** (history, not live state): **summary at top, entries appended
+  at the BOTTOM (never prepend)**; one file per session; the live snapshot is `project/status/project-status.md`. See
+  [`README`](project/journal/README.md) + [`_TEMPLATE.md`](project/journal/_TEMPLATE.md).
+- [`project/archive/`](project/archive) — superseded markdown docs kept for reference (archive, don't delete).
+- [`project/audit/`](project/audit) — QA screenshots/recordings + findings, from the `capture-game-states` skill.
 - [`tmp/`](tmp) — repo-local scratchpad for throwaway working files (git-ignored except its README).
 - `.claude/skills/` — `grill-me` (stress-test a design / extract one into a doc) and
   `capture-game-states` (drive the game headlessly and screenshot/record its states).
