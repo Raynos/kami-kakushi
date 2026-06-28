@@ -98,3 +98,12 @@ HITL item that it must be done + update project-status.**
 
 **NEXT (the human's):** review `docs/plans/operating-model-v2-implementation.md` → answer §0 D-a…D-f + mark
 the §8 checklist → I build the ✅'d parts, keystone first (#0 hook → #1 playcheck). Until then: review-only.
+
+---
+
+## Addendum 3 — `project/docs-to-read-for-human.md` (a read-&-review sign-off index)
+
+Human-requested: a top-level index of docs needing **"read & reviewed" sign-off** — *distinct from* the
+`human-in-the-loop/` **action** queue. Seeded with the three the human named: the v2 implementation plan +
+the two v0.2 audit reports (`state-of-the-game-v0.2` + `v0.2-changelog`). Each a checkbox + what-it-is +
+what-to-decide; a footer points at the tier-reshape inbox item + the HITL queue so nothing live is missed.
