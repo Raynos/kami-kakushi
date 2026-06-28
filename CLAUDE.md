@@ -97,5 +97,6 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - [`project/audit/`](project/audit) — QA outputs: written findings/reports under `reports/` + screenshots/
   recordings under `screens/` (one dated pass-folder each; `screens/latest/` is the live `qa-shots.mjs` gallery).
 - [`tmp/`](tmp) — repo-local scratchpad for throwaway working files (git-ignored except its README).
-- `.claude/skills/` — `grill-me` (stress-test a design / extract one into a doc) and
-  `capture-game-states` (drive the game headlessly and screenshot/record its states).
+- `.claude/skills/` — `grill-me` (stress-test a design / extract one into a doc),
+  `capture-game-states` (drive the game headlessly and screenshot/record its states), and
+  `battery` (run a multi-lens fresh-eyes stress-test battery over the spec/design/build).
