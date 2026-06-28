@@ -8,9 +8,13 @@ Two concerns, two folders:
 
 ```
 audit/
-  reports/   ← the text deliverables: battery audits + changelogs
-  screens/   ← captured frames (.png/.webm), one subfolder per pass
+  reports/                  ← the text deliverables: battery audits + changelogs
+  screens/                  ← captured frames (.png/.webm), one subfolder per pass
+  experiment-registry.md    ← which battery lenses have run, on what, when (the novelty ledger)
 ```
+
+Battery audits are produced by the [`battery`](../../.claude/skills/battery/SKILL.md) skill, which tracks its
+lenses in [`experiment-registry.md`](experiment-registry.md) so each run brings a fresh angle.
 
 ## reports/
 
