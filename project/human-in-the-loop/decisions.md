@@ -53,3 +53,24 @@ Resolved decisions graduate into the ADR log: [`../docs/living/decisions.md`](..
 - **Options:** A: keep active-only as canon / B: add a small capped while-away tick so returning feels rewarding without true offline simulation.
 - **Recommendation:** B-lite — keep active-only canon but consider a capped on-return catch-up; revisit after the reinvestment loop + macro layer land (they matter more first).
 - **Resolution:** _open_
+
+> Seeded 2026-06-28 from the 3-day process retro (journals + commits + feedback). These are **process**
+> improvements (like H4), parked for the human to greenlight before I build them.
+
+### H7 🔲 — `ship-gate` skill + DoD manifest (the build-side of H4)
+- **Question / fork:** Build a pre-ship gate — a CI-checkable manifest where a milestone can't be marked SHIPPED unless its DoD-named tests/instruments provably exist? Evidence: M1 shipped with its claimed pacing/fun instrumentation absent, M2b folded loot→craft into a grant, the audit found a false-green test suite (Laziness scored 4/10 entirely on this). This is the build-side companion to **H4** (the *policy*).
+- **Options:** A: build the skill + manifest now / B: keep H4 as policy-only, gate manually.
+- **Recommendation:** A — smallest, highest-confidence of the three; stops a trust-eroding recurrence you already flagged.
+- **Resolution:** _open_
+
+### H8 🔲 — Split the 7k-line PRD into per-section files
+- **Question / fork:** Break `docs/living/prd.md` into `docs/living/prd/§1…§7.md` + a tiny completeness check? Evidence: the V2 rewrite truncated **three times in one day** (`6332c1c` failed → `0c042fd` NOT-READY → `0e94881` restore-truncated §4.7-§4.9), and the overnight build had to hand-serialize §-scoped edits to dodge the single-file size. Removes the whole truncation failure class + unblocks parallel doc edits.
+- **Options:** A: split now / B: keep monolithic, keep serializing edits around it.
+- **Recommendation:** A — but it touches a frozen-intent doc, so it's your call (mechanical split, no content change).
+- **Resolution:** _open_
+
+### H9 🔲 — `resolve-queue` skill (battery → resolve → ship spine)
+- **Question / fork:** Build a skill that drives a decision backlog (battery Q-items / these H-items) through `AskUserQuestion` in priority order, then auto-applies + writes the ADR? Evidence: the PRD V2 decision loop was ~15 manual commits (Q1–Q56 → P0/P1/P2 batches → Block L/M/N); every battery now *generates* such a queue by design, so this stage recurs each cycle.
+- **Options:** A: build it (completes the battery→resolve→ship-gate spine) / B: keep resolving queues by hand.
+- **Recommendation:** A, but after H7 — it's the natural downstream companion to the battery skill.
+- **Resolution:** _open_
