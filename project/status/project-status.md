@@ -32,7 +32,7 @@ metadata:
   vitest + verify-content + `gen:docs --check`. `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
   JS [gz ~15 KB] + ~14 KB CSS [gz ~4 KB] — itch-ready, relative-base); `npm run build:itch` (zip). Headless
   QA harness: `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/`.
-- **Key docs:** `docs/living/prd.md` (the V2.2 vision+spec) · `project/feedback/history/prd_human_feedback.md` Block N (the
+- **Key docs:** `docs/living/prd.md` (the V2.2 vision+spec) · `project/feedback/history/2026-06-26-prd-human-feedback.md` Block N (the
   authoritative decisions) · `docs/living/ui-design.md` (woodblock/ink bible — the renderer is built to it) ·
   `docs/living/fun-factor.md` · `docs/living/qa-playtesting.md` (the __qa harness + fun-proxies) ·
   `docs/living/decisions.md` (ADRs D-001…D-045).

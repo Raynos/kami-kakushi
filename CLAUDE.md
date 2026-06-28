@@ -82,7 +82,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   (how Claude play-tests). Generated content/balance tables live under **[`docs/content/`](docs/content)**
   (e.g. t0-content.md), produced by `src/scripts/gen-docs.ts`.
 - [`project/feedback/`](project/feedback) — the human's **direct feedback** (a live inbox; one dated file per session) +
-  [`project/feedback/history/`](project/feedback/history) for closed records (e.g. `prd_human_feedback.md`, the PRD-feedback
+  [`project/feedback/history/`](project/feedback/history) for closed records (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback
   log, now applied to the PRD).
 - [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: decisions (`H`-items) and reviews
   (`R`-items) only a person can action.
