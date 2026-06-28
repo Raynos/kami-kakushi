@@ -72,3 +72,29 @@ operating-model proposal.
 
 **NEXT:** Jake reacts to the draft → I turn the signed parts into ADRs + a CLAUDE.md/roadmap rewrite,
 then build in dependency order (#0 hook first, #1 playcheck keystone next).
+
+---
+
+## Addendum 2 — the *exactly-how* plan + wiring it so it can't be forgotten
+
+Jake steered: **don't build/commit ADRs, CLAUDE.md, or new skills** — instead produce a reviewable
+`docs/plans/` doc spelling out *exactly how* I'd do each thing, so he can read/steer first. Then: **wire a
+HITL item that it must be done + update project-status.**
+
+- **Plan (review-only, nothing applied):**
+  [`docs/plans/operating-model-v2-implementation.md`](../../docs/plans/operating-model-v2-implementation.md)
+  — per-system *exactly-how* (#0 hook, #1 `playcheck` keystone, #2 roadmap re-axe + slice-manifest, #3 ship
+  ceremony, #4 `diverge` skill, #5 corrections→checks), with the **real code sketches** (grounded in the
+  actual `createInitialState`/`reduce` core API that `pacing-report.ts` already uses), the **proposed ADR
+  text (D-048…D-051)**, the **exact CLAUDE.md edits**, and a **§8 checkbox checklist** + **§0 forks (D-a…D-f)**
+  for Jake to mark up. Nothing applied — embedded blocks are PROPOSALS.
+- **Wired (so it can't be lost):** **⭐ H10** in `human-in-the-loop/decisions.md` — REVIEW+DECIDE the plan,
+  marked ⛔ blocks the next build phase, absorbs H4 + H7–H9. **project-status.md** now leads with a ⭐ TOP
+  PRIORITY bullet pointing at the plan + H10, and the resume "Next" is re-sequenced to the v2 build order.
+- **Key finding that grounds it:** the keystone is mostly *assembly* — `pacing-report.ts` already drives the
+  pure core headlessly with a `--check` gate; `playcheck` generalizes it to the fun-factor §3 vector + bot
+  policies + a baseline ratchet. And the enforcement gap is one wiring change: `verify` has no
+  fun/pacing/playcheck, and the only git hook checks journal staging — nothing stops a red/hollow commit.
+
+**NEXT (the human's):** review `docs/plans/operating-model-v2-implementation.md` → answer §0 D-a…D-f + mark
+the §8 checklist → I build the ✅'d parts, keystone first (#0 hook → #1 playcheck). Until then: review-only.

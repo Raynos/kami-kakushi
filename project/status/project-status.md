@@ -63,15 +63,26 @@ metadata:
   PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 · Incremental 4.5 · Laziness 4.5/10. Verdict: a
   **beautifully-built chassis with no engine** (now substantially addressed by v0.2 above). 10 M3 guardrails
   proposed (G-PACING/CURVE/FUN@M3a/TEST-TEETH/MIGRATION/…).
+- **⭐ TOP PRIORITY — MUST BE DONE (pending human review): adopt Operating Model v2.** A high-level process
+  change to make the build **autonomous + higher-quality + self-correcting** (the human flagged the
+  hand-holding cost as huge). **Plan (review-only, nothing applied):**
+  [`docs/plans/operating-model-v2-implementation.md`](../../docs/plans/operating-model-v2-implementation.md);
+  *why:* [`project/brainstorms/2026-06-28-operating-model-v2.md`](../brainstorms/2026-06-28-operating-model-v2.md).
+  Tracked as **⭐ H10** (`human-in-the-loop/decisions.md`) — ⛔ **blocks the next build phase (S2 macro engine)**
+  and **absorbs H4 + H7–H9**. Keystone = an executable **fun-gate** (`playcheck`) wired into `verify` so
+  *hollowness fails the build*. **Awaiting human sign-off of the §0 forks + §8 checklist + §7 ADRs; do NOT
+  build/commit ADRs/CLAUDE.md/skills until then.**
 - **How to resume:**
-  1. Read the newest journal (`project/journal/2026-06-27-session-01-state-of-game-audit.md`) + the audit report.
+  1. Read the newest journal (`project/journal/2026-06-28-session-02-battery-skill.md`) + the **v2 plan**
+     (`docs/plans/operating-model-v2-implementation.md`) + the audit report.
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
-  4. **Next (post-review):** triage the audit's H1–H6 + the critical/high game improvements (grade combat +
-     one decision; close the R3 chapter + macro teaser; ×N log + deed juice; reinvestment loop + skill teeth;
-     resolve dead values; wire+test `migrate()`; real RED tests for the signed criteria) — ideally *before*
-     M3 (T0 R4→R7 + the four-pillar Phase-2 grind + the hybrid gate). Then T1/T2 per `docs/living/prd.md` §7.2.
+  4. **Next (gated on human review):** **adopt Operating Model v2** (⭐ H10) — once signed off, build in
+     order: #0 pre-commit gate → #1 `playcheck` keystone → #2 roadmap re-axe (S0–S4) + slice-manifest → #3
+     ship ceremony → #5 feedback-checks → #4 `diverge` skill. **Then S2 = the macro engine** is the first
+     slice built under v2 (ships only if `playcheck` says the macro pull is real). The audit's H1–H6 +
+     v0.2 tuning rough-edges fold into the S1/S2 slice work. T1/T2 per `docs/living/prd.md` §7.2 = S3/S4.
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:

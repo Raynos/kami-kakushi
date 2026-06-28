@@ -74,3 +74,13 @@ Resolved decisions graduate into the ADR log: [`../docs/living/decisions.md`](..
 - **Options:** A: build it (completes the battery→resolve→ship-gate spine) / B: keep resolving queues by hand.
 - **Recommendation:** A, but after H7 — it's the natural downstream companion to the battery skill.
 - **Resolution:** _open_
+
+---
+
+### ⭐ H10 🔲 — **REVIEW + DECIDE: Operating Model v2** (⛔ blocks the v2 adoption + the next build phase) — IMPORTANT
+- **Question / fork:** Review the full implementation plan and decide whether (and how) to adopt **Operating Model v2** — the high-level process change to make game-building **autonomous, higher-quality, and self-correcting** (less babysitting). This **supersedes/absorbs H4 (ban SHIPPED-slice) + H7–H9** and re-axes the roadmap (M3–M7 → fun-slices S0–S4), so it gates the next build phase (S2 = the macro engine).
+- **The artifact to review:** [`docs/plans/operating-model-v2-implementation.md`](../../docs/plans/operating-model-v2-implementation.md) — the *exactly-how* (real code/text/ADRs embedded as proposals, nothing applied). The *why* is [`project/brainstorms/2026-06-28-operating-model-v2.md`](../brainstorms/2026-06-28-operating-model-v2.md).
+- **What's needed from you:** (1) the **§0 forks D-a…D-f** (pre-commit cost, roadmap re-axe, ban-SHIPPED-slice, playcheck-in-verify, divergence scope, slice boundaries); (2) mark up the **§8 review checklist** (✅ build / ✂️ change / ❌ drop per line); (3) sign off the **§7 ADRs (D-048…D-051) + CLAUDE.md edits**.
+- **Constraint (human-set):** do **NOT** build/commit ADRs, CLAUDE.md, or new skills until this is signed off. The plan is review-only.
+- **Recommendation:** adopt — keystone first (#0 hook → #1 `playcheck`). It directly answers the "amount of hand-holding is huge" problem; the harness cost (~1 wk) is what the babysitting has been costing.
+- **Resolution:** _open_
