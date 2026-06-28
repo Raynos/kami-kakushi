@@ -8,6 +8,22 @@
 
 ---
 
+## 🔴 Now — the pending tier reshape (locked, not yet in the PRD)
+
+- **[`status/pending-prd-reshape.md`](status/pending-prd-reshape.md)** — the **2026-06-28
+  two-tier-Estate reshape**: 8 locked decisions (**ADRs D-048…D-055**) that are **NOT yet applied to the
+  PRD/docs/code**. This is the master checklist of everything that still has to change. ⚠️ **The PRD body is
+  STALE on the tier model until this is cleared** — read `prd.md` with this open.
+  - Backing intent (your verbatim directive + every resolved fork): [`feedback/2026-06-28-tier-reshape.md`](feedback/2026-06-28-tier-reshape.md)
+  - The ADRs themselves: [`docs/living/decisions.md` → D-048…D-055](../docs/living/decisions.md)
+
+### Context that drove it
+
+- [`audit/reports/state-of-the-game-2026-06-27.md`](audit/reports/state-of-the-game-2026-06-27.md) — the v0.1 battery audit (the review that triggered the reshape).
+- [`audit/reports/state-of-the-game-v0.2-2026-06-28.md`](audit/reports/state-of-the-game-v0.2-2026-06-28.md) — the v0.2 re-audit (what's already been fixed).
+
+---
+
 - [ ] **[`docs/plans/operating-model-v2-implementation.md`](../docs/plans/operating-model-v2-implementation.md)** — *plan*
   - **What:** the *exactly-how* for **Operating Model v2** — the process change to make the build more
     autonomous, higher-quality, and self-correcting (less hand-holding). Real code sketches + proposed
