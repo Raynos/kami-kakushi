@@ -45,10 +45,12 @@ metadata:
   docs under `docs/living/`, generated tables under `docs/content/`), `project/` (the agentic-process umbrella:
   `status/` [this file], `journal/`, `brainstorms/`, `feedback/`, `human-in-the-loop/`, `audit/`, `archive/`),
   and `src/` (all game code + the web entry + dev/QA scripts). The ADR ledger is `docs/living/decisions.md`.
-- **Phase update — v0.2 BUILT (2026-06-27).** The battery audit (below) was acted on: an autonomous **v0.2**
-  build (tag **`v0.2`**; baseline tagged **`v0.1`**) fixed the top findings → re-scored (independent workflow)
-  **Fun 4.5→6.5 · UI 7→8.5 · PRD-faithful 6.5→8 · README-spirit 7→7.5 · human-feedback 7.5→8 · Incremental
-  4.5→7 · Laziness 4.5→3**. **99 tests green.** Changelog: `project/audit/v0.2-changelog.md`. What v0.2 added:
+- **Phase update — v0.2 BUILT + RE-AUDITED (2026-06-27/28).** The battery audit (below) was acted on: an
+  autonomous **v0.2** build (tag **`v0.2`**; baseline tagged **`v0.1`**) fixed the top findings, then got its
+  **own de-duplicated battery report** ([`state-of-the-game-v0.2-2026-06-28.md`](../audit/state-of-the-game-v0.2-2026-06-28.md)).
+  **Final v0.2 scores** (battery-reconciled): **Fun 4.5→6.0 · UI 7→8.5 · PRD-faithful 6.5→8 · README-spirit
+  7→7.5 · human-feedback 7.5→8.5 · Incremental 4.5→7 · Laziness 4.5→3 · roadmap 5→7**. **99 tests green.**
+  Changelog: `project/audit/v0.2-changelog.md`. What v0.2 added:
   graded combat curve + kendo stance decision (seed-robust forecast, first fight in the signed 20–35% band),
   work→skill→yield reinvestment + cook/estate/attribute sinks (no more dead values), R3 chapter-close + dream-2
   payoff + a greyed House-Influence 家威 macro **teaser**, the cold-open screen, log ×N, real RED→GREEN tests,
