@@ -5,7 +5,7 @@
 A **multi-wave battery audit** of the playable M0–M2 demo, run autonomously (human AFK). Method: firsthand
 code audit of all `src/` + a live browser playtest (cold-open → R3 → ~60 combat grinds, desktop + mobile) +
 two fan-out audit waves (wave 1 = 8 scored lenses + reconciliation critic; wave 2 = 6 blind-spot lenses +
-convergence critic). Deliverable: **[`project/audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md)**
+convergence critic). Deliverable: **[`project/audit/reports/state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md)**
 (living, loops to convergence) + 6 H-items in `human-in-the-loop/decisions.md`.
 
 **Headline scores** (higher=better except Laziness): Fun 4.5 · UI 7 · PRD-faithful 7 · README-spirit 7 ·
@@ -63,7 +63,7 @@ to M6, so the demo can't yet demonstrate that the grind is pleasurable.
   G-BALANCE-POLICY / G-DOD-HONESTY / G-TEST-TEETH / G-LOG / G-FRONTIER / G-NO-DEAD-VALUES / G-MIGRATION).
 
 ### 5 · Outcome
-- Deliverable finalized: **[`project/audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md)**
+- Deliverable finalized: **[`project/audit/reports/state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md)**
   (CONVERGED) + 6 H-items + this journal + 2 raw snapshots. Live snapshot refreshed.
 - **Final scorecard:** Fun 4.5 · UI 7 · PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 ·
   Incremental 4.5 · Laziness 4.5/10 (code-craft ~9/10; laziness is content/scope + a few polish-masked cuts).
