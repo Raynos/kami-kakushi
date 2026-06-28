@@ -57,6 +57,15 @@ metadata:
   wired `migrate()`, DEMO/REAL pacing (`npm run pacing`). **Main remaining work:** the real four-pillar macro
   *engine* (still only a teaser) + the human's H1–H6 + a few v0.2 tuning rough-edges (durability friction,
   slower grind). The 6 H-items were deliberately NOT decided.
+- **Phase update — TIER RESHAPE decided (2026-06-28, session-03).** A human-steered review of the v0.1 report
+  resolved the H-items by **reshaping the tier spine**: **split the Estate into T0 (tutorial) + T1 (full)** →
+  **6 tiers** (T0 Estate-tut · T1 Estate-full · T2 Village · T3 Region · T4 Castle-town · T5 Edo), **one pillar
+  per tier** (1→2→3→4→4, **Estate→Arms→Office→Name**), **v1 = T0→T3**; + manual opt-in graded ascension,
+  carry-HP/heal-by-eating combat, compounding koku sink, showcase-in-miniature tutorial, wall-time "leave it
+  running", milestone-integrity rule, pillar silhouettes + per-tier mystery beats. Locked as **ADRs D-048…D-055**
+  — but **NOT yet applied to the PRD (the PRD body is STALE on tiers).** Master checklist + precedence:
+  [`pending-prd-reshape.md`](pending-prd-reshape.md); intent: [`../feedback/2026-06-28-tier-reshape.md`](../feedback/2026-06-28-tier-reshape.md);
+  human reading queue: `docs-to-read-for-human.md`. *(Applying + building is downstream of the ⭐ v2 / H10 gate below.)*
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
