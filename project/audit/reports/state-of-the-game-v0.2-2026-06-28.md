@@ -5,8 +5,8 @@
 > [`v0.2-changelog.md`](v0.2-changelog.md).
 >
 > **This is the same battery, repeated on v0.2** — 12 multi-angle lenses + a convergence/de-dup critic,
-> firsthand-grounded ([`tmp/v0.2-ground-truth.md`](../../tmp/v0.2-ground-truth.md)), raw verdicts in
-> [`brainstorms/raw/2026-06-28-v02-battery.json`](../brainstorms/raw/2026-06-28-v02-battery.json).
+> firsthand-grounded ([`tmp/v0.2-ground-truth.md`](../../../tmp/v0.2-ground-truth.md)), raw verdicts in
+> [`brainstorms/raw/2026-06-28-v02-battery.json`](../../brainstorms/raw/2026-06-28-v02-battery.json).
 >
 > **How to read it (de-duplicated by design):** findings **new or changed in v0.2** are stated in full;
 > findings **unchanged from v0.1** are *referenced, not restated* — see **§3 (carryover index)**, which points

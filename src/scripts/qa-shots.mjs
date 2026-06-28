@@ -4,7 +4,7 @@
 import { chromium } from 'playwright';
 
 const URL = process.env.QA_URL || 'http://localhost:5174/';
-const OUT = 'project/audit';
+const OUT = 'project/audit/screens/latest';
 
 // Each step: optional `run` (a JS expression string evaluated in the page) + a screenshot name.
 const clickTab = (label) =>

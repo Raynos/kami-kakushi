@@ -31,7 +31,7 @@ metadata:
   live (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = tsc + eslint + prettier +
   vitest + verify-content + `gen:docs --check`. `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
   JS [gz ~15 KB] + ~14 KB CSS [gz ~4 KB] — itch-ready, relative-base); `npm run build:itch` (zip). Headless
-  QA harness: `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/`.
+  QA harness: `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/screens/latest/`.
 - **Key docs:** `docs/living/prd.md` (the V2.2 vision+spec) · `project/feedback/history/2026-06-26-prd-human-feedback.md` Block N (the
   authoritative decisions) · `docs/living/ui-design.md` (woodblock/ink bible — the renderer is built to it) ·
   `docs/living/fun-factor.md` · `docs/living/qa-playtesting.md` (the __qa harness + fun-proxies) ·
@@ -47,10 +47,10 @@ metadata:
   and `src/` (all game code + the web entry + dev/QA scripts). The ADR ledger is `docs/living/decisions.md`.
 - **Phase update — v0.2 BUILT + RE-AUDITED (2026-06-27/28).** The battery audit (below) was acted on: an
   autonomous **v0.2** build (tag **`v0.2`**; baseline tagged **`v0.1`**) fixed the top findings, then got its
-  **own de-duplicated battery report** ([`state-of-the-game-v0.2-2026-06-28.md`](../audit/state-of-the-game-v0.2-2026-06-28.md)).
+  **own de-duplicated battery report** ([`state-of-the-game-v0.2-2026-06-28.md`](../audit/reports/state-of-the-game-v0.2-2026-06-28.md)).
   **Final v0.2 scores** (battery-reconciled): **Fun 4.5→6.0 · UI 7→8.5 · PRD-faithful 6.5→8 · README-spirit
   7→7.5 · human-feedback 7.5→8.5 · Incremental 4.5→7 · Laziness 4.5→3 · roadmap 5→7**. **99 tests green.**
-  Changelog: `project/audit/v0.2-changelog.md`. What v0.2 added:
+  Changelog: `project/audit/reports/v0.2-changelog.md`. What v0.2 added:
   graded combat curve + kendo stance decision (seed-robust forecast, first fight in the signed 20–35% band),
   work→skill→yield reinvestment + cook/estate/attribute sinks (no more dead values), R3 chapter-close + dream-2
   payoff + a greyed House-Influence 家威 macro **teaser**, the cold-open screen, log ×N, real RED→GREEN tests,
@@ -58,7 +58,7 @@ metadata:
   *engine* (still only a teaser) + the human's H1–H6 + a few v0.2 tuning rough-edges (durability friction,
   slower grind). The 6 H-items were deliberately NOT decided.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
-  **[`project/audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md)** (CONVERGED) +
+  **[`project/audit/reports/state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
   PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 · Incremental 4.5 · Laziness 4.5/10. Verdict: a
   **beautifully-built chassis with no engine** (now substantially addressed by v0.2 above). 10 M3 guardrails
@@ -75,4 +75,4 @@ metadata:
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:
-  `project/audit/qa-0[1-9]-*.png`.
+  `project/audit/screens/latest/qa-0[1-9]-*.png`.

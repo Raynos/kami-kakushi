@@ -10,9 +10,9 @@
 > vision, plus live perf + save-layer probes); (3) two **fan-out audit waves** — wave 1 = 8 scored lenses + a
 > reconciliation critic; wave 2 = 6 blind-spot/verification lenses + a convergence critic; (4) **firsthand
 > adversarial verification** of every new high-severity code claim. Raw verdicts:
-> [`project/brainstorms/raw/2026-06-27-wave1-multi-angle-audit.json`](../brainstorms/raw/2026-06-27-wave1-multi-angle-audit.json)
-> + [`…-wave2-blindspots-audit.json`](../brainstorms/raw/2026-06-27-wave2-blindspots-audit.json); firsthand fact
-> base [`tmp/audit-ground-truth.md`](../../tmp/audit-ground-truth.md).
+> [`project/brainstorms/raw/2026-06-27-wave1-multi-angle-audit.json`](../../brainstorms/raw/2026-06-27-wave1-multi-angle-audit.json)
+> + [`…-wave2-blindspots-audit.json`](../../brainstorms/raw/2026-06-27-wave2-blindspots-audit.json); firsthand fact
+> base [`tmp/audit-ground-truth.md`](../../../tmp/audit-ground-truth.md).
 >
 > **Build state at audit time:** `npm run verify` GREEN (tsc strict + ESLint pure-core boundary + Prettier +
 > **51 vitest tests** + verify-content + `gen:docs --check`). Runtime console clean (one minor a11y warning).
@@ -259,7 +259,7 @@ Prioritized. Severity = player impact; effort = build cost. (Most are small/medi
 ## 5 · Decisions & questions for the human
 
 Six forks only you can close — filed as **H1–H6** in
-[`project/human-in-the-loop/decisions.md`](../human-in-the-loop/decisions.md):
+[`project/human-in-the-loop/decisions.md`](../../human-in-the-loop/decisions.md):
 
 1. **Pacing-floor visibility** — re-tune ≥1 rung to the real ≥30-min floor + back-fill a time-per-rung report
    now, or leave it unmeasurable until M6? *(Rec: keep DEMO for velocity but ship a flag-gated REAL profile +
@@ -356,7 +356,7 @@ Concrete, checkable gates to add to the M3a/M3b DoD:
 ## 7 · Method, evidence & wave log
 
 - **Wave 0 (firsthand):** code audit of all `src/` + a live browser playtest (cold-open → R3 → 60 combat grinds
-  → desktop+mobile) → [`tmp/audit-ground-truth.md`](../../tmp/audit-ground-truth.md). Firsthand perf (0.6 ms/
+  → desktop+mobile) → [`tmp/audit-ground-truth.md`](../../../tmp/audit-ground-truth.md). Firsthand perf (0.6 ms/
   render) + save-layer probes.
 - **Wave 1 (8 lenses + reconciliation critic):** fun, ui-polish, prd-faithful, readme-spirit, human-feedback,
   incremental, code+laziness, roadmap-guardrails. The critic caught a real over-credit (no test asserts the

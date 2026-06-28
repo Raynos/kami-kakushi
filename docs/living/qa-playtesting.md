@@ -227,7 +227,7 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   restart; until then the game is headful but harmless (no pointer-lock to steal the cursor).
 - **The [`capture-game-states`](../../.claude/skills) skill:** the project's purpose-built driver for
   "drive the game headlessly and screenshot/record its states" — the front door for the §4 visual loop
-  and audit sweeps; outputs land in [`audit/`](../../project/audit).
+  and audit sweeps; outputs land in [`audit/screens/latest/`](../../project/audit/screens/latest).
 - **Where the harness lives:** `src/app/` (the composition root) installs `window.__qa` under
   `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the screenshot/playtest drivers are
   tracked at `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs`. The auto-player + fun-proxy collectors

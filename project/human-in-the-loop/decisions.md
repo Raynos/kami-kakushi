@@ -16,7 +16,7 @@ Resolved decisions graduate into the ADR log: [`../docs/living/decisions.md`](..
 -->
 
 > Seeded 2026-06-27 from the state-of-the-game battery audit
-> ([`../audit/state-of-the-game-2026-06-27.md`](../audit/state-of-the-game-2026-06-27.md) §5).
+> ([`../audit/reports/state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md) §5).
 
 ### H1 🔲 — Make the signed ≥30-min/rung pacing floor visible before M6
 - **Question / fork:** The signed ≥30-min-per-rung floor is both demo-tuned-away (rungs clear in 7/15/24/40 acts = minutes) AND uninstrumented (no pacing tool exists). Re-tune ≥1 rung to the real floor + back-fill a time-per-rung report now, or leave the central fun bet unmeasurable until M6?

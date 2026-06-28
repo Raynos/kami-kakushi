@@ -1,17 +1,41 @@
 # audit/
 
-QA output — screenshots and recordings of the game's visual states, produced by the
-[`capture-game-states`](../../.claude/skills/capture-game-states/SKILL.md) skill, plus a written
-findings doc per pass.
+QA output — the **written findings** and the **captured visual states** of the game, produced by the
+[`capture-game-states`](../../.claude/skills/capture-game-states/SKILL.md) skill and the headless
+`src/scripts/qa-shots.mjs` harness.
 
-## Convention
+Two concerns, two folders:
 
-- **One subfolder per audit pass**, dated/named for what it covers — e.g. `audit/baseline/`,
-  `audit/2026-06-25-first-slice/`.
-- Each pass folder holds its captured frames (`.jpg`/`.png`), any recordings (`.webm`), and an
-  **`AUDIT.md`** with the findings.
+```
+audit/
+  reports/   ← the text deliverables: battery audits + changelogs
+  screens/   ← captured frames (.png/.webm), one subfolder per pass
+```
 
-## AUDIT.md shape
+## reports/
+
+The written, code-grounded reviews — read these for *what the audits concluded*:
+
+- `state-of-the-game-<date>.md` — a full state-of-the-game **battery audit** (multi-lens, scored).
+- `v0.2-changelog.md` (and future changelogs) — what a given build actually changed.
+
+These are linked from `project/status/project-status.md`, `project/human-in-the-loop/`, and the ADR log,
+so keep their filenames stable.
+
+## screens/
+
+Captured frames and recordings, **one subfolder per pass**:
+
+- **`screens/latest/`** — the live gallery, **regenerated** by `src/scripts/qa-shots.mjs` (it writes
+  `qa-*.png` here and overwrites each run). Undated on purpose: it always reflects the current build.
+- **`screens/<date>-<slug>/`** — a **dated**, one-off capture pass kept as a historical snapshot
+  (e.g. `2026-06-26-m1-build/`, `2026-06-27-log-cascade/`, `2026-06-27-settings/`). These are not
+  regenerated.
+
+A pass that carries its own written findings puts an **`AUDIT.md`** in its folder alongside the frames,
+in the shape below.
+
+### AUDIT.md shape
 
 ```
 # {Pass name} — {date}{ · optional score}
