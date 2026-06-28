@@ -43,3 +43,32 @@ than the source's loose "run agents in parallel."
 **NEXT (the human's):** unchanged — action H1–H6, then build the macro engine. The battery skill is ready for the
 **next** gate (e.g. a pre-macro-engine spec battery, or a v0.3 build battery — pick a fresh lens from the
 registry's "never yet run" list).
+
+---
+
+## Addendum — Operating Model v2 (process retro → draft for sign-off)
+
+Jake pushed past the tactical skills (H7–H9) to the real question: **why is there so much babysitting,
+and what high-level process change reduces it.** Did a deep retro of the last 3 days and drafted a full
+operating-model proposal.
+
+- **Draft:** [`project/brainstorms/2026-06-28-operating-model-v2.md`](../brainstorms/2026-06-28-operating-model-v2.md)
+  — PROPOSAL, pending Jake's sign-off (it changes CLAUDE.md + the milestone model).
+- **Thesis:** autonomy is a *feedback-loop* problem, not a spec-completeness one — the 7k PRD bought
+  *less* autonomy. Babysitting = 4 taxes on Jake's attention (Detection / Redirection / Verification /
+  Repetition), each with one root cause + one fix.
+- **Organizing principle — the Enforcement Ladder:** Gate > Hook > Skill > Rule. Push every quality rule
+  as far up as it'll go. Key finding: the project lives mostly on rung 4 (norms); the one hook checks
+  *journal only*; `verify` has **no fun/pacing/playcheck**; `pacing:check` exists but **isn't wired into
+  `verify`**. Lots of un-skippable enforcement is one wiring change away.
+- **Five systems:** #1 Experience Gate (`playcheck` — the keystone; substrate already in `__qa`), #2
+  Fun-slice Roadmap re-axe + Slice-DoD manifest (folds in H7, answers H4), #3 Honest-by-default self-
+  audit (battery, built), #4 Design-by-Divergence (`diverge` skill — Jake explicitly wants 3 variants
+  for everything), #5 Corrections→Checks (the meta-lever — babysitting decays). Plus #0: make the
+  pre-commit hook run the gate, not just the journal.
+- **Re-axed roadmap proposed:** S0 Hook (shipped) · S1 Inner-Loop-closes (ratify/expose v0.2) · S2 Macro
+  Horizon (the audit's #1 gap) · S3 Valley breadth · S4 Region payoff — each fun-complete, DoD =
+  playcheck-green.
+
+**NEXT:** Jake reacts to the draft → I turn the signed parts into ADRs + a CLAUDE.md/roadmap rewrite,
+then build in dependency order (#0 hook first, #1 playcheck keystone next).
