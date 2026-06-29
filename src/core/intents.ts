@@ -31,6 +31,7 @@ import {
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
+import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
   getActivity,
   activityLine,
@@ -82,6 +83,20 @@ function finish(state: GameState): GameState {
   return revealPass(promoteRungs(state));
 }
 
+/** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
+ *  diegetic mentor, D-039/D-063 — the log IS the surface, never a popup). Advances the cursor. */
+function deliverDialogue(state: GameState, dialogueId: string): GameState {
+  const fresh = nextDialogueLines(dialogueId, new Set(state.deliveredDialogue), state.flags);
+  if (fresh.length === 0) return state;
+  const next: GameState = {
+    ...state,
+    deliveredDialogue: [...state.deliveredDialogue, ...fresh.map((l) => l.id)],
+  };
+  return applyRewards(next, {
+    log: fresh.map((l) => ({ channel: 'narration' as const, text: l.text })),
+  });
+}
+
 export function reduce(state: GameState, intent: Intent): GameState {
   let next = state;
   switch (intent.type) {
@@ -96,6 +111,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           { channel: 'narration', text: COLD_OPEN.dream },
         ],
       });
+      // the labour mentor Genemon greets you and teaches the rake→koku loop as STORY (T0-M1-F3).
+      next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID);
       break;
     }
     case 'rake_rice': {
@@ -106,6 +123,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
         flags: ['raked'],
         log: [{ channel: 'reward', text: rakeLine(RICE_PER_RAKE) }],
       });
+      // reveal-as-plot: once you've actually raked, Genemon's gated acknowledgment lands.
+      next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID);
       next = accrueRungMeter(next, 'rake_rice');
       next = advanceClock(next, TICKS_PER_ACT);
       break;

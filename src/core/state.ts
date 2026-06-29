@@ -83,6 +83,8 @@ export interface GameState {
   // ── progression (M1+, additive) ──
   /** Per-skill XP; level is derived (PRD §4.5). */
   readonly skillXp: Readonly<Partial<Record<SkillId, number>>>;
+  /** Ids of dialogue lines already delivered (the diegetic-mentor cursor, D-039/D-063). */
+  readonly deliveredDialogue: readonly string[];
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
@@ -135,6 +137,7 @@ export function createInitialState(
     unlocked: ['screen-cold-open', 'verb-open-eyes'],
     log: emptyLog(),
     skillXp: {},
+    deliveredDialogue: [],
     rung: 'R0',
     rungMeter: 0,
     estateStage: 0,

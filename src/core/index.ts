@@ -114,6 +114,14 @@ export type { LabourOption } from './selectors';
 export type { LogEntry, LogState, LogChannel } from './log';
 
 export { NAMES } from './content/names';
+export {
+  DIALOGUES,
+  DIALOGUE_IDS,
+  getDialogue,
+  nextDialogueLines,
+  COLD_OPEN_DIALOGUE_ID,
+} from './content/dialogue';
+export type { DialogueLine, DialogueDef } from './content/dialogue';
 export * as balance from './content/balance';
 
 export {

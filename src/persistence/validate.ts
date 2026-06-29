@@ -155,6 +155,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'unlocked'
     | 'log'
     | 'skillXp'
+    | 'deliveredDialogue'
     | 'rung'
     | 'rungMeter'
     | 'estateStage'
@@ -194,6 +195,7 @@ export function validateState(rawState: unknown): ValidateResult {
       seq: log.seq,
     } as unknown as GameState['log'],
     skillXp: base.skillXp ?? {},
+    deliveredDialogue: Array.isArray(base.deliveredDialogue) ? base.deliveredDialogue : [],
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,

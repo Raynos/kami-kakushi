@@ -118,6 +118,30 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
   });
 });
 
+// T0-M1-F3 — the diegetic labour mentor Genemon greets + teaches, data-not-script, in the
+// story LOG (not a popup, D-039/D-063/D-064); the gated acknowledgment is reveal-as-plot.
+describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
+  it('Genemon greets on waking and teaches the rake loop as story', () => {
+    const s = reduce(createInitialState(1), { type: 'open_eyes' });
+    expect(s.deliveredDialogue).toContain('gen-greet');
+    expect(s.deliveredDialogue).toContain('gen-rake'); // teaches rake→koku
+    expect(s.log.entries.some((e) => e.channel === 'narration' && e.text.includes('Genemon'))).toBe(
+      true,
+    );
+    expect(s.deliveredDialogue).not.toContain('gen-kept'); // gated until you've raked
+  });
+
+  it('the gated acknowledgment lands only after you actually rake (reveal-as-plot)', () => {
+    let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    s = reduce(s, { type: 'rake_rice' });
+    expect(s.deliveredDialogue).toContain('gen-kept');
+    // …and it never double-delivers
+    const before = s.deliveredDialogue.length;
+    s = reduce(s, { type: 'rake_rice' });
+    expect(s.deliveredDialogue.length).toBe(before);
+  });
+});
+
 describe('conditioning enablement gate (the danger ring)', () => {
   it('foraging is locked until conditioning reaches the gate level', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });

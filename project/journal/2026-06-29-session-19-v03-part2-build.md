@@ -194,10 +194,19 @@ playtestable v0.3, rewrite R1 → a T0 M0–M4 review. Durable plan: `docs/plans
   Ascend live in one call), `__qa.toTier()`; fixed `selectors.tier` (was hard-coded 0). Smoke-tested headless, no
   console errors. These let the human reach the spine/ascension/breadth fast in the playtest.
 
+## 12 · OVERNIGHT — T0-M4 breadth integration (running)
+
+Wiring the authored leaf modules into the spine, each verify-green + tested:
+- **P7 mentor dialogue (Genemon) — DONE** (T0-M1-F3/D-039). `dialogue.ts` data-not-script registry + pure cursor;
+  Genemon greets on waking + teaches rake→koku as STORY routed into the **log** (not a popup → no new surface →
+  no diverge); gated acknowledgment lands reveal-as-plot after the first rake. New `deliveredDialogue` state
+  (additive). 9 module tests + 2 integration. Screenshot `breadth/genemon-greet.png`. (Cold-open is now text-heavy
+  — flag for R1.)
+
 ## Next intended steps (current)
-1. **NEXT** (overnight): wire the leaf modules — P7 mentor dialogue · P3 found/crafted weapon · T0-M4 quests/
-   market/walkable-map · stance/ability reveals (each + a lean diverge + a real test) → then retire the DEMO/REAL
-   fork (M2·8) → the PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint.
+1. **NEXT** (overnight): P3 found/crafted weapon · T0-M4 quests + Quests tab · market · walkable map · stance/
+   ability reveals → retire the DEMO/REAL fork (M2·8) → the PRD/human-feedback/ADR **battery** → R1→T0 M0–M4
+   review + QA gallery + checkpoint-push.
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.
