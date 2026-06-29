@@ -16,9 +16,11 @@ metadata:
   only through perseverance; no reset. (Spec: `docs/living/prd.md`.)
 - **Phase:** **PRD at V2.3** (the 6-tier reshape — ADRs D-048–D-069 + 5 forks — rippled into the body 2026-06-29,
   Part 1 of `path-to-v0.3`). **⭐ Part 2 (the v0.3 build) is BUILT END-TO-END (session-19): the T0 M0–M4 arc is
-  PLAYTESTABLE** — the macro spine demonstrably CLOSES (tier 0→1 ascension fires) + the T0-M4 breadth is wired +
-  an 8-lens fidelity battery passed (prd 9 / adr 8.5 / human-fb 8). **Now awaiting the human's R1 play/taste call**
-  (+ the R4 judgment queue). The earlier **DEMO (M0+M1+M2) built & POLISHED against PRD V2.2** is the v0.3 floor. The overnight
+  PLAYTESTABLE** — the macro spine demonstrably CLOSES (tier 0→1 ascension fires, proven by an end-to-end
+  real-intent test `src/core/t0-arc.test.ts`) + the T0-M4 breadth is wired + **M2·8 DONE** (DEMO/REAL fork retired,
+  real ~5-min cold-open pace) + an 8-lens fidelity battery (prd 9 / adr 8.5 / human-fb 8) **AND a post-M2·8
+  adversarial re-audit both passed — independently confirmed ship-quality** (231 tests green). **Now awaiting the
+  human's R1 play/taste call** (+ the R4 judgment queue). The earlier **DEMO (M0+M1+M2) built & POLISHED against PRD V2.2** is the v0.3 floor. The overnight
   build session (2026-06-26, `project/journal/2026-06-26-session-02-overnight-build.md`) + a 2026-06-27
   human-directed **repo reorg** (the 3-dir tree above) and first-playthrough UX fixes (log cascade
   newest-at-bottom, bigger/indigo Settings ✕, modal closes on new-game). Live human feedback now lands in
