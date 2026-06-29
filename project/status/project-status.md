@@ -164,6 +164,21 @@ metadata:
   multiple agents may edit the tree at once), **don't-fight-someone-else's-red**. Commits `a7608a9`→`2813e6a`,
   all on `origin/main`, green. *(Note: another agent landed `22cf15c` HP-carry combat — Movement-1 work —
   during this session.)* Journal: `project/journal/2026-06-29-session-18-gh-pages-deploy.md`.
+- **Phase update — v0.3 PART 2 BUILD IN PROGRESS (2026-06-29, session-19).** Full mandate to build
+  `path-to-v0.3` Part 2 end-to-end with parallelism. Done so far (all `verify`-green; journal:
+  `project/journal/2026-06-29-session-19-v03-part2-build.md`): **(audit)** a 21-agent source-fidelity Workflow +
+  headless built-game pass → the **re-baseline gap report** (`project/audit/reports/2026-06-29-t0-m1-m2-rebaseline.md`,
+  27🟢/10🟡/14🔴). **(Movement 1 combat-correctness)** P1 **HP-carry/heal-by-eating** (D-050 — `mcCombatStats`
+  reads carried HP, 3 non-eating heals removed, `cook_meal` mends HP); P2 **no-stance-dominated** (Pareto-lever
+  test); P4 **no-stranding** (eat+repair reaches L2, 8 seeds). **(Movement 2 spine — THE LOOP CLOSES)** M2·1 schema
+  (`tier`+`influence`, SCHEMA_VERSION 1→2, real v1→v2 migrate) · M2·2 R7 capstone (thin R4→R7, R3 dead-end fixed,
+  `t0-capstone`→Phase 2) · M2·3 `pillars.ts` (Phase-2-gated, per-deed-capped Estate deeds) · M2·4 seasonal judge
+  (new-high-water, 70/30, ±10%, day-keyed) · M2·5 `ascension.ts` (gate=Estate≥EXCELLENT, manual opt-in, tier 0→1,
+  grade-scaled boon, dream beat) **+ a reducer-driven spine-closure test**. A **6-module scatter-gather Workflow**
+  authored the disjoint leaf modules (sfx/dialogue/quests/crafting/map/market — raw at
+  `project/brainstorms/raw/2026-06-29-v03-leaf-modules-authoring.json`), staged for integration. **Remaining:** M2·6
+  live-Estate UI (DIVERGE) · M2·8 retire DEMO/REAL fork + DEV tools · integrate the leaves · M3 flywheel + stance
+  reveals · roadmap-respect verification. ⚠️ **Shared tree** — another agent committing concurrently; explicit-path staging only.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -181,7 +196,7 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-18-gh-pages-deploy.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-19-v03-part2-build.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
      the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (**Part 1 done → Part 2 next**) + its
      executed reshape-mapping spec `project/archive/2026-06-29-part1-ripple-spec.md` (the OLD→NEW tier mapping +
