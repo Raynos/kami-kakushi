@@ -48,3 +48,13 @@ Human approved 2 of the 4 candidates: **B** (brittle-RNG-test warning → `tests
 on RNG paths, never exact seeded values) and **C** (false-green / mutation check → `SKILL.md` new "Confirm
 the test has teeth" section). **Declined A** (keep the verbatim trigger description) and **D** (commit-cadence
 note). Also launched a subagent to copy the upstream `productivity/handoff` skill into `.claude/skills/handoff/`.
+
+## Addendum 2 — `handoff` skill adopted (via subagent)
+Copied the upstream `productivity/handoff` skill into `.claude/skills/handoff/SKILL.md` ~1:1 (a single
+file; the source is one file). Frontmatter verbatim, incl. `argument-hint` + `disable-model-invocation:
+true` (user-invoked only — `/handoff` won't auto-fire). Two adaptations (diff-verified): save location →
+repo-local git-ignored `tmp/` (CLAUDE.md forbids the global scratchpad); the artifact list + a note map it
+onto our resumability machinery (`project/journal/` + `project/status/project-status.md`) — the handoff doc
+is a transient `tmp/` aid for one fresh agent, NOT a replacement for the journal/status. Verbatim source
+snapshot left at `tmp/handoff-src/` (git-ignored). Committed scoped (subagent did no git, per the shared-tree
+hazard).
