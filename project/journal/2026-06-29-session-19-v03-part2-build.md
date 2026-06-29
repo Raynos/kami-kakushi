@@ -11,15 +11,21 @@ T0→T1 ascension), Movement 3 (the **T0-M4 breadth**: quest, koku flywheel, mar
 2nd weapon) — **and verify the v0.3 build respects the roadmap**. Running autonomously: many small verify-green
 commits, `diverge` on new UI surfaces, milestone-integrity (D-054) so every DoD line resolves to a real test.
 
-**Where it stands:** Movement-1 **audit is done** (the gate for everything downstream). A 21-agent source-code
-fidelity Workflow + a headless built-game pass produced the
-[gap report](../audit/reports/2026-06-29-t0-m1-m2-rebaseline.md): **27 🟢 / 10 🟡 / 14 🔴 across 51 DoD lines**,
-zero NEEDS-HUMAN conflicts. Verdict: the **foundation is PRD-faithful** (cold-open, labour ladder, signed
-20–35% first-fight band, DISPLAYED==TESTED — all clean), the **spine/combat-correctness contracts are not**
-(HP-carry D-050 absent, 2nd weapon still a grant, no-stance-dominated test missing, no-stranding property
-*violated* 8/8 seeds, estate sink power-neutral, mentor/dialogue + SFX wholly unbuilt). The report cleanly
-splits **true re-baseline gaps** (fix in 0c) from **expected v0.3 mutation targets** (influence state = M2,
-yield-estate = M3).
+**Where it ended (⭐ v0.3 is BUILT + PLAYTESTABLE):** all three movements shipped to `origin/main`, **220 tests
+green**, every commit verify-green. **Movement 1** re-baselined combat (HP-carry/heal-by-eating D-050,
+no-stance-dominated, no-stranding). **Movement 2** built the macro spine that **demonstrably CLOSES** — R7
+capstone → Phase 2 → Phase-2-gated capped Estate deeds → the 70/30 ±10% seasonal judge → the **BIG T0→T1
+ascension** (proven by a reducer test AND a headless UI playthrough: the ceremony fires, tier 0→1). **Movement 3**
+wired all 5 breadth leaves (diegetic dialogue mentor · loot→craft 2nd weapon · quests · market · walkable map),
+2 of them via full `diverge`. Then an **8-lens fidelity battery** (the human's 3 explicit lenses — prd/adr/human-fb
+— + fun/ui/incremental/economy/laziness) returned **prd 9 / adr 8.5 / human-fb 8**: *the game the PRD promised is
+built and honest; the first-10-min FEEL isn't tuned yet.* **7 self-resolvable findings applied** (cold-open
+reveal-as-plot gating, ascension seal scrim, seasonal-judge geometric-inflation fix, dead-value ratchet covers
+loot mats, no-stranding de-tautologised, +2 RED-able guards). The **6 design/taste calls** the battery surfaced
+are routed to **R4** (incl. the deferred D-056 DEMO/REAL fork retirement — needs the human's pacing-number
+sign-off, not a unilateral call). **R1 is now the T0 M0–M4 playtest review** with a DEV-tools playbook + the
+curated `v03-gallery/`. *(The original mid-session "where it stands" — Movement-1 audit only — is preserved in §1
+below as the historical gate.)*
 
 ---
 
@@ -276,19 +282,28 @@ zero production change, hardening LOCKED criteria):
   differing ONLY in the knot/dream flags produce byte-identical `mcCombatStats` + `hpMax` + labour koku yield — locks
   the no-magic / mediocre-start acceptance criterion against anyone wiring the dream to a stat.
 
-## Next intended steps (current)
-1. **Battery completes → synthesize the report + act on self-resolvable findings; route the rest to ADRs/H-R items.**
-2. Then: project-status current → final journal → checkpoint-push. (Deferred-by-design + the M2·8 fork retirement
-   remain the documented post-playtest backlog.)
-   **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
-   the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
-2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.
-3. **Movement 3** (T0-M4 breadth: quests/map/market leaves + flywheel + stance reveals) → roadmap-respect verify.
-2. **Integrate the leaf modules** as the Workflow returns: M1 leaves (sfx P8, dialogue P7, crafting P3) into
-   Movement-1; M4 leaves (quests, map, market) AFTER the spine closes (spine-first).
-3. **P1c** auto-loop eat-to-heal (`main.ts`), **P9** touch-legible wear axis (`render.ts`), **M2·8** retire
-   DEMO/REAL fork + DEV speed/teleport.
-4. Then Movement 3 (T0-M4 breadth) → roadmap-respect verification.
+## 15 · SESSION CLOSE — ⭐ v0.3 shipped & playtestable; the ball is in the human's court
+
+The overnight mandate is **DONE**. The v0.3 T0 M0–M4 arc is built, fidelity-battered, and on `origin/main`
+(220 tests green, all verify-green). Final wrap actions this close:
+- **Battery report synthesized** + **7 self-resolvable findings applied** (§14): 5 fixes + 2 RED-able guards.
+- **Gallery refreshed:** re-captured `v03-gallery/01-cold-open-genemon.png` (the now-lean Genemon hook) +
+  `04-ascension-ceremony.png` (the seal-scrim fix) — the 2 shots the fixes invalidated. No console errors.
+- **R1 reconciled** to the post-fix reality + pointed at the curated `v03-gallery/` (START HERE).
+- **Live snapshot** (`project-status.md`) + this journal updated; every checkpoint pushed to `main`.
+
+**What's left is the HUMAN's, not the agent's** (all non-blocking, all in `human-in-the-loop/review.md`):
+- **R1** — play the T0 M0–M4 build (DEV playbook: `__qa.speed(8)`, `jumpToPhase2()`, `jumpToAscension()`,
+  `toRung()`); the fun/pacing/look taste verdict.
+- **R4 — the 6 design/taste calls** the battery surfaced. The load-bearing one is **#2: retire the DEMO/REAL
+  fork + sign off re-derived T0 pacing** (M2·8 — deliberately NOT done unilaterally; it's a 13-file pacing-gate
+  refactor that needs the human's number sign-off on ~10–15 min/rung + the ≥30-min floor gated from T1). Also:
+  #1 D-053 wall-time clock (an ADR self-contradiction only the human can resolve), #3 auto-combat tension, #5
+  breadth-as-chrome, #6 koku↔win-condition coupling.
+- **R2 / R3** — override-or-confirm the diverge self-picks (influence panel / breadth surfaces).
+
+**The agent's stopping point is correct:** everything past here changes *what the game is* (locked pacing intent,
+ADR contradictions, design forks) — CLAUDE.md's "stop and ask" boundary. Next session resumes from R1/R4 verdicts.
 
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
