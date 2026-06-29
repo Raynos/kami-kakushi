@@ -36,7 +36,11 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   - `__qa.jumpToPhase2()` — jump to the R7 capstone (the live macro spine, Phase 2 open).
   - `__qa.jumpToAscension()` — jump to Estate **Excellent**, the **Ascend** button live (click it for the ceremony).
   - `__qa.toRung('R3')` — fast-forward via real intents to a rung; `__qa.faceWolf()` the humbling fight.
-  - (Base pacing is provisional/liquid (D-059); the DEV speed + teleports give review velocity.)
+  - **⏱ Pacing note (M2·8, NEW):** the DEMO/REAL fork is **retired** — the build now runs at the **real** pace
+    (R0 ≈ **5-min** cold-open of raking, the climb rungs ≈ **10–15 min** each; the full T0 ladder ≈ 1.5–2 h).
+    So **use `__qa.speed(8)`** (or the teleports) to review without real-time grinding. The numbers are **liquid
+    (D-059)** — tell me to nudge any rung if the feel is off. (An end-to-end test proves the whole arc closes
+    under real play: `src/core/t0-arc.test.ts`.)
 - **Galleries to skim:** **`audit/screens/v03-gallery/` (the curated 8-shot v0.3 tour — START HERE;** cold-open →
   live spine → ascension-ready → the ceremony → quests → combat+craft → market → map; shots 01 & 04 re-captured
   post-fix). Plus `audit/screens/breadth/` (Genemon onboarding, craft panel, Quests tab),
@@ -44,7 +48,8 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   The fidelity **battery** report (`audit/reports/2026-06-29-v03-fidelity-battery.md`) + the roadmap-respect report
   are the agent's self-vetting; this is the taste call they inform but can't replace.
 - **Known, flagged for your call:** the cold-open sequencing (now re-sequenced — confirm or tune, R4#4); the
-  DEMO/REAL pacing fork is **not yet retired** (D-056 pending, R4#2); diverge picks are **R2** (influence panel) +
+  DEMO/REAL pacing fork is now **RETIRED** (M2·8 — R4#2 closed; the real ~5-min/~10–15-min pace is liquid, confirm
+  the feel by playtest); diverge picks are **R2** (influence panel) +
   **R3** (breadth surfaces). The full battery judgment queue is **R4** (6 design/taste calls).
 - **Verdict:** _(awaiting the human)_
 
