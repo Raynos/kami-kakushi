@@ -11,3 +11,7 @@
   - The full 8-lens battery on the BUILT v0.3: faithful to locked intent (prd **9** / adr **8.5** / human-feedback **8**);
     gaps are 2 known-pending locked-ADR items, 2 false-green test guards, and the moment-to-moment T0 fun/pacing. The
     6 design/taste calls it surfaced are the **R4** queue in [`human-in-the-loop/review.md`](human-in-the-loop/review.md).
+- [ ] **[`project/audit/reports/2026-06-30-v0.3-changelog.md`](audit/reports/2026-06-30-v0.3-changelog.md)** — *the v0.3 release summary (START HERE)*
+  - A one-page, human-facing distillation of everything v0.3 adds over v0.2 (the macro spine that closes, combat
+    re-baseline, the T0-M4 breadth, the M2·8 fork-retire) + how it was vetted (battery + adversarial re-audit + e2e
+    proofs + prod-build check) + exactly what's left for you (R1/R4). The fastest way to orient before playtesting.
