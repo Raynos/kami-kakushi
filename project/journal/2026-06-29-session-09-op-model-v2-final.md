@@ -221,3 +221,27 @@ header with its date already in-title.) One-shot backfill via a throwaway `tmp/`
 **Files:** `docs/living/decisions.md`.
 
 **Next:** the staleness audit (a fan-out workflow over the ADR log → annotate the stale/superseded ones).
+
+---
+
+## Build log — ADR staleness audit — DONE (human request)
+
+**What:** ran a 5-batch fan-out workflow over the 74 ADRs (each batch verified by a convergence critic against
+the actual bodies). Applied **15 annotations**:
+- **10 supersessions** (heading was ✅ + clean; a later reshape amended it): D-007/008/012/013/016/017/018/028,
+  the D-043 group header, and the **D-056…D-069 batch header** (which still said op-model v2 was "deferred/HELD"
+  — now `⛔ SUPERSEDED by D-072–D-074`).
+- **5 tier-renumber notes** (decision holds, tier number dated): D-009/010/014/026/040 (incl. fixing **Edo T4→T5**).
+- Added the **`🔁 Amended`** marker to the legend.
+
+**Skipped deliberately** (documented in the report): 6 negligible "leave" ADRs (D-019/023/030/031/035/047),
+low-confidence **D-036** (the auditor's "no Origin pillar" was a misread — Origin is a *faction*), and the
+`prd.md §X` deep-links (PRD-split repointing for the future content ripple, **not** decision staleness).
+
+Report: `project/audit/reports/2026-06-29-adr-staleness-audit.md`; raw snapshot in `project/brainstorms/raw/`.
+
+**Files:** `docs/living/decisions.md` (15 annotations + legend) · `project/audit/reports/2026-06-29-adr-staleness-audit.md` (new).
+
+**Session 09 complete:** op-model v2 FINAL built A–F + reviewed/hardened + the PRD split + `created_date`
+backfill + this ADR staleness audit. The decision log is now internally consistent with the post-reshape,
+post-v2 reality.

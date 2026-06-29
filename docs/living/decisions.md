@@ -7,7 +7,7 @@
 Append-only record of **locked decisions** and *why*. One entry per decision, numbered `D-000…`,
 **IDs never reused**.
 
-**Status:** ✅ Decided · 🛠 In design · ⏭ Deferred · ⛔ Reversed
+**Status:** ✅ Decided · 🛠 In design · ⏭ Deferred · ⛔ Reversed · 🔁 Amended (a clause superseded; the core decision holds — see the entry's note)
 
 **Dating:** every entry carries a **`- **created_date:** YYYY-MM-DD`** first bullet (the day it was locked).
 With newest-steer-wins, the date is what disambiguates which call is current when two ADRs touch the same
@@ -84,6 +84,10 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Amendment (2026-06-25):** Identity is now a **side thread**, not a load-bearing act-spine beat. Kept: fixed **male**, **no rename**, true name **Tahei**. Changed: the true-name reveal is a **late, de-emphasised side beat** (no longer an "Act 4" climax), and the protagonist age band is **~18–20** (was "17"). The estate-restoration spine (D-007), not the identity mystery, carries the late game.
 
 ### D-007 ✅ — Estate-restoration spine + five tiers replace prestige (no reset)
+
+> 🔁 **Amended 2026-06-28 by [D-048].** The "five tiers / T0–T4" enumeration + tier→number map are superseded by
+> the **6-tier reshape** (T0 tutorial + T1 full-estate split out; Village/Region/Castle/Edo shift up; v1 = T0→T3).
+> The estate-spine-replaces-prestige / no-reset core is unchanged.
 - **created_date:** 2026-06-25
 - **Context:** D-004 had committed to a diegetic late-game reset for the incremental long tail. The session-02 lock reframed the whole game around restoring a lower-samurai house, which supplies the long tail without a soft-restart.
 - **Options:** (A) Keep the diegetic reset (D-004) · (B) Tiered estate-restoration spine with everything persistent · (C) Classic abstract prestige loop.
@@ -92,6 +96,10 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Reverses **D-004**. Save schema is monotonic/persistent (no reset path). Castle-town takeover is multi-route (peaceful office/economy/marriage/out-maneuvering AND assertive martial-security), and "take over" = become the dominant house holding key domain offices — never open rebellion against the bakufu.
 
 ### D-008 ✅ — Three starter factions + four-pillar House Influence with per-tier required-pillar gating
+
+> 🔁 **Amended 2026-06-28 by [D-048] (+ D-028/D-049).** The per-tier *required-pillar-weighting* prose is
+> superseded by **one pillar per tier** (Estate→Arms→Office→Name) + the hybrid grade-gate. The four-pillar
+> resource, jump+seasonal accrual, and the trade ≤⅓ cap are unchanged.
 - **created_date:** 2026-06-25
 - **Context:** Need a faction structure and a macro-resource that drives tier progression without letting any single sub-engine (especially trade) dominate.
 - **Options:** Influence as one pooled number · trade-led economy · **multi-pillar achievement resource**; factions as one estate org vs. several parallel tracks.
@@ -100,6 +108,9 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Implement four pillar accumulators with the ⅓ trade cap and a seasonal judging tick; required-pillar thresholds become the data behind the D-007 tier gates; dents are scripted, recoverable events with no permanent loss.
 
 ### D-009 ✅ — Origin faction = the protagonist's living family & friends at Sawatari-juku
+
+> 🔁 **D-048 renumber (2026-06-28):** Region is now **T3** — read "opens at T2 Region" as T3. Access-only/no-power
+> + the Region payoff (D-055) are unchanged. (Origin is a *faction*, not a pillar — unaffected by the pillar map.)
 - **created_date:** 2026-06-25
 - **Context:** The origin/family thread needed a concrete cast and a place in the tier structure, and a rule to keep it from short-cutting the grind.
 - **Options:** Origin as a backstory flashback only · a mechanically rewarding home-town faction · an **access-only living support track**.
@@ -109,6 +120,9 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - *(Names later refined — decision unchanged: father **Kuranosuke → Jinpachi**; sweetheart **Ohana → Osen** (renamed to disambiguate from lost-child **Otsuru**). See canon / PRD §1.5.3 for current names.)*
 
 ### D-010 ✅ — Indirect/mediated Edo ceiling: the national banzuke ranks the house, not the man
+
+> 🔁 **D-048 renumber (2026-06-28):** Edo is now **T5** (the reshape adds a tier; the *banzuke* finale is T5 Edo,
+> beyond v1's T0→T3). The indirect-ceiling decision is unchanged.
 - **created_date:** 2026-06-25
 - **Context:** The Edo finale needed a ceiling that fits a grounded lower-samurai story — no fantasy ascension for the protagonist personally.
 - **Options:** (A) Personal rise to hatamoto/shogun proximity · (B) **Indirect/mediated recognition of the house** · (C) No national tier.
@@ -125,6 +139,10 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Arms-pillar accrual hooks into combat achievements; spawn tables exclude belief-creatures; loss is a soft setback only; combat conditioning is earned independently of labour.
 
 ### D-012 ✅ — Structure & scope: fresh ladder per tier, full maps every tier, v1 = Tiers 0–2
+
+> 🔁 **Amended by [D-048] + [D-032].** "v1 = Tiers 0–2" is now **v1 = T0→T3** (D-048 re-maps Estate→T0 tutorial
+> + T1; Village = T2, Region = T3 — same content, not a scope change); "~4 quest types" is superseded by
+> **D-032** (no fixed quest budget). Fresh-ladder-per-tier + full-maps-every-tier hold.
 - **created_date:** 2026-06-25
 - **Context:** Need to pin the progression structure and a shippable v1 cut without over-scoping.
 - **Options:** One ladder across all tiers vs. **a fresh ladder per tier**; partial vs. full maps; ship all tiers vs. **a T0–T2 v1**.
@@ -133,6 +151,10 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Build ladder/map/mob/quest data per tier; T3/T4 are scaffolded but not content-complete in v1; integration applies the locked-rule fixes (no belief-creatures in spawn tables, ≤1 ambiguity, no permanent loss, no labour→combat cross-feed, fictionalise real names, cap martial scale).
 
 ### D-013 ✅ — Tech & presentation: Vite + TS + Vitest, pure-core, IndexedDB save, active-only, static itch.io
+
+> 🔁 **Amended.** "single autosave" → multi-backend redundant save (**D-030**) + crash-recovery ring (**D-044**)
+> + dev-save wipe (**D-067**); the "no asset pipeline" art claim is refined by **D-018/D-041** (bundled OFL fonts
+> + inline-SVG motifs). Active-only is reaffirmed by D-053. Core stack + pure-core + IndexedDB hold.
 - **created_date:** 2026-06-25
 - **Context:** Need to lock the stack, save strategy, time model, and presentation for a static, backend-free single-player browser game.
 - **Options:** Framework vs. vanilla; localStorage vs. IndexedDB save; offline progress vs. active-only; hover-rich desktop vs. responsive desktop+mobile.
@@ -141,6 +163,9 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Enforce the no-DOM-in-core boundary; persist the seeded RNG and a versioned minimal save; build a save-migration path; the renderer is swappable; no offline-progress accounting; one tuned difficulty (no modes).
 
 ### D-014 ✅ — One antagonist per tier (not a single cross-tier racket)
+
+> 🔁 **D-048 renumber (2026-06-28):** the antagonist list is keyed to the old 5-tier ladder — re-map onto the 6
+> tiers. The "one grounded antagonist per tier" decision holds.
 - **created_date:** 2026-06-25
 - **Context:** Earlier world-building leaned on a single cross-tier smuggling/racket conspiracy. The locked design wants an escalating, grounded antagonist scaled to each tier.
 - **Options:** (A) One cross-tier conspiracy throughout · (B) **One antagonist per tier, escalating** · (C) No recurring antagonist.
@@ -164,6 +189,11 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Enforce the no-DOM-in-core boundary and the reduce/tick signatures; build the content-verifier into `npm run verify`; persist RNG seed + stream cursors; write a migration per save-schema bump with a raw backup; the renderer stays swappable; the DEV play-API is stripped from production builds. **🔁 Refined (2026-06-29) by D-067:** the forward-migration chain now scopes to *shipped/launch* saves — dev/v0.2 saves are **wiped** at the reshape schema bump (no users yet), and the real `migrate()` path is built + tested **before launch**, not across dev churn. Dev tools (the 2×/4×/8× speed toggle + a jump-to-rung/tier teleport) extend the DEV-only play-API and are likewise stripped from prod.
 
 ### D-016 ✅ — §4 balance model: human-signed pacing & accrual locks (the shape; numbers are tunable)
+
+> 🔁 **Amended.** The "drop to 1 HP" soft-setback is superseded by **D-050** (HP carries + heals by eating);
+> "simple per-tier thresholds (no floor/overflow)" by **D-028** (hybrid grade-gate); the per-tier hour budget
+> uses pre-reshape numbering (re-map per D-048). The **signed locked shape** (≥30-min floor, 70/30, trade ≤⅓,
+> no-respec, up-only) holds.
 - **created_date:** 2026-06-25
 - **Context:** §4 turns the design into numbers. The human signed off the *shape* of pacing and accrual (canon §I-bal); the concrete values remain a tunable first pass.
 - **Options:** Short (~12–20h) vs. **longer (~32h)** v1; flat vs. **escalating per-tier** budgets; deeds-vs-seasonal split; punchy vs. **steady** deed jumps; respec vs. **no respec**.
@@ -172,6 +202,10 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** §4's tables are the data behind the D-007 tier gates and D-008 pillars; the balance numbers get a dedicated tuning pass against the §4.8 pacing acceptance tests (a pacing regression fails if a headless run clears any grind rung in < ~28 min); the content-verifier enforces the trade-⅓ and no-cross-feed invariants.
 
 ### D-017 ✅ — v1 execution plan (§7): milestones, deployment, scope-risk posture
+
+> 🔁 **Amended 2026-06-28 by [D-048].** "v1 = full T0–T2" is now **v1 = T0→T3** (the same Estate + Village +
+> Region content, re-mapped — not a scope change). The non-negotiable full-scope intent is unchanged. (Roadmap
+> sequencing now lives in the re-axe proposal, not §7.)
 - **created_date:** 2026-06-25
 - **Context:** §7 sequences the build and ship. The human reviewed §7's open items and the §4.9 balance dials (2026-06-25).
 - **Options:** M2 combat slice as agent's-call vs. **fixed split**; **pre-planned cut-down (T0–T1)** vs. **no cut**; hosted CI vs. local; automated vs. **manual** deploy.
@@ -181,6 +215,10 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Refined (2026-06-26) by D-021:** the §7 milestone roadmap is **LIVING**, not frozen canon — **M0–M1 committed; M2–M7 provisional, re-planned after each playtest** (and, on the docs-explosion, moved to `docs/living/roadmap.md`). This refines only the *provisional HOW*; the **locked v1 content scope — full T0–T2, no pre-planned descope (§7.4.2) — is UNCHANGED.** See **D-021**.
 
 ### D-018 ✅ — UI design language: mid-Edo woodblock/ink, strong CSS, NO asset pipeline
+
+> 🔁 **Amended by [D-041]** (the explicit correcting ADR). The "**NO asset pipeline**" claim no longer holds —
+> self-hosted OFL fonts + inline-SVG motifs + synthesized/CC0 audio are now in scope. The woodblock/ink CSS
+> language itself is unchanged.
 - **created_date:** 2026-06-26
 - **Context:** §6.9 named "text + emoji + CSS, woodblock palette" but carried no design *vision* — the slop risk the human flagged ("avoid generic AI-slop / placeholder engineer art; want a coherent design language with a vision"). The art ambition was locked at "a strong CSS design-language, no asset pipeline."
 - **Options:** improvise UI per-screen · use a generic component library · **lock a design-language bible BEFORE building any UI.**
@@ -234,12 +272,19 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **created_date:** 2026-06-26
 - **Driven by:** FU14, Q1, Q47, FU15, FU5. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-026 ✅ — Incremental combat + growing weapon roster + combat-reveal ladder — T0 starts with exactly ONE weapon; +2/+3/+4 per tier (~9-10); R3→R4→R5→weapon-L10→2nd line T1/3rd T2, one reveal per beat
+
+> 🔁 **Stale tier vocab (D-048):** the weapon-roster / reveal cadence is keyed to the old 3-tier v1 — re-map onto
+> T0→T3 (note the T0 *tutorial* now starts the single-weapon beat). Incremental-combat + one-reveal-per-beat hold.
 - **created_date:** 2026-06-26
 - **Driven by:** Q15, FU12, FU13, Q17. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-027 ✅ — Bounded per-skill combat perks — relaxes the absolute no-labour→combat wall to ~2-8 small stackable perks via a separate skillCombatBonus channel, NO global cap; conditioning stays the zero-stat enablement gate; verifier flips ==0 → small-magnitude
 - **created_date:** 2026-06-26
 - **Driven by:** Q6, FU8, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-028 ✅ — Hybrid good/great/excellent tier-gate — replaces simple thresholds: good in ALL revealed pillars, great in 2-3, excellent in 1-2 (T0 2-pillar special), NO overflow; per-pillar-per-tier overhaul vs the fixed deed inventory; trade ≤⅓ survives as the only structural cap
+
+> 🔁 **Amended 2026-06-28 by [D-048]/[D-049].** The hybrid grade-gate **survives** (now per-N-pillars, opt-in,
+> reward-bearing on overshoot), but "good-in-all-pillars / T0 2-pillar special" is reshaped to **one pillar per
+> tier** + a tutorial T0. trade ≤⅓ unchanged.
 - **created_date:** 2026-06-26
 - **Driven by:** Q7, FU10, FU11. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-029 ✅ — Budget is a FLOOR not a ceiling — a longer OSRS-rough minimum-grind model; active-only with tab-open auto-resolve + auto-repeat ('leave it running'); pacing gate fails on undershoot only
@@ -276,6 +321,9 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **created_date:** 2026-06-26
 - **Driven by:** Q34, FU22. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-040 ✅ — V1 ending = castle-town / Daikan first-contact stub — drops the porter/Kaidō-guild first-contact framing (it re-ran spent T2 content)
+
+> 🔁 **D-048 renumber:** "spent T2 content" now reads **T3** (Region); the castle-town first-contact stub (v1
+> ends at Region) is unchanged.
 - **created_date:** 2026-06-26
 - **Driven by:** Q24. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-041 ✅ — Bundled asset set corrects the 'no asset pipeline' claim — self-hosted OFL fonts, inline-SVG load-bearing motifs (emoji cosmetic-only), a small synthesized Web Audio + original/CC0 audio set; commit-SHA build stamp + About/Credits + LICENSE + itch content descriptors
@@ -287,6 +335,11 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 
 
 ## D-043 — PRD V2.1 decisions (post-battery, 2026-06-26)
+
+> 🔁 **Tier-vocab stale (D-048/D-049/D-051).** Under one-pillar-per-tier, **Name reveals at T3** (not "T2 reveals
+> 4"); the gate is now **per-N-pillars** (D-049); "estate builds → Phase 2" is in tension with Estate as the T1
+> core pillar + koku flywheel (D-051). The signed locks (≥30-min floor, ~60h floor, grade-gate principle) hold —
+> only the tier/pillar mapping is stale. (The win-rate clause already carries the D-057 amendment inline.)
 
 The 5-round adversarial battery on PRD V2 surfaced 14 blocking defects (B1–B14) + ~40 design questions; all 32
 were resolved with the human (full set: **[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**; audit:
@@ -423,9 +476,11 @@ tier reshape (**D-048…D-055**); a verification workflow confirmed the reshape 
 item, and this batch resolves the residuals + records the forward calls. Full intent record (23 numbered decisions):
 **[`2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)**. These ADRs are **LOCKED
 canon** (governing per **D-022**) but are **NOT yet applied to `prd.md` / the living docs / code** — they ripple in ONE
-batch with the D-048…D-055 reshape. **Op-model v2 has since been reviewed** (2026-06-29 H-item session): the bundle is
-**deferred** (**D-070**) and the one greenlit piece — the lean pre-commit gate — is now ADR'd (**D-071**). Still **HELD**
-(not adopted, ride the fuller v2-lite if revisited): the mandatory `diverge` gate and the `playcheck` ratchet.
+batch with the D-048…D-055 reshape. **Op-model v2 was reviewed** (2026-06-29 H-item session) and initially ~~deferred (**D-070**)~~ — but
+**⛔ SUPERSEDED 2026-06-29 by D-072–D-074:** the human reopened it as **"v2 FINAL"** and **ADOPTED** the bundle —
+full-`verify` pre-commit + drift guard (**D-072**, superseding the D-070 deferral + the D-071 subset hook), the
+mandatory `diverge` gate (**D-073**), and the `playcheck` ratchet (**D-074**). The "deferred / HELD" stance no
+longer holds.
 **Build-order (spine-first) + carry-forward-T0 are roadmap sequencing** — they live in the
 roadmap plan ([`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md)), not a
 design ADR.
