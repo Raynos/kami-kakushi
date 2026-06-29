@@ -25,6 +25,24 @@ in [README.md](README.md); this file is just how we work.
 - **Leave it resumable.** All state lives in commits + the `project/journal/` log (chronological — summary at top,
   entries appended at the **bottom**) + `project/status/project-status.md` (the **live snapshot**) + the task list, so a
   cold pickup or a context compaction never loses progress.
+- **Checkpoint = make the work resumable from disk *and on the remote*, right now.** When asked to "checkpoint" (or
+  before exiting), run the loop: **commit completed work → stage a `journal/` entry → bring
+  `project/status/project-status.md` current → `git push origin main` → confirm the tree is clean (or note exactly
+  what's intentionally left).** **Pushing `main` is part of a checkpoint, not a separate ask** — this is the standing
+  approval that overrides the generic "never push without approval" default *for the routine main checkpoint* (a
+  destructive/outward action like a deploy or a force-push still needs explicit sign-off). The push is what makes the
+  checkpoint trustworthy: it fires the **pre-push gate**, which runs `npm run verify` and **refuses a red `main`** — so
+  a green `origin/main` is the proof the checkpoint is real. Three non-negotiables, all learned the hard way:
+  **(1) Verify before you claim** — never say *pushed / green / done* without checking (`git status`, `git log
+  origin/main..main`, the actual push succeeding); a clean working tree at checkpoint can go dirty a moment later.
+  **(2) Shared-tree safety** — this repo may have **more than one agent editing the working tree at once**. **NEVER**
+  `git stash`, `checkout`, `restore`, or otherwise mutate files you didn't author. Stage **only your own files, by
+  explicit path** (`git add path/a path/b`, never `git add -A`/`git commit -a`), and leave everyone else's uncommitted
+  WIP untouched. **(3) Don't fight someone else's red.** The pre-push gate verifies the **working tree**, so another
+  agent's in-flight red WIP will (correctly) block your push to `main`. That's expected — leave your commit local, note
+  it in `project-status.md`, and do **not** `SKIP_VERIFY=1`-override a red tree onto the remote. (`SKIP_VERIFY=1` is
+  only for *committing* your own isolated change locally, never for pushing red to `main`.) Full checklist:
+  working-agreements.md.
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook runs
   [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in `.claude/settings.json`), which prints the
   open **human queue** — the unticked **reading queue** ([`project/docs-to-read-for-human.md`](project/docs-to-read-for-human.md))

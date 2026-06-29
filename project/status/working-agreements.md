@@ -19,9 +19,34 @@ decisions are recorded as ADRs in [`../docs/living/decisions.md`](../../docs/liv
 [project-status](project-status.md).
 
 **Autonomy:** pick the next task → build → verify → commit → journal → repeat. Stop and ask only for
-(1) decisions that change what the game *is*, and (2) outward-facing / hard-to-reverse actions (push,
-deploy, delete) — never without explicit approval. State lives in commits + journal so a compaction
-never loses progress.
+(1) decisions that change what the game *is*, and (2) outward-facing / hard-to-reverse actions (deploy,
+delete, force-push) — never without explicit approval. **Routine `git push origin main` is the exception:
+it's a standing-approved part of every checkpoint** (see below), not a per-push ask. State lives in commits
++ journal so a compaction never loses progress.
+
+**Checkpoint (the resumability ritual — run it when asked to "checkpoint" or before exiting):**
+1. **Commit** completed work — stage **only your own files by explicit path** (`git add path/…`), never
+   `-A` / `commit -a` (see shared-tree safety below).
+2. **Journal** — stage a `journal/` entry (the pre-commit gate requires it).
+3. **Live snapshot** — bring [`project-status.md`](project-status.md) current (it, not the journal, is the
+   resume point).
+4. **Push `main`** — `git push origin main`. This fires the **pre-push gate** (`.githooks/pre-push`), which
+   runs `npm run verify` and **blocks a red `main`**. A green `origin/main` is the proof the checkpoint is
+   real — pushing is *part of* the checkpoint, not a separate approval.
+5. **Confirm** — `git status` clean, `git log origin/main..main` empty (or explicitly note what's left and
+   why).
+
+Three rules, all learned the hard way:
+- **Verify before you claim.** Never report *pushed / green / done* without checking (`git status`, the push
+  actually succeeding, `git log origin/main..main`). A tree that's clean one moment can go dirty the next.
+- **Shared-tree safety — more than one agent may be editing the working tree at once.** **NEVER** `git stash`,
+  `checkout`, `restore`, or otherwise mutate files you didn't author. Commit your own files by explicit path
+  and leave everyone else's uncommitted WIP untouched.
+- **Don't fight someone else's red.** The pre-push gate verifies the **working tree**, so another agent's
+  in-flight red WIP will (correctly) block your push. Expected — leave your commit local, note it in
+  `project-status.md`, and never `SKIP_VERIFY=1`-override a red tree onto the remote. (`SKIP_VERIFY=1` is only
+  for *committing* your own isolated change locally — e.g. a hooks/docs change while unrelated WIP is red —
+  never for pushing red to `main`.)
 
 **Architecture rule:** keep game logic in a **pure core** (no DOM/canvas imports), deterministic
 (one seeded RNG) and testable; the renderer consumes it as plain data.

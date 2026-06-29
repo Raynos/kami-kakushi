@@ -17,6 +17,9 @@
 - Note: pre-commit was **already** correct — it runs the full 9-gate verify incl. vitest and blocks red (`.githooks/pre-commit:30`). No change needed there.
 - False-alarm corrected: `origin/main` @ `abb4b72` is GREEN (104/104). The vitest red seen this session is the uncommitted re-baseline WIP (combat/fight/ranks/balance/intents + m2.test.ts), not committed code.
 
+## Addendum — "checkpoint" formalized as a named behavior
+- `CLAUDE.md` + `project/status/working-agreements.md` — defined **Checkpoint** = the resumability ritual: commit (own files, by explicit path) → stage journal → bring `project-status.md` current → **`git push origin main`** (fires the pre-push green gate) → confirm clean. Pushing main is now a **standing-approved part of a checkpoint**, overriding the generic "never push without approval" default for the routine main push (deploy/delete/force-push still need sign-off). Baked in three hard-won rules: **verify-before-claiming**, **shared-tree safety** (never stash/restore another agent's WIP; stage own files by path), **don't fight someone else's red** (their in-flight red WIP correctly blocks your push — leave the commit local, never SKIP_VERIFY a red tree onto the remote).
+
 ## Landmines
 - GitHub Pages branch deploy only serves from `/ (root)` or `/docs` — **not** `/dist`. We serve from the worktree root, so the gh-pages branch root *is* the site.
 - `vite.config.ts` already uses `base: './'` (for itch.io) — that relative base is also what makes the `/kami-kakushi/` project-page subpath work with no extra config. Don't change it to an absolute base.
