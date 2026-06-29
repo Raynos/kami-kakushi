@@ -871,6 +871,9 @@ html {
   place-items: center;
   pointer-events: none;
   z-index: 60;
+  /* a faint sumi scrim so the seal reads OVER the page, never garbling the log behind it
+     (battery fix — was transparent and collided with the left-aligned log + nav). */
+  background: #26221e55;
 }
 .seal-inner {
   display: flex;
@@ -878,6 +881,12 @@ html {
   align-items: center;
   gap: var(--space-3);
   opacity: 1;
+  /* an opaque paper card so the title/kicker sit on washi, not transparently over the log. */
+  background: var(--washi);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius-card, 4px);
+  box-shadow: 0 8px 30px #26221e55;
 }
 .seal-inner.animate {
   animation: seal-press 1900ms var(--ease-press) both;

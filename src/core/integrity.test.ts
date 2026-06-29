@@ -4,6 +4,7 @@ import {
   applyGrindFight,
   ACTIVITIES,
   SKILL_IDS,
+  MATERIAL_IDS,
   LOG_MAX_IDENTICAL_RUN,
   type GameState,
 } from './index';
@@ -22,15 +23,18 @@ import {
 const SURFACED_CURRENCIES = new Set<string>([
   'koku',
   ...ACTIVITIES.flatMap((a) => Object.keys(a.yields)),
-]); // {koku, wood, sansai}
+  ...MATERIAL_IDS, // the loot→craft materials (hardwood, beast_sinew) — surfaced via the fight loot path
+]); // {koku, wood, sansai, hardwood, beast_sinew}
 const SURFACED_SKILLS = SKILL_IDS; // {farming, foraging, woodcutting, conditioning}
 
 type Ledger = Record<string, { consumer: string } | { inert: string }>;
 
 const CURRENCY_LEDGER: Ledger = {
-  koku: { consumer: 'improve_estate estate-upgrade sink (intents + ESTATE_STAGES.costKoku)' },
+  koku: { consumer: 'improve_estate estate-upgrade sink + buy_item market sink (intents)' },
   wood: { consumer: 'repair_weapon REPAIR_WOOD_COST sink (intents + balance)' },
   sansai: { consumer: 'cook_meal COOK_SANSAI_COST sink (intents + balance)' },
+  hardwood: { consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)' },
+  beast_sinew: { consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)' },
 };
 const SKILL_LEDGER: Ledger = {
   farming: { consumer: 'skillYieldNum yield multiplier on do_activity (intents + skills)' },

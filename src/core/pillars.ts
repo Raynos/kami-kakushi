@@ -78,10 +78,10 @@ export function seasonalJudge(
     Math.round((growth * SEASONAL_OVER_DEEDS_NUM * swing) / SEASONAL_OVER_DEEDS_DEN),
   );
   const value = pillar.value + bonus;
-  return {
-    pillar: { value, highWater: Math.max(pillar.highWater, value), judged: pillar.highWater },
-    bonus,
-  };
+  const highWater = Math.max(pillar.highWater, value);
+  // Advance `judged` to the POST-bonus high-water — the bonus is BANKED, never re-judged next
+  // season (was `pillar.highWater`, which re-judged its own payout → geometric inflation; battery fix).
+  return { pillar: { value, highWater, judged: highWater }, bonus };
 }
 
 /** The live Estate grade (the ascension gate + the UI bar read it). */

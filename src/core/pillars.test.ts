@@ -84,8 +84,18 @@ describe('seasonal judge — new high-water, the 70/30 share, ±10% (M2·3/M2·4
     const fat = seasonalJudge({ value: 700, highWater: 700, judged: 0 }, 0.999); // swing ≈1.1
     expect(lean.bonus).toBeGreaterThanOrEqual(0);
     expect(lean.bonus).toBeLessThan(fat.bonus);
-    expect(fat.pillar.judged).toBe(700); // the baseline moves up to the judged high-water
     expect(fat.pillar.value).toBeGreaterThan(700);
+    // the baseline advances to the POST-bonus high-water (the bonus is banked, never re-judged)
+    expect(fat.pillar.judged).toBe(fat.pillar.highWater);
+  });
+
+  it('does NOT re-judge its own payout next season without new deeds (no geometric inflation)', () => {
+    const first = seasonalJudge({ value: 700, highWater: 700, judged: 0 }, 0.5);
+    expect(first.bonus).toBeGreaterThan(0);
+    // a second judge with NO intervening deeds (high-water unchanged) → no new high-water → bonus 0
+    const second = seasonalJudge(first.pillar, 0.5);
+    expect(second.bonus).toBe(0);
+    expect(second.pillar).toBe(first.pillar); // structural no-op
   });
 });
 
@@ -97,7 +107,7 @@ describe('the seasonal judge is wired into the clock (M2·4)', () => {
     const s0: GameState = { ...atPhase2(), influence: pending };
     const s1 = advanceClock(s0, SEASON_TICKS); // → day 28, a season boundary
     expect(s1.influence.estate.value).toBeGreaterThan(100); // the season paid out the 30% share
-    expect(s1.influence.estate.judged).toBe(100); // baseline moved up to the judged high-water
+    expect(s1.influence.estate.judged).toBe(s1.influence.estate.highWater); // baseline = POST-bonus HW
   });
 
   it('does NOT fire in Phase 1 (pre-capstone)', () => {

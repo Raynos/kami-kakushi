@@ -48,11 +48,15 @@ export const DIALOGUES: readonly DialogueDef[] = [
       {
         id: 'gen-rake',
         speaker: NAMES.elder,
-        text: 'So put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.',
+        // reveal-as-plot (battery fix): the koku-teaching lands as the player rakes (when the
+        // first +koku shows), not piled onto the opening click. wake stays greet + the stakes.
+        gate: (flags) => flags.raked === true,
+        text: 'So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.',
       },
       {
         id: 'gen-keep',
         speaker: NAMES.elder,
+        gate: (flags) => flags.raked === true,
         text: "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
       },
       {

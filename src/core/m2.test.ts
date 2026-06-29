@@ -269,39 +269,59 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
     }
   });
 
-  it('no-stranding (D-061): a fresh L1 reaches combat-L2 via the eat+repair loop, never hard-broken', () => {
-    // The recovery loop is always reachable in-game (woodcut→repair has no gate; forage→cook
-    // mends HP). Model it abstractly — heal before HP is unfightable, repair before the blade
-    // hits Broken, else fight. The invariant (D-061): a fresh L1 is NEVER stranded — it reaches
-    // combat-L2 in bounded actions, the blade never has to fight Broken, HP never sticks at the
-    // floor. Catches both "the foe is an unwinnable wall" and "wear outruns the repair cadence".
+  it('no-stranding (D-061): a fresh L1 reaches combat-L2 via the REAL eat+repair intents, never fighting Broken', () => {
+    // Drive the ACTUAL production recovery loop through the real reducer intents — woodcut→
+    // repair_weapon and forage→cook_meal (the same path main.ts autoStep runs) — NOT abstract
+    // mutation. The invariant (D-061): a fresh L1 reaches combat-L2 in bounded actions and never
+    // has to fight a Broken blade. `foughtBroken` is genuinely reachable here: if the recovery
+    // intents failed (no wood/sansai obtainable, or a gate blocked them) the blade would degrade
+    // to Broken and the fight would set it — so the assertion can go RED.
+    const ready = (seed: number): GameState => {
+      const base = atFullSatiety(createInitialState(seed));
+      return {
+        ...base,
+        rung: 'R3',
+        flags: { ...base.flags, awake: true, 'rank-r3': true },
+        unlocked: [
+          ...base.unlocked,
+          'tab-combat',
+          'verb-woodcut',
+          'verb-forage',
+          'verb-cook',
+          'verb-repair',
+        ],
+        skillXp: { ...base.skillXp, conditioning: 10_000 }, // past the forage danger-ring gate
+      };
+    };
     for (const seed of [1, 2, 3, 7, 42, 99, 123, 2024]) {
-      let s = atFullSatiety(createInitialState(seed));
+      let s = ready(seed);
       const w = getWeapon(s.equippedWeapon);
       let guard = 0;
       let foughtBroken = false;
-      while (s.character.level < 2 && guard++ < 6000) {
-        const band = durabilityBand(s.weaponDurability, w.durabilityMax);
-        if (band.name === 'Broken' || band.name === 'Battered') {
-          s = { ...s, weaponDurability: w.durabilityMax }; // woodcut→repair (wood always obtainable)
+      while (s.character.level < 2 && guard++ < 8000) {
+        const band = durabilityBand(s.weaponDurability, w.durabilityMax).name;
+        // repair PROACTIVELY (before Broken) via the real intent — woodcut for wood if short
+        if (band !== 'Pristine') {
+          s =
+            (s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST
+              ? reduce(s, { type: 'repair_weapon' })
+              : reduce(s, { type: 'do_activity', activityId: 'woodcut_edge' });
           continue;
         }
+        // eat via the real cook intent — forage for sansai if short
         if (s.character.hp < hpMax(s) * 0.8) {
-          s = {
-            ...s,
-            character: {
-              ...s.character,
-              hp: Math.min(hpMax(s), s.character.hp + balance.COOK_HP_RESTORE),
-            },
-          }; // forage→cook (sansai always obtainable)
+          s =
+            (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
+              ? reduce(s, { type: 'cook_meal' })
+              : reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' });
           continue;
         }
         if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')
           foughtBroken = true;
-        s = applyGrindFight(s, 'monkey');
+        s = reduce(s, { type: 'fight', mobId: 'monkey' });
       }
       expect(s.character.level, `seed ${seed} stranded below combat-L2`).toBeGreaterThanOrEqual(2);
-      expect(foughtBroken, `seed ${seed} had to fight a Broken blade`).toBe(false);
+      expect(foughtBroken, `seed ${seed} fought a Broken blade`).toBe(false);
     }
   });
 

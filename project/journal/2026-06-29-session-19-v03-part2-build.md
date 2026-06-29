@@ -243,6 +243,29 @@ Wiring the authored leaf modules into the spine, each verify-green + tested:
 - **v0.3 gallery captured** (`project/audit/screens/v03-gallery/01..08`): cold-open+Genemon, the live Phase-2 spine,
   ascension-ready + the ceremony, quests, combat+craft, the market, the walkable map. No console errors.
 
+## 14 · OVERNIGHT — battery self-resolvable fixes applied (5)
+
+The fidelity battery landed (`project/audit/reports/2026-06-29-v03-fidelity-battery.md`; scorecard prd 9 / adr
+8.5 / human-fb 8). Per the battery skill's **self-resolution boundary**, I applied only the findings that need
+no human design call — the rest are routed to **R4** (the 6-item judgment queue). The 5 applied, all verify-green:
+
+- **`fun` MAJOR — cold-open over-teaching (reveal-as-plot violation).** Genemon dumped 5 estate lines on the
+  first wake. **Fix:** gated `gen-rake` (the koku-teaching) + `gen-keep` (the promise) on `flags.raked` so the
+  wake now delivers only **greet + the stakes** (`gen-greet` + `gen-stores`); the koku lesson + acknowledgment
+  land as the first **+koku** shows (`src/core/content/dialogue.ts`). m1 mentor test rewritten to assert the lean
+  hook on wake + the full teach-after-rake (`m1.test.ts`); `dialogue.test.ts` is derived-generic → still green.
+  *(R4 notes this as "the agent applied the suggested fix — confirm the new sequencing reads right.")*
+- **`ui-polish` — ascension seal had no scrim (the "doubled text" the battery confirmed REAL, not a test artifact).**
+  Added the dark scrim + a washi seal-inner card behind the T0→T1 ceremony seal (`src/ui/styles.css`).
+- **`laziness` / `test-integrity` — seasonal-judge geometric inflation.** `seasonalJudge` advanced `judged` to the
+  PRE-bonus high-water → it re-judged its own payout every season. **Fix:** baseline now advances to the POST-bonus
+  high-water (`pillars.ts`); added a RED-able "does NOT re-judge its own payout without new deeds" test (`pillars.test.ts`).
+- **`laziness` — dead-value ratchet blind to the new loot currencies.** `integrity.test.ts` didn't surface the
+  craft materials → a new dead value could slip the ratchet. **Fix:** `...MATERIAL_IDS` added to SURFACED_CURRENCIES +
+  hardwood/beast_sinew ledgered → `craft_weapon`.
+- **`test-integrity` — tautological no-stranding test.** `m2.test.ts` asserted on a directly-mutated `foughtBroken`
+  (couldn't go RED). **Fix:** rewritten to drive the real `reduce` durability path (repair/cook/woodcut/forage intents).
+
 ## Next intended steps (current)
 1. **Battery completes → synthesize the report + act on self-resolvable findings; route the rest to ADRs/H-R items.**
 2. Then: project-status current → final journal → checkpoint-push. (Deferred-by-design + the M2·8 fork retirement
