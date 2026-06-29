@@ -1059,6 +1059,26 @@ html {
 .market-grant {
   font-size: var(--fs-small);
 }
+/* T0-M4-F4: the small walkable estate map */
+.map-paths-label {
+  margin-top: var(--space-3);
+}
+.map-moves {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+.map-move {
+  text-align: left;
+}
+.map-move.danger {
+  border-color: var(--beni);
+}
+.map-danger {
+  color: var(--beni);
+  font-weight: bold;
+}
 
 /* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
    unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */

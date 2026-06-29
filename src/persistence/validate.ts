@@ -158,6 +158,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'deliveredDialogue'
     | 'quests'
     | 'marketBought'
+    | 'location'
     | 'rung'
     | 'rungMeter'
     | 'estateStage'
@@ -204,6 +205,7 @@ export function validateState(rawState: unknown): ValidateResult {
     marketBought: isObject(base.marketBought)
       ? (base.marketBought as GameState['marketBought'])
       : {},
+    location: typeof base.location === 'string' ? base.location : 'kura',
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,

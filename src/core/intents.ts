@@ -35,6 +35,8 @@ import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest, applyQuestEvent } from './quest-engine';
 import { getItem, canBuy } from './content/market';
+import { canMove, getNode } from './content/map';
+import { CONDITIONING_GATE_LEVEL } from './content/balance';
 import {
   getActivity,
   activityLine,
@@ -63,6 +65,7 @@ export type Intent =
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
   | { type: 'buy_item'; itemId: string }
+  | { type: 'move_to'; to: string }
   | { type: 'ascend' };
 
 export type IntentType = Intent['type'];
@@ -326,6 +329,17 @@ export function reduce(state: GameState, intent: Intent): GameState {
           },
         ],
       });
+      break;
+    }
+    case 'move_to': {
+      // walk the small estate map (T0-M4-F4 / D-065): adjacent + revealed (nodes reuse the
+      // existing room-unlock surfaces), and the danger ring needs the conditioning gate.
+      if (!canMove(next.location, intent.to, new Set(next.unlocked))) return state;
+      const dest = getNode(intent.to);
+      if (dest.dangerRing && skillLevel(next, 'conditioning') < CONDITIONING_GATE_LEVEL)
+        return state;
+      next = { ...next, location: intent.to };
+      next = applyRewards(next, { log: [{ channel: 'narration', text: dest.blurb }] });
       break;
     }
     case 'ascend': {

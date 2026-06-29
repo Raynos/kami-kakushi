@@ -38,3 +38,18 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   `npm run dev` → `__qa.forceState({rung:'R7',flags:{...,'t0-capstone':true},unlocked:[...,'panel-house-influence'],influence:{estate:{value:490,highWater:500,judged:480}}})`.
 - **Verdict:** _(awaiting the human — non-blocking; A shipped per D-073 self-pick)_
 
+### R3 🔲 — diverge picks: the T0-M4 breadth surfaces (D-073)
+
+- **Asking for:** an override-or-confirm on the self-picked directions for the **T0-M4 breadth** UI surfaces
+  added overnight (the build is on `main`, flag-free; all non-blocking).
+- **Self-picks:**
+  - **Walkable map (Estate 地図 tab)** — full diverge: **Variant A** (focused "you are here + paths", ink
+    place-names) over **B** (whole-map grid). Contact: `audit/screens/diverge-map/` (A-forecourt.png + DECISION.md).
+  - **Smaller breadth panels (craft, market, Quests tab) — diverge-LITE** (overnight time-box): each shipped on a
+    single ui-design-faithful direction (small panels in existing tabs / one new tab), captured in
+    `audit/screens/breadth/`. NOT a full 2–3 variant contact sheet — flagged here so you can request a re-diverge
+    on any that don't land. (Mentor dialogue routes into the existing log → no new surface, no diverge owed.)
+- **How to look:** play `npm run dev` (use `__qa.jumpToAscension()` / `__qa.speed(8)` to move fast) + the
+  `audit/screens/diverge-map/` and `audit/screens/breadth/` galleries.
+- **Verdict:** _(awaiting the human — non-blocking)_
+

@@ -142,6 +142,33 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
   });
 });
 
+// T0-M4-F4 — the small walkable estate map: areas you MOVE BETWEEN, gated by the existing
+// room reveals + the conditioning danger-ring gate (D-065).
+describe('walkable estate map (T0-M4-F4 / D-065)', () => {
+  it('move_to walks to an adjacent revealed node, blocks non-adjacent + the danger gate', () => {
+    const base = createInitialState(1);
+    const atForecourt: GameState = {
+      ...base,
+      location: 'gate-forecourt',
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+    };
+    // adjacent + revealed → you move
+    expect(reduce(atForecourt, { type: 'move_to', to: 'home-paddies' }).location).toBe(
+      'home-paddies',
+    );
+    // non-adjacent (satoyama isn't off the forecourt) → no-op
+    expect(reduce(atForecourt, { type: 'move_to', to: 'near-satoyama' })).toBe(atForecourt);
+    // the danger ring needs the conditioning gate even when adjacent + revealed
+    const atPaddies: GameState = {
+      ...atForecourt,
+      location: 'home-paddies',
+      unlocked: [...atForecourt.unlocked, 'room-near-satoyama'],
+    };
+    expect(reduce(atPaddies, { type: 'move_to', to: 'near-satoyama' })).toBe(atPaddies);
+  });
+});
+
 describe('conditioning enablement gate (the danger ring)', () => {
   it('foraging is locked until conditioning reaches the gate level', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });

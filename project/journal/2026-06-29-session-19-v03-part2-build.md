@@ -222,8 +222,16 @@ Wiring the authored leaf modules into the spine, each verify-green + tested:
   clamp), gated on the estate economy (`panel-estate`). A small market panel in the Work tab (derived visibility,
   no new latched surface → no diverge). 10 module tests + 2 reducer integration (buys + caps + gated). verify green.
 
+- **T0-M4-F4 walkable map — DONE** (D-065). Integrated `map.ts` (6-node estate graph, ceiling 7; nodes reuse the
+  EXISTING room-unlock surface ids → a node inks in on its room's beat, zero extra reveal wiring). New `location`
+  state (additive, default kura). `move_to` intent (adjacent + revealed + the conditioning danger-gate for the
+  satoyama). New top-level **Estate 地図 tab** — a "you are here + paths" walk surface. **Full DIVERGE** (A focused
+  walk-affordances WON vs B whole-map grid; `audit/screens/diverge-map/` + DECISION.md; **R3** filed). 20 module
+  tests + 1 reducer integration. verify green. **All 5 breadth modules now wired** (dialogue/crafting/quests/
+  market/map); the leaf scatter-gather is fully integrated.
+
 ## Next intended steps (current)
-1. **NEXT** (overnight): walkable map (diverge) · stance/ability reveals → retire the DEMO/REAL fork (M2·8) →
+1. **NEXT** (overnight): stance/ability reveals (T0-M4-F5) → retire the DEMO/REAL fork (M2·8) + SFX shakuhachi →
    PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint-push.
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.

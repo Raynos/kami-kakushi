@@ -27,6 +27,15 @@ export {
   MARKET_KOKU_SINK_NOTE,
 } from './content/market';
 export type { MarketItem, MarketItemId } from './content/market';
+export {
+  MAP_NODES,
+  MAP_NODE_CEILING,
+  MAP_NODE_IDS,
+  getNode,
+  canMove,
+  reachableFrom,
+} from './content/map';
+export type { MapNode, MapNodeId } from './content/map';
 export { createInitialState, hasFlag, setFlag, withResource, addSkillXp } from './state';
 
 export type { Intent, IntentType } from './intents';

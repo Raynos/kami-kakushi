@@ -49,6 +49,9 @@ import {
   QUESTS,
   MARKET_ITEMS,
   canBuy,
+  getNode,
+  reachableFrom,
+  skillLevel,
   balance,
 } from '../core';
 import type { Sfx } from './sfx';
@@ -109,7 +112,7 @@ const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }>
 const RESOURCE_LABEL: Record<string, string> = { koku: 'koku', wood: 'wood', sansai: 'sansai' };
 
 type Dispatch = (intent: Intent) => void;
-type Tab = 'work' | 'skills' | 'combat' | 'quests';
+type Tab = 'work' | 'skills' | 'combat' | 'quests' | 'map';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -417,6 +420,7 @@ export function mount(
   const skillsPane = el('div', 'skills-pane');
   const combatPane = el('div', 'combat-pane');
   const questsPane = el('div', 'quests-pane');
+  const mapPane = el('div', 'map-pane');
   work.append(
     workHead,
     ladder,
@@ -427,6 +431,7 @@ export function mount(
     skillsPane,
     combatPane,
     questsPane,
+    mapPane,
   );
 
   workspace.append(logSection, work);
@@ -473,9 +478,12 @@ export function mount(
     skills: 'Skills 技',
     combat: 'Combat 武',
     quests: 'Quests 用',
+    map: 'Estate 地図',
   };
   function renderNav(state: GameState): void {
     const tabs: Tab[] = ['work'];
+    // the walkable estate map opens once the gate does (R1 — you can step off the kura floor).
+    if (isUnlocked(state, 'room-gate-forecourt')) tabs.push('map');
     if (isUnlocked(state, 'tab-skills')) tabs.push('skills');
     if (isUnlocked(state, 'tab-combat')) tabs.push('combat');
     // Quests open with combat (the crop-raider quest needs the field-defence verbs) — D-037.
@@ -1194,6 +1202,52 @@ export function mount(
     marketPane.append(card);
   }
 
+  function renderMap(state: GameState): void {
+    mapPane.textContent = '';
+    const show = activeTab === 'map';
+    mapPane.hidden = !show;
+    if (!show) return;
+    mapPane.append(el('h2', undefined, 'The estate 地図'));
+    const here = getNode(state.location);
+    const card = el('div', 'map-here frame');
+    const h = el('div', 'rung-now');
+    h.append(document.createTextNode(`You stand at the ${here.label.toLowerCase()} `));
+    if (here.kanji) {
+      const k = el('span', 'house-influence-kanji');
+      k.lang = 'ja';
+      k.textContent = here.kanji;
+      h.append(k);
+    }
+    card.append(h);
+    card.append(el('div', 'skill-blurb', here.blurb));
+    const revealed = new Set(state.unlocked);
+    const moves = reachableFrom(state.location, revealed);
+    if (moves.length > 0) {
+      card.append(el('div', 'lock-hint map-paths-label', 'Paths lead to:'));
+      const movesEl = el('div', 'map-moves');
+      for (const n of moves) {
+        const danger = n.dangerRing === true;
+        const gated = danger && skillLevel(state, 'conditioning') < balance.CONDITIONING_GATE_LEVEL;
+        const btn = el('button', `verb map-move${danger ? ' danger' : ''}`);
+        btn.type = 'button';
+        btn.append(document.createTextNode(`→ ${n.label} `));
+        if (n.kanji) {
+          const k = el('span');
+          k.lang = 'ja';
+          k.textContent = n.kanji;
+          btn.append(k);
+        }
+        if (danger) btn.append(el('span', 'map-danger', ' ⚠'));
+        btn.disabled = gated;
+        if (gated) btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
+        btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
+        movesEl.append(btn);
+      }
+      card.append(movesEl);
+    }
+    mapPane.append(card);
+  }
+
   function renderQuests(state: GameState): void {
     questsPane.textContent = '';
     const show = activeTab === 'quests';
@@ -1262,6 +1316,7 @@ export function mount(
     renderSkills(state);
     renderCombat(state);
     renderQuests(state);
+    renderMap(state);
     // the signature beats: a rung promotion presses the house seal (ui-design §6.2); a TIER
     // ascension lands the bigger ceremony (D-062). Tier change wins (don't double-fire).
     if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);

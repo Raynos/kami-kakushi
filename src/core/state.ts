@@ -26,6 +26,7 @@ import type { ActivityId } from './content/activities';
 import type { SkillId } from './content/skills';
 import type { MobId } from './content/enemies';
 import { getWeapon, type WeaponId } from './content/weapons';
+import type { MapNodeId } from './content/map';
 
 export type SurfaceId = string;
 export type ResourceId = string;
@@ -97,6 +98,8 @@ export interface GameState {
   readonly quests: QuestState;
   /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / D-008). */
   readonly marketBought: Readonly<Record<string, number>>;
+  /** Where you stand on the small walkable estate map (T0-M4-F4 / D-065). Default the kura. */
+  readonly location: MapNodeId;
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
@@ -152,6 +155,7 @@ export function createInitialState(
     deliveredDialogue: [],
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
+    location: 'kura',
     rung: 'R0',
     rungMeter: 0,
     estateStage: 0,
