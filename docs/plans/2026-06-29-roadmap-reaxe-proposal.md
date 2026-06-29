@@ -13,10 +13,10 @@
 > now built** (separate agent). This revision reconciles all of that and adds the work the first draft was
 > missing. **What changed this revision:** (1) **T1 + T2 detailed** to full Milestones→Fun-slices (human steer —
 > "as much detail as possible"; **T3 stays coarse**); (2) a new **Ship section** (restores the old M6 quality
-> gate + M7 release the re-axe had dropped); (3) the cross-cutting op-model bullet reconciled to D-070/D-071 +
-> the **built** `diverge` skill; (4) added the missing **D-053** (wall-time clock) and **D-054**
+> gate + M7 release the re-axe had dropped); (3) the cross-cutting op-model bullet reconciled to the **op-model v2 FINAL** (full-verify pre-commit +
+> `playcheck` ratchet + `diverge` skill — all built by the concurrent op-model agent); (4) added the missing **D-053** (wall-time clock) and **D-054**
 > (milestone-integrity) spine contracts; (5) mentor = the **domain-split canon cast**; (6) fixed the
-> `tier`-stored citation (D-014 → **D-013a**). Driven by the multi-lens review
+> `tier`-stored citation (D-014 → **D-013a**); (7) a **2026-06-29 decision round** pulled the **Staff weapon line forward into T2** (T3 → combat depth), confirmed the **partial cross-pillar combo set at T2**, and freed **milestone count to be content-driven** (no fixed cut). Driven by the multi-lens review
 > [`../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md`](../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md).
 >
 > **Why this shape (human steer, 2026-06-29):** flat slices aren't enough. Structure is **two-level, per
@@ -38,7 +38,9 @@
   D-049), **NO-STANCE-DOMINATED** (D-050), **DISPLAYED==TESTED** (fixed-seed win-rate, the blessed
   analytic-gate / sampled-display split), **DIVERGE** (mandatory UI-variant contact-sheet per new surface —
   human's 2026-06-29 call; the `diverge` skill is **built**, mandatory for new/majorly-restyled surfaces,
-  one-line tweaks exempt). The consolidated whole-v1 versions of these are gated in **Ship-M1**.
+  one-line tweaks exempt), and **playcheck** (the pacing/fun ratchet — 4 proxies in `verify` — that
+  machine-enforces the floor + fun DoD lines; op-model v2 FINAL, built). The consolidated whole-v1 versions of
+  these are gated in **Ship-M1**.
 - **Locked spine (D-048…D-055):** 6 tiers (T0 Estate-tutorial · T1 Estate-full · T2 Village · T3 Region ·
   T4 Castle-town · T5 Edo); **v1 = T0→T3**; **one pillar per tier** (T0→T1 Estate 家産 · T1→T2 Arms 武威
   unlocks Village · T2→T3 Office 官威 · T3→T4 Name 家格); **manual opt-in ascension** (hybrid grade-gate,
@@ -178,7 +180,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 
 # Tier T2 — Village (Asagiri) — *DETAILED*
 
-**Frame:** the Arms ascension has fired and the estate now **trusts you to carry its business past its own gate** into the valley — *the HOUSE rising.* T2 is the reputation **WEB** tier: Asagiri's chief, shops, artisans, inn & rumours board, shrine, and the *kamikakushi* legend open **AROUND** the spine — continuous multi-node standing meters tuned for frequent small dopamine, unlike the rung ladder. The spine is a **fresh ~8-rung house-service ladder in the valley, V0→V7** — the rung numbering **RESETS** (T0 was R0–R7, T1 R8–R15, T2 a *new* V-ladder, D-012); **the village web NEVER gates that climb** (HARD rule, §1.5.2/§1.5.4) — ignoring it is "poorer and lonelier," a **~10–15% accelerant at most**, never a wall. Provisional **~8–10h** (re-derives in the 6-tier rescale; per-rung ≈ ≥40 min — **the ≥30-min floor binds here too**, only T0 is floor-exempt). The **Tama-vs-farmhand** allegiance goes LIVE (Sayo names him "Tama" on sight). **Trade matures** into a real silk market; the **first HUMAN threat** (bandits / starving deserters, *nobushi*) drives road-security; the valley's "spirits" all turn out to be **people** — chief among them Foreman **Magobei** skimming rice with a doctored *masu* (the "**rigged box**" motif's first appearance). The **Office 官威** pillar names mid-tier, rival houses appear, and the capstone teases the Region (T3). Difficulty stays **humbling** within guardrails (D-061). **4 milestones**; rungs map **~3/2/2/1** (V0–V2 / V3–V4 / V5–V6 / V7) — see the milestone-cut note.
+**Frame:** the Arms ascension has fired and the estate now **trusts you to carry its business past its own gate** into the valley — *the HOUSE rising.* T2 is the reputation **WEB** tier: Asagiri's chief, shops, artisans, inn & rumours board, shrine, and the *kamikakushi* legend open **AROUND** the spine — continuous multi-node standing meters tuned for frequent small dopamine, unlike the rung ladder. The spine is a **fresh ~8-rung house-service ladder in the valley, V0→V7** — the rung numbering **RESETS** (T0 was R0–R7, T1 R8–R15, T2 a *new* V-ladder, D-012); **the village web NEVER gates that climb** (HARD rule, §1.5.2/§1.5.4) — ignoring it is "poorer and lonelier," a **~10–15% accelerant at most**, never a wall. Provisional **~8–10h** (re-derives in the 6-tier rescale; per-rung ≈ ≥40 min — **the ≥30-min floor binds here too**, only T0 is floor-exempt). The **Tama-vs-farmhand** allegiance goes LIVE (Sayo names him "Tama" on sight). **Trade matures** into a real silk market; the **first HUMAN threat** (bandits / starving deserters, *nobushi*) drives road-security **and opens the 3rd weapon line (staff/polearm)**; the valley's "spirits" all turn out to be **people** — chief among them Foreman **Magobei** skimming rice with a doctored *masu* (the "**rigged box**" motif's first appearance). The **Office 官威** pillar names mid-tier, rival houses appear, and the capstone teases the Region (T3). Difficulty stays **humbling** within guardrails (D-061). **4 milestones**; rungs map **~3/2/2/1** (V0–V2 / V3–V4 / V5–V6 / V7) — see the milestone-cut note.
 
 ### T2-M1 — Into the village *(the gate opens — the rep web)* — 🆕
 *the estate gate opens onto Asagiri — first valley errands, a real coin market, the reputation web inks in around the spine, branching village talk (Sayo names him "Tama"), the rumours board's kappa opener, and the first human threat on the road (V0→V2).*
@@ -189,7 +191,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | **T2-M1-F2** The reputation web inks in | 🆕 | every shopkeeper and family in Asagiri gets a face and a **standing meter** you nudge up with small, frequent wins — a warm hum of belonging the rung ladder never gave you | the reputation **WEB** panel — continuous multi-node meters with gentle curves for frequent small dopamine, **UNLIKE the rung ladder** (§1.5.2/§2.15): per-shop patron standing (smith Gonta, broker, herbalist Obaa Kuni, brewer Tokuemon), per-family goodwill, the Chief's regard (**Yagōemon**); G-NO-DEAD-VALUES — each meter has a concrete consumer (patron discounts / recipe & component unlocks / errand access); side-faction speedup **CAPPED ~10–15%** (H6) and **NEVER a wall** — ignoring the web is "poorer and lonelier," never blocked; **DIVERGE** on the rep-web panel |
 | **T2-M1-F3** Branching village talk — "Tama" goes live | 🆕 | real conversations with **choices** — you can play Asagiri peaceful or assertive, and the moment **Sayo** lays eyes on you she calls you "**Tama**," and the game quietly starts tracking who you let yourself be | branching NPC dialogue (D-039): data-not-script `choices[]` / `locksLineIds[]` / flags, deterministic; carries the **Peaceful/Assertive** route + the **Tama-vs-farmhand** leaning as flags (Sayo names him "Tama" on sight — the allegiance goes **LIVE** this tier); the diegetic mentor (D-063) extends into the village cast, no popups; **DIVERGE** on the branching-dialogue choice UI (the `choices[]` surface is new vs T0's linear lore-talk) |
 | **T2-M1-F4** The inn & the rumours board (the kappa opener) | 🆕 | the inn's **rumours board** posts the valley's tall tales — your first is a "**kappa**" dragging folk under at the ford; chasing it is pure optional flavour with a thread of dread | **Inn & Rumours Board** surface (innkeeper **Sukezō**); the **kappa-of-the-ford OPENER** posts as the first yokai-debunk quest (§1.10/§2.13) — INVESTIGATE-then-confront, resolving **one-to-one to a human/natural cause** (undertow / smugglers at the weir) with dawning dread and **NO Scooby unmasking** (D-002); **OPTIONAL — never gates the spine**; **DIVERGE** on the rumours-board surface |
-| **T2-M1-F5** Road-warden: the first human threat (V1→V2) | 🆕 | the valley's roads aren't safe — a starving band of deserters (**nobushi**) holds the ford road, and clearing them is the first time your blade is pointed at **PEOPLE**, not beasts | **V1 recognised-hand → V2 road-warden** rungs (combat gate): valley pest clears (hornet nest *suzumebachi*, wolf pack *ōkami*) then the **FIRST HUMAN THREAT — bandits / starving deserters (nobushi)** — the road-security core + new foe variety; **NO NEW WEAPON LINE at T2** — DEEPEN the two existing lines (spear L1 / sword L2) via **signature-ability milestones at weapon-L25 / L50** (the 3rd line, Staff, is T3); NO-STANCE-DOMINATED (D-050); DISPLAYED==TESTED fixed-seed win-rate; G-CURVE extends to nobushi; **≥30-min floor** on the V1/V2 rung-meter; **DIVERGE** on the signature-ability slot/reveal surface |
+| **T2-M1-F5** Road-warden: the first human threat + the Staff line (V1→V2) | 🆕 | the valley's roads aren't safe — a starving band of deserters (**nobushi**) holds the ford road, and clearing them is the first time your blade is pointed at **PEOPLE**, not beasts; to hold a road you take up a whole new weapon family — the **staff & polearm line** | **V1 recognised-hand → V2 road-warden** rungs (combat gate): valley pest clears (hornet nest *suzumebachi*, wolf pack *ōkami*) then the **FIRST HUMAN THREAT — bandits / starving deserters (nobushi)** — the road-security core + new foe variety; the **3rd combat line OPENS here — Staff / polearm (Bō, Naginata, Kanabō, Tetsubō)**, found/crafted via a loot→craft loop (never gifted), signatures deepening at weapon-L25/L50 (§4.6.9) — *(human steer 2026-06-29: the Staff line is **pulled forward from T3 into T2**, so the roster is complete by end-of-T2 and T3 is combat depth, not a new line)*; the two existing lines (spear L1 / sword L2) also deepen via their L25/L50 signatures; NO-STANCE-DOMINATED across all three lines (D-050); DISPLAYED==TESTED fixed-seed win-rate; G-CURVE extends to nobushi; **≥30-min floor** on the V1/V2 rung-meter; **DIVERGE** on the new staff-weapon / signature surface |
 
 ### T2-M2 — The valley economy & the tanuki *(trade matures + the tanuki)* — 🆕
 *trade matures into a real silk market (Onatsu's meibutsu), the valley's "spirits" come apart into people — chief among them the tanuki skimming the granary (Magobei's doctored masu, the rigged-box motif's first appearance) — and the foothills open as a second danger ring (V3→V4).*
@@ -226,7 +228,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 # Tier T3 — Region — *COARSE (v1 finish — re-detailed on approach)*
 
 **Frame:** (was T2) the wider canvas — region travel/sekisho, trade backbone, the **Origin** faction opens;
-**+Name 家格** pillar; the **Otsuru/Tama origin payoff** (canon Region payoff); **v1 content ends here**
+**+Name 家格** pillar; the **Otsuru/Tama origin payoff** (canon Region payoff); the weapon roster (spear/sword/staff) is **complete by T2** so T3 *deepens* combat (no new line); **v1 content ends here**
 (`outcome: t3done`). *(The narrative close lives in T3-M3 below; the **technical release** is the **Ship**
 section that follows.)*
 
@@ -285,12 +287,16 @@ bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** rel
   before the commit**; a **CI manifest check** asserts every instrument a DoD names resolves to a real
   test/tool (bans "SHIPPED (slice)"). The per-milestone verify-green gate is the lighter, per-commit half;
   this is the full integrity rule. *(The `pending-prd-changes.md` tracker assigns this contract to the re-axe.)*
-- **Process gates** (reconciled to D-070/D-071, post-first-draft): the **pre-commit gate is ADOPTED** (D-071 —
-  a lean, content-aware <5s gate; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1` escape hatches); the **mandatory `diverge`
-  contact-sheet is REAFFIRMED and its skill is BUILT** (human steer 2026-06-29 + a separate agent — overrides
-  D-070's hold on diverge), so the **DIVERGE** DoD lines above reference a real skill; the **`playcheck`
-  ratchet stays HELD** (D-070, rides the deferred v2-lite bundle if ever revisited). *(A future ADR should
-  amend D-070's diverge-hold to record the reaffirm + build — batched-ripple territory, not this proposal's.)*
+- **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](2026-06-29-operating-model-v2-final.md),
+  built by a concurrently-active op-model agent) is the **source of truth**: that plan *defines* the gates,
+  this roadmap *bakes them in*. All three are now **BUILT**: (1) the **pre-commit gate runs the full `verify`**
+  (drift-bounded ~5s budget, never time-blocking; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1` escape hatches); (2) the
+  **`playcheck` fun-vector ratchet** (4 pacing/fun proxies, in `verify`) — so the **≥30-min floor** + the
+  pacing/fun DoD lines above are **machine-enforced**, not merely asserted; (3) the **mandatory `diverge`
+  contact-sheet skill** (DS#10, human's 2026-06-29 steer — mandatory for new/major UI surfaces, one-line tweaks
+  exempt), so the **DIVERGE** DoD lines reference a real skill. **DIVERGE + `playcheck` are the two forward DoD
+  contracts** the fun-slices carry. *(The FINAL plan's ADR numbers are still being formalized into
+  `decisions.md` — defer to that plan, not to a specific D-0NN here.)*
 - **PRD stays liquid** (decision #7, D-059): no §1 freeze; the PRD is split into per-section files (decision #6)
   and rippled in one batch, then re-tuned by playtest through T0→T3; converted to living docs only once v1 is
   **fully built + playtested**.
@@ -306,7 +312,7 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
 
 | # | Original question | Resolution | Source |
 |---|---|---|---|
-| **OQ-1** | Milestone count (N per section)? | **Was "keep 4/3/3/3"; now 4/4/4/3 (+ Ship's 2)** — the human's "detail T1/T2 as much as possible" steer (2026-06-29) supersedes the old default; T1 & T2 each detailed at **4** milestones (both designers independently landed on 4; the content load justifies it), T0=4, T3 stays coarse at 3, **+ a Ship section (2)**. Fold-back if cadence demands: T1 fold M3 into M1/M4; T2 collapse M3 into M4. | **human steer + agent design** |
+| **OQ-1** | Milestone count (N per section)? | **No fixed cut — agent's content-driven call** (human 2026-06-29: "as many milestones as you please"). The old "4/3/3/3" is fully retired; the current shape **4/4/4/3 (+ Ship's 2)** reflects the content and may grow/shrink as on-approach detailing warrants. | **human steer + agent design** |
 | **OQ-2** | Within-T0 order — spine-spike first or breadth first? | **SPINE-FIRST, thin.** Embodied in the milestone order: **T0-M3 (spine, on minimal content) is built before T0-M4 (showcase breadth)**. | **decision #18** |
 | **OQ-3** | Fun-slice granularity / grain? | **"One playable thing per fun-slice", ≈3–5 per milestone** — kept (T1/T2 run 4–5 per milestone). | delegated → agent call |
 | **OQ-4** | Shipped T0 — rebuild or carry forward? | **CARRY FORWARD + RETUNE.** M0–M2b is the kept, play-tested foundation; the reshape layers on top (NOT a rebuild). | **decision #19** |
@@ -323,26 +329,25 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
   Sōan (healing). Wired into T0-M1-F3, T1-M2-F2, and the cross-cutting bullet.
 - **NQ-3 — Walkable-map scope → option (a).** Minimal walkable map in **T0-M4-F4**, grown in **T1-M3-F4** (Near
   Satoyama) and **T2** (Asagiri + Foothills), with a pinned node-count ceiling. (Option (c) would violate D-065.)
+- **T2 weapon line → PULL THE STAFF LINE INTO T2** (human steer 2026-06-29). The 3rd combat line (Bō / Naginata
+  / Kanabō / Tetsubō) opens at **T2-M1-F5**, found/crafted; the weapon roster is **complete by end-of-T2**, so
+  **T3 is combat *depth*, not a new line**.
+- **Cross-pillar combos → PARTIAL set at T2 (Office pairs only)** — Arms×Office + Estate×Office surface at
+  **T2-M3-F3**; the full 4-pillar anti-slump set lands at T3 when Name reveals.
+- **Milestone count → AGENT'S CONTENT-DRIVEN CALL, no fixed cut** (human: "as many milestones as you please").
+  The current 4/4/4/3 (+ Ship's 2) reflects the content; expand or contract freely as on-approach detailing warrants.
 
 **Still flagged for your steer (recommended default applied; flag to override — none block the build):**
-1. **Milestone count 4/4 for T1/T2** (breaks the old 4/3/3/3). *Default: keep 4/4* — justified by the content
-   load; fold-back path noted in OQ-1.
-2. **Per-tier hour floors** — T1 ~5–8h, T2 ~8–10h, per-rung ≈ ≥40 min. *Default: accept as provisional; the
+1. **Per-tier hour floors** — T1 ~5–8h, T2 ~8–10h, per-rung ≈ ≥40 min. *Default: accept as provisional; the
    §4.8 ~28.5h budget re-derives across all 4 v1 tiers together at Ship-M1-F2* (the numbers only set rung
    thresholds, which playtest re-tunes).
-3. **E-stage → tier mapping + retinue** — *Default: E1→E2 lands in T1 (estate visibly grows once), E2→E3+ slips
+2. **E-stage → tier mapping + retinue** — *Default: E1→E2 lands in T1 (estate visibly grows once), E2→E3+ slips
    to T2+, and the first paid retinue (Gohei & Yatarō) belongs to T1* (so T2's V5 is a deployment/expansion,
    not a first).
-4. **T1 R8→R15 rung titles** (Kura Warden → … → Trusted Man of the House) + the two-track Estate-Service /
+3. **T1 R8→R15 rung titles** (Kura Warden → … → Trusted Man of the House) + the two-track Estate-Service /
    Combat-Rank sub-meter split. *Default: accept the proposed shape; titles are easily restyled later.*
-5. **T2 = no new combat line** — deepen the two existing lines (signature abilities at weapon-L25/L50) + the
-   first human threat (bandits/nobushi); hold the 3rd line (Staff) for T3. *Default: no new line at T2*
-   (re-points the orphaned V2 "road-warden opens the 2nd line" copy).
-6. **Cross-pillar combo onset (T2)** — *Default: a PARTIAL set at T2 (Office pairs only — Arms×Office,
-   Estate×Office); the full 4-pillar anti-slump set waits for T3* (Name reveal). Alternative: hold ALL combos
-   for T3 for a cleaner onset.
-7. **Rival-house T2/T3 split** — *Default: rivals INTRODUCED + the contest BEGINS + the first contested deed at
+4. **Rival-house T2/T3 split** — *Default: rivals INTRODUCED + the contest BEGINS + the first contested deed at
    T2; the climax (G5 Naoyuki ally-flip, G7 dethroning) at T3.*
-8. **Deed-band magnitudes (provisional, both tiers)** — T1 Arms 0.5K/0.72K/0.95K (cap 20 ip) + Estate
+5. **Deed-band magnitudes (provisional, both tiers)** — T1 Arms 0.5K/0.72K/0.95K (cap 20 ip) + Estate
    0.8K/1.1K/1.5K; T2 Office 2K/3.2K/4.5K (cap 80 ip), Estate good 8K / Arms good 5K. *Default: accept as
    provisional (PRD §4 is liquid, D-059); re-confirm against D-049 on approach.*
