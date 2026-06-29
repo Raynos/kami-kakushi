@@ -384,6 +384,26 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
     // can't craft again without materials (no-op)
     expect(reduce(crafted, { type: 'craft_weapon', recipeId: 'craft_wood_axe' })).toBe(crafted);
   });
+
+  // D-052 "never-gifted" gate (battery #16): equipping the axe is refused until you've forged
+  // it — a RED-able guard so a regression that re-allows the un-crafted axe can't pass green.
+  it('the axe cannot be equipped until it has been crafted (D-052 never-gifted gate)', () => {
+    const base = atFullSatiety(createInitialState(1));
+    const armed: GameState = { ...base, unlocked: [...base.unlocked, 'tab-combat'] };
+    // no `crafted-wood_axe` flag → equipping the axe is a structural no-op
+    expect(armed.flags['crafted-wood_axe']).toBeUndefined();
+    expect(reduce(armed, { type: 'equip_weapon', weaponId: 'wood_axe' })).toBe(armed);
+    // forge it (sets the flag + equips), switch back to the pole, then re-equip the axe → allowed
+    const stocked: GameState = {
+      ...armed,
+      resources: { ...armed.resources, hardwood: 3, beast_sinew: 1 },
+    };
+    const crafted = reduce(stocked, { type: 'craft_weapon', recipeId: 'craft_wood_axe' });
+    const onPole = reduce(crafted, { type: 'equip_weapon', weaponId: 'carrying_pole' });
+    expect(onPole.equippedWeapon).toBe('carrying_pole');
+    const reArmed = reduce(onPole, { type: 'equip_weapon', weaponId: 'wood_axe' });
+    expect(reArmed.equippedWeapon).toBe('wood_axe'); // now permitted — the flag survives
+  });
 });
 
 // The R3 terminal beat + 2nd-dream payoff + macro-teaser (audit #2/#6/#13). The two

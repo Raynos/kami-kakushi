@@ -13,6 +13,8 @@ import {
   levelForXp,
   promoteRungs,
   phaseOf,
+  mcCombatStats,
+  hpMax,
   RANKS,
   type GameState,
   type Intent,
@@ -171,6 +173,33 @@ describe('walkable estate map (T0-M4-F4 / D-065)', () => {
       unlocked: [...atForecourt.unlocked, 'room-near-satoyama'],
     };
     expect(reduce(atPaddies, { type: 'move_to', to: 'near-satoyama' })).toBe(atPaddies);
+  });
+});
+
+// PRD no-magic / mediocre-start acceptance criterion (battery #17): the porter's-knot Origin
+// beat is FLAVOR — it grants ZERO mechanical bonus. A RED-able invariant: two states differing
+// ONLY in the knot/dream flags produce byte-identical combat stats, HP ceiling, and labour yield.
+// If anyone ever wires the dream to a stat, this flips RED.
+describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () => {
+  it('the origin-dream flags change no combat stat, HP ceiling, or labour yield', () => {
+    const base = createInitialState(1);
+    const plain: GameState = {
+      ...base,
+      rung: 'R2',
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'verb-farm', 'tab-combat'],
+    };
+    const withKnot: GameState = {
+      ...plain,
+      flags: { ...plain.flags, 'porters-knot': true, 'dream-1': true },
+    };
+    // combat stats + HP ceiling are identical (the dream grants no might/guard/vigor/hp)
+    expect(mcCombatStats(withKnot)).toEqual(mcCombatStats(plain));
+    expect(hpMax(withKnot)).toBe(hpMax(plain));
+    // labour yields the same koku (the dream is no productivity blessing either)
+    const yKnot = reduce(withKnot, { type: 'do_activity', activityId: 'farm_paddy' });
+    const yPlain = reduce(plain, { type: 'do_activity', activityId: 'farm_paddy' });
+    expect(yKnot.resources.koku).toBe(yPlain.resources.koku);
   });
 });
 

@@ -266,6 +266,16 @@ no human design call — the rest are routed to **R4** (the 6-item judgment queu
 - **`test-integrity` — tautological no-stranding test.** `m2.test.ts` asserted on a directly-mutated `foughtBroken`
   (couldn't go RED). **Fix:** rewritten to drive the real `reduce` durability path (repair/cook/woodcut/forage intents).
 
+Then two **cheap RED-able coverage guards** the battery named (#16, #17 — engineering lane, pure test additions,
+zero production change, hardening LOCKED criteria):
+
+- **#16 D-052 equip "never-gifted" gate had ZERO coverage.** Added an `m2.test.ts` reduce-level test: `equip_weapon
+  wood_axe` is a structural no-op (`=== state`) without `crafted-wood_axe`, and succeeds only after `craft_weapon`
+  sets it — a regression re-allowing the un-forged axe now goes RED.
+- **#17 porter's-knot "ZERO mechanical bonus" honored but not RED-able.** Added an `m1.test.ts` invariant: two states
+  differing ONLY in the knot/dream flags produce byte-identical `mcCombatStats` + `hpMax` + labour koku yield — locks
+  the no-magic / mediocre-start acceptance criterion against anyone wiring the dream to a stat.
+
 ## Next intended steps (current)
 1. **Battery completes → synthesize the report + act on self-resolvable findings; route the rest to ADRs/H-R items.**
 2. Then: project-status current → final journal → checkpoint-push. (Deferred-by-design + the M2·8 fork retirement
