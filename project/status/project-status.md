@@ -111,6 +111,16 @@ metadata:
   **`docs/plans/` now holds only `path-to-v0.3.md`.** Ticked the stale `PRD-SPLIT` checkbox in
   `pending-prd-changes.md` (~41 ripple items remain; figure corrected session-13). **Simplified** `docs-to-read-for-human.md` to a terse live
   queue (only path-to-v0.3 + pending-prd-changes still need sign-off). Commit `929ace6`, `verify`-green.
+- **Phase update — path-to-v0.3 RESTRUCTURED + HOUSEKEEPING SWEEP (2026-06-29, session-13).** A 3-way grounded
+  Workflow audit confirmed **every** upstream "done" claim (ADRs D-056–D-069 + D-072–D-074, roadmap promotion,
+  op-model v2 FINAL, PRD-split) against the repo, then
+  [`path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md) was rewritten into **two clean parts** —
+  **Part 1 · the doc/PRD content ripple** (~41 items, gated on the human's extra PRD feedback) + **Part 2 · the
+  spine-first v0.3 build** (carry-forward + 9 ordered steps = roadmap **T0-M3** + the **T0-M2 HP-carry** retune) —
+  with all done work collapsed into a footer. Plus the 3 ungated consistency fixes the audit flagged: flipped the
+  roadmap-re-axe box (tracker now **41 open / 3 done**), corrected the stale "37"→"~41" ripple figure, and
+  repointed all **6 broken `docs/plans/` links** → `project/archive/`. Commits `0d2fa28`/`3148e78`, docs-only.
+  Critical path unchanged: **Part 1 (ripple) → Part 2 (build)**, both gated on the human; **R1** still open.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -128,7 +138,7 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-12-plan-staleness-archive.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-13-path-to-v03-restructure.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
      the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (the only plan left in `docs/plans/`; the
      roadmap re-axe + op-model v2 FINAL plans are now executed & **archived** under `project/archive/`).
