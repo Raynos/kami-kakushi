@@ -20,28 +20,20 @@ export {};
 import {
   createInitialState,
   reduce,
-  availableActions,
-  availableLabours,
-  canDoActivity,
-  getActivity,
-  satietyMax,
-  getRank,
   foeForecasts,
   balance,
   type GameState,
   type BalanceProfile,
-  type ActivityId,
-  type Intent,
 } from './core';
-import { walkPacing } from './scripts/pacing-report';
+import { walkPacing, focusedOptimalIntent } from './scripts/pacing-report';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const { AUTO_REPEAT_MS, rungThreshold } = balance;
+const { AUTO_REPEAT_MS } = balance;
 const SEED = 20260626;
-const FIRST_ACTION_CAP_MS = 5000; // §3 absolute: first reward inside 5s
-const RATCHET_SLACK = 1.5; // a proxy may not regress to >1.5× its blessed value
-const DEAD_TIME_FLOOR_MS = 3000; // below this, dead-time is never a problem (don't trip on noise)
+const FIRST_ACTION_CAP_MS = 5000; // §3 absolute hard cap: first reward must land inside 5s
+const RATCHET_MULT = 3; // a proxy regressing past 3× its blessed value is RED…
+const RATCHET_FLOOR_MS = 2000; // …but never below this absolute floor (don't trip on integer-intent noise)
 const CURVE_LEVELS = [1, 2, 3, 4, 5];
 
 export interface ProxyVector {
@@ -61,53 +53,34 @@ export interface Baseline {
 
 const baselineUrl = new URL('../playcheck.baseline.json', import.meta.url);
 
-/** Cheapest eligible labour for the current rung — focused-optimal (mirrors pacing-report). */
-function cheapestEligible(s: GameState): ActivityId | null {
-  const elig = new Set(getRank(s.rung).eligible);
-  const o = availableLabours(s)
-    .filter((x) => x.available && elig.has(x.activity.id))
-    .sort((a, b) => a.activity.satietyCost - b.activity.satietyCost);
-  return o.length ? o[0]!.activity.id : null;
-}
-
-/** The focused-optimal next intent (the SAME policy walkPacing drives). */
-function nextIntent(s: GameState, profile: BalanceProfile): Intent | null {
-  const acts = availableActions(s);
-  if (acts.includes('open_eyes')) return { type: 'open_eyes' };
-  if (s.character.satiety < satietyMax(s) * 0.25 && acts.includes('rest')) return { type: 'rest' };
-  if (acts.includes('rake_rice')) return { type: 'rake_rice' };
-  if (
-    s.rung === 'R2' &&
-    !s.flags['first-fight-survived'] &&
-    s.rungMeter >= rungThreshold('R2', profile)
-  ) {
-    return { type: 'face_wolf' };
-  }
-  const c = cheapestEligible(s);
-  if (c && canDoActivity(s, getActivity(c))) return { type: 'do_activity', activityId: c };
-  return null;
-}
-
 /** A state at combat level `lvl`, full satiety — the seed-robust win-curve probe (mirrors m2.test mc()). */
 function mcAtLevel(lvl: number): GameState {
   const s = createInitialState(1);
   return { ...s, character: { ...s.character, level: lvl, satiety: 100 } };
 }
 
-/** Trace the cold-open → play loop, recording whether each intent produced a reward. */
+/**
+ * Trace the cold-open → play loop (driving the SHARED focused-optimal policy), recording whether
+ * each intent produced a reward. A "reward" = any visible forward beat: koku up, rung-meter up, a
+ * new reveal, or a level-up. (If a future content type rewards in another currency, extend here.)
+ */
 function rewardTrace(profile: BalanceProfile, seed = SEED): boolean[] {
   let s = createInitialState(seed, profile);
   const rewarded: boolean[] = [];
   let guard = 0;
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
-    const intent = nextIntent(s, profile);
+    const intent = focusedOptimalIntent(s, profile);
     if (!intent) break;
     const koku = s.resources.koku ?? 0;
     const meter = s.rungMeter;
     const reveals = s.unlocked.length;
+    const level = s.character.level;
     s = reduce(s, intent);
     rewarded.push(
-      (s.resources.koku ?? 0) > koku || s.rungMeter > meter || s.unlocked.length > reveals,
+      (s.resources.koku ?? 0) > koku ||
+        s.rungMeter > meter ||
+        s.unlocked.length > reveals ||
+        s.character.level > level,
     );
   }
   return rewarded;
@@ -145,17 +118,24 @@ const sec = (ms: number): string => (ms === Infinity ? '∞' : `${(ms / 1000).to
 export function evaluate(v: ProxyVector, base: Baseline): string[] {
   const fails: string[] = [];
 
-  // firstActionMs: the §3 absolute cap is the gate (first reward must land inside 5s).
+  // The ratchet limit for a "lower-is-better" proxy: regress past RATCHET_MULT× the blessed value
+  // and it's RED — but never trip below an absolute floor (so tiny baselines don't fail on noise).
+  const ratchetLimit = (blessed: number): number =>
+    Math.max(blessed * RATCHET_MULT, RATCHET_FLOOR_MS);
+
+  // firstActionMs: the §3 hard cap (first reward inside 5s) AND a ratchet vs the blessed hook.
   if (v.firstActionMs > FIRST_ACTION_CAP_MS) {
-    fails.push(`firstActionMs ${sec(v.firstActionMs)} > ${sec(FIRST_ACTION_CAP_MS)} cap (§3 hook)`);
+    fails.push(`firstActionMs ${sec(v.firstActionMs)} > ${sec(FIRST_ACTION_CAP_MS)} §3 hard cap`);
+  } else if (v.firstActionMs > ratchetLimit(base.firstActionMs)) {
+    fails.push(
+      `firstActionMs ${sec(v.firstActionMs)} > ${sec(ratchetLimit(base.firstActionMs))} ratchet (${RATCHET_MULT}× baseline ${sec(base.firstActionMs)}, floor ${sec(RATCHET_FLOOR_MS)})`,
+    );
   }
 
-  // maxDeadTimeMs: ratchet against the blessed value, but never trip below an absolute floor
-  // (a sub-3s reward gap is never a fun problem — don't fail on integer-intent noise).
-  const deadLimit = Math.max(base.maxDeadTimeMs * RATCHET_SLACK, DEAD_TIME_FLOOR_MS);
-  if (v.maxDeadTimeMs > deadLimit) {
+  // maxDeadTimeMs: ratchet vs the blessed longest reward-gap (lower is better).
+  if (v.maxDeadTimeMs > ratchetLimit(base.maxDeadTimeMs)) {
     fails.push(
-      `maxDeadTimeMs ${sec(v.maxDeadTimeMs)} > limit ${sec(deadLimit)} (max of ${RATCHET_SLACK}× baseline ${sec(base.maxDeadTimeMs)}, ${sec(DEAD_TIME_FLOOR_MS)} floor)`,
+      `maxDeadTimeMs ${sec(v.maxDeadTimeMs)} > ${sec(ratchetLimit(base.maxDeadTimeMs))} ratchet (${RATCHET_MULT}× baseline ${sec(base.maxDeadTimeMs)}, floor ${sec(RATCHET_FLOOR_MS)})`,
     );
   }
 
@@ -172,10 +152,10 @@ if (RUN_AS_CLI) {
 
   console.log('playcheck — fun-factor §3 vector (profile: real)');
   console.log(
-    `  firstActionMs : ${sec(v.firstActionMs)}   (§3 hook; cap ${sec(FIRST_ACTION_CAP_MS)})  [OWNED]`,
+    `  firstActionMs : ${sec(v.firstActionMs)}   (§3 hook; ${sec(FIRST_ACTION_CAP_MS)} cap + ${RATCHET_MULT}× ratchet)  [OWNED]`,
   );
   console.log(
-    `  maxDeadTimeMs : ${sec(v.maxDeadTimeMs)}   (§3 no-dead-time; ratchet)               [OWNED]`,
+    `  maxDeadTimeMs : ${sec(v.maxDeadTimeMs)}   (§3 no-dead-time; ${RATCHET_MULT}× ratchet)            [OWNED]`,
   );
   console.log(`  combatWinCurve: ${curve}   (monkey L1..5; gated by m2.test)`);
   console.log(
@@ -197,6 +177,13 @@ if (RUN_AS_CLI) {
       base = JSON.parse(readFileSync(fileURLToPath(baselineUrl), 'utf8')) as Baseline;
     } catch {
       console.error('\n  X no playcheck.baseline.json — run `npm run playcheck -- --bless` first.');
+      process.exit(2);
+    }
+    // Guard against a stale baseline: a different blessing seed means the proxies aren't comparable.
+    if (base.seed !== SEED) {
+      console.error(
+        `\n  X baseline seed ${base.seed} != current ${SEED} — re-bless: npm run playcheck -- --bless`,
+      );
       process.exit(2);
     }
     const fails = evaluate(v, base);

@@ -67,7 +67,12 @@ if [ "${SKIP_JOURNAL:-0}" = "1" ]; then
   exit 0
 fi
 
-if git diff --cached --name-only --diff-filter=ACMR | grep -qE '^project/journal/.*\.md$'; then
+# NB: capture into a var, then match via a here-string — NOT a pipe into `grep -q`. Under
+# `set -o pipefail`, grep -q closes the read end on first match, and a large producer (thousands of
+# staged files) gets SIGPIPE (exit 141) → the pipeline reports non-zero even though the journal entry
+# matched, falsely blocking a valid commit. A here-string has no pipe producer to signal.
+staged_files="$(git diff --cached --name-only --diff-filter=ACMR)"
+if grep -qE '^project/journal/.*\.md$' <<<"$staged_files"; then
   echo "  - journal staged - convention: summary at TOP, APPEND entries at the BOTTOM (never prepend); live state -> project/status/project-status.md (see project/journal/README.md)" >&2
   exit 0
 fi

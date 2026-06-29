@@ -15,6 +15,9 @@ flags in `main` (the sole exception is the capped `keep-flags` table below).
 
 ## Open diverges (branch-preserved; `main` is flag-free) — cap 3
 
+`status`: `open` · `auto-confirmed` (TTL lapsed, self-pick promoted) · `deferred-single-idea` (shipped
+flag-free at cap; re-offer a real diverge when a slot frees). Closed rows move to the Closed crosswalk below.
+
 | surface | self-pick | 1-line why | R-item | branch | contact sheet | opened | expires | status |
 |---|---|---|---|---|---|---|---|---|
 | _(none)_ | | | | | | | | |

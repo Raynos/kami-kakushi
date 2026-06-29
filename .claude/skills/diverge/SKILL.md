@@ -56,6 +56,9 @@ planning.
 
 ## §2 · The procedure (autonomous, never blocks)
 
+0. **First-diverge setup (once ever).** If `src/ui/variants/` doesn't exist yet, build the §0 infra first (the
+   `?variant=` channels + `__qa.setVariant`, `variant-gc.mjs`, the pre-commit isolation guard) — the rest of
+   this procedure depends on it. Skip if already present.
 1. **Sweep + budget check (§4).** Run the registry sweep; if open diverges ≥ cap, apply the §4 at-cap ladder
    (which may drop you into single-idea mode and end here).
 2. **Branch:** `git checkout -b diverge/<surface>` from `main`.
@@ -129,9 +132,9 @@ crosswalk at the bottom (`surface · R# · winner · who/when · branch-was`).
 | **(silence past TTL)** | Promote self-pick to canon; archive R-item "auto-confirmed"; `git branch -D`; close the row. |
 | **`pick A`** (confirm) | Same, immediately (A already live — no code change). |
 | **`pick B`** (override) | Cherry-pick B's render diff onto `main` as the new default; re-shoot; commit; close + GC. |
-| **`blend A+C`** | **Bounded** mini-diverge: author the single blend as *one new* variant on the branch, screenshot, append to the same contact sheet + R-item. (Not a fresh 3-way.) |
+| **`blend A+C`** | **Bounded** mini-diverge: author the single blend as *one new* variant on the branch, screenshot, append to the same contact sheet. **Promote the blend onto `main` as the new live default, set it as the R-item's self-pick, and reset the TTL** — so later silence auto-confirms the *blend*, not the superseded original pick. (One new variant — not a fresh 3-way.) |
 | **`reject all`** | Revert to baseline; open a *fresh* diverge carrying the human's reason as a new constraint; GC the branch. |
-| **`keep-flags B`** | The **only** path to a durable `main` flag: promote the *named* variants to a permanent `?variant=` flag in `main` (owner + expiry), counted against the **cap of 2**. |
+| **`keep-flags B`** | The **only** path to a durable `main` flag: promote the *named* variants to a permanent `?variant=` flag in `main` (owner + expiry), counted against the **cap of 2**. **If the kept-flags table is already at 2,** the agent does **not** silently exceed the hard cap — it reports "kept-flags at cap 2" and asks the human to resolve or `📌`-unpin an existing kept-flag first. |
 
 **GC** (`variant-gc.mjs <surface> <winner>` does the rote parts): winner on `main` → `git branch -D
 diverge/<surface>` + delete refs → move the registry row to Closed → mark the R-item `✅` → **graduate if
@@ -140,11 +143,14 @@ archive-row-only).
 
 **At the cap (open = 3), NEVER stall — apply in order:**
 1. **Sweep first** — any set past `expires` → auto-resolve now (GC to self-pick) → slot freed → diverge normally.
-2. **Fast-forward the oldest stale** — none expired but oldest is past the **7-day half-life** with an untouched
-   R-item → auto-resolve it early → slot freed.
+2. **Fast-forward the oldest stale** — none expired but the oldest is past the **7-day half-life** with **no
+   human verdict yet** (the automated half-life rewording in §6 does *not* count as a "touch") → auto-resolve it
+   early → slot freed.
 3. **Single-idea mode (documented exception)** — all 3 are fresh → **do not** open a 4th. Self-pick the single
    best approach with the §6 rubric, ship it **straight to `main` flag-free** (zero debt, no branch, no R-item),
-   and log `single-idea — at cap (blocked by R<n>): no A/B captured; will diverge once a slot frees`.
+   **and add a `deferred-single-idea` row to the registry's Open table** (the surface + which R-item blocked it)
+   so the sweep re-offers a real diverge the moment a slot frees — the "diverge later" promise is *tracked*, not
+   verbal. Log `single-idea — at cap (blocked by R<n>): shipped flag-free; deferred-diverge tracked`.
 
 ## §5 · Self-pick rubric (the agent's own vision vs the bible; each axis 0–3)
 

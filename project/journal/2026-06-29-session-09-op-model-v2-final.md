@@ -112,3 +112,34 @@ collision-prone with the live roadmap agent. *Directive #2/#4's CLAUDE.md change
 
 **Next:** E + F held per X-4 until the roadmap agent clears the docs lane → F lands CLAUDE.md rule + ADRs
 D-070…D-072; E does the ASCII PRD split. Then the final adversarial review over A–F.
+
+---
+
+## Build log — Adversarial review of A/B/D/C + 15 fixes — LANDED
+
+**What:** ran a `Workflow` adversarial review (4 lenses → each finding skeptic-verified) over the committed
+op-model infra. **15 findings confirmed, 0 refuted** — all in conflict-free files, all fixed this batch. Report:
+`project/audit/reports/2026-06-29-opmodel-v2-review.md`; raw snapshot
+`project/brainstorms/raw/2026-06-29-opmodel-review.json`.
+
+**Highlights:**
+- **Gate infra:** pre-commit journal-gate SIGPIPE (pipefail + `grep -q`) → here-string; `verify-budget` median
+  failure now exits 2 (not 1, the over-budget code); a mistyped `VERIFY_BUDGET_MS` no longer silently disables
+  the guard (validated → exit 2).
+- **playcheck:** the gates had no real teeth — `firstActionMs` had only the 5s cap, `maxDeadTimeMs`'s ratchet was
+  inert under the 3s floor. Reworked to a `3× baseline / 2s floor` ratchet on both (now reads `base.firstActionMs`);
+  the test was tautological (derived its own baseline) → now loads the **committed** baseline + exercises the
+  ratchet boundary (2.1s RED / 1.9s GREEN); reward signal gained `level↑`. **De-duped the policy**: extracted
+  `focusedOptimalIntent()` in pacing-report, both it and playcheck call it — `pacing:check` confirms identical
+  numbers.
+- **diverge skill:** 5 process gaps closed (first-diverge §0 setup; blend promotes to main + resets TTL; single-
+  idea files a `deferred-single-idea` tracker; keep-flags-at-cap is gated; "untouched" = no human verdict).
+
+**Files:** `.githooks/pre-commit` · `src/scripts/verify-budget.ts` · `src/scripts/pacing-report.ts` (extract
+`focusedOptimalIntent`) · `src/playcheck.ts` · `src/playcheck.test.ts` · `.claude/skills/diverge/SKILL.md` ·
+`project/audit/variants-log.md` · `project/audit/reports/2026-06-29-opmodel-v2-review.md` (new).
+
+**Verified:** `npm run verify` PASS (104 tests); `pacing:check` unchanged; `VERIFY_BUDGET_MS=5s` → exit 2.
+
+**Status:** the conflict-free lane (A/B/D/C) is built, reviewed, and hardened. **E + F remain held per X-4**
+(roadmap agent still live). Awaiting the human's go on the docs lane.

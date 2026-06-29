@@ -20,6 +20,14 @@ import { fileURLToPath } from 'node:url';
 const BUDGET_MS = Number(process.env.VERIFY_BUDGET_MS ?? 5000);
 const RUNS = Number(process.env.VERIFY_BUDGET_RUNS ?? 3);
 
+// A mistyped VERIFY_BUDGET_MS (e.g. "5s") → NaN, and `median > NaN` is always false — which would
+// silently turn this hard-fail guard into an always-pass. Refuse to run on a bad budget. (RUNS=NaN
+// is already safe: the loop never iterates → totals empty → median undefined → exit 2 below.)
+if (!Number.isFinite(BUDGET_MS) || BUDGET_MS <= 0) {
+  console.error(`  X VERIFY_BUDGET_MS is not a positive number: "${process.env.VERIFY_BUDGET_MS}"`);
+  process.exit(2);
+}
+
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 const binDir = fileURLToPath(new URL('../../node_modules/.bin', import.meta.url));
 const env = { ...process.env, PATH: `${binDir}:${process.env.PATH ?? ''}` };
@@ -67,11 +75,23 @@ for (const g of breakdown) {
 }
 
 // --- full verify, median of RUNS ---
+// Wrap in try/catch like the per-gate phase: a gate that passed the single breakdown run but fails
+// during a median run (a flaky/non-deterministic gate) would otherwise throw an UNCAUGHT exception
+// → Node exit 1, which collides with the OVER-BUDGET exit code. Map it to exit 2 ("verify red"),
+// the same as the breakdown phase, so the two failure modes stay distinguishable by exit code.
 const totals: number[] = [];
-for (let i = 0; i < RUNS; i++) {
-  const t0 = performance.now();
-  execSync('npm run --silent verify', { cwd: repoRoot, env, stdio: 'ignore' });
-  totals.push(performance.now() - t0);
+try {
+  for (let i = 0; i < RUNS; i++) {
+    const t0 = performance.now();
+    execSync('npm run --silent verify', { cwd: repoRoot, env, stdio: 'ignore' });
+    totals.push(performance.now() - t0);
+  }
+} catch (err) {
+  console.error(
+    '  X verify FAILED during a median run (a flaky gate?) — fix verify before measuring budget.',
+  );
+  console.error(`  ${(err as Error).message.split('\n')[0]}`);
+  process.exit(2);
 }
 totals.sort((a, b) => a - b);
 const median = totals[Math.floor(totals.length / 2)];

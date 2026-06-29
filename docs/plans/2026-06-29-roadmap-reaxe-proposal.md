@@ -1,35 +1,54 @@
-# Roadmap re-axe — nested **Tier → Milestones → Fun-slices** (PROPOSAL)
+# Roadmap re-axe — nested **Section → Milestones → Fun-slices** (PROPOSAL)
 
 > **PROPOSAL — for human review.** Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the
 > **2026-06-29 decision session** ([`../../project/human-feedback/2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)).
-> **Now incorporates the 2026-06-29 decisions (#1–#23) and RESOLVES all 6 of this proposal's original open
-> questions** (see *Resolved open questions* near the bottom). This is the **candidate to become the new
+> Incorporates the 2026-06-29 decisions (#1–#23). This is the **candidate to become the new
 > [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md)** and **supersedes the M-milestone roadmap once
 > approved** — but it stays **PROPOSAL until the human OKs**; nothing here is applied canon yet.
 >
+> ⚠️ **PARTIALLY STALE → REVISED 2026-06-29.** The first draft was locked at `3f24fe6`; decisions/ADRs landed
+> **after** it (commit `64ad701`): **D-070** (Operating-Model-v2 deferred *as a bundle*; closes H7/H9/H10 — so
+> "pending H10 sign-off" is no longer accurate) and **D-071** (the lean <5s pre-commit gate, **built**). The
+> mandatory `diverge` gate was HELD by D-070 but then **reaffirmed by the human (2026-06-29) and its skill is
+> now built** (separate agent). This revision reconciles all of that and adds the work the first draft was
+> missing. **What changed this revision:** (1) **T1 + T2 detailed** to full Milestones→Fun-slices (human steer —
+> "as much detail as possible"; **T3 stays coarse**); (2) a new **Ship section** (restores the old M6 quality
+> gate + M7 release the re-axe had dropped); (3) the cross-cutting op-model bullet reconciled to D-070/D-071 +
+> the **built** `diverge` skill; (4) added the missing **D-053** (wall-time clock) and **D-054**
+> (milestone-integrity) spine contracts; (5) mentor = the **domain-split canon cast**; (6) fixed the
+> `tier`-stored citation (D-014 → **D-013a**). Driven by the multi-lens review
+> [`../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md`](../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md).
+>
 > **Why this shape (human steer, 2026-06-29):** flat slices aren't enough. Structure is **two-level, per
-> tier**: each v1 tier (T0→T3) gets **N milestones**; each milestone holds **N fun-slices**. A **fun-slice
-> ships a *playable, fun* increment** (a thing the player can *do* that feels good), never just an internal
-> feature. A **milestone** groups a few fun-slices into one coherent capability + a verify-green gate.
-> **T0 is detailed (the next-to-build tier); T1–T3 stay coarse** (re-detailed on approach, per the freeze).
+> section**: each **section** (a v1 tier **T0→T3**, or the **Ship** release section) gets **N milestones**;
+> each milestone holds **N fun-slices**. A **fun-slice ships a *playable, fun* increment** (a thing the player
+> can *do* that feels good), never just an internal feature. A **milestone** groups a few fun-slices into one
+> coherent capability + a verify-green gate. **T0/T1/T2 are detailed; T3 stays coarse** (re-detailed on
+> approach, per the freeze); a **Ship** section closes v1.
 
 ---
 
 ## Legend & conventions
 
-- **IDs:** `T0-M2-F3` = Tier 0, Milestone 2, Fun-slice 3.
+- **IDs:** `T0-M2-F3` = section T0, Milestone 2, Fun-slice 3; `Ship-M1-F2` = Ship section, Milestone 1,
+  Fun-slice 2. **Sections = the four tiers (T0→T3) + Ship.**
 - **Status:** ✅ shipped · 🔧 shipped-needs-rework (reshape/tuning) · 🆕 new · ⏳ provisional (coarse).
 - **DoD forward-contracts** baked into fun-slices (the audit §4#7 ask): **G-CURVE** (graded win-rate curve),
   **G-NO-DEAD-VALUES** (every value has a consumer), **≥30-min floor** (T1+ only — T0 is floor-exempt per
   D-049), **NO-STANCE-DOMINATED** (D-050), **DISPLAYED==TESTED** (fixed-seed win-rate, the blessed
-  analytic-gate / sampled-display split), **DIVERGE** (mandatory UI variant contact-sheet per new surface —
-  human's 2026-06-29 call).
+  analytic-gate / sampled-display split), **DIVERGE** (mandatory UI-variant contact-sheet per new surface —
+  human's 2026-06-29 call; the `diverge` skill is **built**, mandatory for new/majorly-restyled surfaces,
+  one-line tweaks exempt). The consolidated whole-v1 versions of these are gated in **Ship-M1**.
 - **Locked spine (D-048…D-055):** 6 tiers (T0 Estate-tutorial · T1 Estate-full · T2 Village · T3 Region ·
   T4 Castle-town · T5 Edo); **v1 = T0→T3**; **one pillar per tier** (T0→T1 Estate 家産 · T1→T2 Arms 武威
   unlocks Village · T2→T3 Office 官威 · T3→T4 Name 家格); **manual opt-in ascension** (hybrid grade-gate,
-  T0 = EXCELLENT; overshoot → permanent boon); **HP carries + heals by eating**; **koku compounding
-  estate-upgrade flywheel**; **T0 = showcase-in-miniature**; **active pillar + locked silhouettes** + a
-  **dream beat every tier**.
+  T0 = EXCELLENT; overshoot → permanent boon); each ascension un-greys the **next, still-unnamed** silhouette
+  (D-055); **HP carries + heals by eating** (D-050); **koku compounding estate-upgrade flywheel** (D-051);
+  **T0 = showcase-in-miniature** (D-052); **active pillar + locked silhouettes** + a **dream beat every tier**;
+  **wall-time "leave-it-running" clock** (D-053 — sim advances by elapsed wall-time, no pause on
+  `document.hidden`); **milestone-integrity** (D-054 — a milestone is SHIPPED only when every DoD line is met
+  *or* ADR-amended before the commit; the CI manifest check asserts every named instrument resolves to a real
+  test/tool; bans "SHIPPED (slice)").
 
 ---
 
@@ -37,9 +56,11 @@
 
 > **Resolves OQ-4.** The shipped M0–M2b foundation is **kept and retuned, NOT rebuilt** (human reversed an
 > initial "rebuild fresh"). We layer the reshape *on top* of the working, play-tested slice — HP-carry/heal,
-> found/crafted 2nd weapon, the pillar + ascension, SFX, dev tools, the humbling-friction tune. The
-> reshape's schema bump **wipes dev/v0.2 saves** (decision #15 — pre-launch, no users); the real `migrate()`
-> path is built + test-covered before launch, not exercised across dev churn.
+> found/crafted 2nd weapon, the pillar + ascension, SFX, dev tools, the humbling-friction tune, and **retiring
+> the DEMO/REAL pacing-profile fork** (decision #1 / D-056 — real D-049 is the only profile; review velocity
+> comes from the DEV-only 2×/4×/8× time multiplier). The reshape's schema bump **wipes dev/v0.2 saves**
+> (decision #15 — pre-launch, no users); the real `migrate()` path is built + test-covered before launch, not
+> exercised across dev churn.
 
 | Was | Maps to | What's real |
 |---|---|---|
@@ -57,20 +78,21 @@ arc already exists and carries forward.
 
 **Frame:** learn the whole game in miniature; rungs **R0→R7**; **4 milestones** in **SPINE-FIRST build order**
 (decision #18 — see the build-order box at the end of T0). Pacing = **real D-049** (~10–15 min/rung,
-**floor-exempt**, decision #1) — **fast but NOT easy**: the mediocre-start bite + durability/satiety friction
-stay **humbling THROUGHOUT** within guardrails (winnable · soft-setback only · no permanent loss · no
-stranding) (decision #13). Onboarding is a **diegetic mentor** — an in-world character teaches each system by
-dialogue/story as it unlocks, **never popups** (decisions #17, #22, D-015). The estate is a **small WALKABLE
-map** (decision #23). DEV tools throughout: a **2×/4×/8× speed toggle + jump-to-rung/tier teleport** (decision
-#16, stripped from prod) and a **dev save-wipe** on the reshape schema bump (decision #15). Ends at the
-**BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #14).
+**floor-exempt**, decision #1) — the **DEMO/REAL profile fork is retired** (D-056); **fast but NOT easy**: the
+mediocre-start bite + durability/satiety friction stay **humbling THROUGHOUT** within guardrails (winnable ·
+soft-setback only · no permanent loss · no stranding) (decision #13). Onboarding is a **diegetic mentor** — the
+**domain-split canon cast** teaches each system in-world as it unlocks (**Genemon** for labour/koku · **Kihei**
+for arms/combat · **Sōan** for healing), **never popups** (decisions #17, #22, D-015). The estate is a **small
+WALKABLE map** (decision #23). DEV tools throughout: a **2×/4×/8× speed toggle + jump-to-rung/tier teleport**
+(decision #16, stripped from prod) and a **dev save-wipe** on the reshape schema bump (decision #15). Ends at
+the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #14).
 
 ### T0-M1 — Waking on the estate *(the hook)* — mostly ✅ + a 🆕 juice/onboarding pass
 | Fun-slice | Status | The fun | DoD |
 |---|---|---|---|
 | **T0-M1-F1** Cold open & first rake | ✅ | the woodblock cold-open hook; log cascades in | first-interactable <5s; rake → koku ticks → log line |
 | **T0-M1-F2** Labour loop + estate inks in (R0→R2) | ✅ | numbers climb, nav/rooms reveal one-per-beat | R0→R2 AND-gate; reveal stagger; G-NO-DEAD-VALUES |
-| **T0-M1-F3** 🆕 **Meet your mentor (diegetic onboarding opens)** | 🆕 | an in-world character greets you and teaches the labour loop as *story*, not a tooltip — adds a face to the estate | in-world mentor (e.g. estate elder / drillmaster Kihei); dialogue is **data-not-script** (D-039); teaches by reveal-as-plot, **non-hand-holdy — no hint popups** (#17, D-015); **DIVERGE** on the dialogue panel |
+| **T0-M1-F3** 🆕 **Meet your mentor (diegetic onboarding opens)** | 🆕 | an in-world character greets you and teaches the labour loop as *story*, not a tooltip — adds a face to the estate | the labour mentor (**Genemon**, of the domain-split cast — Kihei teaches arms in T1-M2-F2, Sōan healing) greets you; dialogue is **data-not-script** (D-039); teaches by reveal-as-plot, **non-hand-holdy — no hint popups** (#17, D-015); **DIVERGE** on the dialogue panel |
 | **T0-M1-F4** 🆕 **Juice + dev-tools pass — minimal SFX + speed/teleport** | 🆕 | per-deed hit cue, koku tally-flash, rank-up flourish — *the biggest remaining fun lever, lands BEFORE the R1 taste call* (#2) | **traditional-palette SFX** (#12 — taiko / shamisen-koto / shakuhachi / temple-bell 鈴; synth Web Audio, reduced-motion/mute-safe); DEV **speed toggle + jump-to-rung/tier teleport** (#16) gated out of prod; **DIVERGE** if any new surface |
 
 ### T0-M2 — First blood *(the humbling)* — ✅ + a 🔧 retune pass
@@ -87,7 +109,7 @@ map** (decision #23). DEV tools throughout: a **2×/4×/8× speed toggle + jump-
 |---|---|---|
 | **T0-M3-F1** The Estate pillar goes live | the House-Influence panel un-greys the **active Estate pillar + locked unnamed silhouettes** (D-055) | R7 capstone **opens** Phase 2; `pillarDeltas` deeds accrue **only** post-R7 (FU7); additive `influence:{value,highWater}` state; **DIVERGE** on the influence panel |
 | **T0-M3-F2** The seasonal judged result | the season turns and *judges* your house — a high-water payoff beat | `onSeasonBoundary` fires on **new high-water only**, ±10% via a day-keyed named RNG sub-stream; **70/30** deeds/seasonal |
-| **T0-M3-F3** Graduate the tutorial → **the BIG ceremonial T0→T1** | a **manual opt-in ascension story event** that **always lands BIG on first contact** (#14) — title card, macro silhouettes stir, music swell, a **dream/mystery beat** (D-055), the grade-scaled boon revealed | hybrid gate (**T0 = EXCELLENT**); overshoot → better permanent boon (D-049); `tier` 0→1 stored (D-014); grade-scaled reward bundle; **first SCHEMA_VERSION bump → dev save-WIPE (#15)** + the real `migrate()` path **built + test-covered before launch** (not run across dev churn); **DIVERGE** on the ascension surface |
+| **T0-M3-F3** Graduate the tutorial → **the BIG ceremonial T0→T1** | a **manual opt-in ascension story event** that **always lands BIG on first contact** (#14, **NQ-1 = full ceremony in this DoD**) — title card, macro silhouettes stir, music swell, a **dream/mystery beat** (D-055), the grade-scaled boon revealed | hybrid gate (**T0 = EXCELLENT**); overshoot → better permanent boon (D-049); `tier` 0→1 stored (**D-013a**; enum 0..5 per D-048); grade-scaled reward bundle; **first SCHEMA_VERSION bump → dev save-WIPE (#15)** + the real `migrate()` path **built + test-covered before launch** (not run across dev churn); **DIVERGE** on the ascension surface |
 
 ### T0-M4 — The showcase in miniature *(the breadth taste — fills R4→R7 around the proven spine)* — 🆕
 *D-052: a tiny taste of every system so a genre-literate player sees the whole game's shape early — built **after** the M3 spine spike proves the loop.*
@@ -96,7 +118,7 @@ map** (decision #23). DEV tools throughout: a **2×/4×/8× speed toggle + jump-
 | **T0-M4-F1** Your first quest | a goal beyond grinding — take & complete one PEST/HUNT/CLEAR | one quest end-to-end (order-free advance-event set); reveals as a top-level tab (D-037) |
 | **T0-M4-F2** The koku flywheel taste (**LINEAR**) | spend koku on a first estate upgrade that *raises yield* → it compounds | **LINEAR** estate-upgrade taste now (decision #20 — **branches into LAND / TREASURY / TRADE sub-engines at T1**); E1→E3 yield-bearing upgrades (D-051); work→koku→upgrade→more output; G-NO-DEAD-VALUES guards a compounding sink |
 | **T0-M4-F3** Talk & a tiny market | the **mentor's lore-talk** deepens; a tiny koku-sink **market** (the TRADE taste) | one NPC **lore-talk** line via the mentor (data-not-script, D-039); a tiny market (capped koku sink); **DIVERGE** on the dialogue/market panels |
-| **T0-M4-F4** A place to explore — a small **WALKABLE map** | the estate is areas you **move between**, not a menu (decision #23 — delivers the §1 "areas to explore" promise) | a **small walkable T0 map** (not just organizational room-grouping); navigable, reveal-per-beat; **DIVERGE** on the map surface |
+| **T0-M4-F4** A place to explore — a small **WALKABLE map** | the estate is areas you **move between**, not a menu (decision #23 — delivers the §1 "areas to explore" promise) | a **small walkable T0 map** (not just organizational room-grouping; **NQ-3 = minimal here, grow in T1**, with a pinned node-count ceiling); navigable, reveal-per-beat; **DIVERGE** on the map surface |
 | **T0-M4-F5** Stance & ability reveals (R5 / weapon-L10) | the combat decision deepens with a reveal beat | stance slot + ability/item slots reveal one-per-beat; touch-legible (no hover-only) |
 
 > **✅ Build order inside T0 — SPINE-FIRST, LOCKED (decision #18; resolves OQ-2).** The milestone order above
@@ -104,69 +126,177 @@ map** (decision #23). DEV tools throughout: a **2×/4×/8× speed toggle + jump-
 > season-judge, the BIG ascension — **on minimal content FIRST**, proving the macro loop closes (the audit's
 > #1 gap), *then* fill **T0-M4's showcase breadth** around the proven spine. The small walkable map (#23) is
 > the heaviest new T0 build and sits in M4 specifically so it can't crowd out the spine-first cadence; grow it
-> in T1 (see NEW open question NQ-3).
+> in T1 (NQ-3 = option a).
 
 ---
 
-# Tier T1 — Estate (full) — *COARSE*
+# Tier T1 — Estate (full) — *DETAILED*
 
-**Frame:** left the tutorial; the **real grind** (≥30-min/rung floor binds); **~8 new rungs (≈R8→R15, ~16
-estate rungs total)** — confirmed per D-052 + the reshape (resolves OQ-6); **+Arms 武威** pillar → its
-ascension **unlocks the Village**.
+**Frame:** the tutorial's over and the estate is no longer in miniature — **the real grind.** The full household, its land, its debt and its arms all **scale into real depth** (D-052), and the mediocre-start protagonist becomes a genuinely *capable estate man*. Rungs **R8→R15** (≈8 new rungs, ~16 estate rungs total; resolves OQ-6) — they **continue the T0 R-ladder** (T0 was R0→R7), still estate-scale, before any village. This is where the **≥30-min/rung floor BINDS for the first time** (D-049, D-056 — T0 was floor-exempt); Phase-1 runs a provisional **~5–8h** (≈8 rungs × ≥40 min/rung; re-derives at the M6 6-tier ~28.5h rescale). The new pillar is **Arms 武威** — earned via recognised martial **deeds** + a seasonal-security judged result; its ascension **un-greys the next pillar silhouette + opens the Village (T2)**. Difficulty stays **humbling THROUGHOUT** within guardrails (winnable · soft-setback-only · no permanent loss · no stranding, D-061). The estate's domain is still **its own land** — the valley does NOT open until the Arms ascension fires at tier-end; the "first errands past the gate / valley in view" beat is the **T2 teaser shown at ascension**, not playable T1 content. **4 milestones** (vs the old coarse 3 — see the milestone-cut note).
 
-| Milestone | Headline | Example fun-slices |
-|---|---|---|
-| **T1-M1** The real grind opens | the floor binds; deeper labour/skill web; the koku flywheel **branches** | a bigger labour/skill chain; the koku flywheel **splits LINEAR → LAND / TREASURY / TRADE sub-engines** (decision #20, D-008, trade ≤⅓) where depth matters; **≥30-min floor** regression test goes live |
-| **T1-M2** Arms rising | combat deepens — **2nd combat line + 3 T1 weapons**; **Arms 武威** deeds accrue | a real bandit-wall fight; the drill-yard training track; first martial **deed** → Arms pillar |
-| **T1-M3** Two-pillar ascension | the **R15 capstone** → hybrid **1 GREAT + 1 EXCELLENT** across Estate+Arms → **T2 (Village)**; dream beat | the ascension story event + boon; un-grey the 2nd pillar |
+### T1-M1 — The real grind opens *(the full ladder + the 3-lane flywheel)* — 🆕
+*the tutorial's off — eight full-estate rungs, the ≥30-min floor binds, the koku flywheel splits into three lanes, and the labour/skill web deepens.*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T1-M1-F1** Past the Bailiff's post — the full-estate ladder + the floor binds | 🆕 | you climb out of the tutorial into eight real estate roles — **Kura Warden → Field Reeve → Drill-yard Hand → Stable & Woodlot Master → Ledger-hand → Armsman of the House → Under-steward → Trusted Man of the House** — and for the first time a rung is a genuine *grind*, not a quick taste; the estate starts taking you seriously | R8→R15 ladder live on a **two-track rung-meter** — an **Estate-Service** (labour) sub-meter + a parallel **Combat-Rank** (martial) sub-meter; promotion on the **Phase-1 AND-gate** (both sub-meters ≥ floor AND the rung's story milestone, §4.1.1); thresholds back-solved from the **≥30-min floor** (≈40 min/rung) and the **floor regression test goes live here** (M6 fails on undershoot only, D-056); G-CURVE extends to the T1 ladder; **DIVERGE** on the two-sub-meter rung/track panel |
+| **T1-M1-F2** The koku flywheel branches — LAND (shinden reclamation) | 🆕 | your single koku line **splits** — pour surplus into **LAND** and you drain and reclaim the first *shinden* marsh into new paddy; the estate visibly grows (E1→E2) and the new yield compounds back into the engine | flywheel branches **LINEAR → three capped sub-engines** (LAND / TREASURY / TRADE, D-066/D-051/D-008); LAND = **shinden reclamation**, yield-bearing (D-051); **E1→E2 estate stage lands here** (resolves ambiguity #1); the **TRADE lane is present but hard-capped ≤⅓** of Estate & Wealth (D-008); G-NO-DEAD-VALUES extends to every new sub-engine currency/sink; **DIVERGE** on the branched flywheel panel + the reclamation surface |
+| **T1-M1-F3** The TREASURY engine — debt → solvency | 🆕 | you sit with clerk **Tanomo** and start chipping at the **Inherited Debt** owed to pawnbroker **Tōkichi** — the debt meter falls toward solvency, *goyōkin* leverage opens, and the house's circumstance (not a villain) slowly lifts | **TREASURY** capped sub-engine (debt→solvency, *goyōkin*); the Inherited Debt stays a **CIRCUMSTANCE, not a conspirator** — the "rigged box" racket has **no fingerprints at the estate** (it first surfaces at T2); debt-paydown is a real koku consumer so G-NO-DEAD-VALUES holds; **DIVERGE** on the debt / ledger panel |
+| **T1-M1-F4** The deeper labour/skill web — component crafting | 🆕 | the labour loop stops being flat — you **discover deeper skill chains by doing them**, and simple crafts grow into **component → quality** chains (gather → component → finished good), so a better tool is something you *build up to*, not buy | deeper labour/skill web + **component/quality crafting chains** (§2.11); **discover-by-doing** (no skill menu); conditioning stays the zero-stat enablement gate; G-NO-DEAD-VALUES (every component has a downstream consumer); **DIVERGE if** the component-chain craft view is a new surface beyond the T0 craft panel |
+
+### T1-M2 — Arms rising *(the 2nd pillar — Arms 武威)* — 🆕
+*the Sword line opens, the drill yard trains you, stance becomes a real build, and the Arms 武威 lane lights up (deeds defined, accrual Phase-2-gated to the M4 capstone).*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T1-M2-F1** The Sword line opens (Combat Line 2) | 🆕 | a whole second weapon family arrives — found or crafted, never gifted — each with a distinct feel: the quick **Kodachi** (Riposte), the Iai-draw **Uchigatana**, the heavy cleaving **Ōdachi**; you take them into the **Near Satoyama** against boar, monkey troop, the wolf-pack and the *mamushi* pit-viper | **Line 2 swords** on a Combat-Rank rung-gate, found/crafted via a loot→craft loop (not a grant): **Kodachi** (spd 1.25, Riposte), **Uchigatana** (1.10, Iai-draw crit), **Ōdachi** (0.90, cleave 2); signatures deepen at **L25/L50** (§4.6.9); bestiary stays **GROUNDED** estate + near-satoyama beasts — the **first HUMAN threat (bandits/nobushi) waits for T2** (resolves ambiguity #4); the **first-fight 20–35%** T0 anchor governs T1 combat tuning; **NO-STANCE-DOMINATED** across the new weapons (D-050); **DISPLAYED==TESTED** fixed-seed win-rate; G-CURVE extends; **DIVERGE if** the weapon/signature detail view is a new surface |
+| **T1-M2-F2** The drill-yard training track | 🆕 | drillmaster **Kihei** takes you into the drill yard — curated training (forms, sparring, conditioning) that builds your **Combat-Rank** meter and grants small, bounded per-skill combat perks; the mentor teaches the martial systems as *story*, never a popup | drill-yard curated combat-activity set feeds the **Combat-Rank** sub-meter; conditioning stays the zero-stat enablement gate; small **BOUNDED** per-skill combat perks (§2.7.1, D-027); diegetic-mentor onboarding via **Kihei** (data-not-script D-039; D-063; no hint popups); **DIVERGE** on the drill-yard / training-track board |
+| **T1-M2-F3** Stance becomes a real build | 🆕 | HP now **carries between fights** and only heals by eating, so an aggressive vs a defensive **stance** genuinely trades — you build a fighting style, and combat couples to the food/cook sink (a hungry fighter is a weak one) | **HP carries + heals by eating** (D-050); defensive vs aggressive stances genuinely trade with **NO stance dominated** — the NO-STANCE-DOMINATED curve test (not a dominance-enshrining one); couples combat ↔ food/cook sink; **DISPLAYED==TESTED** on the stance win-rate forecasts; **DIVERGE if** the stance/HP-carry readout is a new surface beyond the T0 stance slot |
+| **T1-M2-F4** The Arms 武威 lane lights up | 🆕 | the second pillar lane appears on the influence board — you learn what counts as a martial *deed* (declare a road safe, clear a nest, defend the grain store, break a rival's enforcer) and that the season's security will be *judged* on a new high-water; the pillar is real, even before it pays out | the 2nd pillar silhouette (un-greyed at the T0→T1 ascension) **NAMES here as Arms 武威** + the lane appears; deed VOCABULARY taught (**DEFEND** = canonical Arms earner) + the seasonal-security **judged-on-new-high-water** mechanic shown — but **ACCRUAL is Phase-2-gated** (FU7) and **Phase 2 opens at the R15 capstone (T1-M4-F1)**, so deeds + the **70/30** seasonal split bank only there; bands Arms good 0.5K / great 0.72K / excellent 0.95K, per-deed cap 0.04·good = **20 ip**; Arms kept distinct from character-level (1 kill → level) and Combat-Rank (1 curated activity → rung-meter) — **1 recognised DEED → Arms**; **DIVERGE** on the Arms influence lane / deed-log surface |
+
+### T1-M3 — The macro deepens *(the meaty engines mature)* — 🆕
+*more shinden and a solvent house, your first paid retinue, the estate physically mends as the map grows, and a thin TRADE taste.*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T1-M3-F1** LAND matures — the estate fills out | 🆕 | you reclaim more *shinden* and push estate upgrades — patch the kura, clear the drill yard, reclaim further paddy — and watch the **LAND** lane compound into a real engine; the home fields become the estate's heartbeat | LAND sub-engine matures — more **shinden reclamation** + yield-bearing upgrades beyond the T0 linear taste (patch-the-kura / clear-the-drill-yard / reclaim-the-shinden, demo values, D-051); the estate **advances a stage (E1→E2)**; the compounding LAND lane stays **capped**; G-NO-DEAD-VALUES (every upgrade yields); reuses the T1-M1-F2 reclamation surface (no new DIVERGE); **E2→E3+ provisionally slips to T2+ per ambiguity #1 — flagged for the human** |
+| **T1-M3-F2** TREASURY matures — the house turns solvent | 🆕 | the debt finally breaks — you cross from debt into **solvency** and *goyōkin* leverage becomes a tool, not a noose; the long shadow of grandfather **Sadamune's** failed flood-venture (Dowager **Toku's** grief) lifts | TREASURY lane matures to a **solvency** milestone (debt→solvency complete); *goyōkin* leverage as a capped engine; ties to the **Dowager Toku / Sadamune** backstory (flavour, not a sim); G-NO-DEAD-VALUES; the TRADE lane still hard-capped ≤⅓ (D-008); reuses the T1-M1-F3 debt/ledger panel (no new DIVERGE) |
+| **T1-M3-F3** Your first paid retinue | 🆕 | you hire your first men-at-arms, **Gohei** and **Yatarō** — paid retainers who fight and work alongside you; the estate is no longer just *you*, and a wage becomes a new recurring koku sink to balance | **first paid retinue (Gohei & Yatarō)** arrives in T1, following E2 (resolves ambiguity #1); retinue **wage = a recurring koku sink** (G-NO-DEAD-VALUES); retainers contribute to labour/combat **WITHOUT trivialising the humbling tune** (D-061); **DIVERGE** on the retinue roster panel |
+| **T1-M3-F4** The estate mends + the map grows | 🆕 | the estate visibly mends — mended roofs, cleared yard, new paddy, flavour you can *see* — and the walkable map grows outward to the **Near Satoyama** danger ring you now patrol; more places to move between, not more menus | estate physical growth as **FLAVOUR, not a management sim** (§4.7.5); the small **walkable map** (D-065) grows to include the **Near Satoyama** (conditioning-gated) — the **NQ-3 default** (grow the T0 map in T1); reveal-per-beat nav; **DIVERGE** on the grown map / new satoyama area view |
+| **T1-M3-F5** The thin TRADE taste | 🆕 | you sell the estate's surplus through a slightly deepened market — a touch more than T0's tiny koku-sink — but trade stays a **minority lane**; the real village market and the silk *meibutsu* are still locked past the gate | **TRADE is the THINNEST T1 lane** (estate-internal surplus + a deepened T0 tiny-market taste — **no broker standing yet, that's T2's rep web**); the silk *meibutsu* (weaver **Onatsu**) + the real village market **WAIT for T2**, where TRADE matures (resolves ambiguity #2); trade **hard-capped ≤⅓** of Estate & Wealth (D-008); G-NO-DEAD-VALUES; **DIVERGE if** the deepened market is a new surface beyond the T0 market |
+
+### T1-M4 — Two-pillar ascension → the valley opens *(the two-pillar gate)* — 🆕
+*the R15 capstone opens Phase 2, the two-pillar hybrid gate (1 GREAT + 1 EXCELLENT) lights up, and the Arms ascension un-greys the next pillar + opens the Village.*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T1-M4-F1** The R15 capstone → Phase 2 opens | 🆕 | you reach **Trusted Man of the House (R15)**, the top estate rung, and **Phase 2 opens** — now your recognised deeds across **Estate AND Arms** finally count, and the grind turns from climbing rungs to building a legacy | R15 capstone **opens Phase 2** on the AND-gate; pillar DEEDS accrue **only** post-capstone (FU7) for both Estate + Arms; Estate deed bands good 0.8K / great 1.1K / excellent 1.5K (per-deed cap 0.04·good); **70/30** deeds/seasonal; G-CURVE extends through the capstone; reuses the T0 Phase-2 / influence surface (no new DIVERGE) |
+| **T1-M4-F2** The two-pillar hybrid gate | 🆕 | for the first time the ascension is a **two-pillar test** — you push Estate and Arms toward the grades until the gate reads **1 GREAT + 1 EXCELLENT**; overshooting either banks a better, **grade-scaled permanent boon**, so there's a reason to grind past the line | ascension gate = **exactly 1 GREAT + 1 EXCELLENT** across Estate + Arms, **NO OVERFLOW**, both pillars ≥ GOOD (two-pillar hybrid, D-049); overshoot → better grade-scaled permanent boon (D-049); **DISPLAYED==TESTED** on the gate-readiness forecast; G-CURVE; **DIVERGE** on the gate-readiness / ascension-eligibility surface |
+| **T1-M4-F3** The Arms ascension → the Village opens (dream beat) | 🆕 | a **manual opt-in** ascension story event you choose the moment for — the **Arms ascension** fires, the **next** locked silhouette (the unnamed 3rd — T2 will name it Office) stirs, the valley comes into view past the estate gate, and a **dream/mystery** beat lands; the estate finally trusts you to carry its business beyond its own land | **manual opt-in** ascension, not auto-advance (D-049/D-062); the Arms pillar's ascension fires (Arms was named in T1-M2-F4) and **un-greys the NEXT (3rd, still-unnamed) silhouette** — T2 names it Office 官威 (D-055; the ascension reveals the *next* pillar, NOT Arms — Arms is already live); fires a **dream/mystery** beat (D-055, Origin stays dark); the "first errands past the gate / valley in view" is the **T2 TEASER** shown here, NOT playable T1 content; `tier` 1→2 stored (**D-013a**; enum 0..5 per D-048); `migrate()` chain extends with a covering test; difficulty stays humbling into T2 (D-061); **DIVERGE** on the ascension / valley-teaser / silhouette-reveal surface |
 
 ---
 
-# Tier T2 — Village (Asagiri) — *COARSE*
+# Tier T2 — Village (Asagiri) — *DETAILED*
 
-**Frame:** (was T1) the reputation **web** — chief, shops, artisans, inn & rumours; rival houses introduced;
-**+Office 官威** pillar.
+**Frame:** the Arms ascension has fired and the estate now **trusts you to carry its business past its own gate** into the valley — *the HOUSE rising.* T2 is the reputation **WEB** tier: Asagiri's chief, shops, artisans, inn & rumours board, shrine, and the *kamikakushi* legend open **AROUND** the spine — continuous multi-node standing meters tuned for frequent small dopamine, unlike the rung ladder. The spine is a **fresh ~8-rung house-service ladder in the valley, V0→V7** — the rung numbering **RESETS** (T0 was R0–R7, T1 R8–R15, T2 a *new* V-ladder, D-012); **the village web NEVER gates that climb** (HARD rule, §1.5.2/§1.5.4) — ignoring it is "poorer and lonelier," a **~10–15% accelerant at most**, never a wall. Provisional **~8–10h** (re-derives in the 6-tier rescale; per-rung ≈ ≥40 min — **the ≥30-min floor binds here too**, only T0 is floor-exempt). The **Tama-vs-farmhand** allegiance goes LIVE (Sayo names him "Tama" on sight). **Trade matures** into a real silk market; the **first HUMAN threat** (bandits / starving deserters, *nobushi*) drives road-security; the valley's "spirits" all turn out to be **people** — chief among them Foreman **Magobei** skimming rice with a doctored *masu* (the "**rigged box**" motif's first appearance). The **Office 官威** pillar names mid-tier, rival houses appear, and the capstone teases the Region (T3). Difficulty stays **humbling** within guardrails (D-061). **4 milestones**; rungs map **~3/2/2/1** (V0–V2 / V3–V4 / V5–V6 / V7) — see the milestone-cut note.
 
-| Milestone | Headline | Example fun-slices |
-|---|---|---|
-| **T2-M1** Into the village | the rep web + rumours board + shops; village rungs; a real market | branching NPC **dialogue**; a yokai-debunk rumour quest; trade as a capped Estate sub-engine |
-| **T2-M2** Office & territory | the **Office 官威** pillar; secure offices; the rival-house contest begins | a contested deed; cross-pillar combos surface |
-| **T2-M3** Three-pillar ascension | hybrid gate across Estate+Arms+Office → **T3 (Region)**; dream beat | the ascension beat + boon; un-grey the 3rd pillar |
+### T2-M1 — Into the village *(the gate opens — the rep web)* — 🆕
+*the estate gate opens onto Asagiri — first valley errands, a real coin market, the reputation web inks in around the spine, branching village talk (Sayo names him "Tama"), the rumours board's kappa opener, and the first human threat on the road (V0→V2).*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T2-M1-F1** Errands past the gate (V0 errand-runner) | 🆕 | the estate gate finally opens onto **Asagiri** — you walk the shop row, the river-ford and the shrine for the first time, run the house's first errands into the valley, and earn your first real **coin** | the small walkable map (T0/T1) **EXTENDS into Asagiri** — Market/Shop Row, Chief's House, Inn & Rumours Board, Shrine/Temple, River-Ford-&-Weir as navigable nodes, reveal-per-beat; the **V0 errand-runner** rung opens market/coin (one shop) — coin is a NEW currency, so G-NO-DEAD-VALUES gives it a concrete consumer (the market sink); **≥30-min floor** on the V0 rung-meter (re-derives, per-rung ≈ ≥40 min); **the village web NEVER gates the spine** (HARD, §1.5.2) — V0 advances on the rung ladder, the errands are an optional accelerant; **DIVERGE** contact-sheet on the village-map expansion + the new location surfaces |
+| **T2-M1-F2** The reputation web inks in | 🆕 | every shopkeeper and family in Asagiri gets a face and a **standing meter** you nudge up with small, frequent wins — a warm hum of belonging the rung ladder never gave you | the reputation **WEB** panel — continuous multi-node meters with gentle curves for frequent small dopamine, **UNLIKE the rung ladder** (§1.5.2/§2.15): per-shop patron standing (smith Gonta, broker, herbalist Obaa Kuni, brewer Tokuemon), per-family goodwill, the Chief's regard (**Yagōemon**); G-NO-DEAD-VALUES — each meter has a concrete consumer (patron discounts / recipe & component unlocks / errand access); side-faction speedup **CAPPED ~10–15%** (H6) and **NEVER a wall** — ignoring the web is "poorer and lonelier," never blocked; **DIVERGE** on the rep-web panel |
+| **T2-M1-F3** Branching village talk — "Tama" goes live | 🆕 | real conversations with **choices** — you can play Asagiri peaceful or assertive, and the moment **Sayo** lays eyes on you she calls you "**Tama**," and the game quietly starts tracking who you let yourself be | branching NPC dialogue (D-039): data-not-script `choices[]` / `locksLineIds[]` / flags, deterministic; carries the **Peaceful/Assertive** route + the **Tama-vs-farmhand** leaning as flags (Sayo names him "Tama" on sight — the allegiance goes **LIVE** this tier); the diegetic mentor (D-063) extends into the village cast, no popups; **DIVERGE** on the branching-dialogue choice UI (the `choices[]` surface is new vs T0's linear lore-talk) |
+| **T2-M1-F4** The inn & the rumours board (the kappa opener) | 🆕 | the inn's **rumours board** posts the valley's tall tales — your first is a "**kappa**" dragging folk under at the ford; chasing it is pure optional flavour with a thread of dread | **Inn & Rumours Board** surface (innkeeper **Sukezō**); the **kappa-of-the-ford OPENER** posts as the first yokai-debunk quest (§1.10/§2.13) — INVESTIGATE-then-confront, resolving **one-to-one to a human/natural cause** (undertow / smugglers at the weir) with dawning dread and **NO Scooby unmasking** (D-002); **OPTIONAL — never gates the spine**; **DIVERGE** on the rumours-board surface |
+| **T2-M1-F5** Road-warden: the first human threat (V1→V2) | 🆕 | the valley's roads aren't safe — a starving band of deserters (**nobushi**) holds the ford road, and clearing them is the first time your blade is pointed at **PEOPLE**, not beasts | **V1 recognised-hand → V2 road-warden** rungs (combat gate): valley pest clears (hornet nest *suzumebachi*, wolf pack *ōkami*) then the **FIRST HUMAN THREAT — bandits / starving deserters (nobushi)** — the road-security core + new foe variety; **NO NEW WEAPON LINE at T2** — DEEPEN the two existing lines (spear L1 / sword L2) via **signature-ability milestones at weapon-L25 / L50** (the 3rd line, Staff, is T3); NO-STANCE-DOMINATED (D-050); DISPLAYED==TESTED fixed-seed win-rate; G-CURVE extends to nobushi; **≥30-min floor** on the V1/V2 rung-meter; **DIVERGE** on the signature-ability slot/reveal surface |
+
+### T2-M2 — The valley economy & the tanuki *(trade matures + the tanuki)* — 🆕
+*trade matures into a real silk market (Onatsu's meibutsu), the valley's "spirits" come apart into people — chief among them the tanuki skimming the granary (Magobei's doctored masu, the rigged-box motif's first appearance) — and the foothills open as a second danger ring (V3→V4).*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T2-M2-F1** The silk road opens (TRADE matures) | 🆕 | the valley's real economy clicks on — you broker the district's **silk** (**Onatsu's** sericulture *meibutsu*) through a proper market, and watching a trade route **compound** is the meatiest money the game has offered yet | **V3 steward-of-the-valley-economy** rung; the **real village market** + the silk/sericulture *meibutsu* chain (weaver **Onatsu**) — broker standing meters, routes; **TRADE stays HARD-capped ≤⅓** of Estate & Wealth (D-008), the clamp now genuinely **EXERCISED** by the silk market; reconciles with T1's TRADE sub-engine (**T1 = estate-internal surplus + the deepened tiny-market taste; T2 = the real village market + broker standing the surplus plugs into** — broker standing is *this* tier's rep-web content, not T1's); G-NO-DEAD-VALUES — coin + silk both have consumers; **≥30-min floor** on the V3 rung-meter; **DIVERGE** on the silk-market / broker-trade surface |
+| **T2-M2-F2** The tanuki at the granary (Magobei's skim surfaces) | 🆕 | the "**tanuki**" raiding the headman's granary is no spirit — it's Foreman **Magobei** skimming rice with a doctored measuring-box, and uncovering the **rigged box** is the first pull on a thread that runs all the way up | the tanuki rumour resolves to **ANTAGONIST Foreman Magobei** ("the tanuki") skimming rice with a doctored *masu* (**kyō-masu**) — the **FIRST APPEARANCE of the "rigged box" through-line motif**; INVESTIGATE-then-confront one-shot; the thread runs up to headman **Yagōemon** → **PARTIAL justice** (no clean win); building the case raises the **Chief's regard** — the **V4 "trusted-of-the-headman" rung that CULMINATES M2**, and reaching V4 triggers the **Office pillar to NAME as the M3 opener** (T2-M3-F1); OPTIONAL — never gates the spine; belief→cause one-to-one (D-002); **≥30-min floor** on the V4 rung-meter; **DIVERGE** on the investigation/evidence/case surface |
+| **T2-M2-F3** The rumours resolve to people, not spirits | 🆕 | one by one the valley's hauntings come apart in your hands — the **fox-fire** on the ridge, the **ghost-bird** in the reeds — each a human or natural truth, leaving exactly one offering at the weir you can never quite explain | the remaining yokai-debunk quests: "**fox-fire**" = a hidden charcoal kiln (**SEEDS at T2, RESOLVES at T3**); "**ghost-bird**" = a night-heron; each resolves **one-to-one to a human/natural cause** with dawning dread (D-002, no unmasking gag); the **SINGLE capped residual-ambiguity token** game-wide = the **jizō-at-the-weir** offering (left genuinely unexplained); all **OPTIONAL** — none gate the spine; **DIVERGE** on any new quest/investigation surface |
+| **T2-M2-F4** The foothills danger ring (charcoal grounds) | 🆕 | past the valley floor the **foothills** open — the charcoal grounds where the "fox-fire" burns, a second, nastier danger ring with a **rogue bear** that will end a careless climb | the **Foothills & Charcoal Grounds** open as the **2nd danger ring** (the "fox-fire" kiln location) — new map nodes, reveal-per-beat; an optional **rogue bear** as a humbling apex foe within guardrails (winnable / soft-setback-only / no stranding, D-061); NO-STANCE-DOMINATED; DISPLAYED==TESTED; G-CURVE extends to the foothills foe tier; **DIVERGE** on the foothills map expansion |
+
+### T2-M3 — Office & the rivals appear *(the 3rd pillar — Office 官威)* — 🆕
+*the Office 官威 pillar names + activates as the milestone opens (you reached V4 at M2's end), rival houses (Tomita/Akagi) appear and the contest begins, cross-pillar combos surface as the Office pairs, and Naoyuki turns from rival to shoulder-to-shoulder (V5→V6).*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T2-M3-F1** Office 官威 reveals (the 3rd pillar goes live) | 🆕 | the headman grants you your first real **office** — and the House-Influence board **NAMES a third pillar, Office 官威**, the social power the rung ladder alone could never buy | with **V4 "trusted-of-the-headman" reached** (the M2 culmination), the **Office 官威 (kan'i)** pillar **NAMES + activates** as the M3 opener — the in-tier mechanical reveal of the silhouette un-greyed (still unnamed) at the **T1→T2 ascension** (D-055); earned via offices granted / territory secured / alliances sealed / rivals eclipsed (§1.6.1/§4.2.1); Office **DEEDS are Phase-2-GATED** (accrue ONLY post-V7 capstone, FU7) — M3 reveals + builds standing, the grade banks in Phase 2; deed bands good 2K / great 3.2K / excellent 4.5K, per-deed cap 0.04·good = **80 ip**; **70/30** deeds/seasonal; **DIVERGE** on the Office-pillar panel |
+| **T2-M3-F2** The rival houses appear + the contest begins | 🆕 | you're not the only house climbing — **Tomita** (money) and **Akagi** (honour) are in the valley too, and the first time a deed is **CONTESTED** you either eclipse a rival or watch them gain ground | rival houses **INTRODUCED** — House **Tomita** (money) + House **Akagi** (honour) — with light per-pillar rival stats (overtake **COMPUTED, not scripted**, §1.11); the **CONTEST BEGINS** + the **FIRST contested deed** lands at T2; the climax (G5 Naoyuki ally-flip, G7 dethroning) is **held for T3** — T2 only introduces + begins; contested Office/territory deeds; **DIVERGE** on the rival-house board + the contested-deed surface |
+| **T2-M3-F3** Cross-pillar combos surface (the Office pairs) | 🆕 | a single bold deed can now feed **two ambitions at once** — break a rival's enforcer on a road you also hold office over, and both your **Arms** and your **Office** grow from the one act | cross-pillar combos surface as a **PARTIAL set** at T2 — **Office pairs ONLY (Arms×Office, Estate×Office)** — because the **Name** pillar isn't revealed until T3 (the full 4-pillar anti-slump set lands T3); combos computed **POST-trade-clamp**, **EXCLUDED from the gate-check AND from the trade ≤⅓ denominator** (D-031/§4.3.1); **DIVERGE** on the combo-credit display |
+| **T2-M3-F4** Shoulder to shoulder with Naoyuki (the bridge beat) | 🆕 | the heir **Naoyuki** — your in-house rival since the estate — fights the valley watch **at your side**, and grudging respect replaces the rivalry; not friendship yet, but the door cracks open | **V5 sworn-man-at-arms → V6 right-hand-in-waiting** rungs; the valley watch / DEFEND core, with **your retinue (Gohei & Yatarō, hired in T1-M3-F3) deployed alongside you** — and able to take on valley men (an EXPANSION, not a "first" retinue — that was T1); the **Naoyuki rivalry→grudging-RESPECT BRIDGE** beat lands here (seeded T0, bridge at T2, ally-flip climax at T3-G5); branching dialogue (D-039) carries it; NO-STANCE-DOMINATED + DISPLAYED==TESTED on the watch combat; **≥30-min floor** on the V5/V6 rung-meter; **DIVERGE** on the retinue/watch surface |
+
+### T2-M4 — Three-pillar ascension *(the three-pillar gate → the Region)* — 🆕
+*the V7 capstone opens Phase 2, the three-pillar gate (1 EXC + 1 GRT + 1 GOOD across Estate+Arms+Office) lights up with an honest forecast, the manual opt-in ascension fires a dream beat + grade-scaled boon, and the Region + rival houses are revealed as the T3 teaser (V7).*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **T2-M4-F1** The valley-anchored capstone (V7 → Phase 2 opens) | 🆕 | you become the house's anchor in the valley — the capstone rung that finally **OPENS the pillar grind**, where every deed across Estate, Arms and Office at last counts | **V7 "agent of the house, valley anchored"** capstone **OPENS Phase 2** (§1.6.4/§4.1.1); pillar DEEDS for all three revealed pillars (Estate, Arms, Office) accrue **ONLY now** (FU7); **≥30-min floor** on the V7 rung-meter (re-derives); **the village web has NEVER gated the climb** to here (HARD rule held throughout); reuses the Phase-2 / influence surface (no new DIVERGE) |
+| **T2-M4-F2** The three-pillar gate | 🆕 | the ascension gate lights up — but this time it wants **THREE pillars** in balance, and the forecast tells you honestly how close each one is | the **T2→T3 gate = three-pillar hybrid 1 EXCELLENT + 1 GREAT + 1 GOOD** across Estate + Arms + Office, all ≥ GOOD, **NO overflow** (D-049); cross-pillar combos **EXCLUDED from the gate-check** (D-031); **DISPLAYED==TESTED** — the displayed gate-readiness forecast matches the fixed-seed analytic gate; G-CURVE extends to the 3-pillar grade curve; **DIVERGE** on the gate / ascension-readiness surface |
+| **T2-M4-F3** The ascension story event → the Region opens | 🆕 | you choose your moment and trigger the rite — a new **dream** beat stirs, the next mountain's silhouette **un-greys**, and the valley walls fall away to reveal the wider **Region** you'll climb next | **MANUAL opt-in** ascension story event (D-049/D-062 — NOT auto-advance); clearing the gate **un-greys the NEXT (4th, still-unnamed) silhouette** (D-055 — foreshadows **Name 家格**, T3) + fires a **DREAM/MYSTERY** beat (Origin stays dark — opens T3, D-009); **grade-scaled permanent boon** (overshoot → better boon); `tier` 2→3 stored (**D-013a**; enum 0..5 per D-048); the ascension **UNLOCKS the Region (T3)**; `migrate()` chain extends with a covering test; **DIVERGE** on the ascension story surface |
+| **T2-M4-F4** The Region + rival houses revealed (the T3 teaser) | 🆕 | the new map opens and there they are arrayed against you — **Tomita** and **Akagi** on the Region board, the rivals you'll actually have to **dethrone** next tier | clearing the gate opens the **Region MAP** + arrays the rival houses (Tomita, Akagi) as the **T3 antagonists** — the **T2→T3 TEASER** (the contest BEGAN at T2; the climax — G5 ally-flip, G7 dethroning — is T3); region travel / *sekisho* / the Name pillar all **deferred to T3**; **DIVERGE** on the region-map teaser surface |
 
 ---
 
-# Tier T3 — Region — *COARSE (v1 finish)*
+# Tier T3 — Region — *COARSE (v1 finish — re-detailed on approach)*
 
 **Frame:** (was T2) the wider canvas — region travel/sekisho, trade backbone, the **Origin** faction opens;
-**+Name 家格** pillar; the **Otsuru/Tama origin payoff** (canon Region payoff); **v1 ends here** (`outcome:
-t3done`).
+**+Name 家格** pillar; the **Otsuru/Tama origin payoff** (canon Region payoff); **v1 content ends here**
+(`outcome: t3done`). *(The narrative close lives in T3-M3 below; the **technical release** is the **Ship**
+section that follows.)*
 
 | Milestone | Headline | Example fun-slices |
 |---|---|---|
 | **T3-M1** The wider canvas | region travel + sekisho + trade backbone; **Origin faction opens** | the Origin homecoming thread begins; a region-scale quest |
-| **T3-M2** Name & the rivals dethroned | the **Name 家格** pillar; surpass the rival houses; the cross-pillar combos | the rival-house climax; the full 4-pillar board |
-| **T3-M3** The origin payoff & v1 close | the **Otsuru/Tama truth** at Region; the four-pillar gate; the **bounded "v1 complete"** surface → free-play | the missable name-reclaim (Origin O5); the G6 payoff; the bounded ending + free-play |
+| **T3-M2** Name & the rivals dethroned | the **Name 家格** pillar; surpass the rival houses; the **full 4-pillar** cross-pillar combo set (anti-slump) | the rival-house climax (G5 Naoyuki ally-flip → G7 dethroning); the full 4-pillar board |
+| **T3-M3** The origin payoff & v1 close | the **Otsuru/Tama truth** at Region; the four-pillar gate; the **bounded "v1 complete"** narrative surface → free-play | the missable name-reclaim (Origin O5); the G6 payoff; the bounded ending + free-play |
+
+---
+
+# Ship — v1 release readiness — *DETAILED*
+
+**Frame:** v1 = the T0→T3 *content*; **Ship** is the section that actually **releases** it. It restores the old
+roadmap's dropped back half — the **M6** whole-v1 balance/fun/perf gate and the **M7** itch.io release — that
+the tier re-axe had folded away. The **narrative** ending (the Otsuru/Tama payoff, the four-pillar gate, the
+bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** release-readiness. Per the human's
+2026-06-29 call: **per-slice DoD contracts run all through the build, AND a consolidated final gate runs here.**
+**2 milestones.**
+
+### Ship-M1 — The v1 quality gate *(the consolidated balance/fun/perf pass the old M6 held)* — 🆕
+*the whole game is balanced, instrumented and checked as one piece before it ships.*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **Ship-M1-F1** Whole-v1 balance pass | 🆕 | the whole game is balanced as one piece — the graded win-rate curve holds from the first wolf to the four-pillar gate, every value still has a consumer, and no stance is a trap | one consolidated **G-CURVE** holds across ALL of T0→T3; the **G-NO-DEAD-VALUES** ledger is complete (every currency / sub-engine value has a consumer); **NO-STANCE-DOMINATED** across the full weapon roster (spear L1 + sword L2 + T3 line); **trade ≤⅓** + **70/30** verifier-green tier-wide; **DISPLAYED==TESTED** everywhere a win-rate shows |
+| **Ship-M1-F2** Fun-proxies become a GATE + the floor regression | 🆕 | the pacing/fun instrumentation graduates from report-only into a hard gate — the build can't ship if a rung undershoots the floor or a fun-proxy regresses | promote the report-only **fun-proxies** (pacing / dead-time / first-action) → a **GATE** (the instrumentation M1 shipped WITHOUT — D-071's motivating evidence); the **≥30-min floor REGRESSION** consolidated across T1–T3 (fails on undershoot only, D-056); the **§4.8 ~28.5h budget RE-DERIVED** across the 4 v1 tiers (T0 fast/floor-exempt + T1/T2/T3 floored) |
+| **Ship-M1-F3** The perf budget gate | 🆕 | the game stays smooth and light — a frame/load/memory budget the build is held to | a **PERF budget gate** (frame-time / load-time / memory ceiling) + the perf test the old M6 carried; runs in `verify`/CI; no UI surface (no DIVERGE) |
+| **Ship-M1-F4** Accessibility acceptance pass | 🆕 | the whole game is checked for reach — reduced-motion, mute, touch-legible, readable contrast — across every surface | a11y **ACCEPTANCE** pass (PRD §2.21 / D-045): reduced-motion honored, mute-safe SFX, **touch-legible (NO hover-only)**, colour-contrast across every v1 surface T0→T3; closes the audit a11y gap; per-surface DIVERGE contact-sheets already enforce visual intent — this is the consolidated acceptance check |
+
+### Ship-M2 — Cut the build & ship *(the old M7)* — 🆕
+*the save survives the real world, then the game actually goes out — the deliberate, human-approved way.*
+
+| Fun-slice | Status | The fun | DoD |
+|---|---|---|---|
+| **Ship-M2-F1** Save durability at release | 🆕 | your save survives the real world — the itch.io cross-origin iframe, a mid-write crash, a poisoned record — verified on an actual build | the **cross-origin-iframe SAVE-SURVIVAL test** (PRD §6.8) on a real itch build; crash-recovery ring + safe-mode + poison-suppression verified; the **`migrate()` chain test-covered end-to-end** (D-067 / D-013a — the real forward-migration path exercised, not just the dev save-wipe); no new UI surface (no DIVERGE) |
+| **Ship-M2-F2** Cut the itch.io build & ship | 🆕 | the game actually goes out — a stamped itch.io build, uploaded the deliberate, human-approved way | `npm run build:itch` (content descriptors + build stamp); the deliberate, **HUMAN-APPROVED itch.io upload** (D-017 — outward-facing, requires human sign-off, never auto); the bounded "v1 complete" narrative close already shipped in T3-M3 — Ship-M2 is the technical release |
 
 ---
 
 ## Cross-cutting (thread through every fun-slice, not a tier)
 
-- **Diegetic-mentor onboarding** (decisions #22, #17, D-015): the in-world mentor introduced in **T0-M1-F3**
-  recurs at every system unlock — teaching by dialogue/story, **never popups**. A T0 thread, deepened by the
-  village/region cast at T1+.
-- **DEV tools** (decision #16): the **2×/4×/8× speed toggle + jump-to-rung/tier teleport** ship in **T0-M1-F4**
-  and stay available all tiers; DEV-only, stripped from prod. Defer richer dev affordances until a test needs one.
-- **Save policy** (decisions #15, D-013a): **wipe dev/v0.2 saves on the reshape schema bump** (pre-launch, no
-  users); build + test-cover the real `migrate()` path **before launch**, not across dev churn. D-013a
-  forward-migration still governs shipped saves.
-- **Operating-Model-v2-lite gates** (pending H10 sign-off): a **pre-commit `verify`** hook, a scoped
-  **`playcheck` ratchet** in `verify` (4 wiring-proxies), and the **mandatory DIVERGE** contact-sheet on every
-  new UI surface (decision #10) become **forward DoD contracts** on the fun-slices above.
-- **PRD stays liquid** (decision #7): no §1 freeze; the PRD is split into per-section files (decision #6) and
-  rippled in one batch, then re-tuned by playtest through T0→T3; converted to living docs only once v1 is
+- **Diegetic-mentor onboarding** (decisions #22, #17, D-015, D-063): the **domain-split canon cast** —
+  **Genemon** (labour/koku, introduced in **T0-M1-F3**) · **Kihei** (arms/combat, **T1-M2-F2**) · **Sōan**
+  (healing) — teaches each system in-world as it unlocks, **never popups**. Deepened by the village/region cast
+  at T2+.
+- **DEV tools** (decision #16, D-067): the **2×/4×/8× speed toggle + jump-to-rung/tier teleport** ship in
+  **T0-M1-F4** and stay available all tiers; DEV-only, stripped from prod. Defer richer dev affordances until a
+  test needs one.
+- **Save policy** (decisions #15, D-013a, D-067): **wipe dev/v0.2 saves on the reshape schema bump**
+  (pre-launch, no users); build + test-cover the real `migrate()` path **before launch** (the consolidated
+  exercise is **Ship-M2-F1**), not across dev churn. D-013a forward-migration still governs shipped saves.
+- **Wall-time "leave-it-running" clock** (D-053): the sim advances by **elapsed wall-time**; do **not** pause on
+  `document.hidden` — the genre's "leave it running" fantasy (§1.1). A behaviour every tier's clock inherits.
+- **Milestone-integrity** (D-054): a milestone is SHIPPED only when **every DoD line is met OR ADR-amended
+  before the commit**; a **CI manifest check** asserts every instrument a DoD names resolves to a real
+  test/tool (bans "SHIPPED (slice)"). The per-milestone verify-green gate is the lighter, per-commit half;
+  this is the full integrity rule. *(The `pending-prd-changes.md` tracker assigns this contract to the re-axe.)*
+- **Process gates** (reconciled to D-070/D-071, post-first-draft): the **pre-commit gate is ADOPTED** (D-071 —
+  a lean, content-aware <5s gate; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1` escape hatches); the **mandatory `diverge`
+  contact-sheet is REAFFIRMED and its skill is BUILT** (human steer 2026-06-29 + a separate agent — overrides
+  D-070's hold on diverge), so the **DIVERGE** DoD lines above reference a real skill; the **`playcheck`
+  ratchet stays HELD** (D-070, rides the deferred v2-lite bundle if ever revisited). *(A future ADR should
+  amend D-070's diverge-hold to record the reaffirm + build — batched-ripple territory, not this proposal's.)*
+- **PRD stays liquid** (decision #7, D-059): no §1 freeze; the PRD is split into per-section files (decision #6)
+  and rippled in one batch, then re-tuned by playtest through T0→T3; converted to living docs only once v1 is
   **fully built + playtested**.
 - **Acceptance gates extend, never regress:** each new tier extends **G-CURVE**; each new currency extends the
-  **G-NO-DEAD-VALUES** ledger; each ascension extends the **migrate()** chain with a covering test.
+  **G-NO-DEAD-VALUES** ledger; each ascension extends the **migrate()** chain with a covering test. The
+  consolidated whole-v1 versions are gated in **Ship-M1**.
 
 ---
 
@@ -176,28 +306,43 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
 
 | # | Original question | Resolution | Source |
 |---|---|---|---|
-| **OQ-1** | Milestone count (N per tier)? | **Keep 4 / 3 / 3 / 3** (T0=4, T1/T2/T3=3 each). No clearly-better cut found; reorder happens *within* T0's four. | delegated → agent call |
-| **OQ-2** | Within-T0 order — spine-spike first or breadth first? | **SPINE-FIRST, thin.** Now embodied in the milestone order itself: **T0-M3 (spine, on minimal content) is built before T0-M4 (showcase breadth)**. | **decision #18** |
-| **OQ-3** | Fun-slice granularity / grain? | **"One playable thing per fun-slice", ≈3–5 per milestone** — kept. | delegated → agent call |
+| **OQ-1** | Milestone count (N per section)? | **Was "keep 4/3/3/3"; now 4/4/4/3 (+ Ship's 2)** — the human's "detail T1/T2 as much as possible" steer (2026-06-29) supersedes the old default; T1 & T2 each detailed at **4** milestones (both designers independently landed on 4; the content load justifies it), T0=4, T3 stays coarse at 3, **+ a Ship section (2)**. Fold-back if cadence demands: T1 fold M3 into M1/M4; T2 collapse M3 into M4. | **human steer + agent design** |
+| **OQ-2** | Within-T0 order — spine-spike first or breadth first? | **SPINE-FIRST, thin.** Embodied in the milestone order: **T0-M3 (spine, on minimal content) is built before T0-M4 (showcase breadth)**. | **decision #18** |
+| **OQ-3** | Fun-slice granularity / grain? | **"One playable thing per fun-slice", ≈3–5 per milestone** — kept (T1/T2 run 4–5 per milestone). | delegated → agent call |
 | **OQ-4** | Shipped T0 — rebuild or carry forward? | **CARRY FORWARD + RETUNE.** M0–M2b is the kept, play-tested foundation; the reshape layers on top (NOT a rebuild). | **decision #19** |
 | **OQ-5** | Naming — IDs or human-readable? | **Keep BOTH** — `T0-M3-F1`-style IDs *and* human-readable slice names. | delegated → agent call |
 | **OQ-6** | T1 rung count? | **~8 rungs (≈R8→R15); ~16 estate rungs total.** | **D-052 + reshape** |
 
-## NEW open questions for the human (raised by the resolutions)
+## Open questions / forks for the human
 
-These are *new* — surfaced by baking in the decisions above; none block starting the spine-first build.
+**Resolved this round (2026-06-29 decision session):**
+- **NQ-1 — Ceremony inside the thin spike → CONFIRMED (option A).** The full ceremonial polish (title card,
+  silhouettes-stir, music swell, dream beat) stays in **T0-M3-F3's DoD** — it's content-independent, so the
+  first ascension lands BIG even on thin content (#14/D-062).
+- **NQ-2 — Diegetic-mentor cast → the DOMAIN-SPLIT CANON CAST.** Genemon (labour/koku) · Kihei (arms/combat) ·
+  Sōan (healing). Wired into T0-M1-F3, T1-M2-F2, and the cross-cutting bullet.
+- **NQ-3 — Walkable-map scope → option (a).** Minimal walkable map in **T0-M4-F4**, grown in **T1-M3-F4** (Near
+  Satoyama) and **T2** (Asagiri + Foothills), with a pinned node-count ceiling. (Option (c) would violate D-065.)
 
-1. **NQ-1 — Ceremony inside the thin spike.** Spine-first (#18) builds the T0→T1 ascension on *minimal*
-   content, but the first ascension must **always land BIG** (#14). The proposal assumes the **full
-   ceremonial polish** (title card, silhouettes-stir, music swell, dream beat) is part of **T0-M3-F3's DoD** —
-   i.e. the spike isn't "done" until the first ascension lands big, even on thin content. Confirm, or land a
-   *functional* ascension in M3 and apply the full ceremonial swell as a closing pass once M4's breadth exists
-   to swell into?
-2. **NQ-2 — Diegetic-mentor cast.** One recurring mentor (e.g. an estate elder) for all of T0, or a small
-   cast split by domain (elder for estate/koku, **drillmaster Kihei** for arms/combat)? Affects the T0-M1-F3
-   introduction and which character teaches which system. *(Agent's call per audit §6 — flagged for optional
-   steer.)*
-3. **NQ-3 — Walkable-map scope (#23 vs spine-first cadence).** The small walkable T0 map is the heaviest new
-   T0 build and sits in **T0-M4-F4** so it can't crowd out the spine. If it still threatens cadence, options:
-   (a) keep it minimal in M4 and grow it in T1 *(proposal's default)*; (b) split it into its own milestone
-   (T0 → 5 milestones, breaking the 4/3/3/3 cut); (c) ship a bare room-graph in T0, real map at T1.
+**Still flagged for your steer (recommended default applied; flag to override — none block the build):**
+1. **Milestone count 4/4 for T1/T2** (breaks the old 4/3/3/3). *Default: keep 4/4* — justified by the content
+   load; fold-back path noted in OQ-1.
+2. **Per-tier hour floors** — T1 ~5–8h, T2 ~8–10h, per-rung ≈ ≥40 min. *Default: accept as provisional; the
+   §4.8 ~28.5h budget re-derives across all 4 v1 tiers together at Ship-M1-F2* (the numbers only set rung
+   thresholds, which playtest re-tunes).
+3. **E-stage → tier mapping + retinue** — *Default: E1→E2 lands in T1 (estate visibly grows once), E2→E3+ slips
+   to T2+, and the first paid retinue (Gohei & Yatarō) belongs to T1* (so T2's V5 is a deployment/expansion,
+   not a first).
+4. **T1 R8→R15 rung titles** (Kura Warden → … → Trusted Man of the House) + the two-track Estate-Service /
+   Combat-Rank sub-meter split. *Default: accept the proposed shape; titles are easily restyled later.*
+5. **T2 = no new combat line** — deepen the two existing lines (signature abilities at weapon-L25/L50) + the
+   first human threat (bandits/nobushi); hold the 3rd line (Staff) for T3. *Default: no new line at T2*
+   (re-points the orphaned V2 "road-warden opens the 2nd line" copy).
+6. **Cross-pillar combo onset (T2)** — *Default: a PARTIAL set at T2 (Office pairs only — Arms×Office,
+   Estate×Office); the full 4-pillar anti-slump set waits for T3* (Name reveal). Alternative: hold ALL combos
+   for T3 for a cleaner onset.
+7. **Rival-house T2/T3 split** — *Default: rivals INTRODUCED + the contest BEGINS + the first contested deed at
+   T2; the climax (G5 Naoyuki ally-flip, G7 dethroning) at T3.*
+8. **Deed-band magnitudes (provisional, both tiers)** — T1 Arms 0.5K/0.72K/0.95K (cap 20 ip) + Estate
+   0.8K/1.1K/1.5K; T2 Office 2K/3.2K/4.5K (cap 80 ip), Estate good 8K / Arms good 5K. *Default: accept as
+   provisional (PRD §4 is liquid, D-059); re-confirm against D-049 on approach.*

@@ -27,6 +27,7 @@ import {
   type GameState,
   type BalanceProfile,
   type ActivityId,
+  type Intent,
 } from '../core';
 
 const { AUTO_REPEAT_MS, RUNG_WALL_FLOOR_MIN, rungThreshold } = balance;
@@ -65,6 +66,29 @@ function cheapestEligible(s: GameState): ActivityId | null {
   return o.length ? o[0]!.activity.id : null;
 }
 
+/**
+ * The focused-optimal next intent for the auto-play harness (returns null when stuck/terminal).
+ * The SINGLE source of this policy — both `walkPacing` (here) and `playcheck`'s reward trace drive
+ * it, so the two can never silently desync. Order: open_eyes > rest-if-starving > rake_rice >
+ * face_wolf@R2 > cheapest-eligible labour.
+ */
+export function focusedOptimalIntent(s: GameState, profile: BalanceProfile): Intent | null {
+  const acts = availableActions(s);
+  if (acts.includes('open_eyes')) return { type: 'open_eyes' };
+  if (s.character.satiety < satietyMax(s) * 0.25 && acts.includes('rest')) return { type: 'rest' };
+  if (acts.includes('rake_rice')) return { type: 'rake_rice' };
+  if (
+    s.rung === 'R2' &&
+    !s.flags['first-fight-survived'] &&
+    s.rungMeter >= rungThreshold('R2', profile)
+  ) {
+    return { type: 'face_wolf' };
+  }
+  const c = cheapestEligible(s);
+  if (c && canDoActivity(s, getActivity(c))) return { type: 'do_activity', activityId: c };
+  return null;
+}
+
 export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
   let s = createInitialState(seed, profile);
   const t: Record<string, RungTrack> = {};
@@ -73,34 +97,18 @@ export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
     (t[r] ??= { acts: 0, rests: 0, meta: 0, startTick: abs(), endTick: abs(), act: '-' });
   let guard = 0;
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
-    const r = s.rung;
-    const cur = touch(r);
-    if (availableActions(s).includes('open_eyes')) {
-      s = reduce(s, { type: 'open_eyes' });
-      cur.meta++;
-    } else if (s.character.satiety < satietyMax(s) * 0.25 && availableActions(s).includes('rest')) {
-      s = reduce(s, { type: 'rest' });
-      cur.rests++;
-    } else if (availableActions(s).includes('rake_rice')) {
-      s = reduce(s, { type: 'rake_rice' });
+    const cur = touch(s.rung);
+    const intent = focusedOptimalIntent(s, profile);
+    if (!intent) break;
+    s = reduce(s, intent);
+    if (intent.type === 'open_eyes' || intent.type === 'face_wolf') cur.meta++;
+    else if (intent.type === 'rest') cur.rests++;
+    else if (intent.type === 'rake_rice') {
       cur.acts++;
       cur.act = 'rake_rice';
-    } else if (
-      r === 'R2' &&
-      !s.flags['first-fight-survived'] &&
-      s.rungMeter >= rungThreshold('R2', profile)
-    ) {
-      s = reduce(s, { type: 'face_wolf' });
-      cur.meta++;
-    } else {
-      const c = cheapestEligible(s);
-      if (c && canDoActivity(s, getActivity(c))) {
-        s = reduce(s, { type: 'do_activity', activityId: c });
-        cur.acts++;
-        cur.act = c;
-      } else {
-        break;
-      }
+    } else if (intent.type === 'do_activity') {
+      cur.acts++;
+      cur.act = intent.activityId;
     }
     cur.endTick = abs();
   }
