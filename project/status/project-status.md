@@ -64,7 +64,7 @@ metadata:
   carry-HP/heal-by-eating combat, compounding koku sink, showcase-in-miniature tutorial, wall-time "leave it
   running", milestone-integrity rule, pillar silhouettes + per-tier mystery beats. Locked as **ADRs D-048…D-055**
   — but **NOT yet applied to the PRD (the PRD body is STALE on tiers).** Master checklist + precedence:
-  [`pending-prd-reshape.md`](pending-prd-reshape.md); intent: [`../human-feedback/2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md);
+  [`pending-prd-changes.md`](pending-prd-changes.md); intent: [`../human-feedback/2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md);
   human reading queue: [`docs-to-read-for-human.md`](../docs-to-read-for-human.md). *(Applying + building is downstream of the ⭐ v2 / H10 gate below.)*
 - **Phase update — v0.2 AUDIT FULLY TRIAGED + FORWARD DECISIONS LOCKED (2026-06-29, decision session).** A
   human-driven pass closed the v0.2 audit **100% — 23 decisions across 7 question-batches** (this session +

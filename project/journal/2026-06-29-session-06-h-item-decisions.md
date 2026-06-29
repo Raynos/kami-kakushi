@@ -7,7 +7,7 @@ resolved it — **H10 Operating Model v2 → DEFER the bundle** (build a lean ad
 **H9 resolve-queue → DROP**, **H7 ship-gate → don't build**. Built + measured the pre-commit hook (~0.87s).
 This file is HISTORY — the live snapshot is [`../status/project-status.md`](../status/project-status.md).
 
-## 1 · Compared `path-to-v0.3` vs `pending-prd-reshape`
+## 1 · Compared `path-to-v0.3` vs `pending-prd-changes`
 
 A 3-agent compare Workflow (`wf_d2e8590f-d85`): the two docs are **not duplicates** — complementary at
 different altitudes (the plan is the *sequencing conductor*; the tracker is the *per-file edit checklist*,
@@ -25,7 +25,7 @@ Dropped it from the reading queue (`2d359a0`).
 
 - **Renamed** `docs/plans/2026-06-29-implementation-plan.md` → **`2026-06-29-path-to-v0.3.md`** (the human's
   pick; the doc's spirit = "from locked decisions to the next build"). Reframed its title/intro.
-- **Reconciled** the born-stale ADR refs in both `path-to-v0.3` and `pending-prd-reshape` (Workstream A
+- **Reconciled** the born-stale ADR refs in both `path-to-v0.3` and `pending-prd-changes` (Workstream A
   marked done; added the `DS#N → D-0NN` crosswalk to the tracker's Table B + Already-done + precedence note).
 - **Sharpened the boundary:** the plan's Workstream B now *points to* the tracker as the single source of
   truth for the edit list (no duplicated code-target list → no drift).
@@ -55,7 +55,7 @@ Built it: [`.githooks/pre-commit`](../../.githooks/pre-commit) (content-aware; j
 
 - `docs/plans/2026-06-29-path-to-v0.3.md` — renamed from `…-implementation-plan.md`; reframed + reconciled +
   boundary-sharpened.
-- `project/status/pending-prd-reshape.md` — reconciled stale ADR refs; added the `DS#→D-0NN` crosswalk.
+- `project/status/pending-prd-changes.md` — reconciled stale ADR refs; added the `DS#→D-0NN` crosswalk.
 - `project/docs-to-read-for-human.md` — restructured around the dependency tree.
 - `project/human-in-the-loop/decisions.md` — **H7 ✅, H9 ✅, H10 ✅ (DEFERRED)**; H10 no longer ⛔ blocks.
 - `project/human-feedback/2026-06-29-h-item-decisions.md` — NEW; the verbatim decision capture.

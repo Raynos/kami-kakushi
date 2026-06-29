@@ -4,8 +4,9 @@
 # Wired into the SessionStart hook (.claude/settings.json) so every cold pickup
 # surfaces what's waiting on the human WITHOUT being asked:
 #   1. the reading queue  (project/docs-to-read-for-human.md — unticked sign-offs)
-#   2. open decisions     (project/human-in-the-loop/decisions.md — H-items)
-#   3. open reviews       (project/human-in-the-loop/review.md — R-items)
+#   2. pending PRD changes (project/status/pending-prd-changes.md — locked canon not yet applied)
+#   3. open decisions     (project/human-in-the-loop/decisions.md — H-items)
+#   4. open reviews       (project/human-in-the-loop/review.md — R-items)
 #
 # Output goes to stdout, which the SessionStart hook injects into Claude's context
 # (so the agent can lead the session by relaying the brief). NOTE: a SessionStart
@@ -22,6 +23,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
 READING="project/docs-to-read-for-human.md"
+PENDING_PRD="project/status/pending-prd-changes.md"
 DECISIONS="project/human-in-the-loop/decisions.md"
 REVIEWS="project/human-in-the-loop/review.md"
 
@@ -44,6 +46,19 @@ if [[ -f "$READING" ]]; then
     add "- _(all read & signed off ✅)_"
   fi
   add ""
+fi
+
+# --- Pending PRD changes: locked canon (ADRs) not yet rippled into docs/code ---
+# Not a human action — an agent-facing flag: until applied, prd.md is STALE on these
+# points and the ADRs + this tracker are the source of truth. Count unticked "- [ ]".
+if [[ -f "$PENDING_PRD" ]]; then
+  open_prd="$(grep -cE '^[[:space:]]*- \[ \]' "$PENDING_PRD" || true)"
+  if [[ "${open_prd:-0}" -gt 0 ]]; then
+    add "### 📥 Pending PRD changes — locked canon NOT yet applied"
+    add "- ⚠️ **${open_prd}** decided change(s) not yet rippled into \`prd.md\` / docs / code — see \`$PENDING_PRD\`."
+    add "  Until applied, that tracker + the ADRs are the source of truth; \`prd.md\` is **stale** on those points."
+    add ""
+  fi
 fi
 
 # --- Open decisions (H-items) and reviews (R-items): heading lines with 🔲 ----

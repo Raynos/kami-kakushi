@@ -86,8 +86,12 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 ## Layout
 
 - [README.md](README.md) — the game's vision.
-- [`project/status/`](project/status) — durable per-fact notes: [working-agreements](project/status/working-agreements.md)
-  (cadence + autonomy) and [project-status](project/status/project-status.md) (live snapshot + how to resume).
+- [`project/status/`](project/status) — **live operational state** + **live trackers** (mutable, edited in place;
+  this is where a checkbox tracker belongs, **not** `docs/plans/`, which is pre-canon proposals):
+  [working-agreements](project/status/working-agreements.md) (cadence + autonomy),
+  [project-status](project/status/project-status.md) (live snapshot + how to resume), and
+  [pending-prd-changes](project/status/pending-prd-changes.md) (locked ADRs **not yet rippled** into `prd.md`/docs/code —
+  source of truth until applied; deleted when empty; surfaced at session start).
 - [`docs/`](docs) — design docs (living, edited in place), under **[`docs/living/`](docs/living)**:
   **[prd.md](docs/living/prd.md)** (the merged PRD / vision spec), **[decisions.md](docs/living/decisions.md)**
   (the **ADR log** — *why* the design is the way it is), **[roadmap.md](docs/living/roadmap.md)** (the
@@ -98,8 +102,10 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   / reel-backs** (pre-canon, awaiting sign-off) live under **[`docs/plans/`](docs/plans)**.
 - [`project/human-feedback/`](project/human-feedback) — the human's **direct feedback** (a live inbox; one dated file per session);
   closed records stay alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now applied to the PRD).
-- [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: decisions (`H`-items) and reviews
-  (`R`-items) only a person can action. [`project/docs-to-read-for-human.md`](project/docs-to-read-for-human.md) is the
+- [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: **open** decisions (`H`-items) and
+  reviews (`R`-items) only a person can action; closed `H`-items graduate to an ADR + a one-line row in
+  [`archive.md`](project/human-in-the-loop/archive.md) (see that dir's `README` for the lifecycle).
+  [`project/docs-to-read-for-human.md`](project/docs-to-read-for-human.md) is the
   companion **reading queue** (brainstorms / audits / plans awaiting a "read & reviewed" sign-off). Both are
   auto-surfaced at session start by the `session-brief.sh` hook (see "How to work here").
 - [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);

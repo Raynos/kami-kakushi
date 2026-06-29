@@ -295,7 +295,7 @@ reshaped the tier spine and resolved the open H-items. Full intent record:
 canon** (governing per **D-022**) but are **NOT yet applied to `prd.md` / the living docs / code** — the PRD body
 still describes the old 5-tier model. **Until the ripple lands, this ADR batch + the feedback capture are the
 source of truth; the PRD is STALE on these points.** Application is tracked in
-**[`project/status/pending-prd-reshape.md`](../../project/status/pending-prd-reshape.md)**.
+**[`project/status/pending-prd-changes.md`](../../project/status/pending-prd-changes.md)**.
 
 ### D-048 ✅ — Split the Estate into two tiers: the 6-tier reshape (T0 tutorial + T1 full estate)
 - **Context:** The v0.1 audit + firsthand play exposed a structural tension: the old **T0 (Estate)** tried to be **both** the tutorial *and* the first real grind, and the four-pillar macro spine was an unbuilt silhouette with no early on-ramp. The human's steer (2026-06-28) reshapes the tier ladder so the intro and the real game are distinct tiers and the spine is introduced gently.
@@ -364,9 +364,10 @@ tier reshape (**D-048…D-055**); a verification workflow confirmed the reshape 
 item, and this batch resolves the residuals + records the forward calls. Full intent record (23 numbered decisions):
 **[`2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)**. These ADRs are **LOCKED
 canon** (governing per **D-022**) but are **NOT yet applied to `prd.md` / the living docs / code** — they ripple in ONE
-batch with the D-048…D-055 reshape. **HELD — deliberately NOT ADR'd here** (they belong to the human's separate
-Operating-Model-v2 review, pending sign-off): the mandatory `diverge` gate, the pre-commit `verify` hook, `playcheck`,
-and op-model adoption itself. **Build-order (spine-first) + carry-forward-T0 are roadmap sequencing** — they live in the
+batch with the D-048…D-055 reshape. **Op-model v2 has since been reviewed** (2026-06-29 H-item session): the bundle is
+**deferred** (**D-070**) and the one greenlit piece — the lean pre-commit gate — is now ADR'd (**D-071**). Still **HELD**
+(not adopted, ride the fuller v2-lite if revisited): the mandatory `diverge` gate and the `playcheck` ratchet.
+**Build-order (spine-first) + carry-forward-T0 are roadmap sequencing** — they live in the
 roadmap plan ([`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md)), not a
 design ADR.
 
@@ -467,3 +468,17 @@ design ADR.
 - **Decision:** **(B)** Durable-by-default: a plan/brainstorm/analysis is a **committed file** before it's a deliverable or implemented — never only in chat or a ledger. Homes: **`project/brainstorms/`** (discovery) · **`docs/plans/`** (plans/reel-backs) · **`docs/`** (settled).
 - **Why:** Session context is ephemeral — it dies with the session or a compaction; a committed file is the only durable record. The v2-lite near-miss proved the rule's worth.
 - **Consequences:** Already applied to **CLAUDE.md** (the durable-capture + temp-files conventions); recorded here as durable process canon. `docs/plans/` joins `project/brainstorms/` and `docs/` as a recognised home. Per **D-022**, governs.
+
+### D-070 ✅ — Operating Model v2 deferred as a bundle; process improvements adopted ad hoc (closes H7/H9/H10)
+- **Context:** **H10** queued the full **Operating Model v2-lite** bundle (the keystone process overhaul — pre-commit `verify`, `playcheck` ratchet, mandatory `diverge` gate, ship-gate, re-axed roadmap) for a separate human review; **H7** (a bespoke `ship-gate` skill) and **H9** (a `resolve-queue` skill) were absorbed into it. The human walked the queue live (2026-06-29 H-item session) and decided the bundle's adoption.
+- **Options:** (A) adopt the v2-lite bundle wholesale · (B) **defer the bundle; greenlight useful pieces ad hoc** · (C) reject outright.
+- **Decision:** **(B)** **Defer** the v2-lite bundle. **Not a freeze** — useful pieces are greenlit piecemeal as they come up (the `tdd` skill and the lean pre-commit gate **D-071** were both greenlit this way). **H7 and H9 both resolve to DON'T-BUILD:** **D-054**'s milestone-integrity policy + CI-manifest check already own the ship-gate *policy* (no bespoke skill), and decision queues are resolved **by hand** (demonstrated this very session via `AskUserQuestion`).
+- **Why:** The bundle's value is real but unproven and its harness cost is ~1 week; piecemeal adoption captures the wins without committing to the whole. Bespoke automation (ship-gate, resolve-queue skills) isn't worth building until the pain actually recurs.
+- **Consequences:** **Closes H7, H9, H10.** The mandatory `diverge` UI gate (DS#10) and the `playcheck` ratchet remain **HELD** (not adopted) and ride with the fuller v2-lite if it's ever revisited — the trigger is the hand-holding cost resurfacing. Intent: [`../../project/human-feedback/2026-06-29-h-item-decisions.md`](../../project/human-feedback/2026-06-29-h-item-decisions.md). Per **D-022**, governs.
+
+### D-071 ✅ — A lean, content-aware (<5s) pre-commit gate (the one v2-lite piece greenlit; built)
+- **Context:** The single Operating-Model-v2 piece the human greenlit (reshaped to a lean spec — forks **D-a/D-d** in the 2026-06-29 H-item session), separable from the deferred bundle (**D-070**). Evidence it was needed: M1 shipped with claimed pacing/fun instrumentation absent and the audit found a false-green test suite.
+- **Options:** (A) run the full `verify` (test suite) on every commit · (B) **a content-aware fast (<5s) subset that runs only what's relevant to the staged files** · (C) no gate (keep the journal-only hook).
+- **Decision:** **(B)** A content-aware **<5s** pre-commit subset: staged `.ts` → `tsc --noEmit`; staged `.ts/.md/json/css/html` → `prettier --check` (staged only); staged `src/**` → a pure-core **boot smoke**; then the unchanged journal-hygiene gate. **NOT the full test suite.** Bypass: `SKIP_VERIFY=1` (checks) / `SKIP_JOURNAL=1` (journal).
+- **Why:** A fast gate runs on every commit without friction; the full suite is too slow for a per-commit gate (it belongs in CI / `verify`). The pure-core boot smoke catches "dumb stuff" (a core that won't boot) cheaply.
+- **Consequences:** **Built this session** — [`../../.githooks/pre-commit`](../../.githooks/pre-commit) + [`../../src/scripts/smoke.ts`](../../src/scripts/smoke.ts), measured **~0.87s** on a TS+core commit. Complements **D-054** (milestone-integrity / CI-manifest, which stays the heavier CI-side check). The fuller `playcheck` ratchet stays deferred with the v2-lite bundle (**D-070**). Intent: [`../../project/human-feedback/2026-06-29-h-item-decisions.md`](../../project/human-feedback/2026-06-29-h-item-decisions.md). Per **D-022**, governs.

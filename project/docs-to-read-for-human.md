@@ -16,7 +16,7 @@
 ①  path-to-v0.3 ───────────── THE CONDUCTOR: sequences the backlog into ADRs → ripple → build
     │                          (read this for the whole-picture; mostly agent execution + optional steer)
     │
-    ├─ B → pending-prd-reshape ............ ②a  the per-file edit CHECKLIST (the "what-edit-where")
+    ├─ B → pending-prd-changes ............ ②a  the per-file edit CHECKLIST (the "what-edit-where")
     ├─ C → roadmap-reaxe-proposal ......... ②a  → becomes docs/living/roadmap.md
     └─ D → operating-model-v2-lite-reelback  ②b  ⭐ the H10 artifact (the blocking decision)
                 └─ reels back: operating-model-v2-implementation  (✗ SUPERSEDED — don't read)
@@ -50,7 +50,7 @@
 
 ### ②a · Game canon — the reshape ripple
 
-- [ ] **[`project/status/pending-prd-reshape.md`](status/pending-prd-reshape.md)** — *tracker / checklist*
+- [ ] **[`project/status/pending-prd-changes.md`](status/pending-prd-changes.md)** — *tracker / checklist*
   - **What:** the **per-file edit CHECKLIST** (the *what-edit-where*) for applying **both** decision batches —
     the 2026-06-28 reshape (**D-048…D-055**) + the 2026-06-29 session (**D-056…D-069**) — into the PRD, living
     docs, and code. This is the conductor's **Workstream B**, and the *single source of truth* for the edits.

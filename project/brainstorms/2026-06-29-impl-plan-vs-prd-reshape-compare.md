@@ -1,11 +1,11 @@
 ---
 name: impl-plan-vs-prd-reshape-compare
-description: Comparison of docs/plans/2026-06-29-path-to-v0.3.md (formerly 2026-06-29-implementation-plan.md) vs project/status/pending-prd-reshape.md — relationship, overlap, and a born-stale catch
+description: Comparison of docs/plans/2026-06-29-path-to-v0.3.md (formerly 2026-06-29-implementation-plan.md) vs project/status/pending-prd-changes.md — relationship, overlap, and a born-stale catch
 metadata:
   type: project
 ---
 
-# `implementation-plan` vs `pending-prd-reshape` — how they relate
+# `implementation-plan` vs `pending-prd-changes` — how they relate
 
 > **What this is:** the distilled verdict of a 3-agent compare Workflow (run 2026-06-29,
 > `wf_d2e8590f-d85`). Verbatim raw output:
@@ -19,14 +19,14 @@ They share the **same decision set** (the 2026-06-28 reshape **D-048–D-055** +
 **DS#1–DS#23**) and both treat the **stale 5-tier PRD** as the thing to fix — so the "they overlap"
 instinct is understandable. But they answer **different questions**, and the plan **consumes** the tracker:
 
-| | [`pending-prd-reshape.md`](../status/pending-prd-reshape.md) | [`2026-06-29-path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md) *(was `…-implementation-plan.md`)* |
+| | [`pending-prd-changes.md`](../status/pending-prd-changes.md) | [`2026-06-29-path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md) *(was `…-implementation-plan.md`)* |
 |---|---|---|
 | **Altitude** | Tactical — *what edit, where* | Strategic — *in what order, gated on whom* |
 | **Form** | Per-file **checklist**: 14 PRD-section edits + 8 living-doc edits + 13 code edits, with checkboxes | **Sequencing memo**: 6 workstreams (A–F), 3 execution options, a gates map |
 | **PRD scope** | The PRD ripple **is the whole doc** | The PRD ripple is **only Workstream B** of six |
 | **Home / lifespan** | `project/status/` — live, self-clearing ("delete once empty") | `docs/plans/` — pre-canon, "supersedes nothing until executed"; disposable |
 
-The plan **defers to the tracker** — Workstream B cites `pending-prd-reshape` as its source, and §5's ripple
+The plan **defers to the tracker** — Workstream B cites `pending-prd-changes` as its source, and §5's ripple
 mechanism credits it. **The plan is the conductor; the tracker is one section of the score.** Merging them
 would re-create the monolith the PRD-split (DS#6/H8) is trying to undo.
 

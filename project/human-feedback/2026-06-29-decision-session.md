@@ -8,7 +8,7 @@
 >
 > **Process steer (human, this session):** the human drives — go through all docs/reports/reviews and make
 > all the decisions first; **then ripple the PRD in ONE batch** (there is more to append beyond the current
-> [`pending-prd-reshape.md`](../status/pending-prd-reshape.md) checklist). Decisions captured here verbatim;
+> [`pending-prd-changes.md`](../status/pending-prd-changes.md) checklist). Decisions captured here verbatim;
 > **ADRs + the PRD-body ripple follow as one batch**, not piecemeal.
 
 ## Already CLOSED by the reshape (verified — NOT re-asked)

@@ -1,5 +1,5 @@
 ---
-name: pending-prd-reshape
+name: pending-prd-changes
 description: Locked decisions & ADRs (2026-06-28 reshape + the 2026-06-29 decision session) NOT yet applied to the PRD / living docs / code
 metadata:
   type: project

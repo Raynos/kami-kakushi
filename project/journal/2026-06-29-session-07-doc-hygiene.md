@@ -16,7 +16,7 @@ Reference fixes (basename-only swap for the reel-back; path swap for the archive
 - `project/journal/2026-06-29-session-04-decision-session.md`
 - `project/journal/2026-06-29-session-05-tdd-skill.md` — repointed the tdd "Adoption record" link `docs/plans/` → `project/archive/`.
 - `project/human-feedback/2026-06-29-decision-session.md`
-- `project/status/pending-prd-reshape.md`
+- `project/status/pending-prd-changes.md`
 - `project/status/project-status.md`
 
 ## Next intended steps
