@@ -49,3 +49,20 @@ than a rename. This file is HISTORY; the live snapshot is `project/status/projec
   verify refactor, which would fail `npm run verify` through no fault of this change). Journal gate honored.
 - The old M0–M7 tracker now lives only in git history (pre-`0bc1b42`); the new roadmap's carry-forward table
   preserves the M0–M2b→T0 mapping + commit hashes.
+
+---
+
+## Addendum (session-11 cont.) — guardrail: block over-broad `git add` (stop the cross-agent sweeps)
+
+Human steer (after the 2nd sweep this session): *"add a claude hook that disallows `git add -A` lol. we keep
+doing this shit."* Built it on the **strongest rung** (a `PreToolUse` hook beats a written norm, per CLAUDE.md):
+
+- **`.claude/hooks/guard-git-add-all.sh`** (NEW) — reads the PreToolUse JSON on stdin, inspects
+  `.tool_input.command`, and **exits 2 (blocks)** on `git add -A` / `--all` / bare `.` / `:/`, and
+  `git commit -a`/`-am`/`--all`. **Allows** explicit pathspecs, `git add -p`, `git commit -m`, `--amend`.
+  17/17 pipe-tests pass (9 block · 8 allow).
+- **`.claude/settings.json`** — merged a `PreToolUse` hook (matcher `Bash`) calling the guard; SessionStart +
+  plugins preserved. **No `if: Bash(git *)` filter** — the real sweeps are `cd repo && git add -A` (command
+  starts with `cd`), which that filter would skip; the guard self-filters cheaply on every Bash call instead.
+- **Proven live:** `cd <throwaway-repo> && git add -A` was blocked in-session. (Other already-running sessions
+  won't pick up the new hook until `/hooks` reload or restart — flagged to the human.)
