@@ -1,17 +1,17 @@
-# Session 02 — 2026-06-29 — flatten project/feedback/history into project/feedback
+# Session 02 — 2026-06-29 — flatten project/human-feedback/history into project/feedback
 
-**Summary:** Moved the sole closed-record file out of `project/feedback/history/` up into
-`project/feedback/` and removed the now-empty `history/` subdir. Closed feedback records now sit
+**Summary:** Moved the sole closed-record file out of `project/human-feedback/history/` up into
+`project/human-feedback/` and removed the now-empty `history/` subdir. Closed feedback records now sit
 alongside live ones. Updated every doc reference + the feedback README convention.
 
 ## What changed
-- `project/feedback/2026-06-26-prd-human-feedback.md` — **moved** here from `history/` (git mv).
-- `project/feedback/history/` — **removed** (was empty after the move).
-- Path references rewritten across the repo (`feedback/history/` → `feedback/`): CLAUDE.md,
+- `project/human-feedback/2026-06-26-prd-human-feedback.md` — **moved** here from `history/` (git mv).
+- `project/human-feedback/history/` — **removed** (was empty after the move).
+- Path references rewritten across the repo (`human-feedback/history/` → `human-feedback/`): CLAUDE.md,
   `docs/README.md`, `docs/living/{prd,fun-factor,qa-playtesting,decisions}.md`,
   `project/status/project-status.md`, `project/brainstorms/*`, and several `project/journal/*` entries.
-- `project/feedback/README.md` — rewrote the "history/" bullet → "Closed records stay alongside".
-- `project/feedback/2026-06-27-playtest.md` — fixed the relative `history/…` link.
+- `project/human-feedback/README.md` — rewrote the "history/" bullet → "Closed records stay alongside".
+- `project/human-feedback/2026-06-27-playtest.md` — fixed the relative `history/…` link.
 - `CLAUDE.md` Layout — feedback bullet reworded (no more separate closed-records dir).
 
 ## Next intended steps

@@ -250,7 +250,7 @@ Delete the skill + rule. Pure additive.
 
 **Goal:** every piece of your feedback terminates in a self-enforced check, so the same class never recurs.
 
-### 5a · Feedback-log template change (PROPOSED — add a column to `project/feedback/*.md`)
+### 5a · Feedback-log template change (PROPOSED — add a column to `project/human-feedback/*.md`)
 
 ```md
 | # | Feedback | Type | Status | Resolution | Enforced-as |

@@ -1,7 +1,7 @@
 # PRD — Human Feedback & Decisions Log
 
 > **📦 ARCHIVED — closed record.** The completed PRD-building feedback log (Blocks A–N), **applied to the
-> PRD in V2.2** (commit `2b8d5e9`). **New human feedback goes to the live [`feedback/`](..) inbox, not here.**
+> PRD in V2.2** (commit `2b8d5e9`). **New human feedback goes to the live [`human-feedback/`](..) inbox, not here.**
 > Kept for the trail / the audit lens.
 
 **What this is.** A consolidated, chronological-and-thematic record of **every piece of concrete

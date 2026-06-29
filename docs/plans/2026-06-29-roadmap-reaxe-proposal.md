@@ -1,7 +1,7 @@
 # Roadmap re-axe — nested **Tier → Milestones → Fun-slices** (PROPOSAL)
 
 > **PROPOSAL — for human review.** Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the
-> **2026-06-29 decision session** ([`../../project/feedback/2026-06-29-decision-session.md`](../../project/feedback/2026-06-29-decision-session.md)).
+> **2026-06-29 decision session** ([`../../project/human-feedback/2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)).
 > **Now incorporates the 2026-06-29 decisions (#1–#23) and RESOLVES all 6 of this proposal's original open
 > questions** (see *Resolved open questions* near the bottom). This is the **candidate to become the new
 > [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md)** and **supersedes the M-milestone roadmap once

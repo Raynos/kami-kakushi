@@ -12,7 +12,7 @@ metadata:
 > 1. the **2026-06-28 two-tier-Estate reshape** — ADRs **D-048…D-055** (see table A); and
 > 2. the **2026-06-29 decision session** — **23 forward decisions** (`DS#1…DS#23`) that reconcile the v0.2
 >    audit, amend signed locks, and add new build/scope/taste steers (see table B). Intent capture:
->    [`project/feedback/2026-06-29-decision-session.md`](../feedback/2026-06-29-decision-session.md).
+>    [`project/human-feedback/2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md).
 >
 > **Both batches ripple as ONE batch** (the human's process steer, `DS#4`): gather feedback → decide → ripple
 > the PRD in a single sweep, not piecemeal.
@@ -21,13 +21,13 @@ metadata:
 > [`decisions.md`](../../docs/living/decisions.md). Each checklist line is tagged with its source.
 
 > **Precedence while pending (D-022).** Until each item below is applied, the **canon source of truth** is the
-> ADR batch [`decisions.md` D-048…D-055](../../docs/living/decisions.md) **+** the intent captures
-> [`2026-06-28-tier-reshape.md`](../feedback/2026-06-28-tier-reshape.md) and
-> [`2026-06-29-decision-session.md`](../feedback/2026-06-29-decision-session.md). The `prd.md` body still
+> ADR batch [`decisions.md` D-048…D-069](../../docs/living/decisions.md) **+** the intent captures
+> [`2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md) and
+> [`2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md). The `prd.md` body still
 > describes the **old 5-tier model** and the **v0.2 DEMO-default pacing**, and is **STALE** on every point
-> below — read it with this tracker open. The 2026-06-29 locks (`DS#1…DS#23`) are **not yet written as ADRs**
-> either (they live only in the feedback ledger); writing them is itself a backlog item (see "other living
-> docs → `decisions.md`"). **Newest-human-steer-wins; annotate-don't-delete** (strike + point forward, never
+> below — read it with this tracker open. The 2026-06-29 locks (`DS#1…DS#23`) are now **written as ADRs
+> D-056–D-069** (`3f24fe6`) — see the **→ ADR crosswalk** under Table B (they were previously canon only via
+> the feedback ledger). **Newest-human-steer-wins; annotate-don't-delete** (strike + point forward, never
 > erase).
 
 > **How to clear it.** Ideal as a single `battery`/Workflow doc-ripple sweep (map every site → propose edits
@@ -87,6 +87,15 @@ metadata:
 | **DS#22** | **Onboarding = DIEGETIC MENTOR** — an in-world character (drillmaster **Kihei** / an estate elder) teaches each system through dialogue as it unlocks. | lifts audit 5.5 within DS#17 |
 | **DS#23** | **T0 areas = a SMALL WALKABLE MAP** (not just room-grouping); delivers the §1 "areas to explore" promise. | **D-012** full-maps-every-tier |
 
+**→ ADR crosswalk (`DS#N → D-0NN`).** The 2026-06-29 locks are now ADRs in
+[`decisions.md`](../../docs/living/decisions.md) (`3f24fe6`):
+`DS#1`→**D-056** · `DS#3`→**D-057** · `DS#5`→**D-058** · `DS#7`→**D-059** · `DS#9`→**D-060** ·
+`DS#13`→**D-061** · `DS#14`→**D-062** · `DS#22`→**D-063** · `DS#17`→**D-064** · `DS#23`→**D-065** ·
+`DS#20`→**D-066** · `DS#15`+`DS#16`→**D-067** · `DS#2`+`DS#12`→**D-068** · `DS#21`→**D-069**.
+*No standalone ADR (process / human-queue / roadmap-level):* `DS#4` (one-batch ripple) · `DS#6` (PRD-split =
+H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (op-model — H10) · `DS#18`
+(spine-first) · `DS#19` (carry-forward) — the last two live in the roadmap re-axe (**D-060**), not a separate ADR.
+
 ---
 
 ## Ripple checklist — `docs/living/prd.md` (→ `prd/§*.md` after the split; still 5-tier / DEMO-default throughout)
@@ -109,7 +118,7 @@ metadata:
 
 ## Ripple checklist — other living docs
 
-- [ ] **`docs/living/decisions.md`** — **write ADRs for the 2026-06-29 locks** (`DS#1…DS#23`): at minimum the win-rate split **explicitly amending signed D-043** (`DS#3`), the **pacing-default supersedes D-047** (`DS#1`), the **freeze refine of D-020/D-021/D-046** (`DS#7`), and the carry-forward / linear-flywheel / diegetic-mentor / walkable-map / SFX / humbling-throughout / save-wipe / dev-tools calls. *(DS#1, DS#3, DS#7, DS#13–DS#23)*
+- [x] ✅ **`docs/living/decisions.md`** — **ADRs for the 2026-06-29 locks WRITTEN** as **D-056–D-069** (`3f24fe6`): the win-rate split amends signed D-043 (**D-057**), pacing-default supersedes D-047 (**D-056**), the freeze refine of D-020/D-021/D-046 (**D-059**), + carry-forward / linear-flywheel / diegetic-mentor / walkable-map / SFX / humbling-throughout / save-wipe / dev-tools (**D-061…D-068**). See the **→ ADR crosswalk** under Table B. *(DS#1, DS#3, DS#7, DS#13–DS#23)*
 - [ ] **`docs/living/roadmap.md`** — re-axe to the **nested Tier→Milestones→Fun-slices** structure (per the [re-axe proposal](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)); **spine-first, thin within T0**; **carry-forward + retune** M0–M2b; the new milestone (Estate-tutorial + T0→T1 spine); milestone-integrity DoD; renumbered tiers; bake the v0.2 gates as forward contracts. *(DS#9, DS#18, DS#19, D-048, D-054)*
 - [ ] **`docs/living/qa-playtesting.md`** — `state()` snapshot `tier: 0..4` → **0..5**; `outcome` add **`t3done`** (v1 finish); document the **DEV speed toggle + jump-to-rung/tier** harness affordances. *(D-048, DS#16)*
 - [ ] **`docs/living/ui-design.md`** — the House Influence **silhouette teaser** panel + pillar bars; the **first-ascension ceremony card** (Yuji Syuku title card, silhouettes stir, music swell); the **small walkable T0 map** surface; the **traditional-palette SFX** cues. *(D-055, DS#14, DS#23, DS#12)*
@@ -154,8 +163,9 @@ metadata:
 ## Already done (across both sessions)
 
 - ✅ **ADRs D-048…D-055** written into `docs/living/decisions.md` (2026-06-28).
-- ✅ **2026-06-28 reshape intent** captured verbatim in `project/feedback/2026-06-28-tier-reshape.md`.
-- ✅ **2026-06-29 decision session** captured verbatim in `project/feedback/2026-06-29-decision-session.md`
+- ✅ **ADRs D-056…D-069** (the 2026-06-29 locks `DS#1…DS#23`) written into `docs/living/decisions.md` (2026-06-29, `3f24fe6`) — see the **→ ADR crosswalk** under Table B.
+- ✅ **2026-06-28 reshape intent** captured verbatim in `project/human-feedback/2026-06-28-tier-reshape.md`.
+- ✅ **2026-06-29 decision session** captured verbatim in `project/human-feedback/2026-06-29-decision-session.md`
   (all 23 decisions; v0.2 audit marked 100% closed).
 - ✅ **Roadmap re-axe proposal** + **op-model v2-lite reel-back** authored in `docs/plans/`.
 - ✅ **This tracker** created (2026-06-28) and **expanded to the full backlog** (2026-06-29).
@@ -163,10 +173,10 @@ metadata:
 ## Pointers
 
 - Decisions (ADRs): [`docs/living/decisions.md` D-048…D-055](../../docs/living/decisions.md)
-- Intent / human directives: [`2026-06-28-tier-reshape.md`](../feedback/2026-06-28-tier-reshape.md) ·
-  [`2026-06-29-decision-session.md`](../feedback/2026-06-29-decision-session.md)
+- Intent / human directives: [`2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md) ·
+  [`2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md)
 - Plans: [`roadmap-reaxe-proposal`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md) ·
   [`operating-model-v2-lite-reelback`](../../docs/plans/operating-model-v2-lite-reelback.md)
-- The audits that drove it: [`state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/state-of-the-game-v0.2-2026-06-28.md)
+- The audits that drove it: [`2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md)
 </content>
 </invoke>

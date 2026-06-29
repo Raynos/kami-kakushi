@@ -2,7 +2,7 @@
 
 > **Status: PRD V2.2 — reshaped from the 79 human-signed V2 decisions** (Block L `Q1–Q56` + Block M `FU1–FU23`)
 > **+ Block N (32 post-battery) + Block N.1 (7); ADRs D-043/D-044/D-045**
-> (2026-06-26; see [`2026-06-26-prd-human-feedback.md`](../../project/feedback/2026-06-26-prd-human-feedback.md) §§L–N). Per **ADR D-022 (governing)** these
+> (2026-06-26; see [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §§L–N). Per **ADR D-022 (governing)** these
 > V2 decisions **supersede** any conflicting prior lock / canon / ADR — **most-recent-wins, annotate-don't-delete.**
 > The V2 **LOCKED INTENT** is frozen per **ADR D-021** (the freeze-framing below); the §4 balance numbers and the
 > §7 M2–M7 milestone detail stay **provisional** and are re-planned after each playtest. No code is written until

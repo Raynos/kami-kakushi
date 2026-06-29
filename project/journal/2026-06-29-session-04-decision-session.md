@@ -7,7 +7,7 @@ Tier→Milestones→Fun-slices structure, and locked a **durable-by-default** pr
 **LOCKED** but the ADRs (**D-056+**) and the PRD/doc/code application are **PENDING** — they ripple in **ONE
 batch**, gated on the human's extra PRD feedback. This entry records the session + the closing repo-sync
 housekeeping. **Detailed record (source of truth):**
-[`../feedback/2026-06-29-decision-session.md`](../feedback/2026-06-29-decision-session.md).
+[`../human-feedback/2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md).
 
 This file is HISTORY, not live state — the live snapshot is
 [`../status/project-status.md`](../status/project-status.md).
@@ -87,7 +87,7 @@ Synced the live state to the decisions above (touch-only-four-files scope).
 - `project/journal/2026-06-29-session-04-decision-session.md` — this entry.
 
 *(Session artifacts produced earlier in the session, outside this housekeeping pass:*
-`project/feedback/2026-06-29-decision-session.md` *(the ledger),* `docs/plans/2026-06-29-roadmap-reaxe-proposal.md`*,*
+`project/human-feedback/2026-06-29-decision-session.md` *(the ledger),* `docs/plans/2026-06-29-roadmap-reaxe-proposal.md`*,*
 `docs/plans/operating-model-v2-lite-reelback.md`*,* `docs/plans/2026-06-29-implementation-plan.md`*.)*
 
 ## Next intended steps

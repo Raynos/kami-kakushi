@@ -69,7 +69,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   enough to *propose, review, or act on*, write it to a durable `.md` **before** you present it as a
   deliverable and **before** you implement a line of it — no matter the source (your own in-context
   reasoning, a subagent, or a `Workflow`). **Never** let a plan live only in the conversation (it dies at
-  compaction) or only as a pointer in a feedback/ledger entry (a pointer is not the artifact). Homes:
+  compaction) or only as a pointer in a human-feedback/ledger entry (a pointer is not the artifact). Homes:
   **discovery / Q&A / proposals → [`project/brainstorms/`](project/brainstorms)**; **implementation plans /
   reel-backs / option-maps → [`docs/plans/`](docs/plans)**; **settled design → [`docs/`](docs)**. The test
   before you act: *if this session vanished right now, is the idea still on disk?* If no, write it first.
@@ -96,7 +96,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   (how Claude play-tests). Generated content/balance tables live under **[`docs/content/`](docs/content)**
   (e.g. t0-content.md), produced by `src/scripts/gen-docs.ts`. Reviewable **implementation plans / proposals
   / reel-backs** (pre-canon, awaiting sign-off) live under **[`docs/plans/`](docs/plans)**.
-- [`project/feedback/`](project/feedback) — the human's **direct feedback** (a live inbox; one dated file per session);
+- [`project/human-feedback/`](project/human-feedback) — the human's **direct feedback** (a live inbox; one dated file per session);
   closed records stay alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now applied to the PRD).
 - [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: decisions (`H`-items) and reviews
   (`R`-items) only a person can action. [`project/docs-to-read-for-human.md`](project/docs-to-read-for-human.md) is the

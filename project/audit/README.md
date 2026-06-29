@@ -21,7 +21,7 @@ lenses in [`experiment-registry.md`](experiment-registry.md) so each run brings 
 The written, code-grounded reviews — read these for *what the audits concluded*:
 
 - `state-of-the-game-<date>.md` — a full state-of-the-game **battery audit** (multi-lens, scored).
-- `v0.2-changelog.md` (and future changelogs) — what a given build actually changed.
+- `2026-06-27-v0.2-changelog.md` (and future changelogs) — what a given build actually changed.
 
 These are linked from `project/status/project-status.md`, `project/human-in-the-loop/`, and the ADR log,
 so keep their filenames stable.

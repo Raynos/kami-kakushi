@@ -4,69 +4,93 @@
 > `H`-decisions and `R`-reviews queue), these are additional **brainstorms / audits / plans / etc.** that
 > need active human **"read & reviewed"** sign-off.
 >
-> Tick the box when you've read it and signed off. Add new docs here as they're produced, in the same
-> format: a checkbox + linked title + *type*, then **What:** / **Read for:** / optional **More:**.
+> **Grouped by the dependency hierarchy** (not a flat priority list) — see the map below. Each entry:
+> a checkbox + linked title + *type*, then **What:** / **Read for:** / optional **More:**. Tick the box when
+> you've read & signed off; add new docs under the group they belong to.
 
 ---
 
-## 🔴 Now — the pending tier reshape (locked, not yet in the PRD)
+## 🗺 The map — how these docs relate
 
-- [ ] **[`project/status/pending-prd-reshape.md`](status/pending-prd-reshape.md)** — *plan / checklist*
-  - **What:** the **2026-06-28 two-tier-Estate reshape** — 8 locked decisions (**ADRs D-048…D-055**) that
-    are **NOT yet applied to the PRD/docs/code**, plus the master checklist of everything that still has to
-    change.
-  - **Read for:** ⚠️ the PRD body is **stale on the tier model** until this is cleared — read `prd.md` with
-    this open.
-  - **More:** backing intent (your verbatim directive + every resolved fork) →
-    [`project/feedback/2026-06-28-tier-reshape.md`](feedback/2026-06-28-tier-reshape.md); the ADRs themselves
-    → [`docs/living/decisions.md` → D-048…D-055](../docs/living/decisions.md); what triggered it →
-    [`project/audit/reports/state-of-the-game-2026-06-27.md`](audit/reports/state-of-the-game-2026-06-27.md)
-    (the v0.1 battery audit), reconciled by the v0.2 re-audit below.
+```
+①  path-to-v0.3 ───────────── THE CONDUCTOR: sequences the backlog into ADRs → ripple → build
+    │                          (read this for the whole-picture; mostly agent execution + optional steer)
+    │
+    ├─ B → pending-prd-reshape ............ ②a  the per-file edit CHECKLIST (the "what-edit-where")
+    ├─ C → roadmap-reaxe-proposal ......... ②a  → becomes docs/living/roadmap.md
+    └─ D → operating-model-v2-lite-reelback  ②b  ⭐ the H10 artifact (the blocking decision)
+                └─ reels back: operating-model-v2-implementation  (✗ SUPERSEDED — don't read)
+
+         ▲ everything above APPLIES ▼
+③  the locked decisions (canon — context, NOT a sign-off item)
+    intent → human-feedback/2026-06-28-tier-reshape · human-feedback/2026-06-29-decision-session
+    ADRs   → decisions.md  D-048–D-055 (reshape)  +  D-056–D-069 (the session)
+```
+
+> **If you do one thing:** the **⭐ H10 review (②b)** — it's the one *blocking* decision.
+> **For the full picture:** read the **conductor (①)** top-down. The **foundation (③)** is context, already canon.
 
 ---
 
-## 🔴 Now — 2026-06-29 decision-session plans (read & sign off)
+## ① The conductor — the whole-backlog plan
 
-> Produced by the 2026-06-29 decision session (source of truth:
-> [`project/feedback/2026-06-29-decision-session.md`](feedback/2026-06-29-decision-session.md)).
+- [ ] **[`docs/plans/2026-06-29-path-to-v0.3.md`](../docs/plans/2026-06-29-path-to-v0.3.md)** — *plan*
+  - **What:** the **sequencing plan** (order-of-operations, *not* the edit detail) from the now-locked
+    decisions to the next build (**v0.3**): ADRs → ripple → roadmap → op-model → build. It **orchestrates** the
+    three docs in ②; the *what-edit-where* lives in the reshape tracker (②a), not here.
+  - **Read for:** the big-picture map, the **3 sequencing options** (recommends Option 1 — layered &
+    verify-green), and the **gates** (what's blocked on you). Mostly agent execution + optional steer;
+    Workstream **A (write the ADRs) is already ✅ done**.
+
+---
+
+## ② The pieces it sequences — the proposals to review
+
+> The inputs the conductor consumes (its Workstreams **B / C / D**). Grouped by what they govern.
+
+### ②a · Game canon — the reshape ripple
+
+- [ ] **[`project/status/pending-prd-reshape.md`](status/pending-prd-reshape.md)** — *tracker / checklist*
+  - **What:** the **per-file edit CHECKLIST** (the *what-edit-where*) for applying **both** decision batches —
+    the 2026-06-28 reshape (**D-048…D-055**) + the 2026-06-29 session (**D-056…D-069**) — into the PRD, living
+    docs, and code. This is the conductor's **Workstream B**, and the *single source of truth* for the edits.
+  - **Read for:** ⚠️ the **PRD body is STALE on the tier model** until this clears — read `prd.md` with this
+    open. It's a tracker, not a decision doc; skim Tables A/B + the **→ ADR crosswalk** for the lay of the land.
 
 - [ ] **[`docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)** — *plan*
   - **What:** the **nested roadmap re-axe** — **Tier → Milestones → Fun-slices** (not a flat S0–S4). T0
-    detailed (4 milestones), T1–T3 coarse; a "fun-slice" ships a *playable, fun* increment.
-  - **Read for:** the proposed v1 build cut + the **6 open questions** — load-bearing = the within-T0 build
-    order (proposal recommends **spine-first**); the rest (milestone count, fun-slice granularity, naming, T1
-    rung count) are Claude's calls, surfaced for optional steer.
+    detailed (next-to-build), T1–T3 coarse; a "fun-slice" ships a *playable, fun* increment. The conductor's
+    **Workstream C** → becomes `docs/living/roadmap.md`.
+  - **Read for:** the proposed **v1 build cut** + the **spine-first within-T0 order**. (Its 6 original open
+    questions are now **resolved** — the 2026-06-29 decisions are folded in.)
+
+### ②b · Process change — ⭐ Operating Model (H10)
 
 - [ ] **[`docs/plans/operating-model-v2-lite-reelback.md`](../docs/plans/operating-model-v2-lite-reelback.md)** — *plan*
-  - **What:** the **drop / cut / keep** map that reels Operating Model v2 back to a lean **v2-lite** (v2 was
-    judged an overengineered draft). **This replaces the original v2 implementation plan** as the H10 artifact.
-  - **Read for:** the **⭐ H10** review (your separate ~1 hr pass) — which process pieces to keep (the
-    `diverge`-mandatory gate, the ship-gate/manifest, feedback-checks). Inputs: the roadmap re-axe above.
-
-- [ ] **[`docs/plans/2026-06-29-implementation-plan.md`](../docs/plans/2026-06-29-implementation-plan.md)** — *plan*
-  - **What:** how the locked decisions become a build — **carry-forward + retune** the shipped T0 (keep
-    M0–M2b), **spine-first**, mapped onto the roadmap re-axe.
-  - **Read for:** the concrete post-ripple build sequence (optional steer; mostly agent execution).
-
----
-
-## Then — read & sign off
-
-- [ ] **[`docs/plans/operating-model-v2-implementation.md`](../docs/plans/operating-model-v2-implementation.md)** — *plan*
-  - **What:** the *exactly-how* for **Operating Model v2** — the process change to make the build more
-    autonomous, higher-quality, and self-correcting (less hand-holding). Real code sketches + proposed ADRs +
-    exact CLAUDE.md edits, all embedded as **proposals — nothing applied**.
-  - **Read for:** the **§0 forks (D-a…D-f)**, the **§8 checkbox checklist** (✅ build / ✂️ change / ❌ drop
-    per line), and the **§7 ADRs (D-048…D-051) + CLAUDE.md edits**.
-  - **More:** also tracked as ⭐ **H10** in
-    [`project/human-in-the-loop/decisions.md`](human-in-the-loop/decisions.md) — it gates the next build phase.
-  - **⚠️ SUPERSEDED 2026-06-29** — v2 was reeled back as an overengineered draft; **H10's review now targets
-    the [v2-lite reel-back](../docs/plans/operating-model-v2-lite-reelback.md)** (in the "Now" section above).
-    Read the reel-back, not this plan.
+  - **What:** the **drop / cut / keep** reel-back that trims Operating Model v2 (you judged it *"a draft and
+    overengineered"*) to a lean **v2-lite** (~2–3 sessions vs ~1 week). **This is the H10 artifact** — the
+    conductor's **Workstream D**.
+  - **Read for:** the **⭐ H10** decision (your separate ~1 hr pass) — which process pieces to keep (the
+    `diverge`-mandatory gate, the ship-gate/manifest, feedback-checks). Also tracked as ⭐ **H10** in
+    [`project/human-in-the-loop/decisions.md`](human-in-the-loop/decisions.md); ⛔ it gates the next build phase.
+  - **More — superseded source (don't read):**
+    [`2026-06-28-operating-model-v2-implementation.md`](../docs/plans/2026-06-28-operating-model-v2-implementation.md) is the original
+    v2 plan; the reel-back above is the analysis **of** it. Read the reel-back, not this.
 
 ---
 
-*See also (live, but tracked elsewhere — not in this list):* the **tier-reshape** directive
-([`project/feedback/2026-06-28-tier-reshape.md`](feedback/2026-06-28-tier-reshape.md)) — a locked-intent
-change with open forks, in the feedback inbox; and the full **action** queue in
-[`project/human-in-the-loop/`](human-in-the-loop).
+## ③ The foundation — the locked decisions (context, already canon)
+
+> **Not sign-off items** — listed so the hierarchy is complete. Everything in ① / ② *applies* these.
+
+- The **human intent** (the *why*, verbatim):
+  [`project/human-feedback/2026-06-28-tier-reshape.md`](human-feedback/2026-06-28-tier-reshape.md) (the two-tier-Estate
+  reshape) · [`project/human-feedback/2026-06-29-decision-session.md`](human-feedback/2026-06-29-decision-session.md)
+  (the 23-decision session).
+- The **ADRs** (canon): [`docs/living/decisions.md`](../docs/living/decisions.md) — **D-048…D-055** (reshape) +
+  **D-056…D-069** (the session). The `DS#N → D-0NN` crosswalk lives in the reshape tracker's Table B (②a).
+
+---
+
+*See also (live, but tracked elsewhere — not in this list):* the full **action** queue (`H`-decisions +
+`R`-reviews) in [`project/human-in-the-loop/`](human-in-the-loop).

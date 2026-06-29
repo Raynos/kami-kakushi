@@ -82,7 +82,7 @@ Jake steered: **don't build/commit ADRs, CLAUDE.md, or new skills** — instead 
 HITL item that it must be done + update project-status.**
 
 - **Plan (review-only, nothing applied):**
-  [`docs/plans/operating-model-v2-implementation.md`](../../docs/plans/operating-model-v2-implementation.md)
+  [`docs/plans/2026-06-28-operating-model-v2-implementation.md`](../../docs/plans/2026-06-28-operating-model-v2-implementation.md)
   — per-system *exactly-how* (#0 hook, #1 `playcheck` keystone, #2 roadmap re-axe + slice-manifest, #3 ship
   ceremony, #4 `diverge` skill, #5 corrections→checks), with the **real code sketches** (grounded in the
   actual `createInitialState`/`reduce` core API that `pacing-report.ts` already uses), the **proposed ADR
@@ -96,7 +96,7 @@ HITL item that it must be done + update project-status.**
   policies + a baseline ratchet. And the enforcement gap is one wiring change: `verify` has no
   fun/pacing/playcheck, and the only git hook checks journal staging — nothing stops a red/hollow commit.
 
-**NEXT (the human's):** review `docs/plans/operating-model-v2-implementation.md` → answer §0 D-a…D-f + mark
+**NEXT (the human's):** review `docs/plans/2026-06-28-operating-model-v2-implementation.md` → answer §0 D-a…D-f + mark
 the §8 checklist → I build the ✅'d parts, keystone first (#0 hook → #1 playcheck). Until then: review-only.
 
 ---

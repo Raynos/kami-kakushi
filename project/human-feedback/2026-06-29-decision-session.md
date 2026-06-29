@@ -1,7 +1,7 @@
 # Decision session — 2026-06-29 (v0.2 audit reconciliation + forward decisions)
 
 > **What this is.** A running ledger of the 2026-06-29 human-driven decision pass. We reviewed the v0.2
-> state-of-the-game audit ([`../audit/reports/state-of-the-game-v0.2-2026-06-28.md`](../audit/reports/state-of-the-game-v0.2-2026-06-28.md))
+> state-of-the-game audit ([`../audit/reports/2026-06-28-state-of-the-game-v0.2.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md))
 > against the recent reshape (ADRs **D-048…D-055**). A verification workflow
 > ([raw](../brainstorms/raw/2026-06-29-v02-audit-open-decisions-diff.json)) confirmed the reshape already
 > **closed almost every audit item**; this session resolves the genuine residuals + gathers more feedback.
@@ -140,7 +140,7 @@ T0→T3 → **D-048 + fork #1** · "is the saturating flywheel a decision?" → 
 
 ## v0.2 AUDIT — 100% CLOSED ✅
 
-All **23 decisions** above resolve every human-facing fork in `state-of-the-game-v0.2-2026-06-28.md` (this
+All **23 decisions** above resolve every human-facing fork in `2026-06-28-state-of-the-game-v0.2.md` (this
 session + the reshape D-048…D-055). The rest is agent execution that flows into the roadmap proposal. The
 audit report is banner-marked as triaged.
 

@@ -1,12 +1,12 @@
 # State of the Game — Battery Audit of **v0.2**
 
 > ✅ **TRIAGED 2026-06-29** — every human-facing decision in this report is resolved (this session + the
-> reshape D-048…D-055). Decision log: [`2026-06-29-decision-session.md`](../../feedback/2026-06-29-decision-session.md).
+> reshape D-048…D-055). Decision log: [`2026-06-29-decision-session.md`](../../human-feedback/2026-06-29-decision-session.md).
 > Remaining items are agent execution feeding [`roadmap-reaxe-proposal`](../../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md).
 
 > **Date:** 2026-06-28 · **Subject:** the v0.2 audit-fix build (tag `v0.2`, HEAD `b39bbd1`) · **Companion:**
-> the v0.1 report [`state-of-the-game-2026-06-27.md`](state-of-the-game-2026-06-27.md) + the
-> [`v0.2-changelog.md`](v0.2-changelog.md).
+> the v0.1 report [`2026-06-27-state-of-the-game.md`](2026-06-27-state-of-the-game.md) + the
+> [`2026-06-27-v0.2-changelog.md`](2026-06-27-v0.2-changelog.md).
 >
 > **This is the same battery, repeated on v0.2** — 12 multi-angle lenses + a convergence/de-dup critic,
 > firsthand-grounded ([`tmp/v0.2-ground-truth.md`](../../../tmp/v0.2-ground-truth.md)), raw verdicts in

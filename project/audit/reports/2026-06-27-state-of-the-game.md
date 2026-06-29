@@ -22,8 +22,8 @@
 
 > **➡️ This report audits v0.1.** It was acted on (an autonomous **v0.2 build** fixed the top findings), and
 > v0.2 then got its **own battery report** — see
-> [`state-of-the-game-v0.2-2026-06-28.md`](state-of-the-game-v0.2-2026-06-28.md) (it references the sections
-> below for everything v0.2 didn't change) + the [`v0.2-changelog.md`](v0.2-changelog.md). v0.2 deltas in brief:
+> [`2026-06-28-state-of-the-game-v0.2.md`](2026-06-28-state-of-the-game-v0.2.md) (it references the sections
+> below for everything v0.2 didn't change) + the [`2026-06-27-v0.2-changelog.md`](2026-06-27-v0.2-changelog.md). v0.2 deltas in brief:
 > Fun 4.5→6.0 · UI 7→8.5 · PRD 6.5→8 · README 7→7.5 · human-feedback 7.5→8.5 · Incremental 4.5→7 · Laziness
 > 4.5→3. Everything below is the **v0.1** record, unchanged.
 

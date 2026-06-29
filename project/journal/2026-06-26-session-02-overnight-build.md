@@ -140,8 +140,8 @@ Raw audit + fix reports snapshotted in brainstorms/raw/. verify green (51 tests)
 
 ## 11 · Docs/feedback reorg (human-directed)
 
-Reorganized per the human: NEW top-level **feedback/** (live human-feedback inbox, one dated file per session;
-feedback/README.md) with **feedback/prd_human_feedback.md** (the finished PRD-feedback record, banner
+Reorganized per the human: NEW top-level **human-feedback/** (live human-feedback inbox, one dated file per session;
+human-feedback/README.md) with **human-feedback/prd_human_feedback.md** (the finished PRD-feedback record, banner
 marks it ARCHIVED). Moved the living design docs into **docs/living/** (prd, ui-design, fun-factor,
 qa-playtesting, roadmap) and the **ADR ledger → docs/living/decisions.md** (it is live/append-only, so history/
 was the wrong bucket — dissolved docs/history/). All cross-references rewritten programmatically (tmp/relink.mjs,
@@ -153,7 +153,7 @@ green (51 tests). Broader top-level-hierarchy reorg = proposed to the human, NOT
 
 Cut top-level clutter (8 markdown dirs → fewer) by folding the agentic-process dirs under one **`project/`**
 umbrella (human picked "Option A"): `memory→project/status`, `journal→project/journal`,
-`brainstorms→project/brainstorms`, `feedback→project/feedback`, `human-in-the-loop→project/queue` …then the
+`brainstorms→project/brainstorms`, `feedback→project/human-feedback`, `human-in-the-loop→project/queue` …then the
 human steered that last one back, so **`project/human-in-the-loop`** (kept its descriptive name),
 `audit→project/audit`, `archive→project/archive`. All via `git mv` (history preserved). Cross-references
 rewritten ONCE with a prefix-aware rewriter (tmp/relink2.mjs — resolve link vs OLD dir → remap prefix →

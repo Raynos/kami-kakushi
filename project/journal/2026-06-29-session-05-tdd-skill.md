@@ -58,3 +58,9 @@ onto our resumability machinery (`project/journal/` + `project/status/project-st
 is a transient `tmp/` aid for one fresh agent, NOT a replacement for the journal/status. Verbatim source
 snapshot left at `tmp/handoff-src/` (git-ignored). Committed scoped (subagent did no git, per the shared-tree
 hazard).
+
+## Addendum 3 — repo housekeeping renames (date-prefix + feedback→human-feedback)
+Human-requested cleanups, done on a clean tree (other agents checkpointed + committed first):
+- **Date-prefixed plans/audit reports** (date FIRST, for chronological sort): `docs/plans/2026-06-28-operating-model-v2-implementation.md` → `2026-06-28-…`; `project/audit/reports/2026-06-27-state-of-the-game.md` → `2026-06-27-state-of-the-game.md`; `…-2026-06-28-state-of-the-game-v0.2.md` → `2026-06-28-state-of-the-game-v0.2.md`; `2026-06-27-v0.2-changelog.md` → `2026-06-27-2026-06-27-v0.2-changelog.md`. Dates from `git log --diff-filter=A`.
+- **`project/human-feedback/` → `project/human-feedback/`** (all 5 tracked files via `git mv` of the dir).
+- References updated across tracked files with a **segment-safe** pass: only `human-feedback` *as a path segment* (lookbehind `(?<![\w-])`, lookahead for `/`, `)`, or backtick) is rewritten, so filenames like `prd_human_feedback.md` and prose like `human-feedback` / `feedback-loop` / `check-feedback-closed.ts` are preserved. Plain literal replaces for the four dated basenames. Untracked files (other agents' in-flight brainstorms) left untouched.

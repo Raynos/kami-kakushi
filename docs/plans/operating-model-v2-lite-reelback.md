@@ -1,6 +1,6 @@
 # Operating Model v2 — "v2-lite" reel-back map
 
-> **What this is.** A reel-back analysis of [`operating-model-v2-implementation.md`](operating-model-v2-implementation.md)
+> **What this is.** A reel-back analysis of [`2026-06-28-operating-model-v2-implementation.md`](2026-06-28-operating-model-v2-implementation.md)
 > (H10), produced 2026-06-29 after the human called the v2 plan *"a draft and overengineered."* It maps what
 > to **drop / cut / keep** and proposes a leaner scope. **Advisory — for the human's separate H10 review.**
 > Nothing here is applied; H10 stays review-only until signed off.

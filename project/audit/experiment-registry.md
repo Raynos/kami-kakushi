@@ -16,27 +16,27 @@ subject is what the novelty rule exists to prevent.
 | `economy-arithmetic` | PRD V2 | 2026-06-26 | [journal](../journal/2026-06-26-session-01-prd-battery-review.md) |
 | `persona-simulation` | PRD V2 | 2026-06-26 | [journal](../journal/2026-06-26-session-01-prd-battery-review.md) |
 | `failure-state-walking` | PRD V2 | 2026-06-26 | [journal](../journal/2026-06-26-session-01-prd-battery-review.md) |
-| `fun` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `ui-polish` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `prd-faithful` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `readme-spirit` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `human-feedback` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `incremental` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `laziness` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `roadmap` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) |
-| `save-integrity` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/state-of-the-game-2026-06-27.md) — §7.1 residual-angle (a11y 100 / security cleared) |
-| `fun` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `ui-polish` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `prd-faithful` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `readme-spirit` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `human-feedback` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `incremental` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `laziness` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `roadmap` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `rough-edges` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `macro-gap` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `test-integrity` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
-| `onboarding` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/state-of-the-game-v0.2-2026-06-28.md) |
+| `fun` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `ui-polish` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `prd-faithful` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `readme-spirit` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `human-feedback` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `incremental` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `laziness` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `roadmap` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) |
+| `save-integrity` | build v0.1 | 2026-06-27 | [state-of-the-game-2026-06-27](reports/2026-06-27-state-of-the-game.md) — §7.1 residual-angle (a11y 100 / security cleared) |
+| `fun` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `ui-polish` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `prd-faithful` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `readme-spirit` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `human-feedback` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `incremental` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `laziness` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `roadmap` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `rough-edges` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `macro-gap` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `test-integrity` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
+| `onboarding` | build v0.2 | 2026-06-28 | [state-of-the-game-v0.2-2026-06-28](reports/2026-06-28-state-of-the-game-v0.2.md) |
 
 ## Never yet run (candidate fresh lenses for the next full battery)
 

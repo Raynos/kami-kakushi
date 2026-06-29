@@ -249,4 +249,4 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 > See also: **[`fun-factor.md`](fun-factor.md)** (the *what/why* of fun — this harness measures its
 > targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
 > §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible), and
-> [`2026-06-26-prd-human-feedback.md`](../../project/feedback/2026-06-26-prd-human-feedback.md) §K (the fun/UI process intent).
+> [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §K (the fun/UI process intent).
