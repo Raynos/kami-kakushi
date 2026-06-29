@@ -33,6 +33,15 @@ export {
 } from './skills';
 export type { SkillProgress } from './skills';
 export { currentRank, accrueRungMeter, promoteRungs, rungProgress, phaseOf } from './ranks';
+export {
+  gradeOf,
+  perDeedCap,
+  accrueDeed,
+  applyEstateDeed,
+  seasonalJudge,
+  estateGrade,
+} from './pillars';
+export type { Grade, GradeBands } from './pillars';
 export { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 export type { EstateStageDef } from './content/estate';
 

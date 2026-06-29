@@ -12,6 +12,7 @@ import { clamp } from './math';
 import { satietyMax, hpMax, staminaRate, season, canDoActivity } from './selectors';
 import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, promoteRungs } from './ranks';
+import { applyEstateDeed } from './pillars';
 import { isUnlocked } from './unlock';
 import { applyGrindFight, applyScriptedWolf } from './fight';
 import {
@@ -141,6 +142,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [{ channel: 'reward', text: activityLine(act, gained) }],
       });
       next = accrueRungMeter(next, act.id);
+      // Phase 2 (post-R7): estate labour also banks an Estate-pillar deed (no-op in Phase 1).
+      next = applyEstateDeed(next);
       next = advanceClock(next, TICKS_PER_ACT);
       break;
     }

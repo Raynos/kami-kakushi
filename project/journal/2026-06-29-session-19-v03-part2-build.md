@@ -108,10 +108,28 @@ thresholds to both balance profiles (over-satisfy the floor; M2·8 re-derives to
 profile). New `m1.test.ts` block: ladder is contiguous R0…R7, R3→R4 needs combat-blooded, the climb reaches R7
 and opens Phase 2. Regenerated `docs/content/t0-content.md`. `verify` green (9 gates).
 
+## 6 · Movement 2 · M2·3 + M2·4 — the macro engine (pillars + seasonal judge) — DONE
+
+New `pillars.ts` — the House-Influence (家威) engine:
+- **Grade bands** Estate GOOD/GREAT/EXCELLENT (provisional T0, liquid D-059); `gradeOf` (the ascension gate).
+- **Deeds** `applyEstateDeed` — **Phase-2-gated** (no-op until `phaseOf===2`, i.e. post-R7 capstone, FU7),
+  **per-deed capped** (0.04·GOOD, anti-spike). Wired into the labour reducer so estate work banks standing
+  once the tutorial ladder is climbed. (Implemented as a reducer-level call, not `RewardBundle.pillarDeltas` —
+  avoids a `rewards`→`ranks` import cycle; same contract.)
+- **Seasonal judge** `seasonalJudge` — on a NEW high-water (`highWater > judged`) pays the **30% seasonal
+  share** (`growth·3/7`, the 70/30), swung ±10%, never net-negative (D-061); advances the `judged` baseline.
+  Wired into `step.ts onSeasonBoundary` via the day-keyed `seasonal` substream (`deriveDayKeyed`) — deterministic,
+  no cursor mutation; folds per-day so multi-season jumps fire each judge in turn. Diegetic 家産 log beat.
+- Schema: `PillarState` gained a `judged` field (the seasonal baseline) — rippled through migrate/validate.
+
+`pillars.test.ts` (11): bands, per-deed cap, Phase-2 gating (direct + via reducer), seasonal new-high-water-only,
+the 3/7 share, ±10% swing, and the clock-wired judge (fires at a season boundary in Phase 2, not Phase 1).
+`verify` green (9 gates). **The spine's two halves now exist — M2·5 ascension closes the loop.**
+
 ## Next intended steps (current)
-1. **Spine (Movement 2) continues on main**: ✅ M2·1 schema · ✅ M2·2 R7 capstone → **NEXT** M2·3 pillars.ts
-   accrual (Phase-2-gated `pillarDeltas`) → M2·4 seasonal judged result → M2·5 ascension.ts → M2·6 live-Estate UI
-   (DIVERGE).
+1. **Spine (Movement 2) continues on main**: ✅ M2·1 schema · ✅ M2·2 R7 capstone · ✅ M2·3 pillars · ✅ M2·4
+   seasonal judge → **NEXT** M2·5 ascension.ts (gate=Estate≥EXCELLENT, tier 0→1, grade-scaled boon, dream beat) —
+   then prove the spine CLOSES — → M2·6 live-Estate UI (DIVERGE) → M2·8 retire fork + DEV tools.
 2. **Integrate the leaf modules** as the Workflow returns: M1 leaves (sfx P8, dialogue P7, crafting P3) into
    Movement-1; M4 leaves (quests, map, market) AFTER the spine closes (spine-first).
 3. **P1c** auto-loop eat-to-heal (`main.ts`), **P9** touch-legible wear axis (`render.ts`), **M2·8** retire

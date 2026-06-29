@@ -31,12 +31,14 @@ export type SurfaceId = string;
 export type ResourceId = string;
 export type FlagId = string;
 
-/** One House-Influence pillar's accrued standing + its seasonal high-water mark (D-049/D-055).
- *  `value` is the live grade-points total; `highWater` is the best ever reached (the season
- *  judge fires on a NEW high-water only). Phase-2-gated accrual (post-capstone, FU7). */
+/** One House-Influence pillar's accrued standing (D-049/D-055). `value` is the live grade
+ *  total (deeds + seasonal); `highWater` is the best `value` ever reached; `judged` is the
+ *  high-water as of the LAST seasonal judge — the season judge fires only on a NEW high-water
+ *  (highWater > judged), the 30% seasonal share. Phase-2-gated accrual (post-capstone, FU7). */
 export interface PillarState {
   readonly value: number;
   readonly highWater: number;
+  readonly judged: number;
 }
 
 /** House Influence (家威) — one pillar per tier (D-048). T0 lights only the Estate (家産)
@@ -143,7 +145,7 @@ export function createInitialState(
     stance: 'chudan',
     balanceProfile: profile,
     tier: 0,
-    influence: { estate: { value: 0, highWater: 0 } },
+    influence: { estate: { value: 0, highWater: 0, judged: 0 } },
   };
 }
 

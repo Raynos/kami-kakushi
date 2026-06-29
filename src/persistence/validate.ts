@@ -37,7 +37,8 @@ function validateInfluence(v: unknown): GameState['influence'] {
     const o = isObject(p) ? p : {};
     const value = Math.max(0, num(o.value, 0).value);
     const highWater = Math.max(value, num(o.highWater, 0).value);
-    return { value, highWater };
+    const judged = Math.min(highWater, Math.max(0, num(o.judged, 0).value));
+    return { value, highWater, judged };
   };
   const o = isObject(v) ? v : {};
   return { estate: pillar(o.estate) };

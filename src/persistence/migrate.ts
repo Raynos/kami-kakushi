@@ -18,7 +18,7 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   1: (s) => ({
     ...(s as object),
     tier: 0,
-    influence: { estate: { value: 0, highWater: 0 } },
+    influence: { estate: { value: 0, highWater: 0, judged: 0 } },
   }),
 };
 

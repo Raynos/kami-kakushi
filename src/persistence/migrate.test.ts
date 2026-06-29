@@ -23,7 +23,7 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     const v1 = { schemaVersion: 1, rung: 'R2', resources: { koku: 42 } };
     const v2 = migrate(v1, 1) as Record<string, unknown>;
     expect(v2.tier).toBe(0);
-    expect(v2.influence).toEqual({ estate: { value: 0, highWater: 0 } });
+    expect(v2.influence).toEqual({ estate: { value: 0, highWater: 0, judged: 0 } });
     expect(v2.rung).toBe('R2'); // existing progress carries forward
     expect(v2.resources).toEqual({ koku: 42 });
   });

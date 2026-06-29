@@ -7,13 +7,30 @@
 import type { GameState } from './state';
 import { TICKS_PER_DAY, DAYS_PER_SEASON } from './constants';
 import { revealPass } from './unlock';
+import { phaseOf } from './ranks';
+import { seasonalJudge } from './pillars';
+import { deriveDayKeyed } from './rng';
+import { applyRewards } from './rewards';
 
 function onSeasonBoundary(state: GameState): GameState {
-  // The per-season judged-appraisal hook. Scaffold at M0 — pillar accrual is
-  // Phase-2-gated and lands at M3; here the boundary is just a deterministic seam.
-  // (When live: drain a `pendingAppraisals` counter in a loop so multi-season jumps
-  // accrue all N appraisals — B10.)
-  return state;
+  // The per-season judged-appraisal (M2·4 / D-049). In Phase 2 (post-R7), when the Estate
+  // pillar has reached a NEW high-water since the last judge, the season pays out the 30%
+  // seasonal share (±10%) via the day-keyed `seasonal` substream — deterministic, no cursor
+  // mutation. Folded ONE day at a time by singleTick, so a multi-season jump fires each
+  // boundary's judge in turn (no pendingAppraisals counter needed, B10).
+  if (phaseOf(state) !== 2) return state;
+  const r = deriveDayKeyed(state.rng.seed, 'seasonal-estate', state.clock.day);
+  const { pillar, bonus } = seasonalJudge(state.influence.estate, r);
+  if (bonus <= 0) return state; // no new high-water → no judge this season
+  const judged: GameState = { ...state, influence: { ...state.influence, estate: pillar } };
+  return applyRewards(judged, {
+    log: [
+      {
+        channel: 'milestone',
+        text: `The season turns and the accounts are reckoned. The house is judged the better for your hand on it — its standing rises. (家産 +${bonus})`,
+      },
+    ],
+  });
 }
 
 function onDayRollover(state: GameState): GameState {

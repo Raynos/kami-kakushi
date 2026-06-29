@@ -81,6 +81,22 @@ export const AUTO_REPEAT_MS = 480;
 /** Signed ≥30-min-per-rung wall floor (the pacing acceptance criterion). provisional (v0.2). */
 export const RUNG_WALL_FLOOR_MIN = 30;
 
+// ── House-Influence pillars (M2·3 / D-049/D-055/D-057) — the macro engine. T0 Estate (家産)
+// grade bands + the deed/seasonal accrual rates. All PROVISIONAL T0 magnitudes (liquid, D-059
+// — re-derived at Ship-M1-F2); chosen so the THIN spine demonstrably CLOSES (deeds → EXCELLENT
+// → ascension) and the season judge is a visible beat. ──
+export const ESTATE_BANDS = { good: 240, great: 360, excellent: 480 } as const;
+/** Per-deed cap = this/100 · GOOD (anti-spike: one deed can't jump the grade). 0.04·240 ≈ 10. */
+export const PER_DEED_CAP_NUM = 4;
+/** Estate standing a single Phase-2 labour act banks (a "deed"); under the per-deed cap. */
+export const ESTATE_DEED_PER_ACT = 8;
+/** The season judge contributes this fraction of the season's deed-growth — seasonal:deeds =
+ *  3:7 = the 70/30 share (D-049). */
+export const SEASONAL_OVER_DEEDS_NUM = 3;
+export const SEASONAL_OVER_DEEDS_DEN = 7;
+/** The season judge's ±10% swing on its payoff (a good/lean season), never net-negative (D-061). */
+export const SEASONAL_SWING = 0.1;
+
 // ── Conditioning gate (PRD §4.4/§4.6.1) — the ZERO-stat weak→capable enablement ──
 /** Conditioning level needed to enter the first danger ring / be combat-capable. */
 export const CONDITIONING_GATE_LEVEL = 2;
