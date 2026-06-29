@@ -64,12 +64,6 @@
     the [v2-lite reel-back](../docs/plans/operating-model-v2-lite-reelback.md)** (in the "Now" section above).
     Read the reel-back, not this plan.
 
-- [ ] **[`project/audit/reports/v0.2-changelog.md`](audit/reports/v0.2-changelog.md)** — *changelog*
-  - **What:** what the **v0.2 build actually changed** — the audit-finding → fix mapping + the firsthand
-    playtest verification of each.
-  - **Read for:** confirming the v0.2 fixes genuinely match what the v0.1 audit asked for (the
-    "claimed vs verified" trail).
-
 ---
 
 *See also (live, but tracked elsewhere — not in this list):* the **tier-reshape** directive
