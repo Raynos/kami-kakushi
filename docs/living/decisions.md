@@ -7,7 +7,11 @@
 Append-only record of **locked decisions** and *why*. One entry per decision, numbered `D-000…`,
 **IDs never reused**.
 
-**Status:** ✅ Decided · 🛠 In design · ⏭ Deferred
+**Status:** ✅ Decided · 🛠 In design · ⏭ Deferred · ⛔ Reversed
+
+**Dating:** every entry carries a **`- **created_date:** YYYY-MM-DD`** first bullet (the day it was locked).
+With newest-steer-wins, the date is what disambiguates which call is current when two ADRs touch the same
+ground. *(Dates D-001…D-074 were backfilled 2026-06-29 from git first-appearance history.)*
 
 **Reversing a decision:** don't delete it. Mark the old entry `⛔ REVERSED by D-XXX ({date})`, strike
 its claim with `~~strikethrough~~`, and add a new ADR with the new call. History stays intact.
@@ -19,6 +23,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 ## Template (copy for each new decision)
 
 ### D-0XX ✅ — {short title}
+- **created_date:** {YYYY-MM-DD — the day the decision was locked}
 - **Context:** {the forces at play — what made this worth recording}
 - **Options:** {A / B / C, each in a phrase}
 - **Decision:** {what we chose}
@@ -30,6 +35,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 <!-- Real entries below, newest at the bottom. -->
 
 ### D-001 ✅ — Grounded, non-magical story; mundane cause for the amnesia
+- **created_date:** 2026-06-25
 - **Context:** The README seeds an Edo-era incremental RPG where a 17-year-old farmhand wakes amnesiac on a samurai estate. An early AI-generated design leaned magical (a tengu spirited the protagonist away; an otherworld trained/altered them). The human rejected this.
 - **Options:** (A) Magical/folkloric truth (tengu, spirits) · (B) Soft isekai / reincarnation · (C) Fully grounded, mundane human truth.
 - **Decision:** **(C)** The protagonist's amnesia and the whole mystery have ordinary, human causes (blunt head trauma + near-drowning + exposure from a flood). No tengu, spirits, reincarnation, isekai, or magic anywhere in the canon.
@@ -37,6 +43,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Every mystery must resolve to a human/natural cause. Story bible is the grounded spine in [`brainstorms/2026-06-25-grounded-story-spine.md`](../../project/brainstorms/2026-06-25-grounded-story-spine.md). The original magical framing is archived as superseded.
 
 ### D-002 ✅ — Pure Edo folk-mystery tone; folklore as believed-atmosphere only
+- **created_date:** 2026-06-25
 - **Context:** The setting is rich in folklore (kamikakushi, yokai, kami). We need a rule for how it appears given D-001.
 - **Options:** (A) Folklore literally real · (B) Folklore as belief/atmosphere with human causes · (C) No folklore at all.
 - **Decision:** **(B)** Folklore appears only as what people *believe and fear* (superstition, rumor, ritual). Every folk-belief resolves one-to-one to a human/natural cause (a "kappa ford" is an undertow + a smugglers' sinking-spot, etc.). A thin margin of unresolved *ambiguity* is allowed for unease, but never confirmed magic and **never magic powers for the player**.
@@ -44,6 +51,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Maintain a belief→cause table for every yokai; debunk with dawning dread, not gotchas; cap residual ambiguity (≤1 unresolved token per playthrough) and keep it mundane-readable.
 
 ### D-003 ✅ — Mediocre-start protagonist; growth only through perseverance
+- **created_date:** 2026-06-25
 - **Context:** A core character-fantasy decision. The early design implied the protagonist was secretly capable (combat skill from otherworld training).
 - **Options:** (A) Secret talent / hidden power / bloodline · (B) Genuinely ordinary, gets strong only through effort.
 - **Decision:** **(B)** The protagonist starts as a normal, average, even mediocre 17-year-old farmhand with **no hidden power, talent, or training**. All growth comes from perseverance, repetition, training, and refusing to quit. The first real fight is humbling/near-fatal and motivates training.
@@ -51,6 +59,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** **Systems guardrail:** no returning memory or instinctive habit ever grants a starting stat, recipe, or combat bonus — every number starts at the bottom. Combat capacity is gated behind labor-built conditioning. The talent-foil antagonist (Hanzaki) must be shown as *trained*, not innately gifted, so the "effort > talent" thesis is never undercut.
 
 ### D-004 ⛔ REVERSED by D-007 (2026-06-25) — One grounded diegetic late-game reset (no magical prestige)
+- **created_date:** 2026-06-25
 - **Context:** Incremental games use prestige/resets for a long tail; we need one that fits a grounded single-player story.
 - **Options:** (A) No reset (linear ending) · (B) One diegetic, grounded reset carrying meta-progress · (C) Classic repeatable magical/abstract prestige loop.
 - **Decision:** ~~**(B)** A single, grounded, story-justified reset late-game — a season-cycle time-skip in which the veteran protagonist starts a bigger venture (re-founding the drowned hamlet / accepting estate stewardship and teaching others). It carries hard-won skill, reputation, recipes, tools, and relationships forward as meta-progress and a teaching/management layer. **Not** reincarnation or a magic time-loop.~~ **REVERSED:** the game now has **no reset of any kind** — the five estate-restoration **tiers (T0–T4) replace prestige** and everything persists. See **D-007**.
@@ -58,6 +67,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** ~~Save schema must carry meta-progress across the reset. Pick one canonical-default branch (recommend re-founding Kuzuhara) with identical carry-over so neither branch reads as lesser.~~ No reset code-path or reset save-schema; progression is the per-tier ladder of D-007.
 
 ### D-005 ✅ — Working title: *Kamikakushi*
+- **created_date:** 2026-06-25
 - **Context:** Need a working title for the repo/build; revisitable before launch.
 - **Options:** *Kamikakushi* · *Mizuho* · *The Borrowed Year* · defer.
 - **Decision:** **Kamikakushi** (神隠し, "spirited away") — the *village's superstition* for the protagonist's arrival; the truth is mundane and human.
@@ -65,6 +75,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Low-stakes/reversible; finalize before the itch.io deploy.
 
 ### D-006 ✅ — Protagonist identity: true name *Tahei*; male; fixed (no rename)
+- **created_date:** 2026-06-25
 - **Context:** PRD §1 left the protagonist's true name and customization open. The synthesis used "Ren" (flagged by the authenticity pass as faintly modern for an Edo peasant). The legend's gender-drift clue — the village misremembers the real lost child (Tama, a girl) as a boy — depends on the protagonist's gender.
 - **Options:** Name: *Tahei* / *Ren* / *Kichizō* / *Sutekichi*. Customization: fixed name · player picks true name · player picks name + gender.
 - **Decision:** True name **Tahei** (a plain, period-typical commoner name), revealed in **Act 4**; the borrowed village-name **"Tama"** is used until then; the protagonist is **male with a fixed name — no player rename**.
@@ -73,6 +84,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Amendment (2026-06-25):** Identity is now a **side thread**, not a load-bearing act-spine beat. Kept: fixed **male**, **no rename**, true name **Tahei**. Changed: the true-name reveal is a **late, de-emphasised side beat** (no longer an "Act 4" climax), and the protagonist age band is **~18–20** (was "17"). The estate-restoration spine (D-007), not the identity mystery, carries the late game.
 
 ### D-007 ✅ — Estate-restoration spine + five tiers replace prestige (no reset)
+- **created_date:** 2026-06-25
 - **Context:** D-004 had committed to a diegetic late-game reset for the incremental long tail. The session-02 lock reframed the whole game around restoring a lower-samurai house, which supplies the long tail without a soft-restart.
 - **Options:** (A) Keep the diegetic reset (D-004) · (B) Tiered estate-restoration spine with everything persistent · (C) Classic abstract prestige loop.
 - **Decision:** **(B)** The spine is an **estate-restoration incremental RPG**: rise the **Kurosawa** lower-samurai (*goshi*) house's ranks and grow House Influence to restore **and surpass** the house, climaxing in indirect/mediated recognition at Edo. Progression runs through **five tiers** — **T0 Estate** (tutorial) → **T1 Village** → **T2 Region** → **T3 Domain/Castle-town** → **T4 Edo** (national) — each gated by a **story transition**: T0→T1 = enough estate work + basic repairs → sent out into the village; T1→T2 = "clean your room" (estate healthy, village happy, fires out) → lord believes wider impact is possible → grow regional influence (Region introduces rival houses to surpass); T2→T3 = win the region (rivals dethroned) → castle-town rulers confer regional leadership and invite the house; T3→T4 = a "taste of Edo" — house forced to build & fund an Edo estate → conquer the castle-town → national tier. **Tiers REPLACE prestige; there is NO reset of any kind — everything persists.**
@@ -80,6 +92,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Reverses **D-004**. Save schema is monotonic/persistent (no reset path). Castle-town takeover is multi-route (peaceful office/economy/marriage/out-maneuvering AND assertive martial-security), and "take over" = become the dominant house holding key domain offices — never open rebellion against the bakufu.
 
 ### D-008 ✅ — Three starter factions + four-pillar House Influence with per-tier required-pillar gating
+- **created_date:** 2026-06-25
 - **Context:** Need a faction structure and a macro-resource that drives tier progression without letting any single sub-engine (especially trade) dominate.
 - **Options:** Influence as one pooled number · trade-led economy · **multi-pillar achievement resource**; factions as one estate org vs. several parallel tracks.
 - **Decision:** **Three starter factions (T0–T2):** **Estate** (the Kurosawa household — a **fresh rank ladder per tier**, rungs interleaving labour & combat, cast & buildings grow per tier as light flavour systems, not a people-management sim) · **Village of Asagiri** (a reputation **web**: chief Yagoemon, shops, artisans, inn & rumours board; mostly static; never gates the spine) · **Origin** (a memory-gated **support** track — see D-009). The macro-resource is **House Influence (家威)** as **FOUR achievement-driven pillars**: **Arms (武威)** · **Estate & Wealth (家産)** · **Standing & Office (政威 → superseded by 官威 *kan'i* at the §5 authenticity pass, 2026-06-25)** · **Name & Honour (家格)**. **Trade is demoted to 1-of-3 capped sub-engines** inside Estate & Wealth (land / treasury / trade), **hard-capped to ~⅓ of that one pillar**. **Accrual = achievement JUMPS + seasonal JUDGED RESULTS** (harvest, seasonal appraisal) — never a passive time-trickle, never a flat per-action increment. **Up-only with rare, scripted, recoverable dents** (scandal/called debt) — **never a wipe**. **Tier gating = per-tier required pillars** (early tiers weight Arms + Estate; upper tiers weight Office + Name). Side factions are **multipliers** into the pillars, never new pillars.
@@ -87,6 +100,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Implement four pillar accumulators with the ⅓ trade cap and a seasonal judging tick; required-pillar thresholds become the data behind the D-007 tier gates; dents are scripted, recoverable events with no permanent loss.
 
 ### D-009 ✅ — Origin faction = the protagonist's living family & friends at Sawatari-juku
+- **created_date:** 2026-06-25
 - **Context:** The origin/family thread needed a concrete cast and a place in the tier structure, and a rule to keep it from short-cutting the grind.
 - **Options:** Origin as a backstory flashback only · a mechanically rewarding home-town faction · an **access-only living support track**.
 - **Decision:** The Origin faction is Tahei's **living** family and friends in the fictional post-town **Sawatari-juku**: father **Kuranosuke**, mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**, sweetheart **Ohana** (plus the porter guild). It **opens at T2 Region**; the recurring **dream foreshadows it from early game**; they **support** his estate achievements (pride, allies, trade-ties) but the track is **access-only with ZERO mechanical gift** (memory grants access, not power — consistent with D-003).
@@ -95,6 +109,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - *(Names later refined — decision unchanged: father **Kuranosuke → Jinpachi**; sweetheart **Ohana → Osen** (renamed to disambiguate from lost-child **Otsuru**). See canon / PRD §1.5.3 for current names.)*
 
 ### D-010 ✅ — Indirect/mediated Edo ceiling: the national banzuke ranks the house, not the man
+- **created_date:** 2026-06-25
 - **Context:** The Edo finale needed a ceiling that fits a grounded lower-samurai story — no fantasy ascension for the protagonist personally.
 - **Options:** (A) Personal rise to hatamoto/shogun proximity · (B) **Indirect/mediated recognition of the house** · (C) No national tier.
 - **Decision:** **(B, reaffirmed in the new tier context)** The Edo finale is a **national multi-pillar *banzuke* ranking of the HOUSE** across all four pillars. The MC remains the **architect** of the house's rise; there is **no personal hatamoto/shogun ascension**. This restates and keeps the prior D-010 intent — reconciled, not duplicated.
@@ -102,6 +117,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** The T4 endgame UI is a house banzuke on the four pillars; no personal-rank ascension mechanic; trade is a supporting thread, out of the finale spine.
 
 ### D-011 ✅ — Combat is a first-class pillar that earns House Influence
+- **created_date:** 2026-06-25
 - **Context:** Earlier framing held "combat is never a source of standing." The locked design makes combat a core pillar that feeds the Arms pillar via martial security.
 - **Options:** Combat as flavour with no standing · combat as a parallel-but-isolated track · **combat as a first-class earner of Influence**.
 - **Decision:** Combat is a **first-class core pillar that EARNS House Influence** through the **Arms (武威)** pillar / martial security (clear bandits, secure roads, defend the estate) — this **supersedes the old "combat is never a source of standing" framing.** The **mediocre-start is preserved on the combat track** (start weak; humbling first fight; earned via training; no hidden edge; no labour→combat cross-feed). *(no-cross-feed **RELAXED → bounded per-skill capped bonus** by **D-022/Q6**.)* **Failure = soft setback** (lose HP/time, maybe drop carried loot or take an injury to rest off) — never lose levels/gear/permanent progress. **Mobs are grounded** (boars, wolves, monkeys, bandits, ronin, smugglers) — **NO belief-creatures in grindable spawn tables**; any "yokai" is a misread human/animal surfaced through optional rumour quests. Martial scale is hard-capped (a small retinue, never a standing army).
@@ -109,6 +125,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Arms-pillar accrual hooks into combat achievements; spawn tables exclude belief-creatures; loss is a soft setback only; combat conditioning is earned independently of labour.
 
 ### D-012 ✅ — Structure & scope: fresh ladder per tier, full maps every tier, v1 = Tiers 0–2
+- **created_date:** 2026-06-25
 - **Context:** Need to pin the progression structure and a shippable v1 cut without over-scoping.
 - **Options:** One ladder across all tiers vs. **a fresh ladder per tier**; partial vs. full maps; ship all tiers vs. **a T0–T2 v1**.
 - **Decision:** A **fresh rank ladder per tier**; **full explorable maps at every tier**. **v1 = Tiers 0–2 complete** (Estate + Village + Region, incl. the T2 personal-mystery payoff); **T3 Castle-town = a stub cliff-hanger**; **T4 Edo = roadmap.** **Lean within** each tier: ~8-rung early ladder, ~5 mobs, ~4 quest types, a ~6–8-node world cut-set (rest parked as "later").
@@ -116,6 +133,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Build ladder/map/mob/quest data per tier; T3/T4 are scaffolded but not content-complete in v1; integration applies the locked-rule fixes (no belief-creatures in spawn tables, ≤1 ambiguity, no permanent loss, no labour→combat cross-feed, fictionalise real names, cap martial scale).
 
 ### D-013 ✅ — Tech & presentation: Vite + TS + Vitest, pure-core, IndexedDB save, active-only, static itch.io
+- **created_date:** 2026-06-25
 - **Context:** Need to lock the stack, save strategy, time model, and presentation for a static, backend-free single-player browser game.
 - **Options:** Framework vs. vanilla; localStorage vs. IndexedDB save; offline progress vs. active-only; hover-rich desktop vs. responsive desktop+mobile.
 - **Decision:** **Vite + TypeScript + Vitest.** Architecture = **pure-core (no DOM/canvas imports) + a thin DOM renderer consuming plain data + one seeded RNG** (persisted). **Static build for itch.io** (no backend). **Save = IndexedDB** (robust, durable, static-friendly) **+ base64 export/import to file**, **single autosave**, **versioned minimal-state** (recompute derived on load). **Responsive desktop + mobile, NOT hover-dependent.** **Active-only — NO offline progress**; an **abstract clock advanced by active play** (days/seasons drive harvest/weather/festivals + the seasonal Influence results). **Art = text + emoji + CSS** (woodblock palette, kanji season tags, colour-coded rarities). **Multi-screen UI with screens/nav progressively revealed.** **Launch = free / pay-what-you-want on itch.io.**
@@ -123,6 +141,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Enforce the no-DOM-in-core boundary; persist the seeded RNG and a versioned minimal save; build a save-migration path; the renderer is swappable; no offline-progress accounting; one tuned difficulty (no modes).
 
 ### D-014 ✅ — One antagonist per tier (not a single cross-tier racket)
+- **created_date:** 2026-06-25
 - **Context:** Earlier world-building leaned on a single cross-tier smuggling/racket conspiracy. The locked design wants an escalating, grounded antagonist scaled to each tier.
 - **Options:** (A) One cross-tier conspiracy throughout · (B) **One antagonist per tier, escalating** · (C) No recurring antagonist.
 - **Decision:** **(B)** **ONE antagonist per tier** (Estate / Village / Region / Castle-town / Edo), each **escalating, grounded, and revealed incrementally** (the world-expansion cast — Magobei / Hanzaki / Kuroiwa / rival house **Tomita** / an Edo factor — is repurposed across tiers, with at most a light optional connective thread). The **estate's decline is a simpler debt/misfortune, NOT conspiracy-linked.** **Two rival samurai houses** contest the Region (Tomita + one more). **Justice is partial:** the *osso* over-the-head petition (historically deadly) — an **ally / *gimin*-martyr NPC bears the risk**; reachable culprits answer, the truly powerful largely escape.
@@ -130,6 +149,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Author five tier antagonists with incremental reveals; keep the estate-decline cause mundane and unlinked to the racket; model the osso risk as falling on a gimin ally; any cross-tier thread stays light and optional.
 
 ### D-015 ✅ — Core-loop & content discipline: the MC's own actions; no people-management sim; one ending + free-play
+- **created_date:** 2026-06-25
 - **Context:** Need a rule for what the minute-to-minute game *is*, how quests read, and how to keep scope lean and the ending coherent.
 - **Options:** Management/builder sim vs. **classic-RPG self-action loop**; waypointed quests vs. open-ended; multiple endings vs. **one authored ending + free-play**.
 - **Decision:** The **core loop = the MC's OWN actions** (combat, skills, jobs, crafting) — meta (Influence/tiers/ranking) sits above and is fed by his grind; **NO people-management sim** (building/recruiting/teaching are flavour/light systems, not a minigame). **Quests are open-ended and NON-hand-holdy** (a suggestion + a story you find in the world, never an A→B→C waypoint list); the dominant minute-to-minute behaviour is the incremental grind. **Fractal incrementality** — every new zone/area/faction/skill/rumour is itself incremental and *everything unlocks*. **Lean / high-impact** — no fluff or half-features; when scope balloons, **split into "immediate" vs a parked "later"** bucket (park, don't delete). **Relationships are narrative-only** (no dating-sim). **One carefully-tuned difficulty** (no modes). **One authored ending** (house restored & ranked) + **post-game free-play** (no reset); branches are in *how* you got there (allegiance / takeover route), not separate endings.
@@ -144,6 +164,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Enforce the no-DOM-in-core boundary and the reduce/tick signatures; build the content-verifier into `npm run verify`; persist RNG seed + stream cursors; write a migration per save-schema bump with a raw backup; the renderer stays swappable; the DEV play-API is stripped from production builds. **🔁 Refined (2026-06-29) by D-067:** the forward-migration chain now scopes to *shipped/launch* saves — dev/v0.2 saves are **wiped** at the reshape schema bump (no users yet), and the real `migrate()` path is built + tested **before launch**, not across dev churn. Dev tools (the 2×/4×/8× speed toggle + a jump-to-rung/tier teleport) extend the DEV-only play-API and are likewise stripped from prod.
 
 ### D-016 ✅ — §4 balance model: human-signed pacing & accrual locks (the shape; numbers are tunable)
+- **created_date:** 2026-06-25
 - **Context:** §4 turns the design into numbers. The human signed off the *shape* of pacing and accrual (canon §I-bal); the concrete values remain a tunable first pass.
 - **Options:** Short (~12–20h) vs. **longer (~32h)** v1; flat vs. **escalating per-tier** budgets; deeds-vs-seasonal split; punchy vs. **steady** deed jumps; respec vs. **no respec**.
 - **Decision (LOCKED shape):** **Longer saga** — v1 ≈ **28.5h built** (**T0 ≈ 4.5h · T1 ≈ 8h · T2 ≈ 16h**; "~32h" includes the T3-stub runway/free-play tail), "more grind, more numbers, slower feature reveal." **Per-rank time floor ≈ 30 min** (applies to the grind rungs R1–R7; R0 is the exempt ~5-min cold-open — a human-flagged carve-out). **Simple per-tier required-pillar thresholds (NO floor/overflow).** Accrual = **two shapes only — deed JUMPS + a per-season JUDGED high-water result** — weighted **more from deeds (~70% deeds / ~30% seasonal)**; **deed jumps smaller/steadier** (per-event cap ≈ **0.04** of a tier band, so growth is many small acts); **trade ≤ ⅓ of Estate & Wealth (hard invariant)**; **up-only with minor recoverable dents, never a wipe**. **Combat:** first fight **20–35% win-rate**; **soft-setback-on-loss** (drop to 1 HP + ~½-day + light injury + *possible* carried-loot drop — **never** levels/gear/Influence). **Attributes STR/AGI/INT/SPD/LUCK with NO labour→combat cross-feed.** *(**RELAXED → bounded cross-feed** by **D-022/Q6**.)* **No respec in v1.** **Active-only** (auto-producers T3+ only). **K/M/B numbers; ~10× tier magnitude.** **Nav reveal one-tab-at-a-time.** All concrete numbers are **PROPOSED / tunable**; only the shape above is locked. *(🔁 FU18/D-022, 2026-06-26: the ~28.5h budget is now a **FLOOR**, not a target/ceiling — the game can be LONGER, a long OSRS-rough grind; §4.8 is a minimum-grind model.)* **Deferred from the v1 balance lock:** Standing & Office kanji (→ §5 authenticity pass) and marriage/adoption-lever numbers (→ T3 authoring).
@@ -151,6 +172,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** §4's tables are the data behind the D-007 tier gates and D-008 pillars; the balance numbers get a dedicated tuning pass against the §4.8 pacing acceptance tests (a pacing regression fails if a headless run clears any grind rung in < ~28 min); the content-verifier enforces the trade-⅓ and no-cross-feed invariants.
 
 ### D-017 ✅ — v1 execution plan (§7): milestones, deployment, scope-risk posture
+- **created_date:** 2026-06-25
 - **Context:** §7 sequences the build and ship. The human reviewed §7's open items and the §4.9 balance dials (2026-06-25).
 - **Options:** M2 combat slice as agent's-call vs. **fixed split**; **pre-planned cut-down (T0–T1)** vs. **no cut**; hosted CI vs. local; automated vs. **manual** deploy.
 - **Decision:** **v1 = full T0–T2, NON-NEGOTIABLE — no pre-planned descope** (no T0–T1 cut-down ladder; if ever genuinely blocked, the forward-migratable save lets a later update add tiers, but v1 ships complete T0–T2). **Build order M0…M7 with combat as TWO FIXED milestones, M2a / M2b:** M0 = toolchain (Vite+TS+Vitest, pure-core/renderer split, seeded RNG, `npm run verify` + content-verifier, DEV play-API) + the cold open + IndexedDB save; M1 = T0 labour loop R0→R2; **M2a = combat live at R3 (idle auto-resolve + active setup) + the humbling first fight + soft-setback**; **M2b = bestiary + equipment + the loot→craft gear loop**; M3 = quests (4 types) + crafting + the four-pillar Influence panel → **T0 complete**; M4 = T1 Village (rep web, rumours, V0→V7); M5 = T2 Region (trade backbone, Origin faction, the G6 payoff, G0→G7) → **v1 content complete**; M6 = balance pass to the §4.8 targets + content-verifier green + T3 stub + polish; M7 = deploy. Each milestone is a **verify-green vertical slice**. **Deploy = static itch.io** (free / pay-what-you-want, Kind = HTML play-in-browser, relative `base: './'`); **release gate = local `npm run verify`** (typecheck + unit tests + content-verifier + K/M/B + macron lints + the §4.8 pacing regression); **manual, human-approved upload** (no hosted CI, no itch CLI / butler automation in v1). **§4.9 balance dials confirmed (now locked values, not ranges):** 70/30 deeds/seasonal · 0.04 per-event cap · front-loaded-then-ramp rung escalation · ~8 seasons/tier · Office ~25× T1→T2 step · side-faction speedup **~10–15%** (supersedes the old "≈halve") · the R0 ≥30-min-floor carve-out **blessed**.
@@ -159,6 +181,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Refined (2026-06-26) by D-021:** the §7 milestone roadmap is **LIVING**, not frozen canon — **M0–M1 committed; M2–M7 provisional, re-planned after each playtest** (and, on the docs-explosion, moved to `docs/living/roadmap.md`). This refines only the *provisional HOW*; the **locked v1 content scope — full T0–T2, no pre-planned descope (§7.4.2) — is UNCHANGED.** See **D-021**.
 
 ### D-018 ✅ — UI design language: mid-Edo woodblock/ink, strong CSS, NO asset pipeline
+- **created_date:** 2026-06-26
 - **Context:** §6.9 named "text + emoji + CSS, woodblock palette" but carried no design *vision* — the slop risk the human flagged ("avoid generic AI-slop / placeholder engineer art; want a coherent design language with a vision"). The art ambition was locked at "a strong CSS design-language, no asset pipeline."
 - **Options:** improvise UI per-screen · use a generic component library · **lock a design-language bible BEFORE building any UI.**
 - **Decision:** Lock a **UI design-language bible** ([`../ui-design.md`](ui-design.md)) as the anti-slop foundation, built **before** the first real UI. Aesthetic = **mid-Edo woodblock / ink-on-paper**: warm *washi* paper + warm *sumi* ink + one disciplined indigo (藍) + a **rare vermilion (朱) hanko seal** as the accent. A tight **8-role named-token palette** (+ the four pillar identities); typography = **Shippori Mincho** (body/heads) + **Yuji Syuku** reserved for two hero beats (rank-up title, seasonal headline) — final pairing **confirmed at M1**; key-block frames, *bokashi* gradients, paper-grain, the seal motif; the **event log is the visual hero**; **significance-gated motion** (reduced-motion-safe). Everything in **text + emoji + CSS + inline SVG — NO image/asset pipeline.** The **agent is a capable visual reviewer** (Playwright + Chrome-DevTools MCP + the `capture-game-states` skill + its own multimodal vision): it screenshot-QAs **every** screen/transition against the bible and iterates *before* the human sees it; the **human is the higher-level taste arbiter.**
@@ -166,6 +189,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Build all UI to the bible (CSS tokens are named + concrete); lock the design language before M1's first screen; the visual-QA loop ([`../qa-playtesting.md`](qa-playtesting.md) §4) reviews every state; confirm the font pairing at M1; the self-hosted kanji glyph-subset must include 官威. Elaborates D-013 (presentation).
 
 ### D-019 ✅ — Fun is a first-class priority; the QA / playtest discipline
+- **created_date:** 2026-06-26
 - **Context:** A mechanically-correct, story-coherent incremental that isn't **fun** is a failure. The PRD had pacing *targets* but no fun discipline and no way to play-test a 28.5 h game.
 - **Options:** build-to-spec and hope · playtest only at the end · **a continuous "fun is a hypothesis tested by play" discipline with instrumentation.**
 - **Decision:** Treat **fun as the make-or-break priority**, with the *what/why* in [`../fun-factor.md`](fun-factor.md) (the core fun loops; how to measure/improve/keep-fun-high over 28.5 h; the fun-killers + their PRD guardrails; per-tier watch-points) and the *how* in [`../qa-playtesting.md`](qa-playtesting.md) (the DEV `window.__qa` harness; a **headless auto-player** to "play" the 28.5 h no human can hand-play; **fun-proxy** measurements — no-dead-time, reward cadence, always-a-visible-next-goal, the first-5-min hook; the screenshot visual-QA loop; the per-milestone sweep + the M6 polish loop). The no-reset **"fresh climb" = expanding domain + new verbs + reveals + narrative** (delegation/governance is a **T3+** escalation; v1 stays hands-on per D-015). The **agent measures the proxies and forms its own read; the human makes the final fun call** (playing the first T0 slice at M3). Continuous from M1/M3, **not** end-loaded.
@@ -173,6 +197,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Build the `__qa` harness + auto-player + the fun-proxy regression in M0/M3; run the fun-proxy suite each build; the M6 balance pass is telemetry-driven; the human plays the T0 slice (M3) to judge fun.
 
 ### D-020 ✅ — Post-freeze docs: freeze prd.md as the vision, explode into living docs, generate-don't-duplicate
+- **created_date:** 2026-06-26
 - **Context:** `docs/living/prd.md` (~4820 lines) was right for *authoring & review* but is a liability for *building* (hard to keep current). The human confirmed: freeze prd.md as the vision, explode into living docs — but only **after** the PRD is signed off.
 - **Options:** keep the single PRD as the working doc · **explode into per-concern living docs + generated tables** · author a full doc suite up front.
 - **Decision:** Once the PRD is frozen, **freeze `prd.md` as the vision spec** (read-mostly) and **derive per-concern LIVING docs** (`docs/architecture.md`, `docs/systems/*`, `docs/narrative/*`) plus **GENERATED** content/balance tables (`docs/content/`, via `gen:docs --check`) — **never hand-maintained twice** (the generate-don't-duplicate rule). The ADR log, the journals, and `human-feedback/2026-06-26-prd-human-feedback.md` remain as the history/intent layer. **Hold the explosion until after sign-off** (it is the first step of the build phase). **Refined (2026-06-26) by D-021:** sign-off legitimately comes *after* the first **M0+M1** build-and-play cycle, so the explosion is held until **then** — it is **not** "the first step of the build phase"; build M0+M1 against the current `prd.md`, then reorganise once, on ground that has survived contact with play. "Freeze" is now scoped to **LOCKED INTENT** (§1 vision + the hard constraints + the signed acceptance criteria); the §4 numbers and the §7 M2–M7 milestone detail stay **provisional**, and M2–M7 are **never** frozen as canon.
@@ -180,6 +205,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** Do the docs-explosion AFTER the first M0+M1 build-and-play cycle (per the D-021 refinement), not at the start of the build phase; `gen:docs --check` is part of M0's `npm run verify`; `prd.md` becomes read-mostly once frozen. **🔁 Refined (2026-06-29) by D-059:** the §1 vision-freeze (`prd.md` → read-mostly) is now deferred to **end-of-v1**, not the first build-play mark — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs once v1 is built + play-tested. The living-docs/generated-tables explosion already landed (D-046); only the *freeze* moves.
 
 ### D-021 ✅ — Refine D-020: freeze LOCKED INTENT, not the whole PRD (build → playtest → then explode)
+- **created_date:** 2026-06-26
 - **Context:** D-020 locked "freeze `prd.md` as the vision, explode into living docs **after PRD sign-off**." The multi-round battery review ([`../../brainstorms/2026-06-26-prd-battery-review.md`](../../project/brainstorms/2026-06-26-prd-battery-review.md) §P / **PD-1**) showed a hard *whole-PRD* freeze would contradict the steer-by-playtest discipline (canon K3 / **D-019** fun-as-hypothesis): the **vision layer had ZERO intent-drift across 97 findings** (it survived adversarial audit — freezable), while **every gap / under-spec / bug clustered in the PLAN layer** (§4 numbers "calls itself frozen but is materially under-specified"; §2 specifics; §7 detail) — exactly what must stay liquid and resolve via play.
 - **Options:** (A) hard-freeze the whole PRD at sign-off, then explode · (B) **freeze only LOCKED INTENT, keep provisional implementation liquid, build → playtest → THEN explode** · (C) never freeze / never explode.
 - **Decision:** **(B)** The freeze line is **LOCKED INTENT vs PROVISIONAL IMPLEMENTATION.** **FROZEN / locked intent** = §1 vision + the hard human constraints (no-magic · mediocre-start · trade ≤⅓ · active-only · the four pillars · the estate spine) + the human-**SIGNED** acceptance criteria (≥30-min-per-rank floor · 70/30 deeds/seasonal · ~28.5h v1 budget · the tier-gate **TARGETS**) — the destinations. **LIQUID / provisional** = the §4 yields/levers/balance numbers (already tagged "proposed v1 balance" throughout §4, per D-016) and the §7 **M2–M7** milestone detail that *hit* those targets — the route; the levers move, the locked targets do not. **DO NOT EXPLODE YET:** build **M0+M1 against the CURRENT `docs/living/prd.md`**, playtest, **THEN** reorganise once — sign-off legitimately comes *after* the first build-and-play cycle, on ground that has survived contact with play. **On explosion:** the §7 roadmap becomes a **LIVING** `docs/living/roadmap.md` (banner: *"M0–M1 committed; M2–M7 provisional, re-planned after each playtest"*) and the §4 numbers become **GENERATED** `docs/content/` tables (generate-don't-duplicate — what makes post-playtest re-tuning cheap; the battery rounds kept catching hand-typed derived tables that silently drift). **NEVER freeze M2–M7 as locked canon** — that is the mistake rejected, **not** the multi-doc structure. The **v1 SCOPE lock (full T0–T2, "no pre-planned descope", §7.4.2 / D-012 / D-017) is orthogonal and UNCHANGED** — it locks *what* ships, not the provisional *how*.
@@ -187,6 +213,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 - **Consequences:** **REFINES (does not delete) D-020**; references **D-019** (fun-as-hypothesis) and the battery review **PD-1**. Do NOT create `docs/living/roadmap.md` or `docs/content/` yet — build M0+M1 against the current `prd.md` first; defer the docs-explosion to the post-M0/M1 playtest. When exploded: freeze only §1 + the locked constraints as a **tagged vision snapshot**, roadmap → living, balance → generated. The §4 "proposed v1 balance" numbers and the §7 M2–M7 detail stay provisional and re-planned after each playtest; the signed acceptance TARGETS and the T0–T2 scope do not move. *(2026-06-27 update: the first build-play cycle is COMPLETE — M0/M1/M2 demo, verify-green; the docs-explosion trigger has fired. `docs/content/` exists [generated] and `docs/living/roadmap.md` [the living milestone tracker] is created; the §1 vision-freeze + §4-balance-to-generated remain queued. See ADR D-046.)* **🔁 Refined (2026-06-29) by D-059:** the §1 vision-freeze is moved to **end-of-v1** — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs once v1 is built + play-tested. D-021's freeze-line principle (locked intent vs provisional plan) is unchanged; only *when* §1 crystallizes moves.
 
 ### D-022 ✅ — V2 decisions supersede prior locks; first application: relax the no-labour→combat wall (Q6)
+- **created_date:** 2026-06-26
 - **Context:** The PRD is being improved V1→V2 via a human Q&A over the 56 battery decisions ([`../../brainstorms/2026-06-26-prd-decisions-master.md`](../../project/brainstorms/2026-06-26-prd-decisions-master.md)). The human set a governing rule and made the first lock-changing call.
 - **Decision (governing rule):** the **V1→V2 decision-resolution log is AUTHORITATIVE.** Where a V2 decision conflicts with a prior ADR, the canon, a K-item, or any "locked" constraint, **the V2 decision SUPERSEDES it** — prior decisions are **annotated (not deleted)**, pointing here. (Per D-021, the §1 vision + the *signed* acceptance criteria + T0–T2 scope stay locked **unless the human explicitly reopens them** — which they may, as here.)
 - **First application — Q6: RELAX the "no labour→combat cross-feed" invariant (supersedes that clause in D-011, D-016, and feedback D13):** the hard wall becomes a **BOUNDED cross-feed.** **Every skill (labour included) grants a SMALL, CAPPED combat bonus** (per-level or per-milestone ~every 3–5 levels), balanced via differential level-speed + a per-skill level-cap on the combat benefit. **Conditioning** is the labour/combat **capability gate** ("weak → capable"). The **big** combat power (character level + attribute points) stays **combat-sourced ONLY** (Q1) — so there is **no uncapped labour→combat back door**, only a bounded, designed trickle.
@@ -198,44 +225,64 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 > **PRD V2 batch (D-023…D-042, 2026-06-26).** The load-bearing lock/scope changes from the 79-decision Q&A (2026-06-26-prd-human-feedback Blocks L+M), recorded for the V2 reshape. Each is authoritative per D-022 (newest-wins). Per-decision detail: the master sheet + v2-followups doc; section impact: brainstorms/2026-06-26-prd-v2-plan.md.
 
 ### D-023 ✅ — Sequential per-tier progression — Phase 1 (climb rungs) then Phase 2 (estate-influence/pillar grind); pillar DEEDS gated to Phase 2
+- **created_date:** 2026-06-26
 - **Driven by:** FU7, FU11, Q30, Q7. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-024 ✅ — The rung-meter accrual law — numeric per-rung-reset meter, threshold = ≥30-min floor × eligible curated-activity rate, AND-gated with story milestones
+- **created_date:** 2026-06-26
 - **Driven by:** FU6, Q30, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-025 ✅ — Three clean combat tracks de-conflated — character level←combat-XP (HP/attr/satietyMax), Arms pillar←recognised deeds, Combat Rank meter←per-rung curated activities; one defined combat-level curve + per-mob MobDef.level
+- **created_date:** 2026-06-26
 - **Driven by:** FU14, Q1, Q47, FU15, FU5. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-026 ✅ — Incremental combat + growing weapon roster + combat-reveal ladder — T0 starts with exactly ONE weapon; +2/+3/+4 per tier (~9-10); R3→R4→R5→weapon-L10→2nd line T1/3rd T2, one reveal per beat
+- **created_date:** 2026-06-26
 - **Driven by:** Q15, FU12, FU13, Q17. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-027 ✅ — Bounded per-skill combat perks — relaxes the absolute no-labour→combat wall to ~2-8 small stackable perks via a separate skillCombatBonus channel, NO global cap; conditioning stays the zero-stat enablement gate; verifier flips ==0 → small-magnitude
+- **created_date:** 2026-06-26
 - **Driven by:** Q6, FU8, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-028 ✅ — Hybrid good/great/excellent tier-gate — replaces simple thresholds: good in ALL revealed pillars, great in 2-3, excellent in 1-2 (T0 2-pillar special), NO overflow; per-pillar-per-tier overhaul vs the fixed deed inventory; trade ≤⅓ survives as the only structural cap
+- **created_date:** 2026-06-26
 - **Driven by:** Q7, FU10, FU11. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-029 ✅ — Budget is a FLOOR not a ceiling — a longer OSRS-rough minimum-grind model; active-only with tab-open auto-resolve + auto-repeat ('leave it running'); pacing gate fails on undershoot only
+- **created_date:** 2026-06-26
 - **Driven by:** FU18, FU23. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-030 ✅ — Multi-backend redundant save layer — IndexedDB+localStorage+sessionStorage, atomic write, app-identity magic field, monotonic save-counter newest-wins + timestamp tiebreaker (documented core-lint exemption), additive backwards-compatible schema; built full in M0
+- **created_date:** 2026-06-26
 - **Driven by:** Q37, FU1, FU2, Q44, Q45, Q46. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-031 ✅ — Broader cross-pillar combos as the T2 anti-slump — multiple pillar pairs / larger magnitude, computed POST trade-clamp, excluded from the gate-threshold check, verifier-proven never to breach ⅓; paired with seasonal-reward rotation
+- **created_date:** 2026-06-26
 - **Driven by:** Q22, FU20. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-032 ✅ — No fixed quest-type budget — supersedes D-012's lean-4; PEST/HUNT/CLEAR/DEFEND are the T0 starter set, author whatever quests fit each stage, more/interesting welcome at later tiers
+- **created_date:** 2026-06-26
 - **Driven by:** Q23. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-033 ✅ — Estate stage E3 authored in v1 — estate grows E0→E3 ('Prosperous'), folded into the G-rungs as a koku/Arms sink; E4-E5 remain parked
+- **created_date:** 2026-06-26
 - **Driven by:** Q8. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**. *(🔁 Refined by **D-051** → estate stages become yield-bearing; and by **D-066** 2026-06-29 → a LINEAR taste in T0, branching into the LAND/TREASURY/TRADE sub-engines at T1.)*
 ### D-034 ✅ — Graded durability bands — 4 bands on weapon attackPower (75+/50+/1+/0 → 1.0/0.9/0.75/0.55), fixed wear per fight, armour bands on defense, repair restores; NEVER auto-unequip / never weaponless
+- **created_date:** 2026-06-26
 - **Driven by:** Q33, FU17. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-035 ✅ — Satiety throttles combat — satietyRate multiplier on attackPower (flat above ~0.7 → ~0.5 floor, separate combat coefficient); the locked 20-35% first-fight win-rate re-measured 'at adequate satiety (≥~0.7)'
+- **created_date:** 2026-06-26
 - **Driven by:** Q31, FU16, Q47. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-036 ✅ — Name-reclaim split — reclaiming 'Tahei' is Origin-gated at O5 (earned + MISSABLE, conditional epilogue); the Otsuru/Tama TRUTH stays spine-guaranteed at G6 for every player
+- **created_date:** 2026-06-26
 - **Driven by:** Q5, Q25, Q40. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-037 ✅ — Design-staggered reveals, NO runtime reveal-queue (supersedes Q17's queue framing); distinct activities (Crafting, Quests) surface as top-level nav tabs, not nested panels
+- **created_date:** 2026-06-26
 - **Driven by:** FU4, Q17, Q10. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-038 ✅ — Determinism hardening — per-named-stream RNG cursors {seed,cursors:{combat,loot,seasonal,worldgen}} + stateless day-keyed weather/lunar (not stored); ban Math.pow/exp/log/trig in core (integer-pow, whitelist sqrt)
+- **created_date:** 2026-06-26
 - **Driven by:** Q2, Q3, FU3, Q36. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-039 ✅ — Intra-line dialogue branching in v1 — flat choices[]/ChoiceId with locksLineIds[]/flags effects; data-not-scripting, deterministic, only chosen-flags persist; content/dialogue.ts
+- **created_date:** 2026-06-26
 - **Driven by:** Q34, FU22. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-040 ✅ — V1 ending = castle-town / Daikan first-contact stub — drops the porter/Kaidō-guild first-contact framing (it re-ran spent T2 content)
+- **created_date:** 2026-06-26
 - **Driven by:** Q24. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 ### D-041 ✅ — Bundled asset set corrects the 'no asset pipeline' claim — self-hosted OFL fonts, inline-SVG load-bearing motifs (emoji cosmetic-only), a small synthesized Web Audio + original/CC0 audio set; commit-SHA build stamp + About/Credits + LICENSE + itch content descriptors
+- **created_date:** 2026-06-26
 - **Driven by:** Q38, Q50, Q52, Q54, Q51, Q53. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**. *(🔁 Elaborated 2026-06-29 by **D-068** — the in-scope audio fixes a traditional Japanese SFX palette (taiko/shamisen/koto/shakuhachi/temple-bell) + sequences a minimal SFX pass before the R1 taste call.)*
 ### D-042 ✅ — Real-name fictionalization & lint — rename Toyama/Konoe (Q27), Mago/Naozane/Obaa Sato (Q11/Q39), allow-list Nihonbashi (Q12); a §6.6 real-name denylist lint prevents recurrence
+- **created_date:** 2026-06-26
 - **Driven by:** Q27, Q39, Q11, Q12, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **D-022**.
 
 
@@ -257,6 +304,7 @@ ring + safe-mode** (B12); **quests = order-free advance-event set** (B14); **Est
 pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets become an M6 gate**.
 
 ### D-044 ✅ — Crash-recovery: error boundary + last-known-good save ring + safe-mode boot
+- **created_date:** 2026-06-26
 - **Context:** Block N battery defect **B12** (**[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**, item D-Q-B12): an in-tick exception or a corrupted autosave could brick the only save and lose a ~60h run. The PRD V2 had no crash containment — an unhandled error in the per-tick fold or render would tear down the loop, and an autosave fired from an already-bad state would overwrite the only good copy.
 - **Options:** (A) No containment — let exceptions propagate (a single bug bricks the run) · (B) Single try/catch around tick only · (C) Error boundary around tick **and** render + a rolling last-known-good save ring + a crash-counter persisted outside GameState + a safe-mode boot offering rollback, with autosave-poison suppression.
 - **Decision:** **(C)** Wrap **both tick and render** in an error boundary; persist a **crash-counter OUTSIDE GameState** (so a poisoned state can't hide the count); keep a **rolling last-known-good save ring**; **repeated crashes boot into safe-mode** offering rollback to a good ring slot; **suppress autosave-poison** — never overwrite the good ring with a state that just threw.
@@ -264,6 +312,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 - **Consequences:** **§6.8** gains a crash-recovery subsection (error boundary + ring + safe-mode + poison-suppression); **M0** builds the save ring + the out-of-state crash-counter; **M6** adds a terminal/crash test exercising the safe-mode path. Resolves B12. Recorded for PRD V2.1; supersedes any conflicting earlier ADR/lock per **D-022**.
 
 ### D-045 ✅ — Accessibility ink rule: identity hues are FILLS/ACCENTS only; meaning-bearing TEXT in AA-passing ink
+- **created_date:** 2026-06-26
 - **Context:** Block N a11y review (**[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**, item D-Q-a11y): the woodblock identity palette was carrying *meaning* through coloured text — a coloured WIN/LOSS word, coloured label-text — at contrast ratios that did not pass WCAG AA, and the PRD/ui-design overclaimed "AA on every surface" without stating the real per-token ratios.
 - **Options:** (A) Keep identity hues on text, accept sub-AA contrast for "atmosphere" · (B) Drop the woodblock identity palette entirely for monochrome legibility · (C) Split the roles — identity hues live only in chrome (fills/accents); all meaning-bearing text renders in AA-passing ink.
 - **Decision:** **(C)** Woodblock identity lives in **chrome only** — fills, bars, pips, borders; **every meaning-bearing text string renders in `--ink-soft`** (contrast ≥7.3, passes WCAG AA). **Drop the coloured WIN/LOSS word-as-text and the coloured label-text**; **drop the bare 'AA on every surface' overclaim** and instead state the **real per-token contrast guarantees**.
@@ -271,6 +320,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 - **Consequences:** **prd.md §2.21** + **ui-design.md §5.1/§5.3** updated to the fills-only identity rule and the `--ink-soft` text rule; the WIN/LOSS and label colour-as-meaning are removed; the verifier / visual-QA gains a **text-contrast check**. Recorded for PRD V2.1; supersedes any conflicting earlier ADR/lock per **D-022**.
 
 ### D-046 ✅ — First build-and-play cycle complete (M0–M2b shipped); docs-explosion partially actioned
+- **created_date:** 2026-06-27
 - **Context:** D-021 deferred the docs-explosion to *after* the first M0+M1 build-and-play cycle. That cycle is now done: **M0/M1/M2a/M2b are built, verify-green (51 tests), and play-tested** (commits `8bf6ac9`, `248bf93`, `fc36172`), against PRD V2.2 (all 32 Block N + 7 Block N.1 decisions applied, commit `2b8d5e9`). The toolchain (Vite+TS+Vitest+ESLint, `npm run verify`) is in place. So the D-021 docs-explosion trigger has fired, and the playtest produced its first steer.
 - **Options:** (A) Hold the explosion until the *full* V1 is built · (B) Fire the explosion trigger now — create the living roadmap + start generating content — but defer the §1 vision-freeze + the full §4-balance-to-generated until the human signs off · (C) Do the whole explosion (freeze §1, generate all balance) immediately.
 - **Decision:** **(B)** Partially action the explosion: **`docs/living/roadmap.md` is created** (the living milestone tracker — M0–M2b SHIPPED, M3–M7 provisional) and **`docs/content/` is generating** (`t0-content.md`, generated); the **§1 vision-freeze + the full §4-balance-to-generated remain DEFERRED pending the human's sign-off**. The playtest's first steer is recorded: it **caught and fixed a combat dead-end** via a **sampled-win-rate forecast** + a **winnable starter foe**.
@@ -278,6 +328,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 - **Consequences:** **REFINES (does not delete) D-021** — its docs-explosion trigger is now marked fired; `docs/living/roadmap.md` (living) + `docs/content/` (generated) exist; the QA-playtesting doc was reclassified from a "plan" to a LIVING GUIDE (`docs/living/qa-playtesting.md`). The §1 freeze + the full §4-balance-to-generated stay deferred pending human sign-off. **D-044/D-045** already recorded the crash-recovery + a11y-ink decisions carried into this cycle. NPC names landed as lord Shigemasa, drillmaster Kihei, physician Sōan (renamed off real-name echoes per D-042). Supersedes any conflicting earlier ADR/lock per **D-022**. **🔁 Refined (2026-06-29) by D-059:** the still-deferred §1 vision-freeze is now scheduled for **end-of-v1** (after v1 is fully built + play-tested), not merely "pending sign-off" — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs.
 
 ### D-047 ✅ — v0.2 audit-fix build; the combat stance pulled forward to R3 (provisional)
+- **created_date:** 2026-06-27
 - **Context:** The 2026-06-27 state-of-the-game battery audit (`project/audit/reports/2026-06-27-state-of-the-game.md`) scored the M0–M2 demo a "chassis with no engine" (Fun 4.5 / Incremental 4.5). **v0.2** (tag `v0.2`; `project/audit/reports/2026-06-27-v0.2-changelog.md`) fixes the highest-leverage findings *against locked intent*, without deciding any of the 6 human **H-items** — re-scored (independent workflow) to Fun 6.5 / UI 8.5 / Incremental 7.0 / PRD-faithful 8.0 / human-feedback 8.0 / README-spirit 7.5 / Laziness 3.0.
 - **Decision:** Build v0.2 as scoped (graded combat curve + kendo stance, the work→skill→yield reinvestment loop + cook/estate/attribute sinks, the R3 chapter-close + dream-2 payoff + the greyed House-Influence macro teaser, the cold-open screen, log ×N coalescing, the real RED→GREEN acceptance tests, the wired `migrate()`, the DEMO/REAL pacing profile). **All balance numbers are PROVISIONAL (v0.2) — tune by playtest.** The **combat stance reveal is pulled forward from its PRD-canonical R5 slot to R3** (combat-unlock) so a real combat *decision* exists from the moment combat opens (audit's top ask).
 - **Why:** The audit wants the combat decision *now*; gating it at R5 leaves the freshly-unlocked R3 combat decision-less. The pull-forward is a small, reversible reveal-schedule change — not a vision change — so it does not need an H-item; it is recorded here so the divergence from the §7.2 reveal ladder is tracked, not silent.
@@ -298,6 +349,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 **[`project/status/pending-prd-changes.md`](../../project/status/pending-prd-changes.md)**.
 
 ### D-048 ✅ — Split the Estate into two tiers: the 6-tier reshape (T0 tutorial + T1 full estate)
+- **created_date:** 2026-06-28
 - **Context:** The v0.1 audit + firsthand play exposed a structural tension: the old **T0 (Estate)** tried to be **both** the tutorial *and* the first real grind, and the four-pillar macro spine was an unbuilt silhouette with no early on-ramp. The human's steer (2026-06-28) reshapes the tier ladder so the intro and the real game are distinct tiers and the spine is introduced gently.
 - **Options:** (A) Keep **5 tiers** (T0 Estate…T4 Edo); introduce all spine pillars at the old T0→T1 gate · (B) **Split the Estate** into a tutorial tier + a full tier → **6 tiers**, with exactly **one pillar unlocking per tier**.
 - **Decision:** **(B)** — **Six tiers:** **T0 Estate (intro/tutorial)** · **T1 Estate (full)** · **T2 Village** · **T3 Region** · **T4 Castle-town** · **T5 Edo**. The macro spine is introduced **early but minimal** — **one pillar** is active to clear T0→T1, and the **revealed-pillar set grows one per tier: 1→2→3→4→4**. Pillar→tier map: **Estate 家産** (P1, T0→T1) → **Arms 武威** (P2, T1→T2, unlocks Village) → **Office 官威** *kan'i* (P3, T2→T3, Region) → **Name & Honour 家格** *kakaku* (P4, T3→T4, Castle-town); **T4→T5 deepens the four, no new pillar**. **v1 scope = new T0→T3** (preserves the locked v1 *content*: full Estate + Village + Region).
@@ -305,6 +357,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** SUPERSEDES the 5-tier model across **prd.md §1.6** (four pillars / five tiers), **§1.7** (world table), **§5** (tier content), **§7** (milestones), and the **§1.6.3** "T0 = 2-pillar special (Arms+Estate)" reveal (now **T0 = 1 pillar = Estate**). Renumbers Region/Castle-town/Edo → **T3/T4/T5**. The ~28.5h **§4.8** budget re-derives across the 4 v1 tiers. The QA `state()` snapshot's `tier` widens to **0..5** and `outcome` gains **`t3done`** (the v1 finish). Code: the tier enum + `ranks.ts` + the state schema. **PRD/docs/code application PENDING** — see the tracker. REFINES D-028 (the gate — see D-049). Per **D-022**, this newest human steer governs.
 
 ### D-049 ✅ — Tier ascension = a manual opt-in story event; the hybrid grade-gate scales per pillar-count; overshoot earns a permanent boon; gentle pacing ramp
+- **created_date:** 2026-06-28
 - **Context:** **D-028** locked a "hybrid good/great/excellent" tier-gate for the old reveal set. With one pillar unlocking per tier (D-048), the gate must be re-specified, and the human added two refinements: the tier-up is **manual opt-in**, and a **higher pillar grade earns a better reward**.
 - **Options:** *Gate* — (A) flat single threshold · (B) keep the hybrid grade-gate, scaled by pillars-open · (C) AND-gate all open pillars. *Reward* — permanent boon / one-time lump / prestige-only. *Trigger* — auto-advance vs manual opt-in. *Pacing* — floor everywhere / T0 exempt / gentle ramp.
 - **Decision:** **KEEP the hybrid grade-gate (B)**, scaled by **N** open pillars to **exactly 1 EXCELLENT + 1 GREAT + (N−2) GOOD** (all pillars ≥ GOOD): **T0 = EXCELLENT** · **T1 = 1 GREAT + 1 EXCELLENT** · **T2 = 1 EXC + 1 GRT + 1 GOOD** · **T3 = 1 EXC + 1 GRT + 2 GOOD**. The gate is **not** an auto-advance — meeting it **unlocks the OPTION** to trigger a **manual opt-in ascension STORY EVENT**; the player chooses *when* (grinding pillars **past** the gate is rewarded). The event grants a **permanent, grade-scaled boon** (a next-tier head-start / a small permanent multiplier / unique title+gear). **Pacing = gentle ramp:** T0 ~**10–15 min/rung** and **floor-exempt**; the signed **≥30-min/rung floor binds from T1**.
@@ -312,6 +365,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** REFINES **D-028** (the gate is now per-N-pillars, opt-in, and reward-bearing) and **D-029** (the floor now starts at **T1**, not T0). prd.md **§1.6.3/§4.6** (gate spec), **§4.8** (pacing — T0 exempt), **§5** (the ascension story beats). New state: a tier-up-**available** flag + the score-scaled reward bundle. Add a gate-grade test per tier. **PRD/docs/code application PENDING.** Per **D-022**, governs. **🔁 Refined (2026-06-29) by D-062:** the *first* tier ascension (T0→T1) is always a big ceremonial beat on first contact regardless of grade; the grade-scaled *boon magnitude* (this ADR) still applies, and overshoot-grade scaling layers onto *later* ascensions.
 
 ### D-050 ✅ — Combat HP carries between fights and heals by eating (the stance becomes a real tradeoff)
+- **created_date:** 2026-06-28
 - **Context:** The v0.2 audit found the new stance toggle was a **fake choice** — 上段/Aggressive strictly dominated in 100% of sampled cells and the defensive payoff (HP retention) was **inert**, because every fight restarted at `hpMax` and the default 中段/Balanced was the *trap* pick.
 - **Options:** (A) **carry HP** between fights · (B) keep full-HP-per-fight, rebalance stats + surface wear only · (C) drop the stance. *HP recovery* — rest/time · **eat/satiety** · slow + setback.
 - **Decision:** **(A) HP carries between fights** (retention becomes a real resource) and **HP heals by EATING (satiety)** — a low-satiety player is a fragile one. Defensive stances (more retention) now genuinely trade against Aggressive (more speed/damage), so **no stance strictly dominates** and the default is no longer a trap.
@@ -319,6 +373,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** `combat.ts` must read **carried** HP (not reset to `hpMax`); the auto-loop rests/eats to recover; satiety becomes combat-relevant. Replace the v0.2 test that **enshrined** stance dominance with a **"no stance strictly dominated"** curve invariant; surface the wear/retention tradeoff in **pixels** (touch-legible, not hover-only). Pairs with **D-035** (satiety throttles combat). prd.md **§4.6**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-051 ✅ — Koku gets a compounding sink: the estate-upgrade flywheel
+- **created_date:** 2026-06-28
 - **Context:** v0.1/v0.2 audits: **koku** is the headline currency but had **no sink** (v0.1) / only a **finite, power-neutral estate** (v0.2), so the reinvestment loop self-saturates — the ×3 yield multiplier accelerates a currency with nowhere compounding to go.
 - **Options:** (A) **compounding estate upgrades** · (B) a market (buy/sell gear+goods) · (C) koku **is** the pillar currency (spend koku → raise pillars directly).
 - **Decision:** **(A)** — **koku buys estate improvements that raise yield/output** (work → koku → upgrade → more output → more koku): a true reinvestment flywheel feeding the **Estate 家産 pillar** via its **LAND / TREASURY** sub-engines (§1.6.1). A market (the **TRADE/*meibutsu*** sub-engine) is **additive later**, not the primary sink.
@@ -326,6 +381,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** Multi-stage, yield-bearing estate upgrades replace the finite power-neutral `estateStage`; the `G-NO-DEAD-VALUES` ratchet now guards a **compounding** koku consumer. REFINES **D-033** (estate stages become yield-bearing, not just a koku/Arms sink). prd.md **§1.6.1 + §4** (economy). **PRD/docs/code application PENDING.** Per **D-022**, governs. **🔁 Refined (2026-06-29) by D-066:** the flywheel is a small LINEAR estate-upgrade taste in T0, branching into the LAND/TREASURY/TRADE sub-engines at T1 (trade ≤⅓ preserved).
 
 ### D-052 ✅ — Tutorial = showcase-in-miniature; the T0/T1 content split; seed-breadth lands minimal-now (H5)
+- **created_date:** 2026-06-28
 - **Context:** The human delegated "**what estate content is tutorial (T0) vs full (T1)**" and chose **showcase-in-miniature**. **H5** (seed breadth — NPC dialogue, walkable areas, the found/crafted 2nd weapon) resolved to **"add minimal versions now."**
 - **Options:** *Tutorial scope* — lean / **showcase-in-miniature** / core+teasers. *H5* — **add minimal now** / collapse via ADR / defer.
 - **Decision:** **T0 (tutorial) showcases a MINIATURE of every system** — a tiny **market** (koku-sink taste), one **craftable** (the 2nd weapon becomes **found/crafted**, not gifted — honoring "weapons never gifted as power"), one **NPC lore-talk** line, ~~room-grouped~~ **areas** (🔁 **upgraded to a small WALKABLE map 2026-06-29 by D-065**), the **Estate-pillar** panel + the **first ascension**. **T1 (full estate) scales each into depth.** Seed breadth lands **now, minimal in T0**, deepened in T1.
@@ -333,6 +389,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** The T0/T1 rung+content split (**R0→R7 tutorial**; **~8 T1 rungs ≈ R8→R15**) — *provisional* per the freeze. Resolves **H5**; the axe-gift becomes found/crafted (supersedes the M2b stand-in). prd.md **§5** (T0/T1 content), **§1.7** (breadth promises). **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-053 ✅ — Active-only "leave it running" = wall-time simulation (do NOT pause on `document.hidden`)
+- **created_date:** 2026-06-28
 - **Context:** **H6** — active-only / no-offline is locked (**FU23**). The human clarified the *intent*: active-only must still support **"leave it running"** — leave the game open in a browser window, do other things, return to find it kept doing the action. The only distinction from "offline" is the **window/tab must stay open**.
 - **Options:** (A) **keep active-only** · (B) add a capped while-away tick · (C) decide later. *Technical:* pause-on-hidden vs **wall-time catch-up**.
 - **Decision:** **Keep active-only (A)** — **no progress when the game is CLOSED**. But the simulation must **advance by elapsed wall-time** (delta-time accumulation) so a backgrounded/throttled tab **catches up** on its next tick. **Do NOT pause the sim on `document.hidden`.** (Keep the autosave dirty-guard, but it must **not** gate the simulation.)
@@ -340,6 +397,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** REVISES the v0.1 report's "add a `document.hidden` guard to autosave" — keep the autosave guard, but the **tick loop catches up elapsed time when hidden**. `app/main.ts` computes `dt` from wall-clock + a covering test. Honors **FU23**. prd.md **§6.10 / the clock**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-054 ✅ — Milestone-integrity rule: all-DoD-or-ADR-amended + a CI manifest check (H4)
+- **created_date:** 2026-06-28
 - **Context:** The v0.1 audit found **"SHIPPED (slice)"** — milestones shipping with unmet DoD lines footnoted away (M1's claimed pacing tool absent; M2b's loot→craft loop folded into a gift), so green CI **overstated** completeness.
 - **Options:** (A) **all-or-ADR-amended + CI manifest check** · (B) all-or-amended, no CI check · (C) keep partial-DoD shipping with footnotes.
 - **Decision:** **(A)** — a milestone is **SHIPPED only when every DoD line is met OR formally amended via an ADR before the commit**; a **CI manifest check** asserts every instrument a DoD *names* resolves to a real test/tool. Bans "SHIPPED (slice)".
@@ -347,6 +405,7 @@ source of truth; the PRD is STALE on these points.** Application is tracked in
 - **Consequences:** A new process gate (working-agreements + `verify`); each future milestone DoD's named instruments are CI-asserted; `roadmap.md` DoDs become forward contracts. Resolves **H4**. **Docs application PENDING** (working-agreements + roadmap). Per **D-022**, governs.
 
 ### D-055 ✅ — Pillar-teaser = active + locked silhouettes; origin-mystery cadence (payoff at Region + a beat every tier)
+- **created_date:** 2026-06-28
 - **Context:** v0.2 shows **all four pillars greyed** (reads as a roadmap dump); §1.6.3 says reveal per tier. And the v0.1 audit found the **origin mystery "dies in silence" mid-T0**, violating **§1.9** "the dream cadence never goes cold" (its markers were write-only flags no logic read).
 - **Options:** *Teaser* — **active + locked silhouettes** / all-4-named-greyed / only-unlocked. *Mystery* — **payoff at Region + a beat every tier** / resolve in the Estate arc / slow-burn to castle-town.
 - **Decision:** The **House Influence panel shows the active pillar + locked, UNNAMED silhouettes** for the rest (perceived depth + intrigue, not a named roadmap). The **origin mystery pays off in full at the Region (T3, per canon)**, but a **dream/mystery beat fires at every tier transition** (incl. the T0→T1 and T1→T2 ascensions) so the **§1.9** cadence holds within every window.
@@ -372,6 +431,7 @@ roadmap plan ([`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06
 design ADR.
 
 ### D-056 ✅ — Real D-049 pacing ships as the default; a DEV-only speed toggle replaces the DEMO/REAL profile fork
+- **created_date:** 2026-06-29
 - **Context:** D-047 shipped the v0.2 demo with a DEMO/REAL balance-profile fork and left **DEMO as the shipped default**, deferring the real choice to the human (H1). The reshape's **D-049** already locked the real pacing shape (T0 ~10–15 min/rung, floor-exempt; the signed ≥30-min/rung floor binds from T1). H1 now resolves.
 - **Options:** (A) keep DEMO as the shipped default · (B) ship REAL D-049 pacing as the default + a DEV-only time-multiplier for review/playtest velocity · (C) a runtime DEMO/REAL toggle exposed in production.
 - **Decision:** **(B)** Ship the **real D-049 pacing as the default** (the actual game players get). Review/playtest velocity comes from a **DEV/debug-only 2×/4×/8× speed toggle** — a pure *time multiplier*, **not** a second balance profile. The DEMO/REAL profile fork is retired.
@@ -379,6 +439,7 @@ design ADR.
 - **Consequences:** **SUPERSEDES D-047's "DEMO profile stays the shipped default" consequence** (annotated there). Remove the DEMO/REAL profile fork; D-049's pacing becomes the only profile. The 2×/4×/8× toggle is DEV-only and stripped from prod (bundled in **D-067**'s dev tools). prd.md **§4.8**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-057 ✅ — Win-rate: analytic for the gate, fixed-seed sampled for the display (amends signed D-043)
+- **created_date:** 2026-06-29
 - **Context:** Human-signed **D-043** locked "win-rate = analytic, not sampled." The reshape build (D-046/D-047) actually uses a fixed-seed *sampled* forecast (`combat.foeForecasts`) for the displayed/guard-tested win-rate. A provisional build ADR must not silently override a signed lock, so the split is blessed explicitly.
 - **Options:** (A) analytic everywhere (as D-043 reads) · (B) sampled everywhere · (C) **split — analytic for the tier/gate check, fixed-seed sampled (n=400) for the displayed win-rate**.
 - **Decision:** **(C)** The **tier/gate** check stays **analytic**; the **displayed** win-rate is **fixed-seed sampled (n=400)**. Codify the invariant **displayed == tested == same-for-every-player** — the same fixed seed for everyone, so the number a player sees is the number the guard test asserts.
@@ -386,6 +447,7 @@ design ADR.
 - **Consequences:** **AMENDS the human-signed D-043** (annotated there — its blanket "analytic, not sampled" now scopes to the gate only). Blesses `combat.foeForecasts` (D-046/D-047) as canon for the displayed win-rate. prd.md **§4.6 / §6**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-058 ✅ — The signed 20–35% SINGLE-fight win-rate band stands under the HP-carry model (ratifies D-016/D-035)
+- **created_date:** 2026-06-29
 - **Context:** **D-050** made combat HP carry between fights and heal by eating. That changes the *grind* (a run of fights), so the question arose whether the human-signed first-fight win-rate band (**D-016**, re-measured at adequate satiety by **D-035**) needs re-expression under HP-carry.
 - **Options:** (A) re-express the criterion as a multi-fight / run-survival rate under HP-carry · (B) **keep the signed 20–35% SINGLE-fight band unchanged**.
 - **Decision:** **(B)** KEEP the signed **20–35% single-fight win-rate** as the first-fight criterion. HP-carry (D-050) affects the *grind*, not the discrete first-fight moment; the agent tunes a real foe into band at realistic durability/satiety under the new model, backed by a RED-able test. No re-expression — the signed single-fight band stands.
@@ -393,6 +455,7 @@ design ADR.
 - **Consequences:** **RATIFIES D-016 + D-035** (neither changes); the first-fight test asserts the 20–35% band at satiety ≥~0.7 under HP-carry. Pairs with **D-050** (HP-carry is the grind model, not the first-fight model). prd.md **§4.6**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-059 ✅ — Keep the PRD LIQUID through v1; defer the §1 freeze to end-of-v1 (refines D-020/D-021/D-046)
+- **created_date:** 2026-06-29
 - **Context:** D-020 → D-021 → D-046 set a path: freeze §1 + locked intent as a tagged vision snapshot *after the first build-play cycle*, exploding the rest into living docs. That trigger fired (D-046) but the §1 freeze stayed queued. The reshape (D-048…D-055) then moved much of the spine, so the human re-times the freeze.
 - **Options:** (A) freeze §1 now (the queued step) · (B) **keep the PRD open/liquid through T0/T1/T2 (possibly T3); do NOT freeze §1 now; convert the WHOLE PRD into living docs once v1 is fully implemented + play-tested** · (C) never freeze / never explode.
 - **Decision:** **(B)** Keep the PRD **liquid through T0–T2 (maybe T3)**. **Do NOT freeze §1 now.** The one-way freeze door moves to **end-of-v1**: once v1 is fully built + play-tested, convert the whole PRD into living docs. (The mechanical PRD-file split into per-section files — feedback #6 — proceeds with the batched ripple; that's structure, not a freeze.)
@@ -400,6 +463,7 @@ design ADR.
 - **Consequences:** **REFINES (does not delete) D-020, D-021, D-046** (annotated in each — the queued §1 vision-freeze now waits for end-of-v1). The locked-intent constraints (no-magic · mediocre-start · trade ≤⅓ · active-only · the four pillars · the estate spine · the signed acceptance targets) still hold as canon; they are simply not yet snapshot-frozen. M2–M7 stay provisional as ever. **PRD/docs application PENDING.** Per **D-022**, governs.
 
 ### D-060 ✅ — Roadmap re-axed as nested Tier → Milestones → Fun-slices (not a flat S0–S4)
+- **created_date:** 2026-06-29
 - **Context:** The roadmap needed re-axing post-reshape. A flat S0–S4 staging was considered and rejected (the human has no S0–S4 context, and a flat list doesn't map onto the tier spine).
 - **Options:** (A) flat S0–S4 stages · (B) **a two-level, per-tier structure — for each v1 tier (T0/T1/T2/T3): N milestones; within each milestone: N fun-slices**.
 - **Decision:** **(B)** Re-axe the roadmap as **nested Tier → Milestones → Fun-slices**. Each tier gets N milestones; each milestone gets N fun-slices, where a **fun-slice ships a playable, *fun* increment** (not just a feature). Claude proposes the cut.
@@ -407,6 +471,7 @@ design ADR.
 - **Consequences:** `docs/living/roadmap.md` is re-axed to the nested shape (proposal: [`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md)). **Build-order (spine-first) + carry-forward-T0 are sequencing details that live in that roadmap plan, NOT this ADR.** Milestone count / fun-slice granularity / naming are delegated to Claude. **Docs application PENDING.** Per **D-022**, governs.
 
 ### D-061 ✅ — Difficulty is humbling THROUGHOUT (incl. T0); distinct from D-049 pacing
+- **created_date:** 2026-06-29
 - **Context:** The v0.2 audit's default was to "tame the early friction." The human reversed that: the mediocre-start bite is the point and must persist, including in the tutorial tier.
 - **Options:** (A) smooth the early durability/satiety/on-ramp friction (the audit default) · (B) **keep difficulty humbling throughout, incl. T0**.
 - **Decision:** **(B)** Difficulty stays **humbling throughout** — keep the mediocre-start bite; don't smooth the durability/satiety friction or the on-ramp. **Distinct from pacing:** D-049's T0 *fast* pacing (~10–15 min/rung) still holds — **T0 is quick but NOT easy**. Guardrails stay: always winnable, soft-setback only, no permanent loss, no true dead-ends / stranding.
@@ -414,6 +479,7 @@ design ADR.
 - **Consequences:** Do NOT tame early friction (revises the audit default); the durability/satiety/on-ramp tuning keeps its bite within the winnable / soft-setback / no-dead-end guardrails (**D-011/D-016**). Pairs with **D-049** (pacing) as an independent axis. prd.md **§4** (difficulty). **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-062 ✅ — The first tier ascension (T0→T1) is a BIG ceremonial beat, always big on first contact
+- **created_date:** 2026-06-29
 - **Context:** **D-049** made ascension a manual opt-in story event with a grade-scaled boon. The human added that the *first* ascension specifically must land as a big ceremonial beat regardless of grade.
 - **Options:** (A) scale all ascension ceremony by grade (a thin first ascension if barely-gated) · (B) **the first ascension is ALWAYS a big ceremonial beat on first contact; grade-scaling layers onto later ascensions**.
 - **Decision:** **(B)** The **T0→T1 ascension always lands big on first contact** — Yuji Syuku title card, macro silhouettes stir, a dream/mystery beat (**D-055**), music swell, the grade-scaled boon revealed. **Overshoot-grade scaling can layer onto *later* ascensions; the first is always big.**
@@ -421,6 +487,7 @@ design ADR.
 - **Consequences:** **REFINES D-049** (the first ascension's *ceremony* is grade-independent; D-049's grade-scaled *boon magnitude* still applies). Uses **D-055**'s per-tier dream/mystery beat + the Yuji Syuku hero font (**D-018**). prd.md **§5** (ascension beats). **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-063 ✅ — Onboarding = a diegetic mentor (in-world teaching), lifting the audit onboarding ding within non-hand-holding
+- **created_date:** 2026-06-29
 - **Context:** The v0.2 audit dinged onboarding (5.5). **D-015** locked non-hand-holdy teaching, so the fix must lift onboarding *without* breaking that.
 - **Options:** (A) tutorial popups / explicit tutorialization · (B) **a diegetic mentor — an in-world character teaches each system through dialogue & story as it unlocks** · (C) leave onboarding as-is.
 - **Decision:** **(B)** A **diegetic mentor** (e.g. drillmaster Kihei / an estate elder) teaches each system through **dialogue & story** as it unlocks — onboarding via narrative, fully non-hand-holdy. Lifts the 5.5 ding without tutorial popups, and adds character + grounds the cast.
@@ -428,6 +495,7 @@ design ADR.
 - **Consequences:** Upholds **D-015** (non-hand-holdy) and **D-064** (no popups). Authoring: mentor dialogue lines keyed to each system's unlock (data per **D-039**). prd.md **§2 (onboarding) / §5 (cast)**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-064 ✅ — T0 tutorial stays non-hand-holdy (D-015 upheld even in the tutorial)
+- **created_date:** 2026-06-29
 - **Context:** The natural temptation is to make the *tutorial* tier hand-holdy even though D-015 bans it elsewhere. The human upheld D-015 for T0 too.
 - **Options:** (A) allow hint popups / explicit tutorialization in T0 only · (B) **uphold non-hand-holding even in the tutorial**.
 - **Decision:** **(B)** T0 **stays non-hand-holdy** — no hint popups. Teach by **reveal-as-plot + world discovery + legible-by-design surfaces**. **Constraint:** the audit's onboarding ding (5.5) must be fixed *within* non-hand-holding — clearer reveal beats + touch-legible readouts, NOT tutorialization.
@@ -435,6 +503,7 @@ design ADR.
 - **Consequences:** **UPHOLDS D-015** in T0; pairs with **D-063** (the diegetic mentor is the teaching vehicle). The onboarding fix is reveal-clarity + touch-legible readouts, not popups. prd.md **§5 (T0) / §2 (legibility)**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-065 ✅ — T0 areas = a small WALKABLE map (refines D-052's "room-grouped areas")
+- **created_date:** 2026-06-29
 - **Context:** **D-052** resolved T0 areas as "room-grouped" (organizational grouping). The human upgraded this: T0 should deliver the §1 "areas to explore" promise as an actual small walkable map.
 - **Options:** (A) keep room-grouped organizational areas · (B) **a small WALKABLE map in T0**.
 - **Decision:** **(B)** T0 ships a **small walkable map** (not just organizational room-grouping), delivering the §1 "areas to explore" promise in the tutorial — consistent with **D-012** full-maps-every-tier.
@@ -442,6 +511,7 @@ design ADR.
 - **Consequences:** **REFINES D-052** (T0 "room-grouped areas" → a small walkable map; annotated there). More build cost — sequence so it doesn't crowd out spine-first (the roadmap plan's build order, **D-060**). prd.md **§5 (T0 areas) / §1.7**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-066 ✅ — Koku flywheel is LINEAR in T0, branches into LAND/TREASURY/TRADE sub-engines at T1 (refines D-051/D-033)
+- **created_date:** 2026-06-29
 - **Context:** **D-051** made koku a compounding estate-upgrade flywheel feeding the Estate pillar's LAND/TREASURY sub-engines. *When* the depth arrives was open: T0 is a tutorial (D-052 showcase-in-miniature).
 - **Options:** (A) full LAND/TREASURY/TRADE depth from T0 · (B) **a small LINEAR estate-upgrade taste in T0; branch into the LAND/TREASURY/TRADE sub-engines at T1**.
 - **Decision:** **(B)** T0 ships a **small LINEAR estate-upgrade taste** (a single reinvestment line — work → koku → upgrade → more output); the flywheel **branches into the LAND / TREASURY / TRADE sub-engines at T1** where the depth matters (**D-008**, **trade ≤ ⅓** of Estate & Wealth preserved).
@@ -449,6 +519,7 @@ design ADR.
 - **Consequences:** **REFINES D-051 + D-033** (the compounding flywheel is linear in T0, branched at T1; annotated in both). The trade ≤⅓ invariant (**D-008**) and the `G-NO-DEAD-VALUES` ratchet still apply. prd.md **§1.6.1 / §4 (economy) / §5 (T0 vs T1)**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-067 ✅ — Dev tools (speed toggle + jump-to-rung/tier) + save policy (wipe dev saves; build+test migrate before launch) — refines D-013a
+- **created_date:** 2026-06-29
 - **Context:** Two build/scope calls, bundled: (1) the highest-value DEV affordances to add now; (2) what to do with the v0.2 save schema on the reshape bump. There are no production users yet.
 - **Options:** *Dev tools* — a rich dev console / **the speed toggle + a jump-to-rung/tier teleport** / none. *Saves* — write full migrations across dev churn / **wipe dev/v0.2 saves on the reshape bump, build+test the real `migrate()` before launch**.
 - **Decision:** **Dev tools = the DEV-only 2×/4×/8× speed toggle (D-056) + a jump-to-rung/tier state-jump teleport** — the highest-value pair; defer richer affordances until a specific test needs them; **DEV-only, stripped from prod.** **Save policy = WIPE dev/v0.2 saves on the reshape schema bump** (pre-launch, no users); **build + test the real `migrate()` path before launch**, not across dev churn. (D-013a's forward-migration still governs *shipped* saves.)
@@ -456,6 +527,7 @@ design ADR.
 - **Consequences:** **REFINES D-013a** (its forward-migration chain now scopes to shipped/launch saves; dev/v0.2 saves are wiped at the reshape bump; annotated there). The speed toggle is shared with **D-056**; both dev tools extend the DEV-only `window` play-API and are stripped from prod. Build + test `migrate()` before launch (a launch gate). prd.md **§6.8 (saves) / §6 (dev API)**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-068 ✅ — A synthesized traditional Japanese SFX palette; a minimal SFX pass before the R1 taste call
+- **created_date:** 2026-06-29
 - **Context:** **D-041** put a small synthesized Web Audio set in scope but didn't fix the palette or the timing. The human chose both: a traditional Japanese instrument palette, and a minimal SFX pass before the human's R1 taste verdict.
 - **Options:** *Palette* — generic UI blips · **a traditional Japanese instrument palette** · a full orchestral bed. *Timing* — full bed up front · **a minimal SFX pass before R1, the full bed later** · audio last.
 - **Decision:** **A synthesized traditional Japanese SFX palette** — **taiko** (combat), **shamisen / koto** (UI/deeds), **shakuhachi** (big beats), **temple bell / 鈴** (rank-ups) — anti-slop, matching the woodblock bible (**D-018**). A **minimal SFX pass** (hit / reward / rank-up cues) lands **before the R1 taste call**; the full synthesized bed comes later.
@@ -463,6 +535,7 @@ design ADR.
 - **Consequences:** Sequences within **D-041**'s in-scope audio (annotated there); drives the minimal SFX pass ahead of R1. Web Audio synthesis (honours D-041's synthesized-audio posture). prd.md **§ audio**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-069 ✅ — Durable-by-default: a plan/brainstorm/analysis is a committed FILE before it's a deliverable
+- **created_date:** 2026-06-29
 - **Context:** The Operating-Model-v2-lite reel-back existed only in session context, not as a committed file — a near-miss showing work can be lost if it isn't on disk. (A durable-process decision, already applied to CLAUDE.md this session.)
 - **Options:** (A) capture plans/analyses inline in chat / a ledger · (B) **a plan/brainstorm/analysis is a committed FILE before it's a deliverable or implemented**.
 - **Decision:** **(B)** Durable-by-default: a plan/brainstorm/analysis is a **committed file** before it's a deliverable or implemented — never only in chat or a ledger. Homes: **`project/brainstorms/`** (discovery) · **`docs/plans/`** (plans/reel-backs) · **`docs/`** (settled).
@@ -476,6 +549,7 @@ design ADR.
 > `playcheck` ratchet (D-074), the fun-slice roadmap re-axe (D-060). The deferral + the "diverge/playcheck
 > **HELD**" stance recorded below **no longer hold**. History kept intact (annotate-don't-delete).
 
+- **created_date:** 2026-06-29
 - **Context:** **H10** queued the full **Operating Model v2-lite** bundle (the keystone process overhaul — pre-commit `verify`, `playcheck` ratchet, mandatory `diverge` gate, ship-gate, re-axed roadmap) for a separate human review; **H7** (a bespoke `ship-gate` skill) and **H9** (a `resolve-queue` skill) were absorbed into it. The human walked the queue live (2026-06-29 H-item session) and decided the bundle's adoption.
 - **Options:** (A) adopt the v2-lite bundle wholesale · (B) **defer the bundle; greenlight useful pieces ad hoc** · (C) reject outright.
 - **Decision:** **(B)** **Defer** the v2-lite bundle. **Not a freeze** — useful pieces are greenlit piecemeal as they come up (the `tdd` skill and the lean pre-commit gate **D-071** were both greenlit this way). **H7 and H9 both resolve to DON'T-BUILD:** **D-054**'s milestone-integrity policy + CI-manifest check already own the ship-gate *policy* (no bespoke skill), and decision queues are resolved **by hand** (demonstrated this very session via `AskUserQuestion`).
@@ -488,6 +562,7 @@ design ADR.
 > content-aware *subset* was replaced by running the **whole** suite every commit (incl. the test suite this
 > hook deliberately skipped — its blind spot) + a drift guard. The journal-hygiene gate is **retained**.
 > History kept intact.
+- **created_date:** 2026-06-29
 - **Context:** The single Operating-Model-v2 piece the human greenlit (reshaped to a lean spec — forks **D-a/D-d** in the 2026-06-29 H-item session), separable from the deferred bundle (**D-070**). Evidence it was needed: M1 shipped with claimed pacing/fun instrumentation absent and the audit found a false-green test suite.
 - **Options:** (A) run the full `verify` (test suite) on every commit · (B) **a content-aware fast (<5s) subset that runs only what's relevant to the staged files** · (C) no gate (keep the journal-only hook).
 - **Decision:** **(B)** A content-aware **<5s** pre-commit subset: staged `.ts` → `tsc --noEmit`; staged `.ts/.md/json/css/html` → `prettier --check` (staged only); staged `src/**` → a pure-core **boot smoke**; then the unchanged journal-hygiene gate. **NOT the full test suite.** Bypass: `SKIP_VERIFY=1` (checks) / `SKIP_JOURNAL=1` (journal).

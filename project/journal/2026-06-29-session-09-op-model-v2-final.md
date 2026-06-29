@@ -207,3 +207,17 @@ Updated the FINAL plan's F section to the real numbers + the supersession.
 
 **v2 FINAL is now fully built (A–F).** Next: the human's follow-on ask — audit all ADRs for staleness +
 backfill `created_date:` across the log.
+
+---
+
+## Build log — ADR `created_date` backfill — DONE (human request)
+
+**What:** added `- **created_date:** YYYY-MM-DD` to all **73** `### D-0XX` ADRs — dates = **git
+first-appearance** (range-encoded: D-001–017 = 06-25 · 018–045 = 06-26 · 046–047 = 06-27 · 048–055 = 06-28 ·
+056–074 = 06-29). Updated the **Template + legend** so it's the convention going forward — the date is what
+disambiguates *newest-steer-wins* when two ADRs touch the same ground. (D-043 left as-is — it's a `##` group
+header with its date already in-title.) One-shot backfill via a throwaway `tmp/` script.
+
+**Files:** `docs/living/decisions.md`.
+
+**Next:** the staleness audit (a fan-out workflow over the ADR log → annotate the stale/superseded ones).
