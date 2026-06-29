@@ -33,6 +33,18 @@ fi
 echo "▸ building…"
 npm run build
 
+# 1b. ship-hygiene gate (D-067): the DEV play-API (__qa — speed cheats + jump-to teleports) is
+#     gated on `import.meta.env.DEV` and dead-code-eliminated in prod. REFUSE to publish a bundle
+#     that leaked it — a shipped __qa hands players speed-cheats/teleports and bloats the bundle.
+#     (Pushes the "DEV tools are prod-stripped" norm up to a deploy GATE that can't be forgotten.)
+echo "▸ verifying DEV tools are stripped from the prod bundle…"
+if grep -lF "__qa" "$REPO_ROOT/dist/assets/"*.js >/dev/null 2>&1; then
+  echo "✗ DEV play-API (__qa) leaked into the prod bundle — refusing to deploy." >&2
+  echo "  Keep the __qa install behind 'if (import.meta.env.DEV)' in src/app/main.ts." >&2
+  exit 1
+fi
+echo "  ✓ no __qa in the prod bundle."
+
 # 2. sync the built site into the worktree ROOT; --delete drops stale files,
 #    but never touch the worktree's .git pointer.
 echo "▸ syncing dist/ → $WORKTREE …"

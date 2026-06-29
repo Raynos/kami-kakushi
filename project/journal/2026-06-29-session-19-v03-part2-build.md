@@ -387,6 +387,19 @@ truthfulness, no runtime change): the `validate.ts` comment falsely claimed a le
 `[3,22]`; a `playcheck.ts` header still labelled `minutesPerRung` the "≥30-min floor" proxy → re-labelled (T0 is
 floor-exempt now). verify GREEN. **The overnight v0.3 work is independently confirmed ship-quality.**
 
+## 20 · OVERNIGHT — prod-build ship-readiness + a deploy-gate DEV-strip guard
+
+The dev server works, but the **production build** (what a gh-pages deploy serves) hadn't been verified since M2·8.
+Ran `npm run build` → **clean** (48 modules, 207ms; JS 81 KB / **gz 29 KB** — bigger than the old ~42 KB note,
+which predates the v0.3 breadth+spine; still tiny + itch-ready). Verified **D-067's claim that the DEV tools are
+prod-stripped is TRUE**: the `__qa` install is gated on `import.meta.env.DEV` (`main.ts:260`) so Vite
+dead-code-eliminates it — the prod bundle has **0 occurrences** of `__qa`/`jumpToPhase2`/`jumpToAscension`/
+`forceState`/`faceWolf`. So the human can deploy v0.3 for playtest with the DEV cheats safely absent.
+- **Pushed the norm up to a GATE** (CLAUDE.md: gate > hook > norm): added a **ship-hygiene check to
+  `src/scripts/gh-pages.sh`** (step 1b) — after the build, it greps the bundle for `__qa` and **refuses to deploy**
+  if the DEV play-API leaked (a leaked `__qa` would ship speed-cheats + teleports to players). Tested both ways:
+  passes the current clean bundle, aborts on a planted leak. verify GREEN.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just
