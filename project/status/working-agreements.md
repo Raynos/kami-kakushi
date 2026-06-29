@@ -31,8 +31,8 @@ it's a standing-approved part of every checkpoint** (see below), not a per-push 
 3. **Live snapshot** — bring [`project-status.md`](project-status.md) current (it, not the journal, is the
    resume point).
 4. **Push `main`** — `git push origin main`. This fires the **pre-push gate** (`.githooks/pre-push`), which
-   runs `npm run verify` and **blocks a red `main`**. A green `origin/main` is the proof the checkpoint is
-   real — pushing is *part of* the checkpoint, not a separate approval.
+   runs `npm run verify` on **every push (all branches)** and **blocks a red build**. A green `origin/main`
+   is the proof the checkpoint is real — pushing is *part of* the checkpoint, not a separate approval.
 5. **Confirm** — `git status` clean, `git log origin/main..main` empty (or explicitly note what's left and
    why).
 

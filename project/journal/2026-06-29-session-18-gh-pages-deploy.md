@@ -20,6 +20,9 @@
 ## Addendum — "checkpoint" formalized as a named behavior
 - `CLAUDE.md` + `project/status/working-agreements.md` — defined **Checkpoint** = the resumability ritual: commit (own files, by explicit path) → stage journal → bring `project-status.md` current → **`git push origin main`** (fires the pre-push green gate) → confirm clean. Pushing main is now a **standing-approved part of a checkpoint**, overriding the generic "never push without approval" default for the routine main push (deploy/delete/force-push still need sign-off). Baked in three hard-won rules: **verify-before-claiming**, **shared-tree safety** (never stash/restore another agent's WIP; stage own files by path), **don't fight someone else's red** (their in-flight red WIP correctly blocks your push — leave the commit local, never SKIP_VERIFY a red tree onto the remote).
 
+## Addendum — pre-push simplified to every-push/all-branches
+- `.githooks/pre-push` — dropped the stdin/branch-detection complexity. Now simply: run `npm run verify` on **every push, all branches**, block on red (`SKIP_VERIFY=1` overrides). Also removed the old non-blocking budget readout (it re-ran verify 3× — wasteful once the gate runs verify once; budget drift is still tracked at commit time by pre-commit). CLAUDE.md + working-agreements.md updated from "scoped to main" → "every push".
+
 ## Landmines
 - GitHub Pages branch deploy only serves from `/ (root)` or `/docs` — **not** `/dist`. We serve from the worktree root, so the gh-pages branch root *is* the site.
 - `vite.config.ts` already uses `base: './'` (for itch.io) — that relative base is also what makes the `/kami-kakushi/` project-page subpath work with no extra config. Don't change it to an absolute base.
