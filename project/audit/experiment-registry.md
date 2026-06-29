@@ -46,3 +46,11 @@ These satisfy the novelty rule out of the box — pick at least one next time:
 - `doc-consistency` **on a build** (only run on the PRD so far) — `docs/content/` generated-vs-source drift.
 - `economy-arithmetic` **on a build** (only run on the PRD so far) — verify the live numbers, not the spec's.
 - `persona-simulation` **on a build** — walk v0.2 as a concrete persona, not the PRD.
+| `prd-faithful` | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `human-feedback` | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `adr-faithful` *(new lens)* | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `fun` | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `ui-polish` | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `incremental` | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `economy-arithmetic` *(fresh-on-build)* | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |
+| `laziness` | build v0.3 | 2026-06-29 | [v0.3-fidelity-battery](reports/2026-06-29-v03-fidelity-battery.md) |

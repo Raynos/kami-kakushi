@@ -72,3 +72,30 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   `audit/screens/diverge-map/` and `audit/screens/breadth/` galleries.
 - **Verdict:** _(awaiting the human — non-blocking)_
 
+### R4 🔲 — v0.3 fidelity-battery judgment queue (6 design/taste calls)
+
+- **Asking for:** decisions only you can make, surfaced by the v0.3 fidelity battery
+  ([report](../audit/reports/2026-06-29-v03-fidelity-battery.md)). The build is faithful to locked intent (prd 9 /
+  adr 8.5 / human-feedback 8); these are the **design/taste** calls (the agent fixed the safe bugs + false-green
+  tests separately — see the journal). Plain language:
+  1. **The wall-time clock (D-053 vs D-013, MAJOR).** The build pauses the sim on `document.hidden` (`main.ts:205`);
+     D-053 (`decisions.md:444`) says do the OPPOSITE (advance by wall-time, a hidden tab catches up), while
+     `decisions.md:157` frames D-053 as *reaffirming* active-only. The two ADRs pull apart — **which is canon?**
+     (Cost of inaction: a signed lock sits unbuilt while the code does its literal opposite.)
+  2. **The shipped pace + fork (D-056 + the REAL T0 numbers, MAJOR).** DEMO ships by default (<1 min tutorial);
+     REAL over-corrects (R0 ≈ 31 min / ~3500 rakes) vs the ~10–15 min/rung target + D-022's "R0 ≈ 5-min cold-open".
+     **No reachable profile delivers the designed hook.** → approve retiring the fork (ship ONE profile) + sign off
+     re-derived T0 thresholds (~10–15 min/rung, R0 ≈ 5 min) with the ≥30 floor gated from T1. (This is M2·8 + the
+     pacing re-derivation — the agent deferred it as it needs your number sign-off.)
+  3. **Auto-combat defuses the D-050 fight tension (MAJOR).** Auto-combat auto-heals + only fights the matchup you
+     pick, so "a fight you might lose" becomes background maintenance. → keep autopilot fully autonomous, or make it
+     strictly assistive / add a press-your-luck prompt?
+  4. **Cold-open length.** *(The agent applied the suggested fix — gating Genemon's teaching lines to fire after the
+     first rake — see the journal; confirm the new sequencing reads right, or tune further.)*
+  5. **Breadth-as-chrome.** The map gates nothing mechanically; the lone quest + market are one-time reveals. → bless
+     as deliberate T0 reveal-only beats, or fund making ≥1 load-bearing (a deed behind a map node, a quest branch)?
+  6. **koku ↔ win-condition coupling.** Getting richer never brings ascension closer (the pillar deed is a flat
+     `ESTATE_DEED_PER_ACT`, independent of koku/yield/stage) and koku runs out of sinks (~1378 lifetime). → approve
+     coupling wealth to standing (a capped koku→deed commission, or deed scaling by estate stage)?
+- **Verdict:** _(awaiting the human — non-blocking; balance is liquid D-059)_
+
