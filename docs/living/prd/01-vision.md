@@ -1,6 +1,6 @@
 # §1 — Vision, Pillars, Factions, World & Endgame
 
-> **PRD V2 — locked intent (D-021); reshaped per the V2 decisions (D-022 governing).** This section is authored
+> **PRD V2.3 — locked intent (D-021); reshaped per the V2 decisions (D-022 governing).** This section is authored
 > end-to-end from the PATCHED locked-decisions canon
 > ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
 > 2026-06-25 Round-A deltas), the three redesign discovery docs, **and the 79 human-signed V2 decisions** (Block L

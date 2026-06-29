@@ -1,6 +1,6 @@
 # §4 — Combat, Progression & Balance Model
 
-> **STATUS: PRD V2 — numbers provisional.** This section incorporates the human-signed **Block L (Q1–Q56)**
+> **STATUS: PRD V2.3 — numbers provisional.** This section incorporates the human-signed **Block L (Q1–Q56)**
 > and **Block M (FU1–FU23)** (2026-06-26), governed by **ADR D-022 (newest-block-wins; annotate-don't-delete)**.
 > The **balance SHAPE the human signed** (saga length as a **FLOOR** / per-tier hour budget / per-rank ≥30-min
 > floor / first-fight win-rate / soft-setback severity / deeds-dominate split / no-respec / the **hybrid

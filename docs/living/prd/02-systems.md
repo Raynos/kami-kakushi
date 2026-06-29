@@ -1,6 +1,6 @@
 # §2 — Systems & Mechanics Catalog
 
-> **PRD V2.2 — reshaped per the 79 human-signed V2 decisions (D-022 governing).** This section catalogues the
+> **PRD V2.3 — reshaped per the 79 human-signed V2 decisions (D-022 governing).** This section catalogues the
 > systems as *shapes* (the parts list + each system's data sketch); **all balance numbers stay deferred to §4**
 > *(proposed v1 balance)*. The V2 reshape flips the load-bearing **system shapes** the rest of the doc consumes,
 > per the canonical spine in **§1.6.4**: the conflated combat-deeds pool is split into **three clean,
@@ -1405,7 +1405,7 @@ These are the load-bearing or genuinely-open calls in §2 that should be confirm
 
 ---
 
-_§2 reshaped to PRD V2 from the locked-decisions canon + the LOCKED V2 §1 (incl. §1.6.4) + the 79 V2
+_§2 reshaped to PRD V2.3 from the locked-decisions canon + the LOCKED V2 §1 (incl. §1.6.4) + the 79 V2
 decisions (Block L + Block M, D-022 governing). Balance numbers are deliberately deferred to §4. Next: §3 —
 the incremental unlock ladder (UI-as-progression)._
 

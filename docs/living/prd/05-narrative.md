@@ -1,6 +1,6 @@
 # §5 — Act-by-Act Narrative & Content
 
-> **STATUS: PRD V2.** This section is reshaped from the human-signed **Block L (Q1–Q56)** and **Block M (FU1–FU23)**
+> **STATUS: PRD V2.3.** This section is reshaped from the human-signed **Block L (Q1–Q56)** and **Block M (FU1–FU23)**
 > (2026-06-26), governed by **ADR D-022 (newest-block-wins; annotate-don't-delete)**. §5 owns only the **story
 > shape** of each tier; the curves/thresholds it defers to are §3 (reveal cadence) and §4 (numbers). The V2 deltas
 > applied here: the **sequential two-phase per-tier narration** (climb the rungs in Phase 1 → the

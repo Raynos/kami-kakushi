@@ -1,6 +1,6 @@
 # §7 — Milestone Roadmap, v1 Scope & Deployment
 
-> **PRD V2.2 — reshaped from the 79 human-signed V2 decisions (Block L `Q1–Q56` + Block M `FU1–FU23`); per
+> **PRD V2.3 — reshaped from the 79 human-signed V2 decisions (Block L `Q1–Q56` + Block M `FU1–FU23`); per
 > ADR D-022 (governing) these supersede any conflicting prior lock, most-recent-wins, annotate-don't-delete.**
 > Authored end-to-end from the LOCKED CANON
 > ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its

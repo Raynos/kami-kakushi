@@ -14,7 +14,9 @@ metadata:
   (the **Kurosawa** house); rise through **5 tiers** (Estate→Village→Region→Castle-town→Edo), growing
   **House Influence** (4 pillars). Signature: **the UI itself unlocks incrementally**. No magic; growth
   only through perseverance; no reset. (Spec: `docs/living/prd.md`.)
-- **Phase:** **PRD V2.2 DONE → DEMO BUILT (M0+M1+M2), POLISHED → now human play-testing.** The overnight
+- **Phase:** **PRD now at V2.3** (the 6-tier reshape — ADRs D-048–D-069 + 5 forks — rippled into the body
+  2026-06-29, Part 1 of `path-to-v0.3`; the build against it is Part 2, pending). The **DEMO (M0+M1+M2) was
+  built & POLISHED against PRD V2.2** → now human play-testing. The overnight
   build session (2026-06-26, `project/journal/2026-06-26-session-02-overnight-build.md`) + a 2026-06-27
   human-directed **repo reorg** (the 3-dir tree above) and first-playthrough UX fixes (log cascade
   newest-at-bottom, bigger/indigo Settings ✕, modal closes on new-game). Live human feedback now lands in

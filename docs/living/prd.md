@@ -1,8 +1,10 @@
 # Kamikakushi — Product Requirements Document (PRD)
 
-> **Status: PRD V2.2 — reshaped from the 79 human-signed V2 decisions** (Block L `Q1–Q56` + Block M `FU1–FU23`)
+> **Status: PRD V2.3 — reshaped from the 79 human-signed V2 decisions** (Block L `Q1–Q56` + Block M `FU1–FU23`)
 > **+ Block N (32 post-battery) + Block N.1 (7); ADRs D-043/D-044/D-045**
-> (2026-06-26; see [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §§L–N). Per **ADR D-022 (governing)** these
+> (2026-06-26; see [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §§L–N).
+> **V2.3 (2026-06-29):** the 6-tier reshape — ADRs **D-048–D-069** + the 5 finalized forks — rippled into the body
+> (Part 1 of `path-to-v0.3`; commit `3040844`). Per **ADR D-022 (governing)** these
 > V2 decisions **supersede** any conflicting prior lock / canon / ADR — **most-recent-wins, annotate-don't-delete.**
 > The V2 **LOCKED INTENT** is frozen per **ADR D-021** (the freeze-framing below); the §4 balance numbers and the
 > §7 M2–M7 milestone detail stay **provisional** and are re-planned after each playtest. No code is written until
@@ -21,13 +23,13 @@ revised, and its load-bearing decisions locked as ADRs.
 
 | § | Section | Status |
 |---|---------|--------|
-| 1 | Vision, pillars, factions, world & endgame | **PRD V2.2 — locked intent** |
-| 2 | Systems & mechanics catalog | **PRD V2** |
-| 3 | Incremental unlock ladder (UI-as-progression) | **PRD V2** |
-| 4 | Combat, progression & balance model | **PRD V2.2 — numbers provisional** |
-| 5 | Full act-by-act narrative & content | **PRD V2** |
-| 6 | Tech architecture & data model | **PRD V2** |
-| 7 | Milestone roadmap, v1 scope & deployment | **PRD V2.2 — M2–M7 provisional** |
+| 1 | Vision, pillars, factions, world & endgame | **PRD V2.3 — locked intent** |
+| 2 | Systems & mechanics catalog | **PRD V2.3** |
+| 3 | Incremental unlock ladder (UI-as-progression) | **PRD V2.3** |
+| 4 | Combat, progression & balance model | **PRD V2.3 — numbers provisional** |
+| 5 | Full act-by-act narrative & content | **PRD V2.3** |
+| 6 | Tech architecture & data model | **PRD V2.3** |
+| 7 | Milestone roadmap, v1 scope & deployment | **PRD V2.3 — M2–M7 provisional** |
 
 > **FRAMING — the freeze line (ADR D-021, refines D-020).** Read this PRD as **LOCKED INTENT vs.
 > PROVISIONAL IMPLEMENTATION**, *not* "vision vs. plan." **LOCKED INTENT (the destinations — frozen):** §1
