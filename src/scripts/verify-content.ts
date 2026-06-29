@@ -54,16 +54,13 @@ for (const r of RANKS) {
   }
 }
 
-// 3b. Balance-profile drift guard (audit G-PACING): the DEMO map is the single source of
-//     truth mirrored by RankDef.meterThreshold, and REAL must cover every built rung.
+// 3b. Rung-meter drift guard (audit G-PACING; D-056 — single profile, fork retired): the
+//     RUNG_METER_THRESHOLDS map is the single source of truth, mirrored 1:1 by RankDef.meterThreshold.
 for (const r of RANKS) {
-  if (RUNG_METER_THRESHOLDS.demo[r.id] !== r.meterThreshold) {
+  if (RUNG_METER_THRESHOLDS[r.id] !== r.meterThreshold) {
     errors.push(
-      `rank ${r.id}: RUNG_METER_THRESHOLDS.demo (${RUNG_METER_THRESHOLDS.demo[r.id]}) != RankDef.meterThreshold (${r.meterThreshold})`,
+      `rank ${r.id}: RUNG_METER_THRESHOLDS (${RUNG_METER_THRESHOLDS[r.id]}) != RankDef.meterThreshold (${r.meterThreshold})`,
     );
-  }
-  if (typeof RUNG_METER_THRESHOLDS.real[r.id] !== 'number') {
-    errors.push(`rank ${r.id}: missing REAL meter threshold`);
   }
 }
 

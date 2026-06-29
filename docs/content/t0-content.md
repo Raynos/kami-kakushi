@@ -5,16 +5,16 @@
 
 ## Rung ladder (T0 — Estate)
 
-| rung | title | kanji | meter (demo) | meter (real) | eligible | granter |
-|---|---|---|---|---|---|---|
-| R0 | Day-labourer | 日雇 | 14 | 7000 | rake_rice | — |
-| R1 | Kept hand | 下人 | 30 | 7600 | farm_paddy, haul_stores | Genemon |
-| R2 | Trusted hand | 手代 | 48 | 8200 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R3 | Gate-watch | 門番 | 80 | 8800 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
-| R4 | Kura-warden | 蔵番 | 110 | 9400 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R5 | House-servant | 家人 | 145 | 10000 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R6 | Steward's man | 用人 | 185 | 10600 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Chiyo |
-| R7 | Trusted of the house | 内衆 | 230 | 11200 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Shigemasa |
+| rung | title | kanji | meter | eligible | granter |
+|---|---|---|---|---|---|
+| R0 | Day-labourer | 日雇 | 1100 | rake_rice | — |
+| R1 | Kept hand | 下人 | 2150 | farm_paddy, haul_stores | Genemon |
+| R2 | Trusted hand | 手代 | 2600 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R3 | Gate-watch | 門番 | 2800 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
+| R4 | Kura-warden | 蔵番 | 2950 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R5 | House-servant | 家人 | 3100 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R6 | Steward's man | 用人 | 3250 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Chiyo |
+| R7 | Trusted of the house | 内衆 | 3400 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Shigemasa |
 
 ## Skills (v1 labour set)
 

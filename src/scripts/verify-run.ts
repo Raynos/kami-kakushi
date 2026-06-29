@@ -30,7 +30,7 @@ const GATES: ReadonlyArray<{ name: string; cmd: string }> = [
   { name: 'verify-content', cmd: 'tsx src/scripts/verify-content.ts' },
   { name: 'verify-prd', cmd: 'tsx src/scripts/verify-prd.ts' },
   { name: 'gen-docs', cmd: 'tsx src/scripts/gen-docs.ts --check' },
-  { name: 'pacing', cmd: 'tsx src/scripts/pacing-report.ts --profile=real --check' },
+  { name: 'pacing', cmd: 'tsx src/scripts/pacing-report.ts --check' },
   { name: 'playcheck', cmd: 'tsx src/playcheck.ts --check' },
 ];
 

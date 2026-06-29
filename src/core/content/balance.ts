@@ -41,45 +41,45 @@ export const HARVEST_AUTUMN_MULT_DEN = 10;
 /** Points a curated eligible activity adds to the current rung's meter. */
 export const RUNG_POINTS_PER_ACT = 2;
 
-// ── Balance profile (audit G-PACING) — the per-rung meter thresholds become a
-// profile map so the signed ≥30-min-per-rung floor is REACHABLE + MEASURABLE without
-// making the H1 DEMO-vs-REAL default call. DEMO stays the shipped default (review
-// velocity); REAL is reachable per-new-game via ?balance=real / VITE_BALANCE_PROFILE /
-// __qa (resolved in main.ts). Profile lives in GameState (set once, never mutated) so
-// the pure core stays deterministic and saves stay additive. ──
-export type BalanceProfile = 'demo' | 'real';
-/** Shipped default. NOT the human's H1 call — DEMO stays default for review velocity;
- *  REAL is reachable per-new-game via ?balance=real / VITE_BALANCE_PROFILE / __qa. */
-export const DEFAULT_BALANCE_PROFILE: BalanceProfile = 'demo';
-
-/** Per-rung meter thresholds, by profile. Single source of truth (gen:docs + verify own
- *  them). demo = minutes-to-review (the current shipped values; mirror of
- *  RankDef.meterThreshold, verifier-enforced). real = back-solved so each rung clears the
- *  signed ≥30-min wall floor on the focused-optimal auto path. Only R0..R3 are carried
- *  (the built ladder) — extend when R4+ land. REAL values are PROVISIONAL (v0.2) — tune by
- *  pacing-report (`npm run pacing`). */
-export const RUNG_METER_THRESHOLDS: Record<BalanceProfile, Partial<Record<RankId, number>>> = {
-  // R0–R7 = the full T0 ladder (M2·2). demo = minutes-to-review; real = back-solved ≥30-min
-  // floor (T0 is floor-EXEMPT per D-049/D-056, so these over-satisfy — re-derived to the real
-  // ~10–15 min/rung single profile when the DEMO/REAL fork retires in M2·8). provisional (v0.2).
-  demo: { R0: 14, R1: 30, R2: 48, R3: 80, R4: 110, R5: 145, R6: 185, R7: 230 },
-  real: { R0: 7000, R1: 7600, R2: 8200, R3: 8800, R4: 9400, R5: 10000, R6: 10600, R7: 11200 },
+// ── Rung-meter thresholds (audit G-PACING) — D-056: the DEMO/REAL profile fork is RETIRED
+// here at M2·8. ONE shipped profile, re-derived to the LOCKED T0 targets: R0 ≈ 5-min cold-open
+// (D-022); the climb rungs ≈ 10–15 min each (battery R4#2); T0 is ≥30-min-floor-EXEMPT (the
+// signed ≥30-min/rank floor gates from T1 per the 6-tier reshape, NOT T0 "quick but not easy").
+// Review velocity now comes from the DEV-only 2×/4×/8× speed toggle (D-056) — NOT a fast profile.
+// Single source of truth (gen:docs + verify-content + the pacing sim own it); mirrored by
+// RankDef.meterThreshold (verifier-enforced). PROVISIONAL / liquid (D-059) — tune by
+// `npm run pacing`. R0..R2 are simulator-verified to the targets; R3..R7 ride a gentle
+// continuing ramp (the sim stops at R3, so they re-derive when the T0-combat path is simulated). ──
+export const RUNG_METER_THRESHOLDS: Partial<Record<RankId, number>> = {
+  R0: 1100, // ≈ 5-min cold-open
+  R1: 2150, // ≈ 10 min
+  R2: 2600, // ≈ 12 min
+  R3: 2800, // ≈ 13 min (not sim-measured — sim stops at the R3 combat gate)
+  R4: 2950,
+  R5: 3100,
+  R6: 3250,
+  R7: 3400, // ≈ 16 min — the capstone, the longest climb
 };
-/** The active meter threshold for a rung under a given profile. */
-export function rungThreshold(
-  rankId: RankId,
-  profile: BalanceProfile = DEFAULT_BALANCE_PROFILE,
-): number {
-  const t = RUNG_METER_THRESHOLDS[profile][rankId];
-  if (t === undefined) throw new Error(`no ${profile} meter threshold for rung ${rankId}`);
+/** The active meter threshold for a rung (single profile — D-056, fork retired). */
+export function rungThreshold(rankId: RankId): number {
+  const t = RUNG_METER_THRESHOLDS[rankId];
+  if (t === undefined) throw new Error(`no meter threshold for rung ${rankId}`);
   return t;
 }
 
 /** The active-only auto-loop cadence (ONE dispatched intent per interval). Single-sourced
  *  here so the app loop AND the pacing report share it (was a magic 480 in main.ts). */
 export const AUTO_REPEAT_MS = 480;
-/** Signed ≥30-min-per-rung wall floor (the pacing acceptance criterion). provisional (v0.2). */
+/** Signed ≥30-min-per-rung wall floor — the pacing acceptance criterion that gates from T1
+ *  (per the 6-tier reshape; T0 is EXEMPT, "quick but not easy"). Kept for when the T1+ pacing
+ *  sim lands. provisional (v0.2). */
 export const RUNG_WALL_FLOOR_MIN = 30;
+/** T0 pacing band (D-056): the fork is retired, so T0 has ONE profile and instead of the ≥30
+ *  floor each measured T0 climb rung must land in this sane band — slow enough not to be
+ *  DEMO-trivial, fast enough to stay a tutorial tier. Targets: R0 ≈ 5-min cold-open, climb
+ *  rungs ≈ 10–15 min. Liquid (D-059) — widen by playtest, never below the floor by stealth. */
+export const T0_PACING_BAND_MIN = 3;
+export const T0_PACING_BAND_MAX = 22;
 
 // ── House-Influence pillars (M2·3 / D-049/D-055/D-057) — the macro engine. T0 Estate (家産)
 // grade bands + the deed/seasonal accrual rates. All PROVISIONAL T0 magnitudes (liquid, D-059

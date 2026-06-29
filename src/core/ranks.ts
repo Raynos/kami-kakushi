@@ -24,7 +24,7 @@ export function accrueRungMeter(state: GameState, actionId: string): GameState {
 /** Distance-to-next-gate read for the rung ladder (ui-design §5.3). */
 export function rungProgress(state: GameState): { into: number; needed: number; ready: boolean } {
   const rank = getRank(state.rung);
-  const needed = rungThreshold(rank.id, state.balanceProfile);
+  const needed = rungThreshold(rank.id);
   const ready = state.rungMeter >= needed && rank.storyGate(state.flags);
   return {
     into: Math.min(state.rungMeter, needed),
@@ -41,7 +41,7 @@ export function promoteRungs(state: GameState): GameState {
     const rank = getRank(next.rung);
     const nid = nextRankId(next.rung);
     if (!nid) break;
-    const threshold = rungThreshold(rank.id, next.balanceProfile);
+    const threshold = rungThreshold(rank.id);
     const gateOpen = next.rungMeter >= threshold && rank.storyGate(next.flags);
     if (!gateOpen) break;
     const target = getRank(nid);

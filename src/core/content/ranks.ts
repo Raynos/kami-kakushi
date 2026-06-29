@@ -17,10 +17,9 @@ export interface RankDef {
   readonly title: string;
   readonly kanji: string;
   readonly granter?: string;
-  /** Points to fill THIS rung's meter, toward the next rung (per-rung-reset). This is the
-   *  DEMO-profile value and the canonical mirror of balance.RUNG_METER_THRESHOLDS.demo (drift
-   *  is verifier-enforced). The ACTIVE threshold is resolved per-profile via
-   *  balance.rungThreshold(id, state.balanceProfile). */
+  /** Points to fill THIS rung's meter, toward the next rung (per-rung-reset). The canonical
+   *  mirror of balance.RUNG_METER_THRESHOLDS[id] (drift is verifier-enforced); resolved at
+   *  runtime via balance.rungThreshold(id). Single profile since D-056 (fork retired). */
   readonly meterThreshold: number;
   /** Action ids that feed the meter while AT this rung (curated, one-to-many). */
   readonly eligible: readonly string[];
@@ -36,7 +35,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: 'Day-labourer',
     kanji: '日雇',
-    meterThreshold: 14,
+    meterThreshold: 1100, // D-056 single profile — ≈ 5-min cold-open (mirrors balance.ts)
     eligible: ['rake_rice'],
     storyGate: () => true, // raking the spilled stores is proof enough to be kept on
   },
@@ -46,7 +45,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Kept hand',
     kanji: '下人',
     granter: NAMES.elder,
-    meterThreshold: 30,
+    meterThreshold: 2150, // ≈ 10 min
     eligible: ['farm_paddy', 'haul_stores'],
     storyGate: (f) => f['farmed'] === true, // you've taken to the fieldwork
     rewardOnReach: {
@@ -74,7 +73,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Trusted hand',
     kanji: '手代',
     granter: NAMES.elder,
-    meterThreshold: 48,
+    meterThreshold: 2600, // ≈ 12 min
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: (f) => f['first-fight-survived'] === true, // the humbling fight (M2a) opens R3
     rewardOnReach: {
@@ -110,7 +109,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Gate-watch',
     kanji: '門番',
     granter: NAMES.drillmaster,
-    meterThreshold: 80,
+    meterThreshold: 2800, // ≈ 13 min (not sim-measured — sim stops at the R3 combat gate)
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     // M2·2: R3→R4 opens once you've actually stood the gate-watch — done real combat duty,
     // not merely filled the meter with labour (the `combat-blooded` flag, set on any grind fight).
@@ -141,7 +140,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Kura-warden',
     kanji: '蔵番',
     granter: NAMES.elder,
-    meterThreshold: 110,
+    meterThreshold: 2950,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: () => true,
     rewardOnReach: {
@@ -160,7 +159,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'House-servant',
     kanji: '家人',
     granter: NAMES.elder,
-    meterThreshold: 145,
+    meterThreshold: 3100,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: () => true,
     rewardOnReach: {
@@ -179,7 +178,7 @@ export const RANKS: readonly RankDef[] = [
     title: "Steward's man",
     kanji: '用人',
     granter: NAMES.steward,
-    meterThreshold: 185,
+    meterThreshold: 3250,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: () => true,
     rewardOnReach: {
@@ -198,7 +197,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Trusted of the house',
     kanji: '内衆',
     granter: NAMES.lord,
-    meterThreshold: 230,
+    meterThreshold: 3400,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: () => true,
     rewardOnReach: {

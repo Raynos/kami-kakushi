@@ -17,14 +17,7 @@
 // The baseline rises deliberately (--bless) at a green slice-ship; a silent regression is RED.
 export {};
 
-import {
-  createInitialState,
-  reduce,
-  foeForecasts,
-  balance,
-  type GameState,
-  type BalanceProfile,
-} from './core';
+import { createInitialState, reduce, foeForecasts, balance, type GameState } from './core';
 import { walkPacing, focusedOptimalIntent } from './scripts/pacing-report';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -64,12 +57,12 @@ function mcAtLevel(lvl: number): GameState {
  * each intent produced a reward. A "reward" = any visible forward beat: koku up, rung-meter up, a
  * new reveal, or a level-up. (If a future content type rewards in another currency, extend here.)
  */
-function rewardTrace(profile: BalanceProfile, seed = SEED): boolean[] {
-  let s = createInitialState(seed, profile);
+function rewardTrace(seed = SEED): boolean[] {
+  let s = createInitialState(seed);
   const rewarded: boolean[] = [];
   let guard = 0;
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
-    const intent = focusedOptimalIntent(s, profile);
+    const intent = focusedOptimalIntent(s);
     if (!intent) break;
     const koku = s.resources.koku ?? 0;
     const meter = s.rungMeter;
@@ -86,8 +79,8 @@ function rewardTrace(profile: BalanceProfile, seed = SEED): boolean[] {
   return rewarded;
 }
 
-export function computeProxies(profile: BalanceProfile = 'real', seed = SEED): ProxyVector {
-  const rewarded = rewardTrace(profile, seed);
+export function computeProxies(seed = SEED): ProxyVector {
+  const rewarded = rewardTrace(seed);
 
   const firstIdx = rewarded.indexOf(true);
   const firstActionMs = firstIdx < 0 ? Infinity : (firstIdx + 1) * AUTO_REPEAT_MS;
@@ -105,7 +98,7 @@ export function computeProxies(profile: BalanceProfile = 'real', seed = SEED): P
   );
 
   const minutesPerRung: Record<string, number> = {};
-  for (const r of walkPacing(profile, seed)) {
+  for (const r of walkPacing(seed)) {
     if (!r.terminal && r.intents > 0) minutesPerRung[r.rung] = Number(r.wallMin.toFixed(2));
   }
 
@@ -147,10 +140,10 @@ const RUN_AS_CLI = process.argv[1]?.includes('playcheck') ?? false;
 if (RUN_AS_CLI) {
   const check = process.argv.includes('--check');
   const bless = process.argv.includes('--bless');
-  const v = computeProxies('real');
+  const v = computeProxies();
   const curve = v.combatWinCurve.map((r) => r.toFixed(2)).join('/');
 
-  console.log('playcheck — fun-factor §3 vector (profile: real)');
+  console.log('playcheck — fun-factor §3 vector (single profile, D-056)');
   console.log(
     `  firstActionMs : ${sec(v.firstActionMs)}   (§3 hook; ${sec(FIRST_ACTION_CAP_MS)} cap + ${RATCHET_MULT}× ratchet)  [OWNED]`,
   );

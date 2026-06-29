@@ -19,7 +19,7 @@ import {
   type GameState,
   type Intent,
 } from './index';
-import { SKILL_XP_BASE } from './content/balance';
+import { SKILL_XP_BASE, rungThreshold, RUNG_POINTS_PER_ACT } from './content/balance';
 
 function run(s: GameState, intents: Intent[]): GameState {
   for (const i of intents) s = reduce(s, i);
@@ -34,6 +34,11 @@ function farm(n: number): Intent[] {
     () => ({ type: 'do_activity', activityId: 'farm_paddy' }) as Intent,
   );
 }
+// Acts to fill the CURRENT rung's meter — flat RUNG_POINTS_PER_ACT/act, satiety-INDEPENDENT
+// (ranks.ts). D-056 retired the tiny DEMO thresholds, so a promotion is driven by the rung's
+// real point count, not a hand-tuned literal; deriving it keeps these tests threshold-agnostic.
+const actsToPromote = (s: GameState): number =>
+  Math.ceil(rungThreshold(s.rung) / RUNG_POINTS_PER_ACT);
 
 describe('skill XP curve', () => {
   it('levels on the cumulative 1.3× table', () => {
@@ -48,7 +53,7 @@ describe('T0 Phase-1 rung climb', () => {
   it('raking the spilled stores earns the kept-hand rung (R0→R1) and opens the estate', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
     expect(s.rung).toBe('R0');
-    s = run(s, repeat('rake_rice', 7)); // 7 × 2 meter points = the R0 threshold (14)
+    s = run(s, repeat('rake_rice', actsToPromote(s))); // raking fills the R0 meter → R1
     expect(s.rung).toBe('R1');
     expect(hasFlag(s, 'rank-r1')).toBe(true);
     expect(isUnlocked(s, 'verb-farm')).toBe(true);
@@ -60,8 +65,8 @@ describe('T0 Phase-1 rung climb', () => {
 
   it('field work earns the trusted-hand rung (R1→R2): first nav, skills, the wider estate', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', 7)); // → R1
-    s = run(s, farm(15)); // 15 × 2 = R1 threshold (30); first farm sets 'farmed'
+    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
+    s = run(s, farm(actsToPromote(s))); // fills the R1 meter → R2; first farm sets 'farmed'
     expect(s.rung).toBe('R2');
     expect(isUnlocked(s, 'tab-skills')).toBe(true); // the FIRST nav reveal
     expect(isUnlocked(s, 'verb-woodcut')).toBe(true);
@@ -72,8 +77,9 @@ describe('T0 Phase-1 rung climb', () => {
 
   it('does not advance past R2 without the (M2a) combat gate', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', 7));
-    s = run(s, [...farm(40)]); // pile on meter
+    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
+    s = run(s, farm(actsToPromote(s))); // → R2
+    s = run(s, farm(actsToPromote(s) + 10)); // pile the R2 meter well past its threshold
     expect(s.rung).toBe('R2'); // R2→R3 storyGate needs 'first-fight-survived' (built at M2a)
   });
 });
@@ -206,12 +212,11 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
 describe('conditioning enablement gate (the danger ring)', () => {
   it('foraging is locked until conditioning reaches the gate level', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', 7));
-    s = run(s, farm(15)); // → R2 (forage revealed but conditioning still Lv1)
+    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
+    s = run(s, farm(actsToPromote(s))); // → R2 (forage revealed but conditioning still Lv1)
     expect(canDoActivity(s, getActivity('forage_satoyama'))).toBe(false);
-    // rest off the climb's fatigue, then haul builds conditioning to Lv2
-    // (at full satiety the XP isn't stamina-throttled)
-    s = run(s, repeat('rest', 5));
+    // top off the climb's fatigue so conditioning XP isn't stamina-throttled, then haul builds it to Lv2
+    s = { ...s, character: { ...s.character, satiety: 100 } };
     s = run(
       s,
       Array.from(
@@ -227,11 +232,12 @@ describe('conditioning enablement gate (the danger ring)', () => {
 describe('soft stamina + season', () => {
   it('a drained body yields less but never zero (soft throttle)', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', 7));
-    s = run(s, farm(15)); // R2
+    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
+    s = run(s, farm(actsToPromote(s))); // → R2
+    s = { ...s, character: { ...s.character, satiety: 100 } }; // a fed body for the fresh baseline
     const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
     const freshKoku = (fresh.resources.koku ?? 0) - (s.resources.koku ?? 0);
-    // drain satiety hard
+    // drain satiety hard (40 hauls × 4 satiety → the floor)
     let drained = s;
     for (let i = 0; i < 40; i++)
       drained = reduce(drained, { type: 'do_activity', activityId: 'haul_stores' });

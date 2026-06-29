@@ -14,13 +14,7 @@ import { createRng } from './rng';
 import type { LogState } from './log';
 import { emptyLog } from './log';
 import { SCHEMA_VERSION } from './constants';
-import {
-  HP_BASE,
-  COLD_OPEN_SATIETY,
-  DEFAULT_BALANCE_PROFILE,
-  type StanceId,
-  type BalanceProfile,
-} from './content/balance';
+import { HP_BASE, COLD_OPEN_SATIETY, type StanceId } from './content/balance';
 import type { RankId } from './content/ranks';
 import type { ActivityId } from './content/activities';
 import type { SkillId } from './content/skills';
@@ -108,9 +102,6 @@ export interface GameState {
   readonly estateStage: number;
   /** The tab-open auto-repeat labour target, or null (FU23). */
   readonly autoActivity: ActivityId | null;
-  /** Which balance profile this run was started under (pacing thresholds). Default 'demo'.
-   *  Set once at run creation and never mutated mid-run — deterministic, like the seed. */
-  readonly balanceProfile: BalanceProfile;
 
   // ── combat (M2+, additive) ──
   readonly equippedWeapon: WeaponId;
@@ -128,10 +119,7 @@ export interface GameState {
   readonly influence: Influence;
 }
 
-export function createInitialState(
-  seed: number,
-  profile: BalanceProfile = DEFAULT_BALANCE_PROFILE,
-): GameState {
+export function createInitialState(seed: number): GameState {
   return {
     schemaVersion: SCHEMA_VERSION,
     rng: createRng(seed),
@@ -164,7 +152,6 @@ export function createInitialState(
     weaponDurability: getWeapon('carrying_pole').durabilityMax,
     autoCombat: null,
     stance: 'chudan',
-    balanceProfile: profile,
     tier: 0,
     influence: { estate: { value: 0, highWater: 0, judged: 0 } },
   };

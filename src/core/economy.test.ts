@@ -95,13 +95,16 @@ describe('skill → yield multiplier (audit #4)', () => {
 
   it('rung pacing is independent of skill — acts-to-promote do not shrink as yield grows', () => {
     let atR1 = reduce(createInitialState(SEASON_SPRING_SAFE), { type: 'open_eyes' });
-    for (let i = 0; i < 7; i++) atR1 = reduce(atR1, { type: 'rake_rice' }); // R0 → R1
+    // D-056 single profile: derive the rake count from the real R0 threshold (flat pts/act).
+    const rakesToR1 = Math.ceil(balance.rungThreshold('R0') / balance.RUNG_POINTS_PER_ACT);
+    for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' }); // R0 → R1
     expect(atR1.rung).toBe('R1');
 
+    const CAP = 5000;
     const actsToR2 = (start: GameState): number => {
       let s = start;
       let n = 0;
-      while (s.rung === 'R1' && n < 100) {
+      while (s.rung === 'R1' && n < CAP) {
         s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
         n++;
       }
@@ -109,7 +112,8 @@ describe('skill → yield multiplier (audit #4)', () => {
     };
     const low = actsToR2(atR1);
     const high = actsToR2(addSkillXp(atR1, 'farming', 100_000));
-    expect(low).toBe(high); // RUNG_POINTS_PER_ACT is per-act, not per-koku
+    expect(low).toBeLessThan(CAP); // we actually reached R2, not the guard cap
+    expect(low).toBe(high); // RUNG_POINTS_PER_ACT is per-act, not per-koku — skill doesn't shrink it
   });
 });
 

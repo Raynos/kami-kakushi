@@ -329,6 +329,34 @@ and reviews the actual pixels).
     shows the stale T0 framing ("Reach Excellent to ascend 480/480") — that's the thin-T1-content edge (T1 isn't
     built), a depth/design call, NOT a visual fix to make unilaterally.
 
+## 17 · M2·8 — DEMO/REAL fork RETIRED (D-056) — the human steered this in mid-loop
+
+The human woke, asked if M2·8 was done, and clarified **"the DEV tools are permanent until the game is
+complete."** That + **D-056** (a LOCKED ADR: *"Real D-049 pacing ships as the default; a DEV-only speed toggle
+replaces the DEMO/REAL profile fork"*) removed the blocker I'd been deferring — retiring the fork is now
+*executing a signed decision*, not making a new one. So I did it (the human said "continue the loop").
+
+- **One shipped profile, re-derived to the LOCKED T0 targets.** `RUNG_METER_THRESHOLDS` collapsed from a
+  `{demo,real}` map to a single `Partial<Record<RankId,number>>`: **R0 1100 (≈5-min cold-open, D-022) · R1 2150
+  (≈10m) · R2 2600 (≈12m) · R3–R7 2800→3400** (a gentle ramp; the sim stops at the R3 combat gate). The pacing
+  sim **verified R0=4.88 / R1=10.0 / R2=12.1 min** — dead on target. Review velocity now comes from the **DEV
+  speed toggle** (kept), not a fast profile.
+- **T0 is ≥30-floor-EXEMPT** (the reshape: "quick but not easy"; the ≥30-min/rank floor gates from T1). The
+  pacing gate became a sane **T0 band [3,22] min** (`T0_PACING_BAND_MIN/MAX`) — RED-able, catches both
+  DEMO-trivial (0.06m) and runaway-grind regressions. `pacing.test.ts` rewritten to it.
+- **Fork plumbing removed across 14 files** — `BalanceProfile` type + `DEFAULT_BALANCE_PROFILE`, the
+  `balanceProfile` GameState field (validate now drops a legacy save's stray field), `createInitialState(seed,
+  profile)` → `(seed)`, the `?balance=`/`VITE_BALANCE_PROFILE`/localStorage boot resolver, the `__qa.setProfile`/
+  `profile` DEV methods, the `--profile` CLI + `pacing:demo` script, the gen-docs demo/real columns, the
+  verify-content drift guard. **DEV speed toggle + teleports KEPT** (the human's permanent review harness).
+- **Tests that hard-coded the tiny DEMO act-counts** (e.g. "7 rakes = R1") were the only breakage — fixed by
+  deriving the count from `rungThreshold` (the meter is flat-per-act, satiety-independent). m1/economy updated.
+- **playcheck re-blessed** (the display `minutesPerRung` + the stale `combatWinCurve` from the earlier combat
+  re-baseline now reflect reality; the gated hook/dead-time proxies were unchanged at 480ms). Docs regenerated.
+- **Verified:** `npm run verify` GREEN (9 gates, 226 tests) + a headless smoke (`tmp/smoke-devtools.mjs`): kept
+  DEV tools intact, `setProfile`/`profile` gone, `toRung('R1')` reaches R1 on the new threshold, **0 console errors.**
+- **Liquid (D-059):** these are provisional magnitudes — the human tunes the final feel by playtest.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just

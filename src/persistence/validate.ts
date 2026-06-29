@@ -5,7 +5,7 @@
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
 import type { GameState, StanceId } from '../core';
-import { APP_ID, SCHEMA_VERSION, balance } from '../core';
+import { APP_ID, SCHEMA_VERSION } from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
 
@@ -163,7 +163,6 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'rungMeter'
     | 'estateStage'
     | 'autoActivity'
-    | 'balanceProfile'
     | 'equippedWeapon'
     | 'weaponDurability'
     | 'autoCombat'
@@ -217,12 +216,8 @@ export function validateState(rawState: unknown): ValidateResult {
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
     tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,
     influence: validateInfluence(base.influence),
-    // Legacy DEMO saves stay on DEMO (reversible, no surprise re-tune); only NEW games
-    // pick up the boot profile (main.ts).
-    balanceProfile:
-      base.balanceProfile === 'real' || base.balanceProfile === 'demo'
-        ? base.balanceProfile
-        : balance.DEFAULT_BALANCE_PROFILE,
+    // (D-056: the DEMO/REAL balanceProfile field is RETIRED — a legacy save's stray
+    // `balanceProfile` is simply dropped here, as the state is rebuilt from _Handled keys only.)
   };
 
   return { ok: true, state, coerced, migrated: false };

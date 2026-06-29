@@ -1,10 +1,10 @@
 // Headless time-per-rung pacing report (audit G-PACING). Drives the focused-optimal
-// auto-play path per rung against a chosen balance profile using the REAL engine
-// (createInitialState + reduce — NOT a re-derived formula, so the "model" cannot drift
-// from the game), converts dispatched intents → modeled wall-minutes via the 480ms
-// active-loop cadence, prints a per-rung table, and flags any climb rung under the
-// signed ≥30-min wall floor. `--check` is the G-PACING CI gate (recommended at M3; NOT
-// wired into `npm run verify` in v0.2 to avoid making the H1 policy call).
+// auto-play path per rung on the single shipped profile (D-056 — the DEMO/REAL fork is
+// retired) using the REAL engine (createInitialState + reduce — NOT a re-derived formula,
+// so the "model" cannot drift from the game), converts dispatched intents → modeled
+// wall-minutes via the 480ms active-loop cadence, prints a per-rung table, and flags any
+// T0 climb rung OUT of the sane T0 band (T0 is ≥30-min-floor-EXEMPT; the floor gates from
+// T1). `--check` is the G-PACING gate (in `npm run verify` via the pacing:check script).
 //
 // Model: the active-only loop dispatches exactly ONE intent per AUTO_REPEAT_MS while
 // focused, so modeled wall-time per rung = (intents to clear that rung) × AUTO_REPEAT_MS.
@@ -25,12 +25,17 @@ import {
   RANKS,
   balance,
   type GameState,
-  type BalanceProfile,
   type ActivityId,
   type Intent,
 } from '../core';
 
-const { AUTO_REPEAT_MS, RUNG_WALL_FLOOR_MIN, rungThreshold } = balance;
+const {
+  AUTO_REPEAT_MS,
+  RUNG_WALL_FLOOR_MIN,
+  T0_PACING_BAND_MIN,
+  T0_PACING_BAND_MAX,
+  rungThreshold,
+} = balance;
 const SEED = 20260626;
 
 export interface RungPacing {
@@ -45,7 +50,8 @@ export interface RungPacing {
   wallMin: number;
   inGameDays: number;
   terminal: boolean;
-  underFloor: boolean;
+  /** T0 (D-056): true when a climb rung falls OUTSIDE the sane T0 band (too fast/too slow). */
+  outOfBand: boolean;
 }
 
 interface RungTrack {
@@ -72,16 +78,12 @@ function cheapestEligible(s: GameState): ActivityId | null {
  * it, so the two can never silently desync. Order: open_eyes > rest-if-starving > rake_rice >
  * face_wolf@R2 > cheapest-eligible labour.
  */
-export function focusedOptimalIntent(s: GameState, profile: BalanceProfile): Intent | null {
+export function focusedOptimalIntent(s: GameState): Intent | null {
   const acts = availableActions(s);
   if (acts.includes('open_eyes')) return { type: 'open_eyes' };
   if (s.character.satiety < satietyMax(s) * 0.25 && acts.includes('rest')) return { type: 'rest' };
   if (acts.includes('rake_rice')) return { type: 'rake_rice' };
-  if (
-    s.rung === 'R2' &&
-    !s.flags['first-fight-survived'] &&
-    s.rungMeter >= rungThreshold('R2', profile)
-  ) {
+  if (s.rung === 'R2' && !s.flags['first-fight-survived'] && s.rungMeter >= rungThreshold('R2')) {
     return { type: 'face_wolf' };
   }
   const c = cheapestEligible(s);
@@ -89,8 +91,8 @@ export function focusedOptimalIntent(s: GameState, profile: BalanceProfile): Int
   return null;
 }
 
-export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
-  let s = createInitialState(seed, profile);
+export function walkPacing(seed = SEED): RungPacing[] {
+  let s = createInitialState(seed);
   const t: Record<string, RungTrack> = {};
   const abs = (): number => s.clock.day * 24 + s.clock.tick;
   const touch = (r: string): RungTrack =>
@@ -98,7 +100,7 @@ export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
   let guard = 0;
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
     const cur = touch(s.rung);
-    const intent = focusedOptimalIntent(s, profile);
+    const intent = focusedOptimalIntent(s);
     if (!intent) break;
     s = reduce(s, intent);
     if (intent.type === 'open_eyes' || intent.type === 'face_wolf') cur.meta++;
@@ -116,7 +118,7 @@ export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
   const rows: RungPacing[] = [];
   for (const rank of RANKS) {
     const c = t[rank.id];
-    const threshold = rungThreshold(rank.id, profile);
+    const threshold = rungThreshold(rank.id);
     const terminal = rank.id === 'R3' && rank.storyGate({}) === false;
     if (!c) {
       rows.push({
@@ -131,7 +133,7 @@ export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
         wallMin: 0,
         inGameDays: 0,
         terminal,
-        underFloor: false,
+        outOfBand: false,
       });
       continue;
     }
@@ -149,40 +151,36 @@ export function walkPacing(profile: BalanceProfile, seed = SEED): RungPacing[] {
       wallMin,
       inGameDays: (c.endTick - c.startTick) / 24,
       terminal,
-      underFloor: !terminal && wallMin < RUNG_WALL_FLOOR_MIN,
+      outOfBand: !terminal && (wallMin < T0_PACING_BAND_MIN || wallMin > T0_PACING_BAND_MAX),
     });
   }
   return rows;
 }
 
-// ── CLI: --profile=demo|real (default real), --check (exit 1 if any climb rung under
-//    floor on REAL). Guarded so importing this module from a test does NOT run the CLI. ──
+// ── CLI: (no flag) print the table · --check (exit 1 if any T0 climb rung is OUT OF BAND).
+//    D-056: ONE profile now — T0 is ≥30-floor-EXEMPT, gated instead on the sane T0 band
+//    [${T0_PACING_BAND_MIN}, ${T0_PACING_BAND_MAX}] min. Guarded so importing this from a test
+//    does NOT run the CLI. ──
 const RUN_AS_CLI = process.argv[1]?.includes('pacing-report') ?? false;
 if (RUN_AS_CLI) {
-  const profileArg = process.argv.find((a) => a.startsWith('--profile='))?.split('=')[1];
-  const profile: BalanceProfile =
-    profileArg === 'demo' || profileArg === 'real' ? profileArg : 'real';
   const check = process.argv.includes('--check');
-  const rows = walkPacing(profile);
+  const rows = walkPacing();
   console.log(
-    `Pacing report — profile: ${profile}  (floor ≥ ${RUNG_WALL_FLOOR_MIN.toFixed(1)} min/climb-rung)`,
+    `Pacing report — single profile (D-056)  (T0 band ${T0_PACING_BAND_MIN}–${T0_PACING_BAND_MAX} min/climb-rung; ≥${RUNG_WALL_FLOOR_MIN}-floor gates from T1)`,
   );
   console.log(
-    'rung  title          thr     act            acts   rests  intents  wall(min)  ~days  floor',
+    'rung  title          thr     act            acts   rests  intents  wall(min)  ~days  band',
   );
   for (const r of rows) {
-    const flag = r.terminal ? 'TERMINAL' : r.intents === 0 ? '-' : r.underFloor ? 'UNDER' : 'OK';
+    const flag = r.terminal ? 'TERMINAL' : r.intents === 0 ? '-' : r.outOfBand ? 'OUT' : 'OK';
     console.log(
       `${r.rung.padEnd(5)} ${r.title.padEnd(14)} ${String(r.threshold).padStart(6)} ${r.act.padEnd(13)} ${String(r.acts).padStart(6)} ${String(r.rests).padStart(6)} ${String(r.intents).padStart(8)} ${r.wallMin.toFixed(2).padStart(9)} ${r.inGameDays.toFixed(0).padStart(6)}  ${flag}`,
     );
   }
   const climb = rows.filter((r) => !r.terminal && r.intents > 0);
-  const fails = climb.filter((r) => r.underFloor);
+  const fails = climb.filter((r) => r.outOfBand);
   console.log(
-    `SUMMARY: ${climb.length} climb rungs, min ${Math.min(...climb.map((r) => r.wallMin)).toFixed(2)} / max ${Math.max(...climb.map((r) => r.wallMin)).toFixed(2)} min; floor ≥ ${RUNG_WALL_FLOOR_MIN}: ${fails.length ? 'FAIL (' + fails.map((r) => r.rung).join(',') + ')' : 'PASS'}`,
+    `SUMMARY: ${climb.length} climb rungs, min ${Math.min(...climb.map((r) => r.wallMin)).toFixed(2)} / max ${Math.max(...climb.map((r) => r.wallMin)).toFixed(2)} min; T0 band ${T0_PACING_BAND_MIN}–${T0_PACING_BAND_MAX}: ${fails.length ? 'FAIL (' + fails.map((r) => r.rung).join(',') + ')' : 'PASS'}`,
   );
-  if (check) {
-    if (profile === 'real' && fails.length) process.exit(1);
-    process.exit(0);
-  }
+  if (check) process.exit(fails.length ? 1 : 0);
 }

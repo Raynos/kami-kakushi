@@ -199,7 +199,7 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
     const parked: GameState = {
       ...base,
       character: { ...base.character, hp: 6 },
-      rungMeter: balance.rungThreshold('R0', base.balanceProfile) + 1,
+      rungMeter: balance.rungThreshold('R0') + 1,
       flags: { ...base.flags, awake: true, raked: true },
     };
     const promoted = promoteRungs(parked);

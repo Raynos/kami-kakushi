@@ -11,7 +11,7 @@ const committed = JSON.parse(
 ) as Baseline;
 
 describe('playcheck — the fun-vector gate has teeth', () => {
-  const v = computeProxies('real');
+  const v = computeProxies();
 
   it('the live build still passes the COMMITTED baseline (real drift check, not a tautology)', () => {
     expect(evaluate(v, committed)).toEqual([]);
