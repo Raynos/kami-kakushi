@@ -97,16 +97,16 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-10-roadmap-reaxe-detail.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-11-roadmap-promotion.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
      the `docs/plans/` docs (roadmap re-axe, op-model v2-lite reel-back, the `2026-06-29-path-to-v0.3` sequencing plan).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
   4. **Next, in order:** (a) **R1** — the human plays the M0–M2 demo for the fun/pacing/look call (still
-     open). (b) **Promote the re-axe proposal → `docs/living/roadmap.md`** — the proposal is now **REVISED**
-     (T0/T1/T2 detailed + a new **Ship** section; `8607d4f`, session-10), **awaiting the human's read +
-     approval to promote** (then retire the M0–M7 tracker + update queues). (c) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code ripple**
+     open). (b) ✅ **DONE (2026-06-29, session-11)** — the re-axe proposal was **PROMOTED to `docs/living/roadmap.md`**
+     (M0–M7 tracker retired; the 5 provisional forks finalized; T2 "Village" subtitle sharpened to "the valley
+     beyond your gate"; reading queue + path-to-v0.3 + this status updated). (c) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code ripple**
      in ONE batch: split `prd.md` into per-section files, apply the reshape (D-048…D-055) + the 06-29
      decisions (now ADRs **D-056–D-069**) to the PRD body, ripple docs + code. (d) **Then the build:**
      **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b foundation), **spine-first** —

@@ -17,7 +17,7 @@
     │                          (read this for the whole-picture; mostly agent execution + optional steer)
     │
     ├─ B → pending-prd-changes ............ ②a  the per-file edit CHECKLIST (the "what-edit-where")
-    ├─ C → roadmap-reaxe-proposal ......... ②a  → becomes docs/living/roadmap.md
+    ├─ C → roadmap ........................ ✅ PROMOTED → docs/living/roadmap.md
     └─ D → operating-model-v2-FINAL ....... ②b  ⭐ the H10 artifact (the blocking decision)
                 └─ supersedes: operating-model-v2-{implementation,lite-reelback}  (✗ archived — don't read)
 
@@ -57,12 +57,10 @@
   - **Read for:** ⚠️ the **PRD body is STALE on the tier model** until this clears — read `prd.md` with this
     open. It's a tracker, not a decision doc; skim Tables A/B + the **→ ADR crosswalk** for the lay of the land.
 
-- [ ] **[`docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)** — *plan*
-  - **What:** the **nested roadmap re-axe** — **Tier → Milestones → Fun-slices** (not a flat S0–S4). T0
-    detailed (next-to-build), T1–T3 coarse; a "fun-slice" ships a *playable, fun* increment. The conductor's
-    **Workstream C** → becomes `docs/living/roadmap.md`.
-  - **Read for:** the proposed **v1 build cut** + the **spine-first within-T0 order**. (Its 6 original open
-    questions are now **resolved** — the 2026-06-29 decisions are folded in.)
+- [x] ✅ **PROMOTED 2026-06-29 → [`docs/living/roadmap.md`](../docs/living/roadmap.md)** — was the roadmap re-axe
+  proposal (Workstream C, **done**). All 5 provisional forks were **finalized**
+  ([ledger](human-feedback/2026-06-29-roadmap-forks-finalized.md)) and the proposal is retained as the
+  as-reviewed artifact. **No sign-off needed** — read `docs/living/roadmap.md` directly if you want the v1 cut.
 
 ### ②b · Process change — ⭐ Operating Model (H10)
 

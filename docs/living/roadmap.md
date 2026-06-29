@@ -1,23 +1,14 @@
-# Roadmap re-axe — nested **Section → Milestones → Fun-slices** (PROPOSAL)
+# Roadmap — **Section → Milestones → Fun-slices** (LIVING)
 
-> **PROPOSAL — for human review.** Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the
-> **2026-06-29 decision session** ([`../../project/human-feedback/2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)).
-> Incorporates the 2026-06-29 decisions (#1–#23). This is the **candidate to become the new
-> [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md)** and **supersedes the M-milestone roadmap once
-> approved** — but it stays **PROPOSAL until the human OKs**; nothing here is applied canon yet.
->
-> ⚠️ **PARTIALLY STALE → REVISED 2026-06-29.** The first draft was locked at `3f24fe6`; decisions/ADRs landed
-> **after** it (commit `64ad701`): **D-070** (Operating-Model-v2 deferred *as a bundle*; closes H7/H9/H10 — so
-> "pending H10 sign-off" is no longer accurate) and **D-071** (the lean <5s pre-commit gate, **built**). The
-> mandatory `diverge` gate was HELD by D-070 but then **reaffirmed by the human (2026-06-29) and its skill is
-> now built** (separate agent). This revision reconciles all of that and adds the work the first draft was
-> missing. **What changed this revision:** (1) **T1 + T2 detailed** to full Milestones→Fun-slices (human steer —
-> "as much detail as possible"; **T3 stays coarse**); (2) a new **Ship section** (restores the old M6 quality
-> gate + M7 release the re-axe had dropped); (3) the cross-cutting op-model bullet reconciled to the **op-model v2 FINAL** (full-verify pre-commit +
-> `playcheck` ratchet + `diverge` skill — all built by the concurrent op-model agent); (4) added the missing **D-053** (wall-time clock) and **D-054**
-> (milestone-integrity) spine contracts; (5) mentor = the **domain-split canon cast**; (6) fixed the
-> `tier`-stored citation (D-014 → **D-013a**); (7) a **2026-06-29 decision round** pulled the **Staff weapon line forward into T2** (T3 → combat depth), confirmed the **partial cross-pillar combo set at T2**, and freed **milestone count to be content-driven** (no fixed cut). Driven by the multi-lens review
-> [`../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md`](../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md).
+> **The living v1 milestone tracker.** Canonical — **promoted 2026-06-29** from the re-axe proposal
+> ([`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md), retained as
+> the as-reviewed artifact) — and it **supersedes the old M0–M7 milestone tracker**. Edited in place as
+> fun-slices land. Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the **2026-06-29 decision
+> session** (D-056…D-069; [ledger](../../project/human-feedback/2026-06-29-decision-session.md)) + the **5
+> finalized forks** ([ledger](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md)). Per **D-021**
+> the roadmap is **re-planned after each playtest**: **T0/T1/T2 are detailed; T3 stays coarse** (re-detailed on
+> approach), and **PRD §4 balance stays liquid** (D-059) — it re-tunes through the build. The 6-lens review that
+> shaped this is at [`…/2026-06-29-roadmap-reaxe-review.md`](../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md).
 >
 > **Why this shape (human steer, 2026-06-29):** flat slices aren't enough. Structure is **two-level, per
 > section**: each **section** (a v1 tier **T0→T3**, or the **Ship** release section) gets **N milestones**;
@@ -72,7 +63,8 @@
 | M2b | **T0-M2** | grounded bestiary, equipment + graded 4-band durability + repair (wood sink), a 2nd weapon @ combat-Lv2 *(currently a grant — reshape makes it found/crafted)*, foe forecasts + auto-fight |
 
 So the re-axe's **new work starts at the T0 tuning pass + R4→R7 + the spine** — the cold-open→labour→first-wolf
-arc already exists and carries forward.
+arc already exists and carries forward (M0–M2b shipped at `8bf6ac9` · `248bf93` · `fc36172`; the retired M0–M7
+tracker is preserved in git history).
 
 ---
 
@@ -178,7 +170,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 
 ---
 
-# Tier T2 — Village (Asagiri) — *DETAILED*
+# Tier T2 — Village (Asagiri) — *the valley beyond your gate* — *DETAILED*
 
 **Frame:** the Arms ascension has fired and the estate now **trusts you to carry its business past its own gate** into the valley — *the HOUSE rising.* T2 is the reputation **WEB** tier: Asagiri's chief, shops, artisans, inn & rumours board, shrine, and the *kamikakushi* legend open **AROUND** the spine — continuous multi-node standing meters tuned for frequent small dopamine, unlike the rung ladder. The spine is a **fresh ~8-rung house-service ladder in the valley, V0→V7** — the rung numbering **RESETS** (T0 was R0–R7, T1 R8–R15, T2 a *new* V-ladder, D-012); **the village web NEVER gates that climb** (HARD rule, §1.5.2/§1.5.4) — ignoring it is "poorer and lonelier," a **~10–15% accelerant at most**, never a wall. Provisional **~8–10h** (re-derives in the 6-tier rescale; per-rung ≈ ≥40 min — **the ≥30-min floor binds here too**, only T0 is floor-exempt). The **Tama-vs-farmhand** allegiance goes LIVE (Sayo names him "Tama" on sight). **Trade matures** into a real silk market; the **first HUMAN threat** (bandits / starving deserters, *nobushi*) drives road-security **and opens the 3rd weapon line (staff/polearm)**; the valley's "spirits" all turn out to be **people** — chief among them Foreman **Magobei** skimming rice with a doctored *masu* (the "**rigged box**" motif's first appearance). The **Office 官威** pillar names mid-tier, rival houses appear, and the capstone teases the Region (T3). Difficulty stays **humbling** within guardrails (D-061). **4 milestones**; rungs map **~3/2/2/1** (V0–V2 / V3–V4 / V5–V6 / V7) — see the milestone-cut note.
 
@@ -287,7 +279,7 @@ bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** rel
   before the commit**; a **CI manifest check** asserts every instrument a DoD names resolves to a real
   test/tool (bans "SHIPPED (slice)"). The per-milestone verify-green gate is the lighter, per-commit half;
   this is the full integrity rule. *(The `pending-prd-changes.md` tracker assigns this contract to the re-axe.)*
-- **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](2026-06-29-operating-model-v2-final.md),
+- **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](../plans/2026-06-29-operating-model-v2-final.md),
   built by a concurrently-active op-model agent) is the **source of truth**: that plan *defines* the gates,
   this roadmap *bakes them in*. All three are now **BUILT**: (1) the **pre-commit gate runs the full `verify`**
   (drift-bounded ~5s budget, never time-blocking; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1` escape hatches); (2) the
@@ -319,7 +311,7 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
 | **OQ-5** | Naming — IDs or human-readable? | **Keep BOTH** — `T0-M3-F1`-style IDs *and* human-readable slice names. | delegated → agent call |
 | **OQ-6** | T1 rung count? | **~8 rungs (≈R8→R15); ~16 estate rungs total.** | **D-052 + reshape** |
 
-## Open questions / forks for the human
+## Forks & open questions — ALL RESOLVED (2026-06-29)
 
 **Resolved this round (2026-06-29 decision session):**
 - **NQ-1 — Ceremony inside the thin spike → CONFIRMED (option A).** The full ceremonial polish (title card,
@@ -337,17 +329,19 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
 - **Milestone count → AGENT'S CONTENT-DRIVEN CALL, no fixed cut** (human: "as many milestones as you please").
   The current 4/4/4/3 (+ Ship's 2) reflects the content; expand or contract freely as on-approach detailing warrants.
 
-**Still flagged for your steer (recommended default applied; flag to override — none block the build):**
-1. **Per-tier hour floors** — T1 ~5–8h, T2 ~8–10h, per-rung ≈ ≥40 min. *Default: accept as provisional; the
-   §4.8 ~28.5h budget re-derives across all 4 v1 tiers together at Ship-M1-F2* (the numbers only set rung
-   thresholds, which playtest re-tunes).
-2. **E-stage → tier mapping + retinue** — *Default: E1→E2 lands in T1 (estate visibly grows once), E2→E3+ slips
-   to T2+, and the first paid retinue (Gohei & Yatarō) belongs to T1* (so T2's V5 is a deployment/expansion,
-   not a first).
-3. **T1 R8→R15 rung titles** (Kura Warden → … → Trusted Man of the House) + the two-track Estate-Service /
-   Combat-Rank sub-meter split. *Default: accept the proposed shape; titles are easily restyled later.*
-4. **Rival-house T2/T3 split** — *Default: rivals INTRODUCED + the contest BEGINS + the first contested deed at
-   T2; the climax (G5 Naoyuki ally-flip, G7 dethroning) at T3.*
-5. **Deed-band magnitudes (provisional, both tiers)** — T1 Arms 0.5K/0.72K/0.95K (cap 20 ip) + Estate
-   0.8K/1.1K/1.5K; T2 Office 2K/3.2K/4.5K (cap 80 ip), Estate good 8K / Arms good 5K. *Default: accept as
-   provisional (PRD §4 is liquid, D-059); re-confirm against D-049 on approach.*
+**Finalized 2026-06-29 — all forks CLOSED (the human confirmed every default; none block the build).** Ledger:
+[`2026-06-29-roadmap-forks-finalized.md`](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md).
+1. **Per-tier hour floors** (#1) → **ACCEPTED AS PROVISIONAL.** T1 ~5–8h · T2 ~8–10h · per-rung ≈ ≥40 min set
+   rung thresholds only; PRD §4 is liquid (D-059), playtest re-tunes, and the §4.8 ~28.5h budget **re-derives
+   across all 4 v1 tiers together at Ship-M1-F2**.
+2. **E-stage → tier mapping + retinue** (#2) → **DEFAULT.** E1→E2 lands in T1 (estate visibly grows once),
+   E2→E3+ slips to T2+, and the first paid retinue (Gohei & Yatarō) belongs to T1 — so T2's V5 is a
+   deployment/expansion, not a first.
+3. **T1 R8→R15 rung titles + the two-track meter** (#3) → **ACCEPTED (both).** Keep the proposed titles (Kura
+   Warden → … → Trusted Man of the House) and the two-track Estate-Service / Combat-Rank sub-meter split (the
+   Phase-1 AND-gate); titles are easily restyled later.
+4. **Rival-house T2/T3 split** (#4) → **DEFAULT.** Rivals INTRODUCED + the contest BEGINS + the first contested
+   deed at T2; the climax (G5 Naoyuki ally-flip, G7 dethroning) at T3.
+5. **Deed-band magnitudes** (#5) → **ACCEPTED AS PROVISIONAL.** T1 Arms 0.5K/0.72K/0.95K (cap 20 ip) + Estate
+   0.8K/1.1K/1.5K; T2 Office 2K/3.2K/4.5K (cap 80 ip), Estate good 8K / Arms good 5K (PRD §4 liquid, D-059;
+   re-confirm against D-049 on approach).

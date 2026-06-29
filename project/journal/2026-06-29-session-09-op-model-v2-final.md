@@ -245,3 +245,25 @@ Report: `project/audit/reports/2026-06-29-adr-staleness-audit.md`; raw snapshot 
 **Session 09 complete:** op-model v2 FINAL built A–F + reviewed/hardened + the PRD split + `created_date`
 backfill + this ADR staleness audit. The decision log is now internally consistent with the post-reshape,
 post-v2 reality.
+
+---
+
+## Build log — verify gates PARALLELIZED — DONE (human request)
+
+**What:** the human noticed the 5s budget was tight while `vitest` is only ~30% of it. Replaced the sequential
+`verify` `&&` chain with **`src/scripts/verify-run.ts`** — a worker-pool runner (default concurrency = CPU
+count; `VERIFY_CONCURRENCY` to override) that fans the **9 independent read-only gates** out, captures each
+one's output, and **joins at the end** (failures print their captured output; exit non-zero on any failure).
+
+**Result: ~1.7s wall (median 1.64s), down from ~4s — 3.36s of headroom under the 5s budget.** The 4 heavy gates
+(vitest/prettier/eslint/tsc, all ~1.5–1.65s) now overlap, so the total ≈ the slowest single gate.
+
+Folded the budget check into **`verify-run --budget`** (median-of-3 + per-gate critical path) and **deleted**
+the old `verify-budget.ts`. Kept the sequential chain as **`verify:seq`** for clean single-stream debug output.
+Updated D-072 (Refined: parallel) + the CLAUDE.md pre-commit line.
+
+**Verified:** `verify` OK 1.6s; planted a type error → reported **tsc + eslint** failures *with output* + exit 1
+(2/9 gates), reverted → green. The pre-commit drift timer now runs comfortably green (~2s).
+
+**Files:** `src/scripts/verify-run.ts` (new) · `src/scripts/verify-budget.ts` (deleted) · `package.json`
+(verify → verify-run; +verify:seq; verify:budget → --budget) · `CLAUDE.md` · `decisions.md` (D-072 refined).

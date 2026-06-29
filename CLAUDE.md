@@ -12,11 +12,12 @@ in [README.md](README.md); this file is just how we work.
   don't stall for confirmation.
 - **Many small commits, straight to the working branch.** Don't branch for routine work — committing
   as you go *is* the workflow. *(This overrides the generic "branch off main / commit only when
-  asked" default.)* Each commit runs the **full `npm run verify`** (~3s — tsc, lint, tests, content, pacing,
-  playcheck) and stages a `project/journal/` entry (enforced by `.githooks/pre-commit`; `SKIP_VERIFY=1` for a
-  docs-only commit, `SKIP_JOURNAL=1` for trivial commits). A soft 5s **drift timer** warns (never blocks) as the
-  gate slows; `npm run verify:budget` is the hard, on-demand budget check (D-072). Enable the hook once per
-  clone: `git config core.hooksPath .githooks`.
+  asked" default.)* Each commit runs the **full `npm run verify`** (~1.7s — its 9 gates [tsc, lint, tests,
+  content, pacing, playcheck, …] run in **parallel** via `src/scripts/verify-run.ts`) and stages a
+  `project/journal/` entry (enforced by `.githooks/pre-commit`; `SKIP_VERIFY=1` for a docs-only commit,
+  `SKIP_JOURNAL=1` for trivial commits). A soft 5s **drift timer** warns (never blocks) as the gate slows;
+  `npm run verify:budget` is the hard, on-demand budget check (D-072). Enable the hook once per clone:
+  `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out research, multi-file sweeps).
 - **Stop and ask only for** (1) design decisions that change what the game *is* — lock these with the
   human and record them as ADRs in [`docs/living/decisions.md`](docs/living/decisions.md); and

@@ -1,5 +1,10 @@
 # Roadmap re-axe — nested **Section → Milestones → Fun-slices** (PROPOSAL)
 
+> ✅ **PROMOTED 2026-06-29 → [`../living/roadmap.md`](../living/roadmap.md).** This proposal is now **canon** and
+> is retained here only as the **as-reviewed historical artifact — do not edit.** The 5 provisional forks below
+> were all **finalized** ([ledger](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md)); the
+> living roadmap carries the locked shape (incl. the T2 "Village — the valley beyond your gate" subtitle).
+
 > **PROPOSAL — for human review.** Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the
 > **2026-06-29 decision session** ([`../../project/human-feedback/2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)).
 > Incorporates the 2026-06-29 decisions (#1–#23). This is the **candidate to become the new

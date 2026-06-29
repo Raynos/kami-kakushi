@@ -22,8 +22,9 @@
     "pacing:check": "tsx src/scripts/pacing-report.ts --profile=real --check",
     "playcheck": "tsx src/playcheck.ts",
     "playcheck:check": "tsx src/playcheck.ts --check",
-    "verify": "tsc --noEmit && eslint . && prettier --check . && vitest run && tsx src/scripts/verify-content.ts && tsx src/scripts/verify-prd.ts && tsx src/scripts/gen-docs.ts --check && tsx src/scripts/pacing-report.ts --profile=real --check && tsx src/playcheck.ts --check",
-    "verify:budget": "tsx src/scripts/verify-budget.ts"
+    "verify": "tsx src/scripts/verify-run.ts",
+    "verify:seq": "tsc --noEmit && eslint . && prettier --check . && vitest run && tsx src/scripts/verify-content.ts && tsx src/scripts/verify-prd.ts && tsx src/scripts/gen-docs.ts --check && tsx src/scripts/pacing-report.ts --profile=real --check && tsx src/playcheck.ts --check",
+    "verify:budget": "tsx src/scripts/verify-run.ts --budget"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
