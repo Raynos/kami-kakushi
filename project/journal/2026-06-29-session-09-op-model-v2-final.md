@@ -65,3 +65,28 @@ concurrent diverge-design workflow); vitest is the fattest gate (32%). X-3 honor
 
 **Next:** Workstream D (playcheck — build-now per X-1) → C (diverge skill, from the design-panel workflow).
 E/F held per X-4.
+
+---
+
+## Build log — Workstream D (playcheck) — LANDED
+
+**What:** `src/playcheck.ts` — the fun-factor §3 vector asserted headlessly over the REAL engine, RATCHET mode.
+Deliberately **non-redundant**: `minutesPerRung` stays owned by `pacing:check` and the combat win-curve by
+`m2.test` (both already in `verify`); playcheck **hard-gates the two §3 proxies nothing else measures** —
+`firstActionMs` (the <5s cold-open hook) and `maxDeadTimeMs` (no-dead-time) — and presents the whole vector as
+a dashboard. Reuses `walkPacing()` + `foeForecasts()` (the reel-back's "pure wiring").
+
+**Baseline (blessed):** firstActionMs 0.48s · maxDeadTimeMs 0.48s · monkey curve 0.32/0.67/0.88/0.99/1.00 ·
+R0/R1/R2 = 31.1/35.4/38.3 min. Gate: firstActionMs absolute 5s cap; maxDeadTimeMs ratchet = max(1.5×baseline,
+3s floor) so sub-3s noise never trips.
+
+**Teeth:** `src/playcheck.test.ts` proves the pure `evaluate()` passes the green build but goes RED on a slow
+hook (9s) or a dead-time regression (99s). The diverge design panel `diverge-skill-design` completed; raw
+snapshot at `project/brainstorms/raw/2026-06-29-diverge-skill-design.json`.
+
+**Files:** `src/playcheck.ts` (new) · `src/playcheck.test.ts` (new) · `playcheck.baseline.json` (new, blessed) ·
+`package.json` (playcheck + playcheck:check; verify += playcheck:check) · `.prettierignore` (+baseline).
+
+**Verified:** full `npm run verify` PASS (incl. playcheck:check + the teeth test; 103 tests).
+
+**Next:** Workstream C (author `.claude/skills/diverge/SKILL.md` from the design panel). E/F held per X-4.

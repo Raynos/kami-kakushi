@@ -1,0 +1,17 @@
+{
+  "seed": 20260626,
+  "firstActionMs": 480,
+  "maxDeadTimeMs": 480,
+  "combatWinCurve": [
+    0.32,
+    0.6725,
+    0.88,
+    0.9875,
+    0.9975
+  ],
+  "minutesPerRung": {
+    "R0": 31.1,
+    "R1": 35.43,
+    "R2": 38.25
+  }
+}
