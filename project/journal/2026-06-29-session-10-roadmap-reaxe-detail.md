@@ -52,3 +52,24 @@ file is HISTORY; the live snapshot is `project/status/project-status.md`.
   committed with `SKIP_VERIFY=1` (the sanctioned docs path); the journal gate still applies.
 - The proposal is **pre-canon**; `docs/living/roadmap.md` is still the old M0–M7 tracker until the human approves
   the promotion.
+
+---
+
+## Addendum (session-10 cont.) — T1/T2 content graduated to `docs/content/`
+
+Human steer: move game **content** into `docs/content/` ahead of the roadmap swap (separate content from roadmap
+structure). `docs/content/` is the **generated** home (`t0-content.md` ← `gen-docs.ts` from `src/core/content/*`;
+`gen:docs --check` validates *only* t0-content.md, so new files don't trip it). T1/T2 aren't built yet → their
+content is **hand-authored PROVISIONAL** (clearly headed; regenerates from code once built, per generate-don't-duplicate).
+
+- `docs/content/t1-content.md` — NEW (PROVISIONAL): T1 rung ladder R8→R15 (two-track Estate-Service/Combat-Rank),
+  Arms 武威 pillar + deed bands, the Sword line, the 3-lane flywheel, cast, locations, bestiary, quests, balance.
+- `docs/content/t2-content.md` — NEW (PROVISIONAL): T2 V0→V7 ladder, Office 官威 pillar, the **Staff line** (pulled
+  forward from T3), the rep web + silk *meibutsu* market, rivals, yokai-debunk quests, Magobei, balance.
+- `project/brainstorms/raw/2026-06-29-graduate-t1-t2-content.json` — verbatim workflow snapshot.
+
+Produced by a `graduate-t1-t2-content` workflow (2 parallel authors + a reconciler). Reconciler verified the
+weapon-line progression (Spear→Sword→Staff), the ~10× cross-tier deed-band scaling (derived the to-author
+per-deed caps: T2 Estate 320 ip / Arms 200 ip), rung continuity (R-ladder continues at T1; V-ladder resets at
+T2), and fixed the Naoyuki rivalry-timeline wording. Content now lives in `docs/content/`; the roadmap keeps the
+structure — cleanly separated for the upcoming roadmap swap.
