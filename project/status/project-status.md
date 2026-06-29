@@ -85,7 +85,7 @@ metadata:
   Tier→Milestones→Fun-slices), and the **op-model v2 FINAL** plan (the v2-lite reel-back + implementation drafts
   are archived under `project/archive/`).
 - **Phase update — OPERATING MODEL v2 FINAL BUILT (2026-06-29, session-09).** The human reopened op-model v2 as
-  **"v2 FINAL"** and it's now built end-to-end (plan: [`../../docs/plans/2026-06-29-operating-model-v2-final.md`](../../docs/plans/2026-06-29-operating-model-v2-final.md);
+  **"v2 FINAL"** and it's now built end-to-end (plan, now archived: [`../archive/2026-06-29-operating-model-v2-final.md`](../archive/2026-06-29-operating-model-v2-final.md);
   journal: `project/journal/2026-06-29-session-09-op-model-v2-final.md`): **(A/B)** pre-commit runs the full
   `verify` (9 gates, **parallelized** → ~1.7s) + a noisy-not-blocking 5s drift guard + `verify:budget` + a
   `pre-push` readout; **(D)** the scoped **`playcheck`** §3 fun-vector ratchet in `verify`; **(C)** the mandatory
@@ -94,6 +94,14 @@ metadata:
   pre-session D-070/D-071 "defer v2" call) + CLAUDE.md rules. Also: an **adversarial review** (15 findings fixed),
   **`created_date`** backfilled on all 73 ADRs, and an **ADR staleness audit** (15 superseded/stale entries
   annotated). All commits `verify`-green. *(Op-model v2 / H10 is no longer a gate — it's DONE.)*
+- **Phase update — PLAN STALENESS RECONCILED + COMPLETED PLANS ARCHIVED (2026-06-29, session-12).** Refreshed
+  [`../../docs/plans/2026-06-29-path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md): 3 of its 4 gated
+  blockers had cleared (op-model **D** built, roadmap **C** promoted, the PRD-**split** of **B** shipped) — it
+  now reads as just **B content-ripple → E build**. **Archived** the two complete plans → `project/archive/`
+  (op-model v2 FINAL, roadmap re-axe proposal) + fixed cross-refs in `decisions.md`/`roadmap.md`/t1-t2 content.
+  **`docs/plans/` now holds only `path-to-v0.3.md`.** Ticked the stale `PRD-SPLIT` checkbox in
+  `pending-prd-changes.md` (37 ripple items remain). **Simplified** `docs-to-read-for-human.md` to a terse live
+  queue (only path-to-v0.3 + pending-prd-changes still need sign-off). Commit `929ace6`, `verify`-green.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -111,9 +119,10 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-11-roadmap-promotion.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-12-plan-staleness-archive.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
-     the `docs/plans/` docs (roadmap re-axe, op-model v2-lite reel-back, the `2026-06-29-path-to-v0.3` sequencing plan).
+     the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (the only plan left in `docs/plans/`; the
+     roadmap re-axe + op-model v2 FINAL plans are now executed & **archived** under `project/archive/`).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
