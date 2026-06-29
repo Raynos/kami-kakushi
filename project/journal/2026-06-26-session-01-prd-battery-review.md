@@ -139,7 +139,7 @@ the master-sheet resolution log. ~16 changed a locked/scope decision (per D-022)
 
 ## 17 · All feedback consolidated into prd_human_feedback.md (Block L + precedence rule)
 Human: "record all my feedback in one cumulative doc; if anything contradicts, favour the most recent."
-Added **Block L** to feedback/history/prd_human_feedback.md — all 56 V2 Q&A decisions grouped by theme (🔁 marking the ~16
+Added **Block L** to feedback/prd_human_feedback.md — all 56 V2 Q&A decisions grouped by theme (🔁 marking the ~16
 that changed a prior lock/scope), plus PD-1 / D-022 — so that doc is now the single cumulative human-feedback
 record alongside A–K. Added a **precedence rule** to the header: newest wins; Block L supersedes A–K wherever
 they differ (per D-022). Per-decision detail stays in the master sheet.
@@ -169,7 +169,7 @@ auto-resolve (active-only holds). Recorded in brainstorms/2026-06-26-prd-v2-foll
 
 ## 20 · Wave-2 follow-ups folded into prd_human_feedback.md (Block M)
 Per the human (same rule as Block L): the 23 wave-2 follow-up resolutions added as **Block M** of
-feedback/history/prd_human_feedback.md — so that doc holds ALL cumulative feedback (A–M). Made the precedence rule
+feedback/prd_human_feedback.md — so that doc holds ALL cumulative feedback (A–M). Made the precedence rule
 block-agnostic (the latest block wins; M supersedes L/A–K on conflict).
 
 

@@ -15,7 +15,7 @@ Design docs — **living documents**, each the *current* truth for its concern, 
   `src/scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). Do not hand-edit.
 
 Human feedback lives **outside** `docs/`: the consolidated PRD-steering record is archived at
-[`../feedback/history/2026-06-26-prd-human-feedback.md`](../project/feedback/history/2026-06-26-prd-human-feedback.md); live feedback is in
+[`../feedback/2026-06-26-prd-human-feedback.md`](../project/feedback/2026-06-26-prd-human-feedback.md); live feedback is in
 [`../feedback/`](../project/feedback).
 
 **Docs-explosion status (D-020/D-021).** The build-and-play trigger is met (M0–M2b built, verify-green,

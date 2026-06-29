@@ -141,7 +141,7 @@ Raw audit + fix reports snapshotted in brainstorms/raw/. verify green (51 tests)
 ## 11 · Docs/feedback reorg (human-directed)
 
 Reorganized per the human: NEW top-level **feedback/** (live human-feedback inbox, one dated file per session;
-feedback/README.md) with **feedback/history/prd_human_feedback.md** (the finished PRD-feedback record, banner
+feedback/README.md) with **feedback/prd_human_feedback.md** (the finished PRD-feedback record, banner
 marks it ARCHIVED). Moved the living design docs into **docs/living/** (prd, ui-design, fun-factor,
 qa-playtesting, roadmap) and the **ADR ledger → docs/living/decisions.md** (it is live/append-only, so history/
 was the wrong bucket — dissolved docs/history/). All cross-references rewritten programmatically (tmp/relink.mjs,

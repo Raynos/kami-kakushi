@@ -11,7 +11,7 @@ the PRD** (tracked). Also did a housekeeping `project/audit/` reorg (reports/ + 
 ## What changed
 - `project/audit/` — reorganized into `reports/` (md battery audits + changelog) + `screens/<pass>/` (png);
   `qa-shots.mjs` repointed to `screens/latest/`; all live-doc refs updated. *(committed `4c37bf7`)*
-- `project/feedback/history/prd_human_feedback.md` → `…/2026-06-26-prd-human-feedback.md` (date-prefix). *(`c50cfb3`)*
+- `project/feedback/prd_human_feedback.md` → `…/2026-06-26-prd-human-feedback.md` (date-prefix). *(`c50cfb3`)*
 - `project/feedback/2026-06-28-tier-reshape.md` — **NEW**: verbatim human directive + all 13 resolved forks (the intent record).
 - `docs/living/decisions.md` — **NEW ADRs D-048…D-055** (batch header marks them ⏳ PRD-application-pending);
   they REFINE D-028 (gate), D-029 (floor→T1), D-033 (estate stages yield-bearing), pair with D-035 (satiety).

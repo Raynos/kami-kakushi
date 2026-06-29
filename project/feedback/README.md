@@ -6,8 +6,8 @@ inbox; the agent triages each item → fixes it (logging the commit) or routes a
 - **Live feedback** — one file per session, dated, e.g.
   [`2026-06-27-playtest.md`](2026-06-27-playtest.md) (the first manual playthrough). Each item gets an ID +
   a status (🔲 open · 🔧 in progress · ✅ fixed · 🅿️ parked · 💬 needs-discussion) + the fix commit.
-- **[`history/`](history)** — completed/closed feedback records, kept for the trail. Currently
-  [`history/2026-06-26-prd-human-feedback.md`](history/2026-06-26-prd-human-feedback.md) — the full PRD-building feedback log
+- **Closed records** — completed feedback stays alongside the live files, kept for the trail. E.g.
+  [`2026-06-26-prd-human-feedback.md`](2026-06-26-prd-human-feedback.md) — the full PRD-building feedback log
   (Blocks A–N), now applied to the PRD (V2.2) and closed.
 
 **Routing.** Bugs / UX / feel / visual / polish → logged here & fixed. Anything that changes *what the game

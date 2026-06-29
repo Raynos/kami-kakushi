@@ -309,7 +309,7 @@ stay sketch-only. Each tier mirrors the **§3.2.1 / §3.4.1 / §3.6.1** earned-t
 - Rest of the PRD's period vocabulary **verified authentic** (koku/mon, kyō-masu, goyōkin, fudasashi, sekisho,
   shinden, meibutsu, osso/gimin, yōnin, daikan/tedai, mitate-banzuke, etc.).
 
-### Post-PRD strategy (2026-06-25, human-signed — see `../feedback/history/prd_human_feedback.md` §K)
+### Post-PRD strategy (2026-06-25, human-signed — see `../feedback/prd_human_feedback.md` §K)
 - **Art = a strong CSS design-language** (woodblock/ink), **no asset pipeline** (text+emoji+CSS). Anti-slop:
   lock the design language first; **the AGENT itself screenshot-QAs every state** (Playwright + Chrome-DevTools
   MCP + the `capture-game-states` skill + its own multimodal vision), critiques against the bible, and iterates
