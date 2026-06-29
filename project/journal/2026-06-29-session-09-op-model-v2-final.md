@@ -167,3 +167,19 @@ the split + correctly skips when absent.
 wired into `verify` yet (kept atomic with E).
 
 **Files:** `src/scripts/split-prd.ts` (new) · `src/scripts/verify-prd.ts` (new).
+
+---
+
+## Build log — Workstream E (PRD split) — APPLIED (roadmap lane cleared)
+
+**What:** ran `split-prd.ts --apply` → `docs/living/prd.md` (7,651 lines) split into **7 ASCII section files**
+under `docs/living/prd/` (`01-vision` … `07-roadmap-scope`) + `prd.md` rewritten as a **66-line stub index**
+(preamble + links). Round-trip asserted byte-exact (758,580 chars). Wired `verify-prd` into `verify` (the
+completeness gate, now live). Confirmed **nothing parses `prd.md` content** (gen-docs/verify-content don't read
+it) → the split is non-breaking; the 72 inbound `prd.md` refs resolve to the stub index. Updated the `names.ts`
+§1.8 comment ref to the section file.
+
+**Verified:** `verify` PASS (104 tests + verify-prd OK); `verify:budget` median **3.87s / 1.13s headroom** (9 gates).
+
+**Files:** `docs/living/prd.md` (→ stub index) · `docs/living/prd/{01..07}-*.md` + `README.md` (new) ·
+`package.json` (verify += verify-prd) · `src/core/content/names.ts` (comment ref).

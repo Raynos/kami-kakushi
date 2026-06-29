@@ -4,7 +4,7 @@
 // Edogawa-echo physician (Ranpo) per the Q39/D-Q-name-collision discipline.
 
 export const NAMES = {
-  // ── Estate (Kurosawa house) — names match docs/prd.md §1.8 V2.2 ──
+  // ── Estate (Kurosawa house) — names match docs/living/prd/01-vision.md §1.8 V2.2 ──
   house: 'Kurosawa',
   lord: 'Shigemasa', // the aging lord (renamed off the Yagyū "Munenori" echo — Q39/Block N)
   heir: 'Naoyuki', // his heir (kept)
