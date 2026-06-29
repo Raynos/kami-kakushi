@@ -140,8 +140,23 @@ New `ascension.ts` — the manual opt-in tier ascension (D-049/D-062/D-013a):
 grind Estate deeds to EXCELLENT → `ascend` → **tier 1**, boon granted, can't re-ascend. The macro loop
 demonstrably CLOSES on thin content (decision #18 spine-first, proven before M4 breadth). `verify` green.
 
+## 8 · Movement 2 · M2·6 — live-Estate UI + ascension ceremony (DIVERGE) — DONE
+
+Mutated `renderHouseInfluence` from the static locked teaser into the **live macro surface**: phase-gated —
+pre-capstone shows unnamed silhouettes ("earn the house's trust"); in **Phase 2** the active **Estate 家産**
+pillar with a grade bar (ticks at Good/Great/Excellent, indigo→gold), the season high-water readout, **3 unnamed
+silhouettes** (D-055), and the **vermilion Ascend CTA** when Estate ≥ EXCELLENT. Added the **ascension ceremony**
+(`showAscension`, fired on tier change — a bigger/gold rank-up seal, D-062). Retired the old 4-named-pillar
+`PILLARS` const.
+
+**Diverge (D-073):** explored 2 distinct approaches headless (`tmp/shot-influence.mjs` → `forceState`) — **A
+continuous ink grade-bar (WINNER)** vs B segmented boxes (clunkier + a fill bug). Picked A flag-free; contact
+sheet + `DECISION.md` in `project/audit/screens/diverge-influence/`; **R2** filed (non-blocking override).
+*Branch-preservation → folder-preservation* because the tree is shared with another live agent (a `git switch`
+would clobber their WIP — CLAUDE.md shared-tree rule). `verify` green; no console errors.
+
 ## Next intended steps (current)
-1. **Movement 2 core spine is DONE** (M2·1–M2·5; the loop closes). **NEXT** the surfaces around it:
+1. **Movement 2 spine + its UI are DONE** (M2·1–M2·6). **NEXT** the surfaces around it:
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.

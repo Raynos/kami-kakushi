@@ -28,6 +28,9 @@ import {
   rungProgress,
   nextRankId,
   getRank,
+  phaseOf,
+  estateGrade,
+  ascensionAvailable,
   SKILLS,
   skillVisible,
   skillProgress,
@@ -38,6 +41,7 @@ import {
   STANCE_ORDER,
   AREAS,
   ESTATE_STAGES,
+  NAMES,
   balance,
 } from '../core';
 
@@ -69,13 +73,8 @@ const COLD_OPEN_ROMAN = 'Kamikakushi';
 const COLD_OPEN_LEDE =
   'Dark. Straw against your cheek, the smell of wet rice, a low roof you do not know. Your name, your past — gone, as if the night swallowed them whole.';
 
-// the four house-influence pillars (locked teaser — opens next chapter).
-const PILLARS: { label: string; kanji: string; token: string; when: string }[] = [
-  { label: 'Arms', kanji: '武威', token: 'arms', when: 'next chapter' },
-  { label: 'Estate & Wealth', kanji: '家産', token: 'estate', when: 'next chapter' },
-  { label: 'Standing & Office', kanji: '官威', token: 'office', when: 'later' },
-  { label: 'Name & Honour', kanji: '家格', token: 'name', when: 'later' },
-];
+// (the four-pillar names live in core/content now; the T0 UI shows ONLY the active Estate
+// pillar live + the rest as unnamed silhouettes, D-055 — see renderHouseInfluence.)
 
 const ESTATE_STAGE_NAMES = [
   "E0 · Foreclosure's edge",
@@ -510,13 +509,30 @@ export function mount(
     estatePane.append(card);
   }
 
+  function silhouetteRow(): HTMLElement {
+    // a pillar still to come — D-055: shown UNNAMED (a greyed silhouette), never spoiled.
+    const row = el('div', 'influence-row silhouette');
+    const name = el('span', 'influence-name');
+    const dot = el('span', 'pillar-dot locked', '◆');
+    dot.setAttribute('aria-hidden', 'true');
+    name.append(dot, document.createTextNode(' ————'));
+    row.append(name);
+    row.append(el('span', 'influence-when lock-hint', '\u{1F512}'));
+    return row;
+  }
+
   function renderHouseInfluence(state: GameState): void {
     influence.textContent = '';
     const show = activeTab === 'work' && isUnlocked(state, 'panel-house-influence');
     influence.hidden = !show;
     if (!show) return;
-    const card = el('div', 'influence-panel locked frame');
-    card.setAttribute('aria-label', 'House Influence — locked, opens next chapter');
+
+    const live = phaseOf(state) === 2; // the macro engine opens at the R7 capstone (D-055)
+    const card = el('div', `influence-panel frame${live ? ' live' : ' locked'}`);
+    card.setAttribute(
+      'aria-label',
+      live ? 'House Influence' : 'House Influence — opens once you are trusted of the house',
+    );
     const head = el('div', 'rung-now');
     head.append(document.createTextNode('House Influence '));
     const k = el('span', 'house-influence-kanji');
@@ -524,24 +540,83 @@ export function mount(
     k.textContent = '家威';
     head.append(k);
     card.append(head);
-    card.append(
-      el('div', 'skill-blurb', 'How a house is truly weighed. The grind that opens past the gate.'),
-    );
-    for (const p of PILLARS) {
-      const row = el('div', 'influence-row');
-      const name = el('span', 'influence-name');
-      const dot = el('span', `pillar-dot ${p.token}`, '◆');
-      dot.setAttribute('aria-hidden', 'true');
-      name.append(dot, document.createTextNode(` ${p.label} `));
-      const kj = el('span');
-      kj.lang = 'ja';
-      kj.textContent = p.kanji;
-      name.append(kj);
-      row.append(name);
-      row.append(el('span', 'influence-when lock-hint', `🔒 ${p.when}`));
-      card.append(row);
+
+    if (!live) {
+      // pre-capstone teaser: the measure of the house, still out of reach (unnamed silhouettes).
+      card.append(
+        el(
+          'div',
+          'skill-blurb',
+          'How a house is truly weighed. Earn the trust of the house, and its measure opens to you.',
+        ),
+      );
+      for (let i = 0; i < 4; i++) card.append(silhouetteRow());
+      card.append(
+        el('div', 'influence-foot lock-hint', 'Opens when you are Trusted of the house.'),
+      );
+      influence.append(card);
+      return;
     }
-    card.append(el('div', 'influence-foot lock-hint', 'Opens in the next chapter.'));
+
+    // ── Phase 2 — the live Estate (家産) pillar + its grade bar + the locked silhouettes ──
+    const est = state.influence.estate;
+    const grade = estateGrade(state);
+    const bands = balance.ESTATE_BANDS;
+    const gradeWord =
+      grade === 'EXCELLENT'
+        ? 'Excellent 秀'
+        : grade === 'GREAT'
+          ? 'Great 優'
+          : grade === 'GOOD'
+            ? 'Good 良'
+            : 'Unranked';
+
+    const activeRow = el('div', 'influence-row active');
+    const name = el('span', 'influence-name');
+    const dot = el('span', 'pillar-dot estate', '◆');
+    dot.setAttribute('aria-hidden', 'true');
+    name.append(dot, document.createTextNode(' Estate & Wealth '));
+    const kj = el('span');
+    kj.lang = 'ja';
+    kj.textContent = '家産';
+    name.append(kj);
+    activeRow.append(name);
+    activeRow.append(el('span', `influence-grade grade-${grade.toLowerCase()}`, gradeWord));
+    card.append(activeRow);
+
+    // the grade bar, with ticks at GOOD / GREAT / EXCELLENT (diverge winner — variant A)
+    const bar = el('div', 'influence-bar');
+    const fill = el('span', `influence-fill grade-${grade.toLowerCase()}`);
+    fill.style.width = `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`;
+    bar.append(fill);
+    for (const t of [bands.good, bands.great, bands.excellent]) {
+      const tick = el('span', 'influence-tick');
+      tick.style.left = `${Math.round((t / bands.excellent) * 100)}%`;
+      bar.append(tick);
+    }
+    card.append(bar);
+    card.append(
+      el('div', 'influence-when', `Standing ${est.value} · the season judges at ${est.highWater}`),
+    );
+
+    // the pillars yet to come — unnamed silhouettes (D-055)
+    for (let i = 0; i < 3; i++) card.append(silhouetteRow());
+
+    // the manual opt-in ascension (D-049/D-062) — only the OPTION, the player picks the moment
+    if (ascensionAvailable(state)) {
+      const btn = el('button', 'verb primary ascend-cta', 'Ascend — a man of the house');
+      btn.type = 'button';
+      btn.addEventListener('click', () => dispatch({ type: 'ascend' }));
+      card.append(btn);
+    } else {
+      card.append(
+        el(
+          'div',
+          'influence-foot lock-hint',
+          `Reach Excellent standing to ascend (${est.value}/${bands.excellent}).`,
+        ),
+      );
+    }
     influence.append(card);
   }
 
@@ -972,6 +1047,27 @@ export function mount(
     window.setTimeout(() => overlay.remove(), 1900);
   }
 
+  // the T0→T1 ascension ceremony (D-062 — the first ascension always lands BIG): a larger,
+  // longer-held title card than a rung promotion, the silhouettes stirring behind it.
+  function showAscension(state: GameState): void {
+    const overlay = el('div', 'rankup-seal ascension');
+    overlay.setAttribute('role', 'status');
+    const inner = el('div', 'seal-inner');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      inner.classList.add('animate');
+    inner.append(el('div', 'rankup-kicker', 'The house rises'));
+    const seal = el('div', 'hanko-css');
+    seal.lang = 'ja';
+    seal.textContent = '家産'; // the Estate pillar, ascended
+    inner.append(seal);
+    inner.append(el('div', 'rankup-title', `A man of the ${NAMES.house}`));
+    inner.append(el('div', 'rankup-kicker subtitle', 'The Estate pillar stands. The next stirs.'));
+    overlay.append(inner);
+    shell.append(overlay);
+    void state;
+    window.setTimeout(() => overlay.remove(), 3200);
+  }
+
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
     // pre-awake: show only the cold-open card; the shell (and its log) inks in on waking.
@@ -993,8 +1089,10 @@ export function mount(
     renderActions(state);
     renderSkills(state);
     renderCombat(state);
-    // the signature beat: a promotion presses the house seal (ui-design §6.2)
-    if (prev && prev.rung !== state.rung && !firstRender) showRankUp(state);
+    // the signature beats: a rung promotion presses the house seal (ui-design §6.2); a TIER
+    // ascension lands the bigger ceremony (D-062). Tier change wins (don't double-fire).
+    if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);
+    else if (prev && prev.rung !== state.rung && !firstRender) showRankUp(state);
     firstRender = false;
   }
 

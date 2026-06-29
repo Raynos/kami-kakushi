@@ -987,3 +987,96 @@ html {
   color: var(--ai);
   font-style: italic;
 }
+
+/* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
+   unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */
+.influence-panel.live {
+  opacity: 1;
+}
+.influence-row.active .influence-name {
+  font-family: var(--font-head);
+  color: var(--ink);
+}
+.influence-grade {
+  font-family: var(--font-head);
+  letter-spacing: 0.04em;
+}
+.grade-good {
+  color: var(--ochre);
+}
+.grade-great {
+  color: var(--ai);
+}
+.grade-excellent {
+  color: var(--gold);
+}
+.grade-none {
+  color: var(--ink-faint);
+}
+.influence-bar {
+  position: relative;
+  height: 12px;
+  margin: var(--space-1) 0 var(--space-1);
+  background: var(--washi-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.influence-fill {
+  display: block;
+  height: 100%;
+  background: var(--pillar-estate, var(--ochre));
+  transition: width 0.4s ease;
+}
+.influence-fill.grade-great {
+  background: var(--ai);
+}
+.influence-fill.grade-excellent {
+  background: var(--gold);
+}
+.influence-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink);
+  opacity: 0.45;
+}
+.influence-row.silhouette .influence-name {
+  color: var(--ink-faint);
+  letter-spacing: 0.18em;
+}
+.pillar-dot.locked {
+  color: var(--ink-faint);
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+.ascend-cta {
+  margin-top: var(--space-2);
+  width: 100%;
+  border-color: var(--shu);
+  color: var(--shu-deep);
+  font-family: var(--font-head);
+  letter-spacing: 0.03em;
+}
+.ascend-cta:hover,
+.ascend-cta:focus-visible {
+  background: var(--shu);
+  color: var(--washi);
+}
+
+/* the T0→T1 ascension ceremony — a bigger, longer-held seal than a rung promotion (D-062) */
+.rankup-seal.ascension .hanko-css {
+  width: 148px;
+  height: 148px;
+  font-size: 4rem;
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 8px 30px #26221e77;
+}
+.rankup-kicker.subtitle {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-style: italic;
+  color: var(--ink-soft);
+}
