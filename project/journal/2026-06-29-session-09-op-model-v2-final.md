@@ -143,3 +143,27 @@ op-model infra. **15 findings confirmed, 0 refuted** — all in conflict-free fi
 
 **Status:** the conflict-free lane (A/B/D/C) is built, reviewed, and hardened. **E + F remain held per X-4**
 (roadmap agent still live). Awaiting the human's go on the docs lane.
+
+---
+
+## Build log — Workstream E TOOLING (split-prd + verify-prd) — READY, not applied
+
+**What (conflict-free prep while E is held under X-4 — touches only `src/scripts/`, never `docs/`):** built the
+mechanical PRD-split tooling so E becomes one command when the roadmap agent clears the docs lane. **NOT run
+against `docs/living/`** — tested against a `tmp/` copy.
+- `src/scripts/split-prd.ts` — splits `docs/living/prd.md`'s `# §1…§7` into ASCII-named files under
+  `docs/living/prd/` + rewrites `prd.md` as a stub index (preamble + links). **Asserts a byte-exact round-trip**
+  (preamble + concat(sections) == original) before writing anything; dry-run by default, `--apply` to write.
+- `src/scripts/verify-prd.ts` — the completeness gate: 7 ASCII sections present, contiguous §1…§7, non-
+  truncated, linked from the index. **SAFE-WHEN-ABSENT** (exits 0 if not split yet) so it can wire into
+  `verify` now or at split time without breaking the build.
+
+**Tested (tmp copy, `docs/` untouched):** dry-run + apply → round-trip OK (758,580 chars); **independent**
+reconstruction (preamble + 7 files) **byte-IDENTICAL** to the original (zero content lost); `verify-prd` OK on
+the split + correctly skips when absent.
+
+**To apply E when the lane clears:** `tsx src/scripts/split-prd.ts --apply` → wire `verify-prd` into the
+`verify` script → repoint the ~10 live inbound `prd.md` refs (they resolve to the stub index regardless). NOT
+wired into `verify` yet (kept atomic with E).
+
+**Files:** `src/scripts/split-prd.ts` (new) · `src/scripts/verify-prd.ts` (new).
