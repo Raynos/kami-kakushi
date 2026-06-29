@@ -357,6 +357,19 @@ replaces the DEMO/REAL profile fork"*) removed the blocker I'd been deferring �
   DEV tools intact, `setProfile`/`profile` gone, `toRung('R1')` reaches R1 on the new threshold, **0 console errors.**
 - **Liquid (D-059):** these are provisional magnitudes — the human tunes the final feel by playtest.
 
+## 18 · OVERNIGHT — end-to-end T0-arc proof (the strongest "playtestable" guard)
+
+The arc was proven in FRAGMENTS (ladder via forced flags, combat survival, pillars, ascension — each
+isolated). Added **`src/core/t0-arc.test.ts`** — a single auto-pilot that drives the **real reducer** from the
+cold open all the way to the T0→T1 ascension with **NO forced flags**, so it proves the *seams* hold: real
+combat actually sets the flags the ladder gates on (`first-fight-survived` from the scripted wolf, `combat-blooded`
+from a real grind fight), real Phase-2 labour actually banks Estate deeds to **EXCELLENT**, and the **ascension
+fires to tier 1**. Policy mirrors the production auto-loop + reuses the shared `focusedOptimalIntent`. It runs the
+**whole arc in 32 ms** (pure reduces) and is deterministic. RED-able: any dead-end (a rung that won't promote,
+combat that won't blood, deeds that won't reach the gate, an ascension that won't fire) trips the guard. **231
+tests green.** This is the capstone of the overnight loop — the v0.3 spine demonstrably CLOSES under real play,
+not just teleports.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just
