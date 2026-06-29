@@ -138,7 +138,7 @@ metadata:
   4. **Next, in order:** (a) **R1** — the human plays the M0–M2 demo for the fun/pacing/look call (still
      open). (b) ✅ **DONE (2026-06-29, session-11)** — the re-axe proposal was **PROMOTED to `docs/living/roadmap.md`**
      (M0–M7 tracker retired; the 5 provisional forks finalized; T2 "Village" subtitle sharpened to "the valley
-     beyond your gate"; reading queue + path-to-v0.3 + this status updated). (c) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code ripple**
+     beyond your gate"; reading queue + path-to-v0.3 + this status updated). (c) ✅ **PRD-feedback gate CLEARED 2026-06-29 — ripple is GO (deferred from this session)** → next session, run the **batched PRD/doc/code ripple**
      in ONE batch: ~~split `prd.md`~~ (✅ split done 2026-06-29 → edit the `prd/0N-*.md` section files), apply
      the reshape (D-048…D-055) + the 06-29 decisions (now ADRs **D-056–D-069**) to the PRD body, ripple docs + code. (d) **Then the build:**
      **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b foundation), **spine-first** —

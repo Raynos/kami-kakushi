@@ -7,6 +7,11 @@ metadata:
 
 # Pending PRD/doc ripple — locked decisions not yet applied
 
+> ✅ **PRD-FEEDBACK GATE CLEARED — 2026-06-29. THE RIPPLE IS GO.** Human sign-off: *"mark the ripple as having no
+> more PRD feedback — we are ready to ripple."* The one-batch ripple (`DS#4`) is **UNBLOCKED** — but **NOT yet
+> executed** (deliberately deferred to a later session). **Run it as the next major step** via the mechanism in
+> "How to clear it" below; nothing further is waiting on the human to start it.
+
 > **What this is.** The **complete** live checklist of locked design decisions that are **canon** but **not
 > yet rippled** into `prd.md`, the other living docs, or the code. It now covers **two batches**:
 > 1. the **2026-06-28 two-tier-Estate reshape** — ADRs **D-048…D-055** (see table A); and
