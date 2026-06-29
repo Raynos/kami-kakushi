@@ -560,11 +560,15 @@ export function mount(
     // a pillar still to come — D-055: shown UNNAMED (a greyed silhouette), never spoiled.
     const row = el('div', 'influence-row silhouette');
     const name = el('span', 'influence-name');
+    // a11y: the ◆ ———— silhouette is pure visual teaser — hide it from the screen reader so it
+    // doesn't read "dash dash dash"; the 🔒 lock below still conveys "a pillar yet to come" (D-055).
+    name.setAttribute('aria-hidden', 'true');
     const dot = el('span', 'pillar-dot locked', '◆');
-    dot.setAttribute('aria-hidden', 'true');
     name.append(dot, document.createTextNode(' ————'));
     row.append(name);
-    row.append(el('span', 'influence-when lock-hint', '\u{1F512}'));
+    const lock = el('span', 'influence-when lock-hint', '\u{1F512}');
+    lock.setAttribute('aria-label', 'A pillar yet to come (locked)');
+    row.append(lock);
     return row;
   }
 
@@ -1193,6 +1197,12 @@ export function mount(
       row.append(left);
       const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
       btn.type = 'button';
+      // a11y: the visible label is just the price — give the button a full accessible name so a
+      // screen-reader hears WHAT it buys, not a bare "10 koku" (D-045 a11y-ink).
+      btn.setAttribute(
+        'aria-label',
+        `Buy ${item.label} (${grantStr}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
+      );
       btn.disabled = !canBuy(state.resources, item, bought);
       if (capped) btn.title = "You've taken all the pedlar carries this run.";
       btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));

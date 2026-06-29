@@ -424,6 +424,19 @@ never run backwards); (d) the **rung never demotes**. A regression anywhere on t
 here with the exact step number. **239 tests green.** This is the kind of "completeness critic" guard that catches
 what example-based tests miss.
 
+## 23 · OVERNIGHT — a11y audit of the new v0.3 surfaces (v0.2 earned Lighthouse a11y 100)
+
+The v0.3 breadth/spine surfaces (quest tab, market, map, influence panel, the ascension overlay) were new since
+the a11y-100 v0.2 — audited the render code for the common regressions. **Good overall:** the rank-up + ascension
+overlays both carry `role="status"` (announced to screen readers); kanji are `lang="ja"`; decorative dots are
+`aria-hidden`; the grade bar is paired with textual "Standing N"; the Ascend / map / craft buttons are real
+`<button>`s with clear text names. **Two real gaps fixed (aria-only, no visual change):**
+- **Market buy button** read just "10 koku" — a screen-reader user couldn't tell WHAT it buys (the item label
+  was a separate span). Added a full `aria-label` ("Buy {item} ({grant}) for {N} koku").
+- **Pillar silhouettes** read "◆ ———— 🔒" — the em-dashes are pure visual noise; `aria-hidden` the decorative
+  `◆ ————` and gave the 🔒 an `aria-label` "A pillar yet to come (locked)", so a SR user hears the non-spoiled
+  teaser (D-055) cleanly. verify GREEN.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just
