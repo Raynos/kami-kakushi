@@ -267,3 +267,21 @@ Updated D-072 (Refined: parallel) + the CLAUDE.md pre-commit line.
 
 **Files:** `src/scripts/verify-run.ts` (new) · `src/scripts/verify-budget.ts` (deleted) · `package.json`
 (verify → verify-run; +verify:seq; verify:budget → --budget) · `CLAUDE.md` · `decisions.md` (D-072 refined).
+
+---
+
+## Checkpoint — session-09 close
+
+**State:** working tree clean; v2 FINAL (A–F) + the parallel-`verify` perf win + the `created_date` backfill +
+the ADR staleness audit are all committed & `verify`-green. Refreshed the live snapshot
+(`project/status/project-status.md`: verify chain → parallel `verify-run`, ADR range → D-074, the PRD-split-done
+note + a session-09 phase bullet) and ticked op-model FINAL **BUILT** in the reading queue.
+
+**⚠️ Process note (mea culpa):** I used `git add -A` earlier and **swept some of the concurrent roadmap agent's
+uncommitted work** (`docs/living/roadmap.md`, `path-to-v0.3.md`, the forks-finalized ledger) into commits
+`9ea5b6b` + `0bc1b42`. The content is intact & correct — **not** rewriting shared `main` history (would collide
+with the live agent). **Fix going forward: stage files explicitly, never `git add -A` with a second agent live.**
+
+**Resume:** op-model v2 / H10 is **DONE** (no longer a gate). The next big thing remains the **batched
+PRD/doc/code reshape ripple** (gated on the human's extra PRD feedback) + **R1** (human plays the demo). The
+PRD is now split — edit `docs/living/prd/0N-*.md`, not the `prd.md` stub.

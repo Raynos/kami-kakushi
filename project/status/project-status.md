@@ -28,14 +28,17 @@ metadata:
   Polish: title bar + Settings/About modal (build stamp · license · itch content descriptors · export/
   import save · a11y toggles), favicon, a11y win-rate fix.
 - **Toolchain:** Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint boundary
-  live (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = tsc + eslint + prettier +
-  vitest + verify-content + `gen:docs --check`. `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
+  live (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = 9 gates (tsc, eslint, prettier,
+  vitest, verify-content, verify-prd, gen:docs --check, pacing:check, playcheck:check) run **in parallel** via
+  `src/scripts/verify-run.ts` (~1.7s; `npm run verify:budget` = the 5s-budget check). The pre-commit hook runs
+  full `verify` + a non-blocking drift timer (D-072). `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
   JS [gz ~15 KB] + ~14 KB CSS [gz ~4 KB] — itch-ready, relative-base); `npm run build:itch` (zip). Headless
   QA harness: `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/screens/latest/`.
 - **Key docs:** `docs/living/prd.md` (the V2.2 vision+spec) · `project/human-feedback/2026-06-26-prd-human-feedback.md` Block N (the
   authoritative decisions) · `docs/living/ui-design.md` (woodblock/ink bible — the renderer is built to it) ·
   `docs/living/fun-factor.md` · `docs/living/qa-playtesting.md` (the __qa harness + fun-proxies) ·
-  `docs/living/decisions.md` (ADRs D-001…D-045).
+  `docs/living/decisions.md` (ADRs D-001…D-074; each carries a `created_date`). **`prd.md` is now a stub index**
+  → the spec lives in per-section files `docs/living/prd/01-vision.md … 07-roadmap-scope.md` (split 2026-06-29).
 - **Code layout:** `src/core` (pure: rng, state, intents/reduce, step/tick, unlock/rewards/log, skills,
   ranks, combat, fight, selectors, format, `content/*` registries) · `src/persistence` (save layer) ·
   `src/ui` (render.ts + styles.css) · `src/app/main.ts` (composition root + `window.__qa`) ·
@@ -79,7 +82,18 @@ metadata:
   [`../human-feedback/2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md); the audit report
   is banner-marked triaged. **ADRs D-056+ + the PRD/doc/code ripple are PENDING** — one batch, gated on the
   human's extra PRD feedback. New plans in `docs/plans/`: the **roadmap re-axe** (nested
-  Tier→Milestones→Fun-slices), the **op-model v2-lite reel-back**, and the **implementation plan**.
+  Tier→Milestones→Fun-slices), and the **op-model v2 FINAL** plan (the v2-lite reel-back + implementation drafts
+  are archived under `project/archive/`).
+- **Phase update — OPERATING MODEL v2 FINAL BUILT (2026-06-29, session-09).** The human reopened op-model v2 as
+  **"v2 FINAL"** and it's now built end-to-end (plan: [`../../docs/plans/2026-06-29-operating-model-v2-final.md`](../../docs/plans/2026-06-29-operating-model-v2-final.md);
+  journal: `project/journal/2026-06-29-session-09-op-model-v2-final.md`): **(A/B)** pre-commit runs the full
+  `verify` (9 gates, **parallelized** → ~1.7s) + a noisy-not-blocking 5s drift guard + `verify:budget` + a
+  `pre-push` readout; **(D)** the scoped **`playcheck`** §3 fun-vector ratchet in `verify`; **(C)** the mandatory
+  **`diverge`** UI-variant skill (branch-preservation → zero `main` flag-debt); **(E)** the **PRD split**
+  (`prd.md` → 7 ASCII section files + stub index); **(F)** ADRs **D-072–D-074** (D-072 ⛔ **reverses** the
+  pre-session D-070/D-071 "defer v2" call) + CLAUDE.md rules. Also: an **adversarial review** (15 findings fixed),
+  **`created_date`** backfilled on all 73 ADRs, and an **ADR staleness audit** (15 superseded/stale entries
+  annotated). All commits `verify`-green. *(Op-model v2 / H10 is no longer a gate — it's DONE.)*
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -107,8 +121,8 @@ metadata:
      open). (b) ✅ **DONE (2026-06-29, session-11)** — the re-axe proposal was **PROMOTED to `docs/living/roadmap.md`**
      (M0–M7 tracker retired; the 5 provisional forks finalized; T2 "Village" subtitle sharpened to "the valley
      beyond your gate"; reading queue + path-to-v0.3 + this status updated). (c) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code ripple**
-     in ONE batch: split `prd.md` into per-section files, apply the reshape (D-048…D-055) + the 06-29
-     decisions (now ADRs **D-056–D-069**) to the PRD body, ripple docs + code. (d) **Then the build:**
+     in ONE batch: ~~split `prd.md`~~ (✅ split done 2026-06-29 → edit the `prd/0N-*.md` section files), apply
+     the reshape (D-048…D-055) + the 06-29 decisions (now ADRs **D-056–D-069**) to the PRD body, ripple docs + code. (d) **Then the build:**
      **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b foundation), **spine-first** —
      close the four-pillar loop (Estate pillar + the first T0→T1 ascension on thin content) **before**
      showcase breadth, per the roadmap re-axe + `path-to-v0.3`.

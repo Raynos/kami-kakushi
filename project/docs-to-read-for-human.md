@@ -64,7 +64,7 @@
 
 ### ②b · Process change — ⭐ Operating Model (H10)
 
-- [ ] **[`docs/plans/2026-06-29-operating-model-v2-final.md`](../docs/plans/2026-06-29-operating-model-v2-final.md)** — *plan*
+- [x] ✅ **BUILT (2026-06-29, session-09) — no longer a gate.** **[`docs/plans/2026-06-29-operating-model-v2-final.md`](../docs/plans/2026-06-29-operating-model-v2-final.md)** — *plan* (op-model v2 FINAL built A–F: parallel-`verify` pre-commit + drift guard, `playcheck`, `diverge`, PRD split, ADRs D-072–D-074. D-072 reverses the earlier D-070 "defer v2".)
   - **What:** the **decided, build-ready** operating model (the **H10 resolution**). Synthesizes the human's 8
     directives (2026-06-29) + **measured** gate timings into 6 workstreams: full-`verify` pre-commit, a 5s-budget
     drift guard, the mandatory `diverge` skill, a scoped `playcheck` ratchet, the PRD split, and the ADRs/CLAUDE.md
