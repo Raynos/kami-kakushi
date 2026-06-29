@@ -12,16 +12,35 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 - **Verdict:** {filled in by the human}
 -->
 
-### R1 🔲 — the M0–M2 demo: fun, pacing & look (the first human play/taste call)
+### R1 🔲 — the **v0.3 T0 M0–M4 demo**: fun, pacing & look (the human play/taste call)
 
-- **Asking for:** the higher-level **fun & visual-taste verdict** on the playable T0 slice — does the
-  cold open hook? does the reveal cadence (UI inking in) feel good? is the labour→wolf→combat arc paced
-  and fun? does it look like an intentional woodblock game (not AI-slop)? Anything that breaks the spell.
-- **How to look:** `npm run dev` → open the local URL and play (cold open → rake → labour to the rungs →
-  face the wolf → combat). Or skim the gallery in [`audit/screens/`](../audit/screens)
-  (`latest/qa-01…10-*.png`, `2026-06-27-log-cascade/log-cascade-*.png`,
-  `2026-06-27-settings/settings-*.png`). The agent has self-vetted it against `ui-design.md`; this is the
-  taste call the proxies + the agent's own review inform but can't replace.
+> **Updated 2026-06-29 (overnight) from the M0–M2 slice → the whole T0 (M0–M4).** v0.3 built the macro spine
+> (which now CLOSES) + the T0-M4 breadth. This is the taste call on the full T0 arc.
+
+- **Asking for:** the **fun & visual-taste verdict** on the full T0 experience — does the cold open hook (note:
+  it's now **longer** — Genemon greets + teaches in the log; is that the right amount, or trim?); is the
+  labour→wolf→combat→**spine→ascension**→breadth arc paced and fun; does the **BIG T0→T1 ascension** land as a
+  payoff; do the breadth beats (quest, craft, walkable map, market) add fun or chrome; does it all look like an
+  intentional woodblock game (not AI-slop)? Anything that breaks the spell.
+- **The arc to play:** cold open (Genemon onboarding) → rake → labour up the **R0→R7** ladder → the humbling
+  grain-store wolf → combat (HP **carries** + heals by **eating**; stances trade; **loot→craft** the woodlot axe);
+  → **Phase 2 opens at R7**: your estate deeds bank into the live **House-Influence 家威** pillar; the **season
+  judges** your high-water; reach **Excellent** → the **manual Ascend** → the T0→T1 ceremony. Plus the **Quests**
+  tab (drive off the crop-raiders), the tiny **market**, and the walkable **Estate 地図** map.
+- **How to look — `npm run dev`, then in the browser console use the DEV tools** (DEV-only, stripped from prod):
+  - `__qa.speed(8)` — run the auto-loop 8× to grind fast. `__qa.auto('farm_paddy')` / `__qa.autoCombat('monkey')`
+    set an auto-target.
+  - `__qa.jumpToPhase2()` — jump to the R7 capstone (the live macro spine, Phase 2 open).
+  - `__qa.jumpToAscension()` — jump to Estate **Excellent**, the **Ascend** button live (click it for the ceremony).
+  - `__qa.toRung('R3')` — fast-forward via real intents to a rung; `__qa.faceWolf()` the humbling fight.
+  - (Base pacing is provisional/liquid (D-059); the DEV speed + teleports give review velocity.)
+- **Galleries to skim:** `audit/screens/breadth/` (Genemon onboarding, craft panel, Quests tab),
+  `audit/screens/diverge-influence/` (the live spine + the **ascension ceremony** `play-2-ceremony.png`),
+  `audit/screens/diverge-map/` (the walkable map). The fidelity **battery** report
+  (`audit/reports/2026-06-29-v03-*`) + the roadmap-respect report are the agent's self-vetting; this is the taste
+  call they inform but can't replace.
+- **Known, flagged for your call:** the cold-open length; the DEMO/REAL pacing fork is **not yet retired**
+  (D-056 pending); diverge picks are **R2** (influence panel) + **R3** (breadth surfaces).
 - **Verdict:** _(awaiting the human)_
 
 ### R2 🔲 — diverge pick: the live House-Influence panel (M2·6, D-073)

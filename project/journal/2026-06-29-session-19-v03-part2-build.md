@@ -230,9 +230,23 @@ Wiring the authored leaf modules into the spine, each verify-green + tested:
   tests + 1 reducer integration. verify green. **All 5 breadth modules now wired** (dialogue/crafting/quests/
   market/map); the leaf scatter-gather is fully integrated.
 
+## 13 · OVERNIGHT — fidelity battery (running) + the playtest hand-off
+
+- **Fidelity BATTERY launched** (`wf_4010f653-0fb`, via the `battery` skill): 8 cold-read lenses — **prd-faithful,
+  human-feedback, adr-faithful** (the human's 3 explicit lenses) + fun · ui-polish · incremental · economy-arithmetic
+  (fresh-on-build) · laziness — → a convergence critic + scorecard. Auditing whether what's BUILT is FAITHFUL (the
+  roadmap-respect report already maps shipped-vs-deferred). Report will land in `project/audit/reports/`.
+- **R1 rewritten → the v0.3 T0 M0–M4 playtest review** (`human-in-the-loop/review.md`): the full arc (cold-open
+  Genemon onboarding → R0–R7 labour → humbling combat + HP-carry + loot-craft → the macro spine → the BIG T0→T1
+  ascension → quest/market/map breadth) + the **DEV-tools playbook** (`__qa.speed(8)`, `jumpToPhase2()`,
+  `jumpToAscension()`, `toRung()`) so the human can playtest fast. Flags: cold-open length, the pending fork.
+- **v0.3 gallery captured** (`project/audit/screens/v03-gallery/01..08`): cold-open+Genemon, the live Phase-2 spine,
+  ascension-ready + the ceremony, quests, combat+craft, the market, the walkable map. No console errors.
+
 ## Next intended steps (current)
-1. **NEXT** (overnight): stance/ability reveals (T0-M4-F5) → retire the DEMO/REAL fork (M2·8) + SFX shakuhachi →
-   PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint-push.
+1. **Battery completes → synthesize the report + act on self-resolvable findings; route the rest to ADRs/H-R items.**
+2. Then: project-status current → final journal → checkpoint-push. (Deferred-by-design + the M2·8 fork retirement
+   remain the documented post-playtest backlog.)
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.
