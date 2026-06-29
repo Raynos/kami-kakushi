@@ -19,6 +19,14 @@ export type {
 export { QUESTS, QUEST_IDS, getQuest, advanceQuest, isQuestComplete } from './content/quests';
 export type { QuestKind, QuestStep, QuestDef } from './content/quests';
 export { acceptQuest, applyQuestEvent } from './quest-engine';
+export {
+  MARKET_ITEMS,
+  MARKET_ITEM_IDS,
+  getItem,
+  canBuy,
+  MARKET_KOKU_SINK_NOTE,
+} from './content/market';
+export type { MarketItem, MarketItemId } from './content/market';
 export { createInitialState, hasFlag, setFlag, withResource, addSkillXp } from './state';
 
 export type { Intent, IntentType } from './intents';

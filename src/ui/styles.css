@@ -1043,6 +1043,22 @@ html {
 .quest-step.ok .quest-check {
   color: var(--rokusho);
 }
+/* T0-M4-F3: the tiny travelling market (capped koku sink) */
+.market-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  border-top: 1px dotted var(--ink-faint);
+}
+.market-item {
+  display: flex;
+  flex-direction: column;
+}
+.market-grant {
+  font-size: var(--fs-small);
+}
 
 /* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
    unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */

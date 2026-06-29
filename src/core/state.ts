@@ -95,6 +95,8 @@ export interface GameState {
   readonly deliveredDialogue: readonly string[];
   /** Quest acceptance + per-step progress + completion (T0-M4-F1 / D-037). */
   readonly quests: QuestState;
+  /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / D-008). */
+  readonly marketBought: Readonly<Record<string, number>>;
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
@@ -149,6 +151,7 @@ export function createInitialState(
     skillXp: {},
     deliveredDialogue: [],
     quests: { accepted: [], progress: {}, completed: [] },
+    marketBought: {},
     rung: 'R0',
     rungMeter: 0,
     estateStage: 0,

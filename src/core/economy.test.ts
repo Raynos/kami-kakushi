@@ -11,6 +11,7 @@ import {
   satietyMax,
   estateSatietyBonus,
   estateYieldNum,
+  getItem,
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
   balance,
@@ -228,5 +229,40 @@ describe('persistence — the explicit character rebuild keeps the v0.2 fields',
       expect(round.state.character.vigor).toBe(3);
       expect(round.state.estateStage).toBe(2);
     }
+  });
+});
+
+// T0-M4-F3 — the tiny travelling market: a small CAPPED koku sink (the TRADE taste), held
+// to a minority lane by the per-run stockCap (D-008).
+describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
+  function withMarket(): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      resources: { ...s.resources, koku: 1000 },
+      unlocked: [...s.unlocked, 'panel-estate'],
+    };
+  }
+
+  it('buys a good (koku → resource) and is hard-capped per run', () => {
+    const item = getItem('greens_sack'); // 10 koku → +3 sansai, stockCap 5
+    let s = withMarket();
+    const koku0 = s.resources.koku ?? 0;
+    s = reduce(s, { type: 'buy_item', itemId: 'greens_sack' });
+    expect(s.resources.koku ?? 0).toBe(koku0 - item.kokuCost);
+    expect(s.resources.sansai ?? 0).toBe(3);
+    expect(s.marketBought['greens_sack']).toBe(1);
+
+    for (let i = 1; i < item.stockCap; i++)
+      s = reduce(s, { type: 'buy_item', itemId: 'greens_sack' });
+    expect(s.marketBought['greens_sack']).toBe(item.stockCap);
+    // over the cap → no-op (the minority-lane clamp holds however much koku you hoard)
+    expect(reduce(s, { type: 'buy_item', itemId: 'greens_sack' })).toBe(s);
+  });
+
+  it('is gated on the estate economy (a no-op before panel-estate)', () => {
+    const base = createInitialState(1);
+    const s: GameState = { ...base, resources: { ...base.resources, koku: 1000 } };
+    expect(reduce(s, { type: 'buy_item', itemId: 'greens_sack' })).toBe(s);
   });
 });

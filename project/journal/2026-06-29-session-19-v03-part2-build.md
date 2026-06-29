@@ -217,9 +217,14 @@ Wiring the authored leaf modules into the spine, each verify-green + tested:
   +30 koku once (double-grant-guarded). New **top-level Quests 用 tab** (D-037, not nested) with per-step
   checkmarks. 7 module tests + 3 reducer integration. Screenshot `breadth/quests-tab.png`. verify green.
 
+- **T0-M4-F3 tiny market — DONE** (D-008). Integrated `market.ts` (4 modest goods, each a small per-run
+  `stockCap`). New `marketBought` state (additive). `buy_item` intent (koku→resource, capped — the minority-lane
+  clamp), gated on the estate economy (`panel-estate`). A small market panel in the Work tab (derived visibility,
+  no new latched surface → no diverge). 10 module tests + 2 reducer integration (buys + caps + gated). verify green.
+
 ## Next intended steps (current)
-1. **NEXT** (overnight): market · walkable map (diverge) · stance/ability reveals → retire the DEMO/REAL fork
-   (M2·8) → PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint-push.
+1. **NEXT** (overnight): walkable map (diverge) · stance/ability reveals → retire the DEMO/REAL fork (M2·8) →
+   PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint-push.
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.

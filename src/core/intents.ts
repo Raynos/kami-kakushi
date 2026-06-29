@@ -34,6 +34,7 @@ import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest, applyQuestEvent } from './quest-engine';
+import { getItem, canBuy } from './content/market';
 import {
   getActivity,
   activityLine,
@@ -61,6 +62,7 @@ export type Intent =
   | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' }
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
+  | { type: 'buy_item'; itemId: string }
   | { type: 'ascend' };
 
 export type IntentType = Intent['type'];
@@ -304,6 +306,26 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'accept_quest': {
       next = acceptQuest(next, intent.questId);
+      break;
+    }
+    case 'buy_item': {
+      // the tiny CAPPED market (TRADE taste, T0-M4-F3/D-008) — a commissioning, no clock cost.
+      // Opens with the estate economy (panel-estate). The per-run stockCap is the minority clamp.
+      if (!isUnlocked(next, 'panel-estate')) return state;
+      const item = getItem(intent.itemId);
+      const bought = next.marketBought[item.id] ?? 0;
+      if (!canBuy(next.resources, item, bought)) return state;
+      next = withResource(next, 'koku', -item.kokuCost);
+      for (const [res, amt] of Object.entries(item.grants)) next = withResource(next, res, amt);
+      next = { ...next, marketBought: { ...next.marketBought, [item.id]: bought + 1 } };
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            text: `You barter ${item.kokuCost} koku for a ${item.label.toLowerCase()}.`,
+          },
+        ],
+      });
       break;
     }
     case 'ascend': {

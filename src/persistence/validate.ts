@@ -157,6 +157,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'skillXp'
     | 'deliveredDialogue'
     | 'quests'
+    | 'marketBought'
     | 'rung'
     | 'rungMeter'
     | 'estateStage'
@@ -200,6 +201,9 @@ export function validateState(rawState: unknown): ValidateResult {
     quests: isObject(base.quests)
       ? (base.quests as GameState['quests'])
       : { accepted: [], progress: {}, completed: [] },
+    marketBought: isObject(base.marketBought)
+      ? (base.marketBought as GameState['marketBought'])
+      : {},
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
