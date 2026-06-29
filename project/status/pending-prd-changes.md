@@ -39,8 +39,10 @@ metadata:
 
 ## ⓪ DO FIRST — split the PRD (`DS#6` / H8)
 
-- [ ] **PRD-SPLIT** — split the ~7k-line `docs/living/prd.md` into **per-section files `prd/§1…§7.md`** + a
-  tiny **completeness check** (every section present, nothing truncated). **Mechanical, zero content change**;
+- [ ] **PRD-SPLIT** — split the ~7k-line `docs/living/prd.md` into **per-section files with ASCII names**
+  (`prd/01-vision.md … 07-roadmap-scope.md` — human's 2026-06-29 steer: no `§`/unicode in filenames; full map
+  in the [op-model v2 FINAL plan §2.E](../../docs/plans/2026-06-29-operating-model-v2-final.md)) + a tiny
+  **completeness check** (every section present, nothing truncated). **Mechanical, zero content change**;
   removes the truncation failure class. Do this **before** any content ripple below so each edit lands in a
   small file. *(DS#6, H8)*
 
@@ -68,7 +70,7 @@ metadata:
 | **DS#3** | **Win-rate = analytic-for-gate / sampled-for-display split**; displayed == tested == same-for-every-player. | **amends signed D-043** |
 | **DS#4** | Process: human drives; reel back H10; **PRD ripples in ONE batch** after feedback. | — |
 | **DS#5** | **KEEP the signed 20–35% single-fight win-rate** as the first-fight criterion; HP-carry affects the grind, not the discrete first fight; tune a real foe into band + a RED-able test. | upholds signed band; pairs D-050 |
-| **DS#6** | **Split `prd.md` → `prd/§1…§7.md`** + a completeness check, as part of the batch. | H8 |
+| **DS#6** | **Split `prd.md` → ASCII-named `prd/01-vision.md…07-roadmap-scope.md`** + a completeness check, as part of the batch. | H8 |
 | **DS#7** | **Do NOT freeze §1 now** — PRD stays liquid through T0/T1/T2; freeze maybe at T3 or **never until v1 done**, then convert the whole PRD to living docs. | refines **D-020/D-021/D-046** |
 | **DS#8** | **R1 quick-play now** for early direction signal (in flight — not a ripple item). | — |
 | **DS#9** | **Roadmap re-axe = nested Tier→Milestones→Fun-slices** (not flat S0–S4); Claude proposes the cut. | roadmap |
@@ -98,7 +100,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 
 ---
 
-## Ripple checklist — `docs/living/prd.md` (→ `prd/§*.md` after the split; still 5-tier / DEMO-default throughout)
+## Ripple checklist — `docs/living/prd.md` (→ ASCII `prd/0N-*.md` files after the split; still 5-tier / DEMO-default throughout)
 
 - [ ] **Top-matter status line** — references 5 tiers / T0–T4 → 6 tiers / T0–T5; note PRD stays **LIQUID** (no §1 freeze) per `DS#7`. *(D-048, DS#7)*
 - [ ] **§1.6 "House Influence — the four pillars & the five tiers"** → **six** tiers; the reveal ramp **1→2→3→4→4**; the pillar→tier map. *(D-048)*
@@ -149,7 +151,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 ## NOT part of this ripple (human-queue / process — tracked so nothing is lost)
 
 - **Operating Model v2 (H10)** — human reviews **separately** (~1 hr), informed by the
-  [v2-lite reel-back](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md). **Do NOT adopt op-model artifacts**
+  [op-model v2 FINAL](../../docs/plans/2026-06-29-operating-model-v2-final.md). **Do NOT adopt op-model artifacts**
   (ADRs / CLAUDE.md / skills) until signed off. *(DS#11)*
 - **`diverge` skill = mandatory UI gate** — locked as a steer, but it **feeds the H10 review**; don't wire it
   as canon until op-model v2 is signed. *(DS#10)*
@@ -176,7 +178,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 - Intent / human directives: [`2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md) ·
   [`2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md)
 - Plans: [`roadmap-reaxe-proposal`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md) ·
-  [`operating-model-v2-lite-reelback`](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md)
+  [`operating-model-v2-final`](../../docs/plans/2026-06-29-operating-model-v2-final.md)
 - The audits that drove it: [`2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md)
 </content>
 </invoke>

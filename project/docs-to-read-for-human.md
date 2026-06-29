@@ -18,8 +18,8 @@
     │
     ├─ B → pending-prd-changes ............ ②a  the per-file edit CHECKLIST (the "what-edit-where")
     ├─ C → roadmap-reaxe-proposal ......... ②a  → becomes docs/living/roadmap.md
-    └─ D → operating-model-v2-lite-reelback  ②b  ⭐ the H10 artifact (the blocking decision)
-                └─ reels back: operating-model-v2-implementation  (✗ SUPERSEDED — don't read)
+    └─ D → operating-model-v2-FINAL ....... ②b  ⭐ the H10 artifact (the blocking decision)
+                └─ supersedes: operating-model-v2-{implementation,lite-reelback}  (✗ archived — don't read)
 
          ▲ everything above APPLIES ▼
 ③  the locked decisions (canon — context, NOT a sign-off item)
@@ -66,16 +66,18 @@
 
 ### ②b · Process change — ⭐ Operating Model (H10)
 
-- [ ] **[`docs/plans/2026-06-29-operating-model-v2-lite-reelback.md`](../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md)** — *plan*
-  - **What:** the **drop / cut / keep** reel-back that trims Operating Model v2 (you judged it *"a draft and
-    overengineered"*) to a lean **v2-lite** (~2–3 sessions vs ~1 week). **This is the H10 artifact** — the
-    conductor's **Workstream D**.
-  - **Read for:** the **⭐ H10** decision (your separate ~1 hr pass) — which process pieces to keep (the
-    `diverge`-mandatory gate, the ship-gate/manifest, feedback-checks). Also tracked as ⭐ **H10** in
-    [`project/human-in-the-loop/decisions.md`](human-in-the-loop/decisions.md); ⛔ it gates the next build phase.
-  - **More — superseded source (don't read):**
-    [`2026-06-28-operating-model-v2-implementation.md`](../docs/plans/2026-06-28-operating-model-v2-implementation.md) is the original
-    v2 plan; the reel-back above is the analysis **of** it. Read the reel-back, not this.
+- [ ] **[`docs/plans/2026-06-29-operating-model-v2-final.md`](../docs/plans/2026-06-29-operating-model-v2-final.md)** — *plan*
+  - **What:** the **decided, build-ready** operating model (the **H10 resolution**). Synthesizes the human's 8
+    directives (2026-06-29) + **measured** gate timings into 6 workstreams: full-`verify` pre-commit, a 5s-budget
+    drift guard, the mandatory `diverge` skill, a scoped `playcheck` ratchet, the PRD split, and the ADRs/CLAUDE.md
+    edits. The conductor's **Workstream D**. **≈ 2–3 sessions.**
+  - **Read for:** the **⭐ H10** sign-off — confirm the routing (§1) and the 4 open forks (§5). The key finding:
+    the **whole `verify` suite runs in ~3.2s**, so pre-commit can run everything inside the 5s box. Also tracked as
+    ⭐ **H10** in [`project/human-in-the-loop/decisions.md`](human-in-the-loop/decisions.md); ⛔ it gates the next
+    build phase.
+  - **More — superseded sources (archived, don't read):** the maximalist
+    `2026-06-28-operating-model-v2-implementation.md` and the `2026-06-29-operating-model-v2-lite-reelback.md`
+    reel-back now live in [`project/archive/`](archive/); this FINAL plan supersedes both.
 
 ---
 
