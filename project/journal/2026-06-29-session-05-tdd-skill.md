@@ -42,3 +42,9 @@ the 4 source files copied near-verbatim with three surgical edits + two repo not
   edits to the 3 shared docs are left **unstaged** so I don't capture other agents' in-progress work — they
   land with the next commit of those files.
 - Session numbering: another agent took `session-04-decision-session`; this is `session-05`.
+
+## Addendum — candidate edits B + C applied
+Human approved 2 of the 4 candidates: **B** (brittle-RNG-test warning → `tests.md`: assert relations/bounds
+on RNG paths, never exact seeded values) and **C** (false-green / mutation check → `SKILL.md` new "Confirm
+the test has teeth" section). **Declined A** (keep the verbatim trigger description) and **D** (commit-cadence
+note). Also launched a subagent to copy the upstream `productivity/handoff` skill into `.claude/skills/handoff/`.

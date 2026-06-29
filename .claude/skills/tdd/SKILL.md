@@ -113,3 +113,14 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 [ ] Code is minimal for this test
 [ ] No speculative features added
 ```
+
+## Confirm the test has teeth (no false-greens)
+
+A test only protects you if it _can_ fail. This repo's QA finding has been _false-green_ tests — green
+suites that don't actually exercise behaviour — not missing tests. So:
+
+- **Red before green is mandatory.** A new test must FAIL before you write the code. If it passes with no
+  implementation, it asserts nothing — fix it or delete it.
+- **Mutation-check existing behaviour.** When you add a test around code that already works, briefly break
+  the implementation and confirm the test goes RED, then restore. A test that stays green against broken
+  code is a false-green guard.

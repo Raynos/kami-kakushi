@@ -63,7 +63,7 @@ test("createUser makes user retrievable", async () => {
 ## In kamikakushi — favour fast integration/system tests
 
 Prefer driving the **real** game over poking at internals — fast (milliseconds in `vitest`, no real
-browser) and behaviour-level. Two house patterns, both "integration-style through the public interface":
+browser) and behaviour-level. House patterns, all "integration-style through the public interface":
 
 - **Real UI in jsdom** — mount the real renderer and drive it like the app does, assert on what renders.
   See `src/ui/render.test.ts` (`// @vitest-environment jsdom`; "mount the real renderer and drive it
@@ -71,5 +71,9 @@ browser) and behaviour-level. Two house patterns, both "integration-style throug
 - **Real core through the public surface** — run the actual `reduce`/`tick` reducer via the `./index`
   barrel (or the DEV `window.__qa` harness: `newGame(seed)` → `dispatch(intent)` → `tick(dt)` → read
   `state()`) and assert on observable state deltas. See `src/core/economy.test.ts`.
+- **On RNG-driven outcomes** (combat/loot) — assert **relations/bounds** (damage rises with skill; a drop
+  sits within its loot table), never exact seeded values. An exact-value assertion is a change-detector
+  that breaks on a behaviour-preserving refactor — a "bad test" by the rules above. (Our whole correctness
+  layer is seed-driven, so this is the easy trap to fall into.)
 
 Reserve Playwright (real browser, slower) for true end-to-end. Default to the fast jsdom/`__qa` path.
