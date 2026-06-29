@@ -24,6 +24,7 @@ import {
 } from '../core';
 import { createBrowserSaveManager, type SaveManager } from '../persistence';
 import { mount } from '../ui';
+import { createSfx } from '../ui/sfx';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -93,8 +94,13 @@ async function boot(): Promise<void> {
   let paused = false;
   let crashed = false;
 
-  // app hooks for the Settings/About surface (export/import save, a11y, pause)
+  // the synth SFX engine (T0-M1-F4 juice) — the app owns the ONE instance + threads it to
+  // the renderer via hooks. honorReducedMotion consults the OS prefers-reduced-motion signal.
+  const sfx = createSfx({ honorReducedMotion: true });
+
+  // app hooks for the Settings/About surface (export/import save, a11y, pause, sound)
   const hooks = {
+    sfx,
     exportSave: (): string => save.exportState(state),
     importSave: (b64: string): void => {
       void (async () => {
@@ -150,6 +156,11 @@ async function boot(): Promise<void> {
 
   function dispatch(intent: Intent): void {
     actionCount += 1;
+    // one taiko hit per player-driven deed/fight (the T0-M1-F4 hit cue; per-strike combat
+    // SFX is out of this minimal pass). Lazy AudioContext respects the user-gesture rule.
+    if (intent.type === 'do_activity' || intent.type === 'fight' || intent.type === 'face_wolf') {
+      sfx.hit();
+    }
     commit(reduce(state, intent));
   }
 

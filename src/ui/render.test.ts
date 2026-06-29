@@ -42,6 +42,7 @@ describe('formatLogText — coalesced ×N display', () => {
 
 // ── DOM harness ─────────────────────────────────────────────────────────────
 function noopHooks(): AppHooks {
+  let muted = false;
   return {
     exportSave: () => 'SAVE-CODE',
     importSave: () => {},
@@ -49,6 +50,15 @@ function noopHooks(): AppHooks {
     setReducedMotion: () => {},
     setTextScale: () => {},
     togglePause: () => false,
+    sfx: {
+      hit: () => {},
+      reward: () => {},
+      rankUp: () => {},
+      setMuted: (b: boolean) => {
+        muted = b;
+      },
+      isMuted: () => muted,
+    },
   };
 }
 

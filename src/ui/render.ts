@@ -44,6 +44,7 @@ import {
   NAMES,
   balance,
 } from '../core';
+import type { Sfx } from './sfx';
 
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
   open_eyes: 'Open your eyes',
@@ -110,6 +111,8 @@ export interface AppHooks {
   setReducedMotion: (on: boolean) => void;
   setTextScale: (scale: number) => void;
   togglePause: () => boolean;
+  /** The synth SFX engine (T0-M1-F4 juice). Owned by the app; cue points fire via this. */
+  sfx: Sfx;
 }
 
 function pct(n: number): string {
@@ -220,6 +223,16 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
     rm.textContent = `Reduced motion: ${reduced ? 'on' : 'off'}`;
     rm.classList.toggle('on', reduced);
   });
+  // sound on/off (the synth SFX engine; default on — the ship default is the R1 taste call)
+  const sound = el('button', 'auto-toggle', `Sound: ${hooks.sfx.isMuted() ? 'off' : 'on'}`);
+  sound.type = 'button';
+  sound.classList.toggle('on', !hooks.sfx.isMuted());
+  sound.addEventListener('click', () => {
+    const muted = !hooks.sfx.isMuted();
+    hooks.sfx.setMuted(muted);
+    sound.textContent = `Sound: ${muted ? 'off' : 'on'}`;
+    sound.classList.toggle('on', !muted);
+  });
   let scale = 1;
   const ts = el('div', 'labour-row');
   const tsLabel = el('span', 'lock-hint', 'Text size 100%');
@@ -247,7 +260,7 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
     pause.textContent = p ? 'Resume' : 'Pause';
     pause.classList.toggle('on', p);
   });
-  comfort.append(rm, ts, pause);
+  comfort.append(rm, sound, ts, pause);
   card.append(comfort);
   card.append(brushRule());
 
@@ -950,6 +963,7 @@ export function mount(
     line.classList.remove('tally');
     void line.offsetWidth;
     line.classList.add('tally');
+    hooks.sfx.reward(); // the koku-tally cue — a shamisen/koto pluck (T0-M1-F4)
   }
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
@@ -1030,6 +1044,7 @@ export function mount(
   }
 
   function showRankUp(state: GameState): void {
+    hooks.sfx.rankUp(); // the rank-up flourish — a struck temple-bell 鈴 (T0-M1-F4)
     const rank = currentRank(state);
     const overlay = el('div', 'rankup-seal');
     overlay.setAttribute('role', 'status');
@@ -1050,6 +1065,7 @@ export function mount(
   // the T0→T1 ascension ceremony (D-062 — the first ascension always lands BIG): a larger,
   // longer-held title card than a rung promotion, the silhouettes stirring behind it.
   function showAscension(state: GameState): void {
+    hooks.sfx.rankUp(); // the ascension also rings the bell (the bigger ceremony, D-062)
     const overlay = el('div', 'rankup-seal ascension');
     overlay.setAttribute('role', 'status');
     const inner = el('div', 'seal-inner');

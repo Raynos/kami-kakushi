@@ -155,8 +155,18 @@ sheet + `DECISION.md` in `project/audit/screens/diverge-influence/`; **R2** file
 *Branch-preservation → folder-preservation* because the tree is shared with another live agent (a `git switch`
 would clobber their WIP — CLAUDE.md shared-tree rule). `verify` green; no console errors.
 
+## 9 · Movement 1 · 0c · P8 — SFX juice (integrate the leaf module) — DONE
+
+Integrated the first leaf module from the scatter-gather fan-out: `src/ui/sfx.ts` (+ its 7-test jsdom suite) — a
+lazy, synth-only Web-Audio engine (taiko hit / shamisen-koto reward / suzu temple-bell rank-up), mute-safe +
+reduced-motion-aware, no-op when AudioContext is absent. Wired per the module's integration notes: app owns the
+one instance (`main.ts`, `honorReducedMotion`), threaded via `AppHooks.sfx`; cues fire at **reward**→`flashTally`,
+**rankUp**→`showRankUp`+`showAscension`, **hit**→player deed/fight dispatch; a **Sound on/off** toggle joins the
+Settings comfort row (default on — the ship default is the R1 taste call). No DIVERGE (one-line control). The
+build is no longer silent. `verify` green; headless qa-shots **no console errors**.
+
 ## Next intended steps (current)
-1. **Movement 2 spine + its UI are DONE** (M2·1–M2·6). **NEXT** the surfaces around it:
+1. **Movement 2 spine + its UI are DONE** (M2·1–M2·6); **P8 SFX integrated**. **NEXT** the remaining surfaces:
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.
