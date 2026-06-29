@@ -180,8 +180,24 @@ Three lower-friction gap-report fixes (no diverge):
 `verify` green (9 gates). **Movement-1 0c is now substantially closed** — remaining: P3 found/crafted weapon, P7
 mentor dialogue (both DIVERGE surfaces), P10 doc reconcile.
 
+## 11 · OVERNIGHT (autonomous /loop) — verification + DEV playtest tools
+
+The human set an overnight /loop: finish T0-M3/M4, audit/battery for PRD/human-feedback/ADR fidelity, leave a
+playtestable v0.3, rewrite R1 → a T0 M0–M4 review. Durable plan: `docs/plans/2026-06-29-overnight-v03-completion.md`.
+
+- **Roadmap-respect verification** (6-agent Workflow + spine playthrough) → `project/audit/reports/2026-06-29-v03-roadmap-respect.md`:
+  **the build respects the roadmap's spine in full** (T0-M3 DONE end-to-end, T0-M1/M2 re-baselined), **11✅ / 6🟡 /
+  5🔴**, 139/139 tests green. Remaining = T0-M4 breadth + cross-cutting, deferred-by-design except the DEMO/REAL
+  fork (the one locked-ADR contradiction). That report is the overnight backlog.
+- **DEV playtest tools** (part of M2·8, DS#1/DS#16/D-067, DEV-only/prod-stripped): `__qa.speed(2/4/8)` (N auto-steps
+  per tick, via a refactored `autoStep`), `__qa.jumpToPhase2()`, `__qa.jumpToAscension()` (→ R7/Phase-2/EXCELLENT,
+  Ascend live in one call), `__qa.toTier()`; fixed `selectors.tier` (was hard-coded 0). Smoke-tested headless, no
+  console errors. These let the human reach the spine/ascension/breadth fast in the playtest.
+
 ## Next intended steps (current)
-1. **Movement 2 spine + UI DONE; SFX + flywheel + auto-heal + wear-axis DONE.** **NEXT** the remaining surfaces:
+1. **NEXT** (overnight): wire the leaf modules — P7 mentor dialogue · P3 found/crafted weapon · T0-M4 quests/
+   market/walkable-map · stance/ability reveals (each + a lean diverge + a real test) → then retire the DEMO/REAL
+   fork (M2·8) → the PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint.
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.

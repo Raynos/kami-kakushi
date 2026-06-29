@@ -198,8 +198,10 @@ async function boot(): Promise<void> {
   }
 
   // ── active-only tick loop (PRD §6.9 / FU23): tab-open auto-repeat labour gives the
-  // "leave it running" feel — strictly active-only (no offline catch-up). ──
-  window.setInterval(() => {
+  // "leave it running" feel — strictly active-only (no offline catch-up). One autoStep per
+  // AUTO_REPEAT_MS; the DEV speed toggle runs N steps per tick (autoSpeed = 1 in prod). ──
+  let autoSpeed = 1; // DEV-only 2×/4×/8× time multiplier (prod stays 1; set via __qa.speed)
+  function autoStep(): void {
     if (paused || document.hidden || crashed) return;
     // auto-fight takes priority over auto-labour
     if (state.autoCombat) {
@@ -261,6 +263,9 @@ async function boot(): Promise<void> {
     }
     if (canDoActivity(state, act)) dispatch({ type: 'do_activity', activityId: auto });
     else dispatch({ type: 'set_auto', activityId: null });
+  }
+  window.setInterval(() => {
+    for (let i = 0; i < autoSpeed; i++) autoStep();
   }, AUTO_REPEAT_MS);
 
   // ── tick-interval autosave (Block N M0 DoD) ──
@@ -316,6 +321,42 @@ async function boot(): Promise<void> {
       fight: (mobId: MobId) => dispatch({ type: 'fight', mobId }),
       autoCombat: (mobId: MobId | null) => dispatch({ type: 'set_auto_combat', mobId }),
       setStance: (stance: StanceId) => dispatch({ type: 'set_stance', stance }),
+      // ── DEV playtest tools (DS#1/DS#16/D-067) — speed toggle + jump-to teleports ──
+      /** 2×/4×/8× time multiplier: run N auto-steps per tick (1 = prod cadence). */
+      speed: (mult: number) => {
+        autoSpeed = Math.max(1, Math.floor(mult));
+        return autoSpeed;
+      },
+      /** Jump to the R7 capstone (Phase 2 open) so the live macro spine is reachable at once. */
+      jumpToPhase2: () => {
+        commit({
+          ...state,
+          rung: 'R7',
+          flags: { ...state.flags, awake: true, 'rank-r7': true, 't0-capstone': true },
+          unlocked: [...new Set([...state.unlocked, 'panel-house-influence'])],
+        });
+        return state.rung;
+      },
+      /** Jump to an ascension-ready state (Estate EXCELLENT) so the T0→T1 ceremony is one click away. */
+      jumpToAscension: () => {
+        const exc = balance.ESTATE_BANDS.excellent;
+        commit({
+          ...state,
+          rung: 'R7',
+          tier: 0,
+          flags: {
+            ...state.flags,
+            awake: true,
+            'rank-r7': true,
+            't0-capstone': true,
+            'porters-knot': true,
+          },
+          unlocked: [...new Set([...state.unlocked, 'panel-house-influence'])],
+          influence: { estate: { value: exc, highWater: exc, judged: 0 } },
+        });
+      },
+      /** Teleport the stored tier (the jump-to-tier teleport; pairs with toRung). */
+      toTier: (t: number) => commit({ ...state, tier: Math.max(0, Math.floor(t)) }),
       tick: (dt: number) => commit(coreTick(state, dt)),
       frames: (n: number) => {
         for (let i = 0; i < n; i++) safely(() => render(state, prev));
@@ -372,7 +413,7 @@ async function boot(): Promise<void> {
       reveals: () => reveals.slice(),
       selectors: {
         unlocked: () => state.unlocked.slice(),
-        tier: () => 0,
+        tier: () => state.tier,
         rung: () => state.rung,
         combatLevel: () => state.character.level,
       },
