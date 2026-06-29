@@ -99,10 +99,11 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - [README.md](README.md) — the game's vision.
 - [`project/status/`](project/status) — **live operational state** + **live trackers** (mutable, edited in place;
   this is where a checkbox tracker belongs, **not** `docs/plans/`, which is pre-canon proposals):
-  [working-agreements](project/status/working-agreements.md) (cadence + autonomy),
-  [project-status](project/status/project-status.md) (live snapshot + how to resume), and
-  [pending-prd-changes](project/status/pending-prd-changes.md) (locked ADRs **not yet rippled** into `prd.md`/docs/code —
-  source of truth until applied; deleted when empty; surfaced at session start).
+  [working-agreements](project/status/working-agreements.md) (cadence + autonomy) and
+  [project-status](project/status/project-status.md) (live snapshot + how to resume). *(A transient
+  `pending-prd-changes` ripple tracker lived here through the 6-tier reshape; it was **retired 2026-06-29** once
+  the ripple landed in the PRD — the pattern, a "locked-ADRs-not-yet-rippled" checklist deleted when empty, may
+  recur.)*
 - [`docs/`](docs) — design docs (living, edited in place), under **[`docs/living/`](docs/living)**:
   **[prd.md](docs/living/prd.md)** (the merged PRD / vision spec), **[decisions.md](docs/living/decisions.md)**
   (the **ADR log** — *why* the design is the way it is), **[roadmap.md](docs/living/roadmap.md)** (the

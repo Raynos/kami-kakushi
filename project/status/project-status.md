@@ -66,8 +66,8 @@ metadata:
   per tier** (1→2→3→4→4, **Estate→Arms→Office→Name**), **v1 = T0→T3**; + manual opt-in graded ascension,
   carry-HP/heal-by-eating combat, compounding koku sink, showcase-in-miniature tutorial, wall-time "leave it
   running", milestone-integrity rule, pillar silhouettes + per-tier mystery beats. Locked as **ADRs D-048…D-055**
-  — but **NOT yet applied to the PRD (the PRD body is STALE on tiers).** Master checklist + precedence:
-  [`pending-prd-changes.md`](pending-prd-changes.md); intent: [`../human-feedback/2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md);
+  — but **NOT yet applied to the PRD** *(historical; ✅ applied session-15, see below).* Master checklist +
+  precedence: `pending-prd-changes.md` *(retired session-15)*; intent: [`../human-feedback/2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md);
   human reading queue: [`docs-to-read-for-human.md`](../docs-to-read-for-human.md). *(Applying + building is downstream of the ⭐ v2 / H10 gate below.)*
 - **Phase update — v0.2 AUDIT FULLY TRIAGED + FORWARD DECISIONS LOCKED (2026-06-29, decision session).** A
   human-driven pass closed the v0.2 audit **100% — 23 decisions across 7 question-batches** (this session +
@@ -132,7 +132,7 @@ metadata:
   other living docs** — the PRD body is **no longer 5-tier-stale**. Flow: a **multi-agent audit** of
   `pending-prd-changes.md` (verdict *fix-tracker-then-ripple*: canon-faithful but it had missed 2 roadmap locks +
   had stale framing) → **tracker corrected** + an **authoritative reshape-mapping spec** authored
-  ([`../../docs/plans/2026-06-29-part1-ripple-spec.md`](../../docs/plans/2026-06-29-part1-ripple-spec.md)) → a
+  ([`../archive/2026-06-29-part1-ripple-spec.md`](../archive/2026-06-29-part1-ripple-spec.md)) → a
   **12-agent ripple Workflow + convergence critic** → a **structural-consistency cleanup**. **`npm run verify`
   GREEN (9 gates, incl. `verify-prd`); ZERO accidental deletions** (the §7.2 M0–M7 block, ~538 lines, was gutted
   to a delegation pointer at `roadmap.md` — §7.1/§7.3/§7.4 survive). Net-new locks all landed: Staff weapon-line
@@ -142,6 +142,11 @@ metadata:
   **Ship-M1-F2** (LIQUID, D-059 — banner'd in `prd/04-combat-balance.md`). Raw audit + ripple snapshots in
   `project/brainstorms/raw/2026-06-29-{prd-ripple-tracker-audit,part1-doc-ripple}.json`; journal:
   `2026-06-29-session-15-part1-ripple.md`. **The PRD-feedback gate is fully closed — Part 2 (the build) is next.**
+  **Post-ripple housekeeping (session-15):** the `pending-prd-changes` tracker is **RETIRED/deleted** (zero
+  pending PRD changes; its Part-2 code checklist is **migrated into `path-to-v0.3` Part 2** as a provenance map
+  so nothing's lost) + all live refs repointed; the executed reshape-mapping spec is **archived** to
+  `project/archive/2026-06-29-part1-ripple-spec.md`; the misfiled repo-relative `.claude/projects/` agent-memory
+  stray was removed (relocated to its canonical `~/.claude/` HOME).
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -162,7 +167,7 @@ metadata:
   1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-15-part1-ripple.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
      the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (**Part 1 done → Part 2 next**) + its
-     executed reshape-mapping spec `docs/plans/2026-06-29-part1-ripple-spec.md` (the OLD→NEW tier mapping +
+     executed reshape-mapping spec `project/archive/2026-06-29-part1-ripple-spec.md` (the OLD→NEW tier mapping +
      per-system re-placement table — useful reference for the Part-2 build).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,

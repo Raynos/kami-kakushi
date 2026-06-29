@@ -1,5 +1,10 @@
 # Part 1 ripple — the authoritative reshape-mapping & per-file spec
 
+> ✅ **ARCHIVED — EXECUTED 2026-06-29 (session-15).** This spec drove the Part-1 doc ripple, which is **done**
+> (commit `3040844`, `verify` green). Retained as the historical as-executed artifact + a useful **OLD→NEW tier
+> mapping / per-system re-placement reference for the Part-2 build**. The live plan is
+> [`path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md) (Part 2 next).
+
 > **What this is.** The single source of truth for executing **Part 1** of [`path-to-v0.3`](2026-06-29-path-to-v0.3.md)
 > — the **markdown-only doc/PRD ripple** of the locked 6-tier reshape (ADRs **D-048…D-069**) + the 5 finalized
 > forks into the PRD section files and the other living docs. Distilled from the multi-agent tracker audit

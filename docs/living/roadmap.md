@@ -278,7 +278,7 @@ bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** rel
 - **Milestone-integrity** (D-054): a milestone is SHIPPED only when **every DoD line is met OR ADR-amended
   before the commit**; a **CI manifest check** asserts every instrument a DoD names resolves to a real
   test/tool (bans "SHIPPED (slice)"). The per-milestone verify-green gate is the lighter, per-commit half;
-  this is the full integrity rule. *(The `pending-prd-changes.md` tracker assigns this contract to the re-axe.)*
+  this is the full integrity rule. *(D-054 is the source; this re-axe bakes the contract in.)*
 - **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](../../project/archive/2026-06-29-operating-model-v2-final.md),
   built by a concurrently-active op-model agent) is the **source of truth**: that plan *defines* the gates,
   this roadmap *bakes them in*. All three are now **BUILT**: (1) the **pre-commit gate runs the full `verify`**

@@ -13,10 +13,10 @@ and (for the transient ones) deleted when empty.
 
 - [working-agreements](working-agreements.md) — cadence, autonomy, the commit/journal gate.
 - [project-status](project-status.md) — the live one-screen snapshot + how to resume.
-- [pending-prd-changes](pending-prd-changes.md) — **live tracker:** locked design decisions (ADRs) that
-  are **canon but not yet rippled** into `prd.md` / the living docs / code. Until an item is ticked, the
-  ADRs + this tracker are the source of truth and `prd.md` is **stale** on that point. Ticked as applied;
-  **deleted once empty**. Surfaced at session start by the `session-brief.sh` hook.
+
+*(A transient `pending-prd-changes` tracker lived here through the 6-tier reshape — a "locked-ADRs-not-yet-rippled"
+checklist, surfaced by `session-brief.sh`, **deleted when empty**. It was **retired 2026-06-29** once the ripple
+landed in the PRD; the pattern may recur for a future batch.)*
 
 Distinct from [`docs/`](../../docs) (living *design* — what the game *is*), [`journal/`](../journal)
 (per-session *history* — how it got here), and [`docs/plans/`](../../docs/plans) (pre-canon proposals).

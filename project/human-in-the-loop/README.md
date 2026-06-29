@@ -38,8 +38,8 @@ When an item closes:
    H7/H9/H10.)
 2. **Archive** it. Add a row to `archive.md` (H# · title · one-line resolution · → ADR · date · intent
    link) and **remove the item from `decisions.md`** so the live queue stays open-only.
-3. **Apply** the decision to code/docs (often a batched ripple — see
-   [`../status/pending-prd-changes.md`](../status/pending-prd-changes.md)).
+3. **Apply** the decision to code/docs (often a batched ripple — when several land at once, stage them in a
+   transient `project/status/` checklist tracker, deleted once empty).
 
 **Status:** 🔲 open · ⏳ waiting on Claude prep · ✅ done. IDs are never reused. Keep these current —
 surface a new item the moment a fork or unverifiable result appears.

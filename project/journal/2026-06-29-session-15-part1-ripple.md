@@ -17,7 +17,7 @@ breakout?) → if it checks out, do the whole ripple.
   partial-T2/full-T3), 2 mis-targeted section refs (D-053 clock §6.10→§6.9/§6.3/§2.2; §2.16 reveal-ramp
   under-scoped), 1 wrong instruction (§4.8 "drop DEMO framing" — none there; it's Part-2 `balance.ts`), + hygiene
   (37→~41, §7 124↔204 conflict, Part-1/Part-2 banner, stale op-model "deferred" framing → already ADOPTED+BUILT).
-- **Authoritative spec authored:** `docs/plans/2026-06-29-part1-ripple-spec.md` — the OLD→NEW tier mapping (the
+- **Authoritative spec authored** (now archived → `project/archive/2026-06-29-part1-ripple-spec.md`)**:** the OLD→NEW tier mapping (the
   Estate *splits*; the renumber is NOT mechanical), the per-system re-placement table, the invariants, and the
   12-file work-list. Every ripple agent reads it so the mapping is applied identically.
 - **Ripple EXECUTED (12-agent Workflow + convergence critic):** all 7 PRD section files + 5 living docs rippled.
@@ -57,9 +57,21 @@ before baking into canon.
 note, §4.8 DEMO de-scope, §6.9 clock repoint, §2.16 reveal-ramp broaden, weapon-line + combo new items, rival
 attribution, §7 cross-link, Part-1/Part-2 banner on the code + docs/content sections, op-model framing,
 version-display bullet, SFX-spec as a Part-1 deliverable). Authored
-`docs/plans/2026-06-29-part1-ripple-spec.md` (the reshape-mapping linchpin).
+`project/archive/2026-06-29-part1-ripple-spec.md` (the reshape-mapping linchpin; archived after execution).
 
 ---
+
+## 3 · Post-ripple housekeeping
+
+- **Retired the `pending-prd-changes` tracker** (human call: a living doc with pending *PRD* changes — zero remain,
+  so delete). Its `src/` code checklist (Part 2) was **migrated into `path-to-v0.3` Part 2** as a provenance map
+  (each code change → its build step / roadmap Cross-cutting owner / deferred milestone) so nothing's lost; then
+  `git rm` + repointed every **live** reference (CLAUDE.md, path-to-v0.3, decisions.md, roadmap.md,
+  docs-to-read-for-human, status/README, human-in-the-loop/README). The `session-brief.sh` hook handles the
+  absence (guarded by `-f`). History (journals/archive/audit/feedback) keeps its references as-was.
+- **Archived** the executed reshape-mapping spec → `project/archive/2026-06-29-part1-ripple-spec.md` (banner'd).
+- **Removed** a misfiled repo-relative `.claude/projects/` agent-memory stray (a subagent wrote memory to a
+  relative path); relocated the two files to their canonical `~/.claude/projects/.../memory/` HOME.
 
 ## Next intended steps (current)
 1. **Part 1 is DONE + committed.** Next is **Part 2 — the spine-first v0.3 build** (roadmap T0-M3: the live Estate

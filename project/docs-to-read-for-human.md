@@ -4,10 +4,6 @@
 > (not struck) — git history holds the record. This is **beyond** the action queue in
 > [`project/human-in-the-loop/`](human-in-the-loop) (`H`-decisions + `R`-reviews).
 
-- [ ] **[`docs/plans/2026-06-29-path-to-v0.3.md`](../docs/plans/2026-06-29-path-to-v0.3.md)** — *plan (the conductor)*
-  - Now collapsed to **ripple → build** (A/C/D + the PRD-split all done). Read for the remaining sequence and
-    the one gate left on you: your **extra PRD feedback** unblocks the content ripple.
-
-- [ ] **[`project/status/pending-prd-changes.md`](status/pending-prd-changes.md)** — *tracker / the ripple checklist*
-  - The per-file edit list for the 6-tier reshape (D-048…D-055) + the 06-29 decisions (D-056…D-069). ⚠️ The
-    **PRD body is STALE on the tier model until this clears** — read `prd.md` with this open. 37 items remain.
+- [ ] **[`docs/plans/2026-06-29-path-to-v0.3.md`](../docs/plans/2026-06-29-path-to-v0.3.md)** — *plan (Part 2 = the build)*
+  - **Part 1 (the doc/PRD ripple) is DONE** (the `pending-prd-changes` tracker is retired). Read **Part 2** for the
+    spine-first v0.3 build sequence (the live Estate pillar + the BIG T0→T1 ascension) — the one optional review left on you.
