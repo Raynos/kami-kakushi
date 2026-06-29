@@ -31,6 +31,20 @@ export type SurfaceId = string;
 export type ResourceId = string;
 export type FlagId = string;
 
+/** One House-Influence pillar's accrued standing + its seasonal high-water mark (D-049/D-055).
+ *  `value` is the live grade-points total; `highWater` is the best ever reached (the season
+ *  judge fires on a NEW high-water only). Phase-2-gated accrual (post-capstone, FU7). */
+export interface PillarState {
+  readonly value: number;
+  readonly highWater: number;
+}
+
+/** House Influence (家威) — one pillar per tier (D-048). T0 lights only the Estate (家産)
+ *  pillar; Arms/Office/Name are added ADDITIVELY at their tier (T1+), never pre-declared. */
+export interface Influence {
+  readonly estate: PillarState;
+}
+
 export interface Clock {
   /** Sub-day abstract tick (0 .. TICKS_PER_DAY-1 within a day; monotonic overall via day). */
   readonly tick: number;
@@ -86,6 +100,13 @@ export interface GameState {
   readonly autoCombat: MobId | null;
   /** Active combat stance (kendo kamae; PRD §2.8 D-Q-active-combat). */
   readonly stance: StanceId;
+
+  // ── the tier spine (T0-M3+, additive; SCHEMA_VERSION 2) ──
+  /** Current tier 0..5 (Estate-tut → Estate → Village → Region → Castle-town → Edo, D-048).
+   *  Stored, bumped by the manual opt-in ascension; v1 ships T0→T3 (D-013a). */
+  readonly tier: number;
+  /** House-Influence pillar accrual (Phase-2-gated; the macro engine, D-049/D-055). */
+  readonly influence: Influence;
 }
 
 export function createInitialState(
@@ -121,6 +142,8 @@ export function createInitialState(
     autoCombat: null,
     stance: 'chudan',
     balanceProfile: profile,
+    tier: 0,
+    influence: { estate: { value: 0, highWater: 0 } },
   };
 }
 

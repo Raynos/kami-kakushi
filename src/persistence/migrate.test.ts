@@ -18,8 +18,17 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
       a: 1,
     });
   });
-  it('defaults to the real (empty at v1) chain — a current save is unchanged', () => {
-    const s = { schemaVersion: 1 };
-    expect(migrate(s, 1)).toBe(s); // no registered steps => identity
+  it('the real v1→v2 step hydrates the tier spine (the reshape bump, D-048/D-067)', () => {
+    // an old v1 save loads as a fresh-spine T0 with its existing progress preserved
+    const v1 = { schemaVersion: 1, rung: 'R2', resources: { koku: 42 } };
+    const v2 = migrate(v1, 1) as Record<string, unknown>;
+    expect(v2.tier).toBe(0);
+    expect(v2.influence).toEqual({ estate: { value: 0, highWater: 0 } });
+    expect(v2.rung).toBe('R2'); // existing progress carries forward
+    expect(v2.resources).toEqual({ koku: 42 });
+  });
+  it('a current (v2) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 2 };
+    expect(migrate(s, 2)).toBe(s); // already at target => identity
   });
 });

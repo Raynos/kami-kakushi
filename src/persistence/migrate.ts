@@ -12,7 +12,14 @@ export type Migration = (state: unknown) => unknown;
 export type MigrateFn = (state: unknown, fromVersion: number) => unknown;
 
 const MIGRATIONS: Readonly<Record<number, Migration>> = {
-  // 1: (s) => ({ ...(s as object), newField: defaultValue }),  // example, when needed
+  // v1 → v2 (the 6-tier reshape, D-048): additively hydrate the macro-spine fields with
+  // their defaults. Pre-launch dev/v0.2 saves are WIPED (D-067 — no users), but this is the
+  // genuine forward path: an old save loads as a fresh-spine T0 with its progress intact.
+  1: (s) => ({
+    ...(s as object),
+    tier: 0,
+    influence: { estate: { value: 0, highWater: 0 } },
+  }),
 };
 
 export function migrate(

@@ -30,6 +30,19 @@ function numAdditive(v: unknown, fallback: number): { value: number; coerced: bo
   return num(v, fallback);
 }
 
+/** Coerce the additive `influence` macro field to a valid shape (default all-zero). Each
+ *  pillar's high-water is held ≥ its value (it is a high-WATER mark). Absent = fresh spine. */
+function validateInfluence(v: unknown): GameState['influence'] {
+  const pillar = (p: unknown): GameState['influence']['estate'] => {
+    const o = isObject(p) ? p : {};
+    const value = Math.max(0, num(o.value, 0).value);
+    const highWater = Math.max(value, num(o.highWater, 0).value);
+    return { value, highWater };
+  };
+  const o = isObject(v) ? v : {};
+  return { estate: pillar(o.estate) };
+}
+
 /** Validate a candidate envelope; returns the (possibly coerced/migrated) GameState or a reject reason. */
 export function validateEnvelope(raw: unknown, opts?: { migrate?: MigrateFn }): ValidateResult {
   if (!isObject(raw)) return { ok: false, reason: 'not-an-object' };
@@ -149,7 +162,9 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'equippedWeapon'
     | 'weaponDurability'
     | 'autoCombat'
-    | 'stance';
+    | 'stance'
+    | 'tier'
+    | 'influence';
   type _AssertAllHandled = keyof GameState extends _Handled ? true : never;
   const _exhaustive: _AssertAllHandled = true;
   void _exhaustive;
@@ -186,6 +201,9 @@ export function validateState(rawState: unknown): ValidateResult {
     weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
     autoCombat: base.autoCombat ?? null,
     stance: (base.stance as StanceId) ?? 'chudan',
+    // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
+    tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,
+    influence: validateInfluence(base.influence),
     // Legacy DEMO saves stay on DEMO (reversible, no surprise re-tune); only NEW games
     // pick up the boot profile (main.ts).
     balanceProfile:

@@ -5,7 +5,16 @@
 export { ipow, clamp } from './math';
 export { formatKMB, formatRate } from './format';
 
-export type { GameState, Character, Clock, SurfaceId, ResourceId, FlagId } from './state';
+export type {
+  GameState,
+  Character,
+  Clock,
+  SurfaceId,
+  ResourceId,
+  FlagId,
+  PillarState,
+  Influence,
+} from './state';
 export { createInitialState, hasFlag, setFlag, withResource, addSkillXp } from './state';
 
 export type { Intent, IntentType } from './intents';

@@ -82,9 +82,25 @@ files (`render.ts`/`intents.ts`/`state.ts`/`balance.ts`), so feature-branch para
 badly — and another agent is live on the tree. Read-only authoring → zero contention; **I keep the coupled
 integration spine on the main line** and wire each leaf in at its point.
 
+## 4 · Movement 2 · M2·1 — schema scaffold (tier + influence + migrate v1→v2) — DONE
+
+The macro-spine foundation: added `tier: number` (0..5, D-048) + `influence: { estate: { value, highWater } }`
+(D-049/D-055) to `GameState` + `createInitialState`; bumped `SCHEMA_VERSION` 1→2; registered the **real**
+v1→v2 `migrate` step (additive hydrate — old saves load as a fresh-spine T0 with progress intact; dev/v0.2
+saves WIPED per D-067 but this is the genuine forward path) + a `migrate.test.ts` case; extended `validate.ts`
+(the compile-time `_Handled` exhaustiveness ledger forced handling both keys — added a coercing `validateInfluence`
+that holds highWater ≥ value); exported `PillarState`/`Influence` from core. `verify` green (9 gates).
+
+## Leaf-module fan-out — RETURNED (6/6), staged for integration
+
+The background scatter-gather Workflow returned all 6 modules + tests + integration notes (raw snapshot:
+`project/brainstorms/raw/2026-06-29-v03-leaf-modules-authoring.json`; staged in `tmp/fanout/`). To integrate:
+M1 leaves — **sfx** (P8), **dialogue** (P7), **crafting** (P3); M4 leaves (after spine closes) — **quests**,
+**map**, **market**. Each is self-contained; I verify + wire each on the main line.
+
 ## Next intended steps (current)
-1. **Spine (Movement 2) on main**, in order: schema scaffold (tier+influence+migrate v1→v2) → R7 capstone (fix
-   R3 dead-end storyGate) → pillars.ts accrual → seasonal judged result → ascension.ts → live-Estate UI (DIVERGE).
+1. **Spine (Movement 2) continues on main**: ✅ M2·1 schema → **NEXT** R7 capstone (fix R3 dead-end storyGate) →
+   pillars.ts accrual → seasonal judged result → ascension.ts → live-Estate UI (DIVERGE).
 2. **Integrate the leaf modules** as the Workflow returns: M1 leaves (sfx P8, dialogue P7, crafting P3) into
    Movement-1; M4 leaves (quests, map, market) AFTER the spine closes (spine-first).
 3. **P1c** auto-loop eat-to-heal (`main.ts`), **P9** touch-legible wear axis (`render.ts`), **M2·8** retire
