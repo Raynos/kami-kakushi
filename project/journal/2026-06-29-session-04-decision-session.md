@@ -59,7 +59,7 @@ The roadmap is re-axed — **not** a flat S0–S4, but a **two-level, per-tier**
 T2/T3) → **N milestones** → **N fun-slices** (Tier → Milestones → Fun-slices). A fun-slice ships a *playable,
 fun* increment, not just a feature. Proposal: [`../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)
 (T0 detailed = 4 milestones; T1–T3 coarse; 6 open questions, load-bearing = within-T0 build order →
-recommends spine-first). Implementation sequence: [`../../docs/plans/2026-06-29-implementation-plan.md`](../../docs/plans/2026-06-29-implementation-plan.md).
+recommends spine-first). Sequencing plan: [`../../docs/plans/2026-06-29-path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md) *(later renamed from `2026-06-29-implementation-plan.md`)*.
 
 ## 4 · Durable-by-default process norm
 
@@ -88,7 +88,7 @@ Synced the live state to the decisions above (touch-only-four-files scope).
 
 *(Session artifacts produced earlier in the session, outside this housekeeping pass:*
 `project/human-feedback/2026-06-29-decision-session.md` *(the ledger),* `docs/plans/2026-06-29-roadmap-reaxe-proposal.md`*,*
-`docs/plans/operating-model-v2-lite-reelback.md`*,* `docs/plans/2026-06-29-implementation-plan.md`*.)*
+`docs/plans/operating-model-v2-lite-reelback.md`*,* `docs/plans/2026-06-29-path-to-v0.3.md`*.)*
 
 ## Next intended steps
 
