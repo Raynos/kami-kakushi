@@ -180,3 +180,41 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 - Plans: [`roadmap-reaxe-proposal`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md) ·
   [`operating-model-v2-final`](../../docs/plans/2026-06-29-operating-model-v2-final.md)
 - The audits that drove it: [`2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md)
+
+---
+
+## Addendum (2026-06-29, session-11) — post-promotion ripple updates
+
+> Added after the roadmap re-axe was **promoted** to `docs/living/roadmap.md` (session-11) and the **5
+> provisional forks finalized** ([ledger](../human-feedback/2026-06-29-roadmap-forks-finalized.md)). These
+> refine the checklists above — fold them in when the batch runs.
+
+**Status flip (an existing item is now done):**
+- ✅ **`docs/living/roadmap.md` re-axe — DONE** (promoted 2026-06-29, session-11): nested
+  Section→Milestones→Fun-slices, **T0/T1/T2 detailed + a Ship section**, carry-forward M0–M2b,
+  milestone-integrity DoD, 6-tier renumber, v0.2 gates baked as forward contracts. The old M0–M7 tracker is
+  retired. *(closes the `docs/living/roadmap.md` line above — DS#9, DS#18, DS#19, D-048, D-054)*
+
+**New / refined items (from the promotion + the finalized forks):**
+- [ ] **§7 `prd/07-roadmap-scope.md` = SLIM + DELEGATE, do NOT re-duplicate.** Its 809-line **M0–M7** milestone
+  roadmap is fully superseded by the now-**living** `docs/living/roadmap.md`. Per *generate-don't-duplicate* +
+  D-020/D-021, **gut the milestone/build-order duplication** and keep only the **locked v1 scope** (T0→T3 + the
+  §4-locked acceptance criteria), the **deployment** path (itch), and the **risk register**; **point** the
+  roadmap/build-order at `docs/living/roadmap.md` as the single source. *(refines the "§7 milestones/DoD" line
+  above — that content now lives in the roadmap; §7 should reference, not restate. D-021, D-059, DS#9)*
+- [ ] **§3 / `ranks.ts` — T1 two-track rung meter.** R8→R15 runs on **two sub-meters** (Estate-Service labour +
+  Combat-Rank martial); promotion on the Phase-1 AND-gate (both ≥ floor + the story milestone). *(fork #3)*
+- [ ] **§5 / content — T1 first retinue + estate stage.** First paid retinue (**Gohei & Yatarō**) and the
+  **E1→E2** estate-stage advance both land in **T1** (E2→E3+ slips to T2+). *(fork #2)*
+- [ ] **§5 — rival houses.** **Tomita / Akagi** introduced + the contest **BEGINS at T2**; the climax (Naoyuki
+  ally-flip, G7 dethroning) at **T3**. *(fork #4)*
+- [ ] **§1.7 / §5 — T2 name.** T2 stays **"Village"** (social-scale ladder) with the sharpened frame **"the
+  valley beyond your gate"** — no tier rename. *(session-11 naming call)*
+- [ ] **§4 / §4.8 — provisional balance from the forks.** Per-tier hour floors (**T1 ~5–8h · T2 ~8–10h · ≈40
+  min/rung**) + deed-band magnitudes (**T1** Arms 0.5K/0.72K/0.95K cap 20 ip + Estate 0.8K/1.1K/1.5K · **T2**
+  Office 2K/3.2K/4.5K cap 80 ip) — **ACCEPTED AS PROVISIONAL** (§4 liquid, D-059); the 28.5h budget re-derives
+  at Ship-M1-F2. Use these as the starting magnitudes in the §4 ripple. *(forks #1 + #5)*
+
+**Stale pointers to fix during the batch:** the plan pointers above (and the §7 / Precedence links) point at
+`docs/plans/2026-06-29-{roadmap-reaxe-proposal,operating-model-v2-final}.md`, both now **archived** to
+`project/archive/` — repoint to `project/archive/…` (or, for the roadmap, to the live `docs/living/roadmap.md`).
