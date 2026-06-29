@@ -1014,6 +1014,35 @@ html {
 .craft-mat-count.ok {
   color: var(--rokusho);
 }
+/* T0-M4-F1: the Quests tab */
+.quest-card {
+  margin-bottom: var(--space-3);
+}
+.quest-card.done {
+  opacity: 0.72;
+}
+.quest-steps {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.quest-step {
+  display: flex;
+  gap: var(--space-1);
+  align-items: baseline;
+  color: var(--ink-soft);
+  font-size: 0.95em;
+}
+.quest-step.ok {
+  color: var(--rokusho);
+}
+.quest-check {
+  color: var(--ink-faint);
+}
+.quest-step.ok .quest-check {
+  color: var(--rokusho);
+}
 
 /* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
    unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */

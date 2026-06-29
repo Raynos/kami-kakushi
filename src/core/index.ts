@@ -14,7 +14,11 @@ export type {
   FlagId,
   PillarState,
   Influence,
+  QuestState,
 } from './state';
+export { QUESTS, QUEST_IDS, getQuest, advanceQuest, isQuestComplete } from './content/quests';
+export type { QuestKind, QuestStep, QuestDef } from './content/quests';
+export { acceptQuest, applyQuestEvent } from './quest-engine';
 export { createInitialState, hasFlag, setFlag, withResource, addSkillXp } from './state';
 
 export type { Intent, IntentType } from './intents';

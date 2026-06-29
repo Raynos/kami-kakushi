@@ -46,6 +46,7 @@ import {
   MATERIALS,
   getMaterial,
   canCraft,
+  QUESTS,
   balance,
 } from '../core';
 import type { Sfx } from './sfx';
@@ -106,7 +107,7 @@ const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }>
 const RESOURCE_LABEL: Record<string, string> = { koku: 'koku', wood: 'wood', sansai: 'sansai' };
 
 type Dispatch = (intent: Intent) => void;
-type Tab = 'work' | 'skills' | 'combat';
+type Tab = 'work' | 'skills' | 'combat' | 'quests';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -412,7 +413,8 @@ export function mount(
   const actions = el('div', 'actions');
   const skillsPane = el('div', 'skills-pane');
   const combatPane = el('div', 'combat-pane');
-  work.append(workHead, ladder, estatePane, influence, actions, skillsPane, combatPane);
+  const questsPane = el('div', 'quests-pane');
+  work.append(workHead, ladder, estatePane, influence, actions, skillsPane, combatPane, questsPane);
 
   workspace.append(logSection, work);
   shell.append(header, nav, workspace, settings.modal);
@@ -453,11 +455,18 @@ export function mount(
     if (lastState) render(lastState, null);
   }
 
-  const TAB_LABEL: Record<Tab, string> = { work: 'Work', skills: 'Skills 技', combat: 'Combat 武' };
+  const TAB_LABEL: Record<Tab, string> = {
+    work: 'Work',
+    skills: 'Skills 技',
+    combat: 'Combat 武',
+    quests: 'Quests 用',
+  };
   function renderNav(state: GameState): void {
     const tabs: Tab[] = ['work'];
     if (isUnlocked(state, 'tab-skills')) tabs.push('skills');
     if (isUnlocked(state, 'tab-combat')) tabs.push('combat');
+    // Quests open with combat (the crop-raider quest needs the field-defence verbs) — D-037.
+    if (isUnlocked(state, 'tab-combat')) tabs.push('quests');
     nav.hidden = tabs.length < 2;
     if (nav.hidden) return;
     if (!tabs.includes(activeTab)) activeTab = 'work';
@@ -1134,6 +1143,51 @@ export function mount(
     window.setTimeout(() => overlay.remove(), 3200);
   }
 
+  function renderQuests(state: GameState): void {
+    questsPane.textContent = '';
+    const show = activeTab === 'quests';
+    questsPane.hidden = !show;
+    if (!show) return;
+    questsPane.append(el('h2', undefined, 'Quests 用'));
+    questsPane.append(
+      el(
+        'div',
+        'skill-blurb',
+        'Goals beyond the daily grind — take one on, then earn it in the field.',
+      ),
+    );
+    for (const q of QUESTS) {
+      const done = new Set(state.quests.progress[q.id] ?? []);
+      const completed = state.quests.completed.includes(q.id);
+      const accepted = state.quests.accepted.includes(q.id);
+      const card = el('div', `quest-card frame${completed ? ' done' : ''}`);
+      const head = el('div', 'skill-head');
+      head.append(el('span', 'skill-name', q.title));
+      head.append(el('span', 'skill-lvl', completed ? 'Done ✓' : q.kind));
+      card.append(head);
+      card.append(el('div', 'skill-blurb', q.blurb));
+      if (accepted || completed) {
+        const stepsEl = el('div', 'quest-steps');
+        for (const s of q.steps) {
+          const ok = done.has(s.id);
+          const row = el('div', `quest-step${ok ? ' ok' : ''}`);
+          row.append(el('span', 'quest-check', ok ? '☑' : '☐'));
+          row.append(el('span', undefined, s.label));
+          stepsEl.append(row);
+        }
+        card.append(stepsEl);
+        const rk = q.reward.resources?.koku;
+        if (rk && !completed) card.append(el('div', 'influence-when', `Reward: ${rk} koku`));
+      } else {
+        const btn = el('button', 'verb', 'Take this on');
+        btn.type = 'button';
+        btn.addEventListener('click', () => dispatch({ type: 'accept_quest', questId: q.id }));
+        card.append(btn);
+      }
+      questsPane.append(card);
+    }
+  }
+
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
     // pre-awake: show only the cold-open card; the shell (and its log) inks in on waking.
@@ -1155,6 +1209,7 @@ export function mount(
     renderActions(state);
     renderSkills(state);
     renderCombat(state);
+    renderQuests(state);
     // the signature beats: a rung promotion presses the house seal (ui-design §6.2); a TIER
     // ascension lands the bigger ceremony (D-062). Tier change wins (don't double-fire).
     if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);

@@ -156,6 +156,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'log'
     | 'skillXp'
     | 'deliveredDialogue'
+    | 'quests'
     | 'rung'
     | 'rungMeter'
     | 'estateStage'
@@ -196,6 +197,9 @@ export function validateState(rawState: unknown): ValidateResult {
     } as unknown as GameState['log'],
     skillXp: base.skillXp ?? {},
     deliveredDialogue: Array.isArray(base.deliveredDialogue) ? base.deliveredDialogue : [],
+    quests: isObject(base.quests)
+      ? (base.quests as GameState['quests'])
+      : { accepted: [], progress: {}, completed: [] },
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,

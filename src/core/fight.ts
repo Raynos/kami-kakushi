@@ -12,6 +12,7 @@ import { applyRewards } from './rewards';
 import { advanceClock } from './step';
 import { NAMES } from './content/names';
 import { rollMaterialDrop, getMaterial } from './content/crafting';
+import { applyQuestEvent } from './quest-engine';
 import {
   COMBAT_XP_K,
   SETBACK_HP,
@@ -101,6 +102,8 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
         ],
       });
     }
+    // quest advance token — 'kill:<mob>' (D-037), e.g. 'kill:monkey' / 'kill:boar'.
+    next = applyQuestEvent(next, `kill:${mob.id}`);
     next = advanceClock(next, FIGHT_TICKS);
   } else {
     // soft setback (D-050/§4.6.6): you limp away at the HP floor — never losing a

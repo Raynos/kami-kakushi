@@ -47,6 +47,14 @@ export interface Influence {
   readonly estate: PillarState;
 }
 
+/** Quest progress (T0-M4-F1 / D-037). `progress` holds the done STEP ids per quest (a set,
+ *  stored as a JSON-friendly array); `completed` guards the one-time reward grant. */
+export interface QuestState {
+  readonly accepted: readonly string[];
+  readonly progress: Readonly<Record<string, readonly string[]>>;
+  readonly completed: readonly string[];
+}
+
 export interface Clock {
   /** Sub-day abstract tick (0 .. TICKS_PER_DAY-1 within a day; monotonic overall via day). */
   readonly tick: number;
@@ -85,6 +93,8 @@ export interface GameState {
   readonly skillXp: Readonly<Partial<Record<SkillId, number>>>;
   /** Ids of dialogue lines already delivered (the diegetic-mentor cursor, D-039/D-063). */
   readonly deliveredDialogue: readonly string[];
+  /** Quest acceptance + per-step progress + completion (T0-M4-F1 / D-037). */
+  readonly quests: QuestState;
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
@@ -138,6 +148,7 @@ export function createInitialState(
     log: emptyLog(),
     skillXp: {},
     deliveredDialogue: [],
+    quests: { accepted: [], progress: {}, completed: [] },
     rung: 'R0',
     rungMeter: 0,
     estateStage: 0,

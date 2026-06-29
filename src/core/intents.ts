@@ -33,6 +33,7 @@ import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import { getRecipe, canCraft } from './content/crafting';
+import { acceptQuest, applyQuestEvent } from './quest-engine';
 import {
   getActivity,
   activityLine,
@@ -59,6 +60,7 @@ export type Intent =
   | { type: 'improve_estate' }
   | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' }
   | { type: 'craft_weapon'; recipeId: string }
+  | { type: 'accept_quest'; questId: string }
   | { type: 'ascend' };
 
 export type IntentType = Intent['type'];
@@ -171,6 +173,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = accrueRungMeter(next, act.id);
       // Phase 2 (post-R7): estate labour also banks an Estate-pillar deed (no-op in Phase 1).
       next = applyEstateDeed(next);
+      // quest advance tokens — 'gather:<resource>' for each thing the act yielded (D-037).
+      for (const res of Object.keys(gained)) next = applyQuestEvent(next, `gather:${res}`);
       next = advanceClock(next, TICKS_PER_ACT);
       break;
     }
@@ -296,6 +300,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
         flags: [`crafted-${recipe.outputWeapon}`],
         log: [{ channel: 'milestone', text: recipe.blurb }],
       });
+      break;
+    }
+    case 'accept_quest': {
+      next = acceptQuest(next, intent.questId);
       break;
     }
     case 'ascend': {

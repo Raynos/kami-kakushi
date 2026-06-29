@@ -210,9 +210,16 @@ Wiring the authored leaf modules into the spine, each verify-green + tested:
   `equip_weapon` re-gated on the `crafted-wood_axe` flag. 24 module tests + 3 m2 integration (grant-retired,
   materials-drop, craft-consumes-and-equips). Screenshot `breadth/craft-panel.png`. verify green.
 
+- **T0-M4-F1 first quest + Quests tab — DONE** (D-037). Integrated `quests.ts` (order-free advance-event sets) +
+  a new `quest-engine.ts` glue (accept + `applyQuestEvent`, in its own module so both fight.ts and intents.ts can
+  emit tokens without a cycle). New `quests` state (additive). The fight reducer emits `kill:<mob>`, labour emits
+  `gather:<resource>`; the crop-raider PEST quest (rout-monkey / down-boar / mend-fence) completes in any order →
+  +30 koku once (double-grant-guarded). New **top-level Quests 用 tab** (D-037, not nested) with per-step
+  checkmarks. 7 module tests + 3 reducer integration. Screenshot `breadth/quests-tab.png`. verify green.
+
 ## Next intended steps (current)
-1. **NEXT** (overnight): T0-M4 quests + Quests tab · market · walkable map · stance/ability reveals → retire the
-   DEMO/REAL fork (M2·8) → PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint-push.
+1. **NEXT** (overnight): market · walkable map (diverge) · stance/ability reveals → retire the DEMO/REAL fork
+   (M2·8) → PRD/human-feedback/ADR **battery** → R1→T0 M0–M4 review + QA gallery + checkpoint-push.
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.
