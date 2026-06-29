@@ -1,7 +1,7 @@
 # Roadmap — **Section → Milestones → Fun-slices** (LIVING)
 
 > **The living v1 milestone tracker.** Canonical — **promoted 2026-06-29** from the re-axe proposal
-> ([`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md), retained as
+> ([`../../project/archive/2026-06-29-roadmap-reaxe-proposal.md`](../../project/archive/2026-06-29-roadmap-reaxe-proposal.md), retained as
 > the as-reviewed artifact) — and it **supersedes the old M0–M7 milestone tracker**. Edited in place as
 > fun-slices land. Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the **2026-06-29 decision
 > session** (D-056…D-069; [ledger](../../project/human-feedback/2026-06-29-decision-session.md)) + the **5
@@ -279,7 +279,7 @@ bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** rel
   before the commit**; a **CI manifest check** asserts every instrument a DoD names resolves to a real
   test/tool (bans "SHIPPED (slice)"). The per-milestone verify-green gate is the lighter, per-commit half;
   this is the full integrity rule. *(The `pending-prd-changes.md` tracker assigns this contract to the re-axe.)*
-- **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](../plans/2026-06-29-operating-model-v2-final.md),
+- **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](../../project/archive/2026-06-29-operating-model-v2-final.md),
   built by a concurrently-active op-model agent) is the **source of truth**: that plan *defines* the gates,
   this roadmap *bakes them in*. All three are now **BUILT**: (1) the **pre-commit gate runs the full `verify`**
   (drift-bounded ~5s budget, never time-blocking; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1` escape hatches); (2) the

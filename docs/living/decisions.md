@@ -482,7 +482,7 @@ full-`verify` pre-commit + drift guard (**D-072**, superseding the D-070 deferra
 mandatory `diverge` gate (**D-073**), and the `playcheck` ratchet (**D-074**). The "deferred / HELD" stance no
 longer holds.
 **Build-order (spine-first) + carry-forward-T0 are roadmap sequencing** — they live in the
-roadmap plan ([`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md)), not a
+roadmap plan ([`../../project/archive/2026-06-29-roadmap-reaxe-proposal.md`](../../project/archive/2026-06-29-roadmap-reaxe-proposal.md)), not a
 design ADR.
 
 ### D-056 ✅ — Real D-049 pacing ships as the default; a DEV-only speed toggle replaces the DEMO/REAL profile fork
@@ -523,7 +523,7 @@ design ADR.
 - **Options:** (A) flat S0–S4 stages · (B) **a two-level, per-tier structure — for each v1 tier (T0/T1/T2/T3): N milestones; within each milestone: N fun-slices**.
 - **Decision:** **(B)** Re-axe the roadmap as **nested Tier → Milestones → Fun-slices**. Each tier gets N milestones; each milestone gets N fun-slices, where a **fun-slice ships a playable, *fun* increment** (not just a feature). Claude proposes the cut.
 - **Why:** Nesting under the tier spine (D-007/D-048) keeps the roadmap legible against the actual game structure, and forces every increment to be playable-and-fun rather than a feature checkbox — the audit's #1 lesson (a chassis with no engine).
-- **Consequences:** `docs/living/roadmap.md` is re-axed to the nested shape (proposal: [`../plans/2026-06-29-roadmap-reaxe-proposal.md`](../plans/2026-06-29-roadmap-reaxe-proposal.md)). **Build-order (spine-first) + carry-forward-T0 are sequencing details that live in that roadmap plan, NOT this ADR.** Milestone count / fun-slice granularity / naming are delegated to Claude. **Docs application PENDING.** Per **D-022**, governs.
+- **Consequences:** `docs/living/roadmap.md` is re-axed to the nested shape (proposal: [`../../project/archive/2026-06-29-roadmap-reaxe-proposal.md`](../../project/archive/2026-06-29-roadmap-reaxe-proposal.md)). **Build-order (spine-first) + carry-forward-T0 are sequencing details that live in that roadmap plan, NOT this ADR.** Milestone count / fun-slice granularity / naming are delegated to Claude. **Docs application PENDING.** Per **D-022**, governs.
 
 ### D-061 ✅ — Difficulty is humbling THROUGHOUT (incl. T0); distinct from D-049 pacing
 - **created_date:** 2026-06-29
@@ -630,7 +630,7 @@ design ADR.
 - **Options:** (A) keep D-070's deferral + D-071's subset · (B) **adopt v2 FINAL — run the full `verify` every commit (measured ~3.2s, fits the 5s box) + a noisy-but-non-blocking drift guard.**
 - **Decision:** **(B).** Pre-commit runs the **full `npm run verify`** (~3.2s measured — incl. the test suite D-071 skipped, its blind spot), wrapped in a soft 5s **drift timer** (green/amber/red; logs `tmp/precommit-timings.tsv`; **never blocks on time**). `SKIP_VERIFY=1` bypasses a docs-only commit. The hard budget check is the explicit **`npm run verify:budget`** (per-gate breakdown + median-of-3); a non-blocking `pre-push` surfaces it loudly. Principle: noisy about drift, never blocking the task in flight.
 - **Why:** Measurement reversed D-071's premise — the whole suite runs in ~3s, so the content-aware subset bought nothing and cost the test-suite blind spot. Run everything; let the drift guard catch the budget creeping as the codebase grows.
-- **Consequences:** **⛔ REVERSES D-070 and D-071** (both annotated). Built this session: [`../../.githooks/pre-commit`](../../.githooks/pre-commit), [`../../src/scripts/verify-run.ts`](../../src/scripts/verify-run.ts), [`../../.githooks/pre-push`](../../.githooks/pre-push). **Un-holds** the `diverge` gate (**D-073**) and the `playcheck` ratchet (**D-074**) that D-070 had held; the roadmap half is **D-060**. Plan: [`../plans/2026-06-29-operating-model-v2-final.md`](../plans/2026-06-29-operating-model-v2-final.md). **Refined 2026-06-29:** the 9 gates run in **PARALLEL** via `verify-run.ts` (≈1.7s wall, down from ~4s sequential — the 5s box now has ~3.3s headroom); `verify:budget` = `verify-run --budget`. Per **D-022**, governs.
+- **Consequences:** **⛔ REVERSES D-070 and D-071** (both annotated). Built this session: [`../../.githooks/pre-commit`](../../.githooks/pre-commit), [`../../src/scripts/verify-run.ts`](../../src/scripts/verify-run.ts), [`../../.githooks/pre-push`](../../.githooks/pre-push). **Un-holds** the `diverge` gate (**D-073**) and the `playcheck` ratchet (**D-074**) that D-070 had held; the roadmap half is **D-060**. Plan: [`../../project/archive/2026-06-29-operating-model-v2-final.md`](../../project/archive/2026-06-29-operating-model-v2-final.md). **Refined 2026-06-29:** the 9 gates run in **PARALLEL** via `verify-run.ts` (≈1.7s wall, down from ~4s sequential — the 5s box now has ~3.3s headroom); `verify:budget` = `verify-run --budget`. Per **D-022**, governs.
 
 ### D-073 ✅ — Design by divergence: a mandatory `diverge` gate for new/major UI surfaces (branch-preserved)
 - **created_date:** 2026-06-29

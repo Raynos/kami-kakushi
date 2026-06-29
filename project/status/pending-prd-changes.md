@@ -39,12 +39,12 @@ metadata:
 
 ## ⓪ DO FIRST — split the PRD (`DS#6` / H8)
 
-- [ ] **PRD-SPLIT** — split the ~7k-line `docs/living/prd.md` into **per-section files with ASCII names**
-  (`prd/01-vision.md … 07-roadmap-scope.md` — human's 2026-06-29 steer: no `§`/unicode in filenames; full map
-  in the [op-model v2 FINAL plan §2.E](../../docs/plans/2026-06-29-operating-model-v2-final.md)) + a tiny
-  **completeness check** (every section present, nothing truncated). **Mechanical, zero content change**;
-  removes the truncation failure class. Do this **before** any content ripple below so each edit lands in a
-  small file. *(DS#6, H8)*
+- [x] **PRD-SPLIT** — ✅ **DONE (2026-06-29, `303a63f`).** Split the ~7k-line `docs/living/prd.md` into
+  **per-section files with ASCII names** (`prd/01-vision.md … 07-roadmap-scope.md` — human's 2026-06-29 steer:
+  no `§`/unicode in filenames; full map in the op-model v2 FINAL plan §2.E, now archived to
+  [`../archive/2026-06-29-operating-model-v2-final.md`](../archive/2026-06-29-operating-model-v2-final.md)) +
+  a `verify-prd` completeness check. **Mechanical, zero content change**; removed the truncation failure class.
+  The 37 content-ripple items below now each land in a small section file. *(DS#6, H8)*
 
 ---
 

@@ -1,15 +1,15 @@
 # Roadmap re-axe — nested **Section → Milestones → Fun-slices** (PROPOSAL)
 
-> ✅ **PROMOTED 2026-06-29 → [`../living/roadmap.md`](../living/roadmap.md).** This proposal is now **canon** and
-> is retained here only as the **as-reviewed historical artifact — do not edit.** The 5 provisional forks below
-> were all **finalized** ([ledger](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md)); the
-> living roadmap carries the locked shape (incl. the T2 "Village — the valley beyond your gate" subtitle).
+> ✅ **ARCHIVED 2026-06-29 — PROMOTED → [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md).** This
+> proposal was promoted to canon (session-11) and is retained here only as the **as-reviewed historical
+> artifact — do not edit.** The 5 provisional forks below were all **finalized**
+> ([ledger](../human-feedback/2026-06-29-roadmap-forks-finalized.md)); the living roadmap carries the locked
+> shape (incl. the T2 "Village — the valley beyond your gate" subtitle).
 
 > **PROPOSAL — for human review.** Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the
-> **2026-06-29 decision session** ([`../../project/human-feedback/2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)).
-> Incorporates the 2026-06-29 decisions (#1–#23). This is the **candidate to become the new
-> [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md)** and **supersedes the M-milestone roadmap once
-> approved** — but it stays **PROPOSAL until the human OKs**; nothing here is applied canon yet.
+> **2026-06-29 decision session** ([`../human-feedback/2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md)).
+> Incorporates the 2026-06-29 decisions (#1–#23). This was the **candidate to become the new
+> [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md)** — now promoted; nothing here is live canon.
 >
 > ⚠️ **PARTIALLY STALE → REVISED 2026-06-29.** The first draft was locked at `3f24fe6`; decisions/ADRs landed
 > **after** it (commit `64ad701`): **D-070** (Operating-Model-v2 deferred *as a bundle*; closes H7/H9/H10 — so

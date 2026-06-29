@@ -1,6 +1,6 @@
 # T2 content (PROVISIONAL — hand-authored)
 
-> PROVISIONAL / PROPOSED content — hand-authored from the roadmap re-axe proposal + the T1/T2 content digest, NOT generated. Unlike t0-content.md (generated from `src/core/content/*`), T2 is not built yet; once built, this regenerates from the typed registries (generate-don't-duplicate). Numbers are 'proposed v1 balance' (PRD §4 liquid, D-059) and re-tune by playtest. Source roadmap: `docs/plans/2026-06-29-roadmap-reaxe-proposal.md` (§ Tier T2).
+> PROVISIONAL / PROPOSED content — hand-authored from the roadmap re-axe proposal + the T1/T2 content digest, NOT generated. Unlike t0-content.md (generated from `src/core/content/*`), T2 is not built yet; once built, this regenerates from the typed registries (generate-don't-duplicate). Numbers are 'proposed v1 balance' (PRD §4 liquid, D-059) and re-tune by playtest. Source roadmap: `project/archive/2026-06-29-roadmap-reaxe-proposal.md` (§ Tier T2).
 
 **Tier:** T2 — Village (Asagiri) · **Pillar earned this tier:** Office 官威 *kan'i* (unlocks Region/T3) · **Rungs:** V0→V7 (numbering **RESETS** — T0 was R0–R7, T1 R8–R15, T2 a *new* V-ladder, D-012) · **Weapon line introduced:** Staff/polearm (Line 3 — Bō / Naginata / Kanabō / Tetsubō; *pulled forward from T3 per the 2026-06-29 human steer, so the roster is complete by end-of-T2*) · **Milestones:** T2-M1…T2-M4 (rungs map ~3/2/2/1: V0–V2 / V3–V4 / V5–V6 / V7).
 

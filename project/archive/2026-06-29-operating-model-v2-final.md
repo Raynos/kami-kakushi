@@ -1,10 +1,15 @@
 # Operating Model v2 — **FINAL** (the H10 resolution)
 
-> **What this is.** The decided, build-ready operating-model plan. It **supersedes both** prior drafts —
-> [`operating-model-v2-implementation.md`](../../project/archive/2026-06-28-operating-model-v2-implementation.md)
+> ✅ **ARCHIVED 2026-06-29 (executed).** Built & adopted end-to-end (session-09): parallel-`verify` pre-commit +
+> drift guard, `playcheck` ratchet, `diverge` skill, the PRD split, ADRs **D-072–D-074** (D-072 reverses the
+> earlier "defer v2" call). The canon now lives in the gates/hooks/skills + those ADRs; this plan is retained
+> as the **as-executed historical artifact — do not edit.**
+
+> **What this is.** The decided, build-ready operating-model plan. It **superseded both** prior drafts —
+> [`operating-model-v2-implementation.md`](./2026-06-28-operating-model-v2-implementation.md)
 > (the maximalist ~1-week version) and
-> [`operating-model-v2-lite-reelback.md`](../../project/archive/2026-06-29-operating-model-v2-lite-reelback.md)
-> (the drop/cut/keep reel-back). Both are now **archived** under `project/archive/`. This file is the canon
+> [`operating-model-v2-lite-reelback.md`](./2026-06-29-operating-model-v2-lite-reelback.md)
+> (the drop/cut/keep reel-back). Both are also **archived** here under `project/archive/`. This file was the canon
 > plan for **H10**.
 >
 > **Authored 2026-06-29** from the human's 8 directives (this session) + **measured** gate timings (not
