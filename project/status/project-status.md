@@ -109,7 +109,7 @@ metadata:
   now reads as just **B content-ripple → E build**. **Archived** the two complete plans → `project/archive/`
   (op-model v2 FINAL, roadmap re-axe proposal) + fixed cross-refs in `decisions.md`/`roadmap.md`/t1-t2 content.
   **`docs/plans/` now holds only `path-to-v0.3.md`.** Ticked the stale `PRD-SPLIT` checkbox in
-  `pending-prd-changes.md` (37 ripple items remain). **Simplified** `docs-to-read-for-human.md` to a terse live
+  `pending-prd-changes.md` (~41 ripple items remain; figure corrected session-13). **Simplified** `docs-to-read-for-human.md` to a terse live
   queue (only path-to-v0.3 + pending-prd-changes still need sign-off). Commit `929ace6`, `verify`-green.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +

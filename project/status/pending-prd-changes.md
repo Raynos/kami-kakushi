@@ -126,7 +126,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 ## Ripple checklist — other living docs
 
 - [x] ✅ **`docs/living/decisions.md`** — **ADRs for the 2026-06-29 locks WRITTEN** as **D-056–D-069** (`3f24fe6`): the win-rate split amends signed D-043 (**D-057**), pacing-default supersedes D-047 (**D-056**), the freeze refine of D-020/D-021/D-046 (**D-059**), + carry-forward / linear-flywheel / diegetic-mentor / walkable-map / SFX / humbling-throughout / save-wipe / dev-tools (**D-061…D-068**). See the **→ ADR crosswalk** under Table B. *(DS#1, DS#3, DS#7, DS#13–DS#23)*
-- [ ] **`docs/living/roadmap.md`** — re-axe to the **nested Tier→Milestones→Fun-slices** structure (per the [re-axe proposal](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)); **spine-first, thin within T0**; **carry-forward + retune** M0–M2b; the new milestone (Estate-tutorial + T0→T1 spine); milestone-integrity DoD; renumbered tiers; bake the v0.2 gates as forward contracts. *(DS#9, DS#18, DS#19, D-048, D-054)*
+- [x] ✅ **`docs/living/roadmap.md`** — **DONE** (promoted 2026-06-29, session-11): re-axed to the **nested Tier→Milestones→Fun-slices** structure (per the [archived re-axe proposal](../archive/2026-06-29-roadmap-reaxe-proposal.md)); **spine-first, thin within T0**; **carry-forward + retune** M0–M2b; the new milestone (Estate-tutorial + T0→T1 spine); milestone-integrity DoD; renumbered tiers; v0.2 gates baked as forward contracts. *(DS#9, DS#18, DS#19, D-048, D-054)*
 - [ ] **`docs/living/qa-playtesting.md`** — `state()` snapshot `tier: 0..4` → **0..5**; `outcome` add **`t3done`** (v1 finish); document the **DEV speed toggle + jump-to-rung/tier** harness affordances. *(D-048, DS#16)*
 - [ ] **`docs/living/ui-design.md`** — the House Influence **silhouette teaser** panel + pillar bars; the **first-ascension ceremony card** (Yuji Syuku title card, silhouettes stir, music swell); the **small walkable T0 map** surface; the **traditional-palette SFX** cues. *(D-055, DS#14, DS#23, DS#12)*
 - [ ] **`docs/living/fun-factor.md`** — the tutorial-vs-grind pacing framing (T0 hook / T1 floor); **humbling THROUGHOUT** (T0 quick but not easy — keep the mediocre-start bite, guardrails intact); onboarding fun via the **diegetic mentor** (no popups). *(D-049, DS#13, DS#22)*
@@ -156,7 +156,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 ## NOT part of this ripple (human-queue / process — tracked so nothing is lost)
 
 - **Operating Model v2 (H10)** — human reviews **separately** (~1 hr), informed by the
-  [op-model v2 FINAL](../../docs/plans/2026-06-29-operating-model-v2-final.md). **Do NOT adopt op-model artifacts**
+  [op-model v2 FINAL](../archive/2026-06-29-operating-model-v2-final.md). **Do NOT adopt op-model artifacts**
   (ADRs / CLAUDE.md / skills) until signed off. *(DS#11)*
 - **`diverge` skill = mandatory UI gate** — locked as a steer, but it **feeds the H10 review**; don't wire it
   as canon until op-model v2 is signed. *(DS#10)*
@@ -182,8 +182,8 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 - Decisions (ADRs): [`docs/living/decisions.md` D-048…D-055](../../docs/living/decisions.md)
 - Intent / human directives: [`2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md) ·
   [`2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md)
-- Plans: [`roadmap-reaxe-proposal`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md) ·
-  [`operating-model-v2-final`](../../docs/plans/2026-06-29-operating-model-v2-final.md)
+- Plans (archived): [`roadmap-reaxe-proposal`](../archive/2026-06-29-roadmap-reaxe-proposal.md) ·
+  [`operating-model-v2-final`](../archive/2026-06-29-operating-model-v2-final.md)
 - The audits that drove it: [`2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md)
 
 ---
@@ -220,6 +220,6 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
   Office 2K/3.2K/4.5K cap 80 ip) — **ACCEPTED AS PROVISIONAL** (§4 liquid, D-059); the 28.5h budget re-derives
   at Ship-M1-F2. Use these as the starting magnitudes in the §4 ripple. *(forks #1 + #5)*
 
-**Stale pointers to fix during the batch:** the plan pointers above (and the §7 / Precedence links) point at
-`docs/plans/2026-06-29-{roadmap-reaxe-proposal,operating-model-v2-final}.md`, both now **archived** to
-`project/archive/` — repoint to `project/archive/…` (or, for the roadmap, to the live `docs/living/roadmap.md`).
+**Stale plan pointers — ✅ FIXED (2026-06-29, session-13):** the plan pointers above + the §7/Precedence links
+were repointed from `docs/plans/2026-06-29-{roadmap-reaxe-proposal,operating-model-v2-final}.md` to their
+`project/archive/` locations (both archived session-12).

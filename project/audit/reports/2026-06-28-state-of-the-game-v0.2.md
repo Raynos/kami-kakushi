@@ -2,7 +2,7 @@
 
 > ✅ **TRIAGED 2026-06-29** — every human-facing decision in this report is resolved (this session + the
 > reshape D-048…D-055). Decision log: [`2026-06-29-decision-session.md`](../../human-feedback/2026-06-29-decision-session.md).
-> Remaining items are agent execution feeding [`roadmap-reaxe-proposal`](../../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md).
+> Remaining items are agent execution feeding [`roadmap-reaxe-proposal`](../../archive/2026-06-29-roadmap-reaxe-proposal.md) *(archived session-12)*.
 
 > **Date:** 2026-06-28 · **Subject:** the v0.2 audit-fix build (tag `v0.2`, HEAD `b39bbd1`) · **Companion:**
 > the v0.1 report [`2026-06-27-state-of-the-game.md`](2026-06-27-state-of-the-game.md) + the

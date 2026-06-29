@@ -103,8 +103,8 @@ T0→T3 → **D-048 + fork #1** · "is the saturating flywheel a decision?" → 
 
 ## Artifacts produced this session (in `docs/plans/`)
 
-- **Roadmap re-axe proposal** → [`docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)
-  (moved from brainstorms). Nested Tier→Milestones→Fun-slices; T0 detailed (4 milestones), T1–T3 coarse. **6
+- **Roadmap re-axe proposal** → [`project/archive/2026-06-29-roadmap-reaxe-proposal.md`](../archive/2026-06-29-roadmap-reaxe-proposal.md)
+  *(authored in `docs/plans/`; archived session-12 after promotion to `docs/living/roadmap.md`)*. Nested Tier→Milestones→Fun-slices; T0 detailed (4 milestones), T1–T3 coarse. **6
   open questions**; load-bearing = **within-T0 build order** (spine-spike on thin content first vs
   showcase-breadth first — proposal recommends spine-first).
 - **Operating Model v2-lite reel-back** → [`docs/plans/2026-06-29-operating-model-v2-lite-reelback.md`](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md)

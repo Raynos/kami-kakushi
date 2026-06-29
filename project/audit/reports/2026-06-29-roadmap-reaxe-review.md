@@ -1,6 +1,6 @@
 # Roadmap Re-axe — 6-Lens Adversarial Review Report
 
-> **Reviews:** [`docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md)
+> **Reviews:** [`project/archive/2026-06-29-roadmap-reaxe-proposal.md`](../../archive/2026-06-29-roadmap-reaxe-proposal.md) *(archived session-12)*
 > **Review run:** `wf_eca8a1e8-e5f` · 2026-06-29 · 6 review lenses + 6 adversarial verifiers (12 agents, opus-4-8[1m])
 > **Raw verbatim findings:** [`project/brainstorms/raw/2026-06-29-roadmap-reaxe-review.json`](../../brainstorms/raw/2026-06-29-roadmap-reaxe-review.json)
 >

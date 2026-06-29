@@ -13,6 +13,12 @@ changes — pre-canon plan doc only.
   **Part 1** (the ~41-item doc/PRD content ripple, grouped, gated on human PRD feedback) and **Part 2** (the
   spine-first v0.3 build: carry-forward list + 9 ordered build steps + explicitly-OUT + risks).
 - `project/brainstorms/raw/2026-06-29-path-to-v03-audit.json` — verbatim snapshot of the audit Workflow output (insurance).
+- **Housekeeping consistency sweep** (the 3 ungated fixes the audit flagged): `pending-prd-changes.md` — flipped the
+  roadmap-re-axe box to `[x]` (now **41 open / 3 done**, was 42/2) + repointed its 4 stale plan links + marked the
+  "stale pointers to fix" note resolved; `project-status.md` — "37"→"~41" ripple figure; repointed the 2 remaining
+  archived-plan links in the historical records (`human-feedback/2026-06-29-decision-session.md`, `audit/reports/
+  2026-06-28-state-of-the-game-v0.2.md`, `audit/reports/2026-06-29-roadmap-reaxe-review.md`). No broken `docs/plans/`
+  links remain (outside journal/raw snapshots).
 
 ## Audit findings (grounded against the repo)
 - **All 5 "done" claims CONFIRMED:** A (ADRs D-056–D-069, `3f24fe6`) · C (`roadmap.md` promoted) · D (op-model v2
@@ -26,8 +32,8 @@ changes — pre-canon plan doc only.
   decoration today (no `influence`/`tier`/`pillarDeltas` in GameState; rung ladder dead-ends at R3).
 
 ## Next intended steps
-1. **(ungated, cheap — optional now)** flip `pending-prd-changes.md:124` to `[x]`; fix the "37"→"~41" figure in
-   `project-status.md`; repoint archived-plan links.
+1. ✅ **DONE (this session)** — the 3 ungated housekeeping fixes: flipped the roadmap-re-axe box (→ 41 open / 3
+   done), fixed the "37"→"~41" figure, repointed all archived-plan links.
 2. **(gated on human's extra PRD feedback)** Part 1 — the batched content ripple via a Workflow.
 3. **(gated on Part 1's code edits)** Part 2 — the spine-first build, in the 9 documented steps.
 4. Still on the human: **R1** (M0–M2 fun/taste call) + the **extra PRD feedback**.
