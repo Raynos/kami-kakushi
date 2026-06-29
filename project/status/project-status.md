@@ -197,6 +197,15 @@ metadata:
   cold-open koku-teaching lands on the +koku; seals all scrimmed); **(3)** a **populated-state save round-trip
   test** (cross-session playtest persistence for tier/influence/quests/location/marketBought). All green, pushed.
   One observation routed to R4#5 (post-ascension panel shows stale T0 framing = thin-T1-content, a depth call).
+- **Phase update — M2·8 DONE: DEMO/REAL fork RETIRED (2026-06-29, session-19, human-steered mid-loop).** The human
+  asked about M2·8 + clarified **the DEV tools are permanent until ship**; with **D-056** (locked: ship real pacing,
+  DEV speed toggle for velocity) that unblocked it. Retired the fork across 14 files → **ONE re-derived T0 profile**
+  (R0 1100 ≈ **4.88 min** cold-open · R1 2150 ≈ **10.0** · R2 2600 ≈ **12.1** · R3–R7 2800→3400; sim-verified). T0 is
+  ≥30-floor-EXEMPT → the pacing gate is the sane **band [3,22] min** (RED-able). Removed `BalanceProfile` + the
+  `balanceProfile` state field + the `?balance=`/VITE boot resolver + `__qa.setProfile/profile`; **KEPT** the DEV
+  speed toggle + teleports (the R1 playbook). playcheck re-blessed, docs regenerated. **verify GREEN (9 gates, 226
+  tests)** + a headless DEV-tools smoke (0 console errors). Magnitudes LIQUID (D-059) — human tunes by playtest. The
+  one remaining live ADR contradiction (D-056) is **resolved**; R4#2 closed. Commit `adebf22`.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·

@@ -90,11 +90,12 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
      D-053 (`decisions.md:444`) says do the OPPOSITE (advance by wall-time, a hidden tab catches up), while
      `decisions.md:157` frames D-053 as *reaffirming* active-only. The two ADRs pull apart — **which is canon?**
      (Cost of inaction: a signed lock sits unbuilt while the code does its literal opposite.)
-  2. **The shipped pace + fork (D-056 + the REAL T0 numbers, MAJOR).** DEMO ships by default (<1 min tutorial);
-     REAL over-corrects (R0 ≈ 31 min / ~3500 rakes) vs the ~10–15 min/rung target + D-022's "R0 ≈ 5-min cold-open".
-     **No reachable profile delivers the designed hook.** → approve retiring the fork (ship ONE profile) + sign off
-     re-derived T0 thresholds (~10–15 min/rung, R0 ≈ 5 min) with the ≥30 floor gated from T1. (This is M2·8 + the
-     pacing re-derivation — the agent deferred it as it needs your number sign-off.)
+  2. ✅ **The shipped pace + fork (D-056 + the REAL T0 numbers) — DONE (M2·8, you steered this mid-loop).** You
+     confirmed the DEV tools are permanent + D-056 (locked) already chose "ship the real pacing, DEV speed toggle
+     for velocity," so the agent retired the fork: ONE profile, **re-derived to the targets — R0 4.88 min (the
+     ~5-min cold-open), R1 10.0, R2 12.1** (sim-verified); R3–R7 on a gentle ramp (not sim-measured). T0 is
+     ≥30-floor-EXEMPT, gated on the band [3,22] min. **These are LIQUID (D-059) — confirm the feel by playtest, or
+     tell me to nudge any rung.** (The cold-open is now ~5 min of raking, hands-off via the auto-loop / `__qa.speed(8)`.)
   3. **Auto-combat defuses the D-050 fight tension (MAJOR).** Auto-combat auto-heals + only fights the matchup you
      pick, so "a fight you might lose" becomes background maintenance. → keep autopilot fully autonomous, or make it
      strictly assistive / add a press-your-luck prompt?
