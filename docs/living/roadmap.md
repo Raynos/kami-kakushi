@@ -3,7 +3,16 @@
 > **The living v1 milestone tracker.** Canonical — **promoted 2026-06-29** from the re-axe proposal
 > ([`../../project/archive/2026-06-29-roadmap-reaxe-proposal.md`](../../project/archive/2026-06-29-roadmap-reaxe-proposal.md), retained as
 > the as-reviewed artifact) — and it **supersedes the old M0–M7 milestone tracker**. Edited in place as
-> fun-slices land. Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the **2026-06-29 decision
+> fun-slices land.
+>
+> **Governed by [`prd/07-roadmap-scope.md`](prd/07-roadmap-scope.md) (§7), this roadmap's contract.** §7 owns the
+> *what* (the locked v1 = full T0–T3 scope, the cut-set, the pacing FLOOR, the hard guardrails, the release gate,
+> the risk register); this file owns the *how / the order* (the replannable M0…M-series build sequence). §7.2
+> delegates the milestone roadmap **here** as the single source (generate-don't-duplicate — D-021 / D-059 / DS#9),
+> so this is the only living copy. On any conflict: **§7 wins on locked scope & shape; this file wins on
+> sequence.**
+>
+> Reflects the **2026-06-28 tier reshape** (D-048…D-055, 6 tiers) + the **2026-06-29 decision
 > session** (D-056…D-069; [ledger](../../project/human-feedback/2026-06-29-decision-session.md)) + the **5
 > finalized forks** ([ledger](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md)). Per **D-021**
 > the roadmap is **re-planned after each playtest**: **T0/T1/T2 are detailed; T3 stays coarse** (re-detailed on
