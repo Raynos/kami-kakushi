@@ -94,6 +94,15 @@ metadata:
   pre-session D-070/D-071 "defer v2" call) + CLAUDE.md rules. Also: an **adversarial review** (15 findings fixed),
   **`created_date`** backfilled on all 73 ADRs, and an **ADR staleness audit** (15 superseded/stale entries
   annotated). All commits `verify`-green. *(Op-model v2 / H10 is no longer a gate — it's DONE.)*
+- **Phase update — ROADMAP PROMOTED + 5 FORKS FINALIZED + GIT-ADD GUARD (2026-06-29, session-11).** Promoted the
+  re-axe proposal → **`docs/living/roadmap.md` (LIVING)** (M0–M7 tracker retired); finalized the **5 forks** (all
+  defaults — T2 kept **"Village"** + a "valley beyond your gate" subtitle; ledger:
+  [`../human-feedback/2026-06-29-roadmap-forks-finalized.md`](../human-feedback/2026-06-29-roadmap-forks-finalized.md)).
+  Added 6 post-promotion ripple items to `pending-prd-changes.md` (incl. **§7/prd-07 = slim + delegate** to the
+  living roadmap, not re-duplicate). Built a **PreToolUse guard** (`.claude/hooks/guard-git-add-all.sh`) that
+  **blocks broad `git add -A`/`.`/`commit -a`** to stop cross-agent sweeps — *other live sessions must
+  `/hooks`-reload to pick it up; script committed, `.claude/settings.json` is gitignored-local.* Commits
+  `89dde8e`/`15f932a`/`6784d4f`/`17c7566`.
 - **Phase update — PLAN STALENESS RECONCILED + COMPLETED PLANS ARCHIVED (2026-06-29, session-12).** Refreshed
   [`../../docs/plans/2026-06-29-path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md): 3 of its 4 gated
   blockers had cleared (op-model **D** built, roadmap **C** promoted, the PRD-**split** of **B** shipped) — it
