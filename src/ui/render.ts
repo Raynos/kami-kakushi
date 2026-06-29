@@ -300,7 +300,7 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
     el(
       'p',
       'modal-meta',
-      `Built agentically with Claude Code · build ${__BUILD_SHA__} · ${__BUILD_DATE__}`,
+      `Built agentically with Claude Code · ${__VERSION__} · build ${__BUILD_SHA__} · ${__BUILD_DATE__}`,
     ),
   );
   card.append(el('p', 'modal-meta', 'Code: MIT. Game content: all rights reserved.'));
