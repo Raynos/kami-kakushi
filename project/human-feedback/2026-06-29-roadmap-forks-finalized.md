@@ -1,7 +1,7 @@
 # Roadmap re-axe — final fork decisions (2026-06-29)
 
 > **What this is.** The human's finalized calls on the **5 provisional forks** the roadmap re-axe proposal
-> ([`../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md))
+> ([`../archive/2026-06-29-roadmap-reaxe-proposal.md`](../archive/2026-06-29-roadmap-reaxe-proposal.md), since archived)
 > had left *"flagged for your steer (recommended default applied; flag to override)"*. This round **actively
 > confirmed all five** — converting *default-applied* into **locked** — which cleared the last open items in the
 > proposal and triggered its **promotion** to [`../../docs/living/roadmap.md`](../../docs/living/roadmap.md).
@@ -41,7 +41,7 @@
 - All **5 forks CLOSED** → the roadmap proposal has **zero open items**.
 - **Promoted** to `docs/living/roadmap.md` (2026-06-29); the old M0–M7 milestone tracker is retired (git history
   + journals preserve it). The proposal is banner-marked **PROMOTED** and retained in `docs/plans/` as the
-  historical as-reviewed artifact.
+  historical as-reviewed artifact (archived to `project/archive/` by the concurrent op-model agent's housekeeping).
 - **No new ADRs minted.** Forks #1/#5 are explicitly provisional (PRD §4 liquid, D-059). Forks #2/#3/#4 are
   roadmap-structure confirmations *within* the already-locked reshape (D-048…D-069) and are now carried by the
   living roadmap; if later wanted as ADR canon, they fold into the pending PRD ripple batch
