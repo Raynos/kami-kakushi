@@ -17,11 +17,14 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 > **Updated 2026-06-29 (overnight) from the M0–M2 slice → the whole T0 (M0–M4).** v0.3 built the macro spine
 > (which now CLOSES) + the T0-M4 breadth. This is the taste call on the full T0 arc.
 
-- **Asking for:** the **fun & visual-taste verdict** on the full T0 experience — does the cold open hook (note:
-  it's now **longer** — Genemon greets + teaches in the log; is that the right amount, or trim?); is the
-  labour→wolf→combat→**spine→ascension**→breadth arc paced and fun; does the **BIG T0→T1 ascension** land as a
-  payoff; do the breadth beats (quest, craft, walkable map, market) add fun or chrome; does it all look like an
-  intentional woodblock game (not AI-slop)? Anything that breaks the spell.
+- **Asking for:** the **fun & visual-taste verdict** on the full T0 experience — does the **cold-open hook** land
+  (note: the battery flagged it as over-teaching and the agent **applied a fix** — Genemon now greets with only
+  **greet + the stakes** on wake, and the koku-teaching + promise land *after* your first rake (reveal-as-plot);
+  see the refreshed `v03-gallery/01-cold-open-genemon.png` — confirm the new sequencing reads right or tune
+  further, R4#4); is the labour→wolf→combat→**spine→ascension**→breadth arc paced and fun; does the **BIG T0→T1
+  ascension** land as a payoff (the ceremony seal now sits on a proper scrim — `v03-gallery/04-ascension-ceremony.png`);
+  do the breadth beats (quest, craft, walkable map, market) add fun or chrome; does it all look like an intentional
+  woodblock game (not AI-slop)? Anything that breaks the spell.
 - **The arc to play:** cold open (Genemon onboarding) → rake → labour up the **R0→R7** ladder → the humbling
   grain-store wolf → combat (HP **carries** + heals by **eating**; stances trade; **loot→craft** the woodlot axe);
   → **Phase 2 opens at R7**: your estate deeds bank into the live **House-Influence 家威** pillar; the **season
@@ -34,13 +37,15 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   - `__qa.jumpToAscension()` — jump to Estate **Excellent**, the **Ascend** button live (click it for the ceremony).
   - `__qa.toRung('R3')` — fast-forward via real intents to a rung; `__qa.faceWolf()` the humbling fight.
   - (Base pacing is provisional/liquid (D-059); the DEV speed + teleports give review velocity.)
-- **Galleries to skim:** `audit/screens/breadth/` (Genemon onboarding, craft panel, Quests tab),
-  `audit/screens/diverge-influence/` (the live spine + the **ascension ceremony** `play-2-ceremony.png`),
-  `audit/screens/diverge-map/` (the walkable map). The fidelity **battery** report
-  (`audit/reports/2026-06-29-v03-*`) + the roadmap-respect report are the agent's self-vetting; this is the taste
-  call they inform but can't replace.
-- **Known, flagged for your call:** the cold-open length; the DEMO/REAL pacing fork is **not yet retired**
-  (D-056 pending); diverge picks are **R2** (influence panel) + **R3** (breadth surfaces).
+- **Galleries to skim:** **`audit/screens/v03-gallery/` (the curated 8-shot v0.3 tour — START HERE;** cold-open →
+  live spine → ascension-ready → the ceremony → quests → combat+craft → market → map; shots 01 & 04 re-captured
+  post-fix). Plus `audit/screens/breadth/` (Genemon onboarding, craft panel, Quests tab),
+  `audit/screens/diverge-influence/` (the live spine + ascension), `audit/screens/diverge-map/` (the walkable map).
+  The fidelity **battery** report (`audit/reports/2026-06-29-v03-fidelity-battery.md`) + the roadmap-respect report
+  are the agent's self-vetting; this is the taste call they inform but can't replace.
+- **Known, flagged for your call:** the cold-open sequencing (now re-sequenced — confirm or tune, R4#4); the
+  DEMO/REAL pacing fork is **not yet retired** (D-056 pending, R4#2); diverge picks are **R2** (influence panel) +
+  **R3** (breadth surfaces). The full battery judgment queue is **R4** (6 design/taste calls).
 - **Verdict:** _(awaiting the human)_
 
 ### R2 🔲 — diverge pick: the live House-Influence panel (M2·6, D-073)
