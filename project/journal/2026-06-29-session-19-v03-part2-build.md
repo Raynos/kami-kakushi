@@ -412,6 +412,18 @@ real capped koku-sink (8 buy attempts → exactly `stockCap`=5 land; koku −50,
 (`move_to` crosses to an adjacent revealed node, refuses a non-adjacent hop). Proves the breadth seams hold WITHIN
 the combat/labour spine, not just in isolation. **234 tests green.** Fast (3 ms) + RED-able.
 
+## 22 · OVERNIGHT — structural-invariants property guard (fuzz-lite over the whole arc)
+
+The targeted tests assert specific behaviors; nothing guarded the STRUCTURAL invariants across a long real play.
+Added **`src/core/invariants.test.ts`** — it drives the full cold-open→ascension arc (>2000 real reduces, same
+auto-pilot as §18) and asserts at **EVERY step**: (a) **no corruption** — no NaN/Infinity, no negative vital /
+resource / skill-xp / meter / durability / influence (a whole class of arithmetic bugs); (b) the **write-once
+reveal latch** — `unlocked` only ever grows and never loses a surface (optimised O(1) via the structural-sharing
+reference short-circuit, so it stays ~169 ms not 1 s); (c) the **clock + log.seq are monotonic** (time/history
+never run backwards); (d) the **rung never demotes**. A regression anywhere on the spine that corrupts state trips
+here with the exact step number. **239 tests green.** This is the kind of "completeness critic" guard that catches
+what example-based tests miss.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just

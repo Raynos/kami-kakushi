@@ -1,0 +1,120 @@
+import { describe, it, expect } from 'vitest';
+import {
+  createInitialState,
+  reduce,
+  hasFlag,
+  ascensionAvailable,
+  applyGrindFight,
+  type GameState,
+} from './index';
+import { focusedOptimalIntent } from '../scripts/pacing-report';
+
+// STRUCTURAL INVARIANTS across a long real playthrough — a property/fuzz-lite guard that catches a
+// whole CLASS of bugs the targeted tests miss: numeric corruption (NaN/Infinity), resource/vital
+// underflow (negative koku/hp), a broken write-once reveal latch (a surface getting UN-revealed), or
+// a non-monotonic clock/log. We drive the SAME auto-pilot as the t0-arc proof (cold open → ascension,
+// thousands of real reduces) and assert the invariants hold at EVERY single step — so a regression
+// anywhere on the spine that corrupts state trips here with the exact step number.
+
+const finite = (n: number): boolean => typeof n === 'number' && Number.isFinite(n);
+
+/** Per-state invariants. Returns a failure string (with the offending field) or null if clean. */
+function checkState(s: GameState): string | null {
+  const c = s.character;
+  if (!finite(c.hp) || c.hp < 0) return `hp=${c.hp}`;
+  if (!finite(c.satiety) || c.satiety < 0) return `satiety=${c.satiety}`;
+  if (!finite(c.level) || c.level < 1) return `level=${c.level}`;
+  if (!finite(c.combatXp) || c.combatXp < 0) return `combatXp=${c.combatXp}`;
+  for (const k of ['might', 'guard', 'vigor', 'attributePoints'] as const) {
+    if (!finite(c[k]) || c[k] < 0) return `${k}=${c[k]}`;
+  }
+  for (const [k, v] of Object.entries(s.resources)) {
+    if (!finite(v) || v < 0) return `resource ${k}=${v}`;
+  }
+  for (const [k, v] of Object.entries(s.skillXp)) {
+    if (!finite(v ?? 0) || (v ?? 0) < 0) return `skillXp ${k}=${v}`;
+  }
+  if (!finite(s.rungMeter) || s.rungMeter < 0) return `rungMeter=${s.rungMeter}`;
+  if (!finite(s.tier) || s.tier < 0) return `tier=${s.tier}`;
+  if (!finite(s.estateStage) || s.estateStage < 0) return `estateStage=${s.estateStage}`;
+  if (!finite(s.weaponDurability) || s.weaponDurability < 0)
+    return `durability=${s.weaponDurability}`;
+  const e = s.influence.estate;
+  if (!finite(e.value) || e.value < 0) return `influence.value=${e.value}`;
+  if (!finite(e.highWater) || e.highWater < e.value) return `influence.highWater=${e.highWater}`;
+  if (!finite(e.judged) || e.judged < 0) return `influence.judged=${e.judged}`;
+  if (s.schemaVersion <= 0) return `schemaVersion=${s.schemaVersion}`;
+  return null;
+}
+
+describe('structural invariants hold across a full real playthrough', () => {
+  // Drive cold open → ascension, capturing every state so we can assert per-state AND cross-state.
+  const states: GameState[] = [];
+  {
+    let s = reduce(createInitialState(20260626), { type: 'open_eyes' });
+    states.push(s);
+    let guard = 0;
+    while (s.tier === 0 && guard++ < 1_000_000) {
+      if (ascensionAvailable(s)) {
+        s = reduce(s, { type: 'ascend' });
+        states.push(s);
+        break;
+      }
+      if (s.rung === 'R3' && !hasFlag(s, 'combat-blooded')) {
+        s = applyGrindFight(s, 'monkey');
+      } else {
+        const intent = focusedOptimalIntent(s);
+        if (!intent) break;
+        s = reduce(s, intent);
+      }
+      states.push(s);
+    }
+  }
+
+  it('the playthrough is long enough to be a real exercise (thousands of steps to ascension)', () => {
+    expect(states.length).toBeGreaterThan(2000);
+    expect(states[states.length - 1]!.tier).toBe(1); // it actually reached ascension
+  });
+
+  it('no state ever holds a corrupt value (NaN/Infinity, or a negative vital/resource/skill)', () => {
+    for (let i = 0; i < states.length; i++) {
+      const fail = checkState(states[i]!);
+      expect(fail, `corrupt state at step ${i}: ${fail}`).toBeNull();
+    }
+  });
+
+  it('the reveal latch is WRITE-ONCE — unlocked only ever grows, never loses a surface', () => {
+    const seen = new Set<string>();
+    let prevRef: readonly string[] | null = null;
+    for (let i = 0; i < states.length; i++) {
+      const u = states[i]!.unlocked;
+      if (u === prevRef) continue; // structural sharing: the array is unchanged this step — O(1) skip
+      prevRef = u;
+      expect(u.length, `unlocked shrank at step ${i}`).toBeGreaterThanOrEqual(seen.size);
+      for (const id of seen) expect(u.includes(id), `lost surface '${id}' at step ${i}`).toBe(true);
+      for (const id of u) seen.add(id);
+    }
+  });
+
+  it('the clock and the log sequence are MONOTONIC (time and history never run backwards)', () => {
+    for (let i = 1; i < states.length; i++) {
+      const prev = states[i - 1]!;
+      const cur = states[i]!;
+      const t0 = prev.clock.day * 24 + prev.clock.tick;
+      const t1 = cur.clock.day * 24 + cur.clock.tick;
+      expect(t1, `clock ran backwards at step ${i}`).toBeGreaterThanOrEqual(t0);
+      expect(cur.log.seq, `log.seq ran backwards at step ${i}`).toBeGreaterThanOrEqual(
+        prev.log.seq,
+      );
+    }
+  });
+
+  it('the rung only ever climbs (the ladder never demotes mid-play)', () => {
+    const order = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'];
+    for (let i = 1; i < states.length; i++) {
+      const a = order.indexOf(states[i - 1]!.rung);
+      const b = order.indexOf(states[i]!.rung);
+      expect(b, `rung demoted at step ${i}`).toBeGreaterThanOrEqual(a);
+    }
+  });
+});
