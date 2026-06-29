@@ -107,7 +107,7 @@ T0→T3 → **D-048 + fork #1** · "is the saturating flywheel a decision?" → 
   (moved from brainstorms). Nested Tier→Milestones→Fun-slices; T0 detailed (4 milestones), T1–T3 coarse. **6
   open questions**; load-bearing = **within-T0 build order** (spine-spike on thin content first vs
   showcase-breadth first — proposal recommends spine-first).
-- **Operating Model v2-lite reel-back** → [`docs/plans/operating-model-v2-lite-reelback.md`](../../docs/plans/operating-model-v2-lite-reelback.md)
+- **Operating Model v2-lite reel-back** → [`docs/plans/2026-06-29-operating-model-v2-lite-reelback.md`](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md)
   (the drop/cut/keep map; input to the human's separate H10 review).
 
 ## Decisions LOCKED this session (batch 6 — roadmap & build)

@@ -46,7 +46,7 @@ Remaining work is agent execution that flows into the roadmap re-axe.
 ## 2 · Operating Model v2 → v2-lite reel-back
 
 H10's full Operating-Model-v2 plan was judged an **overengineered draft**. The session **reeled it back**: a
-**drop / cut / keep** map ([`../../docs/plans/operating-model-v2-lite-reelback.md`](../../docs/plans/operating-model-v2-lite-reelback.md))
+**drop / cut / keep** map ([`../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md`](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md))
 is now the artifact for H10's **separate ~1 hr human review** (replaces the original implementation plan). The
 **`diverge` skill is a MANDATORY gate** (no new UI surface ships without a 2–3-variant contact sheet). H7 + H9
 are **absorbed by H10** — decided there. Op-model artifacts (ADRs/CLAUDE.md/skills) stay **unbuilt until
@@ -88,7 +88,7 @@ Synced the live state to the decisions above (touch-only-four-files scope).
 
 *(Session artifacts produced earlier in the session, outside this housekeeping pass:*
 `project/human-feedback/2026-06-29-decision-session.md` *(the ledger),* `docs/plans/2026-06-29-roadmap-reaxe-proposal.md`*,*
-`docs/plans/operating-model-v2-lite-reelback.md`*,* `docs/plans/2026-06-29-path-to-v0.3.md`*.)*
+`docs/plans/2026-06-29-operating-model-v2-lite-reelback.md`*,* `docs/plans/2026-06-29-path-to-v0.3.md`*.)*
 
 ## Next intended steps
 

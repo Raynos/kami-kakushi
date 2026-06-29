@@ -86,28 +86,31 @@ metadata:
   PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 · Incremental 4.5 · Laziness 4.5/10. Verdict: a
   **beautifully-built chassis with no engine** (now substantially addressed by v0.2 above). 10 M3 guardrails
   proposed (G-PACING/CURVE/FUN@M3a/TEST-TEETH/MIGRATION/…).
-- **⭐ TOP PRIORITY — pending human review (separate, ~1 hr): Operating Model v2 (H10).** The 2026-06-29
-  decision session **reeled v2 back** as an overengineered draft — review the **v2-lite reel-back**
-  ([`docs/plans/operating-model-v2-lite-reelback.md`](../../docs/plans/operating-model-v2-lite-reelback.md),
-  the drop/cut/keep map), **not** the original implementation plan. Inputs to the review: the nested
-  **roadmap re-axe** ([`docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md))
-  + the **`diverge`-mandatory** gate. Tracked as **⭐ H10** (`human-in-the-loop/decisions.md`) — ⛔ gates
-  op-model adoption; **absorbs H4 (→ D-054) + H7 + H9**. **The v2 _bundle_ awaits review — NOT a repo
-  freeze; individual improvements are greenlit ad hoc (e.g. the `tdd` skill, 2026-06-29).**
+- **Phase update — H-item queue CLEARED (2026-06-29, session-06).** **H10 (Operating Model v2) → DEFERRED**
+  — the v2-lite *bundle* is **not adopted**; the build proceeds without it. Greenlit **one** piece ad-hoc: a
+  **content-aware, fast (<5s) pre-commit gate** ([`.githooks/pre-commit`](../../.githooks/pre-commit) +
+  [`src/scripts/smoke.ts`](../../src/scripts/smoke.ts) — staged `.ts`→`tsc`, staged `.ts/.md`→`prettier`,
+  journal gate kept, pure-core boot smoke; **no test suite**; measured ~0.87s). **H7** (ship-gate skill) +
+  **H9** (resolve-queue skill) → **don't build** (resolve by hand; **D-054** owns the milestone-integrity
+  policy). Decisions: [`../human-feedback/2026-06-29-h-item-decisions.md`](../human-feedback/2026-06-29-h-item-decisions.md).
+  **No open ⛔ blockers remain.** The fuller v2-lite (playcheck ratchet, ship-gate) is revisitable if the
+  hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
+  Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal (`project/journal/2026-06-29-session-04-decision-session.md`) + the
+  1. Read the newest journal (`project/journal/2026-06-29-session-06-h-item-decisions.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
-     the three new `docs/plans/` docs (roadmap re-axe, op-model v2-lite reel-back, implementation plan).
+     the `docs/plans/` docs (roadmap re-axe, op-model v2-lite reel-back, the `2026-06-29-path-to-v0.3` sequencing plan).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
-  4. **Next, in order:** (a) **op-model v2 review** — human's separate ~1 hr pass over the **v2-lite
-     reel-back** (⭐ H10). (b) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code
-     ripple** in ONE batch: write ADRs **D-056+**, split `prd.md` into per-section files, apply the reshape
-     (D-048…D-055) + this session's decisions to the PRD body, ripple docs + code. (c) **Then the build:**
+  4. **Next, in order:** (a) **R1** — the human plays the M0–M2 demo for the fun/pacing/look call (still
+     open). (b) **Finalize `docs/living/roadmap.md`** from the re-axe proposal — the next ungated step in
+     `path-to-v0.3`. (c) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code ripple**
+     in ONE batch: split `prd.md` into per-section files, apply the reshape (D-048…D-055) + the 06-29
+     decisions (now ADRs **D-056–D-069**) to the PRD body, ripple docs + code. (d) **Then the build:**
      **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b foundation), **spine-first** —
      close the four-pillar loop (Estate pillar + the first T0→T1 ascension on thin content) **before**
-     showcase breadth, per the roadmap re-axe + implementation plan in `docs/plans/`.
+     showcase breadth, per the roadmap re-axe + `path-to-v0.3`.
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:

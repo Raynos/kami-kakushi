@@ -14,7 +14,7 @@ the 4 source files copied near-verbatim with three surgical edits + two repo not
   `/codebase-design` skill → the pure-core boundary in `CLAUDE.md`. Additive notes: `mocking.md` "seed,
   don't mock" (pure core + seeded RNG); `tests.md`/`SKILL.md` "prefer fast integration/system tests" with
   real exemplars (`src/ui/render.test.ts` jsdom real-renderer, `src/core/economy.test.ts` real reducer).
-- **Adoption record** `docs/plans/2026-06-29-tdd-skill-integration-proposal.md` — rewritten from the
+- **Adoption record** `project/archive/2026-06-29-tdd-skill-integration-proposal.md` — rewritten from the
   rejected heavy-naturalization proposal to a 1:1 record + 4 **candidate edits pending human approval**
   (A narrow trigger / B brittle-RNG warning / C false-green mutation check / D commit-cadence note).
 - **Raw snapshot** `project/brainstorms/raw/2026-06-29-tdd-skill-integration.json` (the 4-lens+red-team

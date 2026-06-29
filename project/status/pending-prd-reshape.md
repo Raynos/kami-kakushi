@@ -149,7 +149,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 ## NOT part of this ripple (human-queue / process — tracked so nothing is lost)
 
 - **Operating Model v2 (H10)** — human reviews **separately** (~1 hr), informed by the
-  [v2-lite reel-back](../../docs/plans/operating-model-v2-lite-reelback.md). **Do NOT adopt op-model artifacts**
+  [v2-lite reel-back](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md). **Do NOT adopt op-model artifacts**
   (ADRs / CLAUDE.md / skills) until signed off. *(DS#11)*
 - **`diverge` skill = mandatory UI gate** — locked as a steer, but it **feeds the H10 review**; don't wire it
   as canon until op-model v2 is signed. *(DS#10)*
@@ -176,7 +176,7 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 - Intent / human directives: [`2026-06-28-tier-reshape.md`](../human-feedback/2026-06-28-tier-reshape.md) ·
   [`2026-06-29-decision-session.md`](../human-feedback/2026-06-29-decision-session.md)
 - Plans: [`roadmap-reaxe-proposal`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md) ·
-  [`operating-model-v2-lite-reelback`](../../docs/plans/operating-model-v2-lite-reelback.md)
+  [`operating-model-v2-lite-reelback`](../../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md)
 - The audits that drove it: [`2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md)
 </content>
 </invoke>

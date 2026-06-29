@@ -66,7 +66,7 @@
 
 ### ②b · Process change — ⭐ Operating Model (H10)
 
-- [ ] **[`docs/plans/operating-model-v2-lite-reelback.md`](../docs/plans/operating-model-v2-lite-reelback.md)** — *plan*
+- [ ] **[`docs/plans/2026-06-29-operating-model-v2-lite-reelback.md`](../docs/plans/2026-06-29-operating-model-v2-lite-reelback.md)** — *plan*
   - **What:** the **drop / cut / keep** reel-back that trims Operating Model v2 (you judged it *"a draft and
     overengineered"*) to a lean **v2-lite** (~2–3 sessions vs ~1 week). **This is the H10 artifact** — the
     conductor's **Workstream D**.

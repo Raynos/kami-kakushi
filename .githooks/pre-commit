@@ -1,22 +1,66 @@
 #!/usr/bin/env bash
-# Journal-hygiene gate: every commit must stage a change under journal/ (a new or
-# updated *.md), so the build keeps a running, resumable log.
+# Fast, CONTENT-AWARE pre-commit gate (target: <5s). Runs ONLY the checks relevant to the
+# files actually staged — typecheck on TS, format-check on staged TS/MD/etc, and a pure-core
+# boot "smoke" when src/ code changes — then the journal-hygiene gate. It deliberately does
+# NOT run the test suite (too slow for a commit gate); the full battery is `npm run verify`
+# (pre-ship). Decided 2026-06-29 (H-item D-a/D-d): keep commits fast, catch the dumb stuff.
 #
-# JOURNAL CONVENTION (see project/journal/README.md + journal/_TEMPLATE.md):
-#   - The journal is a CHRONOLOGICAL LOG (history), NOT a live snapshot — live state
-#     lives in project/status/project-status.md.
-#   - Summary at the TOP; APPEND new entries at the BOTTOM (oldest->newest). NEVER prepend.
-#   - No stale "current state" block inside the journal.
-#
-# Bypass a genuinely trivial commit:  SKIP_JOURNAL=1 git commit ...
-# Enable once per clone:              git config core.hooksPath .githooks
+# Bypass:  SKIP_VERIFY=1  git commit …   (skip the code/format/smoke checks)
+#          SKIP_JOURNAL=1 git commit …   (skip the journal gate)
+# Enable once per clone:  git config core.hooksPath .githooks
 
+set -uo pipefail
+
+staged="$(git diff --cached --name-only --diff-filter=ACMR)"
+fail=0
+
+run_checks() {
+  if [ "${SKIP_VERIFY:-0}" = "1" ]; then
+    echo "  - SKIP_VERIFY=1 -> code/format/smoke checks skipped" >&2
+    return
+  fi
+
+  # 1 · Typecheck the whole project (fast, ~0.6s) when any TS is staged.
+  if printf '%s\n' "$staged" | grep -qE '\.tsx?$'; then
+    echo "  - tsc --noEmit" >&2
+    ./node_modules/.bin/tsc --noEmit || { echo "  X typecheck failed" >&2; fail=1; }
+  fi
+
+  # 2 · Format-check the staged files only (prettier) — this is the "verify markdown" too.
+  local fmt_files=()
+  while IFS= read -r f; do
+    [ -n "$f" ] && fmt_files+=("$f")
+  done < <(printf '%s\n' "$staged" | grep -E '\.(ts|tsx|md|json|css|html)$' || true)
+  if [ "${#fmt_files[@]}" -gt 0 ]; then
+    echo "  - prettier --check (${#fmt_files[@]} staged)" >&2
+    ./node_modules/.bin/prettier --check "${fmt_files[@]}" >/dev/null \
+      || { echo "  X format check failed -> fix with: npm run format" >&2; fail=1; }
+  fi
+
+  # 3 · Smoke: boot the pure core when src/ code is staged (the "dumb stuff" guard, ~0.2s).
+  if printf '%s\n' "$staged" | grep -qE '^src/.*\.tsx?$'; then
+    echo "  - smoke (core boot)" >&2
+    ./node_modules/.bin/tsx src/scripts/smoke.ts >/dev/null \
+      || { echo "  X smoke failed -> the pure core no longer boots" >&2; fail=1; }
+  fi
+}
+
+run_checks
+
+if [ "$fail" != "0" ]; then
+  echo "" >&2
+  echo "  commit blocked by pre-commit checks (bypass: SKIP_VERIFY=1 git commit …)" >&2
+  exit 1
+fi
+
+# 4 · Journal-hygiene gate (policy UNCHANGED): every commit stages a journal/ entry so the
+#     build keeps a running, resumable log. Live state lives in project/status/project-status.md.
 if [ "${SKIP_JOURNAL:-0}" = "1" ]; then
   exit 0
 fi
 
 if git diff --cached --name-only --diff-filter=ACMR | grep -qE '^project/journal/.*\.md$'; then
-  echo "  . journal staged - convention: summary at TOP, APPEND entries at the BOTTOM (never prepend); live state -> project/status/project-status.md (see project/journal/README.md)" >&2
+  echo "  - journal staged - convention: summary at TOP, APPEND entries at the BOTTOM (never prepend); live state -> project/status/project-status.md (see project/journal/README.md)" >&2
   exit 0
 fi
 
