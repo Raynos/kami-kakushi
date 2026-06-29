@@ -1211,7 +1211,10 @@ export function mount(
     const here = getNode(state.location);
     const card = el('div', 'map-here frame');
     const h = el('div', 'rung-now');
-    h.append(document.createTextNode(`You stand at the ${here.label.toLowerCase()} `));
+    // strip a leading article so a label like "The grain-store (kura)" doesn't read "the the …"
+    h.append(
+      document.createTextNode(`You stand at the ${here.label.toLowerCase().replace(/^the /, '')} `),
+    );
     if (here.kanji) {
       const k = el('span', 'house-influence-kanji');
       k.lang = 'ja';

@@ -305,6 +305,30 @@ The overnight mandate is **DONE**. The v0.3 T0 M0–M4 arc is built, fidelity-ba
 **The agent's stopping point is correct:** everything past here changes *what the game is* (locked pacing intent,
 ADR contradictions, design forks) — CLAUDE.md's "stop and ask" boundary. Next session resumes from R1/R4 verdicts.
 
+## 16 · OVERNIGHT (2nd pass) — autonomous-safe polish: variants-log backfill + a hands-on QA sweep
+
+The `/loop` re-fired, so I kept going on the **autonomous-safe** lane (no design calls): two quick wins + a
+hands-on visual QA pass of the *running* build (distinct from the cold-read battery — this drives every surface
+and reviews the actual pixels).
+
+- **D-073 variants-log backfill** (battery §72 — the registry was EMPTY despite 5 diverge runs). Recorded the 2
+  full diverges (influence panel → R2, walkable map → R3; winner **A** both, folder-preserved on the shared tree)
+  in the Closed crosswalk + a note on the 3 diverge-LITE breadth panels. Doc-hygiene, self-resolvable.
+- **QA visual sweep** (`project/audit/screens/2026-06-29-v03-qa-sweep/`, 15 surfaces): cold-open lean hook,
+  post-rake reveal, labour, skills, combat+forecasts, craft, quests, map, market, the **live influence panel at
+  Good / Great / Excellent + the Ascend CTA**, the ascension ceremony, post-ascension, mobile. **Zero console
+  errors across all 15.** Reviewed each with my own vision:
+  - **Found + FIXED 1 real visual bug:** the map node header read "You stand at **the the** grain-store (kura)" —
+    the template prepended "the" onto a label already starting with "The". Fixed in `render.ts` (strip a leading
+    article). Re-captured clean.
+  - **Confirmed the battery fixes read right in-pixels:** the cold-open koku-teaching now lands exactly as the
+    **+3 koku** shows (reveal-as-plot); the ascension seal AND the rank-up seals all have the scrim now.
+  - **Verdict: the macro-spine UI is solid** — the continuous ink grade-bar fills Good(⅓)→Excellent(full gold),
+    the 3 D-055 silhouettes stay unnamed, the vermilion Ascend CTA appears only at Excellent. Clean & woodblock.
+  - **One observation for the human (not a bug → R4#5):** after the T0→T1 ascension the influence panel still
+    shows the stale T0 framing ("Reach Excellent to ascend 480/480") — that's the thin-T1-content edge (T1 isn't
+    built), a depth/design call, NOT a visual fix to make unilaterally.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just
