@@ -987,6 +987,19 @@ html {
   color: var(--ai);
   font-style: italic;
 }
+/* P9: the per-stance blade-wear cost, visible (not hover-only) on the stance control */
+.stance-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  line-height: 1.2;
+}
+.stance-wear {
+  font-size: var(--fs-small);
+  color: var(--ochre);
+  letter-spacing: 0.05em;
+}
 
 /* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
    unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */

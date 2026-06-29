@@ -13,6 +13,8 @@ import {
   getWeapon,
   durabilityBand,
   satietyMax,
+  hpMax,
+  isUnlocked,
   balance,
   type GameState,
   type Intent,
@@ -206,6 +208,27 @@ async function boot(): Promise<void> {
         availableActions(state).includes('rest')
       ) {
         dispatch({ type: 'rest' });
+        return;
+      }
+      // auto-manage HP (D-050: HP carries + heals ONLY by eating). A hurt fighter's win-rate
+      // craters, so mend before fighting: cook if greens are on hand, else forage for them; if
+      // you can do neither, STOP rather than feed a losing grind at low HP.
+      if (state.character.hp < hpMax(state) * balance.COMBAT_HEAL_FRAC) {
+        if (
+          isUnlocked(state, 'verb-cook') &&
+          (state.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
+        ) {
+          dispatch({ type: 'cook_meal' });
+          return;
+        }
+        const forage = availableLabours(state).find(
+          (l) => l.available && l.activity.id === 'forage_satoyama',
+        );
+        if (forage) {
+          dispatch({ type: 'do_activity', activityId: 'forage_satoyama' });
+          return;
+        }
+        dispatch({ type: 'set_auto_combat', mobId: null });
         return;
       }
       // auto-manage durability: a worn weapon's win-rate craters (Broken = ~0%), so an

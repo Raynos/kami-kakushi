@@ -10,6 +10,7 @@ import {
   hpMax,
   satietyMax,
   estateSatietyBonus,
+  estateYieldNum,
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
   balance,
@@ -67,6 +68,28 @@ describe('skill → yield multiplier (audit #4)', () => {
     expect(maxKoku).toBeGreaterThan(baseKoku);
     expect(maxKoku).toBeLessThanOrEqual(3 * baseKoku); // the ×3.0 cap is the ceiling
     expect(maxKoku).toBe(3 * baseKoku); // exactly ×3 once the cap binds
+  });
+
+  it('the estate flywheel COMPOUNDS — a higher estate stage raises labour yield (T0-M4-F2)', () => {
+    // E0 is identity (byte-identical to pre-flywheel); each bought stage lifts every act.
+    const e0 = farmReady();
+    expect(estateYieldNum(e0)).toBe(balance.SKILL_YIELD_DEN);
+    const baseKoku = farmYield(e0);
+
+    let prev = baseKoku;
+    for (let stage = 1; stage <= MAX_ESTATE_STAGE; stage++) {
+      const atStage: GameState = { ...e0, estateStage: stage };
+      // the MECHANISM strictly compounds each stage…
+      expect(estateYieldNum(atStage)).toBeGreaterThan(
+        estateYieldNum({ ...e0, estateStage: stage - 1 }),
+      );
+      // …and the realised yield never drops (integer rounding can plateau on a small base).
+      const koku = farmYield(atStage);
+      expect(koku).toBeGreaterThanOrEqual(prev);
+      prev = koku;
+    }
+    // end-to-end the flywheel has real teeth: the top stage out-yields foreclosure's edge.
+    expect(farmYield({ ...e0, estateStage: MAX_ESTATE_STAGE })).toBeGreaterThan(baseKoku);
   });
 
   it('rung pacing is independent of skill — acts-to-promote do not shrink as yield grows', () => {

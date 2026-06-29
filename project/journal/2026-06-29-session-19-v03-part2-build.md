@@ -165,8 +165,23 @@ one instance (`main.ts`, `honorReducedMotion`), threaded via `AppHooks.sfx`; cue
 Settings comfort row (default on — the ship default is the R1 taste call). No DIVERGE (one-line control). The
 build is no longer silent. `verify` green; headless qa-shots **no console errors**.
 
+## 10 · Movement 1/3 · P5 flywheel + P1c auto-heal + P9 wear-axis — DONE
+
+Three lower-friction gap-report fixes (no diverge):
+- **P5 — the koku flywheel COMPOUNDS** (T0-M4-F2/D-051): `EstateStageDef` gains `yieldBonusNum` (E1 +15% / E2
+  +35% / E3 +65% cumulative); new `estateYieldNum` selector (identity at E0); applied in the labour yield loop so
+  work→koku→upgrade→more output. Fixes the gap report's "power-neutral estate" (P5). `economy.test.ts` proves the
+  mechanism strictly compounds + end-to-end teeth.
+- **P1c — auto-loop eat-to-heal** (`main.ts`, D-050): when auto-fighting and HP < 55% of hpMax, the loop cooks
+  (or forages for greens), and STOPS rather than grind at low HP — so HP-carry actually works unattended.
+- **P9 — touch-legible wear axis** (P9/D-050): the per-stance blade-wear (jodan 3 / chudan 2 / gedan 1) now shows
+  as visible `wear ◆◆◆` pips + an aria-label on the stance control, not a hover-only title.
+
+`verify` green (9 gates). **Movement-1 0c is now substantially closed** — remaining: P3 found/crafted weapon, P7
+mentor dialogue (both DIVERGE surfaces), P10 doc reconcile.
+
 ## Next intended steps (current)
-1. **Movement 2 spine + its UI are DONE** (M2·1–M2·6); **P8 SFX integrated**. **NEXT** the remaining surfaces:
+1. **Movement 2 spine + UI DONE; SFX + flywheel + auto-heal + wear-axis DONE.** **NEXT** the remaining surfaces:
    **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
    the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
 2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.

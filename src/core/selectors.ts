@@ -12,6 +12,7 @@ import {
   STAMINA_FLAT_ABOVE,
   CONDITIONING_GATE_LEVEL,
   ATTR_VIGOR_HP,
+  SKILL_YIELD_DEN,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
 import {
@@ -37,6 +38,15 @@ export function estateSatietyBonus(state: GameState): number {
   let b = 0;
   for (const s of ESTATE_STAGES) if (state.estateStage >= s.stage) b += s.satietyMaxBonus;
   return b;
+}
+
+/** The cumulative labour-yield multiplier from the estate stages, in fixed-point /SKILL_YIELD_DEN
+ *  (T0-M4-F2 / D-051: the compounding koku flywheel). estateYieldNum(E0) === SKILL_YIELD_DEN, so a
+ *  fresh estate is identity; each bought stage lifts every labour act's output. */
+export function estateYieldNum(state: GameState): number {
+  let bonus = 0;
+  for (const s of ESTATE_STAGES) if (state.estateStage >= s.stage) bonus += s.yieldBonusNum;
+  return SKILL_YIELD_DEN + bonus;
 }
 
 /** satietyMax grows with combat level (FU21/Q47) + the estate buffer (audit #5). */

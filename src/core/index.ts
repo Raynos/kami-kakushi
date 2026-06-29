@@ -100,6 +100,7 @@ export {
   hpMax,
   satietyMax,
   estateSatietyBonus,
+  estateYieldNum,
   season,
   week,
   year,

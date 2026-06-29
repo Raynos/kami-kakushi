@@ -835,10 +835,22 @@ export function mount(
     for (const s of STANCE_ORDER) {
       const ui = STANCE_UI[s];
       const on = state.stance === s;
-      const btn = el('button', `auto-toggle${on ? ' on' : ''}`, `${ui.kanji} ${ui.gloss}`);
+      // the blade-wear cost per fight (jodan 3 / chudan 2 / gedan 1) — shown as visible pips,
+      // not a hover-only title (touch-legible, D-050/P9). The aggression↔wear trade is the read.
+      const wear = Math.max(
+        1,
+        Math.round(balance.DURABILITY_WEAR_PER_FIGHT * balance.STANCE_MODS[s].wearMult),
+      );
+      const btn = el('button', `auto-toggle stance-btn${on ? ' on' : ''}`);
       btn.type = 'button';
       btn.setAttribute('aria-pressed', String(on));
       btn.title = ui.hint;
+      btn.setAttribute(
+        'aria-label',
+        `${ui.gloss} stance — blade wear ${wear} per fight. ${ui.hint}`,
+      );
+      btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
+      btn.append(el('span', 'stance-wear', `wear ${'◆'.repeat(wear)}`));
       btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
       stanceRow.append(btn);
     }

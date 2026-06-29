@@ -9,7 +9,7 @@ import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
 import { clamp } from './math';
-import { satietyMax, hpMax, staminaRate, season, canDoActivity } from './selectors';
+import { satietyMax, hpMax, staminaRate, season, canDoActivity, estateYieldNum } from './selectors';
 import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, promoteRungs } from './ranks';
 import { applyEstateDeed } from './pillars';
@@ -126,11 +126,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // addSkillXp on purpose: the leveling act uses the pre-level mult; the bump shows
       // on the NEXT act. skillYieldNum(1) === DEN → L1 yields are byte-identical to v0.1.
       const yNum = skillYieldNum(skillLevel(next, act.skill));
+      // the estate flywheel (T0-M4-F2): a higher estate stage lifts every labour act's output,
+      // so koku→upgrade→more output compounds. Identity (===DEN) at E0 — byte-identical pre-buy.
+      const eNum = estateYieldNum(next);
       const gained: Partial<Record<LabourResource, number>> = {};
       for (const [res, amt] of Object.entries(act.yields) as [LabourResource, number][]) {
         let v = amt * rate;
         if (autumn) v = (v * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN;
         v = (v * yNum) / SKILL_YIELD_DEN;
+        v = (v * eNum) / SKILL_YIELD_DEN;
         gained[res] = Math.max(1, Math.round(v));
       }
       const xpGain = Math.max(1, Math.round(act.xp * rate));
