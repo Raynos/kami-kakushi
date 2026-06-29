@@ -23,6 +23,9 @@
 ## Addendum — pre-push simplified to every-push/all-branches
 - `.githooks/pre-push` — dropped the stdin/branch-detection complexity. Now simply: run `npm run verify` on **every push, all branches**, block on red (`SKIP_VERIFY=1` overrides). Also removed the old non-blocking budget readout (it re-ran verify 3× — wasteful once the gate runs verify once; budget drift is still tracked at commit time by pre-commit). CLAUDE.md + working-agreements.md updated from "scoped to main" → "every push".
 
+## Addendum — project-status.md brought current
+- `project/status/project-status.md` — added the session-18 phase update (gh-pages deploy + live site, pre-push gate, checkpoint formalized), refreshed the "latest journal" resume pointer to this file, and corrected the stale toolchain line ("pre-push readout" → "pre-push runs verify on every push, blocks on red").
+
 ## Landmines
 - GitHub Pages branch deploy only serves from `/ (root)` or `/docs` — **not** `/dist`. We serve from the worktree root, so the gh-pages branch root *is* the site.
 - `vite.config.ts` already uses `base: './'` (for itch.io) — that relative base is also what makes the `/kami-kakushi/` project-page subpath work with no extra config. Don't change it to an absolute base.

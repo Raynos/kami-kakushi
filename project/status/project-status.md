@@ -33,7 +33,8 @@ metadata:
   live (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = 9 gates (tsc, eslint, prettier,
   vitest, verify-content, verify-prd, gen:docs --check, pacing:check, playcheck:check) run **in parallel** via
   `src/scripts/verify-run.ts` (~1.7s; `npm run verify:budget` = the 5s-budget check). The pre-commit hook runs
-  full `verify` + a non-blocking drift timer (D-072). `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
+  full `verify` + a non-blocking drift timer (D-072); the **pre-push hook runs `verify` on every push (all
+  branches) and BLOCKS on red** (`SKIP_VERIFY=1` overrides) — session-18. `npm run dev` (Vite); `npm run build` (→ `dist/`, ~42 KB
   JS [gz ~15 KB] + ~14 KB CSS [gz ~4 KB] — itch-ready, relative-base); `npm run build:itch` (zip). Headless
   QA harness: `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs` (Playwright) → screenshots in `project/audit/screens/latest/`.
 - **Key docs:** `docs/living/prd.md` (the V2.2 vision+spec) · `project/human-feedback/2026-06-26-prd-human-feedback.md` Block N (the
@@ -150,6 +151,19 @@ metadata:
   so nothing's lost) + all live refs repointed; the executed reshape-mapping spec is **archived** to
   `project/archive/2026-06-29-part1-ripple-spec.md`; the misfiled repo-relative `.claude/projects/` agent-memory
   stray was removed (relocated to its canonical `~/.claude/` HOME).
+- **Phase update — GH-PAGES DEPLOY + PRE-PUSH GATE + "CHECKPOINT" FORMALIZED (2026-06-29, session-18).**
+  Shipped a one-command publish path: **`pnpm run gh-pages`** (`src/scripts/gh-pages.sh`) builds → `rsync`s
+  `dist/` into an **orphan `gh-pages` worktree** (on disk at `../gh-pages-kami-kakushi`) → `.nojekyll` →
+  commit + push. **Site is LIVE: https://raynos.github.io/kami-kakushi/** (Pages already configured + built;
+  vite's `base: './'` makes the project-page subpath work). Added a **pre-push gate** (`.githooks/pre-push`):
+  runs `npm run verify` on **every push, all branches**, blocks on red (`SKIP_VERIFY=1` overrides) — the
+  push-time backstop for the pre-commit `SKIP_VERIFY` escape. Formalized **"checkpoint"** as a named ritual in
+  `CLAUDE.md` + `working-agreements.md`: commit-own-files-by-path → journal → update THIS file → **push main
+  (fires the verify gate)** → confirm clean; with three baked-in rules — **verify-before-claiming**,
+  **shared-tree safety** (NEVER stash/restore another agent's WIP; stage only your own files by explicit path —
+  multiple agents may edit the tree at once), **don't-fight-someone-else's-red**. Commits `a7608a9`→`2813e6a`,
+  all on `origin/main`, green. *(Note: another agent landed `22cf15c` HP-carry combat — Movement-1 work —
+  during this session.)* Journal: `project/journal/2026-06-29-session-18-gh-pages-deploy.md`.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -167,7 +181,7 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-15-part1-ripple.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-18-gh-pages-deploy.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
      the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (**Part 1 done → Part 2 next**) + its
      executed reshape-mapping spec `project/archive/2026-06-29-part1-ripple-spec.md` (the OLD→NEW tier mapping +
