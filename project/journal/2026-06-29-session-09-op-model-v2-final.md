@@ -183,3 +183,27 @@ it) → the split is non-breaking; the 72 inbound `prd.md` refs resolve to the s
 
 **Files:** `docs/living/prd.md` (→ stub index) · `docs/living/prd/{01..07}-*.md` + `README.md` (new) ·
 `package.json` (verify += verify-prd) · `src/core/content/names.ts` (comment ref).
+
+---
+
+## Build log — Workstream F (ADRs + CLAUDE.md) — LANDED; D-070/D-071 RECONCILED
+
+**⚠️ Key reconciliation:** the roadmap agent had committed (pre-session, `64ad701`) **D-070** (*defer* v2;
+`diverge`+`playcheck` **HELD**) and **D-071** (the content-aware **<5s subset** hook) — both the **opposite** of
+this session's "v2 FINAL" build. Per **newest-human-steer-wins**, **D-072 supersedes both** (annotated
+`⛔ REVERSED by D-072 (2026-06-29)`, struck-not-deleted). This is exactly the collision X-4 guarded against.
+
+**New ADRs (each with a `created_date:`, previewing the requested convention):**
+- **D-072** — Operating Model v2 ADOPTED; full-`verify` pre-commit + 5s drift guard. **Supersedes D-070 + D-071.**
+- **D-073** — Design by divergence (the mandatory `diverge` gate; promotes DS#10, un-held from D-070).
+- **D-074** — Experience is a continuous ratchet (`playcheck`), scoped (un-held from D-070).
+
+**CLAUDE.md:** pre-commit line → full `verify` (~3s) + `SKIP_VERIFY` + the drift guard; **+ "Design by
+divergence" rule + the enforcement-ladder sentence** (gate > hook > skill > norm); listed the `diverge` skill.
+Updated the FINAL plan's F section to the real numbers + the supersession.
+
+**Files:** `docs/living/decisions.md` (D-072–074 + D-070/071 annotations) · `CLAUDE.md` ·
+`docs/plans/2026-06-29-operating-model-v2-final.md`.
+
+**v2 FINAL is now fully built (A–F).** Next: the human's follow-on ask — audit all ADRs for staleness +
+backfill `created_date:` across the log.

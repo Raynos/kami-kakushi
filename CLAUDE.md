@@ -12,9 +12,11 @@ in [README.md](README.md); this file is just how we work.
   don't stall for confirmation.
 - **Many small commits, straight to the working branch.** Don't branch for routine work — committing
   as you go *is* the workflow. *(This overrides the generic "branch off main / commit only when
-  asked" default.)* Each commit leaves the build working and stages a `project/journal/` entry (enforced by
-  `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Enable the hook once per clone:
-  `git config core.hooksPath .githooks`.
+  asked" default.)* Each commit runs the **full `npm run verify`** (~3s — tsc, lint, tests, content, pacing,
+  playcheck) and stages a `project/journal/` entry (enforced by `.githooks/pre-commit`; `SKIP_VERIFY=1` for a
+  docs-only commit, `SKIP_JOURNAL=1` for trivial commits). A soft 5s **drift timer** warns (never blocks) as the
+  gate slows; `npm run verify:budget` is the hard, on-demand budget check (D-072). Enable the hook once per
+  clone: `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out research, multi-file sweeps).
 - **Stop and ask only for** (1) design decisions that change what the game *is* — lock these with the
   human and record them as ADRs in [`docs/living/decisions.md`](docs/living/decisions.md); and
@@ -49,6 +51,14 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   fun-proxy *measurement*) → [`docs/living/qa-playtesting.md`](docs/living/qa-playtesting.md); **the visual
   language** → [`docs/living/ui-design.md`](docs/living/ui-design.md). The agent reviews its own screenshots with its
   own vision and iterates; the human is the final fun & taste arbiter.
+- **Design by divergence (new/major UI surfaces).** No new or majorly-restyled UI surface ships from a single
+  idea — run the **`diverge`** skill: 2–3 distinct *approaches* → headless contact sheet → **self-pick** → an
+  R-item for human override (never blocks). The winner collapses into `main` **flag-free**; losing variants live
+  on a `diverge/<surface>` branch + committed screenshots, so `main` carries **zero** flag-debt. One-line tweaks
+  are exempt. See **D-073** + [`.claude/skills/diverge/SKILL.md`](.claude/skills/diverge/SKILL.md).
+- **Push each quality rule to the highest rung that can hold it** — a `verify`/CI **gate** > a git **hook** > a
+  **skill** > a written **norm**. Prefer the rung that can't be quietly forgotten (a green-or-red check beats a
+  good intention).
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `project/journal/`
   says **how it got here** (a chronological log — append at the bottom, never prepend; the live snapshot is
   `project/status/project-status.md`). One doc per concern; edit living docs in place (don't fork copies).
@@ -124,5 +134,7 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   `capture-game-states` (drive the game headlessly and screenshot/record its states),
   `battery` (run a multi-lens fresh-eyes stress-test battery over the spec/design/build),
   `tdd` (test-first authoring — red→green→refactor through the pure-core public contract; adopted ~1:1 from
-  [mattpocock/skills](https://github.com/mattpocock/skills)), and
+  [mattpocock/skills](https://github.com/mattpocock/skills)),
+  `diverge` (2–3 UI variants → contact sheet → self-pick + R-item; branch-preserved, zero `main` flag-debt;
+  mandatory for new/major UI surfaces — D-073), and
   `handoff` (compact the session into a `/handoff` doc for a fresh agent to resume; adopted ~1:1).

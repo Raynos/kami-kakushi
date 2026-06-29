@@ -469,16 +469,51 @@ design ADR.
 - **Why:** Session context is ephemeral — it dies with the session or a compaction; a committed file is the only durable record. The v2-lite near-miss proved the rule's worth.
 - **Consequences:** Already applied to **CLAUDE.md** (the durable-capture + temp-files conventions); recorded here as durable process canon. `docs/plans/` joins `project/brainstorms/` and `docs/` as a recognised home. Per **D-022**, governs.
 
-### D-070 ✅ — Operating Model v2 deferred as a bundle; process improvements adopted ad hoc (closes H7/H9/H10)
+### D-070 ⛔ — Operating Model v2 deferred as a bundle; process improvements adopted ad hoc (closes H7/H9/H10) — REVERSED by D-072 (2026-06-29)
+
+> ⛔ **Reversed 2026-06-29 by [D-072].** The human reopened op-model v2 as **"v2 FINAL"** this session and
+> **adopted** the bundle — full-`verify` pre-commit (D-072), the mandatory `diverge` gate (D-073), the
+> `playcheck` ratchet (D-074), the fun-slice roadmap re-axe (D-060). The deferral + the "diverge/playcheck
+> **HELD**" stance recorded below **no longer hold**. History kept intact (annotate-don't-delete).
+
 - **Context:** **H10** queued the full **Operating Model v2-lite** bundle (the keystone process overhaul — pre-commit `verify`, `playcheck` ratchet, mandatory `diverge` gate, ship-gate, re-axed roadmap) for a separate human review; **H7** (a bespoke `ship-gate` skill) and **H9** (a `resolve-queue` skill) were absorbed into it. The human walked the queue live (2026-06-29 H-item session) and decided the bundle's adoption.
 - **Options:** (A) adopt the v2-lite bundle wholesale · (B) **defer the bundle; greenlight useful pieces ad hoc** · (C) reject outright.
 - **Decision:** **(B)** **Defer** the v2-lite bundle. **Not a freeze** — useful pieces are greenlit piecemeal as they come up (the `tdd` skill and the lean pre-commit gate **D-071** were both greenlit this way). **H7 and H9 both resolve to DON'T-BUILD:** **D-054**'s milestone-integrity policy + CI-manifest check already own the ship-gate *policy* (no bespoke skill), and decision queues are resolved **by hand** (demonstrated this very session via `AskUserQuestion`).
 - **Why:** The bundle's value is real but unproven and its harness cost is ~1 week; piecemeal adoption captures the wins without committing to the whole. Bespoke automation (ship-gate, resolve-queue skills) isn't worth building until the pain actually recurs.
 - **Consequences:** **Closes H7, H9, H10.** The mandatory `diverge` UI gate (DS#10) and the `playcheck` ratchet remain **HELD** (not adopted) and ride with the fuller v2-lite if it's ever revisited — the trigger is the hand-holding cost resurfacing. Intent: [`../../project/human-feedback/2026-06-29-h-item-decisions.md`](../../project/human-feedback/2026-06-29-h-item-decisions.md). Per **D-022**, governs.
 
-### D-071 ✅ — A lean, content-aware (<5s) pre-commit gate (the one v2-lite piece greenlit; built)
+### D-071 ⛔ — A lean, content-aware (<5s) pre-commit gate (the one v2-lite piece greenlit; built) — REVERSED by D-072 (2026-06-29)
+
+> ⛔ **Reversed 2026-06-29 by [D-072].** Measurement showed the **full `verify` runs in ~3s**, so the
+> content-aware *subset* was replaced by running the **whole** suite every commit (incl. the test suite this
+> hook deliberately skipped — its blind spot) + a drift guard. The journal-hygiene gate is **retained**.
+> History kept intact.
 - **Context:** The single Operating-Model-v2 piece the human greenlit (reshaped to a lean spec — forks **D-a/D-d** in the 2026-06-29 H-item session), separable from the deferred bundle (**D-070**). Evidence it was needed: M1 shipped with claimed pacing/fun instrumentation absent and the audit found a false-green test suite.
 - **Options:** (A) run the full `verify` (test suite) on every commit · (B) **a content-aware fast (<5s) subset that runs only what's relevant to the staged files** · (C) no gate (keep the journal-only hook).
 - **Decision:** **(B)** A content-aware **<5s** pre-commit subset: staged `.ts` → `tsc --noEmit`; staged `.ts/.md/json/css/html` → `prettier --check` (staged only); staged `src/**` → a pure-core **boot smoke**; then the unchanged journal-hygiene gate. **NOT the full test suite.** Bypass: `SKIP_VERIFY=1` (checks) / `SKIP_JOURNAL=1` (journal).
 - **Why:** A fast gate runs on every commit without friction; the full suite is too slow for a per-commit gate (it belongs in CI / `verify`). The pure-core boot smoke catches "dumb stuff" (a core that won't boot) cheaply.
 - **Consequences:** **Built this session** — [`../../.githooks/pre-commit`](../../.githooks/pre-commit) + [`../../src/scripts/smoke.ts`](../../src/scripts/smoke.ts), measured **~0.87s** on a TS+core commit. Complements **D-054** (milestone-integrity / CI-manifest, which stays the heavier CI-side check). The fuller `playcheck` ratchet stays deferred with the v2-lite bundle (**D-070**). Intent: [`../../project/human-feedback/2026-06-29-h-item-decisions.md`](../../project/human-feedback/2026-06-29-h-item-decisions.md). Per **D-022**, governs.
+
+### D-072 ✅ — Operating Model v2 ADOPTED ("v2 FINAL"): full-`verify` pre-commit + a 5s drift guard (supersedes D-070, D-071)
+- **created_date:** 2026-06-29
+- **Context:** D-070 *deferred* the v2-lite bundle and D-071 built a content-aware **<5s subset** hook (deliberately **not** the test suite). This session the human reopened the question as **"Operating Model v2 FINAL"** and directed building it — full `verify` in pre-commit (5s budget), `playcheck`, the mandatory `diverge` gate, the fun-slice roadmap re-axe — and explicitly noted the existing hook to upgrade. Newest-human-steer-wins.
+- **Options:** (A) keep D-070's deferral + D-071's subset · (B) **adopt v2 FINAL — run the full `verify` every commit (measured ~3.2s, fits the 5s box) + a noisy-but-non-blocking drift guard.**
+- **Decision:** **(B).** Pre-commit runs the **full `npm run verify`** (~3.2s measured — incl. the test suite D-071 skipped, its blind spot), wrapped in a soft 5s **drift timer** (green/amber/red; logs `tmp/precommit-timings.tsv`; **never blocks on time**). `SKIP_VERIFY=1` bypasses a docs-only commit. The hard budget check is the explicit **`npm run verify:budget`** (per-gate breakdown + median-of-3); a non-blocking `pre-push` surfaces it loudly. Principle: noisy about drift, never blocking the task in flight.
+- **Why:** Measurement reversed D-071's premise — the whole suite runs in ~3s, so the content-aware subset bought nothing and cost the test-suite blind spot. Run everything; let the drift guard catch the budget creeping as the codebase grows.
+- **Consequences:** **⛔ REVERSES D-070 and D-071** (both annotated). Built this session: [`../../.githooks/pre-commit`](../../.githooks/pre-commit), [`../../src/scripts/verify-budget.ts`](../../src/scripts/verify-budget.ts), [`../../.githooks/pre-push`](../../.githooks/pre-push). **Un-holds** the `diverge` gate (**D-073**) and the `playcheck` ratchet (**D-074**) that D-070 had held; the roadmap half is **D-060**. Plan: [`../plans/2026-06-29-operating-model-v2-final.md`](../plans/2026-06-29-operating-model-v2-final.md). Per **D-022**, governs.
+
+### D-073 ✅ — Design by divergence: a mandatory `diverge` gate for new/major UI surfaces (branch-preserved)
+- **created_date:** 2026-06-29
+- **Context:** DS#10 locked the `diverge` skill as a mandatory UI gate, but D-070 held it unadopted; the v2-FINAL adoption (**D-072**) un-holds it. The risk the human flagged: self-pick + an R-item means losing variants pile up as **feature-flag debt** that rots the build.
+- **Options:** (A) one-idea UI (status quo) · (B) opt-in variants · (C) **mandatory 2–3-variant `diverge` with a bounded, branch-preservation flag model.**
+- **Decision:** **(C).** No new/major UI surface ships from a single idea: `diverge` generates 2–3 distinct *approaches* → headless contact sheet → **self-picks** (autonomy) → files an **R-item** for human override (never blocks). **The winner collapses into `main` flag-free; losing variants live on a retained `diverge/<surface>` branch + committed screenshots** → `main`'s resting flag-debt is **zero**. Caps: 3 open diverges, 2 durable kept-flags. One-line tweaks exempt.
+- **Why:** The human wants to see "3 of everything" for taste/anti-slop, but mandatory variants must not rot the build — branch-preservation gives true live A/B with zero `main` debt.
+- **Consequences:** Promotes **DS#10** to canon (was HELD by D-070). Skill: [`../../.claude/skills/diverge/SKILL.md`](../../.claude/skills/diverge/SKILL.md); registry [`../../project/audit/variants-log.md`](../../project/audit/variants-log.md). Supporting infra (`qa-shots --variant`, `variant-gc.mjs`, the pre-commit isolation guard) builds JIT on the first diverge. CLAUDE.md gains the rule. Per **D-022**, governs.
+
+### D-074 ✅ — Experience is a continuous ratchet (`playcheck`), scoped to the proxies nothing else gates
+- **created_date:** 2026-06-29
+- **Context:** The fun-factor §3 vector was slated to "become a gate at M6"; with v2 adopted (**D-072**) it becomes **continuous**. D-070 had held the `playcheck` ratchet.
+- **Options:** (A) audit fun manually at a milestone · (B) **a scoped headless ratchet in `verify` every commit.**
+- **Decision:** **(B).** `playcheck` asserts the §3 vector headlessly over the **real engine**, **scoped** to the two proxies nothing else gates — `firstActionMs` (the <5s cold-open hook) and `maxDeadTimeMs` (no-dead-time) — with a 3×-baseline / 2s-floor ratchet + a 5s hard cap on the hook. `minutesPerRung` stays owned by `pacing:check` and the combat win-curve by `m2.test` (no double-gating). Absolute per-slice thresholds attach when a roadmap fun-slice ships.
+- **Why:** Hollowness should fail the build *continuously*, not wait for a milestone audit; scoping avoids redundancy with the gates that already exist.
+- **Consequences:** Un-holds the `playcheck` ratchet (was HELD by D-070). Built: [`../../src/playcheck.ts`](../../src/playcheck.ts) + `playcheck.baseline.json` + a teeth test, wired into `verify`. The deferred ~4 proxies + threshold mode ride the roadmap's fun-slices (**D-060**). Per **D-022**, governs.

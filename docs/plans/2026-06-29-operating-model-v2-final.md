@@ -184,23 +184,22 @@ that has bitten doc edits.
 
 ### F · ADRs + CLAUDE.md edits (directive #4) — *~30 min, after C/D land*
 
-**New ADRs** (next free IDs — `decisions.md` is at **D-069**, so these are **D-070+**; confirm at apply):
+**New ADRs — APPLIED as D-072–D-074** (the roadmap agent had since added D-070/D-071, so the planned D-070+
+numbering shifted up; D-072 explicitly **supersedes** those two — see below):
 
-- **D-070 — Pre-commit runs the full `verify` gate, bounded by a 5s budget with a drift guard.** Every commit
-  runs the complete suite (measured ~3.2s); a soft in-hook timer warns on drift, `verify:budget` is the hard
-  on-demand check. *(Supersedes the 2026-06-29 content-aware-subset hook decision under D-a/D-d — same intent
-  "commits can't be red & stay fast", now achieved by speed, not subsetting.)*
-- **D-071 — Design by divergence.** No new/major UI surface ships from a single idea — the `diverge` skill
-  (2–3 variants → contact sheet → human picks) is **mandatory**; tweaks exempt. *(Promotes DS#10 from steer to
-  canon.)*
-- **D-072 — Experience is a continuous ratchet (`playcheck`), scoped.** The 4 wiring-proxies run in `verify`
-  every commit (regression = red); absolute per-slice thresholds attach when a slice ships. *(Scopes the
-  original plan's "executable experience gate" to the lean keep.)*
+- **D-072 — Operating Model v2 ADOPTED; full-`verify` pre-commit + a 5s drift guard. SUPERSEDES D-070 + D-071.**
+  D-070 had *deferred* v2 and D-071 recorded the content-aware <5s subset hook; the human's "v2 FINAL" reversal
+  this session adopts the bundle and runs the whole suite (measured ~3.2s) instead of the subset. Both reversed
+  ADRs annotated `⛔ REVERSED by D-072` (annotate-don't-delete).
+- **D-073 — Design by divergence.** The mandatory `diverge` gate (branch-preservation → zero `main` flag-debt);
+  promotes **DS#10** from steer to canon (un-held from D-070).
+- **D-074 — Experience is a continuous ratchet (`playcheck`), scoped.** The 2 owned proxies run in `verify`
+  every commit; absolute per-slice thresholds attach when a slice ships. Un-held from D-070.
 
 **CLAUDE.md edits:**
 - *How to work here* → the pre-commit line gains "runs the full `verify` (~3s) — bypass docs-only with
   `SKIP_VERIFY=1`" (it currently says the hook is fast-subset).
-- *Conventions* → **+2 lines:** **Design by divergence** (the D-071 rule) and **one** lean enforcement-ladder
+- *Conventions* → **+2 lines:** **Design by divergence** (the D-073 rule) and **one** lean enforcement-ladder
   sentence ("push each quality rule to the highest rung that can hold it: gate > hook > skill > norm" — a
   sentence, not the original's section).
 - *Layout* → list the `diverge` skill alongside the others.
@@ -235,7 +234,7 @@ D  playcheck (4 proxies, ratchet, in verify)  (~1 sess)   ◄ gated on X-1
 C  diverge skill                              (~1 sess)   ◄ independent; behavior gated on X-2
 ── HELD until the roadmap agent clears the docs lane (X-4) ──
 E  PRD split + completeness check + ref fixups (~1 sess)   ◄ stub-index prd.md (F-3)
-F  ADRs D-070–D-072 + CLAUDE.md edits         (~30 min)   ◄ after C/D land + docs lane clear
+F  ADRs D-072–D-074 + CLAUDE.md edits         (~30 min)   ◄ after C/D land + docs lane clear
 ── final ──
 ✓  adversarial review pass over A–F before declaring v2 done
 ```
@@ -277,8 +276,9 @@ The forks settled *what to build*; these settled *how to execute*. **All resolve
   unformatted/lint-dirty file *anywhere* (incl. one the roadmap agent leaves) blocks the commit. Correct
   behavior (the repo should be green), but with two agents active it can cross-block; `SKIP_VERIFY=1` is the
   escape. The redundant `smoke` step drops from the hook (`verify`'s `tsc`+tests subsume it).
-- **ADR IDs:** `decisions.md` is at **D-069**; D-070–D-072 are claimed at apply time — but the roadmap agent
-  may also be writing ADRs, so the actual next-free IDs get **re-confirmed at apply** to avoid a collision.
+- **ADR IDs:** *(resolved at apply)* the roadmap agent **did** add D-070/D-071 meanwhile — and they *deferred*
+  v2, the opposite of this plan. The new ADRs landed as **D-072–D-074**, with **D-072 explicitly superseding
+  D-070 + D-071** (both annotated `⛔ REVERSED`). The collision X-4 guarded against was real and is reconciled.
 - **PRD section sizes:** §2/§4/§5 stay large (~1.4–1.6k lines each) even after the 7-way split; that's per DS#6
   ("per-section files"). The 7.6k-monolith truncation class is gone; sub-splitting is out of scope.
 - **Commit cadence:** one commit per workstream (project norm); each leaves the build green + a journal entry.
