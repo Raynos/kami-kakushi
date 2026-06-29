@@ -14,9 +14,11 @@ metadata:
   (the **Kurosawa** house); rise through **5 tiers** (Estate→Village→Region→Castle-town→Edo), growing
   **House Influence** (4 pillars). Signature: **the UI itself unlocks incrementally**. No magic; growth
   only through perseverance; no reset. (Spec: `docs/living/prd.md`.)
-- **Phase:** **PRD now at V2.3** (the 6-tier reshape — ADRs D-048–D-069 + 5 forks — rippled into the body
-  2026-06-29, Part 1 of `path-to-v0.3`; the build against it is Part 2, pending). The **DEMO (M0+M1+M2) was
-  built & POLISHED against PRD V2.2** → now human play-testing. The overnight
+- **Phase:** **PRD at V2.3** (the 6-tier reshape — ADRs D-048–D-069 + 5 forks — rippled into the body 2026-06-29,
+  Part 1 of `path-to-v0.3`). **⭐ Part 2 (the v0.3 build) is BUILT END-TO-END (session-19): the T0 M0–M4 arc is
+  PLAYTESTABLE** — the macro spine demonstrably CLOSES (tier 0→1 ascension fires) + the T0-M4 breadth is wired +
+  an 8-lens fidelity battery passed (prd 9 / adr 8.5 / human-fb 8). **Now awaiting the human's R1 play/taste call**
+  (+ the R4 judgment queue). The earlier **DEMO (M0+M1+M2) built & POLISHED against PRD V2.2** is the v0.3 floor. The overnight
   build session (2026-06-26, `project/journal/2026-06-26-session-02-overnight-build.md`) + a 2026-06-27
   human-directed **repo reorg** (the 3-dir tree above) and first-playthrough UX fixes (log cascade
   newest-at-bottom, bigger/indigo Settings ✕, modal closes on new-game). Live human feedback now lands in
@@ -164,21 +166,28 @@ metadata:
   multiple agents may edit the tree at once), **don't-fight-someone-else's-red**. Commits `a7608a9`→`2813e6a`,
   all on `origin/main`, green. *(Note: another agent landed `22cf15c` HP-carry combat — Movement-1 work —
   during this session.)* Journal: `project/journal/2026-06-29-session-18-gh-pages-deploy.md`.
-- **Phase update — v0.3 PART 2 BUILD IN PROGRESS (2026-06-29, session-19).** Full mandate to build
-  `path-to-v0.3` Part 2 end-to-end with parallelism. Done so far (all `verify`-green; journal:
-  `project/journal/2026-06-29-session-19-v03-part2-build.md`): **(audit)** a 21-agent source-fidelity Workflow +
-  headless built-game pass → the **re-baseline gap report** (`project/audit/reports/2026-06-29-t0-m1-m2-rebaseline.md`,
-  27🟢/10🟡/14🔴). **(Movement 1 combat-correctness)** P1 **HP-carry/heal-by-eating** (D-050 — `mcCombatStats`
-  reads carried HP, 3 non-eating heals removed, `cook_meal` mends HP); P2 **no-stance-dominated** (Pareto-lever
-  test); P4 **no-stranding** (eat+repair reaches L2, 8 seeds). **(Movement 2 spine — THE LOOP CLOSES)** M2·1 schema
-  (`tier`+`influence`, SCHEMA_VERSION 1→2, real v1→v2 migrate) · M2·2 R7 capstone (thin R4→R7, R3 dead-end fixed,
-  `t0-capstone`→Phase 2) · M2·3 `pillars.ts` (Phase-2-gated, per-deed-capped Estate deeds) · M2·4 seasonal judge
-  (new-high-water, 70/30, ±10%, day-keyed) · M2·5 `ascension.ts` (gate=Estate≥EXCELLENT, manual opt-in, tier 0→1,
-  grade-scaled boon, dream beat) **+ a reducer-driven spine-closure test**. A **6-module scatter-gather Workflow**
-  authored the disjoint leaf modules (sfx/dialogue/quests/crafting/map/market — raw at
-  `project/brainstorms/raw/2026-06-29-v03-leaf-modules-authoring.json`), staged for integration. **Remaining:** M2·6
-  live-Estate UI (DIVERGE) · M2·8 retire DEMO/REAL fork + DEV tools · integrate the leaves · M3 flywheel + stance
-  reveals · roadmap-respect verification. ⚠️ **Shared tree** — another agent committing concurrently; explicit-path staging only.
+- **Phase update — ⭐ v0.3 PART 2 BUILT END-TO-END + FIDELITY-BATTERED — PLAYTESTABLE (2026-06-29, session-19).**
+  The full `path-to-v0.3` Part-2 mandate is **DONE** and the **T0 M0–M4 arc is now playtestable** (journal:
+  `project/journal/2026-06-29-session-19-v03-part2-build.md`; **220 tests green**, all `verify`-green, on
+  `origin/main`). **(audit)** a 21-agent source-fidelity Workflow + headless pass → the re-baseline gap report
+  (`…/2026-06-29-t0-m1-m2-rebaseline.md`, 27🟢/10🟡/14🔴). **(Movement 1 — combat correctness)** P1 **HP-carry/
+  heal-by-eating** (D-050); P2 **no-stance-dominated** (Pareto-lever); P4 **no-stranding** (eat+repair → L2, 8
+  seeds). **(Movement 2 — THE SPINE CLOSES)** M2·1 schema (`tier`+`influence`, SCHEMA_VERSION 1→2, real migrate) ·
+  M2·2 R7 capstone (thin R4→R7, R3 dead-end fixed, `t0-capstone`→Phase 2) · M2·3 `pillars.ts` (Phase-2-gated,
+  per-deed-capped Estate deeds) · M2·4 seasonal judge (new-high-water, 70/30, ±10%, day-keyed) · M2·5
+  `ascension.ts` (gate=Estate≥EXCELLENT, manual opt-in, tier **0→1**, grade-scaled boon, dream beat) · M2·6
+  **live-Estate UI** (grade bar + locked pillar silhouettes + Ascend CTA + the T0→T1 ceremony — **DIVERGE**, R2).
+  **(Movement 3 — T0-M4 breadth)** all 5 leaf modules wired: diegetic **dialogue** mentor (D-039/D-063), one
+  **craftable** 2nd weapon (loot→craft, grant retired D-052), first **quests** (D-037), tiny **market** (D-008),
+  walkable **map** (node-graph + `move_to`, D-065 — DIVERGE, R3). **(fidelity battery)** an 8-lens cold-read
+  Workflow → `project/audit/reports/2026-06-29-v03-fidelity-battery.md` (**prd 9 / adr 8.5 / human-fb 8**;
+  verdict: *the game the PRD promised is built & honest; the first-10-min FEEL isn't tuned yet*). **7
+  self-resolvable findings applied** (cold-open reveal-as-plot gating · ascension seal scrim · seasonal-judge
+  geometric-inflation fix · dead-value ratchet now covers loot mats · no-stranding test de-tautologised · +2
+  RED-able guards: D-052 equip-gate, porter's-knot inert). **Deferred to the human (R4 judgment queue, 6 calls):**
+  D-056 DEMO/REAL fork retirement + T0 pacing re-derive (the one live ADR contradiction), D-053 wall-time clock,
+  surplus-material dead-tail, first-10-min fun tuning, DEV-harness coverage, D-073 variants-log backfill. ⚠️
+  **Shared tree** — concurrent agents; explicit-path staging only.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -204,19 +213,17 @@ metadata:
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
-  4. **Next, in order:** (a) **R1** — the human plays the M0–M2 demo for the fun/pacing/look call (still
-     open, in parallel). (b) ✅ **DONE (session-11)** — roadmap promoted to `docs/living/roadmap.md` + 5 forks
-     finalized. (c) ✅ **DONE (session-15)** — **Part 1 (the PRD/doc ripple) is EXECUTED** (reshape + forks
-     rippled into the 7 `prd/0N-*.md` section files + the living docs; `verify` green). (d) **NEXT — Part 2,
-     the build (`path-to-v0.3` Part 2), RE-SCOPED 2026-06-29 session-16 into THREE movements:** **Movement 1 —
-     re-baseline T0-M1/M2** (v0.2 was built against an older PRD → audit the source code AND the running game via
-     `battery` + `capture-game-states` → gap report ✅/🟡/🔴 in `project/audit/reports/` → re-implement the gaps;
-     blanket carry-forward is downgraded to *carry-forward-earned-per-fun-slice-by-audit*); **Movement 2 — the
-     T0-M3 spine** (the live Estate pillar + the BIG T0→T1 ascension on thin content, prove it CLOSES);
-     **Movement 3 — the T0-M4 breadth** (first quest, koku flywheel, mentor lore-talk + market, walkable map,
-     stance/ability reveals, found/crafted 2nd weapon). **T0-M3 + T0-M4 ship back-to-back** (coupled); spine-first
-     held *within* the release. At the start of Movement 2, re-derive the **§4 balance MAGNITUDES** onto the 6-tier
-     spine (liquid, banner'd in `prd/04-combat-balance.md`) + regen `docs/content/`.
+  4. **Next, in order:** (a) ⭐ **R1 — the human plays the v0.3 T0 M0–M4 build** for the fun/pacing/look call
+     (the headline open action — see `project/human-in-the-loop/review.md`, which carries a **DEV-tools playbook**:
+     `__qa.speed(8)`, `jumpToPhase2()`, `jumpToAscension()`, `toRung()`; gallery at
+     `project/audit/screens/v03-gallery/`). (b) ✅ **DONE (session-11)** — roadmap promoted + 5 forks finalized.
+     (c) ✅ **DONE (session-15)** — Part 1 (the PRD/doc ripple) executed. (d) ✅ **DONE (session-19)** — **Part 2,
+     the v0.3 build, is COMPLETE** (all 3 movements: re-baseline T0-M1/M2 → the T0-M3 spine that CLOSES →
+     the T0-M4 breadth) + fidelity-battered + 7 self-resolvable findings applied. **What's left is the human's
+     call:** R1 (playtest) + the **R4 judgment queue** (6 design/taste decisions, incl. the deferred D-056
+     DEMO/REAL fork retirement + T0 pacing re-derive — a risky 13-file pacing-gate refactor that needs human
+     sign-off on the re-derived ≥30-min thresholds, NOT a unilateral call). R2/R3 are the M2·6 / breadth diverge
+     picks (override-only, non-blocking).
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:
