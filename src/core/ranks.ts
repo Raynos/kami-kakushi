@@ -8,7 +8,7 @@ import type { GameState } from './state';
 import { RANKS, getRank, nextRankId, type RankDef, type RankId } from './content/ranks';
 import { RUNG_POINTS_PER_ACT, rungThreshold } from './content/balance';
 import { applyRewards } from './rewards';
-import { hpMax, satietyMax } from './selectors';
+import { satietyMax } from './selectors';
 
 export function currentRank(state: GameState): RankDef {
   return getRank(state.rung);
@@ -47,10 +47,12 @@ export function promoteRungs(state: GameState): GameState {
     const target = getRank(nid);
     next = { ...next, rung: nid, rungMeter: 0 };
     if (target.rewardOnReach) next = applyRewards(next, target.rewardOnReach);
-    // a promotion is a renewal — the house feasts a new rank; vitals refresh.
+    // a promotion is a renewal — the house feasts a new rank, so the BELLY refills
+    // (satiety). HP does NOT: under D-050 only eating (cook) mends wounds, so a rung
+    // climb can't be farmed as a free heal.
     next = {
       ...next,
-      character: { ...next.character, hp: hpMax(next), satiety: satietyMax(next) },
+      character: { ...next.character, satiety: satietyMax(next) },
     };
   }
   return next;

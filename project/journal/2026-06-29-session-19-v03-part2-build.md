@@ -43,10 +43,33 @@ reconcile. (P5 yield-estate → M3 T0-M4-F2; P6 influence state → M2 T0-M3-F1.
 
 ---
 
+## 2 · Movement 1 · 0c · P1 — HP-carry spine (D-050) — DONE (core)
+
+Re-baselined combat to the D-050 contract: **HP carries between fights and heals ONLY by eating.**
+- `combat.ts` — `mcCombatStats` now reads **carried** `c.hp` (clamped to hpMax), not a free full refill. Since
+  the forecast shares `mcCombatStats`, a hurt fighter now forecasts strictly lower — the legible "eat first" cue.
+- Removed all **three** non-eating heals (the verifier-found set): the loss full-heal (`fight.ts` — you now limp
+  away at `SETBACK_HP`, still no permanent loss), the level-up heal (`fight.ts`), and the rung-promotion HP
+  refresh (`ranks.ts` — promotion still refills the *belly*/satiety, not wounds, so it can't be farmed as a heal).
+- Added the eat→HP path: `cook_meal` now restores `COOK_HP_RESTORE=14` HP (capped at hpMax) alongside satiety,
+  coupling combat ↔ the cook sink.
+- Tests: new `m2.test.ts` "HP carries / heals only by eating (D-050)" block (carry read, loss=SETBACK_HP,
+  promotion-no-heal, cook-heals). Updated the `mc()` curve helper to seed full HP so the canonical curve is
+  unchanged while the live forecast reflects carried HP. **45/45 affected tests green.**
+
+⚠️ **Cross-agent event:** another live session `git stash`ed this working tree mid-edit and restored it; P1
+verified intact and committed immediately to protect it. (The `git add -A` guard doesn't stop `git stash` — keep
+commits frequent while other sessions are active.)
+
 ## Next intended steps (current)
-1. **0c re-implement** the Movement-1 gaps in priority order (TDD, verify-green per commit), starting with the
-   HP-carry spine (P1) + no-stance-dominated (P2) — combat correctness gates the rest.
-2. Then Movement 2 (T0-M3 spine) → Movement 3 (T0-M4 breadth) → roadmap-respect verification.
+1. **P1c** — auto-loop eat-to-heal (app layer, `main.ts`): when auto-fighting and HP low, cook (forage for
+   sansai if needed) before fighting; don't grind at low HP.
+2. **P2** no-stance-dominated test, **P4** no-stranding test+retune, **P3** found/crafted weapon, **P7** mentor,
+   **P8** SFX+DEV-speed, **P9** wear-axis — the rest of Movement-1 0c.
+3. Then Movement 2 (T0-M3 spine) → Movement 3 (T0-M4 breadth) → roadmap-respect verification.
+4. **Parallelism (human ask):** fan out subagents/worktrees for the disjoint NEW content modules (sfx, dialogue,
+   quests, map, market, crafting) + parallel `diverge`; keep the coupled integration spine (render/intents/state)
+   on the main line to avoid merge conflicts on the shared files.
 
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on

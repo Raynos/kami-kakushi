@@ -10,7 +10,6 @@ import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from './combat';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
-import { hpMax, satietyMax } from './selectors';
 import { NAMES } from './content/names';
 import {
   COMBAT_XP_K,
@@ -51,7 +50,7 @@ function gainCombatXp(state: GameState, amount: number): GameState {
         attributePoints: next.character.attributePoints + (newLevel - state.character.level),
       },
     };
-    next = setHp(next, hpMax(next)); // a level-up heals to full — a satisfying beat
+    // D-050: a level-up no longer free-heals — HP carries, and eating is the only mend.
     next = applyRewards(next, {
       log: [
         {
@@ -98,21 +97,18 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
     next = gainCombatXp(next, mob.level * COMBAT_XP_K);
     next = advanceClock(next, FIGHT_TICKS);
   } else {
-    // soft setback + forced rest — never lose level/xp/gear (no death-spiral)
+    // soft setback (D-050/§4.6.6): you limp away at the HP floor — never losing a
+    // level/xp/gear — but you stay HURT. Recovery is a hot meal, not a free heal.
     next = setHp(next, SETBACK_HP);
     next = applyRewards(next, {
       log: [
         {
           channel: 'combat',
-          text: `The ${mob.label.toLowerCase()} drives you back. You limp to a safe place and rest off the worst of it — nothing lost but time and pride.`,
+          text: `The ${mob.label.toLowerCase()} drives you back. You limp to safety, badly used — nothing lost but time, pride, and the strength in your limbs. Eat and mend before you take the field again.`,
         },
       ],
     });
     next = advanceClock(next, FIGHT_TICKS + SETBACK_TICKS + FORCED_REST_TICKS);
-    next = {
-      ...next,
-      character: { ...next.character, satiety: satietyMax(next), hp: hpMax(next) },
-    };
   }
   return next;
 }

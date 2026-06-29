@@ -9,7 +9,7 @@ import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
 import { clamp } from './math';
-import { satietyMax, staminaRate, season, canDoActivity } from './selectors';
+import { satietyMax, hpMax, staminaRate, season, canDoActivity } from './selectors';
 import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, promoteRungs } from './ranks';
 import { isUnlocked } from './unlock';
@@ -25,6 +25,7 @@ import {
   SKILL_YIELD_DEN,
   COOK_SANSAI_COST,
   COOK_SATIETY_RESTORE,
+  COOK_HP_RESTORE,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
@@ -192,16 +193,21 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'cook_meal': {
-      // sansai → satiety (audit #5). A 2-tick act that costs greens for a refuel.
+      // sansai → satiety AND HP (audit #5 + D-050). A 2-tick act that costs greens for a
+      // refuel; eating is the ONLY thing that mends wounds, so it couples food ↔ combat.
       if (!isUnlocked(next, 'verb-cook')) return state;
       if ((next.resources.sansai ?? 0) < COOK_SANSAI_COST) return state;
       next = withResource(next, 'sansai', -COOK_SANSAI_COST);
       next = adjustSatiety(next, COOK_SATIETY_RESTORE);
+      const hpBefore = next.character.hp;
+      const hpAfter = Math.min(hpMax(next), hpBefore + COOK_HP_RESTORE);
+      if (hpAfter !== hpBefore) next = { ...next, character: { ...next.character, hp: hpAfter } };
+      const hpGain = hpAfter - hpBefore;
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
-            text: `You boil the wild greens into a plain, hot meal. (−${COOK_SANSAI_COST} sansai, +${COOK_SATIETY_RESTORE} body)`,
+            text: `You boil the wild greens into a plain, hot meal. (−${COOK_SANSAI_COST} sansai, +${COOK_SATIETY_RESTORE} body${hpGain > 0 ? `, +${hpGain} HP` : ''})`,
           },
         ],
       });

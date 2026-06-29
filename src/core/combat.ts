@@ -112,7 +112,9 @@ export function mcCombatStats(state: GameState): CombatStats {
       Math.max(1, Math.round(baseAtk * band.mult * satRate * stance.atkMult)) +
       c.might * ATTR_MIGHT_ATK,
     defense: MC_DEF_BASE + (level - 1) * MC_DEF_PER_LEVEL + c.guard * ATTR_GUARD_DEF,
-    hp: hpMax(state),
+    // D-050: a fight starts from your CARRIED hp, not a free full refill. hpMax is the
+    // ceiling (level/vigor); the only mend is eating (cook). A hurt fighter forecasts lower.
+    hp: clamp(c.hp, 0, hpMax(state)),
     speed: weapon.baseSpeed,
     hitChance: HIT_CHANCE,
     critChance: clamp(CRIT_CHANCE + stance.critAdd, 0, 1),

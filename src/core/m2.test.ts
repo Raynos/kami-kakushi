@@ -17,12 +17,19 @@ import {
   isUnlocked,
   getRank,
   applyRewards,
+  promoteRungs,
+  reduce,
+  hpMax,
   type GameState,
 } from './index';
 
+// A "ready" fighter at the given level: full HP (hpMax grows with level, so seed it
+// explicitly) at the given satiety. The CANONICAL curve is measured at full HP — the
+// LIVE forecast reflects carried HP (D-050), which the carry tests exercise separately.
 function mc(level = 1, satiety = 100): GameState {
   const s = createInitialState(1);
-  return { ...s, character: { ...s.character, level, satiety } };
+  const t: GameState = { ...s, character: { ...s.character, level, satiety } };
+  return { ...t, character: { ...t.character, hp: hpMax(t) } };
 }
 function atFullSatiety(s: GameState): GameState {
   return { ...s, character: { ...s.character, satiety: 100 } };
@@ -141,6 +148,52 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     expect(wearOf('jodan')).toBe(3);
     expect(wearOf('chudan')).toBe(2);
     expect(wearOf('gedan')).toBe(1);
+  });
+});
+
+// D-050 — HP carries between fights and heals ONLY by eating. The v0.2 build seeded
+// every fight at full HP and free-healed on loss/level/promotion; the spine contract is
+// that a fight starts from your CURRENT hp, a loss leaves you hurt, and the cook sink is
+// the only mend — so "eat before you fight" is a real, legible decision.
+describe('HP carries between fights and heals only by eating (D-050)', () => {
+  it('combat reads carried HP — a hurt fighter forecasts strictly lower', () => {
+    const full = mc(1);
+    const hurt: GameState = { ...full, character: { ...full.character, hp: 6 } };
+    expect(mcCombatStats(hurt).hp).toBe(6);
+    expect(foeWr(hurt, 'monkey')).toBeLessThan(foeWr(full, 'monkey'));
+  });
+
+  it('a loss leaves you genuinely hurt (SETBACK_HP) — NOT full-healed', () => {
+    // bandit @L1 is out of reach → a guaranteed loss
+    const after = applyGrindFight(atFullSatiety(createInitialState(3)), 'bandit');
+    expect(after.character.hp).toBe(balance.SETBACK_HP);
+    expect(after.character.hp).toBeLessThan(hpMax(after));
+  });
+
+  it('a rung promotion does NOT heal HP (only eating does)', () => {
+    const base = createInitialState(1);
+    const parked: GameState = {
+      ...base,
+      character: { ...base.character, hp: 6 },
+      rungMeter: balance.rungThreshold('R0', base.balanceProfile) + 1,
+      flags: { ...base.flags, awake: true, raked: true },
+    };
+    const promoted = promoteRungs(parked);
+    expect(promoted.rung).not.toBe('R0'); // it did promote…
+    expect(promoted.character.hp).toBe(6); // …without a free heal
+  });
+
+  it('eating (cook) restores HP, capped at hpMax (the only mend)', () => {
+    const base = createInitialState(1);
+    const s0: GameState = {
+      ...base,
+      character: { ...base.character, hp: 5 },
+      resources: { ...base.resources, sansai: 4 },
+      unlocked: [...base.unlocked, 'verb-cook'],
+    };
+    const s1 = reduce(s0, { type: 'cook_meal' });
+    expect(s1.character.hp).toBeGreaterThan(5);
+    expect(s1.character.hp).toBeLessThanOrEqual(hpMax(s1));
   });
 });
 
