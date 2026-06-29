@@ -188,6 +188,15 @@ metadata:
   D-056 DEMO/REAL fork retirement + T0 pacing re-derive (the one live ADR contradiction), D-053 wall-time clock,
   surplus-material dead-tail, first-10-min fun tuning, DEV-harness coverage, D-073 variants-log backfill. ⚠️
   **Shared tree** — concurrent agents; explicit-path staging only.
+- **Phase update — v0.3 POLISH PASS 2 (2026-06-29, session-19 cont.).** After the build + battery, a second
+  autonomous-safe pass (no design calls): **(1)** backfilled the **D-073 variants-log** registry (battery §72 —
+  was empty despite 5 diverge runs); **(2)** a **hands-on QA visual sweep** of the *running* build —
+  `project/audit/screens/2026-06-29-v03-qa-sweep/` (15 surfaces, **0 console errors**), which **found + fixed 1
+  real visual bug** (the map header read "You stand at **the the** grain-store" — `render.ts` stripped the doubled
+  article) and confirmed the macro-spine UI in-pixels (grade-bar Good⅓→Excellent-gold + the Ascend CTA; the
+  cold-open koku-teaching lands on the +koku; seals all scrimmed); **(3)** a **populated-state save round-trip
+  test** (cross-session playtest persistence for tier/influence/quests/location/marketBought). All green, pushed.
+  One observation routed to R4#5 (post-ascension panel shows stale T0 framing = thin-T1-content, a depth call).
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·

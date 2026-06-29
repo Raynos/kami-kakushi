@@ -58,8 +58,11 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   (fill used `color` not `background`). Winner is on `main` flag-free; the ascension ceremony reuses the
   rank-up-seal beat (bigger/gold, D-062).
 - **How to look:** the contact sheet in [`audit/screens/diverge-influence/`](../audit/screens/diverge-influence)
-  (`A-{1-teaser,2-great,3-excellent-ascend}.png` vs `B-*.png`) + the decision note `DECISION.md` there. Live:
-  `npm run dev` → `__qa.forceState({rung:'R7',flags:{...,'t0-capstone':true},unlocked:[...,'panel-house-influence'],influence:{estate:{value:490,highWater:500,judged:480}}})`.
+  (`A-{1-teaser,2-great,3-excellent-ascend}.png` vs `B-*.png`) + the decision note `DECISION.md` there. **The
+  cleanest grade-progression of the SHIPPED panel** is in the QA sweep:
+  `audit/screens/2026-06-29-v03-qa-sweep/{10-influence-good,11-influence-great,12-influence-excellent-ascend}.png`
+  (Good ⅓-bar → full-gold Excellent + the vermilion Ascend CTA). Live: `npm run dev` →
+  `__qa.jumpToPhase2()` then `__qa.forceState({influence:{estate:{value:480,highWater:480,judged:360}}})`.
 - **Verdict:** _(awaiting the human — non-blocking; A shipped per D-073 self-pick)_
 
 ### R3 🔲 — diverge picks: the T0-M4 breadth surfaces (D-073)
