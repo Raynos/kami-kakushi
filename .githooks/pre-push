@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# pre-push (op-model v2 FINAL, Workstream B — 2026-06-29): surface verify-budget DRIFT loudly at
+# push time, but NEVER block the push. This is the "noisy, not blocking" half of X-3 — a natural
+# checkpoint where an agent notices the gate is drifting and chooses to fix it, without the budget
+# ever stopping the work in flight. The HARD check is the explicit `npm run verify:budget`.
+#
+# Bypass:  SKIP_BUDGET=1 git push   (skip the budget readout)
+# Enable once per clone:  git config core.hooksPath .githooks
+
+set -uo pipefail
+
+if [ "${SKIP_BUDGET:-0}" = "1" ]; then
+  exit 0
+fi
+
+echo "  - pre-push: verify-budget readout (non-blocking; SKIP_BUDGET=1 to skip)…" >&2
+if ! npm run --silent verify:budget >&2; then
+  echo "" >&2
+  echo "  !! verify is OVER its time budget (or red). NOT blocking the push — but worth a look:" >&2
+  echo "     'npm run verify:budget' for the per-gate breakdown." >&2
+fi
+
+exit 0

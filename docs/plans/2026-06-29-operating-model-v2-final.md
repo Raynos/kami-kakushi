@@ -88,27 +88,43 @@ commit just because the laptop was busy.
 2. **Trend visibility:** append `{epoch}\t{seconds}\t{loc}\t{testcount}` to a git-ignored
    `tmp/precommit-timings.tsv` each run, so drift is a readable curve, not a surprise. (Cheap; `tmp/` is
    already git-ignored.)
-3. **A deliberate `verify:budget` script** (`src/scripts/verify-budget.ts`) for an *intentional* check (run by
-   hand or in a future CI step, **not** per-commit): runs `verify` 3× cold, takes the median, prints the
-   per-gate breakdown + the headroom, and **exits non-zero if median > 5.0s** — so "are we still in budget?"
-   has a deterministic, on-demand answer. This is the hard gate; the in-hook timer is the ambient warning.
+3. **A deliberate `verify:budget` script** (`src/scripts/verify-budget.ts`): runs `verify` 3× cold, takes the
+   median, prints the per-gate breakdown + the headroom, and **exits non-zero if median > 5.0s**. This is the
+   one place a hard-fail lives — and it only fires **when explicitly invoked** (it's a decision tool, not a
+   passive gate).
+4. **A `pre-push` hook** (`.githooks/pre-push`) runs `verify:budget` and prints its verdict **loudly**, but
+   **always exits 0 — it never blocks the push.** So drift gets surfaced at a natural checkpoint (push) without
+   ever stopping the work in flight.
 
-> **Why warn-not-fail in the hook, hard-fail in the script:** timing is machine- and load-dependent, so a
-> per-commit hard-fail would be flaky and rage-inducing. The ambient warning catches drift early where you'll
-> see it; the explicit `verify:budget` script is where you *decide* the box is blown and act (trim a gate,
-> parallelize, or raise the box deliberately).
+> **The X-3 principle (human, 2026-06-29): noisy, never blocking.** All three signals — the in-hook commit
+> timer, the `pre-push` `verify:budget` verdict, and the `verify:budget` script itself — are *loud* about drift
+> so an agent **chooses** to debug the budget when it makes sense (in the background, between tasks). **None of
+> them hard-block** the commit/push of whatever bug or feature is in flight. The single hard-fail is reserved
+> for an **explicit** `npm run verify:budget` — the moment you actually sit down to decide the box is blown and
+> act (trim a gate, parallelize, or raise the box deliberately).
 
 ### C · The `diverge` skill + its rule (directives #2 + #4) — *~1 session, independent*
 
-Locked **MANDATORY** for new/major UI surfaces (DS#10, human's 2026-06-29 steer — overrides the reel-back's
-"opt-in" instinct). Build the skill ~as the original plan's §4 specified:
+Locked **MANDATORY** for new/major UI surfaces (DS#10, human's 2026-06-29 steer). The core loop is the
+original plan's §4: frame within the woodblock/ink bible → generate **2–3 genuinely distinct variants** (behind
+a `?variant=A|B|C` DEV flag) → screenshot each headlessly via `capture-game-states` → self-review each against
+`ui-design.md` → emit **one contact sheet** `tmp/variants/<surface>/contact.md` → **self-pick** (X-2) → file an
+**R-item**. Tweaks are exempt.
 
-- **`.claude/skills/diverge/SKILL.md`** — for any meaningful surface: frame within the woodblock/ink bible →
-  generate **2–3 genuinely distinct variants** (behind a `?variant=A|B|C` DEV flag) → screenshot each
-  headlessly via `capture-game-states` → self-review each against `ui-design.md` → emit **one contact sheet**
-  `tmp/variants/<surface>/contact.md` (variants side-by-side + per-variant verdict + recommended pick) → human
-  picks/blends → synthesize, drop the flags, log the choice.
-- **Tweaks are exempt** (a one-line restyle is not a "surface").
+**But X-2 promotes this from a process doc to a real design problem.** Self-pick + R-item means losing variants
+**persist behind DEV flags until the human resolves the R-item** → unmanaged, that's *feature-flag debt that
+rots the build*. So `.claude/skills/diverge/SKILL.md` must additionally specify (design panel
+`diverge-skill-design` is producing this):
+
+- **A bounded variant feature-flag model** — variants vary the **render layer only** (the pure core stays
+  single), isolated per-surface so deletion is a clean cut.
+- **A flag lifecycle + GC** — create → live behind `?variant=` → human picks/blends/rejects → **losers deleted,
+  winner promoted to the plain render path, flag + dead code removed.**
+- **A flag-debt discipline** — a **WIP cap** on concurrent unresolved variant-sets, a **variant-flag registry**,
+  and what the agent must do at the cap; a debt readout surfaced to the human.
+- **An autonomy policy** — self-pick criteria, R-item filing, and a **stale-R-item escalation/expiry** default
+  (so unreviewed variants auto-resolve to the self-pick rather than accumulating forever).
+
 - The CLAUDE.md rule + ADR land in Workstream F.
 
 ### D · `playcheck` — scoped (directive #8) — *~1 session*
@@ -244,19 +260,19 @@ F  ADRs D-070–D-072 + CLAUDE.md edits         (~30 min)   ◄ after C/D land +
 
 ---
 
-## 6 · Open decisions BEFORE execution (the human's pre-build checkpoint)
+## 6 · Pre-execution decisions — RESOLVED (human, 2026-06-29) — execution cleared
 
-The forks above settled *what to build*. These are the calls that surfaced when planning *how to execute*,
-each of which changes the work. **Defaults marked; awaiting the human's go.**
+The forks settled *what to build*; these settled *how to execute*. **All resolved — the build is go**
+(conflict-free lane now; E/F held per X-4).
 
-| # | Decision | Options | Default |
-|---|---|---|---|
-| **X-1 · `playcheck` timing vs. the imminent T0 reshape** | The T0 reshape (R0→R7 tutorial, pillars, HP-carry) is the next big build and will change every number `playcheck` measures. | (a) **build now** — the *harness* is reshape-agnostic (reuses `pacing-report`); only the baseline JSON churns (trivially regenerated), and it then **guards the reshape build** from introducing dead-time/regressions · (b) **defer** until T0 stabilizes, build once against stable mechanics | **(a)** — low-waste; the guard earns its keep *during* the reshape. |
-| **X-2 · mandatory `diverge` × autonomous-by-default** | "No surface ships from one idea" collides with "don't stall for confirmation" when no human is present. | (a) agent **self-picks** with its own vision, logs the pick, and files the contact sheet as an **R-item** for later human override (never blocks) · (b) **hard-block** the surface until the human picks · (c) hybrid: self-pick routine surfaces, hard-block only "major" ones | **(a)** — matches autonomy; human stays final taste arbiter via the R-item. |
-| **X-3 · drift-guard automation** | Where does the *hard* `verify:budget` check actually run? (No CI exists yet.) | (a) **manual/on-demand only**, backed by the ambient in-hook timer + `tmp/precommit-timings.tsv` trend · (b) **also a `pre-push` hook** that runs `verify:budget` so drift is caught automatically before a push | **(a)** — leanest; the in-hook warning already gives continuous signal. |
-| **X-4 · when do E + F land?** | They're doc-heavy and collide with the live roadmap agent. | (a) **hold E/F** until you tell me the roadmap agent is done · (b) the roadmap agent is finished — **proceed** with E/F after A–D · (c) run E/F in an isolated **git worktree** | **(a)** — needs your status on the other agent. |
+| # | Decision | Resolution |
+|---|---|---|
+| **X-1 · `playcheck` timing** | **Build now.** The harness reuses `pacing-report` and is reshape-agnostic; only the baseline JSON churns, and it guards the T0 reshape build from regressions as it lands. |
+| **X-2 · `diverge` × autonomy** | **Self-pick + file R-item** (never blocks). **BUT** the human flagged the consequence: losing variants persist behind DEV flags ⇒ **flag debt**. So `diverge` is designed as a **bounded feature-flag A/B/C system** — the skill must specify the variant-flag **lifecycle, a WIP cap, GC-on-resolution, and explicit maintenance + autonomy best-practices** so the flags can't rot the build. *(Design panel running: workflow `diverge-skill-design`.)* |
+| **X-3 · drift-guard automation** | **Both — but noisy, never blocking.** Ship the `verify:budget` script (hard-fails **only when explicitly run** — it's a decision tool) **and** a `pre-push` hook that runs it as a **loud, non-blocking** warning, **plus** the in-hook commit timer. Principle: the gates are *loud enough that an agent chooses to debug drift when it makes sense*, but **never hard-block the task in flight**. |
+| **X-4 · when do E + F land?** | **Hold E/F** until the human confirms the roadmap agent has cleared the `docs/` lane. |
 
-**Notes (defaults I'll just take unless you object):**
+**Notes (defaults taken):**
 - **Pre-commit whole-repo `verify`:** `eslint .` + `prettier --check .` now run repo-wide every commit — so any
   unformatted/lint-dirty file *anywhere* (incl. one the roadmap agent leaves) blocks the commit. Correct
   behavior (the repo should be green), but with two agents active it can cross-block; `SKIP_VERIFY=1` is the

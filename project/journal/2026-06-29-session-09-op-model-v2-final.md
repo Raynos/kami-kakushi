@@ -43,4 +43,25 @@ concurrent roadmap agent clearing the docs lane.
 - **Whole-repo verify-on-commit** (once A lands) means any dirty file *anywhere* blocks any commit — fine when
   green, but two active agents can cross-block; `SKIP_VERIFY=1` is the escape.
 - Historical `prd/§…` refs intentionally left in journals/archive/raw-snapshots/closed-feedback (immutable logs).
-</content>
+
+---
+
+## Build log — Workstream A+B (drift-aware full-verify gate) — LANDED
+
+**What:** pre-commit now runs the full `npm run verify` (~3–4.5s) instead of the content-aware fast subset, so
+commits can't be red and now run the **test suite** (the old hook's blind spot). Wrapped in a soft 5s drift
+timer (green/amber/red; appends `tmp/precommit-timings.tsv`; **never blocks on time**). Added
+`npm run verify:budget` (the explicit hard-fail check — per-gate breakdown + median-of-3) and a non-blocking
+`pre-push` hook that surfaces it loudly. `pacing:check` folded into `verify`.
+
+**Files:** `.githooks/pre-commit` (rewrite) · `.githooks/pre-push` (new) · `src/scripts/verify-budget.ts` (new) ·
+`package.json` (verify += pacing:check; + verify:budget script).
+
+**Verified:** `npm run verify` PASS · `npm run verify:budget` → median 4.46s / 0.54s headroom (inflated by the
+concurrent diverge-design workflow); vitest is the fattest gate (32%). X-3 honored: noisy, never blocking.
+
+**Also fixed:** a stray `</content>` this journal leaked on first write, and the same class of leak
+(`</content></invoke>`) pre-existing at the EOF of `project/status/pending-prd-changes.md`.
+
+**Next:** Workstream D (playcheck — build-now per X-1) → C (diverge skill, from the design-panel workflow).
+E/F held per X-4.

@@ -180,5 +180,3 @@ H8) · `DS#8` (R1 quick-play) · `DS#10` (diverge — held for H10) · `DS#11` (
 - Plans: [`roadmap-reaxe-proposal`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md) ·
   [`operating-model-v2-final`](../../docs/plans/2026-06-29-operating-model-v2-final.md)
 - The audits that drove it: [`2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md) · [`…-v0.2-2026-06-28.md`](../audit/reports/2026-06-28-state-of-the-game-v0.2.md)
-</content>
-</invoke>

@@ -1,60 +1,68 @@
 #!/usr/bin/env bash
-# Fast, CONTENT-AWARE pre-commit gate (target: <5s). Runs ONLY the checks relevant to the
-# files actually staged — typecheck on TS, format-check on staged TS/MD/etc, and a pure-core
-# boot "smoke" when src/ code changes — then the journal-hygiene gate. It deliberately does
-# NOT run the test suite (too slow for a commit gate); the full battery is `npm run verify`
-# (pre-ship). Decided 2026-06-29 (H-item D-a/D-d): keep commits fast, catch the dumb stuff.
+# Pre-commit gate (op-model v2 FINAL, Workstreams A+B — 2026-06-29):
+#   1. Run the FULL `npm run verify` (~3s measured) so a commit can never be red.
+#      verify = tsc + eslint + prettier + vitest + verify-content + gen:docs --check + pacing:check.
+#   2. Wrap it in a soft 5s-budget DRIFT timer: green (<4s) silent · amber (4–5s) note ·
+#      red (>5s) loud nudge — but NEVER block on time (a slow machine must not fail a commit).
+#      Every run appends a row to tmp/precommit-timings.tsv so drift is a readable curve.
+#   3. Journal-hygiene gate (unchanged).
+# The HARD budget check is the explicit `npm run verify:budget`; the pre-push hook surfaces it
+# loudly-but-non-blocking. Principle (X-3): noisy about drift, never blocking the task in flight.
 #
-# Bypass:  SKIP_VERIFY=1  git commit …   (skip the code/format/smoke checks)
+# Bypass:  SKIP_VERIFY=1  git commit …   (docs-only/trivial: skip the verify gate)
 #          SKIP_JOURNAL=1 git commit …   (skip the journal gate)
 # Enable once per clone:  git config core.hooksPath .githooks
 
 set -uo pipefail
 
-staged="$(git diff --cached --name-only --diff-filter=ACMR)"
-fail=0
+BUDGET_S="${PRECOMMIT_BUDGET_S:-5}"   # soft drift budget (seconds)
+AMBER_S="${PRECOMMIT_AMBER_S:-4}"     # warn when approaching the budget
 
-run_checks() {
+run_verify() {
   if [ "${SKIP_VERIFY:-0}" = "1" ]; then
-    echo "  - SKIP_VERIFY=1 -> code/format/smoke checks skipped" >&2
-    return
+    echo "  - SKIP_VERIFY=1 -> full verify skipped" >&2
+    return 0
   fi
 
-  # 1 · Typecheck the whole project (fast, ~0.6s) when any TS is staged.
-  if printf '%s\n' "$staged" | grep -qE '\.tsx?$'; then
-    echo "  - tsc --noEmit" >&2
-    ./node_modules/.bin/tsc --noEmit || { echo "  X typecheck failed" >&2; fail=1; }
+  echo "  - npm run verify (full gate; SKIP_VERIFY=1 to bypass a docs-only commit)…" >&2
+  local start end elapsed
+  start=$(date +%s)
+  if ! npm run --silent verify >&2; then
+    echo "" >&2
+    echo "  X commit blocked - verify failed. Fix it, or SKIP_VERIFY=1 for a docs-only commit." >&2
+    return 1
   fi
+  end=$(date +%s)
+  elapsed=$((end - start))
 
-  # 2 · Format-check the staged files only (prettier) — this is the "verify markdown" too.
-  local fmt_files=()
-  while IFS= read -r f; do
-    [ -n "$f" ] && fmt_files+=("$f")
-  done < <(printf '%s\n' "$staged" | grep -E '\.(ts|tsx|md|json|css|html)$' || true)
-  if [ "${#fmt_files[@]}" -gt 0 ]; then
-    echo "  - prettier --check (${#fmt_files[@]} staged)" >&2
-    ./node_modules/.bin/prettier --check "${fmt_files[@]}" >/dev/null \
-      || { echo "  X format check failed -> fix with: npm run format" >&2; fail=1; }
+  # --- drift timer: NOISY, never blocks on time (X-3) ---
+  local loc=0 tests=0
+  local srcfiles=()
+  while IFS= read -r f; do [ -n "$f" ] && srcfiles+=("$f"); done \
+    < <(git ls-files src | grep -E '\.ts$' | grep -vE '\.test\.ts$' || true)
+  if [ "${#srcfiles[@]}" -gt 0 ]; then
+    loc=$(cat "${srcfiles[@]}" 2>/dev/null | wc -l | tr -d ' ')
   fi
+  tests=$(grep -rhoE "\b(it|test)\(" src --include='*.test.ts' 2>/dev/null | wc -l | tr -d ' ')
+  printf '%s\t%s\t%s\t%s\n' "$(date +%s)" "$elapsed" "$loc" "$tests" >> tmp/precommit-timings.tsv 2>/dev/null || true
 
-  # 3 · Smoke: boot the pure core when src/ code is staged (the "dumb stuff" guard, ~0.2s).
-  if printf '%s\n' "$staged" | grep -qE '^src/.*\.tsx?$'; then
-    echo "  - smoke (core boot)" >&2
-    ./node_modules/.bin/tsx src/scripts/smoke.ts >/dev/null \
-      || { echo "  X smoke failed -> the pure core no longer boots" >&2; fail=1; }
+  if [ "$elapsed" -gt "$BUDGET_S" ]; then
+    echo "  !! verify took ${elapsed}s - OVER the ${BUDGET_S}s budget. Worth trimming/speeding the gate when" >&2
+    echo "     you get a chance: run 'npm run verify:budget' for the per-gate breakdown. (NOT blocking this commit.)" >&2
+  elif [ "$elapsed" -ge "$AMBER_S" ]; then
+    echo "  ~ verify took ${elapsed}s - approaching the ${BUDGET_S}s budget." >&2
   fi
+  return 0
 }
 
-run_checks
-
-if [ "$fail" != "0" ]; then
+if ! run_verify; then
   echo "" >&2
-  echo "  commit blocked by pre-commit checks (bypass: SKIP_VERIFY=1 git commit …)" >&2
+  echo "  commit blocked by verify (bypass a docs-only commit: SKIP_VERIFY=1 git commit …)" >&2
   exit 1
 fi
 
-# 4 · Journal-hygiene gate (policy UNCHANGED): every commit stages a journal/ entry so the
-#     build keeps a running, resumable log. Live state lives in project/status/project-status.md.
+# --- Journal-hygiene gate (policy UNCHANGED): every commit stages a journal/ entry so the build
+#     keeps a running, resumable log. Live state lives in project/status/project-status.md. ---
 if [ "${SKIP_JOURNAL:-0}" = "1" ]; then
   exit 0
 fi
