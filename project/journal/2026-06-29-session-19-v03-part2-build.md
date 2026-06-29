@@ -400,6 +400,18 @@ dead-code-eliminates it — the prod bundle has **0 occurrences** of `__qa`/`jum
   if the DEV play-API leaked (a leaked `__qa` would ship speed-cheats + teleports to players). Tested both ways:
   passes the current clean bundle, aborts on a planted leak. verify GREEN.
 
+## 21 · OVERNIGHT — breadth-seam e2e coverage (quest/market/map under real play)
+
+The §18 t0-arc test proves the SPINE closes; the T0-M4 **breadth** was reducer-tested in isolation but not
+proven to integrate with a real playthrough. Added **`src/core/breadth-arc.test.ts`** (3 tests) driving the
+breadth via real intents from a combat-ready R3 state: (1) the **crop-raiders quest** driven to completion by
+**real fights + labour** — `applyGrindFight('monkey'/'boar')` emit `kill:<mob>` and `do_activity('woodcut_edge')`
+emits `gather:wood`, advancing the three order-free steps; the quest then **pays its 30 koku once** and **never
+double-pays** (a replayed kill banks no further reward — `completed` stays a singleton); (2) the **market** as a
+real capped koku-sink (8 buy attempts → exactly `stockCap`=5 land; koku −50, sansai +15); (3) the **walkable map**
+(`move_to` crosses to an adjacent revealed node, refuses a non-adjacent hop). Proves the breadth seams hold WITHIN
+the combat/labour spine, not just in isolation. **234 tests green.** Fast (3 ms) + RED-able.
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just
