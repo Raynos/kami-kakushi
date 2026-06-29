@@ -7,10 +7,13 @@
 #   2. open decisions     (project/human-in-the-loop/decisions.md — H-items)
 #   3. open reviews       (project/human-in-the-loop/review.md — R-items)
 #
-# Output is emitted on BOTH streams (same text):
-#   • stdout → injected into Claude's context (so the agent leads with the brief).
-#   • stderr → shown to the human in the terminal (so it's visible without a prompt).
-# Pure read — never mutates state. Run it by hand any time: `bash src/scripts/session-brief.sh`.
+# Output goes to stdout, which the SessionStart hook injects into Claude's context
+# (so the agent can lead the session by relaying the brief). NOTE: a SessionStart
+# hook's output is NOT painted into the TUI scrollback on success — stdout feeds the
+# model's context, and stderr is only visible in transcript mode (Ctrl-R). So the
+# brief surfaces via the agent's first reply, not on its own. Run it by hand any
+# time to see it directly: `bash src/scripts/session-brief.sh`.
+# Pure read — never mutates state.
 
 set -euo pipefail
 
@@ -22,8 +25,7 @@ READING="project/docs-to-read-for-human.md"
 DECISIONS="project/human-in-the-loop/decisions.md"
 REVIEWS="project/human-in-the-loop/review.md"
 
-# Accumulate the whole brief into one buffer, then emit it to both streams at the
-# end — so context (stdout) and terminal (stderr) always show identical text.
+# Accumulate the whole brief into one buffer, then emit it to stdout at the end.
 BRIEF=""
 add() { BRIEF+="$1"$'\n'; }
 
@@ -61,6 +63,5 @@ add_open_items() {
 add_open_items "$DECISIONS" "🔀 Open decisions (H-items)"
 add_open_items "$REVIEWS" "👁️ Open reviews (R-items)"
 
-# Emit to both streams: stdout → Claude's context, stderr → the human's terminal.
+# Emit to stdout → injected into Claude's context by the SessionStart hook.
 printf '%s' "$BRIEF"
-printf '%s' "$BRIEF" >&2
