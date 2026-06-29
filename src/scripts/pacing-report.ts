@@ -159,8 +159,8 @@ export function walkPacing(seed = SEED): RungPacing[] {
 
 // ── CLI: (no flag) print the table · --check (exit 1 if any T0 climb rung is OUT OF BAND).
 //    D-056: ONE profile now — T0 is ≥30-floor-EXEMPT, gated instead on the sane T0 band
-//    [${T0_PACING_BAND_MIN}, ${T0_PACING_BAND_MAX}] min. Guarded so importing this from a test
-//    does NOT run the CLI. ──
+//    [T0_PACING_BAND_MIN, T0_PACING_BAND_MAX] = [3, 22] min. Guarded so importing this from a
+//    test does NOT run the CLI. ──
 const RUN_AS_CLI = process.argv[1]?.includes('pacing-report') ?? false;
 if (RUN_AS_CLI) {
   const check = process.argv.includes('--check');

@@ -216,8 +216,10 @@ export function validateState(rawState: unknown): ValidateResult {
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
     tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,
     influence: validateInfluence(base.influence),
-    // (D-056: the DEMO/REAL balanceProfile field is RETIRED — a legacy save's stray
-    // `balanceProfile` is simply dropped here, as the state is rebuilt from _Handled keys only.)
+    // (D-056: the balanceProfile field is RETIRED from GameState — nothing reads it any more.
+    // A legacy save's stray `balanceProfile` rides through inertly via the `...base` spread above
+    // [harmless dead data; this builder is additive-tolerant by design, NOT a whitelist rebuild];
+    // new games never write it, so it simply ages out.)
   };
 
   return { ok: true, state, coerced, migrated: false };

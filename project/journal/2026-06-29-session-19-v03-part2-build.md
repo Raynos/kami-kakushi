@@ -370,6 +370,23 @@ combat that won't blood, deeds that won't reach the gate, an ascension that won'
 tests green.** This is the capstone of the overnight loop — the v0.3 spine demonstrably CLOSES under real play,
 not just teleports.
 
+## 19 · OVERNIGHT — adversarial re-audit of the M2·8 build (the battery ran PRE-M2·8)
+
+The fidelity battery ran before M2·8, so the build the human will playtest hadn't been audited as a whole since
+the fork retirement. Ran a focused **3-lens adversarial-verification Workflow** (`wf_36ff18f2-f58`; raw snapshot
+`project/brainstorms/raw/2026-06-30-v03-overnight-adversarial-verify.json`) over the overnight diff — **regression**
+from the ~80× threshold jump, **test-integrity** of the new tests, **fidelity-vs-D-056 + laziness** — into a
+convergence critic. **Verdict: the M2·8 build is functionally CLEAN.** All three lenses came back NEGATIVE on every
+behavioral-regression probe: no phantom threshold magic-numbers, no teleport-guard blowout, no UI overflow at 1100+,
+no dead-ended R7/ascension, no masked playcheck regression (re-bless only refreshed DISPLAY-only fields that never
+enter the gated `evaluate()`), and the new t0-arc / save-round-trip / pacing tests are genuinely **RED-able** (not
+vacuous). 16 raw findings → **2 real & actionable, all doc-hygiene, zero human-gated.** Applied all 3 (comment
+truthfulness, no runtime change): the `validate.ts` comment falsely claimed a legacy `balanceProfile` is "dropped"
+(the `...base` spread is additive-tolerant — it rides through inertly as harmless dead data; **caught by 2 lenses**)
+→ corrected; a `pacing-report.ts` `//` comment had `${...}` template syntax that never interpolates → hardcoded
+`[3,22]`; a `playcheck.ts` header still labelled `minutesPerRung` the "≥30-min floor" proxy → re-labelled (T0 is
+floor-exempt now). verify GREEN. **The overnight v0.3 work is independently confirmed ship-quality.**
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just

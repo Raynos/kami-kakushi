@@ -10,7 +10,8 @@
 //   firstActionMs   §3 "first-5-min hook"   — wall-ms (intents × AUTO_REPEAT_MS) to the first reward
 //   maxDeadTimeMs   §3 "no dead time"       — longest run of reward-less intents, in wall-ms
 //   combatWinCurve  §3 "combat band"        — monkey win-rate L1..L5 (DISPLAY; gated by m2.test)
-//   minutesPerRung  §3 "≥30-min floor"      — via walkPacing() (DISPLAY; gated by pacing:check)
+//   minutesPerRung  §3 pacing               — via walkPacing() (DISPLAY; gated by pacing:check —
+//                                              T0 band [3,22] min, D-056; the ≥30 floor binds from T1)
 //
 // CLI:  (no flag) print the vector · --check ratchet-gate the two owned proxies vs the baseline
 //       · --bless (re)write playcheck.baseline.json from the current engine.
