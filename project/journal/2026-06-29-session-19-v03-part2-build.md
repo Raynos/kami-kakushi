@@ -61,15 +61,35 @@ Re-baselined combat to the D-050 contract: **HP carries between fights and heals
 verified intact and committed immediately to protect it. (The `git add -A` guard doesn't stop `git stash` — keep
 commits frequent while other sessions are active.)
 
+## 3 · Movement 1 · 0c · P2 + P4 — combat-correctness invariants — DONE
+
+- **P2 no-stance-dominated** (`m2.test.ts`): replaced the dominance-ENSHRINING test (asserted jodan strictly
+  out-win-rates chudan) with a **no-Pareto-domination** invariant on the three decision levers (offense=atkMult,
+  HP-retention=−takenMult, durability=−wearMult). TDD surfaced a real subtlety: empirical win-rate at one foe
+  conflates offense+defense (gedan *out-wins* chudan at the humbling first fight purely on survival → would make
+  chudan a trap). The lever test is the robust altitude; a span check keeps stance a real choice. No mod change.
+- **P4 no-stranding** (`m2.test.ts`): added the gap report's *violated* property. With HP-carry the old
+  pure-fight framing is moot; the faithful contract = the **eat+repair recovery loop always reaches combat-L2**
+  (never a wall, never a Broken-blade dead-end). Converges across 8 seeds with **no balance retune** — HP-carry +
+  the recovery loop already resolve the stranding the v0.2 build had.
+
+## Parallelism (human ask) — IN FLIGHT
+
+Launched a background **scatter-gather Workflow** (`wf_b1d7598e-9c6`): 6 read-only agents authoring the disjoint
+NEW leaf modules in parallel (`ui/sfx.ts`, `core/content/{dialogue,quests,crafting,map,market}.ts`) + their
+tests, returning verbatim source + integration notes. Rationale: this codebase funnels through a few shared
+files (`render.ts`/`intents.ts`/`state.ts`/`balance.ts`), so feature-branch parallelism would merge-conflict
+badly — and another agent is live on the tree. Read-only authoring → zero contention; **I keep the coupled
+integration spine on the main line** and wire each leaf in at its point.
+
 ## Next intended steps (current)
-1. **P1c** — auto-loop eat-to-heal (app layer, `main.ts`): when auto-fighting and HP low, cook (forage for
-   sansai if needed) before fighting; don't grind at low HP.
-2. **P2** no-stance-dominated test, **P4** no-stranding test+retune, **P3** found/crafted weapon, **P7** mentor,
-   **P8** SFX+DEV-speed, **P9** wear-axis — the rest of Movement-1 0c.
-3. Then Movement 2 (T0-M3 spine) → Movement 3 (T0-M4 breadth) → roadmap-respect verification.
-4. **Parallelism (human ask):** fan out subagents/worktrees for the disjoint NEW content modules (sfx, dialogue,
-   quests, map, market, crafting) + parallel `diverge`; keep the coupled integration spine (render/intents/state)
-   on the main line to avoid merge conflicts on the shared files.
+1. **Spine (Movement 2) on main**, in order: schema scaffold (tier+influence+migrate v1→v2) → R7 capstone (fix
+   R3 dead-end storyGate) → pillars.ts accrual → seasonal judged result → ascension.ts → live-Estate UI (DIVERGE).
+2. **Integrate the leaf modules** as the Workflow returns: M1 leaves (sfx P8, dialogue P7, crafting P3) into
+   Movement-1; M4 leaves (quests, map, market) AFTER the spine closes (spine-first).
+3. **P1c** auto-loop eat-to-heal (`main.ts`), **P9** touch-legible wear axis (`render.ts`), **M2·8** retire
+   DEMO/REAL fork + DEV speed/teleport.
+4. Then Movement 3 (T0-M4 breadth) → roadmap-respect verification.
 
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on

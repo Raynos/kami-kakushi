@@ -12,6 +12,7 @@ import {
   applyGrindFight,
   applyScriptedWolf,
   getMob,
+  getWeapon,
   balance,
   revealPass,
   isUnlocked,
@@ -123,10 +124,31 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     expect(starving).toBeLessThanOrEqual(full);
   });
 
-  it('Aggressive (jodan) meaningfully raises the win-rate on a longshot (stance gap ≥ 0.08)', () => {
-    const chudan = foeWr({ ...mc(1), stance: 'chudan' }, 'monkey');
-    const jodan = foeWr({ ...mc(1), stance: 'jodan' }, 'monkey');
-    expect(jodan - chudan).toBeGreaterThanOrEqual(0.08);
+  it('NO stance strictly dominates — offense trades against wear AND HP-retention (D-050/D-058)', () => {
+    // The v0.2 test ENSHRINED jodan strictly out-win-rating chudan. The real contract: no stance
+    // is a trap. We test it on the three decision LEVERS (offense via atkMult, HP-retention via
+    // less incoming damage, durability via less wear) oriented so HIGHER = better — capturing
+    // offense AND defense as separate axes (a single win-rate number conflates them: a tanky
+    // stance can out-WIN a balanced one at a hard fight purely on survival).
+    const lever = (s: GameState['stance']) => {
+      const m = balance.STANCE_MODS[s];
+      return { offense: m.atkMult, hpRetention: -m.takenMult, durability: -m.wearMult };
+    };
+    type Lever = ReturnType<typeof lever>;
+    const dominates = (x: Lever, y: Lever) =>
+      x.offense >= y.offense &&
+      x.hpRetention >= y.hpRetention &&
+      x.durability >= y.durability &&
+      (x.offense > y.offense || x.hpRetention > y.hpRetention || x.durability > y.durability);
+    const all = balance.STANCE_ORDER.map((s) => ({ s, l: lever(s) }));
+    for (const p of all)
+      for (const q of all) {
+        if (p.s === q.s) continue;
+        expect(dominates(p.l, q.l), `${p.s} must not dominate ${q.s}`).toBe(false);
+      }
+    // …and stance is a REAL decision: it meaningfully moves the first-fight win-rate.
+    const wrs = balance.STANCE_ORDER.map((s) => foeWr({ ...mc(1), stance: s }, 'monkey'));
+    expect(Math.max(...wrs) - Math.min(...wrs)).toBeGreaterThan(0.02);
   });
 
   it('stance mods stay in range and set the durability-wear axis (jodan 3 / chudan 2 / gedan 1)', () => {
@@ -242,6 +264,42 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
       expect(s.character.level).toBeGreaterThanOrEqual(prevLevel);
       expect(s.character.combatXp).toBeGreaterThanOrEqual(prevXp);
       expect(s.character.hp).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it('no-stranding (D-061): a fresh L1 reaches combat-L2 via the eat+repair loop, never hard-broken', () => {
+    // The recovery loop is always reachable in-game (woodcut→repair has no gate; forage→cook
+    // mends HP). Model it abstractly — heal before HP is unfightable, repair before the blade
+    // hits Broken, else fight. The invariant (D-061): a fresh L1 is NEVER stranded — it reaches
+    // combat-L2 in bounded actions, the blade never has to fight Broken, HP never sticks at the
+    // floor. Catches both "the foe is an unwinnable wall" and "wear outruns the repair cadence".
+    for (const seed of [1, 2, 3, 7, 42, 99, 123, 2024]) {
+      let s = atFullSatiety(createInitialState(seed));
+      const w = getWeapon(s.equippedWeapon);
+      let guard = 0;
+      let foughtBroken = false;
+      while (s.character.level < 2 && guard++ < 6000) {
+        const band = durabilityBand(s.weaponDurability, w.durabilityMax);
+        if (band.name === 'Broken' || band.name === 'Battered') {
+          s = { ...s, weaponDurability: w.durabilityMax }; // woodcut→repair (wood always obtainable)
+          continue;
+        }
+        if (s.character.hp < hpMax(s) * 0.8) {
+          s = {
+            ...s,
+            character: {
+              ...s.character,
+              hp: Math.min(hpMax(s), s.character.hp + balance.COOK_HP_RESTORE),
+            },
+          }; // forage→cook (sansai always obtainable)
+          continue;
+        }
+        if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')
+          foughtBroken = true;
+        s = applyGrindFight(s, 'monkey');
+      }
+      expect(s.character.level, `seed ${seed} stranded below combat-L2`).toBeGreaterThanOrEqual(2);
+      expect(foughtBroken, `seed ${seed} had to fight a Broken blade`).toBe(false);
     }
   });
 
