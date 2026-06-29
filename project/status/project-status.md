@@ -121,6 +121,12 @@ metadata:
   roadmap-re-axe box (tracker now **41 open / 3 done**), corrected the stale "37"→"~41" ripple figure, and
   repointed all **6 broken `docs/plans/` links** → `project/archive/`. Commits `0d2fa28`/`3148e78`, docs-only.
   Critical path unchanged: **Part 1 (ripple) → Part 2 (build)**, both gated on the human; **R1** still open.
+- **Phase update — VERSION DISPLAY WIRED (2026-06-29, session-14).** The Settings panel build stamp was
+  hard-stuck at `build dev · dev`; now resolves from git at vite config-load (works in both `dev` and `build`).
+  Panel reads `… · {__VERSION__} · build {__BUILD_SHA__} · {__BUILD_DATE__}` — clean tag (`v0.2`) + full
+  `git describe` (`v0.2-NN-gSHA`) + last-commit date. Env vars still override for CI. Commit `d279f88`, verify
+  green. Small wiring fix, not a canon change — flag for the Part 1 ripple if the human wants it PRD-formalized
+  (the stamp is speced under §6.1.1 / Q54).
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -138,7 +144,7 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-13-path-to-v03-restructure.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-14-version-display.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
      the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (the only plan left in `docs/plans/`; the
      roadmap re-axe + op-model v2 FINAL plans are now executed & **archived** under `project/archive/`).
