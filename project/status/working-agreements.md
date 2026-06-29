@@ -25,3 +25,19 @@ never loses progress.
 
 **Architecture rule:** keep game logic in a **pure core** (no DOM/canvas imports), deterministic
 (one seeded RNG) and testable; the renderer consumes it as plain data.
+
+**Milestone-integrity rule (D-054):** a milestone is **SHIPPED only when every DoD line is met OR
+formally amended via an ADR *before* the commit** — no shipping with unmet DoD lines footnoted away.
+The label **"SHIPPED (slice)" is banned**: a slice is either fully done, or its DoD is ADR-amended down
+to what actually shipped first. A **CI manifest check** backstops this by asserting that every
+instrument a DoD *names* (a test, tool, or script) resolves to a real test/tool — so an honest-intention
+gap can't pass silently behind green CI. This extends the same rigor the engineering gates already carry
+to **feature-completeness claims**, keeping the milestone ledger trustworthy into T1+; `roadmap.md` DoDs
+are forward contracts. *(The CI manifest check itself is Part-2 build work; this is the process rule.)*
+
+**Durable-by-default (DS#21 / D-069) — already canon in [`../../CLAUDE.md`](../../CLAUDE.md):** a
+plan / brainstorm / analysis is a **committed FILE before it's a deliverable or implemented**, never only
+in chat or a ledger pointer (session context dies at compaction). Homes:
+**[`../brainstorms/`](../brainstorms)** (discovery) · **[`../../docs/plans/`](../../docs/plans)**
+(plans / reel-backs) · **[`../../docs/`](../../docs)** (settled). The full convention (incl. durable
+capture of workflow / subagent outputs) lives in CLAUDE.md — this is the cross-ref, not a second copy.

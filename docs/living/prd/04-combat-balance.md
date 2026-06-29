@@ -42,6 +42,38 @@
 > "leave T0 in ~45–75 min, v1 ~12–20 h" targets stay superseded; the figures below are the floor the curve is
 > derived *backward from*.
 
+> **🔁 RESHAPE NOTE — the 6-tier split (D-048…D-069; Part-1 markdown ripple).** The locked reshape (**D-048**)
+> **splits the old Estate tier in two** and shifts the rest up one, so this section's tier vocabulary re-maps:
+> **old-T0 Estate → new-T0 (tutorial, R0→R7) + new-T1 (full estate, R8→R15)** · **old-T1 Village → new-T2** ·
+> **old-T2 Region → new-T3** (v1 **ends here**, `outcome: t3done`) · old-T3 Castle-town → new-T4 · old-T4 Edo →
+> new-T5. The **pillar reveal is now one per tier** (D-048/D-049): **T0 = Estate 家産 (1)** · **T1 = + Arms 武威
+> (2)** · **T2 = + Office 官威 (3)** · **T3 = + Name & Honour 家格 (4)**, ramp **1→2→3→4→4**; the scaled grade-gate
+> is **1 EXCELLENT + 1 GREAT + (N−2) GOOD** for N revealed pillars, all ≥ GOOD (**T0 collapses to EXCELLENT**).
+> Combat-as-*activity* still lives in **T0** (the humbling first fight @ **R3**), but the **Arms pillar DEEDS
+> (Phase 2) bank only from T1**.
+>
+> **What THIS file's Part-1 ripple LANDS (the net-new combat/balance locks):** **(a)** combat **HP carries
+> between fights + heals by EATING (satiety)**, and **no stance strictly dominates** (D-050 — §4.6/§4.6.10,
+> replacing the v0.2 dominance-enshrining test); **(b)** the human-signed **20–35 % SINGLE-fight win-rate band
+> STANDS** under HP-carry (D-058 — HP-carry shapes the *grind*, not the discrete first fight; a real foe is
+> tuned into band, backed by a **RED-able foe-in-band test**); **(c)** win-rate is **ANALYTIC for the gate /
+> fixed-seed SAMPLED (n = 400) for the display**, with **displayed == tested == same-for-every-player** (D-057
+> — §4.6.4b/§4.6.7); **(d)** difficulty is **humbling THROUGHOUT incl. T0** (D-061 — fast ≠ easy, guardrails
+> intact); **(e)** **T0 is floor-exempt** (gentle ~10–15 min/rung) and the **≥30-min/rung floor binds from T1**
+> (D-049/D-056); **(f)** the **Staff/polearm line is pulled FORWARD from Region into Village (new-T2)** so the
+> roster completes by end-of-T2 and **new-T3 Region = combat DEPTH, no new line** (§4.6.9); **(g)** cross-pillar
+> combos split into **PARTIAL Office-pairs at new-T2 + the FULL 4-pillar set at new-T3** (§4.3.1).
+>
+> **What re-derives LATER (Ship-M1-F2 — the §4 numbers stay LIQUID, D-059).** The **§4.0** magnitude table, the
+> **§4.1** good/great/excellent bands + revealed-pillar set, the **§4.2** deed/seasonal tie-outs, the **§4.8**
+> per-rung wall-clock tables + precise per-tier FLOORS, **and the post-v1 "T3+" labels** (auto-producers /
+> marriage-adoption / Castle-town / Edo) are a single **coupled balance re-derivation** that lands at
+> **Ship-M1-F2**: the **~28.5 h Phase-1 climb FLOOR re-derives across the 4 v1 tiers T0–T3** (provisional
+> starting floors **T1 ~5–8 h · T2 ~8–10 h · ≈40 min/rung**, fork #1/#5). **Until then those tables/labels below
+> still read in the OLD 3-tier numbering (T0 Estate / T1 Village / T2 Region; T3+ Castle-town/Edo) — map them
+> through this banner.** The **kanji**, the **20–35 % band**, **trade ≤⅓**, and the **70/30** deeds/seasonal
+> split are invariants and do **not** move.
+
 ## How to read this section
 
 This is where the **parked balance numbers** from §§1–2 finally land. Each subsection states the **shape**
@@ -323,8 +355,10 @@ shape. The **great/excellent** bands above the good baseline are reached **predo
 (the specialisation surplus, §4.1) — the foreground stays the punchy deed stream throughout.
 
 Up-only, with small scripted **per-pillar recoverable dents** (§4.2.4). The **trade ≤⅓** cap is a hard
-invariant (§4.2.3). From **T2** the **broader cross-pillar combos** (§4.3.1 — multiple pillar pairs, larger
-magnitude; D-Q31) join seasonal-reward rotation as the late-game anti-slump device — computed
+invariant (§4.2.3). From **new-T2** the **PARTIAL Office-pairs cross-pillar combos** (§4.3.1 — Arms×Office,
+Estate×Office, when Office reveals), **broadening to the FULL 4-pillar set at new-T3** (when Name reveals;
+multiple pillar pairs, larger magnitude; D-Q31), join seasonal-reward rotation as the late-game anti-slump
+device — computed
 **post-trade-clamp**, **excluded from the trade-ratio denominator**, and **excluded from the deed-only
 `gateEligibleValue`** the §4.1 gate checks (combos credit display `value`, never the gate; D-Q-meibutsu).
 
@@ -637,14 +671,17 @@ fixed by §4.2.1/§4.2.2 sizing).
 domain → which pillar, no cross-feed except the named roll-ups + the §4.3.1 combos, Name-as-derivative) and the
 **deeds-dominate split** are **not levers**; the coefficients that realise them are.
 
-### §4.3.1 Cross-pillar combos — the T2 anti-slump exception (D-031 / Q22 / FU20)
+### §4.3.1 Cross-pillar combos — the T2/T3 anti-slump exception (PARTIAL at new-T2, FULL at new-T3) (D-031 / Q22 / FU20)
 
-**Shape (canon §1.6.1, §2.16 — fixed; BROADER than the lean proposal).** From **T2**, recognised deeds that
-**genuinely satisfy two domains at once** (a secured road that is also a chartered office; a famed product that
-is also a treasury win) emit a small **cross-pillar combo** bonus into **both** pillars of the pair — the **T2
-anti-slump device**, paired with seasonal-reward **rotation** (§2.16). V2 makes this **broader than the old
-single Name-only rebate**: **multiple pillar pairs** and a **larger magnitude** (Q22/FU20). It is a **narrow,
-no-leakage exception** to the §4.3 "one domain → one pillar" routing, fenced by four hard rules:
+**Shape (canon §1.6.1, §2.16 — fixed; BROADER than the lean proposal).** Cross-pillar combos arrive in **two
+waves keyed to pillar reveals** (the reshape splits the old single "T2" onset, D-048): a **PARTIAL Office-pairs
+set opens at new-T2 (Village, when Office reveals)**, broadening to the **FULL 4-pillar set at new-T3 (Region,
+when Name reveals)**. A recognised deed that **genuinely satisfies two domains at once** (a secured road that is
+also a chartered office; a famed product that is also a treasury win) emits a small **cross-pillar combo** bonus
+into **both** pillars of the pair — the late-game **anti-slump device**, paired with seasonal-reward **rotation**
+(§2.16). V2 makes this **broader than the old single Name-only rebate**: **multiple pillar pairs** and a
+**larger magnitude** (Q22/FU20). It is a **narrow, no-leakage exception** to the §4.3 "one domain → one pillar"
+routing, fenced by four hard rules:
 
 1. **Computed AFTER the trade-≤⅓ clamp (§4.2.3), and EXCLUDED from the trade-ratio denominator (D-Q-meibutsu).**
    A combo's Estate component is added to the **already-clamped** Estate total **for display only**; the
@@ -662,15 +699,16 @@ no-leakage exception** to the §4.3 "one domain → one pillar" routing, fenced 
 4. **Bounded as a rebate within the envelope.** A combo's two sides sum to **≤ one per-event cap total**
    (split across the pair), so the broadened magnitude stays inside the 70/30 + 0.04 envelope.
 
-**Proposed v1 combo pairs (T2)** *(proposed v1 balance)*: **Arms × Office** (a road secured *and* a route
-chartered) · **Estate × Office** (a chartered trade office) · **Estate × Name** (a celebrated *meibutsu*) ·
-**Arms × Name** (a famed clearing that burnishes the house). Each combo deed splits **≈0.02·good-band into each
-pillar** (≈ half a per-event cap each, ≤ one cap total). The **§6.6 verifier proves** a combo can never breach
-the ⅓ trade cap nor satisfy a required-pillar gate.
+**Proposed v1 combo pairs — split by reveal wave** *(proposed v1 balance)*: the **PARTIAL set at new-T2
+(Office reveals)** = **Arms × Office** (a road secured *and* a route chartered) · **Estate × Office** (a
+chartered trade office); the set **completes at new-T3 (Name reveals)** = **+ Estate × Name** (a celebrated
+*meibutsu*) · **+ Arms × Name** (a famed clearing that burnishes the house). Each combo deed splits
+**≈0.02·good-band into each pillar** (≈ half a per-event cap each, ≤ one cap total). The **§6.6 verifier
+proves** a combo can never breach the ⅓ trade cap nor satisfy a required-pillar gate.
 
-**Levers:** which pillar pairs combo, the per-pair magnitude (within the ≤-one-cap envelope), the T2-onset
-gating. The **post-clamp computation, the gate-check exclusion, and the ≤⅓-unbreachable proof** are **not
-levers** (canon).
+**Levers:** which pillar pairs combo, the per-pair magnitude (within the ≤-one-cap envelope), the **two-wave
+onset (Office-pairs at new-T2, the Name-pairs completing the set at new-T3)**. The **post-clamp computation, the
+gate-check exclusion, and the ≤⅓-unbreachable proof** are **not levers** (canon).
 
 ---
 
@@ -830,6 +868,16 @@ combat-reveal ladder, §4.6.9). **Mediocre-start preserved** (start near-zero; h
 earned via grind; conditioning the zero-stat gate). **Failure = soft setback** (HP/time, maybe drop carried
 loot, take a rest-off injury) — **never** lose levels/gear/permanent progress.
 
+> **HP CARRIES between fights + heals by EATING (D-050).** A fight starts at the MC's **carried HP** (never
+> reset to `hpMax`); the auto-loop **rests and eats (satiety) to recover** (§4.6.1b/§4.6.6b), so HP retention is
+> a **real between-fight resource**. This makes the **Defensive stance's HP-retention genuinely trade against
+> Aggressive's speed/damage — so NO stance is strictly dominated** and Balanced is no longer a trap (§4.6.10);
+> the v0.2 test that *enshrined* stance dominance is **replaced** by a **"no stance strictly dominated" curve
+> invariant** (§6.6). **The signed 20–35 % SINGLE-fight win-rate band is UNCHANGED under HP-carry (D-058):**
+> HP-carry shapes the *grind* (a run of fights), **not** the discrete first-fight moment — a **real foe is tuned
+> into the 20–35 % band** at realistic durability/satiety, backed by a **RED-able foe-in-band test** (§4.6.6/
+> §4.6.7). No re-expression of the first-fight criterion.
+
 ### §4.6.1 Combatant model & derived stats
 
 The MC's effective combatant is derived from **attributes + the combat-fed character level + the equipped
@@ -968,12 +1016,17 @@ defender actually loses (the old draft floored *before* crit/block, letting a bl
 floor and a crit re-inflate a floored value — both fixed). **Levers:** `CRIT_MULT` (1.5), `BLOCK_REDUCTION`
 (0.5), the chance caps (0.50 / 0.40). The **floor-applied-last ordering** is **not a lever** (canon).
 
-### §4.6.4b Expected win-probability — the ANALYTIC closed form (NEW — D-Q-winrate)
+### §4.6.4b Expected win-probability — ANALYTIC for the gate / fixed-seed SAMPLED (n=400) for the display (NEW — D-Q-winrate; AMENDED D-057)
 
-**Shape (V2-fixed).** The §4.6.7 win-rate bands are **ANALYTIC — computed in closed form from the formulae
-above, NOT by Monte-Carlo sampling** (no seed-set / N needed; deterministic by construction). With both
-combatants reduced to derived stat blocks (§4.6.1 MC, §4.6.1d mob), expected damage-per-swing, time-to-kill,
-and the win-probability are all closed-form:
+**Shape (V2-fixed; AMENDED 2026-06-29 by D-057 — the analytic/sampled SPLIT).** The win-rate is computed **two
+ways for two consumers (D-057, amends signed D-043):** the **tier/gate threshold check is ANALYTIC** — computed
+in closed form from the formulae above (no seed-set / N needed; deterministic by construction) — while the
+**DISPLAYED win-rate** the player sees (and the §4.6.7 band guard-test asserts) is a **fixed-seed Monte-Carlo
+SAMPLE (n = 400)** drawn from the same combat resolver (`combat.foeForecasts`). The codified invariant is
+**displayed == tested == same-for-every-player**: one **fixed** seed for everyone, so the number a player is
+shown is exactly the number the guard test asserts. With both combatants reduced to derived stat blocks
+(§4.6.1 MC, §4.6.1d mob), expected damage-per-swing, time-to-kill, and the **analytic gate** win-probability are
+all closed-form:
 
 ```
 // expected damage X→Y per landed swing (E[rngVariance] = 1.0; crit & block in expectation; floored LAST per §4.6.4):
@@ -988,11 +1041,14 @@ P_win(MC)   = TTK(mob→MC) / ( TTK(MC→mob) + TTK(mob→MC) )
 ```
 
 `P_win(MC)` is **1.0** when the mob can never kill the MC, **0.5** at equal time-to-kill, and falls toward 0 as
-the mob out-races the MC — a single monotone expression in the §4.6.1/§4.6.1d stats. The §4.6.7 bands are this
-`P_win(MC)` evaluated at each combat-entry rung's intended MC stats vs the rung mob's `MobDef.level`; the M3/M6
-harness **computes** them (it does not sample), and the §6.10 regression asserts the closed-form values land in
-their bands. **Levers:** none here — `P_win` is fully determined by the §4.6 stat formulae; tuning happens on
-those inputs (`MOB_*`, gear, `MobDef.level`). The **closed-form / non-sampled rule** is **canon**.
+the mob out-races the MC — a single monotone expression in the §4.6.1/§4.6.1d stats. This analytic `P_win(MC)`
+is the **GATE-check** value. The **§4.6.7 DISPLAYED bands**, by contrast, are the **fixed-seed sampled (n = 400)
+forecast** (`combat.foeForecasts`) evaluated at each combat-entry rung's intended MC stats vs the rung mob's
+`MobDef.level`; the M3/M6 harness produces both, and the §6.10 regression asserts the **displayed (sampled)**
+value the player sees is the value the guard test asserts (**displayed == tested == same-for-every-player**).
+**Levers:** none here — both the analytic `P_win` and the fixed-seed sample are fully determined by the §4.6
+stat formulae + the fixed seed; tuning happens on those inputs (`MOB_*`, gear, `MobDef.level`). The
+**analytic-for-gate / fixed-seed-sampled(n=400)-for-display SPLIT** (D-057) is **canon**.
 
 ### §4.6.5 On-kill rewards & the ONE combat-fed character-level curve (THREE-track separation)
 
@@ -1064,8 +1120,8 @@ loop with no death-spiral and no hard stall**, in two graded steps:
 2. **A true 0-HP knockout forces a REST (the safety net).** If a fight actually drops the MC to **0 HP**, the
    soft-setback fires (§4.6.6: 1 HP, light injury) **and** the MC is **forced to travel to a safe place (home,
    or the nearest secured node) and REST to recover** — a **time cost** (~½-day travel + the rest, magnitudes
-   = the §4.6.6 setback levers), after which the MC is back at adequate HP and the loop resumes. **Never** a
-   death, a wipe, or a permanent loss.
+   = the §4.6.6 setback levers), after which the MC has **eaten/rested back to adequate HP (HP carries + heals
+   by eating, D-050 — §4.6/§4.6.1b)** and the loop resumes. **Never** a death, a wipe, or a permanent loss.
 
 Because every loss costs only **time + a recoverable setback** and routes the MC back to safety to recover, the
 unattended loop is **self-correcting** — a too-hard mob just burns clock (forced rests) and nudges the player to
@@ -1078,17 +1134,20 @@ the 0-HP→forced-rest transition, and the no-death-spiral guarantee** are **can
 **Shape (V2-fixed).** Beyond the §4.8 time floor, a second headless **fun-proxy** asserts the combat difficulty
 curve at each tier's combat-entry rungs: **fresh-at-rung** (just reached, before that rung's intended
 training/gear) should be **humbling** (~30–45 %, with R3's **20–35 %** the anchor), and **comfortable** after
-that rung's intended training/gear (**~80 %+**), tightening slightly per tier. All values are the **ANALYTIC
-closed-form `P_win(MC)`** (§4.6.4b) — **computed from the combat formulae, NOT sampled** (D-Q-winrate) —
-evaluated **at adequate satiety (≥~0.7)**. *(proposed v1 balance — tune-later magnitudes)*:
+that rung's intended training/gear (**~80 %+**), tightening slightly per tier. The **displayed** band values are
+the **fixed-seed sampled (n = 400) forecast** (`combat.foeForecasts`); the **gate** check uses the **analytic
+closed-form `P_win(MC)`** (§4.6.4b) — the **analytic-for-gate / sampled-for-display split** (D-057), with
+**displayed == tested == same-for-every-player** — evaluated **at adequate satiety (≥~0.7)**. *(proposed v1
+balance — tune-later magnitudes; rung tiers below are the **new** spine, §4 RESHAPE NOTE)*:
 
 | Combat-entry rung | fresh-at-rung win-rate | after intended training/gear |
 |---|---|---|
-| **R3** (first fight, T0) | **20–35 %** *(the LOCKED anchor)* | ~85 %+ |
-| **V2** (road-warden, T1) | ~35–45 % | ~80 %+ |
-| **V5** (sworn man-at-arms, T1) | ~35–45 % | ~80 %+ |
-| **G1** (road-captain, T2) | ~30–40 % | ~80 %+ |
-| **G5** (road-detail / Hanzaki, T2) | ~30–40 % *(survived, not won)* | ~75–80 % |
+| **R3** (first fight, **T0** Estate-tutorial) | **20–35 %** *(the LOCKED anchor)* | ~85 %+ |
+| **Sword-line opening** (**T1** Estate-full — first T1 combat-entry rung) | *(band re-derives at Ship-M1-F2 under the new spine; humbling per D-061)* | ~80 %+ |
+| **V2** (road-warden, **T2** Village — first HUMAN threat) | ~35–45 % | ~80 %+ |
+| **V5** (sworn man-at-arms, **T2** Village) | ~35–45 % | ~80 %+ |
+| **G1** (road-captain, **T3** Region) | ~30–40 % | ~80 %+ |
+| **G5** (road-detail / Hanzaki, **T3** Region) | ~30–40 % *(survived, not won)* | ~75–80 % |
 
 These are wired into the M3/M6 fun-proxy harness (§7) **alongside** the §4.8 pacing floor — together the two
 proxies are the playable bar (not just "it compiles"). **Levers:** every band magnitude (mob stats, gear tiers,
@@ -1112,6 +1171,12 @@ across the tier**; the roster grows **+3 at T1** and **+4 at T2** — **~9–10 
 `baseSpeed` / `reach` / `targetCount` / `attackProfile` — **+ a signature ability.** New weapons are **FOUND and
 CRAFTED, never gifted**, and reveal **one at a time** on the combat-reveal ladder (no UI-dump; FU4/FU12).
 
+> **Line → tier under the 6-tier spine (§4 RESHAPE NOTE).** **Line 1 Spear = T0** (Estate-tutorial) · **Line 2
+> Sword opens at T1** (Estate-full) · **Line 3 Staff/polearm (Bō・Naginata・Kanabō・Tetsubō) is PULLED FORWARD
+> from Region into T2 (Village)** (D-052 / roadmap T2-M1-F5) — so the roster is **complete by end-of-T2
+> (Village)** and **new-T3 Region adds combat DEPTH, no new line.** The **+2 / +3 / +4 at T0 / T1 / T2** cadence
+> is unchanged in absolute tier-number; only the Staff line's *place* moves (Region → Village).
+
 **Proposed v1 weapon table** *(proposed v1 balance — authored **byte-identical** to §2.8/§2.10, the §3 reveal
 rows, and `content/items.ts` §6.5; the single per-weapon `baseSpeed` supersedes the old global 1.0)*:
 
@@ -1124,14 +1189,15 @@ rows, and `content/items.ts` §6.5; the single per-weapon `baseSpeed` supersedes
 | Kodachi *(short sword)* | 2 Sword | T1 | 1.25 | 1 | 1 | **Riposte** (counter on evade) |
 | Uchigatana | 2 Sword | T1 | 1.10 | 2 | 1 | **Iai draw** (crit on opening swing) |
 | Ōdachi *(great sword)* | 2 Sword | T1 | 0.90 | 2 | 2 | **Wide arc** (cleave 2) |
-| Bō *(staff)* | 3 Staff | T2 | 1.20 | 2 | 1 | **Stagger** (applies slow) |
-| Naginata | 3 Staff | T2 | 1.00 | 3 | 2 | **Reaping arc** (cleave + reach) |
-| Kanabō *(spiked club)* | 3 Staff | T2 | 0.75 | 1 | 1 | **Crush** (block-break, defense shred) |
-| Tetsubō *(iron club)* | 3 Staff | T2 | 0.70 | 1 | 1 | **Earthbreaker** (heavy single-target burst) |
+| Bō *(staff)* | 3 Staff | T2 *(Village)* | 1.20 | 2 | 1 | **Stagger** (applies slow) |
+| Naginata | 3 Staff | T2 *(Village)* | 1.00 | 3 | 2 | **Reaping arc** (cleave + reach) |
+| Kanabō *(spiked club)* | 3 Staff | T2 *(Village)* | 0.75 | 1 | 1 | **Crush** (block-break, defense shred) |
+| Tetsubō *(iron club)* | 3 Staff | T2 *(Village)* | 0.70 | 1 | 1 | **Earthbreaker** (heavy single-target burst) |
 
-Count: **3 weapons in Line 1 by end-T0** (1 starter + 2), **+3 at T1** (Line 2 opens), **+4 at T2** (Line 3
-opens) = **10 weapons** (+ the 0th improvised pole) ≈ **9–10 across v1** ✔. The improvised pole carries a
-minimal archetype (slow, short, single-target) and **no** signature.
+Count: **3 weapons in Line 1 by end-T0** (1 starter + 2), **+3 at T1** (Line 2 Sword opens — Estate-full),
+**+4 at T2** (Line 3 Staff opens — **Village**, pulled forward from Region) = **10 weapons** (+ the 0th
+improvised pole) ≈ **9–10 across v1** ✔; **new-T3 Region adds no new line** (combat DEPTH). The improvised pole
+carries a minimal archetype (slow, short, single-target) and **no** signature.
 
 **The combat-reveal ladder (one reveal per beat; FU12).** Combat is a real **incremental progression surface**,
 staggered one beat at a time (kills the old R3 UI-dump):
@@ -1142,8 +1208,8 @@ staggered one beat at a time (kills the old R3 UI-dump):
 | **R4** — loot→craft loop | **Graded weapon-durability bands** (§4.6.1c) surface with the simple Crafting loop + **Equipment/Inventory** (never auto-unequipped). |
 | **R5** — combat rung | The **stance** slot. *(Curated combat activities feed the **Combat Rank** rung-meter; **Arms PILLAR deeds do NOT accrue yet** — Phase 2.)* |
 | **First weapon-line L10 milestone** — weapon-skill milestone | The **ability + item** intervention slots. |
-| **T1** — combat rung | The **2nd archetype line (Sword)** opens on a Combat Rank rung-gate; **+3 weapons across T1.** |
-| **T2** — combat rung | The **3rd archetype line (Staff/polearm)** opens; **+4 weapons across T2.** |
+| **T1** *(Estate-full)* — combat rung | The **2nd archetype line (Sword)** opens on a Combat Rank rung-gate; **+3 weapons across T1.** |
+| **T2** *(Village)* — combat rung | The **3rd archetype line (Staff/polearm)** opens — **pulled FORWARD from the Region tier**; **+4 weapons across T2.** *(new-T3 Region adds combat DEPTH, no new line.)* |
 
 Weapon **signature abilities** deepen at higher weapon-line milestones (richer signatures ~**L25 / L50** —
 *proposed v1 balance*). These feed the **three clean tracks** (§4.0.1), never one fused bar. **Levers:** the
@@ -1162,7 +1228,10 @@ twitch-combat — canon §E "strategic, not reflex"):
   the `stance.*` modifiers already wired into §4.6.1 (`defMod` / `atkMod` / `speedMod` / `evasionMod`). Three
   default stances *(proposed v1 balance)*: **Aggressive** (`atkMod +0.20`, `defMod −0.15`, `speedMod +0.05`),
   **Balanced** (all mods 0 — the auto-resolve default), **Defensive** (`defMod +0.25`, `evasionMod +0.15`,
-  `atkMod −0.15`). Swapping stance mid-fight costs **one swing's cadence** (no free instant swap).
+  `atkMod −0.15`). Swapping stance mid-fight costs **one swing's cadence** (no free instant swap). **Because HP
+  now CARRIES between fights (D-050, §4.6), Defensive's HP-retention genuinely trades against Aggressive's
+  speed/damage — so NO stance is strictly dominated and Balanced is no longer a trap pick.** This is a **canon
+  curve invariant** (asserted by §6.6): it **replaces** the v0.2 test that enshrined Aggressive's dominance.
 - **(2) Ability slot** *(reveals at the first weapon-line L10 milestone — §4.6.9).* A **timed** trigger of the
   equipped weapon's **signature ability** (§4.6.9 — e.g. *Iai draw* = guaranteed crit on the next swing;
   *Crush* = `−defense` shred on the target; *Stagger* = apply slow). On a **cooldown** (`ABILITY_CD ≈ 8 combat
@@ -1325,11 +1394,16 @@ multi-stage *seki*).
 These are the **playtest acceptance criteria** the numbers above are derived *backward from*; they are
 headlessly regression-tested via the DEV play API (§2.20/§6.10) so a retune that breaks pacing fails CI.
 Canon hard rules: **first action < 5 s**, **the next goal never balloons > ~2–3× the prior** (within a tier;
-canon §G, §1.2), and — **LOCKED by human (canon §I-bal), now read as a FLOOR (FU18)** — **every single rung
-takes ≥ ~30 min**, with **per-tier Phase-1 climb budgets T0 ≈ 4.5 h · T1 ≈ 8 h · T2 ≈ 16 h** ("more grind, more
-numbers, a slower release of incremental features"). **The ≈28.5 h figure is the v1 PHASE-1 climb FLOOR, NOT
-the total (D-Q1):** the full **v1 saga ≈ ~60 h FLOOR = ~28.5 h Phase-1 climb + a ~+32 h Phase-2 pillar-grind
-floor** (§4.8.1b/§4.8.4).
+canon §G, §1.2), and — **LOCKED by human (canon §I-bal), now read as a FLOOR (FU18)** — **every grind rung
+takes ≥ ~30 min, a floor that BINDS FROM T1** (the reshape makes **T0 a floor-exempt tutorial**, gentle
+~10–15 min/rung, D-049/D-056). Under the **6-tier reshape (§4 RESHAPE NOTE)** the per-tier Phase-1 climb FLOORS
+**re-map onto the 4 v1 tiers T0–T3** — **T0 floor-exempt**; provisional starting floors **T1 ~5–8 h · T2
+~8–10 h** (fork #1/#5, LIQUID per D-059); **T3 TBD** — and the precise rung-by-rung tables **re-derive at
+Ship-M1-F2** ("more grind, more numbers, a slower release of incremental features"). Difficulty stays
+**humbling THROUGHOUT incl. T0** (D-061 — fast ≠ easy; the mediocre-start bite stays within the winnable /
+soft-setback / no-dead-end guardrails). **The ≈28.5 h figure is the v1 PHASE-1 climb FLOOR, NOT the total
+(D-Q1)** — now **the FLOOR sum re-derived across the 4 v1 tiers T0–T3** at Ship-M1-F2: the full **v1 saga ≈
+~60 h FLOOR = ~28.5 h Phase-1 climb + a ~+32 h Phase-2 pillar-grind floor** (§4.8.1b/§4.8.4).
 
 > **The ≥30-min floor is enforced on the RUNG-METER POINTS, not the wall-clock (D-Q2).** The runtime floor is
 > the per-rung meter threshold (§4.1.1), back-solved so that **even optimal FOCUSED play cannot fill a rung's
@@ -1353,14 +1427,15 @@ floor** (§4.8.1b/§4.8.4).
 |---|---|---|---|
 | **First action available** | **< 5 s** from load (rake spilled rice in the *kura*) | canon | time-to-first-interactable |
 | **First meaningful reveal** | **< 30 s** (rice counter ticks → the koku row lights its own panel, §3.1) | proposed | first `unlock` event |
-| **Per-rung minimum** | **≥ ~30 min per rung** *(a FLOOR; R0 cold-open exempt)* | **LOCKED — FLOOR** | per-rung tick-count floor (undershoot fails) |
-| **Humbling first fight (R3)** | **~60–75 min** in (start of R3), **win-rate 20–35 % at adequate satiety (≥~0.7)** | **LOCKED anchor** | tick-count to the wolf + win-rate proxy (§4.6.6/§4.6.7) |
+| **Per-rung minimum** | **≥ ~30 min per rung** *(a FLOOR — **binds from T1**; **T0 tutorial floor-exempt**, R0 cold-open exempt)* | **LOCKED — FLOOR (from T1)** | per-rung tick-count floor (undershoot fails) |
+| **Humbling first fight (R3, T0)** | **~60–75 min** in (start of R3), **win-rate 20–35 % at adequate satiety (≥~0.7)** | **LOCKED anchor** | tick-count to the wolf + win-rate proxy (§4.6.6/§4.6.7) |
 | **Win-rate bands** *(2nd fun-proxy, NEW)* | fresh-at-rung humbling (~20–45 %), comfortable after that rung's training/gear (~80 %+) — **at adequate satiety** | proposed (R3 anchor LOCKED) | the §4.6.7 win-rate-band harness |
-| **Phase-1 climb → T1** (rungs cleared) | **≈ 4.5 h** *(FLOOR)* active play | **LOCKED — FLOOR (T0)** | tick-count to the T0 capstone (opens Phase 2) |
-| **Phase-1 climb → T2** | **≈ 8 h** *(FLOOR)* | **LOCKED — FLOOR (T1)** | tick-count to the T1 capstone |
-| **Phase-1 climb (T2)** | **≈ 16 h** *(FLOOR)* | **LOCKED — FLOOR (T2)** | tick-count to the T2 capstone |
-| **v1 Phase-1 FLOOR sum** | **≈ 28.5 h** *(the Phase-1 climb floor — NOT the total; D-Q1)* | **LOCKED — FLOOR** | cumulative tick-count |
-| **v1 TOTAL FLOOR** *(Phase-1 + Phase-2)* | **≈ ~60 h** *(≈28.5 h climb + ~+32 h Phase-2 grind; minimum, runs longer)* | **LOCKED — FLOOR** | cumulative tick-count incl. Phase-2 |
+| **Phase-1 climb — T0 Estate-tutorial** | **floor-EXEMPT** (gentle ~10–15 min/rung, D-049/D-056) | tutorial — not floor-bound | tick-count to the T0 capstone (opens Phase 2) |
+| **Phase-1 climb — T1 Estate-full** | **~5–8 h** *(FLOOR; provisional fork #1/#5 — re-derives Ship-M1-F2)* | **LOCKED — FLOOR (binds from T1)** | tick-count to the T1 capstone |
+| **Phase-1 climb — T2 Village** | **~8–10 h** *(FLOOR; provisional — re-derives Ship-M1-F2)* | **LOCKED — FLOOR** | tick-count to the T2 capstone |
+| **Phase-1 climb — T3 Region** | **TBD** *(FLOOR — re-derives Ship-M1-F2)* | **LOCKED — FLOOR** | tick-count to the T3 capstone (v1 end-gate) |
+| **v1 Phase-1 FLOOR sum** | **≈ 28.5 h** *(the Phase-1 climb floor — NOT the total; D-Q1; re-derived across the **4 v1 tiers T0–T3** at Ship-M1-F2)* | **LOCKED — FLOOR** | cumulative tick-count |
+| **v1 TOTAL FLOOR** *(Phase-1 + Phase-2)* | **≈ ~60 h** *(≈28.5 h climb + ~+32 h Phase-2 grind; minimum, runs longer; re-derives Ship-M1-F2)* | **LOCKED — FLOOR** | cumulative tick-count incl. Phase-2 |
 | **Goal-to-goal step ratio** | **≤ 2–3×** between consecutive within-tier goals | canon | max ratio of consecutive costs |
 | **Tier-to-tier step** | **~10×** (Arms/Estate) — a chapter, not a wall; Office steepens (~25× at T1→T2) | proposed | band-top ratio across tiers |
 | **Side-faction speedup** | village+origin weaving **shaves ~10–15 %** off time-to-next-tier (felt, never required) | LOCKED (H6) | with/without multipliers |
@@ -1370,14 +1445,26 @@ floor** (§4.8.1b/§4.8.4).
 
 ### §4.8.1 ⭐ T0 PHASE-1 rank-by-rank pacing table (the centrepiece — all 8 rungs, full resolution)
 
+> **🔁 RESHAPE — T0 is now the FLOOR-EXEMPT tutorial (D-049/D-056).** Under the 6-tier split (§4 RESHAPE NOTE),
+> **new-T0 = the tutorial** (Estate pillar only; the old Estate tier's full 30-min-floor grind moves to the
+> net-new **T1 Estate-full**, R8→R15). So T0's per-rung wall-clock becomes a **gentle ~10–15 min/rung ramp
+> (floor-EXEMPT)**, not the ≥30-min floor — and the **≥30-min/rung floor + the per-tier hour FLOOR now bind from
+> T1**. The rung-by-rung numbers below are the **OLD-scheme worked example** (4.5 h / 30-min-floor); the **T0
+> tutorial pace + the net-new T1 Estate-full rung block (fork #3 titles: Kura Warden → Field Reeve → Drill-yard
+> Hand → … → Trusted Man of the House) re-derive at Ship-M1-F2** (LIQUID, D-059). Combat-as-activity (R3 first
+> fight) stays in T0; **Arms pillar DEEDS bank only from T1**.
+
 This is the table the rest of §4 is tuned to satisfy. **It is the PHASE-1 rung climb** (§4.0.1/§4.1.1): each
 rung promotes on an **AND-gate** — its **per-rung-reset rung-meter ≥ threshold** (fed by that rung's **curated
 activities**, §4.1.1) **AND** its **story flags** (the UI reads "awaiting X" when one side lags) — **NOT** on
-accumulating pillar deeds (those are **Phase 2**, §4.8.1b). Each grind rung's expected wall-clock **≥ ~30 min
-(R0 aside, the cold-open story rung)**, escalating toward the capstone, **summing to ≈4.5 h (the Phase-1
-FLOOR)**. The **koku column is lifetime-produced** (the labour/economy currency, already NET, §4.7.1); the
-**meter threshold** is in rung activity-points (§4.1.1); "throughput" is the net koku-equiv/min from §4.7.1.
-*(Times, costs & thresholds: **proposed**; the ≥30-min floor and the 4.5-h Phase-1 sum: **LOCKED as FLOORS**.)*
+accumulating pillar deeds (those are **Phase 2**, §4.8.1b). **[OLD-scheme worked example — see the §4.8.1
+RESHAPE banner: T0 is now the floor-EXEMPT tutorial (~10–15 min/rung); these ≥30-min / ≈4.5 h figures re-derive
+at Ship-M1-F2.]** Each grind rung's expected wall-clock **≥ ~30 min (R0 aside, the cold-open story rung)**,
+escalating toward the capstone, **summing to ≈4.5 h (the OLD-scheme Phase-1 floor — now the floor-exempt
+tutorial pace)**. The **koku column is lifetime-produced** (the labour/economy currency, already NET, §4.7.1);
+the **meter threshold** is in rung activity-points (§4.1.1); "throughput" is the net koku-equiv/min from §4.7.1.
+*(Times, costs & thresholds: **proposed**, re-derive at Ship-M1-F2; the ≥30-min floor — **now binding from T1**,
+T0 exempt — and the per-tier hour FLOORS: **LOCKED as FLOORS**.)*
 
 | Rung (what it gates — from §3) | Meter + story gate to LEAVE it (Phase 1) | Throughput | koku (rung) | ⏱ wall-clock |
 |---|---|---|---|---|
@@ -1404,6 +1491,16 @@ E1@R4 and E2@R6 ✔; held ≈ **18–19K NET** at the gate after sinks). Consecu
 > escalation across R1–R7*, **not** a literal "8 rungs × 30 min." A settled, deliberate carve-out.
 
 ### §4.8.1b PHASE-2 pillar-grind block (the deeds + seasonal grind, per tier — NEW)
+
+> **🔁 RESHAPE — reads in OLD numbering; the pillar-reveal renumber + deed re-derivation land at Ship-M1-F2.**
+> The per-tier rows below (T0 = 2 pillars · T1 = 3 · T2 = 4) are the **OLD reveal schedule**. Under the new
+> one-pillar-per-tier reveal (§4 RESHAPE NOTE: **T0 = Estate (1) · T1 = +Arms (2) · T2 = +Office (3) · T3 =
+> +Name (4)**) this block re-derives **coupled to §4.1/§4.2** (the band tables + deed/seasonal tie-outs):
+> the old-T0 "Arms+Estate" splits into **new-T0 Estate-only (gate = EXCELLENT in Estate)** + **new-T1
+> Estate+Arms**; old-T1 (Village) → **new-T2 (+Office)**; old-T2 (Region) → **new-T3 (+Name)**. The deed-band
+> magnitudes, the per-event caps, and the 70/30 tie-outs are a **single Ship-M1-F2 re-derivation** (LIQUID,
+> D-059); the **70/30 deeds-dominate split, trade ≤⅓, and the per-event-cap shape are invariants** carried
+> through unchanged.
 
 When the **capstone rung opens Phase 2** (§4.0.1), the tier's **pillar DEEDS begin accruing** (§4.2.1) and the
 **seasonal appraisals begin crediting** (§4.2.2) toward the **HYBRID good/great/excellent gate** (§4.1) across
@@ -1432,19 +1529,26 @@ as the anti-slump device and the **E3 "Prosperous" build** (40K koku + materials
 Arms sink. **The whole tier = Phase-1 climb (≥ its 4.5/8/16-h FLOOR) + this Phase-2 grind**, so the realised
 tier always runs **above** its floor (the M6 regression fails on **undershoot only**, §4.8.4).
 
-### §4.8.2 T1 PHASE-1 rung pacing (lower resolution — Phase-1 FLOOR ≈ 8 h, avg ~1 h/rung)
+### §4.8.2 The VILLAGE tier PHASE-1 rung pacing — old-T1 = **new-T2** (lower resolution — old FLOOR ≈ 8 h → re-derives ~8–10 h, Ship-M1-F2)
 
-T1's Phase-1 spends its longer floor on **wider** content (market, coin, component crafting, silk *meibutsu*,
-rumours board, valley-scale combat, the 2nd weapon line) at **~60 min/season** wall-clock. Throughput rises
-~10× over T0 (koku into the tens-of-thousands). Each rung gates on the **rung-meter + story** (not deeds);
-**Office is revealed** here and becomes a *required* Phase-2 gate (§4.1). Each grind rung ≥ ~40 min; capstone
-longest. *(Combat Standing → **Combat Rank** throughout; Q9.)*
+> **🔁 RESHAPE — this is the Village tier (V0→V7); old-T1 → new-T2.** Floor figures re-derive at Ship-M1-F2
+> (provisional **~8–10 h**, fork #1/#5). The **Office pillar reveals here (new-T2)** ✔ and — per the §3
+> re-placement — the **3rd weapon line (Staff/polearm) is PULLED FORWARD into the Village tier** (the Sword/2nd
+> line opened earlier at the **Estate-full** tier, new-T1). The **first HUMAN threat** (bandits / *nobushi*) and
+> the rival-house contest also begin here.
+
+The Village tier's Phase-1 spends its longer floor on **wider** content (market, coin, component crafting, silk
+*meibutsu*, rumours board, valley-scale combat, the **3rd weapon line — Staff/polearm, pulled forward**) at
+**~60 min/season** wall-clock. Throughput rises ~10× over the prior tier (koku into the tens-of-thousands). Each
+rung gates on the **rung-meter + story** (not deeds); **Office is revealed** here and becomes a *required*
+Phase-2 gate (§4.1). Each grind rung ≥ ~40 min (the ≥30-min floor binds from T1); capstone longest. *(Combat
+Standing → **Combat Rank** throughout; Q9.)*
 
 | Rung (§3.4) | Meter + story gate to leave it (summary) | ⏱ wall-clock |
 |---|---|---|
 | **V0 Errand-runner** — market/coin opens (one shop first) | Estate Service ≥ thr + first valley errands; coin row lit | **~40 min** |
 | **V1 Recognised hand** — chief's house, inn & rumours board | Estate Service ≥ thr + shop+headman standing | **~55 min** |
-| **V2 Road-warden** — HUNT/CLEAR at valley scale; ford safe; **Sword line opens** | **Combat Rank ≥ thr** (valley clears; road-safe curated activities) + the ford story | **~60 min** |
+| **V2 Road-warden** — HUNT/CLEAR at valley scale; first HUMAN threat (*nobushi*); ford safe; **Staff/polearm line opens** *(3rd line, pulled forward to the Village tier)* | **Combat Rank ≥ thr** (valley clears; road-safe curated activities) + the ford story | **~60 min** |
 | **V3 Steward of the valley economy** — silk *meibutsu* + component crafting | Estate Service ≥ thr + recorded seasonal result; **TRADE strand opens** (≤⅓-capped, §4.2.3) | **~65 min** |
 | **V4 Trusted of the headman** — **Office bar lights** (first Office reveal) | Estate Service ≥ thr + the headman's trust beat | **~70 min** |
 | **V5 Sworn man-at-arms** — paid retinue (flavour), DEFEND quests; **Naoyuki beat** | **Combat Rank ≥ thr** (valley DEFEND watches) + the man-at-arms oath | **~70 min** |
@@ -1457,18 +1561,25 @@ accrue **after V7** (§4.8.1b), to the hybrid **good-in-3 + great-in-2** gate. T
 **Office is a fresh required gate** (0 at T0 → good-band 2K at T1). Season ≈ 60 min ⇒ ~8 seasons span the T1
 Phase-1 floor.
 
-### §4.8.3 T2 PHASE-1 rung pacing (lower resolution — Phase-1 FLOOR ≈ 16 h, avg ~2 h/rung)
+### §4.8.3 The REGION tier PHASE-1 rung pacing — old-T2 = **new-T3** (lower resolution — old FLOOR ≈ 16 h → re-derives, Ship-M1-F2)
 
-T2's Phase-1 is the longest, widest: region map, *sekisho* travel, region-scale human mobs (rōnin/bandits),
-the Origin faction + both personal payoffs, Kuzuhara river-works (the **E3** lever), the rival houses, the 3rd
-weapon line. **~120 min/season** wall-clock. Required Phase-2 pillars drift to **Estate + Office** (Arms
-secures roads); **Name** reveals (**4 revealed** — Name gated, D-Q3). Each grind rung ≥ ~75 min; capstone among the longest. T2's
-**Phase 2** weaves in the **cross-pillar combos** (§4.3.1) and lands **E3 "Prosperous"** (§4.7.5).
+> **🔁 RESHAPE — this is the Region tier (G0→G7); old-T2 → new-T3, the v1 END-gate** (`outcome: t3done`). Floor
+> re-derives at Ship-M1-F2 (the old 16 h must come **down** so the v1 Phase-1 sum re-lands ≈ 28.5 h across the
+> 4 v1 tiers T0–T3, fork #1/#5, LIQUID). Per §3, **Region adds combat DEPTH — NO new weapon line** (the roster
+> completed at the Village tier; the Staff line is no longer introduced here). The **Name pillar reveals here
+> (new-T3, 4 revealed)** ✔ and the **FULL 4-pillar cross-pillar combo set** completes here (§4.3.1).
+
+The Region tier's Phase-1 is the longest, widest: region map, *sekisho* travel, region-scale human mobs
+(rōnin/bandits), the Origin faction + both personal payoffs, Kuzuhara river-works (the **E3** lever), the rival
+houses, and **combat DEPTH on the completed roster (no new weapon line)**. **~120 min/season** wall-clock.
+Required Phase-2 pillars drift to **Estate + Office** (Arms secures roads); **Name** reveals (**4 revealed** —
+Name gated, D-Q3). Each grind rung ≥ ~75 min; capstone among the longest. The Region tier's **Phase 2** weaves
+in the **full 4-pillar cross-pillar combos** (§4.3.1) and lands **E3 "Prosperous"** (§4.7.5).
 
 | Rung (§3.6) | Meter + story gate to leave it (summary) | ⏱ wall-clock |
 |---|---|---|
 | **G0 Valley-envoy** — trade backbone opens minimally; first Origin contact | Estate Service ≥ thr + first off-the-books consignment | **~75 min** |
-| **G1 Road-captain** — *sekisho* layer; region-scale combat (rōnin/bandits); **Staff line opens** | **Combat Rank ≥ thr** (secure cluster roads — curated combat) + first pass obtained | **~110 min** |
+| **G1 Road-captain** — *sekisho* layer; region-scale combat (rōnin/bandits); **combat DEPTH on the completed roster (no new line — the Staff line opened back at the Village tier)** | **Combat Rank ≥ thr** (secure cluster roads — curated combat) + first pass obtained | **~110 min** |
 | **G2 Broker of the post-town** *(Origin OPENS)* — Sawatari-juku, *toiya* | Estate Service ≥ thr + **STORY (dream) AND travel-standing** (the doubly-earned Origin gate, §3.6.2) | **~120 min** |
 | **G3 Arbiter between valleys** — Hibara + Tōge-mura (capped at 2) | Estate Service ≥ thr + out-supply/arbitrate story | **~130 min** |
 | **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | Estate Service ≥ thr **+ STORY** (commit the multi-stage *seki*) — **lands estate stage E3 "Prosperous"** (40K koku sink, §4.7.5) | **~140 min** |
@@ -1484,25 +1595,34 @@ combos** (§4.3.1). Tier step Arms 5K→30K (6×), Estate
 8K→60K (7.5×), **Office 2K→50K (25× — the locked "win it socially" steepening**, §4.0/§4.1). Season ≈ 120 min
 ⇒ ~8 seasons span the T2 Phase-1 floor.
 
-### §4.8.4 The v1 budget at a glance (all figures FLOORS)
+### §4.8.4 The v1 budget at a glance (all figures FLOORS — re-mapped to the 6-tier spine)
 
-| Tier | rungs (Phase 1) | per-rung avg | season wall-clock | **Phase-1 FLOOR** | + Phase-2 grind (§4.8.1b) | lock |
+> **🔁 RESHAPE — re-mapped to the 4 v1 tiers (T0–T3); precise floors re-derive at Ship-M1-F2 (LIQUID, D-059).**
+> The old Estate tier **splits** into a floor-exempt **T0 tutorial** + a net-new **T1 Estate-full** (R8→R15);
+> Village → **T2**; Region → **T3** (the v1 end-gate). Provisional starting floors are the fork #1/#5 numbers;
+> the **~28.5 h Phase-1 climb FLOOR re-derives as the sum across T0–T3** (the old 16 h Region floor must come
+> **down** to keep the sum). Phase-2 columns are equally coupled to the §4.8.1b/§4.1/§4.2 re-derivation.
+
+| Tier (new spine) | rungs (Phase 1) | per-rung avg | season wall-clock | **Phase-1 FLOOR** | + Phase-2 grind (§4.8.1b) | lock |
 |---|---|---|---|---|---|---|
-| **T0 Estate** | R0–R7 (8) | ~34 min (grind rungs ≥30) | ~34 min | **≈ 4.5 h** | ~+4.5–5 h | LOCKED FLOOR |
-| **T1 Village** | V0–V7 (8) | ~60 min | ~60 min | **≈ 8 h** | ~+12 h | LOCKED FLOOR |
-| **T2 Region** | G0–G7 (8) | ~120 min | ~120 min | **≈ 16 h** | ~+20 h *(incl. Name gate, D-Q3)* | LOCKED FLOOR |
-| **v1 total (T0–T2)** | 24 | — | — | **≈ 28.5 h (Phase-1 FLOOR sum)** | **+ ~+32–36 h Phase-2 ⇒ ~60 h v1 FLOOR (D-Q1; compounds toward ~65 h with the T2 Name gate + great/excellent, D-Q3)** | LOCKED FLOOR |
+| **T0 Estate-tutorial** | R0–R7 (8) | ~10–15 min *(floor-EXEMPT)* | — | **floor-exempt** | re-derives *(Estate-only gate)* | tutorial — not floor-bound |
+| **T1 Estate-full** | R8–R15 (~8) | ≥ ~40 min | ~60 min | **~5–8 h** *(provisional, fork)* | re-derives *(+Arms)* | LOCKED FLOOR *(binds from T1)* |
+| **T2 Village** | V0–V7 (8) | ~60 min | ~60 min | **~8–10 h** *(provisional)* | re-derives *(+Office)* | LOCKED FLOOR |
+| **T3 Region** | G0–G7 (8) | ~120 min | ~120 min | **TBD** *(re-derives)* | re-derives *(+Name; incl. combos, D-Q3)* | LOCKED FLOOR |
+| **v1 total (T0–T3)** | ~32 | — | — | **≈ 28.5 h (Phase-1 FLOOR sum, re-derived across the 4 v1 tiers at Ship-M1-F2)** | **+ ~+32–36 h Phase-2 ⇒ ~60 h v1 FLOOR (D-Q1; ~65 h with the Name gate + great/excellent, D-Q3)** | LOCKED FLOOR |
 
-**The three single most important invariants now:** (1) **every grind rung ≥ ~30 min** (LOCKED FLOOR) —
-enforced as a CI pacing floor: if a headless playthrough clears any rung in < ~28 min the pacing test **fails**
-(undershoot); (2) the **budget figures are FLOORS** — the M6 regression **fails on UNDERSHOOT ONLY, never on
+**The three single most important invariants now:** (1) **every grind rung ≥ ~30 min** (LOCKED FLOOR — **binds
+from T1**; the **T0 tutorial is floor-exempt**, D-049/D-056) — enforced as a CI pacing floor: if a headless
+playthrough clears any **T1+** rung in < ~28 min the pacing test **fails** (undershoot); (2) the **budget
+figures are FLOORS** — the M6 regression **fails on UNDERSHOOT ONLY, never on
 overshoot** (FU18), because the two-phase tier (climb + grind) is *meant* to run past its Phase-1 floor; and
 (3) the **goal-to-goal ratio ≤ 2–3×** *within* a tier (canon) — the gentle intra-tier growth keeps consecutive
 costs soft, while the ~10× tier step (Office ~25×) is the deliberate chapter break. **Levers:** all per-rung
 *times / costs / meter-thresholds* and the Phase-2 window minutes are tunable *proposed* numbers, but the
-**< 5 s first action**, the **≤2–3× never-balloon rule**, the **≥30-min per-rung FLOOR**, and the
-**4.5/8/16-h tier FLOORS** are constraints the tuning must always satisfy (the last two LOCKED by human as
-FLOORS, FU18).
+**< 5 s first action**, the **≤2–3× never-balloon rule**, the **≥30-min per-rung FLOOR (from T1; T0 exempt)**,
+and the **per-tier hour FLOORS** (T0 floor-exempt · T1 ~5–8 h · T2 ~8–10 h · T3 TBD — re-derived across the
+4 v1 tiers T0–T3 at Ship-M1-F2, fork #1/#5) are constraints the tuning must always satisfy (the last two LOCKED
+by human as FLOORS, FU18).
 
 ---
 
@@ -1519,13 +1639,14 @@ SEASONAL_SHARE · goodBand`** table, the **`TIER_REF[pillar][tier]`** + **`TIER_
 + officeGood`** normalizers, the **autumn-basis bump** (~12 %), `f_pillar` exponents (0.5), `DENT_FRACTION =
 0.10` + the dent self-heal rate. **HYBRID gate (§4.1):** the **good/great/excellent triple per revealed pillar
 per tier** **+ the great/excellent COUNTS** (how many pillars must be great vs excellent); the revealed-pillar
-set (T0=2 / T1=3 / T2=4 — Name gated, D-Q3). **Gating:** the hybrid profile **ANDed with** the Phase-1 capstone rung-meter +
+set (OLD: T0=2 / T1=3 / T2=4 — Name gated, D-Q3; **re-derives to the new one-per-tier reveal T0=1 / T1=2 / T2=3 /
+T3=4 at Ship-M1-F2, coupled to §4.1**). **Gating:** the hybrid profile **ANDed with** the Phase-1 capstone rung-meter +
 story gate, **+ the per-tier hour FLOORS the gates must take to fill**. **Skills:** `XP_BASE = 50`, `XP_GROWTH
 = 1.18`, `PER_EVENT_XP_CAP_FRACTION = 0.25`, visibility 30, per-tier soft caps, milestone levels/perks.
 **Per-skill perks (§4.5.4):** each perk's `combatBonus` magnitude, the per-skill perk counts (~2–8), the
 unlock-level cadence, `PER_PERK_MAX`. **Conversion weights (§4.3):** `0.05·combatLevel`, `0.10·dangerRing`,
 `0.04·skillLevel`, `0.04·tradeSkill`, `0.06·officeRank`, `0.15·allianceSealed`, `0.25·Name-blend`.
-**Cross-pillar combos (§4.3.1):** which pillar pairs combo, the per-pair magnitude (≤ one cap), the T2 onset.
+**Cross-pillar combos (§4.3.1):** which pillar pairs combo, the per-pair magnitude (≤ one cap), the **two-wave onset (PARTIAL Office-pairs at new-T2 · FULL 4-pillar set at new-T3)**.
 **Attributes (§4.4):** all coefficients, start = 5, +1 pt / 2 levels, per-tier soft caps. **Character level
 (§4.6.5):** `CL_BASE = 60`, `CL_GROWTH = 1.18`, `COMBAT_XP_K = 12`, `MobDef.level` defaults, `hpMax = 40 +
 8·characterLevel`, `satietyMax = SATIETY_BASE(100) + SATIETY_PER_LEVEL(4)·characterLevel`. **Combat (§4.6):**
@@ -1534,12 +1655,14 @@ each weapon's `baseSpeed`/`reach`/`targetCount`/signature (§4.6.9), SPD coeff 0
 0.50/0.40, `skillBonus = 0.3·weaponSkill`, accuracy base 10, crit base 0.02; the **enemy `MobDef.level →
 {attackPower, defense, HP, …}` curve** (§4.6.1d — `MOB_HP_BASE 24`/`MOB_HP_K 8`, `MOB_ATK_BASE 8`/`MOB_ATK_K 3`,
 `MOB_DEF_BASE 1`/`MOB_DEF_K 1`, `MOB_ACC 10/+2L`, `MOB_EVA 2/+2L`, `MOB_CRIT 0.05`); the **closed-form
-`P_win(MC)`** (§4.6.4b — ANALYTIC, not sampled); the **light active layer** (§4.6.10 — stance mods, `ABILITY_CD`,
+`P_win(MC)`** (§4.6.4b — **analytic for the GATE / fixed-seed sampled n=400 for the DISPLAY**, D-057;
+displayed == tested == same-for-every-player); the **light active layer** (§4.6.10 — stance mods, `ABILITY_CD`,
 item slots); `SATIETY_COMBAT_FLOOR = 0.5` + the 0.7 knee + the attackSpeed-touch weight;
 the 4 durability bands (75/50/1/0 → 1.0/0.9/0.75/0.55) + `WEAR_PER_FIGHT ≈ 3 %`; the **win-rate bands**
 (§4.6.7) per combat-entry rung; the **retreat clock cost** + the **0-HP forced-rest** loop (§4.6.6b/§4.6.8). **Pacing (§4.8):** all per-rung times /
-costs / meter-thresholds + the Phase-2 window minutes (proposed) under the **≥30-min FLOOR + 4.5/8/16-h tier
-FLOORS (LOCKED)**. **Producers/costs (§4.7):** gather base yields/ticks + per-rung net throughput, autumn `×3`,
+costs / meter-thresholds + the Phase-2 window minutes (proposed) under the **≥30-min FLOOR (binds from T1; T0
+tutorial exempt) + the per-tier hour FLOORS (T0 exempt · T1 ~5–8 h · T2 ~8–10 h · T3 TBD — re-derive across the
+4 v1 tiers at Ship-M1-F2; LOCKED as FLOORS)**. **Producers/costs (§4.7):** gather base yields/ticks + per-rung net throughput, autumn `×3`,
 `STAMINA_RATE_FLOOR = 0.5` + the 0.7 knee, the weather `±10 %` band, crafting quality weights (0.4/0.4/0.2,
 0–1 score) + `QUALITY_TIERS = 5` + the `SKILL_REF`/`MAX_STATION_TIER` normalisers + `1.25^tier` + 60 %
 disassembly + the **T1+ coin sink** (market/component-buying), loot rarity 70/22/6/2 + `0.5 %·LUCK`,
@@ -1554,12 +1677,14 @@ self-consistent):** `TIER_MAG 10` · `r_intra 1.15` · `RUNG_FLOOR_MIN 30` · `P
 durability bands `1.0/0.9/0.75/0.55` · `CRIT_MULT 1.5` · `BLOCK_REDUCTION 0.5` · crit/block caps `0.50/0.40` ·
 `DAMAGE_FLOOR max(1, 0.10·atk)` (floored LAST, post crit/block) · `hpMax 40 + 8·level` · `QUALITY_TIERS 5` (0–1 score, no divisor) · quality step `1.25^tier` ·
 disassembly `0.60` · loot `70/22/6/2` + `0.5 %·LUCK` · weather `±10 %` · autumn paddy `×3` · `PRODUCER_GROWTH
-1.5` (T3+) · `SEASON_WALLCLOCK_MIN[T0/T1/T2] 34/60/120` · tier Phase-1 FLOORS `4.5/8/16 h` (v1 Phase-1 `28.5 h`; v1 TOTAL `~60 h` incl. ~+32 h Phase-2).
+1.5` (T3+ *(old label; → T4+ post-renumber, deferred)*) · `SEASON_WALLCLOCK_MIN[tier]` (old 34/60/120) · tier Phase-1 FLOORS `4.5/8/16 h` **(OLD 3-tier; under the reshape T0 is floor-exempt and the floors re-map onto the 4 v1 tiers T0–T3, re-derived at Ship-M1-F2)** (v1 Phase-1 `≈28.5 h` re-derived across T0–T3; v1 TOTAL `~60 h` incl. ~+32 h Phase-2).
 
 **LOCKED by human (§I-bal + the V2 Block-L/M signs — shape fixed, not free to invert; only the realising
-magnitudes are tunable):** saga length / per-tier hour budget **as FLOORS** (T0 ≥ 4.5 h · T1 ≥ 8 h · T2 ≥ 16 h
-· v1 ≥ 28.5 h Phase-1 climb / v1 ≥ ~60 h TOTAL incl. ~+32 h Phase-2; runs longer, FU18/D-Q1) · the **≥30-min per-rung FLOOR** · **first-fight
-win-rate 20–35 % at adequate satiety (≥~0.7)** · **soft-setback severity shape** (1 HP + ~½-day + light injury
+magnitudes are tunable):** saga length / per-tier hour budget **as FLOORS** (under the reshape: **T0
+floor-exempt** · the ≥30-min floor + the per-tier hour FLOORS **bind from T1**; provisional **T1 ~5–8 h · T2
+~8–10 h · T3 TBD**, re-derived across the 4 v1 tiers at Ship-M1-F2 · **v1 ≥ 28.5 h Phase-1 climb** / v1 ≥ ~60 h
+TOTAL incl. ~+32 h Phase-2; runs longer, FU18/D-Q1) · the **≥30-min per-rung FLOOR (from T1)** · **first-fight
+win-rate 20–35 % at adequate satiety (≥~0.7)** *(SINGLE-fight; stands under HP-carry, D-058)* · **soft-setback severity shape** (1 HP + ~½-day + light injury
 + possible carried-loot drop; never levels/gear/Influence) · **deeds-dominate accrual split (~70 % deeds /
 ~30 % seasonal)** · **deed-jump size smaller than the old 0.08 cap** · **no respec in v1** · the **HYBRID
 good/great/excellent tier-gate** (breadth floor + no overflow) · the **THREE clean combat tracks** (character

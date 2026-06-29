@@ -7,10 +7,14 @@ metadata:
 
 # Pending PRD/doc ripple — locked decisions not yet applied
 
-> ✅ **PRD-FEEDBACK GATE CLEARED — 2026-06-29. THE RIPPLE IS GO.** Human sign-off: *"mark the ripple as having no
-> more PRD feedback — we are ready to ripple."* The one-batch ripple (`DS#4`) is **UNBLOCKED** — but **NOT yet
-> executed** (deliberately deferred to a later session). **Run it as the next major step** via the mechanism in
-> "How to clear it" below; nothing further is waiting on the human to start it.
+> ✅ **PART-1 MARKDOWN RIPPLE EXECUTED — 2026-06-29 (session-15).** The 6-tier reshape + 5 forks are rippled into
+> the 7 PRD section files + the other living docs (audit → tracker-correct → 12-agent ripple → convergence critic
+> → structural-consistency cleanup; **`npm run verify` GREEN**, incl. `verify-prd`). The PRD body is **no longer
+> 5-tier-stale** — all checkboxes in the two markdown checklists below are ticked.
+> **What remains (NOT Part-1):** the **code** checklist + the **`docs/content/` regen** = **Part 2** (the build);
+> and the **§4 balance MAGNITUDES** (deed-bands, hour budgets, the §4.1/§4.8 numeric tables) re-derive at
+> **Ship-M1-F2** (LIQUID, D-059 — banner'd in `prd/04-combat-balance.md`). The structural reshape is complete;
+> only the liquid numbers + the code defer.
 
 > **What this is.** The **complete** live checklist of locked design decisions that are **canon** but **not
 > yet rippled** into `prd.md`, the other living docs, or the code. It now covers **two batches**:
@@ -111,33 +115,33 @@ H8) · `DS#8` (R1 quick-play) · `DS#11` (op-model review — now ADOPTED as v2 
 
 ## Ripple checklist — `docs/living/prd.md` (→ ASCII `prd/0N-*.md` files after the split; still 5-tier / DEMO-default throughout)
 
-- [ ] **Top-matter status line** — references 5 tiers / T0–T4 → 6 tiers / T0–T5; note PRD stays **LIQUID** (no §1 freeze) per `DS#7`. *(D-048, DS#7)*
-- [ ] **§1.6 "House Influence — the four pillars & the five tiers"** → **six** tiers; the reveal ramp **1→2→3→4→4**; the pillar→tier map. *(D-048)*
-- [ ] **§1.6.1 four-pillars table / economy** → Estate sub-engines framed as the **koku flywheel**, **LINEAR in T0** → branch into **LAND / TREASURY / TRADE (trade ≤⅓)** at **T1**; confirm kanji **Office 官威 / Name 家格**. *(D-048, D-051, DS#20)*
-- [ ] **§1.6.3 reveal set** — "T0 = 2-pillar special (Arms+Estate)" → **T0 = 1 pillar (Estate)**; the **scaled grade-gate** (`1 EXC + 1 GRT + (N−2) GOOD`; **T0 collapses to EXCELLENT**) + **manual opt-in ascension** + **overshoot reward**; the **active + locked-silhouette** teaser. *(D-048, D-049, D-055)*
-- [ ] **§1.6.4 standing panel + §2.16 reveal ramp** → §2.16 "T0 = 2-pillar special (Arms+Estate)" → **T0 = 1 pillar (Estate)**; the reveal **ramp 1→2→3→4→4** across the 6 tiers (one bar at a time); §1.6.4 / §2.16(e) standing panel = **active pillar + locked unnamed silhouettes**; re-verify the §2.16.1 "T3+" marriage/adoption label after the renumber. *(D-048, D-055)*
-- [ ] **§1.7 world table** (T0–T4) → renumber to **T0–T5** with the Estate split; new T1 (full estate) row; **T0 = a small walkable map** (areas-to-explore promise kept in the tutorial). *(D-048, DS#23)*
-- [ ] **§1.9 dream cadence** → **a dream/mystery beat at every tier transition**; payoff stays at Region (T3); the **T0→T1 beat lands BIG** (first-ascension ceremony). *(D-055, DS#14)*
-- [ ] **§3 unlock ladders** → **T0 = R0→R7 (tutorial)** + **T1 ≈ R8→R15 (full)**; the miniature-system reveals in T0; reveals **non-hand-holdy** (reveal-as-plot, no popups) via a **diegetic mentor**. *(D-052, DS#17, DS#22)*
-- [ ] **§4.6 combat** → **HP carries + heals by eating**; **no stance strictly dominated** (replace the dominance-enshrining test); **KEEP the signed 20–35% single-fight win-rate** as the first-fight criterion (HP-carry affects the grind, not the discrete first fight) + a RED-able foe-in-band test. *(D-050, DS#5)*
-- [ ] **§4.6.4b / §4.6.7 win-rate** → the **analytic-for-gate / fixed-seed-sampled(n=400)-for-display split**; codify **displayed == tested == same-for-every-player** (amends the §4.6.4b "analytic, not sampled" wording). *(DS#3, amends D-043)*
-- [ ] **§4.8 pacing budget** → **re-map the stale per-tier FLOORS** (the OLD `4.5/8/16 h` for old-T0/T1/T2 → the new 6-tier spine) and **re-derive the ~28.5h Phase-1 FLOOR across the 4 v1 tiers** (T0–T3); **T0 floor-exempt gentle ramp** (~10–15 min/rung), the ≥30-min floor binds **from T1**; add the **humbling-throughout** note (T0 is *fast*, not *easy*). **NOT here:** "drop the DEMO-default framing" + the DEV speed multiplier are **`balance.ts`/code (Part 2, D-056/D-067)** — §4.8's body has no DEMO text to drop. *(D-049, DS#1, DS#13)*
-- [ ] **§5 tier content** → new **T0 tutorial / T1 full**; renumbered Village/Region/Castle/Edo; the **ascension story events** (first one BIG); per-tier **mystery beats**; the **diegetic-mentor onboarding**; the **small walkable T0 map**; **T0 stays non-hand-holdy** (fix onboarding ding via clearer reveal beats, not popups). *(D-048, D-049, D-052, D-055, DS#14, DS#17, DS#22, DS#23)*
-- [ ] **§3 / §4.6 / §5 / §2.8 weapon-line RE-PLACEMENT** (audit gap — a locked roadmap steer, NOT just a renumber) → re-place the weapon archetype LINES onto the 6-tier spine: **Line 1 spear** in T0 (roster +2), **Line 2 sword** opens in **T1** (roster +3), **Line 3 Staff/polearm (Bō・Naginata・Kanabō・Tetsubō)** **PULLED FORWARD from Region into new-T2 Village** (roster +4) so the roster is **complete by end-of-T2**; **new-T3 Region = combat DEPTH, no new line**. All found/crafted, never gifted. Source: `roadmap.md:186/223/324`. *(D-048, D-052, roadmap T2-M1-F5)*
-- [ ] **§4.3.1 / §3 cross-pillar combo RE-TIMING** (audit gap — locked roadmap steer) → the single "combos unlock at the Region tier" → a **PARTIAL Office-pairs set at new-T2 Village** (Arms×Office, Estate×Office — Office reveals at T2) + the **FULL 4-pillar set at new-T3 Region** (when Name reveals). Combos stay post-trade-clamp, excluded from the gate-check + the trade-⅓ denominator (D-031). Source: `roadmap.md:205/327`. *(D-048, D-031, roadmap T2-M3-F3)*
-- [ ] **§4 / §4.7.5 economy** → the **compounding estate-upgrade** sink (replaces the finite power-neutral `estateStage`), **LINEAR in T0** → **LAND/TREASURY/TRADE branch (trade ≤⅓) at T1**. *(D-051, DS#20)*
-- [ ] **§6.9 active-only loop + §6.3 clock + §2.2** (audit fix — **NOT §6.10**, which is the DEV play API) → reframe the stale "Backgrounding pauses" / "Never wall-clock" wording: **advance by elapsed wall-time while the tab is OPEN** (don't pause on `document.hidden`; a throttled background tab **catches up** on its next tick; progress stops only when **CLOSED**); keep **active-only / no offline accrual** + the autosave dirty-guard. *(D-053)*
-- [ ] **§7 milestones / DoD** → **🔁 REFINED by the addendum "§7 = SLIM + DELEGATE" item below** — do **not** ADD milestone content to §7; the M0–M7 build-order moves out to `docs/living/roadmap.md`. §7 keeps only: the **milestone-integrity rule** (referenced, not restated), the **locked v1 scope** (T0→T3 + §4 acceptance criteria), the **save-WIPE** at the schema bump, deployment + the risk register. *(D-054, D-048, DS#19, DS#15; see addendum)*
+- [x] **Top-matter status line** — references 5 tiers / T0–T4 → 6 tiers / T0–T5; note PRD stays **LIQUID** (no §1 freeze) per `DS#7`. *(D-048, DS#7)*
+- [x] **§1.6 "House Influence — the four pillars & the five tiers"** → **six** tiers; the reveal ramp **1→2→3→4→4**; the pillar→tier map. *(D-048)*
+- [x] **§1.6.1 four-pillars table / economy** → Estate sub-engines framed as the **koku flywheel**, **LINEAR in T0** → branch into **LAND / TREASURY / TRADE (trade ≤⅓)** at **T1**; confirm kanji **Office 官威 / Name 家格**. *(D-048, D-051, DS#20)*
+- [x] **§1.6.3 reveal set** — "T0 = 2-pillar special (Arms+Estate)" → **T0 = 1 pillar (Estate)**; the **scaled grade-gate** (`1 EXC + 1 GRT + (N−2) GOOD`; **T0 collapses to EXCELLENT**) + **manual opt-in ascension** + **overshoot reward**; the **active + locked-silhouette** teaser. *(D-048, D-049, D-055)*
+- [x] **§1.6.4 standing panel + §2.16 reveal ramp** → §2.16 "T0 = 2-pillar special (Arms+Estate)" → **T0 = 1 pillar (Estate)**; the reveal **ramp 1→2→3→4→4** across the 6 tiers (one bar at a time); §1.6.4 / §2.16(e) standing panel = **active pillar + locked unnamed silhouettes**; re-verify the §2.16.1 "T3+" marriage/adoption label after the renumber. *(D-048, D-055)*
+- [x] **§1.7 world table** (T0–T4) → renumber to **T0–T5** with the Estate split; new T1 (full estate) row; **T0 = a small walkable map** (areas-to-explore promise kept in the tutorial). *(D-048, DS#23)*
+- [x] **§1.9 dream cadence** → **a dream/mystery beat at every tier transition**; payoff stays at Region (T3); the **T0→T1 beat lands BIG** (first-ascension ceremony). *(D-055, DS#14)*
+- [x] **§3 unlock ladders** → **T0 = R0→R7 (tutorial)** + **T1 ≈ R8→R15 (full)**; the miniature-system reveals in T0; reveals **non-hand-holdy** (reveal-as-plot, no popups) via a **diegetic mentor**. *(D-052, DS#17, DS#22)*
+- [x] **§4.6 combat** → **HP carries + heals by eating**; **no stance strictly dominated** (replace the dominance-enshrining test); **KEEP the signed 20–35% single-fight win-rate** as the first-fight criterion (HP-carry affects the grind, not the discrete first fight) + a RED-able foe-in-band test. *(D-050, DS#5)*
+- [x] **§4.6.4b / §4.6.7 win-rate** → the **analytic-for-gate / fixed-seed-sampled(n=400)-for-display split**; codify **displayed == tested == same-for-every-player** (amends the §4.6.4b "analytic, not sampled" wording). *(DS#3, amends D-043)*
+- [x] **§4.8 pacing budget** → **re-map the stale per-tier FLOORS** (the OLD `4.5/8/16 h` for old-T0/T1/T2 → the new 6-tier spine) and **re-derive the ~28.5h Phase-1 FLOOR across the 4 v1 tiers** (T0–T3); **T0 floor-exempt gentle ramp** (~10–15 min/rung), the ≥30-min floor binds **from T1**; add the **humbling-throughout** note (T0 is *fast*, not *easy*). **NOT here:** "drop the DEMO-default framing" + the DEV speed multiplier are **`balance.ts`/code (Part 2, D-056/D-067)** — §4.8's body has no DEMO text to drop. *(D-049, DS#1, DS#13)*
+- [x] **§5 tier content** → new **T0 tutorial / T1 full**; renumbered Village/Region/Castle/Edo; the **ascension story events** (first one BIG); per-tier **mystery beats**; the **diegetic-mentor onboarding**; the **small walkable T0 map**; **T0 stays non-hand-holdy** (fix onboarding ding via clearer reveal beats, not popups). *(D-048, D-049, D-052, D-055, DS#14, DS#17, DS#22, DS#23)*
+- [x] **§3 / §4.6 / §5 / §2.8 weapon-line RE-PLACEMENT** (audit gap — a locked roadmap steer, NOT just a renumber) → re-place the weapon archetype LINES onto the 6-tier spine: **Line 1 spear** in T0 (roster +2), **Line 2 sword** opens in **T1** (roster +3), **Line 3 Staff/polearm (Bō・Naginata・Kanabō・Tetsubō)** **PULLED FORWARD from Region into new-T2 Village** (roster +4) so the roster is **complete by end-of-T2**; **new-T3 Region = combat DEPTH, no new line**. All found/crafted, never gifted. Source: `roadmap.md:186/223/324`. *(D-048, D-052, roadmap T2-M1-F5)*
+- [x] **§4.3.1 / §3 cross-pillar combo RE-TIMING** (audit gap — locked roadmap steer) → the single "combos unlock at the Region tier" → a **PARTIAL Office-pairs set at new-T2 Village** (Arms×Office, Estate×Office — Office reveals at T2) + the **FULL 4-pillar set at new-T3 Region** (when Name reveals). Combos stay post-trade-clamp, excluded from the gate-check + the trade-⅓ denominator (D-031). Source: `roadmap.md:205/327`. *(D-048, D-031, roadmap T2-M3-F3)*
+- [x] **§4 / §4.7.5 economy** → the **compounding estate-upgrade** sink (replaces the finite power-neutral `estateStage`), **LINEAR in T0** → **LAND/TREASURY/TRADE branch (trade ≤⅓) at T1**. *(D-051, DS#20)*
+- [x] **§6.9 active-only loop + §6.3 clock + §2.2** (audit fix — **NOT §6.10**, which is the DEV play API) → reframe the stale "Backgrounding pauses" / "Never wall-clock" wording: **advance by elapsed wall-time while the tab is OPEN** (don't pause on `document.hidden`; a throttled background tab **catches up** on its next tick; progress stops only when **CLOSED**); keep **active-only / no offline accrual** + the autosave dirty-guard. *(D-053)*
+- [x] **§7 milestones / DoD** → **🔁 REFINED by the addendum "§7 = SLIM + DELEGATE" item below** — do **not** ADD milestone content to §7; the M0–M7 build-order moves out to `docs/living/roadmap.md`. §7 keeps only: the **milestone-integrity rule** (referenced, not restated), the **locked v1 scope** (T0→T3 + §4 acceptance criteria), the **save-WIPE** at the schema bump, deployment + the risk register. *(D-054, D-048, DS#19, DS#15; see addendum)*
 
 ## Ripple checklist — other living docs
 
 - [x] ✅ **`docs/living/decisions.md`** — **ADRs for the 2026-06-29 locks WRITTEN** as **D-056–D-069** (`3f24fe6`): the win-rate split amends signed D-043 (**D-057**), pacing-default supersedes D-047 (**D-056**), the freeze refine of D-020/D-021/D-046 (**D-059**), + carry-forward / linear-flywheel / diegetic-mentor / walkable-map / SFX / humbling-throughout / save-wipe / dev-tools (**D-061…D-068**). See the **→ ADR crosswalk** under Table B. *(DS#1, DS#3, DS#7, DS#13–DS#23)*
 - [x] ✅ **`docs/living/roadmap.md`** — **DONE** (promoted 2026-06-29, session-11): re-axed to the **nested Tier→Milestones→Fun-slices** structure (per the [archived re-axe proposal](../archive/2026-06-29-roadmap-reaxe-proposal.md)); **spine-first, thin within T0**; **carry-forward + retune** M0–M2b; the new milestone (Estate-tutorial + T0→T1 spine); milestone-integrity DoD; renumbered tiers; v0.2 gates baked as forward contracts. *(DS#9, DS#18, DS#19, D-048, D-054)*
-- [ ] **`docs/living/qa-playtesting.md`** — `state()` snapshot `tier: 0..4` → **0..5**; `outcome` add **`t3done`** (v1 finish); document the **DEV speed toggle + jump-to-rung/tier** harness affordances. *(D-048, DS#16)*
-- [ ] **`docs/living/ui-design.md`** — the House Influence **silhouette teaser** panel + pillar bars; the **first-ascension ceremony card** (Yuji Syuku title card, silhouettes stir, music swell); the **small walkable T0 map** surface; the **traditional-palette SFX** cues. *(D-055, DS#14, DS#23, DS#12)*
-- [ ] **`docs/living/fun-factor.md`** — the tutorial-vs-grind pacing framing (T0 hook / T1 floor); **humbling THROUGHOUT** (T0 quick but not easy — keep the mediocre-start bite, guardrails intact); onboarding fun via the **diegetic mentor** (no popups). *(D-049, DS#13, DS#22)*
-- [ ] **`project/status/working-agreements.md`** — the milestone-integrity rule (all-DoD-or-amend + CI manifest); confirm the **durable-by-default** process (`DS#21`) is reflected (CLAUDE.md already amended — verify, don't duplicate). *(D-054, DS#21)*
-- [ ] **SFX SPEC (Part-1 deliverable) → new `docs/living/sfx-spec.md` + cross-refs in `ui-design.md` / `fun-factor.md`** — **specify** the **minimal SFX pass** (hit / reward / rank-up) in the **traditional Japanese palette** (taiko / shamisen-koto / shakuhachi / temple-bell 鈴) as the contract for the Part-2 audio module; lands **before the R1 taste call**. *(The Web Audio module that implements it is **Part 2 / code**, line below.)* *(DS#2, DS#12, D-041, D-068)*
+- [x] **`docs/living/qa-playtesting.md`** — `state()` snapshot `tier: 0..4` → **0..5**; `outcome` add **`t3done`** (v1 finish); document the **DEV speed toggle + jump-to-rung/tier** harness affordances. *(D-048, DS#16)*
+- [x] **`docs/living/ui-design.md`** — the House Influence **silhouette teaser** panel + pillar bars; the **first-ascension ceremony card** (Yuji Syuku title card, silhouettes stir, music swell); the **small walkable T0 map** surface; the **traditional-palette SFX** cues. *(D-055, DS#14, DS#23, DS#12)*
+- [x] **`docs/living/fun-factor.md`** — the tutorial-vs-grind pacing framing (T0 hook / T1 floor); **humbling THROUGHOUT** (T0 quick but not easy — keep the mediocre-start bite, guardrails intact); onboarding fun via the **diegetic mentor** (no popups). *(D-049, DS#13, DS#22)*
+- [x] **`project/status/working-agreements.md`** — the milestone-integrity rule (all-DoD-or-amend + CI manifest); confirm the **durable-by-default** process (`DS#21`) is reflected (CLAUDE.md already amended — verify, don't duplicate). *(D-054, DS#21)*
+- [x] **SFX SPEC (Part-1 deliverable) → new `docs/living/sfx-spec.md` + cross-refs in `ui-design.md` / `fun-factor.md`** — **specify** the **minimal SFX pass** (hit / reward / rank-up) in the **traditional Japanese palette** (taiko / shamisen-koto / shakuhachi / temple-bell 鈴) as the contract for the Part-2 audio module; lands **before the R1 taste call**. *(The Web Audio module that implements it is **Part 2 / code**, line below.)* *(DS#2, DS#12, D-041, D-068)*
 - [ ] **`docs/content/` (generated)** — ⚠️ **PART 2 (follows the code).** Regenerate **after** `gen-docs.ts` + the code reflect the new tiers/rungs/economy (incl. the linear-T0 flywheel) — a generated artifact, can't lead the build. *(D-048, D-052, DS#20)*
 
 ## Ripple checklist — code (`src/`) — ⚠️ PART 2 (the build), NOT the Part-1 markdown ripple
@@ -214,23 +218,23 @@ H8) · `DS#8` (R1 quick-play) · `DS#11` (op-model review — now ADOPTED as v2 
   retired. *(closes the `docs/living/roadmap.md` line above — DS#9, DS#18, DS#19, D-048, D-054)*
 
 **New / refined items (from the promotion + the finalized forks):**
-- [ ] **§7 `prd/07-roadmap-scope.md` = SLIM + DELEGATE, do NOT re-duplicate.** Its 809-line **M0–M7** milestone
+- [x] **§7 `prd/07-roadmap-scope.md` = SLIM + DELEGATE, do NOT re-duplicate.** Its 809-line **M0–M7** milestone
   roadmap is fully superseded by the now-**living** `docs/living/roadmap.md`. Per *generate-don't-duplicate* +
   D-020/D-021, **gut the milestone/build-order duplication** and keep only the **locked v1 scope** (T0→T3 + the
   §4-locked acceptance criteria), the **deployment** path (itch), and the **risk register**; **point** the
   roadmap/build-order at `docs/living/roadmap.md` as the single source. *(refines the "§7 milestones/DoD" line
   above — that content now lives in the roadmap; §7 should reference, not restate. D-021, D-059, DS#9)*
-- [ ] **§3 / `ranks.ts` — T1 two-track rung meter.** R8→R15 runs on **two sub-meters** (Estate-Service labour +
+- [x] **§3 / `ranks.ts` — T1 two-track rung meter.** R8→R15 runs on **two sub-meters** (Estate-Service labour +
   Combat-Rank martial); promotion on the Phase-1 AND-gate (both ≥ floor + the story milestone). *(fork #3)*
   → **Part-1 = the §3 prose** (describe the two-track meter); **Part-2 = `ranks.ts`** (the build).
-- [ ] **§5 / content — T1 first retinue + estate stage.** First paid retinue (**Gohei & Yatarō**) and the
+- [x] **§5 / content — T1 first retinue + estate stage.** First paid retinue (**Gohei & Yatarō**) and the
   **E1→E2** estate-stage advance both land in **T1** (E2→E3+ slips to T2+). *(fork #2)*
   → **Part-1 = the §5 prose** (narrative beats); **Part-2 = the content registries** (the build).
-- [ ] **§5 — rival houses.** **Tomita (= money) / Akagi (= honour)** introduced + the contest **BEGINS at T2**;
+- [x] **§5 — rival houses.** **Tomita (= money) / Akagi (= honour)** introduced + the contest **BEGINS at T2**;
   the climax (Naoyuki ally-flip, G7 dethroning) at **T3**. *(fork #4)*
-- [ ] **§1.7 / §5 — T2 name.** T2 stays **"Village"** (social-scale ladder) with the sharpened frame **"the
+- [x] **§1.7 / §5 — T2 name.** T2 stays **"Village"** (social-scale ladder) with the sharpened frame **"the
   valley beyond your gate"** — no tier rename. *(session-11 naming call)*
-- [ ] **§4 / §4.8 — provisional balance from the forks.** Per-tier hour floors (**T1 ~5–8h · T2 ~8–10h · ≈40
+- [x] **§4 / §4.8 — provisional balance from the forks.** Per-tier hour floors (**T1 ~5–8h · T2 ~8–10h · ≈40
   min/rung**) + deed-band magnitudes (**T1** Arms 0.5K/0.72K/0.95K cap 20 ip + Estate 0.8K/1.1K/1.5K · **T2**
   Office 2K/3.2K/4.5K cap 80 ip) — **ACCEPTED AS PROVISIONAL** (§4 liquid, D-059); the 28.5h budget re-derives
   at Ship-M1-F2. Use these as the starting magnitudes in the §4 ripple. *(forks #1 + #5)*

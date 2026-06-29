@@ -58,7 +58,7 @@ tool).
 
 ```ts
 {
-  tier,            // 0..4 (T0 Estate … T4 Edo)
+  tier,            // 0..5 (T0 Estate-tutorial · T1 Estate-full … T5 Edo)
   rung,            // current rung id ('R3' | 'V5' | 'G2' | …)
   estateStanding,  // 'stranger'|'friendly'|'trusted'|'honoraryMember'|'yonin'  (the rep arc)
   pillars,         // { arms, estate, office, name } — the four House Influence accumulators
@@ -71,7 +71,7 @@ tool).
   sideTracks,      // { villageRep:{…}, origin:{ rung:'O2', … } }  — the optional side-tracks
   screen,          // the active nav screen + which nav entries are revealed
   log,             // recent diegetic event-log lines
-  outcome,         // 'playing' | 't0done' | 't1done' | 't2done' (the v1 finish)
+  outcome,         // 'playing' | 't0done' | 't1done' | 't2done' | 't3done' (the v1 finish — Region cleared)
 }
 ```
 
@@ -82,7 +82,8 @@ tool).
 | `newGame(seed)` | Fresh run on a fixed seed (skips any title wait). |
 | `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver — gather, craft, take-quest, set-stance, assign-job, advance-rung, swing-allegiance, …). |
 | `tick(dt)` / `advance(days)` | Advance the active-only clock (drives idle-combat resolution, harvests, the seasonal judged result). |
-| `advanceSeason()` / `toRung(id)` / `toTier(n)` | **Time-compression helpers** — fast-forward by playing the optimal/scripted path to a checkpoint, so a QA run reaches T2 in seconds, not hours. |
+| `advanceSeason()` / `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — fast-forward by playing the optimal/scripted path to a checkpoint, so a QA run reaches T3 (v1 finish) in seconds, not hours. `toTier(n)` accepts **0..5**. |
+| `setSpeed(mult)` | **DEV speed toggle** — multiply the active-only wall-clock by **2× / 4× / 8×** so a human (or the agent) can play the build hands-on at a compressed-but-real cadence. Distinct from `tick`/`advance` (discrete jumps) and from the `toRung`/`toTier` teleport (instant checkpoint warp); the multiplier scales the *real* clock so pacing still feels in-band. |
 | `save()` / `load(blob)` / `export()` / `import(b64)` | Exercise the IndexedDB + base64 round-trip + the migration chain (§6.8). |
 
 > **Mode-guarded, never throws.** Calling an intent that isn't currently legal is a no-op returning
@@ -100,7 +101,7 @@ tool).
 
 The single biggest QA gap for a long incremental: **you cannot manually play 28.5 hours to find out
 if the pacing works.** So we build a **scripted/heuristic auto-player** on top of `__qa` that plays a
-full T0→T2 run headlessly in seconds and emits telemetry.
+full T0→T3 run (the v1 scope) headlessly in seconds and emits telemetry.
 
 - **What it does:** loops `state()` → pick the best legal action (a simple greedy/heuristic policy:
   do the highest-value available deed, advance rungs when gated thresholds are met, take quests, let

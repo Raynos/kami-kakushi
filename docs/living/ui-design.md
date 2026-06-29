@@ -366,11 +366,14 @@ bars (this is also the anti-"same-shadow flatness" fix):
 | Name & Honour | 家格 | `--pillar-name` | ⛩️ |
 | **House Influence (roll-up)** | **家威** | `--pillar-kai` (the **seal**) | 🔴 *(seal)* |
 
-Each pillar's bar **inks in only when that pillar comes online** — at T0 the panel shows just **Arms + Estate**
-(the two revealed pillars), the **Office** bar revealing at T1 (V4) and the **Name** bar at T2, so it grows
-bar-by-bar rather than rendering unscored pillars as faint placeholders. The Estate bar shows its
-three capped sub-engines (LAND / TREASURY / TRADE) as sub-segments, with the **trade ≤⅓** cap drawn as a hard
-registration mark at the one-third line.
+Each pillar's bar **inks in only when that pillar comes online** — at T0 the panel shows just the **Estate**
+bar (the one revealed pillar), the **Arms** bar inking in at T1, the **Office** bar at T2 (V4) and the **Name**
+bar at T3, so it grows bar-by-bar. Rather than rendering the not-yet-earned pillars as faint *named*
+placeholders, the locked pillars sit as **unnamed silhouette teasers** (D-055) — muted `--ink-faint` ghost-bars
+with **no kanji and no value** (three of them at T0), so the player *senses more standings await* without
+learning their names or spoiling the reveal. The Estate bar shows its three capped sub-engines
+(LAND / TREASURY / TRADE) as sub-segments, with the **trade ≤⅓** cap drawn as a hard registration mark at the
+one-third line.
 
 ### 5.4 Rung-card / ladder
 
@@ -426,6 +429,16 @@ A paper card centered on a dimmed (sumi-tinted, low-opacity) scrim — *not* a b
 the rank-up beat, a save/load confirm, a quest-accept. Focus-trapped, Escape-closable, the primary action
 wears the seal. Reveals via the §6.1 ink-in, not a generic scale-pop.
 
+### 5.11 Walkable map (T0+)
+
+The small **walkable T0 map** (§10, D-065): a pure-CSS schematic — sumi roads on `--washi`, **registration-mark
+nodes** for the estate grounds and a few reachable spots — that the player can *move between* to explore (the
+§1 "areas to explore"), **not** an illustrated/painted map. The current location wears a `--shu` seal pip;
+reachable nodes are full ink ("lit"), not-yet-reachable ones sit as `--ink-faint` silhouettes with their unlock
+hint on tap/focus (§5.9) — never a dead grey node. It grows the same way the nav does: it opens tight around the
+estate and **extends into Asagiri (Village)** as a second node-cluster at **new-T2**, each new region inked in
+and narrated (§6.1), never popped in silently.
+
 ---
 
 ## 6. Motion language — tasteful "juice," not slot-machine
@@ -464,11 +477,28 @@ reaches them.
 | **6.4 Seasonal-result headline** | end-of-season judged result | a **brush-wipe** across the page in `--font-display`, `letter-spacing` relaxing + de-blur ("wet stroke drying crisp") | headline appears static |
 | **6.5 Combat resolve** | a fight resolves | a quick **ink-strike**: a single shake + a diagonal slash sweep (`--shu` win / `--ai`-`--ink` loss), no gore | flash the result row once (or nothing); outcome is in the log regardless |
 | **6.6 Allegiance swing** (Tama↔farmhand) | reputation web shifts | a meter's ink wash slides between poles with the `--ease-ink` settle; the favored side's label brightens | meter jumps to new position |
+| **6.7 First-ascension ceremony** (once) | the first tier-up **T0→T1** | a held **title card** in `--font-display` (Yuji Syuku) brush-wipes in to name the new standing, the locked **pillar silhouettes stir** (§5.3) as the house rises, and the audio **swells** (a taiko roll + temple-bell 鈴, §6.8); longer and bigger than a routine rank-up, it **always lands BIG on first contact regardless of grade** (D-062), earned exactly once | card appears static, silhouettes settle to their resting state, the log + the granted boon carry the beat |
 | **Floating "+N" mote** | income/reward | rises and fades in the resource's colour — **throttled/aggregated** to a heartbeat, never a strobe | suppressed; the log + total carry it |
 
 Anticipation matters: as a gate-bar nears full, intensify subtly (brighter ink / a soft pulse); on cross,
-release into the rank-up seal. Audio (if present) follows the same rule — a soft mokugyo/shamisen note on
-milestone, **nothing per-tick** — with a mute toggle.
+release into the rank-up seal.
+
+### 6.8 Audio cues — the traditional palette (cross-ref [`sfx-spec.md`](sfx-spec.md))
+
+Audio follows the same **significance-gating** as motion — a cue on *milestones*, **nothing per-tick**, behind a
+mute toggle. The minimal pass draws its whole voice from a **traditional Japanese palette** (the same anti-slop
+discipline as the visuals — no generic UI blips), mapped to beats; [`sfx-spec.md`](sfx-spec.md) is the
+authoritative contract for the Part-2 Web Audio module:
+
+| Cue | Instrument | Where |
+|---|---|---|
+| **Impact / rank-up / combat strike** | **taiko 太鼓** (drum) | the seal press (§6.2), the combat resolve (§6.5), the first-ascension swell (§6.7). |
+| **Reward / income flourish** | **shamisen 三味線 / koto 箏** | a soft plucked note on a reward or a closed loop — aggregated to a heartbeat, never per-tick. |
+| **Ambient / narration / season turn** | **shakuhachi 尺八** (flute) | a quiet breath under a narration beat or the season tag turning (§10 Work). |
+| **Reveal / unlock chime** | **temple-bell / suzu 鈴** | a single clear chime as a panel/tab/screen inks in (§6.1). |
+
+Everything stays in **accent roles** — a held milestone cue, never a wall of sound; the event log still carries
+the meaning if audio is muted.
 
 ---
 
@@ -571,24 +601,29 @@ two at once.
 - **Quests (R5).** *Jobs taken, jobs done.* A **top-level Quests tab** (not a nested panel — Q10):
   PEST-CONTROL / HUNT / CLEAR / DEFEND duties; the Combat panel's **stance** slot unlocks here too.
   **Delight:** the watch begins — a board of jobs to take and to finish, work gaining intent.
-- **Map (R6).** The first distinct navigable *screen*: the estate + a road leading out. Pure-CSS schematic
-  (ink lines on paper, registration-mark nodes), **not** an illustrated map. **Delight:** "you can picture
-  the land now" — the world gains spatial scale for the first time.
+- **Map (R6).** The first distinct navigable *screen*: a **small walkable T0 map** (D-065) — the estate
+  grounds + a road leading out, a handful of registration-mark nodes the player can actually *move between* to
+  explore (delivering the §1 "areas to explore"). Pure-CSS schematic (ink lines on paper, registration-mark
+  nodes), **not** an illustrated map; it **extends into Asagiri (Village)** as a second node-cluster at
+  **new-T2**. **Delight:** "you can picture the land now" — the world gains spatial scale for the first time,
+  and the first steps along that road feel like the house reaching past its own gate.
 - **House / Influence (R7).** The capstone: the **家威 panel** reveals **bar-by-bar** (§5.3), each pillar in
-  its own colour/kanji/emoji, opening at T0 with exactly its **two revealed bars — Arms + Estate**; the
-  domain-ranking read shows "unranked." The other pillars ink in **later, each its own narrated reveal** —
-  the **Office** bar at **V4** (T1), the **Name** bar at **T2** — never pre-spoiled here as faint placeholders.
-  **Delight:** the payoff of "do deeds first, see the standing last" — the player finally *sees what the
-  house has become*, two standings rising, crowned by the 家威 seal.
-- **Village (T1 / V0).** Asagiri: a shop row, the reputation web, the inn 🏮 + rumours board. The first
+  its own colour/kanji/emoji, opening at T0 with exactly its **one revealed bar — Estate** + the three locked
+  pillars as **unnamed silhouette teasers** (D-055); the domain-ranking read shows "unranked." The other
+  pillars ink in **later, each its own narrated reveal** — the **Arms** bar at **T1**, the **Office** bar at
+  **V4** (T2), the **Name** bar at **T3** — teased here only as nameless silhouettes, never pre-spoiled as
+  named placeholders. **Delight:** the payoff of "do deeds first, see the standing last" — the player finally
+  *sees what the house has become*, the lone Estate standing rising past silhouettes of standings yet to come,
+  crowned by the 家威 seal.
+- **Village (T2 / V0).** Asagiri: a shop row, the reputation web, the inn 🏮 + rumours board. The first
   multi-actor social surface. **Delight:** the legend ignites — the village calls him "Tama"; the allegiance
   meter (§6.6) appears.
-- **Region (T1→T2).** The map "grows a page wider": a cluster map, the post-town, roads, rival houses appear.
+- **Region (T2→T3).** The map "grows a page wider": a cluster map, the post-town, roads, rival houses appear.
   **Delight:** scale jump — the schematic map gains a second tier of nodes; the personal-mystery payoff lands.
-- **Ties / Origin (T2-G2, doubly-earned).** The Sawatari-juku contacts + the `O0→O5` Origin reputation ladder.
+- **Ties / Origin (T3-G2, doubly-earned).** The Sawatari-juku contacts + the `O0→O5` Origin reputation ladder.
   A quieter, more intimate page (more *ma*, softer ink). **Delight:** *"a page you didn't know you'd been
   missing"* — the de-emphasised identity thread, handled with restraint.
-- **Castle-town stub (T2→T3).** A first-contact stub: stone walls + a magistrate's **seal**, then the story
+- **Castle-town stub (T3→T4).** A first-contact stub: stone walls + a magistrate's **seal**, then the story
   pauses. **Delight:** a `--shu` seal on stone — the cliff-hanger; the seal motif at its most charged.
 
 ---

@@ -20,6 +20,21 @@ breakout?) → if it checks out, do the whole ripple.
 - **Authoritative spec authored:** `docs/plans/2026-06-29-part1-ripple-spec.md` — the OLD→NEW tier mapping (the
   Estate *splits*; the renumber is NOT mechanical), the per-system re-placement table, the invariants, and the
   12-file work-list. Every ripple agent reads it so the mapping is applied identically.
+- **Ripple EXECUTED (12-agent Workflow + convergence critic):** all 7 PRD section files + 5 living docs rippled.
+  **`npm run verify` GREEN (9 gates, incl. `verify-prd`); ZERO accidental deletions** (the §7.2 M0–M7 gut,
+  ~538 lines → a delegation pointer to `roadmap.md`, was the only large deletion; §7.1/§7.3/§7.4 survive);
+  **ZERO missing work-list items**; tier mapping + net-new re-placements (Staff→T2, combos partial-T2/full-T3,
+  rivals begin-T2/climax-T3, retinue+E1→E2 in T1) all consistent; invariants intact (kanji, 20–35% band, trade
+  ≤⅓, 70/30, the D-053 clock reframe). Diff ≈ **+1322 / −1241 across 11 files**.
+- **Structural-consistency cleanup (manual):** the critic's 6 flagged desyncs were mostly deliberate liquid
+  deferrals (the §4 magnitude tables — banner'd, re-derive at Ship-M1-F2 per D-059). Fixed the genuine
+  structural contradictions inline: 01-vision §1.2 "five tiers" + §1.14 D-007 ADR-table ref + the T5 Edo climax;
+  06-tech the gate-rule mirror + the `T0..T4`→`T0..T5` enum comment + the reveal schedule; 03 §3.0.1(3) (the
+  T1-gate mis-statement — it had carried the lenient old-T0 "good in both, one excellent" onto new-T1, which
+  D-049 makes "1 GREAT + 1 EXCELLENT") + the gate-distribution flavour cells + the estate-stage R6 residue
+  (E1→E2 belongs in T1, not T0); sfx-spec front-matter → house style. **Re-verified green.**
+- **Tracker ticked:** the 2 markdown checklists are all `[x]`; the code checklist + `docs/content/` stay open for
+  Part 2; the §4-magnitude deferral noted in the top banner. `path-to-v0.3` + `project-status` refreshed.
 
 ---
 
@@ -47,10 +62,11 @@ version-display bullet, SFX-spec as a Part-1 deliverable). Authored
 ---
 
 ## Next intended steps (current)
-1. Run the ripple Workflow — 12 parallel file-agents (each owns one file, reads the spec) + a convergence critic;
-   review the full git diff, run `npm run verify`.
-2. Tick the applied tracker boxes; refresh `path-to-v0.3` + `project-status.md`; commit.
-3. Part 2 (the spine-first build) + `docs/content/` regen stay deferred.
+1. **Part 1 is DONE + committed.** Next is **Part 2 — the spine-first v0.3 build** (roadmap T0-M3: the live Estate
+   pillar + the BIG T0→T1 ascension, + the T0-M2 HP-carry retune) per `path-to-v0.3` Part 2.
+2. At the start of Part 2, re-derive the **§4 balance MAGNITUDES** onto the 6-tier spine (the liquid tables
+   banner'd in `prd/04-combat-balance.md`), and regen `docs/content/` once the code reflects the new tiers.
+3. **R1** (the human's M0–M2 fun/taste call) is still open in parallel.
 
 ## Landmines (current)
 - The renumber is **NOT mechanical** — the Estate splits into T0(tutorial)+T1(full); weapon lines, combos,

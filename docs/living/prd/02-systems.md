@@ -20,8 +20,8 @@
 | 2.1 | UI-reveal engine + event log | T0 (M0; exists from build one) | — (the meta-spine that surfaces every other system) |
 | 2.2 | Time, season & world clock (active-only) | T0 | feeds seasonal **judged results** for all four |
 | 2.3 | Soft stamina / satiety (throttles labour **and** combat) | T0 | — (paces the day; no pillar) |
-| 2.4 | Resources & currencies (koku, coin, pillars, materials) | T0 (koku); coin T1 (coin/market numbers deferred to M4) | Estate & Wealth; pillars are the macro layer |
-| 2.5 | Auto-producers (late-game only) | T3+ | Estate & Wealth (idle convenience, never early) |
+| 2.4 | Resources & currencies (koku, coin, pillars, materials) | T0 (koku); coin T2 (coin/market numbers deferred to M4) | Estate & Wealth; pillars are the macro layer |
+| 2.5 | Auto-producers (late-game only) | T4+ | Estate & Wealth (idle convenience, never early) |
 | 2.6 | Gathering / labour nodes & jobs-as-offices | T0 | **Estate & Wealth**, **Standing & Office** |
 | 2.7 | Attributes, per-skill levels & milestones (character level **combat-fed only**; per-skill perks add small combat texture) | T0 (attributes/skills); web grows per tier | Arms (combat skills + perks), Estate & Wealth (labour skills) |
 | 2.8 | Combat (idle auto-resolve + active setup) — **INCREMENTAL** (one weapon at T0); **THREE clean tracks** | **T0 (R3)** | **Arms** |
@@ -29,12 +29,12 @@
 | 2.10 | Loot, equipment (FIND + CRAFT), gear & inventory — a **growing ~9–10-weapon roster** | T0 (R3) | Arms; crafting overlaps Estate & Wealth |
 | 2.11 | Crafting (hybrid: simple → component/quality) | T0 (simple); component system T1+ | Estate & Wealth (trade sub-engine); Arms (gear) |
 | 2.12 | Dialogue & quests (open-ended; intra-line branching; no quest-type budget) | T0 (dialogue); quest log ~R5 | all (the universal unlock/reward bus) |
-| 2.13 | Lore, inn rumours & the belief→cause engine | T1 | Name & Honour (flavour); never gates the spine |
-| 2.14 | World sim (seasons / weather / festivals — bounded ±10% mechanical) | T0 clock; seasons/festivals T1 | seasonal judged results for all four |
-| 2.15 | Factions & reputation (estate ladder, village web, origin ties, allegiance) | T0 (estate); T1 (village); T2 (origin) | all four (via multipliers / standing) |
+| 2.13 | Lore, inn rumours & the belief→cause engine | T2 | Name & Honour (flavour); never gates the spine |
+| 2.14 | World sim (seasons / weather / festivals — bounded ±10% mechanical) | T0 clock; seasons/festivals T2 | seasonal judged results for all four |
+| 2.15 | Factions & reputation (estate ladder, village web, origin ties, allegiance) | T0 (estate); T2 (village); T3 (origin) | all four (via multipliers / standing) |
 | 2.16 | House Influence — the four pillars (accrual + **HYBRID good/great/excellent** tier-gating) | tracked visible at T0-R7 | the macro roll-up of all four |
 | 2.17 | Estate growth (build / recruit = flavour) | T0 (E0→E3 in v1) | Estate & Wealth; Arms (defensive works) |
-| 2.18 | The national *banzuke* / per-tier ranking | per-tier domain rank; national at T4 | reads all four pillars |
+| 2.18 | The national *banzuke* / per-tier ranking | per-tier domain rank; national at T5 | reads all four pillars |
 | 2.19 | Save / load (**MULTI-BACKEND** redundant + export/import) | T0 (M0, built full) | — (infrastructure) |
 | 2.20 | The DEV play API + content verifier | T0 (M0 skeleton) | — (infrastructure/QA) |
 | 2.21 | Accessibility, audio & presentation register | T0 | — (infrastructure) |
@@ -91,8 +91,8 @@ the player feels: *act → something new fades in with a log line → explore it
 
 **(d) Ties to the four pillars.** Indirect but total: the **House Influence panel (2.16) and many
 late reveals are gated on pillar thresholds**, so "numbers go up" and "the world enlarges" are one
-motion. The reveal engine is the surface on which all four pillars become *visible* (the four-bar
-standing panel reveals at T0-R7).
+motion. The reveal engine is the surface on which all four pillars become *visible* (the standing
+panel — the active Estate bar plus locked silhouettes — reveals at T0-R7).
 
 **(e) When introduced / fractal reveal.** **T0, build one (M0).** It exists before any content and
 governs everything thereafter. It is itself fractal: a drill yard reveals one post → a rack →
@@ -106,12 +106,18 @@ sparring slots; a new region reveals one road → one threat → one contact. Re
 **(a) What it is.** An **abstract in-game clock advanced by active play** (a single tick driver with
 per-tick / per-day / per-week scheduler). Drives day/season (kanji tags), weather, lunar phase,
 festivals, vendor restocks, food rotting/fermenting, and — critically — the **seasonal *judged*
-Influence results** (§2.16). **ACTIVE-ONLY: no offline progress; story never advances while away.**
+Influence results** (§2.16). **ACTIVE-ONLY (no OFFLINE accrual) — but a WALL-TIME sim WHILE OPEN
+(D-053):** the clock advances by **elapsed wall-time whenever the game is OPEN** — it does **not** pause
+when the tab is merely backgrounded / `document.hidden` (a throttled background tab **catches up** on its
+next tick) — and stops **only when the game is CLOSED** (the story never advances while the game is closed).
 
 **(b) Player-facing behaviour / loop.** Time passes as the player works; a day/season indicator (e.g.
 春 spring) is always visible once revealed. Seasons gate which gathering nodes are productive (rice
 cycle, foraging windows) and trigger festivals and the seasonal appraisal beats. There is **no
-real-time idle accrual and no offline summary** — the clock only turns when the player plays.
+OFFLINE accrual and no offline summary** — yet, while the game is open, the clock **keeps turning by
+elapsed wall-time even if the tab is backgrounded** (the "leave it running, check the progress" feel;
+D-053): each tick advances by however much real time has passed, **catching up** a throttled background
+tab, and the clock halts **only when the game is closed.**
 
 **(c) Rough DATA shape.**
 - `WorldClock { tick, day, season ('spring'|'summer'|'autumn'|'winter'), year }` — **only the day index
@@ -131,7 +137,7 @@ real-time idle accrual and no offline summary** — the clock only turns when th
 pillars**. It never grants Influence by itself (no time-trickle).
 
 **(e) When introduced / fractal reveal.** **T0** — the clock display reveals early (around R1, with
-the *koku* heartbeat); seasons/weather/festivals deepen at **T1** (the world-sim layer, §2.14).
+the *koku* heartbeat); seasons/weather/festivals deepen at **T2** (the world-sim layer, §2.14).
 
 ---
 
@@ -183,7 +189,7 @@ panel/row** on first acquisition (via 2.1). **Coin / market numbers** (the koku�
 *meibutsu* economics, `MarketState`) are **deferred to M4 as placeholders, not frozen here.**
 
 **(b) Player-facing behaviour / loop.** Grind koku by farming; convert surplus to coin via trade
-(brokers/shops; **the village shop row is the first market, opening at T1 — no market in T0**); spend
+(brokers/shops; **the village shop row is the first market, opening at T2 — no market in T0 or T1**); spend
 koku/coin/materials on crafting, gear, building, and tier-expansion. **Koku and coin are inputs you spend
 and grind; Influence is what you become.** A **market-saturation damper** (2.11/2.15) applies
 **PROGRESSIVELY per-unit** on bulk sales — **each unit walks the price down** (legible, un-gameable) — and
@@ -207,7 +213,7 @@ jumps / seasonal judged results). The **trade strand (routes / broker standing /
 is hard-capped to ≤ ⅓ of Estate & Wealth**, so a pure-trade run maxes ~⅓ of one of four pillars.
 
 **(e) When introduced / fractal reveal.** **T0** — koku at **R0/R1** (rice counter → paddies). **Coin
-(mon)** reveals at **T1** when the village market/shop row opens (the first market). Material resources
+(mon)** reveals at **T2** when the village market/shop row opens (the first market). Material resources
 reveal one at a time as their nodes/crafts come online (foraging → *sansai*; woodcutting → wood → charcoal;
 fishing → fish; sericulture → cocoons/silk at the silk sub-engine).
 
@@ -244,7 +250,7 @@ there is **no offline accrual.**
 Defensive auto-producers (a standing watch) can feed **Arms** via security appraisals. They are an
 *efficiency* layer, never a standing source in themselves.
 
-**(e) When introduced / fractal reveal.** **T3+ (parked beyond v1's early surface).** v1's E0–E3 estate
+**(e) When introduced / fractal reveal.** **T4+ (parked beyond v1's early surface).** v1's E0–E3 estate
 stays an **active grind**; the first auto-producers belong to later tiers. Each arrives minimal (one
 helper, one resource) and is announced as a recruitment beat.
 
@@ -284,8 +290,8 @@ yields and seasonal harvest appraisals are the canonical **achievement-jump / ju
 
 **(e) When introduced / fractal reveal.** **T0.** Farming at **R1** (paddies, the *koku* heartbeat);
 foraging + woodcutting + hauling at **R2** (Skills tab + near-*satoyama*); smithing/crafting chains and
-fishing fold in across R5–R6 and the wilderness rings. **T1** adds village-facing labour (cash-crops,
-the silk/sericulture sub-engine at V3); **T2** adds region-scale labour (post-town trade, Kuzuhara
+fishing fold in across R5–R6 and the wilderness rings. **T2** adds village-facing labour (cash-crops,
+the silk/sericulture sub-engine at V3); **T3** adds region-scale labour (post-town trade, Kuzuhara
 river-works as a labour project). Jobs-as-offices begin at **T0-R7** (bailiff) and grow per tier.
 
 ---
@@ -334,8 +340,8 @@ pillar value comes from the recognized deed, not the level.
 reveals at **R2** on first XP. Combat/weapon skills surface at **R3** (drill yard) — with **exactly ONE
 starter weapon** (not "2–3 weapon lines"): the weapon roster grows **incrementally** (T0 +2 / T1 +3 / T2 +4;
 **~9–10 across v1** — §2.10.1). Lean core lines at T0 (farming, foraging, woodcutting, fishing, smithing,
-cooking; conditioning); **more skills unlock per tier** (e.g. sericulture/textile at T1, surveying/
-engineering and trade skills at T2). This **incremental per-rung/per-tier skill unlock is itself the real
+cooking; conditioning); **more skills unlock per tier** (e.g. sericulture/textile at T2, surveying/
+engineering and trade skills at T3). This **incremental per-rung/per-tier skill unlock is itself the real
 bound** on the labour→combat cross-feed — you can't front-load perks.
 
 ### 2.7.1 Per-skill perks — the bounded labour→combat cross-feed (Q6/FU8 — replaces the no-cross-feed wall)
@@ -458,8 +464,8 @@ one reveal per beat** (the old "drill yard + Combat panel + idle-combat all at o
 **Bestiary** + the **bare auto-resolve loop + retreat** (character (combat) **level** begins). The full
 staggered order is tabulated at **§2.8.2**. Curated combat activities feed the **Combat Rank rung-meter**
 from **R5** (gate-guard); the **Arms PILLAR deeds** do **not** accrue until **Phase 2** (post-R7; §2.15.1).
-Combat then interleaves through every per-tier ladder (V2 road-warden, V5 sworn man-at-arms at T1;
-road-captain / road-security detail at T2), the **2nd combat line opening at T1** and the **3rd at T2**.
+Combat then interleaves through every per-tier ladder (V2 road-warden, V5 sworn man-at-arms at T2;
+road-captain / road-security detail at T3), the **2nd combat line opening at T1** and the **3rd at T2**.
 Reveals are woven throughout, **never dumped at one Act-close.**
 
 ### 2.8.1 The three clean combat tracks (replaces the conflated CombatDeedsPool — FU14/Q1/Q30)
@@ -534,8 +540,9 @@ service that converts to Arms (as **Phase-2 deeds**; §2.8(d)/§2.15.1). Loot al
 
 **(e) When introduced / fractal reveal.** **T0, R3** (the Bestiary reveals with the Combat panel; the
 boar is the first grindable threat after the humbling fight). New rings/mobs reveal one at a time by
-conditioning: near-*satoyama* (T0) → foothills/charcoal grounds + river (T1) → high mountains/pass and
-human bandits/rōnin (T2). Belief-beast one-shots arrive only via inn rumours (T1+).
+conditioning: near-*satoyama* and the grounded estate beasts (T0–T1) → foothills/charcoal grounds + river,
+with the **first HUMAN threat — bandits/starving deserters — arriving at the village** (T2) → high
+mountains/pass and rōnin (T3). Belief-beast one-shots arrive only via inn rumours (T2+).
 
 ---
 
@@ -576,7 +583,7 @@ Gear itself is never a standing source — the *recognized deed* is.
 panels reveal with the Combat panel. The **loot + craft loop** (Smith Gonta spearheads via the
 component chain) comes online at **R4** (trusted hand & houseman) — **graded durability bands reveal here**
 with it. Better loot/craft tiers + new weapons unlock per tier and per danger ring (worn blades from rōnin
-at T2; Hanzaki's worn gear as a late FOUND prize).
+at T3; Hanzaki's worn gear as a late FOUND prize).
 
 ### 2.10.1 The weapon roster (incremental, ~9–10 across v1)
 
@@ -624,7 +631,7 @@ varying quality and a station tier to influence the output's quality tier; build
 disassemble to recover materials. **Bulk sales of a crafted good apply the saturation damper PROGRESSIVELY
 per-unit** (each unit walks the price down; §2.4 — Q42). The **silk / sericulture *meibutsu*** is the
 signature late craft/trade chain (cocoons → reeled silk → woven/graded textile), led by **Weaver Onatsu**,
-threading T1→T4 under the trade ≤ ⅓ cap; **its trade/coin economics are deferred to M4** (§2.4 — Q13).
+threading T2→T5 under the trade ≤ ⅓ cap; **its trade/coin economics are deferred to M4** (§2.4 — Q13).
 
 **(c) Rough DATA shape.**
 - `RecipeDef { id, mode ('simple'|'component'), inputs[], output, stationTier, skillRequired,
@@ -703,7 +710,7 @@ applied only in Phase 2.
 **(e) When introduced / fractal reveal.** **T0** — dialogue from the open (the guide/steward beats);
 the **quest log (top-level tab)** reveals around **R5** (with the pest-control/hunt/clear/defend types;
 **curated combat activities begin feeding the Combat Rank rung-meter here** — but the **Arms PILLAR deeds
-do not accrue until Phase 2**, post-R7). Quest scope grows per tier (valley-scale at T1, region-scale at T2
+do not accrue until Phase 2**, post-R7). Quest scope grows per tier (valley-scale at T2, region-scale at T3
 with the personal-mystery payoff). New quest types are authored wherever they fit (no budget).
 
 ---
@@ -745,7 +752,7 @@ before any node with new omens (so the ≤ 1 cap provably holds).
 can colour the house's name), but folklore **never gates the spine and is never a primary pillar
 source.** Most rumour payoff is *feeling, allies, and flavour*, not power.
 
-**(e) When introduced / fractal reveal.** **T1** — the inn & rumours board reveal in the village; the
+**(e) When introduced / fractal reveal.** **T2** — the inn & rumours board reveal in the village; the
 opener is the "kappa" of the ford. Rumours unlock **organically, design-staggered and per-tier** (more as
 the estate/village grow). The residual-ambiguity **jizō at the weir/ford** beat is a T0–T1 boundary node
 (the find-spot) that **lingers unresolved** by design.
@@ -793,8 +800,8 @@ pillars** (harvest → Estate & Wealth; security appraisal → Arms; an inspecto
 Honour; an office's seasonal account → Standing & Office), each **modulated ±10% by weather/festivals**.
 Always **new-high-water-mark only**, never a repeatable per-season maintenance trickle.
 
-**(e) When introduced / fractal reveal.** **T0** clock first; **T1** brings seasons/weather/festivals to
-life (and the village social calendar). Festivals/weather deepen per tier (regional Bon at T2, etc.).
+**(e) When introduced / fractal reveal.** **T0** clock first; **T2** brings seasons/weather/festivals to
+life (and the village social calendar). Festivals/weather deepen per tier (regional Bon at T3, etc.).
 
 ---
 
@@ -808,7 +815,7 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
 
 - **ESTATE (main) — a fresh rank LADDER per tier, climbed in TWO SEQUENTIAL PHASES (§2.15.1).** The only
   faction structured as a discrete, gated ladder (rising through it *is* the perseverance fantasy and the
-  dominant UI-reveal driver). **~8 rungs per tier** (T0 R0→R7, T1 V0→V7, T2 enumerated). **Rungs interleave
+  dominant UI-reveal driver). **~8 rungs per tier** (T0 R0→R7, T1 R8→R15, T2 V0→V7, T3 enumerated). **Rungs interleave
   LABOUR and COMBAT**; **combat is first-class from T0** (incremental — one weapon, a growing roster).
   **Phase 1 (climb the rungs)** is driven by **two earned RUNG-METERS (per-rung progress meters, NOT economy
   currencies): Estate Service** (the labour rung-meter) and **Combat Rank** (the martial rung-meter —
@@ -830,7 +837,7 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
   leaves you poorer and lonelier — a viable-but-poorer playstyle, never a wall).
 - **ORIGIN (side, memory-gated SUPPORT track) — a ONE-TIER standalone rep ladder (`O0→O5`).** Tahei's
   **living** family/friends in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, employer
-  Denbei, friend Kanta, sweetheart Osen, the porter guild). **Opens at T2-G2** on the **doubly-earned** gate
+  Denbei, friend Kanta, sweetheart Osen, the porter guild). **Opens at T3-G2** on the **doubly-earned** gate
   (dream-memory **AND** travel-standing); the dream foreshadows it from early game. A **proper one-tier
   reputation side-track with its own short rung ladder** (`O0→O5`, §3.6.2 — kept LIGHT, 6 rungs, never a
   second spine), tracking the MC's standing with his origin community. Payoff = **support, not local power**:
@@ -866,7 +873,7 @@ next-tier — *felt, never a wall; never a new pillar*).
   column so meter and floor stay in lockstep (§2.15.1; numbers → §4). **Double-counting across streams is
   allowed, but each stream sums independently.**
 - `VillageWeb { nodes: { shopId|familyId|guildId → meter (gentle curve) }, chiefRegard (rollup) }`.
-- `OriginLadder { tier:'T2', rungs: RankDef[] (O0–O5), meter: OriginTies (gentle), prideBuff (global
+- `OriginLadder { tier:'T3', rungs: RankDef[] (O0–O5), meter: OriginTies (gentle), prideBuff (global
   skill-XP, present-day-relationship-framed), allies[], tradeTies[], nameReclaimAtO5 (earned + MISSABLE) }`
   — a one-tier standalone rep ladder; every asset still grind-built; never a spine trigger.
 - `Allegiance { value (-1 village … +1 estate, default 0), affects: rates+flavour only }`.
@@ -879,9 +886,11 @@ DEEDS accrue to the pillars** (the Phase-1 rungs feed the rung-meters, not the p
 & origin are multipliers/feeders into the pillars, never new pillars.** The allegiance shifts *gain rates
 and flavour*, never which pillars are reachable.
 
-**(e) When introduced / fractal reveal.** **T0** — the estate ladder (R0→R7) and its two **rung-meters**
-(Phase 1), then the four-pillar grind (Phase 2) after R7. **T1** — the village web (one contact/one shop
-first, then meters fan out) + the silk sub-engine. **T2** — the origin support track opens at G2 (memory +
+**(e) When introduced / fractal reveal.** **T0** — the **estate-*tutorial*** ladder (R0→R7) and the
+rung-meter spine (Phase 1), then the **Estate-pillar grind** (Phase 2 — the single revealed pillar) after
+R7. **T1** — the **full estate ladder (R8→R15)** on its two **rung-meters** (Estate Service + Combat Rank,
+the AND-gate; **Arms** reveals). **T2** — the village web (one contact/one shop first, then meters fan out)
++ the silk sub-engine (**Office** reveals). **T3** — the origin support track opens at G2 (memory +
 travel-standing gated) as its own one-tier rep ladder (`O0→O5`, §3.6.2) and a fresh region estate ladder
 (`G0→G7`) mints alongside. Each new faction/zone arrives **minimal** (one contact, one place, one verb) and
 unlocks fractally.
@@ -936,7 +945,7 @@ lockstep, each mapping to a distinct protagonist domain:
 |--------|-------|--------------------|----------|
 | **Arms** | 武威 *bu-i* | combat / weapon-skills / men-at-arms leadership | recognized martial deeds + seasonal security judged results (new high-water mark) |
 | **Estate & Wealth** | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation) / **TREASURY** (debt→solvency→creditworthiness, *goyōkin*) / **TRADE** (routes, broker standing, the silk *meibutsu*) — **TRADE hard-capped to ≤ ⅓ of this pillar** |
-| **Standing & Office** | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed (incl. the **marriage / adoption lever**, 2.16.1 — T3+ parked), rivals eclipsed |
+| **Standing & Office** | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed (incl. the **marriage / adoption lever**, 2.16.1 — T4+ parked), rivals eclipsed |
 | **Name & Honour** | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition, off the foreclosure list, a sponsored rite, an inspector's report, a recorded merit-elevation |
 
 **Accrual = two shapes only — never a passive time-trickle, never a flat per-action increment — and ONLY on
@@ -963,11 +972,13 @@ per-tier required-pillar thresholds" framing is **superseded**; the older balanc
 overflow stays rejected). Instead, each tier gates on a **specialisation profile across the pillars
 REVEALED by that tier**: you must be **good in ALL revealed pillars · great in 2–3 · excellent in 1–2**
 (**NO overflow-substitution** — breadth required, specialisation rewarded). Semantics: **good = the expected
-baseline · great = really strong · excellent = above-and-beyond.** The **revealed-pillar set grows per
-tier** — **T0 = 2** (Arms + Estate; a **2-pillar special case**: good in both, **one** excellent), **T1 = 3**
-(+ Office), **T2 = 4** (+ Name) — and the gate is **only ever checked against revealed pillars** (never
+baseline · great = really strong · excellent = above-and-beyond.** The **revealed-pillar set grows one per
+tier on the reveal ramp 1→2→3→4→4** (D-048) — **T0 = 1** (Estate alone — the profile **collapses to a
+single pillar**: EXCELLENT in Estate), **T1 = 2** (+ Arms; the **2-pillar case**: good in both, **one**
+excellent), **T2 = 3** (+ Office), **T3 = 4** (+ Name), **T4/T5 = 4** (deepen the four — no new pillar) —
+and the gate is **only ever checked against revealed pillars** (never
 "good in ALL" against an unrevealed one). The required pillars still **drift** as they reveal (early tiers
-lean Arms + Estate, "survive and get strong"; upper tiers lean Office + Name, "win it socially"). This
+lean Estate then Arms, "survive and get strong"; upper tiers lean Office + Name, "win it socially"). This
 **per-pillar-per-tier threshold set needs a full OVERHAUL** (not simple ratios) — **back-solved against the
 fixed §4 deed inventory** — so **exact numbers are deferred to §4** *(proposed v1 balance)*. The hybrid
 profile sits in **Phase 2** and is **ANDed with the capstone rung-meter + story** (§2.15.1/FU11). The **only
@@ -976,11 +987,12 @@ per-tier transition STORY GATE** (see table).
 
 | Tier | Transition story gate (entry) | Phase-2 pillar profile (good/great/excellent) |
 |------|-------------------------------|-----------------------------------------------|
-| **T0 Estate** | *(met at the open)* survive convalescence + first labour | **2-pillar special** (revealed: Arms + Estate): **good** in both, **one excellent** (humbling first fight survived; first *shinden* begun; *kura* solvent — LAND/TREASURY deeds, **no market yet**). |
-| **T1 Village** | enough estate work + **basic repairs** → sent into the village | Revealed: Arms + Estate + **Office**. **Good in all three**, **great in 2** (errand-authority; headman's regard; cash-crops online). |
-| **T2 Region** | **"clean your room"** (estate healthy, village happy, fires out) → grow regional influence; rival houses appear | Revealed: Arms + Estate + Office (+ **Name** surfacing → 4). **Estate + Office great/excellent, Arms good**; the **personal-mystery payoff** lands here. |
-| **T3 Castle-town** *(stub in v1)* | **win the region** → the castle-town rulers confer regional leadership + **invite the house in** (the **castle-town / Daikan's-Office first-contact** beat; v1 ends here, Q24/D-040) | **Office + Name excellent** (won socially); Arms/Estate as leverage. |
-| **T4 Edo** *(roadmap)* | a **"taste of Edo"** — staff & run the *domain's* Edo establishment (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence | **Name + Office excellent** (the national *banzuke* on all four pillars). |
+| **T0 Estate-*tutorial*** | *(met at the open)* survive convalescence + first labour | **1-pillar** (revealed: **Estate** alone — the gate **collapses to EXCELLENT in Estate**): the humbling first fight is survived as an *activity* (**Arms deeds don't bank yet** — Phase 2 from T1); first *shinden* begun; *kura* stabilising — the **LINEAR koku taste**, **no market**. |
+| **T1 Estate-*full*** | **tutorial cleared** → the **first ascension lands BIG** (D-062); the full estate ladder (R8→R15) opens | Revealed: Estate **+ Arms** (the **2-pillar case**: **good in both, one excellent**) — the real estate grind; **Arms deeds now bank**; **E1→E2** + the first paid retinue; the koku flywheel **branches into LAND/TREASURY/TRADE** (trade ≤⅓). |
+| **T2 Village** | enough estate work + **basic repairs** → sent into the village | Revealed: Estate + Arms + **Office**. **Good in all three**, **great in 2** (errand-authority; headman's regard; cash-crops + the village silk market online). |
+| **T3 Region** | **"clean your room"** (estate healthy, village happy, fires out) → grow regional influence; the rival-house contest climaxes | Revealed: Estate + Arms + Office (+ **Name** surfacing → 4). **Estate + Office great/excellent, Arms good**; the **personal-mystery payoff** lands here. **v1 ends here** (`outcome: t3done`). |
+| **T4 Castle-town** *(stub in v1)* | **win the region** → the castle-town rulers confer regional leadership + **invite the house in** (the **castle-town / Daikan's-Office first-contact** beat, Q24/D-040) | **Office + Name excellent** (won socially); Arms/Estate as leverage. |
+| **T5 Edo** *(roadmap)* | a **"taste of Edo"** — staff & run the *domain's* Edo establishment (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence | **Name + Office excellent** (the national *banzuke* on all four pillars). |
 
 **Cross-pillar combos — the T2 anti-slump (Q22/FU20/D-031; Model-A — D-Q5).** From T2, **broader
 cross-pillar combos** (multiple pillar pairs, larger magnitude) join the **seasonal-reward rotation**
@@ -995,7 +1007,7 @@ narrow, no-leakage §4.3 exception). Trade ≤ ⅓ stays a **HARD** structural c
 **(b) Player-facing behaviour / loop.** Perform recognized **Phase-2** deeds → watch the relevant pillar
 JUMP (capped) or rise on the seasonal appraisal → clear the tier's **hybrid good/great/excellent profile
 over its revealed pillars** **and** the capstone rung + story gate → the next tier's canvas opens (no
-reset). The **four-bar standing panel** makes the pillars legible once revealed; **each bar shows
+reset). The **standing panel** makes the active pillars legible once revealed — **the not-yet-revealed pillars show as locked, unnamed silhouettes** (D-055); **each bar shows
 DISTANCE-TO-NEXT-GATE** (Q21). **The breadth gate stays HARD — no substitution, no overflow** — but the
 **per-pillar shortfall is surfaced EARLY + CONTINUOUSLY from early Phase 2** (the lagging pillar reads
 plainly, e.g. *"Name is behind"*), so a breadth shortfall is **never an end-of-Phase-2 surprise**
@@ -1029,38 +1041,38 @@ plainly, e.g. *"Name is behind"*), so a breadth shortfall is **never an end-of-P
 **(d) Ties to the four pillars.** This **IS** the four-pillar system — the macro roll-up everything else
 feeds. Every other system's **Phase-2** deeds funnel here through the accrual shapes (A)/(B).
 
-**(e) When introduced / fractal reveal.** Pillars accrue from **Phase-2** deeds, but the **four-bar House
-Influence panel becomes visible/tracked at T0-R7** (the capstone that opens Phase 2), so the player first
+**(e) When introduced / fractal reveal.** Pillars accrue from **Phase-2** deeds, but the **standing panel — the active Estate bar plus locked, unnamed silhouettes (D-055) —
+becomes visible/tracked at T0-R7** (the capstone that opens Phase 2), so the player first
 *climbs the rungs*, then *grinds and sees* the standing they build. The **revealed-pillar set grows per
-tier** (T0 = Arms + Estate → T1 + Office → T2 + Name) — the panel's bars reveal **one at a time** in step
+tier** (T0 = Estate alone → T1 + Arms → T2 + Office → T3 + Name) — the panel's bars reveal **one at a time** in step
 with §3's reveal schedule (no "good in ALL" check against an unrevealed pillar). The **hybrid Phase-2
-profile + capstone rung + story gate** pace the whole climb (T0→T4); v1 reaches the **T2** gate (T3 stub,
-T4 roadmap).
+profile + capstone rung + story gate** pace the whole climb (T0→T5); v1 reaches the **T3** gate (T4 stub,
+T5 roadmap).
 
-### 2.16.1 Marriage / adoption-into-higher-status (T3+ parked alliance/status lever)
+### 2.16.1 Marriage / adoption-into-higher-status (T4+ parked alliance/status lever)
 
-**(a) What it is.** A canon-locked **late-game (T3/T4) alliance/status lever** (canon §G): a **marriage**
+**(a) What it is.** A canon-locked **late-game (T4/T5) alliance/status lever** (canon §G): a **marriage**
 or **adoption-into-higher-status** match that lifts **Standing & Office** + **Name & Honour** and serves
 as one of the **castle-town takeover routes** (canon §B's "office / economy / **marriage** / out-maneuvering
 rivals"). It is a **real, lean** strategic move — **explicitly NOT a relationship / people-management sim**
 (no courtship minigame, no spouse/heir-management screen, no dating mechanics): it is a brokered alliance
 that, once secured, emits a one-time **Name & Honour + Standing & Office** jump and unlocks takeover
-leverage. Brokered diegetically via the go-between (e.g. T3's Omiya-no-Sahei, §5.T3.5).
+leverage. Brokered diegetically via the go-between (e.g. T4's Omiya-no-Sahei, §5.T4.5).
 
-**(b) Player-facing behaviour / loop.** *(T3+ only — not in v1.)* At castle-town scale, a brokered match
+**(b) Player-facing behaviour / loop.** *(T4+ only — not in v1.)* At castle-town scale, a brokered match
 becomes available as a discrete alliance deed: meet its standing prerequisites → secure it through the
 go-between → it lands as a capped achievement jump into the two upper pillars and opens a takeover route
 against the rivals (an alternative to pure office/economy/martial paths).
 
 **(c) Rough DATA shape (one line).**
 - `AllianceLever { id, kind ('marriage'|'adoption'), prerequisitePillars (Standing/Name thresholds),
-  pillarJump ({ office, name } capped), takeoverRouteUnlocked, brokeredByNpcId }` — **T3+ parked (not in v1).**
+  pillarJump ({ office, name } capped), takeoverRouteUnlocked, brokeredByNpcId }` — **T4+ parked (not in v1).**
 
 **(d) Ties to the four pillars.** **Standing & Office** + **Name & Honour** (a one-time, capped achievement
 jump into both); never Arms/Estate, never a recurring trickle.
 
-**(e) When introduced / fractal reveal.** **T3+ parked (not in v1)** — the lever matures in the T3
-castle-town arc (§5.T3.2/§5.T3.5) and pays an optional callback at T4; v1 (T0–T2) does **not** surface it.
+**(e) When introduced / fractal reveal.** **T4+ parked (not in v1)** — the lever matures in the **T4**
+castle-town arc (§5.T4.2/§5.T4.5) and pays an optional callback at **T5**; v1 (**T0–T3**) does **not** surface it.
 
 ---
 
@@ -1115,7 +1127,7 @@ sparring slots). **E4–E5 parked** for post-v1.
 
 **(a) What it is.** The endgame's legible win-display and a per-tier motif: a **ranking of the HOUSE**
 (not the man) on all four pillars. **Per-tier rank ladders also rank the house at each tier** (a domain
-*banzuke* precedes the national one). The **T4 Edo climax** is a **national multi-pillar *banzuke***.
+*banzuke* precedes the national one). The **T5 Edo climax** is a **national multi-pillar *banzuke***.
 **LOCKED presentation:** a **popular *mitate* / parody broadsheet** (woodblock, not an official register)
 using **sumo-rank vocabulary** — **Maegashira / Komusubi** for the house's attainable band; **Ōzeki /
 Yokozuna** for the **structurally sealed top** (the wall the truly powerful built, made the chart's
@@ -1124,7 +1136,7 @@ stays **chief steward / *yōnin*** (no *hatamoto* / shogunal audience).
 
 **(b) Player-facing behaviour / loop.** As pillars rise, the house climbs the chart from unranked toward
 the attainable band; the top slots remain visibly out of reach (the honest ceiling). A domain *banzuke*
-gives each tier a "where do we stand" read; the national chart is the T4 payoff. **One authored ending**
+gives each tier a "where do we stand" read; the national chart is the T5 payoff. **One authored ending**
 (house restored & ranked) + **post-game free-play (no reset)**; the long-tail is defending the top
 attainable spot on the biennial *sankin-kōtai* heartbeat (recoverable, **never a decay-tax**), optional
 grounded super-bosses, and per-pillar mastery goals.
@@ -1140,8 +1152,8 @@ rank — the most visible expression of House Influence. Defending the spot is a
 Office/Name appraisal, never a wipe.
 
 **(e) When introduced / fractal reveal.** **Per-tier domain ranking** surfaces with the Influence panel
-(T0-R7 onward, deepening each tier). The **national *banzuke* is the T4 (roadmap) payoff** (v1 stops at
-T2 with T3 stubbed). It arrives as a single broadsheet artifact first (the chart that omits you), then
+(T0-R7 onward, deepening each tier). The **national *banzuke* is the T5 (roadmap) payoff** (v1 stops at
+T3 with T4 stubbed). It arrives as a single broadsheet artifact first (the chart that omits you), then
 the house climbs it.
 
 ---
@@ -1360,7 +1372,7 @@ These are the load-bearing or genuinely-open calls in §2 that should be confirm
 2. **Trade ≤ ⅓ as a hard structural invariant (2.4 / 2.11 / 2.16).** Confirm enforcing it as a
    verifier-checked invariant (not just a tuning target) — **including that cross-pillar combos, computed
    post-clamp, can never breach it** — is desired.
-3. **Auto-producers strictly T3+ (2.5).** Confirm v1's E0–E3 estate is **fully active grind** (the "leave
+3. **Auto-producers strictly T4+ (2.5).** Confirm v1's E0–E3 estate is **fully active grind** (the "leave
    it running" feel comes from **tab-open auto-resolve / auto-repeat**, not idle producers) with **no**
    assignment/management panel surfaced in v1 (the people-management-sim guard).
 4. **Estate build/recruit as light flavour (2.17).** Confirm building & recruiting ship as **diegetic

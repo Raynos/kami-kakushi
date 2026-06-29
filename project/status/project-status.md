@@ -127,6 +127,21 @@ metadata:
   `git describe` (`v0.2-NN-gSHA`) + last-commit date. Env vars still override for CI. Commit `d279f88`, verify
   green. Small wiring fix, not a canon change — flag for the Part 1 ripple if the human wants it PRD-formalized
   (the stamp is speced under §6.1.1 / Q54).
+- **Phase update — PART 1 of v0.3 EXECUTED: the PRD/doc ripple is DONE (2026-06-29, session-15).** The locked
+  6-tier reshape (D-048…D-069) + the 5 finalized forks are now **rippled into the 7 PRD section files + the
+  other living docs** — the PRD body is **no longer 5-tier-stale**. Flow: a **multi-agent audit** of
+  `pending-prd-changes.md` (verdict *fix-tracker-then-ripple*: canon-faithful but it had missed 2 roadmap locks +
+  had stale framing) → **tracker corrected** + an **authoritative reshape-mapping spec** authored
+  ([`../../docs/plans/2026-06-29-part1-ripple-spec.md`](../../docs/plans/2026-06-29-part1-ripple-spec.md)) → a
+  **12-agent ripple Workflow + convergence critic** → a **structural-consistency cleanup**. **`npm run verify`
+  GREEN (9 gates, incl. `verify-prd`); ZERO accidental deletions** (the §7.2 M0–M7 block, ~538 lines, was gutted
+  to a delegation pointer at `roadmap.md` — §7.1/§7.3/§7.4 survive). Net-new locks all landed: Staff weapon-line
+  pulled forward to new-T2 Village, combos partial-T2/full-T3, rivals begin-T2/climax-T3, retinue+E1→E2 in T1.
+  The tracker's 2 markdown checklists are **all `[x]`**; **what remains is Part 2** — the **code** checklist +
+  the **`docs/content/` regen**, and the **§4 balance MAGNITUDES** (deed-bands/hour budgets) which re-derive at
+  **Ship-M1-F2** (LIQUID, D-059 — banner'd in `prd/04-combat-balance.md`). Raw audit + ripple snapshots in
+  `project/brainstorms/raw/2026-06-29-{prd-ripple-tracker-audit,part1-doc-ripple}.json`; journal:
+  `2026-06-29-session-15-part1-ripple.md`. **The PRD-feedback gate is fully closed — Part 2 (the build) is next.**
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/2026-06-27-state-of-the-game.md`](../audit/reports/2026-06-27-state-of-the-game.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
@@ -144,22 +159,22 @@ metadata:
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-14-version-display.md`) + the
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-15-part1-ripple.md`) + the
      **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
-     the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (the only plan left in `docs/plans/`; the
-     roadmap re-axe + op-model v2 FINAL plans are now executed & **archived** under `project/archive/`).
+     the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (**Part 1 done → Part 2 next**) + its
+     executed reshape-mapping spec `docs/plans/2026-06-29-part1-ripple-spec.md` (the OLD→NEW tier mapping +
+     per-system re-placement table — useful reference for the Part-2 build).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
   4. **Next, in order:** (a) **R1** — the human plays the M0–M2 demo for the fun/pacing/look call (still
-     open). (b) ✅ **DONE (2026-06-29, session-11)** — the re-axe proposal was **PROMOTED to `docs/living/roadmap.md`**
-     (M0–M7 tracker retired; the 5 provisional forks finalized; T2 "Village" subtitle sharpened to "the valley
-     beyond your gate"; reading queue + path-to-v0.3 + this status updated). (c) ✅ **PRD-feedback gate CLEARED 2026-06-29 — ripple is GO (deferred from this session)** → next session, run the **batched PRD/doc/code ripple**
-     in ONE batch: ~~split `prd.md`~~ (✅ split done 2026-06-29 → edit the `prd/0N-*.md` section files), apply
-     the reshape (D-048…D-055) + the 06-29 decisions (now ADRs **D-056–D-069**) to the PRD body, ripple docs + code. (d) **Then the build:**
-     **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b foundation), **spine-first** —
-     close the four-pillar loop (Estate pillar + the first T0→T1 ascension on thin content) **before**
-     showcase breadth, per the roadmap re-axe + `path-to-v0.3`.
+     open, in parallel). (b) ✅ **DONE (session-11)** — roadmap promoted to `docs/living/roadmap.md` + 5 forks
+     finalized. (c) ✅ **DONE (session-15)** — **Part 1 (the PRD/doc ripple) is EXECUTED** (reshape + forks
+     rippled into the 7 `prd/0N-*.md` section files + the living docs; `verify` green). (d) **NEXT — Part 2,
+     the build (`path-to-v0.3` Part 2):** **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b
+     foundation), **spine-first** — close the four-pillar loop (the live Estate pillar + the BIG T0→T1 ascension
+     on thin content) **before** showcase breadth; at the start of Part 2, re-derive the **§4 balance
+     MAGNITUDES** onto the 6-tier spine (liquid, banner'd in `prd/04-combat-balance.md`) + regen `docs/content/`.
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:

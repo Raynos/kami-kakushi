@@ -147,7 +147,7 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/skills` | Per-skill XP curves, per-event caps, visibility thresholds, milestone web. **Each skill (labour included) carries a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, unlocked by leveling that skill) — the **bounded labour→combat channel** (FU8). The real bound is **incremental skill unlock** (skills reveal per rung/tier) + small per-perk magnitudes (the §6.6 verifier asserts *each perk* is small — **not** `== 0`, **not** a single global cap). **Conditioning stays the ZERO-stat enablement gate** (weak→capable), orthogonal to and never bypassed by these perks (Q6/FU8). | yes |
 | `core/rewards` | The universal **rewards/unlock bus** — `applyRewards(state, rewards) -> state` — the one funnel through which dialogue, **dialogue choices**, quests, thresholds, and combat grant items/xp/coin/locations/recipes/quests/**flags & unlocks**/`pillarDeltas`, and emit diegetic log lines. (`pillarDeltas` deed-accrual is **Phase-2-gated**, §6.5.) | yes |
 | `core/unlock` | Predicate evaluation for the UI-reveal engine: each panel/screen/tab/row/area is data with an unlock predicate over `GameState`. **`reduce`/`tick` evaluate the predicates to ADD newly-earned surfaces to the stored write-once `unlocked` latch** (§6.3/§6.4); the reads `isUnlocked(state, id)` (per-id) and `unlockedSurfaces(state)` (the **ONE** set-selector name — replaces the old `visibleSurfaces`) are **pure projections of that stored Set**, never a live predicate re-eval. **Reveal staggering is a DESIGN property of the authored unlock schedule** (one-at-a-time **by construction**, FU4) — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
-| `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), achievement-jump + seasonal judged-result accrual (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the HYBRID good/great/excellent per-pillar-per-tier gate** (good in **all revealed** pillars · great in 2–3 · excellent in 1–2; **T0 is a 2-pillar special case**; **NO** overflow-substitution — §1.6.3/§1.6.4, Q7/FU10). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung; FU7). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1, FU20). | yes |
+| `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), achievement-jump + seasonal judged-result accrual (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the scaled grade-gate** (D-049, the D-028 hybrid gate scaled by pillar-count): **1 EXCELLENT + 1 GREAT + (N−2) GOOD** over the tier's **N revealed** pillars, all ≥ GOOD (**T0 = 1 pillar → collapses to a single EXCELLENT**); **NO** overflow-substitution — §1.6.3/§1.6.4, Q7/FU10). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung; FU7). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1, FU20). | yes |
 | `core/ranks` | The **per-tier rung ladder** + the **per-rung-RESET rung-meters**: `estateService` (labour) and `combatRank` (martial — fed by per-rung **CURATED** activities, **not** raw kills/XP; renamed from v1 "Combat Standing" per Q9). Each rung promotes on an **AND-gate** — the numeric meter **≥** that rung's threshold (back-solved from the ≥30-min floor × the rung's eligible-activity rate, FU6) **AND** the rung's **story flags** — surfacing "awaiting X" when one lags. Owns the **phase-1 (climb the rungs) → phase-2 (the estate-influence / pillar grind unlocks after the final rung)** gate per tier; the phase marker is **DERIVED from the current rung**, never a separate stored flag (FU7). | yes |
 | `core/content` | The **data registries** (one module per content type; §6.5) + the registry index. Data-as-code. | yes |
 | `core/log` | The event/story log model (append, severity/colour tag) — data only; the renderer paints it. A **true ring buffer** with a pinned hard cap **`LOG_RING_MAX ≈ 300`** (oldest entries evicted on overflow — never an unbounded list). | yes |
@@ -189,8 +189,10 @@ function reduce(state: GameState, intent: Intent): GameState;
 
 // The clock advance: simulate dtTicks of abstract game-time. Pure; deterministic.
 // dtTicks is a WHOLE INTEGER of ABSTRACT (active-play) ticks — the app loop accumulates the
-// fractional remainder and hands core.tick() only integer ticks. Never wall-clock; active-only,
-// no offline (canon §H).
+// fractional remainder and hands core.tick() only integer ticks. The CORE never reads a clock;
+// the app loop derives dtTicks from elapsed WALL-TIME WHILE THE TAB IS OPEN (it does NOT pause on
+// `document.hidden` — a throttled background tab just catches up; the clock stops only when the tab
+// is CLOSED). Active-only / no offline accrual (canon §H, D-053).
 function tick(state: GameState, dtTicks: number): GameState;
 ```
 
@@ -227,13 +229,15 @@ deterministic and **save-light** (only the chosen flag persists, in `flags`; §6
   **drains in a loop, one appraisal per count**, so a multi-season `dtTicks` jump accrues **all N** appraisals
   (a boolean would silently collapse N seasons into one).
 
-`dtTicks` is computed by the **app-layer** loop from real elapsed time *while the tab is active*, then handed
+`dtTicks` is computed by the **app-layer** loop from real elapsed **wall-time while the tab is OPEN** (it does
+**NOT** pause on `document.hidden` — a throttled background tab simply **catches up** on the elapsed wall-time
+when it regains cycles; the clock advances while OPEN and **stops only when the tab is CLOSED**, D-053), then handed
 to the pure `tick` as a **whole integer** (the loop accumulates the fractional remainder across frames). That
 **fractional-tick remainder is intentionally EPHEMERAL** — it lives only in the app loop, never in
 `GameState` and never in the save; `GameState` is **always tick-aligned at save**, so replay determinism is
 unaffected. The core never reads a clock. **Active-only is enforced structurally:** there is no offline-accrual code path —
 on load, the world resumes exactly where it was saved (no "while you were away"); the unattended
-auto-resolve/auto-repeat only runs while the tab is open.
+auto-resolve/auto-repeat runs **whenever the tab is open** (foreground or throttled-background), **never when closed**.
 
 > **Tick-fold determinism (B10, testable).** `tick(state, dtTicks)` **folds `dtTicks` ONE abstract tick at a
 > time** — it never batch-applies a multi-tick delta. Within each single tick the per-day / per-week /
@@ -281,7 +285,7 @@ interface GameState {
                                 gateEligibleValue: number;
                                 subEngines?: { land: SubEngine; treasury: SubEngine; trade: SubEngine } }>;
                                                  // 4 pillars; high-water + the (≤1) active recoverable dent (§4.2.4) + a `gateEligibleValue` accumulator. ESTATE & WEALTH value is PURELY DERIVED (D-Q-estate-dent): it nests `subEngines` (each { value, highWater }) and its pillar `value` is NOT stored — it is computed on read as land + treasury + trade (the subEngine value sum), so a dent on one strand can never desync the pillar total and the trade ≤⅓ HARD clamp holds BY CONSTRUCTION. (Non-Estate pillars store `value`; Estate omits it.) `gateEligibleValue` is the DEED-ONLY accumulator (D-Q5/Model-A): only recognised Phase-2 DEEDS add to it; cross-pillar combos do NOT write it — so a combo can never satisfy a required gate band nor breach trade-≤⅓. The gate check (§6.6.1) reads `gateEligibleValue`, never the combo-inflated `value`. (SubEngine = { value: number; highWater: number }.)
-  tier: TierId;                                   // current macro tier T0..T4 (set by the tier-up intent; threshold-progress is DERIVED — §6.13 item 4)
+  tier: TierId;                                   // current macro tier T0..T5 (set by the tier-up intent; threshold-progress is DERIVED — §6.13 item 4)
   ranks: Record<TierId, { estateService: number; combatRank: number; rung: RankId }>;
                                                  // PER-RUNG-RESET rung-meters: estateService (labour) + combatRank (martial — fed by per-rung CURATED activities, NOT raw kills/XP; renamed from v1 "combatStanding" per Q9). The phase-1/phase-2 marker is DERIVED from `rung` — there is NO separate stored phase flag (FU7).
   reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as the O0→O5 rung meter
@@ -362,9 +366,9 @@ into one bar.** Each writes to a *different* field, and **one kill** makes this 
   the rung's story flags; FU6). Pillar **DEEDS do NOT accrue** here.
 - **Phase 2 — grind the house up.** Reaching the tier's **final rung OPENS** the estate-influence / pillar
   grind; **now** `pillarDeltas` accrue (deeds + the seasonal judged result, up-only/new-high-water-mark).
-  Clearing the **hybrid good/great/excellent pillar profile** (`gateProfile`, Q7/FU10) is what **tiers up**
-  (sets `tier`). The revealed-pillar set grows by tier — T0 = 2 (Arms + Estate), T1 = 3 (+ Office), **T2 = 4**
-  (+ Name — a real gated pillar at T2 per B13/D-Q3, NOT '3–4') — matching the §3 reveal schedule and the
+  Clearing the **scaled grade-gate** (`gateProfile`, D-049/Q7/FU10 — `1 EXC + 1 GRT + (N−2) GOOD`) is what
+  **tiers up** (sets `tier`). The revealed-pillar set grows **one per tier** (D-048) — **T0 = 1** (Estate),
+  **T1 = 2** (+ Arms), **T2 = 3** (+ Office), **T3 = 4** (+ Name) — matching the §3 reveal schedule and the
   §2.16(e) four-bar-panel reveal (the gate never checks "good in ALL" against an unrevealed pillar). **Conditioning** stays the **ZERO-stat
   enablement gate** on the combat rungs, orthogonal to the bounded per-skill perks (§6.2 `core/skills`).
 
@@ -473,12 +477,12 @@ the three-track separation and the hybrid gate.
   display `value`), computed post-clamp, and **never write the deed-only `gateEligibleValue`** — and since
   Estate's pillar value is itself **purely derived** from the clamped sub-engines (D-Q-estate-dent, never
   stored), a combo can **never** breach ⅓.
-- **Hybrid gate-distribution check (Q7/FU10).** The tier-gate is **good in ALL revealed pillars · great in
-  2–3 · excellent in 1–2**, with the **T0 2-pillar special case** (Arms + Estate) and **NO**
-  overflow-substitution; and the gate reads each pillar's deed-only **`gateEligibleValue`** (NOT the
-  combo-inflated display value), so a **combo can never** satisfy a required pillar or the "good in ALL"
-  check. The revealed-pillar set per tier (**T0 = 2 / T1 = 3 / T2 = 4** — the T2 set is **Arms + Estate +
-  Office + Name**, a single value **4**, since Name IS a real gated pillar at T2 per B13/D-Q3; NOT '3–4')
+- **Scaled grade-gate distribution check (D-049/Q7/FU10).** The tier-gate is **`1 EXCELLENT + 1 GREAT +
+  (N−2) GOOD`** over the **N revealed** pillars, all ≥ GOOD (**T0 = 1 pillar → a single EXCELLENT**), with
+  **NO** overflow-substitution; and the gate reads each pillar's deed-only **`gateEligibleValue`** (NOT the
+  combo-inflated display value), so a **combo can never** satisfy a required pillar or the gate. The
+  revealed-pillar set grows **one per tier** (**T0 = 1 / T1 = 2 / T2 = 3 / T3 = 4** — Name is the 4th, gated
+  at **T3 Region** per D-048; the full four are revealed by T3)
   must match the §3 reveal schedule and the §2.16(e) panel reveal (the gate never checks an unrevealed
   pillar).
 - **`gatesSpine` always-false in v1 (B13/D-Q3 consequence).** The quest `gatesSpine` flag has **no v1
@@ -782,12 +786,14 @@ Once-per-game reveal log-lines are emitted by the `unlocked` write-once latch **
   display helpers — moved OUT of `src/ui/` into core, **table-driven boundary tests under `npm run verify`**:
   `999,999 → '1.0M'`, etc.); **the renderer imports it**. It keeps the scale legible as koku/coin/pillar
   numbers climb.
-- **Active-only loop, with the "leave it running" feel (FU23).** The app-layer tick loop runs only while the
-  tab is active (driven by `requestAnimationFrame` / a paced timer); it computes whole-integer `dtTicks` from
-  elapsed active time and calls the pure `tick`. **While the tab is OPEN, auto-resolve combat + auto-repeat
-  labour run unattended for hours** (the "leave it running, check progress" feel) — but it is **strictly
-  active-only: no offline catch-up**, and auto-producers stay **T3+**. Backgrounding pauses; a user **pause**
-  is supported.
+- **Active-only loop, with the "leave it running" feel (FU23).** The app-layer tick loop runs **whenever the
+  tab is OPEN** (driven by `requestAnimationFrame` / a paced timer); it computes whole-integer `dtTicks` from
+  **elapsed wall-time while open** and calls the pure `tick`. **While the tab is OPEN, auto-resolve combat +
+  auto-repeat labour run unattended for hours** (the "leave it running, check progress" feel) — but it is
+  **strictly active-only: no offline catch-up**, and auto-producers stay **T3+**. **Backgrounding does NOT
+  pause** (D-053): a hidden tab is throttled by the browser but **catches up** on the elapsed wall-time when it
+  regains cycles — the clock advances while OPEN and **stops only when the tab is CLOSED** (autosave fires on
+  `visibilitychange`/`beforeunload`, §6.8, so a close is never lossy); an explicit user **pause** is still supported.
 - **One render path.** Updates go through `render(state)` reconciliation — not scattered manual
   `update_displayed_*` push-calls — which kills the stale-UI class of bug by construction.
 - **Log DOM-node lifecycle.** The log renderer **reconciles by keyed `id`** and **removes / virtualizes the

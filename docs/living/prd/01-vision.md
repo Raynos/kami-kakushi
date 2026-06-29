@@ -4,9 +4,13 @@
 > end-to-end from the PATCHED locked-decisions canon
 > ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
 > 2026-06-25 Round-A deltas), the three redesign discovery docs, **and the 79 human-signed V2 decisions** (Block L
-> `Q1–Q56` + Block M `FU1–FU23`). It supersedes every earlier framing of §1 (most-recent-wins per D-022). Tiers are
-> **T0–T4** (0-indexed) throughout; v1 scope is **T0–T2 complete**, with **T3 a stub cliff-hanger** (the
-> **castle-town / Daikan's-Office first-contact** beat — Q24) and **T4 a roadmap**. The V2 spine locks these shapes:
+> `Q1–Q56` + Block M `FU1–FU23`). It supersedes every earlier framing of §1 (most-recent-wins per D-022).
+> **Reshaped to the 6-tier spine (D-048): the old single Estate tier SPLITS into a T0 tutorial + a T1 full
+> estate, and every later tier shifts up one.** Tiers are **T0–T5** (0-indexed) throughout; v1 scope is
+> **T0–T3 complete** (T0 Estate-tutorial · T1 Estate-full · T2 Village · T3 Region — v1 ends at Region,
+> `outcome: t3done`), with **T4 a stub cliff-hanger** (the **castle-town / Daikan's-Office first-contact** beat
+> — Q24) and **T5 a roadmap**. **Per D-059 the PRD stays LIQUID — the §1 freeze is NOT taken; the §4 numbers
+> and §7 milestone detail remain provisional, revised by playtest.** The V2 spine locks these shapes:
 > progression is **SEQUENTIAL per tier** — climb the rungs (**Phase 1**), THEN grind the estate's pillars
 > (**Phase 2**), THEN tier-up (§1.6.4); the tier-gate is a **HYBRID good/great/excellent** pillar profile (good in
 > all revealed pillars · great in 2–3 · excellent in 1–2 — the old "simple per-tier thresholds" are superseded,
@@ -54,7 +58,8 @@ for itch.io.
 
 1. **The estate-rise is the spine — a perseverance fantasy at grand scale.** The single load-bearing track
    is the protagonist's climb up the Kurosawa service hierarchy fused to the house's outward expansion
-   across **five influence tiers** (T0 estate → T1 village → T2 region → T3 castle-town → T4 Edo). Rising
+   across **six influence tiers** (T0 estate-*tutorial* → T1 estate-*full* → T2 village → T3 region →
+   T4 castle-town → T5 Edo; the Estate split per D-048). Rising
    through the ranks and restoring-then-surpassing the house **are** the main quest. There is **no reset of
    any kind**: tiers *replace* prestige; everything persists as the canvas grows.
 
@@ -441,7 +446,7 @@ trust at the cost of village warmth and Tama-only lore.
 > stance. The spine is restored-and-surpassed fastest and richest when all three are woven together, but is
 > still completable spine-only, just slower and lonelier.
 
-## 1.6 House Influence (家威) — the four pillars & the five tiers
+## 1.6 House Influence (家威) — the four pillars & the six tiers
 
 **House Influence** (家威, *ka-i*) is the macro-resource — the estate's **recognized standing** in the eyes of
 progressively wider authorities — and the **one thing the entire UI-reveal is gated on.** It is deliberately
@@ -449,6 +454,12 @@ progressively wider authorities — and the **one thing the entire UI-reveal is 
 what the house has visibly **become.** It is no longer a single trade-leaning number: it is the **umbrella
 roll-up of FOUR achievement-driven pillars** grown in lockstep, each mapping to a distinct protagonist domain
 so the grind stays load-bearing.
+
+> **The pillar-reveal schedule (6-tier spine, D-048).** The four pillars **reveal one per tier** across the new
+> spine — **Estate (家産) at T0 → + Arms (武威) at T1 → + Office (官威) at T2 → + Name & Honour (家格) at T3** —
+> then **T4/T5 deepen the four with no new pillar.** The reveal-ramp of active pillars is **1 → 2 → 3 → 4 → 4**.
+> *(This is a SHIFT, not just a renumber: the old "T0 = 2-pillar special" is retired — T0 now opens **one**
+> pillar, Estate; the Arms-pillar **DEEDS** first bank at T1, though combat-as-activity is live from T0.)*
 
 ### 1.6.1 The four pillars
 
@@ -458,6 +469,12 @@ so the grind stays load-bearing.
 | **Estate & Wealth** (economic) | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation), **TREASURY** (debt→solvency→creditworthiness, *goyōkin*), **TRADE** (routes, broker standing, the signature ***meibutsu*: silk / sericulture**) |
 | **Standing & Office** (political/territorial) | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
 | **Name & Honour** (prestige/cultural) | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition; the house off the foreclosure list; a sponsored rite; an inspector's report; a recorded merit-elevation |
+
+> **The Estate & Wealth sub-engines = the *koku* flywheel, revealed across the Estate split (D-051 / D-066).**
+> In **T0** the economy is a **single LINEAR taste** — one work → *koku* → upgrade → more output — the flywheel
+> shown in miniature, with **no branching and no trade strand**. At **T1** (the full estate) it **branches into
+> the three capped sub-engines — LAND / TREASURY / TRADE** (the *meibutsu* silk strand stays **≤⅓** of the
+> pillar). The real village silk market (Onatsu's *meibutsu*) opens later still, at **T2 Village**.
 
 > **The Arms pillar vs. the other two combat tracks (§1.6.4).** Arms grows **only** on **recognised DEEDS**
 > (the influence economy) and, like every pillar, **accrues in each tier's Phase 2** — *not* while climbing the
@@ -502,37 +519,47 @@ dents Arms; a scandal dents Name; a called debt dents Estate) — small and **ne
 holding-loss; a failed defence damages/disables a holding *temporarily*, recoverable by rebuild). Dent
 self-heal is a small **below-high-water seasonal restore** that **never advances the high-water mark** (Q32).
 
-### 1.6.3 The five tiers, transition story gates & per-tier pillar gating
+### 1.6.3 The six tiers, transition story gates & per-tier pillar gating
 
 Tier-up is **not** crossing a single band, and it is **not** the old "simple per-tier required-pillar
 thresholds" (that framing is **superseded** by the V2 decisions, Q7/FU10/D-022) — nor the even older
-balanced-development floor + ≤25% overflow (which stays rejected). Instead, V2 gates each tier on a **HYBRID
-"specialisation" profile across the pillars REVEALED by that tier**: you must be **good in ALL revealed
-pillars**, **great in 2–3**, and **excellent in 1–2** (**no** overflow substitution; **breadth required,
+balanced-development floor + ≤25% overflow (which stays rejected). Instead, each tier gates on a **scaled
+grade-gate across the pillars REVEALED by that tier** (D-049): for **N** open pillars you need **exactly 1
+EXCELLENT + 1 GREAT + (N−2) GOOD**, all **≥ GOOD** (**no** overflow substitution; **breadth required,
 specialisation rewarded**). The semantics: **good = the expected baseline · great = really strong · excellent =
-above-and-beyond** (FU10). The **revealed-pillar set grows per tier**: **T0 = 2** (Arms + Estate — a **2-pillar
-special case**: good in both, one of them excellent), **T1 = 3** (+ Office), **T2 = 4** (+ Name) — the gate is
-**only ever checked against revealed pillars** (never "good in ALL" against an unrevealed one).
+above-and-beyond** (FU10). The **revealed-pillar set grows one per tier** (D-048): **T0 = 1**
+(Estate — the gate **collapses to a single EXCELLENT**, the (N−2) term dropping), **T1 = 2** (+ Arms → 1 GREAT
++ 1 EXCELLENT), **T2 = 3** (+ Office → 1 EXC + 1 GRT + 1 GOOD), **T3 = 4** (+ Name → 1 EXC + 1 GRT + 2 GOOD) —
+the gate is **only ever checked against revealed pillars** (never against an unrevealed one).
 
 This sits **after** the **sequential** climb (§1.5.1/§1.6.4): **Phase 1** — climb **all** the tier's rungs
 (the per-rung rung-meter + story AND-gate); **Phase 2** — the estate-influence/pillar grind unlocks and the
-**hybrid pillar profile** above is what tiers up. The required pillars still **drift** as they reveal — early
-tiers lean **Arms + Estate** ("survive and get strong"); upper tiers lean **Office + Name** ("win it socially").
+**scaled grade-gate** above is what tiers up. The required pillars still **drift** as they reveal — early
+tiers lean **Estate then Arms** ("survive and get strong"); upper tiers lean **Office + Name** ("win it socially").
 The **per-pillar-per-tier thresholds need a full OVERHAUL** (not simple ratios) — **back-solved against the
 fixed §4 deed inventory** — so **exact numbers are deferred to §4** *(proposed v1 balance)*. The only structural
 cap that survives is the **trade sub-engine ≤⅓ of Estate & Wealth** (so trade can never carry a gate;
 cross-pillar combos are computed **post-clamp** and **excluded** from this gate-check). Side factions are
-**multipliers** into the pillars, never new pillars. The full five-tier climb is paced over a
-**generational/decadal in-world span** for the upper tiers (T3→T4), so "restore *and* surpass" reads as earned
+**multipliers** into the pillars, never new pillars. The full six-tier climb is paced over a
+**generational/decadal in-world span** for the upper tiers (T4→T5), so "restore *and* surpass" reads as earned
 over years.
 
-| Tier | Theme | Transition story gate (entry) | Phase-2 pillar profile (good/great/excellent) |
+> **Ascension is a manual opt-in story event (D-049 / D-062).** Clearing the scaled grade-gate only **unlocks
+> the *option*** to ascend — the player chooses *when* to take it, a deliberate story beat (never an auto-snap).
+> **Overshooting** the gate (higher grades than required) earns a **grade-scaled permanent boon** carried
+> forward. The **first ascension (T0→T1) always lands BIG** on first contact regardless of grade (D-062) — the
+> locked silhouettes stir, a new pillar reveals. Throughout, the **standing panel teases the locked pillars as
+> unnamed silhouettes** beside the active one(s) (§1.6.4 / §2.16(e)), so the player always senses *more* is
+> coming without it being spelled out.
+
+| Tier | Theme | Transition story gate (entry) | Phase-2 scaled grade-gate (per revealed pillars) |
 |---|---|---|---|
-| **T0 — Estate** | Earn your keep and a place at the table (standing **stranger→friendly**). One declining hill estate, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **2-pillar special** (revealed: Arms + Estate): **good** in both, **one excellent** (humbling first fight survived; first *shinden* begun; *kura* solvent — LAND/TREASURY deeds, **no market yet**). |
-| **T1 — The Valley** | The estate's domain expands to **anchor its own valley** (standing friendly→**trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**. | **T0→T1:** do enough estate work + complete **basic repairs** → the estate sends you out into the valley. | Revealed: Arms + Estate + **Office**. **Good in all three**, **great in 2** (errand-authority; the headman's regard; cash-crops online). |
-| **T2 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). | **T1→T2:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the estate is possible → a quest to grow **regional influence**; the region's **rival houses Tomita & Akagi** are the incumbents to surpass (G7 = rivals dethroned). | Revealed: Arms + Estate + Office (+ **Name** surfacing → 4). **Estate + Office great/excellent**, **Arms good**; the **personal-mystery payoff** lands here. |
-| **T3 — Castle-town** *(stub in v1)* | The estate's domain expands to **become a castle-town power holding key domain offices** (standing **honorary member → chief steward / *yōnin*** — the MC's personal CEILING): the *daikan* / *tedai* officialdom and inter-*han* markets acknowledge, contend with, and cede to the house. | **T2→T3:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. *(v1 ends here, on the **castle-town / Daikan first-contact** cliff-hanger — Q24.)* | **Office + Name excellent** (the takeover is won socially); Arms/Estate as leverage. |
-| **T4 — Edo** *(roadmap)* | The **HOUSE** rises to **national standing — ranked at the capital** while the **MC stays *yōnin*** (the arc is the house's, not the man's; indirect/mediated Edo ceiling, canon §F / D-010): restore **and** surpass the grandeur of three generations ago. | **T3→T4:** a **"taste of Edo"** — the house is **called to staff & run the *domain's* Edo establishment** (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence → the **national** tier. | **Name + Office excellent** (the national *banzuke* ranking on all four pillars). |
+| **T0 — Estate (tutorial)** | Earn your keep and survive your first days — a showcase-in-miniature (standing **stranger→tolerated**). One declining hill estate, a **small walkable map**, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **1 pillar** (revealed: **Estate**): the gate **collapses to a single EXCELLENT** (the (N−2) term drops) — *kura* solvent, first *shinden* begun. The humbling first fight is survived as **activity**, but the Arms-pillar **DEEDS don't bank yet**; **no market**. |
+| **T1 — Estate (full)** | The full estate grind — the real **≥30-min-per-rung** climb across ~8 new rungs (standing **tolerated→friendly**). The **Arms pillar reveals**; the *koku* flywheel **branches into LAND / TREASURY / TRADE** (trade ≤⅓). | **T0→T1:** clear T0's single-EXCELLENT gate → the **first ascension lands BIG** on first contact regardless of grade (the silhouettes stir, the **Arms pillar reveals**; D-062). | Revealed: **Estate + Arms** (2): **1 GREAT + 1 EXCELLENT.** The first Arms-pillar **deeds bank here**; **E1→E2**; the first paid retinue (**Gohei & Yatarō**) is won. |
+| **T2 — Village** | The estate's domain expands to **the valley beyond your gate** (standing **friendly→trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**; the real silk *meibutsu* market opens. | **T1→T2:** clear the full-estate gate → the estate sends you out into the valley (**unlocks Village**); the region's **rival houses Tomita & Akagi** are **introduced** and the contest **begins**. | Revealed: Estate + Arms + **Office** (3). **1 EXC + 1 GRT + 1 GOOD** (errand-authority; the headman's regard; cash-crops + the silk market online). |
+| **T3 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). **v1 completes here.** | **T2→T3:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the valley is possible → a quest to grow **regional influence**; the rivalry **climax** (Naoyuki ally-flip G5, **G7 = rivals dethroned**). *(v1's content finishes on completing Region — `outcome: t3done`.)* | Revealed: Estate + Arms + Office (+ **Name** → 4). **1 EXC + 1 GRT + 2 GOOD**; the **personal-mystery payoff** lands here. |
+| **T4 — Castle-town** *(stub / cliff-hanger; beyond v1)* | The estate's domain expands to **become a castle-town power holding key domain offices** (standing **honorary member → chief steward / *yōnin*** — the MC's personal CEILING): the *daikan* / *tedai* officialdom and inter-*han* markets acknowledge, contend with, and cede to the house. | **T3→T4:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. *(v1 closes on this **castle-town / Daikan first-contact** cliff-hanger — Q24 / D-040.)* | **Office + Name excellent** (the takeover is won socially); Arms/Estate as leverage. |
+| **T5 — Edo** *(roadmap)* | The **HOUSE** rises to **national standing — ranked at the capital** while the **MC stays *yōnin*** (the arc is the house's, not the man's; indirect/mediated Edo ceiling, canon §F / D-010): restore **and** surpass the grandeur of three generations ago. | **T4→T5:** a **"taste of Edo"** — the house is **called to staff & run the *domain's* Edo establishment** (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence → the **national** tier. | **Name + Office excellent** (the national *banzuke* ranking on all four pillars). |
 
 > **Every tier is Phase-1-then-Phase-2.** The rung-meter + story milestones (Phase 1, §1.5.1/§1.6.4)
 > **precede** the pillar profile above (Phase 2): you climb the rungs first, then grind the **revealed** pillars
@@ -571,7 +598,7 @@ tracks that never collapse into one bar.** What **one kill** writes makes the di
 | Track | Fed by | Writes / scales | Gate role |
 |---|---|---|---|
 | **Character (combat) level** | kills → **combat-XP** (labour and deeds **never** raise it; Q1) | **HP** (`hpMax = 40 + 8·characterLevel`), **+1 attribute point / 2 levels**, **satietyMax** (base + per-level growth; Q47) | personal power; per-mob `MobDef.level` sets on-kill XP (§4) |
-| **The Arms pillar** (武威) | recognised martial **DEEDS** (a road declared safe; a nest cleared; the grain store defended) | one of the **four House-Influence pillars** | **Phase-2** tier-gate input (the hybrid profile) |
+| **The Arms pillar** (武威) | recognised martial **DEEDS** (a road declared safe; a nest cleared; the grain store defended) | one of the **four House-Influence pillars** | **Phase-2** tier-gate input (the scaled grade-gate) |
 | **The Combat Rank rung-meter** | **per-rung curated** combat activities | the **per-rung-reset martial rung-meter** | **Phase-1** martial rung-gate |
 
 So: **one kill** → character-level XP; **one recognised deed** → Arms; **one curated rung activity** → the
@@ -580,25 +607,33 @@ Combat Rank meter. *("**Combat Rank**" renames the old "Combat Standing", Q9; "*
 the combat rungs — orthogonal to, and never a back-door past, the small bounded **per-skill combat perks**
 (Q6/FU8): conditioning is **weak→capable**; the perks are a small **capable→a-bit-more-capable** polish.
 
-**(3) The hybrid Phase-2 tier-gate (D-028; Q7 / FU10).** Phase 2 tiers up on the **good/great/excellent** profile
-**over the pillars revealed by that tier** — **good in all revealed · great in 2–3 · excellent in 1–2**, **no
-overflow** (T0 is the 2-pillar special case). Revealed set: **T0 = Arms + Estate**, **T1 = + Office**, **T2 = +
-Name** (4). The per-pillar-per-tier thresholds are a **full §4 overhaul** back-solved against the fixed deed
-inventory; trade stays **≤⅓** of Estate & Wealth as the **only** structural cap, with cross-pillar combos
-computed **post-clamp** and excluded from the gate-check.
+**(3) The Phase-2 scaled grade-gate (D-028, scaled by D-049; Q7 / FU10).** Phase 2 tiers up on the **scaled
+grade-gate** **over the pillars revealed by that tier** — for **N** open pillars, **exactly 1 EXCELLENT + 1 GREAT
++ (N−2) GOOD**, all **≥ GOOD**, **no overflow** (at **T0**, N = 1, the gate **collapses to a single EXCELLENT**).
+Revealed set (one per tier, D-048): **T0 = Estate**, **T1 = + Arms**, **T2 = + Office**, **T3 = + Name** (4).
+Ascension is a **manual opt-in story event** (the gate only unlocks the *option*); **overshoot** earns a
+**grade-scaled permanent boon**; the **first ascension (T0→T1) always lands BIG** (D-062). The
+per-pillar-per-tier thresholds are a **full §4 overhaul** back-solved against the fixed deed inventory; trade
+stays **≤⅓** of Estate & Wealth as the **only** structural cap, with cross-pillar combos computed **post-clamp**
+and excluded from the gate-check.
+
+> **The standing-panel teaser (D-055).** From the capstone of **T0**, **House Influence becomes visible** as a
+> standing panel showing the **active pillar(s)** filled and bar-graphed beside the **locked pillars rendered as
+> unnamed silhouettes** — the player sees there are more pillars coming (and roughly how many) **without** their
+> names or mechanics being spelled out, so each reveal still lands as a story beat (§2.16(e); ui-design.md).
 
 Together: **climb the rungs (Phase 1: rung-meter + story) → unlock and grind the revealed pillars (Phase 2) →
-clear the hybrid profile → tier-up.** Every reveal along the way is **design-staggered one-at-a-time** (no
+clear the scaled grade-gate → tier-up.** Every reveal along the way is **design-staggered one-at-a-time** (no
 runtime reveal-queue; FU4).
 
-## 1.7 World & areas — v1 IMMEDIATE (T0–T2)
+## 1.7 World & areas — v1 IMMEDIATE (T0–T3)
 
 The estate-rank climb spatially **embodies** the tier escalation: you start trapped in one storehouse room and
 earn the rest of the estate room by room (the rank ladder made of doors), then the village, then the
 wilderness (by conditioning), then your own past (by memory). Each tier opens a fresh, larger canvas — **no
 reset** — and every frontier is **itself incremental** (arrive minimal, learn its people and systems). The
 wilderness is a **shared danger gradient gated by conditioning**, distinct from the Influence-tier authority
-canvas. v1 ships **full maps** for T0–T2 within a **~6–8-node cut-set** (the rest parked in §1.7.1). Areas live
+canvas. **T0 ships as a small walkable estate map** (delivering §1's "areas to explore"), extending into Asagiri (Village) at T2; v1 ships **full maps** for **T0–T3** within a **~6–8-node cut-set** (the rest parked in §1.7.1). Areas live
 in a **data-driven registry** (`content/world.ts`) with **unlock predicates** over GameState — reinforcing the
 data-driven, headlessly-testable framing (Q55).
 
@@ -609,14 +644,15 @@ data-driven, headlessly-testable framing (Q55).
 | **The Home Paddies & Dry Fields** | Kurosawa Estate (T0) | Estate | Fallow plots to reclaim; the granary | R1; *shinden* reclamation begins around R4. The rice/*koku* heartbeat (active grind, not idle producers). |
 | **The Drill Yard** | Kurosawa Estate (T0) | Estate | Training posts; Kihei's weapon rack | **R3, after the humbling first fight (combat live from T0).** Conditioning & idle-combat. |
 | **The Main House / *Omoya*** | Kurosawa Estate (T0) | Estate | Kitchen & inner rooms; the household shrine; the lord's study (ledgers) | R4 (houseman); the study at R7 (bailiff). |
-| **The Market / Shop Row** | Village of Asagiri (T1) | Village | Smith Gonta's forge; Obaa Kuni's herb stall; Brewer Tokuemon's; Weaver Onatsu's (silk) | T1 (estate trusts him to run errands; from T0-R6 / village V0). Per-shop reputation meters. |
-| **The Chief's House** | Village of Asagiri (T1) | Village | Yagōemon's receiving room; the village ledgers | T1, on building the chief's regard. Reputation roll-up + the doctored-ledger thread. |
-| **The Inn & Rumours Board** | Village of Asagiri (T1) | Village | The rumours board; the common room | T1. Sukezō's inn — hub for optional light folklore side-quests (unlocked organically). **None gate tier progression.** |
-| **The Shrine / Temple** | Village of Asagiri (T1) | Village | The shrine (*shimenawa*); the temple register; the Bon offering site | T1. Priest Ryōa's register of the vanished (a mystery clue). |
-| **The Jizō at the Weir** | Satoyama & Mountains / Asagiri boundary (shared, T0–T2) | Village / neutral | The boundary *jizō* **at the weir where he was found**; an offering left by an unknown hand | T0–T1, gated by conditioning. **The single find-spot** (Q11) — where he was pulled from the river — and the **one** capped residual-ambiguity beat (the unknown-hand offering lingers unresolved). |
-| **The Near Satoyama** | Satoyama & Mountains (shared, T0–T2) | Shared wilderness | Foraging groves; the bamboo stand | R2/T0, gated by conditioning. First ring of the danger gradient. |
-| **The River, Ford & Weir** | Satoyama & Mountains (shared, T0–T2) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T1, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). *(The find-spot **jizō at the weir** is its own row above — the lone residual-ambiguity beat is co-located there; Q11.)* |
-| **The Foothills & Charcoal Grounds** | Satoyama & Mountains (shared, T0–T2) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T1, deeper conditioning. Second danger ring. |
+| **The Workshops, Granary & Palisade** | Kurosawa Estate (T1) | Estate | The two workshops; the granary; the low palisade; the men-at-arms' rota | **T1** — the full-estate grind (estate stage **E1→E2**); proto-industry levers; the first paid retinue (Gohei & Yatarō) mustered. The Arms-pillar's first deeds bank here. |
+| **The Market / Shop Row** | Village of Asagiri (T2) | Village | Smith Gonta's forge; Obaa Kuni's herb stall; Brewer Tokuemon's; Weaver Onatsu's (silk) | T2 (the full estate trusts him to carry its business past the gate; village V0). Per-shop reputation meters; the real silk *meibutsu* market. |
+| **The Chief's House** | Village of Asagiri (T2) | Village | Yagōemon's receiving room; the village ledgers | T2, on building the chief's regard. Reputation roll-up + the doctored-ledger thread. |
+| **The Inn & Rumours Board** | Village of Asagiri (T2) | Village | The rumours board; the common room | T2. Sukezō's inn — hub for optional light folklore side-quests (unlocked organically). **None gate tier progression.** |
+| **The Shrine / Temple** | Village of Asagiri (T2) | Village | The shrine (*shimenawa*); the temple register; the Bon offering site | T2. Priest Ryōa's register of the vanished (a mystery clue). |
+| **The Jizō at the Weir** | Satoyama & Mountains / Asagiri boundary (shared, T0–T3) | Village / neutral | The boundary *jizō* **at the weir where he was found**; an offering left by an unknown hand | T0–T2, gated by conditioning. **The single find-spot** (Q11) — where he was pulled from the river — and the **one** capped residual-ambiguity beat (the unknown-hand offering lingers unresolved). |
+| **The Near Satoyama** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | Foraging groves; the bamboo stand | R2/T0, gated by conditioning. First ring of the danger gradient. |
+| **The River, Ford & Weir** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T2, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). *(The find-spot **jizō at the weir** is its own row above — the lone residual-ambiguity beat is co-located there; Q11.)* |
+| **The Foothills & Charcoal Grounds** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T2, deeper conditioning. Second danger ring. |
 
 ## 1.7.1 World & areas — LATER (T2 deep + T3–T4 expansion; parked, not cut)
 
@@ -723,8 +759,8 @@ static**; the origin cast unlocks at T2.
 ## 1.9 Side-threads — identity, origin & the dream rule
 
 Two grounded side-threads run quietly beneath the spine; both pay off only in **feeling, allies, and flavour,
-never power**, both resolve to human causes with no magic, and **both resolve at the Region tier (T2)** —
-T3/T4 carry the house's power rise.
+never power**, both resolve to human causes with no magic, and **both resolve at the Region tier (T3)** —
+T4/T5 carry the house's power rise.
 
 **(A) The Tama-vs-farmhand allegiance & the lost-child truth.** The valley grieves a child, **Tama**, taken
 ten years ago; a half-drowned, memoryless young man reads to them as Tama returned. The estate disbelieves
@@ -735,7 +771,7 @@ flinches at her name; the legend "remembering" a boy; a debt-ledger mention; a p
 truth:** Tama was a **girl** (the gender-drift is the fair clue) who **ran** from a violent stepfather and a
 near-sale into service to clear a debt; she has been alive and grown the whole decade **down-valley in
 Yanagi-watari** (a river-crossing market town a day the *other* way from the origin hub Sawatari-juku — the two
-T2 personal threads sit in **separate locales** by design, D-Q-otsuru-locale), living as **Otsuru**, too
+T3 personal threads sit in **separate locales** by design, D-Q-otsuru-locale), living as **Otsuru**, too
 ashamed to return — a quiet **"presumed dead → back from the dead"** that mirrors the protagonist's own. Resolution is grounded and **partial** (she may not forgive). The MC is **not** her. **This
 Otsuru/Tama TRUTH is spine-guaranteed at G6 for every player** (Q5/D-036) — independent of the optional Origin
 track.
@@ -745,7 +781,7 @@ porter/errand-hand for a small transport house in **Sawatari-juku**, with **livi
 there — father **Jinpachi**, mother **Oyuki**, sister **Okimi**, employer **Denbei**, friend **Kanta**,
 sweetheart **Osen** — all of whom **grieved him as dead** (his own "presumed dead → back from the dead").
 *(The father **Jinpachi** is the deliberate exception: **alive but long estranged**, away on the *kaidō* for
-years — his T2 beat is a **reconciliation**, **not** a second presumed-dead return, so **only the MC** comes
+years — his T3 beat is a **reconciliation**, **not** a second presumed-dead return, so **only the MC** comes
 back from the dead for this family and **Oyuki is not twice-bereaved-then-twice-restored**; D-Q-Oyuki.)* **The
 origin story (no magic):** he left on a mundane errand escorting a goods consignment over the pass; a **sudden
 landslide — a rain-loosened slope giving way above the road** — struck the small caravan and pitched him down
@@ -759,24 +795,27 @@ backstory reveal confers no stat/recipe/tool/combat bonus); the **morale buff** 
 speedup** are legitimate **present-day-relationship** mechanics that **stay** (Q12, §1.5.3/§1.5.4). Reclaiming
 his **name "Tahei" is the Origin O5 capstone — earned and *missable*** (a player who skips the Origin track may
 never reclaim it; Q5/D-036), distinct from the spine-guaranteed G6 Otsuru truth. **Both side-threads (incl. the
-father *reconciliation*) RESOLVE at the Region tier (T2)**; the T4 epilogue carries only an **optional emotional
+father *reconciliation*) RESOLVE at the Region tier (T3)**; the T5 epilogue carries only an **optional emotional
 callback** (the recovered family proud behind him — §1.11), never a second mechanical payoff.
 
 **The dream rule (enforced in writing *and* code):** returning autobiographical **memory only** — never
 clairvoyance, **ZERO mechanical bonus**. **Memory-only** (only things he lived; the "voice in the water" is a
 real person recalled, not a spirit). **Zero mechanical bonus** (memory grants access, not power). **Guaranteed
-cadence** (at least one fragment within a capped number of in-game days OR a skill/standing threshold; at least
-one origin beat always available without reputation-gating, so the thread never goes cold). All variance flows
+cadence** (at least one fragment within a capped number of in-game days OR a skill/standing threshold; **plus a
+dream/mystery beat at EVERY tier transition** — incl. **T0→T1** (which **lands BIG**, alongside the first
+ascension; D-062) and **T1→T2** — with the **full origin payoff held at the Region tier (T3)**, the Otsuru/Tama
+truth (D-055); at least one origin beat always available without reputation-gating, so the thread never goes cold). All variance flows
 through the one seeded RNG; cadence is headlessly regression-testable.
 
 ### Per-tier side-quest list
 
 | Tier | Side-quests (open-ended; never gate the spine) |
 |---|---|
-| **T0** | The spilled-rice recovery; the porter's-knot beat ("you've hauled before"); first dream fragment; Dowager Toku's first memory of the fall. |
-| **T1** | The inn rumours-board opener (the "kappa" of the ford = undertow + smugglers' sinking-spot); Magobei's skim (the "tanuki"); a per-family goodwill help; Priest Ryōa's register entry; the jizō-at-the-weir offering (the one residual-ambiguity beat); a first **Naoyuki rivalry→grudging-respect** beat (so the G5 ally-flip is earned; Q26). |
-| **T2** | The lost-child truth (Otsuru) resolves and is **spine-guaranteed at G6**; the origin reunions (Jinpachi, Oyuki, Okimi, Denbei, Kanta, Osen); the **Origin O5 name-reclaim ("Tahei")** as the optional, missable capstone; Kuzuhara re-founding + naming the drowned; the "one-eyed mountain god" = Hanzaki investigated; the fox-fire ridge = a hidden charcoal kiln. |
-| **T3+ (parked)** | The *osso* petition (a *gimin*-martyr bears the lethal risk); the rice-quota racket's reachable rungs answer; Naoyuki's coming-into-his-own; the succession secured. |
+| **T0** (tutorial) | The spilled-rice recovery; the porter's-knot beat ("you've hauled before"); first dream fragment; Dowager Toku's first memory of the fall. |
+| **T1** (full estate) | The **T0→T1 ascension** dream beat (BIG — the silhouettes stir; D-062); the cadence deepens with further fragments; settling in the first paid retinue (Gohei & Yatarō); deeper estate life as the house stabilises (E1→E2). |
+| **T2** | The inn rumours-board opener (the "kappa" of the ford = undertow + smugglers' sinking-spot); Magobei's skim (the "tanuki"); a per-family goodwill help; Priest Ryōa's register entry; the jizō-at-the-weir offering (the one residual-ambiguity beat); a first **Naoyuki rivalry→grudging-respect** beat (so the G5 ally-flip is earned; Q26). |
+| **T3** | The lost-child truth (Otsuru) resolves and is **spine-guaranteed at G6**; the origin reunions (Jinpachi, Oyuki, Okimi, Denbei, Kanta, Osen); the **Origin O5 name-reclaim ("Tahei")** as the optional, missable capstone; Kuzuhara re-founding + naming the drowned; the "one-eyed mountain god" = Hanzaki investigated; the fox-fire ridge = a hidden charcoal kiln. |
+| **T4+ (parked)** | The *osso* petition (a *gimin*-martyr bears the lethal risk); the rice-quota racket's reachable rungs answer; Naoyuki's coming-into-his-own; the succession secured. |
 
 ## 1.10 Folklore & quest-design philosophy
 
@@ -843,7 +882,7 @@ you may notice*," not "*the secret behind everything*."
 The T3 castle-town becomes a multi-route "become the leading house" conquest (offices held in the house's name,
 the daimyō's confidence won, rivals subordinated — never killed by the player, never rebellion). The late-game
 **anti-slump / variety** leans on **cross-pillar combos + seasonal-reward rotation** (Q22/Q20/FU20), with trade
-held out of the finale spine. The T4 Edo climax is a **national multi-pillar *banzuke* ranking of the HOUSE** on
+held out of the finale spine. The T5 Edo climax is a **national multi-pillar *banzuke* ranking of the HOUSE** on
 all four pillars (canon-locked: rank the house, D-010 ceiling kept), on which the Kurosawa climb from unranked
 toward the top, with the highest slots **structurally sealed** — the wall the truly powerful built, made the
 chart's literal geometry. Per-tier rank ladders also rank the house at each tier (a domain *banzuke* precedes
@@ -1018,7 +1057,7 @@ reset); **D-006 is amended** (Tahei reclaim Origin-gated at O5, earned + missabl
 | **D-001 / D-002 / D-003 / D-005** | Grounded / no-magic; folklore = believed-atmosphere (light flavour); mediocre-start (no hidden edge); title *Kamikakushi* + fictional mid-Edo setting. | **Hold.** |
 | **D-004** | Reset / prestige. | **⛔ REVERSED** — tiers replace prestige; **NO reset of any kind**; everything persists. Teaching layer re-homed onto Tokujirō + recruited origin friends. |
 | **D-006** | Protagonist identity. | **Amended (V2)** — fixed male, no rename; "Tama" borrowed name, true name **Tahei**; the **Tahei reclaim is now Origin-gated at O5 — earned + MISSABLE** (Q5); the **Otsuru/Tama TRUTH stays spine-guaranteed at G6** for every player; age **~18–20**. |
-| **D-007** | Estate-rise spine + tiers **T0–T4** + per-tier transition story gates. | **New ADR** (supersedes the mistaken-identity spine). |
+| **D-007** | Estate-rise spine + tiers **T0–T5** *(reshaped from T0–T4 by D-048 — the Estate split)* + per-tier transition story gates. | **New ADR** (supersedes the mistaken-identity spine). |
 | **D-008** | Three starter factions + **four-pillar** House Influence + per-tier gating. | **New ADR; amended (V2)** — gating is now the **HYBRID good/great/excellent** profile over revealed pillars (good in all · great in 2–3 · excellent in 1–2; Q7/FU10) under the **SEQUENTIAL Phase-1 (rungs) → Phase-2 (pillar grind)** model (FU7); the old "simple per-tier thresholds" framing is superseded; **trade ≤⅓ of Estate & Wealth** survives as the only structural cap. |
 | **D-009** | Origin = **living** family/friends (Sawatari-juku) opening at **T2**; Kuzuhara a re-foundable region node; access-only. | **New ADR** (supersedes family-death canon). |
 | **D-010** | Indirect/mediated **Edo ceiling** — rank the HOUSE (national *mitate-banzuke*), not the man; no *hatamoto*/shogunal audience. | **New ADR** (Option A: provincial/parody chart; personal rank hard-capped at chief steward). |

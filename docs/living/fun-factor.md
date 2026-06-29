@@ -5,14 +5,14 @@
 >
 > The design doc on **the game's fun**: *what* fun factor is for an incremental RPG, *why* it is the
 > make-or-break priority, *how* to measure it, *how* to improve it, and *how* to keep it high across the
-> **~28.5 h, T0–T2** climb (v1 of a five-tier saga — ~28.5 h is the §4.8 Phase-1 floor sum; total realized
+> **~28.5 h, T0–T3** climb (v1 of a six-tier saga — ~28.5 h is the §4.8 Phase-1 floor sum, re-derived across the 4 v1 tiers; total realized
 > play is larger, a separate human budget decision pending). This doc sets the **targets**;
 > [`qa-playtesting.md`](qa-playtesting.md) §3 is the harness that **measures** them; the
 > UI design bible (`ui-design.md`) handles the **look**. When this doc and a balance/UI
 > doc disagree on a number, this doc owns the *intent* ("it should feel like X"); the other owns the
 > *realisation* (the dial that gets it there).
 >
-> Grounded throughout in the PRD: §1.2 (pillars), §1.6 (the four pillars / five tiers), §1.12 (reveal
+> Grounded throughout in the PRD: §1.2 (pillars), §1.6 (the four pillars / six tiers), §1.12 (reveal
 > pacing), §1.13 (guardrails), §3 (the unlock ladders), §4.2 (accrual), §4.6.6 (soft-setback), §4.8
 > (the locked pacing budget).
 
@@ -67,7 +67,8 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **Lever:** **juice + feedback latency.** First action < 5 s (§4.8); reward feedback effectively
   instant (number pop, sound, bar-fill — qa-playtesting.md §6 "number/reward juice"). Tune deed base
   values + the 0.04 per-event cap (§4.2.1) so it's *many small acts*, never a few spikes — the texture
-  is "a recognised act every ~4.5–5 min" (the **T0** instance; tier-relative T0 ~5 / T1 ~8 / T2 ~13 min, Q20 — §4.8.1).
+  is "a recognised act every ~4.5–5 min" (the **T0** tutorial instance; tier-relative — T0 tutorial ~5 /
+  T2 Valley ~8 / T3 Region ~13 min, Q20; the new-T1 full-estate cadence re-derives with the §4.8.1 spine).
 
 ### 2.2 The rung-climb loop (~30–120 min) — *"one more rung"*
 - **What:** the estate-rank ladder (a fresh `R/V/G` ladder per tier, §3) — each rung a named promotion
@@ -76,7 +77,9 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   is always *visibly* near (a labelled next title, a partly-filled meter). Each rung also *delivers a
   reveal* (§2.4), so the climb pays double. "One more rung" is the meso-engine that turns a session into
   "just push to the next promotion."
-- **Lever:** **the ≥30-min floor + the ≤2–3× never-balloon rule (§4.8, both LOCKED).** The floor stops
+- **Lever:** **the ≥30-min floor + the ≤2–3× never-balloon rule (§4.8, both LOCKED).** The floor is
+  **T0-exempt and first binds from T1** — T0's tutorial rungs run a gentler ~10–15 min so the hook lands
+  fast, and the deliberate grind-floor begins with the full estate at T1. The floor stops
   rungs being trivially fast (a reveal-desert); the ratio cap stops the next rung being a wall. The art
   is making 30+ min feel earned, not stalled — which is why the rung must visibly *fill* the whole time.
 
@@ -103,7 +106,11 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **Lever:** **reveal cadence + reframe quality.** Drip on a tightening-then-loosening rhythm: fast in
   T0 (teach + hook), spaced but bigger later (§5). Rotate **three reveal types** so it never feels samey:
   (a) new *verb/system*, (b) new *content* in a system, (c) new *modifier* that recontextualises an old
-  loop. Never dump; never go silent (qa-playtesting.md §3 "novelty drip").
+  loop. Never dump; never go silent (qa-playtesting.md §3 "novelty drip"). Onboarding rides this **same
+  channel** — each new system is taught **in-world by a diegetic mentor** as it unlocks (Genemon for
+  labour/koku in T0, Kihei for arms/combat from T1, Sōan for healing in the cold open), **never via a popup
+  or tutorial modal** (D-063/D-064): the reveal *is* the lesson, so learning the game stays part of the fun
+  rather than a gate in front of it.
 
 ### 2.5 The seasonal loop (~30–120 min/season) — *the judged exam*
 - **What:** every season the world appraises the house and each pillar takes a **judged-result top-up**
@@ -124,14 +131,18 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **Why it's fun:** **earned mastery under real stakes.** A fight you might lose makes a fight you win
   *mean* something; the soft-setback (drop to 1 HP, ~½-day, light injury, maybe drop carried loot —
   **never levels/gear/Influence**, §4.6.6) keeps tension *real* without ever punishing the player out of
-  their progress. Loss motivates training; it never erases it.
+  their progress. Loss motivates training; it never erases it. The **mediocre-start bite is a
+  throughout-v1 stance, not just the R3 spike** (D-061): even the **T0 tutorial is quick but never *easy***
+  — fast to learn, still humbling to master. The bite always stays inside hard guardrails — every fight is
+  **winnable**, setbacks are **soft only**, and there is **no permanent loss and no dead-end / stranding** —
+  so humbling pulls the player to *train*, it never pushes them out of the game.
 - **Lever:** **the win-rate curve + the setback shape (both LOCKED).** The 20–35% first-fight target and
   the soft-setback shape are not levers; the magnitudes (drop chance, injury duration, clock cost) are.
   Tune so a loss stings for a minute and is recovered by play, never by reload-scumming or grief.
 
 ### 2.7 The narrative-payoff loop (tier-scale) — *warmth earned*
 - **What:** the diegetic beats — promotions narrated by named granters, the village's "Tama" legend, the
-  recurring-dream memory thread, the Origin family opening at T2, the rival houses dethroned at G7
+  recurring-dream memory thread, the Origin family opening at T3 (Region), the rival houses dethroned at G7
   (§1.5, §3.6). Delivered **through** mechanics, not over them.
 - **Why it's fun:** **meaning makes the numbers matter** (Universal Paperclips' lesson). The restoration
   fantasy — nobody → the lord's right hand, a dying house restored *and* surpassed — is the emotional
@@ -139,7 +150,7 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   so they never break balance.
 - **Lever:** **mechanical narrative > text narrative.** Let the *structural* reveal (new tier, new map,
   new political layer) carry the story; keep prose sparse (memory note: light folklore, open-ended).
-  Place the warmest beats at the longest tier's payoff (T2, §7) so the slog has an emotional anchor.
+  Place the warmest beats at the longest tier's payoff (T3 Region, §7) so the slog has an emotional anchor.
 
 ---
 
@@ -156,10 +167,10 @@ proxies make the loop fast.
 |---|---|---|---|
 | **First-5-min hook** | First action < 5 s (§4.8); within 5 min: a verb done, the log reacted, first koku earned, a next goal glimpsed | The hook decides whether there *is* a player. If the cold open doesn't grip, nothing else matters. | 2.1, 2.4 |
 | **No dead-time** | Never > ~N s with **no meaningful action and no reward incoming** | Dead air is *the* incremental killer; active-only has no idle excuse for it. Flags reward-deserts + choice-deserts. | 2.1, 2.3 |
-| **Reward cadence** | A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min in **T0**, **tier-relative** thereafter (T0 ~5 / T1 ~8 / T2 ~13 min, Q20) (§4.8.1) | Variable-ratio dopamine needs a *floor frequency* or the grind reads as starvation. | 2.1, 2.5 |
+| **Reward cadence** | A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min in **T0** (tutorial), **tier-relative** thereafter (T0 ~5 / T2 Valley ~8 / T3 Region ~13 min, Q20; new-T1 full-estate re-derives) (§4.8.1) | Variable-ratio dopamine needs a *floor frequency* or the grind reads as starvation. | 2.1, 2.5 |
 | **Always-a-visible-next-goal** | At every state: 2–3 affordable goals + 2–3 visible-but-locked + 1 distant silhouette | The pull never empties. An empty or instant "next thing" is a motivation vacuum. | 2.2, 2.4 |
 | **Novelty drip** | A *new-thing* reveal on a steady, never-dumped rhythm; rotate the 3 reveal types | Plateau = churn. The first-time-X moment is our freshest pleasure; it must never run dry or arrive all at once. | 2.4 |
-| **≥30-min floor without a wall** | Optimal bot can't clear a **grind** rung (R1–R7; the ~5-min R0 cold-open is exempt, §4.8.1) < ~28 min (§4.8); casual bot never *stuck* (ceiling isn't a wall) | The floor is the deliberate grind; the wall-check ensures grind ≠ frustration. Both bots are needed. | 2.2 |
+| **≥30-min floor without a wall** | Optimal bot can't clear a **grind** rung < ~28 min — the floor binds from **T1** (R8→R15); all of **T0** (R0→R7) is the floor-exempt tutorial ramp (§4.8.1); casual bot never *stuck* (ceiling isn't a wall) | The floor is the deliberate grind; the wall-check ensures grind ≠ frustration. Both bots are needed. | 2.2 |
 | **70/30 feel** | Deeds supply ~70% / seasonal ~30% of each pillar's gate growth (§4.2) | The two reward shapes do different jobs (punchy vs anticipated); drift either way flattens the feel. | 2.1, 2.5, 2.3 |
 | **Combat tension band** | First-fight win ~20–35%; climbs to ~85% over the rung (§4.6.6) | Too easy = no stakes; too hard = a wall. The band is where "earned mastery" lives. | 2.6 |
 
@@ -199,7 +210,7 @@ Six levers, in roughly the order to reach for them. Most fun problems are one of
 
 ---
 
-## 5. How to KEEP it high over ~28.5 h / T0–T2 (the hard part)
+## 5. How to KEEP it high over ~28.5 h / T0–T3 (the hard part)
 
 The long game is where incrementals die — they front-load engagement and rot into a mid-game "content
 desert." Our defences, mapped to the no-reset, tier-replaces-prestige spine:
@@ -209,16 +220,20 @@ reset of any kind** (D-004 reversed), so we reproduce prestige's three gifts —
 a *change in the unit of play* — *without* zeroing the player **and without breaking the core-loop canon (the
 MC's OWN actions; NO people-management sim; D-015)**. Through all of **v1 the player stays hands-on**; what
 changes each tier is the **DOMAIN** the house acts on and the **VERB SET** in the MC's own hands:
-- **T0 — you *do*, on the estate** (work the paddy, craft, the humbling first fight) — the domain is one house.
-- **T1 — you *do*, across the valley** — the domain expands to the village + roads; **new verbs** (trade/silk,
+- **T0 — you *do*, on the estate (tutorial)** (work the paddy, craft, the humbling first fight) — the domain
+  is one house, taught quick.
+- **T1 — you *do*, on the estate (full)** — the same house at full depth: the **Arms pillar deeds begin to
+  bank**, the koku flywheel **branches** into land/treasury/trade (trade **≤⅓**), the first paid retinue and
+  the E1→E2 stage land. **New verbs, same domain** — the deliberate grind-floor starts here. Still your own hands.
+- **T2 — you *do*, across the valley** — the domain expands to the village + roads; **new verbs** (trade/silk,
   road-security, the rumours web). Still your own hands; no team to manage.
-- **T2 — you *do*, across the region** — the domain expands again; **new verbs** (brokering/diplomacy, the
+- **T3 — you *do*, across the region** — the domain expands again; **new verbs** (brokering/diplomacy, the
   rival contest). Still hands-on; the *scope* and the *toolset* grow — not a management layer.
-- **T3+ — the unit of play begins to shift toward COMMAND** — auto-producers first appear (**T3+ ONLY**, light
+- **T4+ — the unit of play begins to shift toward COMMAND** — auto-producers first appear (**T4+ ONLY**, light
   roster cards, §2.5) and office/governance enters; this is where true delegation (*maneuver* → *court*) lives.
 
 So in **v1 the no-reset "fresh climb" comes from the growing domain + new verbs + the reveal cadence + the
-narrative payoffs** — NOT from delegation (a deliberate **T3+** escalation). Each tier promotes the *stage* the
+narrative payoffs** — NOT from delegation (a deliberate **T4+** escalation). Each tier promotes the *stage* the
 MC acts on "up the stack" while the long-arc numbers never reset — the Edo rank fantasy, without ever turning
 v1 into a management sim.
 
@@ -232,15 +247,16 @@ shift what's judged). Tightening-then-loosening rhythm: fast reveals in T0 to te
 bigger reveals later (the slow grind is the *space* in which each reveal lands harder — don't rush reveals
 to fill silence). Always telegraph the next one.
 
-**(d) Beat the mid-game slump — T2 (16 h) is the danger zone.** Specific counters, all scheduled into T2:
-- **Front-load T2's biggest new verb** (intrigue/faction or the trade-economy layer) at G0, so the
+**(d) Beat the mid-game slump — T3 Region (~16 h) is the danger zone.** Specific counters, all scheduled into T3:
+- **Front-load T3's biggest new verb** (intrigue/faction or the trade-economy layer) at G0, so the
   longest tier *opens* with its freshest system.
 - **Seasonal twists rotate the optimal strategy** — change what the seasonal judge rewards each cycle so
   returning to a session is a fresh puzzle, not a buffed number.
-- **Force re-engagement with early loops at new scale** — a T2 reform that lets you re-run estate/village
+- **Force re-engagement with early loops at new scale** — a T3 reform that lets you re-run estate/village
   deeds for a new resource ("push old heroes to 1000"), making everything fresh again.
-- **The cross-pillar combos "click" here** — design T2 as the tier where pillar synergies become
-  combinatorial (Melvor/NGU interlock), so depth, not just size, grows.
+- **The cross-pillar combos "click" here** — design T3 as the tier where pillar synergies become
+  combinatorial (Melvor/NGU interlock): the **FULL 4-pillar combo set** lands at Region/T3 (the partial
+  Office-pairs already opened at Village/T2), so depth, not just size, grows.
 
 **(e) Nested escalating goals, always three horizons visible** (§4 lever 3) — micro/meso/macro never
 empty, plus a distant **Edo silhouette** kept on the horizon the whole game so the macro pull never dies.
@@ -257,49 +273,63 @@ the whole climb). This is what makes hour 20 still mean something.
 | Fun-killer | What it feels like | Our guardrail (PRD mechanism) |
 |---|---|---|
 | **Grind-walls** | The next rung balloons; progress stalls into frustration | **≤2–3× never-balloon rule** within a tier + **1.15× intra-tier growth** (§4.8, canon); tier steps are deliberate chapter breaks, not walls. Casual-bot "never stuck" proxy (§3). |
-| **Plateaus / number-only tiers** | "Same loop, bigger numbers" — the classic mid-game rot | **Expanding domain + a new verb set per tier** (§5a–b) keeps each tier hands-on but fresh; delegation/auto-producers are a deliberate **T3+** escalation (§2.5), never a v1 management layer; T2 anti-slump package (§5d). |
+| **Plateaus / number-only tiers** | "Same loop, bigger numbers" — the classic mid-game rot | **Expanding domain + a new verb set per tier** (§5a–b) keeps each tier hands-on but fresh; delegation/auto-producers are a deliberate **T4+** escalation (§2.5), never a v1 management layer; T3 anti-slump package (§5d). |
 | **Reward-deserts** | Long stretches with no hit; the grind reads as starvation | **No-dead-time** + **reward-cadence** proxies (§3); the ~70% deed stream sized to "a recognised act every ~4.5–5 min" (§4.8.1). |
-| **Choice-deserts** | Active-only "nothing to *decide*," just a wait | **Active-only, no idle** by design (D-013); every deed-duration filled with a choice (§4 lever 4); auto-producers held to **T3+ only** (§2.5) so early game stays hands-on. |
+| **Choice-deserts** | Active-only "nothing to *decide*," just a wait | **Active-only, no idle** by design (D-013); every deed-duration filled with a choice (§4 lever 4); auto-producers held to **T4+ only** (§2.5) so early game stays hands-on. |
 | **Runaway / trivial economy** | One strategy snowballs and trivialises everything | **Trade ≤⅓ cap** (hard invariant, §4.2.3); **0.04 per-event cap** so no deed spikes a pillar (§4.2.1); **per-tier required-pillar drift** stops single-pillar dominance (§1.6.3). |
 | **Complexity dumps** | A wall of new panels/controls at once; overwhelm | **Fractal incrementality** — one piece at a time, the drill yard reveals post → rack → slots (§1.2 pillar 2, §3.0); **progressive disclosure** is the signature, not a cost. |
 | **"Nothing to do" (active-only trap)** | Player opens the game and there's no live goal | **Always-a-visible-next-goal** proxy (§3); the **seasonal exam** gives every session a near-term target (§2.5); telegraphed locks keep the horizon full. |
-| **Punishing setbacks** | A loss erases real progress → rage-quit / save-scum | **Soft-setback shape LOCKED** — 1 HP, ~½-day, light injury, never levels/gear/Influence (§4.6.6); **no permanent holding-loss, never a wipe** (§1.13). |
+| **Punishing setbacks** | A loss erases real progress → rage-quit / save-scum | **Soft-setback shape LOCKED** — 1 HP, ~½-day, light injury, never levels/gear/Influence (§4.6.6); **no permanent holding-loss, never a wipe** (§1.13); **no dead-end / stranding — humbling is always winnable** (D-061). |
 | **City-builder/4X tedium creep** | The estate becomes a management spreadsheet | Estate growth is **flavour, not a sim** (§1.2 pillar 5); **no assignment/management panel, no labour-gang** ever (§1.12); Influence stays diegetic (§1.13). |
 | **Reveal-deserts (too-fast rungs)** | Rungs clear so fast reveals run out → late-game emptiness | **≥30-min-per-rung floor LOCKED** (§4.8); novelty-drip proxy ensures reveals are paced, never exhausted (§3). |
 
 ---
 
-## 7. Per-tier fun watch-points (T0–T2, the v1 scope)
+## 7. Per-tier fun watch-points (T0–T3, the v1 scope)
 
-**T0 — Estate (4.5 h): the hook + teaching the loop.**
-- *Fun engine:* the fastest reveal cadence in the game (a panel every few minutes) + the deed-loop's
-  first juicy hits + the humbling R3 first fight as an early emotional spike. The cold open is one verb +
-  a log — the purest first impression (§3.1).
+**T0 — Estate-tutorial (the hook + teaching the loop; the ≥30-min floor is EXEMPT here).**
+- *Fun engine:* the fastest reveal cadence in the game (a panel every few minutes, on a gentle ~10–15 min/rung
+  ramp) + the deed-loop's first juicy hits + the humbling R3 first fight as an early emotional spike.
+  Onboarding is **diegetic** — Genemon teaches labour/koku and Sōan opens the healing thread **in-world,
+  never via a popup** (D-063). The cold open is one verb + a log — the purest first impression (§3.1).
 - *Fun risk:* **the cold open failing to hook** (first-5-min target, §3) and **over-teaching** (a text
-  wall instead of learn-by-doing). T0 is a tutorial that must never *feel* like one.
+  wall instead of learn-by-doing). T0 is a tutorial that must never *feel* like one — **quick, but never
+  *easy***: the mediocre-start bite stays intact even here (D-061).
 - *Watch:* first action < 5 s; the deed→koku→reveal stack legible within 5 min; reveals reframe, not just
-  add; the wolf is humbling-but-winnable (~20–35%), not a brick wall.
+  add; the wolf is humbling-but-winnable (~20–35%), not a brick wall; the teaching lands by *doing*, no modals.
 
-**T1 — The Valley (8 h): first real breadth.**
+**T1 — Estate-full (first real grind: the ≥30-min floor's first bite).**
+- *Fun engine:* the same one house at full depth — the **Arms pillar deeds begin to bank** (Kihei arrives to
+  teach arms/combat, diegetically), the **koku flywheel branches** into land/treasury/trade (trade **≤⅓**), the
+  **first paid retinue** (Gohei & Yatarō) and the **E1→E2** estate stage land. New verbs, same familiar domain —
+  and the **first ascension lands BIG** (the Yūji Syuku beat) so the floor *opens* on a high.
+- *Fun risk:* the floor reading as a **stall** rather than an *earned* grind — T0's fast tutorial cadence has
+  just ended, and the deliberate slow-down must feel like the game **deepening**, not braking; the new Arms axis
+  must read as a fresh pillar, not a tax. Humbling continues — still winnable, soft-setback only, no permanent
+  loss, no dead-ends (D-061).
+- *Watch:* each rung visibly *fills* the whole ≥30 min (§2.2); the cadence shift from hook→floor reads as depth,
+  not a brake; the first ascension lands as a genuine fanfare; Arms feels like a new fantasy, not bookkeeping.
+
+**T2 — The Valley (~8 h): first real breadth.**
 - *Fun engine:* the first real **breadth** (the valley domain opens to the house — still your own hands), the **first interconnection** (pillars
   start funding/gating each other), and the first big breadth reveals — market/coin, component crafting,
   the silk *meibutsu*, the inn rumours board, the **first Office bar lighting** (V4). The village rep web
   fans out as an *optional* flavour side-track (never a gate).
 - *Fun risk:* **breadth read as a complexity dump** (too many panels too fast) and **the optional
-  side-track feeling mandatory or pointless.** Office is a *new required gate* (was 0 at T0) — it must
+  side-track feeling mandatory or pointless.** Office is a *new required gate* (absent through T0–T1) — it must
   feel like a fresh axis, not a tax.
 - *Watch:* fractal reveal discipline holds across the wider content; side-faction speedup is *felt but
   never required* (§4.8); the domain expanding to the valley + the new verbs read as a **promotion** (the
   house's reach grows), not a tax — and the MC stays **hands-on** (no management sim).
 
-**T2 — Region (16 h): the warmest payoff + the rival contest — and the slump danger zone.**
+**T3 — Region (~16 h): the warmest payoff + the rival contest — and the slump danger zone.**
 - *Fun engine:* the emotional peak — the **Origin family/friends open** and the **personal-mystery
   (Tama/Tahei) payoff lands** (§1.6.3, §3.6); the **rival houses Tomita & Akagi** are the incumbents to
   surpass, with **G7 = rivals dethroned** as the v1 climax. Play stays **hands-on** but the stage becomes the
-  region — brokering/diplomacy verbs + the rival contest; cross-pillar combos click. (Governance/delegation
-  proper is **T3+**, not v1.)
+  region — brokering/diplomacy verbs + the rival contest; the FULL cross-pillar combos click. (Governance/delegation
+  proper is **T4+**, not v1.)
 - *Fun risk:* **THE mid-game slump** — the longest tier is where "cycle and cycle for bigger numbers"
-  kills retention. 16 h is more than T0+T1 combined.
+  kills retention. It is the longest single tier in v1 — more than any earlier tier alone.
 - *Watch:* deploy the full anti-slump package (§5d) — biggest new verb at **G0** (front-loaded), seasonal
   twists rotating the optimal strategy, a reform to re-run early loops at new scale, cross-pillar combos.
   Land the warm narrative beats *during* the grind (not all at G7) so the slog always has an emotional
@@ -310,7 +340,7 @@ the whole climb). This is what makes hour 20 still mean something.
 
 ## 8. Open threads (forward, not v1-blocking)
 
-- **T3/T4 fun** (delegation steps *maneuver* and *court*) are sketched in §5a but not yet designed in
+- **T4/T5 fun** (delegation steps *maneuver* and *court*) are sketched in §5a but not yet designed in
   depth — the "fresh climb without reset" thesis must be re-proven at those tiers when they're authored.
 - The **seasonal-twist rotation** (what the judge rewards each cycle) is named here as an anti-slump
   device but its concrete schedule is a §4/§5 balance-and-content task.
@@ -324,6 +354,6 @@ the whole climb). This is what makes hour 20 still mean something.
 - [`qa-playtesting.md`](qa-playtesting.md) §3 — the harness/proxies that **measure** these
   targets (this doc owns *why*, that doc owns *how we check*).
 - `ui-design.md` — the visual bible that owns the **look** of every reveal/reward beat.
-- [`prd.md`](prd.md) — §1.2 (pillars), §1.6 (four pillars / five tiers), §1.12 (reveal pacing), §1.13
+- [`prd.md`](prd.md) — §1.2 (pillars), §1.6 (four pillars / six tiers), §1.12 (reveal pacing), §1.13
   (guardrails), §3 (unlock ladders), §4.2 (accrual), §4.6.6 (soft-setback), §4.8 (the locked pacing
   budget). [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §K — the fun/UI process intent.
