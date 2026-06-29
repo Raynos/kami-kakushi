@@ -18,6 +18,35 @@ describe('multi-backend redundant save', () => {
     expect(JSON.stringify(loaded!.state)).toBe(JSON.stringify(s));
   });
 
+  it('round-trips a POPULATED v0.3 state (tier/influence/quests/location/marketBought) byte-identically', async () => {
+    // the thin sample() above only exercises the v0.3 fields at their DEFAULTS; a real
+    // cross-session save is a rich Phase-2 state. Lock that those fields persist intact —
+    // guards against a non-JSON-safe field (a Set/Map) ever sneaking into GameState.
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1000);
+    const rich: GameState = {
+      ...sample(),
+      tier: 1,
+      influence: { estate: { value: 312, highWater: 360, judged: 240 } },
+      quests: {
+        accepted: ['crop-raiders'],
+        progress: { 'crop-raiders': ['rout-monkey', 'mend-fence'] },
+        completed: [],
+      },
+      marketBought: { 'mountain-greens': 2 },
+      location: 'home-paddies',
+    };
+    expect((await mgr.save(rich)).ok).toBe(true);
+    const loaded = await mgr.load();
+    expect(loaded).not.toBeNull();
+    expect(JSON.stringify(loaded!.state)).toBe(JSON.stringify(rich)); // nothing dropped/mangled
+    // and the new fields specifically survive (not just an incidental byte-match)
+    expect(loaded!.state.tier).toBe(1);
+    expect(loaded!.state.influence.estate.judged).toBe(240);
+    expect(loaded!.state.quests.progress['crop-raiders']).toEqual(['rout-monkey', 'mend-fence']);
+    expect(loaded!.state.marketBought['mountain-greens']).toBe(2);
+    expect(loaded!.state.location).toBe('home-paddies');
+  });
+
   it('writes to ALL available backends (redundancy)', async () => {
     const a = new MemoryBackend();
     const b = new MemoryBackend();
