@@ -116,7 +116,8 @@ metadata:
   op-model v2 FINAL, PRD-split) against the repo, then
   [`path-to-v0.3.md`](../../docs/plans/2026-06-29-path-to-v0.3.md) was rewritten into **two clean parts** —
   **Part 1 · the doc/PRD content ripple** (~41 items, gated on the human's extra PRD feedback) + **Part 2 · the
-  spine-first v0.3 build** (carry-forward + 9 ordered steps = roadmap **T0-M3** + the **T0-M2 HP-carry** retune) —
+  v0.3 build** (RE-SCOPED session-16 into 3 movements: re-baseline T0-M1/M2 → T0-M3 spine → T0-M4 breadth;
+  T0-M3 + T0-M4 back-to-back) —
   with all done work collapsed into a footer. Plus the 3 ungated consistency fixes the audit flagged: flipped the
   roadmap-re-axe box (tracker now **41 open / 3 done**), corrected the stale "37"→"~41" ripple figure, and
   repointed all **6 broken `docs/plans/` links** → `project/archive/`. Commits `0d2fa28`/`3148e78`, docs-only.
@@ -176,10 +177,15 @@ metadata:
      open, in parallel). (b) ✅ **DONE (session-11)** — roadmap promoted to `docs/living/roadmap.md` + 5 forks
      finalized. (c) ✅ **DONE (session-15)** — **Part 1 (the PRD/doc ripple) is EXECUTED** (reshape + forks
      rippled into the 7 `prd/0N-*.md` section files + the living docs; `verify` green). (d) **NEXT — Part 2,
-     the build (`path-to-v0.3` Part 2):** **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b
-     foundation), **spine-first** — close the four-pillar loop (the live Estate pillar + the BIG T0→T1 ascension
-     on thin content) **before** showcase breadth; at the start of Part 2, re-derive the **§4 balance
-     MAGNITUDES** onto the 6-tier spine (liquid, banner'd in `prd/04-combat-balance.md`) + regen `docs/content/`.
+     the build (`path-to-v0.3` Part 2), RE-SCOPED 2026-06-29 session-16 into THREE movements:** **Movement 1 —
+     re-baseline T0-M1/M2** (v0.2 was built against an older PRD → audit the source code AND the running game via
+     `battery` + `capture-game-states` → gap report ✅/🟡/🔴 in `project/audit/reports/` → re-implement the gaps;
+     blanket carry-forward is downgraded to *carry-forward-earned-per-fun-slice-by-audit*); **Movement 2 — the
+     T0-M3 spine** (the live Estate pillar + the BIG T0→T1 ascension on thin content, prove it CLOSES);
+     **Movement 3 — the T0-M4 breadth** (first quest, koku flywheel, mentor lore-talk + market, walkable map,
+     stance/ability reveals, found/crafted 2nd weapon). **T0-M3 + T0-M4 ship back-to-back** (coupled); spine-first
+     held *within* the release. At the start of Movement 2, re-derive the **§4 balance MAGNITUDES** onto the 6-tier
+     spine (liquid, banner'd in `prd/04-combat-balance.md`) + regen `docs/content/`.
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:
