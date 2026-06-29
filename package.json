@@ -9,6 +9,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "build:itch": "npm run build && cd dist && zip -r ../kami-kakushi-itch.zip . && cd ..",
+    "gh-pages": "bash src/scripts/gh-pages.sh",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
