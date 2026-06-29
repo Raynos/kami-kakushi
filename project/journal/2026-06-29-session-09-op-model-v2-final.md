@@ -90,3 +90,25 @@ snapshot at `project/brainstorms/raw/2026-06-29-diverge-skill-design.json`.
 **Verified:** full `npm run verify` PASS (incl. playcheck:check + the teeth test; 103 tests).
 
 **Next:** Workstream C (author `.claude/skills/diverge/SKILL.md` from the design panel). E/F held per X-4.
+
+---
+
+## Build log — Workstream C (diverge skill) — SKILL.md + registry LANDED (CLAUDE.md rule + ADR deferred to F)
+
+**What:** authored `.claude/skills/diverge/SKILL.md` from the verified design panel. Spine =
+**branch-preservation**: the winner collapses into `main` **flag-free**; losing variants live on a retained
+`diverge/<surface>` git branch + committed screenshots, so `main`'s resting flag-debt is **ZERO** — directly
+answering the human's X-2 flag-rot worry. Caps: 3 open diverges · 2 durable kept-flags · 3 variants/set.
+Self-pick rubric (Intentionality hard-gate + conservative tiebreak); R-item with a 14-day **auto-confirm** TTL
+so silence is safe & lossless. Created the registry stub `project/audit/variants-log.md`.
+
+**Deferred — build JIT on the first real diverge** (can't test variant tooling with no `src/ui/variants/`):
+`qa-shots --variant`, `src/scripts/variant-gc.mjs`, the pre-commit isolation guard. Documented in the skill §0.
+
+**Held to Workstream F (X-4):** the CLAUDE.md "design by divergence" rule + the ADR (D-071) — doc-heavy,
+collision-prone with the live roadmap agent. *Directive #2/#4's CLAUDE.md change is queued, not dropped.*
+
+**Files:** `.claude/skills/diverge/SKILL.md` (new) · `project/audit/variants-log.md` (new registry stub).
+
+**Next:** E + F held per X-4 until the roadmap agent clears the docs lane → F lands CLAUDE.md rule + ADRs
+D-070…D-072; E does the ASCII PRD split. Then the final adversarial review over A–F.
