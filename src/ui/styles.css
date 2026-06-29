@@ -1000,6 +1000,20 @@ html {
   color: var(--ochre);
   letter-spacing: 0.05em;
 }
+/* P3: the loot→craft panel — material tally + forge button */
+.craft-mat {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-small);
+  padding: 1px 0;
+}
+.craft-mat-count {
+  color: var(--beni);
+  font-variant-numeric: tabular-nums;
+}
+.craft-mat-count.ok {
+  color: var(--rokusho);
+}
 
 /* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
    unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */

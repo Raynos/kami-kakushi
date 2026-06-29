@@ -77,6 +77,18 @@ export type { BalanceProfile } from './content/balance';
 export { MOBS, GRINDABLE_MOBS, getMob, MOB_IDS } from './content/enemies';
 export type { MobId, MobDef } from './content/enemies';
 export { applyGrindFight, applyScriptedWolf } from './fight';
+export {
+  MATERIALS,
+  getMaterial,
+  MATERIAL_IDS,
+  RECIPES,
+  getRecipe,
+  canCraft,
+  missingMaterials,
+  MATERIAL_DROPS,
+  rollMaterialDrop,
+} from './content/crafting';
+export type { MaterialId, MaterialDef, RecipeDef, MaterialDrop } from './content/crafting';
 
 export type { Rng, RngStream } from './rng';
 export {

@@ -32,6 +32,7 @@ import {
 import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
+import { getRecipe, canCraft } from './content/crafting';
 import {
   getActivity,
   activityLine,
@@ -57,6 +58,7 @@ export type Intent =
   | { type: 'cook_meal' }
   | { type: 'improve_estate' }
   | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' }
+  | { type: 'craft_weapon'; recipeId: string }
   | { type: 'ascend' };
 
 export type IntentType = Intent['type'];
@@ -212,7 +214,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'equip_weapon': {
-      if (intent.weaponId === 'wood_axe' && !isUnlocked(next, 'verb-equip-axe')) return state;
+      // the wood_axe is now FOUND/CRAFTED (D-052) — gate equipping it on having forged it,
+      // not on the retired drillmaster grant.
+      if (intent.weaponId === 'wood_axe' && !hasFlag(next, 'crafted-wood_axe')) return state;
       const weapon = getWeapon(intent.weaponId);
       next = { ...next, equippedWeapon: intent.weaponId, weaponDurability: weapon.durabilityMax };
       next = applyRewards(next, {
@@ -272,6 +276,26 @@ export function reduce(state: GameState, intent: Intent): GameState {
             ? 'You learn to turn the blow aside. (Guard +1)'
             : 'You harden to the work; your wind comes easier. (Vigor +1)';
       next = applyRewards(next, { log: [{ channel: 'system', text: line }] });
+      break;
+    }
+    case 'craft_weapon': {
+      // loot→craft (D-052): the FOUND/CRAFTED 2nd weapon, replacing the retired grant. Consume
+      // the gathered materials, forge + take up the weapon. Gated on combat being live + the
+      // materials being on hand (discover-by-doing: the panel surfaces once you've looted).
+      if (!isUnlocked(next, 'tab-combat')) return state;
+      const recipe = getRecipe(intent.recipeId);
+      if (!canCraft(next.resources, recipe)) return state;
+      for (const [mat, qty] of Object.entries(recipe.inputs)) next = withResource(next, mat, -qty);
+      const crafted = getWeapon(recipe.outputWeapon);
+      next = {
+        ...next,
+        equippedWeapon: recipe.outputWeapon,
+        weaponDurability: crafted.durabilityMax,
+      };
+      next = applyRewards(next, {
+        flags: [`crafted-${recipe.outputWeapon}`],
+        log: [{ channel: 'milestone', text: recipe.blurb }],
+      });
       break;
     }
     case 'ascend': {

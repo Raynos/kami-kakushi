@@ -42,6 +42,10 @@ import {
   AREAS,
   ESTATE_STAGES,
   NAMES,
+  RECIPES,
+  MATERIALS,
+  getMaterial,
+  canCraft,
   balance,
 } from '../core';
 import type { Sfx } from './sfx';
@@ -813,7 +817,7 @@ export function mount(
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }
-    if (isUnlocked(state, 'verb-equip-axe') && state.equippedWeapon !== 'wood_axe') {
+    if (hasFlag(state, 'crafted-wood_axe') && state.equippedWeapon !== 'wood_axe') {
       const eq = el('button', 'auto-toggle', 'Take up the axe 斧');
       eq.type = 'button';
       eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: 'wood_axe' }));
@@ -828,6 +832,40 @@ export function mount(
     }
     if (wctrl.childElementCount > 0) wc.append(wctrl);
     combatPane.append(wc);
+
+    // craft panel (loot→craft, D-052) — surfaces once you've stripped a material off a foe
+    // (discover-by-doing), hidden once forged. The 2nd weapon is FOUND + MADE, never gifted.
+    const recipe = RECIPES[0]!;
+    const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
+    if (hasMaterial && !hasFlag(state, `crafted-${recipe.outputWeapon}`)) {
+      const cc = el('div', 'weapon-card frame craft-card');
+      cc.append(el('div', 'rung-now', recipe.label));
+      cc.append(
+        el(
+          'div',
+          'skill-blurb',
+          'Strip what the carcasses give up, then forge a real edge at the woodlot smithy — found and made, not tossed off a rack.',
+        ),
+      );
+      for (const [mat, need] of Object.entries(recipe.inputs)) {
+        const have = state.resources[mat] ?? 0;
+        const m = getMaterial(mat);
+        const row = el('div', 'craft-mat');
+        row.append(el('span', 'craft-mat-name', `${m.label} ${m.kanji}`));
+        row.append(el('span', `craft-mat-count${have >= need ? ' ok' : ''}`, `${have}/${need}`));
+        cc.append(row);
+      }
+      const can = canCraft(state.resources, recipe);
+      const craftBtn = el('button', 'verb', recipe.label);
+      craftBtn.type = 'button';
+      craftBtn.disabled = !can;
+      if (!can) craftBtn.title = 'Fell more foes for materials.';
+      craftBtn.addEventListener('click', () =>
+        dispatch({ type: 'craft_weapon', recipeId: recipe.id }),
+      );
+      cc.append(craftBtn);
+      combatPane.append(cc);
+    }
 
     // stance — the active combat decision (segmented control; pips recompute live)
     const stanceRow = el('div', 'stance-row');

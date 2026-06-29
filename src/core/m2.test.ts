@@ -13,6 +13,8 @@ import {
   applyScriptedWolf,
   getMob,
   getWeapon,
+  getRecipe,
+  canCraft,
   balance,
   revealPass,
   isUnlocked,
@@ -308,6 +310,59 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
     const after = applyScriptedWolf(s);
     expect(after.flags['first-fight-survived']).toBe(true);
     expect(after.character.hp).toBeGreaterThanOrEqual(1);
+  });
+});
+
+// T0-M2-F2 — the FOUND/CRAFTED 2nd weapon (D-052): the drillmaster grant is RETIRED; the
+// wood_axe is looted-for + forged, never gifted off a rack.
+describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () => {
+  // HP carries (D-050), so a bare grind sticks at 1 HP after a loss — these tests heal +
+  // repair between fights (the eat/repair loop the auto-loop runs), as the no-stranding test does.
+  const recover = (s: GameState): GameState => {
+    const w = getWeapon(s.equippedWeapon);
+    let n = s;
+    if (n.character.hp < hpMax(n)) n = { ...n, character: { ...n.character, hp: hpMax(n) } };
+    if (durabilityBand(n.weaponDurability, w.durabilityMax).name !== 'Pristine')
+      n = { ...n, weaponDurability: w.durabilityMax };
+    return n;
+  };
+
+  it('the grant is retired — leveling up never gifts the axe', () => {
+    let s = atFullSatiety(createInitialState(7));
+    for (let i = 0; i < 300 && s.character.level < 2; i++)
+      s = applyGrindFight(recover(s), 'monkey');
+    expect(s.character.level).toBeGreaterThanOrEqual(2); // we did level up…
+    expect(s.flags['axe-offered']).toBeUndefined(); // …but no gift fired
+    expect(s.equippedWeapon).toBe('carrying_pole'); // still the humble pole
+  });
+
+  it('materials are obtainable by fighting (the loot stream)', () => {
+    let s = atFullSatiety(createInitialState(3));
+    let got = false;
+    for (let i = 0; i < 200 && !got; i++) {
+      s = applyGrindFight(recover(s), 'monkey');
+      got = (s.resources.beast_sinew ?? 0) > 0 || (s.resources.hardwood ?? 0) > 0;
+    }
+    expect(got).toBe(true);
+  });
+
+  it('crafting consumes the materials and forges + equips the axe', () => {
+    const recipe = getRecipe('craft_wood_axe');
+    const base = atFullSatiety(createInitialState(1));
+    const stocked: GameState = {
+      ...base,
+      rung: 'R3',
+      resources: { ...base.resources, hardwood: 3, beast_sinew: 1 },
+      unlocked: [...base.unlocked, 'tab-combat'],
+    };
+    expect(canCraft(stocked.resources, recipe)).toBe(true);
+    const crafted = reduce(stocked, { type: 'craft_weapon', recipeId: 'craft_wood_axe' });
+    expect(crafted.equippedWeapon).toBe('wood_axe'); // forged + taken up
+    expect(crafted.flags['crafted-wood_axe']).toBe(true);
+    expect(crafted.resources.hardwood).toBe(0); // inputs consumed
+    expect(crafted.resources.beast_sinew).toBe(0);
+    // can't craft again without materials (no-op)
+    expect(reduce(crafted, { type: 'craft_weapon', recipeId: 'craft_wood_axe' })).toBe(crafted);
   });
 });
 

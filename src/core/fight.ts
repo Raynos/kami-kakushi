@@ -11,6 +11,7 @@ import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from '.
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
 import { NAMES } from './content/names';
+import { rollMaterialDrop, getMaterial } from './content/crafting';
 import {
   COMBAT_XP_K,
   SETBACK_HP,
@@ -59,18 +60,6 @@ function gainCombatXp(state: GameState, amount: number): GameState {
         },
       ],
     });
-    if (newLevel >= 2 && state.flags['axe-offered'] !== true) {
-      next = applyRewards(next, {
-        flags: ['axe-offered'],
-        unlock: ['verb-equip-axe'],
-        log: [
-          {
-            channel: 'narration',
-            text: `${NAMES.drillmaster} eyes your carrying-pole and tosses you a felling axe off the woodlot rack. "A real edge, for a real guard. Use it."`,
-          },
-        ],
-      });
-    }
   }
   return next;
 }
@@ -97,6 +86,21 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
       ],
     });
     next = gainCombatXp(next, mob.level * COMBAT_XP_K);
+    // loot→craft (D-052): strip crafting materials off the carcass through the seeded LOOT
+    // stream (independent of the combat cursor). The 2nd weapon is now FOUND + CRAFTED, never gifted.
+    const [drop, lootRng] = rollMaterialDrop(next.rng, mob.id);
+    next = { ...next, rng: lootRng };
+    if (drop) {
+      next = applyRewards(next, {
+        resources: { [drop.material]: drop.qty },
+        log: [
+          {
+            channel: 'combat',
+            text: `You strip ${drop.qty} ${getMaterial(drop.material).label.toLowerCase()} from the ${mob.label.toLowerCase()}.`,
+          },
+        ],
+      });
+    }
     next = advanceClock(next, FIGHT_TICKS);
   } else {
     // soft setback (D-050/§4.6.6): you limp away at the HP floor — never losing a
