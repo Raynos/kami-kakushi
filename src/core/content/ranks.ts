@@ -112,7 +112,9 @@ export const RANKS: readonly RankDef[] = [
     granter: NAMES.drillmaster,
     meterThreshold: 80,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: () => false, // R3→R4 (the Phase-2 gate) is built at M3
+    // M2·2: R3→R4 opens once you've actually stood the gate-watch — done real combat duty,
+    // not merely filled the meter with labour (the `combat-blooded` flag, set on any grind fight).
+    storyGate: (f) => f['combat-blooded'] === true,
     rewardOnReach: {
       flags: ['rank-r3', 'combat-unlocked'],
       unlock: [
@@ -126,6 +128,87 @@ export const RANKS: readonly RankDef[] = [
         {
           channel: 'milestone',
           text: `${NAMES.drillmaster} sets you to the estate's defence — pests, beasts, and the masterless men on the woodlot road. A weapon, a yard to train in, and a duty that is yours. You are the gate-watch now.`,
+        },
+      ],
+    },
+  },
+  // R4–R7 — the rest of the T0 estate ladder (M2·2, deliberately THIN: threshold + a reveal-as-
+  // plot log beat, reusing the existing labour verbs). The estate's trust deepens toward the
+  // capstone; R7 sets `t0-capstone`, opening Phase 2 (the Estate-pillar grind) + the T0→T1 ascension.
+  {
+    id: 'R4',
+    tier: 0,
+    title: 'Kura-warden',
+    kanji: '蔵番',
+    granter: NAMES.elder,
+    meterThreshold: 110,
+    eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
+    storyGate: () => true,
+    rewardOnReach: {
+      flags: ['rank-r4'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `${NAMES.elder} hands you the key to the kura. "Mind the stores as if the rice were your own. The house is forgetting you were ever a stranger." You are the kura-warden now.`,
+        },
+      ],
+    },
+  },
+  {
+    id: 'R5',
+    tier: 0,
+    title: 'House-servant',
+    kanji: '家人',
+    granter: NAMES.elder,
+    meterThreshold: 145,
+    eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
+    storyGate: () => true,
+    rewardOnReach: {
+      flags: ['rank-r5'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `No longer a hired hand but a man OF the house — you take your meals at its board and answer to its name. The work is the same; the standing is not.`,
+        },
+      ],
+    },
+  },
+  {
+    id: 'R6',
+    tier: 0,
+    title: "Steward's man",
+    kanji: '用人',
+    granter: NAMES.steward,
+    meterThreshold: 185,
+    eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
+    storyGate: () => true,
+    rewardOnReach: {
+      flags: ['rank-r6'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `Lady ${NAMES.steward} sets you to the steward's errands — ledgers carried, messages run, the house's small business put in your hands. They are weighing you for something larger than a servant.`,
+        },
+      ],
+    },
+  },
+  {
+    id: 'R7',
+    tier: 0,
+    title: 'Trusted of the house',
+    kanji: '内衆',
+    granter: NAMES.lord,
+    meterThreshold: 230,
+    eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
+    storyGate: () => true,
+    rewardOnReach: {
+      // the T0 capstone: `t0-capstone` opens Phase 2 (`phaseOf`), where Estate-pillar deeds
+      // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5).
+      flags: ['rank-r7', 't0-capstone'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `The lord ${NAMES.lord} himself calls you to the inner rooms. "You came to us with no name and nothing in your hands. Look what those hands have done." For the first time the house reckons your worth — not as a servant, but as a man who might one day carry its standing. The measure of the House begins to take shape before you.`,
         },
       ],
     },

@@ -59,8 +59,11 @@ export const DEFAULT_BALANCE_PROFILE: BalanceProfile = 'demo';
  *  (the built ladder) — extend when R4+ land. REAL values are PROVISIONAL (v0.2) — tune by
  *  pacing-report (`npm run pacing`). */
 export const RUNG_METER_THRESHOLDS: Record<BalanceProfile, Partial<Record<RankId, number>>> = {
-  demo: { R0: 14, R1: 30, R2: 48, R3: 80 },
-  real: { R0: 7000, R1: 7600, R2: 8200, R3: 8800 }, // provisional (v0.2) — tune by playtest
+  // R0–R7 = the full T0 ladder (M2·2). demo = minutes-to-review; real = back-solved ≥30-min
+  // floor (T0 is floor-EXEMPT per D-049/D-056, so these over-satisfy — re-derived to the real
+  // ~10–15 min/rung single profile when the DEMO/REAL fork retires in M2·8). provisional (v0.2).
+  demo: { R0: 14, R1: 30, R2: 48, R3: 80, R4: 110, R5: 145, R6: 185, R7: 230 },
+  real: { R0: 7000, R1: 7600, R2: 8200, R3: 8800, R4: 9400, R5: 10000, R6: 10600, R7: 11200 },
 };
 /** The active meter threshold for a rung under a given profile. */
 export function rungThreshold(

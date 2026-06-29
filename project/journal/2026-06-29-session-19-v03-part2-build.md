@@ -98,9 +98,20 @@ The background scatter-gather Workflow returned all 6 modules + tests + integrat
 M1 leaves — **sfx** (P8), **dialogue** (P7), **crafting** (P3); M4 leaves (after spine closes) — **quests**,
 **map**, **market**. Each is self-contained; I verify + wire each on the main line.
 
+## 5 · Movement 2 · M2·2 — R7 capstone (thin R4→R7, fix R3 dead-end) — DONE
+
+Closed the T0 rung ladder: authored **R4 Kura-warden / R5 House-servant / R6 Steward's man / R7 Trusted of the
+house** (thin — threshold + a reveal-as-plot log, reusing the labour verbs); fixed R3's dead-end
+`storyGate:()=>false` → opens R3→R4 on a new `combat-blooded` flag (set on any grind fight = you've stood real
+gate-watch duty). **R7 sets `t0-capstone`**, so `phaseOf()` flips to **2** — the macro engine opens. Added R4–R7
+thresholds to both balance profiles (over-satisfy the floor; M2·8 re-derives to the single ~10–15 min/rung
+profile). New `m1.test.ts` block: ladder is contiguous R0…R7, R3→R4 needs combat-blooded, the climb reaches R7
+and opens Phase 2. Regenerated `docs/content/t0-content.md`. `verify` green (9 gates).
+
 ## Next intended steps (current)
-1. **Spine (Movement 2) continues on main**: ✅ M2·1 schema → **NEXT** R7 capstone (fix R3 dead-end storyGate) →
-   pillars.ts accrual → seasonal judged result → ascension.ts → live-Estate UI (DIVERGE).
+1. **Spine (Movement 2) continues on main**: ✅ M2·1 schema · ✅ M2·2 R7 capstone → **NEXT** M2·3 pillars.ts
+   accrual (Phase-2-gated `pillarDeltas`) → M2·4 seasonal judged result → M2·5 ascension.ts → M2·6 live-Estate UI
+   (DIVERGE).
 2. **Integrate the leaf modules** as the Workflow returns: M1 leaves (sfx P8, dialogue P7, crafting P3) into
    Movement-1; M4 leaves (quests, map, market) AFTER the spine closes (spine-first).
 3. **P1c** auto-loop eat-to-heal (`main.ts`), **P9** touch-legible wear axis (`render.ts`), **M2·8** retire

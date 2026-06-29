@@ -11,6 +11,9 @@ import {
   getActivity,
   season,
   levelForXp,
+  promoteRungs,
+  phaseOf,
+  RANKS,
   type GameState,
   type Intent,
 } from './index';
@@ -70,6 +73,48 @@ describe('T0 Phase-1 rung climb', () => {
     s = run(s, repeat('rake_rice', 7));
     s = run(s, [...farm(40)]); // pile on meter
     expect(s.rung).toBe('R2'); // R2→R3 storyGate needs 'first-fight-survived' (built at M2a)
+  });
+});
+
+// M2·2 — the thin R4→R7 ladder closes T0: the capstone opens Phase 2 (the macro-pillar grind).
+describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
+  it('the rung ladder is the contiguous T0 spine R0…R7', () => {
+    expect(RANKS.map((r) => r.id)).toEqual(['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7']);
+    expect(RANKS.every((r) => r.tier === 0)).toBe(true);
+  });
+
+  it('R3→R4 needs real gate-watch duty (combat-blooded), not just the meter', () => {
+    const base = createInitialState(1);
+    const atR3 = (extra: Record<string, boolean>): GameState => ({
+      ...base,
+      rung: 'R3',
+      rungMeter: 100000, // meter half of the AND-gate satisfied
+      flags: { ...base.flags, awake: true, ...extra },
+    });
+    expect(promoteRungs(atR3({})).rung).toBe('R3'); // meter alone won't pass
+    expect(promoteRungs(atR3({ 'combat-blooded': true })).rung).toBe('R4'); // duty done → promotes
+  });
+
+  it('the ladder climbs R0→R7 and the capstone opens Phase 2', () => {
+    let s = createInitialState(1);
+    s = {
+      ...s,
+      flags: {
+        ...s.flags,
+        awake: true,
+        farmed: true, // R1→R2 story half
+        'first-fight-survived': true, // R2→R3 story half
+        'combat-blooded': true, // R3→R4 story half
+      },
+    };
+    expect(phaseOf(s)).toBe(1);
+    let guard = 0;
+    while (s.rung !== 'R7' && guard++ < 20) {
+      s = promoteRungs({ ...s, rungMeter: 100000 }); // refill the meter between promotions
+    }
+    expect(s.rung).toBe('R7');
+    expect(hasFlag(s, 't0-capstone')).toBe(true);
+    expect(phaseOf(s)).toBe(2); // the macro engine opens
   });
 });
 

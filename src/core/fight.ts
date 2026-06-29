@@ -81,7 +81,9 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
   const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob));
   let next: GameState = { ...state, rng: result.rng };
   next = wearWeapon(next);
-  next = applyRewards(next, { flags: [`mob-${mob.id}`] }); // bestiary fills by encounter
+  // bestiary fills by encounter; `combat-blooded` marks that you've stood real gate-watch
+  // duty (the R3→R4 story gate, M2·2) — set on ANY grind fight, win or lose.
+  next = applyRewards(next, { flags: [`mob-${mob.id}`, 'combat-blooded'] });
 
   if (result.won) {
     next = setHp(next, result.mcHpLeft);
