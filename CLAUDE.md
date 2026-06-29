@@ -65,6 +65,14 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp) for all scratch /
   working files (intermediate output, throwaway scripts, scratch notes) — **not** the global system
   scratchpad. Anything worth keeping graduates to `docs/`, `project/brainstorms/`, `project/audit/`, or `project/journal/`.
+- **Durable by default — a plan/brainstorm/analysis is a FILE, not a chat message.** If it's substantial
+  enough to *propose, review, or act on*, write it to a durable `.md` **before** you present it as a
+  deliverable and **before** you implement a line of it — no matter the source (your own in-context
+  reasoning, a subagent, or a `Workflow`). **Never** let a plan live only in the conversation (it dies at
+  compaction) or only as a pointer in a feedback/ledger entry (a pointer is not the artifact). Homes:
+  **discovery / Q&A / proposals → [`project/brainstorms/`](project/brainstorms)**; **implementation plans /
+  reel-backs / option-maps → [`docs/plans/`](docs/plans)**; **settled design → [`docs/`](docs)**. The test
+  before you act: *if this session vanished right now, is the idea still on disk?* If no, write it first.
 - **Durable capture of workflow / subagent outputs.** `Workflow` results live only in ephemeral session
   scratch (`<session>/tasks/<id>.output`) and **die with the session** — never leave research stranded
   there. After **every workflow**: (1) **snapshot the raw `.output` JSON verbatim** into
@@ -86,7 +94,8 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   milestone tracker), **[ui-design.md](docs/living/ui-design.md)** (the woodblock/ink UI bible),
   **[fun-factor.md](docs/living/fun-factor.md)** (what fun is), **[qa-playtesting.md](docs/living/qa-playtesting.md)**
   (how Claude play-tests). Generated content/balance tables live under **[`docs/content/`](docs/content)**
-  (e.g. t0-content.md), produced by `src/scripts/gen-docs.ts`.
+  (e.g. t0-content.md), produced by `src/scripts/gen-docs.ts`. Reviewable **implementation plans / proposals
+  / reel-backs** (pre-canon, awaiting sign-off) live under **[`docs/plans/`](docs/plans)**.
 - [`project/feedback/`](project/feedback) — the human's **direct feedback** (a live inbox; one dated file per session);
   closed records stay alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now applied to the PRD).
 - [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: decisions (`H`-items) and reviews

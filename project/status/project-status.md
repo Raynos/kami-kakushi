@@ -66,32 +66,48 @@ metadata:
   — but **NOT yet applied to the PRD (the PRD body is STALE on tiers).** Master checklist + precedence:
   [`pending-prd-reshape.md`](pending-prd-reshape.md); intent: [`../feedback/2026-06-28-tier-reshape.md`](../feedback/2026-06-28-tier-reshape.md);
   human reading queue: [`docs-to-read-for-human.md`](../docs-to-read-for-human.md). *(Applying + building is downstream of the ⭐ v2 / H10 gate below.)*
+- **Phase update — v0.2 AUDIT FULLY TRIAGED + FORWARD DECISIONS LOCKED (2026-06-29, decision session).** A
+  human-driven pass closed the v0.2 audit **100% — 23 decisions across 7 question-batches** (this session +
+  the reshape D-048…D-055). Newly locked this session (→ ADRs **D-056+**, landing in the batched ripple):
+  real **D-049 pacing** as default + a DEV-only 2×/4×/8× speed toggle (H1); keep the signed **20–35%
+  single-fight** band (H2); **split** `prd.md` into per-section files (H8); analytic-for-gate /
+  sampled-for-display win-rate (amends signed D-043); **spine-first T0** + a big T0→T1 ascension (H3);
+  humbling-throughout difficulty (T0 quick but not easy); diegetic-mentor onboarding + a small walkable T0
+  map (non-hand-holdy); **carry-forward + retune** the shipped T0 (M0–M2b kept); linear koku flywheel now /
+  branch at T1; save-wipe on the schema bump; the **durable-by-default** CLAUDE.md norm. The **6-tier
+  reshape** (D-048…D-055) + all of the above stand **LOCKED**. **Source of truth:**
+  [`../feedback/2026-06-29-decision-session.md`](../feedback/2026-06-29-decision-session.md); the audit report
+  is banner-marked triaged. **ADRs D-056+ + the PRD/doc/code ripple are PENDING** — one batch, gated on the
+  human's extra PRD feedback. New plans in `docs/plans/`: the **roadmap re-axe** (nested
+  Tier→Milestones→Fun-slices), the **op-model v2-lite reel-back**, and the **implementation plan**.
 - **Battery audit (2026-06-27):** a multi-wave state-of-the-game review of v0.1 →
   **[`project/audit/reports/state-of-the-game-2026-06-27.md`](../audit/reports/state-of-the-game-2026-06-27.md)** (CONVERGED) +
   6 H-items (`human-in-the-loop/decisions.md`). **v0.1 scores** (↑=better, except Laziness): Fun 4.5 · UI 7 ·
   PRD-faithful 6.5 · README-spirit 7 · human-feedback 7.5 · Incremental 4.5 · Laziness 4.5/10. Verdict: a
   **beautifully-built chassis with no engine** (now substantially addressed by v0.2 above). 10 M3 guardrails
   proposed (G-PACING/CURVE/FUN@M3a/TEST-TEETH/MIGRATION/…).
-- **⭐ TOP PRIORITY — MUST BE DONE (pending human review): adopt Operating Model v2.** A high-level process
-  change to make the build **autonomous + higher-quality + self-correcting** (the human flagged the
-  hand-holding cost as huge). **Plan (review-only, nothing applied):**
-  [`docs/plans/operating-model-v2-implementation.md`](../../docs/plans/operating-model-v2-implementation.md);
-  *why:* [`project/brainstorms/2026-06-28-operating-model-v2.md`](../brainstorms/2026-06-28-operating-model-v2.md).
-  Tracked as **⭐ H10** (`human-in-the-loop/decisions.md`) — ⛔ **blocks the next build phase (S2 macro engine)**
-  and **absorbs H4 + H7–H9**. Keystone = an executable **fun-gate** (`playcheck`) wired into `verify` so
-  *hollowness fails the build*. **Awaiting human sign-off of the §0 forks + §8 checklist + §7 ADRs; do NOT
-  build/commit ADRs/CLAUDE.md/skills until then.**
+- **⭐ TOP PRIORITY — pending human review (separate, ~1 hr): Operating Model v2 (H10).** The 2026-06-29
+  decision session **reeled v2 back** as an overengineered draft — review the **v2-lite reel-back**
+  ([`docs/plans/operating-model-v2-lite-reelback.md`](../../docs/plans/operating-model-v2-lite-reelback.md),
+  the drop/cut/keep map), **not** the original implementation plan. Inputs to the review: the nested
+  **roadmap re-axe** ([`docs/plans/2026-06-29-roadmap-reaxe-proposal.md`](../../docs/plans/2026-06-29-roadmap-reaxe-proposal.md))
+  + the **`diverge`-mandatory** gate. Tracked as **⭐ H10** (`human-in-the-loop/decisions.md`) — ⛔ gates
+  op-model adoption; **absorbs H4 (→ D-054) + H7 + H9**. **The v2 _bundle_ awaits review — NOT a repo
+  freeze; individual improvements are greenlit ad hoc (e.g. the `tdd` skill, 2026-06-29).**
 - **How to resume:**
-  1. Read the newest journal (`project/journal/2026-06-28-session-02-battery-skill.md`) + the **v2 plan**
-     (`docs/plans/operating-model-v2-implementation.md`) + the audit report.
+  1. Read the newest journal (`project/journal/2026-06-29-session-04-decision-session.md`) + the
+     **decision-session ledger** (`project/feedback/2026-06-29-decision-session.md`, the source of truth) +
+     the three new `docs/plans/` docs (roadmap re-axe, op-model v2-lite reel-back, implementation plan).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
      `faceWolf`, `fight`, `auto`).
-  4. **Next (gated on human review):** **adopt Operating Model v2** (⭐ H10) — once signed off, build in
-     order: #0 pre-commit gate → #1 `playcheck` keystone → #2 roadmap re-axe (S0–S4) + slice-manifest → #3
-     ship ceremony → #5 feedback-checks → #4 `diverge` skill. **Then S2 = the macro engine** is the first
-     slice built under v2 (ships only if `playcheck` says the macro pull is real). The audit's H1–H6 +
-     v0.2 tuning rough-edges fold into the S1/S2 slice work. T1/T2 per `docs/living/prd.md` §7.2 = S3/S4.
+  4. **Next, in order:** (a) **op-model v2 review** — human's separate ~1 hr pass over the **v2-lite
+     reel-back** (⭐ H10). (b) Once the human's **extra PRD feedback** lands → the **batched PRD/doc/code
+     ripple** in ONE batch: write ADRs **D-056+**, split `prd.md` into per-section files, apply the reshape
+     (D-048…D-055) + this session's decisions to the PRD body, ripple docs + code. (c) **Then the build:**
+     **carry-forward + retune** the shipped T0 (keep the play-tested M0–M2b foundation), **spine-first** —
+     close the four-pillar loop (Estate pillar + the first T0→T1 ascension on thin content) **before**
+     showcase breadth, per the roadmap re-axe + implementation plan in `docs/plans/`.
 - **Demo arc (what to look at):** cold open (wake → Sōan grounds the folklore → rake rice) → labour earns
   the kept-hand then trusted-hand rungs (the estate + Skills tab ink in) → the humbling grain-store wolf
   (R3, survived by luck) → combat goes live (forecasts, level up, the woodlot axe, auto-fight). Screenshots:
