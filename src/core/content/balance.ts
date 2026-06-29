@@ -97,6 +97,12 @@ export const SEASONAL_OVER_DEEDS_DEN = 7;
 /** The season judge's ±10% swing on its payoff (a good/lean season), never net-negative (D-061). */
 export const SEASONAL_SWING = 0.1;
 
+// ── Ascension boon (M2·5 / D-049/D-062) — the permanent reward for ascending. The FIRST
+// ascension always lands BIG (the base), and OVERSHOOTING the gate buys more (grade-scaled).
+// Granted as attribute points (a real, permanent stat investment). provisional (v0.2, liquid). ──
+export const ASCENSION_BOON_BASE_POINTS = 5; // the "always big" first-contact boon (D-062)
+export const ASCENSION_BOON_OVERSHOOT_PER_POINT = 60; // +1 point per this much Estate-value past EXCELLENT
+
 // ── Conditioning gate (PRD §4.4/§4.6.1) — the ZERO-stat weak→capable enablement ──
 /** Conditioning level needed to enter the first danger ring / be combat-capable. */
 export const CONDITIONING_GATE_LEVEL = 2;

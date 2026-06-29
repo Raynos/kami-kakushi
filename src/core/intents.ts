@@ -13,6 +13,7 @@ import { satietyMax, hpMax, staminaRate, season, canDoActivity } from './selecto
 import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, promoteRungs } from './ranks';
 import { applyEstateDeed } from './pillars';
+import { ascend } from './ascension';
 import { isUnlocked } from './unlock';
 import { applyGrindFight, applyScriptedWolf } from './fight';
 import {
@@ -54,7 +55,8 @@ export type Intent =
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
   | { type: 'improve_estate' }
-  | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' };
+  | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' }
+  | { type: 'ascend' };
 
 export type IntentType = Intent['type'];
 
@@ -247,6 +249,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
             ? 'You learn to turn the blow aside. (Guard +1)'
             : 'You harden to the work; your wind comes easier. (Vigor +1)';
       next = applyRewards(next, { log: [{ channel: 'system', text: line }] });
+      break;
+    }
+    case 'ascend': {
+      // the manual opt-in T0→T1 ascension (gate-checked inside `ascend` — a no-op if not ready).
+      next = ascend(next);
       break;
     }
   }

@@ -126,10 +126,26 @@ New `pillars.ts` — the House-Influence (家威) engine:
 the 3/7 share, ±10% swing, and the clock-wired judge (fires at a season boundary in Phase 2, not Phase 1).
 `verify` green (9 gates). **The spine's two halves now exist — M2·5 ascension closes the loop.**
 
+## 7 · Movement 2 · M2·5 — ascension (T0→T1) — DONE — **THE SPINE CLOSES** ✅
+
+New `ascension.ts` — the manual opt-in tier ascension (D-049/D-062/D-013a):
+- `ascensionAvailable` = the gate (Estate ≥ EXCELLENT, Phase 2, tier 0) — unlocks the OPTION only, **never
+  auto-advances** (tested: a normal reduce doesn't ascend; only the explicit `ascend` intent does).
+- `ascend` bumps `tier` 0→1, grants a **grade-scaled permanent boon** (attribute points — always-big base D-062
+  + overshoot buys more), fires the **dream beat** that READS the porter's-knot mystery flag (no longer
+  write-only — fixes the v0.1 bug) + the ceremonial milestone cascade the UI will render.
+- `ascend` intent wired into the reducer (gate-checked inside — a no-op when not ready).
+
+`ascension.test.ts` (7) — incl. **the spine-closure proof**: drive the real reducer from the R7 capstone →
+grind Estate deeds to EXCELLENT → `ascend` → **tier 1**, boon granted, can't re-ascend. The macro loop
+demonstrably CLOSES on thin content (decision #18 spine-first, proven before M4 breadth). `verify` green.
+
 ## Next intended steps (current)
-1. **Spine (Movement 2) continues on main**: ✅ M2·1 schema · ✅ M2·2 R7 capstone · ✅ M2·3 pillars · ✅ M2·4
-   seasonal judge → **NEXT** M2·5 ascension.ts (gate=Estate≥EXCELLENT, tier 0→1, grade-scaled boon, dream beat) —
-   then prove the spine CLOSES — → M2·6 live-Estate UI (DIVERGE) → M2·8 retire fork + DEV tools.
+1. **Movement 2 core spine is DONE** (M2·1–M2·5; the loop closes). **NEXT** the surfaces around it:
+   **M2·6 live-Estate UI** (mutate `renderHouseInfluence` → active Estate bar + locked silhouettes + Ascend CTA +
+   the T0→T1 ceremony; **mandatory `diverge`**) → **M2·8** retire DEMO/REAL fork + DEV speed/teleport.
+2. **Integrate the M1 leaf modules** (sfx P8, dialogue P7, crafting P3) — Movement-1 0c remainder.
+3. **Movement 3** (T0-M4 breadth: quests/map/market leaves + flywheel + stance reveals) → roadmap-respect verify.
 2. **Integrate the leaf modules** as the Workflow returns: M1 leaves (sfx P8, dialogue P7, crafting P3) into
    Movement-1; M4 leaves (quests, map, market) AFTER the spine closes (spine-first).
 3. **P1c** auto-loop eat-to-heal (`main.ts`), **P9** touch-legible wear axis (`render.ts`), **M2·8** retire
