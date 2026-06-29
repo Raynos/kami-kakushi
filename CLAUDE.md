@@ -115,5 +115,8 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   recordings under `screens/` (one dated pass-folder each; `screens/latest/` is the live `qa-shots.mjs` gallery).
 - [`tmp/`](tmp) — repo-local scratchpad for throwaway working files (git-ignored except its README).
 - `.claude/skills/` — `grill-me` (stress-test a design / extract one into a doc),
-  `capture-game-states` (drive the game headlessly and screenshot/record its states), and
-  `battery` (run a multi-lens fresh-eyes stress-test battery over the spec/design/build).
+  `capture-game-states` (drive the game headlessly and screenshot/record its states),
+  `battery` (run a multi-lens fresh-eyes stress-test battery over the spec/design/build),
+  `tdd` (test-first authoring — red→green→refactor through the pure-core public contract; adopted ~1:1 from
+  [mattpocock/skills](https://github.com/mattpocock/skills)), and
+  `handoff` (compact the session into a `/handoff` doc for a fresh agent to resume; adopted ~1:1).

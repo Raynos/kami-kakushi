@@ -66,3 +66,10 @@ shared index; see the Incident note. Nobody's work was lost.)
 - **`project/feedback/` → `project/human-feedback/`** (all 5 tracked files via `git mv` of the dir).
 - References updated across tracked `.md` with a **segment-safe** pass: only the `feedback` path segment (lookbehind `(?<![\w-])`, lookahead for `/`, `)`, or backtick) is rewritten, so filenames like `prd_human_feedback.md` and prose like `human-feedback` / `feedback-loop` / `check-feedback-closed.ts` are preserved. Plain literal replaces for the four dated basenames. Verified post-run: no stale old refs anywhere, no double-prefixes (the earlier draft of this note self-mangled because the `perl` pass also ran over this journal — corrected here). Untracked files (other agents' in-flight brainstorms) left untouched.
 - **Incident (own-goal, not a clobber):** committed `f54f0be` via `git commit -- <my paths> $(git diff --name-only)` to dodge the other agent's staged `implementation-plan.md → path-to-v0.3.md` rename — but `$(git diff --name-only)` captured their `path-to-v0.3.md` (they'd edited it after staging), so my commit wrongly included that file's *add*. Their `implementation-plan.md` *deletion* stays staged for them; their next commit completes the rename and clears the HEAD duplicate. No content lost or overwritten. **Lesson:** never fold `git diff --name-only` into a pathspec on a shared dirty tree — list only your own explicit paths.
+
+## Addendum 4 — CLAUDE.md skills enumeration + qa-playtesting cross-ref (session close)
+Human-approved doc tidy: listed `tdd` + `handoff` in CLAUDE.md's `.claude/skills/` Layout enumeration, and
+cross-referenced the `tdd` skill from `qa-playtesting.md` §0 mode (1) — the skill owns the test-first
+red→green→refactor discipline; §0 stays the owner of the *why*. Session wrap: working tree clean; scratch
+(`tmp/{tdd,handoff}-src`) removed. Committed scoped (explicit paths only — no `$(git diff)` after the f54f0be
+own-goal).

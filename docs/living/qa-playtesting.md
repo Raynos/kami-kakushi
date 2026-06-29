@@ -26,7 +26,9 @@ and play** — each need a different QA tool. This plan covers all three.
   fixed `(seed, intent-script)` reproduces byte-identically — every bug is reproducible, every
   playtest is a regression test.
 - **Three QA modes, three tools:** (1) **headless correctness** (unit tests + the content-verifier +
-  `state()` assertions); (2) **headless pacing/fun** (the auto-player + fun-proxy telemetry — the only
+  `state()` assertions — authored test-first via the [`tdd`](../../.claude/skills/tdd) skill, which owns the
+  red→green→refactor discipline; this §0 owns the *why*); (2) **headless pacing/fun** (the auto-player +
+  fun-proxy telemetry — the only
   way to "play" 28.5h); (3) **visual/feel** (MCP browser drive + screenshots that **the agent itself
   reviews** with its own vision against the UI design-language bible).
 - **The agent is a capable reviewer, not a blind builder.** With Playwright MCP + Chrome DevTools MCP
