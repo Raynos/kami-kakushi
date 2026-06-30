@@ -5,15 +5,15 @@
 The single source of truth for in-flight UI variant diverges. One row per open diverge. Drives the lazy debt
 sweep run at every session start and every diverge (see [`.claude/skills/diverge/SKILL.md`](../../.claude/skills/diverge/SKILL.md)).
 
-**Invariant:** every `diverge/<surface>` git branch ⇔ exactly one **open** row here. `main`'s resting
-flag-debt is zero — losing variants live only on their branch + committed screenshots, never as `?variant=`
-flags in `main` (the sole exception is the capped `keep-flags` table below).
+> **⚠ MODEL CHANGED — D-075 (2026-06-30, refines D-073).** Variants no longer live on a `diverge/<surface>`
+> **branch** or as screenshots — they live **in the codebase**, switchable live via the **DEV panel** (DEV-only,
+> stripped from prod). **Full 2–3 working variants always** (diverge-LITE retired), and **each variant is its own
+> line item in `human-in-the-loop/review.md`** (reviewed live by toggling). `main`'s resting flag-debt is now
+> "**zero PROD debt**" (the DEV toggle carries the alternates). The branch-based §§ of the skill + this log's
+> tables below are being **re-worked alongside the DEV-panel build** (v0.4); the rows below are the v0.3 history.
 
-> **Note (v0.3, session-19):** the standard skill keeps losing variants on a `diverge/<surface>` git branch,
-> but v0.3's UI work ran on a **shared working tree** (multiple live agents) where a `git switch` would clobber
-> another agent's WIP — so v0.3 used **folder-preservation** instead (committed variant screenshots + a
-> `DECISION.md` under `project/audit/screens/<surface>/`), same 2–3-approach discipline, zero `main` flag-debt.
-> "branch-was" reads *folder-preserved* for those rows.
+**Invariant (D-075):** every variant in the codebase ⇔ a **review.md line item** (and a row here). Variants live
+in-codebase behind the **DEV-panel toggle**; prod ships only the self-picked default (zero prod flag-debt).
 
 ## Open diverges (branch-preserved; `main` is flag-free) — cap 3
 

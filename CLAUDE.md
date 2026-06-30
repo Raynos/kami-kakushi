@@ -71,11 +71,15 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   fun-proxy *measurement*) → [`docs/living/qa-playtesting.md`](docs/living/qa-playtesting.md); **the visual
   language** → [`docs/living/ui-design.md`](docs/living/ui-design.md). The agent reviews its own screenshots with its
   own vision and iterates; the human is the final fun & taste arbiter.
-- **Design by divergence (new/major UI surfaces).** No new or majorly-restyled UI surface ships from a single
-  idea — run the **`diverge`** skill: 2–3 distinct *approaches* → headless contact sheet → **self-pick** → an
-  R-item for human override (never blocks). The winner collapses into `main` **flag-free**; losing variants live
-  on a `diverge/<surface>` branch + committed screenshots, so `main` carries **zero** flag-debt. One-line tweaks
-  are exempt. See **D-073** + [`.claude/skills/diverge/SKILL.md`](.claude/skills/diverge/SKILL.md).
+- **Design by divergence (new/major UI surfaces) — D-075 (v2, refines D-073).** No new or majorly-restyled UI
+  surface ships from a single idea — run the **`diverge`** skill for **FULL 2–3 distinct, *working* approaches**.
+  **No "diverge-LITE" single-idea shortcut, and no buggy variants** — every variant must actually work. The
+  variants live **in the codebase**, switchable live via the **DEV panel** (DEV-only, `import.meta.env.DEV`,
+  stripped from prod), so the human reviews them **in the running UI** (not headless screenshots); **each variant
+  gets its own line item in [`project/human-in-the-loop/review.md`](project/human-in-the-loop/review.md)**. The
+  agent self-picks a coherent prod default (never blocks); the toggle keeps the alternates until the human
+  confirms — **zero PROD flag-debt** (prod ships only the default). One-line tweaks are exempt. See **D-075** +
+  [`.claude/skills/diverge/SKILL.md`](.claude/skills/diverge/SKILL.md).
 - **Push each quality rule to the highest rung that can hold it** — a `verify`/CI **gate** > a git **hook** > a
   **skill** > a written **norm**. Prefer the rung that can't be quietly forgotten (a green-or-red check beats a
   good intention).

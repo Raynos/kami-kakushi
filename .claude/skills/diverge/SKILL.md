@@ -1,28 +1,43 @@
 ---
 name: diverge
-description: Generate 2–3 genuinely-distinct visual/design variants of a UI surface, screenshot each headlessly, self-review each against ui-design.md, present a contact sheet, self-pick a winner, and file it for human override — with a bounded feature-flag discipline so variants never rot the build. MANDATORY for any new or majorly-restyled UI surface (one-line tweaks exempt). Use when building or restyling a meaningful UI surface, or when the human says "show me variants / options".
+description: Generate FULL 2–3 genuinely-distinct, WORKING visual/design variants of a UI surface, wire each into the live DEV-panel toggle, self-review each against ui-design.md, self-pick a prod default, and file EACH variant as its own line item in human-in-the-loop/review.md for the human to review live and override. D-075 (refines D-073) — variants live IN the codebase behind a DEV-only toggle (stripped from prod), NOT on branches / as screenshots; NO "diverge-LITE" single-idea shortcut and NO buggy variants. MANDATORY for any new or majorly-restyled UI surface (one-line tweaks exempt). Use when building or restyling a meaningful UI surface, or when the human says "show me variants / options".
 ---
 
 # Diverge
 
-No new or majorly-restyled UI surface ships from a single idea. `diverge` generates **2–3 distinct
-approaches**, screenshots each, self-reviews them against the woodblock/ink bible
-([`docs/living/ui-design.md`](../../../docs/living/ui-design.md)), and presents a contact sheet — then
-**self-picks** a winner and files it as an R-item so the human can override later, **without ever blocking
-forward progress** (CLAUDE.md autonomy + D-071).
+> **⚠ MODEL CHANGED — D-075 (2026-06-30, refines D-073). READ THIS FIRST.** Two things changed and OVERRIDE the
+> branch-based mechanics in the §§ below (which are being re-worked alongside the DEV-panel build, v0.4):
+> 1. **FULL 2–3 working variants, always.** No "diverge-LITE" single-idea shortcut; no shipping a buggy variant —
+>    every variant must actually work so the human can compare them fairly.
+> 2. **Variants live IN the codebase, switched live via the DEV panel** (DEV-only, `import.meta.env.DEV`, stripped
+>    from prod) — NOT on a `diverge/<surface>` branch and NOT as headless screenshots. The human reviews them by
+>    **toggling each in the running UI**. **Each variant gets its own line item in
+>    [`human-in-the-loop/review.md`](../../../project/human-in-the-loop/review.md).** The agent self-picks a
+>    coherent **prod default**; the toggle keeps the alternates until the human confirms → **zero PROD flag-debt**.
+>
+> The autonomy / never-blocks / self-pick / ui-design-rubric parts below all still hold. Where a section says
+> "branch" / "`git branch -D`" / "committed screenshots", read it as "in-codebase variant behind the DEV toggle"
+> until the section is rewritten.
 
-## The core discipline — branch-preservation (why this can't rot the build)
+No new or majorly-restyled UI surface ships from a single idea. `diverge` generates **FULL 2–3 distinct, working
+approaches**, self-reviews them against the woodblock/ink bible
+([`docs/living/ui-design.md`](../../../docs/living/ui-design.md)), wires each into the **live DEV-panel toggle** —
+then **self-picks** a prod default and files **each variant** as a review.md line item so the human can review
+them live and override, **without ever blocking forward progress** (CLAUDE.md autonomy + D-071).
 
-The danger with mandatory variants is **feature-flag debt**: temporary `?variant=` flags piling up in `main`
-until the build is unmaintainable. We avoid it entirely:
+## The core discipline — in-codebase variants, DEV-only (zero PROD flag-debt)
 
-> **The winner collapses into `main` flag-free. The losing variants are preserved as (a) committed
-> desktop+mobile screenshots and (b) a retained `diverge/<surface>` git branch that still carries the full
-> `?variant=A|B|C` switch.**
+The danger with mandatory variants is **feature-flag debt**: variant switches piling up in the SHIPPED build.
+We avoid it by keeping the switch **DEV-only**:
 
-Because the **pure core** makes every variant a *render-only diff*, that branch is a runnable, non-rotting,
-zero-CI-cost snapshot — you only need a variant *runnable* (not *mergeable*) to A/B it live. So **`main`'s
-resting flag-debt is zero**, GC is `git branch -D`, and `main` carries no smoke/DCE burden.
+> **All variants live in the codebase behind a DEV-panel toggle (`import.meta.env.DEV`, dead-code-eliminated in
+> prod). Prod ships only the self-picked default — so the shipped bundle carries ZERO variant flag-debt, while
+> DEV gives the human live A/B/C by toggling in the running UI. Each variant = one `review.md` line item.**
+
+Because the **pure core** makes every variant a *render-only diff*, the variants are cheap render-branches in the
+UI layer only — `src/core/**` never branches on variant. The prod bundle is the default alone (verified the same
+way the DEV `__qa` API is: a build-time `import.meta.env.DEV` gate + a deploy-time grep, per the `gh-pages.sh`
+guard).
 
 Durable `?variant=` flags **in `main`** are the **single exception** (`keep-flags`), for when the human wants
 a *persistent* live test against evolving `main` — **hard-capped at 2 repo-wide**.

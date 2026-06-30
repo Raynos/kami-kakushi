@@ -49,8 +49,8 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   are the agent's self-vetting; this is the taste call they inform but can't replace.
 - **Known, flagged for your call:** the cold-open sequencing (now re-sequenced — confirm or tune, R4#4); the
   DEMO/REAL pacing fork is now **RETIRED** (M2·8 — R4#2 closed; the real ~5-min/~10–15-min pace is liquid, confirm
-  the feel by playtest); diverge picks are **R2** (influence panel) +
-  **R3** (breadth surfaces). The full battery judgment queue is **R4** (6 design/taste calls).
+  the feel by playtest); the **UI-variant review** is now **R2** (each variant its own line item, reviewed live
+  in the DEV panel — D-075). The full battery judgment queue is **R4** (design/taste calls).
 - **⚠ a11y contrast darkening (confirm or tune the shades):** a Lighthouse audit found the new v0.3 panels at
   **a11y 95** — 3 text colours failed WCAG AA contrast on the washi-shade panels (the muted market-grant text, the
   vermilion **家威** kanji at 3.2:1, and the gold **"Excellent 秀"** grade at 2.2:1). I **darkened just those text
@@ -60,37 +60,32 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   to the new colours; the curated `v03-gallery/` tour shots predate it (cosmetic only — you'll see the live build in play).
 - **Verdict:** _(awaiting the human)_
 
-### R2 🔲 — diverge pick: the live House-Influence panel (M2·6, D-073)
+### R2 🔲 — UI variants (review each LIVE in the DEV panel — D-075)
 
-- **Asking for:** an override-or-confirm on the **self-picked winner** for the live House-Influence panel (the
-  T0-M3 macro surface — active Estate 家産 pillar + grade bar + unnamed silhouettes D-055 + the Ascend CTA).
-- **Self-pick:** **Variant A — a continuous ink grade-bar with ticks at Good/Great/Excellent** (vs Variant B's
-  segmented 3-band boxes). A reads more woodblock-faithful (a single ink bar, the indigo→gold grade progression,
-  the vermilion 朱 Ascend CTA as the one key action); B's labelled boxes read as generic game-UI and were buggy
-  (fill used `color` not `background`). Winner is on `main` flag-free; the ascension ceremony reuses the
-  rank-up-seal beat (bigger/gold, D-062).
-- **How to look:** the contact sheet in [`audit/screens/diverge-influence/`](../audit/screens/diverge-influence)
-  (`A-{1-teaser,2-great,3-excellent-ascend}.png` vs `B-*.png`) + the decision note `DECISION.md` there. **The
-  cleanest grade-progression of the SHIPPED panel** is in the QA sweep:
-  `audit/screens/2026-06-29-v03-qa-sweep/{10-influence-good,11-influence-great,12-influence-excellent-ascend}.png`
-  (Good ⅓-bar → full-gold Excellent + the vermilion Ascend CTA). Live: `npm run dev` →
-  `__qa.jumpToPhase2()` then `__qa.forceState({influence:{estate:{value:480,highWater:480,judged:360}}})`.
-- **Verdict:** _(awaiting the human — non-blocking; A shipped per D-073 self-pick)_
+> **New process (D-075, supersedes the old R2/R3 single-pick).** Every diverged surface ships **FULL 2–3 working
+> variants**, switchable live in the **DEV panel**; **each variant is its own line item below**, reviewed by
+> toggling it in the running build (not screenshots). ⏳ The DEV panel + the full variant set are **being BUILT**
+> (v0.4 steps 1–2, per `human-feedback/2026-06-30-r4-playtest-decisions.md`); items flip to "ready to toggle" as
+> they land. Tick the variant you want as the prod default (or note changes).
 
-### R3 🔲 — diverge picks: the T0-M4 breadth surfaces (D-073)
-
-- **Asking for:** an override-or-confirm on the self-picked directions for the **T0-M4 breadth** UI surfaces
-  added overnight (the build is on `main`, flag-free; all non-blocking).
-- **Self-picks:**
-  - **Walkable map (Estate 地図 tab)** — full diverge: **Variant A** (focused "you are here + paths", ink
-    place-names) over **B** (whole-map grid). Contact: `audit/screens/diverge-map/` (A-forecourt.png + DECISION.md).
-  - **Smaller breadth panels (craft, market, Quests tab) — diverge-LITE** (overnight time-box): each shipped on a
-    single ui-design-faithful direction (small panels in existing tabs / one new tab), captured in
-    `audit/screens/breadth/`. NOT a full 2–3 variant contact sheet — flagged here so you can request a re-diverge
-    on any that don't land. (Mentor dialogue routes into the existing log → no new surface, no diverge owed.)
-- **How to look:** play `npm run dev` (use `__qa.jumpToAscension()` / `__qa.speed(8)` to move fast) + the
-  `audit/screens/diverge-map/` and `audit/screens/breadth/` galleries.
-- **Verdict:** _(awaiting the human — non-blocking)_
+- **House-Influence panel** (M2·6):
+  - [ ] **A — continuous ink grade-bar** _(✅ shipped default)_ — indigo→gold bar, ticks at Good/Great/Excellent,
+    vermilion 朱 Ascend CTA.
+  - [ ] **B — segmented 3-band boxes** _(🐛 to FIX, then add to the toggle)_ — was buggy (fill used `color` not
+    `background`); fix so you can compare live.
+  - [ ] **C — (owed)** — a 3rd approach, per D-075's full-2–3 rule.
+- **Walkable map** (Estate 地図, T0-M4-F4):
+  - [ ] **A — "you are here + paths"** _(✅ shipped default)_ — focused, ink place-names.
+  - [ ] **B — whole-map grid** _(⏳ to build into the toggle)_ — designed, not yet built.
+  - [ ] **C — (owed)**.
+- **Craft / Market / Quests panels** — _were "diverge-LITE" (a corner cut under the overnight time-box; now owed
+  FULL variants per D-075):_
+  - [ ] **Craft panel — variants 1 / 2 / 3** _(⏳ to build)_.
+  - [ ] **Market panel — variants 1 / 2 / 3** _(⏳ to build)_.
+  - [ ] **Quests tab — variants 1 / 2 / 3** _(⏳ to build)_.
+- **How to review (once built):** `npm run dev` → open the **DEV panel** → toggle each variant live. The agent
+  self-picks a default; you confirm/override per variant by ticking it here.
+- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
 ### R4 🔲 — v0.3 fidelity-battery judgment queue (6 design/taste calls)
 
