@@ -52,8 +52,8 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
 
 - **R1** 🔲 — play/taste call on the v0.3 T0 M0–M4 demo (fun · pacing · look).
 - **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075).
-- **Reading queue:** `project/audit/reports/2026-06-30-skill-shelfware-audit.md` (FYI,
-  no action). *(The v0.3 process-learnings retro is signed off — adopted as D-086…D-088 + norms.)*
+- **Reading queue:** _(none open)_ — the v0.3 process-learnings retro is signed off
+  (adopted as D-086…D-088 + norms); the skill-audit report was retired (no actions).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 

@@ -132,8 +132,9 @@ A10 (folded into the F3 a11y norm) · A17 (folded into D-088).
 
 The human asked _"was the tdd skill even used… maybe none of the skills are used…
 maybe we wrote them and never hooked them up."_ A read-only subagent audited all 7
-skills for **usage** and **wiring** → report:
-[`../audit/reports/2026-06-30-skill-shelfware-audit.md`](../audit/reports/2026-06-30-skill-shelfware-audit.md).
+skills for **usage** and **wiring**. Its two actionable items are both done (below),
+so the standalone report was **retired** (human: _"if it has no actions to take then
+i dont need it"_) — the findings are folded here, the durable record.
 **Outcome (reassuring):**
 - **All 7 are wired** (valid frontmatter). No never-hooked-up skills. `handoff` +
   `prepare-to-exit` carry `disable-model-invocation: true` — correctly **human-only**

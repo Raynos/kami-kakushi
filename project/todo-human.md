@@ -20,12 +20,9 @@ _(none open)_ <!-- veto pass DONE 2026-06-30: all 16 propose-then-veto items app
 > in the same commit it's authored; removed when you sign off. A pre-commit gate hard-blocks a new `docs/plans/`
 > doc missing from this list and loud-warns on the rest (CLAUDE.md "Reading queue").
 
-- [ ] `project/audit/reports/2026-06-30-skill-shelfware-audit.md` — *skill shelf-ware + wiring audit (FYI)*
-  - You asked "are the skills even hooked up / used?" Answer: **all 7 are wired** (valid frontmatter;
-    `handoff`/`prepare-to-exit` are correctly human-only via `disable-model-invocation`), and the one
-    real shelf-ware risk (`tdd`'s rules) was **already fixed** this session by lifting test-discipline
-    into AGENTS.md Conventions. No action needed — read only if curious.
+_(none open)_
 
-> **Signed off this session (removed):** `project/brainstorms/2026-06-30-v03-process-learnings.md`
-> — read + adoption decided (3 ADRs D-086…D-088 + the F/E/P forks landed; the ~16 remaining items
-> are in the **Veto pass** TODO above).
+> **Signed off / closed this session:** `project/brainstorms/2026-06-30-v03-process-learnings.md`
+> — read + adopted (D-086…D-088 + norms). The skill shelf-ware audit report was **retired** (no
+> remaining actions); its findings live in
+> `project/human-feedback/2026-06-30-process-learnings-decisions.md`.

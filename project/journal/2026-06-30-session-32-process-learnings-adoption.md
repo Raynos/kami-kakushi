@@ -89,12 +89,40 @@ commit (the F1/F2/E1/A4/A14/A16 rows were already in commit 1):
   wire the decision-log into cleanup; name a corner-cut).
 - Capture table marked APPROVED+landed; `todo-human.md` veto TODO cleared.
 
+## 4 · v0.3.1 plan threaded + skill-audit report retired
+
+- `docs/plans/2026-06-30-v0.3.1-build.md` — threaded the new canon through the
+  active build plan (no scope change): a **Process canon** subsection (D-086…D-088
+  + norms) + per-step annotations — Step 2 (a11y + A19 taste heuristics + diverge
+  integrity), Step 3 combat (D-086 tension grounds no-auto-heal; A6 same-fn
+  forecast; test-discipline), Step 4 koku (D-086 + A4 invariants), Step 5
+  after-state (F2 canon), Step 7 (judge self-inflation A4; milestone gate backstops
+  D-088), and the DoD (D-088 tier tests named; test-discipline; a11y soft-check;
+  diff re-audit P1) + the R1 hand-off (diff re-audit + artifact reconcile A23).
+- **Retired** `project/audit/reports/2026-06-30-skill-shelfware-audit.md` — the
+  human: "if it has no actions to take then i dont need it." Both its actions are
+  done (grill-me path fix; diverge staleness already queued to v0.3.1), so the
+  findings were folded into the capture doc (the durable record) and the standalone
+  report deleted. Reading queue + snapshot updated to empty.
+
 ## Next intended steps (current)
 
-1. Update `project-status.md` snapshot + **checkpoint (push `main`)** — both commits
-   are green; make them durable on the remote.
+1. Run a **repo-wide stale-markdown / docs sweep** (ultracode workflow) on the
+   quiesced tree → distill findings → propose process changes.
 2. Then back to the **v0.3.1 build** (DEV panel → variants → combat → koku → map
-   node), the pre-existing active plan.
+   node), the pre-existing active plan (now process-canon-aligned).
+
+## TDD / skills-usage — what changed, what's left (for the human relay)
+
+- **Improved:** test-discipline lifted into **AGENTS.md Conventions** (always-loaded
+  → fires every time, vs buried in the opt-in tdd skill); D-088 makes per-tier
+  e2e+invariants a **DoD contract**; tdd skill demoted to the deep procedure;
+  grill-me path bug fixed; all skills confirmed wired.
+- **Left (a real gap):** the per-test discipline is a **norm**, not a gate — docs
+  don't guarantee behaviour. The teeth would be the **milestone-integrity verify
+  gate** (battery #20 / D-054), already queued in v0.3.1 Step 7, which also
+  backstops D-088. Open question for the human: push any further to a gate, or
+  keep as a norm?
 
 ## Landmines (current)
 
