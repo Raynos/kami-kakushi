@@ -8,8 +8,5 @@ tmp/*
 !tmp/README.md
 kami-kakushi-itch.zip
 
-# local Claude Code config (plugins/permissions) — not repo state
-.claude/settings.json
-
 # raw Workflow-output JSON snapshots — too large to keep tracked (kept on disk)
 project/brainstorms/raw/*.json
