@@ -9,6 +9,11 @@ metadata:
 
 > Keep this to one screen. Update it at the end of each session so a cold pickup is instant.
 
+- **Repo guards (session-24):** three **hookify** rules in `.claude/hookify.*.local.md` (tracked, not
+  gitignored) warn/block *agent* git actions that violate shared-tree safety — bulk `git add -A`/`commit -a`,
+  `git stash`/`restore`/`checkout <path>`, and `SKIP_VERIFY=…` + `git push`. They guard agents, not humans;
+  the real `.githooks` still own commit/push gating.
+
 - **Game:** a grounded, story-driven **incremental RPG** in mid-Edo (~18th c., fictional) rural Japan.
   A mediocre ~18yo (true name **Tahei**) wakes amnesiac on a declining lower-samurai (*goshi*) estate
   (the **Kurosawa** house); rise through **5 tiers** (Estate→Village→Region→Castle-town→Edo), growing
