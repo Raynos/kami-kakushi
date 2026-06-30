@@ -34,10 +34,13 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   DEMO/REAL fork retired (one re-derived T0 pace), twice-audited (8-lens fidelity
   battery + adversarial re-audit, both ship-quality), a11y-100, `verify`-green, on
   `origin/main`. Site live: <https://raynos.github.io/kami-kakushi/>.
-- **Next build: v0.3.1 — greenlit, NOT started.** R4 playtest decisions locked as
-  ADRs **D-075–D-079** (diverge-v2 / HP-attrition combat / deed-based+tightened koku /
-  load-bearing breadth / active-only clock). Sequenced in
-  [`../../docs/plans/2026-06-30-v0.3.1-build.md`](../../docs/plans/2026-06-30-v0.3.1-build.md).
+- **v0.3.1 — IN PROGRESS (Steps 1–3 done, on `origin/main`).** ✅ Step 1 DEV panel + strip-safe
+  variant toggle · ✅ Step 2 craft/market/quests variants · ✅ Step 3 combat rework + the **bank**
+  (carried/banked) + the carried-loss penalty + two auto-modes (D-076 refined → **D-090/D-091**).
+  **Remaining:** Step 4 (koku + §4 balance) · Step 5 (spatial map) · Step 7 (battery) · final
+  PRD-consistency + R1 hand-off. Batch-2 design captured in
+  [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
+  plan [`../../docs/plans/2026-06-30-v0.3.1-build.md`](../../docs/plans/2026-06-30-v0.3.1-build.md).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
@@ -97,15 +100,13 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 ## How to resume
 
-1. Read the **newest journal** in `project/journal/`, the **R4 capture**
-   (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`), and the active
-   **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (greenlit, not started).
-2. `npm install` (fresh clone) → `npm run verify` (should be green) → `npm run dev`.
+1. Read the **newest journal** (`project/journal/2026-07-01-session-36-v0.3.1-build.md` — the live
+   build log) + the **batch-2 capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
+   + the active **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (in progress, Steps 1–3 done).
+2. `npm install` (fresh clone) → `npm run verify` (green) → `npm run dev`.
 3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` in the console
    (`newGame`, `toRung`, `faceWolf`, `fight`, `auto`; DEV jumps: `speed(8)`,
-   `jumpToPhase2()`, `jumpToAscension()`).
-4. **Next, in order:** (a) ⭐ **R1** — the human plays the v0.3 demo (the headline open
-   action; playbook + gallery in `project/human-in-the-loop/review.md` +
-   `project/audit/screens/v03-gallery/`). (b) **Start the v0.3.1 build** per its plan
-   (DEV panel + variants → combat → koku → map node → clock doc-fix → battery leftovers).
-   R2 is the variant review (override-only, non-blocking).
+   `jumpToPhase2()`, `jumpToAscension()`). The in-UI **DEV panel** (top-right) toggles variants live.
+4. **Next, in order:** (a) **continue the v0.3.1 build** — Step 4 (koku + §4 balance) → Step 5
+   (spatial map) → Step 7 (battery) → final PRD-consistency + R1 hand-off. (b) ⭐ **R1/R2** — the
+   human plays the build + reviews UI variants live in the DEV panel (override-only, non-blocking).

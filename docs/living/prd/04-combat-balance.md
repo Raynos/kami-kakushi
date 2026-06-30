@@ -1102,36 +1102,54 @@ level curve** are **not levers** (canon).
   from ~25 % to ~85 % is felt as *earned over real time*.
 - **Soft setback on loss (LOCKED by human "as proposed", canon §I-bal):** a lost fight → MC drops to **1 HP**
   (not death), advances **~½ a day** of clock (the recovery), takes a **random light injury** (`InjuryState`,
-  heals in ~**1–2 days** of rest, a small `−10%` to one stat meanwhile), and **may drop carried loot** (a seeded
-  roll, **never equipped gear, never levels, never Influence** — the only Influence movement on a loss is a
-  *scripted* Arms dent if the lost fight was a defence-deed, §4.2.4/§4.6.8). **Never** a level/gear/permanent
-  loss (canon §E). The **severity SHAPE** (1 HP + ~½-day + light injury + *possible* carried-loot drop, never
-  permanent progress) is **LOCKED**; the exact magnitudes remain levers.
+  heals in ~**1–2 days** of rest, a small `−10%` to one stat meanwhile), and **drops a real bite of CARRIED
+  wealth** (the v0.3.1 loss penalty — §4.6.6b: ~20% of carried koku + ~⅓ of carried materials; **what's BANKED
+  in the kura storehouse is SAFE**, §4.6.6c), **never equipped gear, never levels, never Influence** (the only
+  Influence movement on a loss is a *scripted* Arms dent if the lost fight was a defence-deed, §4.2.4/§4.6.8).
+  **Never** a level/gear/permanent loss (canon §E). The **severity SHAPE** (1 HP + ~½-day + light injury + a
+  **carried-wealth bite**, never permanent progress) is **LOCKED**; the bite-fraction magnitudes are levers
+  (D-059). _(D-076 + batch-2 turned the old "possible loot drop" into a defined bite — D-086 tension.)_
   **Levers (magnitudes only):** the drop-loot chance, injury severity/duration, the ½-day clock cost. The
   **first-fight win-rate target (20–35 %, at adequate satiety)** and the **soft-setback shape** are **LOCKED,
   not levers.**
 
-### §4.6.6b Unattended combat — full auto + the self-recovering loss loop (NEW — D-Q-idle-combat)
+### §4.6.6b Unattended combat — accumulating HP + two auto-modes (REVISED — D-076 + batch-2, v0.3.1)
 
-**Shape (canon §2.8 — V2-fixed).** Combat is **FULL AUTO**: the auto-resolve loop **fights everything** while
-the tab is open (active-only; §4.7.4/FU23) — the player need not babysit. The loss path is a **self-correcting
-loop with no death-spiral and no hard stall**, in two graded steps:
+> **⚠ SUPERSEDES the original "self-recovering auto-retreat loop" (D-076 + the 2026-07-01 batch-2 calls;
+> ADRs D-090/D-091).** The old model auto-retreated by default and auto-rested back to full, so a loss never
+> really bit — the **tension-over-generosity** reread (D-086) reverses that. Built + shipped in v0.3.1 Step 3.
 
-1. **A going-badly fight AUTO-RETREATS (the common case).** When the auto-resolver projects a loss (HP trending
-   to 0 against the closed-form race, §4.6.4b), it **retreats per the §4.6.8 semantics** — **keep HP + carried
-   loot**, pay the **modest ~¼-day clock cost**, **never dent Influence** (except an abandoned DEFEND-deed,
-   §4.6.8). The MC walks away weaker-but-intact and trains/re-gears before re-engaging.
-2. **A true 0-HP knockout forces a REST (the safety net).** If a fight actually drops the MC to **0 HP**, the
-   soft-setback fires (§4.6.6: 1 HP, light injury) **and** the MC is **forced to travel to a safe place (home,
-   or the nearest secured node) and REST to recover** — a **time cost** (~½-day travel + the rest, magnitudes
-   = the §4.6.6 setback levers), after which the MC has **eaten/rested back to adequate HP (HP carries + heals
-   by eating, D-050 — §4.6/§4.6.1b)** and the loop resumes. **Never** a death, a wipe, or a permanent loss.
+**Shape (canon §2.8 — D-076).** Combat is **full-auto while the tab is open** (active-only, FU23), but **HP
+ACCUMULATES** — it carries between fights and the ONLY mend is eating (D-050); there is **no auto-heal**. So a
+foe that deals **≥1 damage** grinds you down across a run, and the **only** foe safe to auto-grind forever is a
+**0-damage** one. The player owns the risk by picking, **per foe**, one of **two auto-modes**:
 
-Because every loss costs only **time + a recoverable setback** and routes the MC back to safety to recover, the
-unattended loop is **self-correcting** — a too-hard mob just burns clock (forced rests) and nudges the player to
-train/gear, never softlocks. **Levers:** the auto-retreat projection threshold; the forced-rest travel/rest
-clock cost (= §4.6.6/§4.6.8 magnitudes). The **fights-everything auto-resolve, the retreat-keeps-HP/loot rule,
-the 0-HP→forced-rest transition, and the no-death-spiral guarantee** are **canon, not levers.**
+1. **Auto-fight (to the end).** Grind until you win or **die**. A lost fight is a real outcome (below).
+2. **Auto-fight, retreat @20%.** Break off on a **turn** where HP drops **below `AUTO_RETREAT_FRAC` (~20%) of
+   max** — a **per-turn** check, so a burst foe that one-shots you past the threshold still **kills** you (a
+   killing blow is a loss, not a flee). A flee earns no reward and **no penalty**, but you're hurt and the
+   **autopilot STOPS** (mend + re-engage deliberately).
+
+**A lost fight (0 HP)** — the `applyGrindFight` loss path: the soft setback (§4.6.6: **1 HP**, ~½-day) **AND**
+the **autopilot STOPS** (no auto-resume) **AND** you **drop a real bite of CARRIED wealth** — `LOSS_KOKU_FRAC`
+(~20%) of carried koku + `LOSS_MATERIAL_FRAC` (~⅓, floored) of carried materials. **What's BANKED in the kura
+storehouse (§4.6.6c) is safe.** Still **never** a level/gear/Influence loss (canon §E). The autopilot stopping
+(not auto-resuming) is the D-076 reversal: the player **feels** the loss and chooses to recover, rather than the
+loop papering over it.
+
+**Levers (magnitudes only):** `LOSS_KOKU_FRAC` / `LOSS_MATERIAL_FRAC` / `AUTO_RETREAT_FRAC`, the setback clock
+cost (D-059, liquid). The **no-auto-heal / accumulating-HP rule, the two-auto-mode shape,
+loss-stops-the-autopilot, and loss-bites-carried-but-not-banked** are **canon, not levers.** The combat log is
+**summarised** — one outcome line per fight (the auto-grind fires it hundreds of times; batch-1 call 2).
+
+### §4.6.6c The kura storehouse — carried vs banked wealth (NEW — batch-2 call 7, v0.3.1; D-090)
+
+Wealth splits into **carried** (`state.resources` — on you, at RISK on a lost fight) and **banked**
+(`state.banked` — sheltered in the kura storehouse, SAFE from the loss penalty). **Deposit/withdraw** move a
+resource between the two; spending + earning use carried (banked is a safe reserve). Today deposit/withdraw open
+with the estate economy; **Step 5 gates them to the kura node** — so banking your haul means physically
+returning home, and fighting far afield with a full purse becomes the gamble. The risk/reward — bank before a
+risky fight, or carry it and chance the bite — is the point (D-086 tension). _Exact magnitudes liquid (D-059)._
 
 ### §4.6.7 Win-rate bands — the 2nd pacing proxy (NEW — Q16 / FU19)
 
