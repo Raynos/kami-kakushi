@@ -4,6 +4,11 @@ Durable, timestamped, **verbatim** copies of the raw JSON results produced by `W
 other agent research worth preserving). **Cheap insurance:** workflow results otherwise live only in
 ephemeral session scratch (`<session>/tasks/<id>.output`) and are **lost when the session ends**.
 
+> **Git-ignored (`*.json`).** These snapshots are **not tracked** — they bloated the repo. They live
+> on **local disk only**: they survive session end (the point of snapshotting) but **do not reach the
+> remote**, so they're lost on machine loss. The **distillation** in `../` / `../../docs/` is the
+> committed source of truth; the raw `.json` is recover-the-detail insurance, local-only.
+
 - **Filename:** `YYYY-MM-DD-<descriptive-slug>-<taskid>.json`.
 - **Verbatim, not curated.** These are raw outputs. The curated source-of-truth lives in `../`
   (brainstorms discovery) and `../../docs/` (living design). If a distillation turns out lossy, recover
