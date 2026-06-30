@@ -66,8 +66,8 @@ always-loaded context while being editable on its own.
   [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start
   human-queue brief).
 - `project/journal/` — per-session chronological **LOG** (history, not live
-  state); one file per session (ordering rule: see AGENTS.md Conventions → "Docs
-  taxonomy"). See [`README`](project/journal/README.md) +
+  state); one file per session (ordering rule: see AGENTS.md → "Kami-kakushi
+  specifics" → "Docs taxonomy"). See [`README`](project/journal/README.md) +
   [`_TEMPLATE.md`](project/journal/_TEMPLATE.md).
 - [`project/archive/`](project/archive) — superseded markdown docs kept for
   reference (archive, don't delete).

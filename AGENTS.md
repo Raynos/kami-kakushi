@@ -3,11 +3,17 @@
 A single-player **HTML5 browser game**, built agentically with Claude Code. The
 game's vision lives in [README.md](README.md); this file is just how we work.
 
+This file flows **general → specific**: **Philosophy**, **How to work here**, and
+**Conventions** are largely portable agentic game-dev guidance; **Kami-kakushi
+specifics** at the end gathers this repo's concrete bindings (paths, freeze state,
+the directory map, the live-state pointer).
+
 ## Philosophy
 
 The operating philosophy — _how, why, and what to reason_ here. (A mechanic,
 tool-usage rule, or engineering guideline is **not** a philosophy; those live in
-"How to work here" / "Conventions" below.) The full register is
+"How to work here" / "Conventions" / "Kami-kakushi specifics" below.) The full
+register is
 [`docs/philosophy/`](docs/philosophy/README.md); each is summarised here so none
 gets lost. **When a tactic anywhere in this file conflicts with one of these, the
 philosophy wins.**
@@ -81,7 +87,7 @@ philosophy wins.**
   it isn't a committed file, it doesn't exist: all state lives in commits + the
   `project/journal/` log + `project/status/project-status.md`, so a cold pickup
   or a context compaction never loses progress (journal ordering + the
-  live-snapshot rule: see "Docs taxonomy" under Conventions). The
+  live-snapshot rule: see "Docs taxonomy" under Kami-kakushi specifics). The
   record is **append-only & lossless** — supersede with a strikethrough + forward
   pointer, park don't cut, archive don't remove; the *why* always survives. **The
   one exception — and the reason the rule is stated carefully — is
@@ -214,11 +220,6 @@ Full version:
   `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**,
   calibrated so a gate never cries wolf. Prefer the rung that can't be quietly
   forgotten (a green-or-red check beats a good intention).
-- **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited
-  in place); `project/journal/` says **how it got here** (a chronological log —
-  append at the bottom, never prepend; the live snapshot is
-  `project/status/project-status.md`). One doc per concern; edit living docs in
-  place (don't fork copies).
 - **Markdown prose width — wrap at ~80 (a SUGGESTION, not a gate).** The human
   prefers markdown prose and paragraphs hard-wrapped at **≈80 characters**
   (re-flowable in any editor, clean diffs, no horizontal scroll). It's a **soft
@@ -228,17 +229,6 @@ Full version:
   wrap — are accepted exceptions; prefer bullet-sections over a wide table when
   the cells carry prose). Apply it to **new/edited** docs; don't mass-retrofit
   existing ones. Count by *characters*, not bytes (CJK inflates a byte count).
-- **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to
-  **locked intent** — the §1 vision + the human-signed acceptance criteria —
-  **not** the route there: the §4 balance numbers and §7 M2–M7 milestone detail
-  stay **provisional** (revised by playtest), never frozen as locked canon. Full
-  rule, rationale + current freeze state: **D-021** (refines D-020, refined by
-  D-059) in [`decisions.md`](docs/living/decisions.md).
-- **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp)
-  for all scratch / working files (intermediate output, throwaway scripts,
-  scratch notes) — **not** the global system scratchpad. Anything worth keeping
-  graduates to `docs/`, `project/brainstorms/`, `project/audit/`, or
-  `project/journal/`.
 - **Durable by default — a plan/brainstorm/analysis is a FILE, not a chat
   message.** If it's substantial enough to *propose, review, or act on*, write
   it to a durable `.md` **before** you present it as a deliverable and
@@ -262,7 +252,31 @@ Full version:
   Full rule — the two-tier tradeoff + the subagent caveat:
   [`project/brainstorms/raw/README.md`](project/brainstorms/raw/README.md).
 
-## Layout
+## Kami-kakushi specifics
+
+This repo's concrete bindings — paths, state, and the directory map. The rules
+above are the portable part; these are what's specific to kami-kakushi.
+
+- **Live state lives in the snapshot, not here.** Current status — version,
+  milestone progress, what's built / queued, the gate count — lives **only** in
+  [`project/status/project-status.md`](project/status/project-status.md). Keep
+  this file to *mechanisms that are always true*; never copy drifting state into it.
+- **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited
+  in place); `project/journal/` says **how it got here** (a chronological log —
+  append at the bottom, never prepend; the live snapshot is
+  `project/status/project-status.md`). One doc per concern; edit living docs in
+  place (don't fork copies).
+- **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to
+  **locked intent** — the §1 vision + the human-signed acceptance criteria —
+  **not** the route there: the §4 balance numbers and §7 M2–M7 milestone detail
+  stay **provisional** (revised by playtest), never frozen as locked canon. Full
+  rule, rationale + current freeze state: **D-021** (refines D-020, refined by
+  D-059) in [`decisions.md`](docs/living/decisions.md).
+- **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp)
+  for all scratch / working files (intermediate output, throwaway scripts,
+  scratch notes) — **not** the global system scratchpad. Anything worth keeping
+  graduates to `docs/`, `project/brainstorms/`, `project/audit/`, or
+  `project/journal/`.
 
 The directory map — what lives where — is maintained in
 [`repo-map.md`](repo-map.md) and `@`-included below so it stays in

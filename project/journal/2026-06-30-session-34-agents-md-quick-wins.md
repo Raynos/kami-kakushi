@@ -45,3 +45,25 @@ docs; `verify` green (10 gates, incl. `md-links`).
   `@`-line in AGENTS.md.
 - repo-map.md sits at repo root (alongside README/AGENTS/CLAUDE) by explicit human
   request — unusual placement, intentional.
+
+---
+
+## Follow-on — lightweight general→specific reorg (same session)
+
+The human declined the bigger `docs/plans/` portable-extraction proposal and asked
+instead for a **small in-file reorg** so AGENTS.md flows general → kami-specific.
+Done (no prose rewrites, just regrouping):
+
+- Added a one-line **flow note** to the intro (general → specific) and named the
+  new section in the Philosophy intro's pointer.
+- New **`## Kami-kakushi specifics`** section (was `## Layout`) gathers the
+  kami-path-bound bullets moved out of Conventions — **Docs taxonomy**, **Freeze =
+  locked intent**, **Temporary files → `./tmp/`** — plus a new **"Live state lives
+  in the snapshot, not here"** rule (encodes the human's "don't duplicate
+  project-status" point), then the `@repo-map.md` include.
+- **Conventions** now holds only the portable engineering/process rules.
+- Fixed the two "Docs taxonomy" cross-refs (the session-disposable bullet +
+  repo-map.md) to point at the new section. verify green (10 gates).
+
+Net AGENTS.md shape: Philosophy → How to work here → Conventions (portable) →
+Kami-kakushi specifics (bindings + repo map) → AI Commit Attribution.
