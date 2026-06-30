@@ -11,7 +11,9 @@
 - [ ] **Consider removing the raw JSON dumps from git history** — the verbatim `Workflow`-output
   snapshots in `project/brainstorms/raw/` bloat the repo; weigh a history rewrite (e.g.
   `git filter-repo`) vs. leaving them, given the shared-tree / remote constraints. *(Bundle with
-  stripping the old `Co-Authored-By` trailers from past commits in the same rewrite.)*
+  stripping the old `Co-Authored-By` trailers from past commits in the same rewrite.)* Full plan:
+  [`docs/plans/2026-06-30-history-rewrite.md`](docs/plans/2026-06-30-history-rewrite.md) — parked on
+  (1) all agents parked+pushed, (2) human picks message-scope A vs B.
 - [ ] **Consider moving `CLAUDE.md` to `AGENTS.md` if supported** — Claude Code reads `CLAUDE.md`,
   *not* `AGENTS.md`, but supports it via an `@AGENTS.md` import (or a `CLAUDE.md → AGENTS.md`
   symlink). Worth it only if other agents (Cursor/Codex/etc.) need to share the same instructions.
