@@ -643,7 +643,7 @@ export function mount(
     //    self-picked default; ships to prod). B/C live DEV-only behind the variant toggle and
     //    are stripped from the prod bundle (the `import.meta.env.DEV` guard folds to dead code
     //    in prod, so ui/dev.ts tree-shakes out — see ui/dev.ts + the gh-pages strip-guard). ──
-    if (!(import.meta.env.DEV && dev && dev.renderVariant('influence', card, state))) {
+    if (!(import.meta.env.DEV && dev && dev.renderVariant('influence', card, state, dispatch))) {
       // A (default): the continuous ink grade-bar, ticks at GOOD / GREAT / EXCELLENT
       const bar = el('div', 'influence-bar');
       const fill = el('span', `influence-fill grade-${grade.toLowerCase()}`);
@@ -895,13 +895,17 @@ export function mount(
           'Strip what the carcasses give up, then forge a real edge at the woodlot smithy — found and made, not tossed off a rack.',
         ),
       );
-      for (const [mat, need] of Object.entries(recipe.inputs)) {
-        const have = state.resources[mat] ?? 0;
-        const m = getMaterial(mat);
-        const row = el('div', 'craft-mat');
-        row.append(el('span', 'craft-mat-name', `${m.label} ${m.kanji}`));
-        row.append(el('span', `craft-mat-count${have >= need ? ' ok' : ''}`, `${have}/${need}`));
-        cc.append(row);
+      // ── material status (the diverged surface, D-075) — A = the have/need checklist (default,
+      //    ships). B/C live DEV-only behind the variant toggle (ui/dev.ts), stripped from prod. ──
+      if (!(import.meta.env.DEV && dev && dev.renderVariant('craft', cc, state, dispatch))) {
+        for (const [mat, need] of Object.entries(recipe.inputs)) {
+          const have = state.resources[mat] ?? 0;
+          const m = getMaterial(mat);
+          const row = el('div', 'craft-mat');
+          row.append(el('span', 'craft-mat-name', `${m.label} ${m.kanji}`));
+          row.append(el('span', `craft-mat-count${have >= need ? ' ok' : ''}`, `${have}/${need}`));
+          cc.append(row);
+        }
       }
       const can = canCraft(state.resources, recipe);
       const craftBtn = el('button', 'verb', recipe.label);
@@ -1196,32 +1200,36 @@ export function mount(
         'A pedlar passes now and then — a little koku for what the estate is short of. A minor trade, no more.',
       ),
     );
-    for (const item of MARKET_ITEMS) {
-      const bought = state.marketBought[item.id] ?? 0;
-      const capped = bought >= item.stockCap;
-      const grantStr = Object.entries(item.grants)
-        .map(([r, n]) => `+${n} ${r}`)
-        .join(', ');
-      const row = el('div', 'market-row');
-      const left = el('div', 'market-item');
-      left.append(el('span', 'market-name', item.label));
-      left.append(
-        el('span', 'market-grant lock-hint', `${grantStr}${capped ? ' · sold out' : ''}`),
-      );
-      row.append(left);
-      const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
-      btn.type = 'button';
-      // a11y: the visible label is just the price — give the button a full accessible name so a
-      // screen-reader hears WHAT it buys, not a bare "10 koku" (D-045 a11y-ink).
-      btn.setAttribute(
-        'aria-label',
-        `Buy ${item.label} (${grantStr}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
-      );
-      btn.disabled = !canBuy(state.resources, item, bought);
-      if (capped) btn.title = "You've taken all the pedlar carries this run.";
-      btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
-      row.append(btn);
-      card.append(row);
+    // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).
+    //    B/C live DEV-only behind the variant toggle (ui/dev.ts), stripped from prod. ──
+    if (!(import.meta.env.DEV && dev && dev.renderVariant('market', card, state, dispatch))) {
+      for (const item of MARKET_ITEMS) {
+        const bought = state.marketBought[item.id] ?? 0;
+        const capped = bought >= item.stockCap;
+        const grantStr = Object.entries(item.grants)
+          .map(([r, n]) => `+${n} ${r}`)
+          .join(', ');
+        const row = el('div', 'market-row');
+        const left = el('div', 'market-item');
+        left.append(el('span', 'market-name', item.label));
+        left.append(
+          el('span', 'market-grant lock-hint', `${grantStr}${capped ? ' · sold out' : ''}`),
+        );
+        row.append(left);
+        const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
+        btn.type = 'button';
+        // a11y: the visible label is just the price — give the button a full accessible name so a
+        // screen-reader hears WHAT it buys, not a bare "10 koku" (D-045 a11y-ink).
+        btn.setAttribute(
+          'aria-label',
+          `Buy ${item.label} (${grantStr}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
+        );
+        btn.disabled = !canBuy(state.resources, item, bought);
+        if (capped) btn.title = "You've taken all the pedlar carries this run.";
+        btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
+        row.append(btn);
+        card.append(row);
+      }
     }
     marketPane.append(card);
   }
@@ -1281,6 +1289,11 @@ export function mount(
     questsPane.hidden = !show;
     if (!show) return;
     questsPane.append(el('h2', undefined, 'Quests 用'));
+    // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live
+    //    DEV-only behind the variant toggle (ui/dev.ts), stripped from prod. ──
+    if (import.meta.env.DEV && dev && dev.renderVariant('quests', questsPane, state, dispatch)) {
+      return;
+    }
     questsPane.append(
       el(
         'div',

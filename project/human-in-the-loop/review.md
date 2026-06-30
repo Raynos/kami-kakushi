@@ -81,13 +81,43 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   - [ ] **A — "you are here + paths"** _(✅ shipped default)_ — focused, ink place-names.
   - [ ] **B — whole-map grid** _(⏳ to build into the toggle)_ — designed, not yet built.
   - [ ] **C — (owed)**.
-- **Craft / Market / Quests panels** — _were "diverge-LITE" (a corner cut under the overnight time-box; now owed
-  FULL variants per D-075):_
-  - [ ] **Craft panel — variants 1 / 2 / 3** _(⏳ to build)_.
-  - [ ] **Market panel — variants 1 / 2 / 3** _(⏳ to build)_.
-  - [ ] **Quests tab — variants 1 / 2 / 3** _(⏳ to build)_.
-- **How to review (once built):** `npm run dev` → open the **DEV panel** → toggle each variant live. The agent
-  self-picks a default; you confirm/override per variant by ticking it here.
+- **Craft panel** (loot→craft the woodlot axe, T0-M2-F2) — ✅ **all three LIVE in the DEV panel** ("VARIANT ·
+  Crafting"):
+  - [ ] **A — smith's work-order checklist** _(self-picked prod default; the shipped panel)_ — each material a
+    "name kanji … have/need" row (green once met) under the recipe title + blurb, closed by one Forge button
+    disabled-with-its-reason ("Fell more foes for materials.") until every input is met.
+  - [ ] **B — the smith's measures** _(built; DEV-only)_ — each material a single CONTINUOUS ink fill-gauge (A19)
+    filling toward the needed amount, the exact tabular have/need kept beside it; gold when full, ochre while
+    short, with a foot line that flips to "strike the smithy" once craftable.
+  - [ ] **C — what the axe waits on** _(built; DEV-only)_ — a focused diegetic assembly: each material shown as the
+    part it becomes (its blurb names the role), a left ink-rule gold-when-gathered / indigo-while-wanting, stamped
+    with a 整 (set) / 未 (wanting) verdict at the foot.
+- **Travelling market** (the pedlar's wares, T0-M4-F3) — ✅ **all three LIVE in the DEV panel** ("VARIANT ·
+  Travelling market"):
+  - [ ] **A — price-button list** _(self-picked prod default)_ — each good a flat row: name + faint grant left, a
+    bare `{n} koku` buy-button right; sold-out rows append "· sold out" and disable. The calmest, lowest-weight
+    rendering — keeps the market a deliberate MINORITY lane (D-008) that never out-claims Estate & Wealth.
+  - [ ] **B — posted price-board (品書 shinagaki)** _(built)_ — one notice; each good a justified ledger line with
+    a dotted leader: name … grant · price · 求 (buy / 尽 sold out); stock + any koku shortfall as plain ink beneath
+    ("two left · need 6 more koku"). Hierarchy from alignment, not shadows.
+  - [ ] **C — pedlar's ground-cloth** _(built)_ — your purse up top, each good led by one curated good-emoji
+    (🌿🪵🪨🧺), price + a "take 取" verb, the remaining stock as continuous ochre ink (a bar that shortens as the
+    cloth empties, A19); unaffordable goods name the shortfall. The most diegetic, also the busiest.
+- **Quests tab** (用, T0-M4-F1) — ✅ **all three LIVE in the DEV panel** ("VARIANT · Quests"):
+  - [ ] **A — per-quest woodblock cards** _(self-picked prod default)_ — a vertical stack of square `.frame` cards;
+    each carries the title + kind tag (or **Done ✓**), the full blurb, a per-deed ☑/☐ checklist, and a reward
+    line; an un-taken quest shows a **Take this on** verb. The most room per quest.
+  - [ ] **B — 高札場 notice-board** _(built)_ — quests posted as commission-**bills** on a board; a brushed **kind
+    stamp** (害/狩/掃 + word) and progress as ONE **continuous-ink "deeds answered" stroke** (A19) above the deed
+    list; reward a gold koku slip, accept reads **請ける — Take the commission**.
+  - [ ] **C — 用帳 steward's field-ledger** _(built)_ — one **aligned ledger row** per commission: kind stamp ·
+    name + terse note · an **ink deeds-tally** (┃┃· 2/3) · the **koku in a right-aligned tabular column** · a
+    status (**Take on** / in hand / 果 done ✓), with a 合計 foot totalling koku in hand.
+- _a11y: each surface's A ships a11y-100. B/C are DEV-only until picked; if you pick one I'll re-check WCAG
+  contrast (the `--rokusho` grant + `--ochre`/gold accents on washi are the ones to watch)._
+- **How to review:** `npm run dev` → the **DEV panel** sits top-right in a reserved right gutter (it never covers
+  the content) → toggle each surface's variant and the surface updates instantly. The agent self-picks a default
+  (every prod default = **A**); you confirm/override per variant by ticking it here.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
 ---

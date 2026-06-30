@@ -11,7 +11,21 @@
 // presentation. Prod ships only each surface's DEFAULT (the first variant), so there is zero
 // prod flag-debt (D-075).
 
-import { balance, type GameState, type RankId, type ActivityId, type MobId } from '../core';
+import {
+  balance,
+  canBuy,
+  canCraft,
+  getMaterial,
+  MARKET_ITEMS,
+  QUESTS,
+  RECIPES,
+  type ActivityId,
+  type GameState,
+  type Intent,
+  type MarketItem,
+  type MobId,
+  type RankId,
+} from '../core';
 import { el } from './render';
 
 /** A marker that exists ONLY in this DEV module. The gh-pages guard greps the prod bundle for
@@ -55,6 +69,70 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  {
+    id: 'craft',
+    label: 'Crafting',
+    variants: [
+      {
+        id: 'craft-a',
+        label: 'A · work-order checklist',
+        blurb: 'Name…have/need rows, green once met, one Forge button (the shipped default).',
+      },
+      {
+        id: 'craft-b',
+        label: "B · smith's measures",
+        blurb: 'Each material a continuous ink fill-gauge toward the needed amount.',
+      },
+      {
+        id: 'craft-c',
+        label: 'C · diegetic assembly',
+        blurb: 'Each material shown as the part it becomes; a 整/未 verdict at the foot.',
+      },
+    ],
+  },
+  {
+    id: 'market',
+    label: 'Travelling market',
+    variants: [
+      {
+        id: 'market-a',
+        label: 'A · price-button list',
+        blurb: 'Flat rows: name + grant, a bare koku buy-button (the calm, shipped default).',
+      },
+      {
+        id: 'market-b',
+        label: 'B · posted price-board',
+        blurb: 'One notice: name … grant · price · 求, with stock/shortfall beneath.',
+      },
+      {
+        id: 'market-c',
+        label: "C · pedlar's ground-cloth",
+        blurb: 'Purse up top, emoji goods, remaining stock as continuous ochre ink.',
+      },
+    ],
+  },
+  {
+    id: 'quests',
+    label: 'Quests',
+    variants: [
+      {
+        id: 'quests-a',
+        label: 'A · woodblock cards',
+        blurb:
+          'Square .frame cards: title, blurb, ☑/☐ checklist, Take this on (the shipped default).',
+      },
+      {
+        id: 'quests-b',
+        label: 'B · 高札 notice-board',
+        blurb: 'Commission-bills on a board; a continuous-ink deeds stroke; 請ける to take.',
+      },
+      {
+        id: 'quests-c',
+        label: 'C · 用帳 field-ledger',
+        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned koku column.',
+      },
+    ],
+  },
 ];
 
 export interface DevApi {
@@ -63,8 +141,14 @@ export interface DevApi {
   surfaces: readonly SurfaceDef[];
   /** Render a NON-default variant of `surface` into `container`. Returns true if it rendered
    *  (a non-default is selected) → the caller skips its default; false → the caller renders the
-   *  prod default. Always effectively absent in prod (this whole module is stripped). */
-  renderVariant(surface: string, container: HTMLElement, state: GameState): boolean;
+   *  prod default. `dispatch` is the renderer's own dispatch (threaded so interactive variants —
+   *  market/quests buttons — drive the real reducer, not a global). Always absent in prod. */
+  renderVariant(
+    surface: string,
+    container: HTMLElement,
+    state: GameState,
+    dispatch: (intent: Intent) => void,
+  ): boolean;
 }
 
 export function createDevApi(): DevApi {
@@ -77,10 +161,10 @@ export function createDevApi(): DevApi {
       variant[s] = id;
     },
     surfaces: SURFACES,
-    renderVariant: (s, container, state) => {
+    renderVariant: (s, container, state, dispatch) => {
       const id = variant[s] ?? defaultOf(s);
       if (id === defaultOf(s)) return false; // default → the caller renders it (and ships it)
-      return renderSurfaceVariant(s, id, container, state);
+      return renderSurfaceVariant(s, id, container, state, dispatch);
     },
   };
 }
@@ -92,8 +176,12 @@ function renderSurfaceVariant(
   variantId: string,
   container: HTMLElement,
   state: GameState,
+  dispatch: (intent: Intent) => void,
 ): boolean {
   if (surface === 'influence') return renderInfluenceGrade(variantId, container, state);
+  if (surface === 'craft') return renderCraftVariant(variantId, container, state);
+  if (surface === 'market') return renderMarketVariant(variantId, container, state, dispatch);
+  if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
   return false;
 }
 
@@ -145,6 +233,516 @@ function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameS
   card.append(
     el('div', 'influence-when', `Standing ${est.value} · the season judges at ${est.highWater}`),
   );
+  return true;
+}
+
+/** The diverged Craft panel (B / C) — DEV-only, stripped from prod. The shared chrome (recipe
+ *  title, intro blurb, and the dispatch-bound Forge button) stays inline in render.ts (default A
+ *  ships); only the material-status DISPLAY portion diverges, rendered into `container`. Pure
+ *  presentation of the same data — no dispatch needed (the Forge button is shared). */
+function renderCraftVariant(variantId: string, container: HTMLElement, state: GameState): boolean {
+  const recipe = RECIPES[0]!;
+  const can = canCraft(state.resources, recipe);
+  const inputs = Object.entries(recipe.inputs);
+
+  if (variantId === 'craft-b') {
+    // B — "the smith's measures": each material a single CONTINUOUS ink fill-gauge (A19:
+    // continuous ink over a bare number) filling toward what the recipe asks. The exact
+    // tabular have/need stays beside it, so no count is lost; gold when full, ochre while short.
+    const wrap = el('div', 'craft-measures');
+    wrap.style.cssText = 'margin:.4rem 0;display:flex;flex-direction:column;gap:.45rem;';
+    for (const [mat, need] of inputs) {
+      const have = state.resources[mat] ?? 0;
+      const m = getMaterial(mat);
+      const full = have >= need;
+      const frac = need > 0 ? Math.max(0, Math.min(1, have / need)) : 1;
+      const row = el('div', 'craft-measure');
+      row.style.cssText = 'display:flex;flex-direction:column;gap:.15rem;';
+      const head = el('div');
+      head.style.cssText =
+        'display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;';
+      head.append(el('span', undefined, `${m.label} ${m.kanji}`));
+      const tally = el(
+        'span',
+        undefined,
+        full ? `${have}/${need} · 足` : `${have}/${need} · ${need - have} wanting`,
+      );
+      tally.style.cssText =
+        'font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;';
+      tally.title = full
+        ? 'This measure runs full.'
+        : `Fell more foes — ${need - have} more ${m.label.toLowerCase()} wanting.`;
+      head.append(tally);
+      row.append(head);
+      const track = el('div');
+      track.style.cssText =
+        'position:relative;height:.7rem;border:1px solid var(--ink-faint);' +
+        'background:var(--washi-shade);overflow:hidden;';
+      const fill = el('span');
+      fill.style.cssText =
+        `position:absolute;left:0;top:0;height:100%;width:${Math.round(frac * 100)}%;` +
+        `background:${full ? 'var(--gold)' : 'var(--ochre)'};`;
+      track.append(fill);
+      row.append(track);
+      wrap.append(row);
+    }
+    container.append(wrap);
+    container.append(
+      el(
+        'div',
+        'skill-blurb',
+        can
+          ? 'Every measure runs full — strike the smithy and bind the axe.'
+          : 'The axe binds once every measure runs full.',
+      ),
+    );
+    return true;
+  }
+
+  if (variantId === 'craft-c') {
+    // C — "what the axe waits on": a FOCUSED DIEGETIC assembly readout (A19: a focused in-world
+    // view over an abstract tally). Each material is the part it becomes — its blurb names the
+    // role — with a left ink-rule gold-once-gathered / indigo-while-wanting, and a 整/未 verdict.
+    const list = el('div', 'craft-assembly');
+    list.style.cssText = 'margin:.4rem 0;display:flex;flex-direction:column;gap:.5rem;';
+    for (const [mat, need] of inputs) {
+      const have = state.resources[mat] ?? 0;
+      const m = getMaterial(mat);
+      const full = have >= need;
+      const part = el('div');
+      part.style.cssText =
+        `display:flex;gap:.5rem;padding-left:.5rem;` +
+        `border-left:3px solid ${full ? 'var(--gold)' : 'var(--ai)'};`;
+      const kan = el('span', undefined, m.kanji);
+      kan.style.cssText = 'font-size:1.3rem;line-height:1.1;color:var(--ink);';
+      part.append(kan);
+      const body = el('div');
+      body.style.cssText = 'flex:1;';
+      const headRow = el('div');
+      headRow.style.cssText =
+        'display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;';
+      headRow.append(el('span', undefined, m.label));
+      const status = el(
+        'span',
+        undefined,
+        full ? `${have}/${need} · 足` : `${have}/${need} · ${need - have} wanting`,
+      );
+      status.style.cssText =
+        'font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;';
+      status.title = full
+        ? 'This part is gathered.'
+        : `Fell more foes — ${need - have} more ${m.label.toLowerCase()} wanting.`;
+      headRow.append(status);
+      body.append(headRow);
+      body.append(el('div', 'skill-blurb', m.blurb));
+      part.append(body);
+      list.append(part);
+    }
+    container.append(list);
+    const verdict = el(
+      'div',
+      undefined,
+      can ? '整 — the bench is set; bind the axe.' : '未 — the bench wants for materials yet.',
+    );
+    verdict.style.cssText =
+      `margin-top:.35rem;font-weight:700;font-variant-numeric:tabular-nums;` +
+      `color:${can ? 'var(--gold)' : 'var(--shu)'};`;
+    container.append(verdict);
+    return true;
+  }
+
+  return false;
+}
+
+/** The diverged travelling-market visual (B / C) — DEV-only. The shared stall heading + intro
+ *  blurb stay in render.ts (default A — the price-button list — ships); only the GOODS
+ *  presentation diverges. Buy buttons drive the real reducer via the threaded `dispatch`. */
+function renderMarketVariant(
+  variantId: string,
+  card: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  const buy = (itemId: string): void => dispatch({ type: 'buy_item', itemId });
+  const koku = state.resources.koku ?? 0;
+  const grantStr = (item: MarketItem): string =>
+    Object.entries(item.grants)
+      .map(([r, n]) => `+${n} ${r}`)
+      .join(', ');
+
+  if (variantId === 'market-b') {
+    // B — the posted price-board (品書 shinagaki): one notice, each good a justified ledger line —
+    // name, a dotted leader, grant + price right-aligned tabular, then a 求 ("buy") verb. Stock +
+    // any koku shortfall read as plain ink beneath, so an unaffordable good is HINTED, never grey.
+    const board = el('div', 'market-board');
+    board.style.cssText = 'margin:.5rem 0;border-top:1px solid var(--ink-faint);padding-top:.2rem;';
+    for (const item of MARKET_ITEMS) {
+      const bought = state.marketBought[item.id] ?? 0;
+      const remaining = item.stockCap - bought;
+      const capped = remaining <= 0;
+      const affordable = canBuy(state.resources, item, bought);
+
+      const line = el('div', 'market-board-line');
+      line.style.cssText = 'display:flex;align-items:center;gap:.45rem;padding:.3rem 0 .1rem;';
+      const name = el('span', undefined, item.label);
+      name.style.cssText = 'color:var(--ink);white-space:nowrap;';
+      const leader = el('span');
+      leader.style.cssText =
+        'flex:1;height:0;border-bottom:1px dotted var(--ink-faint);min-width:1.5rem;';
+      leader.setAttribute('aria-hidden', 'true');
+      const grant = el('span', undefined, grantStr(item));
+      grant.style.cssText =
+        'color:var(--rokusho);font-variant-numeric:tabular-nums;white-space:nowrap;';
+      const price = el('span', undefined, `${item.kokuCost} koku`);
+      price.style.cssText =
+        'color:var(--ink-soft);font-variant-numeric:tabular-nums;min-width:5rem;text-align:right;white-space:nowrap;';
+      const verb = el('button', 'verb', capped ? '尽' : '求');
+      verb.type = 'button';
+      verb.disabled = !affordable;
+      verb.setAttribute(
+        'aria-label',
+        `Buy ${item.label} (${grantStr(item)}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
+      );
+      verb.title = capped
+        ? "You've taken all the pedlar carries this run."
+        : affordable
+          ? `Pay ${item.kokuCost} koku`
+          : `Need ${item.kokuCost - koku} more koku`;
+      verb.addEventListener('click', () => buy(item.id));
+      line.append(name, leader, grant, price, verb);
+
+      const hintText = capped
+        ? 'sold out'
+        : affordable
+          ? `${remaining} left`
+          : `${remaining} left · need ${item.kokuCost - koku} more koku`;
+      const hint = el('div', 'lock-hint', hintText);
+      hint.style.cssText = 'margin:0 0 .25rem;font-style:italic;';
+      board.append(line, hint);
+    }
+    card.append(board);
+    return true;
+  }
+
+  if (variantId === 'market-c') {
+    // C — the pedlar's ground-cloth: the purse up top, each good led by ONE curated good-emoji,
+    // the price to the right, and REMAINING stock as CONTINUOUS INK (an ochre bar shortening as
+    // the cloth empties, A19 — not pips). Unaffordable goods name the koku shortfall, not grey.
+    const icon: Record<string, string> = {
+      greens_sack: '🌿',
+      wood_bundle: '🪵',
+      whetstone_kit: '🪨',
+      greens_basket: '🧺',
+    };
+    const purse = el('div', 'lock-hint', `Your purse · ${koku} koku`);
+    purse.style.cssText =
+      'margin:.4rem 0 .2rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;align-self:flex-start;';
+    card.append(purse);
+    for (const item of MARKET_ITEMS) {
+      const bought = state.marketBought[item.id] ?? 0;
+      const remaining = item.stockCap - bought;
+      const capped = remaining <= 0;
+      const affordable = canBuy(state.resources, item, bought);
+      const frac = item.stockCap > 0 ? remaining / item.stockCap : 0;
+
+      const row = el('div', 'market-cloth-row');
+      row.style.cssText =
+        'display:flex;align-items:flex-start;gap:.55rem;padding:.45rem 0;border-top:1px solid var(--ink-faint);';
+      const glyph = el('span', undefined, icon[item.id] ?? '🎒');
+      glyph.style.cssText = 'font-size:1.5rem;line-height:1.1;flex:0 0 auto;';
+      glyph.setAttribute('aria-hidden', 'true');
+      const mid = el('div');
+      mid.style.cssText = 'flex:1;display:flex;flex-direction:column;gap:.14rem;min-width:0;';
+      const nameLine = el('span', undefined, item.label);
+      nameLine.style.cssText = 'color:var(--ink);';
+      const grant = el('span', undefined, grantStr(item));
+      grant.style.cssText = 'color:var(--rokusho);font-variant-numeric:tabular-nums;';
+      const track = el('div');
+      track.style.cssText =
+        'height:.28rem;max-width:7rem;background:var(--washi-shade);margin-top:.15rem;';
+      const ink = el('div');
+      ink.style.cssText = `height:100%;width:${Math.round(frac * 100)}%;background:${capped ? 'var(--ink-faint)' : 'var(--ochre)'};`;
+      track.append(ink);
+      const stockText = capped
+        ? 'cloth bare · sold out'
+        : affordable
+          ? `${remaining} of ${item.stockCap} left`
+          : `${remaining} of ${item.stockCap} left · need ${item.kokuCost - koku} more koku`;
+      const stockLabel = el('span', 'lock-hint', stockText);
+      stockLabel.style.cssText =
+        'font-style:italic;font-variant-numeric:tabular-nums;align-self:flex-start;';
+      mid.append(nameLine, grant, track, stockLabel);
+      const right = el('div');
+      right.style.cssText =
+        'flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;';
+      const price = el('span', undefined, `${item.kokuCost} koku`);
+      price.style.cssText =
+        'color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;';
+      const take = el('button', 'verb', capped ? 'gone' : 'take 取');
+      take.type = 'button';
+      take.disabled = !affordable;
+      take.setAttribute(
+        'aria-label',
+        `Buy ${item.label} (${grantStr(item)}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
+      );
+      take.title = capped
+        ? "You've taken all the pedlar carries this run."
+        : affordable
+          ? `Take it — pay ${item.kokuCost} koku`
+          : `Need ${item.kokuCost - koku} more koku`;
+      take.addEventListener('click', () => buy(item.id));
+      right.append(price, take);
+      row.append(glyph, mid, right);
+      card.append(row);
+    }
+    return true;
+  }
+
+  return false;
+}
+
+/** The diverged Quests surface (B / C) — DEV-only. The shared <h2> title ("Quests 用") stays in
+ *  render.ts; each variant supplies its own diegetic framing + body for the SAME data. Accept
+ *  buttons drive the real reducer via the threaded `dispatch`. */
+function renderQuestsVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId !== 'quests-b' && variantId !== 'quests-c') return false;
+
+  // kind → a brushed category stamp (kanji + roman word) + its accent. Colour is ALWAYS backed by
+  // the word text (§9). The keys match QuestKind exactly, so KIND[q.kind] is total.
+  const KIND = {
+    PEST: { kanji: '害', word: 'PEST', accent: 'var(--beni)' },
+    HUNT: { kanji: '狩', word: 'HUNT', accent: 'var(--ai)' },
+    CLEAR: { kanji: '掃', word: 'CLEAR', accent: 'var(--ochre)' },
+  };
+  const take = (questId: string): void => dispatch({ type: 'accept_quest', questId });
+
+  if (variantId === 'quests-b') {
+    // ── B · 高札場 — the village notice-board. Each quest a posted commission-bill; progress reads
+    //    as ONE CONTINUOUS ink "deeds answered" stroke (A19), the deeds fine-listed beneath. ──
+    const board = el('div');
+    board.style.cssText =
+      'border:2px solid var(--ink);background:var(--washi-shade);padding:.55rem .6rem;' +
+      'display:flex;flex-direction:column;gap:.55rem;';
+    const banner = el('div');
+    banner.style.cssText =
+      'display:flex;align-items:baseline;gap:.4rem;border-bottom:1px solid var(--ink-faint);padding-bottom:.3rem;color:var(--ink);';
+    banner.append(el('span', undefined, '📜'));
+    const bTitle = el('span', undefined, 'Kōsatsu — the village notice-board');
+    bTitle.style.fontWeight = '700';
+    banner.append(bTitle);
+    const bKanji = el('span', undefined, '高札場');
+    bKanji.lang = 'ja';
+    bKanji.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+    banner.append(bKanji);
+    board.append(banner);
+
+    for (const q of QUESTS) {
+      const done = new Set(state.quests.progress[q.id] ?? []);
+      const completed = state.quests.completed.includes(q.id);
+      const accepted = state.quests.accepted.includes(q.id);
+      const k = KIND[q.kind];
+
+      const bill = el('div');
+      bill.style.cssText =
+        'border:1px solid var(--ink-faint);border-left:4px solid ' +
+        k.accent +
+        ';background:var(--washi);padding:.4rem .5rem;display:flex;flex-direction:column;gap:.32rem;';
+      const head = el('div');
+      head.style.cssText = 'display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap;';
+      const stamp = el('span');
+      stamp.style.cssText =
+        'display:inline-flex;align-items:baseline;gap:.2rem;color:' +
+        k.accent +
+        ';border:1px solid currentColor;padding:0 .25rem;font-size:var(--fs-micro);font-weight:700;';
+      const stampKanji = el('span', undefined, k.kanji);
+      stampKanji.lang = 'ja';
+      stamp.append(stampKanji, el('span', undefined, k.word));
+      head.append(stamp);
+      const title = el('span', undefined, q.title);
+      title.style.cssText = 'font-weight:700;color:var(--ink);';
+      head.append(title);
+      if (completed) {
+        const fulfilled = el('span', undefined, '果 fulfilled ✓');
+        fulfilled.style.cssText =
+          'margin-left:auto;color:var(--shu-deep);font-weight:700;font-size:var(--fs-small);';
+        head.append(fulfilled);
+      }
+      bill.append(head);
+      bill.append(el('div', 'skill-blurb', q.blurb));
+
+      if (accepted || completed) {
+        const total = q.steps.length;
+        const ndone = q.steps.filter((s) => done.has(s.id)).length;
+        const frac = total === 0 ? 1 : ndone / total;
+        const meter = el('div');
+        meter.style.cssText = 'display:flex;align-items:center;gap:.5rem;';
+        const bar = el('div');
+        bar.style.cssText =
+          'position:relative;flex:1;height:.5rem;border:1px solid var(--ink-faint);background:var(--washi-deep);overflow:hidden;';
+        const fill = el('span');
+        fill.style.cssText =
+          'position:absolute;left:0;top:0;bottom:0;background:var(--ink-soft);width:' +
+          Math.round(frac * 100) +
+          '%;';
+        bar.append(fill);
+        const count = el('span', undefined, ndone + ' of ' + total + ' deeds');
+        count.style.cssText =
+          'color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;white-space:nowrap;';
+        meter.append(bar, count);
+        bill.append(meter);
+
+        const list = el('div');
+        list.style.cssText = 'display:flex;flex-direction:column;gap:.12rem;';
+        for (const s of q.steps) {
+          const ok = done.has(s.id);
+          const row = el('div');
+          row.style.cssText =
+            'display:flex;gap:.4rem;align-items:baseline;font-size:var(--fs-small);color:' +
+            (ok ? 'var(--ink)' : 'var(--ink-soft)') +
+            ';';
+          const mark = el('span', undefined, ok ? '■' : '□');
+          mark.style.color = ok ? 'var(--ink)' : 'var(--ink-faint)';
+          row.append(mark, el('span', undefined, s.label));
+          list.append(row);
+        }
+        bill.append(list);
+
+        const rk = q.reward.resources?.koku;
+        if (rk && !completed) {
+          const reward = el('div', undefined, 'On fulfilment — ' + rk + ' koku');
+          reward.style.cssText =
+            'align-self:flex-start;border:1px solid var(--gold);color:var(--gold);padding:0 .3rem;font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
+          bill.append(reward);
+        }
+      } else {
+        const foot = el('div');
+        foot.style.cssText = 'display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;';
+        const btn = el('button', 'verb', 'Take the commission 請ける');
+        btn.type = 'button';
+        btn.addEventListener('click', () => take(q.id));
+        foot.append(btn);
+        const rk = q.reward.resources?.koku;
+        if (rk) {
+          const posted = el('span', undefined, 'Posted reward — ' + rk + ' koku');
+          posted.style.cssText =
+            'color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
+          foot.append(posted);
+        }
+        bill.append(foot);
+      }
+      board.append(bill);
+    }
+    container.append(board);
+    return true;
+  }
+
+  // ── C · 用帳 — the steward's field-ledger. One aligned entry per commission: a kind stamp, the
+  //    name + terse note, an ink deeds-tally, the koku in a right-aligned tabular column (§9), and
+  //    a status; a 合計 foot totals the koku in hand. ──
+  const ledger = el('div');
+  ledger.style.cssText =
+    'border:1px solid var(--ink);background:var(--washi);padding:.5rem .6rem;display:flex;flex-direction:column;gap:.3rem;';
+  const cap = el('div');
+  cap.style.cssText =
+    'display:flex;align-items:baseline;gap:.4rem;border-bottom:2px solid var(--ink);padding-bottom:.25rem;color:var(--ink);';
+  cap.append(el('span', undefined, '📖'));
+  const cTitle = el('span', undefined, 'Field-ledger of commissions');
+  cTitle.style.fontWeight = '700';
+  cap.append(cTitle);
+  const cKanji = el('span', undefined, '用帳');
+  cKanji.lang = 'ja';
+  cKanji.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  cap.append(cKanji);
+  ledger.append(cap);
+
+  let kokuInHand = 0;
+  for (const q of QUESTS) {
+    const done = new Set(state.quests.progress[q.id] ?? []);
+    const completed = state.quests.completed.includes(q.id);
+    const accepted = state.quests.accepted.includes(q.id);
+    const k = KIND[q.kind];
+    const total = q.steps.length;
+    const ndone = q.steps.filter((s) => done.has(s.id)).length;
+    const rk = q.reward.resources?.koku ?? 0;
+    if (accepted && !completed) kokuInHand += rk;
+
+    const row = el('div');
+    row.style.cssText =
+      'display:flex;align-items:baseline;gap:.5rem;border-bottom:1px solid var(--ink-faint);padding:.32rem 0;';
+    const stamp = el('span');
+    stamp.style.cssText =
+      'flex:0 0 auto;color:' +
+      k.accent +
+      ';border:1px solid currentColor;padding:0 .25rem;font-size:var(--fs-micro);font-weight:700;';
+    const stampKanji = el('span', undefined, k.kanji);
+    stampKanji.lang = 'ja';
+    stamp.append(stampKanji);
+    row.append(stamp);
+
+    const main = el('div');
+    main.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:.08rem;';
+    const title = el('span', undefined, q.title);
+    title.style.cssText =
+      'font-weight:700;color:' + (completed ? 'var(--ink-soft)' : 'var(--ink)') + ';';
+    main.append(title);
+    const note = el('span', undefined, k.word + ' · ' + q.blurb);
+    note.style.cssText = 'color:var(--ink-soft);font-size:var(--fs-micro);';
+    main.append(note);
+    row.append(main);
+
+    const deeds = el('span');
+    deeds.style.cssText =
+      'flex:0 0 auto;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;';
+    if (!accepted && !completed) {
+      const dash = el('span', undefined, '—');
+      dash.style.color = 'var(--ink-faint)';
+      deeds.append(dash);
+    } else {
+      const inked = el('span', undefined, '┃'.repeat(ndone));
+      inked.style.color = 'var(--ink)';
+      const faint = el('span', undefined, '┃'.repeat(total - ndone));
+      faint.style.color = 'var(--ink-faint)';
+      const num = el('span', undefined, ' ' + ndone + '/' + total);
+      num.style.cssText = 'color:var(--ink-soft);font-size:var(--fs-micro);';
+      deeds.append(inked, faint, num);
+    }
+    row.append(deeds);
+
+    const koku = el('span', undefined, rk ? rk + ' koku' : '—');
+    koku.style.cssText =
+      'flex:0 0 4.6rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:' +
+      (rk ? 'var(--gold)' : 'var(--ink-faint)') +
+      ';';
+    row.append(koku);
+
+    const status = el('span');
+    status.style.cssText = 'flex:0 0 auto;text-align:right;';
+    if (completed) {
+      status.textContent = '果 done ✓';
+      status.style.cssText += 'color:var(--shu-deep);font-weight:700;font-size:var(--fs-small);';
+    } else if (accepted) {
+      status.textContent = 'in hand';
+      status.style.cssText += 'color:var(--rokusho);font-size:var(--fs-small);';
+    } else {
+      const btn = el('button', 'verb', 'Take on');
+      btn.type = 'button';
+      btn.addEventListener('click', () => take(q.id));
+      status.append(btn);
+    }
+    row.append(status);
+    ledger.append(row);
+  }
+
+  const foot = el('div', undefined, '合計 — koku in hand: ' + kokuInHand);
+  foot.style.cssText =
+    'align-self:flex-end;color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;padding-top:.15rem;';
+  ledger.append(foot);
+  container.append(ledger);
   return true;
 }
 
@@ -281,4 +879,11 @@ export function mountDevPanel(
   }
 
   host.append(panel);
+
+  // Reserve a right gutter so the fixed panel never sits OVER app content — the human reviews
+  // each variant live in the running UI (R2), so the surface being toggled must stay fully
+  // visible. The shell is `max-width:980px; margin:0 auto`, so padding #app re-centers it clear
+  // of the panel; global `box-sizing:border-box` keeps it from overflowing. DEV-only.
+  const app = document.getElementById('app');
+  if (app) app.style.paddingRight = '16rem';
 }
