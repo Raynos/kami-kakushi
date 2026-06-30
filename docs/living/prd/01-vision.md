@@ -249,9 +249,10 @@ Per the lean discipline, each per-tier ladder is **~8 rungs**. Grander martial t
 narration only**; default to humble household/*ashigaru*-tier titles. *(Patrol-leader / expedition / captain /
 overseer narration and any longer braid are parked for T3+ — see §1.7.1 and §1.14.)* Combat grows
 **incrementally** along these rungs: T0 **starts with exactly one weapon** and unlocks **+2 across the tier**
-(the roster grows **+3 at T2, +4 at T3 — ~9–10 weapons across v1**, each an archetype + a signature ability;
-Q15/FU13), surfaced one at a time on the **combat-reveal ladder** (below). *(T1 (estate-full) adds no new
-weapon line — new lines are gated to new domains; it deepens what's in hand.)*
+(the roster grows **+3 at T1, +4 at T2 — ~9–10 weapons across v1**, each an archetype + a signature ability;
+Q15/FU13), surfaced one at a time on the **combat-reveal ladder** (below). *(The cadence is **canon, not a
+lever** (§3): T1 (the full estate) opens the **2nd/sword** line, T2 (the Village) the **3rd/staff** line, and
+**T3 Region adds no new line — only depth**.)*
 
 **T0 — Estate ladder (~8 rungs; combat is live from the first tier).** Auto-producers do **not** appear on
 this ladder — early game is the MC's own active grind (combat, skills, jobs, crafting); idle helpers are a
@@ -274,9 +275,9 @@ tutorial cadence ends; D-061). Standing climbs **tolerated → friendly**. The *
 **deeds first bank** (in T1's Phase 2); the *koku* flywheel **branches into LAND / TREASURY / TRADE** (trade
 **≤⅓**); the **first paid retinue** (Gohei & Yatarō) is won and the **E1→E2** estate stage lands. New verbs,
 same familiar domain — and the **first ascension (T0→T1) lands BIG** (D-062). The rung-meters reset per rung;
-combat keeps growing along the §3 combat-reveal ladder (the new weapon lines are gated to the *new domains* —
-the 2nd line opens at the valley/T2 — so the estate-full tier deepens what's already in hand). **New-T1
-`R8→R15` is a forward sketch with placeholder rung titles** in §3 (full rung-copy deferred to playtest); the **shape**
+the weapon roster grows **+3** and the **2nd archetype line — the sword** opens here (a Combat Rank rung-gate;
+the blade is **pulled back to be a full-estate reveal**, §3). **New-T1 `R8→R15` is a forward sketch with
+placeholder rung titles** in §3 (full rung-copy deferred to playtest); the **shape**
 — a fresh ~8-rung full-estate ladder where the grind-floor first bites — is locked here (§1.6.3 T1; per-rung
 detail at §3).
 
@@ -284,8 +285,9 @@ detail at §3).
 The HOUSE's standing climbs **friendly → TRUSTED**, and its domain grows from bare *survival* to **anchoring its
 valley**. Rank is still a rung **within the house's theme**; at every rung you act **FOR THE ESTATE** across the
 village + estate + surrounding roads. Labour and combat keep interleaving, now reaching past the estate gate.
-The rung-meters **reset per rung** afresh, T2 grows the weapon roster **+3** and opens the **2nd combat line**
-(on a **Combat Rank** rung-gate), and **T2's Arms-pillar deeds accrue only in T2's Phase 2** (FU7).
+The rung-meters **reset per rung** afresh, T2 grows the weapon roster **+4** and opens the **3rd combat line**
+(the staff/polearm, pulled forward from the old Region; on a **Combat Rank** rung-gate), and **T2's Arms-pillar
+deeds accrue only in T2's Phase 2** (FU7).
 *(The **village reputation web** — §1.5.2 — runs **alongside** this as a parallel **optional accelerant**, never
 a gate; see §1.5.4.)*
 
@@ -293,10 +295,10 @@ a gate; see §1.5.4.)*
 |---|---|---|---|
 | **V0 — Errand-runner FOR the house, in the valley** | labour | The house trusts him to carry its business past its own gate into Asagiri; first village errands. | The market/shop row; coin; the village reputation web seeds (optional). |
 | **V1 — Recognised hand of the house** | mixed | The valley begins to know the house's man (headman + shops acknowledge him); combat keeps pace clearing valley pests/animals. | The chief's house; deeper satoyama rings; the inn & rumours board (side). |
-| **V2 — Road-warden (*michi-ban*) for the house** | combat | Make a stretch of valley road or the ford safe in the estate's name; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; the **2nd combat line** opens here (a Combat Rank rung-gate; +weapons across T1). *(Arms-pillar deeds accrue in T1's **Phase 2**, not on the rungs.)* |
+| **V2 — Road-warden (*michi-ban*) for the house** | combat | Make a stretch of valley road or the ford safe in the estate's name; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; the **3rd combat line** (the staff) opens here (a Combat Rank rung-gate; +weapons across T2). *(Arms-pillar deeds accrue in T2's **Phase 2**, not on the rungs.)* |
 | **V3 — The house's steward of the valley economy** | labour | Bring the valley economy and the estate's cash-crops to a recorded seasonal result. | Cash-crop and trade levers (the silk/sericulture *meibutsu* sub-engine begins — the trade strand opens at T1, never T0); the broker meters. |
 | **V4 — Trusted of the headman** | mixed | Put a valley fire out on the estate's behalf (Magobei's skim surfaces here); win the headman's regard (personal regard is a side accelerant). | The headman's roll-up quests; the doctored-ledger thread; first **Office** standing (the Office pillar reveals at T2). |
-| **V5 — Sworn man-at-arms of the house** | combat | Stand a real watch for the valley in the house's name; weapon-line milestones; survive the first dangerous-road encounter. | The first paid martial outsiders (Gohei & Yatarō) recruited as flavour retinue; defence of the valley. |
+| **V5 — Sworn man-at-arms of the house** | combat | Stand a real watch for the valley in the house's name; weapon-line milestones; survive the first dangerous-road encounter. | Gohei & Yatarō (the **T1** paid retinue) **deployed/expanded** at valley scale (not first-won — that was T1, §3); defence of the valley. |
 | **V6 — Right-hand-in-waiting (agent over the valley)** | mixed | The lord first believes the house's impact beyond the estate is possible; "clean your room" nearly done. | Authority across the valley; the alliance/standing levers that point at the region. |
 | **V7 — Agent of the house, the valley anchored** | labour→admin (as narration) | Estate healthy, valley anchored under it, immediate fires out — the capstone "clean your room" beat. | The **region** map and the **T2→T3** quest; the capstone **OPENS T2's Phase 2** (the pillar grind across **Arms + Estate + Office**); clearing T2's **hybrid profile** bridges to **T3** (the domain expands again, to the Region). Rival samurai houses appear. |
 
@@ -306,9 +308,9 @@ ever-larger domain (e.g. the house's **valley-envoy → road-captain of the clus
 trade → arbiter between valleys → recognised regional retainer → captain of the road-security detail →
 alliance-broker → leading house of the region**), estate standing climbing **trusted → HONORARY MEMBER of the
 house**, still interleaving labour and combat, with the **rival houses Tomita & Akagi** as the region's
-incumbents to surpass (G7 = the rivals dethroned). T3 grows the weapon roster **+4** and opens the **3rd combat
-line**, and **T3's Arms-pillar deeds accrue only in T3's Phase 2** (the revealed-pillar set reaches **4**, +
-Name surfacing; FU7). The **personal-mystery payoff** (Kuzuhara on the spine; the origin reunions incl. father
+incumbents to surpass (G7 = the rivals dethroned). T3 **adds no new weapon line — only depth** (the roster
+completes at T2, §3), and **T3's Arms-pillar deeds accrue only in T3's Phase 2** (the revealed-pillar set
+reaches **4**, + Name surfacing; FU7). The **personal-mystery payoff** (Kuzuhara on the spine; the origin reunions incl. father
 **Jinpachi** + the lost-child truth on the **Origin one-tier rep side-track**, `O0→O5`) lands across it. Exact
 rung copy is detailed at §3.6 (the unlock ladder); the **shape** — fresh ~8-rung ladder, combat woven
 throughout — is locked here. T4/T5 ladders are **scoped forward** (T4 stub, T5 roadmap).
@@ -668,7 +670,7 @@ data-driven, headlessly-testable framing (Q55).
 | **The River, Ford & Weir** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T2, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). *(The find-spot **jizō at the weir** is its own row above — the lone residual-ambiguity beat is co-located there; Q11.)* |
 | **The Foothills & Charcoal Grounds** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T2, deeper conditioning. Second danger ring. |
 
-## 1.7.1 World & areas — LATER (T2 deep + T3–T4 expansion; parked, not cut)
+## 1.7.1 World & areas — LATER (T3 deep + T4–T5 expansion; parked, not cut)
 
 Parked per the lean discipline (§1.2 pillar 3): designed but **not authored as full areas in v1.** Per the
 world-expansion cut-set, beyond the three starters a sane buildable set is **~6–8 nodes** that reuse the
@@ -676,20 +678,20 @@ existing cast and pay off the spine directly.
 
 | Node | Tier | Kind / role |
 |---|---|---|
-| **Kuzuhara — re-foundable upstream hamlet & embankment river-works** | T2 | **Spine.** The faction-3 fusion: the drowned hamlet — the house's own **root-sin** (ancestor Sadamune's neglected flood-works) — becomes a resettlement node + the embankment (*seki*) river-works that secures the disaster. Access-only, grind-built; the player **names the drowned** and re-founds the hamlet. **No personal tie to the MC** — his origin/backstory and the lost-child evidence resolve via the **dream → the Sawatari-juku family** (§5 T2.2/T2.5), not here. |
-| **Sawatari-juku & the wider post-town region** | T2 | **Mixed.** The origin reunion hub (optional — **Tahei's living family**) + the *toiya* transport office / waystation trade layer (the practical surplus-export runway to T3). |
+| **Kuzuhara — re-foundable upstream hamlet & embankment river-works** | T3 | **Spine.** The faction-3 fusion: the drowned hamlet — the house's own **root-sin** (ancestor Sadamune's neglected flood-works) — becomes a resettlement node + the embankment (*seki*) river-works that secures the disaster. Access-only, grind-built; the player **names the drowned** and re-founds the hamlet. **No personal tie to the MC** — his origin/backstory and the lost-child evidence resolve via the **dream → the Sawatari-juku family** (§5 T2.2/T2.5), not here. |
+| **Sawatari-juku & the wider post-town region** | T3 | **Mixed.** The origin reunion hub (optional — **Tahei's living family**) + the *toiya* transport office / waystation trade layer (the practical surplus-export runway to T3). |
 | **Yanagi-watari — down-valley river-crossing market town** | T3 | **Spine (personal-mystery).** A second post-region locale a day **down**-valley (distinct from Sawatari-juku, which is up the *kaidō*) — a busy river-crossing market where a runaway child could vanish into the crowd. **Where the grown Otsuru (the real Tama) is found** — the **G6 lost-child TRUTH** locale, deliberately **separated from the origin-reunion hub** so the two T3 personal threads don't both land in Sawatari-juku (D-Q-otsuru-locale; authenticity spread > narrative economy). |
-| **The Kaidō Porters' & Transport Guild** | T2→T4 | **Spine-thin.** Routes, *sekisho* pass-tiers, route-risk — the trade backbone. Met via friend Kanta's first favour run. *(The **v1 stub ending is NOT** this node — see the Daikan's Office row below; the porter-guild first-contact framing is dropped, Q24.)* |
-| **The Rice & Silver finance network** | T2→T4 | **Spine-thin.** The conversion engine: village broker → regional warehouse → *Marutaya* debt-restructuring → *goyōkin* → Osaka/Edo *fudasashi*. |
-| **The Neighbouring Valleys** | T2 | Side. **Hard-capped at exactly two named valleys (Hibara + Tōge-mura)** — Asagiri fractally replicated, slimmer. Courting them is an optional accelerant. |
-| **The High Mountains & The Pass** | T2–T3 | Shared wilderness, top of the conditioning gradient. The lethal terrain where his caravan died; the "one-eyed mountain god" (= Hanzaki + fog-blind terrain). |
-| **The Daikan's Office (castle-town officialdom)** | T3 | **Spine-critical** for formal T3 recognition **and the v1 STUB ENDING**: v1 **closes on the castle-town / Daikan's-Office first-contact cliff-hanger** (Q24 / D-040). The racket's nerve-centre; where most T3 Influence is minted. No folklore here — the rational, ledgered counter-world. |
-| **The *domain's* Edo *yashiki* / *rusui-yaku* + *sankin-kōtai* conduit (one cluster)** | T4 | **Spine.** The mediated capital conduit — the house **staffs & runs the domain's establishment** (rusui **Mukai** — *invented surname; the real "Konoe" is a regent-house name, removed per Q27*) under the **daimyō's** biennial *sankin-kōtai* (never its own) — with the **Nihonbashi/*banzuke*** payoff (**Nihonbashi** is an explicitly **allow-listed** real place name, Q12) and the **touring-inspector set-piece** folded in as its two payoff beats. |
+| **The Kaidō Porters' & Transport Guild** | T3→T5 | **Spine-thin.** Routes, *sekisho* pass-tiers, route-risk — the trade backbone. Met via friend Kanta's first favour run. *(The **v1 stub ending is NOT** this node — see the Daikan's Office row below; the porter-guild first-contact framing is dropped, Q24.)* |
+| **The Rice & Silver finance network** | T3→T5 | **Spine-thin.** The conversion engine: village broker → regional warehouse → *Marutaya* debt-restructuring → *goyōkin* → Osaka/Edo *fudasashi*. |
+| **The Neighbouring Valleys** | T3 | Side. **Hard-capped at exactly two named valleys (Hibara + Tōge-mura)** — Asagiri fractally replicated, slimmer. Courting them is an optional accelerant. |
+| **The High Mountains & The Pass** | T3–T4 | Shared wilderness, top of the conditioning gradient. The lethal terrain where his caravan died; the "one-eyed mountain god" (= Hanzaki + fog-blind terrain). |
+| **The Daikan's Office (castle-town officialdom)** | T4 | **Spine-critical** for formal T4 recognition **and the v1 STUB ENDING**: v1 (which *completes* at Region/T3) **closes on the castle-town / Daikan's-Office first-contact cliff-hanger** — the **T4 stub, beyond v1** (Q24 / D-040). The racket's nerve-centre; where most T4 Influence is minted. No folklore here — the rational, ledgered counter-world. |
+| **The *domain's* Edo *yashiki* / *rusui-yaku* + *sankin-kōtai* conduit (one cluster)** | T5 | **Spine.** The mediated capital conduit — the house **staffs & runs the domain's establishment** (rusui **Mukai** — *invented surname; the real "Konoe" is a regent-house name, removed per Q27*) under the **daimyō's** biennial *sankin-kōtai* (never its own) — with the **Nihonbashi/*banzuke*** payoff (**Nihonbashi** is an explicitly **allow-listed** real place name, Q12) and the **touring-inspector set-piece** folded in as its two payoff beats. |
 
-> **Marriage / adoption-into-higher-status is a REAL late-game (T3/T4) lever (NOT cut).** Kept lean — a
+> **Marriage / adoption-into-higher-status is a REAL late-game (T4/T5) lever (NOT cut).** Kept lean — a
 > grounded alliance/status move (not a relationship or people-management sim) that lifts **Standing & Office**
 > and **Name & Honour** and is one of the **multi-route castle-town takeover** paths. It threads through the
-> T3/T4 nodes above (the *daikan*'s office, the Edo conduit) rather than being a node of its own; details at
+> T4/T5 nodes above (the *daikan*'s office, the Edo conduit) rather than being a node of its own; details at
 > §3/§5.
 >
 > **Cut for now (reintroduce later, "start lean, add back"):** the Matagi hunters, the Pilgrimage Order, and
@@ -697,7 +699,7 @@ existing cast and pay off the spine directly.
 > E4–E5** (fortified seat → restored-and-surpassed) stay parked — **E3 "Prosperous" is now authored in v1**
 > (§1.5.1; Q8).
 >
-> **Macro-tier spatiality is SETTLED: full walkable maps at EVERY tier, always** (T0–T2 built in v1; T3–T4
+> **Macro-tier spatiality is SETTLED: full walkable maps at EVERY tier, always** (T0–T3 built in v1; T4–T5
 > maps built later — **not** abstract-board-only by design). This is no longer an open question. The only
 > residual is **build sequencing** (upper-tier maps are authored after v1), not a design hedge toward abstract
 > boards.
@@ -706,7 +708,7 @@ existing cast and pay off the spine directly.
 
 Grouped by faction. Most NPCs do **double duty** — a gatekeeper *and* a story thread in the same beat — to
 keep the web legible. The **estate roster GROWS per tier** (annotated below); the **village cast stays
-static**; the origin cast unlocks at T2.
+static**; the origin cast unlocks at T3.
 
 ### Estate (main) — the Kurosawa household & retainers
 
@@ -967,9 +969,9 @@ pillar-grind)** model (FU7, §1.6.4). **Combat surfaces inside the FIRST tier (T
 
 **Combat-reveal ladder (incremental; one reveal per beat — FU12/FU13):** **R3** single starter weapon + bare
 auto-resolve + retreat + Bestiary → **R4** graded **durability** bands → **R5** **stance** slot → **first
-weapon-L10 milestone** the **ability + item** slots → **T2** the **2nd combat line**, **T3** the **3rd line.**
-The **weapon roster grows incrementally** alongside: **T0 +2 / T2 +3 / T3 +4** (~9–10 across v1, each an
-archetype + signature ability; T1 estate-full adds none). Detail at §2.8/§4.
+weapon-L10 milestone** the **ability + item** slots → **T1** the **2nd combat line**, **T2** the **3rd line.**
+The **weapon roster grows incrementally** alongside: **T0 +2 / T1 +3 / T2 +4** (~9–10 across v1, each an
+archetype + signature ability; **T3 Region adds no new line, only depth**). Detail at §2.8/§4.
 
 **T1 — the estate at FULL depth (a FRESH ladder, `R8→R15`):** the same domain, deeper — the ≥30-min-per-rung
 grind first bites, the **Arms pillar reveals** and banks its first deeds, the *koku* flywheel branches
@@ -1053,7 +1055,7 @@ Folded in from the locked-rule fixes (to apply at integration and hold through �
   RESOLVED = 官威 (*kan'i*)**, "authority of office" (§5 authenticity pass, 2026-06-25). The top-rung title is
   **RESOLVED = chief steward / *yōnin*** ("the lord's right hand"); keep grand *karō*/adoption vocabulary as
   **aspirational narration only** for a modest *gōshi* house.
-- ***Meibutsu* product is LOCKED = silk / sericulture** (Round A). No placeholder; author the T3/T4
+- ***Meibutsu* product is LOCKED = silk / sericulture** (Round A). No placeholder; author the T4/T5
   trade/prestige payload directly against silk (weaver Onatsu leads the sub-engine; it stays under the trade
   ≤⅓ cap).
 - **Estate-restoration must not drift into city-builder/4X tedium** — Influence stays diegetic and
@@ -1079,10 +1081,10 @@ reset); **D-006 is amended** (Tahei reclaim Origin-gated at O5, earned + missabl
 | **D-006** | Protagonist identity. | **Amended (V2)** — fixed male, no rename; "Tama" borrowed name, true name **Tahei**; the **Tahei reclaim is now Origin-gated at O5 — earned + MISSABLE** (Q5); the **Otsuru/Tama TRUTH stays spine-guaranteed at G6** for every player; age **~18–20**. |
 | **D-007** | Estate-rise spine + tiers **T0–T5** *(reshaped from T0–T4 by D-048 — the Estate split)* + per-tier transition story gates. | **New ADR** (supersedes the mistaken-identity spine). |
 | **D-008** | Three starter factions + **four-pillar** House Influence + per-tier gating. | **New ADR; amended (V2)** — gating is now the **HYBRID good/great/excellent** profile over revealed pillars (good in all · great in 2–3 · excellent in 1–2; Q7/FU10) under the **SEQUENTIAL Phase-1 (rungs) → Phase-2 (pillar grind)** model (FU7); the old "simple per-tier thresholds" framing is superseded; **trade ≤⅓ of Estate & Wealth** survives as the only structural cap. |
-| **D-009** | Origin = **living** family/friends (Sawatari-juku) opening at **T2**; Kuzuhara a re-foundable region node; access-only. | **New ADR** (supersedes family-death canon). |
+| **D-009** | Origin = **living** family/friends (Sawatari-juku) opening at **T3**; Kuzuhara a re-foundable region node; access-only. | **New ADR** (supersedes family-death canon); tier reshaped by D-048. |
 | **D-010** | Indirect/mediated **Edo ceiling** — rank the HOUSE (national *mitate-banzuke*), not the man; no *hatamoto*/shogunal audience. | **New ADR** (Option A: provincial/parody chart; personal rank hard-capped at chief steward). |
 | **D-011** | **Combat earns standing** via the Arms pillar; mediocre-start preserved; conditioning gate. | **New ADR; amended (V2)** — the no-cross-feed wall is relaxed to **BOUNDED per-skill combat perks** (Q6/FU8; conditioning stays the zero-stat gate); combat is now **THREE clean tracks** — character level (combat-XP) / the Arms pillar (deeds) / the **Combat Rank** rung-meter (curated rung activities; FU14). |
-| **D-012** | Per-tier rank ladders + full maps every tier + **v1 = T0–2** (T3 stub, T4 roadmap); lean cut-set. | **New ADR; amended (V2)** — the **~4-quest budget is dropped** (Q23: no quest-type budget — author whatever fits, more/interesting welcome); combat is now **incremental** with a **bigger weapon roster** (Q15/FU13); the **budget is a FLOOR / longer grind** (FU18); estate **E3 "Prosperous" is authored in v1** (E4–E5 parked; Q8). Cut-set otherwise: ~8 rungs, ~5 mobs, ~6–8 nodes. |
+| **D-012** | Per-tier rank ladders + full maps every tier + **v1 = T0–T3** (T4 stub, T5 roadmap; reshaped by D-048); lean cut-set. | **New ADR; amended (V2)** — the **~4-quest budget is dropped** (Q23: no quest-type budget — author whatever fits, more/interesting welcome); combat is now **incremental** with a **bigger weapon roster** (Q15/FU13); the **budget is a FLOOR / longer grind** (FU18); estate **E3 "Prosperous" is authored in v1** (E4–E5 parked; Q8). Cut-set otherwise: ~8 rungs, ~5 mobs, ~6–8 nodes. |
 | **D-013** | Tech & presentation: Vite + TS + Vitest; pure-core + thin DOM renderer; one seeded RNG; export/import; responsive desktop+mobile; **active-only, no offline progress**; static itch.io build. Art register = TEXT + EMOJI + CSS. | **New ADR; amended (V2)** — **multi-backend redundant save** (IndexedDB + localStorage + sessionStorage; magic field; monotonic save-counter newest-wins + timestamp tiebreaker; Q37/FU1–FU2); **per-named-stream RNG cursors** `{seed,cursors}` + **stateless day-keyed** weather/lunar (Q2/FU3); **ban `Math.pow` → integer-pow + lint** (Q36); active-only with **tab-open auto-resolve / auto-repeat** (FU23). Presentation V2: a11y correctness now, functional text → **`--ink-soft`** (WCAG AA), **self-hosted OFL fonts**, **inline-SVG** load-bearing motifs (Q18/Q48/Q52/Q38). |
 | **D-014** | **Per-tier antagonists** (not a single racket); the racket demoted to a **light, optional connective thread**; T0 villain-less; two rival houses (Tomita + Akagi). | **New ADR.** |
 | **D-015** | Four-pillar accrual = **achievement JUMPS + seasonal JUDGED RESULTS** (new-high-water-mark only), up-only + rare recoverable **per-pillar** dents (never a wipe). | **New ADR; amended (V2)** — accrual belongs to the **Phase-2** estate-influence track (deeds **don't** accrue while climbing the rungs; FU7); weather/festivals modulate judged results **±10%** (Q35); bulk-sale saturation damps **progressively per-unit** (Q42). |
@@ -1090,14 +1092,14 @@ reset); **D-006 is amended** (Tahei reclaim Origin-gated at O5, earned + missabl
 ### Resolved by Round A (no longer open — recorded for traceability; 🔁 = reversed by the V2 decisions)
 
 - ***Meibutsu* = silk / sericulture** (LOCKED). Was a candidate list; now settled — weaver Onatsu leads the
-  sub-engine; threads T1→T4 under the trade ≤⅓ cap.
+  sub-engine; threads T1→T5 under the trade ≤⅓ cap.
 - **Macro-tier spatiality = full walkable maps at every tier, always** (LOCKED). The "vs abstract boards above
   T2" hedge is removed; only build sequencing (upper-tier maps authored after v1) remains.
-- **Origin father = re-added as Jinpachi** (LOCKED; renamed from "Kuranosuke"). Reunion resolves at T2, optional
-  emotional callback at T4. The "cut/dropped?" framing is retired.
+- **Origin father = re-added as Jinpachi** (LOCKED; renamed from "Kuranosuke"). Reunion resolves at T3, optional
+  emotional callback at T5. The "cut/dropped?" framing is retired.
 - **Second rival house = Akagi** (honour/precedence) beside Tomita (money) (LOCKED — canon requires exactly two
   rival houses; not folded into Naoyuki-as-internal-foil).
-- **Marriage / adoption = a real lean late-game (T3/T4) Standing/Name lever** and a castle-town takeover route
+- **Marriage / adoption = a real lean late-game (T4/T5) Standing/Name lever** and a castle-town takeover route
   (LOCKED — restored; not cut).
 - **🔁 Tier-gate shape** — was "simple per-tier required-pillar thresholds" (the floor+overflow formula
   rejected); **now SUPERSEDED by the HYBRID good/great/excellent profile** (Q7/FU10) under the **sequential

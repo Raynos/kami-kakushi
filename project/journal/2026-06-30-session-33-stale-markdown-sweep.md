@@ -132,6 +132,37 @@ claims (VERIFY/JOURNAL/QUEUE/ATTRIB/SNAPSHOT) all resolve to real hooks.
 Note: the "rotted prd.md inbound links" the critic flagged turned out **not broken**
 (`[§6.10](prd.md)` → the stub exists + forwards) — imprecise, not dead, so left as-is.
 
+## 7 · Diff re-audit (P1) — caught a regression + missed sections (R3 in action)
+
+Ran an independent 3-lens adversarial diff re-audit (the P1 practice). **It was
+NOT clean — and that's the point: I was blind to these.** Fixed all confirmed:
+- **HIGH — weapon-line REGRESSION I introduced.** I'd "fixed" the cadence to
+  T0+2/T2+3/T3+4, but §3 canon (authored Part-1, not in my diff) is **T0+2 /
+  T1+3 sword / T2+4 staff / T3 +0** ("canon, not levers"). The original §1 numbers
+  were already right; I reversed them. Reverted to canon across §1.5.1 preamble,
+  the T1/T2/T3 sections, the V2 row, and the §1.12 ladder.
+- **HIGH — §1.7.1 "LATER world" table** was left old-5-tier (only Yanagi-watari
+  was bumped). Rippled it: Daikan's-Office **v1 stub = T4 (beyond v1)** not T3,
+  Edo→T5, Kuzuhara/Sawatari→T3, headers, marriage T4/T5, maps T0-T3.
+- **MED — §1.14 ADR/Round-A log** (D-009/D-012 v1=T0-T3/T4-stub/T5-roadmap;
+  Jinpachi T3/T5; meibutsu T1→T5; marriage T4/T5), **§1.7 origin caption** T3,
+  **V5 Gohei** "deployed not first" (first@T1, §3).
+- **MED — sfx-spec "as built" mismatch.** The build fires `sfx.hit()` (taiko) on
+  **every** `do_activity` deed, not just combat; "weightier on a crit" is unbuilt.
+  Corrected the doc to match `src/ui/sfx.ts` + `main.ts:137`.
+- **LOW — D-053 banner citation** → the guard is `main.ts:179`, not 174-176.
+
+**Discovered a larger tail (NEW, beyond the sweep's §1 scope):** **§4
+(04-combat-balance) is pervasively old-5-tier**, but it's **deliberately
+banner-flagged** ("reads old, map through banner, §4 ripple pending"). Completing
+it needs **balance design** (the T1 Estate-full split bands — re-derived numbers,
+**liquid per D-059**), not hygiene. **Reverted my 3 partial §4 edits** (they broke
+the banner's uniformity) and **filed it as a tracked follow-up** (task: "§4 balance
+ripple"). One §5 residual (05:650) folded in there.
+
+10-gate verify green after the fixes. The re-audit's only non-fix was the
+md-links gate's latent robustness gaps (zero triggers today — not a defect).
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);

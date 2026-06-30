@@ -1,8 +1,9 @@
 # SFX Spec — the minimal traditional-palette audio pass
 
 > **LIVING — the minimal 3-cue pass is BUILT & WIRED** in [`../../src/ui/sfx.ts`](../../src/ui/sfx.ts)
-> (synthesized Web Audio, behind the **Sound on/off** toggle): `hit` (taiko) on a combat blow,
-> `reward` (shamisen/koto) on a koku tally, `rankUp` (suzu temple-bell) on a rank-up/ascension. This
+> (synthesized Web Audio, behind the **Sound on/off** toggle): `hit` (taiko) on **every player-driven
+> deed/fight** (`do_activity`/`fight`/`face_wolf` — the per-action thud), `reward` (shamisen/koto) on a
+> koku tally, `rankUp` (suzu temple-bell) on a rank-up/ascension. This
 > doc is the **contract** it implements; the genuinely-deferred part is **§4 (the full bed)**. Locked
 > by **D-068** (palette + timing), sequenced within **D-041** (a small *synthesized* Web Audio set —
 > no audio-file pipeline).
@@ -18,8 +19,8 @@ Three cues only — **built & wired** so the human's **R1 taste verdict** has re
 
 | Cue | Fires on | Instrument (palette §2) | Feel |
 |---|---|---|---|
-| **Hit** | a landed combat blow | **taiko** | a single grounded thud; weightier on a crit |
-| **Reward** | a deed banks / koku/upgrade lands | **shamisen / koto** | a short bright pluck |
+| **Hit** | **every player-driven deed/fight** (labour or combat — `do_activity`/`fight`/`face_wolf`) | **taiko** | a single grounded thud (one fixed voice — per-strike/crit variety is the deferred full bed) |
+| **Reward** | a koku tally banks | **shamisen / koto** | a short bright pluck |
 | **Rank-up** | a rung/tier ascension | **temple bell / 鈴** | one clear struck bell; the ceremony beat |
 
 Everything else (ambience, per-deed variety, UI ticks, the **shakuhachi** big-beat swell) is the
@@ -29,8 +30,9 @@ Everything else (ambience, per-deed variety, UI ticks, the **shakuhachi** big-be
 
 The audio analogue of the woodblock visual discipline — the anti-slop defence in *sound*:
 
-- **Taiko** (太鼓) → **combat** (hits, crits, the martial register).
-- **Shamisen / koto** (三味線・箏) → **UI / deeds** (banking, upgrades, menu confirms).
+- **Taiko** (太鼓) → **every player-driven deed/fight** (the per-action thud; *built* as one fixed voice —
+  per-strike/crit variety is the deferred full bed).
+- **Shamisen / koto** (三味線・箏) → **the koku tally / reward** (a banked payoff).
 - **Shakuhachi** (尺八) → **big beats** (tier swells, ceremony — *full bed*, deferred).
 - **Temple bell / 鈴** (suzu) → **rank-ups** (the ascension chime).
 

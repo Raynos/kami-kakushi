@@ -446,7 +446,8 @@ the §4 balance magnitudes stay liquid (re-derive at Ship-M1-F2, D-059).
 > 🔁 **SUPERSEDED on the clock model by D-079 (2026-06-30).** ⚠️ This ADR's Decision below
 > **describes the OPPOSITE of what shipped** — a textbook "a signed ADR is a *claim to verify*, not
 > proof" (A12). The build is **active-only-PAUSE**: the sim **pauses on `document.hidden`**, with **no**
-> offline/background wall-time catch-up (`src/app/main.ts:174-176`). **D-079 is the live authority.** The
+> offline/background wall-time catch-up (`src/app/main.ts:179` — the `paused || document.hidden` guard;
+> the active-only tick-loop comment is at 174-176). **D-079 is the live authority.** The
 > genre's "leave it running" feel is delivered by **tab-open auto-repeat while the tab is open & visible**
 > (FU23), not by wall-time catch-up. The original text is kept (struck) below as append-only history.
 - **created_date:** 2026-06-28
