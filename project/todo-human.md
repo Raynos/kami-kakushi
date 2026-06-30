@@ -31,3 +31,8 @@
     spine that closes, combat re-baseline, the T0-M4 breadth, the M2·8 fork-retire) + how
     it was vetted (battery + adversarial re-audit + e2e proofs + prod-build check) +
     exactly what's left for you (R1/R4). The fastest way to orient before playtesting.
+- [ ] `project/brainstorms/2026-06-30-v03-process-learnings.md` — *process retrospective (a proposal)*
+  - What this cycle taught us about building a better game + concrete process changes to
+    adopt (an `onboarding` battery lens, e2e+invariant tests per tier, "design the
+    after-state of a payoff", RED-able tests from derived fixtures, re-audit-the-diff).
+    Awaiting your read + a **pick-which-to-adopt** call (some become ADRs / battery lenses).
