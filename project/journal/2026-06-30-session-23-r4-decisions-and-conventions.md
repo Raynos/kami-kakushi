@@ -92,6 +92,36 @@ norm**, so it could be — and was — forgotten. Fixed per "push each rule to t
 - **v0.3.1 plan:** the human **read + approved** it → removed from the queue, marked **APPROVED — build
   greenlit** in the plan header. The build is now unblocked (next-session work).
 
+## 7 · Addendum (cont.) — full-session review + the re-pass delta
+
+After the reading-queue gate, the human pushed twice on review depth:
+
+- **A retrospective must read the JSONL, not the compacted window.** A first
+  `/hookify` pass (from context) found "one gap"; the human flagged it as
+  post-compaction-only. Mining the full **83 MB / 5053-record** transcript (every
+  bash cmd 343 / file op 413 / error 67) surfaced the real recurring pattern:
+  `cat >>` / `echo >` authoring of tracked files (~10×, incl. `cat >>
+  src/core/economy.test.ts`). → shipped a 4th hookify rule
+  **`warn-shell-write-source`** (warn, scoped to `src/`; tested match/skip). The
+  shared-tree git-safety rules (3 existing hookify rules + the githooks) already
+  covered the rest → no redundant rules (restraint).
+- **The process-learnings doc is "faithful but narrow."** The human noted the big
+  session output was the **process-change plan** they hadn't read. Applied the
+  doc's OWN thesis (an independent pass beats self-review) to the doc itself: a
+  Workflow (6 miners over the reasoning transcript → a convergence critic) found
+  **23 learnings the doc missed** — 4 blind spots: multi-agent coordination (never
+  mentioned), the agent's generosity game-feel bias + economic invariants,
+  self-review method + the lying QA harness, and gate/ADR process beyond "push to
+  a gate". Folded into `brainstorms/2026-06-30-v03-process-learnings.md` as a
+  marked **Addendum** (A1–A23); raw verdicts snapshotted local-only.
+
+**Commits this stretch (all by explicit path; a co-agent ran sessions 24–26 in
+the shared tree):** the reading-queue-gate batch + CLAUDE.md ~80-char reflow + the
+diverge-D-075 fix (pushed earlier; survived the session-25 history rewrite as
+`36e41bc/ace0d85/b2d8a94/20e16ad`), then `warn-shell-write-source` (`58419ed`) +
+the re-pass-delta distillation (`7ca6ac2`) — local at checkpoint, stacked on the
+co-agent's AGENTS.md commits.
+
 ## ⚠ Shared-tree note
 
 A second agent worked the whole session (commit-attribution rule, todo-human rename, gitignore raw

@@ -252,6 +252,11 @@ metadata:
   APPROVED → build greenlit** (dequeued; only the process-learnings retrospective remains in the reading queue).
   **No code yet** — sequenced in **`docs/plans/2026-06-30-v0.3.1-build.md`** (DEV panel + variants → combat → koku
   → map node → clock doc-fix → battery leftovers). All `verify`-green, on `origin/main`.
+  **Later (same session):** a **full-session JSONL review** (83 MB / 5053 records) added a 4th hookify rule
+  `warn-shell-write-source` (`58419ed`) and an independent re-pass Workflow (6 miners → convergence) that found
+  **23 process learnings the retrospective missed** — folded into `brainstorms/2026-06-30-v03-process-learnings.md`
+  as an Addendum A1–A23 (`7ca6ac2`). Those 2 commits were **local-only at checkpoint** (a co-agent ran sessions
+  24–26 in the shared tree — held the push; see resume step 0).
 - **How to resume:**
   1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-23-r4-decisions-and-conventions.md`)
      + the **R4 decision capture** (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`) + the active
