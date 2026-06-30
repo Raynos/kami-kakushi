@@ -13,10 +13,13 @@
 #      that are ALREADY kept current (the active plan(s), project-status.md, the
 #      latest journal) and asks the agent to name the startable workstream(s) —
 #      OFTEN JUST ONE (the active plan); "up to 3" is a cap for genuinely-parallel
-#      work, not a quota to pad to. This must be FAST (≤5s): the agent briefs from
-#      THIS output + a peek at the active plan's Status line — it does NOT read the
-#      full snapshot or run `verify` just to brief. No new file to keep in sync;
-#      the script only names the current files so the agent doesn't have to hunt.
+#      work, not a quota to pad to. This must be FAST (≤5s): the agent relays
+#      THIS output with ZERO tool calls — every signal it needs (queue, reviews,
+#      commits, active-plan tag) is already inlined below. Even one git/Read/verify
+#      round-trip costs several seconds and blows the budget; the deeper
+#      verify-against-git check is for when the work is PICKED UP, not the brief.
+#      No new file to keep in sync; the script names the current files so the agent
+#      doesn't have to hunt — but it must NOT open them just to brief.
 #
 # Output goes to stdout, which the SessionStart hook injects into Claude's context
 # (so the agent can lead the session by relaying the brief). NOTE: a SessionStart
@@ -56,6 +59,8 @@ section_items() {
 }
 
 add "## 🧑‍⚖️ Human-in-the-loop brief (auto-surfaced at session start)"
+add ""
+add "> ⏱️ **Opening turn ≤5s — relay this brief with ZERO tool calls.** Everything you need (queue, reviews, commits, the active-plan tag) is already inlined below. Do **not** run \`git\`/\`Read\`/\`verify\` or open any file just to brief — even one round-trip costs several seconds and blows the budget. Defer every verify-against-git check to when you actually pick the work up."
 add ""
 add "_Surface these to the human early. Full lists: \`$HUMAN_TODO\`, \`$DECISIONS\`, \`$REVIEWS\`._"
 add ""
@@ -120,7 +125,7 @@ add_open_items "$REVIEWS" "👁️ Open reviews (R-items)"
 # — only each plan's own Status line is. This block just orients that investigation.
 add "## 🤖 Next autonomous work — name the startable workstream(s)"
 add ""
-add "_No stored task list. In your opening relay, name the **startable autonomous workstream(s)** — **often just the one active plan; \"up to 3\" is a cap for genuinely-parallel work, not a quota to pad to** (don't split one plan's steps into three \"tasks\"). Keep it **FAST (≤5s)**: brief from THIS output + at most a peek at the active plan's Status line + the commits below — **don't** read the full snapshot or run \`verify\` just to brief (save the deeper verify-don't-trust check for when you actually pick the work up). Skip human-gated items (playtests, taste calls, design decisions). Where the signal lives:_"
+add "_No stored task list. In your opening relay, name the **startable autonomous workstream(s)** — **often just the one active plan tagged ▶️ below; \"up to 3\" is a cap for genuinely-parallel work, not a quota to pad to** (don't split one plan's steps into three \"tasks\"). Keep it **FAST (≤5s)**: name them straight from THIS output — the ▶️/✅ plan tags and the commits are already inlined, so **make ZERO tool calls to brief** (no \`git\`, no \`Read\`, no \`verify\`, don't open the plan). The deeper verify-don't-trust check is for when you actually pick the work up, not the brief. Skip human-gated items (playtests, taste calls, design decisions). Where the signal lives:_"
 add ""
 
 # Recent commits — the freshest "what just happened" (git is the source of truth).
