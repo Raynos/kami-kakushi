@@ -87,7 +87,7 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   self-picks a default; you confirm/override per variant by ticking it here.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
-### R4 🔲 — v0.3 fidelity-battery judgment queue (6 design/taste calls)
+### R4 ✅ — v0.3 fidelity-battery judgment queue (6 design/taste calls) — RESOLVED 2026-06-30
 
 - **Asking for:** decisions only you can make, surfaced by the v0.3 fidelity battery
   ([report](../audit/reports/2026-06-29-v03-fidelity-battery.md)). The build is faithful to locked intent (prd 9 /
@@ -113,5 +113,8 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   6. **koku ↔ win-condition coupling.** Getting richer never brings ascension closer (the pillar deed is a flat
      `ESTATE_DEED_PER_ACT`, independent of koku/yield/stage) and koku runs out of sinks (~1378 lifetime). → approve
      coupling wealth to standing (a capped koku→deed commission, or deed scaling by estate stage)?
-- **Verdict:** _(awaiting the human — non-blocking; balance is liquid D-059)_
+- **Verdict:** ✅ **RESOLVED (2026-06-30, via AskUserQuestion):** #1 clock → **D-079** (active-only pause); #2 fork
+  → **D-056**/M2·8 (done); #3 auto-combat → **D-076** (attrition, no auto-heal, loss stops autopilot); #4 cold-open
+  → fixed (reveal-as-plot gating); #5 breadth → **D-078** (load-bearing map node); #6 koku → **D-077** (standing
+  stays deed-based; tighten koku). The build is sequenced in `docs/plans/2026-06-30-v0.4.1-build.md`.
 
