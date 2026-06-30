@@ -72,6 +72,26 @@ tests, DEV-harness smoke, dead-flag cleanup, milestone-integrity gate, UI nits).
 **Still on the human:** the **R1 playtest** (best after the combat rework lands) + **read the
 process-learnings** doc (pick which to adopt). Everything else is the agent's to build.
 
+## 6 · Addendum (same session, later) — the reading-queue GATE + rule
+
+The human caught a **dropped ball**: the v0.3.1 build plan was *created but never added to the reading
+queue* (`project/todo-human.md`) — inconsistent with every prior plan/brainstorm/report, which were
+queued. Root cause: the "plans awaiting sign-off → reading queue" guideline lived only as an **implicit
+norm**, so it could be — and was — forgotten. Fixed per "push each rule to the highest rung it can hold":
+
+- **Pre-commit GATE** (`.githooks/pre-commit`): a brand-NEW `docs/plans/*.md` not listed in
+  `project/todo-human.md` **hard-blocks**; a new `project/brainstorms/` or `project/audit/reports/` doc not
+  listed is a **loud, non-blocking WARN**. *Two rungs on purpose* — the queue's own git history shows plans
+  are ~always queued (a clean gate) but brainstorms/reports are mostly agent-internal (a hard block there
+  would train reflexive `SKIP_QUEUE=1` → alarm fatigue → drops return). Verifies the **exact path** is in the
+  to-be-committed queue, so touching the queue for an unrelated reason can't fool it. **Tested all three
+  branches:** BLOCK (exit 1) · WARN (exit 0) · PASS (exit 0). Bypass: `SKIP_QUEUE=1`.
+- **The judgment-based RULE** (the backstop for every *other* path, since the gate only soundly covers
+  `docs/plans/`) written into **CLAUDE.md** + the `todo-human.md` header: *any durable doc whose purpose is
+  for the human to read/review/sign off goes in the reading queue in the same commit it's authored.*
+- **v0.3.1 plan:** the human **read + approved** it → removed from the queue, marked **APPROVED — build
+  greenlit** in the plan header. The build is now unblocked (next-session work).
+
 ## ⚠ Shared-tree note
 
 A second agent worked the whole session (commit-attribution rule, todo-human rename, gitignore raw

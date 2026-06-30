@@ -159,8 +159,17 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   [`archive.md`](project/human-in-the-loop/archive.md) (two sections — **Decisions** + **Reviews**; H-items also
   graduate to an ADR), and leave the live `decisions.md`/`review.md` open-only (see that dir's `README` for the lifecycle).
   [`project/todo-human.md`](project/todo-human.md) is the companion list: loose **TODOs** for the human plus
-  the **reading queue** (brainstorms / audits / plans awaiting a "read & reviewed" sign-off). Both are
-  auto-surfaced at session start by the `session-brief.sh` hook (see "How to work here").
+  the **reading queue**. **What belongs in the reading queue** — *any durable doc whose purpose is for the human
+  to read / review / sign off*: an implementation **plan** or proposal (`docs/plans/`), a **brainstorm or
+  retrospective put up for adoption** (`project/brainstorms/`), an **audit / battery report** or **changelog**
+  (`project/audit/reports/`), or a **design doc awaiting a taste call**. Add it **in the same commit you author
+  it**; remove it when the human signs off. The test is *"do I need a human to read this?"* — raw discovery
+  dumps / agent-internal notes don't qualify. A pre-commit **gate** enforces this only as high as each path
+  *soundly* holds (so it never cries wolf): a new `docs/plans/*.md` missing from the queue **hard-blocks** (the
+  queue's history shows ~every plan is queued); a new `project/brainstorms/` or `project/audit/reports/` doc
+  missing from it is a **loud warn** (those dirs are mostly agent-internal). `SKIP_QUEUE=1` bypasses for the rare
+  not-for-the-human plan. Both lists are auto-surfaced at session start by the `session-brief.sh` hook (see
+  "How to work here").
 - [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);
   settled designs graduate to `docs/`. [PARKED-THREADS.md](project/brainstorms/PARKED-THREADS.md) indexes tangents.
   [`raw/`](project/brainstorms/raw) holds **verbatim** `Workflow`-output JSON snapshots — **git-ignored,

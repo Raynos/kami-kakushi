@@ -21,6 +21,12 @@
 ## Reading queue
 
 > Docs still awaiting your **"read & reviewed"** sign-off.
+>
+> **What belongs here** — any durable doc whose *purpose is for you to read / review / sign off*: a **plan**
+> (`docs/plans/`), a **brainstorm / retrospective put up for adoption** (`project/brainstorms/`), an **audit /
+> battery report** or **changelog** (`project/audit/reports/`), or a **design doc awaiting a taste call**. Added
+> in the same commit it's authored; removed when you sign off. A pre-commit gate hard-blocks a new `docs/plans/`
+> doc missing from this list and loud-warns on the rest (CLAUDE.md "Reading queue").
 
 - [ ] `project/brainstorms/2026-06-30-v03-process-learnings.md` — *process retrospective (a proposal)*
   - What this cycle taught us about building a better game + concrete process changes to
