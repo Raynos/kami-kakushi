@@ -2,7 +2,7 @@
 
 > **PRD V2.3 — locked intent (D-021); reshaped per the V2 decisions (D-022 governing).** This section is authored
 > end-to-end from the PATCHED locked-decisions canon
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
+> ([`locked-decisions.md`](../../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
 > 2026-06-25 Round-A deltas), the three redesign discovery docs, **and the 79 human-signed V2 decisions** (Block L
 > `Q1–Q56` + Block M `FU1–FU23`). It supersedes every earlier framing of §1 (most-recent-wins per D-022).
 > **Reshaped to the 6-tier spine (D-048): the old single Estate tier SPLITS into a T0 tutorial + a T1 full

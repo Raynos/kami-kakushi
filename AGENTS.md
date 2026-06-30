@@ -57,8 +57,8 @@ philosophy wins.**
 - **Many small commits, straight to the working branch.** Don't branch for
   routine work — committing as you go *is* the workflow. *(This overrides the
   generic "branch off main / commit only when asked" default.)* Each commit runs
-  the **full `npm run verify`** (its 9 gates [tsc, lint, tests, content,
-  pacing, playcheck, …] run in **parallel** via `src/scripts/verify-run.ts`,
+  the **full `npm run verify`** (its 10 gates [tsc, lint, tests, content,
+  pacing, playcheck, md-links, …] run in **parallel** via `src/scripts/verify-run.ts`,
   comfortably under the soft 5s drift budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
   `SKIP_VERIFY=1` for a docs-only commit, `SKIP_JOURNAL=1` for trivial commits).

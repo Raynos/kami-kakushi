@@ -2,7 +2,7 @@
 
 > **PRD V2.3 — reshaped per the V2 decisions (D-022 governing; Block L `Q1–Q56` + Block M `FU1–FU23`).** Authored
 > end-to-end from the LOCKED CANON
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. all
+> ([`locked-decisions.md`](../../../project/brainstorms/2026-06-25-locked-decisions.md), incl. all
 > three "Updated 2026-06-25" header blocks), the merged PRD §1, §2, §5, §6, **and the 79 human-signed V2
 > decisions**. This section makes the **signature feature** concrete: it specifies the **ordered reveal of every
 > panel, tab, screen, system, resource-row, and area** across the game — **T0–T3 in full (v1)** (the old Estate

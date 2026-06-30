@@ -60,10 +60,10 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
 ## Toolchain
 
 Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint
-boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = **9
+boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = **10
 gates** (tsc, eslint, prettier, vitest, verify-content, verify-prd, gen:docs --check,
-pacing:check, playcheck:check) run **in parallel** via `src/scripts/verify-run.ts`
-(~1.7s; `npm run verify:budget` = the 5s-budget check). **`.githooks/pre-commit`**
+pacing:check, playcheck:check, md-links) run **in parallel** via `src/scripts/verify-run.ts`
+(well under the 5s drift budget — `npm run verify:budget` checks it; don't hard-code a figure). **`.githooks/pre-commit`**
 runs full `verify` + a non-blocking drift timer + the reading-queue/journal/snapshot
 gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red**
 (`SKIP_VERIFY=1` overrides). `npm run dev` · `npm run build` (→ `dist/`, itch-ready)

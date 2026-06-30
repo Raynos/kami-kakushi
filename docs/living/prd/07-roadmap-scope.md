@@ -3,7 +3,7 @@
 > **PRD V2.3 — reshaped from the 79 human-signed V2 decisions (Block L `Q1–Q56` + Block M `FU1–FU23`); per
 > ADR D-022 (governing) these supersede any conflicting prior lock, most-recent-wins, annotate-don't-delete.**
 > Authored end-to-end from the LOCKED CANON
-> ([`../brainstorms/2026-06-25-locked-decisions.md`](../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
+> ([`locked-decisions.md`](../../../project/brainstorms/2026-06-25-locked-decisions.md), incl. its
 > **§I v1 scope** and the human-signed **§I-bal §4 BALANCE LOCKS**, now re-read through the V2 decisions) and the
 > drafted PRD §§1–6 (esp. §1 vision/pillars/factions/endgame, §2 systems catalog, §3 the unlock ladder, §4 the
 > balance model, §5 the narrative, §6 the tech architecture). This is the **last PRD section** and the one that,
@@ -39,7 +39,7 @@
 1. **§7.1 v1 scope (definitive)** — exactly what ships, the lean cut-set, the locked pacing floor, the
    sequential per-tier shape, and an explicit PARKED/CUT list (so "what's *not* in v1" is as legible as what is).
 2. **§7.2 Milestone roadmap** — now a **delegation pointer**: the M0…M-series build order lives in the living
-   [`roadmap.md`](roadmap.md) (the single source — generate-don't-duplicate, D-021/D-059/DS#9). §7.2 keeps only
+   [`roadmap.md`](../roadmap.md) (the single source — generate-don't-duplicate, D-021/D-059/DS#9). §7.2 keeps only
    the rules that govern it (milestone-integrity D-054; carry-forward-and-retune M0–M2b DS#19; the save-WIPE at
    the schema bump DS#15).
 3. **§7.3 Deployment** — the static itch.io build, the multi-backend + export/import save path, the bundled
@@ -98,7 +98,7 @@ full-estate; the old Village 8 h → new-T2; the old Region 16 h → new-T3; the
 **LIQUID** — forks #1/#5, D-059 — re-derived at the balance milestone.)* The game **can and should run longer** (a long, OSRS-rough
 grind you *leave auto-running, checking the progress*, FU18/FU23); content interleaves richly rather than
 brick-walling. (The canon "≈ 32 h" figure includes the post-T3 stub runway / free-play tail; the *built*
-content floor sums to ≈ 28.5 h — §4.8.4.) The **balance pass** (now scheduled in [`roadmap.md`](roadmap.md)) treats the per-tier hour budgets and
+content floor sums to ≈ 28.5 h — §4.8.4.) The **balance pass** (now scheduled in [`roadmap.md`](../roadmap.md)) treats the per-tier hour budgets and
 the ≥30-min floor as **verify-gate-enforced minimums** — but the regression **fails on UNDERSHOOT only**: a
 headless playthrough that clears any **floor-bound grind** rung (from T1: R8–R15, plus the V0–V7 / G0–G7
 equivalents; the **R0 cold-open story rung AND the whole floor-exempt T0 tutorial ladder R1–R7 are exempt**
@@ -164,7 +164,7 @@ D-023/D-024/D-025):
   Combat Rank rung-meter** (the Phase-1 martial rung-gate). One kill writes to your **level**; one recognised
   deed writes to **Arms**; one curated rung activity writes to the **meter** (§1.6.4, §2.8.1, §4.0.1).
 
-This per-tier shape is the build skeleton the milestone roadmap (now the living [`roadmap.md`](roadmap.md))
+This per-tier shape is the build skeleton the milestone roadmap (now the living [`roadmap.md`](../roadmap.md))
 hangs on: each v1 tier (new T0–T3) stands up its Phase-1 rung-meter climb, then its Phase-2 four-pillar grind +
 the scaled grade-gate → tier-up.
 
@@ -174,7 +174,7 @@ the scaled grade-gate → tier-up.
 
 > **The milestone roadmap has MOVED — it is no longer restated here.** The ordered M0…M-series build order
 > — each milestone a verifiable **vertical slice** with a crisp definition-of-done, sequenced to the §3
-> reveal ladder and the §6 architecture — now lives in the **living [`roadmap.md`](roadmap.md)** as the
+> reveal ladder and the §6 architecture — now lives in the **living [`roadmap.md`](../roadmap.md)** as the
 > **single source of truth** (generate-don't-duplicate — D-021 / D-059 / DS#9). §7 keeps only the
 > **locked v1 scope** (§7.1), the **deployment** path (§7.3), and the **risk register** (§7.4); the
 > *route* through the milestones is re-planned after each playtest, so freezing it here as a second, drifting
@@ -289,7 +289,7 @@ All of it is bundled into `dist/`; the M7 offline smoke asserts **zero network c
 | **R5 — The combat slice is the densest stretch** and could stall the whole roadmap | **Medium / Medium** | **M2a / M2b are fixed milestones** split up front at the R3→R4 seam (M2a = auto-resolve + first fight; M2b = bestiary/gear), so the combat slice is two shippable, verify-green checkpoints by design; the deterministic seeded auto-battler is **unit-testable in isolation** (§6.7) before it's wired to the UI; the first-fight win-rate band (20–35% at adequate satiety) and soft-setback shape are **LOCKED**, so the target is fixed. **Caught at:** M2a / M2b (the fixed split). |
 | **R6 — Fun** (the LOCKED grind ships *balanced* but reads as a *slog* — Q4) | **Medium / High** | The **fun-proxies** are instrumented **report-only at M1/M3a** and **promoted to a GATING check at M6** (Q4/FU9: dead-time, reward/unlock cadence, always-a-visible-next-goal, the first-5-min hook, the tier-relative deed-cadence (re-derived across the new T0–T3 spine per `fun-factor.md`, Q20), and the win-rate bands [§4.6.6]) — **failing on undershoot of the fun floor**; FU18's *interleave-don't-brick-wall* + the **tab-open auto-resolve / auto-repeat** "leave it running, check the progress" loop (FU23) keep the long grind palatable. **Caught at:** M6 (fun-proxy gate). |
 | **R7 — Perf / memory** (long active sessions + a large multi-backend save) | **Medium / Medium** | **Interim budgets are set after M0/M1 profiling** and then promoted to a **build-failing M6 perf GATE** — like the pacing/fun gates (D-Q-perf/Q15 + Q56): **save-envelope ≤ ~64 KB** (§6.6.1), **event-log node-count ≤ the `LOG_RING_MAX` ring cap** (§6.9), **bounded tick-loop allocation** (no per-tick garbage growth), and a **long-run memory ceiling** over an hours-long unattended run — the build **FAILS on a breach** (no longer just deferred intent). The pure-core / **derived-not-stored** split (§6.4) keeps the stored save minimal (weather/lunar re-derived, not persisted). **Caught at:** M0/M1 profiling (set budgets) → **M6 (build-failing perf gate)** + M7 fresh-browser smoke. |
-| **R8 — Bounded per-skill perks + the combat reveal-ladder spread** (per-skill perks have **no hard global cap**; the combat surface spreads across M2a→M5) | **Medium / Medium** | The per-skill perks carry **accepted** balance risk (FU8: no global cap, each small-magnitude) bounded by **holistic** scaling (gear / level / attrs / enemy-scaling grow together) — mitigated by the **§6.6.1 per-perk-magnitude verifier bound** (each perk *small*, **conditioning == 0**); the incremental combat reveal stays **one-per-beat** (no UI-dump) via the **FU12 design-staggered** schedule (now mapped in [`roadmap.md`](roadmap.md)) spread across M2a→M5. **Caught at:** M6 (verifier perk-magnitude bound) + M2a→M5 (the one-per-beat schedule). |
+| **R8 — Bounded per-skill perks + the combat reveal-ladder spread** (per-skill perks have **no hard global cap**; the combat surface spreads across M2a→M5) | **Medium / Medium** | The per-skill perks carry **accepted** balance risk (FU8: no global cap, each small-magnitude) bounded by **holistic** scaling (gear / level / attrs / enemy-scaling grow together) — mitigated by the **§6.6.1 per-perk-magnitude verifier bound** (each perk *small*, **conditioning == 0**); the incremental combat reveal stays **one-per-beat** (no UI-dump) via the **FU12 design-staggered** schedule (now mapped in [`roadmap.md`](../roadmap.md)) spread across M2a→M5. **Caught at:** M6 (verifier perk-magnitude bound) + M2a→M5 (the one-per-beat schedule). |
 | **R9 — Mobile / touch scope** (v1 is desktop-first; some players will try it on a phone) | **Low / Low** | v1 is **DESKTOP-FIRST**: mobile = **best-effort responsive, NOT a v1 target** (Block N.1 #2). Touch targets meet the **a11y minimum** (§6.11) but there is **no dedicated mobile layout and no mobile leave-and-return** story — consistent with **multi-tab being unsupported** (§6.8). A dedicated mobile pass is **post-v1**. **Caught at:** M6 (a11y acceptance — touch-target minimums); otherwise not a v1 gate. |
 
 ### §7.4.2 Scope-risk posture — no pre-planned descope

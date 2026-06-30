@@ -108,6 +108,28 @@ notes at :58/:76 are accurate history — left as-is.)
   boot-channel (retired by D-056) → gate on `import.meta.env.DEV` + `__qa`; §3
   refs flagged for the §§2-8 v0.3.1 rework.
 
+## 6 · Cross-ref resolver GATE (decision C) — and what it caught
+
+Built `src/scripts/check-md-links.ts` (the 10th `verify` gate) — resolves every
+intra-repo relative markdown link's file/dir existence across the authoritative
+docs (history/scratch excluded — A22). Anchor-checking deliberately OMITTED: there
+are **zero** intra-repo `#anchor` links, and slugifying the §/kanji/emoji headings
+would risk crying wolf (A11 — file-existence is the sound, zero-false-positive rung).
+
+**It immediately caught 8 dead links the prose sweep missed** — all PRD-split
+artifacts (relative paths never adjusted for the extra `prd/` level):
+- 5× `[…](roadmap.md)` in `prd/07` → `../roadmap.md`.
+- 3× the `locked-decisions.md` link in `prd/01,03,07` → `../../../project/brainstorms/…`
+  (was `../../project/…`, off by one).
+Validated the completeness critic's #1 prediction (the split rotted links a prose
+review can't see). Wired into `verify-run.ts` + `package.json` (`links:check`,
+`verify:seq`); gate count **9 → 10** rippled (AGENTS.md, project-status, working-
+agreements; D-072's hard count softened). Also **verified** the AGENTS.md `SKIP_*`
+claims (VERIFY/JOURNAL/QUEUE/ATTRIB/SNAPSHOT) all resolve to real hooks.
+
+Note: the "rotted prd.md inbound links" the critic flagged turned out **not broken**
+(`[§6.10](prd.md)` → the stub exists + forwards) — imprecise, not dead, so left as-is.
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);
