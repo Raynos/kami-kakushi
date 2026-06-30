@@ -8,6 +8,7 @@ import { withResource, type GameState } from './state';
 import type { MobId } from './content/enemies';
 import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from './combat';
+import { hpMax } from './selectors';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
 import { NAMES } from './content/names';
@@ -20,6 +21,7 @@ import {
   FORCED_REST_TICKS,
   LOSS_KOKU_FRAC,
   LOSS_MATERIAL_FRAC,
+  AUTO_RETREAT_FRAC,
   DURABILITY_WEAR_PER_FIGHT,
   FIGHT_TICKS,
   STANCE_MODS,
@@ -67,10 +69,12 @@ function gainCombatXp(state: GameState, amount: number): GameState {
   return next;
 }
 
-/** A grindable fight: real outcome, self-recovering loss. */
-export function applyGrindFight(state: GameState, mobId: MobId): GameState {
+/** A grindable fight: real outcome, self-recovering loss. `retreat` selects the auto-retreat-@20%
+ *  mode (batch-2 call 6) — break off at the threshold instead of fighting to the end. */
+export function applyGrindFight(state: GameState, mobId: MobId, retreat = false): GameState {
   const mob = getMob(mobId);
-  const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob));
+  const retreatHp = retreat ? Math.round(AUTO_RETREAT_FRAC * hpMax(state)) : 0;
+  const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob), retreatHp);
   let next: GameState = { ...state, rng: result.rng };
   next = wearWeapon(next);
   // bestiary fills by encounter; `combat-blooded` marks that you've stood real gate-watch
@@ -101,6 +105,23 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
     next = gainCombatXp(next, mob.level * COMBAT_XP_K);
     // quest advance token — 'kill:<mob>' (D-037), e.g. 'kill:monkey' / 'kill:boar'.
     next = applyQuestEvent(next, `kill:${mob.id}`);
+    next = advanceClock(next, FIGHT_TICKS);
+  } else if (result.fled) {
+    // auto-retreat (batch-2 call 6): you broke off at the retreat threshold — NO reward, NO loss
+    // penalty (you chose to back off, you were not beaten), but you are hurt and the autopilot
+    // STOPS (you mend by hand and re-engage deliberately). A burst foe that kills outright never
+    // reaches here (that is a loss, below).
+    const hpBefore = state.character.hp;
+    next = setHp(next, result.mcHpLeft);
+    next = { ...next, autoCombat: null };
+    next = applyRewards(next, {
+      log: [
+        {
+          channel: 'combat',
+          text: `You break off the fight with the ${mob.label.toLowerCase()} and fall back — winded, blade up, but whole. (HP ${hpBefore}→${result.mcHpLeft})`,
+        },
+      ],
+    });
     next = advanceClock(next, FIGHT_TICKS);
   } else {
     // soft setback (D-050/§4.6.6) + D-076: limp home at the HP floor (never losing level/xp/gear),

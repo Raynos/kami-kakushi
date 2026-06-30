@@ -113,6 +113,9 @@ export interface GameState {
   readonly weaponDurability: number;
   /** The tab-open auto-fight target, or null (the combat "leave it running", FU23). */
   readonly autoCombat: MobId | null;
+  /** Auto-combat mode (batch-2 call 6): false = fight-to-death, true = auto-retreat @AUTO_RETREAT_FRAC.
+   *  Additive (default false). */
+  readonly autoCombatRetreat: boolean;
   /** Active combat stance (kendo kamae; PRD §2.8 D-Q-active-combat). */
   readonly stance: StanceId;
 
@@ -157,6 +160,7 @@ export function createInitialState(seed: number): GameState {
     equippedWeapon: 'carrying_pole',
     weaponDurability: getWeapon('carrying_pole').durabilityMax,
     autoCombat: null,
+    autoCombatRetreat: false,
     stance: 'chudan',
     tier: 0,
     influence: { estate: { value: 0, highWater: 0, judged: 0 } },

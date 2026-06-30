@@ -11,6 +11,10 @@ import {
   createInitialState,
   reduce,
   applyGrindFight,
+  resolveFight,
+  mcCombatStats,
+  mobCombatStats,
+  getMob,
   balance,
   hpMax,
   type GameState,
@@ -117,5 +121,61 @@ describe('3c · a lost fight drops CARRIED koku/materials; BANKED is safe (D-076
     const after = applyGrindFight(before, 'monkey');
     expect(after.character.combatXp).toBeGreaterThan(before.character.combatXp); // it won
     expect(after.banked.koku ?? 0).toBe(50);
+  });
+});
+
+describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
+  it('resolveFight FLEES on a survivable grind-down below the retreat threshold', () => {
+    const mcStats = mcCombatStats(mc(1)); // ~full HP at L1
+    const bandit = mobCombatStats(getMob('bandit')); // tanky — can't be one-shot
+    // retreatHp just below the starting HP: the first survivable enemy hit trips the break-off.
+    const r = resolveFight(mc(1).rng, mcStats, bandit, mcStats.hp - 1);
+    expect(r.fled).toBe(true);
+    expect(r.won).toBe(false);
+    expect(r.mcHpLeft).toBeGreaterThan(0); // fled alive
+    expect(r.mcHpLeft).toBeLessThan(mcStats.hp); // and below where it started
+  });
+
+  it('with retreatHp 0 (fight-to-death / the forecast path, A6) a fight NEVER flees', () => {
+    const r = resolveFight(mc(1).rng, mcCombatStats(mc(1)), mobCombatStats(getMob('bandit')), 0);
+    expect(r.fled).toBe(false);
+  });
+
+  it('applyGrindFight retreat mode produces flees, and EVERY flee is no-penalty + autopilot-off', () => {
+    // A single survivable grind-down is stochastic per seed (a burst foe can kill outright — a LOSS,
+    // not a flee — which is the correct per-turn semantic). So sweep seeds: assert flees DO occur
+    // (else the branch is dead) and that every flee is handled right. Starting HP at 50% drains to
+    // the 20% threshold over a couple boar hits; the L1 MC can't kill the tanky boar first.
+    let fledCount = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const base: GameState = { ...mc(1), rng: createInitialState(seed).rng };
+      const startHp = Math.round(0.5 * hpMax(base));
+      const before: GameState = {
+        ...base,
+        character: { ...base.character, hp: startHp },
+        resources: { ...base.resources, koku: 100 },
+        autoCombat: 'boar',
+        autoCombatRetreat: true,
+      };
+      const after = applyGrindFight(before, 'boar', true);
+      if (/break off|fall back/i.test(combatLines(after).at(-1) ?? '')) {
+        fledCount++;
+        expect(after.autoCombat).toBeNull(); // ← a flee STOPS the autopilot
+        expect(after.resources.koku ?? 0).toBe(100); // no loss penalty (you chose to back off)
+        expect(after.character.combatXp).toBe(before.character.combatXp); // no win XP
+        expect(after.character.hp).toBeGreaterThan(0); // alive…
+        expect(after.character.hp).toBeLessThan(startHp); // …but hurt
+      }
+    }
+    expect(fledCount).toBeGreaterThan(0); // the retreat mode genuinely flees (not dead code)
+  });
+
+  it('set_auto_combat carries the mode flag (fight-to-death vs retreat)', () => {
+    const s = { ...createInitialState(1), flags: { awake: true } };
+    const death = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: false });
+    expect(death.autoCombat).toBe('monkey');
+    expect(death.autoCombatRetreat).toBe(false);
+    const flee = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: true });
+    expect(flee.autoCombatRetreat).toBe(true);
   });
 });

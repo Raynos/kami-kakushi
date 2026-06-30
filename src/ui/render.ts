@@ -980,13 +980,37 @@ export function mount(
       fight.type = 'button';
       fight.addEventListener('click', () => dispatch({ type: 'fight', mobId: fc.mob.id as MobId }));
       ctrl.append(fight);
-      const auto = state.autoCombat === fc.mob.id;
-      const at = el('button', `auto-toggle${auto ? ' on' : ''}`, auto ? '■ stop' : '▶ auto');
-      at.type = 'button';
-      at.addEventListener('click', () =>
-        dispatch({ type: 'set_auto_combat', mobId: auto ? null : (fc.mob.id as MobId) }),
+      // two auto-modes (batch-2 call 6): fight-to-death vs auto-flee-@20% (the safer mode breaks off
+      // + stops the autopilot before you die — though a burst foe can still kill you first).
+      const mob = fc.mob.id as MobId;
+      const autoOn = state.autoCombat === fc.mob.id;
+      const deathOn = autoOn && !state.autoCombatRetreat;
+      const retreatOn = autoOn && state.autoCombatRetreat;
+      const atDeath = el(
+        'button',
+        `auto-toggle${deathOn ? ' on' : ''}`,
+        deathOn ? '■ stop' : '▶ auto',
       );
-      ctrl.append(at);
+      atDeath.type = 'button';
+      atDeath.title =
+        'Auto-fight to the end — HP carries; you can be beaten, and a loss costs koku.';
+      atDeath.setAttribute('aria-label', `Auto-fight the ${fc.mob.label} to the end`);
+      atDeath.addEventListener('click', () =>
+        dispatch({ type: 'set_auto_combat', mobId: deathOn ? null : mob, retreat: false }),
+      );
+      const atFlee = el(
+        'button',
+        `auto-toggle${retreatOn ? ' on' : ''}`,
+        retreatOn ? '■ stop' : '▶ auto·flee',
+      );
+      atFlee.type = 'button';
+      atFlee.title =
+        'Auto-fight, but break off when HP falls below 20% (a fast foe can still kill you first).';
+      atFlee.setAttribute('aria-label', `Auto-fight the ${fc.mob.label}, fleeing below 20% HP`);
+      atFlee.addEventListener('click', () =>
+        dispatch({ type: 'set_auto_combat', mobId: retreatOn ? null : mob, retreat: true }),
+      );
+      ctrl.append(atDeath, atFlee);
       row.append(ctrl);
       combatPane.append(row);
     }

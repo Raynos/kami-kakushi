@@ -207,7 +207,7 @@ async function boot(): Promise<void> {
         dispatch({ type: 'set_auto_combat', mobId: null });
         return;
       }
-      dispatch({ type: 'fight', mobId: state.autoCombat });
+      dispatch({ type: 'fight', mobId: state.autoCombat, retreat: state.autoCombatRetreat });
       return;
     }
     const auto = state.autoActivity;

@@ -167,6 +167,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'equippedWeapon'
     | 'weaponDurability'
     | 'autoCombat'
+    | 'autoCombatRetreat'
     | 'stance'
     | 'tier'
     | 'influence';
@@ -216,6 +217,7 @@ export function validateState(rawState: unknown): ValidateResult {
     equippedWeapon: base.equippedWeapon ?? 'carrying_pole',
     weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
     autoCombat: base.autoCombat ?? null,
+    autoCombatRetreat: base.autoCombatRetreat === true, // additive (call 6): default fight-to-death
     stance: (base.stance as StanceId) ?? 'chudan',
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
     tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,

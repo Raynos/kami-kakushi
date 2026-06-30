@@ -175,6 +175,12 @@ export const FORCED_REST_TICKS = 18;
 export const LOSS_KOKU_FRAC = 0.2;
 export const LOSS_MATERIAL_FRAC = 0.34;
 
+/** Auto-retreat threshold (batch-2 call 6): the "auto-fight, retreat @20%" mode breaks off on a
+ *  turn where HP drops below this fraction of MAX HP — a PER-TURN check, so a burst foe that kills
+ *  outright still wins (a killing blow is a loss, not a flee). The safer auto-mode: no death, no
+ *  loss-penalty, but it STOPS the autopilot (you mend + re-engage). Liquid (D-059). */
+export const AUTO_RETREAT_FRAC = 0.2;
+
 // ── Durability bands (D-034/FU17): attackPower multiplier; never auto-unequipped ──
 export const DURABILITY_BANDS: readonly { min: number; mult: number; name: string }[] = [
   { min: 75, mult: 1.0, name: 'Pristine' },

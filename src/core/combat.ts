@@ -180,6 +180,8 @@ function swing(rng: Rng, atk: CombatStats, def: CombatStats): [number, Rng] {
 
 export interface FightResult {
   readonly won: boolean;
+  /** True when the MC broke off via the auto-retreat threshold (a flee, not a win/loss). */
+  readonly fled: boolean;
   readonly mcHpLeft: number;
   readonly rounds: number;
   readonly rng: Rng;
@@ -231,7 +233,12 @@ export function foeForecasts(state: GameState): FoeForecast[] {
   }));
 }
 
-export function resolveFight(rng: Rng, mc: CombatStats, enemy: CombatStats): FightResult {
+export function resolveFight(
+  rng: Rng,
+  mc: CombatStats,
+  enemy: CombatStats,
+  retreatHp = 0,
+): FightResult {
   let mcHp = mc.hp;
   let enHp = enemy.hp;
   let mcTimer = 0;
@@ -240,6 +247,7 @@ export function resolveFight(rng: Rng, mc: CombatStats, enemy: CombatStats): Fig
   const enInt = 1 / enemy.speed;
   let r = rng;
   let rounds = 0;
+  let fled = false;
   while (mcHp > 0 && enHp > 0 && rounds < 5000) {
     rounds++;
     mcTimer += DT;
@@ -257,6 +265,13 @@ export function resolveFight(rng: Rng, mc: CombatStats, enemy: CombatStats): Fig
       r = r2;
       mcHp -= d;
     }
+    // auto-retreat (batch-2 call 6): break off on a turn where HP drops below the threshold but is
+    // still > 0. A killing blow (mcHp ≤ 0) ends the loop as a LOSS above — so a burst foe that
+    // one-shots you past the threshold still wins; retreat only saves a survivable grind-down.
+    if (retreatHp > 0 && mcHp > 0 && mcHp < retreatHp) {
+      fled = true;
+      break;
+    }
   }
-  return { won: enHp <= 0 && mcHp > 0, mcHpLeft: Math.max(0, mcHp), rounds, rng: r };
+  return { won: enHp <= 0 && mcHp > 0, fled, mcHpLeft: Math.max(0, mcHp), rounds, rng: r };
 }

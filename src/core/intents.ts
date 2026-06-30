@@ -54,8 +54,8 @@ export type Intent =
   | { type: 'do_activity'; activityId: ActivityId }
   | { type: 'set_auto'; activityId: ActivityId | null }
   | { type: 'face_wolf' }
-  | { type: 'fight'; mobId: MobId }
-  | { type: 'set_auto_combat'; mobId: MobId | null }
+  | { type: 'fight'; mobId: MobId; retreat?: boolean }
+  | { type: 'set_auto_combat'; mobId: MobId | null; retreat?: boolean }
   | { type: 'repair_weapon' }
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
@@ -197,11 +197,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'fight': {
       if (!isUnlocked(next, 'tab-combat')) return state;
-      next = applyGrindFight(next, intent.mobId);
+      next = applyGrindFight(next, intent.mobId, intent.retreat ?? false);
       break;
     }
     case 'set_auto_combat': {
-      next = { ...next, autoCombat: intent.mobId };
+      next = { ...next, autoCombat: intent.mobId, autoCombatRetreat: intent.retreat ?? false };
       break;
     }
     case 'set_stance': {
