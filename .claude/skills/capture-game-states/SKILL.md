@@ -9,20 +9,23 @@ Capture any of the game's visual states 1:1 from a headless browser, for QA and 
 modes: **static screenshot** (freeze a frame and shoot) and **short recording** (record → frames →
 contact sheet → pick the lossless candidate).
 
-## Prerequisite — a DEV-only play API
+## Prerequisite — the DEV-only play API (`window.__qa`)
 
-This works best when the game exposes a **DEV-only play API on `window`** (e.g. `window.__qa`) that
-wraps the same actions the UI sends to the core, plus read access to state and loop control. Design
-target (see `docs/plans/playtesting.md` if/when it exists):
+The game exposes a **DEV-only play API on `window.__qa`** (`import.meta.env.DEV`, stripped from prod)
+that wraps the same actions the UI sends to the core, plus read access and loop control. The
+**authoritative method list is [`docs/living/qa-playtesting.md`](../../../docs/living/qa-playtesting.md)
+§1** — the verbs you'll use here:
 
-- **Read:** `state()` — the current snapshot.
-- **Drive:** the game's verbs (the same intents the UI dispatches), advance/tick, new/load/save.
-- **Loop control:** `pause()`, `resume()`, `step(ms)` (advance exactly one frame), `frames(n,ms)`.
-- **Force rare states:** helpers to jump straight to a late unlock, a low-probability outcome, or a
-  terminal screen that a short natural run won't reach.
+- **Read:** `state()` — the current snapshot; `reveals()`, `pacing()`.
+- **Drive:** the game's verbs (`dispatch(intent)` + wrappers like `activity`, `fight`, `faceWolf`),
+  `tick(dt)` (advance the sim one step), `newGame`/`save`/`load`.
+- **Loop control:** `pause()`, `resume()`, `frames(n)` (re-render N frames *without* advancing the sim).
+- **Force rare states:** `forceState(patch)`, `jumpToPhase2()`, `jumpToAscension()`, `toRung`/`toTier` —
+  jump straight to a late unlock or a screen a short natural run won't reach.
 
-> `step()` is the core capture primitive: it lets you **freeze, advance one deterministic frame, and
-> shoot** — used by both the screenshot and recording paths.
+> `frames(1)` (render one frame) and `tick(dt)` (advance one sim step) are the capture primitives: pause,
+> settle/advance one deterministic frame, and shoot — used by both the screenshot and recording paths.
+> *(There is no `__qa.step()`; use `frames(1)`/`tick`.)*
 
 ## Setup
 
@@ -34,9 +37,9 @@ semi-transparent DOM overlays (menus, modals), which are often half the UI.
 
 1. Navigate to the dev URL; assert the play API exists (`window.__qa`).
 2. Drive to the target state (play naturally where you can; force the rare ones).
-3. `__qa.pause(); __qa.step()` to settle exactly one frame.
+3. `__qa.pause(); __qa.frames(1)` to settle exactly one frame.
 4. Take a screenshot to a file under an `audit/` folder.
-5. Stray overlay left on screen? Hide the offending `position:fixed` element, `step()`, reshoot.
+5. Stray overlay left on screen? Hide the offending `position:fixed` element, `frames(1)`, reshoot.
 
 ## Recipe B — short recording → frames → contact sheet
 

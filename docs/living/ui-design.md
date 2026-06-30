@@ -486,16 +486,15 @@ release into the rank-up seal.
 ### 6.8 Audio cues — the traditional palette (cross-ref [`sfx-spec.md`](sfx-spec.md))
 
 Audio follows the same **significance-gating** as motion — a cue on *milestones*, **nothing per-tick**, behind a
-mute toggle. The minimal pass draws its whole voice from a **traditional Japanese palette** (the same anti-slop
-discipline as the visuals — no generic UI blips), mapped to beats; [`sfx-spec.md`](sfx-spec.md) is the
-authoritative contract for the Part-2 Web Audio module:
+mute toggle. The voice is a **traditional Japanese palette** (the same anti-slop discipline as the visuals — no
+generic UI blips). The **per-cue instrument mapping is owned by [`sfx-spec.md`](sfx-spec.md)** (the single
+source — don't restate it here). **As built** ([`../../src/ui/sfx.ts`](../../src/ui/sfx.ts), the minimal pass):
 
-| Cue | Instrument | Where |
-|---|---|---|
-| **Impact / rank-up / combat strike** | **taiko 太鼓** (drum) | the seal press (§6.2), the combat resolve (§6.5), the first-ascension swell (§6.7). |
-| **Reward / income flourish** | **shamisen 三味線 / koto 箏** | a soft plucked note on a reward or a closed loop — aggregated to a heartbeat, never per-tick. |
-| **Ambient / narration / season turn** | **shakuhachi 尺八** (flute) | a quiet breath under a narration beat or the season tag turning (§10 Work). |
-| **Reveal / unlock chime** | **temple-bell / suzu 鈴** | a single clear chime as a panel/tab/screen inks in (§6.1). |
+- **Combat hit** → **taiko 太鼓** (a grounded thud; the combat resolve, §6.5).
+- **Reward / koku** → **shamisen 三味線 / koto 箏** (a short pluck on a deed banking — aggregated, never per-tick).
+- **Rank-up / ascension** → **temple-bell / suzu 鈴** (one clear struck bell; the seal press §6.2, the
+  first-ascension swell §6.7).
+- *(Ambient / **shakuhachi 尺八** narration & season-turn swells are the deferred **full bed** — sfx-spec §4.)*
 
 Everything stays in **accent roles** — a held milestone cue, never a wall of sound; the event log still carries
 the meaning if audio is muted.

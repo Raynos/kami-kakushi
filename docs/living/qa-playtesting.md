@@ -80,11 +80,14 @@ tool).
 | Method | Effect |
 |---|---|
 | `newGame(seed)` | Fresh run on a fixed seed (skips any title wait). |
-| `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver — gather, craft, take-quest, set-stance, assign-job, advance-rung, swing-allegiance, …). |
-| `tick(dt)` / `advance(days)` | Advance the active-only clock (drives idle-combat resolution, harvests, the seasonal judged result). |
-| `advanceSeason()` / `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — fast-forward by playing the optimal/scripted path to a checkpoint, so a QA run reaches T3 (v1 finish) in seconds, not hours. `toTier(n)` accepts **0..5**. |
-| `setSpeed(mult)` | **DEV speed toggle** — multiply the active-only wall-clock by **2× / 4× / 8×** so a human (or the agent) can play the build hands-on at a compressed-but-real cadence. Distinct from `tick`/`advance` (discrete jumps) and from the `toRung`/`toTier` teleport (instant checkpoint warp); the multiplier scales the *real* clock so pacing still feels in-band. |
-| `save()` / `load(blob)` / `export()` / `import(b64)` | Exercise the IndexedDB + base64 round-trip + the migration chain (§6.8). |
+| `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `faceWolf()`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. |
+| `tick(dt)` / `frames(n)` | Advance the sim one step (`tick`) / re-render N frames without advancing the sim (`frames`). |
+| `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — play the optimal path to a checkpoint so a QA run reaches a target in seconds. `toTier(n)` accepts **0..5**. |
+| `jumpToPhase2()` / `jumpToAscension()` | **DEV teleports** — to the R7 capstone (Phase-2 open) / an ascension-ready Estate-EXCELLENT state, so the macro spine is one click away. |
+| `speed(mult)` | **DEV speed toggle** — run **N auto-steps per tick** (2× / 4× / 8×; `1` = prod cadence), so the build plays hands-on at a compressed-but-real pace. Distinct from `tick` (one discrete step) and the `toRung`/`toTier` teleport (instant warp). |
+| `pause()` / `resume()` | Pause / resume the active-only auto-loop. |
+| `save()` / `load(b64)` | The base64 round-trip + migration chain (§6.8): `save()` **returns** the export string; `load(b64)` imports it. *(No separate `export`/`import` — these are it.)* |
+| `forceState(patch)` / `setSeed(n)` | DEV state patch / reseed — **spot-checks only, never the gate runs** (they fabricate per-rung tick-counts; see the gate-run invariant below). |
 
 > **Mode-guarded, never throws.** Calling an intent that isn't currently legal is a no-op returning
 > `false`/`null` (mirrors the ironsight harness), so scripts degrade gracefully.

@@ -63,6 +63,27 @@ The D-079 active-only decision hadn't propagated. Fixed:
 - v0.3.1 plan **Step 6 marked DONE** + corrected the line-ref (`main.ts:174-176`,
   not :205 — the comment already reads correctly, so code side was a confirm).
 
+## 3 · Built-but-described-unbuilt docs
+
+Several docs still framed shipped features as future. Grounded each against the
+build (R2) and fixed:
+- `sfx-spec.md` — the 3-cue pass is **built & wired** (`src/ui/sfx.ts`: taiko hit,
+  shamisen/koto reward, suzu rank-up; Sound on/off toggle). Dropped "Part-2 build
+  work / nothing ships sound"; §3 retitled "as built". §4 (full bed) stays deferred.
+- `ui-design.md §6.8` — the build maps **rank-up → suzu** (`render.ts:1131`), not
+  taiko; the drifted 4-row cue table is replaced by a deferral to sfx-spec (single
+  source) + the as-built 3-cue summary; "Part-2 module" wording refreshed.
+- `qa-playtesting.md §1` — synced the `__qa` Drive table to the real surface
+  (`main.ts:261-383`): `setSpeed`→`speed`; dropped the unbuilt
+  `advance`/`advanceSeason`/`export`/`import`; added `frames`/`pause`/`resume`/
+  `forceState`/`setSeed`/`jumpToPhase2`/`jumpToAscension` + wrappers.
+- `capture-game-states` skill — `__qa.step()` doesn't exist → `frames(1)`/`tick`;
+  `frames(n,ms)`→`frames(n)`; dropped the dead `docs/plans/playtesting.md` pointer;
+  point to qa-playtesting §1 as the authoritative API list.
+- `docs/README.md` — prd.md is a **stub index** (point to `prd/01..07`); added
+  `philosophy/` + `plans/` + `sfx-spec.md`; build state M0–M2b → **v0.3 T0 M0–M4**;
+  content `t0`→`t0/t1/t2`.
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);
