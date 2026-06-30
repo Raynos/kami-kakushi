@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# commit-msg gate: enforce the AI commit-attribution trailer.
+#   Spec: CLAUDE.md "AI Commit Attribution (Required)" + .claude/rules/commit-message-style.md.
+#
+# Why commit-msg (not pre-commit): the pre-commit hook runs BEFORE the commit message exists, so it
+# cannot validate it. commit-msg receives the message file ($1) and still blocks the commit before it
+# finalizes — the correct rung for a message check (highest-rung principle: gate > hook > skill > norm).
+#
+# Requires a trailer, after a blank line at the end of the body:
+#     Assisted-by: AGENT_NAME:MODEL_VERSION
+# AGENT_NAME has no colon (first colon is the delimiter); MODEL_VERSION is the real model (or `unknown`).
+#
+# Bypass (genuinely human-authored / non-AI commit):  SKIP_ATTRIB=1 git commit …
+# Skipped automatically for merge / revert / fixup / squash / amend autosquash messages.
+# Enable once per clone:  git config core.hooksPath .githooks
+
+set -uo pipefail
+
+MSG_FILE="$1"
+
+if [ "${SKIP_ATTRIB:-0}" = "1" ]; then
+  echo "  - SKIP_ATTRIB=1 -> Assisted-by trailer check skipped" >&2
+  exit 0
+fi
+
+# Skip machine-generated commits that don't carry a hand-written body.
+first_line="$(sed -n '1p' "$MSG_FILE")"
+case "$first_line" in
+  "Merge "* | "Revert "* | "fixup! "* | "squash! "* | "amend! "*)
+    exit 0
+    ;;
+esac
+
+# Strip comment lines, then require the trailer (NAME: no colon/space first char, no colon; VERSION non-empty).
+if grep -vE '^[[:space:]]*#' "$MSG_FILE" | grep -qE '^Assisted-by: [^:[:space:]][^:]*:.+$'; then
+  exit 0
+fi
+
+cat >&2 <<'MSG'
+
+  X commit blocked - missing or malformed AI-attribution trailer.
+
+  Every AI-generated commit must END with, after a blank line:
+
+      Assisted-by: AGENT_NAME:MODEL_VERSION
+
+  e.g.  Assisted-by: Claude Code:claude-opus-4-8[1m]
+  (AGENT_NAME has no colon; MODEL_VERSION is the actual model, or `unknown`.)
+  Spec: CLAUDE.md "AI Commit Attribution (Required)" + .claude/rules/commit-message-style.md.
+
+  Genuinely human-authored (non-AI) commit? Bypass with:  SKIP_ATTRIB=1 git commit ...
+
+MSG
+exit 1

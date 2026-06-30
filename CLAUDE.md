@@ -205,3 +205,10 @@ This convention **overrides the harness default**, which would otherwise append 
 `Co-Authored-By: Claude … <noreply@anthropic.com>` trailer. (Existing history still carries the old
 `Co-Authored-By` trailers; this changes commits **going forward** — a history rewrite to strip them
 is a separate, human-approved step.)
+
+**Enforced** (highest-rung principle) by the **`.githooks/commit-msg`** gate — a commit lacking a
+well-formed `Assisted-by:` trailer is **blocked**. The `commit-msg` hook (not `pre-commit`) is the
+right rung: `pre-commit` runs before the message exists and can't see it; `commit-msg` receives the
+message and still blocks before the commit finalizes. Bypass a genuinely human-authored commit with
+`SKIP_ATTRIB=1`. The full commit-message **style** (50/72, Conventional-Commits subject, body
+voice) lives in [`.claude/rules/commit-message-style.md`](.claude/rules/commit-message-style.md).
