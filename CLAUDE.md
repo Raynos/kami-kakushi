@@ -158,7 +158,9 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   auto-surfaced at session start by the `session-brief.sh` hook (see "How to work here").
 - [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);
   settled designs graduate to `docs/`. [PARKED-THREADS.md](project/brainstorms/PARKED-THREADS.md) indexes tangents.
-  [`raw/`](project/brainstorms/raw) holds **verbatim** `Workflow`-output JSON snapshots (durable insurance).
+  [`raw/`](project/brainstorms/raw) holds **verbatim** `Workflow`-output JSON snapshots — **git-ignored,
+  local-disk-only session-resume insurance** (see the "Durable capture" convention; the committed
+  source of truth is the markdown distillation, not the `.json`).
 - `src/scripts/` — repo dev/maintenance scripts (e.g. [`snapshot-research.sh`](src/scripts/snapshot-research.sh),
   [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start human-queue brief).
 - `project/journal/` — per-session chronological **LOG** (history, not live state): **summary at top, entries appended
@@ -176,3 +178,26 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   `diverge` (2–3 UI variants → contact sheet → self-pick + R-item; branch-preserved, zero `main` flag-debt;
   mandatory for new/major UI surfaces — D-073), and
   `handoff` (compact the session into a `/handoff` doc for a fresh agent to resume; adopted ~1:1).
+
+## AI Commit Attribution (Required)
+
+Every AI-generated commit **must end with an `Assisted-by:` trailer**, after a blank line:
+
+```
+Assisted-by: AGENT_NAME:MODEL_VERSION
+```
+
+- **AGENT_NAME** — the tool driving the commit (e.g. `Claude Code`).
+- **MODEL_VERSION** — the **actual** model you're running, **never hardcoded** (e.g.
+  `claude-opus-4-8[1m]`); use `unknown` if unavailable. The **first colon** is the delimiter between
+  the two fields, so `AGENT_NAME` must not contain a colon.
+- **Do NOT** use `Co-Authored-By:` for AI agents (GitHub renders it as a co-author/committer — the
+  thing we're moving away from), and **do NOT** add emoji banners (e.g.
+  `🤖 Generated with [Claude Code]`).
+
+Example: `Assisted-by: Claude Code:claude-opus-4-8[1m]`
+
+This convention **overrides the harness default**, which would otherwise append a
+`Co-Authored-By: Claude … <noreply@anthropic.com>` trailer. (Existing history still carries the old
+`Co-Authored-By` trailers; this changes commits **going forward** — a history rewrite to strip them
+is a separate, human-approved step.)
