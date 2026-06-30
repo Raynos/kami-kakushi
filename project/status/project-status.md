@@ -19,6 +19,10 @@ metadata:
   `git stash`/`restore`/`checkout <path>`, and `SKIP_VERIFY=…` + `git push`. They guard agents, not humans;
   the real `.githooks` still own commit/push gating.
 
+- **Tracked Claude config (session-29):** `.claude/settings.json` is now **version-controlled** (was
+  gitignored) — the hook wiring (`PreToolUse` git-add guard + `SessionStart` brief) and the `enabledPlugins`
+  set ship on clone, plugins included. Per-machine overrides still go in `.claude/settings.local.json`.
+
 - **Game:** a grounded, story-driven **incremental RPG** in mid-Edo (~18th c., fictional) rural Japan.
   A mediocre ~18yo (true name **Tahei**) wakes amnesiac on a declining lower-samurai (*goshi*) estate
   (the **Kurosawa** house); rise through **5 tiers** (Estate→Village→Region→Castle-town→Edo), growing

@@ -17,6 +17,8 @@ set is desirable, not machine-private.
 ## What changed
 - `.gitignore`: removed the `.claude/settings.json` line + its comment.
 - `.claude/settings.json`: now tracked (first commit of the file).
+- `project-status.md`: added a "Tracked Claude config" bullet to the live
+  snapshot (checkpoint).
 
 ## Next intended steps
 1. Resume the greenlit **v0.3.1 build** (`docs/plans/2026-06-30-v0.3.1-build.md`,
