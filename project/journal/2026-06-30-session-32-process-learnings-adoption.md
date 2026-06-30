@@ -121,8 +121,15 @@ commit (the F1/F2/E1/A4/A14/A16 rows were already in commit 1):
 - **Left (a real gap):** the per-test discipline is a **norm**, not a gate — docs
   don't guarantee behaviour. The teeth would be the **milestone-integrity verify
   gate** (battery #20 / D-054), already queued in v0.3.1 Step 7, which also
-  backstops D-088. Open question for the human: push any further to a gate, or
-  keep as a norm?
+  backstops D-088.
+- **RESOLVED (human, 2026-06-30):** _"your rec then yes."_ → The
+  **milestone-integrity gate (v0.3.1 Step 7)** IS the test-discipline teeth;
+  **per-test RED-ability stays a NORM by design** — deliberately NOT gated (gating
+  RED-ability would cry wolf — A11 "decline a redundant guard"). `/tdd` stays the
+  opt-in procedure (rule already lifted to Conventions); not nudged. **Not a new
+  ADR** — it's a calibration of D-054 + D-088 + A11, recorded as a clarifying line
+  on the AGENTS.md test-discipline convention + D-088's consequences (**APPLIED**
+  in session-33; held until the sweep finished to avoid editing the tree mid-scan — A2).
 
 ## Landmines (current)
 
