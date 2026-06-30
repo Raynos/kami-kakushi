@@ -46,7 +46,7 @@ in [README.md](README.md); this file is just how we work.
   working-agreements.md.
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook runs
   [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in `.claude/settings.json`), which prints the
-  open **human queue** — the unticked **reading queue** ([`project/docs-to-read-for-human.md`](project/docs-to-read-for-human.md))
+  open **human queue** — the unticked **TODOs** + **reading queue** ([`project/todo-human.md`](project/todo-human.md))
   plus open decisions (`H`-items) and reviews (`R`-items) in [`project/human-in-the-loop/`](project/human-in-the-loop).
   **Lead each fresh session by relaying that brief to the human** before diving into work, so blocking sign-offs
   don't sit unseen. Run it by hand any time: `bash src/scripts/session-brief.sh`.
@@ -143,8 +143,8 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: **open** decisions (`H`-items) and
   reviews (`R`-items) only a person can action; closed `H`-items graduate to an ADR + a one-line row in
   [`archive.md`](project/human-in-the-loop/archive.md) (see that dir's `README` for the lifecycle).
-  [`project/docs-to-read-for-human.md`](project/docs-to-read-for-human.md) is the
-  companion **reading queue** (brainstorms / audits / plans awaiting a "read & reviewed" sign-off). Both are
+  [`project/todo-human.md`](project/todo-human.md) is the companion list: loose **TODOs** for the human plus
+  the **reading queue** (brainstorms / audits / plans awaiting a "read & reviewed" sign-off). Both are
   auto-surfaced at session start by the `session-brief.sh` hook (see "How to work here").
 - [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture (the `grill-me` skill writes here);
   settled designs graduate to `docs/`. [PARKED-THREADS.md](project/brainstorms/PARKED-THREADS.md) indexes tangents.

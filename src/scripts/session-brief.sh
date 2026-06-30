@@ -3,10 +3,11 @@
 #
 # Wired into the SessionStart hook (.claude/settings.json) so every cold pickup
 # surfaces what's waiting on the human WITHOUT being asked:
-#   1. the reading queue  (project/docs-to-read-for-human.md — unticked sign-offs)
-#   2. pending PRD changes (project/status/pending-prd-changes.md — locked canon not yet applied)
-#   3. open decisions     (project/human-in-the-loop/decisions.md — H-items)
-#   4. open reviews       (project/human-in-the-loop/review.md — R-items)
+#   1. human TODOs        (project/todo-human.md ## TODO — unticked tasks)
+#   2. the reading queue  (project/todo-human.md ## Reading queue — unticked sign-offs)
+#   3. pending PRD changes (project/status/pending-prd-changes.md — locked canon not yet applied)
+#   4. open decisions     (project/human-in-the-loop/decisions.md — H-items)
+#   5. open reviews       (project/human-in-the-loop/review.md — R-items)
 #
 # Output goes to stdout, which the SessionStart hook injects into Claude's context
 # (so the agent can lead the session by relaying the brief). NOTE: a SessionStart
@@ -22,7 +23,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
-READING="project/docs-to-read-for-human.md"
+HUMAN_TODO="project/todo-human.md"
 PENDING_PRD="project/status/pending-prd-changes.md"
 DECISIONS="project/human-in-the-loop/decisions.md"
 REVIEWS="project/human-in-the-loop/review.md"
@@ -31,17 +32,36 @@ REVIEWS="project/human-in-the-loop/review.md"
 BRIEF=""
 add() { BRIEF+="$1"$'\n'; }
 
+# Extract top-level unticked items "- [ ]" under a given "## <heading>" section,
+# stopping at the next "## " heading. Drops the checkbox and the ** bold markers.
+section_items() {
+  local file="$1" heading="$2"
+  awk -v target="## $heading" '
+    /^## / { insec = ($0 == target); next }
+    insec && /^- \[ \] / { sub(/^- \[ \] /, "- "); gsub(/\*\*/, ""); print }
+  ' "$file"
+}
+
 add "## 🧑‍⚖️ Human-in-the-loop brief (auto-surfaced at session start)"
 add ""
-add "_Surface these to the human early. Full lists: \`$READING\`, \`$DECISIONS\`, \`$REVIEWS\`._"
+add "_Surface these to the human early. Full lists: \`$HUMAN_TODO\`, \`$DECISIONS\`, \`$REVIEWS\`._"
 add ""
 
-# --- Reading queue: unticked checkboxes "- [ ]" with their bolded title -------
-if [[ -f "$READING" ]]; then
+# --- Human TODO + reading queue: section-aware unticked checkboxes -------------
+if [[ -f "$HUMAN_TODO" ]]; then
+  add "### ✅ TODO — tasks awaiting the human"
+  todo_items="$(section_items "$HUMAN_TODO" "TODO")"
+  if [[ -n "$todo_items" ]]; then
+    add "$todo_items"
+  else
+    add "- _(none open)_"
+  fi
+  add ""
+
   add "### 📋 Reading queue — awaiting read & sign-off"
-  if grep -qE '^\- \[ \]' "$READING"; then
-    # Drop the "- [ ] " checkbox and strip the ** bold markers around the title.
-    add "$(grep -E '^\- \[ \]' "$READING" | sed -E 's/^- \[ \] /- /; s/\*\*//g')"
+  reading_items="$(section_items "$HUMAN_TODO" "Reading queue")"
+  if [[ -n "$reading_items" ]]; then
+    add "$reading_items"
   else
     add "- _(all read & signed off ✅)_"
   fi
