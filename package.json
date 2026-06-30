@@ -1,6 +1,6 @@
 {
   "name": "kami-kakushi",
-  "version": "0.0.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "Kamikakushi — a grounded, story-driven incremental RPG set in mid-Edo rural Japan. Built agentically.",
