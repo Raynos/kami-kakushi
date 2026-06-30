@@ -76,10 +76,15 @@ the work done right beats all of it done shoddily. Full philosophy (read it):
   session by relaying that brief to the human** before diving into work, so
   blocking sign-offs don't sit unseen. The brief then **nudges the next
   autonomous work** — it surfaces recent commits + the live snapshot + the
-  active plan(s)/journal/roadmap and asks you to **propose up to 3 startable
-  tasks, verifying against git** (no stored task list to keep in sync; done
-  plans linger in `docs/plans/`, so trust each plan's Status line, not its
-  filename). Run it by hand any time: `bash src/scripts/session-brief.sh`.
+  active plan(s)/journal/roadmap and asks you to **name the startable
+  workstream(s)** — *often just the one active plan; "up to 3" is a cap for
+  genuinely-parallel work, not a quota to pad to* (don't split one plan's steps
+  into three tasks). Keep the brief **fast (≤5s)**: orient from the hook output +
+  a peek at the active plan's Status line — **don't** read the full snapshot or
+  run `verify` just to brief (save the deeper verify-against-git check for when
+  you pick the work up). No stored task list to keep in sync; done plans linger
+  in `docs/plans/`, so trust each plan's Status line, not its filename. Run it by
+  hand any time: `bash src/scripts/session-brief.sh`.
 
 Full version:
 [`project/status/working-agreements.md`](project/status/working-agreements.md).

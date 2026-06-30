@@ -11,9 +11,12 @@
 # ...then a "what to DO next" nudge so a cold pickup knows where the work lives:
 #   6. next autonomous work — NOT a maintained list. Just points at the sources
 #      that are ALREADY kept current (the active plan(s), project-status.md, the
-#      latest journal) and asks the agent to synthesise up to 3 startable tasks
-#      in its opening relay. No new file to keep in sync; the script only names
-#      the current files so the agent doesn't have to hunt for them.
+#      latest journal) and asks the agent to name the startable workstream(s) —
+#      OFTEN JUST ONE (the active plan); "up to 3" is a cap for genuinely-parallel
+#      work, not a quota to pad to. This must be FAST (≤5s): the agent briefs from
+#      THIS output + a peek at the active plan's Status line — it does NOT read the
+#      full snapshot or run `verify` just to brief. No new file to keep in sync;
+#      the script only names the current files so the agent doesn't have to hunt.
 #
 # Output goes to stdout, which the SessionStart hook injects into Claude's context
 # (so the agent can lead the session by relaying the brief). NOTE: a SessionStart
@@ -115,9 +118,9 @@ add_open_items "$REVIEWS" "👁️ Open reviews (R-items)"
 # are already kept current), and VERIFIES rather than trusts: e.g. done plans linger
 # in docs/plans/ (they're not always archived), so file order is NOT "what's active"
 # — only each plan's own Status line is. This block just orients that investigation.
-add "## 🤖 Next autonomous work — investigate, then propose up to 3"
+add "## 🤖 Next autonomous work — name the startable workstream(s)"
 add ""
-add "_No stored task list. **Audit the live project state and propose up to 3 startable autonomous tasks** in your opening relay. **Verify, don't trust** — cross-check the docs against git; skip human-gated items (playtests, taste calls, design decisions). Where the signal lives:_"
+add "_No stored task list. In your opening relay, name the **startable autonomous workstream(s)** — **often just the one active plan; \"up to 3\" is a cap for genuinely-parallel work, not a quota to pad to** (don't split one plan's steps into three \"tasks\"). Keep it **FAST (≤5s)**: brief from THIS output + at most a peek at the active plan's Status line + the commits below — **don't** read the full snapshot or run \`verify\` just to brief (save the deeper verify-don't-trust check for when you actually pick the work up). Skip human-gated items (playtests, taste calls, design decisions). Where the signal lives:_"
 add ""
 
 # Recent commits — the freshest "what just happened" (git is the source of truth).
