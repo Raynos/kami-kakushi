@@ -211,7 +211,7 @@ deterministic and **save-light** (only the chosen flag persists, in `flags`; §6
 - **per-tick:** the **auto-resolve combat** sub-step (the auto-battler) and **auto-repeat labour** (the
   "leave it running, check progress" loop, FU23 — runs unattended while the tab is open, still strictly
   active-only), satiety/energy drain (soft — slows, never hard-blocks), active-activity progress,
-  auto-producer output (late-game / T3+ only). **It also decrements each `ActiveEffect`'s remaining duration
+  auto-producer output (late-game / T4+ only). **It also decrements each `ActiveEffect`'s remaining duration
   and DROPS expired effects** — so `effects[]` is **length-bounded** (live buffs/injuries only), never an
   unbounded persisted collection.
 - **per-day / per-week:** vendor restocks, food rot/ferment, the market-saturation damper recovering, and
@@ -272,7 +272,7 @@ interface GameState {
   clock: { tick: number; day: number };  // abstract time — persist ONLY the absolute monotonic day + tick. createInitialState pins tick 0, day 1; the day index is 1-BASED. season/year are DERIVED (never stored) — see season(day)/year(day) below (D-Q6, resolved: derive-don't-store). Lunar phase is likewise DERIVED — a real ~29.5-day ephemeris off `day` (§6.7.1), not stored and not a per-day RNG roll.
   currentArea: AreaId;                            // where the player IS now (set by the `travel` intent) — non-derivable, persisted (§2.19 "current location")
   resources: Record<ResourceId, number>;         // koku, coin(mon), wood, fish, materials…
-  producers: Record<ProducerId, number>;         // owned counts (late-game / T3+ only)
+  producers: Record<ProducerId, number>;         // owned counts (late-game / T4+ only)
   market: { saturation: Record<ResourceId, number> };  // bulk-sale market-saturation damper — the ONLY non-derivable economy state (weather/lunar are derived; belief-beasts are content). Persist saturation ONLY. (§2/§4, Q3/Q42)
   skills: Record<SkillId, { xp: number }>;       // total xp per skill; levels + which perks are unlocked are DERIVED (the per-skill PERKS track, §6.5)
   character: { hp: number; satiety: number; attributePoints: number;
@@ -790,7 +790,7 @@ Once-per-game reveal log-lines are emitted by the `unlocked` write-once latch **
   tab is OPEN** (driven by `requestAnimationFrame` / a paced timer); it computes whole-integer `dtTicks` from
   **elapsed wall-time while open** and calls the pure `tick`. **While the tab is OPEN, auto-resolve combat +
   auto-repeat labour run unattended for hours** (the "leave it running, check progress" feel) — but it is
-  **strictly active-only: no offline catch-up**, and auto-producers stay **T3+**. **Backgrounding does NOT
+  **strictly active-only: no offline catch-up**, and auto-producers stay **T4+**. **Backgrounding does NOT
   pause** (D-053): a hidden tab is throttled by the browser but **catches up** on the elapsed wall-time when it
   regains cycles — the clock advances while OPEN and **stops only when the tab is CLOSED** (autosave fires on
   `visibilitychange`/`beforeunload`, §6.8, so a close is never lossy); an explicit user **pause** is still supported.
@@ -881,7 +881,7 @@ done now** (Q18):
 | **Determinism: one RNG** | A single seeded RNG **in `GameState`** as **per-named-stream MONOTONIC cursors** `{ seed, cursors:{combat,loot,seasonal,worldgen} }`, saved/loaded; pure per-stream `next` (no child-RNG-by-splitting); **stateless day-keyed weather/lunar** (re-derived, not stored); **`Math.random()` AND `Math.pow`/`exp`/`log`/trig lint-banned** in core (integer-pow only). Replays are byte-identical (Vitest-asserted). (§6.7, §6.7.1, §6.3, §6.1) |
 | **Single source of truth — generate, don't duplicate** | Content is typed data registries (`core/content`); a **hardened** content verifier cross-checks ids and the **V2 invariants** (gate-monotonicity/ceiling, accrual tie-out, **per-perk magnitude** [flipped from `==0`], **real-name denylist**, **trade-≤⅓-post-combo proof**, hybrid gate-distribution); balance/content docs are **generated** into `docs/balance/` + `docs/content/` from the same data and `gen:docs --check` fails the build on drift. (§6.5, §6.6, §6.6.1) |
 | **Playtest via code, not synthetic input** | DEV-only `window.__qa` (read state, drive intents, tick/frames, pause, force-state, seed) drives the **real** typed intents headlessly; powers `capture-game-states` and pacing/unlock regression. (§6.10) |
-| **Active-only, no offline (D-013/canon §H)** | `tick` takes **whole-integer abstract** ticks (the app loop accumulates the fractional remainder); the active-only loop lives in the app layer and runs **auto-resolve combat + auto-repeat labour while the tab is open** (the "leave it running" feel, FU23); load resumes the exact saved state with **no** offline accrual code path; auto-producers stay T3+. (§6.3, §6.8, §6.9) |
+| **Active-only, no offline (D-013/canon §H)** | `tick` takes **whole-integer abstract** ticks (the app loop accumulates the fractional remainder); the active-only loop lives in the app layer and runs **auto-resolve combat + auto-repeat labour while the tab is open** (the "leave it running" feel, FU23); load resumes the exact saved state with **no** offline accrual code path; auto-producers stay T4+. (§6.3, §6.8, §6.9) |
 | **Lean / high-impact** | One `npm run verify` gate; minimal stored save (additive-optional growth, §6.8.2); no speculative subsystems — the module list maps 1:1 to systems already locked in §§1–5; anything bigger is parked for §7's roadmap. (§6.1, §6.4, §6.8.2) |
 
 ---
