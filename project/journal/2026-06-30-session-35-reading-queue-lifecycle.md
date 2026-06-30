@@ -24,11 +24,16 @@ AskUserQuestion reconciliation. Recorded as **D-089**.
   closed-this-session footer (41→31 lines, cat-readable).
 - `project/status/project-status.md` — added D-089 to the process-canon bullet.
 
-## Checkpoint note (shared-tree event)
-- Mid-session another agent restructured AGENTS.md (`927902c`, `f8a27da`) and the
-  integration replayed my commits onto it, **dropping the redundant `beee966`**
-  (its reading-queue clear was superseded by the later todo-human rewrite). All
-  D-089 content survived intact; `origin/main` push was a clean fast-forward.
+## Checkpoint note (shared-tree event — corrected)
+- Mid-session a concurrent agent/session committed two AGENTS.md-restructuring
+  commits (`927902c` extract-dir-map→`repo-map.md`, `f8a27da` regroup) **directly
+  on top of my `beee966`** and pushed them — which is why `origin/main` had
+  advanced and AGENTS.md/`repo-map.md` changed under me.
+- **No rebase/reset occurred and nothing was dropped.** The history is fully
+  linear (`beee966 ← 927902c ← f8a27da ← f258c61 ← 233df44 ← de5a196`). My initial
+  "dropped `beee966`" read during the checkpoint was wrong — an artifact of
+  `git log -4` not reaching the 5th commit and `origin/main` already being ahead.
+  `beee966` is and always was in `origin/main`. Push was a clean fast-forward.
 
 ## Next intended steps
 1. Active workstream remains `docs/plans/2026-06-30-v0.3.1-build.md` (unchanged).
