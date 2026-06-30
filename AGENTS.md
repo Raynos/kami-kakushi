@@ -3,6 +3,14 @@
 A single-player **HTML5 browser game**, built agentically with Claude Code. The
 game's vision lives in [README.md](README.md); this file is just how we work.
 
+## Philosophy — correct & slow beats shitty & fast
+
+**There is no clock, and there are no shortcuts.** You are never on a deadline —
+an overnight `/loop` is an invitation to do excellent work, not a countdown.
+Never compress quality to "fit a window," and never ship a "lite" shortcut: half
+the work done right beats all of it done shoddily. Full philosophy (read it):
+[`docs/philosophy/no-clock-no-shortcuts.md`](docs/philosophy/no-clock-no-shortcuts.md).
+
 ## How to work here
 
 - **Autonomous by default.** Pick the next task → build it → verify it → commit

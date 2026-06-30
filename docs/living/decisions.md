@@ -649,7 +649,7 @@ design ADR.
 - **Why:** Hollowness should fail the build *continuously*, not wait for a milestone audit; scoping avoids redundancy with the gates that already exist.
 - **Consequences:** Un-holds the `playcheck` ratchet (was HELD by D-070). Built: [`../../src/playcheck.ts`](../../src/playcheck.ts) + `playcheck.baseline.json` + a teeth test, wired into `verify`. The deferred ~4 proxies + threshold mode ride the roadmap's fun-slices (**D-060**). Per **D-022**, governs.
 
-## D-075…D-080 — 2026-06-30 R4 + variant-process decisions (post-v0.3-playtest, human-steered) ⏳ build PENDING
+## D-075…D-080 — 2026-06-30 R4, variant-process & operating-philosophy decisions (post-v0.3-playtest, human-steered) ⏳ build PENDING
 
 > Source capture: [`../../project/human-feedback/2026-06-30-r4-playtest-decisions.md`](../../project/human-feedback/2026-06-30-r4-playtest-decisions.md).
 
@@ -688,3 +688,10 @@ design ADR.
 - **Decision:** **Active-only is canon** — the sim **pauses on `document.hidden`**, NO offline/background catch-up. The code is correct; the contradictory D-053 wording is what's fixed. Consistent with D-013 (active-only, "growth only through perseverance").
 - **Why:** Human direction; the active-only pillar is core (you must be playing). No code change — a documentation fix.
 - **Consequences:** Annotate/fix D-053's text to read active-only-pause (drop the "wall-time catch-up" phrasing). No code change. Per **D-022**, governs.
+
+### D-080 ✅ — There is no clock, and there are no shortcuts (operating philosophy)
+- **created_date:** 2026-06-30
+- **Context:** In the v0.3 overnight build (session-19), an autonomous `/loop` finished its real work in a fraction of its window, then acted as if the window were expiring — and under that **self-imposed, nonexistent time-box** shipped three single-idea "diverge-LITE" panels (the shortcut **D-075** retired). The agent paid real quality for an imaginary clock; the shortcut bought nothing.
+- **Decision:** **Delete the clock, don't manage it.** The agent must **never perceive a deadline / time-box** and **never take a shortcut** (ship below the bar to save effort). Corollaries: **partial & excellent beats complete & compromised** — a half-finished loop with zero shortcuts is a success, a fully-finished loop with one lazy corner is a failure; and **pragmatism (sensible defaults) and stopping-when-done are NOT shortcuts** (the bar cuts both ways — never drop below it to save time, never gild above it to fill time). "Done" is gated by correctness + the quality bar + whether real value remains, **never by the clock**.
+- **Why:** Verbatim human direction — *"I prefer correct & slow over shitty & fast"*; *"even if it's only done half the loop by the time I'm back, I'm happy — if there are no shortcuts or lazy behaviour."* Removes the completion pressure that caused the v0.3 shortcuts.
+- **Consequences:** New canon doc [`../philosophy/no-clock-no-shortcuts.md`](../philosophy/no-clock-no-shortcuts.md) (the full philosophy) + a short inline `## Philosophy` lead at the top of AGENTS.md. **Generalises D-075** (no diverge-LITE) to all work. Per **D-022**, governs.
