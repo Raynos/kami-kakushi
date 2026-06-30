@@ -151,6 +151,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'clock'
     | 'character'
     | 'resources'
+    | 'banked'
     | 'flags'
     | 'unlocked'
     | 'log'
@@ -181,6 +182,9 @@ export function validateState(rawState: unknown): ValidateResult {
     clock: { tick: clock.tick, day: clock.day },
     character: validatedCharacter,
     resources: rawState.resources as GameState['resources'],
+    // additive (batch-2 call 7): the kura storehouse. Absent in any pre-bank save → empty (all
+    // wealth carried), which is the correct fresh-bank default.
+    banked: isObject(base.banked) ? (base.banked as GameState['banked']) : {},
     flags: rawState.flags as GameState['flags'],
     unlocked: rawState.unlocked as GameState['unlocked'],
     // Normalize each loaded entry's coalescing count to ≥1 so a later pushLog onto a

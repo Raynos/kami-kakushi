@@ -419,6 +419,7 @@ export function mount(
   const ladder = el('div', 'ladder');
   const estatePane = el('div', 'estate-pane');
   const marketPane = el('div', 'market-pane');
+  const storehousePane = el('div', 'storehouse-pane');
   const influence = el('div', 'influence');
   const actions = el('div', 'actions');
   const skillsPane = el('div', 'skills-pane');
@@ -430,6 +431,7 @@ export function mount(
     ladder,
     estatePane,
     marketPane,
+    storehousePane,
     influence,
     actions,
     skillsPane,
@@ -1186,6 +1188,44 @@ export function mount(
     window.setTimeout(() => overlay.remove(), 3200);
   }
 
+  function renderStorehouse(state: GameState): void {
+    storehousePane.textContent = '';
+    // the kura storehouse (batch-2 call 7) — shelter carried koku from a lost-fight penalty. Opens
+    // with the estate economy; spatially gated to the kura node in Step 5.
+    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
+    storehousePane.hidden = !show;
+    if (!show) return;
+    const carried = state.resources.koku ?? 0;
+    const banked = state.banked.koku ?? 0;
+    const card = el('div', 'rung-card frame');
+    card.append(el('div', 'rung-now', 'The storehouse 蔵'));
+    card.append(
+      el(
+        'div',
+        'skill-blurb',
+        'Stow your koku in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
+      ),
+    );
+    card.append(
+      el('div', 'influence-when', `Carried ${carried} koku · stored ${banked} koku (safe)`),
+    );
+    const row = el('div', 'labour-row');
+    const dep = el('button', 'auto-toggle', 'Store all koku');
+    dep.type = 'button';
+    dep.disabled = carried <= 0;
+    if (dep.disabled) dep.title = 'No carried koku to store.';
+    dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'koku' }));
+    row.append(dep);
+    const wd = el('button', 'auto-toggle', 'Withdraw all');
+    wd.type = 'button';
+    wd.disabled = banked <= 0;
+    if (wd.disabled) wd.title = 'Nothing stored to withdraw.';
+    wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'koku' }));
+    row.append(wd);
+    card.append(row);
+    storehousePane.append(card);
+  }
+
   function renderMarket(state: GameState): void {
     marketPane.textContent = '';
     const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
@@ -1351,6 +1391,7 @@ export function mount(
     renderLadder(state);
     renderEstate(state);
     renderMarket(state);
+    renderStorehouse(state);
     renderHouseInfluence(state);
     renderActions(state);
     renderSkills(state);

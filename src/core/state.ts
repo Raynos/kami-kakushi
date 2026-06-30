@@ -77,7 +77,12 @@ export interface GameState {
   readonly rng: Rng;
   readonly clock: Clock;
   readonly character: Character;
+  /** Carried wealth — on you, at RISK on a lost fight (D-076 / batch-2 call 7). */
   readonly resources: Readonly<Record<ResourceId, number>>;
+  /** The kura storehouse — resources SHELTERED from the lost-fight penalty. Deposit/withdraw move
+   *  between this and `resources` (carried); spending + earning use carried (banked is a safe
+   *  reserve). Additive (default {}); spatially gated to the kura node in Step 5. */
+  readonly banked: Readonly<Record<ResourceId, number>>;
   readonly flags: Readonly<Record<FlagId, boolean>>;
   /** Write-once reveal latch, in reveal order (PRD §6.2 core/unlock). A set, kept ordered. */
   readonly unlocked: readonly SurfaceId[];
@@ -135,6 +140,7 @@ export function createInitialState(seed: number): GameState {
       combatXp: 0,
     },
     resources: { koku: 0 },
+    banked: {},
     flags: {},
     // The cold open shows exactly one verb against the dark of the kura.
     unlocked: ['screen-cold-open', 'verb-open-eyes'],
@@ -162,6 +168,13 @@ export function createInitialState(seed: number): GameState {
 export function withResource(state: GameState, id: ResourceId, delta: number): GameState {
   const current = state.resources[id] ?? 0;
   return { ...state, resources: { ...state.resources, [id]: current + delta } };
+}
+
+/** Move into/out of the kura storehouse (the sheltered `banked` pool). Mirrors withResource;
+ *  deposit/withdraw pair a +withBanked with a −withResource (and vice-versa). */
+export function withBanked(state: GameState, id: ResourceId, delta: number): GameState {
+  const current = state.banked[id] ?? 0;
+  return { ...state, banked: { ...state.banked, [id]: current + delta } };
 }
 
 export function setFlag(state: GameState, id: FlagId, value = true): GameState {

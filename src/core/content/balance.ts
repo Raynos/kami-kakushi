@@ -168,6 +168,13 @@ export const SETBACK_HP = 1;
 export const SETBACK_TICKS = 12; // ~½ day
 export const FORCED_REST_TICKS = 18;
 
+/** Loss penalty (D-076 + batch-2 call 7): a lost fight drops this fraction of your CARRIED koku +
+ *  materials; what's BANKED in the kura storehouse is SAFE. The "real bite" magnitude (batch-1
+ *  call 3) — liquid (D-059), tuned by playtest. Materials use a floored fraction, so small
+ *  field-stacks mostly survive and koku is the meaningful stake. */
+export const LOSS_KOKU_FRAC = 0.2;
+export const LOSS_MATERIAL_FRAC = 0.34;
+
 // ── Durability bands (D-034/FU17): attackPower multiplier; never auto-unequipped ──
 export const DURABILITY_BANDS: readonly { min: number; mult: number; name: string }[] = [
   { min: 75, mult: 1.0, name: 'Pristine' },

@@ -4,20 +4,22 @@
 // loses a level / gear / Influence (LOCKED shape, §4.6.6). The scripted grain-store
 // wolf is a guaranteed-survival humbling beat that opens R3.
 
-import type { GameState } from './state';
+import { withResource, type GameState } from './state';
 import type { MobId } from './content/enemies';
 import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from './combat';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
 import { NAMES } from './content/names';
-import { rollMaterialDrop, getMaterial } from './content/crafting';
+import { rollMaterialDrop, getMaterial, MATERIALS } from './content/crafting';
 import { applyQuestEvent } from './quest-engine';
 import {
   COMBAT_XP_K,
   SETBACK_HP,
   SETBACK_TICKS,
   FORCED_REST_TICKS,
+  LOSS_KOKU_FRAC,
+  LOSS_MATERIAL_FRAC,
   DURABILITY_WEAR_PER_FIGHT,
   FIGHT_TICKS,
   STANCE_MODS,
@@ -101,17 +103,31 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
     next = applyQuestEvent(next, `kill:${mob.id}`);
     next = advanceClock(next, FIGHT_TICKS);
   } else {
-    // soft setback (D-050/§4.6.6): you limp away at the HP floor — never losing a level/xp/gear.
-    // D-076: a lost fight STOPS the autopilot (autoCombat→null) — no auto-heal grind; you mend by
-    // hand (eat) and re-engage deliberately. The carried-resource loss penalty is added in 3c.
+    // soft setback (D-050/§4.6.6) + D-076: limp home at the HP floor (never losing level/xp/gear),
+    // the autopilot STOPS, and you drop a slice of your CARRIED koku + materials in the rout — what
+    // is BANKED in the kura storehouse stays safe (batch-2 call 7). Magnitude liquid (D-059).
     const hpBefore = state.character.hp;
     next = setHp(next, SETBACK_HP);
     next = { ...next, autoCombat: null };
+    const lostKoku = Math.round((next.resources.koku ?? 0) * LOSS_KOKU_FRAC);
+    if (lostKoku > 0) next = withResource(next, 'koku', -lostKoku);
+    let lostMats = 0;
+    for (const m of MATERIALS) {
+      const lose = Math.floor((next.resources[m.id] ?? 0) * LOSS_MATERIAL_FRAC);
+      if (lose > 0) {
+        next = withResource(next, m.id, -lose);
+        lostMats += lose;
+      }
+    }
+    const drop =
+      lostKoku > 0 || lostMats > 0
+        ? ` You drop ${lostKoku} koku${lostMats > 0 ? ` and ${lostMats} of your spoils` : ''} in the rout.`
+        : '';
     next = applyRewards(next, {
       log: [
         {
           channel: 'combat',
-          text: `The ${mob.label.toLowerCase()} overcomes you; you limp home badly used. (HP ${hpBefore}→${SETBACK_HP}) Eat and mend before you take the field again.`,
+          text: `The ${mob.label.toLowerCase()} overcomes you; you limp home badly used. (HP ${hpBefore}→${SETBACK_HP})${drop} Eat and mend before you take the field again.`,
         },
       ],
     });

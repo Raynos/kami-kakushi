@@ -4,7 +4,7 @@
 // milestone; M0–M1 cover the cold open + the T0 Phase-1 labour spine.
 
 import type { GameState } from './state';
-import { setFlag, hasFlag, withResource, addSkillXp } from './state';
+import { setFlag, hasFlag, withResource, withBanked, addSkillXp } from './state';
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
@@ -65,6 +65,8 @@ export type Intent =
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
   | { type: 'buy_item'; itemId: string }
+  | { type: 'deposit'; resource: string }
+  | { type: 'withdraw'; resource: string }
   | { type: 'move_to'; to: string }
   | { type: 'ascend' };
 
@@ -326,6 +328,41 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             text: `You barter ${item.kokuCost} koku for a ${item.label.toLowerCase()}.`,
+          },
+        ],
+      });
+      break;
+    }
+    case 'deposit': {
+      // store CARRIED wealth in the kura storehouse — sheltered from a lost-fight penalty
+      // (batch-2 call 7). Spending + earning still use carried; banked is a safe reserve. (Spatially
+      // gated to the kura node in Step 5; for now it opens with the estate economy.) No clock cost.
+      if (!isUnlocked(next, 'panel-estate')) return state;
+      const have = next.resources[intent.resource] ?? 0;
+      if (have <= 0) return state;
+      next = withResource(next, intent.resource, -have);
+      next = withBanked(next, intent.resource, have);
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            text: `You store ${have} ${intent.resource} safe in the kura storehouse.`,
+          },
+        ],
+      });
+      break;
+    }
+    case 'withdraw': {
+      if (!isUnlocked(next, 'panel-estate')) return state;
+      const have = next.banked[intent.resource] ?? 0;
+      if (have <= 0) return state;
+      next = withBanked(next, intent.resource, -have);
+      next = withResource(next, intent.resource, have);
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            text: `You draw ${have} ${intent.resource} back out of the kura storehouse.`,
           },
         ],
       });
