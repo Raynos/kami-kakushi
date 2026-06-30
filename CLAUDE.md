@@ -114,11 +114,21 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
   scratch (`<session>/tasks/<id>.output`) and **die with the session** — never leave research stranded
   there. After **every workflow**: (1) **snapshot the raw `.output` JSON verbatim** into
   [`project/brainstorms/raw/`](project/brainstorms/raw) (timestamped) via `src/scripts/snapshot-research.sh <output-file>
-  <slug>` — cheap, lossless insurance; (2) **distill** the useful parts into the right living doc
-  (`docs/`) or discovery doc (`project/brainstorms/`); (3) **commit immediately** (a small checkpoint). Subagent
-  (Agent-tool) results are returned to the main agent — capture their substance in a doc, but do **not**
-  copy subagent `.output` files (huge JSONL transcripts). Raw snapshots are verbatim insurance; the
-  distillations are the source of truth.
+  <slug>`; (2) **distill** the useful parts into the right living doc (`docs/`) or discovery doc
+  (`project/brainstorms/`) as **markdown**; (3) **commit the distillation immediately** (a small checkpoint).
+  Subagent (Agent-tool) results are returned to the main agent — capture their substance in a doc, but do
+  **not** copy subagent `.output` files (huge JSONL transcripts).
+  - **Two tiers, and the tradeoff between them (the rule):**
+    - **Raw `.json` snapshots are git-ignored** (`project/brainstorms/raw/*.json`) — **local-disk only,
+      never committed**. Their *only* job is **local session-resume insurance**: if the internet drops, a
+      bug hits, or you accidentally `Ctrl+C` mid-run, the raw output is still on disk to pick back up
+      from. They survive session end but **do not reach the remote**, so they're **lost on machine loss** —
+      do **not** treat a raw snapshot as durable archival.
+    - **The markdown distillation is the durable, committed source of truth.** Anything that must survive
+      (reach the remote, be reviewed, be acted on) **must be written as markdown** and committed — never
+      left only as a raw `.json`. The distillation should be **far smaller** than the `.json` it came from
+      (curated signal, not the verbatim transcript). If it isn't smaller, you haven't distilled — you've
+      copied.
 
 ## Layout
 

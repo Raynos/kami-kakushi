@@ -21,9 +21,17 @@ option remains open for the human). Noted the durability caveat in `raw/README.m
 2. Human TODO #1 (`claude` committer) and #3 (commit-message conventions) — I offered to do the
    legwork; awaiting a pick.
 
+## Followup (same session) — documented the tradeoff
+Human asked to document the durability tradeoff in the conventions (not just flag it):
+- `CLAUDE.md` "Durable capture" convention rewritten into **two explicit tiers**: (1) raw `.json` =
+  git-ignored, local-disk-only, **session-resume insurance only** (internet drop / bug / accidental
+  `Ctrl+C`) — lost on machine loss; (2) the **markdown distillation** is the durable, committed
+  source of truth — anything that must survive *must* be markdown, and it must be **far smaller**
+  than the `.json` ("if it isn't smaller, you haven't distilled — you've copied").
+- `raw/README.md` callout updated to match (local-resume purpose + markdown-is-durable rule).
+
 ## Landmines
-- This is a behavior change to the **"Durable capture"** convention in `CLAUDE.md`: snapshots are
-  now local-only insurance, not remote-durable. `snapshot-research.sh` will keep writing files that
-  are silently git-ignored — the `raw/README.md` callout is the only guard against an agent assuming
-  a snapshot is safe on the remote. The CLAUDE.md convention text itself was left as-is (flagged to
-  the human rather than unilaterally rewritten).
+- Behavior change to the **"Durable capture"** convention: snapshots are now local-only insurance,
+  not remote-durable. `snapshot-research.sh` still writes silently git-ignored files — the
+  `raw/README.md` + `CLAUDE.md` tiers are the guard against an agent assuming a snapshot is safe on
+  the remote.
