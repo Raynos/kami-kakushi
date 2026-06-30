@@ -224,11 +224,23 @@ metadata:
   **No open ⛔ blockers remain.** The fuller v2-lite (playcheck ratchet, ship-gate) is revisitable if the
   hand-holding cost resurfaces; the v2-lite reel-back + roadmap re-axe stay as reference in `docs/plans/`.
   Still open: **R1** (the human play/taste call).
+- **Phase update — ⭐ R4 PLAYTEST DECISIONS LOCKED + v0.3.1 PLANNED (2026-06-30, session-23).** The human went
+  through the open v0.3 questions interactively (2× AskUserQuestion) → **ADRs D-075…D-079**: **D-079** active-only
+  PAUSE clock (resolves the D-053 contradiction); **D-076** combat = HP-attrition, **no auto-heal**, 0-HP-loss
+  stops autopilot; **D-077** standing/pillars stay deed-based (NOT wealth) + tighten koku (more sinks, not rich
+  until T5); **D-078** ≥1 load-bearing breadth (a map node gates a deed/yield); **D-075** diverge-v2 (full 2–3
+  variants always, live in a **DEV panel** toggle, each a review.md item — retires diverge-LITE; refines D-073).
+  Capture: `project/human-feedback/2026-06-30-r4-playtest-decisions.md`. **Conventions adopted:** the
+  `Assisted-by:` commit trailer (not `Co-Authored-By:`, hook-enforced); ~80-char markdown prose (soft norm); the
+  HITL archive flow now covers **R-items** (`archive.md` = Decisions + Reviews; `review.md` open-only). **Hygiene:**
+  archived the executed `path-to-v0.3` plan, closed R4, trimmed the reading queue (only the process-learnings
+  retrospective remains). **No code yet** — sequenced in **`docs/plans/2026-06-30-v0.3.1-build.md`** (DEV panel +
+  variants → combat → koku → map node → clock doc-fix → battery leftovers). All `verify`-green, on `origin/main`.
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-29-session-19-v03-part2-build.md`) + the
-     **decision-session ledger** (`project/human-feedback/2026-06-29-decision-session.md`, the source of truth) +
-     the active sequencing plan `docs/plans/2026-06-29-path-to-v0.3.md` (**Part 1 done → Part 2 next**) + its
-     executed reshape-mapping spec `project/archive/2026-06-29-part1-ripple-spec.md` (the OLD→NEW tier mapping +
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-23-r4-decisions-and-conventions.md`)
+     + the **R4 decision capture** (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`) + the active
+     **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (the v0.3.1 build — **NOT started**). _(The v0.3 build
+     plan `path-to-v0.3.md` is fully executed → archived in `project/archive/`; its reshape spec lives there too (
      per-system re-placement table — useful reference for the Part-2 build).
   2. `npm install` (if fresh clone) → `npm run verify` (should be green) → `npm run dev` to play.
   3. Drive headlessly: `node src/scripts/qa-shots.mjs` (or `window.__qa` in the console: `newGame`, `toRung`,
