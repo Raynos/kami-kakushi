@@ -47,6 +47,14 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   fun-factor / qa-playtesting / working-agreements / AGENTS.md Conventions / the
   battery skill. Skills audited — all wired, test-discipline lifted into Conventions.
   Capture: [`../human-feedback/2026-06-30-process-learnings-decisions.md`](../human-feedback/2026-06-30-process-learnings-decisions.md).
+- **Doc-health sweep (2026-06-30):** a repo-wide stale-markdown `Workflow` (21
+  findings) + a P1 diff re-audit landed: the **D-048 6-tier ripple is now finished
+  in §1** (01-vision spine/antagonists/rep-arc — it wasn't, despite the old "fully
+  rippled" claim), the **D-053→D-079 clock** supersession, built-features-described-
+  as-unbuilt fixes, and a new **`md-links` verify gate (10th)**. **Open follow-up:**
+  the **§4 balance ripple to 6 tiers** (04-combat-balance is banner-flagged old-5-tier
+  — needs the T1 Estate-full split bands; design, **liquid/D-059**). Report:
+  [`../audit/reports/2026-06-30-stale-markdown-sweep.md`](../audit/reports/2026-06-30-stale-markdown-sweep.md).
 
 ## Waiting on the human
 
