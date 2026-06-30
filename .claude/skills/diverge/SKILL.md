@@ -6,7 +6,7 @@ description: Generate FULL 2–3 genuinely-distinct, WORKING visual/design varia
 # Diverge
 
 > **⚠ MODEL CHANGED — D-075 (2026-06-30, refines D-073). READ THIS FIRST.** Two things changed and OVERRIDE the
-> branch-based mechanics in the §§ below (which are being re-worked alongside the DEV-panel build, v0.4):
+> branch-based mechanics in the §§ below (which are being re-worked alongside the DEV-panel build, v0.3.1):
 > 1. **FULL 2–3 working variants, always.** No "diverge-LITE" single-idea shortcut; no shipping a buggy variant —
 >    every variant must actually work so the human can compare them fairly.
 > 2. **Variants live IN the codebase, switched live via the DEV panel** (DEV-only, `import.meta.env.DEV`, stripped

@@ -155,8 +155,9 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - [`project/human-feedback/`](project/human-feedback) — the human's **direct feedback** (a live inbox; one dated file per session);
   closed records stay alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now applied to the PRD).
 - [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue: **open** decisions (`H`-items) and
-  reviews (`R`-items) only a person can action; closed `H`-items graduate to an ADR + a one-line row in
-  [`archive.md`](project/human-in-the-loop/archive.md) (see that dir's `README` for the lifecycle).
+  reviews (`R`-items) only a person can action; closed `H`-items **and** `R`-items graduate to a one-line row in
+  [`archive.md`](project/human-in-the-loop/archive.md) (two sections — **Decisions** + **Reviews**; H-items also
+  graduate to an ADR), and leave the live `decisions.md`/`review.md` open-only (see that dir's `README` for the lifecycle).
   [`project/todo-human.md`](project/todo-human.md) is the companion list: loose **TODOs** for the human plus
   the **reading queue** (brainstorms / audits / plans awaiting a "read & reviewed" sign-off). Both are
   auto-surfaced at session start by the `session-brief.sh` hook (see "How to work here").

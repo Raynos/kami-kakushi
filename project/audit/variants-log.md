@@ -10,7 +10,7 @@ sweep run at every session start and every diverge (see [`.claude/skills/diverge
 > stripped from prod). **Full 2–3 working variants always** (diverge-LITE retired), and **each variant is its own
 > line item in `human-in-the-loop/review.md`** (reviewed live by toggling). `main`'s resting flag-debt is now
 > "**zero PROD debt**" (the DEV toggle carries the alternates). The branch-based §§ of the skill + this log's
-> tables below are being **re-worked alongside the DEV-panel build** (v0.4); the rows below are the v0.3 history.
+> tables below are being **re-worked alongside the DEV-panel build** (v0.3.1); the rows below are the v0.3 history.
 
 **Invariant (D-075):** every variant in the codebase ⇔ a **review.md line item** (and a row here). Variants live
 in-codebase behind the **DEV-panel toggle**; prod ships only the self-picked default (zero prod flag-debt).

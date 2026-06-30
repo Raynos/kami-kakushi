@@ -6,26 +6,26 @@ things automated checks can't ("is it fun?", taste, tone, look).
 
 - **[decisions.md](decisions.md)** — **open** **decisions & questions** (design forks, tradeoffs, things
   you're blocked on). IDs `H1…Hn`. **Open items only** — this is what the session-brief hook scrapes.
-- **[archive.md](archive.md)** — the **closed** H-item crosswalk (a lean one-line index: H# → ADR +
-  date + intent link). Not the record — just the index.
-- **[review.md](review.md)** — open **reviews** (playtest feel, look, tone — sanity-checks a test
-  can't make). IDs `R1…Rn`.
+- **[archive.md](archive.md)** — the **closed** crosswalk in **two sections — Decisions (H-items) and
+  Reviews (R-items)** (a lean one-line index: # → ADR/outcome + date + intent link). Not the record — the index.
+- **[review.md](review.md)** — **open** **reviews** only (playtest feel, look, tone — sanity-checks a test
+  can't make). IDs `R1…Rn`. **Closed reviews graduate to `archive.md`** (Reviews section), the same as decisions.
 
 ## How to use
 
 1. The human reads `decisions.md` / `review.md` for what's waiting on them.
 2. They action an item by answering inline (or just saying so in chat).
 3. Mark it `✅ DONE — <answer/verdict>`.
-4. **Graduate + archive** a resolved *decision* (see lifecycle below); a resolved *review* drives the
-   fix or unblocks the next step.
+4. **Graduate + archive** a resolved item — a *decision* (H) **or** a *review* (R): record its verdict and
+   move it out of its live queue into `archive.md` (see lifecycle below).
 
-## Decision lifecycle — graduate, then archive
+## Lifecycle — graduate, then archive (H-decisions AND R-reviews)
 
-A resolved H-item has **distinct durable homes, no duplication** — keep each to its one role:
+A resolved **H-decision or R-review** has **distinct durable homes, no duplication** — keep each to its one role:
 
 | Role | Home | What it holds |
 |---|---|---|
-| Live queue | `decisions.md` | **open** items only |
+| Live queue | `decisions.md` (H) · `review.md` (R) | **open** items only |
 | Closed index | `archive.md` | one-line crosswalk per closed item |
 | The canon "why" | [`../../docs/living/decisions.md`](../../docs/living/decisions.md) | the **ADR** it graduated to |
 | Verbatim intent | [`../human-feedback/`](../human-feedback) | the human's exact words |
@@ -36,8 +36,9 @@ When an item closes:
    **mechanical / structural** item (e.g. splitting a file) **skips the ADR** — an archive row is enough;
    ADR-ing a no-op only dilutes the log. (One ADR may close several related H-items — e.g. D-070 closed
    H7/H9/H10.)
-2. **Archive** it. Add a row to `archive.md` (H# · title · one-line resolution · → ADR · date · intent
-   link) and **remove the item from `decisions.md`** so the live queue stays open-only.
+2. **Archive** it. Add a row to the matching **`archive.md`** section — **Decisions** for an H-item, **Reviews**
+   for an R-item (# · title · one-line resolution · → ADR/outcome · date · intent link) — and **remove the item
+   from its live queue** (`decisions.md` or `review.md`) so the queue stays open-only.
 3. **Apply** the decision to code/docs (often a batched ripple — when several land at once, stage them in a
    transient `project/status/` checklist tracker, deleted once empty).
 

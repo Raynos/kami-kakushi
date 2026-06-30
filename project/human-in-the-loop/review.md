@@ -65,7 +65,7 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 > **New process (D-075, supersedes the old R2/R3 single-pick).** Every diverged surface ships **FULL 2–3 working
 > variants**, switchable live in the **DEV panel**; **each variant is its own line item below**, reviewed by
 > toggling it in the running build (not screenshots). ⏳ The DEV panel + the full variant set are **being BUILT**
-> (v0.4 steps 1–2, per `human-feedback/2026-06-30-r4-playtest-decisions.md`); items flip to "ready to toggle" as
+> (v0.3.1 steps 1–2, per `human-feedback/2026-06-30-r4-playtest-decisions.md`); items flip to "ready to toggle" as
 > they land. Tick the variant you want as the prod default (or note changes).
 
 - **House-Influence panel** (M2·6):
@@ -87,34 +87,10 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   self-picks a default; you confirm/override per variant by ticking it here.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
-### R4 ✅ — v0.3 fidelity-battery judgment queue (6 design/taste calls) — RESOLVED 2026-06-30
+---
 
-- **Asking for:** decisions only you can make, surfaced by the v0.3 fidelity battery
-  ([report](../audit/reports/2026-06-29-v03-fidelity-battery.md)). The build is faithful to locked intent (prd 9 /
-  adr 8.5 / human-feedback 8); these are the **design/taste** calls (the agent fixed the safe bugs + false-green
-  tests separately — see the journal). Plain language:
-  1. **The wall-time clock (D-053 vs D-013, MAJOR).** The build pauses the sim on `document.hidden` (`main.ts:205`);
-     D-053 (`decisions.md:444`) says do the OPPOSITE (advance by wall-time, a hidden tab catches up), while
-     `decisions.md:157` frames D-053 as *reaffirming* active-only. The two ADRs pull apart — **which is canon?**
-     (Cost of inaction: a signed lock sits unbuilt while the code does its literal opposite.)
-  2. ✅ **The shipped pace + fork (D-056 + the REAL T0 numbers) — DONE (M2·8, you steered this mid-loop).** You
-     confirmed the DEV tools are permanent + D-056 (locked) already chose "ship the real pacing, DEV speed toggle
-     for velocity," so the agent retired the fork: ONE profile, **re-derived to the targets — R0 4.88 min (the
-     ~5-min cold-open), R1 10.0, R2 12.1** (sim-verified); R3–R7 on a gentle ramp (not sim-measured). T0 is
-     ≥30-floor-EXEMPT, gated on the band [3,22] min. **These are LIQUID (D-059) — confirm the feel by playtest, or
-     tell me to nudge any rung.** (The cold-open is now ~5 min of raking, hands-off via the auto-loop / `__qa.speed(8)`.)
-  3. **Auto-combat defuses the D-050 fight tension (MAJOR).** Auto-combat auto-heals + only fights the matchup you
-     pick, so "a fight you might lose" becomes background maintenance. → keep autopilot fully autonomous, or make it
-     strictly assistive / add a press-your-luck prompt?
-  4. **Cold-open length.** *(The agent applied the suggested fix — gating Genemon's teaching lines to fire after the
-     first rake — see the journal; confirm the new sequencing reads right, or tune further.)*
-  5. **Breadth-as-chrome.** The map gates nothing mechanically; the lone quest + market are one-time reveals. → bless
-     as deliberate T0 reveal-only beats, or fund making ≥1 load-bearing (a deed behind a map node, a quest branch)?
-  6. **koku ↔ win-condition coupling.** Getting richer never brings ascension closer (the pillar deed is a flat
-     `ESTATE_DEED_PER_ACT`, independent of koku/yield/stage) and koku runs out of sinks (~1378 lifetime). → approve
-     coupling wealth to standing (a capped koku→deed commission, or deed scaling by estate stage)?
-- **Verdict:** ✅ **RESOLVED (2026-06-30, via AskUserQuestion):** #1 clock → **D-079** (active-only pause); #2 fork
-  → **D-056**/M2·8 (done); #3 auto-combat → **D-076** (attrition, no auto-heal, loss stops autopilot); #4 cold-open
-  → fixed (reveal-as-plot gating); #5 breadth → **D-078** (load-bearing map node); #6 koku → **D-077** (standing
-  stays deed-based; tighten koku). The build is sequenced in `docs/plans/2026-06-30-v0.4.1-build.md`.
+> _This queue holds **open** reviews only. Closed reviews graduate to
+> [`archive.md`](archive.md) (Reviews section) — e.g. **R4** (v0.3 fidelity-battery judgment queue, 6 calls) was
+> **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **D-076…D-079** (+D-056); **R3** folded into R2 (**D-075**).
+> The build the R4 decisions feed is `docs/plans/2026-06-30-v0.3.1-build.md`._
 
