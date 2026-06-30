@@ -20,6 +20,17 @@ real parallel work. No game-code change; not a canon change.
 
 Commit `b05e7ea` (docs-only, `SKIP_VERIFY=1`).
 
+## Also this session — the `/prepare-to-exit` skill
+At the human's request, added a **user-invoked-only** skill
+(`.claude/skills/prepare-to-exit/SKILL.md`, `disable-model-invocation: true`) to
+run the checkpoint ritual on command. Two human-prompted refactors landed the
+right design: the first draft re-inlined all the steps + safety rules (3 copies →
+drift), so it was stripped to **pure delegation** — the skill holds *no* copy of
+the steps; it reads `working-agreements.md → "Checkpoint"` live and executes
+whatever it says today. Now evolving the ritual = editing one file; the skill,
+the AGENTS.md blurb, and CLAUDE.md all follow. Listed in AGENTS.md's skills
+inventory. Commits `3af676a` (add) → `01e63e2` (refactor to delegation).
+
 ## Next intended steps
 1. Resume the greenlit **v0.3.1 build** (`docs/plans/2026-06-30-v0.3.1-build.md`,
    Step 1 — DEV panel + variant-toggle infra; also unblocks the R2 variant review).

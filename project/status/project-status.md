@@ -273,6 +273,11 @@ metadata:
   don't split one plan's steps into three), and an explicit **≤5s budget** — brief from the hook output + a peek
   at the active plan's Status line, **defer** the verify-against-git check to when the work is picked up. Commit
   `b05e7ea`, docs-only; journal `2026-06-30-session-28-session-brief-speedup.md`.
+  **Also (session-28):** added a **user-invoked-only** `/prepare-to-exit` skill
+  (`.claude/skills/prepare-to-exit/SKILL.md`, `disable-model-invocation: true`) — the runnable form of the
+  checkpoint ritual. Designed as **pure delegation**: it holds no copy of the steps, just reads
+  `working-agreements.md → "Checkpoint"` live and runs it, so evolving the ritual is a one-file edit. Commits
+  `3af676a` → `01e63e2`.
 - **How to resume:**
   1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-23-r4-decisions-and-conventions.md`)
      + the **R4 decision capture** (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`) + the active
