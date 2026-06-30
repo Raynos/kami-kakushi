@@ -125,3 +125,124 @@ for anything taste-dependent.
 4. **Milestone/ceremony beats get an "after-state" check** (F2).
 5. Process additions land as **ADRs / battery-registry lenses / fun-factor lines**
    so they're durable, not just this doc.
+
+---
+
+## Addendum — independent re-pass delta (2026-06-30)
+
+_Everything above is my own end-of-session synthesis. Per this doc's **own
+thesis** ("the builder is blind to their own gaps; the leverage is independent
+checks"), an independent pass over the full **83 MB session JSONL** (6 miner
+agents → a convergence critic, read-only) found **23 transferable learnings this
+doc missed**. The critic's verdict: "**faithful but narrow — it captures maybe
+half the cycle's signal**," with four whole-category blind spots. Folded in here
+so the doc is complete (raw verdicts:
+`raw/2026-06-30-v03-session-learnings-delta.json`, local-only)._
+
+### Blind spot 1 — the session was MULTI-AGENT, and the doc never says so
+
+**A1 · Commit by EXPLICIT PATH every time + commit-on-green** — not just "avoid
+`-a`/`-A`": even a careful *bare* `git commit` swept in a co-agent's staged
+deletion, and a concurrent `git stash` nearly ate uncommitted work. Commit
+immediately on green, never at milestone. (→ candidate pre-commit warn: flag
+staged paths you didn't author.)
+
+**A2 · Scatter-gather parallelism; a running read-only audit is a tree
+write-lock** — parallelize only **disjoint NEW leaf modules** (each independently
+green, wired one at a time), keep the coupled core spine single-threaded, and
+don't edit source while an audit scans the tree. (→ a "multi-agent coordination"
+section in working-agreements.)
+
+### Blind spot 2 — fun is more than onboarding / payoff / contrast
+
+**A3 · The agent's default game-feel bias is GENEROSITY** — left to defaults it
+built auto-heal + autopilot + a loose economy; the human had to push for
+no-auto-heal / fight-to-death / loss-stops-autopilot / tighter koku. Treat
+difficulty + economy generosity as a decision to **confirm, never a safe
+default** (→ fun-factor line + a battery "tension/scarcity" lens).
+
+**A4 · Economic invariants that decide fun: buffer ≠ flywheel, high-water marks
+self-inflate, breadth ≠ depth** — estate upgrades grant a satiety *buffer* not
+yield (the koku flywheel isn't actually built); the seasonal judge re-judged its
+own payout (self-inflation bug); map/quest/market are reveal-only chrome. (→
+standing **economy-arithmetic** lens + "does each upgrade close a
+work→output→more-output loop?")
+
+**A5 · Audio/game-feel is the highest-ROI cheap fun lever for a silent build** —
+and must degrade silently under headless QA or it pollutes the harness.
+
+**A6 · Route derived feedback through the SAME pure-core fn the action uses** —
+`mcCombatStats` feeds both the real fight and the forecast, so HP-carry made the
+shown win-rate drop when hurt: emergent UI legibility, zero extra UI work.
+
+### Blind spot 3 — "use independent checks" with no method, and the harness itself lies
+
+**A7 · Retrospectives MUST read the JSONL, not the compacted window** — this
+doc's first retro (from context) found "one gap"; the 83 MB transcript revealed a
+recurring pattern the window hid. Unattended runs leave no frustration signal →
+mine structured behaviour data (every cmd / file / error).
+
+**A8 · Verify a visual oddity, don't dismiss it as a "harness artifact"** — the
+seal "doubled text" was rationalized away repeatedly; it was a real missing-scrim
+bug on the most climactic screen. (→ a forceState that SUPPRESSES one-shot events
+so artifacts vs bugs are distinguishable.)
+
+**A9 · The capture/QA harness silently lies — harden it** — guessed waits catch
+mid-animation frames (derive from cadence constants); sweeps stall on content
+gates + un-reset renderer state; Lighthouse on the fresh shell never checks the
+breadth panels (audit DRIVEN deep state). A check that captures the wrong frame
+is a lying check — it undercuts the doc's own thesis.
+
+**A10 · Code-level a11y review and Lighthouse catch DISJOINT classes — run both**
+— the eye is blind to contrast ratios; the tool is blind to whether an accessible
+name is semantically right (a buy button named just "10 koku").
+
+### Blind spot 4 — gate/ADR process beyond "push to a gate"
+
+**A11 · "Highest rung that SOUNDLY holds it" — base-rate calibration + restraint**
+— hard-block only where near-universal, loud-warn where mixed; **restraint is a
+feature** (decline redundant lower-rung guards); tight exemptions (two-sided
+bands); **test the false-positive PASS path**, not just the block. (The richer
+form of E4.)
+
+**A12 · The ADR log is authoritative — reconcile it against the build** — search
+the ADR log before deferring a call to the human (a lock may already exist —
+nearly burned a round-trip on D-056); task/milestone labels drift (a stale
+"retire DEV tools" label would have deleted the playtest harness); a signed ADR
+is a **claim to verify**, not proof (D-053 "does the opposite" in code). (→ a
+"canon-vs-build reconciliation" lens.)
+
+**A13 · "Most important" ≠ "safe to do alone"** — park a refactor whose OUTPUT is
+numbers the human must sign off (unless a signed ADR already locked them);
+autonomy bias pushes hardest toward the item that actually needs a human.
+
+### Misc — engineering & tooling hygiene (medium / low)
+
+- **A14 · What PROPERTY to assert (extends E1):** assert the **design levers**
+  (atk/taken/wear mult), not a collapsed metric (win-rate conflates them); the
+  **monotonic mechanism**, not a rounded output (15% vs 35% both round to 5).
+- **A15 · Verify content-preserving transforms** with a TEXT-mode word-diff vs
+  HEAD **and** assert NUL-free (a binary output gave a false-clean diff); count
+  prose width by **characters**, not bytes.
+- **A16 · Test hygiene:** populate serialization round-trips (they pass vacuously
+  on default fixtures); re-blessing a golden baseline — partition gated vs display
+  fields, confirm no gated field moved.
+- **A17 · Full-arc/property tests SPEND gate-time** (an O(n²) invariant: 1 s →
+  169 ms) — ration + optimize them (a counterweight to E2).
+- **A18 · Calibrate the sim as an instrument + back-solve** (two measured points →
+  the inverse transfer fn → hit the target in one shot, not guess-and-iterate).
+- **A19 · Diverge integrity:** implement process rules by **intent** when the
+  mechanism is unsafe; wire the decision-log INTO the cleanup or the audit trail
+  rots; **name** a time-box corner-cut (diverge-LITE), don't ship it quietly;
+  record taste heuristics in ui-design.md (continuous ink > segmented meters;
+  focused diegetic view > god's-eye grid at small content scale).
+- **A20 · A cross-cutting emitter** (quests/achievements) goes in a shared glue
+  module both reducers import, to keep the core graph acyclic.
+- **A21 · A version label is a global invariant with no feedback loop** (the
+  v0.4.1→v0.3.1 catch) — derive it from one source, don't hand-type across docs.
+- **A22 · Audit a forward-moving spec** with a regression/mutation-target split
+  (don't flag planned-future milestones as gaps) + adversarial refutation of the
+  GREEN claims too.
+- **A23 · After any fix, reconcile downstream hand-off artifacts** (stale
+  screenshots, review items, playbook commands) — F2's after-state idea applied
+  to the hand-off, or the curated review misinforms the human.
