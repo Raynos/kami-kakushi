@@ -24,6 +24,17 @@ delete, force-push) — never without explicit approval. **Routine `git push ori
 it's a standing-approved part of every checkpoint** (see below), not a per-push ask. State lives in commits
 + journal so a compaction never loses progress.
 
+**Loop done-rule (D-087):** in a long autonomous `/loop`, when the high-value backlog runs dry, **keep
+finding work rather than idling** — but **flag low-value ticks honestly** (name a marginal tick as
+marginal; never dress busy-work up as high-value — R3). Motion + honest labelling over a hard stop.
+
+**Re-audit the diff before "done" (P1):** after executing a locked ADR or a large refactor, run a focused
+**independent re-pass over just the diff** on the *current* build, before calling it done — the build the
+human will actually play often changed since the last full battery, so check the **delta**, not the
+milestone. Runnable form: the `battery` skill's **diff re-audit** mode (~3 lenses; if the change touched an
+approved design/balance pick, flag + offer to revert per P2). A clean re-pass *is* the deliverable — the
+confidence is the point.
+
 **Checkpoint (the resumability ritual — run it when asked to "checkpoint" or before exiting):**
 1. **Commit** completed work — stage **only your own files by explicit path** (`git add path/…`), never
    `-A` / `commit -a` (see shared-tree safety below).

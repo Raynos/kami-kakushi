@@ -734,3 +734,28 @@ design ADR.
 - **Decision:** What counts as **built** is what a human player can reach. A change living only in TypeScript — no UI, not reachable in the live MCP playtest (Playwright / Chrome-DevTools) — is **not done**; the unit of progress is a fun-complete vertical slice a player can see and use. Absorbs _lean_ (everything earns its place; `G-NO-DEAD-VALUES`) and _diverge before you converge_ (D-075).
 - **Why:** Verbatim human direction (_"build ones that can be accessed by human players… not features that live in the typescript files"_); **D-078** (load-bearing breadth); the roadmap fun-slices.
 - **Consequences:** New canon doc [`../philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md`](../philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md) + a paragraph in the AGENTS.md register. Per **D-022**, governs.
+
+## D-086…D-088 — 2026-06-30 v0.3 process-learnings adoption (human-steered)
+
+> The human read the v0.3 retrospective ([`../../project/brainstorms/2026-06-30-v03-process-learnings.md`](../../project/brainstorms/2026-06-30-v03-process-learnings.md)) and steered which learnings to adopt and how (capture: [`../../project/human-feedback/2026-06-30-process-learnings-decisions.md`](../../project/human-feedback/2026-06-30-process-learnings-decisions.md)). **Guardrail the human set:** an ADR records a decision the _human_ made — so a retrospective does **not** dump 30+ ADRs; only genuine human decisions earn one, the rest fold into living docs / skills as norms. These three are the human's decisions; the F/E/P + A1–A23 learnings land as norms (see the capture).
+
+### D-086 ✅ — Tension over generosity is the default design bias
+- **created_date:** 2026-06-30
+- **Context:** The retro's sharpest fun insight (A3): left to defaults, the agent builds **generosity** — it shipped auto-heal + autopilot + a loose economy, and the human had to push for no-auto-heal / fight-to-death / loss-stops-autopilot / tighter koku (D-076, D-077). Generosity was the silent default; tension had to be fought for each time.
+- **Decision:** **Tension & scarcity are the default; generosity is a thing to JUSTIFY, never a safe default.** When a design choice trades difficulty/scarcity for comfort (auto-heal, autopilot convenience, a forgiving economy, a removed fail-state), that is a decision to surface and justify against the fun bar — not a default to reach for. Stays inside the existing hard guardrails (every fight winnable, soft-setback only, no permanent loss / no stranding — D-061): tension pulls the player to engage, it never pushes them out.
+- **Why:** Human chose "make it canon." Grounds D-076 (HP-attrition, no auto-heal) and D-077 (tighten koku) as instances of a general stance, not one-offs.
+- **Consequences:** A `fun-factor.md` canon line + a battery **`tension/scarcity`** lens (generosity-creep is a finding, not a feature). Per **D-022**, governs.
+
+### D-087 ✅ — Autonomous-loop done-rule: keep finding work, flag low-value honestly
+- **created_date:** 2026-06-30
+- **Context:** The retro's P3: a long autonomous `/loop` drifts toward gold-plating once the high-value backlog runs dry — each tick the agent re-derives "is there real value left, or am I polishing?" The doc proposed a hard "stop when dry"; the human chose otherwise.
+- **Decision:** When the high-value backlog runs dry, the loop **keeps finding work rather than idling** — but **flags low-value ticks honestly** (names a marginal tick as marginal) instead of dressing busy-work up as high-value. Motion + honest labelling over a hard stop. (R3 done-is-earned applies to the labelling: never call a marginal tick high-value.)
+- **Why:** Human chose "keep finding work." Tempers P3; pairs with R4 (bias to motion) + R1 (no clock — the window is an invitation to do excellent work, not a countdown).
+- **Consequences:** A working-agreements line on the loop done-rule. Per **D-022**, governs.
+
+### D-088 ✅ — A full-arc e2e + invariants test per tier is a hard DoD contract
+- **created_date:** 2026-06-30
+- **Context:** The retro's E2/A17: the end-to-end `t0-arc.test` + `invariants.test` (real-intent cold-open → ascension; no-NaN / write-once / monotonic-clock over the whole arc) gave more confidence than any fragment test, ran in ~30 ms, and are RED-able — they prove the **seams** between fragment tests hold. But in v0.3 they were authored late, not from the first milestone.
+- **Decision:** **Every tier ships a full-arc e2e test + an invariants test, named in its FIRST milestone's DoD** — not bolted on at the end. Backstopped by **D-054** milestone-integrity (a DoD that names a test which doesn't resolve can't pass silently). **Ration gate-time** (A17): full-arc/invariant tests can be O(n²) and spend the verify budget — optimize them (the 1 s → 169 ms win) and keep them within the 5 s budget (D-072).
+- **Why:** Human chose "hard DoD contract." Extends D-054 from feature-completeness to playtestability; the cheapest playtestability guarantee we have.
+- **Consequences:** An AGENTS.md `Test discipline` convention line + the `tdd` skill's deep procedure; roadmap per-tier DoDs name the two tests. Per **D-022**, governs; refines **D-054**.

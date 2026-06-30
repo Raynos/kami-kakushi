@@ -163,6 +163,20 @@ The loop (per the [UI design-language bible](ui-design.md), which the M1/M2 rend
 4. **Iterate** until it's a self-vetted candidate, then **surface it to the human** with the agent's
    own read for the higher-level taste call.
 
+**a11y is a SOFT check on every new / restyled UI surface (F3/A10) — a norm, deliberately *not* a gate.**
+Run **both** a **Lighthouse a11y pass** *and* a **code-level a11y review**, because they catch **disjoint**
+classes: the eye + Lighthouse are blind to whether an accessible *name* reads right (a buy button named just
+"10 koku"); code review is blind to actual **contrast ratios** (eyeballing missed the vermilion/gold WCAG
+fail that Lighthouse caught at a11y-95). Two cautions learned the hard way: drive Lighthouse against the
+surface's **real deep state**, not the fresh shell (the shell never exercises the breadth panels — A9); and
+treat a **visual oddity as a real bug until proven otherwise**, never wave it off as a "harness artifact"
+(the seal "doubled text" was rationalised away repeatedly — it was a real missing-scrim bug on the most
+climactic screen — A8). The design constraint is **on-palette AND ≥4.5:1**: resolve the
+aesthetic-vs-accessibility tension *in-palette* (deeper cinnabar/bronze tones that hit AA while staying
+woodblock, D-045), never by abandoning the approved palette — and if an a11y fix touches an
+**approved** design/diverge pick, **flag it + offer to revert** even when it's "obviously correct" (P2).
+Soft = it informs the work, it doesn't block the build.
+
 **Coverage checklist (every one gets a screenshot + review):**
 - The **cold open** (single screen, one verb, the log) — the first impression.
 - **Every nav screen** as it reveals: Work → Skills → Combat → Crafting → Quests → Map →

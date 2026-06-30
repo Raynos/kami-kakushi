@@ -21,6 +21,14 @@ knowledge of the game** and **(b) reality at the build/playtest gate.** So there
 - **Mini battery** (validate one fix / one scenario): ~3 lenses from different angles (does-it-work /
   failure-modes / player-experience). Same archiving, lighter synthesis, **no** new registry lenses.
   Skip the battery entirely for **taste/judgment calls** — those need conversation, not agents.
+- **Diff re-audit** (P1 — after a locked-ADR execution / large refactor, *before* calling it done): a
+  focused independent re-pass over **just the diff** on the *current* build (not the whole subject) — ~3
+  lenses: *does-the-change-do-what-the-ADR-says* / *new-failure-modes-introduced* / *did-it-touch-an-
+  approved-design-or-balance-pick* (if so, **flag it + offer to revert** per P2 — never silently change an
+  approved aesthetic). Same archiving, **no** new registry lenses. This is the cheap confidence pass v0.3
+  ran post-M2·8 (it came back clean — that *confidence* is the point). The build the human will actually
+  play often changed substantially after the last full battery, so re-audit the **delta**, not the
+  milestone.
 
 ## The four steps
 
@@ -50,14 +58,15 @@ selection palette; don't re-run unchanged areas — re-run proven winners only a
 | `rough-edges` | New tuning/friction the latest build introduced (e.g. a retune that broke a default). |
 | `macro-gap` | The unbuilt engine / vision-spine gap — is the gap **honest** and are the stakes named? |
 | `test-integrity` | False-green tests, coverage holes, assertions that can't go RED. |
-| `onboarding` | The teaching pattern (reveal-as-plot), discoverability, first-session legibility. |
+| `onboarding` | The teaching pattern (reveal-as-plot), discoverability, first-session legibility — each teach gated to its **moment of need**, no upfront monologue dump (F1); **and** the **"…and then what?"** after-state of every milestone/ceremony beat (F2). |
+| `tension/scarcity` | **Generosity-creep (D-086):** auto-heal, autopilot, a loose economy, softened fail-states — where has comfort leaked in and drained the stakes? Tension is the default; flag generosity that isn't justified. |
 
 **General spec/design lenses (kept from the source skill, re-skinned for the game):**
 | Lens | What it attacks |
 |---|---|
 | `doc-consistency` | Stale text, broken cross-refs, **generated-vs-source drift** (`docs/content/` vs `gen-docs.ts`). |
 | `persona-simulation` | Walk the spec/build as a concrete **player persona**; where does their path break? |
-| `economy-arithmetic` | Balance math: koku sinks, yield multipliers, time-to-rank / 70-30 / ~28.5h targets, ratios. |
+| `economy-arithmetic` | Balance math: koku sinks, yield multipliers, time-to-rank / 70-30 / ~28.5h targets, ratios — **and the invariants that secretly decide fun (A4):** does each upgrade close a **work→output→more-output loop**, or merely grant a *buffer*? do high-water marks **self-inflate** (re-judge their own payout)? is it **breadth without depth**? |
 | `instruction-coherence` | Internal coherence of PRD / CLAUDE.md / ADRs — contradictions, undefined defaults. |
 | `failure-state-walking` | Soft-stuck, durability dead-ends, legacy/edge states — walk every way to get stuck. |
 | `ui-state-correctness` | Every UI state renders right: loading / empty / error / boundary / overflow. |

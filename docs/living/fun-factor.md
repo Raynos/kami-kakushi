@@ -110,7 +110,10 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   channel** — each new system is taught **in-world by a diegetic mentor** as it unlocks (Genemon for
   labour/koku in T0, Kihei for arms/combat from T1, Sōan for healing in the cold open), **never via a popup
   or tutorial modal** (D-063/D-064): the reveal *is* the lesson, so learning the game stays part of the fun
-  rather than a gate in front of it.
+  rather than a gate in front of it. **Teach each thing at its MOMENT OF NEED, not front-loaded at unlock
+  (F1):** gate the lesson to the beat where the mechanic first *matters* — koku-teaching lands *as the first
+  +koku appears*, not as five mentor lines dumped on the first click (the v0.3 cold-open's clearest fun
+  miss). One teach per moment; never a monologue dump. The battery `onboarding` lens checks this.
 
 ### 2.5 The seasonal loop (~30–120 min/season) — *the judged exam*
 - **What:** every season the world appraises the house and each pillar takes a **judged-result top-up**
@@ -187,7 +190,10 @@ Six levers, in roughly the order to reach for them. Most fun problems are one of
 1. **Juice / feedback.** The cheapest, highest-leverage fix. A deed that pays in an *instant, satisfying*
    number-pop + sound + bar-fill feels 3× better than the identical math delivered limply. Apply to every
    reward beat: koku tick, pillar-jump, rank-up, seasonal headline, reveal flourish, combat resolve. (This
-   is the polish-loop's #1 queue category, qa-playtesting.md §6.)
+   is the polish-loop's #1 queue category, qa-playtesting.md §6.) **Audio/SFX is part of this juice** — the
+   highest-ROI cheap lever for a beat that wants more punch. Add it **opportunistically** (a beat that
+   obviously needs it), *not* as a standing priority, and it must **degrade silently under headless QA** so
+   it never pollutes the playtest harness (A5).
 2. **Reward pacing.** Tune *frequency and size* of hits to kill reward-deserts. If the no-dead-time proxy
    flags, add a smaller-but-sooner hit (a yield milestone, a partial-meter tick) rather than a bigger
    later one. The texture goal is *many small deeds* (§4.2.1), not few big spikes.
@@ -204,6 +210,10 @@ Six levers, in roughly the order to reach for them. Most fun problems are one of
 6. **Difficulty + clarity.** Two failure modes: a *wall* (too hard/slow/opaque → frustration) and a
    *desert* (too easy/trivial → boredom). Fix walls with clarity first (a legend, a visible threshold, a
    forecast) before lowering numbers — often the math is fine and the player just can't *see* the path.
+   **Bias the dial toward tension, not comfort (D-086):** scarcity and a real fail-state are the *default*;
+   reach for generosity (auto-heal, autopilot, a looser economy) only with a justification, never
+   reflexively. The self-inflicted *desert* — softening stakes until nothing bites — is the more common
+   failure than a wall, because comfort is the path of least resistance when building.
 
 > **Order of operations for a "this part isn't fun" report:** clarity → juice → pacing → goal/choice →
 > novelty → rebalance. Rebalancing the math is the *last* resort, not the first.
@@ -282,6 +292,9 @@ the whole climb). This is what makes hour 20 still mean something.
 | **Punishing setbacks** | A loss erases real progress → rage-quit / save-scum | **Soft-setback shape LOCKED** — 1 HP, ~½-day, light injury, never levels/gear/Influence (§4.6.6); **no permanent holding-loss, never a wipe** (§1.13); **no dead-end / stranding — humbling is always winnable** (D-061). |
 | **City-builder/4X tedium creep** | The estate becomes a management spreadsheet | Estate growth is **flavour, not a sim** (§1.2 pillar 5); **no assignment/management panel, no labour-gang** ever (§1.12); Influence stays diegetic (§1.13). |
 | **Reveal-deserts (too-fast rungs)** | Rungs clear so fast reveals run out → late-game emptiness | **≥30-min-per-rung floor LOCKED** (§4.8); novelty-drip proxy ensures reveals are paced, never exhausted (§3). |
+| **Reflexive generosity** (auto-heal, autopilot, a loose economy) | Stakes quietly leak away — nothing is scarce, no choice bites, the grind self-completes while you watch | **Tension/scarcity is the DEFAULT; generosity must be JUSTIFIED, never reached for (D-086).** HP-attrition + no auto-heal (D-076); tighter koku, poor-until-T5 (D-077). Generosity-creep is a battery `tension/scarcity` finding, not a feature. (Always inside the §1.13 guardrails — winnable, soft-setback only, no stranding: tension *pulls in*, never *pushes out*.) |
+| **Stale after-state** (a climax onto a dead next-screen) | The bell rings on the big payoff — then the panel still reads "Reach Excellent 480/480"; the moment deflates | **Design the AFTER of every payoff, not just the payoff (F2).** A ceremony/milestone beat must resolve into a satisfying next-state — *"…and then what do I see and do in the next ten seconds?"* The battery `fun`/`onboarding` lens runs this "…and then what?" check on every milestone/ceremony beat. |
+| **Buffer mistaken for a flywheel** | Upgrades grant comfort (a satiety *buffer*) but value never compounds — breadth without depth, a number that climbs but doesn't *snowball* | **Every upgrade must close a work→output→more-output loop, not merely grant a buffer (A4).** Watch the economic invariants: a high-water mark must not re-judge its own payout (self-inflation); breadth ≠ depth. The battery `economy-arithmetic` lens checks each upgrade actually closes a loop. |
 
 ---
 

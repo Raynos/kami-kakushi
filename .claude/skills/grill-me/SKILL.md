@@ -18,8 +18,8 @@ The file, not your context, is the source of truth. Never make the user ask you 
 
 ## Setup (BEFORE the first question)
 
-1. Create the capture file at `brainstorms/{YYYY-MM-DD}-{topic-slug}.md` (create `brainstorms/` if
-   missing). Get today's date with `date +%F` if you don't know it.
+1. Create the capture file at `project/brainstorms/{YYYY-MM-DD}-{topic-slug}.md` (create
+   `project/brainstorms/` if missing). Get today's date with `date +%F` if you don't know it.
 2. Seed it with a header: title, date, the goal of the session, and an empty "Open flags" section.
 3. Tell the user where you're saving, in one line. Then ask Q1.
 
@@ -45,7 +45,7 @@ prose says "logged/captured." Tool call first → confirm → then claim.
   developing it: *How would this work in the current design? What could it conflict with? What might
   they not be seeing?* Surface to the user only when it genuinely needs their input.
 - Capture **tangents** under a `## Parking lot` section so they're not lost and don't derail the
-  active thread — and **link it both ways**: add a bullet to `brainstorms/PARKED-THREADS.md` pointing
+  active thread — and **link it both ways**: add a bullet to `project/brainstorms/PARKED-THREADS.md` pointing
   back to this capture file + section, so divergent threads are recallable across sessions. Keep going
   until the user says you're done, or every branch is covered — then offer a completeness backstop
   ("anything we haven't touched?").

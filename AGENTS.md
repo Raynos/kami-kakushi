@@ -147,6 +147,21 @@ Full version:
   valuable architectural rule for a game.
 - **Determinism: one RNG.** All randomness flows through a single seeded RNG so
   runs reproduce.
+- **Test discipline (the ambient rule — D-086…D-088 adoption).** A test earns its
+  place only if it **could have gone RED**: a false green is worse than no test
+  (R3). So, on **every** new test: **(1)** ask *"can this go RED?"* — a tautology
+  or a dead-value ratchet is not a test; **(2)** derive fixtures from the
+  **source of truth** (`rungThreshold`, the `balance` constants), **never** copied
+  magic numbers (hard-coded act-counts broke ~6 tests at M2·8); **(3)** assert the
+  **design lever** (atk/taken/wear multiplier, the monotonic *mechanism*), not a
+  collapsed metric (win-rate conflates levers; 15% vs 35% both round to "5"). And
+  **per D-088:** every **tier** ships a **full-arc e2e + an invariants test, named
+  in its first milestone's DoD** (proves the seams between fragment tests hold) —
+  *ration their gate-time* (A17). This lives here, **always-loaded**, on purpose:
+  it's a rule that must fire every time, so it does **not** live only in the
+  opt-in [`tdd` skill](.claude/skills/tdd/SKILL.md) (which stays the deep
+  red→green→refactor *procedure* this bullet points to — a standing rule buried in
+  a never-invoked skill doesn't fire).
 - **Single source of truth — generate, don't duplicate.** Anything derivable
   from the game's data (balance tables, content lists) is **generated** into
   `docs/`, never hand-maintained twice.
