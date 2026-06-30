@@ -91,23 +91,23 @@ WALKABLE map** (decision #23). DEV tools throughout: a **2×/4×/8× speed toggl
 (decision #16, stripped from prod) and a **dev save-wipe** on the reshape schema bump (decision #15). Ends at
 the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #14).
 
-### T0-M1 — Waking on the estate *(the hook)* — mostly ✅ + a 🆕 juice/onboarding pass
+### T0-M1 — Waking on the estate *(the hook)* — ✅ shipped (v0.3)
 | Fun-slice | Status | The fun | DoD |
 |---|---|---|---|
 | **T0-M1-F1** Cold open & first rake | ✅ | the woodblock cold-open hook; log cascades in | first-interactable <5s; rake → koku ticks → log line |
 | **T0-M1-F2** Labour loop + estate inks in (R0→R2) | ✅ | numbers climb, nav/rooms reveal one-per-beat | R0→R2 AND-gate; reveal stagger; G-NO-DEAD-VALUES |
-| **T0-M1-F3** 🆕 **Meet your mentor (diegetic onboarding opens)** | 🆕 | an in-world character greets you and teaches the labour loop as *story*, not a tooltip — adds a face to the estate | the labour mentor (**Genemon**, of the domain-split cast — Kihei teaches arms in T1-M2-F2, Sōan healing) greets you; dialogue is **data-not-script** (D-039); teaches by reveal-as-plot, **non-hand-holdy — no hint popups** (#17, D-015); **DIVERGE** on the dialogue panel |
-| **T0-M1-F4** 🆕 **Juice + dev-tools pass — minimal SFX + speed/teleport** | 🆕 | per-deed hit cue, koku tally-flash, rank-up flourish — *the biggest remaining fun lever, lands BEFORE the R1 taste call* (#2) | **traditional-palette SFX** (#12 — taiko / shamisen-koto / shakuhachi / temple-bell 鈴; synth Web Audio, reduced-motion/mute-safe); DEV **speed toggle + jump-to-rung/tier teleport** (#16) gated out of prod; **DIVERGE** if any new surface |
+| **T0-M1-F3** **Meet your mentor (diegetic onboarding opens)** | ✅ | an in-world character greets you and teaches the labour loop as *story*, not a tooltip — adds a face to the estate | the labour mentor (**Genemon**, of the domain-split cast — Kihei teaches arms in T1-M2-F2, Sōan healing) greets you; dialogue is **data-not-script** (D-039); teaches by reveal-as-plot, **non-hand-holdy — no hint popups** (#17, D-015); **DIVERGE** on the dialogue panel |
+| **T0-M1-F4** **Juice + dev-tools pass — minimal SFX + speed/teleport** | ✅ | per-deed hit cue, koku tally-flash, rank-up flourish — *the biggest remaining fun lever* (#2) | **traditional-palette SFX** (#12 — taiko / shamisen-koto / shakuhachi / temple-bell 鈴; synth Web Audio, reduced-motion/mute-safe); DEV **speed toggle + jump-to-rung/tier teleport** (#16) gated out of prod; **DIVERGE** if any new surface |
 
-### T0-M2 — First blood *(the humbling)* — ✅ + a 🔧 retune pass
+### T0-M2 — First blood *(the humbling)* — ✅ shipped (v0.3); combat reworked *further* in v0.3.1 (D-076)
 | Fun-slice | Status | The fun | DoD |
 |---|---|---|---|
 | **T0-M2-F1** Grain-store wolf, combat goes live @R3 | ✅ | the humbling, *winnable* first fight | first-fight **20–35% single-fight win-rate** (signed band kept, decision #5); G-CURVE; DISPLAYED==TESTED |
-| **T0-M2-F2** Gear, durability & the found/crafted 2nd weapon | ✅/🔧 | equip choices; repair tension; *earn*, never gifted | graded durability; repair wood-sink; **2nd weapon → found/crafted via a loot→craft loop** (retires the grant; **this is the D-052 showcase "one craftable" taste**); **DIVERGE** on the craft panel |
-| **T0-M2-F3** 🔧 **Combat becomes a real decision** | 🔧 | HP-carry makes defensive stances matter; eat-to-heal couples food↔combat | **HP carries + heals by eating** (D-050); **NO-STANCE-DOMINATED** test (replace the dominance-enshrining test); touch-legible wear axis + stance/training reveal beat; combat SFX |
-| **T0-M2-F4** 🔧 Keep the bite, within guardrails | 🔧 | **humbling, not punishing** — the friction *stays* (#13), it just can't strand you | DO **not** smooth the durability/satiety bite (#13 revises the audit's "tame friction"); guardrails: winnable · soft-setback only · no permanent loss · no dead-ends; keep the **"fresh-L1-no-wood reaches L2 before Broken"** no-stranding test |
+| **T0-M2-F2** Gear, durability & the found/crafted 2nd weapon | ✅ | equip choices; repair tension; *earn*, never gifted | graded durability; repair wood-sink; **2nd weapon → found/crafted via a loot→craft loop** (retires the grant; **this is the D-052 showcase "one craftable" taste**); **DIVERGE** on the craft panel |
+| **T0-M2-F3** **Combat becomes a real decision** | ✅ | HP-carry makes defensive stances matter; eat-to-heal couples food↔combat | **HP carries + heals by eating** (D-050); **NO-STANCE-DOMINATED** test (replace the dominance-enshrining test); touch-legible wear axis + stance/training reveal beat; combat SFX. *(v0.3.1 D-076 supersedes the auto-heal model → HP-attrition, no auto-heal, 0 HP = loss stops autopilot.)* |
+| **T0-M2-F4** Keep the bite, within guardrails | ✅ | **humbling, not punishing** — the friction *stays* (#13), it just can't strand you | DO **not** smooth the durability/satiety bite (#13 revises the audit's "tame friction"); guardrails: winnable · soft-setback only · no permanent loss · no dead-ends; keep the **"fresh-L1-no-wood reaches L2 before Broken"** no-stranding test |
 
-### T0-M3 — The spine awakens *(the macro engine — ONE pillar)* — 🆕 **(the audit's #1 item; BUILT FIRST)**
+### T0-M3 — The spine awakens *(the macro engine — ONE pillar)* — ✅ shipped (v0.3; the macro spine closes — the audit's #1 item, delivered)
 *The first proof the tier vision closes a loop; the **de-risking spike, built on MINIMAL content** (decision #18) before the M4 breadth. The demo's first new beat = the spine landing.*
 | Fun-slice | The fun | DoD |
 |---|---|---|
@@ -115,7 +115,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | **T0-M3-F2** The seasonal judged result | the season turns and *judges* your house — a high-water payoff beat | `onSeasonBoundary` fires on **new high-water only**, ±10% via a day-keyed named RNG sub-stream; **70/30** deeds/seasonal |
 | **T0-M3-F3** Graduate the tutorial → **the BIG ceremonial T0→T1** | a **manual opt-in ascension story event** that **always lands BIG on first contact** (#14, **NQ-1 = full ceremony in this DoD**) — title card, macro silhouettes stir, music swell, a **dream/mystery beat** (D-055), the grade-scaled boon revealed | hybrid gate (**T0 = EXCELLENT**); overshoot → better permanent boon (D-049); `tier` 0→1 stored (**D-013a**; enum 0..5 per D-048); grade-scaled reward bundle; **first SCHEMA_VERSION bump → dev save-WIPE (#15)** + the real `migrate()` path **built + test-covered before launch** (not run across dev churn); **DIVERGE** on the ascension surface |
 
-### T0-M4 — The showcase in miniature *(the breadth taste — fills R4→R7 around the proven spine)* — 🆕
+### T0-M4 — The showcase in miniature *(the breadth taste — fills R4→R7 around the proven spine)* — ✅ shipped (v0.3); koku tightened *further* in v0.3.1 (D-077)
 *D-052: a tiny taste of every system so a genre-literate player sees the whole game's shape early — built **after** the M3 spine spike proves the loop.*
 | Fun-slice | The fun | DoD |
 |---|---|---|

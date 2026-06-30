@@ -84,6 +84,15 @@ build (R2) and fixed:
   `philosophy/` + `plans/` + `sfx-spec.md`; build state M0–M2b → **v0.3 T0 M0–M4**;
   content `t0`→`t0/t1/t2`.
 
+## 4 · Roadmap status flips
+
+The roadmap still marked the whole shipped T0 arc as 🆕/🔧. Flipped the
+v0.3-shipped slices to **✅**: T0-M1 (F3/F4 + header), T0-M2 (F2/F3/F4 + header),
+T0-M3 header (the macro spine closes — the audit's #1 item), T0-M4 header. Noted
+that **combat (D-076) and koku (D-077) get further v0.3.1 rework** — the 🔧 markers
+denoted the reshape-retune (shipped), not that rework. (The "M0–M2b carry-forward"
+notes at :58/:76 are accurate history — left as-is.)
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);
