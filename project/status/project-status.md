@@ -265,6 +265,14 @@ metadata:
   task list** — a `next-tasks.md` queue was tried then rejected as one-more-file-to-maintain. Documented in
   AGENTS.md "Session start". Commits `d554db3` + the checkpoint; journal
   `2026-06-30-session-26-session-brief-autonomous-tasks.md`.
+- **Phase update — SESSION-BRIEF MADE FAST & LEAN (2026-06-30, session-28).** Live human feedback: a cold start
+  was ~27s and the brief padded one plan into three "tasks". The script itself runs in **0.11s** — the cost was
+  the *agent* reading the 293-line snapshot + the active plan + running full `verify`, all nudged by the brief's
+  "investigate… propose up to 3… verify against git" wording. Reworded `session-brief.sh` + AGENTS.md "Session
+  start": **"up to 3" is now a cap for genuinely-parallel work, not a quota** (often just the one active plan;
+  don't split one plan's steps into three), and an explicit **≤5s budget** — brief from the hook output + a peek
+  at the active plan's Status line, **defer** the verify-against-git check to when the work is picked up. Commit
+  `b05e7ea`, docs-only; journal `2026-06-30-session-28-session-brief-speedup.md`.
 - **How to resume:**
   1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-23-r4-decisions-and-conventions.md`)
      + the **R4 decision capture** (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`) + the active
