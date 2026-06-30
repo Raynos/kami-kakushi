@@ -154,7 +154,7 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 
 > 🔁 **Amended.** "single autosave" → multi-backend redundant save (**D-030**) + crash-recovery ring (**D-044**)
 > + dev-save wipe (**D-067**); the "no asset pipeline" art claim is refined by **D-018/D-041** (bundled OFL fonts
-> + inline-SVG motifs). Active-only is reaffirmed by D-053. Core stack + pure-core + IndexedDB hold.
+> + inline-SVG motifs). Active-only is reaffirmed by **D-079** (which corrects D-053's wall-time wording to active-only-**pause**). Core stack + pure-core + IndexedDB hold.
 - **created_date:** 2026-06-25
 - **Context:** Need to lock the stack, save strategy, time model, and presentation for a static, backend-free single-player browser game.
 - **Options:** Framework vs. vanilla; localStorage vs. IndexedDB save; offline progress vs. active-only; hover-rich desktop vs. responsive desktop+mobile.
@@ -442,11 +442,17 @@ the §4 balance magnitudes stay liquid (re-derive at Ship-M1-F2, D-059).
 - **Why:** Showing the full game's shape early hooks genre-literate players (they perceive the horizon) without front-loading the build; T1 then has real new toys. The **found/crafted** weapon retires the v0.1 "gifted axe" complaint.
 - **Consequences:** The T0/T1 rung+content split (**R0→R7 tutorial**; **~8 T1 rungs ≈ R8→R15**) — *provisional* per the freeze. Resolves **H5**; the axe-gift becomes found/crafted (supersedes the M2b stand-in). prd.md **§5** (T0/T1 content), **§1.7** (breadth promises). **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
-### D-053 ✅ — Active-only "leave it running" = wall-time simulation (do NOT pause on `document.hidden`)
+### D-053 ⚠️ — Active-only "leave it running" = wall-time simulation (do NOT pause on `document.hidden`) — SUPERSEDED (clock model) by D-079
+> 🔁 **SUPERSEDED on the clock model by D-079 (2026-06-30).** ⚠️ This ADR's Decision below
+> **describes the OPPOSITE of what shipped** — a textbook "a signed ADR is a *claim to verify*, not
+> proof" (A12). The build is **active-only-PAUSE**: the sim **pauses on `document.hidden`**, with **no**
+> offline/background wall-time catch-up (`src/app/main.ts:174-176`). **D-079 is the live authority.** The
+> genre's "leave it running" feel is delivered by **tab-open auto-repeat while the tab is open & visible**
+> (FU23), not by wall-time catch-up. The original text is kept (struck) below as append-only history.
 - **created_date:** 2026-06-28
 - **Context:** **H6** — active-only / no-offline is locked (**FU23**). The human clarified the *intent*: active-only must still support **"leave it running"** — leave the game open in a browser window, do other things, return to find it kept doing the action. The only distinction from "offline" is the **window/tab must stay open**.
 - **Options:** (A) **keep active-only** · (B) add a capped while-away tick · (C) decide later. *Technical:* pause-on-hidden vs **wall-time catch-up**.
-- **Decision:** **Keep active-only (A)** — **no progress when the game is CLOSED**. But the simulation must **advance by elapsed wall-time** (delta-time accumulation) so a backgrounded/throttled tab **catches up** on its next tick. **Do NOT pause the sim on `document.hidden`.** (Keep the autosave dirty-guard, but it must **not** gate the simulation.)
+- **Decision:** ~~Keep active-only (A) — no progress when the game is CLOSED. But the simulation must **advance by elapsed wall-time** (delta-time accumulation) so a backgrounded/throttled tab **catches up** on its next tick. **Do NOT pause the sim on `document.hidden`.** (Keep the autosave dirty-guard, but it must **not** gate the simulation.)~~ **[SUPERSEDED by D-079 — see banner above.** The shipped model is **active-only-PAUSE**: pause on `document.hidden`, **no** wall-time catch-up. The kept parts: active-only (no progress when CLOSED) and the autosave dirty-guard both still hold.]
 - **Why:** "Leave it running" is the genre's idle fantasy and is honored *without* offline simulation as long as the tab is open; the only engineering requirement is that Chrome's background-tab timer throttling not **lose** time — solved by ticking on **real elapsed time** rather than assuming a steady cadence.
 - **Consequences:** REVISES the v0.1 report's "add a `document.hidden` guard to autosave" — keep the autosave guard, but the **tick loop catches up elapsed time when hidden**. `app/main.ts` computes `dt` from wall-clock + a covering test. Honors **FU23**. prd.md **§6.10 / the clock**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 

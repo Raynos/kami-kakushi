@@ -47,8 +47,9 @@
   T0 = EXCELLENT; overshoot → permanent boon); each ascension un-greys the **next, still-unnamed** silhouette
   (D-055); **HP carries + heals by eating** (D-050); **koku compounding estate-upgrade flywheel** (D-051);
   **T0 = showcase-in-miniature** (D-052); **active pillar + locked silhouettes** + a **dream beat every tier**;
-  **wall-time "leave-it-running" clock** (D-053 — sim advances by elapsed wall-time, no pause on
-  `document.hidden`); **milestone-integrity** (D-054 — a milestone is SHIPPED only when every DoD line is met
+  **active-only "leave-it-running" clock** (D-079 — the sim **pauses on `document.hidden`**, no
+  offline/background catch-up; the "leave it running" feel comes from tab-open auto-repeat while visible);
+  **milestone-integrity** (D-054 — a milestone is SHIPPED only when every DoD line is met
   *or* ADR-amended before the commit; the CI manifest check asserts every named instrument resolves to a real
   test/tool; bans "SHIPPED (slice)").
 
@@ -282,8 +283,9 @@ bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** rel
 - **Save policy** (decisions #15, D-013a, D-067): **wipe dev/v0.2 saves on the reshape schema bump**
   (pre-launch, no users); build + test-cover the real `migrate()` path **before launch** (the consolidated
   exercise is **Ship-M2-F1**), not across dev churn. D-013a forward-migration still governs shipped saves.
-- **Wall-time "leave-it-running" clock** (D-053): the sim advances by **elapsed wall-time**; do **not** pause on
-  `document.hidden` — the genre's "leave it running" fantasy (§1.1). A behaviour every tier's clock inherits.
+- **Active-only "leave-it-running" clock** (D-079): the sim **pauses on `document.hidden`** (no
+  offline/background catch-up); the genre's "leave it running" fantasy (§1.1) comes from **tab-open
+  auto-repeat while the tab is visible**. A behaviour every tier's clock inherits.
 - **Milestone-integrity** (D-054): a milestone is SHIPPED only when **every DoD line is met OR ADR-amended
   before the commit**; a **CI manifest check** asserts every instrument a DoD names resolves to a real
   test/tool (bans "SHIPPED (slice)"). The per-milestone verify-green gate is the lighter, per-commit half;

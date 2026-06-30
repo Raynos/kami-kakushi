@@ -51,6 +51,18 @@ Castle-town · T5 Edo):
 the new T1 row in the §1.11 antagonist table (reconstructed from §1.6.3 + §3 canon,
 not invented). Verified completeness with a residual-old-numbering grep (clean).
 
+## 2 · Active-only clock cluster (D-079)
+
+The D-079 active-only decision hadn't propagated. Fixed:
+- `decisions.md` — **D-053 superseded append-only** (a banner + strikethrough of
+  the wrong wall-time Decision → forward-pointer to D-079; the original kept as
+  history). This was the literal "an ADR is a claim to verify" (A12) case — D-053
+  described the opposite of the shipped `main.ts:174-176`. Fixed the live :157
+  cross-ref to cite D-079.
+- `roadmap.md` — both clock lines (§ and per-tier) wall-time→**active-only-pause**.
+- v0.3.1 plan **Step 6 marked DONE** + corrected the line-ref (`main.ts:174-176`,
+  not :205 — the comment already reads correctly, so code side was a confirm).
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);
