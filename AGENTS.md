@@ -284,9 +284,11 @@ Full version:
   [mattpocock/skills](https://github.com/mattpocock/skills)), `diverge` (FULL
   2–3 working UI variants live behind a DEV-panel toggle → self-pick + a
   per-variant R-item; zero PROD flag-debt; mandatory for new/major UI
-  surfaces — D-075 v2), and `handoff`
+  surfaces — D-075 v2), `handoff`
   (compact the session into a `/handoff` doc for a fresh agent to resume;
-  adopted ~1:1).
+  adopted ~1:1), and `prepare-to-exit` (the runnable form of the **checkpoint
+  ritual** — commit own work → journal → snapshot → push `main` → confirm clean;
+  user-invoked only via `/prepare-to-exit`).
 
 ## AI Commit Attribution (Required)
 
