@@ -398,7 +398,8 @@ reshaped the tier spine and resolved the open H-items. Full intent record:
 **[`2026-06-28-tier-reshape.md`](../../project/human-feedback/2026-06-28-tier-reshape.md)**. These 8 ADRs are **LOCKED
 canon** (governing per **D-022**). **✅ Applied to `prd.md` / the living docs 2026-06-29 (session-15)** — the PRD
 body is no longer 5-tier-stale. The **code** application is the Part-2 v0.3 build (tracked in
-**[`docs/plans/2026-06-29-path-to-v0.3.md`](../plans/2026-06-29-path-to-v0.3.md)** Part 2 + the living roadmap);
+**[`project/archive/2026-06-29-path-to-v0.3.md`](../../project/archive/2026-06-29-path-to-v0.3.md)** Part 2 — now
+ARCHIVED, the v0.3 build is done — + the living roadmap);
 the §4 balance magnitudes stay liquid (re-derive at Ship-M1-F2, D-059).
 
 ### D-048 ✅ — Split the Estate into two tiers: the 6-tier reshape (T0 tutorial + T1 full estate)
