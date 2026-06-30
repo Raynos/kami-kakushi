@@ -660,3 +660,31 @@ design ADR.
 - **Decision:** **(B), refining D-073.** Every new/major UI surface still gets **FULL 2–3 working variants** — **"diverge-LITE" is RETIRED** (no single-idea shortcut, no buggy variants shipped). Variants now live **in the codebase**, switchable at runtime via a **DEV panel** (DEV-only, `import.meta.env.DEV`, stripped from prod) — the human reviews them **live in the running UI**. **Each variant in the codebase = its own line item in `human-in-the-loop/review.md`** (reviewed/picked per variant via the toggle). The agent still self-picks a coherent prod default; the toggle keeps the alternates for review until the human confirms.
 - **Why:** The human reviews taste by *seeing it move*, not via screenshots; the shared working tree also makes D-073's `diverge/<surface>` branch-switching unsafe (v0.3 already fell back to folder/screenshot preservation). DEV-only variants give live A/B with **zero PROD flag-debt** (prod ships only the default).
 - **Consequences:** **REFINES D-073** (annotated there): branch-preservation → in-codebase DEV-toggle; "zero main flag-debt" → "zero **PROD** flag-debt" (DEV carries the toggles). Build a **DEV panel** (the speed toggle + teleports + the variant switches). Update the `diverge` SKILL.md (kill LITE; add the panel + per-variant review item), the variants-log, CLAUDE.md, and review.md. Per **D-022**, governs.
+
+### D-076 ✅ — Combat is HP-attrition; NO auto-heal; a lost fight stops autopilot (R4#3)
+- **created_date:** 2026-06-30
+- **Context:** v0.3 auto-combat auto-heals between fights + only fights the matchup you pick, so the D-050 "a fight you might lose" tension became background maintenance (battery MAJOR / R4#3).
+- **Decision:** A fight is a visible **HP-attrition exchange** — you attack, the enemy attacks back, both lose HP until one reaches **0 = death**. The auto-loop must **NOT auto-heal** (remove the `main.ts` HP-management). Reaching **0 HP = a lost fight**, and a loss **stops auto-combat** (no grinding at the floor). Eating is still the only mend (D-050), now a real pre-fight decision.
+- **Why:** Verbatim human direction; restores the stakes — combat is something you can lose, and you must choose to heal (eat) before risking a fight. Supersedes the v0.3 auto-heal loop.
+- **Consequences:** Rework `fight.ts` (ensure the attrition model is legible) + the `main.ts` auto-loop (drop auto-heal; stop autopilot on a loss). Re-bless playcheck/pacing if the win-curve shifts. Per **D-022**, governs.
+
+### D-077 ✅ — Standing/pillars are DEED-based (never wealth); koku is a tight, sink-heavy economy (R4#6)
+- **created_date:** 2026-06-30
+- **Context:** v0.3's estate deed is a flat per-act value (good) but koku has too few sinks (~1378 lifetime) and surplus materials pile up; the battery asked whether to couple wealth→standing. The human said NO.
+- **Decision:** **Standing and the House-Influence pillars stay purely DEED-based** (earned by actions) — **never** coupled to koku/wealth. Separately, **koku is a deliberately tight economy: always more sink opportunity than income**, so the player is **not rich until T5**. (This reframes "koku runs dry / surplus materials" as INTENDED — add more sinks so koku is always worth spending.)
+- **Why:** Verbatim human direction; keeps the moral/perseverance spine (you rise by deeds, not by getting rich) and makes koku a meaningful constrained resource through T0–T4.
+- **Consequences:** Do NOT add a koku→deed commission. Add koku sinks (a second craft recipe / material-funded repair / upgrades / market depth) + retune income vs. sinks so net koku stays low. Reaffirm the no-wealth-coupling in the pillar/ascension code (already true). Re-derive at the balance gate (liquid, D-059). Per **D-022**, governs.
+
+### D-078 ✅ — At least one breadth surface is LOAD-BEARING; first = a map node gating a deed/yield (R4#5)
+- **created_date:** 2026-06-30
+- **Context:** v0.3's map gates nothing mechanically, the lone quest + market are one-time reveals (battery "breadth-as-chrome" / R4#5). The human chose to fund ≥1 load-bearing surface, starting with the map.
+- **Decision:** T0 breadth is **not pure chrome** — **≥1 surface carries mechanical weight**. **First: a map node gates a deed source or a better yield** (walking there unlocks it), tying the **map to standing via deeds** (per D-077, not koku). Others (quest branch, etc.) can follow.
+- **Why:** Human direction; gives the map a real reason to exist + a first taste of place-gated progression. Consistent with D-077 (deed-based standing).
+- **Consequences:** Add a deed/yield gated on a map node (`content/map.ts` + the labour/deed path). The post-ascension stale-panel (R4#5-adjacent) is folded into the breadth/after-state work. Per **D-022**, governs.
+
+### D-079 ✅ — The sim is ACTIVE-ONLY (pause on hidden); resolves the D-053 contradiction (R4#1)
+- **created_date:** 2026-06-30
+- **Context:** D-053 (decisions.md) read as "advance by wall-time, a hidden tab catches up" in one place and "reaffirms active-only" in another; the code pauses on `document.hidden`. A signed lock pulled apart from itself + the build (battery MAJOR / R4#1).
+- **Decision:** **Active-only is canon** — the sim **pauses on `document.hidden`**, NO offline/background catch-up. The code is correct; the contradictory D-053 wording is what's fixed. Consistent with D-013 (active-only, "growth only through perseverance").
+- **Why:** Human direction; the active-only pillar is core (you must be playing). No code change — a documentation fix.
+- **Consequences:** Annotate/fix D-053's text to read active-only-pause (drop the "wall-time catch-up" phrasing). No code change. Per **D-022**, governs.
