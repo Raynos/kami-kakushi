@@ -8,19 +8,10 @@
 
 ## TODO
 
-- [x] **Why GitHub shows `claude` as a committer — RESOLVED (going forward).** Cause: the
-  `Co-Authored-By: Claude …` trailer (a harness default), which GitHub renders as a co-author; the
-  real git committer was always you. Switched to an `Assisted-by:` trailer, enforced by
-  `.githooks/commit-msg`. *Residual decision:* whether to rewrite history to strip the old
-  `Co-Authored-By` trailers from past commits (force-push) — folds into the item below.
 - [ ] **Consider removing the raw JSON dumps from git history** — the verbatim `Workflow`-output
   snapshots in `project/brainstorms/raw/` bloat the repo; weigh a history rewrite (e.g.
-  `git filter-repo`) vs. leaving them, given the shared-tree / remote constraints. *(Could be
-  bundled with stripping the old `Co-Authored-By` trailers in the same rewrite.)*
-- [x] **Commit-message best practices — DONE.** Standardized on Conventional-Commits subjects +
-  the 50/72 body rule + the required `Assisted-by:` trailer, captured in
-  `.claude/rules/commit-message-style.md` (+ CLAUDE.md). Review/tweak that rule if the style isn't
-  to taste.
+  `git filter-repo`) vs. leaving them, given the shared-tree / remote constraints. *(Bundle with
+  stripping the old `Co-Authored-By` trailers from past commits in the same rewrite.)*
 - [ ] **Consider moving `CLAUDE.md` to `AGENTS.md` if supported** — Claude Code reads `CLAUDE.md`,
   *not* `AGENTS.md`, but supports it via an `@AGENTS.md` import (or a `CLAUDE.md → AGENTS.md`
   symlink). Worth it only if other agents (Cursor/Codex/etc.) need to share the same instructions.
