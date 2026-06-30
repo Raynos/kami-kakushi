@@ -1,11 +1,21 @@
 # History rewrite — scrub raw JSON dumps + swap `Co-Authored-By` → `Assisted-by`
 
-**Status:** parked, planning-only. **Message-scope decided: Option A** (human,
-2026-06-30). Remaining go conditions before execution: (1) all other agents
-parked + fully pushed, (2) explicit human go for the force-push. Destructive +
-outward-facing — the force-push needs an explicit human go and is **not**
-covered by the routine-checkpoint standing approval. Tracked as the open TODO in
-`project/todo-human.md`.
+**Status: ✅ DONE — executed 2026-06-30** (Option A; human-approved force-push).
+Rewrote all 269 commits via `git filter-repo` in one pass: scrubbed 58
+`project/brainstorms/raw/*.json` blobs from all history and converted every AI
+`Co-Authored-By` trailer to `Assisted-by: Claude Code:claude-opus-4-8[…]`
+(194 `[1m]` + 55 plain, preserving the 1M-context distinction; prose mentions
+and untagged commits untouched). Force-pushed `c5e2a67…839f98d` to `origin/main`
+(pre-push gate green). `gh-pages` carried no dumps — left as-is.
+
+**Backups retained until all clones confirm healthy:** `backup/pre-rewrite-2026-06-30`
+branch + mirror clone at `../kami-kakushi-backup.git`.
+
+**Aftermath — every other clone must re-sync** (old SHAs are gone; no
+fast-forward across a rewrite): `git fetch origin && git reset --hard origin/main`.
+
+---
+_Original plan preserved below for the record._
 
 ## Goal
 
