@@ -9,6 +9,14 @@ metadata:
 
 > Keep this to one screen. Update it at the end of each session so a cold pickup is instant.
 
+- **Operating-philosophy register (session-26):** a 41-agent repo-wide mine → a human-curated **6-philosophy
+  register (R1–R6)** in [`../../docs/philosophy/`](../../docs/philosophy/README.md): R1 no-clock (D-080) ·
+  R2 verify-don't-trust · R3 done-is-earned-not-declared · R4 bias-to-motion · R5 if-it-isn't-fun-it-isn't-
+  finished · R6 if-a-player-can't-reach-it-it-doesn't-exist (ADRs **D-081–D-085**), each summarised in the
+  AGENTS.md `## Philosophy` section. Process/engineering items demoted to AGENTS.md (intent-is-canon,
+  repo-is-memory, highest-rung, …); game-canon stays in PRD/fun-factor. Provenance (full 30 + crosswalk):
+  `project/brainstorms/2026-06-30-operating-philosophies.md`.
+
 - **History rewrite (session-25):** all 269 commits on `main` rewritten via `git filter-repo` — scrubbed
   the 58 `project/brainstorms/raw/*.json` blobs from history + converted every AI `Co-Authored-By` trailer
   to `Assisted-by:` (force-pushed `c5e2a67…839f98d`). **Any separate clone must `git fetch && git reset

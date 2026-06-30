@@ -65,4 +65,9 @@ make-quality-structural, small-commits, good-citizen, pure-core, SSOT. Held out
 - The proposal doc (`…operating-philosophies.md`) still carries the full 30 + the
   crosswalk — keep it as the provenance record; `docs/philosophy/README.md` is the
   live register.
-- Landed locally; **not pushed** (no checkpoint requested).
+- Landed locally; pushed at the session-26 exit checkpoint (below).
+
+## Checkpoint (session-26 exit)
+Live snapshot (`project/status/project-status.md`) brought current with the R1–R6
+register. Pushing `main` — 3 commits: `9e6565d` (proposal), `edc1afc` (register),
+`fc1dfc3` (queue cleanup); plus this checkpoint commit.
