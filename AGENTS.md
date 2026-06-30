@@ -61,7 +61,8 @@ philosophy wins.**
   pacing, playcheck, md-links, …] run in **parallel** via `src/scripts/verify-run.ts`,
   comfortably under the soft 5s drift budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
-  `SKIP_VERIFY=1` for a docs-only commit, `SKIP_JOURNAL=1` for trivial commits).
+  `SKIP_VERIFY=1` to commit an isolated local change (e.g. docs-only),
+  `SKIP_JOURNAL=1` for trivial commits).
   A soft 5s **drift timer** warns (never blocks) as the gate slows;
   `npm run verify:budget` is the hard, on-demand budget check (D-072). Enable
   the hook once per clone: `git config core.hooksPath .githooks`.
@@ -78,9 +79,9 @@ philosophy wins.**
   current.)
 - **The session is disposable; the repo is the memory — leave it resumable.** If
   it isn't a committed file, it doesn't exist: all state lives in commits + the
-  `project/journal/` log (chronological — summary at top, entries appended at the
-  **bottom**) + `project/status/project-status.md` (the **live snapshot**) + the
-  task list, so a cold pickup or a context compaction never loses progress. The
+  `project/journal/` log + `project/status/project-status.md`, so a cold pickup
+  or a context compaction never loses progress (journal ordering + the
+  live-snapshot rule: see "Docs taxonomy" under Conventions). The
   record is **append-only & lossless** — supersede with a strikethrough + forward
   pointer, park don't cut, archive don't remove; the *why* always survives. **The
   one exception — and the reason the rule is stated carefully — is
@@ -347,9 +348,8 @@ Full version:
   [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start
   human-queue brief).
 - `project/journal/` — per-session chronological **LOG** (history, not live
-  state): **summary at top, entries appended at the BOTTOM (never prepend)**;
-  one file per session; the live snapshot is `project/status/project-status.md`.
-  See [`README`](project/journal/README.md) +
+  state); one file per session (ordering rule: see "Docs taxonomy" under
+  Conventions). See [`README`](project/journal/README.md) +
   [`_TEMPLATE.md`](project/journal/_TEMPLATE.md).
 - [`project/archive/`](project/archive) — superseded markdown docs kept for
   reference (archive, don't delete).
