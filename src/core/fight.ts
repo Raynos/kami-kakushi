@@ -76,44 +76,42 @@ export function applyGrindFight(state: GameState, mobId: MobId): GameState {
   next = applyRewards(next, { flags: [`mob-${mob.id}`, 'combat-blooded'] });
 
   if (result.won) {
+    const hpBefore = state.character.hp;
     next = setHp(next, result.mcHpLeft);
+    // loot→craft (D-052): roll the carcass drop FIRST (seeded LOOT stream, independent of the
+    // combat cursor) so it folds into the SINGLE summarised outcome line below.
+    const [drop, lootRng] = rollMaterialDrop(next.rng, mob.id);
+    next = { ...next, rng: lootRng };
+    const gained: Record<string, number> = { koku: mob.kokuReward };
+    if (drop) gained[drop.material] = drop.qty;
+    const lootStr = drop ? `, +${drop.qty} ${getMaterial(drop.material).label.toLowerCase()}` : '';
+    // SUMMARISED log (D-076 / batch-1 call 2): ONE outcome line per fight, carrying the HP swing
+    // + loot. The blow-by-blow is suppressed — the auto-grind fires this hundreds of times.
     next = applyRewards(next, {
-      resources: { koku: mob.kokuReward },
+      resources: gained,
       log: [
         {
           channel: 'combat',
-          text: `You fell the ${mob.label.toLowerCase()}. (+${mob.kokuReward} koku)`,
+          text: `You bring down the ${mob.label.toLowerCase()}. ✓ (HP ${hpBefore}→${result.mcHpLeft} · +${mob.kokuReward} koku${lootStr})`,
         },
       ],
     });
     next = gainCombatXp(next, mob.level * COMBAT_XP_K);
-    // loot→craft (D-052): strip crafting materials off the carcass through the seeded LOOT
-    // stream (independent of the combat cursor). The 2nd weapon is now FOUND + CRAFTED, never gifted.
-    const [drop, lootRng] = rollMaterialDrop(next.rng, mob.id);
-    next = { ...next, rng: lootRng };
-    if (drop) {
-      next = applyRewards(next, {
-        resources: { [drop.material]: drop.qty },
-        log: [
-          {
-            channel: 'combat',
-            text: `You strip ${drop.qty} ${getMaterial(drop.material).label.toLowerCase()} from the ${mob.label.toLowerCase()}.`,
-          },
-        ],
-      });
-    }
     // quest advance token — 'kill:<mob>' (D-037), e.g. 'kill:monkey' / 'kill:boar'.
     next = applyQuestEvent(next, `kill:${mob.id}`);
     next = advanceClock(next, FIGHT_TICKS);
   } else {
-    // soft setback (D-050/§4.6.6): you limp away at the HP floor — never losing a
-    // level/xp/gear — but you stay HURT. Recovery is a hot meal, not a free heal.
+    // soft setback (D-050/§4.6.6): you limp away at the HP floor — never losing a level/xp/gear.
+    // D-076: a lost fight STOPS the autopilot (autoCombat→null) — no auto-heal grind; you mend by
+    // hand (eat) and re-engage deliberately. The carried-resource loss penalty is added in 3c.
+    const hpBefore = state.character.hp;
     next = setHp(next, SETBACK_HP);
+    next = { ...next, autoCombat: null };
     next = applyRewards(next, {
       log: [
         {
           channel: 'combat',
-          text: `The ${mob.label.toLowerCase()} drives you back. You limp to safety, badly used — nothing lost but time, pride, and the strength in your limbs. Eat and mend before you take the field again.`,
+          text: `The ${mob.label.toLowerCase()} overcomes you; you limp home badly used. (HP ${hpBefore}→${SETBACK_HP}) Eat and mend before you take the field again.`,
         },
       ],
     });

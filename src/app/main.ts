@@ -13,8 +13,6 @@ import {
   getWeapon,
   durabilityBand,
   satietyMax,
-  hpMax,
-  isUnlocked,
   balance,
   type GameState,
   type Intent,
@@ -191,27 +189,10 @@ async function boot(): Promise<void> {
         dispatch({ type: 'rest' });
         return;
       }
-      // auto-manage HP (D-050: HP carries + heals ONLY by eating). A hurt fighter's win-rate
-      // craters, so mend before fighting: cook if greens are on hand, else forage for them; if
-      // you can do neither, STOP rather than feed a losing grind at low HP.
-      if (state.character.hp < hpMax(state) * balance.COMBAT_HEAL_FRAC) {
-        if (
-          isUnlocked(state, 'verb-cook') &&
-          (state.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
-        ) {
-          dispatch({ type: 'cook_meal' });
-          return;
-        }
-        const forage = availableLabours(state).find(
-          (l) => l.available && l.activity.id === 'forage_satoyama',
-        );
-        if (forage) {
-          dispatch({ type: 'do_activity', activityId: 'forage_satoyama' });
-          return;
-        }
-        dispatch({ type: 'set_auto_combat', mobId: null });
-        return;
-      }
+      // D-076: the auto-loop NO LONGER auto-heals. HP accumulates (D-050 — only eating mends),
+      // so a foe that deals ≥1 dmg grinds you down, and a LOST fight stops the autopilot (the
+      // reducer nulls autoCombat — see fight.ts). Healing is now a deliberate manual pre-fight
+      // choice. (The auto-retreat-@20% mode lands in Step 3d.)
       // auto-manage durability: a worn weapon's win-rate craters (Broken = ~0%), so an
       // unattended grind must not silently fight a broken blade forever. Repair when wood
       // allows; if Broken with no wood, STOP auto-combat rather than grind at ~0%.
