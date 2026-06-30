@@ -449,6 +449,9 @@ on three NEW v0.3 text elements (all on the `#e7d9bc` washi-shade panels, all un
 the kanji → deeper cinnabar #a82a18 (~4.8:1), the grade words → deep ochre/bronze (#855420 / #6d5212). The
 grade-bar FILL keeps the bright ochre/gold (a fill needs no text contrast), so the colour-coding stays vivid.
 **Re-audit → a11y 100** (back to the v0.2 standard); screenshot-verified the build still reads woodblock, not muddy.
+Also ran a **mobile** Lighthouse pass (device=mobile) — **a11y 100** both on the fresh-load shell (navigation) and
+at the rich Phase-2 breadth state (snapshot): no mobile tap-target or contrast failures. So a11y is **100 across
+desktop + mobile, shell + breadth panels**.
 (SEO 80 / agentic-browsing 50 are the other Lighthouse categories — out of a11y scope, irrelevant for an offline
 game.) ⚠ **Flagged for the human (R1):** these darken 3 colours the human saw in the R2 diverge — confirm or tune
 the exact shades. The R2 grade shots (`v03-qa-sweep/10–12`) were **re-captured** to the new colours (commit
