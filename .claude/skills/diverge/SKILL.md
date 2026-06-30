@@ -59,8 +59,10 @@ a *persistent* live test against evolving `main` — **hard-capped at 2 repo-wid
 
 These small pieces are built on the **first** real diverge (you can't test variant tooling with no variants):
 
-- `qa-shots.mjs` gains a `--variant` flag + `VITE_UI_VARIANT` env + a `__qa.setVariant('B')` hook — mirror the
-  existing `?balance` triple-channel (`src/app/main.ts` `resolveBootProfile`, DEV-gated).
+- `qa-shots.mjs` gains a `--variant` flag + `VITE_UI_VARIANT` env + a `__qa.setVariant('B')` hook — gate it
+  on `import.meta.env.DEV` and expose it via the existing `window.__qa` install in `src/app/main.ts`.
+  *(The old `?balance` / `resolveBootProfile` boot-channel this once mirrored was **retired by D-056** — don't
+  reuse it. The §3 references to it below are stale and flagged for the §§2-8 v0.3.1 DEV-panel rework.)*
 - `src/scripts/variant-gc.mjs` — the deterministic GC (the rote half of §4).
 - A **content-aware isolation guard** appended to `.githooks/pre-commit` — runs only when `src/ui/variants/**`
   or the resolver is staged; fails the commit if a `?variant=` literal or a `from '…/variants/'` import appears

@@ -93,6 +93,21 @@ that **combat (D-076) and koku (D-077) get further v0.3.1 rework** — the 🔧 
 denoted the reshape-retune (shipped), not that rework. (The "M0–M2b carry-forward"
 notes at :58/:76 are accurate history — left as-is.)
 
+## 5 · Lows + held edits + decisions A/B
+
+- **AGENTS.md** — dropped the stale "~1.7s" verify figure (lean on the 5s drift
+  budget); appended the **test-discipline enforcement** clarification (held edit:
+  milestone-integrity gate = the teeth; per-test RED-ability stays a norm — A11).
+- **decisions.md** — D-072 stale timing made drift-proof (don't hard-code a
+  figure); **D-088 consequence** gained the enforcement note (held edit).
+- **archive.md** — H8 dead link to the retired `pending-prd-changes.md` →
+  annotated "(ripple tracker retired 2026-06-29)".
+- **Decision B** — `working-agreements.md:18` gate roster: replaced the inline
+  6-gate list with a **pointer to `verify-run.ts`** (single source; can't re-drift).
+- **Decision A** — `diverge` §0:63: the dead `?balance`/`resolveBootProfile`
+  boot-channel (retired by D-056) → gate on `import.meta.env.DEV` + `__qa`; §3
+  refs flagged for the §§2-8 v0.3.1 rework.
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);

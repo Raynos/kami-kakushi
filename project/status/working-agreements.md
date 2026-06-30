@@ -14,9 +14,9 @@ in [`../docs/`](../../docs) (living docs, edited in place); per-fact memory here
 decisions are recorded as ADRs in [`../docs/living/decisions.md`](../../docs/living/decisions.md).
 
 **Commit gate:** keep the build working, and stage a `journal/` change every commit (enforced by
-`.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Gate every commit on `npm run verify`
-(tsc + eslint + prettier + vitest + verify-content + gen:docs --check), recorded in
-[project-status](project-status.md).
+`.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Gate every commit on `npm run verify` — the
+gate roster is owned by [`../../src/scripts/verify-run.ts`](../../src/scripts/verify-run.ts) (the single
+source of truth; **9 gates** today), so it can't drift here. Recorded in [project-status](project-status.md).
 
 **Autonomy:** pick the next task → build → verify → commit → journal → repeat. Stop and ask only for
 (1) decisions that change what the game *is*, and (2) outward-facing / hard-to-reverse actions (deploy,

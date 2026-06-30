@@ -24,7 +24,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H5 | Seed-breadth scope | Showcase-in-miniature; 2nd weapon found/crafted, not gifted | **D-052** | 2026-06-29 | [decision-session](../human-feedback/2026-06-29-decision-session.md) |
 | H6 | Active-only vs idle bar | Active-only; ~~wall-time catch-up (don't pause on hidden)~~ **⤴ REVERSED by D-079 (2026-06-30): active-only PAUSE on hidden** (the D-053 text is the fix) | **D-053** → **D-079** | 2026-06-29 | [decision-session](../human-feedback/2026-06-29-decision-session.md) |
 | H7 | `ship-gate` skill | **Don't build** — rides H10's defer; D-054 owns the policy | **D-070** | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
-| H8 | Split the 7k-line PRD | Split into `prd/§1…§7` (mechanical) — batched in the PRD ripple | _none (mechanical)_ — [pending-prd-changes](../status/pending-prd-changes.md) | 2026-06-29 | [decision-session](../human-feedback/2026-06-29-decision-session.md) |
+| H8 | Split the 7k-line PRD | Split into `prd/§1…§7` (mechanical) — batched in the PRD ripple | _none (mechanical)_ — *(ripple tracker retired 2026-06-29)* | 2026-06-29 | [decision-session](../human-feedback/2026-06-29-decision-session.md) |
 | H9 | `resolve-queue` skill | **Drop** — resolve decision queues by hand | **D-070** | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
 | H10 | Operating Model v2 | **Defer** the bundle; adopt the lean pre-commit gate ad hoc | **D-070** (defer) + **D-071** (gate) | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
 

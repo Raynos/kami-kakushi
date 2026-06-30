@@ -57,8 +57,9 @@ philosophy wins.**
 - **Many small commits, straight to the working branch.** Don't branch for
   routine work — committing as you go *is* the workflow. *(This overrides the
   generic "branch off main / commit only when asked" default.)* Each commit runs
-  the **full `npm run verify`** (~1.7s — its 9 gates [tsc, lint, tests, content,
-  pacing, playcheck, …] run in **parallel** via `src/scripts/verify-run.ts`) and
+  the **full `npm run verify`** (its 9 gates [tsc, lint, tests, content,
+  pacing, playcheck, …] run in **parallel** via `src/scripts/verify-run.ts`,
+  comfortably under the soft 5s drift budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
   `SKIP_VERIFY=1` for a docs-only commit, `SKIP_JOURNAL=1` for trivial commits).
   A soft 5s **drift timer** warns (never blocks) as the gate slows;
@@ -169,7 +170,10 @@ Full version:
   it's a rule that must fire every time, so it does **not** live only in the
   opt-in [`tdd` skill](.claude/skills/tdd/SKILL.md) (which stays the deep
   red→green→refactor *procedure* this bullet points to — a standing rule buried in
-  a never-invoked skill doesn't fire).
+  a never-invoked skill doesn't fire). **Enforcement (human, 2026-06-30):** the
+  *teeth* is the **milestone-integrity gate** (D-054, v0.3.1 Step 7 — every
+  DoD-named test must resolve to a real test); per-test RED-ability stays a **norm**,
+  deliberately **not** gated (a lint can't judge RED-ability without crying wolf — A11).
 - **Single source of truth — generate, don't duplicate.** Anything derivable
   from the game's data (balance tables, content lists) is **generated** into
   `docs/`, never hand-maintained twice. A **version label is a single-source
