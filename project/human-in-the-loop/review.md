@@ -56,7 +56,8 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   vermilion **家威** kanji at 3.2:1, and the gold **"Excellent 秀"** grade at 2.2:1). I **darkened just those text
   colours** to in-palette deeper tones (→ **a11y 100**, the v0.2 standard); the grade-bar fill stays bright gold.
   These touch hues you saw in the **R2** diverge — tell me if you want them lighter (and I'll find another way to
-  hit AA, e.g. a darker panel bg) or they're fine as-is. The gallery influence shots (10–12) predate this.
+  hit AA, e.g. a darker panel bg) or they're fine as-is. The R2 grade shots (`v03-qa-sweep/10–12`) are **re-captured**
+  to the new colours; the curated `v03-gallery/` tour shots predate it (cosmetic only — you'll see the live build in play).
 - **Verdict:** _(awaiting the human)_
 
 ### R2 🔲 — diverge pick: the live House-Influence panel (M2·6, D-073)

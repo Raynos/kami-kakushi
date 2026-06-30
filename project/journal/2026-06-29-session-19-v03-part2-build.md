@@ -451,7 +451,8 @@ grade-bar FILL keeps the bright ochre/gold (a fill needs no text contrast), so t
 **Re-audit → a11y 100** (back to the v0.2 standard); screenshot-verified the build still reads woodblock, not muddy.
 (SEO 80 / agentic-browsing 50 are the other Lighthouse categories — out of a11y scope, irrelevant for an offline
 game.) ⚠ **Flagged for the human (R1):** these darken 3 colours the human saw in the R2 diverge — confirm or tune
-the exact shades; the v0.3 gallery's influence shots (10–12) now show the pre-darken hues (cosmetically stale).
+the exact shades. The R2 grade shots (`v03-qa-sweep/10–12`) were **re-captured** to the new colours (commit
+`84621d0`); the curated `v03-gallery/` tour shots still predate it (cosmetic only).
 
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
