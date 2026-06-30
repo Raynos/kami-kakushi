@@ -643,7 +643,9 @@ h3 {
 .lock-hint {
   align-self: center;
   font-size: var(--fs-micro);
-  color: var(--ink-faint);
+  /* a11y (D-045): --ink-faint (#7a6c59) is only 3.65:1 on the washi-shade panels — fails WCAG AA.
+     A touch darker (~4.8:1) keeps the muted hierarchy but stays readable. Borders keep --ink-faint. */
+  color: #685b48;
 }
 
 /* ── skills pane ─────────────────────────────────────────────────────────── */
@@ -965,7 +967,9 @@ html {
   opacity: 0.78;
 }
 .house-influence-kanji {
-  color: var(--pillar-kai);
+  /* a11y (D-045): the vermilion --pillar-kai (#d7402c) is 3.23:1 on the washi-shade — fails AA.
+     A deeper cinnabar (~4.8:1) keeps the woodblock red but reads. */
+  color: #a82a18;
   font-family: var(--font-head);
 }
 .influence-row {
@@ -1102,14 +1106,17 @@ html {
   font-family: var(--font-head);
   letter-spacing: 0.04em;
 }
+/* a11y (D-045): the grade WORD must read on the washi-shade — the light ochre/gold accents fail
+   WCAG AA (gold was only 2.22:1), so the TEXT uses deeper in-palette tones. The grade-bar FILL keeps
+   the bright ochre/gold (a fill needs no text contrast), so the colour-coding stays vivid. */
 .grade-good {
-  color: var(--ochre);
+  color: #855420; /* deep ochre (~4.7:1) */
 }
 .grade-great {
   color: var(--ai);
 }
 .grade-excellent {
-  color: var(--gold);
+  color: #6d5212; /* deep bronze (~4.9:1) */
 }
 .grade-none {
   color: var(--ink-faint);

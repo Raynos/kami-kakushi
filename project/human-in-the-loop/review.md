@@ -51,6 +51,12 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   DEMO/REAL pacing fork is now **RETIRED** (M2·8 — R4#2 closed; the real ~5-min/~10–15-min pace is liquid, confirm
   the feel by playtest); diverge picks are **R2** (influence panel) +
   **R3** (breadth surfaces). The full battery judgment queue is **R4** (6 design/taste calls).
+- **⚠ a11y contrast darkening (confirm or tune the shades):** a Lighthouse audit found the new v0.3 panels at
+  **a11y 95** — 3 text colours failed WCAG AA contrast on the washi-shade panels (the muted market-grant text, the
+  vermilion **家威** kanji at 3.2:1, and the gold **"Excellent 秀"** grade at 2.2:1). I **darkened just those text
+  colours** to in-palette deeper tones (→ **a11y 100**, the v0.2 standard); the grade-bar fill stays bright gold.
+  These touch hues you saw in the **R2** diverge — tell me if you want them lighter (and I'll find another way to
+  hit AA, e.g. a darker panel bg) or they're fine as-is. The gallery influence shots (10–12) predate this.
 - **Verdict:** _(awaiting the human)_
 
 ### R2 🔲 — diverge pick: the live House-Influence panel (M2·6, D-073)

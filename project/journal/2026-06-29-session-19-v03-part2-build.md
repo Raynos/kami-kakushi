@@ -437,6 +437,22 @@ overlays both carry `role="status"` (announced to screen readers); kanji are `la
   `◆ ————` and gave the 🔒 an `aria-label` "A pillar yet to come (locked)", so a SR user hears the non-spoiled
   teaser (D-055) cleanly. verify GREEN.
 
+## 24 · OVERNIGHT — Lighthouse a11y measurement: 95 → 100 (contrast fixes)
+
+Ran an **authoritative Lighthouse a11y audit** (chrome-devtools MCP, snapshot mode at a rich Phase-2 Work-tab
+state — influence panel + market + Ascend CTA in the DOM). Initial **95** — one failing audit, **color-contrast**,
+on three NEW v0.3 text elements (all on the `#e7d9bc` washi-shade panels, all under WCAG AA's 4.5:1):
+- `.market-grant` muted text (the `--ink-faint` #7a6c59 token) — **3.65:1**.
+- `.house-influence-kanji` (家威, vermilion `--pillar-kai` #d7402c) — **3.23:1**.
+- `.grade-excellent` ("Excellent", `--gold` #b08d4f) — **2.22:1** (worst).
+**Fix (surgical — only the failing TEXT, not borders or the grade-bar fill):** `.lock-hint` → #685b48 (~4.8:1),
+the kanji → deeper cinnabar #a82a18 (~4.8:1), the grade words → deep ochre/bronze (#855420 / #6d5212). The
+grade-bar FILL keeps the bright ochre/gold (a fill needs no text contrast), so the colour-coding stays vivid.
+**Re-audit → a11y 100** (back to the v0.2 standard); screenshot-verified the build still reads woodblock, not muddy.
+(SEO 80 / agentic-browsing 50 are the other Lighthouse categories — out of a11y scope, irrelevant for an offline
+game.) ⚠ **Flagged for the human (R1):** these darken 3 colours the human saw in the R2 diverge — confirm or tune
+the exact shades; the v0.3 gallery's influence shots (10–12) now show the pre-darken hues (cosmetically stale).
+
 ## Landmines (current)
 - **P4 no-stranding is a real BUG, not just a missing test** — fresh-L1/no-wood strands at Broken before L2 on
   8/8 seeds. The retune (durabilityMax / wear / XP-gap / starting-wood) must make the property hold, not just
