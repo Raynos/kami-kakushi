@@ -27,3 +27,8 @@
     adopt (an `onboarding` battery lens, e2e+invariant tests per tier, "design the
     after-state of a payoff", RED-able tests from derived fixtures, re-audit-the-diff).
     Awaiting your read + a **pick-which-to-adopt** call (some become ADRs / battery lenses).
+- [ ] `project/brainstorms/2026-06-30-operating-philosophies.md` — *the unified 10 (a proposal)*
+  - A repo-wide mine (41-agent workflow) distilled 30 verified philosophies into the **10
+    most important operating philosophies** (unify + combine; nothing thrown away — full
+    crosswalk). Awaiting your **pick-which-to-formalize** call: which become
+    `docs/philosophy/*.md` next to `no-clock-no-shortcuts.md` (+ an ADR each).
