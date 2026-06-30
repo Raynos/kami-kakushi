@@ -8,9 +8,9 @@
 
 ## TODO
 
-- [ ] **Consider moving `CLAUDE.md` to `AGENTS.md` if supported** — Claude Code reads `CLAUDE.md`,
-  *not* `AGENTS.md`, but supports it via an `@AGENTS.md` import (or a `CLAUDE.md → AGENTS.md`
-  symlink). Worth it only if other agents (Cursor/Codex/etc.) need to share the same instructions.
+- [x] **Move `CLAUDE.md` to `AGENTS.md`** — done (`ebc5297`): the canonical file is now
+  `AGENTS.md`; `CLAUDE.md` is a one-line `@AGENTS.md` import stub so Claude Code still loads it,
+  and other agents (Cursor/Codex/etc.) can share the same instructions.
 
 ## Reading queue
 

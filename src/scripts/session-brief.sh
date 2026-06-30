@@ -49,7 +49,7 @@ add ""
 
 # --- Human TODO + reading queue: section-aware unticked checkboxes -------------
 if [[ -f "$HUMAN_TODO" ]]; then
-  add "### ✅ TODO — tasks awaiting the human"
+  add "### 📌 TODO — tasks awaiting the human"
   todo_items="$(section_items "$HUMAN_TODO" "TODO")"
   if [[ -n "$todo_items" ]]; then
     add "$todo_items"
