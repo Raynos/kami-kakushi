@@ -282,8 +282,16 @@ metadata:
   checkpoint ritual. Designed as **pure delegation**: it holds no copy of the steps, just reads
   `working-agreements.md → "Checkpoint"` live and runs it, so evolving the ritual is a one-file edit. Commits
   `3af676a` → `01e63e2`.
+- **Phase update — SESSION-BRIEF: ZERO-TOOL-CALL OPENING TURN (2026-06-30, session-30).** A cold start was still
+  timed at ~9s — over the ≤5s budget set in session-28. Root cause: the script runs in <0.1s; the cost was the
+  agent firing a needless `git status`/`git log`/grep round-trip *during* the opening relay, invited by the
+  brief's own "brief from THIS output **+ a peek at the active plan's Status line + the commits**" wording.
+  Reframed `session-brief.sh`: a prominent `⏱️` directive at the **top** of the brief — relay with **ZERO tool
+  calls**; everything (queue, reviews, commits, ▶️/✅ active-plan tag) is already inlined; defer verify-against-git
+  to when the work is picked up. Dropped the "+ a peek" wording from the next-work block. Commit `ef993cd`,
+  docs-only (`SKIP_JOURNAL`); journal `2026-06-30-session-30-brief-zero-tool-calls.md`.
 - **How to resume:**
-  1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-23-r4-decisions-and-conventions.md`)
+  1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-30-brief-zero-tool-calls.md`)
      + the **R4 decision capture** (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`) + the active
      **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (the v0.3.1 build — **human-APPROVED / greenlit, NOT
      started**). _(The v0.3 build
