@@ -8,6 +8,12 @@
 #   3. pending PRD changes (project/status/pending-prd-changes.md — locked canon not yet applied)
 #   4. open decisions     (project/human-in-the-loop/decisions.md — H-items)
 #   5. open reviews       (project/human-in-the-loop/review.md — R-items)
+# ...then a "what to DO next" nudge so a cold pickup knows where the work lives:
+#   6. next autonomous work — NOT a maintained list. Just points at the sources
+#      that are ALREADY kept current (the active plan(s), project-status.md, the
+#      latest journal) and asks the agent to synthesise up to 3 startable tasks
+#      in its opening relay. No new file to keep in sync; the script only names
+#      the current files so the agent doesn't have to hunt for them.
 #
 # Output goes to stdout, which the SessionStart hook injects into Claude's context
 # (so the agent can lead the session by relaying the brief). NOTE: a SessionStart
@@ -27,6 +33,10 @@ HUMAN_TODO="project/todo-human.md"
 PENDING_PRD="project/status/pending-prd-changes.md"
 DECISIONS="project/human-in-the-loop/decisions.md"
 REVIEWS="project/human-in-the-loop/review.md"
+PROJECT_STATUS="project/status/project-status.md"
+PLANS_DIR="docs/plans"
+JOURNAL_DIR="project/journal"
+ROADMAP="docs/living/roadmap.md"
 
 # Accumulate the whole brief into one buffer, then emit it to stdout at the end.
 BRIEF=""
@@ -97,6 +107,51 @@ add_open_items() {
 
 add_open_items "$DECISIONS" "🔀 Open decisions (H-items)"
 add_open_items "$REVIEWS" "👁️ Open reviews (R-items)"
+
+# --- What to DO next: an INVESTIGATION nudge, NOT a stored/parsed task list -----
+# We deliberately keep no "next tasks" file and compute no answer here — both would
+# rot and become one more thing to maintain. Instead the agent identifies the next
+# autonomous work itself, from the live project state (git history + the docs that
+# are already kept current), and VERIFIES rather than trusts: e.g. done plans linger
+# in docs/plans/ (they're not always archived), so file order is NOT "what's active"
+# — only each plan's own Status line is. This block just orients that investigation.
+add "## 🤖 Next autonomous work — investigate, then propose up to 3"
+add ""
+add "_No stored task list. **Audit the live project state and propose up to 3 startable autonomous tasks** in your opening relay. **Verify, don't trust** — cross-check the docs against git; skip human-gated items (playtests, taste calls, design decisions). Where the signal lives:_"
+add ""
+
+# Recent commits — the freshest "what just happened" (git is the source of truth).
+recent="$(git log --oneline -6 2>/dev/null || true)"
+if [[ -n "$recent" ]]; then
+  add "- 🔀 **Recent commits** (momentum — read more with \`git log\`):"
+  while IFS= read -r c; do add "  - $c"; done <<<"$recent"
+fi
+# Plans in docs/plans/ — tag each DONE-vs-active from its OWN status line, because
+# finished plans are not reliably archived (so "newest file" ≠ "active plan").
+if [[ -d "$PLANS_DIR" ]]; then
+  plans="$(ls -1 "$PLANS_DIR"/*.md 2>/dev/null | sort -r)"
+  if [[ -n "$plans" ]]; then
+    add "- 📐 **Plans in \`$PLANS_DIR\`** — open the *active* one for the sequenced steps (done plans linger here — trust the Status line, not the filename):"
+    while IFS= read -r p; do
+      sl="$(head -8 "$p" | grep -m1 -iE 'status' || true)"
+      if printf '%s' "$sl" | grep -qiE 'done|complete|shipped|✅'; then
+        add "  - ✅ \`$p\` — looks DONE (skip)"
+      else
+        add "  - ▶️ \`$p\` — maybe active (open it; confirm via Status + commits)"
+      fi
+    done <<<"$plans"
+  else
+    add "- 📐 **Plans:** _(none in \`$PLANS_DIR\` — use the roadmap below)_"
+  fi
+fi
+# The live snapshot — its "How to resume → Next, in order" block is the agenda.
+[[ -f "$PROJECT_STATUS" ]] && add "- 🧭 **Live snapshot** — the \"How to resume → Next, in order\" block: \`$PROJECT_STATUS\`"
+# The newest journal — the freshest "what just happened + next intended steps".
+latest_journal="$(ls -1 "$JOURNAL_DIR"/*.md 2>/dev/null | grep -Ev '/(README|_TEMPLATE)\.md$' | sort | tail -1)"
+[[ -n "$latest_journal" ]] && add "- 📓 **Latest journal** — its \"Next intended steps\": \`$latest_journal\`"
+# The milestone tracker — the wider horizon when the plans are exhausted.
+[[ -f "$ROADMAP" ]] && add "- 🗺️ **Roadmap** — the wider horizon (status legend ✅/🔧/🆕/⏳ → next 🆕/⏳ slice): \`$ROADMAP\`"
+add ""
 
 # Emit to stdout → injected into Claude's context by the SessionStart hook.
 printf '%s' "$BRIEF"
