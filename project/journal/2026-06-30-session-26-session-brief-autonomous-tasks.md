@@ -40,13 +40,15 @@ canon change.
   journal's "Next intended steps", and the roadmap. All paths are computed live
   (newest journal, plan list) so nothing rots; **no stored task list**. Header
   doc-comment updated (source #6). Reused the existing buffer/`add` style.
+  Commit `d554db3`.
+- `AGENTS.md` — "Session start" bullet now documents that the brief also nudges
+  next-autonomous-work (was human-queue-only), incl. the "trust the Status line,
+  not the filename" rule. Human asked to push + document.
 
 ## Next intended steps
-1. Get the human's read on the final brief shape; commit is local-only until
-   they're happy (this session iterated hard on the design).
-2. If they want it formalized, add a one-liner to AGENTS.md's "Session start"
-   bullet noting the brief now also nudges next-autonomous-work (currently it
-   only mentions the human queue).
+1. Pushed as a checkpoint (human asked). Done.
+2. The actual next autonomous work (per the brief itself): v0.3.1 build — but
+   the human paused me from starting it this session; awaits their go.
 
 ## Landmines
 - **Shared tree this session:** a concurrent agent landed `9a505e5`/`9b90d67`/

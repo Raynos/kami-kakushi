@@ -257,6 +257,14 @@ metadata:
   **23 process learnings the retrospective missed** — folded into `brainstorms/2026-06-30-v03-process-learnings.md`
   as an Addendum A1–A23 (`7ca6ac2`). Those 2 commits were **local-only at checkpoint** (a co-agent ran sessions
   24–26 in the shared tree — held the push; see resume step 0).
+- **Phase update — SESSION-BRIEF NUDGES NEXT AUTONOMOUS WORK (2026-06-30, session-26).**
+  `session-brief.sh` now appends a "🤖 Next autonomous work" section after the human queue: it surfaces the last
+  6 commits + lists `docs/plans/` tagged DONE/maybe-active **from each plan's own Status line** (done plans can
+  linger in `docs/plans/`, so trust the Status line, not the filename) + points at the live snapshot / latest
+  journal / roadmap, and asks the agent to **propose ≤3 startable tasks, verifying against git**. **No stored
+  task list** — a `next-tasks.md` queue was tried then rejected as one-more-file-to-maintain. Documented in
+  AGENTS.md "Session start". Commits `d554db3` + the checkpoint; journal
+  `2026-06-30-session-26-session-brief-autonomous-tasks.md`.
 - **How to resume:**
   1. Read the newest journal in `project/journal/` (latest: `2026-06-30-session-23-r4-decisions-and-conventions.md`)
      + the **R4 decision capture** (`project/human-feedback/2026-06-30-r4-playtest-decisions.md`) + the active
