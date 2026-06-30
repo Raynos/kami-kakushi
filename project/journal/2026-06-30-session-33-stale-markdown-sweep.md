@@ -163,6 +163,31 @@ ripple"). One §5 residual (05:650) folded in there.
 10-gate verify green after the fixes. The re-audit's only non-fix was the
 md-links gate's latent robustness gaps (zero triggers today — not a defect).
 
+## 8 · §4 partial relabel + the rest scheduled in v0.3.1 (human-steered)
+
+Human decisions (from the report's open items): **track the real version**
+(package.json `0.0.0`→**`0.3.0`**); **prd.md inbound links stay** (functional
+stub); **§1 T1 reconstruction signed off** (both pieces approved).
+
+On §4: scoped it and found it's **NOT a quick relabel** — 256 tier-refs, *mixed*
+old/new (§4.8 already 6-tier; §4.0/§4.1 old), and the Estate→T0+T1 split is
+**coupled** to the T1 *numbers* (which need the §4.8 floor re-derivation). Human's
+call: **relabel now + the full coupled re-derivation → the v0.3.1 plan.** Executed
+the safe, separable part:
+- **§4.0 magnitude/band table relabeled to 6-tier** — T0 keeps the tutorial ~21K
+  (it was already the new-T0 R0–R7 sum), **inserted a new T1 Estate-full row (TBD)**,
+  shifted Village→T2 / Region→T3 / Castle→T4 / Edo→T5.
+- **Banner rewritten** — the coupled §4 re-derivation (bands/floors/T1-split +
+  the bulk §4.1–4.7 bare-ref relabel) now points to the **v0.3.1 plan** (was
+  Ship-M1-F2); §4.8 already new; the rest reads old via the key until then.
+- **v0.3.1 plan Step 4 (koku)** gained the §4 re-derivation fold-in (it moves the
+  same balance numbers). Did NOT blanket-relabel the 443 bare-T-number balance math
+  (entangled with the numbers → the coupled v0.3.1 pass; a partial pass would make
+  worse hybrid tables).
+
+10-gate verify green. *(The open AGENTS.md edit + session-34 journal are another
+editor's WIP — left untouched per shared-tree safety.)*
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);

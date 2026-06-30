@@ -64,15 +64,18 @@
 > roster completes by end-of-T2 and **new-T3 Region = combat DEPTH, no new line** (§4.6.9); **(g)** cross-pillar
 > combos split into **PARTIAL Office-pairs at new-T2 + the FULL 4-pillar set at new-T3** (§4.3.1).
 >
-> **What re-derives LATER (Ship-M1-F2 — the §4 numbers stay LIQUID, D-059).** The **§4.0** magnitude table, the
-> **§4.1** good/great/excellent bands + revealed-pillar set, the **§4.2** deed/seasonal tie-outs, the **§4.8**
-> per-rung wall-clock tables + precise per-tier FLOORS, **and the post-v1 "T3+" labels** (auto-producers /
-> marriage-adoption / Castle-town / Edo) are a single **coupled balance re-derivation** that lands at
-> **Ship-M1-F2**: the **~28.5 h Phase-1 climb FLOOR re-derives across the 4 v1 tiers T0–T3** (provisional
-> starting floors **T1 ~5–8 h · T2 ~8–10 h · ≈40 min/rung**, fork #1/#5). **Until then those tables/labels below
-> still read in the OLD 3-tier numbering (T0 Estate / T1 Village / T2 Region; T3+ Castle-town/Edo) — map them
-> through this banner.** The **kanji**, the **20–35 % band**, **trade ≤⅓**, and the **70/30** deeds/seasonal
-> split are invariants and do **not** move.
+> **The full §4 6-tier ripple is scheduled in the [v0.3.1 build plan](../../plans/2026-06-30-v0.3.1-build.md)**
+> (moved here from Ship-M1-F2 by the human 2026-06-30, so it rides the v0.3.1 koku re-derivation, D-077). It is a
+> single **coupled balance re-derivation** — the **§4.1** bands + revealed-pillar set, the **§4.2** deed/seasonal
+> tie-outs, the **§4.8** per-rung FLOORS, the **post-v1 "T4+" labels** (auto-producers / marriage-adoption /
+> Castle-town / Edo), AND the **new T1 Estate-full band split** — coupled because the T1 split needs the per-tier
+> FLOORS that re-derive with it (provisional starts **T1 ~5–8 h · T2 ~8–10 h · ≈40 min/rung**, fork #1/#5; the
+> **~28.5 h Phase-1 floor re-derives across the 4 v1 tiers T0–T3**). **Done now (this ripple):** the **§4.0
+> magnitude table above is relabeled to the 6-tier spine** (T0 keeps the tutorial ~21K; new-T1 Estate-full band
+> = TBD; Village→T2 / Region→T3 / Castle→T4 / Edo→T5). **Still OLD-numbered until the v0.3.1 pass — map through
+> this key:** **§4.1 / §4.2 / §4.3–4.7** bare tier-refs read **old-3-tier (T0 Estate / T1 Village / T2 Region;
+> T3+ Castle-town/Edo)**; **§4.8 is already new-numbered**. The **kanji**, the **20–35 % band**, **trade ≤⅓**,
+> and the **70/30** deeds/seasonal split are invariants and do **not** move.
 
 ## How to read this section
 
@@ -116,11 +119,12 @@ the §4.8 throughput model (end-T0 *lifetime-produced* koku ≈ 21K; end-T0 *hel
 
 | Tier | koku band (lifetime-produced → held NET) | Influence-per-pillar band (display) | Typical single number the player sees |
 |---|---|---|---|
-| **T0 Estate** | tens → ~**21K** produced (~**18–19K** held NET) | 0 → ~**1.5K** ip | "**3.4K koku**", "**Arms 0.5K**" |
-| **T1 Village** | ~10K → ~**250K** produced | ~0.5K → ~**15K** ip | "**42K koku**", "**Estate 11K**" |
-| **T2 Region** | ~100K → low **M** | ~5K → ~**110K** ip | "**1.8M koku**", "**Office 78K**" |
-| **T3 Castle-town** *(stub)* | low **M** → ~**100M** | ~50K → ~**900K** ip | "**240M koku**", "**Name 900K**" |
-| **T4 Edo** *(roadmap)* | ~100M → low **B** | ~1M → ~**12M** ip | "**3.4B koku**", "**Name 11M**" |
+| **T0 Estate** *(tutorial, R0–R7)* | tens → ~**21K** produced (~**18–19K** held NET) | 0 → ~**1.5K** ip | "**3.4K koku**", "**Estate 1K**" |
+| **T1 Estate-full** *(R8–R15 — the net-new tier)* | **TBD — derives in the v0.3.1 §4 re-derivation** (full-estate Phase-1 + the first Arms/Estate Phase-2 deeds) | **TBD** | **TBD** |
+| **T2 Village** *(was T1)* | ~10K → ~**250K** produced | ~0.5K → ~**15K** ip | "**42K koku**", "**Estate 11K**" |
+| **T3 Region** *(was T2)* | ~100K → low **M** | ~5K → ~**110K** ip | "**1.8M koku**", "**Office 78K**" |
+| **T4 Castle-town** *(stub; was T3)* | low **M** → ~**100M** | ~50K → ~**900K** ip | "**240M koku**", "**Name 900K**" |
+| **T5 Edo** *(roadmap; was T4)* | ~100M → low **B** | ~1M → ~**12M** ip | "**3.4B koku**", "**Name 11M**" |
 
 **Lever:** the **per-tier multiplier `TIER_MAG = 10`** (the order-of-magnitude step) and the
 **intra-tier growth `r_intra = 1.15`** are the two master dials. The Influence bands still step ~**10×**
