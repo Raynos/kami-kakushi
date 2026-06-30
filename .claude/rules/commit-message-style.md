@@ -34,7 +34,7 @@ Assisted-by: AGENT_NAME:MODEL_VERSION
 - **Never** use `Co-Authored-By:` for AI agents (GitHub renders it as a co-author/committer), and
   **never** add emoji banners (e.g. `🤖 Generated with [Claude Code]`).
 
-Canonical spec: CLAUDE.md "AI Commit Attribution (Required)". **Enforced** by `.githooks/commit-msg`
+Canonical spec: AGENTS.md "AI Commit Attribution (Required)". **Enforced** by `.githooks/commit-msg`
 (a commit without a well-formed trailer is blocked; bypass a genuinely human commit with
 `SKIP_ATTRIB=1`).
 
