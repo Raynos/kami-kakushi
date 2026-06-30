@@ -264,9 +264,10 @@ Full version:
   its states), `battery` (run a multi-lens fresh-eyes stress-test battery over
   the spec/design/build), `tdd` (test-first authoring — red→green→refactor
   through the pure-core public contract; adopted ~1:1 from
-  [mattpocock/skills](https://github.com/mattpocock/skills)), `diverge` (2–3 UI
-  variants → contact sheet → self-pick + R-item; branch-preserved, zero `main`
-  flag-debt; mandatory for new/major UI surfaces — D-073), and `handoff`
+  [mattpocock/skills](https://github.com/mattpocock/skills)), `diverge` (FULL
+  2–3 working UI variants live behind a DEV-panel toggle → self-pick + a
+  per-variant R-item; zero PROD flag-debt; mandatory for new/major UI
+  surfaces — D-075 v2), and `handoff`
   (compact the session into a `/handoff` doc for a fresh agent to resume;
   adopted ~1:1).
 
