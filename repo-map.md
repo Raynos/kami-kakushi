@@ -44,7 +44,10 @@ always-loaded context while being editable on its own.
   (`docs/plans/`), a **brainstorm or retrospective put up for adoption**
   (`project/brainstorms/`), an **audit / battery report** or **changelog**
   (`project/audit/reports/`), or a **design doc awaiting a taste call**. Add it
-  **in the same commit you author it**; remove it when the human signs off. The
+  **in the same commit you author it**. **Sign-off is implicit and the agent owns
+  the cleanup (D-089):** the human never ticks these off — once they've read a
+  doc or it comes up in discussion, the agent removes it; `/prepare-to-exit`
+  reconciles the queue and asks the human to confirm uncertain removals. The
   test is *"do I need a human to read this?"* — raw discovery dumps /
   agent-internal notes don't qualify. A pre-commit **gate** enforces this only
   as high as each path *soundly* holds (so it never cries wolf): a new

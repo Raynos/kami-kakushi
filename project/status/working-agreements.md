@@ -41,10 +41,15 @@ confidence is the point.
 2. **Journal** — stage a `journal/` entry (the pre-commit gate requires it).
 3. **Live snapshot** — bring [`project-status.md`](project-status.md) current (it, not the journal, is the
    resume point).
-4. **Push `main`** — `git push origin main`. This fires the **pre-push gate** (`.githooks/pre-push`), which
+4. **Reconcile the human reading queue (D-089)** — in [`../todo-human.md`](../todo-human.md), clear any
+   reading-queue doc the human read or discussed this session (sign-off is **implicit**; they never tick
+   manually — the agent owns the cleanup). When run **interactively** (e.g. `/prepare-to-exit`), present the
+   remaining queue and ask via **AskUserQuestion** which to sign off / remove; in an **autonomous** checkpoint
+   (no human to answer), clear only the clearly-engaged docs and leave the rest. Commit the edit with your work.
+5. **Push `main`** — `git push origin main`. This fires the **pre-push gate** (`.githooks/pre-push`), which
    runs `npm run verify` on **every push (all branches)** and **blocks a red build**. A green `origin/main`
    is the proof the checkpoint is real — pushing is *part of* the checkpoint, not a separate approval.
-5. **Confirm** — `git status` clean, `git log origin/main..main` empty (or explicitly note what's left and
+6. **Confirm** — `git status` clean, `git log origin/main..main` empty (or explicitly note what's left and
    why).
 
 Three rules, all learned the hard way:
