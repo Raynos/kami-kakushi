@@ -51,9 +51,11 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   findings) + a P1 diff re-audit landed: the **D-048 6-tier ripple is now finished
   in §1** (01-vision spine/antagonists/rep-arc — it wasn't, despite the old "fully
   rippled" claim), the **D-053→D-079 clock** supersession, built-features-described-
-  as-unbuilt fixes, and a new **`md-links` verify gate (10th)**. **Open follow-up:**
-  the **§4 balance ripple to 6 tiers** (04-combat-balance is banner-flagged old-5-tier
-  — needs the T1 Estate-full split bands; design, **liquid/D-059**). Report:
+  as-unbuilt fixes, and a new **`md-links` verify gate (10th)**. `package.json`
+  version → **0.3.0** (was 0.0.0; A21). §4.0 magnitude table relabeled to 6-tier;
+  **the full §4 coupled balance re-derivation (T1 Estate-full bands + floors + the
+  bulk §4.1–4.7 relabel) is scheduled in the v0.3.1 plan, Step 4** (liquid/D-059 —
+  it rides the koku retune). Report:
   [`../audit/reports/2026-06-30-stale-markdown-sweep.md`](../audit/reports/2026-06-30-stale-markdown-sweep.md).
 
 ## Waiting on the human

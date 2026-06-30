@@ -188,6 +188,11 @@ the safe, separable part:
 10-gate verify green. *(The open AGENTS.md edit + session-34 journal are another
 editor's WIP — left untouched per shared-tree safety.)*
 
+**Checkpoint (prepare-to-exit):** snapshot brought current (§4.0 relabel +
+version + the §4 re-derivation scheduled in v0.3.1 Step 4); all my work committed
++ pushed. `.claude/rules/commit-message-style.md` is the other editor's
+uncommitted WIP — left untouched.
+
 ## Next intended steps (current)
 
 1. The remaining apply clusters: active-only clock (D-053 supersession + roadmap);
