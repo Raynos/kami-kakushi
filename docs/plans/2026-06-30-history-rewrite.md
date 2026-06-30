@@ -1,9 +1,11 @@
 # History rewrite — scrub raw JSON dumps + swap `Co-Authored-By` → `Assisted-by`
 
-**Status:** parked, planning-only. Awaiting two human inputs before execution
-(see "Go conditions"). Destructive + outward-facing — the force-push needs an
-explicit human go and is **not** covered by the routine-checkpoint standing
-approval. Tracked as the open TODO in `project/todo-human.md`.
+**Status:** parked, planning-only. **Message-scope decided: Option A** (human,
+2026-06-30). Remaining go conditions before execution: (1) all other agents
+parked + fully pushed, (2) explicit human go for the force-push. Destructive +
+outward-facing — the force-push needs an explicit human go and is **not**
+covered by the routine-checkpoint standing approval. Tracked as the open TODO in
+`project/todo-human.md`.
 
 ## Goal
 
@@ -31,13 +33,15 @@ out and unpushed local work will diverge and can lose it. Before execution:
 
 ## Message-rewrite scope — the decision
 
-- **Option A (recommended) — mechanical trailer swap.** Strip
+**DECIDED: Option A** (human, 2026-06-30).
+
+- **Option A (recommended, CHOSEN) — mechanical trailer swap.** Strip
   `Co-Authored-By: Claude …` + emoji-banner lines via filter-repo
-  `--message-callback`; append `Assisted-by: Claude Code:<model>`. Use
-  **`:unknown`** for historical commits where the real model isn't known (stays
-  honest). Deterministic, scriptable, low-risk. Optionally also fix any
-  *subject* that already violates Conventional-Commits — but do **not** reflow
-  every body.
+  `--message-callback`; append `Assisted-by: Claude Code:claude-opus-4-8[1m]`.
+  The entire history was authored by Opus 4.8, so that exact model string is
+  correct for every commit — no `:unknown` needed. Deterministic, scriptable,
+  low-risk. Optionally also fix any *subject* that already violates
+  Conventional-Commits — but do **not** reflow every body.
 - **Option B — full editorial rewrite** (50/72, Conventional subjects,
   intent-led bodies for every commit). Not a regex job; needs an agent per
   commit. High cost, real risk of distorting the historical record. Not
