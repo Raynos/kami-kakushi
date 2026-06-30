@@ -43,7 +43,9 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
 - **Process canon (2026-06-30):** the v0.3 retrospective is adopted — **D-086**
   (tension > generosity), **D-087** (loop done-rule: keep finding work), **D-088**
-  (e2e+invariants per tier = hard DoD contract); the rest folded as norms into
+  (e2e+invariants per tier = hard DoD contract), **D-089** (reading-queue sign-off
+  is implicit — read/discuss = signed off; the agent keeps `todo-human.md` clean,
+  `/prepare-to-exit` reconciles); the rest folded as norms into
   fun-factor / qa-playtesting / working-agreements / AGENTS.md Conventions / the
   battery skill. Skills audited — all wired, test-discipline lifted into Conventions.
   Capture: [`../human-feedback/2026-06-30-process-learnings-decisions.md`](../human-feedback/2026-06-30-process-learnings-decisions.md).

@@ -18,6 +18,18 @@ AskUserQuestion reconciliation. Recorded as **D-089**.
 - `docs/living/decisions.md` — new **D-089** (supersedes the manual-sign-off
   lifecycle per D-022; preserves R3 via the `/prepare-to-exit` certification).
 
+## What changed (follow-ups)
+- `project/todo-human.md` — focused rewrite: de-duplicated the D-089 lifecycle
+  (was stated in both blockquotes), dropped the stale HTML comment + the
+  closed-this-session footer (41→31 lines, cat-readable).
+- `project/status/project-status.md` — added D-089 to the process-canon bullet.
+
+## Checkpoint note (shared-tree event)
+- Mid-session another agent restructured AGENTS.md (`927902c`, `f8a27da`) and the
+  integration replayed my commits onto it, **dropping the redundant `beee966`**
+  (its reading-queue clear was superseded by the later todo-human rewrite). All
+  D-089 content survived intact; `origin/main` push was a clean fast-forward.
+
 ## Next intended steps
 1. Active workstream remains `docs/plans/2026-06-30-v0.3.1-build.md` (unchanged).
 
