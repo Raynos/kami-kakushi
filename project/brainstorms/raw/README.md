@@ -24,5 +24,6 @@ ephemeral session scratch (`<session>/tasks/<id>.output`) and are **lost when th
 - Only snapshot **workflow** result files (a single JSON object with a `result` key). Do **not** copy
   subagent (Agent-tool) `*.output` files — those are huge JSONL conversation transcripts.
 
-See the **"Durable capture of workflow/subagent outputs"** convention in
-[`../../CLAUDE.md`](../../../CLAUDE.md).
+This file is the **canonical** statement of the durable-capture rule; AGENTS.md
+(Conventions → "Durable capture of workflow / subagent outputs") carries the short
+form + a pointer here.

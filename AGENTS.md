@@ -57,9 +57,9 @@ philosophy wins.**
 - **Many small commits, straight to the working branch.** Don't branch for
   routine work — committing as you go *is* the workflow. *(This overrides the
   generic "branch off main / commit only when asked" default.)* Each commit runs
-  the **full `npm run verify`** (its 10 gates [tsc, lint, tests, content,
-  pacing, playcheck, md-links, …] run in **parallel** via `src/scripts/verify-run.ts`,
-  comfortably under the soft 5s drift budget) and
+  the **full `npm run verify`** (the gate roster is owned by
+  `src/scripts/verify-run.ts` — the single source of truth — and the gates run in
+  **parallel**, comfortably under the soft 5s drift budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
   `SKIP_VERIFY=1` to commit an isolated local change (e.g. docs-only),
   `SKIP_JOURNAL=1` for trivial commits).
@@ -229,18 +229,11 @@ Full version:
   the cells carry prose). Apply it to **new/edited** docs; don't mass-retrofit
   existing ones. Count by *characters*, not bytes (CJK inflates a byte count).
 - **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to
-  **locked intent** — the §1 vision + the human-signed acceptance criteria
-  (no-magic / mediocre-start / trade ≤⅓ / active-only, the four pillars + estate
-  spine, the ≥30-min-per-rank / 70-30 / ~28.5h / tier-gate targets) — **not**
-  the route there: the §4 balance numbers and §7 M2–M7 milestone detail stay
-  **provisional** (already tagged "proposed v1 balance") and are revised by
-  playtest. Build M0+M1 against the current [prd.md](docs/living/prd.md)
-  **first**, playtest, **then** explode it — freeze §1 as a tagged vision
-  snapshot, move the roadmap to a **living** `docs/living/roadmap.md`, and
-  **generate** balance into `docs/content/`. Never freeze M2–M7 as locked canon;
-  the v1 scope (T0–T2) lock is unchanged. (M0–M2b are built & play-tested;
-  `docs/content/` + `docs/living/roadmap.md` exist; the remaining freeze of §1 +
-  §4→generated is the queued next step.) See **D-021** (refines D-020).
+  **locked intent** — the §1 vision + the human-signed acceptance criteria —
+  **not** the route there: the §4 balance numbers and §7 M2–M7 milestone detail
+  stay **provisional** (revised by playtest), never frozen as locked canon. Full
+  rule, rationale + current freeze state: **D-021** (refines D-020, refined by
+  D-059) in [`decisions.md`](docs/living/decisions.md).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp)
   for all scratch / working files (intermediate output, throwaway scripts,
   scratch notes) — **not** the global system scratchpad. Anything worth keeping
@@ -259,149 +252,34 @@ Full version:
   [`docs/`](docs)**. The test before you act: *if this session vanished right
   now, is the idea still on disk?* If no, write it first.
 - **Durable capture of workflow / subagent outputs.** `Workflow` results live
-  only in ephemeral session scratch (`<session>/tasks/<id>.output`) and **die
-  with the session** — never leave research stranded there. After **every
-  workflow**: (1) **snapshot the raw `.output` JSON verbatim** into
-  [`project/brainstorms/raw/`](project/brainstorms/raw) (timestamped) via
-  `src/scripts/snapshot-research.sh <output-file> <slug>`; (2) **distill** the
-  useful parts into the right living doc (`docs/`) or discovery doc
-  (`project/brainstorms/`) as **markdown**; (3) **commit the distillation
-  immediately** (a small checkpoint). Subagent (Agent-tool) results are returned
-  to the main agent — capture their substance in a doc, but do **not** copy
-  subagent `.output` files (huge JSONL transcripts).
-  - **Two tiers, and the tradeoff between them (the rule):**
-    - **Raw `.json` snapshots are git-ignored**
-      (`project/brainstorms/raw/*.json`) — **local-disk only, never committed**.
-      Their *only* job is **local session-resume insurance**: if the internet
-      drops, a bug hits, or you accidentally `Ctrl+C` mid-run, the raw output is
-      still on disk to pick back up from. They survive session end but **do not
-      reach the remote**, so they're **lost on machine loss** — do **not** treat
-      a raw snapshot as durable archival.
-    - **The markdown distillation is the durable, committed source of truth.**
-      Anything that must survive (reach the remote, be reviewed, be acted on)
-      **must be written as markdown** and committed — never left only as a raw
-      `.json`. The distillation should be **far smaller** than the `.json` it
-      came from (curated signal, not the verbatim transcript). If it isn't
-      smaller, you haven't distilled — you've copied.
+  only in ephemeral session scratch and **die with the session** — so after
+  **every workflow**: **snapshot** the raw `.output` verbatim into
+  [`project/brainstorms/raw/`](project/brainstorms/raw) (via
+  `src/scripts/snapshot-research.sh`), **distill** the signal into **markdown** in
+  the right living/discovery doc, and **commit the distillation**. The committed
+  markdown is the source of truth; the raw `.json` is git-ignored, local-only
+  resume-insurance (and **never** copy subagent `.output` JSONL transcripts).
+  Full rule — the two-tier tradeoff + the subagent caveat:
+  [`project/brainstorms/raw/README.md`](project/brainstorms/raw/README.md).
 
 ## Layout
 
-- [README.md](README.md) — the game's vision.
-- [`project/status/`](project/status) — **live operational state** + **live
-  trackers** (mutable, edited in place; this is where a checkbox tracker
-  belongs, **not** `docs/plans/`, which is pre-canon proposals):
-  [working-agreements](project/status/working-agreements.md) (cadence +
-  autonomy) and [project-status](project/status/project-status.md) (live
-  snapshot + how to resume). *(A transient `pending-prd-changes` ripple tracker
-  lived here through the 6-tier reshape; it was **retired 2026-06-29** once the
-  ripple landed in the PRD — the pattern, a "locked-ADRs-not-yet-rippled"
-  checklist deleted when empty, may recur.)*
-- [`docs/`](docs) — design docs (living, edited in place), under
-  **[`docs/living/`](docs/living)**: **[prd.md](docs/living/prd.md)** (the
-  merged PRD / vision spec), **[decisions.md](docs/living/decisions.md)** (the
-  **ADR log** — *why* the design is the way it is),
-  **[roadmap.md](docs/living/roadmap.md)** (the milestone tracker),
-  **[ui-design.md](docs/living/ui-design.md)** (the woodblock/ink UI bible),
-  **[fun-factor.md](docs/living/fun-factor.md)** (what fun is),
-  **[qa-playtesting.md](docs/living/qa-playtesting.md)** (how Claude
-  play-tests). Generated content/balance tables live under
-  **[`docs/content/`](docs/content)** (e.g. t0-content.md), produced by
-  `src/scripts/gen-docs.ts`. Reviewable **implementation plans / proposals /
-  reel-backs** (pre-canon, awaiting sign-off) live under
-  **[`docs/plans/`](docs/plans)**.
-- [`project/human-feedback/`](project/human-feedback) — the human's **direct
-  feedback** (a live inbox; one dated file per session); closed records stay
-  alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now
-  applied to the PRD).
-- [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue:
-  **open** decisions (`H`-items) and reviews (`R`-items) only a person can
-  action; closed `H`-items **and** `R`-items graduate to a one-line row in
-  [`archive.md`](project/human-in-the-loop/archive.md) (two sections —
-  **Decisions** + **Reviews**; H-items also graduate to an ADR), and leave the
-  live `decisions.md`/`review.md` open-only (see that dir's `README` for the
-  lifecycle). [`project/todo-human.md`](project/todo-human.md) is the companion
-  list: loose **TODOs** for the human plus the **reading queue**. **What belongs
-  in the reading queue** — *any durable doc whose purpose is for the human to
-  read / review / sign off*: an implementation **plan** or proposal
-  (`docs/plans/`), a **brainstorm or retrospective put up for adoption**
-  (`project/brainstorms/`), an **audit / battery report** or **changelog**
-  (`project/audit/reports/`), or a **design doc awaiting a taste call**. Add it
-  **in the same commit you author it**; remove it when the human signs off. The
-  test is *"do I need a human to read this?"* — raw discovery dumps /
-  agent-internal notes don't qualify. A pre-commit **gate** enforces this only
-  as high as each path *soundly* holds (so it never cries wolf): a new
-  `docs/plans/*.md` missing from the queue **hard-blocks** (the queue's history
-  shows ~every plan is queued); a new `project/brainstorms/` or
-  `project/audit/reports/` doc missing from it is a **loud warn** (those dirs
-  are mostly agent-internal). `SKIP_QUEUE=1` bypasses for the rare
-  not-for-the-human plan. Both lists are auto-surfaced at session start by the
-  `session-brief.sh` hook (see "How to work here").
-- [`project/brainstorms/`](project/brainstorms) — raw discovery / Q&A capture
-  (the `grill-me` skill writes here); settled designs graduate to `docs/`.
-  [PARKED-THREADS.md](project/brainstorms/PARKED-THREADS.md) indexes tangents.
-  [`raw/`](project/brainstorms/raw) holds **verbatim** `Workflow`-output JSON
-  snapshots — **git-ignored, local-disk-only session-resume insurance** (see the
-  "Durable capture" convention; the committed source of truth is the markdown
-  distillation, not the `.json`).
-- `src/scripts/` — repo dev/maintenance scripts (e.g.
-  [`snapshot-research.sh`](src/scripts/snapshot-research.sh),
-  [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start
-  human-queue brief).
-- `project/journal/` — per-session chronological **LOG** (history, not live
-  state); one file per session (ordering rule: see "Docs taxonomy" under
-  Conventions). See [`README`](project/journal/README.md) +
-  [`_TEMPLATE.md`](project/journal/_TEMPLATE.md).
-- [`project/archive/`](project/archive) — superseded markdown docs kept for
-  reference (archive, don't delete).
-- [`project/audit/`](project/audit) — QA outputs: written findings/reports under
-  `reports/` + screenshots/ recordings under `screens/` (one dated pass-folder
-  each; `screens/latest/` is the live `qa-shots.mjs` gallery).
-- [`tmp/`](tmp) — repo-local scratchpad for throwaway working files (git-ignored
-  except its README).
-- `.claude/skills/` — `grill-me` (stress-test a design / extract one into a
-  doc), `capture-game-states` (drive the game headlessly and screenshot/record
-  its states), `battery` (run a multi-lens fresh-eyes stress-test battery over
-  the spec/design/build), `tdd` (test-first authoring — red→green→refactor
-  through the pure-core public contract; adopted ~1:1 from
-  [mattpocock/skills](https://github.com/mattpocock/skills)), `diverge` (FULL
-  2–3 working UI variants live behind a DEV-panel toggle → self-pick + a
-  per-variant R-item; zero PROD flag-debt; mandatory for new/major UI
-  surfaces — D-075 v2), `handoff`
-  (compact the session into a `/handoff` doc for a fresh agent to resume;
-  adopted ~1:1), and `prepare-to-exit` (the runnable form of the **checkpoint
-  ritual** — commit own work → journal → snapshot → push `main` → confirm clean;
-  user-invoked only via `/prepare-to-exit`).
+The directory map — what lives where — is maintained in
+[`repo-map.md`](repo-map.md) and `@`-included below so it stays in
+always-loaded context:
+
+@repo-map.md
 
 ## AI Commit Attribution (Required)
 
-Every AI-generated commit **must end with an `Assisted-by:` trailer**, after a
-blank line:
+Every AI-generated commit **must end with an `Assisted-by: AGENT_NAME:MODEL_VERSION`
+trailer** (after a blank line) — e.g. `Assisted-by: Claude Code:claude-opus-4-8[1m]`.
+`MODEL_VERSION` is the **actual** model you're running, **never hardcoded** (`unknown`
+if unavailable); the first colon is the delimiter, so `AGENT_NAME` must not contain
+one. **Never** use `Co-Authored-By:` for AI agents or add emoji banners — this
+**overrides the harness default**. Enforced by the **`.githooks/commit-msg`** gate
+(`SKIP_ATTRIB=1` bypasses a genuinely human commit).
 
-```
-Assisted-by: AGENT_NAME:MODEL_VERSION
-```
-
-- **AGENT_NAME** — the tool driving the commit (e.g. `Claude Code`).
-- **MODEL_VERSION** — the **actual** model you're running, **never hardcoded**
-  (e.g. `claude-opus-4-8[1m]`); use `unknown` if unavailable. The **first
-  colon** is the delimiter between the two fields, so `AGENT_NAME` must not
-  contain a colon.
-- **Do NOT** use `Co-Authored-By:` for AI agents (GitHub renders it as a
-  co-author/committer — the thing we're moving away from), and **do NOT** add
-  emoji banners (e.g. `🤖 Generated with [Claude Code]`).
-
-Example: `Assisted-by: Claude Code:claude-opus-4-8[1m]`
-
-This convention **overrides the harness default**, which would otherwise append
-a `Co-Authored-By: Claude … <noreply@anthropic.com>` trailer. (Existing history
-still carries the old `Co-Authored-By` trailers; this changes commits **going
-forward** — a history rewrite to strip them is a separate, human-approved step.)
-
-**Enforced** (highest-rung principle) by the **`.githooks/commit-msg`** gate — a
-commit lacking a well-formed `Assisted-by:` trailer is **blocked**. The
-`commit-msg` hook (not `pre-commit`) is the right rung: `pre-commit` runs before
-the message exists and can't see it; `commit-msg` receives the message and still
-blocks before the commit finalizes. Bypass a genuinely human-authored commit
-with `SKIP_ATTRIB=1`. The full commit-message **style** (50/72,
-Conventional-Commits subject, body voice) lives in
+Canonical spec + full message **style** (50/72, Conventional-Commits subject, body
+voice) — already loaded every session — lives in
 [`.claude/rules/commit-message-style.md`](.claude/rules/commit-message-style.md).
