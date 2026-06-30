@@ -14,8 +14,10 @@ PRD vision spine** (the snapshot's "fully rippled" claim was wrong); (2) the
 **D-079 active-only clock** didn't propagate to roadmap/D-053; (3) **built features
 described as unbuilt** (SFX, `__qa`, the split PRD). The human approved the **13
 self-fix rows + 3 decisions** (cross-ref resolver → a verify GATE; gate-roster →
-single-source pointer; diverge dead-template → fix §0 now). **Full apply pass in
-progress.**
+single-source pointer; diverge dead-template → fix §0 now). **FULL APPLY PASS
+COMPLETE** — all 21 findings landed across 6 commits, 10-gate verify green
+throughout; the new cross-ref gate caught 8 more dead links. Remaining: a diff
+re-audit (P1) + push.
 
 This file is HISTORY; live state is
 [`../status/project-status.md`](../status/project-status.md).
