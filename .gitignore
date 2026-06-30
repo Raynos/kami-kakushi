@@ -10,3 +10,6 @@ kami-kakushi-itch.zip
 
 # raw Workflow-output JSON snapshots — too large to keep tracked (kept on disk)
 project/brainstorms/raw/*.json
+
+# Playwright MCP scratch (screenshots/snapshots from live verification runs)
+.playwright-mcp/

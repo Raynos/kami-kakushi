@@ -33,17 +33,22 @@ fi
 echo "▸ building…"
 npm run build
 
-# 1b. ship-hygiene gate (D-067): the DEV play-API (__qa — speed cheats + jump-to teleports) is
-#     gated on `import.meta.env.DEV` and dead-code-eliminated in prod. REFUSE to publish a bundle
-#     that leaked it — a shipped __qa hands players speed-cheats/teleports and bloats the bundle.
-#     (Pushes the "DEV tools are prod-stripped" norm up to a deploy GATE that can't be forgotten.)
-echo "▸ verifying DEV tools are stripped from the prod bundle…"
-if grep -lF "__qa" "$REPO_ROOT/dist/assets/"*.js >/dev/null 2>&1; then
-  echo "✗ DEV play-API (__qa) leaked into the prod bundle — refusing to deploy." >&2
-  echo "  Keep the __qa install behind 'if (import.meta.env.DEV)' in src/app/main.ts." >&2
-  exit 1
-fi
-echo "  ✓ no __qa in the prod bundle."
+# 1b. ship-hygiene gate (D-067, extended for the D-075 variant harness): the DEV play-API
+#     (__qa — speed cheats + jump-to teleports) AND the DEV panel + variant harness (ui/dev.ts,
+#     stamped with DEV_SENTINEL = __KAMI_DEV_PANEL__) are gated on `import.meta.env.DEV` and
+#     dead-code-eliminated in prod. REFUSE to publish a bundle that leaked either — a shipped
+#     __qa hands players cheats, and a leaked variant harness ships the non-default UI variants
+#     (prod must ship ONLY the self-picked default — zero flag-debt, D-075). A deploy GATE that
+#     can't be forgotten.
+echo "▸ verifying DEV tools + variant harness are stripped from the prod bundle…"
+for marker in "__qa" "__KAMI_DEV_PANEL__"; do
+  if grep -lF "$marker" "$REPO_ROOT/dist/assets/"*.js >/dev/null 2>&1; then
+    echo "✗ DEV marker '$marker' leaked into the prod bundle — refusing to deploy." >&2
+    echo "  Keep DEV-only code behind 'import.meta.env.DEV' (src/app/main.ts, src/ui/dev.ts)." >&2
+    exit 1
+  fi
+done
+echo "  ✓ no DEV markers (__qa / variant harness) in the prod bundle."
 
 # 2. sync the built site into the worktree ROOT; --delete drops stale files,
 #    but never touch the worktree's .git pointer.

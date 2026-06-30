@@ -64,16 +64,19 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 
 > **New process (D-075, supersedes the old R2/R3 single-pick).** Every diverged surface ships **FULL 2–3 working
 > variants**, switchable live in the **DEV panel**; **each variant is its own line item below**, reviewed by
-> toggling it in the running build (not screenshots). ⏳ The DEV panel + the full variant set are **being BUILT**
-> (v0.3.1 steps 1–2, per `human-feedback/2026-06-30-r4-playtest-decisions.md`); items flip to "ready to toggle" as
-> they land. Tick the variant you want as the prod default (or note changes).
+> toggling it in the running build (not screenshots). ✅ The **DEV panel is BUILT** (v0.3.1 Step 1) — `npm run dev`
+> and it sits top-right with a **VARIANT** section per surface; **House-Influence A/B/C are LIVE now**. The
+> craft / market / quests variants land in **Step 2** (items flip to "live" as they land). Tick the variant you
+> want as the prod default (or note changes).
 
-- **House-Influence panel** (M2·6):
-  - [ ] **A — continuous ink grade-bar** _(✅ shipped default)_ — indigo→gold bar, ticks at Good/Great/Excellent,
-    vermilion 朱 Ascend CTA.
-  - [ ] **B — segmented 3-band boxes** _(🐛 to FIX, then add to the toggle)_ — was buggy (fill used `color` not
-    `background`); fix so you can compare live.
-  - [ ] **C — (owed)** — a 3rd approach, per D-075's full-2–3 rule.
+- **House-Influence panel** (M2·6) — ✅ **all three LIVE in the DEV panel** ("VARIANT · House-Influence grade"):
+  - [ ] **A — continuous ink grade-bar** _(self-picked prod default)_ — indigo→gold bar, ticks at
+    Good/Great/Excellent.
+  - [ ] **B — segmented 3-band boxes** _(built; the old `color`-vs-`background` bug is fixed)_ — three lacquer
+    boxes (Good 良 / Great 優 / Excellent 秀), the current band filling.
+  - [ ] **C — standing marks** _(built)_ — a row of ink marks ◆◇ filling toward Excellent (a diegetic tally).
+  - _a11y note: A is a11y-100 (shipped). B/C are DEV-only until you pick one — if you do, I'll re-check WCAG
+    contrast (B's dark ink label on the indigo "Good 良" box is the one to watch)._
 - **Walkable map** (Estate 地図, T0-M4-F4):
   - [ ] **A — "you are here + paths"** _(✅ shipped default)_ — focused, ink place-names.
   - [ ] **B — whole-map grid** _(⏳ to build into the toggle)_ — designed, not yet built.

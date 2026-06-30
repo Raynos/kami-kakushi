@@ -26,6 +26,7 @@ import {
 import { createBrowserSaveManager, type SaveManager } from '../persistence';
 import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
+import { createDevApi, mountDevPanel } from '../ui/dev';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -108,7 +109,11 @@ async function boot(): Promise<void> {
     },
   };
 
-  const render = mount(root, dispatch, hooks);
+  // DEV-only variant harness (D-075) — undefined in prod (the ternary folds to `undefined`, so
+  // ui/dev.ts tree-shakes out of the bundle). Threaded into the renderer + the DEV panel below.
+  const dev = import.meta.env.DEV ? createDevApi() : undefined;
+
+  const render = mount(root, dispatch, hooks, dev);
 
   // reveal-on-load: render existing log statically (no re-spam)
   safely(() => render(state, null));
@@ -382,6 +387,16 @@ async function boot(): Promise<void> {
       },
     };
     (window as unknown as { __qa?: typeof qa }).__qa = qa;
+
+    // the in-UI DEV panel — the __qa tools as buttons + the live variant toggle (D-075). Hosts
+    // on document.body (fixed-position) so it floats over the shell regardless of #app styling.
+    if (dev) {
+      mountDevPanel(document.body, {
+        qa,
+        dev,
+        rerender: () => safely(() => render(state, null)),
+      });
+    }
   }
 }
 

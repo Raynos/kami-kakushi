@@ -55,6 +55,9 @@ import {
   balance,
 } from '../core';
 import type { Sfx } from './sfx';
+// type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
+// without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
+import type { DevApi } from './dev';
 
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
   open_eyes: 'Open your eyes',
@@ -141,7 +144,7 @@ export function formatLogText(entry: LogEntry): string {
   return `${entry.text} ×${n}`;
 }
 
-function el<K extends keyof HTMLElementTagNameMap>(
+export function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string,
   text?: string,
@@ -345,6 +348,7 @@ export function mount(
   root: HTMLElement,
   dispatch: Dispatch,
   hooks: AppHooks,
+  dev?: DevApi,
 ): (state: GameState, prev: GameState | null) => void {
   root.textContent = '';
   root.removeAttribute('aria-busy');
@@ -635,20 +639,30 @@ export function mount(
     activeRow.append(el('span', `influence-grade grade-${grade.toLowerCase()}`, gradeWord));
     card.append(activeRow);
 
-    // the grade bar, with ticks at GOOD / GREAT / EXCELLENT (diverge winner — variant A)
-    const bar = el('div', 'influence-bar');
-    const fill = el('span', `influence-fill grade-${grade.toLowerCase()}`);
-    fill.style.width = `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`;
-    bar.append(fill);
-    for (const t of [bands.good, bands.great, bands.excellent]) {
-      const tick = el('span', 'influence-tick');
-      tick.style.left = `${Math.round((t / bands.excellent) * 100)}%`;
-      bar.append(tick);
+    // ── grade visual (the diverged surface, D-075) — A = the continuous ink grade-bar (the
+    //    self-picked default; ships to prod). B/C live DEV-only behind the variant toggle and
+    //    are stripped from the prod bundle (the `import.meta.env.DEV` guard folds to dead code
+    //    in prod, so ui/dev.ts tree-shakes out — see ui/dev.ts + the gh-pages strip-guard). ──
+    if (!(import.meta.env.DEV && dev && dev.renderVariant('influence', card, state))) {
+      // A (default): the continuous ink grade-bar, ticks at GOOD / GREAT / EXCELLENT
+      const bar = el('div', 'influence-bar');
+      const fill = el('span', `influence-fill grade-${grade.toLowerCase()}`);
+      fill.style.width = `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`;
+      bar.append(fill);
+      for (const t of [bands.good, bands.great, bands.excellent]) {
+        const tick = el('span', 'influence-tick');
+        tick.style.left = `${Math.round((t / bands.excellent) * 100)}%`;
+        bar.append(tick);
+      }
+      card.append(bar);
+      card.append(
+        el(
+          'div',
+          'influence-when',
+          `Standing ${est.value} · the season judges at ${est.highWater}`,
+        ),
+      );
     }
-    card.append(bar);
-    card.append(
-      el('div', 'influence-when', `Standing ${est.value} · the season judges at ${est.highWater}`),
-    );
 
     // the pillars yet to come — unnamed silhouettes (D-055)
     for (let i = 0; i < 3; i++) card.append(silhouetteRow());
