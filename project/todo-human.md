@@ -20,11 +20,7 @@ _(none open)_ <!-- veto pass DONE 2026-06-30: all 16 propose-then-veto items app
 > in the same commit it's authored; removed when you sign off. A pre-commit gate hard-blocks a new `docs/plans/`
 > doc missing from this list and loud-warns on the rest (CLAUDE.md "Reading queue").
 
-- [ ] `project/audit/reports/2026-06-30-stale-markdown-sweep.md` — *repo-wide stale-markdown sweep + the full apply pass*
-  - 21 grounded findings, all applied (the D-048 6-tier ripple finished into the PRD spine, the
-    D-053→D-079 clock supersession, built-features-described-as-unbuilt, a new md-links verify gate
-    that caught 8 dead links). **Eyeball the rebuilt §1.5.1 T1 Estate-full section + the new T1
-    antagonist row** (reconstructed from §1.6.3 + §3 canon).
+_(none open)_
 
 > **Signed off / closed this session:** `project/brainstorms/2026-06-30-v03-process-learnings.md`
 > — read + adopted (D-086…D-088 + norms). The skill shelf-ware audit report was **retired** (no
