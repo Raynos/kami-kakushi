@@ -695,3 +695,42 @@ design ADR.
 - **Decision:** **Delete the clock, don't manage it.** The agent must **never perceive a deadline / time-box** and **never take a shortcut** (ship below the bar to save effort). Corollaries: **partial & excellent beats complete & compromised** — a half-finished loop with zero shortcuts is a success, a fully-finished loop with one lazy corner is a failure; and **pragmatism (sensible defaults) and stopping-when-done are NOT shortcuts** (the bar cuts both ways — never drop below it to save time, never gild above it to fill time). "Done" is gated by correctness + the quality bar + whether real value remains, **never by the clock**.
 - **Why:** Verbatim human direction — *"I prefer correct & slow over shitty & fast"*; *"even if it's only done half the loop by the time I'm back, I'm happy — if there are no shortcuts or lazy behaviour."* Removes the completion pressure that caused the v0.3 shortcuts.
 - **Consequences:** New canon doc [`../philosophy/no-clock-no-shortcuts.md`](../philosophy/no-clock-no-shortcuts.md) (the full philosophy) + a short inline `## Philosophy` lead at the top of AGENTS.md. **Generalises D-075** (no diverge-LITE) to all work. Per **D-022**, governs.
+
+## D-081…D-085 — 2026-06-30 the operating-philosophy register (session-26 mine, human-curated)
+
+> A 41-agent repo-wide `Workflow` mine surfaced 30 candidate philosophies; the human curated them into a **6-philosophy register** (R1–R6) in [`../philosophy/`](../philosophy/README.md), each summarised in the AGENTS.md `## Philosophy` section. Bar for inclusion (human): _"something a philosopher might say — how/why/what to reason"_ — so mechanics, git/tool-usage, and engineering guidelines were **demoted to AGENTS.md** (small commits, shared-tree git safety, pure-core, single-source-of-truth, the human's-intent-is-canon governance rule, repo-is-the-memory, the enforcement ladder), and game-design/world canon stayed in the PRD/fun-factor. Source: [`../../project/brainstorms/2026-06-30-operating-philosophies.md`](../../project/brainstorms/2026-06-30-operating-philosophies.md). R1 is **D-080**.
+
+### D-081 ✅ — Verify, don't trust (operating philosophy R2)
+- **created_date:** 2026-06-30
+- **Context:** The session-26 mine surfaced "verify, don't trust" as the unwritten **second seed** (the epistemic twin of D-080), scattered across the battery skill, qa-playtesting §0, and the "verify before you claim" checkpoint rule. The human scoped it to work you did **not** author — existing files, written canon, other agents' work (the self-facing twin is **R3 / D-082**).
+- **Decision:** A maker is blind to their own gaps and can't trust provenance they can't see, so existing files, canon, and other agents' work are **checked, not trusted** — against independent eyes / the gates / reality. Self-review is necessary, never sufficient. _The map is not the territory_: a doc is a claim about the build; where they differ, the build wins (fix the doc).
+- **Why:** Human-curated from the mine; grounds the battery's no-self-grading rule and the D-079 doc-vs-build resolution (a signed ADR described the opposite of what shipped).
+- **Consequences:** New canon doc [`../philosophy/verify-dont-trust.md`](../philosophy/verify-dont-trust.md) + a paragraph in the AGENTS.md `## Philosophy` register. Per **D-022**, governs.
+
+### D-082 ✅ — Done is earned, not declared (operating philosophy R3)
+- **created_date:** 2026-06-30
+- **Context:** From the mine, the human split two facets out of R2 into a distinct **self-facing** philosophy — skepticism toward your **own** apparent success (vs R2's skepticism toward others' work). Merges _done means done_ (honest reporting / D-054) + _checks with teeth_ (a green must be able to go red).
+- **Decision:** Be skeptical of your own green. Never claim done/green/shipped unless literally, verifiably true (lead with what's missing, never push red); a green check counts only if it drives the **real** player path and **could actually have gone RED**. A false green is worse than no check.
+- **Why:** Human-curated; grounds **E1** (_"a test that can't go RED is worse than no test"_) + **D-054** (SHIPPED-slice banned).
+- **Consequences:** New canon doc [`../philosophy/done-is-earned-not-declared.md`](../philosophy/done-is-earned-not-declared.md) + a paragraph in the AGENTS.md register. Twin of **R2 / D-081**. Per **D-022**, governs.
+
+### D-083 ✅ — Bias to motion: act, self-vet, surface (operating philosophy R4)
+- **created_date:** 2026-06-30
+- **Context:** From the mine; the human kept the human-steers / agent-executes division of labour as a philosophy and chose the phrasing _"bias to motion: act, self-vet, surface."_
+- **Decision:** The human owns direction, taste & the irreversible; the agent owns execution — reversible progress by default, self-picked defaults, self-vetted work, every fork **surfaced for async override** rather than waited on. Never block; never silently decide. Absorbs _autonomy is a feedback-loop problem_ (the why) and the HITL queue (the machinery).
+- **Why:** Human-curated; the 7k-PRD-bought-less-autonomy lesson (operating-model-v2) + the diverge self-pick→R-item pattern (D-075).
+- **Consequences:** New canon doc [`../philosophy/bias-to-motion.md`](../philosophy/bias-to-motion.md) + a paragraph in the AGENTS.md register. Per **D-022**, governs.
+
+### D-084 ✅ — If it isn't fun, it isn't finished (operating philosophy R5)
+- **created_date:** 2026-06-30
+- **Context:** From the mine; the product bar (fun & intentional), scattered across **D-019**, fun-factor, qa-playtesting, ui-design — with no consolidated north-star. The human chose the phrasing.
+- **Decision:** A compiling build is the floor; the bar is paced, genuinely fun, intentional (woodblock/ink, not AI-slop). Fun is a hypothesis tested by play — proxies prove its absence, only a human certifies its presence. Absorbs _intentional craft over generated defaults_ (lock the design language first) and _the player gets the real game_ (DEV conveniences stripped from prod).
+- **Why:** Human-curated; D-019 + fun-factor §3 + ui-design §9.
+- **Consequences:** New canon doc [`../philosophy/if-it-isnt-fun-it-isnt-finished.md`](../philosophy/if-it-isnt-fun-it-isnt-finished.md) + a paragraph in the AGENTS.md register. Per **D-022**, governs.
+
+### D-085 ✅ — If a player can't reach it, it doesn't exist (operating philosophy R6)
+- **created_date:** 2026-06-30
+- **Context:** From the mine; "build discipline," sharpened by the human with the **definition of done = player-reachable**.
+- **Decision:** What counts as **built** is what a human player can reach. A change living only in TypeScript — no UI, not reachable in the live MCP playtest (Playwright / Chrome-DevTools) — is **not done**; the unit of progress is a fun-complete vertical slice a player can see and use. Absorbs _lean_ (everything earns its place; `G-NO-DEAD-VALUES`) and _diverge before you converge_ (D-075).
+- **Why:** Verbatim human direction (_"build ones that can be accessed by human players… not features that live in the typescript files"_); **D-078** (load-bearing breadth); the roadmap fun-slices.
+- **Consequences:** New canon doc [`../philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md`](../philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md) + a paragraph in the AGENTS.md register. Per **D-022**, governs.

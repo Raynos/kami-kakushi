@@ -3,13 +3,49 @@
 A single-player **HTML5 browser game**, built agentically with Claude Code. The
 game's vision lives in [README.md](README.md); this file is just how we work.
 
-## Philosophy — correct & slow beats shitty & fast
+## Philosophy
 
-**There is no clock, and there are no shortcuts.** You are never on a deadline —
-an overnight `/loop` is an invitation to do excellent work, not a countdown.
-Never compress quality to "fit a window," and never ship a "lite" shortcut: half
-the work done right beats all of it done shoddily. Full philosophy (read it):
-[`docs/philosophy/no-clock-no-shortcuts.md`](docs/philosophy/no-clock-no-shortcuts.md).
+The operating philosophy — _how, why, and what to reason_ here. (A mechanic,
+tool-usage rule, or engineering guideline is **not** a philosophy; those live in
+"How to work here" / "Conventions" below.) The full register is
+[`docs/philosophy/`](docs/philosophy/README.md); each is summarised here so none
+gets lost. **When a tactic anywhere in this file conflicts with one of these, the
+philosophy wins.**
+
+- **R1 · No clock, and no shortcuts.** Correct & slow beats shitty & fast. You are
+  never on a deadline — an overnight `/loop` is an invitation to do excellent
+  work, not a countdown; never compress quality to "fit a window" or ship a "lite"
+  shortcut. Partial-and-excellent beats complete-and-compromised. →
+  [`no-clock-no-shortcuts.md`](docs/philosophy/no-clock-no-shortcuts.md) (D-080)
+- **R2 · Verify, don't trust.** A maker is blind to their own gaps, and you can't
+  trust provenance you can't see — so existing files, written canon, and other
+  agents' work are _checked, not trusted_, against independent eyes / the gates /
+  reality. The map is not the territory: where a doc and the build disagree, the
+  build wins. (This is about work you did _not_ author.) →
+  [`verify-dont-trust.md`](docs/philosophy/verify-dont-trust.md) (D-081)
+- **R3 · Done is earned, not declared.** The self-facing twin of R2 — be skeptical
+  of your _own_ green. Never claim done/shipped unless it's literally, verifiably
+  true (lead with what's missing, never push red); a passing check counts only if
+  it drives the real player path and _could have gone RED_. A false green is worse
+  than no check. →
+  [`done-is-earned-not-declared.md`](docs/philosophy/done-is-earned-not-declared.md) (D-082)
+- **R4 · Bias to motion: act, self-vet, surface.** The human owns direction, taste
+  & the irreversible; the agent owns execution — reversible progress by default,
+  self-picked defaults, self-vetted work, every fork _surfaced for async override_
+  rather than waited on. Never block; never silently decide. →
+  [`bias-to-motion.md`](docs/philosophy/bias-to-motion.md) (D-083)
+- **R5 · If it isn't fun, it isn't finished.** A compiling build is the floor; the
+  bar is paced, genuinely fun, intentional (woodblock/ink, never AI-slop). Fun is a
+  hypothesis tested by play — proxies prove its absence, only a human certifies its
+  presence. Lock the design language first (constraint reads handmade, defaults
+  read slop), and the player gets the real game, never the scaffolding. →
+  [`if-it-isnt-fun-it-isnt-finished.md`](docs/philosophy/if-it-isnt-fun-it-isnt-finished.md) (D-084)
+- **R6 · If a player can't reach it, it doesn't exist.** What counts as _built_ is
+  what a human player can reach: a change living only in TypeScript — no UI, not
+  reachable in the live MCP playtest — is _not done_. Build lean (everything earns
+  its place), in fun-complete vertical slices a player can use, and diverge into
+  real working alternatives before converging. →
+  [`if-a-player-cant-reach-it-it-doesnt-exist.md`](docs/philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md) (D-085)
 
 ## How to work here
 
@@ -35,10 +71,17 @@ the work done right beats all of it done shoddily. Full philosophy (read it):
   [`docs/living/decisions.md`](docs/living/decisions.md); and (2) anything
   outward-facing or hard to reverse (push, deploy, delete) — never without
   approval.
-- **Leave it resumable.** All state lives in commits + the `project/journal/`
-  log (chronological — summary at top, entries appended at the **bottom**) +
-  `project/status/project-status.md` (the **live snapshot**) + the task list, so
-  a cold pickup or a context compaction never loses progress.
+- **The human's intent is canon.** The newest human steer supersedes any prior
+  ADR or lock; when a living doc disagrees with intent, the **doc** is what's
+  wrong — fix it. (**D-022** governs; `created_date` disambiguates which call is
+  current.)
+- **The session is disposable; the repo is the memory — leave it resumable.** If
+  it isn't a committed file, it doesn't exist: all state lives in commits + the
+  `project/journal/` log (chronological — summary at top, entries appended at the
+  **bottom**) + `project/status/project-status.md` (the **live snapshot**) + the
+  task list, so a cold pickup or a context compaction never loses progress. The
+  record is **append-only & lossless** — supersede with a strikethrough + forward
+  pointer, park don't cut, archive don't remove; the *why* always survives.
 - **Checkpoint = make the work resumable from disk *and on the remote*, right
   now.** When asked to "checkpoint" (or before exiting), run the loop: **commit
   completed work → stage a `journal/` entry → bring
@@ -127,10 +170,10 @@ Full version:
   the alternates until the human confirms — **zero PROD flag-debt** (prod ships
   only the default). One-line tweaks are exempt. See **D-075** +
   [`.claude/skills/diverge/SKILL.md`](.claude/skills/diverge/SKILL.md).
-- **Push each quality rule to the highest rung that can hold it** — a
-  `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**.
-  Prefer the rung that can't be quietly forgotten (a green-or-red check beats a
-  good intention).
+- **Push each quality rule to the highest rung that can _soundly_ hold it** — a
+  `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**,
+  calibrated so a gate never cries wolf. Prefer the rung that can't be quietly
+  forgotten (a green-or-red check beats a good intention).
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited
   in place); `project/journal/` says **how it got here** (a chronological log —
   append at the bottom, never prepend; the live snapshot is
