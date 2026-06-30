@@ -567,6 +567,8 @@ What makes UI read as **generic / AI-slop**, and the rule that prevents it here:
 | Over-juice (per-tick particles/shake/sound) | **Significance-gated** feedback; routine ticks quiet, milestones get the seal (§6). |
 | Emoji spam / inconsistent register | **One curated, desaturated set; one per concept** (§7). |
 | Colour as the sole signal | Always backed by **icon + text + sign/arrow** (§2, §5.1). |
+| Segmented / stepped "pip" meters where a continuous bar would do | **Prefer continuous ink (A19, a diverge winner):** a single filled brush-stroke bar reads more handmade than segmented pips at our content scale (§5.3). |
+| A god's-eye grid / map at small content scale | **Prefer a focused, diegetic view (A19, a diverge winner):** at small content scale a focused, in-world framing beats a sparse top-down grid (§5.11). |
 
 **The meta-rule:** strong, explicit, opinionated constraints (fixed palette, fixed scale, fixed spacing,
 period motifs) read as *intentional*; defaults read as *generated*. When in doubt, commit harder to the

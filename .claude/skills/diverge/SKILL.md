@@ -42,6 +42,16 @@ guard).
 Durable `?variant=` flags **in `main`** are the **single exception** (`keep-flags`), for when the human wants
 a *persistent* live test against evolving `main` — **hard-capped at 2 repo-wide**.
 
+**Diverge integrity (A19) — keep the process honest:**
+- **Implement the rule by INTENT when the mechanism is unsafe.** If a process step's *mechanism* is risky in
+  this repo (e.g. branch/stash churn on a shared tree), satisfy the rule's *intent* by a safe means — never
+  skip the rule because its canonical mechanism doesn't fit.
+- **Wire the decision-log INTO the cleanup, or the audit trail rots.** When a variant is retired, record
+  *why* in its DECISION sheet **as part of removing it** — not as a separate step that gets forgotten.
+- **NAME a time-box corner-cut; never ship one quietly.** If real constraints force a reduced pass, label it
+  explicitly (the way "diverge-LITE" was named before D-075 retired it) so it's a visible, revertable debt —
+  a silent corner-cut reads as "done."
+
 **One correspondence per surface:** `1 surface ⇒ 1 diverge/<surface> branch ⇒ 1 variants-log row ⇒ 1 R-item ⇒
 1 committed contact sheet`.
 

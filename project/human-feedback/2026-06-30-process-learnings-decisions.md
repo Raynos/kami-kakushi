@@ -72,9 +72,17 @@ doc-hygiene; nothing with teeth lands without a veto pass.
 
 ## PROPOSE-THEN-VETO table (the remaining learnings)
 
+> **STATUS: APPROVED 2026-06-30 — all 16 rows landed** (human: _"that table 16
+> items approved"_). Landing sites: **working-agreements.md** (A1/A2 multi-agent §,
+> A7, A11, A12-reconcile, A13, A23) · **AGENTS.md Conventions** (A6, A15, A20, A21) ·
+> **battery skill** (A12 `canon-vs-build` lens, A22 forward-spec audit) ·
+> **qa-playtesting.md** (A8/A9 a11y note, A18 sim-calibration) · **ui-design.md** +
+> **diverge skill** (A19). The F1/F2/E1/A4/A14/A16 rows landed with the decided
+> batch (see above).
+
 Legend for "rung": **norm** = documented expectation, no enforcement · **skill** =
 a runnable operation · **lens** = a battery lens · **canon** = a fun-factor/PRD
-design line. Veto, downgrade, or park any row.
+design line. (Kept below as the record of what was proposed and where it went.)
 
 ### Fun / design
 

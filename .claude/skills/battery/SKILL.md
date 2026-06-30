@@ -68,6 +68,7 @@ selection palette; don't re-run unchanged areas — re-run proven winners only a
 | `persona-simulation` | Walk the spec/build as a concrete **player persona**; where does their path break? |
 | `economy-arithmetic` | Balance math: koku sinks, yield multipliers, time-to-rank / 70-30 / ~28.5h targets, ratios — **and the invariants that secretly decide fun (A4):** does each upgrade close a **work→output→more-output loop**, or merely grant a *buffer*? do high-water marks **self-inflate** (re-judge their own payout)? is it **breadth without depth**? |
 | `instruction-coherence` | Internal coherence of PRD / CLAUDE.md / ADRs — contradictions, undefined defaults. |
+| `canon-vs-build` | Reconcile the ADR log / PRD against the **actual build (A12)**: a signed ADR is a **claim to verify, not proof** (D-053 described the opposite of the code). Flag locks that drifted from what shipped + stale task/milestone *labels* (a "retire DEV tools" label nearly deleted the live harness). |
 | `failure-state-walking` | Soft-stuck, durability dead-ends, legacy/edge states — walk every way to get stuck. |
 | `ui-state-correctness` | Every UI state renders right: loading / empty / error / boundary / overflow. |
 | `save-integrity` | Corrupt / legacy / tampered `localStorage` saves + `migrate()`. *(The useful kernel of "adversarial security" — the only real attack surface in a single-player offline browser game.)* |
@@ -91,6 +92,10 @@ Drive it with **`Workflow`**, not a loose pile of `Agent` calls:
   (telling the right player what this is) is cheaper than **engineering** a product change. Note the lane.
 - **De-duplicate against prior reports:** carryover findings are *referenced, not restated*, so a repeat
   battery reads short (see the v0.2 report's §3 carryover index for the pattern).
+- **Auditing a forward-moving spec (A22):** split findings into a **regression** lane (it broke / it's
+  wrong *now*) vs a **mutation-target** lane (a deliberate planned-future milestone) — **don't flag a
+  planned-future gap as a defect.** And **refute the GREEN claims too**, not only the red: a "this works /
+  this is done" assertion is itself a finding to adversarially verify (R3).
 
 ### 3 · Archive everything (five artifacts)
 

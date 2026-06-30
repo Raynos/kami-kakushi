@@ -41,12 +41,19 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
+- **Process canon (2026-06-30):** the v0.3 retrospective is adopted — **D-086**
+  (tension > generosity), **D-087** (loop done-rule: keep finding work), **D-088**
+  (e2e+invariants per tier = hard DoD contract); the rest folded as norms into
+  fun-factor / qa-playtesting / working-agreements / AGENTS.md Conventions / the
+  battery skill. Skills audited — all wired, test-discipline lifted into Conventions.
+  Capture: [`../human-feedback/2026-06-30-process-learnings-decisions.md`](../human-feedback/2026-06-30-process-learnings-decisions.md).
 
 ## Waiting on the human
 
 - **R1** 🔲 — play/taste call on the v0.3 T0 M0–M4 demo (fun · pacing · look).
 - **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075).
-- **Reading queue:** `project/brainstorms/2026-06-30-v03-process-learnings.md`.
+- **Reading queue:** `project/audit/reports/2026-06-30-skill-shelfware-audit.md` (FYI,
+  no action). *(The v0.3 process-learnings retro is signed off — adopted as D-086…D-088 + norms.)*
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 

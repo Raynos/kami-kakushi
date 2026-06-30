@@ -227,7 +227,9 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   the open-ended-not-handholdy quest framing reads as a suggestion, not a checklist.
 - **Atmosphere (within text+emoji+CSS):** the woodblock/ink mood, season/weather flavour, the diegetic
   log voice, festival beats — coherence over decoration.
-- **Balance:** the auto-player audits → tuning passes to the §4.8 targets.
+- **Balance:** the auto-player audits → tuning passes to the §4.8 targets. **Calibrate the sim as an
+  *instrument* and back-solve (A18):** take two measured points, derive the inverse transfer function, and
+  hit the target in one shot — don't guess-and-iterate a dial.
 - **Accessibility:** scalable text, colourblind-safe cues, keyboard + touch, pause (the locked v1 set).
 - **Shipping hygiene:** favicon, og:image/social embed, build-size prune, the itch.io packaging +
   relative-base check, a clean console/network bill of health.

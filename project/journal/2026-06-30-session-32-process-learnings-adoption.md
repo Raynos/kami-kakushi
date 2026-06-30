@@ -68,14 +68,32 @@ The human made these calls (capture has verbatim):
   the skill-audit report (FYI).
 - `project/audit/reports/2026-06-30-skill-shelfware-audit.md` — the subagent audit.
 
+## 3 · Veto-approved A-items landed (human: "that table 16 items approved")
+
+The human approved the whole propose-then-veto table; all 16 landed in a second
+commit (the F1/F2/E1/A4/A14/A16 rows were already in commit 1):
+- `project/status/working-agreements.md` — **Multi-agent coordination §** (A1/A2:
+  commit-by-explicit-path + on-green; scatter-gather disjoint leaves; audit =
+  tree write-lock) + **Process discipline §** (A11 enforcement-ladder calibration;
+  A13 most-important≠safe-alone; A12 reconcile-ADR-vs-build; A23 hand-off
+  reconcile; A7 retros-read-JSONL).
+- `AGENTS.md` Conventions — A6 (route derived feedback through the same pure-core
+  fn), A20 (acyclic core / shared glue for cross-cutting emitters), A21 (version
+  label single-source), A15 (content-transform verify: word-diff + NUL-free).
+- `.claude/skills/battery/SKILL.md` — `canon-vs-build` lens (A12) + forward-spec
+  audit method (A22, regression/mutation split + refute the GREEN).
+- `docs/living/qa-playtesting.md` — A18 (calibrate the sim + back-solve).
+- `docs/living/ui-design.md` — A19 taste heuristics (continuous ink > segmented
+  pips; focused diegetic view > god's-eye grid).
+- `.claude/skills/diverge/SKILL.md` — A19 diverge-integrity (implement-by-intent;
+  wire the decision-log into cleanup; name a corner-cut).
+- Capture table marked APPROVED+landed; `todo-human.md` veto TODO cleared.
+
 ## Next intended steps (current)
 
-1. **Human veto pass** on the propose-then-veto table (~16 A-items: A1/A2 multi-
-   agent, A6/A11/A12/A13/A15/A18/A19/A20/A21/A22/A23, A7 retro-JSONL). Then land
-   the approved ones (battery `canon-vs-build` lens, working-agreements multi-agent
-   §, conventions for A6/A20/A21, etc.).
-2. Update `project-status.md` snapshot + checkpoint (push) once the veto resolves.
-3. Then back to the **v0.3.1 build** (DEV panel → variants → combat → koku → map
+1. Update `project-status.md` snapshot + **checkpoint (push `main`)** — both commits
+   are green; make them durable on the remote.
+2. Then back to the **v0.3.1 build** (DEV panel → variants → combat → koku → map
    node), the pre-existing active plan.
 
 ## Landmines (current)

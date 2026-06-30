@@ -84,3 +84,48 @@ and paragraphs hard-wrapped at **≈80 characters**. It is a **soft norm** — m
 **tables** (rows can't wrap — prefer bullet-sections over a wide prose table) are accepted exceptions. Apply to
 **new / edited** docs; don't mass-retrofit. Count *characters*, not bytes (CJK inflates a byte count). Full
 statement in CLAUDE.md.
+
+## Multi-agent coordination (A1/A2 — the working tree may have >1 agent at once)
+
+This repo can have **more than one agent editing the working tree concurrently**. The shared-tree git
+safety above (stage **only your own files by explicit path**; never `stash`/`checkout`/`restore`/`-A`/
+`-a`) is the floor; these add the *parallelism* discipline learned the hard way in the v0.3 multi-agent
+build:
+
+- **Commit by EXPLICIT PATH, and commit on GREEN — not at a milestone.** Even a careful *bare*
+  `git commit` (no `-a`) once swept in a co-agent's **staged deletion**, and a concurrent `git stash`
+  nearly ate uncommitted work. So: `git add path/a path/b && git commit` the moment your slice is green,
+  by path, every time. The longer your work sits unstaged, the bigger the blast radius of someone else's
+  `add`/`stash`.
+- **Scatter-gather only DISJOINT new leaf modules.** Parallelise across agents **only** for independent
+  *new* leaf files, each independently green and wired into the spine **one at a time**. Keep the coupled
+  **core spine single-threaded** — two agents editing `reduce`/`step`/state shape at once will conflict
+  or silently clobber.
+- **A running read-only audit is a tree WRITE-LOCK.** Don't edit source while a battery / audit scans the
+  tree — it reads a moving target and its findings rot. Sequence: land your edits → *then* run the audit,
+  or run the audit on a quiesced tree.
+
+## Process discipline (v0.3 learnings)
+
+- **Enforcement-ladder calibration (A11, refines the "highest rung" convention).** Push each quality rule
+  to the highest rung that can **soundly** hold it — *calibrated by base rate*: **hard-block** only where
+  the rule is near-universal, **loud-warn** where it's mixed, and **decline** a redundant lower-rung guard
+  (restraint is a feature — a gate that cries wolf is worse than none). Write **tight, two-sided
+  exemptions**, and when you add a gate, **test its false-positive PASS path**, not just that it blocks.
+- **"Most important" ≠ "safe to do alone" (A13).** Autonomy bias pushes hardest toward the highest-value
+  item — but if that item's *output is numbers/design the human must sign off* (and no signed ADR already
+  locks them), **park it** and surface it, don't barrel ahead. The most important task is often the one
+  that most needs a human.
+- **Reconcile the ADR log against the build before deferring to the human (A12).** Search the ADR log
+  first — a lock may already exist (nearly burned a round-trip on D-056). And a **signed ADR is a claim to
+  verify, not proof** — D-053 described the opposite of what the code did. Task/milestone *labels* drift
+  too (a stale "retire DEV tools" label would have deleted the live playtest harness): trust the build +
+  the ADR text, not the label.
+- **After any fix, reconcile downstream hand-off artifacts (A23).** A fix can stale the curated
+  hand-off — screenshots, `review.md` items, playbook commands, the snapshot. Re-sync them in the same
+  pass, or the human acts on a misleading artifact. (F2's "design the after-state" applied to the
+  hand-off.)
+- **A retrospective MUST read the JSONL, not the compacted window (A7).** The in-context window hides
+  recurring patterns (this very cycle: the first retro from context found "one gap"; the 83 MB transcript
+  revealed a recurring pattern). For any real retro, mine the structured behaviour log (every command /
+  file / error), don't summarise from memory.

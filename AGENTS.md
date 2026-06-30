@@ -144,7 +144,15 @@ Full version:
 - **Pure-core boundary.** Keep game logic (rules, state, math) in a **pure
   core** with no DOM/canvas imports, and let the renderer consume it as plain
   data. The core is then deterministic and unit-testable — the single most
-  valuable architectural rule for a game.
+  valuable architectural rule for a game. **Route derived feedback (forecasts,
+  previews) through the SAME pure-core fn the action uses (A6)** — e.g.
+  `mcCombatStats` feeds both the real fight and the shown forecast, so a hurt
+  fighter's displayed win-rate drops for free: emergent UI legibility, zero extra
+  UI code, and no drift between preview and reality.
+- **Acyclic core — cross-cutting emitters go in shared glue (A20).** A concern
+  that fires from more than one reducer (quests, achievements) lives in a
+  **shared glue module both reducers import**, never as a reducer→reducer call —
+  keeps the core dependency graph acyclic.
 - **Determinism: one RNG.** All randomness flows through a single seeded RNG so
   runs reproduce.
 - **Test discipline (the ambient rule — D-086…D-088 adoption).** A test earns its
@@ -164,7 +172,12 @@ Full version:
   a never-invoked skill doesn't fire).
 - **Single source of truth — generate, don't duplicate.** Anything derivable
   from the game's data (balance tables, content lists) is **generated** into
-  `docs/`, never hand-maintained twice.
+  `docs/`, never hand-maintained twice. A **version label is a single-source
+  invariant too (A21)** — derive it from one source, never hand-type it across
+  docs (the v0.4.1→v0.3.1 mismatch). And when you **verify a content-preserving
+  transform**, diff in **TEXT mode** (word-diff vs `HEAD`) **and** assert the
+  output is **NUL-free (A15)** — a binary output gives a false-clean diff; count
+  prose width by *characters*, not bytes.
 - **Playtest via code, not synthetic input.** Expose a DEV-only play API on
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the

@@ -8,10 +8,7 @@
 
 ## TODO
 
-- [ ] **Veto pass** on the propose-then-veto adoption table (the ~16 remaining A-items) in
-  [`human-feedback/2026-06-30-process-learnings-decisions.md`](human-feedback/2026-06-30-process-learnings-decisions.md).
-  The decided items (3 ADRs + the F/E/P forks) are already landed; these last hygiene/process
-  learnings wait for your veto/adjust before I commit them.
+_(none open)_ <!-- veto pass DONE 2026-06-30: all 16 propose-then-veto items approved + landed -->
 
 ## Reading queue
 
