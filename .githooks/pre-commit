@@ -117,6 +117,47 @@ if [ "${SKIP_QUEUE:-0}" != "1" ]; then
   fi
 fi
 
+# --- Snapshot-shape gate: project/status/project-status.md is the LIVE one-screen SNAPSHOT
+#     (overwrite-in-place), NOT an append-only log — appending per-session history is the journal's
+#     job. It silently drifted to 326 lines of dated "Phase update — (session-NN)" bullets once,
+#     because a norm ("keep this to one screen") with nothing measuring it is a norm that gets
+#     ignored. So escalate a rung to a gate. Two checks on the to-be-committed blob (the index, so
+#     touching the file for an unrelated reason still gets checked):
+#       • line count > SNAPSHOT_MAX_LINES (default 120) -> HARD BLOCK. Objective + a real snapshot is
+#         ~90 lines, so 120 is generous headroom that never cries wolf — but 326 is impossible.
+#       • a "- **Phase update …" bullet (the journal-genre signature) -> LOUD WARN -> move it to journal/.
+#     Bypass (rare — a deliberate, human-blessed cap raise):  SKIP_SNAPSHOT=1 git commit … ---
+SNAPSHOT_FILE="project/status/project-status.md"
+if [ "${SKIP_SNAPSHOT:-0}" != "1" ] \
+  && git diff --cached --name-only --diff-filter=ACMR | grep -Fxq "$SNAPSHOT_FILE"; then
+  SNAPSHOT_MAX_LINES="${SNAPSHOT_MAX_LINES:-120}"
+  snap="$(git show ":${SNAPSHOT_FILE}" 2>/dev/null || true)"
+  snap_lines="$(printf '%s' "$snap" | grep -c '' || true)"
+  if [ "$snap_lines" -gt "$SNAPSHOT_MAX_LINES" ]; then
+    {
+      echo ""
+      echo "  X commit blocked - ${SNAPSHOT_FILE} is ${snap_lines} lines (cap ${SNAPSHOT_MAX_LINES})."
+      echo ""
+      echo "  This file is the LIVE ONE-SCREEN SNAPSHOT - overwrite it in place, do NOT append. The"
+      echo "  lossless 'how it got here' record is project/journal/, so trim/replace stale state here"
+      echo "  (it survives in the journal). Move any dated 'Phase update' history into the session journal."
+      echo ""
+      echo "  Genuinely need the headroom?  SKIP_SNAPSHOT=1 git commit ...  (raise the cap on purpose)"
+      echo ""
+    } >&2
+    exit 1
+  fi
+  if printf '%s\n' "$snap" | grep -qE '^[[:space:]]*-[[:space:]]+\*\*Phase update'; then
+    {
+      echo ""
+      echo "  !! snapshot WARN (NOT blocking) - ${SNAPSHOT_FILE} has a dated 'Phase update -' bullet."
+      echo "     That's the JOURNAL genre leaking into the snapshot - per-session history belongs in"
+      echo "     project/journal/. Keep this file a current-state snapshot (see its header)."
+      echo ""
+    } >&2
+  fi
+fi
+
 # --- Journal-hygiene gate (policy UNCHANGED): every commit stages a journal/ entry so the build
 #     keeps a running, resumable log. Live state lives in project/status/project-status.md. ---
 if [ "${SKIP_JOURNAL:-0}" = "1" ]; then

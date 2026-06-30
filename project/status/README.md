@@ -13,6 +13,11 @@ and (for the transient ones) deleted when empty.
 
 - [working-agreements](working-agreements.md) — cadence, autonomy, the commit/journal gate.
 - [project-status](project-status.md) — the live one-screen snapshot + how to resume.
+  **It is REPLACED in place, never appended to** — a snapshot, not a log. The
+  lossless "how it got here" history lives in [`journal/`](../journal), so trimming
+  stale state here loses nothing. No dated "Phase update — (session-NN)" bullets
+  (that's the journal genre); a `pre-commit` line-cap gate (~120 lines,
+  `SKIP_SNAPSHOT=1` to bypass) keeps it to one screen after it once drifted to 326.
 
 *(A transient `pending-prd-changes` tracker lived here through the 6-tier reshape — a "locked-ADRs-not-yet-rippled"
 checklist, surfaced by `session-brief.sh`, **deleted when empty**. It was **retired 2026-06-29** once the ripple

@@ -81,7 +81,14 @@ philosophy wins.**
   **bottom**) + `project/status/project-status.md` (the **live snapshot**) + the
   task list, so a cold pickup or a context compaction never loses progress. The
   record is **append-only & lossless** — supersede with a strikethrough + forward
-  pointer, park don't cut, archive don't remove; the *why* always survives.
+  pointer, park don't cut, archive don't remove; the *why* always survives. **The
+  one exception — and the reason the rule is stated carefully — is
+  `project/status/project-status.md`: it is a one-screen SNAPSHOT, REPLACED in
+  place, NOT appended to.** Trimming or rewriting stale state there is *correct*,
+  never a loss, *because* `journal/` is the lossless record that preserves it.
+  Never add a dated "Phase update — (session-NN)" bullet to the snapshot — that's a
+  journal entry; the leak of append-only history into the snapshot once bloated it
+  to 326 lines, so a `pre-commit` line-cap gate now holds it to one screen.
 - **Checkpoint = make the work resumable from disk *and on the remote*, right
   now.** When asked to "checkpoint" (or before exiting), run the loop: **commit
   completed work → stage a `journal/` entry → bring
