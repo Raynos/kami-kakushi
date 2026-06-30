@@ -9,6 +9,11 @@ metadata:
 
 > Keep this to one screen. Update it at the end of each session so a cold pickup is instant.
 
+- **History rewrite (session-25):** all 269 commits on `main` rewritten via `git filter-repo` — scrubbed
+  the 58 `project/brainstorms/raw/*.json` blobs from history + converted every AI `Co-Authored-By` trailer
+  to `Assisted-by:` (force-pushed `c5e2a67…839f98d`). **Any separate clone must `git fetch && git reset
+  --hard origin/main`.** Backups deleted post-confirm. (`docs/plans/2026-06-30-history-rewrite.md`.)
+
 - **Repo guards (session-24):** three **hookify** rules in `.claude/hookify.*.local.md` (tracked, not
   gitignored) warn/block *agent* git actions that violate shared-tree safety — bulk `git add -A`/`commit -a`,
   `git stash`/`restore`/`checkout <path>`, and `SKIP_VERIFY=…` + `git push`. They guard agents, not humans;

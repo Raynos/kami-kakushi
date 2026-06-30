@@ -8,8 +8,9 @@ Rewrote all 269 commits via `git filter-repo` in one pass: scrubbed 58
 and untagged commits untouched). Force-pushed `c5e2a67…839f98d` to `origin/main`
 (pre-push gate green). `gh-pages` carried no dumps — left as-is.
 
-**Backups retained until all clones confirm healthy:** `backup/pre-rewrite-2026-06-30`
-branch + mirror clone at `../kami-kakushi-backup.git`.
+**Backups deleted 2026-06-30** after the human confirmed the rewrite healthy
+(were: `backup/pre-rewrite-2026-06-30` branch + mirror clone at
+`../kami-kakushi-backup.git`).
 
 **Aftermath — every other clone must re-sync** (old SHAs are gone; no
 fast-forward across a rewrite): `git fetch origin && git reset --hard origin/main`.
