@@ -82,6 +82,13 @@ Full version: [`project/status/working-agreements.md`](project/status/working-ag
 - **Docs taxonomy.** `docs/*.md` says what the game **is now** (living, edited in place); `project/journal/`
   says **how it got here** (a chronological log — append at the bottom, never prepend; the live snapshot is
   `project/status/project-status.md`). One doc per concern; edit living docs in place (don't fork copies).
+- **Markdown prose width — wrap at ~80 (a SUGGESTION, not a gate).** The human prefers markdown prose and
+  paragraphs hard-wrapped at **≈80 characters** (re-flowable in any editor, clean diffs, no horizontal scroll).
+  It's a **soft norm**, deliberately **not** enforced by `verify` — markdown is excluded from Prettier
+  (`.prettierignore`), and 80 is impractical to hard-block everywhere (wide CJK glyphs, long URLs/paths, and
+  **markdown tables** — whose rows can't wrap — are accepted exceptions; prefer bullet-sections over a wide table
+  when the cells carry prose). Apply it to **new/edited** docs; don't mass-retrofit existing ones. Count by
+  *characters*, not bytes (CJK inflates a byte count).
 - **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to **locked intent** — the
   §1 vision + the human-signed acceptance criteria (no-magic / mediocre-start / trade ≤⅓ /
   active-only, the four pillars + estate spine, the ≥30-min-per-rank / 70-30 / ~28.5h / tier-gate

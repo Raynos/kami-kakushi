@@ -66,3 +66,10 @@ in chat or a ledger pointer (session context dies at compaction). Homes:
 **[`../brainstorms/`](../brainstorms)** (discovery) · **[`../../docs/plans/`](../../docs/plans)**
 (plans / reel-backs) · **[`../../docs/`](../../docs)** (settled). The full convention (incl. durable
 capture of workflow / subagent outputs) lives in CLAUDE.md — this is the cross-ref, not a second copy.
+
+**Markdown prose width — wrap at ~80 chars (a SUGGESTION, not a gate):** the human prefers markdown prose
+and paragraphs hard-wrapped at **≈80 characters**. It is a **soft norm** — markdown is excluded from Prettier
+(`.prettierignore`) and 80 can't be hard-blocked everywhere, so wide CJK glyphs, long URLs/paths, and markdown
+**tables** (rows can't wrap — prefer bullet-sections over a wide prose table) are accepted exceptions. Apply to
+**new / edited** docs; don't mass-retrofit. Count *characters*, not bytes (CJK inflates a byte count). Full
+statement in CLAUDE.md.
