@@ -27,6 +27,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H8 | Split the 7k-line PRD | Split into `prd/§1…§7` (mechanical) — batched in the PRD ripple | _none (mechanical)_ — *(ripple tracker retired 2026-06-29)* | 2026-06-29 | [decision-session](../human-feedback/2026-06-29-decision-session.md) |
 | H9 | `resolve-queue` skill | **Drop** — resolve decision queues by hand | **D-070** | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
 | H10 | Operating Model v2 | **Defer** the bundle; adopt the lean pre-commit gate ad hoc | **D-070** (defer) + **D-071** (gate) | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
+| H11 | T0 material-surplus sink (2nd craft recipe?) | **Option C** — accept surplus as WAI for the miniature; material economy is a T1+ concern (battery #15 closed) | **D-095** | 2026-07-01 | [h11-material-surplus](../human-feedback/2026-07-01-h11-material-surplus.md) |
 
 ## Reviews (closed R-items)
 
