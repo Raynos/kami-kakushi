@@ -553,7 +553,10 @@ h3 {
   background: var(--rokusho);
 }
 .vital.health .value {
-  font-size: var(--fs-micro);
+  /* the survival-critical HP number ("1/20") must read at a glance — not the tiniest glyph on
+     screen (was --fs-micro, half the koku size; ui-design §5.7 / §10 hierarchy). */
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
   color: var(--ink-soft);
 }
 
@@ -674,6 +677,15 @@ h3 {
   /* a11y (D-045): --ink-faint (#7a6c59) is only 3.65:1 on the washi-shade panels — fails WCAG AA.
      A touch darker (~4.8:1) keeps the muted hierarchy but stays readable. Borders keep --ink-faint. */
   color: #685b48;
+}
+/* secondary data readouts (storehouse balance, live standing, ascension boon, quest reward). This
+   class was USED but had no rule — the koku/standing figures fell back to full-size serif body ink,
+   louder than the muted blurb above them. A small muted line restores the intended hierarchy (§10). */
+.influence-when {
+  margin-top: var(--space-1);
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
 }
 
 /* ── skills pane ─────────────────────────────────────────────────────────── */
@@ -1112,6 +1124,12 @@ html {
 }
 .map-move {
   text-align: left;
+}
+/* the "what's here" sub-line under a move button (forage/foe/storehouse) — muted, indented. */
+.map-move-hint {
+  margin: calc(-1 * var(--space-1)) 0 var(--space-1) var(--space-2);
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
 }
 .map-move.danger {
   border-color: var(--beni);

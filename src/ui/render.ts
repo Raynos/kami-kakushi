@@ -53,6 +53,8 @@ import {
   getNode,
   reachableFrom,
   skillLevel,
+  ACTIVITIES,
+  MOBS,
   balance,
 } from '../core';
 import type { Sfx } from './sfx';
@@ -367,7 +369,11 @@ export function mount(
   title.append(el('span', 'kami', '神隠し'));
   title.append(el('span', 'roman', 'Kamikakushi'));
   const settingsBtn = el('button', 'settings-btn');
-  settingsBtn.append(el('span', 'emoji', '⚙'), document.createTextNode(' Settings'));
+  // "Settings 設定" — the woodblock English+kanji pairing (like "Estate 地図"), not a generic-web ⚙
+  // gear outside the curated emoji set (ui-design §7/§9).
+  const settingsKanji = el('span', 'settings-kanji', '設定');
+  settingsKanji.lang = 'ja';
+  settingsBtn.append(document.createTextNode('Settings '), settingsKanji);
   settingsBtn.type = 'button';
   settingsBtn.setAttribute('aria-haspopup', 'dialog');
   const settings = buildSettings(hooks);
@@ -530,18 +536,27 @@ export function mount(
     if (ladder.hidden || !isUnlocked(state, 'panel-rung-ladder')) return;
     const rank = currentRank(state);
     const prog = rungProgress(state);
+    // FULL meter but an unmet story-gate (e.g. auto-labour maxed the bar without ever fighting the
+    // wolf): show the deed still owed, not a stuck "Estate service · N/N" — a maxed bar must never
+    // read as a dead wall (fun-factor "always a visible next goal").
+    const gated = prog.into >= prog.needed && !prog.ready;
     const card = el('div', 'rung-card frame');
     card.append(el('div', 'rung-now', `${rank.title} · ${rank.kanji}`));
     const meter = el('div', 'meter');
     const meterFill = el('span');
-    meterFill.style.width = `${Math.round((prog.into / prog.needed) * 100)}%`;
+    // hold the fill just shy of full while gated, so a truly-full bar always means promotable.
+    meterFill.style.width = `${gated ? 92 : Math.round((prog.into / prog.needed) * 100)}%`;
     meter.append(meterFill);
     card.append(meter);
     card.append(
       el(
         'div',
         'rung-hint',
-        prog.ready ? 'Ready to advance.' : `Estate service · ${prog.into}/${prog.needed}`,
+        prog.ready
+          ? 'Ready to advance.'
+          : gated
+            ? (rank.advanceHint ?? 'The work is done — a deed still stands before the next rung.')
+            : `Estate service · ${prog.into}/${prog.needed}`,
       ),
     );
     const nid = nextRankId(rank.id);
@@ -568,10 +583,27 @@ export function mount(
     const next = ESTATE_STAGES.find((s) => s.stage === stage + 1);
     if (next) {
       card.append(el('div', 'skill-blurb', next.blurb));
+      // the mechanical PAYOFF (the koku flywheel — the whole reason to sink koku into the estate),
+      // read from the source-of-truth stage fields so it never drifts (R6: an invisible mechanic).
+      card.append(
+        el(
+          'div',
+          'rung-hint',
+          `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`,
+        ),
+      );
       const btn = el('button', 'verb', `${next.label} (${next.kokuCost} koku)`);
       btn.type = 'button';
-      btn.disabled = (state.resources.koku ?? 0) < next.kokuCost;
-      if (btn.disabled) btn.title = `Needs ${next.kokuCost} koku`;
+      const carried = state.resources.koku ?? 0;
+      const banked = state.banked.koku ?? 0;
+      btn.disabled = carried < next.kokuCost;
+      // don't lie "Needs N koku" when the koku is merely sitting safe in the kura — point at the bank.
+      if (btn.disabled) {
+        btn.title =
+          banked >= next.kokuCost
+            ? 'Draw koku from the kura storehouse first'
+            : `Needs ${next.kokuCost} koku`;
+      }
       btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
       card.append(btn);
     } else {
@@ -735,6 +767,7 @@ export function mount(
     const revealed = new Set(state.unlocked);
     const moves = reachableFrom(state.location, revealed);
     if (moves.length === 0) return null;
+    const RES_WORD: Record<string, string> = { koku: 'rice', wood: 'wood', sansai: 'greens' };
     const movesEl = el('div', 'map-moves');
     for (const n of moves) {
       const danger = n.dangerRing === true;
@@ -748,11 +781,32 @@ export function mount(
         k.textContent = n.kanji;
         btn.append(k);
       }
-      if (danger) btn.append(el('span', 'map-danger', ' ⚠'));
+      // danger as an INK mark, not a filter-skipping ⚠ emoji (ui-design §7); colour is on .map-danger.
+      if (danger) btn.append(el('span', 'map-danger', ' 険'));
       btn.disabled = gated;
       if (gated) btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
       btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
       movesEl.append(btn);
+      // "what's here" — derived from content so you don't navigate blind: what you gather, who stirs
+      // (named only once you've fought it — scout-by-fighting fog), and the kura storehouse.
+      const yields = new Set<string>();
+      for (const a of ACTIVITIES) {
+        if (a.area === n.id && isUnlocked(state, a.surface)) {
+          for (const r of Object.keys(a.yields)) yields.add(RES_WORD[r] ?? r);
+        }
+      }
+      const foe = MOBS.find((m) => !m.scripted && m.area === n.id);
+      const hints = [...yields];
+      if (foe)
+        hints.push(hasFlag(state, `mob-${foe.id}`) ? foe.label.toLowerCase() : 'a foe stirs');
+      if (n.id === 'kura') hints.push('the storehouse');
+      if (hints.length) movesEl.append(el('div', 'map-move-hint', hints.join(' · ')));
+      // the gate reason, VISIBLE (not a hover-only title on a disabled button — ui-design §5.9/§8).
+      if (gated) {
+        movesEl.append(
+          el('div', 'lock-hint', `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`),
+        );
+      }
     }
     return movesEl;
   }
@@ -790,7 +844,7 @@ export function mount(
         el(
           'p',
           'area-blurb',
-          'The grain-store wolf still waits where you woke. Open the 地図 map and walk back to the kura (蔵) to face it.',
+          'The grain-store wolf still waits where you woke. Use Walk on 道 below to head back to the kura (蔵) and face it.',
         ),
       );
     }
@@ -1070,7 +1124,7 @@ export function mount(
         el(
           'p',
           'area-blurb',
-          'No foe holds this ground. Open the 地図 map and walk to the paddies, the satoyama, or the woodlot road to find one.',
+          'No foe holds this ground. Use Walk on 道 (the Work tab) to reach the paddies, the satoyama, or the woodlot road.',
         ),
       );
     }
@@ -1110,22 +1164,27 @@ export function mount(
       const autoOn = state.autoCombat === fc.mob.id;
       const deathOn = autoOn && !state.autoCombatRetreat;
       const retreatOn = autoOn && state.autoCombatRetreat;
+      // the RISK reads on the FACE of each toggle, not hover-only (the fight-to-death auto costs koku
+      // on the inevitable loss; touch-legible, mirrors the stance-wear pips — ui-design §8).
       const atDeath = el(
         'button',
         `auto-toggle${deathOn ? ' on' : ''}`,
-        deathOn ? '■ stop' : '▶ auto',
+        deathOn ? '■ stop' : '▶ auto · to the end',
       );
       atDeath.type = 'button';
       atDeath.title =
         'Auto-fight to the end — HP carries; you can be beaten, and a loss costs koku.';
-      atDeath.setAttribute('aria-label', `Auto-fight the ${fc.mob.label} to the end`);
+      atDeath.setAttribute(
+        'aria-label',
+        `Auto-fight the ${fc.mob.label} to the end — a loss costs koku`,
+      );
       atDeath.addEventListener('click', () =>
         dispatch({ type: 'set_auto_combat', mobId: deathOn ? null : mob, retreat: false }),
       );
       const atFlee = el(
         'button',
         `auto-toggle${retreatOn ? ' on' : ''}`,
-        retreatOn ? '■ stop' : '▶ auto·flee',
+        retreatOn ? '■ stop' : '▶ auto · flee @20%',
       );
       atFlee.type = 'button';
       atFlee.title =
@@ -1391,7 +1450,7 @@ export function mount(
         el(
           'div',
           'area-blurb',
-          'Open the 地図 map and walk back to the kura (蔵) to store or draw koku.',
+          'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw koku.',
         ),
       );
     }
@@ -1427,6 +1486,8 @@ export function mount(
         left.append(
           el('span', 'market-grant lock-hint', `${grantStr}${capped ? ' · sold out' : ''}`),
         );
+        // the WHEN/WHY blurb (authored in market.ts, was thrown away) — so trade isn't a bare price list.
+        left.append(el('span', 'skill-blurb market-blurb', item.blurb));
         row.append(left);
         const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
         btn.type = 'button';
@@ -1438,6 +1499,8 @@ export function mount(
         );
         btn.disabled = !canBuy(state.resources, item, bought);
         if (capped) btn.title = "You've taken all the pedlar carries this run.";
+        else if (btn.disabled && (state.banked.koku ?? 0) >= item.kokuCost)
+          btn.title = 'Draw koku from the kura storehouse first';
         btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
         row.append(btn);
         card.append(row);

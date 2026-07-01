@@ -25,6 +25,9 @@ export interface RankDef {
   readonly eligible: readonly string[];
   /** The story half of the AND-gate (flags). Defaults to always-ready. */
   readonly storyGate: (flags: Readonly<Record<string, boolean>>) => boolean;
+  /** Shown by the rung ladder when the meter is FULL but the storyGate is unmet — the deed still
+   *  owed, so a maxed bar never reads as a dead/stuck wall (fun-factor "always a visible next goal"). */
+  readonly advanceHint?: string;
   /** Fired when promoted INTO this rank. */
   readonly rewardOnReach?: RewardBundle;
 }
@@ -48,6 +51,7 @@ export const RANKS: readonly RankDef[] = [
     meterThreshold: 2150, // ≈ 10 min
     eligible: ['farm_paddy', 'haul_stores'],
     storyGate: (f) => f['farmed'] === true, // you've taken to the fieldwork
+    advanceHint: 'Service enough — now take to the fieldwork. Farm the home paddies.',
     rewardOnReach: {
       // Each rung stamps its own `rank-rN` marker — a deliberate SYMMETRIC set (battery #19 audit):
       // `rank-r1` gates a reveal (intents.ts) and the rest are the per-rung record used by test
@@ -79,6 +83,7 @@ export const RANKS: readonly RankDef[] = [
     meterThreshold: 2600, // ≈ 12 min
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: (f) => f['first-fight-survived'] === true, // the humbling fight (M2a) opens R3
+    advanceHint: 'Service enough — but the grain-store wolf still waits. Face it to rise.',
     rewardOnReach: {
       flags: ['rank-r2', 'porters-knot'],
       unlock: [
@@ -118,6 +123,7 @@ export const RANKS: readonly RankDef[] = [
     // M2·2: R3→R4 opens once you've actually stood the gate-watch — done real combat duty,
     // not merely filled the meter with labour (the `combat-blooded` flag, set on any grind fight).
     storyGate: (f) => f['combat-blooded'] === true,
+    advanceHint: 'Service enough — now blood the blade. Stand a real watch in the field.',
     rewardOnReach: {
       flags: ['rank-r3', 'combat-unlocked'],
       unlock: [
