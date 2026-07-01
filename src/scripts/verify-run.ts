@@ -33,6 +33,7 @@ const GATES: ReadonlyArray<{ name: string; cmd: string }> = [
   { name: 'pacing', cmd: 'tsx src/scripts/pacing-report.ts --check' },
   { name: 'playcheck', cmd: 'tsx src/playcheck.ts --check' },
   { name: 'md-links', cmd: 'tsx src/scripts/check-md-links.ts' },
+  { name: 'milestone-integrity', cmd: 'tsx src/scripts/milestone-integrity.ts' },
 ];
 
 interface GateResult {

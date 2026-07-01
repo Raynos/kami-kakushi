@@ -16,7 +16,7 @@ decisions are recorded as ADRs in [`../docs/living/decisions.md`](../../docs/liv
 **Commit gate:** keep the build working, and stage a `journal/` change every commit (enforced by
 `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). Gate every commit on `npm run verify` — the
 gate roster is owned by [`../../src/scripts/verify-run.ts`](../../src/scripts/verify-run.ts) (the single
-source of truth; **10 gates** today), so it can't drift here. Recorded in [project-status](project-status.md).
+source of truth; **11 gates** today), so it can't drift here. Recorded in [project-status](project-status.md).
 
 **Autonomy:** pick the next task → build → verify → commit → journal → repeat. Stop and ask only for
 (1) decisions that change what the game *is*, and (2) outward-facing / hard-to-reverse actions (deploy,
