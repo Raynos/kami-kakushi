@@ -145,6 +145,26 @@ describe('migration wiring + pre-migration backup', () => {
     expect(await backend.get('kk:premigrate:v0')).toBe(JSON.stringify(old)); // raw backup kept
   });
 
+  it('clamps a corrupt `location` to the kura on load (a bad node id would crash the renderer)', async () => {
+    const backend = new MemoryBackend();
+    // a save whose location is not a real map node — getNode() would throw and crash the UI on load
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({
+        app: 'kami-kakushi',
+        schemaVersion: SCHEMA_VERSION,
+        saveCounter: 1,
+        savedAt: 1,
+        state: { ...sample(), location: 'no-such-node' },
+      }),
+    );
+    const mgr = createMemorySaveManager([backend], () => 9);
+    const loaded = await mgr.load();
+    expect(loaded).not.toBeNull();
+    expect(loaded!.state.location).toBe('kura'); // clamped to a real node → getNode() can't throw
+    expect(loaded!.coerced).toBe(true); // the "mended a small problem" notice fires
+  });
+
   it('still rejects a save from a newer schema (future-version guard)', async () => {
     const backend = new MemoryBackend();
     await backend.set(

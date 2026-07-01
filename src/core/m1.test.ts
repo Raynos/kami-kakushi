@@ -143,12 +143,19 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
     expect(s.deliveredDialogue).not.toContain('gen-kept');
   });
 
-  it('the koku-teaching + acknowledgment land only after you actually rake (reveal-as-plot)', () => {
+  it('the mentor lines land ONE PER RAKE (reveal-as-plot; no monologue dump on the first click)', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    // rake #1 surfaces ONLY the koku lesson — not the whole raked-gated monologue at once.
     s = reduce(s, { type: 'rake_rice' });
-    expect(s.deliveredDialogue).toContain('gen-rake'); // the koku lesson, as +koku shows
+    expect(s.deliveredDialogue).toContain('gen-rake');
+    expect(s.deliveredDialogue).not.toContain('gen-keep'); // paced to the next rake
+    expect(s.deliveredDialogue).not.toContain('gen-kept');
+    // rake #2 lands the promise; rake #3 the acknowledgment (its "filling basket" line after real raking).
+    s = reduce(s, { type: 'rake_rice' });
     expect(s.deliveredDialogue).toContain('gen-keep');
-    expect(s.deliveredDialogue).toContain('gen-kept'); // the acknowledgment
+    expect(s.deliveredDialogue).not.toContain('gen-kept');
+    s = reduce(s, { type: 'rake_rice' });
+    expect(s.deliveredDialogue).toContain('gen-kept');
     // …and they never double-deliver
     const before = s.deliveredDialogue.length;
     s = reduce(s, { type: 'rake_rice' });

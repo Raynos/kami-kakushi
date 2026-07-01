@@ -56,7 +56,7 @@ export type Intent =
   | { type: 'set_auto'; activityId: ActivityId | null }
   | { type: 'face_wolf' }
   | { type: 'fight'; mobId: MobId; retreat?: boolean }
-  | { type: 'set_auto_combat'; mobId: MobId | null; retreat?: boolean }
+  | { type: 'set_auto_combat'; mobId: MobId | null; retreat?: boolean; reason?: 'weapon-broken' }
   | { type: 'repair_weapon' }
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
@@ -97,8 +97,11 @@ function finish(state: GameState): GameState {
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
  *  diegetic mentor, D-039/D-063 — the log IS the surface, never a popup). Advances the cursor. */
-function deliverDialogue(state: GameState, dialogueId: string): GameState {
-  const fresh = nextDialogueLines(dialogueId, new Set(state.deliveredDialogue), state.flags);
+function deliverDialogue(state: GameState, dialogueId: string, cap?: number): GameState {
+  // `cap` limits how many newly-eligible lines land in ONE call — so a single rake doesn't dump the
+  // whole raked-gated monologue at once (fun-factor "one teach per moment; never a monologue dump").
+  const all = nextDialogueLines(dialogueId, new Set(state.deliveredDialogue), state.flags);
+  const fresh = cap !== undefined ? all.slice(0, cap) : all;
   if (fresh.length === 0) return state;
   const next: GameState = {
     ...state,
@@ -135,8 +138,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
         flags: ['raked'],
         log: [{ channel: 'reward', text: rakeLine(RICE_PER_RAKE) }],
       });
-      // reveal-as-plot: once you've actually raked, Genemon's gated acknowledgment lands.
-      next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID);
+      // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):
+      // gen-rake lands on rake #1, gen-keep on #2, gen-kept on #3 — the teach paces with the work.
+      next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID, 1);
       next = accrueRungMeter(next, 'rake_rice');
       next = advanceClock(next, TICKS_PER_ACT);
       break;
@@ -211,6 +215,18 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // `fight` gate); clearing (mobId null) works from anywhere. move_to also clears it when you walk off.
       if (intent.mobId !== null && getMob(intent.mobId).area !== next.location) return state;
       next = { ...next, autoCombat: intent.mobId, autoCombatRetreat: intent.retreat ?? false };
+      // The auto-loop stops the grind when the blade breaks and there's no wood to mend it — say so,
+      // else the "leave it running" mode just halts silently and reads as a freeze (R3 false-silence).
+      if (intent.mobId === null && intent.reason === 'weapon-broken') {
+        next = applyRewards(next, {
+          log: [
+            {
+              channel: 'system',
+              text: `Your ${getWeapon(next.equippedWeapon).label.toLowerCase()} is broken and there's no wood to mend it — the watch breaks off. Gather wood and repair before you fight on.`,
+            },
+          ],
+        });
+      }
       break;
     }
     case 'set_stance': {
@@ -243,8 +259,18 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // the wood_axe is now FOUND/CRAFTED (D-052) — gate equipping it on having forged it,
       // not on the retired drillmaster grant.
       if (intent.weaponId === 'wood_axe' && !hasFlag(next, 'crafted-wood_axe')) return state;
+      if (intent.weaponId === next.equippedWeapon) return state; // re-equip = no-op
       const weapon = getWeapon(intent.weaponId);
-      next = { ...next, equippedWeapon: intent.weaponId, weaponDurability: weapon.durabilityMax };
+      // Switching CARRIES the current durability (clamped to the new weapon's max) — it must NOT
+      // refill to full: an equip-to-repair loop was a free-repair exploit that voided the whole
+      // wood+koku repair economy. A fresh weapon gets full durability at CRAFT time (craft_weapon),
+      // never on a swap. (A per-weapon durability Record is the fuller fix; the clamp kills the
+      // exploit for T0's two-weapon roster.)
+      next = {
+        ...next,
+        equippedWeapon: intent.weaponId,
+        weaponDurability: Math.min(next.weaponDurability, weapon.durabilityMax),
+      };
       next = applyRewards(next, {
         log: [{ channel: 'system', text: `You take up the ${weapon.label.toLowerCase()}.` }],
       });

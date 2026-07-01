@@ -5,7 +5,7 @@
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
 import type { GameState, StanceId } from '../core';
-import { APP_ID, SCHEMA_VERSION } from '../core';
+import { APP_ID, SCHEMA_VERSION, MAP_NODE_IDS } from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
 
@@ -143,6 +143,13 @@ export function validateState(rawState: unknown): ValidateResult {
   // (additive-schema hydration, PRD §6.8.2).
   const base = rawState as unknown as Partial<GameState>; // honest: fields may be absent/defaulted below
 
+  // A corrupt `location` must NOT reach the renderer: getNode() throws on an unknown node id and
+  // crashes the whole UI on load. Clamp to a real map node (fallback the always-open kura); only a
+  // PRESENT-but-invalid value counts as a coercion (a missing one is a fresh/old-save default).
+  const location: GameState['location'] =
+    typeof base.location === 'string' && MAP_NODE_IDS.has(base.location) ? base.location : 'kura';
+  if (base.location !== undefined && location !== base.location) coerced = true;
+
   // Compile-time ledger: every GameState key must be handled in the literal below.
   // Adding a new field to GameState without a validated default here is a tsc error.
   type _Handled =
@@ -209,7 +216,7 @@ export function validateState(rawState: unknown): ValidateResult {
     marketBought: isObject(base.marketBought)
       ? (base.marketBought as GameState['marketBought'])
       : {},
-    location: typeof base.location === 'string' ? base.location : 'kura',
+    location,
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,

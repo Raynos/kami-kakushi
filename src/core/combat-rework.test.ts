@@ -16,6 +16,7 @@ import {
   mcCombatStats,
   mobCombatStats,
   getMob,
+  getWeapon,
   balance,
   hpMax,
   type GameState,
@@ -278,5 +279,47 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     // at the kura: facing it always resolves and opens R3.
     const here = reduce({ ...base, location: wolfNode }, { type: 'face_wolf' });
     expect(here.flags['first-fight-survived']).toBe(true);
+  });
+});
+
+describe('v0.3.1 fun/quality audit fixes (2026-07-01)', () => {
+  it('equipping a weapon does NOT refill durability — no free-repair-by-swap exploit', () => {
+    const base = createInitialState(1);
+    const worn: GameState = {
+      ...base,
+      equippedWeapon: 'carrying_pole',
+      weaponDurability: 5, // badly worn
+      flags: { ...base.flags, 'crafted-wood_axe': true },
+    };
+    // switching to the axe carries the (clamped) durability — it does NOT jump back to full.
+    const axeMax = getWeapon('wood_axe').durabilityMax;
+    const swapped = reduce(worn, { type: 'equip_weapon', weaponId: 'wood_axe' });
+    expect(swapped.equippedWeapon).toBe('wood_axe');
+    expect(swapped.weaponDurability).toBe(Math.min(5, axeMax)); // = 5, not axeMax → no free repair
+    expect(swapped.weaponDurability).toBeLessThan(axeMax);
+    // re-equipping the already-equipped weapon is a no-op (can't tap it to refill either).
+    expect(reduce(worn, { type: 'equip_weapon', weaponId: 'carrying_pole' })).toBe(worn);
+  });
+
+  it('arming auto-flee while already too hurt refuses honestly — no phantom flee', () => {
+    const hurt: GameState = { ...mc(1), character: { ...mc(1).character, hp: 1 } };
+    const after = applyGrindFight(hurt, 'monkey', true); // retreat mode, HP already ≤ threshold
+    expect(after.autoCombat).toBeNull(); // the autopilot stops
+    expect(after.character.hp).toBe(1); // no fight happened — HP untouched
+    expect(after.clock).toBe(hurt.clock); // no clock advance (no fight)
+    expect(after.weaponDurability).toBe(hurt.weaponDurability); // no phantom weapon wear
+    const line = after.log.entries.at(-1)?.text ?? '';
+    expect(line).toMatch(/too hurt to hold the line/); // an honest "mend first", not "winded but whole"
+    expect(line).not.toMatch(/winded, blade up, but whole/);
+  });
+
+  it('stopping auto-combat for a broken weapon logs WHY (not a silent halt)', () => {
+    const s: GameState = { ...createInitialState(1), flags: { awake: true }, autoCombat: 'monkey' };
+    const after = reduce(s, { type: 'set_auto_combat', mobId: null, reason: 'weapon-broken' });
+    expect(after.autoCombat).toBeNull();
+    expect(after.log.entries.some((e) => /broken.*no wood to mend/i.test(e.text))).toBe(true);
+    // a normal manual toggle-off (no reason) never emits the broken-weapon line
+    const silent = reduce(s, { type: 'set_auto_combat', mobId: null });
+    expect(silent.log.entries.some((e) => /broken.*no wood to mend/i.test(e.text))).toBe(false);
   });
 });

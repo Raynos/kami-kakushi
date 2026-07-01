@@ -74,6 +74,23 @@ function gainCombatXp(state: GameState, amount: number): GameState {
 export function applyGrindFight(state: GameState, mobId: MobId, retreat = false): GameState {
   const mob = getMob(mobId);
   const retreatHp = retreat ? Math.round(AUTO_RETREAT_FRAC * hpMax(state)) : 0;
+  // Arming auto-flee while ALREADY at/below the retreat threshold (e.g. HP 1 right after a loss)
+  // would make resolveFight "flee" on turn 1 — a phantom flee that logs "winded, blade up, but whole"
+  // for a fight that never happened and silently un-arms. Refuse honestly instead: mend first. No
+  // fight, no clock, no weapon wear; the autopilot stops.
+  if (retreat && state.character.hp <= retreatHp) {
+    return applyRewards(
+      { ...state, autoCombat: null },
+      {
+        log: [
+          {
+            channel: 'combat',
+            text: 'You are too hurt to hold the line — eat and mend before you take the field.',
+          },
+        ],
+      },
+    );
+  }
   const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob), retreatHp);
   let next: GameState = { ...state, rng: result.rng };
   next = wearWeapon(next);

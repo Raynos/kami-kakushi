@@ -206,7 +206,7 @@ async function boot(): Promise<void> {
         return;
       }
       if (band.name === 'Broken') {
-        dispatch({ type: 'set_auto_combat', mobId: null });
+        dispatch({ type: 'set_auto_combat', mobId: null, reason: 'weapon-broken' });
         return;
       }
       dispatch({ type: 'fight', mobId: state.autoCombat, retreat: state.autoCombatRetreat });
