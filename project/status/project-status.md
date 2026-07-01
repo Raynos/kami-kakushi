@@ -72,10 +72,7 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
 - **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075) — now incl. the **Estate-map**
   A/B/C (paths list · 絵地図 schematic · 道中記 ledger).
 - **Reading queue:** _(none open)_ — the v0.3 process-learnings retro is signed off
-
-_(H11 — the T0 material-surplus sink — closed 2026-07-01 as WAI for the miniature → **D-095**;
-revisit at T1. No open decisions remain.)_
-  (adopted as D-086…D-088 + norms); the skill-audit report was retired (no actions).
+- **H13** 🔲 — the E-stage numbering collision (code E1–E4 vs design E0→E3 + parked E4–E5).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -107,8 +104,9 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 ## How to resume
 
-1. Read the **newest journal** (`project/journal/2026-07-01-session-36-v0.3.1-build.md` — the live
-   build log) + the **batch-2 capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
+1. Read the **newest journal** (`project/journal/2026-07-01-session-38-doc-staleness-reconcile.md` —
+   doc reconcile + version single-sourcing; the v0.3.1 **build log** is session-36) + the **batch-2
+   capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
    + the **build plan** `project/archive/2026-06-30-v0.3.1-build.md` (DONE — archived).
 2. `npm install` (fresh clone) → `npm run verify` (green) → `npm run dev`.
 3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` (`newGame`, `toRung`, `fight`,
@@ -117,4 +115,6 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
    UI variants live in the DEV panel (override-only). (b) **Scope the T1 (Estate-full) build** — the
    next roadmap slice; it carries the two reasoned-deferred items: the **§4 6-tier balance re-derivation**
    (D-092) and a **real material economy / 2nd koku sink** (D-095 / battery #15). The v0.3.1 build +
-   its 8-lens fidelity battery are **fully actioned** — no open engineering findings or decisions remain.
+   its 8-lens battery are **fully actioned**; the session-38 doc-staleness audit confirmed PRD §4 +
+   the ADR log are current and single-sourced the version from package.json → footer **v0.3.1**
+   (D-096). One open decision: **H13** (E-stage numbering).
