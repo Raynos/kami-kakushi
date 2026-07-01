@@ -8,7 +8,8 @@
 // you walk to its ground to fight it (the human's "combat happens on a node" call). The
 // crop-raiding monkey haunts the home paddies; the lean wolf comes down to the near
 // satoyama; the boar dens deeper, in the deep satoyama it raids from (Step 5d); the road
-// bandit works the woodlot road; the scripted wolf is cornered in the kura where you woke.
+// bandit works the woodlot road (the first HUMAN threat — canon-held for T2, A10; in the
+// curve but gated out of a T0 fight); the scripted wolf is cornered in the kura where you woke.
 
 import type { AreaId } from './areas';
 
@@ -27,6 +28,10 @@ export interface MobDef {
   readonly baseSpeed?: number;
   readonly accBonus?: number;
   readonly evaBonus?: number;
+  /** The first tier this foe can be FOUGHT (spatial-reachability gate; default 0 = T0). The
+   *  bandit — the first HUMAN threat — is canon-held for T2 (PRD §5), so it stays in the balance
+   *  CURVE (foeForecasts, the high-end wall) but is NOT reachable/fightable in T0 (foesHere). */
+  readonly minTier?: number;
   /** A scripted story beat the MC always survives (never a grindable encounter). */
   readonly scripted?: boolean;
   /** Koku scavenged on a win (the modest spoils of a kept hand). */
@@ -92,8 +97,11 @@ export const MOBS: readonly MobDef[] = [
     level: 5, // provisional (v0.2) — tune by playtest
     area: 'woodlot-edge',
     baseSpeed: 1.0, // a trained man — the curve's high-end wall
+    // A10 / PRD §5: the first HUMAN threat is canon-held for T2. The bandit stays in the
+    // balance CURVE (the top-end wall foeForecasts reads) but is GATED out of a T0 fight.
+    minTier: 2,
     kokuReward: 12,
-    blurb: 'A masterless man gone to robbery on the woodlot road.',
+    blurb: 'A masterless man gone to robbery on the woodlot road — a threat for a later season.',
   },
 ];
 

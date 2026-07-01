@@ -240,13 +240,16 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
   it('the watch shows only the foes on THIS node (foesHere is node-scoped)', () => {
     const idsAt = (loc: string): string[] => foesHere(fighterAt(loc)).map((f) => f.mob.id);
     // home paddies: the crop-raiding monkey; near satoyama: the lean wolf; deep satoyama: the boar
-    // in its wallow (Step 5d); the woodlot road: the bandit. The kura holds only the scripted wolf,
-    // which is NOT grindable → empty watch.
+    // in its wallow (Step 5d). The kura holds only the scripted wolf (NOT grindable → empty watch).
+    // The woodlot road's bandit is the first HUMAN threat, GATED to T2 (A10) → no T0 watch there.
     expect(idsAt('home-paddies')).toEqual(['monkey']);
     expect(idsAt('near-satoyama')).toEqual(['wolf']);
     expect(idsAt('deep-satoyama')).toEqual(['boar']);
-    expect(idsAt('woodlot-edge')).toEqual(['bandit']);
+    expect(idsAt('woodlot-edge')).toEqual([]); // bandit gated out of T0
     expect(idsAt('kura')).toEqual([]);
+    // …but the bandit DOES appear once the house reaches T2 (the gate is tier-scoped, A10).
+    const atT2 = foesHere({ ...fighterAt('woodlot-edge'), tier: 2 }).map((f) => f.mob.id);
+    expect(atT2).toEqual(['bandit']);
   });
 
   it('walking away from a foe ends the auto-grind on it (move_to clears autoCombat)', () => {

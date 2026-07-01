@@ -134,3 +134,15 @@ Minimal, lossless: swapped the `estateStage` display/log/comment labels E#→U#
 (render.ts `ESTATE_STAGE_NAMES`, estate.ts logLines + header, state.ts field doc,
 intents.ts flywheel comment, economy.test.ts comments), kept the flavour words
 (Stabilising/Recovering/Prosperous/Risen). No behaviour change. Verify green.
+
+---
+
+## Update — A10 landed (bandit gated out of T0)
+
+Build-FIX: the `provisional(v0.2)` bandit (野伏) was fightable at woodlot-edge in T0,
+but the first HUMAN threat is canon-held for **T2** (PRD §5). Added a `minTier` field
+to MobDef; the bandit gets `minTier: 2`. `foesHere` (spatial reachability) now filters
+by tier, so the bandit is NOT fightable in T0 — but it STAYS in `foeForecasts` (the
+balance curve's high-end wall, so the m2 "bandit is a wall" gate is unchanged). The
+node-scoped watch test now asserts woodlot-edge is empty at T0 and shows the bandit at
+T2 (the gate proven both ways). Fix the build, not the PRD. Verify green.

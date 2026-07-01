@@ -274,10 +274,14 @@ export function foeForecasts(state: GameState): FoeForecast[] {
   }));
 }
 
-/** The grindable foes physically present at the MC's current node (v0.3.1 Step 5b — foes are
- *  spatial). The combat tab's "watch" shows only these: you walk to a foe's ground to fight it. */
+/** The grindable foes physically present AND reachable at the MC's current node (v0.3.1 Step 5b —
+ *  foes are spatial). The combat tab's "watch" shows only these: you walk to a foe's ground to
+ *  fight it. A foe gated to a later tier (`minTier` — e.g. the bandit, the first human threat held
+ *  for T2 per A10) is excluded here even on its node, though it stays in the balance curve. */
 export function foesHere(state: GameState): FoeForecast[] {
-  return foeForecasts(state).filter((fc) => fc.mob.area === state.location);
+  return foeForecasts(state).filter(
+    (fc) => fc.mob.area === state.location && (fc.mob.minTier ?? 0) <= state.tier,
+  );
 }
 
 export function resolveFight(
