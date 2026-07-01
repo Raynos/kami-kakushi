@@ -34,22 +34,18 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   DEMO/REAL fork retired (one re-derived T0 pace), twice-audited (8-lens fidelity
   battery + adversarial re-audit, both ship-quality), a11y-100, `verify`-green, on
   `origin/main`. Site live: <https://raynos.github.io/kami-kakushi/>.
-- **v0.3.1 — BUILT + AUDITED + fun-polished (on `origin/main`, all green).** ✅ Steps 1–7 + the
-  canon ripples: DEV-panel + variants (D-075) · combat rework + the **bank** + two auto-modes
-  (D-090/D-091) · koku tightening (D-092) · the **SPATIAL MAP** (D-093 — activities/foes/banking on
-  nodes, the load-bearing **deep-*satoyama***/D-078, the ascension after-state) · the reckoning-cadence
-  fix (D-094) · the **milestone-integrity verify gate** (11th, D-054). Then a **4-fix fun/feel pass**
-  (labour-above-fold · the HP "life" meter · the Cook heal-cue · the "Walk on" smooth-nav strip) and a
-  **two audit workflows → 29 confirmed fixes**: a 6-lens pass → 19 (a weapon-swap free-repair EXPLOIT,
-  a corrupt-save CRASH, the R0 blind-grind onboarding, the estate flywheel/node-hints/rung-cue legibility
-  batch), then a deeper 5-lens pass-2 → 10 (silent save-**import** failure, the `dream-2`/frontier beats
-  dying at R4 → latched to `rank-r3`, two WCAG-AA contrast fails, the Skills-tab invisible-yield, the
-  ascension boon's wrong-tab dead-end). **No core/logic/balance defect survived either pass.** **Prod
-  re-verified** (fixes ship, DEV stripped, 0 console errors); gallery refreshed.
-  **Deferred:** the §4 6-tier re-derivation → the T1 build (D-092 finding); **#15 material-sink → T1**
-  (H11 closed WAI, **D-095**).
-  Batch-2 design: [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
-  plan [`../archive/2026-06-30-v0.3.1-build.md`](../archive/2026-06-30-v0.3.1-build.md) (done — archived).
+- **v0.3.1 — BUILT + AUDITED + fun-polished** (on `origin/main`, all green): DEV-panel
+  + variants (D-075) · combat rework + the **bank** + two auto-modes · koku tightening
+  (D-092) · the **SPATIAL MAP** (D-093) · milestone-integrity gate (11th, D-054); a
+  fun/feel pass + two audit workflows → **29 confirmed fixes, no core/logic/balance
+  defect surviving**. Detail: session-36 journal + the archived plan.
+- **v0.3.2 — IN PROGRESS (Plan B, this session).** Closing the build-behind gap so the
+  build matches the reconciled PRD. ✅ **A1+A2 landed** (`8e5cb52`, pushed): the PRD
+  **5-attr STR/AGI/INT/SPD/LUCK + accuracy/evasion combat model** + glass-cannon/tank
+  stances — combat now matches §4.6 (balance liquid, D-059). Queued: A3 (crafted yari) ·
+  A4 (E→U rename) · A6 (quests) · A7/A8 (UI, **diverge** per D-075) · A9 (mobs) · A10
+  (bandit-gate) · C (gen-docs). Plan:
+  [`../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md`](../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
@@ -57,10 +53,9 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   **D-087** (loop done-rule), **D-088** (e2e+invariants per tier = hard DoD), **D-089** (implicit
   reading-queue sign-off); the rest folded as norms (fun-factor / qa-playtesting / working-agreements /
   AGENTS Conventions). Full: `human-feedback/2026-06-30-process-learnings-decisions.md`.
-- **Deferred:** the full **§4 6-tier balance re-derivation** (T1 Estate-full bands + §4.8 floors +
-  the §4.1–4.7 relabel) is **DEFERRED to the T1 build** — the v0.3.1 Step-4 finding (**D-092**) showed
-  it's **T1+ tier balance decoupled from the T0 koku work**, best derived with T1 built + playtest data
-  (liquid/D-059), not speculatively now. (§4.0 is already 6-tier-labelled.)
+- **Deferred to T1:** the §4 6-tier balance re-derivation (D-092) + the material-sink
+  (H11 closed WAI, D-095) — T1-tier balance decoupled from T0, best derived with T1 +
+  playtest data (liquid/D-059).
 
 ## Waiting on the human
 
@@ -71,8 +66,8 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   (`toRung`, `goto`, `fight`, `jumpToAscension`, `speed(8)`).
 - **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075) — now incl. the **Estate-map**
   A/B/C (paths list · 絵地図 schematic · 道中記 ledger).
-- **Reading queue:** **Plan A** (PRD→standalone end-state) + **Plan B** (v0.3.2 build)
-  await review — see `docs/plans/`. *(H13–H18 all resolved → D-098…D-103.)*
+- **Reading queue:** **Plan B** (v0.3.2 build) is the live plan — see `docs/plans/`.
+  (Plan A — PRD→standalone end-state — is DONE; H13–H18 resolved → D-098…D-103.)
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -104,17 +99,20 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 ## How to resume
 
-> 🎮 **PRIORITY: PLAY THE GAME — not build v0.3.2.** The human playtest (R1) has stayed
-> open across v0.2 / v0.3 / v0.3.1 — closing it is the job. When the human is here, launch
-> the game and pair **screen-by-screen, fixing it directly**; don't route to plans /
-> workflows / loops. (Temporary steer, human 2026-07-01; supersedes the "non-blocking" R1 framing below.)
+> 🔨 **NOW: build Plan B (v0.3.2) — autonomously, in the background.** The human
+> greenlit the build (2026-07-01, **supersedes** the earlier "play the game, not
+> build" steer): they're busy today, can't playtest, and will **playtest v0.3.2
+> tomorrow** — so close the build-behind gap now so game & PRD converge. Plan:
+> [`../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md`](../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md).
+> **R1 playtest is deferred to tomorrow, not dropped**; build headless-only
+> (hook-enforced) and keep every task reachable in the live T0 (R6).
 
-1. Read the **newest journal** (session-38 = doc reconcile; v0.3.1 build log = session-36) +
-   batch-2 capture (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`).
+1. Read the **newest journal** (session-40 = Plan B build; session-38 = doc
+   reconcile) + the plan's task list (A1 combat model FIRST → A2/A3/A9 → A4/A6/A7/A8/A10 + C gen-docs).
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ http://localhost:5173/).
-3. Drive headlessly: `window.__qa` (`newGame`, `toRung`, `goto`, `fight`, `jumpToAscension()`,
-   `speed(8)`) or `node src/scripts/qa-shots.mjs`. DEV panel (top-right) toggles variants.
-4. **Next:** (a) ⭐ **R1/R2** — human plays/tastes v0.3.1 + reviews UI variants (**TOP PRIORITY**,
-   see banner). (b) **Plan A** (PRD→standalone end-state; §1/§6 first) **+ Plan B** (v0.3.2 build,
-   5-attr/accuracy combat first) — a 73-agent reconcile found the PRD broadly stale (all 6 forks →
-   **D-098…D-103**).
+3. Drive **headless-only** (hook-enforced): `window.__qa` (`newGame`, `toRung`,
+   `goto`, `fight`, `jumpToAscension()`, `speed(8)`) or `node src/scripts/qa-shots.mjs`.
+4. **Next:** work Plan B §A (A1–A10) + §C in dependency order — each ships RED-able
+   tests + the tier full-arc/invariants check, `verify` stays green, commit+journal per
+   task. Then **R1/R2** with the human tomorrow. (**Plan A** — PRD→standalone end-state — is
+   **DONE**, implemented + pushed; forks → **D-098…D-103**.)
