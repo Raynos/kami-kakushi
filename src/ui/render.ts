@@ -1117,10 +1117,12 @@ export function mount(
     train.append(th);
     for (const id of balance.ATTR_IDS) {
       const meta = balance.ATTR_META[id];
-      const row = el('div', 'labour-row');
-      row.append(
-        el('span', 'skill-name', `${meta.label} ${meta.kanji}  ${c.attrs[id]}  (${meta.gain})`),
-      );
+      const row = el('div', 'attr-row');
+      const label = el('span', 'attr-label');
+      label.append(el('span', 'attr-name', `${meta.label} ${meta.kanji}`));
+      label.append(el('span', 'attr-val', ` ${c.attrs[id]}`));
+      label.append(el('span', 'attr-gain lock-hint', ` ${meta.gain}`));
+      row.append(label);
       const plus = el('button', 'auto-toggle', '+1');
       plus.type = 'button';
       plus.disabled = c.attributePoints <= 0;

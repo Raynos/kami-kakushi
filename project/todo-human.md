@@ -31,6 +31,10 @@ _(none open)_
   IMPLEMENTED + archived (PRD → standalone end-state v1.0.0).
 - [x] `docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md` — **Plan B** —
   IMPLEMENTED + archived (v0.3.2 build; A1–A10 + C all landed, session-40).
+- [ ] `project/audit/reports/2026-07-01-v032-qa-sweep.md` — **v0.3.2 QA sweep:** the
+  assembled build is sound (0 console errors, all new surfaces render; 1 snag fixed).
+  Holds a few **taste notes for your playtest** — the bestiary win-rate is HP-sensitive,
+  variant-B name truncation, the cramped watch buttons.
 - [x] `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — *the initial
   (partial) staleness audit — SUPERSEDED by the full bidirectional reconcile above;
   read Plans A/B instead*

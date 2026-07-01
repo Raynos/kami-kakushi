@@ -277,3 +277,26 @@ cleared (Plan A + B → done). Open for the human: **R1** (fun/pacing/look) · *
 variants) · **R5** (the new Bestiary A/B/C). Balance liquid (D-059) for tomorrow.
 
 **Verify against git (R3):** 12 commits this session, tree clean, `origin/main` green.
+
+---
+
+## Update — QA sweep of the assembled v0.3.2 (verify the whole, R3)
+
+Ran a headless QA sweep of the ASSEMBLED build (I'd verified each Plan B task in
+isolation but not seen the whole render together). **Verdict: sound** — every new
+surface renders and the full cold-open→R3→R4→R5→R6 flow logs **zero console errors**
+across every state (`qa-shots.mjs` + a v0.3.2 sweep; galleries in
+`audit/screens/latest/` + `audit/screens/v032-sweep/`). Report:
+`audit/reports/2026-07-01-v032-qa-sweep.md`.
+
+**One snag found + FIXED:** the 5-attr **training panel** +1 buttons cascaded diagonally
+(the rows reused `.labour-row` — plain flex, no justify — so each button sat after its
+variable-width label). Fixed with a dedicated `.attr-row` (label flexes, button
+right-aligned). Confirmed in the refreshed shots.
+
+**Confirmed working by eye:** 5-attr panel · Bestiary A/B/C · the staggered R3→R4→R5
+reveals (weapon → durability+craft → stance) · the glass-cannon/tank stance control ·
+all 4 quest kinds · the "house reopens" interior reveals · the pedlar/personal-sink
+reframe. **Taste notes for the human** (not bugs): bestiary win-rate is HP-sensitive
+(0% when hurt); variant-B truncates the foe name (DEV-only); the watch fight-buttons
+read cramped (pre-existing). All liquid (D-059) for playtest.
