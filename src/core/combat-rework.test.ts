@@ -12,6 +12,7 @@ import {
   reduce,
   applyGrindFight,
   resolveFight,
+  foesHere,
   mcCombatStats,
   mobCombatStats,
   getMob,
@@ -177,5 +178,72 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
     expect(death.autoCombatRetreat).toBe(false);
     const flee = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: true });
     expect(flee.autoCombatRetreat).toBe(true);
+  });
+});
+
+describe('5b · foes are spatial — you fight where the foe stands (batch-2 map call)', () => {
+  /** A ready L5 fighter (guaranteed win vs monkey) with the combat tab open, at `location`. */
+  function fighterAt(location: string): GameState {
+    const s = mc(5);
+    return { ...s, location, unlocked: [...s.unlocked, 'tab-combat'] };
+  }
+
+  it('the monkey lives on the home paddies — fighting it there WORKS, elsewhere is a no-op', () => {
+    // source of truth: the monkey's bound node (not a copied string).
+    const monkeyNode = getMob('monkey').area;
+    expect(monkeyNode).toBe('home-paddies');
+
+    // off the node (kura): the fight is rejected — combat state is untouched.
+    const away = fighterAt('kura');
+    const awayAfter = reduce(away, { type: 'fight', mobId: 'monkey' });
+    expect(awayAfter.character.combatXp).toBe(away.character.combatXp);
+    expect(awayAfter.character.hp).toBe(away.character.hp);
+
+    // on the node: the same fight resolves (a guaranteed win raises combat XP).
+    const here = fighterAt(monkeyNode);
+    const hereAfter = reduce(here, { type: 'fight', mobId: 'monkey' });
+    expect(hereAfter.character.combatXp).toBeGreaterThan(here.character.combatXp);
+  });
+
+  it('the watch shows only the foes on THIS node (foesHere is node-scoped)', () => {
+    const idsAt = (loc: string): string[] => foesHere(fighterAt(loc)).map((f) => f.mob.id);
+    // home paddies: the crop-raiders (monkey + boar); near satoyama: the lean wolf; the woodlot
+    // road: the bandit. The kura holds only the scripted wolf, which is NOT grindable → empty watch.
+    expect(idsAt('home-paddies').sort()).toEqual(['boar', 'monkey']);
+    expect(idsAt('near-satoyama')).toEqual(['wolf']);
+    expect(idsAt('woodlot-edge')).toEqual(['bandit']);
+    expect(idsAt('kura')).toEqual([]);
+  });
+
+  it('walking away from a foe ends the auto-grind on it (move_to clears autoCombat)', () => {
+    // stand on the paddies auto-grinding the monkey, then walk one hop off — the autopilot stops.
+    const at = fighterAt('home-paddies');
+    const grinding: GameState = {
+      ...at,
+      // reveal the nodes the walk touches (the estate rooms double as node-reveal surfaces).
+      unlocked: [...at.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+      flags: { awake: true },
+      autoCombat: 'monkey',
+      autoCombatRetreat: false,
+    };
+    const walked = reduce(grinding, { type: 'move_to', to: 'gate-forecourt' });
+    expect(walked.location).toBe('gate-forecourt');
+    expect(walked.autoCombat).toBeNull();
+  });
+
+  it('the scripted grain-store wolf is faced at the kura — nowhere else', () => {
+    const wolfNode = getMob('wolf_scripted').area;
+    expect(wolfNode).toBe('kura');
+    const base: GameState = {
+      ...createInitialState(1),
+      flags: { awake: true },
+      unlocked: [...createInitialState(1).unlocked, 'verb-face-wolf'],
+    };
+    // off the kura: the summons is a no-op (the fight has not been survived).
+    const away = reduce({ ...base, location: 'home-paddies' }, { type: 'face_wolf' });
+    expect(away.flags['first-fight-survived']).toBeFalsy();
+    // at the kura: facing it always resolves and opens R3.
+    const here = reduce({ ...base, location: wolfNode }, { type: 'face_wolf' });
+    expect(here.flags['first-fight-survived']).toBe(true);
   });
 });

@@ -7,12 +7,14 @@ import {
   reduce,
   tick as coreTick,
   availableActions,
-  availableLabours,
   canDoActivity,
   getActivity,
   getWeapon,
   durabilityBand,
   satietyMax,
+  focusedOptimalIntent,
+  nextHopToward,
+  getMob,
   balance,
   type GameState,
   type Intent,
@@ -244,41 +246,48 @@ async function boot(): Promise<void> {
 
   // ── DEV play API (PRD §6.10) — DEV-only, dead-code-eliminated in production ──
   if (import.meta.env.DEV) {
+    // walk the REVEALED map graph to a node via real move_to hops (Step 5b: activities + foes are
+    // spatial, so every DEV drive-to must navigate — the shared BFS keeps it honest to the graph).
+    const walkTo = (node: string): string => {
+      let guard = 0;
+      while (state.location !== node && guard++ < 64) {
+        const hop = nextHopToward(state.location, node, new Set(state.unlocked));
+        if (!hop) break;
+        const from = state.location;
+        dispatch({ type: 'move_to', to: hop });
+        if (state.location === from) break; // hop refused (e.g. a danger-ring gate) — stop, don't spin
+      }
+      return state.location;
+    };
     const qa = {
       state: () => state,
       dispatch: (intent: Intent) => dispatch(intent),
       activity: (id: ActivityId) => dispatch({ type: 'do_activity', activityId: id }),
       auto: (id: ActivityId | null) => dispatch({ type: 'set_auto', activityId: id }),
-      // greedy time-compression to a target rung — drives the REAL intents (no fabricated state)
+      /** Walk to a map node via real move_to hops over the revealed graph. */
+      goto: (node: string) => walkTo(node),
+      // greedy time-compression to a target rung — drives the REAL, navigation-aware focused-optimal
+      // policy (core/autoplay.ts; the same one the pacing gate uses), so it walks to labours + back
+      // to the kura for the wolf instead of stalling now that activities are spatial (Step 5).
       toRung: (id: RankId) => {
         let guard = 0;
-        while (state.rung !== id && guard++ < 8000) {
-          if (availableActions(state).includes('open_eyes')) {
-            dispatch({ type: 'open_eyes' });
-            continue;
-          }
-          if (
-            state.character.satiety < satietyMax(state) * 0.2 &&
-            availableActions(state).includes('rest')
-          ) {
-            dispatch({ type: 'rest' });
-            continue;
-          }
-          const labours = availableLabours(state).filter((l) => l.available);
-          if (labours.length > 0) {
-            dispatch({ type: 'do_activity', activityId: labours[0]!.activity.id });
-            continue;
-          }
-          if (availableActions(state).includes('rake_rice')) {
-            dispatch({ type: 'rake_rice' });
-            continue;
-          }
-          break;
+        while (state.rung !== id && guard++ < 50_000) {
+          const intent = focusedOptimalIntent(state);
+          if (!intent) break;
+          dispatch(intent);
         }
         return state.rung;
       },
-      faceWolf: () => dispatch({ type: 'face_wolf' }),
-      fight: (mobId: MobId) => dispatch({ type: 'fight', mobId }),
+      // spatial (Step 5b): walk to the foe's ground first, then face it — so a DEV drive fights the
+      // real foe on its node rather than silently no-opping off it.
+      faceWolf: () => {
+        walkTo(getMob('wolf_scripted').area);
+        dispatch({ type: 'face_wolf' });
+      },
+      fight: (mobId: MobId) => {
+        walkTo(getMob(mobId).area);
+        dispatch({ type: 'fight', mobId });
+      },
       autoCombat: (mobId: MobId | null) => dispatch({ type: 'set_auto_combat', mobId }),
       setStance: (stance: StanceId) => dispatch({ type: 'set_stance', stance }),
       // ── DEV playtest tools (DS#1/DS#16/D-067) — speed toggle + jump-to teleports ──

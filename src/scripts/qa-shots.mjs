@@ -17,10 +17,16 @@ const steps = [
   { name: '04-r2-work', run: `__qa.toRung('R2')`, wait: 2200 },
   { name: '05-r2-skills', run: clickTab('Skills') },
   { name: '06-firstfight', run: `${clickTab('Work')}; __qa.faceWolf()` },
-  { name: '07-r3-combat', run: `__qa.toRung('R3'); ${clickTab('Combat')}`, wait: 2200 },
+  {
+    // Step 5b: foes are spatial — stand on the home paddies (monkey + boar) so the watch has foes
+    // to show (toRung ends at the kura, where the watch is empty by design).
+    name: '07-r3-combat',
+    run: `__qa.toRung('R3'); __qa.goto('home-paddies'); ${clickTab('Combat')}`,
+    wait: 2200,
+  },
   {
     name: '08-after-fights',
-    run: `__qa.fight('monkey'); __qa.fight('monkey'); __qa.fight('wolf')`,
+    run: `__qa.fight('monkey'); __qa.fight('monkey')`,
   },
   { name: '09-settings', run: `document.querySelector('.settings-btn').click()` },
   {

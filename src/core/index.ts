@@ -40,6 +40,7 @@ export { createInitialState, hasFlag, setFlag, withResource, addSkillXp } from '
 
 export type { Intent, IntentType } from './intents';
 export { reduce, availableActions } from './intents';
+export { focusedOptimalIntent, nextHopToward, cheapestEligibleGlobal } from './autoplay';
 
 export { tick, advanceClock } from './step';
 
@@ -88,6 +89,7 @@ export {
   durabilityBand,
   resolveFight,
   foeForecasts,
+  foesHere,
 } from './combat';
 export type { CombatStats, FightResult, FoeForecast } from './combat';
 export { WEAPONS, getWeapon, WEAPON_IDS } from './content/weapons';

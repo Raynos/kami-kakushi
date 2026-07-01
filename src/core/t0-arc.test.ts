@@ -7,10 +7,10 @@ import {
   ascensionAvailable,
   estateGrade,
   applyGrindFight,
+  focusedOptimalIntent,
   balance,
   type GameState,
 } from './index';
-import { focusedOptimalIntent } from '../scripts/pacing-report';
 
 // THE WHOLE T0 ARC, end-to-end, via the REAL reducer — the strongest "is it playtestable" proof.
 // Unit tests cover the arc in FRAGMENTS (the ladder via forced flags, combat survival, pillars,

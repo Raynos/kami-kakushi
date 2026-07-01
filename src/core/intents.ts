@@ -45,7 +45,7 @@ import {
   type LabourResource,
 } from './content/activities';
 import { getWeapon, type WeaponId } from './content/weapons';
-import type { MobId } from './content/enemies';
+import { getMob, type MobId } from './content/enemies';
 import type { StanceId } from './content/balance';
 
 export type Intent =
@@ -193,11 +193,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'face_wolf': {
       if (!isUnlocked(next, 'verb-face-wolf') || hasFlag(next, 'first-fight-survived'))
         return state;
+      // v0.3.1 Step 5b: the humbling first fight is SPATIAL — the wolf is cornered in the kura
+      // where you woke, so you walk back to the grain store to face it.
+      if (next.location !== getMob('wolf_scripted').area) return state;
       next = applyScriptedWolf(next);
       break;
     }
     case 'fight': {
       if (!isUnlocked(next, 'tab-combat')) return state;
+      // v0.3.1 Step 5b: foes are spatial — you must stand on the foe's node to fight it.
+      if (getMob(intent.mobId).area !== next.location) return state;
       next = applyGrindFight(next, intent.mobId, intent.retreat ?? false);
       break;
     }
@@ -382,7 +387,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const dest = getNode(intent.to);
       if (dest.dangerRing && skillLevel(next, 'conditioning') < CONDITIONING_GATE_LEVEL)
         return state;
-      next = { ...next, location: intent.to };
+      // Walking away from a foe's node ends the auto-grind on it (Step 5b — foes are spatial, so
+      // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
+      next = { ...next, location: intent.to, autoCombat: null };
       next = applyRewards(next, { log: [{ channel: 'narration', text: dest.blurb }] });
       break;
     }

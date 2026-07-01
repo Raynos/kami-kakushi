@@ -219,7 +219,9 @@ export function sampledWinRate(
 const FORECAST_SEED = 0x9e3779b9;
 const FORECAST_SAMPLES = 400; // converged (monkey@L1 ≈ 0.32, stable); ~5ms/forecast, fine off-frame
 
-/** The grindable foes (danger order) with their seed-robust win-rate against the MC right now. */
+/** The grindable foes (danger order) with their seed-robust win-rate against the MC right now.
+ *  Location-INDEPENDENT on purpose: this is "my win-rate if I fought this foe" — the combat curve
+ *  the balance gates read. The SPATIAL "which foes are here" question is `foesHere` below. */
 export function foeForecasts(state: GameState): FoeForecast[] {
   const mc = mcCombatStats(state);
   return GRINDABLE_MOBS.map((mob) => ({
@@ -231,6 +233,12 @@ export function foeForecasts(state: GameState): FoeForecast[] {
       FORECAST_SAMPLES,
     ),
   }));
+}
+
+/** The grindable foes physically present at the MC's current node (v0.3.1 Step 5b — foes are
+ *  spatial). The combat tab's "watch" shows only these: you walk to a foe's ground to fight it. */
+export function foesHere(state: GameState): FoeForecast[] {
+  return foeForecasts(state).filter((fc) => fc.mob.area === state.location);
 }
 
 export function resolveFight(

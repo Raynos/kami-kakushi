@@ -18,8 +18,15 @@
 // The baseline rises deliberately (--bless) at a green slice-ship; a silent regression is RED.
 export {};
 
-import { createInitialState, reduce, foeForecasts, balance, type GameState } from './core';
-import { walkPacing, focusedOptimalIntent } from './scripts/pacing-report';
+import {
+  createInitialState,
+  reduce,
+  foeForecasts,
+  focusedOptimalIntent,
+  balance,
+  type GameState,
+} from './core';
+import { walkPacing } from './scripts/pacing-report';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 

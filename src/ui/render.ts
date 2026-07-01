@@ -34,7 +34,7 @@ import {
   SKILLS,
   skillVisible,
   skillProgress,
-  foeForecasts,
+  foesHere,
   combatXpProgress,
   durabilityBand,
   getWeapon,
@@ -702,8 +702,12 @@ export function mount(
       actions.append(btn);
     }
 
-    // the humbling first fight — a charged one-time beat (the wolf at the stores)
-    if (isUnlocked(state, 'verb-face-wolf') && !hasFlag(state, 'first-fight-survived')) {
+    // the humbling first fight — a charged one-time beat (the wolf cornered in the kura). Spatial
+    // (Step 5b): you face it where you woke, so at the kura the charged button shows; anywhere else
+    // it's a standing summons to walk back.
+    const wolfPending =
+      isUnlocked(state, 'verb-face-wolf') && !hasFlag(state, 'first-fight-survived');
+    if (wolfPending && state.location === 'kura') {
       const wolf = el('button', 'verb primary');
       wolf.append(
         el('span', 'emoji', '⚔️'),
@@ -712,6 +716,14 @@ export function mount(
       wolf.type = 'button';
       wolf.addEventListener('click', () => dispatch({ type: 'face_wolf' }));
       actions.append(wolf);
+    } else if (wolfPending) {
+      actions.append(
+        el(
+          'p',
+          'area-blurb',
+          'The grain-store wolf still waits where you woke. Open the 地図 map and walk back to the kura (蔵) to face it.',
+        ),
+      );
     }
 
     // labour activities, grouped by estate room (each: do-once + auto-repeat toggle)
@@ -753,9 +765,11 @@ export function mount(
       actions.append(group);
     }
 
-    // spatial (v0.3.1 Step 5): if THIS node offers no labour, point the player at the map to walk on.
+    // spatial (v0.3.1 Step 5): if THIS node offers no labour (and no wolf-beat is prompting here),
+    // point the player at the map to walk on.
     if (
       labours.length === 0 &&
+      !wolfPending &&
       hasFlag(state, 'awake') &&
       isUnlocked(state, 'room-gate-forecourt')
     ) {
@@ -969,9 +983,19 @@ export function mount(
     }
     combatPane.append(stanceRow);
 
-    // foes — the watch
+    // foes — the watch (spatial, Step 5b): only the foes on THIS node stand in the watch.
     combatPane.append(el('h3', 'foes-head', 'The watch'));
-    for (const fc of foeForecasts(state)) {
+    const present = foesHere(state);
+    if (present.length === 0) {
+      combatPane.append(
+        el(
+          'p',
+          'area-blurb',
+          'No foe holds this ground. Open the 地図 map and walk to the paddies, the satoyama, or the woodlot road to find one.',
+        ),
+      );
+    }
+    for (const fc of present) {
       const seen = hasFlag(state, `mob-${fc.mob.id}`);
       const row = el('div', 'foe-row frame');
       const head = el('div', 'skill-head');

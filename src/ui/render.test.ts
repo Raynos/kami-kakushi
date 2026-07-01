@@ -66,6 +66,9 @@ function awakeCombatState(): GameState {
   const base = createInitialState(1);
   return {
     ...base,
+    // Step 5b: foes are spatial — stand on the home paddies (the first grindable node: monkey +
+    // boar) so the combat pane's "watch" actually has foes to show.
+    location: 'home-paddies',
     flags: { ...base.flags, awake: true },
     unlocked: [...base.unlocked, 'readout-rice', 'tab-combat'],
   };

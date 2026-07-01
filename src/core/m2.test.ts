@@ -324,7 +324,7 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
         }
         if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')
           foughtBroken = true;
-        s = reduce(s, { type: 'fight', mobId: 'monkey' });
+        s = reduce({ ...s, location: 'home-paddies' }, { type: 'fight', mobId: 'monkey' });
       }
       expect(s.character.level, `seed ${seed} stranded below combat-L2`).toBeGreaterThanOrEqual(2);
       expect(foughtBroken, `seed ${seed} fought a Broken blade`).toBe(false);

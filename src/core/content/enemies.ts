@@ -3,6 +3,14 @@
 // content verifier enforces). Each carries a `level` from which {attackPower,
 // defense, hp} derive (Block N.1 #1). The scripted grain-store wolf is the humbling
 // first fight (a guaranteed-survival story beat, §7.2 M2a).
+//
+// v0.3.1 Step 5b: each foe is SPATIAL — it lives on exactly one map node (`area`), so
+// you walk to its ground to fight it (the human's "combat happens on a node" call). The
+// crop-raiders (monkey + boar) haunt the home paddies; the lean wolf comes down to the
+// near satoyama; the road bandit works the woodlot road; the scripted wolf is cornered
+// in the kura where you woke.
+
+import type { AreaId } from './areas';
 
 export type MobId = 'wolf_scripted' | 'wolf' | 'boar' | 'monkey' | 'bandit';
 
@@ -11,6 +19,8 @@ export interface MobDef {
   readonly label: string;
   readonly kanji: string;
   readonly level: number;
+  /** The map node this foe is found on — you must stand here to fight it (Step 5b, spatial). */
+  readonly area: AreaId;
   /** A scripted story beat the MC always survives (never a grindable encounter). */
   readonly scripted?: boolean;
   /** Koku scavenged on a win (the modest spoils of a kept hand). */
@@ -24,6 +34,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Grain-store wolf',
     kanji: '狼',
     level: 2,
+    area: 'kura',
     scripted: true,
     kokuReward: 0,
     blurb:
@@ -34,6 +45,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Crop-raiding monkey',
     kanji: '猿',
     level: 1,
+    area: 'home-paddies',
     kokuReward: 3,
     blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
   },
@@ -42,6 +54,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Lean wolf',
     kanji: '狼',
     level: 2,
+    area: 'near-satoyama',
     kokuReward: 5,
     blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
   },
@@ -50,6 +63,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Wild boar',
     kanji: '猪',
     level: 3,
+    area: 'home-paddies',
     kokuReward: 8,
     blurb: 'Tusked and furious. It will not turn aside.',
   },
@@ -58,6 +72,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Road bandit',
     kanji: '野伏',
     level: 5, // provisional (v0.2) — tune by playtest
+    area: 'woodlot-edge',
     kokuReward: 12,
     blurb: 'A masterless man gone to robbery on the woodlot road.',
   },

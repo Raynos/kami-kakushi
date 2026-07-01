@@ -22,15 +22,36 @@ try {
     qa.toRung('R3');
     log.push(['reached', qa.selectors.rung(), 'combatLvl', qa.selectors.combatLevel()]);
 
-    // real-play grind: fight the easiest foe, escalating as the MC levels.
+    // real-play grind: fight the easiest foe, escalating as the MC levels. Step 5b — foes are
+    // spatial, so qa.fight() auto-walks to the foe's node first. The escalation stays on the
+    // non-danger nodes (paddies monkey+boar, woodlot bandit); the satoyama wolf is left out since
+    // its node is behind the conditioning gate this pure-combat smoke never trains.
+    // D-076: the auto-loop no longer auto-heals — only cooking mends HP — so a realistic grind
+    // COOKS between bouts (a forager's larder of sansai fuels it). Without it the untrained R3 MC
+    // just loses at 1 HP forever; with it the fight loop makes real, monotonic progress.
     let levelUps = 0;
     let losses = 0;
-    const order = ['monkey', 'wolf', 'boar', 'bandit'];
+    const order = ['monkey', 'boar', 'bandit'];
     let foeIdx = 0;
     for (let i = 0; i < 200; i++) {
       const before = qa.state();
       // escalate once the current foe is trivially beaten (level past it)
       if (before.character.level > foeIdx + 1 && foeIdx < order.length - 1) foeIdx++;
+      // keep the larder + woodpile stocked, then heal to fighting-fit and sharpen the blade before
+      // the bout: only cooking mends HP (D-076) and a worn blade craters the win-rate, so a
+      // sustainable grind must do both between fights.
+      const r = before.resources;
+      if ((r.sansai ?? 0) < 20 || (r.wood ?? 0) < 20) {
+        qa.forceState({
+          resources: {
+            ...r,
+            sansai: Math.max(r.sansai ?? 0, 100),
+            wood: Math.max(r.wood ?? 0, 100),
+          },
+        });
+      }
+      for (let h = 0; h < 4; h++) qa.dispatch({ type: 'cook_meal' });
+      qa.dispatch({ type: 'repair_weapon' });
       qa.fight(order[foeIdx]);
       const after = qa.state();
       if (after.character.level > before.character.level) levelUps++;

@@ -5,9 +5,9 @@ import {
   hasFlag,
   ascensionAvailable,
   applyGrindFight,
+  focusedOptimalIntent,
   type GameState,
 } from './index';
-import { focusedOptimalIntent } from '../scripts/pacing-report';
 
 // STRUCTURAL INVARIANTS across a long real playthrough — a property/fuzz-lite guard that catches a
 // whole CLASS of bugs the targeted tests miss: numeric corruption (NaN/Infinity), resource/vital
