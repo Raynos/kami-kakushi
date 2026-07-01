@@ -21,10 +21,12 @@ edits there were reverted at the human's direction.
   the stale `R1/R2 (human, non-blocking)` mislabel → **TOP PRIORITY**; condensed the
   resume steps to stay under the 120-line snapshot cap.
 - `project/status/working-agreements.md` + `.claude/skills/prepare-to-exit/SKILL.md` —
-  fixed a **checkpoint over-ask**: the D-089 reading-queue reconciliation used to
-  blanket-`AskUserQuestion` about the *whole* remaining queue at exit (it asked about
-  Plan A/B this session even though we never touched them). Now: reconcile **only docs
-  engaged this session**; if none, make **zero** queue prompts and just report it.
+  fixed a **checkpoint over-ask** (the D-089 reading-queue reconciliation used to
+  blanket-`AskUserQuestion` about the *whole* remaining queue at exit — it asked about
+  Plan A/B though we never touched them): now reconcile **only docs engaged this
+  session**; if none, zero queue prompts, just report. Then **compacted both files**
+  at the human's request (working-agreements 148→92 lines; skill's two fat blockquotes
+  → tight bullets) — same rules and `D-`/`A-` anchors, half the words, no new markdown.
 
 ## Reverted / not done (deliberately)
 
