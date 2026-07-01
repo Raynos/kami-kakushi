@@ -123,3 +123,14 @@ All magnitudes are liquid (D-059) — tune tomorrow.
 Win-rate curve (seed-robust, pole/chudan, base@L1 → STR-build higher):
 monkey 0.29/0.69/0.78/0.90/0.93 · wolf 0.03/0.35/0.51/0.70/0.80 · boar
 0.07/0.45/0.62/0.79/0.88 · bandit …/0.02(L5)/0.90(L8).
+
+---
+
+## Update — A4 landed (estate ladder E# → U# "kura-works")
+
+D-098: the built koku PURCHASE ladder is renamed to the non-colliding **U1–U4**
+"kura-works" namespace; the narrative CONDITION ladder **E0–E5** stays (docs only).
+Minimal, lossless: swapped the `estateStage` display/log/comment labels E#→U#
+(render.ts `ESTATE_STAGE_NAMES`, estate.ts logLines + header, state.ts field doc,
+intents.ts flywheel comment, economy.test.ts comments), kept the flavour words
+(Stabilising/Recovering/Prosperous/Risen). No behaviour change. Verify green.

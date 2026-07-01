@@ -116,7 +116,8 @@ export interface GameState {
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
   readonly rungMeter: number;
-  /** Estate growth stage E0…E3 (flavour, not a sim; PRD §2.17). */
+  /** Kura-works PURCHASE stage U0…U4 (the koku upgrade ladder; D-098). The narrative
+   *  CONDITION ladder E0–E5 is a SEPARATE axis (docs only). Flavour, not a sim; PRD §2.17. */
   readonly estateStage: number;
   /** The tab-open auto-repeat labour target, or null (FU23). */
   readonly autoActivity: ActivityId | null;

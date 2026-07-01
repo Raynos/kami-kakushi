@@ -164,7 +164,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // on the NEXT act. skillYieldNum(1) === DEN → L1 yields are byte-identical to v0.1.
       const yNum = skillYieldNum(skillLevel(next, act.skill));
       // the estate flywheel (T0-M4-F2): a higher estate stage lifts every labour act's output,
-      // so koku→upgrade→more output compounds. Identity (===DEN) at E0 — byte-identical pre-buy.
+      // so koku→upgrade→more output compounds. Identity (===DEN) at U0 — byte-identical pre-buy.
       const eNum = estateYieldNum(next);
       const gained: Partial<Record<LabourResource, number>> = {};
       for (const [res, amt] of Object.entries(act.yields) as [LabourResource, number][]) {

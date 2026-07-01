@@ -98,12 +98,15 @@ const COLD_OPEN_LEDE =
 // (the four-pillar names live in core/content now; the T0 UI shows ONLY the active Estate
 // pillar live + the rest as unnamed silhouettes, D-055 — see renderHouseInfluence.)
 
+// The kura-works PURCHASE ladder (U1–U4, D-098) — indexed by estateStage. Stage 0 is
+// the un-worked starting state; the flavour words are the estate's condition after each
+// work. (The narrative CONDITION ladder E0–E5 is a separate axis, lives in the docs.)
 const ESTATE_STAGE_NAMES = [
-  "E0 · Foreclosure's edge",
-  'E1 · Stabilising',
-  'E2 · Recovering',
-  'E3 · Prosperous',
-  'E4 · Risen',
+  "Foreclosure's edge",
+  'U1 · Stabilising',
+  'U2 · Recovering',
+  'U3 · Prosperous',
+  'U4 · Risen',
 ];
 
 const CHANNEL_BULLET: Record<LogChannel, string> = {

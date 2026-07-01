@@ -76,7 +76,7 @@ describe('skill → yield multiplier (audit #4)', () => {
   });
 
   it('the estate flywheel COMPOUNDS — a higher estate stage raises labour yield (T0-M4-F2)', () => {
-    // E0 is identity (byte-identical to pre-flywheel); each bought stage lifts every act.
+    // U0 (un-worked) is identity (byte-identical to pre-flywheel); each bought stage lifts every act.
     const e0 = farmReady();
     expect(estateYieldNum(e0)).toBe(balance.SKILL_YIELD_DEN);
     const baseKoku = farmYield(e0);
@@ -340,7 +340,7 @@ describe('v0.3.1 Step 4 — koku sinks tighten the economy (D-086 scarcity / cal
   });
 
   it('the estate sink is DEEPER — ≥4 contiguous stages with strictly ascending koku costs', () => {
-    expect(MAX_ESTATE_STAGE).toBeGreaterThanOrEqual(4); // E4 added (the deeper flywheel sink)
+    expect(MAX_ESTATE_STAGE).toBeGreaterThanOrEqual(4); // U4 added (the deeper flywheel sink)
     ESTATE_STAGES.forEach((s, i) => {
       expect(s.stage).toBe(i + 1); // contiguous 1..N
       if (i > 0) expect(s.kokuCost).toBeGreaterThan(ESTATE_STAGES[i - 1]!.kokuCost); // ascending

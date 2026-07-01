@@ -1,5 +1,5 @@
-// The estate-improvement table (PRD §2.17 / audit #5): the koku SINK that finally
-// mutates the inert `estateStage` (E0→E3). Each stage grants a small persistent
+// The kura-works PURCHASE ladder (U1–U4, D-098; PRD §2.17 / audit #5): the koku SINK
+// that mutates `estateStage` (U0→U4). Each stage grants a small persistent
 // satietyMax bonus — a curve-NEUTRAL soft-pacing buffer (it never touches the combat
 // win-rate, which is computed at full satiety). Costs are strictly ascending and the
 // stages are contiguous 1..N (verify-content asserts this). All numbers are
@@ -26,7 +26,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     satietyMaxBonus: 20,
     yieldBonusNum: 15, // +15% labour output — the flywheel's first turn
     logLine:
-      "You spend the house's first surplus mending the cracked kura and re-hanging the rotted door-bar. The stores keep dry now; the estate stops bleeding. (E1 — Stabilising)",
+      "You spend the house's first surplus mending the cracked kura and re-hanging the rotted door-bar. The stores keep dry now; the estate stops bleeding. (U1 · Stabilising)",
     blurb: 'Mend the cracked storehouse so the rice keeps.',
   },
   {
@@ -36,7 +36,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     satietyMaxBonus: 20,
     yieldBonusNum: 20, // cumulative +35%
     logLine:
-      'The choked drill yard is cleared and a night-watch set. The estate begins to look defended. (E2 — Recovering)',
+      'The choked drill yard is cleared and a night-watch set. The estate begins to look defended. (U2 · Recovering)',
     blurb: 'Clear the yard and set a night-watch.',
   },
   {
@@ -46,11 +46,11 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     satietyMaxBonus: 30,
     yieldBonusNum: 30, // cumulative +65% — new paddy, real output
     logLine:
-      'The first fallow shinden is broken and put to rice. The house edges toward solvency. (E3 — Prosperous)',
+      'The first fallow shinden is broken and put to rice. The house edges toward solvency. (U3 · Prosperous)',
     blurb: 'Break new paddy from the fallow ground.',
   },
   {
-    // E4 (v0.3.1 Step 4 — a DEEPER estate koku sink; D-086 scarcity / batch-1 call 4). The
+    // U4 (v0.3.1 Step 4 — a DEEPER estate koku sink; D-086 scarcity / batch-1 call 4). The
     // flywheel's biggest turn: a late-T0 koku sink to work toward, priming the house's rise to T1.
     stage: 4,
     label: 'Raise the long-house',
@@ -58,7 +58,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     satietyMaxBonus: 30,
     yieldBonusNum: 30, // cumulative +95% — the house stands proud
     logLine:
-      'The long-house is re-roofed and the family crest re-hung above a mended gate. The Kurosawa name stands proud again — a house on the rise. (E4 — Risen)',
+      'The long-house is re-roofed and the family crest re-hung above a mended gate. The Kurosawa name stands proud again — a house on the rise. (U4 · Risen)',
     blurb: 'Re-roof the long-house and re-hang the crest.',
   },
 ];
