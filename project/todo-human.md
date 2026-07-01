@@ -27,7 +27,14 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-- [ ] `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — *audit of
-  the "docs went stale in v0.3.1" worry: docs are mostly current; 3 narrow
-  roadmap fixes landed; version call resolved (**H12**→D-096); E-stage collision
-  open as **H13***
+- [ ] `docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md` — **Plan A:**
+  reconcile the PRD + ui-design/fun-factor/qa-playtesting to standalone end-state
+  v1.0.0 (19 FIX_PRD ripples + ~150 doctrine strips + the 6 resolved forks); the
+  ~17 build-behind items hand off to Plan B*
+- [ ] `docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md` — **Plan B:** the
+  v0.3.2 build to close the build-behind gap (5-attr/accuracy combat at T0, glass-
+  cannon/tank stances, 3rd weapon, E→U rename, player/estate finances, quest kinds,
+  gen-docs) — the good PRD ideas the code skipped*
+- [x] `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — *the initial
+  (partial) staleness audit — SUPERSEDED by the full bidirectional reconcile above;
+  read Plans A/B instead*

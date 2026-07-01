@@ -104,3 +104,39 @@ a durable plan in `docs/plans/` + a reconciliation report; then the section rewr
    reconciliation ledger (fix-PRD / keep-PRD+build-TODO / human-forks).
 2. Execute the PRD rewrite section-by-section (best-of-both + end-state doctrine),
    human-reviewable, sequenced per the plan.
+
+---
+
+## Update — reconciliation workflow landed; forks resolved; two plans written
+
+The corrected bidirectional workflow (`wf_6af639b4-3a9`, **73 agents / 5.2M tokens**)
+completed. Tally: **19 PRD-stale · 17 build-behind · 12 divergence (→6 unique forks)
+· ~150 doctrine strips**, all adversarially adjudicated. The **build-behind bucket
+was real** — punching the PRD to match `src/` would have deleted ~17 intended
+designs. Raw snapshot: `project/brainstorms/raw/2026-07-01-prd-reconcile-v031-w513ky240.json`.
+
+**All 6 forks resolved with the human** → **D-098…D-103**:
+- D-098 (H13): estate E-numbering — rename built purchase steps `E1–E4` → `U1–U4`
+  "kura-works"; keep `E0–E5` narrative condition. (Cleared 7 of 12 divergences.)
+- D-099 (H14): T0 provisioning shop = personal koku sink; **player finances ≠ estate
+  finances** (new axis); trade engine = T2.
+- D-100 (H15): keep the PRD 5-attr + accuracy/evasion combat model — **build it at
+  T0** (v0.3.2), not T1.
+- D-101 (H16): stances = **glass cannon ↔ tank** (atk vs damage-taken); retire
+  wear-as-the-axis.
+- D-102 (H17): **"≥1 craftable"** (amends D-052/D-095); T0 ships 3 weapons.
+- D-103 (H18): interactive/resumable combat **deferred** to T1/T2; auto-resolve is
+  the T0 spine.
+
+**Two plans written (the deliverable):**
+- **Plan A** `docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md` — reconcile
+  PRD + adjacent docs to standalone end-state v1.0.0.
+- **Plan B** `docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md` — the v0.3.2 build
+  to close the build-behind gap.
+
+The earlier partial audit report is marked SUPERSEDED in the reading queue.
+
+## Next intended steps (current)
+1. Human review of Plan A + Plan B (in the reading queue).
+2. On go-ahead: execute Plan A section-by-section (foundations §1/§6 first), then
+   Plan B (A1 combat model first). Both human-reviewable, RED-able tests, R6-reachable.

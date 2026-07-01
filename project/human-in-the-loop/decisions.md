@@ -27,17 +27,4 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-### H13 🔲 — E-stage numbering collision (code E1–E4 vs design E0→E3 + parked E4–E5)
-- **Question / fork:** v0.3.1 added a T0 **E4 "long-house"** koku sink (`estate.ts`,
-  documented in §4.6.6d as the "E1–E4 ladder"). But the design-canon *condition*
-  ladder (§1.5.1/§4.7.5/§7:86,118) is **E0 Foreclosure's Edge → E3 Prosperous**
-  with **E4–E5 parked for T4+** — so a code-E4 now lives in T0 while §7 says E4
-  is parked. Is the code's T0 E4 the same object as the design's parked E4, or a
-  same-number-different-thing that needs disambiguating?
-- **Options:** (A) they're distinct axes (purchase-step vs condition-stage) →
-  rename one scheme to remove the clash; (B) fold the code E4 into the canon and
-  un-park it, updating §7; (C) accept the overlap as harmless.
-- **Recommendation:** **A** — the two schemes measure different things (a purchase
-  ladder vs a narrative condition); a rename kills the ambiguity. Design-canon
-  call, so left for you.
-- **Resolution:** _(pending)_
+_(no open decisions — H13–H18 resolved 2026-07-01 → D-098…D-103, see [`archive.md`](archive.md))_
