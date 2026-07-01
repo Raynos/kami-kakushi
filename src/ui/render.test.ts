@@ -7,7 +7,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, formatLogText, type AppHooks } from './render';
 import {
   createInitialState,
-  foeForecasts,
+  foesHere,
   setFlag,
   balance,
   type GameState,
@@ -167,8 +167,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
       expect(wr.textContent).not.toContain('%');
     }
 
-    // mark the first grindable foe as encountered → its row now shows a real %.
-    const firstMob = foeForecasts(state)[0]!.mob.id;
+    // mark the first grindable foe ON THIS NODE as encountered → its row now shows a real %.
+    // (foe rows are node-scoped via foesHere, so use the node's first foe, not the global curve's.)
+    const firstMob = foesHere(state)[0]!.mob.id;
     const seenState = setFlag(state, `mob-${firstMob}`);
     render(seenState, state);
 

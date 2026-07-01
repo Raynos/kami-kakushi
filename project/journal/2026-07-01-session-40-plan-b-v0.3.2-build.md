@@ -177,3 +177,21 @@ bandit, so each is completable in T0 (a new RED-able test asserts kind-coverage 
 token-reachability). Extended the DEV quest-variant kind→stamp map with DEFEND (守,
 rokusho green). Note: the Quests tab now shows 4 cards at once — could be rung-gated at
 playtest if it reads cluttered. Verify green.
+
+---
+
+## Update — A9 landed (richer T0 mob roster: rats · viper · troop)
+
+PRD §5: added 3 grounded foes for combat variety (delegated + **verified hard**: ran
+`verify` myself — 11 gates green; confirmed the band constants un-widened, monkey@L1 =
+0.29 anchor holds; checked the m2 test only ADDED a gate — rice_rats easier than the
+monkey — and the render.test change is a legit node-scoping alignment (`foesHere`), not
+neutering). New foes, all archetype-driven (no new MOB_* constants needed):
+- **rice_rats** 稲鼠 (L1, gate-forecourt) — a fast, scattershot swarm; the gentlest fight
+  (WR 0.66), an OPTIONAL warmup that does NOT displace the monkey as the humbling first foe.
+- **mamushi** 蝮 (L2, near-satoyama) — a fast, deadly-accurate biter (venom/gall is T1,
+  D-095 — no status effect yet).
+- **monkey_troop** 猿群 (L2, home-paddies) — the highest-evasion foe: the accuracy/evasion
+  lesson made flesh (you whiff a lot). True multi-target waits on T1 weapon targetCount.
+Sinew drops added for the new beasts (never any recipe's sole source — axe/yari still
+covered by boar-hardwood + monkey/wolf-sinew). Bestiary table regen; verify green.

@@ -286,8 +286,10 @@ export const STANCE_ORDER: readonly StanceId[] = ['gedan', 'chudan', 'jodan'];
 // assert against). These are BANDS, not pinned point-estimates — the real sampled
 // win-rate is weapon-sensitive, so widen a band to engine reality, never tighten below it.
 // Verified against the SEED-ROBUST foeForecasts(mc(lvl)) (chudan / pristine pole, STR-leaning
-// build), full satiety — Plan B v0.3.2 5-attr model, L1-5 then L8:
-// monkey 0.29/0.69/0.78/0.90/0.93 (trivial ≈L6), wolf 0.03/0.35/0.51/0.70/0.80,
+// build), full satiety — Plan B v0.3.2 5-attr model, A9 roster, L1-5 then L8:
+// rice_rats 0.66/0.96/0.99/1.00/1.00 (the gentle warmup), monkey 0.29/0.69/0.78/0.90/0.93
+// (trivial ≈L6), monkey_troop 0.11/0.37/0.48/0.66/0.74 (the high-eva lesson),
+// wolf 0.03/0.35/0.51/0.70/0.80, mamushi 0.12/0.61/0.76/0.86/0.94 (the fast biter),
 // boar 0.07/0.45/0.62/0.79/0.88, bandit 0.00/0.00/0.00/0.01/0.02 (L1-5), bandit L8 ≈ 0.90. ──
 /** First-fight (monkey @L1) win-rate band — the signed humbling-but-winnable G3/FU19 (20–35%);
  *  the seed-robust forecast lands ~0.30 here (full satiety), in band and seed-independent. */

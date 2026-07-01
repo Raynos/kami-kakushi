@@ -59,14 +59,23 @@ function foeWr(state: GameState, mobId: string): number {
 // shared balance.CURVE_* constants — point-estimates are seed/weapon-sensitive, so if a
 // value lands outside, WIDEN the constant to engine reality, never tighten below it.
 // Verified SEED-ROBUST curve (foeForecasts mc(lvl), chudan/pole, full satiety, STR-leaning
-// build — seed-independent), Plan B v0.3.2 5-attr model, L1-5 then L8:
-//   monkey 0.29/0.69/0.78/0.90/0.93 (trivial ≈L6) · wolf 0.03/0.35/0.51/0.70/0.80
-//   boar   0.07/0.45/0.62/0.79/0.88 · bandit 0.00/0.00/0.00/0.01/0.02 (L1-5) · bandit L8 ≈ 0.90
+// build — seed-independent), Plan B v0.3.2 5-attr model, A9 roster, L1-5 then L8:
+//   rice_rats 0.66/0.96/0.99/1.00/1.00 (warmup) · monkey 0.29/0.69/0.78/0.90/0.93 (trivial ≈L6)
+//   monkey_troop 0.11/0.37/0.48/0.66/0.74 (high-eva) · wolf 0.03/0.35/0.51/0.70/0.80
+//   mamushi 0.12/0.61/0.76/0.86/0.94 (fast biter) · boar 0.07/0.45/0.62/0.79/0.88
+//   bandit 0.00/0.00/0.00/0.01/0.02 (L1-5) · bandit L8 ≈ 0.90
 describe('combat curve — a graded close-duel rolling frontier (sampled forecast)', () => {
   it('the first foe (monkey @L1) is humbling-but-winnable — G3/FU19', () => {
     const wr = foeWr(mc(1), 'monkey');
     expect(wr).toBeGreaterThanOrEqual(balance.CURVE_FIRST_FOE_WR_MIN);
     expect(wr).toBeLessThanOrEqual(balance.CURVE_FIRST_FOE_WR_MAX);
+  });
+
+  it('the grain-rat warmup (A9) is a gentler fight than the humbling monkey at L1', () => {
+    // A9: rice_rats is an OPTIONAL warmup that must NOT displace the monkey as the humbling first
+    // foe — it forecasts strictly easier than the monkey at base attrs. RED if it were tuned as
+    // hard as (or harder than) the monkey, which would steal the "first real fight" beat.
+    expect(foeWr(mc(1), 'rice_rats')).toBeGreaterThan(foeWr(mc(1), 'monkey'));
   });
 
   it('no checkpoint level is ALL-dead or ALL-trivial (the invariant v0.1 violated)', () => {

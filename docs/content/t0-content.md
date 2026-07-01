@@ -48,8 +48,11 @@
 | id | label | level | koku | scripted |
 |---|---|---|---|---|
 | wolf_scripted | Grain-store wolf | 2 | 0 | yes |
+| rice_rats | Grain-rat swarm | 1 | 1 |  |
 | monkey | Crop-raiding monkey | 1 | 3 |  |
+| monkey_troop | Crop-raiding troop | 2 | 6 |  |
 | wolf | Lean wolf | 2 | 5 |  |
+| mamushi | Mamushi (pit viper) | 2 | 4 |  |
 | boar | Wild boar | 3 | 8 |  |
 | bandit | Road bandit | 5 | 12 |  |
 

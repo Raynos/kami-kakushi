@@ -239,17 +239,53 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
 
   it('the watch shows only the foes on THIS node (foesHere is node-scoped)', () => {
     const idsAt = (loc: string): string[] => foesHere(fighterAt(loc)).map((f) => f.mob.id);
-    // home paddies: the crop-raiding monkey; near satoyama: the lean wolf; deep satoyama: the boar
-    // in its wallow (Step 5d). The kura holds only the scripted wolf (NOT grindable → empty watch).
-    // The woodlot road's bandit is the first HUMAN threat, GATED to T2 (A10) → no T0 watch there.
-    expect(idsAt('home-paddies')).toEqual(['monkey']);
-    expect(idsAt('near-satoyama')).toEqual(['wolf']);
+    // gate forecourt: the grain-rat swarm (the gentle warmup at the stores). home paddies: the
+    // humbling lone monkey + the crop-raiding troop (A9). near satoyama: the lean wolf + the pit
+    // viper in the grass. deep satoyama: the boar in its wallow (Step 5d). The kura holds only the
+    // scripted wolf (NOT grindable → empty watch). The woodlot road's bandit is the first HUMAN
+    // threat, GATED to T2 (A10) → no T0 watch there. Order is GRINDABLE danger-order (level asc).
+    expect(idsAt('gate-forecourt')).toEqual(['rice_rats']);
+    expect(idsAt('home-paddies')).toEqual(['monkey', 'monkey_troop']);
+    expect(idsAt('near-satoyama')).toEqual(['wolf', 'mamushi']);
     expect(idsAt('deep-satoyama')).toEqual(['boar']);
     expect(idsAt('woodlot-edge')).toEqual([]); // bandit gated out of T0
     expect(idsAt('kura')).toEqual([]);
     // …but the bandit DOES appear once the house reaches T2 (the gate is tier-scoped, A10).
     const atT2 = foesHere({ ...fighterAt('woodlot-edge'), tier: 2 }).map((f) => f.mob.id);
     expect(atT2).toEqual(['bandit']);
+  });
+
+  // A9 — the richer T0 roster (Plan B v0.3.2). The three new grounded foes exist with sane
+  // stats, are T0-REACHABLE (minTier 0) on their own nodes, and carry their design identity.
+  it('the A9 foes exist, are T0-reachable on their node, and keep their archetype identity', () => {
+    for (const id of ['rice_rats', 'mamushi', 'monkey_troop'] as const) {
+      const m = getMob(id);
+      // sane stats derived from the def itself (no copied magic numbers).
+      expect(m.level).toBeGreaterThanOrEqual(1);
+      expect(m.kokuReward).toBeGreaterThanOrEqual(0);
+      expect(m.minTier ?? 0).toBe(0); // grindable in T0, unlike the T2-gated bandit
+      // reachable at T0 (tier 0) on its OWN node — RED if a placement/gate regressed.
+      const hereIds = foesHere(fighterAt(m.area)).map((f) => f.mob.id);
+      expect(hereIds).toContain(id);
+    }
+    // identity levers (assert the design KNOB, not a collapsed metric): the troop teaches the
+    // accuracy/evasion lesson (the single most evasive foe in the roster), while the viper is its
+    // sharp opposite on the neighbouring node — a fast, accurate biter that lands where the troop
+    // ducks (higher accuracy + far lower evasion than the troop, and among the fastest cadences).
+    const grindables = ['rice_rats', 'monkey', 'monkey_troop', 'wolf', 'mamushi', 'boar', 'bandit'];
+    const eva = (id: string) => getMob(id as never).evaBonus ?? 0;
+    const acc = (id: string) => getMob(id as never).accBonus ?? 0;
+    const spd = (id: string) => getMob(id as never).baseSpeed ?? 1;
+    expect(Math.max(...grindables.map(eva))).toBe(eva('monkey_troop'));
+    expect(acc('mamushi')).toBeGreaterThan(acc('monkey_troop'));
+    expect(eva('mamushi')).toBeLessThan(eva('monkey_troop'));
+    expect(spd('mamushi')).toBeGreaterThan(1); // a fast striker, not a plodder
+    // the grain-rat swarm is the fastest cadence (a boiling swarm) yet nearly harmless (its bites
+    // rarely land — the LOWEST accuracy), the gentle-warmup identity.
+    expect(Math.max(...grindables.map(spd))).toBe(spd('rice_rats'));
+    expect(Math.min(...grindables.map(acc))).toBe(acc('rice_rats'));
+    // (the grain-rat warmup forecasting EASIER than the monkey at L1 is asserted against the
+    // sampled combat curve in m2.test.ts, where the foeWr helper lives.)
   });
 
   it('walking away from a foe ends the auto-grind on it (move_to clears autoCombat)', () => {

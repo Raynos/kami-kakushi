@@ -1,19 +1,29 @@
-// Bestiary (PRD §2.9 / §4.6 / canon §E). GROUNDED mobs only — boars, wolves,
-// monkeys, bandits. NO belief-creatures in any spawn table (a hard guardrail the
-// content verifier enforces). Each carries a `level` from which {attackPower,
+// Bestiary (PRD §2.9 / §4.6 / canon §E). GROUNDED mobs only — grain-rats, monkeys
+// (lone + troop), pit vipers, wolves, boars, bandits. NO belief-creatures in any spawn
+// table (a hard guardrail the content verifier enforces). Each carries a `level` from which {attackPower,
 // defense, hp} derive (Block N.1 #1). The scripted grain-store wolf is the humbling
 // first fight (a guaranteed-survival story beat, §7.2 M2a).
 //
 // v0.3.1 Step 5b: each foe is SPATIAL — it lives on exactly one map node (`area`), so
 // you walk to its ground to fight it (the human's "combat happens on a node" call). The
-// crop-raiding monkey haunts the home paddies; the lean wolf comes down to the near
-// satoyama; the boar dens deeper, in the deep satoyama it raids from (Step 5d); the road
-// bandit works the woodlot road (the first HUMAN threat — canon-held for T2, A10; in the
-// curve but gated out of a T0 fight); the scripted wolf is cornered in the kura where you woke.
+// grain-rat swarm boils at the gate forecourt (the gentle warmup); the lone crop-raiding
+// monkey AND its troop haunt the home paddies; the lean wolf comes down to the near satoyama
+// where a pit viper coils in the grass; the boar dens deeper, in the deep satoyama it raids
+// from (Step 5d); the road bandit works the woodlot road (the first HUMAN threat — canon-held
+// for T2, A10; in the curve but gated out of a T0 fight); the scripted wolf is cornered in
+// the kura where you woke. A9 (v0.3.2) added the rats/troop/viper for T0 combat variety.
 
 import type { AreaId } from './areas';
 
-export type MobId = 'wolf_scripted' | 'wolf' | 'boar' | 'monkey' | 'bandit';
+export type MobId =
+  | 'wolf_scripted'
+  | 'wolf'
+  | 'boar'
+  | 'monkey'
+  | 'bandit'
+  | 'rice_rats'
+  | 'mamushi'
+  | 'monkey_troop';
 
 export interface MobDef {
   readonly id: MobId;
@@ -52,6 +62,23 @@ export const MOBS: readonly MobDef[] = [
       'A starving wolf cornered among the rice-sacks. You live through this one on luck alone.',
   },
   {
+    id: 'rice_rats',
+    label: 'Grain-rat swarm',
+    kanji: '稲鼠',
+    level: 1,
+    area: 'gate-forecourt',
+    // The gentlest fight there is — a boiling swarm of grain-rats at the stores. FAST (they swarm)
+    // but scattershot and easy to hit (a mass of small bodies), so it lands few real bites: a
+    // slightly-easier-than-the-monkey OPTIONAL warmup at the forecourt, NOT the humbling first
+    // fight (that stays the monkey on the paddies). Barely worth a coin.
+    baseSpeed: 1.7,
+    accBonus: -4,
+    evaBonus: -2,
+    kokuReward: 1,
+    blurb:
+      'A boiling swarm at the grain-stores — a nuisance, not a threat. Good for a first swing.',
+  },
+  {
     id: 'monkey',
     label: 'Crop-raiding monkey',
     kanji: '猿',
@@ -62,6 +89,20 @@ export const MOBS: readonly MobDef[] = [
     evaBonus: 4,
     kokuReward: 3,
     blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
+  },
+  {
+    id: 'monkey_troop',
+    label: 'Crop-raiding troop',
+    kanji: '猿群',
+    level: 2,
+    area: 'home-paddies',
+    // A whole troop swarms the paddies — the accuracy/evasion LESSON made flesh: they scatter and
+    // duck so you WHIFF a lot (very high evasion), the escalation of the lone monkey on the same
+    // ground. (True multi-target waits on the T1 weapon targetCount; at T0 it is one evasive pack.)
+    baseSpeed: 1.2,
+    evaBonus: 6,
+    kokuReward: 6,
+    blurb: 'Not one raider but a whole troop — they scatter and duck, and you swing at empty air.',
   },
   {
     id: 'wolf',
@@ -76,6 +117,21 @@ export const MOBS: readonly MobDef[] = [
     evaBonus: 2,
     kokuReward: 5,
     blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
+  },
+  {
+    id: 'mamushi',
+    label: 'Mamushi (pit viper)',
+    kanji: '蝮',
+    level: 2,
+    area: 'near-satoyama',
+    // A pit viper coiled in the hill-grass — FAST and deadly-ACCURATE (a lunging strike that rarely
+    // misses), the sharp opposite of the monkey_troop's misses. A short, sharp duel: it bites hard
+    // and lands its bites. (Its venom/gall consumable is a T1 feature, D-095 — no status effect yet.)
+    baseSpeed: 1.3,
+    accBonus: 3,
+    kokuReward: 4,
+    blurb:
+      'Coiled in the grass, quick as a whip and sure of its strike. It bites before you see it.',
   },
   {
     id: 'boar',

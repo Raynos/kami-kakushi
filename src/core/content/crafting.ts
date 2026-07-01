@@ -114,7 +114,13 @@ export interface MaterialDrop {
  *  only — the scripted grain-store wolf is a story beat, never a loot source. Light
  *  beasts (monkey/wolf) yield sinew; the heavy woodlot foes (boar/bandit) yield hardwood. */
 export const MATERIAL_DROPS: Readonly<Record<string, MaterialDrop>> = {
+  // The grain-rat swarm is nearly worthless loot — usually nothing, a rare scrap of sinew.
+  rice_rats: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 6 },
   monkey: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
+  // The monkey troop and the viper both yield sinew — a light beast haul, never a recipe's ONLY
+  // source (the boar's hardwood + the monkey/wolf sinew still fully cover the axe + yari).
+  monkey_troop: { material: 'beast_sinew', qty: 1, chanceNum: 3, chanceDen: 5 },
+  mamushi: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
   wolf: { material: 'beast_sinew', qty: 1, chanceNum: 3, chanceDen: 4 },
   boar: { material: 'hardwood', qty: 2, chanceNum: 3, chanceDen: 4 },
   // The woodlot-road bandit is hauling stolen timber — a guaranteed, if dangerous, haul.
