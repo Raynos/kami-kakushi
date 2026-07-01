@@ -1,0 +1,46 @@
+# Session 38 — 2026-07-01 — reconcile PRD & roadmap vs the v0.3.1 build
+
+**Summary:** Human worried the PRD and roadmap went stale in the v0.3.0 → v0.3.1
+build (source of truth now in `src/`). Ran a 3-way fresh-eyes audit
+(ADRs+journals / PRD+roadmap / the `src` pure core) and hand-verified every sharp
+finding against the code. **Verdict: docs are largely NOT stale** — the ADR log
+and PRD §4 (§4.6.6b/c/d, §4.2.2) were already rippled for v0.3.1 as it built. Real
+drift was narrow: 3 stale lines in `roadmap.md`'s carry-forward prose (fixed) + 2
+genuine judgment calls surfaced as H-items. Full report in
+`project/audit/reports/2026-07-01-doc-staleness-reconcile.md`.
+
+## What changed
+- `docs/living/roadmap.md` — 3 provisional-narrative fixes to the "Already
+  SHIPPED" prose: repair is now wood **+ a soft koku fee** (D-092) at lines 73 &
+  106; the flywheel ladder is **E1→E4** not E1→E3 (E4 long-house added v0.3.1 ·
+  D-092/§4.6.6d) at line 123.
+- `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — new: the audit
+  method, the "not-stale" verdict, the confirmed drift, and the 2 surfaced calls.
+- `project/human-in-the-loop/decisions.md` — filed **H1** (version: the built
+  game footer shows **v0.2**, since the build was never tagged v0.3.x — A21
+  single-source violation) and **H2** (E-stage numbering collision: code E1–E4
+  vs design E0→E3 with E4–E5 parked).
+- `project/todo-human.md` — added the report to the reading queue.
+
+## Verify-don't-trust catches (R2)
+- The first sweep agent read `roadmap.md` and **mislabeled it as the PRD** — its
+  "banking/retreat/judge absent from the PRD" claim was false; the real PRD is an
+  index (`prd.md`, 69 lines) splitting into `prd/0N-*.md`, and §4 already covers
+  all of it. Reading the actual §4 file overturned the finding before any edit.
+- The "E1→E3 is stale everywhere" first impression was wrong: E0→E3 elsewhere is a
+  **different axis** (narrative condition stages), not the code's purchase ladder.
+  Only `roadmap.md:123` (the D-051 flywheel line) was genuinely stale.
+
+## Next intended steps
+1. Await human on **H1** (tag v0.3.1? align package.json?) and **H2** (E-stage
+   rename). Neither is agent-resolvable — both are release/design-canon calls.
+2. If H1 → "tag it": one `git tag v0.3.1` makes footer + git + docs agree.
+
+## Landmines
+- **Do NOT "fix" the version by bumping `package.json` alone** — nothing reads it
+  for display; `__VERSION__` is git-tag-sourced (`git describe`). A lone bump is a
+  false green (R3). The footer will still say v0.2 until a tag exists.
+- Two E-stage schemes coexist by design (condition E0→E3 vs purchase E1–E4). Don't
+  blanket-rewrite one into the other — the overlap is H2, unresolved.
+- PRD §4 is the *detailed* balance canon; `roadmap.md` is the *order/how*. When
+  they disagree on a shipped mechanic, §4 + the code win (roadmap prose lags).

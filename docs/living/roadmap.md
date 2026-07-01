@@ -70,7 +70,7 @@
 | M0 | foundation (cross-cutting) | toolchain, pure-core, one RNG, reveal engine, full multi-backend save + crash-recovery, the **cold open** |
 | M1 | **T0-M1** | rung-meter R0→R2, labour skills (discover-by-doing), season clock, soft stamina, first nav reveal, conditioning gate, porter's-knot zero-bonus beat |
 | M2a | **T0-M2** | the humbling grain-store wolf @ R3, seeded auto-resolve, sampled win-rate forecasts, character leveling, satiety throttle, self-recovering losses |
-| M2b | **T0-M2** | grounded bestiary, equipment + graded 4-band durability + repair (wood sink), a 2nd weapon @ combat-Lv2 *(currently a grant — reshape makes it found/crafted)*, foe forecasts + auto-fight |
+| M2b | **T0-M2** | grounded bestiary, equipment + graded 4-band durability + repair (wood + a soft koku fee, tightened in v0.3.1 · D-092), a 2nd weapon @ combat-Lv2 *(currently a grant — reshape makes it found/crafted)*, foe forecasts + auto-fight |
 
 So the re-axe's **new work starts at the T0 tuning pass + R4→R7 + the spine** — the cold-open→labour→first-wolf
 arc already exists and carries forward (M0–M2b shipped at `8bf6ac9` · `248bf93` · `fc36172`; the retired M0–M7
@@ -103,7 +103,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | Fun-slice | Status | The fun | DoD |
 |---|---|---|---|
 | **T0-M2-F1** Grain-store wolf, combat goes live @R3 | ✅ | the humbling, *winnable* first fight | first-fight **20–35% single-fight win-rate** (signed band kept, decision #5); G-CURVE; DISPLAYED==TESTED |
-| **T0-M2-F2** Gear, durability & the found/crafted 2nd weapon | ✅ | equip choices; repair tension; *earn*, never gifted | graded durability; repair wood-sink; **2nd weapon → found/crafted via a loot→craft loop** (retires the grant; **this is the D-052 showcase "one craftable" taste**); **DIVERGE** on the craft panel |
+| **T0-M2-F2** Gear, durability & the found/crafted 2nd weapon | ✅ | equip choices; repair tension; *earn*, never gifted | graded durability; repair costs wood + a soft koku fee (waived if broke — D-092); **2nd weapon → found/crafted via a loot→craft loop** (retires the grant; **this is the D-052 showcase "one craftable" taste**); **DIVERGE** on the craft panel |
 | **T0-M2-F3** **Combat becomes a real decision** | ✅ | HP-carry makes defensive stances matter; eat-to-heal couples food↔combat | **HP carries + heals by eating** (D-050); **NO-STANCE-DOMINATED** test (replace the dominance-enshrining test); touch-legible wear axis + stance/training reveal beat; combat SFX. *(v0.3.1 D-076 supersedes the auto-heal model → HP-attrition, no auto-heal, 0 HP = loss stops autopilot.)* |
 | **T0-M2-F4** Keep the bite, within guardrails | ✅ | **humbling, not punishing** — the friction *stays* (#13), it just can't strand you | DO **not** smooth the durability/satiety bite (#13 revises the audit's "tame friction"); guardrails: winnable · soft-setback only · no permanent loss · no dead-ends; keep the **"fresh-L1-no-wood reaches L2 before Broken"** no-stranding test |
 
@@ -120,7 +120,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | Fun-slice | The fun | DoD |
 |---|---|---|
 | **T0-M4-F1** Your first quest | a goal beyond grinding — take & complete one PEST/HUNT/CLEAR | one quest end-to-end (order-free advance-event set); reveals as a top-level tab (D-037) |
-| **T0-M4-F2** The koku flywheel taste (**LINEAR**) | spend koku on a first estate upgrade that *raises yield* → it compounds | **LINEAR** estate-upgrade taste now (decision #20 — **branches into LAND / TREASURY / TRADE sub-engines at T1**); E1→E3 yield-bearing upgrades (D-051); work→koku→upgrade→more output; G-NO-DEAD-VALUES guards a compounding sink |
+| **T0-M4-F2** The koku flywheel taste (**LINEAR**) | spend koku on a first estate upgrade that *raises yield* → it compounds | **LINEAR** estate-upgrade taste now (decision #20 — **branches into LAND / TREASURY / TRADE sub-engines at T1**); E1→E4 yield-bearing upgrades (D-051; E4 "long-house" added in v0.3.1 as a deeper koku sink — D-092/§4.6.6d); work→koku→upgrade→more output; G-NO-DEAD-VALUES guards a compounding sink |
 | **T0-M4-F3** Talk & a tiny market | the **mentor's lore-talk** deepens; a tiny koku-sink **market** (the TRADE taste) | one NPC **lore-talk** line via the mentor (data-not-script, D-039); a tiny market (capped koku sink); **DIVERGE** on the dialogue/market panels |
 | **T0-M4-F4** A place to explore — a small **WALKABLE map** | the estate is areas you **move between**, not a menu (decision #23 — delivers the §1 "areas to explore" promise) | a **small walkable T0 map** (not just organizational room-grouping; **NQ-3 = minimal here, grow in T1**, with a pinned node-count ceiling); navigable, reveal-per-beat; **DIVERGE** on the map surface |
 | **T0-M4-F5** Stance & ability reveals (R5 / weapon-L10) | the combat decision deepens with a reveal beat | stance slot + ability/item slots reveal one-per-beat; touch-legible (no hover-only) |
