@@ -3,7 +3,7 @@
 // an archetype: per-weapon baseAttack / baseSpeed + a signature note. FOUND/earned,
 // never gifted as power.
 
-export type WeaponId = 'carrying_pole' | 'wood_axe';
+export type WeaponId = 'carrying_pole' | 'wood_axe' | 'yari';
 
 export interface WeaponDef {
   readonly id: WeaponId;
@@ -37,6 +37,20 @@ export const WEAPONS: readonly WeaponDef[] = [
     durabilityMax: 55,
     archetype: 'heavy · single',
     blurb: 'A felling axe off the woodlot rack — heavy, slow, and it bites deep.',
+  },
+  {
+    id: 'yari',
+    label: 'Forged yari',
+    kanji: '槍',
+    // Line-1 SPEAR (PRD §4.6.9) — the real martial weapon you GRADUATE to. Less bite per thrust
+    // than the axe, but fast + long: more swings, so it excels against quick, evasive foes (the
+    // accuracy/evasion model rewards its cadence). Signature "thrust-through" is a T1 ability slot.
+    baseAttack: 4, // §4.6.1 scale — a sidegrade to the axe (fast/reach vs heavy/bite) — tune by playtest
+    baseSpeed: 1.0, // §4.6.9 yari cadence
+    durabilityMax: 45,
+    archetype: 'reach · thrust',
+    blurb:
+      'A spear forged and lashed at the woodlot smithy — a straight ash haft and a keen head. Not a farm tool turned to fighting, but a real weapon, made to a soldier’s pattern.',
   },
 ];
 

@@ -146,3 +146,19 @@ by tier, so the bandit is NOT fightable in T0 — but it STAYS in `foeForecasts`
 balance curve's high-end wall, so the m2 "bandit is a wall" gate is unchanged). The
 node-scoped watch test now asserts woodlot-edge is empty at T0 and shows the bandit at
 T2 (the gate proven both ways). Fix the build, not the PRD. Verify green.
+
+---
+
+## Update — A3 landed (crafted yari — the T0 spear, roster = pole + axe + yari)
+
+Human call: the 3rd T0 weapon is a **CRAFTED yari** (spear) — brings the PRD's Line-1
+Spear identity into T0 (D-102, §4.6.9). Added the `yari` WeaponDef (baseAttack 4,
+baseSpeed 1.0, durability 45, archetype "reach · thrust") as a real **sidegrade** to
+the axe: faster cadence + reach (more swings → better vs quick/evasive foes under the
+new accuracy/evasion model) traded for a lighter per-thrust bite. Recipe `craft_yari`
+(hardwood ×2 + beast_sinew ×3 — leans sinew-lashing, distinct from the axe's
+hardwood-haft mix). **Reachable (R6):** generalized the craft panel to show the NEXT
+un-crafted recipe (pole → axe → yari progression) and the equip control to switch
+among ALL owned weapons; fixed the DEV craft-variant to mirror the same recipe.
+RED-able tests (recipe + the sidegrade property); weapons table regen; verify green.
+Signature "thrust-through" stays a T1 ability-slot feature.

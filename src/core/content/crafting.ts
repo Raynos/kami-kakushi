@@ -53,7 +53,9 @@ export interface RecipeDef {
   readonly blurb: string;
 }
 
-/** T0's lone craftable — the D-052 "one craftable" taste. Flat inputs → one weapon. */
+/** T0 craftables (D-052/D-095 "≥1 craftable"; D-102 — pole + 2, the yari a CRAFTED spear). Flat
+ *  inputs → one weapon. Ordered by progression: the axe first (cheap), then the yari (the martial
+ *  graduation, leans sinew-lashing over the axe's hardwood haft). T0 stays SIMPLE flat recipes. */
 export const RECIPES: readonly RecipeDef[] = [
   {
     id: 'craft_wood_axe',
@@ -62,6 +64,14 @@ export const RECIPES: readonly RecipeDef[] = [
     label: 'Forge the woodlot axe',
     blurb:
       'At the woodlot smithy a heavy felling head is set to a seasoned haft and bound fast with sinew. A real edge — one you earned off the carcasses, not one tossed to you off the rack.',
+  },
+  {
+    id: 'craft_yari',
+    outputWeapon: 'yari',
+    inputs: { hardwood: 2, beast_sinew: 3 },
+    label: 'Forge a yari 槍',
+    blurb:
+      'A straight ash haft, a keen forged head, and sinew lashed tight turn a season of carcasses into a soldier’s spear — the first weapon you carry that was never a farm tool.',
   },
 ];
 

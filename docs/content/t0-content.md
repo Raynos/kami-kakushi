@@ -41,6 +41,7 @@
 |---|---|---|---|---|---|
 | carrying_pole | Worn carrying-pole | 3 | 0.9 | 40 | reach · blunt |
 | wood_axe | Woodlot axe | 5 | 0.85 | 55 | heavy · single |
+| yari | Forged yari | 4 | 1 | 45 | reach · thrust |
 
 ## Bestiary (grounded — no belief-creatures)
 

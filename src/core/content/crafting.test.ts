@@ -12,7 +12,7 @@ import {
   type RecipeDef,
 } from './crafting';
 import { MOB_IDS, GRINDABLE_MOBS } from './enemies';
-import { WEAPON_IDS } from './weapons';
+import { WEAPON_IDS, getWeapon } from './weapons';
 import { createRng } from '../rng';
 
 function woodAxe(): RecipeDef {
@@ -45,6 +45,24 @@ describe('recipes', () => {
   it('getRecipe round-trips and throws on an unknown id', () => {
     expect(getRecipe('craft_wood_axe').outputWeapon).toBe('wood_axe');
     expect(() => getRecipe('no_such_recipe')).toThrow();
+  });
+
+  it('has the CRAFTED yari (A3/D-102) — output yari, a distinct sinew-leaning material mix', () => {
+    const r = getRecipe('craft_yari');
+    expect(r.outputWeapon).toBe('yari');
+    expect(r.inputs).toEqual({ hardwood: 2, beast_sinew: 3 });
+    // a distinct mix from the axe (the yari leans sinew-lashing, the axe hardwood-haft) — a real
+    // craft choice, not a re-skin.
+    expect(r.inputs).not.toEqual(getRecipe('craft_wood_axe').inputs);
+  });
+
+  it('the yari is a real SIDEGRADE to the axe — faster cadence, lighter bite (A3)', () => {
+    const yari = getWeapon('yari');
+    const axe = getWeapon('wood_axe');
+    // fast + long: more swings, so it rewards the accuracy/evasion model against quick foes…
+    expect(yari.baseSpeed).toBeGreaterThan(axe.baseSpeed);
+    // …paid for with a lighter per-thrust bite than the heavy axe (a trade, not a strict upgrade).
+    expect(yari.baseAttack).toBeLessThan(axe.baseAttack);
   });
 });
 

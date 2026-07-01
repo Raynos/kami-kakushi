@@ -40,6 +40,7 @@ import {
   combatXpProgress,
   durabilityBand,
   getWeapon,
+  WEAPONS,
   STANCE_ORDER,
   AREAS,
   ESTATE_STAGES,
@@ -1086,27 +1087,25 @@ export function mount(
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }
-    if (hasFlag(state, 'crafted-wood_axe') && state.equippedWeapon !== 'wood_axe') {
-      const eq = el('button', 'auto-toggle', 'Take up the axe 斧');
+    // weapon switcher — equip any weapon you OWN (the pole always; a crafted weapon once forged).
+    // Iterates the roster order (pole · axe · yari), so it grows with the T0 weapon ladder (A3).
+    for (const w of WEAPONS) {
+      const owned = w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`);
+      if (!owned || w.id === state.equippedWeapon) continue;
+      const eq = el('button', 'auto-toggle', `Take up · ${w.label} ${w.kanji}`);
       eq.type = 'button';
-      eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: 'wood_axe' }));
-      wctrl.append(eq);
-    } else if (state.equippedWeapon === 'wood_axe') {
-      const eq = el('button', 'auto-toggle', 'Carrying-pole 天秤棒');
-      eq.type = 'button';
-      eq.addEventListener('click', () =>
-        dispatch({ type: 'equip_weapon', weaponId: 'carrying_pole' }),
-      );
+      eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: w.id }));
       wctrl.append(eq);
     }
     if (wctrl.childElementCount > 0) wc.append(wctrl);
     combatPane.append(wc);
 
     // craft panel (loot→craft, D-052) — surfaces once you've stripped a material off a foe
-    // (discover-by-doing), hidden once forged. The 2nd weapon is FOUND + MADE, never gifted.
-    const recipe = RECIPES[0]!;
+    // (discover-by-doing). Shows the NEXT un-crafted recipe in progression order (axe → yari, A3):
+    // each weapon is FOUND + MADE, never gifted; the card advances as you forge each.
+    const recipe = RECIPES.find((r) => !hasFlag(state, `crafted-${r.outputWeapon}`));
     const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
-    if (hasMaterial && !hasFlag(state, `crafted-${recipe.outputWeapon}`)) {
+    if (recipe && hasMaterial) {
       const cc = el('div', 'weapon-card frame craft-card');
       cc.append(el('div', 'rung-now', recipe.label));
       cc.append(

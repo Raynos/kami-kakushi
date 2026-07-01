@@ -270,7 +270,9 @@ function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameS
  *  ships); only the material-status DISPLAY portion diverges, rendered into `container`. Pure
  *  presentation of the same data — no dispatch needed (the Forge button is shared). */
 function renderCraftVariant(variantId: string, container: HTMLElement, state: GameState): boolean {
-  const recipe = RECIPES[0]!;
+  // Mirror render.ts: the NEXT un-crafted recipe in progression order (axe → yari, A3), so the
+  // DEV variants show the same card the default renderer does — not a stale RECIPES[0].
+  const recipe = RECIPES.find((r) => !state.flags[`crafted-${r.outputWeapon}`]) ?? RECIPES[0]!;
   const can = canCraft(state.resources, recipe);
   const inputs = Object.entries(recipe.inputs);
 
