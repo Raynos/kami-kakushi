@@ -264,3 +264,16 @@ economy-test comment. No mechanic change (the split proper is T2). Verify green.
 pushed commit. The build now matches the reconciled PRD for T0 combat, weapons, quests,
 the estate namespace, mobs, the Bestiary + staggered reveals, and the generated docs.
 Balance magnitudes stay liquid (D-059) for tomorrow's playtest.
+
+---
+
+## Update — checkpoint: Plan B built + closed out
+
+All 11 tasks landed + pushed to `origin/main` (`8e5cb52`…`3084872`). Checkpoint:
+snapshot brought current (v0.3.2 BUILT; resume banner flipped to **PLAY v0.3.2 with the
+human** — the build-first reason is done, playtest is the job now), both plans marked ✅
+and **archived** to `project/archive/` (docs/plans/ is active-only again), reading queue
+cleared (Plan A + B → done). Open for the human: **R1** (fun/pacing/look) · **R2** (UI
+variants) · **R5** (the new Bestiary A/B/C). Balance liquid (D-059) for tomorrow.
+
+**Verify against git (R3):** 12 commits this session, tree clean, `origin/main` green.

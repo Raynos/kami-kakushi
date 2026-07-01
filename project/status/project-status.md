@@ -39,13 +39,15 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   (D-092) · the **SPATIAL MAP** (D-093) · milestone-integrity gate (11th, D-054); a
   fun/feel pass + two audit workflows → **29 confirmed fixes, no core/logic/balance
   defect surviving**. Detail: session-36 journal + the archived plan.
-- **v0.3.2 — IN PROGRESS (Plan B, this session).** Closing the build-behind gap so the
-  build matches the reconciled PRD. ✅ **A1+A2 landed** (`8e5cb52`, pushed): the PRD
-  **5-attr STR/AGI/INT/SPD/LUCK + accuracy/evasion combat model** + glass-cannon/tank
-  stances — combat now matches §4.6 (balance liquid, D-059). Queued: A3 (crafted yari) ·
-  A4 (E→U rename) · A6 (quests) · A7/A8 (UI, **diverge** per D-075) · A9 (mobs) · A10
-  (bandit-gate) · C (gen-docs). Plan:
-  [`../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md`](../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md).
+- **v0.3.2 — BUILT (Plan B, session-40; on `origin/main`, all green).** Closed the
+  build-behind gap so the build matches the reconciled PRD — **all of §A (A1–A10) + §C**,
+  each a verified/pushed commit (`8e5cb52`…`3084872`): the PRD **5-attr + accuracy/evasion
+  combat model** + glass-cannon/tank stances (A1/A2) · crafted **yari** (A3) · estate
+  **E→U** rename (A4) · **HUNT/CLEAR/DEFEND** quests (A6) · staggered combat reveals + a
+  **Bestiary** (A7, D-075 diverge → **R5**) · interior-house reveals (A8) · richer mob
+  roster — rats/viper/troop (A9) · **bandit gated to T2** (A10) · gen-docs completeness (C).
+  Balance magnitudes **liquid** (D-059) — for playtest. Plan (archived):
+  [`../archive/2026-07-01-v0.3.2-build-close-the-gap.md`](../archive/2026-07-01-v0.3.2-build-close-the-gap.md).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
@@ -99,20 +101,20 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 ## How to resume
 
-> 🔨 **NOW: build Plan B (v0.3.2) — autonomously, in the background.** The human
-> greenlit the build (2026-07-01, **supersedes** the earlier "play the game, not
-> build" steer): they're busy today, can't playtest, and will **playtest v0.3.2
-> tomorrow** — so close the build-behind gap now so game & PRD converge. Plan:
-> [`../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md`](../../docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md).
-> **R1 playtest is deferred to tomorrow, not dropped**; build headless-only
-> (hook-enforced) and keep every task reachable in the live T0 (R6).
+> 🎮 **NOW: PLAY v0.3.2 with the human.** Plan B is **BUILT** (all 11 tasks landed +
+> pushed), so the game & PRD are back in sync — the reason to build first is done. The
+> human said they'd **playtest tomorrow**: pair screen-by-screen, drive the real player
+> path, fix from concrete feedback. Balance is **liquid** (D-059) — tune any number by
+> feel. Combat CHANGED a lot (5-attr, ~58-HP fresh MC, attrition-race, staggered R3→R5
+> reveals, a Bestiary, 3 new foes) — watch how it FEELS. Headless QA is hook-enforced.
 
-1. Read the **newest journal** (session-40 = Plan B build; session-38 = doc
-   reconcile) + the plan's task list (A1 combat model FIRST → A2/A3/A9 → A4/A6/A7/A8/A10 + C gen-docs).
+1. Read the **newest journal** (session-40 = the whole Plan B build) for what changed +
+   the "feel-shift to watch" notes.
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ http://localhost:5173/).
 3. Drive **headless-only** (hook-enforced): `window.__qa` (`newGame`, `toRung`,
    `goto`, `fight`, `jumpToAscension()`, `speed(8)`) or `node src/scripts/qa-shots.mjs`.
-4. **Next:** work Plan B §A (A1–A10) + §C in dependency order — each ships RED-able
-   tests + the tier full-arc/invariants check, `verify` stays green, commit+journal per
-   task. Then **R1/R2** with the human tomorrow. (**Plan A** — PRD→standalone end-state — is
-   **DONE**, implemented + pushed; forks → **D-098…D-103**.)
+   Heads-up: a fresh load may show a **stale mid-game autorun save** — `newGame()` to
+   see the real opening.
+4. **Open for the human:** **R1** (fun/pacing/look — now the v0.3.2 build) · **R2** (UI
+   variants) · **R5** (the new **Bestiary** A/B/C — review live in the DEV panel). Any
+   feel/balance fix flows from playtest. (Plans A + B both DONE + archived.)

@@ -29,12 +29,12 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H10 | Operating Model v2 | **Defer** the bundle; adopt the lean pre-commit gate ad hoc | **D-070** (defer) + **D-071** (gate) | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
 | H11 | T0 material-surplus sink (2nd craft recipe?) | **Option C** — accept surplus as WAI for the miniature; material economy is a T1+ concern (battery #15 closed) | **D-095** | 2026-07-01 | [h11-material-surplus](../human-feedback/2026-07-01-h11-material-surplus.md) |
 | H12 | Version source: footer showed v0.2, not v0.3.1 | Single-source the displayed version from **package.json** (→ 0.3.1); git tags never read by game/HTML/TS | **D-096** | 2026-07-01 | [session-38 journal](../journal/2026-07-01-session-38-doc-staleness-reconcile.md) |
-| H13 | Estate E-numbering collision (F1) | Two distinct axes: keep `E0–E5` narrative condition; rename built purchase steps to `U1–U4` "kura-works" | **D-098** | 2026-07-01 | [reconcile plan](../../docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md) |
-| H14 | T0 market scope (F2) | Bless the buy-only provisioning shop (personal koku sink); **player ≠ estate finances**; trade engine = T2 | **D-099** | 2026-07-01 | [reconcile plan](../../docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md) |
-| H15 | Combat resolution model (F3) | Keep the PRD 5-attr + accuracy/evasion model; **build it at T0** (v0.3.2) | **D-100** | 2026-07-01 | [reconcile plan](../../docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md) |
-| H16 | Stance cost-axis (F4) | Glass cannon ↔ tank (attack vs damage-taken); retire wear-as-the-axis | **D-101** | 2026-07-01 | [reconcile plan](../../docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md) |
-| H17 | Weapon roster / craftability (F5) | "≥1 craftable" (amends D-052/D-095); T0 ships 3 weapons (pole + 2) | **D-102** | 2026-07-01 | [reconcile plan](../../docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md) |
-| H18 | Interactive resumable combat (F6) | Defer to forward-tier (T1/T2); auto-resolve stays the T0 spine | **D-103** | 2026-07-01 | [reconcile plan](../../docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H13 | Estate E-numbering collision (F1) | Two distinct axes: keep `E0–E5` narrative condition; rename built purchase steps to `U1–U4` "kura-works" | **D-098** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H14 | T0 market scope (F2) | Bless the buy-only provisioning shop (personal koku sink); **player ≠ estate finances**; trade engine = T2 | **D-099** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H15 | Combat resolution model (F3) | Keep the PRD 5-attr + accuracy/evasion model; **build it at T0** (v0.3.2) | **D-100** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H16 | Stance cost-axis (F4) | Glass cannon ↔ tank (attack vs damage-taken); retire wear-as-the-axis | **D-101** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H17 | Weapon roster / craftability (F5) | "≥1 craftable" (amends D-052/D-095); T0 ships 3 weapons (pole + 2) | **D-102** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H18 | Interactive resumable combat (F6) | Defer to forward-tier (T1/T2); auto-resolve stays the T0 spine | **D-103** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
 
 ## Reviews (closed R-items)
 
