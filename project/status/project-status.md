@@ -34,16 +34,17 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   DEMO/REAL fork retired (one re-derived T0 pace), twice-audited (8-lens fidelity
   battery + adversarial re-audit, both ship-quality), a11y-100, `verify`-green, on
   `origin/main`. Site live: <https://raynos.github.io/kami-kakushi/>.
-- **v0.3.1 — IN PROGRESS (Steps 1–5 done, on `origin/main`).** ✅ Step 1 DEV panel + strip-safe
-  variant toggle · ✅ Step 2 craft/market/quests variants · ✅ Step 3 combat rework + the **bank**
-  (carried/banked) + the carried-loss penalty + two auto-modes (**D-090/D-091**) · ✅ Step 4 koku
-  tightening (sinks + soft repair-fee, **D-092**) · ✅ **Step 5 the SPATIAL MAP** (**D-093**): 5a
-  activities on nodes (no default node — walk to work) · 5b foes on nodes (walk to the fight) · 5c
-  banking at the *kura* · 5d the load-bearing **deep-*satoyama*** node (richer yield, D-078) + the
-  ascension **after-state** (F2) · 5e the map-presentation D-075 diverge. **Remaining:** Step 7
-  (battery leftovers) · final PRD-consistency (incl. the deferred §4 6-tier re-derivation) +
-  gallery regen + R1 hand-off. Batch-2 design captured in
-  [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
+- **v0.3.1 — BUILT + AUDITED + fun-polished (on `origin/main`, all green).** ✅ Steps 1–7 + the
+  canon ripples: DEV-panel + variants (D-075) · combat rework + the **bank** + two auto-modes
+  (D-090/D-091) · koku tightening (D-092) · the **SPATIAL MAP** (D-093 — activities/foes/banking on
+  nodes, the load-bearing **deep-*satoyama***/D-078, the ascension after-state) · the reckoning-cadence
+  fix (D-094) · the **milestone-integrity verify gate** (11th, D-054). Then a **4-fix fun/feel pass**
+  (labour-above-fold · the HP "life" meter · the Cook heal-cue · the "Walk on" smooth-nav strip) and a
+  **6-lens fun/quality audit workflow → 19 confirmed fixes** (a weapon-swap free-repair EXPLOIT, a
+  corrupt-save CRASH, the R0 blind-grind onboarding, the estate flywheel/node-hints/rung-cue legibility
+  batch). **Prod re-verified** (fixes ship, DEV stripped, 0 console errors); gallery refreshed.
+  **Deferred:** the §4 6-tier re-derivation → the T1 build (D-092 finding); **#15 material-sink → H11**.
+  Batch-2 design: [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
   plan [`../../docs/plans/2026-06-30-v0.3.1-build.md`](../../docs/plans/2026-06-30-v0.3.1-build.md).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
