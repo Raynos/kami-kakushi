@@ -40,9 +40,12 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   nodes, the load-bearing **deep-*satoyama***/D-078, the ascension after-state) · the reckoning-cadence
   fix (D-094) · the **milestone-integrity verify gate** (11th, D-054). Then a **4-fix fun/feel pass**
   (labour-above-fold · the HP "life" meter · the Cook heal-cue · the "Walk on" smooth-nav strip) and a
-  **6-lens fun/quality audit workflow → 19 confirmed fixes** (a weapon-swap free-repair EXPLOIT, a
-  corrupt-save CRASH, the R0 blind-grind onboarding, the estate flywheel/node-hints/rung-cue legibility
-  batch). **Prod re-verified** (fixes ship, DEV stripped, 0 console errors); gallery refreshed.
+  **two audit workflows → 29 confirmed fixes**: a 6-lens pass → 19 (a weapon-swap free-repair EXPLOIT,
+  a corrupt-save CRASH, the R0 blind-grind onboarding, the estate flywheel/node-hints/rung-cue legibility
+  batch), then a deeper 5-lens pass-2 → 10 (silent save-**import** failure, the `dream-2`/frontier beats
+  dying at R4 → latched to `rank-r3`, two WCAG-AA contrast fails, the Skills-tab invisible-yield, the
+  ascension boon's wrong-tab dead-end). **No core/logic/balance defect survived either pass.** **Prod
+  re-verified** (fixes ship, DEV stripped, 0 console errors); gallery refreshed.
   **Deferred:** the §4 6-tier re-derivation → the T1 build (D-092 finding); **#15 material-sink → T1**
   (H11 closed WAI, **D-095**).
   Batch-2 design: [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
@@ -108,9 +111,8 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
    build log) + the **batch-2 capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
    + the **build plan** `project/archive/2026-06-30-v0.3.1-build.md` (DONE — archived).
 2. `npm install` (fresh clone) → `npm run verify` (green) → `npm run dev`.
-3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` in the console
-   (`newGame`, `toRung`, `faceWolf`, `fight`, `auto`; DEV jumps: `speed(8)`,
-   `jumpToPhase2()`, `jumpToAscension()`). The in-UI **DEV panel** (top-right) toggles variants live.
+3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` (`newGame`, `toRung`, `fight`,
+   `jumpToAscension()`, `speed(8)`). The in-UI **DEV panel** (top-right) toggles variants live.
 4. **Next, in order:** (a) ⭐ **R1/R2** (human, non-blocking) — play/taste the v0.3.1 build + review the
    UI variants live in the DEV panel (override-only). (b) **Scope the T1 (Estate-full) build** — the
    next roadmap slice; it carries the two reasoned-deferred items: the **§4 6-tier balance re-derivation**
