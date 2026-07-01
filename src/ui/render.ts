@@ -1385,6 +1385,12 @@ export function mount(
     mapPane.hidden = !show;
     if (!show) return;
     mapPane.append(el('h2', undefined, 'The estate 地図'));
+    // ── the diverged map body (D-075) — A = the you-are-here card + "Paths lead to →" list (the
+    //    self-picked default, ships). B/C live DEV-only behind the variant toggle (ui/dev.ts),
+    //    stripped from prod. ──
+    if (import.meta.env.DEV && dev && dev.renderVariant('map', mapPane, state, dispatch)) {
+      return;
+    }
     const here = getNode(state.location);
     const card = el('div', 'map-here frame');
     const h = el('div', 'rung-now');

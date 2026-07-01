@@ -77,10 +77,19 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   - [ ] **C — standing marks** _(built)_ — a row of ink marks ◆◇ filling toward Excellent (a diegetic tally).
   - _a11y note: A is a11y-100 (shipped). B/C are DEV-only until you pick one — if you do, I'll re-check WCAG
     contrast (B's dark ink label on the indigo "Good 良" box is the one to watch)._
-- **Walkable map** (Estate 地図, T0-M4-F4):
-  - [ ] **A — "you are here + paths"** _(✅ shipped default)_ — focused, ink place-names.
-  - [ ] **B — whole-map grid** _(⏳ to build into the toggle)_ — designed, not yet built.
-  - [ ] **C — (owed)**.
+- **Walkable map** (Estate 地図, now the load-bearing spatial spine — v0.3.1 Step 5) — ✅ **all three
+  LIVE in the DEV panel** ("VARIANT · Estate map"):
+  - [ ] **A — "you are here + paths list"** _(self-picked prod default; ✅ shipped)_ — the you-are-here
+    card (node blurb) + a plain "Paths lead to →" list of move buttons, danger ⚠ + the conditioning
+    lock inline. The calmest, most accessible rendering.
+  - [ ] **B — 絵地図 estate schematic** _(built; DEV-only)_ — the estate as a spatial TRAIL: revealed
+    nodes laid out in columns by their distance from the kura (a left→right path outward), you-are-here
+    lit gold, walkable neighbours live buttons ("Walk here →"), danger-gated nodes marked ⚠ + their
+    conditioning need. Derived from the graph by BFS, so it never drifts from the real map.
+  - [ ] **C — 道中記 traveller's ledger** _(built; DEV-only)_ — INFORMED routes: each path onward is a
+    row showing the destination's blurb AND what awaits there (⛏ the labours to work, ⚔ the foes to
+    fight, ⚠ danger), so you choose your road from the map instead of walking in blind; "Set out 発つ →"
+    (or the conditioning lock). The most information-dense.
 - **Craft panel** (loot→craft the woodlot axe, T0-M2-F2) — ✅ **all three LIVE in the DEV panel** ("VARIANT ·
   Crafting"):
   - [ ] **A — smith's work-order checklist** _(self-picked prod default; the shipped panel)_ — each material a

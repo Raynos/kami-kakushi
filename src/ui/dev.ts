@@ -16,6 +16,11 @@ import {
   canBuy,
   canCraft,
   getMaterial,
+  getNode,
+  reachableFrom,
+  skillLevel,
+  ACTIVITIES,
+  MOBS,
   MARKET_ITEMS,
   QUESTS,
   RECIPES,
@@ -112,6 +117,29 @@ export const SURFACES: SurfaceDef[] = [
     ],
   },
   {
+    id: 'map',
+    label: 'Estate map',
+    variants: [
+      {
+        id: 'map-a',
+        label: 'A · paths list',
+        blurb: 'You-are-here card + a plain "Paths lead to →" list of moves (the shipped default).',
+      },
+      {
+        id: 'map-b',
+        label: 'B · 絵地図 estate schematic',
+        blurb:
+          'A spatial trail: revealed nodes laid out by distance from the kura, you-are-here lit, walkable ones live.',
+      },
+      {
+        id: 'map-c',
+        label: 'C · 道中記 traveller’s ledger',
+        blurb:
+          'Informed routes: each path shows the destination’s blurb + what awaits (labour/foe/danger).',
+      },
+    ],
+  },
+  {
     id: 'quests',
     label: 'Quests',
     variants: [
@@ -182,6 +210,7 @@ function renderSurfaceVariant(
   if (surface === 'craft') return renderCraftVariant(variantId, container, state);
   if (surface === 'market') return renderMarketVariant(variantId, container, state, dispatch);
   if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
+  if (surface === 'map') return renderMapVariant(variantId, container, state, dispatch);
   return false;
 }
 
@@ -742,6 +771,189 @@ function renderQuestsVariant(
   foot.style.cssText =
     'align-self:flex-end;color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;padding-top:.15rem;';
   ledger.append(foot);
+  container.append(ledger);
+  return true;
+}
+
+function renderMapVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId !== 'map-b' && variantId !== 'map-c') return false;
+  const revealed = new Set(state.unlocked);
+  const here = state.location;
+  const condOk = skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL;
+  const neighbours = new Map(reachableFrom(here, revealed).map((n) => [n.id, n]));
+
+  if (variantId === 'map-b') {
+    // ── B · 絵地図 — the estate as a spatial trail: revealed nodes laid out in COLUMNS by their
+    //    distance from the kura (a left→right path outward), you-are-here lit gold, the walkable
+    //    neighbours live buttons. Derived from the graph (BFS), so it never drifts from the map. ──
+    const depth = new Map<string, number>([['kura', 0]]);
+    const queue: string[] = ['kura'];
+    while (queue.length) {
+      const cur = queue.shift()!;
+      for (const nb of reachableFrom(cur, revealed)) {
+        if (depth.has(nb.id)) continue;
+        depth.set(nb.id, (depth.get(cur) ?? 0) + 1);
+        queue.push(nb.id);
+      }
+    }
+    const maxDepth = Math.max(...depth.values());
+    const board = el('div');
+    board.style.cssText =
+      'border:2px solid var(--ink);background:var(--washi-shade);padding:.6rem;display:flex;gap:.5rem;align-items:stretch;overflow-x:auto;';
+    for (let d = 0; d <= maxDepth; d++) {
+      const ids = [...depth.entries()].filter(([, dd]) => dd === d).map(([id]) => id);
+      const colEl = el('div');
+      colEl.style.cssText =
+        'display:flex;flex-direction:column;gap:.5rem;justify-content:center;min-width:8.5rem;';
+      for (const id of ids) {
+        const node = getNode(id);
+        const isHere = id === here;
+        const walkable = neighbours.has(id);
+        const danger = node.dangerRing === true;
+        const locked = danger && !condOk && walkable;
+        const live = walkable && !locked;
+        const cell = el(live ? 'button' : 'div');
+        if (live) {
+          (cell as HTMLButtonElement).type = 'button';
+          cell.addEventListener('click', () => dispatch({ type: 'move_to', to: id }));
+        }
+        cell.style.cssText =
+          'text-align:left;padding:.35rem .45rem;display:flex;flex-direction:column;gap:.1rem;' +
+          'border:' +
+          (isHere ? '2px solid var(--gold)' : '1px solid var(--ink-faint)') +
+          ';background:' +
+          (isHere || walkable ? 'var(--washi)' : 'var(--washi-deep)') +
+          ';color:' +
+          (isHere || walkable ? 'var(--ink)' : 'var(--ink-soft)') +
+          ';cursor:' +
+          (live ? 'pointer' : 'default') +
+          ';';
+        const line1 = el('div');
+        line1.style.cssText =
+          'display:flex;align-items:baseline;gap:.3rem;font-weight:' +
+          (isHere ? '700' : '600') +
+          ';';
+        if (node.kanji) {
+          const k = el('span', undefined, node.kanji);
+          k.lang = 'ja';
+          line1.append(k);
+        }
+        line1.append(el('span', undefined, node.label.replace(/^The /, '')));
+        if (danger) line1.append(el('span', undefined, '⚠'));
+        cell.append(line1);
+        const tag = isHere
+          ? 'You are here'
+          : locked
+            ? 'Needs Conditioning Lv' + balance.CONDITIONING_GATE_LEVEL
+            : walkable
+              ? 'Walk here →'
+              : '';
+        if (tag) {
+          const t = el('div', undefined, tag);
+          t.style.cssText =
+            'font-size:var(--fs-micro);color:' +
+            (isHere ? 'var(--gold)' : locked ? 'var(--shu-deep)' : 'var(--ink-soft)') +
+            ';';
+          cell.append(t);
+        }
+        colEl.append(cell);
+      }
+      board.append(colEl);
+    }
+    container.append(board);
+    return true;
+  }
+
+  // ── C · 道中記 — the traveller's ledger: an INFORMED route list. Each path onward shows the
+  //    destination's blurb AND what awaits there (the labours to work, the foes to fight, the
+  //    danger), so you choose your road from the map instead of walking in blind. ──
+  const ledger = el('div');
+  ledger.style.cssText =
+    'border:2px solid var(--ink);background:var(--washi-shade);padding:.55rem .6rem;display:flex;flex-direction:column;gap:.5rem;';
+  const hereNode = getNode(here);
+  const banner = el('div');
+  banner.style.cssText =
+    'display:flex;align-items:baseline;gap:.4rem;border-bottom:1px solid var(--ink-faint);padding-bottom:.3rem;color:var(--ink);';
+  banner.append(el('span', undefined, '🧭'));
+  const bt = el(
+    'span',
+    undefined,
+    'You stand at the ' + hereNode.label.toLowerCase().replace(/^the /, ''),
+  );
+  bt.style.fontWeight = '700';
+  banner.append(bt);
+  const bk = el('span', undefined, '道中記');
+  bk.lang = 'ja';
+  bk.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  banner.append(bk);
+  ledger.append(banner);
+  ledger.append(el('div', 'skill-blurb', hereNode.blurb));
+
+  const routes = reachableFrom(here, revealed);
+  if (routes.length === 0) ledger.append(el('div', 'skill-blurb', 'No path leads on from here.'));
+  for (const n of routes) {
+    const danger = n.dangerRing === true;
+    const locked = danger && !condOk;
+    const foesThere = MOBS.filter((m) => !m.scripted && m.area === n.id);
+    const laboursThere = ACTIVITIES.filter((a) => a.area === n.id);
+    const row = el('div');
+    row.style.cssText =
+      'border:1px solid var(--ink-faint);border-left:4px solid ' +
+      (danger ? 'var(--beni)' : 'var(--ai)') +
+      ';background:var(--washi);padding:.4rem .5rem;display:flex;flex-direction:column;gap:.28rem;';
+    const head = el('div');
+    head.style.cssText =
+      'display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap;color:var(--ink);';
+    if (n.kanji) {
+      const k = el('span', undefined, n.kanji);
+      k.lang = 'ja';
+      head.append(k);
+    }
+    const nm = el('span', undefined, n.label.replace(/^The /, ''));
+    nm.style.fontWeight = '700';
+    head.append(nm);
+    if (danger) {
+      const d = el('span', undefined, '⚠ danger');
+      d.style.cssText = 'color:var(--shu-deep);font-size:var(--fs-micro);';
+      head.append(d);
+    }
+    row.append(head);
+    row.append(el('div', 'skill-blurb', n.blurb));
+    const tags = el('div');
+    tags.style.cssText = 'display:flex;gap:.3rem;flex-wrap:wrap;font-size:var(--fs-micro);';
+    for (const a of laboursThere) {
+      const t = el('span', undefined, '⛏ ' + a.label.replace(/^.*?the /i, ''));
+      t.style.cssText = 'border:1px solid var(--ink-faint);padding:0 .25rem;color:var(--ink-soft);';
+      tags.append(t);
+    }
+    for (const f of foesThere) {
+      const t = el('span', undefined, '⚔ ' + f.label);
+      t.style.cssText = 'border:1px solid var(--beni);padding:0 .25rem;color:var(--beni);';
+      tags.append(t);
+    }
+    if (laboursThere.length === 0 && foesThere.length === 0) {
+      const t = el('span', undefined, '· quiet ground');
+      t.style.color = 'var(--ink-faint)';
+      tags.append(t);
+    }
+    row.append(tags);
+    const btn = el(
+      'button',
+      'verb',
+      locked ? 'Needs Conditioning Lv' + balance.CONDITIONING_GATE_LEVEL : 'Set out 発つ →',
+    );
+    btn.type = 'button';
+    btn.disabled = locked;
+    btn.style.alignSelf = 'flex-start';
+    if (!locked) btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
+    row.append(btn);
+    ledger.append(row);
+  }
   container.append(ledger);
   return true;
 }
