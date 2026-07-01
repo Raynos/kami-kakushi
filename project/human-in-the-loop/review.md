@@ -134,5 +134,5 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **R4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **D-076…D-079** (+D-056); **R3** folded into R2 (**D-075**).
-> The build the R4 decisions feed is `docs/plans/2026-06-30-v0.3.1-build.md`._
+> The build the R4 decisions feed is `project/archive/2026-06-30-v0.3.1-build.md` (done — archived)._
 

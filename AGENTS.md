@@ -140,8 +140,9 @@ philosophy wins.**
   into three tasks). Keep the brief **fast (≤5s)**: orient from the hook output +
   a peek at the active plan's Status line — **don't** read the full snapshot or
   run `verify` just to brief (save the deeper verify-against-git check for when
-  you pick the work up). No stored task list to keep in sync; done plans linger
-  in `docs/plans/`, so trust each plan's Status line, not its filename. Run it by
+  you pick the work up). No stored task list to keep in sync; **done plans are
+  archived to `project/archive/`** the moment they land, so `docs/plans/` lists only
+  live plans (still trust each plan's Status line, not its filename). Run it by
   hand any time: `bash src/scripts/session-brief.sh`.
 
 Full version:

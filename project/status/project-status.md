@@ -46,7 +46,7 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   **Deferred:** the §4 6-tier re-derivation → the T1 build (D-092 finding); **#15 material-sink → T1**
   (H11 closed WAI, **D-095**).
   Batch-2 design: [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
-  plan [`../../docs/plans/2026-06-30-v0.3.1-build.md`](../../docs/plans/2026-06-30-v0.3.1-build.md).
+  plan [`../archive/2026-06-30-v0.3.1-build.md`](../archive/2026-06-30-v0.3.1-build.md) (done — archived).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
@@ -106,7 +106,7 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 1. Read the **newest journal** (`project/journal/2026-07-01-session-36-v0.3.1-build.md` — the live
    build log) + the **batch-2 capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
-   + the active **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (in progress, Steps 1–5 done).
+   + the **build plan** `project/archive/2026-06-30-v0.3.1-build.md` (DONE — archived).
 2. `npm install` (fresh clone) → `npm run verify` (green) → `npm run dev`.
 3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` in the console
    (`newGame`, `toRung`, `faceWolf`, `fight`, `auto`; DEV jumps: `speed(8)`,

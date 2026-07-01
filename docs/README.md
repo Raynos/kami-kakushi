@@ -16,8 +16,8 @@ Design docs — **living documents**, each the *current* truth for its concern, 
   - [`qa-playtesting.md`](living/qa-playtesting.md) — how Claude drives & play-tests the game.
 - **[`philosophy/`](philosophy)** — the **R1–R6 operating register** (the how/why/what-to-reason
   philosophies; D-080…D-085), each summarised in AGENTS.md.
-- **[`plans/`](plans)** — pre-canon **implementation plans / proposals** awaiting sign-off (e.g. the
-  active `2026-06-30-v0.3.1-build.md`).
+- **[`plans/`](plans)** — pre-canon **implementation plans / proposals** awaiting sign-off; **active
+  only** — a plan **graduates to [`../project/archive/`](../project/archive)** the moment it's done.
 - **[`content/`](content)** — **generated** balance/content tables (`t0/t1/t2-content.md`, by
   `src/scripts/gen-docs.ts`, gate-checked by `gen:docs --check`). Do not hand-edit.
 

@@ -120,9 +120,9 @@ add_open_items "$REVIEWS" "👁️ Open reviews (R-items)"
 # We deliberately keep no "next tasks" file and compute no answer here — both would
 # rot and become one more thing to maintain. Instead the agent identifies the next
 # autonomous work itself, from the live project state (git history + the docs that
-# are already kept current), and VERIFIES rather than trusts: e.g. done plans linger
-# in docs/plans/ (they're not always archived), so file order is NOT "what's active"
-# — only each plan's own Status line is. This block just orients that investigation.
+# are already kept current), and VERIFIES rather than trusts: e.g. done plans are
+# archived to project/archive/ (docs/plans/ holds only LIVE plans) — so a plan still
+# in docs/plans/ marked done just hasn't been archived yet. This block orients that.
 add "## 🤖 Next autonomous work — name the startable workstream(s)"
 add ""
 add "_No stored task list. In your opening relay, name the **startable autonomous workstream(s)** — **often just the one active plan tagged ▶️ below; \"up to 3\" is a cap for genuinely-parallel work, not a quota to pad to** (don't split one plan's steps into three \"tasks\"). Keep it **FAST (≤5s)**: name them straight from THIS output — the ▶️/✅ plan tags and the commits are already inlined, so **make ZERO tool calls to brief** (no \`git\`, no \`Read\`, no \`verify\`, don't open the plan). The deeper verify-don't-trust check is for when you actually pick the work up, not the brief. Skip human-gated items (playtests, taste calls, design decisions). Where the signal lives:_"
@@ -134,16 +134,17 @@ if [[ -n "$recent" ]]; then
   add "- 🔀 **Recent commits** (momentum — read more with \`git log\`):"
   while IFS= read -r c; do add "  - $c"; done <<<"$recent"
 fi
-# Plans in docs/plans/ — tag each DONE-vs-active from its OWN status line, because
-# finished plans are not reliably archived (so "newest file" ≠ "active plan").
+# Plans in docs/plans/ — normally all ACTIVE (done plans get archived to
+# project/archive/); tag each from its OWN status line so a not-yet-archived done
+# plan is flagged (and nudged to archive) rather than mistaken for active.
 if [[ -d "$PLANS_DIR" ]]; then
   plans="$(ls -1 "$PLANS_DIR"/*.md 2>/dev/null | sort -r)"
   if [[ -n "$plans" ]]; then
-    add "- 📐 **Plans in \`$PLANS_DIR\`** — open the *active* one for the sequenced steps (done plans linger here — trust the Status line, not the filename):"
+    add "- 📐 **Plans in \`$PLANS_DIR\`** — the *active* plans (done ones are archived to \`project/archive/\`); open one for its sequenced steps:"
     while IFS= read -r p; do
       sl="$(head -8 "$p" | grep -m1 -iE 'status' || true)"
       if printf '%s' "$sl" | grep -qiE 'done|complete|shipped|✅'; then
-        add "  - ✅ \`$p\` — looks DONE (skip)"
+        add "  - ✅ \`$p\` — DONE (archive it to \`project/archive/\`)"
       else
         add "  - ▶️ \`$p\` — maybe active (open it; confirm via Status + commits)"
       fi

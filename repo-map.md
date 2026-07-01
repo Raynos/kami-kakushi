@@ -26,7 +26,9 @@ always-loaded context while being editable on its own.
   **[`docs/content/`](docs/content)** (e.g. t0-content.md), produced by
   `src/scripts/gen-docs.ts`. Reviewable **implementation plans / proposals /
   reel-backs** (pre-canon, awaiting sign-off) live under
-  **[`docs/plans/`](docs/plans)**.
+  **[`docs/plans/`](docs/plans)** — **active only**; a plan **graduates to
+  [`project/archive/`](project/archive)** once it's done (Status line ✅), so
+  `docs/plans/` never accumulates finished plans.
 - [`project/human-feedback/`](project/human-feedback) — the human's **direct
   feedback** (a live inbox; one dated file per session); closed records stay
   alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now
@@ -73,7 +75,8 @@ always-loaded context while being editable on its own.
   specifics" → "Docs taxonomy"). See [`README`](project/journal/README.md) +
   [`_TEMPLATE.md`](project/journal/_TEMPLATE.md).
 - [`project/archive/`](project/archive) — superseded markdown docs kept for
-  reference (archive, don't delete).
+  reference (archive, don't delete). **Completed `docs/plans/` plans graduate
+  here** the moment they're done, keeping `docs/plans/` active-only.
 - [`project/audit/`](project/audit) — QA outputs: written findings/reports under
   `reports/` + screenshots/ recordings under `screens/` (one dated pass-folder
   each; `screens/latest/` is the live `qa-shots.mjs` gallery).
