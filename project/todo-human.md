@@ -27,7 +27,7 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-- [Doc-staleness reconcile — PRD & roadmap vs v0.3.1](audit/reports/2026-07-01-doc-staleness-reconcile.md)
-  — audit of the "docs went stale in v0.3.1" worry: docs are mostly current, 3
-  narrow roadmap fixes landed, 2 calls surfaced as **H1** (version) + **H2**
-  (E-stage collision).
+- [ ] `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — *audit of
+  the "docs went stale in v0.3.1" worry: docs are mostly current; 3 narrow
+  roadmap fixes landed; 2 calls surfaced as **H1** (version) + **H2** (E-stage
+  collision)*
