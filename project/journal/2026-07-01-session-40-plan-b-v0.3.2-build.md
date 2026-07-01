@@ -195,3 +195,18 @@ neutering). New foes, all archetype-driven (no new MOB_* constants needed):
   lesson made flesh (you whiff a lot). True multi-target waits on T1 weapon targetCount.
 Sinew drops added for the new beasts (never any recipe's sole source — axe/yari still
 covered by boar-hardwood + monkey/wolf-sinew). Bestiary table regen; verify green.
+
+---
+
+## Update — C landed (gen-docs completeness: map/market/stances/recipes/bank)
+
+Completeness-critic fix: `gen-docs.ts` emitted no table for the v0.3.1/v0.3.2 additions,
+so the generated content reference (`docs/content/t0-content.md`) was structurally
+incomplete though `gen:docs --check` was green. Added 7 sections (8 → 15): the **Estate
+map** spatial spine (D-093 — nodes/adjacency/danger + the 7-node ceiling), **Combat
+stances** (the A2 glass-cannon↔tank axis, atk/taken only), **Craft recipes** +
+**Materials** + **foe→material drops**, the **Market** provisioning shop, and a prose
+**kura bank** subsection (a mechanic, not a fabricated table). Reads straight from the
+typed registries (MAP_NODES / STANCE_MODS / RECIPES / MATERIALS / MATERIAL_DROPS /
+MARKET_ITEMS). Verified (delegated + `verify` re-run myself, green; diff scoped to
+gen-docs.ts + the regen). Unblocks the queued "move §4 numbers to generated docs/content/".

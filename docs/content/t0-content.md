@@ -35,6 +35,21 @@
 | forage_satoyama | foraging | near-satoyama | 2 sansai, 1 koku | 3 | 5 |
 | forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 koku | 5 | 7 |
 
+## Estate map (spatial spine — D-093)
+
+> Node ceiling: `MAP_NODE_CEILING = 7` — the T0 hard cap on
+> node count (the graph stays a hamlet you can hold in your head; it grows in T1).
+
+| id | node | neighbours | revealFlag | dangerRing |
+|---|---|---|---|---|
+| kura | The grain-store (kura) 蔵 | gate-forecourt | — |  |
+| gate-forecourt | Gate & forecourt 門前 | kura, home-paddies, woodlot-edge, drill-yard | room-gate-forecourt |  |
+| home-paddies | Home paddies 田圃 | gate-forecourt, near-satoyama | room-home-paddies |  |
+| woodlot-edge | Stables & woodlot edge 杣 | gate-forecourt, near-satoyama | room-woodlot-edge |  |
+| near-satoyama | Near satoyama 里山 | home-paddies, woodlot-edge, deep-satoyama | room-near-satoyama | yes |
+| deep-satoyama | Deep satoyama 奥山 | near-satoyama | room-deep-satoyama | yes |
+| drill-yard | Drill yard 稽古場 | gate-forecourt | panel-drill-yard |  |
+
 ## Weapons (T0 roster)
 
 | id | label | atk | speed | durability | archetype |
@@ -42,6 +57,17 @@
 | carrying_pole | Worn carrying-pole | 3 | 0.9 | 40 | reach · blunt |
 | wood_axe | Woodlot axe | 5 | 0.85 | 55 | heavy · single |
 | yari | Forged yari | 4 | 1 | 45 | reach · thrust |
+
+## Combat stances (glass-cannon ↔ tank axis — A2)
+
+> Defensive → aggressive (`STANCE_ORDER`). `chudan` (Balanced) is identity; only
+> `atkMult` (outgoing) and `takenMult` (incoming, on the MC) remain post-A2.
+
+| id | atkMult | takenMult |
+|---|---|---|
+| gedan | 0.8 | 0.85 |
+| chudan | 1 | 1 |
+| jodan | 1.35 | 1.15 |
 
 ## Bestiary (grounded — no belief-creatures)
 
@@ -56,6 +82,35 @@
 | boar | Wild boar | 3 | 8 |  |
 | bandit | Road bandit | 5 | 12 |  |
 
+## Craft recipes (loot → craft — D-052)
+
+| id | output | inputs | label |
+|---|---|---|---|
+| craft_wood_axe | wood_axe | 3 hardwood, 1 beast_sinew | Forge the woodlot axe |
+| craft_yari | yari | 2 hardwood, 3 beast_sinew | Forge a yari 槍 |
+
+## Crafting materials
+
+| id | label | kanji |
+|---|---|---|
+| hardwood | Seasoned hardwood | 堅木 |
+| beast_sinew | Beast sinew | 腱 |
+
+## Material drops (foe → material)
+
+> Grindable foes only — the scripted grain-store wolf is never a loot source.
+> Chance is integer fixed-point (`chanceNum / chanceDen`), rolled via the one loot RNG.
+
+| foe | material | qty | chance |
+|---|---|---|---|
+| rice_rats | beast_sinew | 1 | 1/6 |
+| monkey | beast_sinew | 1 | 1/2 |
+| monkey_troop | beast_sinew | 1 | 3/5 |
+| mamushi | beast_sinew | 1 | 1/2 |
+| wolf | beast_sinew | 1 | 3/4 |
+| boar | hardwood | 2 | 3/4 |
+| bandit | hardwood | 3 | 1/1 |
+
 ## Estate improvements (koku sink)
 
 | stage | label | koku | +satietyMax |
@@ -64,6 +119,30 @@
 | E2 | Clear the drill yard | 300 | +20 |
 | E3 | Reclaim the first shinden | 700 | +30 |
 | E4 | Raise the long-house | 1400 | +30 |
+
+## Market (T0 provisioning shop — D-008)
+
+> A small CAPPED koku sink (the TRADE taste). Every item carries a per-run
+> `stockCap` so buying stays a MINORITY lane (≤ ⅓ of Estate & Wealth), never a
+> primary income/output loop. The real village market arrives at T2.
+
+| id | label | koku | grants | stockCap |
+|---|---|---|---|---|
+| greens_sack | Sack of mountain greens | 10 | 3 sansai | 5 |
+| wood_bundle | Bundle of split kindling | 16 | 4 wood | 4 |
+| whetstone_kit | Hone and ash-faggot | 28 | 7 wood | 3 |
+| greens_basket | Pedlar's greens-basket | 40 | 9 sansai | 2 |
+| road_rations | Porter's road-rations | 55 | 8 sansai, 5 wood | 2 |
+| smith_billet | Smith's seasoned billet | 70 | 12 wood | 2 |
+
+## The kura bank (carried vs banked)
+
+Resources come in two pools. **Carried** `resources` ride with the MC and are
+**at risk** — a combat loss bites carried koku by `LOSS_KOKU_FRAC` (0.2). **Banked**
+resources are sheltered in the kura storehouse: a loss never touches them, and a win
+never moves them. `deposit` sweeps a carried resource into the bank and `withdraw`
+draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhere else
+(walk home to store your haul). This is a mechanic, not a registry, so it has no table.
 
 ## Surfaces (reveal registry)
 

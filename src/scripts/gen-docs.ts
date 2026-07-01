@@ -4,7 +4,24 @@
 export {};
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { SURFACES, NAMES, SKILLS, ACTIVITIES, RANKS, MOBS, WEAPONS, ESTATE_STAGES } from '../core';
+import {
+  SURFACES,
+  NAMES,
+  SKILLS,
+  ACTIVITIES,
+  RANKS,
+  MOBS,
+  WEAPONS,
+  ESTATE_STAGES,
+  MAP_NODES,
+  MAP_NODE_CEILING,
+  MARKET_ITEMS,
+  STANCE_MODS,
+  STANCE_ORDER,
+  RECIPES,
+  MATERIALS,
+  MATERIAL_DROPS,
+} from '../core';
 
 const OUT = 'docs/content/t0-content.md';
 
@@ -46,6 +63,21 @@ function generate(): string {
   }
   L.push('');
 
+  L.push('## Estate map (spatial spine — D-093)');
+  L.push('');
+  L.push(`> Node ceiling: \`MAP_NODE_CEILING = ${MAP_NODE_CEILING}\` — the T0 hard cap on`);
+  L.push('> node count (the graph stays a hamlet you can hold in your head; it grows in T1).');
+  L.push('');
+  L.push('| id | node | neighbours | revealFlag | dangerRing |');
+  L.push('|---|---|---|---|---|');
+  for (const n of MAP_NODES) {
+    const node = n.kanji ? `${n.label} ${n.kanji}` : n.label;
+    L.push(
+      `| ${n.id} | ${node} | ${n.neighbors.join(', ')} | ${n.revealFlag ?? '—'} | ${n.dangerRing ? 'yes' : ''} |`,
+    );
+  }
+  L.push('');
+
   L.push('## Weapons (T0 roster)');
   L.push('');
   L.push('| id | label | atk | speed | durability | archetype |');
@@ -54,6 +86,19 @@ function generate(): string {
     L.push(
       `| ${w.id} | ${w.label} | ${w.baseAttack} | ${w.baseSpeed} | ${w.durabilityMax} | ${w.archetype} |`,
     );
+  }
+  L.push('');
+
+  L.push('## Combat stances (glass-cannon ↔ tank axis — A2)');
+  L.push('');
+  L.push('> Defensive → aggressive (`STANCE_ORDER`). `chudan` (Balanced) is identity; only');
+  L.push('> `atkMult` (outgoing) and `takenMult` (incoming, on the MC) remain post-A2.');
+  L.push('');
+  L.push('| id | atkMult | takenMult |');
+  L.push('|---|---|---|');
+  for (const id of STANCE_ORDER) {
+    const m = STANCE_MODS[id];
+    L.push(`| ${id} | ${m.atkMult} | ${m.takenMult} |`);
   }
   L.push('');
 
@@ -66,6 +111,37 @@ function generate(): string {
   }
   L.push('');
 
+  L.push('## Craft recipes (loot → craft — D-052)');
+  L.push('');
+  L.push('| id | output | inputs | label |');
+  L.push('|---|---|---|---|');
+  for (const r of RECIPES) {
+    const inputs = Object.entries(r.inputs)
+      .map(([mat, n]) => `${n} ${mat}`)
+      .join(', ');
+    L.push(`| ${r.id} | ${r.outputWeapon} | ${inputs} | ${r.label} |`);
+  }
+  L.push('');
+
+  L.push('## Crafting materials');
+  L.push('');
+  L.push('| id | label | kanji |');
+  L.push('|---|---|---|');
+  for (const m of MATERIALS) L.push(`| ${m.id} | ${m.label} | ${m.kanji} |`);
+  L.push('');
+
+  L.push('## Material drops (foe → material)');
+  L.push('');
+  L.push('> Grindable foes only — the scripted grain-store wolf is never a loot source.');
+  L.push('> Chance is integer fixed-point (`chanceNum / chanceDen`), rolled via the one loot RNG.');
+  L.push('');
+  L.push('| foe | material | qty | chance |');
+  L.push('|---|---|---|---|');
+  for (const [foe, d] of Object.entries(MATERIAL_DROPS)) {
+    L.push(`| ${foe} | ${d.material} | ${d.qty} | ${d.chanceNum}/${d.chanceDen} |`);
+  }
+  L.push('');
+
   L.push('## Estate improvements (koku sink)');
   L.push('');
   L.push('| stage | label | koku | +satietyMax |');
@@ -73,6 +149,32 @@ function generate(): string {
   for (const e of ESTATE_STAGES) {
     L.push(`| E${e.stage} | ${e.label} | ${e.kokuCost} | +${e.satietyMaxBonus} |`);
   }
+  L.push('');
+
+  L.push('## Market (T0 provisioning shop — D-008)');
+  L.push('');
+  L.push('> A small CAPPED koku sink (the TRADE taste). Every item carries a per-run');
+  L.push('> `stockCap` so buying stays a MINORITY lane (≤ ⅓ of Estate & Wealth), never a');
+  L.push('> primary income/output loop. The real village market arrives at T2.');
+  L.push('');
+  L.push('| id | label | koku | grants | stockCap |');
+  L.push('|---|---|---|---|---|');
+  for (const it of MARKET_ITEMS) {
+    const grants = Object.entries(it.grants)
+      .map(([r, n]) => `${n} ${r}`)
+      .join(', ');
+    L.push(`| ${it.id} | ${it.label} | ${it.kokuCost} | ${grants} | ${it.stockCap} |`);
+  }
+  L.push('');
+
+  L.push('## The kura bank (carried vs banked)');
+  L.push('');
+  L.push('Resources come in two pools. **Carried** `resources` ride with the MC and are');
+  L.push('**at risk** — a combat loss bites carried koku by `LOSS_KOKU_FRAC` (0.2). **Banked**');
+  L.push('resources are sheltered in the kura storehouse: a loss never touches them, and a win');
+  L.push('never moves them. `deposit` sweeps a carried resource into the bank and `withdraw`');
+  L.push('draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhere else');
+  L.push('(walk home to store your haul). This is a mechanic, not a registry, so it has no table.');
   L.push('');
 
   L.push('## Surfaces (reveal registry)');
