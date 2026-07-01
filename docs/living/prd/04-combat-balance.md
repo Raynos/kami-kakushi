@@ -1151,6 +1151,16 @@ with the estate economy; **Step 5 gates them to the kura node** — so banking y
 returning home, and fighting far afield with a full purse becomes the gamble. The risk/reward — bank before a
 risky fight, or carry it and chance the bite — is the point (D-086 tension). _Exact magnitudes liquid (D-059)._
 
+### §4.6.6d T0 koku sinks — scarcity by design (NEW — v0.3.1 Step 4; D-092 / D-086)
+
+The T0 koku economy is deliberately **tight** (D-086 — scarcity is the default; net koku stays low
+through T0, rich only at T5). The sinks span all three directions: a **repair FEE**
+(`REPAIR_KOKU_COST` koku on top of wood — a **soft** fee, WAIVED when you can't pay, so combat
+upkeep bites but never softlocks, D-061), the **estate ladder** (E1–E4 — the main koku sink + the
+yield flywheel), and a **capped market** (a MINORITY lane — total spend ≤ ⅓ of the estate sink,
+D-008). _All magnitudes liquid (D-059). The §4 6-tier balance re-derivation (T1 Estate-full bands +
+per-tier floors) is a separate final-pass concern; battery #15's material sink is a Step-7 item._
+
 ### §4.6.7 Win-rate bands — the 2nd pacing proxy (NEW — Q16 / FU19)
 
 **Shape (V2-fixed).** Beyond the §4.8 time floor, a second headless **fun-proxy** asserts the combat difficulty
