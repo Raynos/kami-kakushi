@@ -52,7 +52,14 @@ confidence is the point.
 6. **Confirm** — `git status` clean, `git log origin/main..main` empty (or explicitly note what's left and
    why).
 
-Three rules, all learned the hard way:
+Four rules, all learned the hard way:
+- **Never kill running subagents / workflows to "prepare to exit."** A checkpoint makes the *committed*
+  state resumable — it does **not** tear down live background work. A running `Workflow` / `Agent` is doing
+  useful work whose results notify the loop when done; stopping it orphans that work for no gain. **Leave
+  it running** (note it as in-flight in the report), or — only if the user *explicitly* asks to stop it —
+  `TaskStop` it. If you must pause a workflow to edit its script, you can `resumeFromRunId` it (completed
+  agents return cached instantly). The checkpoint (commit → journal → snapshot → push) is orthogonal to
+  and safe alongside in-flight background work.
 - **Verify before you claim.** Never report *pushed / green / done* without checking (`git status`, the push
   actually succeeding, `git log origin/main..main`). A tree that's clean one moment can go dirty the next.
 - **Shared-tree safety — more than one agent may be editing the working tree at once.** **NEVER** `git stash`,
