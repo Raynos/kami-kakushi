@@ -31,6 +31,8 @@ function farmReady(seed = SEASON_SPRING_SAFE): GameState {
   const s = createInitialState(seed);
   return {
     ...s,
+    // v0.3.1 Step 5: farm_paddy is SPATIAL — it only runs at its 'home-paddies' node.
+    location: 'home-paddies',
     character: { ...s.character, satiety: satietyMax(s) },
     unlocked: [...s.unlocked, 'verb-farm'],
   };
@@ -103,7 +105,8 @@ describe('skill → yield multiplier (audit #4)', () => {
 
     const CAP = 5000;
     const actsToR2 = (start: GameState): number => {
-      let s = start;
+      // v0.3.1 Step 5: farm_paddy is spatial — grind at its 'home-paddies' node.
+      let s: GameState = { ...start, location: 'home-paddies' };
       let n = 0;
       while (s.rung === 'R1' && n < CAP) {
         s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });

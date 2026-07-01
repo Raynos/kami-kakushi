@@ -17,13 +17,16 @@ import {
   createInitialState,
   reduce,
   availableActions,
-  availableLabours,
   canDoActivity,
   getActivity,
   satietyMax,
   getRank,
   RANKS,
   balance,
+  ACTIVITIES,
+  isUnlocked,
+  skillLevel,
+  reachableFrom,
   type GameState,
   type ActivityId,
   type Intent,
@@ -63,20 +66,52 @@ interface RungTrack {
   act: string;
 }
 
-/** Cheapest (lowest-satiety) eligible labour for the current rung — the focused-optimal pick. */
-function cheapestEligible(s: GameState): ActivityId | null {
+/** BFS the REVEALED map graph for the first hop from `from` toward `to` (null if here/unreachable).
+ *  v0.3.1 Step 5: the focused-optimal path now WALKS to a labour's node before working it. */
+function nextHopToward(from: string, to: string, revealed: ReadonlySet<string>): string | null {
+  if (from === to) return null;
+  const cameFrom = new Map<string, string>();
+  const seen = new Set<string>([from]);
+  const queue: string[] = [from];
+  while (queue.length) {
+    const cur = queue.shift()!;
+    for (const nb of reachableFrom(cur, revealed)) {
+      if (seen.has(nb.id)) continue;
+      seen.add(nb.id);
+      cameFrom.set(nb.id, cur);
+      if (nb.id === to) {
+        let step = nb.id;
+        while (cameFrom.get(step) !== from) step = cameFrom.get(step)!;
+        return step;
+      }
+      queue.push(nb.id);
+    }
+  }
+  return null;
+}
+
+/** Cheapest (lowest-satiety) rung-eligible labour ANYWHERE reachable, + its node — the focused-
+ *  optimal pick under the spatial model. Un-revealed, danger-gated, and unreachable labours are
+ *  excluded, so the harness only ever heads for a labour it can actually reach and do. */
+function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: string } | null {
   const elig = new Set(getRank(s.rung).eligible);
-  const o = availableLabours(s)
-    .filter((x) => x.available && elig.has(x.activity.id))
-    .sort((a, b) => a.activity.satietyCost - b.activity.satietyCost);
-  return o.length ? o[0]!.activity.id : null;
+  const revealed = new Set(s.unlocked);
+  const opts = ACTIVITIES.filter((a) => {
+    if (!elig.has(a.id)) return false;
+    if (!isUnlocked(s, a.surface)) return false;
+    if (a.dangerRing && skillLevel(s, 'conditioning') < balance.CONDITIONING_GATE_LEVEL)
+      return false;
+    return a.area === s.location || nextHopToward(s.location, a.area, revealed) !== null;
+  }).sort((a, b) => a.satietyCost - b.satietyCost);
+  const best = opts[0];
+  return best ? { id: best.id, node: best.area } : null;
 }
 
 /**
  * The focused-optimal next intent for the auto-play harness (returns null when stuck/terminal).
  * The SINGLE source of this policy — both `walkPacing` (here) and `playcheck`'s reward trace drive
  * it, so the two can never silently desync. Order: open_eyes > rest-if-starving > rake_rice >
- * face_wolf@R2 > cheapest-eligible labour.
+ * face_wolf@R2 > WALK-to / do the cheapest-eligible labour (spatial, v0.3.1 Step 5).
  */
 export function focusedOptimalIntent(s: GameState): Intent | null {
   const acts = availableActions(s);
@@ -86,9 +121,13 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   if (s.rung === 'R2' && !s.flags['first-fight-survived'] && s.rungMeter >= rungThreshold('R2')) {
     return { type: 'face_wolf' };
   }
-  const c = cheapestEligible(s);
-  if (c && canDoActivity(s, getActivity(c))) return { type: 'do_activity', activityId: c };
-  return null;
+  const target = cheapestEligibleGlobal(s);
+  if (!target) return null;
+  if (target.node === s.location && canDoActivity(s, getActivity(target.id))) {
+    return { type: 'do_activity', activityId: target.id };
+  }
+  const hop = nextHopToward(s.location, target.node, new Set(s.unlocked));
+  return hop ? { type: 'move_to', to: hop } : null;
 }
 
 export function walkPacing(seed = SEED): RungPacing[] {

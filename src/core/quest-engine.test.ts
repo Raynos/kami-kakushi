@@ -40,7 +40,12 @@ describe('quest engine (T0-M4-F1 / D-037) — order-free advance-event sets', ()
 
   it('labour emits gather tokens through the real reducer (gather:wood)', () => {
     let s = reduce(combatReady(), { type: 'accept_quest', questId: 'pest_crop_raiders' });
-    s = reduce(s, { type: 'do_activity', activityId: 'woodcut_edge' }); // yields wood → gather:wood
+    // v0.3.1 Step 5: activities are spatial — woodcut_edge lives at 'woodlot-edge', so
+    // stand at its node or canDoActivity gates it out and the do_activity no-ops.
+    s = reduce(
+      { ...s, location: 'woodlot-edge' },
+      { type: 'do_activity', activityId: 'woodcut_edge' },
+    ); // yields wood → gather:wood
     expect(s.quests.progress['pest_crop_raiders']).toContain('mend-fence');
   });
 });

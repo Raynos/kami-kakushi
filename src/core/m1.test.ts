@@ -66,7 +66,8 @@ describe('T0 Phase-1 rung climb', () => {
   it('field work earns the trusted-hand rung (R1→R2): first nav, skills, the wider estate', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
     s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run(s, farm(actsToPromote(s))); // fills the R1 meter → R2; first farm sets 'farmed'
+    // v0.3.1 Step 5: farm_paddy is spatial — must be at 'home-paddies' to run
+    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // R1 meter → R2; sets 'farmed'
     expect(s.rung).toBe('R2');
     expect(isUnlocked(s, 'tab-skills')).toBe(true); // the FIRST nav reveal
     expect(isUnlocked(s, 'verb-woodcut')).toBe(true);
@@ -78,8 +79,8 @@ describe('T0 Phase-1 rung climb', () => {
   it('does not advance past R2 without the (M2a) combat gate', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
     s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run(s, farm(actsToPromote(s))); // → R2
-    s = run(s, farm(actsToPromote(s) + 10)); // pile the R2 meter well past its threshold
+    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2
+    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s) + 10)); // pile the R2 meter well past its threshold
     expect(s.rung).toBe('R2'); // R2→R3 storyGate needs 'first-fight-survived' (built at M2a)
   });
 });
@@ -192,6 +193,7 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
     const plain: GameState = {
       ...base,
       rung: 'R2',
+      location: 'home-paddies', // v0.3.1 Step 5: farm_paddy is spatial — stand where the labour runs
       flags: { ...base.flags, awake: true },
       unlocked: [...base.unlocked, 'verb-farm', 'tab-combat'],
     };
@@ -213,19 +215,24 @@ describe('conditioning enablement gate (the danger ring)', () => {
   it('foraging is locked until conditioning reaches the gate level', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
     s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run(s, farm(actsToPromote(s))); // → R2 (forage revealed but conditioning still Lv1)
-    expect(canDoActivity(s, getActivity('forage_satoyama'))).toBe(false);
+    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2 (forage revealed but conditioning still Lv1)
+    // stand at the satoyama so the ONLY thing gating forage is the conditioning level, not the node
+    expect(canDoActivity({ ...s, location: 'near-satoyama' }, getActivity('forage_satoyama'))).toBe(
+      false,
+    );
     // top off the climb's fatigue so conditioning XP isn't stamina-throttled, then haul builds it to Lv2
     s = { ...s, character: { ...s.character, satiety: 100 } };
     s = run(
-      s,
+      { ...s, location: 'gate-forecourt' }, // v0.3.1 Step 5: haul_stores runs at the forecourt
       Array.from(
         { length: 5 },
         () => ({ type: 'do_activity', activityId: 'haul_stores' }) as Intent,
       ),
     );
     expect(skillLevel(s, 'conditioning')).toBeGreaterThanOrEqual(2);
-    expect(canDoActivity(s, getActivity('forage_satoyama'))).toBe(true);
+    expect(canDoActivity({ ...s, location: 'near-satoyama' }, getActivity('forage_satoyama'))).toBe(
+      true,
+    );
   });
 });
 
@@ -233,16 +240,20 @@ describe('soft stamina + season', () => {
   it('a drained body yields less but never zero (soft throttle)', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
     s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run(s, farm(actsToPromote(s))); // → R2
+    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2 (now at home-paddies)
     s = { ...s, character: { ...s.character, satiety: 100 } }; // a fed body for the fresh baseline
-    const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
+    const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' }); // at home-paddies
     const freshKoku = (fresh.resources.koku ?? 0) - (s.resources.koku ?? 0);
-    // drain satiety hard (40 hauls × 4 satiety → the floor)
-    let drained = s;
+    // drain satiety hard (40 hauls × 4 satiety → the floor) — hauling is at the forecourt
+    let drained: GameState = { ...s, location: 'gate-forecourt' };
     for (let i = 0; i < 40; i++)
       drained = reduce(drained, { type: 'do_activity', activityId: 'haul_stores' });
     expect(drained.character.satiety).toBeLessThan(20);
-    const tired = reduce(drained, { type: 'do_activity', activityId: 'farm_paddy' });
+    // walk the drained body back to the paddies for the tired-farm comparison
+    const tired = reduce(
+      { ...drained, location: 'home-paddies' },
+      { type: 'do_activity', activityId: 'farm_paddy' },
+    );
     const tiredKoku = (tired.resources.koku ?? 0) - (drained.resources.koku ?? 0);
     expect(tiredKoku).toBeGreaterThan(0); // never zero
     expect(tiredKoku).toBeLessThanOrEqual(freshKoku);

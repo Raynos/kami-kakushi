@@ -88,7 +88,11 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
 
     let guard = 0;
     while (estateGrade(s) !== 'EXCELLENT' && guard++ < 1000) {
-      s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
+      // v0.3.1 Step 5: activities are SPATIAL — farm_paddy runs only at its node.
+      s = reduce(
+        { ...s, location: 'home-paddies' },
+        { type: 'do_activity', activityId: 'farm_paddy' },
+      );
     }
     expect(estateGrade(s)).toBe('EXCELLENT'); // the deed grind reached the gate
     expect(ascensionAvailable(s)).toBe(true);

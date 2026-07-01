@@ -60,7 +60,8 @@ describe('Estate deeds are Phase-2-gated (FU7) (M2·3)', () => {
   it('labour banks an Estate deed in Phase 2 (via the reducer)', () => {
     const base = atPhase2();
     const s = reduce(
-      { ...base, unlocked: [...base.unlocked, 'verb-farm'] },
+      // farm_paddy is SPATIAL (v0.3.1 Step 5) — must be at its node to run.
+      { ...base, location: 'home-paddies', unlocked: [...base.unlocked, 'verb-farm'] },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
     expect(s.influence.estate.value).toBeGreaterThan(0);

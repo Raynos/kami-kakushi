@@ -753,6 +753,21 @@ export function mount(
       actions.append(group);
     }
 
+    // spatial (v0.3.1 Step 5): if THIS node offers no labour, point the player at the map to walk on.
+    if (
+      labours.length === 0 &&
+      hasFlag(state, 'awake') &&
+      isUnlocked(state, 'room-gate-forecourt')
+    ) {
+      actions.append(
+        el(
+          'p',
+          'area-blurb',
+          'No work to be had where you stand. Open the Estate 地図 map and walk to a field, the woodlot, or the satoyama to labour.',
+        ),
+      );
+    }
+
     // cook a meal (sansai → satiety sink)
     if (isUnlocked(state, 'verb-cook')) {
       const row = el('div', 'labour-row');

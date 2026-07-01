@@ -93,7 +93,7 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
     let guard = 0;
     while (!stepDone(s, 'mend-fence') && guard++ < 40) {
       s = reduce(
-        { ...s, character: { ...s.character, satiety: 100 } },
+        { ...s, location: 'woodlot-edge', character: { ...s.character, satiety: 100 } },
         { type: 'do_activity', activityId: 'woodcut_edge' },
       );
     }

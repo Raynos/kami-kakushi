@@ -305,7 +305,10 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
           s =
             (s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST
               ? reduce(s, { type: 'repair_weapon' })
-              : reduce(s, { type: 'do_activity', activityId: 'woodcut_edge' });
+              : reduce(
+                  { ...s, location: 'woodlot-edge' },
+                  { type: 'do_activity', activityId: 'woodcut_edge' },
+                );
           continue;
         }
         // eat via the real cook intent — forage for sansai if short
@@ -313,7 +316,10 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
           s =
             (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
               ? reduce(s, { type: 'cook_meal' })
-              : reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' });
+              : reduce(
+                  { ...s, location: 'near-satoyama' },
+                  { type: 'do_activity', activityId: 'forage_satoyama' },
+                );
           continue;
         }
         if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')

@@ -94,10 +94,13 @@ export interface LabourOption {
   readonly reason?: string;
 }
 
-/** Revealed labour activities + whether they're currently doable (PRD §6.9 lit/faded). */
+/** Revealed labour activities AT THE CURRENT NODE + whether they're currently doable (PRD §6.9).
+ *  v0.3.1 Step 5 (batch-2 call 1): activities are SPATIAL — each belongs to one map node
+ *  (`activity.area`), so only the current node's labours are listed. Walk (`move_to`) to work. */
 export function availableLabours(state: GameState): LabourOption[] {
   const out: LabourOption[] = [];
   for (const a of ACTIVITIES) {
+    if (a.area !== state.location) continue; // ← spatial: only this node's activities
     if (!isUnlocked(state, a.surface)) continue;
     if (a.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL) {
       out.push({
@@ -113,6 +116,7 @@ export function availableLabours(state: GameState): LabourOption[] {
 }
 
 export function canDoActivity(state: GameState, activity: ActivityDef): boolean {
+  if (activity.area !== state.location) return false; // ← spatial: must be at the activity's node
   if (!isUnlocked(state, activity.surface)) return false;
   if (activity.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL)
     return false;
