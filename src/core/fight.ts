@@ -4,7 +4,7 @@
 // loses a level / gear / Influence (LOCKED shape, §4.6.6). The scripted grain-store
 // wolf is a guaranteed-survival humbling beat that opens R3.
 
-import { withResource, type GameState } from './state';
+import { withResource, hasFlag, type GameState } from './state';
 import type { MobId } from './content/enemies';
 import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from './combat';
@@ -24,7 +24,7 @@ import {
   AUTO_RETREAT_FRAC,
   DURABILITY_WEAR_PER_FIGHT,
   FIGHT_TICKS,
-  STANCE_MODS,
+  ATTR_POINTS_PER_LEVELS,
 } from './content/balance';
 
 function setHp(state: GameState, hp: number): GameState {
@@ -32,15 +32,17 @@ function setHp(state: GameState, hp: number): GameState {
 }
 
 function wearWeapon(state: GameState): GameState {
-  // Stance is the Aggressive cost axis: jodan 3 / chudan 2 / gedan 1 wear per fight.
-  const wear = Math.max(
-    1,
-    Math.round(DURABILITY_WEAR_PER_FIGHT * STANCE_MODS[state.stance].wearMult),
-  );
+  // A2: wear is no longer stance-dependent — a flat cost per fight (§4.6.10).
   return {
     ...state,
-    weaponDurability: Math.max(0, state.weaponDurability - wear),
+    weaponDurability: Math.max(0, state.weaponDurability - DURABILITY_WEAR_PER_FIGHT),
   };
+}
+
+/** Attribute points earned by reaching character level `l` — +1 every ATTR_POINTS_PER_LEVELS
+ *  levels (§4.4). Total (not per-level) so a multi-level jump grants the correct delta. */
+function attrPointsAt(level: number): number {
+  return Math.floor(level / ATTR_POINTS_PER_LEVELS);
 }
 
 function gainCombatXp(state: GameState, amount: number): GameState {
@@ -48,12 +50,13 @@ function gainCombatXp(state: GameState, amount: number): GameState {
   let next: GameState = { ...state, character: { ...state.character, combatXp } };
   const newLevel = combatLevelForXp(combatXp);
   if (newLevel > state.character.level) {
+    const pointsGained = attrPointsAt(newLevel) - attrPointsAt(state.character.level);
     next = {
       ...next,
       character: {
         ...next.character,
         level: newLevel,
-        attributePoints: next.character.attributePoints + (newLevel - state.character.level),
+        attributePoints: next.character.attributePoints + pointsGained,
       },
     };
     // D-050: a level-up no longer free-heals — HP carries, and eating is the only mend.
@@ -91,7 +94,15 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       },
     );
   }
-  const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob), retreatHp);
+  // INT bestiary bonus applies only if the foe was ALREADY encountered BEFORE this fight (the
+  // `mob-<id>` flag is set below, so read it now against the incoming state).
+  const foeKnown = hasFlag(state, `mob-${mob.id}`);
+  const result = resolveFight(
+    state.rng,
+    mcCombatStats(state, foeKnown),
+    mobCombatStats(mob),
+    retreatHp,
+  );
   let next: GameState = { ...state, rng: result.rng };
   next = wearWeapon(next);
   // bestiary fills by encounter; `combat-blooded` marks that you've stood real gate-watch

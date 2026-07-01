@@ -7,9 +7,11 @@
 // map can be keyed by the canonical RankId.
 import type { RankId } from './ranks';
 
-// ── Vitals (PRD §2.3, §6.4) ─────────────────────────────────────────────────────
-export const HP_BASE = 32; // provisional (v0.2) — tune by playtest
-export const HP_PER_LEVEL = 4; // provisional (v0.2) — tune by playtest
+// ── Vitals (PRD §2.3, §4.6.1, §6.4) ─────────────────────────────────────────────
+// hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1) — level (NOT level-1)
+// so a fresh L1 base-STR MC reads 40 + 8·1 + 2·5 = 58 HP. Liquid (D-059) — tune by playtest.
+export const HP_BASE = 40; // §4.6.1 — was 32 (v0.2 3-attr placeholder)
+export const HP_PER_LEVEL = 8; // §4.6.1 — was 4
 export const SATIETY_BASE = 100;
 export const SATIETY_PER_LEVEL = 4;
 export const COLD_OPEN_SATIETY = 64;
@@ -107,26 +109,84 @@ export const ASCENSION_BOON_OVERSHOOT_PER_POINT = 60; // +1 point per this much 
 /** Conditioning level needed to enter the first danger ring / be combat-capable. */
 export const CONDITIONING_GATE_LEVEL = 2;
 
-// ── Combat (PRD §4.6) — provisional v0.2 close-duel retune. Honest claim: the
-// first-fight (monkey @L1) SEED-ROBUST win-rate lands ~0.32 — in the signed
-// humbling-but-winnable 20–35% band (G3/FU19), and seed-independent (every player
-// sees it; see combat.foeForecasts) — and the full foe curve is a graded rolling
-// frontier. The hit/crit/block feel is UNCHANGED; the grading comes from the stat
-// economy + per-hit spread. Tune by playtest. ──
-export const DAMAGE_FLOOR = 1;
-export const HIT_CHANCE = 0.9;
-export const CRIT_CHANCE = 0.1;
-export const CRIT_MULT = 1.8;
-export const BLOCK_CHANCE = 0.1;
+// ── Combat (PRD §4.6 — the full 5-attr + accuracy/evasion model, Plan B v0.3.2). Five
+// attributes STR/AGI/INT/SPD/LUCK drive the derived combat stats (§4.6.1); the per-swing
+// exchange is accuracy/evasion hit-chance + ±15% variance + a per-attacker damage floor
+// (§4.6.3/§4.6.4). The first-fight (monkey @L1, base attrs) SEED-ROBUST win-rate lands in
+// the signed humbling-but-winnable 20–35% band (G3/FU19). Magnitudes liquid (D-059). ──
+
+// ── The 5 attributes (§4.6.1 / §4.4). Each starts at ATTR_BASE (mediocre-start), soft-cap
+// ~30; +1 point every ATTR_POINTS_PER_LEVELS character levels, allocated manually. ──
+export type AttrId = 'str' | 'agi' | 'int' | 'spd' | 'luck';
+export const ATTR_IDS: readonly AttrId[] = ['str', 'agi', 'int', 'spd', 'luck'];
+export const ATTR_BASE = 5; // every attribute starts here (§4.6.1 mediocre-start)
+export const ATTR_POINTS_PER_LEVELS = 2; // +1 attribute point per this many character levels (§4.4)
+
+/** UI + log copy for each attribute (single source — the training panel and the spend_attribute
+ *  log line both read this). `gain` is the short combat gloss; `log` is the diegetic spend line. */
+export const ATTR_META: Record<
+  AttrId,
+  { label: string; kanji: string; gain: string; log: string }
+> = {
+  str: {
+    label: 'STR',
+    kanji: '力',
+    gain: '+atk',
+    log: 'You drill the cut until your shoulders burn. (STR +1)',
+  },
+  agi: {
+    label: 'AGI',
+    kanji: '敏',
+    gain: '+eva·acc',
+    log: 'You sharpen your footwork and your eye. (AGI +1)',
+  },
+  int: {
+    label: 'INT',
+    kanji: '智',
+    gain: '+dmg·known',
+    log: 'You study the beasts and learn their weak lines. (INT +1)',
+  },
+  spd: {
+    label: 'SPD',
+    kanji: '速',
+    gain: '+speed',
+    log: 'You loosen your swing until it flows quicker. (SPD +1)',
+  },
+  luck: {
+    label: 'LUCK',
+    kanji: '運',
+    gain: '+crit·luck',
+    log: 'You trust the moment; fortune leans a little your way. (LUCK +1)',
+  },
+};
+
+// ── MC derived-stat coefficients (§4.6.1, T0: no gear/skill/armour terms) ──
+export const STR_ATK_COEFF = 1.2; // attackPower += STR·this, inside the stance/satiety/dura scaling
+export const STR_DEF_COEFF = 0.5; // defense = STR·this (no level term, no armour at T0)
+export const STR_HP = 2; // hpMax += STR·this (§4.6.1)
+export const AGI_EVA_COEFF = 0.6; // evasion = AGI·this
+export const AGI_ACC_COEFF = 0.4; // accuracy = ACC_BASE + AGI·this
+export const ACC_BASE = 10; // accuracy base term
+export const SPD_ATKSPEED_COEFF = 0.005; // attackSpeed = weapon.baseSpeed·(1 + SPD·this)
+export const CRIT_BASE = 0.02;
+export const CRIT_AGI_COEFF = 0.002;
+export const CRIT_LUCK_COEFF = 0.001;
+export const CRIT_CHANCE_MAX = 0.5; // critChance clamp ceiling (§4.6.1)
+/** INT combat effect (§4.4): +0.5%·INT damage vs bestiary-KNOWN foes only (keeps INT non-dump). */
+export const INT_KNOWN_DMG_COEFF = 0.005;
+
+// ── Per-swing damage exchange (§4.6.3/§4.6.4) ──
+/** Hit-chance = clamp(accuracy/(accuracy+evasion), MIN, MAX) — replaces the flat 0.9. */
+export const HIT_CHANCE_MIN = 0.15;
+export const HIT_CHANCE_MAX = 0.95;
+/** Per-swing damage variance: multiplier ∈ [1−this, 1+this] (±15%, replaces the ±45% spread). */
+export const DMG_VARIANCE = 0.15;
+/** Per-attacker damage floor = max(1, this·attackPower) — chip damage that always lands. */
+export const DAMAGE_FLOOR_FRAC = 0.1;
+export const CRIT_MULT = 1.5; // §4.6.4 — was 1.8
 export const BLOCK_REDUCTION = 0.5;
 /** Smoothing gain for the closed-form win-probability (race-to-kill model). */
 export const WINRATE_GAIN = 1.0;
-
-/** Per-hit damage spread (multiplier = SPREAD_LO + SPREAD_SPAN·rand) — the only
- * variance knob; ~±45% (was the inline 0.7+0.6·v ≈ ±30%) so a fight is a genuine
- * race, not a binary stat-gap outcome. */
-export const SPREAD_LO = 0.55; // provisional (v0.2) — tune by playtest
-export const SPREAD_SPAN = 0.9; // provisional (v0.2) — tune by playtest
 
 /** Combat satiety throttle: attackPower × this floor when empty (FU16/§4.6.1b). */
 export const COMBAT_SATIETY_FLOOR = 0.5;
@@ -135,17 +195,20 @@ export const COMBAT_SATIETY_FLAT_ABOVE = 0.7;
 //  mend is manual (cook). The unused constant + its now-false "unattended grind eats" doc were
 //  removed so nothing claims a combat cadence the build doesn't run.)
 
-/** MC combat scaling per character (combat) level. */
-export const MC_ATK_PER_LEVEL = 3; // provisional (v0.2) — tune by playtest
-export const MC_DEF_BASE = 3; // provisional (v0.2) — tune by playtest
-export const MC_DEF_PER_LEVEL = 1;
-
-/** Enemy stat curve from MobDef.level (same curve family as the MC; Block N.1 #1). */
-export const MOB_ATK_BASE = 12; // provisional (v0.2) — tune by playtest
-export const MOB_ATK_PER_LEVEL = 3; // provisional (v0.2) — tune by playtest
-export const MOB_DEF_PER_LEVEL = 1;
-export const MOB_HP_BASE = 24; // provisional (v0.2) — tune by playtest
-export const MOB_HP_PER_LEVEL = 10; // provisional (v0.2) — tune by playtest
+/** Enemy stat curve — ONE linear-in-level rule per stat (§4.6.1d), plus per-mob archetype
+ *  knobs (baseSpeed / accBonus / evaBonus in enemies.ts). Tuned so monkey@L1 lands in the
+ *  20–35% first-fight band and the foe curve is a graded rolling frontier. Liquid (D-059). */
+export const MOB_ATK_BASE = 9;
+export const MOB_ATK_K = 0.8;
+export const MOB_DEF_BASE = 1;
+export const MOB_DEF_K = 0.7;
+export const MOB_HP_BASE = 28;
+export const MOB_HP_K = 6;
+export const MOB_ACC_BASE = 11;
+export const MOB_ACC_K = 1.5;
+export const MOB_EVA_BASE = 1;
+export const MOB_EVA_K = 1.2;
+export const MOB_CRIT = 0.05; // grounded beasts' flat crit chance
 
 /** Combat-XP → character level (integer 1.3× curve; combat-only, Q1/FU14). */
 export const COMBAT_XP_BASE = 40; // provisional (v0.2) — tune by playtest (slower, weightier climb)
@@ -159,7 +222,7 @@ export const COMBAT_XP_K = 5; // provisional (v0.2) — tune by playtest
  *  once the gate-watch reaches this combat level — proof they've truly fought the system
  *  R3 unlocks, not just clocked time. Recomputed for the v0.2 XP curve: cumXp(L3)=92
  *  (COMBAT_XP_BASE 40) and a monkey grants level×COMBAT_XP_K = 1×5 = 5 xp/kill, so ≈19
- *  monkey kills (the spec's '~12' was under the old BASE 30 / K 6). The now-~0.32 monkey
+ *  monkey kills (the spec's '~12' was under the old BASE 30 / K 6). The ~0.29 monkey@L1
  *  win-rate makes this a genuine "you've fought" gate. Provisional (v0.2) — tune by playtest. */
 export const R3_FRONTIER_COMBAT_LEVEL = 3;
 
@@ -198,25 +261,23 @@ export const REPAIR_KOKU_COST = 6;
 /** Ticks the fight itself costs. */
 export const FIGHT_TICKS = 2;
 
-// ── Combat stance (PRD §2.8 kendo kamae; D-Q-active-combat) — the active combat
-// decision. Single source of truth for BOTH the combat math (mcCombatStats) and the
-// durability-wear cost axis (fight.ts). jodan/chudan/gedan = Aggressive/Balanced/
-// Guarded. atk/defense multipliers couple win-rate↔HP-retention, so Aggressive's
-// COST lives on a separate axis: durability wear (jodan 3 / chudan 2 / gedan 1). ──
+// ── Combat stance (PRD §2.8 kendo kamae, §4.6.10; D-Q-active-combat) — the active combat
+// decision, simplified to the glass-cannon↔tank axis (A2). ONLY atkMult + takenMult: jodan
+// (Aggressive) hits harder but takes more; gedan (Defensive) hits softer but takes less;
+// chudan (Balanced) is identity. Because HP carries between fights (no auto-heal), the tank's
+// lower damage-taken genuinely trades against the glass-cannon's output — NO stance is strictly
+// dominated, Balanced is not a trap. Weapon wear is NO LONGER stance-dependent (flat, fight.ts). ──
 export type StanceId = 'jodan' | 'chudan' | 'gedan';
 export interface StanceMod {
   readonly atkMult: number;
   /** Incoming-damage multiplier applied ON THE MC (the defender's takenMult). */
   readonly takenMult: number;
-  readonly critAdd: number;
-  readonly blockAdd: number;
-  readonly wearMult: number;
 }
 export const STANCE_MODS: Record<StanceId, StanceMod> = {
-  // provisional (v0.2) — tune by playtest
-  chudan: { atkMult: 1.0, takenMult: 1.0, critAdd: 0.0, blockAdd: 0.0, wearMult: 1.0 },
-  jodan: { atkMult: 1.35, takenMult: 1.15, critAdd: 0.05, blockAdd: -0.1, wearMult: 1.5 },
-  gedan: { atkMult: 0.8, takenMult: 0.85, critAdd: 0.0, blockAdd: 0.15, wearMult: 0.5 },
+  // §4.6.10 — liquid (D-059), tune by playtest
+  chudan: { atkMult: 1.0, takenMult: 1.0 },
+  jodan: { atkMult: 1.35, takenMult: 1.15 },
+  gedan: { atkMult: 0.8, takenMult: 0.85 },
 };
 /** Defensive → aggressive, for the UI segmented control. */
 export const STANCE_ORDER: readonly StanceId[] = ['gedan', 'chudan', 'jodan'];
@@ -224,9 +285,10 @@ export const STANCE_ORDER: readonly StanceId[] = ['gedan', 'chudan', 'jodan'];
 // ── Combat-curve gate constants (the SHARED single source the m2 combat-curve tests
 // assert against). These are BANDS, not pinned point-estimates — the real sampled
 // win-rate is weapon-sensitive, so widen a band to engine reality, never tighten below it.
-// Verified against the SEED-ROBUST foeForecasts(mc(lvl)) (chudan / pristine pole), full satiety:
-// monkey 0.30/0.68/0.91/0.98/1.00, wolf 0.05/0.22/0.49/0.81/0.94,
-// boar 0.01/0.04/0.16/0.38/0.66, bandit 0.00/…/0.10 (L1-5), bandit L8 ≈ 0.66. ──
+// Verified against the SEED-ROBUST foeForecasts(mc(lvl)) (chudan / pristine pole, STR-leaning
+// build), full satiety — Plan B v0.3.2 5-attr model, L1-5 then L8:
+// monkey 0.29/0.69/0.78/0.90/0.93 (trivial ≈L6), wolf 0.03/0.35/0.51/0.70/0.80,
+// boar 0.07/0.45/0.62/0.79/0.88, bandit 0.00/0.00/0.00/0.01/0.02 (L1-5), bandit L8 ≈ 0.90. ──
 /** First-fight (monkey @L1) win-rate band — the signed humbling-but-winnable G3/FU19 (20–35%);
  *  the seed-robust forecast lands ~0.30 here (full satiety), in band and seed-independent. */
 export const CURVE_FIRST_FOE_WR_MIN = 0.2; // provisional (v0.2) — tune by playtest
@@ -256,12 +318,9 @@ export const SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), r
 
 // ── Economy: sinks (audit #5) — the first-ever consumers of the surfaced labour
 // values. Cook turns sansai → satiety; the estate (estate.ts) turns koku → a soft
-// satietyMax buffer; spent attribute points feed combat (might/guard/vigor). ──
+// satietyMax buffer; spent attribute points feed combat (the 5 attrs, §4.6.1). ──
 export const COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
 export const COOK_SATIETY_RESTORE = 40; // satiety restored per meal (vs rest's +18) — provisional (v0.2) — tune by playtest
 /** HP a hot meal mends (D-050: eating is the ONLY HP heal — couples combat ↔ cook sink).
  *  Sized so a couple of meals returns a hurt fighter to fighting shape. provisional (v0.2). */
 export const COOK_HP_RESTORE = 14;
-export const ATTR_MIGHT_ATK = 1; // +attackPower per allocated Might point — provisional (v0.2) — tune by playtest
-export const ATTR_GUARD_DEF = 1; // +defense per allocated Guard point — provisional (v0.2) — tune by playtest
-export const ATTR_VIGOR_HP = 3; // +hpMax per allocated Vigor point — provisional (v0.2) — tune by playtest

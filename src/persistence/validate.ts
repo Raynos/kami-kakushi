@@ -4,8 +4,8 @@
 // rejected to recovery (Q46). Re-asserting up-only / trade-≤⅓ lands additively once
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
-import type { GameState, StanceId } from '../core';
-import { APP_ID, SCHEMA_VERSION, MAP_NODE_IDS } from '../core';
+import type { GameState, StanceId, AttrId } from '../core';
+import { APP_ID, SCHEMA_VERSION, MAP_NODE_IDS, ATTR_IDS, ATTR_BASE } from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
 
@@ -90,18 +90,25 @@ export function validateState(rawState: unknown): ValidateResult {
   const hp = num(character.hp, 1);
   const satiety = num(character.satiety, 0);
   const attributePoints = num(character.attributePoints, 0);
-  const might = numAdditive(character.might, 0); // v0.2 additive — absence ≠ a repair
-  const guard = numAdditive(character.guard, 0);
-  const vigor = numAdditive(character.vigor, 0);
   const level = num(character.level, 1);
   const combatXp = num(character.combatXp, 0);
+  // The 5-attribute build (§4.6.1). An ABSENT `attrs` (an old 3-attr/might-guard-vigor save, or a
+  // fresh pre-combat one) hydrates to ATTR_BASE additively — NOT a repair; a PRESENT-but-invalid
+  // attr value IS a coercion. Stale might/guard/vigor fields are simply ignored (they age out).
+  const rawAttrs = isObject(character.attrs) ? character.attrs : undefined;
+  const attrs = {} as Record<AttrId, number>;
+  let attrsCoerced = false;
+  for (const id of ATTR_IDS) {
+    const a = numAdditive(rawAttrs?.[id], ATTR_BASE);
+    const v = Math.max(0, Math.floor(a.value));
+    attrs[id] = v;
+    if (a.coerced || v !== a.value) attrsCoerced = true;
+  }
   const validatedCharacter: GameState['character'] = {
     hp: Math.max(0, hp.value),
     satiety: Math.max(0, satiety.value),
     attributePoints: Math.max(0, attributePoints.value),
-    might: Math.max(0, Math.floor(might.value)),
-    guard: Math.max(0, Math.floor(guard.value)),
-    vigor: Math.max(0, Math.floor(vigor.value)),
+    attrs,
     level: Math.max(1, Math.floor(level.value)),
     combatXp: Math.max(0, combatXp.value),
   };
@@ -112,9 +119,6 @@ export function validateState(rawState: unknown): ValidateResult {
     validatedCharacter.hp !== hp.value ||
     validatedCharacter.satiety !== satiety.value ||
     validatedCharacter.attributePoints !== attributePoints.value ||
-    validatedCharacter.might !== might.value ||
-    validatedCharacter.guard !== guard.value ||
-    validatedCharacter.vigor !== vigor.value ||
     validatedCharacter.level !== level.value ||
     validatedCharacter.combatXp !== combatXp.value;
   coerced =
@@ -122,9 +126,7 @@ export function validateState(rawState: unknown): ValidateResult {
     hp.coerced ||
     satiety.coerced ||
     attributePoints.coerced ||
-    might.coerced ||
-    guard.coerced ||
-    vigor.coerced ||
+    attrsCoerced ||
     level.coerced ||
     combatXp.coerced ||
     clampChanged;

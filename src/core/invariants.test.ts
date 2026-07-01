@@ -25,8 +25,10 @@ function checkState(s: GameState): string | null {
   if (!finite(c.satiety) || c.satiety < 0) return `satiety=${c.satiety}`;
   if (!finite(c.level) || c.level < 1) return `level=${c.level}`;
   if (!finite(c.combatXp) || c.combatXp < 0) return `combatXp=${c.combatXp}`;
-  for (const k of ['might', 'guard', 'vigor', 'attributePoints'] as const) {
-    if (!finite(c[k]) || c[k] < 0) return `${k}=${c[k]}`;
+  if (!finite(c.attributePoints) || c.attributePoints < 0)
+    return `attributePoints=${c.attributePoints}`;
+  for (const [k, v] of Object.entries(c.attrs)) {
+    if (!finite(v) || v < 0) return `attr ${k}=${v}`;
   }
   for (const [k, v] of Object.entries(s.resources)) {
     if (!finite(v) || v < 0) return `resource ${k}=${v}`;

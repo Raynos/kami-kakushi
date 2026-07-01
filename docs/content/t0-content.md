@@ -39,8 +39,8 @@
 
 | id | label | atk | speed | durability | archetype |
 |---|---|---|---|---|---|
-| carrying_pole | Worn carrying-pole | 13 | 0.9 | 40 | reach · blunt |
-| wood_axe | Woodlot axe | 15 | 0.85 | 55 | heavy · single |
+| carrying_pole | Worn carrying-pole | 3 | 0.9 | 40 | reach · blunt |
+| wood_axe | Woodlot axe | 5 | 0.85 | 55 | heavy · single |
 
 ## Bestiary (grounded — no belief-creatures)
 

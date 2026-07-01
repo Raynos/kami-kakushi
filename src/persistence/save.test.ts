@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, reduce, SCHEMA_VERSION, type GameState } from '../core';
+import { createInitialState, reduce, baseAttrs, SCHEMA_VERSION, type GameState } from '../core';
 import { SaveManager, MemoryBackend, createMemorySaveManager } from './index';
 import { migrate } from './migrate';
 
@@ -195,13 +195,15 @@ describe('migration wiring + pre-migration backup', () => {
     expect(loaded!.state.character.hp).toBeGreaterThanOrEqual(0);
   });
 
-  it('a legacy save MISSING the v0.2 additive fields hydrates WITHOUT a false coerced flag', async () => {
+  it('a legacy save MISSING the attribute build hydrates WITHOUT a false coerced flag', async () => {
     const backend = new MemoryBackend();
-    // a pre-v0.2 character: no might/guard/vigor (additive hydration is not a "repair")
+    // an old character with no `attrs` (and stale might/guard/vigor) — additive hydration to the
+    // base build is NOT a "repair", and the stale fields are ignored (they age out).
     const legacyChar = { ...sample().character } as Record<string, unknown>;
-    delete legacyChar.might;
-    delete legacyChar.guard;
-    delete legacyChar.vigor;
+    delete legacyChar.attrs;
+    legacyChar.might = 2;
+    legacyChar.guard = 1;
+    legacyChar.vigor = 3;
     const legacy = { ...sample(), character: legacyChar };
     await backend.set(
       'kk:save:1',
@@ -217,8 +219,7 @@ describe('migration wiring + pre-migration backup', () => {
     const loaded = await mgr.load();
     expect(loaded!.coerced).toBe(false); // no false "we mended a problem" notice
     expect(loaded!.migrated).toBe(false);
-    expect(loaded!.state.character.might).toBe(0);
-    expect(loaded!.state.character.guard).toBe(0);
-    expect(loaded!.state.character.vigor).toBe(0);
+    // absent attrs → the base build (every attribute at ATTR_BASE); stale might/guard/vigor ignored.
+    expect(loaded!.state.character.attrs).toEqual(baseAttrs());
   });
 });

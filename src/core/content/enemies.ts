@@ -21,6 +21,12 @@ export interface MobDef {
   readonly level: number;
   /** The map node this foe is found on — you must stand here to fight it (Step 5b, spatial). */
   readonly area: AreaId;
+  /** Per-mob archetype knobs (§4.6.1d) — the cadence/accuracy/evasion character on top of the
+   *  linear-in-level curve. Default: baseSpeed 1.0, accBonus 0, evaBonus 0. The monkey's fast,
+   *  evasive profile is what makes it the humbling first foe despite the MC's ~58 HP. */
+  readonly baseSpeed?: number;
+  readonly accBonus?: number;
+  readonly evaBonus?: number;
   /** A scripted story beat the MC always survives (never a grindable encounter). */
   readonly scripted?: boolean;
   /** Koku scavenged on a win (the modest spoils of a kept hand). */
@@ -46,6 +52,9 @@ export const MOBS: readonly MobDef[] = [
     kanji: '猿',
     level: 1,
     area: 'home-paddies',
+    // A fast, dodgy nuisance — the humbling first foe: it swings often and slips your blows.
+    baseSpeed: 1.5,
+    evaBonus: 4,
     kokuReward: 3,
     blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
   },
@@ -55,6 +64,11 @@ export const MOBS: readonly MobDef[] = [
     kanji: '狼',
     level: 2,
     area: 'near-satoyama',
+    // Fast and lethal — "it means to kill": quicker and more accurate than the monkey, and it
+    // slips a little too. Harder than the monkey despite the same HP band (the graded ramp).
+    baseSpeed: 1.4,
+    accBonus: 2,
+    evaBonus: 2,
     kokuReward: 5,
     blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
   },
@@ -64,6 +78,10 @@ export const MOBS: readonly MobDef[] = [
     kanji: '猪',
     level: 3,
     area: 'deep-satoyama',
+    // Slow but heavy and unerring — a wall of muscle: it swings less often than the wolf, but
+    // it lands (accBonus) and its higher-level HP makes it a real grind (harder than the wolf).
+    baseSpeed: 0.95,
+    accBonus: 4,
     kokuReward: 8,
     blurb: 'Tusked and furious, denned in the deep hills it raids from. It will not turn aside.',
   },
@@ -73,6 +91,7 @@ export const MOBS: readonly MobDef[] = [
     kanji: '野伏',
     level: 5, // provisional (v0.2) — tune by playtest
     area: 'woodlot-edge',
+    baseSpeed: 1.0, // a trained man — the curve's high-end wall
     kokuReward: 12,
     blurb: 'A masterless man gone to robbery on the woodlot road.',
   },

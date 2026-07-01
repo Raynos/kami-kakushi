@@ -185,57 +185,91 @@ describe('improve_estate — the koku → estateStage sink (audit #5)', () => {
   });
 });
 
-describe('spend_attribute — attributePoints become real combat stats (audit #5)', () => {
+describe('spend_attribute — attributePoints feed the 5 attributes (§4.6.1)', () => {
   function withPoints(n: number): GameState {
     const s = createInitialState(1);
     return { ...s, character: { ...s.character, attributePoints: n, satiety: satietyMax(s) } };
   }
 
-  it('Might feeds attackPower, Guard feeds defense, Vigor feeds hpMax — and spends a point', () => {
+  it('STR feeds hpMax/defense/attackPower; each spend consumes a point', () => {
     const s = withPoints(3);
-    const might = reduce(s, { type: 'spend_attribute', attr: 'might' });
-    expect(might.character.attributePoints).toBe(2);
-    expect(might.character.might).toBe(1);
-    expect(mcCombatStats(might).attackPower).toBe(
-      mcCombatStats(s).attackPower + balance.ATTR_MIGHT_ATK,
+    const str = reduce(s, { type: 'spend_attribute', attr: 'str' });
+    expect(str.character.attributePoints).toBe(2);
+    expect(str.character.attrs.str).toBe(balance.ATTR_BASE + 1);
+    // hpMax and defense are exact single-source functions of STR; attackPower rises (rounded).
+    expect(hpMax(str)).toBe(hpMax(s) + balance.STR_HP);
+    expect(mcCombatStats(str).defense).toBeCloseTo(
+      mcCombatStats(s).defense + balance.STR_DEF_COEFF,
+    );
+    expect(mcCombatStats(str).attackPower).toBeGreaterThan(mcCombatStats(s).attackPower);
+  });
+
+  it('AGI feeds accuracy + evasion; SPD feeds attackSpeed; LUCK feeds crit', () => {
+    const s = withPoints(3);
+    const agi = reduce(s, { type: 'spend_attribute', attr: 'agi' });
+    expect(mcCombatStats(agi).accuracy).toBeCloseTo(
+      mcCombatStats(s).accuracy + balance.AGI_ACC_COEFF,
+    );
+    expect(mcCombatStats(agi).evasion).toBeCloseTo(
+      mcCombatStats(s).evasion + balance.AGI_EVA_COEFF,
     );
 
-    const guard = reduce(s, { type: 'spend_attribute', attr: 'guard' });
-    expect(mcCombatStats(guard).defense).toBe(mcCombatStats(s).defense + balance.ATTR_GUARD_DEF);
+    const spd = reduce(s, { type: 'spend_attribute', attr: 'spd' });
+    expect(mcCombatStats(spd).attackSpeed).toBeGreaterThan(mcCombatStats(s).attackSpeed);
 
-    const vigor = reduce(s, { type: 'spend_attribute', attr: 'vigor' });
-    expect(hpMax(vigor)).toBe(hpMax(s) + balance.ATTR_VIGOR_HP);
+    const luck = reduce(s, { type: 'spend_attribute', attr: 'luck' });
+    expect(mcCombatStats(luck).critChance).toBeCloseTo(
+      mcCombatStats(s).critChance + balance.CRIT_LUCK_COEFF,
+    );
+  });
+
+  it('INT lifts damage only vs a bestiary-KNOWN foe (non-dump)', () => {
+    // 10 points into INT so the ±rounding cannot mask the multiplier.
+    const s = withPoints(10);
+    let leveled = s;
+    for (let i = 0; i < 10; i++)
+      leveled = reduce(leveled, { type: 'spend_attribute', attr: 'int' });
+    expect(leveled.character.attrs.int).toBe(balance.ATTR_BASE + 10);
+    // unknown foe → no bonus (foeKnown false === default); known foe → strictly more damage.
+    expect(mcCombatStats(leveled, false).attackPower).toBe(mcCombatStats(s, false).attackPower);
+    expect(mcCombatStats(leveled, true).attackPower).toBeGreaterThan(
+      mcCombatStats(leveled, false).attackPower,
+    );
   });
 
   it('is a no-op with no points to spend', () => {
     const broke = withPoints(0);
-    expect(reduce(broke, { type: 'spend_attribute', attr: 'might' })).toBe(broke);
+    expect(reduce(broke, { type: 'spend_attribute', attr: 'str' })).toBe(broke);
   });
 
-  it('contributes zero at default allocation (L1 combat byte-identical, no curve regression)', () => {
-    // might/guard/vigor default to 0, so each attribute term adds exactly nothing —
-    // attackPower/defense/hpMax fall back to their single-source base constants.
-    const s = withPoints(0); // full satiety, all allocations 0
-    expect(mcCombatStats(s).attackPower).toBe(getWeapon('carrying_pole').baseAttack);
-    expect(mcCombatStats(s).defense).toBe(balance.MC_DEF_BASE);
-    expect(hpMax(s)).toBe(balance.HP_BASE);
+  it('base allocation derives its combat stats from the single-source constants', () => {
+    // Base attrs (all ATTR_BASE) at L1 — attackPower/defense/hpMax fall straight out of the
+    // §4.6.1 coefficients (RED-able: change a coefficient and this moves).
+    const s = withPoints(0);
+    const b = balance.ATTR_BASE;
+    expect(mcCombatStats(s).attackPower).toBe(
+      Math.round(getWeapon('carrying_pole').baseAttack + balance.STR_ATK_COEFF * b),
+    );
+    expect(mcCombatStats(s).defense).toBeCloseTo(balance.STR_DEF_COEFF * b);
+    expect(hpMax(s)).toBe(balance.HP_BASE + balance.HP_PER_LEVEL + balance.STR_HP * b);
   });
 });
 
-describe('persistence — the explicit character rebuild keeps the v0.2 fields', () => {
-  it('save round-trip preserves might/guard/vigor/estateStage', () => {
+describe('persistence — the explicit character rebuild keeps the attribute build', () => {
+  it('save round-trip preserves the 5-attribute build + estateStage', () => {
     const seed = createInitialState(1);
     const s: GameState = {
       ...seed,
-      character: { ...seed.character, might: 2, guard: 1, vigor: 3 },
+      character: {
+        ...seed.character,
+        attrs: { str: 8, agi: 7, int: 6, spd: 9, luck: 5 },
+      },
       estateStage: 2,
     };
     const round = validateState(JSON.parse(JSON.stringify(s)));
     expect(round.ok).toBe(true);
     if (round.ok) {
-      expect(round.state.character.might).toBe(2);
-      expect(round.state.character.guard).toBe(1);
-      expect(round.state.character.vigor).toBe(3);
+      expect(round.state.character.attrs).toEqual({ str: 8, agi: 7, int: 6, spd: 9, luck: 5 });
       expect(round.state.estateStage).toBe(2);
     }
   });

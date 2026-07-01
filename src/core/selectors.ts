@@ -6,12 +6,12 @@ import type { GameState } from './state';
 import {
   HP_BASE,
   HP_PER_LEVEL,
+  STR_HP,
   SATIETY_BASE,
   SATIETY_PER_LEVEL,
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
   CONDITIONING_GATE_LEVEL,
-  ATTR_VIGOR_HP,
   SKILL_YIELD_DEN,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
@@ -27,10 +27,9 @@ import { ACTIVITIES, type ActivityDef } from './content/activities';
 import { isUnlocked } from './unlock';
 import { skillLevel } from './skills';
 
+/** hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1). */
 export function hpMax(state: GameState): number {
-  return (
-    HP_BASE + (state.character.level - 1) * HP_PER_LEVEL + state.character.vigor * ATTR_VIGOR_HP
-  );
+  return HP_BASE + state.character.level * HP_PER_LEVEL + STR_HP * state.character.attrs.str;
 }
 
 /** Cumulative satietyMax bonus from the bought-out estate stages (the koku sink). */

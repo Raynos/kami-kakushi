@@ -14,7 +14,15 @@ import { createRng } from './rng';
 import type { LogState } from './log';
 import { emptyLog } from './log';
 import { SCHEMA_VERSION } from './constants';
-import { HP_BASE, COLD_OPEN_SATIETY, type StanceId } from './content/balance';
+import {
+  HP_BASE,
+  HP_PER_LEVEL,
+  STR_HP,
+  ATTR_BASE,
+  COLD_OPEN_SATIETY,
+  type StanceId,
+  type AttrId,
+} from './content/balance';
 import type { RankId } from './content/ranks';
 import type { ActivityId } from './content/activities';
 import type { SkillId } from './content/skills';
@@ -60,16 +68,21 @@ export interface Clock {
 export interface Character {
   readonly hp: number;
   readonly satiety: number;
-  /** Unspent allocation POOL (granted on level-up); spent into might/guard/vigor. */
+  /** Unspent allocation POOL (granted +1 every 2 character levels, §4.4); spent into `attrs`. */
   readonly attributePoints: number;
-  /** Spent allocations — the manual Might/Guard/Vigor build (audit #5). Feed combat. */
-  readonly might: number;
-  readonly guard: number;
-  readonly vigor: number;
+  /** The manual 5-attribute build STR/AGI/INT/SPD/LUCK (§4.6.1). Each starts at ATTR_BASE (5),
+   *  soft-cap ~30; feeds every derived combat stat (attackPower / defense / hpMax / accuracy /
+   *  evasion / attackSpeed / crit / the INT bestiary bonus). No cross-feed from labour, no respec. */
+  readonly attrs: Readonly<Record<AttrId, number>>;
   /** The combat (character) level — fed by combat-XP only (Q1/FU14). Floors at 1. */
   readonly level: number;
   /** Total combat XP earned from kills (level derives from it). */
   readonly combatXp: number;
+}
+
+/** The base 5-attribute block a fresh MC starts with (every attribute at ATTR_BASE). */
+export function baseAttrs(): Record<AttrId, number> {
+  return { str: ATTR_BASE, agi: ATTR_BASE, int: ATTR_BASE, spd: ATTR_BASE, luck: ATTR_BASE };
 }
 
 export interface GameState {
@@ -136,12 +149,12 @@ export function createInitialState(seed: number): GameState {
     rng: createRng(seed),
     clock: { tick: 0, day: 0 },
     character: {
-      hp: HP_BASE,
+      // level-1 hpMax = HP_BASE + HP_PER_LEVEL·1 + STR_HP·ATTR_BASE (§4.6.1) — a fresh MC opens
+      // at full HP.
+      hp: HP_BASE + HP_PER_LEVEL + STR_HP * ATTR_BASE,
       satiety: COLD_OPEN_SATIETY,
       attributePoints: 0,
-      might: 0,
-      guard: 0,
-      vigor: 0,
+      attrs: baseAttrs(),
       level: 1,
       combatXp: 0,
     },

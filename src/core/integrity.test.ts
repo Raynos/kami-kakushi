@@ -6,6 +6,7 @@ import {
   SKILL_IDS,
   MATERIAL_IDS,
   LOG_MAX_IDENTICAL_RUN,
+  ATTR_IDS,
   type GameState,
 } from './index';
 
@@ -42,14 +43,17 @@ const SKILL_LEDGER: Ledger = {
   woodcutting: { consumer: 'skillYieldNum yield multiplier on do_activity (intents + skills)' },
   conditioning: { consumer: 'CONDITIONING_GATE_LEVEL danger-ring gate (selectors)' },
 };
-// Character attributes — formerly the phantom `attributePoints` (audit §6.4 / §5). Each must
-// now have a live consumer, else the v0.2 "no more dead values" claim quietly rots.
-const SURFACED_ATTRIBUTES = new Set<string>(['attributePoints', 'might', 'guard', 'vigor']);
+// Character attributes — the 5-attribute combat build (§4.6.1). Each surfaced value must have a
+// live consumer, else the "no more dead values" claim quietly rots. Derived from ATTR_IDS so
+// adding a 6th attribute without a consumer fails the build.
+const SURFACED_ATTRIBUTES = new Set<string>(['attributePoints', ...ATTR_IDS]);
 const ATTRIBUTE_LEDGER: Ledger = {
-  attributePoints: { consumer: 'spend_attribute → might/guard/vigor (intents)' },
-  might: { consumer: 'mcCombatStats attackPower += might*ATTR_MIGHT_ATK (combat)' },
-  guard: { consumer: 'mcCombatStats defense += guard*ATTR_GUARD_DEF (combat)' },
-  vigor: { consumer: 'hpMax += vigor*ATTR_VIGOR_HP (selectors)' },
+  attributePoints: { consumer: 'spend_attribute → attrs[a] (intents)' },
+  str: { consumer: 'mcCombatStats attackPower/defense + hpMax (combat/selectors)' },
+  agi: { consumer: 'mcCombatStats accuracy/evasion/crit (combat)' },
+  int: { consumer: 'mcCombatStats INT bestiary-known damage bonus (combat)' },
+  spd: { consumer: 'mcCombatStats attackSpeed (combat)' },
+  luck: { consumer: 'mcCombatStats critChance (combat)' },
 };
 // Post-economy ledger: no surfaced value is inert any more (conflict J). The ratchet now
 // asserts the empty set — surfacing a NEW dead value (or letting an existing consumer rot)

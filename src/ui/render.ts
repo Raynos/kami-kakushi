@@ -1027,7 +1027,7 @@ export function mount(
     lvl.append(el('div', 'rung-hint', `Combat XP ${cx.into}/${cx.needed}`));
     combatPane.append(lvl);
 
-    // training — spend earned attribute points into Might / Guard / Vigor
+    // training — spend earned attribute points into the 5 attributes (§4.6.1)
     const c = state.character;
     const train = el('div', 'weapon-card frame');
     const th = el('div', 'skill-head');
@@ -1040,23 +1040,16 @@ export function mount(
       ),
     );
     train.append(th);
-    const ATTRS: {
-      attr: 'might' | 'guard' | 'vigor';
-      label: string;
-      value: number;
-      gain: string;
-    }[] = [
-      { attr: 'might', label: 'Might 力', value: c.might, gain: '+atk' },
-      { attr: 'guard', label: 'Guard 守', value: c.guard, gain: '+def' },
-      { attr: 'vigor', label: 'Vigor 体', value: c.vigor, gain: '+body' },
-    ];
-    for (const a of ATTRS) {
+    for (const id of balance.ATTR_IDS) {
+      const meta = balance.ATTR_META[id];
       const row = el('div', 'labour-row');
-      row.append(el('span', 'skill-name', `${a.label}  ${a.value}  (${a.gain})`));
+      row.append(
+        el('span', 'skill-name', `${meta.label} ${meta.kanji}  ${c.attrs[id]}  (${meta.gain})`),
+      );
       const plus = el('button', 'auto-toggle', '+1');
       plus.type = 'button';
       plus.disabled = c.attributePoints <= 0;
-      plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: a.attr }));
+      plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: id }));
       row.append(plus);
       train.append(row);
     }
@@ -1150,22 +1143,20 @@ export function mount(
     for (const s of STANCE_ORDER) {
       const ui = STANCE_UI[s];
       const on = state.stance === s;
-      // the blade-wear cost per fight (jodan 3 / chudan 2 / gedan 1) — shown as visible pips,
-      // not a hover-only title (touch-legible, D-050/P9). The aggression↔wear trade is the read.
-      const wear = Math.max(
-        1,
-        Math.round(balance.DURABILITY_WEAR_PER_FIGHT * balance.STANCE_MODS[s].wearMult),
-      );
+      // A2: stance is the glass-cannon↔tank axis (atk vs damage-taken). Wear is now flat, so the
+      // read shown is the offense/defense trade — hurt-carries-between-fights makes it a real call.
+      const mod = balance.STANCE_MODS[s];
+      const atkPct = Math.round((mod.atkMult - 1) * 100);
+      const takenPct = Math.round((mod.takenMult - 1) * 100);
+      const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
+      const trade = `atk ${sign(atkPct)}% · taken ${sign(takenPct)}%`;
       const btn = el('button', `auto-toggle stance-btn${on ? ' on' : ''}`);
       btn.type = 'button';
       btn.setAttribute('aria-pressed', String(on));
       btn.title = ui.hint;
-      btn.setAttribute(
-        'aria-label',
-        `${ui.gloss} stance — blade wear ${wear} per fight. ${ui.hint}`,
-      );
+      btn.setAttribute('aria-label', `${ui.gloss} stance — ${trade}. ${ui.hint}`);
       btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
-      btn.append(el('span', 'stance-wear', `wear ${'◆'.repeat(wear)}`));
+      btn.append(el('span', 'stance-wear', trade));
       btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
       stanceRow.append(btn);
     }

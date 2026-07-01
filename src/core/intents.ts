@@ -46,7 +46,8 @@ import {
 } from './content/activities';
 import { getWeapon, type WeaponId } from './content/weapons';
 import { getMob, type MobId } from './content/enemies';
-import type { StanceId } from './content/balance';
+import type { StanceId, AttrId } from './content/balance';
+import { ATTR_META } from './content/balance';
 
 export type Intent =
   | { type: 'open_eyes' }
@@ -63,7 +64,7 @@ export type Intent =
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
   | { type: 'improve_estate' }
-  | { type: 'spend_attribute'; attr: 'might' | 'guard' | 'vigor' }
+  | { type: 'spend_attribute'; attr: AttrId }
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
   | { type: 'buy_item'; itemId: string }
@@ -315,24 +316,19 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'spend_attribute': {
-      // attributePoints → a real combat stat (audit #5). No clock cost.
+      // attributePoints → one of the 5 attributes (§4.6.1). No clock cost.
       const c = next.character;
       if (c.attributePoints <= 0) return state;
       const a = intent.attr;
-      const upd =
-        a === 'might'
-          ? { ...c, might: c.might + 1 }
-          : a === 'guard'
-            ? { ...c, guard: c.guard + 1 }
-            : { ...c, vigor: c.vigor + 1 };
-      next = { ...next, character: { ...upd, attributePoints: c.attributePoints - 1 } };
-      const line =
-        a === 'might'
-          ? 'You drill the cut until your shoulders burn. (Might +1)'
-          : a === 'guard'
-            ? 'You learn to turn the blow aside. (Guard +1)'
-            : 'You harden to the work; your wind comes easier. (Vigor +1)';
-      next = applyRewards(next, { log: [{ channel: 'system', text: line }] });
+      next = {
+        ...next,
+        character: {
+          ...c,
+          attrs: { ...c.attrs, [a]: (c.attrs[a] ?? 0) + 1 },
+          attributePoints: c.attributePoints - 1,
+        },
+      };
+      next = applyRewards(next, { log: [{ channel: 'system', text: ATTR_META[a].log }] });
       break;
     }
     case 'craft_weapon': {

@@ -14,45 +14,66 @@ import { hpMax, satietyMax } from './selectors';
 import { getWeapon } from './content/weapons';
 import { GRINDABLE_MOBS, type MobDef } from './content/enemies';
 import {
-  DAMAGE_FLOOR,
-  HIT_CHANCE,
-  CRIT_CHANCE,
   CRIT_MULT,
-  BLOCK_CHANCE,
   BLOCK_REDUCTION,
   WINRATE_GAIN,
   COMBAT_SATIETY_FLOOR,
   COMBAT_SATIETY_FLAT_ABOVE,
-  MC_ATK_PER_LEVEL,
-  MC_DEF_BASE,
-  MC_DEF_PER_LEVEL,
+  STR_ATK_COEFF,
+  STR_DEF_COEFF,
+  AGI_EVA_COEFF,
+  AGI_ACC_COEFF,
+  ACC_BASE,
+  SPD_ATKSPEED_COEFF,
+  CRIT_BASE,
+  CRIT_AGI_COEFF,
+  CRIT_LUCK_COEFF,
+  CRIT_CHANCE_MAX,
+  INT_KNOWN_DMG_COEFF,
+  HIT_CHANCE_MIN,
+  HIT_CHANCE_MAX,
+  DMG_VARIANCE,
+  DAMAGE_FLOOR_FRAC,
   MOB_ATK_BASE,
-  MOB_ATK_PER_LEVEL,
-  MOB_DEF_PER_LEVEL,
+  MOB_ATK_K,
+  MOB_DEF_BASE,
+  MOB_DEF_K,
   MOB_HP_BASE,
-  MOB_HP_PER_LEVEL,
+  MOB_HP_K,
+  MOB_ACC_BASE,
+  MOB_ACC_K,
+  MOB_EVA_BASE,
+  MOB_EVA_K,
+  MOB_CRIT,
   COMBAT_XP_BASE,
   COMBAT_XP_GROWTH_NUM,
   COMBAT_XP_GROWTH_DEN,
   COMBAT_MAX_LEVEL,
   DURABILITY_BANDS,
-  SPREAD_LO,
-  SPREAD_SPAN,
   STANCE_MODS,
-  ATTR_MIGHT_ATK,
-  ATTR_GUARD_DEF,
 } from './content/balance';
 
 export interface CombatStats {
   readonly attackPower: number;
   readonly defense: number;
   readonly hp: number;
-  readonly speed: number;
-  readonly hitChance: number;
+  /** Swings per time-unit (was `speed`) — weapon cadence × SPD scaling (§4.6.1). */
+  readonly attackSpeed: number;
+  /** Hit-chance is now DERIVED per exchange from accuracy vs the defender's evasion (§4.6.3),
+   *  so it is not carried on the stat block; accuracy/evasion are. */
+  readonly accuracy: number;
+  readonly evasion: number;
   readonly critChance: number;
   readonly blockChance: number;
   /** Incoming-damage multiplier applied to this combatant when it DEFENDS (stance). */
   readonly damageTakenMult: number;
+}
+
+/** clamp(accuracy/(accuracy+evasion)) — the per-exchange hit-chance (§4.6.3). */
+function hitChance(atk: CombatStats, def: CombatStats): number {
+  const denom = atk.accuracy + def.evasion;
+  const p = denom > 0 ? atk.accuracy / denom : 1;
+  return clamp(p, HIT_CHANCE_MIN, HIT_CHANCE_MAX);
 }
 
 // Combat-XP → character level (integer 1.3× cumulative; combat-only, Q1/FU14).
@@ -97,57 +118,73 @@ export function durabilityBand(
   return { mult: last.mult, name: last.name };
 }
 
-export function mcCombatStats(state: GameState): CombatStats {
+/**
+ * The MC's derived combat stats (§4.6.1, T0: gearAtk=0, no weapon-skill/armour/shield terms).
+ * `foeKnown` applies the INT bestiary damage bonus (+0.5%·INT) — set only when fighting an
+ * already-encountered foe (its `mob-<id>` flag is set), so it stays foe-specific and honest.
+ */
+export function mcCombatStats(state: GameState, foeKnown = false): CombatStats {
   const weapon = getWeapon(state.equippedWeapon);
-  const level = state.character.level;
   const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
   const satRate = combatSatietyRate(state);
   const stance = STANCE_MODS[state.stance];
-  const c = state.character;
-  const baseAtk = weapon.baseAttack + (level - 1) * MC_ATK_PER_LEVEL;
+  const a = state.character.attrs;
+  const intMult = foeKnown ? 1 + INT_KNOWN_DMG_COEFF * a.int : 1;
+  // attackPower = (weaponBase + 1.2·STR)·stance·satiety·durability·intBestiary (§4.6.1).
+  const rawAtk =
+    (weapon.baseAttack + STR_ATK_COEFF * a.str) * stance.atkMult * satRate * band.mult * intMult;
   return {
-    // Might is a flat add AFTER durability/satiety/stance scaling — "your own muscle",
-    // not weakened by a broken weapon or hunger. At L1 defaults (0) this is identity.
-    attackPower:
-      Math.max(1, Math.round(baseAtk * band.mult * satRate * stance.atkMult)) +
-      c.might * ATTR_MIGHT_ATK,
-    defense: MC_DEF_BASE + (level - 1) * MC_DEF_PER_LEVEL + c.guard * ATTR_GUARD_DEF,
+    attackPower: Math.max(1, Math.round(rawAtk)),
+    defense: STR_DEF_COEFF * a.str,
     // D-050: a fight starts from your CARRIED hp, not a free full refill. hpMax is the
-    // ceiling (level/vigor); the only mend is eating (cook). A hurt fighter forecasts lower.
-    hp: clamp(c.hp, 0, hpMax(state)),
-    speed: weapon.baseSpeed,
-    hitChance: HIT_CHANCE,
-    critChance: clamp(CRIT_CHANCE + stance.critAdd, 0, 1),
-    blockChance: clamp(BLOCK_CHANCE + stance.blockAdd, 0, 1),
+    // ceiling (level/STR); the only mend is eating (cook). A hurt fighter forecasts lower.
+    hp: clamp(state.character.hp, 0, hpMax(state)),
+    attackSpeed: weapon.baseSpeed * (1 + SPD_ATKSPEED_COEFF * a.spd),
+    accuracy: ACC_BASE + AGI_ACC_COEFF * a.agi,
+    evasion: AGI_EVA_COEFF * a.agi,
+    critChance: clamp(
+      CRIT_BASE + CRIT_AGI_COEFF * a.agi + CRIT_LUCK_COEFF * a.luck,
+      0,
+      CRIT_CHANCE_MAX,
+    ),
+    blockChance: 0, // T0 has no shield/guard → block 0 (§4.6.1)
     damageTakenMult: stance.takenMult,
   };
 }
 
 export function mobCombatStats(mob: MobDef): CombatStats {
-  const lvl = mob.level;
+  const L = mob.level;
   return {
-    attackPower: MOB_ATK_BASE + lvl * MOB_ATK_PER_LEVEL,
-    defense: lvl * MOB_DEF_PER_LEVEL,
-    hp: MOB_HP_BASE + lvl * MOB_HP_PER_LEVEL,
-    speed: 1.0,
-    hitChance: HIT_CHANCE,
-    critChance: CRIT_CHANCE,
+    attackPower: MOB_ATK_BASE + MOB_ATK_K * L,
+    defense: MOB_DEF_BASE + MOB_DEF_K * L,
+    hp: MOB_HP_BASE + MOB_HP_K * L,
+    attackSpeed: mob.baseSpeed ?? 1.0, // per-mob archetype cadence
+    accuracy: MOB_ACC_BASE + MOB_ACC_K * L + (mob.accBonus ?? 0),
+    evasion: MOB_EVA_BASE + MOB_EVA_K * L + (mob.evaBonus ?? 0),
+    critChance: MOB_CRIT,
     blockChance: 0, // grounded beasts don't parry
     damageTakenMult: 1, // mobs take normal damage
   };
 }
 
+/** Expected damage per swing (mean variance = 1), including the per-exchange hit-chance,
+ *  crit/block expectation, the defender's stance takenMult, and the per-attacker floor (§4.6.4). */
 function expectedDmg(atk: CombatStats, def: CombatStats): number {
-  const raw = Math.max(DAMAGE_FLOOR, atk.attackPower - def.defense);
+  const floor = Math.max(1, DAMAGE_FLOOR_FRAC * atk.attackPower);
   const critFactor = 1 + atk.critChance * (CRIT_MULT - 1);
   const blockFactor = 1 - def.blockChance * BLOCK_REDUCTION;
-  return atk.hitChance * raw * critFactor * blockFactor;
+  const mitigated =
+    (atk.attackPower - def.defense) * critFactor * blockFactor * def.damageTakenMult;
+  return hitChance(atk, def) * Math.max(floor, mitigated);
 }
 
-/** Closed-form win probability (race-to-kill; deterministic, no sampling). */
+/** Closed-form win probability (race-to-kill; deterministic, no sampling). §4.6.4b:
+ *  P_win = TTK(mob→MC)/(TTK(MC→mob)+TTK(mob→MC)), DPS = attackSpeed·hitChance·E_dmg. */
 export function analyticWinRate(mc: CombatStats, enemy: CombatStats): number {
-  const ttkMc = Math.ceil(enemy.hp / expectedDmg(mc, enemy)) / mc.speed;
-  const ttkEn = Math.ceil(mc.hp / expectedDmg(enemy, mc)) / enemy.speed;
+  const dpsMc = mc.attackSpeed * expectedDmg(mc, enemy);
+  const dpsEn = enemy.attackSpeed * expectedDmg(enemy, mc);
+  const ttkMc = enemy.hp / dpsMc; // time for the MC to fell the foe
+  const ttkEn = mc.hp / dpsEn; // time for the foe to fell the MC
   const p = 0.5 + (WINRATE_GAIN * (ttkEn - ttkMc)) / (ttkEn + ttkMc);
   return clamp(p, 0.02, 0.98);
 }
@@ -157,25 +194,26 @@ const DT = 0.1;
 
 function swing(rng: Rng, atk: CombatStats, def: CombatStats): [number, Rng] {
   let r = rng;
-  const [hit, r1] = nextChance(r, 'combat', atk.hitChance);
+  const [hit, r1] = nextChance(r, 'combat', hitChance(atk, def));
   r = r1;
   if (!hit) return [0, r];
-  let raw = Math.max(DAMAGE_FLOOR, atk.attackPower - def.defense);
-  // per-hit damage spread (~±45%) — smooths the win-rate curve so a fight can be a
-  // genuine 30–70% race, not a binary outcome of the stat gap.
+  // ±DMG_VARIANCE (±15%) per-swing variance — smooths the curve so a fight is a genuine race.
   const [v, rv] = nextFloat(r, 'combat');
   r = rv;
-  raw = Math.max(DAMAGE_FLOOR, Math.round(raw * (SPREAD_LO + SPREAD_SPAN * v)));
+  const variance = 1 - DMG_VARIANCE + 2 * DMG_VARIANCE * v;
+  let mitigated = atk.attackPower * variance - def.defense;
   const [crit, r2] = nextChance(r, 'combat', atk.critChance);
   r = r2;
-  if (crit) raw = Math.round(raw * CRIT_MULT);
+  if (crit) mitigated *= CRIT_MULT;
   const [block, r3] = nextChance(r, 'combat', def.blockChance);
   r = r3;
-  if (block) raw = Math.max(DAMAGE_FLOOR, Math.round(raw * (1 - BLOCK_REDUCTION)));
-  // stance: the defender's incoming-damage multiplier (RNG-free post-processing — no
-  // new draw, so seeded replays stay byte-identical). Mobs have damageTakenMult = 1.
-  raw = Math.max(DAMAGE_FLOOR, Math.round(raw * def.damageTakenMult));
-  return [raw, r];
+  if (block) mitigated *= 1 - BLOCK_REDUCTION;
+  // stance: the defender's incoming-damage multiplier (RNG-free — no new draw, so seeded
+  // replays stay byte-identical). Mobs have damageTakenMult = 1.
+  mitigated *= def.damageTakenMult;
+  // per-attacker floor applied ONCE, LAST (§4.6.4): chip damage that always lands.
+  const floor = Math.max(1, DAMAGE_FLOOR_FRAC * atk.attackPower);
+  return [Math.round(Math.max(floor, mitigated)), r];
 }
 
 export interface FightResult {
@@ -217,17 +255,18 @@ export function sampledWinRate(
 // and it matches the test/gate value. (Coupling it to the run seed made n=48 vary the headline
 // — e.g. monkey@L1 read 0.33 at seed 1 but 0.48 at the shipped seed; the true value is ~0.30.)
 const FORECAST_SEED = 0x9e3779b9;
-const FORECAST_SAMPLES = 400; // converged (monkey@L1 ≈ 0.32, stable); ~5ms/forecast, fine off-frame
+const FORECAST_SAMPLES = 400; // converged (monkey@L1 ≈ 0.29, stable); ~5ms/forecast, fine off-frame
 
 /** The grindable foes (danger order) with their seed-robust win-rate against the MC right now.
  *  Location-INDEPENDENT on purpose: this is "my win-rate if I fought this foe" — the combat curve
  *  the balance gates read. The SPATIAL "which foes are here" question is `foesHere` below. */
 export function foeForecasts(state: GameState): FoeForecast[] {
-  const mc = mcCombatStats(state);
   return GRINDABLE_MOBS.map((mob) => ({
     mob,
+    // INT bestiary bonus applies only vs an already-encountered foe (its `mob-<id>` flag set),
+    // so the forecast is foe-specific — a first-contact foe reads its no-bonus win-rate.
     winRate: sampledWinRate(
-      mc,
+      mcCombatStats(state, state.flags[`mob-${mob.id}`] === true),
       mobCombatStats(mob),
       (FORECAST_SEED + mob.level * 7919) >>> 0,
       FORECAST_SAMPLES,
@@ -251,8 +290,8 @@ export function resolveFight(
   let enHp = enemy.hp;
   let mcTimer = 0;
   let enTimer = 0;
-  const mcInt = 1 / mc.speed;
-  const enInt = 1 / enemy.speed;
+  const mcInt = 1 / mc.attackSpeed;
+  const enInt = 1 / enemy.attackSpeed;
   let r = rng;
   let rounds = 0;
   let fled = false;

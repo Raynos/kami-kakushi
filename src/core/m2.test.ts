@@ -27,11 +27,22 @@ import {
 } from './index';
 
 // A "ready" fighter at the given level: full HP (hpMax grows with level, so seed it
-// explicitly) at the given satiety. The CANONICAL curve is measured at full HP — the
-// LIVE forecast reflects carried HP (D-050), which the carry tests exercise separately.
+// explicitly) at the given satiety, with a REALISTIC combat build — the level-appropriate
+// attribute points (+1 per ATTR_POINTS_PER_LEVELS levels, §4.4) poured into a STR/AGI build.
+// At L1 that is ZERO points → BASE attrs, so the monkey@L1 first-foe anchor stays base (the
+// locked 20–35% band is measured at base attrs). Higher levels reflect a player who levelled.
+// The CANONICAL curve is measured at full HP — the LIVE forecast reflects carried HP (D-050),
+// which the carry tests exercise separately.
 function mc(level = 1, satiety = 100): GameState {
   const s = createInitialState(1);
-  const t: GameState = { ...s, character: { ...s.character, level, satiety } };
+  const attrs = { ...s.character.attrs };
+  const points = Math.floor(level / balance.ATTR_POINTS_PER_LEVELS);
+  const build = ['str', 'agi', 'str'] as const; // a STR-leaning damage/HP build (2 STR : 1 AGI)
+  for (let i = 0; i < points; i++) {
+    const k = build[i % build.length]!;
+    attrs[k] = attrs[k] + 1;
+  }
+  const t: GameState = { ...s, character: { ...s.character, level, satiety, attrs } };
   return { ...t, character: { ...t.character, hp: hpMax(t) } };
 }
 function atFullSatiety(s: GameState): GameState {
@@ -47,9 +58,10 @@ function foeWr(state: GameState, mobId: string): number {
 // The merged combat-curve gate (audit #1 fix). ALL assertions are BANDS driven by the
 // shared balance.CURVE_* constants — point-estimates are seed/weapon-sensitive, so if a
 // value lands outside, WIDEN the constant to engine reality, never tighten below it.
-// Verified SEED-ROBUST curve (foeForecasts mc(lvl), chudan/pole, full satiety — seed-independent):
-//   monkey 0.32/0.68/0.91/0.98/1.00 · wolf 0.05/0.22/0.49/0.81/0.94
-//   boar   0.01/0.04/0.16/0.38/0.66 · bandit 0.00/0.00/0.00/0.00/0.09 (L1-5) · bandit L8 ≈ 0.66
+// Verified SEED-ROBUST curve (foeForecasts mc(lvl), chudan/pole, full satiety, STR-leaning
+// build — seed-independent), Plan B v0.3.2 5-attr model, L1-5 then L8:
+//   monkey 0.29/0.69/0.78/0.90/0.93 (trivial ≈L6) · wolf 0.03/0.35/0.51/0.70/0.80
+//   boar   0.07/0.45/0.62/0.79/0.88 · bandit 0.00/0.00/0.00/0.01/0.02 (L1-5) · bandit L8 ≈ 0.90
 describe('combat curve — a graded close-duel rolling frontier (sampled forecast)', () => {
   it('the first foe (monkey @L1) is humbling-but-winnable — G3/FU19', () => {
     const wr = foeWr(mc(1), 'monkey');
@@ -126,52 +138,50 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     expect(starving).toBeLessThanOrEqual(full);
   });
 
-  it('NO stance strictly dominates — offense trades against wear AND HP-retention (D-050/D-058)', () => {
-    // The v0.2 test ENSHRINED jodan strictly out-win-rating chudan. The real contract: no stance
-    // is a trap. We test it on the three decision LEVERS (offense via atkMult, HP-retention via
-    // less incoming damage, durability via less wear) oriented so HIGHER = better — capturing
-    // offense AND defense as separate axes (a single win-rate number conflates them: a tanky
-    // stance can out-WIN a balanced one at a hard fight purely on survival).
+  it('NO stance strictly dominates — offense trades against HP-retention (A2 glass-cannon↔tank)', () => {
+    // A2 simplifies the stance axis to {atkMult, takenMult}: jodan hits harder but takes more,
+    // gedan the reverse. Because HP CARRIES between fights (D-050), the tank's lower damage-taken
+    // genuinely trades against the glass-cannon's output — so no stance strictly dominates on BOTH
+    // levers (offense via atkMult, hpRetention via LESS incoming damage; higher = better). The
+    // marker string 'stance strictly dominates' below keeps the milestone-integrity gate resolving.
     const lever = (s: GameState['stance']) => {
       const m = balance.STANCE_MODS[s];
-      return { offense: m.atkMult, hpRetention: -m.takenMult, durability: -m.wearMult };
+      return { offense: m.atkMult, hpRetention: -m.takenMult };
     };
     type Lever = ReturnType<typeof lever>;
     const dominates = (x: Lever, y: Lever) =>
       x.offense >= y.offense &&
       x.hpRetention >= y.hpRetention &&
-      x.durability >= y.durability &&
-      (x.offense > y.offense || x.hpRetention > y.hpRetention || x.durability > y.durability);
+      (x.offense > y.offense || x.hpRetention > y.hpRetention);
     const all = balance.STANCE_ORDER.map((s) => ({ s, l: lever(s) }));
     for (const p of all)
       for (const q of all) {
         if (p.s === q.s) continue;
         expect(dominates(p.l, q.l), `${p.s} must not dominate ${q.s}`).toBe(false);
       }
-    // …and stance is a REAL decision: it meaningfully moves the first-fight win-rate.
+    // …and stance is a REAL decision: it meaningfully moves the first-fight win-rate (>2% swing).
     const wrs = balance.STANCE_ORDER.map((s) => foeWr({ ...mc(1), stance: s }, 'monkey'));
     expect(Math.max(...wrs) - Math.min(...wrs)).toBeGreaterThan(0.02);
   });
 
-  it('stance mods stay in range and set the durability-wear axis (jodan 3 / chudan 2 / gedan 1)', () => {
+  it('stance mods are the atk/taken axis only, and wear is now FLAT (A2)', () => {
     for (const id of balance.STANCE_ORDER) {
       const m = balance.STANCE_MODS[id];
       expect(m.atkMult).toBeGreaterThan(0);
-      expect(m.wearMult).toBeGreaterThan(0);
+      expect(m.takenMult).toBeGreaterThan(0);
       for (const lvl of [1, 8]) {
         const cs = mcCombatStats({ ...mc(lvl), stance: id });
         expect(cs.critChance).toBeGreaterThanOrEqual(0);
         expect(cs.critChance).toBeLessThanOrEqual(1);
-        expect(cs.blockChance).toBeGreaterThanOrEqual(0);
-        expect(cs.blockChance).toBeLessThanOrEqual(1);
+        expect(cs.blockChance).toBe(0); // T0 has no block
       }
     }
+    // wear is stance-INDEPENDENT now: every stance wears the flat DURABILITY_WEAR_PER_FIGHT.
     const fresh = createInitialState(1);
     const wearOf = (stance: GameState['stance']) =>
       fresh.weaponDurability - applyGrindFight({ ...fresh, stance }, 'monkey').weaponDurability;
-    expect(wearOf('jodan')).toBe(3);
-    expect(wearOf('chudan')).toBe(2);
-    expect(wearOf('gedan')).toBe(1);
+    for (const id of balance.STANCE_ORDER)
+      expect(wearOf(id)).toBe(balance.DURABILITY_WEAR_PER_FIGHT);
   });
 });
 
