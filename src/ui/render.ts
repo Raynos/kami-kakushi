@@ -1608,12 +1608,12 @@ export function mount(
     marketPane.hidden = !show;
     if (!show) return;
     const card = el('div', 'rung-card frame market-card');
-    card.append(el('div', 'rung-now', 'The travelling market 市'));
+    card.append(el('div', 'rung-now', 'The pedlar 市'));
     card.append(
       el(
         'div',
         'skill-blurb',
-        'A pedlar passes now and then — a little koku for what the estate is short of. A minor trade, no more.',
+        'A pedlar passes now and then. A little of your OWN koku for the things you need — greens for the pot, wood to keep an edge. Your purse, not the house’s.',
       ),
     );
     // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).

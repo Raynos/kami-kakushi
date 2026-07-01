@@ -247,3 +247,20 @@ walkable map nodes — the **7-node map ceiling is untouched** (map.ts unchanged
 reconciliation the plan asked for. Each opened room inks into a "The house reopens 家"
 list in the estate card (reachable, R6). RED-able test derives the reveal points from
 RANKS (omoya@R4 / workshops+granary@R6 / study@R7, each exactly once). Verify green.
+
+---
+
+## Update — A5 code label-pass landed (Plan B COMPLETE)
+
+The design half of A5 shipped earlier (the finances note: no structural split in
+v0.3.2, a T2 feature). This is the small CODE half the note called for — making the
+**player-sink vs estate-sink** distinction legible now (D-099): reframed the
+provisioning shop as a **PERSONAL** koku sink (the player spends HIS OWN koku on HIS
+OWN needs — "your purse, not the house's"), distinct from the **estate** kura-works
+sink. Touched the market.ts header, the renderMarket blurb ("The pedlar 市"), and the
+economy-test comment. No mechanic change (the split proper is T2). Verify green.
+
+**Plan B is COMPLETE** — all of §A (A1–A10) + §C landed, each in its own verified,
+pushed commit. The build now matches the reconciled PRD for T0 combat, weapons, quests,
+the estate namespace, mobs, the Bestiary + staggered reveals, and the generated docs.
+Balance magnitudes stay liquid (D-059) for tomorrow's playtest.

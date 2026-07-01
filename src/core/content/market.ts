@@ -1,9 +1,11 @@
-// A tiny CAPPED koku-sink market — the TRADE taste (T0-M4-F3 / D-008: trade ≤ ⅓ of
-// Estate & Wealth, a deliberate MINORITY lane). NOT an engine: a handful of modest T0
-// goods bought with koku, each with a small per-run stockCap so buying can never
-// become a primary income/output loop. The real village market (broker standing, the
-// silk meibutsu) arrives at T2. Pure data + pure predicates; costs are integer koku
-// (no floats). All numbers are provisional (v0.2) — tune by playtest.
+// A tiny CAPPED provisioning shop — a PERSONAL koku SINK (D-099): the player spends HIS OWN koku on
+// goods for HIS OWN character/needs (greens for the pot, wood to keep an edge), NOT the estate
+// trading for profit. This is the player finance lane, distinct from the ESTATE lane — the estate's
+// own koku sink is the kura-works ladder (estate.ts). A deliberate MINORITY lane (total spend ≤ ⅓
+// of the kura-works sink, §4.6.6d), each item small-stockCap-capped so buying can never become a
+// primary income/output loop. The estate-scale TRADE ENGINE (trade on the estate's behalf, broker
+// standing, the silk meibutsu) arrives at T2 (D-066/D-099). Pure data + pure predicates; costs are
+// integer koku (no floats). All numbers are provisional (v0.2) — tune by playtest.
 
 export type MarketItemId = string;
 

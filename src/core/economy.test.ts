@@ -275,8 +275,8 @@ describe('persistence — the explicit character rebuild keeps the attribute bui
   });
 });
 
-// T0-M4-F3 — the tiny travelling market: a small CAPPED koku sink (the TRADE taste), held
-// to a minority lane by the per-run stockCap (D-008).
+// T0-M4-F3 — the tiny provisioning shop: a PERSONAL koku sink (D-099 — the player buys for his
+// own needs, NOT the estate trading), held to a minority lane by the per-run stockCap (D-008).
 describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
   function withMarket(): GameState {
     const s = createInitialState(1);
