@@ -34,9 +34,9 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
     }
   });
 
-  it('marks exactly the near-satoyama as a danger ring', () => {
+  it('marks the satoyama nodes as danger rings (near + the deeper one)', () => {
     const danger = MAP_NODES.filter((n) => n.dangerRing).map((n) => n.id);
-    expect(danger).toEqual(['near-satoyama']);
+    expect(danger).toEqual(['near-satoyama', 'deep-satoyama']);
   });
 
   it('reveal-gates every node except the cold-open kura', () => {

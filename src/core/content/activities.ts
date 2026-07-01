@@ -7,7 +7,12 @@
 import type { SkillId } from './skills';
 import type { AreaId } from './areas';
 
-export type ActivityId = 'farm_paddy' | 'haul_stores' | 'woodcut_edge' | 'forage_satoyama';
+export type ActivityId =
+  | 'farm_paddy'
+  | 'haul_stores'
+  | 'woodcut_edge'
+  | 'forage_satoyama'
+  | 'forage_deepwoods';
 export type LabourResource = 'koku' | 'wood' | 'sansai';
 
 export interface ActivityDef {
@@ -66,6 +71,20 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     yields: { sansai: 2, koku: 1 },
     satietyCost: 3,
     xp: 5,
+    dangerRing: true,
+    surface: 'verb-forage',
+  },
+  {
+    // v0.3.1 Step 5d — the load-bearing yield (D-078): the SAME foraging verb, richer on the deeper
+    // node. You walk one hill farther (past the danger ring) for a materially better haul — the map
+    // gates income, tying the spatial spine to the Step-4 koku economy + the combat cook-loop.
+    id: 'forage_deepwoods',
+    label: 'Forage the deep satoyama',
+    skill: 'foraging',
+    area: 'deep-satoyama',
+    yields: { sansai: 4, koku: 2 },
+    satietyCost: 5,
+    xp: 7,
     dangerRing: true,
     surface: 'verb-forage',
   },

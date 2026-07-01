@@ -43,7 +43,7 @@ export const QUESTS: readonly QuestDef[] = [
       },
       {
         id: 'down-boar',
-        label: 'Put down the boar rooting up the seed-beds',
+        label: 'Track the boar to its wallow in the deep satoyama and put it down',
         event: 'kill:boar',
       },
       {

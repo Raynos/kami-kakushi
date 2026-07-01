@@ -33,6 +33,7 @@
 | haul_stores | conditioning | gate-forecourt | 2 koku | 4 | 5 |
 | woodcut_edge | woodcutting | woodlot-edge | 3 wood | 4 | 5 |
 | forage_satoyama | foraging | near-satoyama | 2 sansai, 1 koku | 3 | 5 |
+| forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 koku | 5 | 7 |
 
 ## Weapons (T0 roster)
 
@@ -81,6 +82,7 @@
 | `tab-skills` | tab |
 | `room-woodlot-edge` | panel |
 | `room-near-satoyama` | panel |
+| `room-deep-satoyama` | panel |
 | `verb-woodcut` | verb |
 | `verb-forage` | verb |
 | `row-wood` | row |

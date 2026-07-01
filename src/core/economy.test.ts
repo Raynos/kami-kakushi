@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   createInitialState,
   reduce,
+  getActivity,
   addSkillXp,
   skillLevel,
   skillYieldNum,
@@ -317,5 +318,24 @@ describe('v0.3.1 Step 4 — koku sinks tighten the economy (D-086 scarcity / cal
     const estateTotal = ESTATE_STAGES.reduce((sum, s) => sum + s.kokuCost, 0);
     // the market-depth add stays inside the ≤⅓ Estate-&-Wealth cap — a hard design invariant.
     expect(marketMax).toBeLessThanOrEqual(estateTotal / 3);
+  });
+});
+
+describe('v0.3.1 Step 5d — the load-bearing map node gates a richer yield (D-078)', () => {
+  it('the deep satoyama forage out-yields the near one on BOTH resources (the map earns its walk)', () => {
+    const near = getActivity('forage_satoyama').yields;
+    const deep = getActivity('forage_deepwoods').yields;
+    // the design lever: walking one hill farther is STRICTLY richer per act — else the node is dead
+    // breadth (battery #13). Derived from the activity defs, not copied magic numbers.
+    expect(deep.sansai ?? 0).toBeGreaterThan(near.sansai ?? 0);
+    expect(deep.koku ?? 0).toBeGreaterThan(near.koku ?? 0);
+  });
+
+  it('the deeper haul costs more to earn — it sits behind the danger ring at a higher satiety cost', () => {
+    const near = getActivity('forage_satoyama');
+    const deep = getActivity('forage_deepwoods');
+    expect(deep.dangerRing).toBe(true); // gated by the conditioning ring, like its near sibling
+    expect(deep.area).toBe('deep-satoyama'); // a DIFFERENT node — you walk there
+    expect(deep.satietyCost).toBeGreaterThan(near.satietyCost); // the richer haul taxes you more
   });
 });

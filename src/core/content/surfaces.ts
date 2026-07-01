@@ -121,6 +121,14 @@ export const SURFACES: readonly Surface[] = [
       'Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.',
     ),
   },
+  {
+    id: 'room-deep-satoyama',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate(
+      'Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.',
+    ),
+  },
   { id: 'verb-woodcut', kind: 'verb', unlock: () => false },
   { id: 'verb-forage', kind: 'verb', unlock: () => false },
   { id: 'row-wood', kind: 'row', unlock: () => false },

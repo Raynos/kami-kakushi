@@ -225,10 +225,12 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
 
   it('the watch shows only the foes on THIS node (foesHere is node-scoped)', () => {
     const idsAt = (loc: string): string[] => foesHere(fighterAt(loc)).map((f) => f.mob.id);
-    // home paddies: the crop-raiders (monkey + boar); near satoyama: the lean wolf; the woodlot
-    // road: the bandit. The kura holds only the scripted wolf, which is NOT grindable → empty watch.
-    expect(idsAt('home-paddies').sort()).toEqual(['boar', 'monkey']);
+    // home paddies: the crop-raiding monkey; near satoyama: the lean wolf; deep satoyama: the boar
+    // in its wallow (Step 5d); the woodlot road: the bandit. The kura holds only the scripted wolf,
+    // which is NOT grindable → empty watch.
+    expect(idsAt('home-paddies')).toEqual(['monkey']);
     expect(idsAt('near-satoyama')).toEqual(['wolf']);
+    expect(idsAt('deep-satoyama')).toEqual(['boar']);
     expect(idsAt('woodlot-edge')).toEqual(['bandit']);
     expect(idsAt('kura')).toEqual([]);
   });

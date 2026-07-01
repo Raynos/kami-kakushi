@@ -67,8 +67,18 @@ export const MAP_NODES: readonly MapNode[] = [
     kanji: '里山',
     blurb:
       'The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.',
-    neighbors: ['home-paddies', 'woodlot-edge'],
+    neighbors: ['home-paddies', 'woodlot-edge', 'deep-satoyama'],
     revealFlag: 'room-near-satoyama',
+    dangerRing: true,
+  },
+  {
+    id: 'deep-satoyama',
+    label: 'Deep satoyama',
+    kanji: '奥山',
+    blurb:
+      'The wild hill-forest above the managed edge — the forage runs richer here, and the boar dens in its wallow. Ground you earn by daring it.',
+    neighbors: ['near-satoyama'],
+    revealFlag: 'room-deep-satoyama',
     dangerRing: true,
   },
   {

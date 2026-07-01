@@ -5,7 +5,14 @@
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, formatLogText, type AppHooks } from './render';
-import { createInitialState, foeForecasts, setFlag, type GameState, type LogEntry } from '../core';
+import {
+  createInitialState,
+  foeForecasts,
+  setFlag,
+  balance,
+  type GameState,
+  type LogEntry,
+} from '../core';
 
 function entry(text: string, count: number, channel: LogEntry['channel'] = 'reward'): LogEntry {
   return { key: 0, channel, text, tick: 0, count };
@@ -168,5 +175,29 @@ describe('render — settings a11y + unknown-foe fog', () => {
     const seenWr = seenRow.querySelector('.win-rate')!;
     expect(seenWr.querySelector('.pip.unknown')).toBeNull();
     expect(seenWr.textContent).toContain('%');
+  });
+
+  it('after ascension the House Influence panel RESOLVES — not the stale "reach Excellent" prompt (5d/F2)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = createInitialState(1);
+    const excellent = balance.ESTATE_BANDS.excellent;
+    const ascended: GameState = {
+      ...s,
+      rung: 'R7',
+      tier: 1,
+      flags: { ...s.flags, awake: true, 'rank-r7': true, 't0-capstone': true, 'ascended-t0': true },
+      unlocked: [...s.unlocked, 'panel-house-influence'],
+      influence: { estate: { value: excellent, highWater: excellent, judged: 0 } },
+      character: { ...s.character, attributePoints: 5 },
+    };
+    render(ascended, null); // 'work' is the default active tab — the influence panel is live here
+
+    const panel = root.querySelector<HTMLElement>('.influence-panel')!;
+    expect(panel).toBeTruthy();
+    // the AFTER of the payoff: a resolved next-state, the boon prompt — and NOT the 480/480 bug.
+    expect(panel.textContent).toContain('man of the house');
+    expect(panel.textContent).toContain('Risen');
+    expect(panel.textContent).toContain('5 points'); // the lord's boon, waiting to be spent
+    expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
   });
 });

@@ -6,9 +6,9 @@
 //
 // v0.3.1 Step 5b: each foe is SPATIAL — it lives on exactly one map node (`area`), so
 // you walk to its ground to fight it (the human's "combat happens on a node" call). The
-// crop-raiders (monkey + boar) haunt the home paddies; the lean wolf comes down to the
-// near satoyama; the road bandit works the woodlot road; the scripted wolf is cornered
-// in the kura where you woke.
+// crop-raiding monkey haunts the home paddies; the lean wolf comes down to the near
+// satoyama; the boar dens deeper, in the deep satoyama it raids from (Step 5d); the road
+// bandit works the woodlot road; the scripted wolf is cornered in the kura where you woke.
 
 import type { AreaId } from './areas';
 
@@ -63,9 +63,9 @@ export const MOBS: readonly MobDef[] = [
     label: 'Wild boar',
     kanji: '猪',
     level: 3,
-    area: 'home-paddies',
+    area: 'deep-satoyama',
     kokuReward: 8,
-    blurb: 'Tusked and furious. It will not turn aside.',
+    blurb: 'Tusked and furious, denned in the deep hills it raids from. It will not turn aside.',
   },
   {
     id: 'bandit',

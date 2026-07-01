@@ -2,7 +2,13 @@
 // inks in on its own beat as the rung ladder is climbed (canon §I). v1 keeps full
 // walkable maps within a small per-tier node set; M1 reveals the estate's near rooms.
 
-export type AreaId = 'kura' | 'gate-forecourt' | 'home-paddies' | 'woodlot-edge' | 'near-satoyama';
+export type AreaId =
+  | 'kura'
+  | 'gate-forecourt'
+  | 'home-paddies'
+  | 'woodlot-edge'
+  | 'near-satoyama'
+  | 'deep-satoyama';
 
 export interface AreaDef {
   readonly id: AreaId;
@@ -35,6 +41,11 @@ export const AREAS: readonly AreaDef[] = [
     id: 'near-satoyama',
     label: 'Near satoyama',
     blurb: 'The managed hill-forest above the estate — sansai, and the first hint of danger.',
+  },
+  {
+    id: 'deep-satoyama',
+    label: 'Deep satoyama',
+    blurb: 'The wild hill-forest beyond the edge — a richer forage, and the boar in its wallow.',
   },
 ];
 

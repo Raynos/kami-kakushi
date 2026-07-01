@@ -671,7 +671,31 @@ export function mount(
     for (let i = 0; i < 3; i++) card.append(silhouetteRow());
 
     // the manual opt-in ascension (D-049/D-062) — only the OPTION, the player picks the moment
-    if (ascensionAvailable(state)) {
+    if (state.tier >= 1) {
+      // the AFTER of the payoff (Step 5d / F2 — "design the AFTER of every payoff"): once you have
+      // ascended, the ceremony must resolve into a satisfying next-state — NOT the stale
+      // "reach Excellent to ascend (480/480)" prompt the big moment used to land on.
+      card.append(
+        el(
+          'div',
+          'influence-foot',
+          'You are a man of the house. 家産 stands Risen — the Estate is yours to raise, no longer merely to save.',
+        ),
+      );
+      const pts = state.character.attributePoints;
+      if (pts > 0) {
+        card.append(
+          el(
+            'div',
+            'influence-when',
+            `The lord's boon waits on you: ${pts} point${pts === 1 ? '' : 's'} to spend on the Skills tab.`,
+          ),
+        );
+      }
+      card.append(
+        el('div', 'rung-next frontier', 'Beyond the gate the road climbs on — to be continued.'),
+      );
+    } else if (ascensionAvailable(state)) {
       const btn = el('button', 'verb primary ascend-cta', 'Ascend — a man of the house');
       btn.type = 'button';
       btn.addEventListener('click', () => dispatch({ type: 'ascend' }));
