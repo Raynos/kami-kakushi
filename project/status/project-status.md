@@ -111,8 +111,8 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` in the console
    (`newGame`, `toRung`, `faceWolf`, `fight`, `auto`; DEV jumps: `speed(8)`,
    `jumpToPhase2()`, `jumpToAscension()`). The in-UI **DEV panel** (top-right) toggles variants live.
-4. **Next, in order:** (a) **continue the v0.3.1 build** — **Step 7** (battery leftovers: seasonal-judge
-   #8, DOM tests #11, DEV-harness smoke #12, dead-flags #19, milestone-integrity gate #20, 2nd craft
-   recipe #15, UI nits, the diverge-skill doc rewrite) → **final** PRD-consistency (incl. the deferred
-   §4 6-tier re-derivation) + gallery regen + R1 hand-off. (b) ⭐ **R1/R2** — the human plays the build
-   + reviews UI variants live in the DEV panel (override-only, non-blocking).
+4. **Next, in order:** (a) ⭐ **R1/R2** (human, non-blocking) — play/taste the v0.3.1 build + review the
+   UI variants live in the DEV panel (override-only). (b) **Scope the T1 (Estate-full) build** — the
+   next roadmap slice; it carries the two reasoned-deferred items: the **§4 6-tier balance re-derivation**
+   (D-092) and a **real material economy / 2nd koku sink** (D-095 / battery #15). The v0.3.1 build +
+   its 8-lens fidelity battery are **fully actioned** — no open engineering findings or decisions remain.
