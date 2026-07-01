@@ -70,7 +70,9 @@ export const DIALOGUES: readonly DialogueDef[] = [
   },
 
   // ── Kihei (NAMES.drillmaster) — arms stub; full drill-yard onboarding lands at the combat
-  // unlock (M2a / R3). Two lines so the domain-split cast shape exists. ──
+  // unlock (M2a / R3). Two lines so the domain-split cast shape exists. NOTE (battery #19 audit):
+  // this + `soan-intro` below are AUTHORED-but-not-yet-ROUTED forward content (only the cold-open
+  // `genemon-open` is delivered today) — kept on purpose, wired when their onboarding beat lands. ──
   {
     id: 'kihei-intro',
     speaker: NAMES.drillmaster,

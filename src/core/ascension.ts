@@ -44,6 +44,10 @@ export function ascend(state: GameState): GameState {
   // The dream beat reads the accumulated mystery flags (no longer write-only): a player who
   // carries the porter's-knot stranger's-habit gets the clearer, more unsettling cut.
   const knot = hasFlag(state, 'porters-knot');
+  // These three are INTENTIONAL beat-markers, not dead write-only cruft (battery #19 audit): the
+  // ascension e2e (ascension.test.ts) asserts `ascended-t0` + `dream-t0-ascension` as the recorded
+  // outcome of the beat, and `dream-t0-ascension` is the forward-hook for the next dream in the
+  // chain (the same `dream-1 → dream-2` pattern surfaces.ts already uses) — read when T1's dream lands.
   next = applyRewards(next, {
     flags: ['tier-1-reached', 'ascended-t0', 'dream-t0-ascension'],
     log: [

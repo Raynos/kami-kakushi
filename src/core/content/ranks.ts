@@ -49,6 +49,9 @@ export const RANKS: readonly RankDef[] = [
     eligible: ['farm_paddy', 'haul_stores'],
     storyGate: (f) => f['farmed'] === true, // you've taken to the fieldwork
     rewardOnReach: {
+      // Each rung stamps its own `rank-rN` marker — a deliberate SYMMETRIC set (battery #19 audit):
+      // `rank-r1` gates a reveal (intents.ts) and the rest are the per-rung record used by test
+      // fixtures + reserved as gate-hooks for later rungs — kept complete, not dead write-only cruft.
       flags: ['rank-r1'],
       unlock: [
         'room-gate-forecourt',
