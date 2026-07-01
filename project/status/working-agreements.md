@@ -42,10 +42,14 @@ confidence is the point.
 3. **Live snapshot** — bring [`project-status.md`](project-status.md) current (it, not the journal, is the
    resume point).
 4. **Reconcile the human reading queue (D-089)** — in [`../todo-human.md`](../todo-human.md), clear any
-   reading-queue doc the human read or discussed this session (sign-off is **implicit**; they never tick
-   manually — the agent owns the cleanup). When run **interactively** (e.g. `/prepare-to-exit`), present the
-   remaining queue and ask via **AskUserQuestion** which to sign off / remove; in an **autonomous** checkpoint
-   (no human to answer), clear only the clearly-engaged docs and leave the rest. Commit the edit with your work.
+   reading-queue doc the human **actually read or discussed *this session*** (sign-off is **implicit**; they
+   never tick manually — the agent owns the cleanup). **Reconcile only what this session engaged, and don't
+   over-ask:** a queue doc nobody touched this session **stays in the queue — do NOT ask about it** (asking
+   "sign off Plan X?" when the session never mentioned Plan X is the over-ask to avoid). So if **no** queue
+   doc was engaged this session, make **zero** `AskUserQuestion` calls — leave the queue as-is and just note
+   it in the report. **Only** when a doc *was* engaged **and** its sign-off is genuinely ambiguous do you ask
+   (interactively, via **AskUserQuestion**) whether to clear it; in an **autonomous** checkpoint, clear the
+   clearly-engaged docs and leave the rest. Commit any edit with your work.
 5. **Push `main`** — `git push origin main`. This fires the **pre-push gate** (`.githooks/pre-push`), which
    runs `npm run verify` on **every push (all branches)** and **blocks a red build**. A green `origin/main`
    is the proof the checkpoint is real — pushing is *part of* the checkpoint, not a separate approval.

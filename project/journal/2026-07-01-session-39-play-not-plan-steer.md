@@ -20,6 +20,11 @@ edits there were reverted at the human's direction.
   this as the home — a near-term, self-deleting steer, NOT a permanent doc); fixed
   the stale `R1/R2 (human, non-blocking)` mislabel → **TOP PRIORITY**; condensed the
   resume steps to stay under the 120-line snapshot cap.
+- `project/status/working-agreements.md` + `.claude/skills/prepare-to-exit/SKILL.md` —
+  fixed a **checkpoint over-ask**: the D-089 reading-queue reconciliation used to
+  blanket-`AskUserQuestion` about the *whole* remaining queue at exit (it asked about
+  Plan A/B this session even though we never touched them). Now: reconcile **only docs
+  engaged this session**; if none, make **zero** queue prompts and just report it.
 
 ## Reverted / not done (deliberately)
 

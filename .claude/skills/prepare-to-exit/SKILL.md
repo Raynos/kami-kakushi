@@ -14,6 +14,13 @@ disable-model-invocation: true
 > return cached). The checkpoint is orthogonal to and safe alongside in-flight background work. (Full
 > rule: `working-agreements.md` → Checkpoint → the four rules.)
 
+> **⚠ Don't over-ask on the reading-queue step.** Reconcile **only** docs the human
+> actually read or discussed *this session*. A queue doc nobody touched this session
+> **stays in the queue — do NOT `AskUserQuestion` about it** (asking "sign off Plan X?"
+> when the session never mentioned Plan X is the over-ask to avoid). If nothing was
+> engaged, make **zero** queue prompts — just report the queue as-is. (Source: `working-
+> agreements.md` → Checkpoint → step 4 / D-089.)
+
 1. **Read the current ritual.** Open
    [`working-agreements.md` → "Checkpoint"](../../../project/status/working-agreements.md)
    — that section is the **single source of truth** for the steps *and* the
