@@ -28,6 +28,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H9 | `resolve-queue` skill | **Drop** — resolve decision queues by hand | **D-070** | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
 | H10 | Operating Model v2 | **Defer** the bundle; adopt the lean pre-commit gate ad hoc | **D-070** (defer) + **D-071** (gate) | 2026-06-29 | [h-item-decisions](../human-feedback/2026-06-29-h-item-decisions.md) |
 | H11 | T0 material-surplus sink (2nd craft recipe?) | **Option C** — accept surplus as WAI for the miniature; material economy is a T1+ concern (battery #15 closed) | **D-095** | 2026-07-01 | [h11-material-surplus](../human-feedback/2026-07-01-h11-material-surplus.md) |
+| H12 | Version source: footer showed v0.2, not v0.3.1 | Single-source the displayed version from **package.json** (→ 0.3.1); git tags never read by game/HTML/TS | **D-096** | 2026-07-01 | [session-38 journal](../journal/2026-07-01-session-38-doc-staleness-reconcile.md) |
 
 ## Reviews (closed R-items)
 

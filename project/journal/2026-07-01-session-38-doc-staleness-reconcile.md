@@ -44,3 +44,30 @@ genuine judgment calls surfaced as H-items. Full report in
   blanket-rewrite one into the other — the overlap is H2, unresolved.
 - PRD §4 is the *detailed* balance canon; `roadmap.md` is the *order/how*. When
   they disagree on a shipped mechanic, §4 + the code win (roadmap prose lags).
+
+---
+
+## Update — version single-sourced from package.json (H12 → D-096)
+
+Human resolved the version call: **package.json is the single source of truth for
+the displayed version; git tags are never read by the game/HTML/TS.** (Note: my
+first pass mislabeled the two surfaced items H1/H2 — but H1–H11 are already used
+in `archive.md`, and IDs are never reused; corrected to **H12** (version) and
+**H13** (E-stage). H12 is now resolved, H13 stays open.)
+
+**What changed:**
+- `package.json` — version 0.3.0 → **0.3.1**.
+- `vite.config.ts` — `VERSION` now derives from `package.json` (`v${pkg.version}`),
+  not `git describe --tags`; the build **SHA** switched to a **tag-free** raw short
+  hash (`rev-parse --short HEAD`); `BUILD_VERSION` env still overrides for CI.
+- `src/vite-env.d.ts` — comment updated (from package.json, not "clean tag").
+- ADR **D-096** added; **H12** graduated to it + archived; `decisions.md` now holds
+  only the open **H13**.
+
+**Verified (R3):** `npm run build` → footer bundle string reads
+`Built agentically with Claude Code · v0.3.1 · build 692ab58 · 2026-07-01` — zero
+`v0.2` leaks in `dist/`.
+
+## Still open
+- **H13** — the E-stage numbering collision (code E1–E4 vs design E0→E3 + parked
+  E4–E5). Unresolved; a design-canon call for the human.

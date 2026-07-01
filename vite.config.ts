@@ -1,10 +1,13 @@
 import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 
-// Resolve a build identity from git at config-load time so both `vite` (dev)
-// and `vite build` stamp a real version — no env wiring required. Env vars
-// still win when set (CI / reproducible builds); git is the fallback; 'dev'
-// only if git is unavailable. (PRD §6.1.1 / Q54.)
+// The VERSION is the SINGLE SOURCE OF TRUTH from package.json — NOT git tags
+// (human call, H1/2026-07-01): the game/HTML/TS must never read a git tag for
+// its displayed version, so a tag lagging the build can't mislabel the footer.
+// The build SHA + date remain a git-derived BUILD STAMP (a commit identifier,
+// not a version) — and the SHA uses the raw short hash, never `describe --tags`.
+// Env vars still win when set (CI / reproducible builds). (PRD §6.1.1 / Q54.)
 function git(cmd: string): string | undefined {
   try {
     return execSync(`git ${cmd}`, { stdio: ['ignore', 'pipe', 'ignore'] })
@@ -14,8 +17,9 @@ function git(cmd: string): string | undefined {
     return undefined;
   }
 }
-const VERSION = process.env.BUILD_VERSION ?? git('describe --tags --abbrev=0') ?? 'dev';
-const BUILD_SHA = process.env.BUILD_SHA ?? git('describe --tags --dirty') ?? 'dev';
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const VERSION = process.env.BUILD_VERSION ?? `v${pkg.version}`;
+const BUILD_SHA = process.env.BUILD_SHA ?? git('rev-parse --short HEAD') ?? 'dev';
 const BUILD_DATE = process.env.BUILD_DATE ?? git('log -1 --format=%cs') ?? 'dev';
 
 // Static build for itch.io: relative base so the bundle works inside itch's

@@ -29,5 +29,5 @@ _(none open)_
 
 - [ ] `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — *audit of
   the "docs went stale in v0.3.1" worry: docs are mostly current; 3 narrow
-  roadmap fixes landed; 2 calls surfaced as **H1** (version) + **H2** (E-stage
-  collision)*
+  roadmap fixes landed; version call resolved (**H12**→D-096); E-stage collision
+  open as **H13***

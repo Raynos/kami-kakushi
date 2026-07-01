@@ -41,19 +41,20 @@ T0-M2/M4) missed. All provisional narrative, cleared to fix under D-021/D-059:
 
 ## Surfaced for the human (NOT auto-resolved)
 
-Two genuine judgment calls — filed as **H1** and **H2** in
+Two genuine judgment calls — filed as **H12** and **H13** in
 [`../../human-in-the-loop/decisions.md`](../../human-in-the-loop/decisions.md):
 
-- **H1 · Version reconciliation.** Three version numbers disagree, and the
-  *actual* single source (git tags → `__VERSION__`, the game footer) says the
-  oldest one: the built game shows **v0.2** (`git describe` off tags `v0.1`,
-  `v0.2` — the build was **never tagged v0.3.x**); `package.json` says **0.3.0**
-  (read by nothing for display); docs/journals say **v0.3.1** (pure convention,
-  no code anchor). This is the A21 single-source violation in full. Bumping
-  `package.json` alone is a *fake* fix (the footer is git-tag-sourced) — the real
-  reconciliation is a tag/version decision (release-ish), so it's the human's.
+- **H12 · Version reconciliation. → RESOLVED (D-096, 2026-07-01).** Three version
+  numbers disagreed, and the *actual* single source (git tags → `__VERSION__`,
+  the game footer) said the oldest one: the built game showed **v0.2**
+  (`git describe` off tags `v0.1`, `v0.2` — the build was **never tagged
+  v0.3.x**); `package.json` said **0.3.0** (read by nothing for display);
+  docs/journals said **v0.3.1** (pure convention, no code anchor) — the A21
+  single-source violation in full. **Human call:** single-source the displayed
+  version from **`package.json`** (→ 0.3.1); git tags are never read by the
+  game/HTML/TS. `vite.config.ts` rewired; footer now shows `v0.3.1`.
 
-- **H2 · E-stage numbering collision.** Two E-stage schemes now overlap. Design
+- **H13 · E-stage numbering collision.** Two E-stage schemes now overlap. Design
   canon (§1.5.1/§4.7.5/§7): a *condition* ladder **E0 Foreclosure's Edge → E3
   Prosperous**, with **E4–E5 parked for T4+**. Code + §4.6.6d: an *upgrade-
   purchase* ladder **E1–E4** (100/300/700/1400 koku), where v0.3.1 added a T0
