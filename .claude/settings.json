@@ -19,6 +19,15 @@
             "command": "bash .claude/hooks/guard-git-add-all.sh"
           }
         ]
+      },
+      {
+        "matcher": "mcp__playwright__browser_|mcp__plugin_chrome-devtools-mcp_chrome-devtools__",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/enforce-headless-qa.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [

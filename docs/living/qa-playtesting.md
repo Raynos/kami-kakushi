@@ -19,6 +19,13 @@ and play** — each need a different QA tool. This plan covers all three.
 
 ## 0. Principles
 
+- **HEADLESS ONLY — never a headed browser window.** All game QA/playtesting drives
+  the game **headlessly**: `node src/scripts/qa-shots.mjs`, the
+  [`capture-game-states`](../../.claude/skills/capture-game-states/SKILL.md) skill, or
+  `window.__qa` through a headless page. **Do NOT use the Playwright / Chrome-DevTools
+  MCP browser tools** — they open a *visible* browser window, which is disallowed here
+  (enforced by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook). Running the
+  dev server (`npm run dev`) is fine — just observe it headlessly.
 - **Drive real code paths, never synthetic input.** All QA routes through the pure-core
   `reduce(state, intent)` / `tick(state, dt)` contracts (§6.3) via a DEV-only API — the *same* flow a
   real player triggers. No test-only shortcuts; a scripted pass exercises the actual game.

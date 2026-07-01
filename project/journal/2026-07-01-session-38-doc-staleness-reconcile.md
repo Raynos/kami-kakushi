@@ -165,3 +165,21 @@ human, not the build.
 1. **Play the game with the human** (R1) — launch it, pair screen-by-screen, fix
    directly. This supersedes launching Plan B.
 2. Plan B stays ready in `docs/plans/` for whenever the build is greenlit.
+
+---
+
+## Update — headless-only QA enforced; wind-down
+
+Started a playtest but the Playwright MCP popped a HEADED window. Human: headless
+only, and enforce it. Made it a durable rule at hook + doc rungs:
+- `.claude/hooks/enforce-headless-qa.sh` — PreToolUse hook that blocks the headed
+  Playwright / Chrome-DevTools MCP browser tools, pointing to the headless harness.
+- `.claude/settings.json` — wired the hook to those tool-name prefixes.
+- `docs/living/qa-playtesting.md` §0 — the **HEADLESS ONLY** principle (first bullet).
+Cleaned the headed-session artifacts (`coldopen.png`, `.playwright-mcp/`); dev server
+stopped. Headless drivers remain: `node src/scripts/qa-shots.mjs`, capture-game-states,
+`window.__qa`.
+
+Winding down at the human's call. **State:** Plan A implemented + pushed; Plan B
+ready-but-parked (steer: play the game, not build v0.3.2); R1 playtest is the next
+live-with-human task, now headless-only.
