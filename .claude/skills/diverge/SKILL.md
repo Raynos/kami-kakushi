@@ -5,19 +5,21 @@ description: Generate FULL 2–3 genuinely-distinct, WORKING visual/design varia
 
 # Diverge
 
-> **⚠ MODEL CHANGED — D-075 (2026-06-30, refines D-073). READ THIS FIRST.** Two things changed and OVERRIDE the
-> branch-based mechanics in the §§ below (which are being re-worked alongside the DEV-panel build, v0.3.1):
+> **THE MODEL — D-075 v2 (refines D-073). This header is authoritative; §2 is the built procedure.** Two rules:
 > 1. **FULL 2–3 working variants, always.** No "diverge-LITE" single-idea shortcut; no shipping a buggy variant —
 >    every variant must actually work so the human can compare them fairly.
 > 2. **Variants live IN the codebase, switched live via the DEV panel** (DEV-only, `import.meta.env.DEV`, stripped
->    from prod) — NOT on a `diverge/<surface>` branch and NOT as headless screenshots. The human reviews them by
->    **toggling each in the running UI**. **Each variant gets its own line item in
->    [`human-in-the-loop/review.md`](../../../project/human-in-the-loop/review.md).** The agent self-picks a
->    coherent **prod default**; the toggle keeps the alternates until the human confirms → **zero PROD flag-debt**.
+>    from prod by the `gh-pages.sh` grep guard) — **NOT** on a `diverge/<surface>` branch, **NOT** as headless
+>    screenshots. The human reviews by **toggling each in the running UI**. **Each variant gets its own line item
+>    in [`human-in-the-loop/review.md`](../../../project/human-in-the-loop/review.md).** The agent self-picks a
+>    coherent **prod default** (the surface's inline render, which ships); the toggle keeps the alternates until
+>    the human confirms → **zero PROD flag-debt**.
 >
-> The autonomy / never-blocks / self-pick / ui-design-rubric parts below all still hold. Where a section says
-> "branch" / "`git branch -D`" / "committed screenshots", read it as "in-codebase variant behind the DEV toggle"
-> until the section is rewritten.
+> **§1 (entry gate), §2 (procedure), §5 (self-pick rubric) and §6 (the R-item) are current.** §0/§3/§4/§7/§8
+> below describe the RETIRED branch/`?variant=`/contact-sheet/GC infrastructure (never built — the DEV-panel model
+> replaced it); they are kept only as the design *rationale* for the caps + the anti-slop discipline. Where they
+> say "branch" / "`git branch -D`" / "committed screenshots" / "isolation guard", the built reality is: the
+> variant lives in **`src/ui/dev.ts`** and is reviewed live in the DEV panel. **Do not follow their mechanics.**
 
 No new or majorly-restyled UI surface ships from a single idea. `diverge` generates **FULL 2–3 distinct, working
 approaches**, self-reviews them against the woodblock/ink bible
@@ -81,33 +83,46 @@ The registry [`project/audit/variants-log.md`](../../../project/audit/variants-l
 candidate approach needs a core / state / RNG change, it is **not a variant** — route it through normal
 planning.
 
-## §2 · The procedure (autonomous, never blocks)
+## §2 · The procedure (autonomous, never blocks) — the built DEV-panel reality
 
-0. **First-diverge setup (once ever).** If `src/ui/variants/` doesn't exist yet, build the §0 infra first (the
-   `?variant=` channels + `__qa.setVariant`, `variant-gc.mjs`, the pre-commit isolation guard) — the rest of
-   this procedure depends on it. Skip if already present.
-1. **Sweep + budget check (§4).** Run the registry sweep; if open diverges ≥ cap, apply the §4 at-cap ladder
-   (which may drop you into single-idea mode and end here).
-2. **Branch:** `git checkout -b diverge/<surface>` from `main`.
-3. **Generate 2–3 variants** — genuinely distinct *approaches* (layout / hierarchy / density / motion —
-   **never** palette swaps), all **within the bible** (paper+ink+indigo; vermilion/seal rare; no
-   drop-shadow/gradient-depth/glassmorphism/neon/default-component look; no new art language). Each is one
-   isolated render module behind `?variant=A|B|C` (§3).
-4. **Capture headlessly** via the `capture-game-states` skill / `qa-shots.mjs --variant` → one **desktop + one
-   mobile** PNG per variant.
-5. **Self-review** each screenshot against the bible with the §6 rubric (Intentionality gate + conservative
-   tiebreak).
-6. **Contact sheet** → working copy in `tmp/variants/<surface>/contact.md`, then **graduate the durable copy**
-   to `project/audit/reports/<date>-variants-<surface>/contact.md` with PNGs under
-   `project/audit/screens/<date>-variants-<surface>/`, and **commit to `main`** (evidence must outlive the
-   branch).
-7. **Self-pick** the winner (§6).
-8. **Collapse onto `main` flag-free:** on `main`, author the winner as the unconditional plain render path (no
-   resolver, no `?variant=`). The `diverge/<surface>` branch keeps the A/B/C switch as the live comparator.
-9. **Record:** add the `variants-log.md` row; file the R-item (§6); bump journal + `project-status.md`.
-10. **Commit** (small, green) and **move on** — never wait for the human.
+The infra is **already built** (v0.3.1 Step 1): the `SURFACES` registry + `renderVariant` in
+[`src/ui/dev.ts`](../../../src/ui/dev.ts), the fixed DEV panel with a live per-surface toggle, and the
+`gh-pages.sh` strip-guard that greps the prod bundle for `DEV_SENTINEL`. To diverge a surface:
 
-## §3 · The variant flag model
+1. **Gate (§1).** Confirm the surface is new / a major restyle and the change is render-only against existing
+   pure-core props. One-liners are exempt.
+2. **Author the default (A) INLINE in the surface's renderer** (`src/ui/render.ts`) as the normal render path —
+   this is what SHIPS. It needs no variant machinery.
+3. **Add a `SURFACES` entry** in `src/ui/dev.ts`: `{ id: '<surface>', label, variants: [A, B, C] }` — each
+   variant `{ id, label, blurb }`, `variants[0]` = the self-picked prod default (its `blurb` says "shipped
+   default").
+4. **Author the alternates (B / C) in `src/ui/dev.ts`** (a `render<Surface>Variant(variantId, container, state,
+   dispatch)` fn returning `true` when it rendered, `false` to fall through to the default). Wire it into
+   `renderSurfaceVariant`. Genuinely distinct *approaches* (layout / hierarchy / density / motion — **never**
+   palette swaps), all **within the bible** (paper+ink+indigo; vermilion/seal rare; no
+   drop-shadow/gradient/glassmorphism/neon/default-component look). Every variant must actually WORK.
+5. **Add the fall-through in the surface's renderer:**
+   `if (import.meta.env.DEV && dev && dev.renderVariant('<surface>', pane, state, dispatch)) return;` **before**
+   the default render — so DEV routes to the selected variant and prod (where `dev` is undefined) always draws A.
+6. **Self-review each** live in the DEV panel against the §5 rubric (the Intentionality gate + the conservative
+   tiebreak) — self-pick the prod default (A).
+7. **Prove strip-safety:** `npm run build` then grep `dist/` for `DEV_SENTINEL` + the variant strings → **0 hits**
+   (the alternates tree-shake out of prod; zero flag-debt).
+8. **File the R-items:** add **one `review.md` line item per variant** (§6 shape, minus the branch/screenshot
+   specifics — "review LIVE in the DEV panel"). Bump the journal + `project-status.md`.
+9. **Commit** (small, green) and **move on** — never wait for the human. The alternates stay DEV-only until the
+   human confirms/overrides via the toggle.
+
+## §3 · [SUPERSEDED] The old `?variant=` flag model
+
+**Retired by D-075 v2 (never built).** The variant system is the `SURFACES` registry + `renderVariant` in
+`src/ui/dev.ts` (see §2), NOT `src/ui/variants/<surface>/{A,B,C}.ts` + a `resolveVariant` URL channel. The
+isolation principle still holds in spirit — **`src/core/**` never branches on variant; alternates are
+render-only, DEV-only, and tree-shaken from prod** — but it's enforced by the `import.meta.env.DEV` guard + the
+`gh-pages.sh` `DEV_SENTINEL` grep, not by a pre-commit isolation guard over a `variants/` dir. The rest of this
+section is kept only as the original design rationale.
+
+<details><summary>original branch/channel mechanics (do not follow)</summary>
 
 **Mechanism — mirror the existing `?balance` triple-channel 1:1**, all `import.meta.env.DEV`-gated and
 dead-code-eliminated from the itch build:
@@ -132,6 +147,8 @@ session. An optional DEV-only corner toggle (three ink pills `A · B · C`) is s
   a variant "needs" a core change, make that change **once**, variant-agnostically, for all paths.
 - **`variants/` is a sink, never a source:** shared shell/log/buttons live outside `variants/` and are imported
   *by* variants, never the reverse.
+
+</details>
 
 ## §4 · Flag lifecycle, GC & debt discipline
 
@@ -196,28 +213,28 @@ archive-row-only).
   → (4) most conventional within the bible → (5) lowest letter. *The bold option only "wins for real" if a human
   affirmatively picks it.*
 
-## §6 · Autonomy — logging, the R-item, and expiry
+## §6 · Autonomy — logging + the R-item (the DEV-panel reality)
 
-**Three durable writes (the pick must survive compaction):** (1) the committed contact sheet + per-variant
-scores + 1-line rationale under `project/audit/reports/<date>-variants-<surface>/`; (2) the `variants-log.md`
-row; (3) a journal entry + bump `project/status/project-status.md` ("open variant diverges: K/3").
+**Durable writes (the pick must survive compaction):** (1) **one `review.md` line item per variant** (the human
+reviews each LIVE in the DEV panel — not a screenshot); (2) a journal entry + bump `project/status/project-status.md`.
+There is no contact sheet and no `variants-log.md`/branch registry in the DEV-panel model — the `SURFACES`
+registry in `src/ui/dev.ts` IS the live source of what variants exist.
 
-**R-item** — one per open diverge, in `project/human-in-the-loop/review.md`, in the `### Rn 🔲 —` shape the
-session brief scrapes:
+**R-items** — one per variant, grouped under the surface's block in `project/human-in-the-loop/review.md`
+(the DEV-panel R2 block already groups them by surface). The default (A) is marked *self-picked prod default*; the
+alternates are *built; DEV-only*. Reviewed by toggling each in the running DEV panel:
 
 ```md
-### R7 🔲 — UI variant pick: combat-panel  (agent self-picked B — confirm or override)
-- **Asking for:** a 30-second confirm/override of the live default. Forward progress is NOT blocked — B is already live on main.
-- **How to look:** contact sheet → project/audit/reports/2026-06-29-variants-combat-panel/contact.md (desktop+mobile A/B/C).
-  To PLAY live: `git checkout diverge/combat-panel && npm run dev`, flip `?variant=A|B|C`.
-- **Auto-confirms:** 2026-07-13 (14d) — then B is promoted to canon, the branch is GC'd.
-- **Verdict:** _(reply: pick X · blend X+Y · reject all · keep-flags X)_
+- **<surface>** (what it is) — ✅ **all three LIVE in the DEV panel** ("VARIANT · <label>"):
+  - [ ] **A — <name>** _(self-picked prod default; ships)_ — <one-line what it is>.
+  - [ ] **B — <name>** _(built; DEV-only)_ — <one-line distinct approach>.
+  - [ ] **C — <name>** _(built; DEV-only)_ — <one-line distinct approach>.
 ```
 
-Silence is a **safe** answer (the line states "already live" + an expiry). The cap (≤3) bounds this to ≤3 brief
-lines — directly defusing "variants stack up aggressively." *(Fallback if the cap is ever raised: a single
-standing R-item with an internal checklist — because the brief greps only `^### .*🔲` headings, that collapses
-the whole queue to one brief line.)*
+Silence is a **safe** answer (A already ships; the alternates are DEV-only and cost nothing until picked). **How
+to review:** `npm run dev` → the DEV panel (top-right) → toggle each surface's variant, the surface updates
+instantly. If the human picks B/C, promote it to the inline default in `render.ts` (and demote A into `dev.ts`),
+re-check a11y on the new default, then the alternates can be retired.
 
 **Stale-R-item expiry (lazy — no daemon — checked at every session start and every diverge):**
 - **TTL = 14 days** from `opened`, **OR immediately when the surface's render-props contract changes** (a frozen
