@@ -306,4 +306,28 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(clickText('Fight')).toBe(true);
     expect(seen.some((i) => i.type === 'fight' && i.mobId === 'monkey')).toBe(true);
   });
+
+  it('the HP "life" meter is visible once combat matters — with an exact number + a low flag (D-076)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    const combatReady: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'tab-combat'],
+    };
+    // hurt: HP is invisible-no-more — the number shows AND the bar flags danger.
+    render({ ...combatReady, character: { ...combatReady.character, hp: 1 } }, null);
+    const health = root.querySelector<HTMLElement>('.vital.health');
+    expect(health).not.toBeNull();
+    expect(health!.hidden).toBe(false);
+    expect(health!.textContent).toMatch(/1\/\d+/); // the exact "1/max" number
+    expect(health!.querySelector('.bar')!.classList.contains('low')).toBe(true); // danger flag
+
+    // healed: the bar is no longer flagged low.
+    render(
+      { ...combatReady, character: { ...combatReady.character, hp: 999 } },
+      { ...combatReady, character: { ...combatReady.character, hp: 1 } },
+    );
+    expect(root.querySelector('.vital.health .bar')!.classList.contains('low')).toBe(false);
+  });
 });

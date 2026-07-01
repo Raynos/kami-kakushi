@@ -21,6 +21,7 @@ import {
   hasFlag,
   formatKMB,
   satietyMax,
+  hpMax,
   staminaRate,
   season,
   year,
@@ -395,9 +396,20 @@ export function mount(
   const staminaFill = el('span');
   staminaBar.append(staminaFill);
   stamina.append(staminaBar);
+  // HP — a life-or-death meter once combat opens (D-076: HP accumulates, no auto-heal, a lost fight
+  // bites carried koku). It sits beside `body` so the player can always SEE they're hurt + heal (eat).
+  const health = el('div', 'vital health');
+  health.hidden = true;
+  health.append(el('span', 'label', 'life'));
+  const healthBar = el('div', 'bar');
+  const healthFill = el('span');
+  healthBar.append(healthFill);
+  health.append(healthBar);
+  const healthNum = el('span', 'value numeric');
+  health.append(healthNum);
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
-  header.append(koku.wrap, clock, stamina, wood.wrap, sansai.wrap);
+  header.append(koku.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
 
   // ── nav (first appears at R2) ──
   const nav = el('nav', 'nav');
@@ -1123,6 +1135,18 @@ export function mount(
       const frac = state.character.satiety / satietyMax(state);
       staminaFill.style.width = `${Math.round(frac * 100)}%`;
       staminaBar.classList.toggle('low', staminaRate(state) < 0.99);
+    }
+
+    // HP — revealed the moment combat first matters (the R2 wolf beat), then always visible. Shows an
+    // exact number (1 HP vs a full bar is life-or-death, D-076) + a bar that flags `low` when ≤ 30%.
+    health.hidden = !(isUnlocked(state, 'verb-face-wolf') || isUnlocked(state, 'tab-combat'));
+    if (!health.hidden) {
+      const max = hpMax(state);
+      const hp = state.character.hp;
+      const frac = max > 0 ? hp / max : 0;
+      healthFill.style.width = `${Math.round(frac * 100)}%`;
+      healthBar.classList.toggle('low', frac <= 0.3);
+      healthNum.textContent = `${hp}/${max}`;
     }
 
     wood.wrap.hidden = !isUnlocked(state, 'row-wood');

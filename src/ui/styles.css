@@ -539,6 +539,24 @@ h3 {
   width: 110px;
 }
 
+/* HP / life meter (D-076) — a verdigris "life" fill (distinct from satiety's teal), the exact
+   number beside it, turning vermilion (.bar.low) when hurt so "heal now" reads at a glance. */
+.vital.health {
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: flex-start;
+}
+.vital.health .bar {
+  width: 110px;
+}
+.vital.health .bar > span {
+  background: var(--rokusho);
+}
+.vital.health .value {
+  font-size: var(--fs-micro);
+  color: var(--ink-soft);
+}
+
 /* ── nav (the "UI as progression" chrome — first appears at R2) ───────────── */
 .nav {
   display: flex;
