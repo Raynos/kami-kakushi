@@ -32,7 +32,12 @@ export function gradeOf(value: number, bands: GradeBands = ESTATE_BANDS): Grade 
   return 'NONE';
 }
 
-/** The cap a single deed may contribute (0.04 · GOOD) — no one act spikes the grade. */
+/** The cap a single deed may contribute (0.04 · GOOD) — no one act spikes the grade. In the thin
+ *  T0 Phase 2 this cap sits ABOVE the sole producer (`ESTATE_DEED_PER_ACT`), so it never *binds*
+ *  yet — that is intentional FORWARD-HEADROOM (battery #22, "documented not gated"): it is the
+ *  anti-spike guardrail for T1+, where multiple, larger deed producers land and a single fat deed
+ *  COULD spike the grade. (Whether T0 estate-standing should bank from ALL labour or only
+ *  estate-relevant work — farm/haul, not forage/woodcut — is a separate T1 balance/design call.) */
 export function perDeedCap(bands: GradeBands = ESTATE_BANDS): number {
   return Math.max(1, Math.round((bands.good * PER_DEED_CAP_NUM) / 100));
 }

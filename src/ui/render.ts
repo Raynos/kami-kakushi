@@ -564,18 +564,17 @@ export function mount(
   }
 
   function silhouetteRow(): HTMLElement {
-    // a pillar still to come — D-055: shown UNNAMED (a greyed silhouette), never spoiled.
+    // a pillar still to come — D-055: shown UNNAMED (a greyed silhouette), never spoiled. The greyed
+    // ◆ ———— ghost-row already reads as "locked", so we drop the non-curated 🔒 that sat outside the
+    // woodblock motif set (battery #21 color-discipline); the a11y label moves to the row so a screen
+    // reader still announces it (the visual teaser itself stays aria-hidden).
     const row = el('div', 'influence-row silhouette');
+    row.setAttribute('aria-label', 'A pillar yet to come (locked)');
     const name = el('span', 'influence-name');
-    // a11y: the ◆ ———— silhouette is pure visual teaser — hide it from the screen reader so it
-    // doesn't read "dash dash dash"; the 🔒 lock below still conveys "a pillar yet to come" (D-055).
     name.setAttribute('aria-hidden', 'true');
     const dot = el('span', 'pillar-dot locked', '◆');
     name.append(dot, document.createTextNode(' ————'));
     row.append(name);
-    const lock = el('span', 'influence-when lock-hint', '\u{1F512}');
-    lock.setAttribute('aria-label', 'A pillar yet to come (locked)');
-    row.append(lock);
     return row;
   }
 
