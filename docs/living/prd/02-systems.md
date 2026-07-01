@@ -276,8 +276,9 @@ does")**, not micromanagement. **Grind depth is a FLOOR, not a ceiling** — a l
 (the pacing regression fails on **undershoot only**).
 
 **(c) Rough DATA shape.**
-- `LabourNode { id, skill, resourceYields[], seasonWindow, dangerRing?, staminaCost,
-  revealPredicate, autoRepeatable (tab-open, active-only), autoGatherUnlock? (LATE) }`
+- `LabourNode { id, skill, area (map-node binding — the SPATIAL model, D-093), resourceYields[],
+  seasonWindow, dangerRing?, staminaCost, revealPredicate, autoRepeatable (tab-open, active-only),
+  autoGatherUnlock? (LATE) }`
 - `Job/OfficeDef { id, kind ('labour'|'admin-as-quest'), grantsResponsibilities[], questsOpened[],
   rankFloor, pillarContribution }` — admin offices emit **Standing & Office** recognition, not a sim.
 - Yields reference `ResourceDef` (2.4) and grant `SkillXP` (2.7).
@@ -293,6 +294,18 @@ foraging + woodcutting + hauling at **R2** (Skills tab + near-*satoyama*); smith
 fishing fold in across R5–R6 and the wilderness rings. **T2** adds village-facing labour (cash-crops,
 the silk/sericulture sub-engine at V3); **T3** adds region-scale labour (post-town trade, Kuzuhara
 river-works as a labour project). Jobs-as-offices begin at **T0-R7** (bailiff) and grow per tier.
+
+**(f) The map is SPATIAL — every activity is on ONE node, you walk there to do it (T0, D-093).** The
+"small walkable map" (§1) is **load-bearing**, not chrome: each labour is **bound to a map node**
+(`area`), there is **no default node**, and the work tab lists only the **current node's** labours — so
+you start at the *kura* (rake rice), then **walk** to the paddies to farm, the woodlot to cut, the
+near-*satoyama* to forage. The same spine binds **combat** (foes live on nodes — you walk to a foe's
+ground to fight it; the scripted grain-store wolf is faced at the *kura*; §2.8/§2.9) and the **storehouse
+/ bank** (deposit/withdraw only at the *kura*; §2.16 / D-090). A **load-bearing node gates a richer
+yield** — the **deep-*satoyama*** past the danger ring returns a materially better forage — so walking
+farther *pays* (tying the map to the koku economy §4 and the combat cook-loop). Map **presentation**
+ships as a D-075 diverge (default "paths list"; a schematic + a traveller's-ledger DEV-only). Full
+rationale + the per-sub-step build: **D-093** (implements **D-078**).
 
 ---
 
