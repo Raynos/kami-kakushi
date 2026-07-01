@@ -181,6 +181,24 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
   });
 });
 
+describe('5c · banking is spatial — you store/draw only at the kura (batch-2 map call)', () => {
+  it('deposit off the kura is a no-op; at the kura it stores', () => {
+    const away: GameState = { ...economyReady(100), location: 'home-paddies' };
+    expect(reduce(away, { type: 'deposit', resource: 'koku' })).toBe(away); // same ref → no-op
+    const atKura: GameState = { ...economyReady(100), location: 'kura' };
+    const stored = reduce(atKura, { type: 'deposit', resource: 'koku' });
+    expect(stored.banked.koku ?? 0).toBe(100);
+  });
+
+  it('withdraw off the kura is a no-op; the stored koku stays safe until you walk back', () => {
+    const atKura: GameState = { ...economyReady(100), location: 'kura' };
+    const stored = reduce(atKura, { type: 'deposit', resource: 'koku' });
+    const away: GameState = { ...stored, location: 'woodlot-edge' };
+    expect(reduce(away, { type: 'withdraw', resource: 'koku' })).toBe(away); // same ref → no-op
+    expect(away.banked.koku ?? 0).toBe(100); // still sheltered
+  });
+});
+
 describe('5b · foes are spatial — you fight where the foe stands (batch-2 map call)', () => {
   /** A ready L5 fighter (guaranteed win vs monkey) with the combat tab open, at `location`. */
   function fighterAt(location: string): GameState {

@@ -347,9 +347,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'deposit': {
       // store CARRIED wealth in the kura storehouse — sheltered from a lost-fight penalty
-      // (batch-2 call 7). Spending + earning still use carried; banked is a safe reserve. (Spatially
-      // gated to the kura node in Step 5; for now it opens with the estate economy.) No clock cost.
+      // (batch-2 call 7). Spending + earning still use carried; banked is a safe reserve. Spatial
+      // (Step 5c): the storehouse IS the kura, so you bank only while standing there. No clock cost.
       if (!isUnlocked(next, 'panel-estate')) return state;
+      if (next.location !== 'kura') return state;
       const have = next.resources[intent.resource] ?? 0;
       if (have <= 0) return state;
       next = withResource(next, intent.resource, -have);
@@ -366,6 +367,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'withdraw': {
       if (!isUnlocked(next, 'panel-estate')) return state;
+      if (next.location !== 'kura') return state; // Step 5c: draw from the storehouse only at the kura
       const have = next.banked[intent.resource] ?? 0;
       if (have <= 0) return state;
       next = withBanked(next, intent.resource, -have);

@@ -1278,20 +1278,32 @@ export function mount(
     card.append(
       el('div', 'influence-when', `Carried ${carried} koku · stored ${banked} koku (safe)`),
     );
-    const row = el('div', 'labour-row');
-    const dep = el('button', 'auto-toggle', 'Store all koku');
-    dep.type = 'button';
-    dep.disabled = carried <= 0;
-    if (dep.disabled) dep.title = 'No carried koku to store.';
-    dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'koku' }));
-    row.append(dep);
-    const wd = el('button', 'auto-toggle', 'Withdraw all');
-    wd.type = 'button';
-    wd.disabled = banked <= 0;
-    if (wd.disabled) wd.title = 'Nothing stored to withdraw.';
-    wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'koku' }));
-    row.append(wd);
-    card.append(row);
+    // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
+    // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
+    if (state.location === 'kura') {
+      const row = el('div', 'labour-row');
+      const dep = el('button', 'auto-toggle', 'Store all koku');
+      dep.type = 'button';
+      dep.disabled = carried <= 0;
+      if (dep.disabled) dep.title = 'No carried koku to store.';
+      dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'koku' }));
+      row.append(dep);
+      const wd = el('button', 'auto-toggle', 'Withdraw all');
+      wd.type = 'button';
+      wd.disabled = banked <= 0;
+      if (wd.disabled) wd.title = 'Nothing stored to withdraw.';
+      wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'koku' }));
+      row.append(wd);
+      card.append(row);
+    } else {
+      card.append(
+        el(
+          'div',
+          'area-blurb',
+          'Open the 地図 map and walk back to the kura (蔵) to store or draw koku.',
+        ),
+      );
+    }
     storehousePane.append(card);
   }
 
