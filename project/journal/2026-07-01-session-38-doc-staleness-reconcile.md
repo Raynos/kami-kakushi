@@ -71,3 +71,36 @@ in `archive.md`, and IDs are never reused; corrected to **H12** (version) and
 ## Still open
 - **H13** — the E-stage numbering collision (code E1–E4 vs design E0→E3 + parked
   E4–E5). Unresolved; a design-canon call for the human.
+
+---
+
+## Update — the "docs mostly current" call was WRONG; deep reconciliation opened
+
+The human pushed back hard (rightly): combat, the map, and activity-locations were
+**completely redone** in v0.3.1, so "roadmap/PRD are mostly up to date" was a false
+green (R3). Three independent drift-hunters confirmed: **6 of 7 PRD sections stale,
+5 significantly** — only §4 (combat-balance) was rippled. §6 data-model is the worst
+(missing `banked`, all four auto-mode fields, wrong `location` model, wrong quest
+shape, an off-by-one day bug); §3 untouched by both reshapes; §2 combat + §5 + §7 +
+roadmap forward-tiers all pre-v0.3.1.
+
+**Two human steers reframed the whole job (both now govern):**
+1. **Best-of-both, bidirectional.** Don't punch the PRD to match `src/`. Drift has a
+   DIRECTION: PRD-stale (signed ADR → update PRD, preserve the why) · build-behind
+   (good PRD idea the code skipped → KEEP it, file a build TODO) · genuine fork →
+   human. Only PRD-stale updates the PRD.
+2. **Standalone, end-state v1.0.0 PRD (D-097).** The PRD documents the finished game,
+   reads standalone, cross-links to `docs/` — NO inline ADR refs / build-nuance /
+   provisional scaffolding. §7 describes v1.0.0, not a per-build changelog. Recorded
+   as **D-097** (refines D-021).
+
+**In flight:** a corrected reconciliation **workflow** (run `wf_6af639b4-3a9`) —
+ground-truth (code+journals+ADRs) → per-section bidirectional reconcile + doctrine
+audit → adversarial direction-adjudication → transformation plan. Output will land as
+a durable plan in `docs/plans/` + a reconciliation report; then the section rewrites.
+
+## Next intended steps (superseding the earlier "wrap-up")
+1. Consume the workflow → write the durable transformation plan (`docs/plans/`) +
+   reconciliation ledger (fix-PRD / keep-PRD+build-TODO / human-forks).
+2. Execute the PRD rewrite section-by-section (best-of-both + end-state doctrine),
+   human-reviewable, sequenced per the plan.
