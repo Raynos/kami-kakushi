@@ -43,7 +43,8 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   **6-lens fun/quality audit workflow → 19 confirmed fixes** (a weapon-swap free-repair EXPLOIT, a
   corrupt-save CRASH, the R0 blind-grind onboarding, the estate flywheel/node-hints/rung-cue legibility
   batch). **Prod re-verified** (fixes ship, DEV stripped, 0 console errors); gallery refreshed.
-  **Deferred:** the §4 6-tier re-derivation → the T1 build (D-092 finding); **#15 material-sink → H11**.
+  **Deferred:** the §4 6-tier re-derivation → the T1 build (D-092 finding); **#15 material-sink → T1**
+  (H11 closed WAI, **D-095**).
   Batch-2 design: [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
   plan [`../../docs/plans/2026-06-30-v0.3.1-build.md`](../../docs/plans/2026-06-30-v0.3.1-build.md).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
@@ -67,10 +68,10 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   (`toRung`, `goto`, `fight`, `jumpToAscension`, `speed(8)`).
 - **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075) — now incl. the **Estate-map**
   A/B/C (paths list · 絵地図 schematic · 道中記 ledger).
-- **H11** 🔲 — a taste call: the T0 **material-surplus sink** (a 2nd craft recipe?) sits between D-052
-  (one craftable) + D-092 (koku scarcity) — my rec is "fine for a tutorial, deepen at T1" (see
-  `human-in-the-loop/decisions.md`).
 - **Reading queue:** _(none open)_ — the v0.3 process-learnings retro is signed off
+
+_(H11 — the T0 material-surplus sink — closed 2026-07-01 as WAI for the miniature → **D-095**;
+revisit at T1. No open decisions remain.)_
   (adopted as D-086…D-088 + norms); the skill-audit report was retired (no actions).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
