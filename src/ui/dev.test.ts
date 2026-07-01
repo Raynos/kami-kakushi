@@ -111,3 +111,70 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
     expect(root.querySelector('.influence-seg')).toBeNull();
   });
 });
+
+describe('renderer variant routing — Estate map (D-075, Step 5e)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  /** Awake, standing at the forecourt with the near nodes revealed → the Estate 地図 tab is available. */
+  function walkableState(): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      location: 'gate-forecourt',
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies', 'room-woodlot-edge'],
+    };
+  }
+  function openMapTab(): void {
+    const tab = [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].find((b) =>
+      (b.textContent ?? '').includes('地図'),
+    );
+    tab?.click();
+  }
+
+  it('renders default A (the you-are-here + paths list) with no DEV harness (= prod)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(walkableState(), null);
+    openMapTab();
+    expect(root.querySelector('.map-here')).not.toBeNull(); // the default you-are-here card
+    expect(root.textContent).toContain('Paths lead to');
+  });
+
+  it('routes to map-b (絵地図 schematic) when selected — a spatial board, not the paths card', () => {
+    const dev = createDevApi();
+    dev.setVariant('map', 'map-b');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(walkableState(), null);
+    openMapTab();
+    expect(root.querySelector('.map-here')).toBeNull(); // the default is replaced
+    expect(root.textContent).toContain('You are here'); // the schematic lit the current node
+    expect(root.textContent).toContain('Walk here'); // a live neighbour
+  });
+
+  it('routes to map-c (道中記 ledger) when selected — informed routes with a set-out verb', () => {
+    const dev = createDevApi();
+    dev.setVariant('map', 'map-c');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(walkableState(), null);
+    openMapTab();
+    expect(root.querySelector('.map-here')).toBeNull();
+    expect(root.textContent).toContain('You stand at'); // the ledger banner
+    expect(root.textContent).toContain('Set out'); // a route's depart verb
+  });
+});

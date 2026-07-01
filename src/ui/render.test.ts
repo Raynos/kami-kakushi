@@ -11,6 +11,7 @@ import {
   setFlag,
   balance,
   type GameState,
+  type Intent,
   type LogEntry,
 } from '../core';
 
@@ -199,5 +200,110 @@ describe('render — settings a11y + unknown-foe fog', () => {
     expect(panel.textContent).toContain('Risen');
     expect(panel.textContent).toContain('5 points'); // the lord's boon, waiting to be spent
     expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
+  });
+});
+
+describe('surface buttons dispatch the right Intent (battery #11 — DOM interaction)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function spyMount(): { seen: Intent[]; render: ReturnType<typeof mount> } {
+    const seen: Intent[] = [];
+    const render = mount(root, (i) => seen.push(i), noopHooks());
+    return { seen, render };
+  }
+  function openTab(marker: string): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes(marker))
+      ?.click();
+  }
+  function clickText(substr: string): boolean {
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      (b.textContent ?? '').includes(substr),
+    );
+    btn?.click();
+    return Boolean(btn);
+  }
+
+  it('a labour button dispatches do_activity for THIS node (spatial)', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        location: 'home-paddies',
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'verb-farm', 'room-home-paddies'],
+      },
+      null,
+    );
+    expect(clickText('Work the home paddies')).toBe(true);
+    expect(seen).toContainEqual({ type: 'do_activity', activityId: 'farm_paddy' });
+  });
+
+  it('a map path button dispatches move_to', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        location: 'gate-forecourt',
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+      },
+      null,
+    );
+    openTab('地図');
+    expect(clickText('Home paddies')).toBe(true); // the → Home paddies move
+    expect(seen.some((i) => i.type === 'move_to')).toBe(true);
+  });
+
+  it('the storehouse Store button dispatches deposit (only rendered at the kura)', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        location: 'kura',
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'panel-estate'],
+        resources: { ...base.resources, koku: 50 },
+      },
+      null,
+    );
+    expect(clickText('Store all koku')).toBe(true);
+    expect(seen).toContainEqual({ type: 'deposit', resource: 'koku' });
+  });
+
+  it('a foe Fight button dispatches fight for the foe on THIS node', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        location: 'home-paddies', // the monkey's node
+        flags: { ...base.flags, awake: true, 'mob-monkey': true },
+        unlocked: [...base.unlocked, 'tab-combat'],
+      },
+      null,
+    );
+    openTab('Combat');
+    expect(clickText('Fight')).toBe(true);
+    expect(seen.some((i) => i.type === 'fight' && i.mobId === 'monkey')).toBe(true);
   });
 });
