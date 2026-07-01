@@ -86,6 +86,10 @@ async function boot(): Promise<void> {
           prev = null;
           state = res.state;
           safely(() => render(state, null));
+        } else {
+          // surface a FAILED restore — otherwise the modal just closes and a bad/truncated save
+          // code looks like it loaded (this is the primary cross-device backup path).
+          note(root, "That save code couldn't be read — check you copied the whole thing.");
         }
       })();
     },

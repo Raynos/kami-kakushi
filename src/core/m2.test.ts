@@ -446,6 +446,18 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
     expect(isUnlocked(at, 'dream-2')).toBe(true);
   });
 
+  it('the frontier beat + 2nd dream still back-reveal AFTER promoting past R3 (latched, not rung)', () => {
+    // R3→R4 promotes at combat level 1, so a transient `s.rung === 'R3'` gate would go dead forever
+    // before the player ever fights to the combat gate. The latched `rank-r3` flag back-reveals both
+    // beats the moment combat level reaches the gate at any rung ≥ R3 (audit pass-2 arc-coherence fix).
+    const promotedPastR3 = revealPass({
+      ...atR3(balance.R3_FRONTIER_COMBAT_LEVEL),
+      rung: 'R4',
+    });
+    expect(isUnlocked(promotedPastR3, 'screen-demo-frontier')).toBe(true);
+    expect(isUnlocked(promotedPastR3, 'dream-2')).toBe(true);
+  });
+
   it('the 2nd dream reads the earlier mystery flags — no longer write-only', () => {
     const noKnot = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'porters-knot': false }));
     expect(isUnlocked(noKnot, 'dream-2')).toBe(false);

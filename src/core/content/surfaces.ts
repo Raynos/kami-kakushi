@@ -180,7 +180,9 @@ export const SURFACES: readonly Surface[] = [
   {
     id: 'screen-demo-frontier',
     kind: 'screen',
-    unlock: (s) => s.rung === 'R3' && s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
+    // latched flag, NOT the transient `s.rung === 'R3'` — R3→R4 promotes at combat lvl 1, so a
+    // rung check would go dead forever; `rank-r3` (set once at R3, never cleared) back-reveals.
+    unlock: (s) => hasFlag(s, 'rank-r3') && s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
     revealLine: { channel: 'milestone', text: FRONTIER_BEAT },
   },
   {
@@ -189,7 +191,7 @@ export const SURFACES: readonly Surface[] = [
     unlock: (s) =>
       hasFlag(s, 'dream-1') &&
       hasFlag(s, 'porters-knot') &&
-      s.rung === 'R3' &&
+      hasFlag(s, 'rank-r3') && // latched, not `s.rung === 'R3'` (which dies at R4) — see frontier above
       s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
     revealLine: narrate(DREAM_2),
   },

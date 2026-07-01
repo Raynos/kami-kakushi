@@ -131,9 +131,9 @@ export const SPREAD_SPAN = 0.9; // provisional (v0.2) — tune by playtest
 /** Combat satiety throttle: attackPower × this floor when empty (FU16/§4.6.1b). */
 export const COMBAT_SATIETY_FLOOR = 0.5;
 export const COMBAT_SATIETY_FLAT_ABOVE = 0.7;
-/** Auto-combat heal floor (D-050): below this fraction of hpMax the unattended grind eats
- *  (cook → forage) before fighting, rather than feed a losing grind at low HP. provisional (v0.2). */
-export const COMBAT_HEAL_FRAC = 0.55;
+// (COMBAT_HEAL_FRAC retired by D-076 — the auto-loop no longer auto-heals; HP accumulates and
+//  mend is manual (cook). The unused constant + its now-false "unattended grind eats" doc were
+//  removed so nothing claims a combat cadence the build doesn't run.)
 
 /** MC combat scaling per character (combat) level. */
 export const MC_ATK_PER_LEVEL = 3; // provisional (v0.2) — tune by playtest

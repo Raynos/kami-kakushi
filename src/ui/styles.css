@@ -1129,13 +1129,17 @@ html {
 .map-move-hint {
   margin: calc(-1 * var(--space-1)) 0 var(--space-1) var(--space-2);
   font-size: var(--fs-small);
-  color: var(--ink-faint);
+  /* --ink-faint (#7a6c59) is only ~3.7:1 on washi-shade — below WCAG AA for this content-bearing
+     "what's here" hint. Use #685b48 (~4.7:1), the same D-045 value the sibling .lock-hint uses. */
+  color: #685b48;
 }
 .map-move.danger {
   border-color: var(--beni);
 }
 .map-danger {
-  color: var(--beni);
+  /* raw --beni (#a93b47) is 4.42:1 on the washi-shade button — below AA for this danger glyph.
+     A deeper red (~5.4:1), mirroring the .house-influence-kanji / .grade-* deeper-tone pattern (D-045). */
+  color: #96303c;
   font-weight: bold;
 }
 

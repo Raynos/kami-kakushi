@@ -177,7 +177,9 @@ export const RANKS: readonly RankDef[] = [
       log: [
         {
           channel: 'milestone',
-          text: `No longer a hired hand but a man OF the house — you take your meals at its board and answer to its name. The work is the same; the standing is not.`,
+          // A humble "onto the staff proper" step matching 家人 — reserve "a man of the house /
+          // no longer a servant" for the lord's ascension naming so that climax lands big (D-062).
+          text: `${NAMES.elder} takes you onto the household staff proper — no longer a season-hired hand, but one who answers to the house day and night. The work is the same; the standing is not.`,
         },
       ],
     },

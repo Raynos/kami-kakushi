@@ -35,6 +35,7 @@ import {
   SKILLS,
   skillVisible,
   skillProgress,
+  skillYieldNum,
   foesHere,
   combatXpProgress,
   durabilityBand,
@@ -743,7 +744,7 @@ export function mount(
           el(
             'div',
             'influence-when',
-            `The lord's boon waits on you: ${pts} point${pts === 1 ? '' : 's'} to spend on the Skills tab.`,
+            `The lord's boon waits on you: ${pts} point${pts === 1 ? '' : 's'} to spend at Training 鍛錬 on the Combat tab.`,
           ),
         );
       }
@@ -770,7 +771,7 @@ export function mount(
   /** The reachable-neighbour move buttons (`→ node`, danger ⚠ + the conditioning lock). Shared by the
    *  MAP tab (the fuller view) AND the Work tab's "Walk on" strip, so you can move WITHOUT a
    *  tab-switch — the spatial loop stays smooth. Returns null when nowhere is walkable from here. */
-  function moveStrip(state: GameState): HTMLElement | null {
+  function moveStrip(state: GameState, keyPrefix: string): HTMLElement | null {
     const revealed = new Set(state.unlocked);
     const moves = reachableFrom(state.location, revealed);
     if (moves.length === 0) return null;
@@ -789,7 +790,12 @@ export function mount(
         btn.append(k);
       }
       // danger as an INK mark, not a filter-skipping ⚠ emoji (ui-design §7); colour is on .map-danger.
-      if (danger) btn.append(el('span', 'map-danger', ' 険'));
+      // lang=ja so a screen reader announces 険 like the destination kanji, not as English (a11y).
+      if (danger) {
+        const mark = el('span', 'map-danger', ' 険');
+        mark.lang = 'ja';
+        btn.append(mark);
+      }
       btn.disabled = gated;
       if (gated) btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
       btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
@@ -807,13 +813,28 @@ export function mount(
       if (foe)
         hints.push(hasFlag(state, `mob-${foe.id}`) ? foe.label.toLowerCase() : 'a foe stirs');
       if (n.id === 'kura') hints.push('the storehouse');
-      if (hints.length) movesEl.append(el('div', 'map-move-hint', hints.join(' · ')));
+      // Tie the yields/foe context + the gate reason to the button via aria-describedby, so a
+      // screen-reader user tabbing the buttons hears them, not just the bare 険 glyph (a11y §5.9).
+      // The keyPrefix keeps ids unique when the strip renders on both the Map and Work tabs at once.
+      const describedBy: string[] = [];
+      if (hints.length) {
+        const hint = el('div', 'map-move-hint', hints.join(' · '));
+        hint.id = `move-hint-${keyPrefix}-${n.id}`;
+        describedBy.push(hint.id);
+        movesEl.append(hint);
+      }
       // the gate reason, VISIBLE (not a hover-only title on a disabled button — ui-design §5.9/§8).
       if (gated) {
-        movesEl.append(
-          el('div', 'lock-hint', `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`),
+        const lock = el(
+          'div',
+          'lock-hint',
+          `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
         );
+        lock.id = `move-lock-${keyPrefix}-${n.id}`;
+        describedBy.push(lock.id);
+        movesEl.append(lock);
       }
+      if (describedBy.length) btn.setAttribute('aria-describedby', describedBy.join(' '));
     }
     return movesEl;
   }
@@ -945,7 +966,7 @@ export function mount(
     // ── Walk on — the current node's paths, right here on the Work tab (once the map has opened) so
     //    you can move WITHOUT a tab-switch. The Estate 地図 tab stays the fuller navigation view. ──
     if (isUnlocked(state, 'room-gate-forecourt')) {
-      const strip = moveStrip(state);
+      const strip = moveStrip(state, 'map');
       if (strip) {
         const walk = el('div', 'area-group walk-on');
         walk.append(el('h3', 'area-head', 'Walk on 道'));
@@ -971,6 +992,14 @@ export function mount(
       head.append(el('span', 'skill-lvl numeric', `Lv ${prog.level}`));
       card.append(head);
       card.append(el('div', 'skill-blurb', def.blurb));
+      // show what the level DOES (R6: an invisible mechanic) — the labour-yield accelerator, read
+      // from source of truth. Conditioning is the zero-yield gate skill (its gate shows in the move strip).
+      if (def.id !== 'conditioning') {
+        const yieldPct = Math.round(
+          (skillYieldNum(prog.level) / balance.SKILL_YIELD_DEN - 1) * 100,
+        );
+        card.append(el('div', 'rung-hint', `+${yieldPct}% labour yield`));
+      }
       const meter = el('div', 'meter');
       const fill = el('span');
       fill.style.width = `${Math.round((prog.into / prog.needed) * 100)}%`;
@@ -1562,7 +1591,7 @@ export function mount(
     }
     card.append(h);
     card.append(el('div', 'skill-blurb', here.blurb));
-    const strip = moveStrip(state); // shared with the Work tab's "Walk on" strip
+    const strip = moveStrip(state, 'work'); // shared with the Work tab's "Walk on" strip
     if (strip) {
       card.append(el('div', 'lock-hint map-paths-label', 'Paths lead to:'));
       card.append(strip);
@@ -1611,6 +1640,18 @@ export function mount(
         const rk = q.reward.resources?.koku;
         if (rk && !completed) card.append(el('div', 'influence-when', `Reward: ${rk} koku`));
       } else {
+        // show the objectives + reward BEFORE the player commits — the offer should be legible
+        // pre-accept, not blind. Mirror the accepted-branch markup with every step still ☐.
+        const stepsEl = el('div', 'quest-steps');
+        for (const s of q.steps) {
+          const row = el('div', 'quest-step');
+          row.append(el('span', 'quest-check', '☐'));
+          row.append(el('span', undefined, s.label));
+          stepsEl.append(row);
+        }
+        card.append(stepsEl);
+        const rk = q.reward.resources?.koku;
+        if (rk) card.append(el('div', 'influence-when', `Reward: ${rk} koku`));
         const btn = el('button', 'verb', 'Take this on');
         btn.type = 'button';
         btn.addEventListener('click', () => dispatch({ type: 'accept_quest', questId: q.id }));
