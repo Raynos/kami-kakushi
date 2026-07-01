@@ -48,29 +48,27 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
-- **Process canon (2026-06-30):** the v0.3 retrospective is adopted — **D-086**
-  (tension > generosity), **D-087** (loop done-rule: keep finding work), **D-088**
-  (e2e+invariants per tier = hard DoD contract), **D-089** (reading-queue sign-off
-  is implicit — read/discuss = signed off; the agent keeps `todo-human.md` clean,
-  `/prepare-to-exit` reconciles); the rest folded as norms into
-  fun-factor / qa-playtesting / working-agreements / AGENTS.md Conventions / the
-  battery skill. Skills audited — all wired, test-discipline lifted into Conventions.
-  Capture: [`../human-feedback/2026-06-30-process-learnings-decisions.md`](../human-feedback/2026-06-30-process-learnings-decisions.md).
-- **Doc-health sweep (2026-06-30):** a repo-wide stale-markdown `Workflow` (21
-  findings) + a P1 diff re-audit landed: the **D-048 6-tier ripple is now finished
-  in §1** (01-vision spine/antagonists/rep-arc — it wasn't, despite the old "fully
-  rippled" claim), the **D-053→D-079 clock** supersession, built-features-described-
-  as-unbuilt fixes, and a new **`md-links` verify gate (10th)**. `package.json`
-  version → **0.3.0** (was 0.0.0; A21). §4.0 magnitude table relabeled to 6-tier;
-  **the full §4 coupled balance re-derivation (T1 Estate-full bands + floors + the
-  bulk §4.1–4.7 relabel) is scheduled in the v0.3.1 plan, Step 4** (liquid/D-059 —
-  it rides the koku retune). Report:
-  [`../audit/reports/2026-06-30-stale-markdown-sweep.md`](../audit/reports/2026-06-30-stale-markdown-sweep.md).
+- **Process canon (2026-06-30):** the v0.3 retro is adopted — **D-086** (tension > generosity),
+  **D-087** (loop done-rule), **D-088** (e2e+invariants per tier = hard DoD), **D-089** (implicit
+  reading-queue sign-off); the rest folded as norms (fun-factor / qa-playtesting / working-agreements /
+  AGENTS Conventions). Full: `human-feedback/2026-06-30-process-learnings-decisions.md`.
+- **Deferred:** the full **§4 6-tier balance re-derivation** (T1 Estate-full bands + §4.8 floors +
+  the §4.1–4.7 relabel) is **DEFERRED to the T1 build** — the v0.3.1 Step-4 finding (**D-092**) showed
+  it's **T1+ tier balance decoupled from the T0 koku work**, best derived with T1 built + playtest data
+  (liquid/D-059), not speculatively now. (§4.0 is already 6-tier-labelled.)
 
 ## Waiting on the human
 
-- **R1** 🔲 — play/taste call on the v0.3 T0 M0–M4 demo (fun · pacing · look).
-- **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075).
+- **R1** 🔲 — play/taste call on the **T0 demo — now the v0.3.1 build** (fun · pacing · look): the
+  **spatial map** (walk-to-work/fight, the deep-*satoyama* hunting ground), the **combat rework**
+  (HP accumulates, no auto-heal, two auto-modes, the loss bites carried wealth), the **kura bank**,
+  the tightened **koku** economy, and the resolved **ascension after-state**. Drive with `__qa`
+  (`toRung`, `goto`, `fight`, `jumpToAscension`, `speed(8)`).
+- **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075) — now incl. the **Estate-map**
+  A/B/C (paths list · 絵地図 schematic · 道中記 ledger).
+- **H11** 🔲 — a taste call: the T0 **material-surplus sink** (a 2nd craft recipe?) sits between D-052
+  (one craftable) + D-092 (koku scarcity) — my rec is "fine for a tutorial, deepen at T1" (see
+  `human-in-the-loop/decisions.md`).
 - **Reading queue:** _(none open)_ — the v0.3 process-learnings retro is signed off
   (adopted as D-086…D-088 + norms); the skill-audit report was retired (no actions).
 

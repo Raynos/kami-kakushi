@@ -207,6 +207,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'set_auto_combat': {
+      // Spatial (Step 5b): you can only ARM an auto-grind for a foe you stand with (mirrors the
+      // `fight` gate); clearing (mobId null) works from anywhere. move_to also clears it when you walk off.
+      if (intent.mobId !== null && getMob(intent.mobId).area !== next.location) return state;
       next = { ...next, autoCombat: intent.mobId, autoCombatRetreat: intent.retreat ?? false };
       break;
     }

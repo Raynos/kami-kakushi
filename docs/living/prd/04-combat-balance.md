@@ -64,18 +64,21 @@
 > roster completes by end-of-T2 and **new-T3 Region = combat DEPTH, no new line** (§4.6.9); **(g)** cross-pillar
 > combos split into **PARTIAL Office-pairs at new-T2 + the FULL 4-pillar set at new-T3** (§4.3.1).
 >
-> **The full §4 6-tier ripple is scheduled in the [v0.3.1 build plan](../../plans/2026-06-30-v0.3.1-build.md)**
-> (moved here from Ship-M1-F2 by the human 2026-06-30, so it rides the v0.3.1 koku re-derivation, D-077). It is a
-> single **coupled balance re-derivation** — the **§4.1** bands + revealed-pillar set, the **§4.2** deed/seasonal
-> tie-outs, the **§4.8** per-rung FLOORS, the **post-v1 "T4+" labels** (auto-producers / marriage-adoption /
-> Castle-town / Edo), AND the **new T1 Estate-full band split** — coupled because the T1 split needs the per-tier
-> FLOORS that re-derive with it (provisional starts **T1 ~5–8 h · T2 ~8–10 h · ≈40 min/rung**, fork #1/#5; the
-> **~28.5 h Phase-1 floor re-derives across the 4 v1 tiers T0–T3**). **Done now (this ripple):** the **§4.0
-> magnitude table above is relabeled to the 6-tier spine** (T0 keeps the tutorial ~21K; new-T1 Estate-full band
-> = TBD; Village→T2 / Region→T3 / Castle→T4 / Edo→T5). **Still OLD-numbered until the v0.3.1 pass — map through
-> this key:** **§4.1 / §4.2 / §4.3–4.7** bare tier-refs read **old-3-tier (T0 Estate / T1 Village / T2 Region;
-> T3+ Castle-town/Edo)**; **§4.8 is already new-numbered**. The **kanji**, the **20–35 % band**, **trade ≤⅓**,
-> and the **70/30** deeds/seasonal split are invariants and do **not** move.
+> **The full §4 6-tier balance re-derivation is DEFERRED to the T1 build** (moved off v0.3.1 by a Step-4 finding
+> — **D-092**). The v0.3.1 plan had *scheduled* it here on the assumption it rode the v0.3.1 koku re-derivation
+> (D-077); building Step 4 found the coupling is **looser than assumed** — v0.3.1's koku work is **T0 content
+> (sink constants)**, whereas the §4 re-derivation is **T1+ tier/pillar balance** (the new-T1 Estate-full band,
+> its §4.8 per-rung FLOORS, the §4.1 bands + §4.2 deed/seasonal tie-outs, the post-v1 "T4+" labels). Those T1
+> numbers should be **derived when T1 is actually built, against real playtest data** — inventing them now (T1
+> is unbuilt) would be speculative, not "correct" (R1), and they are provisional/liquid anyway (D-021/D-059).
+> Provisional starts to carry into that pass: **T1 ~5–8 h · T2 ~8–10 h · ≈40 min/rung** (fork #1/#5); the
+> **~28.5 h Phase-1 floor re-derives across the 4 v1 tiers T0–T3**. **Done already:** the **§4.0 magnitude table
+> above is relabeled to the 6-tier spine** (T0 keeps the tutorial ~21K; new-T1 Estate-full band = TBD;
+> Village→T2 / Region→T3 / Castle→T4 / Edo→T5), and all v0.3.1 T0 combat/economy locks landed in-place (§4.6.6b/c
+> the combat rework + the bank; §4.6.6d the koku sinks). **Until the T1 pass, §4.1–4.7 read through this key:**
+> bare tier-refs are **old-3-tier (T0 Estate / T1 Village / T2 Region; T3+ Castle-town/Edo)**; **§4.8 is already
+> new-numbered**. The **kanji**, the **20–35 % band**, **trade ≤⅓**, and the **70/30** deeds/seasonal split are
+> invariants and do **not** move.
 
 ## How to read this section
 
@@ -451,13 +454,20 @@ human)*; each deed's per-tier base value; the deed→tier scaling (~**9–10×**
 ≈`TIER_MAG`, with the seasonal stream supplying the residual 30 %); the **great/excellent specialisation
 deed-counts** above the good baseline.
 
-### §4.2.2 Seasonal JUDGED RESULT — the per-season formula (fires every season; high-water-mark only)
+### §4.2.2 Seasonal JUDGED RESULT — the reckoning formula (high-water-mark only)
 
-**Shape (canon — fixed).** Every season the scheduler (§2.2/§6.3 per-season hook) computes a **judged score**
+**Shape (canon — fixed).** On each **reckoning** the scheduler (§2.2/§6.3 hook) computes a **judged score**
 per pillar from *accumulated state*, and **raises the pillar only if the score exceeds its stored
 `highWater`** — then sets the pillar to that new score (Δ = newScore − highWater) and records the new
 high-water mark. If the score does **not** beat the high-water mark, **nothing accrues** (no maintenance
-trickle). Autumn is the headline (harvest), but **all revealed pillars are appraised every season.**
+trickle). Autumn is the headline (harvest), and **all revealed pillars are appraised each reckoning.**
+
+> **Cadence is a LEVER, not the shape (D-094 — liquid, D-059).** The *shape* above is canon; how OFTEN it
+> fires is tuned per tier. In the compressed **T0** showcase a full **28-day season never turns** inside the
+> ~5-day Phase-2 deed-grind, so a season-boundary judge fired **0×** before ascension (battery #8) — T0 reckons
+> on the shorter **`PHASE2_JUDGE_INTERVAL_DAYS`** (~3d) so the mechanic is actually FELT. **T1+, when Phase 2
+> is a long game, scales the reckoning back toward the real season.** The 28-day `season()` **calendar** is
+> unchanged — only the JUDGE cadence decouples from it.
 
 > **Phase reconciliation (FU7).** The seasonal pillar **CREDIT posts only in PHASE 2** (deeds-gated; pillars do
 > not accrue in Phase 1). The *basis* (the house's holdings — land reclaimed, treasury, secured danger) grows

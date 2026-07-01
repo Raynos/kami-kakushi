@@ -218,16 +218,18 @@ deterministic and **save-light** (only the chosen flag persists, in `flags`; §6
   the **day-keyed weather / festival resolution** — `deriveDayKeyed(seed, 'weather', day)` produces the
   day's bounded **±10%** *(proposed v1 balance)* mechanical modifier with **nothing weather-related stored**
   (§6.7.1).
-- **per-season:** harvest resolution, the **seasonal judged Influence appraisal** (runs **every season —
-  4×/in-game year**, the autumn harvest the headline; it **raises a pillar only on a new high-water mark
-  (up-only)**, never a per-season maintenance trickle, per canon §D and PRD §1.6.2). Per **FU7 (sequential
-  per-tier)** this appraisal **accrues pillar DEEDS only in the tier's Phase 2** (after the final rung) — the
-  judged result writes **nothing** to the pillars while the player is still climbing the rungs (which
-  prevents the "half the rungs, maxed deeds" exploit). Weather/festivals modulate the judged result
-  mechanically (bounded ±10%, day-keyed). Also: festival events. **Crossing a season boundary increments a
-  `pendingAppraisals: number` counter** (NOT a `pendingAppraisalDue: boolean` — B10) which the scheduler then
-  **drains in a loop, one appraisal per count**, so a multi-season `dtTicks` jump accrues **all N** appraisals
-  (a boolean would silently collapse N seasons into one).
+- **per-reckoning:** harvest resolution, the **judged Influence appraisal** (the autumn harvest the headline;
+  it **raises a pillar only on a new high-water mark (up-only)**, never a maintenance trickle, per canon §D and
+  PRD §1.6.2). **Cadence is a per-tier LEVER (D-094 — §4.2.2):** T1+ reckons roughly per **season** (~4×/year);
+  the compressed **T0** showcase reckons on the shorter **`PHASE2_JUDGE_INTERVAL_DAYS`** (~3d), because a full
+  28-day season never turns inside its ~5-day Phase-2 grind (battery #8). Per **FU7 (sequential per-tier)** this
+  appraisal **accrues pillar DEEDS only in the tier's Phase 2** (after the final rung) — the judged result
+  writes **nothing** to the pillars while the player is still climbing the rungs (which prevents the "half the
+  rungs, maxed deeds" exploit). Weather/festivals modulate the judged result mechanically (bounded ±10%,
+  day-keyed). Also: festival events. **Multi-boundary safety (B10):** the clock is folded **one day at a time**
+  by `singleTick`, and each reckoning boundary fires in turn as the day rolls over — so a multi-interval
+  `dtTicks` jump accrues **all N** appraisals with **no `pendingAppraisals` counter needed** (per-day folding
+  supersedes the earlier counter design; a boolean would have silently collapsed N reckonings into one).
 
 `dtTicks` is computed by the **app-layer** loop from real elapsed **wall-time while the tab is OPEN** (it does
 **NOT** pause on `document.hidden` — a throttled background tab simply **catches up** on the elapsed wall-time

@@ -171,13 +171,26 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
     expect(fledCount).toBeGreaterThan(0); // the retreat mode genuinely flees (not dead code)
   });
 
-  it('set_auto_combat carries the mode flag (fight-to-death vs retreat)', () => {
-    const s = { ...createInitialState(1), flags: { awake: true } };
+  it('set_auto_combat carries the mode flag (fight-to-death vs retreat) — at the foe’s node', () => {
+    // Step 5b: arming an auto-grind is spatial — you must stand on the monkey's node (home-paddies).
+    const s: GameState = {
+      ...createInitialState(1),
+      location: 'home-paddies',
+      flags: { awake: true },
+    };
     const death = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: false });
     expect(death.autoCombat).toBe('monkey');
     expect(death.autoCombatRetreat).toBe(false);
     const flee = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: true });
     expect(flee.autoCombatRetreat).toBe(true);
+  });
+
+  it('arming auto-combat OFF the foe’s node is a no-op; clearing works anywhere', () => {
+    const away: GameState = { ...createInitialState(1), location: 'kura', flags: { awake: true } };
+    expect(reduce(away, { type: 'set_auto_combat', mobId: 'monkey' })).toBe(away); // no-op off-node
+    // clearing (mobId null) is not gated — you can always stop the autopilot
+    const armed: GameState = { ...away, location: 'home-paddies', autoCombat: 'monkey' };
+    expect(reduce(armed, { type: 'set_auto_combat', mobId: null }).autoCombat).toBeNull();
   });
 });
 
