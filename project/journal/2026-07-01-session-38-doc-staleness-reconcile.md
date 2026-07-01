@@ -140,3 +140,28 @@ The earlier partial audit report is marked SUPERSEDED in the reading queue.
 1. Human review of Plan A + Plan B (in the reading queue).
 2. On go-ahead: execute Plan A section-by-section (foundations §1/§6 first), then
    Plan B (A1 combat model first). Both human-reviewable, RED-able tests, R6-reachable.
+
+---
+
+## Update — Plan A IMPLEMENTED via subagents; Plan B on hold (human steer)
+
+Ran Plan A as a subagent workflow (`wf_50f1eed5-997`, 22 agents): each of the 11
+files (7 PRD sections + roadmap + ui-design/fun-factor/qa-playtesting) rewritten to
+end-state by a dedicated agent (one file each → no write conflicts), then an
+adversarial per-file review. **All 11: contentPreserved=true** — the best-of-both
+guardrails held, no canon/vision deleted. Reviews: 9 files MINOR / 2 OK / 1 MAJOR
+(ui-design encoded the RETIRED wear-as-stance-axis — fixed to glass-cannon/tank per
+D-101). Applied 9 targeted fixes (the MAJOR + §7 "pulled forward" doctrine leak, §3
+rule-count, §2 superseded-echo, §4 clock 30→28-day + U4 naming + 3 "proposed"→"design
+intent" cells). **`npm run verify` green (11 gates).** Raw review snapshot:
+`project/brainstorms/raw/2026-07-01-plan-a-implement-w3rdexnvy.json`.
+
+**Plan B (v0.3.2 build) NOT started** — the human added a status-file steer:
+"PRIORITY: PLAY THE GAME — not build v0.3.2 … pair screen-by-screen, don't route to
+plans/workflows." So Plan B is on hold; the next move is a live playtest with the
+human, not the build.
+
+## Next intended steps (current)
+1. **Play the game with the human** (R1) — launch it, pair screen-by-screen, fix
+   directly. This supersedes launching Plan B.
+2. Plan B stays ready in `docs/plans/` for whenever the build is greenlit.

@@ -63,10 +63,12 @@ tool).
   estateStanding,  // 'stranger'|'friendly'|'trusted'|'honoraryMember'|'yonin'  (the rep arc)
   pillars,         // { arms, estate, office, name } — the four House Influence accumulators
   influence,       // the rolled-up 家威 read + the per-tier domain-rank read
-  resources,       // { koku, mon, wood, sansai, … }
+  resources,       // { koku, mon, wood, sansai, … } — the CARRIED pool (at-risk in a fight)
+  banked,          // the sheltered kura pool — a lost fight bites `resources`, never `banked` (real field)
   skills,          // { farming:{lvl,xp}, …, weaponLines:{…} }
-  attrs,           // { str, agi, int, spd, luck }
+  attrs,           // real attrs are { might, guard, vigor }; the 5-attr { str, agi, int, spd, luck } is the v1 target
   time,            // { day, season, year } — the abstract clock
+  location,        // current map NODE id ('kura' | 'home-paddies' | 'deep-satoyama' | …) — labours + foes are spatial (real field)
   combat,          // active fight state | null  (idle auto-resolve + active setup)
   sideTracks,      // { villageRep:{…}, origin:{ rung:'O2', … } }  — the optional side-tracks
   screen,          // the active nav screen + which nav entries are revealed
@@ -80,7 +82,8 @@ tool).
 | Method | Effect |
 |---|---|
 | `newGame(seed)` | Fresh run on a fixed seed (skips any title wait). |
-| `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `faceWolf()`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. |
+| `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `faceWolf()`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. Intents with no wrapper are driven raw: `move_to` (or use `goto` below), `deposit`/`withdraw` (the kura 蔵 bank — move a resource carried ↔ sheltered `banked`), `set_auto_rake` (the leave-it-running auto-labour toggle), and `set_auto_combat`'s `retreat` flag (sets `autoCombatRetreat` — the auto-retreat-at-~20%-HP mode vs fight-to-death). |
+| `goto(node)` | **Walk to a map node** — replays real `move_to` hops over the revealed graph (nodes: `kura`, `gate-forecourt`, `home-paddies`, `woodlot-edge`, `near-satoyama`, `deep-satoyama` 奥山, `drill-yard`). **REQUIRED to reach node-gated activities/foes** — labours + enemies are spatial, so a driver that never walks can't reach forage / the deep-satoyama boar den or bank at the `kura`. `fight`/`faceWolf` auto-`goto` the foe's node first. |
 | `tick(dt)` / `frames(n)` | Advance the sim one step (`tick`) / re-render N frames without advancing the sim (`frames`). |
 | `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — play the optimal path to a checkpoint so a QA run reaches a target in seconds. `toTier(n)` accepts **0..5**. |
 | `jumpToPhase2()` / `jumpToAscension()` | **DEV teleports** — to the R7 capstone (Phase-2 open) / an ascension-ready Estate-EXCELLENT state, so the macro spine is one click away. |

@@ -1,9 +1,17 @@
 # Plan A — Reconcile the PRD & docs to standalone end-state (v1.0.0)
 
-**Status:** 🔲 READY — all 6 forks resolved (D-098…D-103); awaiting go-ahead to
-execute the section rewrites. **Paired with** [Plan B — v0.3.2 build](2026-07-01-v0.3.2-build-close-the-gap.md)
-(the build-behind items). **Governing:** [D-097](../living/decisions.md) (PRD =
-standalone end-state v1.0.0) + the bidirectional / best-of-both rule.
+**Status:** ✅ IMPLEMENTED (2026-07-01) — all 11 files rewritten to end-state via
+a subagent workflow (`wf_50f1eed5-997`, 22 agents) + adversarially reviewed (every
+file **contentPreserved: true** — no canon deleted; 9 review fixes applied incl. the
+one MAJOR, a ui-design stance-axis that contradicted D-101; `npm run verify` green).
+**Paired with** [Plan B — v0.3.2 build](2026-07-01-v0.3.2-build-close-the-gap.md)
+(the 17 build-behind items — **on hold** per the human "play the game, not build
+v0.3.2" steer). **Governing:** [D-097](../living/decisions.md) + best-of-both.
+
+> **Deferred minor polish** (non-blocking, noted for a later pass): §1.12 pre-existing
+> T2/T3 memory-frontier tension (not introduced here); fun-factor.md line-wrap;
+> qa-playtesting.md "(proposed)" snapshot header; the §4 3-works-vs-build-4-purchases
+> (U-ladder) count reconcile → **Plan B**.
 
 **Provenance:** distilled from an adversarial `Workflow` (73 agents, run
 `wf_6af639b4-3a9`; raw snapshot in

@@ -354,6 +354,14 @@ paper-grained `--surface-deep`; fill is an ink/indigo wash **darkened for contra
 sumi crop-marks). Fills **ease** toward new values (momentum), and the **number count-ups alongside** (§6.3).
 Always **show the rate next to the total**: `家威 4.20K (+12/koku)`.
 
+**Header vitals — the `body` and `life` bars.** Two slim meters sit in the global header (§4.1 / §5.7)
+beside the resource readouts. **`body`** (satiety) reads how fed the player is; its bar flags `low` (a
+`--beni` warning wash) as it drains toward hunger. **`life`** (HP) is the combat meter — it **inks into the
+header the moment combat first matters** (the R2 wolf beat) and stays visible thereafter, pairing the bar
+with an **exact `hp/max` numeral** because 1 HP versus a full bar is life-or-death: HP **accumulates**
+between fights with **no auto-heal** (you mend only by eating), so the player must always be able to *see*
+they are hurt. The bar flags `low` at ≤30%. The bar is the glance; the number is the truth.
+
 **The four-pillar panel** (reveals **bar-by-bar** at T0-R7, §2.16 / §3.2): four horizontal bars, each with its
 **own identity** — a kanji label **in ink (`--ink`/`--ink-soft`)** + emoji + its pillar hue **on the bar fill / a pip only** (the hue is a fill/accent, never the label-text) — so it is peripherally scannable, not four identical
 bars (this is also the anti-"same-shadow flatness" fix):
@@ -390,6 +398,12 @@ sumi border, `--surface` fill, `--ink` label, square corners. States: hover/focu
 border (focus shows a visible ring — keyboard operable). **Affordable/available = full ink ("lit");
 unavailable = `--ink-faint` ("faded")** with the reason on tap/focus — so players scan "what can I do now"
 at a glance. **Exactly one primary CTA per screen** wears the `--shu` seal treatment (the confirm/sign).
+
+**Auto-toggle (the autopilot switch).** A repeatable action — rake, a labour, a fight — pairs its verb with
+a small **`▶ auto` / `■ stop`** toggle (the same ink-outlined paper button, `aria-pressed`, its "on" state
+carrying an `--ai-soft` lit fill). It is how the calm grind runs itself without a click-storm. **Its risk
+reads on the face of the button, never hover-only** (§8): the combat panel's fight-to-death toggle labels
+itself `▶ auto · to the end` and warns *on its own face* that a loss costs koku (§10 Combat/Yard).
 
 ### 5.6 Nav (desktop rail + mobile bottom-bar/drawer)
 
@@ -429,15 +443,46 @@ A paper card centered on a dimmed (sumi-tinted, low-opacity) scrim — *not* a b
 the rank-up beat, a save/load confirm, a quest-accept. Focus-trapped, Escape-closable, the primary action
 wears the seal. Reveals via the §6.1 ink-in, not a generic scale-pop.
 
-### 5.11 Walkable map (T0+)
+### 5.11 The walkable map + the "Walk on 道" strip (T0+)
 
-The small **walkable T0 map** (§10, D-065): a pure-CSS schematic — sumi roads on `--washi`, **registration-mark
-nodes** for the estate grounds and a few reachable spots — that the player can *move between* to explore (the
-§1 "areas to explore"), **not** an illustrated/painted map. The current location wears a `--shu` seal pip;
-reachable nodes are full ink ("lit"), not-yet-reachable ones sit as `--ink-faint` silhouettes with their unlock
-hint on tap/focus (§5.9) — never a dead grey node. It grows the same way the nav does: it opens tight around the
-estate and **extends into Asagiri (Village)** as a second node-cluster at **new-T2**, each new region inked in
-and narrated (§6.1), never popped in silently.
+Space is **load-bearing**, not scenery (D-065/D-078/D-093). **Every labour and every foe is bound to a map
+node, and there is no default "here"** — the player **walks** (a `move_to`) to a node to work it or fight
+what stands there, and the map *earns its walk* by gating a richer yield. One hill past the near satoyama,
+behind a **danger ring**, sits the **deep satoyama 奥山**: reachable only once conditioning clears the ring,
+it gates the **richer forage** (more sansai + koku than the near woods) and **dens the boar** — so the
+spatial spine ties straight into the koku economy and the cook-loop, not just flavour.
+
+**The shared move-strip ("Walk on 道").** Movement is one reusable component: a row of **`→ node`** ink
+buttons, each tagged beneath with *what waits there* — what you gather, whether *a foe stirs* (named only
+once you have fought it — scout-by-fighting fog), the storehouse — and, for a node behind the danger ring, a
+sumi **険** **ink-mark** (danger as ink, never a filter-skipping ⚠ emoji, §7) plus its conditioning-gate
+reason shown **visibly on the disabled button** (§5.9), never a dead grey node with no reason. This same
+strip renders **twice**: as the body of the Map tab **and** as a **"Walk on 道"** group at the foot of the
+**Work tab**, so the player can move without a tab-switch — the spatial loop stays smooth.
+
+**Presentation is a diverge (D-075) — three working framings, one shipped.** The default that ships (**A ·
+paths list**) is a **you-are-here** `.frame` card — "You stand at the ⟨node⟩ ⟨kanji⟩" + the node's blurb +
+a plain **"Paths lead to:"** move-strip — a diegetic, in-world framing that reads more handmade than a
+sparse top-down grid at this content scale (A19). Two alternates live **DEV-only behind the variant toggle**
+(stripped from prod): **B · 絵地図 estate schematic** (revealed nodes laid out by distance from the kura,
+you-are-here lit, walkable ones live) and **C · 道中記 traveller's ledger** (each path a ledger row showing
+the destination's blurb + what awaits — labour / foe / danger). All three are **pure-CSS schematics** — sumi
+roads and **registration-mark nodes** on `--washi`, the current location on a `--shu` seal pip, reachable
+nodes full ink ("lit") — **not** an illustrated/painted map. The map grows the way the nav does: it opens
+tight around the estate and **extends into Asagiri (Village)** as a second node-cluster at **new-T2**, each
+new region inked in and narrated (§6.1), never popped in silently.
+
+### 5.12 Storehouse 蔵 (the kura bank)
+
+A `.frame` paper panel — the **kura** — where the player **stows koku out of a fight's reach**. It reveals
+with the estate economy and is **spatially gated to the kura node** (the storehouse *is* the kura, §5.11):
+the running **balance shows everywhere** (your safe reserve is worth seeing on the road), but the **Deposit
+all / Withdraw all** verbs appear **only while you stand at the kura** — off-node the panel drops to a plain
+hint to *walk the 道 back to the 蔵*. Its header reads the two piles in ink, plainly —
+`Carried N koku · stored N koku (safe)` — so the stake is legible at a glance, and a diegetic line spells
+the rule the whole loss-loop turns on: **what you carry, a lost fight can take; what you store, you keep.**
+The buttons are ordinary ink-outlined verbs (§5.5); Withdraw sits `--ink-faint` (faded / disabled) with a
+"nothing stored" reason when the kura is empty (§5.9), never a dead grey box.
 
 ---
 
@@ -586,25 +631,39 @@ two at once.
   whole screen is one `.paper` field, one `.frame` log, one seal-less verb button. First impression = a quiet
   woodblock page. **Delight:** the very first verb makes a log line *ink in* — the game proves it listens.
 - **Work (R1+).** The labour loop: verb(s) + the koku/rate readout + the world-clock season tag (🌸 + 春).
-  Still one calm column. **Delight:** the season tag turning, the koku rate ticking with a count-up — "honest
-  sweat" made legible.
+  Still one calm column — but the verbs are now **the labour of the node you stand on** (space is
+  load-bearing, §5.11), so once the map opens a **"Walk on 道"** move-strip sits at the foot of the tab, its
+  `→ node` buttons hinting what waits down each road — you change what you can *do* by walking, no
+  tab-switch. **Delight:** the season tag turning, the koku rate ticking with a count-up — "honest sweat"
+  made legible.
 - **Skills (R2 — first nav appears).** The *first navigation* — the screen splits Work / Skills; the nav rail
   is born with its first two entries. Skills surface **by doing** (fade in as XP first lands). **Delight:**
   the nav *itself* appearing is the signature beat — narrated: *"a way to track it appears."*
-- **Combat / Yard (R3).** Reveals fractally (one post → rack → sparring slots). The Combat panel at R3 is the
-  **bare auto-resolve loop + retreat**, plus Equipment and the Bestiary; the **stance** slot arrives at **R5**,
-  the **ability + item** slots at the **first weapon-L10 milestone** (never the all-slots-at-once dump). The
-  first fight is **humbling**; the resolve uses the ink-strike (§6.5), the near-loss flashed in `--beni`.
-  **Delight:** danger enters the calm paper — the ⚔️ register and the slash motion contrast the farming quiet.
+- **Combat / Yard (R3).** Reveals fractally (one post → rack → sparring slots). The panel opens with the
+  **equipped weapon** + its durability band (repair / equip), then **the watch** — only the foes standing on
+  your *current* node (spatial: no roster without walking to them), each a `.frame` row with its
+  scout-by-fighting win-rate (an ink pip + word, hue on the pip only, §5.1). A fight resolves atomically to a
+  log line with the **ink-strike** (§6.5); danger reads first in the **`life` HP meter** that inked into the
+  header at the R2 wolf beat (§5.3). Each foe carries a **Fight** verb **plus two auto-modes** (§5.5):
+  **`▶ auto · to the end`** (grind until you win or die — HP carries, and a **loss bites your carried koku**,
+  so the toggle warns so on its face) and **`▶ auto · flee @20%`** (break off when HP drops below the
+  threshold — though a burst foe can still land the killing blow first). The **stance** control
+  (構え — the glass-cannon↔tank trade: aggressive = more damage dealt AND taken, defensive = less of both) arrives at **R5**, the **ability + item**
+  slots at the **first weapon-L10 milestone** (never the all-slots-at-once dump). The first fight is
+  **humbling**. **Delight:** danger enters the calm paper — the ⚔️ register and the slash motion contrast
+  the farming quiet, and the storehouse 蔵 (§5.12) gives that danger a stake to bank against.
 - **Crafting (R4).** *A page for making things appears.* A new **top-level tab** (not a nested panel — Q10):
   the simple loot→craft loop (Smith Gonta), with **graded weapon-durability bands** surfacing alongside it.
   **Delight:** the loop closes on itself — what you fought for becomes what you make.
 - **Quests (R5).** *Jobs taken, jobs done.* A **top-level Quests tab** (not a nested panel — Q10):
   PEST-CONTROL / HUNT / CLEAR / DEFEND duties; the Combat panel's **stance** slot unlocks here too.
   **Delight:** the watch begins — a board of jobs to take and to finish, work gaining intent.
-- **Map (R6).** The first distinct navigable *screen*: a **small walkable T0 map** (D-065) — the estate
-  grounds + a road leading out, a handful of registration-mark nodes the player can actually *move between* to
-  explore (delivering the §1 "areas to explore"). Pure-CSS schematic (ink lines on paper, registration-mark
+- **Map (R6).** The first distinct navigable *screen* (§5.11) — and the spine of a **load-bearing** space,
+  not scenery: every labour and every foe lives on a node, and the walk out to the **deep satoyama 奥山**
+  past the danger ring buys the richest forage and dens the boar, so the map is a *system*. The framing that
+  ships (variant A) is the **you-are-here** card — "You stand at the ⟨node⟩" + its blurb + a **"Paths lead
+  to:"** move-strip — with two DEV-only alternates (**B · 絵地図** schematic, **C · 道中記** ledger)
+  auditioning behind the variant toggle (D-075). Pure-CSS schematic (ink lines on paper, registration-mark
   nodes), **not** an illustrated map; it **extends into Asagiri (Village)** as a second node-cluster at
   **new-T2**. **Delight:** "you can picture the land now" — the world gains spatial scale for the first time,
   and the first steps along that road feel like the house reaching past its own gate.

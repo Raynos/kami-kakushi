@@ -116,7 +116,8 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   miss). One teach per moment; never a monologue dump. The battery `onboarding` lens checks this.
 
 ### 2.5 The seasonal loop (~30–120 min/season) — *the judged exam*
-- **What:** every season the world appraises the house and each pillar takes a **judged-result top-up**
+- **What:** on the reckoning cadence — a per-tier lever, decoupled from the 28-day season calendar (T0
+  reckons ~every 3 days) — the world appraises the house and each pillar takes a **judged-result top-up**
   on a new high-water mark (~30% of growth; autumn harvest is the headline, §4.2.2).
 - **Why it's fun:** this is the **fixed, anticipated, "clear measurable" payoff** that complements the
   variable deed hits — the two do different psychological jobs and we keep both (the locked 70/30,
@@ -252,8 +253,8 @@ a ×10 version of the old thing (Antimatter Dimensions' rule). If a tier is "sam
 that *is* the slump. Schedule each tier's headline new system at the tier's **start**, not its end.
 
 **(c) Novelty cadence — the metronome of freshness.** A steady drip of "first time you see X" across the
-whole 28.5 h, tied to the season clock as a predictable beat (every season can open one new affordance or
-shift what's judged). Tightening-then-loosening rhythm: fast reveals in T0 to teach/hook, spaced-but-
+whole 28.5 h, tied to the reckoning cadence as a predictable beat (each reckoning — a per-tier lever, ~every
+3 days in T0, decoupled from the 28-day season — can open one new affordance or shift what's judged). Tightening-then-loosening rhythm: fast reveals in T0 to teach/hook, spaced-but-
 bigger reveals later (the slow grind is the *space* in which each reveal lands harder — don't rush reveals
 to fill silence). Always telegraph the next one.
 

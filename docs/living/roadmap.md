@@ -69,8 +69,8 @@
 |---|---|---|
 | M0 | foundation (cross-cutting) | toolchain, pure-core, one RNG, reveal engine, full multi-backend save + crash-recovery, the **cold open** |
 | M1 | **T0-M1** | rung-meter R0→R2, labour skills (discover-by-doing), season clock, soft stamina, first nav reveal, conditioning gate, porter's-knot zero-bonus beat |
-| M2a | **T0-M2** | the humbling grain-store wolf @ R3, seeded auto-resolve, sampled win-rate forecasts, character leveling, satiety throttle, self-recovering losses |
-| M2b | **T0-M2** | grounded bestiary, equipment + graded 4-band durability + repair (wood + a soft koku fee, tightened in v0.3.1 · D-092), a 2nd weapon @ combat-Lv2 *(currently a grant — reshape makes it found/crafted)*, foe forecasts + auto-fight |
+| M2a | **T0-M2** | the humbling grain-store wolf @ R3, seeded auto-resolve, sampled win-rate forecasts, character leveling, satiety throttle, no self-recovery — a loss bites carried wealth + stops autopilot |
+| M2b | **T0-M2** | grounded bestiary, equipment + graded 4-band durability + repair (wood + a soft koku fee, tightened in v0.3.1 · D-092), a found/crafted 2nd weapon, foe forecasts + auto-fight |
 
 So the re-axe's **new work starts at the T0 tuning pass + R4→R7 + the spine** — the cold-open→labour→first-wolf
 arc already exists and carries forward (M0–M2b shipped at `8bf6ac9` · `248bf93` · `fc36172`; the retired M0–M7
@@ -112,7 +112,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | Fun-slice | The fun | DoD |
 |---|---|---|
 | **T0-M3-F1** The Estate pillar goes live | the House-Influence panel un-greys the **active Estate pillar + locked unnamed silhouettes** (D-055) | R7 capstone **opens** Phase 2; `pillarDeltas` deeds accrue **only** post-R7 (FU7); additive `influence:{value,highWater}` state; **DIVERGE** on the influence panel |
-| **T0-M3-F2** The seasonal judged result | the season turns and *judges* your house — a high-water payoff beat | `onSeasonBoundary` fires on **new high-water only**, ±10% via a day-keyed named RNG sub-stream; **70/30** deeds/seasonal |
+| **T0-M3-F2** The seasonal judged result | a reckoning falls and *judges* your house — a high-water payoff beat | `onReckoning` fires on **new high-water only** (cadence keyed to `PHASE2_JUDGE_INTERVAL_DAYS`, T0 = 3d), ±10% via a day-keyed named RNG sub-stream; **70/30** deeds/seasonal |
 | **T0-M3-F3** Graduate the tutorial → **the BIG ceremonial T0→T1** | a **manual opt-in ascension story event** that **always lands BIG on first contact** (#14, **NQ-1 = full ceremony in this DoD**) — title card, macro silhouettes stir, music swell, a **dream/mystery beat** (D-055), the grade-scaled boon revealed | hybrid gate (**T0 = EXCELLENT**); overshoot → better permanent boon (D-049); `tier` 0→1 stored (**D-013a**; enum 0..5 per D-048); grade-scaled reward bundle; **first SCHEMA_VERSION bump → dev save-WIPE (#15)** + the real `migrate()` path **built + test-covered before launch** (not run across dev churn); **DIVERGE** on the ascension surface |
 
 ### T0-M4 — The showcase in miniature *(the breadth taste — fills R4→R7 around the proven spine)* — ✅ shipped (v0.3); koku tightened *further* in v0.3.1 (D-077)
@@ -120,7 +120,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | Fun-slice | The fun | DoD |
 |---|---|---|
 | **T0-M4-F1** Your first quest | a goal beyond grinding — take & complete one PEST/HUNT/CLEAR | one quest end-to-end (order-free advance-event set); reveals as a top-level tab (D-037) |
-| **T0-M4-F2** The koku flywheel taste (**LINEAR**) | spend koku on a first estate upgrade that *raises yield* → it compounds | **LINEAR** estate-upgrade taste now (decision #20 — **branches into LAND / TREASURY / TRADE sub-engines at T1**); E1→E4 yield-bearing upgrades (D-051; E4 "long-house" added in v0.3.1 as a deeper koku sink — D-092/§4.6.6d); work→koku→upgrade→more output; G-NO-DEAD-VALUES guards a compounding sink |
+| **T0-M4-F2** The koku flywheel taste (**LINEAR**) | spend koku on a first estate upgrade that *raises yield* → it compounds | **LINEAR** estate-upgrade taste now (decision #20 — **branches into LAND / TREASURY / TRADE sub-engines at T1**); U1→U4 yield-bearing kura-works (D-051; U4 "long-house" added in v0.3.1 as a deeper koku sink — D-092/§4.6.6d); work→koku→upgrade→more output; G-NO-DEAD-VALUES guards a compounding sink |
 | **T0-M4-F3** Talk & a tiny market | the **mentor's lore-talk** deepens; a tiny koku-sink **market** (the TRADE taste) | one NPC **lore-talk** line via the mentor (data-not-script, D-039); a tiny market (capped koku sink); **DIVERGE** on the dialogue/market panels |
 | **T0-M4-F4** A place to explore — a small **WALKABLE map** | the estate is areas you **move between**, not a menu (decision #23 — delivers the §1 "areas to explore" promise) | a **small walkable T0 map** (not just organizational room-grouping; **NQ-3 = minimal here, grow in T1**, with a pinned node-count ceiling); navigable, reveal-per-beat; **DIVERGE** on the map surface |
 | **T0-M4-F5** Stance & ability reveals (R5 / weapon-L10) | the combat decision deepens with a reveal beat | stance slot + ability/item slots reveal one-per-beat; touch-legible (no hover-only) |
