@@ -822,14 +822,18 @@ export function mount(
       );
     }
 
-    // cook a meal (sansai → satiety sink)
+    // cook a meal — sansai → satiety AND the ONLY way to mend HP (D-050/D-076). Say so, and make it
+    // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
     if (isUnlocked(state, 'verb-cook')) {
       const row = el('div', 'labour-row');
       const cost = balance.COOK_SANSAI_COST;
-      const cook = el('button', 'verb', `Cook a meal (${cost} sansai)`);
+      const hurt = state.character.hp < hpMax(state);
+      const cook = el('button', `verb${hurt ? ' primary' : ''}`, `Cook a meal (${cost} sansai)`);
       cook.type = 'button';
+      cook.title =
+        'Eat to restore your body and mend your wounds — eating is the only way to heal.';
       cook.disabled = (state.resources.sansai ?? 0) < cost;
-      if (cook.disabled) cook.title = `Needs ${cost} sansai`;
+      if (cook.disabled) cook.title = `Needs ${cost} sansai — forage the satoyama to gather it.`;
       cook.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
       row.append(cook);
       actions.append(row);

@@ -330,4 +330,26 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     );
     expect(root.querySelector('.vital.health .bar')!.classList.contains('low')).toBe(false);
   });
+
+  it('the Cook button becomes the PRIMARY "heal now" action when the MC is hurt (D-076 heal cue)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    const ready: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'verb-cook'],
+      resources: { ...base.resources, sansai: 20 },
+    };
+    const cookBtn = (): HTMLButtonElement =>
+      [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+        (b.textContent ?? '').includes('Cook a meal'),
+      )!;
+    // hurt → cook is emphasised (primary), the heal cue pairing with the red life bar.
+    render({ ...ready, character: { ...ready.character, hp: 1 } }, null);
+    expect(cookBtn().classList.contains('primary')).toBe(true);
+    expect(cookBtn().title).toMatch(/only way to heal/);
+    // at full HP → cook is a plain option, not shouting.
+    render({ ...ready, character: { ...ready.character, hp: 9999 } }, null);
+    expect(cookBtn().classList.contains('primary')).toBe(false);
+  });
 });
