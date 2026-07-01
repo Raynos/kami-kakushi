@@ -71,8 +71,8 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   (`toRung`, `goto`, `fight`, `jumpToAscension`, `speed(8)`).
 - **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075) — now incl. the **Estate-map**
   A/B/C (paths list · 絵地図 schematic · 道中記 ledger).
-- **Reading queue:** _(none open)_ — the v0.3 process-learnings retro is signed off
-- **H13** 🔲 — the E-stage numbering collision (code E1–E4 vs design E0→E3 + parked E4–E5).
+- **Reading queue:** **Plan A** (PRD→standalone end-state) + **Plan B** (v0.3.2 build)
+  await review — see `docs/plans/`. *(H13–H18 all resolved → D-098…D-103.)*
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -112,9 +112,9 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` (`newGame`, `toRung`, `fight`,
    `jumpToAscension()`, `speed(8)`). The in-UI **DEV panel** (top-right) toggles variants live.
 4. **Next, in order:** (a) ⭐ **R1/R2** (human, non-blocking) — play/taste the v0.3.1 build + review the
-   UI variants live in the DEV panel (override-only). (b) **Scope the T1 (Estate-full) build** — the
-   next roadmap slice; it carries the two reasoned-deferred items: the **§4 6-tier balance re-derivation**
-   (D-092) and a **real material economy / 2nd koku sink** (D-095 / battery #15). The v0.3.1 build +
-   its 8-lens battery are **fully actioned**; the session-38 doc-staleness audit confirmed PRD §4 +
-   the ADR log are current and single-sourced the version from package.json → footer **v0.3.1**
-   (D-096). One open decision: **H13** (E-stage numbering).
+   UI variants live in the DEV panel. (b) **Execute Plan A** (`docs/plans/` — reconcile the PRD +
+   adjacent docs to standalone end-state v1.0.0; §1/§6 first) **+ Plan B** (the v0.3.2 build closing the
+   17-item build-behind gap — 5-attr/accuracy combat at T0 first). A full bidirectional PRD-vs-build
+   reconcile (workflow, 73 agents) found the PRD **broadly stale** — the earlier "mostly current" call
+   was WRONG (R3 lesson: it only checked §4). All 6 forks resolved → **D-098…D-103**; version
+   single-sourced → footer **v0.3.1** (D-096).
