@@ -171,6 +171,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'rungMeter'
     | 'estateStage'
     | 'autoActivity'
+    | 'autoRake'
     | 'equippedWeapon'
     | 'weaponDurability'
     | 'autoCombat'
@@ -221,6 +222,7 @@ export function validateState(rawState: unknown): ValidateResult {
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
     autoActivity: base.autoActivity ?? null,
+    autoRake: base.autoRake === true, // additive — default off
     equippedWeapon: base.equippedWeapon ?? 'carrying_pole',
     weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
     autoCombat: base.autoCombat ?? null,

@@ -212,6 +212,21 @@ async function boot(): Promise<void> {
       dispatch({ type: 'fight', mobId: state.autoCombat, retreat: state.autoCombatRetreat });
       return;
     }
+    // auto-rake the R0 cold-open (rake is a meta verb, no ActivityId) — so the ~5-min opening isn't a
+    // blind manual click-grind. Rest when starving; clear itself once raking is no longer legal (R1).
+    if (state.autoRake) {
+      if (!availableActions(state).includes('rake_rice')) {
+        dispatch({ type: 'set_auto_rake', on: false });
+      } else if (
+        state.character.satiety < satietyMax(state) * 0.25 &&
+        availableActions(state).includes('rest')
+      ) {
+        dispatch({ type: 'rest' });
+      } else {
+        dispatch({ type: 'rake_rice' });
+      }
+      return;
+    }
     const auto = state.autoActivity;
     if (!auto) return;
     const act = getActivity(auto);

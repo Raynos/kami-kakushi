@@ -62,6 +62,10 @@ import type { Sfx } from './sfx';
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
 import type { DevApi } from './dev';
 
+// rung-meter at which the R0 rake gains its auto-repeat toggle — a few manual rakes' worth
+// (RUNG_POINTS_PER_ACT≈2), so the first rakes land as juice before the grind can be automated.
+const RAKE_AUTO_REVEAL_METER = 10;
+
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
   open_eyes: 'Open your eyes',
   rake_rice: 'Rake the spilled rice',
@@ -533,7 +537,10 @@ export function mount(
   function renderLadder(state: GameState): void {
     ladder.textContent = '';
     ladder.hidden = activeTab !== 'work';
-    if (ladder.hidden || !isUnlocked(state, 'panel-rung-ladder')) return;
+    // show the meter during R0 too (once you've raked) — the ladder used to hide until R1, leaving the
+    // whole cold-open with no visible progress toward the first promotion (fun-factor "a next goal").
+    if (ladder.hidden || !(isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked')))
+      return;
     const rank = currentRank(state);
     const prog = rungProgress(state);
     // FULL meter but an unmet story-gate (e.g. auto-labour maxed the bar without ever fighting the
@@ -816,13 +823,32 @@ export function mount(
     actions.hidden = activeTab !== 'work';
     if (activeTab !== 'work') return;
 
-    // meta verbs (rake / rest)
+    // meta verbs (rake / rest). Rake gets an auto-repeat toggle (revealed after a few manual rakes so
+    // the first ones still land as juice) — the R0 cold-open is ~550 rakes and must not be a blind
+    // click-grind (fun-factor "first-5-min hook"; every later labour already has an auto-toggle).
     for (const a of availableActions(state)) {
-      const btn = el('button', 'verb', META_LABELS[a]);
-      if (a === 'open_eyes') btn.classList.add('primary');
-      btn.type = 'button';
-      btn.addEventListener('click', () => dispatch({ type: a } as Intent));
-      actions.append(btn);
+      if (a === 'rake_rice') {
+        const row = el('div', 'labour-row');
+        const btn = el('button', 'verb', META_LABELS.rake_rice);
+        btn.type = 'button';
+        btn.addEventListener('click', () => dispatch({ type: 'rake_rice' }));
+        row.append(btn);
+        if (state.rungMeter >= RAKE_AUTO_REVEAL_METER) {
+          const on = state.autoRake;
+          const toggle = el('button', `auto-toggle${on ? ' on' : ''}`, on ? '■ stop' : '▶ auto');
+          toggle.type = 'button';
+          toggle.setAttribute('aria-pressed', String(on));
+          toggle.addEventListener('click', () => dispatch({ type: 'set_auto_rake', on: !on }));
+          row.append(toggle);
+        }
+        actions.append(row);
+      } else {
+        const btn = el('button', 'verb', META_LABELS[a]);
+        if (a === 'open_eyes') btn.classList.add('primary');
+        btn.type = 'button';
+        btn.addEventListener('click', () => dispatch({ type: a } as Intent));
+        actions.append(btn);
+      }
     }
 
     // the humbling first fight — a charged one-time beat (the wolf cornered in the kura). Spatial

@@ -54,6 +54,7 @@ export type Intent =
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
   | { type: 'set_auto'; activityId: ActivityId | null }
+  | { type: 'set_auto_rake'; on: boolean }
   | { type: 'face_wolf' }
   | { type: 'fight'; mobId: MobId; retreat?: boolean }
   | { type: 'set_auto_combat'; mobId: MobId | null; retreat?: boolean; reason?: 'weapon-broken' }
@@ -192,6 +193,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'set_auto': {
       next = { ...next, autoActivity: intent.activityId };
+      break;
+    }
+    case 'set_auto_rake': {
+      next = { ...next, autoRake: intent.on };
       break;
     }
     case 'face_wolf': {

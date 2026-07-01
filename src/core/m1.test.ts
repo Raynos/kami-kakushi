@@ -161,6 +161,14 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
     s = reduce(s, { type: 'rake_rice' });
     expect(s.deliveredDialogue.length).toBe(before);
   });
+
+  it('auto-rake can be armed + disarmed (the R0 cold-open is not a blind click-grind)', () => {
+    const base = createInitialState(1);
+    expect(base.autoRake).toBe(false); // off by default
+    const armed = reduce(base, { type: 'set_auto_rake', on: true });
+    expect(armed.autoRake).toBe(true);
+    expect(reduce(armed, { type: 'set_auto_rake', on: false }).autoRake).toBe(false);
+  });
 });
 
 // T0-M4-F4 — the small walkable estate map: areas you MOVE BETWEEN, gated by the existing

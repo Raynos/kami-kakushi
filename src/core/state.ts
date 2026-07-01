@@ -107,6 +107,9 @@ export interface GameState {
   readonly estateStage: number;
   /** The tab-open auto-repeat labour target, or null (FU23). */
   readonly autoActivity: ActivityId | null;
+  /** Auto-repeat the R0 rake (the meta verb has no ActivityId). Additive (default false); clears
+   *  itself once raking is no longer legal (R1). Makes the ~5-min cold-open not a blind click-grind. */
+  readonly autoRake: boolean;
 
   // ── combat (M2+, additive) ──
   readonly equippedWeapon: WeaponId;
@@ -157,6 +160,7 @@ export function createInitialState(seed: number): GameState {
     rungMeter: 0,
     estateStage: 0,
     autoActivity: null,
+    autoRake: false,
     equippedWeapon: 'carrying_pole',
     weaponDurability: getWeapon('carrying_pole').durabilityMax,
     autoCombat: null,
