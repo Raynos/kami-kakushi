@@ -191,6 +191,10 @@ export const DURABILITY_BANDS: readonly { min: number; mult: number; name: strin
 export const DURABILITY_WEAR_PER_FIGHT = 2;
 /** Wood to repair the equipped weapon to full (a coin/material sink, D-Q-craft+coin). */
 export const REPAIR_WOOD_COST = 5;
+/** Koku to repair (v0.3.1 Step 4 — a recurring combat-UPKEEP koku sink; D-086 scarcity / batch-1
+ *  call 4). Closes the fight→koku→repair→fight loop (A4), so a grind pays its own upkeep. Liquid
+ *  (D-059, tune by playtest). */
+export const REPAIR_KOKU_COST = 6;
 /** Ticks the fight itself costs. */
 export const FIGHT_TICKS = 2;
 

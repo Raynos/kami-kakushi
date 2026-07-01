@@ -56,6 +56,26 @@ export const MARKET_ITEMS: readonly MarketItem[] = [
     grants: { sansai: 9 },
     stockCap: 2,
   },
+  // v0.3.1 Step 4 — market DEPTH (a deeper koku sink; D-086 scarcity / batch-1 call 4), still held
+  // inside the D-008 MINORITY-lane cap (≤ ⅓ of Estate & Wealth) by tight per-run stockCaps.
+  {
+    id: 'road_rations',
+    label: "Porter's road-rations",
+    blurb:
+      'A pedlar bundles greens, dried fish, and kindling for the road — a working man revictualling before a long haul.',
+    kokuCost: 55,
+    grants: { sansai: 8, wood: 5 },
+    stockCap: 2,
+  },
+  {
+    id: 'smith_billet',
+    label: "Smith's seasoned billet",
+    blurb:
+      'A dear length of close-grained, kiln-dry timber off the smith’s own rack — the good wood, for a blade you mean to keep.',
+    kokuCost: 70,
+    grants: { wood: 12 },
+    stockCap: 2,
+  },
 ];
 
 export const MARKET_ITEM_IDS: ReadonlySet<string> = new Set(MARKET_ITEMS.map((m) => m.id));

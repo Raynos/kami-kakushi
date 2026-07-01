@@ -49,6 +49,18 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
       'The first fallow shinden is broken and put to rice. The house edges toward solvency. (E3 — Prosperous)',
     blurb: 'Break new paddy from the fallow ground.',
   },
+  {
+    // E4 (v0.3.1 Step 4 — a DEEPER estate koku sink; D-086 scarcity / batch-1 call 4). The
+    // flywheel's biggest turn: a late-T0 koku sink to work toward, priming the house's rise to T1.
+    stage: 4,
+    label: 'Raise the long-house',
+    kokuCost: 1400,
+    satietyMaxBonus: 30,
+    yieldBonusNum: 30, // cumulative +95% — the house stands proud
+    logLine:
+      'The long-house is re-roofed and the family crest re-hung above a mended gate. The Kurosawa name stands proud again — a house on the rise. (E4 — Risen)',
+    blurb: 'Re-roof the long-house and re-hang the crest.',
+  },
 ];
 
-export const MAX_ESTATE_STAGE = ESTATE_STAGES.length; // 3
+export const MAX_ESTATE_STAGE = ESTATE_STAGES.length; // 4

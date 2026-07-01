@@ -58,6 +58,7 @@
 | E1 | Patch the kura | 100 | +20 |
 | E2 | Clear the drill yard | 300 | +20 |
 | E3 | Reclaim the first shinden | 700 | +30 |
+| E4 | Raise the long-house | 1400 | +30 |
 
 ## Surfaces (reveal registry)
 

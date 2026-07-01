@@ -42,9 +42,11 @@ describe('canBuy — the koku + per-run-cap gate (the minority-lane clamp)', () 
 });
 
 describe('MARKET_ITEMS — a tiny roster of real T0 goods', () => {
-  it('is a small 3–4 item taste with unique ids', () => {
+  it('is a small taste roster (≤6) with unique ids', () => {
     expect(MARKET_ITEMS.length).toBeGreaterThanOrEqual(3);
-    expect(MARKET_ITEMS.length).toBeLessThanOrEqual(4);
+    // v0.3.1 Step 4 market-depth add → 6; still a MINORITY lane by SPEND (≤⅓ of the estate
+    // sink — asserted in economy.test), which is the real D-008 invariant, not the item count.
+    expect(MARKET_ITEMS.length).toBeLessThanOrEqual(6);
     expect(MARKET_ITEM_IDS.size).toBe(MARKET_ITEMS.length); // ids are unique
   });
 

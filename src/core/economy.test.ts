@@ -14,6 +14,7 @@ import {
   getItem,
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
+  MARKET_ITEMS,
   balance,
   type GameState,
 } from './index';
@@ -268,5 +269,50 @@ describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
     const base = createInitialState(1);
     const s: GameState = { ...base, resources: { ...base.resources, koku: 1000 } };
     expect(reduce(s, { type: 'buy_item', itemId: 'greens_sack' })).toBe(s);
+  });
+});
+
+describe('v0.3.1 Step 4 — koku sinks tighten the economy (D-086 scarcity / call 4)', () => {
+  it('repair charges a koku FEE (the new sink) when you can pay it', () => {
+    const base = createInitialState(1);
+    const ready: GameState = {
+      ...base,
+      unlocked: [...base.unlocked, 'verb-repair'],
+      weaponDurability: 1, // worn
+      resources: { ...base.resources, wood: 10, koku: 30 },
+    };
+    const after = reduce(ready, { type: 'repair_weapon' });
+    expect(after.resources.wood ?? 0).toBe(10 - balance.REPAIR_WOOD_COST);
+    expect(after.resources.koku ?? 0).toBe(30 - balance.REPAIR_KOKU_COST); // ← the koku sink bites
+    expect(after.weaponDurability).toBeGreaterThan(ready.weaponDurability); // repaired to max
+  });
+
+  it('the koku fee is WAIVED when you cannot pay — repair never softlocks (D-061/D-086)', () => {
+    const base = createInitialState(1);
+    const broke: GameState = {
+      ...base,
+      unlocked: [...base.unlocked, 'verb-repair'],
+      weaponDurability: 1,
+      resources: { ...base.resources, wood: 10, koku: 0 }, // wood, no koku
+    };
+    const after = reduce(broke, { type: 'repair_weapon' });
+    expect(after.weaponDurability).toBeGreaterThan(broke.weaponDurability); // STILL repairs
+    expect(after.resources.wood ?? 0).toBe(10 - balance.REPAIR_WOOD_COST); // wood spent
+    expect(after.resources.koku ?? 0).toBe(0); // fee waived (nothing to take) — no stranding
+  });
+
+  it('the estate sink is DEEPER — ≥4 contiguous stages with strictly ascending koku costs', () => {
+    expect(MAX_ESTATE_STAGE).toBeGreaterThanOrEqual(4); // E4 added (the deeper flywheel sink)
+    ESTATE_STAGES.forEach((s, i) => {
+      expect(s.stage).toBe(i + 1); // contiguous 1..N
+      if (i > 0) expect(s.kokuCost).toBeGreaterThan(ESTATE_STAGES[i - 1]!.kokuCost); // ascending
+    });
+  });
+
+  it('the market stays a MINORITY lane — total spend ≤ ⅓ of the estate sink (D-008)', () => {
+    const marketMax = MARKET_ITEMS.reduce((sum, m) => sum + m.kokuCost * m.stockCap, 0);
+    const estateTotal = ESTATE_STAGES.reduce((sum, s) => sum + s.kokuCost, 0);
+    // the market-depth add stays inside the ≤⅓ Estate-&-Wealth cap — a hard design invariant.
+    expect(marketMax).toBeLessThanOrEqual(estateTotal / 3);
   });
 });

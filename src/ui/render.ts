@@ -95,6 +95,7 @@ const ESTATE_STAGE_NAMES = [
   'E1 · Stabilising',
   'E2 · Recovering',
   'E3 · Prosperous',
+  'E4 · Risen',
 ];
 
 const CHANNEL_BULLET: Record<LogChannel, string> = {
@@ -861,9 +862,14 @@ export function mount(
     );
     const wctrl = el('div', 'labour-row');
     if (isUnlocked(state, 'verb-repair')) {
-      const rep = el('button', 'auto-toggle', 'Repair (5 wood)');
+      const rep = el(
+        'button',
+        'auto-toggle',
+        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_KOKU_COST} koku)`,
+      );
       rep.type = 'button';
-      rep.disabled = (state.resources.wood ?? 0) < 5;
+      rep.disabled = (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST;
+      rep.title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_KOKU_COST} koku (waived if you're short)`;
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }

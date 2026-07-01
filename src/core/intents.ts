@@ -24,6 +24,7 @@ import {
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
   REPAIR_WOOD_COST,
+  REPAIR_KOKU_COST,
   SKILL_YIELD_DEN,
   COOK_SANSAI_COST,
   COOK_SATIETY_RESTORE,
@@ -210,15 +211,21 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'repair_weapon': {
+      // v0.3.1 Step 4: repair costs wood (the HARD requirement) + a koku FEE up to REPAIR_KOKU_COST,
+      // WAIVED when you can't pay (the smith extends a broke goshi credit). A recurring combat-upkeep
+      // koku sink (D-086 / batch-1 call 4) that can NEVER softlock (the no-stranding guardrail —
+      // D-061, held inside D-086's "tension never pushes the player out").
       if ((next.resources.wood ?? 0) < REPAIR_WOOD_COST) return state;
+      const kokuFee = Math.min(next.resources.koku ?? 0, REPAIR_KOKU_COST);
       const weapon = getWeapon(next.equippedWeapon);
       next = withResource(next, 'wood', -REPAIR_WOOD_COST);
+      if (kokuFee > 0) next = withResource(next, 'koku', -kokuFee);
       next = { ...next, weaponDurability: weapon.durabilityMax };
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
-            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood)`,
+            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${kokuFee > 0 ? `, −${kokuFee} koku` : ''})`,
           },
         ],
       });
