@@ -182,6 +182,10 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | `verb-repair` | verb |
 | `verb-equip-axe` | verb |
 | `stance-control` | panel |
+| `house-omoya` | row |
+| `house-workshops` | row |
+| `house-granary` | row |
+| `house-study` | row |
 | `panel-house-influence` | panel |
 | `screen-demo-frontier` | screen |
 | `dream-2` | panel |

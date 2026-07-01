@@ -161,7 +161,7 @@ export const RANKS: readonly RankDef[] = [
       flags: ['rank-r4'],
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
-      unlock: ['readout-durability', 'panel-equipment', 'verb-repair'],
+      unlock: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya'],
       log: [
         {
           channel: 'milestone',
@@ -205,6 +205,7 @@ export const RANKS: readonly RankDef[] = [
     storyGate: () => true,
     rewardOnReach: {
       flags: ['rank-r6'],
+      unlock: ['house-workshops', 'house-granary'],
       log: [
         {
           channel: 'milestone',
@@ -226,6 +227,7 @@ export const RANKS: readonly RankDef[] = [
       // the T0 capstone: `t0-capstone` opens Phase 2 (`phaseOf`), where Estate-pillar deeds
       // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5).
       flags: ['rank-r7', 't0-capstone'],
+      unlock: ['house-study'],
       log: [
         {
           channel: 'milestone',

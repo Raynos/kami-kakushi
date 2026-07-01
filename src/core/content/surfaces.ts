@@ -204,6 +204,43 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
 
+  // ── Interior-house AREA reveals (A8 / canon §I / PRD §3.3) — the house physically REOPENS its
+  // rooms as your standing rises: the omoya at R4, the workshops + granary at R6, the lord's study
+  // at R7. FLAVOUR beats (reveal-as-plot + an inked "the house" list in the work tab), NOT walkable
+  // map nodes — the 7-node map ceiling (map.ts) is untouched. Revealed explicitly by the rung. ──
+  {
+    id: 'house-omoya',
+    kind: 'row',
+    unlock: () => false,
+    revealLine: narrate(
+      'The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.',
+    ),
+  },
+  {
+    id: 'house-workshops',
+    kind: 'row',
+    unlock: () => false,
+    revealLine: narrate(
+      "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
+    ),
+  },
+  {
+    id: 'house-granary',
+    kind: 'row',
+    unlock: () => false,
+    revealLine: narrate(
+      'A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.',
+    ),
+  },
+  {
+    id: 'house-study',
+    kind: 'row',
+    unlock: () => false,
+    revealLine: narrate(
+      "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
+    ),
+  },
+
   // ── R3 terminal beats (v0.2 narrative) — the macro teaser (revealed by the R3
   // reward, predicate ()=>false), then the live-gated frontier capstone + 2nd dream,
   // fired once the gate-watch has actually fought (combat level ≥ the frontier gate).

@@ -234,3 +234,16 @@ variants** behind the DEV toggle: **A · field-guide cards** (self-picked prod d
 reuses the combat foe-row chrome, most a11y-legible), **B · danger ledger** (危険帳,
 ranked ink danger-gauge), **C · 図鑑 scroll** (diegetic portraits that ink in). Filed
 **R5** in review.md (3 variants + the default, for live DEV-panel review). verify green.
+
+---
+
+## Update — A8 landed (interior-house area reveals)
+
+canon §I / PRD §3.3: the house physically REOPENS its rooms as your standing rises —
+the **omoya** (母屋) at R4, the **workshops** (工房) + **granary** (板倉) at R6, the
+lord's **study** (書院) at R7. Implemented as FLAVOUR area-reveals (new `house-*`
+surfaces with reveal-as-plot lines, staggered in the R4/R6/R7 reward bundles), NOT
+walkable map nodes — the **7-node map ceiling is untouched** (map.ts unchanged), the
+reconciliation the plan asked for. Each opened room inks into a "The house reopens 家"
+list in the estate card (reachable, R6). RED-able test derives the reveal points from
+RANKS (omoya@R4 / workshops+granary@R6 / study@R7, each exactly once). Verify green.

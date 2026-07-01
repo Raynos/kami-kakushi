@@ -623,6 +623,23 @@ export function mount(
       card.append(el('div', 'rung-hint', 'The estate stands restored.'));
     }
     estatePane.append(card);
+
+    // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
+    // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
+    // map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
+    const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
+      { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
+      { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
+      { surface: 'house-granary', kanji: '板倉', label: 'A new granary raised' },
+      { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
+    ];
+    const opened = HOUSE_ROOMS.filter((r) => isUnlocked(state, r.surface));
+    if (opened.length > 0) {
+      const house = el('div', 'rung-card frame');
+      house.append(el('div', 'rung-now', 'The house reopens 家'));
+      for (const r of opened) house.append(el('div', 'rung-hint', `${r.kanji} · ${r.label}`));
+      estatePane.append(house);
+    }
   }
 
   function silhouetteRow(): HTMLElement {
