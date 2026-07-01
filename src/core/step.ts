@@ -5,39 +5,41 @@
 // dtTicks from active elapsed time only).
 
 import type { GameState } from './state';
-import { TICKS_PER_DAY, DAYS_PER_SEASON } from './constants';
+import { TICKS_PER_DAY, PHASE2_JUDGE_INTERVAL_DAYS } from './constants';
 import { revealPass } from './unlock';
 import { phaseOf } from './ranks';
 import { seasonalJudge } from './pillars';
 import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
 
-function onSeasonBoundary(state: GameState): GameState {
-  // The per-season judged-appraisal (M2·4 / D-049). In Phase 2 (post-R7), when the Estate
-  // pillar has reached a NEW high-water since the last judge, the season pays out the 30%
-  // seasonal share (±10%) via the day-keyed `seasonal` substream — deterministic, no cursor
-  // mutation. Folded ONE day at a time by singleTick, so a multi-season jump fires each
-  // boundary's judge in turn (no pendingAppraisals counter needed, B10).
+function onReckoning(state: GameState): GameState {
+  // The periodic judged-appraisal (M2·4 / D-049). In Phase 2 (post-R7), when the Estate pillar has
+  // reached a NEW high-water since the last judge, the reckoning pays out the 30% seasonal share
+  // (±10%) via the day-keyed `seasonal` substream — deterministic, no cursor mutation. Folded ONE
+  // day at a time by singleTick, so a multi-interval jump fires each boundary's judge in turn (no
+  // pendingAppraisals counter needed, B10). CADENCE = PHASE2_JUDGE_INTERVAL_DAYS (battery #8): the
+  // 28-day season never turns inside the ~5-day T0 deed-grind, so we reckon on the shorter cadence
+  // so the judge is actually FELT before ascension.
   if (phaseOf(state) !== 2) return state;
   const r = deriveDayKeyed(state.rng.seed, 'seasonal-estate', state.clock.day);
   const { pillar, bonus } = seasonalJudge(state.influence.estate, r);
-  if (bonus <= 0) return state; // no new high-water → no judge this season
+  if (bonus <= 0) return state; // no new high-water → no judge this reckoning
   const judged: GameState = { ...state, influence: { ...state.influence, estate: pillar } };
   return applyRewards(judged, {
     log: [
       {
         channel: 'milestone',
-        text: `The season turns and the accounts are reckoned. The house is judged the better for your hand on it — its standing rises. (家産 +${bonus})`,
+        text: `The accounts are reckoned. The house is judged the better for your hand on it — its standing rises. (家産 +${bonus})`,
       },
     ],
   });
 }
 
 function onDayRollover(state: GameState): GameState {
-  // Per-day plans fire once, in fixed order (B10). Season boundary first.
+  // Per-day plans fire once, in fixed order (B10). The reckoning boundary first.
   let next = state;
-  if (next.clock.day > 0 && next.clock.day % DAYS_PER_SEASON === 0) {
-    next = onSeasonBoundary(next);
+  if (next.clock.day > 0 && next.clock.day % PHASE2_JUDGE_INTERVAL_DAYS === 0) {
+    next = onReckoning(next);
   }
   return next;
 }

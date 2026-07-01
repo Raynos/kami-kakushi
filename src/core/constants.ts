@@ -25,5 +25,14 @@ export const DAYS_PER_SEASON = 28 as const;
 export const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
 export type Season = (typeof SEASONS)[number];
 
+/** The Phase-2 RECKONING cadence (days) — how often the house is JUDGED (the seasonal-share bonus,
+ *  §4.2 / D-049). **LIQUID (D-059).** Decoupled from the 28-day calendar `DAYS_PER_SEASON` on purpose:
+ *  in the compressed T0 showcase a full season never turns inside the ~5-day Estate deed-grind, so a
+ *  season-boundary judge fired **0×** before ascension (battery #8) — the house is reckoned on this
+ *  SHORTER cadence so the mechanic is actually FELT in T0. Must stay **≤ the grind's day-span** so a
+ *  judge is GUARANTEED before the EXCELLENT gate. (T1+, when Phase 2 is a long game, will scale this
+ *  back toward the real 28-day season — a per-tier concern for when T1 is built.) */
+export const PHASE2_JUDGE_INTERVAL_DAYS = 3 as const;
+
 /** Real synodic month — the lunar phase is a continuous ephemeris, not a per-day roll (D-Q6). */
 export const LUNAR_PERIOD_DAYS = 29.53 as const;

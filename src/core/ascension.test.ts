@@ -104,4 +104,27 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     expect(t1.flags['ascended-t0']).toBe(true);
     expect(ascensionAvailable(t1)).toBe(false); // can't re-ascend T0
   });
+
+  it('the seasonal reckoning FIRES on the optimal Phase-2 path, before ascension (battery #8)', () => {
+    // The bug: the judge fired only on the 28-day season boundary, but the Estate deed-grind reaches
+    // EXCELLENT in ~5 days — so it fired 0× before ascension. The fix reckons on the shorter
+    // PHASE2_JUDGE_INTERVAL_DAYS cadence. This test drives the REAL grind (reduce → advanceClock →
+    // the reckoning boundary) and asserts the judge is FELT: it goes RED under the old season cadence.
+    let s: GameState = atPhase2();
+    s = { ...s, unlocked: [...s.unlocked, 'verb-farm'] };
+    let guard = 0;
+    let firedDuringGrind = false;
+    while (estateGrade(s) !== 'EXCELLENT' && guard++ < 1000) {
+      s = reduce(
+        { ...s, location: 'home-paddies' },
+        { type: 'do_activity', activityId: 'farm_paddy' },
+      );
+      // the judge banks by advancing `judged` past 0 (its baseline moves to the post-bonus high-water)
+      if ((s.influence.estate.judged ?? 0) > 0) firedDuringGrind = true;
+    }
+    expect(firedDuringGrind).toBe(true); // ← the reckoning fired WHILE climbing to the gate
+    expect(s.influence.estate.judged).toBeGreaterThan(0); // it banked (not just logged)
+    // and it left its ceremonial mark in the log — the player SEES it
+    expect(s.log.entries.some((e) => /accounts are reckoned/.test(e.text))).toBe(true);
+  });
 });
