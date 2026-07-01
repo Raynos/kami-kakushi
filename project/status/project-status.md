@@ -34,11 +34,15 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   DEMO/REAL fork retired (one re-derived T0 pace), twice-audited (8-lens fidelity
   battery + adversarial re-audit, both ship-quality), a11y-100, `verify`-green, on
   `origin/main`. Site live: <https://raynos.github.io/kami-kakushi/>.
-- **v0.3.1 — IN PROGRESS (Steps 1–3 done, on `origin/main`).** ✅ Step 1 DEV panel + strip-safe
+- **v0.3.1 — IN PROGRESS (Steps 1–5 done, on `origin/main`).** ✅ Step 1 DEV panel + strip-safe
   variant toggle · ✅ Step 2 craft/market/quests variants · ✅ Step 3 combat rework + the **bank**
-  (carried/banked) + the carried-loss penalty + two auto-modes (D-076 refined → **D-090/D-091**).
-  **Remaining:** Step 4 (koku + §4 balance) · Step 5 (spatial map) · Step 7 (battery) · final
-  PRD-consistency + R1 hand-off. Batch-2 design captured in
+  (carried/banked) + the carried-loss penalty + two auto-modes (**D-090/D-091**) · ✅ Step 4 koku
+  tightening (sinks + soft repair-fee, **D-092**) · ✅ **Step 5 the SPATIAL MAP** (**D-093**): 5a
+  activities on nodes (no default node — walk to work) · 5b foes on nodes (walk to the fight) · 5c
+  banking at the *kura* · 5d the load-bearing **deep-*satoyama*** node (richer yield, D-078) + the
+  ascension **after-state** (F2) · 5e the map-presentation D-075 diverge. **Remaining:** Step 7
+  (battery leftovers) · final PRD-consistency (incl. the deferred §4 6-tier re-derivation) +
+  gallery regen + R1 hand-off. Batch-2 design captured in
   [`../human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../human-feedback/2026-06-30-v0.3.1-priming-decisions.md);
   plan [`../../docs/plans/2026-06-30-v0.3.1-build.md`](../../docs/plans/2026-06-30-v0.3.1-build.md).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
@@ -102,11 +106,13 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 1. Read the **newest journal** (`project/journal/2026-07-01-session-36-v0.3.1-build.md` — the live
    build log) + the **batch-2 capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
-   + the active **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (in progress, Steps 1–3 done).
+   + the active **build plan** `docs/plans/2026-06-30-v0.3.1-build.md` (in progress, Steps 1–5 done).
 2. `npm install` (fresh clone) → `npm run verify` (green) → `npm run dev`.
 3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` in the console
    (`newGame`, `toRung`, `faceWolf`, `fight`, `auto`; DEV jumps: `speed(8)`,
    `jumpToPhase2()`, `jumpToAscension()`). The in-UI **DEV panel** (top-right) toggles variants live.
-4. **Next, in order:** (a) **continue the v0.3.1 build** — Step 4 (koku + §4 balance) → Step 5
-   (spatial map) → Step 7 (battery) → final PRD-consistency + R1 hand-off. (b) ⭐ **R1/R2** — the
-   human plays the build + reviews UI variants live in the DEV panel (override-only, non-blocking).
+4. **Next, in order:** (a) **continue the v0.3.1 build** — **Step 7** (battery leftovers: seasonal-judge
+   #8, DOM tests #11, DEV-harness smoke #12, dead-flags #19, milestone-integrity gate #20, 2nd craft
+   recipe #15, UI nits, the diverge-skill doc rewrite) → **final** PRD-consistency (incl. the deferred
+   §4 6-tier re-derivation) + gallery regen + R1 hand-off. (b) ⭐ **R1/R2** — the human plays the build
+   + reviews UI variants live in the DEV panel (override-only, non-blocking).
