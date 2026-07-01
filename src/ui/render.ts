@@ -427,14 +427,19 @@ export function mount(
   const combatPane = el('div', 'combat-pane');
   const questsPane = el('div', 'quests-pane');
   const mapPane = el('div', 'map-pane');
+  // Order matters for FEEL (spatial model, v0.3.1): the node-specific LABOUR (`actions`) is the HERO
+  // — what you walked to this node to DO — so it leads "What you can do", with the rung ladder as
+  // progress-context right below it and the global "spend-koku" panes (estate/market/storehouse)
+  // beneath. Before, actions rendered dead-last and the farm button fell ~865px below the fold,
+  // hiding the whole point of walking to a labour node.
   work.append(
     workHead,
+    actions,
     ladder,
     estatePane,
     marketPane,
     storehousePane,
     influence,
-    actions,
     skillsPane,
     combatPane,
     questsPane,
