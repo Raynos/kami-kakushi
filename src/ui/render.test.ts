@@ -307,6 +307,29 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(seen.some((i) => i.type === 'fight' && i.mobId === 'monkey')).toBe(true);
   });
 
+  it('the Work-tab "Walk on" strip moves you without a tab-switch (smooth spatial loop)', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        location: 'gate-forecourt',
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+      },
+      null,
+    );
+    // NO tab switch — the default Work tab carries a "Walk on" move strip.
+    const walkOn = root.querySelector('.actions .walk-on');
+    expect(walkOn).not.toBeNull();
+    const moveBtn = [...root.querySelectorAll<HTMLButtonElement>('.actions .map-move')].find((b) =>
+      (b.textContent ?? '').includes('Home paddies'),
+    );
+    expect(moveBtn).toBeTruthy();
+    moveBtn!.click();
+    expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
+  });
+
   it('the HP "life" meter is visible once combat matters — with an exact number + a low flag (D-076)', () => {
     const render = mount(root, () => {}, noopHooks());
     const base = createInitialState(1);

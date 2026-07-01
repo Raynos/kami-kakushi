@@ -728,6 +728,35 @@ export function mount(
     influence.append(card);
   }
 
+  /** The reachable-neighbour move buttons (`→ node`, danger ⚠ + the conditioning lock). Shared by the
+   *  MAP tab (the fuller view) AND the Work tab's "Walk on" strip, so you can move WITHOUT a
+   *  tab-switch — the spatial loop stays smooth. Returns null when nowhere is walkable from here. */
+  function moveStrip(state: GameState): HTMLElement | null {
+    const revealed = new Set(state.unlocked);
+    const moves = reachableFrom(state.location, revealed);
+    if (moves.length === 0) return null;
+    const movesEl = el('div', 'map-moves');
+    for (const n of moves) {
+      const danger = n.dangerRing === true;
+      const gated = danger && skillLevel(state, 'conditioning') < balance.CONDITIONING_GATE_LEVEL;
+      const btn = el('button', `verb map-move${danger ? ' danger' : ''}`);
+      btn.type = 'button';
+      btn.append(document.createTextNode(`→ ${n.label} `));
+      if (n.kanji) {
+        const k = el('span');
+        k.lang = 'ja';
+        k.textContent = n.kanji;
+        btn.append(k);
+      }
+      if (danger) btn.append(el('span', 'map-danger', ' ⚠'));
+      btn.disabled = gated;
+      if (gated) btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
+      btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
+      movesEl.append(btn);
+    }
+    return movesEl;
+  }
+
   function renderActions(state: GameState): void {
     actions.textContent = '';
     actions.hidden = activeTab !== 'work';
@@ -805,21 +834,15 @@ export function mount(
       actions.append(group);
     }
 
-    // spatial (v0.3.1 Step 5): if THIS node offers no labour (and no wolf-beat is prompting here),
-    // point the player at the map to walk on.
+    // spatial (v0.3.1 Step 5): a node with no labour (and no wolf-beat prompting here) leads into the
+    // "Walk on" strip below — no need to open the map tab.
     if (
       labours.length === 0 &&
       !wolfPending &&
       hasFlag(state, 'awake') &&
       isUnlocked(state, 'room-gate-forecourt')
     ) {
-      actions.append(
-        el(
-          'p',
-          'area-blurb',
-          'No work to be had where you stand. Open the Estate 地図 map and walk to a field, the woodlot, or the satoyama to labour.',
-        ),
-      );
+      actions.append(el('p', 'area-blurb', 'No work to be had where you stand — walk on.'));
     }
 
     // cook a meal — sansai → satiety AND the ONLY way to mend HP (D-050/D-076). Say so, and make it
@@ -837,6 +860,18 @@ export function mount(
       cook.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
       row.append(cook);
       actions.append(row);
+    }
+
+    // ── Walk on — the current node's paths, right here on the Work tab (once the map has opened) so
+    //    you can move WITHOUT a tab-switch. The Estate 地図 tab stays the fuller navigation view. ──
+    if (isUnlocked(state, 'room-gate-forecourt')) {
+      const strip = moveStrip(state);
+      if (strip) {
+        const walk = el('div', 'area-group walk-on');
+        walk.append(el('h3', 'area-head', 'Walk on 道'));
+        walk.append(strip);
+        actions.append(walk);
+      }
     }
   }
 
@@ -1438,30 +1473,10 @@ export function mount(
     }
     card.append(h);
     card.append(el('div', 'skill-blurb', here.blurb));
-    const revealed = new Set(state.unlocked);
-    const moves = reachableFrom(state.location, revealed);
-    if (moves.length > 0) {
+    const strip = moveStrip(state); // shared with the Work tab's "Walk on" strip
+    if (strip) {
       card.append(el('div', 'lock-hint map-paths-label', 'Paths lead to:'));
-      const movesEl = el('div', 'map-moves');
-      for (const n of moves) {
-        const danger = n.dangerRing === true;
-        const gated = danger && skillLevel(state, 'conditioning') < balance.CONDITIONING_GATE_LEVEL;
-        const btn = el('button', `verb map-move${danger ? ' danger' : ''}`);
-        btn.type = 'button';
-        btn.append(document.createTextNode(`→ ${n.label} `));
-        if (n.kanji) {
-          const k = el('span');
-          k.lang = 'ja';
-          k.textContent = n.kanji;
-          btn.append(k);
-        }
-        if (danger) btn.append(el('span', 'map-danger', ' ⚠'));
-        btn.disabled = gated;
-        if (gated) btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
-        btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
-        movesEl.append(btn);
-      }
-      card.append(movesEl);
+      card.append(strip);
     }
     mapPane.append(card);
   }
