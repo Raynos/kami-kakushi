@@ -549,6 +549,7 @@ function renderQuestsVariant(
     PEST: { kanji: '害', word: 'PEST', accent: 'var(--beni)' },
     HUNT: { kanji: '狩', word: 'HUNT', accent: 'var(--ai)' },
     CLEAR: { kanji: '掃', word: 'CLEAR', accent: 'var(--ochre)' },
+    DEFEND: { kanji: '守', word: 'DEFEND', accent: 'var(--rokusho)' },
   };
   const take = (questId: string): void => dispatch({ type: 'accept_quest', questId });
 

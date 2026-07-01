@@ -7,6 +7,7 @@ import {
   isQuestComplete,
   type QuestDef,
 } from './quests';
+import { GRINDABLE_MOBS } from './enemies';
 
 // The order-free advance-event-set contract (T0-M4-F1 / D-037). The progression is PURE:
 // advanceQuest never mutates the `done` set, steps complete in ANY order, partial progress is
@@ -100,5 +101,33 @@ describe('advanceQuest / isQuestComplete — order-free progression', () => {
     const size = done.size;
     done = advanceQuest(done, e0!, QUEST);
     expect(done.size).toBe(size);
+  });
+});
+
+describe('QUESTS content — the A6 starter set (all four kinds)', () => {
+  it('covers every QuestKind — PEST, HUNT, CLEAR, DEFEND — with ≥1 grounded quest', () => {
+    const kinds = new Set(QUESTS.map((q) => q.kind));
+    for (const k of ['PEST', 'HUNT', 'CLEAR', 'DEFEND'] as const) expect(kinds.has(k)).toBe(true);
+  });
+
+  it('every quest is COMPLETABLE in T0 — steps use only fireable tokens (kill:<T0 foe> / gather:<res>)', () => {
+    // The fight reducer emits kill:<mobId>; a quest that required a foe GATED out of T0 (minTier>0,
+    // e.g. the bandit, A10) could never complete → a dead quest. Assert every kill-step targets a
+    // reachable T0 grindable foe, and gather-steps use the gather verb.
+    const t0Foes = new Set<string>(
+      GRINDABLE_MOBS.filter((m) => (m.minTier ?? 0) === 0).map((m) => m.id),
+    );
+    for (const q of QUESTS) {
+      for (const s of q.steps) {
+        const [verb, subject] = s.event.split(':');
+        expect(verb === 'kill' || verb === 'gather').toBe(true);
+        if (verb === 'kill') expect(t0Foes.has(subject!)).toBe(true);
+      }
+      // distinct step ids + tokens (a real order-free set), a modest koku reward + a completion flag
+      expect(new Set(q.steps.map((s) => s.id)).size).toBe(q.steps.length);
+      expect(new Set(q.steps.map((s) => s.event)).size).toBe(q.steps.length);
+      expect(q.reward.resources?.koku).toBeGreaterThan(0);
+      expect(q.reward.flags).toContain(`quest_${q.id}_done`);
+    }
   });
 });

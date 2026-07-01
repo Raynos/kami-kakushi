@@ -1,6 +1,6 @@
-// T0 quests as ORDER-FREE advance-event sets (PRD §2.13 / T0-M4-F1 / D-037 / D-032).
-// A quest is a small goal beyond grinding: a kind (PEST / HUNT / CLEAR), grounded estate
-// flavour, and a set of steps that complete in ANY order. Each step listens for an `event`
+// T0 quests as ORDER-FREE advance-event sets (PRD §2.13 / T0-M4-F1 / D-037 / D-032 / A6).
+// A quest is a small goal beyond grinding: a kind (PEST / HUNT / CLEAR / DEFEND), grounded
+// estate flavour, and a set of steps that complete in ANY order. Each step listens for an `event`
 // TOKEN — a '<verb>:<subject>' string ('kill:monkey', 'gather:wood') emitted by the fight /
 // labour reducers — so there is no fixed step order and no nesting. Surfaces under a
 // TOP-LEVEL Quests nav tab (D-037), not a nested panel; no fixed quest-type budget (D-032).
@@ -10,7 +10,7 @@
 import type { RewardBundle } from '../rewards';
 import { NAMES } from './names';
 
-export type QuestKind = 'PEST' | 'HUNT' | 'CLEAR';
+export type QuestKind = 'PEST' | 'HUNT' | 'CLEAR' | 'DEFEND';
 
 export interface QuestStep {
   readonly id: string;
@@ -59,6 +59,95 @@ export const QUESTS: readonly QuestDef[] = [
         {
           channel: 'milestone',
           text: `The paddies stand quiet again. ${NAMES.elder} counts thirty koku from the house purse into your hand — "for the rice you kept on the stalk."`,
+        },
+      ],
+    },
+  },
+  {
+    id: 'hunt_satoyama_predators',
+    kind: 'HUNT',
+    title: 'Hunt the satoyama predators',
+    blurb:
+      'The lean wolves and a tusked boar have grown bold on the hill-trails, taking stock and testing the folds. Go up into the satoyama and put the worst of them down before they come to the yard.',
+    steps: [
+      { id: 'hunt-wolf', label: 'Bring down a lean wolf in the near satoyama', event: 'kill:wolf' },
+      {
+        id: 'hunt-boar',
+        label: 'Track the boar to its wallow in the deep satoyama and kill it',
+        event: 'kill:boar',
+      },
+    ],
+    reward: {
+      resources: { koku: 24 },
+      flags: ['quest_hunt_satoyama_predators_done'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `${NAMES.drillmaster} the drillmaster looks over the hides you bring in and grunts, almost approving. "The hills are quieter for it. Twenty-four koku — a hunter's due."`,
+        },
+      ],
+    },
+  },
+  {
+    id: 'clear_satoyama_trails',
+    kind: 'CLEAR',
+    title: 'Clear the satoyama trails',
+    blurb:
+      'No one can work the far ground while every trail hides a raider. Sweep the whole rising country — monkey, wolf, and boar alike — until a porter can walk the paths unarmed.',
+    steps: [
+      {
+        id: 'clear-monkey',
+        label: 'Rout a crop-raiding monkey from the trails',
+        event: 'kill:monkey',
+      },
+      {
+        id: 'clear-wolf',
+        label: 'Down a lean wolf on the near-satoyama paths',
+        event: 'kill:wolf',
+      },
+      {
+        id: 'clear-boar',
+        label: 'Kill the boar that dens in the deep satoyama',
+        event: 'kill:boar',
+      },
+    ],
+    reward: {
+      resources: { koku: 40 },
+      flags: ['quest_clear_satoyama_trails_done'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `Word goes round that the satoyama trails are safe to walk. ${NAMES.elder} marks it in the house book and hands you forty koku — "a road cleared is a road that earns."`,
+        },
+      ],
+    },
+  },
+  {
+    id: 'defend_the_stores',
+    kind: 'DEFEND',
+    title: 'Defend the grain-store',
+    blurb:
+      'Raiders have found the granary. Hold the stores through the season — beat back what comes for the rice, and bar the store against the next night.',
+    steps: [
+      {
+        id: 'defend-monkey',
+        label: 'Drive a raiding monkey off the granary',
+        event: 'kill:monkey',
+      },
+      {
+        id: 'defend-wolf',
+        label: 'Kill the wolf that breaks for the stores at night',
+        event: 'kill:wolf',
+      },
+      { id: 'defend-bar', label: 'Cut timber and bar the grain-store door', event: 'gather:wood' },
+    ],
+    reward: {
+      resources: { koku: 28 },
+      flags: ['quest_defend_the_stores_done'],
+      log: [
+        {
+          channel: 'milestone',
+          text: `The stores come through the season whole. ${NAMES.elder} rests a hand on the barred door. "The house eats this winter because you held this. Twenty-eight koku — and the trust that comes with it."`,
         },
       ],
     },

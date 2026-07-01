@@ -162,3 +162,18 @@ un-crafted recipe (pole → axe → yari progression) and the equip control to s
 among ALL owned weapons; fixed the DEV craft-variant to mirror the same recipe.
 RED-able tests (recipe + the sidegrade property); weapons table regen; verify green.
 Signature "thrust-through" stays a T1 ability-slot feature.
+
+---
+
+## Update — A6 landed (quest starter set: HUNT / CLEAR / DEFEND)
+
+D-032: added **DEFEND** to `QuestKind` and authored one grounded T0 quest per new kind
+(the engine + Quests-tab UI already iterate QUESTS generically, so they wire in with no
+plumbing): **HUNT** `hunt_satoyama_predators` (kill wolf + boar), **CLEAR**
+`clear_satoyama_trails` (the full sweep — monkey + wolf + boar, the richest reward),
+**DEFEND** `defend_the_stores` (repel monkey + wolf, then bar the store with timber).
+All steps use fireable tokens (kill:<T0 foe> / gather:wood) — none needs the T2-gated
+bandit, so each is completable in T0 (a new RED-able test asserts kind-coverage +
+token-reachability). Extended the DEV quest-variant kind→stamp map with DEFEND (守,
+rokusho green). Note: the Quests tab now shows 4 cards at once — could be rung-gated at
+playtest if it reads cluttered. Verify green.
