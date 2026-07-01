@@ -131,6 +131,37 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 
 ---
 
+### R5 🔲 — Bestiary panel (A7 · combat field-guide) — review each LIVE in the DEV panel (D-075)
+
+The new **Bestiary** (reveals at R3, in the Combat tab) records the foes you've faced: a faced foe
+shows its kanji seal, its **tell** (fast / evasive / heavy / unerring, derived from its archetype
+knobs), its **win-rate forecast**, and where it haunts; an **un-faced foe stays fogged** (scout-by-
+fighting, mirroring the combat-tab fog). Three FULL working takes are live behind the DEV toggle
+("VARIANT · Bestiary"):
+
+- [ ] **A — field-guide cards** _(self-picked prod default; shipped)_ — one woodblock `.frame` card
+  per foe: name + kanji seal, a win-rate pip (◆ Steady/Even/Risky), the tell, and the node it
+  haunts; unfaced foes read "Unknown foe · Not yet faced". The calmest, most legible take — it
+  reuses the combat-tab foe-row chrome so the two panels feel of a piece.
+- [ ] **B — danger ledger** _(built; DEV-only)_ — a ranked ink table (危険帳), foes ordered
+  easiest→deadliest, each carrying a single **continuous danger-gauge** (A19: ink over pips) that
+  fills + heats (rokusho→ochre→beni) as the odds worsen; unfaced foes are a hatched, silhouetted
+  row. The most at-a-glance threat read.
+- [ ] **C — 図鑑 scroll** _(built; DEV-only)_ — diegetic bestiary entries: each foe led by a kanji
+  **portrait** that inks in once faced (a faint ？ silhouette before), with field-note prose + its
+  tell/odds beneath; unfaced foes read as a rumour, not a stat-line. The most in-world, least tabular.
+
+- **Asking for:** which take ships as the prod default (I self-picked **A**), or a tune to any.
+- **How to look:** `npm run dev` → reach R3 (`__qa.toRung('R3')` then `__qa.faceWolf()`, or just
+  play in) → the **Combat** tab → toggle "VARIANT · Bestiary" A/B/C in the DEV panel (top-right).
+  Fight a foe (or `__qa.fight('monkey')`) to see an entry ink in from its fogged state.
+- _a11y: A ships a11y-legible (pip hue is never the only signal — the word + % carry it). B/C are
+  DEV-only until you pick one; if you pick one I'll re-check WCAG contrast (B's beni/ochre danger
+  fills on washi are the ones to watch)._
+- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **R4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **D-076…D-079** (+D-056); **R3** folded into R2 (**D-075**).

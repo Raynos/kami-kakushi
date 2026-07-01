@@ -176,8 +176,12 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | `tab-combat` | tab |
 | `panel-drill-yard` | panel |
 | `readout-combat-level` | readout |
+| `panel-bestiary` | panel |
+| `readout-durability` | readout |
+| `panel-equipment` | panel |
 | `verb-repair` | verb |
 | `verb-equip-axe` | verb |
+| `stance-control` | panel |
 | `panel-house-influence` | panel |
 | `screen-demo-frontier` | screen |
 | `dream-2` | panel |

@@ -37,6 +37,7 @@ import {
   skillProgress,
   skillYieldNum,
   foesHere,
+  bestiaryEntries,
   combatXpProgress,
   durabilityBand,
   getWeapon,
@@ -141,7 +142,7 @@ export interface AppHooks {
   sfx: Sfx;
 }
 
-function pct(n: number): string {
+export function pct(n: number): string {
   return `${Math.round(n * 100)}%`;
 }
 
@@ -1013,6 +1014,59 @@ export function mount(
     }
   }
 
+  // ── the Bestiary (A7) — default variant A: a woodblock FIELD-GUIDE card list. One card per
+  //    grindable foe; a faced foe (its `mob-<id>` flag) shows its kanji seal, tell, win-rate
+  //    forecast, and haunt; an un-faced foe stays a fogged silhouette (scout-by-fighting, mirrors
+  //    the combat-tab fog). Pure read of `bestiaryEntries` — B/C alternates live in ui/dev.ts. ──
+  function renderBestiary(container: HTMLElement, state: GameState): void {
+    const entries = bestiaryEntries(state);
+    const known = entries.filter((e) => e.seen).length;
+    container.append(el('h3', 'foes-head', 'Bestiary 図鑑'));
+    container.append(
+      el(
+        'div',
+        'skill-blurb',
+        `${known} of ${entries.length} beasts recorded — face a foe to ink its entry.`,
+      ),
+    );
+    for (const e of entries) {
+      const card = el('div', 'foe-row frame bestiary-card');
+      const head = el('div', 'skill-head');
+      head.append(
+        el('span', 'skill-name', e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe'),
+      );
+      const wr = el('span', 'win-rate');
+      if (e.seen) {
+        const tier = e.winRate >= 0.55 ? 'good' : e.winRate >= 0.28 ? 'fair' : 'risky';
+        const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
+        const pip = el('span', `pip ${tier}`, '◆');
+        pip.setAttribute('aria-hidden', 'true');
+        wr.append(pip, document.createTextNode(` ${pct(e.winRate)} · ${word}`));
+      } else {
+        const pip = el('span', 'pip unknown', '◇');
+        pip.setAttribute('aria-hidden', 'true');
+        wr.append(pip, document.createTextNode(' Not yet faced'));
+      }
+      head.append(wr);
+      card.append(head);
+      if (e.seen) {
+        card.append(el('div', 'skill-blurb', e.mob.blurb));
+        const where = getNode(e.mob.area).label.replace(/^The /, '');
+        const meta = el('div', 'bestiary-meta');
+        meta.style.cssText =
+          'display:flex;gap:.6rem;flex-wrap:wrap;font-size:var(--fs-micro);color:var(--ink-soft);';
+        meta.append(el('span', undefined, `Tell — ${e.tell}`));
+        meta.append(el('span', undefined, `Haunts — ${where}`));
+        card.append(meta);
+      } else {
+        const fog = el('div', 'skill-blurb', 'A beast you have not yet met. Face it to record it.');
+        fog.style.color = 'var(--ink-faint)';
+        card.append(fog);
+      }
+      container.append(card);
+    }
+  }
+
   function renderCombat(state: GameState): void {
     combatPane.textContent = '';
     const show = activeTab === 'combat' && isUnlocked(state, 'tab-combat');
@@ -1059,23 +1113,30 @@ export function mount(
     }
     combatPane.append(train);
 
-    // equipped weapon + durability band + repair / equip
+    // equipped weapon + (from R4) durability band + repair / equip. A7 staggered reveal: the weapon
+    // itself is the R3 floor; its wear-band + repair + the equip switcher wait for the R4 surfaces
+    // (`readout-durability` / `panel-equipment`), so a fresh gate-watch sees the blade but not yet
+    // the smithy loop.
     const weapon = getWeapon(state.equippedWeapon);
     const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
+    const showDurability = isUnlocked(state, 'readout-durability');
+    const showEquip = isUnlocked(state, 'panel-equipment');
     const wc = el('div', 'weapon-card frame');
     const wh = el('div', 'skill-head');
     wh.append(el('span', 'skill-name', `${weapon.label} ${weapon.kanji}`));
-    wh.append(el('span', 'skill-lvl', band.name));
+    if (showDurability) wh.append(el('span', 'skill-lvl', band.name));
     wc.append(wh);
     wc.append(
       el(
         'div',
         'skill-blurb',
-        `${weapon.archetype} · durability ${state.weaponDurability}/${weapon.durabilityMax}`,
+        showDurability
+          ? `${weapon.archetype} · durability ${state.weaponDurability}/${weapon.durabilityMax}`
+          : weapon.archetype,
       ),
     );
     const wctrl = el('div', 'labour-row');
-    if (isUnlocked(state, 'verb-repair')) {
+    if (showEquip && isUnlocked(state, 'verb-repair')) {
       const rep = el(
         'button',
         'auto-toggle',
@@ -1089,13 +1150,16 @@ export function mount(
     }
     // weapon switcher — equip any weapon you OWN (the pole always; a crafted weapon once forged).
     // Iterates the roster order (pole · axe · yari), so it grows with the T0 weapon ladder (A3).
-    for (const w of WEAPONS) {
-      const owned = w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`);
-      if (!owned || w.id === state.equippedWeapon) continue;
-      const eq = el('button', 'auto-toggle', `Take up · ${w.label} ${w.kanji}`);
-      eq.type = 'button';
-      eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: w.id }));
-      wctrl.append(eq);
+    // Part of the R4 Equipment beat (`panel-equipment`), so it only appears once the loop is live.
+    if (showEquip) {
+      for (const w of WEAPONS) {
+        const owned = w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`);
+        if (!owned || w.id === state.equippedWeapon) continue;
+        const eq = el('button', 'auto-toggle', `Take up · ${w.label} ${w.kanji}`);
+        eq.type = 'button';
+        eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: w.id }));
+        wctrl.append(eq);
+      }
     }
     if (wctrl.childElementCount > 0) wc.append(wctrl);
     combatPane.append(wc);
@@ -1105,7 +1169,9 @@ export function mount(
     // each weapon is FOUND + MADE, never gifted; the card advances as you forge each.
     const recipe = RECIPES.find((r) => !hasFlag(state, `crafted-${r.outputWeapon}`));
     const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
-    if (recipe && hasMaterial) {
+    // A7: the loot→craft panel is part of the R4 Equipment beat (`panel-equipment`) — held back
+    // one rung from combat opening, so R3 is the pure fight floor.
+    if (showEquip && recipe && hasMaterial) {
       const cc = el('div', 'weapon-card frame craft-card');
       cc.append(el('div', 'rung-now', recipe.label));
       cc.append(
@@ -1139,30 +1205,44 @@ export function mount(
       combatPane.append(cc);
     }
 
-    // stance — the active combat decision (segmented control; pips recompute live)
-    const stanceRow = el('div', 'stance-row');
-    stanceRow.append(el('h3', undefined, 'Stance 構え'));
-    for (const s of STANCE_ORDER) {
-      const ui = STANCE_UI[s];
-      const on = state.stance === s;
-      // A2: stance is the glass-cannon↔tank axis (atk vs damage-taken). Wear is now flat, so the
-      // read shown is the offense/defense trade — hurt-carries-between-fights makes it a real call.
-      const mod = balance.STANCE_MODS[s];
-      const atkPct = Math.round((mod.atkMult - 1) * 100);
-      const takenPct = Math.round((mod.takenMult - 1) * 100);
-      const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
-      const trade = `atk ${sign(atkPct)}% · taken ${sign(takenPct)}%`;
-      const btn = el('button', `auto-toggle stance-btn${on ? ' on' : ''}`);
-      btn.type = 'button';
-      btn.setAttribute('aria-pressed', String(on));
-      btn.title = ui.hint;
-      btn.setAttribute('aria-label', `${ui.gloss} stance — ${trade}. ${ui.hint}`);
-      btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
-      btn.append(el('span', 'stance-wear', trade));
-      btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
-      stanceRow.append(btn);
+    // stance — the active combat decision (segmented control; pips recompute live). A7: the last
+    // staggered combat surface (`stance-control`), revealed at R5 — R3/R4 fight in the default
+    // stance; the deliberate glass-cannon↔tank call opens once you're a seasoned hand.
+    if (isUnlocked(state, 'stance-control')) {
+      const stanceRow = el('div', 'stance-row');
+      stanceRow.append(el('h3', undefined, 'Stance 構え'));
+      for (const s of STANCE_ORDER) {
+        const ui = STANCE_UI[s];
+        const on = state.stance === s;
+        // A2: stance is the glass-cannon↔tank axis (atk vs damage-taken). Wear is now flat, so the
+        // read shown is the offense/defense trade — hurt-carries-between-fights makes it a real call.
+        const mod = balance.STANCE_MODS[s];
+        const atkPct = Math.round((mod.atkMult - 1) * 100);
+        const takenPct = Math.round((mod.takenMult - 1) * 100);
+        const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
+        const trade = `atk ${sign(atkPct)}% · taken ${sign(takenPct)}%`;
+        const btn = el('button', `auto-toggle stance-btn${on ? ' on' : ''}`);
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', String(on));
+        btn.title = ui.hint;
+        btn.setAttribute('aria-label', `${ui.gloss} stance — ${trade}. ${ui.hint}`);
+        btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
+        btn.append(el('span', 'stance-wear', trade));
+        btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
+        stanceRow.append(btn);
+      }
+      combatPane.append(stanceRow);
     }
-    combatPane.append(stanceRow);
+
+    // ── the Bestiary (A7, D-075) — the field-guide of the foes you've faced, revealed at R3. A =
+    //    the field-guide card list (default, ships). B/C live DEV-only behind the variant toggle. ──
+    if (isUnlocked(state, 'panel-bestiary')) {
+      const bpane = el('div', 'bestiary');
+      combatPane.append(bpane);
+      if (!(import.meta.env.DEV && dev && dev.renderVariant('bestiary', bpane, state, dispatch))) {
+        renderBestiary(bpane, state);
+      }
+    }
 
     // foes — the watch (spatial, Step 5b): only the foes on THIS node stand in the watch.
     combatPane.append(el('h3', 'foes-head', 'The watch'));

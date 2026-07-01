@@ -163,8 +163,46 @@ export const SURFACES: readonly Surface[] = [
   },
   { id: 'panel-drill-yard', kind: 'panel', unlock: () => false },
   { id: 'readout-combat-level', kind: 'readout', unlock: () => false },
+  // A7 — the Bestiary reveals WITH combat at R3 (the field-guide of the foes you meet). It fogs a
+  // foe until you've faced it (its `mob-<id>` flag) — reveal-as-plot, then scout-by-fighting.
+  {
+    id: 'panel-bestiary',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate(
+      'You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.',
+    ),
+  },
+
+  // ── R4 — the loot→craft beat (A7): the blade's wear + repair, and the Equipment/craft loop ──
+  {
+    id: 'readout-durability',
+    kind: 'readout',
+    unlock: () => false,
+    revealLine: narrate(
+      "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
+    ),
+  },
+  {
+    id: 'panel-equipment',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate(
+      'The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.',
+    ),
+  },
   { id: 'verb-repair', kind: 'verb', unlock: () => false },
   { id: 'verb-equip-axe', kind: 'verb', unlock: () => false },
+
+  // ── R5 — the combat-rung beat (A7): the stance control (glass-cannon↔tank) ──
+  {
+    id: 'stance-control',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate(
+      'The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.',
+    ),
+  },
 
   // ── R3 terminal beats (v0.2 narrative) — the macro teaser (revealed by the R3
   // reward, predicate ()=>false), then the live-gated frontier capstone + 2nd dream,

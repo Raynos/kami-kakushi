@@ -210,3 +210,27 @@ stances** (the A2 glass-cannon↔tank axis, atk/taken only), **Craft recipes** +
 typed registries (MAP_NODES / STANCE_MODS / RECIPES / MATERIALS / MATERIAL_DROPS /
 MARKET_ITEMS). Verified (delegated + `verify` re-run myself, green; diff scoped to
 gen-docs.ts + the regen). Unblocks the queued "move §4 numbers to generated docs/content/".
+
+---
+
+## Update — A7 landed (staggered combat reveals + Bestiary diverge — the depth+process flagship)
+
+Delegated + **verified hard** (ran `verify` myself — 11 gates / 310 tests green;
+confirmed render.ts actually CONSUMES the new gates, not just declares surfaces; the
+reveal test is RED-able, derived from RANKS). Two parts:
+
+**Staggered reveal (§4.6.9, one beat per rung)** — the R3 combat-tab dump is broken up:
+- **R3** (fight floor): weapon + auto-resolve + retreat + **Bestiary** (`panel-bestiary`).
+- **R4** (loot→craft): durability bands + repair + equip/craft (`readout-durability`,
+  `panel-equipment`, `verb-repair` moved out of R3).
+- **R5**: the **stance** control (`stance-control`).
+New surfaces in surfaces.ts (each with a reveal-as-plot line), staggered in ranks.ts,
+gated in render.ts. A RED-able `combat-reveal.test.ts` proves the beats (R3 sees
+bestiary but NOT durability/craft/stance; R4 adds them; R5 adds stance; each once).
+
+**Bestiary (D-075 diverge)** — a new panel recording faced foes (fogged until
+`mob-<id>` set), reading a new pure `bestiaryEntries` selector (combat.ts). **3 working
+variants** behind the DEV toggle: **A · field-guide cards** (self-picked prod default —
+reuses the combat foe-row chrome, most a11y-legible), **B · danger ledger** (危険帳,
+ranked ink danger-gauge), **C · 図鑑 scroll** (diegetic portraits that ink in). Filed
+**R5** in review.md (3 variants + the default, for live DEV-panel review). verify green.

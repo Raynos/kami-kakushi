@@ -284,6 +284,38 @@ export function foesHere(state: GameState): FoeForecast[] {
   );
 }
 
+/** The foe's fighting tell, DERIVED from its archetype knobs (enemies.ts is the source of truth) —
+ *  the cadence/accuracy/evasion character the player learns by fighting it. Empty knobs → 'plain'. */
+export function foeTell(mob: MobDef): string {
+  const parts: string[] = [];
+  const speed = mob.baseSpeed ?? 1;
+  if (speed >= 1.3) parts.push('fast');
+  else if (speed <= 0.98) parts.push('heavy');
+  if ((mob.evaBonus ?? 0) >= 4) parts.push('evasive');
+  if ((mob.accBonus ?? 0) >= 3) parts.push('unerring');
+  return parts.length ? parts.join(', ') : 'plain';
+}
+
+/** One Bestiary record (A7): the foe, whether it's been ENCOUNTERED (its `mob-<id>` flag set on
+ *  first fight), its seed-robust win-rate forecast, its derived tell, and the node it haunts. The
+ *  renderer fogs an un-encountered foe (mirrors the combat-tab scout-by-fighting fog). Pure over
+ *  the same forecast the fight uses (A6), so a hurt fighter's shown win-rate drops for free. */
+export interface BestiaryEntry {
+  readonly mob: MobDef;
+  readonly seen: boolean;
+  readonly winRate: number;
+  readonly tell: string;
+}
+
+export function bestiaryEntries(state: GameState): BestiaryEntry[] {
+  return foeForecasts(state).map((fc) => ({
+    mob: fc.mob,
+    seen: state.flags[`mob-${fc.mob.id}`] === true,
+    winRate: fc.winRate,
+    tell: foeTell(fc.mob),
+  }));
+}
+
 export function resolveFight(
   rng: Rng,
   mc: CombatStats,

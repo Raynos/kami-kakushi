@@ -377,3 +377,101 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(cookBtn().classList.contains('primary')).toBe(false);
   });
 });
+
+// ── A7 — the staggered combat reveal + the Bestiary panel (default variant A) ────────────────
+describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unfaced foes', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function combatState(extra: string[]): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      location: 'home-paddies',
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'readout-rice', 'tab-combat', 'panel-bestiary', ...extra],
+    };
+  }
+  function openCombat(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('Combat'))!
+      .click();
+  }
+
+  it('R3 floor: weapon + fight + Bestiary show, but NOT durability text, repair, equip, or stance', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(combatState([]), null); // R3-only surfaces
+    openCombat();
+    const pane = root.querySelector<HTMLElement>('#pane-combat, .combat-pane') ?? root;
+    // the fight floor is present
+    expect(root.querySelector('.weapon-card')).not.toBeNull();
+    expect(root.querySelector('.foe-row')).not.toBeNull();
+    expect(root.textContent).toContain('Bestiary 図鑑');
+    // the R4/R5 beats are held back
+    expect(pane.querySelector('.stance-row')).toBeNull();
+    const blurbHasDurability = [...root.querySelectorAll('.weapon-card .skill-blurb')].some((b) =>
+      (b.textContent ?? '').includes('durability'),
+    );
+    expect(blurbHasDurability).toBe(false);
+    const repairBtn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      (b.textContent ?? '').includes('Repair'),
+    );
+    expect(repairBtn).toBeUndefined();
+  });
+
+  it('R4 adds the durability read + repair (equip loop); R5 adds the stance row', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // R4: durability + equipment + repair unlocked
+    render(combatState(['readout-durability', 'panel-equipment', 'verb-repair']), null);
+    openCombat();
+    const durBlurb = [...root.querySelectorAll('.weapon-card .skill-blurb')].some((b) =>
+      (b.textContent ?? '').includes('durability'),
+    );
+    expect(durBlurb).toBe(true);
+    expect(root.querySelector('.stance-row')).toBeNull(); // stance still held for R5
+
+    // R5: stance control now live
+    render(
+      combatState(['readout-durability', 'panel-equipment', 'verb-repair', 'stance-control']),
+      null,
+    );
+    expect(root.querySelector('.stance-row')).not.toBeNull();
+  });
+
+  it('the Bestiary fogs an unfaced foe, then inks its entry once its mob-<id> is set', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const state = combatState([]);
+    render(state, null);
+    openCombat();
+    // no foe faced → the bestiary cards read as fogged silhouettes
+    const cards = [...root.querySelectorAll<HTMLElement>('.bestiary-card')];
+    expect(cards.length).toBeGreaterThan(0);
+    expect(cards.every((c) => (c.textContent ?? '').includes('Unknown foe'))).toBe(true);
+    expect(root.textContent).toContain('Not yet faced');
+
+    // face the monkey → its card inks in with a real win-% and its kanji, others stay fogged.
+    const seen = setFlag(state, 'mob-monkey');
+    render(seen, state);
+    const inked = [...root.querySelectorAll<HTMLElement>('.bestiary-card')].find((c) =>
+      (c.textContent ?? '').includes('Crop-raiding monkey'),
+    );
+    expect(inked).toBeTruthy();
+    expect(inked!.textContent).toContain('%');
+    expect(inked!.textContent).toContain('Tell —');
+  });
+});

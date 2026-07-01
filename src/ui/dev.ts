@@ -13,6 +13,7 @@
 
 import {
   balance,
+  bestiaryEntries,
   canBuy,
   canCraft,
   getMaterial,
@@ -31,7 +32,7 @@ import {
   type MobId,
   type RankId,
 } from '../core';
-import { el } from './render';
+import { el, pct } from './render';
 
 /** A marker that exists ONLY in this DEV module. The gh-pages guard greps the prod bundle for
  *  it and refuses to deploy if it leaked — proof the DEV harness + variants were stripped. */
@@ -140,6 +141,29 @@ export const SURFACES: SurfaceDef[] = [
     ],
   },
   {
+    id: 'bestiary',
+    label: 'Bestiary',
+    variants: [
+      {
+        id: 'bestiary-a',
+        label: 'A · field-guide cards',
+        blurb:
+          'Foe cards: kanji seal · tell · win-rate · haunt; unfaced foes fogged (the default).',
+      },
+      {
+        id: 'bestiary-b',
+        label: 'B · danger ledger',
+        blurb: 'A ranked ink table easiest→deadliest, each foe a continuous danger-gauge (A19).',
+      },
+      {
+        id: 'bestiary-c',
+        label: 'C · 図鑑 scroll',
+        blurb:
+          'Diegetic scroll entries: a silhouette that inks into a portrait as you learn a foe.',
+      },
+    ],
+  },
+  {
     id: 'quests',
     label: 'Quests',
     variants: [
@@ -211,7 +235,137 @@ function renderSurfaceVariant(
   if (surface === 'market') return renderMarketVariant(variantId, container, state, dispatch);
   if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
   if (surface === 'map') return renderMapVariant(variantId, container, state, dispatch);
+  if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
   return false;
+}
+
+/** The diverged Bestiary (B / C) — DEV-only, stripped from prod. Default A (the field-guide card
+ *  list) ships inline in render.ts; B/C are pure re-presentations of the SAME `bestiaryEntries`
+ *  data — an un-faced foe stays fogged in every take (scout-by-fighting). No dispatch: read-only. */
+function renderBestiaryVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+): boolean {
+  if (variantId !== 'bestiary-b' && variantId !== 'bestiary-c') return false;
+  const entries = bestiaryEntries(state);
+  const known = entries.filter((e) => e.seen).length;
+
+  if (variantId === 'bestiary-b') {
+    // ── B · the danger ledger — a ranked ink table, easiest→deadliest, each faced foe carrying a
+    //    single CONTINUOUS danger-gauge (A19: ink over pips) that fills as the odds worsen. An
+    //    un-faced foe is a fogged row (silhouette + hatched gauge), so the shape is legible but the
+    //    threat unknown until met. ──
+    const ledger = el('div');
+    ledger.style.cssText =
+      'border:2px solid var(--ink);background:var(--washi-shade);padding:.55rem .6rem;display:flex;flex-direction:column;gap:.4rem;';
+    const banner = el('div');
+    banner.style.cssText =
+      'display:flex;align-items:baseline;gap:.4rem;border-bottom:1px solid var(--ink-faint);padding-bottom:.3rem;color:var(--ink);';
+    const bt = el('span', undefined, `Danger ledger — ${known} of ${entries.length} recorded`);
+    bt.style.fontWeight = '700';
+    banner.append(bt);
+    const bk = el('span', undefined, '危険帳');
+    bk.lang = 'ja';
+    bk.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+    banner.append(bk);
+    ledger.append(banner);
+
+    // seen foes ranked easiest (highest win-rate) → deadliest; the fogged ones trail after.
+    const ranked = entries
+      .slice()
+      .sort((a, b) => Number(b.seen) - Number(a.seen) || b.winRate - a.winRate);
+    for (const e of ranked) {
+      const danger = e.seen ? 1 - e.winRate : 0;
+      const row = el('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:.5rem;';
+      const name = el('span', undefined, e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe');
+      name.style.cssText = `flex:0 0 9rem;color:${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;`;
+      const track = el('div');
+      track.style.cssText =
+        'position:relative;flex:1;height:.7rem;border:1px solid var(--ink-faint);background:var(--washi);overflow:hidden;';
+      if (e.seen) {
+        const fill = el('span');
+        // deadlier → fuller + hotter ink (rokusho→ochre→beni as the odds worsen).
+        const hue =
+          danger >= 0.72 ? 'var(--beni)' : danger >= 0.45 ? 'var(--ochre)' : 'var(--rokusho)';
+        fill.style.cssText = `position:absolute;left:0;top:0;height:100%;width:${Math.round(danger * 100)}%;background:${hue};`;
+        track.append(fill);
+      } else {
+        track.style.backgroundImage =
+          'repeating-linear-gradient(45deg,var(--washi),var(--washi) 4px,var(--washi-shade) 4px,var(--washi-shade) 8px)';
+      }
+      const read = el('span', undefined, e.seen ? `${pct(1 - danger)} win` : 'unknown');
+      read.style.cssText = `flex:0 0 4.5rem;text-align:right;font-variant-numeric:tabular-nums;font-size:var(--fs-micro);color:${e.seen ? 'var(--ink-soft)' : 'var(--ink-faint)'};`;
+      row.append(name, track, read);
+      ledger.append(row);
+    }
+    container.append(ledger);
+    return true;
+  }
+
+  // ── C · the 図鑑 scroll — diegetic bestiary entries. Each foe is a scroll row led by a KANJI
+  //    "portrait" that inks in once faced (a faint silhouette ？ before), with the field-note prose
+  //    and its tell beneath; unfaced foes read as a rumour, not a stat-line. ──
+  const scroll = el('div');
+  scroll.style.cssText =
+    'border:2px solid var(--ink);background:var(--washi);padding:.55rem .65rem;display:flex;flex-direction:column;gap:.5rem;';
+  const cap = el('div');
+  cap.style.cssText =
+    'display:flex;align-items:baseline;gap:.4rem;border-bottom:2px solid var(--ink);padding-bottom:.25rem;color:var(--ink);';
+  const ct = el(
+    'span',
+    undefined,
+    `The beasts of the estate — ${known} of ${entries.length} known`,
+  );
+  ct.style.fontWeight = '700';
+  cap.append(ct);
+  const ck = el('span', undefined, '図鑑');
+  ck.lang = 'ja';
+  ck.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  cap.append(ck);
+  scroll.append(cap);
+
+  for (const e of entries) {
+    const row = el('div');
+    row.style.cssText = 'display:flex;gap:.6rem;align-items:flex-start;';
+    const portrait = el('div');
+    portrait.lang = 'ja';
+    portrait.textContent = e.seen ? e.mob.kanji : '？';
+    portrait.style.cssText =
+      `flex:0 0 3rem;height:3rem;display:flex;align-items:center;justify-content:center;` +
+      `font-size:1.8rem;border:1px solid ${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};` +
+      `background:${e.seen ? 'var(--washi-shade)' : 'var(--washi-deep)'};` +
+      `color:${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};`;
+    row.append(portrait);
+    const body = el('div');
+    body.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:.12rem;';
+    const nm = el('span', undefined, e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'A beast unmet');
+    nm.style.cssText = `font-weight:700;color:${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};`;
+    body.append(nm);
+    if (e.seen) {
+      body.append(el('div', 'skill-blurb', e.mob.blurb));
+      const note = el(
+        'div',
+        undefined,
+        `Its way in a fight — ${e.tell}. Your odds against it: ${pct(e.winRate)}.`,
+      );
+      note.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-soft);';
+      body.append(note);
+    } else {
+      const rumour = el(
+        'div',
+        undefined,
+        'Only a rumour so far. Face it, and this entry will ink itself in.',
+      );
+      rumour.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-faint);font-style:italic;';
+      body.append(rumour);
+    }
+    row.append(body);
+    scroll.append(row);
+  }
+  container.append(scroll);
+  return true;
 }
 
 /** The diverged House-Influence grade visual (B / C). The shared frame / head / silhouettes /
@@ -1041,7 +1195,9 @@ export function mountDevPanel(
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));
   const rungs = section('Rung');
-  for (const r of ['R3', 'R5', 'R7'] as RankId[]) rungs.append(mono(r, () => qa.toRung(r)));
+  // R3/R4/R5 expose each beat of the A7 staggered combat reveal (bestiary → durability/equip →
+  // stance); R7 opens Phase 2.
+  for (const r of ['R3', 'R4', 'R5', 'R7'] as RankId[]) rungs.append(mono(r, () => qa.toRung(r)));
 
   // combat + auto
   const combat = section('Combat / Auto');

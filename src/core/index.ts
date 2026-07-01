@@ -90,8 +90,10 @@ export {
   resolveFight,
   foeForecasts,
   foesHere,
+  foeTell,
+  bestiaryEntries,
 } from './combat';
-export type { CombatStats, FightResult, FoeForecast } from './combat';
+export type { CombatStats, FightResult, FoeForecast, BestiaryEntry } from './combat';
 export { WEAPONS, getWeapon, WEAPON_IDS } from './content/weapons';
 export type { WeaponId, WeaponDef } from './content/weapons';
 export { STANCE_MODS, STANCE_ORDER, ATTR_IDS, ATTR_BASE, ATTR_META } from './content/balance';

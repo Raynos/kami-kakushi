@@ -9,7 +9,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { createDevApi } from './dev';
-import { createInitialState, type GameState } from '../core';
+import { createInitialState, setFlag, type GameState } from '../core';
 
 function noopHooks(): AppHooks {
   let muted = false;
@@ -176,5 +176,75 @@ describe('renderer variant routing — Estate map (D-075, Step 5e)', () => {
     expect(root.querySelector('.map-here')).toBeNull();
     expect(root.textContent).toContain('You stand at'); // the ledger banner
     expect(root.textContent).toContain('Set out'); // a route's depart verb
+  });
+});
+
+describe('renderer variant routing — Bestiary (D-075, A7)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  /** Combat live at the paddies with the Bestiary revealed and the monkey faced (so a real entry
+   *  inks in for every take, not just fog). */
+  function bestiaryState(): GameState {
+    const base = createInitialState(1);
+    return setFlag(
+      {
+        ...base,
+        location: 'home-paddies',
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'tab-combat', 'panel-bestiary'],
+      },
+      'mob-monkey',
+    );
+  }
+  function openCombat(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('Combat'))
+      ?.click();
+  }
+
+  it('renders default A (field-guide cards) with no DEV harness (= prod)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(bestiaryState(), null);
+    openCombat();
+    expect(root.querySelector('.bestiary-card')).not.toBeNull();
+    expect(root.textContent).not.toContain('危険帳'); // not the danger ledger
+    expect(root.textContent).not.toContain('The beasts of the estate'); // not the scroll
+  });
+
+  it('routes to bestiary-b (danger ledger) when selected — a ranked ink table, not the cards', () => {
+    const dev = createDevApi();
+    dev.setVariant('bestiary', 'bestiary-b');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(bestiaryState(), null);
+    openCombat();
+    expect(root.querySelector('.bestiary-card')).toBeNull(); // the default is replaced
+    expect(root.textContent).toContain('Danger ledger');
+    expect(root.textContent).toContain('危険帳');
+  });
+
+  it('routes to bestiary-c (図鑑 scroll) when selected — diegetic entries, not the cards', () => {
+    const dev = createDevApi();
+    dev.setVariant('bestiary', 'bestiary-c');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(bestiaryState(), null);
+    openCombat();
+    expect(root.querySelector('.bestiary-card')).toBeNull();
+    expect(root.textContent).toContain('The beasts of the estate');
   });
 });

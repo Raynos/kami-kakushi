@@ -126,11 +126,15 @@ export const RANKS: readonly RankDef[] = [
     advanceHint: 'Service enough — now blood the blade. Stand a real watch in the field.',
     rewardOnReach: {
       flags: ['rank-r3', 'combat-unlocked'],
+      // v0.3.2 A7 — staggered combat reveal (§4.6.9): R3 opens combat's FLOOR only — the weapon,
+      // the auto-resolve fight loop (verb, auto-modes, retreat), and the Bestiary. Durability +
+      // repair + craft/equip wait for R4 (`readout-durability`/`panel-equipment`); the stance
+      // control waits for R5 (`stance-control`) — one beat per rung, not the whole tab at once.
       unlock: [
         'tab-combat',
         'panel-drill-yard',
         'readout-combat-level',
-        'verb-repair',
+        'panel-bestiary',
         'panel-house-influence',
       ],
       log: [
@@ -155,6 +159,9 @@ export const RANKS: readonly RankDef[] = [
     storyGate: () => true,
     rewardOnReach: {
       flags: ['rank-r4'],
+      // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
+      // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
+      unlock: ['readout-durability', 'panel-equipment', 'verb-repair'],
       log: [
         {
           channel: 'milestone',
@@ -174,6 +181,9 @@ export const RANKS: readonly RankDef[] = [
     storyGate: () => true,
     rewardOnReach: {
       flags: ['rank-r5'],
+      // v0.3.2 A7 — the combat-rung beat: the stance control (glass-cannon↔tank) reveals here,
+      // the last staggered combat surface (§4.6.9).
+      unlock: ['stance-control'],
       log: [
         {
           channel: 'milestone',
