@@ -104,17 +104,17 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 ## How to resume
 
-1. Read the **newest journal** (`project/journal/2026-07-01-session-38-doc-staleness-reconcile.md` —
-   doc reconcile + version single-sourcing; the v0.3.1 **build log** is session-36) + the **batch-2
-   capture** (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`)
-   + the **build plan** `project/archive/2026-06-30-v0.3.1-build.md` (DONE — archived).
-2. `npm install` (fresh clone) → `npm run verify` (green) → `npm run dev`.
-3. Drive headlessly: `node src/scripts/qa-shots.mjs`, or `window.__qa` (`newGame`, `toRung`, `fight`,
-   `jumpToAscension()`, `speed(8)`). The in-UI **DEV panel** (top-right) toggles variants live.
-4. **Next, in order:** (a) ⭐ **R1/R2** (human, non-blocking) — play/taste the v0.3.1 build + review the
-   UI variants live in the DEV panel. (b) **Execute Plan A** (`docs/plans/` — reconcile the PRD +
-   adjacent docs to standalone end-state v1.0.0; §1/§6 first) **+ Plan B** (the v0.3.2 build closing the
-   17-item build-behind gap — 5-attr/accuracy combat at T0 first). A full bidirectional PRD-vs-build
-   reconcile (workflow, 73 agents) found the PRD **broadly stale** — the earlier "mostly current" call
-   was WRONG (R3 lesson: it only checked §4). All 6 forks resolved → **D-098…D-103**; version
-   single-sourced → footer **v0.3.1** (D-096).
+> 🎮 **PRIORITY: PLAY THE GAME — not build v0.3.2.** The human playtest (R1) has stayed
+> open across v0.2 / v0.3 / v0.3.1 — closing it is the job. When the human is here, launch
+> the game and pair **screen-by-screen, fixing it directly**; don't route to plans /
+> workflows / loops. (Temporary steer, human 2026-07-01; supersedes the "non-blocking" R1 framing below.)
+
+1. Read the **newest journal** (session-38 = doc reconcile; v0.3.1 build log = session-36) +
+   batch-2 capture (`project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`).
+2. `npm install` → `npm run verify` (green) → `npm run dev` (→ http://localhost:5173/).
+3. Drive headlessly: `window.__qa` (`newGame`, `toRung`, `goto`, `fight`, `jumpToAscension()`,
+   `speed(8)`) or `node src/scripts/qa-shots.mjs`. DEV panel (top-right) toggles variants.
+4. **Next:** (a) ⭐ **R1/R2** — human plays/tastes v0.3.1 + reviews UI variants (**TOP PRIORITY**,
+   see banner). (b) **Plan A** (PRD→standalone end-state; §1/§6 first) **+ Plan B** (v0.3.2 build,
+   5-attr/accuracy combat first) — a 73-agent reconcile found the PRD broadly stale (all 6 forks →
+   **D-098…D-103**).
