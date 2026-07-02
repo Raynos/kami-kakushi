@@ -479,6 +479,33 @@ h3 {
   font-style: normal;
   font-weight: 600;
 }
+/* F26 — speaker/voice colours (interactive-intro plan §7). A line that carries a
+   speaker `voice` takes that voice's on-palette colour for its WHOLE text, so who
+   is talking reads at a glance. This is the real speaker tag that supersedes the
+   F23 quote-detection stopgap (kept as the fallback for lines with no voice). These
+   sit AFTER `.log-line.narration` so, at equal specificity, the voice wins. */
+.log-line.voice-narrator {
+  color: var(--ink-soft);
+}
+.log-line.voice-player {
+  color: var(--rokusho);
+  font-weight: 600;
+}
+.log-line.voice-physician {
+  color: var(--ai);
+}
+.log-line.voice-steward {
+  color: var(--ochre);
+}
+.log-line.voice-arms {
+  color: var(--beni);
+}
+.log-line.voice-official {
+  color: var(--kihada);
+}
+.log-line.voice-villager {
+  color: var(--gold);
+}
 .log-line.reward {
   color: var(--ink);
 }
@@ -560,6 +587,31 @@ h3 {
 .verb.primary {
   border-color: var(--shu);
   box-shadow: inset 0 0 0 1px var(--shu);
+}
+
+/* ── the interactive intro controls (VN dialogue, plan §5 variant A — inline) ──
+   The choice replies stack vertically in the Work column beneath the beat's
+   prompt. Reuses `.verb` so the buttons read as the estate's own paper buttons;
+   no new motion (reduced-motion safe by construction). */
+.intro-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.intro-prompt {
+  margin: 0;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.intro-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+/* a spoken reply reads as a quiet aside — a soft indigo left-rule ties the choice
+   to the dialogue it answers, without competing with the `.primary` action accent. */
+.verb.intro-choice {
+  border-left: 3px solid var(--ai-soft);
 }
 
 /* ── the reveal (signature) + rank-up motion ────────────────────────────── */

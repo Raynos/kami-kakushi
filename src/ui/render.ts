@@ -17,6 +17,8 @@ import type {
 import {
   availableActions,
   availableLabours,
+  introActive,
+  introBeatAt,
   isUnlocked,
   hasFlag,
   formatKMB,
@@ -941,10 +943,51 @@ export function mount(
     return movesEl;
   }
 
+  // ── the interactive intro (plan §5 variant A — inline) ─────────────────────
+  // While the intro is live, the Work column shows the VN dialogue controls
+  // INSTEAD of the normal verbs: the current beat's choice replies (or a single
+  // Continue on a narration-only beat). The beat TEXT is emitted into the story
+  // log by the core (advance_intro / choose_intro) — here we only render the
+  // controls + dispatch the intents. Derived from the core selectors + INTRO_BEATS
+  // (never a hardcoded beat index). When the intro completes (introActive → false),
+  // renderActions falls through to the normal verbs automatically.
+  function renderIntro(state: GameState): void {
+    const beat = introBeatAt(state.introBeat);
+    if (!beat) return;
+    const wrap = el('div', 'intro-controls');
+    if (beat.prompt) wrap.append(el('p', 'intro-prompt', beat.prompt));
+    if (beat.options && beat.options.length > 0) {
+      // a choice beat: one button per option, labelled with the DIEGETIC reply
+      // wording (no raw ±stat deltas — human decision 2026-07-02).
+      const choices = el('div', 'intro-choices');
+      for (const opt of beat.options) {
+        const btn = el('button', 'verb intro-choice', opt.label);
+        btn.type = 'button';
+        btn.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
+        choices.append(btn);
+      }
+      wrap.append(choices);
+    } else {
+      // a narration / continue-only beat: a single Continue that advances the cursor.
+      const cont = el('button', 'verb primary intro-continue', 'Continue');
+      cont.type = 'button';
+      cont.addEventListener('click', () => dispatch({ type: 'advance_intro' }));
+      wrap.append(cont);
+    }
+    actions.append(wrap);
+  }
+
   function renderActions(state: GameState): void {
     actions.textContent = '';
     actions.hidden = activeTab !== 'work';
     if (activeTab !== 'work') return;
+
+    // the interactive intro owns the Work column until it completes — swap the
+    // normal verbs for the VN dialogue controls (plan §5 variant A).
+    if (introActive(state.introBeat)) {
+      renderIntro(state);
+      return;
+    }
 
     // meta verbs (rake / rest). Rake gets an auto-repeat toggle (revealed after a few manual rakes so
     // the first ones still land as juice) — the R0 cold-open is ~550 rakes and must not be a blind
@@ -1515,11 +1558,19 @@ export function mount(
       line.append(b);
     }
     const text = formatLogText(entry);
-    if (entry.channel === 'narration') appendNarration(line, text);
+    // F26 — when a line carries a speaker `voice`, the whole line takes that
+    // voice's colour (via the `voice-<category>` class on the line, added in
+    // buildLogLine), so who's talking reads at a glance. The F23 quote-detection
+    // (`.speech` spans) stays only as the FALLBACK for narration lines with NO
+    // voice tag — a voiced line renders as plain text and lets the class colour it.
+    if (entry.channel === 'narration' && entry.voice === undefined) appendNarration(line, text);
     else line.append(document.createTextNode(text));
   }
   function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
-    const line = el('div', `log-line ${entry.channel}`);
+    // the voice-<category> class carries the speaker colour (F26); absent voice ⇒
+    // today's channel-only styling (narrator quote-detection fallback).
+    const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
+    const line = el('div', `log-line ${entry.channel}${voiceClass}`);
     renderLineContent(line, entry);
     if (animate) line.classList.add('reveal');
     return line;
