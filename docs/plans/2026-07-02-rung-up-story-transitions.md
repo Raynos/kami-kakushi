@@ -456,7 +456,15 @@ From `src/core/content/ranks.ts` `rewardOnReach` + the surface reveal lines:
   or rename freely.*
 - **⭐ The pedlar** (ambient, F99/§5.1) — a **travelling trader**, discovered via the
   R1 forecourt beat, not a full VN character (a D-114 "(b) small person" or "(c) tiny
-  trader"). A name is optional; propose **"the Ōmi pedlar"** as a regional flavour tag.
+  trader"). Propose **"the Ōmi pedlar"** as a regional flavour tag, and — optionally —
+  a personal name **⭐ "Tokubei"** for when the R2 gossip beat wants to *name* him. A
+  name is entirely optional; cut it and he stays "the pedlar."
+- **⭐ The smith** (unnamed draft — propose **e.g. "Tōzō"**, a plain forge-hand's
+  name) — introduced at **R4** when the **woodlot smithy** opens (`panel-equipment` /
+  `verb-repair`): a gruff old craftsman who teaches you to read a blade's wear, strip
+  the carcasses, and forge/repair an edge. A D-114 "(b) small person" tied to the
+  smithy **place-gate**, not a full milestone VN meet. *Rename or fold into Kihei
+  freely.*
 - **Naoyuki** (`heir`, canonical but unused in the rung beats) — the lord's heir. A
   candidate to seed at **R6/R7** as a younger, warier counterweight to Shigemasa, if
   the human wants a Phase-2 hook. *Held, not scheduled — flag for the human.*
@@ -464,6 +472,238 @@ From `src/core/content/ranks.ts` `rewardOnReach` + the surface reveal lines:
 **Open cast questions for the human:** (1) approve/rename the ⭐ new faces; (2)
 confirm the R5 two-voice split (Kihei teaches the stance, Genemon confers standing);
 (3) decide whether Naoyuki appears in T0 rung beats or waits for Phase 2.
+
+---
+
+## 6.6 · Full R0→R7 rung-beat outline (DRAFT — for human review)
+
+> **Agent DRAFT for the human's async sign-off** (per D-110's "surface story/cast").
+> The **shape** is spec — every rung is a player-triggered VN beat that *motivates*
+> its unlocks (§0/§7) — but the **prose, choices, and new faces are proposals**,
+> most open to the human's pen. Legend: **canon** names come from `names.ts`
+> (Genemon, Kihei, Chiyo, Shigemasa, Sōan, Naoyuki); **⭐ = agent-invented**, approve
+> or rename freely. **Payload discipline (§0):** choices move **relationships +
+> flags**; a **small varied bonus** rides along only where marked *[bonus]* — rare,
+> smaller than the intro perks, and often a *story* flag rather than a stat. Each
+> beat's per-rung unlocks are pulled verbatim from `ranks.ts` `rewardOnReach`; the
+> "why" prose reuses the already-authored `surfaces.ts` reveal lines (§2.3), now
+> *spoken in the beat* instead of dumped to the log.
+>
+> **Build note (relationships):** new remembered NPCs (`chiyo`, `shigemasa`,
+> `rokusuke`, the smith) need `NpcId` entries in `voices.ts` + `npcMemory` keys —
+> Kihei is already wired. This is flagged, not scoped, here.
+
+### R0 · Day-labourer 日雇 — *the intro IS the beat (no new trigger)*
+
+- **Unlocks (mechanical):** the cold-open verbs — `verb-open-eyes`, `verb-rake`
+  (rake the spilled stores), `verb-rest` — and the body + rice readouts. These
+  reveal through the **cold open**, not a rung reward, so R0 has no `rewardOnReach`.
+- **Beat — *no promotion into R0*:** you *land* here at the close of the intro's
+  three VN scenes (Sōan → the dream → Genemon). The intro's **Genemon scene already
+  IS the R0 beat** — he watches you reach for the spilled rice and sets you to raking
+  as a day-hired hand. **Why you rake:** the stores spilled and the house is "short
+  of hands." **No new modal** — a second Genemon meet moments after the intro's
+  Genemon scene would be redundant; **R1 is the first *new* player-triggered beat.**
+- **Choice:** carried by the intro's existing Genemon decision (earnest / wary /
+  silent → `genemon` memory). No new choice.
+- **New face:** none — Sōan + Genemon already met in the cold open.
+
+### R1 · Kept hand 下人 — Genemon *(deepen; light-VN)*
+
+- **Unlocks:** `room-gate-forecourt`, `room-home-paddies`, `verb-farm`, `verb-haul`,
+  `readout-clock`, `readout-stamina`, `panel-rung-ladder` (→ back-reveals
+  `panel-estate` = the kura-repairs sink, and the **pedlar market**); `readout-coin`
+  back-reveals on your first porter's wage. Flag `rank-r1`.
+- **Beat — Genemon, dawn at the gate & swept forecourt:** you've raked the stores
+  clean "without being told twice," so Genemon keeps you on — no longer day-hired.
+  **Why the unlocks:** he gives you the run of the **gate & forecourt** ("stores come
+  and go here"), the **home paddies** ("the rice that feeds the house"), and — because
+  a watched, tended forecourt draws trade — a **travelling pedlar** (⭐ the Ōmi pedlar)
+  now stops his mat by the gate; you may spend your own coin with him (F99 discovery,
+  woven into this beat, **not** a silent panel). He also lets you put the house's small
+  surplus toward **shoring up the kura** (`panel-estate`).
+- **Choices — how you take the keeping:**
+  1. **"The house has my hands."** Dutiful. → `genemon` warmth +1; flag `r1-dutiful`.
+  2. **"A roof and rice is a fair trade."** Practical, transactional-but-honest. →
+     `genemon` neutral; flag `r1-practical`.
+  3. **"I mean to rise past a kept hand."** Hungry, ambitious — he's wary of ambition
+     in a new hire. → `genemon` warmth −1, regard `ambitious`; flag `r1-ambitious`
+     (seeds later beats). *Relationship/flag only — R1 stays lean, no bonus.*
+- **New face:** **⭐ the Ōmi pedlar** — ambient trader, road-worn and shrewd; a line
+  or two + a trade, not a VN meet. *Voice:* "A tended gate's a lucky gate for a man
+  with a pack — mind if I lay my mat here a while, young master?"
+
+### R2 · Trusted hand 手代 — Genemon *(deepen)* + ⭐ Rokusuke *(new peer)*
+
+- **Unlocks:** `tab-skills`, `room-woodlot-edge`, `room-near-satoyama`,
+  `room-deep-satoyama`, `verb-woodcut`, `verb-forage`, `verb-face-wolf`, `row-wood`,
+  `row-sansai`, `skill-conditioning`; flags `rank-r2`, `porters-knot` (→ later feeds
+  the `dream-2` payoff). The narrator's porter's-knot beat rides the apply step.
+- **Beat — Genemon at the woodlot edge, with a fellow hand:** you can be set a task
+  and trusted to finish it unsupervised, so Genemon gives you the run of the **woodlot
+  + near hill**. **Why the wider estate:** the house needs fuel and forage, and it now
+  trusts you off the forecourt. He introduces (or you simply meet) **⭐ Rokusuke**, a
+  kept-hand from two winters back, who shows you the woodlot and passes house gossip —
+  and the hook: **a wolf has been at the grain stores in the night** (`verb-face-wolf`;
+  the R2→R3 story-gate). "Someone must face it — and there is no one else to send."
+- **Choices — how you take the wolf rumour / regard Rokusuke:**
+  1. **"The stores are the house's life — I'll face it."** Duty first. → `rokusuke`
+     regard `respected`; flag `r2-wolf-heeded`.
+  2. **"Trade the gossip — learn the house through him."** Camaraderie. → `rokusuke`
+     warmth +1; flag `r2-rokusuke-friend`. *[bonus]* he tips you to the pedlar's
+     softer prices — a small **story flag** the market read can later honour.
+  3. **"Keep to myself — the work's enough."** Self-reliant. → `rokusuke` warmth −1;
+     flag `r2-solitary`.
+- **New face:** **⭐ Rokusuke** — plain, wry, half-friend/half-rival; the early
+  climb's human companion and gossip-voice. *Voice:* "Do the work, keep your head
+  down, and don't let the old steward catch you idle — that's the whole of it."
+
+### R3 · Gate-watch 門番 — ⭐ Kihei *(NEW · full VN meet — combat goes live)*
+
+- **Unlocks:** `tab-combat`, `panel-drill-yard`, `readout-combat-level`,
+  `panel-bestiary`, `panel-house-influence` (the macro teaser); flags `rank-r3`,
+  `combat-unlocked`. Story-gate to reach it: `combat-blooded` (you've stood a real
+  watch). Later, gated on combat level: the `screen-demo-frontier` capstone + `dream-2`.
+- **Beat — Kihei, first light in the drill yard *(first appearance — a full D-104
+  meet: greeting → ask-hub → balanced choice)*:** you've blooded the blade against the
+  grain-store wolf, and the master-at-arms takes you on as **gate-watch**. **Why combat
+  opens:** he sees "a soldier in you under the farmhand" — he hands you a weapon, a
+  **yard to train in**, and the estate's **defence** (pests, beasts, the masterless men
+  on the woodlot road). He sets you to keep a **bestiary** (field-guide, fogged until
+  faced); and standing in the yard you first glimpse how a house is truly *weighed*
+  (`panel-house-influence`), a reckoning "far above a gate-watch."
+- **Ask-hub topics (draft):** "Why set me to the blade?" · "What's out on the woodlot
+  road?" · "Who are you, drillmaster?" (Kihei's own past — the house's hard edge).
+- **Choices — how you take up the blade:**
+  1. **"Show me how to end a fight fast."** Eager for the kill — he distrusts
+     glory-hunger. → `kihei` regard `eager`, warmth −1; flag `r3-aggressive`.
+  2. **"Teach me to stand a watch."** Disciplined, steady. → `kihei` warmth +1; flag
+     `r3-disciplined`. *[bonus]* Kihei drills you an extra dawn — a small,
+     **combat-flavoured** edge (a named starting-form flag, smaller than an intro perk).
+  3. **"I'd rather the paddies — but the house needs it."** Reluctant, honest. →
+     `kihei` regard `reluctant`; flag `r3-duty-not-glory`. *[bonus]* he respects the
+     honesty — a small **story** flag Kihei's later lines read.
+- **New face:** **Kihei** *(canon)* — blunt, economical of speech, the house's hard
+  edge. *Voice:* "There's a soldier in you under the farmhand. We'll find the rest of
+  it yet."
+
+### R4 · Kura-warden 蔵番 — Genemon *(deepen)* + ⭐ the smith *(new, at the smithy)*
+
+- **Unlocks:** `readout-durability`, `panel-equipment` (the woodlot smithy — strip
+  carcasses, forge/equip), `verb-repair`, `house-omoya` (the main house reopens); flag
+  `rank-r4`.
+- **Beat — Genemon at the kura, then the woodlot smithy:** Genemon hands you the
+  **kura key** — "Mind the stores as if the rice were your own. The house is forgetting
+  you were ever a stranger." **Why craft/repair opens:** the **woodlot smithy** is now
+  yours to use, and **⭐ the smith (Tōzō)** teaches you to read a blade's wear, strip
+  what the carcasses give up, and forge/keep an edge. **Why the omoya:** the main
+  house's shuttered rooms — closed since the lean years — are aired and swept as the
+  house's fortunes (and your standing) rise; "you walk floors the family walks."
+- **Choices — how you hold the kura key & the surplus:**
+  1. **"Every grain accounted."** Thrifty steward. → `genemon` warmth +1; flag
+     `r4-thrifty`.
+  2. **"Spend it on the house's needs."** A mended kura feeds everyone. → `genemon`
+     neutral, `smith` warmth +1; flag `r4-generous`. *[bonus]* the smith, seeing you
+     invest in the forge, gifts a small edge — a modest **durability/repair** flavour
+     (occasional, smaller than an intro perk).
+  3. **"Keep a little back for myself."** Self-interest, remembered. → `genemon`
+     warmth −1 (a crack of doubt); flag `r4-self-keeping`.
+- **New face:** **⭐ the smith (Tōzō)** — gruff, exacting about tools; tied to the
+  smithy place-gate. *Voice:* "A blade you don't tend turns on you. Bring me the hides
+  and the iron; I'll show you what an edge wants."
+
+### R5 · House-servant 家人 — Genemon *confers* + Kihei *teaches* *(two-voice; OQ2)*
+
+- **Unlocks:** `stance-control` (glass-cannon ↔ tank, the last staggered combat
+  surface); flag `rank-r5`.
+- **Beat — the omoya, then the drill yard *(two-voice — draft resolution of OQ2)*:**
+  **Genemon confers the standing** in the omoya — "no longer a season-hired hand, but
+  one who answers to the house day and night. The work is the same; the standing is
+  not." Then, because that standing carries the trust to make your own tactical calls,
+  **Kihei teaches the stance** at the yard — "set your stance before a foe... the call
+  is yours, fight by fight." *(Draft: Kihei teaches the combat surface, Genemon
+  witnesses/confers — resolve the split with the human; see §8 OQ2.)*
+- **Choices — your stance philosophy (ties to the `stance-control` you just gained):**
+  1. **"Press every fight — end it, don't outlast it."** → `kihei` regard
+     `aggressive`; flag `r5-stance-aggressive`. *[bonus]* sets your **default stance**
+     flavour to attack (a *story* default, not a raw stat).
+  2. **"Guard first — a live watchman beats a dead hero."** → flag `r5-stance-guard`;
+     default stance guard.
+  3. **"Read the foe — the call changes fight by fight."** The wise pick. → `kihei`
+     warmth +1; flag `r5-stance-adaptive`.
+- **New face:** none — deepens Genemon + Kihei.
+
+### R6 · Steward's man 用人 — ⭐ Lady Chiyo *(NEW · full VN meet)*
+
+- **Unlocks:** `house-workshops`, `house-granary`; flag `rank-r6`.
+- **Beat — Lady Chiyo, the omoya's formal room *(first meeting — full VN meet)*:** the
+  house's inner authority sets you to the **steward's errands** — ledgers carried,
+  messages run, the house's small business in your hands. "They are weighing you for
+  something larger than a servant." **Why the workshops + granary:** the house's risen
+  fortunes wake the **workshops** (a smith's forge, a joiner's bench) and raise a
+  **second granary** (the itakura); Chiyo puts these under your oversight.
+- **Ask-hub topics (draft):** "What does the inner house need?" · "Why trust an
+  outsider?" · "The lord — is he well?" (a Shigemasa/Naoyuki hook toward R7; see OQ).
+- **Choices — how you serve the inner house:**
+  1. **"The house's name is my name now."** Loyal. → `chiyo` warmth +1; flag
+     `r6-loyal`.
+  2. **"I'd carry more than errands."** Ambitious — seeds Phase-2. → `chiyo` regard
+     `ambitious`; flag `r6-ambitious`.
+  3. **"A steward's man keeps the house's silences."** Discreet — she prizes it. →
+     `chiyo` warmth +1; flag `r6-discreet`. *[bonus]* Chiyo's confidence — a small
+     **story** flag that opens a later inner-house thread.
+- **New face:** **Chiyo** *(canon)* — gracious but exacting; runs the household's real
+  machinery, her regard earned not given. *Voice:* "The steward keeps the house's back;
+  I keep its books and its name. Serve me well and the house will not forget it."
+
+### R7 · Trusted of the house 内衆 — ⭐ Shigemasa *(NEW · full VN meet — capstone)*
+
+- **Unlocks:** `house-study` (the shoin — the lord's writing-room); flags `rank-r7`,
+  `t0-capstone` (opens **Phase 2** + the House-Influence measure).
+- **Beat — the lord Shigemasa, the inner rooms *(the capstone meet)*:** the lord
+  himself calls you in — "You came to us with no name and nothing in your hands. Look
+  what those hands have done." For the first time the house reckons your worth not as a
+  servant but as a man who might one day carry its **standing**. **Why the study
+  opens:** the lord admits you to the **shoin**, where the house's real business is
+  done — "few servants ever cross that threshold." `t0-capstone` fires: the measure of
+  the House takes shape before you.
+- **Ask-hub topics (draft):** "How is a house weighed?" (the House-Influence measure) ·
+  "What would you have of me?" · "And your heir?" (a Naoyuki seed — OQ).
+- **Choices — how you answer the lord *(the capstone; colours the Phase-2 framing —
+  its one varied payload):***
+  1. **"I'll carry the Kurosawa name as far as it can go."** Devotion to the house. →
+     `shigemasa` regard `devoted`; flag `r7-devoted`. *[bonus]* a capstone **story**
+     flag tilting Phase 2 toward the house's rise.
+  2. **"A name can be *made* as well as served."** Ambition. → `shigemasa` regard
+     `ambitious`; flag `r7-ambitious`. *[bonus]* colours Phase 2 toward your own rise.
+  3. **"I only did the work in front of me."** Humility. → `shigemasa` warmth +1; flag
+     `r7-humble`. *[bonus]* a small **story** flag the lord's later lines honour.
+  *(`t0-capstone` fires regardless of the pick; the choice only colours the framing.)*
+- **New face:** **Shigemasa** *(canon)* — weary, dignified, long-sighted; speaks rarely
+  and weightily. *Voice:* "Look what those hands have done."
+
+### Beat-outline open questions (BQ — for the human; distinct from §8's build OQs)
+
+- **BQ1 · New-face count.** This outline introduces **three ⭐ invented faces** —
+  **the Ōmi pedlar** (R1), **Rokusuke** (R2), **the smith / Tōzō** (R4) — plus the four
+  canon meets (Kihei R3, Chiyo R6, Shigemasa R7; Genemon throughout). Is three new
+  invented faces the right *density*, or should any (esp. the smith) fold into an
+  existing character (e.g. Kihei covering the forge)?
+- **BQ2 · Bonus placement.** Small varied bonuses are marked *[bonus]* on **six**
+  branches (R2 friend, R3 disciplined + reluctant, R4 generous, R5 stances, R6 discreet,
+  R7 all three). Is that the right *rarity* (they're meant to be a delight, not an
+  expectation — §0), and should any be cut to keep the ladder flatter?
+- **BQ3 · R5 two-voice.** The draft resolves OQ2 as **Kihei teaches the stance,
+  Genemon confers the standing** in one two-part scene. Confirm, or make it a single
+  voice (whose?).
+- **BQ4 · Capstone choice weight.** Should the R7 choice's Phase-2 *colour* (devoted /
+  ambitious / humble) actually **branch anything** in Phase 2, or stay a remembered
+  flag + a line of flavour for now?
+- **BQ5 · Naoyuki.** Seed the heir as a topic-line at **R6/R7** (a warier counterweight
+  to Shigemasa, a Phase-2 hook), or hold him entirely for Phase 2? *(Mirrors §6.5's
+  cast-Q3 and §8 OQ — one call covers both.)*
+- **BQ6 · Naming the pedlar.** Keep him "the Ōmi pedlar" (ambient, unnamed), or promote
+  him to a named **⭐ Tokubei** once the R2 gossip beat references him by name?
 
 ---
 
