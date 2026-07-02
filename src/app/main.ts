@@ -194,7 +194,7 @@ async function boot(): Promise<void> {
     // auto-fight takes priority over auto-labour
     if (state.autoCombat) {
       if (
-        state.character.satiety < satietyMax(state) * 0.25 &&
+        state.character.satiety < satietyMax(state) * balance.STAMINA_FLAT_ABOVE &&
         availableActions(state).includes('rest')
       ) {
         dispatch({ type: 'rest' });
@@ -227,7 +227,7 @@ async function boot(): Promise<void> {
       if (!availableActions(state).includes('rake_rice')) {
         dispatch({ type: 'set_auto_rake', on: false });
       } else if (
-        state.character.satiety < satietyMax(state) * 0.25 &&
+        state.character.satiety < satietyMax(state) * balance.STAMINA_FLAT_ABOVE &&
         availableActions(state).includes('rest')
       ) {
         dispatch({ type: 'rest' });
@@ -241,7 +241,7 @@ async function boot(): Promise<void> {
     const act = getActivity(auto);
     // auto-manage stamina so an unattended grind doesn't crawl at the floor
     if (
-      state.character.satiety < satietyMax(state) * 0.25 &&
+      state.character.satiety < satietyMax(state) * balance.STAMINA_FLAT_ABOVE &&
       availableActions(state).includes('rest')
     ) {
       dispatch({ type: 'rest' });
