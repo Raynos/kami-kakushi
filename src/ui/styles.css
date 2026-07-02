@@ -444,6 +444,17 @@ h3 {
 .log-line.narration {
   color: var(--ink-soft);
 }
+/* quoted speech reads as a distinct VOICE from narrator prose (F23) — on-palette indigo,
+   lightly emphasised. Player speech (`.speech.player`) is reserved for the interactive intro. */
+.log-line.narration .speech {
+  color: var(--ai);
+  font-style: italic;
+}
+.log-line.narration .speech.player {
+  color: var(--rokusho);
+  font-style: normal;
+  font-weight: 600;
+}
 .log-line.reward {
   color: var(--ink);
 }

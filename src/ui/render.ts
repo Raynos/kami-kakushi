@@ -1436,6 +1436,20 @@ export function mount(
   function reduceMotion(): boolean {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
+  // Split narration text into narrator prose + quoted-speech runs, wrapping each "…" (straight
+  // or curly) in a .speech span so a spoken line reads as a distinct voice (F23). Non-narration
+  // channels paint as plain text.
+  function appendNarration(line: HTMLElement, text: string): void {
+    const re = /"[^"]*"|[“][^”]*[”]/g;
+    let last = 0;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > last) line.append(document.createTextNode(text.slice(last, m.index)));
+      line.append(el('span', 'speech', m[0]));
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) line.append(document.createTextNode(text.slice(last)));
+  }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
     line.textContent = '';
     const bullet = CHANNEL_BULLET[entry.channel];
@@ -1444,7 +1458,9 @@ export function mount(
       b.setAttribute('aria-hidden', 'true');
       line.append(b);
     }
-    line.append(document.createTextNode(formatLogText(entry)));
+    const text = formatLogText(entry);
+    if (entry.channel === 'narration') appendNarration(line, text);
+    else line.append(document.createTextNode(text));
   }
   function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
     const line = el('div', `log-line ${entry.channel}`);
