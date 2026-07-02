@@ -15,6 +15,7 @@ import {
   balance,
   bestiaryEntries,
   canBuy,
+  formatCoin,
   canCraft,
   getMaterial,
   getNode,
@@ -616,7 +617,7 @@ function renderMarketVariant(
       const grant = el('span', undefined, grantStr(item));
       grant.style.cssText =
         'color:var(--rokusho);font-variant-numeric:tabular-nums;white-space:nowrap;';
-      const price = el('span', undefined, `${item.coinCost} coin`);
+      const price = el('span', undefined, formatCoin(item.coinCost));
       price.style.cssText =
         'color:var(--ink-soft);font-variant-numeric:tabular-nums;min-width:5rem;text-align:right;white-space:nowrap;';
       const verb = el('button', 'verb', capped ? '尽' : '求');
@@ -624,13 +625,13 @@ function renderMarketVariant(
       verb.disabled = !affordable;
       verb.setAttribute(
         'aria-label',
-        `Buy ${item.label} (${grantStr(item)}) for ${item.coinCost} coin${capped ? ' — sold out' : ''}`,
+        `Buy ${item.label} (${grantStr(item)}) for ${formatCoin(item.coinCost)}${capped ? ' — sold out' : ''}`,
       );
       verb.title = capped
         ? "You've taken all the pedlar carries this run."
         : affordable
-          ? `Pay ${item.coinCost} coin`
-          : `Need ${item.coinCost - coin} more coin`;
+          ? `Pay ${formatCoin(item.coinCost)}`
+          : `Need ${formatCoin(item.coinCost - coin)} more`;
       verb.addEventListener('click', () => buy(item.id));
       line.append(name, leader, grant, price, verb);
 
@@ -638,7 +639,7 @@ function renderMarketVariant(
         ? 'sold out'
         : affordable
           ? `${remaining} left`
-          : `${remaining} left · need ${item.coinCost - coin} more coin`;
+          : `${remaining} left · need ${formatCoin(item.coinCost - coin)} more`;
       const hint = el('div', 'lock-hint', hintText);
       hint.style.cssText = 'margin:0 0 .25rem;font-style:italic;';
       board.append(line, hint);
@@ -657,7 +658,7 @@ function renderMarketVariant(
       whetstone_kit: '🪨',
       greens_basket: '🧺',
     };
-    const purse = el('div', 'lock-hint', `Your purse · ${coin} coin`);
+    const purse = el('div', 'lock-hint', `Your purse · ${formatCoin(coin)}`);
     purse.style.cssText =
       'margin:.4rem 0 .2rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;align-self:flex-start;';
     card.append(purse);
@@ -690,7 +691,7 @@ function renderMarketVariant(
         ? 'cloth bare · sold out'
         : affordable
           ? `${remaining} of ${item.stockCap} left`
-          : `${remaining} of ${item.stockCap} left · need ${item.coinCost - coin} more coin`;
+          : `${remaining} of ${item.stockCap} left · need ${formatCoin(item.coinCost - coin)} more`;
       const stockLabel = el('span', 'lock-hint', stockText);
       stockLabel.style.cssText =
         'font-style:italic;font-variant-numeric:tabular-nums;align-self:flex-start;';
@@ -698,7 +699,7 @@ function renderMarketVariant(
       const right = el('div');
       right.style.cssText =
         'flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;';
-      const price = el('span', undefined, `${item.coinCost} coin`);
+      const price = el('span', undefined, formatCoin(item.coinCost));
       price.style.cssText =
         'color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;';
       const take = el('button', 'verb', capped ? 'gone' : 'take 取');
@@ -706,13 +707,13 @@ function renderMarketVariant(
       take.disabled = !affordable;
       take.setAttribute(
         'aria-label',
-        `Buy ${item.label} (${grantStr(item)}) for ${item.coinCost} coin${capped ? ' — sold out' : ''}`,
+        `Buy ${item.label} (${grantStr(item)}) for ${formatCoin(item.coinCost)}${capped ? ' — sold out' : ''}`,
       );
       take.title = capped
         ? "You've taken all the pedlar carries this run."
         : affordable
-          ? `Take it — pay ${item.coinCost} coin`
-          : `Need ${item.coinCost - coin} more coin`;
+          ? `Take it — pay ${formatCoin(item.coinCost)}`
+          : `Need ${formatCoin(item.coinCost - coin)} more`;
       take.addEventListener('click', () => buy(item.id));
       right.append(price, take);
       row.append(glyph, mid, right);
@@ -838,7 +839,7 @@ function renderQuestsVariant(
 
         const rk = q.reward.resources?.coin;
         if (rk && !completed) {
-          const reward = el('div', undefined, 'On fulfilment — ' + rk + ' coin');
+          const reward = el('div', undefined, 'On fulfilment — ' + formatCoin(rk));
           reward.style.cssText =
             'align-self:flex-start;border:1px solid var(--gold);color:var(--gold);padding:0 .3rem;font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
           bill.append(reward);
@@ -852,7 +853,7 @@ function renderQuestsVariant(
         foot.append(btn);
         const rk = q.reward.resources?.coin;
         if (rk) {
-          const posted = el('span', undefined, 'Posted reward — ' + rk + ' coin');
+          const posted = el('span', undefined, 'Posted reward — ' + formatCoin(rk));
           posted.style.cssText =
             'color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
           foot.append(posted);
@@ -937,7 +938,7 @@ function renderQuestsVariant(
     }
     row.append(deeds);
 
-    const coin = el('span', undefined, rk ? rk + ' coin' : '—');
+    const coin = el('span', undefined, rk ? formatCoin(rk) : '—');
     coin.style.cssText =
       'flex:0 0 4.6rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:' +
       (rk ? 'var(--gold)' : 'var(--ink-faint)') +
@@ -962,7 +963,7 @@ function renderQuestsVariant(
     ledger.append(row);
   }
 
-  const foot = el('div', undefined, '合計 — coin in hand: ' + coinInHand);
+  const foot = el('div', undefined, '合計 — coin in hand: ' + formatCoin(coinInHand));
   foot.style.cssText =
     'align-self:flex-end;color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;padding-top:.15rem;';
   ledger.append(foot);

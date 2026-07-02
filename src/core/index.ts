@@ -3,7 +3,7 @@
 // Everything is pure, deterministic, immutable-in/out.
 
 export { ipow, clamp } from './math';
-export { formatKMB, formatRate } from './format';
+export { formatKMB, formatRate, formatCoin } from './format';
 
 export type {
   GameState,

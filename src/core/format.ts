@@ -42,3 +42,52 @@ export function formatRate(perTick: number, unit = 'tick'): string {
   const sign = perTick >= 0 ? '+' : '';
   return `${sign}${formatKMB(perTick)}/${unit}`;
 }
+
+// ── Coin denominations (D-108, LOCKED) ─────────────────────────────────────────
+// Money is ONE quantity — base unit **mon** — rendered in MIXED fixed-denomination
+// notation (like £·s·d / a mixed radix). The rate is FIXED for the whole game:
+// **1 ryō = 50 monme = 4,000 mon** (so 1 monme = 80 mon). These constants are the
+// SINGLE SOURCE for that math — never hard-code the magic numbers a second time; the
+// formatter AND its tests derive from them (matches the Bank-of-Japan 1601 primary
+// source + the human's worked example, D-108). Kept HERE (the pure display module),
+// not in balance.ts, because the rate is display-only: it never affects a mechanic.
+export const MON_PER_MONME = 80;
+export const MONME_PER_RYO = 50;
+export const MON_PER_RYO = MON_PER_MONME * MONME_PER_RYO; // 4_000
+
+/**
+ * Format a coin amount (base unit **mon**) in MIXED mon→monme→ryō denominations with
+ * INCREMENTAL REVEAL (D-108) — the notation itself signals the player's rise:
+ *   - below 1 monme  (< 80 mon):            `"N mon"`
+ *   - 1 monme … <1 ryō (80 … 3,999 mon):    `"M monme K mon"`
+ *   - at/above 1 ryō  (≥ 4,000 mon):        `"R ryō M monme K mon"`
+ * A higher denomination stays HIDDEN until wealth reaches it (monme at ≥ 80 mon, ryō
+ * at ≥ 4,000 mon), and a ZERO sub-part is dropped cleanly — `"6 monme"` not
+ * `"6 monme 0 mon"`, `"1 ryō"` not `"1 ryō 0 monme 0 mon"`, `"1 ryō 20 mon"` not
+ * `"1 ryō 0 monme 20 mon"`. Non-coin big numbers keep `formatKMB` (koku standing, etc.).
+ */
+export function formatCoin(mon: number): string {
+  if (!Number.isFinite(mon)) return '—';
+  const sign = mon < 0 ? '-' : '';
+  const abs = Math.round(Math.abs(mon)); // coin is integer mon; round off any float dust
+  let rest = abs;
+  const parts: string[] = [];
+
+  // ryō — the top column, revealed only once total wealth reaches 1 ryō.
+  if (abs >= MON_PER_RYO) {
+    const ryo = Math.floor(rest / MON_PER_RYO);
+    parts.push(`${ryo} ryō`);
+    rest -= ryo * MON_PER_RYO;
+  }
+  // monme — revealed once total wealth reaches 1 monme; a zero-monme residue is dropped
+  // (so "1 ryō 20 mon" keeps its columns in order without a bare "0 monme").
+  if (abs >= MON_PER_MONME) {
+    const monme = Math.floor(rest / MON_PER_MONME);
+    if (monme > 0) parts.push(`${monme} monme`);
+    rest -= monme * MON_PER_MONME;
+  }
+  // mon — the base residue; shown unless it's zero AND a higher column already prints.
+  if (rest > 0 || parts.length === 0) parts.push(`${rest} mon`);
+
+  return sign + parts.join(' ');
+}

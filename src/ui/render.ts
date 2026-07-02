@@ -35,6 +35,7 @@ import {
   isUnlocked,
   hasFlag,
   formatKMB,
+  formatCoin,
   satietyMax,
   hpMax,
   staminaRate,
@@ -1047,7 +1048,7 @@ export function mount(
       // read from the source-of-truth stage fields so it never drifts (R6: an invisible mechanic).
       setText(r.hint, `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`);
       toggle(r.btn, true);
-      setText(r.btn, `${next.label} (${next.coinCost} coin)`);
+      setText(r.btn, `${next.label} (${formatCoin(next.coinCost)})`);
       const carried = state.resources.coin ?? 0;
       const banked = state.banked.coin ?? 0;
       setDisabled(r.btn, carried < next.coinCost);
@@ -1055,7 +1056,7 @@ export function mount(
       const title = r.btn.disabled
         ? banked >= next.coinCost
           ? 'Draw coin from the kura storehouse first'
-          : `Needs ${next.coinCost} coin`
+          : `Needs ${formatCoin(next.coinCost)}`
         : '';
       if (r.btn.title !== title) r.btn.title = title;
     } else {
@@ -2394,11 +2395,11 @@ export function mount(
       const rep = el(
         'button',
         'auto-toggle',
-        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_COIN_COST} coin)`,
+        `Repair (${balance.REPAIR_WOOD_COST} wood, ${formatCoin(balance.REPAIR_COIN_COST)})`,
       );
       rep.type = 'button';
       rep.disabled = (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST;
-      rep.title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_COIN_COST} coin (waived if you're short)`;
+      rep.title = `${balance.REPAIR_WOOD_COST} wood + up to ${formatCoin(balance.REPAIR_COIN_COST)} (waived if you're short)`;
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }
@@ -2638,10 +2639,10 @@ export function mount(
     if (showRepair) {
       setText(
         r.repairBtn,
-        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_COIN_COST} coin)`,
+        `Repair (${balance.REPAIR_WOOD_COST} wood, ${formatCoin(balance.REPAIR_COIN_COST)})`,
       );
       setDisabled(r.repairBtn, (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST);
-      const title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_COIN_COST} coin (waived if you're short)`;
+      const title = `${balance.REPAIR_WOOD_COST} wood + up to ${formatCoin(balance.REPAIR_COIN_COST)} (waived if you're short)`;
       if (r.repairBtn.title !== title) r.repairBtn.title = title;
     }
     // the equip switcher — reconciled into wctrl AFTER the persistent repair button (a foreign
@@ -2744,10 +2745,13 @@ export function mount(
       popValue(rice.value, v, prev?.resources.rice);
     }
     // COIN — the first-wage reveal (D-107): hidden until the player earns coin (readout-coin).
+    // Rendered in mixed mon/monme/ryō with incremental reveal (D-108, formatCoin) — NOT the
+    // plain K/M/B count (rice keeps that; coin is denominated). popValue still fires on the raw
+    // mon delta, so the tally-pop is unaffected by the denomination string.
     coin.wrap.hidden = !isUnlocked(state, 'readout-coin');
     if (!coin.wrap.hidden) {
       const v = state.resources.coin ?? 0;
-      coin.value.textContent = formatKMB(v);
+      coin.value.textContent = formatCoin(v);
       popValue(coin.value, v, prev?.resources.coin);
     }
 
@@ -3405,7 +3409,7 @@ export function mount(
     const bankedRice = state.banked.rice ?? 0;
     setText(
       r.when,
-      `Carried ${carried} coin, ${carriedRice} rice · stored ${banked} coin, ${bankedRice} rice (safe)`,
+      `Carried ${formatCoin(carried)}, ${carriedRice} rice · stored ${formatCoin(banked)}, ${bankedRice} rice (safe)`,
     );
     // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
     // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
@@ -3448,7 +3452,7 @@ export function mount(
     // F67/F72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
     // vertical stack, styles.css), so a narrow byōbu column can't let the price float over the copy.
     const buy = el('div', 'market-buy');
-    const btn = el('button', 'auto-toggle', `${item.coinCost} coin`);
+    const btn = el('button', 'auto-toggle', formatCoin(item.coinCost));
     btn.type = 'button';
     btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
     buy.append(btn);
@@ -3466,8 +3470,8 @@ export function mount(
     setText(row.querySelector('.market-grant')!, `${grantStr}${capped ? ' · sold out' : ''}`);
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     // a11y: the visible label is just the price — a full accessible name so a screen-reader hears
-    // WHAT it buys, not a bare "10 coin" (D-045 a11y-ink).
-    const aria = `Buy ${item.label} (${grantStr}) for ${item.coinCost} coin${capped ? ' — sold out' : ''}`;
+    // WHAT it buys, not a bare "10 mon" (D-045 a11y-ink).
+    const aria = `Buy ${item.label} (${grantStr}) for ${formatCoin(item.coinCost)}${capped ? ' — sold out' : ''}`;
     if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
     setDisabled(btn, !canBuy(state.resources, item, bought));
     const title = capped
@@ -3512,12 +3516,12 @@ export function mount(
           : 'a fair price';
     setText(
       sellPrice,
-      `The pedlar pays ${price} coin the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
+      `The pedlar pays ${formatCoin(price)} the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
     );
     const rice = state.resources.rice ?? 0;
-    setText(sellBtn, `Sell all rice (${rice} rice → ${rice * price} coin)`);
+    setText(sellBtn, `Sell all rice (${rice} rice → ${formatCoin(rice * price)})`);
     // a11y: a full accessible name so a screen-reader hears WHAT the sell does + the live price.
-    const aria = `Sell all ${rice} carried rice for ${rice * price} coin at the ${SEASON_TAG[s].name} price of ${price} coin each`;
+    const aria = `Sell all ${rice} carried rice for ${formatCoin(rice * price)} at the ${SEASON_TAG[s].name} price of ${formatCoin(price)} each`;
     if (sellBtn.getAttribute('aria-label') !== aria) sellBtn.setAttribute('aria-label', aria);
     setDisabled(sellBtn, rice <= 0);
     const title = rice <= 0 ? 'No carried rice to sell — rake or farm to gather it.' : '';
@@ -3692,7 +3696,7 @@ export function mount(
     const reward = card.querySelector<HTMLElement>('.influence-when')!;
     const rewardShown = !!rk && !completed;
     toggle(reward, rewardShown);
-    if (rewardShown) setText(reward, `Reward: ${rk} coin`);
+    if (rewardShown) setText(reward, `Reward: ${formatCoin(rk)}`);
     // the accept button shows only on an un-taken offer.
     toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
   }
