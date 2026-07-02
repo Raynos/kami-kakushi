@@ -37,7 +37,7 @@ import {
   INTRO_BEAT_COUNT,
   introBeatAt,
   introOption,
-  introStatLine,
+  introOutcomeLine,
   beatReactVoice,
   beatReactSpeaker,
   PLAYER_SPEAKER,
@@ -242,8 +242,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
           warmth: opt.memory.warmth,
         });
       }
-      // 5) the diegetic-hint-only post-pick SYSTEM line — the exact ± lands AFTER the pick
-      next = applyRewards(next, { log: [{ channel: 'system', text: introStatLine(opt.stat) }] });
+      // 5) the diegetic post-pick OUTCOME line — the option's flavor + the exact ±, landing AFTER
+      //    the pick on the MILESTONE channel so it reads under Progress, not Work (F41/F42).
+      next = applyRewards(next, { log: [{ channel: 'milestone', text: introOutcomeLine(opt) }] });
       // 6) advance to the next beat, or fire the intro-complete tail
       next = enterNextBeat(next, state.introBeat + 1);
       break;

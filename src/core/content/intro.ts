@@ -31,6 +31,10 @@ export interface IntroOption {
   readonly say: string; // the MC's spoken reply → log, voice 'player'
   readonly react: string; // the NPC's / narrator's immediate reaction → log, voice = beat.voice
   readonly stat: IntroStat; // +1 up / −1 down (net-zero)
+  /** The diegetic post-pick outcome flavor (F42): one grounded sentence that names what the choice
+   *  reveals about the character and implies the lean. The ± is appended by `introOutcomeLine`
+   *  (single-source), NEVER baked in here — so the flavor reads as fiction, not a stat delta. */
+  readonly outcome: string;
   /** The per-NPC memory write; absent ⇒ a self/narrator beat that remembers nothing. */
   readonly memory?: { readonly npc: NpcId; readonly regard: string; readonly warmth: number };
 }
@@ -65,6 +69,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"Then I'll trust your craft, not the village's ghosts."`,
         react: `"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don't force them."`,
         stat: { up: 'int', down: 'str' },
+        outcome: `You defer to his craft — the mind already sharp, the body still slack from the sickbed.`,
         memory: { npc: 'soan', regard: 'grateful', warmth: 1 },
       },
       {
@@ -73,6 +78,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"Kami or flood, I'm still breathing. Where's the work?"`,
         react: `"...Hm. No patience for a physician. Well — the body heals the same whether you thank me or not."`,
         stat: { up: 'str', down: 'int' },
+        outcome: `You'd sooner work than be tended — the body shoulders ahead of the wits.`,
         memory: { npc: 'soan', regard: 'curt', warmth: -1 },
       },
       {
@@ -81,6 +87,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"There was a road. Grey rain. A name I can't hold. Is that the fever?"`,
         react: `"That is the blow talking, not a ghost. It will fade — or it won't. Don't let the old women make a haunting of it."`,
         stat: { up: 'luck', down: 'agi' },
+        outcome: `You chase the half-memory over the moment — fortune's thread pulls, quick feet slacken.`,
         memory: { npc: 'soan', regard: 'worried', warmth: 0 },
       },
     ],
@@ -99,6 +106,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"Hold the road. The rain. Almost a name."`,
         react: `You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.`,
         stat: { up: 'int', down: 'spd' },
+        outcome: `You turn inward and worry the memory — the mind deepens as the body slows.`,
       },
       {
         id: 'dream-shake',
@@ -106,6 +114,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"Later. The body is here; the past isn't."`,
         react: `You let it go and the room sharpens — the slats of light, the way out.`,
         stat: { up: 'spd', down: 'int' },
+        outcome: `You shake it off and the room sharpens — quicker on your feet, shorter on thought.`,
       },
       {
         id: 'dream-hands',
@@ -113,6 +122,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"A porter's knot. My hands know this much."`,
         react: `Your fingers move before you decide to — a labourer's memory, still in the muscle.`,
         stat: { up: 'str', down: 'luck' },
+        outcome: `Your hands recall the labour before your head does — plain strength over any luck.`,
       },
     ],
   },
@@ -131,6 +141,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"I'll earn my keep. Point me at it."`,
         react: `"...Good. The house has had its fill of hands that don't. We'll see if you mean it."`,
         stat: { up: 'str', down: 'agi' },
+        outcome: `You set your back to the work plainly — honest muscle over nimble footing.`,
         memory: { npc: 'genemon', regard: 'earnest', warmth: 1 },
       },
       {
@@ -139,6 +150,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `"A samurai house with an empty granary. What's in it for me?"`,
         react: `"An honest question, and a cold one. Rice and a dry corner — that's the whole of what I can promise. Take it or walk."`,
         stat: { up: 'agi', down: 'str' },
+        outcome: `You keep your guard up and your terms plain — light-footed and wary, not yet strong.`,
         memory: { npc: 'genemon', regard: 'wary', warmth: -1 },
       },
       {
@@ -147,6 +159,7 @@ export const INTRO_BEATS: readonly IntroBeat[] = [
         say: `(You say nothing, and reach for the spilled rice.)`,
         react: `"...A man who works before he talks. Rare. We'll get on."`,
         stat: { up: 'spd', down: 'luck' },
+        outcome: `You answer with your hands, not your mouth — steady and quick, trusting to no luck.`,
         memory: { npc: 'genemon', regard: 'steady', warmth: 1 },
       },
     ],
@@ -171,10 +184,25 @@ export function introOption(beat: IntroBeat, optionId: string): IntroOption | un
   return beat.options?.find((o) => o.id === optionId);
 }
 
-/** The diegetic-hint-only post-pick SYSTEM line: the exact ± lands AFTER the choice, never on the
- *  button (human decision 2026-07-02). Reads the attribute LABELS from ATTR_META (single source). */
+/** The bare ± delta text ("+1 INT / −1 STR") — the single source for the ± portion, read from the
+ *  ATTR_META labels so no doc/copy ever hand-types it. Both the plain stat line and the flavored
+ *  outcome line build on this. */
+export function introStatDelta(stat: IntroStat): string {
+  return `+1 ${ATTR_META[stat.up].label} / −1 ${ATTR_META[stat.down].label}`;
+}
+
+/** The diegetic-hint-only post-pick line: the exact ± lands AFTER the choice, never on the button
+ *  (human decision 2026-07-02). Reads the attribute LABELS from ATTR_META (single source). */
 export function introStatLine(stat: IntroStat): string {
-  return `The choice settles into you. (+1 ${ATTR_META[stat.up].label} / −1 ${ATTR_META[stat.down].label})`;
+  return `The choice settles into you. (${introStatDelta(stat)})`;
+}
+
+/** The FLAVORED post-pick outcome line (F42): the option's diegetic outcome sentence — what the
+ *  choice reveals about the character — with the exact ± woven in as context (never a bare delta).
+ *  Emitted on the MILESTONE channel so it reads under Progress, not Work (F41). The ± is single-
+ *  source via `introStatDelta`, so it always matches the trade the reducer actually applies. */
+export function introOutcomeLine(opt: IntroOption): string {
+  return `${opt.outcome} (${introStatDelta(opt.stat)})`;
 }
 
 /** The voice category an option's `react` line speaks in (NPC beats use the NPC's voice). */

@@ -55,6 +55,8 @@ export {
   introBeatAt,
   introOption,
   introStatLine,
+  introStatDelta,
+  introOutcomeLine,
   beatReactVoice,
   beatReactSpeaker,
 } from './content/intro';

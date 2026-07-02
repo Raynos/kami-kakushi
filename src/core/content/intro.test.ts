@@ -6,6 +6,8 @@ import {
   introBeatAt,
   introOption,
   introStatLine,
+  introStatDelta,
+  introOutcomeLine,
 } from './intro';
 import { ATTR_IDS, ATTR_META } from './balance';
 import { NPC_IDS } from './voices';
@@ -33,6 +35,11 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
         expect(opt.label).toBeTruthy();
         expect(opt.say).toBeTruthy();
         expect(opt.react).toBeTruthy();
+        // F42: every option carries a diegetic outcome sentence — real flavor, never a bare ±.
+        // (no parenthetical delta baked in — the ± is appended by introOutcomeLine, single-source.)
+        expect(opt.outcome).toBeTruthy();
+        expect(opt.outcome).not.toContain('(');
+        expect(opt.outcome).not.toMatch(/[+−]1/);
       }
     }
   });
@@ -107,5 +114,25 @@ describe('intro selectors', () => {
     const line = introStatLine({ up: 'int', down: 'str' });
     expect(line).toContain(`+1 ${ATTR_META.int.label}`);
     expect(line).toContain(`−1 ${ATTR_META.str.label}`);
+  });
+
+  it('introStatDelta is the single-source ± text, built from ATTR_META labels', () => {
+    expect(introStatDelta({ up: 'int', down: 'str' })).toBe(
+      `+1 ${ATTR_META.int.label} / −1 ${ATTR_META.str.label}`,
+    );
+  });
+
+  it('introOutcomeLine (F42) weaves the option flavor with the exact ± — never a bare delta', () => {
+    for (const beat of INTRO_BEATS) {
+      for (const opt of beat.options!) {
+        const line = introOutcomeLine(opt);
+        // it CARRIES the diegetic flavor (the design lever: fiction, not a stat dump)…
+        expect(line).toContain(opt.outcome);
+        // …and appends the exact ± as context, matching the trade the reducer applies (net-zero).
+        expect(line).toContain(introStatDelta(opt.stat));
+        expect(line).toContain(`+1 ${ATTR_META[opt.stat.up].label}`);
+        expect(line).toContain(`−1 ${ATTR_META[opt.stat.down].label}`);
+      }
+    }
   });
 });
