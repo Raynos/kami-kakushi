@@ -77,12 +77,38 @@ AskUserQuestion:
 - Gates: `ui-demos` added to `.prettierignore` + eslint ignores (staging
   ground, like `prototype/`/`tmp/`).
 
+## 5 · The five variant builds (parallel background agents)
+
+Fanned out five builders, one per direction, each locked to its own
+`ui-demos/0N-*/` dir, each required to pass its own Playwright QA (zero
+console errors; every stage/tab/moment driven; screenshots to
+`tmp/ui-demos-qa/`) and self-review against VARIANT-SPEC §3 before reporting.
+
+- **04 Lacquer & Gold** ✅ — landed first; its QA surfaced two real shared
+  bugs, fixed at source (`02073f3`): the intro never granted BASE_UNLOCKS,
+  and zero-reward wins logged "(+0 coin)". Spec gained the story-gate note
+  for the demo rung-up jump.
+- **03 Vermillion** ✅ — caught the doubled-`❖` (engine strings embedded the
+  bullet renderers add); stripped at source (`b28d73f`).
+- **02 Candlelit Ledger** ✅ — built pre-note, so its rung-up moment only
+  played from R0; sent back via SendMessage, returned verified from R1/R2/R3
+  (incl. Kihei's ask-hub end-to-end).
+- **01 Moonlit Menu** ✅ — clean; fixed real bugs in its own code (nested
+  buttons, camelCase dataset lowercasing silently killing VN/Fight clicks).
+- **05 Aizome** 🔨 still building at this entry.
+
+Main-session independent screenshot review of the four: PASS — same game,
+four genuinely different generation-ups; ceremonies each in-register.
+Committed the four variants (this commit). Human is asleep; instructed to
+continue autonomously + queue everything for the morning read.
+
 ## Next intended steps
 
-1. Fan out the five variant builders (background Agent-tool agents), each on
-   `shared/VARIANT-SPEC.md` + its plan-§3 direction brief.
-2. QA-screenshot every variant × stage; fix; commit; R-items per variant;
-   offer Vercel deploy of `ui-demos/`.
+1. Land + QA 05 Aizome; commit.
+2. R-items per variant in `human-in-the-loop/review.md`; reading-queue entry
+   pointing at the gallery + Vercel deploy of `ui-demos/`.
+3. Checkpoint: snapshot current, push `main` (respect the other agent's WIP
+   — stage own paths only; don't fight their red if the pre-push gate trips).
 
 ## Landmines
 
