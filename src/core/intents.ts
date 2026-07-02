@@ -35,7 +35,6 @@ import {
   REPAIR_KOKU_COST,
   SKILL_YIELD_DEN,
   COOK_SANSAI_COST,
-  COOK_SATIETY_RESTORE,
   COOK_HP_RESTORE,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
@@ -451,12 +450,14 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'cook_meal': {
-      // sansai → satiety AND HP (audit #5 + D-050). A 2-tick act that costs greens for a
-      // refuel; eating is the ONLY thing that mends wounds, so it couples food ↔ combat.
+      // sansai → HP, the HEALTH-recovery action (F22 + D-050). Eating is the ONLY mend
+      // for combat wounds (couples food ↔ combat), and it recovers HEALTH *only* — it does
+      // NOT refill work-stamina (satiety). Work-stamina is the SEPARATE `rest` action's job
+      // (F22: "rest from work" ≠ "recover from a fight" — one action must not refill both).
+      // Costs greens, so a heal always costs something (D-076: no free/auto-heal).
       if (!isUnlocked(next, 'verb-cook')) return state;
       if ((next.resources.sansai ?? 0) < COOK_SANSAI_COST) return state;
       next = withResource(next, 'sansai', -COOK_SANSAI_COST);
-      next = adjustSatiety(next, COOK_SATIETY_RESTORE);
       const hpBefore = next.character.hp;
       const hpAfter = Math.min(hpMax(next), hpBefore + COOK_HP_RESTORE);
       if (hpAfter !== hpBefore) next = { ...next, character: { ...next.character, hp: hpAfter } };
@@ -465,7 +466,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
-            text: `You boil the wild greens into a plain, hot meal. (−${COOK_SANSAI_COST} sansai, +${COOK_SATIETY_RESTORE} body${hpGain > 0 ? `, +${hpGain} HP` : ''})`,
+            text: `You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−${COOK_SANSAI_COST} sansai${hpGain > 0 ? `, +${hpGain} HP` : ''})`,
           },
         ],
       });

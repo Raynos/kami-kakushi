@@ -23,6 +23,7 @@ import {
   promoteRungs,
   reduce,
   hpMax,
+  satietyMax,
   type GameState,
 } from './index';
 
@@ -300,7 +301,10 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
       return {
         ...base,
         rung: 'R3',
-        flags: { ...base.flags, awake: true, 'rank-r3': true },
+        // `raked` makes the free `rest` (work-stamina refuel) legal — an R3 fighter has long
+        // since raked in the cold open. Needed post-F22: eating no longer doubles as a
+        // work-rest, so the recovery loop must `rest` to keep satiety (combat power) up.
+        flags: { ...base.flags, awake: true, raked: true, 'rank-r3': true },
         unlocked: [
           ...base.unlocked,
           'tab-combat',
@@ -330,7 +334,8 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
                 );
           continue;
         }
-        // eat via the real cook intent — forage for sansai if short
+        // eat via the real cook intent to mend HEALTH — forage for sansai if short (F22: cook
+        // heals hp only now, no longer refuels work-stamina)
         if (s.character.hp < hpMax(s) * 0.8) {
           s =
             (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
@@ -339,6 +344,12 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
                   { ...s, location: 'near-satoyama' },
                   { type: 'do_activity', activityId: 'forage_satoyama' },
                 );
+          continue;
+        }
+        // refuel WORK-STAMINA via the real rest intent — a fed/rested fighter swings at full
+        // power (satiety throttles attackPower). This is the F22 second recovery action.
+        if (s.character.satiety < satietyMax(s) * balance.STAMINA_FLAT_ABOVE) {
+          s = reduce(s, { type: 'rest' });
           continue;
         }
         if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')

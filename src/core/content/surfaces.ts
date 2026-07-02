@@ -134,12 +134,13 @@ export const SURFACES: readonly Surface[] = [
   { id: 'row-wood', kind: 'row', unlock: () => false },
   { id: 'row-sansai', kind: 'row', unlock: () => false },
   {
-    // STATE-PREDICATE reveal (keyed to the sansai row) — the sansai→satiety cook sink.
+    // STATE-PREDICATE reveal (keyed to the sansai row) — the sansai→HP heal sink (F22: the
+    // HEALTH-recovery action; work-stamina is the separate `rest` verb).
     id: 'verb-cook',
     kind: 'verb',
     unlock: (s) => s.unlocked.includes('row-sansai'),
     revealLine: narrate(
-      'You could boil the wild greens into a hot meal — plain fare, but it puts the strength back in your legs.',
+      'You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.',
     ),
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },

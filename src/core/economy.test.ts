@@ -122,26 +122,28 @@ describe('skill → yield multiplier (audit #4)', () => {
   });
 });
 
-describe('cook_meal — the sansai → satiety sink (audit #5)', () => {
-  function cookReady(satiety: number, sansai = 5): GameState {
+describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
+  // F22: cook is the HEALTH-recovery action — it mends HP and does NOT touch work-stamina
+  // (satiety). See the F22 distinctness block below for the "one action must not refill both".
+  function cookReady(hp: number, sansai = 5): GameState {
     const s = createInitialState(1);
     return {
       ...s,
-      character: { ...s.character, satiety },
+      character: { ...s.character, hp },
       resources: { ...s.resources, sansai },
       unlocked: [...s.unlocked, 'row-sansai', 'verb-cook'],
     };
   }
 
-  it('spends sansai and refuels satiety, clamped at satietyMax (never above)', () => {
+  it('spends sansai and mends HP, clamped at hpMax (never above)', () => {
     const after = reduce(cookReady(10), { type: 'cook_meal' });
     expect(after.resources.sansai).toBe(5 - balance.COOK_SANSAI_COST);
-    expect(after.character.satiety).toBe(10 + balance.COOK_SATIETY_RESTORE);
+    expect(after.character.hp).toBe(10 + balance.COOK_HP_RESTORE);
 
-    const nearMax = cookReady(satietyMax(createInitialState(1)) - 5);
+    const nearMax = cookReady(hpMax(createInitialState(1)) - 5);
     const clamped = reduce(nearMax, { type: 'cook_meal' });
-    expect(clamped.character.satiety).toBe(satietyMax(clamped)); // clamp, not overflow
-    expect(clamped.character.satiety).toBeLessThanOrEqual(satietyMax(clamped));
+    expect(clamped.character.hp).toBe(hpMax(clamped)); // clamp, not overflow
+    expect(clamped.character.hp).toBeLessThanOrEqual(hpMax(clamped));
   });
 
   it('is a no-op without enough sansai, or while the verb is unrevealed', () => {
@@ -150,6 +152,54 @@ describe('cook_meal — the sansai → satiety sink (audit #5)', () => {
 
     const locked = { ...createInitialState(1), resources: { sansai: 9 } };
     expect(reduce(locked, { type: 'cook_meal' })).toBe(locked); // verb-cook not unlocked
+  });
+});
+
+describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery actions', () => {
+  // The core F22 invariant: "rest from work" ≠ "recover from a fight". Two meters —
+  // work-stamina (satiety) and health (hp) — each with its OWN recovery action, and NO single
+  // action refills both. All fixtures derive their expected deltas from the balance source of
+  // truth (SATIETY_PER_REST / COOK_HP_RESTORE / COOK_SANSAI_COST), never a copied magic number.
+
+  /** Hurt on BOTH meters, with the rest-loop live (awake+raked) and the cook verb revealed. */
+  function hurtOnBoth(): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      // well below both maxes so a recovery has clear headroom (can go RED if it heals nothing)
+      character: { ...s.character, hp: 5, satiety: 10 },
+      resources: { ...s.resources, sansai: 5 },
+      flags: { ...s.flags, awake: true, raked: true },
+      unlocked: [...s.unlocked, 'row-sansai', 'verb-cook'],
+    };
+  }
+
+  it('Rest a moment recovers WORK-STAMINA (satiety) but NOT health (hp)', () => {
+    const s = hurtOnBoth();
+    const after = reduce(s, { type: 'rest' });
+    // work-stamina climbs by exactly the rest amount…
+    expect(after.character.satiety).toBe(s.character.satiety + balance.SATIETY_PER_REST);
+    // …and health is untouched — rest is NOT a heal.
+    expect(after.character.hp).toBe(s.character.hp);
+  });
+
+  it('Cook a meal recovers HEALTH (hp) but NOT work-stamina (satiety)', () => {
+    const s = hurtOnBoth();
+    const after = reduce(s, { type: 'cook_meal' });
+    // health climbs by exactly the heal amount…
+    expect(after.character.hp).toBe(s.character.hp + balance.COOK_HP_RESTORE);
+    // …and work-stamina is untouched — a heal is NOT a work-rest.
+    expect(after.character.satiety).toBe(s.character.satiety);
+  });
+
+  it('the heal COSTS something — cook spends sansai (D-076: no free/auto-heal)', () => {
+    const s = hurtOnBoth();
+    const after = reduce(s, { type: 'cook_meal' });
+    expect(after.resources.sansai).toBe((s.resources.sansai ?? 0) - balance.COOK_SANSAI_COST);
+    expect(balance.COOK_SANSAI_COST).toBeGreaterThan(0);
+    // the work-rest, by contrast, costs no resource — only time (ticks).
+    const rested = reduce(s, { type: 'rest' });
+    expect(rested.resources.sansai).toBe(s.resources.sansai);
   });
 });
 
