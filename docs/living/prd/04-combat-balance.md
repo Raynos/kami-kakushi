@@ -1,5 +1,12 @@
 # §4 — Combat, Progression & Balance Model
 
+> **D-117 (2026-07-03) — ripple-frozen: no per-change hand-updates.** The
+> illustrative magnitudes below are **no longer hand-updated as balance
+> tunes**; `core/content/balance.ts` + the generated `docs/content/` tables
+> are the live truth (R2: the build wins). This section's numbers refresh at
+> the **T0 compression sweep** (D-117 — triggered when the R1 taste review
+> closes), not per-change.
+
 > This section is authored from the two-phase progression spine (§1.6.4 — the
 > sequential two-phase model + the three combat tracks) and the system shapes fixed in
 > §2 (the three tracks, the incremental weapon roster, the per-skill perk channel, the
@@ -1122,9 +1129,9 @@ foe that deals **≥1 damage** grinds you down across a run, and the **only** fo
    **autopilot STOPS** (mend + re-engage deliberately).
 
 **A lost fight (0 HP)** — the `applyGrindFight` loss path: the soft setback (§4.6.6: **1 HP**, ~½-day) **AND**
-the **autopilot STOPS** (no auto-resume) **AND** you **drop a real bite of CARRIED wealth** — `LOSS_COIN_FRAC`
-(~20%) of carried coin + `LOSS_MATERIAL_FRAC` (~⅓, floored) of carried materials/rice. **What's BANKED in the kura
-storehouse (§4.6.6c) is safe.** Still **never** a level/gear/Influence/koku-standing loss. The autopilot stopping (not
+the **autopilot STOPS** (no auto-resume) **AND** you **drop a real bite of ALL THREE carried resources —
+coin + rice + materials** (**D-113**) — `LOSS_COIN_FRAC` (~20%) of carried coin + `LOSS_MATERIAL_FRAC` (~⅓,
+floored) of carried rice + materials. **What's BANKED in the kura storehouse (§4.6.6c) is safe.** Still **never** a level/gear/Influence/koku-standing loss. The autopilot stopping (not
 auto-resuming) means the player **feels** the loss and chooses to recover, rather than the loop papering over
 it.
 

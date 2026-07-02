@@ -16,7 +16,20 @@
 
 ## TODO
 
-_(none open)_
+- [ ] **⭐ Redo the taste-distillation + ui-design rewrite WITH FABLE** — this is
+  critical enough to warrant a dedicated, human-in-the-loop re-pass, not just the
+  autonomous first cut. Tonight's `docs/living/taste.md` (the 117-item taste
+  standard) + the `ui-design.md` reconciliation are the highest-leverage artifacts
+  of the session — they set the bar every future feature is built to. Sit with
+  Fable (the design agent), review/rework them together, and lock the taste bar
+  you actually want. Treat the autonomous version as a **strong first draft**, not
+  the final word.
+- [ ] **Playtest the deployed v0.3.5 build** — <https://raynos.github.io/kami-kakushi/>.
+  The whole T0 rebuild is live: the VN intro + rung story beats, the 6-tab IA, the
+  coin/rice/koku-standing economy, the estate map, deep housing, the rebalanced log.
+  This is the **R1 review passover** (fun · pacing · look) — jot anything that feels off.
+- [ ] **Tune the balance-watch items by feel** (once you've played) — see the audit
+  report in the reading queue below; I did NOT silently re-tune (D-059, your call).
 
 ## Reading queue
 
@@ -27,30 +40,60 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-- [ ] `docs/plans/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**:
-  five full T0 (R0–R3) remasters of the actual game in `ui-demos/` — the
-  midpoint between "change the CSS" and "reinvent the UI." Directions locked
-  live with you this session; §3 has the five briefs, §2 the invariants.
-- [ ] `docs/plans/2026-07-02-koku-economy-t0-build.md` — **Plan B: the T0 economy
-  build** (koku→coin rename, rice-as-resource, mon→monme→ryō formatter,
-  koku-as-standing, status tokens). Scope LOCKED (D-107/108/109 + D-113); **being
-  implemented now by the main session** (verified GO, file map corrected).
-- [ ] `docs/plans/2026-07-02-rung-up-story-transitions.md` — **rung-ups as VN story
-  beats** (F97/F99/F103). Scope LOCKED (D-110 — every rung a player-triggered beat).
-  **Carries a PROPOSED CAST (§6.5) for your review/edits** before the beats ship.
-- [ ] `docs/plans/2026-07-02-deep-housing-build.md` — **deep housing build** (D-111):
-  furnishable home that grows with rung + a belongings inventory + comfort/
-  status-mirror bonuses. The build approach, for your review.
-- [ ] `docs/plans/2026-07-02-ia-tab-reorg-build.md` — **6-tab IA reorg build** (D-112/
-  114/116): panel→tab map, incremental reveal order, vendors-as-people model. **Two
-  forks to confirm**: no Quests tab (default: fold into Character as "Undertakings"),
-  the R1 triple-reveal pacing, and the koku-panel home.
+**⭐ Tonight's headline — the taste-distillation + docs reconciliation (read these first):**
+
+- [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD** (the key read): the
+  cross-cutting design taste distilled from ALL 117 of your feedback items —
+  ~12–16 memorable meta-principles + a pre-build / pre-ship checklist, so future
+  features are built to your standard with **less feedback needed**. This is the
+  higher-order version of "every rule graduates to the docs."
+- [ ] **Docs reconciliation — the living docs now match the shipped game** (they'd
+  drifted ~2 rounds behind): `docs/living/ui-design.md` was rewritten to the built
+  reality (6-tab IA · append-only render · the VN scene for intro **and** rung beats ·
+  log v2 with Chat/Now · economy display · housing), and the **PRD** +
+  `docs/living/fun-factor.md` were rippled with the new mechanics (rung-beats, housing,
+  vendors-as-people). Skim to confirm they describe the game you played.
+
+**Owed reviews / taste calls (async, no rush):**
+
+- [ ] `docs/plans/2026-07-02-rung-up-story-transitions.md` — the **rung R0→R7 cast +
+  beat prose** (built; §6.5 cast + §7 prose await your read — 3 invented faces: the
+  pedlar **Tokubei**, **Rokusuke**, the smith **Tōzō** — rename/veto freely). Also R8.
+- [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy
+  balance-watch**: 4 liquid tuning items (rice out-produces its sinks → coin too
+  abundant; the koku capstone is reached too fast; season store/sell dominated;
+  eat-rice dominated by rest). Your feel-call — NOT silently re-tuned.
+- [ ] `docs/plans/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**
+  (Fable's parallel spike): five full T0 remasters of the game in `ui-demos/` — a
+  taste call on the UI direction; §3 has the five briefs, §2 the invariants.
 - [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
   actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
-  via rumours / low-chance events / description hints, not a static list. T0-later/T1,
-  for eventual adoption.
-- [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy balance
-  watch** (from the re-core audit): 4 liquid tuning items for your playtest — rice
-  out-produces its sinks (coin too abundant), season store/sell dominated, eat-rice
-  dominated by rest, and the koku capstone reached too fast. **Balance is your feel-call
-  — I did NOT silently re-tune.** Play + tune by feel.
+  via rumours / low-chance events / description hints, not a static list. T0-later/T1.
+
+**Process-improvement plans + the PRD-diet session (2026-07-03, from the
+496-commit git-log retro):**
+
+- [ ] `docs/plans/2026-07-03-mechanical-checkpoint.md` — **the mechanical
+  checkpoint** (retro suggestion #1): generate the process layer's derivable
+  sections (gate roster, active-plans list, plan-status tokens, queue paths)
+  via a `checkpoint.ts` + a 13th verify gate. Found live drift as receipts:
+  the gate-count sentence says 11 (there are 12), `docs/plans/README.md`
+  claims "no active plans", and session-brief mis-tags LOCKED plans as DONE.
+- [ ] `docs/plans/2026-07-03-playtest-capture-inbox.md` — **playtest capture
+  inbox** (suggestion #2): backquote-hotkey in-game note box → Vite
+  dev-middleware → `project/playtest-inbox/` → a `/drain-inbox` skill. Your
+  synchronous feedback typing becomes async play-and-dump; repro via
+  state+seed+variants, no screenshots needed.
+- [ ] `docs/plans/2026-07-03-balance-sim-gates.md` — **persona-bot balance
+  sim** (suggestion #4): greedy/idler/explorer bots over the real reducers,
+  pacing envelopes derived from `balance.ts`, on-demand `verify:balance` + a
+  generated pacing report whose diff rides every balance change.
+- [ ] `project/brainstorms/2026-07-03-prd-on-a-diet.md` — **the PRD-diet
+  session record** (→ ADR D-117): your 6 locked answers + the derived flows +
+  **2 Claude-picked defaults awaiting your override** (audit baseline for
+  compressed territory; §6 folded into the T0 sweep).
+
+_(The economy, deep-housing, and 6-tab-IA build plans are now IMPLEMENTED + shipped —
+their owed bits live as R-items in `human-in-the-loop/review.md` [R6 home-panel diverge,
+R7 estate-map variant pick] + the balance-watch above; the plans themselves archive to
+`project/archive/` at the next checkpoint.)_

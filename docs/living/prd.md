@@ -52,6 +52,15 @@ revised, and its load-bearing decisions locked as ADRs.
 > reorg — freezing §1 as a tagged vision snapshot and moving the §4 numbers to generated `docs/content/`
 > ([`content/t0-content.md`](../content/t0-content.md) already exists) — is the queued next step.)*
 
+> **FRAMING 2 — the frontier line (ADR D-117, 2026-07-03; refines D-097).** This
+> PRD's **primary job is the forward spec of the UNBUILT** (T1–T5, endgame).
+> Once a tier's human taste review closes, its built slices **compress** — one
+> per-tier, human-signed sweep across §2–§6 — to intent + acceptance criteria +
+> pointers (code / generated `docs/content/` / ADRs); the pre-compression text
+> graduates verbatim to `project/archive/`. Until T0's sweep: only the §4
+> illustrative magnitudes are ripple-frozen (see the §4 banner); everything
+> else stays hand-current.
+
 ---
 
 ## Sections

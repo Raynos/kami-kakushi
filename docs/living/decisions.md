@@ -1258,3 +1258,46 @@ design ADR.
   [`../../project/brainstorms/2026-07-02-emergent-node-actions.md`](../../project/brainstorms/2026-07-02-emergent-node-actions.md))
   builds on. Home for the settled copy rule: `ui-design.md` (§5.1 channels + §
   map). Per **D-022**, governs.
+
+## D-117 — 2026-07-03 the frontier PRD — spec-ahead, compress-behind (refines D-097, extends D-021)
+
+### D-117 ✅ — The PRD's PRIMARY job is the forward spec of the UNBUILT; shipped tiers compress (once per tier, human-signed) to intent + acceptance criteria + pointers
+- **created_date:** 2026-07-03
+- **Context:** ~half of the repo's 496 commits are process upkeep, and a
+  recurring share is "ripple X into the PRD": every built-system change pays a
+  two-place write (code + spec), policed by after-the-fact audits — the koku
+  economy alone was speced, tightened, then re-cored within ~36 h once play
+  exposed the pacing. The PRD's irreplaceable value is concentrated in the
+  UNBUILT (T1–T5, endgame); for built systems the build + ADRs + generated
+  docs are the better truth (R2 — the build wins). Locked via a live 6-round
+  Q&A:
+  [`2026-07-03-prd-on-a-diet.md`](../../project/brainstorms/2026-07-03-prd-on-a-diet.md).
+- **Decision (human, 2026-07-03):** **(1) Job #1** — the PRD is first the
+  **forward spec of the unbuilt**; D-097's "complete standalone what" becomes
+  secondary (the PRD stays standalone and end-state-framed). **(2)
+  Compression** — when a tier's human **taste review closes** (NOT at
+  code-ship; T0 shipped Jun 29 but was re-cored Jul 2 — shipped ≠ settled),
+  the agent drafts ONE compression sweep for that tier: surgical subsection
+  edits across §2–§6 (the frontier cuts through the per-concern sections);
+  each built slice → intent + acceptance criteria + pointers (code /
+  generated `docs/content/` / ADRs), with generated fact-regions where build
+  == end-state intent (the mechanical-checkpoint gen-region machinery). Filed
+  as a `docs/plans/` reel-back + R-item; the **human approves the diff**
+  before it lands. **(3) Demoted text** is archived **verbatim** to
+  `project/archive/` with a forward pointer (archive, don't remove). **(4)
+  Interim rule (narrow — the human chose this over a full ripple-freeze):**
+  only §4's illustrative balance magnitudes stop being hand-rippled NOW
+  (already provisional per D-021; `balance.ts` + the generated tables are
+  their source of truth); system/narrative ripple continues per-change until
+  each tier's compression event.
+- **Why:** kills the per-change spec tax exactly where it bites — built
+  systems churning under daily playtest — while preserving the
+  forward-design value the PRD alone carries; ripple becomes a rare,
+  human-signed, once-per-tier event.
+- **Consequences:** §4 gains a no-hand-ripple banner (applied this session);
+  `prd.md` "How to read" gains the frontier-line note. First compression event =
+  **T0, triggered when R1 closes**. Claude-picked defaults pending async
+  override (flagged in the brainstorm's Open flags): fidelity audits of
+  compressed territory baseline on acceptance criteria + ADRs + generated
+  docs, not detail-prose; §6 tech-architecture folds into the T0 sweep. Per
+  **D-022**, governs.
