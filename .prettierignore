@@ -13,3 +13,4 @@ audit
 human-in-the-loop
 tmp
 playcheck.baseline.json
+.claude/settings.local.json
