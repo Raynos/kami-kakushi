@@ -155,16 +155,16 @@ async function boot(): Promise<void> {
   }
 
   // ── crash boundary ──
+  // A caught render/tick error draws a FULL-SCREEN error modal (F61) that COVERS the
+  // broken/half-drawn UI — an intentional error screen, not a banner over a blank page.
+  // The save already happened (autosave/debounce), so "your progress is saved" holds.
   function safely(fn: () => void): void {
     try {
       fn();
     } catch (err) {
       crashed = true;
       void save.bumpCrashCount();
-      note(
-        root!,
-        'Something went wrong drawing the page. Your progress is saved; reload to continue.',
-      );
+      showErrorModal(err);
       console.error('[kami-kakushi] render/tick error', err);
     }
   }
@@ -427,6 +427,87 @@ async function boot(): Promise<void> {
         rerender: () => safely(() => render(state, null)),
       });
     }
+  }
+}
+
+// Full-screen render/tick crash screen (F61). A caught error mounts ONE fixed,
+// full-viewport overlay on <body> (high z-index) in the woodblock/ink palette — a dark
+// ink ground under a washi card — so a crash reads as a clean, intentional error screen
+// that COVERS the broken UI, never a banner over a blank/half-drawn page. Idempotent:
+// reuses/replaces a single `#error-modal` node so repeated errors don't stack modals.
+// Wrapped in its own try/catch so the crash screen can never itself throw.
+function showErrorModal(err: unknown): void {
+  try {
+    const id = 'error-modal';
+    const existing = document.getElementById(id);
+    const modal = existing ?? document.createElement('div');
+    modal.id = id;
+    modal.setAttribute('role', 'alertdialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'error-modal-title');
+    // solid, fixed, full-viewport ink ground (max z-index) that covers everything
+    modal.style.cssText =
+      'position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;' +
+      'justify-content:center;box-sizing:border-box;padding:1.5rem;' +
+      'background:radial-gradient(120% 90% at 50% 0%, #2e2a24, #1a1713);' +
+      "font:16px/1.6 'Hiragino Mincho ProN','Yu Mincho',serif;";
+    modal.replaceChildren(); // rebuild content so the LATEST error shows, never stacked
+
+    const card = document.createElement('div');
+    card.style.cssText =
+      'width:100%;max-width:min(560px,92vw);box-sizing:border-box;background:#F3E9D2;' +
+      'color:#26221E;border:1px solid #26221E;border-radius:2px;padding:2rem 2.25rem;' +
+      'box-shadow:0 2px 0 #00000030, 0 18px 44px #00000066;text-align:center;';
+
+    // a tasteful kanji nod — 隠 ("kakushi", hidden): the page has been spirited away
+    const kanji = document.createElement('div');
+    kanji.textContent = '隠';
+    kanji.setAttribute('aria-hidden', 'true');
+    kanji.style.cssText =
+      'font-size:2.75rem;line-height:1;color:#D7402C;margin-bottom:.75rem;font-weight:400;';
+
+    const heading = document.createElement('h1');
+    heading.id = 'error-modal-title';
+    heading.textContent = 'Something went wrong';
+    heading.style.cssText =
+      'margin:0 0 .5rem;font-size:1.5rem;font-weight:600;color:#26221E;letter-spacing:.01em;';
+
+    const reassure = document.createElement('p');
+    reassure.textContent = 'Your progress is saved.';
+    reassure.style.cssText = 'margin:0 0 1.5rem;font-size:1rem;color:#4A3F33;';
+
+    const reload = document.createElement('button');
+    reload.type = 'button';
+    reload.textContent = 'Reload';
+    reload.style.cssText =
+      'appearance:none;border:1px solid #A8301F;background:#D7402C;color:#F3E9D2;' +
+      'font:inherit;font-size:1rem;font-weight:600;padding:.55rem 1.75rem;border-radius:2px;' +
+      'cursor:pointer;box-shadow:0 2px 0 #00000030;';
+    reload.addEventListener('click', () => location.reload());
+
+    card.append(kanji, heading, reassure, reload);
+
+    // DEV-only: the error message + stack in a monospace block for debugging (stripped from prod)
+    if (import.meta.env.DEV) {
+      const detail =
+        err instanceof Error
+          ? `${err.name}: ${err.message}\n\n${err.stack ?? '(no stack)'}`
+          : String(err);
+      const pre = document.createElement('pre');
+      pre.textContent = detail;
+      pre.style.cssText =
+        'margin:1.5rem 0 0;padding:.75rem .9rem;text-align:left;white-space:pre-wrap;' +
+        'word-break:break-word;max-height:40vh;overflow:auto;background:#E7D9BC;' +
+        'border:1px solid #7A6C59;border-radius:2px;color:#26221E;' +
+        'font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;';
+      card.append(pre);
+    }
+
+    modal.append(card);
+    if (!existing) document.body.appendChild(modal);
+  } catch (e) {
+    // the crash screen must never itself throw — fall back to the console only
+    console.error('[kami-kakushi] failed to render error modal', e);
   }
 }
 
