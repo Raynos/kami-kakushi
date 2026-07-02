@@ -243,11 +243,17 @@ export function validateState(rawState: unknown): ValidateResult {
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
-    autoActivity: base.autoActivity ?? null,
-    autoRake: base.autoRake === true, // additive — default off
+    // ── in-flight automation is NOT restored on load (F32) ──────────────────────────────
+    // A loaded save starts IDLE: the "currently auto-doing X" targets (auto-labour,
+    // auto-rake, auto-fight) reset to their idle value regardless of what was persisted, so
+    // a refresh never resumes auto-ing on its own — the player opts back in. We persist
+    // PROGRESS, not in-flight automation. (autoCombatRetreat below is a persisted PREFERENCE,
+    // not an active target — it only bites once autoCombat is re-armed — so it survives.)
+    autoActivity: null,
+    autoRake: false,
     equippedWeapon: base.equippedWeapon ?? 'carrying_pole',
     weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
-    autoCombat: base.autoCombat ?? null,
+    autoCombat: null,
     autoCombatRetreat: base.autoCombatRetreat === true, // additive (call 6): default fight-to-death
     stance: (base.stance as StanceId) ?? 'chudan',
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──

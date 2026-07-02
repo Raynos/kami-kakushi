@@ -118,6 +118,32 @@ describe('multi-backend redundant save', () => {
     expect(rb).not.toBeNull();
     expect(JSON.stringify(rb!.state)).toBe(JSON.stringify(s1));
   });
+
+  it('a loaded save starts IDLE — active auto targets are cleared on load (F32)', async () => {
+    // A refresh must not resume auto-ing: the persisted "currently auto-doing X" targets
+    // (auto-labour, auto-rake, auto-fight) reset to idle on load, while genuine PROGRESS
+    // and the auto-combat PREFERENCE survive. Could-go-RED: pre-fix, load() restored these
+    // targets verbatim and the loop kept auto-ing on a cold open.
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1000);
+    const autoing: GameState = {
+      ...sample(),
+      autoActivity: 'farm_paddy',
+      autoRake: true,
+      autoCombat: 'monkey',
+      autoCombatRetreat: true, // a PREFERENCE — this one survives
+      rungMeter: 42, // ordinary progress — must NOT be stripped
+    };
+    expect((await mgr.save(autoing)).ok).toBe(true);
+    const loaded = await mgr.load();
+    expect(loaded).not.toBeNull();
+    // every active auto-target is idle after load…
+    expect(loaded!.state.autoActivity).toBeNull();
+    expect(loaded!.state.autoRake).toBe(false);
+    expect(loaded!.state.autoCombat).toBeNull();
+    // …but the preference and real progress ride through untouched
+    expect(loaded!.state.autoCombatRetreat).toBe(true);
+    expect(loaded!.state.rungMeter).toBe(42);
+  });
 });
 
 describe('migration wiring + pre-migration backup', () => {
