@@ -475,7 +475,9 @@ export function mount(
     mapPane,
   );
 
-  workspace.append(logSection, work);
+  // the story log lives in the RIGHT column now (idle-RPG convention, playtest F8); the
+  // interactive work/actions column sits on the LEFT.
+  workspace.append(work, logSection);
 
   // ── fixed footer bar (F5) — the version stamp + the Settings entry, pinned to the bottom ──
   const footer = el('footer', 'appbar-footer');
@@ -1441,10 +1443,19 @@ export function mount(
     line.classList.add('tally');
     hooks.sfx.reward(); // the koku-tally cue — a shamisen/koto pluck (T0-M1-F4)
   }
+  // Smoothly follow the newest line so the story is SEEN to scroll in, not popped in (playtest
+  // F7). Honors reduced-motion (OS media query OR the in-app `.reduced-motion` class on <html>):
+  // those users get an instant jump, everyone else a smooth scroll.
+  function scrollLogToNewest(): void {
+    const reduced =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.documentElement.classList.contains('reduced-motion');
+    logSection.scrollTo({ top: logSection.scrollHeight, behavior: reduced ? 'auto' : 'smooth' });
+  }
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
-    logSection.scrollTop = logSection.scrollHeight; // auto-scroll to follow the newest line
+    scrollLogToNewest(); // smoothly follow the newest line (F7)
   }
   function pumpReveal(): void {
     if (revealTimer !== undefined) return;
@@ -1490,7 +1501,7 @@ export function mount(
         if (lineEl) {
           renderLineContent(lineEl, last);
           flashTally(lineEl);
-          logSection.scrollTop = logSection.scrollHeight;
+          scrollLogToNewest();
         }
         lastPaintedCount = last.count ?? 1;
       }

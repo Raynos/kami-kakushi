@@ -298,7 +298,7 @@ h3 {
 /* ── workspace + the event-log hero ─────────────────────────────────────── */
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(220px, 1fr);
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 1.5fr); /* work LEFT · story log RIGHT (F8) */
   grid-template-rows: minmax(0, 1fr); /* a single full-height row so columns can scroll */
   gap: var(--space-6);
   padding: var(--space-6);
@@ -340,7 +340,6 @@ h3 {
   padding: var(--space-4) var(--space-6);
   min-height: 0;
   overflow-y: auto;
-  max-width: var(--maxw-text);
 }
 .log h2 {
   font-size: var(--fs-h3);
