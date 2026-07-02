@@ -27,10 +27,4 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-- [x] `docs/plans/2026-07-01-prd-standalone-endstate-reconcile.md` — **Plan A** —
-  IMPLEMENTED + archived (PRD → standalone end-state v1.0.0).
-- [x] `docs/plans/2026-07-01-v0.3.2-build-close-the-gap.md` — **Plan B** —
-  IMPLEMENTED + archived (v0.3.2 build; A1–A10 + C all landed, session-40).
-- [x] `project/audit/reports/2026-07-01-doc-staleness-reconcile.md` — *the initial
-  (partial) staleness audit — SUPERSEDED by the full bidirectional reconcile above;
-  read Plans A/B instead*
+_(none open)_
