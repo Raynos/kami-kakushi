@@ -3,8 +3,9 @@
 > **Note — this is the preserved original seed prompt, kept as a historical artifact.** It is not
 > the current canon and some details have since evolved (e.g. the protagonist's age). For the
 > authoritative present-day vision see [`docs/living/prd.md`](docs/living/prd.md) §1, and for what is actually
-> built see the milestone tracker in [`docs/living/roadmap.md`](docs/living/roadmap.md). The original seed text is
-> preserved unchanged below.
+> built see the milestone tracker in [`docs/living/roadmap.md`](docs/living/roadmap.md). The setting is now
+> **anchored to 1780** (Edo-era Japan, *An'ei* 9 — real year, fictional geography & politics; ADR D-105). The
+> original seed text is preserved unchanged below.
 
 The goal is to build a web based HTML incremental RPG game. 
 Feel free to use HTML5 & Typescript in the implementation.

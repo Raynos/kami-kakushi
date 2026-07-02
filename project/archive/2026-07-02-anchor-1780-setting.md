@@ -1,8 +1,15 @@
 # Plan — Anchor the setting to the year 1780 (ADR D-105)
 
-> **Status:** 🆕 proposed — awaiting human read (reading queue). Ripple for
-> **[D-105](../living/decisions.md)**. **Source:** human steer, 2026-07-02
-> ("anchor the game as being set in 1780; record it and plan the impact").
+> **Status:** ✅ done (2026-07-02) — doc ripple landed (defaults A1 + B1, no code
+> changes). Ripple for **[D-105](../living/decisions.md)**. **Source:** human
+> steer, 2026-07-02 ("anchor the game as being set in 1780; record it and plan
+> the impact"), implement steer same day.
+>
+> **One deviation from §5 step 3:** the README anchor was added to the editable
+> **top-note** (which already flags what's evolved since the seed), **not** to
+> line 20 of the preserved seed — the README explicitly keeps "the original seed
+> text preserved unchanged," so editing the seed body would break that contract.
+> Same intent (README notes the anchor), preservation contract respected.
 
 ## 1. The decision in one line
 
@@ -58,15 +65,18 @@ allow-listed real place (T5), exactly as today.
 1780 sits ~2 years before one of the Edo period's great famines. The game's tone
 is deliberately cozy/warm restoration fantasy over "stable and commercial."
 
-- **A1 (DEFAULT — picked): INSULATE.** The fictional valley is not a famine
-  chronicle; the anchor gives era-feel without dramatizing the famine. At most a
-  faint, optional, off-screen line (a lean year down the road, grain prices
-  twitching) — never a plot. *Rationale: protects the cozy tone + the apolitical
-  fiction; the famine as spectacle would fight the whole premise.*
-- **A2: LIGHT TEXTURE.** One or two optional rumour-board tidbits gesture at hard
-  times elsewhere, purely as flavour, still no mechanics.
-- **A3: DRAMATIZE.** Make the coming hardship a story force. *Not recommended —
-  clashes with D-084 (cozy fun) and the apolitical-fiction stance.*
+- **A1: INSULATE.** The fictional valley is not a famine chronicle; the anchor
+  gives era-feel without dramatizing the famine. At most a faint, optional,
+  off-screen line — never a plot. *(Was the agent default; the human steered to
+  A2, 2026-07-02.)*
+- **A2 (CHOSEN — human steer, 2026-07-02): LIGHT TEXTURE.** One or two optional
+  rumour-board tidbits gesture at hard times elsewhere — a lean year two
+  districts over, grain prices twitching, a family drifting up-valley for work —
+  purely as flavour, **still no mechanics, no plot, no INVESTIGATE**. Grounds the
+  1780 setting on the eve of harder years while the cozy valley stays insulated.
+  *Authored as a T2 rumour-board bullet in §5 (T2 optional-content list).*
+- **A3: DRAMATIZE.** Make the coming hardship a story force. *Declined — clashes
+  with D-084 (cozy fun) and the apolitical-fiction stance.*
 
 ### Fork B — how the in-game calendar relates to 1780
 
@@ -106,21 +116,30 @@ Ordered, small, reviewable. **No code changes under the defaults.**
    register is anchored to 1780 (validates, doesn't change, the visual bible).
 5. **No change** to §6 (calendar model), §4 (balance), the real-name denylist, or
    any core code — all consistent as-is under B1.
-6. **Optional (defer):** a single canon note in §5 / world lore that the wider
-   realm is entering hard years (Fork A1's faint off-screen texture), only if the
-   human wants even that much.
+6. **Fork A2 (human-chosen): authored** a "hard times down the road" rumour-board
+   tidbit into §5's T2 optional-content list — off-screen era texture, no plot,
+   no mechanics, never names the era.
 
 ## 6. Definition of done
 
-- [ ] Human has read this plan + the A/B fork defaults (or overridden them).
-- [ ] §1.3 states 1780 + the real-year/fictional-place split.
-- [ ] README + ui-design note the anchor.
-- [ ] §5 opening/timeline verified consistent (no retcon needed).
-- [ ] The real-name denylist + calendar model confirmed **unchanged**.
-- [ ] `npm run verify` green; plan graduates to `project/archive/`.
+- [x] Human has read this plan + the A/B fork defaults (steered "implement it";
+      defaults A1 + B1 accepted).
+- [x] §1.3 states 1780 + the real-year/fictional-place split.
+- [x] README + ui-design note the anchor (README via the top-note — see the
+      deviation in the Status block).
+- [x] §5 opening/timeline verified consistent — cold-open grounded to "spring,
+      An'ei 9 — 1780"; the "ten years ago" (~1770) / "three generations"
+      (Sadamune, early–mid 1700s) lines read consistent, no retcon.
+- [x] The real-name denylist + calendar model confirmed **unchanged** (no code
+      touched).
+- [x] `npm run verify` green; plan graduates to `project/archive/`.
 
 ## 7. Out of scope
 
 - Surfacing the live *nengō* era-year (Fork B2) — deferred.
-- Any famine storyline (Fork A3) — declined by default.
+- Any famine **storyline** (Fork A3) — declined. *(A2's off-screen rumour texture
+  is in scope and authored; A3's plot-force dramatization is not.)*
 - Any change to place/house names or the fiction denylist — explicitly preserved.
+- **Game-code surfacing of the 1780 anchor** (the opening-narration grounding
+  line; the A2 rumour tidbit when the T2 board is built) — split out to a
+  separate small `src/` plan for hand-off, so this doc-ripple stays docs-only.

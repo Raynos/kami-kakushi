@@ -131,8 +131,10 @@ for itch.io.
 > castle-town, and finally recognition at Edo — until the Kurosawa name is restored and surpassed.*
 
 **Tone:** grounded, warm, bittersweet **Edo folk-mystery** wrapped around a cozy, satisfying **restoration
-fantasy** (mid-Edo, stable and commercial, ~18th century, kept **fictional** — no real place or daimyō
-names). The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a *koku*/rice
+fantasy** — **set in 1780** (*An'ei* 9, 安永9年), mid-Edo, stable and commercial, kept **fictional**. The
+anchor is **real YEAR, fictional GEOGRAPHY & POLITICS**: every place and house is invented (no real place or
+daimyō names — D-018), and "the shōgun" is only ever an **unnamed office**, never the historical Tokugawa. The
+era's real commercial texture is *ambient flavour*, never named politics. The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a *koku*/rice
 base economy — numbers-go-up as honest sweat — with combat as a dangerous, earned second pillar. Beneath the
 warmth runs a quiet grim undercurrent: a house broken by an ancestor's failed venture, a village grieving a
 child it nearly sold, **a family a valley away who grieved the protagonist himself as dead** (his is a quiet

@@ -17,7 +17,9 @@ The Kurosawa house looks like a **mid-Edo woodblock print left out on a worktabl
 paper, **warm sumi ink** doing all the line-work, one disciplined **indigo** as the "second ink," and a single
 **vermilion seal** (*hanko*) that means *important* precisely because it is rare. It is **intentional,
 restrained, and warm** — the visual register of *quiet ascent through a declining house*, never a flashy mobile
-idler. The **event log is the heart of the screen**: a tall paper scroll of diegetic narration that turns
+idler. The register is anchored to **1780** (*An'ei* 9) — the ukiyo-e high tide — so the "mid-Edo woodblock"
+language is *validated*, not changed, by the setting-anchor (ADR D-105). The **event log is the heart of the
+screen**: a tall paper scroll of diegetic narration that turns
 every income tick and every unlock into a line of the house's story. The signature feeling is **"UI as
 progression"** — the game opens as one calm column (a verb + the log) and *inks new panels, tabs, and whole
 screens into existence* as the house rises, each reveal narrated as plot. Depth comes from **material and

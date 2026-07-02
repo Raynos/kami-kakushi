@@ -81,7 +81,9 @@ cadence). Daily texture stays **peaceful-labour dominant** by volume.
 
 ## T0.2 Main-quest beats (toward the T0→T1 gate)
 
-1. **The Weir (cold open).** Wake feverish on a pallet in the **kura** storehouse, head bandaged. One verb, a
+1. **The Weir (cold open).** *(Spring, An'ei 9 — 1780; the year is grounding flavour only, the on-screen
+   calendar stays the relative Year-N + season — ADR D-105.)* Wake feverish on a pallet in the **kura**
+   storehouse, head bandaged. One verb, a
    persistent event log, a body/rest bar and a rice counter. Physician **Sōan** names the injury plainly —
    "head's been knocked, lad; you near drowned" — grounding the amnesia as ordinary trauma, **no visions.**
    *(He keeps language and labourer's body-habits; he has lost his autobiographical past.)* **[THREAD: Origin]**
@@ -636,6 +638,13 @@ genuine village dread, investigated through ordinary work, and resolved one-to-o
 - **The night-heron of the paddies (rumour).** **[FOLKLORE → cause]** a "ghost-bird" haunting the flooded
   fields = an ordinary heron; a one-shot INVESTIGATE that pays a little foraging lore. *(A representative
   example; there is no fixed quest set.)*
+- **Hard times down the road (era texture — Fork A2).** One or two optional rumour-board tidbits gesture at
+  **lean years stirring elsewhere** — a pedlar out of the lowlands says the rice was thin two districts over,
+  grain prices twitching at the far markets, a family or two drifting up-valley looking for work. Pure
+  **off-screen flavour** that grounds the 1780 (*An'ei* 9) setting on the eve of harder years: **no plot, no
+  mechanics, no INVESTIGATE, resolves to nothing** — the cozy valley stays insulated (§1.3 tone). Never names
+  the era or dramatizes the famine (that stays declined — ADR D-105, Forks A3/B2). *(A representative example;
+  there is no fixed quest set.)*
 
 > **Belief→cause table (T0–T2 region; binding before authoring any new omen).** Every belief resolves one-to-one
 > to a grounded cause; **exactly one** token is left ambiguous (the weir-jizō offering).
