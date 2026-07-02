@@ -6,9 +6,10 @@
 export const APP_ID = 'kami-kakushi' as const;
 
 /** Bumped only on a breaking save-schema change; additive growth needs no bump (PRD §6.8.2).
- *  v2 = the 6-tier reshape (D-048): adds `tier` + `influence` (the macro spine). Pre-launch
- *  dev/v0.2 saves are wiped (D-067), but the v1→v2 forward path is the real, test-covered chain. */
-export const SCHEMA_VERSION = 2 as const;
+ *  v2 = the 6-tier reshape (D-048): adds `tier` + `influence` (the macro spine).
+ *  v3 = the interactive intro: adds `npcMemory` (per-NPC memory) + `introBeat` (the intro cursor).
+ *  Pre-launch dev saves are wiped (D-067), but each forward step is a real, test-covered chain. */
+export const SCHEMA_VERSION = 3 as const;
 
 /** The event-log ring cap (PRD §6.4 / core/log): oldest entries evicted past this. */
 export const LOG_RING_MAX = 300 as const;

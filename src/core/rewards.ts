@@ -6,13 +6,20 @@
 import type { GameState, ResourceId, FlagId } from './state';
 import { withResource, setFlag } from './state';
 import { pushLog, type LogChannel } from './log';
+import type { VoiceCategory } from './content/voices';
 import { revealSurface } from './unlock';
 
 export interface RewardBundle {
   readonly resources?: Readonly<Record<ResourceId, number>>;
   readonly flags?: readonly FlagId[];
   readonly unlock?: readonly string[];
-  readonly log?: readonly { readonly channel: LogChannel; readonly text: string }[];
+  readonly log?: readonly {
+    readonly channel: LogChannel;
+    readonly text: string;
+    /** Optional speaker nameplate + voice tag (carried to the log entry; F23/F26). */
+    readonly speaker?: string | undefined;
+    readonly voice?: VoiceCategory | undefined;
+  }[];
 }
 
 export function applyRewards(state: GameState, rewards: RewardBundle): GameState {
@@ -27,7 +34,13 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
   }
   if (rewards.log) {
     for (const line of rewards.log) {
-      next = { ...next, log: pushLog(next.log, line.channel, line.text, next.clock.tick) };
+      next = {
+        ...next,
+        log: pushLog(next.log, line.channel, line.text, next.clock.tick, {
+          speaker: line.speaker,
+          voice: line.voice,
+        }),
+      };
     }
   }
   if (rewards.unlock) {

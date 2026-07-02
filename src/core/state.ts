@@ -29,6 +29,7 @@ import type { SkillId } from './content/skills';
 import type { MobId } from './content/enemies';
 import { getWeapon, type WeaponId } from './content/weapons';
 import type { MapNodeId } from './content/map';
+import type { NpcId } from './content/voices';
 
 export type SurfaceId = string;
 export type ResourceId = string;
@@ -48,6 +49,16 @@ export interface PillarState {
  *  pillar; Arms/Office/Name are added ADDITIVELY at their tier (T1+), never pre-declared. */
 export interface Influence {
   readonly estate: PillarState;
+}
+
+/** What a single NPC remembers of what you said to THEM (interactive-intro plan §3.2). Per-NPC
+ *  and independent — Beat 1 writes `soan`, Beat 3 writes `genemon`, never cross-feeding. Persists
+ *  across ascension (the MC's history is durable — human decision 2026-07-02). */
+export interface NpcMemory {
+  /** The disposition tag an intro choice wrote — read by this NPC's later lines (per-NPC enum). */
+  readonly regard: string; // e.g. 'grateful' | 'curt' | 'worried' (Sōan) | 'earnest' | 'wary' | 'steady' (Genemon)
+  /** Signed warmth, -1|0|+1 — a coarse lever a later greeting can read. */
+  readonly warmth: number;
 }
 
 /** Quest progress (T0-M4-F1 / D-037). `progress` holds the done STEP ids per quest (a set,
@@ -106,6 +117,12 @@ export interface GameState {
   readonly skillXp: Readonly<Partial<Record<SkillId, number>>>;
   /** Ids of dialogue lines already delivered (the diegetic-mentor cursor, D-039/D-063). */
   readonly deliveredDialogue: readonly string[];
+  /** Per-NPC memory written by the interactive intro's choices, read by that NPC's later lines
+   *  (plan §3.2). Default `{}`; NEVER cleared on ascension (persists across the whole run). */
+  readonly npcMemory: Readonly<Partial<Record<NpcId, NpcMemory>>>;
+  /** The interactive-intro cursor (plan §3.3): -1 = pre-wake; 0..N-1 = at beat i;
+   *  N (= INTRO_BEATS.length) = intro done. `open_eyes` sets it to 0; the choices advance it. */
+  readonly introBeat: number;
   /** Quest acceptance + per-step progress + completion (T0-M4-F1 / D-037). */
   readonly quests: QuestState;
   /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / D-008). */
@@ -167,6 +184,8 @@ export function createInitialState(seed: number): GameState {
     log: emptyLog(),
     skillXp: {},
     deliveredDialogue: [],
+    npcMemory: {},
+    introBeat: -1, // pre-wake; open_eyes starts the intro at beat 0
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
     location: 'kura',
@@ -212,4 +231,17 @@ export function addSkillXp(state: GameState, id: SkillId, amount: number): GameS
   if (amount === 0) return state;
   const current = state.skillXp[id] ?? 0;
   return { ...state, skillXp: { ...state.skillXp, [id]: current + amount } };
+}
+
+/** Immutably fold a patch into one NPC's memory (plan §3.2). Independent per key: writing `soan`
+ *  never touches `genemon`. Merges onto any prior memory for that NPC. */
+export function rememberNpc(state: GameState, npc: NpcId, patch: Partial<NpcMemory>): GameState {
+  const prior = state.npcMemory[npc] ?? { regard: '', warmth: 0 };
+  const merged: NpcMemory = { ...prior, ...patch };
+  return { ...state, npcMemory: { ...state.npcMemory, [npc]: merged } };
+}
+
+/** The disposition tag an NPC remembers for you — `''` when you've never spoken to them. */
+export function npcRegard(state: GameState, npc: NpcId): string {
+  return state.npcMemory[npc]?.regard ?? '';
 }

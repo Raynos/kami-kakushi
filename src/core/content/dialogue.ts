@@ -8,6 +8,12 @@
 // plot, not popup. Pure-core: no DOM, no Math.*, no Date; immutable-in/immutable-out.
 
 import { NAMES } from './names';
+import type { NpcId, VoiceCategory } from './voices';
+import type { NpcMemory } from '../state';
+
+/** The per-NPC memory shape a `memGate` reads (plan §3.6). Aliased here so a line can gate on
+ *  what an NPC remembers of the intro without dialogue.ts reaching into state internals. */
+export type NpcMemoryMap = Readonly<Partial<Record<NpcId, NpcMemory>>>;
 
 export interface DialogueLine {
   readonly id: string;
@@ -15,6 +21,11 @@ export interface DialogueLine {
   readonly text: string;
   /** Reveal-as-plot gate over plain GameState flags; absent = always shown. */
   readonly gate?: (flags: Readonly<Record<string, boolean>>) => boolean;
+  /** Optional speaker-category colour tag (F23/F26); absent ⇒ renderer infers from speaker. */
+  readonly voice?: VoiceCategory;
+  /** Optional per-NPC MEMORY gate (plan §3.6): ANDed with `gate`. A later line branches on what
+   *  an NPC remembers of the intro — e.g. two mutually-exclusive greetings, one per regard. */
+  readonly memGate?: (mem: NpcMemoryMap) => boolean;
 }
 
 export interface DialogueDef {
@@ -96,14 +107,35 @@ export const DIALOGUES: readonly DialogueDef[] = [
     id: 'soan-intro',
     speaker: NAMES.physician,
     lines: [
+      // ── The worked per-NPC memory READ (plan §3.6/§4.5): two mutually-exclusive greetings, one
+      // per `npcMemory.soan.regard` branch (only one passes its memGate). Proves the memory is
+      // per-NPC + durable — these read `soan` ONLY, never `genemon`, so a curt-to-Sōan /
+      // earnest-to-Genemon player gets Sōan's cool greeting AND Genemon's warm one independently. ──
+      {
+        id: 'soan-greet-grateful',
+        speaker: NAMES.physician,
+        voice: 'physician',
+        memGate: (m) => m.soan?.regard === 'grateful',
+        text: `${NAMES.physician} looks up. "You came back on your own feet — I told you the wits mend last. Sit. Let's see what's still bitter to steep."`,
+      },
+      {
+        id: 'soan-greet-curt',
+        speaker: NAMES.physician,
+        voice: 'physician',
+        // the cool branch: everything that isn't the grateful path (curt, worried, or unmet).
+        memGate: (m) => m.soan?.regard !== 'grateful',
+        text: `${NAMES.physician} does not look up. "Still no patience for a physician, I see. Sit anyway. This will sting, and you'll thank me later — or you won't."`,
+      },
       {
         id: 'soan-1',
         speaker: NAMES.physician,
+        voice: 'physician',
         text: `${NAMES.physician}. I set what's broken and steep what's bitter, and I tell Asagiri there are no kami abroad in the reeds, however much the village would prefer there were.`,
       },
       {
         id: 'soan-2',
         speaker: NAMES.physician,
+        voice: 'physician',
         text: 'Your wits will settle as the swelling does — eat when there is rice, rest when there is none, and don’t let the old women talk a fever into a haunting. That is the whole of my craft, and the better part of my counsel.',
       },
     ],
@@ -118,19 +150,31 @@ export function getDialogue(id: string): DialogueDef {
   return d;
 }
 
+/** Look up one authored line by (dialogue, line) id — single source for content that REUSES a
+ *  registry line's text (e.g. the intro's Genemon-greet setup). Throws on an unknown id. */
+export function getDialogueLine(dialogueId: string, lineId: string): DialogueLine {
+  const line = getDialogue(dialogueId).lines.find((l) => l.id === lineId);
+  if (!line) throw new Error(`unknown dialogue line: ${dialogueId}/${lineId}`);
+  return line;
+}
+
 /**
  * PURE cursor: the not-yet-delivered, gate-satisfied lines of a dialogue, in registry
- * order. A line is yielded when its id is NOT in `deliveredIds` AND it has no gate or its
- * gate is satisfied by `flags`. Withheld (gated-false) lines are skipped, not stopped-at, so
- * later satisfied lines still surface. Deterministic — no randomness, no mutation.
+ * order. A line is yielded when its id is NOT in `deliveredIds` AND (no `gate` or it's
+ * satisfied by `flags`) AND (no `memGate` or it's satisfied by `npcMemory`). Withheld lines
+ * are skipped, not stopped-at, so later satisfied lines still surface. Deterministic.
  */
 export function nextDialogueLines(
   dialogueId: string,
   deliveredIds: ReadonlySet<string>,
   flags: Readonly<Record<string, boolean>>,
+  npcMemory: NpcMemoryMap = {},
 ): readonly DialogueLine[] {
   const def = getDialogue(dialogueId);
   return def.lines.filter(
-    (line) => !deliveredIds.has(line.id) && (line.gate === undefined || line.gate(flags)),
+    (line) =>
+      !deliveredIds.has(line.id) &&
+      (line.gate === undefined || line.gate(flags)) &&
+      (line.memGate === undefined || line.memGate(npcMemory)),
   );
 }

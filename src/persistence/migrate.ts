@@ -5,7 +5,7 @@
 // validateEnvelope (runs BEFORE validateState); a raw pre-migration backup is kept by
 // SaveManager.
 
-import { SCHEMA_VERSION } from '../core';
+import { SCHEMA_VERSION, INTRO_BEAT_COUNT } from '../core';
 
 export type Migration = (state: unknown) => unknown;
 /** The signature the load path injects (validateEnvelope / SaveManager). */
@@ -20,6 +20,18 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
     tier: 0,
     influence: { estate: { value: 0, highWater: 0, judged: 0 } },
   }),
+  // v2 → v3 (the interactive intro): additively hydrate the intro fields. A save from before the
+  // intro that was already AWAKE has finished the (old) cold open, so it lands intro-DONE
+  // (`introBeat = INTRO_BEAT_COUNT`); a pre-wake save lands pre-intro (-1). npcMemory starts empty.
+  2: (s) => {
+    const st = s as { flags?: Record<string, unknown> };
+    const awake = st.flags?.awake === true;
+    return {
+      ...(s as object),
+      npcMemory: {},
+      introBeat: awake ? INTRO_BEAT_COUNT : -1,
+    };
+  },
 };
 
 export function migrate(

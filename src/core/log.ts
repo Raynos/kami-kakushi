@@ -4,6 +4,7 @@
 // each line is a tier of the house's story.
 
 import { LOG_RING_MAX } from './constants';
+import type { VoiceCategory } from './content/voices';
 
 /** Visual/semantic channels (ui-design.md §5.1). */
 export type LogChannel = 'narration' | 'reward' | 'combat' | 'system' | 'milestone';
@@ -19,6 +20,11 @@ export interface LogEntry {
   /** Consecutive byte-identical (same channel+text) repeats collapsed onto this entry.
    *  Always ≥1; the renderer paints a "×N" tally (audit §3 #3 / G-LOG readability gate). */
   readonly count: number;
+  /** Optional nameplate for a spoken line (display name or 'You'). Absent ⇒ no nameplate.
+   *  Carried by the core; the renderer paints it (a later phase, interactive-intro plan §3.1). */
+  readonly speaker?: string;
+  /** Optional speaker category — drives the render-time colour class. Absent ⇒ 'narrator'. */
+  readonly voice?: VoiceCategory;
 }
 
 export interface LogState {
@@ -36,13 +42,29 @@ export function emptyLog(): LogState {
  *  (count++), so an auto-grind never spams byte-identical rows (G-LOG). The coalesced
  *  entry keeps its original `key`, and `seq` is NOT consumed — so keyed DOM
  *  reconciliation and the reveal-on-load cursor stay stable. */
-export function pushLog(log: LogState, channel: LogChannel, text: string, tick: number): LogState {
+export function pushLog(
+  log: LogState,
+  channel: LogChannel,
+  text: string,
+  tick: number,
+  meta?: { readonly speaker?: string | undefined; readonly voice?: VoiceCategory | undefined },
+): LogState {
   const last = log.entries[log.entries.length - 1];
+  // Coalesce key stays channel+text (speech lines rarely byte-repeat); the bumped entry
+  // keeps its original speaker/voice via `...last` (identical-text runs share them anyway).
   if (last !== undefined && last.channel === channel && last.text === text) {
     const bumped: LogEntry = { ...last, count: last.count + 1, tick };
     return { entries: [...log.entries.slice(0, -1), bumped], seq: log.seq };
   }
-  const entry: LogEntry = { key: log.seq, channel, text, tick, count: 1 };
+  const entry: LogEntry = {
+    key: log.seq,
+    channel,
+    text,
+    tick,
+    count: 1,
+    ...(meta?.speaker !== undefined ? { speaker: meta.speaker } : {}),
+    ...(meta?.voice !== undefined ? { voice: meta.voice } : {}),
+  };
   const next =
     log.entries.length >= LOG_RING_MAX
       ? [...log.entries.slice(log.entries.length - LOG_RING_MAX + 1), entry]

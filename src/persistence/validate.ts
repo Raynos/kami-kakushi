@@ -5,7 +5,14 @@
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
 import type { GameState, StanceId, AttrId } from '../core';
-import { APP_ID, SCHEMA_VERSION, MAP_NODE_IDS, ATTR_IDS, ATTR_BASE } from '../core';
+import {
+  APP_ID,
+  SCHEMA_VERSION,
+  MAP_NODE_IDS,
+  ATTR_IDS,
+  ATTR_BASE,
+  INTRO_BEAT_COUNT,
+} from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
 
@@ -166,6 +173,8 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'log'
     | 'skillXp'
     | 'deliveredDialogue'
+    | 'npcMemory'
+    | 'introBeat'
     | 'quests'
     | 'marketBought'
     | 'location'
@@ -213,6 +222,17 @@ export function validateState(rawState: unknown): ValidateResult {
     } as unknown as GameState['log'],
     skillXp: base.skillXp ?? {},
     deliveredDialogue: Array.isArray(base.deliveredDialogue) ? base.deliveredDialogue : [],
+    // ── interactive intro (v3, additive) ──
+    // Per-NPC memory: an object (default {}); persists across ascension. A malformed value → {}.
+    npcMemory: isObject(base.npcMemory) ? (base.npcMemory as GameState['npcMemory']) : {},
+    // The intro cursor. Absent (a pre-intro save) → intro-DONE if already awake, else pre-wake (-1),
+    // matching the v2→v3 migration so a partially-hydrated blob still lands coherently.
+    introBeat:
+      typeof base.introBeat === 'number'
+        ? base.introBeat
+        : (rawState.flags as Record<string, unknown>).awake === true
+          ? INTRO_BEAT_COUNT
+          : -1,
     quests: isObject(base.quests)
       ? (base.quests as GameState['quests'])
       : { accepted: [], progress: {}, completed: [] },

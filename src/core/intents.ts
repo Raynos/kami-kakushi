@@ -4,7 +4,7 @@
 // milestone; M0–M1 cover the cold open + the T0 Phase-1 labour spine.
 
 import type { GameState } from './state';
-import { setFlag, hasFlag, withResource, withBanked, addSkillXp } from './state';
+import { setFlag, hasFlag, withResource, withBanked, addSkillXp, rememberNpc } from './state';
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
@@ -33,6 +33,16 @@ import {
 import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
+import {
+  INTRO_BEAT_COUNT,
+  introBeatAt,
+  introOption,
+  introStatLine,
+  beatReactVoice,
+  beatReactSpeaker,
+  PLAYER_SPEAKER,
+  type IntroStat,
+} from './content/intro';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest, applyQuestEvent } from './quest-engine';
 import { getItem, canBuy } from './content/market';
@@ -51,6 +61,8 @@ import { ATTR_META } from './content/balance';
 
 export type Intent =
   | { type: 'open_eyes' }
+  | { type: 'advance_intro' } // Continue past a narration-only intro beat
+  | { type: 'choose_intro'; optionId: string } // pick an option at an intro choice beat
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
@@ -102,7 +114,12 @@ function finish(state: GameState): GameState {
 function deliverDialogue(state: GameState, dialogueId: string, cap?: number): GameState {
   // `cap` limits how many newly-eligible lines land in ONE call — so a single rake doesn't dump the
   // whole raked-gated monologue at once (fun-factor "one teach per moment; never a monologue dump").
-  const all = nextDialogueLines(dialogueId, new Set(state.deliveredDialogue), state.flags);
+  const all = nextDialogueLines(
+    dialogueId,
+    new Set(state.deliveredDialogue),
+    state.flags,
+    state.npcMemory,
+  );
   const fresh = cap !== undefined ? all.slice(0, cap) : all;
   if (fresh.length === 0) return state;
   const next: GameState = {
@@ -110,8 +127,63 @@ function deliverDialogue(state: GameState, dialogueId: string, cap?: number): Ga
     deliveredDialogue: [...state.deliveredDialogue, ...fresh.map((l) => l.id)],
   };
   return applyRewards(next, {
-    log: fresh.map((l) => ({ channel: 'narration' as const, text: l.text })),
+    log: fresh.map((l) => ({ channel: 'narration' as const, text: l.text, voice: l.voice })),
   });
+}
+
+// ── The interactive intro (plan §3.5) — pure reducer helpers for the beat sequence. ──────────────
+
+/** Reveal one beat's setup lines into the log NOW (F15 — after the advancing click, never pre-run
+ *  behind a curtain). Each line carries its authored voice + optional nameplate. */
+function revealIntroBeat(state: GameState, index: number): GameState {
+  const beat = introBeatAt(index);
+  if (!beat) return state;
+  return applyRewards(state, {
+    log: beat.setup.map((l) => ({
+      channel: 'narration' as const,
+      text: l.text,
+      voice: l.voice,
+      speaker: l.speaker,
+    })),
+  });
+}
+
+/** The +1/−1 net-zero attribute trade-off (plan decision 2). Reuses the immutable attrs write path;
+ *  no attributePoints cost — the intro grants the lean directly. Data guarantees up ≠ down. */
+function applyIntroStat(state: GameState, stat: IntroStat): GameState {
+  const c = state.character;
+  return {
+    ...state,
+    character: {
+      ...c,
+      attrs: {
+        ...c.attrs,
+        [stat.up]: (c.attrs[stat.up] ?? 0) + 1,
+        [stat.down]: (c.attrs[stat.down] ?? 0) - 1,
+      },
+    },
+  };
+}
+
+/** The intro-complete tail (plan §4.4): hand off to the estate. The "take stock / spilled rice"
+ *  closing narration (COLD_OPEN.bodyReveal / .riceReveal) is ALREADY emitted by the surface-reveal
+ *  path when readout-body / readout-rice reveal on `awake` (revealPass), so the tail must NOT
+ *  re-emit it (that would double the lines). The cursor is now at INTRO_BEAT_COUNT (intro done);
+ *  the rake verb is already legal (`awake`), and Genemon's rake TEACHING (gen-rake/keep/kept,
+ *  raked-gated) proceeds one-per-rake as today. Phase 3 (render) can defer the reveal timing.
+ *  (Self-picked deviation from the plan's §4.4 "reveal the closing narration in the tail" — the
+ *  lines pre-exist on the surface-reveal path, so emitting them here would duplicate, not add.) */
+function completeIntroTail(state: GameState): GameState {
+  return state;
+}
+
+/** Move the cursor to `newIndex`, revealing the next beat's setup — or firing the tail once the
+ *  intro is over (newIndex === INTRO_BEAT_COUNT). */
+function enterNextBeat(state: GameState, newIndex: number): GameState {
+  const advanced: GameState = { ...state, introBeat: newIndex };
+  return newIndex < INTRO_BEAT_COUNT
+    ? revealIntroBeat(advanced, newIndex)
+    : completeIntroTail(advanced);
 }
 
 export function reduce(state: GameState, intent: Intent): GameState {
@@ -120,16 +192,60 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'open_eyes': {
       if (!metaLegal(state, 'open_eyes')) return state;
       next = setFlag(next, 'awake', true);
+      next = applyRewards(next, { flags: ['dream-1'] });
+      // The interactive intro STARTS here (plan §3.5): reveal Beat 0's setup (the wake line + Sōan's
+      // grounding) NOW — after the click, never a pre-run dump (F15). The old grounding/dream/Genemon
+      // dump is gone; those are BEATS now, revealed on advance.
+      next = { ...next, introBeat: 0 };
+      next = revealIntroBeat(next, 0);
+      // Beat 3 carries Genemon's greeting and the tail covers the spilled-stores stakes, so retire the
+      // registry's UNGATED greet/stakes lines (mark delivered) to avoid a double greet. The rake
+      // TEACHING (gen-rake/keep/kept, raked-gated) still flows one-per-rake exactly as today.
+      next = {
+        ...next,
+        deliveredDialogue: [...next.deliveredDialogue, 'gen-greet', 'gen-stores'],
+      };
+      break;
+    }
+    case 'advance_intro': {
+      // Continue past a NARRATION-only beat; a choice beat must be answered (choose_intro), so a
+      // Continue on a beat that has options is a no-op. Illegal outside the intro ⇒ no-op.
+      const beat = introBeatAt(state.introBeat);
+      if (!beat) return state;
+      if (beat.options && beat.options.length > 0) return state;
+      next = enterNextBeat(next, state.introBeat + 1);
+      break;
+    }
+    case 'choose_intro': {
+      const beat = introBeatAt(state.introBeat);
+      if (!beat) return state;
+      const opt = introOption(beat, intent.optionId);
+      if (!opt) return state; // an option id that isn't on THIS beat ⇒ no-op
+      // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, F23/F26)
       next = applyRewards(next, {
-        flags: ['dream-1'],
         log: [
-          { channel: 'narration', text: COLD_OPEN.wake },
-          { channel: 'narration', text: COLD_OPEN.grounding },
-          { channel: 'narration', text: COLD_OPEN.dream },
+          { channel: 'narration', text: opt.say, voice: 'player', speaker: PLAYER_SPEAKER },
+          {
+            channel: 'narration',
+            text: opt.react,
+            voice: beatReactVoice(beat),
+            speaker: beatReactSpeaker(beat),
+          },
         ],
       });
-      // the labour mentor Genemon greets you and teaches the rake→koku loop as STORY (T0-M1-F3).
-      next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID);
+      // 3) the balanced +1/−1 net-zero stat trade-off
+      next = applyIntroStat(next, opt.stat);
+      // 4) the per-NPC memory write (independent key — Beat 1 writes only `soan`, Beat 3 only `genemon`)
+      if (opt.memory) {
+        next = rememberNpc(next, opt.memory.npc, {
+          regard: opt.memory.regard,
+          warmth: opt.memory.warmth,
+        });
+      }
+      // 5) the diegetic-hint-only post-pick SYSTEM line — the exact ± lands AFTER the pick
+      next = applyRewards(next, { log: [{ channel: 'system', text: introStatLine(opt.stat) }] });
+      // 6) advance to the next beat, or fire the intro-complete tail
+      next = enterNextBeat(next, state.introBeat + 1);
       break;
     }
     case 'rake_rice': {

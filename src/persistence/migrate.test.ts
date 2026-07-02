@@ -27,8 +27,33 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     expect(v2.rung).toBe('R2'); // existing progress carries forward
     expect(v2.resources).toEqual({ koku: 42 });
   });
-  it('a current (v2) save is unchanged by the chain', () => {
-    const s = { schemaVersion: 2 };
-    expect(migrate(s, 2)).toBe(s); // already at target => identity
+  it('the real v2→v3 step hydrates the interactive-intro fields (npcMemory + introBeat)', () => {
+    // an AWAKE pre-intro save has finished the old cold open ⇒ it lands intro-DONE with empty memory
+    const awake = { schemaVersion: 2, flags: { awake: true }, rung: 'R2' };
+    const v3 = migrate(awake, 2) as Record<string, unknown>;
+    expect(v3.npcMemory).toEqual({});
+    expect(typeof v3.introBeat).toBe('number');
+    expect(v3.introBeat as number).toBeGreaterThan(0); // intro-done (= INTRO_BEAT_COUNT), not pre-wake
+    expect(v3.rung).toBe('R2'); // existing progress carries forward
+  });
+
+  it('a v2→v3 migration of a PRE-WAKE save lands pre-intro (introBeat = -1)', () => {
+    const asleep = { schemaVersion: 2, flags: {} };
+    const v3 = migrate(asleep, 2) as Record<string, unknown>;
+    expect(v3.npcMemory).toEqual({});
+    expect(v3.introBeat).toBe(-1);
+  });
+
+  it('a v1 save migrates the WHOLE chain v1→v3 (tier spine + intro fields)', () => {
+    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
+    const v3 = migrate(v1, 1) as Record<string, unknown>;
+    expect(v3.tier).toBe(0); // v1→v2
+    expect(v3.npcMemory).toEqual({}); // v2→v3
+    expect(v3.resources).toEqual({ koku: 7 });
+  });
+
+  it('a current (v3) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 3 };
+    expect(migrate(s, 3)).toBe(s); // already at target => identity
   });
 });

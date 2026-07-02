@@ -130,13 +130,13 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
 // T0-M1-F3 — the diegetic labour mentor Genemon greets + teaches, data-not-script, in the
 // story LOG (not a popup, D-039/D-063/D-064); the gated acknowledgment is reveal-as-plot.
 describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
-  it('Genemon greets on waking with a LEAN hook (greet + the stakes), not the whole monologue', () => {
+  it('waking retires the registry greet/stakes (Beat 3 carries them) but keeps the teach deferred', () => {
+    // The interactive intro now owns the opening: Genemon's greet is Beat 3, so waking marks the
+    // registry's ungated greet/stakes DELIVERED (they must not double-fire) — while the raked-gated
+    // koku-teaching stays reveal-as-plot, undelivered until the player actually rakes.
     const s = reduce(createInitialState(1), { type: 'open_eyes' });
-    expect(s.deliveredDialogue).toContain('gen-greet'); // the hook
-    expect(s.deliveredDialogue).toContain('gen-stores'); // the stakes (why rake)
-    expect(s.log.entries.some((e) => e.channel === 'narration' && e.text.includes('Genemon'))).toBe(
-      true,
-    );
+    expect(s.deliveredDialogue).toContain('gen-greet'); // retired from the registry dump
+    expect(s.deliveredDialogue).toContain('gen-stores');
     // the koku-teaching + promise + acknowledgment are reveal-as-plot — NOT on the first click
     expect(s.deliveredDialogue).not.toContain('gen-rake');
     expect(s.deliveredDialogue).not.toContain('gen-keep');

@@ -1,0 +1,111 @@
+import { describe, it, expect } from 'vitest';
+import {
+  INTRO_BEATS,
+  INTRO_BEAT_COUNT,
+  introActive,
+  introBeatAt,
+  introOption,
+  introStatLine,
+} from './intro';
+import { ATTR_IDS, ATTR_META } from './balance';
+import { NPC_IDS } from './voices';
+
+// INTRO_BEATS is the source of truth — every assertion derives from it (no copied magic numbers),
+// so a content edit that breaks an invariant (a non-net-zero trade, a cross-fed memory write) goes
+// RED here rather than shipping.
+describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
+  it('is exactly the human-approved 3 beats: Sōan, the self-dream, Genemon', () => {
+    expect(INTRO_BEAT_COUNT).toBe(3);
+    expect(INTRO_BEATS.map((b) => b.id)).toEqual(['soan', 'dream', 'genemon']);
+    // Beats 1 & 3 are NPC beats (a speaker); Beat 2 is the self/narrator dream (no speaker).
+    expect(INTRO_BEATS[0]!.speaker).toBe('soan');
+    expect(INTRO_BEATS[1]!.speaker).toBeUndefined();
+    expect(INTRO_BEATS[2]!.speaker).toBe('genemon');
+  });
+
+  it('every beat has a prompt, 3 options, non-empty setup, say + react copy', () => {
+    for (const beat of INTRO_BEATS) {
+      expect(beat.prompt).toBeTruthy();
+      expect(beat.setup.length).toBeGreaterThan(0);
+      expect(beat.options).toBeDefined();
+      expect(beat.options!.length).toBe(3);
+      for (const opt of beat.options!) {
+        expect(opt.label).toBeTruthy();
+        expect(opt.say).toBeTruthy();
+        expect(opt.react).toBeTruthy();
+      }
+    }
+  });
+
+  it('every option is a BALANCED, net-zero +1/−1 trade with DISTINCT up/down attrs', () => {
+    for (const beat of INTRO_BEATS) {
+      for (const opt of beat.options!) {
+        expect(ATTR_IDS).toContain(opt.stat.up);
+        expect(ATTR_IDS).toContain(opt.stat.down);
+        // distinct → a real trade (never a self-cancel that also isn't net-zero-by-accident)
+        expect(opt.stat.up).not.toBe(opt.stat.down);
+      }
+    }
+  });
+
+  it('applying any single option keeps the MC total attribute count constant (net-zero)', () => {
+    const baseTotal = ATTR_IDS.length * 5; // fresh MC: every attr at ATTR_BASE (5)
+    for (const beat of INTRO_BEATS) {
+      for (const opt of beat.options!) {
+        // simulate the +1/−1 on a fresh block and re-sum
+        const attrs: Record<string, number> = {};
+        for (const id of ATTR_IDS) attrs[id] = 5;
+        attrs[opt.stat.up] = (attrs[opt.stat.up] ?? 0) + 1;
+        attrs[opt.stat.down] = (attrs[opt.stat.down] ?? 0) - 1;
+        const total = ATTR_IDS.reduce((n, id) => n + (attrs[id] ?? 0), 0);
+        expect(total).toBe(baseTotal);
+      }
+    }
+  });
+
+  it('memory writes are per-NPC and NEVER cross-fed: Beat 1 writes soan, Beat 3 writes genemon', () => {
+    const memNpcs = (i: number) =>
+      INTRO_BEATS[i]!.options!.map((o) => o.memory?.npc).filter((n) => n !== undefined);
+    expect(new Set(memNpcs(0))).toEqual(new Set(['soan'])); // Beat 1 → soan only
+    expect(memNpcs(1)).toEqual([]); // Beat 2 (dream) → no memory at all
+    expect(new Set(memNpcs(2))).toEqual(new Set(['genemon'])); // Beat 3 → genemon only
+    // every memory NPC id is a real NpcId
+    for (const beat of INTRO_BEATS) {
+      for (const opt of beat.options!) {
+        if (opt.memory) expect(NPC_IDS).toContain(opt.memory.npc);
+      }
+    }
+  });
+
+  it('option ids are globally unique (the reducer looks options up by id)', () => {
+    const ids = INTRO_BEATS.flatMap((b) => b.options!.map((o) => o.id));
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe('intro selectors', () => {
+  it('introActive is true only for a live beat index (0..N-1)', () => {
+    expect(introActive(-1)).toBe(false); // pre-wake
+    expect(introActive(0)).toBe(true);
+    expect(introActive(INTRO_BEAT_COUNT - 1)).toBe(true);
+    expect(introActive(INTRO_BEAT_COUNT)).toBe(false); // done
+  });
+
+  it('introBeatAt returns the beat live, null otherwise', () => {
+    expect(introBeatAt(-1)).toBeNull();
+    expect(introBeatAt(0)).toBe(INTRO_BEATS[0]);
+    expect(introBeatAt(INTRO_BEAT_COUNT)).toBeNull();
+  });
+
+  it('introOption finds by id and is undefined for a foreign id', () => {
+    const beat = INTRO_BEATS[0]!;
+    expect(introOption(beat, beat.options![0]!.id)).toBe(beat.options![0]);
+    expect(introOption(beat, 'genemon-earnest')).toBeUndefined(); // an option from ANOTHER beat
+  });
+
+  it('introStatLine names the exact ± using ATTR_META labels (single source, post-pick hint)', () => {
+    const line = introStatLine({ up: 'int', down: 'str' });
+    expect(line).toContain(`+1 ${ATTR_META.int.label}`);
+    expect(line).toContain(`−1 ${ATTR_META.str.label}`);
+  });
+});

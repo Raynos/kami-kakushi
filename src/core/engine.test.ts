@@ -25,16 +25,26 @@ describe('cold-open reducer flow', () => {
     expect(s.log.entries.length).toBe(0);
   });
 
-  it('open_eyes wakes, grounds the folklore, and reveals body + rice + rake', () => {
+  it('open_eyes wakes, reveals the body/rice readouts, and STARTS the interactive intro', () => {
     let s = createInitialState(1);
     s = reduce(s, { type: 'open_eyes' });
     expect(hasFlag(s, 'awake')).toBe(true);
     expect(hasFlag(s, 'dream-1')).toBe(true);
     expect(isUnlocked(s, 'readout-body')).toBe(true);
     expect(isUnlocked(s, 'readout-rice')).toBe(true);
+    // the rake verb is legal once awake (the intro is a parallel presentation layer, plan §4.4)
     expect(availableActions(s)).toEqual(['rake_rice']);
-    // wake + grounding + dream + bodyReveal + riceReveal
-    expect(s.log.entries.length).toBeGreaterThanOrEqual(5);
+    // waking no longer dumps the cold open — it starts Beat 0 (the wake line + Sōan's grounding),
+    // revealed AFTER the click (F15). The dream + Genemon greet are now LATER beats, not on wake.
+    expect(s.introBeat).toBe(0);
+    expect(s.log.entries.some((e) => e.voice === 'physician' && e.text.includes('Sōan'))).toBe(
+      true,
+    );
+    expect(s.log.entries.some((e) => e.text.includes('Genemon'))).toBe(false); // deferred to Beat 3
+    // Genemon's greet is retired from the registry dump (marked delivered so it can't double-fire),
+    // while the rake TEACHING stays deferred until you actually rake.
+    expect(s.deliveredDialogue).toContain('gen-greet');
+    expect(s.deliveredDialogue).not.toContain('gen-rake');
   });
 
   it('raking earns koku, drains satiety, and reveals rest', () => {
