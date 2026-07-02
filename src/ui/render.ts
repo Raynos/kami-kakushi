@@ -586,6 +586,15 @@ export function mount(
   const LOG_DOM_MAX = 300; // mirrors core LOG_RING_MAX
   const revealQueue: LogEntry[] = [];
   let revealTimer: number | undefined;
+  // P2 — GBA-style character-by-character typewriter for STORY lines (narration /
+  // voiced dialogue) only. ~32ms/char reads deliberately; combat/reward/system spam
+  // keeps the instant append. `typeTimer` is the in-flight per-char tick (cancelled on
+  // reset/filter-clear like `revealTimer`); `finishTypeNow` finalizes the current line
+  // instantly when the cascade has to catch up (the >12 flush valve).
+  const TYPE_MS_PER_CHAR = 32; // GBA typewriter cadence (~30–34ms/char)
+  const TYPE_NEXT_BEAT_MS = 180; // pause after a typed line before the next cascades in
+  let typeTimer: number | undefined;
+  let finishTypeNow: (() => void) | undefined;
   // F27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
   let freshDivider: HTMLElement | undefined;
   let freshDividerTimer: number | undefined;
@@ -1596,15 +1605,112 @@ export function mount(
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
     scrollLogToNewest(); // smoothly follow the newest line (F7)
   }
+  // P2 — a line typewrites only if it is STORY text: a narration line, or any line
+  // carrying a speaker `voice` (narrator / player / NPC dialogue). Combat/reward/
+  // system/milestone lines return false and keep the instant append.
+  function qualifiesForTypewriter(entry: LogEntry): boolean {
+    return entry.channel === 'narration' || entry.voice !== undefined;
+  }
+  // P2 — the typewriter engages only when every guard holds: not the test env (vitest
+  // stays deterministic — its render/log tests run under MODE=test and bypass this
+  // entirely), not the very first paint, and not reduced-motion (OS media query OR the
+  // in-app `.reduced-motion` class). The reset/load guards live at the call sites
+  // (firstRender / didReset route to the instant path before this is ever consulted).
+  function typewriterEnabled(): boolean {
+    if (import.meta.env.MODE === 'test') return false;
+    if (firstRender) return false;
+    return !(
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.documentElement.classList.contains('reduced-motion')
+    );
+  }
+  // P2 — cancel any in-flight per-char typing (reset / filter-clear removes the line
+  // anyway, so we drop it rather than finalize).
+  function stopTyping(): void {
+    if (typeTimer !== undefined) {
+      window.clearTimeout(typeTimer);
+      typeTimer = undefined;
+    }
+    finishTypeNow = undefined;
+  }
+  // P2 — build the line with EMPTY text (bullet + voice/.log-line classes), append it,
+  // then reveal `formatLogText` one character at a time into a text node, following the
+  // scroll as it types. On completion, an untagged narration line (quotes, no voice) is
+  // re-rendered through renderLineContent so the F23 quote-`.speech` spans apply; a
+  // voiced line needs no re-render (the whole line is the voice colour). `onDone` fires
+  // once the line is fully typed (or the line was evicted), never on a cancel.
+  function typeLine(entry: LogEntry, onDone: () => void): void {
+    const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
+    const line = el('div', `log-line ${entry.channel}${voiceClass}`);
+    const bullet = CHANNEL_BULLET[entry.channel];
+    if (bullet) {
+      const b = el('span', 'bullet emoji', bullet);
+      b.setAttribute('aria-hidden', 'true');
+      line.append(b);
+    }
+    const textNode = document.createTextNode('');
+    line.append(textNode);
+    logLines.append(line);
+    while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
+    scrollLogToNewest();
+
+    const full = formatLogText(entry);
+    const isNarrationQuote = entry.channel === 'narration' && entry.voice === undefined;
+    const finalize = (): void => {
+      textNode.data = full;
+      if (isNarrationQuote) renderLineContent(line, entry); // F23 .speech spans
+      scrollLogToNewest();
+    };
+    finishTypeNow = finalize;
+    if (full.length === 0) {
+      // nothing to type — nothing to finalize; hand straight to the cascade.
+      finishTypeNow = undefined;
+      onDone();
+      return;
+    }
+    let i = 0;
+    const step = (): void => {
+      typeTimer = undefined;
+      // the line was evicted (LOG_DOM_MAX churn) — stop typing, keep the cascade moving.
+      if (!line.isConnected) {
+        finishTypeNow = undefined;
+        onDone();
+        return;
+      }
+      i += 1;
+      textNode.data = full.slice(0, i);
+      if (i % 3 === 0) scrollLogToNewest(); // follow the view a few chars at a time
+      if (i < full.length) {
+        typeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
+      } else {
+        finishTypeNow = undefined;
+        finalize();
+        onDone();
+      }
+    };
+    typeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
+  }
   function pumpReveal(): void {
-    if (revealTimer !== undefined) return;
+    if (revealTimer !== undefined || typeTimer !== undefined) return; // no overlap
     const entry = revealQueue.shift();
     if (!entry) return;
-    appendLine(entry, true);
-    revealTimer = window.setTimeout(() => {
-      revealTimer = undefined;
-      pumpReveal();
-    }, LOG_STAGGER_MS);
+    if (typewriterEnabled() && qualifiesForTypewriter(entry)) {
+      // typewriter line — the NEXT pumpReveal is scheduled from the typing-complete
+      // callback (a short beat later), so lines never overlap.
+      typeLine(entry, () => {
+        revealTimer = window.setTimeout(() => {
+          revealTimer = undefined;
+          pumpReveal();
+        }, TYPE_NEXT_BEAT_MS);
+      });
+    } else {
+      // non-story line — instant append, then the classic LOG_STAGGER_MS step.
+      appendLine(entry, true);
+      revealTimer = window.setTimeout(() => {
+        revealTimer = undefined;
+        pumpReveal();
+      }, LOG_STAGGER_MS);
+    }
   }
   function paintLogFilterBar(): void {
     logFilterBar.dataset.variant = 'log-filter-segmented'; // human pick (F21); A/B removed
@@ -1664,6 +1770,7 @@ export function mount(
       window.clearTimeout(revealTimer);
       revealTimer = undefined;
     }
+    stopTyping(); // P2 — cancel any in-flight typewriter (the view is being repainted)
     if (lastState) {
       const wasFirst = firstRender;
       firstRender = true;
@@ -1690,6 +1797,7 @@ export function mount(
         window.clearTimeout(revealTimer);
         revealTimer = undefined;
       }
+      stopTyping(); // P2 — a reset must cancel any in-flight per-char typing timer
     }
     lastSeq = state.log.seq;
     if (entries.length === 0) return;
@@ -1703,7 +1811,8 @@ export function mount(
         last.key === lastPaintedKey &&
         (last.count ?? 1) !== lastPaintedCount &&
         revealQueue.length === 0 &&
-        revealTimer === undefined
+        revealTimer === undefined &&
+        typeTimer === undefined // P2 — don't repaint mid-typewriter
       ) {
         const lineEl = logLines.lastElementChild as HTMLElement | null;
         if (lineEl) {
@@ -1725,15 +1834,31 @@ export function mount(
 
     // on load / reset / reduced-motion / a single new line → append at once (no re-spam).
     if (firstRender || didReset || reduceMotion() || freshVisible.length === 1) {
-      for (const e of freshVisible) appendLine(e, !firstRender && !reduceMotion());
+      for (const e of freshVisible) {
+        // P2 — a lone STORY line still typewrites (route it through the cascade of one);
+        // firstRender/didReset/reduced-motion keep the instant path (guards bail).
+        if (!didReset && typewriterEnabled() && qualifiesForTypewriter(e)) {
+          revealQueue.push(e);
+          pumpReveal();
+        } else {
+          appendLine(e, !firstRender && !reduceMotion());
+        }
+      }
     } else {
       // a batch (the cold open, a rank-up reveal) → cascade the lines in one-by-one.
       revealQueue.push(...freshVisible);
       if (revealQueue.length > 12) {
-        // queue backed up during fast streaming — flush to catch up.
+        // queue backed up during fast streaming — flush to catch up (instant, no typing).
         if (revealTimer !== undefined) {
           window.clearTimeout(revealTimer);
           revealTimer = undefined;
+        }
+        // finalize any in-flight typewriter line so it isn't stranded half-typed.
+        if (typeTimer !== undefined) {
+          window.clearTimeout(typeTimer);
+          typeTimer = undefined;
+          finishTypeNow?.();
+          finishTypeNow = undefined;
         }
         while (revealQueue.length) appendLine(revealQueue.shift()!, false);
       } else {
