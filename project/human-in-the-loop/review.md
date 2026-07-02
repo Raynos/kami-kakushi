@@ -122,11 +122,21 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
   - [ ] **C — 用帳 steward's field-ledger** _(built)_ — one **aligned ledger row** per commission: kind stamp ·
     name + terse note · an **ink deeds-tally** (┃┃· 2/3) · the **koku in a right-aligned tabular column** · a
     status (**Take on** / in hand / 果 done ✓), with a 合計 foot totalling koku in hand.
+- **Cold-open reveal** (the waking title card — playtest F14, NEW 2026-07-02) — ✅ **all three LIVE in the
+  DEV panel** ("Cold-open reveal", the top entry of the Variants tab):
+  - [ ] **A — staged fade** _(self-picked prod default)_ — title → roman → lede fade in staggered, then the
+    "Open your eyes" CTA wakes in after a slow ~4.5s beat. The calmest waking.
+  - [ ] **B — GBA typewriter** _(built; DEV-only)_ — the lede types out character-by-character like an old
+    Pokémon game, then the CTA. The closest to the human's "slow GBA scroll" reference.
+  - [ ] **C — line-by-line 間 (ma)** _(built; DEV-only)_ — each sentence surfaces alone with a long pause
+    between, then the CTA last. The most deliberate / atmospheric.
+  - _Reduced-motion → everything reveals at once (no wait). To review: reload the page (or DEV → Settings →
+    Game → New game) and watch the cold-open; toggle A/B/C in the DEV panel's **Variants** tab (top entry)._
 - _a11y: each surface's A ships a11y-100. B/C are DEV-only until picked; if you pick one I'll re-check WCAG
   contrast (the `--rokusho` grant + `--ochre`/gold accents on washi are the ones to watch)._
-- **How to review:** `npm run dev` → the **DEV panel** sits top-right in a reserved right gutter (it never covers
-  the content) → toggle each surface's variant and the surface updates instantly. The agent self-picks a default
-  (every prod default = **A**); you confirm/override per variant by ticking it here.
+- **How to review:** `npm run dev` → the **DEV panel** floats at the bottom-right (click **DEV** to expand) →
+  open its **Variants** tab and toggle each surface's variant; the surface updates live. The agent self-picks a
+  default (every prod default = **A**); you confirm/override per variant by ticking it here.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
 ---

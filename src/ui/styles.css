@@ -523,6 +523,7 @@ h3 {
   color: var(--washi);
 }
 .coldopen .frame {
+  padding: 2.4rem 2.2rem 2rem;
   max-width: 46ch;
   width: 100%;
   text-align: center;
@@ -550,6 +551,17 @@ h3 {
 .coldopen p {
   color: var(--washi-deep);
   margin-bottom: var(--space-6);
+}
+/* staged cold-open reveal (F14): items start hidden; JS adds .in at the scripted beat.
+   Reduced-motion zeroes the transition (global RM rule) + the JS reveals everything at once. */
+.co-reveal-item {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms var(--ease-ink);
+}
+.co-reveal-item.in {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .visually-hidden {

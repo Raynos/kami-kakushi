@@ -502,6 +502,8 @@ export function mount(
   root.append(coldOpen, shell);
 
   let firstRender = true;
+  let coldOpenRevealVariant: string | null = null;
+  let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
   // track the last painted entry so a coalesced ×N bump (same key, higher count) repaints
   // the existing DOM line in place rather than appending a duplicate.
@@ -1770,6 +1772,49 @@ export function mount(
     }
   }
 
+  function coldOpenReduced(): boolean {
+    return (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.documentElement.classList.contains('reduced-motion')
+    );
+  }
+  // The slow cold-open reveal (F14). Default A (staged fade) lives here and ships to prod;
+  // the DEV-only B/C alternates live in ui/dev.ts (stripped from prod). Re-applies live when
+  // the DEV variant toggle changes (rerender → render → here).
+  function applyColdOpenReveal(): void {
+    const variant =
+      import.meta.env.DEV && dev ? dev.getVariant('coldopen-reveal') : 'coldopen-fade';
+    if (coldOpenRevealVariant === variant) return; // already revealing this take
+    cancelColdOpenReveal?.();
+    coldOpenRevealVariant = variant;
+    const items = [coTitle, coRoman, coLede, coVerb];
+    for (const it of items) it.classList.add('co-reveal-item');
+    coLede.textContent = COLD_OPEN_LEDE; // reset (a prior typewriter may have cleared it)
+    for (const it of items) it.classList.remove('in');
+    const showButton = (): void => coVerb.classList.add('in');
+    if (coldOpenReduced()) {
+      for (const it of items) it.classList.add('in');
+      cancelColdOpenReveal = undefined;
+      return;
+    }
+    if (import.meta.env.DEV && dev && variant !== 'coldopen-fade') {
+      coTitle.classList.add('in');
+      cancelColdOpenReveal = dev.revealColdOpen(
+        variant,
+        { roman: coRoman, lede: coLede, fullLede: COLD_OPEN_LEDE },
+        showButton,
+      );
+      return;
+    }
+    // DEFAULT A — staged fade; the CTA wakes in after a slow beat.
+    const timers: number[] = [
+      window.setTimeout(() => coTitle.classList.add('in'), 100),
+      window.setTimeout(() => coRoman.classList.add('in'), 800),
+      window.setTimeout(() => coLede.classList.add('in'), 1500),
+      window.setTimeout(showButton, 4500),
+    ];
+    cancelColdOpenReveal = () => timers.forEach((t) => window.clearTimeout(t));
+  }
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
     // pre-awake: show only the cold-open card; the shell (and its log) inks in on waking.
@@ -1777,10 +1822,16 @@ export function mount(
       coldOpen.hidden = false;
       shell.hidden = true;
       firstRender = false; // so the post-wake log cascades rather than dumping statically
+      applyColdOpenReveal();
       return;
     }
     coldOpen.hidden = true;
     shell.hidden = false;
+    // leaving the cold-open: cancel any pending reveal and reset so a New Game replays it.
+    if (coldOpenRevealVariant !== null) {
+      cancelColdOpenReveal?.();
+      coldOpenRevealVariant = null;
+    }
     renderVitals(state, prev);
     renderNav(state);
     renderLog(state);
