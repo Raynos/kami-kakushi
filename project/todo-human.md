@@ -27,6 +27,11 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
+- [ ] `docs/plans/2026-07-02-economy-koku-rediagnosis.md` — **economy
+  re-diagnosis**: koku is mis-cast as a generic coin (you rake rice → "+3 koku"),
+  and the same variable is labelled both "koku" and "rice". Recommends a
+  rice / coin(mon) / koku-as-assessment split (Option A) with 6 open design
+  calls. Rests on the koku research brainstorm. **Awaits your taste call.**
 - [ ] `docs/plans/2026-07-02-interactive-intro-dialogue.md` — the **interactive
   intro** design (F13/F12/F15/F19/F23/F26): VN click-to-continue, 3 balanced
   choice beats, per-NPC memory, a speaker/voice-colour model, 3 presentation
@@ -38,7 +43,3 @@ _(none open)_
   tree** (F47): meet→ask→decide, reuses the intro beats as DialogueScenes,
   Sōan/Genemon topics, SCHEMA 3→4 migration. Key forks already answered
   (context-dependent topic counts, dimmed re-askable, voiced player questions).
-- [ ] `docs/plans/2026-07-02-anchor-1780-code-surfacing.md` — **tiny** code
-  follow-up to the (landed) 1780 doc-anchor: ground the **cold-open** line in
-  spring / An'ei 9 (1780), update its tests, leave the calendar model unchanged
-  (B1). Hand-off plan for another agent; A2 rumour + B2 nengō stay deferred.

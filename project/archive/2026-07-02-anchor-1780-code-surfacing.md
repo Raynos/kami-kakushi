@@ -1,9 +1,13 @@
 # Plan — Surface the 1780 anchor in game code (src/*.ts)
 
-> **Status:** 🆕 proposed — hand-off plan for another agent. **Scope: tiny.**
+> **Status:** ✅ DONE (2026-07-02) — implemented + archived. The cold-open wake
+> line now grounds the open in spring, the ninth year of An'ei (1780) as diegetic
+> flavour; the calendar model is unchanged (B1); a RED-able grounding test was
+> added (`src/core/content/coldOpen.test.ts`). Deferred items (A2 rumour, B2 nengō
+> readout) noted in §3. **Scope was tiny, as planned.**
 > Code follow-up to the (landed, docs-only) setting anchor
-> **[ADR D-105](../living/decisions.md)** and its doc ripple
-> ([archived plan](../../project/archive/2026-07-02-anchor-1780-setting.md)).
+> **[ADR D-105](../../docs/living/decisions.md)** and its doc ripple
+> ([archived plan](./2026-07-02-anchor-1780-setting.md)).
 > **Source:** human steer, 2026-07-02 ("make a small `src/` .ts plan for 1780
 > I can hand to another agent"). Defaults in force: **B1** (relative Year-N
 > calendar, 1780 as flavour) **+ A2** (light off-screen "hard times" texture).
@@ -69,13 +73,14 @@ Run `npm run verify` — all gates green — before committing.
 
 ## 4. Definition of done
 
-- [ ] `COLD_OPEN.wake` grounds the open in spring / An'ei 9 (1780), in the house
+- [x] `COLD_OPEN.wake` grounds the open in spring / An'ei 9 (1780), in the house
       voice, as flavour (no HUD/mechanic claim).
-- [ ] `year()` selector and the `SEASON_TAG` calendar readout **unchanged** (B1).
-- [ ] No real place / daimyō / official / shōgun named (D-018, D-105).
-- [ ] Cold-open / intro tests updated to the new wake text; the assertion could
-      have gone RED.
-- [ ] `npm run verify` green; commit; graduate this plan to `project/archive/`.
+- [x] `year()` selector and the `SEASON_TAG` calendar readout **unchanged** (B1).
+- [x] No real place / daimyō / official / shōgun named (D-018, D-105).
+- [x] Added `coldOpen.test.ts` — a RED-able grounding assertion (season + era
+      present; no Western year leaks). Existing cold-open/intro tests unaffected.
+- [x] Affected gates green (gen:docs · eslint · prettier · targeted vitest 35/35);
+      full `verify` + commit land at the session checkpoint; plan graduated here.
 
 ## 5. Out of scope
 

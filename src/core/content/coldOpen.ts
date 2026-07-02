@@ -6,7 +6,11 @@
 import { NAMES } from './names';
 
 export const COLD_OPEN = {
-  wake: 'You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know.',
+  // The 1780 setting anchor (ADR D-105) surfaces to the player exactly here, as
+  // FLAVOUR: spring, the ninth year of An'ei (= 1780). Diegetic nengō only — no
+  // Western year on screen (B2 declined), no calendar-model claim (B1: year()/
+  // SEASON_TAG stay relative), no real place or person named (D-018/D-105).
+  wake: "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
   grounding: `"You're awake." ${NAMES.physician} the physician sits back on his heels. "No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend."`,
   dream:
     "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
