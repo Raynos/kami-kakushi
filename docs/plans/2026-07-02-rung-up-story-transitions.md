@@ -473,6 +473,11 @@ From `src/core/content/ranks.ts` `rewardOnReach` + the surface reveal lines:
 confirm the R5 two-voice split (Kihei teaches the stance, Genemon confers standing);
 (3) decide whether Naoyuki appears in T0 rung beats or waits for Phase 2.
 
+> ⭐ **RESOLVED (agent, 2026-07-02) — see BQ1/BQ3/BQ5 + §7.1:** (1) new faces kept &
+> named — **Tokubei** (Ōmi pedlar, R1), **Rokusuke** (R2), **Tōzō** (smith, R4); (2)
+> two-voice R5 confirmed; (3) **Naoyuki is mentioned-but-unseen** in T0 (gated ask-hub
+> lines at R6/R7 only), held for Phase 2.
+
 ---
 
 ## 6.6 · Full R0→R7 rung-beat outline (DRAFT — for human review)
@@ -682,32 +687,74 @@ confirm the R5 two-voice split (Kihei teaches the stance, Genemon confers standi
 - **New face:** **Shigemasa** *(canon)* — weary, dignified, long-sighted; speaks rarely
   and weightily. *Voice:* "Look what those hands have done."
 
-### Beat-outline open questions (BQ — for the human; distinct from §8's build OQs)
+### Beat-outline open questions (BQ — RESOLVED by the agent, 2026-07-02)
+
+> The human is away and delegated these calls (autonomy contract). Each BQ carries a
+> **⭐ agent-decided** resolution below, grounded in §0's locked scope, for the human's
+> **async review** (override freely). **§7.1's `RUNG_BEATS` is the authoritative,
+> copy-ready spec**; where it and §6.6's earlier draft prose differ, §7.1 wins.
 
 - **BQ1 · New-face count.** This outline introduces **three ⭐ invented faces** —
   **the Ōmi pedlar** (R1), **Rokusuke** (R2), **the smith / Tōzō** (R4) — plus the four
   canon meets (Kihei R3, Chiyo R6, Shigemasa R7; Genemon throughout). Is three new
   invented faces the right *density*, or should any (esp. the smith) fold into an
   existing character (e.g. Kihei covering the forge)?
+  - ⭐ **RESOLVED (agent):** **Keep all three** invented faces + the four canon meets —
+    3 of 7 rungs introduce a face, 4 deepen a known one (moderate density, per §0's
+    "some rungs a new face"). **Do NOT fold the smith into Kihei:** the forge is a
+    distinct *craft-teacher* role tied to its own **place-gate** (the smithy), whereas
+    Kihei is the *yard / blade-use* teacher — merging them muddies both roles and the
+    R4 loot→craft beat's legibility. Tōzō stays a D-114 "(b) small person."
 - **BQ2 · Bonus placement.** Small varied bonuses are marked *[bonus]* on **six**
   branches (R2 friend, R3 disciplined + reluctant, R4 generous, R5 stances, R6 discreet,
   R7 all three). Is that the right *rarity* (they're meant to be a delight, not an
   expectation — §0), and should any be cut to keep the ladder flatter?
+  - ⭐ **RESOLVED (agent):** **Cut six → a rare, varied THREE**, one per bonus flavour:
+    **(1) story-flag** — R2 "trade the gossip" sets `pedlar-favour` (Tokubei's
+    friend-price); **(2) small stat nudge** — R3 "stand a watch" grants a one-time
+    **+1 AGI**; **(3) keepsake** — R4 "spend on the house" earns the `smith-whetstone`
+    flag (a small repair/durability edge). The §6.6 *[bonus]* tags on **R3-reluctant,
+    R5 stances, R6 discreet, and R7** are **SUPERSEDED** — those become plain
+    relationship + flag writes (R5's stance pick sets a *story-DEFAULT* stance, not a
+    bonus; R7's colour is the normal capstone flag). See §7.1 (authoritative).
 - **BQ3 · R5 two-voice.** The draft resolves OQ2 as **Kihei teaches the stance,
   Genemon confers the standing** in one two-part scene. Confirm, or make it a single
   voice (whose?).
+  - ⭐ **RESOLVED (agent):** **Confirmed — two-voice.** Genemon confers the standing,
+    Kihei teaches the stance, in **one** scene: the greeting carries **both** voices
+    (per-line `voice`/`speaker` already supports this — no engine change), and the
+    **decision reacts in Kihei's voice** (the choice is a combat/stance teach). Scene
+    `speaker: 'kihei'`.
 - **BQ4 · Capstone choice weight.** Should the R7 choice's Phase-2 *colour* (devoted /
   ambitious / humble) actually **branch anything** in Phase 2, or stay a remembered
   flag + a line of flavour for now?
+  - ⭐ **RESOLVED (agent):** **Light branch.** The R7 pick sets a remembered colour
+    flag (`r7-devoted` / `r7-ambitious` / `r7-humble`) + a line of Shigemasa flavour,
+    **wired so Phase 2 CAN read it later** — but it does **not** hard-branch any
+    Phase-2 mechanic now (Phase 2 is unbuilt). `t0-capstone` fires regardless of pick.
 - **BQ5 · Naoyuki.** Seed the heir as a topic-line at **R6/R7** (a warier counterweight
   to Shigemasa, a Phase-2 hook), or hold him entirely for Phase 2? *(Mirrors §6.5's
   cast-Q3 and §8 OQ — one call covers both.)*
+  - ⭐ **RESOLVED (agent):** **Seed as mentioned-but-unseen.** Naoyuki appears only as
+    a **gated ask-hub answer** — Chiyo's `chiyo-lord` topic (R6) and Shigemasa's
+    `shigemasa-heir` topic (R7) name him a young, wary heir (a Phase-2 hook). He
+    **never appears on-screen in T0** (no beat, no NpcId). Covers §6.5's cast-Q3 too.
 - **BQ6 · Naming the pedlar.** Keep him "the Ōmi pedlar" (ambient, unnamed), or promote
   him to a named **⭐ Tokubei** once the R2 gossip beat references him by name?
+  - ⭐ **RESOLVED (agent):** **Name him — Tokubei, the Ōmi pedlar** — from R1. He is a
+    **named** ambient trader (D-114 "(b)/(c)") but takes **no `NpcId` / `npcMemory`
+    slot** (his one lever is the `pedlar-favour` flag). The smith is **Tōzō** (R4).
+    Both added to `names.ts` `NAMES` as canonical (§7.2).
 
 ---
 
-## 7 · Chosen scope (LOCKED — human, 2026-07-02, D-110)
+## 7 · Chosen scope + BUILD-READY BEAT SPEC (LOCKED — D-110)
+
+> §7.0 restates the locked scope; **§7.1–§7.6 are the build-ready spec** the code lane
+> follows (agent-authored 2026-07-02, per the autonomy contract — copy-ready, for the
+> human's async review). §7.1's `RUNG_BEATS` supersedes §6.6's draft prose.
+
+### 7.0 · Chosen scope (recap)
 
 > This section originally recommended Option 2; the human's call is recorded in §0
 > and **D-110**. The chosen scope, restated:
@@ -731,6 +778,360 @@ the pedlar gets a reason, §5.1), lands the new granters as real meetings per
 rungs but via the **player-triggered, ignorable** trigger. Keeping bonuses
 occasional/varied (mostly relationship + flag writes) keeps the first build lean and
 the ladder free of per-rung power creep.
+
+### 7.1 · DATA SHAPE — the `RUNG_BEATS` registry
+
+A new pure-core content module — `src/core/content/rungBeats.ts` — parallel to
+intro's `DIALOGUE_SCENES`. It **reuses** intro's payload-free types (`IntroSetupLine`,
+`DialogueTopic`, and their selectors `availableTopics` / a topic-finder) and adds a
+**rung-flavoured option** (relationship + flag first, no required perk / no required
+net-zero swap — the intro's `IntroOption` requires both, so it does *not* fit here):
+
+```ts
+// src/core/content/rungBeats.ts
+import type { AttrId } from './balance';
+import type { NpcId, VoiceCategory } from './voices';
+import type { RankId } from './ranks';
+import type { IntroSetupLine, DialogueTopic } from './intro'; // reused verbatim
+
+/** A rung-beat decision option: relationship + story-flag first (§0). Perk/stat are
+ *  NOT required (unlike intro's IntroOption). A `statBonus` is the rare exception. */
+export interface RungOption {
+  readonly id: string;          // stable, globally unique, e.g. 'r1-dutiful'
+  readonly label: string;       // the button copy (diegetic)
+  readonly say: string;         // the MC's spoken reply → Story, voice 'player'
+  readonly react: string;       // the speaker's reaction → Story, voice = scene.voice
+  /** ACCUMULATING relationship write(s) — an array so a two-voice beat can touch two
+   *  NPCs (R4 Genemon+Tōzō, R5 Genemon+Kihei). `warmthDelta` ADDS (clamped -3..+3);
+   *  `regard` updates only when present. Absent ⇒ no memory touch. */
+  readonly memory?: readonly {
+    readonly npc: NpcId;
+    readonly warmthDelta: number;
+    readonly regard?: string;
+  }[];
+  /** Story flags this choice sets — the durable record of the pick + any flag-backed
+   *  bonus (`pedlar-favour`, `smith-whetstone`). Read by later beats/surfaces. */
+  readonly flags?: readonly string[];
+  /** The RARE small stat nudge (§0/BQ2) — a modest one-time +attr, smaller than an
+   *  intro perk. Present on EXACTLY ONE option (R3 'disciplined'); everything else
+   *  omits it. `note` is the delight line shown after the pick. */
+  readonly statBonus?: { readonly attr: AttrId; readonly amount: number; readonly note: string };
+  /** For R5 only: the opening stance this pick makes your default (a story-DEFAULT,
+   *  NOT a bonus). Absent elsewhere. */
+  readonly setStance?: 'jodan' | 'chudan' | 'gedan';
+}
+
+export interface RungDecision {
+  readonly prompt: string;
+  readonly options: readonly RungOption[];
+}
+
+/** One rung beat. Mirrors `DialogueScene` but with `RungDecision`. `topics: []` ⇒ a
+ *  light-VN beat (greeting + decision, no ask-hub); a non-empty `topics` ⇒ a full VN
+ *  meet (R3/R6/R7). The greeting's per-line `voice`/`speaker` carry two-voice beats. */
+export interface RungScene {
+  readonly id: string;            // 'rung-r1' … 'rung-r7'
+  readonly rank: RankId;          // the TARGET rank this beat promotes INTO
+  readonly voice: VoiceCategory;  // the react/nameplate colour of the decision
+  readonly speaker?: NpcId;       // the primary speaker (react nameplate)
+  readonly greeting: readonly IntroSetupLine[];
+  readonly topics: readonly DialogueTopic[]; // [] ⇒ light beat; else the ask-hub
+  readonly decision: RungDecision;
+  /** DOC/echo cross-check: the rewardOnReach.unlock ids this beat narrates (a
+   *  verify-content assert can pin beat↔unlock coherence, mirroring the surface check). */
+  readonly motivates: readonly string[];
+}
+
+/** Keyed by TARGET rank. R0 has NO beat — the intro's Genemon scene IS the R0 beat
+ *  (§6.6 R0); you never "promote into R0". Partial ⇒ begin_rung_beat no-ops on a miss. */
+export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = { /* R1…R7 below */ };
+```
+
+**The copy-ready prose** (Kurosawa house, 1780 — the intro's voice). `[narrator]` =
+ambient prose (no nameplate); named lines carry `speaker` + `voice`. Each beat's
+`motivates` list is verbatim from `ranks.ts` `rewardOnReach.unlock`; the "why" prose
+folds in the already-authored `surfaces.ts` reveal lines (§2.3), now *spoken*.
+
+**R1 · Kept hand 下人 — Genemon** *(deepen; light-VN, `topics: []`)*
+`motivates:` room-gate-forecourt, room-home-paddies, verb-farm, verb-haul,
+readout-clock, readout-stamina, panel-rung-ladder (→ panel-estate + the pedlar market).
+
+- greeting:
+  - `[narrator]` "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather."
+  - `[Genemon]` "You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice."
+  - `[Genemon]` "The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up."
+  - `[narrator]` "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass."
+  - `[Tokubei]` "A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's."
+- decision — prompt: "How do you take the keeping?"
+  1. `r1-dutiful` — "The house has my hands." → react `[Genemon]` "...Good. Hands that don't need watching are the rarest thing I keep." · memory `[{genemon,+1,'dutiful'}]` · flags `['r1-dutiful']`
+  2. `r1-practical` — "A roof and rice is a fair trade." → react `[Genemon]` "Honest, and cold. A fair trade it is — see that you hold your half." · memory `[{genemon,0}]` · flags `['r1-practical']`
+  3. `r1-ambitious` — "I mean to rise past a kept hand." → react `[Genemon]` "...Ambition, in a hand kept a day. Mind it doesn't outrun your worth." · memory `[{genemon,-1,'ambitious'}]` · flags `['r1-ambitious']` *(seeds later wary lines)*
+
+**R2 · Trusted hand 手代 — Genemon** *(deepen)* **+ ⭐ Rokusuke** *(new peer; light-VN, `topics: []`)*
+`motivates:` tab-skills, room-woodlot-edge, room-near-satoyama, room-deep-satoyama,
+verb-woodcut, verb-forage, verb-face-wolf, row-wood, row-sansai, skill-conditioning.
+
+- greeting:
+  - `[narrator]` "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama."
+  - `[Genemon]` "You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in."
+  - `[Genemon]` "One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it."
+  - `[narrator]` "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke."
+  - `[Rokusuke]` "Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it."
+  - `[narrator]` "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you." *(the porters-knot beat, moved off `ranks.ts` — §7.4)*
+- decision — prompt: "The wolf, and the man beside you — how do you take them?"
+  1. `r2-wolf-heeded` — "The stores are the house's life. I'll face it." → react `[Rokusuke]` "...Huh. Most men find a reason to be elsewhere. You might do." · memory `[{rokusuke,0,'respected'}]` · flags `['r2-wolf-heeded']`
+  2. `r2-rokusuke-friend` — "Tell me how the house really runs." → react `[Rokusuke]` "Now you're talking. Stick with me and you'll know which pedlar cheats and which steward's watching. Speaking of — old Tokubei keeps a softer price for a friend. Tell him I sent you." · memory `[{rokusuke,+1,'friend'}]` · flags `['r2-rokusuke-friend','pedlar-favour']` **⭐ story-flag bonus** (the market read honours `pedlar-favour`)
+  3. `r2-solitary` — "The work's enough. I keep to myself." → react `[Rokusuke]` "Suit yourself. Offer stands, if you tire of your own company." · memory `[{rokusuke,-1,'solitary'}]` · flags `['r2-solitary']`
+
+**R3 · Gate-watch 門番 — ⭐ Kihei** *(NEW · full VN meet; combat goes live)*
+`motivates:` tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
+panel-house-influence.
+
+- greeting:
+  - `[narrator]` "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting."
+  - `[Kihei]` "So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't."
+  - `[Kihei]` "You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't."
+- topics (ask-hub):
+  - `kihei-why-blade` — "Why set me to the blade?" → `[Kihei]` "The house has walls and no one to stand on them. A great name with an empty granary draws wolves of both kinds. I'd sooner the man holding the gate be one who chose to."
+  - `kihei-road` — "What's out on the woodlot road?" → `[Kihei]` "Boar and wolf in season. And men — ronin, deserters, the leavings of every lord's quarrel — who'll take rice off a house too weak to keep it. That last is why you're really here."
+  - `kihei-who` — "Who are you, drillmaster?" *(gate: `asked.has('kihei-why-blade')`)* → `[Kihei]` "A man who soldiered for a house that no longer exists. Genemon kept the granary; I kept the walls. Ask me the rest when you've bled for the place."
+- decision — prompt: "How do you take up the blade?"
+  1. `r3-aggressive` — "Show me how to end a fight fast." → react `[Kihei]` "Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you." · memory `[{kihei,-1,'eager'}]` · flags `['r3-aggressive']`
+  2. `r3-disciplined` — "Teach me to stand a watch." → react `[Kihei]` "...Good answer. A wall that holds is worth ten swords that swing wild. Come at dawn — before the others." · memory `[{kihei,+1,'disciplined'}]` · flags `['r3-disciplined']` · **⭐ statBonus** `{attr:'agi',amount:1,note:"Kihei drills you an extra dawn; your feet learn the watch. (+1 AGI)"}`
+  3. `r3-duty-not-glory` — "I'd rather the paddies — but the house needs it." → react `[Kihei]` "Honest. I trust a man who'd rather not more than one who's hungry for it. The house is lucky in you." · memory `[{kihei,+1,'reluctant'}]` · flags `['r3-duty-not-glory']`
+
+**R4 · Kura-warden 蔵番 — Genemon** *(deepen)* **+ ⭐ Tōzō** *(new smith; light-VN, two-voice, `topics: []`)*
+`motivates:` readout-durability, panel-equipment (the woodlot smithy), verb-repair,
+house-omoya.
+
+- greeting:
+  - `[narrator]` "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours."
+  - `[Genemon]` "The kura key. Mind the stores as if the rice were your own — from today it half is. The house is forgetting you were ever a stranger. So am I."
+  - `[narrator]` "He walks you on to the woodlot smithy, where a bent old man coaxes an edge back onto a mattock. He doesn't look up."
+  - `[Tōzō]` "Tōzō. I keep the estate's iron. A blade you don't tend turns on you — bring me the hides and the metal off what you kill, and I'll show you what an edge wants. The forge is yours to use now; try not to ruin my fire."
+  - `[Genemon]` "And the omoya's shuttered rooms are aired and swept — the house rises, and you'll walk floors the family walks. Don't let it turn your head."
+- decision — prompt: "How do you hold the key, and the house's surplus?"
+  1. `r4-thrifty` — "Every grain accounted." → react `[Genemon]` "Spoken like a steward. Good — the house was bled white once by hands that weren't." · memory `[{genemon,+1,'thrifty'}]` · flags `['r4-thrifty']`
+  2. `r4-generous` — "Spend it on the house's needs — a mended kura feeds everyone." → react `[Tōzō]` "Hah — the lad'd sooner fix the roof than count the rice. Here: a whetstone that's outlived three wardens. Keep your edge keen and it'll keep you." · memory `[{genemon,0},{tozo,+1,'friend'}]` · flags `['r4-generous','smith-whetstone']` **⭐ keepsake bonus** (the repair loop reads `smith-whetstone`)
+  3. `r4-self-keeping` — "Keep a little back for myself." → react `[Genemon]` "...I'll pretend I didn't hear that. See that I go on not hearing it." · memory `[{genemon,-1,'self-keeping'}]` · flags `['r4-self-keeping']`
+
+**R5 · House-servant 家人 — Genemon confers + Kihei teaches** *(deepen; light-VN, two-voice, `topics: []`; BQ3)*
+`motivates:` stance-control. Scene `speaker: 'kihei'`, `voice: 'arms'` (the decision is
+the stance teach).
+
+- greeting:
+  - `[narrator]` "Genemon calls you to the omoya's inner room — a place season-hands never see."
+  - `[Genemon]` "No longer a season-hired hand. From today you answer to the house day and night, and it answers for you. The work is the same. The standing is not."
+  - `[narrator]` "Then he walks you out to the yard, where Kihei waits with two bokken and something that might, on another man, be a smile."
+  - `[Kihei]` "The standing means the house trusts your judgment now — so I'll trust you with the last of it. Set your stance before a foe: press to end it fast, or guard to outlast it. The call is yours, fight by fight. Show me you understand the choice."
+- decision — prompt: "What stance do you make your own?"
+  1. `r5-stance-aggressive` — "Press every fight — end it, don't outlast it." → react `[Kihei]` "The tiger's way. Fast and final. It'll serve — until the day it doesn't. Mind that day." · memory `[{kihei,0,'aggressive'}]` · flags `['r5-stance-aggressive']` · `setStance:'jodan'`
+  2. `r5-stance-guard` — "Guard first — a live watchman beats a dead hero." → react `[Kihei]` "The bear's way. Unglamorous. It's also why I'm old enough to teach you." · memory `[{kihei,+1,'steady'}]` · flags `['r5-stance-guard']` · `setStance:'gedan'`
+  3. `r5-stance-adaptive` — "Read the foe — the call changes fight by fight." → react `[Kihei]` "...The answer I hoped for and rarely get. There's a swordsman in you now, not just a gate-watch. Chūdan — the middle. Everything opens from it." · memory `[{kihei,+1,'adaptive'}]` · flags `['r5-stance-adaptive']` · `setStance:'chudan'`
+
+**R6 · Steward's man 用人 — ⭐ Lady Chiyo** *(NEW · full VN meet)*
+`motivates:` house-workshops, house-granary.
+
+- greeting:
+  - `[narrator]` "The omoya's formal room. Lady Chiyo sits behind a low table stacked with the house's ledgers, and studies you the way she'd study a column of figures that doesn't yet add up."
+  - `[Chiyo]` "So you are the river's foundling Genemon would not stop mentioning. Sit. I've errands that need a hand I can trust with more than a hoe — ledgers carried, messages run, the house's small business held close."
+  - `[Chiyo]` "The workshops wake again on the strength of your work — a forge, a joiner's bench — and a second granary rises behind the kura. They fall under your oversight now. You are being weighed for something larger than a servant. Do not disappoint the scales."
+- topics (ask-hub):
+  - `chiyo-need` — "What does the inner house need?" → `[Chiyo]` "Order. A great name is a heavy thing to carry with an empty purse — I keep the two from crushing us. I need a man who does what's asked and asks nothing back he hasn't earned."
+  - `chiyo-trust` — "Why trust an outsider?" → `[Chiyo]` "An outsider owes no old faction and carries no old grudge. You are loyal to this house or to nothing — and a man loyal to nothing is easy to read. I prefer easy to read."
+  - `chiyo-lord` — "The lord — is he well?" *(gate: `asked.has('chiyo-need')`)* → `[Chiyo]` "Shigemasa is old, and tired, and prouder than either. His heir **Naoyuki** is young and wary and not yet ready to carry it. Between them the house needs steady hands more than another sword. Remember that when the drillmaster fills your head." *(⭐ Naoyuki seed — BQ5)*
+- decision — prompt: "How do you serve the inner house?"
+  1. `r6-loyal` — "The house's name is my name now." → react `[Chiyo]` "A large thing to say. Larger to mean. We shall see which you've done." · memory `[{chiyo,+1,'loyal'}]` · flags `['r6-loyal']`
+  2. `r6-ambitious` — "I'd carry more than errands." → react `[Chiyo]` "Ambition. I neither trust it nor waste it. Carry the errands first; the more comes to those who don't ask for it." · memory `[{chiyo,0,'ambitious'}]` · flags `['r6-ambitious']`
+  3. `r6-discreet` — "A steward's man keeps the house's silences." → react `[Chiyo]` "...Yes. That, more than the errands, is the post. You understand it already. Good." · memory `[{chiyo,+1,'discreet'}]` · flags `['r6-discreet']`
+
+**R7 · Trusted of the house 内衆 — ⭐ Shigemasa** *(NEW · full VN meet — capstone)*
+`motivates:` house-study. `rewardOnReach.flags` also sets `t0-capstone` (opens Phase 2)
+— fired by `applyPromotion` **regardless of pick** (BQ4).
+
+- greeting:
+  - `[narrator]` "The shoin — the lord's own writing-room, where the house's real business is done and few servants ever cross the threshold. Shigemasa is smaller than his name, and older, and his eyes miss nothing."
+  - `[Shigemasa]` "Come in. Sit — no, closer. I would see the man Chiyo and Genemon and even that flint Kihei agree upon, which they have not done in twenty years."
+  - `[Shigemasa]` "You came to us with no name and nothing in your hands. Look what those hands have done — the kura full, the walls kept, the workshops loud again. I admit you to this room. The measure of the House itself takes shape before you now. Few servants ever stand where you stand."
+- topics (ask-hub):
+  - `shigemasa-house` — "How is a house weighed?" → `[Shigemasa]` "Not in koku alone, though the granary matters. In its name, its arms, its office, the memory it leaves. I have spent my life keeping one pillar from pulling down the rest. Soon that reckoning will lie open before you — and you will see how far a house can yet rise."
+  - `shigemasa-of-me` — "What would you have of me?" → `[Shigemasa]` "More than I have the right to ask of a servant, and less than I suspect you'll one day give. For now — carry the house's standing as if it were your own name. Perhaps, in time, it will be."
+  - `shigemasa-heir` — "And your heir?" *(gate: `asked.has('shigemasa-house')`)* → `[Shigemasa]` "**Naoyuki.** He is young, and he watches you already — not all of it kindly. A house has room for an heir and an able man both, if both are wise. See that you are the wise one; I cannot always be here to remind him." *(⭐ Naoyuki seed — BQ5)*
+- decision — prompt: "How do you answer the lord?" *(the capstone colour — light branch, BQ4)*
+  1. `r7-devoted` — "I'll carry the Kurosawa name as far as it can go." → react `[Shigemasa]` "The house before the man. It is what I would have said at your age. Whether it was wisdom or only habit, I have never decided." · memory `[{shigemasa,+1,'devoted'}]` · flags `['r7-devoted']`
+  2. `r7-ambitious` — "A name can be made as well as served." → react `[Shigemasa]` "...Bold. To my face, no less. I'll not pretend it pleases me less than the safe answer would have." · memory `[{shigemasa,0,'ambitious'}]` · flags `['r7-ambitious']`
+  3. `r7-humble` — "I only did the work in front of me." → react `[Shigemasa]` "And that, I think, is why it came to so much. Remember it when louder men tell you otherwise." · memory `[{shigemasa,+1,'humble'}]` · flags `['r7-humble']`
+
+### 7.2 · STATE / ENGINE extensions (pure-core vs UI, explicit)
+
+**PURE CORE — the promotion state machine + the beat reducers.**
+
+1. **New state field** (`src/core/state.ts`): `readonly rungBeat: RankId | null` — the
+   active rung beat's **target** rank, or `null` when no beat is live. Additive;
+   `createInitialState` defaults it `null`. (A single nullable rank suffices — unlike
+   the intro's 3-scene numeric `introBeat`, a rung beat is **one** scene: greeting →
+   optional ask-hub → one decision → apply.) The ask-hub DIM/gate state **reuses the
+   existing `askedTopics`** (ids are globally unique — no new field); story flags
+   **reuse the existing `flags`** store; relationships **reuse `npcMemory`**. So the
+   *only* new stored field is `rungBeat`.
+2. **Schema bump** (`src/core/constants.ts`): `SCHEMA_VERSION` **5 → 6** (additive
+   `rungBeat`; note the plan §9 "currently 4" is stale — it is **5** today). A save
+   mid-"ready" simply shows the header affordance on load; a save that already promoted
+   is unaffected (rung + reward already applied); the new field defaults inert.
+3. **Split `promoteRungs`** (`src/core/ranks.ts`) into pure fns:
+   - `applyPromotion(state, target: RankId): GameState` — the current promote body for
+     **exactly one** rung: bump `rung` → target, reset `rungMeter` 0,
+     `applyRewards(getRank(target).rewardOnReach)`, refill satiety. **Plus** emit the
+     generated terse marker (§7.4).
+   - `promotionReady(state): boolean` — thin wrapper over `rungProgress(state).ready`.
+   - `pendingPromotionTarget(state): RankId | null` — `promotionReady(state) ?
+     nextRankId(state.rung) : null`.
+   - **Retire the auto-promote loop from the hot path:** `finish()`
+     (`intents.ts:122`) becomes `revealPass(state)` only (drop `promoteRungs`). The
+     meter now **holds at ready** (the ladder already clamps the fill visually). Keep a
+     one-rung `promoteRungs`-shaped path ONLY for the dev rung-seek in `app/main.ts`
+     (call `applyPromotion` in its loop) — see §7.5.
+4. **New reducer helper** (`src/core/state.ts`): `deepenNpc(state, npc, {warmthDelta,
+   regard?})` — **accumulating** relationship write: `warmth = clamp(prior.warmth +
+   warmthDelta, -3, +3)`; `regard` overwrites only when present. (Distinct from the
+   intro's overwrite-only `rememberNpc`, so Genemon's trust visibly *deepens*
+   R1→R2→R4→R5 rather than being re-stamped each rung.)
+5. **New intents** (`src/core/intents.ts` — reuse the intro reducers' shape):
+   - `begin_rung_beat` — guard: `promotionReady(state) && state.rungBeat === null &&
+     !introActive(state.introBeat)`. Sets `rungBeat = pendingPromotionTarget(state)`
+     and reveals `RUNG_BEATS[target].greeting` into the **Story** channel (a
+     `revealRungBeat` helper mirroring `revealIntroBeat`). No-op if the target has no
+     registered beat (Partial map).
+   - `ask_rung_topic` — mirrors `ask_topic` against `RUNG_BEATS[state.rungBeat]`:
+     emit the player question + the answer line(s) to Story, `markTopicAsked`. No stat,
+     no memory, no advance (re-askable). Respects `topic.gate` over `askedTopics`.
+   - `choose_rung_option` — the **terminal** node. In order: **(a)** emit `say`
+     (`player`) + `react` (scene voice) to Story; **(b)** for each `memory` entry,
+     `deepenNpc`; **(c)** `setFlag` each `option.flags`; **(d)** `statBonus` →
+     add-attr + emit its `note` line; `setStance` → set `state.stance`; **(e)**
+     `applyPromotion(state, state.rungBeat)` — **this is the sole place `rewardOnReach`
+     applies** (rank-rN flags + unlocks + the terse marker); **(f)** clear
+     `rungBeat = null`. The world inks in when the modal tears down (§7.4).
+   - `advance_rung_beat` — the narration-only "Continue" (inert today: every authored
+     beat carries a decision; kept for symmetry with `advance_intro`).
+6. **New cast wiring** (`src/core/content/voices.ts` + `names.ts`):
+   - `names.ts` `NAMES`: add `rokusuke: 'Rokusuke'`, `smith: 'Tōzō'`,
+     `pedlar: 'Tokubei'` (single source; BQ1/BQ6).
+   - `NpcId`: add `| 'chiyo' | 'shigemasa' | 'rokusuke' | 'tozo'`. **Tokubei takes no
+     `NpcId`** — ambient, his lever is the `pedlar-favour` flag (BQ6).
+   - `VoiceCategory`: add `| 'lord'` (Shigemasa's capstone colour). `NPC_VOICE`
+     additions: `chiyo:'steward'` (reuse; nameplate distinguishes her from Genemon —
+     a distinct `'inner'` colour is an optional UI-lane refinement), `shigemasa:'lord'`,
+     `rokusuke:'villager'`, `tozo:'arms'`. `NPC_NAME`: `chiyo:NAMES.steward`,
+     `shigemasa:NAMES.lord`, `rokusuke:NAMES.rokusuke`, `tozo:NAMES.smith`. Extend
+     `NPC_IDS`.
+
+**UI — the beat presentation** (`src/ui/render.ts`; no game logic).
+
+The presentation **reuses the append-only VN scene wholesale** (§7.3). The header rung
+element (F106) is the trigger (§3.3/§0): when `promotionReady(state) && rungBeat ===
+null && !introActive`, the top-right rung name+bar becomes the "Answer the summons /
+Begin the beat" affordance dispatching `begin_rung_beat` (navigates to the beat). A
+ready promotion **banks** there and never nags.
+
+### 7.3 · Renderer reuse — build ON the append-only engine (do NOT fork it)
+
+Per §3.2(a) / §9, reuse `buildIntroShell` + `reconcileIntro` (append-only, F81)
+unchanged — only **generalize the active-scene gate + source**:
+
+1. **Gate flip:** replace `introActive(state.introBeat)` at the two render gates
+   (`render.ts:3262` and `:3806`, per the current build) with a
+   `vnActive(state) = introActive(state.introBeat) || state.rungBeat !== null`. So the
+   full-screen washi surface hides the shell during **both** intro and rung beats, and
+   the world reveals **post-scene** (the intro already does exactly this).
+2. **A normalized active-scene projection** the renderer consumes, source-tagged:
+
+   ```ts
+   type ActiveVn = {
+     source: 'intro' | 'rung';
+     greeting: readonly IntroSetupLine[];
+     topics: readonly DialogueTopic[];          // via availableTopics(scene, asked)
+     prompt: string;
+     options: readonly { id: string; label: string }[];  // buttons only — apply is in the reducer
+     voice: VoiceCategory; speaker?: NpcId;
+   };
+   function activeVn(state): ActiveVn | null // intro (DIALOGUE_SCENES[introBeat]) or rung (RUNG_BEATS[rungBeat])
+   ```
+
+   `buildIntroShell`/`reconcileIntro` render from this projection (they only need
+   greeting lines, topic labels, the prompt, and `{id,label}` buttons — all common to
+   both scene types). `availableTopics` + the topic-finder are **reused verbatim**
+   (`RungScene.topics` is the same `DialogueTopic[]`).
+3. **Dispatch by `source`:** the button/ask handlers switch on `activeVn().source` —
+   `intro` → `ask_topic` / `choose_intro`; `rung` → `ask_rung_topic` /
+   `choose_rung_option`. A thin branch; everything else (typewriter, voice colours,
+   append-only scrollback) is shared.
+
+### 7.4 · The channel fix (F103) + how the beat gates the reward
+
+**Channel fix (resolves OQ8).** Today each rung's `rewardOnReach.log` is the full story
+prose on the `milestone` channel → **Progress**, so the Story view shows nothing and
+the prose sits in the wrong tab (§2.2). The redesign:
+
+- **DELETE** the prose `milestone` `log` line from **R1–R7** `rewardOnReach`
+  (`src/core/content/ranks.ts`) — the prose now lives in `RUNG_BEATS[*].greeting`,
+  spoken in the modal (which writes `narration`/**Story** lines). **Exception — R2's
+  second line** (the porters-knot narration) is *already* correctly on `narration`;
+  move it into `RUNG_BEATS.R2.greeting` (§7.1's closing narrator line) so all of R2's
+  prose lives in one place, then R2's `rewardOnReach.log` is empty too.
+- **`applyPromotion` emits a generated terse marker** on `milestone` →
+  **Progress**: `` `Rank ↑ — ${rank.title} ${rank.kanji}` `` (single-source from the
+  `RankDef` — never hand-typed; A21). This keeps a scannable progression record. So
+  `rewardOnReach.log` becomes **empty/omitted** for R1–R7; only the generated marker
+  drops to Progress, and the full prose is Story-channel via the beat.
+
+**Reward-gating (beat completion, not raw meter).** `applyRewards(rewardOnReach)` runs
+**only** inside `applyPromotion`, called **only** at `choose_rung_option`'s terminal
+node. Therefore: the latched `rank-rN` flags + every `rewardOnReach.unlock` surface
+apply **after** the beat, never on raw meter-fill. Downstream surfaces that read the
+`rank-rN` flags (e.g. `dream-2` ← `rank-r3`, `surfaces.ts:280`) still fire — unchanged
+timing vs. today (reward at promote), just now *gated behind the beat*. The **pedlar
+discovery** needs **no reveal-engine change**: the panel already back-reveals off
+`panel-rung-ladder` → `panel-estate`; the ONLY change is R1's greeting now *names why*
+Tokubei is there (F99), and the panel inks in when the R1 modal tears down.
+
+### 7.5 · Tests / sim migration + the tier DoD (D-088)
+
+`promoteRungs` is called by `finish()` (retired) and the dev rung-seek
+(`app/main.ts:66`), and asserted in `m1.test.ts` (:103-122) and `m2.test.ts` (:225);
+`combat-reveal.test.ts` / `estate-reveal.test.ts` read `rewardOnReach`;
+`verify-content.ts` reads `rewardOnReach.unlock` (still valid — `unlock` is untouched).
+
+- **`app/main.ts` rung-seek:** swap its `promoteRungs(...)` loop for `applyPromotion`
+  per rung (the seek bypasses the beat by design — a dev jump, not the player path).
+- **Existing rung tests:** must now **drive the beat** (`begin_rung_beat` →
+  `choose_rung_option`) or call `applyPromotion` directly. Derive fixtures from
+  `rungThreshold(id)` + the `rank-rN` flags (source of truth), **not** magic numbers.
+- **Per D-088 (name in the first milestone's DoD):**
+  - a **full-arc e2e** that walks a promotion **through the beat** — fill meter → header
+    ready → `begin_rung_beat` → (ask a topic) → `choose_rung_option` → assert rung
+    bumped, `rank-rN` set, the beat's unlocks revealed, the chosen `flags` set, the
+    `npcMemory` deepened, and (for R3) the `statBonus` applied.
+  - an **invariant:** *no rung advances without its beat* — filling the meter to
+    `ready` and calling `finish()`/`revealPass` alone leaves `rung`, `flags`, and
+    `unlocked` **unchanged** (a promotion requires `choose_rung_option`). This test
+    **could go RED** against the old hot-path auto-promote — that's the point.
+
+### 7.6 · Build order + landing coordination
+
+1. **Land the channel fix first** (§7.4, data-only in `ranks.ts` + the generated
+   marker) — a small, independent pure-core step that immediately fixes "story in
+   Progress / nothing in Story," even before the beat ships.
+2. **Pure core:** the `rungBeat` field + schema bump + `applyPromotion`/`promotionReady`
+   split + `deepenNpc` + the four intents + `rungBeats.ts` registry (R1 first — the
+   smallest end-to-end proof, §6 R1) + the cast wiring. Migrate the tests (§7.5).
+3. **UI:** the `vnActive` gate flip + `activeVn` projection + `source` dispatch + the
+   F106 header trigger. Reuse `buildIntroShell`/`reconcileIntro` unchanged.
+4. **Coordinate with the append-only engine plan**
+   (`2026-07-02-append-only-rendering-engine.md`, active) — build ON it, land after it.
+   The **economy re-core (D-107–D-109)** rescopes the pedlar's coin copy separately
+   (OQ6 / the "no parallel build during a ripple" memory) — the beat framework is
+   copy-agnostic; the pedlar's trade line is one string the economy ripple can retune.
 
 ---
 
