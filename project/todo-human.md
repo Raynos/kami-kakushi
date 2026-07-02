@@ -45,3 +45,8 @@ _(none open)_
   actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
   via rumours / low-chance events / description hints, not a static list. T0-later/T1,
   for eventual adoption.
+- [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy balance
+  watch** (from the re-core audit): 4 liquid tuning items for your playtest — rice
+  out-produces its sinks (coin too abundant), season store/sell dominated, eat-rice
+  dominated by rest, and the koku capstone reached too fast. **Balance is your feel-call
+  — I did NOT silently re-tune.** Play + tune by feel.
