@@ -19,6 +19,9 @@ import { migrate, type MigrateFn } from './migrate';
 const SAVE_PREFIX = 'kk:save:';
 const CRASH_KEY = 'kk:crash:v1';
 const PREMIGRATE_PREFIX = 'kk:premigrate:v';
+// F96 — a single "last backup" slot, OUTSIDE the rolling save ring, written just before a DEV
+// New game wipes the run. Distinct key so a backup is never clobbered by ordinary autosaves.
+const BACKUP_KEY = 'kk:save:backup';
 
 function isFiniteVersion(o: unknown): o is { schemaVersion: number } {
   return (
@@ -171,6 +174,66 @@ export class SaveManager {
   private async backupRaw(fromVersion: number, raw: string): Promise<void> {
     const key = `${PREMIGRATE_PREFIX}${fromVersion}`;
     await Promise.all(this.backends.map((b) => b.set(key, raw).catch(() => undefined)));
+  }
+
+  // ── F96 backup slot: snapshot-before-wipe safety net for the DEV New game button ──
+  /** Copy the CURRENT state into the single backup slot across all backends (overwrites the
+   *  previous backup). Poison-suppressed like save(): an invalid state never lands as a backup. */
+  async backup(state: GameState): Promise<SaveResult> {
+    const check = validateState(state);
+    if (!check.ok) return { ok: false, reason: `backup-invalid:${check.reason}` };
+    if (this.backends.length === 0) return { ok: false, reason: 'no-backends' };
+    const env = makeEnvelope(state, this.counter, this.now());
+    const raw = encodeEnvelope(env);
+    const results = await Promise.all(
+      this.backends.map(async (b) => {
+        try {
+          await b.set(BACKUP_KEY, raw);
+          return true;
+        } catch {
+          return false;
+        }
+      }),
+    );
+    if (!results.some(Boolean)) return { ok: false, reason: 'all-backends-failed' };
+    return { ok: true, saveCounter: this.counter };
+  }
+
+  /** True if a backup exists in ANY backend (drives the DEV "goto last backup" enable state). */
+  async hasBackup(): Promise<boolean> {
+    for (const b of this.backends) {
+      if (await b.get(BACKUP_KEY)) return true;
+    }
+    return false;
+  }
+
+  /** Restore the last backup: decode → validate/migrate (the SAME path a normal load uses, so an
+   *  older-schema backup still loads) → adopt as the new newest save so it persists. */
+  async restoreBackup(): Promise<LoadResult | { ok: false; reason: string }> {
+    for (const b of this.backends) {
+      const raw = await b.get(BACKUP_KEY);
+      if (!raw) continue;
+      let parsed: unknown;
+      try {
+        parsed = decodeEnvelope(raw);
+      } catch {
+        continue; // corrupt blob in this backend → try the next
+      }
+      const env = parsed as Partial<SaveEnvelope>;
+      const v = validateEnvelope(parsed, { migrate: this.migrateFn });
+      if (!v.ok) continue; // structurally-broken → try the next backend
+      const res = await this.save(v.state); // adopt so a reload keeps the restored run
+      if (!res.ok) return { ok: false, reason: res.reason };
+      return {
+        state: v.state,
+        saveCounter: res.saveCounter,
+        coerced: v.coerced,
+        migrated: v.migrated || (isFiniteVersion(env) && env.schemaVersion !== SCHEMA_VERSION),
+        safeMode: false,
+        source: 'backup',
+      };
+    }
+    return { ok: false, reason: 'no-valid-backup' };
   }
 
   // ── crash counter (stored OUTSIDE GameState, D-044) ───────────────────────────

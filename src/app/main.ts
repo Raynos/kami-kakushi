@@ -408,11 +408,30 @@ async function boot(): Promise<void> {
         paused = false;
       },
       newGame: (seed = DEFAULT_SEED) => {
+        // F96 — snapshot the CURRENT run to the backup slot BEFORE wiping it, so a New game is
+        // never an irrecoverable loss. `backup(state)` encodes the old state synchronously (the
+        // envelope is built before the first await), so reassigning `state` below is safe.
+        void save.backup(state);
         prev = null;
         state = createInitialState(seed);
         reveals.length = 0;
         actionCount = 0;
         safely(() => render(state, null));
+      },
+      // F96 — the save-backup safety net exposed for the DEV panel's "goto last backup" button.
+      backupSave: () => save.backup(state),
+      hasBackup: () => save.hasBackup(),
+      restoreBackup: async () => {
+        const res = await save.restoreBackup();
+        if ('state' in res) {
+          prev = null;
+          state = res.state;
+          reveals.length = 0;
+          actionCount = 0;
+          safely(() => render(state, null));
+          return true;
+        }
+        return false;
       },
       // (D-056: profile/setProfile retired with the DEMO/REAL fork — single profile now.
       //  The DEV speed toggle + teleports below STAY: they're the permanent review harness.)

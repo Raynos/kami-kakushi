@@ -249,3 +249,58 @@ describe('migration wiring + pre-migration backup', () => {
     expect(loaded!.state.character.attrs).toEqual(baseAttrs());
   });
 });
+
+// F96 — the "New game" safety net: back up the current run to a distinct slot, then restore it.
+describe('backup / restore slot (F96)', () => {
+  function rich(seed = 7): GameState {
+    return { ...sample(seed), tier: 1, location: 'home-paddies' };
+  }
+
+  it('has no backup until one is written', async () => {
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1);
+    expect(await mgr.hasBackup()).toBe(false);
+    await mgr.backup(rich());
+    expect(await mgr.hasBackup()).toBe(true);
+  });
+
+  it('round-trips the backed-up state through restore', async () => {
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1);
+    const s = rich();
+    expect((await mgr.backup(s)).ok).toBe(true);
+    const res = await mgr.restoreBackup();
+    expect('state' in res).toBe(true);
+    if ('state' in res) {
+      expect(JSON.stringify(res.state)).toBe(JSON.stringify(s)); // nothing dropped/mangled
+      expect(res.source).toBe('backup');
+    }
+  });
+
+  it('restore adopts the backup as the newest save (survives a reload)', async () => {
+    const backend = new MemoryBackend();
+    const mgr = createMemorySaveManager([backend], () => 1);
+    // an in-progress run is the newest save; a DIFFERENT older run sits in the backup slot.
+    const current = rich(1);
+    const backedUp = rich(2);
+    await mgr.save(current);
+    await mgr.backup(backedUp);
+    await mgr.restoreBackup();
+    // a fresh manager over the same backend loads what restore adopted, not the old current.
+    const reloaded = await createMemorySaveManager([backend], () => 1).load();
+    expect(JSON.stringify(reloaded!.state)).toBe(JSON.stringify(backedUp));
+  });
+
+  it('restore fails cleanly when no backup exists', async () => {
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1);
+    const res = await mgr.restoreBackup();
+    expect('state' in res).toBe(false);
+    if (!('state' in res)) expect(res.reason).toBe('no-valid-backup');
+  });
+
+  it('refuses to back up a poisoned state (like save)', async () => {
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1);
+    const poison = { ...sample(), character: null } as unknown as GameState;
+    const res = await mgr.backup(poison);
+    expect(res.ok).toBe(false);
+    expect(await mgr.hasBackup()).toBe(false);
+  });
+});

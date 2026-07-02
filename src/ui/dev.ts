@@ -118,26 +118,28 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  // F101 — the human reordered these two SURFACES so the Estate MAP sits at the TOP of the
+  //   recency-reversed panel list: `quests` moved UP to index 3 (→ V3) and `map` moved DOWN to
+  //   index 5 (→ V5, top of the list). Only the array POSITIONS changed; the entries are verbatim.
   {
-    id: 'map',
-    label: 'Estate map',
+    id: 'quests',
+    label: 'Quests',
     variants: [
       {
-        id: 'map-a',
-        label: 'A · paths list',
-        blurb: 'You-are-here card + a plain "Paths lead to →" list of moves (the shipped default).',
+        id: 'quests-a',
+        label: 'A · woodblock cards',
+        blurb:
+          'Square .frame cards: title, blurb, ☑/☐ checklist, Take this on (the shipped default).',
       },
       {
-        id: 'map-b',
-        label: 'B · 絵地図 estate schematic',
-        blurb:
-          'A spatial trail: revealed nodes laid out by distance from the kura, you-are-here lit, walkable ones live.',
+        id: 'quests-b',
+        label: 'B · 高札 notice-board',
+        blurb: 'Commission-bills on a board; a continuous-ink deeds stroke; 請ける to take.',
       },
       {
-        id: 'map-c',
-        label: 'C · 道中記 traveller’s ledger',
-        blurb:
-          'Informed routes: each path shows the destination’s blurb + what awaits (labour/foe/danger).',
+        id: 'quests-c',
+        label: 'C · 用帳 field-ledger',
+        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned koku column.',
       },
     ],
   },
@@ -165,24 +167,25 @@ export const SURFACES: SurfaceDef[] = [
     ],
   },
   {
-    id: 'quests',
-    label: 'Quests',
+    id: 'map',
+    label: 'Estate map',
     variants: [
       {
-        id: 'quests-a',
-        label: 'A · woodblock cards',
+        id: 'map-a',
+        label: 'A · paths list',
+        blurb: 'You-are-here card + a plain "Paths lead to →" list of moves (the shipped default).',
+      },
+      {
+        id: 'map-b',
+        label: 'B · 絵地図 estate schematic',
         blurb:
-          'Square .frame cards: title, blurb, ☑/☐ checklist, Take this on (the shipped default).',
+          'A spatial trail: revealed nodes laid out by distance from the kura, you-are-here lit, walkable ones live.',
       },
       {
-        id: 'quests-b',
-        label: 'B · 高札 notice-board',
-        blurb: 'Commission-bills on a board; a continuous-ink deeds stroke; 請ける to take.',
-      },
-      {
-        id: 'quests-c',
-        label: 'C · 用帳 field-ledger',
-        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned koku column.',
+        id: 'map-c',
+        label: 'C · 道中記 traveller’s ledger',
+        blurb:
+          'Informed routes: each path shows the destination’s blurb + what awaits (labour/foe/danger).',
       },
     ],
   },
@@ -1163,6 +1166,10 @@ export interface DevQa {
   auto(id: ActivityId | null): void;
   autoCombat(id: MobId | null): void;
   newGame(seed?: number): void;
+  /** F96 save-backup safety net: `hasBackup` gates the "goto last backup" button; `restoreBackup`
+   *  rewinds to the pre-New-game snapshot. Both async (they hit the redundant storage backends). */
+  hasBackup(): Promise<boolean>;
+  restoreBackup(): Promise<boolean>;
   /** Read the live rung so the panel can highlight it (structural subset of __qa.selectors). */
   selectors: { rung(): RankId };
 }
@@ -1442,14 +1449,50 @@ export function mountDevPanel(
   // (flex:0 0 auto, outside the scrolling panes) so it's reachable no matter which sub-tab is
   // active OR how far the variants scroll. F38 — this is now the SOLE New-game control (the old
   // duplicate in the Settings→Game section was removed).
+  // F96 — the footer stacks two half-width rows: "goto last backup" ABOVE "New game". A flex COLUMN
+  // so the buttons stack; each button is width:50% + align-self:flex-start (left-anchored).
   const footer = el('div');
   footer.style.cssText =
-    'flex:0 0 auto;margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;display:flex;';
-  const newGameFooterBtn = mono('⟳ New game', () => qa.newGame());
-  newGameFooterBtn.style.flex = '1';
+    'flex:0 0 auto;margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;' +
+    'display:flex;flex-direction:column;gap:.25rem;';
+
+  // F96 — "goto last backup": restores the snapshot New game takes before it wipes the run. Starts
+  // DISABLED (dimmed) and is enabled once a backup exists — either found on mount (a prior session)
+  // or created the moment New game is pressed.
+  const restoreBtn = mono('↩ last backup', () => {
+    if (!restoreBtn.disabled) void qa.restoreBackup();
+  });
+  restoreBtn.style.width = '50%';
+  restoreBtn.style.alignSelf = 'flex-start';
+  restoreBtn.disabled = true;
+  restoreBtn.style.opacity = '.45';
+  restoreBtn.style.cursor = 'not-allowed';
+  const enableRestore = (): void => {
+    restoreBtn.disabled = false;
+    restoreBtn.style.opacity = '1';
+    restoreBtn.style.cursor = 'pointer';
+  };
+  footer.append(restoreBtn);
+
+  // F95 — New game is HALF WIDTH + left-anchored (was flex:1 / full width) so an accidental
+  // double-click on the compact dev menu can't land on it and wipe the run; the right half is empty.
+  // F96 — pressing it also enables the restore button (a fresh backup now exists).
+  const newGameFooterBtn = mono('⟳ New game', () => {
+    qa.newGame();
+    enableRestore();
+  });
+  newGameFooterBtn.style.width = '50%';
+  newGameFooterBtn.style.alignSelf = 'flex-start';
   newGameFooterBtn.style.fontWeight = '700';
   footer.append(newGameFooterBtn);
   body.append(footer);
+
+  // enable "goto last backup" if a backup already exists from a prior session (async storage probe).
+  void Promise.resolve(qa.hasBackup())
+    .then((has) => {
+      if (has) enableRestore();
+    })
+    .catch(() => undefined);
 
   host.append(panel);
   // NOTE: the panel is position:fixed and floats OVER the app (bottom-right), so it reserves

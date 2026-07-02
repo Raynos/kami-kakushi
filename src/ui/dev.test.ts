@@ -274,6 +274,8 @@ describe('DEV panel — Speed row (F49)', () => {
       auto: () => {},
       autoCombat: () => {},
       newGame: () => {},
+      hasBackup: async () => false,
+      restoreBackup: async () => false,
       selectors: { rung: () => 'R0' as RankId },
     };
     return q;
@@ -319,6 +321,95 @@ describe('DEV panel — Speed row (F49)', () => {
     const active = btns.filter(isActive);
     expect(active).toHaveLength(1);
     expect(active[0]!.textContent).toBe('4×');
+    host.remove();
+  });
+});
+
+// F95 — the New-game footer button is HALF WIDTH + left-anchored so an accidental double-click on
+// the compact dev menu can't land on it (the right half of the row is deliberately empty).
+describe('DEV panel — New-game footer safety (F95)', () => {
+  function stubQa(over: Partial<DevQa> = {}): DevQa {
+    return {
+      speed: (m: number) => m,
+      jumpToPhase2: () => 0,
+      jumpToAscension: () => {},
+      faceWolf: () => {},
+      toRung: () => 0,
+      auto: () => {},
+      autoCombat: () => {},
+      newGame: () => {},
+      hasBackup: async () => false,
+      restoreBackup: async () => false,
+      selectors: { rung: () => 'R0' as RankId },
+      ...over,
+    };
+  }
+  const btnByText = (host: HTMLElement, needle: string): HTMLButtonElement =>
+    [...host.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes(needle),
+    ) as HTMLButtonElement;
+
+  it('renders the New-game button half-width and left-anchored (not full width)', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    const btn = btnByText(host, 'New game');
+    expect(btn).toBeTruthy();
+    // half width + pinned left (was flex:1 / full width) so a stray double-click misses it.
+    expect(btn.style.width).toBe('50%');
+    expect(btn.style.alignSelf).toBe('flex-start');
+    host.remove();
+  });
+
+  it('renders "goto last backup" ABOVE New game, disabled until a backup exists', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    const restore = btnByText(host, 'last backup');
+    const newGame = btnByText(host, 'New game');
+    expect(restore).toBeTruthy();
+    // DOM order: restore precedes New game (compareDocumentPosition FOLLOWING = 4).
+    expect(
+      restore.compareDocumentPosition(newGame) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    // no backup yet (stub hasBackup=false) → disabled.
+    expect(restore.disabled).toBe(true);
+    host.remove();
+  });
+
+  it('pressing New game backs up (via qa.newGame) and enables the restore button', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    let newGames = 0;
+    mountDevPanel(host, {
+      qa: stubQa({ newGame: () => void newGames++ }),
+      dev: createDevApi(),
+      rerender: () => {},
+    });
+    const restore = btnByText(host, 'last backup');
+    const newGame = btnByText(host, 'New game');
+    expect(restore.disabled).toBe(true);
+    newGame.click();
+    expect(newGames).toBe(1);
+    expect(restore.disabled).toBe(false); // a backup now exists → restore is live
+    host.remove();
+  });
+
+  it('clicking the enabled restore button drives qa.restoreBackup', async () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    let restored = 0;
+    // hasBackup=true so the mount probe enables the button.
+    mountDevPanel(host, {
+      qa: stubQa({ hasBackup: async () => true, restoreBackup: async () => (restored++, true) }),
+      dev: createDevApi(),
+      rerender: () => {},
+    });
+    await Promise.resolve(); // let the async hasBackup probe settle
+    const restore = btnByText(host, 'last backup');
+    expect(restore.disabled).toBe(false);
+    restore.click();
+    expect(restored).toBe(1);
     host.remove();
   });
 });
