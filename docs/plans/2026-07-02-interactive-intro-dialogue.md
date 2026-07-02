@@ -17,6 +17,25 @@ D-075 diverge over the presentation (3 working variants).
 
 ---
 
+## Human decisions (2026-07-02)
+
+The human resolved the §8 open questions this way (see §8 for the inline
+answers):
+
+- **Stat magnitude:** **+1 / −1 balanced** (a lean, no power creep). [answers Q2]
+- **Show the trade-off before choosing:** **diegetic hint only** — the reply's
+  wording implies the lean; the exact ± lands as a **system line AFTER the pick**
+  (no raw deltas on the choice buttons). [answers Q3]
+- **Per-NPC memory:** **persists across ascension** — NPCs remember for the whole
+  run. [answers Q6]
+- **Beat count:** **3 beats** (agent self-picked, human didn't object). [Q1]
+- **Prod default presentation:** **variant A (inline)** (agent self-pick; human
+  reviews live). [Q4]
+- **Portrait treatment for B/C (Q5):** left open — the agent self-picks a **kanji
+  ink-seal nameplate**; the human reviews live.
+
+---
+
 ## 1. Context — what exists today
 
 The cold-open is a one-shot **text dump**. `reduce()`'s `open_eyes`
@@ -470,24 +489,31 @@ retires the stopgap where all speech was `--ai`.
 1. **Beat count — 3 or 2?** This plan proposes **3** (Sōan / self-dream /
    Genemon). If "fast to gameplay" trumps the introspective middle beat, drop
    beat 2 → **2** beats (both NPC-memory), and the dream stays pure narration.
-   Which?
+   Which? **[ANSWERED 2026-07-02: 3 beats — agent self-picked, human didn't
+   object.]**
 2. **Stat lean magnitude.** `+1/−1` (net-zero, proposed) vs `+2/−1` (a slight net
    gain to make choices feel more consequential at the cost of a tiny power
    bump). Locked decision says balanced → `+1/−1`; confirm you don't want the
-   punchier `+2/−1`.
+   punchier `+2/−1`. **[ANSWERED 2026-07-02: +1 / −1 balanced — a lean, no power
+   creep.]**
 3. **Can the player see the trade-off before choosing?** Options: (a) buttons show
    the raw delta ("+1 INT / −1 STR") — legible but breaks diegesis; (b) hidden —
    pure roleplay, discover via the stat panel; (c) a subtle gloss (the `react`
    line hints at the lean). Proposed: **(c)** for immersion, with the delta shown
-   in the log's system line after picking. Your call.
+   in the log's system line after picking. Your call. **[ANSWERED 2026-07-02:
+   diegetic hint only (option c) — the reply's wording implies the lean; the
+   exact ± lands as a system line AFTER the pick, no raw deltas on the buttons.]**
 4. **Prod default variant.** Self-picked **A (inline)**. B (scene) is more
-   cinematic; C (dock) keeps the world present. Confirm A, or steer.
+   cinematic; C (dock) keeps the world present. Confirm A, or steer. **[ANSWERED
+   2026-07-02: variant A (inline) — agent self-pick; human reviews live.]**
 5. **Portrait treatment for variant B/C.** Proposed: a category-coloured ink seal
    with the NPC's initial kanji (no art pipeline). Acceptable, or do you want
-   nameplate-only (no seal)?
+   nameplate-only (no seal)? **[ANSWERED 2026-07-02: left open — agent self-picks
+   a kanji ink-seal nameplate; human reviews live.]**
 6. **Does memory persist past T0?** The intro writes `npcMemory` that later T0
    lines read (§4.5). Should it carry across ascension into T1+, or reset each
-   tier? (Leaning: persist — it's the MC's history.)
+   tier? (Leaning: persist — it's the MC's history.) **[ANSWERED 2026-07-02:
+   persists across ascension — NPCs remember for the whole run.]**
 
 ---
 

@@ -9,6 +9,26 @@ section.
 
 ---
 
+## Human decisions (2026-07-02)
+
+The human resolved the §7 open questions this way:
+
+- **Shell width / §4.7:** the human does **NOT** want the centered ~1200px paper
+  column — **explore broadly.** "Now's the time to try options." The §4.7
+  centered-column rule is being **SUPERSEDED** for the multi-panel layout (D-022;
+  an ADR to follow). [answers the §7·2 shell-width open question]
+- **Number of variants:** the human explicitly OK'd going **beyond 2–3** — up to
+  **5–7 variants, or a MATRIX like 3×3×3 = 9+ combos.** Build direction:
+  implement as **INDEPENDENT VARIANT AXES** (e.g. arrangement × framing ×
+  log-placement), each a small DEV variant surface, so ~9 implementations yield
+  many live combos rather than dozens of bespoke layouts. §4's "3 variants"
+  framing is updated to this matrix-of-axes approach; the three named takes (A
+  屏風 / B 番付 / C 巻物) survive as **reference points / axis anchors**.
+- **Non-Work tab layout (§7·1)** and **variant-C log-rail height (§7·4):** **agent
+  self-picks, human reviews live.**
+
+---
+
 ## 1. Context
 
 The v0.3.2 shell (playtest 2026-07-02, `render.ts` + `styles.css`) is a
@@ -157,12 +177,37 @@ first impression. This is the crux of reconciling F11 with the signature.
 
 ---
 
-## 4. The three variants (D-075)
+## 4. The variants — INDEPENDENT AXES, not 3 bespoke layouts (D-075)
 
-All three: full-viewport width (the ~1200px cap is lifted for the workspace
-region — see §5), reveal-gated slices (§3), app-shell-compatible (§2.6). They
-differ on **arrangement**, **framing**, and **where/how big the log sits + its
-font**. Each is a real working `layout-*` value behind the DEV `layout` toggle.
+> **Reframed per the human's 2026-07-02 steer (see "Human decisions" above).**
+> The human OK'd going **well beyond 3** — up to **5–7 variants or a 3×3×3 = 9+
+> matrix**. Rather than hand-build a dozen bespoke layouts, implement the layout
+> as **independent variant axes**, each a small DEV variant surface, so a handful
+> of implementations combine into many live combinations:
+>
+> - **Arrangement axis** — how the slices are placed (columns / dashboard grid /
+>   workbench-over-rail / …).
+> - **Framing axis** — the boxing treatment (hairline dividers / full woodblock
+>   `.frame` key-blocks / mixed).
+> - **Log-placement axis** — where and how big the log slice sits, and its font
+>   (right-wide reading face / peer card / full-width bottom rail / …).
+>
+> Each axis is toggled independently in the DEV panel; the renderer stamps the
+> chosen values as data-attributes and CSS composes them. ~9 axis
+> implementations then yield many live combos to review, instead of 3 fixed
+> takes.
+>
+> The three originally-named takes below (A 屏風 / B 番付 / C 巻物) are **retained as
+> reference points / axis anchors** — each is a coherent *preset* across the
+> three axes (a good default combination), and a useful description of what each
+> axis's ends look like. Read them as "here's one strong point in the matrix,"
+> not "here are the only three options."
+
+All variants: full-viewport width (the ~1200px cap is lifted for the workspace
+region — see §5; and per the human steer the §4.7 centered column is being
+superseded, so explore width broadly), reveal-gated slices (§3),
+app-shell-compatible (§2.6). Each axis-combo is a real working `layout-*`
+data-attribute set behind the DEV `layout` toggle.
 
 ### Variant A — 屏風 folding-screen columns (proposed prod default)
 
@@ -365,19 +410,23 @@ and a Log — sparser than any reference idler — and the dashboard density is 
    active tab's content; Progress/Estate collapse on non-Work tabs (their gates
    already return `activeTab==='work'`), so Combat shows **Do(combat) + Log**
    (+ Vitals). Confirm that feels right vs. a per-tab bespoke grid. **Needs a
-   human/playtest call.**
+   human/playtest call.** **[2026-07-02: agent self-picks, human reviews live.]**
 2. **Lifting the width cap** (§5.3) touches the §4.7 "centered ~1200px paper
    column" contract — arguably a *change to what the game is* visually. Options:
    (a) widen the whole shell; (b) keep header/footer centered but let the
    workspace break out wider. **Open:** which, and what max width before the ink
    margin returns (ultrawide guard)? Likely an ADR / ui-design §4.7 amendment.
+   **[ANSWERED 2026-07-02: the human does NOT want the centered ~1200px column —
+   explore width broadly; §4.7 is being SUPERSEDED for the multi-panel (D-022,
+   ADR to follow).]**
 3. **`grid-auto-flow` track collapse** with explicit `fr` weights in A: auto
    tracks lose per-slice `fr` control. May need a JS-set class encoding the live
    slice count (`data-slices="2|3|4"`) to pick a matching `grid-template-columns`
    — a small, deterministic fallback if `:has()`/auto-flow proves fiddly.
 4. **Log-as-bottom-rail (C) height.** A short rail may hide too much narration on
    a laptop; needs a min-height + playtest. Interacts with the F12/F19 slow
-   typewriter (a short rail scrolls more).
+   typewriter (a short rail scrolls more). **[2026-07-02: agent self-picks, human
+   reviews live.]**
 5. **"Different font for the log"** must reuse an existing vendored/system face
    (no new asset pipeline, §4 anti-slop). `--font-log` = the Shippori body face
    at a looser leading is the safe read; confirm it's visually distinct enough
