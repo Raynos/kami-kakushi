@@ -31,3 +31,13 @@ _(none open)_
   (koku→coin rename, rice-as-resource, mon→monme→ryō formatter, koku-as-standing,
   status tokens). **UNBLOCKED** (Plan A landed); for another agent; coordinate on
   render.ts. _(Plan A, the doc ripple, is DONE — archived.)_
+- [ ] `docs/plans/2026-07-02-append-only-rendering-engine.md` — **rendering-engine
+  migration**: generalize the intro's proven append-only render to kill the whole
+  flash/repaint class across the app. **Scope call** — 5 open questions await your
+  answer before build.
+- [ ] `docs/plans/2026-07-02-rung-up-story-transitions.md` — **rung-ups as VN story
+  beats** (F97/F99/F103): a rung-up becomes a player-initiated story beat that
+  motivates the unlocks + entity discovery. **Scope call**; ties D-104.
+- [ ] `project/brainstorms/2026-07-02-narrative-coherence-home-belongings.md` —
+  **home / belongings / furniture design** (F89): narrative coherence for the
+  estate's rooms + owned items. **Scope call.**
