@@ -63,7 +63,7 @@ export {
   introOption,
   introStatLine,
   introStatDelta,
-  introOutcomeLine,
+  introPerkLine,
   beatReactVoice,
   beatReactSpeaker,
 } from './content/intro';

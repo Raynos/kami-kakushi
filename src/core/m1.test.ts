@@ -281,11 +281,11 @@ describe('soft stamina + season', () => {
   });
 });
 
-// F53 — the FLEETING flavor lines (rest + per-activity labour output) are tagged `ephemeral`,
-// so the render routes them to the self-fading "Now" view and keeps them OFF the permanent
-// channels. RED-able + discriminating: the same 'reward' channel carries BOTH a permanent line
-// (the cold-open rake) and an ephemeral one (the labour output), so the flag can't be a blanket.
-describe('ephemeral flavor tagging (F53)', () => {
+// F53 + F58a — the FLEETING flavor lines (rest, per-rake +koku output, per-activity labour output)
+// are tagged `ephemeral`, so the render routes them to the self-fading "Now" view and keeps them OFF
+// the permanent channels. RED-able + discriminating: the flag is NOT a blanket — a milestone
+// perk-unlock line on the SAME log stays permanent (ephemeral falsey), so the discriminator holds.
+describe('ephemeral flavor tagging (F53 + F58a)', () => {
   const lastByChannel = (
     s: GameState,
     channel: 'reward' | 'system' | 'milestone',
@@ -301,16 +301,17 @@ describe('ephemeral flavor tagging (F53)', () => {
     expect(rest!.ephemeral).toBe(true);
   });
 
-  it('a per-activity labour output line is ephemeral, but the cold-open rake line is NOT', () => {
-    // the cold-open rake reward line stays a permanent record (part of the story spine).
+  it('the rake + labour output lines are ephemeral (F58a), but a milestone perk line is NOT', () => {
+    // F58a — the cold-open per-rake +koku OUTPUT line is now fleeting flavor: it lands in Now and
+    // fades, so repetitive rake output no longer spams the permanent Work channel (log-v2 revision).
     const raked = reduce(reduce(createInitialState(1), { type: 'open_eyes' }), {
       type: 'rake_rice',
     });
     const rakeLine = lastByChannel(raked, 'reward');
     expect(rakeLine).toBeDefined();
-    expect(rakeLine!.ephemeral ?? false).toBe(false);
+    expect(rakeLine!.ephemeral).toBe(true);
 
-    // the do_activity labour output line ("you worked / +N") is fleeting flavor → ephemeral.
+    // the do_activity labour output line ("you worked / +N") is likewise fleeting flavor → ephemeral.
     const base = createInitialState(1);
     const atPaddies: GameState = {
       ...base,
@@ -323,5 +324,14 @@ describe('ephemeral flavor tagging (F53)', () => {
     const farmLine = lastByChannel(farmed, 'reward');
     expect(farmLine).toBeDefined();
     expect(farmLine!.ephemeral).toBe(true);
+
+    // …but the flag is NOT a blanket: a milestone perk-unlock line (F56) stays a PERMANENT record.
+    const perked = reduce(reduce(createInitialState(1), { type: 'open_eyes' }), {
+      type: 'choose_intro',
+      optionId: 'soan-grateful',
+    });
+    const perkLine = lastByChannel(perked, 'milestone');
+    expect(perkLine).toBeDefined();
+    expect(perkLine!.ephemeral ?? false).toBe(false);
   });
 });

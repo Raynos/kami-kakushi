@@ -62,6 +62,9 @@ export const DIALOGUES: readonly DialogueDef[] = [
         // reveal-as-plot (battery fix): the koku-teaching lands as the player rakes (when the
         // first +koku shows), not piled onto the opening click. wake stays greet + the stakes.
         gate: (flags) => flags.raked === true,
+        // F57 — this is labour NARRATION (the prose describing the raking action), so it renders in
+        // the consistent narrator colour/convention like the intro's narration, not as NPC speech.
+        voice: 'narrator',
         text: 'So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.',
       },
       {

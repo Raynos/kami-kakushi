@@ -7,7 +7,7 @@ import {
   INTRO_BEATS,
   INTRO_BEAT_COUNT,
   introActive,
-  introOutcomeLine,
+  introPerkLine,
   introStatDelta,
   npcRegard,
   ATTR_IDS,
@@ -50,20 +50,21 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
     expect(after.character.attributePoints).toBe(s.character.attributePoints);
   });
 
-  it('a choice emits the player say line, the NPC react line, and the flavored outcome line', () => {
+  it('a choice emits the player say line, the NPC react line, and the perk-unlock line', () => {
     const s = wake();
     const opt = INTRO_BEATS[0]!.options![0]!;
     const after = reduce(s, { type: 'choose_intro', optionId: opt.id });
     const texts = after.log.entries.map((e) => e.text);
     expect(texts).toContain(opt.say);
     expect(texts).toContain(opt.react);
-    // F41: the post-pick outcome lands on the MILESTONE channel (Progress), NOT system (Work).
+    // F41: the post-pick perk-unlock lands on the MILESTONE channel (Progress), NOT system (Work).
     const outcome = after.log.entries.find((e) => e.channel === 'milestone');
-    expect(outcome?.text).toBe(introOutcomeLine(opt));
+    expect(outcome?.text).toBe(introPerkLine(opt));
     // and it is NOT emitted on the system channel anymore (the F41 relocation)
     expect(after.log.entries.find((e) => e.channel === 'system')).toBeUndefined();
-    // F42: that line carries the option's diegetic FLAVOR, not just the bare ± delta.
-    expect(outcome?.text).toContain(opt.outcome);
+    // F56: that line carries the granted PERK — its name + standalone desc — plus the ±, not a bare delta.
+    expect(outcome?.text).toContain(opt.perk.name);
+    expect(outcome?.text).toContain(opt.perk.desc);
     expect(outcome?.text).toContain(introStatDelta(opt.stat)); // ± still present, single-source
     expect(outcome?.text).not.toBe(introStatDelta(opt.stat)); // …but never JUST the delta
     // the say line is voice-tagged 'player' with the 'You' nameplate

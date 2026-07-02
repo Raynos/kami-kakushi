@@ -96,6 +96,17 @@ describe('nextDialogueLines cursor', () => {
   });
 });
 
+describe('labour narration voice (F57)', () => {
+  it("the rake labour-narration line ('So you put your hands to it…') is voice 'narrator'", () => {
+    const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
+    const rakeNarration = def.lines.find((l) => l.id === 'gen-rake');
+    expect(rakeNarration).toBeDefined();
+    // it renders in the consistent narrator colour/convention (like the intro's narration), not
+    // as NPC speech — so it must carry the explicit 'narrator' voice tag.
+    expect(rakeNarration!.voice).toBe('narrator');
+  });
+});
+
 describe('teach-by-reveal voice (D-015 / D-064: non-hand-holdy, no popups)', () => {
   it('no line uses tooltip / hint phrasing', () => {
     const banned = [/\bclick\b/i, /tap here/i, /\btip:/i];

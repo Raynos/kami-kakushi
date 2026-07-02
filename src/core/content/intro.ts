@@ -31,10 +31,12 @@ export interface IntroOption {
   readonly say: string; // the MC's spoken reply → log, voice 'player'
   readonly react: string; // the NPC's / narrator's immediate reaction → log, voice = beat.voice
   readonly stat: IntroStat; // +1 up / −1 down (net-zero)
-  /** The diegetic post-pick outcome flavor (F42): one grounded sentence that names what the choice
-   *  reveals about the character and implies the lean. The ± is appended by `introOutcomeLine`
-   *  (single-source), NEVER baked in here — so the flavor reads as fiction, not a stat delta. */
-  readonly outcome: string;
+  /** The post-pick outcome, as a PERK UNLOCK (F56): the choice grants a named perk. `name` is a
+   *  short perk name that MAY reference the character/context; `desc` is a STANDALONE one-line
+   *  flavor of what the perk IS — readable WITHOUT the intro-conversation context. The ± mechanics
+   *  are appended by `introPerkLine` (single-source via `introStatDelta`), NEVER baked in here.
+   *  The UI renders these as JRPG-style perk boxes later; this module carries the DATA + milestone line. */
+  readonly perk: { readonly name: string; readonly desc: string };
   /** The per-NPC memory write; absent ⇒ a self/narrator beat that remembers nothing. */
   readonly memory?: { readonly npc: NpcId; readonly regard: string; readonly warmth: number };
 }
@@ -156,7 +158,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"Then I'll trust your craft, not the village's ghosts."`,
           react: `"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don't force them."`,
           stat: { up: 'int', down: 'str' },
-          outcome: `You defer to his craft — the mind already sharp, the body still slack from the sickbed.`,
+          perk: {
+            name: `Sōan's Counsel`,
+            desc: `A mind honed sharper than the body it wears.`,
+          },
           memory: { npc: 'soan', regard: 'grateful', warmth: 1 },
         },
         {
@@ -165,7 +170,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"Kami or flood, I'm still breathing. Where's the work?"`,
           react: `"...Hm. No patience for a physician. Well — the body heals the same whether you thank me or not."`,
           stat: { up: 'str', down: 'int' },
-          outcome: `You'd sooner work than be tended — the body shoulders ahead of the wits.`,
+          perk: {
+            name: `Sickbed Grit`,
+            desc: `A back that shoulders the work before the wits can weigh in.`,
+          },
           memory: { npc: 'soan', regard: 'curt', warmth: -1 },
         },
         {
@@ -174,7 +182,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"There was a road. Grey rain. A name I can't hold. Is that the fever?"`,
           react: `"That is the blow talking, not a ghost. It will fade — or it won't. Don't let the old women make a haunting of it."`,
           stat: { up: 'luck', down: 'agi' },
-          outcome: `You chase the half-memory over the moment — fortune's thread pulls, quick feet slacken.`,
+          perk: {
+            name: `A Waking Fragment`,
+            desc: `A half-caught omen that bends fortune your way, though your step is slower to answer.`,
+          },
           memory: { npc: 'soan', regard: 'worried', warmth: 0 },
         },
       ],
@@ -196,7 +207,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"Hold the road. The rain. Almost a name."`,
           react: `You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.`,
           stat: { up: 'int', down: 'spd' },
-          outcome: `You turn inward and worry the memory — the mind deepens as the body slows.`,
+          perk: {
+            name: `The Inward Turn`,
+            desc: `A mind that deepens by dwelling, at the price of a slower body.`,
+          },
         },
         {
           id: 'dream-shake',
@@ -204,7 +218,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"Later. The body is here; the past isn't."`,
           react: `You let it go and the room sharpens — the slats of light, the way out.`,
           stat: { up: 'spd', down: 'int' },
-          outcome: `You shake it off and the room sharpens — quicker on your feet, shorter on thought.`,
+          perk: {
+            name: `The Clear Room`,
+            desc: `Senses sharpened to the way out — quick where thought is thin.`,
+          },
         },
         {
           id: 'dream-hands',
@@ -212,7 +229,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"A porter's knot. My hands know this much."`,
           react: `Your fingers move before you decide to — a labourer's memory, still in the muscle.`,
           stat: { up: 'str', down: 'luck' },
-          outcome: `Your hands recall the labour before your head does — plain strength over any luck.`,
+          perk: {
+            name: `The Porter's Hands`,
+            desc: `Hands that remember the work before the head does.`,
+          },
         },
       ],
     },
@@ -281,7 +301,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"I'll earn my keep. Point me at it."`,
           react: `"...Good. The house has had its fill of hands that don't. We'll see if you mean it."`,
           stat: { up: 'str', down: 'agi' },
-          outcome: `You set your back to the work plainly — honest muscle over nimble footing.`,
+          perk: {
+            name: `Genemon's Charge`,
+            desc: `Honest muscle set plainly to the task — sure over nimble.`,
+          },
           memory: { npc: 'genemon', regard: 'earnest', warmth: 1 },
         },
         {
@@ -290,7 +313,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `"A samurai house with an empty granary. What's in it for me?"`,
           react: `"An honest question, and a cold one. Rice and a dry corner — that's the whole of what I can promise. Take it or walk."`,
           stat: { up: 'agi', down: 'str' },
-          outcome: `You keep your guard up and your terms plain — light-footed and wary, not yet strong.`,
+          perk: {
+            name: `The Wary Foot`,
+            desc: `A guard kept up and light on the feet — quick to move before committing.`,
+          },
           memory: { npc: 'genemon', regard: 'wary', warmth: -1 },
         },
         {
@@ -299,7 +325,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           say: `(You say nothing, and reach for the spilled rice.)`,
           react: `"...A man who works before he talks. Rare. We'll get on."`,
           stat: { up: 'spd', down: 'luck' },
-          outcome: `You answer with your hands, not your mouth — steady and quick, trusting to no luck.`,
+          perk: {
+            name: `Hands Before Words`,
+            desc: `A steady quickness that answers with work — trusting to no luck.`,
+          },
           memory: { npc: 'genemon', regard: 'steady', warmth: 1 },
         },
       ],
@@ -375,12 +404,13 @@ export function introStatLine(stat: IntroStat): string {
   return `The choice settles into you. (${introStatDelta(stat)})`;
 }
 
-/** The FLAVORED post-pick outcome line (F42): the option's diegetic outcome sentence — what the
- *  choice reveals about the character — with the exact ± woven in as context (never a bare delta).
- *  Emitted on the MILESTONE channel so it reads under Progress, not Work (F41). The ± is single-
- *  source via `introStatDelta`, so it always matches the trade the reducer actually applies. */
-export function introOutcomeLine(opt: IntroOption): string {
-  return `${opt.outcome} (${introStatDelta(opt.stat)})`;
+/** The post-pick PERK-UNLOCK line (F56): the option's granted perk — its `name` + standalone `desc`
+ *  — with the exact ± mechanics woven in as context (never a bare delta). Emitted on the MILESTONE
+ *  channel so it reads under Progress, not Work (F41). The ± is single-source via `introStatDelta`,
+ *  so it always matches the trade the reducer actually applies. (The UI renders the perk as a
+ *  JRPG-style box in a later pass; this is the log-line form of the same data.) */
+export function introPerkLine(opt: IntroOption): string {
+  return `Perk unlocked — ${opt.perk.name}: ${opt.perk.desc} (${introStatDelta(opt.stat)})`;
 }
 
 /** A voiced node (a scene or a legacy beat) — anything that names who is speaking. */

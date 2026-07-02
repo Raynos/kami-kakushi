@@ -7,7 +7,7 @@ import {
   introOption,
   introStatLine,
   introStatDelta,
-  introOutcomeLine,
+  introPerkLine,
 } from './intro';
 import { ATTR_IDS, ATTR_META } from './balance';
 import { NPC_IDS } from './voices';
@@ -35,11 +35,15 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
         expect(opt.label).toBeTruthy();
         expect(opt.say).toBeTruthy();
         expect(opt.react).toBeTruthy();
-        // F42: every option carries a diegetic outcome sentence — real flavor, never a bare ±.
-        // (no parenthetical delta baked in — the ± is appended by introOutcomeLine, single-source.)
-        expect(opt.outcome).toBeTruthy();
-        expect(opt.outcome).not.toContain('(');
-        expect(opt.outcome).not.toMatch(/[+−]1/);
+        // F56: every option grants a PERK — a short name + a STANDALONE one-line desc (flavor that
+        // stands without the intro-conversation context). The ± mechanics are appended by
+        // introPerkLine (single-source), NEVER baked into the perk's name or desc.
+        expect(opt.perk.name).toBeTruthy();
+        expect(opt.perk.desc).toBeTruthy();
+        expect(opt.perk.name).not.toContain('(');
+        expect(opt.perk.desc).not.toContain('(');
+        expect(opt.perk.name).not.toMatch(/[+−]1/);
+        expect(opt.perk.desc).not.toMatch(/[+−]1/);
       }
     }
   });
@@ -122,17 +126,26 @@ describe('intro selectors', () => {
     );
   });
 
-  it('introOutcomeLine (F42) weaves the option flavor with the exact ± — never a bare delta', () => {
+  it('introPerkLine (F56) carries the perk name + standalone desc + the exact ± — never a bare delta', () => {
     for (const beat of INTRO_BEATS) {
       for (const opt of beat.options!) {
-        const line = introOutcomeLine(opt);
-        // it CARRIES the diegetic flavor (the design lever: fiction, not a stat dump)…
-        expect(line).toContain(opt.outcome);
+        const line = introPerkLine(opt);
+        // it CARRIES the granted perk (the design lever: a named unlock, not a stat dump)…
+        expect(line).toContain(opt.perk.name);
+        expect(line).toContain(opt.perk.desc);
         // …and appends the exact ± as context, matching the trade the reducer applies (net-zero).
         expect(line).toContain(introStatDelta(opt.stat));
         expect(line).toContain(`+1 ${ATTR_META[opt.stat.up].label}`);
         expect(line).toContain(`−1 ${ATTR_META[opt.stat.down].label}`);
+        // …but never JUST the delta — the perk flavor is the point.
+        expect(line).not.toBe(introStatDelta(opt.stat));
       }
     }
+  });
+
+  it('all 9 perk names are distinct (the milestone line must read as a specific unlock)', () => {
+    const names = INTRO_BEATS.flatMap((b) => b.options!.map((o) => o.perk.name));
+    expect(names.length).toBe(9);
+    expect(new Set(names).size).toBe(9);
   });
 });

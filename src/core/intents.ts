@@ -46,7 +46,7 @@ import {
   introSceneAt,
   introTopic,
   introSceneOption,
-  introOutcomeLine,
+  introPerkLine,
   beatReactVoice,
   beatReactSpeaker,
   PLAYER_SPEAKER,
@@ -282,9 +282,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
           warmth: opt.memory.warmth,
         });
       }
-      // 5) the diegetic post-pick OUTCOME line — the option's flavor + the exact ±, landing AFTER
-      //    the pick on the MILESTONE channel so it reads under Progress, not Work (F41/F42).
-      next = applyRewards(next, { log: [{ channel: 'milestone', text: introOutcomeLine(opt) }] });
+      // 5) the post-pick PERK-UNLOCK line (F56) — the granted perk's name + standalone desc + the
+      //    exact ±, landing AFTER the pick on the MILESTONE channel so it reads under Progress, not
+      //    Work (F41). The UI renders it as a JRPG-style perk box in a later pass.
+      next = applyRewards(next, { log: [{ channel: 'milestone', text: introPerkLine(opt) }] });
       // 6) advance to the next beat, or fire the intro-complete tail
       next = enterNextBeat(next, state.introBeat + 1);
       break;
@@ -293,9 +294,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!metaLegal(state, 'rake_rice')) return state;
       next = withResource(next, 'koku', RICE_PER_RAKE);
       next = adjustSatiety(next, -SATIETY_PER_ACT);
+      // F58a — the per-rake +koku OUTPUT line is fleeting flavor: it lands in the "Now" view and
+      // fades, so repetitive rake output no longer spams Work (the human's log-v2 revision — rake
+      // joins do_activity's labour output as ephemeral). The koku still banks; only the line fades.
       next = applyRewards(next, {
         flags: ['raked'],
-        log: [{ channel: 'reward', text: rakeLine(RICE_PER_RAKE) }],
+        log: [{ channel: 'reward', text: rakeLine(RICE_PER_RAKE), ephemeral: true }],
       });
       // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):
       // gen-rake lands on rake #1, gen-keep on #2, gen-kept on #3 — the teach paces with the work.
