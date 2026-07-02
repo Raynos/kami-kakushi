@@ -175,6 +175,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'deliveredDialogue'
     | 'npcMemory'
     | 'introBeat'
+    | 'askedTopics'
     | 'quests'
     | 'marketBought'
     | 'location'
@@ -233,6 +234,9 @@ export function validateState(rawState: unknown): ValidateResult {
         : (rawState.flags as Record<string, unknown>).awake === true
           ? INTRO_BEAT_COUNT
           : -1,
+    // The dialogue-tree ask-hub set (v4, additive). Absent (any pre-tree save) → [] (nothing asked
+    // yet, the correct fresh default); a malformed value → []. Matches the v3→v4 migration.
+    askedTopics: Array.isArray(base.askedTopics) ? (base.askedTopics as readonly string[]) : [],
     quests: isObject(base.quests)
       ? (base.quests as GameState['quests'])
       : { accepted: [], progress: {}, completed: [] },

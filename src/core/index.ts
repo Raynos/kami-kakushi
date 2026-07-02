@@ -44,14 +44,21 @@ export {
   addSkillXp,
   rememberNpc,
   npcRegard,
+  markTopicAsked,
 } from './state';
 export type { NpcMemory } from './state';
 
 // ── interactive intro + speaker/voice model (interactive-intro plan §3) ──
 export {
+  DIALOGUE_SCENES,
+  INTRO_SCENE_COUNT,
   INTRO_BEATS,
   INTRO_BEAT_COUNT,
   introActive,
+  introSceneAt,
+  introTopic,
+  introSceneOption,
+  availableTopics,
   introBeatAt,
   introOption,
   introStatLine,
@@ -60,7 +67,15 @@ export {
   beatReactVoice,
   beatReactSpeaker,
 } from './content/intro';
-export type { IntroBeat, IntroOption, IntroStat, IntroSetupLine } from './content/intro';
+export type {
+  DialogueScene,
+  DialogueTopic,
+  DialogueDecision,
+  IntroBeat,
+  IntroOption,
+  IntroStat,
+  IntroSetupLine,
+} from './content/intro';
 export { NPC_IDS, NPC_NAME, NPC_VOICE, PLAYER_SPEAKER } from './content/voices';
 export type { NpcId, VoiceCategory } from './content/voices';
 

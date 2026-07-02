@@ -4,7 +4,15 @@
 // milestone; M0–M1 cover the cold open + the T0 Phase-1 labour spine.
 
 import type { GameState } from './state';
-import { setFlag, hasFlag, withResource, withBanked, addSkillXp, rememberNpc } from './state';
+import {
+  setFlag,
+  hasFlag,
+  withResource,
+  withBanked,
+  addSkillXp,
+  rememberNpc,
+  markTopicAsked,
+} from './state';
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
@@ -34,9 +42,10 @@ import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
-  INTRO_BEAT_COUNT,
-  introBeatAt,
-  introOption,
+  INTRO_SCENE_COUNT,
+  introSceneAt,
+  introTopic,
+  introSceneOption,
   introOutcomeLine,
   beatReactVoice,
   beatReactSpeaker,
@@ -61,8 +70,9 @@ import { ATTR_META } from './content/balance';
 
 export type Intent =
   | { type: 'open_eyes' }
-  | { type: 'advance_intro' } // Continue past a narration-only intro beat
-  | { type: 'choose_intro'; optionId: string } // pick an option at an intro choice beat
+  | { type: 'advance_intro' } // Continue past a narration-only intro scene
+  | { type: 'ask_topic'; topicId: string } // ASK a hub topic — reveal its answer, mark it asked
+  | { type: 'choose_intro'; optionId: string } // the DECISION: pick a balanced closer at a scene
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
@@ -133,13 +143,13 @@ function deliverDialogue(state: GameState, dialogueId: string, cap?: number): Ga
 
 // ── The interactive intro (plan §3.5) — pure reducer helpers for the beat sequence. ──────────────
 
-/** Reveal one beat's setup lines into the log NOW (F15 — after the advancing click, never pre-run
- *  behind a curtain). Each line carries its authored voice + optional nameplate. */
+/** Reveal one scene's greeting lines into the log NOW (F15 — after the advancing click, never
+ *  pre-run behind a curtain). Each line carries its authored voice + optional nameplate. */
 function revealIntroBeat(state: GameState, index: number): GameState {
-  const beat = introBeatAt(index);
-  if (!beat) return state;
+  const scene = introSceneAt(index);
+  if (!scene) return state;
   return applyRewards(state, {
-    log: beat.setup.map((l) => ({
+    log: scene.greeting.map((l) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
@@ -177,11 +187,11 @@ function completeIntroTail(state: GameState): GameState {
   return state;
 }
 
-/** Move the cursor to `newIndex`, revealing the next beat's setup — or firing the tail once the
- *  intro is over (newIndex === INTRO_BEAT_COUNT). */
+/** Move the cursor to `newIndex`, revealing the next scene's greeting — or firing the tail once the
+ *  intro is over (newIndex === INTRO_SCENE_COUNT). */
 function enterNextBeat(state: GameState, newIndex: number): GameState {
   const advanced: GameState = { ...state, introBeat: newIndex };
-  return newIndex < INTRO_BEAT_COUNT
+  return newIndex < INTRO_SCENE_COUNT
     ? revealIntroBeat(advanced, newIndex)
     : completeIntroTail(advanced);
 }
@@ -208,19 +218,49 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'advance_intro': {
-      // Continue past a NARRATION-only beat; a choice beat must be answered (choose_intro), so a
-      // Continue on a beat that has options is a no-op. Illegal outside the intro ⇒ no-op.
-      const beat = introBeatAt(state.introBeat);
-      if (!beat) return state;
-      if (beat.options && beat.options.length > 0) return state;
+      // Continue past a NARRATION-only scene; a scene with a decision must be answered
+      // (choose_intro), so a Continue on a scene that has options is a no-op. Illegal outside the
+      // intro ⇒ no-op. (Every authored scene carries a decision today, so this is inert but kept.)
+      const scene = introSceneAt(state.introBeat);
+      if (!scene) return state;
+      if (scene.decision.options.length > 0) return state;
       next = enterNextBeat(next, state.introBeat + 1);
       break;
     }
+    case 'ask_topic': {
+      // ASK a hub topic (npc-dialogue-tree plan §3.3). Exploratory + FREE: reveal the answer, mark
+      // the topic asked — NO stat, NO memory, NO scene advance (the player stays in the hub, and may
+      // re-ask). Guard discipline mirrors choose_intro's.
+      const scene = introSceneAt(state.introBeat);
+      if (!scene) return state; // not in the intro ⇒ no-op
+      const topic = introTopic(scene, intent.topicId);
+      if (!topic) return state; // a topic id not on THIS scene ⇒ no-op
+      if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state; // gate unmet ⇒ no-op
+      // 1) VOICE the MC's question (a `player` line, "You: …"), THEN 2) the NPC's answer line(s),
+      //    each in its own authored voice + nameplate — the scrollback reads as a two-sided exchange.
+      next = applyRewards(next, {
+        log: [
+          { channel: 'narration', text: topic.label, voice: 'player', speaker: PLAYER_SPEAKER },
+          ...topic.answer.map((l) => ({
+            channel: 'narration' as const,
+            text: l.text,
+            voice: l.voice,
+            speaker: l.speaker,
+          })),
+        ],
+      });
+      // 3) mark asked (idempotent — a re-ask re-emits above but doesn't grow the set). Drives the
+      //    hub's DIM state + the branch gates; touches NOTHING else.
+      next = markTopicAsked(next, topic.id);
+      break;
+    }
     case 'choose_intro': {
-      const beat = introBeatAt(state.introBeat);
-      if (!beat) return state;
-      const opt = introOption(beat, intent.optionId);
-      if (!opt) return state; // an option id that isn't on THIS beat ⇒ no-op
+      // The DECISION (npc-dialogue-tree plan §3.3): unchanged behaviour, now reading
+      // scene.decision.options. Applies the ±1/∓1 + memory + advances the scene.
+      const scene = introSceneAt(state.introBeat);
+      if (!scene) return state;
+      const opt = introSceneOption(scene, intent.optionId);
+      if (!opt) return state; // an option id that isn't on THIS scene's decision ⇒ no-op
       // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, F23/F26)
       next = applyRewards(next, {
         log: [
@@ -228,14 +268,14 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'narration',
             text: opt.react,
-            voice: beatReactVoice(beat),
-            speaker: beatReactSpeaker(beat),
+            voice: beatReactVoice(scene),
+            speaker: beatReactSpeaker(scene),
           },
         ],
       });
       // 3) the balanced +1/−1 net-zero stat trade-off
       next = applyIntroStat(next, opt.stat);
-      // 4) the per-NPC memory write (independent key — Beat 1 writes only `soan`, Beat 3 only `genemon`)
+      // 4) the per-NPC memory write (independent key — Sōan's scene writes only `soan`, Genemon's `genemon`)
       if (opt.memory) {
         next = rememberNpc(next, opt.memory.npc, {
           regard: opt.memory.regard,

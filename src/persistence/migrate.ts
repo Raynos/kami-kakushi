@@ -32,6 +32,11 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
       introBeat: awake ? INTRO_BEAT_COUNT : -1,
     };
   },
+  // v3 → v4 (the dialogue TREE): additively hydrate the ask-hub field. `introBeat` is UNCHANGED —
+  // the scene array preserves the old 3-beat order (soan/dream/genemon → scenes 0/1/2), so an
+  // in-flight save resumes at the same index with an empty ask hub (nothing asked yet). npcMemory +
+  // introBeat ride along untouched.
+  3: (s) => ({ ...(s as object), askedTopics: [] }),
 };
 
 export function migrate(

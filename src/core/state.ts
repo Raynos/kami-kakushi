@@ -120,9 +120,16 @@ export interface GameState {
   /** Per-NPC memory written by the interactive intro's choices, read by that NPC's later lines
    *  (plan §3.2). Default `{}`; NEVER cleared on ascension (persists across the whole run). */
   readonly npcMemory: Readonly<Partial<Record<NpcId, NpcMemory>>>;
-  /** The interactive-intro cursor (plan §3.3): -1 = pre-wake; 0..N-1 = at beat i;
-   *  N (= INTRO_BEATS.length) = intro done. `open_eyes` sets it to 0; the choices advance it. */
+  /** The interactive-intro cursor (plan §3.3): -1 = pre-wake; 0..N-1 = at scene i;
+   *  N (= DIALOGUE_SCENES.length) = intro done. `open_eyes` sets it to 0; the decisions advance it.
+   *  The unit is now a dialogue SCENE (npc-dialogue-tree plan); the field name is kept `introBeat`
+   *  so the migration + cursor stay trivial (scene order == old beat order). */
   readonly introBeat: number;
+  /** Topic ids the player has ASKED in the dialogue tree (across all scenes; ids are globally
+   *  unique). Drives the hub's DIM state (asked topics stay + are re-askable — human fork
+   *  2026-07-02) and the branch gates. Default `[]`; NEVER cleared on ascension (part of the run's
+   *  history — `ascend` spreads state, so it carries through). */
+  readonly askedTopics: readonly string[];
   /** Quest acceptance + per-step progress + completion (T0-M4-F1 / D-037). */
   readonly quests: QuestState;
   /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / D-008). */
@@ -185,7 +192,8 @@ export function createInitialState(seed: number): GameState {
     skillXp: {},
     deliveredDialogue: [],
     npcMemory: {},
-    introBeat: -1, // pre-wake; open_eyes starts the intro at beat 0
+    introBeat: -1, // pre-wake; open_eyes starts the intro at scene 0
+    askedTopics: [],
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
     location: 'kura',
@@ -244,4 +252,12 @@ export function rememberNpc(state: GameState, npc: NpcId, patch: Partial<NpcMemo
 /** The disposition tag an NPC remembers for you — `''` when you've never spoken to them. */
 export function npcRegard(state: GameState, npc: NpcId): string {
   return state.npcMemory[npc]?.regard ?? '';
+}
+
+/** Mark a dialogue topic ASKED (npc-dialogue-tree plan §3.2). Idempotent — appends the id once, so
+ *  re-asking a (re-askable) topic doesn't grow the set. Drives the hub's dim state + the branch
+ *  gates; NEVER touches stats or memory (only the scene's decision does). */
+export function markTopicAsked(state: GameState, topicId: string): GameState {
+  if (state.askedTopics.includes(topicId)) return state;
+  return { ...state, askedTopics: [...state.askedTopics, topicId] };
 }

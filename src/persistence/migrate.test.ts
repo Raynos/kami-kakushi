@@ -44,16 +44,31 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     expect(v3.introBeat).toBe(-1);
   });
 
-  it('a v1 save migrates the WHOLE chain v1→v3 (tier spine + intro fields)', () => {
-    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
-    const v3 = migrate(v1, 1) as Record<string, unknown>;
-    expect(v3.tier).toBe(0); // v1→v2
-    expect(v3.npcMemory).toEqual({}); // v2→v3
-    expect(v3.resources).toEqual({ koku: 7 });
+  it('the real v3→v4 step hydrates the dialogue-tree ask-hub field (askedTopics: [])', () => {
+    // an in-flight v3 intro save (mid-scene) resumes at the SAME index with an empty ask hub;
+    // introBeat + npcMemory ride along untouched (scene order == old beat order).
+    const v3 = {
+      schemaVersion: 3,
+      introBeat: 1,
+      npcMemory: { soan: { regard: 'curt', warmth: -1 } },
+    };
+    const v4 = migrate(v3, 3) as Record<string, unknown>;
+    expect(v4.askedTopics).toEqual([]); // additively hydrated
+    expect(v4.introBeat).toBe(1); // the scene cursor carries over UNCHANGED
+    expect(v4.npcMemory).toEqual({ soan: { regard: 'curt', warmth: -1 } }); // memory untouched
   });
 
-  it('a current (v3) save is unchanged by the chain', () => {
-    const s = { schemaVersion: 3 };
-    expect(migrate(s, 3)).toBe(s); // already at target => identity
+  it('a v1 save migrates the WHOLE chain v1→v4 (tier spine + intro fields + ask hub)', () => {
+    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
+    const v4 = migrate(v1, 1) as Record<string, unknown>;
+    expect(v4.tier).toBe(0); // v1→v2
+    expect(v4.npcMemory).toEqual({}); // v2→v3
+    expect(v4.askedTopics).toEqual([]); // v3→v4
+    expect(v4.resources).toEqual({ koku: 7 });
+  });
+
+  it('a current (v4) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 4 };
+    expect(migrate(s, 4)).toBe(s); // already at target => identity
   });
 });
