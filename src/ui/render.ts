@@ -514,6 +514,7 @@ export function mount(
   let introLineTyping = false; // is that line still animating char-by-char?
   let introOnBlockDone: (() => void) | undefined; // fired when the block's LAST line completes
   let introTypeTimer: number | undefined; // the pending per-char step timeout
+  let introAdvanceTimer: number | undefined; // the inter-line ~2s auto-advance timeout (F86)
   const introAuxTimers: number[] = []; // other pending intro timeouts (fresh-divider fades)
   // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
   // INSTANTLY as the shell reveals (F48 — no slow catch-up), not via the story cascade.
@@ -675,17 +676,22 @@ export function mount(
   const sliceDo = el('section', 'slice slice-do');
   sliceDo.dataset.panel = 'do';
   sliceDo.setAttribute('aria-label', 'Work');
-  sliceDo.append(workHead, actions, skillsPane, combatPane, questsPane, mapPane);
+  // F100 — the estate-improve card (`estatePane`) lives with the Estate tab (the map), its thematic
+  // home, NOT the Work column: it renders here in the Do slice but self-gates to `activeTab==='map'`
+  // (see renderEstate), so on the Work tab it's hidden and never a ghost, and on the Estate tab it
+  // sits alongside the map. The market/storehouse/influence koku panes stay in the Work column.
+  sliceDo.append(workHead, actions, skillsPane, combatPane, questsPane, mapPane, estatePane);
   // P2 · Path & Progress — the rung ladder (appears at first rake, R0→R1).
   const sliceProgress = el('section', 'slice slice-progress');
   sliceProgress.dataset.panel = 'progress';
   sliceProgress.setAttribute('aria-label', 'Path & progress');
   sliceProgress.append(ladder);
-  // P3 · Estate & Economy — the koku sinks + the R7 House-Influence capstone (~R2).
+  // P3 · Estate & Economy — the koku sinks (market/storehouse) + the R7 House-Influence capstone
+  // (~R2). The estate-IMPROVE card (`estatePane`) moved to the Estate/map tab (F100, see sliceDo).
   const sliceEstate = el('section', 'slice slice-estate');
   sliceEstate.dataset.panel = 'estate';
   sliceEstate.setAttribute('aria-label', 'Estate & economy');
-  sliceEstate.append(estatePane, marketPane, storehousePane, influence);
+  sliceEstate.append(marketPane, storehousePane, influence);
   work.append(sliceDo, sliceProgress, sliceEstate);
 
   // P4 · the story-log — its OWN persistent slice (always present R0). It keeps its `.log`
@@ -775,6 +781,10 @@ export function mount(
   // instantly when the cascade has to catch up (the >12 flush valve).
   const TYPE_MS_PER_CHAR = 32; // GBA typewriter cadence (~30–34ms/char)
   const TYPE_NEXT_BEAT_MS = 180; // pause after a typed line before the next cascades in
+  // F86 — the intro typewriter AUTO-ADVANCES: after a line finishes typing it holds for this beat,
+  // then the next line starts on its own (no click needed). A click only ever SPEEDS this up — it
+  // completes an in-flight line, or skips the remaining hold — it never pauses the sequence. Tunable.
+  const INTRO_LINE_ADVANCE_MS = 2000;
   let typeTimer: number | undefined;
   let finishTypeNow: (() => void) | undefined;
   // F27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
@@ -877,7 +887,9 @@ export function mount(
 
   function renderEstate(state: GameState): void {
     estatePane.textContent = '';
-    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
+    // F100 — the estate-improve card is the Estate tab's, not the Work tab's (its thematic home is
+    // the estate map). It self-gates to the map tab; on Work it stays hidden (no ghost slice).
+    const show = activeTab === 'map' && isUnlocked(state, 'panel-estate');
     estatePane.hidden = !show;
     if (!show) return;
     const stage = state.estateStage;
@@ -1179,6 +1191,10 @@ export function mount(
       window.clearTimeout(introTypeTimer);
       introTypeTimer = undefined;
     }
+    if (introAdvanceTimer !== undefined) {
+      window.clearTimeout(introAdvanceTimer);
+      introAdvanceTimer = undefined;
+    }
     for (const t of introAuxTimers) window.clearTimeout(t);
     introAuxTimers.length = 0;
     introLineTyping = false;
@@ -1220,9 +1236,10 @@ export function mount(
     pendingChoiceId = null;
     introPhase = 'ask';
   }
-  // One entry of the LEFT-column transcript. `player` adds a "You: " prefix + the player colour;
-  // `fresh` marks a resolved-choice line (⇒ the fade-away divider); `prompt` styles the decision
-  // question. `key` is stable across renders so the append-only diff never re-adds an entry.
+  // One entry of the LEFT-column transcript. `speaker` renders a "<name>: " prefix on any voiced line
+  // (NPC or player — F88); `player` flags the player's own lines (the player colour); `fresh` marks a
+  // resolved-choice line (⇒ the fade-away divider); `prompt` styles the decision question. `key` is
+  // stable across renders so the append-only diff never re-adds an entry.
   interface VnEntry {
     readonly key: string;
     readonly voice: VoiceCategory;
@@ -1291,6 +1308,10 @@ export function mount(
       window.clearTimeout(introTypeTimer);
       introTypeTimer = undefined;
     }
+    if (introAdvanceTimer !== undefined) {
+      window.clearTimeout(introAdvanceTimer);
+      introAdvanceTimer = undefined;
+    }
     introLineTyping = false;
     introBlockNodes = [];
     introBlockIndex = -1;
@@ -1299,10 +1320,19 @@ export function mount(
     introOnBlockDone = undefined;
     cb?.(); // ⇒ fade the RIGHT panel's controls in, AFTER the text has finished typing
   }
+  // Arm the ~2s inter-line hold, then AUTO-START the next line (F86) — no click needed. Guards the
+  // timer to a single pending instance so a click racing the auto-fire can't double-advance.
+  function scheduleIntroAutoAdvance(): void {
+    if (introAdvanceTimer !== undefined) return; // already armed — never stack two
+    introAdvanceTimer = window.setTimeout(() => {
+      introAdvanceTimer = undefined;
+      if (introBlockIndex < introBlockNodes.length - 1) introStartLine(introBlockIndex + 1);
+    }, INTRO_LINE_ADVANCE_MS);
+  }
   function introLineComplete(): void {
     introLineTyping = false;
     if (introBlockIndex >= introBlockNodes.length - 1) introFinishBlock();
-    // else: pause — the next click advances to the next line (F62 one-line-per-click)
+    else scheduleIntroAutoAdvance(); // F86 — auto-advance after a beat; a click only speeds it up
   }
   function introStartLine(index: number): void {
     introBlockIndex = index;
@@ -1334,6 +1364,10 @@ export function mount(
     for (const n of introBlockNodes) n.span.textContent = n.text;
     introFinishBlock();
   }
+  // A click on the scene SPEEDS UP the auto-advancing typewriter (F86) — it never pauses it.
+  //   • mid-type  → complete this line instantly; the ~2s auto-advance then runs (introLineComplete).
+  //   • in the ~2s hold → cancel the wait and start the next line NOW.
+  // Guarded so a click racing the pending auto-timer can't fire the next line twice.
   function introAdvance(): void {
     if (introBlockIndex < 0 || introBlockNodes.length === 0) return; // nothing typing
     if (introLineTyping) {
@@ -1345,6 +1379,10 @@ export function mount(
       if (node) node.span.textContent = node.text;
       introLineComplete();
     } else if (introBlockIndex < introBlockNodes.length - 1) {
+      if (introAdvanceTimer !== undefined) {
+        window.clearTimeout(introAdvanceTimer); // skip the remaining hold — go faster
+        introAdvanceTimer = undefined;
+      }
       introStartLine(introBlockIndex + 1);
     }
   }
@@ -1358,7 +1396,11 @@ export function mount(
     for (const e of entries) {
       const p = el('p', `vn-line${e.prompt ? ' vn-prompt-line' : ''}`);
       p.style.color = VOICE_COLOR[e.voice]; // the speaker's on-palette voice colour (F26 idiom)
-      if (e.player && e.speaker) p.append(el('span', 'vn-speaker', `${e.speaker}: `));
+      // F88/F50 — EVERY voiced line carries its speaker-name prefix ("Sōan: " / "Genemon: " / "You: "),
+      // not just the player's: the NAME is the primary "who's talking" signal, colour only reinforces
+      // it. The narrator/decision-prompt line has no speaker ⇒ no prefix. The name paints instantly;
+      // only the speech itself types in.
+      if (e.speaker) p.append(el('span', 'vn-speaker', `${e.speaker}: `));
       const span = el('span', 'vn-text');
       p.append(span);
       introStoryLinesEl?.append(p);
@@ -1383,6 +1425,15 @@ export function mount(
   type PanelKind = 'ask' | 'decide' | 'outcome';
   function activePanelKind(): PanelKind {
     return pendingChoiceId ? 'outcome' : introPhase;
+  }
+  function activePanelEl(): HTMLElement | null {
+    const kind = activePanelKind();
+    return kind === 'ask' ? introAskEl : kind === 'decide' ? introDecideEl : introOutcomeEl;
+  }
+  // is the active sub-panel already revealed? (F90 — lets an idle tick skip the reveal entirely.)
+  function activePanelShown(): boolean {
+    const elx = activePanelEl();
+    return !!elx && !elx.hidden;
   }
   function showPanel(elx: HTMLElement | null, on: boolean): void {
     if (!elx) return;
@@ -1536,8 +1587,10 @@ export function mount(
     if (fresh.length > 0) {
       hideStalePanels(activePanelKind()); // clear stale controls before the new block types
       introAppendBlock(fresh, () => revealActivePanel(scene));
-    } else if (introBlockNodes.length === 0) {
-      // no new text + nothing mid-type ⇒ a pure panel swap (Done) or an idempotent re-render.
+    } else if (introBlockNodes.length === 0 && !activePanelShown()) {
+      // no new text, nothing mid-type, and the active panel isn't yet up ⇒ a pure panel swap (Done)
+      // that needs its first reveal. Once it IS shown, an idle tick does NOTHING here — no re-fade,
+      // no scroll yank — so a re-render of unchanged intro state can never flicker (F90).
       revealActivePanel(scene);
     }
   }

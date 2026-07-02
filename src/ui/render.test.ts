@@ -3,7 +3,7 @@
 // The feel-pass (Commit 8) render assertions: the pure ×N log formatter, the
 // unknown-foe fog gating, and the settings-modal a11y (textarea labels + Tab
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount, formatLogText, type AppHooks } from './render';
 import { LOG_SCALE_MIN, LOG_SCALE_MAX, LOG_SCALE_STEP, LOG_SCALE_DEFAULT } from './ui-prefs';
 import {
@@ -632,6 +632,134 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
       DIALOGUE_SCENES[dreamIdx]!.decision.prompt,
     );
   });
+
+  // F88 — EVERY voiced line carries its speaker-name prefix, not just the player's. The NPC greeting
+  // (a non-player line) must render "<name>: " the same way the player's "You: " does.
+  it('F88 — a voiced NPC greeting line renders its speaker-name prefix, not just player lines', () => {
+    const { render } = spyMount();
+    render(introState(0), null);
+    // the scene's first VOICED greeting line (narrator lines carry no speaker → no prefix, by design).
+    const npcName = DIALOGUE_SCENES[0]!.greeting.find((l) => l.speaker)!.speaker; // from the scene
+    expect(npcName).toBeTruthy();
+    const prefixes = [...root.querySelectorAll<HTMLElement>('.vn-line .vn-speaker')].map(
+      (s) => s.textContent,
+    );
+    // the NPC's own name prefixes its line (RED before F88 — NPC lines had no .vn-speaker span).
+    expect(prefixes).toContain(`${npcName}: `);
+  });
+
+  // F87 — an asked topic keeps the `asked` class (the hook the gray styling hangs on). Re-askable
+  // (still a live button), just de-emphasized in CSS.
+  it('F87 — an asked topic button carries the gray "asked" class', () => {
+    const { render } = spyMount();
+    const topic = DIALOGUE_SCENES[0]!.topics[0]!;
+    render(introState(0, [topic.id]), null);
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('.intro-ask')].find((b) =>
+      (b.textContent ?? '').includes(topic.label),
+    )!;
+    expect(btn).toBeTruthy();
+    expect(btn.classList.contains('asked')).toBe(true);
+  });
+});
+
+// ── F86/F90 — the intro typewriter under the ANIMATED path (MODE!=='test', motion allowed): lines
+//    AUTO-advance (a click only speeds up), and an idle re-render of settled state mutates nothing. ──
+describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (animated)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    // motion ALLOWED (matches:false) — so the renderer takes the real typewriter path, not instant.
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+    vi.stubEnv('MODE', 'development'); // leave the MODE==='test' instant fast-path
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllEnvs();
+  });
+  function introState(beat: number, askedTopics: string[] = []): GameState {
+    const base = createInitialState(1);
+    return { ...base, introBeat: beat, askedTopics, flags: { ...base.flags, awake: true } };
+  }
+  function spyMount(): ReturnType<typeof mount> {
+    return mount(root, () => {}, noopHooks());
+  }
+  const lineTexts = (): (string | null)[] =>
+    [...root.querySelectorAll<HTMLElement>('.vn-line .vn-text')].map((e) => e.textContent);
+  const shown = (sel: string): boolean => {
+    const e = root.querySelector<HTMLElement>(sel);
+    return !!e && !e.hidden;
+  };
+
+  // F86 — the core fix: with NO click at all, the block types line 0, then AUTO-advances (the ~2s
+  // timer) into each subsequent line to the end, and reveals the panel. RED before F86: a finished
+  // non-last line just paused, so line 1+ never typed without a click.
+  it('F86 — lines auto-advance through the whole block with NO click, then reveal the panel', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    const greeting = DIALOGUE_SCENES[0]!.greeting;
+    expect(greeting.length).toBeGreaterThanOrEqual(2);
+    vi.runAllTimers(); // let ONLY the auto timers run — no click
+    const texts = lineTexts();
+    greeting.forEach((line, i) => expect(texts[i]).toBe(line.text)); // every line typed itself
+    expect(shown('.vn-ask')).toBe(true); // …and the panel revealed after the last line
+  });
+
+  // F86 — a click while a line is still typing COMPLETES it instantly (speeds up); it never pauses.
+  it('F86 — a click mid-type completes the current line instantly', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    const full = DIALOGUE_SCENES[0]!.greeting[0]!.text;
+    const first = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
+    expect(first.textContent).not.toBe(full); // mid-type (the first char timer hasn't even fired)
+    root.querySelector<HTMLElement>('.vn-scene')!.click();
+    expect(first.textContent).toBe(full); // the click filled the line at once
+  });
+
+  // F86 — a click DURING the ~2s inter-line hold skips the remaining wait and starts the next line
+  // now. RED against a model that ignores the click in the gap (line 1 would stay empty until ~2s).
+  it('F86 — a click during the inter-line hold advances immediately (skips the wait)', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    const sceneEl = root.querySelector<HTMLElement>('.vn-scene')!;
+    sceneEl.click(); // complete line 0 → arm the hold
+    expect(lineTexts()[1]).toBe(''); // line 1 waiting out the hold
+    sceneEl.click(); // click in the gap → skip the wait, start line 1 now
+    vi.advanceTimersByTime(100); // a fraction of the ~2s hold — enough for a few chars if it started
+    expect((lineTexts()[1] ?? '').length).toBeGreaterThan(0); // it started early, not at ~2s
+  });
+
+  // F90 — the flicker guard: once the block has typed out and the panel is revealed, re-rendering
+  // the SAME intro state (as the tick loop does) must not touch the scene DOM — no re-added fade
+  // class, no re-typed text, no re-hidden/re-shown panel. A DOM mutation here is a visible flicker.
+  it('F90 — an idle re-render of settled intro state mutates nothing in the scene', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    vi.runAllTimers(); // settle: greeting fully typed, ask panel revealed
+    const sceneEl = root.querySelector<HTMLElement>('.vn-scene')!;
+    const before = sceneEl.innerHTML;
+    const obs = new MutationObserver(() => {});
+    obs.observe(sceneEl, { childList: true, subtree: true, attributes: true });
+    render(introState(0), null); // identical-state re-render ticks
+    render(introState(0), null);
+    render(introState(0), null);
+    const records = obs.takeRecords(); // synchronously drain any queued mutations
+    obs.disconnect();
+    expect(records).toEqual([]); // zero DOM mutations ⇒ nothing can re-animate ⇒ no flicker
+    expect(sceneEl.innerHTML).toBe(before);
+  });
 });
 
 // ── Multi-panel workspace: the locked byōbu+cards layout, the sticky-bottom log, the in-flow
@@ -734,6 +862,38 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     render(awake(), null);
     expect(root.querySelector<HTMLElement>('.ladder')!.hidden).toBe(true);
     expect(root.querySelector<HTMLElement>('.slice-progress')!.hidden).toBe(true);
+  });
+
+  it('F94 — the work slices are direct children of the .work fold (the flex-0 stacking seam)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(['panel-estate', 'room-gate-forecourt', 'panel-rung-ladder']), null);
+    const work = root.querySelector<HTMLElement>('.work')!;
+    // The F94 fix (`.workspace[data-layout=layout-byobu] > .work > .slice { flex: 0 0 auto }`) can
+    // only reach the slices if they are DIRECT children of `.work` — nest them deeper and the cards
+    // squeeze/overlap again. Guard that seam structurally.
+    for (const cls of ['slice-do', 'slice-progress', 'slice-estate']) {
+      const slice = root.querySelector<HTMLElement>(`.${cls}`)!;
+      expect(slice).not.toBeNull();
+      expect(slice.parentElement).toBe(work);
+    }
+  });
+
+  it('F100 — the estate-improve card lives on the Estate tab, not the Work tab', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(['panel-estate', 'room-gate-forecourt']), null);
+    const estatePane = root.querySelector<HTMLElement>('.estate-pane')!;
+    // structural: it's grouped in the Do slice (its home is the Estate/map tab), NOT the
+    // Work-column Estate/economy slice — so moving it can't leave a ghost in the Work fold.
+    expect(root.querySelector('.slice-do .estate-pane')).not.toBeNull();
+    expect(root.querySelector('.slice-estate .estate-pane')).toBeNull();
+    // on the default Work tab the estate-improve card is hidden (no empty ghost in the Work column).
+    expect(estatePane.hidden).toBe(true);
+    // switch to the Estate (地図) tab → the estate-improve card renders there.
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('地図'))
+      ?.click();
+    expect(estatePane.hidden).toBe(false);
+    expect(estatePane.textContent ?? '').toContain('Estate ·');
   });
 });
 

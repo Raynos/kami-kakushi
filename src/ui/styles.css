@@ -457,6 +457,15 @@ h3 {
   flex-direction: column;
   gap: var(--space-4);
 }
+/* F94 — each stacked work slice sizes to its CONTENT and never shrinks. The base slice rule carries
+   `min-height:0` + the flex default `flex-shrink:1`, so once the stacked cards overflowed the work
+   fold, flexbox squeezed each slice BELOW its content height and the card contents spilled over —
+   overlapping / clipping the next card (the "panels are broken" bug, worsened by the F73 density
+   pass). Pinning `flex:0 0 auto` keeps every card at its natural height; the `.work` fold's own
+   `overflow-y:auto` is what scrolls when the stack is tall — cards flow, they never collapse. */
+.workspace[data-layout='layout-byobu'] > .work > .slice {
+  flex: 0 0 auto;
+}
 /* the RIGHT log fold — a first-class reading column with a HARD ⅓-of-VIEWPORT minimum width that it
    NEVER collapses below, in any folding state (F71). `min-width` overrides flex-shrink, so the log
    always keeps its third of the screen. `.log` keeps its own internal scroll (`.log-lines`). */
@@ -1169,7 +1178,8 @@ h3 {
 .vn-scene.typing {
   cursor: pointer;
 }
-/* the player's voiced question in the scrollback — a "You: " prefix in the player (rokusho) colour. */
+/* the speaker-name prefix on any voiced scrollback line ("Sōan: " / "Genemon: " / "You: " — F88).
+   It inherits its line's voice colour, so the NAME (primary "who") is reinforced by the colour. */
 .vn-speaker {
   font-weight: 600;
   opacity: 0.85;
@@ -1227,9 +1237,21 @@ h3 {
   outline: 2px solid var(--ochre);
   outline-offset: 2px;
 }
-/* an asked topic stays (re-askable, human fork) but reads spent — DIMMED, with a small "asked" mark. */
+/* an asked topic stays (re-askable, human fork) but reads clearly SPENT — greyed out: muted text,
+   a muted greyed field + border, and a small "asked" mark (F87). Gray = de-emphasized, NOT disabled;
+   it's still clickable, and hover/focus lift it back toward the live state so re-asking reads possible. */
 .intro-ask.asked {
-  opacity: 0.5;
+  color: var(--ink-faint);
+  background: #7a6c5914;
+  border-color: #7a6c5933;
+}
+.intro-ask.asked::before {
+  color: var(--ink-faint);
+}
+.intro-ask.asked:hover {
+  color: var(--ink-soft);
+  border-color: var(--ochre);
+  background: #c68a3e12;
 }
 .intro-ask.asked::after {
   content: ' · asked';
