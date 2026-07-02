@@ -54,6 +54,10 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // default (null — no beat live). A mid-"ready" save simply shows the header affordance on load; an
   // already-promoted save is unaffected (rung + reward already applied). Nothing else moves.
   5: (s) => ({ ...(s as object), rungBeat: null }),
+  // v6 → v7 (DEEP HOUSING, D-111 / F89): additively hydrate the `belongings` array to empty — an old
+  // save owns no BOUGHT furniture yet. The GRANTED keepsakes (the mat + bowl) are derived from the
+  // home surface (not stored), so an R1+ save shows them the moment it loads; nothing else moves.
+  6: (s) => ({ ...(s as object), belongings: [] }),
 };
 
 export function migrate(

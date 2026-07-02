@@ -22,6 +22,7 @@ import type {
   NpcId,
   LabourOption,
   NodePerson,
+  BelongingDef,
 } from '../core';
 import {
   availableActions,
@@ -74,6 +75,14 @@ import {
   QUESTS,
   MARKET_ITEMS,
   canBuy,
+  BELONGINGS,
+  ownsBelonging,
+  ownedBelongings,
+  homeRestBonus,
+  homeSatietyBonus,
+  homeSetComplete,
+  ownedBelongingIds,
+  HOME_TIERS,
   getNode,
   reachableFrom,
   skillLevel,
@@ -747,6 +756,7 @@ export function mount(
   const estatePane = el('div', 'estate-pane');
   const marketPane = el('div', 'market-pane');
   const storehousePane = el('div', 'storehouse-pane');
+  const belongingsPane = el('div', 'belongings-pane'); // D-111 / F89 — the home + belongings (Inventory tab)
   const influence = el('div', 'influence');
   const actions = el('div', 'actions');
   const skillsPane = el('div', 'skills-pane');
@@ -784,6 +794,19 @@ export function mount(
     depRice: HTMLButtonElement;
     wdRice: HTMLButtonElement;
     away: HTMLElement;
+  } | null = null;
+  // belongingsRefs (D-111 / F89) — the home card: a header, the owned-belongings list (the mat + bowl
+  // + bought furniture), the acquire (buy) list, and a comfort-summary line. Build-once/patch (F81):
+  // the two lists reconcile, the summary patches its text, so an idle re-render churns nothing.
+  let belongingsRefs: {
+    card: HTMLElement;
+    homeName: HTMLElement;
+    homeBlurb: HTMLElement;
+    ownedHead: HTMLElement;
+    ownedList: HTMLElement;
+    comfort: HTMLElement;
+    acquireHead: HTMLElement;
+    acquireList: HTMLElement;
   } | null = null;
   // marketRefs — the buy rows + (D-107 Phase 2) the sell-rice faucet (season price + sell button).
   let marketRefs: {
@@ -929,7 +952,7 @@ export function mount(
   const sliceEstate = el('section', 'slice slice-estate');
   sliceEstate.dataset.panel = 'estate';
   sliceEstate.setAttribute('aria-label', 'Estate & economy');
-  sliceEstate.append(marketPane, storehousePane, influence);
+  sliceEstate.append(marketPane, storehousePane, belongingsPane, influence);
   work.append(sliceDo, sliceEstate);
 
   // P4 · the story-log — its OWN persistent slice (always present R0). It keeps its `.log`
@@ -1108,8 +1131,10 @@ export function mount(
         // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
         return isUnlocked(state, 'panel-estate');
       case 'inventory':
-        // the kura bank (carried vs stored coin/rice) — opens with the estate economy (default §8.2).
-        return isUnlocked(state, 'panel-estate');
+        // the kura bank (carried vs stored coin/rice, panel-estate ~R1) OR the home + belongings
+        // (panel-home, R1 — D-111/F89). Both land at R1, so this reads true the moment the tab earns
+        // its content; the OR keeps it honest if either surface arrives first.
+        return isUnlocked(state, 'panel-estate') || isUnlocked(state, 'panel-home');
       case 'character':
         // Skills first (R2), attrs + bestiary + quests at R3 — but only once something actually shows.
         return characterHasContent(state);
@@ -3958,6 +3983,120 @@ export function mount(
     }
   }
 
+  // D-111 / F89 — the comfort badge a belonging carries (a keepsake, or its legible comfort bonus).
+  // Read from the def's comfort field (source of truth), so the shown bonus never drifts from the
+  // real one applied by the reducer/selector (A6).
+  function comfortLabel(def: BelongingDef): string {
+    if (!def.comfort) return 'Keepsake';
+    return def.comfort.kind === 'rest'
+      ? `Comfort · rest +${def.comfort.amount}`
+      : `Comfort · warmth +${def.comfort.amount} max body`;
+  }
+  // build ONE belonging row (owned OR acquirable): kanji · name, the inked blurb, the comfort badge,
+  // and — for an acquirable piece — a buy cell. Stable structure; patch fills the mutable bits.
+  function buildBelongingRow(def: BelongingDef): HTMLElement {
+    const row = el('div', 'belonging-row');
+    const head = el('div', 'belonging-head');
+    head.append(el('span', 'belonging-kanji', def.kanji));
+    head.append(el('span', 'belonging-name', def.label));
+    row.append(head);
+    row.append(el('div', 'skill-blurb belonging-blurb', def.blurb));
+    row.append(el('div', 'lock-hint belonging-comfort', comfortLabel(def)));
+    if (def.source.kind === 'buy') {
+      const buy = el('div', 'belonging-buy');
+      const btn = el('button', 'auto-toggle', formatCoin(def.source.coinCost));
+      btn.type = 'button';
+      btn.addEventListener('click', () => dispatch({ type: 'buy_belonging', belongingId: def.id }));
+      buy.append(btn);
+      row.append(buy);
+    }
+    return row;
+  }
+
+  function renderBelongings(state: GameState): void {
+    // D-111 / F89 — the HOME + belongings, the Inventory tab's second home beside the kura bank.
+    // Reveal-gated on the home existing (panel-home, R1 — "a place here is yours"); hidden on every
+    // other tab + before the home is granted (no ghost box, F72). Belongings are DISTINCT from the
+    // storehouse's resources: possessions you own + keep, shown with their comfort bonuses.
+    const show = activeTab === 'inventory' && isUnlocked(state, 'panel-home');
+    toggle(belongingsPane, show);
+    if (!show) return;
+    if (!belongingsRefs) {
+      const card = el('div', 'rung-card frame');
+      const homeName = el('div', 'rung-now');
+      const homeBlurb = el('div', 'skill-blurb');
+      const ownedHead = el('div', 'belongings-subhead', 'What is yours');
+      const ownedList = el('div', 'belongings-list');
+      const comfort = el('div', 'rung-hint belongings-comfort-summary');
+      const acquireHead = el('div', 'belongings-subhead', 'Settle your corner');
+      const acquireList = el('div', 'belongings-list');
+      card.append(homeName, homeBlurb, ownedHead, ownedList, comfort, acquireHead, acquireList);
+      belongingsPane.append(card);
+      belongingsRefs = {
+        card,
+        homeName,
+        homeBlurb,
+        ownedHead,
+        ownedList,
+        comfort,
+        acquireHead,
+        acquireList,
+      };
+    }
+    const r = belongingsRefs;
+    // T0 ships one home tier (HOME_TIERS[0] — "your corner"); the growing-with-rung tiers are a
+    // deferred T1+ seam (D-111 §2.1), so this is a stable header today.
+    const tier = HOME_TIERS[0]!;
+    setText(r.homeName, `${tier.label} ${tier.kanji}`);
+    setText(r.homeBlurb, tier.blurb);
+
+    // the OWNED list — the granted keepsakes (mat + bowl) + any bought furniture, in roster order.
+    const owned = ownedBelongings(state);
+    reconcileList(r.ownedList, owned, {
+      key: (def) => def.id,
+      build: buildBelongingRow,
+      order: true,
+    });
+
+    // the comfort SUMMARY — the live bonuses in effect (read through the SAME selectors the reducer
+    // uses, A6). Reads 0/0 for a bare corner; the settled-home set adds its synergy note.
+    const restB = homeRestBonus(state);
+    const bodyB = homeSatietyBonus(state);
+    const ownedIds = ownedBelongingIds(state);
+    const settled = homeSetComplete(ownedIds);
+    const parts: string[] = [];
+    if (restB > 0) parts.push(`rest +${restB} body`);
+    if (bodyB > 0) parts.push(`+${bodyB} max body`);
+    const base =
+      parts.length > 0
+        ? `Comfort in effect · ${parts.join(' · ')}`
+        : 'A bare corner — no comforts yet.';
+    setText(r.comfort, settled ? `${base} · a settled home 整` : base);
+
+    // the ACQUIRE list — buyable comfort pieces you don't yet own; disabled when you can't pay.
+    const acquirable = BELONGINGS.filter(
+      (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
+    );
+    toggle(r.acquireHead, acquirable.length > 0);
+    const carriedCoin = state.resources.coin ?? 0;
+    reconcileList(r.acquireList, acquirable, {
+      key: (def) => def.id,
+      build: buildBelongingRow,
+      patch: (row, def) => {
+        if (def.source.kind !== 'buy') return;
+        const btn = row.querySelector<HTMLButtonElement>('.belonging-buy button');
+        if (!btn) return;
+        const afford = carriedCoin >= def.source.coinCost;
+        setDisabled(btn, !afford);
+        const title = afford ? '' : `Needs ${formatCoin(def.source.coinCost)}`;
+        if (btn.title !== title) btn.title = title;
+        const aria = `Bring a ${def.label.toLowerCase()} into your corner (${comfortLabel(def)}) for ${formatCoin(def.source.coinCost)}`;
+        if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
+      },
+      order: true,
+    });
+  }
+
   // the pedlar's grant string ("+2 sansai, +1 wood") — static per item (grants never change).
   function marketGrantStr(item: (typeof MARKET_ITEMS)[number]): string {
     return Object.entries(item.grants)
@@ -4473,6 +4612,7 @@ export function mount(
     renderEstate(state);
     renderMarket(state);
     renderStorehouse(state);
+    renderBelongings(state);
     renderHouseInfluence(state);
     renderActions(state);
     renderSkills(state);

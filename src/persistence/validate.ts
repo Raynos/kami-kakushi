@@ -181,6 +181,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'askedTopics'
     | 'quests'
     | 'marketBought'
+    | 'belongings'
     | 'location'
     | 'rung'
     | 'rungMeter'
@@ -253,6 +254,10 @@ export function validateState(rawState: unknown): ValidateResult {
     marketBought: isObject(base.marketBought)
       ? (base.marketBought as GameState['marketBought'])
       : {},
+    // ── deep housing (v7, additive; D-111): the ids of BOUGHT comfort furniture. Absent (any
+    // pre-housing save) → [] (owns no furniture — the correct fresh default); malformed → []. Matches
+    // the v6→v7 migration. Granted keepsakes are derived, not stored, so they need no hydration.
+    belongings: Array.isArray(base.belongings) ? (base.belongings as readonly string[]) : [],
     location,
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,

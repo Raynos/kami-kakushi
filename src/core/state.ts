@@ -142,6 +142,12 @@ export interface GameState {
   readonly quests: QuestState;
   /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / D-008). */
   readonly marketBought: Readonly<Record<string, number>>;
+  /** Owned BELONGINGS — the ids of comfort furniture you've BOUGHT for your home (D-111 / F89). A
+   *  category DISTINCT from resources + equipment: never consumed, never carried into a fight, never
+   *  bitten by the D-113 loss. GRANTED keepsakes (the mat + bowl) are NOT stored here — they are
+   *  auto-owned once the home surface latches (see selectors.ownedBelongingIds). Additive (default
+   *  []); a lost fight never touches it. SCHEMA_VERSION 7. */
+  readonly belongings: readonly string[];
   /** Where you stand on the small walkable estate map (T0-M4-F4 / D-065). Default the kura. */
   readonly location: MapNodeId;
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
@@ -207,6 +213,7 @@ export function createInitialState(seed: number): GameState {
     askedTopics: [],
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
+    belongings: [], // no bought furniture yet; the granted mat + bowl arrive with the home at R1
     location: 'kura',
     rung: 'R0',
     rungMeter: 0,

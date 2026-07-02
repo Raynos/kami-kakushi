@@ -22,6 +22,10 @@ import {
   MATERIALS,
   MATERIAL_DROPS,
   SEASONS,
+  BELONGINGS,
+  HOME_TIERS,
+  SETTLED_HOME_SET,
+  SETTLED_HOME_REST_BONUS,
   balance,
 } from '../core';
 
@@ -200,6 +204,36 @@ function generate(): string {
   L.push('never moves them. `deposit` sweeps a carried resource into the bank and `withdraw`');
   L.push('draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhere else');
   L.push('(walk home to store your haul). This is a mechanic, not a registry, so it has no table.');
+  L.push('');
+
+  L.push('## Home + belongings (D-111 / F89)');
+  L.push('');
+  L.push('The player HOME — "a dry corner and a bowl" made real. Belongings are a category');
+  L.push(
+    'DISTINCT from resources + equipment (never consumed, never carried into a fight); comfort',
+  );
+  L.push(
+    'furniture grants Edo COMFORT (rest / warmth), NEVER a combat stat (prestige over power).',
+  );
+  L.push(
+    'The home GROWING with rung + the status-mirror are deferred T1+ seams (only tier 0 ships).',
+  );
+  L.push('');
+  L.push('| tier | rung | home | kanji |');
+  L.push('|---|---|---|---|');
+  for (const t of HOME_TIERS) L.push(`| ${t.tier} | ${t.rung} | ${t.label} | ${t.kanji} |`);
+  L.push('');
+  L.push('| id | belonging | kanji | comfort | source |');
+  L.push('|---|---|---|---|---|');
+  for (const b of BELONGINGS) {
+    const comfort = b.comfort ? `${b.comfort.kind} +${b.comfort.amount}` : 'keepsake';
+    const source = b.source.kind === 'buy' ? `buy ${b.source.coinCost} coin` : 'granted';
+    L.push(`| \`${b.id}\` | ${b.label} | ${b.kanji} | ${comfort} | ${source} |`);
+  }
+  L.push('');
+  L.push(
+    `Set — the "settled home" (${SETTLED_HOME_SET.join(' + ')}) grants +${SETTLED_HOME_REST_BONUS} rest synergy (the whole > the sum). Magnitudes LIQUID (D-059).`,
+  );
   L.push('');
 
   L.push('## Surfaces (reveal registry)');

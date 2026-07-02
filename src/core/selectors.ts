@@ -15,6 +15,7 @@ import {
   SKILL_YIELD_DEN,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
+import { BELONGINGS, HOME_SURFACE, comfortBonus, type BelongingDef } from './content/home';
 import {
   DAYS_PER_SEASON,
   DAYS_PER_WEEK,
@@ -49,9 +50,52 @@ export function estateYieldNum(state: GameState): number {
   return SKILL_YIELD_DEN + bonus;
 }
 
-/** satietyMax grows with combat level (FU21/Q47) + the estate buffer (audit #5). */
+// ── HOME / belongings (D-111 / F89) — the comfort register, pure over GameState ──────────────────
+
+/** Does the MC own this belonging? A GRANTED keepsake (mat/bowl) is auto-owned once the home surface
+ *  latches — the promised things arrive WITH the corner, not as a purchase; a BUY piece is owned once
+ *  it's in `state.belongings`. */
+export function ownsBelonging(state: GameState, id: string): boolean {
+  const def = BELONGINGS.find((b) => b.id === id);
+  if (!def) return false;
+  if (def.source.kind === 'granted') return isUnlocked(state, HOME_SURFACE);
+  return state.belongings.includes(id);
+}
+
+/** The full owned-belonging id set (granted-with-home ∪ bought). The single read the comfort math
+ *  and the UI both go through, so preview and reality never drift (A6). Empty until the home exists. */
+export function ownedBelongingIds(state: GameState): Set<string> {
+  const owned = new Set<string>();
+  for (const def of BELONGINGS) if (ownsBelonging(state, def.id)) owned.add(def.id);
+  return owned;
+}
+
+/** Owned belongings, as their defs (for the Inventory tab's owned list). */
+export function ownedBelongings(state: GameState): BelongingDef[] {
+  return BELONGINGS.filter((b) => ownsBelonging(state, b.id));
+}
+
+/** Extra satiety a `rest` restores from owned comfort furniture (bedding + the settled-home set).
+ *  0 until you own comfort furniture, so it is inert pre-home and for a bare corner. */
+export function homeRestBonus(state: GameState): number {
+  return comfortBonus(ownedBelongingIds(state), 'rest');
+}
+
+/** satietyMax buffer from owned comfort furniture (hearth/chest warmth) — the personal-scale mirror
+ *  of the estate buffer (like it, curve-neutral: it never touches the full-satiety combat win-rate). */
+export function homeSatietyBonus(state: GameState): number {
+  return comfortBonus(ownedBelongingIds(state), 'body');
+}
+
+/** satietyMax grows with combat level (FU21/Q47) + the estate buffer (audit #5) + the home comfort
+ *  buffer (D-111 — a warm, dry corner keeps more of your body's reserve). */
 export function satietyMax(state: GameState): number {
-  return SATIETY_BASE + (state.character.level - 1) * SATIETY_PER_LEVEL + estateSatietyBonus(state);
+  return (
+    SATIETY_BASE +
+    (state.character.level - 1) * SATIETY_PER_LEVEL +
+    estateSatietyBonus(state) +
+    homeSatietyBonus(state)
+  );
 }
 
 /** Season derived from the absolute day — never stored (D-Q6). */

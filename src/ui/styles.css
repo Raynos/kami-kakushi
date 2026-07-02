@@ -2364,6 +2364,55 @@ html {
   font-weight: bold;
 }
 
+/* ── D-111 / F89: the HOME + belongings (Inventory tab) — "a dry corner and a bowl" made real.
+   A possession reads as an inked keepsake, not a bare menu row: kanji + name head, an ink blurb,
+   a quiet comfort badge, and (for a buyable piece) a left-aligned buy cell. Reuses the room-card
+   idioms (dotted separators, washi-tone glyphs) so it sits in the woodblock/ink language (D-018). */
+.belongings-subhead {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+.belongings-list {
+  display: flex;
+  flex-direction: column;
+}
+.belonging-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  border-top: 1px dotted var(--ink-faint);
+}
+.belonging-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+/* the belonging's kanji — a small woodblock glyph, quiet in the palette (mirrors .person-seal type). */
+.belonging-kanji {
+  font-family: var(--font-display);
+  color: var(--ink-soft);
+}
+.belonging-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+.belonging-comfort {
+  font-size: var(--fs-small);
+}
+.belonging-buy {
+  display: flex;
+}
+/* the live comfort tally ("Comfort in effect · rest +5 · a settled home 整") — a quiet resolved note. */
+.belongings-comfort-summary {
+  margin-top: var(--space-1);
+}
+
 /* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
    unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */
 .influence-panel.live {

@@ -81,18 +81,30 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     expect(v6.introBeat).toBe(3); // the intro cursor rides along untouched
   });
 
-  it('a v1 save migrates the WHOLE chain v1→v6 (tier spine + intro + ask hub + coin/rice + rung beat)', () => {
-    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
-    const v6 = migrate(v1, 1) as Record<string, unknown>;
-    expect(v6.tier).toBe(0); // v1→v2
-    expect(v6.npcMemory).toEqual({}); // v2→v3
-    expect(v6.askedTopics).toEqual([]); // v3→v4
-    expect(v6.resources).toEqual({ rice: 0, coin: 7 }); // v4→v5: koku→coin, rice added
-    expect(v6.rungBeat).toBeNull(); // v5→v6: the rung-beat cursor
+  it('the real v6→v7 step hydrates the belongings store (belongings: [], D-111 / F89)', () => {
+    // additively hydrate the deep-housing belongings array to empty — an old save owns no BOUGHT
+    // furniture yet (the granted mat + bowl are derived from the home surface, not stored). Explicit
+    // toVersion=7 isolates the single step.
+    const v6 = { schemaVersion: 6, rung: 'R2', rungBeat: null };
+    const v7 = migrate(v6, 6, 7) as Record<string, unknown>;
+    expect(v7.belongings).toEqual([]); // owns no furniture on load — the correct fresh default
+    expect(v7.rung).toBe('R2'); // existing progress carries forward
+    expect(v7.rungBeat).toBeNull(); // the prior cursor rides along untouched
   });
 
-  it('a current (v6) save is unchanged by the chain', () => {
-    const s = { schemaVersion: 6 };
-    expect(migrate(s, 6)).toBe(s); // already at target => identity
+  it('a v1 save migrates the WHOLE chain v1→v7 (tier spine + intro + ask hub + coin/rice + rung beat + housing)', () => {
+    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
+    const v7 = migrate(v1, 1) as Record<string, unknown>;
+    expect(v7.tier).toBe(0); // v1→v2
+    expect(v7.npcMemory).toEqual({}); // v2→v3
+    expect(v7.askedTopics).toEqual([]); // v3→v4
+    expect(v7.resources).toEqual({ rice: 0, coin: 7 }); // v4→v5: koku→coin, rice added
+    expect(v7.rungBeat).toBeNull(); // v5→v6: the rung-beat cursor
+    expect(v7.belongings).toEqual([]); // v6→v7: the belongings store
+  });
+
+  it('a current (v7) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 7 };
+    expect(migrate(s, 7)).toBe(s); // already at target => identity
   });
 });

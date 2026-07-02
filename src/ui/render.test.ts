@@ -22,6 +22,7 @@ import {
   nextRankId,
   promotionReady,
   RUNG_BEATS,
+  getBelonging,
   type GameState,
   type Intent,
   type LogEntry,
@@ -2081,5 +2082,91 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+});
+
+describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = ((q: string) =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList) as unknown as typeof window.matchMedia;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  // an R1 state: kept on, the home GRANTED (panel-home), the estate economy open — the Inventory tab
+  // has content and its belongings section reveals.
+  function homeState(extra?: Partial<GameState>): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      flags: { ...s.flags, awake: true, raked: true, 'rank-r1': true },
+      unlocked: [
+        ...s.unlocked,
+        'readout-rice',
+        'room-gate-forecourt',
+        'room-home-paddies',
+        'panel-rung-ladder',
+        'panel-estate',
+        'panel-home',
+      ],
+      ...extra,
+    };
+  }
+
+  function openInventory(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('Inventory'))
+      ?.click();
+  }
+
+  it('reveals the home + the promised bowl on the Inventory tab, with buyable comfort furniture', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(homeState(), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    expect(pane).not.toBeNull();
+    expect(pane.hidden).toBe(false);
+    // the bowl + the mat exist — the promised keepsakes, made real.
+    const names = [...pane.querySelectorAll('.belonging-name')].map((n) => n.textContent);
+    expect(names).toContain('A rice bowl');
+    expect(names).toContain('A straw sleeping-mat');
+    // …and there's at least one comfort piece to acquire (a coin buy button).
+    expect(pane.querySelector('.belonging-buy button')).not.toBeNull();
+    // the comfort summary reads a bare corner until you furnish it.
+    expect(pane.querySelector('.belongings-comfort-summary')?.textContent).toMatch(/bare corner/i);
+  });
+
+  it('shows a bought piece and its comfort bonus in effect', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(homeState({ belongings: ['bedding'] }), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    const names = [...pane.querySelectorAll('.belonging-name')].map((n) => n.textContent);
+    expect(names).toContain('A futon'); // the owned futon shows in "what is yours"
+    // the comfort tally reflects the bedding's rest bonus (source of truth), not a bare corner.
+    const amt = getBelonging('bedding').comfort?.amount ?? 0;
+    expect(amt).toBeGreaterThan(0);
+    expect(pane.querySelector('.belongings-comfort-summary')?.textContent).toContain(
+      `rest +${amt}`,
+    );
+  });
+
+  it('hides the belongings pane before the home is granted (reveal-gated, no ghost box F72)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = createInitialState(1);
+    render({ ...s, flags: { ...s.flags, awake: true, raked: true } }, null); // awake but pre-R1
+    const pane = root.querySelector<HTMLElement>('.belongings-pane');
+    expect(pane === null || pane.hidden).toBe(true);
   });
 });

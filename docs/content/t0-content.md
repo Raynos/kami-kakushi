@@ -159,6 +159,27 @@ never moves them. `deposit` sweeps a carried resource into the bank and `withdra
 draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhere else
 (walk home to store your haul). This is a mechanic, not a registry, so it has no table.
 
+## Home + belongings (D-111 / F89)
+
+The player HOME — "a dry corner and a bowl" made real. Belongings are a category
+DISTINCT from resources + equipment (never consumed, never carried into a fight); comfort
+furniture grants Edo COMFORT (rest / warmth), NEVER a combat stat (prestige over power).
+The home GROWING with rung + the status-mirror are deferred T1+ seams (only tier 0 ships).
+
+| tier | rung | home | kanji |
+|---|---|---|---|
+| 0 | R1 | Your corner | 寝床 |
+
+| id | belonging | kanji | comfort | source |
+|---|---|---|---|---|
+| `straw_mat` | A straw sleeping-mat | 筵 | keepsake | granted |
+| `bowl` | A rice bowl | 椀 | keepsake | granted |
+| `bedding` | A futon | 布団 | rest +5 | buy 60 coin |
+| `hearth` | A sunken hearth | 囲炉裏 | body +12 | buy 120 coin |
+| `chest` | A clothes chest | 長持 | body +5 | buy 90 coin |
+
+Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (the whole > the sum). Magnitudes LIQUID (D-059).
+
 ## Surfaces (reveal registry)
 
 | id | kind |
@@ -173,6 +194,7 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | `panel-rung-ladder` | panel |
 | `panel-estate` | panel |
 | `readout-clock` | readout |
+| `panel-home` | panel |
 | `readout-stamina` | readout |
 | `room-gate-forecourt` | panel |
 | `room-home-paddies` | panel |

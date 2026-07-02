@@ -127,6 +127,22 @@ export { ascensionAvailable, ascensionBoon, ascend } from './ascension';
 export { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 export type { EstateStageDef } from './content/estate';
 
+// ── the player HOME + belongings (D-111 / F89) ──
+export {
+  BELONGINGS,
+  BELONGING_IDS,
+  getBelonging,
+  comfortBonus,
+  homeSetComplete,
+  SETTLED_HOME_SET,
+  SETTLED_HOME_REST_BONUS,
+  HOME_TIERS,
+  HOME_SURFACE,
+  HOME_REVEAL_LINE,
+  homeRestLine,
+} from './content/home';
+export type { BelongingDef, ComfortBonus, ComfortKind, HomeTierDef } from './content/home';
+
 export { SKILLS, getSkill, SKILL_IDS } from './content/skills';
 export type { SkillId, SkillDef } from './content/skills';
 export { ACTIVITIES, getActivity, activityLine, ACTIVITY_IDS } from './content/activities';
@@ -205,6 +221,11 @@ export {
   availableLabours,
   canDoActivity,
   peopleHere,
+  ownsBelonging,
+  ownedBelongingIds,
+  ownedBelongings,
+  homeRestBonus,
+  homeSatietyBonus,
 } from './selectors';
 export type { LabourOption } from './selectors';
 export { PEOPLE, PEOPLE_IDS, getPerson } from './content/people';

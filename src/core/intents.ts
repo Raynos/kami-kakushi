@@ -19,7 +19,17 @@ import { revealPass } from './unlock';
 import { advanceClock } from './step';
 import { formatCoin } from './format';
 import { clamp } from './math';
-import { satietyMax, hpMax, staminaRate, season, canDoActivity, estateYieldNum } from './selectors';
+import {
+  satietyMax,
+  hpMax,
+  staminaRate,
+  season,
+  canDoActivity,
+  estateYieldNum,
+  homeRestBonus,
+  ownsBelonging,
+} from './selectors';
+import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, applyPromotion, promotionReady, pendingPromotionTarget } from './ranks';
 import { applyEstateDeed } from './pillars';
@@ -104,6 +114,7 @@ export type Intent =
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
   | { type: 'buy_item'; itemId: string }
+  | { type: 'buy_belonging'; belongingId: string } // D-111: buy a comfort furniture piece for the home
   | { type: 'deposit'; resource: string }
   | { type: 'withdraw'; resource: string }
   | { type: 'move_to'; to: string }
@@ -490,13 +501,19 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'rest': {
       if (!metaLegal(state, 'rest')) return state;
-      next = adjustSatiety(next, SATIETY_PER_REST);
+      // D-111 / F89 — rest is RE-SITED to your home once the corner exists (T0-A). Pre-home it's the
+      // cold-open post ("against the cool post"); once "a place here is yours" (panel-home, R1) it's
+      // your corner, and bedding/the settled-home set add to the satiety it restores (homeRestBonus —
+      // 0 pre-home + for a bare corner, so the base rest is byte-identical until you earn comfort).
+      const atHome = isUnlocked(next, 'panel-home');
+      next = adjustSatiety(next, SATIETY_PER_REST + homeRestBonus(next));
+      const restLine = atHome ? homeRestLine(ownsBelonging(next, 'bedding')) : COLD_OPEN.restAct;
       // F53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
       // F91/F93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
       // the intro's narration (not an un-voiced/plain line).
       next = applyRewards(next, {
-        log: [{ channel: 'system', text: COLD_OPEN.restAct, voice: 'narrator', ephemeral: true }],
+        log: [{ channel: 'system', text: restLine, voice: 'narrator', ephemeral: true }],
       });
       next = advanceClock(next, TICKS_PER_ACT);
       break;
@@ -794,6 +811,31 @@ export function reduce(state: GameState, intent: Intent): GameState {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
             text: `You barter ${formatCoin(item.coinCost)} for a ${item.label.toLowerCase()}.`,
+          },
+        ],
+      });
+      break;
+    }
+    case 'buy_belonging': {
+      // D-111 / F89 — buy one comfort furniture piece for the home (a personal-COIN sink, parallel to
+      // the market lane). A commissioning: no clock cost. Gated on the home existing (panel-home, R1);
+      // a granted keepsake can't be bought, and each piece is owned ONCE (no stacking). The bonus is
+      // COMFORT (rest/warmth), never a combat stat (prestige-not-power, D-111).
+      if (!isUnlocked(next, 'panel-home')) return state;
+      const def = getBelonging(intent.belongingId);
+      if (def.source.kind !== 'buy') return state; // the mat/bowl arrive with the home, never bought
+      if (next.belongings.includes(def.id)) return state; // already owned — no double-buy
+      if ((next.resources.coin ?? 0) < def.source.coinCost) return state;
+      next = withResource(next, 'coin', -def.source.coinCost);
+      next = { ...next, belongings: [...next.belongings, def.id] };
+      // the acquire line is a PERMANENT Progress beat (you settled your corner a little more) — not
+      // fleeting like a labour line; furnishing your home is a small milestone, F41.
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'milestone',
+            voice: 'narrator',
+            text: def.acquireLine ?? `You bring a ${def.label.toLowerCase()} into your corner.`,
           },
         ],
       });
