@@ -86,6 +86,13 @@ ukiyo-e look. Two reds, two blues, two earths, ink, paper — no rainbow.
   --pillar-office: var(--ai);        /* Standing & Office  📜  (the office ink)  */
   --pillar-name:   var(--rokusho);   /* 家格 Name&Honour   ⛩️  (a name's patina) */
   --pillar-kai:    var(--shu);       /* 家威 the umbrella roll-up = the SEAL     */
+
+  /* ── FIVE-ATTRIBUTE palette (F66) — each +1 attribute wears its pigment ─── */
+  --attr-str:  #a83f2b;   /* STR 力  弁柄 iron-red   */
+  --attr-agi:  #4f8a5b;   /* AGI 敏  若竹 green      */
+  --attr-int:  #6b5b95;   /* INT 智  紫 murasaki     */
+  --attr-spd:  #2d8fa5;   /* SPD 速  浅葱 cyan       */
+  --attr-luck: #c0902e;   /* LUCK 運 金茶 gold       */
 }
 ```
 
@@ -116,6 +123,13 @@ ukiyo-e look. Two reds, two blues, two earths, ink, paper — no rainbow.
   there each is a *fixed identity*, not decoration.
 - **Colourblind mode** (PRD §6.11) swaps the hue set for a safe ramp; because meaning is always carried by
   icon + text too, the swap is purely a comfort layer, not a correctness fix.
+- **The five-attribute palette (`--attr-*`, from F66).** Each of the five core attributes owns a signature
+  traditional pigment so any control or card that grants a `+1` reads at a glance as "this makes me stronger /
+  faster / smarter": **STR 力 弁柄 iron-red · AGI 敏 若竹 green · INT 智 紫 murasaki · SPD 速 浅葱 cyan · LUCK
+  運 金茶 gold** (the `--attr-str/agi/int/spd/luck` tokens above — a single source). The hue is keyed to the
+  **positive (+1) attribute** and worn as a **legible accent** (a bar / border / kanji chip + a faint wash),
+  **never a flood-fill** — body text stays `--ink`, so the palette obeys the identity-hues-are-accents rule.
+  Intro choice buttons and the perk cards they unlock (§5.1a, §5.13) both draw from this one token set.
 
 ---
 
@@ -349,6 +363,22 @@ the dashboard density arrives with the house's rise, never a slam of empty panel
 §4.7 "centered ~1200px column" rule** (which itself refined the F4 centered-column intent); prod ships the
 2-column default until the human locks a matrix variant (D-022 governs).
 
+**LOCKED (playtest 2026-07-02): the prod multi-panel spread is 屏風 folding columns + soft cards** (F69/F70,
+refining D-106). The human picked the **V6B 屏風 (folding-columns) arrangement × V7C soft-card framing** cell,
+so that pair is the prod default and the other arrangement/framing variants are pruned (D-075 strip-on-lock).
+Three constraints ride with it: **(1)** the spread **keeps a left & right border/gutter at all times** — a
+framed workspace, never edge-to-edge full-bleed (F70 refines D-106's full-width grant); **(2)** the **column
+count stays flexible (2–3, never over-packed)**; and **(3)** the **log is a first-class column with a hard
+minimum width of ⅓ the viewport** in *every* folding state — it never collapses to a sliver. A panel's text
+**always reflows to fill its actual column width** (no fixed narrow measure), and the scroll container is the
+**panel itself**, so the scrollbar sits at the panel's true right edge (F69/F85).
+
+**A rung/state transition renders complete or not at all (F67).** Advancing a rung — or any state change that
+reshuffles panels — must never leave a **half-rendered surface**: no empty ghost meter box drawn with no
+content, no control overlapping its own text. Every revealed panel renders whole, and every in-flow control (a
+pedlar's buy button, a price input) sits in **normal flow in its own cell/row**, never absolutely floated over
+the item copy at a narrow column width.
+
 **DEV/tooling chrome never affects the player layout** (F2). The DEV panel is a **fixed floating overlay that
 reserves ZERO layout space** and collapses to minimal — the game UI centers on the *full* viewport exactly as
 if the panel did not exist, never shoved off-center by a reserved gutter. `?dev=no` never mounts the panel at
@@ -373,6 +403,12 @@ compact-density rule is for the *game chrome*, never for the cold-open, the seal
 cards: those stay roomy (the *ma* of §4.1), with the primary action given real padding off the frame — the
 F10 compact pass must not tighten these. And the opening **reveals slowly with a delayed CTA**: the "Open your
 eyes" button appears only after a beat, for the slow-waking feel, not all-at-once (§10 cold open).
+
+**Two density registers — size each surface to its job (F73, sharpening F10).** Density is **not** a single
+global scale. The **game chrome** (HUD, resource/vitals rows, action buttons, nav tabs, panel headers) is
+**tight and information-dense** — cut padding/margin/type to the reference-idler register. But the **reading
+surfaces — the log panel, the story beats, and the intro — get GENEROUS breathing room**, not less. Choose
+sizes and widths **per surface intent**: dense chrome, relaxed prose; never scale the whole UI uniformly.
 
 ---
 
@@ -420,9 +456,12 @@ channels**. Each Now entry **fades/expires ~15s** after it appears; the expiry i
 remaining entries slide UP** (a height collapse, never a jump), consistent with the rest of the motion
 language (§6). Repetitive labour flavor is **ephemeral (Now)**, never permanent-channel clutter.
 
-**Land at the newest, always (F51).** A log/transcript view **always sits at the newest entry (bottom)**:
-switching filter tabs lands at the bottom *instantly* after the repaint, never scrolls up from the top and
-re-scrolls down. (This composes with the smooth *follow-the-newest* scroll for in-session arrivals above.)
+**Land at the newest, always — and stay pinned there (F51/F77).** A log/transcript view **always sits at the
+newest entry (bottom)**: switching filter tabs lands at the bottom *instantly* after the repaint, never
+scrolls up from the top and re-scrolls down (F51). And it **stays pinned** as new lines arrive (F77) — the log
+auto-scrolls to the newest and *holds* at the bottom rather than stranding fresh lines off-screen below an
+older scroll position (standard stick-to-bottom behaviour). (This composes with the smooth
+*follow-the-newest* scroll for in-session arrivals above.)
 
 **Voice, prefix, and the typewriter (F19/F26/F50/F54/F57).** Story/narration lines reveal with a **real
 GBA character-by-character typewriter** — scoped to the **story channel only** (never combat/work spam),
@@ -445,6 +484,16 @@ animates; the log records.
 **Separation under the sticky header (F28).** The log's own sticky header ("The house remembers") is set off
 from the scrolling body by a **header border + a soft top fade** on the scroll area, so lines fade out as
 they scroll under it rather than bleeding half-readable beneath a borderless edge.
+
+**Full-width text; the panel is the scroll container (F85).** The log text **fills its panel's full width** —
+no fixed narrow measure leaving dead space on the right — and the **scroll container is the panel itself**, so
+the scrollbar sits flush at the panel's true right edge, never mid-panel. This is the §4.7 column-reflow rule
+seen in the main log: text always reflows to the actual column width, in every folding state.
+
+**A per-panel, persisted font stepper (F74).** The log panel owns a small, unobtrusive **A− / A+ font-size
+stepper in its bottom-right** that scales the log text up/down; the choice is **persisted to the save** and
+survives reload. Reading comfort is **per-panel and saved** — a scoped, log-local companion to the global
+a11y text-scale (§8, F30), placed so it does not crowd the filter bar.
 
 ### 5.1a Progression rewards render as PERK UNLOCKS (F56)
 
@@ -641,6 +690,36 @@ variants are scrapped (D-075 strip-on-approve), so prod ships only the VN scene 
   all-at-once (F55). Reduced-motion → instant, per §6.
 - **The log is the instant transcript.** The scene owns the live reveal; the event log is populated
   **instantly** behind the hidden shell (§5.1, F48) — the transcript is already there when the shell reveals.
+- **Two columns: story LEFT, interactive RIGHT — ask → done → decide (F64).** The card splits into a
+  **scrollable story column (left)** — where all narration, asked Q&A, your line, and the NPC reply accumulate
+  — and a **gated interactive column (right)**, run in two phases: Phase 1 shows the **ASK topics + a "Done
+  questioning" gate** (the decision hidden); only after Done does Phase 2 swap in the "what do you say"
+  decision options. Separating text from controls also kills the old single-column overlap. *(A refinement of
+  D-104.)*
+- **The right column is static and persistent (F79/F80).** It never hides, collapses, flickers, or
+  re-animates between phases or scenes — content **swaps within a stable panel**. And the **card is ONE fixed
+  size**: the left story column **scrolls internally** (fixed height, `overflow-y:auto`, auto-scrolls to
+  newest and **sticks to the bottom** like the main log, §5.1/F84) so the card never grows as Q&A accumulate.
+- **Append-only rendering — never a reset (F81, ROOT).** Build the scene DOM **once**, then **append/patch only
+  the new nodes**; **never** `innerHTML`/`textContent`-reset a container on a state change — a wholesale
+  re-render **flashes the page and destroys the in-progress typewriter**. Track typewriter timers and clear
+  them individually, don't tear down the DOM. This rendering-model rule applies to **every transcript surface**,
+  not just the intro.
+- **ALL text types in on first appearance (F62/F78/F82/F83).** Every fragment — narration, each "You: …"
+  question, each NPC answer, the decision prompt, the chosen say-line + reply — reveals with the typewriter;
+  **nothing pops in un-typed**, in **every** scene (topic scenes *and* topic-less decision-only scenes like "A
+  memory", and the Genemon scene). A **click advances one line**: complete the current typing line, else reveal
+  the next — a click is "a little faster," **never** "skip the whole block."
+- **Choices never overlap; a small set lays out as a grid (F63).** The scene never overlaps its own text, and a
+  small set of parallel choices sits **side-by-side in a 2×2 / 1×3 grid**, not a tall vertical stack.
+- **A choice resolves in place, then Continue (F65/F76).** Picking a decision does **not** cut to the next
+  scene: it appends **your line + the NPC's reply** to the story column and grants the perk, then shows a single
+  **Continue** — only Continue advances (or ends the intro and inks in the shell). The freshly-appended content
+  wears the **same fade-away fresh-entries divider as the main log** (F76, §5.1) — one shared "here's what just
+  arrived" idiom across every transcript surface.
+- **Choice buttons wear their attribute colour (F66).** An intro decision that grants `+1` to an attribute
+  wears that attribute's pigment (§2 `--attr-*`) as a legible accent, matching the perk card it unlocks
+  (§5.1a).
 
 ---
 

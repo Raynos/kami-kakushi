@@ -33,25 +33,23 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   (`t0-arc.test.ts`), a11y-100, twice-audited. Site: <https://raynos.github.io/kami-kakushi/>.
 - **v0.3.1 — BUILT + audited** (green): DEV-panel + variants (D-075) · combat rework +
   **bank** + auto-modes · koku tightening (D-092) · **SPATIAL MAP** (D-093) · 11th gate (D-054).
-- **v0.3.2 — BUILT (Plan B, session-40; on `origin/main`, all green).** Closed the
-  build-behind gap so the build matches the reconciled PRD — **all of §A (A1–A10) + §C**,
-  each a verified/pushed commit (`8e5cb52`…`3084872`): the PRD **5-attr + accuracy/evasion
-  combat model** + glass-cannon/tank stances (A1/A2) · crafted **yari** (A3) · estate
-  **E→U** rename (A4) · **HUNT/CLEAR/DEFEND** quests (A6) · staggered combat reveals + a
-  **Bestiary** (A7, D-075 diverge → **R5**) · interior-house reveals (A8) · richer mob
-  roster — rats/viper/troop (A9) · **bandit gated to T2** (A10) · gen-docs completeness (C).
-  Balance magnitudes **liquid** (D-059) — for playtest. Plan (archived):
-  [`../archive/2026-07-01-v0.3.2-build-close-the-gap.md`](../archive/2026-07-01-v0.3.2-build-close-the-gap.md).
-- **v0.3.2 PLAYTEST UI OVERHAUL — IN PROGRESS (2026-07-02, session-41).** A live
-  human-steered playtest → 16 taste items (F1–F16, in
-  `human-feedback/2026-07-02-playtest.md`). **F1–F10, F14, F16, F9 shipped** (app-shell:
-  ink ground · ~1200px centered column · fixed header/footer · 100dvh no-page-scroll ·
-  log-RIGHT · smooth scroll · compact pass; cold-open slow reveal + D-075 variants;
-  DEV-panel Settings/Variants restructure). Settled rules **graduated to ui-design.md**
-  (§4.7/§4.8). Autonomous run building the rest — plan:
-  [`../../docs/plans/2026-07-02-playtest-polish-build.md`](../../docs/plans/2026-07-02-playtest-polish-build.md).
-  **Still to build:** F12 typewriter · F13 interactive intro (wants human input) ·
-  F11 multi-panel · F15 (folded into the intro cluster).
+- **v0.3.2 — BUILT (Plan B, session-40; `origin/main`, green).** Closed the build-behind
+  gap to the reconciled PRD — **all of §A (A1–A10) + §C** (`8e5cb52`…`3084872`): PRD
+  **5-attr + accuracy/evasion combat** + glass-cannon/tank (A1/A2) · **yari** (A3) · estate
+  **E→U** rename (A4) · **HUNT/CLEAR/DEFEND** quests (A6) · combat reveals + **Bestiary**
+  (A7, R5) · interior reveals (A8) · richer mobs (A9) · **bandit→T2** (A10) · gen-docs (C).
+- **v0.3.2 PLAYTEST UI OVERHAUL — DONE (2026-07-02; on `main`, green).** Two rounds of a
+  live human-steered playtest → **F1–F85, ALL built** (`human-feedback/2026-07-02-playtest.md`).
+  **R1 (F1–F61, session-42):** app-shell overhaul (dark-ink · centered col · fixed header/
+  footer · 100dvh · log-RIGHT · `?dev=no`) · full-screen **VN intro** (D-104) · **log v2**
+  (Story·Progress·Combat·Work·All·Now) · DEV-panel polish · **F22** stamina/health · error
+  modal. **R2 (F62–F85, session-44):** VN intro **rebuilt append-only** (no flash; all text
+  typewrites; fixed card sticks-to-bottom; static right; ask→done→decide; choose→reply→
+  Continue; **attribute-colour** perks) · **multi-panel LOCKED** to 屏風 folding + soft cards
+  (variants pruned, D-106); log full-width/sticky/≥⅓vw · pedlar in-flow · **DEV rung menu**
+  R0–R7+descend · **1780 cold-open** (D-105) · **two density registers** + persisted
+  **log-font stepper** · HMR off. ADRs **D-104/D-105/D-106**; taste rules → ui-design.md;
+  5 plans archived. **Awaits the human's REVIEW PASSOVER.**
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
   in [`../../docs/philosophy/`](../../docs/philosophy/README.md), summarised in AGENTS.md.
@@ -63,12 +61,13 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
 
 ## Waiting on the human
 
-- **R1** 🔲 — play/taste call on the **T0 build** (fun · pacing · look): the spatial map,
-  the combat rework (HP accrues, no auto-heal, the loss bites wealth), the bank, tightened koku.
-- **R2** 🔲 — review the UI variants **live in the DEV panel** (D-075) — now incl. the **Estate-map**
-  A/B/C (paths list · 絵地図 schematic · 道中記 ledger).
-- **Reading queue:** the **2026-07-02 playtest-polish build plan** is live
-  (`docs/plans/`). (Plans A + B — DONE + archived.)
+- **REVIEW PASSOVER** 🔲 — the big one: play/review the **v0.3.2 playtest reshape**
+  (F1–F85) — the append-only VN intro + dialogue tree, log v2, the LOCKED multi-panel
+  (byōbu + soft cards), density + log-font, 1780 cold-open.
+- **R1** 🔲 — play/taste call on the **T0 build** (fun · pacing · look): spatial map,
+  combat rework (HP accrues, no auto-heal, loss bites wealth), the bank, tightened koku.
+- **R2** 🔲 — remaining UI variants **live in the DEV panel** (D-075), incl. Estate-map
+  A/B/C + the other playtest surfaces (multi-panel is now locked, not a variant).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -100,21 +99,21 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 
 ## How to resume
 
-> 🎮 **v0.3.2 PLAYTEST is LIVE with the human (2026-07-02).** They play → give taste
-> feedback (F-items in `human-feedback/2026-07-02-playtest.md`) → I fix inline / build
-> with D-075 variants. The human stepped away mid-session and asked me to **keep building
-> autonomously**; the plan `docs/plans/2026-07-02-playtest-polish-build.md` is the spine.
+> 🎮 **v0.3.2 PLAYTEST BUILD is DONE (2026-07-02).** All 85 feedback items (F1–F85 in
+> `human-feedback/2026-07-02-playtest.md`) are built + committed (green). R2 = the
+> append-only VN intro, the LOCKED multi-panel (byōbu + soft cards), density + log-font,
+> 1780 cold-open. It now **awaits the human's REVIEW PASSOVER**.
 
-1. Read the **newest journal** (session-41) + the feedback doc's status column
-   (✅ vs 🔧 vs 💬) + the plan's build order.
+1. Read the **newest journals** (session-42 = F1–F61, session-44 = F62–F85) + the feedback
+   doc for the arc. **Note: HMR is OFF** (`vite.config.ts`) — hit F5 to see dev changes.
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ http://localhost:5173/).
    Use **`?dev=no`** to preview the true player layout (no DEV panel).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to see the
    real opening (a stale autorun save may load).
-4. **Continue the build** top-down through the plan (F9 → intro cluster F12/F13/F15 →
-   F11). Serialize code builds on the single `styles.css`/`render.ts`/`dev.ts`.
-5. **Open for the human:** **R1** (fun/pacing/look) · **R2** (UI variants — now incl. the
-   **cold-open reveal** A/B/C) · **R5** (Bestiary). They'll lock variants + I prune the
-   dead code. **Also queued:** the **1780 setting anchor** plan (ADR **D-105**) — awaits a
-   read + confirming its two forks (Tenmei famine / calendar); then the small doc ripple lands.
+4. **After the human's review:** apply round-3 feedback in the same inline loop; perk
+   magnitudes + dialogue-topic content stay liquid (D-059). The multi-panel is LOCKED
+   (variants pruned) — no dead-code left to prune there.
+5. **Open for the human:** the **REVIEW PASSOVER** (above) · **R1** (fun/pacing/look) ·
+   **R2** (remaining DEV variants) · **R5** (Bestiary). **Reading queue** = just the
+   concurrent worker's `economy-koku-rediagnosis` plan (a koku/mon/rice split), not ours.
