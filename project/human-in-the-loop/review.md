@@ -233,6 +233,40 @@ for your read in
 
 ---
 
+### R9 🔲 — UI-remaster variants (`ui-demos/`) — the taste call on the game's next UI generation
+
+Five **full working remasters** of the actual T0 (R0–R3) game — same 6-tab IA,
+same verbs/numbers/log, each a generation up in its own direction (the human-locked
+midpoint: never a reskin, never a reinvention). Built on a shared mock engine
+(staged stages + live verbs); each variant passed a Playwright sweep (zero console
+errors, every stage/tab/moment) + an independent screenshot review. Plan:
+[`docs/plans/2026-07-02-ui-remaster-variants.md`](../../docs/plans/2026-07-02-ui-remaster-variants.md).
+
+- [ ] **01 · Moonlit Menu** — PSX-classic DNA: left menu rail (with per-tab micro
+  readouts), night-gradient double-border boxes, crest cursor, gold tabular
+  numerals, dialogue-box log, vignette ceremony.
+- [ ] **02 · Candlelit Ledger** — storybook DNA: an open journal on a candlelit
+  desk — bookmark tabs, kumiko rules, wax-seal verbs, ink-soak meters, the log as
+  the right-hand page, illuminated-page ceremony.
+- [ ] **03 · Vermillion** — modern-indie DNA: chunky icon rail, clipped-corner
+  cards, bold feed log, juicy press states, black-slam ceremony. The loudest.
+- [ ] **04 · Lacquer & Gold** — the direct remaster (conservative anchor): today's
+  exact composition in urushi black + gold keylines + vermillion seal CTAs +
+  paper log well. "Same screen, premium dark edition."
+- [ ] **05 · Aizome** — indigo textile: log center-stage, sashiko stitch-line
+  seams/meters, cloth-tag tabs, embroidered-crest ceremony. _(Landing overnight —
+  builder hit the session-limit reset; will be live at the same URL.)_
+
+- **Asking for:** which direction (or blend) becomes the real game's UI-v2 —
+  and per variant: does it read as *this* game, a generation better?
+- **How to look:** **<https://kami-kakushi-ui-demos.vercel.app>** (or
+  `npx serve ui-demos` locally). In each variant use the bottom-right stage
+  strip: cold open → R0 → R1 → R2 → R3, plus the moments (intro, wolf, fight,
+  rung-up). Everything clickable is real against the mock engine.
+- **Verdict:** _(awaiting the human — per variant)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **R4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **D-076…D-079** (+D-056); **R3** folded into R2 (**D-075**).

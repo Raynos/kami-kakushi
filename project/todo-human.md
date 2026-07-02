@@ -63,9 +63,17 @@
   balance-watch**: 4 liquid tuning items (rice out-produces its sinks → coin too
   abundant; the koku capstone is reached too fast; season store/sell dominated;
   eat-rice dominated by rest). Your feel-call — NOT silently re-tuned.
+- [ ] **🔗 <https://kami-kakushi-ui-demos.vercel.app> — the five UI-remaster
+  variants, LIVE (open in a browser!)** — full working remasters of the actual
+  T0 game (R0–R3): 01 Moonlit Menu (PSX) · 02 Candlelit Ledger (journal) ·
+  03 Vermillion (modern indie) · 04 Lacquer & Gold (direct remaster) ·
+  05 Aizome (indigo textile). Use each variant's bottom-right stage strip
+  (cold open → R3 + the moments — intro, wolf, fight, rung-up); every verb is
+  real against the mock engine. Verdict per variant → **R9** in
+  `human-in-the-loop/review.md`.
 - [ ] `docs/plans/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**
-  (Fable's parallel spike): five full T0 remasters of the game in `ui-demos/` — a
-  taste call on the UI direction; §3 has the five briefs, §2 the invariants.
+  (Fable's parallel spike): the plan behind the link above — §3 has the five
+  briefs, §2 the invariants (the remaster midpoint contract).
 - [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
   actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
   via rumours / low-chance events / description hints, not a static list. T0-later/T1.
