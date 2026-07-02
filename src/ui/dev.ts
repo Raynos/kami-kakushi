@@ -1383,15 +1383,19 @@ export function mountDevPanel(
   panel.setAttribute('data-dev', DEV_SENTINEL);
   // bottom-anchored floating overlay; collapsed it shrinks to the header (width:fit-content),
   // expanded it grows to 15rem (see the head click handler). Never reserves layout space (F2/F4).
+  // F37 — the panel is a FLEX COLUMN (fixed head / scrolling body / fixed footer) and itself
+  // clips (overflow:hidden); the SCROLL lives on the tab panes below, NOT the whole panel, so the
+  // New-game footer stays pinned no matter how far the variants scroll.
   panel.style.cssText =
-    'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:16rem;max-height:82vh;overflow:auto;' +
+    'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:16rem;max-height:82vh;' +
+    'display:flex;flex-direction:column;overflow:hidden;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
     'border:1px solid #b08d4f;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.45);';
 
-  // header (click to collapse the body)
+  // header (click to collapse the body) — fixed (never scrolls)
   const head = el('div');
   head.style.cssText =
-    'display:flex;justify-content:space-between;align-items:center;padding:.35rem .5rem;' +
+    'flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:.35rem .5rem;' +
     'background:#26221e;border-bottom:1px solid #7a6c59;cursor:pointer;user-select:none;font-weight:700;';
   head.append(el('span', undefined, '⚙ DEV'));
   const caret = el('span', undefined, '▾');
@@ -1399,8 +1403,11 @@ export function mountDevPanel(
   panel.append(head);
 
   const body = el('div');
-  // start COLLAPSED so the panel is as small as possible by default (F4).
-  body.style.cssText = 'padding:.4rem .5rem;display:none;flex-direction:column;gap:.5rem;';
+  // start COLLAPSED so the panel is as small as possible by default (F4). F37 — the body is the
+  // flex-growing middle of the panel column (min-height:0 lets its scrolling pane child shrink);
+  // it clips so ONLY the panes scroll, keeping the tab bar and footer pinned.
+  body.style.cssText =
+    'padding:.4rem .5rem;display:none;flex-direction:column;gap:.5rem;flex:1 1 auto;min-height:0;overflow:hidden;';
   panel.append(body);
   caret.textContent = '▸';
   head.addEventListener('click', () => {
@@ -1413,11 +1420,15 @@ export function mountDevPanel(
   // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
   //    (the D-075 review focus). Each tab shows its pane and hides the other. ──
   const tabBar = el('div');
-  tabBar.style.cssText = 'display:flex;gap:.25rem;margin-bottom:.15rem;';
+  // F37 — the tab bar is fixed above the scroll region (never scrolls with the panes).
+  tabBar.style.cssText = 'flex:0 0 auto;display:flex;gap:.25rem;margin-bottom:.15rem;';
+  // F37 — the panes are the ONLY scrolling area: each grows to fill the body's middle and scrolls
+  // its own overflow, so the fixed footer below stays pinned no matter how tall the content is.
+  const paneScroll = 'flex:1 1 auto;min-height:0;overflow:auto;';
   const settingsPane = el('div');
-  settingsPane.style.cssText = 'display:none;flex-direction:column;gap:.5rem;';
+  settingsPane.style.cssText = `display:none;flex-direction:column;gap:.5rem;${paneScroll}`;
   const variantsPane = el('div');
-  variantsPane.style.cssText = 'display:flex;flex-direction:column;gap:.4rem;';
+  variantsPane.style.cssText = `display:flex;flex-direction:column;gap:.4rem;${paneScroll}`;
 
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
@@ -1498,21 +1509,25 @@ export function mountDevPanel(
     }),
   );
 
-  // lifecycle
-  const life = section('Game');
-  life.append(mono('New game', () => qa.newGame()));
+  // F38 — New game lives ONLY in the fixed footer now (it used to be duplicated here in a
+  // Settings→Game section). The footer copy (below, F34) is the single always-visible one.
 
   // ── the live variant toggle — the heart of D-075 review. Each surface is a COLLAPSED summary
   //    row (label + current pick + caret); clicking it reveals the blurb + the option buttons.
   //    Rows are RECENCY-ordered: SURFACES is oldest→newest (new surfaces are appended), so we
   //    display it REVERSED — the most-recently-introduced surface sits at the top. ──
-  // V0-VN numbering — a STABLE unique index over EVERY variant, assigned in REGISTRY order (the
-  // SURFACES array order, then each surface's variants in order). Registry order (not the
-  // recency-reversed DISPLAY order) keeps a number pinned to its variant: it never shifts when the
+  // V-numbering (F36) — per-SURFACE, assigned in REGISTRY order: each surface gets ONE number
+  // (surface[0]=V0, surface[1]=V1, …), and its variants share that number with a LETTER suffix =
+  // the variant's index (A/B/C). So quests (registry #6) → V6A/V6B/V6C. Registry order (not the
+  // recency-reversed DISPLAY order) keeps a tag pinned to its variant: it never shifts when the
   // panel reorders rows or a later surface is removed. Computed once, read into every label below.
-  const vnum = new Map<string, number>();
-  let n = 0;
-  for (const s of dev.surfaces) for (const v of s.variants) vnum.set(v.id, n++);
+  const vtag = new Map<string, string>();
+  const LETTERS = 'ABCDEFGHIJ';
+  dev.surfaces.forEach((s, si) => {
+    s.variants.forEach((v, vi) => {
+      vtag.set(v.id, `V${si}${LETTERS[vi] ?? String(vi)}`);
+    });
+  });
 
   const recencyOrdered = dev.surfaces.slice().reverse();
   for (const surface of recencyOrdered) {
@@ -1521,7 +1536,7 @@ export function mountDevPanel(
 
     // the clickable collapsed summary row — a two-line VERTICAL stack (playtest F35): line 1 is
     // the caret + surface NAME only; line 2 sits underneath (indented under the name, muted) as
-    // `V{n} · {label}` — V-number first. Stacking (vs cramming name+label+[Vn] on one line) stops
+    // `V{n}{letter} · {label}` — V-tag first. Stacking (vs cramming name+label+[Vn] on one line) stops
     // the long rows (e.g. HOUSE-INFLUENCE GRADE) wrapping badly / overflowing the panel's edge.
     const summary = el('div');
     summary.style.cssText =
@@ -1558,18 +1573,18 @@ export function mountDevPanel(
         buttons[i]!.style.color = on ? '#1c1814' : '#e7d9bc';
         if (on) {
           blurb.textContent = v.blurb;
-          sPick.textContent = `V${vnum.get(v.id)} · ${v.label}`;
+          sPick.textContent = `${vtag.get(v.id)} · ${v.label}`;
         }
       });
     };
     surface.variants.forEach((v) => {
-      const b = mono(`V${vnum.get(v.id)} · ${v.label}`, () => {
+      const b = mono(`${vtag.get(v.id)} · ${v.label}`, () => {
         dev.setVariant(surface.id, v.id);
         paint();
         rerender();
       });
       // F35 — left-align the option label (mono defaults to centered), so a long pick like
-      // `V6 · A · price-button list` reads cleanly instead of centre-wrapping.
+      // `V6A · A · price-button list` reads cleanly instead of centre-wrapping.
       b.style.textAlign = 'left';
       buttons.push(b);
       rows.append(b);
@@ -1590,12 +1605,13 @@ export function mountDevPanel(
   // default active sub-tab = Variants (the review focus)
   selectTab('variants');
 
-  // F34 — a PERMANENT New-game footer, pinned below BOTH tab panes so it's reachable no matter
-  // which sub-tab is active (the Settings→Game "New game" stays too; this is the always-visible
-  // one). Appended to `body` after the panes, so tab-switching never hides it.
+  // F34/F37 — a PERMANENT New-game footer, TRULY fixed at the bottom of the panel column
+  // (flex:0 0 auto, outside the scrolling panes) so it's reachable no matter which sub-tab is
+  // active OR how far the variants scroll. F38 — this is now the SOLE New-game control (the old
+  // duplicate in the Settings→Game section was removed).
   const footer = el('div');
   footer.style.cssText =
-    'margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;display:flex;';
+    'flex:0 0 auto;margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;display:flex;';
   const newGameFooterBtn = mono('⟳ New game', () => qa.newGame());
   newGameFooterBtn.style.flex = '1';
   newGameFooterBtn.style.fontWeight = '700';
