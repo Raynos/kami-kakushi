@@ -86,6 +86,20 @@ shown until `awake`; the single "Open your eyes" `.verb.primary` dispatches
 
 ## 2. Locked decisions (human, 2026-07-02)
 
+> **UPDATE (2026-07-02, supersedes decision 5 + the §Human-decisions "variant A
+> (inline)" default):** the intro presentation is now **LOCKED to the
+> full-screen VN scene (variant B)** — **inline (A) and bottom-dock (C) are
+> SCRAPPED** (D-075 strip-on-approve), so prod ships **only** the VN scene, per
+> **ADR D-104** (F43/F44/F45). The full-screen scene hides the whole shell and
+> the UI inks in after; the VN scene is also THE canonical frame for meeting any
+> story-significant, interactive NPC. The dialogue MODEL, meanwhile, is growing
+> from the linear 3-beat script into a **Fallout-style ask-then-decide dialogue
+> TREE** (ask exploratory questions at a hub, then make the story-continuation
+> decision), reusing this same VN presentation — see **F47** + the follow-on
+> plan [`2026-07-02-npc-dialogue-tree.md`](2026-07-02-npc-dialogue-tree.md).
+> Decision 5's "3 working variants + self-picked default" below is thus
+> **settled** (the human picked B); read it as historical context.
+
 1. **VN-style, click-to-continue.** After "Open your eyes," the intro reveals
    **one beat at a time**; the player clicks **Continue** to advance; choices
    appear at key beats. **2–3 key choice beats total** — tight, fast to

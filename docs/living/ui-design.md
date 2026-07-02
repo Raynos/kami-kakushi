@@ -337,11 +337,25 @@ The shell is **sized to the viewport (100dvh) with NO page scrollbar** (F6) — 
 column) scroll *internally* within the available height, never the page. A minimum size is respected, and a
 narrow-screen fallback (`≤720px`) relaxes to natural page flow so mobile still works.
 
+**The workspace may span the FULL width as a multi-panel matrix** (F11, D-106). The two-column frame above is
+the shipped **prod default** (the classic *work-left / log-right* pair); but the workspace is **not** bound to
+the centered ~1200px paper column — an idle-RPG dashboard lays information across **multiple distinct panels**,
+so the workspace may **span the full viewport width**, arranged as a **matrix of DEV variant axes**
+(*arrangement × framing*) auditioning behind the variant toggle. This stays **reveal-gated and sparse** —
+panels ink in only as their surface unlocks (§6.1), so the early game is deliberately a single calm column and
+the dashboard density arrives with the house's rise, never a slam of empty panels. **D-106 supersedes the
+§4.7 "centered ~1200px column" rule** (which itself refined the F4 centered-column intent); prod ships the
+2-column default until the human locks a matrix variant (D-022 governs).
+
 **DEV/tooling chrome never affects the player layout** (F2). The DEV panel is a **fixed floating overlay that
 reserves ZERO layout space** and collapses to minimal — the game UI centers on the *full* viewport exactly as
 if the panel did not exist, never shoved off-center by a reserved gutter. `?dev=no` never mounts the panel at
 all and is the way to preview the true player-facing layout (a QA note also lives in
-[`qa-playtesting.md`](qa-playtesting.md)).
+[`qa-playtesting.md`](qa-playtesting.md)). **DEV-panel ergonomics** (dev-only, not player taste): each variant
+surface carries a stable **per-surface V-number** shown on its option buttons (F17/F36), a **fixed footer**
+(New-game) pinned *outside* the scroll region (F37), and any **mutually-exclusive control set highlights its
+active selection** so nothing reads as ambiguous (F49) — the last of these is a player-facing rule too (§5.5,
+§5.6).
 
 ### 4.8 Density & compactness (playtest 2026-07-02)
 
@@ -385,6 +399,61 @@ which snaps instantly) so the story is *seen* to arrive; a pop-in is a wasted be
 | **milestone / reveal / rank-up** | **heavier weight, a `--shu` seal stamp** on the line + a held entry beat (§6). This is the highest-leverage juice surface. |
 
 Diegetic voice carries the whole game's character — this is where the Edo flavour lives.
+
+**Filterable channels — a bottom tab bar (F9, playtest 2026-07-02).** The log carries a **bottom
+tab/toggle bar** so the player chooses which channel(s) to see, ordered **by importance**: **Story ·
+Progress · Combat · Work · All · Now** (F52) — the notable channels lead, work-noise trails. **Story** is a
+first-class, *returnable* view (the narrative is content worth revisiting, not ephemeral scrollback);
+**Work** is the least-important permanent channel and carries **only notable events** — repetitive labour
+spam does not belong here (it goes to **Now**, below). A **progression beat** (a stat lean, an unlock, a
+rung) routes to **Progress** (the milestone channel), never to Work: a line the player *earns* is Progress,
+not mundane upkeep (F41). Each tab surfaces an **unread indicator** (a badge/dot) when new content lands in a
+channel you are *not* viewing; switching to it clears the mark — but unread fires **only for content that
+arrives during the session**: on load, all existing (historical) entries count as already **seen**, so a
+refresh never shows a spurious unread dot (F20/F59).
+
+**The transient "Now" channel (F53/F58).** A **"Now"** tab (last, after *All*) collects **fleeting, trivial
+flavor** — "you rested", the per-labour output line, the rake-rice spam — kept **OUT of the permanent
+channels**. Each Now entry **fades/expires ~15s** after it appears; the expiry is a graceful **fade + the
+remaining entries slide UP** (a height collapse, never a jump), consistent with the rest of the motion
+language (§6). Repetitive labour flavor is **ephemeral (Now)**, never permanent-channel clutter.
+
+**Land at the newest, always (F51).** A log/transcript view **always sits at the newest entry (bottom)**:
+switching filter tabs lands at the bottom *instantly* after the repaint, never scrolls up from the top and
+re-scrolls down. (This composes with the smooth *follow-the-newest* scroll for in-session arrivals above.)
+
+**Voice, prefix, and the typewriter (F19/F26/F50/F54/F57).** Story/narration lines reveal with a **real
+GBA character-by-character typewriter** — scoped to the **story channel only** (never combat/work spam),
+**always LEFT-aligned** (a centred reveal re-centres on every character and jitters), reduced-motion →
+instant full line. Each voiced line is **coloured by the speaker's character CATEGORY** (a small
+voice-colour palette — narrator `--ink-soft`, player `--rokusho`, physician `--ai`, steward `--ochre`, arms
+`--beni`, official/villager the muted earths — each verified AA on `--surface`) *and*
+**prefixed with the speaker's name** (`Sōan: …`, `You: …`): colour is *reinforcement*, not the sole signal
+of who is talking (colour-as-sole-signal is banned, §9). This retires the old render-time
+quote-detection stopgap where all speech was one indigo. **ALL narration everywhere uses these same
+voice/colour conventions** — rake/labour flavor is voice-tagged (`narrator`) and styled exactly like the
+intro's narration, not left plain (F57).
+
+**The live scene owns the reveal; the log is an instant historical transcript (F48).** When a live scene
+(the VN intro, §5.13) is playing, *it* owns the animated typewriter reveal; the event log is painted
+**instantly** behind the hidden shell, so the moment the shell reveals the transcript is **already there** —
+the player never waits for the log to slowly catch up to choices they have *already* made. A live scene
+animates; the log records.
+
+**Separation under the sticky header (F28).** The log's own sticky header ("The house remembers") is set off
+from the scrolling body by a **header border + a soft top fade** on the scroll area, so lines fade out as
+they scroll under it rather than bleeding half-readable beneath a borderless edge.
+
+### 5.1a Progression rewards render as PERK UNLOCKS (F56)
+
+A progression reward (the intro's stat-lean outcomes, and rewards generally) reads as a **perk unlock**, in
+an **old-school JRPG register** (the FF7–FF10 "learned" box) reconciled to the woodblock/ink palette
+(D-018) — a bordered `.frame`-lite "learned" card on `--surface`, **never** a red-icon / red-tinted-bg
+web-toast. Each perk carries three parts: a **named perk** (may reference the moment — *Sōan* / *Memory* /
+*Genemon*), a **standalone description** whose flavor **stands on its own** (legible later without the
+intro-conversation context that earned it), and the **mechanics** (the ±stats / effect). A choice's outcome
+still reads **diegetically** — what you chose and what it costs, the mechanical ± woven in as context, never
+a bare stat delta (F42).
 
 ### 5.2 Panel / card
 
@@ -490,7 +559,21 @@ here — **never a dead greyed box with no reason.**
 
 A paper card centered on a dimmed (sumi-tinted, low-opacity) scrim — *not* a black overlay. Used sparingly:
 the rank-up beat, a save/load confirm, a quest-accept. Focus-trapped, Escape-closable, the primary action
-wears the seal. Reveals via the §6.1 ink-in, not a generic scale-pop.
+wears the seal. Reveals via the §6.1 ink-in, not a generic scale-pop. **Modals keep GENEROUS internal
+padding + section spacing** — the compact chrome-density rule (§4.8) is for the game HUD, not modals (F29).
+
+**The settings modal → sub-tabs (F31/F33).** The settings modal is organised into **sub-tabs — Settings /
+Saves / About** — not one long crammed column: **Settings** holds the comfort options (reduced-motion, sound,
+text-scale, pause), **Saves** is a streamlined manage-saves surface (export / import / new-game), **About**
+carries the description, build stamp, licence, and content notes. It **opens on the About tab** by default
+(the calm, non-destructive landing — the player reaches for Saves/Settings deliberately).
+
+**The full-screen error modal (F61).** A caught render/tick crash draws a **full-screen, intentional error
+modal** — a solid, fixed, full-viewport overlay (high z-index) in the woodblock/ink palette (dark ink ground,
+a washi card with a tasteful kanji nod) that **covers** the broken UI — **never** a small banner layered over
+a blank or half-drawn page. It reassures "your progress is saved" (the save already happened), offers a
+prominent Reload, and (DEV only) shows the error + stack. Mounted once and idempotent (a single reused node,
+never stacked), all-inline-styled, and wrapped so the crash screen cannot itself throw.
 
 ### 5.11 The walkable map + the "Walk on 道" strip (T0+)
 
@@ -532,6 +615,30 @@ hint to *walk the 道 back to the 蔵*. Its header reads the two piles in ink, p
 the rule the whole loss-loop turns on: **what you carry, a lost fight can take; what you store, you keep.**
 The buttons are ordinary ink-outlined verbs (§5.5); Withdraw sits `--ink-faint` (faded / disabled) with a
 "nothing stored" reason when the kura is empty (§5.9), never a dead grey box.
+
+### 5.13 The full-screen dialogue (VN) scene (D-104)
+
+The canonical frame for **first meeting a story-significant, INTERACTIVE NPC** — one who touches the story,
+offers choices, or holds real discussion (minor/ambient NPCs stay inline in the log; D-104). The interactive
+**intro is its first instance and is LOCKED to this presentation** — the earlier inline and bottom-dock
+variants are scrapped (D-075 strip-on-approve), so prod ships only the VN scene (F43).
+
+- **It hides the whole shell.** While the scene plays it **hides the entire game shell** (not a dim scrim,
+  like the cold-open card) — the scene mounts on the document root and is all you see; the estate/tabs/panels
+  **ink in AFTER** the scene (§6.1), making the intro the first beat of the game's incremental-reveal
+  signature (F44).
+- **A generous panel, typed left-to-right.** A **large** centred card (a generous share of the screen, F46)
+  with a **kanji ink-seal nameplate** coloured per voice-category (pure CSS + type, no asset pipeline). Spoken
+  lines reveal with the **GBA typewriter**, **LEFT-aligned** (a centred typewriter jitters, F54); prose
+  left-aligns for natural word-wrap.
+- **A divider before the choices.** The narration/spoken block is separated from the player's choice prompt
+  ("What do you say to him?") + option buttons by a **divider** (an ink-brush rule, §4.5), so the spoken text
+  and the decision read as distinct zones (F40).
+- **Each beat fades in and re-types.** Advancing to the next beat **fades the new beat in and re-runs its
+  typewriter** (never a jump), and when the scene ends the game UI **inks in gracefully** rather than snapping
+  all-at-once (F55). Reduced-motion → instant, per §6.
+- **The log is the instant transcript.** The scene owns the live reveal; the event log is populated
+  **instantly** behind the hidden shell (§5.1, F48) — the transcript is already there when the shell reveals.
 
 ---
 
@@ -640,8 +747,10 @@ PRD §6.9 / canon §H: fluid layout (CSS grid/flex, container/media queries) ref
   only path.
 - **Number layouts must hold** at K/M/B growth (test 999B), long logs, many revealed tabs, and the smallest
   viewport (per the §4 / qa-playtesting "states that break layouts" checklist).
-- **Text scale** honours a `textScale` setting + root font size; **reduced motion** honours the setting +
-  `prefers-reduced-motion`.
+- **Text scale changes TEXT size only, not layout** (F30). The `textScale` setting multiplies the **type
+  tokens** (`--fs-*`) — **never** the root `rem` unit — so text grows/shrinks while panels and spacing stay
+  put; scaling the type must not reflow the whole UI (scaling the root font would drag every rem-based
+  dimension). **Reduced motion** honours the setting + `prefers-reduced-motion`.
 
 ---
 
@@ -747,28 +856,6 @@ bottom-bar layout, and reviews each against §§1–10 with its own vision (wood
 colour-roles right? log reading as the heart? reveal/rank-up motion satisfying? any slop/overflow/contrast/
 placeholder fail?) before surfacing self-vetted candidates to the human — per
 [`qa-playtesting.md`](qa-playtesting.md) §4. *This bible is the rubric that loop scores against.*
-
----
-
-## Pending from the 2026-07-02 playtest (incoming — not yet law)
-
-Five taste rules from the same playtest are **still in-flight or need a design call**, recorded here so the
-doc knows they are coming without asserting unbuilt behaviour. Full detail lives in the feedback log
-[`../../project/human-feedback/2026-07-02-playtest.md`](../../project/human-feedback/2026-07-02-playtest.md)
-and the build plan
-[`../plans/2026-07-02-playtest-polish-build.md`](../plans/2026-07-02-playtest-polish-build.md):
-
-- **Filterable log with bottom tabs (F9)** — the story/event log gains a bottom tab/toggle bar (Story / Work
-  / Combat / Progression / …), with Story a first-class, returnable channel. New UI surface → D-075 diverge.
-- **Multi-panel layout (F11)** — information laid across 5–7 distinct panels (idle-RPG dashboard density)
-  rather than two crammed columns, reconciled with reveal-based progression (panels appear as their surface
-  unlocks). Needs a plan/diverge to scope.
-- **Slow GBA-typewriter story text (F12)** — story/narration reveals slowly, old-Pokémon typewriter-style,
-  scoped to the story channel (never combat spam), reduced-motion → instant.
-- **Interactive incremental intro (F13)** — the intro (and NPC dialogue) advances beat by beat and lets the
-  player respond to the physician (Sōan), not a static wall of text. Likely an ADR once the direction locks.
-- **Reveal-fires-only-when-watched (F15)** — reveal/animation beats fire after the gating interaction, while
-  the player is watching, never pre-run behind the cold-open curtain (an unseen animation is a wasted beat).
 
 ---
 
