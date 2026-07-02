@@ -2,6 +2,8 @@
 // __qa API to a sequence of states and screenshots each — fully headless (no GUI).
 // Usage: QA_URL=http://localhost:5174/ node src/scripts/qa-shots.mjs
 import { chromium } from 'playwright';
+import { execFileSync } from 'node:child_process';
+import { readdirSync } from 'node:fs';
 
 const URL = process.env.QA_URL || 'http://localhost:5174/';
 const OUT = 'project/audit/screens/latest';
@@ -71,6 +73,23 @@ try {
   console.log('shot 06-mobile-r2');
 } finally {
   await browser.close();
+}
+
+// Losslessly shrink the freshly-captured PNGs on disk (~33% off). oxipng only
+// re-packs the DEFLATE stream + row filters — pixels are byte-for-byte identical.
+// Optional: if oxipng isn't installed the QA run still succeeds, just uncompressed.
+const pngs = readdirSync(OUT)
+  .filter((f) => f.endsWith('.png'))
+  .map((f) => `${OUT}/${f}`);
+try {
+  execFileSync('oxipng', ['-o', 'max', '--strip', 'safe', '-q', ...pngs], { stdio: 'inherit' });
+  console.log(`optimized ${pngs.length} screenshots (oxipng, lossless)`);
+} catch (e) {
+  if (e.code === 'ENOENT')
+    console.log(
+      'note: oxipng not found — `brew install oxipng` to shrink screenshots ~33% (lossless)',
+    );
+  else throw e;
 }
 
 if (errors.length) {
