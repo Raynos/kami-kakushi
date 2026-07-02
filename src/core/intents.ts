@@ -11,6 +11,7 @@ import {
   withBanked,
   addSkillXp,
   rememberNpc,
+  deepenNpc,
   markTopicAsked,
 } from './state';
 import { applyRewards } from './rewards';
@@ -20,7 +21,7 @@ import { formatCoin } from './format';
 import { clamp } from './math';
 import { satietyMax, hpMax, staminaRate, season, canDoActivity, estateYieldNum } from './selectors';
 import { skillLevel, skillYieldNum } from './skills';
-import { accrueRungMeter, promoteRungs } from './ranks';
+import { accrueRungMeter, applyPromotion, promotionReady, pendingPromotionTarget } from './ranks';
 import { applyEstateDeed } from './pillars';
 import { ascend } from './ascension';
 import { isUnlocked } from './unlock';
@@ -46,6 +47,7 @@ import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
   INTRO_SCENE_COUNT,
+  introActive,
   introSceneAt,
   introTopic,
   introSceneOption,
@@ -55,6 +57,9 @@ import {
   PLAYER_SPEAKER,
   type IntroStat,
 } from './content/intro';
+import { RUNG_BEATS, rungTopic, rungOption, type RungScene } from './content/rungBeats';
+import { NPC_VOICE, NPC_NAME, type NpcId, type VoiceCategory } from './content/voices';
+import type { RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest, applyQuestEvent } from './quest-engine';
 import { getItem, canBuy } from './content/market';
@@ -76,6 +81,10 @@ export type Intent =
   | { type: 'advance_intro' } // Continue past a narration-only intro scene
   | { type: 'ask_topic'; topicId: string } // ASK a hub topic — reveal its answer, mark it asked
   | { type: 'choose_intro'; optionId: string } // the DECISION: pick a balanced closer at a scene
+  | { type: 'begin_rung_beat' } // D-110: trigger the ready rung-up story beat (player-initiated)
+  | { type: 'advance_rung_beat' } // Continue past a narration-only rung beat (inert today)
+  | { type: 'ask_rung_topic'; topicId: string } // ASK a rung-beat hub topic (full VN meets R3/R6/R7)
+  | { type: 'choose_rung_option'; optionId: string } // the terminal beat choice → apply the promotion
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
@@ -121,7 +130,10 @@ function adjustSatiety(state: GameState, delta: number): GameState {
 }
 
 function finish(state: GameState): GameState {
-  return revealPass(promoteRungs(state));
+  // D-110: the hot path NO LONGER auto-promotes. A ready promotion HOLDS (the meter caps visually);
+  // the rung advances ONLY through the player-triggered beat (begin_rung_beat → choose_rung_option →
+  // applyPromotion). `finish` just runs the reveal pass, so filling the meter never bumps the rung.
+  return revealPass(state);
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
@@ -207,6 +219,34 @@ function enterNextBeat(state: GameState, newIndex: number): GameState {
   return newIndex < INTRO_SCENE_COUNT
     ? revealIntroBeat(advanced, newIndex)
     : completeIntroTail(advanced);
+}
+
+// ── The rung-up story beats (D-110) — pure reducer helpers, mirroring the intro's. ────────────────
+
+/** Reveal one rung beat's greeting lines into the log NOW (the Story/narration channel — F103). Each
+ *  line carries its authored voice + optional nameplate, so a two-voice beat (R4/R5) reads correctly. */
+function revealRungBeat(state: GameState, target: RankId): GameState {
+  const scene = RUNG_BEATS[target];
+  if (!scene) return state;
+  return applyRewards(state, {
+    log: scene.greeting.map((l) => ({
+      channel: 'narration' as const,
+      text: l.text,
+      voice: l.voice,
+      speaker: l.speaker,
+    })),
+  });
+}
+
+/** The voice + nameplate a rung-beat option's `react` line speaks in. A per-option `reactNpc` wins
+ *  (two-voice R4 — Tōzō answers option 2); else the scene's decision speaker/voice. */
+function rungReactVoiceSpeaker(
+  scene: RungScene,
+  reactNpc: NpcId | undefined,
+): { voice: VoiceCategory; speaker: string | undefined } {
+  const npc = reactNpc ?? scene.speaker;
+  if (npc) return { voice: NPC_VOICE[npc], speaker: NPC_NAME[npc] };
+  return { voice: scene.voice, speaker: undefined };
 }
 
 export function reduce(state: GameState, intent: Intent): GameState {
@@ -301,6 +341,112 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = applyRewards(next, { log: [{ channel: 'milestone', text: introPerkLine(opt) }] });
       // 6) advance to the next beat, or fire the intro-complete tail
       next = enterNextBeat(next, state.introBeat + 1);
+      break;
+    }
+    case 'begin_rung_beat': {
+      // D-110: player-TRIGGERED promotion. Guard: a promotion is ready (meter + storyGate), no beat
+      // is already live, and the intro is done (the VN surfaces never overlap). Opens the target
+      // rung's beat — reveals its greeting into the Story channel. A ready promotion HOLDS until this
+      // fires; the player may ignore it and grind on. No-op on a rank with no registered beat.
+      if (!promotionReady(state)) return state;
+      if (state.rungBeat !== null) return state;
+      if (introActive(state.introBeat)) return state;
+      const target = pendingPromotionTarget(state);
+      if (target === null || !RUNG_BEATS[target]) return state;
+      next = { ...next, rungBeat: target };
+      next = revealRungBeat(next, target);
+      break;
+    }
+    case 'ask_rung_topic': {
+      // ASK a rung-beat hub topic (full VN meets R3/R6/R7). Exploratory + FREE — mirrors ask_topic:
+      // reveal the answer to Story, mark it asked; NO stat, NO memory, NO promotion (re-askable).
+      const target = state.rungBeat;
+      if (target === null) return state;
+      const scene = RUNG_BEATS[target];
+      if (!scene) return state;
+      const topic = rungTopic(scene, intent.topicId);
+      if (!topic) return state;
+      if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state;
+      next = applyRewards(next, {
+        log: [
+          { channel: 'narration', text: topic.label, voice: 'player', speaker: PLAYER_SPEAKER },
+          ...topic.answer.map((l) => ({
+            channel: 'narration' as const,
+            text: l.text,
+            voice: l.voice,
+            speaker: l.speaker,
+          })),
+        ],
+      });
+      next = markTopicAsked(next, topic.id);
+      break;
+    }
+    case 'choose_rung_option': {
+      // The TERMINAL beat node (D-110) — the SOLE place a rung advances. In order: (a) voice the MC's
+      // say + the speaker's react to Story; (b) DEEPEN each memory write; (c) set the story flags;
+      // (d) the rare statBonus / the R5 stance default; (e) applyPromotion (the ONLY rewardOnReach
+      // application + the terse Progress marker); (f) clear the cursor — the world inks in on teardown.
+      const target = state.rungBeat;
+      if (target === null) return state;
+      const scene = RUNG_BEATS[target];
+      if (!scene) return state;
+      const opt = rungOption(scene, intent.optionId);
+      if (!opt) return state;
+      // (a) the exchange → Story (F103): the MC's reply, then the speaker's reaction.
+      const react = rungReactVoiceSpeaker(scene, opt.reactNpc);
+      next = applyRewards(next, {
+        log: [
+          { channel: 'narration', text: opt.say, voice: 'player', speaker: PLAYER_SPEAKER },
+          { channel: 'narration', text: opt.react, voice: react.voice, speaker: react.speaker },
+        ],
+      });
+      // (b) ACCUMULATING relationship write(s) — Genemon's trust deepens across rungs (deepenNpc).
+      if (opt.memory) {
+        for (const m of opt.memory) {
+          next = deepenNpc(next, m.npc, {
+            warmthDelta: m.warmthDelta,
+            ...(m.regard !== undefined ? { regard: m.regard } : {}),
+          });
+        }
+      }
+      // (c) the durable story flags (the pick + any flag-backed bonus — pedlar-favour / smith-whetstone).
+      if (opt.flags && opt.flags.length > 0) next = applyRewards(next, { flags: opt.flags });
+      // (d) the rare small stat nudge (R3) + its delight line; the R5 stance DEFAULT (a story default).
+      if (opt.statBonus) {
+        const c = next.character;
+        next = {
+          ...next,
+          character: {
+            ...c,
+            attrs: {
+              ...c.attrs,
+              [opt.statBonus.attr]: (c.attrs[opt.statBonus.attr] ?? 0) + opt.statBonus.amount,
+            },
+          },
+        };
+        next = applyRewards(next, {
+          log: [{ channel: 'system', text: opt.statBonus.note, voice: 'narrator' }],
+        });
+      }
+      if (opt.setStance) next = { ...next, stance: opt.setStance };
+      // (e) APPLY the promotion — the sole place rewardOnReach fires (rank-rN flags + unlocks + the
+      //     terse marker). No rung ever advances without this beat completing (the D-110 invariant).
+      next = applyPromotion(next, target);
+      // (f) clear the cursor — the beat is done; the shell/world reveals post-scene.
+      next = { ...next, rungBeat: null };
+      break;
+    }
+    case 'advance_rung_beat': {
+      // Continue past a NARRATION-only rung beat (no decision). Every authored beat carries a
+      // decision today, so this is inert — kept for symmetry with advance_intro. On a decision-less
+      // beat it would apply the promotion + clear the cursor.
+      const target = state.rungBeat;
+      if (target === null) return state;
+      const scene = RUNG_BEATS[target];
+      if (!scene) return state;
+      if (scene.decision.options.length > 0) return state;
+      next = applyPromotion(next, target);
+      next = { ...next, rungBeat: null };
       break;
     }
     case 'rake_rice': {

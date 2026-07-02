@@ -16,6 +16,10 @@ export const NAMES = {
   // ── Travelling folk (vendors-as-people, D-114) ──
   pedlar: 'Tokubei', // the Ōmi pedlar who passes the gate-forecourt (F109 worked example)
 
+  // ── Estate hands + craftsmen (rung-beat cast, D-110 / BQ1) ──
+  rokusuke: 'Rokusuke', // a fellow kept-hand met at R2 — the early climb's peer + gossip-voice
+  smith: 'Tōzō', // the woodlot-smithy craftsman met at R4 — teaches wear/repair (place-gated)
+
   // ── Village of Asagiri ──
   villageChief: 'Yagōemon',
   villageGirl: 'Sayo', // ignites the "Tama" legend at T1-V0

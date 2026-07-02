@@ -50,6 +50,10 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
     };
     return { ...(s as object), resources: rename(st.resources), banked: rename(st.banked) };
   },
+  // v5 → v6 (the rung-up STORY BEAT, D-110): additively hydrate the `rungBeat` cursor to its inert
+  // default (null — no beat live). A mid-"ready" save simply shows the header affordance on load; an
+  // already-promoted save is unaffected (rung + reward already applied). Nothing else moves.
+  5: (s) => ({ ...(s as object), rungBeat: null }),
 };
 
 export function migrate(

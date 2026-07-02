@@ -72,17 +72,27 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     expect(v5.banked).toEqual({ rice: 0, coin: 10 }); // the kura mirror renames too
   });
 
-  it('a v1 save migrates the WHOLE chain v1→v5 (tier spine + intro + ask hub + coin/rice)', () => {
-    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
-    const v5 = migrate(v1, 1) as Record<string, unknown>;
-    expect(v5.tier).toBe(0); // v1→v2
-    expect(v5.npcMemory).toEqual({}); // v2→v3
-    expect(v5.askedTopics).toEqual([]); // v3→v4
-    expect(v5.resources).toEqual({ rice: 0, coin: 7 }); // v4→v5: koku→coin, rice added
+  it('the real v5→v6 step hydrates the rung-beat cursor (rungBeat: null, D-110)', () => {
+    // additively hydrate the rung-beat cursor to its inert default; nothing else moves.
+    const v5 = { schemaVersion: 5, rung: 'R2', introBeat: 3 };
+    const v6 = migrate(v5, 5, 6) as Record<string, unknown>;
+    expect(v6.rungBeat).toBeNull(); // no beat live on load — the correct inert default
+    expect(v6.rung).toBe('R2'); // existing progress carries forward
+    expect(v6.introBeat).toBe(3); // the intro cursor rides along untouched
   });
 
-  it('a current (v5) save is unchanged by the chain', () => {
-    const s = { schemaVersion: 5 };
-    expect(migrate(s, 5)).toBe(s); // already at target => identity
+  it('a v1 save migrates the WHOLE chain v1→v6 (tier spine + intro + ask hub + coin/rice + rung beat)', () => {
+    const v1 = { schemaVersion: 1, flags: { awake: true }, resources: { koku: 7 } };
+    const v6 = migrate(v1, 1) as Record<string, unknown>;
+    expect(v6.tier).toBe(0); // v1→v2
+    expect(v6.npcMemory).toEqual({}); // v2→v3
+    expect(v6.askedTopics).toEqual([]); // v3→v4
+    expect(v6.resources).toEqual({ rice: 0, coin: 7 }); // v4→v5: koku→coin, rice added
+    expect(v6.rungBeat).toBeNull(); // v5→v6: the rung-beat cursor
+  });
+
+  it('a current (v6) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 6 };
+    expect(migrate(s, 6)).toBe(s); // already at target => identity
   });
 });

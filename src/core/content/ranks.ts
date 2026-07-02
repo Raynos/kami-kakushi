@@ -57,6 +57,9 @@ export const RANKS: readonly RankDef[] = [
       // `rank-r1` gates a reveal (intents.ts) and the rest are the per-rung record used by test
       // fixtures + reserved as gate-hooks for later rungs — kept complete, not dead write-only cruft.
       flags: ['rank-r1'],
+      // F103 / D-110: the rung-up STORY prose now lives in RUNG_BEATS.R1.greeting (spoken in the
+      // beat → Story channel); `applyPromotion` emits the single terse "Rank ↑" marker to Progress.
+      // So `rewardOnReach` carries NO log line — only the flags + the surfaces the beat motivates.
       unlock: [
         'room-gate-forecourt',
         'room-home-paddies',
@@ -65,12 +68,6 @@ export const RANKS: readonly RankDef[] = [
         'readout-clock',
         'readout-stamina',
         'panel-rung-ladder',
-      ],
-      log: [
-        {
-          channel: 'milestone',
-          text: `${NAMES.elder} the elder watches you clear the stores without being told twice. "The house is short of hands and shorter of trustworthy ones. Stay. Earn your rice." You are taken on as a kept hand.`,
-        },
       ],
     },
   },
@@ -86,6 +83,10 @@ export const RANKS: readonly RankDef[] = [
     advanceHint: 'Service enough — but the grain-store wolf still waits. Face it to rise.',
     rewardOnReach: {
       flags: ['rank-r2', 'porters-knot'],
+      // F103 / D-110: both the milestone prose AND the porters-knot narration move into
+      // RUNG_BEATS.R2.greeting (the beat's closing narrator line), so all of R2's story prose lives
+      // in one place (Story channel). `rewardOnReach` keeps only flags + unlocks; `applyPromotion`
+      // emits the terse "Rank ↑" marker to Progress.
       unlock: [
         'tab-skills',
         'room-woodlot-edge',
@@ -97,17 +98,6 @@ export const RANKS: readonly RankDef[] = [
         'row-wood',
         'row-sansai',
         'skill-conditioning',
-      ],
-      log: [
-        {
-          channel: 'milestone',
-          text: `You can be set to a task and trusted to finish it. ${NAMES.elder} gives you the run of the woodlot and the near hill. A way to track what your hands are learning appears.`,
-        },
-        {
-          channel: 'narration',
-          voice: 'narrator', // F91/F93 — scene narration → consistent narrator voice
-          text: "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
-        },
       ],
     },
   },
@@ -138,12 +128,7 @@ export const RANKS: readonly RankDef[] = [
         'panel-bestiary',
         'panel-house-influence',
       ],
-      log: [
-        {
-          channel: 'milestone',
-          text: `${NAMES.drillmaster} sets you to the estate's defence — pests, beasts, and the masterless men on the woodlot road. A weapon, a yard to train in, and a duty that is yours. You are the gate-watch now.`,
-        },
-      ],
+      // F103 / D-110: story prose → RUNG_BEATS.R3.greeting (Kihei's full VN meet); terse marker only.
     },
   },
   // R4–R7 — the rest of the T0 estate ladder (M2·2, deliberately THIN: threshold + a reveal-as-
@@ -163,12 +148,7 @@ export const RANKS: readonly RankDef[] = [
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
       unlock: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya'],
-      log: [
-        {
-          channel: 'milestone',
-          text: `${NAMES.elder} hands you the key to the kura. "Mind the stores as if the rice were your own. The house is forgetting you were ever a stranger." You are the kura-warden now.`,
-        },
-      ],
+      // F103 / D-110: story prose → RUNG_BEATS.R4.greeting (Genemon + the smith Tōzō); terse marker only.
     },
   },
   {
@@ -185,14 +165,8 @@ export const RANKS: readonly RankDef[] = [
       // v0.3.2 A7 — the combat-rung beat: the stance control (glass-cannon↔tank) reveals here,
       // the last staggered combat surface (§4.6.9).
       unlock: ['stance-control'],
-      log: [
-        {
-          channel: 'milestone',
-          // A humble "onto the staff proper" step matching 家人 — reserve "a man of the house /
-          // no longer a servant" for the lord's ascension naming so that climax lands big (D-062).
-          text: `${NAMES.elder} takes you onto the household staff proper — no longer a season-hired hand, but one who answers to the house day and night. The work is the same; the standing is not.`,
-        },
-      ],
+      // F103 / D-110: story prose → RUNG_BEATS.R5.greeting (Genemon confers + Kihei teaches the
+      // stance, two-voice; BQ3). Terse "Rank ↑" marker only.
     },
   },
   {
@@ -207,12 +181,7 @@ export const RANKS: readonly RankDef[] = [
     rewardOnReach: {
       flags: ['rank-r6'],
       unlock: ['house-workshops', 'house-granary'],
-      log: [
-        {
-          channel: 'milestone',
-          text: `Lady ${NAMES.steward} sets you to the steward's errands — ledgers carried, messages run, the house's small business put in your hands. They are weighing you for something larger than a servant.`,
-        },
-      ],
+      // F103 / D-110: story prose → RUNG_BEATS.R6.greeting (Lady Chiyo's full VN meet); terse marker only.
     },
   },
   {
@@ -229,12 +198,8 @@ export const RANKS: readonly RankDef[] = [
       // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5).
       flags: ['rank-r7', 't0-capstone'],
       unlock: ['house-study'],
-      log: [
-        {
-          channel: 'milestone',
-          text: `The lord ${NAMES.lord} himself calls you to the inner rooms. "You came to us with no name and nothing in your hands. Look what those hands have done." For the first time the house reckons your worth — not as a servant, but as a man who might one day carry its standing. The measure of the House begins to take shape before you.`,
-        },
-      ],
+      // F103 / D-110: story prose → RUNG_BEATS.R7.greeting (the lord Shigemasa's capstone VN meet);
+      // terse "Rank ↑" marker only. `t0-capstone` fires here regardless of the beat's choice (BQ4).
     },
   },
 ];

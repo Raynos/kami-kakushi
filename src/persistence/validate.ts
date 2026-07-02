@@ -5,6 +5,7 @@
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
 import type { GameState, StanceId, AttrId } from '../core';
+import type { RankId } from '../core';
 import {
   APP_ID,
   SCHEMA_VERSION,
@@ -12,6 +13,7 @@ import {
   ATTR_IDS,
   ATTR_BASE,
   INTRO_BEAT_COUNT,
+  RANK_IDS,
 } from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
@@ -175,6 +177,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'deliveredDialogue'
     | 'npcMemory'
     | 'introBeat'
+    | 'rungBeat'
     | 'askedTopics'
     | 'quests'
     | 'marketBought'
@@ -234,6 +237,13 @@ export function validateState(rawState: unknown): ValidateResult {
         : (rawState.flags as Record<string, unknown>).awake === true
           ? INTRO_BEAT_COUNT
           : -1,
+    // The rung-beat cursor (v6, additive; D-110). A known rank id ⇒ resume the in-flight beat;
+    // absent / malformed / unknown ⇒ null (no beat live — the correct inert default). Matches the
+    // v5→v6 migration.
+    rungBeat:
+      typeof base.rungBeat === 'string' && RANK_IDS.has(base.rungBeat)
+        ? (base.rungBeat as RankId)
+        : null,
     // The dialogue-tree ask-hub set (v4, additive). Absent (any pre-tree save) → [] (nothing asked
     // yet, the correct fresh default); a malformed value → []. Matches the v3→v4 migration.
     askedTopics: Array.isArray(base.askedTopics) ? (base.askedTopics as readonly string[]) : [],

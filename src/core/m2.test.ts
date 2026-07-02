@@ -20,7 +20,7 @@ import {
   isUnlocked,
   getRank,
   applyRewards,
-  promoteRungs,
+  applyPromotion,
   reduce,
   hpMax,
   satietyMax,
@@ -219,11 +219,11 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
     const parked: GameState = {
       ...base,
       character: { ...base.character, hp: 6 },
-      rungMeter: balance.rungThreshold('R0') + 1,
       flags: { ...base.flags, awake: true, raked: true },
     };
-    const promoted = promoteRungs(parked);
-    expect(promoted.rung).not.toBe('R0'); // it did promote…
+    // D-110: the beat-terminal apply (applyPromotion) refills the belly (satiety), never HP.
+    const promoted = applyPromotion(parked, 'R1');
+    expect(promoted.rung).toBe('R1'); // it did promote…
     expect(promoted.character.hp).toBe(6); // …without a free heal
   });
 

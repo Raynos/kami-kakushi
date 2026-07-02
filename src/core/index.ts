@@ -43,6 +43,7 @@ export {
   withResource,
   addSkillXp,
   rememberNpc,
+  deepenNpc,
   npcRegard,
   markTopicAsked,
 } from './state';
@@ -95,7 +96,24 @@ export {
   skillYieldNum,
 } from './skills';
 export type { SkillProgress } from './skills';
-export { currentRank, accrueRungMeter, promoteRungs, rungProgress, phaseOf } from './ranks';
+export {
+  currentRank,
+  accrueRungMeter,
+  applyPromotion,
+  promotionReady,
+  pendingPromotionTarget,
+  rungProgress,
+  phaseOf,
+} from './ranks';
+// ── the rung-up story beats (D-110) ──
+export {
+  RUNG_BEATS,
+  rungBeatFor,
+  availableRungTopics,
+  rungTopic,
+  rungOption,
+} from './content/rungBeats';
+export type { RungScene, RungDecision, RungOption } from './content/rungBeats';
 export {
   gradeOf,
   perDeedCap,

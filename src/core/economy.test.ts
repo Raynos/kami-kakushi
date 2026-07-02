@@ -22,9 +22,32 @@ import {
   DAYS_PER_SEASON,
   SEASONS,
   balance,
+  promotionReady,
+  introActive,
+  introSceneAt,
+  RUNG_BEATS,
   type GameState,
 } from './index';
 import { validateState } from '../persistence/validate';
+
+// D-110: promotion is a player-TRIGGERED beat now. These local helpers drive the real path — finish
+// the intro's VN scenes, then trigger + complete a ready rung beat.
+function finishIntro(s: GameState): GameState {
+  while (introActive(s.introBeat)) {
+    const sc = introSceneAt(s.introBeat)!;
+    s = reduce(s, { type: 'choose_intro', optionId: sc.decision.options[0]!.id });
+  }
+  return s;
+}
+function playBeat(s: GameState): GameState {
+  s = reduce(s, { type: 'begin_rung_beat' });
+  const t = s.rungBeat;
+  if (t === null) return s;
+  return reduce(s, {
+    type: 'choose_rung_option',
+    optionId: RUNG_BEATS[t]!.decision.options[0]!.id,
+  });
+}
 
 // The reinvestment + sinks lens (audit #4/#5). The yield multiplier is deterministic
 // integer fixed-point (no RNG), so these are exact; the combat/estate sinks are pure
@@ -104,18 +127,22 @@ describe('skill → yield multiplier (audit #4)', () => {
   });
 
   it('rung pacing is independent of skill — acts-to-promote do not shrink as yield grows', () => {
-    let atR1 = reduce(createInitialState(SEASON_SPRING_SAFE), { type: 'open_eyes' });
+    let atR1 = finishIntro(reduce(createInitialState(SEASON_SPRING_SAFE), { type: 'open_eyes' }));
     // D-056 single profile: derive the rake count from the real R0 threshold (flat pts/act).
     const rakesToR1 = Math.ceil(balance.rungThreshold('R0') / balance.RUNG_POINTS_PER_ACT);
-    for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' }); // R0 → R1
+    for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' }); // fill the R0 meter
+    atR1 = playBeat(atR1); // R0 → R1 via the story beat (D-110)
     expect(atR1.rung).toBe('R1');
 
     const CAP = 5000;
+    // Count the farm acts that FILL the R1 meter (open the promotion gate). D-110: the rung no longer
+    // auto-advances, so we measure "acts to ready" (promotionReady) — the same acts-to-promote the
+    // old auto-promote consumed, still per-act (skill-independent).
     const actsToR2 = (start: GameState): number => {
       // v0.3.1 Step 5: farm_paddy is spatial — grind at its 'home-paddies' node.
       let s: GameState = { ...start, location: 'home-paddies' };
       let n = 0;
-      while (s.rung === 'R1' && n < CAP) {
+      while (!promotionReady(s) && n < CAP) {
         s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
         n++;
       }

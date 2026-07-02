@@ -222,6 +222,8 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | steward | Chiyo |
 | physician | Sōan |
 | pedlar | Tokubei |
+| rokusuke | Rokusuke |
+| smith | Tōzō |
 | villageChief | Yagōemon |
 | villageGirl | Sayo |
 | father | Jinpachi |

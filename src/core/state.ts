@@ -11,6 +11,7 @@
 
 import type { Rng } from './rng';
 import { createRng } from './rng';
+import { clamp } from './math';
 import type { LogState } from './log';
 import { emptyLog } from './log';
 import { SCHEMA_VERSION } from './constants';
@@ -125,6 +126,13 @@ export interface GameState {
    *  The unit is now a dialogue SCENE (npc-dialogue-tree plan); the field name is kept `introBeat`
    *  so the migration + cursor stay trivial (scene order == old beat order). */
   readonly introBeat: number;
+  /** The active rung-up story beat's TARGET rank, or `null` when no beat is live (D-110). A rung
+   *  beat is ONE scene (greeting → optional ask-hub → one decision → apply), so a single nullable
+   *  rank suffices (unlike the intro's 3-scene numeric `introBeat`). Set by `begin_rung_beat` when
+   *  a promotion is ready + triggered; cleared by `choose_rung_option` after the promotion applies.
+   *  Additive (default `null`); the ask-hub reuses `askedTopics`, story flags reuse `flags`, and
+   *  relationships reuse `npcMemory` — so `rungBeat` is the ONLY new stored field. */
+  readonly rungBeat: RankId | null;
   /** Topic ids the player has ASKED in the dialogue tree (across all scenes; ids are globally
    *  unique). Drives the hub's DIM state (asked topics stay + are re-askable — human fork
    *  2026-07-02) and the branch gates. Default `[]`; NEVER cleared on ascension (part of the run's
@@ -195,6 +203,7 @@ export function createInitialState(seed: number): GameState {
     deliveredDialogue: [],
     npcMemory: {},
     introBeat: -1, // pre-wake; open_eyes starts the intro at scene 0
+    rungBeat: null, // no rung beat live until a ready promotion is triggered (D-110)
     askedTopics: [],
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
@@ -254,6 +263,23 @@ export function rememberNpc(state: GameState, npc: NpcId, patch: Partial<NpcMemo
 /** The disposition tag an NPC remembers for you — `''` when you've never spoken to them. */
 export function npcRegard(state: GameState, npc: NpcId): string {
   return state.npcMemory[npc]?.regard ?? '';
+}
+
+/** DEEPEN one NPC's relationship (D-110 rung beats). Distinct from the intro's overwrite-only
+ *  `rememberNpc`: `warmthDelta` ACCUMULATES onto the prior warmth (clamped to [-3, +3]), so a
+ *  recurring granter's trust visibly deepens across rungs (Genemon R1→R4, Kihei R3→R5) rather than
+ *  being re-stamped each meeting. `regard` overwrites only when present; absent ⇒ warmth-only. */
+export function deepenNpc(
+  state: GameState,
+  npc: NpcId,
+  patch: { readonly warmthDelta: number; readonly regard?: string },
+): GameState {
+  const prior = state.npcMemory[npc] ?? { regard: '', warmth: 0 };
+  const merged: NpcMemory = {
+    regard: patch.regard ?? prior.regard,
+    warmth: clamp(prior.warmth + patch.warmthDelta, -3, 3),
+  };
+  return { ...state, npcMemory: { ...state.npcMemory, [npc]: merged } };
 }
 
 /** Mark a dialogue topic ASKED (npc-dialogue-tree plan §3.2). Idempotent — appends the id once, so

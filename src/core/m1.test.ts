@@ -11,7 +11,12 @@ import {
   getActivity,
   season,
   levelForXp,
-  promoteRungs,
+  applyPromotion,
+  promotionReady,
+  nextRankId,
+  introActive,
+  introSceneAt,
+  RUNG_BEATS,
   phaseOf,
   mcCombatStats,
   hpMax,
@@ -48,6 +53,27 @@ function farm(n: number): Intent[] {
 const actsToPromote = (s: GameState): number =>
   Math.ceil(rungThreshold(s.rung) / RUNG_POINTS_PER_ACT);
 
+// D-110: promotion is now a player-TRIGGERED beat, not an auto-hot-path side effect. These helpers
+// drive the real player path — finish the intro's VN scenes, then TRIGGER + complete a ready rung
+// beat (begin_rung_beat → choose_rung_option → applyPromotion). The option pick is flavour; any
+// pick promotes.
+function finishIntro(s: GameState): GameState {
+  while (introActive(s.introBeat)) {
+    const scene = introSceneAt(s.introBeat)!;
+    s = reduce(s, { type: 'choose_intro', optionId: scene.decision.options[0]!.id });
+  }
+  return s;
+}
+function playBeat(s: GameState): GameState {
+  s = reduce(s, { type: 'begin_rung_beat' });
+  const target = s.rungBeat;
+  if (target === null) return s; // no beat ready (gate unmet) — a no-op
+  return reduce(s, {
+    type: 'choose_rung_option',
+    optionId: RUNG_BEATS[target]!.decision.options[0]!.id,
+  });
+}
+
 describe('skill XP curve', () => {
   it('levels on the cumulative 1.3× table', () => {
     expect(levelForXp(0)).toBe(1);
@@ -59,9 +85,11 @@ describe('skill XP curve', () => {
 
 describe('T0 Phase-1 rung climb', () => {
   it('raking the spilled stores earns the kept-hand rung (R0→R1) and opens the estate', () => {
-    let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
     expect(s.rung).toBe('R0');
-    s = run(s, repeat('rake_rice', actsToPromote(s))); // raking fills the R0 meter → R1
+    s = run(s, repeat('rake_rice', actsToPromote(s))); // raking fills the R0 meter (holds — no auto-promote)
+    expect(s.rung).toBe('R0'); // D-110: the meter holds ready; the rung waits on the beat
+    s = playBeat(s); // trigger + complete the R1 story beat → the promotion applies
     expect(s.rung).toBe('R1');
     expect(hasFlag(s, 'rank-r1')).toBe(true);
     expect(isUnlocked(s, 'verb-farm')).toBe(true);
@@ -72,10 +100,11 @@ describe('T0 Phase-1 rung climb', () => {
   });
 
   it('field work earns the trusted-hand rung (R1→R2): first nav, skills, the wider estate', () => {
-    let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
+    let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
+    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1 (fill + beat)
     // v0.3.1 Step 5: farm_paddy is spatial — must be at 'home-paddies' to run
-    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // R1 meter → R2; sets 'farmed'
+    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // fill R1 meter; sets 'farmed'
+    s = playBeat(s); // trigger + complete the R2 beat → promote
     expect(s.rung).toBe('R2');
     expect(isUnlocked(s, 'tab-skills')).toBe(true); // the FIRST nav reveal
     expect(isUnlocked(s, 'verb-woodcut')).toBe(true);
@@ -85,11 +114,12 @@ describe('T0 Phase-1 rung climb', () => {
   });
 
   it('does not advance past R2 without the (M2a) combat gate', () => {
-    let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2
+    let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
+    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1
+    s = playBeat(run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s)))); // → R2
     s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s) + 10)); // pile the R2 meter well past its threshold
-    expect(s.rung).toBe('R2'); // R2→R3 storyGate needs 'first-fight-survived' (built at M2a)
+    expect(promotionReady(s)).toBe(false); // R2→R3 storyGate needs 'first-fight-survived' (built at M2a)
+    expect(playBeat(s).rung).toBe('R2'); // …so even triggering the beat is a no-op — the rung holds
   });
 });
 
@@ -108,26 +138,24 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
       rungMeter: 100000, // meter half of the AND-gate satisfied
       flags: { ...base.flags, awake: true, ...extra },
     });
-    expect(promoteRungs(atR3({})).rung).toBe('R3'); // meter alone won't pass
-    expect(promoteRungs(atR3({ 'combat-blooded': true })).rung).toBe('R4'); // duty done → promotes
+    // D-110: the meter alone never promotes — the AND-gate is read by `promotionReady` (the beat's
+    // trigger guard). Meter-full but storyGate-unmet ⇒ NOT ready; combat-blooded set ⇒ ready → R4.
+    expect(promotionReady(atR3({}))).toBe(false); // meter alone won't pass
+    expect(promotionReady(atR3({ 'combat-blooded': true }))).toBe(true); // duty done → ready
+    expect(applyPromotion(atR3({ 'combat-blooded': true }), 'R4').rung).toBe('R4'); // the beat applies it
   });
 
   it('the ladder climbs R0→R7 and the capstone opens Phase 2', () => {
     let s = createInitialState(1);
-    s = {
-      ...s,
-      flags: {
-        ...s.flags,
-        awake: true,
-        farmed: true, // R1→R2 story half
-        'first-fight-survived': true, // R2→R3 story half
-        'combat-blooded': true, // R3→R4 story half
-      },
-    };
+    s = { ...s, flags: { ...s.flags, awake: true } };
     expect(phaseOf(s)).toBe(1);
+    // Walk the ladder via applyPromotion (the beat-terminal apply) — one rung at a time (the DEV-seek
+    // shape). rank-rN + t0-capstone ride each rung's rewardOnReach.
     let guard = 0;
     while (s.rung !== 'R7' && guard++ < 20) {
-      s = promoteRungs({ ...s, rungMeter: 100000 }); // refill the meter between promotions
+      const nid = nextRankId(s.rung);
+      if (!nid) break;
+      s = applyPromotion(s, nid);
     }
     expect(s.rung).toBe('R7');
     expect(hasFlag(s, 't0-capstone')).toBe(true);
@@ -277,9 +305,9 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
 
 describe('conditioning enablement gate (the danger ring)', () => {
   it('foraging is locked until conditioning reaches the gate level', () => {
-    let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2 (forage revealed but conditioning still Lv1)
+    let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
+    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1
+    s = playBeat(run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s)))); // → R2 (forage revealed but conditioning still Lv1)
     // stand at the satoyama so the ONLY thing gating forage is the conditioning level, not the node
     expect(canDoActivity({ ...s, location: 'near-satoyama' }, getActivity('forage_satoyama'))).toBe(
       false,
@@ -302,9 +330,9 @@ describe('conditioning enablement gate (the danger ring)', () => {
 
 describe('soft stamina + season', () => {
   it('a drained body yields less but never zero (soft throttle)', () => {
-    let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    s = run(s, repeat('rake_rice', actsToPromote(s))); // → R1
-    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2 (now at home-paddies)
+    let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
+    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1
+    s = playBeat(run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s)))); // → R2 (now at home-paddies)
     s = { ...s, character: { ...s.character, satiety: 100 } }; // a fed body for the fresh baseline
     const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' }); // at home-paddies
     const freshRice = (fresh.resources.rice ?? 0) - (s.resources.rice ?? 0);

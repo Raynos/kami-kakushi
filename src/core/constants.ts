@@ -13,8 +13,11 @@ export const APP_ID = 'kami-kakushi' as const;
  *  v5 = the RICE/COIN/KOKU economy re-core (D-107): renames the carried+banked `koku` resource key
  *  to `coin` (the spendable currency) and adds `rice` (a real resource); koku leaves `resources`
  *  entirely (it is now House STANDING, in `influence`).
+ *  v6 = the rung-up STORY BEAT (D-110): adds `rungBeat` (the active rung beat's target rank, or
+ *  null). Additive — an in-flight save defaults it inert (a ready promotion just shows the header
+ *  affordance on load; an already-promoted save is unaffected).
  *  Pre-launch dev saves are wiped (D-067), but each forward step is a real, test-covered chain. */
-export const SCHEMA_VERSION = 5 as const;
+export const SCHEMA_VERSION = 6 as const;
 
 /** The event-log ring cap (PRD §6.4 / core/log): oldest entries evicted past this. */
 export const LOG_RING_MAX = 300 as const;
