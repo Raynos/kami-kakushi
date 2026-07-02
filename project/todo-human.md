@@ -42,3 +42,8 @@ _(none open)_
   tree** (F47): meet→ask→decide, reuses the intro beats as DialogueScenes,
   Sōan/Genemon topics, SCHEMA 3→4 migration. Key forks already answered
   (context-dependent topic counts, dimmed re-askable, voiced player questions).
+- [ ] `docs/plans/2026-07-02-anchor-1780-setting.md` — **anchor the setting to
+  1780** (ADR **D-105**): real year, fictional geography/politics. Low-risk
+  grounding pass (validates the existing world, no code change). **Two forks for
+  you** — the Tenmei famine (default: insulate) + the calendar (default: keep
+  relative year-counter, 1780 as flavour).
