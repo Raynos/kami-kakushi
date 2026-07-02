@@ -388,7 +388,8 @@ export function mount(
   settingsBtn.setAttribute('aria-haspopup', 'dialog');
   const settings = buildSettings(hooks);
   settingsBtn.addEventListener('click', settings.open);
-  titlebar.append(title, settingsBtn);
+  // the Settings control now lives in the fixed footer (playtest F5); the titlebar shows the name.
+  titlebar.append(title);
   shell.append(titlebar);
 
   // ── header / vitals ──
@@ -475,7 +476,12 @@ export function mount(
   );
 
   workspace.append(logSection, work);
-  shell.append(header, nav, workspace, settings.modal);
+
+  // ── fixed footer bar (F5) — the version stamp + the Settings entry, pinned to the bottom ──
+  const footer = el('footer', 'appbar-footer');
+  footer.append(el('span', 'foot-meta', __VERSION__), settingsBtn);
+
+  shell.append(header, nav, workspace, footer, settings.modal);
 
   // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
   const coldOpen = el('div', 'coldopen');

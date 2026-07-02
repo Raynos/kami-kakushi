@@ -1138,8 +1138,10 @@ export function mountDevPanel(
 
   const panel = el('div');
   panel.setAttribute('data-dev', DEV_SENTINEL);
+  // bottom-anchored floating overlay; collapsed it shrinks to the header (width:fit-content),
+  // expanded it grows to 15rem (see the head click handler). Never reserves layout space (F2/F4).
   panel.style.cssText =
-    'position:fixed;top:.5rem;right:.5rem;z-index:9999;width:15rem;max-height:92vh;overflow:auto;' +
+    'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:16rem;max-height:82vh;overflow:auto;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
     'border:1px solid #b08d4f;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.45);';
 
@@ -1154,12 +1156,15 @@ export function mountDevPanel(
   panel.append(head);
 
   const body = el('div');
-  body.style.cssText = 'padding:.4rem .5rem;display:flex;flex-direction:column;gap:.5rem;';
+  // start COLLAPSED so the panel is as small as possible by default (F4).
+  body.style.cssText = 'padding:.4rem .5rem;display:none;flex-direction:column;gap:.5rem;';
   panel.append(body);
+  caret.textContent = '▸';
   head.addEventListener('click', () => {
     const hidden = body.style.display === 'none';
     body.style.display = hidden ? 'flex' : 'none';
     caret.textContent = hidden ? '▾' : '▸';
+    panel.style.width = hidden ? '15rem' : 'fit-content';
   });
 
   const mono = (label: string, onClick: () => void): HTMLButtonElement => {
@@ -1250,11 +1255,7 @@ export function mountDevPanel(
   }
 
   host.append(panel);
-
-  // Reserve a right gutter so the fixed panel never sits OVER app content — the human reviews
-  // each variant live in the running UI (R2), so the surface being toggled must stay fully
-  // visible. The shell is `max-width:980px; margin:0 auto`, so padding #app re-centers it clear
-  // of the panel; global `box-sizing:border-box` keeps it from overflowing. DEV-only.
-  const app = document.getElementById('app');
-  if (app) app.style.paddingRight = '16rem';
+  // NOTE: the panel is position:fixed and floats OVER the app (bottom-right), so it reserves
+  // NO layout space — the game UI centers on the full viewport (playtest F2/F4). The old
+  // `#app paddingRight:16rem` gutter (which de-centered the UI and exposed a white strip) is gone.
 }

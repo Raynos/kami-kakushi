@@ -115,7 +115,11 @@ async function boot(): Promise<void> {
 
   // DEV-only variant harness (D-075) — undefined in prod (the ternary folds to `undefined`, so
   // ui/dev.ts tree-shakes out of the bundle). Threaded into the renderer + the DEV panel below.
-  const dev = import.meta.env.DEV ? createDevApi() : undefined;
+  // `?dev=no` (also dev=0/dev=false) opts OUT even in a dev build, so the human can preview the
+  // TRUE player-facing layout with no DEV panel and prod-default variants (playtest F2).
+  const devOff =
+    typeof window !== 'undefined' && /[?&]dev=(?:no|0|false)\b/i.test(window.location.search);
+  const dev = import.meta.env.DEV && !devOff ? createDevApi() : undefined;
 
   const render = mount(root, dispatch, hooks, dev);
 
