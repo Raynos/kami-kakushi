@@ -232,6 +232,46 @@ h3 {
   flex: 1 1 auto;
   min-height: 0;
 }
+/* F55b — when the intro ends and the shell reveals, the estate INKS IN gracefully rather than
+   snapping on all at once: the whole shell fades up, and its slices rise in a short stagger. The
+   class is added for one render then self-clears (render.ts); reduced-motion zeroes the duration
+   (media query + `.reduced-motion` below), so those users get the instant reveal. */
+.shell.intro-reveal {
+  animation: intro-shell-in var(--dur-beat) var(--ease-ink) both;
+}
+.shell.intro-reveal .slice {
+  animation: intro-slice-in var(--dur-beat) var(--ease-ink) both;
+}
+.shell.intro-reveal .slice-do {
+  animation-delay: 40ms;
+}
+.shell.intro-reveal .slice-progress {
+  animation-delay: 120ms;
+}
+.shell.intro-reveal .slice-estate {
+  animation-delay: 200ms;
+}
+.shell.intro-reveal .slice-log {
+  animation-delay: 160ms;
+}
+@keyframes intro-shell-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes intro-slice-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 
 /* header / vitals */
 .vitals {
@@ -714,18 +754,76 @@ h3 {
   color: var(--ink-faint);
   font-size: var(--fs-small);
 }
+/* F56 — a milestone reads as calm PROGRESS, not an alarm: a warm ochre wash + rule replaces the
+   red (#d7402c / --shu) strip the human disliked. The perk-unlock milestone gets its own JRPG box
+   (see .perk-box) and opts out of this class entirely. */
 .log-line.milestone {
   color: var(--ink);
   font-weight: 600;
-  background: linear-gradient(90deg, #d7402c10, transparent 60%);
+  background: linear-gradient(90deg, #c68a3e18, transparent 60%);
   padding-left: var(--space-3);
-  border-left: 3px solid var(--shu);
+  border-left: 3px solid var(--ochre);
+}
+.log-line.milestone .bullet {
+  color: var(--ochre);
 }
 
 /* F50 — the "Name: " prefix on a spoken line; inherits the line's voice colour, just weighted. */
 .log-line .log-speaker {
   font-weight: 600;
   opacity: 0.85;
+}
+
+/* F56 — the JRPG PERK-UNLOCK box: an old-school bordered card in the woodblock/ink palette (NOT the
+   red milestone strip). A perk name heading, the standalone desc beneath, and the ± mechanics as a
+   small stat line. The `.perk-line` wrapper drops the log-line's dotted rule so the box stands alone. */
+.log-line.perk-line {
+  border-bottom: 0;
+  padding: var(--space-2) 0;
+}
+.perk-box {
+  position: relative;
+  border: 2px solid var(--ink-soft);
+  border-radius: var(--radius-sm, 3px);
+  background: linear-gradient(160deg, #efe4c8, var(--washi));
+  padding: var(--space-3) var(--space-4);
+  /* the double-frame JRPG idiom: an inset second rule + a soft drop, kept on-palette (ink, no red). */
+  box-shadow:
+    inset 0 0 0 1px #f3e9d2,
+    inset 0 0 0 3px #c68a3e33,
+    0 1px 0 #26221e22;
+}
+.perk-tag {
+  font-family: var(--font-head);
+  font-size: var(--fs-micro, 0.7rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: var(--space-1, 0.15rem);
+}
+.perk-tag::before {
+  content: '❖ ';
+}
+.perk-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: var(--fs-body, 1rem);
+  color: var(--ink);
+  line-height: 1.3;
+}
+.perk-desc {
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-top: 0.1rem;
+}
+.perk-stat {
+  margin-top: var(--space-2);
+  padding-top: var(--space-1, 0.2rem);
+  border-top: 1px dotted #7a6c5966;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
 }
 
 /* F53 — the "Now" view: fleeting flavor lines that fade out over their last ~0.9s before
@@ -851,6 +949,19 @@ h3 {
   gap: var(--space-6);
   padding: var(--space-8);
   background: var(--washi);
+  /* F55 — the card is rebuilt on every scene change AND every (re-)ask, so this entry fade replays
+     each time: the new spoken text fades in as the typewriter re-runs. Reduced-motion zeroes it. */
+  animation: vn-card-in var(--dur-beat) var(--ease-ink) both;
+}
+@keyframes vn-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 /* the ink-seal nameplate (hanko idiom) — a category-coloured seal + the speaker's name.
    Colour is set inline per voice-category (render.ts); currentColor carries it to the borders. */
@@ -913,6 +1024,88 @@ h3 {
 /* while the line is still typing, a click anywhere skips to the end (render.ts) — hint the cursor. */
 .vn-scene.typing {
   cursor: pointer;
+}
+/* the player's voiced question in the scrollback — a "You: " prefix in the player (rokusho) colour. */
+.vn-speaker {
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* ── F47 the ask HUB (exploration) vs the DECISION (commitment) — two distinct reads ──
+   The Ask group is QUIET (a muted heading + light secondary buttons): free, re-askable questions.
+   A divider (`.vn-foot .brush-rule`) separates it from the weightier decision below. */
+.vn-ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.vn-ask-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.vn-ask-seal {
+  font-family: var(--font-display);
+  color: var(--ink-soft);
+}
+/* a topic button reads as a LIGHT, secondary affordance — a quiet ・-marked question, not a verb. */
+.intro-ask {
+  appearance: none;
+  text-align: left;
+  font: inherit;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid #7a6c5955;
+  border-radius: var(--radius-sm, 3px);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    color 120ms,
+    background-color 120ms;
+}
+.intro-ask::before {
+  content: '・';
+  color: var(--ink-faint);
+  margin-right: 0.35rem;
+}
+.intro-ask:hover {
+  border-color: var(--ochre);
+  color: var(--ink);
+  background: #c68a3e12;
+}
+.intro-ask:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+/* an asked topic stays (re-askable, human fork) but reads spent — DIMMED, with a small "asked" mark. */
+.intro-ask.asked {
+  opacity: 0.5;
+}
+.intro-ask.asked::after {
+  content: ' · asked';
+  font-size: var(--fs-micro);
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* the DECISION group — set apart + weightier than the ask hub: a bolder prompt over the primary
+   `.intro-choice` reply buttons ("these commit"). */
+.vn-decide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.vn-decide-prompt {
+  font-family: var(--font-head);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
 }
 /* a spoken reply reads as a quiet aside — a soft indigo left-rule ties the choice to the
    dialogue it answers, without competing with the `.primary` action accent. */

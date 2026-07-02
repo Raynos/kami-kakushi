@@ -13,14 +13,17 @@ import type {
   SkillId,
   MobId,
   StanceId,
-  IntroBeat,
+  DialogueScene,
+  DialogueTopic,
   VoiceCategory,
 } from '../core';
 import {
   availableActions,
   availableLabours,
   introActive,
-  introBeatAt,
+  introSceneAt,
+  availableTopics,
+  PLAYER_SPEAKER,
   isUnlocked,
   hasFlag,
   formatKMB,
@@ -126,14 +129,14 @@ const VOICE_SEAL: Record<VoiceCategory, string> = {
   villager: '里',
 };
 /** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. */
-function introNameplate(beat: IntroBeat): HTMLElement {
-  const color = VOICE_COLOR[beat.voice];
+function introNameplate(scene: DialogueScene): HTMLElement {
+  const color = VOICE_COLOR[scene.voice];
   const plate = el('div', 'vn-nameplate');
-  const seal = el('div', 'vn-seal', VOICE_SEAL[beat.voice]);
+  const seal = el('div', 'vn-seal', VOICE_SEAL[scene.voice]);
   seal.lang = 'ja';
   seal.style.color = color;
   seal.style.borderColor = color;
-  const name = el('div', 'vn-name', beat.speaker ? NPC_NAME[beat.speaker] : 'A memory');
+  const name = el('div', 'vn-name', scene.speaker ? NPC_NAME[scene.speaker] : 'A memory');
   name.style.color = color;
   name.style.borderColor = color;
   plate.append(seal, name);
@@ -159,7 +162,8 @@ const CHANNEL_BULLET: Record<LogChannel, string> = {
   reward: '🌾',
   combat: '⚔️',
   system: '',
-  milestone: '🔴',
+  // a quiet ink mark, not the red dot the human disliked (F56) — milestones read as progress, calmly.
+  milestone: '❖',
 };
 
 const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }> = {
@@ -461,7 +465,16 @@ export function mount(
   //    in only AFTER the intro ends. Lifecycle state (the mounted scene, its current beat, the
   //    per-char typewriter timer + a skip-to-end handle) lives across renders here. ──
   let introScene: HTMLElement | null = null;
-  let introSceneBeatId: string | null = null;
+  // The rebuild signature: scene id + an ask nonce, so the scene re-renders (and the typewriter
+  // re-runs, F55) on a scene change AND on every (re-)ask — a re-ask is idempotent in state so the
+  // nonce is what forces the retype. `introSceneCurrentId` tracks the scene we last mounted, so a
+  // fresh scene resets `lastAskedTopicId` (⇒ the greeting types, not a stale answer).
+  let introSceneSig: string | null = null;
+  let introSceneCurrentId: string | null = null;
+  // The topic whose ANSWER should type on the next build (null ⇒ type the greeting). Set by an ask
+  // button's click; a scene change clears it.
+  let lastAskedTopicId: string | null = null;
+  let askNonce = 0;
   let introTypeTimer: number | undefined;
   let finishIntroTypingNow: (() => void) | undefined;
   // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
@@ -1046,13 +1059,16 @@ export function mount(
     return movesEl;
   }
 
-  // ── the interactive intro VN scene (D-104 / F43–F48) — the SOLE prod intro presentation ──
-  // A full-screen washi surface mounted on `root` that HIDES the shell. The beat's NPC/narrator
-  // setup line(s) reveal with the GBA typewriter; a divider + the choice prompt + the option
-  // buttons appear only AFTER the line finishes (or a click skips to the end). Rebuilt only when
-  // the beat changes, so typing isn't restarted by unrelated re-renders. Reduced-motion / test env
-  // → instant (no typing). The player's reply + the NPC reaction go to the LOG (F48 owns the
-  // record); the scene owns the live spoken reveal.
+  // ── the interactive intro VN scene (D-104 / F47) — the dialogue TREE: meet → ask → decide ──
+  // A full-screen washi surface mounted on `root` that HIDES the shell. The scene reads the SCENE
+  // TREE (`introSceneAt`): the nameplate + a SCROLLBACK (greeting + every asked Q/A, F9-returnable)
+  // where the NEWEST spoken text types on the GBA typewriter, then a two-zone control area — an ASK
+  // hub (a button per `availableTopics`, dispatching `ask_topic`; asked topics stay, DIMMED +
+  // re-askable) above a divider, and the weightier DECISION (`scene.decision`, dispatching
+  // `choose_intro`) below. The MC's question + the NPC's answer are emitted to the LOG by the core;
+  // the scene reflects them from the tree (via `askedTopics`), not the log. Reduced-motion / test
+  // env → instant (no typing). Rebuilds on a scene change AND on every (re-)ask (F55 re-fade +
+  // retype), keyed by `introSceneSig`, so an unrelated re-render never restarts the typewriter.
   function introReduced(): boolean {
     return (
       window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
@@ -1067,83 +1083,157 @@ export function mount(
     finishIntroTypingNow = undefined;
     introScene?.remove();
     introScene = null;
-    introSceneBeatId = null;
+    introSceneSig = null;
   }
-  function buildIntroScene(beat: IntroBeat): HTMLElement {
-    const scene = el('div', 'vn-scene');
-    const card = el('div', 'vn-card frame');
-    card.append(introNameplate(beat));
+  // One spoken line of the scrollback. `typing` marks the newest block that types out char-by-char
+  // (the greeting on scene-entry, or the just-asked topic's answer); everything before is static.
+  interface VnSpec {
+    readonly voice: VoiceCategory;
+    readonly text: string;
+    readonly speaker?: string | undefined;
+    readonly typing: boolean;
+  }
+  function buildIntroScene(scene: DialogueScene, state: GameState): HTMLElement {
+    const asked = new Set(state.askedTopics);
+    // the topics for THIS scene, in the order they were asked (drives the scrollback exchange).
+    const askedForScene = state.askedTopics
+      .map((id) => scene.topics.find((t) => t.id === id))
+      .filter((t): t is DialogueTopic => t !== undefined);
+    // which block types now: the just-asked topic's answer, else the greeting (scene entry / load).
+    const typingTopicId =
+      lastAskedTopicId && scene.topics.some((t) => t.id === lastAskedTopicId)
+        ? lastAskedTopicId
+        : null;
 
-    // the spoken / narration prose — LEFT-aligned, natural wrap (F40)
+    // Assemble the scrollback: greeting, then each asked topic's voiced question + the NPC answer.
+    const specs: VnSpec[] = [];
+    for (const line of scene.greeting) {
+      specs.push({
+        voice: line.voice,
+        text: line.text,
+        speaker: line.speaker,
+        typing: !typingTopicId,
+      });
+    }
+    for (const t of askedForScene) {
+      // the MC's question reads as a `player` aside (instant — the player just clicked it).
+      specs.push({ voice: 'player', text: t.label, speaker: PLAYER_SPEAKER, typing: false });
+      for (const line of t.answer) {
+        specs.push({
+          voice: line.voice,
+          text: line.text,
+          speaker: line.speaker,
+          typing: t.id === typingTopicId,
+        });
+      }
+    }
+
+    const root_ = el('div', 'vn-scene');
+    const card = el('div', 'vn-card frame');
+    card.append(introNameplate(scene));
+
+    // the spoken / narration prose scrollback — LEFT-aligned, natural wrap (F40), scrolls (F9)
     const linesWrap = el('div', 'vn-lines');
     card.append(linesWrap);
 
-    // the divider + choice prompt + option buttons — hidden until the line finishes typing (F39)
+    // build each line; the typed span starts empty (filled by the typewriter), static ones full.
+    const typingNodes: { readonly span: HTMLElement; readonly text: string }[] = [];
+    for (const spec of specs) {
+      const p = el('p', 'vn-line');
+      p.style.color = VOICE_COLOR[spec.voice]; // the speaker's on-palette voice colour (F26 idiom)
+      // a `player` interjection gets a "You: " prefix so the exchange reads two-sided (the NPC's own
+      // lines sit under the nameplate, prefix-free).
+      if (spec.voice === 'player' && spec.speaker)
+        p.append(el('span', 'vn-speaker', `${spec.speaker}: `));
+      const textSpan = el('span', 'vn-text');
+      if (spec.typing) typingNodes.push({ span: textSpan, text: spec.text });
+      else textSpan.textContent = spec.text;
+      p.append(textSpan);
+      linesWrap.append(p);
+    }
+
+    // the two-zone control area — hidden until the newest line finishes typing (no click-race, F39).
     const foot = el('div', 'vn-foot');
     foot.hidden = true;
-    foot.append(brushRule());
-    if (beat.prompt) foot.append(el('p', 'vn-prompt', beat.prompt));
-    const choices = el('div', 'vn-choices');
-    if (beat.options && beat.options.length > 0) {
-      // a choice beat: one button per diegetic reply (no raw ±stat deltas — human 2026-07-02).
-      for (const opt of beat.options) {
-        const b = el('button', 'verb intro-choice', opt.label);
+
+    // ASK hub — a button per gate-passing topic; asked ones stay, DIMMED + re-askable (human fork).
+    const topics = availableTopics(scene, asked);
+    if (topics.length > 0) {
+      const askGroup = el('div', 'vn-ask');
+      const head = el('div', 'vn-ask-head');
+      const seal = el('span', 'vn-ask-seal', '問');
+      seal.lang = 'ja';
+      seal.setAttribute('aria-hidden', 'true');
+      head.append(seal, document.createTextNode('Ask'));
+      askGroup.append(head);
+      for (const t of topics) {
+        const wasAsked = asked.has(t.id);
+        const b = el('button', `intro-ask${wasAsked ? ' asked' : ''}`, t.label);
         b.type = 'button';
-        b.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
-        choices.append(b);
+        if (wasAsked) b.title = 'Asked — ask again';
+        b.addEventListener('click', () => {
+          lastAskedTopicId = t.id; // type THIS answer on the rebuild
+          askNonce += 1; // force a rebuild + retype even when the ask is idempotent (re-ask)
+          dispatch({ type: 'ask_topic', topicId: t.id });
+        });
+        askGroup.append(b);
       }
-    } else {
-      // a narration / continue-only beat: a single Continue that advances the cursor.
-      const b = el('button', 'verb primary intro-continue', 'Continue');
+      foot.append(askGroup);
+      foot.append(brushRule()); // the divider between exploration (ask) and commitment (decide)
+    }
+
+    // DECISION — the weighty "continue the story" closer(s); each applies the ±1/∓1 + memory + advance.
+    const decide = el('div', 'vn-decide');
+    decide.append(el('p', 'vn-prompt vn-decide-prompt', scene.decision.prompt));
+    const choices = el('div', 'vn-choices');
+    for (const opt of scene.decision.options) {
+      const b = el('button', 'verb intro-choice', opt.label);
       b.type = 'button';
-      b.addEventListener('click', () => dispatch({ type: 'advance_intro' }));
+      b.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
       choices.append(b);
     }
-    foot.append(choices);
+    decide.append(choices);
+    foot.append(decide);
     card.append(foot);
-    scene.append(card);
+    root_.append(card);
 
-    // build the (empty) line nodes so layout is stable, then type them in sequence
-    const nodes = beat.setup.map((line) => {
-      const p = el('p', 'vn-line');
-      p.style.color = VOICE_COLOR[line.voice]; // the speaker's on-palette voice colour (F26 idiom)
-      linesWrap.append(p);
-      return { p, text: line.text };
-    });
     const revealFoot = (): void => {
       foot.hidden = false;
+      // keep the newest spoken line (and the hub/decision) in view as the card grows (F7-style follow).
+      if (!introReduced()) card.scrollTo({ top: card.scrollHeight, behavior: 'smooth' });
+      else card.scrollTop = card.scrollHeight;
     };
 
-    // reduced-motion / test env → no typing: fill every line + show the choices at once.
-    if (introReduced() || import.meta.env.MODE === 'test') {
-      for (const n of nodes) n.p.textContent = n.text;
+    // reduced-motion / test env → no typing: fill every typed span + show the controls at once.
+    if (introReduced() || import.meta.env.MODE === 'test' || typingNodes.length === 0) {
+      for (const n of typingNodes) n.span.textContent = n.text;
       revealFoot();
-      return scene;
+      return root_;
     }
 
-    // GBA typewriter (~32ms/char): each line types out, then the next; a click skips to the end.
+    // GBA typewriter (~32ms/char): each newest line types out, then the next; a click skips to the end.
     finishIntroTypingNow = (): void => {
       if (introTypeTimer !== undefined) {
         window.clearTimeout(introTypeTimer);
         introTypeTimer = undefined;
       }
-      for (const n of nodes) n.p.textContent = n.text;
+      for (const n of typingNodes) n.span.textContent = n.text;
       finishIntroTypingNow = undefined;
-      scene.classList.remove('typing');
+      root_.classList.remove('typing');
       revealFoot();
     };
-    scene.classList.add('typing');
-    scene.addEventListener('click', () => finishIntroTypingNow?.());
+    root_.classList.add('typing');
+    root_.addEventListener('click', () => finishIntroTypingNow?.());
 
     let li = 0;
     const typeNext = (): void => {
-      if (li >= nodes.length) {
+      if (li >= typingNodes.length) {
         finishIntroTypingNow = undefined;
-        scene.classList.remove('typing');
+        root_.classList.remove('typing');
         revealFoot();
         return;
       }
-      const { p, text } = nodes[li]!;
+      const { span, text } = typingNodes[li]!;
       li += 1;
       if (text.length === 0) {
         typeNext();
@@ -1153,27 +1243,35 @@ export function mount(
       const step = (): void => {
         introTypeTimer = undefined;
         i += 1;
-        p.textContent = text.slice(0, i);
+        span.textContent = text.slice(0, i);
         if (i < text.length) introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
         else introTypeTimer = window.setTimeout(typeNext, TYPE_NEXT_BEAT_MS);
       };
       introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
     };
     typeNext();
-    return scene;
+    return root_;
   }
-  // Mount / update the full-screen scene for the current beat. Rebuilds only when the beat id
-  // changes so an unrelated re-render never restarts the typewriter mid-line.
+  // Mount / update the full-screen scene for the current dialogue scene. Rebuilds only when the
+  // signature (scene id + ask nonce) changes, so an unrelated re-render never restarts the
+  // typewriter mid-line; a scene change clears `lastAskedTopicId` so the greeting types afresh.
   function syncIntroScene(state: GameState): void {
-    const beat = introBeatAt(state.introBeat);
-    if (!beat) {
+    const scene = introSceneAt(state.introBeat);
+    if (!scene) {
       teardownIntroScene();
+      introSceneCurrentId = null;
+      lastAskedTopicId = null;
       return;
     }
-    if (introScene && introSceneBeatId === beat.id) return; // already showing this beat
+    if (scene.id !== introSceneCurrentId) {
+      introSceneCurrentId = scene.id;
+      lastAskedTopicId = null; // a fresh scene ⇒ type the greeting, not a stale answer
+    }
+    const sig = `${scene.id}::${askNonce}`;
+    if (introScene && introSceneSig === sig) return; // already showing this exact state
     teardownIntroScene();
-    introScene = buildIntroScene(beat);
-    introSceneBeatId = beat.id;
+    introScene = buildIntroScene(scene, state);
+    introSceneSig = sig;
     root.append(introScene);
   }
 
@@ -1754,7 +1852,35 @@ export function mount(
     const name = NPC_NAME[entry.speaker as keyof typeof NPC_NAME] ?? entry.speaker;
     return el('span', 'log-speaker', `${name}: `);
   }
+  // F56 — the intro perk-unlock milestone line "Perk unlocked — {name}: {desc} (±mechanics)" renders
+  // as an old-school JRPG PERK BOX, not the red milestone strip. Parse the single-source shape the
+  // core emits (`introPerkLine`); a non-perk milestone falls through to normal styling.
+  function parsePerkLine(
+    entry: LogEntry,
+  ): { readonly name: string; readonly desc: string; readonly mechanics: string } | null {
+    if (entry.channel !== 'milestone') return null;
+    const m = /^Perk unlocked — (.+?): (.+) \(([^)]*)\)\s*$/.exec(entry.text);
+    if (!m) return null;
+    return { name: m[1]!, desc: m[2]!, mechanics: m[3]! };
+  }
+  function buildPerkBox(
+    line: HTMLElement,
+    perk: { readonly name: string; readonly desc: string; readonly mechanics: string },
+  ): void {
+    line.textContent = '';
+    const box = el('div', 'perk-box');
+    box.append(el('div', 'perk-tag', 'Perk unlocked'));
+    box.append(el('div', 'perk-name', perk.name));
+    box.append(el('div', 'perk-desc', perk.desc));
+    box.append(el('div', 'perk-stat', perk.mechanics));
+    line.append(box);
+  }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
+    const perk = parsePerkLine(entry);
+    if (perk) {
+      buildPerkBox(line, perk);
+      return;
+    }
     line.textContent = '';
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
@@ -1774,6 +1900,14 @@ export function mount(
     else line.append(document.createTextNode(text));
   }
   function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
+    // F56 — a perk-unlock milestone becomes a JRPG box: drop the `milestone` class (no red strip),
+    // carry a plain `perk-line` wrapper the box lives inside.
+    if (parsePerkLine(entry)) {
+      const line = el('div', 'log-line perk-line');
+      renderLineContent(line, entry);
+      if (animate) line.classList.add('reveal');
+      return line;
+    }
     // the voice-<category> class carries the speaker colour (F26); absent voice ⇒
     // today's channel-only styling (narrator quote-detection fallback).
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
@@ -2527,6 +2661,14 @@ export function mount(
     if (introScene) introEndingRender = true;
     teardownIntroScene();
     shell.hidden = false;
+    // F55b — the estate INKS IN gracefully as the intro ends, never a hard jump. On the single
+    // reveal render, tag the shell so its slices fade/rise in (CSS `.shell.intro-reveal`); the class
+    // self-clears after the animation. Reduced-motion neutralises the animation (media query +
+    // `.reduced-motion` zero the duration), so those users get the instant reveal.
+    if (introEndingRender) {
+      shell.classList.add('intro-reveal');
+      window.setTimeout(() => shell.classList.remove('intro-reveal'), 1200);
+    }
     // Multi-panel layout (M2): stamp the two INDEPENDENT DEV axes — `layout` (arrangement) and
     // `framing` (the boxing treatment) — which CSS composes. Prod always folds to
     // 'layout-classic' + 'framing-boxes'; the `import.meta.env.DEV && dev` guard tree-shakes the
