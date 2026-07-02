@@ -173,6 +173,10 @@ rice/wood/sansai via `formatKMB`, coin via `formatCoin`.
 - Helper for the rung-up moment: dispatch nothing — just
   `eng.state.rungMeter = 99999; eng.dispatch({type:'begin_rung_beat'})` is
   acceptable in the demo strip ONLY (documented hack, keep it in one place).
+  NOTE: `sel.summonsReady` also checks the CURRENT rung's `storyGateFlag`
+  (`farmed` at R1, `first-fight-survived` at R2) — the demo strip must set
+  that flag too (`eng.state.flags.farmed = true` etc.), or the summons stays
+  earned-only, which is correct in play but wrong for a demo jump.
 - Keep it unobtrusive (~28px collapsed); it must not fight the variant's art.
 
 ## 3 · Fidelity & polish bar (the QA gate you'll be reviewed against)

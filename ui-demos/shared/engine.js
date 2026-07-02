@@ -442,7 +442,8 @@ export function createEngine(stageId = 'R0') {
       state.flags['combat-blooded'] = true;
       if (mob.coinReward > 0) gain('coin', mob.coinReward);
       state.character.combatXp += 10 + mob.level * 6;
-      log('combat', `The ${mob.label.toLowerCase()} breaks and is done. (+${mob.coinReward} coin)`);
+      const spoils = mob.coinReward > 0 ? ` (+${mob.coinReward} coin)` : '';
+      log('combat', `The ${mob.label.toLowerCase()} breaks and is done.${spoils}`);
       const short = mob.id.includes('monkey') ? 'monkey' : mob.id.includes('wolf') ? 'wolf' : mob.id;
       questAdvance(`kill:${short}`);
       const need = sel.combatXpNeeded(state);
@@ -550,6 +551,11 @@ export function createEngine(stageId = 'R0') {
             state.vn = null;
             state.phase = 'game';
             state.flags.raked = false;
+            // the intro's end grants the R0 floor (the cold-open snapshot
+            // starts with unlocked: [], so the gates must be granted here)
+            for (const u of BASE_UNLOCKS) {
+              if (!state.unlocked.includes(u)) state.unlocked.push(u);
+            }
             log('narration', D.COLD_OPEN.riceReveal);
           }
         } else {
