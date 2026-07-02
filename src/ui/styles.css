@@ -462,12 +462,17 @@ h3 {
 .workspace[data-layout='layout-byobu'] > .work > .slice {
   flex: 0 0 auto;
 }
-/* the RIGHT log fold — a first-class reading column with a HARD ⅓-of-VIEWPORT minimum width that it
-   NEVER collapses below, in any folding state (F71). `min-width` overrides flex-shrink, so the log
-   always keeps its third of the screen. `.log` keeps its own internal scroll (`.log-lines`). */
+/* the RIGHT log fold — a first-class reading column that is CAPPED so it never dominates the spread
+   (F117). It keeps a ⅓ minimum (F71) but must NOT grow to swallow the screen: `flex-grow:0` holds it
+   at its basis while the LEFT work fold (`flex:1 1 0`) takes the majority, and the width is measured
+   against the (capped 1440px) CONTAINER via `%`, NOT raw `vw` — raw `33.333vw` on a viewport wider
+   than the shell overshot to ~⅔ of the narrower shell. Net: log ≈ ⅓–46%, work holds the rest and
+   fills as panels unlock (the incremental-reveal signature). `min-width: min(…)` floors it at a
+   third of whichever is smaller (container vs viewport) so it never collapses. */
 .workspace[data-layout='layout-byobu'] .slice-log {
-  flex: 1 1 33.333vw;
-  min-width: 33.333vw;
+  flex: 0 1 42%;
+  min-width: min(33.333%, 33.333vw);
+  max-width: 46%;
   min-height: 0;
 }
 /* the log reads like a page of a book in byōbu: the body reading face on a looser leading. F85 — the
