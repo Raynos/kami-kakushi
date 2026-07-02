@@ -10,6 +10,39 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 <sha> · <date>`). Pre-`0.3.1` builds were tagged `v0.1` / `v0.2` in git; from
 `0.3.1` on the version lives only in `package.json`, never a git tag.
 
+## [0.3.5] — 2026-07-03
+
+Continues the T0 rebuild — the housing feature, more log/UI polish, and a
+CHANGELOG that now enforces itself.
+
+### Added
+
+- **A home, belongings, and comfort (D-111 / F89).** The story's promised "dry
+  corner and a bowl" are real now: a home reveals as you're kept on, **rest**
+  happens at your own quarters, and you own **belongings** (the mat, the bowl —
+  a category distinct from resources). Buy a few pieces of **comfort furniture**
+  (a futon for deeper rest, a sunken hearth, a clothes chest; a "settled home" set
+  bonus) — grounded comfort, never combat stat-gear. Lives in the Inventory tab.
+- **A "Chat" log tab** — the optional questions you ask (in the intro and at rung
+  beats) collect under **Chat**, so **Story** holds only the beats that matter.
+- **A clickable version → About** modal that deep-links the changelog.
+
+### Changed
+
+- **The event log no longer swallows the screen (F117).** It stays a first-class
+  reading column but is capped (~⅓–46%) so the workspace reads in balance; the
+  work column holds the majority and fills as you unlock more.
+- The transient "Now" log entries now expire on a real clock, whether or not the
+  Now tab is open.
+- The rung/progress display lives only in the header — the duplicate in the work
+  column is gone.
+
+### Fixed
+
+- A version bump now **fails the build unless the CHANGELOG documents it** (a new
+  `verify-changelog` gate) — this file can't drift from the shipped version again.
+- The DEV New-Game / Settings controls no longer overlap in the footer.
+
 ## [0.3.4] — 2026-07-02
 
 The autonomous T0 rebuild — a large, human-directed pass (scope locked in ADRs
