@@ -33,14 +33,16 @@ function noopHooks(): AppHooks {
 }
 
 /** A Phase-2 state with the live House-Influence pillar — phaseOf===2 needs R7 + t0-capstone
- *  (ranks.ts), and the panel shows on the Work tab once `panel-house-influence` is unlocked. */
+ *  (ranks.ts). IA reorg (D-112 §8.3): the koku panel MOVED from Work to the Estate 家 tab, so it
+ *  shows once `panel-house-influence` is unlocked AND the Estate tab is active. `panel-estate` (an
+ *  R1 reward — long unlocked by the R7 capstone) is present so the Estate tab chip is reachable. */
 function livingInfluenceState(value = 300): GameState {
   const base = createInitialState(1);
   return {
     ...base,
     rung: 'R7',
     flags: { ...base.flags, awake: true, 't0-capstone': true, 'rank-r7': true },
-    unlocked: [...base.unlocked, 'readout-rice', 'panel-house-influence'],
+    unlocked: [...base.unlocked, 'readout-rice', 'panel-estate', 'panel-house-influence'],
     influence: { estate: { value, highWater: value, judged: 0 } },
   };
 }
@@ -86,9 +88,18 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
     document.body.append(root);
   });
 
+  // IA reorg (D-112 §8.3) — the koku standing lives on the Estate 家 tab now; activate it before
+  // asserting the variant routing (the panel self-gates to `activeTab === 'estate'`).
+  function openEstate(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('家'))
+      ?.click();
+  }
+
   it('renders default A (continuous bar) when no DEV harness is present (= the prod path)', () => {
     const render = mount(root, () => {}, noopHooks()); // dev undefined → prod path
     render(livingInfluenceState(), null);
+    openEstate();
     expect(root.querySelector('.influence-bar')).not.toBeNull();
     expect(root.querySelector('.influence-seg')).toBeNull();
     expect(root.querySelector('.influence-marks')).toBeNull();
@@ -99,6 +110,7 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
     dev.setVariant('influence', 'influence-b');
     const render = mount(root, () => {}, noopHooks(), dev);
     render(livingInfluenceState(), null);
+    openEstate();
     expect(root.querySelector('.influence-seg')).not.toBeNull();
     expect(root.querySelector('.influence-bar')).toBeNull();
   });
@@ -108,6 +120,7 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
     dev.setVariant('influence', 'influence-c');
     const render = mount(root, () => {}, noopHooks(), dev);
     render(livingInfluenceState(), null);
+    openEstate();
     expect(root.querySelector('.influence-marks')).not.toBeNull();
     expect(root.querySelector('.influence-bar')).toBeNull();
   });
@@ -116,6 +129,7 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
     const dev = createDevApi(); // default = influence-a
     const render = mount(root, () => {}, noopHooks(), dev);
     render(livingInfluenceState(), null);
+    openEstate();
     expect(root.querySelector('.influence-bar')).not.toBeNull();
     expect(root.querySelector('.influence-seg')).toBeNull();
   });
@@ -221,16 +235,18 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
       'mob-monkey',
     );
   }
-  function openCombat(): void {
+  // IA reorg (D-112) — the Bestiary SPLIT OUT of renderCombat onto the Character 己 tab (it sits with
+  // the character sheet now, not the fight surface), so the DEV variant host resolves under Character.
+  function openCharacter(): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
-      .find((b) => (b.textContent ?? '').includes('Combat'))
+      .find((b) => (b.textContent ?? '').includes('己'))
       ?.click();
   }
 
   it('renders default A (field-guide cards) with no DEV harness (= prod)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(bestiaryState(), null);
-    openCombat();
+    openCharacter();
     expect(root.querySelector('.bestiary-card')).not.toBeNull();
     expect(root.textContent).not.toContain('危険帳'); // not the danger ledger
     expect(root.textContent).not.toContain('The beasts of the estate'); // not the scroll
@@ -241,7 +257,7 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
     dev.setVariant('bestiary', 'bestiary-b');
     const render = mount(root, () => {}, noopHooks(), dev);
     render(bestiaryState(), null);
-    openCombat();
+    openCharacter();
     expect(root.querySelector('.bestiary-card')).toBeNull(); // the default is replaced
     expect(root.textContent).toContain('Danger ledger');
     expect(root.textContent).toContain('危険帳');
@@ -252,7 +268,7 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
     dev.setVariant('bestiary', 'bestiary-c');
     const render = mount(root, () => {}, noopHooks(), dev);
     render(bestiaryState(), null);
-    openCombat();
+    openCharacter();
     expect(root.querySelector('.bestiary-card')).toBeNull();
     expect(root.textContent).toContain('The beasts of the estate');
   });

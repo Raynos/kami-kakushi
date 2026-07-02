@@ -108,6 +108,13 @@ describe('render — settings a11y + unknown-foe fog', () => {
     document.body.append(root);
   });
 
+  // IA reorg (D-112) — the House-Influence koku standing lives on the Estate tab now; click its chip.
+  function openTab(marker: string): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes(marker))
+      ?.click();
+  }
+
   it('save textareas carry id + name + aria-label', () => {
     const render = mount(root, () => {}, noopHooks());
     render(awakeCombatState(), null);
@@ -193,11 +200,13 @@ describe('render — settings a11y + unknown-foe fog', () => {
       rung: 'R7',
       tier: 1,
       flags: { ...s.flags, awake: true, 'rank-r7': true, 't0-capstone': true, 'ascended-t0': true },
-      unlocked: [...s.unlocked, 'panel-house-influence'],
+      // panel-estate (via panel-rung-ladder) is what lights the Estate tab, the koku standing's home.
+      unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate', 'panel-house-influence'],
       influence: { estate: { value: excellent, highWater: excellent, judged: 0 } },
       character: { ...s.character, attributePoints: 5 },
     };
-    render(ascended, null); // 'work' is the default active tab — the influence panel is live here
+    render(ascended, null);
+    openTab('家'); // the koku standing is on the Estate 家 tab (IA reorg D-112)
 
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     expect(panel).toBeTruthy();
@@ -218,7 +227,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
       rung: 'R7',
       tier: 0, // pre-ascension: still climbing toward the EXCELLENT gate
       flags: { ...s.flags, awake: true, 't0-capstone': true }, // phaseOf === 2 → the pillar is live
-      unlocked: [...s.unlocked, 'panel-house-influence'],
+      // panel-estate lights the Estate tab (the koku standing's IA home); panel-house-influence
+      // makes the standing live. Both are unlocked by R7 in real play.
+      unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate', 'panel-house-influence'],
       influence: { estate: { value, highWater: value, judged: 0 } },
     };
   }
@@ -228,6 +239,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
     // a non-band-boundary value in the GREAT band (derive the band, don't hard-code a grade)
     const value = balance.ESTATE_BANDS.great + 12;
     render(liveHouse(value), null);
+    openTab('家'); // the koku standing is on the Estate 家 tab
 
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     expect(panel.textContent).toContain('The House stands at');
@@ -250,6 +262,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
       document.body.append(root);
       const render = mount(root, () => {}, noopHooks());
       render(liveHouse(value), null);
+      openTab('家');
       const gradeEl = root.querySelector<HTMLElement>('.influence-grade')!;
       // the grade class is derived from the same gradeOf the ascension gate reads (A6 — one source).
       expect(gradeEl.className).toContain(`grade-${gradeOf(value).toLowerCase()}`);
@@ -259,6 +272,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
   it('D-107 Ph4 — the standing names the daimyō horizon at 10,000 koku (D-109)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(liveHouse(balance.ESTATE_BANDS.great), null);
+    openTab('家');
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     // the mythic ceiling, derived from the single-source DAIMYO_KOKU (not a hard-typed "10,000").
     expect(panel.textContent).toContain(balance.DAIMYO_KOKU.toLocaleString('en-US'));
@@ -269,6 +283,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
     const render = mount(root, () => {}, noopHooks());
     const value = balance.ESTATE_BANDS.good + 5; // GOOD → below the EXCELLENT gate, not ascendable
     render(liveHouse(value), null);
+    openTab('家');
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     expect(panel.textContent).toContain('must stand at');
     expect(panel.textContent).toContain(`${formatKMB(balance.ESTATE_BANDS.excellent)} koku`);
@@ -347,7 +362,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(seen.some((i) => i.type === 'move_to')).toBe(true);
   });
 
-  it('the storehouse Store button dispatches deposit (only rendered at the kura)', () => {
+  it('the storehouse Store button dispatches deposit (Inventory tab, only at the kura)', () => {
     const { seen, render } = spyMount();
     const base = createInitialState(1);
     render(
@@ -360,6 +375,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
+    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab (F108 / IA reorg D-112)
     expect(clickText('Store all coin')).toBe(true);
     expect(seen).toContainEqual({ type: 'deposit', resource: 'coin' });
   });
@@ -377,6 +393,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
+    openTab('蔵'); // Inventory tab
     expect(clickText('Store all rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'deposit', resource: 'rice' });
   });
@@ -387,12 +404,15 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
+        // the gate must be open so the Map tab (the pedlar's home) is reachable.
+        location: 'gate-forecourt',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate'],
+        unlocked: [...base.unlocked, 'panel-estate', 'room-gate-forecourt'],
         resources: { ...base.resources, rice: 30 },
       },
       null,
     );
+    openTab('地図'); // the pedlar's market is on the Map 地図 tab now (F109 / IA reorg D-112)
     expect(clickText('Sell all rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'sell_rice' });
   });
@@ -430,7 +450,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(seen.some((i) => i.type === 'fight' && i.mobId === 'monkey')).toBe(true);
   });
 
-  it('the Work-tab "Walk on" strip moves you without a tab-switch (smooth spatial loop)', () => {
+  it('F107 (D-112) — navigation lives ONLY on the Map tab; the Work tab has no "Walk on" strip', () => {
     const { seen, render } = spyMount();
     const base = createInitialState(1);
     render(
@@ -442,10 +462,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
-    // NO tab switch — the default Work tab carries a "Walk on" move strip.
-    const walkOn = root.querySelector('.actions .walk-on');
-    expect(walkOn).not.toBeNull();
-    const moveBtn = [...root.querySelectorAll<HTMLButtonElement>('.actions .map-move')].find((b) =>
+    // the default Work tab carries NO move strip (F107 — nav's single home is Map).
+    expect(root.querySelector('.actions .walk-on')).toBeNull();
+    expect(root.querySelector('.actions .map-move')).toBeNull();
+    // open the Map tab — the move buttons live there, and moving from Map still works.
+    openTab('地図');
+    const moveBtn = [...root.querySelectorAll<HTMLButtonElement>('.map-pane .map-move')].find((b) =>
       (b.textContent ?? '').includes('Home paddies'),
     );
     expect(moveBtn).toBeTruthy();
@@ -526,7 +548,17 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
       ...base,
       location: 'home-paddies',
       flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'readout-rice', 'tab-combat', 'panel-bestiary', ...extra],
+      // the full R3 combat surface set: the Combat tab + its floor, plus the Character-tab surfaces
+      // (tab-skills R2, readout-combat-level + panel-bestiary R3) that light the split-out sheet.
+      unlocked: [
+        ...base.unlocked,
+        'readout-rice',
+        'tab-skills',
+        'readout-combat-level',
+        'tab-combat',
+        'panel-bestiary',
+        ...extra,
+      ],
     };
   }
   function openCombat(): void {
@@ -534,16 +566,27 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
       .find((b) => (b.textContent ?? '').includes('Combat'))!
       .click();
   }
+  function openCharacter(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('己'))!
+      .click();
+  }
 
-  it('R3 floor: weapon + fight + Bestiary show, but NOT durability text, repair, equip, or stance', () => {
+  it('R3 floor: weapon + fight show on Combat; the Bestiary SPLITS OUT to Character (D-112)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(combatState([]), null); // R3-only surfaces
     openCombat();
     const pane = root.querySelector<HTMLElement>('#pane-combat, .combat-pane') ?? root;
-    // the fight floor is present
+    // the fight floor is present on Combat
     expect(root.querySelector('.weapon-card')).not.toBeNull();
     expect(root.querySelector('.foe-row')).not.toBeNull();
+    // IA reorg (D-112) — the Bestiary is NOT on the Combat tab anymore; it lives on Character.
+    expect(root.textContent).not.toContain('Bestiary 図鑑');
+    expect(root.querySelector('.character-bestiary .bestiary')).toBeNull(); // hidden while on Combat
+    openCharacter();
     expect(root.textContent).toContain('Bestiary 図鑑');
+    expect(root.querySelector('.character-bestiary .bestiary')).not.toBeNull();
+    openCombat();
     // the R4/R5 beats are held back
     expect(pane.querySelector('.stance-row')).toBeNull();
     const blurbHasDurability = [...root.querySelectorAll('.weapon-card .skill-blurb')].some((b) =>
@@ -575,11 +618,11 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     expect(root.querySelector('.stance-row')).not.toBeNull();
   });
 
-  it('the Bestiary fogs an unfaced foe, then inks its entry once its mob-<id> is set', () => {
+  it('the Bestiary (on Character) fogs an unfaced foe, then inks its entry once its mob-<id> is set', () => {
     const render = mount(root, () => {}, noopHooks());
     const state = combatState([]);
     render(state, null);
-    openCombat();
+    openCharacter(); // the bestiary lives on the Character 己 tab (IA reorg D-112)
     // no foe faced → the bestiary cards read as fogged silhouettes
     const cards = [...root.querySelectorAll<HTMLElement>('.bestiary-card')];
     expect(cards.length).toBeGreaterThan(0);
@@ -958,7 +1001,11 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
 
   it('F67/F72 — the pedlar buy control sits in its OWN in-flow cell (never a floating overlap)', () => {
     const render = mount(root, () => {}, noopHooks());
-    render(awake(['panel-estate']), null);
+    render(awake(['panel-estate', 'room-gate-forecourt']), null);
+    // the pedlar's market is on the Map 地図 tab now (F109 / IA reorg D-112).
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('地図'))
+      ?.click();
     const rows = [...root.querySelectorAll<HTMLElement>('.market-pane .market-row')];
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {
@@ -997,19 +1044,23 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     }
   });
 
-  it('F100 — the estate-improve card lives on the Estate tab, not the Work tab', () => {
+  it('F100 (D-112) — the estate-improve card lives on the Estate tab, not the Work tab', () => {
     const render = mount(root, () => {}, noopHooks());
     render(awake(['panel-estate', 'room-gate-forecourt']), null);
     const estatePane = root.querySelector<HTMLElement>('.estate-pane')!;
-    // structural: it's grouped in the Do slice (its home is the Estate/map tab), NOT the
-    // Work-column Estate/economy slice — so moving it can't leave a ghost in the Work fold.
+    // structural: it's grouped in the Do slice, NOT the Work-column Estate/economy slice.
     expect(root.querySelector('.slice-do .estate-pane')).not.toBeNull();
     expect(root.querySelector('.slice-estate .estate-pane')).toBeNull();
     // on the default Work tab the estate-improve card is hidden (no empty ghost in the Work column).
     expect(estatePane.hidden).toBe(true);
-    // switch to the Estate (地図) tab → the estate-improve card renders there.
+    // switch to the Estate (家) tab → the estate-improve card renders there (the Map 地図 tab is the
+    // node-map now, a separate tab — proving the improve card is NOT on Map).
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('地図'))
+      ?.click();
+    expect(estatePane.hidden).toBe(true); // NOT on the Map tab
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('家'))
       ?.click();
     expect(estatePane.hidden).toBe(false);
     expect(estatePane.textContent ?? '').toContain('Estate ·');
@@ -1177,8 +1228,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderMarket — a pedlar row survives a re-render (identity) and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate']);
+    const s = awake(['panel-estate', 'room-gate-forecourt']); // the pedlar is on the Map tab now
     render(s, null);
+    openTab('地図');
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     expect(row).not.toBeNull();
@@ -1194,15 +1246,16 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
   it('renderMarket — a patch reflects a changed buy state without recreating the row', () => {
     const seen: Intent[] = [];
     const render = mount(root, (i) => seen.push(i), noopHooks());
-    const s = awake(['panel-estate'], {
+    const s = awake(['panel-estate', 'room-gate-forecourt'], {
       resources: { ...createInitialState(1).resources, coin: 0 },
     });
     render(s, null);
+    openTab('地図'); // the pedlar's market is on the Map tab now
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     expect(btn.disabled).toBe(true); // no coin → can't buy
     // afford it → the SAME button becomes enabled (patched in place, not a fresh node).
-    const rich = awake(['panel-estate'], {
+    const rich = awake(['panel-estate', 'room-gate-forecourt'], {
       resources: { ...createInitialState(1).resources, coin: 9999 },
     });
     render(rich, s);
@@ -1215,16 +1268,18 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderSkills — a skill card + meter survive a re-render, empty pane stays empty (F72)', () => {
     const render = mount(root, () => {}, noopHooks());
-    // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards.
-    const s = awake(['tab-skills']);
+    // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards. tab-combat
+    // gives the Character tab OTHER content (quests) so the tab reveals while skills is genuinely
+    // empty — the exact F72 ghost-box case (a shown-but-empty SECTION inside a non-empty tab).
+    const s = awake(['tab-skills', 'tab-combat']);
     render(s, null);
-    openTab('技');
+    openTab('己'); // skills is a section of the Character 己 tab now (IA reorg D-112)
     expect(root.querySelector('.skills-pane .skill-row')).toBeNull();
     // F72 ghost-box: a shown-but-empty pane leaves NO element children (no orphan keeps a slice up).
     expect(root.querySelector<HTMLElement>('.skills-pane')!.childElementCount).toBe(0);
 
     // give farming enough XP to surface its skill card, then prove identity across a tick.
-    const withSkill = awake(['tab-skills'], {
+    const withSkill = awake(['tab-skills', 'tab-combat'], {
       skillXp: { ...createInitialState(1).skillXp, farming: 50 },
     });
     render(withSkill, s);
@@ -1241,9 +1296,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderQuests — a quest card survives a re-render and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['tab-combat']); // quests open with combat
+    const s = awake(['tab-combat']); // quests open with combat, folded into Character (D-112 §8.1)
     render(s, null);
-    openTab('用');
+    openTab('己'); // Undertakings 用 is a section of the Character 己 tab now
     const card = root.querySelector<HTMLElement>('.quests-pane .quest-card')!;
     expect(card).not.toBeNull();
     render(s, s);
@@ -1258,6 +1313,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const render = mount(root, () => {}, noopHooks());
     const s = awake(['panel-estate'], { location: 'kura' });
     render(s, null);
+    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab now (F108 / IA reorg D-112)
     const card = root.querySelector<HTMLElement>('.storehouse-pane .rung-card')!;
     expect(card).not.toBeNull();
     render(s, s);
@@ -1271,7 +1327,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const render = mount(root, () => {}, noopHooks());
     const s = awake(['panel-estate', 'room-gate-forecourt']);
     render(s, null);
-    openTab('地図');
+    openTab('家'); // IA reorg (D-112) — the estate-improve card lives on the Estate 家 tab now
     const card = root.querySelector<HTMLElement>('.estate-pane .rung-card')!;
     expect(card.textContent).toContain('Estate ·');
     render(s, s);
@@ -1357,10 +1413,12 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     return records;
   }
 
-  it('renderActions — the labour row + its auto-toggle + the walk-on strip survive; idle churns nothing', () => {
+  it('renderActions — the labour row + its auto-toggle survive; idle churns nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    // a labour node WITH the walk-on strip open + an auto-labour running (the auto-toggle the player
-    // is watching must not re-create / lose focus on the ~2×/s tick).
+    // a labour node with an auto-labour running (the auto-toggle the player is watching must not
+    // re-create / lose focus on the ~2×/s tick). F107 (D-112): the "Walk on 道" nav strip is GONE
+    // from Work — navigation's sole home is the Map tab, so move-node identity is asserted in the
+    // renderMap test above (`.map-pane .map-move` survives a re-render), not here.
     const s = awake(['verb-farm', 'room-home-paddies', 'room-gate-forecourt'], {
       location: 'home-paddies',
       autoActivity: 'farm_paddy',
@@ -1371,10 +1429,10 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
       (b) => (b.textContent ?? '').includes('Work the home paddies'),
     )!;
     const auto = actions.querySelector<HTMLButtonElement>('.area-group .auto-toggle')!;
-    const walkMove = actions.querySelector<HTMLElement>('.walk-on .map-move')!;
     expect(auto).not.toBeNull();
     expect(auto.classList.contains('on')).toBe(true); // the auto-labour is running
-    expect(walkMove).not.toBeNull();
+    // the Work tab holds no nav strip anymore (F107) — its sole home is Map.
+    expect(actions.querySelector('.walk-on')).toBeNull();
     render(s, s);
     // every node the player can touch is REUSED, not rebuilt (focus + auto-run survive).
     expect(
@@ -1383,7 +1441,6 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
       ),
     ).toBe(labourBtn);
     expect(actions.querySelector('.area-group .auto-toggle')).toBe(auto);
-    expect(actions.querySelector('.walk-on .map-move')).toBe(walkMove); // strip not re-mounted
     expect(auto.isConnected).toBe(true);
     expect(churnOnReRender(actions, s, render)).toEqual([]);
   });

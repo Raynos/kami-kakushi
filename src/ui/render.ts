@@ -215,7 +215,11 @@ const RESOURCE_LABEL: Record<string, string> = {
 };
 
 type Dispatch = (intent: Intent) => void;
-type Tab = 'work' | 'skills' | 'combat' | 'quests' | 'map';
+// The six-tab IA (D-112): every capability lives in exactly one thematic tab, each revealed only
+// once it has content (§3 of the IA reorg plan). Work R0 → Map/Estate/Inventory R1 → Character R2
+// → Combat R3. `skills`/`quests` are folded into Character; `map` now means the node-map (nav's
+// sole home), not the old "Estate 地図".
+type Tab = 'work' | 'map' | 'estate' | 'inventory' | 'character' | 'combat';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -679,6 +683,12 @@ export function mount(
   const combatPane = el('div', 'combat-pane');
   const questsPane = el('div', 'quests-pane');
   const mapPane = el('div', 'map-pane');
+  // IA reorg (D-112) — the Character tab's SPLIT-OUT halves of renderCombat: the attribute-training
+  // rows + the bestiary field-guide (they live with the character sheet, not the fight surface).
+  // Own containers so each is a build-once/patch surface on the Character tab (F81), and so the
+  // per-tab anti-empty guard can see them (§7). Points are still EARNED in Combat (the coupling holds).
+  const characterTrain = el('div', 'character-train');
+  const characterBestiary = el('div', 'character-bestiary');
   // ── incremental-render refs (append-only migration, F81 generalised via ui/reconcile.ts) ──
   //    Each easy surface builds its card shell ONCE (lazily on first show) and PATCHES in place
   //    after, so an idle re-render of unchanged state produces zero DOM churn (meter transitions
@@ -720,6 +730,34 @@ export function mount(
     sellBtn: HTMLButtonElement;
   } | null = null;
   let questsRefs: { list: HTMLElement } | null = null;
+  // renderHouseInfluence refs (IA reorg — migrated to append-only, F81). The card shell + the
+  // koku headline/grade/bar/silhouettes are built ONCE and PATCHED in place; the structural
+  // locked↔live↔ascended transitions swap named sub-sections via `hidden`, never a
+  // `textContent=''` teardown. `mode` records the last-built structure so an idle re-render of the
+  // same mode churns nothing (the zero-idle-churn invariant, §7). The DEV variant path stays
+  // wholesale (it needs a fresh container each render for the toggle) and NULLS these refs.
+  let influenceRefs: {
+    mode: string;
+    card: HTMLElement;
+    // locked teaser
+    lockedBlurb: HTMLElement;
+    lockedFoot: HTMLElement;
+    lockedSilhouettes: HTMLElement;
+    // live standing
+    liveBody: HTMLElement;
+    koku: HTMLElement;
+    grade: HTMLElement;
+    bar: HTMLElement;
+    fill: HTMLElement;
+    ticks: HTMLElement;
+    when: HTMLElement;
+    horizon: HTMLElement;
+    liveSilhouettes: HTMLElement;
+    foot: HTMLElement; // the post-live footer (gate / ascend CTA / risen resolution)
+    ascendBtn: HTMLButtonElement;
+    boon: HTMLElement;
+    frontier: HTMLElement;
+  } | null = null;
   let mapRefs: {
     card: HTMLElement;
     loc: HTMLElement;
@@ -747,15 +785,14 @@ export function mount(
     // D-107 Phase 2 — eat plain rice → satiety (the rice food path, beside cook).
     eatRiceRow: HTMLElement;
     eatRiceBtn: HTMLButtonElement;
-    walkOn: HTMLElement;
-    walkStrip: HTMLElement;
   } | null = null;
+  // IA reorg (D-112) — the Combat tab keeps ONLY the fight surface: XP · weapon · craft · stance ·
+  // watch. Training (attrs) + the bestiary SPLIT OUT to the Character tab (their refs live in
+  // characterRefs below); points are still EARNED from combat leveling (the coupling holds).
   let combatRefs: {
     xpNow: HTMLElement;
     xpFill: HTMLElement;
     xpHint: HTMLElement;
-    train: HTMLElement;
-    trainPts: HTMLElement;
     wc: HTMLElement;
     wcName: HTMLElement;
     wcBand: HTMLElement;
@@ -766,12 +803,19 @@ export function mount(
     // lazily created on first reveal so a `.stance-row` never exists in the DOM before stance-control
     // unlocks (the A7 gate test asserts its absence at R3/R4).
     stanceHost: HTMLElement | null;
-    bestiaryHost: HTMLElement;
-    bestiaryBlurb: HTMLElement;
-    bestiaryList: HTMLElement;
     watchHead: HTMLElement;
     watchEmpty: HTMLElement;
     watchList: HTMLElement;
+  } | null = null;
+  // characterRefs — the Character tab's SPLIT-OUT halves of combat (training attrs + bestiary),
+  // each a build-once/patch surface (F81). Reveal at R3 (`readout-combat-level` / `panel-bestiary`).
+  // Each half builds lazily + independently (both reveal at R3 in practice, but the refs never
+  // assume the other is present), so a null field means "that half not yet built".
+  let characterTrainRefs: { train: HTMLElement; trainPts: HTMLElement } | null = null;
+  let characterBestiaryRefs: {
+    host: HTMLElement;
+    blurb: HTMLElement;
+    list: HTMLElement;
   } | null = null;
   // Order matters for FEEL (spatial model, v0.3.1): the node-specific LABOUR (`actions`) is the HERO
   // — what you walked to this node to DO — so it leads "What you can do", with the rung ladder as
@@ -788,11 +832,24 @@ export function mount(
   const sliceDo = el('section', 'slice slice-do');
   sliceDo.dataset.panel = 'do';
   sliceDo.setAttribute('aria-label', 'Work');
-  // F100 — the estate-improve card (`estatePane`) lives with the Estate tab (the map), its thematic
-  // home, NOT the Work column: it renders here in the Do slice but self-gates to `activeTab==='map'`
-  // (see renderEstate), so on the Work tab it's hidden and never a ghost, and on the Estate tab it
-  // sits alongside the map. The market/storehouse/influence coin panes stay in the Work column.
-  sliceDo.append(workHead, actions, skillsPane, combatPane, questsPane, mapPane, estatePane);
+  // IA reorg (D-112) — Phase A keeps the current byōbu DOM grouping; the SIX tabs are realised by
+  // re-gating each pane's `activeTab` check (§6.3). Only the active tab's panes are ever visible, so
+  // the slice grouping is unchanged for layout. The Do slice hosts every single-column tab surface:
+  // Work labour, the node-Map, Estate improve-card, Character (skills + training + bestiary + quests),
+  // and Combat. The market/storehouse/influence coin panes stay in the Estate slice (their tab
+  // re-homes are Map/Inventory/Estate — self-gated, F100-style). Phase B (deferred) gives each tab
+  // its own container section.
+  sliceDo.append(
+    workHead,
+    actions,
+    skillsPane,
+    characterTrain,
+    characterBestiary,
+    combatPane,
+    questsPane,
+    mapPane,
+    estatePane,
+  );
   // P2 · Path & Progress — the rung ladder (appears at first rake, R0→R1).
   const sliceProgress = el('section', 'slice slice-progress');
   sliceProgress.dataset.panel = 'progress';
@@ -921,31 +978,88 @@ export function mount(
     return false;
   }
 
+  // English+kanji pairing (ui-design §7/§9). Final glyphs are a taste call (surfaced, not locked —
+  // IA reorg plan §8.4).
   const TAB_LABEL: Record<Tab, string> = {
     work: 'Work',
-    skills: 'Skills 技',
+    map: 'Map 地図',
+    estate: 'Estate 家',
+    inventory: 'Inventory 蔵',
+    character: 'Character 己',
     combat: 'Combat 武',
-    quests: 'Quests 用',
-    map: 'Estate 地図',
   };
-  function renderNav(state: GameState): void {
-    const tabs: Tab[] = ['work'];
-    // the walkable estate map opens once the gate does (R1 — you can step off the kura floor).
-    if (isUnlocked(state, 'room-gate-forecourt')) tabs.push('map');
-    if (isUnlocked(state, 'tab-skills')) tabs.push('skills');
-    if (isUnlocked(state, 'tab-combat')) tabs.push('combat');
-    // Quests open with combat (the crop-raider quest needs the field-defence verbs) — D-037.
-    if (isUnlocked(state, 'tab-combat')) tabs.push('quests');
-    nav.hidden = tabs.length < 2;
-    if (nav.hidden) return;
-    if (!tabs.includes(activeTab)) activeTab = 'work';
-    nav.textContent = '';
-    for (const tab of tabs) {
-      const btn = el('button', `nav-tab${activeTab === tab ? ' active' : ''}`, TAB_LABEL[tab]);
-      btn.type = 'button';
-      btn.addEventListener('click', () => setTab(tab));
-      nav.append(btn);
+  // ── the six-tab reveal predicates (D-112 §3) — a tab's chip appears the render its PRIMARY content
+  //    first unlocks, and NEVER before (the incremental-reveal signature). Each reuses an EXISTING
+  //    surface predicate — NO new flags — and is the anti-empty-tab guard (§7) lifted to the tab
+  //    level: it answers "would this tab have visible content if active?" WITHOUT switching activeTab.
+  //    Work R0 always · Map/Estate/Inventory R1 · Character R2 · Combat R3.
+  const TAB_ORDER: readonly Tab[] = ['work', 'map', 'estate', 'inventory', 'character', 'combat'];
+  // does the Character tab have any visible content? — the true anti-empty guard (§7): a skill card
+  // to show (skills visible via by-doing OR a skill row unlocked), OR the R3 sections (training /
+  // bestiary), OR quests. Skills-only-but-no-skill (an isolated fixture) leaves it EMPTY → no chip.
+  function characterHasContent(state: GameState): boolean {
+    const skillsHaveCard =
+      isUnlocked(state, 'tab-skills') &&
+      SKILLS.some((def) => skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`));
+    return (
+      skillsHaveCard ||
+      isUnlocked(state, 'readout-combat-level') || // training (attrs)
+      isUnlocked(state, 'panel-bestiary') || // the bestiary
+      isUnlocked(state, 'tab-combat') // quests ("Undertakings 用")
+    );
+  }
+  // "would this tab have visible content if active?" — the anti-empty-tab guard (§7) lifted to the
+  // tab level, WITHOUT switching activeTab. Each branch mirrors its pane's real render condition:
+  // the map/estate/inventory/combat panes always render content once their surface unlocks (a
+  // guaranteed you-are-here card / improve card / kura card / fight surface); only Character can be
+  // predicate-open-but-empty, so it gets a real content check.
+  function tabHasContent(state: GameState, tab: Tab): boolean {
+    switch (tab) {
+      case 'work':
+        // labour is always reachable (rake/rest at R0); the Work tab never empties.
+        return true;
+      case 'map':
+        // the walkable node-map opens once the gate does (R1 — you can step off the kura floor). Nav's
+        // sole home (F107); the market/pedlar lives here too, but the node-map is the primary content.
+        return isUnlocked(state, 'room-gate-forecourt');
+      case 'estate':
+        // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
+        return isUnlocked(state, 'panel-estate');
+      case 'inventory':
+        // the kura bank (carried vs stored coin/rice) — opens with the estate economy (default §8.2).
+        return isUnlocked(state, 'panel-estate');
+      case 'character':
+        // Skills first (R2), attrs + bestiary + quests at R3 — but only once something actually shows.
+        return characterHasContent(state);
+      case 'combat':
+        // the fight surface — watch + XP + weapon (tab-combat, R3).
+        return isUnlocked(state, 'tab-combat');
     }
+  }
+  function visibleTabs(state: GameState): Tab[] {
+    return TAB_ORDER.filter((t) => tabHasContent(state, t));
+  }
+  function renderNav(state: GameState): void {
+    const tabs = visibleTabs(state);
+    // the nav bar shows only once ≥2 tabs qualify (unchanged: appears at R1 when Map joins).
+    toggle(nav, tabs.length >= 2);
+    if (tabs.length < 2) return;
+    // the activeTab-not-in-list fallback → 'work' (a tab that lost its content, or a stale save).
+    if (!tabs.includes(activeTab)) activeTab = 'work';
+    // the tab SET changes rarely (a chip lights up at a rung boundary), so a wholesale rebuild of a
+    // handful of buttons only WHEN the set or the active tab changes is cheap + idle-churn-free. The
+    // reconcileList keeps each chip's node stable across idle ticks (node-identity, F81 / §7).
+    reconcileList(nav, tabs, {
+      key: (tab) => tab,
+      build: (tab) => {
+        const btn = el('button', 'nav-tab', TAB_LABEL[tab]);
+        btn.type = 'button';
+        btn.addEventListener('click', () => setTab(tab));
+        return btn;
+      },
+      patch: (btn, tab) => setClass(btn, 'active', activeTab === tab),
+      order: true,
+    });
   }
 
   function renderLadder(state: GameState): void {
@@ -1012,9 +1126,9 @@ export function mount(
     { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
   ];
   function renderEstate(state: GameState): void {
-    // F100 — the estate-improve card is the Estate tab's, not the Work tab's (its thematic home is
-    // the estate map). It self-gates to the map tab; on Work it stays hidden (no ghost slice).
-    const show = activeTab === 'map' && isUnlocked(state, 'panel-estate');
+    // F100 (D-112) — the estate-improve card (kura-works flywheel) is the Estate tab's home. It
+    // self-gates to the Estate tab; on every other tab it stays hidden (no ghost slice).
+    const show = activeTab === 'estate' && isUnlocked(state, 'panel-estate');
     toggle(estatePane, show);
     if (!show) return;
     // build the shell ONCE (F81): the improve card carries every mutable child up front (blurb /
@@ -1089,117 +1203,24 @@ export function mount(
     return row;
   }
 
-  function renderHouseInfluence(state: GameState): void {
-    influence.textContent = '';
-    const show = activeTab === 'work' && isUnlocked(state, 'panel-house-influence');
-    influence.hidden = !show;
-    if (!show) return;
-
-    const live = phaseOf(state) === 2; // the macro engine opens at the R7 capstone (D-055)
-    const card = el('div', `influence-panel frame${live ? ' live' : ' locked'}`);
-    // D-107 re-skin: the "House Influence" pillar IS the House's koku STANDING — the number it reports
-    // is koku (the House's assessed worth, kokudaka 石高). Display it as standing; the internal pillar
-    // name (家産/influence.estate) is unchanged.
-    card.setAttribute(
-      'aria-label',
-      live
-        ? "The House's koku standing"
-        : "The House's koku standing — opens once you are trusted of the house",
-    );
-    const head = el('div', 'rung-now');
-    head.append(document.createTextNode('The House’s Standing '));
-    const k = el('span', 'house-influence-kanji');
-    k.lang = 'ja';
-    k.textContent = '石高'; // kokudaka — the House's worth assessed in koku
-    head.append(k);
-    card.append(head);
-
-    if (!live) {
-      // pre-capstone teaser: the measure of the house, still out of reach (unnamed silhouettes).
-      card.append(
-        el(
-          'div',
-          'skill-blurb',
-          'How a house is truly weighed. Earn the trust of the house, and its measure opens to you.',
-        ),
-      );
-      for (let i = 0; i < 4; i++) card.append(silhouetteRow());
-      card.append(
-        el('div', 'influence-foot lock-hint', 'Opens when you are Trusted of the house.'),
-      );
-      influence.append(card);
-      return;
-    }
-
-    // ── Phase 2 — the House's live koku STANDING (D-107 re-skin of the Estate 家産 pillar). The
-    //    pillar VALUE is the koku number; the grade bands (ESTATE_BANDS) grade it NONE→GOOD→GREAT→
-    //    EXCELLENT; the season judge re-assesses it. Presentation only — the macro engine is unchanged.
-    const est = state.influence.estate;
-    const grade = estateGrade(state);
+  // shared koku-standing helpers (used by both the DEV wholesale path + the incremental patch).
+  const LIVE_ARIA = "The House's koku standing";
+  const LOCKED_ARIA = "The House's koku standing — opens once you are trusted of the house";
+  function gradeWordFor(grade: ReturnType<typeof estateGrade>): string {
+    return grade === 'EXCELLENT'
+      ? 'Excellent 秀'
+      : grade === 'GREAT'
+        ? 'Great 優'
+        : grade === 'GOOD'
+          ? 'Good 良'
+          : 'Unranked';
+  }
+  // the DEV-path ascension foot (a fresh wholesale build each render). The incremental prod/test
+  // path toggles the equivalent foot sub-sections in place; only the DEV path appends fresh nodes.
+  function appendInfluenceFoot(card: HTMLElement, state: GameState): void {
     const bands = balance.ESTATE_BANDS;
-    const gradeWord =
-      grade === 'EXCELLENT'
-        ? 'Excellent 秀'
-        : grade === 'GREAT'
-          ? 'Great 優'
-          : grade === 'GOOD'
-            ? 'Good 良'
-            : 'Unranked';
-
-    // the headline — the House's worth IS its kokudaka: "The House stands at N koku" (the pillar
-    // value as a big RANK number via formatKMB, NEVER mon-denominated), with the grade as its
-    // sub-label to the right (the ascension gate reads this same grade — A6).
-    const activeRow = el('div', 'influence-row active');
-    const name = el('span', 'influence-name');
-    const dot = el('span', 'pillar-dot estate', '◆');
-    dot.setAttribute('aria-hidden', 'true');
-    name.append(dot, document.createTextNode(' The House stands at '));
-    const koku = el('span', 'koku-standing', formatKMB(est.value));
-    name.append(koku, document.createTextNode(' koku'));
-    activeRow.append(name);
-    activeRow.append(el('span', `influence-grade grade-${grade.toLowerCase()}`, gradeWord));
-    card.append(activeRow);
-
-    // ── grade visual (the diverged surface, D-075) — A = the continuous ink grade-bar (the
-    //    self-picked default; ships to prod). B/C live DEV-only behind the variant toggle and
-    //    are stripped from the prod bundle (the `import.meta.env.DEV` guard folds to dead code
-    //    in prod, so ui/dev.ts tree-shakes out — see ui/dev.ts + the gh-pages strip-guard). ──
-    if (!(import.meta.env.DEV && dev && dev.renderVariant('influence', card, state, dispatch))) {
-      // A (default): the continuous ink grade-bar, ticks at GOOD / GREAT / EXCELLENT
-      const bar = el('div', 'influence-bar');
-      const fill = el('span', `influence-fill grade-${grade.toLowerCase()}`);
-      fill.style.width = `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`;
-      bar.append(fill);
-      for (const t of [bands.good, bands.great, bands.excellent]) {
-        const tick = el('span', 'influence-tick');
-        tick.style.left = `${Math.round((t / bands.excellent) * 100)}%`;
-        bar.append(tick);
-      }
-      card.append(bar);
-      card.append(
-        el('div', 'influence-when', `The season re-assesses at ${formatKMB(est.highWater)} koku.`),
-      );
-      // name the far HORIZON (D-109): the House's koku standing climbs, in the end, toward the
-      // 10,000-koku line that makes a daimyō — the mythic ceiling that gives this number a
-      // destination. Flavour only at T0 (it gates nothing here); the number is derived from the
-      // single-source DAIMYO_KOKU, rendered as the iconic "10,000 koku" (not K/M/B).
-      card.append(
-        el(
-          'div',
-          'influence-when koku-horizon',
-          `The road runs on toward daimyō 大名 — at ${balance.DAIMYO_KOKU.toLocaleString('en-US')} koku.`,
-        ),
-      );
-    }
-
-    // the pillars yet to come — unnamed silhouettes (D-055)
-    for (let i = 0; i < 3; i++) card.append(silhouetteRow());
-
-    // the manual opt-in ascension (D-049/D-062) — only the OPTION, the player picks the moment
+    const est = state.influence.estate;
     if (state.tier >= 1) {
-      // the AFTER of the payoff (Step 5d / F2 — "design the AFTER of every payoff"): once you have
-      // ascended, the ceremony must resolve into a satisfying next-state — NOT the stale
-      // "reach Excellent to ascend (480/480)" prompt the big moment used to land on.
       card.append(
         el(
           'div',
@@ -1213,7 +1234,7 @@ export function mount(
           el(
             'div',
             'influence-when',
-            `The lord's boon waits on you: ${pts} point${pts === 1 ? '' : 's'} to spend at Training 鍛錬 on the Combat tab.`,
+            `The lord's boon waits on you: ${pts} point${pts === 1 ? '' : 's'} to spend at Training 鍛錬 on the Character 己 tab.`,
           ),
         );
       }
@@ -1234,12 +1255,273 @@ export function mount(
         ),
       );
     }
-    influence.append(card);
   }
 
-  /** The reachable-neighbour move buttons (`→ node`, danger ⚠ + the conditioning lock). Shared by the
-   *  MAP tab (the fuller view) AND the Work tab's "Walk on" strip, so you can move WITHOUT a
-   *  tab-switch — the spatial loop stays smooth. Returns null when nowhere is walkable from here. */
+  // ── the House's koku standing (D-055/D-107) — migrated to append-only (F81). The card shell is
+  //    built ONCE and PATCHED in place; the structural locked↔live↔ascended transitions swap named
+  //    sub-sections via `hidden`, never a `textContent=''` teardown. IA reorg (D-112): the koku IS
+  //    House standing → its home is the Estate tab. The DEV variant path stays wholesale. ──
+  function renderHouseInfluence(state: GameState): void {
+    // IA reorg (D-112 §2/§8.3) — the koku (House standing) moves from Work to the Estate tab.
+    const show = activeTab === 'estate' && isUnlocked(state, 'panel-house-influence');
+    toggle(influence, show);
+    if (!show) return;
+
+    const live = phaseOf(state) === 2; // the macro engine opens at the R7 capstone (D-055)
+    const bands = balance.ESTATE_BANDS;
+
+    // ── DEV variant path — a fresh wholesale build each render (the toggle needs a fresh container).
+    //    Nulls the incremental refs so returning to the default rebuilds the shell cleanly. ──
+    if (import.meta.env.DEV && dev) {
+      influenceRefs = null;
+      influence.textContent = '';
+      const card = el('div', `influence-panel frame${live ? ' live' : ' locked'}`);
+      card.setAttribute(
+        'aria-label',
+        live
+          ? "The House's koku standing"
+          : "The House's koku standing — opens once you are trusted of the house",
+      );
+      const head = el('div', 'rung-now');
+      head.append(document.createTextNode('The House’s Standing '));
+      const k = el('span', 'house-influence-kanji');
+      k.lang = 'ja';
+      k.textContent = '石高';
+      head.append(k);
+      card.append(head);
+      if (!live) {
+        card.append(
+          el(
+            'div',
+            'skill-blurb',
+            'How a house is truly weighed. Earn the trust of the house, and its measure opens to you.',
+          ),
+        );
+        for (let i = 0; i < 4; i++) card.append(silhouetteRow());
+        card.append(
+          el('div', 'influence-foot lock-hint', 'Opens when you are Trusted of the house.'),
+        );
+        influence.append(card);
+        return;
+      }
+      const est = state.influence.estate;
+      const grade = estateGrade(state);
+      const activeRow = el('div', 'influence-row active');
+      const name = el('span', 'influence-name');
+      const dot = el('span', 'pillar-dot estate', '◆');
+      dot.setAttribute('aria-hidden', 'true');
+      name.append(dot, document.createTextNode(' The House stands at '));
+      const koku = el('span', 'koku-standing', formatKMB(est.value));
+      name.append(koku, document.createTextNode(' koku'));
+      activeRow.append(name);
+      activeRow.append(
+        el('span', `influence-grade grade-${grade.toLowerCase()}`, gradeWordFor(grade)),
+      );
+      card.append(activeRow);
+      if (!dev.renderVariant('influence', card, state, dispatch)) {
+        const bar = el('div', 'influence-bar');
+        const fill = el('span', `influence-fill grade-${grade.toLowerCase()}`);
+        fill.style.width = `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`;
+        bar.append(fill);
+        for (const t of [bands.good, bands.great, bands.excellent]) {
+          const tick = el('span', 'influence-tick');
+          tick.style.left = `${Math.round((t / bands.excellent) * 100)}%`;
+          bar.append(tick);
+        }
+        card.append(bar);
+        card.append(
+          el(
+            'div',
+            'influence-when',
+            `The season re-assesses at ${formatKMB(est.highWater)} koku.`,
+          ),
+        );
+        card.append(
+          el(
+            'div',
+            'influence-when koku-horizon',
+            `The road runs on toward daimyō 大名 — at ${balance.DAIMYO_KOKU.toLocaleString('en-US')} koku.`,
+          ),
+        );
+      }
+      for (let i = 0; i < 3; i++) card.append(silhouetteRow());
+      appendInfluenceFoot(card, state);
+      influence.append(card);
+      return;
+    }
+
+    // ── prod / test — build the persistent shell ONCE (F81), then patch/toggle in place. ──
+    if (!influenceRefs) {
+      const card = el('div', 'influence-panel frame');
+      const head = el('div', 'rung-now');
+      head.append(document.createTextNode('The House’s Standing '));
+      const k = el('span', 'house-influence-kanji');
+      k.lang = 'ja';
+      k.textContent = '石高';
+      head.append(k);
+      card.append(head);
+
+      // locked teaser sub-tree (shown pre-capstone) — the blurb + 4 silhouettes + a lock-foot.
+      const lockedBlurb = el(
+        'div',
+        'skill-blurb',
+        'How a house is truly weighed. Earn the trust of the house, and its measure opens to you.',
+      );
+      const lockedSilhouettes = el('div', 'influence-silhouettes');
+      for (let i = 0; i < 4; i++) lockedSilhouettes.append(silhouetteRow());
+      const lockedFoot = el(
+        'div',
+        'influence-foot lock-hint',
+        'Opens when you are Trusted of the house.',
+      );
+      card.append(lockedBlurb, lockedSilhouettes, lockedFoot);
+
+      // live standing sub-tree (shown at the capstone) — the koku headline, grade bar, re-assess +
+      // horizon lines, 3 silhouettes, and the ascension foot (gate / CTA / risen resolution).
+      const liveBody = el('div', 'influence-live');
+      const activeRow = el('div', 'influence-row active');
+      const name = el('span', 'influence-name');
+      const dot = el('span', 'pillar-dot estate', '◆');
+      dot.setAttribute('aria-hidden', 'true');
+      name.append(dot, document.createTextNode(' The House stands at '));
+      const koku = el('span', 'koku-standing');
+      name.append(koku, document.createTextNode(' koku'));
+      const grade = el('span', 'influence-grade');
+      activeRow.append(name, grade);
+      const bar = el('div', 'influence-bar');
+      const fill = el('span', 'influence-fill');
+      bar.append(fill);
+      const ticks = el('span', 'influence-ticks');
+      // the 3 ticks (GOOD / GREAT / EXCELLENT) are structural — built once; left% patched in place.
+      for (let i = 0; i < 3; i++) ticks.append(el('span', 'influence-tick'));
+      bar.append(ticks);
+      const when = el('div', 'influence-when');
+      const horizon = el('div', 'influence-when koku-horizon');
+      const liveSilhouettes = el('div', 'influence-silhouettes');
+      for (let i = 0; i < 3; i++) liveSilhouettes.append(silhouetteRow());
+      // the ascension foot — three mutually-exclusive states toggled in place: the risen resolution
+      // (tier≥1: foot + optional boon + frontier), the ascend CTA, or the koku gate (foot).
+      const foot = el('div', 'influence-foot');
+      const ascendBtn = el('button', 'verb primary ascend-cta', 'Ascend — a man of the house');
+      ascendBtn.type = 'button';
+      ascendBtn.addEventListener('click', () => dispatch({ type: 'ascend' }));
+      const boon = el('div', 'influence-when');
+      const frontier = el(
+        'div',
+        'rung-next frontier',
+        'Beyond the gate the road climbs on — to be continued.',
+      );
+      liveBody.append(
+        activeRow,
+        bar,
+        when,
+        horizon,
+        liveSilhouettes,
+        foot,
+        ascendBtn,
+        boon,
+        frontier,
+      );
+      card.append(liveBody);
+
+      influence.append(card);
+      influenceRefs = {
+        mode: '',
+        card,
+        lockedBlurb,
+        lockedFoot,
+        lockedSilhouettes,
+        liveBody,
+        koku,
+        grade,
+        bar,
+        fill,
+        ticks,
+        when,
+        horizon,
+        liveSilhouettes,
+        foot,
+        ascendBtn,
+        boon,
+        frontier,
+      };
+    }
+    const r = influenceRefs;
+    // structural toggle: locked teaser vs live standing (a rare transition, at the R7 capstone).
+    setClass(r.card, 'live', live);
+    setClass(r.card, 'locked', !live);
+    if (r.card.getAttribute('aria-label') !== (live ? LIVE_ARIA : LOCKED_ARIA))
+      r.card.setAttribute('aria-label', live ? LIVE_ARIA : LOCKED_ARIA);
+    toggle(r.lockedBlurb, !live);
+    toggle(r.lockedSilhouettes, !live);
+    toggle(r.lockedFoot, !live);
+    toggle(r.liveBody, live);
+    if (!live) return;
+
+    // ── Phase 2 — the House's live koku STANDING. Patch the number/grade/bar in place. ──
+    const est = state.influence.estate;
+    const grade = estateGrade(state);
+    setText(r.koku, formatKMB(est.value));
+    setText(r.grade, gradeWordFor(grade));
+    if (r.grade.className !== `influence-grade grade-${grade.toLowerCase()}`)
+      r.grade.className = `influence-grade grade-${grade.toLowerCase()}`;
+    setStyle(r.fill, 'width', `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`);
+    if (r.fill.className !== `influence-fill grade-${grade.toLowerCase()}`)
+      r.fill.className = `influence-fill grade-${grade.toLowerCase()}`;
+    const tickAt = [bands.good, bands.great, bands.excellent];
+    for (let i = 0; i < 3; i++) {
+      setStyle(
+        r.ticks.children[i] as HTMLElement,
+        'left',
+        `${Math.round((tickAt[i]! / bands.excellent) * 100)}%`,
+      );
+    }
+    setText(r.when, `The season re-assesses at ${formatKMB(est.highWater)} koku.`);
+    setText(
+      r.horizon,
+      `The road runs on toward daimyō 大名 — at ${balance.DAIMYO_KOKU.toLocaleString('en-US')} koku.`,
+    );
+
+    // ── the ascension foot — three mutually-exclusive states toggled in place (D-049/D-062). ──
+    const risen = state.tier >= 1;
+    const canAscend = !risen && ascensionAvailable(state);
+    toggle(r.ascendBtn, canAscend);
+    if (risen) {
+      // the AFTER of the payoff (F2) — the resolved risen next-state, NOT the stale gate prompt.
+      toggle(r.foot, true);
+      setClass(r.foot, 'lock-hint', false);
+      setText(
+        r.foot,
+        'You are a man of the house. 家産 stands Risen — the Estate is yours to raise, no longer merely to save.',
+      );
+      const pts = state.character.attributePoints;
+      toggle(r.boon, pts > 0);
+      if (pts > 0)
+        setText(
+          r.boon,
+          `The lord's boon waits on you: ${pts} point${pts === 1 ? '' : 's'} to spend at Training 鍛錬 on the Character 己 tab.`,
+        );
+      toggle(r.frontier, true);
+    } else {
+      toggle(r.boon, false);
+      toggle(r.frontier, false);
+      if (canAscend) {
+        toggle(r.foot, false);
+      } else {
+        // the koku gate — the House must stand at EXCELLENT to ascend.
+        toggle(r.foot, true);
+        setClass(r.foot, 'lock-hint', true);
+        setText(
+          r.foot,
+          `The House must stand at ${formatKMB(bands.excellent)} koku to ascend (${formatKMB(est.value)}/${formatKMB(bands.excellent)} koku).`,
+        );
+      }
+    }
+  }
+
+  /** The reachable-neighbour move buttons (`→ node`, danger ⚠ + the conditioning lock). The Map tab's
+   *  navigation (F107 — nav's sole home after the IA reorg). Returns null when nowhere is walkable
+   *  from here. `keyPrefix` keeps the described-by ids unique. */
   function moveStrip(state: GameState, keyPrefix: string): HTMLElement | null {
     const revealed = new Set(state.unlocked);
     const moves = reachableFrom(state.location, revealed);
@@ -1871,11 +2153,15 @@ export function mount(
       const wolfBlurb = el(
         'p',
         'area-blurb',
-        'The grain-store wolf still waits where you woke. Use Walk on 道 below to head back to the kura (蔵) and face it.',
+        'The grain-store wolf still waits where you woke. Use the Map 地図 tab to walk back to the kura (蔵) and face it.',
       );
       wolfBox.append(wolfBtn, wolfBlurb);
       const areaGroups = el('div', 'actions-group');
-      const noWork = el('p', 'area-blurb', 'No work to be had where you stand — walk on.');
+      const noWork = el(
+        'p',
+        'area-blurb',
+        'No work to be had where you stand — open the Map 地図 tab to walk on.',
+      );
       const cookRow = el('div', 'labour-row');
       const cookBtn = el('button', 'verb');
       cookBtn.type = 'button';
@@ -1886,11 +2172,9 @@ export function mount(
       eatRiceBtn.type = 'button';
       eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
       eatRiceRow.append(eatRiceBtn);
-      const walkOn = el('div', 'area-group walk-on');
-      walkOn.append(el('h3', 'area-head', 'Walk on 道'));
-      const walkStrip = el('div', 'map-strip');
-      walkOn.append(walkStrip);
-      actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, eatRiceRow, walkOn);
+      // F107 (D-112) — the "Walk on 道" nav strip is GONE from Work: the Map tab is navigation's
+      // SOLE home. Labour is all the Work tab holds now.
+      actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, eatRiceRow);
       actionsRefs = {
         metaRow,
         wolfBox,
@@ -1902,8 +2186,6 @@ export function mount(
         cookBtn,
         eatRiceRow,
         eatRiceBtn,
-        walkOn,
-        walkStrip,
       };
     }
     const r = actionsRefs;
@@ -1987,8 +2269,8 @@ export function mount(
       order: true,
     });
 
-    // spatial (v0.3.1 Step 5): a node with no labour (and no wolf-beat prompting here) leads into the
-    // "Walk on" strip below — no need to open the map tab.
+    // spatial (v0.3.1 Step 5): a node with no labour (and no wolf-beat prompting here) points the
+    // player at the Map tab to walk on.
     toggle(
       r.noWork,
       labours.length === 0 &&
@@ -2027,18 +2309,12 @@ export function mount(
         : `A plain bowl of rice restores ${balance.EAT_RICE_SATIETY} body — more than a mere rest, at the cost of ${cost} rice.`;
       if (r.eatRiceBtn.title !== title) r.eatRiceBtn.title = title;
     }
-
-    // ── Walk on — the current node's paths, right here on the Work tab (once the map has opened) so
-    //    you can move WITHOUT a tab-switch. The Estate 地図 tab stays the fuller navigation view. ──
-    if (isUnlocked(state, 'room-gate-forecourt')) {
-      toggle(r.walkOn, patchStrip(r.walkStrip, state, 'map'));
-    } else {
-      toggle(r.walkOn, false);
-    }
+    // (F107 — no "Walk on" strip here anymore: navigation lives ONLY on the Map tab.)
   }
 
   function renderSkills(state: GameState): void {
-    const show = activeTab === 'skills' && isUnlocked(state, 'tab-skills');
+    // IA reorg (D-112 §2) — skills is a section of the Character tab (with attrs + bestiary).
+    const show = activeTab === 'character' && isUnlocked(state, 'tab-skills');
     toggle(skillsPane, show);
     if (!show) return;
     // the visible skill rows — reconciled as a keyed list so each card is built ONCE (its meter fill
@@ -2357,35 +2633,8 @@ export function mount(
     lvl.append(el('div', 'rung-hint', `Combat XP ${cx.into}/${cx.needed}`));
     combatPane.append(lvl);
 
-    // training — spend earned attribute points into the 5 attributes (§4.6.1)
-    const c = state.character;
-    const train = el('div', 'weapon-card frame');
-    const th = el('div', 'skill-head');
-    th.append(el('span', 'skill-name', 'Training 鍛錬'));
-    th.append(
-      el(
-        'span',
-        'skill-lvl',
-        `${c.attributePoints} point${c.attributePoints === 1 ? '' : 's'} to spend`,
-      ),
-    );
-    train.append(th);
-    for (const id of balance.ATTR_IDS) {
-      const meta = balance.ATTR_META[id];
-      const row = el('div', 'attr-row');
-      const label = el('span', 'attr-label');
-      label.append(el('span', 'attr-name', `${meta.label} ${meta.kanji}`));
-      label.append(el('span', 'attr-val', ` ${c.attrs[id]}`));
-      label.append(el('span', 'attr-gain lock-hint', ` ${meta.gain}`));
-      row.append(label);
-      const plus = el('button', 'auto-toggle', '+1');
-      plus.type = 'button';
-      plus.disabled = c.attributePoints <= 0;
-      plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: id }));
-      row.append(plus);
-      train.append(row);
-    }
-    combatPane.append(train);
+    // (IA reorg D-112 — training attrs + the bestiary SPLIT OUT to the Character tab; they no longer
+    // render on the Combat surface. See renderCharacterSheet's DEV wholesale path.)
 
     const weapon = getWeapon(state.equippedWeapon);
     const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
@@ -2472,13 +2721,7 @@ export function mount(
       combatPane.append(stanceRow);
     }
 
-    if (isUnlocked(state, 'panel-bestiary')) {
-      const bpane = el('div', 'bestiary');
-      combatPane.append(bpane);
-      if (!(import.meta.env.DEV && dev && dev.renderVariant('bestiary', bpane, state, dispatch))) {
-        renderBestiary(bpane, state);
-      }
-    }
+    // (IA reorg D-112 — the bestiary SPLIT OUT to the Character tab.)
 
     combatPane.append(el('h3', 'foes-head', 'The watch'));
     const present = foesHere(state);
@@ -2487,7 +2730,7 @@ export function mount(
         el(
           'p',
           'area-blurb',
-          'No foe holds this ground. Use Walk on 道 (the Work tab) to reach the paddies, the satoyama, or the woodlot road.',
+          'No foe holds this ground. Use the Map 地図 tab to reach the paddies, the satoyama, or the woodlot road.',
         ),
       );
     }
@@ -2531,12 +2774,8 @@ export function mount(
       const xpHint = el('div', 'rung-hint');
       xpCard.append(xpNow, xm, xpHint);
 
-      const train = el('div', 'weapon-card frame');
-      const th = el('div', 'skill-head');
-      th.append(el('span', 'skill-name', 'Training 鍛錬'));
-      const trainPts = el('span', 'skill-lvl');
-      th.append(trainPts);
-      train.append(th);
+      // (IA reorg D-112 — training attrs + the bestiary moved to the Character tab; see
+      //  renderCharacterSheet. The Combat tab keeps XP · weapon · craft · stance · watch only.)
 
       const wc = el('div', 'weapon-card frame');
       const wh = el('div', 'skill-head');
@@ -2555,37 +2794,19 @@ export function mount(
 
       const craftHost = el('div', 'combat-group');
 
-      const bestiaryHost = el('div', 'bestiary');
-      bestiaryHost.append(el('h3', 'foes-head', 'Bestiary 図鑑'));
-      const bestiaryBlurb = el('div', 'skill-blurb');
-      bestiaryHost.append(bestiaryBlurb);
-      const bestiaryList = el('div', 'bestiary-list');
-      bestiaryHost.append(bestiaryList);
-
       const watchHead = el('h3', 'foes-head', 'The watch');
       const watchEmpty = el(
         'p',
         'area-blurb',
-        'No foe holds this ground. Use Walk on 道 (the Work tab) to reach the paddies, the satoyama, or the woodlot road.',
+        'No foe holds this ground. Use the Map 地図 tab to reach the paddies, the satoyama, or the woodlot road.',
       );
       const watchList = el('div', 'combat-group');
 
-      combatPane.append(
-        xpCard,
-        train,
-        wc,
-        craftHost,
-        bestiaryHost,
-        watchHead,
-        watchEmpty,
-        watchList,
-      );
+      combatPane.append(xpCard, wc, craftHost, watchHead, watchEmpty, watchList);
       combatRefs = {
         xpNow,
         xpFill,
         xpHint,
-        train,
-        trainPts,
         wc,
         wcName,
         wcBand,
@@ -2594,46 +2815,18 @@ export function mount(
         repairBtn,
         craftHost,
         stanceHost: null,
-        bestiaryHost,
-        bestiaryBlurb,
-        bestiaryList,
         watchHead,
         watchEmpty,
         watchList,
       };
     }
     const r = combatRefs;
-    const c = state.character;
 
     // ── XP card ──
-    const cx = combatXpProgress(c.combatXp);
+    const cx = combatXpProgress(state.character.combatXp);
     setText(r.xpNow, `Combat level ${cx.level} · 武`);
     setStyle(r.xpFill, 'width', pct(cx.into / cx.needed));
     setText(r.xpHint, `Combat XP ${cx.into}/${cx.needed}`);
-
-    // ── training — the 5 attribute rows (a fixed keyed list reconciled into the card) ──
-    setText(r.trainPts, `${c.attributePoints} point${c.attributePoints === 1 ? '' : 's'} to spend`);
-    reconcileList(r.train, balance.ATTR_IDS, {
-      key: (id) => id,
-      build: (id) => {
-        const meta = balance.ATTR_META[id];
-        const row = el('div', 'attr-row');
-        const label = el('span', 'attr-label');
-        label.append(el('span', 'attr-name', `${meta.label} ${meta.kanji}`));
-        label.append(el('span', 'attr-val'));
-        label.append(el('span', 'attr-gain lock-hint', ` ${meta.gain}`));
-        row.append(label);
-        const plus = el('button', 'auto-toggle', '+1');
-        plus.type = 'button';
-        plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: id }));
-        row.append(plus);
-        return row;
-      },
-      patch: (row, id) => {
-        setText(row.querySelector('.attr-val')!, ` ${c.attrs[id]}`);
-        setDisabled(row.querySelector('.auto-toggle')!, c.attributePoints <= 0);
-      },
-    });
 
     // ── equipped weapon + (R4) durability band + repair / equip switcher ──
     const weapon = getWeapon(state.equippedWeapon);
@@ -2692,13 +2885,14 @@ export function mount(
       patch: (card, rc) => patchCraftCard(card, rc, state),
     });
 
-    // ── stance control (R5) — lazily created so `.stance-row` is truly absent until it unlocks ──
+    // ── stance control (R5) — lazily created so `.stance-row` is truly absent until it unlocks. It
+    //    inserts before the watch head (the bestiary that used to sit there is now on Character). ──
     const showStance = isUnlocked(state, 'stance-control');
     if (showStance) {
       if (!r.stanceHost) {
         const sh = el('div', 'stance-row');
         sh.append(el('h3', undefined, 'Stance 構え'));
-        combatPane.insertBefore(sh, r.bestiaryHost);
+        combatPane.insertBefore(sh, r.watchHead);
         r.stanceHost = sh;
       }
       toggle(r.stanceHost, true);
@@ -2713,23 +2907,7 @@ export function mount(
       toggle(r.stanceHost, false);
     }
 
-    // ── the Bestiary (R3) — a keyed card list; the fog→inked flip patches each card in place ──
-    const showBestiary = isUnlocked(state, 'panel-bestiary');
-    toggle(r.bestiaryHost, showBestiary);
-    if (showBestiary) {
-      const entries = bestiaryEntries(state);
-      const known = entries.filter((e) => e.seen).length;
-      setText(
-        r.bestiaryBlurb,
-        `${known} of ${entries.length} beasts recorded — face a foe to ink its entry.`,
-      );
-      reconcileList(r.bestiaryList, entries, {
-        key: (e) => e.mob.id,
-        build: () => buildBestiaryCard(),
-        patch: (card, e) => patchBestiaryCard(card, e),
-        order: true,
-      });
-    }
+    // (IA reorg D-112 — the Bestiary SPLIT OUT to the Character tab; see renderCharacterSheet.)
 
     // ── the watch (spatial) — the foes on THIS node; forecasts patch in place, no strobe ──
     const present = foesHere(state);
@@ -2741,6 +2919,104 @@ export function mount(
       patch: (row, fc) => patchFoeRow(row, fc, state),
       order: true,
     });
+  }
+
+  // ── the Character tab's SPLIT-OUT combat halves (IA reorg D-112) — the attribute-TRAINING rows
+  //    (points earned in combat, spent here) + the BESTIARY field-guide. Each self-gates to the
+  //    Character tab and its R3 surface (`readout-combat-level` / `panel-bestiary`), and each is a
+  //    build-once/patch surface (F81) so a hurt idle tick churns nothing. renderSkills + renderQuests
+  //    (the tab's other sections) render into their own panes; this fn owns training + bestiary. ──
+  function renderCharacterSheet(state: GameState): void {
+    const onCharacter = activeTab === 'character';
+    const devMode = import.meta.env.DEV && dev;
+
+    // ── TRAINING (attrs) — reveals at R3 with combat (readout-combat-level). The +1 buttons spend
+    //    attributePoints EARNED from combat leveling (the coupling holds — points still fire from the
+    //    fight loop; only the SPENDING UI moved here). Always incremental (no DEV variant). ──
+    const showTrain = onCharacter && isUnlocked(state, 'readout-combat-level');
+    toggle(characterTrain, showTrain);
+    if (showTrain) {
+      // build-once shell + a fixed keyed list of the 5 attr rows (F81), mirroring the old combat build.
+      if (!characterTrainRefs) {
+        const train = el('div', 'weapon-card frame');
+        const th = el('div', 'skill-head');
+        th.append(el('span', 'skill-name', 'Training 鍛錬'));
+        const trainPts = el('span', 'skill-lvl');
+        th.append(trainPts);
+        train.append(th);
+        characterTrain.append(train);
+        characterTrainRefs = { train, trainPts };
+      }
+      const c = state.character;
+      const cr = characterTrainRefs;
+      setText(
+        cr.trainPts,
+        `${c.attributePoints} point${c.attributePoints === 1 ? '' : 's'} to spend`,
+      );
+      reconcileList(cr.train, balance.ATTR_IDS, {
+        key: (id) => id,
+        build: (id) => {
+          const meta = balance.ATTR_META[id];
+          const row = el('div', 'attr-row');
+          const label = el('span', 'attr-label');
+          label.append(el('span', 'attr-name', `${meta.label} ${meta.kanji}`));
+          label.append(el('span', 'attr-val'));
+          label.append(el('span', 'attr-gain lock-hint', ` ${meta.gain}`));
+          row.append(label);
+          const plus = el('button', 'auto-toggle', '+1');
+          plus.type = 'button';
+          plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: id }));
+          row.append(plus);
+          return row;
+        },
+        patch: (row, id) => {
+          setText(row.querySelector('.attr-val')!, ` ${c.attrs[id]}`);
+          setDisabled(row.querySelector('.auto-toggle')!, c.attributePoints <= 0);
+        },
+      });
+    }
+
+    // ── BESTIARY (R3) — the field-guide of foes; the fog→inked flip patches each card in place. ──
+    const showBestiary = onCharacter && isUnlocked(state, 'panel-bestiary');
+    toggle(characterBestiary, showBestiary);
+    if (devMode) {
+      // DEV wholesale path — mirror the market/quests DEV branches: rebuild fresh each render so the
+      // variant toggle takes a clean container. (Only a live DEV session takes this branch.)
+      characterBestiaryRefs = null;
+      characterBestiary.textContent = '';
+      if (showBestiary) {
+        const bpane = el('div', 'bestiary');
+        characterBestiary.append(bpane);
+        if (!dev.renderVariant('bestiary', bpane, state, dispatch)) renderBestiary(bpane, state);
+      }
+      return;
+    }
+    // prod / test — build the bestiary host ONCE (F81), patch in place.
+    if (showBestiary) {
+      if (!characterBestiaryRefs) {
+        const host = el('div', 'bestiary');
+        host.append(el('h3', 'foes-head', 'Bestiary 図鑑'));
+        const blurb = el('div', 'skill-blurb');
+        host.append(blurb);
+        const list = el('div', 'bestiary-list');
+        host.append(list);
+        characterBestiary.append(host);
+        characterBestiaryRefs = { host, blurb, list };
+      }
+      const br = characterBestiaryRefs;
+      const entries = bestiaryEntries(state);
+      const known = entries.filter((e) => e.seen).length;
+      setText(
+        br.blurb,
+        `${known} of ${entries.length} beasts recorded — face a foe to ink its entry.`,
+      );
+      reconcileList(br.list, entries, {
+        key: (e) => e.mob.id,
+        build: () => buildBestiaryCard(),
+        patch: (card, e) => patchBestiaryCard(card, e),
+        order: true,
+      });
+    }
   }
 
   // increases-only number-pop (juice). prev===undefined (load / import / new game) never
@@ -3375,7 +3651,8 @@ export function mount(
     // penalty. Opens with the estate economy; spatially gated to the kura node in Step 5. D-107
     // Phase 2 surfaces RICE beside coin (deposit/withdraw are already resource-generic), so the
     // "what you store, you keep" shelter closes the rice loss-shelter gap.
-    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
+    // IA reorg (D-112 §2 / F108) — the kura bank is the Inventory tab's home (a clean lift).
+    const show = activeTab === 'inventory' && isUnlocked(state, 'panel-estate');
     toggle(storehousePane, show);
     if (!show) return;
     // build the shell ONCE (F81): the coin + rice store/withdraw rows and the "walk back" blurb are
@@ -3411,7 +3688,7 @@ export function mount(
       const away = el(
         'div',
         'area-blurb',
-        'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw coin and rice.',
+        'Use the Map 地図 tab to head back to the kura (蔵) to store or draw coin and rice.',
       );
       card.append(row, riceRow, away);
       storehousePane.append(card);
@@ -3543,7 +3820,9 @@ export function mount(
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
-    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
+    // IA reorg (D-112 §2) — the pedlar's market MOVES to the Map tab (its who's-here home). IA-B
+    // reshapes it into a talkable person; for Phase A it's a clean re-gate from Work → Map.
+    const show = activeTab === 'map' && isUnlocked(state, 'panel-estate');
     toggle(marketPane, show);
     if (!show) return;
     // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).
@@ -3716,7 +3995,11 @@ export function mount(
     toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
   }
   function renderQuests(state: GameState): void {
-    const show = activeTab === 'quests';
+    // IA reorg (D-112 §8.1) — the six-tab set has no Quests tab; quests fold into Character as the
+    // "Undertakings 用" section (a personal journal of goals taken on). D-112 (newest steer)
+    // supersedes D-037's "Quests is its own tab." They still open with combat (the crop-raider
+    // quest needs the field-defence verbs), so gate on tab-combat as before — but shown on Character.
+    const show = activeTab === 'character' && isUnlocked(state, 'tab-combat');
     toggle(questsPane, show);
     if (!show) return;
     // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live DEV-only
@@ -3726,7 +4009,7 @@ export function mount(
     if (import.meta.env.DEV && dev) {
       questsRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       questsPane.textContent = '';
-      questsPane.append(el('h2', undefined, 'Quests 用'));
+      questsPane.append(el('h2', undefined, 'Undertakings 用'));
       if (!dev.renderVariant('quests', questsPane, state, dispatch)) {
         questsPane.append(el('div', 'skill-blurb', QUESTS_BLURB));
         for (const q of QUESTS) {
@@ -3739,7 +4022,7 @@ export function mount(
     }
     // prod / test — build the h2 + blurb + list container ONCE, reconcile the quest cards in place.
     if (!questsRefs) {
-      questsPane.append(el('h2', undefined, 'Quests 用'));
+      questsPane.append(el('h2', undefined, 'Undertakings 用'));
       questsPane.append(el('div', 'skill-blurb', QUESTS_BLURB));
       const list = el('div', 'quests-list');
       questsPane.append(list);
@@ -3872,6 +4155,7 @@ export function mount(
     renderHouseInfluence(state);
     renderActions(state);
     renderSkills(state);
+    renderCharacterSheet(state); // the Character tab's training + bestiary (split out of combat)
     renderCombat(state);
     renderQuests(state);
     renderMap(state);
