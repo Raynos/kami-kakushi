@@ -75,11 +75,19 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 
 ### 2.2 The rung-climb loop (~30–120 min) — *"one more rung"*
 - **What:** the estate-rank ladder (a fresh `R/V/G` ladder per tier, §3) — each rung a named promotion
-  with a concrete trigger, an in-fiction reason, and a named granter (§3.2.1).
+  with a concrete trigger, an in-fiction reason, and a named granter (§3.2.1). **Every rung-up is a
+  player-TRIGGERED, ignorable VN story beat, not a silent number-fill (D-110, on D-104's scene engine):**
+  a ready promotion *holds* at the header rung until you choose to stop grinding and **trigger** it — some
+  rungs introduce a **new character**, others deepen a known one, and they carry **choices the NPCs
+  remember** (persisting across ascension). It is **NOT the case that every rung grants a perk** — the
+  reward is the *earned scene* + the relationships/flags it moves, with only **occasional small varied**
+  bonuses (the intro's three perks were a one-time boost, not the pattern).
 - **Why it's fun:** the **goal-gradient effect** — motivation rises as a visible goal nears, and a rung
   is always *visibly* near (a labelled next title, a partly-filled meter). Each rung also *delivers a
   reveal* (§2.4), so the climb pays double. "One more rung" is the meso-engine that turns a session into
-  "just push to the next promotion."
+  "just push to the next promotion." And because the rung is a **triggered, chosen** beat rather than an
+  auto-snap, the promotion lands as a moment you *earned and acted on* — a narrative reward that motivates
+  the areas/panels/people it unlocks — never a number silently ticking over (the old silent pop-in, F97/F99).
 - **Lever:** **the ≥30-min floor + the ≤2–3× never-balloon rule (§4.8, both LOCKED).** The floor is
   **T0-exempt and first binds from T1** — T0's tutorial rungs run a gentler ~10–15 min so the hook lands
   fast, and the deliberate grind-floor begins with the full estate at T1. The floor stops
@@ -103,7 +111,11 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 ### 2.4 The reveal loop (the signature) — *UI as progression*
 - **What:** every panel, tab, resource row, area, and screen fades in **one at a time**, gated on game
   state, each reveal firing as **one event** that is simultaneously a log line + an unlock + a plot beat
-  (§2.1, §3.0). Single-screen at minute one → multi-screen shell over the climb.
+  (§2.1, §3.0). Single-screen at minute one → multi-screen shell over the climb. The **six tabs themselves**
+  (Work · Map · Estate · Inventory · Character · Combat — D-112) reveal incrementally, so the whole IA
+  *grows with the player*, never a slam of empty tabs. And entities arrive by **DISCOVERY, not spawn** — you
+  *meet* the pedlar or *find* a place for a **reason** (a talkable person on a map node's "who's here", a hint
+  in the node's standing description — D-114/D-116/F99), never a shop-menu blinking into existence.
 - **Why it's fun:** **novelty + curiosity** — the strongest, freshest pleasure we have, and our biggest
   differentiator (A Dark Room proves it can carry a whole game). A reveal isn't a new button; done right
   it **reframes** what the player thought the game was (the Office tab reframes the estate's place in a
@@ -155,11 +167,18 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 ### 2.7 The narrative-payoff loop (tier-scale) — *warmth earned*
 - **What:** the diegetic beats — promotions narrated by named granters, the village's "Tama" legend, the
   recurring-dream memory thread, the Origin family opening at T3 (Region), the rival houses dethroned at G7
-  (§1.5, §3.6). Delivered **through** mechanics, not over them.
+  (§1.5, §3.6) — **and the home you rest in**: a furnishable personal home + belongings that grow with your
+  rung (D-111), the domestic half of the same rise. Delivered **through** mechanics, not over them — and when
+  the story *promises* a thing (the dry corner, the bowl Genemon offers), that thing **mechanically EXISTS**:
+  a narrative promise with no mechanical existence is a coherence debt (F89), and *closing* it is itself a
+  payoff. **Narrative-mechanical coherence is a fun requirement, not a nicety** — the world's spoken promises
+  must be reachable, or the restoration fantasy rings hollow.
 - **Why it's fun:** **meaning makes the numbers matter** (Universal Paperclips' lesson). The restoration
   fantasy — nobody → the lord's right hand, a dying house restored *and* surpassed — is the emotional
   reason the grind is worth grinding. Payoffs are warmth/allies/flavour, **never power** (§1.2 pillar 6),
-  so they never break balance.
+  so they never break balance — the **home + belongings are PRESTIGE, not stat-gear** (comfort recovery +
+  a *visible status-mirror* of your climb — the surname, the two swords on the wall, gōshi standing — never
+  a combat lane, D-111), so "look how far you've come" is *shown*, not just titled, and the balance stays safe.
 - **Lever:** **mechanical narrative > text narrative.** Let the *structural* reveal (new tier, new map,
   new political layer) carry the story; keep prose sparse (memory note: light folklore, open-ended).
   Place the warmest beats at the longest tier's payoff (T3 Region, §7) so the slog has an emotional anchor.
@@ -306,6 +325,7 @@ the whole climb). This is what makes hour 20 still mean something.
   swinging seasonal prices), poor-until-T5 (D-077). Generosity-creep is a battery `tension/scarcity` finding, not a feature. (Always inside the §1.13 guardrails — winnable, soft-setback only, no stranding: tension *pulls in*, never *pushes out*.) |
 | **Stale after-state** (a climax onto a dead next-screen) | The bell rings on the big payoff — then the panel still reads "Reach Excellent 480/480"; the moment deflates | **Design the AFTER of every payoff, not just the payoff (F2).** A ceremony/milestone beat must resolve into a satisfying next-state — *"…and then what do I see and do in the next ten seconds?"* The battery `fun`/`onboarding` lens runs this "…and then what?" check on every milestone/ceremony beat. |
 | **Buffer mistaken for a flywheel** | Upgrades grant comfort (a satiety *buffer*) but value never compounds — breadth without depth, a number that climbs but doesn't *snowball* | **Every upgrade must close a work→output→more-output loop, not merely grant a buffer (A4).** Watch the economic invariants: a high-water mark must not re-judge its own payout (self-inflation); breadth ≠ depth. The battery `economy-arithmetic` lens checks each upgrade actually closes a loop. |
+| **Empty narrative promises** (spoken but not built) | The story *names* a thing — a home, a bowl, "a place here is yours" — that has **zero mechanical existence**; the world's words and its systems quietly disagree | **Narrative-mechanical coherence — a spoken promise must be REACHABLE (F89).** Deep housing makes the promised corner/bowl real (D-111, §2.17.1); every rung-up is now an *earned, triggered* story beat that motivates its unlocks (D-110). The narrative-coherence brainstorm / battery lens audits each spoken promise for a mechanical home. |
 
 ---
 

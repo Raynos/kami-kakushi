@@ -1,6 +1,10 @@
 # UI Design-Language Bible — *the Kurosawa house*
 
-> **LIVING — the M1/M2 renderer (`src/ui`) is built to this bible.** One open item: font self-hosting (Q52).
+> **LIVING — the `src/ui` renderer is built to this bible, reconciled to the T0 rebuild (v0.3.x, playtest
+> 2026-07-02/03).** It now describes the shipped UI: the **six-tab IA** (Work · Map · Estate · Inventory ·
+> Character · Combat, §4.9), the **append-only rendering model** (§4.10), the **full-screen VN scene** for the
+> intro *and* every rung-up beat (§5.13), the **seven-channel log** (§5.1), **vendors-as-people** on the Map
+> (§5.11), and the **RICE / COIN / KOKU** economy display (§5.7). One open item: font self-hosting (Q52).
 > The LOCKED art direction (human-signed): a **strong CSS design-language**,
 > **NO asset pipeline** — the whole game is **text + emoji + CSS** (+ inline SVG, which is markup, not a file).
 > This document is the **anti-slop foundation**: the single visual vision every screen is built against
@@ -343,11 +347,13 @@ and breaks the woodblock immersion (F1, reinforces the §9 no-`#FFF` rule).
 
 Inside the column the shell is the established idle-RPG frame — **fixed header / flexible content / fixed
 footer** (F5): identity + vitals (the House id, the resource + next-gate readouts, the `body`/`life` bars,
-§5.7) pin to the **header**; persistent controls (the version stamp, Settings, …) pin to the **footer**; the
-content region fills the space between and scrolls internally. That content region carries the two workspace
-columns — **work/actions LEFT, message/story log RIGHT** (F8). *(This supersedes the earlier v0.3.1
-"story-log-as-left-hero" placement — live human taste is canon, D-022; the log stays a first-class, diegetic
-surface (§5.1), now anchored right.)*
+§5.7) plus the **rung element** (top-right, §5.4) pin to the **header**; persistent controls pin to the
+**footer** — the **clickable version stamp bottom-left** (→ the About modal, F104; §5.10), and **Settings**
+with the DEV toggle in the **bottom-right cluster**. **Footer controls never overlap** — the **DEV toggle sits
+LEFT of Settings** with clear spacing, each with its own hit-area (F92). The content region fills the space
+between and scrolls internally, and carries the two workspace columns — **work/actions LEFT, message/story log
+RIGHT** (F8). *(This supersedes the earlier v0.3.1 "story-log-as-left-hero" placement — live human taste is
+canon, D-022; the log stays a first-class, diegetic surface (§5.1), now anchored right.)*
 
 The shell is **sized to the viewport (100dvh) with NO page scrollbar** (F6) — the content panes (log, work
 column) scroll *internally* within the available height, never the page. A minimum size is respected, and a
@@ -368,16 +374,26 @@ refining D-106). The human picked the **V6B 屏風 (folding-columns) arrangement
 so that pair is the prod default and the other arrangement/framing variants are pruned (D-075 strip-on-lock).
 Three constraints ride with it: **(1)** the spread **keeps a left & right border/gutter at all times** — a
 framed workspace, never edge-to-edge full-bleed (F70 refines D-106's full-width grant); **(2)** the **column
-count stays flexible (2–3, never over-packed)**; and **(3)** the **log is a first-class column with a hard
-minimum width of ⅓ the viewport** in *every* folding state — it never collapses to a sliver. A panel's text
-**always reflows to fill its actual column width** (no fixed narrow measure), and the scroll container is the
-**panel itself**, so the scrollbar sits at the panel's true right edge (F69/F85).
+count stays flexible (2–3, never over-packed)**; and **(3)** the **log is a first-class but CAPPED reading
+column** — a hard **minimum of ~⅓** *and* a hard **maximum of ~46%** in *every* folding state, so it never
+collapses to a sliver **nor dominates the workspace**. Size it against the **(capped) container, not raw
+viewport `vw`** — a `vw` basis overshoots under the shell's max-width and balloons the log to ~⅔ on a wide
+screen (F117 refines F69's ⅓-minimum: it is now a *band*, ⅓–46%, container-relative). The **Work fold holds
+the majority** and fills as panels unlock (the incremental reveal, §4.9). A panel's text **always reflows to
+fill its actual column width** (no fixed narrow measure), and the scroll container is the **panel itself**, so
+the scrollbar sits at the panel's true right edge (F69/F85).
 
 **A rung/state transition renders complete or not at all (F67).** Advancing a rung — or any state change that
 reshuffles panels — must never leave a **half-rendered surface**: no empty ghost meter box drawn with no
 content, no control overlapping its own text. Every revealed panel renders whole, and every in-flow control (a
 pedlar's buy button, a price input) sits in **normal flow in its own cell/row**, never absolutely floated over
 the item copy at a narrow column width.
+
+**Stacked panels never overlap or clip; padding is consistent across every tab (F94/F98).** Cards stacked in
+a folding column **size to their content and flow** — no fixed height that hides one card's content behind the
+next, no negative-margin collapse (F94). And the **density rules (§4.8) apply evenly across all six tabs** —
+Estate and Map get the same intentional, consistent padding/whitespace as Work; no cramped card, no dead gap
+(F98). A panel that renders broken on one tab is the same slop as a broken transition.
 
 **DEV/tooling chrome never affects the player layout** (F2). The DEV panel is a **fixed floating overlay that
 reserves ZERO layout space** and collapses to minimal — the game UI centers on the *full* viewport exactly as
@@ -410,6 +426,46 @@ global scale. The **game chrome** (HUD, resource/vitals rows, action buttons, na
 surfaces — the log panel, the story beats, and the intro — get GENEROUS breathing room**, not less. Choose
 sizes and widths **per surface intent**: dense chrome, relaxed prose; never scale the whole UI uniformly.
 
+### 4.9 The six-tab information architecture (D-112)
+
+The player UI is **six tabs — Work · Map · Estate · Inventory · Character · Combat** — **revealed
+incrementally**, each appearing **only as its primary content unlocks** (Work R0 always · Map / Estate /
+Inventory at **R1** · Character at **R2** · Combat at **R3**). This *is* the "UI as progression" signature
+(§1): the UI **grows with the player**, never a slam of empty tabs — a fresh player starts on the single Work
+surface and *earns* each tab (the nav bar itself only appears once ≥2 tabs qualify, at R1 when **Map** joins).
+Reveal is **gated by real content** (D-055), never a pre-drawn shell.
+
+**One capability lives in exactly ONE thematic tab** — the reorg that killed the duplicated-nav confusion
+(F100 / F107 / F108 / F109 / F110 / F112):
+
+| Tab | Kanji | Holds |
+|---|---|---|
+| **Work** | — | **Labour actions only** — the rake/rest node-labour verbs. Navigation and the storehouse have **left** it. |
+| **Map** | 地図 | The **current node**: walk-to destinations, **who's here** (talkable people), and the node **description** — navigation's **single home** (F107). Established characters (Sōan, Genemon) stay **talkable**, not consumed after their intro (F110). |
+| **Estate** | 家 | **House upgrades** — the kura-works / estate-flywheel improve card (moved out of Work, F100), plus the House-Influence 家威 capstone (joins at R3). |
+| **Inventory** | 蔵 | The **storehouse / bank** (carried vs stored, §5.12) **and** personal **belongings** (the deep-housing home + furniture, D-111) — holdings, not labour (F108). |
+| **Character** | 己 | **Attributes, skills, and the bestiary** (Skills / Crafting / Quests are now *sections here*, not their own screens). |
+| **Combat** | 武 | Its **own top-level tab** — the fight loop + stance + the node watch — **not** folded into Character or Map (D-100). Unlocks when combat goes live (≈R3). |
+
+The **rung lives in the HEADER, not a tab** (F106 / F116; §5.4). The nav-bar *presentation* of this set is
+§5.6; the reveal is the same order in both desktop and mobile chrome (§8).
+
+### 4.10 The append-only rendering model (F81, ROOT — applies everywhere)
+
+The renderer is **build-once, then reconcile** — it builds each surface's DOM **once**, then **appends /
+patches only the new-or-changed nodes**. It **never** `innerHTML`- or `textContent`-resets a container on a
+state change: a wholesale re-render **flashes the page, destroys in-progress animation** (the typewriter), and
+**churns every idle tick**. So the rules are:
+
+- **Append / patch, never rebuild.** Diff the state and touch only what changed; a container is a stable node
+  whose children reconcile in place (F81). This is a **rendering-model rule for every surface** — the whole
+  shell and *every* transcript surface (the main log §5.1, the VN scene §5.13) — first proven on the intro,
+  not scoped to it.
+- **Zero idle churn.** An idle tick that changes nothing paints nothing — no reflow, no re-typed text, no
+  reset scroll. Each panel is its own build-once/patch surface (the refs are cached and reused).
+- **Track timers, don't tear down.** Typewriter/animation timers are tracked and cleared **individually** —
+  never by ripping out and rebuilding the DOM that owns them.
+
 ---
 
 ## 5. Components — the reusable kit
@@ -440,21 +496,30 @@ Diegetic voice carries the whole game's character — this is where the Edo flav
 
 **Filterable channels — a bottom tab bar (F9, playtest 2026-07-02).** The log carries a **bottom
 tab/toggle bar** so the player chooses which channel(s) to see, ordered **by importance**: **Story ·
-Progress · Combat · Work · All · Now** (F52) — the notable channels lead, work-noise trails. **Story** is a
-first-class, *returnable* view (the narrative is content worth revisiting, not ephemeral scrollback);
-**Work** is the least-important permanent channel and carries **only notable events** — repetitive labour
-spam does not belong here (it goes to **Now**, below). A **progression beat** (a stat lean, an unlock, a
-rung) routes to **Progress** (the milestone channel), never to Work: a line the player *earns* is Progress,
-not mundane upkeep (F41). Each tab surfaces an **unread indicator** (a badge/dot) when new content lands in a
-channel you are *not* viewing; switching to it clears the mark — but unread fires **only for content that
-arrives during the session**: on load, all existing (historical) entries count as already **seen**, so a
-refresh never shows a spurious unread dot (F20/F59).
+Progress · Chat · Combat · Work · All · Now** (F52 / F111) — the notable channels lead, work-noise trails.
+**Story** is a first-class, *returnable* view that holds **only mandatory story beats** — the scene beats you
+*must* see (the narrative is content worth revisiting, not ephemeral scrollback). **Chat** is the sibling
+channel for the **optional Q&A you *chose* to ask** — the intro/dialogue ask-topics — split off Story so the
+narrative spine stays canonical while the explorable questions have their own home (F111; a chat line stays
+`narration`, so it keeps its voice/nameplate — it is a routing axis, not a voice). **Work** is the
+least-important permanent channel and carries **only notable events** — repetitive labour spam does not belong
+here (it goes to **Now**, below). A **progression beat** (a stat lean, an unlock, a rung) routes to
+**Progress** (the milestone channel), never to Work: a line the player *earns* is Progress, not mundane upkeep
+(F41). But a rung-up's **STORY PROSE** is a mandatory story beat and routes to **Story**, not Progress (F103) —
+only the terse milestone/unlock notice belongs to Progress. **Location / navigation flavor is NOT a channel** —
+it lives as the Map-node description (and at most a
+transient Now line), never spamming Story (F114 / D-116; §5.11). Each tab surfaces an **unread indicator** (a
+badge/dot) when new content lands in a channel you are *not* viewing; switching to it clears the mark — but
+unread fires **only for content that arrives during the session**: on load, all existing (historical) entries
+count as already **seen**, so a refresh never shows a spurious unread dot (F20/F59).
 
 **The transient "Now" channel (F53/F58).** A **"Now"** tab (last, after *All*) collects **fleeting, trivial
-flavor** — "you rested", the per-labour output line, the rake-rice spam — kept **OUT of the permanent
-channels**. Each Now entry **fades/expires ~15s** after it appears; the expiry is a graceful **fade + the
-remaining entries slide UP** (a height collapse, never a jump), consistent with the rest of the motion
-language (§6). Repetitive labour flavor is **ephemeral (Now)**, never permanent-channel clutter.
+flavor** — "you rested", the per-labour output line, the rake-rice spam, the move-arrival line — kept **OUT of
+the permanent channels**. Each Now entry **fades/expires ~15s** after it appears; the expiry is a graceful
+**fade + the remaining entries slide UP** (a height collapse, never a jump), consistent with the rest of the
+motion language (§6). Repetitive labour flavor is **ephemeral (Now)**, never permanent-channel clutter. **The
+expiry runs on a wall-clock timer that ticks regardless of which tab is showing** (F115) — switching away from
+Now never freezes its clock, so opening Now later shows a *cleared* view, not a stale backlog.
 
 **Land at the newest, always — and stay pinned there (F51/F77).** A log/transcript view **always sits at the
 newest entry (bottom)**: switching filter tabs lands at the bottom *instantly* after the repaint, never
@@ -463,17 +528,19 @@ auto-scrolls to the newest and *holds* at the bottom rather than stranding fresh
 older scroll position (standard stick-to-bottom behaviour). (This composes with the smooth
 *follow-the-newest* scroll for in-session arrivals above.)
 
-**Voice, prefix, and the typewriter (F19/F26/F50/F54/F57).** Story/narration lines reveal with a **real
-GBA character-by-character typewriter** — scoped to the **story channel only** (never combat/work spam),
-**always LEFT-aligned** (a centred reveal re-centres on every character and jitters), reduced-motion →
+**Voice, prefix, and the typewriter (F19/F26/F50/F54/F57/F88/F91).** Story/narration lines reveal with a
+**real GBA character-by-character typewriter** — scoped to the **story channel only** (never combat/work
+spam), **always LEFT-aligned** (a centred reveal re-centres on every character and jitters), reduced-motion →
 instant full line. Each voiced line is **coloured by the speaker's character CATEGORY** (a small
 voice-colour palette — narrator `--ink-soft`, player `--rokusho`, physician `--ai`, steward `--ochre`, arms
 `--beni`, official/villager the muted earths — each verified AA on `--surface`) *and*
-**prefixed with the speaker's name** (`Sōan: …`, `You: …`): colour is *reinforcement*, not the sole signal
-of who is talking (colour-as-sole-signal is banned, §9). This retires the old render-time
-quote-detection stopgap where all speech was one indigo. **ALL narration everywhere uses these same
-voice/colour conventions** — rake/labour flavor is voice-tagged (`narrator`) and styled exactly like the
-intro's narration, not left plain (F57).
+**prefixed with the speaker's name** — **EVERY voiced line, the NPC's as much as the player's** (`Sōan: …`
+and `Genemon: …`, not only `You: …`, F88): colour is *reinforcement*, the **name is the primary who's-talking
+signal** (colour-as-sole-signal is banned, §9). This retires the old render-time quote-detection stopgap where
+all speech was one indigo. **ALL log flavour obeys ONE voice convention, everywhere** (F57/F91): pure
+narration takes the `narrator` voice; a character's spoken lines are prefixed + coloured by their voice — no
+plain, un-voiced lines mixed among voiced ones. Voice/speaker is set **at emission (pure-core)**; the renderer
+only applies it, so rake/labour narration reads exactly like the intro's, never left plain black.
 
 **The live scene owns the reveal; the log is an instant historical transcript (F48).** When a live scene
 (the VN intro, §5.13) is playing, *it* owns the animated typewriter reveal; the event log is painted
@@ -558,6 +625,24 @@ the project wants). Current rung = full ink + a `--shu` seal marker; past rungs 
 `--ink-faint` silhouette with its requirement. Each rung shows its diegetic title + romanized rank
 (*hiyatoi*, *genin*, *jitō-dai*).
 
+**The rung lives in the HEADER, top-right — one home, not two (F106/F116).** Core progression is
+**always visible** in the fixed header (§4.7): a compact **rung name + a progress bar** toward the next rung,
+with a **hover/focus card** carrying the detail on demand (the meter numbers, what this rung means, what the
+next rung is) — key state persistent, detail on demand. This is the **sole** home for the rung display; the
+old Work-column ladder was a duplicate and is **deleted** (F116 — when a display moves homes, remove the old
+one; never leave a "secondary cue" twin).
+
+**A rung-up is a player-TRIGGERED story beat, not a silent number-fill (F97/F103, D-110 extends D-104).**
+Reaching the next rung does **not** auto-promote — the header rung element surfaces a **"ready to advance"
+summons** that
+the player triggers when they choose (a ready promotion **holds** and can be **ignored**: you may grind combat
+forever and never advance — never forced). Triggering plays a **full-screen VN story beat** (§5.13) that
+**narratively motivates each unlock it grants** (why the gate & forecourt open, why the paddies, why you can
+help repair the estate) — the UI reveal *follows* the story. **Every** rung has a beat (some introduce a new
+character, others deepen a known one); choices are **remembered per-NPC**, and payloads are
+relationship/flag-first with only **occasional, small, varied** bonuses — **not** every rung a perk (the
+three intro perks were a one-time boost, §5.1a).
+
 ### 5.5 Buttons (verbs)
 
 Flat ink-outlined paper, **no glossy/3D/gradient buttons** (that's slop). A button is a small `.frame`-lite:
@@ -575,15 +660,19 @@ carrying an `--ai-soft` lit fill). It is how the calm grind runs itself without 
 reads on the face of the button, never hover-only** (§8): the combat panel's fight-to-death toggle labels
 itself `▶ auto · to the end` and warns *on its own face* that a loss costs coin (§10 Combat/Yard).
 
-### 5.6 Nav (desktop rail + mobile bottom-bar/drawer)
+### 5.6 Nav (the tab bar — desktop rail + mobile bottom-bar/drawer)
 
-The "UI as progression" chrome. Entries are **revealed in order** (§3.5 track): single column (none) →
-Skills → Combat → Crafting → Quests → Map → House → Village → Region → Ties → Castle-town stub. **Desktop:** a left sidebar of
-ink labels (kanji + emoji + romanized name); active = `--ai` text + a `--shu` seal pip + a `--surface`
-highlight; inactive tabs sit on `--surface-deep`. **Each new entry slides in** (animated, narrated) — never
-appears silently. **Mobile:** the same entries, same order, collapse to a **bottom tab-bar** (thumb reach) with
-secondary/overflow in a **drawer/sheet**. Tabs swap the *workspace*; the global header vitals persist across
-all screens.
+The "UI as progression" chrome — the presentation of the six-tab IA (§4.9, D-112). Tabs are **revealed in
+order** as their content unlocks: **Work** (R0, always) → **Map · Estate · Inventory** (R1) → **Character**
+(R2) → **Combat** (R3). The bar itself only appears once **≥2 tabs qualify** (at R1, when Map joins) — before
+that the game is one calm Work column. **Desktop:** a row/rail of ink labels (English + kanji — *Work* /
+*Map 地図* / *Estate 家* / *Inventory 蔵* / *Character 己* / *Combat 武*); active = `--ai` text + a `--shu` seal
+pip + a `--surface` highlight; inactive tabs sit on `--surface-deep`. **Each new tab slides in** (animated,
+narrated by its unlocking beat, §6.1) — never appears silently. **Mobile:** the same tabs, same order, collapse
+to a **bottom tab-bar** (thumb reach), overflow in a **drawer/sheet**. Tabs swap the *workspace*; the header
+vitals + the rung element (§5.4) persist across all tabs. A **New Game returns to the zero-state tab (Work) +
+the default log filter (Story)** — the renderer's UI state resets alongside the game state, so a reset never
+strands the player on a stale tab (F25).
 
 ### 5.7 Resource readouts (K/M/B)
 
@@ -593,6 +682,20 @@ man/oku — PRD §6.9). **Fixed to 2 decimals max, fixed width** (`1.20K` not `1
 **Always show the rate next to the value** (`+12/season`). Key totals render in `--num-key` (indigo); the value
 is **Arabic numerals**; the label may carry kanji. A single shared pure formatter in the renderer (fed by
 selectors) owns the K/M/B scale.
+
+**The three economy nouns display DISTINCTLY (D-107/D-108/D-109; motifs §7).** The economy is not one number
+but three, each with its own display convention:
+
+- **COIN** — the sole spendable currency, one underlying `mon` 文 value shown in **fixed mixed denominations
+  mon → monme 匁 → ryō 両** (1 ryō = 50 monme = 4,000 mon), the higher units **revealing incrementally as
+  wealth grows** (mon at T0–T1, monme mid-game, ryō at T4–T5) — no moneychanger, no floating forex (D-108).
+  A single `formatCoin` owns the denomination split.
+- **RICE** 🌾 — a real resource shown as a **plain count** (eaten for satiety, stored in the kura, or **sold
+  for coin at a season-swinging price**) — **never** a synonym for koku.
+- **KOKU** 石高 — the House's assessed **STANDING**, a kokudaka-like prestige **score** that is **NEVER spent**
+  and is **not** an income multiplier: it is re-assessed **seasonally** and gates ascension. It reads as a
+  *standing* with its rate (`家威 4.20K koku (+12/season)`, §5.3), wears its **own** mark (石高 / the 家 seal,
+  **never** 🌾), and is immune to a combat loss (§5.12).
 
 ### 5.8 The seal / stamp
 
@@ -620,6 +723,12 @@ text-scale, pause), **Saves** is a streamlined manage-saves surface (export / im
 carries the description, build stamp, licence, and content notes. It **opens on the About tab** by default
 (the calm, non-destructive landing — the player reaches for Saves/Settings deliberately).
 
+**The version → About → the changelog (F104/F105).** The **footer version stamp is clickable** (bottom-left,
+§4.7) and opens this modal on its **About** tab — the version's story is one click from the footer. The About
+tab **deep-links to the raw `CHANGELOG.md` on GitHub** (a top-level Keep-a-Changelog file). The version label
+is **single-sourced** from `package.json` (A21 — derive it, never hand-type it across docs) and kept current
+with shipped work.
+
 **The full-screen error modal (F61).** A caught render/tick crash draws a **full-screen, intentional error
 modal** — a solid, fixed, full-viewport overlay (high z-index) in the woodblock/ink palette (dark ink ground,
 a washi card with a tasteful kanji nod) that **covers** the broken UI — **never** a small banner layered over
@@ -627,7 +736,7 @@ a blank or half-drawn page. It reassures "your progress is saved" (the save alre
 prominent Reload, and (DEV only) shows the error + stack. Mounted once and idempotent (a single reused node,
 never stacked), all-inline-styled, and wrapped so the crash screen cannot itself throw.
 
-### 5.11 The walkable map + the "Walk on 道" strip (T0+)
+### 5.11 The Map tab — the walkable node + who's here (T0+)
 
 Space is **load-bearing**, not scenery (D-065/D-078/D-093). **Every labour and every foe is bound to a map
 node, and there is no default "here"** — the player **walks** (a `move_to`) to a node to work it or fight
@@ -636,47 +745,68 @@ behind a **danger ring**, sits the **deep satoyama 奥山**: reachable only once
 it gates the **richer forage** (more sansai + rice/coin than the near woods) and **dens the boar** — so the
 spatial spine ties straight into the rice/coin economy and the cook-loop, not just flavour.
 
-**The shared move-strip ("Walk on 道").** Movement is one reusable component: a row of **`→ node`** ink
-buttons, each tagged beneath with *what waits there* — what you gather, whether *a foe stirs* (named only
-once you have fought it — scout-by-fighting fog), the storehouse — and, for a node behind the danger ring, a
-sumi **険** **ink-mark** (danger as ink, never a filter-skipping ⚠ emoji, §7) plus its conditioning-gate
-reason shown **visibly on the disabled button** (§5.9), never a dead grey node with no reason. This same
-strip renders **twice**: as the body of the Map tab **and** as a **"Walk on 道"** group at the foot of the
-**Work tab**, so the player can move without a tab-switch — the spatial loop stays smooth.
+**Navigation has ONE home — the Map tab (F107/F112).** Movement lives **only** on the Map tab, never
+duplicated into Work (the old "Walk on 道" strip at the foot of Work is **removed**). Map and Estate are
+**distinct tabs** (F112): **Map** is the current node — where you can walk, who is here, and who you can talk
+to; **Estate** is house upgrades (§4.9). **Every visited location stays reachable** so you can always return
+(e.g. back to the starting grain-store where you rake, F113); **which characters stand at which node shifts by
+tier and rung** as you progress.
 
-**Presentation is a diverge (D-075) — three working framings, one shipped.** The default that ships (**A ·
-paths list**) is a **you-are-here** `.frame` card — "You stand at the ⟨node⟩ ⟨kanji⟩" + the node's blurb +
-a plain **"Paths lead to:"** move-strip — a diegetic, in-world framing that reads more handmade than a
-sparse top-down grid at this content scale (A19). Two alternates live **DEV-only behind the variant toggle**
-(stripped from prod): **B · 絵地図 estate schematic** (revealed nodes laid out by distance from the kura,
-you-are-here lit, walkable ones live) and **C · 道中記 traveller's ledger** (each path a ledger row showing
-the destination's blurb + what awaits — labour / foe / danger). All three are **pure-CSS schematics** — sumi
-roads and **registration-mark nodes** on `--washi`, the current location on a `--shu` seal pip, reachable
-nodes full ink ("lit") — **not** an illustrated/painted map. The map grows the way the nav does: it opens
-tight around the estate and **extends into Asagiri (Village)** as a second node-cluster at **new-T2**, each
-new region inked in and narrated (§6.1), never popped in silently.
+**The node splits into TWO sections (F102/D-116):** (a) a **bordered "where you are now" description** — a
+standing, immersive *"you are looking around"* read of the current node that **also carries HINTS** (toward
+the people, actions, and things to discover here) and **persists** while you are there; and (b) a **terse,
+subtle navigation section** that **hints nothing about the next zone**. **You navigate by clicking a location
+card** — no separate button, no destination preview (the flavor updates on *arrival*, F102). Location flavor
+is **never Story-log spam**: it is this node description, plus at most a **transient Now line on move** (F114 /
+D-116; §5.1). A node behind the danger ring carries a sumi **険** **ink-mark** (danger as ink, never a
+filter-skipping ⚠ emoji, §7) plus its conditioning-gate reason shown **visibly** on the disabled affordance
+(§5.9), never a dead grey node with no reason.
 
-### 5.12 Storehouse 蔵 (the kura bank)
+**Who's here — vendors are PEOPLE, not inline menus (F109/F110/F99, D-114).** The node surfaces a **"who's
+here"** list — the talkable people present. **You talk to a person to open their interaction**; a vendor's
+wares open **only while you are talking to them** (talk-to-reveal), **never** an inline shop menu dumped in a
+tab. Vendors sit on a **spectrum** (D-114): **(a) full VN characters** (a §5.13 full-screen intro + ongoing
+dialogue), **(b) small people** (a line or two + a trade), **(c) tiny traders** (zero questions — talking
+opens straight into the trade menu, a face on a shop) — and a vendor may be **place-gated** (reach or *build*
+the location first, e.g. the smithery before the smith). A new entity is **DISCOVERED via a reason/beat**, not
+spawned — the pedlar's first appearance carries a beat, never a silent pop-in (F99). Established characters
+(Sōan, Genemon) stay **talkable**, not consumed after their intro (F110).
 
-A `.frame` paper panel — the **kura** — where the player **stows coin out of a fight's reach** (and stores
-the harvested rice). It reveals with the estate economy and is **spatially gated to the kura node** (the
-storehouse *is* the kura, §5.11): the running **balance shows everywhere** (your safe reserve is worth seeing
-on the road), but the **Deposit all / Withdraw all** verbs appear **only while you stand at the kura** —
-off-node the panel drops to a plain hint to *walk the 道 back to the 蔵*. Its header reads the two coin piles
-in ink, plainly — `Carried N mon, stored N mon (safe)` (mon 文, the base coin unit, folding up into monme /
-ryō as wealth grows, §7) — with a **rice line beneath** it (`Rice: N stored 🌾`, the kura's granary), so both
+**Presentation is an OPEN diverge (D-115 — not locked).** The estate-map presentation is deliberately **not**
+locked to one idiom: the build runs a **D-075 diverge of 3–4+** genuinely-distinct, **terse / hint-free**
+working variants — a 2D spatial map, a 道中記 ledger, a minimal node list, a node-graph — all wired **DEV-only
+behind the variant toggle**, for the human to **pick live** (an R-item per variant; *currently ~7 variants
+await the live pick*). Prod ships only the self-picked default until the human locks one (zero PROD flag-debt).
+Every variant is a **pure-CSS schematic** — sumi roads and **registration-mark nodes** on `--washi`, the
+current location on a `--shu` seal pip, reachable nodes full ink ("lit") — **not** an illustrated/painted map.
+The map grows the way the tabs do: it opens tight around the estate and **extends into Asagiri (Village)** as a
+second node-cluster at **new-T2**, each new region inked in and narrated (§6.1), never popped in silently.
+
+### 5.12 Storehouse 蔵 (the kura bank — in the Inventory tab)
+
+A `.frame` paper panel — the **kura** — where the player **stows resources out of a fight's reach**. It is the
+**bank**, so its home is the **Inventory tab** (F108 / §4.9), out of Work; the belongings / home-comfort panel
+(D-111) sits beside it there. It is still **spatially gated to the kura node** (the storehouse *is* the kura,
+§5.11): the running **balance shows everywhere** (your safe reserve is worth seeing on the road), but the
+**store / withdraw** verbs work **only while you stand at the kura** — off-node the panel drops to a plain hint
+to *walk the 道 back to the 蔵*. Its header reads the piles in ink, plainly —
+`Carried N coin, N rice · stored N coin, N rice (safe)` (coin in mon/monme/ryō denominations, §5.7; rice a
+plain count), so both
 the spendable stake and the harvest are legible at a glance, and a diegetic line spells the rule the whole
-loss-loop turns on: **what you carry, a lost fight can take; what you store, you keep.** (Only carried *coin*
-is at stake — the House's koku standing is immune to a lost fight.) The buttons are ordinary ink-outlined
-verbs (§5.5); Withdraw sits `--ink-faint` (faded / disabled) with a "nothing stored" reason when the kura is
-empty (§5.9), never a dead grey box.
+loss-loop turns on: **what you carry, a lost fight can take; what you store, you keep.** **A combat loss
+bleeds all three CARRIED resources — coin + rice + materials (D-113); the kura shelters all three**, and the
+House's **koku standing is never carried, so a loss never touches it** (§5.7). The buttons are ordinary
+ink-outlined verbs (§5.5); withdraw sits `--ink-faint` (faded / disabled) with a "nothing stored" reason when
+the kura is empty (§5.9), never a dead grey box.
 
 ### 5.13 The full-screen dialogue (VN) scene (D-104)
 
 The canonical frame for **first meeting a story-significant, INTERACTIVE NPC** — one who touches the story,
 offers choices, or holds real discussion (minor/ambient NPCs stay inline in the log; D-104). The interactive
 **intro is its first instance and is LOCKED to this presentation** — the earlier inline and bottom-dock
-variants are scrapped (D-075 strip-on-approve), so prod ships only the VN scene (F43).
+variants are scrapped (D-075 strip-on-approve), so prod ships only the VN scene (F43). **The same scene engine
+frames every player-triggered rung-up beat** (D-110 extends D-104; §5.4), not only first-meets — so the rules
+below govern *all* story scenes.
 
 - **It hides the whole shell.** While the scene plays it **hides the entire game shell** (not a dim scrim,
   like the cold-open card) — the scene mounts on the document root and is all you see; the estate/tabs/panels
@@ -695,11 +825,15 @@ variants are scrapped (D-075 strip-on-approve), so prod ships only the VN scene 
 - **The log is the instant transcript.** The scene owns the live reveal; the event log is populated
   **instantly** behind the hidden shell (§5.1, F48) — the transcript is already there when the shell reveals.
 - **Two columns: story LEFT, interactive RIGHT — ask → done → decide (F64).** The card splits into a
-  **scrollable story column (left)** — where all narration, asked Q&A, your line, and the NPC reply accumulate
-  — and a **gated interactive column (right)**, run in two phases: Phase 1 shows the **ASK topics + a "Done
-  questioning" gate** (the decision hidden); only after Done does Phase 2 swap in the "what do you say"
+  **scrollable story column (left)** — where all narration, asked Q&A, your line, and the NPC reply accumulate,
+  **every voiced line carrying its speaker-name prefix** (`Sōan: …` / `Genemon: …` as much as `You: …`, F88;
+  §5.1) — and a **gated interactive column (right)**, run in two phases: Phase 1 shows the **ASK topics + a
+  "Done questioning" gate** (the decision hidden); only after Done does Phase 2 swap in the "what do you say"
   decision options. Separating text from controls also kills the old single-column overlap. *(A refinement of
   D-104.)*
+- **An asked topic renders greyed — dimmed, not disabled (F87).** Once you have asked a topic it renders
+  visibly **dimmed/greyed** (muted text + muted fill/border) so explored-vs-unexplored reads at a glance — but
+  it stays **clickable / re-askable**: dimmed ≠ disabled.
 - **The right column is static and persistent (F79/F80).** It never hides, collapses, flickers, or
   re-animates between phases or scenes — content **swaps within a stable panel**. And the **card is ONE fixed
   size**: the left story column **scrolls internally** (fixed height, `overflow-y:auto`, auto-scrolls to
@@ -712,8 +846,11 @@ variants are scrapped (D-075 strip-on-approve), so prod ships only the VN scene 
 - **ALL text types in on first appearance (F62/F78/F82/F83).** Every fragment — narration, each "You: …"
   question, each NPC answer, the decision prompt, the chosen say-line + reply — reveals with the typewriter;
   **nothing pops in un-typed**, in **every** scene (topic scenes *and* topic-less decision-only scenes like "A
-  memory", and the Genemon scene). A **click advances one line**: complete the current typing line, else reveal
-  the next — a click is "a little faster," **never** "skip the whole block."
+  memory", and the Genemon scene).
+- **The typewriter AUTO-advances; a click only speeds up (F86, refines F62).** Lines type one after another
+  on their own — after a line finishes the sequence **auto-continues to the next after ~2s**. A **click
+  completes the current typing line** (or skips the wait to the next), a "little faster" — it **never** pauses
+  the sequence and **never** "skips the whole block." The click accelerates; it does not stop.
 - **Choices never overlap; a small set lays out as a grid (F63).** The scene never overlaps its own text, and a
   small set of parallel choices sits **side-by-side in a 2×2 / 1×3 grid**, not a tall vertical stack.
 - **A choice resolves in place, then Continue (F65/F76).** Picking a decision does **not** cut to the next
@@ -875,9 +1012,17 @@ woodblock constraint — it is *protective* against slop precisely because it is
 
 ## 10. Per-screen application notes
 
-Each nav screen (revealed in the §3.5 order) and what makes its reveal a delight. The shared spine: the
-event log narrates the reveal, a new nav entry slides in, the workspace gains exactly one new system — never
-two at once.
+Each reveal and what makes it a **delight**. The shared spine: the event log (and, from R1, a
+player-triggered VN story beat, §5.4/D-110) narrates the reveal, a new tab or panel slides in, the workspace
+gains exactly one new system — never two at once.
+
+> **Reconcile with the six-tab IA (§4.9, D-112).** These notes are the per-TIER/RUNG *content-reveal delight
+> beats* — the design intent for **what** unlocks and **when**. They pre-date the six-tab reorg, so read the
+> **tab homes** through §4.9: **Skills / Crafting / Quests are now sections of the Character tab** (not their
+> own screens); **Combat is its own top-level tab** (≈R3); **Map / Estate / Inventory** are the R1 tabs;
+> **navigation lives only on the Map tab** (the "Walk on 道" strip at the foot of Work is **removed**, F107);
+> and the **House-Influence 家威 panel lives in the Estate tab**. The rung ladder is the header element (§5.4),
+> not a screen. Where a bullet below names an older screen/home, §4.9 governs.
 
 - **Cold open (single column, no nav).** *kura* dark, one verb ("Open your eyes"), the persistent log, then
   the body/rest bar + rice counter. Maximum *ma* — the empty paper reads as confident, not unfinished. The
@@ -886,10 +1031,9 @@ two at once.
 - **Work (R1+).** The labour loop: verb(s) + the **rice (+ a little coin) readout** and its rate + the
   world-clock season tag (🌸 + 春).
   Still one calm column — but the verbs are now **the labour of the node you stand on** (space is
-  load-bearing, §5.11), so once the map opens a **"Walk on 道"** move-strip sits at the foot of the tab, its
-  `→ node` buttons hinting what waits down each road — you change what you can *do* by walking, no
-  tab-switch. **Delight:** the season tag turning, the rice rate ticking with a count-up — "honest sweat"
-  made legible.
+  load-bearing, §5.11); you change what you can *do* by walking, and **walking lives on the Map tab** (its
+  single home, F107) — the Work tab is labour only. **Delight:** the season tag turning, the rice rate ticking
+  with a count-up — "honest sweat" made legible.
 - **Skills (R2 — first nav appears).** The *first navigation* — the screen splits Work / Skills; the nav rail
   is born with its first two entries. Skills surface **by doing** (fade in as XP first lands). **Delight:**
   the nav *itself* appearing is the signature beat — narrated: *"a way to track it appears."*

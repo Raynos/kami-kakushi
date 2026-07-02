@@ -48,7 +48,7 @@ never silent menu growth** (§2.1a, §1.12).
 
 | Code | Trigger kind | Predicate source |
 |---|---|---|
-| **RANK** | a **Phase-1 rung** reached (a fresh ladder per tier: T0 `R0–R7` (tutorial), T1 `R8–R15` (full estate), T2 `V0–V7`, T3 `G0–G7`) | the rung's **per-rung-reset rung-meter** — **Estate Service** (labour) or **Combat Rank** (martial) — crossing its threshold (back-solved from the **≥30-min-per-rung floor** × that rung's curated-activity rate) **AND** the rung's **story milestones** (an **AND-gate**, §2.15.1 / §3.0.1). The meter is fed by **curated per-rung activities** — *never* raw XP/kills/deeds (those feed the character level / the pillars). |
+| **RANK** | a **Phase-1 rung** reached (a fresh ladder per tier: T0 `R0–R7` (tutorial), T1 `R8–R15` (full estate), T2 `V0–V7`, T3 `G0–G7`) | the rung's **per-rung-reset rung-meter** — **Estate Service** (labour) or **Combat Rank** (martial) — crossing its threshold (back-solved from the **≥30-min-per-rung floor** × that rung's curated-activity rate) **AND** the rung's **story milestones** (an **AND-gate**, §2.15.1 / §3.0.1). The meter is fed by **curated per-rung activities** — *never* raw XP/kills/deeds (those feed the character level / the pillars). Every RANK promotion is a **player-TRIGGERED, ignorable full-screen VN story beat** (choices remembered; not every rung a perk — **D-110** / §1.6.4(1) / §3.0.1(1)). |
 | **PILLAR** | the **Phase-2 TIER-UP gate** cleared — the **scaled grade-gate** over the tier's **revealed** pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour) | the **scaled grade-gate** distribution (`1 EXC + 1 GRT + (N−2) GOOD` over the revealed pillars, all ≥ GOOD; NO overflow; §2.16/§4 — numbers → §4). Pillar **DEEDS accrue in PHASE 2 only** (post-final-rung), so PILLAR gates the **tier-up**, never an individual rung. |
 | **STORY** | a story / quest / dialogue flag set | a `flagsSet` from a quest or `TextLine` (§2.12) |
 | **FIRST-USE** | first acquisition / first action / discover-by-doing | first resource gained, first XP in a skill, first entry into an area/danger ring (§2.4, §2.7, §2.9) |
@@ -72,10 +72,14 @@ visible**, and the **diegetic event-log line** that announces it (the `revealLog
    not all four at once.
 2. **The multi-screen UI appears single-screen early (§2.1b, §1.12).** v1 begins as **one screen** (a
    single column: event log + one verb). **Navigation chrome and additional screens unlock progressively** — the
-   first nav tab appears only when there is a second place to go. **Distinct activities surface as their OWN
-   top-level nav tabs, not nested panels** — Skills, Combat, **Crafting**, **Quests**, Map, House, etc. The
-   "screen / nav reveals" are called out explicitly in §3.5 (the navigation reveal track) so the shell's growth
-   is legible as its own ladder.
+   first nav tab appears only when there is a second place to go. The player UI is a **SIX-TAB set — Work · Map ·
+   Estate · Inventory · Character · Combat — each revealed only as it unlocks** (**D-112**, superseding the
+   earlier "every distinct activity its own tab" sketch): **one capability per thematic tab** (labour → **Work**;
+   walk-to / who's-here / talk-to → **Map**; house upgrades → **Estate**; storehouse + belongings → **Inventory**;
+   attributes / skills / bestiary → **Character**; the fight loop + stance → **Combat**), with the **rung in the
+   header** (§1.6.4), not a tab. The "screen / nav reveals" are called out explicitly in §3.5 (the navigation
+   reveal track) so the shell's growth is legible as its own ladder; the **tab set + its incremental-reveal
+   gating are `ui-design.md`'s domain** (this §3 owns the reveal *order*, not the tab layout).
 3. **The world is SPATIAL — you walk to your work (§2.9).** Every labour and every enemy is bound to a **map
    node**; there is **no default node** — you **move to** the node to work a labour or fight a foe, and the
    storehouse (the bank) is at the **kura**. The estate becomes a small **walkable map** from the moment a
@@ -108,7 +112,10 @@ curves/thresholds are **§4**. Every `R*/V*/G*` row below is read through this m
   per-rung activities** — a designed **one-to-many** set (NOT a single repeat-counter), tagged by
   `rungActivityTags`. Two meters run in parallel: **Estate Service** (labour rungs) and **Combat Rank** (martial
   rungs). **Pillar DEEDS do NOT accrue in Phase 1** — this is the structural fix against a "half the rungs, maxed
-  deeds" state.
+  deeds" state. A cleared AND-gate only **readies** the promotion — it **holds** (at the header rung element)
+  until the **player triggers** it, and can be **ignored**; triggering plays the rung as a **player-triggered,
+  full-screen VN story beat** with remembered choices (`npcMemory`) and only occasional small bonuses — **not
+  every rung grants a perk** (**D-110** / §1.6.4(1); the VN engine is D-104 / §2.12).
 - **Phase 2 — grind the house up.** The **capstone (final) rung OPENS Phase 2** — the **estate-influence /
   four-pillar grind** — and the tier's **pillar DEEDS accrue here and ONLY here**. Clearing the tier's
   **hybrid good/great/excellent pillar profile** (below) is then what **tiers up** to the next, larger canvas.
@@ -488,9 +495,11 @@ climb, but it **never** appears as a trigger above; §1.5.4, §2.15.)*
 
 The UI shell **appears single-screen and grows into multi-screen navigation** (§2.1b; §1.12). Because
 this is the *signature* "UI as progression" feature, the nav chrome itself is laddered here as its own reveal
-sequence (data: `RevealableEntry kind:'navLink'|'screen'`). It cross-cuts the tier ladders above. **Distinct
-activities are TOP-LEVEL nav tabs, not nested panels** — and each tab is its **own one-per-beat reveal**,
-never batched.
+sequence (data: `RevealableEntry kind:'navLink'|'screen'`). It cross-cuts the tier ladders above. The tab set
+is the **six-tab IA — Work · Map · Estate · Inventory · Character · Combat** (**D-112**, one capability per
+thematic tab, superseding the earlier per-activity-tab framing) — and each tab is its **own one-per-beat
+reveal**, never batched (the tab layout + each capability's home are `ui-design.md`'s domain; §3 owns the
+reveal order).
 
 | Nav / screen reveal | Trigger | What appears | Diegetic event-log line |
 |---|---|---|---|

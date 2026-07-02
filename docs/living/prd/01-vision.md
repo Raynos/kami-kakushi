@@ -63,9 +63,12 @@ for itch.io.
    frontier. Concretely: a drill yard reveals one post, then a rack, then sparring slots; a new region is
    one road, one threat, one contact. **Reveals are design-staggered one-at-a-time** — the unlock schedule is
    *authored* so beats arrive singly (there is **no runtime reveal-queue**) — and obey a general
-   **NO-UI-DUMPS** principle (stagger everything, slowly and gently). Distinct activities (e.g.
-   **Crafting**, **Quests**) surface as their **own top-level nav tabs**, not nested panels, so the main
-   screen stays the active labour/deeds/combat loop.
+   **NO-UI-DUMPS** principle (stagger everything, slowly and gently). The player UI resolves to a **SIX-TAB
+   IA — Work · Map · Estate · Inventory · Character · Combat — each revealed only as it unlocks** (**D-112**,
+   superseding the earlier "every distinct activity its own tab" framing): **one capability per thematic tab**,
+   so the main surface stays the active labour/deeds/combat loop. Where each capability (e.g. crafting, quests)
+   is homed within those six tabs is **`ui-design.md`'s domain** (the PRD owns the reveal *order*, not the
+   layout).
 
 3. **Lean and high-impact — no fluff, no half-built features.** Grinding/slow growth is the core, not
    filler. **"Lean" is about FEATURES, not the grind**: no fluff, no half-built systems, and when scope
@@ -612,6 +615,17 @@ phases**:
   what **tiers up** to the next, larger canvas. *(There is **no stored "phase" flag** — the current phase is
   **derivable from the current rung**: pre-capstone = Phase 1, post-capstone = Phase 2.)*
 
+> **Every rung-up is a player-TRIGGERED story beat, not a silent number-fill (D-110, extending D-104).**
+> Clearing a rung's AND-gate only **readies** the promotion — it **holds** (surfaced at the header rung
+> element) until the player chooses to stop grinding and **trigger** it, and a ready rung can be **ignored**
+> (grind combat forever, never advance; never a forced modal every few seconds). Triggering plays the rung as
+> a **full-screen VN beat** on the same scene engine as an NPC first-meet (D-104): **some** rungs introduce a
+> **new character**, others deepen a known one (no rung is a silent number-fill). The beat carries **choices**,
+> and **NPCs REMEMBER** them — per-NPC relationships + story flags persisting across ascension (`npcMemory`,
+> §2.12). Choices **mainly** move **relationships + flags**, with only **occasional, small, varied** bonuses —
+> **it is NOT the case that every rung grants a perk** (the intro's three perks were a one-time boost, not the
+> standing pattern). This is the within-tier twin of the manual-opt-in **ascension** callout below (§1.6.4(3)).
+
 **(2) The three clean combat tracks.** The combat systems feed **three separately-stored
 tracks that never collapse into one bar.** What **one kill** writes makes the distinction concrete:
 
@@ -951,8 +965,9 @@ rewards/unlock bus as **one** event that simultaneously pushes a diegetic log li
 panel/tab/resource/area, grants the perk, and advances a story flag — so feature unlocks read as plot, never
 silent menu growth. **Reveals are design-staggered one-at-a-time** — the unlock schedule is *authored* so beats
 arrive singly (there is **no runtime reveal-queue**) — and obey a general **NO-UI-DUMPS** principle.
-Distinct activities (e.g. **Crafting**, **Quests**) appear as their **own top-level nav tabs**, not nested
-panels. Reveals follow the **per-tier rank ladders** (a fresh ladder per tier — see §1.5.1), **not** one
+The UI resolves to the **six-tab IA** (Work · Map · Estate · Inventory · Character · Combat — **D-112**),
+each tab revealed only as it unlocks; the home of each capability within those tabs is `ui-design.md`'s
+domain. Reveals follow the **per-tier rank ladders** (a fresh ladder per tier — see §1.5.1), **not** one
 continuous R0→R7 climb, and each ladder runs the **sequential Phase-1 (climb the rungs) → Phase-2 (estate
 pillar-grind)** model (§1.6.4). **Combat surfaces inside the FIRST tier (T0)** as an **incremental ladder**
 (the combat-reveal ladder, below), not a single mid-ladder dump.

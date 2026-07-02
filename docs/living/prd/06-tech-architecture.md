@@ -768,13 +768,14 @@ Once-per-game reveal log-lines are emitted by the `unlocked` write-once latch **
   the renderer just shows the surfaces in `state.unlocked` (the stored write-once latch — §6.4),
   never a live predicate re-eval. Each first-time reveal pushes a diegetic line to the event log (the reveal
   reads as plot) — emitted by the `reduce`/`tick` latch transition (§6.3), not the renderer diff.
-- **Multi-screen UI, progressively revealed.** There is a real multi-screen shell with navigation
-  (e.g. Estate / Village / Wilds / Skills / Combat / Influence / Map / Journal / Settings screens), but
+- **Multi-screen UI, progressively revealed.** There is a real multi-screen shell with navigation, but
   **nav and screens are revealed as earned** — so it *appears single-screen early* (minute one is one verb +
-  the log) and grows into a full multi-screen app. The nav is itself driven by unlock predicates. **Distinct
-  activities get their OWN top-level nav tabs — Crafting and Quests are top-level tabs, NOT nested
-  panels** — so the **main screen stays the active labour/deeds/combat loop**; any distinct non-critical
-  activity gets its own top-level tab (still revealed one-at-a-time).
+  the log) and grows into a full multi-screen app. The nav is itself driven by unlock predicates. The tab set
+  is the **SIX-TAB IA — Work · Map · Estate · Inventory · Character · Combat — each revealed only as it
+  unlocks** (**D-112**, superseding the earlier per-activity-tab sketch): **one capability per thematic tab**,
+  the **rung in the header** (not a tab), and combat as its own top-level tab (D-100). The **tab set + its
+  incremental reveal are `ui-design.md`'s domain** (§IA/tabs) — the PRD does not duplicate the layout; the
+  main surface stays the active labour/deeds/combat loop, still revealed one-at-a-time.
 - **Responsive desktop + mobile, NOT hover-dependent.** A fluid layout (CSS grid/flex,
   container/media queries) that reflows columns→stacked on narrow screens; **all information reachable without
   hover** — any hover tooltip has a tap/focus-equivalent, and "Shift for more detail" is an *enhancement*, never
