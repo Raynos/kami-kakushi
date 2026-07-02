@@ -10,6 +10,50 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 <sha> · <date>`). Pre-`0.3.1` builds were tagged `v0.1` / `v0.2` in git; from
 `0.3.1` on the version lives only in `package.json`, never a git tag.
 
+## [0.3.4] — 2026-07-02
+
+The autonomous T0 rebuild — a large, human-directed pass (scope locked in ADRs
+D-107–D-116) that reshapes the engine, the economy, the information
+architecture, and how you rank up. Verified before deploy by an adversarial
+reachability + regression + prod-bundle workflow (no soft-lock; DEV tools
+stripped). Balance stays liquid (D-059) — a "balance-watch" note lists tuning
+items for playtest.
+
+### Added
+
+- **Rice · Coin · Standing economy (D-107/108/109/113).** koku the copper-coin
+  currency becomes **coin** (base unit _mon_), shown in mixed
+  **mon → monme → ryō** notation that reveals more denominations as you grow rich
+  (1 ryō = 50 monme = 4,000 mon). **Rice** is now a real resource you rake, then
+  **eat** (satiety), **store** in the kura, or **sell** for coin at a
+  season-swinging price. **koku** is reserved for its true meaning — the House's
+  assessed **standing** ("the House stands at N koku", toward the 10,000-koku
+  daimyō line). A lost fight now bites carried coin + rice + materials; the kura
+  shelters what you bank.
+- **Six-tab interface, revealed as you earn it (D-112).** Work · Map · Estate ·
+  Inventory · Character · Combat — each appears only once it has content. Vendors
+  are **people you talk to** on the Map, not inline menus (meet Tokubei the
+  pedlar); navigation and the storehouse have single, thematic homes.
+- **Rank-ups are story beats (D-110).** Filling a rung meter no longer
+  auto-promotes — a **summons** appears in the header; answer it to play a
+  full-screen story beat (some introduce a new character; your choices are
+  remembered) that _motivates_ what the rung unlocks. You can ignore it and keep
+  grinding as long as you like.
+- **Estate-map presentations** — seven diegetic map variants to choose from (DEV).
+
+### Changed
+
+- **The whole UI renders incrementally** (append-only) — no more flash/repaint on
+  a tick; in-progress typewriter, meters, focus, and scroll survive.
+- Location/arrival flavour moved out of the Story log into the Map description +
+  a fading "Now" line; log narration speaks in consistent character voices.
+- **DEV New-Game** backs up your save first, with a one-click "goto last backup".
+
+### Fixed
+
+- Loading a save now back-reveals the surfaces its state has already earned.
+- The terminal rung (R7) no longer shows a summons that does nothing.
+
 ## [0.3.3] — 2026-07-02
 
 Round-2 of the human-steered playtest reshape (F62–F103). _Not yet shipped and
