@@ -7,12 +7,12 @@ import { emptyLog, pushLog, type LogState } from './log';
 describe('pushLog — consecutive-identical coalescing', () => {
   it('collapses 12 identical lines into one entry: length 1, count 12, key 0, seq 1', () => {
     let log: LogState = emptyLog();
-    for (let i = 0; i < 12; i++) log = pushLog(log, 'combat', 'You fell the monkey. (+3 koku)', i);
+    for (let i = 0; i < 12; i++) log = pushLog(log, 'combat', 'You fell the monkey. (+3 coin)', i);
     expect(log.entries.length).toBe(1);
     const only = log.entries[0]!;
     expect(only.count).toBe(12);
     expect(only.key).toBe(0);
-    expect(only.text).toBe('You fell the monkey. (+3 koku)');
+    expect(only.text).toBe('You fell the monkey. (+3 coin)');
     expect(log.seq).toBe(1);
   });
 

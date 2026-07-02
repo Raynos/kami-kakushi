@@ -141,11 +141,11 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
   it('waking retires the registry greet/stakes (Beat 3 carries them) but keeps the teach deferred', () => {
     // The interactive intro now owns the opening: Genemon's greet is Beat 3, so waking marks the
     // registry's ungated greet/stakes DELIVERED (they must not double-fire) — while the raked-gated
-    // koku-teaching stays reveal-as-plot, undelivered until the player actually rakes.
+    // rice-teaching stays reveal-as-plot, undelivered until the player actually rakes.
     const s = reduce(createInitialState(1), { type: 'open_eyes' });
     expect(s.deliveredDialogue).toContain('gen-greet'); // retired from the registry dump
     expect(s.deliveredDialogue).toContain('gen-stores');
-    // the koku-teaching + promise + acknowledgment are reveal-as-plot — NOT on the first click
+    // the rice-teaching + promise + acknowledgment are reveal-as-plot — NOT on the first click
     expect(s.deliveredDialogue).not.toContain('gen-rake');
     expect(s.deliveredDialogue).not.toContain('gen-keep');
     expect(s.deliveredDialogue).not.toContain('gen-kept');
@@ -153,7 +153,7 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
 
   it('the mentor lines land ONE PER RAKE (reveal-as-plot; no monologue dump on the first click)', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    // rake #1 surfaces ONLY the koku lesson — not the whole raked-gated monologue at once.
+    // rake #1 surfaces ONLY the rice lesson — not the whole raked-gated monologue at once.
     s = reduce(s, { type: 'rake_rice' });
     expect(s.deliveredDialogue).toContain('gen-rake');
     expect(s.deliveredDialogue).not.toContain('gen-keep'); // paced to the next rake
@@ -187,7 +187,7 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
       expect(entry?.speaker).toBeUndefined();
     }
 
-    // rake #1: the koku-teaching (gen-rake) is Genemon's SPEECH → steward voice + "Genemon"
+    // rake #1: the rice-teaching (gen-rake) is Genemon's SPEECH → steward voice + "Genemon"
     // nameplate; the rake RESULT line is narration → narrator voice, no nameplate.
     s = reduce(s, { type: 'rake_rice' });
     const rake = find(getDialogueLine(COLD_OPEN_DIALOGUE_ID, 'gen-rake').text);
@@ -268,10 +268,10 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
     // combat stats + HP ceiling are identical (the dream grants no might/guard/vigor/hp)
     expect(mcCombatStats(withKnot)).toEqual(mcCombatStats(plain));
     expect(hpMax(withKnot)).toBe(hpMax(plain));
-    // labour yields the same koku (the dream is no productivity blessing either)
+    // labour yields the same rice (the dream is no productivity blessing either)
     const yKnot = reduce(withKnot, { type: 'do_activity', activityId: 'farm_paddy' });
     const yPlain = reduce(plain, { type: 'do_activity', activityId: 'farm_paddy' });
-    expect(yKnot.resources.koku).toBe(yPlain.resources.koku);
+    expect(yKnot.resources.rice).toBe(yPlain.resources.rice);
   });
 });
 
@@ -307,7 +307,7 @@ describe('soft stamina + season', () => {
     s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // → R2 (now at home-paddies)
     s = { ...s, character: { ...s.character, satiety: 100 } }; // a fed body for the fresh baseline
     const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' }); // at home-paddies
-    const freshKoku = (fresh.resources.koku ?? 0) - (s.resources.koku ?? 0);
+    const freshRice = (fresh.resources.rice ?? 0) - (s.resources.rice ?? 0);
     // drain satiety hard (40 hauls × 4 satiety → the floor) — hauling is at the forecourt
     let drained: GameState = { ...s, location: 'gate-forecourt' };
     for (let i = 0; i < 40; i++)
@@ -318,9 +318,9 @@ describe('soft stamina + season', () => {
       { ...drained, location: 'home-paddies' },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
-    const tiredKoku = (tired.resources.koku ?? 0) - (drained.resources.koku ?? 0);
-    expect(tiredKoku).toBeGreaterThan(0); // never zero
-    expect(tiredKoku).toBeLessThanOrEqual(freshKoku);
+    const tiredRice = (tired.resources.rice ?? 0) - (drained.resources.rice ?? 0);
+    expect(tiredRice).toBeGreaterThan(0); // never zero
+    expect(tiredRice).toBeLessThanOrEqual(freshRice);
   });
 
   it('the clock turns seasons deterministically', () => {
@@ -330,7 +330,7 @@ describe('soft stamina + season', () => {
   });
 });
 
-// F53 + F58a — the FLEETING flavor lines (rest, per-rake +koku output, per-activity labour output)
+// F53 + F58a — the FLEETING flavor lines (rest, per-rake +rice output, per-activity labour output)
 // are tagged `ephemeral`, so the render routes them to the self-fading "Now" view and keeps them OFF
 // the permanent channels. RED-able + discriminating: the flag is NOT a blanket — a milestone
 // perk-unlock line on the SAME log stays permanent (ephemeral falsey), so the discriminator holds.
@@ -351,7 +351,7 @@ describe('ephemeral flavor tagging (F53 + F58a)', () => {
   });
 
   it('the rake + labour output lines are ephemeral (F58a), but a milestone perk line is NOT', () => {
-    // F58a — the cold-open per-rake +koku OUTPUT line is now fleeting flavor: it lands in Now and
+    // F58a — the cold-open per-rake +rice OUTPUT line is now fleeting flavor: it lands in Now and
     // fades, so repetitive rake output no longer spams the permanent Work channel (log-v2 revision).
     const raked = reduce(reduce(createInitialState(1), { type: 'open_eyes' }), {
       type: 'rake_rice',

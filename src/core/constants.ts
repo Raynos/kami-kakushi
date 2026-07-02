@@ -10,8 +10,11 @@ export const APP_ID = 'kami-kakushi' as const;
  *  v3 = the interactive intro: adds `npcMemory` (per-NPC memory) + `introBeat` (the intro cursor).
  *  v4 = the NPC dialogue TREE: adds `askedTopics` (the ask-hub dim/gate set); `introBeat` carries
  *  over unchanged (scene order == old beat order).
+ *  v5 = the RICE/COIN/KOKU economy re-core (D-107): renames the carried+banked `koku` resource key
+ *  to `coin` (the spendable currency) and adds `rice` (a real resource); koku leaves `resources`
+ *  entirely (it is now House STANDING, in `influence`).
  *  Pre-launch dev saves are wiped (D-067), but each forward step is a real, test-covered chain. */
-export const SCHEMA_VERSION = 4 as const;
+export const SCHEMA_VERSION = 5 as const;
 
 /** The event-log ring cap (PRD §6.4 / core/log): oldest entries evicted past this. */
 export const LOG_RING_MAX = 300 as const;

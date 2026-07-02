@@ -99,7 +99,7 @@ describe('canCraft — the craft gate', () => {
   });
 
   it('is true when inputs are over-met (and ignores unrelated resources)', () => {
-    expect(canCraft({ hardwood: 9, beast_sinew: 4, koku: 100 }, woodAxe())).toBe(true);
+    expect(canCraft({ hardwood: 9, beast_sinew: 4, coin: 100 }, woodAxe())).toBe(true);
   });
 
   it('is PURE — it does not mutate the resources argument', () => {

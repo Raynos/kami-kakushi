@@ -47,12 +47,12 @@ describe('cold-open reducer flow', () => {
     expect(s.deliveredDialogue).not.toContain('gen-rake');
   });
 
-  it('raking earns koku, drains satiety, and reveals rest', () => {
+  it('raking earns rice, drains satiety, and reveals rest', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    const koku0 = s.resources.koku ?? 0;
+    const rice0 = s.resources.rice ?? 0;
     const sat0 = s.character.satiety;
     s = reduce(s, { type: 'rake_rice' });
-    expect(s.resources.koku ?? 0).toBeGreaterThan(koku0);
+    expect(s.resources.rice ?? 0).toBeGreaterThan(rice0);
     expect(s.character.satiety).toBeLessThan(sat0);
     expect(hasFlag(s, 'raked')).toBe(true);
     expect(availableActions(s)).toContain('rest');

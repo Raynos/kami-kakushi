@@ -40,9 +40,10 @@ function farmReady(seed = SEASON_SPRING_SAFE): GameState {
 }
 
 function farmYield(s: GameState): number {
-  const before = s.resources.koku ?? 0;
+  // farm_paddy now yields RICE (D-107) — the honest noun for working the paddies.
+  const before = s.resources.rice ?? 0;
   const after = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
-  return (after.resources.koku ?? 0) - before;
+  return (after.resources.rice ?? 0) - before;
 }
 
 describe('skill → yield multiplier (audit #4)', () => {
@@ -89,9 +90,9 @@ describe('skill → yield multiplier (audit #4)', () => {
         estateYieldNum({ ...e0, estateStage: stage - 1 }),
       );
       // …and the realised yield never drops (integer rounding can plateau on a small base).
-      const koku = farmYield(atStage);
-      expect(koku).toBeGreaterThanOrEqual(prev);
-      prev = koku;
+      const yielded = farmYield(atStage);
+      expect(yielded).toBeGreaterThanOrEqual(prev);
+      prev = yielded;
     }
     // end-to-end the flywheel has real teeth: the top stage out-yields foreclosure's edge.
     expect(farmYield({ ...e0, estateStage: MAX_ESTATE_STAGE })).toBeGreaterThan(baseKoku);
@@ -118,7 +119,7 @@ describe('skill → yield multiplier (audit #4)', () => {
     const low = actsToR2(atR1);
     const high = actsToR2(addSkillXp(atR1, 'farming', 100_000));
     expect(low).toBeLessThan(CAP); // we actually reached R2, not the guard cap
-    expect(low).toBe(high); // RUNG_POINTS_PER_ACT is per-act, not per-koku — skill doesn't shrink it
+    expect(low).toBe(high); // RUNG_POINTS_PER_ACT is per-act, not per-yield — skill doesn't shrink it
   });
 });
 
@@ -203,34 +204,34 @@ describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery ac
   });
 });
 
-describe('improve_estate — the koku → estateStage sink (audit #5)', () => {
-  function estateReady(koku: number): GameState {
+describe('improve_estate — the coin → estateStage sink (audit #5 / D-107)', () => {
+  function estateReady(coin: number): GameState {
     const s = createInitialState(1);
     return {
       ...s,
-      resources: { ...s.resources, koku },
+      resources: { ...s.resources, coin },
       unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'],
     };
   }
 
-  it('spends koku, advances the stage, and lifts satietyMax by the stage bonus', () => {
+  it('spends coin, advances the stage, and lifts satietyMax by the stage bonus', () => {
     const s = estateReady(150);
     const beforeMax = satietyMax(s);
     expect(estateSatietyBonus(s)).toBe(0);
     const after = reduce(s, { type: 'improve_estate' });
     expect(after.estateStage).toBe(1);
-    expect(after.resources.koku).toBe(150 - ESTATE_STAGES[0]!.kokuCost);
+    expect(after.resources.coin).toBe(150 - ESTATE_STAGES[0]!.coinCost);
     expect(satietyMax(after)).toBe(beforeMax + ESTATE_STAGES[0]!.satietyMaxBonus);
   });
 
   it('is a no-op when too poor, when fully built out, or while the panel is unrevealed', () => {
-    const poor = estateReady(ESTATE_STAGES[0]!.kokuCost - 1);
+    const poor = estateReady(ESTATE_STAGES[0]!.coinCost - 1);
     expect(reduce(poor, { type: 'improve_estate' })).toBe(poor);
 
     const maxed = { ...estateReady(10_000), estateStage: MAX_ESTATE_STAGE };
     expect(reduce(maxed, { type: 'improve_estate' })).toBe(maxed);
 
-    const locked = { ...createInitialState(1), resources: { koku: 10_000 } };
+    const locked = { ...createInitialState(1), resources: { coin: 10_000 } };
     expect(reduce(locked, { type: 'improve_estate' })).toBe(locked); // panel-estate not unlocked
   });
 });
@@ -325,81 +326,81 @@ describe('persistence — the explicit character rebuild keeps the attribute bui
   });
 });
 
-// T0-M4-F3 — the tiny provisioning shop: a PERSONAL koku sink (D-099 — the player buys for his
+// T0-M4-F3 — the tiny provisioning shop: a PERSONAL coin sink (D-099/D-107 — the player buys for his
 // own needs, NOT the estate trading), held to a minority lane by the per-run stockCap (D-008).
 describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
   function withMarket(): GameState {
     const s = createInitialState(1);
     return {
       ...s,
-      resources: { ...s.resources, koku: 1000 },
+      resources: { ...s.resources, coin: 1000 },
       unlocked: [...s.unlocked, 'panel-estate'],
     };
   }
 
-  it('buys a good (koku → resource) and is hard-capped per run', () => {
-    const item = getItem('greens_sack'); // 10 koku → +3 sansai, stockCap 5
+  it('buys a good (coin → resource) and is hard-capped per run', () => {
+    const item = getItem('greens_sack'); // 10 coin → +3 sansai, stockCap 5
     let s = withMarket();
-    const koku0 = s.resources.koku ?? 0;
+    const coin0 = s.resources.coin ?? 0;
     s = reduce(s, { type: 'buy_item', itemId: 'greens_sack' });
-    expect(s.resources.koku ?? 0).toBe(koku0 - item.kokuCost);
+    expect(s.resources.coin ?? 0).toBe(coin0 - item.coinCost);
     expect(s.resources.sansai ?? 0).toBe(3);
     expect(s.marketBought['greens_sack']).toBe(1);
 
     for (let i = 1; i < item.stockCap; i++)
       s = reduce(s, { type: 'buy_item', itemId: 'greens_sack' });
     expect(s.marketBought['greens_sack']).toBe(item.stockCap);
-    // over the cap → no-op (the minority-lane clamp holds however much koku you hoard)
+    // over the cap → no-op (the minority-lane clamp holds however much coin you hoard)
     expect(reduce(s, { type: 'buy_item', itemId: 'greens_sack' })).toBe(s);
   });
 
   it('is gated on the estate economy (a no-op before panel-estate)', () => {
     const base = createInitialState(1);
-    const s: GameState = { ...base, resources: { ...base.resources, koku: 1000 } };
+    const s: GameState = { ...base, resources: { ...base.resources, coin: 1000 } };
     expect(reduce(s, { type: 'buy_item', itemId: 'greens_sack' })).toBe(s);
   });
 });
 
-describe('v0.3.1 Step 4 — koku sinks tighten the economy (D-086 scarcity / call 4)', () => {
-  it('repair charges a koku FEE (the new sink) when you can pay it', () => {
+describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / call 4)', () => {
+  it('repair charges a coin FEE (the new sink) when you can pay it', () => {
     const base = createInitialState(1);
     const ready: GameState = {
       ...base,
       unlocked: [...base.unlocked, 'verb-repair'],
       weaponDurability: 1, // worn
-      resources: { ...base.resources, wood: 10, koku: 30 },
+      resources: { ...base.resources, wood: 10, coin: 30 },
     };
     const after = reduce(ready, { type: 'repair_weapon' });
     expect(after.resources.wood ?? 0).toBe(10 - balance.REPAIR_WOOD_COST);
-    expect(after.resources.koku ?? 0).toBe(30 - balance.REPAIR_KOKU_COST); // ← the koku sink bites
+    expect(after.resources.coin ?? 0).toBe(30 - balance.REPAIR_COIN_COST); // ← the coin sink bites
     expect(after.weaponDurability).toBeGreaterThan(ready.weaponDurability); // repaired to max
   });
 
-  it('the koku fee is WAIVED when you cannot pay — repair never softlocks (D-061/D-086)', () => {
+  it('the coin fee is WAIVED when you cannot pay — repair never softlocks (D-061/D-086)', () => {
     const base = createInitialState(1);
     const broke: GameState = {
       ...base,
       unlocked: [...base.unlocked, 'verb-repair'],
       weaponDurability: 1,
-      resources: { ...base.resources, wood: 10, koku: 0 }, // wood, no koku
+      resources: { ...base.resources, wood: 10, coin: 0 }, // wood, no coin
     };
     const after = reduce(broke, { type: 'repair_weapon' });
     expect(after.weaponDurability).toBeGreaterThan(broke.weaponDurability); // STILL repairs
     expect(after.resources.wood ?? 0).toBe(10 - balance.REPAIR_WOOD_COST); // wood spent
-    expect(after.resources.koku ?? 0).toBe(0); // fee waived (nothing to take) — no stranding
+    expect(after.resources.coin ?? 0).toBe(0); // fee waived (nothing to take) — no stranding
   });
 
-  it('the estate sink is DEEPER — ≥4 contiguous stages with strictly ascending koku costs', () => {
+  it('the estate sink is DEEPER — ≥4 contiguous stages with strictly ascending coin costs', () => {
     expect(MAX_ESTATE_STAGE).toBeGreaterThanOrEqual(4); // U4 added (the deeper flywheel sink)
     ESTATE_STAGES.forEach((s, i) => {
       expect(s.stage).toBe(i + 1); // contiguous 1..N
-      if (i > 0) expect(s.kokuCost).toBeGreaterThan(ESTATE_STAGES[i - 1]!.kokuCost); // ascending
+      if (i > 0) expect(s.coinCost).toBeGreaterThan(ESTATE_STAGES[i - 1]!.coinCost); // ascending
     });
   });
 
   it('the market stays a MINORITY lane — total spend ≤ ⅓ of the estate sink (D-008)', () => {
-    const marketMax = MARKET_ITEMS.reduce((sum, m) => sum + m.kokuCost * m.stockCap, 0);
-    const estateTotal = ESTATE_STAGES.reduce((sum, s) => sum + s.kokuCost, 0);
+    const marketMax = MARKET_ITEMS.reduce((sum, m) => sum + m.coinCost * m.stockCap, 0);
+    const estateTotal = ESTATE_STAGES.reduce((sum, s) => sum + s.coinCost, 0);
     // the market-depth add stays inside the ≤⅓ Estate-&-Wealth cap — a hard design invariant.
     expect(marketMax).toBeLessThanOrEqual(estateTotal / 3);
   });
@@ -412,7 +413,7 @@ describe('v0.3.1 Step 5d — the load-bearing map node gates a richer yield (D-0
     // the design lever: walking one hill farther is STRICTLY richer per act — else the node is dead
     // breadth (battery #13). Derived from the activity defs, not copied magic numbers.
     expect(deep.sansai ?? 0).toBeGreaterThan(near.sansai ?? 0);
-    expect(deep.koku ?? 0).toBeGreaterThan(near.koku ?? 0);
+    expect(deep.coin ?? 0).toBeGreaterThan(near.coin ?? 0);
   });
 
   it('the deeper haul costs more to earn — it sits behind the danger ring at a higher satiety cost', () => {

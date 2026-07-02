@@ -29,11 +29,11 @@
 
 | id | skill | area | yields | satiety | xp |
 |---|---|---|---|---|---|
-| farm_paddy | farming | home-paddies | 4 koku | 3 | 5 |
-| haul_stores | conditioning | gate-forecourt | 2 koku | 4 | 5 |
+| farm_paddy | farming | home-paddies | 4 rice | 3 | 5 |
+| haul_stores | conditioning | gate-forecourt | 2 coin | 4 | 5 |
 | woodcut_edge | woodcutting | woodlot-edge | 3 wood | 4 | 5 |
-| forage_satoyama | foraging | near-satoyama | 2 sansai, 1 koku | 3 | 5 |
-| forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 koku | 5 | 7 |
+| forage_satoyama | foraging | near-satoyama | 2 sansai, 1 coin | 3 | 5 |
+| forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 coin | 5 | 7 |
 
 ## Estate map (spatial spine — D-093)
 
@@ -71,7 +71,7 @@
 
 ## Bestiary (grounded — no belief-creatures)
 
-| id | label | level | koku | scripted |
+| id | label | level | coin | scripted |
 |---|---|---|---|---|
 | wolf_scripted | Grain-store wolf | 2 | 0 | yes |
 | rice_rats | Grain-rat swarm | 1 | 1 |  |
@@ -111,9 +111,9 @@
 | boar | hardwood | 2 | 3/4 |
 | bandit | hardwood | 3 | 1/1 |
 
-## Estate improvements (koku sink)
+## Estate improvements (coin sink)
 
-| stage | label | koku | +satietyMax |
+| stage | label | coin | +satietyMax |
 |---|---|---|---|
 | E1 | Patch the kura | 100 | +20 |
 | E2 | Clear the drill yard | 300 | +20 |
@@ -122,11 +122,11 @@
 
 ## Market (T0 provisioning shop — D-008)
 
-> A small CAPPED koku sink (the TRADE taste). Every item carries a per-run
+> A small CAPPED coin sink (the TRADE taste). Every item carries a per-run
 > `stockCap` so buying stays a MINORITY lane (≤ ⅓ of Estate & Wealth), never a
 > primary income/output loop. The real village market arrives at T2.
 
-| id | label | koku | grants | stockCap |
+| id | label | coin | grants | stockCap |
 |---|---|---|---|---|
 | greens_sack | Sack of mountain greens | 10 | 3 sansai | 5 |
 | wood_bundle | Bundle of split kindling | 16 | 4 wood | 4 |
@@ -138,7 +138,7 @@
 ## The kura bank (carried vs banked)
 
 Resources come in two pools. **Carried** `resources` ride with the MC and are
-**at risk** — a combat loss bites carried koku by `LOSS_KOKU_FRAC` (0.2). **Banked**
+**at risk** — a combat loss bites carried coin + rice by `LOSS_COIN_FRAC` (0.2). **Banked**
 resources are sheltered in the kura storehouse: a loss never touches them, and a win
 never moves them. `deposit` sweeps a carried resource into the bank and `withdraw`
 draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhere else
@@ -152,6 +152,7 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | `verb-open-eyes` | verb |
 | `readout-body` | readout |
 | `readout-rice` | readout |
+| `readout-coin` | readout |
 | `verb-rake` | verb |
 | `verb-rest` | verb |
 | `panel-rung-ladder` | panel |

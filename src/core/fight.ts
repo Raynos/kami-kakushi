@@ -1,5 +1,5 @@
 // Fight resolution → GameState (PRD §4.6 / D-Q-idle-combat). Auto-resolve fights
-// everything; a WIN grants combat-XP (→ character level) + koku; a LOSS is a soft,
+// everything; a WIN grants combat-XP (→ character level) + coin; a LOSS is a soft,
 // SELF-RECOVERING setback — the MC limps to safety and rests (a time cost) and never
 // loses a level / gear / Influence (LOCKED shape, §4.6.6). The scripted grain-store
 // wolf is a guaranteed-survival humbling beat that opens R3.
@@ -19,7 +19,7 @@ import {
   SETBACK_HP,
   SETBACK_TICKS,
   FORCED_REST_TICKS,
-  LOSS_KOKU_FRAC,
+  LOSS_COIN_FRAC,
   LOSS_MATERIAL_FRAC,
   AUTO_RETREAT_FRAC,
   DURABILITY_WEAR_PER_FIGHT,
@@ -116,7 +116,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     // combat cursor) so it folds into the SINGLE summarised outcome line below.
     const [drop, lootRng] = rollMaterialDrop(next.rng, mob.id);
     next = { ...next, rng: lootRng };
-    const gained: Record<string, number> = { koku: mob.kokuReward };
+    const gained: Record<string, number> = { coin: mob.coinReward };
     if (drop) gained[drop.material] = drop.qty;
     const lootStr = drop ? `, +${drop.qty} ${getMaterial(drop.material).label.toLowerCase()}` : '';
     // SUMMARISED log (D-076 / batch-1 call 2): ONE outcome line per fight, carrying the HP swing
@@ -126,7 +126,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       log: [
         {
           channel: 'combat',
-          text: `You bring down the ${mob.label.toLowerCase()}. ✓ (HP ${hpBefore}→${result.mcHpLeft} · +${mob.kokuReward} koku${lootStr})`,
+          text: `You bring down the ${mob.label.toLowerCase()}. ✓ (HP ${hpBefore}→${result.mcHpLeft} · +${mob.coinReward} coin${lootStr})`,
         },
       ],
     });
@@ -152,14 +152,18 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     });
     next = advanceClock(next, FIGHT_TICKS);
   } else {
-    // soft setback (D-050/§4.6.6) + D-076: limp home at the HP floor (never losing level/xp/gear),
-    // the autopilot STOPS, and you drop a slice of your CARRIED koku + materials in the rout — what
-    // is BANKED in the kura storehouse stays safe (batch-2 call 7). Magnitude liquid (D-059).
+    // soft setback (D-050/§4.6.6) + D-076 + D-113: limp home at the HP floor (never losing
+    // level/xp/gear), the autopilot STOPS, and you drop a slice of ALL THREE carried resources —
+    // COIN + RICE + materials — in the rout. What is BANKED in the kura storehouse stays safe
+    // (batch-2 call 7). koku (House standing) is never carried, so a loss never touches it (D-107).
+    // Magnitude liquid (D-059).
     const hpBefore = state.character.hp;
     next = setHp(next, SETBACK_HP);
     next = { ...next, autoCombat: null };
-    const lostKoku = Math.round((next.resources.koku ?? 0) * LOSS_KOKU_FRAC);
-    if (lostKoku > 0) next = withResource(next, 'koku', -lostKoku);
+    const lostCoin = Math.round((next.resources.coin ?? 0) * LOSS_COIN_FRAC);
+    if (lostCoin > 0) next = withResource(next, 'coin', -lostCoin);
+    const lostRice = Math.round((next.resources.rice ?? 0) * LOSS_COIN_FRAC);
+    if (lostRice > 0) next = withResource(next, 'rice', -lostRice);
     let lostMats = 0;
     for (const m of MATERIALS) {
       const lose = Math.floor((next.resources[m.id] ?? 0) * LOSS_MATERIAL_FRAC);
@@ -168,10 +172,17 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
         lostMats += lose;
       }
     }
-    const drop =
-      lostKoku > 0 || lostMats > 0
-        ? ` You drop ${lostKoku} koku${lostMats > 0 ? ` and ${lostMats} of your spoils` : ''} in the rout.`
-        : '';
+    // Name the rout loss across all three carried resources ("N coin, M rice, and K of your spoils").
+    const lostParts = [
+      lostCoin > 0 ? `${lostCoin} coin` : '',
+      lostRice > 0 ? `${lostRice} rice` : '',
+      lostMats > 0 ? `${lostMats} of your spoils` : '',
+    ].filter(Boolean);
+    const lostPhrase =
+      lostParts.length <= 1
+        ? lostParts.join('')
+        : `${lostParts.slice(0, -1).join(', ')} and ${lostParts[lostParts.length - 1]}`;
+    const drop = lostPhrase ? ` You drop ${lostPhrase} in the rout.` : '';
     next = applyRewards(next, {
       log: [
         {

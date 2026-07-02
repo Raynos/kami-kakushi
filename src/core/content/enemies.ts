@@ -44,8 +44,8 @@ export interface MobDef {
   readonly minTier?: number;
   /** A scripted story beat the MC always survives (never a grindable encounter). */
   readonly scripted?: boolean;
-  /** Koku scavenged on a win (the modest spoils of a kept hand). */
-  readonly kokuReward: number;
+  /** Coin scavenged on a win (the modest spoils of a kept hand; base unit mon — D-107). */
+  readonly coinReward: number;
   readonly blurb: string;
 }
 
@@ -57,7 +57,7 @@ export const MOBS: readonly MobDef[] = [
     level: 2,
     area: 'kura',
     scripted: true,
-    kokuReward: 0,
+    coinReward: 0,
     blurb:
       'A starving wolf cornered among the rice-sacks. You live through this one on luck alone.',
   },
@@ -74,7 +74,7 @@ export const MOBS: readonly MobDef[] = [
     baseSpeed: 1.7,
     accBonus: -4,
     evaBonus: -2,
-    kokuReward: 1,
+    coinReward: 1,
     blurb:
       'A boiling swarm at the grain-stores — a nuisance, not a threat. Good for a first swing.',
   },
@@ -87,7 +87,7 @@ export const MOBS: readonly MobDef[] = [
     // A fast, dodgy nuisance — the humbling first foe: it swings often and slips your blows.
     baseSpeed: 1.5,
     evaBonus: 4,
-    kokuReward: 3,
+    coinReward: 3,
     blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
   },
   {
@@ -101,7 +101,7 @@ export const MOBS: readonly MobDef[] = [
     // ground. (True multi-target waits on the T1 weapon targetCount; at T0 it is one evasive pack.)
     baseSpeed: 1.2,
     evaBonus: 6,
-    kokuReward: 6,
+    coinReward: 6,
     blurb: 'Not one raider but a whole troop — they scatter and duck, and you swing at empty air.',
   },
   {
@@ -115,7 +115,7 @@ export const MOBS: readonly MobDef[] = [
     baseSpeed: 1.4,
     accBonus: 2,
     evaBonus: 2,
-    kokuReward: 5,
+    coinReward: 5,
     blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
   },
   {
@@ -129,7 +129,7 @@ export const MOBS: readonly MobDef[] = [
     // and lands its bites. (Its venom/gall consumable is a T1 feature, D-095 — no status effect yet.)
     baseSpeed: 1.3,
     accBonus: 3,
-    kokuReward: 4,
+    coinReward: 4,
     blurb:
       'Coiled in the grass, quick as a whip and sure of its strike. It bites before you see it.',
   },
@@ -143,7 +143,7 @@ export const MOBS: readonly MobDef[] = [
     // it lands (accBonus) and its higher-level HP makes it a real grind (harder than the wolf).
     baseSpeed: 0.95,
     accBonus: 4,
-    kokuReward: 8,
+    coinReward: 8,
     blurb: 'Tusked and furious, denned in the deep hills it raids from. It will not turn aside.',
   },
   {
@@ -156,7 +156,7 @@ export const MOBS: readonly MobDef[] = [
     // A10 / PRD §5: the first HUMAN threat is canon-held for T2. The bandit stays in the
     // balance CURVE (the top-end wall foeForecasts reads) but is GATED out of a T0 fight.
     minTier: 2,
-    kokuReward: 12,
+    coinReward: 12,
     blurb: 'A masterless man gone to robbery on the woodlot road — a threat for a later season.',
   },
 ];

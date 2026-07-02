@@ -24,23 +24,23 @@ function entry(text: string, count: number, channel: LogEntry['channel'] = 'rewa
 
 describe('formatLogText — coalesced ×N display', () => {
   it('leaves a single (count 1) line untouched', () => {
-    expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 koku)', 1))).toBe(
-      'You fell the crop-raiding monkey. (+3 koku)',
+    expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 1))).toBe(
+      'You fell the crop-raiding monkey. (+3 coin)',
     );
   });
 
   it('multiplies a single-resource suffix into a running total', () => {
-    expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 koku)', 12))).toBe(
-      'You fell the crop-raiding monkey. ×12 (+36 koku)',
+    expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 12))).toBe(
+      'You fell the crop-raiding monkey. ×12 (+36 coin)',
     );
-    expect(formatLogText(entry('Work the home paddies. (+4 koku)', 7))).toBe(
-      'Work the home paddies. ×7 (+28 koku)',
+    expect(formatLogText(entry('Work the home paddies. (+4 rice)', 7))).toBe(
+      'Work the home paddies. ×7 (+28 rice)',
     );
   });
 
   it('never multiplies a multi-resource suffix (bare ×N fallback)', () => {
-    expect(formatLogText(entry('Forage the near satoyama. (+2 sansai, +1 koku)', 5))).toBe(
-      'Forage the near satoyama. (+2 sansai, +1 koku) ×5',
+    expect(formatLogText(entry('Forage the near satoyama. (+2 sansai, +1 coin)', 5))).toBe(
+      'Forage the near satoyama. (+2 sansai, +1 coin) ×5',
     );
   });
 
@@ -286,12 +286,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         location: 'kura',
         flags: { ...base.flags, awake: true },
         unlocked: [...base.unlocked, 'panel-estate'],
-        resources: { ...base.resources, koku: 50 },
+        resources: { ...base.resources, coin: 50 },
       },
       null,
     );
-    expect(clickText('Store all koku')).toBe(true);
-    expect(seen).toContainEqual({ type: 'deposit', resource: 'koku' });
+    expect(clickText('Store all coin')).toBe(true);
+    expect(seen).toContainEqual({ type: 'deposit', resource: 'coin' });
   });
 
   it('a foe Fight button dispatches fight for the foe on THIS node', () => {
@@ -1076,15 +1076,15 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const seen: Intent[] = [];
     const render = mount(root, (i) => seen.push(i), noopHooks());
     const s = awake(['panel-estate'], {
-      resources: { ...createInitialState(1).resources, koku: 0 },
+      resources: { ...createInitialState(1).resources, coin: 0 },
     });
     render(s, null);
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
-    expect(btn.disabled).toBe(true); // no koku → can't buy
+    expect(btn.disabled).toBe(true); // no coin → can't buy
     // afford it → the SAME button becomes enabled (patched in place, not a fresh node).
     const rich = awake(['panel-estate'], {
-      resources: { ...createInitialState(1).resources, koku: 9999 },
+      resources: { ...createInitialState(1).resources, coin: 9999 },
     });
     render(rich, s);
     expect(root.querySelector('.market-pane .market-row')).toBe(row);

@@ -16,7 +16,7 @@
 export interface Sfx {
   /** Per-deed / combat-hit cue — a short taiko thud (low sine + fast decay). */
   hit(): void;
-  /** Koku tally cue — a bright shamisen/koto pluck (plucked-string envelope). */
+  /** Coin/rice tally cue — a bright shamisen/koto pluck (plucked-string envelope). */
   reward(): void;
   /** Rank-up flourish — a struck temple-bell 鈴 (inharmonic suzu partials + long decay). */
   rankUp(): void;

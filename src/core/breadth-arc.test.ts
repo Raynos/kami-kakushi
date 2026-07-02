@@ -10,7 +10,7 @@ import {
 
 // T0-M4 BREADTH seams, end-to-end via the REAL reducer — proving the breadth surfaces work WITHIN
 // a real playthrough (not just in isolated reducer tests): a quest driven to completion by real
-// fights + labour (the kill:<mob> / gather:<resource> event seam), the capped market koku-sink, and
+// fights + labour (the kill:<mob> / gather:<resource> event seam), the capped market coin-sink, and
 // a walk on the estate map. Unit tests cover each in isolation; this proves they integrate with the
 // combat/labour spine and reward correctly. RED-able: break the quest event seam, the cap, or the
 // map adjacency and an assertion fails.
@@ -34,7 +34,7 @@ function readyState(seed: number): GameState {
       'combat-blooded': true,
       'combat-unlocked': true,
     },
-    resources: { ...base.resources, koku: 500, wood: 0, sansai: 0 },
+    resources: { ...base.resources, coin: 500, wood: 0, sansai: 0 },
     unlocked: [
       ...new Set([
         ...base.unlocked,
@@ -83,7 +83,7 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
     let s = reduce(readyState(7), { type: 'accept_quest', questId: QUEST });
     expect(s.quests.accepted).toContain(QUEST);
 
-    const kokuBefore = s.resources.koku ?? 0;
+    const coinBefore = s.resources.coin ?? 0;
     // rout-monkey (kill:monkey) + down-boar (kill:boar) — the FIGHT→quest event seam
     s = fightUntil(s, 'monkey', 'rout-monkey');
     s = fightUntil(s, 'boar', 'down-boar');
@@ -99,27 +99,27 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
     }
     expect(stepDone(s, 'mend-fence')).toBe(true);
 
-    // all three steps done → the quest completes and pays its 30-koku reward ONCE
+    // all three steps done → the quest completes and pays its 30-coin reward ONCE
     expect(s.quests.completed).toContain(QUEST);
-    // the +30 reward landed (koku also rose from the woodcut/loot; assert at least the reward)
-    expect((s.resources.koku ?? 0) - kokuBefore).toBeGreaterThanOrEqual(30);
+    // the +30 reward landed (coin also rose from the woodcut/loot; assert at least the reward)
+    expect((s.resources.coin ?? 0) - coinBefore).toBeGreaterThanOrEqual(30);
 
     // …and it never double-pays: replaying a kill:monkey event banks no further reward
-    const kokuAfter = s.resources.koku ?? 0;
+    const coinAfter = s.resources.coin ?? 0;
     s = applyGrindFight(recover(s), 'monkey');
-    // (a win adds loot koku, but the QUEST reward must not fire again — completed stays a singleton)
+    // (a win adds loot coin, but the QUEST reward must not fire again — completed stays a singleton)
     expect(s.quests.completed.filter((q) => q === QUEST)).toHaveLength(1);
-    expect(s.resources.koku ?? 0).toBeGreaterThanOrEqual(kokuAfter);
+    expect(s.resources.coin ?? 0).toBeGreaterThanOrEqual(coinAfter);
   });
 
-  it('the market is a REAL capped koku-sink (buys grant goods; the stockCap clamps)', () => {
+  it('the market is a REAL capped coin-sink (buys grant goods; the stockCap clamps)', () => {
     let s = readyState(3);
-    const item = 'greens_sack'; // 10 koku → +3 sansai, stockCap 5
-    const kokuStart = s.resources.koku ?? 0;
+    const item = 'greens_sack'; // 10 coin → +3 sansai, stockCap 5
+    const coinStart = s.resources.coin ?? 0;
     // buy past the cap — only stockCap buys should land
     for (let i = 0; i < 8; i++) s = reduce(s, { type: 'buy_item', itemId: item });
     expect(s.marketBought[item]).toBe(5); // capped, not 8
-    expect(s.resources.koku ?? 0).toBe(kokuStart - 5 * 10); // 5 buys × 10 koku
+    expect(s.resources.coin ?? 0).toBe(coinStart - 5 * 10); // 5 buys × 10 coin
     expect(s.resources.sansai ?? 0).toBe(5 * 3); // 5 buys × 3 sansai
   });
 

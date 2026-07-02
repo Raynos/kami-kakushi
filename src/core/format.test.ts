@@ -27,7 +27,7 @@ describe('K/M/B formatter', () => {
   });
 
   it('formatRate prefixes a sign and a unit', () => {
-    expect(formatRate(12, 'koku')).toBe('+12/koku');
+    expect(formatRate(12, 'coin')).toBe('+12/coin');
     expect(formatRate(-3, 'tick')).toBe('-3/tick');
   });
 });

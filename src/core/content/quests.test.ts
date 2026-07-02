@@ -24,7 +24,7 @@ function play(quest: QuestDef, events: readonly string[]): ReadonlySet<string> {
 }
 
 describe('QUESTS content — the T0 PEST quest', () => {
-  it('ships one grounded quest: PEST, 2-3 distinct steps, a modest koku + flag reward', () => {
+  it('ships one grounded quest: PEST, 2-3 distinct steps, a modest coin + flag reward', () => {
     expect(QUEST.kind).toBe('PEST');
     expect(QUEST.title).toBe('Drive off the crop-raiders');
     expect(QUEST.steps.length).toBeGreaterThanOrEqual(2);
@@ -37,9 +37,9 @@ describe('QUESTS content — the T0 PEST quest', () => {
     expect(events.size).toBe(QUEST.steps.length);
     for (const s of QUEST.steps) expect(s.event).toMatch(/^[a-z]+:[a-z_]+$/);
 
-    // modest reward: some koku (below the first estate-stage cost) + a completion flag
-    expect(QUEST.reward.resources?.koku).toBeGreaterThan(0);
-    expect(QUEST.reward.resources?.koku).toBeLessThanOrEqual(100);
+    // modest reward: some coin (below the first estate-stage cost) + a completion flag
+    expect(QUEST.reward.resources?.coin).toBeGreaterThan(0);
+    expect(QUEST.reward.resources?.coin).toBeLessThanOrEqual(100);
     expect(QUEST.reward.flags).toContain('quest_pest_crop_raiders_done');
     expect(QUEST.reward.log?.length).toBeGreaterThanOrEqual(1);
   });
@@ -123,10 +123,10 @@ describe('QUESTS content — the A6 starter set (all four kinds)', () => {
         expect(verb === 'kill' || verb === 'gather').toBe(true);
         if (verb === 'kill') expect(t0Foes.has(subject!)).toBe(true);
       }
-      // distinct step ids + tokens (a real order-free set), a modest koku reward + a completion flag
+      // distinct step ids + tokens (a real order-free set), a modest coin reward + a completion flag
       expect(new Set(q.steps.map((s) => s.id)).size).toBe(q.steps.length);
       expect(new Set(q.steps.map((s) => s.event)).size).toBe(q.steps.length);
-      expect(q.reward.resources?.koku).toBeGreaterThan(0);
+      expect(q.reward.resources?.coin).toBeGreaterThan(0);
       expect(q.reward.flags).toContain(`quest_${q.id}_done`);
     }
   });

@@ -13,7 +13,9 @@ export type ActivityId =
   | 'woodcut_edge'
   | 'forage_satoyama'
   | 'forage_deepwoods';
-export type LabourResource = 'koku' | 'wood' | 'sansai';
+// D-107: labour yields RICE (rake + paddy work), COIN (hauling wage + a little from forage), wood
+// (woodcut), or sansai (forage greens). koku is never labour-earned — it is House standing.
+export type LabourResource = 'rice' | 'coin' | 'wood' | 'sansai';
 
 export interface ActivityDef {
   readonly id: ActivityId;
@@ -37,7 +39,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     label: 'Work the home paddies',
     skill: 'farming',
     area: 'home-paddies',
-    yields: { koku: 4 },
+    yields: { rice: 4 },
     satietyCost: 3,
     xp: 5,
     seasonHarvest: true,
@@ -48,7 +50,8 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     label: 'Haul stores at the forecourt',
     skill: 'conditioning',
     area: 'gate-forecourt',
-    yields: { koku: 2 },
+    // The first COIN-paying labour — a porter's wage (D-107 / D4: coin arrives as the "first wage").
+    yields: { coin: 2 },
     satietyCost: 4,
     xp: 5,
     surface: 'verb-haul',
@@ -68,7 +71,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     label: 'Forage the near satoyama',
     skill: 'foraging',
     area: 'near-satoyama',
-    yields: { sansai: 2, koku: 1 },
+    yields: { sansai: 2, coin: 1 },
     satietyCost: 3,
     xp: 5,
     dangerRing: true,
@@ -77,12 +80,12 @@ export const ACTIVITIES: readonly ActivityDef[] = [
   {
     // v0.3.1 Step 5d — the load-bearing yield (D-078): the SAME foraging verb, richer on the deeper
     // node. You walk one hill farther (past the danger ring) for a materially better haul — the map
-    // gates income, tying the spatial spine to the Step-4 koku economy + the combat cook-loop.
+    // gates income, tying the spatial spine to the Step-4 coin economy + the combat cook-loop.
     id: 'forage_deepwoods',
     label: 'Forage the deep satoyama',
     skill: 'foraging',
     area: 'deep-satoyama',
-    yields: { sansai: 4, koku: 2 },
+    yields: { sansai: 4, coin: 2 },
     satietyCost: 5,
     xp: 7,
     dangerRing: true,

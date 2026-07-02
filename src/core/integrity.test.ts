@@ -16,22 +16,31 @@ import {
 // surfacing a new value without a consumer (and without ledgering it) fails the build —
 // that is the ratchet's teeth, WITHOUT forcing the deferred design forks (H-items).
 //
-// Authored POST-economy (Commit 2 landed the sinks/multipliers), so per conflict J the
-// inert set is EMPTY: koku→improve_estate, wood→repair_weapon, sansai→cook_meal,
+// Authored POST-economy (Commit 2 landed the sinks/multipliers). Under the D-107 economy re-core
+// coin→improve_estate + buy_item + repair fee, wood→repair_weapon, sansai→cook_meal,
 // farming/foraging/woodcutting→skillYieldNum, conditioning→danger-ring gate, and
-// attributePoints→spend_attribute. Every surfaced value is consumed (the stronger form).
+// attributePoints→spend_attribute. The ONE tracked-inert debt is RICE — a real resource whose
+// primary sink (eat / sell for coin) lands in Phase 2 (D-107); in Phase 1 it is earned + carried
+// (at-risk on a loss) but has no active consumer yet, so it is explicitly ledgered inert.
 
 const SURFACED_CURRENCIES = new Set<string>([
-  'koku',
+  'coin',
+  'rice',
   ...ACTIVITIES.flatMap((a) => Object.keys(a.yields)),
   ...MATERIAL_IDS, // the loot→craft materials (hardwood, beast_sinew) — surfaced via the fight loot path
-]); // {koku, wood, sansai, hardwood, beast_sinew}
+]); // {coin, rice, wood, sansai, hardwood, beast_sinew}
 const SURFACED_SKILLS = SKILL_IDS; // {farming, foraging, woodcutting, conditioning}
 
 type Ledger = Record<string, { consumer: string } | { inert: string }>;
 
 const CURRENCY_LEDGER: Ledger = {
-  koku: { consumer: 'improve_estate estate-upgrade sink + buy_item market sink (intents)' },
+  coin: {
+    consumer:
+      'improve_estate estate-upgrade sink + buy_item market sink + repair_weapon fee (intents)',
+  },
+  // RICE — earned (rake/farm) + carried (at-risk on a lost fight, D-113) but its PRIMARY sink
+  // (eat → satiety / sell → coin) is Phase 2 (D-107); tracked-inert until then, not silently dead.
+  rice: { inert: 'D-107 Phase 2: eat_rice (→satiety) + sell_rice (→coin at a season price)' },
   wood: { consumer: 'repair_weapon REPAIR_WOOD_COST sink (intents + balance)' },
   sansai: { consumer: 'cook_meal COOK_SANSAI_COST sink (intents + balance)' },
   hardwood: { consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)' },
@@ -55,10 +64,10 @@ const ATTRIBUTE_LEDGER: Ledger = {
   spd: { consumer: 'mcCombatStats attackSpeed (combat)' },
   luck: { consumer: 'mcCombatStats critChance (combat)' },
 };
-// Post-economy ledger: no surfaced value is inert any more (conflict J). The ratchet now
-// asserts the empty set — surfacing a NEW dead value (or letting an existing consumer rot)
-// flips this RED.
-const EXPECTED_INERT = new Set<string>([]);
+// Post-economy ledger: the ONE tracked-inert value is `rice` — its eat/sell sink is Phase 2
+// (D-107). The ratchet asserts EXACTLY this frozen debt, so surfacing another NEW dead value (or
+// letting an existing consumer rot) flips this RED; wiring rice's Phase-2 sink must drop it here.
+const EXPECTED_INERT = new Set<string>(['rice']);
 
 describe('G-NO-DEAD-VALUES — every surfaced value is ledgered (consumer or tracked-inert)', () => {
   it('no surfaced currency/skill/attribute is missing from the ledger (no silent dead values)', () => {
@@ -69,7 +78,7 @@ describe('G-NO-DEAD-VALUES — every surfaced value is ledgered (consumer or tra
       expect(ATTRIBUTE_LEDGER[id], `attribute '${id}'`).toBeDefined();
   });
 
-  it('the inert set is exactly the frozen documented debt — empty post-economy (ratchet)', () => {
+  it('the inert set is exactly the frozen documented debt — just rice (Phase-2 sink, ratchet)', () => {
     const inert = new Set(
       [
         ...Object.entries(CURRENCY_LEDGER),

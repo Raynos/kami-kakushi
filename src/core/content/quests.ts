@@ -53,12 +53,12 @@ export const QUESTS: readonly QuestDef[] = [
       },
     ],
     reward: {
-      resources: { koku: 30 },
+      resources: { coin: 30 },
       flags: ['quest_pest_crop_raiders_done'],
       log: [
         {
           channel: 'milestone',
-          text: `The paddies stand quiet again. ${NAMES.elder} counts thirty koku from the house purse into your hand — "for the rice you kept on the stalk."`,
+          text: `The paddies stand quiet again. ${NAMES.elder} counts thirty coin from the house purse into your hand — "for the rice you kept on the stalk."`,
         },
       ],
     },
@@ -78,12 +78,12 @@ export const QUESTS: readonly QuestDef[] = [
       },
     ],
     reward: {
-      resources: { koku: 24 },
+      resources: { coin: 24 },
       flags: ['quest_hunt_satoyama_predators_done'],
       log: [
         {
           channel: 'milestone',
-          text: `${NAMES.drillmaster} the drillmaster looks over the hides you bring in and grunts, almost approving. "The hills are quieter for it. Twenty-four koku — a hunter's due."`,
+          text: `${NAMES.drillmaster} the drillmaster looks over the hides you bring in and grunts, almost approving. "The hills are quieter for it. Twenty-four coin — a hunter's due."`,
         },
       ],
     },
@@ -112,12 +112,12 @@ export const QUESTS: readonly QuestDef[] = [
       },
     ],
     reward: {
-      resources: { koku: 40 },
+      resources: { coin: 40 },
       flags: ['quest_clear_satoyama_trails_done'],
       log: [
         {
           channel: 'milestone',
-          text: `Word goes round that the satoyama trails are safe to walk. ${NAMES.elder} marks it in the house book and hands you forty koku — "a road cleared is a road that earns."`,
+          text: `Word goes round that the satoyama trails are safe to walk. ${NAMES.elder} marks it in the house book and hands you forty coin — "a road cleared is a road that earns."`,
         },
       ],
     },
@@ -142,12 +142,12 @@ export const QUESTS: readonly QuestDef[] = [
       { id: 'defend-bar', label: 'Cut timber and bar the grain-store door', event: 'gather:wood' },
     ],
     reward: {
-      resources: { koku: 28 },
+      resources: { coin: 28 },
       flags: ['quest_defend_the_stores_done'],
       log: [
         {
           channel: 'milestone',
-          text: `The stores come through the season whole. ${NAMES.elder} rests a hand on the barred door. "The house eats this winter because you held this. Twenty-eight koku — and the trust that comes with it."`,
+          text: `The stores come through the season whole. ${NAMES.elder} rests a hand on the barred door. "The house eats this winter because you held this. Twenty-eight coin — and the trust that comes with it."`,
         },
       ],
     },

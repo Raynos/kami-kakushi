@@ -31,19 +31,19 @@ function mc(level = 1, satiety = 100): GameState {
 function combatLines(s: GameState): string[] {
   return s.log.entries.filter((e) => e.channel === 'combat').map((e) => e.text);
 }
-/** Awake, the estate economy open (the deposit/withdraw gate), carrying `koku`. */
-function economyReady(koku = 100): GameState {
+/** Awake, the estate economy open (the deposit/withdraw gate), carrying `coin`. */
+function economyReady(coin = 100): GameState {
   const s = createInitialState(1);
   return {
     ...s,
     flags: { ...s.flags, awake: true },
     unlocked: [...s.unlocked, 'panel-estate'],
-    resources: { ...s.resources, koku },
+    resources: { ...s.resources, coin },
   };
 }
 
 describe('3a · summarised one-line fight outcomes (D-076 / batch-1 call 2)', () => {
-  it('a WIN emits a SINGLE combat line carrying the HP swing + koku (not the old 2-3 lines)', () => {
+  it('a WIN emits a SINGLE combat line carrying the HP swing + coin (not the old 2-3 lines)', () => {
     const before = mc(5); // L5 vs monkey ≈ 1.00 win-rate → a guaranteed win
     const after = applyGrindFight(before, 'monkey');
     expect(after.character.combatXp).toBeGreaterThan(before.character.combatXp); // proves it won
@@ -54,7 +54,7 @@ describe('3a · summarised one-line fight outcomes (D-076 / batch-1 call 2)', ()
     const line = combatLines(after).at(-1) ?? '';
     expect(line).toMatch(/bring down the .*monkey/i);
     expect(line).toMatch(/HP \d+→\d+/); // the HP swing is IN the outcome line
-    expect(line).toMatch(/\+\d+ koku/);
+    expect(line).toMatch(/\+\d+ coin/);
   });
 
   it('a LOSS emits a single summarised line with the HP drop', () => {
@@ -83,46 +83,46 @@ describe('3a · a loss STOPS the autopilot (D-076: 0 HP ⇒ autopilot off)', () 
 });
 
 describe('3b · the bank — deposit/withdraw move carried ↔ banked (batch-2 call 7)', () => {
-  it('deposit moves ALL carried koku into the kura storehouse', () => {
-    const after = reduce(economyReady(100), { type: 'deposit', resource: 'koku' });
-    expect(after.resources.koku ?? 0).toBe(0); // carried emptied
-    expect(after.banked.koku ?? 0).toBe(100); // sheltered
+  it('deposit moves ALL carried coin into the kura storehouse', () => {
+    const after = reduce(economyReady(100), { type: 'deposit', resource: 'coin' });
+    expect(after.resources.coin ?? 0).toBe(0); // carried emptied
+    expect(after.banked.coin ?? 0).toBe(100); // sheltered
   });
 
-  it('withdraw moves banked koku back to carried (round-trips)', () => {
-    const stored = reduce(economyReady(100), { type: 'deposit', resource: 'koku' });
-    const after = reduce(stored, { type: 'withdraw', resource: 'koku' });
-    expect(after.resources.koku ?? 0).toBe(100);
-    expect(after.banked.koku ?? 0).toBe(0);
+  it('withdraw moves banked coin back to carried (round-trips)', () => {
+    const stored = reduce(economyReady(100), { type: 'deposit', resource: 'coin' });
+    const after = reduce(stored, { type: 'withdraw', resource: 'coin' });
+    expect(after.resources.coin ?? 0).toBe(100);
+    expect(after.banked.coin ?? 0).toBe(0);
   });
 
   it('deposit with nothing carried is a gate-safe no-op (unchanged state)', () => {
     const s = economyReady(0);
-    expect(reduce(s, { type: 'deposit', resource: 'koku' })).toBe(s); // same ref → no-op
+    expect(reduce(s, { type: 'deposit', resource: 'coin' })).toBe(s); // same ref → no-op
   });
 });
 
-describe('3c · a lost fight drops CARRIED koku/materials; BANKED is safe (D-076 / call 7)', () => {
-  it('a loss bites carried koku by LOSS_KOKU_FRAC and leaves the storehouse untouched', () => {
+describe('3c · a lost fight drops CARRIED coin/materials; BANKED is safe (D-076 / call 7)', () => {
+  it('a loss bites carried coin by LOSS_COIN_FRAC and leaves the storehouse untouched', () => {
     const base = mc(1); // L1 vs bandit ≈ 0.00 → a loss
     const before: GameState = {
       ...base,
-      resources: { ...base.resources, koku: 100 },
-      banked: { koku: 50 },
+      resources: { ...base.resources, coin: 100 },
+      banked: { coin: 50 },
     };
     const after = applyGrindFight(before, 'bandit');
     expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
-    // the design lever (LOSS_KOKU_FRAC), derived from the source constant — not a magic number
-    const expectedLost = Math.round(100 * balance.LOSS_KOKU_FRAC);
-    expect(after.resources.koku ?? 0).toBe(100 - expectedLost); // carried bitten
-    expect(after.banked.koku ?? 0).toBe(50); // ← sheltered, untouched
+    // the design lever (LOSS_COIN_FRAC), derived from the source constant — not a magic number
+    const expectedLost = Math.round(100 * balance.LOSS_COIN_FRAC);
+    expect(after.resources.coin ?? 0).toBe(100 - expectedLost); // carried bitten
+    expect(after.banked.coin ?? 0).toBe(50); // ← sheltered, untouched
   });
 
   it('a WIN never touches the storehouse (banked stays put)', () => {
-    const before: GameState = { ...mc(5), banked: { koku: 50 } }; // a guaranteed win
+    const before: GameState = { ...mc(5), banked: { coin: 50 } }; // a guaranteed win
     const after = applyGrindFight(before, 'monkey');
     expect(after.character.combatXp).toBeGreaterThan(before.character.combatXp); // it won
-    expect(after.banked.koku ?? 0).toBe(50);
+    expect(after.banked.coin ?? 0).toBe(50);
   });
 });
 
@@ -155,7 +155,7 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
       const before: GameState = {
         ...base,
         character: { ...base.character, hp: startHp },
-        resources: { ...base.resources, koku: 100 },
+        resources: { ...base.resources, coin: 100 },
         autoCombat: 'boar',
         autoCombatRetreat: true,
       };
@@ -163,7 +163,7 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
       if (/break off|fall back/i.test(combatLines(after).at(-1) ?? '')) {
         fledCount++;
         expect(after.autoCombat).toBeNull(); // ← a flee STOPS the autopilot
-        expect(after.resources.koku ?? 0).toBe(100); // no loss penalty (you chose to back off)
+        expect(after.resources.coin ?? 0).toBe(100); // no loss penalty (you chose to back off)
         expect(after.character.combatXp).toBe(before.character.combatXp); // no win XP
         expect(after.character.hp).toBeGreaterThan(0); // alive…
         expect(after.character.hp).toBeLessThan(startHp); // …but hurt
@@ -198,18 +198,18 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
 describe('5c · banking is spatial — you store/draw only at the kura (batch-2 map call)', () => {
   it('deposit off the kura is a no-op; at the kura it stores', () => {
     const away: GameState = { ...economyReady(100), location: 'home-paddies' };
-    expect(reduce(away, { type: 'deposit', resource: 'koku' })).toBe(away); // same ref → no-op
+    expect(reduce(away, { type: 'deposit', resource: 'coin' })).toBe(away); // same ref → no-op
     const atKura: GameState = { ...economyReady(100), location: 'kura' };
-    const stored = reduce(atKura, { type: 'deposit', resource: 'koku' });
-    expect(stored.banked.koku ?? 0).toBe(100);
+    const stored = reduce(atKura, { type: 'deposit', resource: 'coin' });
+    expect(stored.banked.coin ?? 0).toBe(100);
   });
 
-  it('withdraw off the kura is a no-op; the stored koku stays safe until you walk back', () => {
+  it('withdraw off the kura is a no-op; the stored coin stays safe until you walk back', () => {
     const atKura: GameState = { ...economyReady(100), location: 'kura' };
-    const stored = reduce(atKura, { type: 'deposit', resource: 'koku' });
+    const stored = reduce(atKura, { type: 'deposit', resource: 'coin' });
     const away: GameState = { ...stored, location: 'woodlot-edge' };
-    expect(reduce(away, { type: 'withdraw', resource: 'koku' })).toBe(away); // same ref → no-op
-    expect(away.banked.koku ?? 0).toBe(100); // still sheltered
+    expect(reduce(away, { type: 'withdraw', resource: 'coin' })).toBe(away); // same ref → no-op
+    expect(away.banked.coin ?? 0).toBe(100); // still sheltered
   });
 });
 
@@ -262,7 +262,7 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
       const m = getMob(id);
       // sane stats derived from the def itself (no copied magic numbers).
       expect(m.level).toBeGreaterThanOrEqual(1);
-      expect(m.kokuReward).toBeGreaterThanOrEqual(0);
+      expect(m.coinReward).toBeGreaterThanOrEqual(0);
       expect(m.minTier ?? 0).toBe(0); // grindable in T0, unlike the T2-gated bandit
       // reachable at T0 (tier 0) on its OWN node — RED if a placement/gate regressed.
       const hereIds = foesHere(fighterAt(m.area)).map((f) => f.mob.id);

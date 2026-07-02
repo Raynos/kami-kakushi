@@ -97,8 +97,8 @@ for (const w of WEAPONS) {
 ESTATE_STAGES.forEach((e, i) => {
   if (e.stage !== i + 1) errors.push(`estate stage #${i}: non-contiguous stage ${e.stage}`);
   if (e.satietyMaxBonus < 0) errors.push(`estate stage E${e.stage}: negative satietyMaxBonus`);
-  if (i > 0 && e.kokuCost <= ESTATE_STAGES[i - 1]!.kokuCost) {
-    errors.push(`estate stage E${e.stage}: kokuCost not strictly ascending`);
+  if (i > 0 && e.coinCost <= ESTATE_STAGES[i - 1]!.coinCost) {
+    errors.push(`estate stage E${e.stage}: coinCost not strictly ascending`);
   }
 });
 

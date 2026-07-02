@@ -24,7 +24,7 @@ export {
   MARKET_ITEM_IDS,
   getItem,
   canBuy,
-  MARKET_KOKU_SINK_NOTE,
+  MARKET_COIN_SINK_NOTE,
 } from './content/market';
 export type { MarketItem, MarketItemId } from './content/market';
 export {

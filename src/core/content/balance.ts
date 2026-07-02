@@ -21,6 +21,8 @@ export const STAMINA_RATE_FLOOR = 0.5;
 export const STAMINA_FLAT_ABOVE = 0.7;
 
 // ── Cold-open economy (PRD §3.1, §5 T0.2 beat 1) ────────────────────────────────
+/** Rice raked back from the spilled grain-store floor per rake act (D-107: this is genuinely
+ *  RICE now — the real resource — not a coin alias). */
 export const RICE_PER_RAKE = 3;
 export const SATIETY_PER_ACT = 2;
 export const SATIETY_PER_REST = 18;
@@ -231,11 +233,11 @@ export const SETBACK_HP = 1;
 export const SETBACK_TICKS = 12; // ~½ day
 export const FORCED_REST_TICKS = 18;
 
-/** Loss penalty (D-076 + batch-2 call 7): a lost fight drops this fraction of your CARRIED koku +
- *  materials; what's BANKED in the kura storehouse is SAFE. The "real bite" magnitude (batch-1
- *  call 3) — liquid (D-059), tuned by playtest. Materials use a floored fraction, so small
- *  field-stacks mostly survive and koku is the meaningful stake. */
-export const LOSS_KOKU_FRAC = 0.2;
+/** Loss penalty (D-076 + batch-2 call 7 + D-113): a lost fight drops this fraction of your CARRIED
+ *  COIN + RICE (the two wealth resources); what's BANKED in the kura storehouse is SAFE. The "real
+ *  bite" magnitude (batch-1 call 3) — liquid (D-059), tuned by playtest. koku (House standing) is
+ *  never carried, so a loss never touches it (D-107). */
+export const LOSS_COIN_FRAC = 0.2;
 export const LOSS_MATERIAL_FRAC = 0.34;
 
 /** Auto-retreat threshold (batch-2 call 6): the "auto-fight, retreat @20%" mode breaks off on a
@@ -254,10 +256,10 @@ export const DURABILITY_BANDS: readonly { min: number; mult: number; name: strin
 export const DURABILITY_WEAR_PER_FIGHT = 2;
 /** Wood to repair the equipped weapon to full (a coin/material sink, D-Q-craft+coin). */
 export const REPAIR_WOOD_COST = 5;
-/** Koku to repair (v0.3.1 Step 4 — a recurring combat-UPKEEP koku sink; D-086 scarcity / batch-1
- *  call 4). Closes the fight→koku→repair→fight loop (A4), so a grind pays its own upkeep. Liquid
- *  (D-059, tune by playtest). */
-export const REPAIR_KOKU_COST = 6;
+/** Coin to repair (v0.3.1 Step 4 — a recurring combat-UPKEEP coin sink; D-086 scarcity / batch-1
+ *  call 4 / D-107). Closes the fight→coin→repair→fight loop (A4), so a grind pays its own upkeep.
+ *  Liquid (D-059, tune by playtest). */
+export const REPAIR_COIN_COST = 6;
 /** Ticks the fight itself costs. */
 export const FIGHT_TICKS = 2;
 
@@ -319,7 +321,7 @@ export const SKILL_YIELD_PER_LEVEL_NUM = 4; // +4% labour yield per skill level 
 export const SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), reached at skill L51 — provisional (v0.2) — tune by playtest
 
 // ── Economy: sinks (audit #5) — the first-ever consumers of the surfaced labour
-// values. Cook turns sansai → satiety; the estate (estate.ts) turns koku → a soft
+// values. Cook turns sansai → satiety; the estate (estate.ts) turns coin → a soft
 // satietyMax buffer; spent attribute points feed combat (the 5 attrs, §4.6.1). ──
 export const COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
 /** HP a hot meal mends (D-050: eating is the ONLY HP heal — couples combat ↔ cook sink).

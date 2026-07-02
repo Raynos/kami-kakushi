@@ -62,23 +62,27 @@ function mcAtLevel(lvl: number): GameState {
 
 /**
  * Trace the cold-open → play loop (driving the SHARED focused-optimal policy), recording whether
- * each intent produced a reward. A "reward" = any visible forward beat: koku up, rung-meter up, a
- * new reveal, or a level-up. (If a future content type rewards in another currency, extend here.)
+ * each intent produced a reward. A "reward" = any visible forward beat: wealth up (rice or coin),
+ * rung-meter up, a new reveal, or a level-up. (If a future content type rewards in another
+ * currency, extend here.)
  */
 function rewardTrace(seed = SEED): boolean[] {
   let s = createInitialState(seed);
   const rewarded: boolean[] = [];
   let guard = 0;
+  // Carried wealth is now split into rice (rake/paddy) + coin (wage/spoils) — D-107. A forward beat
+  // is EITHER pile growing, so sum them into one "wealth" signal.
+  const wealth = (st: typeof s): number => (st.resources.rice ?? 0) + (st.resources.coin ?? 0);
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
     const intent = focusedOptimalIntent(s);
     if (!intent) break;
-    const koku = s.resources.koku ?? 0;
+    const w = wealth(s);
     const meter = s.rungMeter;
     const reveals = s.unlocked.length;
     const level = s.character.level;
     s = reduce(s, intent);
     rewarded.push(
-      (s.resources.koku ?? 0) > koku ||
+      wealth(s) > w ||
         s.rungMeter > meter ||
         s.unlocked.length > reveals ||
         s.character.level > level,

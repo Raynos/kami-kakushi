@@ -32,7 +32,7 @@ import {
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
   REPAIR_WOOD_COST,
-  REPAIR_KOKU_COST,
+  REPAIR_COIN_COST,
   SKILL_YIELD_DEN,
   COOK_SANSAI_COST,
   COOK_HP_RESTORE,
@@ -299,11 +299,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'rake_rice': {
       if (!metaLegal(state, 'rake_rice')) return state;
-      next = withResource(next, 'koku', RICE_PER_RAKE);
+      next = withResource(next, 'rice', RICE_PER_RAKE);
       next = adjustSatiety(next, -SATIETY_PER_ACT);
-      // F58a — the per-rake +koku OUTPUT line is fleeting flavor: it lands in the "Now" view and
+      // F58a — the per-rake +rice OUTPUT line is fleeting flavor: it lands in the "Now" view and
       // fades, so repetitive rake output no longer spams Work (the human's log-v2 revision — rake
-      // joins do_activity's labour output as ephemeral). The koku still banks; only the line fades.
+      // joins do_activity's labour output as ephemeral). The rice still banks; only the line fades.
       next = applyRewards(next, {
         flags: ['raked'],
         // F91/F93 — the rake RESULT line is scene narration, so it carries the `narrator` voice
@@ -342,7 +342,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // on the NEXT act. skillYieldNum(1) === DEN → L1 yields are byte-identical to v0.1.
       const yNum = skillYieldNum(skillLevel(next, act.skill));
       // the estate flywheel (T0-M4-F2): a higher estate stage lifts every labour act's output,
-      // so koku→upgrade→more output compounds. Identity (===DEN) at U0 — byte-identical pre-buy.
+      // so coin→upgrade→more output compounds. Identity (===DEN) at U0 — byte-identical pre-buy.
       const eNum = estateYieldNum(next);
       const gained: Partial<Record<LabourResource, number>> = {};
       for (const [res, amt] of Object.entries(act.yields) as [LabourResource, number][]) {
@@ -432,22 +432,22 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'repair_weapon': {
-      // v0.3.1 Step 4: repair costs wood (the HARD requirement) + a koku FEE up to REPAIR_KOKU_COST,
+      // v0.3.1 Step 4: repair costs wood (the HARD requirement) + a COIN FEE up to REPAIR_COIN_COST,
       // WAIVED when you can't pay (the smith extends a broke goshi credit). A recurring combat-upkeep
-      // koku sink (D-086 / batch-1 call 4) that can NEVER softlock (the no-stranding guardrail —
-      // D-061, held inside D-086's "tension never pushes the player out").
+      // coin sink (D-086 / batch-1 call 4 / D-107) that can NEVER softlock (the no-stranding
+      // guardrail — D-061, held inside D-086's "tension never pushes the player out").
       if ((next.resources.wood ?? 0) < REPAIR_WOOD_COST) return state;
-      const kokuFee = Math.min(next.resources.koku ?? 0, REPAIR_KOKU_COST);
+      const coinFee = Math.min(next.resources.coin ?? 0, REPAIR_COIN_COST);
       const weapon = getWeapon(next.equippedWeapon);
       next = withResource(next, 'wood', -REPAIR_WOOD_COST);
-      if (kokuFee > 0) next = withResource(next, 'koku', -kokuFee);
+      if (coinFee > 0) next = withResource(next, 'coin', -coinFee);
       next = { ...next, weaponDurability: weapon.durabilityMax };
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${kokuFee > 0 ? `, −${kokuFee} koku` : ''})`,
+            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${coinFee > 0 ? `, −${coinFee} coin` : ''})`,
           },
         ],
       });
@@ -508,12 +508,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'improve_estate': {
-      // koku → estateStage (audit #5). A commissioning (no clock cost, like equipping).
+      // coin → estateStage (audit #5 / D-107). A commissioning (no clock cost, like equipping).
       if (!isUnlocked(next, 'panel-estate')) return state;
       const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
       if (!target) return state;
-      if ((next.resources.koku ?? 0) < target.kokuCost) return state;
-      next = withResource(next, 'koku', -target.kokuCost);
+      if ((next.resources.coin ?? 0) < target.coinCost) return state;
+      next = withResource(next, 'coin', -target.coinCost);
       next = { ...next, estateStage: target.stage };
       next = applyRewards(next, { log: [{ channel: 'milestone', text: target.logLine }] });
       break;
@@ -568,7 +568,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const item = getItem(intent.itemId);
       const bought = next.marketBought[item.id] ?? 0;
       if (!canBuy(next.resources, item, bought)) return state;
-      next = withResource(next, 'koku', -item.kokuCost);
+      next = withResource(next, 'coin', -item.coinCost);
       for (const [res, amt] of Object.entries(item.grants)) next = withResource(next, res, amt);
       next = { ...next, marketBought: { ...next.marketBought, [item.id]: bought + 1 } };
       next = applyRewards(next, {
@@ -576,7 +576,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You barter ${item.kokuCost} koku for a ${item.label.toLowerCase()}.`,
+            text: `You barter ${item.coinCost} coin for a ${item.label.toLowerCase()}.`,
           },
         ],
       });

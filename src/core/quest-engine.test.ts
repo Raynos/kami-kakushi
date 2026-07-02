@@ -19,17 +19,17 @@ describe('quest engine (T0-M4-F1 / D-037) — order-free advance-event sets', ()
     expect(s.quests.accepted).toContain(quest.id);
     expect(s.quests.completed).not.toContain(quest.id);
 
-    const koku0 = s.resources.koku ?? 0;
+    const coin0 = s.resources.coin ?? 0;
     // the three steps land in a DELIBERATELY scrambled order (order-free)
     s = applyQuestEvent(s, 'gather:wood'); // mend-fence
     s = applyQuestEvent(s, 'kill:boar'); // down-boar
     expect(s.quests.completed).not.toContain(quest.id); // monkey step still open
     s = applyQuestEvent(s, 'kill:monkey'); // rout-monkey → complete
     expect(s.quests.completed).toContain(quest.id);
-    expect((s.resources.koku ?? 0) - koku0).toBe(30); // the reward (and only once)
+    expect((s.resources.coin ?? 0) - coin0).toBe(30); // the reward (and only once)
 
     const after = applyQuestEvent(s, 'kill:monkey');
-    expect(after.resources.koku).toBe(s.resources.koku); // never re-grants
+    expect(after.resources.coin).toBe(s.resources.coin); // never re-grants
   });
 
   it('an unaccepted quest never advances', () => {

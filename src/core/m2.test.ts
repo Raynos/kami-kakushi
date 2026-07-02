@@ -269,7 +269,7 @@ describe('the seeded auto-battler', () => {
 });
 
 describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LOCKED)', () => {
-  it('a win grants combat-XP + koku; a loss applies the soft setback', () => {
+  it('a win grants combat-XP + coin; a loss applies the soft setback', () => {
     const s = atFullSatiety(createInitialState(7));
     const before = s.character.combatXp;
     const after = applyGrindFight(s, 'wolf');

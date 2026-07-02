@@ -11,7 +11,7 @@ import {
 
 // STRUCTURAL INVARIANTS across a long real playthrough — a property/fuzz-lite guard that catches a
 // whole CLASS of bugs the targeted tests miss: numeric corruption (NaN/Infinity), resource/vital
-// underflow (negative koku/hp), a broken write-once reveal latch (a surface getting UN-revealed), or
+// underflow (negative coin/hp), a broken write-once reveal latch (a surface getting UN-revealed), or
 // a non-monotonic clock/log. We drive the SAME auto-pilot as the t0-arc proof (cold open → ascension,
 // thousands of real reduces) and assert the invariants hold at EVERY single step — so a regression
 // anywhere on the spine that corrupts state trips here with the exact step number.

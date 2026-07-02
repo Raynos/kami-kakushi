@@ -62,6 +62,16 @@ export const SURFACES: readonly Surface[] = [
     unlock: (s) => s.flags.awake === true,
     revealLine: narrate(COLD_OPEN.riceReveal),
   },
+  {
+    // COIN is a "first wage" beat (D-107 / D4): the cold open is RICE-only, and the coin pill stays
+    // hidden until the player first EARNS coin — the porter's wage from hauling stores at the gate
+    // (~R1), or a combat spoil. STATE-PREDICATE reveal (keyed to carried-or-banked coin) so it
+    // back-reveals for any save. A no-op earlier: at R0 you only rake rice, so coin stays at 0.
+    id: 'readout-coin',
+    kind: 'readout',
+    unlock: (s) => (s.resources.coin ?? 0) > 0 || (s.banked.coin ?? 0) > 0,
+    revealLine: narrate(COLD_OPEN.coinReveal),
+  },
   { id: 'verb-rake', kind: 'verb', unlock: (s) => s.flags.awake === true },
   {
     id: 'verb-rest',
@@ -74,7 +84,7 @@ export const SURFACES: readonly Surface[] = [
   { id: 'panel-rung-ladder', kind: 'panel', unlock: () => false },
   {
     // STATE-PREDICATE reveal (keyed to the already-latched ladder) so it back-reveals
-    // for any mid-game save with no migrate() — the koku→estate sink dashboard.
+    // for any mid-game save with no migrate() — the coin→estate sink dashboard.
     id: 'panel-estate',
     kind: 'panel',
     unlock: (s) => s.unlocked.includes('panel-rung-ladder'),

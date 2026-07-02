@@ -104,10 +104,10 @@ function generate(): string {
 
   L.push('## Bestiary (grounded — no belief-creatures)');
   L.push('');
-  L.push('| id | label | level | koku | scripted |');
+  L.push('| id | label | level | coin | scripted |');
   L.push('|---|---|---|---|---|');
   for (const m of MOBS) {
-    L.push(`| ${m.id} | ${m.label} | ${m.level} | ${m.kokuReward} | ${m.scripted ? 'yes' : ''} |`);
+    L.push(`| ${m.id} | ${m.label} | ${m.level} | ${m.coinReward} | ${m.scripted ? 'yes' : ''} |`);
   }
   L.push('');
 
@@ -142,35 +142,37 @@ function generate(): string {
   }
   L.push('');
 
-  L.push('## Estate improvements (koku sink)');
+  L.push('## Estate improvements (coin sink)');
   L.push('');
-  L.push('| stage | label | koku | +satietyMax |');
+  L.push('| stage | label | coin | +satietyMax |');
   L.push('|---|---|---|---|');
   for (const e of ESTATE_STAGES) {
-    L.push(`| E${e.stage} | ${e.label} | ${e.kokuCost} | +${e.satietyMaxBonus} |`);
+    L.push(`| E${e.stage} | ${e.label} | ${e.coinCost} | +${e.satietyMaxBonus} |`);
   }
   L.push('');
 
   L.push('## Market (T0 provisioning shop — D-008)');
   L.push('');
-  L.push('> A small CAPPED koku sink (the TRADE taste). Every item carries a per-run');
+  L.push('> A small CAPPED coin sink (the TRADE taste). Every item carries a per-run');
   L.push('> `stockCap` so buying stays a MINORITY lane (≤ ⅓ of Estate & Wealth), never a');
   L.push('> primary income/output loop. The real village market arrives at T2.');
   L.push('');
-  L.push('| id | label | koku | grants | stockCap |');
+  L.push('| id | label | coin | grants | stockCap |');
   L.push('|---|---|---|---|---|');
   for (const it of MARKET_ITEMS) {
     const grants = Object.entries(it.grants)
       .map(([r, n]) => `${n} ${r}`)
       .join(', ');
-    L.push(`| ${it.id} | ${it.label} | ${it.kokuCost} | ${grants} | ${it.stockCap} |`);
+    L.push(`| ${it.id} | ${it.label} | ${it.coinCost} | ${grants} | ${it.stockCap} |`);
   }
   L.push('');
 
   L.push('## The kura bank (carried vs banked)');
   L.push('');
   L.push('Resources come in two pools. **Carried** `resources` ride with the MC and are');
-  L.push('**at risk** — a combat loss bites carried koku by `LOSS_KOKU_FRAC` (0.2). **Banked**');
+  L.push(
+    '**at risk** — a combat loss bites carried coin + rice by `LOSS_COIN_FRAC` (0.2). **Banked**',
+  );
   L.push('resources are sheltered in the kura storehouse: a loss never touches them, and a win');
   L.push('never moves them. `deposit` sweeps a carried resource into the bank and `withdraw`');
   L.push('draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhere else');

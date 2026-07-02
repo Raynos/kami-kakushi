@@ -39,7 +39,7 @@ export const COLD_OPEN_DIALOGUE_ID = 'genemon-open';
 
 export const DIALOGUES: readonly DialogueDef[] = [
   // ── Genemon (NAMES.elder) — the estate/labour onboarding: greet the amnesiac and teach
-  // raking the spilled stores → koku, as STORY, in a weary lower-samurai-estate voice. The
+  // raking the spilled stores → rice, as STORY, in a weary lower-samurai-estate voice. The
   // first four lines are the cold-open greet; the fifth is a gated acknowledgment that fires
   // only once the player has actually raked (flag `raked`, already set by the rake intent). ──
   {
@@ -65,8 +65,8 @@ export const DIALOGUES: readonly DialogueDef[] = [
       {
         id: 'gen-rake',
         speaker: NAMES.elder,
-        // reveal-as-plot (battery fix): the koku-teaching lands as the player rakes (when the
-        // first +koku shows), not piled onto the opening click. wake stays greet + the stakes.
+        // reveal-as-plot (battery fix): the rice-teaching lands as the player rakes (when the
+        // first +rice shows), not piled onto the opening click. wake stays greet + the stakes.
         gate: (flags) => flags.raked === true,
         // F91/F93 — Genemon's own instruction ("Rake what grain is still whole…", "We reckon a
         // samurai house's worth in koku…"): first-person steward SPEECH, so it renders "Genemon: …"

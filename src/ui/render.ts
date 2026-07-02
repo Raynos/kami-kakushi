@@ -187,7 +187,7 @@ const ESTATE_STAGE_NAMES = [
 // Static pane blurbs — hoisted so the incremental (prod/test) path and the DEV-variant
 // wholesale fallback render the SAME copy (single source of truth, no drift).
 const MARKET_BLURB =
-  'A pedlar passes now and then. A little of your OWN koku for the things you need — greens for the pot, wood to keep an edge. Your purse, not the house’s.';
+  'A pedlar passes now and then. A little of your OWN coin for the things you need — greens for the pot, wood to keep an edge. Your purse, not the house’s.';
 const QUESTS_BLURB = 'Goals beyond the daily grind — take one on, then earn it in the field.';
 
 const CHANNEL_BULLET: Record<LogChannel, string> = {
@@ -206,7 +206,12 @@ const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }>
   winter: { kanji: '冬', emoji: '❄️', name: 'Winter' },
 };
 
-const RESOURCE_LABEL: Record<string, string> = { koku: 'koku', wood: 'wood', sansai: 'sansai' };
+const RESOURCE_LABEL: Record<string, string> = {
+  coin: 'coin',
+  rice: 'rice',
+  wood: 'wood',
+  sansai: 'sansai',
+};
 
 type Dispatch = (intent: Intent) => void;
 type Tab = 'work' | 'skills' | 'combat' | 'quests' | 'map';
@@ -558,7 +563,11 @@ export function mount(
   houseMark.textContent = '黒沢家';
   header.append(houseMark);
 
-  const koku = vital('koku', 'koku');
+  // D-107: two carried-wealth pills — RICE (raked/farmed) + COIN (the spendable currency, base
+  // unit mon). Rice reveals on the cold open (readout-rice); coin holds back until the first wage
+  // (readout-coin). koku is NOT a pill — it is House standing (surfaced elsewhere, Phase 4).
+  const rice = vital('rice', 'rice');
+  const coin = vital('coin', 'coin');
   const clock = el('div', 'vital clock');
   clock.hidden = true;
   const clockTag = el('span', 'season-tag');
@@ -572,7 +581,7 @@ export function mount(
   staminaBar.append(staminaFill);
   stamina.append(staminaBar);
   // HP — a life-or-death meter once combat opens (D-076: HP accumulates, no auto-heal, a lost fight
-  // bites carried koku). It sits beside `body` so the player can always SEE they're hurt + heal (eat).
+  // bites carried coin + rice). It sits beside `body` so the player can always SEE they're hurt + heal (eat).
   const health = el('div', 'vital health');
   health.hidden = true;
   health.append(el('span', 'label', 'life'));
@@ -584,7 +593,7 @@ export function mount(
   health.append(healthNum);
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
-  header.append(koku.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
+  header.append(rice.wrap, coin.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
 
   // ── nav (first appears at R2) ──
   const nav = el('nav', 'nav');
@@ -751,7 +760,7 @@ export function mount(
   } | null = null;
   // Order matters for FEEL (spatial model, v0.3.1): the node-specific LABOUR (`actions`) is the HERO
   // — what you walked to this node to DO — so it leads "What you can do", with the rung ladder as
-  // progress-context right below it and the global "spend-koku" panes (estate/market/storehouse)
+  // progress-context right below it and the global "spend-coin" panes (estate/market/storehouse)
   // beneath. Before, actions rendered dead-last and the farm button fell ~865px below the fold,
   // hiding the whole point of walking to a labour node.
   // ── panel slices (multi-panel layout, M1) — the work-tab panes are grouped into named,
@@ -767,14 +776,14 @@ export function mount(
   // F100 — the estate-improve card (`estatePane`) lives with the Estate tab (the map), its thematic
   // home, NOT the Work column: it renders here in the Do slice but self-gates to `activeTab==='map'`
   // (see renderEstate), so on the Work tab it's hidden and never a ghost, and on the Estate tab it
-  // sits alongside the map. The market/storehouse/influence koku panes stay in the Work column.
+  // sits alongside the map. The market/storehouse/influence coin panes stay in the Work column.
   sliceDo.append(workHead, actions, skillsPane, combatPane, questsPane, mapPane, estatePane);
   // P2 · Path & Progress — the rung ladder (appears at first rake, R0→R1).
   const sliceProgress = el('section', 'slice slice-progress');
   sliceProgress.dataset.panel = 'progress';
   sliceProgress.setAttribute('aria-label', 'Path & progress');
   sliceProgress.append(ladder);
-  // P3 · Estate & Economy — the koku sinks (market/storehouse) + the R7 House-Influence capstone
+  // P3 · Estate & Economy — the coin sinks (market/storehouse) + the R7 House-Influence capstone
   // (~R2). The estate-IMPROVE card (`estatePane`) moved to the Estate/map tab (F100, see sliceDo).
   const sliceEstate = el('section', 'slice slice-estate');
   sliceEstate.dataset.panel = 'estate';
@@ -1020,19 +1029,19 @@ export function mount(
     if (next) {
       toggle(r.blurb, true);
       setText(r.blurb, next.blurb);
-      // the mechanical PAYOFF (the koku flywheel — the whole reason to sink koku into the estate),
+      // the mechanical PAYOFF (the coin flywheel — the whole reason to sink coin into the estate),
       // read from the source-of-truth stage fields so it never drifts (R6: an invisible mechanic).
       setText(r.hint, `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`);
       toggle(r.btn, true);
-      setText(r.btn, `${next.label} (${next.kokuCost} koku)`);
-      const carried = state.resources.koku ?? 0;
-      const banked = state.banked.koku ?? 0;
-      setDisabled(r.btn, carried < next.kokuCost);
-      // don't lie "Needs N koku" when the koku is merely sitting safe in the kura — point at the bank.
+      setText(r.btn, `${next.label} (${next.coinCost} coin)`);
+      const carried = state.resources.coin ?? 0;
+      const banked = state.banked.coin ?? 0;
+      setDisabled(r.btn, carried < next.coinCost);
+      // don't lie "Needs N coin" when the coin is merely sitting safe in the kura — point at the bank.
       const title = r.btn.disabled
-        ? banked >= next.kokuCost
-          ? 'Draw koku from the kura storehouse first'
-          : `Needs ${next.kokuCost} koku`
+        ? banked >= next.coinCost
+          ? 'Draw coin from the kura storehouse first'
+          : `Needs ${next.coinCost} coin`
         : '';
       if (r.btn.title !== title) r.btn.title = title;
     } else {
@@ -1205,7 +1214,12 @@ export function mount(
     const revealed = new Set(state.unlocked);
     const moves = reachableFrom(state.location, revealed);
     if (moves.length === 0) return null;
-    const RES_WORD: Record<string, string> = { koku: 'rice', wood: 'wood', sansai: 'greens' };
+    const RES_WORD: Record<string, string> = {
+      rice: 'rice',
+      coin: 'coin',
+      wood: 'wood',
+      sansai: 'greens',
+    };
     const movesEl = el('div', 'map-moves');
     for (const n of moves) {
       const danger = n.dangerRing === true;
@@ -2119,10 +2133,11 @@ export function mount(
     fight.addEventListener('click', () => dispatch({ type: 'fight', mobId: mob }));
     const atDeath = el('button', 'auto-toggle');
     atDeath.type = 'button';
-    atDeath.title = 'Auto-fight to the end — HP carries; you can be beaten, and a loss costs koku.';
+    atDeath.title =
+      'Auto-fight to the end — HP carries; you can be beaten, and a loss costs coin + rice.';
     atDeath.setAttribute(
       'aria-label',
-      `Auto-fight the ${fc.mob.label} to the end — a loss costs koku`,
+      `Auto-fight the ${fc.mob.label} to the end — a loss costs coin + rice`,
     );
     atDeath.addEventListener('click', () => {
       const on = lastState?.autoCombat === mob && !lastState.autoCombatRetreat;
@@ -2343,11 +2358,11 @@ export function mount(
       const rep = el(
         'button',
         'auto-toggle',
-        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_KOKU_COST} koku)`,
+        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_COIN_COST} coin)`,
       );
       rep.type = 'button';
       rep.disabled = (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST;
-      rep.title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_KOKU_COST} koku (waived if you're short)`;
+      rep.title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_COIN_COST} coin (waived if you're short)`;
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }
@@ -2587,10 +2602,10 @@ export function mount(
     if (showRepair) {
       setText(
         r.repairBtn,
-        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_KOKU_COST} koku)`,
+        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_COIN_COST} coin)`,
       );
       setDisabled(r.repairBtn, (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST);
-      const title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_KOKU_COST} koku (waived if you're short)`;
+      const title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_COIN_COST} coin (waived if you're short)`;
       if (r.repairBtn.title !== title) r.repairBtn.title = title;
     }
     // the equip switcher — reconciled into wctrl AFTER the persistent repair button (a foreign
@@ -2686,11 +2701,18 @@ export function mount(
   }
 
   function renderVitals(state: GameState, prev: GameState | null): void {
-    koku.wrap.hidden = !isUnlocked(state, 'readout-rice');
-    if (!koku.wrap.hidden) {
-      const v = state.resources.koku ?? 0;
-      koku.value.textContent = formatKMB(v);
-      popValue(koku.value, v, prev?.resources.koku);
+    rice.wrap.hidden = !isUnlocked(state, 'readout-rice');
+    if (!rice.wrap.hidden) {
+      const v = state.resources.rice ?? 0;
+      rice.value.textContent = formatKMB(v);
+      popValue(rice.value, v, prev?.resources.rice);
+    }
+    // COIN — the first-wage reveal (D-107): hidden until the player earns coin (readout-coin).
+    coin.wrap.hidden = !isUnlocked(state, 'readout-coin');
+    if (!coin.wrap.hidden) {
+      const v = state.resources.coin ?? 0;
+      coin.value.textContent = formatKMB(v);
+      popValue(coin.value, v, prev?.resources.coin);
     }
 
     clock.hidden = !isUnlocked(state, 'readout-clock');
@@ -2834,7 +2856,7 @@ export function mount(
     line.classList.remove('tally');
     void line.offsetWidth;
     line.classList.add('tally');
-    hooks.sfx.reward(); // the koku-tally cue — a shamisen/koto pluck (T0-M1-F4)
+    hooks.sfx.reward(); // the coin-tally cue — a shamisen/koto pluck (T0-M1-F4)
   }
   // F77 — follow the newest line and STAY pinned to the foot as content arrives. The pin is an
   // INSTANT, authoritative jump to the bottom (a smooth scroll lagged behind rapid cascade/
@@ -3294,8 +3316,9 @@ export function mount(
   }
 
   function renderStorehouse(state: GameState): void {
-    // the kura storehouse (batch-2 call 7) — shelter carried koku from a lost-fight penalty. Opens
-    // with the estate economy; spatially gated to the kura node in Step 5.
+    // the kura storehouse (batch-2 call 7 / D-113) — shelter carried coin from a lost-fight penalty.
+    // Opens with the estate economy; spatially gated to the kura node in Step 5. (Rice-banking is a
+    // Phase-2 add; the deposit/withdraw intents are already resource-generic.)
     const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
     toggle(storehousePane, show);
     if (!show) return;
@@ -3308,32 +3331,32 @@ export function mount(
         el(
           'div',
           'skill-blurb',
-          'Stow your koku in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
+          'Stow your coin in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
         ),
       );
       const when = el('div', 'influence-when');
       card.append(when);
       const row = el('div', 'labour-row');
-      const dep = el('button', 'auto-toggle', 'Store all koku');
+      const dep = el('button', 'auto-toggle', 'Store all coin');
       dep.type = 'button';
-      dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'koku' }));
+      dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'coin' }));
       const wd = el('button', 'auto-toggle', 'Withdraw all');
       wd.type = 'button';
-      wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'koku' }));
+      wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'coin' }));
       row.append(dep, wd);
       const away = el(
         'div',
         'area-blurb',
-        'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw koku.',
+        'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw coin.',
       );
       card.append(row, away);
       storehousePane.append(card);
       storehouseRefs = { card, when, row, dep, wd, away };
     }
     const r = storehouseRefs;
-    const carried = state.resources.koku ?? 0;
-    const banked = state.banked.koku ?? 0;
-    setText(r.when, `Carried ${carried} koku · stored ${banked} koku (safe)`);
+    const carried = state.resources.coin ?? 0;
+    const banked = state.banked.coin ?? 0;
+    setText(r.when, `Carried ${carried} coin · stored ${banked} coin (safe)`);
     // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
     // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
     const atKura = state.location === 'kura';
@@ -3341,7 +3364,7 @@ export function mount(
     toggle(r.away, !atKura);
     if (atKura) {
       setDisabled(r.dep, carried <= 0);
-      const depTitle = r.dep.disabled ? 'No carried koku to store.' : '';
+      const depTitle = r.dep.disabled ? 'No carried coin to store.' : '';
       if (r.dep.title !== depTitle) r.dep.title = depTitle;
       setDisabled(r.wd, banked <= 0);
       const wdTitle = r.wd.disabled ? 'Nothing stored to withdraw.' : '';
@@ -3349,7 +3372,7 @@ export function mount(
     }
   }
 
-  // the pedlar's grant string ("+2 sansai, +1 koku") — static per item (grants never change).
+  // the pedlar's grant string ("+2 sansai, +1 wood") — static per item (grants never change).
   function marketGrantStr(item: (typeof MARKET_ITEMS)[number]): string {
     return Object.entries(item.grants)
       .map(([r, n]) => `+${n} ${r}`)
@@ -3368,7 +3391,7 @@ export function mount(
     // F67/F72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
     // vertical stack, styles.css), so a narrow byōbu column can't let the price float over the copy.
     const buy = el('div', 'market-buy');
-    const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
+    const btn = el('button', 'auto-toggle', `${item.coinCost} coin`);
     btn.type = 'button';
     btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
     buy.append(btn);
@@ -3386,14 +3409,14 @@ export function mount(
     setText(row.querySelector('.market-grant')!, `${grantStr}${capped ? ' · sold out' : ''}`);
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     // a11y: the visible label is just the price — a full accessible name so a screen-reader hears
-    // WHAT it buys, not a bare "10 koku" (D-045 a11y-ink).
-    const aria = `Buy ${item.label} (${grantStr}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`;
+    // WHAT it buys, not a bare "10 coin" (D-045 a11y-ink).
+    const aria = `Buy ${item.label} (${grantStr}) for ${item.coinCost} coin${capped ? ' — sold out' : ''}`;
     if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
     setDisabled(btn, !canBuy(state.resources, item, bought));
     const title = capped
       ? "You've taken all the pedlar carries this run."
-      : btn.disabled && (state.banked.koku ?? 0) >= item.kokuCost
-        ? 'Draw koku from the kura storehouse first'
+      : btn.disabled && (state.banked.coin ?? 0) >= item.coinCost
+        ? 'Draw coin from the kura storehouse first'
         : '';
     if (btn.title !== title) btn.title = title;
   }
@@ -3555,11 +3578,11 @@ export function mount(
       setText(row.querySelector('.quest-check')!, ok ? '☑' : '☐');
       setClass(row, 'ok', ok);
     });
-    const rk = q.reward.resources?.koku;
+    const rk = q.reward.resources?.coin;
     const reward = card.querySelector<HTMLElement>('.influence-when')!;
     const rewardShown = !!rk && !completed;
     toggle(reward, rewardShown);
-    if (rewardShown) setText(reward, `Reward: ${rk} koku`);
+    if (rewardShown) setText(reward, `Reward: ${rk} coin`);
     // the accept button shows only on an un-taken offer.
     toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
   }

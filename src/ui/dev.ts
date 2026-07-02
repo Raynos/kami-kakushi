@@ -104,7 +104,7 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'market-a',
         label: 'A · price-button list',
-        blurb: 'Flat rows: name + grant, a bare koku buy-button (the calm, shipped default).',
+        blurb: 'Flat rows: name + grant, a bare coin buy-button (the calm, shipped default).',
       },
       {
         id: 'market-b',
@@ -139,7 +139,7 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'quests-c',
         label: 'C · 用帳 field-ledger',
-        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned koku column.',
+        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned coin column.',
       },
     ],
   },
@@ -587,7 +587,7 @@ function renderMarketVariant(
   dispatch: (intent: Intent) => void,
 ): boolean {
   const buy = (itemId: string): void => dispatch({ type: 'buy_item', itemId });
-  const koku = state.resources.koku ?? 0;
+  const coin = state.resources.coin ?? 0;
   const grantStr = (item: MarketItem): string =>
     Object.entries(item.grants)
       .map(([r, n]) => `+${n} ${r}`)
@@ -596,7 +596,7 @@ function renderMarketVariant(
   if (variantId === 'market-b') {
     // B — the posted price-board (品書 shinagaki): one notice, each good a justified ledger line —
     // name, a dotted leader, grant + price right-aligned tabular, then a 求 ("buy") verb. Stock +
-    // any koku shortfall read as plain ink beneath, so an unaffordable good is HINTED, never grey.
+    // any coin shortfall read as plain ink beneath, so an unaffordable good is HINTED, never grey.
     const board = el('div', 'market-board');
     board.style.cssText = 'margin:.5rem 0;border-top:1px solid var(--ink-faint);padding-top:.2rem;';
     for (const item of MARKET_ITEMS) {
@@ -616,7 +616,7 @@ function renderMarketVariant(
       const grant = el('span', undefined, grantStr(item));
       grant.style.cssText =
         'color:var(--rokusho);font-variant-numeric:tabular-nums;white-space:nowrap;';
-      const price = el('span', undefined, `${item.kokuCost} koku`);
+      const price = el('span', undefined, `${item.coinCost} coin`);
       price.style.cssText =
         'color:var(--ink-soft);font-variant-numeric:tabular-nums;min-width:5rem;text-align:right;white-space:nowrap;';
       const verb = el('button', 'verb', capped ? '尽' : '求');
@@ -624,13 +624,13 @@ function renderMarketVariant(
       verb.disabled = !affordable;
       verb.setAttribute(
         'aria-label',
-        `Buy ${item.label} (${grantStr(item)}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
+        `Buy ${item.label} (${grantStr(item)}) for ${item.coinCost} coin${capped ? ' — sold out' : ''}`,
       );
       verb.title = capped
         ? "You've taken all the pedlar carries this run."
         : affordable
-          ? `Pay ${item.kokuCost} koku`
-          : `Need ${item.kokuCost - koku} more koku`;
+          ? `Pay ${item.coinCost} coin`
+          : `Need ${item.coinCost - coin} more coin`;
       verb.addEventListener('click', () => buy(item.id));
       line.append(name, leader, grant, price, verb);
 
@@ -638,7 +638,7 @@ function renderMarketVariant(
         ? 'sold out'
         : affordable
           ? `${remaining} left`
-          : `${remaining} left · need ${item.kokuCost - koku} more koku`;
+          : `${remaining} left · need ${item.coinCost - coin} more coin`;
       const hint = el('div', 'lock-hint', hintText);
       hint.style.cssText = 'margin:0 0 .25rem;font-style:italic;';
       board.append(line, hint);
@@ -650,14 +650,14 @@ function renderMarketVariant(
   if (variantId === 'market-c') {
     // C — the pedlar's ground-cloth: the purse up top, each good led by ONE curated good-emoji,
     // the price to the right, and REMAINING stock as CONTINUOUS INK (an ochre bar shortening as
-    // the cloth empties, A19 — not pips). Unaffordable goods name the koku shortfall, not grey.
+    // the cloth empties, A19 — not pips). Unaffordable goods name the coin shortfall, not grey.
     const icon: Record<string, string> = {
       greens_sack: '🌿',
       wood_bundle: '🪵',
       whetstone_kit: '🪨',
       greens_basket: '🧺',
     };
-    const purse = el('div', 'lock-hint', `Your purse · ${koku} koku`);
+    const purse = el('div', 'lock-hint', `Your purse · ${coin} coin`);
     purse.style.cssText =
       'margin:.4rem 0 .2rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;align-self:flex-start;';
     card.append(purse);
@@ -690,7 +690,7 @@ function renderMarketVariant(
         ? 'cloth bare · sold out'
         : affordable
           ? `${remaining} of ${item.stockCap} left`
-          : `${remaining} of ${item.stockCap} left · need ${item.kokuCost - koku} more koku`;
+          : `${remaining} of ${item.stockCap} left · need ${item.coinCost - coin} more coin`;
       const stockLabel = el('span', 'lock-hint', stockText);
       stockLabel.style.cssText =
         'font-style:italic;font-variant-numeric:tabular-nums;align-self:flex-start;';
@@ -698,7 +698,7 @@ function renderMarketVariant(
       const right = el('div');
       right.style.cssText =
         'flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;';
-      const price = el('span', undefined, `${item.kokuCost} koku`);
+      const price = el('span', undefined, `${item.coinCost} coin`);
       price.style.cssText =
         'color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;';
       const take = el('button', 'verb', capped ? 'gone' : 'take 取');
@@ -706,13 +706,13 @@ function renderMarketVariant(
       take.disabled = !affordable;
       take.setAttribute(
         'aria-label',
-        `Buy ${item.label} (${grantStr(item)}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
+        `Buy ${item.label} (${grantStr(item)}) for ${item.coinCost} coin${capped ? ' — sold out' : ''}`,
       );
       take.title = capped
         ? "You've taken all the pedlar carries this run."
         : affordable
-          ? `Take it — pay ${item.kokuCost} koku`
-          : `Need ${item.kokuCost - koku} more koku`;
+          ? `Take it — pay ${item.coinCost} coin`
+          : `Need ${item.coinCost - coin} more coin`;
       take.addEventListener('click', () => buy(item.id));
       right.append(price, take);
       row.append(glyph, mid, right);
@@ -836,9 +836,9 @@ function renderQuestsVariant(
         }
         bill.append(list);
 
-        const rk = q.reward.resources?.koku;
+        const rk = q.reward.resources?.coin;
         if (rk && !completed) {
-          const reward = el('div', undefined, 'On fulfilment — ' + rk + ' koku');
+          const reward = el('div', undefined, 'On fulfilment — ' + rk + ' coin');
           reward.style.cssText =
             'align-self:flex-start;border:1px solid var(--gold);color:var(--gold);padding:0 .3rem;font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
           bill.append(reward);
@@ -850,9 +850,9 @@ function renderQuestsVariant(
         btn.type = 'button';
         btn.addEventListener('click', () => take(q.id));
         foot.append(btn);
-        const rk = q.reward.resources?.koku;
+        const rk = q.reward.resources?.coin;
         if (rk) {
-          const posted = el('span', undefined, 'Posted reward — ' + rk + ' koku');
+          const posted = el('span', undefined, 'Posted reward — ' + rk + ' coin');
           posted.style.cssText =
             'color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
           foot.append(posted);
@@ -866,8 +866,8 @@ function renderQuestsVariant(
   }
 
   // ── C · 用帳 — the steward's field-ledger. One aligned entry per commission: a kind stamp, the
-  //    name + terse note, an ink deeds-tally, the koku in a right-aligned tabular column (§9), and
-  //    a status; a 合計 foot totals the koku in hand. ──
+  //    name + terse note, an ink deeds-tally, the coin in a right-aligned tabular column (§9), and
+  //    a status; a 合計 foot totals the coin in hand. ──
   const ledger = el('div');
   ledger.style.cssText =
     'border:1px solid var(--ink);background:var(--washi);padding:.5rem .6rem;display:flex;flex-direction:column;gap:.3rem;';
@@ -884,7 +884,7 @@ function renderQuestsVariant(
   cap.append(cKanji);
   ledger.append(cap);
 
-  let kokuInHand = 0;
+  let coinInHand = 0;
   for (const q of QUESTS) {
     const done = new Set(state.quests.progress[q.id] ?? []);
     const completed = state.quests.completed.includes(q.id);
@@ -892,8 +892,8 @@ function renderQuestsVariant(
     const k = KIND[q.kind];
     const total = q.steps.length;
     const ndone = q.steps.filter((s) => done.has(s.id)).length;
-    const rk = q.reward.resources?.koku ?? 0;
-    if (accepted && !completed) kokuInHand += rk;
+    const rk = q.reward.resources?.coin ?? 0;
+    if (accepted && !completed) coinInHand += rk;
 
     const row = el('div');
     row.style.cssText =
@@ -937,12 +937,12 @@ function renderQuestsVariant(
     }
     row.append(deeds);
 
-    const koku = el('span', undefined, rk ? rk + ' koku' : '—');
-    koku.style.cssText =
+    const coin = el('span', undefined, rk ? rk + ' coin' : '—');
+    coin.style.cssText =
       'flex:0 0 4.6rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:' +
       (rk ? 'var(--gold)' : 'var(--ink-faint)') +
       ';';
-    row.append(koku);
+    row.append(coin);
 
     const status = el('span');
     status.style.cssText = 'flex:0 0 auto;text-align:right;';
@@ -962,7 +962,7 @@ function renderQuestsVariant(
     ledger.append(row);
   }
 
-  const foot = el('div', undefined, '合計 — koku in hand: ' + kokuInHand);
+  const foot = el('div', undefined, '合計 — coin in hand: ' + coinInHand);
   foot.style.cssText =
     'align-self:flex-end;color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;padding-top:.15rem;';
   ledger.append(foot);

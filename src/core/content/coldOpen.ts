@@ -16,12 +16,17 @@ export const COLD_OPEN = {
     "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
   bodyReveal: 'You take stock of yourself: bruised, hollow, half-starved — but breathing.',
   riceReveal: `Rice lies scattered across the ${NAMES.house} grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.`,
+  // D-107 / D4 — the "first wage" beat: the first COIN the amnesiac earns (a porter's copper for
+  // hauling the house's stores), the moment money enters the game beside rice.
+  coinReveal:
+    'Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.',
   restReveal: 'Your arms are leaden. You could rest a moment against the cool post.',
   restAct: 'You rest against the post. The ache dulls; the light through the slats shifts.',
 } as const;
 
 export function rakeLine(amount: number): string {
-  // The rake credits koku (RICE_PER_RAKE), so the line names koku — and shares the
-  // multiply-able "(+N koku)" suffix the renderer tallies on a coalesced run.
-  return `You rake the spilled rice back toward the basket. (+${amount} koku)`;
+  // The rake credits RICE (RICE_PER_RAKE) — the honest noun now (D-107): what you clear off the
+  // grain-store floor is rice, the real resource. Shares the multiply-able "(+N rice)" suffix the
+  // renderer tallies on a coalesced run. Coin arrives later, as the first wage (haul stores).
+  return `You rake the spilled rice back toward the basket. (+${amount} rice)`;
 }

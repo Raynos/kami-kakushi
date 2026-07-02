@@ -140,7 +140,7 @@ export interface GameState {
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
   readonly rungMeter: number;
-  /** Kura-works PURCHASE stage U0…U4 (the koku upgrade ladder; D-098). The narrative
+  /** Kura-works PURCHASE stage U0…U4 (the coin upgrade ladder; D-098/D-107). The narrative
    *  CONDITION ladder E0–E5 is a SEPARATE axis (docs only). Flavour, not a sim; PRD §2.17. */
   readonly estateStage: number;
   /** The tab-open auto-repeat labour target, or null (FU23). */
@@ -183,8 +183,10 @@ export function createInitialState(seed: number): GameState {
       level: 1,
       combatXp: 0,
     },
-    resources: { koku: 0 },
-    banked: {},
+    // D-107: coin (base unit mon, the spendable currency) + rice (a real resource). koku is NO
+    // LONGER a carried resource — it is the House's assessed STANDING (lives in `influence`).
+    resources: { coin: 0, rice: 0 },
+    banked: { coin: 0, rice: 0 },
     flags: {},
     // The cold open shows exactly one verb against the dark of the kura.
     unlocked: ['screen-cold-open', 'verb-open-eyes'],

@@ -37,6 +37,19 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // in-flight save resumes at the same index with an empty ask hub (nothing asked yet). npcMemory +
   // introBeat ride along untouched.
   3: (s) => ({ ...(s as object), askedTopics: [] }),
+  // v4 → v5 (the RICE/COIN/KOKU economy re-core, D-107): the carried+banked `koku` resource is
+  // renamed to `coin` (the spendable currency), and `rice` (a real resource) is introduced at 0.
+  // koku LEAVES `resources` entirely (its meaning — House standing — already lives in `influence`,
+  // which is untouched). Whatever the old save carried/banked as "koku" was really the flattened
+  // spend-currency, so it becomes `coin`; any stray `rice` key defaults to 0.
+  4: (s) => {
+    const st = s as { resources?: Record<string, number>; banked?: Record<string, number> };
+    const rename = (pool: Record<string, number> | undefined): Record<string, number> => {
+      const { koku, ...rest } = pool ?? {};
+      return { rice: 0, ...rest, coin: (rest.coin ?? 0) + (koku ?? 0) };
+    };
+    return { ...(s as object), resources: rename(st.resources), banked: rename(st.banked) };
+  },
 };
 
 export function migrate(

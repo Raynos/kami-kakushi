@@ -37,7 +37,7 @@ export function formatKMB(n: number): string {
   return sign + (abs / 1_000_000_000).toFixed(2) + 'B';
 }
 
-/** Format a per-unit rate, e.g. `+12/koku` (ui-design.md §5.7 "always show the rate"). */
+/** Format a per-unit rate, e.g. `+12/tick` (ui-design.md §5.7 "always show the rate"). */
 export function formatRate(perTick: number, unit = 'tick'): string {
   const sign = perTick >= 0 ? '+' : '';
   return `${sign}${formatKMB(perTick)}/${unit}`;

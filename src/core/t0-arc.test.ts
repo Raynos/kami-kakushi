@@ -8,7 +8,9 @@ import {
   estateGrade,
   applyGrindFight,
   focusedOptimalIntent,
+  hpMax,
   balance,
+  ESTATE_STAGES,
   type GameState,
 } from './index';
 
@@ -75,5 +77,76 @@ describe('T0 arc closes end-to-end via real intents (cold open → ascension)', 
     const again = playToAscension(20260626);
     expect(again.final.tier).toBe(1);
     expect(again.final.influence.estate.value).toBe(final.influence.estate.value);
+  });
+});
+
+// D-107/D-108/D-113 — the RICE / COIN / KOKU economy split, driven on the REAL reducer + fight path
+// (the DoD end-to-end economy proof). Fixtures ride the seed-robust curve (m2 header): a level-5 MC
+// beats the monkey ≈ 1.00 (a guaranteed win) and a fresh L1 MC loses to the bandit ≈ 0.00 (a
+// guaranteed loss) — deterministic without fishing a magic seed, and RED-able against the split.
+describe('the D-107 economy on the real path (rice / coin / koku split)', () => {
+  /** A ready fighter at the given level (full HP + satiety), carrying the given wealth. */
+  function fighter(level: number, extra: Record<string, number> = {}): GameState {
+    const s = createInitialState(1);
+    const t: GameState = {
+      ...s,
+      character: { ...s.character, level, satiety: 100 },
+      resources: { ...s.resources, ...extra },
+    };
+    return { ...t, character: { ...t.character, hp: hpMax(t) } };
+  }
+
+  it('raking the spilled rice grants RICE — coin holds back (the rice-only cold open)', () => {
+    let s = reduce(createInitialState(11), { type: 'open_eyes' });
+    const before = s.resources.rice ?? 0;
+    s = reduce(s, { type: 'rake_rice' });
+    expect(s.resources.rice ?? 0).toBe(before + balance.RICE_PER_RAKE); // rake → rice
+    expect(s.resources.coin ?? 0).toBe(0); // coin is the first WAGE (haul), not the cold open
+  });
+
+  it('a coin-paying labour (haul stores) is what first mints COIN — the first-wage beat', () => {
+    const base = createInitialState(13);
+    const ready: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'verb-haul', 'room-gate-forecourt'],
+      location: 'gate-forecourt',
+    };
+    const after = reduce(ready, { type: 'do_activity', activityId: 'haul_stores' });
+    expect(after.resources.coin ?? 0).toBeGreaterThan(0); // hauling pays a copper wage
+    expect(after.resources.rice ?? 0).toBe(0); // hauling is not farming — no rice
+  });
+
+  it('a combat WIN pays COIN (the spendable currency), never koku', () => {
+    const won = applyGrindFight(fighter(5, { coin: 0 }), 'monkey');
+    expect(won.character.combatXp).toBeGreaterThan(0); // it won
+    expect(won.resources.coin ?? 0).toBeGreaterThan(0); // spoils are coin
+  });
+
+  it('spending flows through COIN — the estate kura-works sink debits coin', () => {
+    const base = createInitialState(1);
+    const ready: GameState = {
+      ...base,
+      resources: { ...base.resources, coin: 1000 },
+      unlocked: [...base.unlocked, 'panel-rung-ladder', 'panel-estate'],
+    };
+    const after = reduce(ready, { type: 'improve_estate' });
+    expect(after.estateStage).toBe(1);
+    expect(after.resources.coin).toBe(1000 - ESTATE_STAGES[0]!.coinCost); // U1 debited in coin
+  });
+
+  it('a LOST fight bleeds carried COIN + RICE + materials; the kura shelters them (D-113)', () => {
+    const before = fighter(1, { coin: 100, rice: 100, hardwood: 100 });
+    const banked: GameState = { ...before, banked: { coin: 40, rice: 40 } };
+    const after = applyGrindFight(banked, 'bandit'); // L1 vs bandit ≈ 0.00 → a guaranteed loss
+    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
+    // all three carried resources are bitten, from the source-of-truth fractions (not magic numbers)
+    expect(after.resources.coin).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC));
+    expect(after.resources.rice).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC));
+    expect(after.resources.hardwood).toBe(100 - Math.floor(100 * balance.LOSS_MATERIAL_FRAC));
+    // koku (House standing) is NOT a carried resource, so the rout never touches it — nor the kura.
+    expect(after.banked.coin).toBe(40); // sheltered
+    expect(after.banked.rice).toBe(40); // sheltered
+    expect(after.influence.estate.value).toBe(before.influence.estate.value); // standing untouched
   });
 });
