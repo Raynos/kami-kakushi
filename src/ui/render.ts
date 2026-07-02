@@ -76,6 +76,7 @@ import {
   NPC_NAME,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
+import { reconcileList, setText, toggle, setClass, setDisabled, setStyle } from './reconcile';
 import {
   LOG_SCALE_MIN,
   LOG_SCALE_MAX,
@@ -181,6 +182,12 @@ const ESTATE_STAGE_NAMES = [
   'U3 · Prosperous',
   'U4 · Risen',
 ];
+
+// Static pane blurbs — hoisted so the incremental (prod/test) path and the DEV-variant
+// wholesale fallback render the SAME copy (single source of truth, no drift).
+const MARKET_BLURB =
+  'A pedlar passes now and then. A little of your OWN koku for the things you need — greens for the pot, wood to keep an edge. Your purse, not the house’s.';
+const QUESTS_BLURB = 'Goals beyond the daily grind — take one on, then earn it in the field.';
 
 const CHANNEL_BULLET: Record<LogChannel, string> = {
   narration: '',
@@ -661,6 +668,45 @@ export function mount(
   const combatPane = el('div', 'combat-pane');
   const questsPane = el('div', 'quests-pane');
   const mapPane = el('div', 'map-pane');
+  // ── incremental-render refs (append-only migration, F81 generalised via ui/reconcile.ts) ──
+  //    Each easy surface builds its card shell ONCE (lazily on first show) and PATCHES in place
+  //    after, so an idle re-render of unchanged state produces zero DOM churn (meter transitions
+  //    survive, focus survives, the ~2×/s tick stops flashing). null ⇒ not yet built.
+  let ladderRefs: {
+    card: HTMLElement;
+    now: HTMLElement;
+    fill: HTMLElement;
+    hint: HTMLElement;
+    next: HTMLElement;
+  } | null = null;
+  let estateRefs: {
+    card: HTMLElement;
+    now: HTMLElement;
+    blurb: HTMLElement;
+    hint: HTMLElement;
+    btn: HTMLButtonElement;
+    rooms: HTMLElement;
+    roomList: HTMLElement;
+  } | null = null;
+  let storehouseRefs: {
+    card: HTMLElement;
+    when: HTMLElement;
+    row: HTMLElement;
+    dep: HTMLButtonElement;
+    wd: HTMLButtonElement;
+    away: HTMLElement;
+  } | null = null;
+  let marketRefs: { card: HTMLElement; rows: HTMLElement } | null = null;
+  let questsRefs: { list: HTMLElement } | null = null;
+  let mapRefs: {
+    card: HTMLElement;
+    loc: HTMLElement;
+    kanji: HTMLElement;
+    blurb: HTMLElement;
+    paths: HTMLElement;
+    pathsLabel: HTMLElement;
+    strip: HTMLElement;
+  } | null = null;
   // Order matters for FEEL (spatial model, v0.3.1): the node-specific LABOUR (`actions`) is the HERO
   // — what you walked to this node to DO — so it leads "What you can do", with the rung ladder as
   // progress-context right below it and the global "spend-koku" panes (estate/market/storehouse)
@@ -837,112 +883,129 @@ export function mount(
   }
 
   function renderLadder(state: GameState): void {
-    ladder.textContent = '';
     // show the meter during R0 too (once you've raked) — the ladder used to hide until R1, leaving the
     // whole cold-open with no visible progress toward the first promotion (fun-factor "a next goal").
     // F72 — HIDE the container whenever there's nothing to show (off the Work tab OR the gate isn't
     // met yet), so an empty ladder never leaves the Progress slice as an empty framed ghost card.
-    ladder.hidden =
-      activeTab !== 'work' || !(isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked'));
-    if (ladder.hidden) return;
+    const show =
+      activeTab === 'work' && (isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked'));
+    toggle(ladder, show);
+    if (!show) return;
+    // build the card shell ONCE (F81), then patch its mutable fields in place — the meter fill span
+    // persists so its CSS width transition actually plays instead of snapping on every tick.
+    if (!ladderRefs) {
+      const card = el('div', 'rung-card frame');
+      const now = el('div', 'rung-now');
+      const meter = el('div', 'meter');
+      const fill = el('span');
+      meter.append(fill);
+      const hint = el('div', 'rung-hint');
+      const next = el('div', 'rung-next');
+      card.append(now, meter, hint, next);
+      ladder.append(card);
+      ladderRefs = { card, now, fill, hint, next };
+    }
     const rank = currentRank(state);
     const prog = rungProgress(state);
     // FULL meter but an unmet story-gate (e.g. auto-labour maxed the bar without ever fighting the
     // wolf): show the deed still owed, not a stuck "Estate service · N/N" — a maxed bar must never
     // read as a dead wall (fun-factor "always a visible next goal").
     const gated = prog.into >= prog.needed && !prog.ready;
-    const card = el('div', 'rung-card frame');
-    card.append(el('div', 'rung-now', `${rank.title} · ${rank.kanji}`));
-    const meter = el('div', 'meter');
-    const meterFill = el('span');
+    setText(ladderRefs.now, `${rank.title} · ${rank.kanji}`);
     // hold the fill just shy of full while gated, so a truly-full bar always means promotable.
     // Guard the fraction (needed is always >0, but a stray 0 would print `NaN%` = an empty ghost
     // meter right after a rung reset, F72), then clamp to a clean 0–100.
     const frac = prog.needed > 0 ? Math.max(0, Math.min(1, prog.into / prog.needed)) : 0;
-    meterFill.style.width = `${gated ? 92 : Math.round(frac * 100)}%`;
-    meter.append(meterFill);
-    card.append(meter);
-    card.append(
-      el(
-        'div',
-        'rung-hint',
-        prog.ready
-          ? 'Ready to advance.'
-          : gated
-            ? (rank.advanceHint ?? 'The work is done — a deed still stands before the next rung.')
-            : `Estate service · ${prog.into}/${prog.needed}`,
-      ),
+    setStyle(ladderRefs.fill, 'width', `${gated ? 92 : Math.round(frac * 100)}%`);
+    setText(
+      ladderRefs.hint,
+      prog.ready
+        ? 'Ready to advance.'
+        : gated
+          ? (rank.advanceHint ?? 'The work is done — a deed still stands before the next rung.')
+          : `Estate service · ${prog.into}/${prog.needed}`,
     );
     const nid = nextRankId(rank.id);
     if (nid) {
       const nextRank = getRank(nid);
-      card.append(el('div', 'rung-next', `Next: ${nextRank.title} ${nextRank.kanji}`));
+      setClass(ladderRefs.next, 'frontier', false);
+      setText(ladderRefs.next, `Next: ${nextRank.title} ${nextRank.kanji}`);
     } else {
-      card.append(
-        el('div', 'rung-next frontier', 'Beyond the gate the road climbs on — to be continued.'),
-      );
+      setClass(ladderRefs.next, 'frontier', true);
+      setText(ladderRefs.next, 'Beyond the gate the road climbs on — to be continued.');
     }
-    ladder.append(card);
   }
 
+  // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
+  // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
+  // map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
+  const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
+    { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
+    { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
+    { surface: 'house-granary', kanji: '板倉', label: 'A new granary raised' },
+    { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
+  ];
   function renderEstate(state: GameState): void {
-    estatePane.textContent = '';
     // F100 — the estate-improve card is the Estate tab's, not the Work tab's (its thematic home is
     // the estate map). It self-gates to the map tab; on Work it stays hidden (no ghost slice).
     const show = activeTab === 'map' && isUnlocked(state, 'panel-estate');
-    estatePane.hidden = !show;
+    toggle(estatePane, show);
     if (!show) return;
+    // build the shell ONCE (F81): the improve card carries every mutable child up front (blurb /
+    // hint / button toggle in place); the house-rooms card is a keyed row list that grows.
+    if (!estateRefs) {
+      const card = el('div', 'rung-card frame');
+      const now = el('div', 'rung-now');
+      const blurb = el('div', 'skill-blurb');
+      const hint = el('div', 'rung-hint');
+      const btn = el('button', 'verb');
+      btn.type = 'button';
+      btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
+      card.append(now, blurb, hint, btn);
+      estatePane.append(card);
+      const rooms = el('div', 'rung-card frame');
+      rooms.append(el('div', 'rung-now', 'The house reopens 家'));
+      const roomList = el('div', 'house-room-list');
+      rooms.append(roomList);
+      estatePane.append(rooms);
+      estateRefs = { card, now, blurb, hint, btn, rooms, roomList };
+    }
+    const r = estateRefs;
     const stage = state.estateStage;
     const name = ESTATE_STAGE_NAMES[stage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
-    const card = el('div', 'rung-card frame');
-    card.append(el('div', 'rung-now', `Estate · ${name}`));
+    setText(r.now, `Estate · ${name}`);
     const next = ESTATE_STAGES.find((s) => s.stage === stage + 1);
     if (next) {
-      card.append(el('div', 'skill-blurb', next.blurb));
+      toggle(r.blurb, true);
+      setText(r.blurb, next.blurb);
       // the mechanical PAYOFF (the koku flywheel — the whole reason to sink koku into the estate),
       // read from the source-of-truth stage fields so it never drifts (R6: an invisible mechanic).
-      card.append(
-        el(
-          'div',
-          'rung-hint',
-          `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`,
-        ),
-      );
-      const btn = el('button', 'verb', `${next.label} (${next.kokuCost} koku)`);
-      btn.type = 'button';
+      setText(r.hint, `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`);
+      toggle(r.btn, true);
+      setText(r.btn, `${next.label} (${next.kokuCost} koku)`);
       const carried = state.resources.koku ?? 0;
       const banked = state.banked.koku ?? 0;
-      btn.disabled = carried < next.kokuCost;
+      setDisabled(r.btn, carried < next.kokuCost);
       // don't lie "Needs N koku" when the koku is merely sitting safe in the kura — point at the bank.
-      if (btn.disabled) {
-        btn.title =
-          banked >= next.kokuCost
-            ? 'Draw koku from the kura storehouse first'
-            : `Needs ${next.kokuCost} koku`;
-      }
-      btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
-      card.append(btn);
+      const title = r.btn.disabled
+        ? banked >= next.kokuCost
+          ? 'Draw koku from the kura storehouse first'
+          : `Needs ${next.kokuCost} koku`
+        : '';
+      if (r.btn.title !== title) r.btn.title = title;
     } else {
-      card.append(el('div', 'rung-hint', 'The estate stands restored.'));
+      toggle(r.blurb, false);
+      toggle(r.btn, false);
+      setText(r.hint, 'The estate stands restored.');
     }
-    estatePane.append(card);
 
-    // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
-    // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
-    // map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
-    const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
-      { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
-      { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
-      { surface: 'house-granary', kanji: '板倉', label: 'A new granary raised' },
-      { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
-    ];
-    const opened = HOUSE_ROOMS.filter((r) => isUnlocked(state, r.surface));
-    if (opened.length > 0) {
-      const house = el('div', 'rung-card frame');
-      house.append(el('div', 'rung-now', 'The house reopens 家'));
-      for (const r of opened) house.append(el('div', 'rung-hint', `${r.kanji} · ${r.label}`));
-      estatePane.append(house);
-    }
+    const opened = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
+    toggle(r.rooms, opened.length > 0);
+    reconcileList(r.roomList, opened, {
+      key: (room) => room.surface,
+      build: (room) => el('div', 'rung-hint', `${room.kanji} · ${room.label}`),
+      order: true,
+    });
   }
 
   function silhouetteRow(): HTMLElement {
@@ -1779,36 +1842,49 @@ export function mount(
   }
 
   function renderSkills(state: GameState): void {
-    skillsPane.textContent = '';
     const show = activeTab === 'skills' && isUnlocked(state, 'tab-skills');
-    skillsPane.hidden = !show;
+    toggle(skillsPane, show);
     if (!show) return;
-    for (const def of SKILLS) {
-      const revealedByDoing = skillVisible(state, def.id);
-      const revealedExplicit = isUnlocked(state, `skill-${def.id}`);
-      if (!revealedByDoing && !revealedExplicit) continue;
-      const prog = skillProgress(state, def.id as SkillId);
-      const card = el('div', 'skill-row frame');
-      const head = el('div', 'skill-head');
-      head.append(el('span', 'skill-name', `${def.label} ${def.kanji}`));
-      head.append(el('span', 'skill-lvl numeric', `Lv ${prog.level}`));
-      card.append(head);
-      card.append(el('div', 'skill-blurb', def.blurb));
-      // show what the level DOES (R6: an invisible mechanic) — the labour-yield accelerator, read
-      // from source of truth. Conditioning is the zero-yield gate skill (its gate shows in the move strip).
-      if (def.id !== 'conditioning') {
-        const yieldPct = Math.round(
-          (skillYieldNum(prog.level) / balance.SKILL_YIELD_DEN - 1) * 100,
+    // the visible skill rows — reconciled as a keyed list so each card is built ONCE (its meter fill
+    // persists ⇒ the width transition plays) and patched in place; a not-yet-visible skill has no
+    // node, so an empty pane stays genuinely empty (F72 ghost-box contract).
+    const visible = SKILLS.filter(
+      (def) => skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`),
+    );
+    reconcileList(skillsPane, visible, {
+      key: (def) => def.id,
+      build: (def) => {
+        const card = el('div', 'skill-row frame');
+        const head = el('div', 'skill-head');
+        head.append(el('span', 'skill-name', `${def.label} ${def.kanji}`));
+        head.append(el('span', 'skill-lvl numeric'));
+        card.append(head);
+        card.append(el('div', 'skill-blurb', def.blurb));
+        // show what the level DOES (R6: an invisible mechanic) — the labour-yield accelerator, read
+        // from source of truth. Conditioning is the zero-yield gate skill (gate shows in the strip).
+        if (def.id !== 'conditioning') card.append(el('div', 'rung-hint'));
+        const meter = el('div', 'meter');
+        meter.append(el('span'));
+        card.append(meter);
+        return card;
+      },
+      patch: (card, def) => {
+        const prog = skillProgress(state, def.id as SkillId);
+        setText(card.querySelector('.skill-lvl')!, `Lv ${prog.level}`);
+        if (def.id !== 'conditioning') {
+          const yieldPct = Math.round(
+            (skillYieldNum(prog.level) / balance.SKILL_YIELD_DEN - 1) * 100,
+          );
+          setText(card.querySelector('.rung-hint')!, `+${yieldPct}% labour yield`);
+        }
+        setStyle(
+          card.querySelector<HTMLElement>('.meter span')!,
+          'width',
+          `${Math.round((prog.into / prog.needed) * 100)}%`,
         );
-        card.append(el('div', 'rung-hint', `+${yieldPct}% labour yield`));
-      }
-      const meter = el('div', 'meter');
-      const fill = el('span');
-      fill.style.width = `${Math.round((prog.into / prog.needed) * 100)}%`;
-      meter.append(fill);
-      card.append(meter);
-      skillsPane.append(card);
-    }
+      },
+      order: true,
+    });
   }
 
   // ── the Bestiary (A7) — default variant A: a woodblock FIELD-GUIDE card list. One card per
@@ -2744,207 +2820,312 @@ export function mount(
   }
 
   function renderStorehouse(state: GameState): void {
-    storehousePane.textContent = '';
     // the kura storehouse (batch-2 call 7) — shelter carried koku from a lost-fight penalty. Opens
     // with the estate economy; spatially gated to the kura node in Step 5.
     const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
-    storehousePane.hidden = !show;
+    toggle(storehousePane, show);
     if (!show) return;
-    const carried = state.resources.koku ?? 0;
-    const banked = state.banked.koku ?? 0;
-    const card = el('div', 'rung-card frame');
-    card.append(el('div', 'rung-now', 'The storehouse 蔵'));
-    card.append(
-      el(
-        'div',
-        'skill-blurb',
-        'Stow your koku in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
-      ),
-    );
-    card.append(
-      el('div', 'influence-when', `Carried ${carried} koku · stored ${banked} koku (safe)`),
-    );
-    // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
-    // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
-    if (state.location === 'kura') {
-      const row = el('div', 'labour-row');
-      const dep = el('button', 'auto-toggle', 'Store all koku');
-      dep.type = 'button';
-      dep.disabled = carried <= 0;
-      if (dep.disabled) dep.title = 'No carried koku to store.';
-      dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'koku' }));
-      row.append(dep);
-      const wd = el('button', 'auto-toggle', 'Withdraw all');
-      wd.type = 'button';
-      wd.disabled = banked <= 0;
-      if (wd.disabled) wd.title = 'Nothing stored to withdraw.';
-      wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'koku' }));
-      row.append(wd);
-      card.append(row);
-    } else {
+    // build the shell ONCE (F81): the store/withdraw row and the "walk back" blurb are both present,
+    // toggled in place by location; the balance line patches its text.
+    if (!storehouseRefs) {
+      const card = el('div', 'rung-card frame');
+      card.append(el('div', 'rung-now', 'The storehouse 蔵'));
       card.append(
         el(
           'div',
-          'area-blurb',
-          'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw koku.',
+          'skill-blurb',
+          'Stow your koku in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
         ),
       );
-    }
-    storehousePane.append(card);
-  }
-
-  function renderMarket(state: GameState): void {
-    marketPane.textContent = '';
-    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
-    marketPane.hidden = !show;
-    if (!show) return;
-    const card = el('div', 'rung-card frame market-card');
-    card.append(el('div', 'rung-now', 'The pedlar 市'));
-    card.append(
-      el(
+      const when = el('div', 'influence-when');
+      card.append(when);
+      const row = el('div', 'labour-row');
+      const dep = el('button', 'auto-toggle', 'Store all koku');
+      dep.type = 'button';
+      dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'koku' }));
+      const wd = el('button', 'auto-toggle', 'Withdraw all');
+      wd.type = 'button';
+      wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'koku' }));
+      row.append(dep, wd);
+      const away = el(
         'div',
-        'skill-blurb',
-        'A pedlar passes now and then. A little of your OWN koku for the things you need — greens for the pot, wood to keep an edge. Your purse, not the house’s.',
-      ),
-    );
-    // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).
-    //    B/C live DEV-only behind the variant toggle (ui/dev.ts), stripped from prod. ──
-    if (!(import.meta.env.DEV && dev && dev.renderVariant('market', card, state, dispatch))) {
-      for (const item of MARKET_ITEMS) {
-        const bought = state.marketBought[item.id] ?? 0;
-        const capped = bought >= item.stockCap;
-        const grantStr = Object.entries(item.grants)
-          .map(([r, n]) => `+${n} ${r}`)
-          .join(', ');
-        const row = el('div', 'market-row');
-        const left = el('div', 'market-item');
-        left.append(el('span', 'market-name', item.label));
-        left.append(
-          el('span', 'market-grant lock-hint', `${grantStr}${capped ? ' · sold out' : ''}`),
-        );
-        // the WHEN/WHY blurb (authored in market.ts, was thrown away) — so trade isn't a bare price list.
-        left.append(el('span', 'skill-blurb market-blurb', item.blurb));
-        row.append(left);
-        // F67/F72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
-        // vertical stack, styles.css), so a narrow byōbu column can never let the price button
-        // float over / overlap the description text.
-        const buy = el('div', 'market-buy');
-        const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
-        btn.type = 'button';
-        // a11y: the visible label is just the price — give the button a full accessible name so a
-        // screen-reader hears WHAT it buys, not a bare "10 koku" (D-045 a11y-ink).
-        btn.setAttribute(
-          'aria-label',
-          `Buy ${item.label} (${grantStr}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`,
-        );
-        btn.disabled = !canBuy(state.resources, item, bought);
-        if (capped) btn.title = "You've taken all the pedlar carries this run.";
-        else if (btn.disabled && (state.banked.koku ?? 0) >= item.kokuCost)
-          btn.title = 'Draw koku from the kura storehouse first';
-        btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
-        buy.append(btn);
-        row.append(buy);
-        card.append(row);
-      }
+        'area-blurb',
+        'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw koku.',
+      );
+      card.append(row, away);
+      storehousePane.append(card);
+      storehouseRefs = { card, when, row, dep, wd, away };
     }
-    marketPane.append(card);
+    const r = storehouseRefs;
+    const carried = state.resources.koku ?? 0;
+    const banked = state.banked.koku ?? 0;
+    setText(r.when, `Carried ${carried} koku · stored ${banked} koku (safe)`);
+    // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
+    // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
+    const atKura = state.location === 'kura';
+    toggle(r.row, atKura);
+    toggle(r.away, !atKura);
+    if (atKura) {
+      setDisabled(r.dep, carried <= 0);
+      const depTitle = r.dep.disabled ? 'No carried koku to store.' : '';
+      if (r.dep.title !== depTitle) r.dep.title = depTitle;
+      setDisabled(r.wd, banked <= 0);
+      const wdTitle = r.wd.disabled ? 'Nothing stored to withdraw.' : '';
+      if (r.wd.title !== wdTitle) r.wd.title = wdTitle;
+    }
   }
 
-  function renderMap(state: GameState): void {
-    mapPane.textContent = '';
-    const show = activeTab === 'map';
-    mapPane.hidden = !show;
+  // the pedlar's grant string ("+2 sansai, +1 koku") — static per item (grants never change).
+  function marketGrantStr(item: (typeof MARKET_ITEMS)[number]): string {
+    return Object.entries(item.grants)
+      .map(([r, n]) => `+${n} ${r}`)
+      .join(', ');
+  }
+  // build ONE pedlar row skeleton (F67/F72 vertical stack: item copy, then the buy cell). The
+  // price label + click listener are stable; patchMarketRow fills the mutable state.
+  function buildMarketRow(item: (typeof MARKET_ITEMS)[number]): HTMLElement {
+    const row = el('div', 'market-row');
+    const left = el('div', 'market-item');
+    left.append(el('span', 'market-name', item.label));
+    left.append(el('span', 'market-grant lock-hint'));
+    // the WHEN/WHY blurb (authored in market.ts) — so trade isn't a bare price list.
+    left.append(el('span', 'skill-blurb market-blurb', item.blurb));
+    row.append(left);
+    // F67/F72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
+    // vertical stack, styles.css), so a narrow byōbu column can't let the price float over the copy.
+    const buy = el('div', 'market-buy');
+    const btn = el('button', 'auto-toggle', `${item.kokuCost} koku`);
+    btn.type = 'button';
+    btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
+    buy.append(btn);
+    row.append(buy);
+    return row;
+  }
+  function patchMarketRow(
+    row: HTMLElement,
+    item: (typeof MARKET_ITEMS)[number],
+    state: GameState,
+  ): void {
+    const bought = state.marketBought[item.id] ?? 0;
+    const capped = bought >= item.stockCap;
+    const grantStr = marketGrantStr(item);
+    setText(row.querySelector('.market-grant')!, `${grantStr}${capped ? ' · sold out' : ''}`);
+    const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
+    // a11y: the visible label is just the price — a full accessible name so a screen-reader hears
+    // WHAT it buys, not a bare "10 koku" (D-045 a11y-ink).
+    const aria = `Buy ${item.label} (${grantStr}) for ${item.kokuCost} koku${capped ? ' — sold out' : ''}`;
+    if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
+    setDisabled(btn, !canBuy(state.resources, item, bought));
+    const title = capped
+      ? "You've taken all the pedlar carries this run."
+      : btn.disabled && (state.banked.koku ?? 0) >= item.kokuCost
+        ? 'Draw koku from the kura storehouse first'
+        : '';
+    if (btn.title !== title) btn.title = title;
+  }
+  function renderMarket(state: GameState): void {
+    const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
+    toggle(marketPane, show);
     if (!show) return;
-    mapPane.append(el('h2', undefined, 'The estate 地図'));
-    // ── the diverged map body (D-075) — A = the you-are-here card + "Paths lead to →" list (the
-    //    self-picked default, ships). B/C live DEV-only behind the variant toggle (ui/dev.ts),
-    //    stripped from prod. ──
-    if (import.meta.env.DEV && dev && dev.renderVariant('map', mapPane, state, dispatch)) {
+    // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).
+    //    B/C live DEV-only behind the variant toggle (ui/dev.ts). This DEV branch folds to dead code
+    //    in prod (`import.meta.env.DEV` → false, tree-shaken) and `dev` is undefined in prod AND
+    //    tests, so ONLY a live DEV session takes it — where the variant toggle needs the wholesale
+    //    clear-and-rebuild. Prod/tests use the incremental path below (F81, zero idle churn). ──
+    if (import.meta.env.DEV && dev) {
+      marketRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
+      marketPane.textContent = '';
+      const card = el('div', 'rung-card frame market-card');
+      card.append(el('div', 'rung-now', 'The pedlar 市'));
+      card.append(el('div', 'skill-blurb', MARKET_BLURB));
+      if (!dev.renderVariant('market', card, state, dispatch)) {
+        for (const item of MARKET_ITEMS) {
+          const row = buildMarketRow(item);
+          patchMarketRow(row, item, state);
+          card.append(row);
+        }
+      }
+      marketPane.append(card);
       return;
     }
-    const here = getNode(state.location);
-    const card = el('div', 'map-here frame');
-    const h = el('div', 'rung-now');
+    // prod / test — build the card + rows container ONCE, then reconcile the rows in place.
+    if (!marketRefs) {
+      const card = el('div', 'rung-card frame market-card');
+      card.append(el('div', 'rung-now', 'The pedlar 市'));
+      card.append(el('div', 'skill-blurb', MARKET_BLURB));
+      const rows = el('div', 'market-rows');
+      card.append(rows);
+      marketPane.append(card);
+      marketRefs = { card, rows };
+    }
+    reconcileList(marketRefs.rows, MARKET_ITEMS, {
+      key: (item) => item.id,
+      build: (item) => buildMarketRow(item),
+      patch: (row, item) => patchMarketRow(row, item, state),
+      order: true,
+    });
+  }
+
+  // build a fresh you-are-here card (used by the DEV-default wholesale path). The incremental path
+  // below builds this shell ONCE and patches it; the moveStrip itself is Phase 2 (shared with the
+  // Work-tab "Walk on" strip), so for now its inner buttons are rebuilt within a persistent card.
+  function fillMapHere(
+    loc: HTMLElement,
+    kanji: HTMLElement,
+    here: ReturnType<typeof getNode>,
+  ): void {
     // strip a leading article so a label like "The grain-store (kura)" doesn't read "the the …"
-    h.append(
-      document.createTextNode(`You stand at the ${here.label.toLowerCase().replace(/^the /, '')} `),
-    );
+    setText(loc, `You stand at the ${here.label.toLowerCase().replace(/^the /, '')} `);
     if (here.kanji) {
+      setText(kanji, here.kanji);
+      toggle(kanji, true);
+    } else {
+      toggle(kanji, false);
+    }
+  }
+  function renderMap(state: GameState): void {
+    const show = activeTab === 'map';
+    toggle(mapPane, show);
+    if (!show) return;
+    // ── the diverged map body (D-075) — A = the you-are-here card + "Paths lead to →" list (the
+    //    self-picked default, ships). B/C live DEV-only behind the variant toggle (ui/dev.ts). The
+    //    DEV branch folds to dead code in prod (tree-shaken) and `dev` is undefined in prod AND
+    //    tests, so only a live DEV session takes it; prod/tests use the incremental path below. ──
+    if (import.meta.env.DEV && dev) {
+      mapRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
+      mapPane.textContent = '';
+      mapPane.append(el('h2', undefined, 'The estate 地図'));
+      if (dev.renderVariant('map', mapPane, state, dispatch)) return;
+      const here = getNode(state.location);
+      const card = el('div', 'map-here frame');
+      const h = el('div', 'rung-now');
+      const loc = el('span');
       const k = el('span', 'house-influence-kanji');
       k.lang = 'ja';
-      k.textContent = here.kanji;
-      h.append(k);
-    }
-    card.append(h);
-    card.append(el('div', 'skill-blurb', here.blurb));
-    const strip = moveStrip(state, 'work'); // shared with the Work tab's "Walk on" strip
-    if (strip) {
-      card.append(el('div', 'lock-hint map-paths-label', 'Paths lead to:'));
-      card.append(strip);
-    }
-    mapPane.append(card);
-  }
-
-  function renderQuests(state: GameState): void {
-    questsPane.textContent = '';
-    const show = activeTab === 'quests';
-    questsPane.hidden = !show;
-    if (!show) return;
-    questsPane.append(el('h2', undefined, 'Quests 用'));
-    // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live
-    //    DEV-only behind the variant toggle (ui/dev.ts), stripped from prod. ──
-    if (import.meta.env.DEV && dev && dev.renderVariant('quests', questsPane, state, dispatch)) {
+      h.append(loc, k);
+      fillMapHere(loc, k, here);
+      card.append(h);
+      card.append(el('div', 'skill-blurb', here.blurb));
+      const strip = moveStrip(state, 'work');
+      if (strip) {
+        card.append(el('div', 'lock-hint map-paths-label', 'Paths lead to:'));
+        card.append(strip);
+      }
+      mapPane.append(card);
       return;
     }
-    questsPane.append(
-      el(
-        'div',
-        'skill-blurb',
-        'Goals beyond the daily grind — take one on, then earn it in the field.',
-      ),
-    );
-    for (const q of QUESTS) {
-      const done = new Set(state.quests.progress[q.id] ?? []);
-      const completed = state.quests.completed.includes(q.id);
-      const accepted = state.quests.accepted.includes(q.id);
-      const card = el('div', `quest-card frame${completed ? ' done' : ''}`);
-      const head = el('div', 'skill-head');
-      head.append(el('span', 'skill-name', q.title));
-      head.append(el('span', 'skill-lvl', completed ? 'Done ✓' : q.kind));
-      card.append(head);
-      card.append(el('div', 'skill-blurb', q.blurb));
-      if (accepted || completed) {
-        const stepsEl = el('div', 'quest-steps');
-        for (const s of q.steps) {
-          const ok = done.has(s.id);
-          const row = el('div', `quest-step${ok ? ' ok' : ''}`);
-          row.append(el('span', 'quest-check', ok ? '☑' : '☐'));
-          row.append(el('span', undefined, s.label));
-          stepsEl.append(row);
-        }
-        card.append(stepsEl);
-        const rk = q.reward.resources?.koku;
-        if (rk && !completed) card.append(el('div', 'influence-when', `Reward: ${rk} koku`));
-      } else {
-        // show the objectives + reward BEFORE the player commits — the offer should be legible
-        // pre-accept, not blind. Mirror the accepted-branch markup with every step still ☐.
-        const stepsEl = el('div', 'quest-steps');
-        for (const s of q.steps) {
-          const row = el('div', 'quest-step');
-          row.append(el('span', 'quest-check', '☐'));
-          row.append(el('span', undefined, s.label));
-          stepsEl.append(row);
-        }
-        card.append(stepsEl);
-        const rk = q.reward.resources?.koku;
-        if (rk) card.append(el('div', 'influence-when', `Reward: ${rk} koku`));
-        const btn = el('button', 'verb', 'Take this on');
-        btn.type = 'button';
-        btn.addEventListener('click', () => dispatch({ type: 'accept_quest', questId: q.id }));
-        card.append(btn);
-      }
-      questsPane.append(card);
+    // prod / test — build the h2 + you-are-here card shell ONCE (F81), patch text in place. The
+    // moveStrip stays a localized rebuild inside the persistent card (Phase 2 migrates the strip).
+    if (!mapRefs) {
+      mapPane.append(el('h2', undefined, 'The estate 地図'));
+      const card = el('div', 'map-here frame');
+      const h = el('div', 'rung-now');
+      const loc = el('span');
+      const kanji = el('span', 'house-influence-kanji');
+      kanji.lang = 'ja';
+      h.append(loc, kanji);
+      const blurb = el('div', 'skill-blurb');
+      const paths = el('div', 'map-paths');
+      const pathsLabel = el('div', 'lock-hint map-paths-label', 'Paths lead to:');
+      const strip = el('div', 'map-strip');
+      paths.append(pathsLabel, strip);
+      card.append(h, blurb, paths);
+      mapPane.append(card);
+      mapRefs = { card, loc, kanji, blurb, paths, pathsLabel, strip };
     }
+    const r = mapRefs;
+    const here = getNode(state.location);
+    fillMapHere(r.loc, r.kanji, here);
+    setText(r.blurb, here.blurb);
+    const strip = moveStrip(state, 'work'); // shared with the Work tab's "Walk on" strip (Phase 2)
+    toggle(r.paths, strip !== null);
+    r.strip.textContent = '';
+    if (strip) r.strip.append(strip);
+  }
+
+  // build ONE quest card skeleton with every mutable element present (steps + reward line + accept
+  // button); patchQuestCard toggles/patches them for the offer → accepted → done states in place.
+  function buildQuestCard(q: (typeof QUESTS)[number]): HTMLElement {
+    const card = el('div', 'quest-card frame');
+    const head = el('div', 'skill-head');
+    head.append(el('span', 'skill-name', q.title));
+    head.append(el('span', 'skill-lvl'));
+    card.append(head);
+    card.append(el('div', 'skill-blurb', q.blurb));
+    const stepsEl = el('div', 'quest-steps');
+    for (const s of q.steps) {
+      const row = el('div', 'quest-step');
+      row.append(el('span', 'quest-check'));
+      row.append(el('span', undefined, s.label));
+      stepsEl.append(row);
+    }
+    card.append(stepsEl);
+    card.append(el('div', 'influence-when'));
+    const btn = el('button', 'verb', 'Take this on');
+    btn.type = 'button';
+    btn.addEventListener('click', () => dispatch({ type: 'accept_quest', questId: q.id }));
+    card.append(btn);
+    return card;
+  }
+  function patchQuestCard(card: HTMLElement, q: (typeof QUESTS)[number], state: GameState): void {
+    const done = new Set(state.quests.progress[q.id] ?? []);
+    const completed = state.quests.completed.includes(q.id);
+    const accepted = state.quests.accepted.includes(q.id);
+    setClass(card, 'done', completed);
+    setText(card.querySelector('.skill-lvl')!, completed ? 'Done ✓' : q.kind);
+    // the objectives are legible pre-accept too (every step ☐ until the quest is taken on).
+    const showChecks = accepted || completed;
+    const rows = card.querySelectorAll<HTMLElement>('.quest-steps .quest-step');
+    q.steps.forEach((s, i) => {
+      const row = rows[i]!;
+      const ok = showChecks && done.has(s.id);
+      setText(row.querySelector('.quest-check')!, ok ? '☑' : '☐');
+      setClass(row, 'ok', ok);
+    });
+    const rk = q.reward.resources?.koku;
+    const reward = card.querySelector<HTMLElement>('.influence-when')!;
+    const rewardShown = !!rk && !completed;
+    toggle(reward, rewardShown);
+    if (rewardShown) setText(reward, `Reward: ${rk} koku`);
+    // the accept button shows only on an un-taken offer.
+    toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
+  }
+  function renderQuests(state: GameState): void {
+    const show = activeTab === 'quests';
+    toggle(questsPane, show);
+    if (!show) return;
+    // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live DEV-only
+    //    behind the variant toggle (ui/dev.ts). The DEV branch folds to dead code in prod
+    //    (tree-shaken) and `dev` is undefined in prod AND tests, so only a live DEV session takes it;
+    //    prod/tests use the incremental path below (F81, zero idle churn). ──
+    if (import.meta.env.DEV && dev) {
+      questsRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
+      questsPane.textContent = '';
+      questsPane.append(el('h2', undefined, 'Quests 用'));
+      if (!dev.renderVariant('quests', questsPane, state, dispatch)) {
+        questsPane.append(el('div', 'skill-blurb', QUESTS_BLURB));
+        for (const q of QUESTS) {
+          const card = buildQuestCard(q);
+          patchQuestCard(card, q, state);
+          questsPane.append(card);
+        }
+      }
+      return;
+    }
+    // prod / test — build the h2 + blurb + list container ONCE, reconcile the quest cards in place.
+    if (!questsRefs) {
+      questsPane.append(el('h2', undefined, 'Quests 用'));
+      questsPane.append(el('div', 'skill-blurb', QUESTS_BLURB));
+      const list = el('div', 'quests-list');
+      questsPane.append(list);
+      questsRefs = { list };
+    }
+    reconcileList(questsRefs.list, QUESTS, {
+      key: (q) => q.id,
+      build: (q) => buildQuestCard(q),
+      patch: (card, q) => patchQuestCard(card, q, state),
+      order: true,
+    });
   }
 
   function coldOpenReduced(): boolean {

@@ -985,3 +985,197 @@ describe('F74 — per-log font stepper scales the log text + persists', () => {
     expect(Number(stepper().logScaleVar())).toBeCloseTo(LOG_SCALE_DEFAULT + 2 * LOG_SCALE_STEP, 5);
   });
 });
+
+// ── Append-only rendering migration (Phase 1) — the EASY surfaces are build-once + patch-in-place
+//    (via ui/reconcile.ts), NOT a `textContent=''` rebuild. The invariant: an idle re-render of
+//    UNCHANGED state produces ZERO DOM churn (no node recreated, no attribute re-written), so meter
+//    transitions survive and the ~2×/s tick stops flashing. Modelled on the intro's node-identity
+//    block (`F81`). MODE==='test' keeps the renderer synchronous. ─────────────────────────────────
+describe('append-only migration — node identity + zero idle churn (Phase 1)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function awake(extraUnlocked: string[] = [], over: Partial<GameState> = {}): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, ...extraUnlocked],
+      ...over,
+    };
+  }
+  function openTab(marker: string): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes(marker))
+      ?.click();
+  }
+  // observe a settled surface across an identical-state re-render; return the queued mutations.
+  function churnOnReRender(
+    el: HTMLElement,
+    state: GameState,
+    render: ReturnType<typeof mount>,
+  ): MutationRecord[] {
+    const obs = new MutationObserver(() => {});
+    obs.observe(el, { childList: true, subtree: true, attributes: true, characterData: true });
+    render(state, state); // identical-state tick (as the 480ms auto-loop fires)
+    render(state, state);
+    const records = obs.takeRecords();
+    obs.disconnect();
+    return records;
+  }
+
+  it('renderLadder — the rung card + meter fill survive a re-render (identity + width persists)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake([], { flags: { ...createInitialState(1).flags, awake: true, raked: true } });
+    render(s, null);
+    const card = root.querySelector<HTMLElement>('.ladder .rung-card')!;
+    const fill = root.querySelector<HTMLElement>('.ladder .meter span')!;
+    expect(card).not.toBeNull();
+    const width0 = fill.style.width;
+    render(s, s);
+    expect(root.querySelector('.ladder .rung-card')).toBe(card); // same node, not rebuilt
+    expect(root.querySelector('.ladder .meter span')).toBe(fill); // same fill ⇒ transition survives
+    expect(fill.style.width).toBe(width0);
+    expect(card.isConnected).toBe(true);
+    expect(churnOnReRender(root.querySelector<HTMLElement>('.ladder')!, s, render)).toEqual([]);
+  });
+
+  it('renderMarket — a pedlar row survives a re-render (identity) and idle ticks churn nothing', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake(['panel-estate']);
+    render(s, null);
+    const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
+    const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
+    expect(row).not.toBeNull();
+    render(s, s);
+    expect(root.querySelector('.market-pane .market-row')).toBe(row); // reused
+    expect(row.querySelector('.market-buy button')).toBe(btn); // the click-bound button survives
+    expect(row.isConnected).toBe(true);
+    expect(churnOnReRender(root.querySelector<HTMLElement>('.market-pane')!, s, render)).toEqual(
+      [],
+    );
+  });
+
+  it('renderMarket — a patch reflects a changed buy state without recreating the row', () => {
+    const seen: Intent[] = [];
+    const render = mount(root, (i) => seen.push(i), noopHooks());
+    const s = awake(['panel-estate'], {
+      resources: { ...createInitialState(1).resources, koku: 0 },
+    });
+    render(s, null);
+    const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
+    const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
+    expect(btn.disabled).toBe(true); // no koku → can't buy
+    // afford it → the SAME button becomes enabled (patched in place, not a fresh node).
+    const rich = awake(['panel-estate'], {
+      resources: { ...createInitialState(1).resources, koku: 9999 },
+    });
+    render(rich, s);
+    expect(root.querySelector('.market-pane .market-row')).toBe(row);
+    expect(row.querySelector('.market-buy button')).toBe(btn);
+    expect(btn.disabled).toBe(false);
+    btn.click();
+    expect(seen.some((i) => i.type === 'buy_item')).toBe(true); // listener still bound
+  });
+
+  it('renderSkills — a skill card + meter survive a re-render, empty pane stays empty (F72)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards.
+    const s = awake(['tab-skills']);
+    render(s, null);
+    openTab('技');
+    expect(root.querySelector('.skills-pane .skill-row')).toBeNull();
+    // F72 ghost-box: a shown-but-empty pane leaves NO element children (no orphan keeps a slice up).
+    expect(root.querySelector<HTMLElement>('.skills-pane')!.childElementCount).toBe(0);
+
+    // give farming enough XP to surface its skill card, then prove identity across a tick.
+    const withSkill = awake(['tab-skills'], {
+      skillXp: { ...createInitialState(1).skillXp, farming: 50 },
+    });
+    render(withSkill, s);
+    const card = root.querySelector<HTMLElement>('.skills-pane .skill-row')!;
+    const fill = card.querySelector<HTMLElement>('.meter span')!;
+    expect(card).not.toBeNull();
+    render(withSkill, withSkill);
+    expect(root.querySelector('.skills-pane .skill-row')).toBe(card); // reused, not rebuilt
+    expect(card.querySelector('.meter span')).toBe(fill); // fill persists ⇒ transition survives
+    expect(
+      churnOnReRender(root.querySelector<HTMLElement>('.skills-pane')!, withSkill, render),
+    ).toEqual([]);
+  });
+
+  it('renderQuests — a quest card survives a re-render and idle ticks churn nothing', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake(['tab-combat']); // quests open with combat
+    render(s, null);
+    openTab('用');
+    const card = root.querySelector<HTMLElement>('.quests-pane .quest-card')!;
+    expect(card).not.toBeNull();
+    render(s, s);
+    expect(root.querySelector('.quests-pane .quest-card')).toBe(card); // reused
+    expect(card.isConnected).toBe(true);
+    expect(churnOnReRender(root.querySelector<HTMLElement>('.quests-pane')!, s, render)).toEqual(
+      [],
+    );
+  });
+
+  it('renderStorehouse — the kura card survives a re-render; idle ticks churn nothing', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake(['panel-estate'], { location: 'kura' });
+    render(s, null);
+    const card = root.querySelector<HTMLElement>('.storehouse-pane .rung-card')!;
+    expect(card).not.toBeNull();
+    render(s, s);
+    expect(root.querySelector('.storehouse-pane .rung-card')).toBe(card);
+    expect(
+      churnOnReRender(root.querySelector<HTMLElement>('.storehouse-pane')!, s, render),
+    ).toEqual([]);
+  });
+
+  it('renderEstate — the improve card survives a re-render (Estate tab); rooms grow, not rebuild', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake(['panel-estate', 'room-gate-forecourt']);
+    render(s, null);
+    openTab('地図');
+    const card = root.querySelector<HTMLElement>('.estate-pane .rung-card')!;
+    expect(card.textContent).toContain('Estate ·');
+    render(s, s);
+    expect(root.querySelector('.estate-pane .rung-card')).toBe(card); // reused
+    expect(churnOnReRender(root.querySelector<HTMLElement>('.estate-pane')!, s, render)).toEqual(
+      [],
+    );
+  });
+
+  it('renderMap — the you-are-here card survives a re-render (identity; moveStrip is Phase 2)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake(['room-gate-forecourt', 'room-home-paddies'], { location: 'gate-forecourt' });
+    render(s, null);
+    openTab('地図');
+    const card = root.querySelector<HTMLElement>('.map-pane .map-here')!;
+    const blurb = card.querySelector<HTMLElement>('.skill-blurb')!;
+    expect(card).not.toBeNull();
+    render(s, s);
+    // the CARD frame + its header/blurb persist (only the inner moveStrip rebuilds until Phase 2).
+    expect(root.querySelector('.map-pane .map-here')).toBe(card);
+    expect(card.querySelector('.skill-blurb')).toBe(blurb);
+    expect(card.isConnected).toBe(true);
+    // the move buttons still work after a re-render (the strip is rebuilt but functional).
+    expect(root.querySelector('.map-pane .map-move')).not.toBeNull();
+  });
+});
