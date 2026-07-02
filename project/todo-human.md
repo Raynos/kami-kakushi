@@ -45,13 +45,6 @@ _(none open)_
   actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
   via rumours / low-chance events / description hints, not a static list. T0-later/T1,
   for eventual adoption.
-- [ ] **`prototype/index.html` — the UI-v2 prototype gallery (open in a browser!)**
-  — seven living, standalone answers to "what is the screen?": sugoroku board ·
-  nishiki-e print · house cutaway · steward's desk · character stage · filling
-  kura · kage-e shadow wall. Each ticks on its own; dev strip (bottom-right)
-  plays fight / rung / judge / reveal / minute-one. Verdicts + Fable's pick
-  (kage-e) in `project/brainstorms/2026-07-02-ui-v2-fable-session.md` — your
-  taste call decides which frame we `diverge` into the real game (D-075).
 - [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy balance
   watch** (from the re-core audit): 4 liquid tuning items for your playtest — rice
   out-produces its sinks (coin too abundant), season store/sell dominated, eat-rice
