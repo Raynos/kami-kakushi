@@ -344,11 +344,17 @@ h3 {
 }
 .log > h2 {
   flex: 0 0 auto;
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-1);
+  border-bottom: 1px solid var(--ink-faint);
 }
 .log-lines {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  /* F28 — soft top fade so lines fade out as they scroll under the header. */
+  -webkit-mask: linear-gradient(to bottom, transparent 0, #000 0.9em);
+  mask: linear-gradient(to bottom, transparent 0, #000 0.9em);
 }
 /* the F9 log filter bar — pinned to the log foot; presentation diverges (tabs/chips/segmented). */
 .log-filter-bar {
@@ -380,25 +386,7 @@ h3 {
     0 0 0 2px var(--washi),
     0 0 0 3px var(--ai);
 }
-/* A — bottom tabs (default): the active tab underlined with the seal red. */
-.log-filter-bar[data-variant='log-filter-tabs'] .log-filter-tab {
-  border-radius: 0;
-}
-.log-filter-bar[data-variant='log-filter-tabs'] .log-filter-tab.active {
-  border-bottom: 2px solid var(--shu);
-}
-/* B — toggle chips: rounded pills, the active one filled indigo. */
-.log-filter-bar[data-variant='log-filter-chips'] .log-filter-tab {
-  border-radius: 999px;
-  border-color: var(--ink-faint);
-  background: var(--surface);
-}
-.log-filter-bar[data-variant='log-filter-chips'] .log-filter-tab.active {
-  background: var(--ai);
-  color: var(--washi);
-  border-color: var(--ai);
-}
-/* C — segmented control: one joined bar, the active segment inked. */
+/* C — segmented control (human pick, F21): one joined bar, the active segment inked. */
 .log-filter-bar[data-variant='log-filter-segmented'] {
   gap: 0;
 }
@@ -420,6 +408,42 @@ h3 {
   background: var(--ai);
   color: var(--washi);
   border-color: var(--ai);
+}
+/* F20 — per-tab unread dot: a channel with entries the reader hasn't seen yet. */
+.log-filter-tab {
+  position: relative;
+}
+.log-filter-tab.unread::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--shu);
+}
+/* F27 — a temporary "fresh entries" divider that fades out after a few seconds. */
+.log-fresh-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+  color: var(--shu);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  transition: opacity 700ms var(--ease-ink);
+}
+.log-fresh-divider::before,
+.log-fresh-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--shu);
+  opacity: 0.35;
+}
+.log-fresh-divider.fading {
+  opacity: 0;
 }
 .log h2 {
   font-size: var(--fs-h3);

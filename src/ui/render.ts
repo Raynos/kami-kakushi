@@ -519,6 +519,15 @@ export function mount(
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
   let logFilter: LogFilter = 'story';
+  // F20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
+  // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
+  const logSeen: Record<LogFilter, number> = {
+    story: -1,
+    work: -1,
+    combat: -1,
+    progression: -1,
+    all: -1,
+  };
   // track the last painted entry so a coalesced ×N bump (same key, higher count) repaints
   // the existing DOM line in place rather than appending a duplicate.
   let lastPaintedKey = -1;
@@ -531,6 +540,9 @@ export function mount(
   const LOG_DOM_MAX = 300; // mirrors core LOG_RING_MAX
   const revealQueue: LogEntry[] = [];
   let revealTimer: number | undefined;
+  // F27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
+  let freshDivider: HTMLElement | undefined;
+  let freshDividerTimer: number | undefined;
 
   function setTab(tab: Tab): void {
     activeTab = tab;
@@ -1500,15 +1512,55 @@ export function mount(
     }, LOG_STAGGER_MS);
   }
   function paintLogFilterBar(): void {
-    const variant = import.meta.env.DEV && dev ? dev.getVariant('log-filter') : 'log-filter-tabs';
-    logFilterBar.dataset.variant = variant;
+    logFilterBar.dataset.variant = 'log-filter-segmented'; // human pick (F21); A/B removed
     for (const [id, btn] of logFilterBtns) btn.classList.toggle('active', id === logFilter);
+  }
+  // F20 — the highest entry key that shows under filter `f`.
+  function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
+    let mx = -1;
+    for (const e of entries) if (logFilterMatches(e.channel, f)) mx = Math.max(mx, e.key);
+    return mx;
+  }
+  function refreshLogTabs(state: GameState): void {
+    const entries = state.log.entries;
+    logSeen[logFilter] = maxKeyForFilter(entries, logFilter); // viewing = seen
+    for (const [id, btn] of logFilterBtns) {
+      // `all` is excluded — it always shows everything, so a badge there would be noise.
+      const unread = id !== logFilter && id !== 'all' && maxKeyForFilter(entries, id) > logSeen[id];
+      btn.classList.toggle('unread', unread);
+    }
+  }
+  // F27 — clear/drop the transient fresh-entries divider.
+  function clearFreshDivider(): void {
+    if (freshDividerTimer !== undefined) {
+      window.clearTimeout(freshDividerTimer);
+      freshDividerTimer = undefined;
+    }
+    freshDivider?.remove();
+    freshDivider = undefined;
+  }
+  function markFreshDivider(): void {
+    clearFreshDivider();
+    const d = el('div', 'log-fresh-divider');
+    d.append(el('span', undefined, '新 · new'));
+    logLines.append(d); // fresh lines append AFTER it
+    freshDivider = d;
+    freshDividerTimer = window.setTimeout(() => {
+      d.classList.add('fading');
+      window.setTimeout(() => {
+        if (freshDivider === d) {
+          d.remove();
+          freshDivider = undefined;
+        }
+      }, 800);
+    }, 4500);
   }
   function setLogFilter(f: LogFilter): void {
     if (f === logFilter) return;
     logFilter = f;
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
     logLines.textContent = '';
+    clearFreshDivider();
     lastKey = -1;
     lastPaintedKey = -1;
     lastPaintedCount = 0;
@@ -1524,6 +1576,7 @@ export function mount(
       firstRender = wasFirst;
     }
     paintLogFilterBar();
+    if (lastState) refreshLogTabs(lastState); // F20 — switching a tab clears its dot
   }
   function renderLog(state: GameState): void {
     const entries = state.log.entries;
@@ -1537,6 +1590,7 @@ export function mount(
       lastPaintedKey = -1;
       lastPaintedCount = 0;
       revealQueue.length = 0;
+      clearFreshDivider();
       if (revealTimer !== undefined) {
         window.clearTimeout(revealTimer);
         revealTimer = undefined;
@@ -1568,6 +1622,11 @@ export function mount(
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
     const freshVisible = fresh.filter((e) => logFilterMatches(e.channel, logFilter));
+
+    // F27 — new lines flowing in over existing history get a transient divider before them.
+    if (freshVisible.length > 0 && logLines.childElementCount > 0 && !firstRender && !didReset) {
+      markFreshDivider();
+    }
 
     // on load / reset / reduced-motion / a single new line → append at once (no re-spam).
     if (firstRender || didReset || reduceMotion() || freshVisible.length === 1) {
@@ -1900,6 +1959,7 @@ export function mount(
     renderNav(state);
     renderLog(state);
     paintLogFilterBar();
+    refreshLogTabs(state); // F20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
     renderLadder(state);
     renderEstate(state);

@@ -185,27 +185,6 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
-  {
-    id: 'log-filter',
-    label: 'Log filter bar',
-    variants: [
-      {
-        id: 'log-filter-tabs',
-        label: 'A · bottom tabs',
-        blurb: 'An underlined tab row at the log foot (the shipped default).',
-      },
-      {
-        id: 'log-filter-chips',
-        label: 'B · toggle chips',
-        blurb: 'Rounded pill chips; the active channel fills indigo.',
-      },
-      {
-        id: 'log-filter-segmented',
-        label: 'C · segmented',
-        blurb: 'One joined segmented control, the active segment inked.',
-      },
-    ],
-  },
 ];
 
 export interface DevApi {
