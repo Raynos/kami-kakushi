@@ -1,15 +1,31 @@
 #!/usr/bin/env bash
 # Build the site and publish it to the gh-pages worktree, then push.
 #
-#   pnpm run gh-pages      (or: npm run gh-pages)
+#   pnpm run gh-pages                 (or: npm run gh-pages)
+#   pnpm run gh-pages -- --force      redeploy even with no site changes
 #
 # The gh-pages branch lives in a sibling worktree whose ROOT is the published
 # site (GitHub Pages → Settings → Pages → Deploy from a branch → gh-pages / root).
 # Create it once with:
 #   git worktree add --orphan -b gh-pages ../gh-pages-kami-kakushi
 #
+# --force / -f: when the freshly-built site is byte-identical to what's already
+# published, push an EMPTY commit anyway. Use it to re-trigger the Pages build
+# without any content change (e.g. after a Pages settings tweak).
+#
 # Override the worktree location with GH_PAGES_WORKTREE=/path pnpm run gh-pages
 set -euo pipefail
+
+FORCE=0
+for arg in "$@"; do
+  case "$arg" in
+    --force | -f) FORCE=1 ;;
+    *)
+      echo "✗ unknown argument: $arg (expected --force / -f)" >&2
+      exit 1
+      ;;
+  esac
+done
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WORKTREE="${GH_PAGES_WORKTREE:-$REPO_ROOT/../gh-pages-kami-kakushi}"
@@ -63,7 +79,15 @@ SHA="$(git rev-parse --short HEAD)"
 cd "$WORKTREE"
 git add -A
 if git diff --cached --quiet; then
+  if [ "$FORCE" -eq 1 ]; then
+    echo "▸ no site changes — forcing an empty commit (--force)…"
+    git commit --allow-empty -m "deploy: site @ main $SHA (forced redeploy)"
+    git push -u origin gh-pages
+    echo "✓ published gh-pages @ main $SHA (forced empty commit)"
+    exit 0
+  fi
   echo "✓ no site changes to publish."
+  echo "  (pass --force to redeploy anyway: npm run gh-pages -- --force)"
   exit 0
 fi
 git commit -m "deploy: site @ main $SHA"
