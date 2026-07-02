@@ -209,6 +209,15 @@ export function applyScriptedWolf(state: GameState): GameState {
     log: [
       {
         channel: 'combat',
+        // F91/F93 — this scripted one-time attack beat is scene NARRATION, so it carries the
+        // `narrator` voice EXPLICITLY (matching the drillmaster beat right after it + every other
+        // scene-narration line), never a stray plain/un-voiced line. Stays on the `combat` channel
+        // (its home tab); only the VOICE dimension is set. NOTE: the auto-grind outcome lines above
+        // stay deliberately UN-voiced — they are terse mechanical combat-log readouts (HP/coin
+        // deltas), not scene prose, and voicing them would trip the render's typewriter (voice ⇒
+        // qualifiesForTypewriter) on lines the auto-loop fires one-per-tick. This one-time beat has
+        // no such cost.
+        voice: 'narrator',
         text: `The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.`,
       },
       {

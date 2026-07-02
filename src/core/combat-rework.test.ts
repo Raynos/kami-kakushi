@@ -11,6 +11,7 @@ import {
   createInitialState,
   reduce,
   applyGrindFight,
+  applyScriptedWolf,
   resolveFight,
   foesHere,
   mcCombatStats,
@@ -332,6 +333,32 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     // at the kura: facing it always resolves and opens R3.
     const here = reduce({ ...base, location: wolfNode }, { type: 'face_wolf' });
     expect(here.flags['first-fight-survived']).toBe(true);
+  });
+
+  // F91/F93 voice-consistency (voice-only, no mechanics): every scene-narration line the scripted
+  // wolf beat emits carries the `narrator` voice EXPLICITLY — no stray plain/un-voiced line among
+  // the voiced ones. RED-able: the attack line shipped un-voiced (voice: undefined) before this pass.
+  it('the scripted-wolf beat voices its scene-narration lines as narrator (no stray plain line)', () => {
+    const base: GameState = {
+      ...createInitialState(1),
+      flags: { awake: true },
+      unlocked: [...createInitialState(1).unlocked, 'verb-face-wolf'],
+      location: getMob('wolf_scripted').area,
+    };
+    const after = applyScriptedWolf(base);
+    const beat = after.log.entries.filter((e) => e.key >= base.log.seq);
+    // the attack-narration line (its combat-log home tab) + the drillmaster follow-up (narration):
+    // both are scene narration, so BOTH carry `narrator` — the pure-core convention F91 codified.
+    const attack = beat.find((e) => e.channel === 'combat')!;
+    const drill = beat.find((e) => e.channel === 'narration')!;
+    expect(attack.voice).toBe('narrator');
+    expect(drill.voice).toBe('narrator');
+    // channel routing is UNCHANGED — the voice pass is orthogonal to the tab a line lives on.
+    expect(attack.channel).toBe('combat');
+    // no scene line is left plain/un-voiced (scoped to the scene channels, robust to clock lines).
+    const scene = beat.filter((e) => e.channel === 'combat' || e.channel === 'narration');
+    expect(scene.length).toBe(2);
+    expect(scene.every((e) => e.voice === 'narrator')).toBe(true);
   });
 });
 
