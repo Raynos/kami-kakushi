@@ -1,6 +1,10 @@
 # Plan — v0.3.2 playtest polish + intro/layout builds (autonomous)
 
-**Status:** ▶️ ACTIVE — building autonomously (2026-07-02) while the human is away.
+**Status:** ✅ SUPERSEDED / DONE (2026-07-02) — archived. The live playtest blew
+past this early F1–F16 outline; work proceeded **inline** off the human's rapid
+feedback. The authoritative live record is the feedback doc
+(`project/human-feedback/2026-07-02-playtest.md`, F1–F85+); this plan is kept for
+history only, not as a live tracker.
 **Source of truth for the feedback:**
 [`project/human-feedback/2026-07-02-playtest.md`](../../project/human-feedback/2026-07-02-playtest.md)
 (items F1–F16). **Distilled taste rules** in that doc's "§ Taste distillation"
