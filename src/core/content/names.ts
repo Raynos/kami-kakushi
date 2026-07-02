@@ -13,6 +13,9 @@ export const NAMES = {
   steward: 'Chiyo', // Lady Chiyo (kept)
   physician: 'Sōan', // the debunker-physician (renamed off the Edogawa "Ranpo" echo — Q39/Block N.1)
 
+  // ── Travelling folk (vendors-as-people, D-114) ──
+  pedlar: 'Tokubei', // the Ōmi pedlar who passes the gate-forecourt (F109 worked example)
+
   // ── Village of Asagiri ──
   villageChief: 'Yagōemon',
   villageGirl: 'Sayo', // ignites the "Tama" legend at T1-V0

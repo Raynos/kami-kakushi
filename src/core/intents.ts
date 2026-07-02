@@ -691,9 +691,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Walking away from a foe's node ends the auto-grind on it (Step 5b — foes are spatial, so
       // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
       next = { ...next, location: intent.to, autoCombat: null };
-      // F91/F93 — the move blurb is scene narration → consistent narrator voice.
+      // D-116 (resolves F114) — location/navigation flavor does NOT belong in the Story log. The
+      // STANDING "you are looking around" description lives on the Map node (the renderer reads
+      // `getNode(location).blurb`); the ARRIVAL line is a light TRANSIENT "Now" line that FADES.
+      // Emit it `ephemeral: true` → log-filter routes ephemeral entries to the `now` view ONLY and
+      // hides them from Story/All, so the Story log keeps only mandatory beats (no nav noise).
       next = applyRewards(next, {
-        log: [{ channel: 'narration', text: dest.blurb, voice: 'narrator' }],
+        log: [{ channel: 'narration', text: dest.blurb, voice: 'narrator', ephemeral: true }],
       });
       break;
     }

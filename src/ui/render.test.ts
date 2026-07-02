@@ -10,6 +10,9 @@ import {
   createInitialState,
   foesHere,
   setFlag,
+  reduce,
+  getNode,
+  getPerson,
   balance,
   formatKMB,
   gradeOf,
@@ -413,6 +416,8 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       null,
     );
     openTab('地図'); // the pedlar's market is on the Map 地図 tab now (F109 / IA reorg D-112)
+    // D-114 — his wares open only by TALKING to him (Tokubei), never inline.
+    expect(clickText('Speak with Tokubei')).toBe(true);
     expect(clickText('Sell all rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'sell_rice' });
   });
@@ -1001,10 +1006,15 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
 
   it('F67/F72 — the pedlar buy control sits in its OWN in-flow cell (never a floating overlap)', () => {
     const render = mount(root, () => {}, noopHooks());
-    render(awake(['panel-estate', 'room-gate-forecourt']), null);
+    // stand at the forecourt so the pedlar (Tokubei) is actually present to talk to.
+    render({ ...awake(['panel-estate', 'room-gate-forecourt']), location: 'gate-forecourt' }, null);
     // the pedlar's market is on the Map 地図 tab now (F109 / IA reorg D-112).
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('地図'))
+      ?.click();
+    // D-114 — talk to Tokubei to open his wares (talk-to-reveal, never inline).
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((b) => (b.textContent ?? '').includes('Speak with Tokubei'))
       ?.click();
     const rows = [...root.querySelectorAll<HTMLElement>('.market-pane .market-row')];
     expect(rows.length).toBeGreaterThan(0);
@@ -1195,6 +1205,12 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
       .find((b) => (b.textContent ?? '').includes(marker))
       ?.click();
   }
+  // D-114 — talk to Tokubei on the Map's who's-here list to open his wares (talk-to-reveal).
+  function talkToPedlar(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((b) => (b.textContent ?? '').includes('Speak with Tokubei'))
+      ?.click();
+  }
   // observe a settled surface across an identical-state re-render; return the queued mutations.
   function churnOnReRender(
     el: HTMLElement,
@@ -1228,9 +1244,10 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderMarket — a pedlar row survives a re-render (identity) and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate', 'room-gate-forecourt']); // the pedlar is on the Map tab now
+    const s = awake(['panel-estate', 'room-gate-forecourt'], { location: 'gate-forecourt' }); // the pedlar is on the Map tab now
     render(s, null);
     openTab('地図');
+    talkToPedlar();
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     expect(row).not.toBeNull();
@@ -1247,15 +1264,18 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const seen: Intent[] = [];
     const render = mount(root, (i) => seen.push(i), noopHooks());
     const s = awake(['panel-estate', 'room-gate-forecourt'], {
+      location: 'gate-forecourt',
       resources: { ...createInitialState(1).resources, coin: 0 },
     });
     render(s, null);
     openTab('地図'); // the pedlar's market is on the Map tab now
+    talkToPedlar(); // D-114 — open his wares by talking (never inline)
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     expect(btn.disabled).toBe(true); // no coin → can't buy
     // afford it → the SAME button becomes enabled (patched in place, not a fresh node).
     const rich = awake(['panel-estate', 'room-gate-forecourt'], {
+      location: 'gate-forecourt',
       resources: { ...createInitialState(1).resources, coin: 9999 },
     });
     render(rich, s);
@@ -1498,5 +1518,132 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     expect(foe.querySelector('.win-rate')).toBe(wr); // forecast pip patched in place
     expect(foe.querySelector('.skill-name')!.textContent).not.toBe('Unknown foe');
     expect(wr.textContent).toContain('%');
+  });
+});
+
+// ── Phase B (D-114 vendors-as-people + D-116 location flavor) — the pedlar (Tokubei) is a talkable
+//    person on the Map's "who's here" list; his wares open only by TALKING (never inline); and the
+//    move-arrival flavor is a transient Now line, not a permanent Story entry. ──────────────────────
+describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-116)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function awakeAt(location: string, extraUnlocked: string[] = []): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      location,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, ...extraUnlocked],
+    };
+  }
+  function openTab(marker: string): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes(marker))
+      ?.click();
+  }
+  function clickButton(substr: string): boolean {
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      (b.textContent ?? '').includes(substr),
+    );
+    btn?.click();
+    return Boolean(btn);
+  }
+
+  it('the Map "who\'s here" lists the pedlar (Tokubei) at his node — a talk affordance', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const pedlar = getPerson('pedlar'); // source of truth: his node + name
+    render(awakeAt(pedlar.node, ['room-gate-forecourt', 'panel-estate']), null);
+    openTab('地図');
+    const whos = root.querySelector<HTMLElement>('.map-pane .whos-here')!;
+    expect(whos).not.toBeNull();
+    expect(whos.hidden).toBe(false);
+    const rows = [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')];
+    expect(rows.some((r) => (r.textContent ?? '').includes(pedlar.name))).toBe(true);
+    // …and a Speak affordance for him (talk-to-reveal — his shop is not dumped inline).
+    expect(
+      [...root.querySelectorAll<HTMLButtonElement>('.map-pane .person-talk')].some((b) =>
+        (b.textContent ?? '').includes(`Speak with ${pedlar.name}`),
+      ),
+    ).toBe(true);
+  });
+
+  it('talking to the pedlar OPENS his wares — the shop is hidden until you speak to him', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awakeAt('gate-forecourt', ['room-gate-forecourt', 'panel-estate']), null);
+    openTab('地図');
+    // BEFORE talking: the pedlar's wares are NOT rendered inline on the Map tab.
+    expect(root.querySelector('.market-pane .market-row')).toBeNull();
+    expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(true);
+    // talk → the trade panel opens (his MARKET_ITEMS rows + the sell-rice faucet).
+    expect(clickButton('Speak with Tokubei')).toBe(true);
+    expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(false);
+    expect(root.querySelectorAll('.market-pane .market-row').length).toBeGreaterThan(0);
+  });
+
+  it("the pedlar's shop is NEVER inline on the Work tab (talk-to-reveal only)", () => {
+    const render = mount(root, () => {}, noopHooks());
+    // awake at the forecourt with the economy open, sitting on the default Work tab.
+    render(awakeAt('gate-forecourt', ['room-gate-forecourt', 'panel-estate']), null);
+    // no wares are built on Work, and the market pane is hidden there.
+    expect(root.querySelector('.market-pane .market-row')).toBeNull();
+    expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(true);
+    // there is no who's-here / person list on the Work tab either (nav's people live on Map).
+    expect(root.querySelector('.actions .person-row')).toBeNull();
+  });
+
+  it("the place-gated smith appears in who's-here only AFTER his place is unlocked (D-114)", () => {
+    const render = mount(root, () => {}, noopHooks());
+    const smith = getPerson('smith');
+    const gate = smith.placeGate!; // source of truth for the gate + node
+    // at his node before the smithy is yours → no smith row.
+    render(awakeAt(smith.node, ['room-gate-forecourt', 'room-woodlot-edge']), null);
+    openTab('地図');
+    expect(
+      [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
+        (r.textContent ?? '').includes(smith.name),
+      ),
+    ).toBe(false);
+    // unlock the place → the smith joins the who's-here list.
+    render(awakeAt(smith.node, ['room-gate-forecourt', 'room-woodlot-edge', gate]), null);
+    expect(
+      [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
+        (r.textContent ?? '').includes(smith.name),
+      ),
+    ).toBe(true);
+  });
+
+  it("D-116 — a move's arrival flavor is a transient Now line, NOT a permanent Story line", () => {
+    const render = mount(root, () => {}, noopHooks());
+    const dest = 'gate-forecourt';
+    const s0 = awakeAt('kura', [getNode(dest).revealFlag!]);
+    const moved = reduce(s0, { type: 'move_to', to: dest }); // walk to the forecourt
+    render(moved, s0);
+    const blurb = getNode(dest).blurb;
+    const lines = root.querySelector<HTMLElement>('.log-lines')!;
+    // the default Story view holds only mandatory beats — the nav flavor is absent.
+    expect(lines.textContent ?? '').not.toContain(blurb);
+    // switch to the Now view → the fleeting arrival line surfaces there (and fades on its own).
+    [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
+      .find((b) => (b.textContent ?? '') === 'Now')
+      ?.click();
+    const nowLines = [...root.querySelectorAll<HTMLElement>('.log-lines .now-line')];
+    expect(nowLines.some((l) => (l.textContent ?? '').includes(blurb))).toBe(true);
   });
 });

@@ -19,6 +19,7 @@ import type {
   AttrId,
   IntroOption,
   LabourOption,
+  NodePerson,
 } from '../core';
 import {
   availableActions,
@@ -53,6 +54,7 @@ import {
   skillProgress,
   skillYieldNum,
   foesHere,
+  peopleHere,
   bestiaryEntries,
   combatXpProgress,
   durabilityBand,
@@ -502,6 +504,10 @@ export function mount(
   root.removeAttribute('aria-busy');
 
   let activeTab: Tab = 'work';
+  // D-114 — the Map "who's here" open-conversation state (UI-only, like activeTab): the id of the
+  // person you're currently TALKING to (their trade/greeting is open), or null. A `tiny` trader's
+  // shop (the pedlar's wares) shows ONLY while he is the open person — talk-to-reveal, never inline.
+  let openPersonId: string | null = null;
   let lastState: GameState | null = null;
   // ── the interactive intro VN scene (D-104) — the SOLE prod intro presentation. While the intro
   //    is live it HIDES the whole shell and mounts a full-screen scene on `root`; the estate inks
@@ -766,6 +772,10 @@ export function mount(
     paths: HTMLElement;
     pathsLabel: HTMLElement;
     strip: HTMLElement;
+    // D-114 — the Map "who's here" section (built ONCE; the person rows reconcile). Hidden (F72
+    // ghost-box) when no one is present, so an empty node never leaves a framed ghost card.
+    whos: HTMLElement;
+    whosList: HTMLElement;
   } | null = null;
   // ── Phase 2 (F81) — the two big flash offenders go incremental. `actions` (the Work hero, rebuilt
   //    ~2×/s) and `combatPane` (a 6-block composite) are split into named sub-containers built ONCE;
@@ -3820,9 +3830,12 @@ export function mount(
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
-    // IA reorg (D-112 §2) — the pedlar's market MOVES to the Map tab (its who's-here home). IA-B
-    // reshapes it into a talkable person; for Phase A it's a clean re-gate from Work → Map.
-    const show = activeTab === 'map' && isUnlocked(state, 'panel-estate');
+    // IA reorg (D-112 §2 / F109 / D-114) — the pedlar (Tokubei) is now a TALKABLE PERSON on the Map
+    // tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
+    // he is the OPEN person: talk-to-reveal. Gate on `openPersonId === 'pedlar'` AND that he is
+    // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).
+    const pedlarPresent = peopleHere(state).some((p) => p.id === 'pedlar');
+    const show = activeTab === 'map' && openPersonId === 'pedlar' && pedlarPresent;
     toggle(marketPane, show);
     if (!show) return;
     // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).
@@ -3888,10 +3901,65 @@ export function mount(
       toggle(kanji, false);
     }
   }
+  // ── the Map "who's here 衆" people (D-114 vendors-as-people) — a talk affordance per present
+  //    person: a category-coloured hanko seal + name + a one-line tell + a Speak button. Built ONCE
+  //    (listener bound here); patch flips the open/closed label + the greeting line in place (F81).
+  //    Talk dispatches by depth: a `tiny` trader's Speak opens his wares (renderMarket, gated on
+  //    `openPersonId`); a `small`/`vn` person opens his greeting line (a simple talk panel for now). ──
+  function buildPersonRow(p: NodePerson): HTMLElement {
+    const row = el('div', 'person-row frame');
+    const head = el('div', 'person-head');
+    const color = VOICE_COLOR[p.voice];
+    const seal = el('span', 'person-seal', VOICE_SEAL[p.voice]);
+    seal.lang = 'ja';
+    seal.style.color = color;
+    seal.style.borderColor = color;
+    const name = el('span', 'person-name', p.name);
+    name.style.color = color;
+    head.append(seal, name);
+    if (p.tell) head.append(el('span', 'person-tell lock-hint', p.tell));
+    row.append(head);
+    const say = el('div', 'person-say skill-blurb');
+    row.append(say);
+    const talk = el('button', 'verb person-talk');
+    talk.type = 'button';
+    talk.addEventListener('click', () => {
+      // toggle the conversation: talking again (or to someone else) opens THIS person; a second
+      // click on the open person closes it. Re-render off the last state (like setTab), UI-only.
+      openPersonId = openPersonId === p.id ? null : p.id;
+      if (lastState) render(lastState, null);
+    });
+    row.append(talk);
+    return row;
+  }
+  function patchPersonRow(row: HTMLElement, p: NodePerson): void {
+    const open = openPersonId === p.id;
+    const talk = row.querySelector<HTMLButtonElement>('.person-talk')!;
+    setText(talk, open ? `Leave ${p.name}` : `Speak with ${p.name}`);
+    setClass(talk, 'on', open);
+    const say = row.querySelector<HTMLElement>('.person-say')!;
+    toggle(say, open && Boolean(p.greeting));
+    if (open && p.greeting) setText(say, p.greeting);
+  }
+  // render the who's-here list into a host (shared by the incremental + DEV-default map paths so the
+  // DEV default never drifts from prod, §6.5). Returns whether anyone is present (⇒ show the host).
+  function fillWhosHere(list: HTMLElement, present: readonly NodePerson[]): boolean {
+    reconcileList(list, present, {
+      key: (p) => p.id,
+      build: (p) => buildPersonRow(p),
+      patch: (row, p) => patchPersonRow(row, p),
+      order: true,
+    });
+    return present.length > 0;
+  }
   function renderMap(state: GameState): void {
     const show = activeTab === 'map';
     toggle(mapPane, show);
     if (!show) return;
+    // D-114 — if the person you were talking to is no longer here (you walked off, or a place-gate
+    // that had opened isn't satisfied), close the conversation so no stale wares/greeting linger.
+    const present = peopleHere(state);
+    if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
     // ── the diverged map body (D-075) — A = the you-are-here card + "Paths lead to →" list (the
     //    self-picked default, ships). B/C live DEV-only behind the variant toggle (ui/dev.ts). The
     //    DEV branch folds to dead code in prod (tree-shaken) and `dev` is undefined in prod AND
@@ -3917,6 +3985,15 @@ export function mount(
         card.append(strip);
       }
       mapPane.append(card);
+      // D-114 who's-here (DEV-default parity with prod, §6.5) — a fresh list each wholesale render.
+      if (present.length > 0) {
+        const whos = el('div', 'whos-here');
+        whos.append(el('div', 'rung-now', 'Who’s here 衆'));
+        const list = el('div', 'whos-list');
+        fillWhosHere(list, present);
+        whos.append(list);
+        mapPane.append(whos);
+      }
       return;
     }
     // prod / test — build the h2 + you-are-here card shell ONCE (F81), patch text in place. The
@@ -3936,7 +4013,14 @@ export function mount(
       paths.append(pathsLabel, strip);
       card.append(h, blurb, paths);
       mapPane.append(card);
-      mapRefs = { card, loc, kanji, blurb, paths, pathsLabel, strip };
+      // D-114 — the who's-here section, a sibling of the you-are-here card (built ONCE; the person
+      // rows reconcile). Hidden below when no one is present (F72 ghost-box — no empty framed card).
+      const whos = el('div', 'whos-here');
+      whos.append(el('div', 'rung-now', 'Who’s here 衆'));
+      const whosList = el('div', 'whos-list');
+      whos.append(whosList);
+      mapPane.append(whos);
+      mapRefs = { card, loc, kanji, blurb, paths, pathsLabel, strip, whos, whosList };
     }
     const r = mapRefs;
     const here = getNode(state.location);
@@ -3945,6 +4029,8 @@ export function mount(
     // the move strip is now zero-churn too (Phase 2): patchStrip only swaps it when the reachable
     // set actually changed, so an idle re-render leaves the live buttons (and their focus) untouched.
     toggle(r.paths, patchStrip(r.strip, state, 'work'));
+    // D-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
+    toggle(r.whos, fillWhosHere(r.whosList, present));
   }
 
   // build ONE quest card skeleton with every mutable element present (steps + reward line + accept
@@ -4091,6 +4177,7 @@ export function mount(
       shell.hidden = true;
       firstRender = false; // so the post-wake log cascades rather than dumping statically
       activeTab = 'work'; // New Game → reset the UI to the zero state (F25)
+      openPersonId = null; // …and close any open who's-here conversation (D-114)
       logFilter = 'story';
       applyColdOpenReveal();
       return;

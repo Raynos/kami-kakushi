@@ -221,6 +221,7 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | drillmaster | Kihei |
 | steward | Chiyo |
 | physician | Sōan |
+| pedlar | Tokubei |
 | villageChief | Yagōemon |
 | villageGirl | Sayo |
 | father | Jinpachi |

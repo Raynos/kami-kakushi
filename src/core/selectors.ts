@@ -24,6 +24,7 @@ import {
 } from './constants';
 import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef } from './content/activities';
+import { PEOPLE, type NodePerson } from './content/people';
 import { isUnlocked } from './unlock';
 import { skillLevel } from './skills';
 
@@ -120,4 +121,18 @@ export function canDoActivity(state: GameState, activity: ActivityDef): boolean 
   if (activity.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL)
     return false;
   return true;
+}
+
+/** The PEOPLE present + reachable at the MC's current node (D-114 vendors-as-people; mirrors the
+ *  spatial `foesHere`). The Map tab's "who's here" list shows only these: a person appears once you
+ *  stand at their node, their `placeGate` (if any) is satisfied — you REACHED or BUILT the place —
+ *  and their `presence` (if any) holds. Pure + deterministic over the surface latch (no RNG), so a
+ *  place-gated vendor (the smith on `panel-equipment`) is simply absent until the gate opens. */
+export function peopleHere(state: GameState): NodePerson[] {
+  return PEOPLE.filter((p) => {
+    if (p.node !== state.location) return false;
+    if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate)) return false;
+    if (p.presence !== undefined && !p.presence(state)) return false;
+    return true;
+  });
 }

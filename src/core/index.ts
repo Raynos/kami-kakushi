@@ -186,8 +186,11 @@ export {
   staminaRate,
   availableLabours,
   canDoActivity,
+  peopleHere,
 } from './selectors';
 export type { LabourOption } from './selectors';
+export { PEOPLE, PEOPLE_IDS, getPerson } from './content/people';
+export type { NodePerson, PersonDepth } from './content/people';
 
 export type { LogEntry, LogState, LogChannel } from './log';
 

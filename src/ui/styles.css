@@ -2162,6 +2162,55 @@ html {
 .map-move.danger {
   border-color: var(--beni);
 }
+/* ── D-114 vendors-as-people: the Map "who's here 衆" list — a talk affordance per present person
+   (a category-coloured hanko seal + name + a one-line tell + a Speak button). ── */
+.whos-here {
+  margin-top: var(--space-4);
+}
+.person-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+}
+.person-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+/* a small hanko seal (the VN nameplate idiom, scaled down for a list row). */
+.person-seal {
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-seal);
+  background: var(--washi);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+.person-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+.person-tell {
+  font-size: var(--fs-small);
+}
+.person-say {
+  margin: 0;
+}
+/* the Speak button sizes to its content, left-aligned under the person's copy. */
+.person-talk {
+  align-self: flex-start;
+  text-align: left;
+}
+.person-talk.on {
+  border-color: var(--rokusho);
+}
 .map-danger {
   /* raw --beni (#a93b47) is 4.42:1 on the washi-shade button — below AA for this danger glyph.
      A deeper red (~5.4:1), mirroring the .house-influence-kanji / .grade-* deeper-tone pattern (D-045). */
