@@ -1,8 +1,10 @@
 # Plan A — the koku redesign doc/PRD ripple
 
-**Status:** 🆕 ready to execute (docs-only; no code). **Sequenced FIRST** — Plan B
-(the T0 build) is gated on this landing, because the PRD stays the source of truth
-the code implements.
+**Status:** ✅ DONE — executed 2026-07-02 (commit `421c18e`): ADRs D-107/108/109
+authored, 10 ADRs supersede-annotated, 12 living docs rippled, grep-verified clean.
+Archived. **One DoD item deferred to Plan B:** the `project-status.md` snapshot
+refresh (it reflects the still-koku *built* game until the code migrates). Plan B
+(the T0 build) is now **unblocked**.
 
 **Rests on:**
 [`2026-07-02-economy-koku-rediagnosis.md`](2026-07-02-economy-koku-rediagnosis.md)

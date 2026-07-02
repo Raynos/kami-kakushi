@@ -1,9 +1,11 @@
 # Plan B — the koku/coin/rice economy T0 build (to v0.3.2)
 
-**Status:** 🆕 spec ready. **⛔ BLOCKED until Plan A lands** (the PRD ripple —
-[`2026-07-02-koku-ripple-docs.md`](2026-07-02-koku-ripple-docs.md)). The PRD is the
-source of truth this code implements; building before the docs are re-canonised
-would re-diverge them.
+**Status:** 🆕 spec ready — **UNBLOCKED** (Plan A, the PRD ripple, landed 2026-07-02
+in commit `421c18e`; archived at
+[`project/archive/2026-07-02-koku-ripple-docs.md`](../../project/archive/2026-07-02-koku-ripple-docs.md)).
+The PRD is now re-canonised, so the code has a correct target. **Also owns the one
+deferred Plan A DoD item:** refresh `project/status/project-status.md` to the
+coin/rice/standing wording once the code migrates.
 
 **For:** a separate agent to execute after Plan A. **Model:** see
 [`2026-07-02-economy-koku-rediagnosis.md`](2026-07-02-economy-koku-rediagnosis.md)
