@@ -27,4 +27,7 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-_(none open)_
+- [ ] `docs/plans/2026-07-02-playtest-polish-build.md` — the autonomous build plan
+  for the 2026-07-02 playtest feedback (F1–F16): what shipped inline, and the
+  remaining intro/story + layout + DEV-panel features being built as D-075
+  variants for you to review/approve.
