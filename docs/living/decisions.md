@@ -1011,3 +1011,250 @@ design ADR.
 - **Decision:** The House's koku standing scales by tier — **T0 tens → T1 ~100–1,000 → T2 ~1,000–5,000 → T3 ~5,000–10,000 → T4 = 10,000 (the daimyō threshold) to ~100,000 → T5 ~100,000–1,000,000+** (Kaga ≈ 1,025,000 = the ceiling). Bands **PROVISIONAL / liquid** (**D-059**), tuned by the pacing sim. A **PERSONAL koku stipend appears only from T4+** (koku is House-only before). At **T5** a **FULL PARALLEL Office / court-rank / favour track** gates the top ranks (koku = scale, office = access) — anchored by Tanuma Okitsugu (ashigaru son → 57,000-koku daimyō + rōjū) and the fudai/tozama office-gate. Rank milestones grant **VISIBLE STATUS TOKENS** (surname → the two swords → gōshi rank). Standing is re-assessed seasonally + the "assessors arrive" event at tier jumps.
 - **Why:** A concrete kokudaka-like ladder reads as real Edo standing (not an abstract score), and splitting the endgame into two legible axes — koku = *scale*, office = *access* — keeps the T5 court game about more than a bigger number.
 - **Consequences:** The tier→koku bands + the T4 personal stipend + the T5 office/court-rank track + the status-token milestones ripple into the PRD spine sections (this batch). Composes with **D-107** (koku = standing) + **D-010** (the indirect Edo ceiling). Magnitudes liquid (**D-059**). Per **D-022**, governs.
+
+## D-110 — 2026-07-02 every rung is a player-triggered VN story beat (extends D-104)
+
+### D-110 ✅ — Every rung is a full, player-TRIGGERED VN story beat with remembered choices + occasional small varied bonuses; NOT every rung a perk
+- **created_date:** 2026-07-02
+- **Context:** The rung-up transition plan
+  ([`docs/plans/2026-07-02-rung-up-story-transitions.md`](../plans/2026-07-02-rung-up-story-transitions.md))
+  diagnosed that promotion is today an instant, silent hot-path side effect — a
+  number-fill plus a single mis-channeled log line — with no player affordance and
+  no motivation for the areas/panels/people it unlocks (playtest **F97/F99/F103**).
+  The plan diverged three scopes (minimal narration / milestone-VN-only /
+  every-rung-full) and defaulted to Option 2 (full VN only at milestone rungs).
+  The human then made the pattern-level scope call for the whole rung ladder.
+- **Decision (human, 2026-07-02):** **EVERY rung is a full, player-TRIGGERED VN
+  story beat** — there is a story element at every rung; **SOME** rungs introduce a
+  **new character**, others deepen a known one (no rung is a silent number-fill).
+  The beat is **player-triggered**: the player must manually stop grinding,
+  navigate, and trigger the rung-up story; a ready promotion **holds** and can be
+  **ignored** — the player may grind combat forever and never advance (never
+  forced). Beats carry **CHOICES**, and **NPCs REMEMBER** them (per-NPC
+  relationships + story flags, persisting across ascension). Choices **mainly**
+  affect **relationships + story flags**, with only **OCCASIONAL, small, VARIED**
+  bonuses ("every now and then" — can be *story* bonuses, not just flat stats, and
+  are **smaller** than the intro's one-time perks). Crucially, **it is NOT the case
+  that every rung grants a perk** — the three intro perks were a **one-time intro
+  boost**, not the standing pattern.
+- **Why:** Making every rung an earned, triggered beat fixes the silent pop-in
+  everywhere (each unlock — area, panel, verb, or person — arrives motivated) and
+  turns each promotion into a real interaction, while the player-triggered/ignorable
+  gating keeps a fast idle climb from being interrupted by a forced modal every few
+  seconds. Anchoring the payload to relationships + flags (not perks) keeps the
+  choices meaningful without turning the ladder into a power-creep treadmill;
+  reserving bonuses to occasional/varied/small keeps them a delight, not an
+  expectation, and preserves D-104's "never let the VN become wallpaper" by making
+  the *weight* narrative rather than mechanical.
+- **Consequences:** **EXTENDS/REFINES D-104** — D-104's full-screen VN pattern (for
+  story-significant, interactive NPCs) now also frames **every rung beat**, not only
+  first-meets; the ranks build must replace the instant hot-path `promoteRungs` with
+  a pending→player-triggered→apply state machine (a `rungBeat` cursor beside
+  `introBeat`, reusing the append-only VN engine), and the choice payload is
+  relationship/flag-first with rare small bonuses. The trigger lives at the
+  **header rung element (F106)** — "ready to advance" surfaces there, and triggering
+  navigates to the beat. Supersedes the plan's "Option 2 default" (milestone-only VN)
+  in favour of every-rung beats. Composes with **D-107–D-109** (any coin/rice copy in
+  beats rescoped by the economy re-core) and **D-055** (reveal follows the story).
+  Per **D-022**, governs.
+
+## D-111 — 2026-07-02 deep housing: comfort bonuses + a status-mirror of your rise
+
+### D-111 ✅ — Housing is DEEP — a furnishable home that grows with rung + a belongings inventory + set/synergy bonuses; bonuses = Edo COMFORT + the home as a VISIBLE status-mirror
+- **created_date:** 2026-07-02
+- **Context:** The narrative-coherence brainstorm
+  ([`project/brainstorms/2026-07-02-narrative-coherence-home-belongings.md`](../../project/brainstorms/2026-07-02-narrative-coherence-home-belongings.md))
+  audited T0 and found the story *names* a home three times — the "dry corner" and
+  the "bowl" Genemon promises, "a place here is yours" — with **zero** mechanical
+  existence (rest is stranded at the cold-open post; no belongings/furniture
+  category). It diverged three scopes (cosmetic / light-mechanical / deep housing)
+  and recommended staging 1→2 with the deepest layer deferred. The human chose the
+  deep option outright.
+- **Decision (human, 2026-07-02):** Build the **DEEP housing system** — a
+  **furnishable home that grows with the player's rung** (dry corner → your quarters
+  → the inner rooms), a **belongings inventory** distinct from resources and
+  equipment (the bowl, a robe, a keepsake — things you own and keep), and
+  **furniture/belongings with comfort bonuses + set/synergy**. The bonus model is
+  **Edo-flavoured COMFORT** — better **rest recovery**, **storage**, and
+  **morale/upkeep** — **plus** the home as a **VISIBLE STATUS-MIRROR of your rise**:
+  it physically *shows* your climb (surname → the two swords on the wall → gōshi
+  standing), the domestic half of the same "look how far you've come" fantasy. The
+  register is **prestige over power** — **NOT** RPG stat-gear; comfort + status, not
+  a combat power lane.
+- **Why:** The deep home cashes the sharpest T0 coherence debt (the promised
+  corner/bowl) and turns it into a legible reward surface that *reuses* the existing
+  rest/cook/market/estate-flywheel patterns at personal scale, while the
+  status-mirror layer makes every "you're more than a servant now" rung *shown*, not
+  just titled. Keeping the bonuses to comfort/prestige (never combat stats) protects
+  the balance — the home never becomes a power lane competing with equipment — and
+  ties the domestic rise to the economy's status tokens for one unified
+  "your-rise-is-visible" reading.
+- **Consequences:** Gets a dedicated build plan
+  ([`docs/plans/2026-07-02-deep-housing-build.md`](../plans/2026-07-02-deep-housing-build.md)),
+  phased T0-first. The belongings inventory lives in the **Inventory tab (F108)**,
+  distinct from consumables/resources; the home's status-mirror ties the economy's
+  **D-109** status tokens (surname / two swords / gōshi). Home tiers ride the rung
+  ladder (**D-110** beats), reusing the A8 interior-house reveals as scaffolding and
+  the estate flywheel as the visible-upgrade template. Sequenced against the economy
+  re-core (**D-107–D-109**) since furniture costs **coin**. A new home panel will
+  need a **D-075 diverge** pass. This makes the deep layer the brainstorm's
+  recommended "T1 status-mirror ambition" a **now** commitment. Per **D-022**,
+  governs.
+
+## D-112 — 2026-07-02 the tab IA is a six-tab set revealed incrementally
+
+### D-112 ✅ — The player UI is six tabs — Work · Map · Estate · Inventory · Character · Combat — each revealed only as it unlocks (preserving the incremental-reveal signature)
+- **created_date:** 2026-07-02
+- **Context:** The v0.3.3 playtest surfaced a cluster of tab-IA feedback
+  (**F100/F107/F108/F109/F110/F112**): navigation was duplicated across Work and the
+  estate map (**F107**), the storehouse/bank sat in Work rather than a holdings home
+  (**F108**), the pedlar's shop was dumped inline instead of being a talkable person
+  at a map node (**F109**), and the human called for a dedicated Map tab of the
+  current node — walk-to + who's here + talk-to (**F110**). The through-line is
+  "every capability lives in exactly one thematic tab." The human then locked the
+  concrete tab set (a second steer added **Combat** as its own top-level tab).
+- **Decision (human, 2026-07-02):** The player UI is **six tabs — Work · Map ·
+  Estate · Inventory · Character · Combat — revealed INCREMENTALLY**, each appearing
+  **only as it unlocks** (preserving the game's incremental-reveal signature — the UI
+  grows *with* the player, never a slam of empty tabs). The homes:
+  - **Work** — labour actions only (navigation and the storehouse leave it).
+  - **Map** — the current node: walk-to destinations, who's here, and who you can
+    talk to (navigation's single home; established characters like Sōan/Genemon stay
+    talkable).
+  - **Estate** — house upgrades (the kura-works / estate flywheel).
+  - **Inventory** — the storehouse/bank (carried vs stored) **and** personal
+    belongings.
+  - **Character** — attributes, skills, and the bestiary.
+  - **Combat** — its own **top-level tab** (the fight loop + stance); **NOT** folded
+    into Character or Map. Unlocks when combat goes live (≈R3, D-100/D-110).
+- **Why:** One capability per thematic tab kills the duplicated-nav confusion and
+  gives holdings, the map, the character sheet, and combat each a legible home, while
+  the incremental reveal keeps the "UI as progression" signature (§1) — a fresh
+  player still starts on a single calm surface and earns each tab. Combat earns its
+  own tab because the fight loop is a first-class pillar (D-100), not a sub-view of
+  the character sheet.
+- **Consequences:** DOC: `ui-design.md` §IA/tabs gains the six-tab set + the
+  incremental-reveal gating. BUILD: an IA reorg render pass moves nav → Map (F107),
+  the storehouse → Inventory (F108), the pedlar's shop → a talkable Map-node NPC
+  (F109), estate upgrades → Estate (F100), and the fight loop/stance → the **Combat**
+  tab; the belongings inventory (**D-111**) lands in the **Inventory** tab, the
+  bestiary in **Character**. The rung lives in the header, not a tab
+  (**F106**/**D-110**). Composes with **D-055** (reveal-gating), **D-100** (the
+  combat pillar), **D-106** (the multi-panel workspace within a tab), and
+  **D-104/D-110** (the VN scene still hides the whole shell regardless of tab). Per
+  **D-022**, governs.
+
+## D-113 — 2026-07-02 a combat loss bleeds carried coin + rice + materials (the kura shelters them)
+
+### D-113 ✅ — A lost fight costs all three carried resources — coin + rice + materials; banking in the kura protects them (an economy-build call under D-107)
+- **created_date:** 2026-07-02
+- **Context:** Under the flattened single-koku economy a lost fight bit carried
+  koku. The economy re-core (**D-107**) splits the economy into **rice** (a
+  resource), **coin** (the currency), and **koku** (House standing, never carried
+  or spent), and establishes that the **kura shelters coin + rice**. That left open
+  what, concretely, a combat loss now costs.
+- **Decision (human, 2026-07-02):** A **combat loss bleeds all three carried
+  resources — coin + rice + materials** (the crafting materials). **Banking in the
+  kura protects them** — stored coin/rice/materials are safe; only what you **carry**
+  is at risk. koku (House standing) is never carried, so a loss never touches it.
+- **Why:** A three-resource bite makes the risk legible and real across the whole
+  economy (not just coin), and making the kura the shelter gives the store/withdraw
+  decision genuine stakes — carry more to earn/spend on the road, or bank it safe
+  before a risky fight. It keeps loss meaningful without touching standing (koku),
+  preserving koku as pure prestige (**D-107**).
+- **Consequences:** An **economy-build call under D-107** — the loss-bite reducer
+  now debits carried coin + rice + materials (was carried koku); the kura's
+  store/withdraw covers all three. Feeds the Inventory-tab storehouse (**D-112**,
+  **F108**). Ripples into the PRD combat/economy sections with the D-107 batch.
+  Magnitudes liquid (**D-059**). Per **D-022**, governs.
+
+## D-114 — 2026-07-02 every vendor is a PERSON on a spectrum, with an optional place-gate
+
+### D-114 ✅ — Shops are people on a spectrum (full VN character / small person / tiny trader) + an optional place-gate; no shop is a bare inline menu
+- **created_date:** 2026-07-02
+- **Context:** The pedlar's shop was dumped as an inline menu in the Work tab; the
+  human's steer (**F109/F110**) is that a vendor is a **person you talk to**, met at
+  a map node's "who's here" list, not a menu. That raised the pattern-level question:
+  are all vendors full VN characters (expensive), or is there a spectrum?
+- **Decision (human, 2026-07-02):** **Every shop is a PERSON you talk to** — never a
+  bare inline menu — arranged on a **spectrum** of interaction depth:
+  - **(a) FULL VN characters** — a **D-104** full-screen modal introduction + quests
+    + ongoing dialogue content (the richest vendors).
+  - **(b) SMALL people** — a line or two of dialogue **+ a trade** (light presence,
+    real voice).
+  - **(c) TINY traders** — **ZERO questions to ask**; talking to them opens straight
+    into the **trade / buy / market menu** (a face on a shop, no dialogue tree).
+  AND a vendor may be **tied to a PLACE that gates them**: you must **reach or BUILD**
+  the location first (e.g. the **smithery** before you can talk to the **smith**). So
+  **a vendor = (person on the spectrum) + (optional place-gate).**
+- **Why:** Making every vendor a person (not a menu) keeps the world diegetic and
+  consistent with the "who's here" map model (F109/F110) and the VN pattern (D-104),
+  while the spectrum lets the game **spend authoring budget where it matters** — a
+  full VN character for the vendors who carry story, a bare trade-face for the ones
+  who are just a market — so the pattern never becomes wallpaper and never over-
+  serves a trivial trade. The place-gate ties a vendor's availability to real
+  progression (reach/build the location), giving shops an earned, sited feel rather
+  than blinking into existence.
+- **Consequences:** Composes with **F109** (the pedlar is a person, discovered via a
+  reason — the pedlar is a **(b) small person** or **(c) tiny trader**), the
+  estate-map **"who's here"** model (**D-112** Map tab / F110), and **D-104/D-110**
+  (full VN vendors use the same scene engine). The vendor model is a **norm for the
+  map/NPC direction** — noted here and to be folded into `ui-design.md` (§ map/NPC)
+  and the rung-story entity-discovery design (the F99/§5 pedlar worked example). A
+  place-gated vendor's shop reveals only when its location is reached/built (reuse
+  the surface-reveal + estate-build gating). Per **D-022**, governs.
+
+## D-115 — 2026-07-02 the estate-map presentation is NOT locked — the build diverges freely
+
+### D-115 ✅ — The estate-map presentation stays OPEN — the build produces 3–4 genuinely-distinct, terse/hint-free working variants behind the DEV toggle; the human picks live
+- **created_date:** 2026-07-02
+- **Context:** The Map tab (**D-112**) needs a presentation for the current node +
+  navigation + "who's here." Rather than lock one visual model up front, the human
+  chose to keep the direction open and let the build audition several.
+- **Decision (human, 2026-07-02):** **Diverge freely** on the estate-map — the build
+  produces a **diverse 3–4** working variants, e.g. a **2D spatial** map, a
+  **scroll / 道中記 (dōchūki) ledger**, a **minimal node list**, and a **node-graph** —
+  **all terse / hint-free**, all wired **behind the DEV toggle** (**D-075**) for the
+  human to pick live. **No single direction is locked.**
+- **Why:** The map is a signature surface with several viable idioms; auditioning
+  distinct working variants live (per D-075) surfaces the right one by play rather
+  than by argument, and keeping them terse/hint-free holds the woodblock/ink bar
+  (**D-018**) — no slop, no hand-holding chrome.
+- **Consequences:** The estate-map build runs a **D-075 diverge** with **3–4**
+  variants (an R-item per variant in [`review.md`](../../project/human-in-the-loop/review.md));
+  prod ships only the self-picked default until the human locks one live (zero PROD
+  flag-debt). This is a **build directive for the Map tab (D-112)**; folds with the
+  vendor "who's here" model (**D-114**) and the nav-single-home rule (**F107**).
+  Per **D-022**, governs.
+
+## D-116 — 2026-07-02 location/navigation flavor routes to the Map node, not the Story log (resolves F114)
+
+### D-116 ✅ — Location flavor lives as the Map-node DESCRIPTION (standing, hint-carrying) + a transient "Now" line on move; the Story log holds only mandatory story beats
+- **created_date:** 2026-07-02
+- **Context:** Navigation/location flavor (e.g. "The grain-store where you woke —
+  dark, dry…", "The estate gate and its swept forecourt…") was being spammed into
+  the **Story log** on every move — but it isn't story. **F114** flagged the
+  mis-channel; this ADR settles where the flavor goes.
+- **Decision (human, 2026-07-02):** Location/navigation flavor does **NOT** go in
+  the **Story log**. It splits into two channels:
+  - **(a) the MAP-node DESCRIPTION** — an immersive, standing *"you are looking
+    around"* description of the current node that persists as long as you're
+    there, and that **also carries HINTS** (toward people, actions, and things to
+    discover at the node).
+  - **(b) a light TRANSIENT "Now" line on move** — a brief line surfaced on
+    arrival that **fades** (not a permanent log entry).
+
+  The **Story log holds only mandatory story beats** — never nav/location flavor.
+- **Why:** Keeps the three log channels disciplined — Story = mandatory beats,
+  Now = transient, Map = standing place description — so the Story log reads as a
+  real narrative spine rather than a wall of movement noise. Folding hints into
+  the standing node description gives the Map node a diegetic job (orient +
+  entice) and a natural home for discovery cues.
+- **Consequences:** **Resolves F114.** Ties the map model (**D-114** "who's here"
+  / **D-115** estate-map presentation) — the node description is the standing
+  surface those variants render — and the **F111/F103 channel discipline** (Story
+  vs Chat vs Now). The hint-carrying node description is the hook the emergent
+  node-action idea (see
+  [`../../project/brainstorms/2026-07-02-emergent-node-actions.md`](../../project/brainstorms/2026-07-02-emergent-node-actions.md))
+  builds on. Home for the settled copy rule: `ui-design.md` (§5.1 channels + §
+  map). Per **D-022**, governs.

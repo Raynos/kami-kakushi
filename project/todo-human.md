@@ -27,17 +27,17 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-- [ ] `docs/plans/2026-07-02-koku-economy-t0-build.md` — **Plan B: the T0 build**
-  (koku→coin rename, rice-as-resource, mon→monme→ryō formatter, koku-as-standing,
-  status tokens). **UNBLOCKED** (Plan A landed); for another agent; coordinate on
-  render.ts. _(Plan A, the doc ripple, is DONE — archived.)_
-- [ ] `docs/plans/2026-07-02-append-only-rendering-engine.md` — **rendering-engine
-  migration**: generalize the intro's proven append-only render to kill the whole
-  flash/repaint class across the app. **Scope call** — 5 open questions await your
-  answer before build.
+- [ ] `docs/plans/2026-07-02-koku-economy-t0-build.md` — **Plan B: the T0 economy
+  build** (koku→coin rename, rice-as-resource, mon→monme→ryō formatter,
+  koku-as-standing, status tokens). Scope LOCKED (D-107/108/109 + D-113); **being
+  implemented now by the main session** (verified GO, file map corrected).
 - [ ] `docs/plans/2026-07-02-rung-up-story-transitions.md` — **rung-ups as VN story
-  beats** (F97/F99/F103): a rung-up becomes a player-initiated story beat that
-  motivates the unlocks + entity discovery. **Scope call**; ties D-104.
-- [ ] `project/brainstorms/2026-07-02-narrative-coherence-home-belongings.md` —
-  **home / belongings / furniture design** (F89): narrative coherence for the
-  estate's rooms + owned items. **Scope call.**
+  beats** (F97/F99/F103). Scope LOCKED (D-110 — every rung a player-triggered beat).
+  **Carries a PROPOSED CAST (§6.5) for your review/edits** before the beats ship.
+- [ ] `docs/plans/2026-07-02-deep-housing-build.md` — **deep housing build** (D-111):
+  furnishable home that grows with rung + a belongings inventory + comfort/
+  status-mirror bonuses. The build approach, for your review.
+- [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
+  actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
+  via rumours / low-chance events / description hints, not a static list. T0-later/T1,
+  for eventual adoption.

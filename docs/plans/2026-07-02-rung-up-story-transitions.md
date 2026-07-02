@@ -1,12 +1,50 @@
 # Rung-up story transitions — the promotion beat (F97 + F99 + F103)
 
-**Status:** 🆕 proposal — awaiting human scope call; **no code changed yet**.
+**Status:** ✅ scope LOCKED (human, 2026-07-02 — **D-110**); **no code changed
+yet** — spec-ready for build. The chosen model is **NOT** the earlier "Option 2
+default"; see the scope banner below.
 **Source steers:** playtest **F97** (rung-up must be a player-initiated story
 beat that motivates the unlocks) + coordinator relay **F99** (entities/NPCs like
 the pedlar must be *discovered*, not silently popped in) + **F103** (the R1
 promotion gave ONLY one log line, mis-routed to Progress — the story prose
 belongs in the Story channel). Ties **D-104** (the full-screen VN scene for
 story-significant NPCs) and **F89** (narrative ↔ mechanical coherence).
+
+---
+
+## 0 · LOCKED scope (human, 2026-07-02 — D-110)
+
+The human's scope call **supersedes the "Option 2 default" recommendation in §4/§7**
+(which are kept below as the option-map that led here). The locked model:
+
+- **EVERY rung is a full, player-TRIGGERED VN story beat** — there is a story
+  element at **every** rung. **SOME** rungs introduce a **new character**, others
+  deepen a known one; **no rung is a silent number-fill**. (This is the plan's
+  Option 3 *shape* — every-rung beats — **without** its every-rung-a-perk payload.)
+- **NOT every rung grants a perk.** The three intro perks were a **one-time intro
+  boost**, not the standing pattern. Rung beats do **not** each hand out a perk.
+- **The beat is player-triggered and ignorable.** A ready promotion **holds**; the
+  player must manually **stop grinding, navigate, and trigger** the rung-up story.
+  They may **ignore** it and grind combat forever — advancement is **never forced**.
+- **Choices are remembered.** Beats carry **CHOICES**; **NPCs REMEMBER** them
+  (per-NPC relationships + story flags, persisting across ascension — `npcMemory`).
+- **Payload = relationships + flags, with OCCASIONAL small varied bonuses.** Choices
+  **mainly** move relationships + story flags; only **every now and then** does a
+  choice grant a **small, VARIED** bonus — which can be a **story** bonus, not just a
+  flat stat, and is **smaller** than the intro perks. Bonuses are a delight, not an
+  expectation.
+
+**Trigger UX (F106).** The "ready to advance" prompt lives on the **header rung
+element (F106)** — the compact rung name + progress bar, top-right. When the meter
+is ready, that header element becomes the affordance ("Answer the summons" / "Begin
+the beat"); **triggering navigates to the beat** (the full-screen VN scene). This
+replaces §3.3's ladder-card button as the trigger home (the OQ7 placement question
+is resolved to the header).
+
+Everything below (§1–§9) is the investigation + option-map that led to this call;
+read §3 (the state machine) and §5/§6 (entity discovery + the unlock→rung map) as
+the build spec, with the payload/every-rung rules above overriding the §4/§7
+"Option 2" recommendation.
 
 ---
 
@@ -202,17 +240,26 @@ meter fills + storyGate met  →  PROMOTION READY (pending, not applied)
 **Recommendation: (a)** — build ON the append-only engine with minimal churn;
 promote to (b) later if more scene sources appear.
 
-### 3.3 The UI affordance (never auto)
+### 3.3 The UI affordance (never auto — LOCKED to the header, F106)
 
-The rung ladder card already renders _"Ready to advance."_ when
-`rungProgress().ready` (`render.ts:864`). Turn that into a **button** —
-_"Begin the beat"_ / _"Answer the summons"_ — that dispatches `begin_rung_beat`.
-(See open question 7 for placement alternatives: ladder card vs HUD prompt vs
-log affordance.)
+The trigger lives on the **header rung element (F106)** — the always-visible rung
+name + progress bar, top-right. When `rungProgress().ready`, that element becomes
+the affordance — _"Answer the summons"_ / _"Begin the beat"_ — which dispatches
+`begin_rung_beat` and **navigates to the beat** (the full-screen VN scene). A ready
+promotion **holds/banks** there (never auto-applies, never nags); the player may
+ignore it and keep grinding indefinitely (§0). *(The rung ladder card's existing
+_"Ready to advance."_ text at `render.ts:864` becomes a secondary cue; OQ7 is
+resolved to the header — see §0/§8.)*
 
 ---
 
-## 4 · Scope options (diverge — the human picks)
+## 4 · Scope options (diverge — DECIDED, kept as the option-map)
+
+> ⚠️ **RESOLVED by §0 (D-110).** The human picked **every-rung player-triggered
+> beats** (Option 3's *every-rung shape*) but **without every-rung perks** — the
+> payload is relationships + flags with only occasional small varied bonuses. The
+> "Option 2 (RECOMMENDED DEFAULT)" tag below is **superseded**; these options are
+> retained only as the reasoning that led to the call.
 
 Every option fixes the silent pop-in. They differ in **how interactive** each
 rung beat is and **which rungs get a full character VN vs a light narration
@@ -232,7 +279,7 @@ beat**. All reuse the `DialogueScene` type + the append-only renderer (§3.2a).
   interactivity** — it reads as a "press to continue" cutscene.
 - **Risk:** LOW. Mostly plumbing + copy-move. No new dialogue trees.
 
-### Option 2 — Fuller: character VN at milestone rungs, narration between (RECOMMENDED DEFAULT)
+### Option 2 — Fuller: character VN at milestone rungs, narration between (was recommended; SUPERSEDED by §0)
 
 - **What it adds:** the rungs that introduce a **new granter or a major
   capability** get a **full VN meet** (greeting → ask-hub → a balanced choice,
@@ -252,17 +299,28 @@ beat**. All reuse the `DialogueScene` type + the append-only renderer (§3.2a).
 - **Risk:** MEDIUM. Content authoring + choosing whether milestone choices carry
   mechanics. Honors D-104's "reserve the full VN so it never becomes wallpaper".
 
-### Option 3 — Deepest: every rung a full branching choice beat
+### Option 3 — Deepest: every rung a full branching choice beat (CHOSEN SHAPE — see §0)
+
+> ✅ The human picked **this every-rung shape** — but with a **lighter payload** than
+> written here: **NOT** "7 balanced perk sets." Choices move **relationships +
+> story flags**, with only **occasional small varied bonuses** (which can be story
+> bonuses, not just stats). The wallpaper/pacing risk below is answered by the
+> **player-triggered + ignorable** trigger (a ready promotion holds; the player
+> chooses when to play it), not by cutting rungs.
 
 - **What it adds:** all 7 rungs are full VN scenes with topics + a balanced
-  perk-granting choice + per-NPC memory writes, plus dedicated **entity-discovery
-  VN beats** for vendors. A true parallel to the intro's 3 scenes, ×7.
-- **Build cost:** **HIGH.** 7 dialogue trees + 7 balanced perk sets to author &
-  balance + pacing work.
-- **Fun:** HIGH ceiling, but **real risk the pattern becomes wallpaper** (D-104
-  explicitly warns against this) and that a full modal on *every* rung breaks the
-  flow of a fast idle climb.
-- **Risk:** HIGH. Most content + balance surface; most likely to over-serve.
+  choice + per-NPC memory writes, plus dedicated **entity-discovery
+  VN beats** for vendors. A true parallel to the intro's 3 scenes, ×7. **Per §0**
+  the choices carry relationship/flag payloads (occasional small varied bonuses),
+  **not** a perk per rung.
+- **Build cost:** **HIGH** — but lighter than "7 perk sets": 7 dialogue trees +
+  relationship/flag writes + a *sparse* set of small bonuses to place & balance +
+  pacing work.
+- **Fun:** HIGH ceiling; the **wallpaper / fast-climb** risk is mitigated by the
+  **player-triggered, ignorable** trigger (§0) — no forced modal, the player banks a
+  ready promotion and plays it when they choose.
+- **Risk:** MEDIUM–HIGH. Most content surface; the payload discipline (flags first,
+  bonuses rare) is what keeps it from over-serving.
 
 ---
 
@@ -301,6 +359,14 @@ there** — a one-line reason for ambient entities, a full VN meet for character
 who matter. Purely mechanical surfaces (a readout, a skill row) can still reveal
 inline as today; the discipline is specifically for **entities and areas the
 player would ask "why is this here?" about.**
+
+**Vendor model (D-114).** Every vendor is a **person on a spectrum** — **(a)** a
+full VN character (D-104 modal + quests + dialogue), **(b)** a small person (a line
+or two + a trade), or **(c)** a tiny trader (zero questions, straight to the trade
+menu) — **plus an optional place-gate** (reach/build the location first, e.g. the
+smithery before the smith). The pedlar is a **(b)/(c)** ambient trader discovered
+via the R1 forecourt beat (§5.1); a vendor who carries story is an **(a)** full VN
+meet like a milestone granter. See **D-114** for the full model.
 
 ---
 
@@ -344,37 +410,110 @@ From `src/core/content/ranks.ts` `rewardOnReach` + the surface reveal lines:
 
 ---
 
-## 7 · Recommended default (bias to motion — the human decides)
+## 6.5 · Proposed cast (DRAFT — for human review, D-110)
 
-**Option 2** (§4): full VN meets at the **new-character / major-capability**
-rungs (**R3 Kihei, R6 Chiyo, R7 the lord**), light narration beats at the Genemon
-rungs (**R1, R2, R4, R5**); the **pedlar discovered as a one-line reason inside
-the R1 beat** (§5.1). Implementation **§3.2(a)** — a parallel `RUNG_BEATS`
-registry reusing the `DialogueScene` type + the append-only renderer, one
-`rungBeat` cursor, `applyPromotion` on the terminal node.
+> **This is an agent DRAFT for the human to approve / edit** — names, roles, which
+> rung introduces whom, and a personality sketch, grounded in the **Kurosawa house,
+> 1780 (An'ei 9)** fiction (**D-105**). Canonical names come from
+> `src/core/content/names.ts` (the single source of truth); **proposed new faces**
+> are flagged **⭐ NEW-PROPOSED** and are the parts most open to the human's pen.
+> Per D-110, **some** rungs introduce a new character, others deepen a known one.
 
-Why this default: it fixes the silent pop-in **everywhere** (every rung gets at
-least a motivated beat + the pedlar gets a reason), lands the new granters as real
-meetings per **D-104**, honors D-104's "reserve the full VN so it never becomes
-wallpaper", and adds the least risk to the *just-rebuilt* append-only engine. The
-milestone choices can start **flavor-only** (no attr lean) and gain mechanics
-later if the human wants — keeping the first build lean.
+**Established (canonical, from `names.ts` + the intro):**
+
+- **Genemon** (`elder`) — chief steward of the Kurosawa house; the **first granter**,
+  already met in the intro. *Personality:* gruff, fair, watchful; measures you by
+  work done "without being told twice." He deepens across R1/R2/R4/R5 — a wary
+  keeper who slowly extends trust.
+- **Kihei** (`drillmaster`) — master-at-arms. *Personality:* blunt, economical of
+  speech, sees the soldier under the farmhand ("there is a soldier in you"). The
+  house's hard edge.
+- **Lady Chiyo** (`steward`) — the house's inner authority. *Personality:* gracious
+  but exacting; runs the household's real machinery; her regard is earned, not given.
+- **Shigemasa** (`lord`) — the aging lord of the Kurosawa house. *Personality:*
+  weary, dignified, long-sighted; speaks rarely and weightily.
+- **Sōan** (`physician`) — the debunker-physician (met in the cold-open); stays
+  **talkable** (F110), not consumed after the intro.
+
+**Rung-by-rung cast (which beat introduces / deepens whom):**
+
+| Rung | Granter | New or deepen | Personality beat (draft) |
+|---|---|---|---|
+| **R1 · Kept hand** | Genemon | deepen (intro-met) | Wary acceptance — "Stay. Earn your rice." Motivates gate/forecourt, paddies, the pedlar. |
+| **R2 · Trusted hand** | Genemon | deepen | Grudging warmth; hands you the woodlot + the wolf hook. Could introduce a **⭐ NEW-PROPOSED fellow kept-hand** (see below) for camaraderie. |
+| **R3 · Gate-watch** | **Kihei** | ⭐ NEW meet (full VN) | The drillmaster sizes you up; combat goes live. Blunt, testing. |
+| **R4 · Kura-warden** | Genemon | deepen | Trust deepens — "Mind the stores as if the rice were your own"; hands you the kura key. |
+| **R5 · House-servant** | Genemon **+** Kihei | deepen | Genemon confers the standing; **Kihei teaches the stance** (combat teach). Resolve the two-voice split (OQ2) — draft: Kihei teaches, Genemon witnesses. |
+| **R6 · Steward's man** | **Lady Chiyo** | ⭐ NEW meet (full VN) | First meeting with the house's inner authority; opens the workshops + second granary. Exacting, gracious. |
+| **R7 · Trusted of the house** | **Shigemasa** | ⭐ NEW meet (full VN, capstone) | The lord calls you to the inner rooms — "You came to us with no name… look what those hands have done." Opens Phase 2. |
+
+**Proposed new faces (⭐ agent invention — most open to edits):**
+
+- **⭐ A fellow kept-hand** (unnamed draft — propose **e.g. "Rokusuke"**, a
+  plain servant's name) — introduced around **R2** as a peer: someone who was kept on
+  before you, half-friend / half-rival, giving the early climb a human companion and
+  a voice for house gossip (the wolf, the pedlar's rumours). *Purely a proposal — cut
+  or rename freely.*
+- **⭐ The pedlar** (ambient, F99/§5.1) — a **travelling trader**, discovered via the
+  R1 forecourt beat, not a full VN character (a D-114 "(b) small person" or "(c) tiny
+  trader"). A name is optional; propose **"the Ōmi pedlar"** as a regional flavour tag.
+- **Naoyuki** (`heir`, canonical but unused in the rung beats) — the lord's heir. A
+  candidate to seed at **R6/R7** as a younger, warier counterweight to Shigemasa, if
+  the human wants a Phase-2 hook. *Held, not scheduled — flag for the human.*
+
+**Open cast questions for the human:** (1) approve/rename the ⭐ new faces; (2)
+confirm the R5 two-voice split (Kihei teaches the stance, Genemon confers standing);
+(3) decide whether Naoyuki appears in T0 rung beats or waits for Phase 2.
+
+---
+
+## 7 · Chosen scope (LOCKED — human, 2026-07-02, D-110)
+
+> This section originally recommended Option 2; the human's call is recorded in §0
+> and **D-110**. The chosen scope, restated:
+
+**Every rung is a full, player-triggered VN beat** (§0). Every R1→R7 rung gets a
+beat — **some introduce a new character** (e.g. **R3 Kihei**, **R6 Chiyo**, **R7 the
+lord** as the plan's §6 map already flags), others deepen a known one (the Genemon
+rungs). Choices are **remembered** (relationships + story flags); the payload is
+**relationship/flag-first**, with only **occasional, small, varied** bonuses (which
+can be story bonuses, not just stats — smaller than the intro perks). **Not every
+rung grants a perk.** The beat is **player-triggered from the header rung element
+(F106)** and **ignorable** — a ready promotion holds; grinding never forces it.
+
+Implementation **§3.2(a)** — a parallel `RUNG_BEATS` registry reusing the
+`DialogueScene` type + the append-only renderer, one `rungBeat` cursor,
+`applyPromotion` on the terminal node.
+
+Why this shape: it fixes the silent pop-in **everywhere** (every rung is motivated +
+the pedlar gets a reason, §5.1), lands the new granters as real meetings per
+**D-104**, and answers D-104's "never let the VN become wallpaper" not by cutting
+rungs but via the **player-triggered, ignorable** trigger. Keeping bonuses
+occasional/varied (mostly relationship + flag writes) keeps the first build lean and
+the ladder free of per-rung power creep.
 
 ---
 
 ## 8 · Open questions for the human
 
-1. **Scope / depth** — Option **1 / 2 / 3**? (default: **2**.)
+> **Resolved by §0 / D-110:** OQ1 (every rung — Option 3 shape, minus per-rung
+> perks), OQ3 (player-triggered + **ignorable**; a ready promotion **banks** and
+> waits — never nags/forces), OQ4 (**every** rung gets a beat), and OQ7 (trigger
+> lives on the **header rung element F106**). OQ2/5/6/8 remain build details.
+
+1. ~~**Scope / depth** — Option **1 / 2 / 3**?~~ **RESOLVED (§0):** every rung a
+   full player-triggered beat (Option 3 *shape*), payload = relationships + flags
+   with occasional small varied bonuses (**not** a perk per rung).
 2. **NPCs per rung** — accept the §6 mapping (Kihei R3, Chiyo R6, lord R7 full;
-   Genemon R1/R2/R4/R5 light)? In particular, **who teaches the R5 stance** —
-   Kihei (combat teach) or Genemon (the standing)?
-3. **Skippable or blocking?** Is the beat **mandatory** to advance (progress
-   holds at "ready" until you play it — recommended, it's the whole point), and
-   should the modal be **fast-forwardable / skippable** on replays? Can the
-   player **bank** a ready promotion and trigger it later, or does "ready" nag?
-4. **Every rung, or only milestone rungs?** Do the thin rungs get a (short)
-   beat too (recommended — else they're still silent pop-ins), or do only the
-   milestone rungs get a beat while the rest keep a bare log line?
+   Genemon R1/R2/R4/R5 deepen a known relationship)? In particular, **who teaches
+   the R5 stance** — Kihei (combat teach) or Genemon (the standing)? *(Still open —
+   note every rung is a beat now; the split is character, not beat-vs-no-beat.)*
+3. ~~**Skippable or blocking?**~~ **RESOLVED (§0):** the beat is **player-triggered
+   and ignorable** — a ready promotion **holds/banks** and does **not** nag; the
+   player advances only by choosing to. *(Still a build detail: whether the modal is
+   fast-forwardable on replays.)*
+4. ~~**Every rung, or only milestone rungs?**~~ **RESOLVED (§0):** **every** rung
+   gets a full beat (no bare-log-line rungs).
 5. **Entity discovery granularity (F99)** — reuse the D-104 split: **ambient
    entities** (the pedlar) get a **one-line reason**, **characters who matter**
    get a **full VN meet**. Confirm the pedlar is ambient (one-liner), and name
@@ -384,9 +523,10 @@ later if the human wants — keeping the first build lean.
    _"your own koku"_ copy to **coin** (`src/core/content/market.ts`). Build the
    beat framework **now** (copy rescoped later by the economy ripple), or **wait**
    for the economy to land first? (Memory: *no parallel build during a ripple.*)
-7. **Affordance placement** — the "begin the beat" trigger as a **button in the
-   rung-ladder card** (Progress slice; the ladder already shows "Ready to
-   advance." — recommended), a **HUD / top-bar prompt**, or a **log affordance**?
+7. ~~**Affordance placement**~~ **RESOLVED (§0):** the trigger lives on the
+   **header rung element (F106)** — the top-right rung name + progress bar. When the
+   meter is ready it becomes the "begin the beat" affordance, and **triggering
+   navigates to the beat**. (Supersedes the §3.3 rung-ladder-card button.)
 8. **Mechanical marker on Progress (F103)?** Once the story prose moves to the
    Story channel / the modal, should a **terse "Rank ↑ — Kept hand 下人"** marker
    still drop on the **Progress** channel as the mechanical record (recommended —
