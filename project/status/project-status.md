@@ -114,6 +114,6 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
 4. **After the human's review:** apply round-3 feedback in the same inline loop; perk
    magnitudes + dialogue-topic content stay liquid (D-059). The multi-panel is LOCKED
    (variants pruned) — no dead-code left to prune there.
-5. **Open for the human:** the **REVIEW PASSOVER** (above) · **R1** (fun/pacing/look) ·
-   **R2** (remaining DEV variants) · **R5** (Bestiary). **Reading queue** = just the
-   concurrent worker's `economy-koku-rediagnosis` plan (a koku/mon/rice split), not ours.
+5. **Open for the human:** the **REVIEW PASSOVER** (above) · **R1** (fun/pacing) ·
+   **R2** (DEV variants) · **R5** (Bestiary). **koku RE-CORE** (concurrent worker): decided +
+   PRD-rippled — koku=standing · coin mon→monme→ryō=money · rice=resource; ADRs **D-107/108/109**; Plan A ripple **done** (archived), **Plan B** (T0 code build) unblocked, not built.

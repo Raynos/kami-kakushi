@@ -27,15 +27,7 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-- [ ] `docs/plans/2026-07-02-economy-koku-rediagnosis.md` — **economy
-  re-diagnosis + the locked decisions** (§9–§14): tiered mon→monme→ryō display,
-  koku as House standing, tier→koku ladder, T5 office track, status tokens. All
-  decisions made & now canon (ADRs D-107/108/109). Reference for Plan B.
 - [ ] `docs/plans/2026-07-02-koku-economy-t0-build.md` — **Plan B: the T0 build**
   (koku→coin rename, rice-as-resource, mon→monme→ryō formatter, koku-as-standing,
   status tokens). **UNBLOCKED** (Plan A landed); for another agent; coordinate on
   render.ts. _(Plan A, the doc ripple, is DONE — archived.)_
-- [ ] `project/brainstorms/2026-07-02-edo-social-political-research.md` — **social /
-  political research** (status mobility, giri/on, village collective-liability,
-  patronage/Tanuma, factional risk, Tenmei famine). Feeds the T2+ layer of the
-  economy plan. **Reference read.**
