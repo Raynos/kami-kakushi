@@ -38,3 +38,7 @@ _(none open)_
 - [ ] `docs/plans/2026-07-02-multi-panel-layout.md` — the **multi-panel** design
   (F11): 5 reveal-gated panels, sparse→filling, 3 variants. **Touches the §4.7
   centered-column rule (widen the shell = an ADR)** + 4 open questions.
+- [ ] `docs/plans/2026-07-02-npc-dialogue-tree.md` — the **Fallout-style dialogue
+  tree** (F47): meet→ask→decide, reuses the intro beats as DialogueScenes,
+  Sōan/Genemon topics, SCHEMA 3→4 migration. Key forks already answered
+  (context-dependent topic counts, dimmed re-askable, voiced player questions).
