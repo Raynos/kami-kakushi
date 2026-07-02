@@ -116,4 +116,5 @@ gates; **`.githooks/pre-push`** runs `verify` on every push and **blocks on red*
    F11). Serialize code builds on the single `styles.css`/`render.ts`/`dev.ts`.
 5. **Open for the human:** **R1** (fun/pacing/look) · **R2** (UI variants — now incl. the
    **cold-open reveal** A/B/C) · **R5** (Bestiary). They'll lock variants + I prune the
-   dead code.
+   dead code. **Also queued:** the **1780 setting anchor** plan (ADR **D-105**) — awaits a
+   read + confirming its two forks (Tenmei famine / calendar); then the small doc ripple lands.
