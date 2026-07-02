@@ -402,7 +402,7 @@ export function createEngine(stageId = 'R0') {
       const fresh = q.steps.filter((st) => st.event === event && !done.includes(st.id));
       if (!fresh.length) continue;
       state.quests.progress[qid] = [...done, ...fresh.map((st) => st.id)];
-      for (const st of fresh) log('milestone', `❖ ${q.title} — ${st.label}: done.`);
+      for (const st of fresh) log('milestone', `${q.title} — ${st.label}: done.`);
       if (q.steps.every((st) => state.quests.progress[qid].includes(st.id))) {
         state.quests.completed.push(qid);
         state.quests.accepted = state.quests.accepted.filter((x) => x !== qid);
@@ -436,7 +436,7 @@ export function createEngine(stageId = 'R0') {
     state.character.hp = hp;
     if (!state.bestiaryFaced.includes(mob.id)) {
       state.bestiaryFaced.push(mob.id);
-      log('milestone', `❖ Bestiary — the ${mob.label.toLowerCase()}'s entry is inked.`);
+      log('milestone', `Bestiary — the ${mob.label.toLowerCase()}'s entry is inked.`);
     }
     if (win) {
       state.flags['combat-blooded'] = true;
@@ -452,7 +452,7 @@ export function createEngine(stageId = 'R0') {
         state.character.level += 1;
         state.character.attributePoints += 2;
         state.character.hp = Math.min(sel.hpMax(state), state.character.hp + 10);
-        log('milestone', `❖ Combat level ${state.character.level}. Two points to spend at Training.`);
+        log('milestone', `Combat level ${state.character.level}. Two points to spend at Training.`);
         emit('level-up');
       }
     } else {
@@ -709,7 +709,7 @@ export function createEngine(stageId = 'R0') {
         state.flags['first-fight-survived'] = true;
         if (!state.bestiaryFaced.includes(wolf.id)) state.bestiaryFaced.push(wolf.id);
         log('combat', 'The wolf is down. You are shaking, and alive, and the stores are whole.');
-        log('milestone', '❖ You live through it on luck alone. Something in you refuses to call it luck.');
+        log('milestone', 'You live through it on luck alone. Something in you refuses to call it luck.');
         emit('wolf-survived');
         break;
       }
@@ -729,7 +729,7 @@ export function createEngine(stageId = 'R0') {
         if (!q || sel.questState(state, q) !== 'open') break;
         state.quests.accepted.push(q.id);
         state.quests.progress[q.id] = [];
-        log('milestone', `❖ Undertaken — ${q.title}.`);
+        log('milestone', `Undertaken — ${q.title}.`);
         break;
       }
 
