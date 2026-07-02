@@ -1304,17 +1304,26 @@ export function mountDevPanel(
     const sec = el('div');
     sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;';
 
-    // the clickable collapsed summary row
+    // the clickable collapsed summary row — a two-line VERTICAL stack (playtest F35): line 1 is
+    // the caret + surface NAME only; line 2 sits underneath (indented under the name, muted) as
+    // `V{n} · {label}` — V-number first. Stacking (vs cramming name+label+[Vn] on one line) stops
+    // the long rows (e.g. HOUSE-INFLUENCE GRADE) wrapping badly / overflowing the panel's edge.
     const summary = el('div');
     summary.style.cssText =
-      'display:flex;align-items:baseline;gap:.35rem;padding:.28rem .4rem;cursor:pointer;user-select:none;';
+      'display:flex;flex-direction:column;gap:.05rem;padding:.28rem .4rem;cursor:pointer;user-select:none;min-width:0;';
+    // line 1 — caret + name
+    const sTitle = el('div');
+    sTitle.style.cssText = 'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
     const sCaret = el('span', undefined, '▸');
     sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
     const sLabel = el('span', undefined, surface.label);
-    sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;flex:0 0 auto;';
+    sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
+    sTitle.append(sCaret, sLabel);
+    // line 2 — current pick, indented under the name, wraps within the panel width
     const sPick = el('span', undefined, '');
-    sPick.style.cssText = 'color:#9b8e78;font-size:11px;margin-left:auto;text-align:right;';
-    summary.append(sCaret, sLabel, sPick);
+    sPick.style.cssText =
+      'color:#9b8e78;font-size:11px;padding-left:1.05rem;overflow-wrap:anywhere;min-width:0;';
+    summary.append(sTitle, sPick);
     sec.append(summary);
 
     // the collapsible details area (blurb + option buttons), hidden by default
@@ -1334,7 +1343,7 @@ export function mountDevPanel(
         buttons[i]!.style.color = on ? '#1c1814' : '#e7d9bc';
         if (on) {
           blurb.textContent = v.blurb;
-          sPick.textContent = `${v.label} [V${vnum.get(v.id)}]`;
+          sPick.textContent = `V${vnum.get(v.id)} · ${v.label}`;
         }
       });
     };
@@ -1344,6 +1353,9 @@ export function mountDevPanel(
         paint();
         rerender();
       });
+      // F35 — left-align the option label (mono defaults to centered), so a long pick like
+      // `V6 · A · price-button list` reads cleanly instead of centre-wrapping.
+      b.style.textAlign = 'left';
       buttons.push(b);
       rows.append(b);
     });
