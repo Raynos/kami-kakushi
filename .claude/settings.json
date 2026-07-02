@@ -21,7 +21,7 @@
         ]
       },
       {
-        "matcher": "mcp__playwright__browser_|mcp__plugin_chrome-devtools-mcp_chrome-devtools__",
+        "matcher": "mcp__playwright__browser_.*|mcp__plugin_chrome-devtools-mcp_chrome-devtools__.*",
         "hooks": [
           {
             "type": "command",
