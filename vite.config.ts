@@ -28,6 +28,14 @@ export default defineConfig({
   // index.html lives in src/ (the web root); outDir climbs back to repo-root dist/.
   root: 'src',
   base: './',
+  server: {
+    // Auto-reload OFF (human call, F75): the dev server does NOT hot-reload or
+    // full-refresh on a file change — the player hits F5 themselves. As a bonus
+    // this shields a live playtest from an agent's mid-edit WIP flashing in
+    // (the half-drawn state behind the F60 crash). Vite auto-restarts the server
+    // when THIS config changes, so the switch takes effect on the next request.
+    hmr: false,
+  },
   build: {
     outDir: '../dist',
     emptyOutDir: true,
