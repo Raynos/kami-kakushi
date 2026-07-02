@@ -18,6 +18,7 @@ import type {
   VoiceCategory,
   AttrId,
   IntroOption,
+  LabourOption,
 } from '../core';
 import {
   availableActions,
@@ -706,6 +707,47 @@ export function mount(
     paths: HTMLElement;
     pathsLabel: HTMLElement;
     strip: HTMLElement;
+  } | null = null;
+  // ── Phase 2 (F81) — the two big flash offenders go incremental. `actions` (the Work hero, rebuilt
+  //    ~2×/s) and `combatPane` (a 6-block composite) are split into named sub-containers built ONCE;
+  //    each keyed section is a reconcileList, each per-tick bit is patched in place. `null` ⇒ not
+  //    yet built. metaRow/areaGroups/watchList/craftHost are their own flex-gap sub-containers (see
+  //    the `.actions-group`/`.combat-group` CSS) so wrapping doesn't collapse the parent's gap;
+  //    they toggle `hidden` when empty so an empty section leaves no phantom flex-gap (F72).
+  let actionsRefs: {
+    metaRow: HTMLElement;
+    wolfBox: HTMLElement;
+    wolfBtn: HTMLButtonElement;
+    wolfBlurb: HTMLElement;
+    areaGroups: HTMLElement;
+    noWork: HTMLElement;
+    cookRow: HTMLElement;
+    cookBtn: HTMLButtonElement;
+    walkOn: HTMLElement;
+    walkStrip: HTMLElement;
+  } | null = null;
+  let combatRefs: {
+    xpNow: HTMLElement;
+    xpFill: HTMLElement;
+    xpHint: HTMLElement;
+    train: HTMLElement;
+    trainPts: HTMLElement;
+    wc: HTMLElement;
+    wcName: HTMLElement;
+    wcBand: HTMLElement;
+    wcBlurb: HTMLElement;
+    wctrl: HTMLElement;
+    repairBtn: HTMLButtonElement;
+    craftHost: HTMLElement;
+    // lazily created on first reveal so a `.stance-row` never exists in the DOM before stance-control
+    // unlocks (the A7 gate test asserts its absence at R3/R4).
+    stanceHost: HTMLElement | null;
+    bestiaryHost: HTMLElement;
+    bestiaryBlurb: HTMLElement;
+    bestiaryList: HTMLElement;
+    watchHead: HTMLElement;
+    watchEmpty: HTMLElement;
+    watchList: HTMLElement;
   } | null = null;
   // Order matters for FEEL (spatial model, v0.3.1): the node-specific LABOUR (`actions`) is the HERO
   // — what you walked to this node to DO — so it leads "What you can do", with the rung ladder as
@@ -1701,143 +1743,231 @@ export function mount(
     reconcileIntro(scene, state);
   }
 
+  // ── Phase 2 shared strip mount — moveStrip() is a self-contained keyed strip; rather than
+  //    re-key its interleaved button/hint/lock siblings (a structural churn that would break the
+  //    flat .map-moves flex), we build it fresh OFF-DOM and only swap it into the mounted container
+  //    when it actually CHANGED (isEqualNode). An idle re-render sees an identical strip ⇒ zero
+  //    churn on the live pane (the throwaway node never touches the DOM), while a real move rebuilds
+  //    it. Returns whether the strip has any moves (so the caller can hide an empty wrapper). ──
+  function patchStrip(container: HTMLElement, state: GameState, keyPrefix: string): boolean {
+    const strip = moveStrip(state, keyPrefix);
+    if (!strip) {
+      if (container.firstChild) container.textContent = '';
+      return false;
+    }
+    const existing = container.firstElementChild;
+    if (existing && existing.isEqualNode(strip)) return true; // unchanged ⇒ keep the live node
+    container.textContent = '';
+    container.append(strip);
+    return true;
+  }
+
+  // build ONE labour row (verb + auto-toggle + lock-hint, all present); patch toggles which show +
+  // the disabled/on state in place. The auto-toggle NODE survives every re-render (F81) so the
+  // button the player is watching never loses focus / re-creates mid-auto-run.
+  function buildLabourRow(o: LabourOption): HTMLElement {
+    const row = el('div', 'labour-row');
+    const btn = el('button', 'verb', o.activity.label);
+    btn.type = 'button';
+    btn.addEventListener('click', () =>
+      dispatch({ type: 'do_activity', activityId: o.activity.id }),
+    );
+    const auto = el('button', 'auto-toggle');
+    auto.type = 'button';
+    auto.addEventListener('click', () => {
+      const on = lastState?.autoActivity === o.activity.id;
+      dispatch({ type: 'set_auto', activityId: on ? null : o.activity.id });
+    });
+    const lock = el('span', 'lock-hint');
+    row.append(btn, auto, lock);
+    return row;
+  }
+  function patchLabourRow(row: HTMLElement, o: LabourOption, state: GameState): void {
+    const btn = row.children[0] as HTMLButtonElement;
+    const auto = row.children[1] as HTMLButtonElement;
+    const lock = row.children[2] as HTMLElement;
+    setDisabled(btn, !o.available);
+    const btnTitle = !o.available && o.reason ? o.reason : '';
+    if (btn.title !== btnTitle) btn.title = btnTitle;
+    if (o.available) {
+      toggle(auto, true);
+      toggle(lock, false);
+      const on = state.autoActivity === o.activity.id;
+      setClass(auto, 'on', on);
+      setText(auto, on ? '■ stop' : '▶ auto');
+      const pressed = String(on);
+      if (auto.getAttribute('aria-pressed') !== pressed) auto.setAttribute('aria-pressed', pressed);
+    } else {
+      toggle(auto, false);
+      toggle(lock, !!o.reason);
+      if (o.reason) setText(lock, o.reason);
+    }
+  }
+
   function renderActions(state: GameState): void {
-    actions.textContent = '';
-    actions.hidden = activeTab !== 'work';
+    toggle(actions, activeTab === 'work');
     if (activeTab !== 'work') return;
 
     // (the interactive intro no longer renders here — while it's live the shell is hidden and the
     // full-screen VN scene owns the screen; render() returns before renderActions is ever reached.)
 
+    // build the section skeleton ONCE (F81): named sub-containers in the same order the old wholesale
+    // build produced, each patched/reconciled in place after. `.actions-group` gives the reconciled
+    // sections the parent's flex-gap so wrapping doesn't collapse the button stack.
+    if (!actionsRefs) {
+      const metaRow = el('div', 'actions-group');
+      const wolfBox = el('div', 'wolf-box');
+      const wolfBtn = el('button', 'verb primary');
+      wolfBtn.type = 'button';
+      wolfBtn.append(
+        el('span', 'emoji', '⚔️'),
+        document.createTextNode(' Face the wolf at the grain store'),
+      );
+      wolfBtn.addEventListener('click', () => dispatch({ type: 'face_wolf' }));
+      const wolfBlurb = el(
+        'p',
+        'area-blurb',
+        'The grain-store wolf still waits where you woke. Use Walk on 道 below to head back to the kura (蔵) and face it.',
+      );
+      wolfBox.append(wolfBtn, wolfBlurb);
+      const areaGroups = el('div', 'actions-group');
+      const noWork = el('p', 'area-blurb', 'No work to be had where you stand — walk on.');
+      const cookRow = el('div', 'labour-row');
+      const cookBtn = el('button', 'verb');
+      cookBtn.type = 'button';
+      cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
+      cookRow.append(cookBtn);
+      const walkOn = el('div', 'area-group walk-on');
+      walkOn.append(el('h3', 'area-head', 'Walk on 道'));
+      const walkStrip = el('div', 'map-strip');
+      walkOn.append(walkStrip);
+      actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, walkOn);
+      actionsRefs = {
+        metaRow,
+        wolfBox,
+        wolfBtn,
+        wolfBlurb,
+        areaGroups,
+        noWork,
+        cookRow,
+        cookBtn,
+        walkOn,
+        walkStrip,
+      };
+    }
+    const r = actionsRefs;
+
     // meta verbs (rake / rest). Rake gets an auto-repeat toggle (revealed after a few manual rakes so
     // the first ones still land as juice) — the R0 cold-open is ~550 rakes and must not be a blind
     // click-grind (fun-factor "first-5-min hook"; every later labour already has an auto-toggle).
-    for (const a of availableActions(state)) {
-      if (a === 'rake_rice') {
-        const row = el('div', 'labour-row');
-        const btn = el('button', 'verb', META_LABELS.rake_rice);
-        btn.type = 'button';
-        btn.addEventListener('click', () => dispatch({ type: 'rake_rice' }));
-        row.append(btn);
-        if (state.rungMeter >= RAKE_AUTO_REVEAL_METER) {
-          const on = state.autoRake;
-          const toggle = el('button', `auto-toggle${on ? ' on' : ''}`, on ? '■ stop' : '▶ auto');
-          toggle.type = 'button';
-          toggle.setAttribute('aria-pressed', String(on));
-          toggle.addEventListener('click', () => dispatch({ type: 'set_auto_rake', on: !on }));
-          row.append(toggle);
+    reconcileList(r.metaRow, availableActions(state), {
+      key: (a) => a,
+      build: (a) => {
+        if (a === 'rake_rice') {
+          const row = el('div', 'labour-row');
+          const btn = el('button', 'verb', META_LABELS.rake_rice);
+          btn.type = 'button';
+          btn.addEventListener('click', () => dispatch({ type: 'rake_rice' }));
+          const auto = el('button', 'auto-toggle');
+          auto.type = 'button';
+          auto.addEventListener('click', () =>
+            dispatch({ type: 'set_auto_rake', on: !lastState?.autoRake }),
+          );
+          row.append(btn, auto);
+          return row;
         }
-        actions.append(row);
-      } else {
-        const btn = el('button', 'verb', META_LABELS[a]);
-        if (a === 'open_eyes') btn.classList.add('primary');
+        const btn = el('button', a === 'open_eyes' ? 'verb primary' : 'verb', META_LABELS[a]);
         btn.type = 'button';
         btn.addEventListener('click', () => dispatch({ type: a } as Intent));
-        actions.append(btn);
-      }
-    }
+        return btn;
+      },
+      patch: (node, a) => {
+        if (a !== 'rake_rice') return;
+        const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
+        toggle(auto, state.rungMeter >= RAKE_AUTO_REVEAL_METER);
+        const on = state.autoRake;
+        setClass(auto, 'on', on);
+        setText(auto, on ? '■ stop' : '▶ auto');
+        const pressed = String(on);
+        if (auto.getAttribute('aria-pressed') !== pressed)
+          auto.setAttribute('aria-pressed', pressed);
+      },
+      order: true,
+    });
 
     // the humbling first fight — a charged one-time beat (the wolf cornered in the kura). Spatial
     // (Step 5b): you face it where you woke, so at the kura the charged button shows; anywhere else
     // it's a standing summons to walk back.
     const wolfPending =
       isUnlocked(state, 'verb-face-wolf') && !hasFlag(state, 'first-fight-survived');
-    if (wolfPending && state.location === 'kura') {
-      const wolf = el('button', 'verb primary');
-      wolf.append(
-        el('span', 'emoji', '⚔️'),
-        document.createTextNode(' Face the wolf at the grain store'),
-      );
-      wolf.type = 'button';
-      wolf.addEventListener('click', () => dispatch({ type: 'face_wolf' }));
-      actions.append(wolf);
-    } else if (wolfPending) {
-      actions.append(
-        el(
-          'p',
-          'area-blurb',
-          'The grain-store wolf still waits where you woke. Use Walk on 道 below to head back to the kura (蔵) and face it.',
-        ),
-      );
-    }
+    const atKura = state.location === 'kura';
+    toggle(r.wolfBox, wolfPending);
+    toggle(r.wolfBtn, wolfPending && atKura);
+    toggle(r.wolfBlurb, wolfPending && !atKura);
 
-    // labour activities, grouped by estate room (each: do-once + auto-repeat toggle)
+    // labour activities, grouped by estate room (each: do-once + auto-repeat toggle). Outer keyed
+    // list over the areas that HAVE labour here; each group's rows are an inner keyed list.
     const labours = availableLabours(state);
-    for (const area of AREAS) {
-      const opts = labours.filter((o) => o.activity.area === area.id);
-      if (opts.length === 0) continue; // e.g. kura has no labour activity
-      const group = el('div', 'area-group');
-      group.append(el('h3', 'area-head', area.label));
-      group.append(el('p', 'area-blurb', area.blurb));
-      for (const opt of opts) {
-        const row = el('div', 'labour-row');
-        const btn = el('button', 'verb', opt.activity.label);
-        btn.type = 'button';
-        btn.disabled = !opt.available;
-        if (!opt.available && opt.reason) btn.title = opt.reason;
-        btn.addEventListener('click', () =>
-          dispatch({ type: 'do_activity', activityId: opt.activity.id }),
+    const areasWithLabour = AREAS.filter((area) =>
+      labours.some((o) => o.activity.area === area.id),
+    );
+    toggle(r.areaGroups, areasWithLabour.length > 0);
+    reconcileList(r.areaGroups, areasWithLabour, {
+      key: (area) => area.id,
+      build: (area) => {
+        const group = el('div', 'area-group');
+        group.append(el('h3', 'area-head', area.label));
+        group.append(el('p', 'area-blurb', area.blurb));
+        return group;
+      },
+      patch: (group, area) => {
+        // reconcile the labour rows DIRECTLY into the group (its head/blurb are foreign siblings the
+        // reconcile never touches; the activity set here is stable so no reorder is needed).
+        reconcileList(
+          group,
+          labours.filter((o) => o.activity.area === area.id),
+          {
+            key: (o) => o.activity.id,
+            build: (o) => buildLabourRow(o),
+            patch: (row, o) => patchLabourRow(row, o, state),
+          },
         );
-        row.append(btn);
-        if (opt.available) {
-          const auto = state.autoActivity === opt.activity.id;
-          const toggle = el(
-            'button',
-            `auto-toggle${auto ? ' on' : ''}`,
-            auto ? '■ stop' : '▶ auto',
-          );
-          toggle.type = 'button';
-          toggle.setAttribute('aria-pressed', String(auto));
-          toggle.addEventListener('click', () =>
-            dispatch({ type: 'set_auto', activityId: auto ? null : opt.activity.id }),
-          );
-          row.append(toggle);
-        } else if (opt.reason) {
-          row.append(el('span', 'lock-hint', opt.reason));
-        }
-        group.append(row);
-      }
-      actions.append(group);
-    }
+      },
+      order: true,
+    });
 
     // spatial (v0.3.1 Step 5): a node with no labour (and no wolf-beat prompting here) leads into the
     // "Walk on" strip below — no need to open the map tab.
-    if (
+    toggle(
+      r.noWork,
       labours.length === 0 &&
-      !wolfPending &&
-      hasFlag(state, 'awake') &&
-      isUnlocked(state, 'room-gate-forecourt')
-    ) {
-      actions.append(el('p', 'area-blurb', 'No work to be had where you stand — walk on.'));
-    }
+        !wolfPending &&
+        hasFlag(state, 'awake') &&
+        isUnlocked(state, 'room-gate-forecourt'),
+    );
 
     // cook a meal — sansai → satiety AND the ONLY way to mend HP (D-050/D-076). Say so, and make it
     // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
-    if (isUnlocked(state, 'verb-cook')) {
-      const row = el('div', 'labour-row');
+    const showCook = isUnlocked(state, 'verb-cook');
+    toggle(r.cookRow, showCook);
+    if (showCook) {
       const cost = balance.COOK_SANSAI_COST;
-      const hurt = state.character.hp < hpMax(state);
-      const cook = el('button', `verb${hurt ? ' primary' : ''}`, `Cook a meal (${cost} sansai)`);
-      cook.type = 'button';
-      cook.title =
-        'Eat to restore your body and mend your wounds — eating is the only way to heal.';
-      cook.disabled = (state.resources.sansai ?? 0) < cost;
-      if (cook.disabled) cook.title = `Needs ${cost} sansai — forage the satoyama to gather it.`;
-      cook.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
-      row.append(cook);
-      actions.append(row);
+      setClass(r.cookBtn, 'primary', state.character.hp < hpMax(state));
+      setText(r.cookBtn, `Cook a meal (${cost} sansai)`);
+      const short = (state.resources.sansai ?? 0) < cost;
+      setDisabled(r.cookBtn, short);
+      const title = short
+        ? `Needs ${cost} sansai — forage the satoyama to gather it.`
+        : 'Eat to restore your body and mend your wounds — eating is the only way to heal.';
+      if (r.cookBtn.title !== title) r.cookBtn.title = title;
     }
 
     // ── Walk on — the current node's paths, right here on the Work tab (once the map has opened) so
     //    you can move WITHOUT a tab-switch. The Estate 地図 tab stays the fuller navigation view. ──
     if (isUnlocked(state, 'room-gate-forecourt')) {
-      const strip = moveStrip(state, 'map');
-      if (strip) {
-        const walk = el('div', 'area-group walk-on');
-        walk.append(el('h3', 'area-head', 'Walk on 道'));
-        walk.append(strip);
-        actions.append(walk);
-      }
+      toggle(r.walkOn, patchStrip(r.walkStrip, state, 'map'));
+    } else {
+      toggle(r.walkOn, false);
     }
   }
 
@@ -1940,12 +2070,214 @@ export function mount(
     }
   }
 
-  function renderCombat(state: GameState): void {
-    combatPane.textContent = '';
-    const show = activeTab === 'combat' && isUnlocked(state, 'tab-combat');
-    combatPane.hidden = !show;
-    if (!show) return;
+  // ── shared win-rate pip (foe watch + Bestiary) — a persistent pip + text span the forecast
+  //    PATCHES in place (no strobe on the ~2×/s idle tick). setPipClass guards the className write. ──
+  function setPipClass(pip: HTMLElement, tier: string): void {
+    const cls = `pip ${tier}`;
+    if (pip.className !== cls) pip.className = cls;
+  }
+  function buildWinRate(): HTMLElement {
+    const wr = el('span', 'win-rate');
+    const pip = el('span', 'pip');
+    pip.setAttribute('aria-hidden', 'true');
+    wr.append(pip, el('span', 'wr-text'));
+    return wr;
+  }
+  function patchWinRate(
+    wr: HTMLElement,
+    seen: boolean,
+    winRate: number,
+    unknownText: string,
+  ): void {
+    const pip = wr.querySelector<HTMLElement>('.pip')!;
+    const txt = wr.querySelector<HTMLElement>('.wr-text')!;
+    if (seen) {
+      const tier = winRate >= 0.55 ? 'good' : winRate >= 0.28 ? 'fair' : 'risky';
+      const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
+      setPipClass(pip, tier);
+      setText(pip, '◆');
+      setText(txt, ` ${pct(winRate)} · ${word}`);
+    } else {
+      setPipClass(pip, 'unknown');
+      setText(pip, '◇');
+      setText(txt, unknownText);
+    }
+  }
 
+  // one persistent foe-watch row (F81) — the Fight verb + two auto-mode toggles are built ONCE (their
+  // listeners read live state), the name / forecast pip / blurb / toggle-state patch in place.
+  function buildFoeRow(fc: ReturnType<typeof foesHere>[number]): HTMLElement {
+    const mob = fc.mob.id as MobId;
+    const row = el('div', 'foe-row frame');
+    const head = el('div', 'skill-head');
+    head.append(el('span', 'skill-name'), buildWinRate());
+    row.append(head);
+    row.append(el('div', 'skill-blurb'));
+    const ctrl = el('div', 'labour-row');
+    const fight = el('button', 'verb', 'Fight');
+    fight.type = 'button';
+    fight.addEventListener('click', () => dispatch({ type: 'fight', mobId: mob }));
+    const atDeath = el('button', 'auto-toggle');
+    atDeath.type = 'button';
+    atDeath.title = 'Auto-fight to the end — HP carries; you can be beaten, and a loss costs koku.';
+    atDeath.setAttribute(
+      'aria-label',
+      `Auto-fight the ${fc.mob.label} to the end — a loss costs koku`,
+    );
+    atDeath.addEventListener('click', () => {
+      const on = lastState?.autoCombat === mob && !lastState.autoCombatRetreat;
+      dispatch({ type: 'set_auto_combat', mobId: on ? null : mob, retreat: false });
+    });
+    const atFlee = el('button', 'auto-toggle');
+    atFlee.type = 'button';
+    atFlee.title =
+      'Auto-fight, but break off when HP falls below 20% (a fast foe can still kill you first).';
+    atFlee.setAttribute('aria-label', `Auto-fight the ${fc.mob.label}, fleeing below 20% HP`);
+    atFlee.addEventListener('click', () => {
+      const on = lastState?.autoCombat === mob && lastState.autoCombatRetreat === true;
+      dispatch({ type: 'set_auto_combat', mobId: on ? null : mob, retreat: true });
+    });
+    ctrl.append(fight, atDeath, atFlee);
+    row.append(ctrl);
+    return row;
+  }
+  function patchFoeRow(
+    row: HTMLElement,
+    fc: ReturnType<typeof foesHere>[number],
+    state: GameState,
+  ): void {
+    const seen = hasFlag(state, `mob-${fc.mob.id}`);
+    setText(
+      row.querySelector('.skill-name')!,
+      seen ? `${fc.mob.label} ${fc.mob.kanji}` : 'Unknown foe',
+    );
+    patchWinRate(row.querySelector('.win-rate')!, seen, fc.winRate, ' Unknown');
+    const blurb = row.querySelector<HTMLElement>('.skill-blurb')!;
+    toggle(blurb, seen);
+    if (seen) setText(blurb, fc.mob.blurb);
+    const autoOn = state.autoCombat === fc.mob.id;
+    const deathOn = autoOn && !state.autoCombatRetreat;
+    const retreatOn = autoOn && state.autoCombatRetreat;
+    const toggles = row.querySelectorAll<HTMLButtonElement>('.auto-toggle');
+    setClass(toggles[0]!, 'on', deathOn);
+    setText(toggles[0]!, deathOn ? '■ stop' : '▶ auto · to the end');
+    setClass(toggles[1]!, 'on', retreatOn);
+    setText(toggles[1]!, retreatOn ? '■ stop' : '▶ auto · flee @20%');
+  }
+
+  // one Bestiary field-guide card (F81) — built once per foe; the fog→inked flip patches in place.
+  function buildBestiaryCard(): HTMLElement {
+    const card = el('div', 'foe-row frame bestiary-card');
+    const head = el('div', 'skill-head');
+    head.append(el('span', 'skill-name'), buildWinRate());
+    card.append(head);
+    card.append(el('div', 'skill-blurb bestiary-blurb'));
+    const meta = el('div', 'bestiary-meta');
+    meta.style.cssText =
+      'display:flex;gap:.6rem;flex-wrap:wrap;font-size:var(--fs-micro);color:var(--ink-soft);';
+    meta.append(el('span'), el('span'));
+    card.append(meta);
+    const fog = el(
+      'div',
+      'skill-blurb bestiary-fog',
+      'A beast you have not yet met. Face it to record it.',
+    );
+    fog.style.color = 'var(--ink-faint)';
+    card.append(fog);
+    return card;
+  }
+  function patchBestiaryCard(
+    card: HTMLElement,
+    e: ReturnType<typeof bestiaryEntries>[number],
+  ): void {
+    const seen = e.seen;
+    setText(
+      card.querySelector('.skill-name')!,
+      seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe',
+    );
+    patchWinRate(card.querySelector('.win-rate')!, seen, e.winRate, ' Not yet faced');
+    const blurb = card.querySelector<HTMLElement>('.bestiary-blurb')!;
+    const meta = card.querySelector<HTMLElement>('.bestiary-meta')!;
+    const fog = card.querySelector<HTMLElement>('.bestiary-fog')!;
+    toggle(blurb, seen);
+    toggle(meta, seen);
+    toggle(fog, !seen);
+    if (seen) {
+      setText(blurb, e.mob.blurb);
+      const where = getNode(e.mob.area).label.replace(/^The /, '');
+      setText(meta.children[0] as HTMLElement, `Tell — ${e.tell}`);
+      setText(meta.children[1] as HTMLElement, `Haunts — ${where}`);
+    }
+  }
+
+  // one stance button (F81) — the label + offense/defense trade are static per stance (mods are
+  // constants), so they're built once; only the `.on`/aria-pressed selection patches per render.
+  function buildStanceBtn(s: StanceId): HTMLElement {
+    const ui = STANCE_UI[s];
+    const mod = balance.STANCE_MODS[s];
+    const atkPct = Math.round((mod.atkMult - 1) * 100);
+    const takenPct = Math.round((mod.takenMult - 1) * 100);
+    const sign = (n: number): string => (n > 0 ? `+${n}` : `${n}`);
+    const trade = `atk ${sign(atkPct)}% · taken ${sign(takenPct)}%`;
+    const btn = el('button', 'auto-toggle stance-btn');
+    btn.type = 'button';
+    btn.title = ui.hint;
+    btn.setAttribute('aria-label', `${ui.gloss} stance — ${trade}. ${ui.hint}`);
+    btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
+    btn.append(el('span', 'stance-wear', trade));
+    btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
+    return btn;
+  }
+
+  // one loot→craft card (F81) — keyed by recipe.id so it's rebuilt only when the recipe ADVANCES
+  // (axe → yari); the material tally + forge-button state patch in place while the recipe holds.
+  function buildCraftCard(recipe: (typeof RECIPES)[number]): HTMLElement {
+    const cc = el('div', 'weapon-card frame craft-card');
+    cc.append(el('div', 'rung-now', recipe.label));
+    cc.append(
+      el(
+        'div',
+        'skill-blurb',
+        'Strip what the carcasses give up, then forge a real edge at the woodlot smithy — found and made, not tossed off a rack.',
+      ),
+    );
+    for (const mat of Object.keys(recipe.inputs)) {
+      const m = getMaterial(mat);
+      const row = el('div', 'craft-mat');
+      row.append(el('span', 'craft-mat-name', `${m.label} ${m.kanji}`));
+      row.append(el('span', 'craft-mat-count'));
+      cc.append(row);
+    }
+    const craftBtn = el('button', 'verb', recipe.label);
+    craftBtn.type = 'button';
+    craftBtn.addEventListener('click', () =>
+      dispatch({ type: 'craft_weapon', recipeId: recipe.id }),
+    );
+    cc.append(craftBtn);
+    return cc;
+  }
+  function patchCraftCard(
+    cc: HTMLElement,
+    recipe: (typeof RECIPES)[number],
+    state: GameState,
+  ): void {
+    const counts = cc.querySelectorAll<HTMLElement>('.craft-mat-count');
+    Object.entries(recipe.inputs).forEach(([mat, need], i) => {
+      const have = state.resources[mat] ?? 0;
+      setText(counts[i]!, `${have}/${need}`);
+      setClass(counts[i]!, 'ok', have >= need);
+    });
+    const btn = cc.querySelector<HTMLButtonElement>('.verb')!;
+    const can = canCraft(state.resources, recipe);
+    setDisabled(btn, !can);
+    const title = can ? '' : 'Fell more foes for materials.';
+    if (btn.title !== title) btn.title = title;
+  }
+
+  // the DEV-only wholesale combat rebuild — the original teardown-and-rebuild body, kept verbatim so
+  // the craft/bestiary variant toggles (which need a fresh container each render) keep working. Prod
+  // + tests (`dev` undefined) never reach this; they take the incremental path in renderCombat.
+  function renderCombatWholesale(state: GameState): void {
     // combat rank + XP
     const cx = combatXpProgress(state.character.combatXp);
     const lvl = el('div', 'rung-card frame');
@@ -1988,10 +2320,6 @@ export function mount(
     }
     combatPane.append(train);
 
-    // equipped weapon + (from R4) durability band + repair / equip. A7 staggered reveal: the weapon
-    // itself is the R3 floor; its wear-band + repair + the equip switcher wait for the R4 surfaces
-    // (`readout-durability` / `panel-equipment`), so a fresh gate-watch sees the blade but not yet
-    // the smithy loop.
     const weapon = getWeapon(state.equippedWeapon);
     const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
     const showDurability = isUnlocked(state, 'readout-durability');
@@ -2023,9 +2351,6 @@ export function mount(
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }
-    // weapon switcher — equip any weapon you OWN (the pole always; a crafted weapon once forged).
-    // Iterates the roster order (pole · axe · yari), so it grows with the T0 weapon ladder (A3).
-    // Part of the R4 Equipment beat (`panel-equipment`), so it only appears once the loop is live.
     if (showEquip) {
       for (const w of WEAPONS) {
         const owned = w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`);
@@ -2039,13 +2364,8 @@ export function mount(
     if (wctrl.childElementCount > 0) wc.append(wctrl);
     combatPane.append(wc);
 
-    // craft panel (loot→craft, D-052) — surfaces once you've stripped a material off a foe
-    // (discover-by-doing). Shows the NEXT un-crafted recipe in progression order (axe → yari, A3):
-    // each weapon is FOUND + MADE, never gifted; the card advances as you forge each.
     const recipe = RECIPES.find((r) => !hasFlag(state, `crafted-${r.outputWeapon}`));
     const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
-    // A7: the loot→craft panel is part of the R4 Equipment beat (`panel-equipment`) — held back
-    // one rung from combat opening, so R3 is the pure fight floor.
     if (showEquip && recipe && hasMaterial) {
       const cc = el('div', 'weapon-card frame craft-card');
       cc.append(el('div', 'rung-now', recipe.label));
@@ -2056,8 +2376,6 @@ export function mount(
           'Strip what the carcasses give up, then forge a real edge at the woodlot smithy — found and made, not tossed off a rack.',
         ),
       );
-      // ── material status (the diverged surface, D-075) — A = the have/need checklist (default,
-      //    ships). B/C live DEV-only behind the variant toggle (ui/dev.ts), stripped from prod. ──
       if (!(import.meta.env.DEV && dev && dev.renderVariant('craft', cc, state, dispatch))) {
         for (const [mat, need] of Object.entries(recipe.inputs)) {
           const have = state.resources[mat] ?? 0;
@@ -2080,37 +2398,13 @@ export function mount(
       combatPane.append(cc);
     }
 
-    // stance — the active combat decision (segmented control; pips recompute live). A7: the last
-    // staggered combat surface (`stance-control`), revealed at R5 — R3/R4 fight in the default
-    // stance; the deliberate glass-cannon↔tank call opens once you're a seasoned hand.
     if (isUnlocked(state, 'stance-control')) {
       const stanceRow = el('div', 'stance-row');
       stanceRow.append(el('h3', undefined, 'Stance 構え'));
-      for (const s of STANCE_ORDER) {
-        const ui = STANCE_UI[s];
-        const on = state.stance === s;
-        // A2: stance is the glass-cannon↔tank axis (atk vs damage-taken). Wear is now flat, so the
-        // read shown is the offense/defense trade — hurt-carries-between-fights makes it a real call.
-        const mod = balance.STANCE_MODS[s];
-        const atkPct = Math.round((mod.atkMult - 1) * 100);
-        const takenPct = Math.round((mod.takenMult - 1) * 100);
-        const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
-        const trade = `atk ${sign(atkPct)}% · taken ${sign(takenPct)}%`;
-        const btn = el('button', `auto-toggle stance-btn${on ? ' on' : ''}`);
-        btn.type = 'button';
-        btn.setAttribute('aria-pressed', String(on));
-        btn.title = ui.hint;
-        btn.setAttribute('aria-label', `${ui.gloss} stance — ${trade}. ${ui.hint}`);
-        btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
-        btn.append(el('span', 'stance-wear', trade));
-        btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
-        stanceRow.append(btn);
-      }
+      for (const s of STANCE_ORDER) stanceRow.append(patchStanceReady(buildStanceBtn(s), s, state));
       combatPane.append(stanceRow);
     }
 
-    // ── the Bestiary (A7, D-075) — the field-guide of the foes you've faced, revealed at R3. A =
-    //    the field-guide card list (default, ships). B/C live DEV-only behind the variant toggle. ──
     if (isUnlocked(state, 'panel-bestiary')) {
       const bpane = el('div', 'bestiary');
       combatPane.append(bpane);
@@ -2119,7 +2413,6 @@ export function mount(
       }
     }
 
-    // foes — the watch (spatial, Step 5b): only the foes on THIS node stand in the watch.
     combatPane.append(el('h3', 'foes-head', 'The watch'));
     const present = foesHere(state);
     if (present.length === 0) {
@@ -2132,74 +2425,255 @@ export function mount(
       );
     }
     for (const fc of present) {
-      const seen = hasFlag(state, `mob-${fc.mob.id}`);
-      const row = el('div', 'foe-row frame');
-      const head = el('div', 'skill-head');
-      head.append(
-        el('span', 'skill-name', seen ? `${fc.mob.label} ${fc.mob.kanji}` : 'Unknown foe'),
-      );
-      // a11y (D-Q-a11y): number + word carry meaning in ink; hue lives only on the pip.
-      // Scout-by-fighting fog: an un-encountered foe shows neither a precise % nor a
-      // difficulty-coloured pip (the hue is info too) — only a hollow ◇ 'Unknown'.
-      const wr = el('span', 'win-rate');
-      if (seen) {
-        const tier = fc.winRate >= 0.55 ? 'good' : fc.winRate >= 0.28 ? 'fair' : 'risky';
-        const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
-        const pip = el('span', `pip ${tier}`, '◆');
-        pip.setAttribute('aria-hidden', 'true');
-        wr.append(pip, document.createTextNode(` ${pct(fc.winRate)} · ${word}`));
-      } else {
-        const pip = el('span', 'pip unknown', '◇');
-        pip.setAttribute('aria-hidden', 'true');
-        wr.append(pip, document.createTextNode(' Unknown'));
-      }
-      head.append(wr);
-      row.append(head);
-      if (seen) row.append(el('div', 'skill-blurb', fc.mob.blurb));
-      const ctrl = el('div', 'labour-row');
-      const fight = el('button', 'verb', 'Fight');
-      fight.type = 'button';
-      fight.addEventListener('click', () => dispatch({ type: 'fight', mobId: fc.mob.id as MobId }));
-      ctrl.append(fight);
-      // two auto-modes (batch-2 call 6): fight-to-death vs auto-flee-@20% (the safer mode breaks off
-      // + stops the autopilot before you die — though a burst foe can still kill you first).
-      const mob = fc.mob.id as MobId;
-      const autoOn = state.autoCombat === fc.mob.id;
-      const deathOn = autoOn && !state.autoCombatRetreat;
-      const retreatOn = autoOn && state.autoCombatRetreat;
-      // the RISK reads on the FACE of each toggle, not hover-only (the fight-to-death auto costs koku
-      // on the inevitable loss; touch-legible, mirrors the stance-wear pips — ui-design §8).
-      const atDeath = el(
-        'button',
-        `auto-toggle${deathOn ? ' on' : ''}`,
-        deathOn ? '■ stop' : '▶ auto · to the end',
-      );
-      atDeath.type = 'button';
-      atDeath.title =
-        'Auto-fight to the end — HP carries; you can be beaten, and a loss costs koku.';
-      atDeath.setAttribute(
-        'aria-label',
-        `Auto-fight the ${fc.mob.label} to the end — a loss costs koku`,
-      );
-      atDeath.addEventListener('click', () =>
-        dispatch({ type: 'set_auto_combat', mobId: deathOn ? null : mob, retreat: false }),
-      );
-      const atFlee = el(
-        'button',
-        `auto-toggle${retreatOn ? ' on' : ''}`,
-        retreatOn ? '■ stop' : '▶ auto · flee @20%',
-      );
-      atFlee.type = 'button';
-      atFlee.title =
-        'Auto-fight, but break off when HP falls below 20% (a fast foe can still kill you first).';
-      atFlee.setAttribute('aria-label', `Auto-fight the ${fc.mob.label}, fleeing below 20% HP`);
-      atFlee.addEventListener('click', () =>
-        dispatch({ type: 'set_auto_combat', mobId: retreatOn ? null : mob, retreat: true }),
-      );
-      ctrl.append(atDeath, atFlee);
-      row.append(ctrl);
+      const row = buildFoeRow(fc);
+      patchFoeRow(row, fc, state);
       combatPane.append(row);
     }
+  }
+
+  // apply the current-render stance selection to a freshly-built stance button (shared by the
+  // wholesale DEV path + the incremental patch).
+  function patchStanceReady(btn: HTMLElement, s: StanceId, state: GameState): HTMLElement {
+    const on = state.stance === s;
+    setClass(btn, 'on', on);
+    const pressed = String(on);
+    if (btn.getAttribute('aria-pressed') !== pressed) btn.setAttribute('aria-pressed', pressed);
+    return btn;
+  }
+
+  function renderCombat(state: GameState): void {
+    const show = activeTab === 'combat' && isUnlocked(state, 'tab-combat');
+    toggle(combatPane, show);
+    if (!show) return;
+    // DEV variant sessions keep the wholesale rebuild (the craft/bestiary variant toggles need a
+    // fresh container each render). Prod + tests (`dev` undefined) take the incremental path below.
+    if (import.meta.env.DEV && dev) {
+      combatRefs = null;
+      combatPane.textContent = '';
+      renderCombatWholesale(state);
+      return;
+    }
+    // build the sub-container skeleton ONCE (F81), then patch/reconcile each block in place. Order
+    // mirrors the wholesale build: XP · training · weapon · craft · stance · bestiary · watch.
+    if (!combatRefs) {
+      const xpCard = el('div', 'rung-card frame');
+      const xpNow = el('div', 'rung-now');
+      const xm = el('div', 'meter');
+      const xpFill = el('span');
+      xm.append(xpFill);
+      const xpHint = el('div', 'rung-hint');
+      xpCard.append(xpNow, xm, xpHint);
+
+      const train = el('div', 'weapon-card frame');
+      const th = el('div', 'skill-head');
+      th.append(el('span', 'skill-name', 'Training 鍛錬'));
+      const trainPts = el('span', 'skill-lvl');
+      th.append(trainPts);
+      train.append(th);
+
+      const wc = el('div', 'weapon-card frame');
+      const wh = el('div', 'skill-head');
+      const wcName = el('span', 'skill-name');
+      const wcBand = el('span', 'skill-lvl');
+      wh.append(wcName, wcBand);
+      wc.append(wh);
+      const wcBlurb = el('div', 'skill-blurb');
+      wc.append(wcBlurb);
+      const wctrl = el('div', 'labour-row');
+      const repairBtn = el('button', 'auto-toggle');
+      repairBtn.type = 'button';
+      repairBtn.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
+      wctrl.append(repairBtn);
+      wc.append(wctrl);
+
+      const craftHost = el('div', 'combat-group');
+
+      const bestiaryHost = el('div', 'bestiary');
+      bestiaryHost.append(el('h3', 'foes-head', 'Bestiary 図鑑'));
+      const bestiaryBlurb = el('div', 'skill-blurb');
+      bestiaryHost.append(bestiaryBlurb);
+      const bestiaryList = el('div', 'bestiary-list');
+      bestiaryHost.append(bestiaryList);
+
+      const watchHead = el('h3', 'foes-head', 'The watch');
+      const watchEmpty = el(
+        'p',
+        'area-blurb',
+        'No foe holds this ground. Use Walk on 道 (the Work tab) to reach the paddies, the satoyama, or the woodlot road.',
+      );
+      const watchList = el('div', 'combat-group');
+
+      combatPane.append(
+        xpCard,
+        train,
+        wc,
+        craftHost,
+        bestiaryHost,
+        watchHead,
+        watchEmpty,
+        watchList,
+      );
+      combatRefs = {
+        xpNow,
+        xpFill,
+        xpHint,
+        train,
+        trainPts,
+        wc,
+        wcName,
+        wcBand,
+        wcBlurb,
+        wctrl,
+        repairBtn,
+        craftHost,
+        stanceHost: null,
+        bestiaryHost,
+        bestiaryBlurb,
+        bestiaryList,
+        watchHead,
+        watchEmpty,
+        watchList,
+      };
+    }
+    const r = combatRefs;
+    const c = state.character;
+
+    // ── XP card ──
+    const cx = combatXpProgress(c.combatXp);
+    setText(r.xpNow, `Combat level ${cx.level} · 武`);
+    setStyle(r.xpFill, 'width', pct(cx.into / cx.needed));
+    setText(r.xpHint, `Combat XP ${cx.into}/${cx.needed}`);
+
+    // ── training — the 5 attribute rows (a fixed keyed list reconciled into the card) ──
+    setText(r.trainPts, `${c.attributePoints} point${c.attributePoints === 1 ? '' : 's'} to spend`);
+    reconcileList(r.train, balance.ATTR_IDS, {
+      key: (id) => id,
+      build: (id) => {
+        const meta = balance.ATTR_META[id];
+        const row = el('div', 'attr-row');
+        const label = el('span', 'attr-label');
+        label.append(el('span', 'attr-name', `${meta.label} ${meta.kanji}`));
+        label.append(el('span', 'attr-val'));
+        label.append(el('span', 'attr-gain lock-hint', ` ${meta.gain}`));
+        row.append(label);
+        const plus = el('button', 'auto-toggle', '+1');
+        plus.type = 'button';
+        plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: id }));
+        row.append(plus);
+        return row;
+      },
+      patch: (row, id) => {
+        setText(row.querySelector('.attr-val')!, ` ${c.attrs[id]}`);
+        setDisabled(row.querySelector('.auto-toggle')!, c.attributePoints <= 0);
+      },
+    });
+
+    // ── equipped weapon + (R4) durability band + repair / equip switcher ──
+    const weapon = getWeapon(state.equippedWeapon);
+    const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
+    const showDurability = isUnlocked(state, 'readout-durability');
+    const showEquip = isUnlocked(state, 'panel-equipment');
+    setText(r.wcName, `${weapon.label} ${weapon.kanji}`);
+    toggle(r.wcBand, showDurability);
+    if (showDurability) setText(r.wcBand, band.name);
+    setText(
+      r.wcBlurb,
+      showDurability
+        ? `${weapon.archetype} · durability ${state.weaponDurability}/${weapon.durabilityMax}`
+        : weapon.archetype,
+    );
+    const showRepair = showEquip && isUnlocked(state, 'verb-repair');
+    toggle(r.repairBtn, showRepair);
+    if (showRepair) {
+      setText(
+        r.repairBtn,
+        `Repair (${balance.REPAIR_WOOD_COST} wood, ${balance.REPAIR_KOKU_COST} koku)`,
+      );
+      setDisabled(r.repairBtn, (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST);
+      const title = `${balance.REPAIR_WOOD_COST} wood + up to ${balance.REPAIR_KOKU_COST} koku (waived if you're short)`;
+      if (r.repairBtn.title !== title) r.repairBtn.title = title;
+    }
+    // the equip switcher — reconciled into wctrl AFTER the persistent repair button (a foreign
+    // sibling the reconcile never removes). Roster order (pole · axe · yari), owned-but-not-equipped.
+    const equippable = showEquip
+      ? WEAPONS.filter(
+          (w) =>
+            (w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`)) &&
+            w.id !== state.equippedWeapon,
+        )
+      : [];
+    reconcileList(r.wctrl, equippable, {
+      key: (w) => w.id,
+      build: (w) => {
+        const eq = el('button', 'auto-toggle', `Take up · ${w.label} ${w.kanji}`);
+        eq.type = 'button';
+        eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: w.id }));
+        return eq;
+      },
+      order: true,
+    });
+    toggle(r.wctrl, showRepair || equippable.length > 0);
+
+    // ── loot→craft card (0-or-1, keyed by recipe.id so it rebuilds only when the recipe advances) ──
+    const recipe = RECIPES.find((rc) => !hasFlag(state, `crafted-${rc.outputWeapon}`));
+    const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
+    const craftItems = showEquip && recipe && hasMaterial ? [recipe] : [];
+    toggle(r.craftHost, craftItems.length > 0);
+    reconcileList(r.craftHost, craftItems, {
+      key: (rc) => rc.id,
+      build: (rc) => buildCraftCard(rc),
+      patch: (card, rc) => patchCraftCard(card, rc, state),
+    });
+
+    // ── stance control (R5) — lazily created so `.stance-row` is truly absent until it unlocks ──
+    const showStance = isUnlocked(state, 'stance-control');
+    if (showStance) {
+      if (!r.stanceHost) {
+        const sh = el('div', 'stance-row');
+        sh.append(el('h3', undefined, 'Stance 構え'));
+        combatPane.insertBefore(sh, r.bestiaryHost);
+        r.stanceHost = sh;
+      }
+      toggle(r.stanceHost, true);
+      reconcileList(r.stanceHost, STANCE_ORDER, {
+        key: (s) => s,
+        build: (s) => buildStanceBtn(s),
+        patch: (btn, s) => {
+          patchStanceReady(btn, s, state);
+        },
+      });
+    } else if (r.stanceHost) {
+      toggle(r.stanceHost, false);
+    }
+
+    // ── the Bestiary (R3) — a keyed card list; the fog→inked flip patches each card in place ──
+    const showBestiary = isUnlocked(state, 'panel-bestiary');
+    toggle(r.bestiaryHost, showBestiary);
+    if (showBestiary) {
+      const entries = bestiaryEntries(state);
+      const known = entries.filter((e) => e.seen).length;
+      setText(
+        r.bestiaryBlurb,
+        `${known} of ${entries.length} beasts recorded — face a foe to ink its entry.`,
+      );
+      reconcileList(r.bestiaryList, entries, {
+        key: (e) => e.mob.id,
+        build: () => buildBestiaryCard(),
+        patch: (card, e) => patchBestiaryCard(card, e),
+        order: true,
+      });
+    }
+
+    // ── the watch (spatial) — the foes on THIS node; forecasts patch in place, no strobe ──
+    const present = foesHere(state);
+    toggle(r.watchEmpty, present.length === 0);
+    toggle(r.watchList, present.length > 0);
+    reconcileList(r.watchList, present, {
+      key: (fc) => fc.mob.id,
+      build: (fc) => buildFoeRow(fc),
+      patch: (row, fc) => patchFoeRow(row, fc, state),
+      order: true,
+    });
   }
 
   // increases-only number-pop (juice). prev===undefined (load / import / new game) never
@@ -2967,8 +3441,8 @@ export function mount(
   }
 
   // build a fresh you-are-here card (used by the DEV-default wholesale path). The incremental path
-  // below builds this shell ONCE and patches it; the moveStrip itself is Phase 2 (shared with the
-  // Work-tab "Walk on" strip), so for now its inner buttons are rebuilt within a persistent card.
+  // below builds this shell ONCE and patches it; the moveStrip is mounted via the shared patchStrip
+  // (Phase 2), so it too is zero-churn — swapped only when the reachable set actually changes.
   function fillMapHere(
     loc: HTMLElement,
     kanji: HTMLElement,
@@ -3015,7 +3489,7 @@ export function mount(
       return;
     }
     // prod / test — build the h2 + you-are-here card shell ONCE (F81), patch text in place. The
-    // moveStrip stays a localized rebuild inside the persistent card (Phase 2 migrates the strip).
+    // moveStrip is mounted via the shared patchStrip (Phase 2), so it's zero-churn on an idle tick.
     if (!mapRefs) {
       mapPane.append(el('h2', undefined, 'The estate 地図'));
       const card = el('div', 'map-here frame');
@@ -3037,10 +3511,9 @@ export function mount(
     const here = getNode(state.location);
     fillMapHere(r.loc, r.kanji, here);
     setText(r.blurb, here.blurb);
-    const strip = moveStrip(state, 'work'); // shared with the Work tab's "Walk on" strip (Phase 2)
-    toggle(r.paths, strip !== null);
-    r.strip.textContent = '';
-    if (strip) r.strip.append(strip);
+    // the move strip is now zero-churn too (Phase 2): patchStrip only swaps it when the reachable
+    // set actually changed, so an idle re-render leaves the live buttons (and their focus) untouched.
+    toggle(r.paths, patchStrip(r.strip, state, 'work'));
   }
 
   // build ONE quest card skeleton with every mutable element present (steps + reward line + accept

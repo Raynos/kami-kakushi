@@ -900,6 +900,19 @@ h3 {
   flex-direction: column;
   gap: var(--space-2); /* F73 — tighter button stack (was --space-3) */
 }
+/* Phase-2 append-only sub-containers (F81): a reconciled section wrapper carries the SAME flex-gap
+   as its parent pane, so grouping the Work-tab verbs / Combat foe-rows into their own build-once
+   container doesn't collapse the button/card stack the parent used to space directly. */
+.actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.combat-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
 
 /* ── verbs (flat ink-outlined paper buttons) ────────────────────────────── */
 .verb {

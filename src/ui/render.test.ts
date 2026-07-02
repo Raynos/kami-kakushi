@@ -1169,13 +1169,158 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     openTab('地図');
     const card = root.querySelector<HTMLElement>('.map-pane .map-here')!;
     const blurb = card.querySelector<HTMLElement>('.skill-blurb')!;
+    const move = root.querySelector<HTMLElement>('.map-pane .map-move')!;
     expect(card).not.toBeNull();
     render(s, s);
-    // the CARD frame + its header/blurb persist (only the inner moveStrip rebuilds until Phase 2).
+    // the CARD frame + its header/blurb persist — and now (Phase 2) the move strip is zero-churn too:
+    // the same move button survives an idle re-render (patchStrip only swaps it when it changes).
     expect(root.querySelector('.map-pane .map-here')).toBe(card);
     expect(card.querySelector('.skill-blurb')).toBe(blurb);
+    expect(root.querySelector('.map-pane .map-move')).toBe(move);
     expect(card.isConnected).toBe(true);
-    // the move buttons still work after a re-render (the strip is rebuilt but functional).
-    expect(root.querySelector('.map-pane .map-move')).not.toBeNull();
+    expect(churnOnReRender(root.querySelector<HTMLElement>('.map-pane')!, s, render)).toEqual([]);
+  });
+});
+
+// ── Append-only migration (Phase 2) — the two big flash offenders. `renderActions` (the Work hero,
+//    rebuilt ~2×/s) and `renderCombat` (a 6-block composite) are split into named build-once
+//    sub-containers + keyed reconcile lists; the invariant is the same as Phase 1: an idle re-render
+//    of UNCHANGED state produces ZERO DOM churn (the auto-toggle the player watches keeps its node
+//    and focus, the combat forecast pips patch in place instead of strobing). ──────────────────────
+describe('append-only migration — renderActions + renderCombat (Phase 2)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function awake(extraUnlocked: string[] = [], over: Partial<GameState> = {}): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, ...extraUnlocked],
+      ...over,
+    };
+  }
+  function combat(extra: string[] = [], over: Partial<GameState> = {}): GameState {
+    return awake(['tab-combat', 'panel-bestiary', ...extra], { location: 'home-paddies', ...over });
+  }
+  function openTab(marker: string): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes(marker))
+      ?.click();
+  }
+  function churnOnReRender(
+    el: HTMLElement,
+    state: GameState,
+    render: ReturnType<typeof mount>,
+  ): MutationRecord[] {
+    const obs = new MutationObserver(() => {});
+    obs.observe(el, { childList: true, subtree: true, attributes: true, characterData: true });
+    render(state, state);
+    render(state, state);
+    const records = obs.takeRecords();
+    obs.disconnect();
+    return records;
+  }
+
+  it('renderActions — the labour row + its auto-toggle + the walk-on strip survive; idle churns nothing', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // a labour node WITH the walk-on strip open + an auto-labour running (the auto-toggle the player
+    // is watching must not re-create / lose focus on the ~2×/s tick).
+    const s = awake(['verb-farm', 'room-home-paddies', 'room-gate-forecourt'], {
+      location: 'home-paddies',
+      autoActivity: 'farm_paddy',
+    });
+    render(s, null);
+    const actions = root.querySelector<HTMLElement>('.actions')!;
+    const labourBtn = [...actions.querySelectorAll<HTMLButtonElement>('.area-group .verb')].find(
+      (b) => (b.textContent ?? '').includes('Work the home paddies'),
+    )!;
+    const auto = actions.querySelector<HTMLButtonElement>('.area-group .auto-toggle')!;
+    const walkMove = actions.querySelector<HTMLElement>('.walk-on .map-move')!;
+    expect(auto).not.toBeNull();
+    expect(auto.classList.contains('on')).toBe(true); // the auto-labour is running
+    expect(walkMove).not.toBeNull();
+    render(s, s);
+    // every node the player can touch is REUSED, not rebuilt (focus + auto-run survive).
+    expect(
+      [...actions.querySelectorAll<HTMLButtonElement>('.area-group .verb')].find((b) =>
+        (b.textContent ?? '').includes('Work the home paddies'),
+      ),
+    ).toBe(labourBtn);
+    expect(actions.querySelector('.area-group .auto-toggle')).toBe(auto);
+    expect(actions.querySelector('.walk-on .map-move')).toBe(walkMove); // strip not re-mounted
+    expect(auto.isConnected).toBe(true);
+    expect(churnOnReRender(actions, s, render)).toEqual([]);
+  });
+
+  it('renderActions — toggling auto-labour patches the SAME toggle node in place (no re-create)', () => {
+    const seen: Intent[] = [];
+    const render = mount(root, (i) => seen.push(i), noopHooks());
+    const off = awake(['verb-farm', 'room-home-paddies'], { location: 'home-paddies' });
+    render(off, null);
+    const auto = root.querySelector<HTMLButtonElement>('.actions .area-group .auto-toggle')!;
+    expect(auto.classList.contains('on')).toBe(false);
+    // start the auto-labour → the SAME node flips `.on` (patched, not remounted); its listener holds.
+    const on = awake(['verb-farm', 'room-home-paddies'], {
+      location: 'home-paddies',
+      autoActivity: 'farm_paddy',
+    });
+    render(on, off);
+    expect(root.querySelector('.actions .area-group .auto-toggle')).toBe(auto);
+    expect(auto.classList.contains('on')).toBe(true);
+    auto.click();
+    expect(seen.some((i) => i.type === 'set_auto')).toBe(true);
+  });
+
+  it('renderCombat — the XP card + a foe-watch row survive a re-render; idle churns nothing', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = combat();
+    render(s, null);
+    openTab('Combat');
+    const pane = root.querySelector<HTMLElement>('.combat-pane')!;
+    const xp = pane.querySelector<HTMLElement>('.rung-card')!;
+    const foe = pane.querySelector<HTMLElement>('.foe-row:not(.bestiary-card)')!;
+    expect(xp).not.toBeNull();
+    expect(foe).not.toBeNull();
+    render(s, s);
+    expect(pane.querySelector('.rung-card')).toBe(xp); // XP card reused
+    expect(pane.querySelector('.foe-row:not(.bestiary-card)')).toBe(foe); // watch row reused
+    expect(foe.isConnected).toBe(true);
+    expect(churnOnReRender(pane, s, render)).toEqual([]);
+  });
+
+  it('renderCombat — a foe-watch row inks fog→forecast IN PLACE (same row + win-rate node)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = combat(); // the monkey stands unseen (fogged)
+    render(s, null);
+    openTab('Combat');
+    const pane = root.querySelector<HTMLElement>('.combat-pane')!;
+    const foe = pane.querySelector<HTMLElement>('.foe-row:not(.bestiary-card)')!;
+    const wr = foe.querySelector<HTMLElement>('.win-rate')!;
+    expect(foe.querySelector('.skill-name')!.textContent).toBe('Unknown foe');
+    expect(wr.textContent).toContain('Unknown');
+    // face the monkey → the SAME row + the SAME win-rate node patch to a real forecast (no strobe).
+    const facedIt = setFlag(s, 'mob-monkey');
+    render(facedIt, s);
+    expect(pane.querySelector('.foe-row:not(.bestiary-card)')).toBe(foe); // row not recreated
+    expect(foe.querySelector('.win-rate')).toBe(wr); // forecast pip patched in place
+    expect(foe.querySelector('.skill-name')!.textContent).not.toBe('Unknown foe');
+    expect(wr.textContent).toContain('%');
   });
 });
