@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kami-kakushi — Nishiki-e in Progress 摺</title>
+<style>
+/* ============ pigments (CSS custom props; re-inked by season) ============ */
+:root{
+  --washi:#E9DCBB; --washi-deep:#DCCC9F;
+  --sumi:#2A2420; --ai:#3A5566; --odo:#C08F3F; --roku:#5F7355; --beni:#AE3B2E;
+  --emb-l:#FAF1D4; --emb-d:#B09B68;
+  --bench:#26211B; --bench-2:#1B1712; --ink-faint:#6B5F4C;
+  --f-display:"Toppan Bunkyu Midashi Mincho","Toppan Bunkyu Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Hiragino Mincho ProN","Iowan Old Style",Baskerville,"Hoefler Text",Palatino,Georgia,serif;
+  --f-hand:"Klee","Hiragino Maru Gothic ProN","Hiragino Mincho ProN",serif;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* fixed type scale — five sizes only */
+  --f0:10px; --f1:12px; --f2:14px; --f3:18px; --f4:26px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bench);color:var(--sumi);font-family:var(--f-body);overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.hidden{display:none!important}
+.num{font-variant-numeric:tabular-nums;display:inline-block;text-align:right}
+.w2{min-width:2ch}.w3{min-width:3ch}.w4{min-width:4ch}
+
+/* ============ frame ============ */
+#app{display:grid;grid-template-columns:96px 1fr;grid-template-rows:1fr 64px;height:100vh}
+#proof{grid-row:1;grid-column:1;display:flex;flex-direction:column;align-items:center;padding:18px 0 8px;gap:10px}
+#stage{grid-row:1;grid-column:2;padding:14px 16px 8px 4px;min-width:0;min-height:0;display:flex}
+#bench{grid-row:2;grid-column:1/-1;display:flex;align-items:center;padding:0 10px;gap:8px;background:var(--bench);min-width:0}
+
+/* ============ the sheet (one piece of washi: print + margin notes) ============ */
+#sheet{position:relative;flex:1;display:flex;background:var(--washi);border:1px solid #b6a377;
+  clip-path:polygon(0 .5%,1.5% 0,98.6% .15%,100% .9%,99.85% 99.1%,97.8% 100%,1% 99.75%,0 98.8%);
+  min-height:0}
+#printwrap{position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center}
+#scene{width:100%;height:auto;max-height:100%;display:block}
+#grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.6;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.15 0 0 0 0.14 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+#overlay{position:absolute;inset:0;z-index:4;pointer-events:none}
+#overlay>*{pointer-events:auto}
+
+/* print lift (rung ceremony): a tone shift, never a shadow */
+#sheet{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+#sheet.lifted{transform:translateY(-4px)}
+#sheet.lifted #grain{opacity:.34}
+#sheet.snap{transition:transform 60ms linear}
+
+/* ============ scene ink ============ */
+#scene text{user-select:none}
+.key{color:var(--sumi)}
+.el{color:var(--emb-l)}.ed{color:var(--emb-d)}
+.frame{fill:none;stroke:var(--sumi);stroke-width:2}
+.frame2{fill:none;stroke:var(--sumi);stroke-width:.7}
+.road-u{fill:none;stroke:var(--sumi);stroke-width:5.5}
+.road-o{fill:none;stroke:var(--washi);stroke-width:3.8}
+.stream-key{fill:none;stroke:var(--sumi);stroke-width:15;stroke-linecap:round}
+.stream-pig{fill:none;stroke:var(--ai);stroke-width:12;stroke-linecap:round;opacity:.7}
+.shimmer{fill:none;stroke:var(--washi);stroke-width:2;opacity:.28;stroke-dasharray:9 30;animation:flow 11s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-390}}
+.smoke{fill:none;stroke:var(--sumi);stroke-width:1.1;opacity:.22;stroke-dasharray:2 7;animation:flow 9s linear infinite}
+/* colour plates: flat pigment, slight misregistration (period-true) */
+.p-ai{transform:translate(.9px,-.6px)}
+.p-odo{transform:translate(-.7px,.8px)}
+.p-roku{transform:translate(.8px,.7px)}
+.p-ai2{transform:translate(-.8px,-.6px)}
+.p-odo2{transform:translate(.7px,-.8px)}
+.p-ai,.p-odo,.p-roku,.p-ai2,.p-odo2{transition:transform 60ms linear}
+.preSnap.p-ai,.preSnap.p-odo,.preSnap.p-roku,.preSnap.p-ai2,.preSnap.p-odo2,g.preSnap{transform:translate(3.5px,2.2px)}
+g.preSnap{transition:transform 60ms linear}
+/* deed sway */
+.sway{animation:swayk .3s ease-in-out 2 alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes swayk{from{rotate:-1.5deg}to{rotate:1.5deg}}
+/* fight */
+#figBody,#monkeyBody,#pedlarBody{transition:transform .12s ease-out,opacity .7s ease}
+#figBody.lunge{transform:translate(13px,-2px)}
+#monkeyBody.lunge{transform:translate(-11px,-1px)}
+#monkeyBody.dead{transform:rotate(46deg) translate(3px,7px);opacity:0}
+.impress{stroke-width:2.6}
+/* bestiary rows */
+.bst .b-ink{display:none}
+.bst .b-fog{display:none}
+.bst.state-ink .b-ink{display:inline}
+.bst.state-ink .b-el,.bst.state-ink .b-ed{display:none}
+.bst.state-fog .b-fog{display:inline}
+.bst text{font-family:var(--f-display);font-size:var(--f2)}
+.b-el{fill:var(--emb-l)}.b-ed{fill:var(--emb-d)}.b-ink{fill:var(--sumi)}
+.b-fog{fill:var(--sumi);opacity:.15}
+/* title cartouche + rung seal */
+.title-v{font-family:var(--f-display);font-size:var(--f4);fill:var(--sumi);writing-mode:vertical-rl;letter-spacing:3px}
+.small-v{font-family:var(--f-display);font-size:var(--f0);fill:var(--ink-faint);writing-mode:vertical-rl}
+.seal-t{font-family:var(--f-display);font-size:var(--f2);fill:var(--washi);writing-mode:vertical-rl;letter-spacing:1px}
+#rungSealIn{transition:opacity .25s ease,transform .18s cubic-bezier(.2,.8,.2,1)}
+#rungSealIn.stampin{transform:scale(1.45);opacity:0}
+/* judge seal + the persistent censor mark it leaves in the margin */
+#judgeSealIn{transition:opacity .3s ease,transform .2s cubic-bezier(.2,.8,.2,1)}
+#judgeSealIn.stampin{transform:scale(1.4);opacity:0}
+#kaiMarkIn{transition:opacity .3s ease,transform .2s cubic-bezier(.2,.8,.2,1)}
+#kaiMarkIn.stampin{transform:scale(1.4);opacity:0}
+.js-ring{fill:none;stroke:var(--beni);stroke-width:3.2}
+.js-kai{font-family:var(--f-display);font-size:var(--f4);fill:var(--beni);text-anchor:middle}
+.js-koku{font-family:var(--f-body);font-size:var(--f2);fill:var(--sumi);text-anchor:middle;font-variant-numeric:tabular-nums}
+/* node hit regions */
+.hit{fill:var(--sumi);opacity:0;cursor:pointer;outline:none}
+.hit.off{pointer-events:none;cursor:default}
+.hit:focus{outline:none}
+.hit:focus-visible{opacity:.08}
+
+/* ============ proof strip (rung meter) ============ */
+#proofStrip{background:var(--washi);border:1px solid #b6a377;padding:8px 7px;display:flex;flex-direction:column;gap:7px;
+  clip-path:polygon(2% 0,100% .6%,98.5% 100%,0 99.2%)}
+.swatch{display:flex;gap:5px;align-items:center}
+.pig{width:26px;height:32px;position:relative;overflow:hidden}
+.pig .fill{position:absolute;left:0;top:0;right:0;height:0%;transition:height .5s cubic-bezier(.2,.8,.2,1)}
+.swatch.locked .pig{border-top:1px solid var(--emb-l);border-left:1px solid var(--emb-l);border-bottom:1px solid var(--emb-d);border-right:1px solid var(--emb-d)}
+.swatch.next .pig{border:1px solid var(--emb-d)}
+.sw-k{font-family:var(--f-display);font-size:var(--f0);writing-mode:vertical-rl;color:var(--sumi);letter-spacing:1px}
+.swatch.locked .sw-k{color:var(--emb-d)}
+#proofMeter{color:#9a8e7c;font-size:var(--f1);text-align:center;font-variant-numeric:tabular-nums}
+#proofMeter .nx{display:block;font-size:var(--f0);color:#7a7060;margin-top:2px;font-family:var(--f-display)}
+
+/* ============ margin notes (the diarist's column) ============ */
+#mlog{width:225px;flex:none;border-left:1px solid #cbb98c;display:flex;flex-direction:column;min-height:0;position:relative;z-index:3}
+.mlhead{font-family:var(--f-display);font-size:var(--f1);color:var(--ink-faint);padding:10px 12px 6px;letter-spacing:2px;border-bottom:1px solid #d8c79a}
+#logList{flex:1;overflow-y:auto;padding:8px 12px 14px;display:flex;flex-direction:column;gap:9px}
+.le{font-family:var(--f-hand);font-size:var(--f2);line-height:1.45;color:var(--sumi);border-left:2px solid transparent;padding-left:7px;opacity:.92}
+.le.milestone{border-left-color:var(--beni)}
+.le .mseal{display:inline-block;background:var(--beni);color:var(--washi);font-family:var(--f-display);font-size:var(--f0);padding:2px 3px;margin-right:5px;vertical-align:1px;letter-spacing:1px}
+.le.dim{color:var(--ink-faint)}
+.le-in{animation:lein .4s ease-out}
+@keyframes lein{from{opacity:0;transform:translateY(4px)}}
+
+/* floating brush numerals */
+.floatnum{position:absolute;z-index:6;font-family:var(--f-hand);font-size:var(--f2);color:var(--sumi);pointer-events:none;white-space:nowrap;
+  transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s ease}
+
+/* ============ quest slip (publisher's slip, pinned in the top margin) ============ */
+#slip{position:absolute;right:3.4%;top:2.4%;width:200px;background:var(--washi-deep);border:1px solid var(--sumi);
+  transform:rotate(-1.4deg);padding:7px 9px 8px;font-size:var(--f1);line-height:1.4}
+#slip::before{content:"";position:absolute;left:50%;top:-3px;width:5px;height:5px;background:var(--sumi);border-radius:50%}
+#slip .q-k{font-family:var(--f-display);letter-spacing:2px;color:var(--sumi)}
+#slip .q-r{color:var(--ink-faint)}
+#slip .q-done{display:inline-block;background:var(--beni);color:var(--washi);font-family:var(--f-display);padding:1px 4px;letter-spacing:2px}
+
+/* ============ cartouches (verbs / forecast / pedlar pack) ============ */
+.cart{position:absolute;background:var(--washi-deep);border:1.5px solid var(--sumi);padding:9px 10px 10px;min-width:150px;z-index:7}
+.cart::after{content:"";position:absolute;inset:3px;border:.7px solid var(--sumi);pointer-events:none}
+.c-title{font-family:var(--f-display);font-size:var(--f3);letter-spacing:2px;margin-bottom:2px}
+.c-sub{font-size:var(--f1);color:var(--ink-faint);margin-bottom:7px}
+.verbs{display:flex;gap:7px;flex-wrap:wrap}
+.stamp{display:flex;flex-direction:column;align-items:center;gap:2px;border:1.5px solid var(--sumi);background:var(--washi);
+  padding:5px 7px 4px;min-width:52px;position:relative;z-index:1}
+.stamp .vk{font-family:var(--f-display);font-size:var(--f3)}
+.stamp .vl{font-size:var(--f0);color:var(--ink-faint);max-width:96px;text-align:center;line-height:1.25}
+.stamp:hover:not(:disabled),.stamp:focus-visible{background:var(--sumi);color:var(--washi)}
+.stamp:hover:not(:disabled) .vl,.stamp:focus-visible .vl{color:var(--washi-deep)}
+.stamp:disabled{opacity:.4;cursor:default}
+.bankrow{font-size:var(--f1);margin:2px 0 7px;font-variant-numeric:tabular-nums}
+/* forecast cartouche: the one red-keyed surface in combat */
+#fcart{border-color:var(--beni)}
+#fcart::after{border-color:var(--beni);opacity:.6}
+.fc-odds{font-size:var(--f3);font-family:var(--f-display);margin:4px 0 2px}
+.fc-odds .pc{font-size:var(--f1);color:var(--ink-faint)}
+.fc-blurb{font-family:var(--f-hand);font-size:var(--f1);color:var(--ink-faint);max-width:230px;line-height:1.4;margin-bottom:7px}
+.stance .vm{font-size:var(--f0);color:var(--ink-faint)}
+.stance.picked{background:var(--sumi);color:var(--washi)}
+.stance.picked .vm{color:var(--washi-deep)}
+.pk-row{display:flex;justify-content:space-between;gap:12px;font-size:var(--f1);padding:3px 0;font-variant-numeric:tabular-nums}
+.pk-row button{border:1px solid var(--sumi);padding:0 6px;font-size:var(--f0)}
+.pk-row button:hover{background:var(--sumi);color:var(--washi)}
+
+/* ============ bench strip (the boring-on-purpose ledger) ============ */
+.ledger{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:var(--washi);border:1px solid #b6a377;
+  height:46px;padding:0 12px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;font-size:var(--f1)}
+.ledger .k{font-family:var(--f-display);color:var(--ink-faint);font-size:var(--f1);letter-spacing:1px;margin-right:2px}
+.ledger .rule{width:1px;height:26px;background:#c9b788;flex:none}
+.cell,.grp{display:flex;align-items:center;gap:5px;flex:none;font-variant-numeric:tabular-nums}
+.den{color:var(--ink-faint)}
+.res{margin-right:6px}
+.dish{width:24px;height:24px;flex:none}
+.dishrim{fill:var(--washi-deep);stroke:var(--sumi);stroke-width:1.4}
+.dishpig{transform-origin:50% 50%;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#hpPig{fill:var(--ai)}
+#satPig{fill:var(--odo)}
+#c-date{color:var(--ink-faint)}
+#kento{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;opacity:.7}
+#kento:hover{opacity:1}
+#kento svg{display:block}
+#kento path{fill:#8d8272}
+
+/* ============ dev strip ============ */
+#dev{position:fixed;right:10px;bottom:74px;z-index:40;display:flex;gap:4px;align-items:center;flex-wrap:wrap;justify-content:flex-end;
+  max-width:520px;opacity:.55;transition:opacity .2s;font-family:var(--f-mono);font-size:var(--f0)}
+#dev:hover{opacity:1}
+#dev .dl{color:#7d7260;margin-right:4px}
+#dev button{background:#1d1813;color:#9a8e7c;border:1px solid #3a332a;padding:2px 7px;font-family:var(--f-mono);font-size:var(--f0)}
+#dev button:hover{color:#d8cbb0;border-color:#5a5044}
+#dev.hide button,#dev.hide .dl{display:none}
+
+/* ============ stage moods ============ */
+body[data-stage="minute"]{--washi:#CBBC97;--washi-deep:#BFAF88;--emb-l:#DCCFA8;--emb-d:#A6935F}
+body[data-stage="minute"] .ledger>*{display:none}
+body[data-stage="minute"] .ledger #c-date{display:flex}
+body[data-stage="minute"] #roads,body[data-stage="minute"] #stream,body[data-stage="minute"] #slip{display:none}
+body[data-stage="minute"] .swatch.locked{display:none}
+
+/* season re-ink: 2s crossfade on everything that carries pigment */
+body.reink #scene *{transition:fill 2s linear,stroke 2s linear,color 2s linear}
+body.reink,body.reink #sheet,body.reink .ledger,body.reink #proofStrip,body.reink .pig .fill,body.reink .cart{transition:background-color 2s linear,border-color 2s linear}
+
+/* ============ mobile (≤700px): print pans, notes pull up, proof collapses ============ */
+@media (max-width:700px){
+  #app{grid-template-columns:1fr;grid-template-rows:1fr 64px}
+  #proof{position:fixed;left:6px;top:6px;z-index:30;flex-direction:row;padding:4px 6px;background:var(--bench);border:1px solid #3a332a;gap:8px}
+  #proof .swatch{display:none}
+  #proof .swatch.next{display:flex}
+  #proofMeter{font-size:var(--f0)}
+  #stage{grid-row:1;grid-column:1;overflow-x:auto;padding:8px}
+  #bench{grid-row:2;grid-column:1}
+  #sheet{flex-direction:column;min-width:860px}
+  #printwrap{min-width:0}
+  #mlog{position:fixed;left:0;right:0;bottom:64px;height:44vh;width:auto;z-index:35;background:var(--washi);border-top:1.5px solid var(--sumi);
+    transform:translateY(calc(100% - 30px));transition:transform .3s ease}
+  #mlog.open{transform:translateY(0)}
+  .mlhead{cursor:pointer}
+  #dev{bottom:118px;max-width:96vw}
+}
+@media (prefers-reduced-motion:reduce){
+  .shimmer,.smoke{animation:none}
+  .sway{animation:none}
+  #sheet{transition:none}
+  .le-in{animation:none}
+}
+</style>
+</head>
+<body data-stage="3hr" data-season="spring">
+<div id="app">
+
+  <aside id="proof" aria-label="progressive proof strip — rung meter">
+    <div id="proofStrip"></div>
+    <div id="proofMeter"><span class="num w4" id="mNow">620</span> / <span id="mMax">2950</span><span class="nx" id="mNext">次 蔵番</span></div>
+  </aside>
+
+  <main id="stage">
+    <div id="sheet">
+      <div id="printwrap">
+        <svg id="scene" viewBox="0 0 960 540" role="img" aria-label="A woodblock print of the Kurosawa estate, mid-production">
+          <defs id="defs">
+            <!-- key-block shapes, stroke=currentColor so one shape serves ink AND karazuri emboss -->
+            <g id="sh-deep">
+              <path d="M60,148 L130,58 L186,132 L232,86 L282,146" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M112,88 l6,-9 l6,9 M109,97 l9,-11 l9,11 M118,79 v24" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M214,98 l5,-8 l5,8 M212,106 l7,-10 l7,10 M219,90 v20" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M158,122 l5,-8 l5,8 M156,130 l7,-10 l7,10 M163,114 v20" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            </g>
+            <g id="sh-near">
+              <path d="M330,152 C356,92 470,92 498,152" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M372,120 l5,-8 l5,8 M370,128 l7,-10 l7,10 M377,112 v20" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M428,110 l5,-8 l5,8 M426,118 l7,-10 l7,10 M433,102 v20" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            </g>
+            <g id="sh-woodlot">
+              <path d="M660,142 V106 M678,146 V102 M698,142 V108" fill="none" stroke="currentColor" stroke-width="3.2"/>
+              <circle cx="659" cy="97" r="13" fill="none" stroke="currentColor" stroke-width="2.2"/>
+              <circle cx="680" cy="90" r="14" fill="none" stroke="currentColor" stroke-width="2.2"/>
+              <circle cx="700" cy="99" r="12" fill="none" stroke="currentColor" stroke-width="2.2"/>
+              <path d="M645,152 H716" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="664" cy="149" r="3.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="673" cy="149" r="3.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="682" cy="149" r="3.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="668.5" cy="143" r="3.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            </g>
+            <g id="sh-drill">
+              <path d="M215,252 H295 M215,259 H295" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M220,246 V263 M255,246 V263 M290,246 V263" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M231,212 L251,246 M266,208 V246" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M210,268 Q255,276 300,266" fill="none" stroke="currentColor" stroke-width="1.1"/>
+            </g>
+            <g id="sh-paddies">
+              <!-- terraced strips: stepped trapezoids sharing dike edges, near strip widest -->
+              <path d="M493,249 L592,251 L599,268 L485,266 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path d="M485,266 L599,268 L605,289 L477,287 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path d="M477,287 L605,289 L611,312 L469,310 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <!-- dike lips: thin inner keylines under each shared bund -->
+              <path d="M487,271 L600,273 M479,292 L606,294" fill="none" stroke="currentColor" stroke-width=".8"/>
+              <!-- ground line the terraces sit on, tying into the gate road -->
+              <path d="M451,319 Q540,326 630,317" fill="none" stroke="currentColor" stroke-width="1.7"/>
+              <path d="M473,310 L467,318 M607,312 L613,317" fill="none" stroke="currentColor" stroke-width="1.1"/>
+            </g>
+            <g id="sh-kura">
+              <rect x="142" y="384" width="84" height="48" fill="none" stroke="currentColor" stroke-width="2.6"/>
+              <path d="M132,384 L236,384 L224,362 L146,362 Z" fill="none" stroke="currentColor" stroke-width="2.6"/>
+              <rect x="172" y="400" width="20" height="32" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M142,408 H226" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <rect x="206" y="391" width="10" height="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            </g>
+            <g id="sh-gate">
+              <path d="M498,438 V400 M542,438 V400" fill="none" stroke="currentColor" stroke-width="3.8"/>
+              <path d="M488,402 H552" fill="none" stroke="currentColor" stroke-width="3.8"/>
+              <path d="M492,410 H548" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M484,400 L556,400 L544,386 L496,386 Z" fill="none" stroke="currentColor" stroke-width="2.4"/>
+              <path d="M470,452 Q520,462 570,450" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </g>
+            <clipPath id="latClip"><rect x="142" y="408" width="84" height="24"/></clipPath>
+          </defs>
+
+          <!-- key-block border -->
+          <rect x="18" y="10" width="924" height="520" class="frame"/>
+          <rect x="23" y="15" width="914" height="510" class="frame2"/>
+
+          <!-- ====== the estate, far to near ====== -->
+          <g class="node" id="n-deep">
+            <g class="emb">
+              <use href="#sh-deep" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-deep" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink hidden">
+              <path class="p-roku" d="M60,148 L130,58 L186,132 L232,86 L282,146 Z" fill="var(--roku)" opacity=".45"/>
+              <use href="#sh-deep" class="key"/>
+              <path class="road-u" d="M385,115 C310,105 240,100 190,104"/>
+              <path class="road-o" d="M385,115 C310,105 240,100 190,104"/>
+            </g>
+          </g>
+
+          <g class="node" id="n-near">
+            <g class="emb hidden">
+              <use href="#sh-near" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-near" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink">
+              <path class="p-roku" d="M330,152 C356,92 470,92 498,152 Z" fill="var(--roku)" opacity=".55"/>
+              <use href="#sh-near" class="key"/>
+            </g>
+          </g>
+
+          <!-- stream: sumi key + ai plate -->
+          <g id="stream">
+            <path class="stream-key" d="M600,158 C625,240 598,320 642,400 C664,442 650,494 656,528"/>
+            <path class="stream-pig p-ai" d="M600,158 C625,240 598,320 642,400 C664,442 650,494 656,528"/>
+            <path class="shimmer p-ai" d="M600,162 C624,242 598,320 642,400 C663,440 650,492 655,524"/>
+          </g>
+
+          <!-- roads: double keyline (sumi under, washi lick over) -->
+          <g id="roads">
+            <path class="road-u" d="M520,436 C400,452 300,444 200,433"/><path class="road-o" d="M520,436 C400,452 300,444 200,433"/>
+            <path class="road-u" d="M525,415 C535,378 540,348 540,324"/><path class="road-o" d="M525,415 C535,378 540,348 540,324"/>
+            <path class="road-u" d="M505,420 C420,380 335,318 290,280"/><path class="road-o" d="M505,420 C420,380 335,318 290,280"/>
+            <path class="road-u" d="M540,418 C650,382 672,262 678,152"/><path class="road-o" d="M540,418 C650,382 672,262 678,152"/>
+            <path class="road-u" d="M535,249 C500,200 462,166 436,150"/><path class="road-o" d="M535,249 C500,200 462,166 436,150"/>
+            <path class="road-u" d="M655,120 C580,113 520,114 452,122"/><path class="road-o" d="M655,120 C580,113 520,114 452,122"/>
+          </g>
+
+          <g class="node" id="n-woodlot">
+            <g class="emb hidden">
+              <use href="#sh-woodlot" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-woodlot" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink">
+              <g class="p-roku">
+                <circle cx="659" cy="97" r="13" fill="var(--roku)" opacity=".7"/>
+                <circle cx="680" cy="90" r="14" fill="var(--roku)" opacity=".7"/>
+                <circle cx="700" cy="99" r="12" fill="var(--roku)" opacity=".7"/>
+              </g>
+              <g class="p-odo2">
+                <circle cx="664" cy="149" r="3.4" fill="var(--odo)" opacity=".7"/>
+                <circle cx="673" cy="149" r="3.4" fill="var(--odo)" opacity=".7"/>
+                <circle cx="682" cy="149" r="3.4" fill="var(--odo)" opacity=".7"/>
+                <circle cx="668.5" cy="143" r="3.4" fill="var(--odo)" opacity=".7"/>
+              </g>
+              <use href="#sh-woodlot" class="key"/>
+            </g>
+          </g>
+
+          <g class="node" id="n-drill">
+            <g class="emb hidden">
+              <use href="#sh-drill" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-drill" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink">
+              <path class="p-odo" d="M208,268 Q255,278 302,266 L296,258 Q255,266 214,258 Z" fill="var(--odo)" opacity=".35"/>
+              <g class="p-odo2">
+                <path d="M226,216 L246,244" stroke="var(--odo)" stroke-width="3" opacity=".8"/>
+              </g>
+              <use href="#sh-drill" class="key"/>
+            </g>
+          </g>
+
+          <g class="node" id="n-paddies">
+            <g class="emb hidden">
+              <use href="#sh-paddies" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-paddies" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink">
+              <g id="paddyFills" class="p-odo">
+                <path d="M493,249 L592,251 L599,268 L485,266 Z" fill="var(--odo)" opacity=".4"/>
+                <path d="M485,266 L599,268 L605,289 L477,287 Z" fill="var(--odo)" opacity=".4"/>
+                <path d="M477,287 L605,289 L611,312 L469,310 Z" fill="var(--odo)" opacity=".4"/>
+              </g>
+              <g id="paddyStalks" class="p-roku"></g>
+              <use href="#sh-paddies" class="key"/>
+            </g>
+          </g>
+
+          <g class="node" id="n-kura">
+            <g class="emb hidden">
+              <use href="#sh-kura" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-kura" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink">
+              <path class="p-ai" d="M132,384 L236,384 L224,362 L146,362 Z" fill="var(--ai)" opacity=".8"/>
+              <g id="plate-ai2" class="p-ai2">
+                <g id="kuraLattice" clip-path="url(#latClip)"></g>
+                <rect x="174" y="402" width="16" height="28" fill="var(--ai)" opacity=".45"/>
+              </g>
+              <use href="#sh-kura" class="key"/>
+              <path class="smoke" d="M186,358 C182,344 195,334 189,316 C186,308 192,300 190,292"/>
+            </g>
+          </g>
+
+          <g class="node" id="n-gate">
+            <g class="emb hidden">
+              <use href="#sh-gate" class="ed" transform="translate(1.1,1.1)"/>
+              <use href="#sh-gate" class="el" transform="translate(-1.1,-1.1)"/>
+            </g>
+            <g class="ink">
+              <path class="p-odo" d="M456,456 L586,452 L600,470 L446,472 Z" fill="var(--odo)" opacity=".5"/>
+              <path class="p-ai" d="M484,400 L556,400 L544,386 L496,386 Z" fill="var(--ai)" opacity=".8"/>
+              <use href="#sh-gate" class="key"/>
+            </g>
+          </g>
+
+          <!-- ====== printed figures ====== -->
+          <g id="monkeyPos" transform="translate(587,292)" class="hidden">
+            <g id="monkeyBody">
+              <path d="M-6,0 q-2,-7 4,-8 q7,-1 8,5 q1,4 -3,5 z" fill="none" stroke="var(--sumi)" stroke-width="1.6"/>
+              <circle cx="7" cy="-8" r="3" fill="none" stroke="var(--sumi)" stroke-width="1.5"/>
+              <path d="M-6,-1 q-8,-1 -6,-10" fill="none" stroke="var(--sumi)" stroke-width="1.4"/>
+              <path d="M-2,2 l-2,5 M4,2 l2,5" fill="none" stroke="var(--sumi)" stroke-width="1.4"/>
+              <g id="flecks" class="hidden">
+                <path d="M-10,-5 l4,-3 M1,-13 l3,-4 M10,-3 l5,-2 M-4,-10 l3,-3" fill="none" stroke="var(--beni)" stroke-width="1.8"/>
+              </g>
+            </g>
+          </g>
+
+          <g id="pedlarPos" transform="translate(730,520)" class="hidden">
+            <g id="pedlarBody">
+              <rect x="-8" y="-16" width="7" height="10" fill="none" stroke="var(--sumi)" stroke-width="1.4"/>
+              <circle cx="2" cy="-16" r="3.2" fill="var(--sumi)"/>
+              <path d="M-3,-20 h10" stroke="var(--sumi)" stroke-width="1.4"/>
+              <path d="M2,-12 L2,-2 M2,-2 L-2,6 M2,-2 L5,6" fill="none" stroke="var(--sumi)" stroke-width="2.2"/>
+            </g>
+          </g>
+
+          <g id="figPos" transform="translate(500,334)">
+            <g id="figBody">
+              <!-- brush silhouette: one solid head+kimono mass, pole across the shoulders, implied legs -->
+              <path d="M0,-21 c2.7,0 4.1,1.8 4.1,3.9 c0,1.5 -.8,2.8 -1.9,3.6 c3.3,1 5.5,3.7 6.2,7.3 l1.3,5 c.4,1.5 -4.3,2.5 -9.7,2.5 c-5.4,0 -10.1,-1 -9.7,-2.5 l1.3,-5 c.7,-3.6 2.9,-6.3 6.2,-7.3 c-1.1,-.8 -1.9,-2.1 -1.9,-3.6 c0,-2.1 1.4,-3.9 4.1,-3.9 z" fill="var(--sumi)"/>
+              <path d="M-10,-12.5 L10,-14.5" fill="none" stroke="var(--sumi)" stroke-width="1.6"/>
+              <g id="legA"><path d="M-3,-1 L-4.5,7 M3,-1 L4.5,7" fill="none" stroke="var(--sumi)" stroke-width="2.4"/></g>
+              <g id="legB" class="hidden"><path d="M-3,-1 L1,7 M3,-1 L-1,7" fill="none" stroke="var(--sumi)" stroke-width="2.4"/></g>
+            </g>
+          </g>
+
+          <!-- ====== margin furniture ====== -->
+          <g id="titleC">
+            <rect x="34" y="26" width="44" height="128" fill="var(--washi-deep)" stroke="var(--sumi)" stroke-width="1.6"/>
+            <rect x="37.5" y="29.5" width="37" height="121" fill="none" stroke="var(--sumi)" stroke-width=".7"/>
+            <text class="title-v" x="56" y="38">神隠し</text>
+          </g>
+          <g id="rungSealG" transform="translate(88,32) rotate(2)">
+            <g id="rungSealIn" style="transform-box:fill-box;transform-origin:50% 50%">
+              <rect width="24" height="42" fill="var(--beni)"/>
+              <text class="seal-t" x="12" y="7" id="rungSealTxt">門番</text>
+            </g>
+          </g>
+
+          <g id="bestiary" transform="translate(40,180)">
+            <g id="bstFrameEmb" class="hidden">
+              <rect x="1.1" y="1.1" width="44" height="230" fill="none" stroke="var(--emb-d)" stroke-width="1.1"/>
+              <rect x="-1.1" y="-1.1" width="44" height="230" fill="none" stroke="var(--emb-l)" stroke-width="1.1"/>
+            </g>
+            <g id="bstFrameInk">
+              <rect width="44" height="230" fill="none" stroke="var(--sumi)" stroke-width="1"/>
+              <path d="M8,36 H36" stroke="var(--sumi)" stroke-width=".7"/>
+              <text class="small-v" x="22" y="8" style="font-size:var(--f0)">獣帳</text>
+            </g>
+            <g id="bstRows" transform="translate(22,60)"></g>
+          </g>
+
+          <g id="judgeSeal" transform="translate(400,208)" class="hidden">
+            <g id="judgeSealIn" style="transform-box:fill-box;transform-origin:50% 50%">
+              <g transform="rotate(-4)">
+                <circle r="52" class="js-ring"/>
+                <circle r="46" fill="none" stroke="var(--beni)" stroke-width="1"/>
+                <text y="-4" class="js-kai">改</text>
+                <text y="26" class="js-koku">石 <tspan id="jsNum">8</tspan></text>
+              </g>
+            </g>
+          </g>
+
+          <!-- the censor's mark stays printed in the margin once the judge has passed -->
+          <g id="kaiMark" class="hidden" transform="translate(64,486)">
+            <g id="kaiMarkIn" style="transform-box:fill-box;transform-origin:50% 50%">
+              <g transform="rotate(-3)">
+                <circle r="14" fill="none" stroke="var(--beni)" stroke-width="2.2"/>
+                <text y="5" text-anchor="middle" style="font-family:var(--f-display);font-size:var(--f2);fill:var(--beni)">改</text>
+              </g>
+            </g>
+          </g>
+
+          <!-- generous invisible hit regions -->
+          <g id="hits"></g>
+        </svg>
+
+        <div id="grain"></div>
+        <div id="overlay">
+          <div id="slip">
+            <span class="q-k" id="qKanji">高札 駆除</span> <span id="qDone" class="q-done hidden">済</span><br>
+            <span id="qTitle">Drive off the crop-raiders</span> · <span class="num" id="qStep">1</span>/3<br>
+            <span class="q-r" id="qReward">褒賞 +30 文</span>
+          </div>
+          <div id="cart" class="cart hidden"></div>
+          <div id="fcart" class="cart hidden"></div>
+          <div id="pcart" class="cart hidden"></div>
+        </div>
+      </div>
+
+      <aside id="mlog">
+        <div class="mlhead" id="mlhead">記 · <span id="mlDate">安永九年 春</span></div>
+        <div id="logList" aria-live="polite"></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="bench">
+    <div class="ledger">
+      <div class="cell" id="c-hp"><span class="k">命</span>
+        <svg class="dish" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.4" class="dishrim"/><circle cx="12" cy="12" r="8.6" id="hpPig" class="dishpig"/></svg>
+        <span class="num w2" id="hpNum">46</span><span class="den">/<span id="hpMax">58</span></span></div>
+      <div class="cell" id="c-sat"><span class="k">満腹</span>
+        <svg class="dish" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.4" class="dishrim"/><circle cx="12" cy="12" r="8.6" id="satPig" class="dishpig"/></svg>
+        <span class="num w2" id="satNum">51</span><span class="den">/<span id="satMax">64</span></span></div>
+      <div class="rule"></div>
+      <div class="grp"><span class="k">携</span>
+        <span class="res">米 <span class="num w3" id="nRice">12</span></span>
+        <span class="res">文 <span class="num w3" id="nCoin">34</span></span>
+        <span class="res">薪 <span class="num w2" id="nWood">5</span></span>
+        <span class="res">菜 <span class="num w2" id="nSansai">3</span></span>
+        <span class="res hidden" id="cHardwood">堅木 <span class="num w2" id="nHardwood">0</span></span>
+        <span class="res hidden" id="cSinew">腱 <span class="num w2" id="nSinew">0</span></span></div>
+      <div class="rule"></div>
+      <div class="grp"><span class="k">蔵</span> 米 <span class="num w3" id="bRice">210</span> · 文 <span class="num w3" id="bCoin">60</span></div>
+      <div class="rule"></div>
+      <div class="grp" id="c-weapon"><span class="k" id="wKanji">天秤棒</span><span class="num w2" id="wDur">34</span><span class="den">/<span id="wDurMax">40</span></span> <span class="den" id="wCond">Worn</span></div>
+      <div class="rule"></div>
+      <div class="grp"><span class="k">戦</span>L<span id="cLvl">1</span> <span class="num w2" id="cXp">15</span><span class="den">/<span id="cXpM">40</span></span></div>
+      <div class="grp"><span class="k">技</span>農<span id="skF">3</span> 採<span id="skG">2</span> 樵<span id="skW">2</span> 鍛<span id="skC">2</span></div>
+      <div class="rule"></div>
+      <div class="grp"><span class="k">石</span><span class="num w2" id="nKoku">8</span></div>
+      <div class="grp hidden" id="c-pillar">家産 <span class="num w3" id="nPillar">218</span><span class="den">→240</span></div>
+      <div class="rule"></div>
+      <div class="grp" id="c-date"><span id="dateTxt">安永九年 春 · 十四日</span>
+        <svg width="13" height="13" viewBox="0 0 14 14" aria-label="waxing moon"><circle cx="7" cy="7" r="5.2" fill="none" stroke="var(--ink-faint)" stroke-width="1.1"/><path d="M7,1.8 a5.2,5.2 0 0 1 0,10.4 z" fill="var(--ink-faint)"/></svg></div>
+    </div>
+    <button id="kento" aria-label="kentō registration mark — settings (toggles dev strip)">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M2,16 h13 v-3 h-10 v-10 h-3 z"/></svg>
+    </button>
+  </footer>
+</div>
+
+<div id="dev">
+  <span class="dl">printshop 摺</span>
+  <button data-dev="tick">tick</button>
+  <button data-dev="fight">fight</button>
+  <button data-dev="rung">rung</button>
+  <button data-dev="judge">judge</button>
+  <button data-dev="reveal">reveal</button>
+  <button data-dev="season">season</button>
+  <button data-dev="auto" id="devAuto">auto ✓</button>
+  <button data-dev="reset">reset</button>
+  <button data-dev="stage-1min">1min</button>
+  <button data-dev="stage-3hr">3hr</button>
+  <button data-dev="stage-10hr">10hr</button>
+</div>
+
+<script>
+'use strict';
+/* ================================================================
+   Nishiki-e in Progress 摺 — a living mock. One small state object,
+   authored fill-states, a render pass, and one parameterised
+   animation (the baren stroke) reused for every reveal.
+   ================================================================ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const SVGNS='http://www.w3.org/2000/svg';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function mk(t,a,p){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+let seed=7; const rnd=()=>((seed=seed*48271%2147483647)/2147483647);
+
+/* --- easing: the brief's cubic-bezier(.2,.8,.2,1), solved properly --- */
+function cubicBezier(x1,y1,x2,y2){
+  const cx=3*x1,bx=3*(x2-x1)-cx,ax=1-cx-bx,cy=3*y1,by=3*(y2-y1)-cy,ay=1-cy-by;
+  const sx=t=>((ax*t+bx)*t+cx)*t, sy=t=>((ay*t+by)*t+cy)*t, dx=t=>(3*ax*t+2*bx)*t+cx;
+  return x=>{let t=x;for(let i=0;i<5;i++){const e=sx(t)-x;if(Math.abs(e)<1e-4)break;const d=dx(t);if(Math.abs(d)<1e-6)break;t-=e/d;}return sy(Math.min(1,Math.max(0,t)));};
+}
+const BAREN=cubicBezier(.2,.8,.2,1);
+const OUT3=t=>1-Math.pow(1-t,3);
+let animGen=0; // bumped by cancelBeats(): halts every in-flight anim() loop
+function anim(dur,ease,step,done){
+  if(RM){step(1);done&&done();return;}
+  const g=animGen,t0=performance.now();
+  (function f(now){if(g!==animGen)return;const t=Math.min(1,(now-t0)/dur);step(ease(t));if(t<1)requestAnimationFrame(f);else done&&done();})(t0);
+}
+
+/* ================= data ================= */
+const RUNGS=[
+  {k:'日雇',cap:1100},{k:'下人',cap:2150},{k:'手代',cap:2600},{k:'門番',cap:2800},
+  {k:'蔵番',cap:2950},{k:'家人',cap:3100},{k:'用人',cap:3250},{k:'内衆',cap:3400}];
+const PIGS=['--sumi','--ai','--odo','--roku','--ai','--odo','--roku','--beni'];
+const PLATE_ORDER=['ai','odo','roku','ai2','odo2'];
+const RUNG_COPY={
+  1:"Genemon the elder watches you clear the stores without being told twice. 'The house is short of hands and shorter of trustworthy ones. Stay. Earn your rice.' You are taken on as a kept hand.",
+  2:"You can be set to a task and trusted to finish it. Genemon gives you the run of the woodlot and the near hill. A way to track what your hands are learning appears.",
+  3:"Kihei sets you to the estate's defence — pests, beasts, and the masterless men on the woodlot road. A weapon, a yard to train in, and a duty that is yours. You are the gate-watch now.",
+  4:"Genemon hands you the key to the kura. 'Mind the stores as if the rice were your own. The house is forgetting you were ever a stranger.' You are the kura-warden now.",
+  5:"Genemon takes you onto the household staff proper — no longer a season-hired hand, but one who answers to the house day and night. The work is the same; the standing is not.",
+  6:"Lady Chiyo sets you to the steward's errands — ledgers carried, messages run, the house's small business put in your hands. They are weighing you for something larger than a servant.",
+  7:"The lord Shigemasa himself calls you to the inner rooms. 'You came to us with no name and nothing in your hands. Look what those hands have done.' For the first time the house reckons your worth — not as a servant, but as a man who might one day carry its standing."};
+const NODES={
+  kura:{x:180,y:400,fx:242,fy:436,name:'蔵',en:'kura'},
+  gate:{x:520,y:415,fx:497,fy:452,name:'門前',en:'gate & forecourt'},
+  paddies:{x:540,y:278,fx:500,fy:334,name:'田圃',en:'home paddies'},
+  woodlot:{x:680,y:118,fx:648,fy:152,name:'杣',en:'woodlot edge'},
+  drill:{x:255,y:245,fx:305,fy:272,name:'稽古場',en:'drill yard'},
+  near:{x:414,y:128,fx:392,fy:160,name:'里山',en:'near satoyama'},
+  deep:{x:170,y:110,fx:200,fy:152,name:'奥山',en:'deep satoyama'}};
+const ADJ={kura:['gate'],gate:['kura','paddies','woodlot','drill'],paddies:['gate','near'],
+  woodlot:['gate','near'],drill:['gate'],near:['paddies','woodlot','deep'],deep:['near']};
+const DEEDS={
+  paddies:{k:'農',line:'Work the home paddies. (+4 rice)',gains:{rice:4},f:'+4 米'},
+  gate:{k:'運',line:'Haul stores at the forecourt. (+2 coin)',gains:{coin:2},f:'+2 文'},
+  woodlot:{k:'樵',line:'Cut wood at the woodlot edge. (+3 wood)',gains:{wood:3},f:'+3 薪'},
+  near:{k:'採',line:'Forage the near satoyama. (+2 sansai, +1 coin)',gains:{sansai:2,coin:1},f:'+2 菜'},
+  deep:{k:'採',line:'Forage the deep satoyama. (+4 sansai, +2 coin)',gains:{sansai:4,coin:2},f:'+4 菜'}};
+const RAKE={k:'掃',line:'You rake the spilled rice back toward the basket. (+3 rice)',gains:{rice:3},f:'+3 米'};
+const REST_LINE='You rest against the post. The ache dulls; the light through the slats shifts.';
+const BEASTS=[
+  {id:'rat',k:'稲鼠'},{id:'monkey',k:'猿'},{id:'wolf',k:'狼'},
+  {id:'mamushi',k:'蝮'},{id:'boar',k:'猪'},{id:'bandit',k:'野伏'}];
+const BLURB={
+  wolf:'狼 — Comes down from the satoyama when the hunting is thin. It means to kill.',
+  bandit:'野伏 — A masterless man gone to robbery on the woodlot road — a threat for a later season.'};
+const SEASONS=['spring','summer','autumn','winter'];
+const SEASON_K={spring:'春',summer:'夏',autumn:'秋',winter:'冬'};
+const PALETTE={
+  spring:{washi:'#E9DCBB','washi-deep':'#DCCC9F',ai:'#3A5566',odo:'#C08F3F',roku:'#5F7355'},
+  summer:{washi:'#E6DDB4','washi-deep':'#D7CD96',ai:'#2F5468',odo:'#B9893B',roku:'#4C6B47'},
+  autumn:{washi:'#ECDCAC','washi-deep':'#DFC998',ai:'#3E5866',odo:'#C68F35',roku:'#8C7B3D'},
+  winter:{washi:'#E7E0CE','washi-deep':'#D9D2BE',ai:'#4A5A66',odo:'#A98E63',roku:'#6E7568'}};
+const KD=['','一','二','三','四','五','六','七','八','九'];
+const kanjiNum=n=>n<10?KD[n]:n===10?'十':n<20?'十'+KD[n-10]:KD[(n/10)|0]+'十'+(KD[n%10]||'');
+
+/* ================= state ================= */
+let S, busy=false, tickTimer=null, revealQueue=[], stanceTimer=null;
+
+/* ---- beat control: every demo beat is cancellable & force-resolvable ----
+   Each beat registers pendingResolve = an idempotent "jump to my end state".
+   A dev trigger firing mid-beat calls forceResolve(): the old beat settles
+   instantly (state, log line, seals — everything it owed), then the new
+   beat plays clean. */
+let pendingResolve=null; const beatTimers=[];
+function bt(fn,ms){const id=setTimeout(fn,ms);beatTimers.push(id);return id;}
+function cancelBeats(){
+  animGen++;
+  beatTimers.forEach(id=>{clearTimeout(id);clearInterval(id);});
+  beatTimers.length=0;
+  clearTimeout(stanceTimer);clearInterval(walkTimer);walking=false;
+  activeSweeps.splice(0).forEach(s=>{
+    s.els.forEach(el=>{el.classList.remove('preSnap');el.removeAttribute('mask');el.style.opacity='';el.style.transition='';});
+    if(s.mask)s.mask.remove();});
+  $('#sheet').classList.remove('lifted','snap');
+  $('#legA').classList.remove('hidden');$('#legB').classList.add('hidden');
+  $('#figBody').classList.remove('lunge');
+  const mB=$('#monkeyBody');mB.classList.remove('lunge');mB.style.transition='';
+  $$('#figBody path,#monkeyBody path').forEach(p=>p.classList.remove('impress'));
+  if(S){const n=NODES[S.place];setFigure(n.fx,n.fy);}
+  busy=false;
+}
+function forceResolve(){
+  const r=pendingResolve;pendingResolve=null;
+  if(r)r();
+  cancelBeats();
+}
+
+function preset(stage){
+  if(stage==='minute')return{stage,rung:0,meter:64,meterMax:1100,place:'kura',
+    carried:{rice:0,coin:0,wood:0,sansai:0,hardwood:0,sinew:0},banked:{rice:0,coin:0},
+    hp:20,hpMax:58,sat:30,satMax:64,skills:{f:0,g:0,w:0,c:0},cLvl:1,cXp:0,cXpM:40,
+    weapon:{k:'天秤棒',dur:40,durMax:40,cond:'Pristine'},season:'spring',day:1,koku:0,
+    quest:{step:0,done:false},auto:true,hpHidden:true,
+    beasts:{rat:'emb',monkey:'emb',wolf:'emb',mamushi:'emb',boar:'emb',bandit:'emb'},
+    nodes:{kura:'ink',gate:'emb',paddies:'emb',woodlot:'emb',drill:'emb',near:'emb',deep:'emb'},
+    pedlar:false,reveals:['deep','pedlar','wolf']};
+  if(stage==='10hr')return{stage,rung:5,meter:2210,meterMax:3250,place:'paddies',
+    carried:{rice:38,coin:156,wood:21,sansai:9,hardwood:4,sinew:2},banked:{rice:890,coin:240},
+    hp:66,hpMax:66,sat:58,satMax:64,skills:{f:7,g:5,w:6,c:5},cLvl:4,cXp:12,cXpM:120,
+    weapon:{k:'槍',dur:100,durMax:100,cond:'Pristine'},season:'autumn',day:3,koku:47,
+    quest:{step:2,done:false,name:'CLEAR'},auto:true,hpHidden:false,
+    beasts:{rat:'ink',monkey:'ink',wolf:'ink',mamushi:'ink',boar:'ink',bandit:'fog'},
+    nodes:{kura:'ink',gate:'ink',paddies:'ink',woodlot:'ink',drill:'ink',near:'ink',deep:'ink'},
+    pedlar:false,reveals:['pedlar','bandit']};
+  return{stage:'3hr',rung:3,meter:620,meterMax:2950,place:'paddies',
+    carried:{rice:12,coin:34,wood:5,sansai:3,hardwood:0,sinew:0},banked:{rice:210,coin:60},
+    hp:46,hpMax:58,sat:51,satMax:64,skills:{f:3,g:2,w:2,c:2},cLvl:1,cXp:15,cXpM:40,
+    weapon:{k:'天秤棒',dur:34,durMax:40,cond:'Worn'},season:'spring',day:14,koku:8,
+    quest:{step:1,done:false,name:'PEST'},auto:true,hpHidden:false,
+    beasts:{rat:'ink',monkey:'ink',wolf:'fog',mamushi:'fog',boar:'emb',bandit:'emb'},
+    nodes:{kura:'ink',gate:'ink',paddies:'ink',woodlot:'ink',drill:'ink',near:'emb→ink',deep:'emb'},
+    pedlar:false,reveals:['deep','pedlar','wolf']};
+}
+
+/* ================= the baren stroke (THE signature move) =================
+   A grain-edged pigment band sweeps diagonally across the masked region,
+   900ms at cubic-bezier(.2,.8,.2,1), then a 60ms registration thunk:
+   the plate snaps 2–3px into true register. Reused for every reveal. */
+let maskSeq=0; const activeSweeps=[];
+function jagPoints(){
+  const pts=[[-1400,-340],[1260,-340]];
+  for(let y=-340;y<=940;y+=52){pts.push([1260-(y+340)*.16+(rnd()*36-22),y]);}
+  pts.push([-1400,940]);
+  return pts.map(p=>p.join(',')).join(' ');
+}
+function barenSweep(els,opts={},done){
+  els=els.filter(Boolean);
+  if(!els.length){done&&done();return;}
+  els.forEach(el=>el.classList.remove('hidden'));
+  if(RM){ /* reduced motion: an instant crossfade, thunk = one-frame darken */
+    const sweep={els,mask:null};activeSweeps.push(sweep);
+    els.forEach(el=>{el.style.opacity=0;});
+    requestAnimationFrame(()=>{els.forEach(el=>{el.style.transition='opacity .15s linear';el.style.opacity=1;});
+      bt(()=>{const ix=activeSweeps.indexOf(sweep);if(ix>=0)activeSweeps.splice(ix,1);
+        els.forEach(el=>{el.style.transition='';el.style.opacity='';});done&&done();},180);});
+    return;
+  }
+  const defs=$('#defs'), id='mk'+(maskSeq++);
+  const mask=mk('mask',{id,maskUnits:'userSpaceOnUse',x:-1500,y:-500,width:3000,height:1600},defs);
+  const poly=mk('polygon',{fill:'#fff',points:jagPoints()},mask);
+  const sweep={els,mask};activeSweeps.push(sweep);
+  els.forEach(el=>{el.setAttribute('mask',`url(#${id})`);el.classList.add('preSnap');});
+  anim(opts.dur||900,BAREN,t=>{
+    const x=-2750+2750*t, y=-150*(1-t);
+    poly.setAttribute('transform',`translate(${x} ${y})`);
+  },()=>{
+    els.forEach(el=>el.classList.remove('preSnap'));   // 60ms registration thunk (CSS)
+    bt(()=>{const ix=activeSweeps.indexOf(sweep);if(ix>=0)activeSweeps.splice(ix,1);
+      els.forEach(el=>el.removeAttribute('mask'));mask.remove();done&&done();},90);
+  });
+}
+
+/* ================= scene helpers ================= */
+const inkOf=id=>$(`#n-${id} .ink`), embOf=id=>$(`#n-${id} .emb`);
+function setNode(id,mode){ // 'ink' | 'emb'
+  inkOf(id).classList.toggle('hidden',mode!=='ink');
+  embOf(id).classList.toggle('hidden',mode==='ink');
+  const hit=$(`#hit-${id}`); if(hit)hit.classList.toggle('off',mode!=='ink');
+}
+function applyPlates(){
+  const n=Math.min(S.rung,5);
+  PLATE_ORDER.forEach((p,i)=>$$('.p-'+p).forEach(el=>el.classList.toggle('hidden',i>=n)));
+}
+function sway(id){
+  const g=inkOf(id); if(!g||RM)return;
+  g.classList.remove('sway'); void g.getBoundingClientRect(); g.classList.add('sway');
+  setTimeout(()=>g.classList.remove('sway'),650);
+}
+function setFigure(x,y){$('#figPos').setAttribute('transform',`translate(${x},${y})`);}
+let walkTimer=null,walking=false;
+function walkTo(id,cb){
+  if(S.place===id){cb&&cb();return;}
+  clearInterval(walkTimer);walking=true;
+  // BFS through adjacency
+  const q=[[S.place]],seen={[S.place]:1};let path=null;
+  while(q.length){const p=q.shift();const at=p[p.length-1];
+    if(at===id){path=p;break;}
+    (ADJ[at]||[]).forEach(n=>{if(!seen[n]){seen[n]=1;q.push(p.concat(n));}});}
+  if(!path){walking=false;cb&&cb();return;}
+  S.place=id;
+  if(RM){const n=NODES[id];setFigure(n.fx,n.fy);walking=false;cb&&cb();return;}
+  // subdivide into ~40px block-printed hops, steps(2) feel
+  const pts=[];let prev=[NODES[path[0]].fx,NODES[path[0]].fy];
+  for(let i=1;i<path.length;i++){
+    const n=NODES[path[i]],dx=n.fx-prev[0],dy=n.fy-prev[1],d=Math.hypot(dx,dy),steps=Math.max(1,Math.round(d/40));
+    for(let s=1;s<=steps;s++)pts.push([prev[0]+dx*s/steps,prev[1]+dy*s/steps]);
+    prev=[n.fx,n.fy];
+  }
+  let i=0,leg=false;
+  walkTimer=setInterval(()=>{
+    if(i>=pts.length){clearInterval(walkTimer);walking=false;$('#legA').classList.remove('hidden');$('#legB').classList.add('hidden');cb&&cb();return;}
+    setFigure(pts[i][0],pts[i][1]);leg=!leg;
+    $('#legA').classList.toggle('hidden',leg);$('#legB').classList.toggle('hidden',!leg);
+    i++;
+  },200);
+}
+
+/* ================= numbers & log ================= */
+function setNum(el,v){
+  const from=el._v??v; el._v=v;
+  if(RM||from===v){el.textContent=v;return;}
+  anim(400,OUT3,t=>{el.textContent=Math.round(from+(v-from)*t);});
+}
+function log(text,ch,seal){
+  const d=document.createElement('div');
+  d.className='le le-in'+(ch==='milestone'?' milestone':'')+(ch==='dim'?' dim':'');
+  if(seal){const s=document.createElement('span');s.className='mseal';s.textContent=seal;d.appendChild(s);}
+  d.appendChild(document.createTextNode(text));
+  $('#logList').appendChild(d);
+  $('#logList').scrollTop=$('#logList').scrollHeight;
+}
+function floatNum(nodeId,txt){
+  if(RM||!txt)return;
+  const n=NODES[nodeId],ov=$('#overlay'),s=document.createElement('span');
+  s.className='floatnum';s.textContent=txt;
+  s.style.left=(n.x/960*100)+'%';s.style.top=(n.y/540*100)+'%';
+  ov.appendChild(s);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    s.style.transform='translate(190px,-46px)';s.style.opacity='0';}));
+  setTimeout(()=>s.remove(),950);
+}
+
+/* ================= render ================= */
+function buildProof(){
+  const st=$('#proofStrip');st.innerHTML='';
+  RUNGS.forEach((r,i)=>{
+    const d=document.createElement('div');d.className='swatch';d.dataset.r=i;
+    d.innerHTML=`<div class="pig"><div class="fill"></div></div><span class="sw-k">${r.k}</span>`;
+    st.appendChild(d);
+  });
+}
+function renderProof(){
+  $$('#proofStrip .swatch').forEach(sw=>{
+    const i=+sw.dataset.r,pig=sw.querySelector('.pig'),fill=sw.querySelector('.fill');
+    sw.classList.remove('locked','next');
+    const col=`var(${PIGS[i]})`;
+    if(i<=S.rung){pig.style.background=col;fill.style.height='0%';}
+    else if(i===S.rung+1){sw.classList.add('next');pig.style.background='transparent';
+      fill.style.background=col;fill.style.height=Math.min(100,S.meter/S.meterMax*100)+'%';}
+    else{sw.classList.add('locked');pig.style.background='transparent';fill.style.height='0%';}
+  });
+  setNum($('#mNow'),S.meter);
+  $('#mMax').textContent=S.meterMax;
+  $('#mNext').textContent=S.rung>=7?'満':'次 '+RUNGS[S.rung+1].k;
+}
+function renderBench(){
+  setNum($('#hpNum'),S.hp);$('#hpMax').textContent=S.hpMax;
+  setNum($('#satNum'),S.sat);$('#satMax').textContent=S.satMax;
+  $('#hpPig').style.transform=`scale(${Math.sqrt(Math.max(0,S.hp/S.hpMax))})`;
+  $('#satPig').style.transform=`scale(${Math.sqrt(Math.max(0,S.sat/S.satMax))})`;
+  setNum($('#nRice'),S.carried.rice);setNum($('#nCoin'),S.carried.coin);
+  setNum($('#nWood'),S.carried.wood);setNum($('#nSansai'),S.carried.sansai);
+  $('#cHardwood').classList.toggle('hidden',!S.carried.hardwood);
+  $('#cSinew').classList.toggle('hidden',!S.carried.sinew);
+  setNum($('#nHardwood'),S.carried.hardwood);setNum($('#nSinew'),S.carried.sinew);
+  setNum($('#bRice'),S.banked.rice);setNum($('#bCoin'),S.banked.coin);
+  $('#wKanji').textContent=S.weapon.k;setNum($('#wDur'),S.weapon.dur);
+  $('#wDurMax').textContent=S.weapon.durMax;$('#wCond').textContent=S.weapon.cond;
+  $('#cLvl').textContent=S.cLvl;setNum($('#cXp'),S.cXp);$('#cXpM').textContent=S.cXpM;
+  $('#skF').textContent=S.skills.f;$('#skG').textContent=S.skills.g;
+  $('#skW').textContent=S.skills.w;$('#skC').textContent=S.skills.c;
+  setNum($('#nKoku'),S.koku);
+  $('#c-pillar').classList.toggle('hidden',S.stage!=='10hr');
+  const dateStr=`安永九年 ${SEASON_K[S.season]} · ${kanjiNum(S.day)}日`;
+  $('#dateTxt').textContent=dateStr;
+  $('#mlDate').textContent=`安永九年 ${SEASON_K[S.season]}`;
+}
+function renderSlip(){
+  if(S.stage==='10hr'){
+    $('#qKanji').textContent='高札 掃討';
+    $('#qTitle').textContent='Clear the satoyama trails';
+    $('#qReward').textContent='褒賞 +40 文';
+  }else{
+    $('#qKanji').textContent='高札 駆除';
+    $('#qTitle').textContent='Drive off the crop-raiders';
+    $('#qReward').textContent='褒賞 +30 文';
+  }
+  $('#qStep').textContent=S.quest.step;
+  $('#qDone').classList.toggle('hidden',!S.quest.done);
+}
+function renderBeasts(){
+  BEASTS.forEach(b=>{
+    const row=$(`#bst-${b.id}`);
+    row.classList.remove('state-ink','state-fog');
+    if(S.beasts[b.id]==='ink')row.classList.add('state-ink');
+    else if(S.beasts[b.id]==='fog')row.classList.add('state-fog');
+  });
+  const anyInk=Object.values(S.beasts).some(v=>v==='ink');
+  $('#bstFrameInk').classList.toggle('hidden',!anyInk);
+  $('#bstFrameEmb').classList.toggle('hidden',anyInk);
+}
+function renderRungSeal(){
+  const g=$('#rungSealG');
+  g.classList.toggle('hidden',S.rung<1);
+  $('#rungSealTxt').textContent=RUNGS[S.rung].k;
+}
+function applySeason(sea,animate){
+  S.season=sea;document.body.dataset.season=sea;
+  if(animate&&!RM){document.body.classList.add('reink');setTimeout(()=>document.body.classList.remove('reink'),2200);}
+  const p=PALETTE[sea];
+  for(const k in p)document.documentElement.style.setProperty('--'+k,p[k]);
+}
+function render(){
+  document.body.dataset.stage=S.stage;
+  for(const id in NODES)setNode(id,S.nodes[id]==='ink'?'ink':'emb');
+  applyPlates();renderProof();renderBench();renderSlip();renderBeasts();renderRungSeal();
+  $('#pedlarPos').classList.toggle('hidden',!S.pedlar);
+  const n=NODES[S.place];setFigure(n.fx,n.fy);
+  $('#devAuto').textContent='auto '+(S.auto?'✓':'✗');
+}
+
+/* ================= beats ================= */
+function deedFor(place){
+  if(place==='kura')return S.stage==='minute'?RAKE:null;
+  return DEEDS[place]||null;
+}
+function doTick(){
+  if(busy||walking)return;
+  const deed=deedFor(S.place);
+  if(!deed){if(S.place==='drill')log(REST_LINE,'dim');return;}
+  sway(S.place);
+  for(const k in deed.gains)S.carried[k]+=deed.gains[k];
+  S.meter=Math.min(S.meterMax,S.meter+2);
+  S._t=(S._t||0)+1; if(S._t%3===0&&S.sat>0)S.sat--;
+  floatNum(S.place,deed.f);
+  log(deed.line);
+  renderBench();renderProof();
+}
+function doFight(){
+  if(busy)forceResolve();
+  if(S.hp<=Math.round(S.hpMax*.28)){
+    log('You are too hurt to hold the line — eat and mend before you take the field.','dim');
+    return;
+  }
+  busy=true;closeCarts();
+  const h0=S.hp, drop=Math.round(S.hpMax*17/58), h1=Math.max(1,h0-drop);
+  let applied=false,cleared=false;
+  const applyOutcome=()=>{           // the state + log the fight owes, once
+    if(applied)return;applied=true;
+    S.hp=h1;S.carried.coin+=3;S.carried.sinew+=1;
+    S.weapon.dur=Math.max(0,S.weapon.dur-2);
+    S.cXp=Math.min(S.cXpM,S.cXp+5);
+    log(`You bring down the crop-raiding monkey. ✓ (HP ${h0}→${h1} · +3 coin, +1 beast sinew)`);
+    if(!S.quest.done){
+      S.quest.step++;
+      if(S.quest.step>=3){S.quest.done=true;
+        log("The paddies stand quiet again. Genemon counts thirty coin from the house purse into your hand — 'for the rice you kept on the stalk.'",'milestone','済');
+        S.carried.coin+=30;}
+    }
+    renderBench();renderSlip();
+  };
+  const clearStage=()=>{             // the visual cleanup, once
+    if(cleared)return;cleared=true;
+    $('#fcart').classList.add('hidden');
+    $('#monkeyPos').classList.add('hidden');
+    $('#monkeyBody').classList.remove('dead');
+    $('#flecks').classList.add('hidden');
+    busy=false;pendingResolve=null;
+  };
+  pendingResolve=()=>{applyOutcome();clearStage();};
+  walkTo('paddies',()=>{
+    if(cleared)return;
+    render(); // figure landed
+    const mB=$('#monkeyBody');mB.classList.remove('dead');mB.style.transition='none';
+    $('#flecks').classList.add('hidden');
+    barenSweep([$('#monkeyPos')],{dur:420},()=>{
+      if(cleared)return;
+      mB.style.transition='';
+      const fc=$('#fcart');
+      fc.innerHTML=`<div class="c-title">猿 <span class="c-sub">crop-raiding monkey · L1</span></div>
+        <div class="fc-odds">勝目 二分九厘 <span class="pc num">(29%)</span></div>
+        <div class="fc-blurb">Bold and quick, a menace to the paddies — but the lightest of the threats.</div>
+        <div class="verbs">
+          <button class="stamp stance" data-st="gedan"><span class="vk">下段</span><span class="vm">攻×0.8 被×0.85</span></button>
+          <button class="stamp stance" data-st="chudan"><span class="vk">中段</span><span class="vm">平</span></button>
+          <button class="stamp stance" data-st="jodan"><span class="vk">上段</span><span class="vm">攻×1.35 被×1.15</span></button>
+        </div>`;
+      fc.style.left='63%';fc.style.top='40%';fc.style.transform='translate(-50%,-100%)';
+      fc.classList.remove('hidden');
+      const pick=st=>{
+        clearTimeout(stanceTimer);
+        fc.querySelectorAll('.stance').forEach(b=>b.classList.toggle('picked',b.dataset.st===st));
+        bt(()=>{if(cleared)return;fc.classList.add('hidden');exchanges();},420);
+      };
+      fc.querySelectorAll('.stance').forEach(b=>b.addEventListener('click',()=>pick(b.dataset.st)));
+      stanceTimer=setTimeout(()=>pick('chudan'),1600);
+    });
+  });
+  function exchanges(){
+    const cuts=[Math.round(drop*.4),Math.round(drop*.35)];
+    cuts.push(drop-cuts[0]-cuts[1]);
+    let i=0;
+    const beat=()=>{
+      if(cleared)return;
+      const fig=$('#figBody'),mon=$('#monkeyBody');
+      fig.classList.add('lunge');mon.classList.add('lunge');
+      $$('#figBody path,#monkeyBody path').forEach(p=>p.classList.add('impress'));
+      bt(()=>{fig.classList.remove('lunge');mon.classList.remove('lunge');
+        $$('#figBody path,#monkeyBody path').forEach(p=>p.classList.remove('impress'));},RM?0:140);
+      S.hp=Math.max(1,S.hp-cuts[i]);renderBench();
+      i++;
+      if(i<cuts.length)bt(beat,RM?60:480);else bt(win,RM?60:520);
+    };
+    const win=()=>{
+      if(cleared)return;
+      $('#flecks').classList.remove('hidden');
+      bt(()=>{
+        if(cleared)return;
+        $('#monkeyBody').classList.add('dead');
+        applyOutcome();
+        bt(clearStage,RM?60:900);
+      },RM?60:420);
+    };
+    beat();
+  }
+}
+function doRung(){
+  if(busy)forceResolve();
+  if(S.rung>=7)return;
+  busy=true;closeCarts();
+  const next=S.rung+1,sheet=$('#sheet');
+  // state advances now; the ceremony below is pure presentation
+  S.rung=next;S.meter=0;S.meterMax=RUNGS[Math.min(next+1,7)].cap;
+  const plate=next<=5?PLATE_ORDER[next-1]:null;
+  if(plate)applyPlatesUpTo(next-1);        // hold the new plate back for the sweep
+  let done=false;
+  const settle=()=>{
+    if(done)return;done=true;
+    sheet.classList.remove('lifted','snap');
+    applyPlates();                          // new pigment fully registered
+    renderRungSeal();                       // the rung name presses beside the title
+    const sIn=$('#rungSealIn');
+    if(!RM){sIn.classList.add('stampin');void sIn.getBoundingClientRect();sIn.classList.remove('stampin');}
+    log(RUNG_COPY[next],'milestone',RUNGS[next].k);
+    renderProof();                          // swatch fills; meter re-aims at the next rung
+    busy=false;pendingResolve=null;
+  };
+  pendingResolve=settle;
+  sheet.classList.add('lifted');            // the print lifts off the block
+  bt(()=>{
+    if(done)return;
+    sheet.classList.add('snap');sheet.classList.remove('lifted');   // re-registers: 60ms thunk
+    bt(()=>{if(!done)sheet.classList.remove('snap');},80);
+    if(plate)barenSweep($$('.p-'+plate),{},settle);
+    else settle();
+  },RM?0:760);
+}
+function applyPlatesUpTo(n){ // show plates below n, leave plate n hidden for the sweep
+  PLATE_ORDER.forEach((p,i)=>$$('.p-'+p).forEach(el=>el.classList.toggle('hidden',i>=n)));
+}
+function doJudge(){
+  if(busy)forceResolve();
+  busy=true;closeCarts();
+  const k0=S.koku,k1=S.koku+3,sNext=SEASONS[(SEASONS.indexOf(S.season)+1)%4];
+  let logged=false,done=false;
+  const declare=()=>{                 // the judgement itself: koku restated, print re-inked
+    if(logged)return;logged=true;
+    S.koku=k1;setNum($('#nKoku'),k1);
+    log(`改 — the seasonal judge restates the house's standing. ${k0} 石 → ${k1} 石.`,'milestone','改');
+    applySeason(sNext,true);S.day=1;renderBench();
+  };
+  const settle=()=>{
+    if(done)return;done=true;
+    declare();
+    $('#judgeSeal').classList.add('hidden');
+    showKaiMark();                    // the censor's mark stays in the margin
+    busy=false;pendingResolve=null;
+  };
+  pendingResolve=settle;
+  const seal=$('#judgeSeal'),sIn=$('#judgeSealIn'),num=$('#jsNum');
+  num.textContent=k0;num._v=k0;
+  seal.classList.remove('hidden');
+  if(!RM){sIn.classList.add('stampin');void sIn.getBoundingClientRect();sIn.classList.remove('stampin');}
+  bt(()=>{if(done)return;setNum(num,k1);declare();},RM?50:500);
+  bt(settle,RM?300:2300);
+}
+function showKaiMark(){
+  const m=$('#kaiMark'),mi=$('#kaiMarkIn');
+  m.classList.remove('hidden');
+  if(!RM){mi.classList.add('stampin');void mi.getBoundingClientRect();mi.classList.remove('stampin');}
+}
+function doSeason(){
+  if(busy)return;
+  const nx=SEASONS[(SEASONS.indexOf(S.season)+1)%4];
+  applySeason(nx,true);renderBench();
+}
+function doReveal(){
+  if(busy)forceResolve();
+  const what=S.reveals.shift();
+  if(!what){log('Nothing further lies hidden in this sheet.','dim');return;}
+  busy=true;closeCarts();
+  let done=false;
+  if(what==='deep'){
+    S.nodes.deep='ink';
+    embOf('deep').classList.add('hidden');
+    $('#hit-deep').classList.remove('off');
+    const settle=()=>{
+      if(done)return;done=true;
+      applyPlates();
+      log('The way opens past the near hill. Forage the deep satoyama. (+4 sansai, +2 coin)');
+      busy=false;pendingResolve=null;
+    };
+    pendingResolve=settle;
+    // sweep the whole region: keyline + its pigment together
+    barenSweep([inkOf('deep')],{},settle);
+  }else if(what==='pedlar'){
+    S.pedlar=true;
+    const pp=$('#pedlarPos');pp.classList.remove('hidden');
+    const settle=()=>{
+      if(done)return;done=true;
+      pp.setAttribute('transform','translate(560,446)');
+      log('A pedlar comes up the road, pack on his back.');
+      busy=false;pendingResolve=null;
+    };
+    pendingResolve=settle;
+    if(RM){settle();return;}
+    let x=730,y=520,i=0;
+    const t=setInterval(()=>{
+      if(done){clearInterval(t);return;}
+      i++;x=730-(730-560)*i/10;y=520-(520-446)*i/10;
+      pp.setAttribute('transform',`translate(${x},${y})`);
+      if(i>=10){clearInterval(t);settle();}
+    },235);
+    beatTimers.push(t);
+  }else{ // a beast un-fogs in the bestiary
+    S.beasts[what]='ink';
+    renderBeasts();
+    const settle=()=>{if(done)return;done=true;log(BLURB[what]);busy=false;pendingResolve=null;};
+    pendingResolve=settle;
+    barenSweep([$(`#bst-${what}`)],{dur:520},settle);
+  }
+}
+
+/* ================= cartouches ================= */
+function closeCarts(){$('#cart').classList.add('hidden');$('#fcart').classList.add('hidden');$('#pcart').classList.add('hidden');}
+function openCart(id){
+  const node=NODES[id],cart=$('#cart'),deed=deedFor(id);
+  let inner=`<div class="c-title">${node.name} <span class="c-sub">${node.en}</span></div>`;
+  if(id==='kura'&&S.stage!=='minute'){
+    inner+=`<div class="bankrow">蔵内 米 <span class="num w3">${S.banked.rice}</span> · 文 <span class="num w3">${S.banked.coin}</span></div>
+      <div class="verbs">
+        <button class="stamp" data-verb="dep"><span class="vk">納</span><span class="vl">deposit 5 rice</span></button>
+        <button class="stamp" data-verb="wd"><span class="vk">出</span><span class="vl">withdraw 5 rice</span></button>
+        <button class="stamp" data-verb="cook" ${S.carried.sansai<2?'disabled':''}><span class="vk">炊</span><span class="vl">cook a meal 2菜 → +14 命</span></button>
+      </div>`;
+  }else if(id==='drill'){
+    inner+=`<div class="verbs"><button class="stamp" data-verb="rest"><span class="vk">休</span><span class="vl">rest against the post</span></button></div>`;
+  }else if(deed){
+    inner+=`<div class="verbs"><button class="stamp" data-verb="deed"><span class="vk">${deed.k}</span><span class="vl">${deed.line.replace(/\s*\(.*\)$/,'')} ${deed.f}</span></button></div>`;
+  }
+  cart.innerHTML=inner;
+  cart.style.left=(node.x/960*100)+'%';
+  cart.style.top=(node.y/540*100)+'%';
+  cart.style.transform=node.y<200?'translate(-50%,26px)':'translate(-50%,-118%)';
+  cart.classList.remove('hidden');
+  cart.querySelectorAll('.stamp').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.verb;
+    if(v==='deed'){doTick();closeCarts();}
+    else if(v==='rest'){log(REST_LINE,'dim');closeCarts();}
+    else if(v==='dep'){const m=Math.min(5,S.carried.rice);S.carried.rice-=m;S.banked.rice+=m;log(`納 — ${m} 米 → 蔵`,'dim');renderBench();openCart('kura');}
+    else if(v==='wd'){const m=Math.min(5,S.banked.rice);S.banked.rice-=m;S.carried.rice+=m;log(`出 — ${m} 米 ← 蔵`,'dim');renderBench();openCart('kura');}
+    else if(v==='cook'){S.carried.sansai-=2;S.hp=Math.min(S.hpMax,S.hp+14);
+      log('You boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight. (+14 HP)');
+      renderBench();openCart('kura');}
+  }));
+}
+function openPedlar(){
+  const p=$('#pcart');
+  const items=[
+    {n:'Sack of mountain greens',c:10,g:{sansai:3},y:'+3 菜'},
+    {n:'Bundle of split kindling',c:16,g:{wood:4},y:'+4 薪'},
+    {n:'Hone and ash-faggot',c:28,g:{wood:7},y:'+7 薪'}];
+  p.innerHTML=`<div class="c-title">行商 <span class="c-sub">the pedlar's pack</span></div>`+
+    items.map((it,i)=>`<div class="pk-row"><span>${it.n} <span class="den">${it.y}</span></span>
+      <span>${it.c} 文 <button data-buy="${i}" ${S.carried.coin<it.c?'disabled':''}>買</button></span></div>`).join('')+
+    `<div class="fc-blurb">A travelling forager's sack of sansai — fern-shoots and butterbur, enough for a few hot meals when the satoyama is bare.</div>`;
+  p.style.left='60%';p.style.top='84%';p.style.transform='translate(-50%,-100%)';
+  p.classList.remove('hidden');
+  p.querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>{
+    const it=items[+b.dataset.buy];
+    if(S.carried.coin<it.c)return;
+    S.carried.coin-=it.c;for(const k in it.g)S.carried[k]+=it.g[k];
+    log(`${it.n}. (−${it.c} coin, ${it.y})`,'dim');
+    renderBench();openPedlar();
+  }));
+}
+
+/* ================= stages ================= */
+function setStage(stage){
+  cancelBeats();pendingResolve=null;   // a fresh sheet: cancel, don't resolve
+  S=preset(stage);
+  if(stage==='3hr')S.nodes.near='ink';
+  closeCarts();
+  $('#monkeyPos').classList.add('hidden');$('#monkeyBody').classList.remove('dead');
+  $('#judgeSeal').classList.add('hidden');$('#kaiMark').classList.add('hidden');$('#flecks').classList.add('hidden');
+  $('#pedlarPos').setAttribute('transform','translate(730,520)');
+  $('#logList').innerHTML='';
+  applySeason(S.season,false);
+  render();
+  // seed the margin notes
+  if(stage==='minute'){
+    log('You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An’ei — though the year is as lost to you as your name.');
+    log("'You're awake.' Sōan the physician sits back on his heels. 'No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend.'",'dim');
+    log('Rice lies scattered across the Kurosawa grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.');
+  }else if(stage==='10hr'){
+    log(RUNG_COPY[5],'milestone','家人');
+    log('Knotting a load for the woodlot, your fingers tie a porter’s knot you never learned — quick, certain, a stranger’s habit in your own hands. It means nothing. It will not leave you.','dim');
+    log('Forage the deep satoyama. (+4 sansai, +2 coin)');
+  }else{
+    log(RUNG_COPY[3],'milestone','門番');
+    log('Something surfaces and is gone — a porter’s knot, a road in grey rain, a name you cannot keep hold of.','dim');
+    log('Forage the near satoyama. (+2 sansai, +1 coin)');
+  }
+  // the freshest plate settles onto the sheet as you arrive (the signature, unprompted)
+  setTimeout(()=>{
+    if(stage==='minute')barenSweep([inkOf('kura')],{});
+    else{
+      const latest=PLATE_ORDER[Math.min(S.rung,5)-1];
+      if(latest){applyPlatesUpTo(Math.min(S.rung,5)-1);barenSweep($$('.p-'+latest),{});}
+    }
+  },500);
+}
+
+/* ================= build & wire ================= */
+function build(){
+  buildProof();
+  // paddy stalks: seedling rows INSIDE each terrace strip (the region that sways when worked)
+  const stalks=$('#paddyStalks');
+  [[499,263,586],[491,283,595],[483,302,601],[490,309,598]].forEach(r=>{
+    for(let x=r[0];x<=r[2];x+=14){
+      mk('path',{d:`M${x},${r[1]} l-3,-7 M${x},${r[1]} l3,-7`,fill:'none',stroke:'var(--roku)','stroke-width':1.2},stalks);
+    }
+  });
+  // kura namako lattice (the R4 plate)
+  const lat=$('#kuraLattice');
+  for(let x=134;x<226;x+=11){
+    mk('path',{d:`M${x},432 L${x+24},408`,stroke:'var(--ai)','stroke-width':1.1,fill:'none'},lat);
+    mk('path',{d:`M${x+24},432 L${x},408`,stroke:'var(--ai)','stroke-width':1.1,fill:'none'},lat);
+  }
+  // bestiary rows (karazuri until faced: locked = visible mystery)
+  const rows=$('#bstRows');
+  BEASTS.forEach((b,i)=>{
+    const g=mk('g',{id:'bst-'+b.id,class:'bst',transform:`translate(0,${i*28})`},rows);
+    mk('text',{x:.8,y:.8,class:'b-ed','text-anchor':'middle'},g).textContent=b.k;
+    mk('text',{x:-.8,y:-.8,class:'b-el','text-anchor':'middle'},g).textContent=b.k;
+    mk('text',{x:0,y:0,class:'b-fog','text-anchor':'middle'},g).textContent=b.k;
+    mk('text',{x:0,y:0,class:'b-ink','text-anchor':'middle'},g).textContent=b.k;
+  });
+  // node hit regions (min ~48px, keyboard reachable)
+  const hits=$('#hits');
+  for(const id in NODES){
+    const n=NODES[id];
+    const c=mk('circle',{id:'hit-'+id,class:'hit',cx:n.x,cy:n.y,r:34,tabindex:0,role:'button','aria-label':`${n.name} — ${n.en}`},hits);
+    const go=()=>{if(busy)return;closeCarts();walkTo(id,()=>openCart(id));};
+    c.addEventListener('click',go);
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+  }
+  // pedlar
+  $('#pedlarPos').addEventListener('click',()=>{if(S.pedlar&&!busy)openPedlar();});
+  // dismiss cartouches
+  $('#scene').addEventListener('click',e=>{if(e.target.id==='scene'||e.target.classList.contains('frame')||e.target.classList.contains('frame2'))closeCarts();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCarts();});
+  // margin notes pull-up (mobile)
+  $('#mlhead').addEventListener('click',()=>$('#mlog').classList.toggle('open'));
+  // kentō mark toggles the dev strip
+  $('#kento').addEventListener('click',()=>$('#dev').classList.toggle('hide'));
+  // dev strip
+  $$('#dev [data-dev]').forEach(b=>b.addEventListener('click',()=>{
+    const a=b.dataset.dev;
+    if(a!=='auto')forceResolve();   // beats never block each other: settle, then play
+    if(a==='tick')doTick();
+    else if(a==='fight')doFight();
+    else if(a==='rung')doRung();
+    else if(a==='judge')doJudge();
+    else if(a==='reveal')doReveal();
+    else if(a==='season')doSeason();
+    else if(a==='auto'){S.auto=!S.auto;$('#devAuto').textContent='auto '+(S.auto?'✓':'✗');}
+    else if(a==='reset'||a==='stage-3hr')setStage('3hr');
+    else if(a==='stage-1min')setStage('minute');
+    else if(a==='stage-10hr')setStage('10hr');
+  }));
+  // living mock: auto-tick ~every 2.5s
+  tickTimer=setInterval(()=>{if(S.auto&&!busy)doTick();},2500);
+  setStage('3hr');
+  setTimeout(()=>{if(S.auto&&!busy)doTick();},1400);
+}
+build();
+</script>
+</body>
+</html>

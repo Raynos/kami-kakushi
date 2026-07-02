@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kami-kakushi — Yashiki Cutaway 屋敷断面</title>
+<style>
+/* ===== Yashiki Cutaway — the house is the save file ===== */
+:root{
+  --washi:#E9DFC7; --earth:#DED2B4; --chip:#F2EBD8;
+  --ink:#2B2620; --cedar:#9C7B57; --ai:#34465A;
+  --amber:#C99347; --shu:#A63A22;
+  --sky:#E2DEC6; --hill:#A2A88C; --far:#B8B9A4;
+  --boka:#9AA383; --inkStrong:#0B0805;
+  --disp:"Toppan Bunkyu Midashi Mincho","Toppan Bunkyu Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Hiragino Mincho ProN","Yu Mincho","Iowan Old Style",Baskerville,"Hoefler Text",Georgia,serif;
+  --hand:"Klee","Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN",cursive,serif;
+  --mono:ui-monospace,Menlo,Monaco,monospace;
+  /* type scale: 10 / 12 / 14 / 18 / 34 (+96 koku brush) */
+}
+body.s-summer{--sky:#DCE0C4;--hill:#8FA080;--far:#AEB79C;--boka:#7E9878}
+body.s-autumn{--sky:#E0D2AE;--hill:#A68A5B;--far:#BFA886;--washi:#E8DABB;--earth:#DBC9A2;--boka:#C09A5F}
+body.s-winter{--sky:#E0E0DA;--hill:#ABAFAA;--far:#C6C9C4;--boka:#A9AFB6}
+body.night{--washi:#141926;--earth:#10141F;--chip:#1D2434;--sky:#0D1119;
+  --hill:#1A2130;--far:#151B28;--cedar:#3C465C;--ink:#8E99AD;--inkStrong:#C9D3E6}
+body.night .smoke,body.night .fire{display:none}
+body.night .bayfill{fill:var(--sky)}
+body.night #hearthGlow{opacity:0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--washi); color:var(--ink);
+  font-family:var(--body); font-size:14px;
+  display:grid; grid-template-rows:1fr auto auto;
+  overflow:hidden;
+  transition:background 1.2s ease, color 1.2s ease;
+}
+.num{font-variant-numeric:tabular-nums}
+/* ---- stage / camera ---- */
+#stage{position:relative;overflow:hidden;min-height:0}
+#camera{width:100%;height:100%;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1), transform-origin .45s cubic-bezier(.2,.8,.2,1)}
+#scene{width:100%;height:100%;display:block}
+#scene text{font-family:var(--body);fill:var(--ink)}
+#scene .k{font-family:var(--disp)}
+#scene .hand{font-family:var(--hand)}
+#skyR,#groundR{transition:fill 1.2s ease}
+#bokaR,#skylife,#cloudband,#fogbandG{transition:opacity 1.2s ease}
+.bird{animation:birdbob 5s ease-in-out infinite}
+.bird.b2{animation-delay:-1.8s}.bird.b3{animation-delay:-3.4s}
+@keyframes birdbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.bird{animation:none}}
+#cloudband{animation:cdrift 70s ease-in-out infinite alternate}
+@keyframes cdrift{from{transform:translateX(-14px)}to{transform:translateX(22px)}}
+.hillp{transition:fill 1.2s ease, opacity 1.2s ease}
+/* ---- bays: ink weight is depth ---- */
+.bay{cursor:pointer;outline:none}
+.bay :is(path,line,rect,circle,ellipse,polyline){
+  stroke-width:var(--w,1.2);
+  transition:stroke-width .45s cubic-bezier(.2,.8,.2,1), opacity .45s ease, stroke 1.2s ease, fill 1.2s ease;
+}
+.bay .wS{stroke-width:calc(var(--w,1.2)*1.25)}
+.bay .wL{stroke-width:calc(var(--w,1.2)*.55)}
+.bay.active{--w:1.85}
+#bays.focused .bay:not(.active){--w:.5;opacity:.6}
+.bay .detail{opacity:0;transition:opacity .45s ease .12s}
+.bay.active .detail{opacity:1}
+.bay .lbl{opacity:.6;font-size:12px;transition:opacity .45s}
+.bay.active .lbl{opacity:.95}
+.bay:focus-visible .hit{stroke:var(--amber);stroke-width:1.5;stroke-dasharray:4 3}
+.hit{fill:transparent;stroke:none;pointer-events:all}
+#bays.allfog .bay{--w:.5;opacity:.28}
+#bays.allfog .bay.unfogged{--w:.9;opacity:.85}
+.fog{--w:.5;opacity:.35}
+/* ---- day-only roof gain: a low-roof night silhouette stays exactly as-is;
+   day steepens the same triangle from its eave (fill-box bottom anchor) ---- */
+.roofPeak{transform-box:fill-box;transform-origin:center bottom;transition:transform 1.2s ease}
+body:not(.night) .roofPeak{transform:scaleY(2.5)}
+.roofLbl{transition:transform 1.2s ease}
+body:not(.night) .roofLbl{transform:translateY(calc(-1*var(--lift)))}
+/* ---- sky life: single-hue bokashi wash + cloud band + birds (day only) ---- */
+#bokaR{fill:url(#bokaGrad);pointer-events:none}
+body.night :is(#bokaR,#skylife,#cloudband,#fogbandG){opacity:0}
+/* ---- ambient (transform/opacity only) ---- */
+.smoke{animation:smoke 6s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom center}
+.smoke.s2{animation-delay:-3.2s}
+@keyframes smoke{0%{transform:translateY(0) scaleX(1);opacity:.4}
+  50%{transform:translateY(-10px) scaleX(1.15);opacity:.24}
+  100%{transform:translateY(-18px) scaleX(.95);opacity:0}}
+.fogdrift{animation:fdrift 16s ease-in-out infinite alternate}
+@keyframes fdrift{from{transform:translateX(0)}to{transform:translateX(-26px)}}
+.flick{animation:flick 3.2s steps(3) infinite}
+@keyframes flick{0%,100%{opacity:.85}50%{opacity:1}}
+/* ---- figure ---- */
+#fig{will-change:transform}
+#figPose{transform-box:fill-box;transform-origin:center bottom;transition:transform .8s ease}
+#figPose.hurt{transform:rotate(9deg)}
+#figBody{transform-box:fill-box;transform-origin:center}
+#legsB{visibility:hidden}
+#fig.stride #legsA{visibility:hidden}
+#fig.stride #legsB{visibility:visible}
+#fig.working #armW{animation:rake .9s ease-in-out infinite;transform-box:fill-box;transform-origin:top left}
+@keyframes rake{0%,100%{transform:rotate(0)}50%{transform:rotate(-26deg)}}
+/* ---- meter, bales, seals ---- */
+#meterFill{transition:stroke-dasharray .6s ease-out;stroke:var(--ink);stroke-width:3}
+.bale{transition:opacity .6s}
+.bale.tick :is(rect,path,line){stroke-width:1.8;transition:stroke-width .25s}
+.scaf{transition:stroke-dashoffset 1.8s ease-in-out, opacity .6s}
+.kuraWash{opacity:0;transition:opacity .6s ease}
+.kura-lit .kuraWash{opacity:.22}
+.crack{transition:opacity .6s}
+/* ---- fx ---- */
+.rn{font-size:12px;animation:rise .9s ease-out forwards;fill:var(--ink)}
+@keyframes rise{from{transform:translateY(0);opacity:.95}to{transform:translateY(-34px);opacity:0}}
+.rnr{animation:rnflash .5s ease-out forwards}
+@keyframes rnflash{from{opacity:1}to{opacity:0}}
+.slash{stroke:var(--ink);stroke-width:2;animation:slashes .32s ease-out forwards}
+@keyframes slashes{from{opacity:0;transform:scale(.6)}30%{opacity:1}to{opacity:0;transform:scale(1.08)}}
+#kokuBig{font-size:96px;opacity:0;transform-box:fill-box;transform-origin:center;
+  transition:opacity .8s ease, transform .8s ease;transform:scale(.94)}
+#kokuBig.on{opacity:.92;transform:scale(1)}
+#kokuSeal{transition:opacity .6s}
+#kokuSealIn.pop{animation:sealpop .4s ease-out;transform-box:fill-box;transform-origin:center}
+@keyframes sealpop{from{transform:scale(1.25)}to{transform:scale(1)}}
+#scafG{transition:opacity .8s}
+#sceneVeil{fill:var(--ai);opacity:0;pointer-events:none;transition:opacity .8s ease}
+#sceneVeil.on{opacity:.74}
+#lampGlow{opacity:0;transition:opacity .8s ease}
+#lampGlow.on{opacity:1}
+body.night #engawaGlow{opacity:.3}
+#engawaGlow{opacity:0;transition:opacity 1.2s}
+/* ---- fuda verbs (flat washi chips, fixed type sizes) ---- */
+.fudaBtn{cursor:pointer;outline:none}
+.fudaBtn rect{fill:var(--chip);stroke:var(--ink);stroke-width:.75;transition:stroke-width .2s, fill 1.2s}
+.fudaBtn:hover rect,.fudaBtn:focus-visible rect{stroke-width:1.5}
+.fudaBtn text{font-size:12px}
+.fudaBtn .en{font-size:10px;opacity:.62}
+.fudaBtn .nail{fill:var(--ink);stroke:none}
+.fudaBtn.repair text{fill:var(--cedar)}
+/* ---- ceremony card ---- */
+#grain{position:fixed;inset:0;pointer-events:none;z-index:35;opacity:.06}
+#card{position:fixed;inset:0;display:grid;place-items:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .7s ease}
+#card.on{opacity:1;pointer-events:auto}
+#card .paper{background:var(--chip);border:1px solid var(--ink);padding:34px 44px 28px;max-width:430px;
+  text-align:center;transition:background .5s;position:relative}
+#card.stamped .paper{background:#E3D5B2}
+body.night #card.stamped .paper{background:#232B3D}
+#card .rk{font:700 34px/1.25 var(--disp);letter-spacing:.14em;margin:6px 0 2px}
+#card .rt{font-size:12px;letter-spacing:.2em;opacity:.7;text-transform:uppercase}
+#card .rc{font-size:14px;line-height:1.75;margin-top:14px;text-align:left}
+#card .sealbox{position:absolute;right:18px;bottom:16px;width:46px;height:46px;border:2.5px solid var(--shu);
+  display:grid;place-items:center;color:var(--shu);font-family:var(--disp);font-size:18px;
+  opacity:0;transform:scale(1.4) rotate(-4deg)}
+#card.stamped .sealbox{animation:stamp .3s cubic-bezier(.34,1.8,.6,1) forwards}
+@keyframes stamp{0%{opacity:0;transform:scale(1.4) rotate(-4deg)}
+  60%{opacity:1;transform:scale(.94) rotate(-4deg)}100%{opacity:1;transform:scale(1) rotate(-4deg)}}
+#card .hint{font-size:10px;opacity:.45;margin-top:16px}
+/* ---- log strip: the earth the house stands on ---- */
+#log{padding:7px 18px 5px;min-height:70px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;
+  border-top:1px solid color-mix(in srgb,var(--ink) 28%,transparent);
+  background:var(--earth);transition:background 1.2s}
+#log .l{font-size:14px;line-height:1.45;transition:opacity .6s}
+#log .l:nth-last-child(1){opacity:1;color:var(--inkStrong);font-weight:700}
+#log .l:nth-last-child(2){opacity:.42;font-weight:400}
+#log .l:nth-last-child(3){opacity:.24;font-weight:400}
+#log .l:nth-last-child(4){opacity:.12;font-weight:400}
+#log .l:nth-last-child(n+5){display:none}
+#log .msl{font-family:var(--disp)}
+#log .handl{font-family:var(--hand);opacity:.9}
+/* ---- bottom bar: furoshiki ---- */
+#bar{display:flex;gap:22px;align-items:baseline;padding:7px 18px 9px;font-size:12px;
+  background:var(--earth);transition:background 1.2s;flex-wrap:wrap}
+#bar .tag{font-family:var(--disp);font-size:12px;opacity:.6;letter-spacing:.2em}
+#bar .res b{font-size:14px;font-weight:600;display:inline-block;min-width:2.2ch;font-variant-numeric:tabular-nums}
+#bar .res{white-space:nowrap}
+#bar .rungTag{font-family:var(--disp);margin-left:auto;letter-spacing:.12em;opacity:.8}
+.wflash{animation:wf .35s ease-out}
+@keyframes wf{from{font-weight:800}to{font-weight:600}}
+.hidden{display:none!important}
+.svghide{visibility:hidden}
+/* ---- dev strip ---- */
+#dev{position:fixed;right:8px;bottom:8px;z-index:60;font:10px/1.7 var(--mono);
+  background:#181818;color:#8f8f8f;padding:6px 8px;opacity:.55;max-width:280px;
+  display:flex;flex-wrap:wrap;gap:4px;align-items:center;border:1px solid #2c2c2c}
+#dev:hover,#dev:focus-within{opacity:1}
+#dev .devlbl{width:100%;color:#6f6f6f;letter-spacing:.08em}
+#dev button{font:10px var(--mono);background:#242424;color:#b5b5b5;border:1px solid #3c3c3c;
+  padding:2px 7px;cursor:pointer}
+#dev button:hover{color:#e6e6e6}
+#dev button:focus-visible{outline:1px solid #d8c27a}
+#dev button.on{color:#e8d9a0;border-color:#8a7a4a}
+/* ---- responsive: section keeps height, pans; camera glued to figure ---- */
+@media (max-width:700px){
+  #stage{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+  #camera{width:auto;height:100%}
+  #scene{width:auto;height:100%;min-width:1150px}
+  #bar{gap:12px}
+  #dev{max-width:200px}
+}
+/* ---- reduced motion: alive through state, not movement ---- */
+@media (prefers-reduced-motion:reduce){
+  .smoke,.fogdrift,.flick,#cloudband{animation:none}
+  #camera{transition:none}
+  .scaf{transition:opacity .6s}
+  #fig.working #armW{animation:none}
+  .rn{animation:rnflash .5s ease-out forwards}
+  .slash{animation-duration:.12s}
+  #kokuBig{transition:opacity .4s;transform:none}
+}
+</style>
+</head>
+<body class="s-spring">
+<div id="stage">
+<div id="camera">
+<svg id="scene" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax meet" aria-label="Cutaway section of the Kurosawa estate">
+  <!-- SKY (bled past the viewBox so letterboxing never shows a seam) -->
+  <defs>
+    <linearGradient id="bokaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--boka)" stop-opacity=".24"/>
+      <stop offset=".55" stop-color="var(--boka)" stop-opacity=".08"/>
+      <stop offset="1" stop-color="var(--boka)" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect id="skyR" x="-500" y="-520" width="2440" height="1140" fill="var(--sky)"/>
+  <rect id="bokaR" x="-500" y="-520" width="2440" height="700"/>
+  <g id="cloudband">
+    <ellipse cx="260" cy="118" rx="86" ry="12" fill="var(--washi)" opacity=".4"/>
+    <ellipse cx="330" cy="126" rx="54" ry="9" fill="var(--washi)" opacity=".32"/>
+    <ellipse cx="820" cy="90" rx="70" ry="10" fill="var(--washi)" opacity=".32"/>
+    <ellipse cx="980" cy="150" rx="58" ry="9" fill="var(--washi)" opacity=".28"/>
+  </g>
+  <g id="skylife">
+    <path class="bird b1" d="M400,160 q8,-8 16,0 q8,-8 16,0" fill="none" stroke="var(--ink)" stroke-width="1.1" opacity=".55"/>
+    <path class="bird b2" d="M470,182 q7,-7 14,0 q7,-7 14,0" fill="none" stroke="var(--ink)" stroke-width="1.1" opacity=".45"/>
+    <path class="bird b3" d="M1070,120 q7,-7 14,0 q7,-7 14,0" fill="none" stroke="var(--ink)" stroke-width="1.1" opacity=".5"/>
+  </g>
+  <g id="hills">
+    <path class="hillp" d="M560,520 L720,226 L830,292 L960,144 L1090,254 L1220,166 L1350,246 L1440,204 V520 Z" fill="var(--far)" opacity=".24"/>
+    <path class="hillp" d="M660,520 Q950,282 1240,520 Z" fill="var(--hill)" opacity=".28"/>
+    <path class="hillp" d="M940,520 Q1180,372 1440,520 Z" fill="var(--hill)" opacity=".42"/>
+  </g>
+  <g id="fogbandG">
+    <rect class="fogdrift" x="540" y="266" width="920" height="26" fill="var(--boka)" opacity=".22"/>
+    <rect class="fogdrift" x="660" y="404" width="640" height="20" fill="var(--sky)" opacity=".42"/>
+  </g>
+  <g id="moon" transform="translate(1150,90)">
+    <circle r="15" fill="#EFE8D2" opacity=".9"/>
+    <circle r="15" cx="-7" fill="var(--sky)" opacity=".85"/>
+  </g>
+  <text id="dateTxt" class="k" x="1424" y="40" text-anchor="end" font-size="18" letter-spacing="2">安永九年 春 · 十四日</text>
+  <g id="kokuSeal" transform="translate(1398,58)"><g id="kokuSealIn">
+    <rect x="-20" y="0" width="40" height="42" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+    <text id="kokuSealTxt" class="k" x="0" y="19" text-anchor="middle" font-size="14">八</text>
+    <text class="k" x="0" y="36" text-anchor="middle" font-size="14">石</text>
+  </g></g>
+  <text id="kokuBig" class="k" x="640" y="200" text-anchor="middle">十一石</text>
+
+  <!-- GROUND -->
+  <rect id="groundR" x="-500" y="520" width="2440" height="100" fill="var(--earth)"/>
+  <line x1="0" y1="520" x2="1440" y2="520" stroke="var(--ink)" stroke-width="1.4"/>
+
+  <!-- ESTATE BAYS -->
+  <g id="bays">
+    <!-- 田圃 paddies -->
+    <g class="bay" id="bay-paddies" data-p="paddies" tabindex="0" role="button" aria-label="Home paddies 田圃">
+      <path d="M30,500 H130 M34,509 H134 M30,518 H138" stroke="var(--ai)" fill="none" opacity=".55"/>
+      <path d="M44,500 v-7 M62,500 v-8 M80,500 v-7 M98,500 v-8 M116,500 v-7 M52,509 v-7 M74,509 v-8 M96,509 v-7 M118,509 v-8" stroke="var(--hill)" fill="none"/>
+      <line x1="142" y1="520" x2="142" y2="478" stroke="var(--ink)"/>
+      <text class="hand detail" x="120" y="472" font-size="10">農 三</text>
+      <text class="lbl k" x="82" y="458" text-anchor="middle">田圃</text>
+      <rect class="hit" x="24" y="440" width="126" height="80"/>
+    </g>
+    <!-- 門前 gate & forecourt -->
+    <g class="bay" id="bay-gate" data-p="gate" tabindex="0" role="button" aria-label="Gate and forecourt 門前">
+      <line x1="200" y1="520" x2="200" y2="422" stroke="var(--ink)"/>
+      <line x1="292" y1="520" x2="292" y2="422" stroke="var(--ink)"/>
+      <line x1="184" y1="422" x2="308" y2="422" stroke="var(--ink)" class="wS"/>
+      <g class="roofPeak">
+        <path d="M178,422 L246,394 L314,422" fill="none" stroke="var(--ink)" class="wS"/>
+        <path d="M186,414 L246,390 L306,414" fill="none" stroke="var(--ink)" opacity=".5" class="wL"/>
+        <path d="M198,410 l16,10 M222,398 l16,10 M254,398 l16,10 M278,410 l16,10" fill="none" stroke="var(--ink)" opacity=".4" class="wL"/>
+      </g>
+      <line x1="231" y1="520" x2="231" y2="470" stroke="var(--ink)"/>
+      <path d="M207,440 L232,426 L257,440" fill="none" stroke="var(--ink)" class="wL"/>
+      <rect x="211" y="440" width="42" height="30" fill="var(--chip)" stroke="var(--ink)" class="wS"/>
+      <path d="M220,446 v20 M228,446 v20 M236,446 v20 M244,446 v20" stroke="var(--ink)" opacity=".65" stroke-width=".9"/>
+      <text class="k" x="232" y="434" text-anchor="middle" font-size="10" opacity=".7">高札</text>
+      <text class="detail" id="questTxt" x="232" y="484" text-anchor="middle" font-size="10">crop-raiders 1/3</text>
+      <text class="lbl k roofLbl" x="246" y="380" text-anchor="middle" style="--lift:42px">門前</text>
+      <rect class="hit" x="170" y="332" width="148" height="188"/>
+    </g>
+    <!-- MAIN HOUSE (hearth · engawa · ruined bays) -->
+    <g class="bay" id="bay-house" data-p="house" tabindex="0" role="button" aria-label="Main house — hearth and engawa">
+      <line x1="350" y1="330" x2="735" y2="330" stroke="var(--ink)" class="wS"/>
+      <g class="roofPeak">
+        <path d="M332,330 L542,252 L752,330" fill="none" stroke="var(--ink)" class="wS"/>
+        <path d="M348,322 L542,260 L736,322" fill="none" stroke="var(--ink)" opacity=".45" class="wL"/>
+        <path d="M362,314 l20,12 M394,296 l20,12 M426,278 l20,12 M458,264 l20,10 M498,258 l20,8 M542,258 l20,-2 M562,260 l20,10 M592,270 l20,12 M624,286 l20,12 M656,302 l20,12 M688,318 l20,10" fill="none" stroke="var(--ink)" opacity=".38" class="wL"/>
+      </g>
+      <line x1="360" y1="330" x2="360" y2="520" stroke="var(--ink)"/>
+      <line x1="455" y1="330" x2="455" y2="520" stroke="var(--ink)"/>
+      <line x1="550" y1="330" x2="550" y2="520" stroke="var(--ink)"/>
+      <line x1="645" y1="330" x2="645" y2="520" stroke="var(--ink)"/>
+      <line x1="730" y1="330" x2="730" y2="520" stroke="var(--ink)"/>
+      <line x1="352" y1="470" x2="733" y2="470" stroke="var(--ink)"/>
+      <!-- hearth bay -->
+      <ellipse id="hearthGlow" cx="406" cy="440" rx="40" ry="34" fill="var(--amber)" opacity=".14"/>
+      <rect x="388" y="458" width="36" height="12" fill="none" stroke="var(--ink)"/>
+      <line x1="406" y1="332" x2="406" y2="440" stroke="var(--ink)" opacity=".6"/>
+      <circle cx="406" cy="446" r="6" fill="none" stroke="var(--ink)" class="wS"/>
+      <path d="M401,444 h10 M399,448 h14" stroke="var(--ink)" opacity=".4" stroke-width=".8"/>
+      <path class="smoke" d="M406,428 q-5,-10 2,-18 q6,-8 0,-16" fill="none" stroke="var(--ink)" opacity=".4"/>
+      <path class="smoke s2" d="M412,432 q-3,-9 3,-15 q4,-6 -1,-14" fill="none" stroke="var(--ink)" opacity=".28"/>
+      <!-- engawa bay -->
+      <line x1="458" y1="474" x2="548" y2="474" stroke="var(--ink)" class="wS"/>
+      <path d="M470,474 v9 M484,474 v9 M498,474 v9 M512,474 v9 M526,474 v9 M540,474 v9" stroke="var(--ink)" opacity=".5" stroke-width=".8"/>
+      <line x1="470" y1="342" x2="536" y2="342" stroke="var(--ink)" opacity=".5"/>
+      <ellipse id="engawaGlow" cx="500" cy="452" rx="36" ry="28" fill="var(--amber)"/>
+      <g id="candle" transform="translate(500,462)">
+        <line x1="0" y1="0" x2="0" y2="-8" stroke="var(--ink)"/>
+        <circle class="flick" cx="0" cy="-11" r="2.4" fill="var(--amber)"/>
+      </g>
+      <!-- ruined bays (U3/U4) -->
+      <g id="ruinBays" opacity=".62">
+        <path d="M556,338 L640,512 M580,336 L642,464 M610,334 L643,410 M556,420 L600,512 M556,478 L575,516" stroke="var(--ink)" fill="none" opacity=".5"/>
+        <path d="M652,338 L726,510 M678,336 L727,452 M652,430 L690,514" stroke="var(--ink)" fill="none" opacity=".5"/>
+        <path d="M556,338 L642,338 M652,338 L726,338" stroke="none"/>
+      </g>
+      <text class="detail" x="641" y="500" text-anchor="middle" font-size="10" opacity=".8">U3 · Reclaim the first shinden · 700</text>
+      <!-- rung meter: sumitsubo ink-line on the main beam -->
+      <line x1="360" y1="325" x2="720" y2="325" stroke="var(--ink)" opacity=".25" stroke-width="1"/>
+      <line id="meterFill" x1="360" y1="325" x2="720" y2="325" pathLength="100" stroke-dasharray="21 100" stroke-width="3"/>
+      <text id="meterKanji" class="k" x="726" y="353" font-size="14" text-anchor="end">蔵番</text>
+      <g id="meterChip">
+        <rect x="600" y="339" width="88" height="16" fill="var(--chip)" stroke="var(--ink)" stroke-width=".6"/>
+        <text id="meterTxt" class="num" x="644" y="351" text-anchor="middle" font-size="10">620 / 2950</text>
+      </g>
+      <text class="lbl k roofLbl" x="542" y="242" text-anchor="middle" style="--lift:117px">母屋</text>
+      <rect class="hit" x="340" y="120" width="410" height="400"/>
+    </g>
+    <!-- 蔵 kura -->
+    <g class="bay" id="bay-kura" data-p="kura" tabindex="0" role="button" aria-label="Kura grain-store 蔵">
+      <ellipse class="kuraWash" cx="832" cy="450" rx="62" ry="70" fill="var(--amber)"/>
+      <rect x="772" y="362" width="120" height="158" fill="none" stroke="var(--ink)" class="wS"/>
+      <g class="roofPeak">
+        <path d="M762,362 L832,330 L902,362" fill="none" stroke="var(--ink)" class="wS"/>
+        <path d="M778,354 l18,10 M804,340 l18,10 M840,340 l18,10 M866,354 l18,10" fill="none" stroke="var(--ink)" opacity=".4" class="wL"/>
+      </g>
+      <rect x="824" y="384" width="18" height="13" fill="none" stroke="var(--ink)"/>
+      <path d="M776,506 l18,-14 m-18,0 l18,14 m6,-14 l18,14 m-18,0 l18,-14" stroke="var(--ink)" opacity=".4" fill="none"/>
+      <path class="crack" id="kuraCrack" d="M800,378 l7,26 l-6,22 l9,30 l-4,20" fill="none" stroke="var(--ink)"/>
+      <g id="bales"></g>
+      <g class="detail">
+        <rect x="856" y="498" width="24" height="16" fill="none" stroke="var(--ink)"/>
+        <text class="num" id="coinBankTxt" x="868" y="493" text-anchor="middle" font-size="10">文 60</text>
+        <text class="num" id="baleCountTxt" x="800" y="440" text-anchor="middle" font-size="10">米 210</text>
+      </g>
+      <g id="scafG"></g>
+      <text class="lbl k roofLbl" x="832" y="322" text-anchor="middle" style="--lift:48px">蔵</text>
+      <rect class="hit" x="762" y="270" width="140" height="250"/>
+    </g>
+    <!-- 稽古場 drill yard -->
+    <g class="bay" id="bay-drill" data-p="drill" tabindex="0" role="button" aria-label="Drill yard 稽古場">
+      <g id="drillRuin">
+        <line x1="952" y1="520" x2="964" y2="466" stroke="var(--ink)"/>
+        <line x1="930" y1="514" x2="1002" y2="504" stroke="var(--ink)"/>
+        <path d="M938,520 v-9 M946,520 v-6 M990,520 v-8 M1010,520 v-5 M1022,520 v-9" stroke="var(--hill)" fill="none"/>
+      </g>
+      <g id="drillBuilt" class="svghide">
+        <line x1="938" y1="520" x2="938" y2="442" stroke="var(--ink)"/>
+        <line x1="1024" y1="520" x2="1024" y2="442" stroke="var(--ink)"/>
+        <line x1="932" y1="446" x2="1030" y2="446" stroke="var(--ink)"/>
+        <line x1="962" y1="446" x2="962" y2="482" stroke="var(--ink)"/>
+        <rect x="958" y="482" width="8" height="18" fill="none" stroke="var(--ink)"/>
+        <line x1="998" y1="446" x2="998" y2="476" stroke="var(--ink)"/>
+        <rect x="994" y="476" width="8" height="18" fill="none" stroke="var(--ink)"/>
+      </g>
+      <text class="hand detail" x="981" y="436" text-anchor="middle" font-size="10">鍛 二</text>
+      <text class="lbl k" x="981" y="418" text-anchor="middle">稽古場</text>
+      <rect class="hit" x="924" y="406" width="114" height="114"/>
+    </g>
+    <!-- 杣 woodlot edge -->
+    <g class="bay" id="bay-wood" data-p="wood" tabindex="0" role="button" aria-label="Woodlot edge 杣">
+      <path d="M1084,520 q-3,-56 2,-102 m-2,30 l-14,-16 m14,38 l12,-14" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+      <path d="M1128,520 q4,-70 -2,-122 m2,42 l14,-18 m-14,44 l-13,-15" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+      <path d="M1062,414 q22,-14 46,-4 M1074,398 q16,-10 34,-3 M1108,394 q20,-12 42,-2 M1116,376 q14,-9 30,-3" fill="none" stroke="var(--ink)" opacity=".65"/>
+      <rect x="1098" y="504" width="24" height="16" fill="none" stroke="var(--ink)"/>
+      <line x1="1102" y1="504" x2="1118" y2="492" stroke="var(--ink)"/>
+      <text class="hand detail" x="1140" y="486" font-size="10">樵 二</text>
+      <text class="lbl k" x="1105" y="362" text-anchor="middle">杣</text>
+      <rect class="hit" x="1054" y="356" width="100" height="164"/>
+    </g>
+    <!-- 里山 near satoyama -->
+    <g class="bay" id="bay-sato" data-p="sato" tabindex="0" role="button" aria-label="Near satoyama 里山">
+      <path d="M1188,520 Q1236,472 1282,452" fill="none" stroke="var(--ink)" stroke-dasharray="3 5" opacity=".6"/>
+      <path d="M1206,512 v-9 M1224,502 v-9 M1244,490 v-9 M1262,478 v-8 M1233,509 v-7 M1256,496 v-7" stroke="var(--hill)" fill="none"/>
+      <line x1="1196" y1="520" x2="1196" y2="494" stroke="var(--ink)"/>
+      <text class="hand detail" x="1204" y="490" font-size="10">採 二</text>
+      <text class="lbl k" x="1244" y="438" text-anchor="middle">里山</text>
+      <rect class="hit" x="1182" y="428" width="112" height="92"/>
+    </g>
+    <!-- 奥山 deep satoyama (fogged) -->
+    <g class="bay fog" id="bay-oku" data-p="oku" tabindex="0" role="button" aria-label="Deep satoyama 奥山 — fogged">
+      <path d="M1312,520 L1368,430 L1400,478 L1428,414 L1440,438" fill="none" stroke="var(--ink)"/>
+      <path d="M1336,486 l8,-18 l8,18 M1372,470 l7,-16 l7,16 M1408,462 l7,-15 l7,15" fill="none" stroke="var(--ink)" opacity=".7"/>
+      <text class="lbl k" x="1382" y="398" text-anchor="middle">奥山</text>
+      <rect class="hit" x="1306" y="390" width="134" height="130"/>
+    </g>
+  </g>
+
+  <!-- BEAST -->
+  <g id="beast" class="svghide">
+    <path id="beastP" d="M0,0 q-6,-3 -6,-9 q0,-6 6,-8 q2,-5 8,-4 q6,1 7,6 q6,0 6,6 q0,6 -6,8 q-2,2 -7,1 z M14,-14 q6,-4 4,-11" fill="var(--ink)" stroke="var(--ink)" stroke-width="1"/>
+    <text id="beastLbl" class="k" x="6" y="-26" text-anchor="middle" font-size="12">猿</text>
+  </g>
+  <!-- forecast slip + stances -->
+  <g id="slip" class="svghide">
+    <rect x="-84" y="-112" width="182" height="98" fill="var(--chip)" stroke="var(--ink)" stroke-width=".9"/>
+    <text class="k" x="7" y="-92" text-anchor="middle" font-size="14">猿 · 勝目 二分九厘</text>
+    <text class="num" x="7" y="-78" text-anchor="middle" font-size="10" opacity=".65">win 29% · Worn pole 天秤棒</text>
+    <g class="fudaBtn" id="stG" tabindex="0" role="button" aria-label="Gedan — defensive">
+      <rect x="-72" y="-66" width="46" height="46" fill="var(--chip)"/>
+      <path d="M-49,-58 v10 m0,0 l-4,9 m4,-9 l4,9 M-53,-54 l10,7" stroke="var(--ink)" fill="none" stroke-width="1.4"/>
+      <text class="k" x="-49" y="-26" text-anchor="middle" font-size="10">下段</text>
+    </g>
+    <g class="fudaBtn" id="stC" tabindex="0" role="button" aria-label="Chudan — balanced">
+      <rect x="-16" y="-66" width="46" height="46" fill="var(--chip)"/>
+      <path d="M7,-58 v10 m0,0 l-4,9 m4,-9 l4,9 M2,-52 l11,-2" stroke="var(--ink)" fill="none" stroke-width="1.4"/>
+      <text class="k" x="7" y="-26" text-anchor="middle" font-size="10">中段</text>
+    </g>
+    <g class="fudaBtn" id="stJ" tabindex="0" role="button" aria-label="Jodan — aggressive">
+      <rect x="40" y="-66" width="46" height="46" fill="var(--chip)"/>
+      <path d="M63,-58 v10 m0,0 l-4,9 m4,-9 l4,9 M58,-54 l8,-9" stroke="var(--ink)" fill="none" stroke-width="1.4"/>
+      <text class="k" x="63" y="-26" text-anchor="middle" font-size="10">上段</text>
+    </g>
+  </g>
+
+  <!-- JUDGE -->
+  <g id="judge" class="svghide">
+    <circle cx="0" cy="-24" r="2.6" fill="var(--ink)"/>
+    <path d="M-7,-25 h14" stroke="var(--ink)" stroke-width="1.6"/>
+    <path d="M0,-21 q-1.5,7 0,14 M0,-7 l-3,7 M0,-7 l3,7 M0,-16 l7,5" stroke="var(--ink)" fill="none" stroke-width="2"/>
+    <line x1="8" y1="-12" x2="8" y2="0" stroke="var(--ink)"/>
+    <circle cx="8" cy="-14" r="2.6" fill="var(--amber)"/>
+    <circle id="judgeGlow" cx="8" cy="-14" r="34" fill="var(--amber)" opacity=".13"/>
+  </g>
+
+  <!-- FIGURE: a small brush silhouette, never a face -->
+  <g id="figLying" class="svghide" transform="translate(500,470)">
+    <path d="M-11,0 q4,-4 9,-3 q6,1 11,2 l4,1" fill="none" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="-13" cy="-2" r="2.8" fill="var(--ink)"/>
+  </g>
+  <g id="fig">
+    <g id="figPose">
+      <g id="figBody">
+        <circle cx="0" cy="-22" r="3.1" fill="var(--ink)"/>
+        <path d="M0,-19 q1.2,6 0,12" fill="none" stroke="var(--ink)" stroke-width="3.2"/>
+        <path id="armW" d="M0,-15 q6,3 8,7" fill="none" stroke="var(--ink)" stroke-width="1.9"/>
+        <line id="pole" x1="-8" y1="-25" x2="8" y2="-3" stroke="var(--ink)" stroke-width="1.1"/>
+        <g id="yari" class="svghide">
+          <line x1="-4" y1="-34" x2="6" y2="0" stroke="var(--ink)" stroke-width="1.1"/>
+          <path d="M-4,-34 l-2,-5" stroke="var(--ink)" stroke-width="1.8"/>
+        </g>
+        <path id="haori" class="svghide" d="M-2.6,-16 l-2.6,6 M2.6,-16 l2.6,6" stroke="var(--ink)" stroke-width="1.1"/>
+        <path id="legsA" d="M0,-7 L-3.4,0 M0,-7 L3.4,0" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <path id="legsB" d="M0,-7 L-1.2,0 M0,-7 L4.8,-1" fill="none" stroke="var(--ink)" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="hpChip">
+      <rect x="8" y="-46" width="56" height="15" fill="var(--chip)" stroke="var(--ink)" stroke-width=".6"/>
+      <text id="hpTxt" class="num" x="36" y="-35" text-anchor="middle" font-size="10">身 46/58</text>
+    </g>
+  </g>
+
+  <!-- fuda verbs pinned at your feet -->
+  <g id="fuda"></g>
+  <!-- fx: rising numerals, slashes -->
+  <g id="fx"></g>
+  <!-- ceremony veil + lamp -->
+  <rect id="sceneVeil" x="-500" y="-520" width="2440" height="1140"/>
+  <ellipse id="lampGlow" cx="406" cy="440" rx="46" ry="38" fill="var(--amber)" fill-opacity=".22"/>
+</svg>
+</div>
+</div>
+<div id="log" aria-live="polite"></div>
+<div id="bar">
+  <span class="tag">包み</span>
+  <span class="res">米 <b class="num" id="rRice">12</b></span>
+  <span class="res">文 <b class="num" id="rCoin">34</b></span>
+  <span class="res">薪 <b class="num" id="rWood">5</b></span>
+  <span class="res">菜 <b class="num" id="rSansai">3</b></span>
+  <span class="res hidden" id="wHard">堅木 <b class="num" id="rHard">0</b></span>
+  <span class="res hidden" id="wSinew">腱 <b class="num" id="rSinew">0</b></span>
+  <span class="res" id="wSat">腹 <b class="num" id="rSat">51</b><span class="num" id="rSatMax">/64</span></span>
+  <span class="rungTag" id="rungTag">門番 · R3</span>
+</div>
+
+<div id="card" role="dialog" aria-modal="true" aria-label="Rung ceremony">
+  <div class="paper">
+    <div class="rt" id="cardEn">Kura-warden · R4</div>
+    <div class="rk" id="cardK">蔵番</div>
+    <div class="rc" id="cardCopy"></div>
+    <div class="sealbox" id="cardSeal">印</div>
+    <div class="hint">click to continue</div>
+  </div>
+</div>
+
+<div id="dev" aria-label="dev strip">
+  <span class="devlbl">yashiki-cutaway 屋敷断面</span>
+  <button data-dev="tick">tick</button>
+  <button data-dev="fight">fight</button>
+  <button data-dev="rung">rung</button>
+  <button data-dev="judge">judge</button>
+  <button data-dev="reveal">reveal</button>
+  <button data-dev="season">season</button>
+  <button data-dev="auto" class="on">auto</button>
+  <button data-dev="reset">reset</button>
+  <button data-dev="stage-1min">1min</button>
+  <button data-dev="stage-3hr">3hr</button>
+  <button data-dev="stage-10hr">10hr</button>
+</div>
+
+<script>
+'use strict';
+/* ===== Yashiki Cutaway — rooms are the menus ===== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const NS='http://www.w3.org/2000/svg';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const scene=$('#scene'), cam=$('#camera'), stage=$('#stage'), baysG=$('#bays'),
+      fig=$('#fig'), figPose=$('#figPose'), figBody=$('#figBody'),
+      fudaG=$('#fuda'), fx=$('#fx'), logEl=$('#log'), beast=$('#beast'),
+      slip=$('#slip'), judgeG=$('#judge');
+let TT=[]; const later=(f,ms)=>{const t=setTimeout(f,ms);TT.push(t);return t};
+const clearPending=()=>{TT.forEach(clearTimeout);TT=[]};
+let walking=false, skipLean=false;
+
+const SEASONS=[{k:'春',cls:'s-spring'},{k:'夏',cls:'s-summer'},{k:'秋',cls:'s-autumn'},{k:'冬',cls:'s-winter'}];
+const KNUM={8:'八',11:'十一',14:'十四',47:'四十七',50:'五十',53:'五十三'};
+const RUNGS=[
+ {k:'日雇',en:'Day-labourer',cap:1100},
+ {k:'下人',en:'Kept hand',cap:2150,copy:'Genemon the elder watches you clear the stores without being told twice. ‘The house is short of hands and shorter of trustworthy ones. Stay. Earn your rice.’ You are taken on as a kept hand.'},
+ {k:'手代',en:'Trusted hand',cap:2600,copy:'You can be set to a task and trusted to finish it. Genemon gives you the run of the woodlot and the near hill. A way to track what your hands are learning appears.'},
+ {k:'門番',en:'Gate-watch',cap:2800,copy:'Kihei sets you to the estate’s defence — pests, beasts, and the masterless men on the woodlot road. A weapon, a yard to train in, and a duty that is yours. You are the gate-watch now.'},
+ {k:'蔵番',en:'Kura-warden',cap:2950,copy:'Genemon hands you the key to the kura. ‘Mind the stores as if the rice were your own. The house is forgetting you were ever a stranger.’ You are the kura-warden now.'},
+ {k:'家人',en:'House-servant',cap:3100,copy:'Genemon takes you onto the household staff proper — no longer a season-hired hand, but one who answers to the house day and night. The work is the same; the standing is not.'},
+ {k:'用人',en:'Steward’s man',cap:3250,copy:'Lady Chiyo sets you to the steward’s errands — ledgers carried, messages run, the house’s small business put in your hands. They are weighing you for something larger than a servant.'},
+ {k:'内衆',en:'Trusted of the house',cap:3400,copy:'The lord Shigemasa himself calls you to the inner rooms. ‘You came to us with no name and nothing in your hands. Look what those hands have done.’ For the first time the house reckons your worth — not as a servant, but as a man who might one day carry its standing.'}];
+const U1_COPY='You spend the house’s first surplus mending the cracked kura and re-hanging the rotted door-bar. The stores keep dry now; the estate stops bleeding. (U1 · Stabilising)';
+
+const PLACES={paddies:{x:82},gate:{x:246},house:{x:475},kura:{x:832},drill:{x:981},wood:{x:1106},sato:{x:1236},oku:{x:1372}};
+let S=null, busy=false, autoT=null, saidSeasons=false, fogQueue=[], activeBeat=null;
+
+/* ---------- tiny helpers ---------- */
+function log(t,cls){const d=document.createElement('div');d.className='l'+(cls?' '+cls:'');d.textContent=t;
+  logEl.append(d); while(logEl.children.length>6)logEl.firstChild.remove();}
+function mk(tag,attrs,parent){const e=document.createElementNS(NS,tag);
+  for(const k in attrs)e.setAttribute(k,attrs[k]); (parent||fx).append(e); return e;}
+function tweenNum(el,from,to,fmt){fmt=fmt||(v=>v);
+  if(RM||from===to){el.textContent=fmt(to);el.classList.remove('wflash');void el.offsetWidth;el.classList.add('wflash');return}
+  const t0=performance.now();
+  (function step(t){const p=Math.min(1,(t-t0)/600),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(Math.round(from+(to-from)*e));
+    if(p<1)requestAnimationFrame(step)})(t0);}
+const BARMAP={rice:'#rRice',coin:'#rCoin',wood:'#rWood',sansai:'#rSansai',hard:'#rHard',sinew:'#rSinew'};
+function bump(res,n){const from=S.c[res];S.c[res]=Math.max(0,from+n);
+  const el=$(BARMAP[res]); if(el)tweenNum(el,from,S.c[res]);
+  if(res==='hard')$('#wHard').classList.toggle('hidden',S.c.hard===0);
+  if(res==='sinew')$('#wSinew').classList.toggle('hidden',S.c.sinew===0);}
+function rise(txt,x,y){const t=mk('text',{x:(x??S.x)+9,y:(y??488),class:'num '+(RM?'rnr':'rn')});
+  t.textContent=txt; later(()=>t.remove(),1000);}
+function workBurst(){fig.classList.add('working');later(()=>fig.classList.remove('working'),1100);}
+
+/* ---------- renderers ---------- */
+function setFig(instant){if(instant)fig.style.transition='none';
+  fig.style.transform=`translate(${S.x}px,520px)`;
+  if(instant)requestAnimationFrame(()=>fig.style.transition='');}
+function renderMeter(){const nx=RUNGS[S.rung+1]||RUNGS[7];
+  $('#meterFill').setAttribute('stroke-dasharray',`${Math.min(100,S.meter/nx.cap*100)} 100`);
+  $('#meterTxt').textContent=`${S.meter} / ${nx.cap}`;
+  $('#meterKanji').textContent=nx.k;
+  $('#rungTag').textContent=`${RUNGS[S.rung].k} · R${S.rung}`;}
+const BALE_POS=[[784,506],[812,506],[840,506],[798,488],[826,488],[812,470]];
+function renderBales(flash){const n=S.b.rice/40;
+  $$('#bales .bale').forEach((b,i)=>{b.style.opacity=(i+1)<=Math.floor(n)?1:(i<n?.45:0)});
+  $('#baleCountTxt').textContent=`米 ${S.b.rice}`;
+  $('#coinBankTxt').textContent=`文 ${S.b.coin}`;
+  if(flash){const i=Math.min(5,Math.floor(n)),b=$$('#bales .bale')[i]||$$('#bales .bale')[5];
+    if(b){b.classList.add('tick');later(()=>b.classList.remove('tick'),320);}}}
+function renderKoku(){const t=$('#kokuSealTxt'),s=KNUM[S.koku]||String(S.koku);
+  t.textContent=s; t.setAttribute('font-size',s.length>2?9:(s.length>1?11:14));}
+function renderDate(){$('#dateTxt').textContent=`安永九年 ${SEASONS[S.season].k} · ${S.stage==='10hr'?'三日':'十四日'}`;}
+function renderHP(){$('#hpTxt').textContent=`身 ${S.hp}/${S.hpmax}`;
+  figPose.classList.toggle('hurt',S.hp<=S.hpmax/2);}
+function renderEstate(){
+  $('#kuraCrack').style.opacity=S.estate>=1?0:1;
+  $('#bay-kura').classList.toggle('kura-lit',S.estate>=1);
+  $('#scafG').style.opacity=S.estate>=1?.25:1;
+  if(S.estate<1)$$('#scafG line').forEach(l=>l.style.opacity=0);
+  else $$('#scafG line').forEach(l=>{l.style.strokeDasharray='none';l.style.strokeDashoffset=0;l.style.opacity=1});
+  $('#drillRuin').classList.toggle('svghide',S.estate>=2);
+  $('#drillBuilt').classList.toggle('svghide',S.estate<2);
+  $('#bay-oku').classList.toggle('fog',!S.okuOpen);}
+function renderAll(){
+  ['rice','coin','wood','sansai','hard','sinew'].forEach(r=>{$(BARMAP[r]).textContent=S.c[r]});
+  $('#wHard').classList.toggle('hidden',!S.c.hard);
+  $('#wSinew').classList.toggle('hidden',!S.c.sinew);
+  $('#rSat').textContent=S.sat; $('#rSatMax').textContent='/'+S.satmax;
+  renderMeter();renderBales();renderKoku();renderDate();renderHP();renderEstate();
+  $('#pole').classList.toggle('svghide',S.weapon!=='pole');
+  $('#yari').classList.toggle('svghide',S.weapon!=='yari');
+  $('#haori').classList.toggle('svghide',!S.haori);
+  $('#questTxt').textContent=S.questTxt;
+  const m1=S.stage==='min1';
+  $('#hpChip').classList.toggle('svghide',m1);
+  ['#meterChip','#meterFill','#meterKanji','#kokuSeal','#dateTxt'].forEach(s=>$(s).classList.toggle('svghide',m1));
+  $('#bar').style.visibility=m1?'hidden':'visible';
+  $('#figLying').classList.toggle('svghide',!m1);
+  fig.classList.toggle('svghide',m1);
+  document.body.classList.toggle('night',m1);
+  baysG.classList.toggle('allfog',m1);
+  if(m1)baysG.classList.remove('focused');}
+
+/* ---------- fuda verbs ---------- */
+function verbsFor(p){
+  if(S.stage==='min1')return p==='house'?[{jp:'米を掻き集める',en:'rake the spilled rice',act:rake}]:[];
+  const v=[];
+  if(p==='paddies')v.push({jp:'田を打つ',en:'+4 rice',act:()=>deed('rice',4,'Work the home paddies. (+4 rice)')});
+  if(p==='gate')v.push({jp:'荷を運ぶ',en:'+2 coin',act:()=>deed('coin',2,'Haul stores at the forecourt. (+2 coin)')});
+  if(p==='house'){v.push({jp:'汁を炊く',en:'2菜 → +14身',meta:1,act:cook},{jp:'休む',en:'rest',meta:1,act:rest});}
+  if(p==='kura'){v.push({jp:'米を納める',en:`bank ${S.c.rice} rice`,meta:1,act:deposit});
+    if(S.estate<1)v.push({jp:'蔵を繕う',en:'U1 · 100文',meta:1,repair:1,act:reveal});}
+  if(p==='drill')v.push({jp:'素振り',en:'STR +1',meta:1,act:drill});
+  if(p==='wood')v.push({jp:'薪を伐る',en:'+3 wood',act:()=>deed('wood',3,'Cut wood at the woodlot edge. (+3 wood)')});
+  if(p==='sato')v.push({jp:'里山で採る',en:'+2菜 +1文',act:()=>{deed('sansai',2,'Forage the near satoyama. (+2 sansai, +1 coin)');bump('coin',1);}});
+  if(p==='oku'&&S.okuOpen)v.push({jp:'奥山で採る',en:'+4菜 +2文',act:()=>{deed('sansai',4,'Forage the deep satoyama. (+4 sansai, +2 coin)');bump('coin',2);}});
+  return v;}
+function renderFuda(){
+  fudaG.innerHTML='';
+  const vs=verbsFor(S.place); if(!vs.length)return;
+  let x=Math.max(24,Math.min(S.x-30,1180));
+  vs.forEach((v,i)=>{
+    const g=mk('g',{class:'fudaBtn'+(v.repair?' repair':''),tabindex:0,role:'button','aria-label':v.jp+' '+v.en},fudaG);
+    const t=mk('text',{x:0,y:0},g);
+    const ts1=document.createElementNS(NS,'tspan');ts1.textContent=v.jp;t.append(ts1);
+    const ts2=document.createElementNS(NS,'tspan');ts2.setAttribute('class','en');ts2.setAttribute('dx','6');ts2.textContent=v.en;t.append(ts2);
+    const w=Math.ceil(t.getComputedTextLength())+18;
+    const r=mk('rect',{x:-9,y:-14.5,width:w,height:21},g);
+    g.insertBefore(r,t);
+    mk('circle',{class:'nail',cx:w/2-9,cy:-14.5,r:1.6},g);
+    g.setAttribute('transform',`translate(${x},556) rotate(${i%2? .9:-.9})`);
+    x+=w+10;
+    const go=e=>{e.stopPropagation();if(!busy||v.repair)v.act();};
+    g.addEventListener('click',go);
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(e);}});
+  });}
+
+/* ---------- walking & the camera lean ---------- */
+function face(dir){figBody.style.transform=`scaleX(${dir})`;}
+function focusBay(p){
+  $$('#bays .bay').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  baysG.classList.add('focused');
+  if(!RM&&!skipLean){const w=cam.offsetWidth,h=cam.offsetHeight,
+    k=Math.min(w/1440,h/620),
+    ox=(w-1440*k)/2, oy=h-620*k;
+    cam.style.transformOrigin=`${ox+PLACES[p].x*k}px ${oy+430*k}px`;
+    cam.style.transform='scale(1.12)';}
+  if(stage.scrollWidth>stage.clientWidth+4)
+    stage.scrollTo({left:PLACES[p].x*(stage.scrollWidth/1440)-stage.clientWidth/2,behavior:RM?'auto':'smooth'});
+  renderFuda();}
+let legT=null;
+function goTo(p,then,force){
+  if(busy&&!force&&S.place!==p)return;
+  if(S.place===p){focusBay(p);then&&then();return}
+  const from=S.x,to=PLACES[p].x;
+  S.place=p; walking=true; fudaG.innerHTML='';
+  $$('#bays .bay').forEach(b=>b.classList.remove('active'));
+  if(RM){fig.style.transition='opacity .1s';fig.style.opacity=0;
+    later(()=>{S.x=to;setFig(true);fig.style.opacity=1;
+      later(()=>{walking=false;focusBay(p);then&&then()},110)},100);return}
+  const dur=Math.abs(to-from)/90;
+  face(to>from?1:-1);
+  fig.style.transition=`transform ${dur}s linear`;
+  S.x=to; fig.style.transform=`translate(${to}px,520px)`;
+  clearInterval(legT); legT=setInterval(()=>fig.classList.toggle('stride'),150);
+  later(()=>{clearInterval(legT);fig.classList.remove('stride');
+    fig.style.transition='';walking=false;focusBay(p);then&&then()},dur*1000);}
+
+/* ---------- deeds ---------- */
+function deed(res,n,line){bump(res,n);rise('+'+n);workBurst();
+  S.meter=Math.min(S.meter+2,(RUNGS[S.rung+1]||RUNGS[7]).cap);renderMeter();
+  log(line); if(res==='rice')renderBales(true);}
+function cook(){if(S.c.sansai<2){log('You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.');return}
+  bump('sansai',-2);const h0=S.hp;S.hp=Math.min(S.hpmax,S.hp+14);
+  tweenNum($('#hpTxt'),h0,S.hp,v=>`身 ${v}/${S.hpmax}`);renderHP();rise('+14');workBurst();
+  log('You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight. (+14 HP)');}
+function rest(){log('You rest against the post. The ache dulls; the light through the slats shifts.');}
+function drill(){workBurst();rise('+1');
+  log('You drill the cut until your shoulders burn. (STR +1)');}
+function deposit(){const n=S.c.rice;if(!n)return;
+  bump('rice',-n);const b0=S.b.rice;S.b.rice+=n;
+  tweenNum($('#baleCountTxt'),b0,S.b.rice,v=>`米 ${v}`);renderBales(true);
+  log(`You lay the rice into the kura stores. (${n} rice banked)`);renderFuda();}
+function rake(){workBurst();rise('+3',500,470);
+  log('You rake the spilled rice back toward the basket. (+3 rice)');
+  const nxt=fogQueue.shift();
+  if(nxt)$(nxt).classList.add('unfogged');}
+function tick(){if(busy||walking)return;
+  if(S.stage==='min1'){rake();return}
+  const v=verbsFor(S.place).find(v=>!v.meta);
+  if(v)v.act();}
+
+/* ---------- demo beats ---------- */
+/* ---------- force-resolve: a new dev beat never sits blocked behind an old one ---------- */
+function forceResolve(){
+  if(!busy)return;
+  clearPending();clearInterval(legT);fig.classList.remove('stride','working');
+  if(activeBeat==='fight'){
+    slip.classList.add('svghide');beast.classList.add('svghide');beast.style.transition='';
+    const h0=S.hp;S.hp=Math.max(1,S.hp-17);
+    tweenNum($('#hpTxt'),h0,S.hp,v=>`身 ${v}/${S.hpmax}`);renderHP();
+    bump('coin',3);bump('sinew',1);
+    S.meter=Math.min(S.meter+2,(RUNGS[S.rung+1]||RUNGS[7]).cap);renderMeter();
+    if(S.questTxt==='crop-raiders 1/3'){S.questTxt='crop-raiders 2/3';$('#questTxt').textContent=S.questTxt;}
+    log(`You bring down the crop-raiding monkey. ✓ (HP ${h0}→${S.hp} · +3 coin, +1 beast sinew)`);
+  }else if(activeBeat==='rung'){
+    $('#card').classList.remove('on','stamped');
+    $('#sceneVeil').classList.remove('on');$('#lampGlow').classList.remove('on');
+    S.rung=Math.min(7,S.rung+1);S.meter=0;renderMeter();
+    if(S.rung>=4){S.haori=true;$('#haori').classList.remove('svghide');}
+  }else if(activeBeat==='judge'){
+    const old=S.koku,nu=old===8?11:old+3;
+    S.koku=nu;renderKoku();setSeason(S.season+1);
+    log(`The seasonal judge walks the estate and restates the house’s standing: ${old} 石 → ${nu} 石.`);
+    judgeG.classList.add('svghide');judgeG.style.transition='';judgeG.style.transform='';judgeG.style.opacity=1;
+    $('#kokuBig').classList.remove('on');
+  }else if(activeBeat==='reveal'){
+    S.place='kura';S.x=PLACES.kura.x;setFig(true);
+    S.estate=1;
+    log(U1_COPY,'msl');
+  }
+  activeBeat=null;busy=false;walking=false;renderFuda();renderEstate();}
+function fight(){if(busy)forceResolve();busy=true;activeBeat='fight';
+  if(S.stage==='min1'){busy=false;activeBeat=null;applyPreset('3hr');later(fight,300);return}
+  const tx=S.x-46,sx=Math.max(-30,S.x-320);
+  beast.classList.remove('svghide');beast.style.opacity=1;
+  const bp=$('#beastP');bp.style.fill='var(--ink)';bp.style.strokeDasharray='none';bp.style.strokeDashoffset=0;
+  if(RM){beast.style.transition='opacity .2s';beast.style.transform=`translate(${tx}px,520px)`;}
+  else{beast.style.transition='none';beast.style.transform=`translate(${sx}px,520px)`;
+    void beast.getBoundingClientRect();
+    beast.style.transition='transform 1.6s ease-in-out';
+    beast.style.transform=`translate(${tx}px,520px)`;}
+  face(-1);
+  later(()=>{slip.classList.remove('svghide');
+    slip.setAttribute('transform',`translate(${Math.max(120,Math.min(S.x-70,1300))},466)`);},RM?300:1700);}
+function resolveFight(st){
+  slip.classList.add('svghide');
+  const dmg=st==='g'?13:st==='j'?21:17, mx=S.x-24;
+  [0,450,900].forEach((d,i)=>later(()=>{
+    const outer=mk('g',{transform:`translate(${mx},${492-i*4})`});
+    const g=mk('g',{class:'slash'},outer);
+    mk('line',{x1:-11,y1:-9,x2:11,y2:9},g);mk('line',{x1:-11,y1:9,x2:11,y2:-9},g);
+    later(()=>outer.remove(),420);},d));
+  later(()=>{
+    const bp=$('#beastP'),len=bp.getTotalLength();
+    if(!RM){bp.style.fill='none';bp.style.strokeDasharray=len;bp.style.strokeDashoffset=0;
+      bp.style.transition='stroke-dashoffset 1s ease-in';
+      void bp.getBoundingClientRect();bp.style.strokeDashoffset=len;}
+    beast.style.transition='transform 1s ease-in, opacity 1s';
+    beast.style.transform+=' translate(-260px,0)';beast.style.opacity=0;
+    const h0=S.hp;S.hp=Math.max(1,S.hp-dmg);
+    tweenNum($('#hpTxt'),h0,S.hp,v=>`身 ${v}/${S.hpmax}`);renderHP();
+    bump('coin',3);bump('sinew',1);
+    S.meter=Math.min(S.meter+2,(RUNGS[S.rung+1]||RUNGS[7]).cap);renderMeter();
+    if(S.questTxt==='crop-raiders 1/3'){S.questTxt='crop-raiders 2/3';$('#questTxt').textContent=S.questTxt;}
+    log(`You bring down the crop-raiding monkey. ✓ (HP ${h0}→${S.hp} · +3 coin, +1 beast sinew)`);
+    later(()=>{beast.classList.add('svghide');bp.style.transition='none';busy=false;activeBeat=null;},1100);
+  },1450);}
+function rungUp(){if(busy)forceResolve();busy=true;activeBeat='rung';
+  if(S.stage==='min1'){busy=false;activeBeat=null;applyPreset('3hr');later(rungUp,300);return}
+  const nx=RUNGS[S.rung+1];if(!nx){busy=false;activeBeat=null;return}
+  $('#sceneVeil').classList.add('on');$('#lampGlow').classList.add('on');
+  later(()=>{
+    $('#cardEn').textContent=`${nx.en} · R${S.rung+1}`;
+    $('#cardK').textContent=nx.k;
+    $('#cardCopy').textContent=nx.copy;
+    $('#card').classList.add('on');},700);
+  later(()=>{$('#card').classList.add('stamped');log(nx.copy,'msl');},1600);}
+function dismissCard(){if(!$('#card').classList.contains('on'))return;
+  $('#card').classList.remove('on','stamped');
+  $('#sceneVeil').classList.remove('on');$('#lampGlow').classList.remove('on');
+  S.rung=Math.min(7,S.rung+1);S.meter=0;renderMeter();
+  if(S.rung>=4){S.haori=true;$('#haori').classList.remove('svghide');}
+  busy=false;activeBeat=null;}
+function judge(){if(busy)forceResolve();busy=true;activeBeat='judge';
+  if(S.stage==='min1'){busy=false;activeBeat=null;applyPreset('3hr');later(judge,300);return}
+  const old=S.koku,nu=old===8?11:old+3,endX=690,walkMs=RM?400:4900;
+  judgeG.classList.remove('svghide');judgeG.style.opacity=1;
+  if(RM){judgeG.style.transform=`translate(${endX}px,520px)`;}
+  else{judgeG.style.transition='none';judgeG.style.transform='translate(-50px,520px)';
+    void judgeG.getBoundingClientRect();
+    judgeG.style.transition=`transform ${walkMs}ms linear`;
+    judgeG.style.transform=`translate(${endX}px,520px)`;}
+  later(()=>{const kb=$('#kokuBig');
+    kb.textContent=(KNUM[nu]||nu)+'石';kb.classList.add('on');},walkMs+150);
+  later(()=>{
+    $('#kokuBig').classList.remove('on');
+    S.koku=nu;renderKoku();
+    const seal=$('#kokuSealIn');seal.classList.add('pop');later(()=>seal.classList.remove('pop'),450);
+    setSeason(S.season+1);
+    log(`The seasonal judge walks the estate and restates the house’s standing: ${old} 石 → ${nu} 石.`);
+    judgeG.style.transition=RM?'opacity .3s':'transform 2s linear, opacity 2s';
+    judgeG.style.transform='translate(1500px,520px)';judgeG.style.opacity=0;
+    later(()=>{judgeG.classList.add('svghide');busy=false;activeBeat=null;},RM?350:2100);
+  },walkMs+2100);}
+function setSeason(i){S.season=((i%4)+4)%4;
+  document.body.classList.remove('s-spring','s-summer','s-autumn','s-winter','night');
+  document.body.classList.add(SEASONS[S.season].cls);renderDate();}
+function seasonBeat(){if(S.stage==='min1')return;
+  if(busy)forceResolve();
+  setSeason(S.season+1);
+  if(!saidSeasons){saidSeasons=true;
+    log('You begin to mark the turning of the days, and the four seasons with them.');}
+  else log(`The season turns — ${SEASONS[S.season].k}.`);}
+function reveal(){
+  if(S.stage==='min1'){applyPreset('3hr');later(reveal,300);return}
+  if(S.estate>=1){
+    if(busy)forceResolve();
+    if(!S.okuOpen){S.okuOpen=true;$('#bay-oku').classList.remove('fog');
+      log('The trail past the near ridge stands open to you now.');renderFuda();}
+    return}
+  if(busy)forceResolve();busy=true;activeBeat='reveal';
+  goTo('kura',()=>{
+    const lines=$$('#scafG line');
+    lines.forEach(l=>{const len=Math.ceil(l.getTotalLength());
+      if(RM){l.style.transition='opacity .6s';l.style.opacity=1;}
+      else{l.style.strokeDasharray=len;l.style.strokeDashoffset=len;l.style.opacity=1;
+        void l.getBoundingClientRect();l.style.strokeDashoffset=0;}});
+    later(()=>{
+      S.estate=1;
+      $('#kuraCrack').style.opacity=0;
+      $('#bay-kura').classList.add('kura-lit');
+      log(U1_COPY,'msl');renderFuda();
+      later(()=>{$('#scafG').style.opacity=.25;busy=false;activeBeat=null;},900);
+    },RM?700:1900);},true);}
+
+/* ---------- presets ---------- */
+function baseState(){return{stage:'3hr',place:'paddies',x:82,rung:3,meter:620,
+  c:{rice:12,coin:34,wood:5,sansai:3,hard:0,sinew:0},b:{rice:210,coin:60},
+  hp:46,hpmax:58,sat:51,satmax:64,koku:8,season:0,estate:0,okuOpen:false,
+  weapon:'pole',haori:false,questTxt:'crop-raiders 1/3',auto:true};}
+function applyPreset(name){
+  clearPending();clearInterval(legT);busy=false;activeBeat=null;fudaG.innerHTML='';fx.innerHTML='';
+  logEl.innerHTML='';saidSeasons=false;
+  beast.classList.add('svghide');slip.classList.add('svghide');judgeG.classList.add('svghide');
+  $('#card').classList.remove('on','stamped');
+  $('#sceneVeil').classList.remove('on');$('#lampGlow').classList.remove('on');
+  $('#kokuBig').classList.remove('on');
+  fig.classList.remove('stride','working');fig.style.opacity=1;
+  $$('#bays .bay').forEach(b=>b.classList.remove('active','unfogged'));
+  baysG.classList.remove('focused');
+  if(name==='1min'){
+    S=baseState();Object.assign(S,{stage:'min1',place:'house',x:500,rung:0,meter:0,
+      hp:58,sat:0,koku:0,quest:0,auto:false,
+      c:{rice:0,coin:0,wood:0,sansai:0,hard:0,sinew:0},b:{rice:0,coin:0}});
+    fogQueue=['#bay-house','#bay-kura','#bay-gate','#bay-paddies','#bay-wood','#bay-drill','#bay-sato'];
+    document.body.className='night';
+    setAuto(false);renderAll();setFig(true);
+    log('You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An’ei — though the year is as lost to you as your name.');
+    renderFuda();
+  }else if(name==='10hr'){
+    S=baseState();Object.assign(S,{stage:'10hr',rung:5,meter:2210,
+      c:{rice:38,coin:156,wood:21,sansai:9,hard:4,sinew:2},b:{rice:890,coin:240},
+      hp:66,hpmax:66,sat:64,satmax:64,koku:47,season:2,estate:2,okuOpen:true,
+      weapon:'yari',haori:true,questTxt:'CLEAR · trails 2/3'});
+    document.body.className='s-autumn';
+    setAuto(true);renderAll();setFig(true);
+    log('Genemon takes you onto the household staff proper — no longer a season-hired hand, but one who answers to the house day and night. The work is the same; the standing is not.','msl');
+    log('Knotting a load for the woodlot, your fingers tie a porter’s knot you never learned — quick, certain, a stranger’s habit in your own hands. It means nothing. It will not leave you.','handl');
+    skipLean=true;focusBay('paddies');skipLean=false;
+  }else{
+    S=baseState();
+    document.body.className='s-spring';
+    setAuto(true);renderAll();setFig(true);
+    log('Kihei sets you to the estate’s defence — pests, beasts, and the masterless men on the woodlot road. A weapon, a yard to train in, and a duty that is yours. You are the gate-watch now.','msl');
+    log('You rest against the post. The ache dulls; the light through the slats shifts.');
+    skipLean=true;focusBay('paddies');skipLean=false;
+  }
+  cam.style.transform='none';
+  if(S.place!=='paddies'||name==='1min')renderFuda();}
+function setAuto(on){S&&(S.auto=on);
+  $('[data-dev="auto"]').classList.toggle('on',on);
+  clearInterval(autoT);
+  if(on)autoT=setInterval(()=>{if(S.auto&&!busy)tick()},2600);}
+
+/* ---------- init ---------- */
+BALE_POS.forEach(([bx,by])=>{
+  const g=mk('g',{class:'bale'},$('#bales'));
+  g.style.opacity=0;
+  mk('rect',{x:bx-13,y:by-15,width:26,height:15,rx:7,fill:'var(--chip)',stroke:'var(--ink)'},g);
+  mk('line',{x1:bx-5,y1:by-15,x2:bx-5,y2:by,stroke:'var(--ink)','stroke-width':.6},g);
+  mk('line',{x1:bx+5,y1:by-15,x2:bx+5,y2:by,stroke:'var(--ink)','stroke-width':.6},g);});
+[[762,516,905,356],[905,516,762,368],[758,468,908,468],[758,408,908,408],[770,358,894,358]]
+  .forEach(([a,b,c,d])=>{const l=mk('line',{x1:a,y1:b,x2:c,y2:d,class:'scaf',stroke:'var(--ink)'},$('#scafG'));
+    l.style.opacity=0;});
+$$('#bays .bay').forEach(b=>{
+  const go=()=>{if(S.stage==='min1')return;goTo(b.dataset.p)};
+  b.addEventListener('click',go);
+  b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});});
+[['#stG','g'],['#stC','c'],['#stJ','j']].forEach(([id,st])=>{
+  const e=$(id),go=ev=>{ev.stopPropagation();resolveFight(st)};
+  e.addEventListener('click',go);
+  e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go(ev);}});});
+$('#card').addEventListener('click',dismissCard);
+$$('#dev button').forEach(b=>b.addEventListener('click',()=>{
+  const d=b.dataset.dev;
+  if(d==='tick')tick();
+  else if(d==='fight')fight();
+  else if(d==='rung')rungUp();
+  else if(d==='judge')judge();
+  else if(d==='reveal')reveal();
+  else if(d==='season')seasonBeat();
+  else if(d==='auto')setAuto(!S.auto);
+  else if(d==='reset'||d==='stage-3hr')applyPreset('3hr');
+  else if(d==='stage-1min')applyPreset('1min');
+  else if(d==='stage-10hr')applyPreset('10hr');}));
+/* baked washi grain — generated once, never animated */
+(function grain(){const c=document.createElement('canvas');c.width=c.height=160;
+  const g=c.getContext('2d'),im=g.createImageData(160,160);
+  for(let i=0;i<im.data.length;i+=4){const v=(Math.random()*255)|0;
+    im.data[i]=v;im.data[i+1]=v;im.data[i+2]=v;im.data[i+3]=26;}
+  g.putImageData(im,0,0);
+  const d=document.createElement('div');d.id='grain';
+  d.style.backgroundImage=`url(${c.toDataURL()})`;
+  document.body.append(d);})();
+applyPreset('3hr');
+later(tick,900); /* alive within two seconds */
+</script>
+</body>
+</html>
