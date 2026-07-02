@@ -135,8 +135,16 @@ function deliverDialogue(state: GameState, dialogueId: string, cap?: number): Ga
     ...state,
     deliveredDialogue: [...state.deliveredDialogue, ...fresh.map((l) => l.id)],
   };
+  // F91/F93 — carry the line's VOICE *and* its speaker nameplate through to the log, so a
+  // steward/physician line renders "Genemon: …" / "Sōan: …" in that voice's colour. A narrator
+  // line (third-person prose) suppresses the nameplate — it is not "spoken by" a named NPC.
   return applyRewards(next, {
-    log: fresh.map((l) => ({ channel: 'narration' as const, text: l.text, voice: l.voice })),
+    log: fresh.map((l) => ({
+      channel: 'narration' as const,
+      text: l.text,
+      voice: l.voice,
+      speaker: l.voice === 'narrator' ? undefined : l.speaker,
+    })),
   });
 }
 
@@ -298,7 +306,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // joins do_activity's labour output as ephemeral). The koku still banks; only the line fades.
       next = applyRewards(next, {
         flags: ['raked'],
-        log: [{ channel: 'reward', text: rakeLine(RICE_PER_RAKE), ephemeral: true }],
+        // F91/F93 — the rake RESULT line is scene narration, so it carries the `narrator` voice
+        // (matching the intro's narration convention), never plain/unstyled.
+        log: [
+          { channel: 'reward', text: rakeLine(RICE_PER_RAKE), voice: 'narrator', ephemeral: true },
+        ],
       });
       // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):
       // gen-rake lands on rake #1, gen-keep on #2, gen-kept on #3 — the teach paces with the work.
@@ -312,8 +324,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = adjustSatiety(next, SATIETY_PER_REST);
       // F53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
+      // F91/F93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
+      // the intro's narration (not an un-voiced/plain line).
       next = applyRewards(next, {
-        log: [{ channel: 'system', text: COLD_OPEN.restAct, ephemeral: true }],
+        log: [{ channel: 'system', text: COLD_OPEN.restAct, voice: 'narrator', ephemeral: true }],
       });
       next = advanceClock(next, TICKS_PER_ACT);
       break;
@@ -349,7 +363,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
         // F53 — the per-activity labour output line is fleeting flavor ("you worked / +N"): it
         // shows only in the "Now" view and fades. The gained resources still bank on the state;
         // only the noisy line is transient (crafts/purchases/rung-ups stay permanent).
-        log: [{ channel: 'reward', text: activityLine(act, gained), ephemeral: true }],
+        // F91/F93 — the labour RESULT line is scene narration → `narrator` voice, consistent
+        // with the intro's narration convention.
+        log: [
+          {
+            channel: 'reward',
+            text: activityLine(act, gained),
+            voice: 'narrator',
+            ephemeral: true,
+          },
+        ],
       });
       next = accrueRungMeter(next, act.id);
       // Phase 2 (post-R7): estate labour also banks an Estate-pillar deed (no-op in Phase 1).
@@ -395,6 +418,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           log: [
             {
               channel: 'system',
+              voice: 'narrator', // F91/F93 — scene narration, consistent narrator voice
               text: `Your ${getWeapon(next.equippedWeapon).label.toLowerCase()} is broken and there's no wood to mend it — the watch breaks off. Gather wood and repair before you fight on.`,
             },
           ],
@@ -422,6 +446,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
+            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
             text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${kokuFee > 0 ? `, −${kokuFee} koku` : ''})`,
           },
         ],
@@ -445,7 +470,14 @@ export function reduce(state: GameState, intent: Intent): GameState {
         weaponDurability: Math.min(next.weaponDurability, weapon.durabilityMax),
       };
       next = applyRewards(next, {
-        log: [{ channel: 'system', text: `You take up the ${weapon.label.toLowerCase()}.` }],
+        // F91/F93 — player-action narration, consistent narrator voice.
+        log: [
+          {
+            channel: 'system',
+            voice: 'narrator',
+            text: `You take up the ${weapon.label.toLowerCase()}.`,
+          },
+        ],
       });
       break;
     }
@@ -466,6 +498,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
+            // F91/F93 — cook RESULT flavor is scene narration → `narrator` voice.
+            voice: 'narrator',
             text: `You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−${COOK_SANSAI_COST} sansai${hpGain > 0 ? `, +${hpGain} HP` : ''})`,
           },
         ],
@@ -497,7 +531,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
           attributePoints: c.attributePoints - 1,
         },
       };
-      next = applyRewards(next, { log: [{ channel: 'system', text: ATTR_META[a].log }] });
+      // F91/F93 — attribute-gain flavor is scene narration → consistent narrator voice.
+      next = applyRewards(next, {
+        log: [{ channel: 'system', text: ATTR_META[a].log, voice: 'narrator' }],
+      });
       break;
     }
     case 'craft_weapon': {
@@ -538,6 +575,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
+            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
             text: `You barter ${item.kokuCost} koku for a ${item.label.toLowerCase()}.`,
           },
         ],
@@ -558,6 +596,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
+            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
             text: `You store ${have} ${intent.resource} safe in the kura storehouse.`,
           },
         ],
@@ -575,6 +614,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
+            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
             text: `You draw ${have} ${intent.resource} back out of the kura storehouse.`,
           },
         ],
@@ -591,7 +631,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Walking away from a foe's node ends the auto-grind on it (Step 5b — foes are spatial, so
       // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
       next = { ...next, location: intent.to, autoCombat: null };
-      next = applyRewards(next, { log: [{ channel: 'narration', text: dest.blurb }] });
+      // F91/F93 — the move blurb is scene narration → consistent narrator voice.
+      next = applyRewards(next, {
+        log: [{ channel: 'narration', text: dest.blurb, voice: 'narrator' }],
+      });
       break;
     }
     case 'ascend': {

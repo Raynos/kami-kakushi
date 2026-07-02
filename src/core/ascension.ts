@@ -57,6 +57,7 @@ export function ascend(state: GameState): GameState {
       },
       {
         channel: 'narration',
+        voice: 'narrator', // F91/F93 — scene narration → consistent narrator voice
         text: knot
           ? `That night the dream comes clearer than it ever has: hands that are yours and not yours, tying a porter's knot you never learned; a road in the dark; a name on the tip of your tongue. You wake reaching for it, and it is already gone.`
           : `That night a dream comes — a road in the dark, a name almost remembered — and is gone by the time you wake.`,

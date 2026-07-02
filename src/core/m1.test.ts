@@ -19,7 +19,15 @@ import {
   type GameState,
   type Intent,
 } from './index';
-import { SKILL_XP_BASE, rungThreshold, RUNG_POINTS_PER_ACT } from './content/balance';
+import {
+  SKILL_XP_BASE,
+  rungThreshold,
+  RUNG_POINTS_PER_ACT,
+  RICE_PER_RAKE,
+} from './content/balance';
+import { getDialogueLine, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
+import { COLD_OPEN, rakeLine } from './content/coldOpen';
+import { NAMES } from './content/names';
 
 function run(s: GameState, intents: Intent[]): GameState {
   for (const i of intents) s = reduce(s, i);
@@ -160,6 +168,47 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
     const before = s.deliveredDialogue.length;
     s = reduce(s, { type: 'rake_rice' });
     expect(s.deliveredDialogue.length).toBe(before);
+  });
+
+  // F91/F93 — flavor-text VOICE consistency: every emitted cold-open/labour/reveal line must carry
+  // the SAME voice/speaker convention the intro uses, so the renderer colours + prefixes it
+  // consistently. Genemon's SPEECH renders "Genemon: …" (steward voice); third-person prose + the
+  // rake/reveal RESULT lines render in the narrator voice with NO nameplate. Fixtures are read from
+  // the content source (getDialogueLine / COLD_OPEN / rakeLine), never copied magic strings.
+  it('cold-open + labour flavor lines carry the intro-consistent voice/speaker', () => {
+    let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    const find = (text: string) => s.log.entries.find((e) => e.text === text);
+
+    // the wake-time surface reveals (readout-body / readout-rice) are scene NARRATION → narrator
+    // voice, no nameplate — same convention as the intro's narrator lines.
+    for (const text of [COLD_OPEN.bodyReveal, COLD_OPEN.riceReveal]) {
+      const entry = find(text);
+      expect(entry?.voice).toBe('narrator');
+      expect(entry?.speaker).toBeUndefined();
+    }
+
+    // rake #1: the koku-teaching (gen-rake) is Genemon's SPEECH → steward voice + "Genemon"
+    // nameplate; the rake RESULT line is narration → narrator voice, no nameplate.
+    s = reduce(s, { type: 'rake_rice' });
+    const rake = find(getDialogueLine(COLD_OPEN_DIALOGUE_ID, 'gen-rake').text);
+    expect(rake?.voice).toBe('steward');
+    expect(rake?.speaker).toBe(NAMES.elder);
+    const result = find(rakeLine(RICE_PER_RAKE));
+    expect(result?.voice).toBe('narrator');
+    expect(result?.speaker).toBeUndefined();
+
+    // rake #2: gen-keep is first-person Genemon speech → steward + nameplate.
+    s = reduce(s, { type: 'rake_rice' });
+    const keep = find(getDialogueLine(COLD_OPEN_DIALOGUE_ID, 'gen-keep').text);
+    expect(keep?.voice).toBe('steward');
+    expect(keep?.speaker).toBe(NAMES.elder);
+
+    // rake #3: gen-kept is third-person NARRATOR prose ("…Genemon says…") → narrator voice, and
+    // the nameplate is SUPPRESSED (it is not spoken by a named NPC).
+    s = reduce(s, { type: 'rake_rice' });
+    const kept = find(getDialogueLine(COLD_OPEN_DIALOGUE_ID, 'gen-kept').text);
+    expect(kept?.voice).toBe('narrator');
+    expect(kept?.speaker).toBeUndefined();
   });
 
   it('auto-rake can be armed + disarmed (the R0 cold-open is not a blind click-grind)', () => {

@@ -96,14 +96,23 @@ describe('nextDialogueLines cursor', () => {
   });
 });
 
-describe('labour narration voice (F57)', () => {
-  it("the rake labour-narration line ('So you put your hands to it…') is voice 'narrator'", () => {
-    const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
-    const rakeNarration = def.lines.find((l) => l.id === 'gen-rake');
-    expect(rakeNarration).toBeDefined();
-    // it renders in the consistent narrator colour/convention (like the intro's narration), not
-    // as NPC speech — so it must carry the explicit 'narrator' voice tag.
-    expect(rakeNarration!.voice).toBe('narrator');
+describe('cold-open voice convention (F91/F93 — supersedes F57)', () => {
+  // The human's F91/F93 steer: every cold-open line must be INTERNALLY CONSISTENT with the intro's
+  // conventions. Genemon's SPEECH (first-person "we reckon…", "without my standing over you…")
+  // carries his steward voice so it renders "Genemon: …"; third-person NARRATOR prose ("…Genemon
+  // says…") carries the narrator voice with no nameplate. (This flips gen-rake from the old F57
+  // 'narrator' tag — the human now reads it as Genemon speaking.)
+  const voiceOf = (lineId: string) =>
+    getDialogue(COLD_OPEN_DIALOGUE_ID).lines.find((l) => l.id === lineId)?.voice;
+
+  it("Genemon's own speech is voice 'steward' (renders 'Genemon: …')", () => {
+    for (const id of ['gen-greet', 'gen-stores', 'gen-rake', 'gen-keep']) {
+      expect(voiceOf(id)).toBe('steward');
+    }
+  });
+
+  it("the third-person prose payoff (gen-kept, '…Genemon says…') is voice 'narrator'", () => {
+    expect(voiceOf('gen-kept')).toBe('narrator');
   });
 });
 

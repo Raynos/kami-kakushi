@@ -105,6 +105,7 @@ export const RANKS: readonly RankDef[] = [
         },
         {
           channel: 'narration',
+          voice: 'narrator', // F91/F93 — scene narration → consistent narrator voice
           text: "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
         },
       ],

@@ -7,6 +7,7 @@
 
 import type { GameState, SurfaceId } from '../state';
 import type { LogChannel } from '../log';
+import type { VoiceCategory } from './voices';
 import { hasFlag } from '../state';
 import { COLD_OPEN } from './coldOpen';
 import { NAMES } from './names';
@@ -19,12 +20,21 @@ export interface Surface {
   readonly id: SurfaceId;
   readonly kind: SurfaceKind;
   readonly unlock: (s: GameState) => boolean;
-  readonly revealLine?: { readonly channel: LogChannel; readonly text: string };
+  readonly revealLine?: {
+    readonly channel: LogChannel;
+    readonly text: string;
+    /** Speaker-voice tag (F91/F93). Absent on the milestone frontier beat; set to `narrator`
+     *  by `narrate()` so every scene-reveal line renders in the same narrator voice as the intro. */
+    readonly voice?: VoiceCategory;
+  };
 }
 
-const narrate = (text: string): { channel: LogChannel; text: string } => ({
+// F91/F93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
+// EXPLICITLY (matching the intro's narration convention), never emitted as an un-voiced/plain line.
+const narrate = (text: string): { channel: LogChannel; text: string; voice: VoiceCategory } => ({
   channel: 'narration',
   text,
+  voice: 'narrator',
 });
 
 // ── v0.2 narrative beats (audit #2/#6/#13) — the R3 terminal capstone, the 2nd dream

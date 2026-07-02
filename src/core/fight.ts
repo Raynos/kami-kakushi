@@ -201,6 +201,7 @@ export function applyScriptedWolf(state: GameState): GameState {
       },
       {
         channel: 'narration',
+        voice: 'narrator', // F91/F93 — third-person scene narration → consistent narrator voice
         text: `${NAMES.drillmaster} the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: "You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest."`,
       },
     ],

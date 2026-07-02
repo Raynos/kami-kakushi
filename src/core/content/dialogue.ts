@@ -49,11 +49,17 @@ export const DIALOGUES: readonly DialogueDef[] = [
       {
         id: 'gen-greet',
         speaker: NAMES.elder,
+        // F91/F93 — Genemon's own speech, so it renders "Genemon: …" in the steward voice,
+        // consistent with his voiced lines in the intro (marked delivered on wake, so never
+        // emitted via this path today, but tagged so the def is internally consistent).
+        voice: 'steward',
         text: `On your feet, then. I am ${NAMES.elder}, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the ${NAMES.house} are samurai still — on the lord's rolls, if nowhere in the granary.`,
       },
       {
         id: 'gen-stores',
         speaker: NAMES.elder,
+        // F91/F93 — Genemon speaking (marked delivered on wake; tagged for def consistency).
+        voice: 'steward',
         text: 'Mind the floor before you mind your head. Half a season’s stores lie spilled and trodden where the kura door gave way in the rains. Rice on the boards is rice the house has lost — and this house has done losing enough for three lifetimes.',
       },
       {
@@ -62,15 +68,18 @@ export const DIALOGUES: readonly DialogueDef[] = [
         // reveal-as-plot (battery fix): the koku-teaching lands as the player rakes (when the
         // first +koku shows), not piled onto the opening click. wake stays greet + the stakes.
         gate: (flags) => flags.raked === true,
-        // F57 — this is labour NARRATION (the prose describing the raking action), so it renders in
-        // the consistent narrator colour/convention like the intro's narration, not as NPC speech.
-        voice: 'narrator',
+        // F91/F93 — Genemon's own instruction ("Rake what grain is still whole…", "We reckon a
+        // samurai house's worth in koku…"): first-person steward SPEECH, so it renders "Genemon: …"
+        // in his voice like the rest of his lines — NOT plain narrator prose (the old miscue).
+        voice: 'steward',
         text: 'So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.',
       },
       {
         id: 'gen-keep',
         speaker: NAMES.elder,
         gate: (flags) => flags.raked === true,
+        // F91/F93 — first-person Genemon speech ("without my standing over you…"): steward voice.
+        voice: 'steward',
         text: "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
       },
       {
@@ -78,6 +87,10 @@ export const DIALOGUES: readonly DialogueDef[] = [
         speaker: NAMES.elder,
         // Reveal-as-plot: only after the player has raked (the diegetic onboarding payoff).
         gate: (flags) => flags.raked === true,
+        // F91/F93 — third-person NARRATOR prose ("…Genemon says, eyeing the cleared boards…"), NOT
+        // his direct speech, so it stays narrator-voiced with no nameplate (the emitter suppresses
+        // the speaker for a narrator line — see intents.ts deliverDialogue).
+        voice: 'narrator',
         text: `"...You don't shirk the work," ${NAMES.elder} says, eyeing the cleared boards and the filling basket. "The house has had its fill of hands that do. Earn your keep, and a place here is yours."`,
       },
     ],
