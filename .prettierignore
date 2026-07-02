@@ -12,5 +12,6 @@ archive
 audit
 human-in-the-loop
 tmp
+prototype
 playcheck.baseline.json
 .claude/settings.local.json

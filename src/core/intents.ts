@@ -36,6 +36,9 @@ import {
   SKILL_YIELD_DEN,
   COOK_SANSAI_COST,
   COOK_HP_RESTORE,
+  EAT_RICE_COST,
+  EAT_RICE_SATIETY,
+  riceSellPrice,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
@@ -84,6 +87,8 @@ export type Intent =
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
+  | { type: 'eat_rice' } // rice → satiety (D-107 Phase 2 — the plain-rice food path)
+  | { type: 'sell_rice' } // rice → coin at the season price (D-107 Phase 2 — the coin faucet)
   | { type: 'improve_estate' }
   | { type: 'spend_attribute'; attr: AttrId }
   | { type: 'craft_weapon'; recipeId: string }
@@ -505,6 +510,54 @@ export function reduce(state: GameState, intent: Intent): GameState {
         ],
       });
       next = advanceClock(next, TICKS_PER_ACT);
+      break;
+    }
+    case 'eat_rice': {
+      // rice → satiety (D-107 Phase 2): the plain-rice FOOD path, a light rice SINK beside `rest`
+      // (free satiety) + `cook_meal` (sansai → HP). A proper meal refuels MORE than a mere rest
+      // (EAT_RICE_SATIETY > SATIETY_PER_REST), so eating your OWN harvest trades rice for a faster
+      // refuel — never a strictly-worse rest. Opens with the estate economy (verb-eat-rice), where
+      // rice first gains its eat/sell/store uses. A no-op without the rice on hand.
+      if (!isUnlocked(next, 'verb-eat-rice')) return state;
+      if ((next.resources.rice ?? 0) < EAT_RICE_COST) return state;
+      next = withResource(next, 'rice', -EAT_RICE_COST);
+      const satBefore = next.character.satiety;
+      next = adjustSatiety(next, EAT_RICE_SATIETY);
+      const satGain = next.character.satiety - satBefore;
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            text: `You take a bowl of plain rice. (−${EAT_RICE_COST} rice${satGain > 0 ? `, +${satGain} body` : ''})`,
+          },
+        ],
+      });
+      next = advanceClock(next, TICKS_PER_ACT);
+      break;
+    }
+    case 'sell_rice': {
+      // rice → COIN (D-107 Phase 2 / §14): the coin FAUCET. Sell your whole carried rice pile to the
+      // pedlar at the SEASON-swinging coin-per-rice rate (dear spring, cheap autumn) — the light
+      // store-vs-sell timing decision (hold the cheap-autumn haul in the kura, sell into dear
+      // spring). A transaction (no clock cost, like buy_item). Opens with the estate economy
+      // (panel-estate — the pedlar arrives). A no-op with no carried rice.
+      if (!isUnlocked(next, 'panel-estate')) return state;
+      const rice = next.resources.rice ?? 0;
+      if (rice <= 0) return state;
+      const price = riceSellPrice(season(next));
+      const coinGain = rice * price;
+      next = withResource(next, 'rice', -rice);
+      next = withResource(next, 'coin', coinGain);
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            text: `You sell ${rice} rice to the pedlar at ${price} coin the measure. (+${coinGain} coin)`,
+          },
+        ],
+      });
       break;
     }
     case 'improve_estate': {

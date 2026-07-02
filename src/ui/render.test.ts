@@ -294,6 +294,55 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(seen).toContainEqual({ type: 'deposit', resource: 'coin' });
   });
 
+  it('the storehouse Store rice button dispatches deposit rice (D-107 Phase 2, at the kura)', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        location: 'kura',
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'panel-estate'],
+        resources: { ...base.resources, rice: 40 },
+      },
+      null,
+    );
+    expect(clickText('Store all rice')).toBe(true);
+    expect(seen).toContainEqual({ type: 'deposit', resource: 'rice' });
+  });
+
+  it('the market Sell-rice button dispatches sell_rice (D-107 Phase 2 — the coin faucet)', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'panel-estate'],
+        resources: { ...base.resources, rice: 30 },
+      },
+      null,
+    );
+    expect(clickText('Sell all rice')).toBe(true);
+    expect(seen).toContainEqual({ type: 'sell_rice' });
+  });
+
+  it('the Eat-plain-rice button dispatches eat_rice (D-107 Phase 2 — the rice food path)', () => {
+    const { seen, render } = spyMount();
+    const base = createInitialState(1);
+    render(
+      {
+        ...base,
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'panel-estate', 'verb-eat-rice'],
+        resources: { ...base.resources, rice: 30 },
+      },
+      null,
+    );
+    expect(clickText('Eat plain rice')).toBe(true);
+    expect(seen).toContainEqual({ type: 'eat_rice' });
+  });
+
   it('a foe Fight button dispatches fight for the foe on THIS node', () => {
     const { seen, render } = spyMount();
     const base = createInitialState(1);

@@ -9,6 +9,7 @@ import {
   applyGrindFight,
   focusedOptimalIntent,
   hpMax,
+  season,
   balance,
   ESTATE_STAGES,
   type GameState,
@@ -148,5 +149,48 @@ describe('the D-107 economy on the real path (rice / coin / koku split)', () => 
     expect(after.banked.coin).toBe(40); // sheltered
     expect(after.banked.rice).toBe(40); // sheltered
     expect(after.influence.estate.value).toBe(before.influence.estate.value); // standing untouched
+  });
+
+  // D-107 Phase 2 — the RICE LOOP end-to-end on the REAL reducer: rake → RICE → SELL → COIN → SPEND
+  // (the coin faucet), and store-rice → a lost fight shelters it. This is the Phase-2 DoD proof that
+  // rice's sinks actually connect through the real player path, not just in isolation.
+  it('the coin faucet closes the loop: rake → RICE → sell → COIN → spend the estate sink', () => {
+    let s = reduce(createInitialState(7), { type: 'open_eyes' });
+    for (let i = 0; i < 50; i++) s = reduce(s, { type: 'rake_rice' }); // rake spilled rice → RICE
+    const rice = s.resources.rice ?? 0;
+    expect(rice).toBeGreaterThan(0);
+    expect(s.resources.coin ?? 0).toBe(0); // no coin yet — the cold open is rice-only
+    // open the estate economy (the pedlar + kura-works) — a mid-arc reveal, forced here for the slice.
+    s = { ...s, unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'] };
+    const price = balance.riceSellPrice(season(s));
+    s = reduce(s, { type: 'sell_rice' }); // RICE → COIN at the season price (the faucet)
+    expect(s.resources.rice ?? 0).toBe(0);
+    expect(s.resources.coin ?? 0).toBe(rice * price); // exact, from the source-of-truth price
+    // and the minted coin actually SPENDS on the estate sink (the faucet feeds a real cost).
+    expect(s.resources.coin ?? 0).toBeGreaterThanOrEqual(ESTATE_STAGES[0]!.coinCost);
+    const built = reduce(s, { type: 'improve_estate' });
+    expect(built.estateStage).toBe(1); // U1 bought with faucet coin
+  });
+
+  it('store rice in the kura via the deposit intent → a lost fight shelters it (D-113)', () => {
+    let s = reduce(createInitialState(9), { type: 'open_eyes' });
+    for (let i = 0; i < 30; i++) s = reduce(s, { type: 'rake_rice' }); // rake at the grain-store
+    s = { ...s, unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'] };
+    expect(s.location).toBe('kura'); // you woke, and raked, at the kura
+    s = reduce(s, { type: 'deposit', resource: 'rice' }); // bank the whole haul, safe
+    const stored = s.banked.rice ?? 0;
+    expect(stored).toBeGreaterThan(0);
+    expect(s.resources.rice ?? 0).toBe(0); // all carried rice is now stored
+    // arm a fresh L1 fighter carrying coin, keeping the banked rice, and lose a fight.
+    const armed: GameState = {
+      ...s,
+      character: { ...s.character, level: 1, satiety: 100 },
+      resources: { ...s.resources, coin: 100 },
+    };
+    const ready = { ...armed, character: { ...armed.character, hp: hpMax(armed) } };
+    const after = applyGrindFight(ready, 'bandit'); // L1 vs bandit ≈ 0.00 → a guaranteed loss
+    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
+    expect(after.banked.rice).toBe(stored); // the STORED rice survives the rout (sheltered)
+    expect(after.resources.coin).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC)); // carried coin bled
   });
 });

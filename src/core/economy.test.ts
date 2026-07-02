@@ -10,12 +10,16 @@ import {
   getWeapon,
   hpMax,
   satietyMax,
+  season,
   estateSatietyBonus,
   estateYieldNum,
   getItem,
+  applyGrindFight,
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
   MARKET_ITEMS,
+  DAYS_PER_SEASON,
+  SEASONS,
   balance,
   type GameState,
 } from './index';
@@ -403,6 +407,141 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
     const estateTotal = ESTATE_STAGES.reduce((sum, s) => sum + s.coinCost, 0);
     // the market-depth add stays inside the ≤⅓ Estate-&-Wealth cap — a hard design invariant.
     expect(marketMax).toBeLessThanOrEqual(estateTotal / 3);
+  });
+});
+
+// ── D-107 Phase 2 — the RICE LOOP (eat / store / sell). Rice becomes a REAL resource: a coin
+// FAUCET (sell at the season price), a food path (eat → satiety), and a kura-sheltered store. Every
+// fixture derives from the balance source of truth (riceSellPrice / EAT_RICE_* / LOSS_COIN_FRAC),
+// never a copied magic number, and each assertion could go RED against the split. ──
+describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
+  function seller(rice: number, day = 0): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      clock: { ...s.clock, day },
+      resources: { ...s.resources, rice },
+      unlocked: [...s.unlocked, 'panel-estate'],
+    };
+  }
+
+  it('converts ALL carried rice to coin at the current season price (rice → coin)', () => {
+    const s = seller(20); // day 0 → spring
+    expect(season(s)).toBe('spring');
+    const price = balance.riceSellPrice('spring');
+    const after = reduce(s, { type: 'sell_rice' });
+    expect(after.resources.rice ?? 0).toBe(0); // all carried rice sold
+    expect(after.resources.coin ?? 0).toBe(20 * price); // exact, from the source-of-truth price
+  });
+
+  it('the price fn SWINGS by season — dearest in spring, cheapest at the autumn glut', () => {
+    // the DESIGN LEVER (the monotonic direction), not the exact magnitudes — derived from the table.
+    const prices = SEASONS.map((s) => balance.riceSellPrice(s));
+    expect(balance.riceSellPrice('autumn')).toBe(Math.min(...prices)); // autumn glut = the cheapest
+    expect(balance.riceSellPrice('spring')).toBeGreaterThan(balance.riceSellPrice('autumn')); // spring dearer
+  });
+
+  it('the SAME rice earns MORE selling in dear spring than at the cheap autumn glut (the timing call)', () => {
+    const rice = 30;
+    const springCoin = reduce(seller(rice, 0), { type: 'sell_rice' }).resources.coin ?? 0;
+    // day = 2·DAYS_PER_SEASON lands in autumn (spring, summer, AUTUMN, winter) — SAME rice, different coin.
+    const autumnCoin =
+      reduce(seller(rice, 2 * DAYS_PER_SEASON), { type: 'sell_rice' }).resources.coin ?? 0;
+    expect(springCoin).toBe(rice * balance.riceSellPrice('spring'));
+    expect(autumnCoin).toBe(rice * balance.riceSellPrice('autumn'));
+    expect(springCoin).toBeGreaterThan(autumnCoin); // the swing is real ⇒ store-or-sell is a choice
+  });
+
+  it('is a no-op with no carried rice, or before the estate economy opens', () => {
+    const noRice = seller(0);
+    expect(reduce(noRice, { type: 'sell_rice' })).toBe(noRice);
+    const base = createInitialState(1);
+    const locked: GameState = { ...base, resources: { ...base.resources, rice: 50 } }; // no panel-estate
+    expect(reduce(locked, { type: 'sell_rice' })).toBe(locked);
+  });
+
+  it('the coin faucet makes an early estate cost affordable (rice → coin → improve_estate)', () => {
+    const price = balance.riceSellPrice('spring');
+    const u1 = ESTATE_STAGES[0]!.coinCost;
+    const riceNeeded = Math.ceil(u1 / price); // derive the rice to clear U1 from the source of truth
+    let s = seller(riceNeeded); // day 0 spring, panel-estate open
+    expect(s.resources.coin ?? 0).toBeLessThan(u1); // starts unable to afford the first kura-works
+    s = reduce(s, { type: 'sell_rice' });
+    expect(s.resources.coin ?? 0).toBeGreaterThanOrEqual(u1); // the faucet crosses the cost
+    const built = reduce(s, { type: 'improve_estate' });
+    expect(built.estateStage).toBe(1); // and the sink actually accepts the coin
+  });
+});
+
+describe('D-107 Phase 2 — eat_rice: the plain-rice satiety path', () => {
+  function eatReady(rice: number, satiety: number): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      character: { ...s.character, satiety },
+      resources: { ...s.resources, rice },
+      unlocked: [...s.unlocked, 'panel-estate', 'verb-eat-rice'],
+    };
+  }
+
+  it('spends rice and restores work-stamina (satiety), clamped at satietyMax', () => {
+    const s = eatReady(10, 20);
+    const after = reduce(s, { type: 'eat_rice' });
+    expect(after.resources.rice).toBe(10 - balance.EAT_RICE_COST);
+    expect(after.character.satiety).toBe(20 + balance.EAT_RICE_SATIETY);
+
+    const nearMax = eatReady(10, satietyMax(createInitialState(1)) - 2);
+    const clamped = reduce(nearMax, { type: 'eat_rice' });
+    expect(clamped.character.satiety).toBe(satietyMax(clamped)); // clamp, not overflow
+  });
+
+  it('a proper meal refuels MORE than a free rest (the design lever — never a dominated action)', () => {
+    expect(balance.EAT_RICE_SATIETY).toBeGreaterThan(balance.SATIETY_PER_REST);
+  });
+
+  it('is a no-op without enough rice, or while the verb is unrevealed', () => {
+    const poor = eatReady(balance.EAT_RICE_COST - 1, 20);
+    expect(reduce(poor, { type: 'eat_rice' })).toBe(poor);
+    const base = createInitialState(1);
+    const locked: GameState = { ...base, resources: { ...base.resources, rice: 10 } }; // verb-eat-rice locked
+    expect(reduce(locked, { type: 'eat_rice' })).toBe(locked);
+  });
+});
+
+describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw round-trip)', () => {
+  function atKura(rice: number): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      location: 'kura',
+      resources: { ...s.resources, rice },
+      unlocked: [...s.unlocked, 'panel-estate'],
+    };
+  }
+
+  it('deposit sweeps carried rice into the bank; withdraw draws it back (a full round-trip)', () => {
+    let s = atKura(40);
+    s = reduce(s, { type: 'deposit', resource: 'rice' });
+    expect(s.resources.rice ?? 0).toBe(0); // carried swept
+    expect(s.banked.rice ?? 0).toBe(40); // sheltered in the kura
+    s = reduce(s, { type: 'withdraw', resource: 'rice' });
+    expect(s.resources.rice ?? 0).toBe(40); // drawn back out
+    expect(s.banked.rice ?? 0).toBe(0);
+  });
+
+  it('a lost fight bleeds carried rice but the kura-STORED rice is sheltered (D-113)', () => {
+    const base = atKura(0);
+    const armed: GameState = {
+      ...base,
+      character: { ...base.character, level: 1, satiety: 100 },
+      resources: { ...base.resources, rice: 100 }, // carried, at risk
+      banked: { ...base.banked, rice: 50 }, // stored, safe
+    };
+    const ready = { ...armed, character: { ...armed.character, hp: hpMax(armed) } };
+    const after = applyGrindFight(ready, 'bandit'); // L1 vs bandit ≈ 0.00 → a guaranteed loss
+    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
+    expect(after.resources.rice).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC)); // carried bitten
+    expect(after.banked.rice).toBe(50); // stored rice untouched — the shelter holds
   });
 });
 

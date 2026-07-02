@@ -163,6 +163,18 @@ export const SURFACES: readonly Surface[] = [
       'You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.',
     ),
   },
+  {
+    // D-107 Phase 2 — the plain-rice FOOD path opens WITH the estate economy (panel-estate, ~R1),
+    // the moment rice gains its eat/sell/store uses. STATE-PREDICATE (keyed to the latched
+    // panel-estate) so it back-reveals for any save. Held back from the calm rake-only cold open so
+    // it doesn't compete with the free `rest` before rice has a real alternative use (sell).
+    id: 'verb-eat-rice',
+    kind: 'verb',
+    unlock: (s) => s.unlocked.includes('panel-estate'),
+    revealLine: narrate(
+      'The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.',
+    ),
+  },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
   {
     id: 'verb-face-wolf',

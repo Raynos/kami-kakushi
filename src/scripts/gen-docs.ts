@@ -21,6 +21,8 @@ import {
   RECIPES,
   MATERIALS,
   MATERIAL_DROPS,
+  SEASONS,
+  balance,
 } from '../core';
 
 const OUT = 'docs/content/t0-content.md';
@@ -165,6 +167,27 @@ function generate(): string {
       .join(', ');
     L.push(`| ${it.id} | ${it.label} | ${it.coinCost} | ${grants} | ${it.stockCap} |`);
   }
+  L.push('');
+
+  L.push('## Rice sinks (D-107 Phase 2 — eat / store / sell)');
+  L.push('');
+  L.push('Rice is a REAL resource with three uses, so it never dead-ends (G-NO-DEAD-VALUES):');
+  L.push('');
+  L.push(
+    `- **EAT** — \`eat_rice\` spends \`EAT_RICE_COST = ${balance.EAT_RICE_COST}\` rice for ` +
+      `\`EAT_RICE_SATIETY = ${balance.EAT_RICE_SATIETY}\` work-stamina (a proper meal refuels ` +
+      'MORE than a free `rest`, trading rice for readiness).',
+  );
+  L.push('- **STORE** — `deposit`/`withdraw` shelter rice in the kura (see the kura bank below).');
+  L.push(
+    '- **SELL** — `sell_rice` converts your carried rice to coin at a SEASON-swinging price (the ' +
+      'coin faucet): DEAR in the lean spring, CHEAP at the autumn glut — a light store-vs-sell ' +
+      'timing call (no live forex).',
+  );
+  L.push('');
+  L.push('| season | coin per rice |');
+  L.push('|---|---|');
+  for (const s of SEASONS) L.push(`| ${s} | ${balance.riceSellPrice(s)} |`);
   L.push('');
 
   L.push('## The kura bank (carried vs banked)');

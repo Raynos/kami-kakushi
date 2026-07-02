@@ -135,6 +135,21 @@
 | road_rations | Porter's road-rations | 55 | 8 sansai, 5 wood | 2 |
 | smith_billet | Smith's seasoned billet | 70 | 12 wood | 2 |
 
+## Rice sinks (D-107 Phase 2 — eat / store / sell)
+
+Rice is a REAL resource with three uses, so it never dead-ends (G-NO-DEAD-VALUES):
+
+- **EAT** — `eat_rice` spends `EAT_RICE_COST = 3` rice for `EAT_RICE_SATIETY = 30` work-stamina (a proper meal refuels MORE than a free `rest`, trading rice for readiness).
+- **STORE** — `deposit`/`withdraw` shelter rice in the kura (see the kura bank below).
+- **SELL** — `sell_rice` converts your carried rice to coin at a SEASON-swinging price (the coin faucet): DEAR in the lean spring, CHEAP at the autumn glut — a light store-vs-sell timing call (no live forex).
+
+| season | coin per rice |
+|---|---|
+| spring | 6 |
+| summer | 5 |
+| autumn | 3 |
+| winter | 5 |
+
 ## The kura bank (carried vs banked)
 
 Resources come in two pools. **Carried** `resources` ride with the MC and are
@@ -172,6 +187,7 @@ draws it back; both are **spatial** — gated to the `kura` node, a no-op anywhe
 | `row-wood` | row |
 | `row-sansai` | row |
 | `verb-cook` | verb |
+| `verb-eat-rice` | verb |
 | `skill-conditioning` | row |
 | `verb-face-wolf` | verb |
 | `tab-combat` | tab |

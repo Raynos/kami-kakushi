@@ -704,9 +704,20 @@ export function mount(
     row: HTMLElement;
     dep: HTMLButtonElement;
     wd: HTMLButtonElement;
+    // D-107 Phase 2 — rice deposit/withdraw, so the kura shelters rice beside coin (the D-113
+    // loss-shelter now applies to rice too). deposit/withdraw are already resource-generic.
+    riceRow: HTMLElement;
+    depRice: HTMLButtonElement;
+    wdRice: HTMLButtonElement;
     away: HTMLElement;
   } | null = null;
-  let marketRefs: { card: HTMLElement; rows: HTMLElement } | null = null;
+  // marketRefs — the buy rows + (D-107 Phase 2) the sell-rice faucet (season price + sell button).
+  let marketRefs: {
+    card: HTMLElement;
+    rows: HTMLElement;
+    sellPrice: HTMLElement;
+    sellBtn: HTMLButtonElement;
+  } | null = null;
   let questsRefs: { list: HTMLElement } | null = null;
   let mapRefs: {
     card: HTMLElement;
@@ -732,6 +743,9 @@ export function mount(
     noWork: HTMLElement;
     cookRow: HTMLElement;
     cookBtn: HTMLButtonElement;
+    // D-107 Phase 2 — eat plain rice → satiety (the rice food path, beside cook).
+    eatRiceRow: HTMLElement;
+    eatRiceBtn: HTMLButtonElement;
     walkOn: HTMLElement;
     walkStrip: HTMLElement;
   } | null = null;
@@ -1851,11 +1865,16 @@ export function mount(
       cookBtn.type = 'button';
       cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
       cookRow.append(cookBtn);
+      const eatRiceRow = el('div', 'labour-row');
+      const eatRiceBtn = el('button', 'verb');
+      eatRiceBtn.type = 'button';
+      eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
+      eatRiceRow.append(eatRiceBtn);
       const walkOn = el('div', 'area-group walk-on');
       walkOn.append(el('h3', 'area-head', 'Walk on 道'));
       const walkStrip = el('div', 'map-strip');
       walkOn.append(walkStrip);
-      actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, walkOn);
+      actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, eatRiceRow, walkOn);
       actionsRefs = {
         metaRow,
         wolfBox,
@@ -1865,6 +1884,8 @@ export function mount(
         noWork,
         cookRow,
         cookBtn,
+        eatRiceRow,
+        eatRiceBtn,
         walkOn,
         walkStrip,
       };
@@ -1974,6 +1995,21 @@ export function mount(
         ? `Needs ${cost} sansai — forage the satoyama to gather it.`
         : 'Eat to restore your body and mend your wounds — eating is the only way to heal.';
       if (r.cookBtn.title !== title) r.cookBtn.title = title;
+    }
+
+    // eat plain rice — rice → satiety (D-107 Phase 2), the rice food path beside cook. A proper meal
+    // refuels FASTER than a free rest (the design lever), trading your own rice for readiness.
+    const showEatRice = isUnlocked(state, 'verb-eat-rice');
+    toggle(r.eatRiceRow, showEatRice);
+    if (showEatRice) {
+      const cost = balance.EAT_RICE_COST;
+      setText(r.eatRiceBtn, `Eat plain rice (${cost} rice)`);
+      const short = (state.resources.rice ?? 0) < cost;
+      setDisabled(r.eatRiceBtn, short);
+      const title = short
+        ? `Needs ${cost} rice — rake or farm the paddies to gather it.`
+        : `A plain bowl of rice restores ${balance.EAT_RICE_SATIETY} body — more than a mere rest, at the cost of ${cost} rice.`;
+      if (r.eatRiceBtn.title !== title) r.eatRiceBtn.title = title;
     }
 
     // ── Walk on — the current node's paths, right here on the Work tab (once the map has opened) so
@@ -3316,14 +3352,15 @@ export function mount(
   }
 
   function renderStorehouse(state: GameState): void {
-    // the kura storehouse (batch-2 call 7 / D-113) — shelter carried coin from a lost-fight penalty.
-    // Opens with the estate economy; spatially gated to the kura node in Step 5. (Rice-banking is a
-    // Phase-2 add; the deposit/withdraw intents are already resource-generic.)
+    // the kura storehouse (batch-2 call 7 / D-113) — shelter CARRIED coin + rice from a lost-fight
+    // penalty. Opens with the estate economy; spatially gated to the kura node in Step 5. D-107
+    // Phase 2 surfaces RICE beside coin (deposit/withdraw are already resource-generic), so the
+    // "what you store, you keep" shelter closes the rice loss-shelter gap.
     const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
     toggle(storehousePane, show);
     if (!show) return;
-    // build the shell ONCE (F81): the store/withdraw row and the "walk back" blurb are both present,
-    // toggled in place by location; the balance line patches its text.
+    // build the shell ONCE (F81): the coin + rice store/withdraw rows and the "walk back" blurb are
+    // all present, toggled in place by location; the balance line patches its text.
     if (!storehouseRefs) {
       const card = el('div', 'rung-card frame');
       card.append(el('div', 'rung-now', 'The storehouse 蔵'));
@@ -3331,7 +3368,7 @@ export function mount(
         el(
           'div',
           'skill-blurb',
-          'Stow your coin in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
+          'Stow your coin and rice in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
         ),
       );
       const when = el('div', 'influence-when');
@@ -3340,27 +3377,41 @@ export function mount(
       const dep = el('button', 'auto-toggle', 'Store all coin');
       dep.type = 'button';
       dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'coin' }));
-      const wd = el('button', 'auto-toggle', 'Withdraw all');
+      const wd = el('button', 'auto-toggle', 'Withdraw all coin');
       wd.type = 'button';
       wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'coin' }));
       row.append(dep, wd);
+      const riceRow = el('div', 'labour-row');
+      const depRice = el('button', 'auto-toggle', 'Store all rice');
+      depRice.type = 'button';
+      depRice.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'rice' }));
+      const wdRice = el('button', 'auto-toggle', 'Withdraw all rice');
+      wdRice.type = 'button';
+      wdRice.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'rice' }));
+      riceRow.append(depRice, wdRice);
       const away = el(
         'div',
         'area-blurb',
-        'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw coin.',
+        'Use Walk on 道 (the Work tab) to head back to the kura (蔵) to store or draw coin and rice.',
       );
-      card.append(row, away);
+      card.append(row, riceRow, away);
       storehousePane.append(card);
-      storehouseRefs = { card, when, row, dep, wd, away };
+      storehouseRefs = { card, when, row, dep, wd, riceRow, depRice, wdRice, away };
     }
     const r = storehouseRefs;
     const carried = state.resources.coin ?? 0;
     const banked = state.banked.coin ?? 0;
-    setText(r.when, `Carried ${carried} coin · stored ${banked} coin (safe)`);
+    const carriedRice = state.resources.rice ?? 0;
+    const bankedRice = state.banked.rice ?? 0;
+    setText(
+      r.when,
+      `Carried ${carried} coin, ${carriedRice} rice · stored ${banked} coin, ${bankedRice} rice (safe)`,
+    );
     // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
     // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
     const atKura = state.location === 'kura';
     toggle(r.row, atKura);
+    toggle(r.riceRow, atKura);
     toggle(r.away, !atKura);
     if (atKura) {
       setDisabled(r.dep, carried <= 0);
@@ -3369,6 +3420,12 @@ export function mount(
       setDisabled(r.wd, banked <= 0);
       const wdTitle = r.wd.disabled ? 'Nothing stored to withdraw.' : '';
       if (r.wd.title !== wdTitle) r.wd.title = wdTitle;
+      setDisabled(r.depRice, carriedRice <= 0);
+      const depRiceTitle = r.depRice.disabled ? 'No carried rice to store.' : '';
+      if (r.depRice.title !== depRiceTitle) r.depRice.title = depRiceTitle;
+      setDisabled(r.wdRice, bankedRice <= 0);
+      const wdRiceTitle = r.wdRice.disabled ? 'No rice stored to withdraw.' : '';
+      if (r.wdRice.title !== wdRiceTitle) r.wdRice.title = wdRiceTitle;
     }
   }
 
@@ -3420,6 +3477,52 @@ export function mount(
         : '';
     if (btn.title !== title) btn.title = title;
   }
+  // ── the SELL-RICE faucet (D-107 Phase 2 / §14): rice → coin at the SEASON-swinging price. The
+  //    pedlar buys your rice — DEAR in the lean spring, CHEAP at the autumn glut — so store-or-sell
+  //    is a light timing call. Built ONCE; the price line + sell button patch in place (zero churn). ──
+  function buildSellRice(): {
+    sell: HTMLElement;
+    sellPrice: HTMLElement;
+    sellBtn: HTMLButtonElement;
+  } {
+    const sell = el('div', 'market-sell');
+    sell.append(el('div', 'rung-now', 'Sell your rice 米'));
+    const sellPrice = el('div', 'skill-blurb');
+    const buy = el('div', 'market-buy');
+    const sellBtn = el('button', 'auto-toggle');
+    sellBtn.type = 'button';
+    sellBtn.addEventListener('click', () => dispatch({ type: 'sell_rice' }));
+    buy.append(sellBtn);
+    sell.append(sellPrice, buy);
+    return { sell, sellPrice, sellBtn };
+  }
+  function patchSellRice(
+    sellPrice: HTMLElement,
+    sellBtn: HTMLButtonElement,
+    state: GameState,
+  ): void {
+    const s = season(state);
+    const price = balance.riceSellPrice(s);
+    const prices = Object.values(balance.RICE_SELL_PRICE_BY_SEASON);
+    const gloss =
+      price >= Math.max(...prices)
+        ? 'rice sells dear — a good season to sell'
+        : price <= Math.min(...prices)
+          ? 'the autumn glut — rice sells cheap; hold it in the kura if you can'
+          : 'a fair price';
+    setText(
+      sellPrice,
+      `The pedlar pays ${price} coin the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
+    );
+    const rice = state.resources.rice ?? 0;
+    setText(sellBtn, `Sell all rice (${rice} rice → ${rice * price} coin)`);
+    // a11y: a full accessible name so a screen-reader hears WHAT the sell does + the live price.
+    const aria = `Sell all ${rice} carried rice for ${rice * price} coin at the ${SEASON_TAG[s].name} price of ${price} coin each`;
+    if (sellBtn.getAttribute('aria-label') !== aria) sellBtn.setAttribute('aria-label', aria);
+    setDisabled(sellBtn, rice <= 0);
+    const title = rice <= 0 ? 'No carried rice to sell — rake or farm to gather it.' : '';
+    if (sellBtn.title !== title) sellBtn.title = title;
+  }
   function renderMarket(state: GameState): void {
     const show = activeTab === 'work' && isUnlocked(state, 'panel-estate');
     toggle(marketPane, show);
@@ -3442,18 +3545,24 @@ export function mount(
           card.append(row);
         }
       }
+      // the sell-rice faucet is always present (a fresh build per wholesale render — DEV-only path).
+      const { sell, sellPrice, sellBtn } = buildSellRice();
+      patchSellRice(sellPrice, sellBtn, state);
+      card.append(sell);
       marketPane.append(card);
       return;
     }
-    // prod / test — build the card + rows container ONCE, then reconcile the rows in place.
+    // prod / test — build the card + rows container + sell section ONCE, then patch in place.
     if (!marketRefs) {
       const card = el('div', 'rung-card frame market-card');
       card.append(el('div', 'rung-now', 'The pedlar 市'));
       card.append(el('div', 'skill-blurb', MARKET_BLURB));
       const rows = el('div', 'market-rows');
       card.append(rows);
+      const { sell, sellPrice, sellBtn } = buildSellRice();
+      card.append(sell);
       marketPane.append(card);
-      marketRefs = { card, rows };
+      marketRefs = { card, rows, sellPrice, sellBtn };
     }
     reconcileList(marketRefs.rows, MARKET_ITEMS, {
       key: (item) => item.id,
@@ -3461,6 +3570,7 @@ export function mount(
       patch: (row, item) => patchMarketRow(row, item, state),
       order: true,
     });
+    patchSellRice(marketRefs.sellPrice, marketRefs.sellBtn, state);
   }
 
   // build a fresh you-are-here card (used by the DEV-default wholesale path). The incremental path

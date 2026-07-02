@@ -6,6 +6,8 @@
 // Type-only import (erased at runtime — no module cycle) so the rung-meter profile
 // map can be keyed by the canonical RankId.
 import type { RankId } from './ranks';
+// Type-only (erased) — the rice season-price table is keyed by the canonical Season.
+import type { Season } from '../constants';
 
 // ── Vitals (PRD §2.3, §4.6.1, §6.4) ─────────────────────────────────────────────
 // hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1) — level (NOT level-1)
@@ -330,3 +332,33 @@ export const COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provis
  *  old COOK_SATIETY_RESTORE was retired. Sized so a couple of meals returns a hurt fighter to
  *  fighting shape. provisional (v0.2). */
 export const COOK_HP_RESTORE = 14;
+
+// ── Rice sinks (D-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
+// STORE it in the kura (deposit/withdraw), or SELL it for coin at a SEASON-swinging price. This is
+// what closes the "rice has no consumer" gap (integrity ledger) + restores the coin faucet. All
+// numbers provisional (v0.2, liquid D-059) — tune by playtest / `npm run pacing`. ──
+
+/** Rice one plain-rice meal consumes (the `eat_rice` satiety path, beside `rest`/`cook_meal`). */
+export const EAT_RICE_COST = 3;
+/** Work-stamina (satiety) a plain-rice meal restores. Sized ABOVE a free `rest` (SATIETY_PER_REST,
+ *  18) on purpose — the DESIGN LEVER that keeps eat_rice from being dominated by rest: a proper
+ *  meal refuels FASTER than merely resting, trading your own rice for readiness (never strictly
+ *  worse than a free rest, never the only satiety source). provisional (v0.2, liquid D-059). */
+export const EAT_RICE_SATIETY = 30;
+
+/** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (D-107 / §14): DEAR in the
+ *  lean spring, CHEAP at the autumn glut — a light store-vs-sell TIMING decision that pairs with
+ *  the kura (hold the cheap-autumn haul, sell into the dear spring). No live forex — a fixed
+ *  per-season table (the Dōjima swing, abstracted to seasons). Base unit mon. The MONOTONIC
+ *  DIRECTION (spring dearest, autumn cheapest) is the design lever the tests assert; the exact
+ *  magnitudes are provisional (v0.2, liquid D-059). */
+export const RICE_SELL_PRICE_BY_SEASON: Record<Season, number> = {
+  spring: 6, // lean spring — rice is DEAR (the best season to sell)
+  summer: 5,
+  autumn: 3, // the autumn glut — rice is CHEAP (hold it in the kura if you can)
+  winter: 5,
+};
+/** The current coin-per-rice sell price for a season (pure — keyed off the season selector). */
+export function riceSellPrice(season: Season): number {
+  return RICE_SELL_PRICE_BY_SEASON[season];
+}
