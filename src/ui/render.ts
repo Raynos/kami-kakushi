@@ -621,7 +621,7 @@ export function mount(
   coTitle.lang = 'ja';
   coTitle.textContent = COLD_OPEN_TITLE;
   const coRoman = el('p', 'coldopen-roman', COLD_OPEN_ROMAN);
-  const coLede = el('p', undefined, COLD_OPEN_LEDE);
+  const coLede = el('p', 'coldopen-lede', COLD_OPEN_LEDE);
   const coVerb = el('button', 'verb primary', META_LABELS.open_eyes);
   coVerb.type = 'button';
   coVerb.addEventListener('click', () => dispatch({ type: 'open_eyes' }));
@@ -645,6 +645,10 @@ export function mount(
     all: -1,
     now: -1,
   };
+  // F59 — one-shot: on the first awake log render the loaded entries are HISTORY (already seen),
+  // so we seed every channel's `logSeen` to its max key. Unread dots then fire ONLY for entries
+  // that arrive DURING the session, never for a save's back-history on page load / refresh.
+  let logSeenSeeded = false;
   // F53 — the "Now" view's wall-clock state (render-only; the pure core never times this).
   // `nowSeen` stamps each ephemeral entry's first-shown Date.now() (keyed by entry key); a single
   // light interval fades + prunes lines past their TTL. Both are cleared on reset / filter-switch
@@ -652,6 +656,10 @@ export function mount(
   const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appearance
   const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
   const nowSeen = new Map<number, number>();
+  // F58b — pending height-collapse timers (one per expiring Now line); tracked so a reset /
+  // filter-switch tears them all down (leak-free, per the F53 discipline).
+  const NOW_COLLAPSE_MS = 400; // an expired line collapses its height over ~0.4s so the rest glide up
+  const nowCollapseTimers = new Set<number>();
   let nowInterval: number | undefined;
   let nowEmptyEl: HTMLElement | undefined;
   // track the last painted entry so a coalesced ×N bump (same key, higher count) repaints
@@ -1942,8 +1950,26 @@ export function mount(
   }
   function clearNowView(): void {
     stopNowInterval();
+    // F58b — cancel any in-flight collapse animations so their removal timers don't fire late.
+    for (const t of nowCollapseTimers) window.clearTimeout(t);
+    nowCollapseTimers.clear();
     nowSeen.clear();
     nowEmptyEl = undefined;
+  }
+  // F58b — collapse an expired Now line (height → 0, opacity → 0, margins/padding → 0) over
+  // ~0.4s so the lines below it glide UP as one, instead of snapping up on an instant remove.
+  // Reduced-motion never calls this (it removes instantly); the stamp is dropped up-front so the
+  // prune pass skips the node while it animates out.
+  function collapseNowLine(node: HTMLElement, key: number): void {
+    nowSeen.delete(key);
+    node.style.maxHeight = `${node.scrollHeight}px`;
+    void node.offsetHeight; // commit the start height so the transition to 0 has something to run from
+    node.classList.add('now-collapsing');
+    const t = window.setTimeout(() => {
+      nowCollapseTimers.delete(t);
+      node.remove();
+    }, NOW_COLLAPSE_MS + 60);
+    nowCollapseTimers.add(t);
   }
   function nowEmptyPlaceholder(): void {
     // empty when nothing recent — a calm placeholder so the tab never reads broken.
@@ -1965,6 +1991,7 @@ export function mount(
     for (const node of Array.from(logLines.children) as HTMLElement[]) {
       const raw = node.dataset.nowKey;
       if (raw === undefined) continue; // the placeholder — skip
+      if (node.classList.contains('now-collapsing')) continue; // F58b — already animating out
       const seen = nowSeen.get(Number(raw));
       if (seen === undefined) {
         node.remove();
@@ -1972,8 +1999,13 @@ export function mount(
       }
       const age = now - seen;
       if (age >= NOW_TTL_MS) {
-        node.remove();
-        nowSeen.delete(Number(raw));
+        // F58b — collapse the line so the rest slide up (reduced-motion → instant remove).
+        if (reduced) {
+          node.remove();
+          nowSeen.delete(Number(raw));
+        } else {
+          collapseNowLine(node, Number(raw));
+        }
       } else {
         if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS) node.classList.add('now-fading');
         live += 1;
@@ -2510,6 +2542,13 @@ export function mount(
     renderNav(state);
     renderLog(state);
     paintLogFilterBar();
+    // F59 — first awake render: mark all loaded entries seen (history), so no channel shows a
+    // stale unread dot on load/refresh. After this, only mid-session arrivals trip a dot.
+    if (!logSeenSeeded) {
+      logSeenSeeded = true;
+      const loaded = state.log.entries;
+      for (const f of Object.keys(logSeen) as LogFilter[]) logSeen[f] = maxKeyForFilter(loaded, f);
+    }
     refreshLogTabs(state); // F20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
     renderLadder(state);

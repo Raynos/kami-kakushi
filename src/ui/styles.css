@@ -737,6 +737,24 @@ h3 {
 .log-line.now-fading {
   opacity: 0;
 }
+/* F58b — when an expired Now line is pruned, collapse its box (height/opacity/margin/padding → 0)
+   over ~0.4s so the lines below glide UP as one, rather than snapping up on an instant reflow.
+   JS sets a start max-height in px, then adds this class; reduced-motion never gets here (the
+   render side removes the node instantly instead). */
+.log-line.now-collapsing {
+  overflow: hidden;
+  max-height: 0 !important;
+  opacity: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.4s ease,
+    margin 0.4s ease,
+    padding 0.4s ease;
+}
 .log-empty {
   color: var(--ink-faint);
   font-size: var(--fs-small);
@@ -1006,6 +1024,12 @@ h3 {
 .coldopen p {
   color: var(--washi-deep);
   margin-bottom: var(--space-6);
+}
+/* F54 — the typewritten lede reveals LEFT-to-RIGHT: left-align it so the line
+   doesn't re-centre (and jitter) on every character typed. The title + roman
+   kanji stay centred (the frame's default) — only the typed lede is left-set. */
+.coldopen-lede {
+  text-align: left;
 }
 /* staged cold-open reveal (F14): items start hidden; JS adds .in at the scripted beat.
    Reduced-motion zeroes the transition (global RM rule) + the JS reveals everything at once. */
