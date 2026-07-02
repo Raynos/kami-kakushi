@@ -264,6 +264,14 @@ export function formatLogText(entry: LogEntry): string {
   return `${entry.text} ×${n}`;
 }
 
+// F53/F115 — the "Now" (ephemeral) view's wall-clock timings (a RENDER-time concern; the pure core
+// never times this). Module-scope + exported so a test derives its fixtures from the SAME source the
+// renderer uses (D-086 — no copied magic numbers). F115: the expiry runs regardless of the active
+// view, so a fleeting line clears on schedule even while Now is hidden.
+export const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appearance
+export const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
+export const NOW_COLLAPSE_MS = 400; // an expired line collapses its height over ~0.4s so the rest glide up
+
 export function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string,
@@ -288,7 +296,10 @@ function brushRule(): HTMLElement {
   return el('hr', 'brush-rule');
 }
 
-function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void } {
+function buildSettings(hooks: AppHooks): {
+  modal: HTMLElement;
+  open: (tab?: string) => void;
+} {
   const scrim = el('div', 'modal-scrim');
   scrim.hidden = true;
   const card = el('div', 'modal-card frame');
@@ -493,6 +504,15 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   aboutSec.append(
     el('p', 'modal-meta', 'Content notes: mild thematic — child-disappearance, drowning, debt.'),
   );
+  // F105 — deep-link to the raw CHANGELOG on GitHub (opens in a new tab); a raw-file link is fine per
+  // the human's spec. The version's story is one click from the footer (F104 version → About → here).
+  const changelogRow = el('p', 'modal-meta');
+  const changelog = el('a', 'modal-link', 'Changelog') as HTMLAnchorElement;
+  changelog.href = 'https://raw.githubusercontent.com/Raynos/kami-kakushi/main/CHANGELOG.md';
+  changelog.target = '_blank';
+  changelog.rel = 'noopener noreferrer';
+  changelogRow.append(document.createTextNode('Version history: '), changelog);
+  aboutSec.append(changelogRow);
 
   card.append(settingsSec, savesSec, aboutSec);
   showTab('about'); // default active tab — the human prefers opening on About (F33)
@@ -500,8 +520,11 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   scrim.append(card);
   return {
     modal: scrim,
-    open: () => {
+    // F104 — an optional `tab` opens the modal straight on that sub-tab (the footer version opens it
+    // on "about"); called with no arg (the gear button) it keeps whichever tab was last shown.
+    open: (tab?: string) => {
       opener = (document.activeElement as HTMLElement) ?? null;
+      if (typeof tab === 'string' && sections[tab]) showTab(tab);
       scrim.hidden = false;
       close.focus();
     },
@@ -575,7 +598,7 @@ export function mount(
   settingsBtn.type = 'button';
   settingsBtn.setAttribute('aria-haspopup', 'dialog');
   const settings = buildSettings(hooks);
-  settingsBtn.addEventListener('click', settings.open);
+  settingsBtn.addEventListener('click', () => settings.open());
   // the Settings control now lives in the fixed footer (playtest F5); the titlebar shows the name.
   titlebar.append(title);
   shell.append(titlebar);
@@ -721,7 +744,6 @@ export function mount(
 
   const work = el('section', 'work');
   const workHead = el('h2', undefined, 'What you can do');
-  const ladder = el('div', 'ladder');
   const estatePane = el('div', 'estate-pane');
   const marketPane = el('div', 'market-pane');
   const storehousePane = el('div', 'storehouse-pane');
@@ -741,13 +763,6 @@ export function mount(
   //    Each easy surface builds its card shell ONCE (lazily on first show) and PATCHES in place
   //    after, so an idle re-render of unchanged state produces zero DOM churn (meter transitions
   //    survive, focus survives, the ~2×/s tick stops flashing). null ⇒ not yet built.
-  let ladderRefs: {
-    card: HTMLElement;
-    now: HTMLElement;
-    fill: HTMLElement;
-    hint: HTMLElement;
-    next: HTMLElement;
-  } | null = null;
   let estateRefs: {
     card: HTMLElement;
     now: HTMLElement;
@@ -905,18 +920,17 @@ export function mount(
     mapPane,
     estatePane,
   );
-  // P2 · Path & Progress — the rung ladder (appears at first rake, R0→R1).
-  const sliceProgress = el('section', 'slice slice-progress');
-  sliceProgress.dataset.panel = 'progress';
-  sliceProgress.setAttribute('aria-label', 'Path & progress');
-  sliceProgress.append(ladder);
+  // P2 · Path & Progress — REMOVED (F116). The rung/progress display is now the SOLE responsibility
+  // of the header rung element (renderRungHead, F106, top-right); the old Work-column ladder was a
+  // duplicate of it, so the "Path & progress" slice is gone (no empty ghost — the slice itself is
+  // deleted, not just hidden).
   // P3 · Estate & Economy — the coin sinks (market/storehouse) + the R7 House-Influence capstone
   // (~R2). The estate-IMPROVE card (`estatePane`) moved to the Estate/map tab (F100, see sliceDo).
   const sliceEstate = el('section', 'slice slice-estate');
   sliceEstate.dataset.panel = 'estate';
   sliceEstate.setAttribute('aria-label', 'Estate & economy');
   sliceEstate.append(marketPane, storehousePane, influence);
-  work.append(sliceDo, sliceProgress, sliceEstate);
+  work.append(sliceDo, sliceEstate);
 
   // P4 · the story-log — its OWN persistent slice (always present R0). It keeps its `.log`
   // styling untouched (classic looks identical); the slice classes only let byōbu widen it into
@@ -926,7 +940,7 @@ export function mount(
 
   // the reveal-gated slices (P4 log persists, so it's excluded) — each hides when all its panes
   // are hidden, so early game is Do + Log only and the screen inks in as surfaces unlock.
-  const gatedSlices = [sliceDo, sliceProgress, sliceEstate];
+  const gatedSlices = [sliceDo, sliceEstate];
 
   // the story log lives in the RIGHT column (idle-RPG convention, playtest F8); the interactive
   // work/actions column sits on the LEFT (classic). Byōbu re-arranges the same DOM via CSS.
@@ -934,7 +948,17 @@ export function mount(
 
   // ── fixed footer bar (F5) — the version stamp + the Settings entry, pinned to the bottom ──
   const footer = el('footer', 'appbar-footer');
-  footer.append(el('span', 'foot-meta', __VERSION__), settingsBtn);
+  // F104 — the version is CLICKABLE → the About modal (single-sourced from __VERSION__, never
+  // hand-typed — A21). A real button for keyboard/a11y, styled to read as the plain version stamp.
+  const versionBtn = el('button', 'foot-meta foot-version', __VERSION__) as HTMLButtonElement;
+  versionBtn.type = 'button';
+  versionBtn.setAttribute('aria-haspopup', 'dialog');
+  versionBtn.setAttribute('aria-label', `About Kami-kakushi ${__VERSION__}`);
+  versionBtn.addEventListener('click', () => settings.open('about'));
+  footer.append(versionBtn, settingsBtn);
+  // F92 — the DEV toggle floats as a fixed overlay at the bottom-right corner (dev.ts). Reserve its
+  // corner in the footer (DEV builds only) so the Settings button sits clear of it — no collision.
+  if (import.meta.env.DEV && dev) footer.classList.add('has-dev-toggle');
 
   shell.append(header, nav, workspace, footer, settings.modal);
 
@@ -963,9 +987,10 @@ export function mount(
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
   const logSeen: Record<LogFilter, number> = {
     story: -1,
-    work: -1,
-    combat: -1,
     progression: -1,
+    chat: -1,
+    combat: -1,
+    work: -1,
     all: -1,
     now: -1,
   };
@@ -973,16 +998,18 @@ export function mount(
   // so we seed every channel's `logSeen` to its max key. Unread dots then fire ONLY for entries
   // that arrive DURING the session, never for a save's back-history on page load / refresh.
   let logSeenSeeded = false;
-  // F53 — the "Now" view's wall-clock state (render-only; the pure core never times this).
-  // `nowSeen` stamps each ephemeral entry's first-shown Date.now() (keyed by entry key); a single
-  // light interval fades + prunes lines past their TTL. Both are cleared on reset / filter-switch
-  // so nothing leaks (the interval self-terminates the moment the filter leaves `now`).
-  const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appearance
-  const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
+  // F53/F115 — the "Now" (ephemeral) view's wall-clock state (render-only; the pure core never times
+  // this). `nowSeen` stamps each ephemeral entry's first-OBSERVED Date.now() (keyed by entry key).
+  // F115: an entry is stamped the moment the renderer first SEES it — regardless of the active view —
+  // and a single light interval ages the stamps out on wall time whether or not Now is showing, so a
+  // fleeting line clears on schedule (open Now later → already gone, not a backlog). The interval
+  // ALSO drives the DOM fade/collapse while Now is the active view. All state is cleared on reset.
   const nowSeen = new Map<number, number>();
-  // F58b — pending height-collapse timers (one per expiring Now line); tracked so a reset /
-  // filter-switch tears them all down (leak-free, per the F53 discipline).
-  const NOW_COLLAPSE_MS = 400; // an expired line collapses its height over ~0.4s so the rest glide up
+  // F115 — the high-water key already stamped; keys are monotonic (log.seq), so a stamp aged out of
+  // `nowSeen` is NEVER re-created fresh when it's still present in the (permanent) log ring.
+  let lastEphStampKey = -1;
+  // F58b — pending height-collapse timers (one per expiring Now line); tracked so a reset tears them
+  // all down (leak-free, per the F53 discipline).
   const nowCollapseTimers = new Set<number>();
   let nowInterval: number | undefined;
   let nowEmptyEl: HTMLElement | undefined;
@@ -1174,59 +1201,9 @@ export function mount(
     );
   }
 
-  function renderLadder(state: GameState): void {
-    // show the meter during R0 too (once you've raked) — the ladder used to hide until R1, leaving the
-    // whole cold-open with no visible progress toward the first promotion (fun-factor "a next goal").
-    // F72 — HIDE the container whenever there's nothing to show (off the Work tab OR the gate isn't
-    // met yet), so an empty ladder never leaves the Progress slice as an empty framed ghost card.
-    const show =
-      activeTab === 'work' && (isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked'));
-    toggle(ladder, show);
-    if (!show) return;
-    // build the card shell ONCE (F81), then patch its mutable fields in place — the meter fill span
-    // persists so its CSS width transition actually plays instead of snapping on every tick.
-    if (!ladderRefs) {
-      const card = el('div', 'rung-card frame');
-      const now = el('div', 'rung-now');
-      const meter = el('div', 'meter');
-      const fill = el('span');
-      meter.append(fill);
-      const hint = el('div', 'rung-hint');
-      const next = el('div', 'rung-next');
-      card.append(now, meter, hint, next);
-      ladder.append(card);
-      ladderRefs = { card, now, fill, hint, next };
-    }
-    const rank = currentRank(state);
-    const prog = rungProgress(state);
-    // FULL meter but an unmet story-gate (e.g. auto-labour maxed the bar without ever fighting the
-    // wolf): show the deed still owed, not a stuck "Estate service · N/N" — a maxed bar must never
-    // read as a dead wall (fun-factor "always a visible next goal").
-    const gated = prog.into >= prog.needed && !prog.ready;
-    setText(ladderRefs.now, `${rank.title} · ${rank.kanji}`);
-    // hold the fill just shy of full while gated, so a truly-full bar always means promotable.
-    // Guard the fraction (needed is always >0, but a stray 0 would print `NaN%` = an empty ghost
-    // meter right after a rung reset, F72), then clamp to a clean 0–100.
-    const frac = prog.needed > 0 ? Math.max(0, Math.min(1, prog.into / prog.needed)) : 0;
-    setStyle(ladderRefs.fill, 'width', `${gated ? 92 : Math.round(frac * 100)}%`);
-    setText(
-      ladderRefs.hint,
-      prog.ready
-        ? 'Ready to advance.'
-        : gated
-          ? (rank.advanceHint ?? 'The work is done — a deed still stands before the next rung.')
-          : `Estate service · ${prog.into}/${prog.needed}`,
-    );
-    const nid = nextRankId(rank.id);
-    if (nid) {
-      const nextRank = getRank(nid);
-      setClass(ladderRefs.next, 'frontier', false);
-      setText(ladderRefs.next, `Next: ${nextRank.title} ${nextRank.kanji}`);
-    } else {
-      setClass(ladderRefs.next, 'frontier', true);
-      setText(ladderRefs.next, 'Beyond the gate the road climbs on — to be continued.');
-    }
-  }
+  // F116 — the Work-column rung ladder (renderLadder) was REMOVED: it duplicated the header rung
+  // element (renderRungHead, F106), which is now the SOLE home of the rung name + progress meter
+  // (top-right, always on screen, with the hover-detail card + the ready-to-advance summons).
 
   // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
   // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
@@ -3532,7 +3509,8 @@ export function mount(
   function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
     let mx = -1;
     for (const e of entries)
-      if (logFilterMatches(e.channel, f, e.ephemeral === true)) mx = Math.max(mx, e.key);
+      if (logFilterMatches(e.channel, f, e.ephemeral === true, e.chat === true))
+        mx = Math.max(mx, e.key);
     return mx;
   }
   function refreshLogTabs(state: GameState): void {
@@ -3549,23 +3527,50 @@ export function mount(
       btn.classList.toggle('unread', unread);
     }
   }
-  // ── F53 · the "Now" view — a rolling window of FLEETING flavor (ephemeral entries) that each
-  //    fade ~15s after first appearing. Wall-clock + DOM only (a render concern; the pure core
-  //    never sees time). Leak-free: `nowSeen` stamps + the single fade interval are torn down on
-  //    reset / filter-switch, and the interval self-terminates the instant the filter leaves `now`.
-  function stopNowInterval(): void {
+  // ── F53/F115 · the "Now" view — a rolling window of FLEETING flavor (ephemeral entries) that each
+  //    fade ~15s after first appearing. Wall-clock + DOM only (a render concern; the pure core never
+  //    sees time). F115: the EXPIRY CLOCK is DECOUPLED from the active view — a single light interval
+  //    ages `nowSeen` stamps out on wall time whether or not Now is showing (so a fleeting line clears
+  //    on schedule; open Now later → already gone, not a backlog) and, WHILE Now is active, also drives
+  //    the DOM fade/collapse. Leak-free: the clock self-terminates when no stamps remain and Now isn't
+  //    the active view, and a full reset (new game / import) tears everything down.
+  function stopExpiryClock(): void {
     if (nowInterval !== undefined) {
       window.clearInterval(nowInterval);
       nowInterval = undefined;
     }
   }
-  function clearNowView(): void {
-    stopNowInterval();
-    // F58b — cancel any in-flight collapse animations so their removal timers don't fire late.
+  function ensureExpiryClock(): void {
+    if (nowInterval === undefined) nowInterval = window.setInterval(tickExpiry, 500);
+  }
+  function cancelNowCollapse(): void {
+    // F58b — cancel any in-flight collapse animations so their removal timers don't fire late (used
+    // when the Now DOM is about to be wiped by a filter switch — the stamps + clock are KEPT, F115).
     for (const t of nowCollapseTimers) window.clearTimeout(t);
     nowCollapseTimers.clear();
+  }
+  function clearNowView(): void {
+    // FULL teardown (reset only) — drop the stamps, the high-water mark, and the clock.
+    stopExpiryClock();
+    cancelNowCollapse();
     nowSeen.clear();
+    lastEphStampKey = -1;
     nowEmptyEl = undefined;
+  }
+  // F115 — stamp any NEWLY-observed ephemeral entry with its wall-clock birth, for ANY active view.
+  // The monotonic high-water key means an entry whose stamp already aged out of `nowSeen` is never
+  // re-stamped fresh (it stays in the permanent log ring, but its render-life is over). Starts the
+  // expiry clock the moment there's anything to age out.
+  function stampEphemeral(state: GameState): void {
+    const now = Date.now();
+    let maxKey = lastEphStampKey;
+    for (const e of state.log.entries) {
+      if (e.ephemeral !== true) continue;
+      if (e.key > lastEphStampKey) nowSeen.set(e.key, now);
+      if (e.key > maxKey) maxKey = e.key;
+    }
+    lastEphStampKey = maxKey;
+    if (nowSeen.size > 0) ensureExpiryClock();
   }
   // F58b — collapse an expired Now line (height → 0, opacity → 0, margins/padding → 0) over
   // ~0.4s so the lines below it glide UP as one, instead of snapping up on an instant remove.
@@ -3590,13 +3595,24 @@ export function mount(
     nowEmptyEl = el('div', 'log-empty', 'Quiet, just now — the moment has passed.');
     logLines.append(nowEmptyEl);
   }
-  // The interval pass: fade lines entering their last NOW_FADE_MS, drop lines past NOW_TTL_MS.
-  function pruneNowView(): void {
-    if (logFilter !== 'now') {
-      clearNowView();
-      return;
-    }
+  // F115 — the interval body: ALWAYS ages the stamps out on wall time (so the expiry runs regardless
+  // of the active view), and — only while Now is the active view — drives the DOM fade/collapse. The
+  // clock self-terminates once nothing is pending (no stamps + Now not shown).
+  function tickExpiry(): void {
     const now = Date.now();
+    if (logFilter === 'now') {
+      // Now IS visible: the DOM pass owns the stamp lifecycle (collapse/remove drop the stamp), so it
+      // can animate the fade-out. It fades lines entering their last NOW_FADE_MS + expires past TTL.
+      pruneNowViewDom(now);
+    } else {
+      // Now is HIDDEN: no DOM to touch — just age the logical clock so lines are already gone when the
+      // player switches to Now next (the core of the F115 fix).
+      for (const [key, seen] of nowSeen) if (now - seen >= NOW_TTL_MS) nowSeen.delete(key);
+    }
+    if (nowSeen.size === 0 && logFilter !== 'now') stopExpiryClock();
+  }
+  // The DOM prune pass (Now active): fade lines entering their last NOW_FADE_MS, expire past NOW_TTL_MS.
+  function pruneNowViewDom(now: number): void {
     const reduced = reduceMotion();
     let live = 0;
     for (const node of Array.from(logLines.children) as HTMLElement[]) {
@@ -3624,18 +3640,19 @@ export function mount(
     }
     if (live === 0) nowEmptyPlaceholder();
   }
-  // Full rebuild on a state change: stamp any new ephemeral entry, paint those still inside their
-  // 15s window (newest at the bottom), and keep the fade interval running.
+  // Full rebuild on a state change: paint the ephemeral entries STILL inside their window (newest at
+  // the bottom). F115 — this NO LONGER stamps (stampEphemeral, run for every view, owns that); it only
+  // READS the stamps, so an entry whose stamp already aged out (while Now was hidden) is simply absent.
   function renderNowView(state: GameState): void {
     const now = Date.now();
     const ephemeral = state.log.entries.filter((e) => e.ephemeral === true);
-    for (const e of ephemeral) if (!nowSeen.has(e.key)) nowSeen.set(e.key, now);
     logLines.textContent = '';
     nowEmptyEl = undefined;
     const reduced = reduceMotion();
     let painted = 0;
     for (const e of ephemeral) {
-      const seen = nowSeen.get(e.key)!;
+      const seen = nowSeen.get(e.key);
+      if (seen === undefined) continue; // never stamped, or already aged out — not shown
       const age = now - seen;
       if (age >= NOW_TTL_MS) continue;
       const line = buildLogLine(e, false);
@@ -3646,8 +3663,7 @@ export function mount(
       painted += 1;
     }
     if (painted === 0) nowEmptyPlaceholder();
-    // start the light fade/prune loop (idempotent) — only meaningful while `now` is active.
-    if (nowInterval === undefined) nowInterval = window.setInterval(pruneNowView, 500);
+    ensureExpiryClock(); // keep the fade/prune loop alive while Now is shown
     scrollLogToNewest();
   }
   // F27 — clear/drop the transient fresh-entries divider.
@@ -3681,7 +3697,9 @@ export function mount(
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
     logLines.textContent = '';
     clearFreshDivider();
-    if (wasNow) clearNowView(); // F53 — leaving Now drops its stamps + stops the fade interval
+    // F115 — leaving Now WIPES its DOM (below), so cancel any in-flight collapse animations; but KEEP
+    // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
+    if (wasNow) cancelNowCollapse();
     lastKey = -1;
     lastPaintedKey = -1;
     lastPaintedCount = 0;
@@ -3726,8 +3744,12 @@ export function mount(
       clearNowView(); // F53 — a reset drops the fleeting-flavor stamps + fade timer too
     }
     lastSeq = state.log.seq;
+    // F115 — stamp any newly-observed ephemeral entry for EVERY view (not just Now), so its expiry
+    // clock starts the moment it arrives regardless of which tab is showing. This is the decoupling:
+    // the fleeting lines age out on wall time even while Now is hidden.
+    stampEphemeral(state);
     // F53 — the "Now" view owns its own rolling, self-fading render path (not the incremental
-    // cascade): fully rebuild it from the ephemeral entries + their first-seen stamps.
+    // cascade): fully rebuild it from the ephemeral entries + their (view-independent) stamps.
     if (logFilter === 'now') {
       renderNowView(state);
       return;
@@ -3739,7 +3761,7 @@ export function mount(
       // in-place ×N growth: the last entry kept its key but bumped its count (a coalesce).
       // Only paint while the reveal cascade is idle (it self-heals on the next render).
       if (
-        logFilterMatches(last.channel, logFilter, last.ephemeral === true) &&
+        logFilterMatches(last.channel, logFilter, last.ephemeral === true, last.chat === true) &&
         last.key === lastPaintedKey &&
         (last.count ?? 1) !== lastPaintedCount &&
         revealQueue.length === 0 &&
@@ -3758,7 +3780,7 @@ export function mount(
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
     const freshVisible = fresh.filter((e) =>
-      logFilterMatches(e.channel, logFilter, e.ephemeral === true),
+      logFilterMatches(e.channel, logFilter, e.ephemeral === true, e.chat === true),
     );
 
     // F48 — while a VN scene owns the live reveal (intro OR a rung beat — D-110), the LOG is only the
@@ -4448,7 +4470,6 @@ export function mount(
     }
     refreshLogTabs(state); // F20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
-    renderLadder(state);
     renderEstate(state);
     renderMarket(state);
     renderStorehouse(state);

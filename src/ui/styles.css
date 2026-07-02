@@ -257,9 +257,6 @@ h3 {
 .shell.intro-reveal .slice-do {
   animation-delay: 40ms;
 }
-.shell.intro-reveal .slice-progress {
-  animation-delay: 120ms;
-}
 .shell.intro-reveal .slice-estate {
   animation-delay: 200ms;
 }
@@ -427,7 +424,6 @@ h3 {
    a `hidden` slice collapses out of flow ([hidden]{display:none!important}), which is the
    reveal-gating (early game = Do + Log only). */
 .slice-do,
-.slice-progress,
 .slice-estate {
   display: flex;
   flex-direction: column;
@@ -1531,10 +1527,8 @@ h3 {
     0 0 0 4px var(--ai);
 }
 
-/* ── rung ladder card ────────────────────────────────────────────────────── */
-.ladder {
-  margin-bottom: var(--space-4);
-}
+/* ── rung card (shared by the estate / storehouse / combat cards; the Work-column rung ladder that
+   once used `.ladder` was removed in F116 — the header rung is the sole progress home) ─────────── */
 .rung-card {
   padding: var(--space-2) var(--space-3); /* F73 — denser card (was --space-3·--space-4) */
 }
@@ -1840,6 +1834,29 @@ html {
   color: var(--washi-deep);
   letter-spacing: 0.04em;
 }
+/* F104 — the version stamp is a clickable button (→ About modal), styled to read as the plain
+   version text: no button chrome, an underline-on-hover affordance that it's interactive. */
+.appbar-footer .foot-version {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+}
+.appbar-footer .foot-version:hover,
+.appbar-footer .foot-version:focus-visible {
+  color: var(--washi);
+  text-decoration-color: currentColor;
+  outline: none;
+}
+/* F92 — the DEV toggle is a fixed overlay pinned to the viewport's bottom-right corner (dev.ts,
+   right:.5rem). In DEV builds, hold the footer's right cluster clear of that corner so the Settings
+   button never collides with the DEV toggle at any width (prod ships no toggle → no reserve). */
+.appbar-footer.has-dev-toggle .settings-btn {
+  margin-right: 6rem;
+}
 
 /* ── title bar ───────────────────────────────────────────────────────────── */
 .titlebar {
@@ -2035,6 +2052,17 @@ html {
   font-size: var(--fs-small);
   color: var(--ink-faint);
   margin: var(--space-1) 0;
+}
+/* F105 — the About modal's CHANGELOG deep-link (opens the raw file on GitHub in a new tab). */
+.modal-link {
+  color: var(--ai);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.modal-link:hover,
+.modal-link:focus-visible {
+  color: var(--ink);
+  outline: none;
 }
 
 /* ── rank-up seal press (the signature beat, ui-design §6.2) ──────────────── */

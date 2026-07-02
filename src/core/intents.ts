@@ -291,14 +291,23 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state; // gate unmet ⇒ no-op
       // 1) VOICE the MC's question (a `player` line, "You: …"), THEN 2) the NPC's answer line(s),
       //    each in its own authored voice + nameplate — the scrollback reads as a two-sided exchange.
+      //    F111 — this is OPTIONAL Q&A the player chose to ask, so it's flagged `chat`: it routes to
+      //    the "Chat" tab, keeping the mandatory "Story" tab to scene beats you must see.
       next = applyRewards(next, {
         log: [
-          { channel: 'narration', text: topic.label, voice: 'player', speaker: PLAYER_SPEAKER },
+          {
+            channel: 'narration',
+            text: topic.label,
+            voice: 'player',
+            speaker: PLAYER_SPEAKER,
+            chat: true,
+          },
           ...topic.answer.map((l) => ({
             channel: 'narration' as const,
             text: l.text,
             voice: l.voice,
             speaker: l.speaker,
+            chat: true,
           })),
         ],
       });
@@ -367,14 +376,22 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const topic = rungTopic(scene, intent.topicId);
       if (!topic) return state;
       if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state;
+      // F111 — an OPTIONAL rung-beat question is `chat` (routes to the Chat tab, off the Story tab).
       next = applyRewards(next, {
         log: [
-          { channel: 'narration', text: topic.label, voice: 'player', speaker: PLAYER_SPEAKER },
+          {
+            channel: 'narration',
+            text: topic.label,
+            voice: 'player',
+            speaker: PLAYER_SPEAKER,
+            chat: true,
+          },
           ...topic.answer.map((l) => ({
             channel: 'narration' as const,
             text: l.text,
             voice: l.voice,
             speaker: l.speaker,
+            chat: true,
           })),
         ],
       });

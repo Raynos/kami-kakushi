@@ -4,7 +4,7 @@
 // unknown-foe fog gating, and the settings-modal a11y (textarea labels + Tab
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { mount, formatLogText, type AppHooks } from './render';
+import { mount, formatLogText, NOW_TTL_MS, type AppHooks } from './render';
 import { LOG_SCALE_MIN, LOG_SCALE_MAX, LOG_SCALE_STEP, LOG_SCALE_DEFAULT } from './ui-prefs';
 import {
   createInitialState,
@@ -1206,22 +1206,31 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     }
   });
 
-  it('F72 — an empty rung ladder collapses its Progress slice, never an empty framed ghost card', () => {
+  it('F116 — the Work-column rung ladder + its Progress slice are GONE (header rung is the sole home)', () => {
     const render = mount(root, () => {}, noopHooks());
-    // awake but not yet raked and the rung-ladder panel not unlocked → the ladder has nothing to show.
-    render(awake(), null);
-    expect(root.querySelector<HTMLElement>('.ladder')!.hidden).toBe(true);
-    expect(root.querySelector<HTMLElement>('.slice-progress')!.hidden).toBe(true);
+    // even when the rung ladder would be meaningful (raked + panel unlocked), the DUPLICATE
+    // Work-column ladder no longer exists — the header rung element is the single progress home.
+    render(
+      {
+        ...awake(['panel-rung-ladder']),
+        flags: { ...createInitialState(1).flags, awake: true, raked: true },
+      },
+      null,
+    );
+    expect(root.querySelector('.work .ladder')).toBeNull(); // the Work-column ladder is removed
+    expect(root.querySelector('.slice-progress')).toBeNull(); // …and so is its "Path & progress" slice
+    // the rung/progress display lives in the header (F106), which IS shown for this state.
+    expect(root.querySelector<HTMLElement>('.rung-head')!.hidden).toBe(false);
   });
 
-  it('F94 — the work slices are direct children of the .work fold (the flex-0 stacking seam)', () => {
+  it('F94/F116 — the work slices are direct children of the .work fold (the flex-0 stacking seam)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(awake(['panel-estate', 'room-gate-forecourt', 'panel-rung-ladder']), null);
     const work = root.querySelector<HTMLElement>('.work')!;
     // The F94 fix (`.workspace[data-layout=layout-byobu] > .work > .slice { flex: 0 0 auto }`) can
     // only reach the slices if they are DIRECT children of `.work` — nest them deeper and the cards
-    // squeeze/overlap again. Guard that seam structurally.
-    for (const cls of ['slice-do', 'slice-progress', 'slice-estate']) {
+    // squeeze/overlap again. Guard that seam structurally. (F116 dropped `slice-progress`.)
+    for (const cls of ['slice-do', 'slice-estate']) {
       const slice = root.querySelector<HTMLElement>(`.${cls}`)!;
       expect(slice).not.toBeNull();
       expect(slice.parentElement).toBe(work);
@@ -1400,20 +1409,23 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     return records;
   }
 
-  it('renderLadder — the rung card + meter fill survive a re-render (identity + width persists)', () => {
+  it('renderRungHead — the header rung + meter fill survive a re-render (identity + width persists)', () => {
+    // F116 — the Work-column ladder was removed; the HEADER rung element (renderRungHead, F106) is the
+    // build-once/patch progress home now, so the append-only identity guard lives here.
     const render = mount(root, () => {}, noopHooks());
     const s = awake([], { flags: { ...createInitialState(1).flags, awake: true, raked: true } });
     render(s, null);
-    const card = root.querySelector<HTMLElement>('.ladder .rung-card')!;
-    const fill = root.querySelector<HTMLElement>('.ladder .meter span')!;
-    expect(card).not.toBeNull();
+    const head = root.querySelector<HTMLElement>('.rung-head')!;
+    const fill = root.querySelector<HTMLElement>('.rung-head-meter span')!;
+    expect(head).not.toBeNull();
+    expect(head.hidden).toBe(false); // shown once raked
     const width0 = fill.style.width;
     render(s, s);
-    expect(root.querySelector('.ladder .rung-card')).toBe(card); // same node, not rebuilt
-    expect(root.querySelector('.ladder .meter span')).toBe(fill); // same fill ⇒ transition survives
+    expect(root.querySelector('.rung-head')).toBe(head); // same node, not rebuilt
+    expect(root.querySelector('.rung-head-meter span')).toBe(fill); // same fill ⇒ transition survives
     expect(fill.style.width).toBe(width0);
-    expect(card.isConnected).toBe(true);
-    expect(churnOnReRender(root.querySelector<HTMLElement>('.ladder')!, s, render)).toEqual([]);
+    expect(head.isConnected).toBe(true);
+    expect(churnOnReRender(head, s, render)).toEqual([]);
   });
 
   it('renderMarket — a pedlar row survives a re-render (identity) and idle ticks churn nothing', () => {
@@ -1907,5 +1919,167 @@ describe('Estate map — flavor + terse hint-free navigation (F102, prod default
     expect(locked.dataset.locked).toBe('1');
     // the reason is VISIBLE (a lock-hint beneath it), never a dead grey box.
     expect(nav.textContent).toContain(`Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`);
+  });
+});
+
+// ── F111 · the "Chat" log tab — the OPTIONAL Q&A you chose to ask, split off from the MANDATORY
+//    Story. A chat line is `narration` + `chat:true`; the filter routes it to Chat (+ All), never
+//    Story. F104/F105 · the footer version is clickable → the About modal, which deep-links the raw
+//    CHANGELOG on GitHub. F115 · the Now expiry runs on wall time regardless of the active view. ──
+describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function awake(): GameState {
+    const base = createInitialState(1);
+    return { ...base, flags: { ...base.flags, awake: true } };
+  }
+  function logged(entries: LogEntry[]): GameState {
+    return { ...awake(), log: { entries, seq: entries.length } };
+  }
+  function clickFilter(label: string): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
+      .find((b) => (b.textContent ?? '') === label)
+      ?.click();
+  }
+  const logText = (): string => root.querySelector<HTMLElement>('.log-lines')!.textContent ?? '';
+
+  // a MANDATORY story beat (narration, no chat flag) vs an OPTIONAL asked question (narration +
+  // chat:true) — the exact split ask_topic/ask_rung_topic produce (they flag their lines `chat`).
+  const MANDATORY = 'The physician studies your face in the lamplight.';
+  const ASKED = 'Who found me on the mountain road?';
+  function withChatAndStory(): GameState {
+    return logged([
+      { key: 0, channel: 'narration', text: MANDATORY, tick: 0, count: 1 },
+      { key: 1, channel: 'narration', text: ASKED, tick: 0, count: 1, chat: true },
+    ]);
+  }
+
+  it('F111 — a mandatory beat shows in Story; the asked question is withheld from Story', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(withChatAndStory(), null); // opens on Story (the default)
+    expect(logText()).toContain(MANDATORY);
+    expect(logText()).not.toContain(ASKED); // the optional Q&A is NOT mandatory story
+  });
+
+  it('F111 — the Chat tab holds the asked question, NOT the mandatory beat', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(withChatAndStory(), null);
+    // Chat sits in the bar (order: Story · Progress · Chat · Combat · Work · All · Now)…
+    const chatTab = [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')].find(
+      (b) => (b.textContent ?? '') === 'Chat',
+    );
+    expect(chatTab).toBeTruthy();
+    clickFilter('Chat');
+    expect(logText()).toContain(ASKED); // the optional Q&A lives here…
+    expect(logText()).not.toContain(MANDATORY); // …and the mandatory beat does not leak in
+  });
+
+  it('F111 — an asked ask_topic line is flagged chat in the pure core (routing source of truth)', () => {
+    // drive the REAL reducer: ask the first intro topic, and prove the emitted lines carry `chat`.
+    let s: GameState = { ...awake(), introBeat: 0 };
+    const topic = DIALOGUE_SCENES[0]!.topics[0]!;
+    s = reduce(s, { type: 'ask_topic', topicId: topic.id });
+    const asked = s.log.entries.filter((e) => e.text === topic.label);
+    expect(asked.length).toBeGreaterThan(0);
+    // the player's question + the NPC's answer are ALL chat (they route to Chat, off Story).
+    for (const e of s.log.entries.filter((e) => e.chat)) expect(e.channel).toBe('narration');
+    expect(asked.every((e) => e.chat === true)).toBe(true);
+  });
+
+  it('F104 — the footer version is clickable → opens the About modal (single-sourced version)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(), null);
+    const ver = root.querySelector<HTMLButtonElement>('.appbar-footer .foot-version')!;
+    expect(ver).not.toBeNull();
+    // single-sourced from __VERSION__ (package.json), never hand-typed (A21).
+    expect(ver.textContent).toBe(__VERSION__);
+    const scrim = root.querySelector<HTMLElement>('.modal-scrim')!;
+    expect(scrim.hidden).toBe(true); // closed to start
+    ver.click();
+    expect(scrim.hidden).toBe(false); // …the modal opened…
+    // …straight on the About tab, whose panel carries the single-sourced version.
+    expect(root.querySelector<HTMLElement>('.modal-tab.active')!.textContent).toBe('About');
+    const shownSection = [...root.querySelectorAll<HTMLElement>('.modal-section')].find(
+      (s) => !s.hidden,
+    )!;
+    expect(shownSection.textContent).toContain(__VERSION__);
+  });
+
+  it('F105 — the About modal deep-links to the raw CHANGELOG on GitHub (opens in a new tab)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(), null);
+    root.querySelector<HTMLButtonElement>('.appbar-footer .foot-version')!.click();
+    const link = root.querySelector<HTMLAnchorElement>('.modal-link')!;
+    expect(link).not.toBeNull();
+    expect(link.getAttribute('href')).toBe(
+      'https://raw.githubusercontent.com/Raynos/kami-kakushi/main/CHANGELOG.md',
+    );
+    expect(link.target).toBe('_blank');
+    expect(link.rel).toContain('noopener'); // new-tab safety
+  });
+
+  // a single fleeting entry: `narration` + `ephemeral:true` (a rest / move-arrival flavor line).
+  function withEphemeral(): GameState {
+    return logged([
+      {
+        key: 0,
+        channel: 'narration',
+        text: 'A cold gust crosses the yard.',
+        tick: 0,
+        count: 1,
+        ephemeral: true,
+      },
+    ]);
+  }
+
+  it('F115 — a Now entry expires on wall-clock even while Now is NOT the active view', () => {
+    vi.useFakeTimers();
+    try {
+      const render = mount(root, () => {}, noopHooks());
+      // render on the Story tab (default) — the ephemeral line is stamped the moment it's SEEN,
+      // and its expiry clock ticks regardless of which tab is showing (F115).
+      render(withEphemeral(), null);
+      // wait out the TTL (derived from the SAME source the renderer uses) WHILE still on Story…
+      vi.advanceTimersByTime(NOW_TTL_MS + 2000);
+      // …then open Now: the line already aged out (the OLD view-coupled timer would show it FRESH).
+      clickFilter('Now');
+      expect(root.querySelectorAll('.log-lines .now-line').length).toBe(0);
+      // the calm placeholder stands in — the tab never reads broken.
+      expect(root.querySelector('.log-lines .log-empty')).not.toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('F115 — a still-fresh Now entry DOES surface when Now opens (the clock is real, not a sink)', () => {
+    vi.useFakeTimers();
+    try {
+      const render = mount(root, () => {}, noopHooks());
+      render(withEphemeral(), null);
+      vi.advanceTimersByTime(1000); // well within the TTL — still alive
+      clickFilter('Now');
+      const nowLines = [...root.querySelectorAll<HTMLElement>('.log-lines .now-line')];
+      expect(nowLines.length).toBe(1);
+      expect(nowLines[0]!.textContent).toContain('A cold gust crosses the yard.');
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

@@ -12,22 +12,53 @@ const ALL_CHANNELS: readonly LogChannel[] = [
   'milestone',
 ];
 
-describe('LOG_FILTERS — the F52 bar order', () => {
-  it('reads Story · Progress · Combat · Work · All · Now, left→right', () => {
+describe('LOG_FILTERS — the F111 bar order', () => {
+  it('reads Story · Progress · Chat · Combat · Work · All · Now, left→right', () => {
     // derive the expected order from the ids (the labels come along for the ride); if the source
-    // reorders, this goes RED — the order IS the design lever here.
+    // reorders, this goes RED — the order IS the design lever here (F111 inserts Chat after Progress).
     expect(LOG_FILTERS.map((f) => f.id)).toEqual([
       'story',
       'progression',
+      'chat',
       'combat',
       'work',
       'all',
       'now',
     ]);
+    // Chat sits third, right after Progress (the F111 slot), labelled "Chat".
+    expect(LOG_FILTERS[2]!.id).toBe('chat');
+    expect(LOG_FILTERS[2]!.label).toBe('Chat');
     // `now` is last and labelled "Now" (F53).
     const last = LOG_FILTERS[LOG_FILTERS.length - 1]!;
     expect(last.id).toBe('now');
     expect(last.label).toBe('Now');
+  });
+});
+
+describe('logFilterMatches — the F111 chat axis (optional Q&A vs mandatory Story)', () => {
+  it('an ASKED question (chat) shows in Chat, NOT in Story', () => {
+    // an ask_topic / ask_rung_topic line is `narration` + `chat:true`. It routes to Chat, and is
+    // WITHHELD from the mandatory Story tab (the split F111 asks for).
+    expect(logFilterMatches('narration', 'chat', false, true)).toBe(true);
+    expect(logFilterMatches('narration', 'story', false, true)).toBe(false);
+  });
+
+  it('a mandatory narration beat (not chat) stays in Story, NOT in Chat', () => {
+    // a greeting / decision / narration beat has no chat flag → Story keeps it, Chat rejects it.
+    expect(logFilterMatches('narration', 'story', false, false)).toBe(true);
+    expect(logFilterMatches('narration', 'chat', false, false)).toBe(false);
+  });
+
+  it('a chat line still surfaces under the All escape-hatch (nothing is unreachable)', () => {
+    expect(logFilterMatches('narration', 'all', false, true)).toBe(true);
+  });
+
+  it('the Chat tab holds ONLY chat lines — a non-chat channel never leaks in', () => {
+    for (const c of ALL_CHANNELS) expect(logFilterMatches(c, 'chat', false, false)).toBe(false);
+  });
+
+  it('chat lines never appear in Now (they are permanent, not ephemeral)', () => {
+    expect(logFilterMatches('narration', 'now', false, true)).toBe(false);
   });
 });
 
@@ -69,7 +100,7 @@ describe('logFilterMatches — the F53 ephemeral / Now rule', () => {
   });
 
   it('every OTHER filter HIDES ephemeral entries (they live only in Now)', () => {
-    const permanentFilters: LogFilter[] = ['story', 'progression', 'combat', 'work', 'all'];
+    const permanentFilters: LogFilter[] = ['story', 'progression', 'chat', 'combat', 'work', 'all'];
     for (const f of permanentFilters) {
       for (const c of ALL_CHANNELS) {
         // an ephemeral line NEVER shows outside Now, even under All / its own channel category.

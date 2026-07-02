@@ -29,6 +29,11 @@ export interface LogEntry {
    *  fades ~15s after it appears (a RENDER-time, wall-clock concern; the pure core never times it).
    *  The permanent channels + `all` never show it. Absent ⇒ a normal, permanent line. */
   readonly ephemeral?: boolean;
+  /** OPTIONAL Q&A the player CHOSE to ask (F111 — the intro `ask_topic` + rung-beat `ask_rung_topic`
+   *  exchanges). A render filter axis orthogonal to `channel`: a chat line stays `narration` (so it
+   *  keeps its voice/nameplate rendering) but routes to the "Chat" tab (and `all`), never the
+   *  MANDATORY "Story" tab. Absent ⇒ a mandatory line (Story holds only the scene beats you must see). */
+  readonly chat?: boolean;
 }
 
 export interface LogState {
@@ -55,6 +60,7 @@ export function pushLog(
     readonly speaker?: string | undefined;
     readonly voice?: VoiceCategory | undefined;
     readonly ephemeral?: boolean | undefined;
+    readonly chat?: boolean | undefined;
   },
 ): LogState {
   const last = log.entries[log.entries.length - 1];
@@ -73,6 +79,7 @@ export function pushLog(
     ...(meta?.speaker !== undefined ? { speaker: meta.speaker } : {}),
     ...(meta?.voice !== undefined ? { voice: meta.voice } : {}),
     ...(meta?.ephemeral !== undefined ? { ephemeral: meta.ephemeral } : {}),
+    ...(meta?.chat !== undefined ? { chat: meta.chat } : {}),
   };
   const next =
     log.entries.length >= LOG_RING_MAX

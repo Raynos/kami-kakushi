@@ -21,6 +21,8 @@ export interface RewardBundle {
     readonly voice?: VoiceCategory | undefined;
     /** Fleeting flavor (F53) — routed to the "Now" view only; kept off the permanent channels. */
     readonly ephemeral?: boolean | undefined;
+    /** Optional Q&A (F111) — routed to the "Chat" tab (+ `all`), kept off the mandatory "Story" tab. */
+    readonly chat?: boolean | undefined;
   }[];
 }
 
@@ -42,6 +44,7 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
           speaker: line.speaker,
           voice: line.voice,
           ephemeral: line.ephemeral,
+          chat: line.chat,
         }),
       };
     }
