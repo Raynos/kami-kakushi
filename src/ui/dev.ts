@@ -1291,9 +1291,28 @@ export function mountDevPanel(
     return rows;
   };
 
-  // speed
+  // speed — F49: 1·2·4·8·16, with the ACTIVE multiplier highlighted (reuse the gold #b08d4f /
+  // dark #1c1814 active idiom the tab bar + variant toggles use). Track the selected button so a
+  // click marks it active and clears the rest; default the highlight to 1× (the game's start speed).
   const speed = section('Speed');
-  for (const m of [1, 2, 4, 8]) speed.append(mono(`${m}×`, () => qa.speed(m)));
+  const speedBtns = new Map<number, HTMLButtonElement>();
+  const markSpeed = (active: number): void => {
+    for (const [m, b] of speedBtns) {
+      const on = m === active;
+      b.style.background = on ? '#b08d4f' : '#3a322a';
+      b.style.color = on ? '#1c1814' : '#e7d9bc';
+      b.style.fontWeight = on ? '700' : 'normal';
+    }
+  };
+  for (const m of [1, 2, 4, 8, 16]) {
+    const b = mono(`${m}×`, () => {
+      qa.speed(m);
+      markSpeed(m);
+    });
+    speedBtns.set(m, b);
+    speed.append(b);
+  }
+  markSpeed(1); // the game starts at 1×
 
   // teleports
   const jump = section('Jump');

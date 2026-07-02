@@ -8,7 +8,7 @@
 // B/C asserts flip red; if it always delegated, the prod-default assert flips red.)
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
-import { createDevApi } from './dev';
+import { createDevApi, mountDevPanel, type DevQa } from './dev';
 import { createInitialState, setFlag, type GameState } from '../core';
 
 function noopHooks(): AppHooks {
@@ -246,5 +246,69 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
     openCombat();
     expect(root.querySelector('.bestiary-card')).toBeNull();
     expect(root.textContent).toContain('The beasts of the estate');
+  });
+});
+
+// F49 — the DEV Speed row: 1·2·4·8·16, active multiplier highlighted (gold #b08d4f bg), default 1×.
+describe('DEV panel — Speed row (F49)', () => {
+  function stubQa(): DevQa & { last: number | null } {
+    const q = {
+      last: null as number | null,
+      speed(m: number) {
+        q.last = m;
+        return m;
+      },
+      jumpToPhase2: () => 0,
+      jumpToAscension: () => {},
+      faceWolf: () => {},
+      toRung: () => 0,
+      auto: () => {},
+      autoCombat: () => {},
+      newGame: () => {},
+    };
+    return q;
+  }
+  function speedButtons(host: HTMLElement): HTMLButtonElement[] {
+    return [...host.querySelectorAll('button')].filter((b) =>
+      /^\d+×$/.test(b.textContent ?? ''),
+    ) as HTMLButtonElement[];
+  }
+  // the active button carries the gold bg + bold weight (jsdom normalises the hex to rgb, so key
+  // off the bold weight the highlight also stamps on — set to '700' active, 'normal' otherwise).
+  const isActive = (b: HTMLButtonElement): boolean => b.style.fontWeight === '700';
+
+  it('offers 1·2·4·8·16 (16× is present)', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    const labels = speedButtons(host).map((b) => b.textContent);
+    expect(labels).toEqual(['1×', '2×', '4×', '8×', '16×']);
+    host.remove();
+  });
+
+  it('highlights 1× by default and no other', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    const btns = speedButtons(host);
+    const active = btns.filter(isActive);
+    expect(active).toHaveLength(1);
+    expect(active[0]!.textContent).toBe('1×');
+    host.remove();
+  });
+
+  it('clicking a speed drives qa.speed and moves the highlight to only that button', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    const qa = stubQa();
+    mountDevPanel(host, { qa, dev: createDevApi(), rerender: () => {} });
+    const btns = speedButtons(host);
+    const four = btns.find((b) => b.textContent === '4×')!;
+    four.click();
+    expect(qa.last).toBe(4);
+    const active = btns.filter(isActive);
+    expect(active).toHaveLength(1);
+    expect(active[0]!.textContent).toBe('4×');
+    host.remove();
   });
 });
