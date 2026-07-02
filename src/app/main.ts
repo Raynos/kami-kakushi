@@ -12,9 +12,10 @@ import {
   getWeapon,
   durabilityBand,
   satietyMax,
-  focusedOptimalIntent,
   nextHopToward,
   getMob,
+  promoteRungs,
+  RANKS,
   balance,
   type GameState,
   type Intent,
@@ -289,15 +290,31 @@ async function boot(): Promise<void> {
       auto: (id: ActivityId | null) => dispatch({ type: 'set_auto', activityId: id }),
       /** Walk to a map node via real move_to hops over the revealed graph. */
       goto: (node: string) => walkTo(node),
-      // greedy time-compression to a target rung — drives the REAL, navigation-aware focused-optimal
-      // policy (core/autoplay.ts; the same one the pacing gate uses), so it walks to labours + back
-      // to the kura for the wolf instead of stalling now that activities are spatial (Step 5).
+      // DEV teleport to a target rung. This USED to greedily re-simulate the focused-optimal policy
+      // tick-by-tick (up to 50_000 focusedOptimalIntent+dispatch steps, each a fresh map BFS) — a long
+      // synchronous main-thread sim that spun the CPU and FROZE the page (F24). Instead, grant the
+      // story-half gate flags + a saturated meter and drive the REAL promotion engine ONE rung per
+      // call: O(rungs) (≤ 7 iterations), and each promote still fires that rung's rewardOnReach
+      // (reveals/unlocks) + the satiety refill, so the landed state is coherent for review. The
+      // non-dev rung ladder (promoteRungs) is untouched — only the dev teleport's cost changes.
       toRung: (id: RankId) => {
+        const order = RANKS.map((r) => r.id);
+        const targetIdx = order.indexOf(id);
+        if (targetIdx < 0) return state.rung;
+        // The only story-half gates below R4: R1 needs `farmed`, R2 `first-fight-survived`, R3
+        // `combat-blooded` (R0 + R4…R7 are always-ready). Granting all three is harmless and lets the
+        // ladder climb; a meter saturated to the CURRENT rung's threshold promotes exactly one rung
+        // (promoteRungs resets the meter to 0 after each promotion), so the loop steps rung-by-rung.
+        const storyFlags = { farmed: true, 'first-fight-survived': true, 'combat-blooded': true };
         let guard = 0;
-        while (state.rung !== id && guard++ < 50_000) {
-          const intent = focusedOptimalIntent(state);
-          if (!intent) break;
-          dispatch(intent);
+        while (order.indexOf(state.rung) < targetIdx && guard++ < order.length) {
+          commit(
+            promoteRungs({
+              ...state,
+              flags: { ...state.flags, ...storyFlags },
+              rungMeter: balance.rungThreshold(state.rung),
+            }),
+          );
         }
         return state.rung;
       },
