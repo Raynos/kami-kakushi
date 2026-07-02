@@ -900,6 +900,27 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(seen).toContainEqual({ type: 'begin_rung_beat' });
   });
 
+  it('the TERMINAL rung (R7) with a full meter does NOT light a dead trigger', () => {
+    // R7 is the top of T0: its meter keeps refilling and its storyGate is always-true, so
+    // promotionReady stays true — but there is NO next rank, so the header must NOT offer a
+    // begin_rung_beat that would no-op (the deploy-gate audit caught this as a phantom capstone
+    // button). RED against the pre-fix header, which lit `.ready` whenever promotionReady held.
+    const { seen, render } = spyMount();
+    const state: GameState = {
+      ...awakeRungBase(),
+      rung: 'R7',
+      rungMeter: balance.rungThreshold('R7') + 10,
+    };
+    expect(promotionReady(state)).toBe(true); // the meter IS full + the gate open…
+    expect(nextRankId(state.rung)).toBeNull(); // …but there is no rung to advance to
+    render(state, null);
+    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(false); // no glow
+    const trigger = root.querySelector<HTMLButtonElement>('.rung-head-trigger')!;
+    expect(trigger.disabled).toBe(true);
+    trigger.click();
+    expect(seen).not.toContainEqual({ type: 'begin_rung_beat' }); // clicking does nothing
+  });
+
   it('the header rung shows the rung name, a meter bar, and a hover detail card (not-ready)', () => {
     const { render } = spyMount();
     const state: GameState = { ...awakeRungBase(), rungMeter: 40 }; // mid-climb, NOT ready

@@ -1130,9 +1130,17 @@ export function mount(
     if (!show) return;
     const rank = currentRank(state);
     const prog = rungProgress(state);
-    // READY (the affordance) = the AND-gate is open, no beat is already live, and we're out of the
-    // intro. `begin_rung_beat` guards the same in core; the UI only OFFERS it here (D-110).
-    const ready = promotionReady(state) && state.rungBeat === null && !introActive(state.introBeat);
+    // READY (the affordance) = the AND-gate is open, a NEXT rung actually exists, no beat is already
+    // live, and we're out of the intro. `begin_rung_beat` guards the same in core; the UI only OFFERS
+    // it here (D-110). The `target !== null` guard is load-bearing at the terminal rung (R7): its
+    // meter keeps refilling and promotionReady stays true, but there is no next rank to advance to —
+    // without this the header would light a 'summons' that no-ops on click (a dead capstone button).
+    const target = pendingPromotionTarget(state);
+    const ready =
+      promotionReady(state) &&
+      target !== null &&
+      state.rungBeat === null &&
+      !introActive(state.introBeat);
     setText(rungHeadName, `${rank.title} ${rank.kanji}`);
     // hold the fill just shy of full while story-gated (mirror the ladder), fill it when ready.
     const gated = prog.into >= prog.needed && !prog.ready;
@@ -1141,7 +1149,6 @@ export function mount(
     setClass(rungHead, 'ready', ready);
     setDisabled(rungHeadTrigger, !ready); // clickable ONLY when a promotion is ready — never auto
     toggle(rungHeadCue, ready);
-    const target = pendingPromotionTarget(state);
     const triggerTitle = ready
       ? target
         ? `Answer the summons — begin the ${getRank(target).title} beat`
