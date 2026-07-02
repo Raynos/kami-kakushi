@@ -269,7 +269,10 @@ describe('the seeded auto-battler', () => {
 });
 
 describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LOCKED)', () => {
-  it('a win grants combat-XP + coin; a loss applies the soft setback', () => {
+  // Stability invariant only (title now matches the body): a fight never regresses
+  // combat-XP or level. The coin spoils on a win + the coin/rice/materials setback on a
+  // loss (D-107/D-113) are owned by t0-arc.test.ts ('the D-107 economy on the real path').
+  it('a grind fight grows combat-XP and never regresses level (stability)', () => {
     const s = atFullSatiety(createInitialState(7));
     const before = s.character.combatXp;
     const after = applyGrindFight(s, 'wolf');
