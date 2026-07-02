@@ -203,6 +203,12 @@ Full version:
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/living/qa-playtesting.md).
+- **Build to the taste standard (before you build).** Before building or
+  restyling **any** UI surface, feature, or narrative beat, read
+  [`docs/living/taste.md`](docs/living/taste.md) — the distilled bar from the
+  117-item playtest — and run its **pre-ship checklist** against the finished
+  work before you call it done. It's the **standing taste**, so the same feedback
+  isn't earned twice.
 - **QA fun & visuals, not just function.** A compiling build isn't the bar — the
   game must be *paced and fun* and *look intentional* (woodblock/ink, **not**
   generic AI-slop). Three distinct living docs own this: **what fun *is* & how
