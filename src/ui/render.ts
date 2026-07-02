@@ -416,6 +416,9 @@ export function mount(
 
   let activeTab: Tab = 'work';
   let lastState: GameState | null = null;
+  // DEV-only: true while a diverged intro presentation (variant B scene / C dock) owns the intro
+  // via a shell overlay — renderActions then skips the inline A controls. Always false in prod.
+  let introOverlayOwns = false;
 
   const shell = el('div', 'shell paper');
 
@@ -992,9 +995,11 @@ export function mount(
     if (activeTab !== 'work') return;
 
     // the interactive intro owns the Work column until it completes — swap the
-    // normal verbs for the VN dialogue controls (plan §5 variant A).
+    // normal verbs for the VN dialogue controls (plan §5 variant A). In DEV, a diverged
+    // presentation (B/C) may instead own the intro via a shell overlay (introOverlayOwns);
+    // then the inline controls are skipped (prod always ships inline A).
     if (introActive(state.introBeat)) {
-      renderIntro(state);
+      if (!introOverlayOwns) renderIntro(state);
       return;
     }
 
@@ -2186,6 +2191,12 @@ export function mount(
     renderMarket(state);
     renderStorehouse(state);
     renderHouseInfluence(state);
+    // DEV — sync the diverged intro overlay (variant B/C) every frame: mount/update while the
+    // intro is live, tear it down when it ends. Its return says whether it OWNS the intro so
+    // renderActions skips the inline A controls. `import.meta.env.DEV && dev` folds to dead code
+    // in prod (dev is undefined) → ui/dev.ts tree-shakes out; prod always ships inline A.
+    introOverlayOwns =
+      import.meta.env.DEV && dev ? dev.renderIntroPresentation(shell, state, dispatch) : false;
     renderActions(state);
     renderSkills(state);
     renderCombat(state);

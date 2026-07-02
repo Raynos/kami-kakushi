@@ -20,6 +20,9 @@ import {
   getNode,
   reachableFrom,
   skillLevel,
+  introActive,
+  introBeatAt,
+  NPC_NAME,
   ACTIVITIES,
   MOBS,
   MARKET_ITEMS,
@@ -28,9 +31,11 @@ import {
   type ActivityId,
   type GameState,
   type Intent,
+  type IntroBeat,
   type MarketItem,
   type MobId,
   type RankId,
+  type VoiceCategory,
 } from '../core';
 import { el, pct } from './render';
 
@@ -185,6 +190,30 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  {
+    id: 'intro',
+    label: 'Interactive intro',
+    variants: [
+      {
+        id: 'intro-inline',
+        label: 'A · inline',
+        blurb:
+          'VN controls in the Work column, beats reveal in the story log (the shipped default).',
+      },
+      {
+        id: 'intro-scene',
+        label: 'B · 対話 full-screen scene',
+        blurb:
+          'A centred VN scene over the shell: kanji ink-seal nameplate, the line, choices beneath.',
+      },
+      {
+        id: 'intro-dock',
+        label: 'C · 談 bottom dock',
+        blurb:
+          'The world dimmed behind; a docked dialogue bar at the bottom (nameplate + choices).',
+      },
+    ],
+  },
 ];
 
 export interface DevApi {
@@ -201,12 +230,33 @@ export interface DevApi {
     state: GameState,
     dispatch: (intent: Intent) => void,
   ): boolean;
+  /** Render a diverged INTRO presentation (variant B scene / C dock) as an OVERLAY on `container`
+   *  (the shell), (re)building it for the current beat and tearing it down when the intro ends or
+   *  the default (A inline) is selected. Returns true WHILE a non-default variant owns the intro
+   *  display — the caller then SKIPS the inline Work-column controls. `dispatch` is the renderer's
+   *  own dispatch so choices drive the real reducer, not a global. Always absent in prod. */
+  renderIntroPresentation(
+    container: HTMLElement,
+    state: GameState,
+    dispatch: (intent: Intent) => void,
+  ): boolean;
 }
 
 export function createDevApi(): DevApi {
   const variant: Record<string, string> = {};
   for (const s of SURFACES) variant[s.id] = s.variants[0]!.id;
   const defaultOf = (s: string): string => SURFACES.find((x) => x.id === s)?.variants[0]?.id ?? '';
+
+  // The intro variants (B/C) own a single persistent overlay element on the shell — created once,
+  // updated per beat, removed when the intro ends (kept in this closure so lifecycle survives
+  // re-renders). A (inline) never mounts one; the caller renders it in the Work column.
+  let introOverlay: HTMLElement | null = null;
+  const teardownIntroOverlay = (): void => {
+    if (introOverlay) {
+      introOverlay.remove();
+      introOverlay = null;
+    }
+  };
 
   // F18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
   // chosen set can be shared as a link. For each surface, `?<surface.id>=<variantId>` overrides the
@@ -246,7 +296,150 @@ export function createDevApi(): DevApi {
       if (id === defaultOf(s)) return false; // default → the caller renders it (and ships it)
       return renderSurfaceVariant(s, id, container, state, dispatch);
     },
+    renderIntroPresentation: (container, state, dispatch) => {
+      const id = variant['intro'] ?? defaultOf('intro');
+      // A (inline default) or the intro is over → tear down any overlay; the caller renders inline.
+      if (id === defaultOf('intro') || !introActive(state.introBeat)) {
+        teardownIntroOverlay();
+        return false;
+      }
+      // B/C — (re)mount the overlay onto the shell and paint the current beat into it.
+      if (!introOverlay) {
+        introOverlay = document.createElement('div');
+        container.append(introOverlay);
+      }
+      renderIntroOverlay(id, introOverlay, state, dispatch);
+      return true;
+    },
   };
+}
+
+// ── the diverged INTRO presentations (B scene / C dock) — DEV-only, stripped from prod ──
+// Both drive the IDENTICAL core (INTRO_BEATS + choose_intro / advance_intro); they differ only in
+// where the beat's nameplate + line + choices render. Pure inline styles (no new prod CSS) and NO
+// motion, so they're reduced-motion-safe by construction. The default A (inline) ships in render.ts.
+
+/** Voice → on-palette colour (interactive-intro plan §7) — the nameplate + spoken lines take it. */
+const VOICE_COLOR: Record<VoiceCategory, string> = {
+  narrator: 'var(--ink-soft)',
+  player: 'var(--rokusho)',
+  physician: 'var(--ai)',
+  steward: 'var(--ochre)',
+  arms: 'var(--beni)',
+  official: 'var(--kihada)',
+  villager: 'var(--gold)',
+};
+
+/** The hanko seal glyph — no per-NPC kanji exists in the data, so the seal reads the speaker's
+ *  CATEGORY (one source, DEV-only): 医 physician, 家 steward/house, 武 arms, 夢 the inner memory. */
+const VOICE_SEAL: Record<VoiceCategory, string> = {
+  narrator: '夢',
+  player: '己',
+  physician: '医',
+  steward: '家',
+  arms: '武',
+  official: '官',
+  villager: '里',
+};
+
+/** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. */
+function introNameplate(beat: IntroBeat): HTMLElement {
+  const color = VOICE_COLOR[beat.voice];
+  const plate = el('div');
+  plate.style.cssText = 'display:flex;align-items:center;gap:.55rem;';
+  const seal = el('div', undefined, VOICE_SEAL[beat.voice]);
+  seal.lang = 'ja';
+  seal.style.cssText =
+    `flex:0 0 auto;width:2.6rem;height:2.6rem;display:grid;place-items:center;` +
+    `border:2px solid ${color};border-radius:var(--radius-seal,6px);color:${color};` +
+    `background:var(--washi);font-family:var(--font-display);font-size:1.4rem;`;
+  const name = el('div', undefined, beat.speaker ? NPC_NAME[beat.speaker] : 'A memory');
+  name.style.cssText =
+    `font-family:var(--font-head);font-weight:700;color:${color};` +
+    `border-bottom:1px solid ${color};padding-bottom:.1rem;`;
+  plate.append(seal, name);
+  return plate;
+}
+
+/** The beat's spoken setup line(s) + the choice prompt — each line in its own voice colour. */
+function introLines(beat: IntroBeat): HTMLElement {
+  const wrap = el('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:.4rem;';
+  for (const line of beat.setup) {
+    const p = el('p', undefined, line.text);
+    p.style.cssText = `margin:0;line-height:1.55;color:${VOICE_COLOR[line.voice]};`;
+    wrap.append(p);
+  }
+  if (beat.prompt) {
+    const q = el('p', undefined, beat.prompt);
+    q.style.cssText = 'margin:.15rem 0 0;font-style:italic;color:var(--ink-soft);';
+    wrap.append(q);
+  }
+  return wrap;
+}
+
+/** The choice buttons (or a single Continue on a narration-only beat) — drive the real reducer. */
+function introChoices(beat: IntroBeat, dispatch: (intent: Intent) => void): HTMLElement {
+  const wrap = el('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:.4rem;';
+  if (beat.options && beat.options.length > 0) {
+    for (const opt of beat.options) {
+      const b = el('button', 'verb intro-choice', opt.label);
+      b.type = 'button';
+      b.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
+      wrap.append(b);
+    }
+  } else {
+    const b = el('button', 'verb primary', 'Continue');
+    b.type = 'button';
+    b.addEventListener('click', () => dispatch({ type: 'advance_intro' }));
+    wrap.append(b);
+  }
+  return wrap;
+}
+
+/** Paint the current beat into the persistent overlay for the chosen variant (B scene / C dock). */
+function renderIntroOverlay(
+  variantId: string,
+  overlay: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): void {
+  overlay.textContent = '';
+  const beat = introBeatAt(state.introBeat);
+  if (!beat) return;
+
+  if (variantId === 'intro-scene') {
+    // ── B · full-screen VN scene: a heavy sumi scrim hides the estate; a centred washi card holds
+    //    the nameplate, the line, and the choices stacked beneath. Sits UNDER the rank-up seal
+    //    (z 55 < 60) and the DEV panel (z 9999), so both stay reachable. ──
+    overlay.style.cssText =
+      'position:fixed;inset:0;z-index:55;display:grid;place-items:center;' +
+      'padding:var(--space-6);background:#26221ee6;';
+    const card = el('div');
+    card.style.cssText =
+      'width:100%;max-width:40rem;background:var(--washi);border:1px solid var(--ink-faint);' +
+      'border-radius:var(--radius-card,4px);box-shadow:0 8px 30px #26221e88;' +
+      'padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:1rem;text-align:center;';
+    const plate = introNameplate(beat);
+    plate.style.justifyContent = 'center';
+    card.append(plate, introLines(beat), introChoices(beat, dispatch));
+    overlay.append(card);
+    return;
+  }
+
+  // ── C · bottom dialogue dock: a light scrim keeps the estate VISIBLE but quiet (and inert — the
+  //    backdrop swallows clicks); a full-width washi dock anchors the dialogue along the bottom. ──
+  overlay.style.cssText =
+    'position:fixed;inset:0;z-index:55;display:flex;flex-direction:column;justify-content:flex-end;' +
+    'background:#26221e59;';
+  const dock = el('div');
+  dock.style.cssText =
+    'width:100%;background:var(--washi);border-top:2px solid var(--ink);box-shadow:0 -6px 24px #26221e55;' +
+    'padding:.9rem 1.1rem calc(.9rem + env(safe-area-inset-bottom));' +
+    'display:flex;flex-direction:column;gap:.55rem;';
+  dock.append(introNameplate(beat), introLines(beat), introChoices(beat, dispatch));
+  overlay.append(dock);
 }
 
 // ── the alternate (non-default) variant renderers — DEV-only, stripped from prod ──
@@ -1374,6 +1567,18 @@ export function mountDevPanel(
 
   // default active sub-tab = Variants (the review focus)
   selectTab('variants');
+
+  // F34 — a PERMANENT New-game footer, pinned below BOTH tab panes so it's reachable no matter
+  // which sub-tab is active (the Settings→Game "New game" stays too; this is the always-visible
+  // one). Appended to `body` after the panes, so tab-switching never hides it.
+  const footer = el('div');
+  footer.style.cssText =
+    'margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;display:flex;';
+  const newGameFooterBtn = mono('⟳ New game', () => qa.newGame());
+  newGameFooterBtn.style.flex = '1';
+  newGameFooterBtn.style.fontWeight = '700';
+  footer.append(newGameFooterBtn);
+  body.append(footer);
 
   host.append(panel);
   // NOTE: the panel is position:fixed and floats OVER the app (bottom-right), so it reserves
