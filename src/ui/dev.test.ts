@@ -9,7 +9,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { createDevApi, mountDevPanel, type DevQa } from './dev';
-import { createInitialState, setFlag, type GameState, type RankId } from '../core';
+import { createInitialState, setFlag, type GameState, type Intent, type RankId } from '../core';
 
 function noopHooks(): AppHooks {
   let muted = false;
@@ -135,7 +135,13 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
   });
 });
 
-describe('renderer variant routing — Estate map (D-075, Step 5e)', () => {
+// F102 / D-115 / D-116 — the Estate map splits into a SHARED you-are-here FLAVOR card (render.ts) +
+// a terse, HINT-FREE NAVIGATION section. This surface diverges only the NAVIGATION presentation:
+// A (the terse paths list) ships; B…G live DEV-only. EVERY variant must (1) keep the shared flavor
+// card, (2) move by CLICKING a node (reusing move_to), (3) show a conditioning-locked edge GREYED,
+// and (4) leak NO next-zone hint (no destination blurb / loot / foe). These RED-able tests hold that
+// contract uniformly via the `data-node` / `data-locked` hooks every variant stamps.
+describe('renderer variant routing — Estate map (F102 / D-115 — terse, hint-free navigation)', () => {
   let root: HTMLElement;
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -154,7 +160,7 @@ describe('renderer variant routing — Estate map (D-075, Step 5e)', () => {
     document.body.append(root);
   });
 
-  /** Awake, standing at the forecourt with the near nodes revealed → the Estate 地図 tab is available. */
+  /** Awake at the forecourt with the near rooms revealed → several walkable roads, none gated. */
   function walkableState(): GameState {
     const base = createInitialState(1);
     return {
@@ -164,42 +170,102 @@ describe('renderer variant routing — Estate map (D-075, Step 5e)', () => {
       unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies', 'room-woodlot-edge'],
     };
   }
-  function openMapTab(): void {
-    const tab = [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].find((b) =>
-      (b.textContent ?? '').includes('地図'),
-    );
-    tab?.click();
+  /** Awake at the paddies with the danger-ring room revealed but conditioning UNMET → near-satoyama
+   *  is a LOCKED (greyed) neighbour (the conditioning ring, §4.4). */
+  function gatedState(): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      location: 'home-paddies',
+      flags: { ...base.flags, awake: true },
+      unlocked: [
+        ...base.unlocked,
+        'room-home-paddies',
+        'room-gate-forecourt',
+        'room-near-satoyama',
+      ],
+    };
   }
+  function openMapTab(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('地図'))
+      ?.click();
+  }
+  const navOf = (): HTMLElement => root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+  // dispatch a click that works for BOTH an HTML <button> and the SVG <g> node (variant G).
+  const clickNode = (host: HTMLElement, id: string): void => {
+    host
+      .querySelector(`[data-node="${id}"]`)!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  };
 
-  it('renders default A (the you-are-here + paths list) with no DEV harness (= prod)', () => {
-    const render = mount(root, () => {}, noopHooks());
-    render(walkableState(), null);
-    openMapTab();
-    expect(root.querySelector('.map-here')).not.toBeNull(); // the default you-are-here card
-    expect(root.textContent).toContain('Paths lead to');
-  });
-
-  it('routes to map-b (絵地図 schematic) when selected — a spatial board, not the paths card', () => {
+  // the DEV default (map-a) still renders BOTH sections — the shared flavor card + a terse nav list.
+  it('the DEV default (map-a) renders the flavor card + a terse click-to-move list', () => {
     const dev = createDevApi();
-    dev.setVariant('map', 'map-b');
     const render = mount(root, () => {}, noopHooks(), dev);
     render(walkableState(), null);
     openMapTab();
-    expect(root.querySelector('.map-here')).toBeNull(); // the default is replaced
-    expect(root.textContent).toContain('You are here'); // the schematic lit the current node
-    expect(root.textContent).toContain('Walk here'); // a live neighbour
+    expect(root.querySelector('.map-pane .map-here')).not.toBeNull(); // (a) shared flavor
+    expect(navOf()).not.toBeNull(); // (b) nav section
+    expect(navOf().querySelector('.map-move')).not.toBeNull(); // the terse paths list
   });
 
-  it('routes to map-c (道中記 ledger) when selected — informed routes with a set-out verb', () => {
-    const dev = createDevApi();
-    dev.setVariant('map', 'map-c');
-    const render = mount(root, () => {}, noopHooks(), dev);
-    render(walkableState(), null);
-    openMapTab();
-    expect(root.querySelector('.map-here')).toBeNull();
-    expect(root.textContent).toContain('You stand at'); // the ledger banner
-    expect(root.textContent).toContain('Set out'); // a route's depart verb
-  });
+  const ALTERNATES = ['map-b', 'map-c', 'map-d', 'map-e', 'map-f', 'map-g'] as const;
+
+  for (const vid of ALTERNATES) {
+    describe(`variant ${vid}`, () => {
+      it('routes into the nav (replacing the default list) and KEEPS the shared flavor card', () => {
+        const dev = createDevApi();
+        dev.setVariant('map', vid);
+        const render = mount(root, () => {}, noopHooks(), dev);
+        render(walkableState(), null);
+        openMapTab();
+        // the shared flavor card is the SAME in every variant (only the nav presentation differs).
+        expect(root.querySelector('.map-pane .map-here')).not.toBeNull();
+        const nav = navOf();
+        expect(nav).not.toBeNull();
+        expect(nav.childElementCount).toBeGreaterThan(0); // the variant rendered its presentation
+        expect(nav.querySelector('.map-move')).toBeNull(); // …not the default terse list (routing swapped it)
+      });
+
+      it('moves by CLICKING a road — no separate "go" button (reuses move_to)', () => {
+        const seen: Intent[] = [];
+        const dev = createDevApi();
+        dev.setVariant('map', vid);
+        const render = mount(root, (i) => seen.push(i), noopHooks(), dev);
+        render(walkableState(), null);
+        openMapTab();
+        clickNode(navOf(), 'home-paddies'); // a walkable neighbour of the forecourt
+        expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
+      });
+
+      it('shows a conditioning-locked edge GREYED / disabled (visible-but-inert)', () => {
+        const dev = createDevApi();
+        dev.setVariant('map', vid);
+        const render = mount(root, () => {}, noopHooks(), dev);
+        render(gatedState(), null);
+        openMapTab();
+        const locked = navOf().querySelector<HTMLElement>(
+          '[data-locked][data-node="near-satoyama"]',
+        );
+        expect(locked).not.toBeNull();
+        if (locked instanceof HTMLButtonElement) expect(locked.disabled).toBe(true);
+      });
+
+      it('leaks NO next-zone hint — no destination blurb, no loot/foe preview', () => {
+        const dev = createDevApi();
+        dev.setVariant('map', vid);
+        const render = mount(root, () => {}, noopHooks(), dev);
+        render(gatedState(), null);
+        openMapTab();
+        const text = navOf().textContent ?? '';
+        // the destination's blurb never leaks into navigation (it updates on ARRIVAL, D-116).
+        expect(text).not.toContain('sansai to gather'); // near-satoyama blurb
+        expect(text).not.toContain('first teeth of the wild'); // near-satoyama blurb
+        expect(text).not.toContain('a foe stirs');
+      });
+    });
+  }
 });
 
 describe('renderer variant routing — Bestiary (D-075, A7)', () => {

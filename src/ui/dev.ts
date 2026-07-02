@@ -18,12 +18,11 @@ import {
   formatCoin,
   formatKMB,
   canCraft,
+  canMove,
   getMaterial,
   getNode,
   reachableFrom,
   skillLevel,
-  ACTIVITIES,
-  MOBS,
   MARKET_ITEMS,
   QUESTS,
   RANKS,
@@ -31,6 +30,7 @@ import {
   type ActivityId,
   type GameState,
   type Intent,
+  type MapNode,
   type MarketItem,
   type MobId,
   type RankId,
@@ -168,26 +168,56 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  // F102 / D-115 / D-116 — the Map splits into a SHARED you-are-here FLAVOR card (rendered in
+  //   render.ts) + a terse, hint-free NAVIGATION section. This surface diverges the NAVIGATION
+  //   PRESENTATION only: every variant is terse, gives NO next-zone hint (no loot/foe/reward
+  //   preview), shows locked/unreachable edges GREYED, and moves by CLICKING the node (no separate
+  //   "go" button). A (terse paths list) is the self-picked prod default; B…G are DEV-only.
   {
     id: 'map',
     label: 'Estate map',
     variants: [
       {
         id: 'map-a',
-        label: 'A · paths list',
-        blurb: 'You-are-here card + a plain "Paths lead to →" list of moves (the shipped default).',
+        label: 'A · terse paths list',
+        blurb:
+          'A terse hint-free list of the roads onward; click a road to walk it (the shipped default).',
       },
       {
         id: 'map-b',
-        label: 'B · 絵地図 estate schematic',
+        label: 'B · 絵地図 spatial schematic',
         blurb:
-          'A spatial trail: revealed nodes laid out by distance from the kura, you-are-here lit, walkable ones live.',
+          'A 2D estate schematic laid out by distance from the kura; locked / undiscovered areas greyed; click a lit node.',
       },
       {
         id: 'map-c',
-        label: 'C · 道中記 traveller’s ledger',
+        label: 'C · lacquer location cards',
         blurb:
-          'Informed routes: each path shows the destination’s blurb + what awaits (labour/foe/danger).',
+          'Each road onward a coloured lacquer card you click to walk — no destination preview, locked greyed.',
+      },
+      {
+        id: 'map-d',
+        label: 'D · 巻物 dōchūki scroll',
+        blurb:
+          'The estate as an unrolled scroll-ribbon; the ways onward are terse chips you click, locked greyed.',
+      },
+      {
+        id: 'map-e',
+        label: 'E · 方位 compass',
+        blurb:
+          'You at the hub, the roads onward set around you like a compass; click a spoke to walk.',
+      },
+      {
+        id: 'map-f',
+        label: 'F · 道 breadcrumb trail',
+        blurb:
+          'The trail from the kura to where you stand, then the forks onward as terse click targets.',
+      },
+      {
+        id: 'map-g',
+        label: 'G · 墨 ink node-graph',
+        blurb:
+          'A brushed node-graph of the estate; current node inked, reachable nodes clickable, locked greyed.',
       },
     ],
   },
@@ -973,187 +1003,588 @@ function renderQuestsVariant(
   return true;
 }
 
+// ── the diverged Estate-map NAVIGATION presentations (B…G) — DEV-only, stripped from prod. The
+//    SHARED you-are-here FLAVOR card + the "who's here" list stay in render.ts; each variant here
+//    re-presents ONLY the terse, HINT-FREE navigation (F102 / D-115 / D-116): NO next-zone preview
+//    (no loot / foe / reward), locked or undiscovered edges shown GREYED, and moving = CLICKING the
+//    node (no separate "go" button). The default A (the terse paths list) ships inline in render.ts.
+//    Every walk target / locked edge carries a uniform `data-node` (+ `data-locked`) hook so the
+//    presentation is the same to drive and to test, whatever its layout. ──
+interface MapNavCtx {
+  here: string;
+  revealed: ReadonlySet<string>;
+  condOk: boolean;
+  /** The revealed adjacents you may step to (walkable OR conditioning-gated). */
+  neighbours: readonly MapNode[];
+  move: (id: string) => void;
+  gateReason: string;
+}
+
+/** Is stepping to this neighbour blocked by the conditioning ring right now? */
+function navGated(n: MapNode, ctx: MapNavCtx): boolean {
+  return n.dangerRing === true && !ctx.condOk;
+}
+/** Make `btn` a LIVE walk target — click walks there (reuse render.ts's move_to; no core change). */
+function linkMove(btn: HTMLButtonElement, id: string, ctx: MapNavCtx): void {
+  btn.type = 'button';
+  btn.dataset.node = id;
+  btn.addEventListener('click', () => ctx.move(id));
+}
+/** Mark `elm` a LOCKED (greyed, un-walkable) edge — a disabled button, or an aria-disabled cell. */
+function linkLocked(elm: HTMLElement, id: string, ctx: MapNavCtx): void {
+  elm.dataset.node = id;
+  elm.dataset.locked = '1';
+  elm.setAttribute('aria-disabled', 'true');
+  elm.title = ctx.gateReason;
+  if (elm instanceof HTMLButtonElement) {
+    elm.type = 'button';
+    elm.disabled = true;
+  }
+}
+/** A muted one-line affordance tag ("walk →" / the gate reason) — never a destination hint. */
+function navTag(text: string, color: string): HTMLElement {
+  const t = el('div', undefined, text);
+  t.style.cssText = `font-size:var(--fs-micro);color:${color};`;
+  return t;
+}
+function navEmpty(): HTMLElement {
+  return el('div', 'skill-blurb', 'No road leads on from here.');
+}
+/** BFS shortest-hop distance of every revealed, reachable node from the kura (the spatial spine). */
+function mapDepths(revealed: ReadonlySet<string>): Map<string, number> {
+  const depth = new Map<string, number>([['kura', 0]]);
+  const q: string[] = ['kura'];
+  while (q.length) {
+    const cur = q.shift()!;
+    for (const nb of reachableFrom(cur, revealed)) {
+      if (depth.has(nb.id)) continue;
+      depth.set(nb.id, (depth.get(cur) ?? 0) + 1);
+      q.push(nb.id);
+    }
+  }
+  return depth;
+}
+/** The BFS trail of node ids from the kura to `here` (the breadcrumb spine). */
+function pathToHere(here: string, revealed: ReadonlySet<string>): string[] {
+  const parent = new Map<string, string | null>([['kura', null]]);
+  const q: string[] = ['kura'];
+  while (q.length) {
+    const cur = q.shift()!;
+    for (const nb of reachableFrom(cur, revealed)) {
+      if (parent.has(nb.id)) continue;
+      parent.set(nb.id, cur);
+      q.push(nb.id);
+    }
+  }
+  if (!parent.has(here)) return [here];
+  const path: string[] = [];
+  let cur: string | null = here;
+  while (cur !== null) {
+    path.unshift(cur);
+    cur = parent.get(cur) ?? null;
+  }
+  return path;
+}
+
 function renderMapVariant(
   variantId: string,
   container: HTMLElement,
   state: GameState,
   dispatch: (intent: Intent) => void,
 ): boolean {
-  if (variantId !== 'map-b' && variantId !== 'map-c') return false;
   const revealed = new Set(state.unlocked);
-  const here = state.location;
-  const condOk = skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL;
-  const neighbours = new Map(reachableFrom(here, revealed).map((n) => [n.id, n]));
-
-  if (variantId === 'map-b') {
-    // ── B · 絵地図 — the estate as a spatial trail: revealed nodes laid out in COLUMNS by their
-    //    distance from the kura (a left→right path outward), you-are-here lit gold, the walkable
-    //    neighbours live buttons. Derived from the graph (BFS), so it never drifts from the map. ──
-    const depth = new Map<string, number>([['kura', 0]]);
-    const queue: string[] = ['kura'];
-    while (queue.length) {
-      const cur = queue.shift()!;
-      for (const nb of reachableFrom(cur, revealed)) {
-        if (depth.has(nb.id)) continue;
-        depth.set(nb.id, (depth.get(cur) ?? 0) + 1);
-        queue.push(nb.id);
-      }
-    }
-    const maxDepth = Math.max(...depth.values());
-    const board = el('div');
-    board.style.cssText =
-      'border:2px solid var(--ink);background:var(--washi-shade);padding:.6rem;display:flex;gap:.5rem;align-items:stretch;overflow-x:auto;';
-    for (let d = 0; d <= maxDepth; d++) {
-      const ids = [...depth.entries()].filter(([, dd]) => dd === d).map(([id]) => id);
-      const colEl = el('div');
-      colEl.style.cssText =
-        'display:flex;flex-direction:column;gap:.5rem;justify-content:center;min-width:8.5rem;';
-      for (const id of ids) {
-        const node = getNode(id);
-        const isHere = id === here;
-        const walkable = neighbours.has(id);
-        const danger = node.dangerRing === true;
-        const locked = danger && !condOk && walkable;
-        const live = walkable && !locked;
-        const cell = el(live ? 'button' : 'div');
-        if (live) {
-          (cell as HTMLButtonElement).type = 'button';
-          cell.addEventListener('click', () => dispatch({ type: 'move_to', to: id }));
-        }
-        cell.style.cssText =
-          'text-align:left;padding:.35rem .45rem;display:flex;flex-direction:column;gap:.1rem;' +
-          'border:' +
-          (isHere ? '2px solid var(--gold)' : '1px solid var(--ink-faint)') +
-          ';background:' +
-          (isHere || walkable ? 'var(--washi)' : 'var(--washi-deep)') +
-          ';color:' +
-          (isHere || walkable ? 'var(--ink)' : 'var(--ink-soft)') +
-          ';cursor:' +
-          (live ? 'pointer' : 'default') +
-          ';';
-        const line1 = el('div');
-        line1.style.cssText =
-          'display:flex;align-items:baseline;gap:.3rem;font-weight:' +
-          (isHere ? '700' : '600') +
-          ';';
-        if (node.kanji) {
-          const k = el('span', undefined, node.kanji);
-          k.lang = 'ja';
-          line1.append(k);
-        }
-        line1.append(el('span', undefined, node.label.replace(/^The /, '')));
-        if (danger) line1.append(el('span', undefined, '⚠'));
-        cell.append(line1);
-        const tag = isHere
-          ? 'You are here'
-          : locked
-            ? 'Needs Conditioning Lv' + balance.CONDITIONING_GATE_LEVEL
-            : walkable
-              ? 'Walk here →'
-              : '';
-        if (tag) {
-          const t = el('div', undefined, tag);
-          t.style.cssText =
-            'font-size:var(--fs-micro);color:' +
-            (isHere ? 'var(--gold)' : locked ? 'var(--shu-deep)' : 'var(--ink-soft)') +
-            ';';
-          cell.append(t);
-        }
-        colEl.append(cell);
-      }
-      board.append(colEl);
-    }
-    container.append(board);
-    return true;
+  const ctx: MapNavCtx = {
+    here: state.location,
+    revealed,
+    condOk: skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL,
+    neighbours: reachableFrom(state.location, revealed),
+    move: (id) => dispatch({ type: 'move_to', to: id }),
+    gateReason: `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
+  };
+  switch (variantId) {
+    case 'map-b':
+      renderMapSchematic(container, ctx);
+      return true;
+    case 'map-c':
+      renderMapCards(container, ctx);
+      return true;
+    case 'map-d':
+      renderMapScroll(container, ctx);
+      return true;
+    case 'map-e':
+      renderMapCompass(container, ctx);
+      return true;
+    case 'map-f':
+      renderMapTrail(container, ctx);
+      return true;
+    case 'map-g':
+      renderMapGraph(container, ctx);
+      return true;
+    default:
+      return false; // map-a → render.ts renders the terse paths list (ships)
   }
+}
 
-  // ── C · 道中記 — the traveller's ledger: an INFORMED route list. Each path onward shows the
-  //    destination's blurb AND what awaits there (the labours to work, the foes to fight, the
-  //    danger), so you choose your road from the map instead of walking in blind. ──
-  const ledger = el('div');
-  ledger.style.cssText =
-    'border:2px solid var(--ink);background:var(--washi-shade);padding:.55rem .6rem;display:flex;flex-direction:column;gap:.5rem;';
-  const hereNode = getNode(here);
-  const banner = el('div');
-  banner.style.cssText =
-    'display:flex;align-items:baseline;gap:.4rem;border-bottom:1px solid var(--ink-faint);padding-bottom:.3rem;color:var(--ink);';
-  banner.append(el('span', undefined, '🧭'));
-  const bt = el(
-    'span',
-    undefined,
-    'You stand at the ' + hereNode.label.toLowerCase().replace(/^the /, ''),
-  );
-  bt.style.fontWeight = '700';
-  banner.append(bt);
-  const bk = el('span', undefined, '道中記');
-  bk.lang = 'ja';
-  bk.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
-  banner.append(bk);
-  ledger.append(banner);
-  ledger.append(el('div', 'skill-blurb', hereNode.blurb));
+// ── B · 絵地図 — the estate as a 2D SPATIAL schematic: revealed nodes laid out in COLUMNS by their
+//    distance from the kura, the current node lit, walkable neighbours live click targets, and
+//    LOCKED edges GREYED — both conditioning-gated known nodes AND undiscovered ground (a "？"
+//    silhouette one step past a revealed node, reveal-as-plot §5.4). Hint-free: label + kanji only. ──
+function renderMapSchematic(container: HTMLElement, ctx: MapNavCtx): void {
+  const { here, revealed, neighbours } = ctx;
+  const isNb = (id: string): boolean => neighbours.some((n) => n.id === id);
+  const depth = mapDepths(revealed);
+  // undiscovered neighbours of revealed nodes → greyed silhouettes one column out.
+  const fog = new Map<string, number>();
+  for (const [id, d] of depth) {
+    for (const nbId of getNode(id).neighbors) {
+      if (!depth.has(nbId) && !canMove(id, nbId, revealed) && !fog.has(nbId)) fog.set(nbId, d + 1);
+    }
+  }
+  const maxDepth = Math.max(0, ...depth.values(), ...fog.values());
+  const board = el('div');
+  board.style.cssText =
+    'border:2px solid var(--ink);background:var(--washi-shade);padding:.6rem;display:flex;gap:.5rem;align-items:stretch;overflow-x:auto;';
+  const cell = (hereNode: boolean, litLook: boolean, live: boolean): HTMLElement => {
+    const c = el(live ? 'button' : 'div');
+    c.style.cssText =
+      'text-align:left;padding:.35rem .45rem;display:flex;flex-direction:column;gap:.1rem;font:inherit;' +
+      'border:' +
+      (hereNode ? '2px solid var(--gold)' : '1px solid var(--ink-faint)') +
+      ';background:' +
+      (litLook ? 'var(--washi)' : 'var(--washi-deep)') +
+      ';color:' +
+      (litLook ? 'var(--ink)' : 'var(--ink-soft)') +
+      ';cursor:' +
+      (live ? 'pointer' : 'default') +
+      ';';
+    return c;
+  };
+  for (let d = 0; d <= maxDepth; d++) {
+    const colEl = el('div');
+    colEl.style.cssText =
+      'display:flex;flex-direction:column;gap:.5rem;justify-content:center;min-width:8.5rem;';
+    for (const [id, dd] of depth) {
+      if (dd !== d) continue;
+      const node = getNode(id);
+      const hereNode = id === here;
+      const nb = isNb(id);
+      const gated = nb && node.dangerRing === true && !ctx.condOk;
+      const live = nb && !gated;
+      const c = cell(hereNode, hereNode || nb, live);
+      const line1 = el('div');
+      line1.style.cssText = `display:flex;align-items:baseline;gap:.3rem;font-weight:${hereNode ? '700' : '600'};`;
+      if (node.kanji) {
+        const k = el('span', undefined, node.kanji);
+        k.lang = 'ja';
+        line1.append(k);
+      }
+      line1.append(el('span', undefined, node.label.replace(/^The /, '')));
+      c.append(line1);
+      if (hereNode) {
+        c.dataset.here = '1';
+        c.append(navTag('you are here', 'var(--gold)'));
+      } else if (gated) {
+        linkLocked(c, id, ctx);
+        c.append(navTag(ctx.gateReason, 'var(--shu-deep)'));
+      } else if (live) {
+        linkMove(c as HTMLButtonElement, id, ctx);
+        c.append(navTag('walk here →', 'var(--ink-soft)'));
+      } else {
+        c.dataset.node = id; // revealed but not a step away → a dim, static waypoint
+      }
+      colEl.append(c);
+    }
+    for (const [, dd] of fog) {
+      if (dd !== d) continue;
+      // an undiscovered edge — a greyed, anonymous "？" silhouette (reveal-as-plot: name it by
+      // walking on, never spoil what waits). data-locked marks it inert; it is not a data-node target.
+      const sil = el('div');
+      sil.dataset.locked = '1';
+      sil.setAttribute('aria-disabled', 'true');
+      sil.style.cssText =
+        'padding:.35rem .45rem;display:flex;flex-direction:column;gap:.1rem;opacity:.55;' +
+        'border:1px dashed var(--ink-faint);background:var(--washi-deep);color:var(--ink-faint);';
+      const q = el('span', undefined, '？');
+      q.lang = 'ja';
+      const line = el('div');
+      line.style.cssText = 'display:flex;gap:.3rem;';
+      line.append(q, el('span', undefined, 'unexplored'));
+      sil.append(line, navTag('walk on to find it', 'var(--ink-faint)'));
+      colEl.append(sil);
+    }
+    board.append(colEl);
+  }
+  container.append(board);
+}
 
-  const routes = reachableFrom(here, revealed);
-  if (routes.length === 0) ledger.append(el('div', 'skill-blurb', 'No path leads on from here.'));
-  for (const n of routes) {
-    const danger = n.dangerRing === true;
-    const locked = danger && !condOk;
-    const foesThere = MOBS.filter((m) => !m.scripted && m.area === n.id);
-    const laboursThere = ACTIVITIES.filter((a) => a.area === n.id);
-    const row = el('div');
-    row.style.cssText =
-      'border:1px solid var(--ink-faint);border-left:4px solid ' +
-      (danger ? 'var(--beni)' : 'var(--ai)') +
-      ';background:var(--washi);padding:.4rem .5rem;display:flex;flex-direction:column;gap:.28rem;';
-    const head = el('div');
-    head.style.cssText =
-      'display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap;color:var(--ink);';
+// ── C · lacquer location cards — each road onward a coloured lacquer card; the WHOLE card is the
+//    click target (no separate button, no destination preview). Colour is a per-node accent, always
+//    backed by the label + kanji (never colour alone, §9); locked cards greyed with their reason. ──
+function renderMapCards(container: HTMLElement, ctx: MapNavCtx): void {
+  const wrap = el('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:.45rem;';
+  const ACCENTS = ['var(--ai)', 'var(--rokusho)', 'var(--ochre)', 'var(--gold)', 'var(--ai-soft)'];
+  ctx.neighbours.forEach((n, i) => {
+    const gated = navGated(n, ctx);
+    const accent = n.dangerRing === true ? 'var(--beni)' : ACCENTS[i % ACCENTS.length]!;
+    const card = el('button');
+    card.style.cssText =
+      'text-align:left;display:flex;align-items:center;gap:.55rem;padding:.5rem .6rem;font:inherit;' +
+      'cursor:' +
+      (gated ? 'default' : 'pointer') +
+      ';border:1px solid var(--ink-faint);border-left:5px solid ' +
+      accent +
+      ';background:' +
+      (gated ? 'var(--washi-deep)' : 'var(--washi)') +
+      ';color:' +
+      (gated ? 'var(--ink-soft)' : 'var(--ink)') +
+      ';' +
+      (gated ? 'opacity:.7;' : '');
     if (n.kanji) {
       const k = el('span', undefined, n.kanji);
       k.lang = 'ja';
-      head.append(k);
+      k.style.cssText = `font-size:1.35rem;line-height:1;color:${accent};`;
+      card.append(k);
     }
+    const body = el('div');
+    body.style.cssText = 'display:flex;flex-direction:column;gap:.05rem;flex:1;min-width:0;';
     const nm = el('span', undefined, n.label.replace(/^The /, ''));
     nm.style.fontWeight = '700';
-    head.append(nm);
-    if (danger) {
-      const d = el('span', undefined, '⚠ danger');
-      d.style.cssText = 'color:var(--shu-deep);font-size:var(--fs-micro);';
-      head.append(d);
-    }
-    row.append(head);
-    row.append(el('div', 'skill-blurb', n.blurb));
-    const tags = el('div');
-    tags.style.cssText = 'display:flex;gap:.3rem;flex-wrap:wrap;font-size:var(--fs-micro);';
-    for (const a of laboursThere) {
-      const t = el('span', undefined, '⛏ ' + a.label.replace(/^.*?the /i, ''));
-      t.style.cssText = 'border:1px solid var(--ink-faint);padding:0 .25rem;color:var(--ink-soft);';
-      tags.append(t);
-    }
-    for (const f of foesThere) {
-      const t = el('span', undefined, '⚔ ' + f.label);
-      t.style.cssText = 'border:1px solid var(--beni);padding:0 .25rem;color:var(--beni);';
-      tags.append(t);
-    }
-    if (laboursThere.length === 0 && foesThere.length === 0) {
-      const t = el('span', undefined, '· quiet ground');
-      t.style.color = 'var(--ink-faint)';
-      tags.append(t);
-    }
-    row.append(tags);
-    const btn = el(
-      'button',
-      'verb',
-      locked ? 'Needs Conditioning Lv' + balance.CONDITIONING_GATE_LEVEL : 'Set out 発つ →',
+    body.append(nm);
+    body.append(
+      navTag(gated ? ctx.gateReason : 'walk here →', gated ? 'var(--shu-deep)' : 'var(--ink-soft)'),
     );
-    btn.type = 'button';
-    btn.disabled = locked;
-    btn.style.alignSelf = 'flex-start';
-    if (!locked) btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
-    row.append(btn);
-    ledger.append(row);
+    card.append(body);
+    if (gated) linkLocked(card, n.id, ctx);
+    else linkMove(card, n.id, ctx);
+    wrap.append(card);
+  });
+  if (ctx.neighbours.length === 0) wrap.append(navEmpty());
+  container.append(wrap);
+}
+
+// ── D · 巻物 dōchūki — the estate as an unrolled SCROLL-ribbon (a horizontal band by distance from
+//    the kura); the current position marked, the ways onward terse chips you click, locked greyed,
+//    and a trailing "？" chip where the scroll runs into undiscovered ground. Hint-free. ──
+function renderMapScroll(container: HTMLElement, ctx: MapNavCtx): void {
+  const { here, revealed } = ctx;
+  const depth = mapDepths(revealed);
+  const ordered = [...depth.entries()].sort((a, b) => a[1] - b[1]).map(([id]) => id);
+  const isNb = (id: string): boolean => ctx.neighbours.some((n) => n.id === id);
+  const strip = el('div');
+  strip.style.cssText =
+    'display:flex;align-items:center;gap:.35rem;overflow-x:auto;padding:.5rem .3rem;' +
+    'border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);background:var(--washi);';
+  ordered.forEach((id, i) => {
+    if (i > 0) {
+      const sep = el('span', undefined, '━');
+      sep.style.color = 'var(--ink-faint)';
+      strip.append(sep);
+    }
+    const node = getNode(id);
+    const hereNode = id === here;
+    const nb = isNb(id);
+    const gated = nb && node.dangerRing === true && !ctx.condOk;
+    const live = nb && !gated;
+    const chip = el(live ? 'button' : 'div');
+    chip.style.cssText =
+      'flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.3rem .5rem;font:inherit;white-space:nowrap;' +
+      'border:' +
+      (hereNode ? '2px solid var(--gold)' : '1px solid var(--ink-faint)') +
+      ';background:' +
+      (hereNode || nb ? 'var(--washi-shade)' : 'var(--washi-deep)') +
+      ';color:' +
+      (hereNode || nb ? 'var(--ink)' : 'var(--ink-soft)') +
+      ';cursor:' +
+      (live ? 'pointer' : 'default') +
+      ';' +
+      (hereNode || nb ? '' : 'opacity:.7;');
+    if (node.kanji) {
+      const k = el('span', undefined, node.kanji);
+      k.lang = 'ja';
+      k.style.fontSize = '1.2rem';
+      chip.append(k);
+    }
+    chip.append(el('span', undefined, node.label.replace(/^The /, '')));
+    if (hereNode) {
+      chip.dataset.here = '1';
+      chip.append(navTag('現在地', 'var(--gold)'));
+    } else if (gated) {
+      linkLocked(chip, id, ctx);
+      chip.append(navTag('険 locked', 'var(--shu-deep)'));
+    } else if (live) {
+      linkMove(chip as HTMLButtonElement, id, ctx);
+      chip.append(navTag('walk →', 'var(--ink-soft)'));
+    } else {
+      chip.dataset.node = id;
+    }
+    strip.append(chip);
+  });
+  const hasFog = ordered.some((id) =>
+    getNode(id).neighbors.some((nb) => !depth.has(nb) && !canMove(id, nb, revealed)),
+  );
+  if (hasFog) {
+    const sep = el('span', undefined, '━');
+    sep.style.color = 'var(--ink-faint)';
+    const sil = el('div');
+    sil.dataset.locked = '1';
+    sil.setAttribute('aria-disabled', 'true');
+    sil.style.cssText =
+      'flex:0 0 auto;display:flex;align-items:center;gap:.2rem;padding:.3rem .5rem;white-space:nowrap;' +
+      'border:1px dashed var(--ink-faint);color:var(--ink-faint);opacity:.6;';
+    const q = el('span', undefined, '？');
+    q.lang = 'ja';
+    sil.append(q, document.createTextNode(' unexplored'));
+    strip.append(sep, sil);
   }
-  container.append(ledger);
-  return true;
+  container.append(strip);
+}
+
+// ── E · 方位 compass — you at the hub, the roads onward set around you like a compass rose (N/E/S/W
+//    then corners). Click a spoke to walk it; locked spokes greyed. Terse — direction + name only. ──
+function renderMapCompass(container: HTMLElement, ctx: MapNavCtx): void {
+  const grid = el('div');
+  grid.style.cssText =
+    'display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,minmax(3rem,auto));gap:.4rem;' +
+    'border:2px solid var(--ink);background:var(--washi-shade);padding:.6rem;';
+  const SLOTS = [1, 5, 7, 3, 0, 2, 6, 8]; // N, E, S, W, then the four corners — the ring around the hub
+  const DIR: Record<number, string> = { 1: '北', 5: '東', 7: '南', 3: '西' };
+  const place = (elm: HTMLElement, slot: number): void => {
+    elm.style.gridColumn = String((slot % 3) + 1);
+    elm.style.gridRow = String(Math.floor(slot / 3) + 1);
+  };
+  const hereNode = getNode(ctx.here);
+  const hub = el('div');
+  hub.dataset.here = '1';
+  hub.style.cssText =
+    'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem;padding:.3rem;' +
+    'border:2px solid var(--gold);background:var(--washi);color:var(--ink);';
+  place(hub, 4);
+  if (hereNode.kanji) {
+    const k = el('span', undefined, hereNode.kanji);
+    k.lang = 'ja';
+    k.style.fontSize = '1.3rem';
+    hub.append(k);
+  }
+  hub.append(el('span', undefined, hereNode.label.replace(/^The /, '')));
+  hub.append(navTag('you are here', 'var(--gold)'));
+  grid.append(hub);
+  ctx.neighbours.forEach((n, i) => {
+    const slot = SLOTS[i % SLOTS.length]!;
+    const gated = navGated(n, ctx);
+    const cell = el(gated ? 'div' : 'button');
+    cell.style.cssText =
+      'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.05rem;padding:.3rem;font:inherit;' +
+      'cursor:' +
+      (gated ? 'default' : 'pointer') +
+      ';border:1px solid ' +
+      (n.dangerRing === true ? 'var(--beni)' : 'var(--ink-faint)') +
+      ';background:' +
+      (gated ? 'var(--washi-deep)' : 'var(--washi)') +
+      ';color:' +
+      (gated ? 'var(--ink-soft)' : 'var(--ink)') +
+      ';' +
+      (gated ? 'opacity:.7;' : '');
+    place(cell, slot);
+    const dir = DIR[slot];
+    if (dir) {
+      const d = el('span', undefined, dir);
+      d.lang = 'ja';
+      d.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-faint);';
+      cell.append(d);
+    }
+    if (n.kanji) {
+      const k = el('span', undefined, n.kanji);
+      k.lang = 'ja';
+      k.style.fontSize = '1.2rem';
+      cell.append(k);
+    }
+    cell.append(el('span', undefined, n.label.replace(/^The /, '')));
+    cell.append(
+      navTag(gated ? '険 locked' : 'walk →', gated ? 'var(--shu-deep)' : 'var(--ink-soft)'),
+    );
+    if (gated) linkLocked(cell, n.id, ctx);
+    else linkMove(cell as HTMLButtonElement, n.id, ctx);
+    grid.append(cell);
+  });
+  container.append(grid);
+}
+
+// ── F · 道 breadcrumb trail — the trail from the kura to where you stand (read-only waypoints, the
+//    current one marked), then the forks onward as terse click targets; locked forks greyed. ──
+function renderMapTrail(container: HTMLElement, ctx: MapNavCtx): void {
+  const wrap = el('div');
+  wrap.style.cssText =
+    'border:1px solid var(--ink);background:var(--washi);padding:.5rem .6rem;display:flex;flex-direction:column;gap:.5rem;';
+  const trail = el('div');
+  trail.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:.3rem;';
+  const path = pathToHere(ctx.here, ctx.revealed);
+  path.forEach((id, i) => {
+    if (i > 0) {
+      const s = el('span', undefined, '›');
+      s.style.color = 'var(--ink-faint)';
+      trail.append(s);
+    }
+    const node = getNode(id);
+    const hereNode = id === ctx.here;
+    const crumb = el(
+      'span',
+      undefined,
+      (node.kanji ? node.kanji + ' ' : '') + node.label.replace(/^The /, ''),
+    );
+    crumb.style.cssText = `font-weight:${hereNode ? '700' : '400'};color:${hereNode ? 'var(--ink)' : 'var(--ink-soft)'};`;
+    if (hereNode) crumb.dataset.here = '1';
+    trail.append(crumb);
+  });
+  wrap.append(trail);
+  const forks = el('div');
+  forks.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;';
+  const lead = el('span', undefined, 'onward');
+  lead.style.cssText = 'color:var(--ink-faint);font-size:var(--fs-micro);';
+  forks.append(lead);
+  ctx.neighbours.forEach((n) => {
+    const gated = navGated(n, ctx);
+    const b = el(gated ? 'div' : 'button');
+    b.style.cssText =
+      'display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .5rem;font:inherit;' +
+      'cursor:' +
+      (gated ? 'default' : 'pointer') +
+      ';border:1px solid ' +
+      (n.dangerRing === true ? 'var(--beni)' : 'var(--ink-faint)') +
+      ';background:' +
+      (gated ? 'var(--washi-deep)' : 'var(--washi-shade)') +
+      ';color:' +
+      (gated ? 'var(--ink-soft)' : 'var(--ink)') +
+      ';' +
+      (gated ? 'opacity:.7;' : '');
+    b.append(document.createTextNode('› ' + n.label.replace(/^The /, '') + ' '));
+    if (n.kanji) {
+      const k = el('span', undefined, n.kanji);
+      k.lang = 'ja';
+      b.append(k);
+    }
+    if (gated) {
+      b.append(navTag(ctx.gateReason, 'var(--shu-deep)'));
+      linkLocked(b, n.id, ctx);
+    } else {
+      linkMove(b as HTMLButtonElement, n.id, ctx);
+    }
+    forks.append(b);
+  });
+  if (ctx.neighbours.length === 0) forks.append(navEmpty());
+  wrap.append(forks);
+  container.append(wrap);
+}
+
+// ── G · 墨 ink node-graph — a brushed SVG graph of the revealed estate: sumi edges between adjacent
+//    nodes, the current node inked on a 朱 seal, reachable nodes clickable ink circles, locked
+//    (conditioning-gated) nodes greyed. Hint-free — a node is its kanji + name, nothing more. ──
+function renderMapGraph(container: HTMLElement, ctx: MapNavCtx): void {
+  const { here, revealed } = ctx;
+  const depth = mapDepths(revealed);
+  const isNb = (id: string): boolean => ctx.neighbours.some((n) => n.id === id);
+  const byDepth = new Map<number, string[]>();
+  for (const [id, d] of depth) {
+    const arr = byDepth.get(d) ?? [];
+    arr.push(id);
+    byDepth.set(d, arr);
+  }
+  const maxDepth = Math.max(0, ...depth.values());
+  const rows = Math.max(1, ...[...byDepth.values()].map((a) => a.length));
+  const colW = 150;
+  const rowH = 82;
+  const padX = 52;
+  const padY = 46;
+  const width = padX * 2 + maxDepth * colW;
+  const height = padY * 2 + (rows - 1) * rowH;
+  const pos = new Map<string, { x: number; y: number }>();
+  for (const [d, ids] of byDepth) {
+    ids.forEach((id, i) => {
+      pos.set(id, { x: padX + d * colW, y: height / 2 + (i - (ids.length - 1) / 2) * rowH });
+    });
+  }
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('width', String(width));
+  svg.setAttribute('height', String(height));
+  svg.setAttribute('role', 'group');
+  svg.style.cssText =
+    'max-width:100%;height:auto;border:2px solid var(--ink);background:var(--washi-shade);';
+  // sumi edges (drawn once per revealed adjacency).
+  const drawn = new Set<string>();
+  for (const [id, p] of pos) {
+    for (const nb of getNode(id).neighbors) {
+      const q = pos.get(nb);
+      if (!q) continue;
+      const key = [id, nb].sort().join('|');
+      if (drawn.has(key)) continue;
+      drawn.add(key);
+      const line = document.createElementNS(NS, 'line');
+      line.setAttribute('x1', String(p.x));
+      line.setAttribute('y1', String(p.y));
+      line.setAttribute('x2', String(q.x));
+      line.setAttribute('y2', String(q.y));
+      line.setAttribute('stroke', 'var(--ink-faint)');
+      line.setAttribute('stroke-width', '2');
+      line.setAttribute('stroke-linecap', 'round');
+      svg.append(line);
+    }
+  }
+  // nodes.
+  for (const [id, p] of pos) {
+    const node = getNode(id);
+    const hereNode = id === here;
+    const nb = isNb(id);
+    const gated = nb && node.dangerRing === true && !ctx.condOk;
+    const live = nb && !gated;
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('data-node', id);
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', String(p.x));
+    c.setAttribute('cy', String(p.y));
+    c.setAttribute('r', '21');
+    c.setAttribute('fill', hereNode ? 'var(--shu)' : nb ? 'var(--washi)' : 'var(--washi-deep)');
+    c.setAttribute(
+      'stroke',
+      hereNode ? 'var(--shu-deep)' : gated ? 'var(--ink-faint)' : 'var(--ink)',
+    );
+    c.setAttribute('stroke-width', hereNode ? '3' : '2');
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', String(p.x));
+    t.setAttribute('y', String(p.y + 6));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('font-size', '16');
+    t.setAttribute('lang', 'ja');
+    t.setAttribute('fill', hereNode ? 'var(--washi)' : 'var(--ink)');
+    t.textContent = node.kanji ?? node.label.slice(0, 1);
+    const lbl = document.createElementNS(NS, 'text');
+    lbl.setAttribute('x', String(p.x));
+    lbl.setAttribute('y', String(p.y + 38));
+    lbl.setAttribute('text-anchor', 'middle');
+    lbl.setAttribute('font-size', '11');
+    lbl.setAttribute('fill', 'var(--ink-soft)');
+    lbl.textContent = node.label.replace(/^The /, '');
+    g.append(c, t, lbl);
+    if (hereNode) {
+      g.setAttribute('data-here', '1');
+    } else if (gated) {
+      g.setAttribute('data-locked', '1');
+      g.setAttribute('aria-disabled', 'true');
+      g.style.opacity = '0.55';
+      const ttl = document.createElementNS(NS, 'title');
+      ttl.textContent = ctx.gateReason;
+      g.append(ttl);
+    } else if (live) {
+      g.style.cursor = 'pointer';
+      g.setAttribute('role', 'button');
+      g.addEventListener('click', () => ctx.move(id));
+    } else {
+      g.style.opacity = '0.7';
+    }
+    svg.append(g);
+  }
+  container.append(svg);
 }
 
 // ── the DEV panel — a floating, collapsible control surface (DEV-only) ──

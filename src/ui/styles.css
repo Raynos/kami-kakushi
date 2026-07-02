@@ -2138,9 +2138,15 @@ html {
 .market-grant {
   font-size: var(--fs-small);
 }
-/* T0-M4-F4: the small walkable estate map */
-.map-paths-label {
+/* T0-M4-F4 / F102: the small walkable estate map. The Map splits into (a) the bordered
+   you-are-here FLAVOR card (.map-here) and (b) the terse, hint-free NAVIGATION section (.map-nav)
+   below it — a sibling of the flavor card, holding a subtle label + the click-to-move paths strip. */
+.map-nav {
   margin-top: var(--space-3);
+}
+/* the subtle nav label ("onward 道") — quiet, so the section reads as terse wayfinding, not a menu. */
+.map-nav-label {
+  margin-bottom: var(--space-1);
 }
 .map-moves {
   display: flex;
@@ -2151,16 +2157,15 @@ html {
 .map-move {
   text-align: left;
 }
-/* the "what's here" sub-line under a move button (forage/foe/storehouse) — muted, indented. */
-.map-move-hint {
-  margin: calc(-1 * var(--space-1)) 0 var(--space-1) var(--space-2);
-  font-size: var(--fs-small);
-  /* --ink-faint (#7a6c59) is only ~3.7:1 on washi-shade — below WCAG AA for this content-bearing
-     "what's here" hint. Use #685b48 (~4.7:1), the same D-045 value the sibling .lock-hint uses. */
-  color: #685b48;
-}
 .map-move.danger {
   border-color: var(--beni);
+}
+/* a conditioning-locked road reads GREYED + disabled — visible-but-inert, never a dead grey box
+   (its reason sits beneath it, §5.9). The map is a place with locked edges, not a hint menu (F102). */
+.map-move.locked,
+.map-move:disabled {
+  opacity: 0.72;
+  cursor: default;
 }
 /* ── D-114 vendors-as-people: the Map "who's here 衆" list — a talk affordance per present person
    (a category-coloured hanko seal + name + a one-line tell + a Speak button). ── */

@@ -74,8 +74,6 @@ import {
   getNode,
   reachableFrom,
   skillLevel,
-  ACTIVITIES,
-  MOBS,
   balance,
   NPC_NAME,
 } from '../core';
@@ -769,8 +767,11 @@ export function mount(
     loc: HTMLElement;
     kanji: HTMLElement;
     blurb: HTMLElement;
-    paths: HTMLElement;
-    pathsLabel: HTMLElement;
+    // F102 — the Map splits into TWO sections: (a) the bordered you-are-here FLAVOR card above
+    // (card/loc/kanji/blurb), and (b) a terse, hint-free NAVIGATION section below (nav/navLabel/
+    // strip) — a sibling of the flavor card, not nested in it.
+    nav: HTMLElement;
+    navLabel: HTMLElement;
     strip: HTMLElement;
     // D-114 — the Map "who's here" section (built ONCE; the person rows reconcile). Hidden (F72
     // ghost-box) when no one is present, so an empty node never leaves a framed ghost card.
@@ -1536,18 +1537,18 @@ export function mount(
     const revealed = new Set(state.unlocked);
     const moves = reachableFrom(state.location, revealed);
     if (moves.length === 0) return null;
-    const RES_WORD: Record<string, string> = {
-      rice: 'rice',
-      coin: 'coin',
-      wood: 'wood',
-      sansai: 'greens',
-    };
     const movesEl = el('div', 'map-moves');
     for (const n of moves) {
       const danger = n.dangerRing === true;
       const gated = danger && skillLevel(state, 'conditioning') < balance.CONDITIONING_GATE_LEVEL;
-      const btn = el('button', `verb map-move${danger ? ' danger' : ''}`);
+      // F102 — TERSE, HINT-FREE navigation (D-115 / D-116). The road onward is just `→ node 漢字`;
+      // clicking it IS the move (no separate "go" button, no destination preview). We give NO hint
+      // about what waits at the next zone — no loot / foe / yield — because the flavor updates on
+      // ARRIVAL. A node behind the conditioning ring reads as a GREYED, disabled road carrying its
+      // unlock reason (§5.9), never a dead grey box: the map is a place with locked edges, not a menu.
+      const btn = el('button', `verb map-move${danger ? ' danger' : ''}${gated ? ' locked' : ''}`);
       btn.type = 'button';
+      btn.dataset.node = n.id;
       btn.append(document.createTextNode(`→ ${n.label} `));
       if (n.kanji) {
         const k = el('span');
@@ -1563,33 +1564,14 @@ export function mount(
         btn.append(mark);
       }
       btn.disabled = gated;
-      if (gated) btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
+      if (gated) {
+        btn.dataset.locked = '1';
+        btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
+      }
       btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
       movesEl.append(btn);
-      // "what's here" — derived from content so you don't navigate blind: what you gather, who stirs
-      // (named only once you've fought it — scout-by-fighting fog), and the kura storehouse.
-      const yields = new Set<string>();
-      for (const a of ACTIVITIES) {
-        if (a.area === n.id && isUnlocked(state, a.surface)) {
-          for (const r of Object.keys(a.yields)) yields.add(RES_WORD[r] ?? r);
-        }
-      }
-      const foe = MOBS.find((m) => !m.scripted && m.area === n.id);
-      const hints = [...yields];
-      if (foe)
-        hints.push(hasFlag(state, `mob-${foe.id}`) ? foe.label.toLowerCase() : 'a foe stirs');
-      if (n.id === 'kura') hints.push('the storehouse');
-      // Tie the yields/foe context + the gate reason to the button via aria-describedby, so a
-      // screen-reader user tabbing the buttons hears them, not just the bare 険 glyph (a11y §5.9).
-      // The keyPrefix keeps ids unique when the strip renders on both the Map and Work tabs at once.
-      const describedBy: string[] = [];
-      if (hints.length) {
-        const hint = el('div', 'map-move-hint', hints.join(' · '));
-        hint.id = `move-hint-${keyPrefix}-${n.id}`;
-        describedBy.push(hint.id);
-        movesEl.append(hint);
-      }
       // the gate reason, VISIBLE (not a hover-only title on a disabled button — ui-design §5.9/§8).
+      // The keyPrefix keeps ids unique if the strip ever renders in more than one place at once.
       if (gated) {
         const lock = el(
           'div',
@@ -1597,10 +1579,9 @@ export function mount(
           `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
         );
         lock.id = `move-lock-${keyPrefix}-${n.id}`;
-        describedBy.push(lock.id);
+        btn.setAttribute('aria-describedby', lock.id);
         movesEl.append(lock);
       }
-      if (describedBy.length) btn.setAttribute('aria-describedby', describedBy.join(' '));
     }
     return movesEl;
   }
@@ -3960,16 +3941,19 @@ export function mount(
     // that had opened isn't satisfied), close the conversation so no stale wares/greeting linger.
     const present = peopleHere(state);
     if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
-    // ── the diverged map body (D-075) — A = the you-are-here card + "Paths lead to →" list (the
-    //    self-picked default, ships). B/C live DEV-only behind the variant toggle (ui/dev.ts). The
+    // ── the Map body (F102 / D-115 / D-116) — TWO sections: (a) the bordered you-are-here FLAVOR
+    //    card (the immersive current-node description — SHARED across every variant), then (b) a
+    //    terse, hint-free NAVIGATION section below it. The navigation PRESENTATION is a D-075
+    //    diverge: A (the terse paths list) is the self-picked prod default and SHIPS; B…G live
+    //    DEV-only behind the variant toggle (ui/dev.ts), all terse/hint-free, click-to-move. The
     //    DEV branch folds to dead code in prod (tree-shaken) and `dev` is undefined in prod AND
     //    tests, so only a live DEV session takes it; prod/tests use the incremental path below. ──
     if (import.meta.env.DEV && dev) {
       mapRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       mapPane.textContent = '';
       mapPane.append(el('h2', undefined, 'The estate 地図'));
-      if (dev.renderVariant('map', mapPane, state, dispatch)) return;
       const here = getNode(state.location);
+      // (a) the SHARED you-are-here flavor card — the SAME in every variant (only the nav differs).
       const card = el('div', 'map-here frame');
       const h = el('div', 'rung-now');
       const loc = el('span');
@@ -3979,12 +3963,15 @@ export function mount(
       fillMapHere(loc, k, here);
       card.append(h);
       card.append(el('div', 'skill-blurb', here.blurb));
-      const strip = moveStrip(state, 'work');
-      if (strip) {
-        card.append(el('div', 'lock-hint map-paths-label', 'Paths lead to:'));
-        card.append(strip);
-      }
       mapPane.append(card);
+      // (b) the navigation section — the selected DEV variant renders its presentation INTO `nav`;
+      //     if none is selected (default A), fall through to the terse hint-free paths list.
+      const nav = el('div', 'map-nav');
+      if (!dev.renderVariant('map', nav, state, dispatch)) {
+        const strip = moveStrip(state, 'work');
+        if (strip) nav.append(el('div', 'lock-hint map-nav-label', 'onward 道'), strip);
+      }
+      mapPane.append(nav);
       // D-114 who's-here (DEV-default parity with prod, §6.5) — a fresh list each wholesale render.
       if (present.length > 0) {
         const whos = el('div', 'whos-here');
@@ -3996,10 +3983,11 @@ export function mount(
       }
       return;
     }
-    // prod / test — build the h2 + you-are-here card shell ONCE (F81), patch text in place. The
-    // moveStrip is mounted via the shared patchStrip (Phase 2), so it's zero-churn on an idle tick.
+    // prod / test — build the h2 + flavor card + nav section shell ONCE (F81), patch text in place.
+    // The moveStrip is mounted via the shared patchStrip (Phase 2), so it's zero-churn on an idle tick.
     if (!mapRefs) {
       mapPane.append(el('h2', undefined, 'The estate 地図'));
+      // (a) the bordered you-are-here FLAVOR card (F102): the immersive current-node description.
       const card = el('div', 'map-here frame');
       const h = el('div', 'rung-now');
       const loc = el('span');
@@ -4007,20 +3995,23 @@ export function mount(
       kanji.lang = 'ja';
       h.append(loc, kanji);
       const blurb = el('div', 'skill-blurb');
-      const paths = el('div', 'map-paths');
-      const pathsLabel = el('div', 'lock-hint map-paths-label', 'Paths lead to:');
-      const strip = el('div', 'map-strip');
-      paths.append(pathsLabel, strip);
-      card.append(h, blurb, paths);
+      card.append(h, blurb);
       mapPane.append(card);
-      // D-114 — the who's-here section, a sibling of the you-are-here card (built ONCE; the person
-      // rows reconcile). Hidden below when no one is present (F72 ghost-box — no empty framed card).
+      // (b) the terse, hint-free NAVIGATION section (F102) — a SIBLING of the flavor card. A subtle
+      // label + the click-to-move paths strip; NO destination preview (the flavor updates on arrival).
+      const nav = el('div', 'map-nav');
+      const navLabel = el('div', 'lock-hint map-nav-label', 'onward 道');
+      const strip = el('div', 'map-strip');
+      nav.append(navLabel, strip);
+      mapPane.append(nav);
+      // D-114 — the who's-here section, a sibling of the flavor card (built ONCE; the person rows
+      // reconcile). Hidden below when no one is present (F72 ghost-box — no empty framed card).
       const whos = el('div', 'whos-here');
       whos.append(el('div', 'rung-now', 'Who’s here 衆'));
       const whosList = el('div', 'whos-list');
       whos.append(whosList);
       mapPane.append(whos);
-      mapRefs = { card, loc, kanji, blurb, paths, pathsLabel, strip, whos, whosList };
+      mapRefs = { card, loc, kanji, blurb, nav, navLabel, strip, whos, whosList };
     }
     const r = mapRefs;
     const here = getNode(state.location);
@@ -4028,7 +4019,7 @@ export function mount(
     setText(r.blurb, here.blurb);
     // the move strip is now zero-churn too (Phase 2): patchStrip only swaps it when the reachable
     // set actually changed, so an idle re-render leaves the live buttons (and their focus) untouched.
-    toggle(r.paths, patchStrip(r.strip, state, 'work'));
+    toggle(r.nav, patchStrip(r.strip, state, 'work'));
     // D-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
     toggle(r.whos, fillWhosHere(r.whosList, present));
   }

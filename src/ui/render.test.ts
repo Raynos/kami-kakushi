@@ -1647,3 +1647,91 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     expect(nowLines.some((l) => (l.textContent ?? '').includes(blurb))).toBe(true);
   });
 });
+
+// F102 / D-115 / D-116 — the Map splits into (a) a bordered you-are-here FLAVOR card and (b) a
+// terse, HINT-FREE navigation section. You move by CLICKING a road (no separate "go" button), and
+// no unvisited node leaks a loot/foe/reward hint (the flavor updates on ARRIVAL). The prod DEFAULT
+// (map-a) is the terse paths list — these tests drive the SHIPPED path (no DEV harness).
+describe('Estate map — flavor + terse hint-free navigation (F102, prod default)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = ((q: string) => ({
+      matches: false,
+      media: q,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    })) as unknown as typeof window.matchMedia;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+  function openMapTab(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('地図'))
+      ?.click();
+  }
+  function at(location: string, extra: string[] = []): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      location,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, ...extra],
+    };
+  }
+  function spyRender(): { seen: Intent[]; render: ReturnType<typeof mount> } {
+    const seen: Intent[] = [];
+    return { seen, render: mount(root, (i) => seen.push(i), noopHooks()) };
+  }
+
+  it('renders the flavor card (current-node blurb) + a SEPARATE terse nav; a road click walks there', () => {
+    const { seen, render } = spyRender();
+    render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
+    openMapTab();
+    const flavor = root.querySelector<HTMLElement>('.map-pane .map-here')!;
+    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+    expect(flavor).not.toBeNull();
+    expect(nav).not.toBeNull();
+    // (a) the flavor carries the CURRENT node's immersive description…
+    expect(flavor.textContent).toContain(getNode('gate-forecourt').blurb);
+    // …and (b) the nav is a SIBLING section, not nested inside the flavor card.
+    expect(flavor.contains(nav)).toBe(false);
+    // click-to-move: a terse road button walks there (reuses move_to; no separate go button).
+    const road = nav.querySelector<HTMLButtonElement>('.map-move[data-node="home-paddies"]')!;
+    expect(road).not.toBeNull();
+    road.click();
+    expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
+  });
+
+  it('the nav gives NO next-zone hint — no destination blurb, no loot/foe preview', () => {
+    const { render } = spyRender();
+    render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
+    openMapTab();
+    const text = root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
+    // the destination's blurb never leaks into navigation (it updates on ARRIVAL, D-116)…
+    expect(text).not.toContain(getNode('home-paddies').blurb);
+    // …and there is no loot/foe preview of the next zone (the old default tagged yields + "a foe stirs").
+    expect(text).not.toContain('rice');
+    expect(text).not.toContain('a foe stirs');
+  });
+
+  it('a conditioning-locked road is shown GREYED + disabled with its reason (not hidden)', () => {
+    const { render } = spyRender();
+    render(
+      at('home-paddies', ['room-home-paddies', 'room-gate-forecourt', 'room-near-satoyama']),
+      null,
+    );
+    openMapTab();
+    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+    const locked = nav.querySelector<HTMLButtonElement>('.map-move[data-node="near-satoyama"]')!;
+    expect(locked).not.toBeNull();
+    expect(locked.disabled).toBe(true);
+    expect(locked.dataset.locked).toBe('1');
+    // the reason is VISIBLE (a lock-hint beneath it), never a dead grey box.
+    expect(nav.textContent).toContain(`Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`);
+  });
+});
