@@ -230,17 +230,40 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   h.lang = 'ja';
   h.append(el('span', 'kami', '神隠し'), el('span', 'roman', 'Kamikakushi'));
   card.append(h);
-  card.append(
-    el(
-      'p',
-      'modal-sub',
-      'A grounded, story-driven incremental RPG in mid-Edo rural Japan — rise through a declining samurai house, one earned rung at a time.',
-    ),
-  );
-  card.append(brushRule());
 
-  // ── comfort / a11y ──
-  card.append(el('h3', undefined, 'Comfort'));
+  // ── sub-tab bar (playtest F31): Settings · Saves · About ──
+  // one long column split into three panels; the active tab shows, the rest hide.
+  const tabBar = el('div', 'modal-tabs');
+  tabBar.setAttribute('role', 'tablist');
+  const sections: Record<string, HTMLElement> = {};
+  const tabs: Record<string, HTMLButtonElement> = {};
+  const showTab = (name: string): void => {
+    for (const [k, sec] of Object.entries(sections)) sec.hidden = k !== name;
+    for (const [k, tb] of Object.entries(tabs)) {
+      const on = k === name;
+      tb.classList.toggle('active', on);
+      tb.setAttribute('aria-selected', on ? 'true' : 'false');
+    }
+  };
+  const addTab = (name: string, label: string): HTMLElement => {
+    const tb = el('button', 'modal-tab', label);
+    tb.type = 'button';
+    tb.setAttribute('role', 'tab');
+    tb.addEventListener('click', () => showTab(name));
+    tabs[name] = tb;
+    tabBar.append(tb);
+    const sec = el('div', 'modal-section');
+    sec.setAttribute('role', 'tabpanel');
+    sections[name] = sec;
+    return sec;
+  };
+  const settingsSec = addTab('settings', 'Settings');
+  const savesSec = addTab('saves', 'Saves');
+  const aboutSec = addTab('about', 'About');
+  card.append(tabBar);
+
+  // ── comfort / a11y (Settings tab) ──
+  settingsSec.append(el('h3', undefined, 'Comfort'));
   const comfort = el('div', 'settings-row');
   let reduced = false;
   const rm = el('button', 'auto-toggle', 'Reduced motion: off');
@@ -289,11 +312,10 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
     pause.classList.toggle('on', p);
   });
   comfort.append(rm, sound, ts, pause);
-  card.append(comfort);
-  card.append(brushRule());
+  settingsSec.append(comfort);
 
-  // ── save ──
-  card.append(el('h3', undefined, 'Your save'));
+  // ── manage saves (Saves tab) ──
+  savesSec.append(el('h3', undefined, 'Your save'));
   const exportArea = el('textarea', 'save-area');
   exportArea.readOnly = true;
   exportArea.rows = 2;
@@ -307,7 +329,6 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   importArea.id = 'save-import';
   importArea.name = 'save-import';
   importArea.setAttribute('aria-label', 'Paste a save code to import');
-  const saveRow = el('div', 'settings-row');
   const exp = el('button', 'auto-toggle', 'Export save');
   exp.type = 'button';
   exp.addEventListener('click', () => {
@@ -331,22 +352,45 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
       hide(); // close so the fresh game is visible
     }
   });
-  saveRow.append(exp, imp, ng);
-  card.append(exportArea, importArea, saveRow);
-  card.append(brushRule());
+  // Export group: label + readonly area + the Export button.
+  const expGroup = el('div', 'save-group');
+  const expLabel = el('label', 'save-label', 'Export');
+  expLabel.htmlFor = 'save-export';
+  expGroup.append(expLabel, exportArea, exp);
+  // Import group: label + paste area + the Import button.
+  const impGroup = el('div', 'save-group');
+  const impLabel = el('label', 'save-label', 'Import');
+  impLabel.htmlFor = 'save-import';
+  impGroup.append(impLabel, importArea, imp);
+  savesSec.append(expGroup, impGroup, brushRule());
+  // Danger row: start over.
+  const dangerRow = el('div', 'save-group');
+  dangerRow.append(el('span', 'save-label', 'Start over'), ng);
+  savesSec.append(dangerRow);
 
-  // ── about / credits / license / content ──
-  card.append(
+  // ── about / credits / license / content (About tab) ──
+  aboutSec.append(
+    el(
+      'p',
+      'modal-sub',
+      'A grounded, story-driven incremental RPG in mid-Edo rural Japan — rise through a declining samurai house, one earned rung at a time.',
+    ),
+  );
+  aboutSec.append(brushRule());
+  aboutSec.append(
     el(
       'p',
       'modal-meta',
       `Built agentically with Claude Code · ${__VERSION__} · build ${__BUILD_SHA__} · ${__BUILD_DATE__}`,
     ),
   );
-  card.append(el('p', 'modal-meta', 'Code: MIT. Game content: all rights reserved.'));
-  card.append(
+  aboutSec.append(el('p', 'modal-meta', 'Code: MIT. Game content: all rights reserved.'));
+  aboutSec.append(
     el('p', 'modal-meta', 'Content notes: mild thematic — child-disappearance, drowning, debt.'),
   );
+
+  card.append(settingsSec, savesSec, aboutSec);
+  showTab('settings'); // default active tab
 
   scrim.append(card);
   return {
