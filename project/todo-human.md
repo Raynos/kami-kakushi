@@ -31,3 +31,10 @@ _(none open)_
   for the 2026-07-02 playtest feedback (F1–F16): what shipped inline, and the
   remaining intro/story + layout + DEV-panel features being built as D-075
   variants for you to review/approve.
+- [ ] `docs/plans/2026-07-02-interactive-intro-dialogue.md` — the **interactive
+  intro** design (F13/F12/F15/F19/F23/F26): VN click-to-continue, 3 balanced
+  choice beats, per-NPC memory, a speaker/voice-colour model, 3 presentation
+  variants. **Carries ADR-worthy calls + 6 open questions** for you.
+- [ ] `docs/plans/2026-07-02-multi-panel-layout.md` — the **multi-panel** design
+  (F11): 5 reveal-gated panels, sparse→filling, 3 variants. **Touches the §4.7
+  centered-column rule (widen the shell = an ADR)** + 4 open questions.
