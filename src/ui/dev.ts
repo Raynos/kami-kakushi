@@ -1167,6 +1167,45 @@ export function mountDevPanel(
     panel.style.width = hidden ? '15rem' : 'fit-content';
   });
 
+  // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
+  //    (the D-075 review focus). Each tab shows its pane and hides the other. ──
+  const tabBar = el('div');
+  tabBar.style.cssText = 'display:flex;gap:.25rem;margin-bottom:.15rem;';
+  const settingsPane = el('div');
+  settingsPane.style.cssText = 'display:none;flex-direction:column;gap:.5rem;';
+  const variantsPane = el('div');
+  variantsPane.style.cssText = 'display:flex;flex-direction:column;gap:.4rem;';
+
+  const tabBtn = (label: string): HTMLButtonElement => {
+    const b = el('button', undefined, label);
+    b.type = 'button';
+    b.style.cssText =
+      'flex:1;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .4rem;' +
+      'font:inherit;cursor:pointer;font-weight:700;';
+    return b;
+  };
+  const settingsTab = tabBtn('Settings');
+  const variantsTab = tabBtn('Variants');
+  const selectTab = (which: 'settings' | 'variants'): void => {
+    const onSettings = which === 'settings';
+    settingsPane.style.display = onSettings ? 'flex' : 'none';
+    variantsPane.style.display = onSettings ? 'none' : 'flex';
+    settingsTab.style.background = onSettings ? '#b08d4f' : '#3a322a';
+    settingsTab.style.color = onSettings ? '#1c1814' : '#e7d9bc';
+    variantsTab.style.background = onSettings ? '#3a322a' : '#b08d4f';
+    variantsTab.style.color = onSettings ? '#e7d9bc' : '#1c1814';
+  };
+  settingsTab.addEventListener('click', (e) => {
+    e.stopPropagation();
+    selectTab('settings');
+  });
+  variantsTab.addEventListener('click', (e) => {
+    e.stopPropagation();
+    selectTab('variants');
+  });
+  tabBar.append(settingsTab, variantsTab);
+  body.append(tabBar, settingsPane, variantsPane);
+
   const mono = (label: string, onClick: () => void): HTMLButtonElement => {
     const b = el('button', undefined, label);
     b.type = 'button';
@@ -1187,7 +1226,7 @@ export function mountDevPanel(
     const rows = el('div');
     rows.style.cssText = 'display:flex;flex-wrap:wrap;gap:.25rem;';
     sec.append(rows);
-    body.append(sec);
+    settingsPane.append(sec);
     return rows;
   };
 
@@ -1220,24 +1259,47 @@ export function mountDevPanel(
   const life = section('Game');
   life.append(mono('New game', () => qa.newGame()));
 
-  // ── the live variant toggle — the heart of D-075 review ──
-  for (const surface of dev.surfaces) {
+  // ── the live variant toggle — the heart of D-075 review. Each surface is a COLLAPSED summary
+  //    row (label + current pick + caret); clicking it reveals the blurb + the option buttons.
+  //    Rows are RECENCY-ordered: SURFACES is oldest→newest (new surfaces are appended), so we
+  //    display it REVERSED — the most-recently-introduced surface sits at the top. ──
+  const recencyOrdered = dev.surfaces.slice().reverse();
+  for (const surface of recencyOrdered) {
     const sec = el('div');
-    const h = el('div', undefined, `Variant · ${surface.label}`);
-    h.style.cssText = 'color:#b08d4f;font-size:11px;text-transform:uppercase;margin-bottom:.2rem;';
-    sec.append(h);
+    sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;';
+
+    // the clickable collapsed summary row
+    const summary = el('div');
+    summary.style.cssText =
+      'display:flex;align-items:baseline;gap:.35rem;padding:.28rem .4rem;cursor:pointer;user-select:none;';
+    const sCaret = el('span', undefined, '▸');
+    sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
+    const sLabel = el('span', undefined, surface.label);
+    sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;flex:0 0 auto;';
+    const sPick = el('span', undefined, '');
+    sPick.style.cssText = 'color:#9b8e78;font-size:11px;margin-left:auto;text-align:right;';
+    summary.append(sCaret, sLabel, sPick);
+    sec.append(summary);
+
+    // the collapsible details area (blurb + option buttons), hidden by default
+    const details = el('div');
+    details.style.cssText = 'display:none;flex-direction:column;gap:.25rem;padding:0 .4rem .35rem;';
     const blurb = el('div', undefined, '');
-    blurb.style.cssText = 'color:#9b8e78;font-size:11px;margin-bottom:.25rem;min-height:1.4em;';
+    blurb.style.cssText = 'color:#9b8e78;font-size:11px;min-height:1.4em;';
     const rows = el('div');
     rows.style.cssText = 'display:flex;flex-wrap:wrap;gap:.25rem;';
     const buttons: HTMLButtonElement[] = [];
+
     const paint = (): void => {
       const cur = dev.getVariant(surface.id);
       surface.variants.forEach((v, i) => {
         const on = v.id === cur;
         buttons[i]!.style.background = on ? '#b08d4f' : '#3a322a';
         buttons[i]!.style.color = on ? '#1c1814' : '#e7d9bc';
-        if (on) blurb.textContent = v.blurb;
+        if (on) {
+          blurb.textContent = v.blurb;
+          sPick.textContent = v.label;
+        }
       });
     };
     surface.variants.forEach((v) => {
@@ -1249,10 +1311,21 @@ export function mountDevPanel(
       buttons.push(b);
       rows.append(b);
     });
-    sec.append(blurb, rows);
-    body.append(sec);
+    details.append(blurb, rows);
+    sec.append(details);
+
+    summary.addEventListener('click', () => {
+      const hidden = details.style.display === 'none';
+      details.style.display = hidden ? 'flex' : 'none';
+      sCaret.textContent = hidden ? '▾' : '▸';
+    });
+
+    variantsPane.append(sec);
     paint();
   }
+
+  // default active sub-tab = Variants (the review focus)
+  selectTab('variants');
 
   host.append(panel);
   // NOTE: the panel is position:fixed and floats OVER the app (bottom-right), so it reserves
