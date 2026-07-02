@@ -66,10 +66,10 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 ## Toolchain
 
 Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint
-boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = **11
+boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = **12
 gates** (tsc, eslint, prettier, vitest, verify-content, verify-prd, gen:docs --check,
-pacing:check, playcheck:check, md-links, milestone-integrity) run **in parallel** via
-`src/scripts/verify-run.ts` (soft 5s drift budget — `npm run verify:budget`).
+pacing:check, playcheck:check, md-links, milestone-integrity, verify-changelog) run
+**in parallel** via `src/scripts/verify-run.ts` (soft 5s drift budget — `verify:budget`).
 **`.githooks/pre-commit`** runs full `verify` + the reading-queue/journal/snapshot
 gates; **`.githooks/pre-push`** runs `verify` and **blocks on red** (`SKIP_VERIFY=1`
 overrides). **Note: HMR is OFF** (`vite.config.ts`) — hit F5 to see dev changes.

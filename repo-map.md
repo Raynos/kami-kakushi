@@ -5,6 +5,9 @@ reference; it is `@`-included into [`AGENTS.md`](AGENTS.md) so it stays in
 always-loaded context while being editable on its own.
 
 - [README.md](README.md) — the game's vision.
+- [CHANGELOG.md](CHANGELOG.md) — the release log (Keep-a-Changelog, newest-first;
+  the footer/About modal link to it). A version bump in `package.json` **must** add
+  its `## [x.y.z]` section — the `verify-changelog` gate enforces it (A22).
 - [`project/status/`](project/status) — **live operational state** + **live
   trackers** (mutable, edited in place; this is where a checkbox tracker
   belongs, **not** `docs/plans/`, which is pre-canon proposals):

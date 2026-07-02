@@ -190,6 +190,15 @@ Full version:
   transform**, diff in **TEXT mode** (word-diff vs `HEAD`) **and** assert the
   output is **NUL-free (A15)** — a binary output gives a false-clean diff; count
   prose width by *characters*, not bytes.
+- **Keep a CHANGELOG — a version bump must be documented (A22).** The project
+  keeps a top-level [`CHANGELOG.md`](CHANGELOG.md) (Keep-a-Changelog style,
+  newest-first; the in-game footer + About modal link to it). The displayed
+  version is single-sourced from `package.json` (A21) — and the **`verify-changelog`
+  gate** binds the two: `package.json`'s `version` MUST have a matching
+  `## [x.y.z]` section in `CHANGELOG.md`, or `verify` goes RED (at commit, push,
+  and CI). So **bumping the version and forgetting the changelog entry fails the
+  build** — it's a content invariant (highest sound rung, never cries wolf), not a
+  diff heuristic. When you bump `package.json`, add the release section.
 - **Playtest via code, not synthetic input.** Expose a DEV-only play API on
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
