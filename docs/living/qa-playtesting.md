@@ -69,8 +69,9 @@ tool).
   rung,            // current rung id ('R3' | 'V5' | 'G2' | …)
   estateStanding,  // 'stranger'|'friendly'|'trusted'|'honoraryMember'|'yonin'  (the rep arc)
   pillars,         // { arms, estate, office, name } — the four House Influence accumulators
-  influence,       // the rolled-up 家威 read + the per-tier domain-rank read
-  resources,       // { koku, mon, wood, sansai, … } — the CARRIED pool (at-risk in a fight)
+  koku,            // the House's assessed STANDING — a kokudaka-like prestige SCORE (never spent, not an income multiplier); re-assessed seasonally + at tier jumps, gates ascension/unlocks. NOT a resource, immune to combat loss.
+  influence,       // the rolled-up 家威 read + the per-tier domain-rank read (House Influence is re-expressed AS the koku standing above)
+  resources,       // { coin, rice, wood, sansai, … } — the CARRIED pool (at-risk in a fight). `coin` is ONE underlying mon 文 value, shown in mixed denominations (mon → monme → ryō, revealed as wealth grows); `rice` is a real resource — eat it (satiety), store it in the kura, or sell it for coin at a season-swung price.
   banked,          // the sheltered kura pool — a lost fight bites `resources`, never `banked` (real field)
   skills,          // { farming:{lvl,xp}, …, weaponLines:{…} }
   attrs,           // real attrs are { might, guard, vigor }; the 5-attr { str, agi, int, spd, luck } is the v1 target
@@ -150,7 +151,7 @@ Fun isn't unit-testable, but its **absence** is measurable. The auto-player + `p
   play; a **new-thing reveal** (the signature) on a steady drip, never dumped.
 - **Always a visible next goal:** at every state there is a legible "one-more-rung" target (the pull).
 - **The first-5-minutes hook:** from the cold open, the player has done a verb, seen the log react,
-  earned the first koku, and glimpsed a next goal — fast.
+  earned the first rice (+ a little coin), and glimpsed a next goal — fast.
 - **The ≥30-min-per-rung floor** (§4.8): the optimal bot can't clear a grind rung in < ~28 min.
 - **Pillar/seasonal pacing:** the 70/30 split holds; the seasonal judged result lands a satisfying
   high-water "headline" each autumn.
@@ -179,7 +180,7 @@ The loop (per the [UI design-language bible](ui-design.md), which the M1/M2 rend
 **a11y is a SOFT check on every new / restyled UI surface (F3/A10) — a norm, deliberately *not* a gate.**
 Run **both** a **Lighthouse a11y pass** *and* a **code-level a11y review**, because they catch **disjoint**
 classes: the eye + Lighthouse are blind to whether an accessible *name* reads right (a buy button named just
-"10 koku"); code review is blind to actual **contrast ratios** (eyeballing missed the vermilion/gold WCAG
+"10 mon"); code review is blind to actual **contrast ratios** (eyeballing missed the vermilion/gold WCAG
 fail that Lighthouse caught at a11y-95). Two cautions learned the hard way: drive Lighthouse against the
 surface's **real deep state**, not the fresh shell (the shell never exercises the breadth panels — A9); and
 treat a **visual oddity as a real bug until proven otherwise**, never wave it off as a "harness artifact"
@@ -232,8 +233,9 @@ the highest-value item → build it → re-verify (headless + screenshot) → re
 audit saturates.** Each iteration is a small, shippable, verify-green improvement.
 
 **Queue categories (incremental-retargeted):**
-- **Number/reward juice (feel):** the satisfying pillar-jump animation, the koku tick, the
-  rank-up beat, the seasonal-result fanfare, the unlock "reveal" flourish, milestone celebration.
+- **Number/reward juice (feel):** the satisfying pillar-jump animation, the coin/rice tick, the
+  rank-up beat, a **separate seasonal-koku re-assessment beat** (the assessors' verdict on the
+  House's standing), the seasonal-result fanfare, the unlock "reveal" flourish, milestone celebration.
 - **Readability:** can the player parse the four pillars, the rung ladder, the gates, the next goal,
   the combat forecast, at a glance? Legends, tooltips (non-hover-dependent), clear thresholds.
 - **Onboarding:** the cold open + the first few reveals must *teach the loop* without a wall of text;

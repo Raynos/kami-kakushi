@@ -58,8 +58,11 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 
 ### 2.1 The deed loop (seconds) — *do → reward → next goal*
 - **What:** the atomic act — rake rice, forage, fell timber, resolve a fight, craft, work an office —
-  resolving into an instant, legible payoff (koku tick, XP pop, a recognised **deed-jump** into a
-  pillar, §4.2.1) and immediately presenting the next choice.
+  resolving into an instant, legible payoff (a **rice-yield pop (+ a little coin)**, XP pop, a
+  recognised **deed-jump** into a pillar, §4.2.1) and immediately presenting the next choice.
+  **Koku does *not* tick per deed** — the House's koku *standing* re-assesses on its own cadence
+  (seasonally, then a big "the assessors arrive" beat at each tier jump, §2.5), so it stays a slow
+  prestige *score*, never a per-act reward.
 - **Why it's fun:** this is the **variable-ratio reward** core — unpredictable hits (loot rolls, crit,
   which deed lands a jump) wrapped in *unambiguous* progress. The ~70% deed-jump stream (§4.2) is our
   slot-machine dopamine; the punch is the point. Active-only means every few seconds is a *decision*,
@@ -85,7 +88,9 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 
 ### 2.3 The pillar loop (hours) — *number-go-up that means something*
 - **What:** the four **House Influence** pillars (Arms / Estate & Wealth / Office / Name & Honour, §1.6)
-  accumulating up-only toward the per-tier gate thresholds (§4.1).
+  accumulating up-only toward the per-tier gate thresholds (§4.1). This standing is what the seasonal
+  judge re-expresses as the House's **koku score** (never coin, never spent — the prestige number that
+  gates ascension, §2.5).
 - **Why it's fun:** **legible exponential growth you "hold in your hands"** — and because each pillar is
   tied to fiction (Arms changes what you survive; Name changes how NPCs address you), the numbers read
   as *story, not spreadsheet*. Crucially the pillars **interconnect** (Wealth funds Arms; Name gates
@@ -108,17 +113,20 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   (a) new *verb/system*, (b) new *content* in a system, (c) new *modifier* that recontextualises an old
   loop. Never dump; never go silent (qa-playtesting.md §3 "novelty drip"). Onboarding rides this **same
   channel** — each new system is taught **in-world by a diegetic mentor** as it unlocks (Genemon for
-  labour/koku in T0, Kihei for arms/combat from T1, Sōan for healing in the cold open), **never via a popup
+  labour/rice+coin in T0, Kihei for arms/combat from T1, Sōan for healing in the cold open), **never via a popup
   or tutorial modal** (D-063/D-064): the reveal *is* the lesson, so learning the game stays part of the fun
   rather than a gate in front of it. **Teach each thing at its MOMENT OF NEED, not front-loaded at unlock
-  (F1):** gate the lesson to the beat where the mechanic first *matters* — koku-teaching lands *as the first
-  +koku appears*, not as five mentor lines dumped on the first click (the v0.3 cold-open's clearest fun
-  miss). One teach per moment; never a monologue dump. The battery `onboarding` lens checks this.
+  (F1):** gate the lesson to the beat where the mechanic first *matters* — the rice/coin lesson lands *as the
+  first yield lands in hand*, not as five mentor lines dumped on the first click (the v0.3 cold-open's clearest
+  fun miss). One teach per moment; never a monologue dump. The battery `onboarding` lens checks this.
 
 ### 2.5 The seasonal loop (~30–120 min/season) — *the judged exam*
 - **What:** on the reckoning cadence — a per-tier lever, decoupled from the 28-day season calendar (T0
   reckons ~every 3 days) — the world appraises the house and each pillar takes a **judged-result top-up**
-  on a new high-water mark (~30% of growth; autumn harvest is the headline, §4.2.2).
+  on a new high-water mark (~30% of growth; autumn harvest is the headline, §4.2.2). **The same beat
+  re-assesses the House's koku *standing*** (the `seasonalJudge`): koku is a slow prestige *score*, so
+  this is the only place it moves in ordinary play (plus the bigger "the assessors arrive" event at each
+  tier jump) — its own distinct, anticipated juice beat, separate from the per-deed rice/coin hits.
 - **Why it's fun:** this is the **fixed, anticipated, "clear measurable" payoff** that complements the
   variable deed hits — the two do different psychological jobs and we keep both (the locked 70/30,
   §4.2). It gives every active session a near-term *exam to prep for* ("push my deeds toward *this*
@@ -169,7 +177,7 @@ proxies make the loop fast.
 
 | Fun target | Heuristic / threshold | Why this target (the fun job it protects) | Loop it guards |
 |---|---|---|---|
-| **First-5-min hook** | First action < 5 s (§4.8); within 5 min: a verb done, the log reacted, first koku earned, a next goal glimpsed | The hook decides whether there *is* a player. If the cold open doesn't grip, nothing else matters. | 2.1, 2.4 |
+| **First-5-min hook** | First action < 5 s (§4.8); within 5 min: a verb done, the log reacted, first rice/coin earned, a next goal glimpsed | The hook decides whether there *is* a player. If the cold open doesn't grip, nothing else matters. | 2.1, 2.4 |
 | **No dead-time** | Never > ~N s with **no meaningful action and no reward incoming** | Dead air is *the* incremental killer; active-only has no idle excuse for it. Flags reward-deserts + choice-deserts. | 2.1, 2.3 |
 | **Reward cadence** | A reward/unlock/number-jump at least every ~X min; a recognised deed every ~4.5–5 min in **T0** (tutorial), **tier-relative** thereafter (T0 ~5 / T2 Valley ~8 / T3 Region ~13 min, Q20; new-T1 full-estate re-derives) (§4.8.1) | Variable-ratio dopamine needs a *floor frequency* or the grind reads as starvation. | 2.1, 2.5 |
 | **Always-a-visible-next-goal** | At every state: 2–3 affordable goals + 2–3 visible-but-locked + 1 distant silhouette | The pull never empties. An empty or instant "next thing" is a motivation vacuum. | 2.2, 2.4 |
@@ -190,7 +198,8 @@ Six levers, in roughly the order to reach for them. Most fun problems are one of
 
 1. **Juice / feedback.** The cheapest, highest-leverage fix. A deed that pays in an *instant, satisfying*
    number-pop + sound + bar-fill feels 3× better than the identical math delivered limply. Apply to every
-   reward beat: koku tick, pillar-jump, rank-up, seasonal headline, reveal flourish, combat resolve. (This
+   reward beat: rice/coin yield, pillar-jump, rank-up, seasonal headline (incl. the koku re-assessment),
+   reveal flourish, combat resolve. (This
    is the polish-loop's #1 queue category, qa-playtesting.md §6.) **Audio/SFX is part of this juice** — the
    highest-ROI cheap lever for a beat that wants more punch. Add it **opportunistically** (a beat that
    obviously needs it), *not* as a standing priority, and it must **degrade silently under headless QA** so
@@ -234,7 +243,7 @@ changes each tier is the **DOMAIN** the house acts on and the **VERB SET** in th
 - **T0 — you *do*, on the estate (tutorial)** (work the paddy, craft, the humbling first fight) — the domain
   is one house, taught quick.
 - **T1 — you *do*, on the estate (full)** — the same house at full depth: the **Arms pillar deeds begin to
-  bank**, the koku flywheel **branches** into land/treasury/trade (trade **≤⅓**), the first paid retinue and
+  bank**, the coin/rice flywheel **branches** into land/treasury/trade (trade **≤⅓**), the first paid retinue and
   the E1→E2 stage land. **New verbs, same domain** — the deliberate grind-floor starts here. Still your own hands.
 - **T2 — you *do*, across the valley** — the domain expands to the village + roads; **new verbs** (trade/silk,
   road-security, the rumours web). Still your own hands; no team to manage.
@@ -293,7 +302,8 @@ the whole climb). This is what makes hour 20 still mean something.
 | **Punishing setbacks** | A loss erases real progress → rage-quit / save-scum | **Soft-setback shape LOCKED** — 1 HP, ~½-day, light injury, never levels/gear/Influence (§4.6.6); **no permanent holding-loss, never a wipe** (§1.13); **no dead-end / stranding — humbling is always winnable** (D-061). |
 | **City-builder/4X tedium creep** | The estate becomes a management spreadsheet | Estate growth is **flavour, not a sim** (§1.2 pillar 5); **no assignment/management panel, no labour-gang** ever (§1.12); Influence stays diegetic (§1.13). |
 | **Reveal-deserts (too-fast rungs)** | Rungs clear so fast reveals run out → late-game emptiness | **≥30-min-per-rung floor LOCKED** (§4.8); novelty-drip proxy ensures reveals are paced, never exhausted (§3). |
-| **Reflexive generosity** (auto-heal, autopilot, a loose economy) | Stakes quietly leak away — nothing is scarce, no choice bites, the grind self-completes while you watch | **Tension/scarcity is the DEFAULT; generosity must be JUSTIFIED, never reached for (D-086).** HP-attrition + no auto-heal (D-076); tighter koku, poor-until-T5 (D-077). Generosity-creep is a battery `tension/scarcity` finding, not a feature. (Always inside the §1.13 guardrails — winnable, soft-setback only, no stranding: tension *pulls in*, never *pushes out*.) |
+| **Reflexive generosity** (auto-heal, autopilot, a loose economy) | Stakes quietly leak away — nothing is scarce, no choice bites, the grind self-completes while you watch | **Tension/scarcity is the DEFAULT; generosity must be JUSTIFIED, never reached for (D-086).** HP-attrition + no auto-heal (D-076); tighter **coin** + real **rice** pressure (eat/store/sell,
+  swinging seasonal prices), poor-until-T5 (D-077). Generosity-creep is a battery `tension/scarcity` finding, not a feature. (Always inside the §1.13 guardrails — winnable, soft-setback only, no stranding: tension *pulls in*, never *pushes out*.) |
 | **Stale after-state** (a climax onto a dead next-screen) | The bell rings on the big payoff — then the panel still reads "Reach Excellent 480/480"; the moment deflates | **Design the AFTER of every payoff, not just the payoff (F2).** A ceremony/milestone beat must resolve into a satisfying next-state — *"…and then what do I see and do in the next ten seconds?"* The battery `fun`/`onboarding` lens runs this "…and then what?" check on every milestone/ceremony beat. |
 | **Buffer mistaken for a flywheel** | Upgrades grant comfort (a satiety *buffer*) but value never compounds — breadth without depth, a number that climbs but doesn't *snowball* | **Every upgrade must close a work→output→more-output loop, not merely grant a buffer (A4).** Watch the economic invariants: a high-water mark must not re-judge its own payout (self-inflation); breadth ≠ depth. The battery `economy-arithmetic` lens checks each upgrade actually closes a loop. |
 
@@ -304,17 +314,17 @@ the whole climb). This is what makes hour 20 still mean something.
 **T0 — Estate-tutorial (the hook + teaching the loop; the ≥30-min floor is EXEMPT here).**
 - *Fun engine:* the fastest reveal cadence in the game (a panel every few minutes, on a gentle ~10–15 min/rung
   ramp) + the deed-loop's first juicy hits + the humbling R3 first fight as an early emotional spike.
-  Onboarding is **diegetic** — Genemon teaches labour/koku and Sōan opens the healing thread **in-world,
+  Onboarding is **diegetic** — Genemon teaches labour/rice+coin and Sōan opens the healing thread **in-world,
   never via a popup** (D-063). The cold open is one verb + a log — the purest first impression (§3.1).
 - *Fun risk:* **the cold open failing to hook** (first-5-min target, §3) and **over-teaching** (a text
   wall instead of learn-by-doing). T0 is a tutorial that must never *feel* like one — **quick, but never
   *easy***: the mediocre-start bite stays intact even here (D-061).
-- *Watch:* first action < 5 s; the deed→koku→reveal stack legible within 5 min; reveals reframe, not just
+- *Watch:* first action < 5 s; the deed→rice/coin→reveal stack legible within 5 min; reveals reframe, not just
   add; the wolf is humbling-but-winnable (~20–35%), not a brick wall; the teaching lands by *doing*, no modals.
 
 **T1 — Estate-full (first real grind: the ≥30-min floor's first bite).**
 - *Fun engine:* the same one house at full depth — the **Arms pillar deeds begin to bank** (Kihei arrives to
-  teach arms/combat, diegetically), the **koku flywheel branches** into land/treasury/trade (trade **≤⅓**), the
+  teach arms/combat, diegetically), the **coin/rice flywheel branches** into land/treasury/trade (trade **≤⅓**), the
   **first paid retinue** (Gohei & Yatarō) and the **E1→E2** estate stage land. New verbs, same familiar domain —
   and the **first ascension lands BIG** (the Yūji Syuku beat) so the floor *opens* on a high.
 - *Fun risk:* the floor reading as a **stall** rather than an *earned* grind — T0's fast tutorial cadence has
@@ -326,8 +336,10 @@ the whole climb). This is what makes hour 20 still mean something.
 
 **T2 — The Valley (~8 h): first real breadth.**
 - *Fun engine:* the first real **breadth** (the valley domain opens to the house — still your own hands), the **first interconnection** (pillars
-  start funding/gating each other), and the first big breadth reveals — market/coin, component crafting,
-  the silk *meibutsu*, the inn rumours board, the **first Office bar lighting** (V4). The village rep web
+  start funding/gating each other), and the first big breadth reveals — the **market** (sell rice for coin
+  at swinging seasonal prices; the higher *monme* coin denomination begins to surface as wealth grows —
+  coin itself has been spendable since T0), component crafting, the silk *meibutsu*, the inn rumours board,
+  the **first Office bar lighting** (V4). The village rep web
   fans out as an *optional* flavour side-track (never a gate).
 - *Fun risk:* **breadth read as a complexity dump** (too many panels too fast) and **the optional
   side-track feeling mandatory or pointless.** Office is a *new required gate* (absent through T0–T1) — it must

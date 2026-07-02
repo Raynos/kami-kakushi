@@ -518,7 +518,8 @@ log line; a panel never appears silently.
 **Bar = shape, number = precision, colour = state — never a naked bar, never a naked number.** Track is
 paper-grained `--surface-deep`; fill is an ink/indigo wash **darkened for contrast** (so any value drawn on the fill stays AA); threshold ticks are **registration marks** (small
 sumi crop-marks). Fills **ease** toward new values (momentum), and the **number count-ups alongside** (§6.3).
-Always **show the rate next to the total**: `家威 4.20K (+12/koku)`.
+Always **show the rate next to the total**: `家威 4.20K koku (+12/season)` — the koku here is the House's
+re-assessed **standing** score (§7), re-judged seasonally, not a spendable/flowing resource.
 
 **Header vitals — the `body` and `life` bars.** Two slim meters sit in the global header (§4.1 / §5.7)
 beside the resource readouts. **`body`** (satiety) reads how fed the player is; its bar flags `low` (a
@@ -572,7 +573,7 @@ left-aligned by default (F3, playtest 2026-07-02).
 a small **`▶ auto` / `■ stop`** toggle (the same ink-outlined paper button, `aria-pressed`, its "on" state
 carrying an `--ai-soft` lit fill). It is how the calm grind runs itself without a click-storm. **Its risk
 reads on the face of the button, never hover-only** (§8): the combat panel's fight-to-death toggle labels
-itself `▶ auto · to the end` and warns *on its own face* that a loss costs koku (§10 Combat/Yard).
+itself `▶ auto · to the end` and warns *on its own face* that a loss costs coin (§10 Combat/Yard).
 
 ### 5.6 Nav (desktop rail + mobile bottom-bar/drawer)
 
@@ -589,7 +590,7 @@ all screens.
 The legibility spine. **Letter notation K/M/B the whole game** (never scientific `1e7`, never myriad
 man/oku — PRD §6.9). **Fixed to 2 decimals max, fixed width** (`1.20K` not `1.2K`→`1.234K`),
 `font-variant-numeric: tabular-nums`, **right-aligned** in columns so digits don't jitter as they tick.
-**Always show the rate next to the value** (`+12/koku`). Key totals render in `--num-key` (indigo); the value
+**Always show the rate next to the value** (`+12/season`). Key totals render in `--num-key` (indigo); the value
 is **Arabic numerals**; the label may carry kanji. A single shared pure formatter in the renderer (fed by
 selectors) owns the K/M/B scale.
 
@@ -632,8 +633,8 @@ Space is **load-bearing**, not scenery (D-065/D-078/D-093). **Every labour and e
 node, and there is no default "here"** — the player **walks** (a `move_to`) to a node to work it or fight
 what stands there, and the map *earns its walk* by gating a richer yield. One hill past the near satoyama,
 behind a **danger ring**, sits the **deep satoyama 奥山**: reachable only once conditioning clears the ring,
-it gates the **richer forage** (more sansai + koku than the near woods) and **dens the boar** — so the
-spatial spine ties straight into the koku economy and the cook-loop, not just flavour.
+it gates the **richer forage** (more sansai + rice/coin than the near woods) and **dens the boar** — so the
+spatial spine ties straight into the rice/coin economy and the cook-loop, not just flavour.
 
 **The shared move-strip ("Walk on 道").** Movement is one reusable component: a row of **`→ node`** ink
 buttons, each tagged beneath with *what waits there* — what you gather, whether *a foe stirs* (named only
@@ -657,15 +658,18 @@ new region inked in and narrated (§6.1), never popped in silently.
 
 ### 5.12 Storehouse 蔵 (the kura bank)
 
-A `.frame` paper panel — the **kura** — where the player **stows koku out of a fight's reach**. It reveals
-with the estate economy and is **spatially gated to the kura node** (the storehouse *is* the kura, §5.11):
-the running **balance shows everywhere** (your safe reserve is worth seeing on the road), but the **Deposit
-all / Withdraw all** verbs appear **only while you stand at the kura** — off-node the panel drops to a plain
-hint to *walk the 道 back to the 蔵*. Its header reads the two piles in ink, plainly —
-`Carried N koku · stored N koku (safe)` — so the stake is legible at a glance, and a diegetic line spells
-the rule the whole loss-loop turns on: **what you carry, a lost fight can take; what you store, you keep.**
-The buttons are ordinary ink-outlined verbs (§5.5); Withdraw sits `--ink-faint` (faded / disabled) with a
-"nothing stored" reason when the kura is empty (§5.9), never a dead grey box.
+A `.frame` paper panel — the **kura** — where the player **stows coin out of a fight's reach** (and stores
+the harvested rice). It reveals with the estate economy and is **spatially gated to the kura node** (the
+storehouse *is* the kura, §5.11): the running **balance shows everywhere** (your safe reserve is worth seeing
+on the road), but the **Deposit all / Withdraw all** verbs appear **only while you stand at the kura** —
+off-node the panel drops to a plain hint to *walk the 道 back to the 蔵*. Its header reads the two coin piles
+in ink, plainly — `Carried N mon, stored N mon (safe)` (mon 文, the base coin unit, folding up into monme /
+ryō as wealth grows, §7) — with a **rice line beneath** it (`Rice: N stored 🌾`, the kura's granary), so both
+the spendable stake and the harvest are legible at a glance, and a diegetic line spells the rule the whole
+loss-loop turns on: **what you carry, a lost fight can take; what you store, you keep.** (Only carried *coin*
+is at stake — the House's koku standing is immune to a lost fight.) The buttons are ordinary ink-outlined
+verbs (§5.5); Withdraw sits `--ink-faint` (faded / disabled) with a "nothing stored" reason when the kura is
+empty (§5.9), never a dead grey box.
 
 ### 5.13 The full-screen dialogue (VN) scene (D-104)
 
@@ -773,7 +777,7 @@ generic UI blips). The **per-cue instrument mapping is owned by [`sfx-spec.md`](
 source — don't restate it here). **As built** ([`../../src/ui/sfx.ts`](../../src/ui/sfx.ts), the minimal pass):
 
 - **Combat hit** → **taiko 太鼓** (a grounded thud; the combat resolve, §6.5).
-- **Reward / koku** → **shamisen 三味線 / koto 箏** (a short pluck on a deed banking — aggregated, never per-tick).
+- **Reward / coin** → **shamisen 三味線 / koto 箏** (a short pluck on coin/rice banked — aggregated, never per-tick).
 - **Rank-up / ascension** → **temple-bell / suzu 鈴** (one clear struck bell; the seal press §6.2, the
   first-ascension swell §6.7).
 - *(Ambient / **shakuhachi 尺八** narration & season-turn swells are the deferred **full bed** — sfx-spec §4.)*
@@ -796,9 +800,17 @@ Emoji are **decorative** (`aria-hidden="true"`); the kanji/word always carries t
 | Castle / house | 🏯 | | Spring 春 | 🌸 |
 | Shrine / honour | ⛩️ | | Summer 夏 | 🎐 |
 | Combat / Arms | ⚔️ (or 🗡️) | | Autumn 秋 | 🍁 |
-| Coin / *mon* | 🪙 | | Winter 冬 | ❄️ |
-| Rice / koku 石高 | 🌾 | | Edict / quest | 📜 |
-| Sake / festival | 🍶 | | Lantern / inn | 🏮 |
+| Coin — *mon* 文 → *monme* 匁 → *ryō* 両 | 🪙 | | Winter 冬 | ❄️ |
+| Rice 米 (the resource) | 🌾 | | Edict / quest | 📜 |
+| Koku 石高 standing (the score) | 家 seal (石高 — **never** 🌾) | | Lantern / inn | 🏮 |
+| Sake / festival | 🍶 | | | |
+
+**Rice 米 (resource) and koku 石高 (standing) are DISTINCT motifs — never conflated.** 🌾 belongs to **rice**,
+the harvested resource you eat / store / sell; the **koku standing** (the House's re-assessed prestige score,
+never spent) wears its **own** mark — the kanji 石高 or a 家 house-seal — and **never** 🌾. **Coin** is one
+underlying value (base unit *mon* 文) shown in fixed mixed denominations that **reveal incrementally as wealth
+grows** — 🪙 *mon* early (T0–T1), then *monme* 匁, then *ryō* 両 (T4–T5); no moneychanger and no floating
+exchange, just higher denominations inking in.
 
 Tame their saturation so they sit as ink-stained woodblock accents, not stickers:
 
@@ -871,11 +883,12 @@ two at once.
   the body/rest bar + rice counter. Maximum *ma* — the empty paper reads as confident, not unfinished. The
   whole screen is one `.paper` field, one `.frame` log, one seal-less verb button. First impression = a quiet
   woodblock page. **Delight:** the very first verb makes a log line *ink in* — the game proves it listens.
-- **Work (R1+).** The labour loop: verb(s) + the koku/rate readout + the world-clock season tag (🌸 + 春).
+- **Work (R1+).** The labour loop: verb(s) + the **rice (+ a little coin) readout** and its rate + the
+  world-clock season tag (🌸 + 春).
   Still one calm column — but the verbs are now **the labour of the node you stand on** (space is
   load-bearing, §5.11), so once the map opens a **"Walk on 道"** move-strip sits at the foot of the tab, its
   `→ node` buttons hinting what waits down each road — you change what you can *do* by walking, no
-  tab-switch. **Delight:** the season tag turning, the koku rate ticking with a count-up — "honest sweat"
+  tab-switch. **Delight:** the season tag turning, the rice rate ticking with a count-up — "honest sweat"
   made legible.
 - **Skills (R2 — first nav appears).** The *first navigation* — the screen splits Work / Skills; the nav rail
   is born with its first two entries. Skills surface **by doing** (fade in as XP first lands). **Delight:**
@@ -886,8 +899,9 @@ two at once.
   scout-by-fighting win-rate (an ink pip + word, hue on the pip only, §5.1). A fight resolves atomically to a
   log line with the **ink-strike** (§6.5); danger reads first in the **`life` HP meter** that inked into the
   header at the R2 wolf beat (§5.3). Each foe carries a **Fight** verb **plus two auto-modes** (§5.5):
-  **`▶ auto · to the end`** (grind until you win or die — HP carries, and a **loss bites your carried koku**,
-  so the toggle warns so on its face) and **`▶ auto · flee @20%`** (break off when HP drops below the
+  **`▶ auto · to the end`** (grind until you win or die — HP carries, and a **loss bites your carried coin**
+  (the House's koku standing is immune to combat loss), so the toggle warns so on its face) and
+  **`▶ auto · flee @20%`** (break off when HP drops below the
   threshold — though a burst foe can still land the killing blow first). The **stance** control
   (構え — the glass-cannon↔tank trade: aggressive = more damage dealt AND taken, defensive = less of both) arrives at **R5**, the **ability + item**
   slots at the **first weapon-L10 milestone** (never the all-slots-at-once dump). The first fight is

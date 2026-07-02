@@ -11,7 +11,7 @@ in the decision log, and the milestone order in the roadmap.
 | 2.1 | UI-reveal engine + event log | T0 (exists from build one) | — (the meta-spine that surfaces every other system) |
 | 2.2 | Time, season & world clock (active-only) | T0 | feeds seasonal **judged results** for all four |
 | 2.3 | Soft stamina / satiety (throttles labour **and** combat) | T0 | — (paces the day; no pillar) |
-| 2.4 | Resources & currencies (koku, coin, pillars, materials) | T0 (koku); coin T2 | Estate & Wealth; pillars are the macro layer |
+| 2.4 | Resources & currencies (coin, rice, pillars, materials) | T0 (coin + rice); coin denominations reveal per tier | Estate & Wealth; pillars are the macro layer |
 | 2.5 | Auto-producers (late-game only) | T4+ | Estate & Wealth (idle convenience, never early) |
 | 2.6 | Gathering / labour nodes & jobs-as-offices | T0 | **Estate & Wealth**, **Standing & Office** |
 | 2.7 | Attributes, per-skill levels & milestones (character level **combat-fed only**; per-skill perks add small combat texture) | T0 (attributes/skills); web grows per tier | Arms (combat skills + perks), Estate & Wealth (labour skills) |
@@ -70,7 +70,7 @@ the player feels: *act → something new fades in with a log line → explore it
   unlockPredicate (expression over GameState: flags, resources, rank, skill levels, story node,
   season, pillar values), revealLogLineId, oncePerGame }` — the `'tab'`/`'navLink'` kinds carry the
   **top-level activities** (Crafting, Quests) that reveal as their own nav rows, not nested panels.
-- `RewardBundle { items?, xp?, coin?, koku?, materials?, locationsRevealed?, panelsRevealed?,
+- `RewardBundle { items?, xp?, coin?, rice?, materials?, locationsRevealed?, panelsRevealed?,
   dialoguesUnlocked?, recipesUnlocked?, questsStarted?, flagsSet?, pillarDeltas? }` — the universal
   object every dialogue/quest/threshold/combat-deed can emit.
 - `LogMessage { id, text, channel ('narration'|'reward'|'combat'|'system'|'milestone'), colorClass, tick }`,
@@ -130,7 +130,7 @@ background or wall-time accrual.
 pillars**. It never grants Influence by itself (no time-trickle).
 
 **(e) When introduced / fractal reveal.** **T0** — the clock display reveals early (around R1, with
-the *koku* heartbeat); seasons/weather/festivals deepen at **T2** (the world-sim layer, §2.14).
+the *rice* heartbeat); seasons/weather/festivals deepen at **T2** (the world-sim layer, §2.14).
 
 ---
 
@@ -169,59 +169,78 @@ labour begins (R1–R2); the **combat** throttle surfaces with the first fight a
 
 ---
 
-## 2.4 Resources & currencies (koku, coin, pillars, materials)
+## 2.4 Resources & currencies (coin, rice, pillars, materials)
 
-**(a) What it is.** The economic substrate. **Currencies:** **koku (rice)** = the base
-exponential currency and historically real unit of wealth/tax (the *koku* heartbeat; held koku reads as a
-comfortable **NET** figure, not gross); **coin (mon)** = the secondary trade currency; **the four House
-Influence pillars** = the macro standing layer (NOT spendable like koku/coin — they are the cumulative score
-of what the house has *become*; see 2.16). **Other resources** (wood, charcoal, fish, *sansai*/wild greens,
-herbs, hides, fibre/silk cocoons, ore/iron, etc.) feed crafting and trade. Each new resource **lights its own
-panel/row** on first acquisition (via 2.1). Coin / market numbers (the koku↔coin spread, sinks, the silk
-*meibutsu* economics, `MarketState`) are detailed in §4.
+**(a) What it is.** The economic substrate. **COIN is the sole spendable currency** — one underlying
+value (base unit **mon 文**) held as a single integer count, **DISPLAYED in fixed mixed denominations**
+(mon → monme → ryō; **1 ryō = 50 monme = 4,000 mon**, **1 monme = 80 mon**), with the higher
+denominations **revealed INCREMENTALLY as wealth grows** (mon at T0–T1 → monme → ryō by T4–T5). There is
+**no moneychanger and no floating forex** — the mixed read is pure display over the one `mon` count, and
+**held coin reads as a comfortable NET figure, not gross.** **RICE is a real, first-class RESOURCE** (its
+own counter — the *rice* heartbeat — **NOT** a currency and **NOT** a synonym for koku): labour yields
+rice (+ a little coin), and you **EAT it** (satiety, §2.3), **STORE it** (the *kura*), or **SELL it for
+coin** at a **price that SWINGS BY SEASON** (the season rice price, §4). **KOKU is neither of these** — it
+is the house's assessed **STANDING** (a kokudaka-like prestige SCORE re-expressing House Influence),
+**never spent, never a resource**; it lives in §2.16 and is kept OUT of `resources`. **The four House
+Influence pillars** = the macro standing layer (NOT spendable — they are the cumulative score of what the
+house has *become*; see 2.16). **Other resources** (wood, charcoal, fish, *sansai*/wild greens, herbs,
+hides, fibre/silk cocoons, ore/iron, etc.) feed crafting and trade. Each new resource **lights its own
+panel/row** on first acquisition (via 2.1). Coin / market numbers (the coin denominations, the seasonal
+rice price, sinks, the silk *meibutsu* economics, `MarketState`) are detailed in §4.
 
-**Two finance lanes — PLAYER vs ESTATE.** The protagonist's **personal** koku (what he spends on his own
-character — gear, provisions, tools) is a **distinct lane** from the **estate's** koku/wealth (the estate
-economy and, later, the trade engine). A personal koku **SINK** — a small, capped **provisioning shop** where
-the player buys goods for himself — is live from **T0**; the estate-scale **TRADE engine** (trading for
-profit on the estate's behalf) opens at **T2**. Early spending and grinding run on the player lane; the
-estate lane grows as the house recovers.
+**Two finance lanes — PLAYER vs ESTATE.** The protagonist's **personal** coin (what he spends on his own
+character — gear, provisions, tools) is a **distinct lane** from the **estate's** coin/wealth (the estate
+economy and, later, the trade engine). A personal coin **SINK** — a small, capped **provisioning shop**
+where the player buys goods for himself, priced in **coin (mon)** — is live from **T0**; the estate-scale
+**TRADE engine** (selling the estate's surplus rice and crafted goods for coin) opens at **T2**. Early
+spending and grinding run on the player lane; the estate lane grows as the house recovers.
 
-**Carried vs BANKED.** Wealth also splits by RISK: **carried** wealth (`state.resources`) rides with the
-protagonist and is **at risk** — a lost fight bites a slice of it (§2.8) — while **banked** wealth
-(`state.banked`, the *kura* storehouse) is **sheltered and safe**. Deposit/withdraw move wealth between the
-two, and you bank only at the *kura* node (§2.6), so fighting far from home with a full purse is the gamble.
+**Carried vs BANKED.** Wealth also splits by RISK: **carried** wealth (`state.resources` — coin, rice,
+materials) rides with the protagonist and is **at risk** — a lost fight bites a slice of it (§2.8) — while
+**banked** wealth (`state.banked`, the *kura* storehouse) is **sheltered and safe**. Deposit/withdraw move
+wealth between the two, and you bank only at the *kura* node (§2.6), so fighting far from home with a full
+purse is the gamble. (**koku STANDING is immune** — it is a score, not carried wealth, so a loss never
+touches it; §2.8/§2.16.)
 
-**(b) Player-facing behaviour / loop.** Grind koku by farming; spend koku/coin/materials on crafting, gear,
-building, and tier-expansion. A **small capped provisioning shop** is the **T0 personal koku sink**; the
-**estate TRADE engine** (converting surplus to coin via brokers/shops) opens at **T2** — there is **no trade
-engine in T0 or T1**. **Koku and coin are inputs you spend and grind; Influence is what you become.** A
-**market-saturation damper** (2.11/2.15) applies **PROGRESSIVELY per-unit** on bulk sales — **each unit walks
-the price down** (legible, un-gameable) — and recovers over in-game days, keeping grinding interesting and
-stopping trade running away (reinforced by the trade ≤ ⅓ cap).
+**(b) Player-facing behaviour / loop.** Grind **rice** (+ a little coin) by farming; **eat it, store it,
+or sell it for coin** at the season price; spend **coin** + materials on crafting, gear, building, and
+tier-expansion. A **small capped provisioning shop** is the **T0 personal coin sink**; the **estate TRADE
+engine** (converting surplus rice/goods to coin via brokers/shops) opens at **T2** — there is **no trade
+engine in T0 or T1**. **Rice and coin are what you grind and spend; koku STANDING and Influence are what
+you become.** A **market-saturation damper** (2.11/2.15) applies **PROGRESSIVELY per-unit** on bulk sales
+— **each unit walks the price down** (legible, un-gameable) — and recovers over in-game days, keeping
+grinding interesting and stopping trade running away (reinforced by the trade ≤ ⅓ cap).
 
 **(c) Rough DATA shape.**
-- `ResourceDef { id, name, kind ('currency'|'material'|'food'|'fibre'|'ore'…), revealPredicate,
-  stackable, perishable?, spoilTicks? }`
-- `GameState.resources: Record<resourceId, amount>` — **carried** wealth (at risk in combat); **counts
-  only, UNBOUNDED — no caps**; derived rates computed, never stored.
-- `GameState.banked: Record<resourceId, amount>` — the **kura storehouse**, sheltered from combat loss;
-  deposit/withdraw only at the *kura* node (§2.6/§2.8).
-- `MarketState { perGoodPriceIndex, saturationByGood, recoveryRate }` — the **per-unit progressive** damper;
-  numbers → §4.
-- Pillar values live in `Influence` (2.16), kept structurally separate from `resources` so trade can
-  never masquerade as standing. The **Estate & Wealth pillar value is DERIVED** — summed `land + treasury
-  + trade` on read, **never a stored aggregate** (a strand-dent can't desync it — §2.16/§6.4).
+- `ResourceDef { id, name, kind ('currency'|'rice'|'material'|'food'|'fibre'|'ore'…), revealPredicate,
+  stackable, perishable?, spoilTicks? }` — **`coin` is the sole `'currency'` def** (stored as one integer
+  `mon` count; the mon → monme → ryō mixed denominations are a **DISPLAY** concern, §4, not separate
+  resources). **`rice` is a first-class `'rice'` ResourceDef** — eaten (§2.3), stored (banked), or sold
+  for coin at the season price; it is **NOT** koku.
+- `GameState.resources: Record<resourceId, amount>` — **carried** wealth (coin, rice, materials — at risk
+  in combat); **counts only, UNBOUNDED — no caps**; derived rates computed, never stored.
+- `GameState.banked: Record<resourceId, amount>` — the **kura storehouse** (rice, coin, materials),
+  sheltered from combat loss; deposit/withdraw only at the *kura* node (§2.6/§2.8).
+- `MarketState { perGoodPriceIndex, saturationByGood, recoveryRate, seasonalRicePrice }` — the **per-unit
+  progressive** damper **plus the season-swinging rice price**; numbers → §4.
+- **KOKU standing is NOT a resource.** Pillar values (and the derived koku standing score) live in
+  `Influence` (2.16), kept structurally separate from `resources` so trade can never masquerade as
+  standing and so koku can never be spent. The **Estate & Wealth pillar value is DERIVED** — summed
+  `land + treasury + trade` on read, **never a stored aggregate** (a strand-dent can't desync it —
+  §2.16/§6.4).
 
-**(d) Ties to the four pillars.** koku/coin/materials are the **inputs** the house spends to earn
-recognition; **recorded yields and sealed contracts convert to Estate & Wealth** (via achievement
+**(d) Ties to the four pillars.** coin/rice/materials are the **inputs** the house spends and produces to
+earn recognition; **recorded yields and sealed contracts convert to Estate & Wealth** (via achievement
 jumps / seasonal judged results). The **trade strand (routes / broker standing / the silk *meibutsu*)
 is hard-capped to ≤ ⅓ of Estate & Wealth**, so a pure-trade run maxes ~⅓ of one of four pillars.
 
-**(e) When introduced / fractal reveal.** **T0** — koku at **R0/R1** (rice counter → paddies). The
-**provisioning shop** (the personal koku sink) opens in T0. **Coin (mon)** reveals at **T2** with the estate
-**trade engine**. Material resources reveal one at a time as their nodes/crafts come online (foraging →
-*sansai*; woodcutting → wood → charcoal; fishing → fish; sericulture → cocoons/silk at the silk sub-engine).
+**(e) When introduced / fractal reveal.** **T0** — the **rice counter** (the rice heartbeat) at **R0/R1**
+(rice counter → paddies), with **coin (mon)** alongside from the first labour (labour yields rice + a
+little coin). The **provisioning shop** (the personal coin sink) opens in T0. **Coin exists from T0 in
+mon**; the **higher DENOMINATIONS reveal INCREMENTALLY** (monme as wealth grows, ryō by T4–T5), and the
+estate **trade engine** opens at **T2** (not a new currency — the same coin, now earned at estate scale).
+Material resources reveal one at a time as their nodes/crafts come online (foraging → *sansai*;
+woodcutting → wood → charcoal; fishing → fish; sericulture → cocoons/silk at the silk sub-engine).
 
 ---
 
@@ -245,7 +264,7 @@ sub-economy.** Consistent with active-only: helpers produce **only while the gam
 there is **no offline accrual.**
 
 **(c) Rough DATA shape.**
-- `AutoProducerDef { id, resourceProduced, baseRate, costToBuild (koku/coin/materials),
+- `AutoProducerDef { id, resourceProduced, baseRate, costToBuild (coin/materials),
   rankFloor (LOW), pillarFloor, revealPredicate, rosterCardId }` — gated on Influence band + a LOW
   rank floor + cost (not the capstone), per the estate-growth rule.
 - Cost curve scaffold mirrors the genre (`cost = base * r^owned`, ~5× jumps between tiers; **integer-pow,
@@ -295,7 +314,7 @@ offices** feed **Standing & Office** (offices granted, the bailiff duty, a dispu
 yields and seasonal harvest appraisals are the canonical **achievement-jump / judged-result** sources
 (accruing in **Phase 2** — §2.15.1/§2.16).
 
-**(e) When introduced / fractal reveal.** **T0.** Farming at **R1** (paddies, the *koku* heartbeat);
+**(e) When introduced / fractal reveal.** **T0.** Farming at **R1** (paddies, the *rice* heartbeat);
 foraging + woodcutting + hauling at **R2** (Skills tab + near-*satoyama*); smithing/crafting chains and
 fishing fold in across R5–R6 and the wilderness rings. **T2** adds village-facing labour (cash-crops,
 the silk/sericulture sub-engine at V3); **T3** adds region-scale labour (post-town trade, Kuzuhara
@@ -309,7 +328,7 @@ near-*satoyama* to forage. The same spine binds **combat** (foes live on nodes �
 ground to fight it; the scripted grain-store wolf is faced at the *kura*; §2.8/§2.9) and the **storehouse
 / bank** (deposit/withdraw only at the *kura*; §2.4). A **load-bearing node gates a richer
 yield** — the **deep-*satoyama*** (奥山) past the danger ring returns a materially better forage — so walking
-farther *pays* (tying the map to the koku economy §4 and the combat cook-loop). The map presents as a
+farther *pays* (tying the map to the coin economy §4 and the combat cook-loop). The map presents as a
 walkable **paths list** along the 道 (with a schematic 絵地図 and a traveller's-ledger 道中記 as alternate
 views).
 
@@ -438,9 +457,10 @@ layer**; the T0 spine is atomic auto-resolve.)
   exchange** — you attack, the enemy attacks back, both lose HP until one reaches 0. HP **carries between
   fights and never auto-heals**: the only mend is **eating** (§2.3), so healing is a real pre-fight decision.
   Reaching **0 HP is a lost fight** — it sets **HP → 1**, **bites a real slice of your CARRIED wealth**
-  (~20% of carried koku + ~⅓ of carried materials, floored), and **STOPS the autopilot** (no grinding at the
+  (~20% of carried **coin** + ~⅓ of carried materials, floored), and **STOPS the autopilot** (no grinding at the
   floor — you mend by hand and re-engage). **BANKED wealth sheltered in the *kura* storehouse is safe**
-  (§2.4). A loss never costs levels, gear, or Influence.
+  (§2.4). A loss never costs levels, gear, or Influence (**koku STANDING is immune** — it is a score, not
+  carried wealth; §2.16).
 - **Two auto-combat modes.** Left running, the auto-resolver fights the foes on the current node under one
   of two per-foe modes: **(1) fight to the end** (grind until you win or die — a loss bites, above), or
   **(2) auto-retreat at ~20% HP** — break off on a **turn** where HP drops below the threshold but is still
@@ -896,7 +916,7 @@ next-tier — *felt, never a wall; never a new pillar*).
   'admin-as-narration'), earnedBy (rungMeter ≥ threshold AND storyFlags — an AND-gate), rungActivityTags[]
   (which curated activities advance which rung-meter), unlocks: RewardBundle }`. Two **per-rung-reset**
   meters: `EstateService` (labour) and `CombatRank` (martial) — each numeric, threshold = **(≥30-min floor ×
-  that rung's eligible-activity rate)**, back-solved like the koku column so meter and floor stay in lockstep
+  that rung's eligible-activity rate)**, back-solved like the coin column so meter and floor stay in lockstep
   (§2.15.1; numbers → §4). **Double-counting across streams is allowed, but each stream sums independently.**
 - `VillageWeb { nodes: { shopId|familyId|guildId → meter (gentle curve) }, chiefRegard (rollup) }`.
 - `OriginLadder { tier:'T3', rungs: RankDef[] (O0–O5), meter: OriginTies (gentle), prideBuff (global
@@ -962,8 +982,10 @@ independently** (verifier-asserted, §2.20).
 
 **(a) What it is.** The **macro-resource** — the house's **recognized standing** in the eyes of
 progressively wider authorities, and **the one thing the entire UI-reveal is ultimately gated on.** It
-is **NOT** koku and **NOT** coin (those are inputs you spend/grind; Influence is the cumulative score of
-what the house has *become*). It is the **umbrella roll-up of FOUR achievement-driven pillars** grown in
+is **NOT** coin and **NOT** rice (those are what you spend/grind; Influence is the cumulative score of
+what the house has *become*) — and it is **RE-EXPRESSED as the house's koku STANDING** (a kokudaka-like
+prestige SCORE: koku **IS** this standing, re-assessed seasonally and at tier jumps, **never spent, never
+an income multiplier**; §2.4). It is the **umbrella roll-up of FOUR achievement-driven pillars** grown in
 lockstep, each mapping to a distinct protagonist domain:
 
 | Pillar | Kanji | Protagonist domain | Grows on |
@@ -972,6 +994,16 @@ lockstep, each mapping to a distinct protagonist domain:
 | **Estate & Wealth** | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation) / **TREASURY** (debt→solvency→creditworthiness, *goyōkin*) / **TRADE** (routes, broker standing, the silk *meibutsu*) — **TRADE hard-capped to ≤ ⅓ of this pillar** |
 | **Standing & Office** | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed (incl. the **marriage / adoption lever**, 2.16.1 — T4+ parked), rivals eclipsed |
 | **Name & Honour** | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition, off the foreclosure list, a sponsored rite, an inspector's report, a recorded merit-elevation |
+
+**KOKU = the house's assessed STANDING score.** The four-pillar roll-up is **RE-EXPRESSED as a single
+kokudaka-like koku figure** — the house's prestige *read*, **never a spendable currency and never an
+income multiplier.** It is **RE-ASSESSED** by the seasonal JUDGE (`seasonalJudge`, §2.2) and by a big
+**"the assessors arrive"** event at each tier jump, and it **gates ascension / unlocks.** The
+**tier→koku ladder** runs T0 (tens) → T1 (~100–1,000) → T2 (~1,000–5,000) → T3 (~5,000–10,000) → **T4 =
+10,000 (DAIMYŌ) → ~100,000** → T5 (~100,000–1,000,000+) — bands **PROVISIONAL/liquid** (§4). A **personal
+koku STIPEND** appears only from **T4+** (House-only before); **T5** adds a **full parallel Office /
+court-rank / favour track** (koku = scale, office = access), and rank milestones grant **visible STATUS
+TOKENS** (surname → the two swords → *gōshi* rank). (ADRs **D-107 / D-108 / D-109**.)
 
 **Accrual = two shapes only — never a passive time-trickle, never a flat per-action increment — and ONLY on
 the PHASE-2 estate-influence track:** pillar **DEEDS do not accrue while climbing the rungs** (they
@@ -1009,8 +1041,8 @@ gate). **Plus a per-tier transition STORY GATE** (see table).
 
 | Tier | Transition story gate (entry) | Phase-2 pillar profile (good/great/excellent) |
 |------|-------------------------------|-----------------------------------------------|
-| **T0 Estate-*tutorial*** | *(met at the open)* survive convalescence + first labour | **1-pillar** (revealed: **Estate** alone — the gate **collapses to EXCELLENT in Estate**): the humbling first fight is survived as an *activity* (**Arms deeds don't bank yet** — Phase 2 from T1); first *shinden* begun; *kura* stabilising — the **LINEAR koku taste**; **no trade engine** (the personal provisioning shop is the koku sink). |
-| **T1 Estate-*full*** | **tutorial cleared** → the **first ascension lands BIG**; the full estate ladder (R8→R15) opens | Revealed: Estate **+ Arms** (the **2-pillar case**: **good in both, one excellent**) — the real estate grind; **Arms deeds now bank**; **E1→E2** + the first paid retinue; the koku flywheel **branches into LAND/TREASURY/TRADE** (trade ≤⅓). |
+| **T0 Estate-*tutorial*** | *(met at the open)* survive convalescence + first labour | **1-pillar** (revealed: **Estate** alone — the gate **collapses to EXCELLENT in Estate**): the humbling first fight is survived as an *activity* (**Arms deeds don't bank yet** — Phase 2 from T1); first *shinden* begun; *kura* stabilising — the **LINEAR rice/coin taste**; **no trade engine** (the personal provisioning shop is the coin sink). |
+| **T1 Estate-*full*** | **tutorial cleared** → the **first ascension lands BIG**; the full estate ladder (R8→R15) opens | Revealed: Estate **+ Arms** (the **2-pillar case**: **good in both, one excellent**) — the real estate grind; **Arms deeds now bank**; **E1→E2** + the first paid retinue; the coin/rice flywheel **branches into LAND/TREASURY/TRADE** (trade ≤⅓). |
 | **T2 Village** | enough estate work + **basic repairs** → sent into the village | Revealed: Estate + Arms + **Office**. **Good in all three**, **great in 2** (errand-authority; headman's regard; cash-crops + the village silk market online). |
 | **T3 Region** | **"clean your room"** (estate healthy, village happy, fires out) → grow regional influence; the rival-house contest climaxes | Revealed: Estate + Arms + Office (+ **Name** surfacing → 4). **Estate + Office great/excellent, Arms good**; the **personal-mystery payoff** lands here. **v1 ends here** (`outcome: t3done`). |
 | **T4 Castle-town** *(stub in v1)* | **win the region** → the castle-town rulers confer regional leadership + **invite the house in** (the **castle-town / Daikan's-Office first-contact** beat) | **Office + Name excellent** (won socially); Arms/Estate as leverage. |
@@ -1046,6 +1078,10 @@ climb (multipliers) without changing what's reachable.
   cross-ref §6.4).
 - `PillarState { value, highWater, judged }` per pillar — the judge folds one day at a time and fires a
   judged result only on a **new high-water mark** (§2.2).
+- **`kokuStanding` is a DERIVED read** over the four-pillar roll-up (a kokudaka-like score, read-only —
+  like the banzuke rank, §2.18), **never a stored field, never spent, never in `resources`** (§2.4). The
+  seasonal JUDGE re-assesses it; the personal koku **stipend** (T4+) and the T5 **office track** hang off
+  it (D-107/D-109).
 - `AccrualEvent { kind ('jump'|'judged'), pillar, sourceDeedId, amount (capped), highWaterMarkCheck,
   phase: 'phase2' (deeds only ever accrue in Phase 2) }` — **deeds also write the additive deed-only
   `gateEligibleValue` accumulator per pillar (the value the gate-band check reads); combos do NOT.**
@@ -1110,7 +1146,7 @@ hard-capped** — a small named retinue + temporary corvée/levies for crises, *
 **v1 covers condition stages E0–E3** (E0 Foreclosure's Edge → E1 Stabilising → E2 Recovering → **E3
 Prosperous / Recovering+**); **E4–E5 parked.**
 
-**(b) Player-facing behaviour / loop.** Spend koku / coin / materials / labour (sometimes a martial
+**(b) Player-facing behaviour / loop.** Spend coin / materials / labour (sometimes a martial
 prerequisite like "roads cleared") to raise the next structure — every build a **diegetic beat** ("the
 frame is raised"), never silent menu inflation. Recruit/secondment adds **light roster cards** (role +
 one-line hook + a data-driven contribution slotting into existing idle-producer/garrison systems). The
@@ -1120,14 +1156,14 @@ the capstone**). **The estate builds E1/E2/E3 are PHASE-2 content/beats per tier
 **each tier's Phase 2**, where the pillar-Influence floors that gate them are reachable (§2.15.1), **NOT
 Phase-1 rung content** (the builds become Phase-2 reveals that keep the back half alive — §4.7.5/§3.x). The
 minute-to-minute texture stays **labour + combat grind**, not estate micromanagement (guards against
-city-builder/4X drift). **E3 "Prosperous" is authored as a koku/Arms sink folded into the G-rungs** (build
+city-builder/4X drift). **E3 "Prosperous" is authored as a coin/Arms sink folded into the G-rungs** (build
 / authoring cost only — the play-time budget is a **FLOOR**).
 
 **(c) Rough DATA shape.**
 - `EstateStage { id (E0…E3 in v1 — the narrative CONDITION ladder), econFabric[], martialFabric[],
   rosterCards[], pillarFloor, rankFloor (LOW) }`
-- `BuildableStructure { id, costs (koku/coin/materials/labour), martialPrereq?, pillarFloor, rankFloor,
-  revealBeatId, contributesTo (idleProducerSlot|garrisonStrength|stationTier) }` — the koku PURCHASE
+- `BuildableStructure { id, costs (coin/materials/labour), martialPrereq?, pillarFloor, rankFloor,
+  revealBeatId, contributesTo (idleProducerSlot|garrisonStrength|stationTier) }` — the coin PURCHASE
   upgrades (the flywheel "kura-works", `U1–U4`) are a distinct axis from the E# condition stage (§6).
 - `RosterMember { id, role, hookLine, contributionSlot, firstAppearsTier }` — **light card by default**;
   only a few get full arcs (existing cast reused: village artisans seconded, origin friends recruited).

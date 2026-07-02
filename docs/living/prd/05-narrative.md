@@ -31,10 +31,10 @@ fight. The tier is the mediocre-start contract made playable: he is weak and slo
 and the **first real fight is humbling and near-fatal** — and T0 stays **humbling THROUGHOUT** (fast but **NOT
 easy**): its quick ~10–15-min rungs are **floor-exempt** (the ≥30-min/rung floor binds only from T1), yet the
 bite never lets up within guardrails (winnable · soft-setback only · no permanent loss · no
-stranding). T0 is the **showcase-in-miniature**: a tiny taste of every system — a koku flywheel, the first
+stranding). T0 is the **showcase-in-miniature**: a tiny taste of every system — a coin/rice flywheel, the first
 weapons (at least one craftable), a tiny provisioning shop, a walkable map, the Estate pillar, the first
 ascension — each **deepened in T1**. Onboarding is **non-hand-holdy** — taught by a **diegetic mentor**:
-**Genemon** for labour/koku · **Kihei** for arms/combat · **Sōan** for healing — reveal-as-plot, **never
+**Genemon** for labour/rice+coin · **Kihei** for arms/combat · **Sōan** for healing — reveal-as-plot, **never
 popups**.
 
 > **Progression shape (binding) — climb the rungs (Phase 1), then the estate-influence grind (Phase 2)**
@@ -92,7 +92,7 @@ cadence). Daily texture stays **peaceful-labour dominant** by volume.
    distinct from the later-opening, optional T3 Origin accelerant).
 2. **The spilled rice.** Chief Steward **Genemon** — dry, overworked — sets the first task: rake and recover
    spilled rice from the cracked kura floor. "Another mouth, soft and clumsy." Completing it earns a
-   sleeping-place and the first real labour loop (paddies, dry fields, the *koku* heartbeat).
+   sleeping-place and the first real labour loop (paddies, dry fields, the rice heartbeat).
 3. **A season of honest work.** Sustained, reliable labour (farming → foraging → woodcutting → hauling) across
    a season earns a place on the household's books (bonded hand). The **porter's-knot beat** surfaces while
    hauling — he ties a load-knot on instinct; a groom grunts "huh, you've hauled before." **[THREAD: Origin]**
@@ -203,7 +203,7 @@ grown further in T1; cross-ref §1.7):**
 - **The Kura Storehouse** — convalescence pallet; spilled rice. Home of the UI-reveal engine; banking (deposit /
   withdraw) happens here, at the kura.
 - **The Gate & Forecourt (*genkan*)** — the stage for promotions and the Tama-vs-farmhand framing.
-- **The Home Paddies & Dry Fields** — the *koku* heartbeat (active grind, not idle producers).
+- **The Home Paddies & Dry Fields** — the rice heartbeat (active grind, not idle producers).
 - **The Stables & Woodlot Edge** — reveal separately; the porter's-knot beat.
 - **The Drill Yard** — reveals at the first-fight beat (combat live from T0).
 - **The Main House / *Omoya*** — kitchen, inner rooms, household shrine, the lord's study (ledgers).
@@ -271,7 +271,7 @@ GOOD**, **NO overflow** (a surplus in one pillar can never cover a deficit in th
 the OPTION**; the player triggers a **manual opt-in ascension** (overshoot earns a better grade-scaled boon).
 Diegetically: the house solvent and self-defending, its books in the black → the estate trusts him to
 **carry its business beyond its own gate**, into the valley. **Estate stage span:** E1 Stabilising → **E2
-Recovering** (cross-ref §1.5.1; the koku flywheel branches into LAND/TREASURY/TRADE this tier).
+Recovering** (cross-ref §1.5.1; the coin/rice flywheel branches into LAND/TREASURY/TRADE this tier).
 
 **Felt arc:** the quick tutorial gives way to a grind with real weight; the estate visibly **mends** (mended
 roofs, reclaimed paddy, a low palisade, a wage to balance); the second weapon family and the first paid men
@@ -286,7 +286,7 @@ Combat-Rank, AND-gated). The tier's **pillar DEEDS are gated to Phase 2** (post-
 **Combat Rank** + the **character level** via kills, while **Arms** banks only in the Phase-2 grind.
 
 1. **Past the bailiff's post (R8, Kura Warden).** The tutorial's quick taste gives way to a **genuine grind** —
-   the **≥30-min floor binds** for the first time; the koku flywheel **branches** out of its single T0 line into
+   the **≥30-min floor binds** for the first time; the coin/rice flywheel **branches** out of its single T0 line into
    **LAND / TREASURY / TRADE** capped sub-engines (trade hard-capped **≤⅓** of Estate & Wealth).
 2. **Reclaiming the marsh (LAND).** Pour surplus into **LAND** — drain and reclaim the first *shinden* into new
    paddy; the estate visibly grows (**E1→E2**) and the new yield compounds back into the engine.
@@ -304,7 +304,7 @@ Combat-Rank, AND-gated). The tier's **pillar DEEDS are gated to Phase 2** (post-
    **deed ACCRUAL stays Phase-2-gated** (banks only post-capstone). The three combat tracks stay clean:
    kills→level, curated activity→Combat Rank, recognised **deed→Arms**.
 6. **The first paid retinue (after E2).** Hire the first men-at-arms, **Gohei & Yatarō** (ex-*ashigaru* off the
-   road) — paid retainers who fight and work alongside the MC; their **wage is a new recurring koku sink**, and
+   road) — paid retainers who fight and work alongside the MC; their **wage is a new recurring COIN sink**, and
    they help **without trivialising the humbling tune**.
 7. **The house turns solvent & the estate mends.** The TREASURY lane crosses **debt→solvency**; LAND matures
    (more *shinden*, mended roofs, a managed woodlot); the **walkable map grows** outward to the **Near Satoyama**
@@ -358,7 +358,7 @@ growth.)*
 
 ## T1.5 Key NPC & dialogue beats
 
-- **Genemon** — still the spine's gatekeeper; the **labour/koku mentor**, now teaching the branched
+- **Genemon** — still the spine's gatekeeper; the **labour/rice+coin mentor**, now teaching the branched
   flywheel as *story*, never a popup.
 - **Kihei** — the **arms/combat mentor**: turns the humbling fight into discipline, opens the sword line,
   and **names the Arms 武威 pillar** as it reveals. The creed stated at T0 — *"Talent is a story the lucky tell;
@@ -837,7 +837,7 @@ advantages — **never innate** (the talent-foil rule).
 - *Martial:* a roofed dojo replacing the open yard begun; a small standing squad forming.
 - **E3 — Prosperous:** a third workshop and a full granary; the palisade closed into a
   proper perimeter; a standing **4–5-man rota**; the *shinden* reclamation paying out — the house visibly **back
-  on its feet** (cross-ref §1.5.1; the **E3 koku/Arms cost row** is §4.7.5's job).
+  on its feet** (cross-ref §1.5.1; the **E3 coin/Arms cost row** is §4.7.5's job).
 
 > **Estate physical growth runs *ahead* of top personal rank** (gated on the relevant pillars — Estate & Wealth,
 > and Arms for defensive works — plus a **low** rank floor + cost, **not** the capstone). **E3 Prosperous** lands
@@ -998,8 +998,8 @@ kura cold-open; beats 3–7 are the designed continuation the cliff-hanger opens
    mirroring the T0 kura cold-open (the T4 hub through which introductions route). **— the cliff-hanger the game
    closes on; the T3 capstone opens onto exactly this, then ends.**
 3. **Officialdom records you.** Repeated correct conduct earns an audience with **Daikan Iemasa** and a
-   "standing with officialdom" meter; yields/contracts get **formally recorded** (the *koku*→Influence
-   conversion at domain scale).
+   "standing with officialdom" meter; yields/contracts get **formally recorded** (the recorded output now
+   feeding the house's assessed *koku* standing at domain scale).
 4. **Debt restructured into creditworthiness.** The finance network restructures the grandfather-era loan
    (Tanomo's interface), opening working capital + the *goyōkin* lever.
 5. **The *meibutsu* graded toward Osaka.** The silk is graded/branded for wider markets (still ≤⅓-capped).
@@ -1164,7 +1164,7 @@ estate-as-sandbox **teaching layer** re-homed onto **Tokujirō** + recruited ori
   §4.1.1), the **three clean combat tracks + the single combat-fed character-level XP curve** (kills→level,
   curated rung activity→Combat Rank, recognised deed→Arms; §4.0.1/§4.6.5), the **HYBRID
   good/great/excellent tier-gate thresholds** (§4.1), the per-pillar **deed/seasonal accrual** split
-  (§4.2), the **E3 Prosperous cost row** (koku/Arms sink; §4.7.5), the **graded weapon-durability bands**
+  (§4.2), the **E3 Prosperous cost row** (coin/Arms sink; §4.7.5), the **graded weapon-durability bands**
   (§4.6), the **satiety→combat throttle** term (§4.6 — "eat before you fight"), the **per-weapon
   archetype params** + the growing roster (§4.6), and the **cross-pillar combos** (the **PARTIAL Office-pairs
   set at T2 Village**, the **FULL 4-pillar set at T3 Region** — the late-game anti-slump; §4.3.1). §5 keeps

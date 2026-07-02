@@ -36,9 +36,18 @@
 
 This is where the balance numbers parked in §§1–2 land. Each subsection states the
 **shape** (canon, fixed), then a **number set**, then the **levers** to turn during
-tuning. Units throughout: **koku** (rice, base currency), **coin/mon** (trade
-currency), **House Influence** in abstract **Influence points (ip)** per pillar,
-displayed with **K/M/B** abbreviation (not scientific, not myriad units). One **tick**
+tuning. Units throughout: **rice** (the real labour RESOURCE — you eat it for
+satiety, store it in the *kura*, or sell it for coin at a price that swings by
+season; **not** a currency, **not** a synonym for koku), **coin** (the sole
+spendable currency; one underlying value in base unit **mon** 文, displayed in
+fixed mixed denominations **mon → monme → ryō** — 1 ryō = 50 monme = 4,000 mon,
+1 monme = 80 mon — with the higher denominations revealed **incrementally** as
+wealth grows: mon at T0–T1, monme from T2, ryō by T4–T5), **koku** (the House's
+assessed **STANDING** — a kokudaka-like prestige SCORE, re-assessed seasonally,
+**NEVER spent**, gating ascension/unlocks; it re-expresses the House's overall
+Influence, it is **not** a spendable resource), **House Influence** in abstract
+**Influence points (ip)** per pillar, displayed with **K/M/B** abbreviation (not
+scientific, not myriad units). One **tick**
 = the atomic active-play time-step; **1 action ≈ 1–4 ticks**; **1 day ≈ 200 ticks**;
 **1 season = 28 days ≈ 5,600 ticks**; **1 year = 4 seasons = 112 days** (abstract,
 active-only — §2.2). These tick/day mappings are themselves levers.
@@ -59,34 +68,63 @@ per-tier hour budgets, as **minimums**) are locked.
 Everything below hangs off one **per-tier magnitude band** so K/M/B abbreviation reads naturally and "the
 next goal never balloons > ~2–3× the prior" (§1.2 pillar 3 / pacing §4.8). The house's
 **total resource & Influence magnitudes** grow ~**one order of magnitude per tier** (≈10×), but **within a
-tier** every individual step is a gentle **~1.15× geometric** so no single jump feels like a wall.
+tier** every individual step is a gentle **~1.15× geometric** so no single jump feels like a wall. The number
+spine has **two independent axes** — a **RESOURCE scale** (rice you produce/hold/sell, coin you spend) and a
+**STANDING ladder** (koku, the House's assessed prestige score, never spent) — sized separately below.
 
-> **The T0 koku band (yields are already NET).** The T0 lifetime-produced band reads **~21K**, matching the
+### §4.0a The RESOURCE scale — rice produced/held + coin spent
+
+> **The T0 rice band (yields are already NET).** The T0 lifetime-produced band reads **~21K rice**, matching the
 > §4.8.1 rung-by-rung sum exactly (R1…R7 = 0.75K+1.05K+1.2K+2.1K+3.2K+4.95K+8.25K = **21.5K ≈ 21K**). Because
-> gathering yields are modelled **already net** of stamina/food/re-investment (§4.7.1), the **end-T0 HELD koku ≈
+> gathering yields are modelled **already net** of stamina/food/re-investment (§4.7.1), the **end-T0 HELD rice ≈
 > 18–19K NET**. The two figures the player sees — lifetime-produced ~21K, held ~18–19K NET — differ only by the
-> genuine koku **sinks** (the U1/U2/U3 kura-works, tools, craft inputs), not by a hidden upkeep tax.
+> rice **eaten / re-invested** and the rice **sold to coin** to fund the genuine **coin sinks** (the U1/U2/U3
+> kura-works, tools, craft inputs — §4.7.5), not by a hidden upkeep tax.
 
-The *koku* bands are wide (a long-floor tier produces far more koku), while the **Influence-per-pillar** bands
+The **rice** bands are wide (a long-floor tier produces far more rice), while the **Influence-per-pillar** bands
 stay close to the gate magnitudes — Influence is the *slow, judged* measure, deliberately lagging the raw
-resource counters. The *koku* bands below come straight out of the §4.8 throughput model (end-T0
-*lifetime-produced* koku ≈ 21K; end-T0 *held* koku ≈ 18–19K NET).
+resource counters. The rice bands below come straight out of the §4.8 throughput model (end-T0
+*lifetime-produced* rice ≈ 21K; end-T0 *held* rice ≈ 18–19K NET). **Coin** (the spendable currency) rides the
+same scale — the player sells rice for coin at a season-swung price (§4.7.1) and spends it on the market /
+estate / repair sinks — and is **displayed in mixed denominations that reveal incrementally**: **mon** at
+T0–T1, **monme** unlocking from T2, **ryō** by T4–T5 (1 ryō = 50 monme = 4,000 mon).
 
-| Tier | koku band (lifetime-produced → held NET) | Influence-per-pillar band (display) | Typical single number the player sees |
-|---|---|---|---|
-| **T0 Estate** *(tutorial, R0–R7)* | tens → ~**21K** produced (~**18–19K** held NET) | 0 → ~**1.5K** ip | "**3.4K koku**", "**Estate 1K**" |
-| **T1 Estate-full** *(R8–R15)* | full-estate Phase-1 + first Arms/Estate deeds *(band between T0 and T2; per-rung values in the generated balance tables)* | ~0 → ~**8K** ip *(the §4.1 T1 good bands)* | "**Estate 8K**", "**Arms 5K**" |
-| **T2 Village** | ~10K → ~**250K** produced | ~0.5K → ~**15K** ip | "**42K koku**", "**Estate 11K**" |
-| **T3 Region** *(v1 end-gate)* | ~100K → low **M** | ~5K → ~**110K** ip | "**1.8M koku**", "**Office 78K**" |
-| **T4 Castle-town** *(beyond v1)* | low **M** → ~**100M** | ~50K → ~**900K** ip | "**240M koku**", "**Name 900K**" |
-| **T5 Edo** *(beyond v1)* | ~100M → low **B** | ~1M → ~**12M** ip | "**3.4B koku**", "**Name 11M**" |
+| Tier | rice band (lifetime-produced → held NET) | coin display denom. | Influence-per-pillar band (display) | Typical single number the player sees |
+|---|---|---|---|---|
+| **T0 Estate** *(tutorial, R0–R7)* | tens → ~**21K** produced (~**18–19K** held NET) | mon | 0 → ~**1.5K** ip | "**3.4K rice**", "**Estate 1K**" |
+| **T1 Estate-full** *(R8–R15)* | full-estate Phase-1 + first Arms/Estate deeds *(band between T0 and T2; per-rung values in the generated balance tables)* | mon | ~0 → ~**8K** ip *(the §4.1 T1 good bands)* | "**Estate 8K**", "**Arms 5K**" |
+| **T2 Village** | ~10K → ~**250K** produced | mon → **monme** reveals | ~0.5K → ~**15K** ip | "**42K rice**", "**Estate 11K**" |
+| **T3 Region** *(v1 end-gate)* | ~100K → low **M** | monme | ~5K → ~**110K** ip | "**1.8M rice**", "**Office 78K**" |
+| **T4 Castle-town** *(beyond v1)* | low **M** → ~**100M** | monme → **ryō** reveals | ~50K → ~**900K** ip | "**240M rice**", "**Name 900K**" |
+| **T5 Edo** *(beyond v1)* | ~100M → low **B** | ryō | ~1M → ~**12M** ip | "**3.4B rice**", "**Name 11M**" |
+
+### §4.0b The STANDING ladder — koku, the assessed prestige SCORE (never spent)
+
+**Koku is the House's assessed STANDING** — a kokudaka-like prestige score, **NEVER spent**, **not** an income
+multiplier, re-expressing the House's overall Influence into a single figure. It is **re-assessed seasonally**
+(the `seasonalJudge` reckoning, §4.2.2) and confirmed by a big **"the assessors arrive" event at each tier
+jump**, and it **gates ascension / unlocks** rather than being a resource you accumulate and burn. Its ladder
+is anchored to the **daimyō line — T4 = 10,000 koku** — and rises on its own coarse, **PROVISIONAL / liquid**
+bands (distinct from the resource scale above):
+
+| Tier | koku STANDING band | Note |
+|---|---|---|
+| **T0 Estate** | **tens** | first assessed standing; koku unrevealed until the first seasonal appraisal |
+| **T1 Estate-full** | **~100 → 1,000** | the House becomes a named minor holding |
+| **T2 Village** | **~1,000 → 5,000** | |
+| **T3 Region** *(v1 end-gate)* | **~5,000 → 10,000** | approaches the daimyō line by the v1 end-gate |
+| **T4 Castle-town** *(beyond v1)* | **10,000 (DAIMYŌ) → ~100,000** | 10,000 koku = the daimyō threshold; a **personal koku stipend** appears from T4+ (House-only before) |
+| **T5 Edo** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 adds a full parallel **Office / court-rank / favour** track (koku = scale, office = access) |
+
+*(Recorded as ADRs **D-107** — the rice/coin/koku split, **D-108** — coin denominations, **D-109** — the
+tier→koku ladder + office track + T4 stipend. The upper koku bands are provisional/liquid.)*
 
 **Lever:** the **per-tier multiplier `TIER_MAG = 10`** (the order-of-magnitude step) and the
 **intra-tier growth `r_intra = 1.15`** are the two master dials. The Influence bands still step ~**10×**
 for Arms/Estate; the **Standing & Office** band steps **harder** (≈10× → ≈25× at the T1→T2 boundary) by
 design, because the required-pillar gate **drifts** from "survive/get strong" to "win it socially" (§4.1).
 **v1 spans T0–T3** (T4–T5 lie beyond v1), so the first four bands are load-bearing for launch tuning. The saga
-is long because it **stretches wall-clock-per-rung** (the ≥30-min floor) and **fattens the *koku* counters**,
+is long because it **stretches wall-clock-per-rung** (the ≥30-min floor) and **fattens the *rice* counters**,
 *not* by inflating `TIER_MAG` — the chapter-break feel of ~10× is preserved (a slower release of incremental
 features, not bigger walls).
 
@@ -251,7 +289,7 @@ enforcement of the ≥30-min floor (not a wall-clock check). **Unfocused play** 
 off-objective wandering) earns the curated points more slowly and so takes **LONGER — ~60–120 min/rung**. The
 §4.8.1 per-rung **wall-clock column** (35/40/45/55 min, etc.) is therefore **EXPECTED real, somewhat-unfocused
 play — it sits ABOVE the 30-min focused-optimal floor and is NOT a contradiction with it.** The threshold is
-in lockstep with the §4.8.1 koku column and asserted by the §6.6 gate-monotonicity verifier:
+in lockstep with the §4.8.1 rice column and asserted by the §6.6 gate-monotonicity verifier:
 
 ```
 thresholdForRung(rung) = RUNG_FLOOR_MIN · eligibleActivityRate(rung)        // RUNG_FLOOR_MIN = 30 (min, a FLOOR)
@@ -343,7 +381,7 @@ pillar**, never of bigger jumps.
 
 > **T0 has NO trade strand.** The TRADE sub-engine opens at the **Village tier** (its market is the first — there
 > is no *trade engine* in T0; a small provisioning shop where the player buys for his own character is a personal
-> koku sink, not the estate trading for profit, §2.4). T0's trade-contract ip is **itemized into LAND + TREASURY
+> coin sink, not the estate trading for profit, §2.4). T0's trade-contract ip is **itemized into LAND + TREASURY
 > deeds** (below); trade contracts first appear from the Village tier.
 
 | Deed class | Pillar | T0 base | T1 base | T2 base | per-deed cap (0.04·good-band) |
@@ -411,6 +449,14 @@ per pillar from *accumulated state*, and **raises the pillar only if the score e
 high-water mark. If the score does **not** beat the high-water mark, **nothing accrues** (no maintenance
 trickle). Autumn is the headline (harvest), and **all revealed pillars are appraised each reckoning.**
 
+> **The same reckoning RE-ASSESSES the koku STANDING (§4.0b).** `seasonalJudge` is also where the House's
+> **koku standing** is re-assessed: the reckoning re-expresses the aggregate four-pillar Influence into the
+> single kokudaka-like koku score (the ladder of §4.0b), which is **never spent** and only ever **gates
+> ascension**. Koku standing tracks the pillars but is **not** one of them and **not** a resource — it is the
+> outward *rank* the world reads. A big **"the assessors arrive"** event confirms the new standing at each tier
+> jump. (Koku standing is immune to combat loss — the loss-bite is on carried **coin/rice**, §4.6.6b, never on
+> standing.)
+
 > **Cadence is a LEVER, not the shape.** The *shape* above is canon; how OFTEN a reckoning fires is a per-tier
 > lever. In the compressed **T0** tail a full **28-day season never turns** inside the ~5-day Phase-2
 > deed-grind, so T0 reckons on the shorter **`PHASE2_JUDGE_INTERVAL_DAYS`** (~3 d) — tuned ≤ the grind's
@@ -452,7 +498,7 @@ holdings, not a per-action counter), and `TIER_REF` is its band-top reference (i
 | Pillar | `b_pillar(state)` — raw judged basis | `TIER_REF[tier]` (basis units; the normalizer) |
 |---|---|---|
 | **Arms** | `securedNodeCount · avgClearedDanger + retinueReadiness` (a "secured-danger" index) | T0 `ARMS_REF` · T1 10·ref · T2 100·ref (the secured-danger reachable at each good-band) |
-| **Estate & Wealth** | `landReclaimedKoku + treasurySolvency + min(tradeIndex, ⅓·estateTotal)` (a koku-scaled index; **no trade term at T0**) | T0 `ESTATE_REF_KOKU` · T1 10× · T2 100× (the koku-index reachable at each good-band) |
+| **Estate & Wealth** | `landReclaimed + treasurySolvency + min(tradeIndex, ⅓·estateTotal)` (an estate-value index over rice-producing land + coin treasury; **no trade term at T0**) | T0 `ESTATE_REF` · T1 10× · T2 100× (the estate-value index reachable at each good-band) |
 | **Standing & Office** | `officesHeld·officeWeight + alliancesSealed·allianceWeight` (a standing index) | T0 — *(Office not revealed)* · T1 `OFFICE_REF` · T2 10× |
 | **Name & Honour** | `armsHW + estateHW + officeHW + deedsPatronageBonus` (reflects the other three + deeds) | `TIER_REF_NAME[tier] = armsGood + estateGood + officeGood` (T1 = 15K · T2 = 140K) |
 
@@ -748,7 +794,7 @@ Milestones at **levels 5 / 10 / 25 / 50** per skill (lever). Perk magnitudes:
 
 | Milestone | Typical perk | Example |
 |---|---|---|
-| **L5** | small flat stat or `+5%` skill efficiency | Farming L5: `+5%` koku/harvest |
+| **L5** | small flat stat or `+5%` skill efficiency | Farming L5: `+5%` rice/harvest |
 | **L10** | a title (feeds Name flavour) + a recipe unlock **or** a small combat perk *(see the perk model below)* | Smithing L10 (labour): unlocks component-craft tier + a small `skillCombatBonus`; Swordsmanship L10 (combat): `+1 STR` |
 | **L25** | a `×1.10` multiplier or a cross-skill XP bonus (`+5%` to a *sibling* skill) | Foraging L25: `+5%` XP to Cooking |
 | **L50** | a `×1.25` capstone multiplier + a marquee unlock | Combat-weapon L50: stance slot / signature ability |
@@ -1052,9 +1098,9 @@ level curve** are **not levers** (canon).
   from ~25 % to ~85 % is felt as *earned over real time*.
 - **Soft setback on loss (locked):** a lost fight → MC drops to **1 HP** (not death), advances **~½ a day** of
   clock (the recovery), takes a **random light injury** (`InjuryState`, heals in ~**1–2 days** of rest, a small
-  `−10%` to one stat meanwhile), and **drops a real bite of CARRIED wealth** (§4.6.6b: ~20% of carried koku +
-  ~⅓ of carried materials; **what's BANKED in the kura storehouse is SAFE**, §4.6.6c), **never equipped gear,
-  never levels, never Influence** (the only Influence movement on a loss is a *scripted* Arms dent if the lost
+  `−10%` to one stat meanwhile), and **drops a real bite of CARRIED wealth** (§4.6.6b: ~20% of carried coin +
+  ~⅓ of carried materials/rice; **what's BANKED in the kura storehouse is SAFE**, §4.6.6c), **never equipped gear,
+  never levels, never Influence, never koku standing** (the only Influence movement on a loss is a *scripted* Arms dent if the lost
   fight was a defence-deed, §4.2.4/§4.6.8). **Never** a level/gear/permanent loss. The **severity SHAPE** (1 HP +
   ~½-day + light injury + a **carried-wealth bite**, never permanent progress) is **locked**; the bite-fraction
   magnitudes are levers.
@@ -1076,33 +1122,36 @@ foe that deals **≥1 damage** grinds you down across a run, and the **only** fo
    **autopilot STOPS** (mend + re-engage deliberately).
 
 **A lost fight (0 HP)** — the `applyGrindFight` loss path: the soft setback (§4.6.6: **1 HP**, ~½-day) **AND**
-the **autopilot STOPS** (no auto-resume) **AND** you **drop a real bite of CARRIED wealth** — `LOSS_KOKU_FRAC`
-(~20%) of carried koku + `LOSS_MATERIAL_FRAC` (~⅓, floored) of carried materials. **What's BANKED in the kura
-storehouse (§4.6.6c) is safe.** Still **never** a level/gear/Influence loss. The autopilot stopping (not
+the **autopilot STOPS** (no auto-resume) **AND** you **drop a real bite of CARRIED wealth** — `LOSS_COIN_FRAC`
+(~20%) of carried coin + `LOSS_MATERIAL_FRAC` (~⅓, floored) of carried materials/rice. **What's BANKED in the kura
+storehouse (§4.6.6c) is safe.** Still **never** a level/gear/Influence/koku-standing loss. The autopilot stopping (not
 auto-resuming) means the player **feels** the loss and chooses to recover, rather than the loop papering over
 it.
 
-**Levers (magnitudes only):** `LOSS_KOKU_FRAC` / `LOSS_MATERIAL_FRAC` / `AUTO_RETREAT_FRAC`, the setback clock
+**Levers (magnitudes only):** `LOSS_COIN_FRAC` / `LOSS_MATERIAL_FRAC` / `AUTO_RETREAT_FRAC`, the setback clock
 cost. The **no-auto-heal / accumulating-HP rule, the two-auto-mode shape, loss-stops-the-autopilot, and
 loss-bites-carried-but-not-banked** are **canon, not levers.** The combat log is **summarised** — one outcome
 line per fight (the auto-grind fires it hundreds of times).
 
 ### §4.6.6c The kura storehouse — carried vs banked wealth
 
-Wealth splits into **carried** (`state.resources` — on you, at RISK on a lost fight) and **banked**
-(`state.banked` — sheltered in the kura storehouse, SAFE from the loss penalty). **Deposit/withdraw** move a
+Wealth here means **coin + rice + materials** — it splits into **carried** (`state.resources` — on you, at RISK
+on a lost fight) and **banked** (`state.banked` — sheltered in the kura storehouse, SAFE from the loss
+penalty). *(Koku standing is **not** wealth — it is never carried, banked, or at risk; it is the assessed
+prestige score of §4.0b.)* **Deposit/withdraw** move a
 resource between the two; spending + earning use carried (banked is a safe reserve). **Deposit/withdraw are
 gated to the kura node** — so banking your haul means physically returning home, and fighting far afield with a
 full purse becomes the gamble. The risk/reward — bank before a risky fight, or carry it and chance the bite —
 is the point.
 
-### §4.6.6d T0 koku sinks — scarcity by design
+### §4.6.6d T0 coin sinks — scarcity by design
 
-The T0 koku economy is deliberately **tight** (scarcity is the default; net koku stays low through T0, rich
-only at T5). The sinks span all three directions: a **repair FEE** (`REPAIR_KOKU_COST` koku on top of wood — a
-**soft** fee, WAIVED when you can't pay, so combat upkeep bites but never softlocks), the **kura-works ladder**
-(U1–U4 — the main koku sink + the yield flywheel), and a **capped provisioning shop** where the player buys for
-his own character (a MINORITY lane — total spend ≤ ⅓ of the kura-works sink).
+The T0 coin economy is deliberately **tight** (scarcity is the default; the coin you earn selling rice stays
+low through T0, rich only at T5). The sinks span all three directions: a **repair FEE** (`REPAIR_COIN_COST`
+coin on top of wood — a **soft** fee, WAIVED when you can't pay, so combat upkeep bites but never softlocks),
+the **kura-works ladder** (U1–U4 — the main coin sink + the yield flywheel), and a **capped provisioning shop**
+where the player buys for his own character (a MINORITY lane — total spend ≤ ⅓ of the kura-works sink). *(Koku
+standing is never a sink — it is not spent; it is re-assessed, §4.0b.)*
 
 ### §4.6.7 Win-rate bands — the 2nd pacing proxy
 
@@ -1231,8 +1280,8 @@ accrual) — v1's T0–T3 is the MC's own **active grind**, so for v1 the load-b
 yields**, **crafting costs/quality**, and **building/upgrade costs**. The genre-standard `cost = base · r^owned`
 is used **only** for the late-game auto-producers and repeatable upgrades, **never** to fake an early idle
 layer. **Yields are modelled already NET** of stamina/food/re-investment, which is why end-T0
-*lifetime-produced* koku ≈ **21K** but *held* koku ≈ **18–19K NET** (§4.0) — the gap is genuine **sinks** (the
-U1/U2/U3 kura-works, tools, craft inputs), not a hidden upkeep tax.
+*lifetime-produced* rice ≈ **21K** but *held* rice ≈ **18–19K NET** (§4.0a) — the gap is rice eaten / sold to
+coin to fund the genuine **coin sinks** (the U1/U2/U3 kura-works, tools, craft inputs), not a hidden upkeep tax.
 
 ### §4.7.1 Gathering / labour yields (active — already NET)
 
@@ -1252,25 +1301,27 @@ bounded, **MECHANICAL** effect derived from a **stateless, day-keyed** `deriveDa
 helper (§2.19/§6.7) — it is **NOT stored** (only market-saturation persists), so two saves on the same day at
 the same seed see the same weather.
 
-*(base yields, koku/material per action; the longer saga is paid in TIME at the per-rung FLOOR, not in shrunk
-yields)*:
+*(base yields, rice/material per action — labour yields **rice** as its headline plus **a little coin**
+directly, and the rice sells for coin at the season-swung price (below); the longer saga is paid in TIME at the
+per-rung FLOOR, not in shrunk yields)*:
 
 | Node | baseYield | baseTicks | toolMult range | season gate |
 |---|---|---|---|---|
-| Rake/farm rice (paddy) | 2 koku | 3 | 1.0 → 2.5 (sickle→fine tools) | grows spring/summer, **harvest autumn** |
+| Rake/farm rice (paddy) | 2 rice *(+ a little coin)* | 3 | 1.0 → 2.5 (sickle→fine tools) | grows spring/summer, **harvest autumn** |
 | Forage *sansai* | 1 greens | 2 | 1.0 → 1.8 | spring/summer windows |
 | Woodcut | 2 wood | 3 | 1.0 → 2.2 | year-round |
 | Fish (ford) | 1 fish | 2 | 1.0 → 2.0 | year-round, peak autumn |
 | Sericulture (silk) | 1 cocoon | 4 | 1.0 → 3.0 | **summer** (mulberry); **TRADE strand opens at the Village tier**, never T0 (§4.2.3) |
 
 **Throughput tie-out (how these yields produce the §4.8 pacing).** A T0 rice action runs
-`2·(1+0.04·skill)·toolMult` koku. At **R1** (skill ~1, crude tools 1.0) that's **~2.1 koku/action**; at **R7**
-(skill ~12, fine tools 2.0) it's **~5.9 koku/action**. At the intended active pace, the *net koku-equivalent
-throughput* (already net of stamina/food/re-investment) rises across T0's rungs roughly: **R1 ~25 → R2
-~35 → R3 ~40 → R4 ~60 → R5 ~80 → R6 ~110 → R7 ~150 koku/min** (combat rungs trade some labour minutes for loot
+`2·(1+0.04·skill)·toolMult` rice. At **R1** (skill ~1, crude tools 1.0) that's **~2.1 rice/action**; at **R7**
+(skill ~12, fine tools 2.0) it's **~5.9 rice/action**. At the intended active pace, the *net rice throughput*
+(already net of stamina/food/re-investment) rises across T0's rungs roughly: **R1 ~25 → R2
+~35 → R3 ~40 → R4 ~60 → R5 ~80 → R6 ~110 → R7 ~150 rice/min** (combat rungs trade some labour minutes for loot
 value; crafting/cash-crop rungs add value per action). Multiplying each by its rung's wall-clock minutes
-(§4.8.1) gives **lifetime-produced koku over the T0 rung-climb ≈ 21K**, of which **~18–19K is HELD NET** at the
-T0→T1 gate (after the U1/U2 kura-works + tools/craft — §4.7.5). **This throughput table is the bridge between
+(§4.8.1) gives **lifetime-produced rice over the T0 rung-climb ≈ 21K**, of which **~18–19K is HELD NET** at the
+T0→T1 gate (after rice eaten / sold to coin to fund the U1/U2 kura-works + tools/craft — §4.7.5). **This
+throughput table is the bridge between
 the yields here and the rank-time table in §4.8.1; retune the `0.04·skillLevel` slope and tool multipliers,
 never the per-rung time FLOOR, to fix pacing drift.**
 
@@ -1298,15 +1349,17 @@ rule, the yields-already-NET model, and the separate labour/combat throttle coef
   Disassembly returns **~60 %** of materials. The weighted blend needs **no divisor** — the weights sum to 1, so
   the score is already in [0,1].
 
-**Resource counts are UNBOUNDED** (no caps; K/M/B abbreviation reads them, §4.0). **Coin is a real sink from the
-Village tier:** the market row lets the player **spend coin on market purchases and component-buying** (buying
+**Resource counts are UNBOUNDED** (no caps; K/M/B abbreviation reads them, §4.0). **Coin exists from T0** (base
+unit mon; higher denominations reveal later, §4.0a) — but the **market opens a real coin SINK from the Village
+tier:** the market row lets the player **spend coin on market purchases and component-buying** (buying
 inputs/finished components the trade strand needs) — a genuine ongoing coin *sink*, not a vestigial counter. The
-**coin/market MAGNITUDES** — the koku↔coin spread, the per-purchase prices, `MarketState` — are tunable (§2.4).
+**coin/market MAGNITUDES** — the **rice→coin sale price** (season-swung, §4.7.1), the per-purchase prices,
+`MarketState` — are tunable (§2.4).
 **Bulk sales** apply the **saturation damper PROGRESSIVELY per-unit** (each unit walks the price down — legible,
 un-gameable; §2.4), feeding the trade strand under the ≤⅓ clamp (§4.2.3). **Levers:** the 0.4/0.4/0.2 quality
 weights, `QUALITY_TIERS` (5) + the `SKILL_REF`/`MAX_STATION_TIER` normalisers, the `1.25^tier` value step, the
-60 % disassembly return, the coin spread/prices and the coin-sink magnitudes. *(Crafting value-add is folded
-into the rising per-rung throughput, §4.7.1/§4.8.1.)*
+60 % disassembly return, the rice→coin sale price / per-purchase prices and the coin-sink magnitudes.
+*(Crafting value-add is folded into the rising per-rung throughput, §4.7.1/§4.8.1.)*
 
 ### §4.7.3 Loot tables (seeded)
 
@@ -1335,25 +1388,30 @@ the **shape/`PRODUCER_GROWTH` scaffold** is fixed here.
 ### §4.7.5 Building / upgrade costs — the kura-works purchase ladder (U1–U4)
 
 The estate advances through its narrative CONDITION stages (**E0 Foreclosure's Edge → E3 Prosperous** in v1;
-E4–E5 stay parked for later tiers) by buying discrete koku/material **kura-works** (U1–U4). Each kura-work
+E4–E5 stay parked for later tiers) by buying discrete **kura-works** (U1–U4) for **coin + materials** (the coin
+funded by selling rice, §4.7.1). Each kura-work
 gates on **Estate & Wealth (+ Arms for defensive works) + a LOW rank floor + cost** (§1.5.1 — never the
-capstone; §2.17). The top kura-work (**U4 → raise the long-house**) folds into the later G-rungs as a koku/Arms sink (no new rung; a deeper flywheel step that does not advance the E-condition):
+capstone; §2.17). The top kura-work (**U4 → raise the long-house**) folds into the later G-rungs as a coin/Arms sink (no new rung; a deeper flywheel step that does not advance the E-condition):
 
-| Kura-work → condition reached | Gate (pillar floor + rank) | koku cost | material cost |
+| Kura-work → condition reached | Gate (pillar floor + rank) | coin cost | material cost |
 |---|---|---|---|
 | — *(start: E0 Foreclosure's Edge)* | start | — | — |
-| **U1 → E1 Stabilising** (kura patched, first *shinden*, drill yard, night-watch) | Estate ≥ 0.3K, rank ≥ R4 | 400 koku | 30 wood |
-| **U2 → E2 Recovering** (granary, 2 workshops, low palisade, men-at-arms rota) | Estate ≥ 0.6K + Arms ≥ 0.3K, rank ≥ R6 | 2K koku | 120 wood, 40 stone |
-| **U3 → E3 Prosperous** (3rd workshop + full granary, closed perimeter, standing 4–5-man rota, *shinden* reclamation paying out) | **Estate ≥ 40K + Arms ≥ 15K, rank ≥ G4** | **40K koku** *(staged across the river-works)* | **800 wood, 400 stone** *(+ corvée labour)* |
+| **U1 → E1 Stabilising** (kura patched, first *shinden*, drill yard, night-watch) | Estate ≥ 0.3K, rank ≥ R4 | 400 coin | 30 wood |
+| **U2 → E2 Recovering** (granary, 2 workshops, low palisade, men-at-arms rota) | Estate ≥ 0.6K + Arms ≥ 0.3K, rank ≥ R6 | 2K coin | 120 wood, 40 stone |
+| **U3 → E3 Prosperous** (3rd workshop + full granary, closed perimeter, standing 4–5-man rota, *shinden* reclamation paying out) | **Estate ≥ 40K + Arms ≥ 15K, rank ≥ G4** | **40K coin** *(staged across the river-works)* | **800 wood, 400 stone** *(+ corvée labour)* |
 
-**Affordability tie-out (vs the §4.7.1/§4.8.1 throughput).** **U1's 400 koku** falls due around **R4**, by
-which point lifetime-produced koku ≈ **5.1K** — comfortably affordable while the held NET balance keeps
-climbing. **U2's 2K koku** falls due around **R6**, by which point lifetime-produced koku ≈ **13.3K**. After
-both T0 sinks (2.4K koku) plus tools/craft inputs, the T0→T1 gate holds **~18–19K NET** out of ~21K produced
-(§4.0). **U3's 40K koku** falls due at **G4** (the Kuzuhara river-works) — by which point T2 lifetime production
-is well into the **100K+** band (§4.0), so U3 is **paced to be reached, not trivially pre-bought**, and its
-**Estate ≥ 40K + Arms ≥ 15K floors sit BELOW the T2 good-bands** (Estate 60K / Arms 30K, §4.1) and its **rank
-floor G4 is far below the G7 capstone** — keeping building gated on standing, never the capstone (§1.5.1).
+*(The `Estate ≥` / `Arms ≥` gates are Influence-pillar ip floors, the `rank ≥` gates are rung rank — neither is
+koku standing, which is never a build gate; only the **coin cost** is a spendable price here.)*
+
+**Affordability tie-out (vs the §4.7.1/§4.8.1 throughput).** **U1's 400 coin** falls due around **R4**, by
+which point lifetime-produced rice ≈ **5.1K** — sold at the season price for ample coin, comfortably affordable
+while the held NET rice balance keeps climbing. **U2's 2K coin** falls due around **R6**, by which point
+lifetime-produced rice ≈ **13.3K**. After both T0 coin sinks (2.4K coin) plus tools/craft inputs, the T0→T1
+gate holds **~18–19K rice NET** out of ~21K produced (§4.0a). **U3's 40K coin** falls due at **G4** (the
+Kuzuhara river-works) — by which point T2 lifetime production is well into the **100K+** band (§4.0a), so U3 is
+**paced to be reached, not trivially pre-bought**, and its **Estate ≥ 40K + Arms ≥ 15K floors sit BELOW the T2
+good-bands** (Estate 60K / Arms 30K, §4.1) and its **rank floor G4 is far below the G7 capstone** — keeping
+building gated on standing, never the capstone (§1.5.1).
 **Levers:** every cost & pillar/rank floor above; the U3 staging (one lump vs the multi-stage *seki*).
 
 ---
@@ -1390,7 +1448,8 @@ Phase-1 climb + a ~+32 h Phase-2 pillar-grind floor** (§4.8.1b/§4.8.4).
 | Beat | Target | Lock status | How measured |
 |---|---|---|---|
 | **First action available** | **< 5 s** from load (rake spilled rice in the *kura*) | canon | time-to-first-interactable |
-| **First meaningful reveal** | **< 30 s** (rice counter ticks → the koku row lights its own panel, §3.1) | design intent | first `unlock` event |
+| **First meaningful reveal** | **< 30 s** (rice counter ticks → then the coin row lights its own panel, §3.1) | design intent | first `unlock` event |
+| **Standing (koku) first revealed** | at the **first seasonal appraisal** (the `seasonalJudge` reckoning), confirmed by the **"the assessors arrive"** beat at tier jumps (§4.0b/§4.2.2) | design intent | first `seasonalJudge` / assessors event |
 | **Per-rung minimum** | **≥ ~30 min per rung** *(a FLOOR — **binds from T1**; **T0 tutorial floor-exempt**, R0 cold-open exempt)* | **LOCKED — FLOOR (from T1)** | per-rung tick-count floor (undershoot fails) |
 | **Humbling first fight (R3, T0)** | **~60–75 min** in (start of R3), **win-rate 20–35 % at adequate satiety (≥~0.7)** | **LOCKED anchor** | tick-count to the wolf + win-rate proxy (§4.6.6/§4.6.7) |
 | **Win-rate bands** *(2nd fun-proxy)* | fresh-at-rung humbling (~20–45 %), comfortable after that rung's training/gear (~80 %+) — **at adequate satiety** | design intent (R3 anchor LOCKED) | the §4.6.7 win-rate-band harness |
@@ -1415,26 +1474,27 @@ This is the table the rest of §4 is tuned to satisfy. **It is the PHASE-1 rung 
 rung promotes on an **AND-gate** — its **per-rung-reset rung-meter ≥ threshold** (fed by that rung's **curated
 activities**, §4.1.1) **AND** its **story flags** (the UI reads "awaiting X" when one side lags) — **NOT** on
 accumulating pillar deeds (those are **Phase 2**, §4.8.1b). Each grind rung's expected wall-clock escalates
-toward the capstone, **summing to ≈4.5 h**. The **koku column is lifetime-produced** (the labour/economy
-currency, already NET, §4.7.1); the **meter threshold** is in rung activity-points (§4.1.1); "throughput" is the
-net koku-equiv/min from §4.7.1. *(The exact times, costs & thresholds are tunable; the ≥30-min floor — binding
+toward the capstone, **summing to ≈4.5 h**. The **rice column is lifetime-produced** (the labour RESOURCE,
+already NET, §4.7.1 — sold for coin to fund the sinks; rice is **not** a currency); the **meter threshold** is
+in rung activity-points (§4.1.1); "throughput" is the
+net rice/min from §4.7.1. *(The exact times, costs & thresholds are tunable; the ≥30-min floor — binding
 from T1, T0 exempt — and the per-tier hour FLOORS are locked.)*
 
-| Rung (what it gates — from §3) | Meter + story gate to LEAVE it (Phase 1) | Throughput | koku (rung) | ⏱ wall-clock |
+| Rung (what it gates — from §3) | Meter + story gate to LEAVE it (Phase 1) | Throughput | rice (rung) | ⏱ wall-clock |
 |---|---|---|---|---|
 | **R0 Stray** — cold open done; bare estate dashboard | *(story only — the cold open §3.1)*; meter n/a | n/a (tutorial) | ~0 | **~5 min** *(cold open)* |
-| **R1 Day-labourer** — paddies, basic labour loop, world-clock | **Estate Service ≥ ~18** (rake/recover rice · clear forecourt · first paddy turns) + Genemon assigns real work | ~25 koku/min | ~0.75K | **~30 min** |
-| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, near *satoyama* | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 koku/min | ~1.05K | **~30 min** |
-| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the **scripted** first wolf [a **guaranteed-survival** beat — win-or-soft-setback, the R3 story trigger] · drill reps · the **grindable** wolf/sparring + first pest skirmishes [where the **LOCKED 20–35 % win @ ≥0.7 satiety** is measured, §4.8.0/§4.6.7]) + drill-yard story | ~40 koku/min | ~1.2K | **~30 min** |
-| **R4 Trusted hand** — Main House, domestic economy, **first *shinden* (U1)**, **loot→craft loop + durability bands** | **Estate Service ≥ ~17** (indoor errands · first *shinden* labour · craft a first tool) + invited to the Main House; **build U1 (400 koku)** | ~60 koku/min | ~2.1K | **~35 min** |
-| **R5 Gate-guard** — Quest log + quest types; the **stance** slot | **Combat Rank ≥ ~17** (stand a watch · pest-control / hunt / clear sweeps) + posted to the gate | ~80 koku/min | ~3.2K | **~40 min** |
-| **R6 Foreman of works** — Workshops/Granary (U2), proto-industry, **village tier seed** | **Estate Service ≥ ~15** (drive workshop/granary works · proto-industry shifts) + works commissioned; **build U2 (2K koku)** | ~110 koku/min | ~4.95K | **~45 min** |
-| **R7 Bailiff** *(capstone → OPENS Phase 2)* — lord's study, four-bar Influence panel | **Estate Service ≥ ~14** (field-office duties · record the first reclamation) + the Lord's recognition — **the capstone OPENS the Phase-2 pillar grind (§4.8.1b)** | ~150 koku/min | ~8.25K | **~55 min** |
+| **R1 Day-labourer** — paddies, basic labour loop, world-clock | **Estate Service ≥ ~18** (rake/recover rice · clear forecourt · first paddy turns) + Genemon assigns real work | ~25 rice/min | ~0.75K | **~30 min** |
+| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, near *satoyama* | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 rice/min | ~1.05K | **~30 min** |
+| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the **scripted** first wolf [a **guaranteed-survival** beat — win-or-soft-setback, the R3 story trigger] · drill reps · the **grindable** wolf/sparring + first pest skirmishes [where the **LOCKED 20–35 % win @ ≥0.7 satiety** is measured, §4.8.0/§4.6.7]) + drill-yard story | ~40 rice/min | ~1.2K | **~30 min** |
+| **R4 Trusted hand** — Main House, domestic economy, **first *shinden* (U1)**, **loot→craft loop + durability bands** | **Estate Service ≥ ~17** (indoor errands · first *shinden* labour · craft a first tool) + invited to the Main House; **build U1 (400 coin)** | ~60 rice/min | ~2.1K | **~35 min** |
+| **R5 Gate-guard** — Quest log + quest types; the **stance** slot | **Combat Rank ≥ ~17** (stand a watch · pest-control / hunt / clear sweeps) + posted to the gate | ~80 rice/min | ~3.2K | **~40 min** |
+| **R6 Foreman of works** — Workshops/Granary (U2), proto-industry, **village tier seed** | **Estate Service ≥ ~15** (drive workshop/granary works · proto-industry shifts) + works commissioned; **build U2 (2K coin)** | ~110 rice/min | ~4.95K | **~45 min** |
+| **R7 Bailiff** *(capstone → OPENS Phase 2)* — lord's study, four-bar Influence panel | **Estate Service ≥ ~14** (field-office duties · record the first reclamation) + the Lord's recognition — **the capstone OPENS the Phase-2 pillar grind (§4.8.1b)** | ~150 rice/min | ~8.25K | **~55 min** |
 
 **Totals & checks (T0 Phase 1):** wall-clock **5 + 30 + 30 + 30 + 35 + 40 + 45 + 55 = 270 min = 4.5 h** ✔
-(escalating ✔; T0 is exempt from the ≥30-min gate, which binds from T1). Lifetime koku produced ≈ **0.75K +
-1.05K + 1.2K + 2.1K + 3.2K + 4.95K + 8.25K = 21.5K ≈ ~21K** ✔ (the **same round figure** as the §4.0 T0 band;
-clears U1@R4 and U2@R6 ✔; held ≈ **18–19K NET** at the gate after sinks). Consecutive within-rung *cost* ratios
+(escalating ✔; T0 is exempt from the ≥30-min gate, which binds from T1). Lifetime rice produced ≈ **0.75K +
+1.05K + 1.2K + 2.1K + 3.2K + 4.95K + 8.25K = 21.5K ≈ ~21K** ✔ (the **same round figure** as the §4.0a T0 band;
+its coin sales clear U1@R4 and U2@R6 ✔; held ≈ **18–19K rice NET** at the gate after sinks). Consecutive within-rung *cost* ratios
 stay ≤ ~2× (0.75K→1.05K→1.2K→2.1K…), honouring the ≤2–3× rule ✔. **No pillar deeds appear in this table** — the
 ~560 Estate / ~350 Arms deed-ip (§4.2.1) accrue **only in Phase 2** (§4.8.1b), which is what prevents the
 "half the rungs, maxed deeds" state.
@@ -1467,7 +1527,7 @@ band, the breadth floor every player reaches. **great/excellent** are reached by
 surplus into the chosen 1–2 pillars (each still per-event-capped at 0.04·good, many small acts, never spikes —
 §4.1/§4.2.1), which **extends Phase 2 beyond its floor**. **T2 layers in the cross-pillar combos** (multiple
 pillar pairs, post-trade-clamp, **excluded from the gate-check**; §4.3.1) as the anti-slump device and the **U3
-"Prosperous" kura-work** (40K koku + materials, §4.7.5) as a Phase-2 koku/Arms sink. **The whole tier = Phase-1
+"Prosperous" kura-work** (40K coin + materials, §4.7.5) as a Phase-2 coin/Arms sink. **The whole tier = Phase-1
 climb (≥ its per-tier FLOOR) + this Phase-2 grind**, so the realised tier always runs **above** its floor (the
 pacing regression fails on **undershoot only**, §4.8.4).
 
@@ -1475,7 +1535,7 @@ pacing regression fails on **undershoot only**, §4.8.4).
 
 The Village tier's Phase-1 (V0→V7) spends its **~8–10 h** floor on **wider** content (market, coin, component
 crafting, silk *meibutsu*, rumours board, valley-scale combat, the **3rd weapon line — Staff/polearm**) at
-**~60 min/season** wall-clock. Throughput rises ~10× over the prior tier (koku into the tens-of-thousands). Each
+**~60 min/season** wall-clock. Throughput rises ~10× over the prior tier (rice into the tens-of-thousands). Each
 rung gates on the **rung-meter + story** (not deeds); **Office is revealed** here and becomes a *required*
 Phase-2 gate (§4.1). The **first HUMAN threat** (bandits / *nobushi*) and the rival-house contest also begin
 here. Each grind rung ≥ ~40 min (the ≥30-min floor binds from T1); capstone longest.
@@ -1514,7 +1574,7 @@ lands **U3 "Prosperous"** (§4.7.5).
 | **G1 Road-captain** — *sekisho* layer; region-scale combat (rōnin/bandits); **combat DEPTH on the completed roster (no new line — the roster completed at the Village tier)** | **Combat Rank ≥ thr** (secure cluster roads — curated combat) + first pass obtained | **~110 min** |
 | **G2 Broker of the post-town** *(Origin OPENS)* — Sawatari-juku, *toiya* | Estate Service ≥ thr + **STORY (dream) AND travel-standing** (the doubly-earned Origin gate, §3.6.2) | **~120 min** |
 | **G3 Arbiter between valleys** — Hibara + Tōge-mura (capped at 2) | Estate Service ≥ thr + out-supply/arbitrate story | **~130 min** |
-| **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | Estate Service ≥ thr **+ STORY** (commit the multi-stage *seki*) — **lands the U3 "Prosperous" kura-work** (40K koku sink, §4.7.5) | **~140 min** |
+| **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | Estate Service ≥ thr **+ STORY** (commit the multi-stage *seki*) — **lands the U3 "Prosperous" kura-work** (40K coin sink, §4.7.5) | **~140 min** |
 | **G5 Captain of the road-detail** — brigand roost; **Hanzaki survived**; **Naoyuki ally-flip** | **Combat Rank ≥ thr** (secure the trade pass — curated combat) + the roost broken | **~140 min** |
 | **G6 Alliance-broker** *(Otsuru/Tama TRUTH — spine-guaranteed)* — Tahei-name-reclaim is **Origin-O5 missable** (§3.6.2) | Estate Service ≥ thr + STORY (alliance) | **~120 min** |
 | **G7 Leading house of the region** *(capstone → OPENS Phase 2)* — rivals eclipsed | Estate Service ≥ thr + the Lord names the house first of the region — **opens the Region Phase-2 grind to the v1 end-gate (§4.8.1b)** | **~125 min** |
@@ -1610,7 +1670,7 @@ hour budget **as FLOORS** (**T0 floor-exempt** · the ≥30-min floor + the per-
 **T1 ~5–8 h · T2 ~8–10 h · T3 ~16 h** · **v1 ≥ 28.5 h Phase-1 climb** / v1 ≥ ~60 h TOTAL incl. ~+32 h Phase-2;
 runs longer) · the **≥30-min per-rung FLOOR (from T1)** · **first-fight win-rate 20–35 % at adequate satiety
 (≥~0.7)** *(a SINGLE fight; holds under HP-carry)* · **soft-setback severity shape** (1 HP + ~½-day + light
-injury + **a real bite of carried wealth** — ~20 % koku + ~⅓ materials, banked wealth in the kura is safe;
+injury + **a real bite of carried wealth** — ~20 % coin + ~⅓ materials/rice, banked wealth in the kura is safe;
 never levels/gear/Influence) · **deeds-dominate accrual split (~70 % deeds / ~30 % seasonal)** · **deed-jump
 size small (a per-event cap well under 0.08)** · **no respec in v1** · the **HYBRID good/great/excellent
 tier-gate** (breadth floor + no overflow) · the **THREE clean combat tracks** (character level / Arms pillar /

@@ -100,6 +100,11 @@ its claim with `~~strikethrough~~`, and add a new ADR with the new call. History
 > 🔁 **Amended 2026-06-28 by [D-048] (+ D-028/D-049).** The per-tier *required-pillar-weighting* prose is
 > superseded by **one pillar per tier** (Estate→Arms→Office→Name) + the hybrid grade-gate. The four-pillar
 > resource, jump+seasonal accrual, and the trade ≤⅓ cap are unchanged.
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** "House Influence (家威)" is now re-expressed as the
+> **koku STANDING** score (a kokudaka-like prestige score, never spent — NOT a currency); the
+> **trade ≤⅓** clause survives as a **COIN**-lane cap (the Estate & Wealth land/treasury/trade
+> sub-engines yield RICE + COIN, not koku). The four-pillar achievement structure holds.
 - **created_date:** 2026-06-25
 - **Context:** Need a faction structure and a macro-resource that drives tier progression without letting any single sub-engine (especially trade) dominate.
 - **Options:** Influence as one pooled number · trade-led economy · **multi-pillar achievement resource**; factions as one estate org vs. several parallel tracks.
@@ -427,6 +432,11 @@ the §4 balance magnitudes stay liquid (re-derive at Ship-M1-F2, D-059).
 - **Consequences:** `combat.ts` must read **carried** HP (not reset to `hpMax`); the auto-loop rests/eats to recover; satiety becomes combat-relevant. Replace the v0.2 test that **enshrined** stance dominance with a **"no stance strictly dominated"** curve invariant; surface the wear/retention tradeoff in **pixels** (touch-legible, not hover-only). Pairs with **D-035** (satiety throttles combat). prd.md **§4.6**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-051 ✅ — Koku gets a compounding sink: the estate-upgrade flywheel
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** koku is no longer the spendable currency — it is the
+> House STANDING (never spent). The reinvestment flywheel is now **RICE→COIN** (labour yields
+> rice + a little coin; estate upgrades are bought with **COIN**). The compounding-sink mechanic
+> holds; only the noun changes (koku → coin).
 - **created_date:** 2026-06-28
 - **Context:** v0.1/v0.2 audits: **koku** is the headline currency but had **no sink** (v0.1) / only a **finite, power-neutral estate** (v0.2), so the reinvestment loop self-saturates — the ×3 yield multiplier accelerates a currency with nowhere compounding to go.
 - **Options:** (A) **compounding estate upgrades** · (B) a market (buy/sell gear+goods) · (C) koku **is** the pillar currency (spend koku → raise pillars directly).
@@ -574,6 +584,11 @@ design ADR.
 - **Consequences:** **REFINES D-052** (T0 "room-grouped areas" → a small walkable map; annotated there). More build cost — sequence so it doesn't crowd out spine-first (the roadmap plan's build order, **D-060**). prd.md **§5 (T0 areas) / §1.7**. **PRD/docs/code application PENDING.** Per **D-022**, governs.
 
 ### D-066 ✅ — Koku flywheel is LINEAR in T0, branches into LAND/TREASURY/TRADE sub-engines at T1 (refines D-051/D-033)
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** The "koku flywheel" is now the **RICE→COIN** flywheel
+> (labour yields rice + a little coin; upgrades cost **COIN**). The LINEAR-T0 →
+> LAND/TREASURY/TRADE-at-T1 branching and the trade ≤⅓ cap are unchanged; koku becomes the House
+> STANDING, never spent.
 - **created_date:** 2026-06-29
 - **Context:** **D-051** made koku a compounding estate-upgrade flywheel feeding the Estate pillar's LAND/TREASURY sub-engines. *When* the depth arrives was open: T0 is a tutorial (D-052 showcase-in-miniature).
 - **Options:** (A) full LAND/TREASURY/TRADE depth from T0 · (B) **a small LINEAR estate-upgrade taste in T0; branch into the LAND/TREASURY/TRADE sub-engines at T1**.
@@ -676,6 +691,11 @@ design ADR.
 - **Consequences:** Rework `fight.ts` (ensure the attrition model is legible) + the `main.ts` auto-loop (drop auto-heal; stop autopilot on a loss). Re-bless playcheck/pacing if the win-curve shifts. Per **D-022**, governs.
 
 ### D-077 ✅ — Standing/pillars are DEED-based (never wealth); koku is a tight, sink-heavy economy (R4#6)
+
+> 🔁 **Split / re-scoped 2026-07-02 by [D-107].** The **deed-based-standing** clause becomes the
+> **koku law** (standing = the koku prestige score, earned by DEEDS, never by wealth). The
+> **tight, sink-heavy economy** clause re-labels **koku → COIN** (COIN is the deliberately scarce
+> currency — not rich until T5). RICE is now its own resource; koku standing is immune to wealth.
 - **created_date:** 2026-06-30
 - **Context:** v0.3's estate deed is a flat per-act value (good) but koku has too few sinks (~1378 lifetime) and surplus materials pile up; the battery asked whether to couple wealth→standing. The human said NO.
 - **Decision:** **Standing and the House-Influence pillars stay purely DEED-based** (earned by actions) — **never** coupled to koku/wealth. Separately, **koku is a deliberately tight economy: always more sink opportunity than income**, so the player is **not rich until T5**. (This reframes "koku runs dry / surplus materials" as INTENDED — add more sinks so koku is always worth spending.)
@@ -779,6 +799,11 @@ design ADR.
 > The human turned the v0.3.1 priming into a design session (two `AskUserQuestion` batches; capture: [`../../project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../../project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md)). These two formalize the genuinely-new combat-feel decisions, built + shipped in v0.3.1 Step 3. They **refine D-076**.
 
 ### D-090 ✅ — A lost fight bites CARRIED wealth; the kura storehouse shelters BANKED (refines D-076)
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** The loss-bite is now a bite of **CARRIED COIN**
+> (+ carried materials); **koku STANDING is immune to combat loss** (the House's assessed prestige
+> is never spent or dropped in a fight). The kura shelters **banked COIN + RICE**. The
+> carried-vs-banked split holds.
 - **created_date:** 2026-07-01
 - **Context:** D-076 made the fight HP-attrition with no auto-heal and "0 HP = loss stops autopilot," but left the loss COST as the old §4.6.6 "possible carried-loot drop." The human (batch-2) wanted the loss to actually bite (D-086 tension) — and, catching the agent's own word "unbanked," demanded a bank so the bite has a shelter to play against.
 - **Decision:** A lost fight **drops a real bite of CARRIED wealth** — `LOSS_KOKU_FRAC` (~20%, "real bite") of carried koku + `LOSS_MATERIAL_FRAC` (~⅓, floored) of carried materials — and the **autopilot STOPS** (no auto-resume; you mend by hand + re-engage). Wealth splits **carried** (`state.resources`, at risk) vs **banked** (`state.banked`, the kura storehouse, SAFE); deposit/withdraw move between them, spending/earning use carried. **Step 5 gates deposit to the kura node** (return home to bank → fighting far with a full purse is the gamble). Still never a level/gear/Influence loss. The combat log is **summarised** (one outcome line per fight). Magnitudes liquid (D-059).
@@ -795,6 +820,11 @@ design ADR.
 ## D-092 — 2026-07-01 v0.3.1 koku economy tightening (batch-1 priming, human-steered)
 
 ### D-092 ✅ — Tighten the T0 koku economy: more sinks + a SOFT repair-fee (instance of D-086)
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** The tightened economy is the **COIN** economy (base
+> unit *mon*) — the soft repair-fee, the estate-upgrade sink, and market depth are all priced in
+> **COIN**, within the trade ≤⅓ cap. koku is now the House STANDING, not the currency being
+> tightened; RICE is a separate resource.
 - **created_date:** 2026-07-01
 - **Context:** D-086 (tension > generosity) + the human's batch-1 call 4 wanted koku to feel scarce (more sinks than income; rich only at T5). The v0.3 T0 economy pooled koku — the estate + a tiny capped market were the only sinks. A first attempt at a HARD koku cost on repair softlocked an unlucky fresh L1 in the m2 no-stranding test (no early koku → can't repair → stranded), which D-061/D-086 forbid (tension must never push the player *out*).
 - **Decision:** Tighten T0 koku with sinks across all three directions the human named: **(1)** repair charges a koku FEE (`REPAIR_KOKU_COST`) on top of wood — but a **SOFT** fee, **waived when you can't pay** (repair stays wood-gated; the koku bites only when you have it, so it can never softlock); **(2)** a **4th estate stage E4** (a deeper flywheel koku sink); **(3)** **market depth** (pricier capped goods), held inside the D-008 minority-lane cap (total market spend ≤ ⅓ of the estate sink — a RED-able invariant). All magnitudes liquid (D-059). **Deferred:** the 2nd craft recipe / material-surplus sink (battery #15) → Step 7; the §4 6-tier balance re-derivation → the final PRD-consistency pass (a finding: §4 is T1+ *pillar/tier* balance, not the T0 koku-sink *content* constants — a looser coupling than the plan assumed).
@@ -804,6 +834,11 @@ design ADR.
 ## D-093 — 2026-07-01 v0.3.1 the T0 spatial-map model (batch-2 priming, human-steered)
 
 ### D-093 ✅ — T0 activities, foes & banking are SPATIAL: every activity is on one map node, there is no default node, and the map gates a load-bearing yield
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** The spatial map spine is unchanged; the resource nouns
+> update — the load-bearing deep-satoyama node's "+koku" yield becomes a richer **COIN** (+ forage)
+> yield, labour income is **RICE + a little COIN**, and kura banking shelters **COIN + RICE**.
+> koku is the House STANDING, never a node/labour tick.
 - **created_date:** 2026-07-01
 - **Context:** T0 shipped a "small walkable estate map" (§1 vision, LOCKED) — but through v0.3 it was **cosmetic**: every labour, every foe, and the storehouse were reachable from any node, so walking gated nothing (battery **#13** — "the map gates nothing"). The human's batch-2 priming call made the map the **spatial spine**: "spread all the activities to only belong to one map node, and no default map node… combat happens on a map node… richer resource yields on different map nodes… the storehouse (bank) is at the kura."
 - **Decision:** In T0, the map is **load-bearing** — every doable thing is **bound to a node**, and you **walk there to do it**:
@@ -854,6 +889,10 @@ design ADR.
 ## D-098 — 2026-07-01 estate stages: rename the built koku PURCHASE ladder to a non-colliding namespace (closes H13)
 
 ### D-098 ✅ — Two distinct estate axes: keep the E0–E5 narrative CONDITION ladder; rename the built koku PURCHASE steps to `U1–U4` "kura-works"
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** The `U1–U4` "kura-works" are bought with **COIN** (not
+> koku). The two-distinct-axes fix (narrative E0–E5 condition vs the U1–U4 purchase ladder) holds;
+> only the purchase currency changes koku → coin. koku is now the House STANDING.
 - **created_date:** 2026-07-01
 - **Context:** Two different-axis schemes collided on the `E<n>` label (H13): the diegetic **condition** ladder (E0 Foreclosure's Edge → E3 Prosperous, E4–E5 parked for T4+ — the narrative *state* of the house) vs the built T0 **koku purchase** ladder (E1 patch-kura / E2 clear-drill-yard / E3 reclaim-shinden / E4 raise-long-house — the flywheel upgrades you *buy*). A code-E4 "Risen" sat in T0 while narrative-E4 "Fortified Seat" was parked for T4+; the code even reused condition labels as purchase-step names.
 - **Decision (human, 2026-07-01):** Keep the two as **distinct axes**. The **narrative CONDITION stages stay `E0–E5`** (canon, D-033). The **built koku PURCHASE steps are renamed to a non-colliding namespace — `U1–U4` ("kura-works" / estate upgrades)**. Do NOT fold them together or renumber the narrative ladder.
@@ -863,6 +902,11 @@ design ADR.
 ## D-099 — 2026-07-01 player finances vs estate finances are separate lanes; T0 provisioning shop is a koku SINK (closes H14)
 
 ### D-099 ✅ — Player and estate finances are SEPARATE lanes; T0 ships a buy-only provisioning shop (personal koku sink); the T2 TRADE engine trades on the estate's behalf
+
+> 🔁 **Re-scoped 2026-07-02 by [D-107].** The provisioning shop is a personal **COIN** sink (not
+> koku); the player-vs-estate finance split is a **COIN** split (personal coin vs the estate's
+> coin + rice). The TRADE engine (T2, sells rice/goods for **COIN**) is unchanged. koku is the
+> House STANDING, never spent.
 - **created_date:** 2026-07-01
 - **Context:** The build ships a small 6-item buy-only, capped koku-SINK provisioning shop in T0; the PRD said "no market in T0" ×6 (TRADE — selling for coin/profit — locks to T2, D-066), yet the human named "market depth" as a T0 koku sink (D-092) — an apparent contradiction (H14).
 - **Decision (human, 2026-07-01):** They are two different things, both canon. **(1) VENDORS/SHOPS** where the **player** buys goods for his **character** are a **personal koku SINK** — legitimate from **T0** (the built provisioning shop). **(2) The TRADE ENGINE** (trade work on the **estate's** behalf, for profit) opens at **T2** and is about the **estate**. **(3) PLAYER finances and ESTATE finances are SEPARATE lanes** — the player's personal koku (character purchases) is distinct from the estate's koku/wealth (the estate economy + trade engine).
@@ -918,6 +962,11 @@ design ADR.
 ## D-105 — 2026-07-02 the game's setting is anchored to the year 1780 (An'ei 9, on the cusp of Tenmei)
 
 ### D-105 ✅ — Anchor the setting to 1780; anchor the YEAR (real calendar time), keep GEOGRAPHY & POLITICS fictional
+
+> 🔁 **Economy gloss re-scoped 2026-07-02 by [D-107].** The "koku/mon coin economy" phrasing is
+> re-scoped: **COIN** (base unit *mon*) is the currency, **RICE** is the sold resource (the Dōjima
+> rice market / fudasashi brokers price it, season-swinging), and **koku** is the House's assessed
+> STANDING — not a coin. The 1780 anchor + the real-year / fictional-place split are unchanged.
 - **created_date:** 2026-07-02
 - **Context:** The setting was pinned only by *era*, not by *year* — §1.3 said "mid-Edo, stable and commercial, ~18th century, kept **fictional**", and `ui-design.md` targets a "mid-Edo woodblock" art register, but no doc stated a specific historical year as a *setting fact*. The human asked to anchor it. A year-anchor sharpens texture (calendar, era-feel, festival naming) and disciplines anachronism checks, but it grazes the standing **fiction rule** (no real place / daimyō names — D-018/§6.6 denylist) and the cozy-restoration **tone** (an anchored year drags in real history, incl. the Tenmei famine of 1782–88).
 - **Options:** (A) leave it era-only ("~18th century") · (B) anchor a specific year · (C) anchor a year AND surface a real *nengō* era-year in-game.
@@ -934,3 +983,31 @@ design ADR.
 - **Decision (human, 2026-07-02):** The human **does NOT want the centered ~1200px paper column** — *"now's the time to try options, explore broadly"* — and OK'd going **beyond 2–3 variants, up to a matrix (3×3×3 = 9+ combos)** built as **INDEPENDENT VARIANT AXES** (e.g. *arrangement × framing × log-placement*, the three named takes 屏風 / 番付 / 巻物 surviving as axis anchors). So the workspace is **no longer bound to the centered column**: it **may span the full viewport width** as an idle-RPG **multi-panel dashboard**, reveal-gated and sparse (panels ink in only as their surface unlocks, §6.1 — the early game stays a single calm column). This **SUPERSEDES the §4.7 "centered ~1200px paper column" rule** (which itself refined the **F4** centered-column intent). The **prod default remains the classic 2-column** (work-left / log-right) until the human locks a matrix variant live; the axes ship **DEV-only** behind the variant toggle (D-075, zero PROD flag-debt).
 - **Why:** The reference idlers earn their density by spreading information across many panels, not by cramming two columns — and the human explicitly wants to *see* the options in the running UI, which the axis-matrix delivers cheaply (≈9 implementations → many live combos). Keeping the prod default at the safe 2-column while the matrix auditions behind the toggle honours **R6** (a player still reaches a coherent layout) and D-075 (self-pick a default, never block; the human overrides live). Gating the density to reveal-based progression preserves the "UI as progression" signature (§1) — the dashboard grows *with* the house, never a slam of empty panels.
 - **Consequences:** DOC: `ui-design.md` §4.7 gains the full-width multi-panel matrix note + the explicit supersession of its own centered-column rule (§4.8 density unchanged; the log stays one first-class slice, F9/§5.1, untouched). BUILD: the axes are DEV-only variant surfaces (D-075), an **R-item per axis/combo** in [`review.md`](../../project/human-in-the-loop/review.md); prod ships only the 2-column default until the human locks a matrix. Composes with **D-018** (woodblock/ink — the panels stay paper `.frame`s, no slop), **D-055** (reveal-gating — panels appear as their surface unlocks), and **D-104** (the VN scene still hides the whole shell regardless of workspace arrangement). This is a human steer that refines locked layout intent, so **per D-022, governs** (the newer call supersedes the older §4.7 rule; `created_date` disambiguates).
+
+## D-107…D-109 — 2026-07-02 the economy re-core: RICE / COIN / KOKU split (human-steered)
+
+> The locked new economy model splits the flattened single-"koku" economy into three distinct
+> nouns — **RICE** (a real resource), **COIN** (the sole spendable currency, base unit *mon* 文),
+> and **KOKU** (the House's assessed STANDING). Source: the 2026-07-02 economy research
+> brainstorm. These re-scope the koku-as-currency ADRs (**D-008, D-051, D-066, D-077, D-090,
+> D-092, D-093, D-098, D-099**) + the **D-105** economy gloss (each annotated inline). Per
+> **D-022**, this newest human steer governs.
+
+### D-107 ✅ — koku is the House STANDING, not a currency (economy re-core)
+- **created_date:** 2026-07-02
+- **Context:** koku was specced/implemented as the spendable base currency (labour yields koku; estate/market/repair priced in koku; a lost fight bites carried koku) and even conflated with rice ("rice counter (koku)"). Historically koku was never a spendable coin — it was a rice-volume / assessment / status unit (see the 2026-07-02 economy research brainstorm). That flattened the setting and inverted koku's meaning.
+- **Decision:** Split the economy into three nouns — **RICE** (a real resource: labour-earned; you EAT it for satiety, STORE it in the kura, or SELL it for coin at a price that SWINGS BY SEASON — NOT a synonym for koku), **COIN** (base unit *mon* 文; the sole spendable currency; all costs — market/estate/repair — + the loss-bite are coin; the kura shelters coin + rice), and **KOKU** (the House's assessed STANDING — re-expresses "House Influence" as a kokudaka-like prestige SCORE; NEVER spent; NOT an income multiplier; gates ascension/unlocks; re-assessed seasonally (`seasonalJudge`) + a big "the assessors arrive" event at tier jumps). Supersedes / re-scopes **D-051, D-066, D-077** (split — keep its deed-based-standing clause as the koku law, re-label its tight-economy clause to COIN), **D-090, D-092, D-093, D-098, D-099, D-008** (survives as a coin-lane cap); re-scopes **D-105**'s economy gloss.
+- **Why:** Restores koku's real meaning as standing; makes the rice→coin→credit friction the gameplay; keeps the House's rising koku as the prestige spine. Magnitudes liquid (**D-059**).
+- **Consequences:** Ripple in flight across the PRD economy sections + the living docs (this batch); each koku-as-currency ADR carries an inline re-scope note. Recorded with **D-108** (coin denominations) + **D-109** (tier→koku ladder + office track + T4 stipend). Per **D-022**, governs.
+
+### D-108 ✅ — the tiered coin denomination display
+- **created_date:** 2026-07-02
+- **Decision:** COIN is ONE underlying value (base unit *mon*), displayed in fixed mixed denominations **mon → monme → ryō**. Fixed rate for the whole game: **1 ryō = 50 monme = 4,000 mon** (1 monme = 80 mon) — matches the Bank of Japan primary source and the human's worked example. Higher denominations reveal **INCREMENTALLY** as wealth grows (mon at T0–T1; monme mid-game; ryō at T4–T5). No moneychanger, no floating forex (the historical float is abstracted).
+- **Why:** Legible Edo-flavoured big-number formatting; the denomination itself signals the player's rise.
+- **Consequences:** The coin formatter renders one underlying `mon` value in the mixed denominations, revealing monme then ryō as wealth grows. Composes with **D-107** (COIN is the sole spendable currency). Per **D-022**, governs.
+
+### D-109 ✅ — the tier→koku ladder + the endgame axes
+- **created_date:** 2026-07-02
+- **Decision:** The House's koku standing scales by tier — **T0 tens → T1 ~100–1,000 → T2 ~1,000–5,000 → T3 ~5,000–10,000 → T4 = 10,000 (the daimyō threshold) to ~100,000 → T5 ~100,000–1,000,000+** (Kaga ≈ 1,025,000 = the ceiling). Bands **PROVISIONAL / liquid** (**D-059**), tuned by the pacing sim. A **PERSONAL koku stipend appears only from T4+** (koku is House-only before). At **T5** a **FULL PARALLEL Office / court-rank / favour track** gates the top ranks (koku = scale, office = access) — anchored by Tanuma Okitsugu (ashigaru son → 57,000-koku daimyō + rōjū) and the fudai/tozama office-gate. Rank milestones grant **VISIBLE STATUS TOKENS** (surname → the two swords → gōshi rank). Standing is re-assessed seasonally + the "assessors arrive" event at tier jumps.
+- **Why:** A concrete kokudaka-like ladder reads as real Edo standing (not an abstract score), and splitting the endgame into two legible axes — koku = *scale*, office = *access* — keeps the T5 court game about more than a bigger number.
+- **Consequences:** The tier→koku bands + the T4 personal stipend + the T5 office/court-rank track + the status-token milestones ripple into the PRD spine sections (this batch). Composes with **D-107** (koku = standing) + **D-010** (the indirect Edo ceiling). Magnitudes liquid (**D-059**). Per **D-022**, governs.

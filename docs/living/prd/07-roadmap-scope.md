@@ -18,8 +18,10 @@ There is **no people-management sim** (building / recruiting are flavour wired t
 reveal bus, §1.5.1). **Combat is first-class and EARLY**, revealed incrementally,
 and feeds **THREE clean tracks** — the character (combat) level, the Arms pillar,
 and the Combat Rank rung-meter (§1.6.4, §2.8, §4.6). The world is **grounded — no
-magic** (§1.2 pillar 7); numbers display in **K/M/B** with **macron** romanization
-(§6.6, §6.9); there is **no reset, ever** (§1.2 pillar 1). The pacing shape — the
+magic** (§1.2 pillar 7); **koku standing & counts** display in **K/M/B**, while
+**coin** displays in fixed mixed denominations **mon → monme → ryō** (revealed
+incrementally as wealth grows — a **fixed rate, no forex**), all with **macron**
+romanization (§6.6, §6.9); there is **no reset, ever** (§1.2 pillar 1). The pacing shape — the
 ≈ 28.5 h saga across the four v1 tiers, **T0 floor-exempt** with the **≥ 30-min-
 per-rung floor binding from T1** — is a **FLOOR / minimum, not a ceiling**: the game
 can and should run **longer** (a long, OSRS-rough grind), and the pacing regression
@@ -72,7 +74,7 @@ roadmap only** (sketched in §3.7.2, not built).
 | **Skills (LOCKED v1 set)** | **farming · foraging · woodcutting · fishing · smithing · cooking** + **conditioning** + the **incremental weapon roster** (below). Each skill (labour included) carries a bounded **per-skill PERKS** track — ~2–8 small, stackable labour→combat bonuses, no global cap, each small-magnitude; **conditioning stays the ZERO-stat enablement gate**, orthogonal to and never bypassed by the perks. (Fishing surfaces at T2 — the Village.) | §1.5.1, §2.7/§2.7.1, §4.5/§4.5.4 |
 | **Combat** | an **idle/auto-resolve auto-battler** (active-only; tab-open auto-resolve + auto-repeat) revealed **INCREMENTALLY** on the **combat-reveal ladder** (R3 starter weapon + auto-resolve loop + retreat → R4 graded durability bands → R5 stance → first weapon-line L10 ability/item slots → 2nd combat line at T1 → 3rd at T2; one reveal per beat); **satiety-throttled**; **graded 4-band durability** (never auto-unequipped); feeding **THREE clean separately-stored tracks** — kills/combat-XP → the **character (combat) level**, recognised deeds → the **Arms pillar** (Phase-2-gated), per-rung curated activities → the **Combat Rank rung-meter** | §1.6.4, §2.8/§2.8.1/§2.8.2, §4.6 |
 | **Weapon roster (incremental)** | a **growing ~9–10-weapon roster** across **3 archetype lines** (spear T0 · sword T1 · the **Staff/polearm line at T2 Village**) — **T0 starts with the carrying-pole and unlocks +2 across the tier** (at least one of the two craftable); **+3 at T1**, **+4 at T2** → **roster complete by end-of-T2**; **T3 Region adds combat DEPTH, no new line** (each weapon an **archetype** — per-weapon `baseSpeed` / `reach` / `targetCount` / `attackProfile` — **+ a signature ability**; FOUND and CRAFTED, never gifted) | §2.8.2, §2.10.1, §4.6.9 |
-| **Estate stages** | **E0 → E1 → E2 → E3** (Foreclosure's Edge → Stabilising → Recovering → **Prosperous**) — the narrative CONDITION ladder; E3 authored in v1 (folded into the G-tier koku/Arms spend, §4.7.5); **E4–E5 parked** | §1.5.1, §4.7.5 |
+| **Estate stages** | **E0 → E1 → E2 → E3** (Foreclosure's Edge → Stabilising → Recovering → **Prosperous**) — the narrative CONDITION ladder; E3 authored in v1 (folded into the G-tier coin/Arms spend, §4.7.5); **E4–E5 parked** | §1.5.1, §4.7.5 |
 | **House Influence** | the **four pillars** (Arms / Estate & Wealth [trade ≤⅓] / Standing & Office / Name & Honour), the four-bar panel revealing **bar-by-bar** as each pillar first scores; achievement-jump (**≈70%**) + seasonal-judged-on-high-water-mark (**≈30%**) accrual, **pillar DEEDS gated to PHASE 2**; the tier-gate is the **scaled grade-gate** (`1 EXCELLENT + 1 GREAT + (N−2) GOOD` for N *revealed* pillars, all ≥ GOOD; **NO overflow**; **T0 collapses to a single EXCELLENT** — T0 is a **1-pillar** tier, Estate only) — a **per-pillar-per-tier overhaul**, not simple ratios | §1.6, §2.16, §4.1–§4.2 |
 | **Crafting** | **hybrid**: simple recipes from T0-R4; the component/quality system from T2-V3 (the Village). **Crafting and Quests surface as their OWN top-level nav tabs**, not nested panels | §4.7.2, §2.11/§2.12, §3.4 |
 | **Save** | **MULTI-BACKEND redundant atomic save** — IndexedDB + localStorage + sessionStorage, written to all available backends per autosave; an **app-identity magic field** (`app:'kami-kakushi'`, reject-to-recovery on mismatch); a **monotonic save-counter newest-wins selector** (the save-layer **timestamp is only the tiebreaker** — a documented core-lint exemption, metadata not game logic); an **additive backwards-compatible schema** (never remove/repurpose a field) + ordered migrations + raw backup; **base64 export/import** retained as the portable backstop | §2.19/§2.19.1, §6.8/§6.8.1/§6.8.2 |
@@ -217,7 +219,8 @@ locked scope & shape; the roadmap wins on sequence.**
 - **The `npm run verify` release gate.** The **same** one-command gate that guards
   every commit (§6.1) is the release gate: `tsc --noEmit && eslint . &&
   prettier --check . && vitest run && verify-content && gen:docs --check` — i.e.
-  **typecheck + unit tests + the content-verifier (incl. the K/M/B + macron + the
+  **typecheck + unit tests + the content-verifier (incl. the number-format checks —
+  K/M/B for koku standing + the mon/monme/ryō coin denominations — plus macron + the
   canon-invariant machine checks) + lints**, **plus the §4.8 headless pacing
   regression, the fun-proxy gate, AND the build-failing perf gate**. A release
   artifact is **only ever cut from a verify-green commit**; `verify` is run

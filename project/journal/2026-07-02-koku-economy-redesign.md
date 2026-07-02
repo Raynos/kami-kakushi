@@ -25,10 +25,23 @@ blast radius and wrote two implementation plans. **No game code changed.**
   (git-ignored).
 
 ## Next intended steps
-1. **Execute Plan A** (this session, next): write ADRs D-107/108/109 + supersede the
-   10 affected ADRs; ripple the 13 living docs; refresh project-status.
+1. ~~Execute Plan A~~ **DONE** (see Update below).
 2. Then Plan B (koku→coin build) unblocks — for another agent, coordinate on
    `render.ts`.
+
+## Update — Plan A executed (doc ripple landed)
+- Human locked: three ADRs (not one), "coin" as the prose noun, all else agreed.
+- Ran the `koku-ripple-execute` workflow — 12 edit-agents, one per living doc,
+  0 errors. Authored ADRs **D-107** (RICE/COIN/KOKU split), **D-108** (coin
+  denominations), **D-109** (tier→koku ladder + office track); supersede-annotated
+  the 10 affected ADRs (append-only, originals preserved).
+- **Verified** (grep): no residual old-model phrasing (koku flywheel / carried koku
+  / +N koku / koku heartbeat) in the ripple docs; ADR defs + 10 supersede notes
+  present. 12 docs, +532/−290.
+- **Deferred:** `project/status/project-status.md` snapshot NOT rewritten — it
+  reflects the CURRENT BUILT game (koku still the code currency); the coin/rice
+  wording lands when **Plan B** migrates the code. Shared-tree: it's the other
+  agent's live snapshot.
 
 ## Landmines
 - **Shared tree:** another agent is live in `src/ui/render.ts` + `styles.css` +

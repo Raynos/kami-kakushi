@@ -134,7 +134,7 @@ for itch.io.
 fantasy** — **set in 1780** (*An'ei* 9, 安永9年), mid-Edo, stable and commercial, kept **fictional**. The
 anchor is **real YEAR, fictional GEOGRAPHY & POLITICS**: every place and house is invented (no real place or
 daimyō names — D-018), and "the shōgun" is only ever an **unnamed office**, never the historical Tokugawa. The
-era's real commercial texture is *ambient flavour*, never named politics. The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a *koku*/rice
+era's real commercial texture is *ambient flavour*, never named politics. The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a rice-and-coin
 base economy — numbers-go-up as honest sweat — with combat as a dangerous, earned second pillar. Beneath the
 warmth runs a quiet grim undercurrent: a house broken by an ancestor's failed venture, a village grieving a
 child it nearly sold, **a family a valley away who grieved the protagonist himself as dead** (his is a quiet
@@ -258,7 +258,7 @@ late-game convenience only (§1.12).
 | Rank | Track | How earned | Unlocks |
 |---|---|---|---|
 | **R0 — Stray / "another mouth"** | labour | Found half-drowned and taken in; survive convalescence and the first labour. *(Met at the open.)* | The *kura* storehouse (one room, one verb); the body/rest bar and rice counter; the bare diegetic estate dashboard. |
-| **R1 — Day-labourer (*hiyatoi*)** | labour | Chief Steward **Genemon** ("another mouth, soft and clumsy") assigns the first real work; complete it, earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the *koku* heartbeat); the basic labour loop. |
+| **R1 — Day-labourer (*hiyatoi*)** | labour | Chief Steward **Genemon** ("another mouth, soft and clumsy") assigns the first real work; complete it, earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the **rice heartbeat** — labour yields **rice + a little coin**, both live from T0; rice you then **eat** (satiety), **store** in the *kura*, or **sell** for coin at a season-swinging price); the basic labour loop. |
 | **R2 — Bonded hand (*genin*)** | labour | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the **Skills tab**; the near-satoyama (conditioning-gated). |
 | **R3 — Yard-hand under arms (*buke-hōkōnin*)** | **combat (entry)** | A wolf at the grain store forces the **humbling, near-fatal first fight** early; **survive it**, then beg **Kihei** for drills. The deliberately-incompetent floor of the combat track — surfaced inside T0, not mid-ladder. | The drill yard; the **Combat panel** + idle-combat/training; the **carrying-pole** + **Equipment & Inventory**; the **Bestiary**; the **bare auto-resolve loop + retreat** (character (combat) **level** begins, fed by combat-XP). Combat stats start near-zero. |
 | **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun; the **simple Crafting tab + loot→craft loop** (Smith Gonta), surfaced as a **top-level nav tab**; **graded weapon-durability bands** surface with it (a weapon degrades but is **never auto-unequipped**). |
@@ -269,7 +269,7 @@ late-game convenience only (§1.12).
 **T1 — Estate (full): the real grind begins (~8 new rungs `R8→R15`; a fresh ladder, not a continuation of T0).**
 The same one estate at **full depth** — the deliberate **≥30-min-per-rung** climb first bites here (T0's
 tutorial cadence ends). Standing climbs **tolerated → friendly**. The **Arms pillar reveals** and its
-**deeds first bank** (in T1's Phase 2); the *koku* flywheel **branches into LAND / TREASURY / TRADE** (trade
+**deeds first bank** (in T1's Phase 2); the **coin/rice** flywheel **branches into LAND / TREASURY / TRADE** (trade
 **≤⅓**); the **first paid retinue** (Gohei & Yatarō) is won and the **E1→E2** estate stage lands. New verbs,
 same familiar domain — and the **first ascension (T0→T1) lands BIG**. The rung-meters reset per rung;
 the weapon roster grows **+3** and the **2nd archetype line — the sword** opens here (a Combat Rank rung-gate;
@@ -288,7 +288,7 @@ a gate; see §1.5.4.)*
 
 | Rank | Track | How earned | Unlocks |
 |---|---|---|---|
-| **V0 — Errand-runner FOR the house, in the valley** | labour | The house trusts him to carry its business past its own gate into Asagiri; first village errands. | The market/shop row; coin; the village reputation web seeds (optional). |
+| **V0 — Errand-runner FOR the house, in the valley** | labour | The house trusts him to carry its business past its own gate into Asagiri; first village errands. | The market/shop row; the **monme** coin denomination (coin itself runs from T0 — this is a *denomination* reveal as wealth grows, not a new currency); the village reputation web seeds (optional). |
 | **V1 — Recognised hand of the house** | mixed | The valley begins to know the house's man (headman + shops acknowledge him); combat keeps pace clearing valley pests/animals. | The chief's house; deeper satoyama rings; the inn & rumours board (side). |
 | **V2 — Road-warden (*michi-ban*) for the house** | combat | Make a stretch of valley road or the ford safe in the estate's name; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; the **3rd combat line** (the staff) opens here (a Combat Rank rung-gate; +weapons across T2). *(Arms-pillar deeds accrue in T2's **Phase 2**, not on the rungs.)* |
 | **V3 — The house's steward of the valley economy** | labour | Bring the valley economy and the estate's cash-crops to a recorded seasonal result. | Cash-crop and trade levers (the silk/sericulture *meibutsu* sub-engine begins — the trade strand opens at T1, never T0); the broker meters. |
@@ -457,11 +457,21 @@ trust at the cost of village warmth and Tama-only lore.
 ## 1.6 House Influence (家威) — the four pillars & the six tiers
 
 **House Influence** (家威, *ka-i*) is the macro-resource — the estate's **recognized standing** in the eyes of
-progressively wider authorities — and the **one thing the entire UI-reveal is gated on.** It is deliberately
-**NOT** *koku* and **NOT** coin: those are the inputs you spend and grind; Influence is the cumulative score of
-what the house has visibly **become.** It is no longer a single trade-leaning number: it is the **umbrella
+progressively wider authorities — and the **one thing the entire UI-reveal is gated on.** It is **re-expressed
+as the house's *koku* standing** — a *kokudaka*-like prestige **SCORE** (an assessed *kokudaka*), **NEVER
+spent** and **NOT an income multiplier**: it is the cumulative measure of what the house has visibly
+**become**, re-assessed **seasonally** (a *seasonalJudge*) with a big "the assessors arrive" set-piece at each
+tier jump. It is deliberately **NOT coin** — coin is the currency you spend and grind; the *koku* standing is
+the assessment that grind *earns*. It is no longer a single trade-leaning number: it is the **umbrella
 roll-up of FOUR achievement-driven pillars** grown in lockstep, each mapping to a distinct protagonist domain
 so the grind stays load-bearing.
+
+> **The tier→*koku* ladder (bands PROVISIONAL/liquid).** The standing score climbs with the tiers:
+> **T0** tens → **T1** ~100–1,000 → **T2** ~1,000–5,000 → **T3** ~5,000–10,000 → **T4 = 10,000 (DAIMYŌ)** to
+> ~100,000 → **T5** ~100,000–1,000,000+. The score **gates ascension/unlocks** but is never a currency; a
+> **personal *koku* stipend** appears only from **T4+** (House-only before), and T5 adds a **full parallel
+> Office / court-rank / favour track** (koku = scale, office = access) with rank milestones granting **visible
+> status tokens** (surname → the two swords → *gōshi* rank).
 
 > **The pillar-reveal schedule.** The four pillars **reveal one per tier** across the
 > spine — **Estate (家産) at T0 → + Arms (武威) at T1 → + Office (官威) at T2 → + Name & Honour (家格) at T3** —
@@ -478,11 +488,18 @@ so the grind stays load-bearing.
 | **Standing & Office** (political/territorial) | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
 | **Name & Honour** (prestige/cultural) | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition; the house off the foreclosure list; a sponsored rite; an inspector's report; a recorded merit-elevation |
 
-> **The Estate & Wealth sub-engines = the *koku* flywheel, revealed across the Estate split.**
-> In **T0** the economy is a **single LINEAR taste** — one work → *koku* → upgrade → more output — the flywheel
-> shown in miniature, with **no branching and no trade strand**. At **T1** (the full estate) it **branches into
+> **The Estate & Wealth sub-engines = the coin/rice flywheel, revealed across the Estate split.**
+> In **T0** the economy is a **single LINEAR taste** — one work → **rice + a little coin** → upgrade → more
+> output — the flywheel shown in miniature, with **no branching and no trade strand**. **Rice is a real
+> resource** (not a synonym for the *koku* standing): you **eat** it (satiety), **store** it in the *kura*, or
+> **sell** it for coin at a price that **swings by season**. At **T1** (the full estate) it **branches into
 > the three capped sub-engines — LAND / TREASURY / TRADE** (the *meibutsu* silk strand stays **≤⅓** of the
 > pillar). The real village silk market (Onatsu's *meibutsu*) opens later still, at **T2 Village**.
+>
+> **Coin is the sole spendable currency** — ONE underlying value (base unit *mon* 文), **displayed in fixed
+> mixed denominations** revealed **incrementally as wealth grows**: *mon* (T0–T1) → *monme* (the T2 reveal) →
+> *ryō* (T4–T5), where **1 ryō = 50 monme = 4,000 mon** and **1 monme = 80 mon**. There is **no moneychanger
+> and no floating forex** — every cost (market, estate, repair) and the combat loss-bite is **coin**.
 
 > **The Arms pillar vs. the other two combat tracks (§1.6.4).** Arms grows **only** on **recognised DEEDS**
 > (the influence economy) and, like every pillar, **accrues in each tier's Phase 2** — *not* while climbing the
@@ -557,8 +574,8 @@ over years.
 
 | Tier | Theme | Transition story gate (entry) | Phase-2 scaled grade-gate (per revealed pillars) |
 |---|---|---|---|
-| **T0 — Estate (tutorial)** | Earn your keep and survive your first days — a showcase-in-miniature (standing **stranger→tolerated**). One declining hill estate, a **small walkable map**, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **1 pillar** (revealed: **Estate**): the gate **collapses to a single EXCELLENT** (the (N−2) term drops) — *kura* solvent, first *shinden* begun. The humbling first fight is survived as **activity**, but the Arms-pillar **DEEDS don't bank yet**; **no trade engine** (the T0 shop is a personal koku sink, not estate trade). |
-| **T1 — Estate (full)** | The full estate grind — the real **≥30-min-per-rung** climb across ~8 new rungs (standing **tolerated→friendly**). The **Arms pillar reveals**; the *koku* flywheel **branches into LAND / TREASURY / TRADE** (trade ≤⅓). | **T0→T1:** clear T0's single-EXCELLENT gate → the **first ascension lands BIG** on first contact regardless of grade (the silhouettes stir, the **Arms pillar reveals**). | Revealed: **Estate + Arms** (2): **1 GREAT + 1 EXCELLENT.** The first Arms-pillar **deeds bank here**; **E1→E2**; the first paid retinue (**Gohei & Yatarō**) is won. |
+| **T0 — Estate (tutorial)** | Earn your keep and survive your first days — a showcase-in-miniature (standing **stranger→tolerated**). One declining hill estate, a **small walkable map**, unlocked room by room. | *(Met at the open.)* Survive convalescence and the first labour. | **1 pillar** (revealed: **Estate**): the gate **collapses to a single EXCELLENT** (the (N−2) term drops) — *kura* solvent, first *shinden* begun. The humbling first fight is survived as **activity**, but the Arms-pillar **DEEDS don't bank yet**; **no trade engine** (the T0 shop is a personal **coin** sink, not estate trade). |
+| **T1 — Estate (full)** | The full estate grind — the real **≥30-min-per-rung** climb across ~8 new rungs (standing **tolerated→friendly**). The **Arms pillar reveals**; the **coin/rice** flywheel **branches into LAND / TREASURY / TRADE** (trade ≤⅓). | **T0→T1:** clear T0's single-EXCELLENT gate → the **first ascension lands BIG** on first contact regardless of grade (the silhouettes stir, the **Arms pillar reveals**). | Revealed: **Estate + Arms** (2): **1 GREAT + 1 EXCELLENT.** The first Arms-pillar **deeds bank here**; **E1→E2**; the first paid retinue (**Gohei & Yatarō**) is won. |
 | **T2 — Village** | The estate's domain expands to **the valley beyond your gate** (standing **friendly→trusted**): Asagiri's shops, craftsmen, inn, shrine and the legend run as an **optional side-track**; the real silk *meibutsu* market opens. | **T1→T2:** clear the full-estate gate → the estate sends you out into the valley (**unlocks Village**); the region's **rival houses Tomita & Akagi** are **introduced** and the contest **begins**. | Revealed: Estate + Arms + **Office** (3). **1 EXC + 1 GRT + 1 GOOD** (errand-authority; the headman's regard; cash-crops + the silk market online). |
 | **T3 — Region** | The estate's domain expands to **lead a region** (standing **trusted→HONORARY MEMBER of the house**): a cluster of valleys, the post-town, the upstream Kuzuhara ruins, roads, *sekisho* — with the **Origin** family/friends as a one-tier rep side-track (own rungs). **v1 completes here.** | **T2→T3:** **"clean your room"** (estate healthy, village happy, immediate fires out) → the lord first believes impact beyond the valley is possible → a quest to grow **regional influence**; the rivalry **climax** (Naoyuki ally-flip G5, **G7 = rivals dethroned**). *(v1's content finishes on completing Region — `outcome: t3done`.)* | Revealed: Estate + Arms + Office (+ **Name** → 4). **1 EXC + 1 GRT + 2 GOOD**; the **personal-mystery payoff** lands here. |
 | **T4 — Castle-town** *(stub / cliff-hanger; beyond v1)* | The estate's domain expands to **become a castle-town power holding key domain offices** (standing **honorary member → chief steward / *yōnin*** — the MC's personal CEILING): the *daikan* / *tedai* officialdom and inter-*han* markets acknowledge, contend with, and cede to the house. | **T3→T4:** **win the region** (rival houses no longer the leaders) → the castle-town rulers **confer regional leadership** and **invite** the house in. *(v1 closes on this **castle-town / Daikan first-contact** cliff-hanger.)* | **Office + Name excellent** (the takeover is won socially); Arms/Estate as leverage. |
@@ -644,7 +661,7 @@ data-driven, headlessly-testable framing.
 |---|---|---|---|---|
 | **The Kura Storehouse** | Kurosawa Estate (T0) | Estate | The convalescence pallet; spilled rice to rake | At the open (R0, Stray). Home of the UI-reveal engine (body/rest bar, rice counter). |
 | **The Gate & Forecourt (*genkan*)** | Kurosawa Estate (T0) | Estate | The *genkan*; the visitor's mat | R1. The diegetic stage for promotions and the Tama-vs-farmhand framing. *(T0 room/area reveals are SEPARATE — the stables, woodlot edge, and drill yard each reveal individually, not folded in.)* |
-| **The Home Paddies & Dry Fields** | Kurosawa Estate (T0) | Estate | Fallow plots to reclaim; the granary | R1; *shinden* reclamation begins around R4. The rice/*koku* heartbeat (active grind, not idle producers). |
+| **The Home Paddies & Dry Fields** | Kurosawa Estate (T0) | Estate | Fallow plots to reclaim; the granary | R1; *shinden* reclamation begins around R4. The **rice heartbeat** (active grind, not idle producers) — rice to eat, store, or sell for coin. |
 | **The Drill Yard** | Kurosawa Estate (T0) | Estate | Training posts; Kihei's weapon rack | **R3, after the humbling first fight (combat live from T0).** Conditioning & idle-combat. |
 | **The Main House / *Omoya*** | Kurosawa Estate (T0) | Estate | Kitchen & inner rooms; the household shrine; the lord's study (ledgers) | R4 (houseman); the study at R7 (bailiff). |
 | **The Workshops, Granary & Palisade** | Kurosawa Estate (T1) | Estate | The two workshops; the granary; the low palisade; the men-at-arms' rota | **T1** — the full-estate grind (estate stage **E1→E2**); proto-industry levers; the first paid retinue (Gohei & Yatarō) mustered. The Arms-pillar's first deeds bank here. |
@@ -705,7 +722,7 @@ static**; the origin cast unlocks at T3.
 | **Lady Kurosawa Chiyo** | The lord's wife, ~50; manages the inner household and its meagre purse. | Gatekeeps **houseman access (R4)** and the domestic economy; later the house's **alliance-strategist** at the castle-town. | E0 (T0) |
 | **Dowager Kurosawa Toku** | The lord's mother, ~75; sharp-memoried; the only one who lived through the fall as an adult. | Living **backstory keeper** — slowly parts with why the house declined (grandfather **Sadamune's** failed flood-venture). Embodies "no shortcuts." | E0 (T0) |
 | **Chief Steward Genemon** | Runs the estate day to day, ~60; dry, overworked, fiercely loyal. | The **spine's primary rank-gatekeeper and quest-giver** — first calls him "another mouth," assigns nearly all early labour, grants the rung-by-rung promotions. Arc: grudging tolerance → reliance → naming him deputy and successor. | E0 (T0) |
-| **Tanomo** | Estate accountant/clerk, ~45. | Gatekeeps the *koku*/economy and debt-repayment systems; the in-house thread into the ledger/debt mystery; later runs the debt-restructuring interface. | E0 (T0) |
+| **Tanomo** | Estate accountant/clerk, ~45. | Gatekeeps the **coin** economy, the ledgers and debt-repayment systems; the in-house thread into the ledger/debt mystery; later runs the debt-restructuring interface. | E0 (T0) |
 | **Kihei** | Aging master-at-arms / drillmaster; competent-but-never-great old foot-soldier. | **The mentor** and combat/training gatekeeper — "Talent is a story the lucky tell. You are not lucky. So you will work." Gates the entire training/idle-combat suite after the humbling first fight. | E0 (T0) |
 | **Sota & Heita** | A grizzled groom and a cheeky teen field-labourer — the bottom-rung peers. | The field/stable labour loop and honest friendship at the floor of the ladder. | E0 (T0) |
 | **Oai** | Head maidservant, ~40; runs the indoor staff and the servant-gossip network. | Quest-giver and information broker inside the house. | E0 (T0) |
@@ -943,7 +960,7 @@ pillar-grind)** model (§1.6.4). **Combat surfaces inside the FIRST tier (T0)** 
 **T0 — Estate ladder reveals (sequential phasing):**
 
 - **R0** — body/rest bar + rice counter.
-- **R1** — labour loop + paddies + *koku*.
+- **R1** — labour loop + paddies + **rice + a little coin** (rice you eat / store / sell for coin).
 - **R2** — Skills tab + foraging/woodcutting + the near-satoyama.
 - **R3** — **drill yard + Combat panel + the carrying-pole + Equipment/Inventory + Bestiary + the bare auto-resolve loop + retreat** (after the humbling first fight; **character (combat) level begins**, fed by combat-XP).
 - **R4** — main-house interior + the household domestic economy; first *shinden* begun; **the simple Crafting loop as a top-level tab + graded durability bands** (never auto-unequip).
@@ -958,7 +975,7 @@ The **weapon roster grows incrementally** alongside: **T0 +2 / T1 +3 / T2 +4** (
 archetype + signature ability; **T3 Region adds no new line, only depth**). Detail at §2.8/§4.
 
 **T1 — the estate at FULL depth (a FRESH ladder, `R8→R15`):** the same domain, deeper — the ≥30-min-per-rung
-grind first bites, the **Arms pillar reveals** and banks its first deeds, the *koku* flywheel branches
+grind first bites, the **Arms pillar reveals** and banks its first deeds, the **coin/rice flywheel** branches
 (LAND/TREASURY/TRADE, trade ≤⅓), the first paid retinue is won. New verbs, no new domain (per-rung detail
 in §3).
 

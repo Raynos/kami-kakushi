@@ -132,16 +132,16 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/step` | `tick(state, dtTicks) -> state` — the deterministic clock advance (whole-integer ticks) + the per-tick / per-day / per-week / per-reckoning scheduler. | yes |
 | `core/rng` | The **one** seeded RNG: **splitmix64**, persisted as **per-named-stream cursors** `{ seed, cursors: { combat, loot, seasonal, worldgen } }` (NOT a single counter, NOT child-RNGs-by-splitting). Pure `next(rng, stream) -> [value, rng']`; helpers (`int`, `chance`, `pick`, `weighted`) thread the advanced cursor back into `GameState`. **Plus** a pure **stateless day-keyed** helper `deriveDayKeyed(seed, 'weather'|'festival', day)` for weather/festival rolls, and a pure `lunarPhase(day)` **ephemeris** (real ~29.5-day cycle, no RNG) — both derived on read, **NOT** a persisted cursor (§6.7/§6.7.1). | yes |
 | `core/combat` | The deterministic, fixed-step auto-battler. **Feeds the character (combat) `level` track** (combat-XP from kills → `character.level`) and the **equipped weapon-line skill**; reads **per-mob `MobDef.level`**, **graded durability bands** on attackPower/defense, the **`satietyRate`** combat throttle on attackPower, and a **clean retreat**. Resolution uses the **5-attribute (STR/AGI/INT/SPD/LUCK) + accuracy/evasion** model (§4.6). Drives the **staggered reveal** of the stance / ability / item slots over a **bigger weapon roster** (~9–10 across v1; each an archetype + signature ability — §4.6.9). The interactive, resumable mid-fight layer (`CombatEncounterState`) is a **FORWARD-TIER (T1/T2)** depth layer; T0's spine is atomic auto-resolve (§6.4.1). Stepped by `core/step`. | yes |
-| `core/economy` | Producers, costs, resource flows (the *koku*/coin spine; the capped Estate & Wealth sub-engines: land / treasury / trade incl. the silk *meibutsu*, trade **≤⅓**-capped). Holds the **market-saturation** damper (the only non-derivable economy state; §6.4). | yes |
+| `core/economy` | Producers, costs, resource flows (the **coin + rice** spine — rice is a REAL resource you EAT (satiety) / STORE in the kura / SELL for coin at a **season-swinging price**; **coin (base unit mon 文) is the sole spendable currency** — all market/estate/repair costs are coin; the capped Estate & Wealth sub-engines: land / treasury / trade incl. the silk *meibutsu*, trade **≤⅓**-capped). Holds the **market-saturation** damper (the only non-derivable economy state; §6.4). **Koku is NOT here** — it is the House's assessed STANDING (`core/influence`), never a spendable/producer resource. | yes |
 | `core/skills` | Per-skill XP curves, per-event caps, visibility thresholds, milestone web. **Each skill (labour included) carries a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, unlocked by leveling that skill) — the **bounded labour→combat channel**. The real bound is **incremental skill unlock** (skills reveal per rung/tier) + small per-perk magnitudes (the §6.6 verifier asserts *each perk* is small — **not** `== 0`, **not** a single global cap). **Conditioning stays the ZERO-stat enablement gate** (weak→capable), orthogonal to and never bypassed by these perks. | yes |
 | `core/rewards` | The universal **rewards/unlock bus** — `applyRewards(state, rewards) -> state` — the one funnel through which dialogue, **dialogue choices**, quests, thresholds, and combat grant items/xp/coin/locations/recipes/quests/**flags & unlocks**/`pillarDeltas`, and emit diegetic log lines. (`pillarDeltas` deed-accrual is **Phase-2-gated**, §6.5.) | yes |
 | `core/unlock` | Predicate evaluation for the UI-reveal engine: each panel/screen/tab/row/node is data with an unlock predicate over `GameState`. **`reduce`/`tick` evaluate the predicates to ADD newly-earned surfaces to the stored write-once `unlocked` latch** (§6.3/§6.4); the reads `isUnlocked(state, id)` (per-id) and `unlockedSurfaces(state)` (the **ONE** set-selector name) are **pure projections of that stored Set**, never a live predicate re-eval. **Reveal staggering is a DESIGN property of the authored unlock schedule** (one-at-a-time **by construction**) — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
-| `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), achievement-jump + seasonal judged-result accrual (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the scaled grade-gate** (the hybrid gate scaled by pillar-count): **1 EXCELLENT + 1 GREAT + (N−2) GOOD** over the tier's **N revealed** pillars, all ≥ GOOD (**T0 = 1 pillar → collapses to a single EXCELLENT**); **NO** overflow-substitution — §1.6.3/§1.6.4). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1). | yes |
+| `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), **re-expressed as the House's assessed koku STANDING** — a kokudaka-like prestige SCORE that is **NEVER spent, is NOT an income multiplier, GATES ascension/unlocks, and is re-assessed SEASONALLY (`seasonalJudge`)** + a big "the assessors arrive" event at tier jumps (the tier→koku ladder T0 tens → T4 = 10,000 *daimyō* → T5 100,000+; a PERSONAL koku stipend appears only from T4+). Accrual is achievement-jump + seasonal judged-result (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the scaled grade-gate** (the hybrid gate scaled by pillar-count): **1 EXCELLENT + 1 GREAT + (N−2) GOOD** over the tier's **N revealed** pillars, all ≥ GOOD (**T0 = 1 pillar → collapses to a single EXCELLENT**); **NO** overflow-substitution — §1.6.3/§1.6.4). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1). | yes |
 | `core/ranks` | The **per-tier rung ladder** + the **per-rung-RESET rung-meters**: `estateService` (labour) and `combatRank` (martial — fed by per-rung **CURATED** activities, **not** raw kills/XP). Each rung promotes on an **AND-gate** — the numeric meter **≥** that rung's threshold (back-solved from the ≥30-min floor × the rung's eligible-activity rate) **AND** the rung's **story flags** — surfacing "awaiting X" when one lags. Owns the **phase-1 (climb the rungs) → phase-2 (the estate-influence / pillar grind unlocks after the final rung)** gate per tier; the phase marker is **DERIVED from the current rung**, never a separate stored flag. | yes |
 | `core/content` | The **data registries** (one module per content type; §6.5) + the registry index. Data-as-code. | yes |
 | `core/log` | The event/story log model (append, severity/colour tag) — data only; the renderer paints it. A **true ring buffer** with a pinned hard cap **`LOG_RING_MAX ≈ 300`** (oldest entries evicted on overflow — never an unbounded list). | yes |
 | `core/selectors` | Derived/computed reads (current production rates, effective stats, `satietyMax`, `durabilityBand`, the gate profile, what's unlocked, current tier). **Pure functions of `GameState`; nothing stored.** | yes |
-| `core/format` | Pure display helpers — the shared **K/M/B** number formatter (`999,999 → '1.0M'`, etc.) + macron/label helpers — kept in core (not `src/ui/`) so they're **table-driven boundary-tested under `npm run verify`**; the renderer imports them (§6.9). | yes |
+| `core/format` | Pure display helpers — the shared **K/M/B** number formatter (`999,999 → '1.0M'`, etc.) for the **koku standing / pillar** numbers, the **coin mixed-denomination formatter** (mon → monme → ryō, higher denominations revealed incrementally as wealth grows), + macron/label helpers — kept in core (not `src/ui/`) so they're **table-driven boundary-tested under `npm run verify`**; the renderer imports them (§6.9). | yes |
 
 **Public surface of `core`:** the `GameState` type, `createInitialState`, `reduce`, `tick`, the selectors,
 the registries, and the RNG helpers. **Nothing else mutates state.** Everything is immutable-in/immutable-out
@@ -164,7 +164,7 @@ type Intent =
   | { type: 'deposit'; resource: ResourceId }         // shelter carried wealth in the kura (only while at the kura)
   | { type: 'withdraw'; resource: ResourceId }        // draw sheltered wealth back out (kura-only)
   | { type: 'buy_producer'; producerId: ProducerId }
-  | { type: 'buy_item'; itemId: ItemId }              // provisioning-shop purchase — a PERSONAL koku sink (§6.5)
+  | { type: 'buy_item'; itemId: ItemId }              // provisioning-shop purchase — a PERSONAL COIN sink (§6.5)
   | { type: 'equip'; itemId: ItemId; slot: EquipSlot }
   | { type: 'set_stance'; stanceId: StanceId }        // glass-cannon ↔ tank (§2.8/§4.6.10)
   | { type: 'use_item'; itemId: ItemId }
@@ -190,7 +190,7 @@ function reduce(state: GameState, intent: Intent): GameState;
 function tick(state: GameState, dtTicks: number): GameState;
 ```
 
-**`reduce`** validates the intent against current state (e.g. enough *koku*, node reachable, rung high
+**`reduce`** validates the intent against current state (e.g. enough *coin*, node reachable, rung high
 enough), applies the change, runs any triggered rewards through `core/rewards`, and re-checks unlock and
 tier-threshold predicates so newly-earned surfaces flip to unlocked and push their diegetic log line. An
 illegal intent is a no-op (returns the same state) plus an optional rejection note — never a throw.
@@ -265,7 +265,7 @@ interface GameState {
          cursors: { combat: number; loot: number; seasonal: number; worldgen: number } };  // per-named-stream MONOTONIC cursors — persisted (§6.7). Weather/lunar are NOT stored — derived day-keyed (§6.7.1).
   clock: { tick: number; day: number };  // abstract time — persist ONLY the absolute monotonic day + tick. createInitialState pins tick 0, day 0; the day index is 0-BASED (the renderer adds +1 so the player still reads "day 1"). season/year/week are DERIVED (never stored) — see season(day)/year(day) below. Lunar phase is likewise DERIVED — a real ~29.5-day ephemeris off `day` (§6.7.1), not stored and not a per-day RNG roll.
   location: MapNodeId;                            // where the player IS now on the walkable estate map (set by the `move_to` intent) — non-derivable, persisted (§2.19). Every labour, foe, and the kura is bound to a node; you WALK there to work/fight/bank. The map has 7 NODES over 6 AreaDefs (the deep-satoyama 奥山 is a distinct node inside the satoyama area; §3).
-  resources: Record<ResourceId, number>;         // CARRIED wealth (koku, coin(mon), wood, fish, materials…) — on you, AT RISK on a lost fight (§4.6.6). Spending + earning use carried.
+  resources: Record<ResourceId, number>;         // CARRIED wealth (coin(mon), rice, wood, fish, materials…) — on you, AT RISK on a lost fight (§4.6.6). Spending + earning use carried. Koku is NOT a resource — it is the House's assessed STANDING (held in `influence`, immune to the loss-bite; see `koku` below).
   banked: Record<ResourceId, number>;            // SHELTERED wealth in the kura storehouse — SAFE from the lost-fight bite. deposit/withdraw move between banked and carried; banking is a kura-node action (the balance is legible everywhere, the move is kura-only). This carried-vs-banked split is the at-risk-vs-safe lane; the player-vs-estate finance split (§2.4) is a separate T1+ concern.
   producers: Record<ProducerId, number>;         // owned counts (late-game / T4+ only)
   market: { saturation: Record<ResourceId, number> };  // bulk-sale market-saturation damper — the ONLY non-derivable economy state (weather/lunar are derived; belief-beasts are content). Persist saturation ONLY. (§2/§4)
@@ -283,8 +283,9 @@ interface GameState {
                                 gateEligibleValue: number;
                                 subEngines?: { land: SubEngine; treasury: SubEngine; trade: SubEngine } }>;
                                                  // 4 pillars; high-water + `judged` (the high-water AS OF the last reckoning — the judge fires only on a NEW high-water, highWater > judged, folded one day at a time so a multi-interval jump accrues every reckoning) + the (≤1) active recoverable dent (§4.2.4) + a `gateEligibleValue` accumulator. ESTATE & WEALTH value is PURELY DERIVED: it nests `subEngines` (each { value, highWater }) and its pillar `value` is NOT stored — it is computed on read as land + treasury + trade (the subEngine value sum), so a dent on one strand can never desync the pillar total and the trade ≤⅓ HARD clamp holds BY CONSTRUCTION. (Non-Estate pillars store `value`; Estate omits it.) `gateEligibleValue` is the DEED-ONLY accumulator: only recognised Phase-2 DEEDS add to it; cross-pillar combos do NOT write it — so a combo can never satisfy a required gate band nor breach trade-≤⅓. The gate check (§6.6.1) reads `gateEligibleValue`, never the combo-inflated `value`. (SubEngine = { value: number; highWater: number }.)
+  koku: number;                                   // the House's assessed STANDING — the kokudaka-like prestige SCORE that re-expresses the influence pillars (part of the standing/influence system). It is NEVER spent, is NOT an income multiplier, and GATES ascension/unlocks; it is IMMUNE to the combat loss-bite (that bites carried COIN, not standing). RE-ASSESSED at each seasonal `seasonalJudge` + the big "the assessors arrive" event at tier jumps — stored as the last-assessed value (the tier→koku ladder: T0 tens → T1 ~100–1,000 → T2 ~1,000–5,000 → T3 ~5,000–10,000 → T4 = 10,000 *daimyō* → T5 100,000–1,000,000+; bands PROVISIONAL). A PERSONAL koku stipend appears only from T4+ (House-only before).
   tier: TierId;                                   // current macro tier T0..T5 (set by the ascension/tier-up intent; threshold-progress is DERIVED, never stored)
-  estateStage: number;                            // the koku PURCHASE-ladder step — the U1..U4 "kura-works" (estate upgrades you BUY: patch-kura → clear-drill-yard → reclaim-shinden → raise-long-house), the T0 koku flywheel sink. A separate axis from the E0–E5 narrative CONDITION of the house (§2.17) and from `influence.subEngines` (the T1+ estate-value engine).
+  estateStage: number;                            // the COIN PURCHASE-ladder step — the U1..U4 "kura-works" (estate upgrades you BUY: patch-kura → clear-drill-yard → reclaim-shinden → raise-long-house), the T0 coin flywheel sink. A separate axis from the E0–E5 narrative CONDITION of the house (§2.17) and from `influence.subEngines` (the T1+ estate-value engine).
   ranks: Record<TierId, { estateService: number; combatRank: number; rung: RankId }>;
                                                  // PER-RUNG-RESET rung-meters: estateService (labour) + combatRank (martial — fed by per-rung CURATED activities, NOT raw kills/XP). The phase-1/phase-2 marker is DERIVED from `rung` — there is NO separate stored phase flag.
   reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as the O0→O5 rung meter
@@ -295,7 +296,7 @@ interface GameState {
   quests: Record<QuestId, { status: QuestStatus; advancedBy: Set<QuestEventId> }>;
                                                  // ORDER-FREE quests: NO `step` cursor. `advancedBy` is the UNORDERED SET of advance-events already satisfied (a quest is a SET of advance-events with no fixed order). QuestStatus = 'taken' | 'active' | 'abandoned' | 'done' | 'failed' (serialized as array).
   counts: Record<CountId, number>;               // kills, clears, harvests — drive quest advancement & bestiary tallies (NOT a separate player "achievements" feature; pillar achievement-JUMPS are recognized deeds, §2.16, not these raw counts)
-  marketBought: Record<ItemId, number>;           // per-run buy counts per provisioning-shop item — the stockCap clamp on the personal koku sink (§6.5)
+  marketBought: Record<ItemId, number>;           // per-run buy counts per provisioning-shop item — the stockCap clamp on the personal COIN sink (§6.5)
   autoActivity: ActivityId | null;                // the tab-open auto-repeat labour target, or null (the "leave it running" feel)
   autoRake: boolean;                              // auto-repeat the cold-open rake (the meta verb has no ActivityId); clears itself once raking is no longer legal
   autoCombat: MobId | null;                       // the tab-open auto-fight target, or null (cleared by `move_to`)
@@ -384,8 +385,8 @@ by the pure core, never co-located with DOM or behaviour. This is the backbone o
 
 | Registry module | Holds | Keyed by |
 |---|---|---|
-| `content/resources.ts` | resources (koku, coin, wood, fish, materials…) + display/emoji + caps | `ResourceId` |
-| `content/activities.ts` | jobs/labour nodes (farm/forage/woodcut/fish/craft) — yields, skill, season/node gates (each labour is bound to a map node). **Plus per-rung CURATED activity sets** (tagged by rung) that feed the **rung-meter** — authored **SEPARATELY** from the pillar-deed inventory (a designed one-to-many set, never a single repeat-counter). | `ActivityId` |
+| `content/resources.ts` | resources (**coin, rice**, wood, fish, materials…) + display/emoji + caps. **Coin carries the fixed mixed-denomination display config** — ONE underlying value (base unit **mon** 文) shown as **mon → monme → ryō** (1 ryō = 50 monme = 4,000 mon; 1 monme = 80 mon), higher denominations revealed INCREMENTALLY as wealth grows (mon T0–T1 → monme → ryō T4–T5; no moneychanger, no floating forex). **Koku is NOT a resource here** — it is the House's assessed STANDING (`core/influence`), never spendable. | `ResourceId` |
+| `content/activities.ts` | jobs/labour nodes (farm/forage/woodcut/fish/craft) — yields (**labour yields RICE + a little COIN — NEVER koku**; koku is standing, never a labour tick), skill, season/node gates (each labour is bound to a map node). **Plus per-rung CURATED activity sets** (tagged by rung) that feed the **rung-meter** — authored **SEPARATELY** from the pillar-deed inventory (a designed one-to-many set, never a single repeat-counter). | `ActivityId` |
 | `content/producers.ts` | late-game auto-producers — cost curve refs, output, unlock predicate | `ProducerId` |
 | `content/skills.ts` | skills — xp curve refs, per-event cap, visibility threshold, milestones. **Plus a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, **unlocked by leveling that skill**) — the bounded labour→combat channel. The §6.6 verifier asserts **each perk's magnitude is small** (not `== 0`, not a single global cap); **conditioning stays the ZERO-stat gate**. | `SkillId` |
 | `content/items.ts` | items/equipment/consumables — slots, stats, rarity, quality rules. **Weapons are the growing roster: ~9–10 across v1** (T0 **starts with the carrying-pole + 2 more, ≥1 craftable**, then **+3 T1 / +4 T2**), spread over **3 archetype lines (spear / sword / staff)**, **each weapon carrying archetype params (`baseSpeed` / `reach` / `targetCount`) + a signature ability** — byte-identical with §2.8/§2.10, §3 reveal rows, and §4.6. | `ItemId` |
@@ -411,8 +412,8 @@ not menu growth), exactly as §1/§3 require. **`pillarDeltas` (deed accrual) is
 write **no** pillar value during the rung-climb; they accrue only after the tier's final rung opens Phase 2.
 The intra-line dialogue `choices[]` effects (chosen-flags / `locksLineIds[]`) ride this same bus.
 
-**Provisioning shops are a PERSONAL koku sink, not the trade engine.** A vendor where the **player** buys
-goods for his character is a personal koku SINK (legitimate from T0 — the capped provisioning shop, clamped
+**Provisioning shops are a PERSONAL COIN sink, not the trade engine.** A vendor where the **player** buys
+goods for his character is a personal COIN SINK (legitimate from T0 — the capped provisioning shop, clamped
 per item by `marketBought` × stockCap). The **estate TRADE engine** (trade work on the *estate's* behalf, for
 profit, with the silk *meibutsu* and the trade ≤⅓ clamp) is a separate, estate-scale system that opens at T2.
 "No market in T0" means "no *trade engine* in T0" — the two are distinct lanes of finance (§2.4).
@@ -614,7 +615,8 @@ per-system fields are added additively later.
   **`character.level` + `combatXp`**, inventory, equipment, equipped weapon + its durability, stance,
   influence pillars (high-water + `judged` + dents + the
   deed-only **`gateEligibleValue`**; non-Estate `value` — but **Estate value is DERIVED from the
-  `subEngines`, NOT stored**, §6.4), stored tier, the estate purchase-ladder step (`estateStage`), the
+  `subEngines`, NOT stored**, §6.4), the assessed **koku standing** (`koku` — the last-assessed
+  kokudaka-like prestige score; §6.4), stored tier, the estate purchase-ladder step (`estateStage`), the
   **per-rung-reset rung-meters** (`estateService` / `combatRank`), reputation, allegiance, the auto-loop
   targets/modes (`autoActivity` / `autoRake` / `autoCombat` / `autoCombatRetreat`),
   flags (incl. **dialogue chosen-flags**),
@@ -789,12 +791,16 @@ Once-per-game reveal log-lines are emitted by the `unlocked` write-once latch **
   gain/loss **number-flash uses the §2 gain/loss tokens**; **vermilion is reserved for rank-up / seal beats**
   (not routine gains); **functional/hint text uses `--ink-soft`** (passes WCAG AA on every paper surface) while
   `--ink-faint` is decorative-only, and the meter fill is darkened for contrast.
-- **Number formatting = abbreviated K/M/B.** Large values display **human-scaled, abbreviated**
-  (e.g. `12.4K`, `3.1M`, `2.7B`) — **not** scientific notation (`1.2e7`) and **not** myriad units
-  (man/oku). A single shared display formatter **lives in `core/format`** (a pure helper — and the other pure
-  display helpers — kept in core, **table-driven boundary tests under `npm run verify`**:
-  `999,999 → '1.0M'`, etc.); **the renderer imports it**. It keeps the scale legible as koku/coin/pillar
-  numbers climb.
+- **Number formatting — abbreviated K/M/B for standing/pillar numbers; mixed denominations for coin.**
+  Large **koku standing / pillar** values display **human-scaled, abbreviated** (e.g. `12.4K`, `3.1M`,
+  `2.7B`) — **not** scientific notation (`1.2e7`) and **not** myriad units (man/oku). **Coin uses a SEPARATE
+  mixed-denomination formatter** — ONE underlying value in **mon** rendered in fixed denominations
+  **mon → monme → ryō** (1 ryō = 50 monme = 4,000 mon; 1 monme = 80 mon), with higher denominations
+  revealed INCREMENTALLY as wealth grows (mon T0–T1 → monme → ryō T4–T5). Both shared display formatters
+  **live in `core/format`** (pure helpers — with the other pure display helpers — kept in core,
+  **table-driven boundary tests under `npm run verify`**: `999,999 → '1.0M'`, `4,080 mon → '1 ryō 1 monme'`,
+  etc.); **the renderer imports them**. They keep the scale legible as the koku standing / pillar numbers and
+  the coin balance climb.
 - **Active-only loop, with the "leave it running" feel.** The app-layer tick loop runs **while the
   tab is ACTIVE** (driven by `requestAnimationFrame` / a paced timer); it computes whole-integer `dtTicks` from
   **elapsed wall-time while active** and calls the pure `tick`. **While the tab is active, auto-resolve combat +
