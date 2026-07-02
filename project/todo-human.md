@@ -37,6 +37,10 @@ _(none open)_
 - [ ] `docs/plans/2026-07-02-deep-housing-build.md` — **deep housing build** (D-111):
   furnishable home that grows with rung + a belongings inventory + comfort/
   status-mirror bonuses. The build approach, for your review.
+- [ ] `docs/plans/2026-07-02-ia-tab-reorg-build.md` — **6-tab IA reorg build** (D-112/
+  114/116): panel→tab map, incremental reveal order, vendors-as-people model. **Two
+  forks to confirm**: no Quests tab (default: fold into Character as "Undertakings"),
+  the R1 triple-reveal pacing, and the koku-panel home.
 - [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
   actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
   via rumours / low-chance events / description hints, not a static list. T0-later/T1,
