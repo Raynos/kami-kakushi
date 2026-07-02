@@ -186,27 +186,6 @@ export const SURFACES: SurfaceDef[] = [
     ],
   },
   {
-    id: 'coldopen-reveal',
-    label: 'Cold-open reveal',
-    variants: [
-      {
-        id: 'coldopen-fade',
-        label: 'A · staged fade',
-        blurb: 'Title→roman→lede fade in staggered; the CTA wakes in after a slow beat (default).',
-      },
-      {
-        id: 'coldopen-type',
-        label: 'B · GBA typewriter',
-        blurb: 'The lede types out character-by-character like an old Pokémon game, then the CTA.',
-      },
-      {
-        id: 'coldopen-ma',
-        label: 'C · line-by-line 間',
-        blurb: 'Each sentence surfaces alone with a long pause between; the CTA comes last.',
-      },
-    ],
-  },
-  {
     id: 'log-filter',
     label: 'Log filter bar',
     variants: [
@@ -243,13 +222,6 @@ export interface DevApi {
     state: GameState,
     dispatch: (intent: Intent) => void,
   ): boolean;
-  /** DEV-only: apply a NON-default cold-open reveal (typewriter / ma). The default fade lives
-   *  in render.ts (ships to prod); B/C live here and are stripped from prod. Returns a cancel fn. */
-  revealColdOpen(
-    variantId: string,
-    els: { roman: HTMLElement; lede: HTMLElement; fullLede: string },
-    showButton: () => void,
-  ): () => void;
 }
 
 export function createDevApi(): DevApi {
@@ -267,7 +239,6 @@ export function createDevApi(): DevApi {
       if (id === defaultOf(s)) return false; // default → the caller renders it (and ships it)
       return renderSurfaceVariant(s, id, container, state, dispatch);
     },
-    revealColdOpen: (variantId, els, showButton) => runColdOpenReveal(variantId, els, showButton),
   };
 }
 
@@ -287,57 +258,6 @@ function renderSurfaceVariant(
   if (surface === 'map') return renderMapVariant(variantId, container, state, dispatch);
   if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
   return false;
-}
-
-/** DEV-only cold-open reveal alternates (B typewriter, C line-by-line ma). Returns a cancel fn
- *  that clears the pending timers. Stripped from prod with the rest of this module. */
-function runColdOpenReveal(
-  variantId: string,
-  els: { roman: HTMLElement; lede: HTMLElement; fullLede: string },
-  showButton: () => void,
-): () => void {
-  const timers: number[] = [];
-  const t = (fn: () => void, ms: number): void => {
-    timers.push(window.setTimeout(fn, ms));
-  };
-  const cancel = (): void => timers.forEach((id) => window.clearTimeout(id));
-  const { roman, lede, fullLede } = els;
-  if (variantId === 'coldopen-type') {
-    // B — GBA typewriter: roman fades, then the lede types out char-by-char, then the CTA.
-    t(() => roman.classList.add('in'), 400);
-    lede.textContent = '';
-    lede.classList.add('in');
-    const start = 1100;
-    const per = 32;
-    for (let i = 0; i < fullLede.length; i++) {
-      t(
-        () => {
-          lede.textContent = fullLede.slice(0, i + 1);
-        },
-        start + i * per,
-      );
-    }
-    t(showButton, start + fullLede.length * per + 900);
-    return cancel;
-  }
-  // C — line-by-line ma: each sentence surfaces alone with a long pause, then the CTA.
-  const parts = fullLede.split(/(?<=[.!?—])\s+/).filter(Boolean);
-  t(() => roman.classList.add('in'), 500);
-  lede.textContent = '';
-  lede.classList.add('in');
-  let acc = '';
-  const base = 1300;
-  parts.forEach((p, i) => {
-    t(
-      () => {
-        acc = acc ? acc + ' ' + p : p;
-        lede.textContent = acc;
-      },
-      base + i * 1300,
-    );
-  });
-  t(showButton, base + parts.length * 1300 + 700);
-  return cancel;
 }
 
 /** The diverged Bestiary (B / C) — DEV-only, stripped from prod. Default A (the field-guide card

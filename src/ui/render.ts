@@ -515,7 +515,7 @@ export function mount(
   root.append(coldOpen, shell);
 
   let firstRender = true;
-  let coldOpenRevealVariant: string | null = null;
+  let coldOpenRevealStarted = false;
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
   let logFilter: LogFilter = 'story';
@@ -1820,18 +1820,16 @@ export function mount(
       document.documentElement.classList.contains('reduced-motion')
     );
   }
-  // The slow cold-open reveal (F14). Default A (staged fade) lives here and ships to prod;
-  // the DEV-only B/C alternates live in ui/dev.ts (stripped from prod). Re-applies live when
-  // the DEV variant toggle changes (rerender → render → here).
+  // The slow cold-open reveal (F14) — the GBA-typewriter take, human-approved as the prod
+  // default (2026-07-02). Runs once per cold-open (the started-flag guards re-entry); the
+  // wake-path resets the flag so a New Game replays it.
   function applyColdOpenReveal(): void {
-    const variant =
-      import.meta.env.DEV && dev ? dev.getVariant('coldopen-reveal') : 'coldopen-fade';
-    if (coldOpenRevealVariant === variant) return; // already revealing this take
+    if (coldOpenRevealStarted) return;
+    coldOpenRevealStarted = true;
     cancelColdOpenReveal?.();
-    coldOpenRevealVariant = variant;
     const items = [coTitle, coRoman, coLede, coVerb];
     for (const it of items) it.classList.add('co-reveal-item');
-    coLede.textContent = COLD_OPEN_LEDE; // reset (a prior typewriter may have cleared it)
+    coLede.textContent = COLD_OPEN_LEDE;
     for (const it of items) it.classList.remove('in');
     const showButton = (): void => coVerb.classList.add('in');
     if (coldOpenReduced()) {
@@ -1839,23 +1837,29 @@ export function mount(
       cancelColdOpenReveal = undefined;
       return;
     }
-    if (import.meta.env.DEV && dev && variant !== 'coldopen-fade') {
-      coTitle.classList.add('in');
-      cancelColdOpenReveal = dev.revealColdOpen(
-        variant,
-        { roman: coRoman, lede: coLede, fullLede: COLD_OPEN_LEDE },
-        showButton,
+    // GBA typewriter (human-approved 2026-07-02): the title shows, the subtitle fades in,
+    // the lede types out character-by-character (old-Pokémon feel), then the CTA wakes in.
+    coTitle.classList.add('in');
+    const timers: number[] = [];
+    const at = (fn: () => void, ms: number): void => {
+      timers.push(window.setTimeout(fn, ms));
+    };
+    at(() => coRoman.classList.add('in'), 400);
+    coLede.textContent = '';
+    coLede.classList.add('in');
+    const full = COLD_OPEN_LEDE;
+    const start = 1100;
+    const per = 32;
+    for (let i = 0; i < full.length; i++) {
+      at(
+        () => {
+          coLede.textContent = full.slice(0, i + 1);
+        },
+        start + i * per,
       );
-      return;
     }
-    // DEFAULT A — staged fade; the CTA wakes in after a slow beat.
-    const timers: number[] = [
-      window.setTimeout(() => coTitle.classList.add('in'), 100),
-      window.setTimeout(() => coRoman.classList.add('in'), 800),
-      window.setTimeout(() => coLede.classList.add('in'), 1500),
-      window.setTimeout(showButton, 4500),
-    ];
-    cancelColdOpenReveal = () => timers.forEach((t) => window.clearTimeout(t));
+    at(showButton, start + full.length * per + 900);
+    cancelColdOpenReveal = () => timers.forEach((id) => window.clearTimeout(id));
   }
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
@@ -1870,9 +1874,9 @@ export function mount(
     coldOpen.hidden = true;
     shell.hidden = false;
     // leaving the cold-open: cancel any pending reveal and reset so a New Game replays it.
-    if (coldOpenRevealVariant !== null) {
+    if (coldOpenRevealStarted) {
       cancelColdOpenReveal?.();
-      coldOpenRevealVariant = null;
+      coldOpenRevealStarted = false;
     }
     renderVitals(state, prev);
     renderNav(state);

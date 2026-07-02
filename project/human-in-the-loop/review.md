@@ -124,14 +124,13 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
     status (**Take on** / in hand / 果 done ✓), with a 合計 foot totalling koku in hand.
 - **Cold-open reveal** (the waking title card — playtest F14, NEW 2026-07-02) — ✅ **all three LIVE in the
   DEV panel** ("Cold-open reveal", the top entry of the Variants tab):
-  - [ ] **A — staged fade** _(self-picked prod default)_ — title → roman → lede fade in staggered, then the
-    "Open your eyes" CTA wakes in after a slow ~4.5s beat. The calmest waking.
-  - [ ] **B — GBA typewriter** _(built; DEV-only)_ — the lede types out character-by-character like an old
-    Pokémon game, then the CTA. The closest to the human's "slow GBA scroll" reference.
-  - [ ] **C — line-by-line 間 (ma)** _(built; DEV-only)_ — each sentence surfaces alone with a long pause
-    between, then the CTA last. The most deliberate / atmospheric.
-  - _Reduced-motion → everything reveals at once (no wait). To review: reload the page (or DEV → Settings →
-    Game → New game) and watch the cold-open; toggle A/B/C in the DEV panel's **Variants** tab (top entry)._
+  - [x] **B — GBA typewriter** _(**APPROVED — shipped prod default**)_ — the lede types out
+    character-by-character like an old Pokémon game, then the CTA. The closest to the human's "slow GBA
+    scroll" reference.
+  - ~~**A — staged fade**~~ — cut (unpicked); dead code stripped (D-075).
+  - ~~**C — line-by-line 間 (ma)**~~ — cut (unpicked); dead code stripped (D-075).
+  - _Verdict (human, 2026-07-02): B · GBA typewriter — shipped; A/C removed._
+  - _Reduced-motion → everything reveals at once (no wait)._
 - **Log filter bar** (the story/event log's bottom channel filter — playtest F9, NEW 2026-07-02) — ✅
   **all three LIVE in the DEV panel** ("Log filter bar", top of the Variants tab). Default view =
   **Story** (only the narration shows; Work / Combat / Progress / All a tap away):
