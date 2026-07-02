@@ -67,6 +67,8 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   combat rework (HP accrues, no auto-heal, loss bites wealth), the bank, tightened koku.
 - **R2** 🔲 — remaining UI variants **live in the DEV panel** (D-075), incl. Estate-map
   A/B/C + the other playtest surfaces (multi-panel is now locked, not a variant).
+- **UI-v2 gallery** 🔲 — `prototype/index.html`: 7 diegetic framings (session-46) →
+  pick one → `diverge` (D-075); verdicts: `brainstorms/2026-07-02-ui-v2-fable-session.md`. ⚠️ commit local-only — push `main` when green.
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 

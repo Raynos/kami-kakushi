@@ -65,5 +65,6 @@ frame into the live game behind the DEV panel.
 - **Push outcome:** attempted at 22:45 — pre-push gate RED (17 failing
   tests, all in the parallel session's in-flight src WIP: route/travel
   expectations, not this commit's files). Per working agreements: no
-  `SKIP_VERIFY` override onto main — **commit `d42835e` left local**;
-  whoever next holds a green tree should `git push origin main` to land it.
+  `SKIP_VERIFY` override onto main — **this session-46 `feat(prototype)`
+  commit is left local**; whoever next holds a green tree should
+  `git push origin main` to land it.
