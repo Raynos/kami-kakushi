@@ -60,6 +60,7 @@ import {
   MOBS,
   balance,
 } from '../core';
+import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import type { Sfx } from './sfx';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
@@ -443,6 +444,18 @@ export function mount(
   logSection.append(el('h2', undefined, 'The house remembers'));
   const logLines = el('div', 'log-lines');
   logSection.append(logLines);
+  // the bottom filter bar (F9) — filters which channels show; Story leads, default 'story'.
+  const logFilterBar = el('div', 'log-filter-bar');
+  const logFilterBtns = new Map<LogFilter, HTMLButtonElement>();
+  for (const f of LOG_FILTERS) {
+    const b = el('button', 'log-filter-tab', f.label) as HTMLButtonElement;
+    b.type = 'button';
+    b.setAttribute('aria-label', `Show ${f.label} log`);
+    b.addEventListener('click', () => setLogFilter(f.id));
+    logFilterBtns.set(f.id, b);
+    logFilterBar.append(b);
+  }
+  logSection.append(logFilterBar);
 
   const work = el('section', 'work');
   const workHead = el('h2', undefined, 'What you can do');
@@ -505,6 +518,7 @@ export function mount(
   let coldOpenRevealVariant: string | null = null;
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
+  let logFilter: LogFilter = 'story';
   // track the last painted entry so a coalesced ×N bump (same key, higher count) repaints
   // the existing DOM line in place rather than appending a duplicate.
   let lastPaintedKey = -1;
@@ -1452,7 +1466,7 @@ export function mount(
     const reduced =
       window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
       document.documentElement.classList.contains('reduced-motion');
-    logSection.scrollTo({ top: logSection.scrollHeight, behavior: reduced ? 'auto' : 'smooth' });
+    logLines.scrollTo({ top: logLines.scrollHeight, behavior: reduced ? 'auto' : 'smooth' });
   }
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
@@ -1468,6 +1482,32 @@ export function mount(
       revealTimer = undefined;
       pumpReveal();
     }, LOG_STAGGER_MS);
+  }
+  function paintLogFilterBar(): void {
+    const variant = import.meta.env.DEV && dev ? dev.getVariant('log-filter') : 'log-filter-tabs';
+    logFilterBar.dataset.variant = variant;
+    for (const [id, btn] of logFilterBtns) btn.classList.toggle('active', id === logFilter);
+  }
+  function setLogFilter(f: LogFilter): void {
+    if (f === logFilter) return;
+    logFilter = f;
+    // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
+    logLines.textContent = '';
+    lastKey = -1;
+    lastPaintedKey = -1;
+    lastPaintedCount = 0;
+    revealQueue.length = 0;
+    if (revealTimer !== undefined) {
+      window.clearTimeout(revealTimer);
+      revealTimer = undefined;
+    }
+    if (lastState) {
+      const wasFirst = firstRender;
+      firstRender = true;
+      renderLog(lastState);
+      firstRender = wasFirst;
+    }
+    paintLogFilterBar();
   }
   function renderLog(state: GameState): void {
     const entries = state.log.entries;
@@ -1494,6 +1534,7 @@ export function mount(
       // in-place ×N growth: the last entry kept its key but bumped its count (a coalesce).
       // Only paint while the reveal cascade is idle (it self-heals on the next render).
       if (
+        logFilterMatches(last.channel, logFilter) &&
         last.key === lastPaintedKey &&
         (last.count ?? 1) !== lastPaintedCount &&
         revealQueue.length === 0 &&
@@ -1510,13 +1551,14 @@ export function mount(
       return;
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
+    const freshVisible = fresh.filter((e) => logFilterMatches(e.channel, logFilter));
 
     // on load / reset / reduced-motion / a single new line → append at once (no re-spam).
-    if (firstRender || didReset || reduceMotion() || fresh.length === 1) {
-      for (const e of fresh) appendLine(e, !firstRender && !reduceMotion());
+    if (firstRender || didReset || reduceMotion() || freshVisible.length === 1) {
+      for (const e of freshVisible) appendLine(e, !firstRender && !reduceMotion());
     } else {
       // a batch (the cold open, a rank-up reveal) → cascade the lines in one-by-one.
-      revealQueue.push(...fresh);
+      revealQueue.push(...freshVisible);
       if (revealQueue.length > 12) {
         // queue backed up during fast streaming — flush to catch up.
         if (revealTimer !== undefined) {
@@ -1835,6 +1877,7 @@ export function mount(
     renderVitals(state, prev);
     renderNav(state);
     renderLog(state);
+    paintLogFilterBar();
     workHead.hidden = activeTab !== 'work';
     renderLadder(state);
     renderEstate(state);

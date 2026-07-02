@@ -339,7 +339,87 @@ h3 {
   border-radius: var(--radius);
   padding: var(--space-4) var(--space-6);
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.log > h2 {
+  flex: 0 0 auto;
+}
+.log-lines {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+}
+/* the F9 log filter bar — pinned to the log foot; presentation diverges (tabs/chips/segmented). */
+.log-filter-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--ink-faint);
+}
+.log-filter-tab {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 2px var(--space-2);
+  min-height: 26px;
+  cursor: pointer;
+}
+.log-filter-tab.active {
+  color: var(--ai);
+}
+.log-filter-tab:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 3px var(--ai);
+}
+/* A — bottom tabs (default): the active tab underlined with the seal red. */
+.log-filter-bar[data-variant='log-filter-tabs'] .log-filter-tab {
+  border-radius: 0;
+}
+.log-filter-bar[data-variant='log-filter-tabs'] .log-filter-tab.active {
+  border-bottom: 2px solid var(--shu);
+}
+/* B — toggle chips: rounded pills, the active one filled indigo. */
+.log-filter-bar[data-variant='log-filter-chips'] .log-filter-tab {
+  border-radius: 999px;
+  border-color: var(--ink-faint);
+  background: var(--surface);
+}
+.log-filter-bar[data-variant='log-filter-chips'] .log-filter-tab.active {
+  background: var(--ai);
+  color: var(--washi);
+  border-color: var(--ai);
+}
+/* C — segmented control: one joined bar, the active segment inked. */
+.log-filter-bar[data-variant='log-filter-segmented'] {
+  gap: 0;
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab {
+  border: 1px solid var(--ink-faint);
+  border-radius: 0;
+  margin-left: -1px;
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab:first-child {
+  margin-left: 0;
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab:last-child {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab.active {
+  background: var(--ai);
+  color: var(--washi);
+  border-color: var(--ai);
 }
 .log h2 {
   font-size: var(--fs-h3);

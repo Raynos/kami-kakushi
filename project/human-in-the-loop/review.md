@@ -132,6 +132,16 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
     between, then the CTA last. The most deliberate / atmospheric.
   - _Reduced-motion → everything reveals at once (no wait). To review: reload the page (or DEV → Settings →
     Game → New game) and watch the cold-open; toggle A/B/C in the DEV panel's **Variants** tab (top entry)._
+- **Log filter bar** (the story/event log's bottom channel filter — playtest F9, NEW 2026-07-02) — ✅
+  **all three LIVE in the DEV panel** ("Log filter bar", top of the Variants tab). Default view =
+  **Story** (only the narration shows; Work / Combat / Progress / All a tap away):
+  - [ ] **A — bottom tabs** _(self-picked prod default)_ — an underlined tab row at the log foot; the
+    active channel underlined in seal-red.
+  - [ ] **B — toggle chips** _(built; DEV-only)_ — rounded pill chips; the active channel fills indigo.
+  - [ ] **C — segmented control** _(built; DEV-only)_ — one joined segmented bar, the active segment inked.
+  - _Channels: Story = narration · Work = labour/koku + mundane · Combat · Progress = rung-ups/unlocks ·
+    All. The mapping is unit-tested (`src/ui/log-filter.test.ts`). To review: toggle A/B/C in the DEV
+    panel's Variants tab, then click the filter tabs at the log foot._
 - _a11y: each surface's A ships a11y-100. B/C are DEV-only until picked; if you pick one I'll re-check WCAG
   contrast (the `--rokusho` grant + `--ochre`/gold accents on washi are the ones to watch)._
 - **How to review:** `npm run dev` → the **DEV panel** floats at the bottom-right (click **DEV** to expand) →
