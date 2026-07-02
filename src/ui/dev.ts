@@ -214,6 +214,28 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  // ── Workspace layout (multi-panel, M1) — STRUCTURAL, not a renderVariant surface. The renderer
+  //    reads the chosen id once per render and stamps it on the workspace/shell as a data-attribute;
+  //    CSS does ALL the arranging (there is no `renderSurfaceVariant('layout', …)` branch — the
+  //    panel toggle + rerender() drive the attribute swap). This pass is ONE axis, two values. ──
+  {
+    id: 'layout',
+    label: 'Workspace layout',
+    variants: [
+      {
+        id: 'layout-classic',
+        label: 'A · classic 2-column',
+        blurb:
+          'Today’s look — work column LEFT, story-log RIGHT, capped paper column (the shipped default).',
+      },
+      {
+        id: 'layout-byobu',
+        label: 'B · 屏風 folding columns',
+        blurb:
+          'Full-width folding columns: each slice a fold, hairline dividers, a wide reading-face log.',
+      },
+    ],
+  },
 ];
 
 export interface DevApi {

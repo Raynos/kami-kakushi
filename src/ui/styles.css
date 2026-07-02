@@ -322,11 +322,87 @@ h3 {
     grid-template-rows: auto;
     overflow: visible;
   }
+  /* both layouts converge on a single stacked column on narrow screens (natural page flow). */
+  .workspace[data-layout='layout-byobu'] {
+    display: flex;
+    flex-direction: column;
+  }
+  .workspace[data-layout='layout-byobu'] > .work {
+    display: contents;
+  }
+  .workspace[data-layout='layout-byobu'] .slice {
+    flex: 0 0 auto;
+    border-left: none;
+    min-height: 0;
+    padding: 0;
+  }
   .log,
-  .work {
+  .work,
+  .slice {
     max-height: none;
     overflow: visible;
   }
+}
+
+/* ── panel slices (multi-panel layout, M1) ──────────────────────────────────
+   The work-tab panes are grouped into named slice <section>s (see render.ts). In the
+   CLASSIC layout the three work slices stack inside `.work` (the LEFT column) and scroll
+   together — visually identical to the pre-slice single column. The story-log is also a
+   slice (`.slice-log` == `.log`). All arrangement is CSS keyed off `.workspace[data-layout]`;
+   a `hidden` slice collapses out of flow ([hidden]{display:none!important}), which is the
+   reveal-gating (early game = Do + Log only). */
+.slice-do,
+.slice-progress,
+.slice-estate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 0;
+}
+
+/* ── B · 屏風 folding columns — full-width vertical slices ────────────────────
+   `.work` dissolves (display:contents) so its slices join the workspace flex row as
+   columns alongside the log; each fold is an internal-scroll region separated by a
+   hairline `--ink-faint` rule (the folds of a byōbu screen). The ~1200px cap is dropped
+   for this layout (see `.shell[data-layout='layout-byobu']`), so it fills the width. */
+.workspace[data-layout='layout-byobu'] {
+  display: flex;
+  grid-template-columns: none;
+  gap: 0;
+  align-items: stretch;
+}
+.workspace[data-layout='layout-byobu'] > .work {
+  display: contents;
+}
+.workspace[data-layout='layout-byobu'] .slice {
+  flex: 1 1 0;
+  min-width: 0;
+  border-left: 1px solid var(--ink-faint);
+}
+.workspace[data-layout='layout-byobu'] .slice:not(.slice-log) {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--space-6);
+}
+.workspace[data-layout='layout-byobu'] .slice-do {
+  flex: 1.2 1 0;
+  border-left: none; /* the leftmost fold has no divider (Do is always present, R0) */
+}
+.workspace[data-layout='layout-byobu'] .slice-log {
+  flex: 1.3 1 0; /* the widest fold — a calm reading column beside the workbench */
+}
+/* the log reads like a page of a book in byōbu: the body reading face, a looser leading and
+   a tighter measure than the chrome. `.log` keeps its own internal scroll (log-lines). */
+.workspace[data-layout='layout-byobu'] .slice-log .log-lines {
+  font-family: var(--font-log, var(--font-body));
+  line-height: 1.85;
+  max-width: 52ch;
+}
+
+/* byōbu uses the WHOLE screen: drop the centered ~1200px paper cap for this layout only
+   (classic keeps it). Stamped on the shell alongside the workspace so header/footer widen too. */
+.shell[data-layout='layout-byobu'] {
+  max-width: none;
 }
 
 .log {

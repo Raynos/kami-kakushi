@@ -523,22 +523,41 @@ export function mount(
   // progress-context right below it and the global "spend-koku" panes (estate/market/storehouse)
   // beneath. Before, actions rendered dead-last and the farm button fell ~865px below the fold,
   // hiding the whole point of walking to a labour node.
-  work.append(
-    workHead,
-    actions,
-    ladder,
-    estatePane,
-    marketPane,
-    storehousePane,
-    influence,
-    skillsPane,
-    combatPane,
-    questsPane,
-    mapPane,
-  );
+  // ── panel slices (multi-panel layout, M1) — the work-tab panes are grouped into named,
+  //    reveal-gated slice <section>s. `work` stays the LEFT-column wrapper for the classic
+  //    layout; the byōbu layout dissolves it (CSS `display:contents`) so its slices become
+  //    full-width folding columns. Pane CONTENTS + their self-gating are UNTOUCHED — only the
+  //    grouping changes. Each slice carries a stable class + a `data-panel` id.
+  //    P1 · Do (the hero, always present R0) — the node labour + on non-Work tabs the active
+  //    tab's content (skills / combat / quests / map panes, which already hide by activeTab).
+  const sliceDo = el('section', 'slice slice-do');
+  sliceDo.dataset.panel = 'do';
+  sliceDo.setAttribute('aria-label', 'Work');
+  sliceDo.append(workHead, actions, skillsPane, combatPane, questsPane, mapPane);
+  // P2 · Path & Progress — the rung ladder (appears at first rake, R0→R1).
+  const sliceProgress = el('section', 'slice slice-progress');
+  sliceProgress.dataset.panel = 'progress';
+  sliceProgress.setAttribute('aria-label', 'Path & progress');
+  sliceProgress.append(ladder);
+  // P3 · Estate & Economy — the koku sinks + the R7 House-Influence capstone (~R2).
+  const sliceEstate = el('section', 'slice slice-estate');
+  sliceEstate.dataset.panel = 'estate';
+  sliceEstate.setAttribute('aria-label', 'Estate & economy');
+  sliceEstate.append(estatePane, marketPane, storehousePane, influence);
+  work.append(sliceDo, sliceProgress, sliceEstate);
 
-  // the story log lives in the RIGHT column now (idle-RPG convention, playtest F8); the
-  // interactive work/actions column sits on the LEFT.
+  // P4 · the story-log — its OWN persistent slice (always present R0). It keeps its `.log`
+  // styling untouched (classic looks identical); the slice classes only let byōbu widen it into
+  // a reading column. It's never reveal-gated (the log is the diegetic hero surface).
+  logSection.classList.add('slice', 'slice-log');
+  logSection.dataset.panel = 'log';
+
+  // the reveal-gated slices (P4 log persists, so it's excluded) — each hides when all its panes
+  // are hidden, so early game is Do + Log only and the screen inks in as surfaces unlock.
+  const gatedSlices = [sliceDo, sliceProgress, sliceEstate];
+
+  // the story log lives in the RIGHT column (idle-RPG convention, playtest F8); the interactive
+  // work/actions column sits on the LEFT (classic). Byōbu re-arranges the same DOM via CSS.
   workspace.append(work, logSection);
 
   // ── fixed footer bar (F5) — the version stamp + the Settings entry, pinned to the bottom ──
@@ -605,6 +624,12 @@ export function mount(
   function setTab(tab: Tab): void {
     activeTab = tab;
     if (lastState) render(lastState, null);
+  }
+
+  // M1 reveal-gating — a slice is present only while at least one of its panes is visible.
+  function hasVisibleChild(slice: HTMLElement): boolean {
+    for (const child of slice.children) if (!(child as HTMLElement).hidden) return true;
+    return false;
   }
 
   const TAB_LABEL: Record<Tab, string> = {
@@ -2180,6 +2205,13 @@ export function mount(
       cancelColdOpenReveal?.();
       coldOpenRevealStarted = false;
     }
+    // Multi-panel layout (M1): stamp the chosen DEV `layout` variant. Prod always folds to
+    // 'layout-classic' — the `import.meta.env.DEV && dev` guard tree-shakes the dev read out (the
+    // same strip pattern as the influence/market variants). CSS arranges the slices per
+    // `.workspace[data-layout]`; the shell carries it too so byōbu can drop the width cap.
+    const layout = import.meta.env.DEV && dev ? dev.getVariant('layout') : 'layout-classic';
+    workspace.dataset.layout = layout;
+    shell.dataset.layout = layout;
     renderVitals(state, prev);
     renderNav(state);
     renderLog(state);
@@ -2202,6 +2234,11 @@ export function mount(
     renderCombat(state);
     renderQuests(state);
     renderMap(state);
+    // M1 reveal-gating: a slice is HIDDEN (removed from flow — never shown as a locked box) until
+    // one of its panes renders visible. Runs AFTER the per-pane renders set each pane's `hidden`,
+    // so early game is Do + Log only and each slice inks in as its surface unlocks (the widening
+    // of the screen becomes a progression beat). Hidden slices collapse out of the grid/flex flow.
+    for (const slice of gatedSlices) slice.hidden = !hasVisibleChild(slice);
     // the signature beats: a rung promotion presses the house seal (ui-design §6.2); a TIER
     // ascension lands the bigger ceremony (D-062). Tier change wins (don't double-fire).
     if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);
