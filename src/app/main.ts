@@ -39,6 +39,39 @@ interface RevealMark {
   tick: number;
 }
 
+/** Compute the DEV rung-teleport target state, working in EITHER direction (F68). Pure: no side
+ *  effects — returns the landed state plus whether a reset happened (so the caller clears its
+ *  reveal/action counters). Climb UP from `current`; jump AT-OR-BELOW the current rung ⇒ a fresh
+ *  `createInitialState` FIRST (so no stale higher-rung unlock/panel lingers) then re-climb — the
+ *  human's "new game + RX back-to-back to go down a rung". O(rungs) `promoteRungs` calls, NO
+ *  tick-resim (keeps the F24 no-CPU-spin fix). Exported so the descend-resets-then-climbs logic is
+ *  unit-testable against the pure core. */
+export function planRungJump(
+  current: GameState,
+  target: RankId,
+): { reset: boolean; state: GameState } {
+  const order = RANKS.map((r) => r.id);
+  const targetIdx = order.indexOf(target);
+  if (targetIdx < 0) return { reset: false, state: current }; // unknown rung → no-op
+  // The only story-half gates below R4 (R1 `farmed`, R2 `first-fight-survived`, R3 `combat-blooded`);
+  // granting all three is harmless (R0 + R4…R7 are always-ready) and lets the ladder climb.
+  const storyFlags = { farmed: true, 'first-fight-survived': true, 'combat-blooded': true };
+  // Descend or self-jump ⇒ reset: a fresh game clears EVERY higher-rung unlock, then we re-climb.
+  const reset = targetIdx <= order.indexOf(current.rung);
+  let s = reset ? createInitialState(DEFAULT_SEED) : current;
+  let guard = 0;
+  // A meter saturated to the CURRENT rung's threshold promotes exactly ONE rung (promoteRungs
+  // zeroes the meter after each), so re-saturate and step until the target is reached.
+  while (order.indexOf(s.rung) < targetIdx && guard++ < order.length) {
+    s = promoteRungs({
+      ...s,
+      flags: { ...s.flags, ...storyFlags },
+      rungMeter: balance.rungThreshold(s.rung),
+    });
+  }
+  return { reset, state: s };
+}
+
 async function boot(): Promise<void> {
   const root = document.getElementById('app');
   if (!root) return;
@@ -290,31 +323,29 @@ async function boot(): Promise<void> {
       auto: (id: ActivityId | null) => dispatch({ type: 'set_auto', activityId: id }),
       /** Walk to a map node via real move_to hops over the revealed graph. */
       goto: (node: string) => walkTo(node),
-      // DEV teleport to a target rung. This USED to greedily re-simulate the focused-optimal policy
-      // tick-by-tick (up to 50_000 focusedOptimalIntent+dispatch steps, each a fresh map BFS) — a long
-      // synchronous main-thread sim that spun the CPU and FROZE the page (F24). Instead, grant the
-      // story-half gate flags + a saturated meter and drive the REAL promotion engine ONE rung per
-      // call: O(rungs) (≤ 7 iterations), and each promote still fires that rung's rewardOnReach
-      // (reveals/unlocks) + the satiety refill, so the landed state is coherent for review. The
-      // non-dev rung ladder (promoteRungs) is untouched — only the dev teleport's cost changes.
+      // DEV teleport to ANY rung, in EITHER direction (F68). This USED to greedily re-simulate the
+      // focused-optimal policy tick-by-tick (up to 50_000 steps, each a fresh map BFS) — a long
+      // synchronous sim that spun the CPU and FROZE the page (F24); it also only ever climbed UP.
+      // Now the pure `planRungJump` does the work: climbing up promotes from the current state as
+      // before; a jump AT-OR-BELOW the current rung RESETS to a fresh game first (clearing every
+      // stale higher-rung unlock/panel) then re-climbs — the human's "new game + RX back-to-back to
+      // go down a rung". Still O(rungs) promoteRungs calls with NO tick-resim, so the F24 fix holds.
       toRung: (id: RankId) => {
-        const order = RANKS.map((r) => r.id);
-        const targetIdx = order.indexOf(id);
-        if (targetIdx < 0) return state.rung;
-        // The only story-half gates below R4: R1 needs `farmed`, R2 `first-fight-survived`, R3
-        // `combat-blooded` (R0 + R4…R7 are always-ready). Granting all three is harmless and lets the
-        // ladder climb; a meter saturated to the CURRENT rung's threshold promotes exactly one rung
-        // (promoteRungs resets the meter to 0 after each promotion), so the loop steps rung-by-rung.
-        const storyFlags = { farmed: true, 'first-fight-survived': true, 'combat-blooded': true };
-        let guard = 0;
-        while (order.indexOf(state.rung) < targetIdx && guard++ < order.length) {
-          commit(
-            promoteRungs({
-              ...state,
-              flags: { ...state.flags, ...storyFlags },
-              rungMeter: balance.rungThreshold(state.rung),
-            }),
-          );
+        const plan = planRungJump(state, id);
+        if (plan.state === state) return state.rung; // unknown target → no-op
+        if (plan.reset) {
+          // Mirror newGame: drop to the freshly-climbed target state with NO diff against the old
+          // higher-rung state — so no phantom reveal-animation fires and no abandoned panel lingers.
+          prev = null;
+          reveals.length = 0;
+          actionCount = 0;
+          state = plan.state;
+          safely(() => render(state, null));
+          scheduleSave();
+        } else {
+          // Upward: a single commit of the fully-climbed state; trackReveals still records every
+          // newly-unlocked id and the accumulated milestone log rides along.
+          commit(plan.state);
         }
         return state.rung;
       },

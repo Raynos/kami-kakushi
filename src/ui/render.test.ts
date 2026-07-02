@@ -10,6 +10,8 @@ import {
   foesHere,
   setFlag,
   balance,
+  DIALOGUE_SCENES,
+  ATTR_META,
   type GameState,
   type Intent,
   type LogEntry,
@@ -473,5 +475,263 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     expect(inked).toBeTruthy();
     expect(inked!.textContent).toContain('%');
     expect(inked!.textContent).toContain('Tell —');
+  });
+});
+
+// ── F62 — the two-column VN intro modal: ask → done → decide gating + choose → reply → Continue ──
+// (MODE==='test' → the typewriter is instant, so the panel + transcript render synchronously.)
+describe('F62/F81 — the interactive intro VN scene (append-only, two columns)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  // an intro-active state (awake so render shows the VN scene, not the cold-open) parked at `beat`.
+  function introState(beat: number, askedTopics: string[] = []): GameState {
+    const base = createInitialState(1);
+    return { ...base, introBeat: beat, askedTopics, flags: { ...base.flags, awake: true } };
+  }
+  function spyMount(): { seen: Intent[]; render: ReturnType<typeof mount> } {
+    const seen: Intent[] = [];
+    return { seen, render: mount(root, (i) => seen.push(i), noopHooks()) };
+  }
+  const byText = (sel: string, substr: string): HTMLButtonElement | undefined =>
+    [...root.querySelectorAll<HTMLButtonElement>(sel)].find((b) =>
+      (b.textContent ?? '').includes(substr),
+    );
+  // a sub-panel counts as SHOWN only when it exists and isn't hidden (the panel is a stable region
+  // whose sub-panels toggle `hidden` in place — F79, never removed from the DOM).
+  const shown = (sel: string): boolean => {
+    const e = root.querySelector<HTMLElement>(sel);
+    return !!e && !e.hidden;
+  };
+
+  it('renders TWO columns; Phase 1 shows the ask hub, the decide grid stays hidden', () => {
+    const { render } = spyMount();
+    render(introState(0), null);
+    expect(root.querySelector('.vn-body')).not.toBeNull();
+    expect(root.querySelector('.vn-story .vn-lines')).not.toBeNull();
+    expect(root.querySelector('.vn-panel')).not.toBeNull();
+    // the greeting typed into the story; the ASK sub-panel is shown, the DECIDE sub-panel is hidden.
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain('Sōan');
+    expect(root.querySelectorAll('.intro-ask').length).toBe(DIALOGUE_SCENES[0]!.topics.length);
+    expect(shown('.vn-ask')).toBe(true);
+    expect(shown('.vn-decide')).toBe(false); // the decision is withheld in the ask phase
+    expect(root.querySelector('.intro-done')).not.toBeNull();
+  });
+
+  it('"I\'ve heard enough" swaps to the DECIDE grid WITHOUT recreating the story nodes (F81)', () => {
+    const { render } = spyMount();
+    render(introState(0), null);
+    // capture the first already-rendered greeting line to prove it is NOT destroyed on the swap.
+    const firstLine = root.querySelector<HTMLElement>('.vn-story .vn-line')!;
+    expect(firstLine).not.toBeNull();
+    root.querySelector<HTMLButtonElement>('.intro-done')!.click();
+    // the SAME node persists (append-only — no teardown/innerHTML reset ⇒ no flash).
+    expect(firstLine.isConnected).toBe(true);
+    expect(root.querySelector('.vn-story .vn-line')).toBe(firstLine);
+    // the panel swapped IN PLACE: decide shown, ask hidden (both still in the DOM).
+    expect(shown('.vn-decide')).toBe(true);
+    expect(shown('.vn-ask')).toBe(false);
+    expect(root.querySelectorAll('.intro-choice').length).toBe(
+      DIALOGUE_SCENES[0]!.decision.options.length,
+    );
+    // the decision prompt joined the story transcript (so it, too, is typed — F82/F83).
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      DIALOGUE_SCENES[0]!.decision.prompt,
+    );
+  });
+
+  it('an asked Q/A APPENDS to the story, leaving prior lines untouched (append-only diff)', () => {
+    const { render } = spyMount();
+    const topic = DIALOGUE_SCENES[0]!.topics[0]!;
+    render(introState(0), null);
+    const greetingLines = root.querySelectorAll('.vn-story .vn-line').length;
+    const firstLine = root.querySelector<HTMLElement>('.vn-story .vn-line')!;
+    // simulate the core having recorded the ask (askedTopics grows) + a re-render.
+    render(introState(0, [topic.id]), null);
+    expect(firstLine.isConnected).toBe(true); // the greeting node was NOT recreated
+    const lines = root.querySelectorAll('.vn-story .vn-line');
+    expect(lines.length).toBeGreaterThan(greetingLines); // the Q + answer appended
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(topic.label);
+  });
+
+  it('each decision button is THEMED by the attribute it grants +1 (accent + kanji chip)', () => {
+    const { render } = spyMount();
+    render(introState(0), null);
+    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!; // soan-grateful → +INT
+    const btn = byText('.intro-choice', opt.label)!;
+    expect(btn).toBeTruthy();
+    expect(btn.style.getPropertyValue('--attr-accent')).toContain(`attr-${opt.stat.up}`);
+    const chip = btn.querySelector<HTMLElement>('.intro-choice-tag')!;
+    expect(chip).not.toBeNull();
+    expect(chip.textContent).toBe(ATTR_META[opt.stat.up].kanji);
+  });
+
+  it('picking a choice does NOT advance — reply + fresh divider + perk + Continue appear', () => {
+    const { seen, render } = spyMount();
+    render(introState(0), null);
+    root.querySelector<HTMLButtonElement>('.intro-done')!.click();
+    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    byText('.intro-choice', opt.label)!.click();
+    // the KEY complaint fix: picking never dispatches choose_intro (no scene jump yet).
+    expect(seen.some((i) => i.type === 'choose_intro')).toBe(false);
+    // the chosen reply (what the CHARACTER said back) appended to the story…
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      opt.react.slice(1, 20),
+    );
+    // …under the SAME fade-away fresh-entries divider the main log uses (F76)…
+    expect(root.querySelector('.vn-story .log-fresh-divider')).not.toBeNull();
+    // …the granted perk shows as an attribute-themed box, and the outcome panel is shown…
+    const perk = root.querySelector<HTMLElement>('.perk-box')!;
+    expect(perk).not.toBeNull();
+    expect(perk.textContent).toContain(opt.perk.name);
+    expect(perk.classList.contains('attr-themed')).toBe(true);
+    expect(root.querySelector('.perk-attr-chip')!.textContent).toBe(ATTR_META[opt.stat.up].kanji);
+    expect(shown('.vn-outcome')).toBe(true);
+    expect(shown('.vn-decide')).toBe(false);
+    // …and a single Continue is the ONLY way onward.
+    expect(root.querySelector('.intro-continue')).not.toBeNull();
+  });
+
+  it('ONLY Continue dispatches choose_intro (advancing the scene)', () => {
+    const { seen, render } = spyMount();
+    render(introState(0), null);
+    root.querySelector<HTMLButtonElement>('.intro-done')!.click();
+    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    byText('.intro-choice', opt.label)!.click();
+    root.querySelector<HTMLButtonElement>('.intro-continue')!.click();
+    expect(seen).toContainEqual({ type: 'choose_intro', optionId: opt.id });
+  });
+
+  it('a decision-only scene (the dream — no topics) opens straight in the DECIDE grid', () => {
+    const dreamIdx = DIALOGUE_SCENES.findIndex((s) => s.topics.length === 0);
+    expect(dreamIdx).toBeGreaterThanOrEqual(0);
+    const { render } = spyMount();
+    render(introState(dreamIdx), null);
+    expect(shown('.vn-decide')).toBe(true);
+    expect(root.querySelector('.vn-choices.vn-grid')).not.toBeNull();
+    expect(root.querySelector('.intro-ask')).toBeNull(); // no ask hub for a topic-less scene
+    expect(root.querySelector('.intro-done')).toBeNull();
+    // the prompt still types into the story on entry (nothing pops in un-typed — F82/F83).
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      DIALOGUE_SCENES[dreamIdx]!.decision.prompt,
+    );
+  });
+});
+
+// ── Multi-panel workspace: the locked byōbu+cards layout, the sticky-bottom log, the in-flow
+//    pedlar buy control, and the no-empty-ghost-slice fix. DOM tests drive the real renderer. ──
+describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function awake(extraUnlocked: string[] = []): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, ...extraUnlocked],
+    };
+  }
+  const narr = (key: number, text: string): LogEntry => ({
+    key,
+    channel: 'narration',
+    text,
+    tick: 0,
+    count: 1,
+  });
+  function logged(entries: LogEntry[]): GameState {
+    return { ...awake(), log: { entries, seq: entries.length } };
+  }
+
+  it('locks byōbu folding-columns + soft cards as the sole prod rendering (no DEV toggle)', () => {
+    const render = mount(root, () => {}, noopHooks()); // no dev harness = the prod path
+    render(awake(), null);
+    const ws = root.querySelector<HTMLElement>('.workspace')!;
+    expect(ws.dataset.layout).toBe('layout-byobu');
+    expect(ws.dataset.framing).toBe('framing-cards');
+    expect(root.querySelector<HTMLElement>('.shell')!.dataset.layout).toBe('layout-byobu');
+  });
+
+  it('F77 — a new log line pins the reader to the newest entry (sticky-bottom)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s0 = logged([narr(0, 'The rice is spilled.'), narr(1, 'You take up the rake.')]);
+    render(s0, null);
+    const lines = root.querySelector<HTMLElement>('.log-lines')!;
+    Object.defineProperty(lines, 'scrollHeight', { configurable: true, value: 500 });
+    Object.defineProperty(lines, 'clientHeight', { configurable: true, value: 100 });
+    const s1 = logged([...s0.log.entries, narr(2, 'Another line arrives.')]);
+    render(s1, s0);
+    expect(lines.scrollTop).toBe(500); // followed the newest line to the foot
+  });
+
+  it('F77 — a reader scrolled UP into history is NOT yanked to the bottom', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s0 = logged([narr(0, 'a'), narr(1, 'b')]);
+    render(s0, null);
+    const lines = root.querySelector<HTMLElement>('.log-lines')!;
+    Object.defineProperty(lines, 'scrollHeight', { configurable: true, value: 500 });
+    Object.defineProperty(lines, 'clientHeight', { configurable: true, value: 100 });
+    lines.scrollTop = 0; // the reader scrolled up to read old lines…
+    lines.dispatchEvent(new Event('scroll')); // …which un-pins them from the foot
+    const s1 = logged([...s0.log.entries, narr(2, 'c')]);
+    render(s1, s0);
+    expect(lines.scrollTop).toBe(0); // left where they were, not yanked down
+  });
+
+  it('F67/F72 — the pedlar buy control sits in its OWN in-flow cell (never a floating overlap)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(['panel-estate']), null);
+    const rows = [...root.querySelectorAll<HTMLElement>('.market-pane .market-row')];
+    expect(rows.length).toBeGreaterThan(0);
+    for (const row of rows) {
+      const item = row.querySelector('.market-item')!;
+      const buy = row.querySelector('.market-buy')!;
+      expect(item).not.toBeNull();
+      expect(buy).not.toBeNull();
+      expect(buy.querySelector('button')).not.toBeNull(); // the price button lives in the buy cell
+      // the copy comes FIRST, the buy control AFTER (a vertical stack), and the button is NOT a bare
+      // flex-sibling of the copy (which was the overlap-prone `space-between` row).
+      const kids = [...row.children];
+      expect(kids.indexOf(item)).toBeLessThan(kids.indexOf(buy));
+      expect(kids.some((c) => c.tagName === 'BUTTON')).toBe(false);
+    }
+  });
+
+  it('F72 — an empty rung ladder collapses its Progress slice, never an empty framed ghost card', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // awake but not yet raked and the rung-ladder panel not unlocked → the ladder has nothing to show.
+    render(awake(), null);
+    expect(root.querySelector<HTMLElement>('.ladder')!.hidden).toBe(true);
+    expect(root.querySelector<HTMLElement>('.slice-progress')!.hidden).toBe(true);
   });
 });

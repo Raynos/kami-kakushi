@@ -9,7 +9,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { createDevApi, mountDevPanel, type DevQa } from './dev';
-import { createInitialState, setFlag, type GameState } from '../core';
+import { createInitialState, setFlag, type GameState, type RankId } from '../core';
 
 function noopHooks(): AppHooks {
   let muted = false;
@@ -54,6 +54,15 @@ describe('createDevApi — the variant registry + selection', () => {
     const dev = createDevApi();
     dev.setVariant('influence', 'influence-b');
     expect(dev.getVariant('influence')).toBe('influence-b');
+  });
+  // D-075 zero-flag-debt — the workspace layout+framing pick is LOCKED (byōbu + soft cards), so the
+  // `layout`/`framing` variant surfaces were PRUNED. RED-able: if either toggle surface returned, the
+  // registry would carry it again (and the prod default would stop being the sole rendering).
+  it('no longer registers the pruned layout/framing surfaces', () => {
+    const dev = createDevApi();
+    const ids = dev.surfaces.map((s) => s.id);
+    expect(ids).not.toContain('layout');
+    expect(ids).not.toContain('framing');
   });
 });
 
@@ -265,6 +274,7 @@ describe('DEV panel — Speed row (F49)', () => {
       auto: () => {},
       autoCombat: () => {},
       newGame: () => {},
+      selectors: { rung: () => 'R0' as RankId },
     };
     return q;
   }

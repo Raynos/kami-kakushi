@@ -24,6 +24,7 @@ import {
   MOBS,
   MARKET_ITEMS,
   QUESTS,
+  RANKS,
   RECIPES,
   type ActivityId,
   type GameState,
@@ -185,69 +186,12 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
-  // ── Workspace layout (multi-panel, M2) — STRUCTURAL, not a renderVariant surface. The renderer
-  //    reads the chosen id once per render and stamps it on the workspace/shell as a data-attribute;
-  //    CSS does ALL the arranging (there is no `renderSurfaceVariant('layout', …)` branch — the
-  //    panel toggle + rerender() drive the attribute swap). M2 splits the presentation into TWO
-  //    INDEPENDENT AXES — `layout` (arrangement, below) × `framing` (the boxing treatment, next
-  //    surface) — that CSS composes, so a handful of implementations yield many live combos. ──
-  {
-    id: 'layout',
-    label: 'Workspace arrangement',
-    variants: [
-      {
-        id: 'layout-classic',
-        label: 'A · classic 2-column',
-        blurb:
-          'Today’s look — work column LEFT, story-log RIGHT, capped paper column (the shipped default).',
-      },
-      {
-        id: 'layout-byobu',
-        label: 'B · 屏風 folding columns',
-        blurb:
-          'Full-width folding columns: each slice a fold, a wide reading-face log on the right.',
-      },
-      {
-        id: 'layout-banzuke',
-        label: 'C · 番付 dashboard grid',
-        blurb:
-          'Auto-flow woodblock cards across the full width; the log a tall card spanning two rows.',
-      },
-      {
-        id: 'layout-makimono',
-        label: 'D · 巻物 workbench + bottom rail',
-        blurb: 'Work slices up top; the story-log a full-width GBA message-rail along the bottom.',
-      },
-    ],
-  },
-  // ── Panel framing (multi-panel, M2) — the SECOND independent axis. Also STRUCTURAL: the renderer
-  //    stamps `workspace.dataset.framing`; CSS styles slice framing per `[data-framing]`, COMPOSING
-  //    with `[data-layout]`. Inert under `layout-classic` (one stacked column has no inter-slice
-  //    framing to speak of), so classic + any framing stays visually identical to today. ──
-  {
-    id: 'framing',
-    label: 'Panel framing',
-    variants: [
-      {
-        id: 'framing-boxes',
-        label: 'A · woodblock boxes',
-        blurb:
-          'Each slice a woodblock key-block box (the triple sumi rule), the densest, most-panels read (default).',
-      },
-      {
-        id: 'framing-hairline',
-        label: 'B · hairline dividers',
-        blurb:
-          'No boxes — thin --ink-faint rules between slices, so the screen reads as one continuous paper field.',
-      },
-      {
-        id: 'framing-cards',
-        label: 'C · soft cards',
-        blurb:
-          'Each slice a soft washi card surface (subtle fill + shadow, no hard keyline) — a calmer dashboard.',
-      },
-    ],
-  },
+  // ── Workspace layout + framing (multi-panel, M2) — LOCKED, not toggleable. The human picked
+  //    屏風 folding-columns (`layout-byobu`) + soft cards (`framing-cards`) as the sole prod
+  //    rendering (D-075 zero-flag-debt), so the `layout`/`framing` variant surfaces were pruned:
+  //    render.ts stamps the two data-attributes as CONSTANTS and CSS does all the arranging. No
+  //    dead variant code ships (the classic / 番付 / 巻物 layouts + woodblock-box / hairline
+  //    framings were removed here and from styles.css). ──
 ];
 
 export interface DevApi {
@@ -1219,6 +1163,8 @@ export interface DevQa {
   auto(id: ActivityId | null): void;
   autoCombat(id: MobId | null): void;
   newGame(seed?: number): void;
+  /** Read the live rung so the panel can highlight it (structural subset of __qa.selectors). */
+  selectors: { rung(): RankId };
 }
 
 export function mountDevPanel(
@@ -1359,10 +1305,30 @@ export function mountDevPanel(
   const jump = section('Jump');
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));
+  // F68 — a button for EVERY rung in the roster (source of truth: RANKS/ranks.ts), not a partial
+  // set. Clicking teleports in EITHER direction (toRung resets-then-climbs to descend); the CURRENT
+  // rung reads highlighted (the gold #b08d4f active idiom the Speed row + tab bar use). Compact:
+  // id + kanji on the button face, the full English title in the tooltip.
   const rungs = section('Rung');
-  // R3/R4/R5 expose each beat of the A7 staggered combat reveal (bestiary → durability/equip →
-  // stance); R7 opens Phase 2.
-  for (const r of ['R3', 'R4', 'R5', 'R7'] as RankId[]) rungs.append(mono(r, () => qa.toRung(r)));
+  const rungBtns = new Map<RankId, HTMLButtonElement>();
+  const markRung = (active: RankId): void => {
+    for (const [id, b] of rungBtns) {
+      const on = id === active;
+      b.style.background = on ? '#b08d4f' : '#3a322a';
+      b.style.color = on ? '#1c1814' : '#e7d9bc';
+      b.style.fontWeight = on ? '700' : 'normal';
+    }
+  };
+  for (const r of RANKS) {
+    const b = mono(`${r.id} ${r.kanji}`, () => {
+      qa.toRung(r.id);
+      markRung(qa.selectors.rung());
+    });
+    b.title = r.title;
+    rungBtns.set(r.id, b);
+    rungs.append(b);
+  }
+  markRung(qa.selectors.rung()); // highlight the rung the game is currently at
 
   // combat + auto
   const combat = section('Combat / Auto');

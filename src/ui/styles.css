@@ -51,6 +51,15 @@
   --rokusho: #3e6958;
   --gold: #b08d4f;
 
+  /* ── ATTRIBUTE pigments — the five stats, each a traditional colour that sits on washi. The
+     intro decision buttons + the perk they grant are themed by the attribute the choice boosts
+     (+1), so a pick reads as belonging to its stat. Kanji live in ATTR_META (src/core). ── */
+  --attr-str: #a83f2b; /* 力 bengara iron-red — +atk */
+  --attr-agi: #4f8a5b; /* 敏 wakatake green — +eva·acc */
+  --attr-int: #6b5b95; /* 智 murasaki purple — +dmg·known */
+  --attr-spd: #2d8fa5; /* 速 asagi cyan — +speed */
+  --attr-luck: #c0902e; /* 運 kincha gold — +crit·luck */
+
   /* ── semantic aliases ───────────────────────────────────────────────── */
   --bg: var(--washi);
   --surface: var(--washi-shade);
@@ -362,36 +371,38 @@ h3 {
     grid-template-rows: auto;
     overflow: visible;
   }
-  /* EVERY arrangement converges on a single stacked column on narrow screens (natural page flow).
-     `.work` dissolves so its slices stack directly; framing boxes/dividers and rail heights all
-     reset — a single column has no inter-slice framing to carry. */
-  .workspace[data-layout='layout-byobu'],
-  .workspace[data-layout='layout-banzuke'],
-  .workspace[data-layout='layout-makimono'] {
+  /* Byōbu collapses to a single stacked column on narrow screens (natural page flow): the work
+     column and the log stack; the ⅓-viewport log floor lifts and the card framing drops — a single
+     column has no inter-slice framing to carry. */
+  .workspace[data-layout='layout-byobu'] {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
   }
-  .workspace[data-layout='layout-byobu'] > .work,
-  .workspace[data-layout='layout-banzuke'] > .work,
-  .workspace[data-layout='layout-makimono'] > .work {
-    display: contents;
+  .workspace[data-layout='layout-byobu'] > .work {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+    overflow: visible;
   }
-  .workspace:not([data-layout='layout-classic']) .slice {
+  .workspace[data-layout='layout-byobu'] .slice-log {
+    flex: 0 0 auto;
+    min-width: 0;
+    min-height: 0;
+    max-height: none;
+  }
+  .workspace[data-layout='layout-byobu'] .slice {
     flex: 0 0 auto;
     min-height: 0;
-    grid-row: auto;
   }
-  /* drop all framing on mobile (single column) — no borders, boxes, or forced padding */
-  .workspace:not([data-layout='layout-classic']) .slice:not(.slice-log) {
+  /* drop the card framing on mobile (single column) — no borders, boxes, or forced padding */
+  .workspace[data-layout='layout-byobu'] .slice:not(.slice-log) {
     border: none;
     box-shadow: none;
     background: none;
     padding: 0;
-  }
-  .workspace:not([data-layout='layout-classic']) .slice-log {
-    min-height: 0;
-    max-height: none;
   }
   .log,
   .work,
@@ -417,135 +428,51 @@ h3 {
   min-height: 0;
 }
 
-/* ═══ ARRANGEMENT AXIS (M2) — geometry ONLY (flex/grid, sizing, internal scroll). Every full-width
-   arrangement dissolves `.work` (display:contents) so its work slices join the workspace layout as
-   direct items alongside the log. The BOXING of the slices is the separate FRAMING axis below, which
-   composes with each of these — so byōbu × {boxes|hairline|cards} etc. are all live combos. ═══ */
-
-/* ── B · 屏風 folding columns — full-width vertical slices, Do widest on the left, the log the
-   widest reading fold on the right. ── */
+/* ═══ WORKSPACE ARRANGEMENT (M2) — LOCKED to 屏風 folding-columns. A modest 2-fold spread: the WORK
+   fold (the Do / Progress / Estate slices stacked as soft cards, left) and the LOG fold (a first-
+   class reading column, right). Kept to two columns on purpose (F71 — "flexible/modest, 2–3, not
+   over-packed"); reveal-gating still inks the work cards in as surfaces unlock, but they stack
+   WITHIN the one work fold rather than each becoming its own column. The classic / 番付 / 巻物
+   arrangements were pruned (D-075 zero-flag-debt). ═══ */
 .workspace[data-layout='layout-byobu'] {
   display: flex;
   grid-template-columns: none;
   gap: var(--space-4);
   align-items: stretch;
 }
+/* the LEFT work fold — a single column that stacks its slices and scrolls internally. */
 .workspace[data-layout='layout-byobu'] > .work {
-  display: contents;
-}
-.workspace[data-layout='layout-byobu'] .slice {
   flex: 1 1 0;
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
-.workspace[data-layout='layout-byobu'] .slice-do {
-  flex: 1.2 1 0;
-}
+/* the RIGHT log fold — a first-class reading column with a HARD ⅓-of-VIEWPORT minimum width that it
+   NEVER collapses below, in any folding state (F71). `min-width` overrides flex-shrink, so the log
+   always keeps its third of the screen. `.log` keeps its own internal scroll (`.log-lines`). */
 .workspace[data-layout='layout-byobu'] .slice-log {
-  flex: 1.3 1 0; /* the widest fold — a calm reading column beside the workbench */
+  flex: 1 1 33.333vw;
+  min-width: 33.333vw;
+  min-height: 0;
 }
-/* the log reads like a page of a book in byōbu: the body reading face, a looser leading and
-   a tighter measure than the chrome. `.log` keeps its own internal scroll (log-lines). */
+/* the log reads like a page of a book in byōbu: the body reading face on a looser leading. F85 — the
+   text fills the panel's FULL width (no narrow measure), and the scroll track sits FLUSH against the
+   panel's true right edge: extend the scroller into `.log`'s right padding, then re-pad the text so
+   it never runs under the scrollbar. */
 .workspace[data-layout='layout-byobu'] .slice-log .log-lines {
   font-family: var(--font-log, var(--font-body));
   line-height: 1.85;
-  max-width: 52ch;
+  margin-right: calc(-1 * var(--space-6));
+  padding-right: var(--space-6);
 }
 
-/* ── C · 番付 dashboard grid — the slices as auto-flow cards across the full width; the log a tall
-   card spanning two rows. Hidden slices drop out and the grid reflows (2 cards early → many late),
-   so reveal-gating still drives the fill — no empty-box wall. ── */
-.workspace[data-layout='layout-banzuke'] {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-  grid-auto-rows: minmax(0, 1fr);
-  grid-auto-flow: row dense;
-  gap: var(--space-4);
-  align-items: stretch;
-}
-.workspace[data-layout='layout-banzuke'] > .work {
-  display: contents;
-}
-.workspace[data-layout='layout-banzuke'] .slice {
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-}
-.workspace[data-layout='layout-banzuke'] .slice-log {
-  grid-row: span 2; /* the log stands as a tall card on the dashboard */
-}
-
-/* ── D · 巻物 workbench + bottom message-rail — the work slices across the top, the story-log docked
-   as a full-width rail along the BOTTOM of the content region (above the fixed footer). The rail has
-   a min-height so narration is never hidden and a capped height so it stays a rail; its lines scroll
-   internally. Exercises the human's "the log can be moved and resized" note. ── */
-.workspace[data-layout='layout-makimono'] {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: var(--space-4);
-  align-items: stretch;
-}
-.workspace[data-layout='layout-makimono'] > .work {
-  display: flex;
-  gap: var(--space-4);
-  min-height: 0;
-  align-items: stretch;
-}
-.workspace[data-layout='layout-makimono'] .slice:not(.slice-log) {
-  flex: 1 1 0;
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-}
-.workspace[data-layout='layout-makimono'] .slice-do {
-  flex: 1.4 1 0; /* the workbench hero is the widest of the top slices */
-}
-.workspace[data-layout='layout-makimono'] .slice-log {
-  min-height: 8rem; /* the rail never collapses below a few lines of narration */
-  max-height: 32vh; /* …and never grows past a rail into the whole page */
-}
-.workspace[data-layout='layout-makimono'] .slice-log .log-lines {
-  font-family: var(--font-log, var(--font-body));
-  line-height: 1.7;
-}
-
-/* ═══ FRAMING AXIS (M2) — the boxing treatment, COMPOSED with the arrangement axis above. It styles
-   the WORK slices of the full-width arrangements (byōbu/banzuke/makimono); the story-log keeps its
-   own `.log` book/card frame across all framings. CLASSIC is INERT to framing (one stacked column
-   has no inter-slice framing to speak of), so classic + any framing stays identical to today. ═══ */
-
-/* A · woodblock boxes (default) — each work slice a key-block box (the triple sumi rule, matching
-   `.frame`/`.log`): the densest, most-panels read. */
-.workspace:not([data-layout='layout-classic'])[data-framing='framing-boxes']
-  .slice:not(.slice-log) {
-  background: var(--surface);
-  box-shadow:
-    inset 0 0 0 2px var(--line),
-    inset 0 0 0 4px var(--surface),
-    inset 0 0 0 5px var(--line);
-  border-radius: var(--radius);
-  padding: var(--space-4) var(--space-6);
-}
-
-/* B · hairline dividers — no boxes; a thin --ink-faint rule sets slices apart, so the field reads as
-   one continuous sheet of paper (the folds of a byōbu screen). */
-.workspace:not([data-layout='layout-classic'])[data-framing='framing-hairline']
-  .slice:not(.slice-log) {
-  border-left: 1px solid var(--ink-faint);
-  padding: 0 var(--space-6);
-}
-/* the leftmost byōbu fold (Do, always present R0) carries no divider — nothing sits to its left. */
-.workspace[data-layout='layout-byobu'][data-framing='framing-hairline'] .slice-do {
-  border-left: none;
-  padding-left: 0;
-}
-
-/* C · soft cards — a calmer dashboard: each work slice a soft washi surface (subtle fill + drop
-   shadow, no hard keyline). */
-.workspace:not([data-layout='layout-classic'])[data-framing='framing-cards']
-  .slice:not(.slice-log) {
+/* ═══ PANEL FRAMING (M2) — LOCKED to soft cards: each work slice a soft washi surface (subtle fill +
+   drop shadow, no hard keyline) for a calm dashboard. The log keeps its own `.log` book frame. The
+   woodblock-box / hairline framings were pruned (D-075 zero-flag-debt). ═══ */
+.workspace[data-layout='layout-byobu'][data-framing='framing-cards'] .slice:not(.slice-log) {
   background: var(--surface);
   border: 1px solid var(--ink-faint);
   border-radius: var(--radius);
@@ -553,13 +480,11 @@ h3 {
   padding: var(--space-4) var(--space-6);
 }
 
-/* the full-width arrangements (byōbu / banzuke / makimono) use the WHOLE screen: drop the centered
-   ~1200px paper cap for those (classic keeps it). Stamped on the shell alongside the workspace so
-   the header/footer widen with the workspace. */
-.shell[data-layout='layout-byobu'],
-.shell[data-layout='layout-banzuke'],
-.shell[data-layout='layout-makimono'] {
-  max-width: none;
+/* F70 — byōbu is a FRAMED SPREAD, never edge-to-edge full-bleed: a wide but CAPPED max-width with
+   auto side margins (the shell centres) plus the workspace's own padding keeps a left & right gutter
+   at ALL viewport widths. (Wider than classic's 1200 so the 2-fold spread has room to breathe.) */
+.shell[data-layout='layout-byobu'] {
+  max-width: 1440px;
 }
 
 .log {
@@ -825,6 +750,42 @@ h3 {
   font-size: var(--fs-small);
   color: var(--ink-faint);
 }
+/* ── the INTRO perk card, themed by the attribute the choice grants +1 (`--attr-accent`, inline) ──
+   the neutral JRPG box gains the attr colour on its frame + top accent bar, a filled kanji chip in
+   the corner (力/敏/智/速/運), and the ± mechanics read in the attr colour — so the perk visibly
+   "belongs" to its stat. Body copy stays --ink. A pure-flavour choice keeps the plain `.perk-box`. */
+.intro-perk-line {
+  padding: 0;
+}
+.perk-box.attr-themed {
+  border-color: var(--attr-accent, var(--ink-soft));
+  border-top: 4px solid var(--attr-accent, var(--ink-soft));
+  padding-right: 3rem; /* room for the corner chip */
+}
+.perk-box.attr-themed .perk-tag,
+.perk-box.attr-themed .perk-stat {
+  color: var(--attr-accent, var(--ochre));
+}
+.perk-box.attr-themed .perk-stat {
+  border-top-color: color-mix(in srgb, var(--attr-accent, var(--ink-faint)) 45%, transparent);
+}
+/* the filled attribute kanji chip stamped on the card corner — the perk's stat, at a glance. */
+.perk-attr-chip {
+  position: absolute;
+  top: -0.7rem;
+  right: -0.7rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--attr-accent, var(--ink-soft));
+  color: var(--gofun, #f7f2e4);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1;
+  box-shadow: 0 1px 0 #26221e33;
+}
 
 /* F53 — the "Now" view: fleeting flavor lines that fade out over their last ~0.9s before
    expiring at ~15s. The `.now-fading` class is only added when motion is allowed (render-side),
@@ -921,12 +882,12 @@ h3 {
   box-shadow: inset 0 0 0 1px var(--shu);
 }
 
-/* ── the interactive intro — the full-screen VN scene (D-104 / F43–F48) ──────
+/* ── the interactive intro — the full-screen VN scene (D-104 / F43–F48; F62 two-column) ──────
    The SOLE prod intro presentation: a solid washi surface that HIDES the whole shell while the
-   intro plays (the estate inks in only after it ends — the incremental-reveal signature). The
-   NPC's spoken line typewrites (JS, render.ts), then a divider + the choice prompt + the option
-   buttons appear. No CSS motion beyond that typewriter (reduced-motion → instant, in render.ts),
-   so it's reduced-motion-safe by construction. */
+   intro plays (the estate inks in only after it ends — the incremental-reveal signature). The card
+   splits into a LEFT transcript column (the NPC's lines typewrite one at a time, JS/render.ts) and
+   a RIGHT interactive panel that gates ask → decide → outcome. No CSS motion beyond that typewriter
+   (reduced-motion → instant, in render.ts), so it's reduced-motion-safe by construction. */
 .vn-scene {
   position: fixed;
   inset: 0;
@@ -940,17 +901,19 @@ h3 {
   background: radial-gradient(ellipse at center, #2e2822 0%, var(--ink) 62%, #1a1714 100%);
 }
 .vn-card {
-  /* a GENEROUS share of the screen (F46) — large + tall, comfortably centred; not a small modal. */
+  /* a GENEROUS share of the screen (F46) — large + tall, comfortably centred; not a small modal.
+     F80 — the card is ONE FIXED size: it never grows as Q&A accumulate. `overflow: hidden` keeps
+     the card rigid; the LEFT story column scrolls INTERNALLY (fixed height, see `.vn-story`). */
   width: min(900px, 92vw);
-  max-height: 92dvh;
-  overflow: auto;
+  height: min(82dvh, 40rem);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   padding: var(--space-8);
   background: var(--washi);
-  /* F55 — the card is rebuilt on every scene change AND every (re-)ask, so this entry fade replays
-     each time: the new spoken text fades in as the typewriter re-runs. Reduced-motion zeroes it. */
+  /* the card inks in ONCE per scene (F81 — the shell is built once, appended to on every update, so
+     this entry fade plays on a genuine scene change only, never a within-scene flash). RM zeroes it. */
   animation: vn-card-in var(--dur-beat) var(--ease-ink) both;
 }
 @keyframes vn-card-in {
@@ -990,6 +953,92 @@ h3 {
 }
 /* the spoken / narration prose — LEFT-aligned, natural wrap (F40); a reserved min-height keeps
    the card from jumping as the typewriter fills each line. */
+/* ── the TWO-column VN modal body (F62) — LEFT = the diegetic transcript (the only place dialogue
+   renders; scrolls INTERNALLY, auto-pins to the newest line — F84); RIGHT = the STABLE interactive
+   panel (F79 — always present, fixed width, its ask→decide→outcome sub-panels swap in place). A
+   vertical hairline ties the two into ONE fixed-size card; stacks on very narrow widths. */
+.vn-body {
+  flex: 1;
+  min-height: 0; /* let the story column own the overflow, not the card */
+  display: flex;
+  gap: var(--space-6);
+  align-items: stretch;
+}
+.vn-story {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto; /* F80/F84 — the ONLY scroller; the card stays a fixed size */
+  border-right: 1px solid #7a6c5933; /* the hairline divider */
+  padding-right: var(--space-6);
+}
+.vn-panel {
+  flex: 0 0 20rem; /* a STABLE fixed width (F79) — never collapses as controls swap */
+  max-width: 42%;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* the panel's phase sub-panels (ask / decide / outcome) each lay out as a column; only one shows. */
+.vn-ask,
+.vn-decide,
+.vn-outcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.vn-ask-topics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.vn-panel .brush-rule {
+  margin: 0 0 var(--space-1);
+}
+/* choices / topics FADE IN once (F78), after the left text finishes typing — a soft staggered rise.
+   Reduced-motion + the `.reduced-motion` class zero the duration, so those users get an instant show. */
+.vn-panel-in {
+  animation: vn-panel-fade var(--dur-beat) var(--ease-ink) both;
+}
+.vn-panel-in > * {
+  animation: vn-panel-fade var(--dur-beat) var(--ease-ink) both;
+}
+.vn-panel-in > *:nth-child(2) {
+  animation-delay: 60ms;
+}
+.vn-panel-in > *:nth-child(3) {
+  animation-delay: 120ms;
+}
+.vn-panel-in > *:nth-child(4) {
+  animation-delay: 180ms;
+}
+@keyframes vn-panel-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 720px) {
+  .vn-body {
+    flex-direction: column;
+  }
+  .vn-story {
+    border-right: none;
+    border-bottom: 1px solid #7a6c5933;
+    padding-right: 0;
+    padding-bottom: var(--space-4);
+  }
+  .vn-panel {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+}
 .vn-lines {
   display: flex;
   flex-direction: column;
@@ -1001,15 +1050,12 @@ h3 {
   margin: 0;
   line-height: 1.6;
 }
-/* the divider + choice prompt + option buttons (F40) — a clear break separates the prose from
-   the "What do you say to him?" prompt and the replies. Revealed only once the line finishes. */
-.vn-foot {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-.vn-foot .brush-rule {
-  margin: 0 0 var(--space-2);
+/* the decision prompt ("What do you say to him?") types into the STORY column too (F82/F83 — nothing
+   pops in un-typed) — set apart from the spoken lines as a quiet, weightier question. */
+.vn-line.vn-prompt-line {
+  margin-top: var(--space-2);
+  font-family: var(--font-head);
+  font-weight: 700;
 }
 .vn-prompt {
   margin: 0;
@@ -1021,7 +1067,51 @@ h3 {
   flex-direction: column;
   gap: var(--space-2);
 }
-/* while the line is still typing, a click anywhere skips to the end (render.ts) — hint the cursor. */
+/* the DECISION options as a GRID — side-by-side, never a vertical stack (2 columns; three options
+   fill 2 + 1). Collapses to a single column only when the panel is genuinely narrow. */
+.vn-choices.vn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+@media (max-width: 720px) {
+  .vn-choices.vn-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* "I've heard enough" — the ASK → DECIDE gate: a quiet secondary, set apart from the topic hub. */
+.intro-done {
+  appearance: none;
+  align-self: flex-start;
+  font: inherit;
+  font-family: var(--font-head);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid #7a6c5966;
+  border-radius: var(--radius-sm, 3px);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    color 120ms,
+    background-color 120ms;
+}
+.intro-done:hover {
+  border-color: var(--ochre);
+  color: var(--ink);
+  background: #c68a3e12;
+}
+.intro-done:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+/* Continue — the ONLY control that advances to the next scene (picking a choice never jumps). */
+.verb.intro-continue {
+  align-self: flex-start;
+  border-left: 3px solid var(--ochre);
+}
+/* classic VN pacing (F62): a click anywhere advances one line — completes the current line if it's
+   still typing, else reveals the next (render.ts) — so hint the pointer cursor while the block runs. */
 .vn-scene.typing {
   cursor: pointer;
 }
@@ -1107,10 +1197,30 @@ h3 {
   font-weight: 700;
   color: var(--ink);
 }
-/* a spoken reply reads as a quiet aside — a soft indigo left-rule ties the choice to the
-   dialogue it answers, without competing with the `.primary` action accent. */
+/* an intro decision button is THEMED by the attribute it grants +1 (`--attr-accent`, set inline;
+   falls back to the neutral --ai for a pure-flavour choice): a left accent rule + a faint wash of
+   the attr colour over washi, deepening on hover. Body copy stays --ink for legibility (not a
+   flood-fill). A small kanji chip (力/敏/智/速/運) tags the stat at the button's edge. */
 .verb.intro-choice {
-  border-left: 3px solid var(--ai-soft);
+  position: relative;
+  border-left: 3px solid var(--attr-accent, var(--ai-soft));
+  background: color-mix(in srgb, var(--attr-accent, var(--ai)) 9%, var(--washi));
+  padding-right: 2.4rem; /* room for the kanji chip */
+}
+.verb.intro-choice:hover,
+.verb.intro-choice:focus-visible {
+  background: color-mix(in srgb, var(--attr-accent, var(--ai)) 17%, var(--washi));
+  border-color: var(--attr-accent, var(--ai));
+}
+.intro-choice-tag {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--attr-accent, var(--ai));
+  opacity: 0.8;
 }
 
 /* ── the reveal (signature) + rank-up motion ────────────────────────────── */
@@ -1915,18 +2025,25 @@ html {
 .quest-step.ok .quest-check {
   color: var(--rokusho);
 }
-/* T0-M4-F3: the tiny travelling market (capped koku sink) */
+/* T0-M4-F3: the tiny travelling market (capped koku sink). F67/F72 — a VERTICAL stack: the item copy
+   then the buy control on its OWN row beneath, so a narrow byōbu column can never let the price
+   button float over / overlap the description (the old flex `space-between` row overlapped once the
+   column narrowed). */
 .market-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--space-2);
-  padding: var(--space-1) 0;
+  padding: var(--space-2) 0;
   border-top: 1px dotted var(--ink-faint);
 }
 .market-item {
   display: flex;
   flex-direction: column;
+}
+/* the buy control's own in-flow cell — the button sizes to its content, left-aligned under the copy. */
+.market-buy {
+  display: flex;
 }
 .market-grant {
   font-size: var(--fs-small);
