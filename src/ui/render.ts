@@ -1884,6 +1884,8 @@ export function mount(
       coldOpen.hidden = false;
       shell.hidden = true;
       firstRender = false; // so the post-wake log cascades rather than dumping statically
+      activeTab = 'work'; // New Game → reset the UI to the zero state (F25)
+      logFilter = 'story';
       applyColdOpenReveal();
       return;
     }
