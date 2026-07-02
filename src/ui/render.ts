@@ -390,7 +390,7 @@ function buildSettings(hooks: AppHooks): { modal: HTMLElement; open: () => void 
   );
 
   card.append(settingsSec, savesSec, aboutSec);
-  showTab('settings'); // default active tab
+  showTab('about'); // default active tab — the human prefers opening on About (F33)
 
   scrim.append(card);
   return {
