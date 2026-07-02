@@ -207,10 +207,38 @@ export function createDevApi(): DevApi {
   const variant: Record<string, string> = {};
   for (const s of SURFACES) variant[s.id] = s.variants[0]!.id;
   const defaultOf = (s: string): string => SURFACES.find((x) => x.id === s)?.variants[0]?.id ?? '';
+
+  // F18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
+  // chosen set can be shared as a link. For each surface, `?<surface.id>=<variantId>` overrides the
+  // seeded default IFF the id is a real variant of that surface (guard against a stale/typo param).
+  // (`MODE !== 'test'` keeps this inert under vitest, whose jsdom `location`/`history` are SHARED
+  //  across a file — a prior setVariant would otherwise leak its ?param into the next fresh api.)
+  if (typeof location !== 'undefined' && import.meta.env.MODE !== 'test') {
+    const params = new URLSearchParams(location.search);
+    for (const s of SURFACES) {
+      const q = params.get(s.id);
+      if (q && s.variants.some((v) => v.id === q)) variant[s.id] = q;
+    }
+  }
+
   return {
     getVariant: (s) => variant[s] ?? defaultOf(s),
     setVariant: (s, id) => {
       variant[s] = id;
+      // F18 — mirror the pick back into the URL so a reload restores it (and the URL is shareable).
+      // Drop the param when the pick is the surface's DEFAULT (variants[0]) so a clean state keeps
+      // a clean URL; otherwise write `?<s>=<id>`.
+      if (
+        typeof location !== 'undefined' &&
+        typeof history !== 'undefined' &&
+        import.meta.env.MODE !== 'test'
+      ) {
+        const params = new URLSearchParams(location.search);
+        if (id === defaultOf(s)) params.delete(s);
+        else params.set(s, id);
+        const qs = params.toString();
+        history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+      }
     },
     surfaces: SURFACES,
     renderVariant: (s, container, state, dispatch) => {
@@ -1263,6 +1291,14 @@ export function mountDevPanel(
   //    row (label + current pick + caret); clicking it reveals the blurb + the option buttons.
   //    Rows are RECENCY-ordered: SURFACES is oldest→newest (new surfaces are appended), so we
   //    display it REVERSED — the most-recently-introduced surface sits at the top. ──
+  // V0-VN numbering — a STABLE unique index over EVERY variant, assigned in REGISTRY order (the
+  // SURFACES array order, then each surface's variants in order). Registry order (not the
+  // recency-reversed DISPLAY order) keeps a number pinned to its variant: it never shifts when the
+  // panel reorders rows or a later surface is removed. Computed once, read into every label below.
+  const vnum = new Map<string, number>();
+  let n = 0;
+  for (const s of dev.surfaces) for (const v of s.variants) vnum.set(v.id, n++);
+
   const recencyOrdered = dev.surfaces.slice().reverse();
   for (const surface of recencyOrdered) {
     const sec = el('div');
@@ -1298,12 +1334,12 @@ export function mountDevPanel(
         buttons[i]!.style.color = on ? '#1c1814' : '#e7d9bc';
         if (on) {
           blurb.textContent = v.blurb;
-          sPick.textContent = v.label;
+          sPick.textContent = `${v.label} [V${vnum.get(v.id)}]`;
         }
       });
     };
     surface.variants.forEach((v) => {
-      const b = mono(v.label, () => {
+      const b = mono(`V${vnum.get(v.id)} · ${v.label}`, () => {
         dev.setVariant(surface.id, v.id);
         paint();
         rerender();
