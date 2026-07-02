@@ -17,7 +17,9 @@ import type {
   DialogueTopic,
   VoiceCategory,
   AttrId,
-  IntroOption,
+  IntroSetupLine,
+  RungScene,
+  NpcId,
   LabourOption,
   NodePerson,
 } from '../core';
@@ -26,12 +28,10 @@ import {
   availableLabours,
   introActive,
   introSceneAt,
-  introSceneOption,
   introStatDelta,
   beatReactVoice,
   beatReactSpeaker,
   ATTR_META,
-  availableTopics,
   PLAYER_SPEAKER,
   isUnlocked,
   hasFlag,
@@ -46,6 +46,9 @@ import {
   rungProgress,
   nextRankId,
   getRank,
+  promotionReady,
+  pendingPromotionTarget,
+  rungBeatFor,
   phaseOf,
   estateGrade,
   ascensionAvailable,
@@ -76,6 +79,7 @@ import {
   skillLevel,
   balance,
   NPC_NAME,
+  NPC_VOICE,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import { reconcileList, setText, toggle, setClass, setDisabled, setStyle } from './reconcile';
@@ -126,6 +130,13 @@ const COLD_OPEN_LEDE =
 
 // ── the interactive intro VN scene (D-104 / F43–F48) — the SOLE prod intro presentation ──
 // Voice → on-palette colour: the nameplate seal + name take it (mirrors the log voice colours).
+// D-110 'lord' voice — DEFERRED, NOT resolved this pass. The plan §7.2 wants a DEDICATED `'lord'`
+// VoiceCategory (a distinct dignified colour/seal) for Shigemasa's R7 capstone. Adding a key here
+// (a `Record<VoiceCategory, …>` — exhaustive over the CORE union) requires `'lord'` to first exist
+// in the core `VoiceCategory` union (`src/core/content/voices.ts`); it does NOT (the union is
+// narrator|player|physician|steward|arms|official|villager). Core is off-limits this pass, so
+// Shigemasa keeps the `'official'` castle/authority colour (distinct from Chiyo's `steward`) — see
+// the matching note in voices.ts. Add `'lord'` to the core union first, then a token here + repoint.
 const VOICE_COLOR: Record<VoiceCategory, string> = {
   narrator: 'var(--ink-soft)',
   player: 'var(--rokusho)',
@@ -156,8 +167,13 @@ const VOICE_SEAL: Record<VoiceCategory, string> = {
   official: '官',
   villager: '里',
 };
-/** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. */
-function introNameplate(scene: DialogueScene): HTMLElement {
+/** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. Takes a
+ *  minimal structural shape so BOTH the intro `DialogueScene` and the normalized `VnScene` (rung
+ *  beats) feed it (D-110 §7.3). */
+function introNameplate(scene: {
+  readonly voice: VoiceCategory;
+  readonly speaker?: NpcId;
+}): HTMLElement {
   const color = VOICE_COLOR[scene.voice];
   const plate = el('div', 'vn-nameplate');
   const seal = el('div', 'vn-seal', VOICE_SEAL[scene.voice]);
@@ -603,6 +619,34 @@ export function mount(
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
   header.append(rice.wrap, coin.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
+
+  // ── F106 (D-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
+  //    progress bar (the rungMeter toward the next rung) with a HOVER card of detail. This is the
+  //    rung's HOME + the PLAYER-TRIGGERED beat start: when a promotion is READY (and no beat is live
+  //    / not in the intro) the element becomes the "Answer the summons" affordance → dispatch
+  //    `begin_rung_beat`, which navigates to the full-screen VN beat. It NEVER auto-fires — a ready
+  //    promotion BANKS here and the player may ignore it and keep grinding (D-110). The Work-column
+  //    ladder stays as the secondary cue (§3.3). Build-once + patch in place (renderRungHead) so an
+  //    idle re-render produces zero DOM churn (F81). ──
+  const rungHead = el('div', 'rung-head');
+  rungHead.hidden = true;
+  const rungHeadTrigger = el('button', 'rung-head-trigger') as HTMLButtonElement;
+  rungHeadTrigger.type = 'button';
+  rungHeadTrigger.addEventListener('click', () => dispatch({ type: 'begin_rung_beat' }));
+  const rungHeadName = el('span', 'rung-head-name');
+  const rungHeadMeter = el('div', 'rung-head-meter');
+  const rungHeadFill = el('span');
+  rungHeadMeter.append(rungHeadFill);
+  const rungHeadCue = el('span', 'rung-head-cue', 'Answer the summons ›');
+  rungHeadCue.hidden = true;
+  rungHeadTrigger.append(rungHeadName, rungHeadMeter, rungHeadCue);
+  const rungHeadCard = el('div', 'rung-head-card'); // the hover detail (CSS-revealed on :hover)
+  const rungHeadCardNow = el('div', 'rung-head-card-now');
+  const rungHeadCardMeter = el('div', 'rung-head-card-meter');
+  const rungHeadCardNext = el('div', 'rung-head-card-next');
+  rungHeadCard.append(rungHeadCardNow, rungHeadCardMeter, rungHeadCardNext);
+  rungHead.append(rungHeadTrigger, rungHeadCard);
+  header.append(rungHead);
 
   // ── nav (first appears at R2) ──
   const nav = el('nav', 'nav');
@@ -1071,6 +1115,56 @@ export function mount(
       patch: (btn, tab) => setClass(btn, 'active', activeTab === tab),
       order: true,
     });
+  }
+
+  // F106 (D-110) — patch the header rung element in place (build-once nodes above). Shows the compact
+  // rung name + a meter toward the next rung; when a promotion is READY it becomes the player-triggered
+  // "Answer the summons" affordance (dispatches `begin_rung_beat`) — never auto, and ignorable. The
+  // hover card carries the meter numbers + the current/next rung. All writes go through the reconcile
+  // helpers (patch-if-changed), so an idle re-render mutates nothing (zero churn, F81).
+  function renderRungHead(state: GameState): void {
+    // the rung's home once the ladder is meaningful (first rake / the R1 reveal) — gated like the
+    // Work-column ladder but WITHOUT the tab check (the header is always on screen).
+    const show = isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked');
+    toggle(rungHead, show);
+    if (!show) return;
+    const rank = currentRank(state);
+    const prog = rungProgress(state);
+    // READY (the affordance) = the AND-gate is open, no beat is already live, and we're out of the
+    // intro. `begin_rung_beat` guards the same in core; the UI only OFFERS it here (D-110).
+    const ready = promotionReady(state) && state.rungBeat === null && !introActive(state.introBeat);
+    setText(rungHeadName, `${rank.title} ${rank.kanji}`);
+    // hold the fill just shy of full while story-gated (mirror the ladder), fill it when ready.
+    const gated = prog.into >= prog.needed && !prog.ready;
+    const frac = prog.needed > 0 ? Math.max(0, Math.min(1, prog.into / prog.needed)) : 0;
+    setStyle(rungHeadFill, 'width', `${ready ? 100 : gated ? 92 : Math.round(frac * 100)}%`);
+    setClass(rungHead, 'ready', ready);
+    setDisabled(rungHeadTrigger, !ready); // clickable ONLY when a promotion is ready — never auto
+    toggle(rungHeadCue, ready);
+    const target = pendingPromotionTarget(state);
+    const triggerTitle = ready
+      ? target
+        ? `Answer the summons — begin the ${getRank(target).title} beat`
+        : 'Answer the summons'
+      : `${rank.title} — Estate service ${prog.into}/${prog.needed}`;
+    if (rungHeadTrigger.title !== triggerTitle) rungHeadTrigger.title = triggerTitle;
+    // the hover-card detail (F106): the current rung, the meter numbers, the next rung.
+    setText(rungHeadCardNow, `${rank.title} · ${rank.kanji}`);
+    setText(
+      rungHeadCardMeter,
+      prog.ready
+        ? 'Ready to advance — answer the summons.'
+        : gated
+          ? (rank.advanceHint ?? 'The work is done — a deed still stands before the next rung.')
+          : `Estate service · ${prog.into}/${prog.needed}`,
+    );
+    const nid = nextRankId(rank.id);
+    setText(
+      rungHeadCardNext,
+      nid
+        ? `Next: ${getRank(nid).title} ${getRank(nid).kanji}`
+        : 'Beyond the gate the road climbs on — to be continued.',
+    );
   }
 
   function renderLadder(state: GameState): void {
@@ -1602,6 +1696,101 @@ export function mount(
     );
   }
   const introInstant = (): boolean => introReduced() || import.meta.env.MODE === 'test';
+
+  // ── the source-tagged VN projection (D-110 §7.3) — the ONE normalized shape both the intro
+  //    (`DIALOGUE_SCENES`) and the rung beats (`RUNG_BEATS`) feed into the SAME append-only engine.
+  //    The engine below renders from `VnScene`/`VnOption` only, so it never branches on the raw
+  //    scene type; only the DISPATCH (choose_intro vs choose_rung_option) reads `source`. ──
+  type VnSource = 'intro' | 'rung';
+  interface VnOption {
+    readonly id: string;
+    readonly label: string;
+    readonly say: string; // the MC's reply → a `player` transcript line
+    readonly react: string; // the speaker's reaction → the transcript, in `reactVoice`
+    readonly reactVoice: VoiceCategory;
+    readonly reactSpeaker?: string; // the react nameplate (undefined ⇒ a narrator react)
+    readonly attr?: AttrId; // intro decision-button theming (+1 attr); rung has none
+    readonly perk?: { readonly name: string; readonly desc: string; readonly mechanics: string };
+    readonly note?: string; // rung `statBonus` delight line (the rare bonus) → a small outcome note
+  }
+  interface VnScene {
+    readonly source: VnSource;
+    readonly id: string;
+    readonly voice: VoiceCategory;
+    readonly speaker?: NpcId;
+    readonly greeting: readonly IntroSetupLine[];
+    readonly topics: readonly DialogueTopic[];
+    readonly prompt: string;
+    readonly options: readonly VnOption[];
+  }
+  function projectIntro(scene: DialogueScene): VnScene {
+    return {
+      source: 'intro',
+      id: scene.id,
+      voice: scene.voice,
+      ...(scene.speaker !== undefined ? { speaker: scene.speaker } : {}),
+      greeting: scene.greeting,
+      topics: scene.topics,
+      prompt: scene.decision.prompt,
+      options: scene.decision.options.map((o): VnOption => {
+        const rs = beatReactSpeaker(scene);
+        return {
+          id: o.id,
+          label: o.label,
+          say: o.say,
+          react: o.react,
+          reactVoice: beatReactVoice(scene),
+          ...(rs !== undefined ? { reactSpeaker: rs } : {}),
+          attr: o.stat.up as AttrId,
+          perk: { name: o.perk.name, desc: o.perk.desc, mechanics: introStatDelta(o.stat) },
+        };
+      }),
+    };
+  }
+  function projectRung(scene: RungScene): VnScene {
+    return {
+      source: 'rung',
+      id: scene.id,
+      voice: scene.voice,
+      ...(scene.speaker !== undefined ? { speaker: scene.speaker } : {}),
+      greeting: scene.greeting,
+      topics: scene.topics,
+      prompt: scene.decision.prompt,
+      options: scene.decision.options.map((o): VnOption => {
+        // a two-voice beat (R4 Tōzō) overrides the react to a NON-default speaker; else the scene's.
+        const rs = o.reactNpc ? NPC_NAME[o.reactNpc] : beatReactSpeaker(scene);
+        return {
+          id: o.id,
+          label: o.label,
+          say: o.say,
+          react: o.react,
+          reactVoice: o.reactNpc ? NPC_VOICE[o.reactNpc] : beatReactVoice(scene),
+          ...(rs !== undefined ? { reactSpeaker: rs } : {}),
+          ...(o.statBonus ? { note: o.statBonus.note } : {}),
+        };
+      }),
+    };
+  }
+  // The ACTIVE VN scene (source-tagged) — the intro (as today) while it runs, else the ready-and-
+  // triggered rung beat (`RUNG_BEATS[rungBeat]` via `rungBeatFor`). `null` ⇒ no VN is live (the shell
+  // shows). The reducers own the core rung selectors (`rungTopic`/`rungOption`/`availableRungTopics`);
+  // the renderer reads options off the projection + inlines the (source-agnostic) topic gate.
+  function activeVn(state: GameState): VnScene | null {
+    if (introActive(state.introBeat)) {
+      const s = introSceneAt(state.introBeat);
+      return s ? projectIntro(s) : null;
+    }
+    if (state.rungBeat !== null) {
+      const s = rungBeatFor(state.rungBeat);
+      return s ? projectRung(s) : null;
+    }
+    return null;
+  }
+  // Is a full-screen VN scene live? (the render gate — intro OR a rung beat). D-110 §7.3: the washi
+  // surface hides the shell during BOTH; the world inks in only after the active scene ends.
+  function vnActive(state: GameState): boolean {
+    return introActive(state.introBeat) || state.rungBeat !== null;
+  }
   // pin the LEFT transcript column to its newest line (F84) — the .vn-lines' scroll parent (.vn-story).
   function introScrollToBottom(): void {
     const scroller = introStoryLinesEl?.parentElement;
@@ -1674,7 +1863,7 @@ export function mount(
   // The FULL desired transcript for the current state — greeting, each asked Q/A, the decision
   // prompt (once deciding), then the chosen say + NPC react (once a choice is latched). Order is
   // stable + append-only: a later state is always a prefix-superset of an earlier one within a scene.
-  function introTranscript(scene: DialogueScene, state: GameState): VnEntry[] {
+  function introTranscript(scene: VnScene, state: GameState): VnEntry[] {
     const out: VnEntry[] = [];
     scene.greeting.forEach((line, i) =>
       out.push({ key: `greet:${i}`, voice: line.voice, text: line.text, speaker: line.speaker }),
@@ -1699,10 +1888,12 @@ export function mount(
         }),
       );
     }
-    const pending = pendingChoiceId ? introSceneOption(scene, pendingChoiceId) : undefined;
+    const pending = pendingChoiceId
+      ? scene.options.find((o) => o.id === pendingChoiceId)
+      : undefined;
     // the decision prompt joins the transcript once we're deciding (so it, too, TYPES — F82/F83).
     if (introPhase === 'decide' || pending)
-      out.push({ key: 'prompt', voice: 'narrator', text: scene.decision.prompt, prompt: true });
+      out.push({ key: 'prompt', voice: 'narrator', text: scene.prompt, prompt: true });
     if (pending) {
       out.push({
         key: `say:${pending.id}`,
@@ -1712,11 +1903,12 @@ export function mount(
         player: true,
         fresh: true,
       });
+      // the react's voice/nameplate ride on the OPTION (a rung two-voice beat overrides the speaker).
       out.push({
         key: `react:${pending.id}`,
-        voice: beatReactVoice(scene),
+        voice: pending.reactVoice,
         text: pending.react,
-        speaker: beatReactSpeaker(scene),
+        speaker: pending.reactSpeaker,
         fresh: true,
       });
     }
@@ -1869,24 +2061,34 @@ export function mount(
       elx.classList.remove('vn-panel-in');
     }
   }
-  // build the outcome sub-panel (perk box + Continue) the first time a choice is latched.
-  function ensureOutcomePanel(scene: DialogueScene): void {
+  // build the outcome sub-panel (perk/bonus box + Continue) the first time a choice is latched. The
+  // intro shows its granted PERK; a rung beat shows its rare `statBonus` NOTE when the pick carries
+  // one (most rung picks are relationship/flag-only ⇒ just the Continue). Continue is the ONLY control
+  // that advances — it dispatches by SOURCE (`choose_intro` vs `choose_rung_option`, D-110 §7.3).
+  function ensureOutcomePanel(scene: VnScene): void {
     if (introOutcomeEl || !introPanelEl) return;
-    const opt = pendingChoiceId ? introSceneOption(scene, pendingChoiceId) : undefined;
+    const opt = pendingChoiceId ? scene.options.find((o) => o.id === pendingChoiceId) : undefined;
     if (!opt) return;
     const wrap = el('div', 'vn-outcome');
     wrap.hidden = true;
-    wrap.append(buildIntroPerkBox(opt, opt.stat.up as AttrId | undefined));
+    if (opt.perk) wrap.append(buildVnPerkBox(opt.perk, opt.attr));
+    else if (opt.note) wrap.append(el('div', 'vn-outcome-note', opt.note)); // rung statBonus delight
     const cont = el('button', 'verb intro-continue', 'Continue');
     cont.type = 'button';
-    // the ONLY control that advances the scene (dispatches `choose_intro`) — picking never jumps.
-    cont.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
+    const optId = opt.id;
+    cont.addEventListener('click', () =>
+      dispatch(
+        scene.source === 'intro'
+          ? { type: 'choose_intro', optionId: optId }
+          : { type: 'choose_rung_option', optionId: optId },
+      ),
+    );
     wrap.append(cont);
     introPanelEl.append(wrap);
     introOutcomeEl = wrap;
   }
   // reveal the active sub-panel (fade once) + hide the others. Called after a block finishes typing.
-  function revealActivePanel(scene: DialogueScene): void {
+  function revealActivePanel(scene: VnScene): void {
     const kind = activePanelKind();
     if (kind === 'outcome') ensureOutcomePanel(scene);
     showPanel(introAskEl, kind === 'ask');
@@ -1904,17 +2106,27 @@ export function mount(
   }
   // reconcile the ask hub IN PLACE: append any newly-gated topic buttons, dim asked ones — never a
   // rebuild (F81), so the panel stays static (F79).
-  function reconcileAskHub(scene: DialogueScene, state: GameState): void {
+  function reconcileAskHub(scene: VnScene, state: GameState): void {
     if (!introAskEl) return; // decision-only scene → no ask hub
     const topicsWrap = introAskEl.querySelector<HTMLElement>('.vn-ask-topics');
     if (!topicsWrap) return;
     const asked = new Set(state.askedTopics);
-    for (const t of availableTopics(scene, asked)) {
+    // the gate over the asked-set is source-agnostic (the intro's `availableTopics` + the rung's
+    // `availableRungTopics` are the same filter); inline it so one path serves both scene sources.
+    const askable = scene.topics.filter((t) => (t.gate ? t.gate(asked) : true));
+    const source = scene.source;
+    for (const t of askable) {
       let b = introTopicBtns.get(t.id);
       if (!b) {
         b = el('button', 'intro-ask', t.label);
         b.type = 'button';
-        b.addEventListener('click', () => dispatch({ type: 'ask_topic', topicId: t.id }));
+        b.addEventListener('click', () =>
+          dispatch(
+            source === 'intro'
+              ? { type: 'ask_topic', topicId: t.id }
+              : { type: 'ask_rung_topic', topicId: t.id },
+          ),
+        );
         introTopicBtns.set(t.id, b);
         topicsWrap.append(b);
         if (!introInstant()) b.classList.add('vn-panel-in'); // a newly-surfaced topic fades in
@@ -1949,12 +2161,12 @@ export function mount(
     askGroup.append(done);
     return askGroup;
   }
-  function buildDecidePanel(scene: DialogueScene): HTMLElement {
+  function buildDecidePanel(scene: VnScene): HTMLElement {
     const decide = el('div', 'vn-decide');
     decide.hidden = true;
     const choices = el('div', 'vn-choices vn-grid');
-    for (const opt of scene.decision.options) {
-      const attr = opt.stat.up as AttrId | undefined;
+    for (const opt of scene.options) {
+      const attr = opt.attr;
       const b = el('button', 'verb intro-choice', opt.label);
       b.type = 'button';
       // theme by the POSITIVE (+1) attribute; a pure-flavour choice with none falls back to --ai.
@@ -1971,7 +2183,7 @@ export function mount(
     decide.append(choices);
     return decide;
   }
-  function buildIntroShell(scene: DialogueScene): void {
+  function buildIntroShell(scene: VnScene): void {
     const root_ = el('div', 'vn-scene');
     const card = el('div', 'vn-card frame');
     card.append(introNameplate(scene));
@@ -2002,7 +2214,7 @@ export function mount(
   }
   // APPEND-ONLY reconcile: diff the transcript vs the DOM, append + type only the NEW lines, mutate
   // the panel in place. NEVER a teardown/rebuild within a scene (that was the flash — F81).
-  function reconcileIntro(scene: DialogueScene, state: GameState): void {
+  function reconcileIntro(scene: VnScene, state: GameState): void {
     introLastState = state;
     reconcileAskHub(scene, state); // dim asked / surface newly-gated topics (in place)
     const fresh = introTranscript(scene, state).filter((e) => !introRenderedKeys.has(e.key));
@@ -2019,13 +2231,14 @@ export function mount(
   // The intro perk box — the same JRPG frame as the log-line perk box (`buildPerkBox`), but themed
   // by the attribute the choice grants +1: an accent bar + a filled attribute KANJI chip, so the
   // perk visibly "belongs" to its stat. A pure-flavour choice (no attr) falls back to the neutral box.
-  function buildIntroPerkBox(opt: IntroOption, attr: AttrId | undefined): HTMLElement {
+  // Takes the ALREADY-normalized perk (`{name,desc,mechanics}`) so both the intro's granted perk and
+  // any future VN outcome feed it (D-110 §7.3) — the ± mechanics are baked in at projection time.
+  function buildVnPerkBox(
+    perk: { readonly name: string; readonly desc: string; readonly mechanics: string },
+    attr: AttrId | undefined,
+  ): HTMLElement {
     const wrap = el('div', 'intro-perk-line');
-    buildPerkBox(wrap, {
-      name: opt.perk.name,
-      desc: opt.perk.desc,
-      mechanics: introStatDelta(opt.stat),
-    });
+    buildPerkBox(wrap, perk);
     if (attr) {
       const box = wrap.querySelector<HTMLElement>('.perk-box');
       if (box) {
@@ -2044,9 +2257,9 @@ export function mount(
   // only in-intro teardown — a genuine new card, so its ink-in fade is welcome); every other update
   // is APPEND-ONLY via reconcileIntro, so an unrelated re-render never flashes or restarts typing.
   function syncIntroScene(state: GameState): void {
-    const scene = introSceneAt(state.introBeat);
+    const scene = activeVn(state); // intro scene OR the ready-and-triggered rung beat (D-110 §7.3)
     if (!scene) {
-      teardownIntroScene(); // the intro ended → drop the scene, reset everything
+      teardownIntroScene(); // the VN ended → drop the scene, reset everything
       return;
     }
     if (scene.id !== introSceneCurrentId) {
@@ -3541,11 +3754,11 @@ export function mount(
       logFilterMatches(e.channel, logFilter, e.ephemeral === true),
     );
 
-    // F48 — while the intro owns the live reveal (the VN scene), the LOG is only the historical
-    // transcript: append its lines INSTANTLY (no typewriter, no cascade) so it's ready the moment
-    // the shell reveals, never making the player wait for the log to catch up to choices already
-    // made. `introEndingRender` carries the same instant path onto the single reveal render.
-    const introInstant = introActive(state.introBeat) || introEndingRender;
+    // F48 — while a VN scene owns the live reveal (intro OR a rung beat — D-110), the LOG is only the
+    // historical transcript: append its lines INSTANTLY (no typewriter, no cascade) so it's ready the
+    // moment the shell reveals, never making the player wait for the log to catch up to choices
+    // already made. `introEndingRender` carries the same instant path onto the single reveal render.
+    const introInstant = vnActive(state) || introEndingRender;
 
     // F27 — new lines flowing in over existing history get a transient divider before them (never
     // while the intro paints the hidden log — the player isn't watching the transcript build).
@@ -4179,16 +4392,17 @@ export function mount(
       cancelColdOpenReveal?.();
       coldOpenRevealStarted = false;
     }
-    // F44/D-104 — the interactive intro plays as a FULL-SCREEN VN scene that hides the whole shell;
-    // the estate inks in only AFTER the intro ends (the incremental-reveal signature). The log is
-    // kept painted INSTANTLY behind the scene (F48) so it's ready the moment the shell reveals —
-    // the scene owns the live spoken reveal, the log is only the historical transcript.
-    if (introActive(state.introBeat)) {
+    // F44/D-104 + D-110 — a VN scene (the intro OR a player-triggered rung beat) plays as a
+    // FULL-SCREEN washi surface that hides the whole shell; the estate inks in only AFTER it ends
+    // (the incremental-reveal signature — a rung beat's newly-motivated panels ink in on teardown,
+    // §7.4). The log is kept painted INSTANTLY behind the scene (F48) so it's ready the moment the
+    // shell reveals — the scene owns the live spoken reveal, the log is only the historical transcript.
+    if (vnActive(state)) {
       shell.hidden = true;
-      firstRender = false; // the post-intro log resumes its cascade, not a static dump
+      firstRender = false; // the post-scene log resumes its cascade, not a static dump
       activeTab = 'work';
       logFilter = 'story';
-      renderLog(state); // instant while introActive (see renderLog) — no slow catch-up on reveal
+      renderLog(state); // instant while a VN scene is live (see renderLog) — no slow catch-up
       syncIntroScene(state);
       return;
     }
@@ -4214,6 +4428,7 @@ export function mount(
     workspace.dataset.framing = 'framing-cards';
     shell.dataset.layout = 'layout-byobu';
     renderVitals(state, prev);
+    renderRungHead(state); // F106 — the header rung element + the player-triggered beat affordance
     renderNav(state);
     renderLog(state);
     paintLogFilterBar();

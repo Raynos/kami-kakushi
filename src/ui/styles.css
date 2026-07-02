@@ -1065,6 +1065,15 @@ h3 {
   flex-direction: column;
   gap: var(--space-3);
 }
+/* D-110 — a rung beat's rare `statBonus` delight line (most rung picks are relationship/flag-only,
+   so this is uncommon): a soft ochre-ruled note above the Continue, distinct from the intro perk box. */
+.vn-outcome-note {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  font-style: italic;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--ochre);
+}
 .vn-ask-topics {
   display: flex;
   flex-direction: column;
@@ -1562,6 +1571,110 @@ h3 {
   width: 0;
   background: linear-gradient(90deg, var(--ai), var(--ai-soft));
   transition: width var(--dur) var(--ease-ink);
+}
+
+/* ── F106 (D-110) — the rung element in the fixed header (top-right): compact name + meter, a hover
+   detail card, and (when a promotion is ready) the player-triggered "Answer the summons" affordance. ── */
+.rung-head {
+  position: relative;
+  margin-left: auto; /* push the rung to the header's right edge */
+  align-self: center;
+}
+.rung-head-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: default; /* not clickable until ready (disabled) */
+}
+.rung-head-name {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.rung-head-meter {
+  position: relative;
+  height: 6px;
+  width: 64px;
+  background: var(--surface-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rung-head-meter > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, var(--ochre), var(--gold));
+  transition: width var(--dur) var(--ease-ink);
+}
+.rung-head-cue {
+  font-size: var(--fs-micro);
+  color: var(--beni);
+  font-weight: 600;
+  white-space: nowrap;
+}
+/* READY — the affordance: a seal-red rim + a soft breathing pulse, the trigger goes clickable. */
+.rung-head.ready .rung-head-trigger {
+  border-color: var(--beni);
+  color: var(--beni);
+  cursor: pointer;
+  animation: rung-head-pulse 2.4s var(--ease-ink) infinite;
+}
+.rung-head.ready .rung-head-meter > span {
+  background: linear-gradient(90deg, var(--beni), var(--ochre));
+}
+@keyframes rung-head-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 #a93b4700;
+  }
+  50% {
+    box-shadow: 0 0 0 3px #a93b4726;
+  }
+}
+/* the hover/focus detail card — the meter numbers + the current/next rung (F106). */
+.rung-head-card {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  z-index: 20;
+  min-width: 16rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--washi);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px #00000022;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-fast) var(--ease-ink);
+}
+.rung-head:hover .rung-head-card,
+.rung-head:focus-within .rung-head-card {
+  opacity: 1;
+  visibility: visible;
+}
+.rung-head-card-now {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink);
+}
+.rung-head-card-meter {
+  font-size: var(--fs-micro);
+  color: var(--text-2);
+  margin-top: var(--space-1);
+}
+.rung-head-card-next {
+  font-size: var(--fs-micro);
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-top: var(--space-1);
 }
 
 /* ── labour rows + auto-repeat toggle ────────────────────────────────────── */

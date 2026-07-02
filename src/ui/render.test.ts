@@ -18,6 +18,10 @@ import {
   gradeOf,
   DIALOGUE_SCENES,
   ATTR_META,
+  getRank,
+  nextRankId,
+  promotionReady,
+  RUNG_BEATS,
   type GameState,
   type Intent,
   type LogEntry,
@@ -826,6 +830,155 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     )!;
     expect(btn).toBeTruthy();
     expect(btn.classList.contains('asked')).toBe(true);
+  });
+});
+
+// ── D-110 / F106 — the rung-up STORY BEAT is REACHABLE: the header rung element is the player-
+//    triggered start, the beat plays in the SAME full-screen VN scene as the intro (vnActive), and a
+//    ready promotion is IGNORABLE (it banks; the grind never forces the modal). Reuses the intro's
+//    append-only VN engine (§7.3) — the rung options ride the same latch → Continue → dispatch path. ──
+describe('D-110 / F106 — rung-up story beats are reachable (header trigger + VN reuse)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+  function spyMount(): { seen: Intent[]; render: ReturnType<typeof mount> } {
+    const seen: Intent[] = [];
+    return { seen, render: mount(root, (i) => seen.push(i), noopHooks()) };
+  }
+  const byText = (sel: string, substr: string): HTMLButtonElement | undefined =>
+    [...root.querySelectorAll<HTMLButtonElement>(sel)].find((b) =>
+      (b.textContent ?? '').includes(substr),
+    );
+  const shown = (sel: string): boolean => {
+    const e = root.querySelector<HTMLElement>(sel);
+    return !!e && !e.hidden;
+  };
+  const INTRO_DONE = DIALOGUE_SCENES.length; // introBeat past the last scene ⇒ introActive false
+  // an out-of-intro, awake, "the-ladder-is-meaningful" (raked) base — the header rung shows here.
+  function awakeRungBase(): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      introBeat: INTRO_DONE,
+      flags: { ...base.flags, awake: true, raked: true },
+    };
+  }
+  // a state parked at R0 with the meter PAST the R0→R1 threshold (source-of-truth: rungThreshold),
+  // R0's storyGate being always-true ⇒ promotionReady. rungBeat stays null (the promotion BANKS).
+  function rungReadyState(): GameState {
+    return { ...awakeRungBase(), rungMeter: balance.rungThreshold('R0') + 10 };
+  }
+  // a state parked INSIDE a live rung beat (the player already triggered it).
+  function rungBeatState(target: 'R1' | 'R3', askedTopics: string[] = []): GameState {
+    return { ...awakeRungBase(), rungBeat: target, askedTopics };
+  }
+
+  it('a READY promotion turns the header rung into a begin_rung_beat trigger', () => {
+    const { seen, render } = spyMount();
+    const state = rungReadyState();
+    expect(promotionReady(state)).toBe(true); // fixture self-check (derived, not a magic number)
+    render(state, null);
+    const trigger = root.querySelector<HTMLButtonElement>('.rung-head-trigger')!;
+    expect(trigger).not.toBeNull();
+    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(true);
+    expect(trigger.disabled).toBe(false); // clickable ONLY when ready
+    trigger.click();
+    expect(seen).toContainEqual({ type: 'begin_rung_beat' });
+  });
+
+  it('the header rung shows the rung name, a meter bar, and a hover detail card (not-ready)', () => {
+    const { render } = spyMount();
+    const state: GameState = { ...awakeRungBase(), rungMeter: 40 }; // mid-climb, NOT ready
+    expect(promotionReady(state)).toBe(false);
+    render(state, null);
+    const head = root.querySelector<HTMLElement>('.rung-head')!;
+    expect(head.hidden).toBe(false);
+    expect(head.classList.contains('ready')).toBe(false);
+    expect(root.querySelector<HTMLButtonElement>('.rung-head-trigger')!.disabled).toBe(true);
+    const rank = getRank('R0');
+    const name = root.querySelector<HTMLElement>('.rung-head-name')!.textContent ?? '';
+    expect(name).toContain(rank.title);
+    expect(name).toContain(rank.kanji);
+    expect(root.querySelector('.rung-head-meter > span')).not.toBeNull();
+    // the hover card carries the meter numbers + names the NEXT rung.
+    expect(root.querySelector('.rung-head-card-meter')!.textContent).toContain(
+      String(balance.rungThreshold('R0')),
+    );
+    const next = getRank(nextRankId('R0')!); // → R1
+    expect(root.querySelector('.rung-head-card-next')!.textContent).toContain(next.title);
+  });
+
+  it('with rungBeat set the VN scene renders the rung beat and HIDES the shell (vnActive)', () => {
+    const { render } = spyMount();
+    render(rungBeatState('R1'), null);
+    // the full-screen washi scene is up (the SAME .vn-scene as the intro)…
+    expect(root.querySelector('.vn-scene')).not.toBeNull();
+    // …and it hides the shell (the vnActive gate now covers a rung beat too).
+    expect(root.querySelector<HTMLElement>('.shell')!.hidden).toBe(true);
+    // R1 is a light-VN (topics: []) → opens straight in the DECIDE grid, with the rung's options.
+    expect(shown('.vn-decide')).toBe(true);
+    expect(root.querySelectorAll('.intro-choice').length).toBe(
+      RUNG_BEATS.R1!.decision.options.length,
+    );
+    // the greeting prose typed into the story (the beat is the story surface, F103).
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      RUNG_BEATS.R1!.greeting[0]!.text.slice(0, 24),
+    );
+  });
+
+  it('a full VN meet (R3 Kihei) shows the ask-hub; asking dispatches ask_rung_topic', () => {
+    const { seen, render } = spyMount();
+    render(rungBeatState('R3'), null);
+    expect(shown('.vn-ask')).toBe(true);
+    // only the un-gated topics are askable at zero-asked (kihei-who gates behind kihei-why-blade).
+    const askable = RUNG_BEATS.R3!.topics.filter((t) => !t.gate || t.gate(new Set<string>()));
+    expect(askable.length).toBeGreaterThan(0);
+    expect(root.querySelectorAll('.intro-ask').length).toBe(askable.length);
+    const topic = askable[0]!;
+    byText('.intro-ask', topic.label)!.click();
+    expect(seen).toContainEqual({ type: 'ask_rung_topic', topicId: topic.id });
+  });
+
+  it('picking a rung option latches; ONLY Continue dispatches choose_rung_option', () => {
+    const { seen, render } = spyMount();
+    render(rungBeatState('R1'), null);
+    const opt = RUNG_BEATS.R1!.decision.options[0]!;
+    byText('.intro-choice', opt.label)!.click();
+    // latching alone does NOT advance (no promotion yet) — mirrors the intro's F62 fix.
+    expect(seen.some((i) => i.type === 'choose_rung_option')).toBe(false);
+    // the chosen reply appended to the story + a single Continue is the only way onward…
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      opt.react.slice(1, 20),
+    );
+    root.querySelector<HTMLButtonElement>('.intro-continue')!.click();
+    expect(seen).toContainEqual({ type: 'choose_rung_option', optionId: opt.id });
+  });
+
+  it('ignoring a ready promotion leaves the game playable (the beat is IGNORABLE, D-110)', () => {
+    const { seen, render } = spyMount();
+    render(rungReadyState(), null);
+    // nothing auto-fired the beat — a ready promotion BANKS on the header, never forces the modal.
+    expect(seen.some((i) => i.type === 'begin_rung_beat')).toBe(false);
+    // the shell is SHOWN (no full-screen VN scene blocks play) …
+    expect(root.querySelector<HTMLElement>('.shell')!.hidden).toBe(false);
+    expect(root.querySelector('.vn-scene')).toBeNull();
+    // … the affordance sits ready-but-optional (the player may keep grinding indefinitely).
+    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>('.rung-head-trigger')!.disabled).toBe(false);
   });
 });
 
