@@ -13,5 +13,6 @@ audit
 human-in-the-loop
 tmp
 prototype
+ui-demos
 playcheck.baseline.json
 .claude/settings.local.json

@@ -56,6 +56,8 @@ export default tseslint.config(
       'project/archive/**',
       'src/scripts/*.mjs',
       'tmp/**',
+      // ui-demos: the UI-remaster staging ground (plain browser JS demos, not product code)
+      'ui-demos/**',
     ],
   },
   js.configs.recommended,

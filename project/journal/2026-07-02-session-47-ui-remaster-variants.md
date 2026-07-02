@@ -55,11 +55,33 @@ AskUserQuestion:
   (shared modules first → five parallel variant-builder agents → main-session
   QA screenshots → R-items + queue + deploy offer). Queued for the human.
 
+## 4 · Shared mock engine + canon data (`ui-demos/shared/`)
+
+- Harvested exact content ≤R3 from `src/core/content/*` (ranks, activities,
+  areas, map, people, market, estate, enemies, quests, skills, names,
+  coldOpen, weapons, intro, rungBeats R1–R3) — read-only, `src/` untouched.
+- Built `ui-demos/shared/`: `data.js` (all canon content, English-only, zero
+  kanji — verified by a glyph-range sweep), `format.js` (formatKMB +
+  mon→monme→ryō coin formatter, mirrors `src/core/format.ts`), `engine.js`
+  (staged cold-open/R0–R3 snapshots + live verbs + 480ms tick loop + VN
+  driver for intro & rung beats + scripted wolf + fights/quests/market/bank).
+- **Verified by driving the full arc in Node** (not just spot checks):
+  cold-open → intro (3 scenes, perk ±stats apply) → R0 rake → summons → R1
+  beat → promotion+unlocks → `farmed` gate blocks→passes → R2 → wolf gate →
+  R3 (ask-hub, +1 AGI bonus option, 6 tabs) → R4 correctly out-of-scope.
+  Also: map adjacency + danger-ring conditioning gate, market stock caps,
+  kura-only banking, quest advance on kills, log coalescing, formatters.
+  Caught & fixed a real bug: the story gate reads the CURRENT rung's flag,
+  not the target's (matches ranks.ts semantics).
+- Gallery hub `ui-demos/index.html` + `ui-demos/README.md`.
+- Gates: `ui-demos` added to `.prettierignore` + eslint ignores (staging
+  ground, like `prototype/`/`tmp/`).
+
 ## Next intended steps
 
-1. Build `ui-demos/shared/data.js` + `engine.js` + gallery hub (main session).
-2. Fan out the five variant builders (background Agent-tool agents).
-3. QA-screenshot every variant × stage; fix; commit; R-items per variant;
+1. Fan out the five variant builders (background Agent-tool agents), each on
+   `shared/VARIANT-SPEC.md` + its plan-§3 direction brief.
+2. QA-screenshot every variant × stage; fix; commit; R-items per variant;
    offer Vercel deploy of `ui-demos/`.
 
 ## Landmines
