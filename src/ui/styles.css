@@ -322,19 +322,36 @@ h3 {
     grid-template-rows: auto;
     overflow: visible;
   }
-  /* both layouts converge on a single stacked column on narrow screens (natural page flow). */
-  .workspace[data-layout='layout-byobu'] {
+  /* EVERY arrangement converges on a single stacked column on narrow screens (natural page flow).
+     `.work` dissolves so its slices stack directly; framing boxes/dividers and rail heights all
+     reset — a single column has no inter-slice framing to carry. */
+  .workspace[data-layout='layout-byobu'],
+  .workspace[data-layout='layout-banzuke'],
+  .workspace[data-layout='layout-makimono'] {
     display: flex;
     flex-direction: column;
+    gap: var(--space-6);
   }
-  .workspace[data-layout='layout-byobu'] > .work {
+  .workspace[data-layout='layout-byobu'] > .work,
+  .workspace[data-layout='layout-banzuke'] > .work,
+  .workspace[data-layout='layout-makimono'] > .work {
     display: contents;
   }
-  .workspace[data-layout='layout-byobu'] .slice {
+  .workspace:not([data-layout='layout-classic']) .slice {
     flex: 0 0 auto;
-    border-left: none;
     min-height: 0;
+    grid-row: auto;
+  }
+  /* drop all framing on mobile (single column) — no borders, boxes, or forced padding */
+  .workspace:not([data-layout='layout-classic']) .slice:not(.slice-log) {
+    border: none;
+    box-shadow: none;
+    background: none;
     padding: 0;
+  }
+  .workspace:not([data-layout='layout-classic']) .slice-log {
+    min-height: 0;
+    max-height: none;
   }
   .log,
   .work,
@@ -360,15 +377,17 @@ h3 {
   min-height: 0;
 }
 
-/* ── B · 屏風 folding columns — full-width vertical slices ────────────────────
-   `.work` dissolves (display:contents) so its slices join the workspace flex row as
-   columns alongside the log; each fold is an internal-scroll region separated by a
-   hairline `--ink-faint` rule (the folds of a byōbu screen). The ~1200px cap is dropped
-   for this layout (see `.shell[data-layout='layout-byobu']`), so it fills the width. */
+/* ═══ ARRANGEMENT AXIS (M2) — geometry ONLY (flex/grid, sizing, internal scroll). Every full-width
+   arrangement dissolves `.work` (display:contents) so its work slices join the workspace layout as
+   direct items alongside the log. The BOXING of the slices is the separate FRAMING axis below, which
+   composes with each of these — so byōbu × {boxes|hairline|cards} etc. are all live combos. ═══ */
+
+/* ── B · 屏風 folding columns — full-width vertical slices, Do widest on the left, the log the
+   widest reading fold on the right. ── */
 .workspace[data-layout='layout-byobu'] {
   display: flex;
   grid-template-columns: none;
-  gap: 0;
+  gap: var(--space-4);
   align-items: stretch;
 }
 .workspace[data-layout='layout-byobu'] > .work {
@@ -377,16 +396,11 @@ h3 {
 .workspace[data-layout='layout-byobu'] .slice {
   flex: 1 1 0;
   min-width: 0;
-  border-left: 1px solid var(--ink-faint);
-}
-.workspace[data-layout='layout-byobu'] .slice:not(.slice-log) {
   min-height: 0;
   overflow-y: auto;
-  padding: 0 var(--space-6);
 }
 .workspace[data-layout='layout-byobu'] .slice-do {
   flex: 1.2 1 0;
-  border-left: none; /* the leftmost fold has no divider (Do is always present, R0) */
 }
 .workspace[data-layout='layout-byobu'] .slice-log {
   flex: 1.3 1 0; /* the widest fold — a calm reading column beside the workbench */
@@ -399,9 +413,112 @@ h3 {
   max-width: 52ch;
 }
 
-/* byōbu uses the WHOLE screen: drop the centered ~1200px paper cap for this layout only
-   (classic keeps it). Stamped on the shell alongside the workspace so header/footer widen too. */
-.shell[data-layout='layout-byobu'] {
+/* ── C · 番付 dashboard grid — the slices as auto-flow cards across the full width; the log a tall
+   card spanning two rows. Hidden slices drop out and the grid reflows (2 cards early → many late),
+   so reveal-gating still drives the fill — no empty-box wall. ── */
+.workspace[data-layout='layout-banzuke'] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  grid-auto-flow: row dense;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+.workspace[data-layout='layout-banzuke'] > .work {
+  display: contents;
+}
+.workspace[data-layout='layout-banzuke'] .slice {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+.workspace[data-layout='layout-banzuke'] .slice-log {
+  grid-row: span 2; /* the log stands as a tall card on the dashboard */
+}
+
+/* ── D · 巻物 workbench + bottom message-rail — the work slices across the top, the story-log docked
+   as a full-width rail along the BOTTOM of the content region (above the fixed footer). The rail has
+   a min-height so narration is never hidden and a capped height so it stays a rail; its lines scroll
+   internally. Exercises the human's "the log can be moved and resized" note. ── */
+.workspace[data-layout='layout-makimono'] {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+.workspace[data-layout='layout-makimono'] > .work {
+  display: flex;
+  gap: var(--space-4);
+  min-height: 0;
+  align-items: stretch;
+}
+.workspace[data-layout='layout-makimono'] .slice:not(.slice-log) {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+.workspace[data-layout='layout-makimono'] .slice-do {
+  flex: 1.4 1 0; /* the workbench hero is the widest of the top slices */
+}
+.workspace[data-layout='layout-makimono'] .slice-log {
+  min-height: 8rem; /* the rail never collapses below a few lines of narration */
+  max-height: 32vh; /* …and never grows past a rail into the whole page */
+}
+.workspace[data-layout='layout-makimono'] .slice-log .log-lines {
+  font-family: var(--font-log, var(--font-body));
+  line-height: 1.7;
+}
+
+/* ═══ FRAMING AXIS (M2) — the boxing treatment, COMPOSED with the arrangement axis above. It styles
+   the WORK slices of the full-width arrangements (byōbu/banzuke/makimono); the story-log keeps its
+   own `.log` book/card frame across all framings. CLASSIC is INERT to framing (one stacked column
+   has no inter-slice framing to speak of), so classic + any framing stays identical to today. ═══ */
+
+/* A · woodblock boxes (default) — each work slice a key-block box (the triple sumi rule, matching
+   `.frame`/`.log`): the densest, most-panels read. */
+.workspace:not([data-layout='layout-classic'])[data-framing='framing-boxes']
+  .slice:not(.slice-log) {
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 2px var(--line),
+    inset 0 0 0 4px var(--surface),
+    inset 0 0 0 5px var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-6);
+}
+
+/* B · hairline dividers — no boxes; a thin --ink-faint rule sets slices apart, so the field reads as
+   one continuous sheet of paper (the folds of a byōbu screen). */
+.workspace:not([data-layout='layout-classic'])[data-framing='framing-hairline']
+  .slice:not(.slice-log) {
+  border-left: 1px solid var(--ink-faint);
+  padding: 0 var(--space-6);
+}
+/* the leftmost byōbu fold (Do, always present R0) carries no divider — nothing sits to its left. */
+.workspace[data-layout='layout-byobu'][data-framing='framing-hairline'] .slice-do {
+  border-left: none;
+  padding-left: 0;
+}
+
+/* C · soft cards — a calmer dashboard: each work slice a soft washi surface (subtle fill + drop
+   shadow, no hard keyline). */
+.workspace:not([data-layout='layout-classic'])[data-framing='framing-cards']
+  .slice:not(.slice-log) {
+  background: var(--surface);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px #00000014;
+  padding: var(--space-4) var(--space-6);
+}
+
+/* the full-width arrangements (byōbu / banzuke / makimono) use the WHOLE screen: drop the centered
+   ~1200px paper cap for those (classic keeps it). Stamped on the shell alongside the workspace so
+   the header/footer widen with the workspace. */
+.shell[data-layout='layout-byobu'],
+.shell[data-layout='layout-banzuke'],
+.shell[data-layout='layout-makimono'] {
   max-width: none;
 }
 

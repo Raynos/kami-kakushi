@@ -185,13 +185,15 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
-  // ── Workspace layout (multi-panel, M1) — STRUCTURAL, not a renderVariant surface. The renderer
+  // ── Workspace layout (multi-panel, M2) — STRUCTURAL, not a renderVariant surface. The renderer
   //    reads the chosen id once per render and stamps it on the workspace/shell as a data-attribute;
   //    CSS does ALL the arranging (there is no `renderSurfaceVariant('layout', …)` branch — the
-  //    panel toggle + rerender() drive the attribute swap). This pass is ONE axis, two values. ──
+  //    panel toggle + rerender() drive the attribute swap). M2 splits the presentation into TWO
+  //    INDEPENDENT AXES — `layout` (arrangement, below) × `framing` (the boxing treatment, next
+  //    surface) — that CSS composes, so a handful of implementations yield many live combos. ──
   {
     id: 'layout',
-    label: 'Workspace layout',
+    label: 'Workspace arrangement',
     variants: [
       {
         id: 'layout-classic',
@@ -203,7 +205,46 @@ export const SURFACES: SurfaceDef[] = [
         id: 'layout-byobu',
         label: 'B · 屏風 folding columns',
         blurb:
-          'Full-width folding columns: each slice a fold, hairline dividers, a wide reading-face log.',
+          'Full-width folding columns: each slice a fold, a wide reading-face log on the right.',
+      },
+      {
+        id: 'layout-banzuke',
+        label: 'C · 番付 dashboard grid',
+        blurb:
+          'Auto-flow woodblock cards across the full width; the log a tall card spanning two rows.',
+      },
+      {
+        id: 'layout-makimono',
+        label: 'D · 巻物 workbench + bottom rail',
+        blurb: 'Work slices up top; the story-log a full-width GBA message-rail along the bottom.',
+      },
+    ],
+  },
+  // ── Panel framing (multi-panel, M2) — the SECOND independent axis. Also STRUCTURAL: the renderer
+  //    stamps `workspace.dataset.framing`; CSS styles slice framing per `[data-framing]`, COMPOSING
+  //    with `[data-layout]`. Inert under `layout-classic` (one stacked column has no inter-slice
+  //    framing to speak of), so classic + any framing stays visually identical to today. ──
+  {
+    id: 'framing',
+    label: 'Panel framing',
+    variants: [
+      {
+        id: 'framing-boxes',
+        label: 'A · woodblock boxes',
+        blurb:
+          'Each slice a woodblock key-block box (the triple sumi rule), the densest, most-panels read (default).',
+      },
+      {
+        id: 'framing-hairline',
+        label: 'B · hairline dividers',
+        blurb:
+          'No boxes — thin --ink-faint rules between slices, so the screen reads as one continuous paper field.',
+      },
+      {
+        id: 'framing-cards',
+        label: 'C · soft cards',
+        blurb:
+          'Each slice a soft washi card surface (subtle fill + shadow, no hard keyline) — a calmer dashboard.',
       },
     ],
   },

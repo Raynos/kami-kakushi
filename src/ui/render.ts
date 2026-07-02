@@ -2495,12 +2495,16 @@ export function mount(
     if (introScene) introEndingRender = true;
     teardownIntroScene();
     shell.hidden = false;
-    // Multi-panel layout (M1): stamp the chosen DEV `layout` variant. Prod always folds to
-    // 'layout-classic' — the `import.meta.env.DEV && dev` guard tree-shakes the dev read out (the
-    // same strip pattern as the influence/market variants). CSS arranges the slices per
-    // `.workspace[data-layout]`; the shell carries it too so byōbu can drop the width cap.
+    // Multi-panel layout (M2): stamp the two INDEPENDENT DEV axes — `layout` (arrangement) and
+    // `framing` (the boxing treatment) — which CSS composes. Prod always folds to
+    // 'layout-classic' + 'framing-boxes'; the `import.meta.env.DEV && dev` guard tree-shakes the
+    // dev reads out (the same strip pattern as the influence/market variants). CSS arranges the
+    // slices per `.workspace[data-layout]` and frames them per `[data-framing]`; the shell carries
+    // the layout too so the full-width arrangements can drop the ~1200px width cap.
     const layout = import.meta.env.DEV && dev ? dev.getVariant('layout') : 'layout-classic';
+    const framing = import.meta.env.DEV && dev ? dev.getVariant('framing') : 'framing-boxes';
     workspace.dataset.layout = layout;
+    workspace.dataset.framing = framing;
     shell.dataset.layout = layout;
     renderVitals(state, prev);
     renderNav(state);
