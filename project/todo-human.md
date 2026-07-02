@@ -32,14 +32,3 @@ _(none open)_
   and the same variable is labelled both "koku" and "rice". Recommends a
   rice / coin(mon) / koku-as-assessment split (Option A) with 6 open design
   calls. Rests on the koku research brainstorm. **Awaits your taste call.**
-- [ ] `docs/plans/2026-07-02-interactive-intro-dialogue.md` — the **interactive
-  intro** design (F13/F12/F15/F19/F23/F26): VN click-to-continue, 3 balanced
-  choice beats, per-NPC memory, a speaker/voice-colour model, 3 presentation
-  variants. **Carries ADR-worthy calls + 6 open questions** for you.
-- [ ] `docs/plans/2026-07-02-multi-panel-layout.md` — the **multi-panel** design
-  (F11): 5 reveal-gated panels, sparse→filling, 3 variants. **Touches the §4.7
-  centered-column rule (widen the shell = an ADR)** + 4 open questions.
-- [ ] `docs/plans/2026-07-02-npc-dialogue-tree.md` — the **Fallout-style dialogue
-  tree** (F47): meet→ask→decide, reuses the intro beats as DialogueScenes,
-  Sōan/Genemon topics, SCHEMA 3→4 migration. Key forks already answered
-  (context-dependent topic counts, dimmed re-askable, voiced player questions).

@@ -1,6 +1,9 @@
 # Multi-panel layout — filling the screen inside the tabbed shell
 
-**Status:** 📝 proposal — awaiting human sign-off + a D-075 diverge build.
+**Status:** ✅ DONE (2026-07-02) — built + locked + archived (ADR D-106). The
+multi-panel workspace ships; the human locked 屏風 folding columns + soft cards as
+the prod default (other variants pruned, D-075 zero-flag-debt). Live record: the
+feedback doc (F11 + F69/F70/F71/F85).
 **Date:** 2026-07-02 · **Author:** Claude Code (Opus 4.8 1M).
 **Feeds:** playtest F11 (multi-panel, 5–7 panels felt like only 2). **Overlaps:**
 F9 (log filter bar — untouched, the log stays one slice), F20 (unread badges —

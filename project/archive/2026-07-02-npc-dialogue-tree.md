@@ -1,6 +1,9 @@
 # NPC dialogue TREE — meet → ask → decide
 
-**Status:** 📝 Proposed — awaiting human review (not yet built).
+**Status:** ✅ DONE (2026-07-02) — built + archived. The ask→decide dialogue tree
+(meet → ask topics → decide, dimmed re-askable topics, voiced player questions,
+per-NPC memory) ships in the intro VN scene. Live record: the feedback doc
+(F47 + F62–F85).
 **Created:** 2026-07-02 · **Author:** agent (design/authoring only — no source
 touched).
 **Cluster:** the story-presentation cluster — playtest **F47** (a better UI for

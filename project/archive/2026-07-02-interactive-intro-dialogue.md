@@ -1,6 +1,9 @@
 # Interactive intro + dialogue system
 
-**Status:** 📝 Proposed — awaiting human review (not yet built).
+**Status:** ✅ DONE (2026-07-02) — built + archived (ADR D-104). The full-screen VN
+intro (append-only render, click-to-continue, balanced attribute-perk choices,
+per-NPC memory, speaker/voice colours) ships. Live record: the feedback doc
+(F13/F43–F45 + F62–F85).
 **Created:** 2026-07-02 · **Author:** agent (design/authoring only).
 **Cluster:** the story-presentation cluster — playtest F13, F12, F15, F19,
 F23, F26 (`project/human-feedback/2026-07-02-playtest.md`).
