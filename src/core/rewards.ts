@@ -19,6 +19,8 @@ export interface RewardBundle {
     /** Optional speaker nameplate + voice tag (carried to the log entry; F23/F26). */
     readonly speaker?: string | undefined;
     readonly voice?: VoiceCategory | undefined;
+    /** Fleeting flavor (F53) — routed to the "Now" view only; kept off the permanent channels. */
+    readonly ephemeral?: boolean | undefined;
   }[];
 }
 
@@ -39,6 +41,7 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
         log: pushLog(next.log, line.channel, line.text, next.clock.tick, {
           speaker: line.speaker,
           voice: line.voice,
+          ephemeral: line.ephemeral,
         }),
       };
     }

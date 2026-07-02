@@ -643,7 +643,17 @@ export function mount(
     combat: -1,
     progression: -1,
     all: -1,
+    now: -1,
   };
+  // F53 — the "Now" view's wall-clock state (render-only; the pure core never times this).
+  // `nowSeen` stamps each ephemeral entry's first-shown Date.now() (keyed by entry key); a single
+  // light interval fades + prunes lines past their TTL. Both are cleared on reset / filter-switch
+  // so nothing leaks (the interval self-terminates the moment the filter leaves `now`).
+  const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appearance
+  const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
+  const nowSeen = new Map<number, number>();
+  let nowInterval: number | undefined;
+  let nowEmptyEl: HTMLElement | undefined;
   // track the last painted entry so a coalesced ×N bump (same key, higher count) repaints
   // the existing DOM line in place rather than appending a duplicate.
   let lastPaintedKey = -1;
@@ -1727,6 +1737,15 @@ export function mount(
     }
     if (last < text.length) line.append(document.createTextNode(text.slice(last)));
   }
+  // F50 — a spoken line gets a "Name: " prefix (the speaker's display name). The stored
+  // `entry.speaker` already IS the display name (NAMES.* / PLAYER_SPEAKER = "You"); NPC_NAME maps
+  // an id defensively should one ever arrive, else the value passes through. The voice colour
+  // rides on the line's `voice-<category>` class, so the prefix inherits it — no extra colour code.
+  function speakerPrefixNode(entry: LogEntry): HTMLElement | null {
+    if (entry.speaker === undefined || entry.speaker === '') return null;
+    const name = NPC_NAME[entry.speaker as keyof typeof NPC_NAME] ?? entry.speaker;
+    return el('span', 'log-speaker', `${name}: `);
+  }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
     line.textContent = '';
     const bullet = CHANNEL_BULLET[entry.channel];
@@ -1735,6 +1754,8 @@ export function mount(
       b.setAttribute('aria-hidden', 'true');
       line.append(b);
     }
+    const prefix = speakerPrefixNode(entry);
+    if (prefix) line.append(prefix);
     const text = formatLogText(entry);
     // F26 — when a line carries a speaker `voice`, the whole line takes that
     // voice's colour (via the `voice-<category>` class on the line, added in
@@ -1817,6 +1838,9 @@ export function mount(
       b.setAttribute('aria-hidden', 'true');
       line.append(b);
     }
+    // F50 — a spoken line shows its "Name: " prefix immediately, before the quote types in.
+    const prefix = speakerPrefixNode(entry);
+    if (prefix) line.append(prefix);
     const textNode = document.createTextNode('');
     line.append(textNode);
     logLines.append(line);
@@ -1888,17 +1912,100 @@ export function mount(
   // F20 — the highest entry key that shows under filter `f`.
   function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
     let mx = -1;
-    for (const e of entries) if (logFilterMatches(e.channel, f)) mx = Math.max(mx, e.key);
+    for (const e of entries)
+      if (logFilterMatches(e.channel, f, e.ephemeral === true)) mx = Math.max(mx, e.key);
     return mx;
   }
   function refreshLogTabs(state: GameState): void {
     const entries = state.log.entries;
     logSeen[logFilter] = maxKeyForFilter(entries, logFilter); // viewing = seen
     for (const [id, btn] of logFilterBtns) {
-      // `all` is excluded — it always shows everything, so a badge there would be noise.
-      const unread = id !== logFilter && id !== 'all' && maxKeyForFilter(entries, id) > logSeen[id];
+      // `all` is excluded — it always shows everything, so a badge there would be noise; `now` too
+      // (F53 — its lines fade on their own, so an unread dot there would just flicker).
+      const unread =
+        id !== logFilter &&
+        id !== 'all' &&
+        id !== 'now' &&
+        maxKeyForFilter(entries, id) > logSeen[id];
       btn.classList.toggle('unread', unread);
     }
+  }
+  // ── F53 · the "Now" view — a rolling window of FLEETING flavor (ephemeral entries) that each
+  //    fade ~15s after first appearing. Wall-clock + DOM only (a render concern; the pure core
+  //    never sees time). Leak-free: `nowSeen` stamps + the single fade interval are torn down on
+  //    reset / filter-switch, and the interval self-terminates the instant the filter leaves `now`.
+  function stopNowInterval(): void {
+    if (nowInterval !== undefined) {
+      window.clearInterval(nowInterval);
+      nowInterval = undefined;
+    }
+  }
+  function clearNowView(): void {
+    stopNowInterval();
+    nowSeen.clear();
+    nowEmptyEl = undefined;
+  }
+  function nowEmptyPlaceholder(): void {
+    // empty when nothing recent — a calm placeholder so the tab never reads broken.
+    if (logLines.querySelector('.now-line')) return; // still has live lines
+    if (nowEmptyEl && nowEmptyEl.isConnected) return;
+    logLines.textContent = '';
+    nowEmptyEl = el('div', 'log-empty', 'Quiet, just now — the moment has passed.');
+    logLines.append(nowEmptyEl);
+  }
+  // The interval pass: fade lines entering their last NOW_FADE_MS, drop lines past NOW_TTL_MS.
+  function pruneNowView(): void {
+    if (logFilter !== 'now') {
+      clearNowView();
+      return;
+    }
+    const now = Date.now();
+    const reduced = reduceMotion();
+    let live = 0;
+    for (const node of Array.from(logLines.children) as HTMLElement[]) {
+      const raw = node.dataset.nowKey;
+      if (raw === undefined) continue; // the placeholder — skip
+      const seen = nowSeen.get(Number(raw));
+      if (seen === undefined) {
+        node.remove();
+        continue;
+      }
+      const age = now - seen;
+      if (age >= NOW_TTL_MS) {
+        node.remove();
+        nowSeen.delete(Number(raw));
+      } else {
+        if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS) node.classList.add('now-fading');
+        live += 1;
+      }
+    }
+    if (live === 0) nowEmptyPlaceholder();
+  }
+  // Full rebuild on a state change: stamp any new ephemeral entry, paint those still inside their
+  // 15s window (newest at the bottom), and keep the fade interval running.
+  function renderNowView(state: GameState): void {
+    const now = Date.now();
+    const ephemeral = state.log.entries.filter((e) => e.ephemeral === true);
+    for (const e of ephemeral) if (!nowSeen.has(e.key)) nowSeen.set(e.key, now);
+    logLines.textContent = '';
+    nowEmptyEl = undefined;
+    const reduced = reduceMotion();
+    let painted = 0;
+    for (const e of ephemeral) {
+      const seen = nowSeen.get(e.key)!;
+      const age = now - seen;
+      if (age >= NOW_TTL_MS) continue;
+      const line = buildLogLine(e, false);
+      line.classList.add('now-line');
+      line.dataset.nowKey = String(e.key);
+      if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS) line.classList.add('now-fading');
+      logLines.append(line);
+      painted += 1;
+    }
+    if (painted === 0) nowEmptyPlaceholder();
+    // start the light fade/prune loop (idempotent) — only meaningful while `now` is active.
+    if (nowInterval === undefined) nowInterval = window.setInterval(pruneNowView, 500);
+    scrollLogToNewest();
   }
   // F27 — clear/drop the transient fresh-entries divider.
   function clearFreshDivider(): void {
@@ -1927,10 +2034,12 @@ export function mount(
   }
   function setLogFilter(f: LogFilter): void {
     if (f === logFilter) return;
+    const wasNow = logFilter === 'now';
     logFilter = f;
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
     logLines.textContent = '';
     clearFreshDivider();
+    if (wasNow) clearNowView(); // F53 — leaving Now drops its stamps + stops the fade interval
     lastKey = -1;
     lastPaintedKey = -1;
     lastPaintedCount = 0;
@@ -1948,6 +2057,9 @@ export function mount(
     }
     paintLogFilterBar();
     if (lastState) refreshLogTabs(lastState); // F20 — switching a tab clears its dot
+    // F51 — land at the NEWEST line (bottom) INSTANTLY on a tab switch, so the reader always
+    // starts at the freshest of the newly-filtered view (not stranded mid-scroll or up top).
+    logLines.scrollTop = logLines.scrollHeight;
   }
   function renderLog(state: GameState): void {
     const entries = state.log.entries;
@@ -1967,8 +2079,15 @@ export function mount(
         revealTimer = undefined;
       }
       stopTyping(); // P2 — a reset must cancel any in-flight per-char typing timer
+      clearNowView(); // F53 — a reset drops the fleeting-flavor stamps + fade timer too
     }
     lastSeq = state.log.seq;
+    // F53 — the "Now" view owns its own rolling, self-fading render path (not the incremental
+    // cascade): fully rebuild it from the ephemeral entries + their first-seen stamps.
+    if (logFilter === 'now') {
+      renderNowView(state);
+      return;
+    }
     if (entries.length === 0) return;
     const last = entries[entries.length - 1]!;
     const fresh: LogEntry[] = entries.filter((e) => e.key > lastKey);
@@ -1976,7 +2095,7 @@ export function mount(
       // in-place ×N growth: the last entry kept its key but bumped its count (a coalesce).
       // Only paint while the reveal cascade is idle (it self-heals on the next render).
       if (
-        logFilterMatches(last.channel, logFilter) &&
+        logFilterMatches(last.channel, logFilter, last.ephemeral === true) &&
         last.key === lastPaintedKey &&
         (last.count ?? 1) !== lastPaintedCount &&
         revealQueue.length === 0 &&
@@ -1994,7 +2113,9 @@ export function mount(
       return;
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
-    const freshVisible = fresh.filter((e) => logFilterMatches(e.channel, logFilter));
+    const freshVisible = fresh.filter((e) =>
+      logFilterMatches(e.channel, logFilter, e.ephemeral === true),
+    );
 
     // F48 — while the intro owns the live reveal (the VN scene), the LOG is only the historical
     // transcript: append its lines INSTANTLY (no typewriter, no cascade) so it's ready the moment

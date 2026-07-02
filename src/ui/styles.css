@@ -605,6 +605,29 @@ h3 {
   border-left: 3px solid var(--shu);
 }
 
+/* F50 — the "Name: " prefix on a spoken line; inherits the line's voice colour, just weighted. */
+.log-line .log-speaker {
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* F53 — the "Now" view: fleeting flavor lines that fade out over their last ~0.9s before
+   expiring at ~15s. The `.now-fading` class is only added when motion is allowed (render-side),
+   so reduced-motion users get a clean instant expiry with no transition. */
+.log-line.now-line {
+  transition: opacity 0.9s ease-out;
+}
+.log-line.now-fading {
+  opacity: 0;
+}
+.log-empty {
+  color: var(--ink-faint);
+  font-size: var(--fs-small);
+  font-style: italic;
+  padding: var(--space-3);
+  text-align: center;
+}
+
 /* the work / action column */
 .work {
   display: flex;

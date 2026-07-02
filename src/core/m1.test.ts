@@ -280,3 +280,48 @@ describe('soft stamina + season', () => {
     expect(season(tick(s, 28 * 24 * 2))).toBe('autumn'); // day 56
   });
 });
+
+// F53 — the FLEETING flavor lines (rest + per-activity labour output) are tagged `ephemeral`,
+// so the render routes them to the self-fading "Now" view and keeps them OFF the permanent
+// channels. RED-able + discriminating: the same 'reward' channel carries BOTH a permanent line
+// (the cold-open rake) and an ephemeral one (the labour output), so the flag can't be a blanket.
+describe('ephemeral flavor tagging (F53)', () => {
+  const lastByChannel = (
+    s: GameState,
+    channel: 'reward' | 'system' | 'milestone',
+  ): { readonly ephemeral?: boolean } | undefined =>
+    [...s.log.entries].reverse().find((e) => e.channel === channel);
+
+  it('the rest line is ephemeral (fleeting body-flavor, not a permanent record)', () => {
+    let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    s = reduce(s, { type: 'rake_rice' }); // sets `raked` → rest becomes a legal verb
+    s = reduce(s, { type: 'rest' });
+    const rest = lastByChannel(s, 'system');
+    expect(rest).toBeDefined();
+    expect(rest!.ephemeral).toBe(true);
+  });
+
+  it('a per-activity labour output line is ephemeral, but the cold-open rake line is NOT', () => {
+    // the cold-open rake reward line stays a permanent record (part of the story spine).
+    const raked = reduce(reduce(createInitialState(1), { type: 'open_eyes' }), {
+      type: 'rake_rice',
+    });
+    const rakeLine = lastByChannel(raked, 'reward');
+    expect(rakeLine).toBeDefined();
+    expect(rakeLine!.ephemeral ?? false).toBe(false);
+
+    // the do_activity labour output line ("you worked / +N") is fleeting flavor → ephemeral.
+    const base = createInitialState(1);
+    const atPaddies: GameState = {
+      ...base,
+      rung: 'R2',
+      location: 'home-paddies',
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'verb-farm'],
+    };
+    const farmed = reduce(atPaddies, { type: 'do_activity', activityId: 'farm_paddy' });
+    const farmLine = lastByChannel(farmed, 'reward');
+    expect(farmLine).toBeDefined();
+    expect(farmLine!.ephemeral).toBe(true);
+  });
+});

@@ -25,6 +25,10 @@ export interface LogEntry {
   readonly speaker?: string;
   /** Optional speaker category — drives the render-time colour class. Absent ⇒ 'narrator'. */
   readonly voice?: VoiceCategory;
+  /** Fleeting flavor (rest / trivial labour output) — lives ONLY in the render's "Now" view and
+   *  fades ~15s after it appears (a RENDER-time, wall-clock concern; the pure core never times it).
+   *  The permanent channels + `all` never show it. Absent ⇒ a normal, permanent line. */
+  readonly ephemeral?: boolean;
 }
 
 export interface LogState {
@@ -47,7 +51,11 @@ export function pushLog(
   channel: LogChannel,
   text: string,
   tick: number,
-  meta?: { readonly speaker?: string | undefined; readonly voice?: VoiceCategory | undefined },
+  meta?: {
+    readonly speaker?: string | undefined;
+    readonly voice?: VoiceCategory | undefined;
+    readonly ephemeral?: boolean | undefined;
+  },
 ): LogState {
   const last = log.entries[log.entries.length - 1];
   // Coalesce key stays channel+text (speech lines rarely byte-repeat); the bumped entry
@@ -64,6 +72,7 @@ export function pushLog(
     count: 1,
     ...(meta?.speaker !== undefined ? { speaker: meta.speaker } : {}),
     ...(meta?.voice !== undefined ? { voice: meta.voice } : {}),
+    ...(meta?.ephemeral !== undefined ? { ephemeral: meta.ephemeral } : {}),
   };
   const next =
     log.entries.length >= LOG_RING_MAX

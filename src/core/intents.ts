@@ -267,7 +267,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'rest': {
       if (!metaLegal(state, 'rest')) return state;
       next = adjustSatiety(next, SATIETY_PER_REST);
-      next = applyRewards(next, { log: [{ channel: 'system', text: COLD_OPEN.restAct }] });
+      // F53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
+      // the permanent Work/All channels.
+      next = applyRewards(next, {
+        log: [{ channel: 'system', text: COLD_OPEN.restAct, ephemeral: true }],
+      });
       next = advanceClock(next, TICKS_PER_ACT);
       break;
     }
@@ -299,7 +303,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = applyRewards(next, {
         resources: gained as Record<string, number>,
         flags: storyFlags,
-        log: [{ channel: 'reward', text: activityLine(act, gained) }],
+        // F53 — the per-activity labour output line is fleeting flavor ("you worked / +N"): it
+        // shows only in the "Now" view and fades. The gained resources still bank on the state;
+        // only the noisy line is transient (crafts/purchases/rung-ups stay permanent).
+        log: [{ channel: 'reward', text: activityLine(act, gained), ephemeral: true }],
       });
       next = accrueRungMeter(next, act.id);
       // Phase 2 (post-R7): estate labour also banks an Estate-pillar deed (no-op in Phase 1).
