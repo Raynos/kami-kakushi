@@ -181,6 +181,58 @@ fighting, mirroring the combat-tab fog). Three FULL working takes are live behin
 
 ---
 
+### R6 🔲 — home/Inventory panel — the D-075 diverge is OWED (default shipped, live variants NOT built)
+
+The **deep-housing T0 pass** (D-111, F89) shipped ONE prod default for the home /
+belongings / comfort surface (now in the **Inventory** tab), but the mandatory
+**D-075 diverge** — 2–3 genuinely-distinct WORKING variants behind the DEV-panel
+toggle for a live human pick — was **not built**: the autonomous rebuild ran
+headless and couldn't author + self-review live UI variants. This is outstanding
+design debt, not a reviewed surface.
+
+- **Asking for:** nothing to pick yet — this is a **flag** that the diverge is
+  owed. The `diverge` skill must run on the home/Inventory panel (FULL 2–3 live
+  variants behind the DEV toggle, a self-picked default, an R-item per variant)
+  before this surface counts as "reviewed"; then you pick live.
+- **How to look:** once built — `npm run dev` → the **Inventory** tab → toggle
+  "VARIANT · Home/Inventory" in the DEV panel. _(Not yet available.)_
+- **Verdict:** _(blocked — awaiting the diverge build)_
+
+---
+
+### R7 🔲 — Estate-map redesign — pick among the live variants (F102, D-075)
+
+The estate map was **redesigned + diverged** per F102 (a bordered "where you are
+now" flavor panel split from a terse click-to-navigate map that hints nothing
+about the next zone). **Seven** working takes (**V5A–V5G**) ship behind the DEV
+toggle for a live pick; the agent self-picked a coherent prod default.
+
+- **Asking for:** which of V5A–V5G ships as the prod default (or a tune to one).
+- **How to look:** `npm run dev` → the **Map** tab → toggle "VARIANT · Estate
+  map" (V5A–V5G) in the DEV panel (top-right); the surface updates live. Use
+  `?dev=no` afterward to see your pick in the true player layout.
+- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
+
+---
+
+### R8 🔲 — Rung-up cast + R0→R7 story beats — read & sign off (F97/F103, D-110)
+
+Rung promotions are now **player-triggered VN story beats** (D-110) — each
+narratively motivates the unlocks it grants. The **cast** (three invented faces:
+pedlar Tokubei, Rokusuke, smith Tōzō) and the **R0→R7 beat script** are drafted
+for your read in
+[`docs/plans/2026-07-02-rung-up-story-transitions.md`](../../docs/plans/2026-07-02-rung-up-story-transitions.md)
+(§6.6 cast / §7 beats).
+
+- **Asking for:** a taste/read pass on the cast + the per-rung beats — do the
+  faces + the transition prose land, or do you want any recast / retuned?
+- **How to look:** read the plan §6.6 (cast) + §7 (beats); or play it live —
+  `npm run dev`, then `__qa.toRung('R1')`… to trigger each rung's beat in the VN
+  modal.
+- **Verdict:** _(awaiting the human)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **R4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **D-076…D-079** (+D-056); **R3** folded into R2 (**D-075**).

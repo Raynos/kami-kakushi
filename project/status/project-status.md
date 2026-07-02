@@ -27,41 +27,54 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 - **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
   per-section files `docs/living/prd/*`. §4 balance + §7 M2–M7 stay provisional (D-059).
-- **v0.3.0–v0.3.2 shipped** — the T0 M0–M4 arc plays end-to-end; 5-attr accuracy/
-  evasion combat, bank, spatial map, Bestiary, quests. Site is live (a bit behind now).
-- **v0.3.3 shipped** — playtest rounds 1–3 (F1–F115): app-shell overhaul, the
+- **v0.3.0–v0.3.3 shipped** the T0 M0–M4 arc + playtest rounds 1–3 (F1–F85):
+  5-attr combat, bank, spatial map, Bestiary, quests; app-shell overhaul, the
   append-only **VN intro** (D-104), **log v2**, LOCKED multi-panel (D-106), 1780
-  cold-open (D-105), DEV New-Game backup/restore, `CHANGELOG.md`.
-- **🔨 AUTONOMOUS T0 REBUILD — IN FLIGHT (2026-07-02, `origin/main`, green).** Human
-  gave full autonomy + scope decisions (ADRs **D-107–D-116**). DONE + pushed:
-  **① append-only render engine** (whole UI flash-free, `reconcile.ts`) · **② economy
-  re-core Ph1–4 + audited** — koku→**coin+rice**, rice loop (sell/eat/store), mon/monme/
-  ryō display, koku=House **standing** (D-107/108/109/113) · **③ IA 6-tab reorg**
-  (Work·Map·Estate·Inventory·Character·Combat, incremental; vendors-as-people; D-116
-  nav→Now) · **④ estate-map diverge** (7 DEV variants, F102) · **⑤ rung-story CORE**
-  (every rung a player-triggered VN beat, D-110; pending→beat→apply; SCHEMA 5→6).
-  **IN PROGRESS:** rung-story **UI** (VN reuse + F106 rung-in-header trigger).
-- **Queued next (T0):** log/UI polish (Chat tab F111 · Now-timer F115 · footer F92 ·
-  about-modal F104/105) · **deep housing** (D-111) · combat light polish → **v0.3.4 +
-  gh-pages deploy**. Everything funnels through `render.ts` (serial).
+  cold-open (D-105).
+- **✅ AUTONOMOUS T0 REBUILD — COMPLETE + DEPLOYED** (2026-07-03, `origin/main`,
+  green; live at **raynos.github.io/kami-kakushi** as **v0.3.5**). Full autonomy +
+  scope in ADRs **D-107–D-116**. **Eight lanes:** ① append-only render engine
+  (`reconcile.ts`, flash-free) · ② economy re-core Ph1–4 + audited — koku→**coin+
+  rice**, rice loop, mon/monme/ryō, koku=House **standing** (D-107/108/109/113) ·
+  ③ IA 6-tab reorg (Work·Map·Estate·Inventory·Character·Combat, incremental;
+  vendors-as-people; nav→Now, D-116) · ④ estate-map diverge (7 DEV variants V5A–G,
+  F102) · ⑤ rung-up story beats — every rung a player-triggered VN beat (D-110;
+  pending→beat→apply; SCHEMA 5→6) · ⑥ log/UI polish (Chat F111 · Now-timer F115 ·
+  footer F92 · About modal F104/105 · F116 dup-ladder · F117 log rebalance) ·
+  ⑦ deep housing T0 (home/belongings/comfort, D-111) · ⑧ combat-log voice (F91).
+- **v0.3.4→v0.3.5 deploys** + a backfilled `CHANGELOG.md` (v0.1.0→v0.3.5) + the
+  **12th verify gate** `verify-changelog` (version↔changelog single-source, A21).
+  **Two adversarial audits** ran — economy balance-watch (4 liquid tuning items,
+  left un-tuned for the human, D-059) + a deploy-gate check. **All F86–F117 ✅.**
 - **Parallel worker (Fable):** a **UI-v2 prototype** gallery (`prototype/index.html`) —
   a taste-call spike, separate from this rebuild.
 - **Philosophy** R1–R6 + **process canon** D-086–089 (tension>generosity · loop
   done-rule · e2e+invariants DoD · implicit queue sign-off).
+- **D-117: the frontier PRD** — PRD = forward spec of the unbuilt; tiers
+  compress at taste sign-off (human-signed sweep); §4 ripple-frozen NOW. Three
+  process plans queued (checkpoint · playtest-inbox · balance-sim).
 
 ## Waiting on the human
 
-- **REVIEW PASSOVER** 🔲 — play/review the reshaped T0 (VN intro, log v2, 6-tab IA,
-  the economy re-core, estate-map, the rung beats once the UI lands).
+- **REVIEW PASSOVER** 🔲 (R1) — play/review the **deployed** T0 (VN intro, log v2,
+  6-tab IA, the economy re-core, estate-map, the rung beats).
+- **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7) +
+  older surfaces (R2/R5). **OWED:** the home/Inventory **D-075 diverge** (R6) wasn't
+  built (headless) — a diverge is owed before that surface is reviewable.
 - **Balance-watch** 🔲 — 4 liquid tuning items the economy audit found (rice out-
-  produces sinks → coin too abundant; koku capstone too fast). I did NOT silently
-  re-tune — your feel-call. `audit/reports/2026-07-02-economy-balance-watch.md`.
-- **Rung cast + R0→R7 beats** 🔲 — drafted for review (3 invented faces: pedlar
+  produces sinks → coin too abundant; koku capstone too fast). NOT silently
+  re-tuned — your feel-call. `audit/reports/2026-07-02-economy-balance-watch.md`.
+- **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `docs/plans/2026-07-02-rung-up-story-transitions.md`.
-- **DEV variants** 🔲 — pick live in the DEV panel: estate-map V5A–G + older surfaces.
 - **UI-v2 gallery** 🔲 — `prototype/index.html` (Fable): pick a framing → `diverge`.
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
+
+## Deferred / owed tail (engineering — not blocking the deploy)
+
+Home/Inventory **D-075 diverge** (owed, R6) · the **'lord' voice** needs a core
+`VoiceCategory` extension · economy **Phase 5** status tokens · **home grows with
+rung** · **per-tier/rung NPC placement** (F113) · the balance-watch tuning (above).
 
 ## Toolchain
 
@@ -87,19 +100,19 @@ clone: `git config core.hooksPath .githooks`.
 
 ## How to resume
 
-> 🎮 **Autonomous T0 rebuild in flight (2026-07-02).** The render engine, economy
-> re-core (Ph1–4), 6-tab IA, estate-map, and rung-story CORE are built + on
-> `origin/main` (green). Rung-story **UI** is the active build; then log/UI polish,
-> deep housing, combat polish → **v0.3.4 + gh-pages deploy**. Scope is locked in
-> ADRs D-107–D-116; prose ships live (human reviews async).
+> 🎮 **Autonomous T0 rebuild COMPLETE + deployed (2026-07-03, v0.3.5).** All eight
+> lanes are on `origin/main` (green) and live at raynos.github.io/kami-kakushi.
+> What's open is the human async queue above; the deferred/owed tail is the next
+> autonomous work as picks land. Scope locked in ADRs D-107–D-116.
 
-1. Read the **newest journal** + the feedback doc (`human-feedback/2026-07-02-playtest.md`,
-   F1–F115) + `todo-human.md` (the reading queue + open forks) for the full arc.
-2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
+1. Read the **newest journal** (`journal/2026-07-03-session-49-t0-rebuild-complete.md`)
+   + the feedback doc (`human-feedback/2026-07-02-playtest.md`, F1–F117 all ✅) +
+   `todo-human.md` (the reading queue + open forks) for the full arc.
+2. `npm install` → `npm run verify` (green, 12 gates) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Serial `render.ts` lane** — build order: rung-story UI → log/UI polish → deep
-   housing → combat polish → v0.3.4 deploy. Balance stays liquid (D-059) for the human.
+4. **Serial `render.ts` lane** — next autonomous work is the deferred/owed tail (the
+   home-panel diverge is highest-value). Balance stays liquid (D-059) for the human.
 5. **Shared tree:** stage only your own files by explicit path; Fable's UI-v2 prototype
    (`prototype/`) + snapshot edits are theirs — leave untouched.
