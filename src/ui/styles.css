@@ -80,14 +80,14 @@
   --font-display: 'Yuji Syuku', 'Shippori Mincho B1', serif;
   --font-num: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
 
-  --fs-display: clamp(1.6rem, 4vw, 2.6rem);
-  --fs-h1: 1.3rem;
-  --fs-h2: 1.08rem;
-  --fs-h3: 1rem;
-  --fs-body: 1rem;
-  --fs-num-lg: 1.1rem;
-  --fs-small: 0.875rem;
-  --fs-micro: 0.75rem;
+  --fs-display: calc(clamp(1.6rem, 4vw, 2.6rem) * var(--text-scale, 1));
+  --fs-h1: calc(1.3rem * var(--text-scale, 1));
+  --fs-h2: calc(1.08rem * var(--text-scale, 1));
+  --fs-h3: calc(1rem * var(--text-scale, 1));
+  --fs-body: calc(1rem * var(--text-scale, 1));
+  --fs-num-lg: calc(1.1rem * var(--text-scale, 1));
+  --fs-small: calc(0.875rem * var(--text-scale, 1));
+  --fs-micro: calc(0.75rem * var(--text-scale, 1));
   --lh-body: 1.6;
   --lh-tight: 1.25;
   --tracking-head: 0.02em;
@@ -941,9 +941,9 @@ h3 {
 
 /* ── a11y: text scale + reduced-motion class (Settings) ──────────────────── */
 html {
-  /* compact baseline (playtest F10) — everything is rem-based, so this trims the whole
-     UI proportionally; the a11y text-scale multiplier still layers on top. */
-  font-size: calc(90% * var(--text-scale, 1));
+  /* compact baseline (F10). The a11y text-scale is NOT applied here — it must not move the
+     layout (F30); it multiplies only the --fs-* type tokens below, so text grows, spacing stays. */
+  font-size: 90%;
 }
 .reduced-motion *,
 .reduced-motion *::before,
