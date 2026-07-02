@@ -15,6 +15,7 @@ import {
   estateYieldNum,
   getItem,
   applyGrindFight,
+  formatCoin,
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
   MARKET_ITEMS,
@@ -363,6 +364,14 @@ describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
     const s: GameState = { ...base, resources: { ...base.resources, coin: 1000 } };
     expect(reduce(s, { type: 'buy_item', itemId: 'greens_sack' })).toBe(s);
   });
+
+  it('the buy line DENOMINATES the cost (D-108 — mon/monme/ryō, matching the pills)', () => {
+    const item = getItem('greens_sack');
+    const after = reduce(withMarket(), { type: 'buy_item', itemId: 'greens_sack' });
+    const line = after.log.entries.find((e) => e.text.includes('barter'))?.text ?? '';
+    expect(line).toContain(formatCoin(item.coinCost)); // the cost rendered as the pill renders it
+    expect(line).not.toMatch(/\d+ coin/); // RED against the old "barter N coin" raw-integer form
+  });
 });
 
 describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / call 4)', () => {
@@ -378,6 +387,10 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
     expect(after.resources.wood ?? 0).toBe(10 - balance.REPAIR_WOOD_COST);
     expect(after.resources.coin ?? 0).toBe(30 - balance.REPAIR_COIN_COST); // ← the coin sink bites
     expect(after.weaponDurability).toBeGreaterThan(ready.weaponDurability); // repaired to max
+    // D-108 — the repair fee is denominated (mon/monme/ryō) in the log, matching the pills.
+    const line = after.log.entries.find((e) => e.text.includes('repair the'))?.text ?? '';
+    expect(line).toContain(formatCoin(balance.REPAIR_COIN_COST)); // the fee, as the pill renders it
+    expect(line).not.toMatch(/\d+ coin/); // RED against the old "−N coin" raw-integer fee
   });
 
   it('the coin fee is WAIVED when you cannot pay — repair never softlocks (D-061/D-086)', () => {
@@ -458,6 +471,20 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     const base = createInitialState(1);
     const locked: GameState = { ...base, resources: { ...base.resources, rice: 50 } }; // no panel-estate
     expect(reduce(locked, { type: 'sell_rice' })).toBe(locked);
+  });
+
+  it('the sell line DENOMINATES the per-measure price + proceeds (D-108, matching the pills)', () => {
+    // 100 rice at the spring price clears ≥1 monme of proceeds — the log shows the SAME mon/monme/ryō
+    // rendering the coin pill uses, never a raw " coin" integer (the D-108 same-transaction mismatch).
+    const s = seller(100); // day 0 → spring
+    const price = balance.riceSellPrice('spring');
+    const proceeds = 100 * price;
+    expect(proceeds).toBeGreaterThanOrEqual(80); // ≥1 monme, so the denominated form is a monme readout
+    const after = reduce(s, { type: 'sell_rice' });
+    const line = after.log.entries.find((e) => e.text.includes('pedlar'))?.text ?? '';
+    expect(line).toContain(formatCoin(proceeds)); // e.g. "7 monme 40 mon" — the denominated proceeds
+    expect(line).toContain(formatCoin(price)); // the per-measure price, denominated too
+    expect(line).not.toMatch(/\d+ coin/); // RED against the old "N coin the measure / +N coin" form
   });
 
   it('the coin faucet makes an early estate cost affordable (rice → coin → improve_estate)', () => {

@@ -17,6 +17,7 @@ import {
   mobCombatStats,
   getMob,
   getWeapon,
+  formatCoin,
   balance,
   hpMax,
   type GameState,
@@ -54,7 +55,9 @@ describe('3a · summarised one-line fight outcomes (D-076 / batch-1 call 2)', ()
     const line = combatLines(after).at(-1) ?? '';
     expect(line).toMatch(/bring down the .*monkey/i);
     expect(line).toMatch(/HP \d+→\d+/); // the HP swing is IN the outcome line
-    expect(line).toMatch(/\+\d+ coin/);
+    // D-108 — the coin reward is DENOMINATED (mon/monme/ryō), matching the pills; NOT raw " coin".
+    expect(line).toContain(`+${formatCoin(getMob('monkey').coinReward)}`);
+    expect(line).not.toMatch(/\d+ coin/); // RED against the old "+N coin" raw-integer form
   });
 
   it('a LOSS emits a single summarised line with the HP drop', () => {
@@ -123,6 +126,17 @@ describe('3c · a lost fight drops CARRIED coin/materials; BANKED is safe (D-076
     const after = applyGrindFight(before, 'monkey');
     expect(after.character.combatXp).toBeGreaterThan(before.character.combatXp); // it won
     expect(after.banked.coin ?? 0).toBe(50);
+  });
+
+  it('the rout DENOMINATES the dropped coin (D-108 — mon/monme/ryō, matching the pills)', () => {
+    const base = mc(1); // a guaranteed loss vs bandit
+    const before: GameState = { ...base, resources: { ...base.resources, coin: 100 } };
+    const after = applyGrindFight(before, 'bandit');
+    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
+    const lostCoin = Math.round(100 * balance.LOSS_COIN_FRAC); // the design lever, from the source
+    const line = combatLines(after).at(-1) ?? '';
+    expect(line).toContain(formatCoin(lostCoin)); // the dropped coin, as the pill renders it
+    expect(line).not.toMatch(/\d+ coin/); // RED against the old "You drop N coin in the rout" form
   });
 });
 

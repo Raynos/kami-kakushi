@@ -516,3 +516,40 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
     expect(frontierLines).toHaveLength(1);
   });
 });
+
+// The load-path back-reveal (audit fix). The `unlocked` latch is write-once, but several surfaces
+// are STATE-PREDICATE reveals (readout-coin keyed to carried-or-banked coin, panel-estate/verb-eat
+// -rice keyed to a latched ladder, …). A loaded/migrated save can ALREADY satisfy such a predicate
+// while its stored `unlocked` set predates it — so the boot load path now runs ONE revealPass to
+// reconcile the latch BEFORE the first render (else the surface stays hidden until the first
+// dispatched intent). These test the pure core that path delegates to (main.ts is the comp root).
+describe('load-path back-reveal — a state-predicate surface latches on revealPass (audit fix)', () => {
+  /** A stale/migrated save that already meets a coin predicate but never latched the coin pill. */
+  function staleSave(carried: number, banked = 0): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      resources: { ...base.resources, coin: carried },
+      banked: { ...base.banked, coin: banked },
+      unlocked: base.unlocked.filter((id) => id !== 'readout-coin'),
+    };
+  }
+
+  it('a save CARRYING coin but missing readout-coin back-reveals the coin pill', () => {
+    const stale = staleSave(250);
+    expect(isUnlocked(stale, 'readout-coin')).toBe(false); // fixture guard: the latch predates the coin
+    const loaded = revealPass(stale); // exactly what the load path runs before the first render
+    expect(isUnlocked(loaded, 'readout-coin')).toBe(true); // back-revealed → the coin pill renders
+  });
+
+  it('coin BANKED in the kura (nothing carried) still back-reveals it (predicate covers banked)', () => {
+    const stashed = staleSave(0, 500);
+    expect(isUnlocked(stashed, 'readout-coin')).toBe(false);
+    expect(isUnlocked(revealPass(stashed), 'readout-coin')).toBe(true);
+  });
+
+  it('a genuinely coin-less save leaves the pill HIDDEN — the reveal is EARNED (the RED control)', () => {
+    const broke = staleSave(0, 0);
+    expect(isUnlocked(revealPass(broke), 'readout-coin')).toBe(false); // no coin anywhere → still fogged
+  });
+});

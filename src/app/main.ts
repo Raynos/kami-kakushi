@@ -15,6 +15,7 @@ import {
   nextHopToward,
   getMob,
   promoteRungs,
+  revealPass,
   RANKS,
   balance,
   type GameState,
@@ -97,6 +98,14 @@ async function boot(): Promise<void> {
     state = createInitialState(DEFAULT_SEED);
   }
 
+  // Load-path reveal reconciliation (audit fix). The `unlocked` latch is write-once, but several
+  // surfaces are STATE-PREDICATE reveals (readout-coin on coin>0, panel-estate/verb-eat-rice on a
+  // latched ladder, …). A loaded/migrated save can ALREADY satisfy such a predicate while its
+  // stored `unlocked` set predates it — so run ONE revealPass now (mirroring what a tick/reduce
+  // does via finish()) to latch every already-earned surface BEFORE the first render. Without it a
+  // back-revealable surface stays hidden until the player's first dispatched intent.
+  state = revealPass(state);
+
   let prev: GameState | null = null;
 
   // reveal tracking (for the __qa reveal-cadence proxy)
@@ -118,7 +127,9 @@ async function boot(): Promise<void> {
         const res = await save.importState(b64);
         if ('state' in res) {
           prev = null;
-          state = res.state;
+          // reconcile the imported save's write-once latch against its state predicates (same
+          // load-path back-reveal as boot) before the first render.
+          state = revealPass(res.state);
           safely(() => render(state, null));
         } else {
           // surface a FAILED restore — otherwise the modal just closes and a bad/truncated save
@@ -440,7 +451,9 @@ async function boot(): Promise<void> {
         const res = await save.importState(b64);
         if ('state' in res) {
           prev = null;
-          state = res.state;
+          // reconcile the imported save's write-once latch against its state predicates (same
+          // load-path back-reveal as boot) before the first render.
+          state = revealPass(res.state);
           safely(() => render(state, null));
         }
         return res;

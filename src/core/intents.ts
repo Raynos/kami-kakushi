@@ -16,6 +16,7 @@ import {
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
+import { formatCoin } from './format';
 import { clamp } from './math';
 import { satietyMax, hpMax, staminaRate, season, canDoActivity, estateYieldNum } from './selectors';
 import { skillLevel, skillYieldNum } from './skills';
@@ -452,7 +453,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${coinFee > 0 ? `, −${coinFee} coin` : ''})`,
+            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${coinFee > 0 ? `, −${formatCoin(coinFee)}` : ''})`,
           },
         ],
       });
@@ -554,7 +555,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You sell ${rice} rice to the pedlar at ${price} coin the measure. (+${coinGain} coin)`,
+            text: `You sell ${rice} rice to the pedlar at ${formatCoin(price)} the measure. (+${formatCoin(coinGain)})`,
           },
         ],
       });
@@ -629,7 +630,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You barter ${item.coinCost} coin for a ${item.label.toLowerCase()}.`,
+            text: `You barter ${formatCoin(item.coinCost)} for a ${item.label.toLowerCase()}.`,
           },
         ],
       });
@@ -645,12 +646,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (have <= 0) return state;
       next = withResource(next, intent.resource, -have);
       next = withBanked(next, intent.resource, have);
+      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain counts.
+      const storedAmount =
+        intent.resource === 'coin' ? formatCoin(have) : `${have} ${intent.resource}`;
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You store ${have} ${intent.resource} safe in the kura storehouse.`,
+            text: `You store ${storedAmount} safe in the kura storehouse.`,
           },
         ],
       });
@@ -663,12 +667,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (have <= 0) return state;
       next = withBanked(next, intent.resource, -have);
       next = withResource(next, intent.resource, have);
+      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain counts.
+      const drawnAmount =
+        intent.resource === 'coin' ? formatCoin(have) : `${have} ${intent.resource}`;
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You draw ${have} ${intent.resource} back out of the kura storehouse.`,
+            text: `You draw ${drawnAmount} back out of the kura storehouse.`,
           },
         ],
       });

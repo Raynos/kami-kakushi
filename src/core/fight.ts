@@ -11,6 +11,7 @@ import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from '.
 import { hpMax } from './selectors';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
+import { formatCoin } from './format';
 import { NAMES } from './content/names';
 import { rollMaterialDrop, getMaterial, MATERIALS } from './content/crafting';
 import { applyQuestEvent } from './quest-engine';
@@ -126,7 +127,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       log: [
         {
           channel: 'combat',
-          text: `You bring down the ${mob.label.toLowerCase()}. ✓ (HP ${hpBefore}→${result.mcHpLeft} · +${mob.coinReward} coin${lootStr})`,
+          text: `You bring down the ${mob.label.toLowerCase()}. ✓ (HP ${hpBefore}→${result.mcHpLeft} · +${formatCoin(mob.coinReward)}${lootStr})`,
         },
       ],
     });
@@ -174,7 +175,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     }
     // Name the rout loss across all three carried resources ("N coin, M rice, and K of your spoils").
     const lostParts = [
-      lostCoin > 0 ? `${lostCoin} coin` : '',
+      lostCoin > 0 ? formatCoin(lostCoin) : '',
       lostRice > 0 ? `${lostRice} rice` : '',
       lostMats > 0 ? `${lostMats} of your spoils` : '',
     ].filter(Boolean);
