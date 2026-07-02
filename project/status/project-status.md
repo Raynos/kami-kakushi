@@ -44,13 +44,13 @@ perseverance; no reset. Spec: [`../../docs/living/prd.md`](../../docs/living/prd
   [`../archive/2026-07-01-v0.3.2-build-close-the-gap.md`](../archive/2026-07-01-v0.3.2-build-close-the-gap.md).
 - **v0.3.2 PLAYTEST UI OVERHAUL — IN PROGRESS (2026-07-02, session-41).** A live
   human-steered playtest → 16 taste items (F1–F16, in
-  `human-feedback/2026-07-02-playtest.md`). **F1–F10, F14, F16 shipped** (app-shell:
+  `human-feedback/2026-07-02-playtest.md`). **F1–F10, F14, F16, F9 shipped** (app-shell:
   ink ground · ~1200px centered column · fixed header/footer · 100dvh no-page-scroll ·
   log-RIGHT · smooth scroll · compact pass; cold-open slow reveal + D-075 variants;
   DEV-panel Settings/Variants restructure). Settled rules **graduated to ui-design.md**
   (§4.7/§4.8). Autonomous run building the rest — plan:
   [`../../docs/plans/2026-07-02-playtest-polish-build.md`](../../docs/plans/2026-07-02-playtest-polish-build.md).
-  **Still to build:** F9 log-filter · F12 typewriter · F13 interactive intro ·
+  **Still to build:** F12 typewriter · F13 interactive intro (wants human input) ·
   F11 multi-panel · F15 (folded into the intro cluster).
 - **Operating philosophy:** the **R1–R6 register** (no-clock · verify-don't-trust ·
   done-is-earned · bias-to-motion · if-it-isn't-fun · if-a-player-can't-reach-it) lives
