@@ -2182,6 +2182,18 @@ html {
   font-family: var(--font-head);
   letter-spacing: 0.04em;
 }
+/* D-107: the koku STANDING figure — the number the House's worth is reckoned in. A rank number,
+   emphasised (tabular so it doesn't jitter as it ticks) but in-palette, never a loud colour. */
+.koku-standing {
+  font-family: var(--font-head);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+/* the far mythic horizon note (the 10,000-koku daimyō line) — a quiet aside, below the season line. */
+.influence-when.koku-horizon {
+  font-style: italic;
+  color: var(--ink-faint);
+}
 /* a11y (D-045): the grade WORD must read on the washi-shade — the light ochre/gold accents fail
    WCAG AA (gold was only 2.22:1), so the TEXT uses deeper in-palette tones. The grade-bar FILL keeps
    the bright ochre/gold (a fill needs no text contrast), so the colour-coding stays vivid. */

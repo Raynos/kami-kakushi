@@ -1097,15 +1097,20 @@ export function mount(
 
     const live = phaseOf(state) === 2; // the macro engine opens at the R7 capstone (D-055)
     const card = el('div', `influence-panel frame${live ? ' live' : ' locked'}`);
+    // D-107 re-skin: the "House Influence" pillar IS the House's koku STANDING — the number it reports
+    // is koku (the House's assessed worth, kokudaka 石高). Display it as standing; the internal pillar
+    // name (家産/influence.estate) is unchanged.
     card.setAttribute(
       'aria-label',
-      live ? 'House Influence' : 'House Influence — opens once you are trusted of the house',
+      live
+        ? "The House's koku standing"
+        : "The House's koku standing — opens once you are trusted of the house",
     );
     const head = el('div', 'rung-now');
-    head.append(document.createTextNode('House Influence '));
+    head.append(document.createTextNode('The House’s Standing '));
     const k = el('span', 'house-influence-kanji');
     k.lang = 'ja';
-    k.textContent = '家威';
+    k.textContent = '石高'; // kokudaka — the House's worth assessed in koku
     head.append(k);
     card.append(head);
 
@@ -1126,7 +1131,9 @@ export function mount(
       return;
     }
 
-    // ── Phase 2 — the live Estate (家産) pillar + its grade bar + the locked silhouettes ──
+    // ── Phase 2 — the House's live koku STANDING (D-107 re-skin of the Estate 家産 pillar). The
+    //    pillar VALUE is the koku number; the grade bands (ESTATE_BANDS) grade it NONE→GOOD→GREAT→
+    //    EXCELLENT; the season judge re-assesses it. Presentation only — the macro engine is unchanged.
     const est = state.influence.estate;
     const grade = estateGrade(state);
     const bands = balance.ESTATE_BANDS;
@@ -1139,15 +1146,16 @@ export function mount(
             ? 'Good 良'
             : 'Unranked';
 
+    // the headline — the House's worth IS its kokudaka: "The House stands at N koku" (the pillar
+    // value as a big RANK number via formatKMB, NEVER mon-denominated), with the grade as its
+    // sub-label to the right (the ascension gate reads this same grade — A6).
     const activeRow = el('div', 'influence-row active');
     const name = el('span', 'influence-name');
     const dot = el('span', 'pillar-dot estate', '◆');
     dot.setAttribute('aria-hidden', 'true');
-    name.append(dot, document.createTextNode(' Estate & Wealth '));
-    const kj = el('span');
-    kj.lang = 'ja';
-    kj.textContent = '家産';
-    name.append(kj);
+    name.append(dot, document.createTextNode(' The House stands at '));
+    const koku = el('span', 'koku-standing', formatKMB(est.value));
+    name.append(koku, document.createTextNode(' koku'));
     activeRow.append(name);
     activeRow.append(el('span', `influence-grade grade-${grade.toLowerCase()}`, gradeWord));
     card.append(activeRow);
@@ -1169,10 +1177,17 @@ export function mount(
       }
       card.append(bar);
       card.append(
+        el('div', 'influence-when', `The season re-assesses at ${formatKMB(est.highWater)} koku.`),
+      );
+      // name the far HORIZON (D-109): the House's koku standing climbs, in the end, toward the
+      // 10,000-koku line that makes a daimyō — the mythic ceiling that gives this number a
+      // destination. Flavour only at T0 (it gates nothing here); the number is derived from the
+      // single-source DAIMYO_KOKU, rendered as the iconic "10,000 koku" (not K/M/B).
+      card.append(
         el(
           'div',
-          'influence-when',
-          `Standing ${est.value} · the season judges at ${est.highWater}`,
+          'influence-when koku-horizon',
+          `The road runs on toward daimyō 大名 — at ${balance.DAIMYO_KOKU.toLocaleString('en-US')} koku.`,
         ),
       );
     }
@@ -1215,7 +1230,7 @@ export function mount(
         el(
           'div',
           'influence-foot lock-hint',
-          `Reach Excellent standing to ascend (${est.value}/${bands.excellent}).`,
+          `The House must stand at ${formatKMB(bands.excellent)} koku to ascend (${formatKMB(est.value)}/${formatKMB(bands.excellent)} koku).`,
         ),
       );
     }

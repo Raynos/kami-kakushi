@@ -102,6 +102,13 @@ export const SEASONAL_OVER_DEEDS_NUM = 3;
 export const SEASONAL_OVER_DEEDS_DEN = 7;
 /** The season judge's ±10% swing on its payoff (a good/lean season), never net-negative (D-061). */
 export const SEASONAL_SWING = 0.1;
+/** The mythic ceiling the House's koku STANDING climbs toward — the DAIMYŌ line (10,000 koku, the
+ *  historical daimyō threshold; D-109's tier→koku ladder reaches it at T4). At T0 it is ONLY a
+ *  NAMED HORIZON on the standing panel — the far destination that gives the small T0 koku number a
+ *  direction — it gates nothing here (the T0 gate is EXCELLENT via ESTATE_BANDS). The ladder bands
+ *  are liquid (D-059), but 10,000 = the daimyō line is fixed. Single source for the "10,000 koku"
+ *  copy — never hard-type the number in the renderer/tests (A21). */
+export const DAIMYO_KOKU = 10_000;
 
 // ── Ascension boon (M2·5 / D-049/D-062) — the permanent reward for ascending. The FIRST
 // ascension always lands BIG (the base), and OVERSHOOTING the gate buys more (grade-scaled).

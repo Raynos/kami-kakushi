@@ -16,6 +16,7 @@ import {
   bestiaryEntries,
   canBuy,
   formatCoin,
+  formatKMB,
   canCraft,
   getMaterial,
   getNode,
@@ -452,8 +453,9 @@ function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameS
   } else {
     return false;
   }
+  // D-107: keep the DEV variants' footer koku-consistent with the prod default's re-skin.
   card.append(
-    el('div', 'influence-when', `Standing ${est.value} · the season judges at ${est.highWater}`),
+    el('div', 'influence-when', `The season re-assesses at ${formatKMB(est.highWater)} koku.`),
   );
   return true;
 }

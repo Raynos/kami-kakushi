@@ -11,6 +11,8 @@ import {
   foesHere,
   setFlag,
   balance,
+  formatKMB,
+  gradeOf,
   DIALOGUE_SCENES,
   ATTR_META,
   type GameState,
@@ -203,6 +205,74 @@ describe('render — settings a11y + unknown-foe fog', () => {
     expect(panel.textContent).toContain('man of the house');
     expect(panel.textContent).toContain('Risen');
     expect(panel.textContent).toContain('5 points'); // the lord's boon, waiting to be spent
+    expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
+  });
+
+  // ── D-107 Phase 4 — the House-Influence pillar re-skinned as the koku STANDING ──
+  // A Phase-2 (post-R7 capstone), pre-ascension House at a chosen pillar value. Fixtures derive
+  // from ESTATE_BANDS / gradeOf / DAIMYO_KOKU (the pillar source of truth), never copied magic numbers.
+  function liveHouse(value: number): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      rung: 'R7',
+      tier: 0, // pre-ascension: still climbing toward the EXCELLENT gate
+      flags: { ...s.flags, awake: true, 't0-capstone': true }, // phaseOf === 2 → the pillar is live
+      unlocked: [...s.unlocked, 'panel-house-influence'],
+      influence: { estate: { value, highWater: value, judged: 0 } },
+    };
+  }
+
+  it('D-107 Ph4 — the panel reads "The House stands at N koku", the koku tracks the pillar value', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // a non-band-boundary value in the GREAT band (derive the band, don't hard-code a grade)
+    const value = balance.ESTATE_BANDS.great + 12;
+    render(liveHouse(value), null);
+
+    const panel = root.querySelector<HTMLElement>('.influence-panel')!;
+    expect(panel.textContent).toContain('The House stands at');
+    expect(panel.textContent).toContain('koku');
+    // the koku figure IS the pillar value, rendered as a rank number via formatKMB (never mon).
+    const fig = panel.querySelector<HTMLElement>('.koku-standing')!;
+    expect(fig.textContent).toBe(formatKMB(value));
+    // a mutation-catch: were the render to hard-code or mis-read the value, this would go RED.
+    expect(fig.textContent).not.toBe(formatKMB(value + 1));
+  });
+
+  it('D-107 Ph4 — the grade sub-label matches gradeOf(value) from the pillar source', () => {
+    for (const value of [
+      balance.ESTATE_BANDS.good + 5, // GOOD
+      balance.ESTATE_BANDS.great + 5, // GREAT
+      balance.ESTATE_BANDS.excellent + 5, // EXCELLENT
+    ]) {
+      document.body.innerHTML = '';
+      root = document.createElement('div');
+      document.body.append(root);
+      const render = mount(root, () => {}, noopHooks());
+      render(liveHouse(value), null);
+      const gradeEl = root.querySelector<HTMLElement>('.influence-grade')!;
+      // the grade class is derived from the same gradeOf the ascension gate reads (A6 — one source).
+      expect(gradeEl.className).toContain(`grade-${gradeOf(value).toLowerCase()}`);
+    }
+  });
+
+  it('D-107 Ph4 — the standing names the daimyō horizon at 10,000 koku (D-109)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(liveHouse(balance.ESTATE_BANDS.great), null);
+    const panel = root.querySelector<HTMLElement>('.influence-panel')!;
+    // the mythic ceiling, derived from the single-source DAIMYO_KOKU (not a hard-typed "10,000").
+    expect(panel.textContent).toContain(balance.DAIMYO_KOKU.toLocaleString('en-US'));
+    expect(panel.textContent).toContain('daimyō');
+  });
+
+  it('D-107 Ph4 — the pre-ascension gate reads "must stand at N koku" (koku-consistent copy)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const value = balance.ESTATE_BANDS.good + 5; // GOOD → below the EXCELLENT gate, not ascendable
+    render(liveHouse(value), null);
+    const panel = root.querySelector<HTMLElement>('.influence-panel')!;
+    expect(panel.textContent).toContain('must stand at');
+    expect(panel.textContent).toContain(`${formatKMB(balance.ESTATE_BANDS.excellent)} koku`);
+    // the old grade-noun copy is gone — the gate speaks in koku now.
     expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
   });
 });
