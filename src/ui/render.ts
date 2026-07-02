@@ -13,6 +13,8 @@ import type {
   SkillId,
   MobId,
   StanceId,
+  IntroBeat,
+  VoiceCategory,
 } from '../core';
 import {
   availableActions,
@@ -61,6 +63,7 @@ import {
   ACTIVITIES,
   MOBS,
   balance,
+  NPC_NAME,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import type { Sfx } from './sfx';
@@ -99,6 +102,43 @@ const COLD_OPEN_TITLE = '神隠し';
 const COLD_OPEN_ROMAN = 'Kamikakushi';
 const COLD_OPEN_LEDE =
   'Dark. Straw against your cheek, the smell of wet rice, a low roof you do not know. Your name, your past — gone, as if the night swallowed them whole.';
+
+// ── the interactive intro VN scene (D-104 / F43–F48) — the SOLE prod intro presentation ──
+// Voice → on-palette colour: the nameplate seal + name take it (mirrors the log voice colours).
+const VOICE_COLOR: Record<VoiceCategory, string> = {
+  narrator: 'var(--ink-soft)',
+  player: 'var(--rokusho)',
+  physician: 'var(--ai)',
+  steward: 'var(--ochre)',
+  arms: 'var(--beni)',
+  official: 'var(--kihada)',
+  villager: 'var(--gold)',
+};
+// The hanko seal glyph reads the speaker's CATEGORY (no per-NPC kanji exists in the data):
+// 医 physician, 家 steward/house, 武 arms, 夢 the inner memory (narrator), 己 the self.
+const VOICE_SEAL: Record<VoiceCategory, string> = {
+  narrator: '夢',
+  player: '己',
+  physician: '医',
+  steward: '家',
+  arms: '武',
+  official: '官',
+  villager: '里',
+};
+/** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. */
+function introNameplate(beat: IntroBeat): HTMLElement {
+  const color = VOICE_COLOR[beat.voice];
+  const plate = el('div', 'vn-nameplate');
+  const seal = el('div', 'vn-seal', VOICE_SEAL[beat.voice]);
+  seal.lang = 'ja';
+  seal.style.color = color;
+  seal.style.borderColor = color;
+  const name = el('div', 'vn-name', beat.speaker ? NPC_NAME[beat.speaker] : 'A memory');
+  name.style.color = color;
+  name.style.borderColor = color;
+  plate.append(seal, name);
+  return plate;
+}
 
 // (the four-pillar names live in core/content now; the T0 UI shows ONLY the active Estate
 // pillar live + the rest as unnamed silhouettes, D-055 — see renderHouseInfluence.)
@@ -416,9 +456,17 @@ export function mount(
 
   let activeTab: Tab = 'work';
   let lastState: GameState | null = null;
-  // DEV-only: true while a diverged intro presentation (variant B scene / C dock) owns the intro
-  // via a shell overlay — renderActions then skips the inline A controls. Always false in prod.
-  let introOverlayOwns = false;
+  // ── the interactive intro VN scene (D-104) — the SOLE prod intro presentation. While the intro
+  //    is live it HIDES the whole shell and mounts a full-screen scene on `root`; the estate inks
+  //    in only AFTER the intro ends. Lifecycle state (the mounted scene, its current beat, the
+  //    per-char typewriter timer + a skip-to-end handle) lives across renders here. ──
+  let introScene: HTMLElement | null = null;
+  let introSceneBeatId: string | null = null;
+  let introTypeTimer: number | undefined;
+  let finishIntroTypingNow: (() => void) | undefined;
+  // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
+  // INSTANTLY as the shell reveals (F48 — no slow catch-up), not via the story cascade.
+  let introEndingRender = false;
 
   const shell = el('div', 'shell paper');
 
@@ -980,38 +1028,135 @@ export function mount(
     return movesEl;
   }
 
-  // ── the interactive intro (plan §5 variant A — inline) ─────────────────────
-  // While the intro is live, the Work column shows the VN dialogue controls
-  // INSTEAD of the normal verbs: the current beat's choice replies (or a single
-  // Continue on a narration-only beat). The beat TEXT is emitted into the story
-  // log by the core (advance_intro / choose_intro) — here we only render the
-  // controls + dispatch the intents. Derived from the core selectors + INTRO_BEATS
-  // (never a hardcoded beat index). When the intro completes (introActive → false),
-  // renderActions falls through to the normal verbs automatically.
-  function renderIntro(state: GameState): void {
-    const beat = introBeatAt(state.introBeat);
-    if (!beat) return;
-    const wrap = el('div', 'intro-controls');
-    if (beat.prompt) wrap.append(el('p', 'intro-prompt', beat.prompt));
+  // ── the interactive intro VN scene (D-104 / F43–F48) — the SOLE prod intro presentation ──
+  // A full-screen washi surface mounted on `root` that HIDES the shell. The beat's NPC/narrator
+  // setup line(s) reveal with the GBA typewriter; a divider + the choice prompt + the option
+  // buttons appear only AFTER the line finishes (or a click skips to the end). Rebuilt only when
+  // the beat changes, so typing isn't restarted by unrelated re-renders. Reduced-motion / test env
+  // → instant (no typing). The player's reply + the NPC reaction go to the LOG (F48 owns the
+  // record); the scene owns the live spoken reveal.
+  function introReduced(): boolean {
+    return (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.documentElement.classList.contains('reduced-motion')
+    );
+  }
+  function teardownIntroScene(): void {
+    if (introTypeTimer !== undefined) {
+      window.clearTimeout(introTypeTimer);
+      introTypeTimer = undefined;
+    }
+    finishIntroTypingNow = undefined;
+    introScene?.remove();
+    introScene = null;
+    introSceneBeatId = null;
+  }
+  function buildIntroScene(beat: IntroBeat): HTMLElement {
+    const scene = el('div', 'vn-scene');
+    const card = el('div', 'vn-card frame');
+    card.append(introNameplate(beat));
+
+    // the spoken / narration prose — LEFT-aligned, natural wrap (F40)
+    const linesWrap = el('div', 'vn-lines');
+    card.append(linesWrap);
+
+    // the divider + choice prompt + option buttons — hidden until the line finishes typing (F39)
+    const foot = el('div', 'vn-foot');
+    foot.hidden = true;
+    foot.append(brushRule());
+    if (beat.prompt) foot.append(el('p', 'vn-prompt', beat.prompt));
+    const choices = el('div', 'vn-choices');
     if (beat.options && beat.options.length > 0) {
-      // a choice beat: one button per option, labelled with the DIEGETIC reply
-      // wording (no raw ±stat deltas — human decision 2026-07-02).
-      const choices = el('div', 'intro-choices');
+      // a choice beat: one button per diegetic reply (no raw ±stat deltas — human 2026-07-02).
       for (const opt of beat.options) {
-        const btn = el('button', 'verb intro-choice', opt.label);
-        btn.type = 'button';
-        btn.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
-        choices.append(btn);
+        const b = el('button', 'verb intro-choice', opt.label);
+        b.type = 'button';
+        b.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: opt.id }));
+        choices.append(b);
       }
-      wrap.append(choices);
     } else {
       // a narration / continue-only beat: a single Continue that advances the cursor.
-      const cont = el('button', 'verb primary intro-continue', 'Continue');
-      cont.type = 'button';
-      cont.addEventListener('click', () => dispatch({ type: 'advance_intro' }));
-      wrap.append(cont);
+      const b = el('button', 'verb primary intro-continue', 'Continue');
+      b.type = 'button';
+      b.addEventListener('click', () => dispatch({ type: 'advance_intro' }));
+      choices.append(b);
     }
-    actions.append(wrap);
+    foot.append(choices);
+    card.append(foot);
+    scene.append(card);
+
+    // build the (empty) line nodes so layout is stable, then type them in sequence
+    const nodes = beat.setup.map((line) => {
+      const p = el('p', 'vn-line');
+      p.style.color = VOICE_COLOR[line.voice]; // the speaker's on-palette voice colour (F26 idiom)
+      linesWrap.append(p);
+      return { p, text: line.text };
+    });
+    const revealFoot = (): void => {
+      foot.hidden = false;
+    };
+
+    // reduced-motion / test env → no typing: fill every line + show the choices at once.
+    if (introReduced() || import.meta.env.MODE === 'test') {
+      for (const n of nodes) n.p.textContent = n.text;
+      revealFoot();
+      return scene;
+    }
+
+    // GBA typewriter (~32ms/char): each line types out, then the next; a click skips to the end.
+    finishIntroTypingNow = (): void => {
+      if (introTypeTimer !== undefined) {
+        window.clearTimeout(introTypeTimer);
+        introTypeTimer = undefined;
+      }
+      for (const n of nodes) n.p.textContent = n.text;
+      finishIntroTypingNow = undefined;
+      scene.classList.remove('typing');
+      revealFoot();
+    };
+    scene.classList.add('typing');
+    scene.addEventListener('click', () => finishIntroTypingNow?.());
+
+    let li = 0;
+    const typeNext = (): void => {
+      if (li >= nodes.length) {
+        finishIntroTypingNow = undefined;
+        scene.classList.remove('typing');
+        revealFoot();
+        return;
+      }
+      const { p, text } = nodes[li]!;
+      li += 1;
+      if (text.length === 0) {
+        typeNext();
+        return;
+      }
+      let i = 0;
+      const step = (): void => {
+        introTypeTimer = undefined;
+        i += 1;
+        p.textContent = text.slice(0, i);
+        if (i < text.length) introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
+        else introTypeTimer = window.setTimeout(typeNext, TYPE_NEXT_BEAT_MS);
+      };
+      introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
+    };
+    typeNext();
+    return scene;
+  }
+  // Mount / update the full-screen scene for the current beat. Rebuilds only when the beat id
+  // changes so an unrelated re-render never restarts the typewriter mid-line.
+  function syncIntroScene(state: GameState): void {
+    const beat = introBeatAt(state.introBeat);
+    if (!beat) {
+      teardownIntroScene();
+      return;
+    }
+    if (introScene && introSceneBeatId === beat.id) return; // already showing this beat
+    teardownIntroScene();
+    introScene = buildIntroScene(beat);
+    introSceneBeatId = beat.id;
+    root.append(introScene);
   }
 
   function renderActions(state: GameState): void {
@@ -1019,14 +1164,8 @@ export function mount(
     actions.hidden = activeTab !== 'work';
     if (activeTab !== 'work') return;
 
-    // the interactive intro owns the Work column until it completes — swap the
-    // normal verbs for the VN dialogue controls (plan §5 variant A). In DEV, a diverged
-    // presentation (B/C) may instead own the intro via a shell overlay (introOverlayOwns);
-    // then the inline controls are skipped (prod always ships inline A).
-    if (introActive(state.introBeat)) {
-      if (!introOverlayOwns) renderIntro(state);
-      return;
-    }
+    // (the interactive intro no longer renders here — while it's live the shell is hidden and the
+    // full-screen VN scene owns the screen; render() returns before renderActions is ever reached.)
 
     // meta verbs (rake / rest). Rake gets an auto-repeat toggle (revealed after a few manual rakes so
     // the first ones still land as juice) — the R0 cold-open is ~550 rakes and must not be a blind
@@ -1857,17 +1996,30 @@ export function mount(
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
     const freshVisible = fresh.filter((e) => logFilterMatches(e.channel, logFilter));
 
-    // F27 — new lines flowing in over existing history get a transient divider before them.
-    if (freshVisible.length > 0 && logLines.childElementCount > 0 && !firstRender && !didReset) {
+    // F48 — while the intro owns the live reveal (the VN scene), the LOG is only the historical
+    // transcript: append its lines INSTANTLY (no typewriter, no cascade) so it's ready the moment
+    // the shell reveals, never making the player wait for the log to catch up to choices already
+    // made. `introEndingRender` carries the same instant path onto the single reveal render.
+    const introInstant = introActive(state.introBeat) || introEndingRender;
+
+    // F27 — new lines flowing in over existing history get a transient divider before them (never
+    // while the intro paints the hidden log — the player isn't watching the transcript build).
+    if (
+      freshVisible.length > 0 &&
+      logLines.childElementCount > 0 &&
+      !firstRender &&
+      !didReset &&
+      !introInstant
+    ) {
       markFreshDivider();
     }
 
-    // on load / reset / reduced-motion / a single new line → append at once (no re-spam).
-    if (firstRender || didReset || reduceMotion() || freshVisible.length === 1) {
+    // on load / reset / reduced-motion / a single new line / the intro transcript → append at once.
+    if (firstRender || didReset || reduceMotion() || freshVisible.length === 1 || introInstant) {
       for (const e of freshVisible) {
         // P2 — a lone STORY line still typewrites (route it through the cascade of one);
-        // firstRender/didReset/reduced-motion keep the instant path (guards bail).
-        if (!didReset && typewriterEnabled() && qualifiesForTypewriter(e)) {
+        // firstRender/didReset/reduced-motion/intro keep the instant path (guards bail).
+        if (!didReset && !introInstant && typewriterEnabled() && qualifiesForTypewriter(e)) {
           revealQueue.push(e);
           pumpReveal();
         } else {
@@ -2199,12 +2351,29 @@ export function mount(
       return;
     }
     coldOpen.hidden = true;
-    shell.hidden = false;
     // leaving the cold-open: cancel any pending reveal and reset so a New Game replays it.
     if (coldOpenRevealStarted) {
       cancelColdOpenReveal?.();
       coldOpenRevealStarted = false;
     }
+    // F44/D-104 — the interactive intro plays as a FULL-SCREEN VN scene that hides the whole shell;
+    // the estate inks in only AFTER the intro ends (the incremental-reveal signature). The log is
+    // kept painted INSTANTLY behind the scene (F48) so it's ready the moment the shell reveals —
+    // the scene owns the live spoken reveal, the log is only the historical transcript.
+    if (introActive(state.introBeat)) {
+      shell.hidden = true;
+      firstRender = false; // the post-intro log resumes its cascade, not a static dump
+      activeTab = 'work';
+      logFilter = 'story';
+      renderLog(state); // instant while introActive (see renderLog) — no slow catch-up on reveal
+      syncIntroScene(state);
+      return;
+    }
+    // the intro is over (or never ran) — drop the scene and reveal the shell. Flag the single
+    // reveal render so the final beat's log lines paint instantly too (F48), not via the cascade.
+    if (introScene) introEndingRender = true;
+    teardownIntroScene();
+    shell.hidden = false;
     // Multi-panel layout (M1): stamp the chosen DEV `layout` variant. Prod always folds to
     // 'layout-classic' — the `import.meta.env.DEV && dev` guard tree-shakes the dev read out (the
     // same strip pattern as the influence/market variants). CSS arranges the slices per
@@ -2223,12 +2392,6 @@ export function mount(
     renderMarket(state);
     renderStorehouse(state);
     renderHouseInfluence(state);
-    // DEV — sync the diverged intro overlay (variant B/C) every frame: mount/update while the
-    // intro is live, tear it down when it ends. Its return says whether it OWNS the intro so
-    // renderActions skips the inline A controls. `import.meta.env.DEV && dev` folds to dead code
-    // in prod (dev is undefined) → ui/dev.ts tree-shakes out; prod always ships inline A.
-    introOverlayOwns =
-      import.meta.env.DEV && dev ? dev.renderIntroPresentation(shell, state, dispatch) : false;
     renderActions(state);
     renderSkills(state);
     renderCombat(state);
@@ -2243,6 +2406,7 @@ export function mount(
     // ascension lands the bigger ceremony (D-062). Tier change wins (don't double-fire).
     if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);
     else if (prev && prev.rung !== state.rung && !firstRender) showRankUp(state);
+    introEndingRender = false; // one-shot: the intro-reveal render is done
     firstRender = false;
   }
 

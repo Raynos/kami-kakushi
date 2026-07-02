@@ -665,27 +665,99 @@ h3 {
   box-shadow: inset 0 0 0 1px var(--shu);
 }
 
-/* ── the interactive intro controls (VN dialogue, plan §5 variant A — inline) ──
-   The choice replies stack vertically in the Work column beneath the beat's
-   prompt. Reuses `.verb` so the buttons read as the estate's own paper buttons;
-   no new motion (reduced-motion safe by construction). */
-.intro-controls {
+/* ── the interactive intro — the full-screen VN scene (D-104 / F43–F48) ──────
+   The SOLE prod intro presentation: a solid washi surface that HIDES the whole shell while the
+   intro plays (the estate inks in only after it ends — the incremental-reveal signature). The
+   NPC's spoken line typewrites (JS, render.ts), then a divider + the choice prompt + the option
+   buttons appear. No CSS motion beyond that typewriter (reduced-motion → instant, in render.ts),
+   so it's reduced-motion-safe by construction. */
+.vn-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  overflow: auto;
+  /* a SOLID full-screen ground (not a translucent scrim over a visible shell) — the same
+     kura-dark field the cold-open wakes in, so the two intro beats read as one dark space. */
+  background: radial-gradient(ellipse at center, #2e2822 0%, var(--ink) 62%, #1a1714 100%);
+}
+.vn-card {
+  /* a GENEROUS share of the screen (F46) — large + tall, comfortably centred; not a small modal. */
+  width: min(900px, 92vw);
+  max-height: 92dvh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  background: var(--washi);
+}
+/* the ink-seal nameplate (hanko idiom) — a category-coloured seal + the speaker's name.
+   Colour is set inline per voice-category (render.ts); currentColor carries it to the borders. */
+.vn-nameplate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.vn-seal {
+  flex: 0 0 auto;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-seal);
+  background: var(--washi);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+.vn-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.1rem;
+}
+/* the spoken / narration prose — LEFT-aligned, natural wrap (F40); a reserved min-height keeps
+   the card from jumping as the typewriter fills each line. */
+.vn-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 3.5rem;
+  text-align: left;
+}
+.vn-line {
+  margin: 0;
+  line-height: 1.6;
+}
+/* the divider + choice prompt + option buttons (F40) — a clear break separates the prose from
+   the "What do you say to him?" prompt and the replies. Revealed only once the line finishes. */
+.vn-foot {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
-.intro-prompt {
+.vn-foot .brush-rule {
+  margin: 0 0 var(--space-2);
+}
+.vn-prompt {
   margin: 0;
   color: var(--ink-soft);
   font-style: italic;
 }
-.intro-choices {
+.vn-choices {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
-/* a spoken reply reads as a quiet aside — a soft indigo left-rule ties the choice
-   to the dialogue it answers, without competing with the `.primary` action accent. */
+/* while the line is still typing, a click anywhere skips to the end (render.ts) — hint the cursor. */
+.vn-scene.typing {
+  cursor: pointer;
+}
+/* a spoken reply reads as a quiet aside — a soft indigo left-rule ties the choice to the
+   dialogue it answers, without competing with the `.primary` action accent. */
 .verb.intro-choice {
   border-left: 3px solid var(--ai-soft);
 }
