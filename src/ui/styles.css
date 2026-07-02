@@ -112,7 +112,7 @@
   --radius: 3px;
   --radius-seal: 6px;
   --maxw-text: 68ch;
-  --tap-min: 32px; /* compact desktop-first controls (playtest F10); >WCAG 2.2 24px min */
+  --tap-min: 28px; /* F73 dense-HUD chrome controls (was 32); still >WCAG 2.2 24px min */
 
   /* ── motion ─────────────────────────────────────────────────────────── */
   --ease-ink: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -194,7 +194,10 @@ h3 {
     inset 0 0 0 4px var(--surface),
     inset 0 0 0 5px var(--line),
     0 2px 0 #00000018;
-  padding: var(--space-4) var(--space-6);
+  /* F73 — the base woodblock card frame is chrome: denser padding (was --space-4·--space-6). The
+     reading-surface frames (.vn-card / .modal-card / .coldopen .frame) set their own roomy padding
+     later in the cascade, so they keep their breathing room. */
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius);
 }
 .frame::after {
@@ -286,9 +289,11 @@ h3 {
 .vitals {
   display: flex;
   align-items: baseline;
-  gap: var(--space-6);
+  /* F73 — the vitals bar is dense HUD chrome: tighter inter-stat gap + slimmer padding (was
+     --space-6 gap / --space-3·--space-6 padding) pull the resource/stat row into a compact strip. */
+  gap: var(--space-4);
   flex-wrap: wrap;
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-2) var(--space-4);
   border-bottom: 2px solid var(--line);
   background: linear-gradient(180deg, #5c8b9314 0%, transparent 80%);
 }
@@ -349,8 +354,10 @@ h3 {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(0, 1.5fr); /* work LEFT · story log RIGHT (F8) */
   grid-template-rows: minmax(0, 1fr); /* a single full-height row so columns can scroll */
-  gap: var(--space-6);
-  padding: var(--space-6);
+  /* F73 — tighter workspace gutter/gap (was --space-6): the chrome frame around the content
+     columns shrinks so more of the screen is the game, not padding. */
+  gap: var(--space-4);
+  padding: var(--space-4);
   align-items: stretch;
   min-height: 0;
   overflow: hidden;
@@ -424,7 +431,7 @@ h3 {
 .slice-estate {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3); /* F73 — tighter intra-slice spacing (was --space-4) */
   min-height: 0;
 }
 
@@ -477,7 +484,7 @@ h3 {
   border: 1px solid var(--ink-faint);
   border-radius: var(--radius);
   box-shadow: 0 2px 6px #00000014;
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-3) var(--space-4); /* F73 — denser work-card frame (was --space-4·--space-6) */
 }
 
 /* F70 — byōbu is a FRAMED SPREAD, never edge-to-edge full-bleed: a wide but CAPPED max-width with
@@ -510,6 +517,10 @@ h3 {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  /* F74 — the log READING text is scaled by its own persisted `--log-scale` (the per-log stepper),
+     independent of the F73 chrome density: this is a reading surface, so it stays roomy and the
+     reader tunes it. Default 1 (no change) until the stepper sets it on the `.log` section. */
+  font-size: calc(var(--fs-body) * var(--log-scale, 1));
   /* F28 — soft top fade so lines fade out as they scroll under the header. */
   -webkit-mask: linear-gradient(to bottom, transparent 0, #000 0.9em);
   mask: linear-gradient(to bottom, transparent 0, #000 0.9em);
@@ -581,6 +592,47 @@ h3 {
   border-radius: 50%;
   background: var(--shu);
 }
+/* F74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar (`margin-left:auto`
+   pushes it past the channel tabs). Small, quiet ink glyphs on washi — an unobtrusive affordance that
+   scales ONLY the log reading text; disabled (dimmed) at the min/max bounds so the reader sees the
+   ceiling/floor. Kept off the F73 chrome-density shrink — these are the log's own controls. */
+.log-font-stepper {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.log-font-btn {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 2px 5px;
+  min-width: 22px;
+  min-height: 22px;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-ink);
+}
+.log-font-btn:hover:not(:disabled),
+.log-font-btn:focus-visible {
+  color: var(--ai);
+  border-color: var(--ink-faint);
+  outline: none;
+}
+.log-font-btn:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 3px var(--ai);
+}
+.log-font-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 /* F27 — a temporary "fresh entries" divider that fades out after a few seconds. */
 .log-fresh-divider {
   display: flex;
@@ -826,7 +878,7 @@ h3 {
 .work {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3); /* F73 — tighter stacked-slice spacing (was --space-4) */
   min-height: 0;
   overflow-y: auto;
 }
@@ -837,18 +889,20 @@ h3 {
 .actions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2); /* F73 — tighter button stack (was --space-3) */
 }
 
 /* ── verbs (flat ink-outlined paper buttons) ────────────────────────────── */
 .verb {
   font-family: var(--font-body);
-  font-size: var(--fs-body);
+  /* F73 — action buttons are chrome: step the label down a notch (was --fs-body) + slimmer padding
+     (was --space-3·--space-4) for a compact incremental-RPG button stack, not oversized web buttons. */
+  font-size: var(--fs-small);
   color: var(--ink);
   background: var(--surface);
   border: 1.5px solid var(--line);
   border-radius: var(--radius);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-3);
   text-align: left;
   min-height: var(--tap-min); /* a11y touch target; justify defaults flex-start → copy stays left */
   display: flex;
@@ -1403,19 +1457,20 @@ h3 {
 .nav {
   display: flex;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-6);
+  /* F73 — the tab strip is chrome: slimmer padding (was --space-2·--space-6) for a compact nav. */
+  padding: var(--space-1) var(--space-4);
   border-bottom: 1px solid var(--ink-faint);
   background: var(--surface-deep);
   animation: ink-in var(--dur-beat) var(--ease-ink) both;
 }
 .nav-tab {
   font-family: var(--font-head);
-  font-size: var(--fs-body);
+  font-size: var(--fs-small); /* F73 — step the tab label down a notch (was --fs-body) */
   color: var(--ink-soft);
   background: transparent;
   border: 0;
   border-bottom: 3px solid transparent;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-1) var(--space-3);
   min-height: var(--tap-min); /* a11y touch target */
   display: inline-flex;
   align-items: center;
@@ -1437,7 +1492,7 @@ h3 {
   margin-bottom: var(--space-4);
 }
 .rung-card {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-3); /* F73 — denser card (was --space-3·--space-4) */
 }
 .rung-now {
   font-family: var(--font-head);
@@ -1551,7 +1606,7 @@ h3 {
   gap: var(--space-3);
 }
 .skill-row {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-3); /* F73 — denser card (was --space-3·--space-4) */
 }
 .skill-head {
   display: flex;
@@ -1580,7 +1635,7 @@ h3 {
 }
 .weapon-card,
 .foe-row {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-3); /* F73 — denser combat cards (was --space-3·--space-4) */
 }
 .foes-head {
   font-size: var(--fs-h3);
@@ -1626,7 +1681,7 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-2) var(--space-6);
+  padding: var(--space-1) var(--space-4); /* F73 — slim pinned footer chrome (was --space-2·--space-6) */
   background: var(--ink);
   color: var(--washi-deep);
   border-top: 2px solid var(--line);
@@ -1643,7 +1698,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-2) var(--space-6);
+  padding: var(--space-1) var(--space-4); /* F73 — slim pinned title chrome (was --space-2·--space-6) */
   background: var(--ink);
   color: var(--washi);
 }

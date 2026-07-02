@@ -5,6 +5,7 @@
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, formatLogText, type AppHooks } from './render';
+import { LOG_SCALE_MIN, LOG_SCALE_MAX, LOG_SCALE_STEP, LOG_SCALE_DEFAULT } from './ui-prefs';
 import {
   createInitialState,
   foesHere,
@@ -733,5 +734,94 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     render(awake(), null);
     expect(root.querySelector<HTMLElement>('.ladder')!.hidden).toBe(true);
     expect(root.querySelector<HTMLElement>('.slice-progress')!.hidden).toBe(true);
+  });
+});
+
+// ── F74 — the per-log font stepper (log-scoped scale, persisted) ─────────────────────────────────
+describe('F74 — per-log font stepper scales the log text + persists', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear(); // the persisted scale must not leak between cases
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  function awake(): GameState {
+    const base = createInitialState(1);
+    return { ...base, flags: { ...base.flags, awake: true } };
+  }
+  const stepper = () => ({
+    minus: root.querySelector<HTMLButtonElement>('.log-font-btn[aria-label="Smaller log text"]')!,
+    plus: root.querySelector<HTMLButtonElement>('.log-font-btn[aria-label="Larger log text"]')!,
+    logScaleVar: () =>
+      root.querySelector<HTMLElement>('.slice-log')!.style.getPropertyValue('--log-scale'),
+  });
+
+  it('renders the A− / A+ steppers inside the log filter bar', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(), null);
+    const bar = root.querySelector<HTMLElement>('.log-filter-bar')!;
+    const grp = bar.querySelector<HTMLElement>('.log-font-stepper')!;
+    expect(grp).not.toBeNull(); // lives in the filter bar, bottom-right of the log
+    expect(grp.querySelectorAll('.log-font-btn').length).toBe(2);
+  });
+
+  it('A+ raises and A− lowers the log-scoped --log-scale (a scoped var, not global chrome)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(), null);
+    const { minus, plus, logScaleVar } = stepper();
+    expect(Number(logScaleVar())).toBeCloseTo(LOG_SCALE_DEFAULT, 5); // starts at the default
+
+    plus.click();
+    const raised = Number(logScaleVar());
+    expect(raised).toBeCloseTo(LOG_SCALE_DEFAULT + LOG_SCALE_STEP, 5);
+
+    minus.click();
+    expect(Number(logScaleVar())).toBeCloseTo(LOG_SCALE_DEFAULT, 5);
+  });
+
+  it('disables A− at the floor and A+ at the ceiling (bound affordance)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(), null);
+    const { minus, plus, logScaleVar } = stepper();
+
+    // step DOWN past the floor — A− must end disabled and the var pinned to the min
+    for (let i = 0; i < 20; i++) minus.click();
+    expect(Number(logScaleVar())).toBeCloseTo(LOG_SCALE_MIN, 5);
+    expect(minus.disabled).toBe(true);
+    expect(plus.disabled).toBe(false);
+
+    // step UP past the ceiling — A+ must end disabled and the var pinned to the max
+    for (let i = 0; i < 40; i++) plus.click();
+    expect(Number(logScaleVar())).toBeCloseTo(LOG_SCALE_MAX, 5);
+    expect(plus.disabled).toBe(true);
+    expect(minus.disabled).toBe(false);
+  });
+
+  it('persists the choice (localStorage) and re-applies it on a fresh mount', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(awake(), null);
+    stepper().plus.click();
+    stepper().plus.click(); // +2 steps from the default
+
+    // a brand-new mount (fresh renderer) must read the persisted scale back, not reset to default
+    document.body.innerHTML = '';
+    root = document.createElement('div');
+    document.body.append(root);
+    const render2 = mount(root, () => {}, noopHooks());
+    render2(awake(), null);
+    expect(Number(stepper().logScaleVar())).toBeCloseTo(LOG_SCALE_DEFAULT + 2 * LOG_SCALE_STEP, 5);
   });
 });

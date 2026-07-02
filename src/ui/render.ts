@@ -76,6 +76,14 @@ import {
   NPC_NAME,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
+import {
+  LOG_SCALE_MIN,
+  LOG_SCALE_MAX,
+  LOG_SCALE_STEP,
+  clampLogScale,
+  loadLogScale,
+  saveLogScale,
+} from './ui-prefs';
 import type { Sfx } from './sfx';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
@@ -607,6 +615,37 @@ export function mount(
     logFilterBtns.set(f.id, b);
     logFilterBar.append(b);
   }
+  // F74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar. It scales ONLY
+  // the log's reading text (a log-scoped `--log-scale` CSS var on the log section → `.log-lines`
+  // font-size), leaving the F73 chrome density alone. The choice PERSISTS in localStorage (the
+  // ui-prefs seam) and re-applies on every mount; the buttons disable at the min/max bounds.
+  let logScale = loadLogScale();
+  const logFontStepper = el('div', 'log-font-stepper');
+  const logFontMinus = el('button', 'log-font-btn', 'A−') as HTMLButtonElement;
+  logFontMinus.type = 'button';
+  logFontMinus.setAttribute('aria-label', 'Smaller log text');
+  const logFontPlus = el('button', 'log-font-btn', 'A+') as HTMLButtonElement;
+  logFontPlus.type = 'button';
+  logFontPlus.setAttribute('aria-label', 'Larger log text');
+  const applyLogScale = (): void => {
+    logSection.style.setProperty('--log-scale', String(logScale));
+    logFontMinus.disabled = logScale <= LOG_SCALE_MIN;
+    logFontPlus.disabled = logScale >= LOG_SCALE_MAX;
+    const pctLabel = `Log text ${Math.round(logScale * 100)}%`;
+    logFontMinus.title = pctLabel;
+    logFontPlus.title = pctLabel;
+  };
+  logFontMinus.addEventListener('click', () => {
+    logScale = saveLogScale(clampLogScale(logScale - LOG_SCALE_STEP));
+    applyLogScale();
+  });
+  logFontPlus.addEventListener('click', () => {
+    logScale = saveLogScale(clampLogScale(logScale + LOG_SCALE_STEP));
+    applyLogScale();
+  });
+  logFontStepper.append(logFontMinus, logFontPlus);
+  logFilterBar.append(logFontStepper);
+  applyLogScale(); // re-apply the persisted scale on mount
   logSection.append(logFilterBar);
 
   const work = el('section', 'work');
