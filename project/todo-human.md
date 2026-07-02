@@ -27,6 +27,10 @@ _(none open)_
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
+- [ ] `docs/plans/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**:
+  five full T0 (R0–R3) remasters of the actual game in `ui-demos/` — the
+  midpoint between "change the CSS" and "reinvent the UI." Directions locked
+  live with you this session; §3 has the five briefs, §2 the invariants.
 - [ ] `docs/plans/2026-07-02-koku-economy-t0-build.md` — **Plan B: the T0 economy
   build** (koku→coin rename, rice-as-resource, mon→monme→ryō formatter,
   koku-as-standing, status tokens). Scope LOCKED (D-107/108/109 + D-113); **being
