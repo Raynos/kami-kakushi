@@ -213,9 +213,11 @@ Generous **negative space (*ma* 間)** — whitespace early is *confidence*, not
 ```
 
 - **Desktop shell:** a CSS-grid app shell — a persistent **global header** (the vitals: key resources +
-  next-gate, see §5.7), a **nav rail** (left sidebar, revealed entries only), and a **workspace** whose hero
-  region is the event log. The layout is **deliberately asymmetric** (*ma*): a heavy log column balanced by an
-  airier status rail — never a symmetric four-card grid.
+  next-gate, see §5.7), a **nav rail** (left sidebar, revealed entries only), and a **workspace**. The
+  workspace splits into an **interactive work/actions column (LEFT) and the message/story log (RIGHT)** — the
+  idle-RPG convention (§4.7, F8); the layout stays **deliberately asymmetric** (*ma*), never a symmetric
+  four-card grid. The full app-shell contract — the centered paper column, the fixed header/footer, and the
+  viewport sizing — is §4.7.
 - **Reflow:** columns → stacked on narrow; nav rail → bottom tab-bar (§8). One panel visible at a time on
   mobile (tabs do this by definition); the log keeps the most vertical space.
 
@@ -314,6 +316,48 @@ means *important*.
 
 Corner studs (kashira) can be pure-CSS `::before`/`::after` squares rotated 45° in `--shu` on hero frames.
 
+### 4.7 The app shell — the idle-RPG frame (playtest 2026-07-02)
+
+The player UI is a **centered paper column (~1200px) standing on the dark sumi-ink ground**, filling the
+viewport — never a cramped narrow column, never raw-white margins. The margin *is* the ink ground (`body`
+carries a dark `--ink` fill), so the whitespace left and right of the column reads as an **intentional
+woodblock border**, not an unfinished page (F4). Following from that: **no raw white anywhere** — every
+surface, down to DEV-only tooling and chrome, inherits the dark ground; a white block reads as unfinished
+and breaks the woodblock immersion (F1, reinforces the §9 no-`#FFF` rule).
+
+Inside the column the shell is the established idle-RPG frame — **fixed header / flexible content / fixed
+footer** (F5): identity + vitals (the House id, the resource + next-gate readouts, the `body`/`life` bars,
+§5.7) pin to the **header**; persistent controls (the version stamp, Settings, …) pin to the **footer**; the
+content region fills the space between and scrolls internally. That content region carries the two workspace
+columns — **work/actions LEFT, message/story log RIGHT** (F8). *(This supersedes the earlier v0.3.1
+"story-log-as-left-hero" placement — live human taste is canon, D-022; the log stays a first-class, diegetic
+surface (§5.1), now anchored right.)*
+
+The shell is **sized to the viewport (100dvh) with NO page scrollbar** (F6) — the content panes (log, work
+column) scroll *internally* within the available height, never the page. A minimum size is respected, and a
+narrow-screen fallback (`≤720px`) relaxes to natural page flow so mobile still works.
+
+**DEV/tooling chrome never affects the player layout** (F2). The DEV panel is a **fixed floating overlay that
+reserves ZERO layout space** and collapses to minimal — the game UI centers on the *full* viewport exactly as
+if the panel did not exist, never shoved off-center by a reserved gutter. `?dev=no` never mounts the panel at
+all and is the way to preview the true player-facing layout (a QA note also lives in
+[`qa-playtesting.md`](qa-playtesting.md)).
+
+### 4.8 Density & compactness (playtest 2026-07-02)
+
+**The game chrome is COMPACT and dense, like an established idle-RPG** — a tight type scale, small control
+heights, and minimal chrome padding (F10). The chrome (header, footer, nav tabs, the resource/vitals row)
+must stay minimal so the **content — the log and the actions — gets the space**; bigger is not better, and
+the reference idlers fit far more on screen than a roomy web-app default would. Control target height runs
+**~32px** (still above the WCAG 2.2 24px pointer minimum) — a deliberate desktop-first density trade against
+the older 44px comfort target (mobile still keeps comfortable thumb targets, §8).
+
+**The one exception — atmospheric/ceremonial surfaces keep GENEROUS breathing room** (F14). The
+compact-density rule is for the *game chrome*, never for the cold-open, the seals, or similar ceremonial
+cards: those stay roomy (the *ma* of §4.1), with the primary action given real padding off the frame — the
+F10 compact pass must not tighten these. And the opening **reveals slowly with a delayed CTA**: the "Open your
+eyes" button appears only after a beat, for the slow-waking feel, not all-at-once (§10 cold open).
+
 ---
 
 ## 5. Components — the reusable kit
@@ -326,7 +370,9 @@ section defines how they *look and behave*. All are pure CSS + text + emoji + in
 The log is a tall paper **scroll** column on `--surface` with a faint bokashi wash behind it, given the most
 space (asymmetry + *ma*). **Newest-on-top, capped ring buffer, auto-scroll, subtle entry animation** (a
 motionless log kills momentum; a too-noisy one becomes wallpaper — tune to *meaningful* lines, not one per tick).
-It is an **ARIA live region** (PRD §6.11) so reveals/important events are announced.
+It is an **ARIA live region** (PRD §6.11) so reveals/important events are announced. **Following the newest
+entry is a smooth scroll, never an instant jump** — the log eases to the latest line (honoring reduced-motion,
+which snaps instantly) so the story is *seen* to arrive; a pop-in is a wasted beat (F7, playtest 2026-07-02).
 
 **Tier the lines visually (information hierarchy inside a stream):**
 
@@ -397,7 +443,10 @@ Flat ink-outlined paper, **no glossy/3D/gradient buttons** (that's slop). A butt
 sumi border, `--surface` fill, `--ink` label, square corners. States: hover/focus → `--ai-soft` fill + `--ai`
 border (focus shows a visible ring — keyboard operable). **Affordable/available = full ink ("lit");
 unavailable = `--ink-faint` ("faded")** with the reason on tap/focus — so players scan "what can I do now"
-at a glance. **Exactly one primary CTA per screen** wears the `--shu` seal treatment (the confirm/sign).
+at a glance. **Exactly one primary CTA per screen** wears the `--shu` seal treatment (the confirm/sign). **A lone primary
+action inherits its card's center axis** — in a centered card/panel composition (the cold-open's "Open your
+eyes", a modal's confirm) a single button is centered on the same axis as the title and prose, never
+left-aligned by default (F3, playtest 2026-07-02).
 
 **Auto-toggle (the autopilot switch).** A repeatable action — rake, a labour, a fight — pairs its verb with
 a small **`▶ auto` / `■ stop`** toggle (the same ink-outlined paper button, `aria-pressed`, its "on" state
@@ -585,8 +634,10 @@ PRD §6.9 / canon §H: fluid layout (CSS grid/flex, container/media queries) ref
 - **Mobile:** bottom tab-bar for the 3–5 primary areas (thumb reach); secondary/overflow in a drawer/sheet;
   **one panel visible at a time**; the **log keeps the most vertical space**. The global header vitals
   (resources + next-gate) persist.
-- **Touch targets comfortably sized** (≥44px); **no hover-only controls** — every hover enhancement has a
-  tap/focus equivalent (§5.9). "Shift for detail" is desktop polish, never the only path.
+- **Touch targets comfortably sized on mobile** (≥44px thumb reach); on desktop the compact density (§4.8)
+  runs smaller control heights (~32px, above the WCAG 2.2 24px pointer minimum). **No hover-only controls** —
+  every hover enhancement has a tap/focus equivalent (§5.9). "Shift for detail" is desktop polish, never the
+  only path.
 - **Number layouts must hold** at K/M/B growth (test 999B), long logs, many revealed tabs, and the smallest
   viewport (per the §4 / qa-playtesting "states that break layouts" checklist).
 - **Text scale** honours a `textScale` setting + root font size; **reduced motion** honours the setting +
@@ -603,7 +654,7 @@ What makes UI read as **generic / AI-slop**, and the rule that prevents it here:
 | Purple/blue web gradients, glassmorphism, glow accents, neon | **Banned.** Only **bokashi** (single-hue, large, soft) gradients exist (§4.4); no glass, no glow. |
 | Generic rounded "card grid" / default shadcn / bootstrap look | **Banned.** `.frame` woodblock borders, square corners, asymmetric layout (§4). No pill radii. |
 | Same shadow / same weight on everything (flat, nothing matters) | **Real hierarchy:** depth from *material + contrast* (paper steps, ink weight, the seal) — never uniform drop-shadows (§4.2, §5.1). |
-| Pure #000 on pure #FFF | **Banned.** Warm `--washi` paper + warm `--sumi` ink only (§2). |
+| Pure #000 on pure #FFF (or any raw white surface) | **Banned.** Warm `--washi` paper + warm `--sumi` ink only (§2); **no raw white *anywhere*, down to DEV-only tooling/chrome** — every surface inherits the dark ink ground (§4.7, F1). |
 | Lazy typography (ad-hoc sizes, one weight) | A **fixed type scale**, chosen display vs body faces, deliberate tracking (§3). Type *is* the art. |
 | Static wall of numbers (no rate, no motion, no log life) | **Value + rate + eased count-up + a living log** (§5.1, §5.7, §6.3). |
 | Number jitter / shifting layout as values change | **Tabular nums, fixed-width number columns, reserved space** (§5.7). |
@@ -696,6 +747,28 @@ bottom-bar layout, and reviews each against §§1–10 with its own vision (wood
 colour-roles right? log reading as the heart? reveal/rank-up motion satisfying? any slop/overflow/contrast/
 placeholder fail?) before surfacing self-vetted candidates to the human — per
 [`qa-playtesting.md`](qa-playtesting.md) §4. *This bible is the rubric that loop scores against.*
+
+---
+
+## Pending from the 2026-07-02 playtest (incoming — not yet law)
+
+Five taste rules from the same playtest are **still in-flight or need a design call**, recorded here so the
+doc knows they are coming without asserting unbuilt behaviour. Full detail lives in the feedback log
+[`../../project/human-feedback/2026-07-02-playtest.md`](../../project/human-feedback/2026-07-02-playtest.md)
+and the build plan
+[`../plans/2026-07-02-playtest-polish-build.md`](../plans/2026-07-02-playtest-polish-build.md):
+
+- **Filterable log with bottom tabs (F9)** — the story/event log gains a bottom tab/toggle bar (Story / Work
+  / Combat / Progression / …), with Story a first-class, returnable channel. New UI surface → D-075 diverge.
+- **Multi-panel layout (F11)** — information laid across 5–7 distinct panels (idle-RPG dashboard density)
+  rather than two crammed columns, reconciled with reveal-based progression (panels appear as their surface
+  unlocks). Needs a plan/diverge to scope.
+- **Slow GBA-typewriter story text (F12)** — story/narration reveals slowly, old-Pokémon typewriter-style,
+  scoped to the story channel (never combat spam), reduced-motion → instant.
+- **Interactive incremental intro (F13)** — the intro (and NPC dialogue) advances beat by beat and lets the
+  player respond to the physician (Sōan), not a static wall of text. Likely an ADR once the direction locks.
+- **Reveal-fires-only-when-watched (F15)** — reveal/animation beats fire after the gating interaction, while
+  the player is watching, never pre-run behind the cold-open curtain (an unseen animation is a wasted beat).
 
 ---
 
