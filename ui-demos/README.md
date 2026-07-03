@@ -34,6 +34,6 @@ engine — rake, walk, trade, bank, train, fight, rung up.
 
 - **Staging only.** Nothing here ships; prod wiring happens (if ever) as its
   own D-075 pass in `src/`. This dir never imports from `src/` and vice versa.
-- Excluded from Prettier + ESLint (like `prototype/` and `tmp/`).
+- Excluded from Prettier + ESLint (like `tmp/`).
 - The engine is smoke-tested by driving the full R0→R3 arc in Node (see the
   session-47 journal); if you change `shared/`, re-drive it.
