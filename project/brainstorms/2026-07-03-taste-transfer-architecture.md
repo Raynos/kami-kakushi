@@ -382,5 +382,30 @@ yet-another-idle-rpg). Kurosawa provisional → R9.
 Execution is now autonomous (human steer: "execute the plan yourself; pull
 me in for decisions via the ask tool").
 
+## 11 · P1 re-derivation — the substance diff vs the first cut (2026-07-03)
+
+Full fresh read of the 2,314-line corpus done. The first cut's 22
+principles verified **evidence-sound** — no invented rules found. Changes:
+
+- **Added the missing top layer**: the 4 locked values + the touchstones
+  & references section (with the confirmed take-lines).
+- **New principle** (a real first-cut gap): **"The map doesn't spoil"** —
+  F102's terse-navigation / no-destination-hints taste had no principle.
+- **Merges**: P12+P13 → "Transcripts read effortlessly" (the divider's
+  one-primitive aspect lives under "One primitive per idiom"); P10+P11 →
+  "A viewport-fixed dashboard, log bounded". 22 → **21 principles**,
+  grouped under the values (I one-home · II solid ground · III
+  story-first · IV legible state · V form & density).
+- **Relocated**: P21/P22 (workshop bar) → `qa-playtesting.md` §9, done in
+  the same commit (never homeless).
+- **Removed**: the 70-line checklist (→ F10 scorecards) and the Do/Don't
+  casebooks (the corpus holds the examples).
+- **Citations fixed**: F9 F21 F40 F58 now cited; **F72 resolved** — it
+  exists embedded inside F67's body ("Also (F72, same root cause…)"), so
+  citing it is correct.
+- **DoD receipts**: taste.md = **149 lines** (cap 150); corpus ∖
+  (taste.md ∪ qa-playtesting §9) = **∅**.
+
 ## Open flags (pending input)
 - Kurosawa resettle → rides R9, not this lock.
+- The rewritten taste.md awaits the human's lock read (queued).

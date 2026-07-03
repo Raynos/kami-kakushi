@@ -51,11 +51,10 @@
   prediction-test + repeat-rate measurement, §9 budgets, and §10 — the
   live grill log locking the top layer.
 
-- [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD**: the cross-cutting design
-  taste distilled from ALL 117 of your feedback items — ~12–16 memorable
-  meta-principles + a pre-build / pre-ship checklist, so future features are built
-  to your standard with **less feedback needed**. *(Redo it WITH FABLE — the ⭐ TODO
-  above.)*
+- [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD, REWRITTEN (the Fable
+  redo, P1)**: your 4 locked values + touchstones/references + 21 culled
+  principles, 149 lines (cap 150), full F1–F117 coverage (workshop bar →
+  `qa-playtesting.md` §9). **Your lock read** — the D-126 pyramid made real.
 
 **Owed reviews / taste calls (async, no rush):**
 

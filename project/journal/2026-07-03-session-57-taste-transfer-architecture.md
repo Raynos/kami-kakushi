@@ -125,3 +125,16 @@ the two what-to-take one-liners in brainstorm §10 (Q10) — the last P0
 residual, pending human confirm. Notables seen: proto23's LOCKED-slots-
 visible + colour-coded log + discoverable node actions; YAIR's per-skill
 bars + rate/ETA-legible activity cards.
+
+## P1 SHIPPED — taste.md rewritten as the D-126 pyramid
+
+Full fresh corpus read (all 2,314 lines); re-derivation verified the 22
+principles evidence-sound, found ONE real gap (F102 "the map doesn't
+spoil" — now principle 15). New taste.md: 4 values → touchstones +
+confirmed reference take-lines → **21 principles** in 5 value-groups →
+scope. **149 lines** (cap 150); checklist removed (→ F10 scorecards);
+Do/Don't casebooks culled (corpus holds examples). Workshop bar (old
+P21/P22 + DEV F-items) relocated to `qa-playtesting.md` **§9** in the
+same commit. Coverage receipt: corpus ∖ (taste ∪ qa§9) = ∅; F72 resolved
+(embedded in F67's body). Substance diff: brainstorm §11. Queued for the
+human's lock read.

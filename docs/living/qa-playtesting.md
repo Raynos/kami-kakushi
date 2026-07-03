@@ -280,7 +280,36 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   on self-vetted UI candidates — the judgments the proxies and the agent's review *inform* but can't
   replace.
 
+## 9. The workshop bar — DEV-tooling taste (from the first playtest, D-126)
+
+The DEV/diverge tooling is held to the game's own standards — if the playtester
+can see it, it is part of the experience. Relocated here from `taste.md` (the
+player-facing standard) at the D-126 lock; evidence: the F-items in
+`project/human-feedback/2026-07-02-playtest.md`.
+
+- **Zero-footprint overlay.** DEV chrome is `position:fixed`, reserves NO
+  player-layout space (the game centers on the full viewport as if it's
+  absent); `?dev=no` previews the true layout. In-palette, organized sub-tabs
+  (Settings / Variants), a truly fixed footer outside the scroll body, no
+  duplicate controls, clear hit-areas. (F1 F2 F4 F16 F37 F38 F92)
+- **Destructive actions are hard to mis-hit AND recoverable.** New Game is
+  half-width/offset off the common click path, auto-backs-up the prior save,
+  and "goto last backup" restores it one-click — a mis-click is never a lost
+  run. New Game also resets the renderer's UI state (tab → Work, filter →
+  Story); a loaded save starts IDLE with history already-seen. (F25 F32 F59
+  F95 F96)
+- **Cheap teleports.** DEV rung jumps expose the FULL source-derived roster,
+  reach any rung in either direction (descend = reset + promote), and never
+  spin a synchronous main-thread resim. (F24 F68)
+- **Diverge ergonomics.** Variants split from Settings, importance-ordered as
+  collapsible per-surface summaries; per-surface handles (number = surface,
+  letter = variant: V6A/B/C); approve → promote the winner + strip the losers
+  immediately (zero PROD flag-debt); selections round-trip the URL; list rows
+  stack title over muted detail; HMR OFF during hand playtests (the
+  playtester owns refresh). (F16 F17 F18 F21 F35 F36 F43 F49 F75 F101)
+
 > See also: **[`fun-factor.md`](fun-factor.md)** (the *what/why* of fun — this harness measures its
 > targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
-> §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible), and
+> §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible),
+> [`taste.md`](taste.md) (the player-facing taste standard — this §9 is its workshop twin), and
 > [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §K (the fun/UI process intent).
