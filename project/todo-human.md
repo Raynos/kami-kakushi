@@ -49,10 +49,6 @@
 
 **Owed reviews / taste calls (async, no rush):**
 
-- [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy
-  balance-watch**: 4 liquid tuning items (rice out-produces its sinks → coin too
-  abundant; the koku capstone is reached too fast; season store/sell dominated;
-  eat-rice dominated by rest). Your feel-call — NOT silently re-tuned.
 - [ ] `docs/plans/opus-2026-07-03-emergent-node-actions.md` — **emergent node
   actions** (graduated from the parked brainstorm into a plan): you *discover* what
   to do at a map node via rumours / low-chance events / description hints, not a
