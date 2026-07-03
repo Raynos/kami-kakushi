@@ -24,12 +24,6 @@
   Fable (the design agent), review/rework them together, and lock the taste bar
   you actually want. Treat the autonomous version as a **strong first draft**, not
   the final word.
-- [ ] **Playtest the deployed v0.3.5 build** — <https://raynos.github.io/kami-kakushi/>.
-  The whole T0 rebuild is live: the VN intro + rung story beats, the 6-tab IA, the
-  coin/rice/koku-standing economy, the estate map, deep housing, the rebalanced log.
-  This is the **R1 review passover** (fun · pacing · look) — jot anything that feels off.
-- [ ] **Tune the balance-watch items by feel** (once you've played) — see the audit
-  report in the reading queue below; I did NOT silently re-tune (D-059, your call).
 
 ## Reading queue
 
@@ -40,40 +34,13 @@
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
 
-**⭐ Tonight's headline — the taste-distillation + docs reconciliation (read these first):**
+**⭐ Tonight's headline — the taste standard (the key read):**
 
-- [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD** (the key read): the
-  cross-cutting design taste distilled from ALL 117 of your feedback items —
-  ~12–16 memorable meta-principles + a pre-build / pre-ship checklist, so future
-  features are built to your standard with **less feedback needed**. This is the
-  higher-order version of "every rule graduates to the docs."
-- [ ] **Docs reconciliation — the living docs now match the shipped game** (they'd
-  drifted ~2 rounds behind): `docs/living/ui-design.md` was rewritten to the built
-  reality (6-tab IA · append-only render · the VN scene for intro **and** rung beats ·
-  log v2 with Chat/Now · economy display · housing), and the **PRD** +
-  `docs/living/fun-factor.md` were rippled with the new mechanics (rung-beats, housing,
-  vendors-as-people). Skim to confirm they describe the game you played.
-
-**⭐ The agent-default audit — WALKED THROUGH + BUILT + MERGED 2026-07-03:**
-
-- ✅ `project/archive/opus-2026-07-03-v0.3.5-build-plan.md` — the **seven code
-  deltas** from the audit: **BUILT & MERGED** to main (`f2f5b99`, 591 tests green)
-  — rice spoilage + upgradeable kura cap · Now-view append-only · Inventory→R3 ·
-  Quests own tab @R5 · hearth→cook · chest→belongings-store · R5 wall-weapon token
-  · + the Issue-A home-reveal→R3 fix. Plan archived. *(The audit report itself —
-  walked through together — is signed off and cleared from this queue.)*
-- ✅ `docs/living/capstone-t0-branch.md` — the **R7 capstone**, DESIGNED &
-  documented (grill-me + diverge + ADR **D-125** + PRD §3.0.2 with the full 3×3
-  board). Picks: **A2** Buried Shame · **B1** Contest of Heirs · **C2** Late
-  Student. **Build DEFERRED to T1** — the side quests are T1 content (R8→R15) and
-  T1 isn't built yet (R6). The design plan is **archived**; this doc is the durable
-  build-ready spec for when T1 lands.
-- ✅ `project/archive/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc
-  ripples: DONE & archived 2026-07-03** (Opus, per D-124). ADRs **D-118…D-124**
-  in `decisions.md`; the PRD rippled across all six `docs/living/prd/*` files
-  (7-tab IA, staggered reveal, housing semantics + no-morale, rice storage cost,
-  T0-one-token status split, R7 capstone branch); ui-design + fun-factor
-  reconciled. Skim `decisions.md` D-118…D-124 if you want the record.
+- [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD**: the cross-cutting design
+  taste distilled from ALL 117 of your feedback items — ~12–16 memorable
+  meta-principles + a pre-build / pre-ship checklist, so future features are built
+  to your standard with **less feedback needed**. *(Redo it WITH FABLE — the ⭐ TODO
+  above.)*
 
 **Owed reviews / taste calls (async, no rush):**
 
@@ -84,23 +51,14 @@
   balance-watch**: 4 liquid tuning items (rice out-produces its sinks → coin too
   abundant; the koku capstone is reached too fast; season store/sell dominated;
   eat-rice dominated by rest). Your feel-call — NOT silently re-tuned.
-- [ ] **🔗 <https://kami-kakushi-ui-demos.vercel.app> — the SIX UI-remaster
-  variants, LIVE (open in a browser!)** — full working remasters of the actual
-  T0 game (R0–R3): 01 Moonlit Menu (PSX) · 02 Candlelit Ledger (journal) ·
-  03 Vermillion (modern indie) · 04 Lacquer & Gold (direct remaster) ·
-  05 Aizome (indigo textile) · **06 Washi & Ink (your current design,
-  polished — the comparison baseline you asked for)**. Use each variant's
-  bottom-right stage strip (cold open → R3 + the moments); every verb is real
-  against the mock engine. **Now phone-ready too (2026-07-03, redeployed) —
-  open it on your iPhone**; glance at the notch/home-indicator edges, the one
-  thing emulation can't verify. Verdict per variant → **R9** in
-  `human-in-the-loop/review.md`.
-- [ ] `project/archive/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**
-  (Fable's parallel spike): the plan behind the link above — §3 has the five
-  briefs, §2 the invariants (the remaster midpoint contract).
-- [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
-  actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
-  via rumours / low-chance events / description hints, not a static list. T0-later/T1.
+- [ ] `docs/plans/opus-2026-07-03-emergent-node-actions.md` — **emergent node
+  actions** (graduated from the parked brainstorm into a plan): you *discover* what
+  to do at a map node via rumours / low-chance events / description hints, not a
+  static list. Phase 0 = a design pass (grill-me/diverge) to lock the open shape
+  questions; then build (T0-later/T1, NOT R0/R1). D-114/D-115/D-116-adjacent.
+
+_(The **UI-remaster variants** — the six live demos + their plan — are tracked as
+**R9** in `human-in-the-loop/review.md`; review them there, live.)_
 
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**
@@ -173,8 +131,9 @@
   migration proof. Bonus finding: R7 speaks Shigemasa in 'official' voice
   while canon says 'lord' — exactly what the validator would catch.
 
-_(The economy, deep-housing, 6-tab-IA, rung-story, and append-only build plans were
-verified BUILT and **archived to `project/archive/` on 2026-07-03** — their owed bits
-live as R-items in `human-in-the-loop/review.md` [R6 home-panel diverge, R7 estate-map
-variant pick] + the balance-watch above; their override/follow-up deltas are captured in
-the two `opus-2026-07-03-v0.3.5-*` plans above.)_
+_(All the 2026-07-02 T0-build plans + both 2026-07-03 v0.3.5 plans (build +
+cleanup-docs) + the R7-capstone design plan are **BUILT/DONE and archived to
+`project/archive/`** — the git history + `decisions.md` (D-107…D-125) + the journal
+are the record. Their owed bits live as R-items in `human-in-the-loop/review.md`
+[R6 home-panel diverge, R7 estate-map pick, R9 UI-remaster] + the economy
+balance-watch above.)_
