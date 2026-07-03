@@ -19,8 +19,8 @@ steps awaiting or under execution. This directory holds **active plans only**.
   call, 2026-07-03 — renamed from the original `S{n}`/`N{n}` retro
   numbering; the master plan carries the rename map, and old names survive
   in journals/brainstorms as history). This `F` is the wave's rank letter,
-  not a feedback item — context disambiguates. Two plans share `F1`: one
-  merged build lane, two review surfaces.
+  not a feedback item — context disambiguates. The F1 rank is split
+  `F1a`/`F1b`: one merged build lane (a builds first), two review surfaces.
 - **When a plan is done, archive it** — `git mv` it to
   [`../../project/archive/`](../../project/archive) the moment its Status line
   reads ✅ done, so this directory never accumulates finished plans and its file

@@ -72,15 +72,15 @@ _(The **UI-remaster variants** — the six live demos + their plan — are track
   F3→F6→F7→F8, the hot-file trampling map, the two race clauses resolved,
   and the S/N → F rename map. All entries below are renamed + reordered to
   match it.
-- [ ] `docs/plans/fable-process-F1-mechanical-checkpoint.md` — **the mechanical
+- [ ] `docs/plans/fable-process-F1a-mechanical-checkpoint.md` — **the mechanical
   checkpoint** (retro suggestion #1): generate the process layer's derivable
   sections (gate roster, active-plans list, plan-status tokens, queue paths)
   via a `checkpoint.ts` + a 13th verify gate. Found live drift as receipts:
   the gate-count sentence says 11 (there are 12), `docs/plans/README.md`
   claims "no active plans", and session-brief mis-tags LOCKED plans as DONE.
-- [ ] `docs/plans/fable-process-F1-prd-ripple-tooling.md` — **PRD ripple tooling**
-  (D-117 Phase 0, the buildable-NOW slice you asked for; shares the F1 build
-  lane with the checkpoint plan): a `prd:drift` reporter (game registries →
+- [ ] `docs/plans/fable-process-F1b-prd-ripple-tooling.md` — **PRD ripple tooling**
+  (D-117 Phase 0, the buildable-NOW slice you asked for; second half of the
+  F1 build lane, after F1a): a `prd:drift` reporter (game registries →
   PRD punch-list; retired-terms tripwire), one pilot gen-region (§3 T0 rung
   names, drift-PROOF), and two skills — `/prd-ripple` (Flow 1 routing per
   change) + `/prd-compress` (dormant until R1 closes; the sweep itself stays

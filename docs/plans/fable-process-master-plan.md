@@ -11,15 +11,16 @@ a single agent. This is an ordering map, not a build plan — no code lands
 from this doc; each plan keeps its own "Who builds this".
 
 **File naming:** each plan is `fable-process-F<rank>-<slug>.md` where
-`<rank>` is its build-order position below. Two files share F1 because they
-are one merged build lane (see Merges #1).
+`<rank>` is its build-order position below. The F1 rank is two files —
+`F1a` (mechanical checkpoint, builds first) and `F1b` (PRD ripple
+tooling) — because they are one merged build lane (see Merges #1).
 
 ## Rename map (provenance — journals/brainstorms cite the old names)
 
 | Old (S/N series) | New (F build order) |
 |---|---|
-| `fable-process-S1-mechanical-checkpoint.md` | `fable-process-F1-mechanical-checkpoint.md` |
-| `fable-process-S5-prd-ripple-tooling.md` | `fable-process-F1-prd-ripple-tooling.md` |
+| `fable-process-S1-mechanical-checkpoint.md` | `fable-process-F1a-mechanical-checkpoint.md` |
+| `fable-process-S5-prd-ripple-tooling.md` | `fable-process-F1b-prd-ripple-tooling.md` |
 | `fable-process-N3-github-actions-ci.md` | `fable-process-F2-github-actions-ci.md` |
 | `fable-process-S2-playtest-capture-inbox.md` | `fable-process-F3-playtest-capture-inbox.md` |
 | `fable-process-S4-balance-sim-gates.md` | `fable-process-F4-balance-sim-gates.md` |
@@ -34,7 +35,7 @@ are one merged build lane (see Merges #1).
 
 | # | Plan | Wave / lane | Why here |
 |---|---|---|---|
-| F1 | **mechanical checkpoint** + **PRD ripple tooling** (one lane) | Wave 0, alone | Highest meta-leverage; the token migration touches EVERY live plan file, so nothing else may be in flight; `gen-regions.ts` built once for both |
+| F1a·F1b | **mechanical checkpoint** (a) + **PRD ripple tooling** (b, one lane) | Wave 0, alone | Highest meta-leverage; the token migration touches EVERY live plan file, so nothing else may be in flight; `gen-regions.ts` built once for both |
 | F2 | **GitHub Actions CI** (Ph1–2) | Wave 0 | Clean-room verify for all later commits; extracts the strip gate BEFORE four plans extend it; the nightly rung F4 needs |
 | F3 | **playtest capture inbox** | Wave 1, lane A (DEV tooling) | Owns the shared transport F7 + F8 need; the F-loop is the proven top quality signal |
 | F4 | **balance sim gates** | Wave 1, lane B | Machine alarm on the known capstone-pacing hole; isolated territory (`src/sim/`) |
@@ -49,8 +50,8 @@ are one merged build lane (see Merges #1).
 
 **Biggest impact on implementing other plans (meta-leverage):**
 
-1. **F1 (checkpoint)** — every later plan adds verify gates (F1-ripple,
-   F2, F5, F6) and every later plan eventually flips ✅ DONE: after F1, the
+1. **F1a (checkpoint)** — every later plan adds verify gates (F1b,
+   F2, F5, F6) and every later plan eventually flips ✅ DONE: after F1a, the
    gate-roster docs regenerate and archival/queue-reconciliation is one
    command instead of the `docs(queue)`/`chore(repo)` commit class. It also
    fixes the session-brief mis-tag that misreports plan status to every
@@ -98,14 +99,15 @@ Hot files, by number of plans touching them:
   Telemetry section — all grow the same sub-tab bar).
 - **`gh-pages.sh` step-1b marker loop — 6 plans** (F3, F6, F7, F8 add
   markers; F2 extracts it; F9 reuses it from a temp worktree).
-- **`verify-run.ts` GATES — 5 plans** (F1 extracts to `gates.ts`;
-  F1-ripple, F5, F6 append gates; F2 Ph3 swaps the lint entries).
+- **`verify-run.ts` GATES — 5 plans** (F1a extracts to `gates.ts`;
+  F1b, F5, F6 append gates; F2 Ph3 swaps the lint entries).
 - **`vite.config.ts`** (F3 plugin; F7 fallback transport) and
   **`qa-playtesting.md`** (F3, F4, F6, F7, F8 doc sections).
 
 Consequences:
 
-- **Wave 0 is serial and F1 runs alone** — its status-token migration
+- **Wave 0 is serial and the F1 lane (F1a→F1b) runs alone** — its
+  status-token migration
   edits every live plan's Status line; concurrent builds would collide
   with their own plan files (the no-parallel-build-during-ripple rule).
 - **F3 → F6 → F7 → F8 is ONE serialized lane** — they share `main.ts`,
@@ -114,12 +116,13 @@ Consequences:
   territory). One caveat: F4 Ph3 touches `main.ts` (autoStep
   extraction) — schedule that phase between lane-A items, or accept a
   small rebase.
-- GATES appends are one-line list edits — safe across lanes once F1's
+- GATES appends are one-line list edits — safe across lanes once F1a's
   `gates.ts` extraction has landed.
 
 ## Merge verdicts
 
-1. **MERGE the build lane: F1-checkpoint ⊕ F1-ripple (remaining phases).**
+1. **MERGE the build lane: F1a-checkpoint ⊕ F1b-ripple (remaining
+   phases).**
    Both plans name `src/scripts/gen-regions.ts` as shared infrastructure;
    the old "first-lander owns it" clause was exactly the trampling hazard
    when two atomic subagents build concurrently. Resolved by binding, not
@@ -127,8 +130,9 @@ Consequences:
    the same lane**, checkpoint first, `gen-regions.ts` built once. The two
    docs stay separate (different review surfaces — the ripple plan's Ph2
    edits PRD canon and the human sees that diff); the merge is of the
-   *build*, not the files — hence the shared F1 rank. Ripple Ph1
-   (`prd:drift`) is already built, so the remainder is small.
+   *build*, not the files — hence the shared F1 rank, split `F1a`/`F1b`
+   in build order. Ripple Ph1 (`prd:drift`) is already built, so the
+   remainder is small.
 2. **DON'T merge F3 + F7 + F8 into a mega-plan** — ~1,200 lines of
    combined spec is too much for one atomic agent to build without
    compressing quality (R1). The composition contracts are already
@@ -154,7 +158,7 @@ Consequences:
   merge #1.
 - The transport double-build (F3 vs F7) — retired by merge #2.
 - Four plans editing a marker loop that F2 then moves — retired by #4.
-- F1's plan-file migration racing other builders — retired by Wave 0
+- F1a's plan-file migration racing other builders — retired by Wave 0
   isolation.
 - `main.ts`/`dev.ts` concurrent edits — retired by the lane-A serial
   order.

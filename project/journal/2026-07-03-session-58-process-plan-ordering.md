@@ -50,3 +50,10 @@ it); the F1 checkpoint lane owns `gen-regions.ts` (ripple Ph2 imports it).
 - The wave's `F` rank collides with F-numbered feedback items (F1–F117) by
   accepted trade-off (human call); the plans README carries the
   disambiguation note.
+
+## Update (same session) — F1a/F1b split
+
+The human preferred distinct names over a shared F1 rank: renamed to
+`fable-process-F1a-mechanical-checkpoint.md` (builds first) and
+`fable-process-F1b-prd-ripple-tooling.md`; references rippled (master
+plan, plans README, reading queue, `prd-drift.ts`).
