@@ -209,3 +209,14 @@ Snapshot brought current (the new doc-budgets gate caught it at 127/120
 mid-edit — displaced to 120 exactly; the mechanism works on its author).
 Queue reconciled with the human (AskUserQuestion): taste.md, ui-design.md
 and the taste-transfer brainstorm all cleared — signed off. Pushed main.
+
+## Post-checkpoint: the /distill-taste skill (human ask)
+
+The future distillation process codified as a **user-invoked-only skill**
+(`disable-model-invocation: true`): `.claude/skills/distill-taste/` —
+the five-move triage (repeat→strengthen-the-RUNG · evidence→cite ·
+new-taste→displace-under-a-value · wrong-home→relocate · one-off→corpus
+only), snapshot-genre editing rules, human-locked top layer, and the DoD
+(budgets · coverage set-diff · the 2-blind-judge prediction test ·
+repeat-rate tagging). Roster line added to repo-map. This is the s57
+procedure made repeatable — feedback never GROWS taste.md, it triages.

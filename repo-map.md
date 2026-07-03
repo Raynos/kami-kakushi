@@ -101,6 +101,9 @@ always-loaded context while being editable on its own.
   per-variant R-item; zero PROD flag-debt; mandatory for new/major UI
   surfaces — D-075 v2), `handoff`
   (compact the session into a `/handoff` doc for a fresh agent to resume;
-  adopted ~1:1), and `prepare-to-exit` (the runnable form of the **checkpoint
+  adopted ~1:1), `distill-taste` (triage a new feedback corpus into the CAPPED
+  taste standard — five moves, never append; budgets + coverage + prediction
+  test; top-layer changes human-locked; user-invoked only via
+  `/distill-taste`), and `prepare-to-exit` (the runnable form of the **checkpoint
   ritual** — commit own work → journal → snapshot → push `main` → confirm clean;
   user-invoked only via `/prepare-to-exit`).
