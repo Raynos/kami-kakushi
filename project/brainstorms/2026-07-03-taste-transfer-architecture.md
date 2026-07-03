@@ -367,8 +367,20 @@ yet-another-idle-rpg). Kurosawa provisional → R9.
 - **yet-another-idle-rpg** — *TAKE: many small visible progressions —
   per-skill bars with level/cap + %, and activity cards that state their
   rate and ETA in plain numbers.*
-- Flags: both lines → human confirm (the last P0 residual).
+- Captured (human): **proto23 = "density only, drop the rest"** — the line
+  is purely the dense boxed-panel chrome register; the log/LOCKED/node-action
+  observations stay as principle evidence, not the reference's point.
+  **YAIR line confirmed as written.**
+
+**P0 FULLY CLOSED.** Final reference lines:
+- **proto23** — *TAKE: the chrome density — the boxed panel-dashboard
+  register: framed, dense, tiny-type panels.*
+- **yet-another-idle-rpg** — *TAKE: many small visible progressions —
+  per-skill bars with level/cap + %, and activity cards that state their
+  rate and ETA in plain numbers.*
+
+Execution is now autonomous (human steer: "execute the plan yourself; pull
+me in for decisions via the ask tool").
 
 ## Open flags (pending input)
-- The two what-to-take lines above: human confirm/edit.
 - Kurosawa resettle → rides R9, not this lock.
