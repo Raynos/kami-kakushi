@@ -2169,4 +2169,22 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     const pane = root.querySelector<HTMLElement>('.belongings-pane');
     expect(pane === null || pane.hidden).toBe(true);
   });
+
+  // D-075 — the prod default (variant A, no DEV harness) is the shipped functional list; a buy button
+  // drives the REAL buy_belonging intent (RED-able: if the button stopped dispatching, or the DEV
+  // variant leaked into prod and replaced the list, this flips red).
+  it('the prod default buy button dispatches buy_belonging (no DEV variant leaks in)', () => {
+    const seen: Intent[] = [];
+    const render = mount(root, (i) => seen.push(i), noopHooks());
+    render(homeState({ resources: { coin: 500 } as GameState['resources'] }), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    // the shipped list — NOT a DEV cutaway / ledger frame.
+    expect(pane.querySelector('.home-room')).toBeNull();
+    expect(pane.querySelector('.home-ledger')).toBeNull();
+    const btn = pane.querySelector<HTMLButtonElement>('.belonging-buy button')!;
+    expect(btn).not.toBeNull();
+    btn.click();
+    expect(seen.some((i) => i.type === 'buy_belonging')).toBe(true);
+  });
 });

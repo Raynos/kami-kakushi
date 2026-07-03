@@ -9,7 +9,14 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { createDevApi, mountDevPanel, type DevQa } from './dev';
-import { createInitialState, setFlag, type GameState, type Intent, type RankId } from '../core';
+import {
+  createInitialState,
+  getBelonging,
+  setFlag,
+  type GameState,
+  type Intent,
+  type RankId,
+} from '../core';
 
 function noopHooks(): AppHooks {
   let muted = false;
@@ -337,6 +344,126 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
     openCharacter();
     expect(root.querySelector('.bestiary-card')).toBeNull();
     expect(root.textContent).toContain('The beasts of the estate');
+  });
+});
+
+// D-111 / F89 — the HOME / belongings panel diverge (D-075). A (the functional list) ships inline
+// in render.ts; B (一間 room cutaway) / C (持ち物帳 ledger) live DEV-only. Every variant re-presents
+// the SAME home data (header, owned belongings + comfort, the live comfort tally, the buyable
+// acquire list) and every buy button drives the REAL `buy_belonging` intent. These RED-able tests
+// hold the routing (a non-default selection swaps the presentation) + the wired-verb contract.
+describe('renderer variant routing — Home / belongings (D-075, D-111)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  // an R1 state with the home granted (panel-home) + coin in the purse (so a comfort piece is
+  // affordable — the buy button is live, not disabled).
+  function homeState(extra?: Partial<GameState>): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      flags: { ...base.flags, awake: true, raked: true, 'rank-r1': true },
+      unlocked: [
+        ...base.unlocked,
+        'readout-rice',
+        'room-gate-forecourt',
+        'room-home-paddies',
+        'panel-rung-ladder',
+        'panel-estate',
+        'panel-home',
+      ],
+      resources: { ...base.resources, coin: 500 },
+      ...extra,
+    };
+  }
+  function openInventory(): void {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('Inventory'))
+      ?.click();
+  }
+
+  it('renders default A (functional list) with no DEV harness (= prod)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(homeState(), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    // the shipped list: the .belonging-row rows, and NEITHER the cutaway NOR the ledger frames.
+    expect(pane.querySelector('.belonging-row')).not.toBeNull();
+    expect(pane.querySelector('.home-room')).toBeNull();
+    expect(pane.querySelector('.home-ledger')).toBeNull();
+    expect(root.textContent).not.toContain('持ち物帳');
+  });
+
+  it('routes to home-b (一間 room cutaway) when selected — the room, not the list', () => {
+    const dev = createDevApi();
+    dev.setVariant('home', 'home-b');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(homeState(), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    expect(pane.querySelector('.home-room')).not.toBeNull(); // the diegetic room grid
+    expect(pane.querySelector('.belonging-row')).toBeNull(); // the default list is replaced
+    // the bowl + mat are placed IN SITU in the room (owned belongings render as room pieces).
+    expect(pane.querySelector('.home-piece[data-belonging="bowl"]')).not.toBeNull();
+    // the acquire list reads as "what the room still lacks".
+    expect(pane.textContent).toContain('What the room still lacks');
+  });
+
+  it('routes to home-c (持ち物帳 ledger) when selected — the register, not the list', () => {
+    const dev = createDevApi();
+    dev.setVariant('home', 'home-c');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(homeState(), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    expect(pane.querySelector('.home-ledger')).not.toBeNull();
+    expect(pane.querySelector('.belonging-row')).toBeNull();
+    expect(pane.textContent).toContain('持ち物帳');
+    // owned pieces are ruled ledger lines (the bowl among them).
+    expect(pane.querySelector('.home-ledger-row[data-belonging="bowl"]')).not.toBeNull();
+  });
+
+  it('the room-cutaway comfort tally reads the SAME numbers as the default (A6)', () => {
+    const dev = createDevApi();
+    dev.setVariant('home', 'home-b');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(homeState({ belongings: ['bedding'] }), null); // a bought futon → rest +5 in effect
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    const amt = getBelonging('bedding').comfort?.amount ?? 0;
+    expect(amt).toBeGreaterThan(0);
+    // the tally is read through the SAME selectors the reducer uses — not a copied magic number.
+    expect(pane.querySelector('.home-cutaway-tally')?.textContent).toContain(`rest +${amt}`);
+  });
+
+  it('a DEV-variant buy button drives the REAL buy_belonging intent', () => {
+    const dev = createDevApi();
+    dev.setVariant('home', 'home-c');
+    const dispatched: Intent[] = [];
+    const render = mount(root, (i) => dispatched.push(i), noopHooks(), dev);
+    render(homeState(), null);
+    openInventory();
+    const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
+    // an UNFILLED ledger line for a buyable piece; its verb button dispatches the real intent.
+    const row = pane.querySelector<HTMLElement>('.home-unfilled-row[data-belonging="bedding"]')!;
+    expect(row).not.toBeNull();
+    row.querySelector<HTMLButtonElement>('button')!.click();
+    expect(dispatched).toContainEqual({ type: 'buy_belonging', belongingId: 'bedding' });
   });
 });
 

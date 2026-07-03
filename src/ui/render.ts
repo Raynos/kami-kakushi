@@ -4021,6 +4021,54 @@ export function mount(
     const show = activeTab === 'inventory' && isUnlocked(state, 'panel-home');
     toggle(belongingsPane, show);
     if (!show) return;
+    // ── the diverged HOME / belongings presentation (D-075) — A = the functional list (default,
+    //    ships). B (一間 room cutaway) / C (持ち物帳 ledger) live DEV-only behind the variant toggle
+    //    (ui/dev.ts). This DEV branch folds to dead code in prod (`import.meta.env.DEV` → false,
+    //    tree-shaken) and `dev` is undefined in prod AND tests, so ONLY a live DEV session takes it —
+    //    where the variant toggle needs the wholesale clear-and-rebuild. Prod/tests use the
+    //    incremental path below (F81, zero idle churn). Every variant shows the SAME home data + the
+    //    SAME live comfort tally, and every buy button drives the real `buy_belonging` intent. ──
+    if (import.meta.env.DEV && dev) {
+      const tierD = HOME_TIERS[0]!;
+      belongingsRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
+      belongingsPane.textContent = '';
+      const card = el('div', 'rung-card frame');
+      card.append(el('div', 'rung-now', `${tierD.label} ${tierD.kanji}`));
+      card.append(el('div', 'skill-blurb', tierD.blurb));
+      if (!dev.renderVariant('home', card, state, dispatch)) {
+        // default A, wholesale — the same owned/comfort/acquire structure the incremental path builds.
+        const ownedHead = el('div', 'belongings-subhead', 'What is yours');
+        const ownedList = el('div', 'belongings-list');
+        for (const def of ownedBelongings(state)) ownedList.append(buildBelongingRow(def));
+        const restBd = homeRestBonus(state);
+        const bodyBd = homeSatietyBonus(state);
+        const settledD = homeSetComplete(ownedBelongingIds(state));
+        const partsD: string[] = [];
+        if (restBd > 0) partsD.push(`rest +${restBd} body`);
+        if (bodyBd > 0) partsD.push(`+${bodyBd} max body`);
+        const baseD =
+          partsD.length > 0
+            ? `Comfort in effect · ${partsD.join(' · ')}`
+            : 'A bare corner — no comforts yet.';
+        const comfortD = el(
+          'div',
+          'rung-hint belongings-comfort-summary',
+          settledD ? `${baseD} · a settled home 整` : baseD,
+        );
+        const acquirableD = BELONGINGS.filter(
+          (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
+        );
+        card.append(ownedHead, ownedList, comfortD);
+        if (acquirableD.length > 0) {
+          card.append(el('div', 'belongings-subhead', 'Settle your corner'));
+          const acquireList = el('div', 'belongings-list');
+          for (const def of acquirableD) acquireList.append(buildBelongingRow(def));
+          card.append(acquireList);
+        }
+      }
+      belongingsPane.append(card);
+      return;
+    }
     if (!belongingsRefs) {
       const card = el('div', 'rung-card frame');
       const homeName = el('div', 'rung-now');

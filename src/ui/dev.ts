@@ -23,11 +23,20 @@ import {
   getNode,
   reachableFrom,
   skillLevel,
+  BELONGINGS,
+  HOME_TIERS,
+  homeSetComplete,
+  homeRestBonus,
+  homeSatietyBonus,
+  ownedBelongings,
+  ownedBelongingIds,
+  ownsBelonging,
   MARKET_ITEMS,
   QUESTS,
   RANKS,
   RECIPES,
   type ActivityId,
+  type BelongingDef,
   type GameState,
   type Intent,
   type MapNode,
@@ -221,6 +230,34 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  // D-111 / F89 — the home / belongings panel (the deep-housing pass shipped ONE prod default,
+  //   renderBelongings; this diverge adds the mandatory live DEV alternates). Every variant shows
+  //   the SAME home data (header, owned belongings + comfort badges, the live comfort tally, and the
+  //   buyable acquire list wired to `buy_belonging`) — only the PRESENTATION differs.
+  {
+    id: 'home',
+    label: 'Home / belongings',
+    variants: [
+      {
+        id: 'home-a',
+        label: 'A · functional list',
+        blurb:
+          'The shipped default — owned keepsakes + furniture as inked rows, a comfort tally, a coin acquire list.',
+      },
+      {
+        id: 'home-b',
+        label: 'B · 一間 room cutaway',
+        blurb:
+          'A diegetic woodblock room: each belonging sits in its corner, comfort read from where it rests; the acquire list is "what the room still lacks".',
+      },
+      {
+        id: 'home-c',
+        label: 'C · 持ち物帳 ledger',
+        blurb:
+          'A household register: what you own as ruled ledger lines, comfort as marginal notes, buyable pieces as unfilled lines.',
+      },
+    ],
+  },
   // ── Workspace layout + framing (multi-panel, M2) — LOCKED, not toggleable. The human picked
   //    屏風 folding-columns (`layout-byobu`) + soft cards (`framing-cards`) as the sole prod
   //    rendering (D-075 zero-flag-debt), so the `layout`/`framing` variant surfaces were pruned:
@@ -306,6 +343,7 @@ function renderSurfaceVariant(
   if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
   if (surface === 'map') return renderMapVariant(variantId, container, state, dispatch);
   if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
+  if (surface === 'home') return renderHomeVariant(variantId, container, state, dispatch);
   return false;
 }
 
@@ -436,6 +474,236 @@ function renderBestiaryVariant(
   }
   container.append(scroll);
   return true;
+}
+
+/** The diverged HOME / belongings panel (B / C) — DEV-only, stripped from prod. Default A (the
+ *  functional list) ships inline in render.ts; B/C re-present the SAME home data — the header, the
+ *  owned belongings (mat + bowl + bought furniture with their comfort), the live comfort-in-effect
+ *  tally, and the buyable acquire list. Every buy button drives the REAL `buy_belonging` intent via
+ *  the threaded `dispatch`, so a purchase moves the true state (A6 — same numbers as the default). */
+function renderHomeVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId !== 'home-b' && variantId !== 'home-c') return false;
+
+  const tier = HOME_TIERS[0]!;
+  const owned = ownedBelongings(state);
+  const ownedIds = ownedBelongingIds(state);
+  const restB = homeRestBonus(state);
+  const bodyB = homeSatietyBonus(state);
+  const settled = homeSetComplete(ownedIds);
+  const coin = state.resources.coin ?? 0;
+  const acquirable = BELONGINGS.filter(
+    (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
+  );
+  const comfortNote = (def: BelongingDef): string => {
+    if (!def.comfort) return 'a keepsake';
+    return def.comfort.kind === 'rest'
+      ? `rest +${def.comfort.amount} body`
+      : `+${def.comfort.amount} max body`;
+  };
+  // the live comfort-in-effect tally string, shared by both variants (A6: the SAME selectors the
+  // reducer + the prod default read — a bare corner reads 0, the settled set adds its note).
+  const tallyParts: string[] = [];
+  if (restB > 0) tallyParts.push(`rest +${restB} body`);
+  if (bodyB > 0) tallyParts.push(`+${bodyB} max body`);
+  const tallyBase =
+    tallyParts.length > 0
+      ? `Comfort in effect · ${tallyParts.join(' · ')}`
+      : 'A bare corner — no comforts yet.';
+  const tallyText = settled ? `${tallyBase} · a settled home 整` : tallyBase;
+  // a REAL buy button, wired to the reducer via dispatch — disabled when the purse is short.
+  const buyButton = (def: BelongingDef, label: string): HTMLButtonElement => {
+    const b = el('button', 'verb', label) as HTMLButtonElement;
+    b.type = 'button';
+    if (def.source.kind !== 'buy') return b;
+    const afford = coin >= def.source.coinCost;
+    b.disabled = !afford;
+    b.title = afford
+      ? `Bring it in — pay ${formatCoin(def.source.coinCost)}`
+      : `Need ${formatCoin(def.source.coinCost - coin)} more`;
+    b.setAttribute(
+      'aria-label',
+      `Bring a ${def.label.toLowerCase()} into your corner (${comfortNote(def)}) for ${formatCoin(def.source.coinCost)}`,
+    );
+    b.addEventListener('click', () => dispatch({ type: 'buy_belonging', belongingId: def.id }));
+    return b;
+  };
+
+  if (variantId === 'home-b') {
+    // ── B · 一間 room cutaway — a diegetic view of your quarters. A small woodblock room drawn as a
+    //    fixed slot grid; each OWNED belonging sits IN SITU (the futon in its corner, the hearth
+    //    sunk in the floor, the chest against the wall, the bowl on the mat), comfort read from where
+    //    the piece rests. The acquire list below is framed as "what the room still lacks". ──
+    const wrap = el('div', 'home-cutaway');
+    wrap.style.cssText = 'display:flex;flex-direction:column;gap:.5rem;';
+
+    const head = el('div');
+    head.style.cssText =
+      'display:flex;align-items:baseline;gap:.4rem;border-bottom:1px solid var(--ink-faint);padding-bottom:.25rem;color:var(--ink);';
+    const ht = el('span', undefined, tier.label);
+    ht.style.fontWeight = '700';
+    const hk = el('span', undefined, tier.kanji);
+    hk.lang = 'ja';
+    hk.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+    head.append(ht, hk);
+    wrap.append(head);
+    wrap.append(el('div', 'skill-blurb', tier.blurb));
+
+    // the room itself — a bordered "tatami" floor; belongings placed in fixed spots, present only
+    // when owned. Each spot names its piece + a where-it-sits line so comfort reads spatially.
+    const SPOTS: {
+      id: string;
+      here: string; // where it sits in the room
+      col: string;
+      row: string;
+    }[] = [
+      { id: 'straw_mat', here: 'in the corner', col: '1', row: '2' },
+      { id: 'bowl', here: 'set on the mat', col: '1', row: '1' },
+      { id: 'bedding', here: 'laid over the straw', col: '2', row: '2' },
+      { id: 'hearth', here: 'sunk in the floor', col: '2', row: '1' },
+      { id: 'chest', here: 'against the wall', col: '3', row: '1' },
+    ];
+    const room = el('div', 'home-room');
+    room.style.cssText =
+      'position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(3.4rem,auto);gap:.4rem;' +
+      'border:2px solid var(--ink);background:var(--washi-shade);padding:.55rem;' +
+      'background-image:repeating-linear-gradient(0deg,transparent,transparent 1.6rem,var(--washi-deep) 1.6rem,var(--washi-deep) calc(1.6rem + 1px));';
+    const ownedSet = new Set(owned.map((b) => b.id));
+    for (const spot of SPOTS) {
+      if (!ownedSet.has(spot.id)) continue;
+      const def = BELONGINGS.find((b) => b.id === spot.id)!;
+      const piece = el('div', 'home-piece');
+      piece.dataset.belonging = def.id;
+      piece.style.cssText =
+        `grid-column:${spot.col};grid-row:${spot.row};` +
+        'display:flex;flex-direction:column;gap:.1rem;align-items:center;justify-content:center;text-align:center;' +
+        'border:1px solid var(--ink);background:var(--washi);padding:.3rem .35rem;';
+      const k = el('span', undefined, def.kanji);
+      k.lang = 'ja';
+      k.style.cssText = 'font-size:1.5rem;line-height:1;color:var(--ink);';
+      const nm = el('span', undefined, def.label.replace(/^A /, ''));
+      nm.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-soft);';
+      piece.append(k, nm);
+      piece.append(navHomeTag(spot.here, 'var(--ink-faint)'));
+      if (def.comfort) piece.append(navHomeTag(comfortNote(def), 'var(--rokusho)'));
+      piece.title = def.blurb;
+      room.append(piece);
+    }
+    wrap.append(room);
+
+    // the live comfort-in-effect tally — the same reading the prod default shows.
+    const tally = el('div', 'home-cutaway-tally', tallyText);
+    tally.style.cssText = `color:${tallyParts.length > 0 ? 'var(--rokusho)' : 'var(--ink-soft)'};font-size:var(--fs-small);`;
+    wrap.append(tally);
+
+    // "what the room still lacks" — the acquire list, diegetically framed.
+    if (acquirable.length > 0) {
+      const lackHead = el('div', undefined, 'What the room still lacks');
+      lackHead.style.cssText =
+        'color:var(--ink-soft);font-family:var(--font-head);font-size:var(--fs-small);letter-spacing:.04em;margin-top:.15rem;';
+      wrap.append(lackHead);
+      for (const def of acquirable) {
+        if (def.source.kind !== 'buy') continue;
+        const line = el('div', 'home-lack-row');
+        line.dataset.belonging = def.id;
+        line.style.cssText =
+          'display:flex;align-items:center;gap:.5rem;border-top:1px dotted var(--ink-faint);padding:.35rem 0;';
+        const k = el('span', undefined, def.kanji);
+        k.lang = 'ja';
+        k.style.cssText = 'font-size:1.2rem;color:var(--ink-soft);flex:0 0 auto;';
+        const mid = el('div');
+        mid.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:.08rem;';
+        const nm = el('span', undefined, `${def.label} — ${comfortNote(def)}`);
+        nm.style.cssText = 'color:var(--ink);';
+        mid.append(nm, el('div', 'skill-blurb', def.blurb));
+        line.append(k, mid, buyButton(def, formatCoin(def.source.coinCost)));
+        wrap.append(line);
+      }
+    } else {
+      wrap.append(el('div', 'skill-blurb', 'The room wants for nothing more — a settled corner.'));
+    }
+    container.append(wrap);
+    return true;
+  }
+
+  // ── C · 持ち物帳 possessions ledger — a household register in the steward's hand. Owned pieces are
+  //    ruled ledger lines (kanji · name · a marginal comfort annotation on the right); the running
+  //    comfort tally is the foot line; buyable pieces trail as UNFILLED ledger lines you may ink in
+  //    with a coin. Terse, calm, ink-on-washi. ──
+  const ledger = el('div', 'home-ledger');
+  ledger.style.cssText =
+    'border:1px solid var(--ink);background:var(--washi);padding:.5rem .6rem;display:flex;flex-direction:column;gap:.3rem;';
+  const cap = el('div');
+  cap.style.cssText =
+    'display:flex;align-items:baseline;gap:.4rem;border-bottom:2px solid var(--ink);padding-bottom:.25rem;color:var(--ink);';
+  const ct = el('span', undefined, `${tier.label} — a register of what is yours`);
+  ct.style.fontWeight = '700';
+  const ck = el('span', undefined, '持ち物帳');
+  ck.lang = 'ja';
+  ck.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  cap.append(ct, ck);
+  ledger.append(cap);
+
+  for (const def of owned) {
+    const row = el('div', 'home-ledger-row');
+    row.dataset.belonging = def.id;
+    row.style.cssText =
+      'display:flex;align-items:baseline;gap:.5rem;border-bottom:1px solid var(--ink-faint);padding:.3rem 0;';
+    const k = el('span', undefined, def.kanji);
+    k.lang = 'ja';
+    k.style.cssText = 'flex:0 0 1.6rem;font-size:1.15rem;color:var(--ink);';
+    const nm = el('span', undefined, def.label);
+    nm.style.cssText =
+      'flex:1;min-width:0;color:var(--ink);overflow:hidden;text-overflow:ellipsis;';
+    const note = el('span', undefined, comfortNote(def));
+    note.style.cssText = `flex:0 0 auto;text-align:right;font-size:var(--fs-micro);font-variant-numeric:tabular-nums;color:${def.comfort ? 'var(--rokusho)' : 'var(--ink-faint)'};`;
+    row.append(k, nm, note);
+    ledger.append(row);
+  }
+
+  // the running comfort total — the ledger foot line (the SAME tally the default shows).
+  const foot = el('div', 'home-ledger-foot', tallyText);
+  foot.style.cssText = `align-self:flex-start;padding-top:.15rem;font-variant-numeric:tabular-nums;color:${tallyParts.length > 0 ? 'var(--rokusho)' : 'var(--ink-soft)'};`;
+  ledger.append(foot);
+
+  // the UNFILLED ledger lines — pieces you may still ink into the register with a coin.
+  if (acquirable.length > 0) {
+    const unfilledHead = el('div', undefined, '未入 — lines yet to fill');
+    unfilledHead.lang = 'ja';
+    unfilledHead.style.cssText =
+      'color:var(--ink-soft);font-size:var(--fs-small);border-top:2px solid var(--ink);padding-top:.3rem;margin-top:.15rem;';
+    ledger.append(unfilledHead);
+    for (const def of acquirable) {
+      if (def.source.kind !== 'buy') continue;
+      const row = el('div', 'home-unfilled-row');
+      row.dataset.belonging = def.id;
+      row.style.cssText =
+        'display:flex;align-items:center;gap:.5rem;border-bottom:1px dotted var(--ink-faint);padding:.3rem 0;';
+      const k = el('span', undefined, def.kanji);
+      k.lang = 'ja';
+      k.style.cssText = 'flex:0 0 1.6rem;font-size:1.1rem;color:var(--ink-soft);';
+      const nm = el('span', undefined, `${def.label} · ${comfortNote(def)}`);
+      nm.style.cssText = 'flex:1;min-width:0;color:var(--ink-soft);';
+      const price = el('span', undefined, formatCoin(def.source.coinCost));
+      price.style.cssText =
+        'flex:0 0 auto;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;';
+      row.append(k, nm, price, buyButton(def, '記す'));
+      ledger.append(row);
+    }
+  }
+  container.append(ledger);
+  return true;
+}
+
+/** A muted one-line affordance tag inside the room cutaway (where a piece sits / its comfort). */
+function navHomeTag(text: string, color: string): HTMLElement {
+  const t = el('div', undefined, text);
+  t.style.cssText = `font-size:var(--fs-micro);color:${color};`;
+  return t;
 }
 
 /** The diverged House-Influence grade visual (B / C). The shared frame / head / silhouettes /
