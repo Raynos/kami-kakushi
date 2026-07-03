@@ -26,9 +26,9 @@ One choice per playthrough → one quest; the other two lock out (replay driver)
 
 | R7 answer | Quest | Item | Separate unlock | ⏱ |
 |---|---|---|---|---|
-| **Devoted** | "The House's Buried Shame" | Sadamune's recovered blade | a repeatable **enemy** (the debtor's enforcer) in a new **hideout** location | med |
-| **Ambitious** | "The Contest of Heirs" | a fine dueling blade | **Naoyuki** intro + a **spar activity** + a **Naoyuki-regard micro-faction** | hrs |
-| **Humble** | "The Late Student" | the master's piece | a new **master** char + **workshop** location + a **craft activity/skill (or little shop)** whose levels **unlock 2–3 recipes** | med |
+| **Devoted** | "The House's Buried Shame" | Sadamune's recovered blade (weapon) | a repeatable **enemy** (the enforcer **Kumagorō**) in a new **hideout** location | med |
+| **Ambitious** | "The Contest of Heirs" | a fine dueling blade (weapon) | **Naoyuki** early rival-debut + a **spar activity** + a **Naoyuki-regard micro-faction** | hrs |
+| **Humble** | "The Late Student" | **Tōsai's chisel** (craft-tool, *not* a weapon) | a new **master** (**Tōsai**) + **workshop** location + a **craft activity/skill (or shop)** whose levels **unlock 2–3 recipes** | med |
 
 **Canon:** player = a **retainer** of the **Kurosawa** house (lord = **Shigemasa
 Kurosawa**, heir **Naoyuki**); the player's surname is the **T3** reveal. "Devoted"
@@ -87,14 +87,18 @@ reusing existing systems only.
   house's shame.
 - **Quest:** uncover Sadamune's ruinous venture (the Inherited Debt's origin) →
   trace who's still bleeding the house.
-- **New character:** the **debtor's enforcer** (minor antagonist — ⚠ name).
+- **New character:** the **debtor's enforcer**, **Kumagorō** (minor antagonist;
+  agent-named, vetoable).
 - **New location (map node):** the enforcer's **hideout**.
 - **Enemy:** the enforcer — a **repeatable grindable** foe (bestiary + combat).
 - **Item:** **Sadamune's recovered blade** (heirloom weapon).
 
 ### B.B1 · "The Contest of Heirs" (AMBITIOUS) — ⏱ hours
-- **Quest-giver:** **Naoyuki** — he challenges the upstart; **this is his onstage
-  introduction** (⚠ timing, see flags).
+- **Quest-giver:** **Naoyuki** — he challenges the upstart. **His EARLY rival-debut
+  fires at the R7 capstone (B1-exclusive)** — a unique rivalry VN intro, *distinct*
+  from his normal intro. In A2/C2 (non-ambitious), Naoyuki instead debuts at his
+  **normal rung** (early T1) with his normal VN intro. Don't double-fire: if B1,
+  suppress/replace the normal one. ⚠ confirm his normal rung vs the T1 narrative.
 - **Micro-faction:** **Naoyuki-regard** (rival-respect track).
 - **Activity + location:** repeatable **sparring** bouts (combat-XP grind) at a
   **sparring ground** (⚠ reuse Kihei's drill yard vs a new node) that **raise the
@@ -102,9 +106,9 @@ reusing existing systems only.
 - **Item:** a **fine dueling blade** (won/gifted at the rivalry's turn).
 
 ### B.C2 · "The Late Student" (HUMBLE) — ⏱ medium (→hours w/ the grind)
-- **Quest-giver / new character:** the retired **master artisan** — seeks you out
-  (⚠ name).
-- **New location (map node):** the master's **workshop / hermitage**.
+- **Quest-giver / new character:** the retired **master artisan Tōsai** (a
+  metal-inlay / fittings master; agent-named, vetoable) — seeks you out.
+- **New location (map node):** Tōsai's **workshop / hermitage**.
 - **Unlock = a craft activity / skill / grind (or a little workshop shop):** the
   **recipes are gated behind LEVELING it** (not handed out by the quest). Reuse the
   existing skill/activity + craft systems — recipes appear as level/progress
@@ -112,8 +116,9 @@ reusing existing systems only.
   **No micro-faction** (that was a C3 misread).
 - **Recipes:** **2–3 unique recipes** (narrow — e.g. a silver-inlaid refinement),
   unlocked by the activity above.
-- **Item (quest reward):** **the master's piece** (a strong crafted equippable —
-  ⚠ 3rd weapon; reflavour to a tool/armor?).
+- **Item (quest reward):** ✅ **Tōsai's chisel** — an equippable **craft-tool
+  accessory** (boosts crafting quality/yield), **NOT a weapon** (human: 3 weapons
+  was too much). Item mix now: A2 weapon · B1 weapon · C2 craft-tool.
 
 ### Build mechanics (all three)
 - Each quest gates on the R7 pick flag + the T1 unlock; the R7 beat's `flags`
@@ -128,15 +133,18 @@ reusing existing systems only.
 - Reuse existing systems (above). · Out-of-scope list (§A.1). · The three need not
   be balanced equally (medium / hours / medium here).
 
-## Open flags (resolve before/at build — mostly D-059 tuning)
-- **⚠ Naoyuki intro timing:** (a) B1-only debut (the ambitious pick earns the
-  rival — my lean) vs (b) a general early-T1 intro deepened by B1. **Human call.**
-- **⚠ Names:** the debtor's enforcer (A2), the reclusive master (C2).
-- **⚠ 3 weapons:** all three items are weapons — reflavour C2's "master's piece"
-  to a tool/armor for variety?
-- **Tuning (D-059):** item stats/tier; enforcer stats + drop; the spar XP/perk
-  curve + Naoyuki-regard levels; which 2–3 recipes + the master's-piece recipe;
-  sparring-ground node choice.
+## Resolved flags (human, 2026-07-03)
+- ✅ **Naoyuki timing:** B1-exclusive **early rival-debut at R7**; normal intro at
+  his normal rung for A2/C2. Two scenes, don't double-fire.
+- ✅ **Names:** enforcer **Kumagorō** (A2), master **Tōsai** (C2) — vetoable.
+- ✅ **Item mix:** A2 weapon · B1 weapon · **C2 craft-tool** (Tōsai's chisel, not a
+  weapon).
+
+## Still open (resolve at build — D-059 tuning)
+- Item stats/tier; Kumagorō's stats + drop; the spar XP/perk curve + Naoyuki-regard
+  levels; which 2–3 recipes + how the workshop activity/skill unlocks them; the
+  master's-chisel craft-bonus; sparring-ground node choice; Naoyuki's normal-intro
+  rung (vs the T1 narrative).
 
 ## Done-when
 - **§A:** the PRD carries a reusable **capstone pattern** subsection + the T0

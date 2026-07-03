@@ -23,10 +23,10 @@ unique equippable ITEM + a separate UNLOCK**. Chosen one per path:
 · B3 3 · **C1 3 · C2 3 · C3 3** (picked the top of each path; A3 tied A2 at 4 but
 A2 chosen).
 
-**Flag — all three items are weapons/blades** (A2 heirloom blade, B1 dueling blade,
-C2 master's piece). Fine if intended, but if the item mix should vary (an armor /
-charm somewhere), C2's "master's piece" is the easiest to reflavour to a
-tool/armor. → confirm or leave.
+**✅ Item mix RESOLVED (human):** was 3 weapons — now **A2 weapon (heirloom blade)
+· B1 weapon (dueling blade) · C2 craft-tool (Tōsai's chisel, an equippable craft
+accessory)**. Names: A2 enforcer **Kumagorō**, C2 master **Tōsai** (both
+agent-picked, vetoable).
 
 ### LOCKED so far
 - **The branch = a PATH/ALLY unlock.** Each of the three R7 answers
@@ -190,8 +190,8 @@ micro-faction / recipes). Below = my proposals; ⚠ = open call for the human.
   house's shame. *(existing char)*
 - **Quest:** uncover the truth of Sadamune's ruinous venture (the Inherited Debt's
   origin) → trace it to who's still bleeding the house.
-- **Unique character (new):** the **debtor's enforcer** — a minor antagonist
-  (needs a name). ⚠
+- **Unique character (new):** the **debtor's enforcer** — a minor antagonist,
+  named **Kumagorō** (a hired brute; agent-picked, vetoable).
 - **Unique location (new node):** the enforcer's **hideout** (e.g. an abandoned
   mill / a moneylender's back-room).
 - **Unique enemy:** the enforcer — a **repeatable grindable** foe at the hideout.
@@ -214,8 +214,9 @@ micro-faction / recipes). Below = my proposals; ⚠ = open call for the human.
 
 ### C2 · "The Late Student" (HUMBLE) — ⏱ medium(→hours w/ the grind)
 - **Quest-giver:** **the reclusive master** — he seeks YOU out (word of the man who
-  does the work). *(new char — needs a name)* ⚠
-- **Unique character (new):** the retired **master artisan**.
+  does the work). Named **Tōsai** (a retired master's art-name; agent-picked,
+  vetoable) — a metal-inlay / fittings master.
+- **Unique character (new):** the retired **master artisan Tōsai**.
 - **Unique location (new node):** the master's **workshop / hermitage**.
 - **NO micro-faction** (that was a misread of C3). Instead → a unique
   **activity / craft-skill / grind (or a little shop) AT the workshop**, whose
@@ -224,17 +225,23 @@ micro-faction / recipes). Below = my proposals; ⚠ = open call for the human.
 - **Unique recipes:** **2–3 unique recipes** (the master's techniques — narrow).
   **NOT a quest reward** — earned by grinding the workshop activity/skill (or bought
   at the little workshop shop as you level).
-- **Reward (quest):** **the master's piece** (a strong crafted equippable — the
-  graduation item). *(⚠ 3rd weapon — reflavour to a tool/armor?)*
+- **Reward (quest):** ✅ **NOT a weapon** (human: 3 weapons is too much) — **the
+  master's chisel** (Tōsai's burin/chisel), an equippable **craft-tool accessory**
+  that boosts crafting (quality/yield). Thematically the humble/craft path's
+  reward. So the item mix is now: A2 weapon · B1 weapon · **C2 craft-tool**.
 
-### ⚠ Key open question — Naoyuki's introduction timing
-Naoyuki is the canonical in-house RIVAL, currently **mentioned-but-unseen in T0**.
-Options:
-- **(a) B1-only intro (my lean):** Naoyuki gets his real face/onstage debut ONLY in
-  the ambitious (B1) path — the choice that activates the rivalry. In A2/C2 he
-  stays mentioned-only until later. Clean: the ambitious pick *earns* the rival.
-- **(b) General early-T1 intro:** Naoyuki debuts to everyone in early T1 regardless
-  of path (the succession seed); B1 just deepens him into an active rival.
+### ✅ RESOLVED — Naoyuki's introduction timing (human, 2026-07-03)
+Two distinct Naoyuki intro scenes:
+- **B1 (ambitious) path → an EARLY, UNIQUE rival-debut** fired **at the R7
+  capstone** (the tail of T0 — *early* vs his normal appearance). A special
+  rivalry-flavoured VN intro, **B1-exclusive** — the ambitious pick *earns* the
+  rival onstage sooner.
+- **A2 / C2 (or not picking B1) → his NORMAL VN intro at his normal rung** (early
+  T1 — the canonical succession-seed intro). This scene is **different** from the
+  B1 early-rival one.
+- **Build note:** two Naoyuki intro scenes gated apart — the R7-early one on
+  `r7-ambitious`, the normal one at his canonical T1 rung (⚠ confirm the exact rung
+  vs the T1 narrative). Don't double-fire (if B1, suppress/replace the normal one).
 
 ## Parking lot (tangents / parallel threads)
 
