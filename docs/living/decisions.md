@@ -1308,7 +1308,7 @@ Seven ADRs from the interactive agent-default audit
 ([`project/audit/reports/2026-07-03-agent-default-decision-audit.md`](../../project/audit/reports/2026-07-03-agent-default-decision-audit.md)):
 six T0-build plans were verified against git + source, then every place the
 agent had picked a "default" and shipped it was walked through with the human.
-Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opus-2026-07-03-v0.3.5-build-plan.md).
+Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../project/archive/opus-2026-07-03-v0.3.5-build-plan.md) (built + merged).
 
 ### D-118 ✅ — Economy: koku is pure standing (no income flywheel); rice storage must cost something
 - **created_date:** 2026-07-03
@@ -1452,9 +1452,8 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
   mechanically**, then split it to a design pass. A `grill-me` + `diverge` session
   (`project/brainstorms/2026-07-03-r7-capstone-branch.md`) settled both a **reusable
   pattern** (so T1–T5 capstones can be designed later) and the **concrete T0
-  design**. This ADR records the pattern as canon; the design plan
-  ([`opus-2026-07-03-r7-capstone-branch-design.md`](../plans/opus-2026-07-03-r7-capstone-branch-design.md))
-  carries the build detail.
+  design**. This ADR records the pattern as canon; the build-ready detail lives in
+  [`capstone-t0-branch.md`](../living/capstone-t0-branch.md) (the plan archived).
 - **Decision (human, 2026-07-03) — THE PATTERN (applies every tier):** at each
   tier's **capstone rung** (the final Phase-1 rung — R7 for T0), the existing rung
   VN beat's **values choice** becomes a **branch**: each option **keeps** its
@@ -1492,4 +1491,7 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
 - **Consequences:** the PRD gains a **Capstone-branches** section (§3.0.2) with the
   pattern + the full T0 9-board + ratings + the three chosen outcomes; the R7 ladder
   row's "branch design TBD" note resolves to this. Supersedes the "TBD" half of
-  **D-121**; relates **D-110** (rung beats), **D-119**. Build is post-v0.3.5.
+  **D-121**; relates **D-110** (rung beats), **D-119**. **⏳ Build DEFERRED to T1:**
+  the side quests are T1 content (R8→R15) and T1 isn't built (R6 — don't build
+  unreachable); the R7 *choice* already ships. Full build-ready spec graduated to
+  [`capstone-t0-branch.md`](../living/capstone-t0-branch.md); its plan is archived.

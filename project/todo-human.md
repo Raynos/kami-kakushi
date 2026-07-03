@@ -54,26 +54,20 @@
   `docs/living/fun-factor.md` were rippled with the new mechanics (rung-beats, housing,
   vendors-as-people). Skim to confirm they describe the game you played.
 
-**⭐ The agent-default audit — WALKED THROUGH 2026-07-03; two plans authored:**
+**⭐ The agent-default audit — WALKED THROUGH + BUILT + MERGED 2026-07-03:**
 
-- [ ] `project/audit/reports/2026-07-03-agent-default-decision-audit.md` — the
-  record: every T0-build plan verified (5 built, koku-economy only Ph1–4 — Ph5
-  split off), every agent-picked default walked through live. See its
-  **"Decisions recorded"** table for each outcome. The overrides + new work →
-  the build plan; the ratifications + PRD ripples → the cleanup-docs plan:
-- [ ] `docs/plans/opus-2026-07-03-v0.3.5-build-plan.md` — the **seven code
-  deltas** from the audit, **specifics all locked with you 2026-07-03** (rice
-  spoilage + upgradeable kura cap · Now-view append-only · Inventory→R3 · Quests
-  own tab @R5 · hearth→cook · chest→belongings-store · R5 wall-weapon token).
-  Buildable by a subagent. Read before I hand it off.
-- [ ] `docs/plans/opus-2026-07-03-r7-capstone-branch-design.md` — **✅ DESIGNED**
-  (grill-me + diverge, signed 2026-07-03): the R7 three-way (devoted/ambitious/
-  humble) each unlocks a unique T1 side quest → a unique equippable **item + a
-  separate unlock**. Picks: **A2** Buried Shame (Sadamune's blade + a grind enemy)
-  · **B1** Contest of Heirs (dueling blade + spar-grind + Naoyuki micro-faction) ·
-  **C2** Late Student (master's piece + unique recipes). Awaiting build (post-v0.3.5).
-  One PENDING flag: all 3 items are weapons — reflavour one? (brainstorm has the
-  full 9-option board + your rankings.)
+- ✅ `project/archive/opus-2026-07-03-v0.3.5-build-plan.md` — the **seven code
+  deltas** from the audit: **BUILT & MERGED** to main (`f2f5b99`, 591 tests green)
+  — rice spoilage + upgradeable kura cap · Now-view append-only · Inventory→R3 ·
+  Quests own tab @R5 · hearth→cook · chest→belongings-store · R5 wall-weapon token
+  · + the Issue-A home-reveal→R3 fix. Plan archived. *(The audit report itself —
+  walked through together — is signed off and cleared from this queue.)*
+- ✅ `docs/living/capstone-t0-branch.md` — the **R7 capstone**, DESIGNED &
+  documented (grill-me + diverge + ADR **D-125** + PRD §3.0.2 with the full 3×3
+  board). Picks: **A2** Buried Shame · **B1** Contest of Heirs · **C2** Late
+  Student. **Build DEFERRED to T1** — the side quests are T1 content (R8→R15) and
+  T1 isn't built yet (R6). The design plan is **archived**; this doc is the durable
+  build-ready spec for when T1 lands.
 - ✅ `project/archive/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc
   ripples: DONE & archived 2026-07-03** (Opus, per D-124). ADRs **D-118…D-124**
   in `decisions.md`; the PRD rippled across all six `docs/living/prd/*` files

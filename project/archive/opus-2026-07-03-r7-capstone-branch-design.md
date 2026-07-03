@@ -1,8 +1,15 @@
 # R7 capstone branch — design plan
 
-**Status:** ✅ DESIGNED (human-signed 2026-07-03) — **awaiting build**. Two build
-sections below: **§A Docs** (ripple the PRD + document the capstone *pattern*) and
-**§B Code** (build the T0 capstone + its content). Design settled via a `grill-me`
+> **📦 ARCHIVED 2026-07-03 — design DONE + graduated; build DEFERRED to T1.**
+> §A (docs) landed (ADR D-125 + PRD §3.0.2). §B (code) is **deferred** — the side
+> quests are T1 content (R8→R15) and T1 isn't built yet (R6). The settled design
+> graduated to durable canon:
+> [`../../docs/living/capstone-t0-branch.md`](../../docs/living/capstone-t0-branch.md)
+> (build it when T1 lands). This plan is kept for its process history.
+
+**Status:** ✅ DESIGNED (human-signed 2026-07-03); §A docs DONE; §B build DEFERRED
+to T1 (graduated to `docs/living/capstone-t0-branch.md`). Two build sections below:
+**§A Docs** (done) and **§B Code** (deferred). Design settled via a `grill-me`
 + `diverge` pass
 ([`project/brainstorms/2026-07-03-r7-capstone-branch.md`](../../project/brainstorms/2026-07-03-r7-capstone-branch.md)
 — the full 9-option board + the human's ratings live there). Source: D-121.

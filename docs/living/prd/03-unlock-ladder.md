@@ -225,9 +225,10 @@ RS-style grind. **That range is the point** (options need not be equal).
 | **A2 · "The House's Buried Shame" ✅** (4/5) — *item:* Sadamune's heirloom blade · *X:* a repeatable **enemy** (the enforcer Kumagorō) in a new **hideout** · ⏱ **med** | **B2 · "A Sponsor's Price"** (2/5) — *item:* the patron's blade · *X:* a **luxury / rare-goods shop** · ⏱ **med** | **C2 · "The Late Student" ✅** (3/5) — *item:* Tōsai's chisel *(craft-tool)* · *X:* a **craft activity/skill** whose levels unlock **2–3 recipes** · ⏱ **med** |
 | **A3 · "The Confidential Errand"** (4/5) — *item:* the Kurosawa-crest haori · *X:* a **quartermaster shop** + a trusted-discount perk · ⏱ **light** | **B3 · "A Name of Your Own"** (3/5) — *item:* a trophy charm · *X:* a farmable **named-beast lair** + a valley-rep perk · ⏱ **hours** | **C3 · "The Hands Remember"** (3/5) — *item:* a folk charm · *X:* a **servants' micro-faction** + minor labour perks · ⏱ **light–med** |
 
-Resolved build detail for the three chosen: the design plan
-([`opus-2026-07-03-r7-capstone-branch-design.md`](../../plans/opus-2026-07-03-r7-capstone-branch-design.md));
-the full option prose: the brainstorm. **ADR: D-125.**
+**⏳ The T0 capstone is DESIGNED but DEFERRED** — its side quests are **T1
+content** (R8→R15), and T1 isn't built yet, so the build waits (the R7 *choice*
+already ships; only its T1 consequences wait). Full build-ready spec:
+[`capstone-t0-branch.md`](../capstone-t0-branch.md). **ADR: D-125.**
 
 ---
 

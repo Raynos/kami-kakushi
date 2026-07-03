@@ -133,3 +133,24 @@ D-124); separately run the R7 capstone design pass.
 
 **Next:** (1) review + merge the v0.3.5 worktree branch to main; (2) push; (3) the
 R7 capstone build is post-v0.3.5.
+
+---
+
+## Update 4 — v0.3.5 MERGED; R7 capstone designed, deferred to T1 + graduated
+
+- **v0.3.5 merged to main** (`f2f5b99`, verify green) — the 7 tasks + the Issue-A
+  fix (home reveal → R3, adjusting D-111). Adversarially reviewed (591 tests, all
+  new tests RED-able); the two minor concerns (cook double-locus, non-binding chest)
+  accepted for T0.
+- **R7 capstone fully designed** (grill-me + diverge): the 3-way keeps its
+  regard/warmth + each unlocks a unique T1 side quest → item + a separate unlock.
+  Picks A2/B1/C2; ADR **D-125** (the reusable pattern for T1–T5) + PRD **§3.0.2**
+  (pattern + full 3×3 board + ratings).
+- **Capstone build DEFERRED to T1 (R6 catch):** T1 (R8→R15) doesn't exist —
+  `RankId` is `R0…R7`. Building the T1 side quests now = unreachable scaffolding, so
+  we stopped. The settled design **graduated to durable canon**
+  `docs/living/capstone-t0-branch.md`; the plan **archived**; roadmap T1 + D-125 +
+  PRD §3.0.2 all point to it. Build when T1 lands.
+
+**Next:** push the session (v0.3.5 + all the design docs are unpushed); clean the
+merged worktree; the capstone build waits for T1.

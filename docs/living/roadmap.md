@@ -138,6 +138,13 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 
 **Frame:** the tutorial's over and the estate is no longer in miniature — **the real grind.** The full household, its land, its debt and its arms all **scale into real depth** (D-052), and the mediocre-start protagonist becomes a genuinely *capable estate man*. Rungs **R8→R15** (≈8 new rungs, ~16 estate rungs total; resolves OQ-6) — they **continue the T0 R-ladder** (T0 was R0→R7), still estate-scale, before any village. This is where the **≥30-min/rung floor BINDS for the first time** (D-049, D-056 — T0 was floor-exempt); Phase-1 runs a provisional **~5–8h** (≈8 rungs × ≥40 min/rung; re-derives at the M6 6-tier ~28.5h rescale). The new pillar is **Arms 武威** — earned via recognised martial **deeds** + a seasonal-security judged result; its ascension **un-greys the next pillar silhouette + opens the Village (T2)**. Difficulty stays **humbling THROUGHOUT** within guardrails (winnable · soft-setback-only · no permanent loss · no stranding, D-061). The estate's domain is still **its own land** — the valley does NOT open until the Arms ascension fires at tier-end; the "first errands past the gate / valley in view" beat is the **T2 teaser shown at ascension**, not playable T1 content. **4 milestones** (vs the old coarse 3 — see the milestone-cut note).
 
+> **⏳ Also builds in T1 — the deferred T0-capstone branch quests.** The R7 choice
+> (devoted / ambitious / humble) ships in T0, but its three unique side quests (→ a
+> unique item + a separate unlock each) are **T1 content** and were deferred here
+> (T1 didn't exist at design time, R6). Full build-ready spec:
+> [`capstone-t0-branch.md`](capstone-t0-branch.md); pattern + board: **D-125** /
+> PRD §3.0.2.
+
 ### T1-M1 — The real grind opens *(the full ladder + the 3-lane flywheel)* — 🆕
 *the tutorial's off — eight full-estate rungs, the ≥30-min floor binds, the coin flywheel splits into three lanes, and the labour/skill web deepens.*
 
