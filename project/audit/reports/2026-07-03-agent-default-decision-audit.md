@@ -24,7 +24,7 @@ and the doc ripples are
 
 | # | Decision | Outcome | Routed to |
 |---|---|---|---|
-| Economy | koku Phase 5 (status tokens) | **split off** | build §8 (T0 = one token) + cleanup (T1–T5 ladder) |
+| Economy | koku Phase 5 (status tokens) | **split off** | build §7 (T0 = one R5 wall-weapon) + cleanup (T1–T5 ladder) |
 | Economy | rice store-vs-sell dominance | 🔀 make holding cost something | build §1 |
 | Economy | koku's role | ✅ ratified: pure standing | ADR |
 | IA | Quests' home | 🔀 own dedicated tab (6→7) | build §4 + cleanup PRD |
@@ -34,10 +34,10 @@ and the doc ripples are
 | Housing | hearth mechanic | 🔀 home the cook verb (off-plan → fixed) | build §5 |
 | Housing | chest mechanic | 🔀 real storage (off-plan → fixed) | build §6 |
 | Housing | morale/upkeep system | ✅ **no** — rest/satiety/storage only | ADR |
-| Housing | status-mirror | T0 = one home token; full ladder T1–T5 | build §8 + cleanup |
+| Housing | status-mirror | T0 = one home token (R5 wall-weapon); full ladder T1–T5 | build §7 + cleanup |
 | Story | invented NPC names | ✅ keep all three | ADR |
 | Story | beat stat rewards | ✅ keep the rare gift (+1 AGI R3) | ADR |
-| Story | R7 capstone weight | 🔀 make it matter mechanically | build §7 |
+| Story | R7 capstone weight | 🔀 make it matter mechanically | split → `opus-2026-07-03-r7-capstone-branch-design.md` (design first) |
 | Story | Naoyuki (heir) | ✅ mentioned-but-unseen | ADR |
 | Render | append-only five §6 choices | ✅ ratify all five | ADR |
 | Render | Now-view residual | 🔀 fix it too | build §2 |

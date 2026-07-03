@@ -1338,9 +1338,12 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
   again — the set is now **SEVEN**: Work · Map · Estate · Inventory · Character ·
   Combat · Quests. This **supersedes D-112's six-tab lock and reinstates D-037's
   intent**. The Quests glyph is **用** provisionally (a taste call, overridable).
-  **(2)** The **Inventory tab reveals at R3** (staggered), not R1 — ending the
-  Map+Estate+Inventory triple-reveal, which better honours the locked "nav reveal
-  one-tab-at-a-time" intent. **(3)** Ratified: House Influence (koku) stays on the
+  The **Quests tab reveals at R5** — its own quest-log beat (D-037's cadence),
+  **not** batched into the R3 combat wave (human call 2026-07-03, keeping the
+  reveal one-per-beat). **(2)** The **Inventory tab reveals at R3** (staggered),
+  not R1 — ending the Map+Estate+Inventory triple-reveal, which better honours the
+  locked "nav reveal one-tab-at-a-time" intent. So the cadence is: Work R0 · Map +
+  Estate R1 · Character R2 · Combat + Inventory R3 · Quests R5. **(3)** Ratified: House Influence (koku) stays on the
   **Estate** tab; the tab kanji glyphs (地図 · 家 · 蔵 · 己 · 武) are locked as the
   first cut.
 - **Why:** quests earned a legible home of their own (the DoD flagged this for the
@@ -1377,8 +1380,10 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
   remembered flag.
 - **Why:** the cast/rewards read well; a capstone that changes nothing undersells
   the T0→T1 seam.
-- **Consequences:** build-plan §7 adds the mechanical branch; the full beat prose
-  is still an R8 read. Relates **D-110**.
+- **Consequences:** split to its own design track —
+  [`opus-2026-07-03-r7-capstone-branch-design.md`](../plans/opus-2026-07-03-r7-capstone-branch-design.md)
+  (design + sign-off, THEN build); removed from the v0.3.5 build sweep. The full
+  beat prose is still an R8 read. Relates **D-110**.
 
 ### D-122 ✅ — Status tokens: T0 grants exactly ONE home token; the full ladder is T1–T5
 - **created_date:** 2026-07-03
@@ -1386,15 +1391,22 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
   built, and the housing status-mirror was deferred. The audit split Phase 5 out
   and asked about its scope.
 - **Decision (human, 2026-07-03):** T0 grants **exactly one** hard-won home
-  **status token** across R1→R7, displayed by the housing **status-mirror**. The
-  full surname → two-swords → gōshi ladder is deliberately **T1–T5 PRD planning**.
-  Verbatim: *"how much status can you get in T0 lol… Maybe somewhere in T0 from
-  R1→R7 you can get one 'status token' for your home. And the rest is just planning
-  for the PRD T1–T5."*
-- **Why:** scopes status accrual to the tier's reality; avoids over-building a
-  ladder T0 can't fill.
-- **Consequences:** build-plan §8 (the one-token slice + status-mirror); the full
-  ladder becomes a PRD multi-tier arc, unbuilt in T0. Relates **D-109**, **D-111**.
+  **status token**, displayed by the housing **status-mirror**. **Refined
+  (human, 2026-07-03): the token is a WEAPON MOUNTED ON THE WALL** — specifically
+  **the weapon you wield when you reach R5** (carrying-pole, or whatever you've
+  crafted/found), granted at **R5**. **Explicitly NOT a surname** — the surname is
+  the **T3 origin-story** beat (you already have one), and the mount must be *your*
+  weapon, never a random sword you have no skill with. The full surname →
+  two-swords → gōshi ladder stays **T1–T5 PRD planning**. Verbatim: *"how much
+  status can you get in T0 lol… you can get one 'status token' for your home. And
+  the rest is just planning for the PRD T1–T5."* + *"a weapon on the wall from one
+  of the weapons you have in your inventory… R5 seems fine."*
+- **Why:** scopes status accrual to the tier's reality; a wall-mounted weapon
+  reads your *actual* path (T0 has three weapon lines), never a title you haven't
+  earned.
+- **Consequences:** build-plan §7 (the R5 wall-weapon slice + status-mirror); the
+  full ladder becomes a PRD multi-tier arc, unbuilt in T0. Relates **D-109**,
+  **D-111**, **D-120**.
 
 ### D-123 ✅ — Render: the append-only engine ratified; the Now-view residual closes
 - **created_date:** 2026-07-03

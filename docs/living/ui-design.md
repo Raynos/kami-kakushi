@@ -430,7 +430,7 @@ sizes and widths **per surface intent**: dense chrome, relaxed prose; never scal
 
 The player UI is **seven tabs — Work · Map · Estate · Inventory · Character · Combat · Quests** — **revealed
 incrementally**, each appearing **only as its primary content unlocks** (Work R0 always · Map / Estate at
-**R1** · Character at **R2** · Combat / **Inventory** / Quests at **R3**). This *is* the "UI as progression"
+**R1** · Character at **R2** · Combat / **Inventory** at **R3** · Quests at **R5**). This *is* the "UI as progression"
 signature (§1): the UI **grows with the player**, never a slam of empty tabs — a fresh player starts on the
 single Work surface and *earns* each tab (the nav bar itself only appears once ≥2 tabs qualify, at R1 when
 **Map** joins). Reveal is **gated by real content** (D-055), never a pre-drawn shell.
@@ -440,7 +440,9 @@ single Work surface and *earns* each tab (the nav bar itself only appears once �
 > **Inventory tab is staggered to R3** (it used to join the R1 reveal alongside
 > Map + Estate — the triple-reveal was a slam; staggering it honours the "nav
 > reveal one-tab-at-a-time" intent). R1 now reveals just **Map + Estate**; **R3**
-> lights **Combat + Inventory + Quests** together (all combat-era content).
+> lights **Combat + Inventory** (the combat wave); **Quests reveals later at R5**
+> as its own quest-log beat (D-037's cadence — kept out of the R3 wave so each
+> reveal stays one-per-beat).
 
 **One capability lives in exactly ONE thematic tab** — the reorg that killed the duplicated-nav confusion
 (F100 / F107 / F108 / F109 / F110 / F112):
@@ -453,7 +455,7 @@ single Work surface and *earns* each tab (the nav bar itself only appears once �
 | **Inventory** | 蔵 | The **storehouse / bank** (carried vs stored, §5.12) **and** personal **belongings** (the deep-housing home + furniture, D-111) — holdings, not labour (F108). Staggered to **R3** (D-119). |
 | **Character** | 己 | **Attributes, skills, and the bestiary** (Skills / Crafting are *sections here*, not their own screens). |
 | **Combat** | 武 | Its **own top-level tab** — the fight loop + stance + the node watch — **not** folded into Character or Map (D-100). Unlocks when combat goes live (≈R3). |
-| **Quests** | 用 | Its **own top-level tab** again (D-119, reinstating D-037) — undertakings taken on (the crop-raider drive, etc.). Opens with combat (**R3**). *(Glyph 用 is provisional — a taste call, overridable.)* |
+| **Quests** | 用 | Its **own top-level tab** again (D-119, reinstating D-037) — undertakings taken on (the crop-raider drive, etc.). Reveals at **R5** — its own quest-log beat, kept out of the R3 combat wave (D-037's cadence). *(Glyph 用 is provisional — a taste call, overridable.)* |
 
 The **rung lives in the HEADER, not a tab** (F106 / F116; §5.4). The nav-bar *presentation* of this set is
 §5.6; the reveal is the same order in both desktop and mobile chrome (§8).
@@ -672,7 +674,7 @@ itself `▶ auto · to the end` and warns *on its own face* that a loss costs co
 
 The "UI as progression" chrome — the presentation of the seven-tab IA (§4.9, D-112 → D-119). Tabs are
 **revealed in order** as their content unlocks: **Work** (R0, always) → **Map · Estate** (R1) → **Character**
-(R2) → **Combat · Inventory · Quests** (R3). The bar itself only appears once **≥2 tabs qualify** (at R1, when
+(R2) → **Combat · Inventory** (R3) → **Quests** (R5). The bar itself only appears once **≥2 tabs qualify** (at R1, when
 Map joins) — before that the game is one calm Work column. **Desktop:** a row/rail of ink labels (English +
 kanji — *Work* / *Map 地図* / *Estate 家* / *Inventory 蔵* / *Character 己* / *Combat 武* / *Quests 用*);
 active = `--ai` text + a `--shu` seal
@@ -1028,8 +1030,8 @@ gains exactly one new system — never two at once.
 > **Reconcile with the seven-tab IA (§4.9, D-112 → D-119).** These notes are the per-TIER/RUNG *content-reveal delight
 > beats* — the design intent for **what** unlocks and **when**. They pre-date the tab reorg, so read the
 > **tab homes** through §4.9: **Skills / Crafting are sections of the Character tab** (not their
-> own screens), but **Quests is its OWN tab again** (D-119); **Combat / Inventory / Quests are the R3 tabs**;
-> **Map / Estate** are the R1 tabs;
+> own screens), but **Quests is its OWN tab again** (D-119), revealed at **R5**;
+> **Combat / Inventory are the R3 tabs**; **Map / Estate** are the R1 tabs;
 > **navigation lives only on the Map tab** (the "Walk on 道" strip at the foot of Work is **removed**, F107);
 > and the **House-Influence 家威 panel lives in the Estate tab**. The rung ladder is the header element (§5.4),
 > not a screen. Where a bullet below names an older screen/home, §4.9 governs.

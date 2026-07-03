@@ -178,7 +178,8 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   reason the grind is worth grinding. Payoffs are warmth/allies/flavour, **never power** (§1.2 pillar 6),
   so they never break balance — the **home + belongings are PRESTIGE, not stat-gear** (concrete comfort —
   rest, satiety, storage — plus a *visible status-mirror* of your climb; in T0 that mirror is **one** hard-won
-  status token (the surname / a sword on the wall — D-122), the full surname → two-swords → gōshi ladder being
+  status token — **a weapon of yours mounted on the wall at R5** (the weapon you actually wield; never a
+  surname — that's the T3 origin beat — D-122), the full surname → two-swords → gōshi ladder being
   T1–T5 — never a combat lane, D-111/D-120), so "look how far you've come" is *shown*, not just titled.
 - **Lever:** **mechanical narrative > text narrative.** Let the *structural* reveal (new tier, new map,
   new political layer) carry the story; keep prose sparse (memory note: light folklore, open-ended).

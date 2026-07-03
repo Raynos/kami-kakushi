@@ -61,10 +61,14 @@
   split off), every agent-picked default walked through live. See its
   **"Decisions recorded"** table for each outcome. The overrides + new work →
   the build plan; the ratifications + PRD ripples → the cleanup-docs plan:
-- [ ] `docs/plans/opus-2026-07-03-v0.3.5-build-plan.md` — the **eight code
-  deltas** from the audit (rice storage cost · Now-view append-only · stagger
-  Inventory to R3 · Quests own tab · hearth→cook · chest→storage · R7 capstone
-  matters · koku Ph5 one-token slice). Read before I build.
+- [ ] `docs/plans/opus-2026-07-03-v0.3.5-build-plan.md` — the **seven code
+  deltas** from the audit, **specifics all locked with you 2026-07-03** (rice
+  spoilage + upgradeable kura cap · Now-view append-only · Inventory→R3 · Quests
+  own tab @R5 · hearth→cook · chest→belongings-store · R5 wall-weapon token).
+  Buildable by a subagent. Read before I hand it off.
+- [ ] `docs/plans/opus-2026-07-03-r7-capstone-branch-design.md` — **STUB**: the
+  **R7 capstone branch** split out of the build plan (your call) — needs a design
+  pass (grill-me/diverge → signed design) before any code. Not in the build sweep.
 - ✅ `project/archive/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc
   ripples: DONE & archived 2026-07-03** (Opus, per D-124). ADRs **D-118…D-124**
   in `decisions.md`; the PRD rippled across all six `docs/living/prd/*` files

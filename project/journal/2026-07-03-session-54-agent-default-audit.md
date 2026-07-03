@@ -86,3 +86,28 @@ editors, each verified by the parent:
   flagged for override; the docs are internally consistent at R3 for now.
 - Another agent was active concurrently (prd-drift.ts, ui-demos, a mobile-ui-demos
   plan) — staged only own files by explicit path.
+
+---
+
+## Update 2 — Quests→R5, build-plan sub-decisions locked, R7 capstone split out
+
+Human review of the build plan. Resolved:
+- **Quests tab → R5** (not R3): the human chose the gentler cadence — R3 is now
+  just Combat + Inventory; Quests reveals as its own R5 beat (D-037's cadence).
+  Rippled through D-119, ui-design (§4.9/§5.6/reconcile note), and prd/03 (the §3.0
+  cadence line, the R3 + R5 rung rows, the §3.5 nav table). *(Supersedes the
+  Update-1 landmine that had it at R3.)*
+- **Build-plan design sub-decisions LOCKED** (AskUserQuestion): #1 rice = spoilage
+  on ALL rice (carried + stored) **+** an upgradeable kura capacity cap; #6 chest =
+  belongings-only modest buffer (not rice/goods); #7 (now the status token) = a
+  **weapon mounted on the wall** — the weapon you wield at **R5** — NOT a surname
+  (that's the T3 origin beat). Rippled into D-122 + fun-factor.
+- **R7 capstone branch SPLIT OUT** of the build plan into its own STUB design plan
+  (`opus-2026-07-03-r7-capstone-branch-design.md`) — the human wants it designed
+  first (grill-me/diverge → signed design), so the remaining **seven** locked
+  deltas can be built by a subagent in parallel. Build plan renumbered 8→7 tasks
+  (the old §8 status-token is now §7; the Update-1 "build-plan §8" pointer above is
+  stale — it's §7 now). D-121 repointed to the new design plan.
+
+**Next:** hand the seven-task v0.3.5 build plan to a build subagent (Opus, per
+D-124); separately run the R7 capstone design pass.
