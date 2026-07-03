@@ -28,13 +28,32 @@ the first cut and wrote the strategy as a durable brainstorm.
 - N7 (taste-bar enforcement) confirmed parked with its re-plan trigger =
   this TODO closing.
 
+## Human steers received (turn 2) — recorded in the brainstorm §2/§8/§9
+
+- **Corpus = `2026-07-02-playtest.md` ONLY** (the first and only playtest);
+  the wider-docs sweep is struck.
+- **Lock the top layer** — approved. AGENTS.md taste register — approved.
+- **Rewrite must be lightweight/culled**: high-level taste hints, never
+  100s of lines; the corpus holds the examples. New brainstorm **§9**:
+  snapshot-class declaration, displacement editing, budgets
+  (taste.md ≤150 / ui-design.md ≤400, targets ~110/~300 on the snapshot
+  gate's 1.33× headroom ratio), and the hard lock — one
+  `verify-doc-budgets.ts` as BOTH a 13th verify gate and a standalone
+  pre-commit call outside `SKIP_VERIFY` (docs-only commits are exactly
+  when SKIP_VERIFY is used, so the standalone rung closes that loophole);
+  checks the index blob; `SKIP_DOCBUDGET=1` = human-blessed cap raise only.
+- Checklist **leaves taste.md** → becomes N7's generated per-surface
+  scorecard.
+
 ## Next intended steps
 
-1. Human reacts to the strategy (values strawman, touchstones, open forks).
-2. Step 1 of the redo: full-corpus independent re-derivation + substance
-   diff vs the current taste.md.
-3. Steps 2–4: grill-lock with the human → pyramid rewrite + ui-design
-   reconciliation + AGENTS.md register + N7 full rewrite → prediction test.
+1. Human answers the remaining lock inputs: values in their words,
+   touchstones confirmed/extended, THE reference idle-RPG named.
+2. Step 1 of the redo: playtest-only re-derivation + substance diff vs the
+   current taste.md, pre-culled to the §9 budgets.
+3. Steps 2–4: lock → pyramid rewrite + ui-design cull (+ generated
+   ui-tokens doc) + AGENTS.md register + `verify-doc-budgets` gate + N7
+   full rewrite → prediction test.
 
 ## Landmines
 
