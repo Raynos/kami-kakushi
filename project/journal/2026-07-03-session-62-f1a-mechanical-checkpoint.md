@@ -123,11 +123,39 @@ RED via the checkpoint gate (1/14 failed → commit would be blocked); a clean t
 emits no WARN; the DONE-not-archived WARN fires on a probe DONE plan without
 blocking (check exit 0). `npm run verify` green.
 
+## 5 · Phase 5 — the simplification payoff
+
+Converged the process layer on the ONE closed vocabulary + delegated the mechanicals:
+
+- **`session-brief.sh`** now classifies archivable as exactly `^(done|superseded)$`
+  (was a 6-word list incl. complete/completed/shipped/archived) — agreeing with
+  `checkpoint.ts`, which I tightened to `ARCHIVABLE = {DONE, SUPERSEDED}` (the
+  migration-parity synonyms are no longer needed). Two parsers, one vocabulary.
+- **`working-agreements.md` § Checkpoint** folded steps 3+4 into one: "run
+  `npm run checkpoint` (regenerates regions + graduates DONE plans), then finish the
+  judgment half" — net deletion of a step.
+- **`prepare-to-exit/SKILL.md`** gained one line naming `npm run checkpoint`.
+- **`.githooks/pre-commit`** retired its stale 7-gate roster comment → points at
+  `gates.ts` (the single source; that copy had drifted — §0.4).
+- **`docs/plans/README.md`** vocabulary section rewritten to the closed six tokens
+  (glyphs shown; archivable = DONE/SUPERSEDED), dropping the word-synonym list and
+  the "future convention" note (it landed). Removed the now-obsolete link to the
+  F1a plan (which archives itself next).
+- **KEPT** (complementary, own invariants): the reading-queue gate, the snapshot
+  line-cap, the journal gate.
+- **WARN→block promotion of DONE-not-archived is DEFERRED to the human** — left as
+  WARN; I did not promote it (their call after a clean soak week).
+
+**DoD met:** a `✅ LOCKED` probe tags **▶️ active** in the brief (not DONE — the
+exact §0.6 glyph mis-tag, fixed); the agreements/skill/hook diffs are net deletions;
+`npm run verify` green (14 gates).
+
 ## Next intended steps
 
-1. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
-   trim working-agreements / prepare-to-exit / pre-commit roster comment. Then
-   flip F1a to DONE + let checkpoint auto-archive itself.
+1. **F1a completion:** flip this plan's own Status to `✅ DONE` and run
+   `npm run checkpoint` so it AUTO-ARCHIVES itself to `project/archive/` (the
+   cleanest dogfood of Phase 2). Its reading-queue entry stays, path-rewritten +
+   tagged. Commit. Then F1a is done — F1b is a SEPARATE later builder.
 
 ## Landmines
 

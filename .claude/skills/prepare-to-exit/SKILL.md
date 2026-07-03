@@ -11,6 +11,10 @@ Run the repo's **Checkpoint** ritual, then report. The steps are the single sour
 (commit-by-path → journal → snapshot → reading-queue → push → confirm, plus the safety rules). Read it fresh —
 it may have grown a step — and execute in order; don't paraphrase or shortcut.
 
+The snapshot/queue step is now half mechanical: **`npm run checkpoint`** regenerates the derivable process-doc
+regions (gate roster, active-plans list) and graduates any DONE plan to `project/archive/` — run it, then finish
+the judgment half by hand (snapshot prose, clearing engaged reading-queue items).
+
 Two guardrails up front:
 - **Don't kill running subagents / workflows to exit.** A checkpoint resumes *committed* state; it doesn't tear
   down live work (results notify the loop when done). Leave it running (note it in-flight); `TaskStop` only if

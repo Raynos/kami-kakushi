@@ -57,9 +57,9 @@ export const CLOSED_TOKENS = [
   'SUPERSEDED',
 ] as const;
 export type ClosedToken = (typeof CLOSED_TOKENS)[number];
-// Only DONE / SUPERSEDED graduate. (Legacy synonyms are tolerated by the lenient
-// classifier for session-brief parity until every live plan is migrated.)
-const ARCHIVABLE = new Set(['DONE', 'SUPERSEDED', 'COMPLETE', 'COMPLETED', 'SHIPPED', 'ARCHIVED']);
+// Only DONE / SUPERSEDED graduate out of docs/plans/. This set MUST agree with
+// session-brief.sh's archivable match — both parse the SAME closed vocabulary.
+const ARCHIVABLE = new Set<string>(['DONE', 'SUPERSEDED']);
 
 export interface PlanStatus {
   token: string; // the leading token, UPPER-CASE, hyphen-joined ("IN-PROGRESS")

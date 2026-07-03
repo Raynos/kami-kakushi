@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Pre-commit gate (op-model v2 FINAL, Workstreams A+B — 2026-06-29):
-#   1. Run the FULL `npm run verify` (~3s measured) so a commit can never be red.
-#      verify = tsc + eslint + prettier + vitest + verify-content + gen:docs --check + pacing:check.
+#   1. Run the FULL `npm run verify` (~5s measured) so a commit can never be red.
+#      The gate roster is owned by src/scripts/gates.ts (the single source — do NOT
+#      re-list it here; that copy drifted). `npm run checkpoint` regenerates the
+#      human-facing roster docs from it.
 #   2. Wrap it in a soft 5s-budget DRIFT timer: green (<4s) silent · amber (4–5s) note ·
 #      red (>5s) loud nudge — but NEVER block on time (a slow machine must not fail a commit).
 #      Every run appends a row to tmp/precommit-timings.tsv so drift is a readable curve.

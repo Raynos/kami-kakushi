@@ -30,39 +30,29 @@ steps awaiting or under execution. This directory holds **active plans only**.
 
 ## Status-line vocabulary
 
-Every plan opens with a `**Status:**` line, and the session-start brief
-(`src/scripts/session-brief.sh`) classifies each plan as **archivable** or
-**active** by reading the **leading status token** — the word(s) immediately
-after `Status:`, up to the first separator (`—`, `-`, `:`, `(`). The token is a
-**word**; a leading glyph (✅ 🔧 📋 …) is decoration, not signal. Prose may
-follow the token freely.
+Every plan opens with a `**Status:**` line whose **first token** comes from a
+**closed six-word vocabulary** (a leading glyph is decoration; the WORD is the
+machine token). Two parsers read that one token and MUST agree —
+[`../../src/scripts/checkpoint.ts`](../../src/scripts/checkpoint.ts) (the
+`checkpoint` verify gate) and the session-start brief
+(`src/scripts/session-brief.sh`) — so a plan whose token is **outside the six**
+turns `checkpoint --check` RED. Prose may follow the token freely.
 
-**The rule the brief enforces:** _only a leading DONE-class token is
-archivable._ A `✅` glyph anywhere, or the word "done" appearing **mid-line**
-(e.g. "…is DONE only when all ten land"), is **not** the signal — the parser
-keys off the first word after `Status:`, nothing else.
+The six tokens (canonical glyph shown) and what each means for archival:
 
-Canonical leading tokens and what each means for archival:
+- **`📋 PROPOSED`** — authored, pre-sign-off. → **active.**
+- **`✅ LOCKED`** — scope / decisions ratified, but **NOT built yet**. → **active.**
+  (The case the old substring matcher mis-tagged as done via the leading `✅` glyph.)
+- **`🔨 IN-PROGRESS`** — being built right now. → **active.**
+- **`✅ DONE`** — built **and** verified. → **archivable:** `npm run checkpoint`
+  graduates it to [`../../project/archive/`](../../project/archive).
+- **`🧊 PARKED`** — a placeholder, waiting on a trigger. → **active.**
+- **`❌ SUPERSEDED`** — replaced / retired. → **archivable** (same graduation).
 
-- **`DONE`** (and the synonyms `COMPLETE` / `SHIPPED`) — built **and** verified;
-  the work is finished. → graduate the plan to
-  [`../../project/archive/`](../../project/archive) (the brief nudges this).
-- **`SUPERSEDED`** / **`ARCHIVED`** — no longer the live plan (replaced or
-  retired). → also graduates out of `docs/plans/`.
-- **`LOCKED`** — decisions / scope / ordering **ratified**, but the work is
-  **NOT built yet**. → **stays active.** (This is the case the old substring
-  matcher mis-tagged as done because of the leading `✅` glyph.)
-- **`IN PROGRESS`** / **`ACTIVE`** / **`BUILDING`** — being built right now. →
-  active.
-- **`DRAFT`** / **`PROPOSED`** — authored but pre-sign-off. → active.
-- **`BLOCKED`** / **`PLACEHOLDER`** — parked, waiting on a trigger. → active.
-
-Anything that is not a leading DONE-class token (DONE / COMPLETE / SHIPPED /
-SUPERSEDED / ARCHIVED) is treated as **active** and left in `docs/plans/`. This
-`README.md` has no `Status:` line, so it is never classified as a plan. (A
-future machine-token convention with a single closed vocabulary is scoped in
-[`fable-process-F1a-mechanical-checkpoint.md`](fable-process-F1a-mechanical-checkpoint.md)
-§2.2; until it lands, this section is the authority.)
+Only a leading **DONE** or **SUPERSEDED** token is archivable — a `✅` glyph
+anywhere, or the word "done" appearing **mid-line** (e.g. "…is DONE only when all
+ten land"), is **not** the signal. This `README.md` has no `Status:` line, so it is
+never classified as a plan.
 
 Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
