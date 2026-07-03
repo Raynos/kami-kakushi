@@ -1,6 +1,6 @@
 # PRD ripple tooling — partial automation now (D-117 Phase 0)
 
-**Status: 📋 PROPOSED — awaiting human read; Ph1 BUILT 2026-07-03**
+**Status:** 📋 PROPOSED — awaiting human read; Ph1 BUILT 2026-07-03.
 (autonomously — report-only, touches no canon; Ph2–Ph4 await your read).
 
 > **Ph1 build notes (2026-07-03).** `prd:drift` is live (`npm run

@@ -1,6 +1,6 @@
 # Scenario save library — named, generated fixture saves (build plan)
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status:** 📋 PROPOSED — awaiting human read.
 **created_date:** 2026-07-03
 **Owns:** `src/fixtures/` (specs + generated saves + registry) ·
 `src/scripts/gen-fixtures.ts` (`fixtures:regen` / `fixtures:check`) ·

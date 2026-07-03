@@ -1,6 +1,6 @@
 # Narrative authoring format — story as text, registries generated
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status:** 📋 PROPOSED — awaiting human read.
 
 ## Who builds this — Fable or Opus?
 

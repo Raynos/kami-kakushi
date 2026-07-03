@@ -56,17 +56,46 @@ a gate is added to `gates.ts` without regenerating — the exact 11→12 bug, no
 impossible — and GREEN again on revert. `npm run verify` green (13 gates, ~7.6s;
 checkpoint joins GATES in Phase 4).
 
+## 2 · Phase 2 — plan tokens + auto-archive
+
+- **Token migration (§4.4):** migrated every live plan's `**Status:` line to the
+  six closed tokens (§2.2), preserving prose. F1a → `🔨 IN-PROGRESS` (being built);
+  F1b/F2/F4–F9 normalised `**Status: … **` → `**Status:** 📋 PROPOSED …`; F10
+  `⏸️ PLACEHOLDER` → `🧊 PARKED`; master-plan `🔧 IN PROGRESS` → `🔨 IN-PROGRESS`
+  (glyph reconciliation, human intent prose preserved; also fixed its in-prose
+  "DONE / COMPLETE / SHIPPED" archival note to the closed set's "DONE / SUPERSEDED").
+  F3 + emergent-node-actions were already canonical `📋 PROPOSED`.
+- **Co-agent shared-tree call:** the ui-demos plan had been committed to `main`
+  mid-build as `✅ BUILT + verified — awaiting R9`. `BUILT` is not a closed token,
+  and marking it `✅ DONE` would AUTO-ARCHIVE a co-agent's under-review plan. So I
+  mapped it to `🔨 IN-PROGRESS` (non-destructive: stays in `docs/plans/`), keeping
+  the "BUILT + verified … awaiting the human's R9" prose. Surfaced in the report.
+- **Auto-archive mover (§2.3–2.4)** in `checkpoint.ts`: a DONE/SUPERSEDED plan is
+  moved to `project/archive/`, every intra-repo markdown link that pointed at it is
+  recomputed (scanning check-md-links' roots), and its reading-queue backtick path
+  is rewritten + tagged `(archived — done)` — KEPT, never removed (D-089). No index
+  mutation by default; `--stage` opts into `git mv` + `git add` (own paths only).
+- **Strict token gate:** `checkpoint --check` now RED on any plan whose token is
+  outside the closed set (this comes online as a real gate in Phase 4). Green now
+  that all 14 plans are migrated.
+- Unit tests: `rewriteQueuePath` (tag once / idempotent / leaves others) +
+  `relinkTarget` (recompute / null / skip external / preserve #anchor). 26 tests.
+
+**DoD met (one command):** a throwaway fixture plan marked `✅ DONE` + one
+`npm run checkpoint` → `git`-detectable move to `project/archive/`, the queue
+backtick rewritten + tagged AND a markdown link relinked to `./archive/…`,
+`md-links` GREEN (76 files), zero trace after cleanup. `npm run verify` green.
+
 ## Next intended steps
 
-1. Phase 2 — migrate the process-wave plans' Status lines to the six closed
-   tokens (§2.2); build the auto-archive mover + link/queue path fixups + enable
-   strict token validation in `--check`. Handle the co-agent-owned ui-demos plan
-   (now committed `✅ BUILT + verified`) carefully — don't auto-archive it.
-2. Phase 3 — `--journal` scaffold + end-of-run report.
-3. Phase 4 — add `checkpoint` to GATES (14th); record `verify:budget` headroom.
-4. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
-   trim working-agreements / prepare-to-exit / pre-commit; retire the stale
-   roster comment. Then flip F1a to DONE + let checkpoint auto-archive itself.
+1. Phase 3 — `--journal "<topic>"` scaffold (create-only, next NN, refuses to
+   touch an existing file) + the end-of-run report.
+2. Phase 4 — add `checkpoint` to GATES (becomes the 14th); the gate-roster regions
+   self-update in the same commit; record `verify:budget` headroom;
+   DONE-not-archived = WARN.
+3. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
+   trim working-agreements / prepare-to-exit / pre-commit roster comment. Then
+   flip F1a to DONE + let checkpoint auto-archive itself.
 
 ## Landmines
 

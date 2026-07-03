@@ -1,6 +1,6 @@
 # The mechanical checkpoint — generate, don't duplicate, applied to PROCESS
 
-**Status:** 📋 PROPOSED — awaiting human read; **no code changed yet**. Applies
+**Status:** 🔨 IN-PROGRESS — building now (Opus, session 62; routing + defaults ratified). Applies
 the repo's own "single source of truth — generate, don't duplicate" convention
 (AGENTS.md Conventions; the pattern `src/scripts/gen-docs.ts` already proves on
 game content) to the hand-maintained process layer, so a checkpoint becomes

@@ -1,6 +1,6 @@
 # Persona-bot balance sim — pacing-envelope assertions (T0)
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status:** 📋 PROPOSED — awaiting human read.
 
 ## Who builds this — Fable or Opus?
 

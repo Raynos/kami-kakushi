@@ -1,6 +1,6 @@
 # Real-play telemetry — attended-time instrumentation of the human's sessions
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status:** 📋 PROPOSED — awaiting human read.
 **created_date:** 2026-07-03
 **Owns:** the DEV-only attended-time sessionizer (`src/telemetry/`) · the
 localStorage telemetry ring · the per-rung attended-time report · the

@@ -1,6 +1,6 @@
 # Balance-tuning cockpit — live DEV sliders + export-diff (T0)
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status:** 📋 PROPOSED — awaiting human read.
 
 ## Who builds this — Fable or Opus?
 

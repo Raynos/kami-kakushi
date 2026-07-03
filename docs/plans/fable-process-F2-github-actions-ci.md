@@ -1,6 +1,6 @@
 # GitHub Actions CI — parallel jobs, ~5-min budget, fast-lint groundwork
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status:** 📋 PROPOSED — awaiting human read.
 
 ## Who builds this — Fable or Opus?
 

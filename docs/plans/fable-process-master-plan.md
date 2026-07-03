@@ -1,11 +1,11 @@
 # Process-wave master plan — build order + merge map (F1–F10)
 
-**Status: 🔧 IN PROGRESS (the wave, F1–F10) — the ordering + merge calls are
+**Status: 🔨 IN-PROGRESS (the wave, F1–F10) — the ordering + merge calls are
 LOCKED (ratified in-session, human, 2026-07-03): the F-renames, the F1a/F1b
 split, and the ripple edits landed the same day. Build starts per this order.
 This plan is DONE only when all ten F-plans land; until then it is the live
-ordering map — do NOT archive it. Its leading token stays 🔧 IN PROGRESS, never
-a DONE-class token: only a leading DONE / COMPLETE / SHIPPED token is archivable,
+ordering map — do NOT archive it. Its leading token stays 🔨 IN-PROGRESS, never
+a DONE-class token: only a leading DONE / SUPERSEDED token is archivable,
 so the mid-line word "DONE" above is not the signal (see
 [`README.md`](README.md) → Status-line vocabulary).**
 **created_date:** 2026-07-03

@@ -18,8 +18,17 @@
 // git log, no mtimes, no network — momentum data (recent commits) stays in
 // session-brief.sh, which runs at session time and is never committed.
 
-import { readFileSync, writeFileSync, readdirSync, realpathSync } from 'node:fs';
-import { join } from 'node:path';
+import {
+  readFileSync,
+  writeFileSync,
+  readdirSync,
+  realpathSync,
+  renameSync,
+  existsSync,
+  statSync,
+} from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { join, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GATES } from './gates';
 import { spliceRegion, wrap } from './gen-regions';
@@ -29,6 +38,8 @@ const abs = (rel: string): string => join(repoRoot, rel);
 const read = (rel: string): string => readFileSync(abs(rel), 'utf-8');
 
 const PLANS_DIR = 'docs/plans';
+const ARCHIVE_DIR = 'project/archive';
+const QUEUE = 'project/todo-human.md';
 
 // --- plan status tokens (the small convention change, §2.2) -------------------
 // A closed vocabulary: a plan's `**Status:**` line MUST lead with one of these
@@ -89,11 +100,8 @@ function genGateRoster(): string {
  *  parsed status tokens. Archivable (DONE/SUPERSEDED) plans are excluded — they
  *  belong in project/archive/. Sorted by filename for determinism. */
 function genActivePlans(): string {
-  const files = readdirSync(abs(PLANS_DIR))
-    .filter((f) => f.endsWith('.md') && f !== 'README.md')
-    .sort();
   const rows: string[] = [];
-  for (const f of files) {
+  for (const f of planFiles()) {
     const st = parseStatusToken(read(`${PLANS_DIR}/${f}`));
     if (st?.archivable) continue; // graduated — lives in project/archive/ now
     const tok = st ? st.token : '—';
@@ -101,6 +109,168 @@ function genActivePlans(): string {
   }
   const head = `**${rows.length} active plans** (generated — done / superseded plans graduate to [\`../../project/archive/\`](../../project/archive)):`;
   return `${head}\n\n${rows.join('\n')}`;
+}
+
+// --- plan listing + token validation ------------------------------------------
+
+/** Every real plan file in docs/plans/ (README is exempt — it documents the dir). */
+function planFiles(): string[] {
+  return readdirSync(abs(PLANS_DIR))
+    .filter((f) => f.endsWith('.md') && f !== 'README.md')
+    .sort();
+}
+
+/** Plans whose `**Status:` token is missing or outside the closed vocabulary
+ *  (§2.2). Loud in write mode, RED in --check — the "token parses" gate. */
+function invalidTokenPlans(): Array<{ file: string; token: string | null }> {
+  const bad: Array<{ file: string; token: string | null }> = [];
+  for (const f of planFiles()) {
+    const st = parseStatusToken(read(`${PLANS_DIR}/${f}`));
+    if (!st || !(CLOSED_TOKENS as readonly string[]).includes(st.token)) {
+      bad.push({ file: `${PLANS_DIR}/${f}`, token: st?.token ?? null });
+    }
+  }
+  return bad;
+}
+
+// --- auto-archive done plans (§2.3–2.4) ---------------------------------------
+// A plan whose token is DONE/SUPERSEDED graduates OUT of docs/plans/. We move the
+// file, recompute every intra-repo markdown link that pointed at it, and rewrite
+// its backticked path in the reading queue (tagging it, never removing it — D-089
+// removal is human-engagement judgment, §2.4). Nothing is staged unless --stage.
+
+// Mirror check-md-links' SCAN_ROOTS so a moved plan never leaves a dead link.
+const LINK_SCAN_ROOTS = [
+  'AGENTS.md',
+  'CLAUDE.md',
+  'README.md',
+  'docs',
+  '.claude',
+  'project/status',
+  'project/human-in-the-loop',
+  'project/todo-human.md',
+];
+const LINK_EXCLUDE = new Set(['node_modules', '.git', 'dist', 'tmp', 'worktrees']);
+const LINK_RE = /\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+const LINK_SKIP = /^(https?:|mailto:|tel:|data:|#|<)/i;
+
+function walkMd(absPath: string, out: string[]): void {
+  if (!existsSync(absPath)) return;
+  const st = statSync(absPath);
+  if (st.isFile()) {
+    if (absPath.endsWith('.md')) out.push(absPath);
+    return;
+  }
+  for (const name of readdirSync(absPath)) {
+    if (LINK_EXCLUDE.has(name)) continue;
+    walkMd(join(absPath, name), out);
+  }
+}
+
+function scannedMdFiles(): string[] {
+  const out: string[] = [];
+  for (const root of LINK_SCAN_ROOTS) walkMd(abs(root), out);
+  // the per-dir project/<dir>/README.md indexes, like check-md-links
+  const projAbs = abs('project');
+  if (existsSync(projAbs)) {
+    for (const name of readdirSync(projAbs)) {
+      const readme = join(projAbs, name, 'README.md');
+      if (existsSync(readme) && !out.includes(readme)) out.push(readme);
+    }
+  }
+  return out;
+}
+
+/** If `target` (a markdown link from `fromAbs`) points at `oldAbs`, return the
+ *  new link target (relative to the file) pointing at `newAbs`; else null.
+ *  Preserves any #anchor / ?query suffix. Pure — path math only. */
+export function relinkTarget(
+  fromAbs: string,
+  target: string,
+  oldAbs: string,
+  newAbs: string,
+): string | null {
+  if (LINK_SKIP.test(target)) return null;
+  const pathPart = target.split('#')[0]!.split('?')[0]!;
+  if (!pathPart) return null;
+  if (resolve(dirname(fromAbs), pathPart) !== oldAbs) return null;
+  const suffix = target.slice(pathPart.length);
+  let rel = relative(dirname(fromAbs), newAbs);
+  if (!rel.startsWith('.')) rel = './' + rel;
+  return rel + suffix;
+}
+
+/** Rewrite the backticked plan path in the reading queue to its archive path and
+ *  tag it `(archived — done)` — KEEP the entry (D-089: removal is human judgment).
+ *  Pure string transform. Idempotent (won't double-tag). */
+export function rewriteQueuePath(queue: string, oldRel: string, newRel: string): string {
+  const escaped = oldRel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return queue.replace(
+    new RegExp('`' + escaped + '`(?!\\s*\\(archived)', 'g'),
+    `\`${newRel}\` (archived — done)`,
+  );
+}
+
+interface Move {
+  oldRel: string;
+  newRel: string;
+  oldAbs: string;
+  newAbs: string;
+}
+
+/** Move every archivable plan and fix up links + queue. Returns what it did.
+ *  With `stage`, records the moves/edits in the index (git mv + git add) — else
+ *  writes to disk only, staging nothing (shared-tree default). */
+function archiveDonePlans(stage: boolean): { moves: Move[]; relinked: string[]; queued: boolean } {
+  const moves: Move[] = [];
+  for (const f of planFiles()) {
+    const st = parseStatusToken(read(`${PLANS_DIR}/${f}`));
+    if (!st?.archivable) continue;
+    moves.push({
+      oldRel: `${PLANS_DIR}/${f}`,
+      newRel: `${ARCHIVE_DIR}/${f}`,
+      oldAbs: abs(`${PLANS_DIR}/${f}`),
+      newAbs: abs(`${ARCHIVE_DIR}/${f}`),
+    });
+  }
+  if (moves.length === 0) return { moves, relinked: [], queued: false };
+
+  // 1) move the files
+  for (const m of moves) {
+    if (stage) execFileSync('git', ['mv', m.oldRel, m.newRel], { cwd: repoRoot });
+    else renameSync(m.oldAbs, m.newAbs);
+  }
+  // 2) rewrite intra-repo markdown links pointing at any moved plan
+  const relinked: string[] = [];
+  for (const fileAbs of scannedMdFiles()) {
+    const before = readFileSync(fileAbs, 'utf-8');
+    let after = before;
+    for (const m of moves) {
+      after = after.replace(LINK_RE, (whole, tgt: string) => {
+        const next = relinkTarget(fileAbs, tgt, m.oldAbs, m.newAbs);
+        return next === null ? whole : whole.replace(tgt, next);
+      });
+    }
+    if (after !== before) {
+      writeFileSync(fileAbs, after, 'utf-8');
+      relinked.push(relative(repoRoot, fileAbs));
+      if (stage) execFileSync('git', ['add', '--', relative(repoRoot, fileAbs)], { cwd: repoRoot });
+    }
+  }
+  // 3) rewrite the reading-queue backticked path (keep + tag)
+  let queued = false;
+  const queueAbs = abs(QUEUE);
+  if (existsSync(queueAbs)) {
+    const before = readFileSync(queueAbs, 'utf-8');
+    let after = before;
+    for (const m of moves) after = rewriteQueuePath(after, m.oldRel, m.newRel);
+    if (after !== before) {
+      writeFileSync(queueAbs, after, 'utf-8');
+      queued = true;
+      if (stage) execFileSync('git', ['add', '--', QUEUE], { cwd: repoRoot });
+    }
+  }
+  return { moves, relinked, queued };
 }
 
 // --- region wiring ------------------------------------------------------------
@@ -132,24 +302,51 @@ const targetFiles = [...new Set(REGIONS.map((r) => r.file))];
 
 function runCli(): void {
   const check = process.argv.includes('--check');
+  const stage = process.argv.includes('--stage');
 
   if (check) {
-    const stale: string[] = [];
-    for (const file of targetFiles) {
-      const { before, after } = regenerateFile(file);
-      if (before !== after) stale.push(file);
-    }
-    if (stale.length) {
-      console.error('  X checkpoint --check FAILED: generated region(s) are stale:');
-      for (const f of stale) console.error(`      ${f}`);
-      console.error('    Run `npm run checkpoint` to regenerate, then stage the files.');
+    // 1) token vocabulary — every plan must lead with a closed token (§2.2, §3.2)
+    const bad = invalidTokenPlans();
+    // 2) region freshness — the generated regions must byte-match a dry run
+    const stale = targetFiles.filter((f) => {
+      const { before, after } = regenerateFile(f);
+      return before !== after;
+    });
+    if (bad.length || stale.length) {
+      if (bad.length) {
+        console.error('  X checkpoint --check FAILED: plan status token(s) outside the closed set');
+        console.error(`    (${CLOSED_TOKENS.join(' · ')}):`);
+        for (const b of bad) console.error(`      ${b.file} — ${b.token ?? '(no **Status: line)'}`);
+      }
+      if (stale.length) {
+        console.error('  X checkpoint --check FAILED: generated region(s) are stale:');
+        for (const f of stale) console.error(`      ${f}`);
+        console.error('    Run `npm run checkpoint` to regenerate, then stage the files.');
+      }
       process.exit(1);
     }
-    console.log(`  ✓ checkpoint --check: ${targetFiles.length} doc(s) have up-to-date regions.`);
+    console.log(
+      `  ✓ checkpoint --check: ${targetFiles.length} region-doc(s) fresh; ${planFiles().length} plan token(s) valid.`,
+    );
     process.exit(0);
   }
 
   // write mode
+  console.log('checkpoint — mechanical process-doc regeneration');
+
+  // Loud (never blocking) warn on any non-closed token — the write still proceeds.
+  const bad = invalidTokenPlans();
+  for (const b of bad) {
+    console.log(`  !! non-closed status token in ${b.file}: ${b.token ?? '(no **Status: line)'}`);
+  }
+
+  // Archive done/superseded plans FIRST (so the active-plans region excludes them).
+  const { moves, relinked, queued } = archiveDonePlans(stage);
+  for (const m of moves)
+    console.log(`  → archived ${m.oldRel} → ${m.newRel}${stage ? ' (staged)' : ''}`);
+  for (const f of relinked) console.log(`    relinked ${f}`);
+  if (queued) console.log(`    reading-queue path(s) rewritten + tagged (archived — done)`);
+
   const wrote: string[] = [];
   for (const file of targetFiles) {
     const { before, after } = regenerateFile(file);
@@ -158,12 +355,10 @@ function runCli(): void {
       wrote.push(file);
     }
   }
-
-  console.log('checkpoint — mechanical process-doc regeneration');
   if (wrote.length) {
-    console.log(`  wrote ${wrote.length} file(s):`);
+    console.log(`  wrote ${wrote.length} region-doc(s):`);
     for (const f of wrote) console.log(`    ~ ${f}`);
-  } else {
+  } else if (moves.length === 0) {
     console.log('  regions already up to date (no write).');
   }
   // Newest journal (a bare run just names it — scaffolding lands in Phase 3).

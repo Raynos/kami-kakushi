@@ -1,6 +1,6 @@
 # Taste-bar enforcement — self-scorecards against taste.md
 
-**Status: ⏸️ PLACEHOLDER — RE-PLAN TRIGGER FIRED (2026-07-03).**
+**Status:** 🧊 PARKED — placeholder; re-plan trigger FIRED (2026-07-03).
 `docs/living/taste.md` is now **LOCKED** (D-126: 4 values → touchstones →
 21 numbered principles, hard-capped 150 lines by the `doc-budgets` gate,
 prediction-tested 24/24 — receipts: the archived taste-redo plan + the

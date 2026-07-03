@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { parseStatusToken, CLOSED_TOKENS } from './checkpoint';
+import { resolve } from 'node:path';
+import { parseStatusToken, CLOSED_TOKENS, rewriteQueuePath, relinkTarget } from './checkpoint';
 
 // Proves the plan-status-token parser (F1a Phase 1). The RED-able risk it guards:
 // a naive substring match mis-reads a two-word "IN PROGRESS" as "IN", or tags a
@@ -76,5 +77,59 @@ describe('CLOSED_TOKENS', () => {
       'PARKED',
       'SUPERSEDED',
     ]);
+  });
+});
+
+// Proves the auto-archive fix-ups (F1a Phase 2). RED-able: a queue rewrite that
+// dropped the tag, double-tagged on re-run, or touched an unrelated path; a link
+// rewrite that mis-resolved a relative path or lost an #anchor.
+
+describe('rewriteQueuePath', () => {
+  const old = 'docs/plans/x.md';
+  const neu = 'project/archive/x.md';
+
+  it('rewrites the backticked path and tags it (archived — done)', () => {
+    const q = '- [ ] `docs/plans/x.md` — the X plan';
+    expect(rewriteQueuePath(q, old, neu)).toBe(
+      '- [ ] `project/archive/x.md` (archived — done) — the X plan',
+    );
+  });
+
+  it('is idempotent — a second run does not double-tag or re-move', () => {
+    const q = '- [ ] `docs/plans/x.md` — the X plan';
+    const once = rewriteQueuePath(q, old, neu);
+    const twice = rewriteQueuePath(once, old, neu);
+    expect(twice).toBe(once);
+  });
+
+  it('leaves an unrelated backticked path untouched', () => {
+    const q = '- [ ] `docs/plans/other.md` — a different plan';
+    expect(rewriteQueuePath(q, old, neu)).toBe(q);
+  });
+});
+
+describe('relinkTarget', () => {
+  const root = '/repo';
+  const fromAbs = resolve(root, 'project/todo-human.md');
+  const oldAbs = resolve(root, 'docs/plans/x.md');
+  const newAbs = resolve(root, 'project/archive/x.md');
+
+  it('recomputes a relative link that pointed at the moved plan', () => {
+    expect(relinkTarget(fromAbs, '../docs/plans/x.md', oldAbs, newAbs)).toBe('./archive/x.md');
+  });
+
+  it('returns null for a link that did not point at the moved plan', () => {
+    expect(relinkTarget(fromAbs, '../docs/plans/other.md', oldAbs, newAbs)).toBeNull();
+  });
+
+  it('skips external / anchor-only links', () => {
+    expect(relinkTarget(fromAbs, 'https://example.com', oldAbs, newAbs)).toBeNull();
+    expect(relinkTarget(fromAbs, '#section', oldAbs, newAbs)).toBeNull();
+  });
+
+  it('preserves an #anchor suffix on the rewritten link', () => {
+    expect(relinkTarget(fromAbs, '../docs/plans/x.md#open', oldAbs, newAbs)).toBe(
+      './archive/x.md#open',
+    );
   });
 });

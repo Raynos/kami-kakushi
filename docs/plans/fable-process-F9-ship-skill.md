@@ -1,6 +1,6 @@
 # /ship — the one-command release train (skill + script)
 
-**Status: 📋 PROPOSED — awaiting human read.** No code changed yet. One
+**Status:** 📋 PROPOSED — awaiting human read. No code changed yet. One
 user-invoked command — `/ship patch|minor` — runs the whole release train:
 bump → CHANGELOG → verify → isolated build → DEV-strip gate → deploy →
 **live-site version proof** → record → journal/snapshot ripple. Every piece

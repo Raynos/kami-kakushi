@@ -1,6 +1,6 @@
 # Plan — UI demos 07–09: the Moonlit × Lacquer fusion trio
 
-**Status: ✅ BUILT + verified (session 2026-07-03) — awaiting the human's R9
+**Status: 🔨 IN-PROGRESS — BUILT + verified (session 2026-07-03), awaiting the human's R9
 pick.** All three (07 Andon, 08 Night Seal, 09 Damascene Duet) built as full
 working `ui-demos/` variants, self-verified + orchestrator-QA'd (full arc, 0
 console errors, 0 overflow desktop + mobile, each thesis reads in 2s, each named
