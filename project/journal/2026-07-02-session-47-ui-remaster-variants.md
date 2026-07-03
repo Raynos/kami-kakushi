@@ -116,13 +116,26 @@ continue autonomously + queue everything for the morning read.
   reading queue links the live gallery + plan (D-089 lifecycle as usual).
 - All five variants committed; checkpoint pushed green.
 
+## 7 · Variant 06 — Washi & Ink, the faithful baseline (human-requested)
+
+The human (briefly up) asked for a sixth variant: the CURRENT v0.3.5 design
+kept faithfully — same palette/tokens/composition — everything UX-polished,
+as the comparison anchor against the five re-imaginings. Plan §3 gained the
+06 brief; builder spawned with `src/ui/styles.css` + `ui-design.md` (both
+read-only) as faithfulness sources, the game's own font subsets copied in,
+and live-game reference screenshots required. Returned clean (26-checkpoint
+QA green); independent review confirms: the same screen, visibly tidier,
+English-only. Its "github.io deploy is stale" flag was CHECKED AND REFUTED
+(the deployed bundle greps v0.3.5 — the cold-open's slow-reveal CTA just
+resists scripted clicks); noted here so no one "fixes" a healthy deploy.
+
 ## Next intended steps
 
-1. Human's morning read: the gallery (R9 verdicts per variant) + the plan.
+1. Human's morning read: the gallery — now SIX variants (R9 verdicts each).
 2. On the human's pick(s): decide the port path into `src/` — a proper D-075
    diverge of the chosen direction(s) against the real engine.
-3. Idea worth surfacing when picking: directions can BLEND (e.g. 04's
-   material + 01's rail readouts + 05's stitch meters).
+3. Idea worth surfacing when picking: directions can BLEND (e.g. 06's
+   faithfulness + 04's material + 05's stitch meters).
 
 ## Landmines
 

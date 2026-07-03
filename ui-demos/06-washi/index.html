@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kami-kakushi — Washi &amp; Ink</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app" class="shell">
+    <header id="titlebar" class="titlebar" aria-label="Game title">
+      <span class="game-title">
+        <span class="title-crest" aria-hidden="true">❖</span>
+        <span class="title-name">Kamikakushi</span>
+        <span class="title-roman">Spirited Away</span>
+      </span>
+      <span class="title-meta">Washi &amp; Ink · remaster study</span>
+    </header>
+    <div id="vitals" class="vitals paper" aria-label="House vitals"></div>
+    <nav id="nav" class="nav" hidden aria-label="Tabs"></nav>
+    <main id="workspace" class="workspace paper">
+      <section id="pane" class="work" aria-label="Actions"></section>
+      <aside id="logpanel" class="log" aria-label="The house remembers">
+        <div id="loghead" class="log-head"></div>
+        <div id="logscroll" class="log-lines">
+          <ol id="logfeed"></ol>
+        </div>
+        <div id="logfoot" class="log-filter-bar"></div>
+      </aside>
+    </main>
+    <footer class="appbar-footer" aria-label="App footer">
+      <span class="foot-meta">kamikakushi · ui-demos</span>
+      <span class="foot-meta">06 · washi &amp; ink — the faithful baseline</span>
+    </footer>
+  </div>
+  <div id="overlay"></div>
+  <div id="stagestrip" aria-label="Review stages"></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

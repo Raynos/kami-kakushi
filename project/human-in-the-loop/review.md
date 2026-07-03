@@ -256,6 +256,11 @@ errors, every stage/tab/moment) + an independent screenshot review. Plan:
 - [ ] **05 · Aizome** — indigo textile: log center-stage, sashiko stitch-line
   seams/meters, cloth-tag tabs, embroidered-crest ceremony. The most
   structurally adventurous of the five.
+- [ ] **06 · Washi & Ink** — the **faithful baseline** (human-requested):
+  the current v0.3.5 woodblock/paper language kept exactly — same tokens,
+  fonts, composition — with every component/interaction UX-polished
+  (uniform states, spacing rhythm, held seal ceremony, ledger market).
+  "My current game, its best self" — the comparison anchor for 01–05.
 
 - **Asking for:** which direction (or blend) becomes the real game's UI-v2 —
   and per variant: does it read as *this* game, a generation better?

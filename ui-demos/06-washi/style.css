@@ -1,0 +1,2235 @@
+/* ui-demos/06-washi — Washi & Ink: the faithful baseline.
+   The CURRENT game's woodblock/ink design language (src/ui/styles.css, ui-design.md,
+   D-018) kept faithfully — washi ground, sumi ink, one indigo second-ink, a rare
+   vermilion seal — with the improvement budget spent on POLISH: a strict 4px spacing
+   rhythm, one clear heading level per card, uniform hover/press/disabled states,
+   animated meters, ink-in log lines, and a properly held rank-up seal ceremony.
+   English-only: where the game stamps a kanji seal, this stamps a monogram letter. */
+
+/* ── self-hosted characterful faces (same files + fallback stacks as the game) ── */
+@font-face {
+  font-family: 'Shippori Mincho B1';
+  src: url('./fonts/shippori-mincho-b1-800-subset.woff2') format('woff2');
+  font-weight: 700 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Yuji Syuku';
+  src: url('./fonts/yuji-syuku-400-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ── PAPER (washi) — the dominant field; never pure #FFF ─────────────── */
+  --washi: #f3e9d2;
+  --washi-shade: #e7d9bc;
+  --washi-deep: #ddcfae;
+
+  /* ── INK (sumi) — ALL text, borders, rules; never #000 ──────────────── */
+  --ink: #26221e;
+  --ink-soft: #4a3f33;
+  --ink-faint: #7a6c59;
+  --ink-hint: #685b48; /* AA-passing muted text (the game's a11y-tuned lock-hint tone) */
+
+  /* ── INDIGO (ai) — the "second ink": structure & key numbers ────────── */
+  --ai: #27496d;
+  --ai-soft: #5c8b93;
+
+  /* ── VERMILION (shu) — the SEAL & the single most important CTA ─────── */
+  --shu: #d7402c;
+  --shu-deep: #a8301f;
+
+  /* ── BENI — secondary red: negatives, warnings ──────────────────────── */
+  --beni: #a93b47;
+  --beni-deep: #96303c; /* AA-tuned danger text (mirrors the game's .map-danger) */
+
+  /* ── EARTH secondaries — one per context ────────────────────────────── */
+  --kihada: #e0b23c;
+  --ochre: #c68a3e;
+  --ochre-deep: #855420; /* AA-tuned ochre TEXT (fills keep the bright ochre) */
+  --rokusho: #3e6958;
+  --gold: #b08d4f;
+
+  /* ── voice inks (speaker colours) — the game's hue families, each deepened
+     just enough to clear AA on the washi-shade log surface (polish pass) ── */
+  --voice-narrator: var(--ink-soft);
+  --voice-player: #33584a; /* rokusho family */
+  --voice-physician: var(--ai);
+  --voice-steward: #8f5f1e; /* ochre family */
+  --voice-arms: var(--beni-deep);
+  --voice-official: #806015; /* kihada family */
+  --voice-villager: #77602f; /* gold family */
+
+  /* ── semantic aliases ───────────────────────────────────────────────── */
+  --bg: var(--washi);
+  --surface: var(--washi-shade);
+  --surface-deep: var(--washi-deep);
+  --text: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-mute: var(--ink-faint);
+  --line: var(--ink);
+  --num-key: var(--ai);
+  --delta-pos: var(--ai);
+  --delta-neg: var(--beni);
+  --seal: var(--shu);
+
+  /* ── type (the game's stacks, self-hosted heads) ────────────────────── */
+  --font-head:
+    'Shippori Mincho B1', 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif;
+  --font-body:
+    'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', 'MS Mincho', serif;
+  --font-display: 'Yuji Syuku', 'Shippori Mincho B1', serif;
+  --font-num: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+
+  --fs-display: clamp(1.7rem, 4vw, 2.7rem);
+  --fs-h1: 1.3rem;
+  --fs-h2: 1.08rem;
+  --fs-h3: 1rem;
+  --fs-body: 1rem;
+  --fs-num-lg: 1.1rem;
+  --fs-small: 0.875rem;
+  --fs-micro: 0.75rem;
+  --lh-body: 1.6;
+  --lh-tight: 1.25;
+  --tracking-head: 0.02em;
+  --tracking-cap: 0.14em;
+
+  /* ── spacing & shape — the polish pass: a STRICT 4px rhythm ─────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius: 3px; /* square / lightly-cut — never pill-rounded */
+  --radius-seal: 6px;
+  --tap-min: 28px;
+
+  /* ── motion ─────────────────────────────────────────────────────────── */
+  --ease-ink: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-press: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 140ms;
+  --dur: 320ms;
+  --dur-beat: 620ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+html {
+  font-size: 90%; /* the game's compact baseline (F10) */
+}
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text);
+  background: var(--ink); /* the sumi ground — margins read as a woodblock border */
+  overflow: hidden; /* the shell owns scrolling; panes scroll internally */
+  font-feature-settings: 'palt' 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
+  font-weight: 800;
+  letter-spacing: var(--tracking-head);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+.numeric,
+.num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+.emoji {
+  filter: grayscale(0.55) sepia(0.25) saturate(0.65) brightness(0.96);
+}
+
+/* ── the paper substrate — warm, fibrous, handmade (feTurbulence grain) ── */
+.paper {
+  background-color: var(--washi);
+  background-image:
+    radial-gradient(120% 80% at 50% 0%, #fff8ea55, transparent 60%),
+    linear-gradient(0deg, #00000010, transparent 30%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-blend-mode: multiply;
+}
+
+/* ── woodblock key-block frame (triple rule + printed-plate offset) ────── */
+.frame {
+  position: relative;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 2px var(--line),
+    inset 0 0 0 4px var(--surface),
+    inset 0 0 0 5px var(--line),
+    0 2px 0 #00000018;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+}
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--ink-faint);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ── ink-brush divider ──────────────────────────────────────────────────── */
+.brush-rule {
+  height: 4px;
+  border: 0;
+  margin: var(--space-3) 0;
+  background: linear-gradient(90deg, var(--ink), var(--ink-soft));
+  -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* ═══ THE SHELL — fixed chrome, panes scroll internally, no page scrollbar ═══ */
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.shell > .titlebar,
+.shell > .vitals,
+.shell > .nav,
+.shell > .appbar-footer {
+  flex: 0 0 auto;
+}
+.shell > .workspace {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ── title bar (dark ink strip) ─────────────────────────────────────────── */
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-1) var(--space-4);
+  background: var(--ink);
+  color: var(--washi);
+}
+.game-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.title-crest {
+  color: var(--shu);
+  font-size: var(--fs-small);
+}
+.title-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-h2);
+  letter-spacing: 0.08em;
+}
+.title-roman,
+.title-meta {
+  font-family: var(--font-body);
+  font-size: var(--fs-micro);
+  color: var(--washi-deep);
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+}
+
+/* ── footer (dark ink strip, mirrors the titlebar) ──────────────────────── */
+.appbar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-1) var(--space-4);
+  background: var(--ink);
+  color: var(--washi-deep);
+  border-top: 2px solid var(--line);
+}
+.foot-meta {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+}
+
+/* ── header vitals — dense HUD chrome on a bokashi wash ─────────────────── */
+.vitals {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 2px solid var(--line);
+  /* the faint bokashi head wash (inset, so the paper grain shows through) */
+  box-shadow: inset 0 16px 26px -14px #5c8b9330;
+}
+.house-mark {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-h2);
+  color: var(--ai);
+  letter-spacing: 0.04em;
+  margin-right: var(--space-2);
+}
+.vital {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.vital .label {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.vital .value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-num-lg);
+  color: var(--num-key);
+  font-weight: 600;
+  min-width: 3ch;
+  text-align: right;
+}
+.vital.coin .value {
+  font-size: var(--fs-small);
+  min-width: 0;
+}
+.vital.clock {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  line-height: 1.2;
+}
+.season-tag {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ai);
+  font-size: var(--fs-h3);
+}
+.clock-date {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  color: var(--text-mute);
+}
+.vital.meterv {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  line-height: 1.15;
+}
+.vital.meterv .label {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+}
+.vital.meterv .bar-num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--ink-soft);
+}
+
+/* slim header bars (life = verdigris, body = teal; low → beni) */
+.bar {
+  position: relative;
+  height: 10px;
+  width: 110px;
+  background: var(--surface-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bar > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--ai-soft);
+  transition: width var(--dur) var(--ease-ink);
+}
+.bar.life > i {
+  background: var(--rokusho);
+}
+.bar.low > i {
+  background: var(--beni);
+}
+
+/* the rung head — top-right; hover detail card; summons when ready */
+.rung-head {
+  position: relative;
+  margin-left: auto;
+  align-self: center;
+}
+.rung-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  min-height: var(--tap-min);
+  background: transparent;
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: default;
+}
+.rung-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-small);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.rung-mini {
+  position: relative;
+  height: 6px;
+  width: 64px;
+  background: var(--surface-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rung-mini > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, var(--ochre), var(--gold));
+  transition: width var(--dur) var(--ease-ink);
+}
+.rung-head.ready .rung-trigger {
+  border-color: var(--shu);
+  cursor: pointer;
+  animation: summons-pulse 2.4s var(--ease-ink) infinite;
+}
+.rung-head.ready .rung-trigger:hover,
+.rung-head.ready .rung-trigger:focus-visible {
+  background: color-mix(in srgb, var(--shu) 10%, var(--washi));
+  outline: none;
+}
+.summons-cue {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-small);
+  color: var(--shu-deep);
+  white-space: nowrap;
+}
+@keyframes summons-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 #d7402c00;
+  }
+  50% {
+    box-shadow: 0 0 0 3px #d7402c2a;
+  }
+}
+.rung-card {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  z-index: 20;
+  min-width: 17rem;
+  padding: var(--space-3) var(--space-4);
+  background: var(--washi);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px #00000022;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-fast) var(--ease-ink);
+}
+.rung-head:hover .rung-card,
+.rung-head:focus-within .rung-card {
+  opacity: 1;
+  visibility: visible;
+}
+.rung-card .rc-now {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-small);
+  color: var(--ink);
+}
+.rung-card .rc-meter {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--text-2);
+  margin-top: var(--space-1);
+}
+.rung-card .rc-next {
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+  font-style: italic;
+  margin-top: var(--space-1);
+}
+
+/* ── nav — the "UI as progression" tab strip ────────────────────────────── */
+.nav {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--ink-faint);
+  background: var(--surface-deep);
+  animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+.nav-tab {
+  position: relative;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-ink),
+    background var(--dur-fast) var(--ease-ink);
+}
+.nav-tab:hover {
+  color: var(--ai);
+  background: #27496d12;
+}
+.nav-tab.on {
+  color: var(--ai);
+  border-bottom-color: var(--shu);
+}
+.nav-tab:active {
+  transform: translateY(1px);
+}
+.nav-tab:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+/* a newly-revealed tab announces itself: ink-in + one underline glint */
+.nav-tab.fresh {
+  animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+.nav-tab.fresh::after {
+  content: '';
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: -3px;
+  height: 3px;
+  background: var(--shu);
+  transform-origin: left center;
+  animation: tab-glint 1.4s var(--ease-ink) 1 both;
+}
+@keyframes tab-glint {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  35% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* ═══ WORKSPACE — work fold LEFT, the log fold RIGHT (⅓–46%, the hero) ═══ */
+.workspace {
+  display: flex;
+  gap: var(--space-4);
+  align-items: stretch;
+  padding: var(--space-4);
+  min-height: 0;
+  overflow: hidden;
+}
+.work {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-right: 2px; /* breathing room off the scrollbar */
+}
+.log {
+  flex: 0 1 42%;
+  min-width: 33.333%;
+  max-width: 46%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  background-image: linear-gradient(180deg, transparent, #5c8b9314 95%);
+  box-shadow:
+    inset 0 0 0 2px var(--line),
+    inset 0 0 0 4px var(--surface),
+    inset 0 0 0 5px var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-6);
+}
+/* sparse early game (R0): same two-fold spread — the emptiness is ma */
+
+/* ── the log (hero surface) ─────────────────────────────────────────────── */
+.log-head {
+  flex: 0 0 auto;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--ink-faint);
+}
+.log-head h2 {
+  font-size: var(--fs-h3);
+  color: var(--ai);
+}
+.log-lines {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  margin-right: calc(-1 * var(--space-6));
+  padding-right: var(--space-6);
+  -webkit-mask: linear-gradient(to bottom, transparent 0, #000 0.9em);
+  mask: linear-gradient(to bottom, transparent 0, #000 0.9em);
+}
+.log-lines ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ll {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px dotted #7a6c5944;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.ll:last-child {
+  border-bottom: 0;
+}
+.ll .lb {
+  flex: 0 0 auto;
+  width: 1.4em;
+  text-align: center;
+  opacity: 0.85;
+}
+.ll .lb.lb-dot {
+  color: var(--ink-faint);
+}
+.ll .lt {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ll.ink-in {
+  animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+/* channels */
+.ll.ll-reward,
+.ll.ll-combat {
+  color: var(--ink);
+}
+.ll.ll-system {
+  color: var(--ink-hint);
+  font-size: var(--fs-small);
+}
+.ll.ll-milestone {
+  color: var(--ink);
+  font-weight: 600;
+  background: linear-gradient(90deg, #c68a3e18, transparent 60%);
+  border-left: 3px solid var(--ochre);
+  padding-left: var(--space-2);
+}
+.ll.ll-milestone .lb {
+  color: var(--ochre-deep);
+}
+/* voices — the name is the who, the colour is reinforcement */
+.spk {
+  font-weight: 600;
+  opacity: 0.9;
+}
+.v-narrator {
+  color: var(--voice-narrator);
+}
+.v-player {
+  color: var(--voice-player);
+  font-weight: 600;
+}
+.v-physician {
+  color: var(--voice-physician);
+}
+.v-steward {
+  color: var(--voice-steward);
+}
+.v-arms {
+  color: var(--voice-arms);
+}
+.v-official {
+  color: var(--voice-official);
+}
+.v-villager {
+  color: var(--voice-villager);
+}
+.ll .gain {
+  color: var(--delta-pos);
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+.ll .loss {
+  color: var(--beni-deep);
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+/* coalesced repeats — the ×N tally badge */
+.xn {
+  display: inline-block;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  color: var(--shu-deep);
+  border: 1px solid #d7402c55;
+  border-radius: var(--radius);
+  padding: 0 var(--space-1);
+  margin-left: var(--space-1);
+  vertical-align: 0.08em;
+}
+.xn.pop {
+  animation: tally-flash 420ms var(--ease-ink);
+}
+.log-empty {
+  color: var(--ink-hint);
+  font-size: var(--fs-small);
+  font-style: italic;
+  padding: var(--space-3);
+  text-align: center;
+}
+
+/* the filter bar — one joined segmented control, pinned to the log foot */
+.log-filter-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  row-gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--ink-faint);
+}
+.lf {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-micro);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--ink-faint);
+  border-radius: 0;
+  margin-left: -1px;
+  padding: 3px var(--space-2);
+  min-height: 26px;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-ink),
+    color var(--dur-fast) var(--ease-ink);
+}
+.lf:first-child {
+  margin-left: 0;
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+.lf:last-child {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+.lf:hover {
+  color: var(--ai);
+  background: #27496d12;
+}
+.lf.on {
+  background: var(--ai);
+  color: var(--washi);
+  border-color: var(--ai);
+}
+.lf:active {
+  transform: translateY(1px);
+}
+.lf:focus-visible {
+  outline: none;
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 3px var(--ai);
+}
+/* the log's own A− / A+ reading-size stepper (the game's F74 affordance) */
+.log-stepper {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.lstep {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 2px 5px;
+  min-width: 22px;
+  min-height: 22px;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-ink);
+}
+.lstep:hover:not(:disabled),
+.lstep:focus-visible {
+  color: var(--ai);
+  border-color: var(--ink-faint);
+  outline: none;
+}
+.lstep:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 3px var(--ai);
+}
+.lstep:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ═══ CARDS — every work-pane slice is one soft washi card, one head level ═══ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px #00000014;
+  padding: var(--space-3) var(--space-4);
+}
+.card.reveal {
+  animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+.card-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.card-head h2 {
+  font-size: var(--fs-h3);
+  color: var(--ai);
+  flex: 1 1 auto;
+}
+.kicker {
+  font-family: var(--font-head);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+  color: var(--ink-hint);
+}
+.prose {
+  margin: 0 0 var(--space-2);
+  color: var(--text-2);
+}
+.prose.dim {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+.note {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--ink-hint);
+  font-style: italic;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--ink-soft);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: 1px var(--space-2);
+  white-space: nowrap;
+}
+.chip.hot {
+  color: var(--washi);
+  background: var(--ai);
+  border-color: var(--ai);
+}
+.chip.done {
+  color: var(--rokusho);
+  border-color: var(--rokusho);
+}
+.chip.kind {
+  font-family: var(--font-head);
+  letter-spacing: 0.1em;
+  color: var(--ochre-deep);
+  border-color: var(--ochre);
+}
+
+/* ── verbs — flat ink-outlined paper buttons, uniform states ────────────── */
+.verb {
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  color: var(--ink);
+  background: var(--washi);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-ink),
+    border-color var(--dur-fast) var(--ease-ink),
+    transform var(--dur-fast) var(--ease-press),
+    box-shadow var(--dur-fast) var(--ease-ink);
+}
+.verb:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ai) 10%, var(--washi));
+  border-color: var(--ai);
+}
+.verb:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+.verb:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+.verb:disabled {
+  color: var(--ink-faint);
+  border-color: var(--ink-faint);
+  background: transparent;
+  cursor: default;
+}
+/* the ONE vermilion seal CTA per view */
+.verb.primary {
+  font-family: var(--font-head);
+  font-weight: 800;
+  border-color: var(--shu);
+  box-shadow: inset 0 0 0 1px var(--shu);
+}
+.verb.primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--shu) 9%, var(--washi));
+  border-color: var(--shu-deep);
+  box-shadow: inset 0 0 0 1px var(--shu-deep);
+}
+.verb.primary:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px var(--shu),
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--shu);
+}
+.verb.primary:disabled {
+  border-color: var(--ink-faint);
+  box-shadow: inset 0 0 0 1px var(--ink-faint);
+}
+/* danger-tinted verb (the wolf) */
+.verb.dread {
+  border-color: var(--beni);
+  box-shadow: inset 0 0 0 1px var(--beni);
+}
+.verb.urgent {
+  border-color: var(--beni);
+}
+
+/* auto-repeat toggle */
+.auto {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--washi);
+  border: 1.5px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: 0 var(--space-2);
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--dur-fast) var(--ease-ink),
+    color var(--dur-fast) var(--ease-ink),
+    border-color var(--dur-fast) var(--ease-ink);
+}
+.auto:hover:not(:disabled) {
+  border-color: var(--ai);
+  color: var(--ai);
+}
+.auto.on {
+  color: var(--washi);
+  background: var(--ai);
+  border-color: var(--ai);
+}
+.auto.on:hover {
+  color: var(--washi);
+  background: var(--ai);
+  opacity: 0.92;
+}
+.auto:active {
+  transform: translateY(1px);
+}
+.auto:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+
+/* action rows — verb + yield readout + auto, one rhythm everywhere */
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.row .verb {
+  flex: 1 1 auto;
+}
+.row-info {
+  flex: 0 0 auto;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+  text-align: right;
+  white-space: nowrap;
+}
+.row-reason {
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+  font-style: italic;
+  margin: calc(-1 * var(--space-1)) 0 0 var(--space-1);
+}
+
+/* meters — track + eased ink fill */
+.meter {
+  position: relative;
+  display: block;
+  height: 8px;
+  margin: var(--space-2) 0;
+  background: var(--surface-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.meter > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, var(--ai), var(--ai-soft));
+  transition: width var(--dur) var(--ease-ink);
+}
+.meter.gold > i {
+  background: linear-gradient(90deg, var(--ochre), var(--gold));
+}
+.meter.thin {
+  height: 5px;
+}
+.meter-num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--ink-soft);
+}
+
+/* number pop on gain */
+@keyframes num-pop {
+  0% {
+    transform: scale(1);
+  }
+  28% {
+    transform: scale(1.16);
+    color: var(--shu);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.pop {
+  animation: num-pop 360ms var(--ease-press);
+  transform-origin: right center;
+}
+@keyframes tally-flash {
+  0% {
+    background-color: transparent;
+  }
+  20% {
+    background-color: #d7402c1f;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@keyframes ink-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ── the wolf card — the most dramatic surface on the screen ────────────── */
+.wolf-card {
+  border-left: 3px solid var(--beni);
+}
+.wolf-card .kicker {
+  color: var(--beni-deep);
+}
+
+/* ── the rung ladder card ───────────────────────────────────────────────── */
+.ladder-title {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-h3);
+  color: var(--ink);
+}
+.ladder-hint {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.ladder-hint.ready {
+  color: var(--shu-deep);
+  font-weight: 600;
+}
+.ladder-next {
+  margin-top: var(--space-1);
+  font-size: var(--fs-small);
+  color: var(--ink-hint);
+  font-style: italic;
+}
+
+/* ── map ────────────────────────────────────────────────────────────────── */
+.here-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-h2);
+  color: var(--ink);
+  margin: 2px 0 var(--space-1);
+}
+.move-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.move-cell .verb {
+  width: 100%;
+}
+.move-cell .verb .go {
+  color: var(--ai);
+  font-weight: 600;
+}
+.move-cell .verb:disabled .go {
+  color: var(--ink-faint);
+}
+/* who's here — person rows with a small hanko-seal monogram */
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-top: 1px dotted #7a6c5944;
+}
+.person:first-of-type {
+  border-top: 0;
+}
+.person-seal {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-seal);
+  background: var(--washi);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.person-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.person-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ink);
+}
+.person-tell {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+
+/* ── market — a ledger with real typographic care ───────────────────────── */
+.m-item {
+  padding: var(--space-2) 0;
+  border-top: 1px dotted var(--ink-faint);
+}
+.m-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.m-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ink);
+}
+.m-leader {
+  flex: 1 1 auto;
+  min-width: var(--space-4);
+  border-bottom: 1px dotted #7a6c5977;
+  transform: translateY(-0.3em);
+}
+.m-price {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--num-key);
+  white-space: nowrap;
+}
+.m-grant {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--delta-pos);
+  white-space: nowrap;
+}
+.m-buyrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+.m-item.sold .m-name,
+.m-item.sold .m-price,
+.m-item.sold .m-grant {
+  color: var(--ink-faint);
+}
+.stock {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.stock .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faint);
+}
+.stock .dot.full {
+  background: var(--ochre);
+  border-color: var(--ochre);
+}
+.sell-block {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--ink-faint);
+}
+
+/* ── estate ─────────────────────────────────────────────────────────────── */
+.payoff {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--num-key);
+}
+.est-buy {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.cost {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+/* silhouette rows (locked rooms / the standing teaser) */
+.sil-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-top: 1px dotted #7a6c5944;
+  color: var(--ink-faint);
+}
+.sil-row:first-of-type {
+  border-top: 0;
+}
+.sil-mark {
+  color: var(--ink-faint);
+  opacity: 0.7;
+}
+.sil-name {
+  flex: 1 1 auto;
+  letter-spacing: 0.06em;
+}
+.sil-bar {
+  flex: 1 1 auto;
+  height: 8px;
+  background: var(--surface-deep);
+  border: 1px solid #7a6c5966;
+  border-radius: 2px;
+}
+.locked-teaser {
+  opacity: 0.85;
+}
+.locked-foot {
+  margin-top: var(--space-2);
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+  font-style: italic;
+}
+
+/* ── inventory ──────────────────────────────────────────────────────────── */
+.carried-line {
+  display: block;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--num-key);
+  margin-bottom: var(--space-2);
+}
+.bank-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+/* ── character ──────────────────────────────────────────────────────────── */
+.skill {
+  padding: var(--space-2) 0;
+  border-top: 1px dotted #7a6c5944;
+}
+.skill:first-of-type {
+  border-top: 0;
+}
+.sk-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.sk-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ink);
+  flex: 1 1 auto;
+}
+.sk-hint {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+}
+.attr-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-top: 1px dotted #7a6c5944;
+}
+.attr-row:first-of-type {
+  border-top: 0;
+}
+.attr-tag {
+  flex: 0 0 3.2em;
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ink-hint);
+}
+.attr-name {
+  flex: 1 1 auto;
+  font-weight: 600;
+  color: var(--ink);
+}
+.attr-gloss {
+  font-weight: 400;
+  font-size: var(--fs-small);
+  color: var(--ink-hint);
+}
+.attr-val {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-num-lg);
+  font-weight: 600;
+  color: var(--num-key);
+  min-width: 2ch;
+  text-align: right;
+}
+.plus1 {
+  min-width: var(--tap-min);
+  justify-content: center;
+  font-family: var(--font-num);
+  font-weight: 600;
+}
+
+/* bestiary */
+.beast {
+  padding: var(--space-2) 0;
+  border-top: 1px dotted #7a6c5944;
+}
+.beast:first-of-type {
+  border-top: 0;
+}
+.b-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.b-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ink);
+  flex: 1 1 auto;
+}
+.b-name.fog,
+.fog {
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+.b-meta {
+  display: block;
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+}
+.b-meta b {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.win {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+.win .pct {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.win .band {
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+}
+.pip {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  align-self: center;
+}
+.pip.good {
+  background: var(--ai);
+}
+.pip.fair {
+  background: var(--ochre);
+}
+.pip.risky {
+  background: var(--beni);
+}
+.pip.unknown {
+  background: transparent;
+  border: 1px solid var(--ink-faint);
+}
+
+/* quests */
+.quest {
+  padding: var(--space-3) 0;
+  border-top: 1px dotted #7a6c5944;
+}
+.quest:first-of-type {
+  border-top: 0;
+}
+.q-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.q-title {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ink);
+  flex: 1 1 auto;
+}
+.q-steps {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.q-steps li {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+.q-steps li.done {
+  color: var(--rokusho);
+}
+.q-steps .tick {
+  color: var(--ink-faint);
+}
+.q-steps li.done .tick {
+  color: var(--rokusho);
+}
+.q-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.q-reward {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--num-key);
+}
+.quest.completed {
+  opacity: 0.72;
+}
+
+/* ── combat ─────────────────────────────────────────────────────────────── */
+.foe {
+  padding: var(--space-2) 0;
+  border-top: 1px dotted #7a6c5944;
+}
+.foe:first-of-type {
+  border-top: 0;
+}
+.foe-verbs {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+}
+.foe-verbs .verb.fight {
+  font-family: var(--font-head);
+  font-weight: 800;
+  flex: 0 0 auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+/* ═══ FULL-SCREEN MOMENTS ═══ */
+
+/* the cold open — maximal ma, the dark kura */
+.coldopen {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: var(--space-8);
+  background: radial-gradient(ellipse at center, #2e2822 0%, var(--ink) 62%, #1a1714 100%);
+  color: var(--washi);
+}
+.co-card {
+  position: relative;
+  padding: 2.6rem 2.4rem 2.2rem;
+  max-width: 46ch;
+  width: 100%;
+  text-align: center;
+  border: 1px solid rgba(243, 233, 210, 0.22);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.co-card::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(243, 233, 210, 0.1);
+  pointer-events: none;
+}
+.co-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  letter-spacing: 0.12em;
+  color: var(--washi);
+  margin-bottom: var(--space-3);
+}
+.co-sub {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--washi-deep);
+  margin-bottom: var(--space-6);
+}
+.co-lede {
+  align-self: stretch;
+  text-align: left;
+  color: var(--washi-deep);
+  min-height: 4.8em;
+  margin: 0 0 var(--space-6);
+}
+.co-verb {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-body);
+  color: var(--washi);
+  background: transparent;
+  border: 1.5px solid var(--shu);
+  box-shadow: inset 0 0 0 1px var(--shu);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-6);
+  min-height: 36px;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-ink),
+    transform var(--dur-fast) var(--ease-press);
+}
+.co-verb:hover {
+  background: #d7402c26;
+}
+.co-verb:active {
+  transform: translateY(1px);
+}
+.co-verb:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px var(--shu),
+    0 0 0 2px var(--ink),
+    0 0 0 4px var(--shu);
+}
+.co-item {
+  opacity: 0;
+  transition: opacity 900ms var(--ease-ink);
+}
+.co-item.in {
+  opacity: 1;
+}
+.co-verb:not(.in) {
+  pointer-events: none;
+}
+
+/* the VN scene — a washi card over the dark kura field, two columns */
+.vn-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  overflow: auto;
+  background: radial-gradient(ellipse at center, #2e2822 0%, var(--ink) 62%, #1a1714 100%);
+}
+.vn-scene.typing {
+  cursor: pointer;
+}
+.vn-card {
+  width: min(900px, 92vw);
+  height: min(82dvh, 40rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 0 0 2px var(--line),
+    inset 0 0 0 4px var(--washi),
+    inset 0 0 0 5px var(--line),
+    0 10px 40px #00000066;
+  animation: vn-card-in var(--dur-beat) var(--ease-ink) both;
+}
+@keyframes vn-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.vn-plate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.vn-seal {
+  flex: 0 0 auto;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-seal);
+  background: var(--washi);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.vn-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.vn-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: var(--space-6);
+  align-items: stretch;
+}
+.vn-story {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  border-right: 1px solid #7a6c5933;
+  padding-right: var(--space-6);
+}
+.vn-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.vnl {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.vnl .spk {
+  margin-right: 0.4em;
+}
+.vnl.narr {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.vn-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  vertical-align: -0.15em;
+  background: var(--ink-soft);
+  opacity: 0.6;
+  animation: cursor-blink 900ms steps(2) infinite;
+}
+@keyframes cursor-blink {
+  to {
+    opacity: 0;
+  }
+}
+.vn-panel {
+  flex: 0 0 20rem;
+  max-width: 42%;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.vn-panel.fade-in,
+.vn-panel .fade-in {
+  animation: panel-fade var(--dur-beat) var(--ease-ink) both;
+}
+@keyframes panel-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.vn-ask-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-head);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+  color: var(--ink-hint);
+}
+.topic {
+  appearance: none;
+  text-align: left;
+  font: inherit;
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid #7a6c5955;
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-ink),
+    color var(--dur-fast) var(--ease-ink),
+    background var(--dur-fast) var(--ease-ink);
+}
+.topic::before {
+  content: '· ';
+  color: var(--ink-faint);
+}
+.topic:hover:not(:disabled) {
+  border-color: var(--ochre);
+  color: var(--ink);
+  background: #c68a3e12;
+}
+.topic:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.topic:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+.topic.asked {
+  color: var(--ink-faint);
+  background: #7a6c5914;
+  border-color: #7a6c5933;
+}
+.topic.asked::after {
+  content: ' · asked';
+  font-size: var(--fs-micro);
+  font-style: italic;
+}
+.topic:disabled {
+  color: var(--ink-faint);
+  border-color: #7a6c5933;
+  cursor: default;
+}
+.vn-done {
+  appearance: none;
+  align-self: flex-start;
+  font: inherit;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid #7a6c5966;
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-ink),
+    color var(--dur-fast) var(--ease-ink),
+    background var(--dur-fast) var(--ease-ink);
+}
+.vn-done:hover {
+  border-color: var(--ochre);
+  color: var(--ink);
+  background: #c68a3e12;
+}
+.vn-done:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+.vn-prompt {
+  font-family: var(--font-head);
+  font-weight: 800;
+  color: var(--ink);
+}
+.choice {
+  appearance: none;
+  text-align: left;
+  font: inherit;
+  font-size: var(--fs-small);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ai) 8%, var(--washi));
+  border: 1px solid #7a6c5955;
+  border-left: 3px solid var(--ai-soft);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--tap-min);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-ink),
+    border-color var(--dur-fast) var(--ease-ink);
+}
+.choice:hover {
+  background: color-mix(in srgb, var(--ai) 16%, var(--washi));
+  border-color: var(--ai);
+}
+.choice:active {
+  transform: translateY(1px);
+}
+.choice:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+/* the JRPG perk box — bordered "learned" card, ochre-warmed, never a toast */
+.perk-box {
+  position: relative;
+  border: 2px solid var(--ink-soft);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, #efe4c8, var(--washi));
+  padding: var(--space-3) var(--space-4);
+  box-shadow:
+    inset 0 0 0 1px #f3e9d2,
+    inset 0 0 0 3px #c68a3e33,
+    0 1px 0 #26221e22;
+}
+.perk-tag {
+  font-family: var(--font-head);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+  color: var(--ochre-deep);
+  margin-bottom: var(--space-1);
+}
+.perk-tag::before {
+  content: '❖ ';
+}
+.perk-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: var(--fs-body);
+  color: var(--ink);
+  line-height: 1.3;
+}
+.perk-desc {
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 2px 0 0;
+}
+.perk-stat {
+  margin-top: var(--space-2);
+  padding-top: var(--space-1);
+  border-top: 1px dotted #7a6c5966;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+.perk-stat .up {
+  color: var(--delta-pos);
+  font-weight: 600;
+}
+.perk-stat .down {
+  color: var(--delta-neg);
+  font-weight: 600;
+}
+.vn-bonus {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  font-style: italic;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--ochre);
+  margin: 0;
+}
+.vn-continue {
+  align-self: flex-start;
+  border-left: 3px solid var(--ochre);
+}
+.vn-hint {
+  font-size: var(--fs-micro);
+  color: var(--ink-hint);
+  font-style: italic;
+}
+
+/* the rank-up seal ceremony — a held beat on a washi field */
+.ceremony {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: #26221ecc;
+}
+.cer-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-12) var(--space-8);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 0 0 2px var(--line),
+    inset 0 0 0 4px var(--washi),
+    inset 0 0 0 5px var(--line),
+    0 12px 44px #00000077;
+  animation: cer-card-in var(--dur-beat) var(--ease-ink) both;
+}
+/* kashira corner studs — rotated shu squares on the hero frame */
+.cer-card .stud {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--shu);
+  transform: rotate(45deg);
+  opacity: 0.85;
+}
+.cer-card .stud.tl {
+  top: 12px;
+  left: 12px;
+}
+.cer-card .stud.tr {
+  top: 12px;
+  right: 12px;
+}
+.cer-card .stud.bl {
+  bottom: 12px;
+  left: 12px;
+}
+.cer-card .stud.br {
+  bottom: 12px;
+  right: 12px;
+}
+@keyframes cer-card-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.cer-kicker {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.cer-seal {
+  width: 128px;
+  height: 128px;
+  display: grid;
+  place-items: center;
+  border: 6px solid var(--shu);
+  border-radius: var(--radius-seal);
+  color: var(--shu);
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  background: var(--washi);
+  box-shadow: 0 6px 22px #26221e55;
+  mix-blend-mode: multiply;
+  animation: seal-press 1100ms var(--ease-press) both;
+}
+@keyframes seal-press {
+  0% {
+    opacity: 0;
+    transform: scale(1.7) rotate(-7deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(0.92) rotate(0.5deg);
+  }
+  75% {
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.cer-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  color: var(--ink);
+  animation: panel-fade var(--dur-beat) var(--ease-ink) 700ms both;
+}
+.cer-rank {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--ink-hint);
+  letter-spacing: 0.08em;
+  animation: panel-fade var(--dur-beat) var(--ease-ink) 900ms both;
+}
+.cer-continue {
+  margin-top: var(--space-4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease-ink);
+}
+.cer-continue.in {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── the stage selector (review affordance — discreet, on-palette) ──────── */
+#stagestrip {
+  position: fixed;
+  right: var(--space-3);
+  bottom: calc(var(--space-8) + var(--space-1));
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  font-family: var(--font-num);
+}
+.ss-head {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--washi-deep);
+  background: #1a1714e6;
+  border: 1px solid #7a6c5966;
+  border-radius: var(--radius);
+  padding: 4px 10px;
+  min-height: 26px;
+  cursor: pointer;
+}
+.ss-head:hover,
+.ss-head:focus-visible {
+  color: var(--washi);
+  border-color: var(--washi-deep);
+  outline: none;
+}
+.ss-body {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-1);
+  background: #1a1714f2;
+  border: 1px solid #7a6c5966;
+  border-radius: var(--radius);
+  padding: var(--space-2);
+}
+#stagestrip.open .ss-body {
+  display: flex;
+}
+.ss-row {
+  display: flex;
+  gap: var(--space-1);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.ss-btn {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  color: var(--washi-deep);
+  background: transparent;
+  border: 1px solid #7a6c5966;
+  border-radius: var(--radius);
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.ss-btn:hover,
+.ss-btn:focus-visible {
+  color: var(--washi);
+  border-color: var(--washi-deep);
+  outline: none;
+}
+.ss-btn.on {
+  color: var(--ink);
+  background: var(--washi-deep);
+  border-color: var(--washi-deep);
+}
+.ss-label {
+  font-size: var(--fs-micro);
+  color: #9a8a72;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 2px 0;
+  text-align: right;
+}
+
+/* ── scrollbars — quiet, on-palette (polish) ────────────────────────────── */
+.work::-webkit-scrollbar,
+.log-lines::-webkit-scrollbar,
+.vn-story::-webkit-scrollbar,
+.vn-panel::-webkit-scrollbar {
+  width: 8px;
+}
+.work::-webkit-scrollbar-track,
+.log-lines::-webkit-scrollbar-track,
+.vn-story::-webkit-scrollbar-track,
+.vn-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.work::-webkit-scrollbar-thumb,
+.log-lines::-webkit-scrollbar-thumb,
+.vn-story::-webkit-scrollbar-thumb,
+.vn-panel::-webkit-scrollbar-thumb {
+  background: #7a6c5966;
+  border-radius: 4px;
+}
+.work::-webkit-scrollbar-thumb:hover,
+.log-lines::-webkit-scrollbar-thumb:hover {
+  background: #7a6c59aa;
+}
+.work,
+.log-lines,
+.vn-story,
+.vn-panel {
+  scrollbar-width: thin;
+  scrollbar-color: #7a6c5966 transparent;
+}
+
+/* ── reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .co-item {
+    opacity: 1;
+  }
+  .co-verb:not(.in) {
+    pointer-events: auto;
+  }
+  .cer-continue {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

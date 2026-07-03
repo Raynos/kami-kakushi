@@ -104,6 +104,27 @@ Each direction is a *spin that fits this game*, never a costume of its source.
   brass/copper coin numerals.
 - **Type:** humanist sans, soft but precise.
 
+### 06 · Washi & Ink — the faithful baseline (human-requested, 2026-07-03)
+
+The comparison anchor: the CURRENT v0.3.5 design language kept faithfully —
+same washi/ink/indigo/vermilion tokens, same woodblock material, same
+composition (header vitals / work left / log right ≥⅓) — with everything
+**UX-polished** to the same bar as the other five. "My current game, its
+best self." Unlike 04 (which inverts to dark), 06 stays on paper.
+
+- **Composition:** today's, unchanged. The improvement budget goes to
+  spacing rhythm, alignment, hierarchy, component finish, and juice.
+- **Components:** the current `.frame`/`.paper` grammar (triple-rule
+  keylines, paper grain, brush rules, bokashi washes, hanko seals) rebuilt
+  clean and consistent; meters, rows, pills tightened; states (hover/press/
+  disabled-with-reason) made uniform; the log's typography given real care.
+- **Palette/type:** the game's own tokens from `src/ui/styles.css`
+  (`--washi #f3e9d2`, `--ink #26221e`, `--ai #27496d`, `--shu #d7402c`, the
+  earth secondaries) and its self-hosted Shippori Mincho subsets (copied
+  into the variant — no external requests). English-only like its siblings:
+  the kanji accents are replaced by typographic/crest equivalents, which is
+  itself part of the comparison question.
+
 ## 4 · Staging ground & tech
 
 Another agent owns `src/` right now — this work never touches it.
