@@ -121,7 +121,7 @@ bands (distinct from the resource scale above):
 | **T2 Village** | **~1,000 → 5,000** | |
 | **T3 Region** *(v1 end-gate)* | **~5,000 → 10,000** | approaches the daimyō line by the v1 end-gate |
 | **T4 Castle-town** *(beyond v1)* | **10,000 (DAIMYŌ) → ~100,000** | 10,000 koku = the daimyō threshold; a **personal koku stipend** appears from T4+ (House-only before) |
-| **T5 Edo** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 adds a full parallel **Office / court-rank / favour** track (koku = scale, office = access) |
+| **T5 Edo** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 caps the full parallel **Office / court-rank / favour** track (koku = scale, office = access) — T0 grants exactly ONE home status token; the surname→two-swords→gōshi ladder is T1–T5 (**D-122**) |
 
 *(Recorded as ADRs **D-107** — the rice/coin/koku split, **D-108** — coin denominations, **D-109** — the
 tier→koku ladder + office track + T4 stipend. The upper koku bands are provisional/liquid.)*
@@ -1146,7 +1146,9 @@ Wealth here means **coin + rice + materials** — it splits into **carried** (`s
 on a lost fight) and **banked** (`state.banked` — sheltered in the kura storehouse, SAFE from the loss
 penalty). *(Koku standing is **not** wealth — it is never carried, banked, or at risk; it is the assessed
 prestige score of §4.0b.)* **Deposit/withdraw** move a
-resource between the two; spending + earning use carried (banked is a safe reserve). **Deposit/withdraw are
+resource between the two; spending + earning use carried (banked is a safe reserve). **Banked coin stays
+free/safe, but stored RICE now carries a cost** (spoilage / cap / holding fee — mechanism TBD, **D-118**), so
+store-vs-sell is a real choice rather than a free hoard. **Deposit/withdraw are
 gated to the kura node** — so banking your haul means physically returning home, and fighting far afield with a
 full purse becomes the gamble. The risk/reward — bank before a risky fight, or carry it and chance the bite —
 is the point.
@@ -1356,7 +1358,9 @@ rule, the yields-already-NET model, and the separate labour/combat throttle coef
   Disassembly returns **~60 %** of materials. The weighted blend needs **no divisor** — the weights sum to 1, so
   the score is already in [0,1].
 
-**Resource counts are UNBOUNDED** (no caps; K/M/B abbreviation reads them, §4.0). **Coin exists from T0** (base
+**Resource counts are UNBOUNDED** (no caps; K/M/B abbreviation reads them, §4.0) — **except stored RICE now
+carries a cost** (spoilage / cap / holding fee — mechanism TBD, **D-118**), so a banked rice hoard is no longer
+free/safe and store-vs-sell stays a real choice; **coin remains unbounded and safe.** **Coin exists from T0** (base
 unit mon; higher denominations reveal later, §4.0a) — but the **market opens a real coin SINK from the Village
 tier:** the market row lets the player **spend coin on market purchases and component-buying** (buying
 inputs/finished components the trade strand needs) — a genuine ongoing coin *sink*, not a vestigial counter. The

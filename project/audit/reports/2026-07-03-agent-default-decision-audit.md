@@ -20,7 +20,7 @@ All defaults below were walked through live with the human via AskUserQuestion.
 **Overrides** (🔀) → the build plan; **ratifications** (✅) → ADRs; the code
 deltas are [`opus-2026-07-03-v0.3.5-build-plan.md`](../../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md)
 and the doc ripples are
-[`opus-2026-07-03-v0.3.5-cleanup-docs.md`](../../../docs/plans/opus-2026-07-03-v0.3.5-cleanup-docs.md).
+[`opus-2026-07-03-v0.3.5-cleanup-docs.md`](../../archive/opus-2026-07-03-v0.3.5-cleanup-docs.md).
 
 | # | Decision | Outcome | Routed to |
 |---|---|---|---|

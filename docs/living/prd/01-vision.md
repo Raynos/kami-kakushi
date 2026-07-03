@@ -63,12 +63,12 @@ for itch.io.
    frontier. Concretely: a drill yard reveals one post, then a rack, then sparring slots; a new region is
    one road, one threat, one contact. **Reveals are design-staggered one-at-a-time** — the unlock schedule is
    *authored* so beats arrive singly (there is **no runtime reveal-queue**) — and obey a general
-   **NO-UI-DUMPS** principle (stagger everything, slowly and gently). The player UI resolves to a **SIX-TAB
-   IA — Work · Map · Estate · Inventory · Character · Combat — each revealed only as it unlocks** (**D-112**,
-   superseding the earlier "every distinct activity its own tab" framing): **one capability per thematic tab**,
-   so the main surface stays the active labour/deeds/combat loop. Where each capability (e.g. crafting, quests)
-   is homed within those six tabs is **`ui-design.md`'s domain** (the PRD owns the reveal *order*, not the
-   layout).
+   **NO-UI-DUMPS** principle (stagger everything, slowly and gently). The player UI resolves to a **SEVEN-TAB
+   IA — Work · Map · Estate · Inventory · Character · Combat · Quests — each revealed only as it unlocks**
+   (**D-119**, reinstating D-037 and superseding D-112's six-tab lock: **Quests regains its own top-level tab**;
+   crafting stays a **section**, not its own tab): **one capability per thematic tab**, so the main surface
+   stays the active labour/deeds/combat loop. Where each remaining capability is homed within those seven tabs
+   is **`ui-design.md`'s domain** (the PRD owns the reveal *order*, not the layout).
 
 3. **Lean and high-impact — no fluff, no half-built features.** Grinding/slow growth is the core, not
    filler. **"Lean" is about FEATURES, not the grind**: no fluff, no half-built systems, and when scope
@@ -474,7 +474,9 @@ so the grind stays load-bearing.
 > ~100,000 → **T5** ~100,000–1,000,000+. The score **gates ascension/unlocks** but is never a currency; a
 > **personal *koku* stipend** appears only from **T4+** (House-only before), and T5 adds a **full parallel
 > Office / court-rank / favour track** (koku = scale, office = access) with rank milestones granting **visible
-> status tokens** (surname → the two swords → *gōshi* rank).
+> status tokens** (surname → the two swords → *gōshi* rank). **T0 already grants exactly ONE hard-won home
+> status token** (across R1→R7, shown by the housing status-mirror); the **full** surname→swords→*gōshi*
+> ladder is the deliberate **T1–T5** arc (**D-122**).
 
 > **The pillar-reveal schedule.** The four pillars **reveal one per tier** across the
 > spine — **Estate (家産) at T0 → + Arms (武威) at T1 → + Office (官威) at T2 → + Name & Honour (家格) at T3** —
@@ -494,7 +496,8 @@ so the grind stays load-bearing.
 > **The Estate & Wealth sub-engines = the coin/rice flywheel, revealed across the Estate split.**
 > In **T0** the economy is a **single LINEAR taste** — one work → **rice + a little coin** → upgrade → more
 > output — the flywheel shown in miniature, with **no branching and no trade strand**. **Rice is a real
-> resource** (not a synonym for the *koku* standing): you **eat** it (satiety), **store** it in the *kura*, or
+> resource** (not a synonym for the *koku* standing): you **eat** it (satiety), **store** it in the *kura*
+> **at a cost** (spoilage / cap / fee, mechanism TBD — **D-118**, so store-vs-sell is a real choice), or
 > **sell** it for coin at a price that **swings by season**. At **T1** (the full estate) it **branches into
 > the three capped sub-engines — LAND / TREASURY / TRADE** (the *meibutsu* silk strand stays **≤⅓** of the
 > pillar). The real village silk market (Onatsu's *meibutsu*) opens later still, at **T2 Village**.
@@ -571,7 +574,10 @@ over years.
 > the *option*** to ascend — the player chooses *when* to take it, a deliberate story beat (never an auto-snap).
 > **Overshooting** the gate (higher grades than required) earns a **grade-scaled permanent boon** carried
 > forward. The **first ascension (T0→T1) always lands BIG** on first contact regardless of grade — the
-> locked silhouettes stir, a new pillar reveals. Throughout, the **standing panel teases the locked pillars as
+> locked silhouettes stir, a new pillar reveals. **The T0→T1 capstone now also carries a
+> mechanically-distinct BRANCH** — a real choice that matters mechanically, not just the grade-scaled boon;
+> the exact branch design is **TBD at build** (**D-121**; opus-2026-07-03-v0.3.5-build-plan §7). Throughout,
+> the **standing panel teases the locked pillars as
 > unnamed silhouettes** beside the active one(s) (§1.6.4 / §2.16(e)), so the player always senses *more* is
 > coming without it being spelled out.
 
@@ -646,7 +652,8 @@ grade-gate** **over the pillars revealed by that tier** — for **N** open pilla
 + (N−2) GOOD**, all **≥ GOOD**, **no overflow** (at **T0**, N = 1, the gate **collapses to a single EXCELLENT**).
 Revealed set (one per tier): **T0 = Estate**, **T1 = + Arms**, **T2 = + Office**, **T3 = + Name** (4).
 Ascension is a **manual opt-in story event** (the gate only unlocks the *option*); **overshoot** earns a
-**grade-scaled permanent boon**; the **first ascension (T0→T1) always lands BIG**. The
+**grade-scaled permanent boon**; the **first ascension (T0→T1) always lands BIG** and now also carries a
+**mechanically-distinct BRANCH** (a real capstone choice; design TBD at build — **D-121**). The
 per-pillar-per-tier thresholds are back-solved against the fixed deed inventory in §4; trade
 stays **≤⅓** of Estate & Wealth as the **only** structural cap, with cross-pillar combos computed **post-clamp**
 and excluded from the gate-check.
@@ -965,9 +972,10 @@ rewards/unlock bus as **one** event that simultaneously pushes a diegetic log li
 panel/tab/resource/area, grants the perk, and advances a story flag — so feature unlocks read as plot, never
 silent menu growth. **Reveals are design-staggered one-at-a-time** — the unlock schedule is *authored* so beats
 arrive singly (there is **no runtime reveal-queue**) — and obey a general **NO-UI-DUMPS** principle.
-The UI resolves to the **six-tab IA** (Work · Map · Estate · Inventory · Character · Combat — **D-112**),
-each tab revealed only as it unlocks; the home of each capability within those tabs is `ui-design.md`'s
-domain. Reveals follow the **per-tier rank ladders** (a fresh ladder per tier — see §1.5.1), **not** one
+The UI resolves to the **seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · Quests —
+**D-119**, reinstating D-037 over D-112's six-tab lock: Quests regains its own top-level tab, crafting stays
+a section), each tab revealed only as it unlocks; the home of each capability within those tabs is
+`ui-design.md`'s domain. Reveals follow the **per-tier rank ladders** (a fresh ladder per tier — see §1.5.1), **not** one
 continuous R0→R7 climb, and each ladder runs the **sequential Phase-1 (climb the rungs) → Phase-2 (estate
 pillar-grind)** model (§1.6.4). **Combat surfaces inside the FIRST tier (T0)** as an **incremental ladder**
 (the combat-reveal ladder, below), not a single mid-ladder dump.

@@ -74,6 +74,15 @@ philosophy wins.**
   the hook once per clone: `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out
   research, multi-file sweeps).
+- **Model routing — inherit the parent's model by default.** Every subagent and
+  `Workflow` agent runs on the **same model as the parent** unless the human
+  explicitly routes otherwise. The **only** self-serve exception is dropping to a
+  **smaller/cheaper model for exploration or trivial mechanical work** (broad
+  file-finding, dead-link scans, boilerplate) where the cheaper tier is plainly
+  sufficient — never a *lateral* switch to a different same-tier model. Concretely:
+  **an Opus session does not spawn Fable (or any non-inherited model) unless the
+  human says so.** A plan's "who builds this" section proposes routing for the
+  human to approve; it does not license the agent to switch models on its own.
 - **Stop and ask only for** (1) design decisions that change what the game *is*
   — lock these with the human and record them as ADRs in
   [`docs/living/decisions.md`](docs/living/decisions.md); and (2) anything

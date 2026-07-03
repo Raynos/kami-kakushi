@@ -111,8 +111,8 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 ### 2.4 The reveal loop (the signature) — *UI as progression*
 - **What:** every panel, tab, resource row, area, and screen fades in **one at a time**, gated on game
   state, each reveal firing as **one event** that is simultaneously a log line + an unlock + a plot beat
-  (§2.1, §3.0). Single-screen at minute one → multi-screen shell over the climb. The **six tabs themselves**
-  (Work · Map · Estate · Inventory · Character · Combat — D-112) reveal incrementally, so the whole IA
+  (§2.1, §3.0). Single-screen at minute one → multi-screen shell over the climb. The **seven tabs themselves**
+  (Work · Map · Estate · Inventory · Character · Combat · Quests — D-112 → D-119) reveal incrementally, so the whole IA
   *grows with the player*, never a slam of empty tabs. And entities arrive by **DISCOVERY, not spawn** — you
   *meet* the pedlar or *find* a place for a **reason** (a talkable person on a map node's "who's here", a hint
   in the node's standing description — D-114/D-116/F99), never a shop-menu blinking into existence.
@@ -176,9 +176,10 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **Why it's fun:** **meaning makes the numbers matter** (Universal Paperclips' lesson). The restoration
   fantasy — nobody → the lord's right hand, a dying house restored *and* surpassed — is the emotional
   reason the grind is worth grinding. Payoffs are warmth/allies/flavour, **never power** (§1.2 pillar 6),
-  so they never break balance — the **home + belongings are PRESTIGE, not stat-gear** (comfort recovery +
-  a *visible status-mirror* of your climb — the surname, the two swords on the wall, gōshi standing — never
-  a combat lane, D-111), so "look how far you've come" is *shown*, not just titled, and the balance stays safe.
+  so they never break balance — the **home + belongings are PRESTIGE, not stat-gear** (concrete comfort —
+  rest, satiety, storage — plus a *visible status-mirror* of your climb; in T0 that mirror is **one** hard-won
+  status token (the surname / a sword on the wall — D-122), the full surname → two-swords → gōshi ladder being
+  T1–T5 — never a combat lane, D-111/D-120), so "look how far you've come" is *shown*, not just titled.
 - **Lever:** **mechanical narrative > text narrative.** Let the *structural* reveal (new tier, new map,
   new political layer) carry the story; keep prose sparse (memory note: light folklore, open-ended).
   Place the warmest beats at the longest tier's payoff (T3 Region, §7) so the slog has an emotional anchor.

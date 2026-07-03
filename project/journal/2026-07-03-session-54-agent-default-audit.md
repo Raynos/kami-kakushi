@@ -51,3 +51,38 @@ No game code changed — this is doc/record work only.
   hygiene). Staged only own files by path. Re-check `git diff --cached` before commit.
 - The 8 overrides each invalidate a test that asserted the old default — update
   those tests (they should have been able to go RED) as each delta lands.
+
+---
+
+## Update — the v0.3.5-cleanup-docs plan executed & archived (same session)
+
+Human directed: "do the whole cleanup-docs plan then archive it," + a new model
+rule (subagents inherit the parent's model; no Opus→Fable unless told). Executed
+all three sections as **Opus** (no Fable), the PRD sweep fanned to per-file Opus
+editors, each verified by the parent:
+
+- **AGENTS.md** — added the model-routing rule ("How to work here").
+- **§1 ADRs** — wrote **D-118…D-124** to `decisions.md` (economy, IA/7-tabs
+  superseding D-112, housing, story/capstone, status-tokens, render, model-routing).
+- **§2 PRD ripple** — 6 parallel Opus editors, one per `docs/living/prd/*.md`:
+  7-tab IA (Quests regains its own tab, D-119 supersedes D-112 & reinstates
+  D-037), Inventory staggered to R3, housing semantics (hearth→cook, chest→storage,
+  **no morale/upkeep**), rice storage cost (D-118, mechanism TBD), T0-one-token
+  status split (D-122), R7 capstone-branch forward-note (D-121). Verified: no
+  stale "six-tab"/"morale" left in-scope; "seven-tab" in all 7 docs.
+- **§3 reconcile** — `ui-design.md` (§4.9 rewrite) + `fun-factor.md` aligned.
+- Archived the plan to `project/archive/` (Status ✅); fixed the build-plan's
+  inbound link + the audit doc's link (the latter a false-green — md-links doesn't
+  scan `project/audit/reports/`, so it was fixed by hand).
+
+**Landmines (this update):**
+- **`prd:drift` is NOT clean** — 19 items (mobs/stances/cast not in PRD). These
+  are **pre-existing broad content-coverage drift, NOT from this ripple** — don't
+  read them as a cleanup failure.
+- **Quests tab reveals at R3** (grouped with the Combat+Inventory wave) — this was
+  an agent inference from "quests open with combat," NOT an explicit human call.
+  R3 now reveals 3 tabs, in mild tension with "one-reveal-per-beat." If the human
+  prefers, Quests can move to R5 (gentler R3, faithful to D-037's old cadence) —
+  flagged for override; the docs are internally consistent at R3 for now.
+- Another agent was active concurrently (prd-drift.ts, ui-demos, a mobile-ui-demos
+  plan) — staged only own files by explicit path.
