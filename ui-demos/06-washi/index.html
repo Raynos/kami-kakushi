@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kami-kakushi — Washi &amp; Ink</title>
+  <script>
+    // theme before first paint: the persisted choice, else the OS preference
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('kk-ui-demos-06-theme'); } catch (e) { /* storage denied */ }
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./style.css">
 </head>
@@ -15,7 +27,11 @@
         <span class="title-name">Kamikakushi</span>
         <span class="title-roman">Spirited Away</span>
       </span>
-      <span class="title-meta">Washi &amp; Ink · remaster study</span>
+      <span class="title-right">
+        <span class="title-meta">Washi &amp; Ink · remaster study</span>
+        <button id="themetoggle" class="theme-toggle" type="button" aria-pressed="false"
+          aria-label="Night ink — dark theme" title="Toggle the night ink (dark theme)">☾ Dark</button>
+      </span>
     </header>
     <div id="vitals" class="vitals paper" aria-label="House vitals"></div>
     <nav id="nav" class="nav" hidden aria-label="Tabs"></nav>

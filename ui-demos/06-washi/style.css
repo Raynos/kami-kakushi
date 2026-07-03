@@ -115,6 +115,69 @@
   --dur-fast: 140ms;
   --dur: 320ms;
   --dur-beat: 620ms;
+
+  /* ── theme plumbing ─────────────────────────────────────────────────────── */
+  color-scheme: light;
+  /* fixed-dark chrome (titlebar / footer / stage strip / the kura night field)
+     — these do NOT flip with the theme: dark mode is that same ink extended
+     to the whole field, so the chrome merely sinks one step deeper there. */
+  --chrome-bg: #26221e;
+  --chrome-fg: #f3e9d2;
+  --chrome-fg-dim: #ddcfae;
+  --page-edge: #26221e; /* the woodblock margin around the shell */
+  --scrim: #26221ecc; /* the ceremony veil */
+  --perk-tint: #efe4c8; /* the warmed top of the perk-box gradient */
+}
+
+/* ═══ DARK — the same woodblock game at night. A faithful VALUE INVERSION of
+   the sheet above: the sumi ink family becomes the paper, the washi creams
+   become the ink. COLOR tokens only — zero layout / spacing / motion changes.
+   Deliberately NOT 04-lacquer: no gold keylines, no sheen gradients — the same
+   triple-rule frames and dotted rules, now printed cream on deep warm sumi. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* paper → deep warm sumi, built down from the light theme's --ink #26221e */
+  --washi: #221d17;
+  --washi-shade: #2b251d;
+  --washi-deep: #352e24;
+
+  /* ink → the washi creams */
+  --ink: #f3e9d2;
+  --ink-soft: #d9cbae;
+  --ink-faint: #8f8069;
+  --ink-hint: #b7a685; /* AA-tuned muted text on the dark card surface */
+
+  /* indigo lightens past --ai-soft so the second ink stays legible at night */
+  --ai: #82aebc;
+  --ai-soft: #a5c8cf;
+
+  /* vermilion stays THE seal-red CTA; the deep TEXT variant lifts for AA */
+  --shu: #e2543f;
+  --shu-deep: #f07f63;
+
+  --beni: #c05f6a;
+  --beni-deep: #dd939c; /* AA-tuned danger text on dark */
+
+  --kihada: #e6c25c;
+  --ochre: #d29a4b;
+  --ochre-deep: #d5a660; /* AA-tuned ochre text on dark */
+  --rokusho: #78a98f;
+  --gold: #c9a45e;
+
+  /* voice inks — the same hue families, lifted to clear AA on the dark log
+     (narrator / physician / arms alias --ink-soft / --ai / --beni-deep and
+     flip on their own) */
+  --voice-player: #8fc0a8;
+  --voice-steward: #d2a266;
+  --voice-official: #cbae55;
+  --voice-villager: #c1aa7d;
+
+  /* chrome sinks a step below the field so the shell still reads as a frame */
+  --chrome-bg: #17120e;
+  --page-edge: #0f0c09;
+  --scrim: #0c0906d9;
+  --perk-tint: #362e21;
 }
 
 * {
@@ -138,7 +201,7 @@ body {
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--text);
-  background: var(--ink); /* the sumi ground — margins read as a woodblock border */
+  background: var(--page-edge); /* the sumi ground — margins read as a woodblock border */
   overflow: hidden; /* the shell owns scrolling; panes scroll internally */
   font-feature-settings: 'palt' 1;
   -webkit-font-smoothing: antialiased;
@@ -171,6 +234,15 @@ h3 {
     linear-gradient(0deg, #00000010, transparent 30%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
   background-blend-mode: multiply;
+}
+/* at night the same fibre catches moonlight — the grain lightens instead of
+   darkening (multiply-black noise vanishes on a dark ground), glow kept faint */
+:root[data-theme='dark'] .paper {
+  background-image:
+    radial-gradient(120% 80% at 50% 0%, #f3e9d214, transparent 60%),
+    linear-gradient(0deg, #00000040, transparent 30%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+  background-blend-mode: screen, multiply, screen;
 }
 
 /* ── woodblock key-block frame (triple rule + printed-plate offset) ────── */
@@ -231,8 +303,8 @@ h3 {
   justify-content: space-between;
   gap: var(--space-4);
   padding: var(--space-1) var(--space-4);
-  background: var(--ink);
-  color: var(--washi);
+  background: var(--chrome-bg);
+  color: var(--chrome-fg);
 }
 .game-title {
   display: inline-flex;
@@ -253,9 +325,55 @@ h3 {
 .title-meta {
   font-family: var(--font-body);
   font-size: var(--fs-micro);
-  color: var(--washi-deep);
+  color: var(--chrome-fg-dim);
   letter-spacing: var(--tracking-cap);
   text-transform: uppercase;
+}
+.title-right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ── the light/dark toggle — titlebar chrome language, a small ink chip ──── */
+.theme-toggle {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--chrome-fg-dim);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--chrome-fg-dim) 40%, transparent);
+  border-radius: var(--radius);
+  padding: 2px 10px;
+  min-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--dur-fast) var(--ease-ink),
+    background var(--dur-fast) var(--ease-ink),
+    border-color var(--dur-fast) var(--ease-ink);
+}
+.theme-toggle:hover {
+  color: var(--chrome-fg);
+  border-color: var(--chrome-fg-dim);
+}
+.theme-toggle:active {
+  transform: translateY(1px);
+}
+.theme-toggle:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--chrome-bg),
+    0 0 0 4px var(--ai);
+}
+.theme-toggle[aria-pressed='true'] {
+  color: #1a1714;
+  background: var(--chrome-fg-dim);
+  border-color: var(--chrome-fg-dim);
 }
 
 /* ── footer (dark ink strip, mirrors the titlebar) ──────────────────────── */
@@ -265,8 +383,8 @@ h3 {
   justify-content: space-between;
   gap: var(--space-4);
   padding: var(--space-1) var(--space-4);
-  background: var(--ink);
-  color: var(--washi-deep);
+  background: var(--chrome-bg);
+  color: var(--chrome-fg-dim);
   border-top: 2px solid var(--line);
 }
 .foot-meta {
@@ -284,7 +402,7 @@ h3 {
   padding: var(--space-2) var(--space-4);
   border-bottom: 2px solid var(--line);
   /* the faint bokashi head wash (inset, so the paper grain shows through) */
-  box-shadow: inset 0 16px 26px -14px #5c8b9330;
+  box-shadow: inset 0 16px 26px -14px color-mix(in srgb, var(--ai-soft) 19%, transparent);
 }
 .house-mark {
   font-family: var(--font-head);
@@ -436,10 +554,10 @@ h3 {
 @keyframes summons-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 #d7402c00;
+    box-shadow: 0 0 0 0 transparent;
   }
   50% {
-    box-shadow: 0 0 0 3px #d7402c2a;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--shu) 16%, transparent);
   }
 }
 .rung-card {
@@ -511,7 +629,7 @@ h3 {
 }
 .nav-tab:hover {
   color: var(--ai);
-  background: #27496d12;
+  background: color-mix(in srgb, var(--ai) 7%, transparent);
 }
 .nav-tab.on {
   color: var(--ai);
@@ -583,7 +701,7 @@ h3 {
   display: flex;
   flex-direction: column;
   background: var(--surface);
-  background-image: linear-gradient(180deg, transparent, #5c8b9314 95%);
+  background-image: linear-gradient(180deg, transparent, color-mix(in srgb, var(--ai-soft) 8%, transparent) 95%);
   box-shadow:
     inset 0 0 0 2px var(--line),
     inset 0 0 0 4px var(--surface),
@@ -621,7 +739,7 @@ h3 {
   display: flex;
   gap: var(--space-2);
   padding: var(--space-2) 0;
-  border-bottom: 1px dotted #7a6c5944;
+  border-bottom: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
   color: var(--text-2);
   line-height: 1.7;
 }
@@ -656,7 +774,7 @@ h3 {
 .ll.ll-milestone {
   color: var(--ink);
   font-weight: 600;
-  background: linear-gradient(90deg, #c68a3e18, transparent 60%);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--ochre) 9%, transparent), transparent 60%);
   border-left: 3px solid var(--ochre);
   padding-left: var(--space-2);
 }
@@ -708,7 +826,7 @@ h3 {
   font-size: var(--fs-micro);
   font-weight: 600;
   color: var(--shu-deep);
-  border: 1px solid #d7402c55;
+  border: 1px solid color-mix(in srgb, var(--shu) 33%, transparent);
   border-radius: var(--radius);
   padding: 0 var(--space-1);
   margin-left: var(--space-1);
@@ -763,7 +881,7 @@ h3 {
 }
 .lf:hover {
   color: var(--ai);
-  background: #27496d12;
+  background: color-mix(in srgb, var(--ai) 7%, transparent);
 }
 .lf.on {
   background: var(--ai);
@@ -1091,7 +1209,7 @@ h3 {
     background-color: transparent;
   }
   20% {
-    background-color: #d7402c1f;
+    background-color: color-mix(in srgb, var(--shu) 12%, transparent);
   }
   100% {
     background-color: transparent;
@@ -1170,7 +1288,7 @@ h3 {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
 }
 .person:first-of-type {
   border-top: 0;
@@ -1220,7 +1338,7 @@ h3 {
 .m-leader {
   flex: 1 1 auto;
   min-width: var(--space-4);
-  border-bottom: 1px dotted #7a6c5977;
+  border-bottom: 1px dotted color-mix(in srgb, var(--ink-faint) 47%, transparent);
   transform: translateY(-0.3em);
 }
 .m-price {
@@ -1295,7 +1413,7 @@ h3 {
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
   color: var(--ink-faint);
 }
 .sil-row:first-of-type {
@@ -1313,7 +1431,7 @@ h3 {
   flex: 1 1 auto;
   height: 8px;
   background: var(--surface-deep);
-  border: 1px solid #7a6c5966;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 40%, transparent);
   border-radius: 2px;
 }
 .locked-teaser {
@@ -1344,7 +1462,7 @@ h3 {
 /* ── character ──────────────────────────────────────────────────────────── */
 .skill {
   padding: var(--space-2) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
 }
 .skill:first-of-type {
   border-top: 0;
@@ -1370,7 +1488,7 @@ h3 {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
 }
 .attr-row:first-of-type {
   border-top: 0;
@@ -1412,7 +1530,7 @@ h3 {
 /* bestiary */
 .beast {
   padding: var(--space-2) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
 }
 .beast:first-of-type {
   border-top: 0;
@@ -1483,7 +1601,7 @@ h3 {
 /* quests */
 .quest {
   padding: var(--space-3) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
 }
 .quest:first-of-type {
   border-top: 0;
@@ -1543,7 +1661,7 @@ h3 {
 /* ── combat ─────────────────────────────────────────────────────────────── */
 .foe {
   padding: var(--space-2) 0;
-  border-top: 1px dotted #7a6c5944;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 27%, transparent);
 }
 .foe:first-of-type {
   border-top: 0;
@@ -1572,8 +1690,9 @@ h3 {
   display: grid;
   place-items: center;
   padding: var(--space-8);
-  background: radial-gradient(ellipse at center, #2e2822 0%, var(--ink) 62%, #1a1714 100%);
-  color: var(--washi);
+  /* the kura night field — already night, so it holds still across themes */
+  background: radial-gradient(ellipse at center, #2e2822 0%, #26221e 62%, #1a1714 100%);
+  color: var(--chrome-fg);
 }
 .co-card {
   position: relative;
@@ -1599,7 +1718,7 @@ h3 {
   font-weight: 400;
   font-size: var(--fs-display);
   letter-spacing: 0.12em;
-  color: var(--washi);
+  color: var(--chrome-fg);
   margin-bottom: var(--space-3);
 }
 .co-sub {
@@ -1607,13 +1726,13 @@ h3 {
   font-size: var(--fs-small);
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--washi-deep);
+  color: var(--chrome-fg-dim);
   margin-bottom: var(--space-6);
 }
 .co-lede {
   align-self: stretch;
   text-align: left;
-  color: var(--washi-deep);
+  color: var(--chrome-fg-dim);
   min-height: 4.8em;
   margin: 0 0 var(--space-6);
 }
@@ -1621,7 +1740,7 @@ h3 {
   font-family: var(--font-head);
   font-weight: 800;
   font-size: var(--fs-body);
-  color: var(--washi);
+  color: var(--chrome-fg);
   background: transparent;
   border: 1.5px solid var(--shu);
   box-shadow: inset 0 0 0 1px var(--shu);
@@ -1634,7 +1753,7 @@ h3 {
     transform var(--dur-fast) var(--ease-press);
 }
 .co-verb:hover {
-  background: #d7402c26;
+  background: color-mix(in srgb, var(--shu) 15%, transparent);
 }
 .co-verb:active {
   transform: translateY(1px);
@@ -1643,7 +1762,7 @@ h3 {
   outline: none;
   box-shadow:
     inset 0 0 0 1px var(--shu),
-    0 0 0 2px var(--ink),
+    0 0 0 2px #26221e,
     0 0 0 4px var(--shu);
 }
 .co-item {
@@ -1666,7 +1785,7 @@ h3 {
   place-items: center;
   padding: var(--space-6);
   overflow: auto;
-  background: radial-gradient(ellipse at center, #2e2822 0%, var(--ink) 62%, #1a1714 100%);
+  background: radial-gradient(ellipse at center, #2e2822 0%, #26221e 62%, #1a1714 100%);
 }
 .vn-scene.typing {
   cursor: pointer;
@@ -1733,7 +1852,7 @@ h3 {
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
-  border-right: 1px solid #7a6c5933;
+  border-right: 1px solid color-mix(in srgb, var(--ink-faint) 20%, transparent);
   padding-right: var(--space-6);
 }
 .vn-lines {
@@ -1807,7 +1926,7 @@ h3 {
   font-size: var(--fs-small);
   color: var(--ink-soft);
   background: transparent;
-  border: 1px solid #7a6c5955;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 33%, transparent);
   border-radius: var(--radius);
   padding: var(--space-2) var(--space-3);
   cursor: pointer;
@@ -1823,7 +1942,7 @@ h3 {
 .topic:hover:not(:disabled) {
   border-color: var(--ochre);
   color: var(--ink);
-  background: #c68a3e12;
+  background: color-mix(in srgb, var(--ochre) 7%, transparent);
 }
 .topic:active:not(:disabled) {
   transform: translateY(1px);
@@ -1834,8 +1953,8 @@ h3 {
 }
 .topic.asked {
   color: var(--ink-faint);
-  background: #7a6c5914;
-  border-color: #7a6c5933;
+  background: color-mix(in srgb, var(--ink-faint) 8%, transparent);
+  border-color: color-mix(in srgb, var(--ink-faint) 20%, transparent);
 }
 .topic.asked::after {
   content: ' · asked';
@@ -1844,7 +1963,7 @@ h3 {
 }
 .topic:disabled {
   color: var(--ink-faint);
-  border-color: #7a6c5933;
+  border-color: color-mix(in srgb, var(--ink-faint) 20%, transparent);
   cursor: default;
 }
 .vn-done {
@@ -1856,7 +1975,7 @@ h3 {
   font-size: var(--fs-small);
   color: var(--ink-soft);
   background: transparent;
-  border: 1px solid #7a6c5966;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 40%, transparent);
   border-radius: var(--radius);
   padding: var(--space-2) var(--space-4);
   cursor: pointer;
@@ -1868,7 +1987,7 @@ h3 {
 .vn-done:hover {
   border-color: var(--ochre);
   color: var(--ink);
-  background: #c68a3e12;
+  background: color-mix(in srgb, var(--ochre) 7%, transparent);
 }
 .vn-done:focus-visible {
   outline: 2px solid var(--ochre);
@@ -1886,7 +2005,7 @@ h3 {
   font-size: var(--fs-small);
   color: var(--ink);
   background: color-mix(in srgb, var(--ai) 8%, var(--washi));
-  border: 1px solid #7a6c5955;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 33%, transparent);
   border-left: 3px solid var(--ai-soft);
   border-radius: var(--radius);
   padding: var(--space-2) var(--space-3);
@@ -1914,11 +2033,11 @@ h3 {
   position: relative;
   border: 2px solid var(--ink-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, #efe4c8, var(--washi));
+  background: linear-gradient(160deg, var(--perk-tint), var(--washi));
   padding: var(--space-3) var(--space-4);
   box-shadow:
-    inset 0 0 0 1px #f3e9d2,
-    inset 0 0 0 3px #c68a3e33,
+    inset 0 0 0 1px var(--washi),
+    inset 0 0 0 3px color-mix(in srgb, var(--ochre) 20%, transparent),
     0 1px 0 #26221e22;
 }
 .perk-tag {
@@ -1947,7 +2066,7 @@ h3 {
 .perk-stat {
   margin-top: var(--space-2);
   padding-top: var(--space-1);
-  border-top: 1px dotted #7a6c5966;
+  border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 40%, transparent);
   font-family: var(--font-num);
   font-variant-numeric: tabular-nums;
   font-size: var(--fs-small);
@@ -1986,7 +2105,7 @@ h3 {
   z-index: 60;
   display: grid;
   place-items: center;
-  background: #26221ecc;
+  background: var(--scrim);
 }
 .cer-card {
   position: relative;
@@ -2059,6 +2178,10 @@ h3 {
   mix-blend-mode: multiply;
   animation: seal-press 1100ms var(--ease-press) both;
 }
+/* multiply vanishes into a dark ground — at night the seal prints on top */
+:root[data-theme='dark'] .cer-seal {
+  mix-blend-mode: normal;
+}
 @keyframes seal-press {
   0% {
     opacity: 0;
@@ -2119,9 +2242,9 @@ h3 {
   font-size: var(--fs-micro);
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--washi-deep);
+  color: var(--chrome-fg-dim);
   background: #1a1714e6;
-  border: 1px solid #7a6c5966;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 40%, transparent);
   border-radius: var(--radius);
   padding: 4px 10px;
   min-height: 26px;
@@ -2129,8 +2252,8 @@ h3 {
 }
 .ss-head:hover,
 .ss-head:focus-visible {
-  color: var(--washi);
-  border-color: var(--washi-deep);
+  color: var(--chrome-fg);
+  border-color: var(--chrome-fg-dim);
   outline: none;
 }
 .ss-body {
@@ -2138,7 +2261,7 @@ h3 {
   flex-direction: column;
   gap: var(--space-1);
   background: #1a1714f2;
-  border: 1px solid #7a6c5966;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 40%, transparent);
   border-radius: var(--radius);
   padding: var(--space-2);
 }
@@ -2154,23 +2277,23 @@ h3 {
 .ss-btn {
   font-family: var(--font-num);
   font-size: var(--fs-micro);
-  color: var(--washi-deep);
+  color: var(--chrome-fg-dim);
   background: transparent;
-  border: 1px solid #7a6c5966;
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 40%, transparent);
   border-radius: var(--radius);
   padding: 3px 8px;
   cursor: pointer;
 }
 .ss-btn:hover,
 .ss-btn:focus-visible {
-  color: var(--washi);
-  border-color: var(--washi-deep);
+  color: var(--chrome-fg);
+  border-color: var(--chrome-fg-dim);
   outline: none;
 }
 .ss-btn.on {
-  color: var(--ink);
-  background: var(--washi-deep);
-  border-color: var(--washi-deep);
+  color: #1a1714;
+  background: var(--chrome-fg-dim);
+  border-color: var(--chrome-fg-dim);
 }
 .ss-label {
   font-size: var(--fs-micro);
@@ -2198,19 +2321,19 @@ h3 {
 .log-lines::-webkit-scrollbar-thumb,
 .vn-story::-webkit-scrollbar-thumb,
 .vn-panel::-webkit-scrollbar-thumb {
-  background: #7a6c5966;
+  background: color-mix(in srgb, var(--ink-faint) 40%, transparent);
   border-radius: 4px;
 }
 .work::-webkit-scrollbar-thumb:hover,
 .log-lines::-webkit-scrollbar-thumb:hover {
-  background: #7a6c59aa;
+  background: color-mix(in srgb, var(--ink-faint) 67%, transparent);
 }
 .work,
 .log-lines,
 .vn-story,
 .vn-panel {
   scrollbar-width: thin;
-  scrollbar-color: #7a6c5966 transparent;
+  scrollbar-color: color-mix(in srgb, var(--ink-faint) 40%, transparent) transparent;
 }
 
 /* ── reduced motion ─────────────────────────────────────────────────────── */

@@ -35,6 +35,20 @@ const tw = { key: null, timer: 0, full: '', el: null }; // the one live typewrit
 
 const $ = (id) => document.getElementById(id);
 
+/* ── the light/dark toggle — data-theme lands pre-paint via the head script ── */
+const THEME_KEY = 'kk-ui-demos-06-theme';
+const themeBtn = $('themetoggle');
+function syncThemeBtn() {
+  themeBtn.setAttribute('aria-pressed', String(document.documentElement.dataset.theme === 'dark'));
+}
+themeBtn.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem(THEME_KEY, next); } catch { /* private mode — session-only */ }
+  syncThemeBtn();
+});
+syncThemeBtn();
+
 function esc(x) {
   return String(x).replace(/[&<>"']/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]

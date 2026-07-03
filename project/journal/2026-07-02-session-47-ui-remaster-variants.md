@@ -129,9 +129,22 @@ English-only. Its "github.io deploy is stale" flag was CHECKED AND REFUTED
 (the deployed bundle greps v0.3.5 — the cold-open's slow-reveal CTA just
 resists scripted clicks); noted here so no one "fixes" a healthy deploy.
 
+## 8 · 06 dark mode + toggle (human-requested)
+
+The human asked for a dark mode on the 06 baseline + a light/dark toggle
+top-right. Fresh builder (the 06 agent's transcript had expired): a
+`[data-theme='dark']` color-token-only inversion — warm sumi ground off the
+game's own ink family, washi-cream text, lightened indigo/shu (AA-verified:
+body 12.56:1, muted 6.36:1, 27-pair palette audit green), grain kept via a
+screen-blend flip, NO gold keylines (the 04 differentiation guard held).
+Toggle: titlebar chip, aria-pressed, prefers-color-scheme default,
+localStorage persist, pre-paint apply (no flash). Full QA sweep re-run in
+BOTH themes (50 checks green); light mode verified pixel-unchanged.
+
 ## Next intended steps
 
-1. Human's morning read: the gallery — now SIX variants (R9 verdicts each).
+1. Human's morning read: the gallery — now SIX variants (R9 verdicts each);
+   06 has the light/dark toggle top-right.
 2. On the human's pick(s): decide the port path into `src/` — a proper D-075
    diverge of the chosen direction(s) against the real engine.
 3. Idea worth surfacing when picking: directions can BLEND (e.g. 06's
