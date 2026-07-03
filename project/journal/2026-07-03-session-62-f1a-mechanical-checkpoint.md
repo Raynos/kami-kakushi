@@ -86,14 +86,29 @@ checkpoint joins GATES in Phase 4).
 backtick rewritten + tagged AND a markdown link relinked to `./archive/…`,
 `md-links` GREEN (76 files), zero trace after cleanup. `npm run verify` green.
 
+## 3 · Phase 3 — journal scaffold + report
+
+- `checkpoint -- --journal "<topic>"` CREATES a dated skeleton from _TEMPLATE.md's
+  shape-A block (generated from the template, not hard-copied), NN = max existing
+  + 1, slugged topic. Create-only: it never opens/appends an existing journal, so
+  append-only-lossless holds.
+- End-of-run report is now "**wrote / moved / flagged**": scaffolded file, archive
+  moves + relinks + queue rewrites, region writes, and flagged non-closed tokens;
+  a bare run just names the newest journal.
+- Unit tests: `nextSessionNumber` (max+1, empty→1), `slugify`, `fillJournalSkeleton`
+  (shape-A only, placeholders replaced). 21 tests in the checkpoint suite.
+
+**DoD met:** scaffold lands at the correct next NN (63) with the shape-A skeleton
+filled; a forced path-collision proved create-only — with `session-63` pre-existing
+the scaffold targets `session-64` and leaves the existing file byte-unchanged; a
+bare `checkpoint` only reports (creates nothing). `npm run verify` green.
+
 ## Next intended steps
 
-1. Phase 3 — `--journal "<topic>"` scaffold (create-only, next NN, refuses to
-   touch an existing file) + the end-of-run report.
-2. Phase 4 — add `checkpoint` to GATES (becomes the 14th); the gate-roster regions
-   self-update in the same commit; record `verify:budget` headroom;
-   DONE-not-archived = WARN.
-3. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
+1. Phase 4 — add `checkpoint` to GATES (becomes the 14th); the gate-roster regions
+   self-update in the same commit (dogfood); record `verify:budget` headroom;
+   DONE-not-archived = WARN (promotion to block DEFERRED to the human).
+2. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
    trim working-agreements / prepare-to-exit / pre-commit roster comment. Then
    flip F1a to DONE + let checkpoint auto-archive itself.
 

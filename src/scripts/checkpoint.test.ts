@@ -1,6 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { resolve } from 'node:path';
-import { parseStatusToken, CLOSED_TOKENS, rewriteQueuePath, relinkTarget } from './checkpoint';
+import {
+  parseStatusToken,
+  CLOSED_TOKENS,
+  rewriteQueuePath,
+  relinkTarget,
+  nextSessionNumber,
+  slugify,
+  fillJournalSkeleton,
+} from './checkpoint';
 
 // Proves the plan-status-token parser (F1a Phase 1). The RED-able risk it guards:
 // a naive substring match mis-reads a two-word "IN PROGRESS" as "IN", or tags a
@@ -131,5 +139,55 @@ describe('relinkTarget', () => {
     expect(relinkTarget(fromAbs, '../docs/plans/x.md#open', oldAbs, newAbs)).toBe(
       './archive/x.md#open',
     );
+  });
+});
+
+// Proves the journal-scaffold helpers (F1a Phase 3). RED-able: an off-by-one NN,
+// a slug that keeps punctuation, or a template fill that leaves the placeholders.
+
+describe('nextSessionNumber', () => {
+  it('is max existing NN + 1 (global monotonic)', () => {
+    expect(
+      nextSessionNumber([
+        '2026-07-03-session-61-a.md',
+        '2026-07-03-session-62-b.md',
+        'README.md',
+        '_TEMPLATE.md',
+      ]),
+    ).toBe(63);
+  });
+
+  it('starts at 1 when there are no numbered sessions', () => {
+    expect(nextSessionNumber(['README.md', '_TEMPLATE.md'])).toBe(1);
+  });
+});
+
+describe('slugify', () => {
+  it('lowercases, collapses non-alphanumerics to single dashes, trims', () => {
+    expect(slugify('  The Mechanical Checkpoint! ')).toBe('the-mechanical-checkpoint');
+    expect(slugify('A/B — test')).toBe('a-b-test');
+  });
+});
+
+describe('fillJournalSkeleton', () => {
+  const template = [
+    '<!-- comment -->',
+    '<!-- ============ SHAPE A — short ============ -->',
+    '',
+    '# Session NN — {YYYY-MM-DD} — {one-line tagline / goal}',
+    '',
+    '**Summary:** {…}.',
+    '',
+    '<!-- ============ SHAPE B — long ============ -->',
+    '# Session NN — long shape',
+  ].join('\n');
+
+  it('fills NN / date / topic from the shape-A block only', () => {
+    const out = fillJournalSkeleton(template, 63, '2026-07-04', 'a fresh topic');
+    expect(out).toContain('# Session 63 — 2026-07-04 — a fresh topic');
+    expect(out).not.toContain('{YYYY-MM-DD}');
+    expect(out).not.toContain('Session NN');
+    expect(out).not.toContain('SHAPE B'); // shape B is excluded
+    expect(out.endsWith('\n')).toBe(true);
   });
 });

@@ -40,6 +40,8 @@ const read = (rel: string): string => readFileSync(abs(rel), 'utf-8');
 const PLANS_DIR = 'docs/plans';
 const ARCHIVE_DIR = 'project/archive';
 const QUEUE = 'project/todo-human.md';
+const JOURNAL_DIR = 'project/journal';
+const JOURNAL_TEMPLATE = 'project/journal/_TEMPLATE.md';
 
 // --- plan status tokens (the small convention change, §2.2) -------------------
 // A closed vocabulary: a plan's `**Status:**` line MUST lead with one of these
@@ -273,6 +275,73 @@ function archiveDonePlans(stage: boolean): { moves: Move[]; relinked: string[]; 
   return { moves, relinked, queued };
 }
 
+// --- journal skeleton scaffolding (§2.5) --------------------------------------
+// `checkpoint -- --journal "<topic>"` CREATES a dated session-skeleton from the
+// _TEMPLATE.md shape-A block, with NN = (max existing NN) + 1. It only ever
+// CREATES — it never opens or appends to an existing file, so the append-only
+// lossless journal invariant is preserved. Prose stays hand-written.
+
+/** Global monotonic session number = max existing NN + 1 (what hand-numbering does). */
+export function nextSessionNumber(names: string[]): number {
+  const nums = names
+    .map((f) => /-session-(\d+)/.exec(f)?.[1])
+    .filter((n): n is string => n != null)
+    .map(Number);
+  return (nums.length ? Math.max(...nums) : 0) + 1;
+}
+
+export function slugify(topic: string): string {
+  return topic
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 48);
+}
+
+function today(): string {
+  const d = new Date();
+  const p = (n: number): string => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+/** Extract the shape-A skeleton from _TEMPLATE.md and fill NN / date / topic.
+ *  Generated from the template (single source) rather than hard-copied here. */
+export function fillJournalSkeleton(
+  template: string,
+  nn: number,
+  date: string,
+  topic: string,
+): string {
+  const aStart = template.indexOf('SHAPE A');
+  const bStart = template.indexOf('SHAPE B');
+  const afterA = template.indexOf('-->', aStart);
+  if (aStart < 0 || bStart < 0 || afterA < 0)
+    throw new Error('checkpoint: _TEMPLATE.md is missing its SHAPE A / SHAPE B markers.');
+  const block = template
+    .slice(afterA + 3, bStart)
+    .replace(/<!--[\s\S]*?-->\s*$/, '')
+    .trim();
+  return (
+    block
+      .replace('Session NN', `Session ${nn}`)
+      .replace('{YYYY-MM-DD}', date)
+      .replace('{one-line tagline / goal}', topic) + '\n'
+  );
+}
+
+/** Create the skeleton file. Returns its repo-relative path, or throws if the
+ *  target already exists (never touches an existing journal file). */
+function scaffoldJournal(topic: string): string {
+  const names = readdirSync(abs(JOURNAL_DIR)).filter((f) => /-session-\d+/.test(f));
+  const nn = nextSessionNumber(names);
+  const rel = `${JOURNAL_DIR}/${today()}-session-${nn}-${slugify(topic)}.md`;
+  if (existsSync(abs(rel)))
+    throw new Error(`checkpoint --journal: refusing to touch an existing file: ${rel}`);
+  const body = fillJournalSkeleton(read(JOURNAL_TEMPLATE), nn, today(), topic);
+  writeFileSync(abs(rel), body, 'utf-8');
+  return rel;
+}
+
 // --- region wiring ------------------------------------------------------------
 
 interface RegionSpec {
@@ -301,8 +370,12 @@ const targetFiles = [...new Set(REGIONS.map((r) => r.file))];
 // --- CLI ----------------------------------------------------------------------
 
 function runCli(): void {
-  const check = process.argv.includes('--check');
-  const stage = process.argv.includes('--stage');
+  const argv = process.argv;
+  const check = argv.includes('--check');
+  const stage = argv.includes('--stage');
+  // `--journal "<topic>"` — the topic is the next non-flag argument.
+  const jIdx = argv.indexOf('--journal');
+  const journalTopic = jIdx >= 0 ? argv[jIdx + 1] : undefined;
 
   if (check) {
     // 1) token vocabulary — every plan must lead with a closed token (§2.2, §3.2)
@@ -331,19 +404,24 @@ function runCli(): void {
     process.exit(0);
   }
 
-  // write mode
+  // --- write mode: the end-of-run report is "wrote / moved / flagged" ---------
   console.log('checkpoint — mechanical process-doc regeneration');
 
-  // Loud (never blocking) warn on any non-closed token — the write still proceeds.
-  const bad = invalidTokenPlans();
-  for (const b of bad) {
-    console.log(`  !! non-closed status token in ${b.file}: ${b.token ?? '(no **Status: line)'}`);
+  // Optional journal skeleton (create-only; never touches an existing file).
+  let scaffolded: string | undefined;
+  if (jIdx >= 0) {
+    if (!journalTopic || journalTopic.startsWith('--')) {
+      console.error('  X checkpoint --journal needs a topic: --journal "the topic"');
+      process.exit(2);
+    }
+    scaffolded = scaffoldJournal(journalTopic);
+    console.log(`  + scaffolded journal: ${scaffolded}`);
   }
 
   // Archive done/superseded plans FIRST (so the active-plans region excludes them).
   const { moves, relinked, queued } = archiveDonePlans(stage);
   for (const m of moves)
-    console.log(`  → archived ${m.oldRel} → ${m.newRel}${stage ? ' (staged)' : ''}`);
+    console.log(`  → moved ${m.oldRel} → ${m.newRel}${stage ? ' (staged)' : ''}`);
   for (const f of relinked) console.log(`    relinked ${f}`);
   if (queued) console.log(`    reading-queue path(s) rewritten + tagged (archived — done)`);
 
@@ -361,12 +439,22 @@ function runCli(): void {
   } else if (moves.length === 0) {
     console.log('  regions already up to date (no write).');
   }
-  // Newest journal (a bare run just names it — scaffolding lands in Phase 3).
-  const journals = readdirSync(abs('project/journal'))
-    .filter((f) => /^\d{4}-\d{2}-\d{2}-session-\d+.*\.md$/.test(f))
-    .sort();
-  if (journals.length)
-    console.log(`  newest journal: project/journal/${journals[journals.length - 1]}`);
+
+  // Flagged (never blocking here — the RED gate is --check): non-closed tokens.
+  const bad = invalidTokenPlans();
+  for (const b of bad)
+    console.log(
+      `  !! flagged: non-closed status token in ${b.file}: ${b.token ?? '(no **Status: line)'}`,
+    );
+
+  // Newest journal — a bare run just names it (no scaffolding).
+  if (!scaffolded) {
+    const journals = readdirSync(abs(JOURNAL_DIR))
+      .filter((f) => /^\d{4}-\d{2}-\d{2}-session-\d+.*\.md$/.test(f))
+      .sort();
+    if (journals.length)
+      console.log(`  newest journal: ${JOURNAL_DIR}/${journals[journals.length - 1]}`);
+  }
   process.exit(0);
 }
 
