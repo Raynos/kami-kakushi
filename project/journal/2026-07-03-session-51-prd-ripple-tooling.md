@@ -3,7 +3,7 @@
 **Summary:** The human asked whether the PRD diet has a buildable-now slice —
 can rippling from the game back into the PRD be partially automated, or
 failing that, become a skill? Answer: both. Authored
-`docs/plans/fable-2026-07-03-prd-ripple-tooling.md`: a `prd:drift` fact reporter
+`docs/plans/fable-process-S5-prd-ripple-tooling.md`: a `prd:drift` fact reporter
 (the game's typed registries — the same ones `gen-docs.ts` already exports —
 diffed against PRD prose, plus a retired-terms tripwire), one pilot
 gen-region (§3 T0 rung names) reusing the mechanical-checkpoint plan's
@@ -14,7 +14,7 @@ surface.
 
 ## What changed
 
-- `docs/plans/fable-2026-07-03-prd-ripple-tooling.md` — NEW: the plan (4 phases,
+- `docs/plans/fable-process-S5-prd-ripple-tooling.md` — NEW: the plan (4 phases,
   Opus-routable; the eventual compression sweep stays Fable + human-signed).
 - `project/todo-human.md` — queued the plan (same-commit queue gate).
 
@@ -111,3 +111,56 @@ leverage × compounding × feasibility × non-overlap with the four in-flight
 plans; discards summarized by category at the bottom) and queued it. The
 human intends to pick 1–2; each pick becomes a full `docs/plans/` plan
 before any build. Recommended pair: #1 balance-tuning cockpit + #3 CI.
+
+## 3 · Top10 verdicts + the plan wave (same session, later)
+
+The human went far past 1–2 picks. Verdicts (recorded in the brainstorm's
+table): **picked** #1 cockpit, #3 CI (spec: parallel jobs per commit, ~5min
+wall target, evaluate eslint→oxlint + prettier→oxc), #5 scenario saves,
+#6 real-play telemetry (the human dictated the crux: attended-time
+correctness — tab/user active vs idle; 5min+20min-away+5min must count as
+10min of play, not 30), #8 narrative authoring format (read story as prose,
+generate the code), #10 /ship; **rejected** #2 review tour + #9 worktrees
+("don't care right now"); #7 picked as a deliberate PLACEHOLDER
+(`fable-process-N7-taste-bar-enforcement.md`) gated on the taste.md lock.
+Six Plan subagents dispatched across the wave; landed so far:
+`fable-process-N10-ship-skill.md` (temp-worktree isolated build of HEAD +
+live-site version proof as the R3 heart),
+`fable-process-N1-balance-cockpit.md` (live-binding override layer
+verified against real access patterns; URL-persisted overrides; export-
+diff artifact; agents never tune — D-059 kept), and the
+`fable-process-N7-taste-bar-enforcement.md` placeholder (authored
+directly, not subagent — deliberately thin until taste.md locks). Still
+in flight: #3 CI, #5 scenario saves, #6 telemetry, #8 narrative format.
+Explanations of #2/#3/#5/#6/#7/#8 were given in-chat; the WIP-cap and CI
+cases are summarized in the brainstorm verdicts.
+
+## 4 · Series rename + all six plans landed + confidence lines (later)
+
+Three human asks executed in one wave:
+
+- **Series prefix:** the process mega-session's plans renamed to
+  `fable-process-S{n}-` (the retro suggestions 1–5) and
+  `fable-process-N{n}-` (the top-10 numbers) — `S`/`N` chosen because
+  `R/H/D/F/A` already number reviews/decisions/feedback/rules. Convention
+  generalized in `docs/plans/README.md` (`<model>-<series>-<slug>`);
+  repo-wide reference sweep (incl. `prd-drift.ts`).
+- **All six subagent plans landed:** N3 CI (web-grounded oxlint/oxfmt
+  verdicts: two-tier lint — oxlint can't express the `new Date()` core
+  ban; oxfmt behind a zero-diff parity proof; 2 parallel jobs ≈ 1.5 min
+  vs the 5-min target), N5 scenario saves (byte-stable generated
+  fixtures), N6 telemetry (pure sessionizer; the 5/20/5 case is a named
+  unit test; grounded: hidden pauses the sim, blur does NOT), N8
+  narrative format (real R3 beat as the worked example; found the R7
+  'official'-vs-'lord' voice drift), after N1 cockpit + N10 ship earlier.
+- **Confidence lines:** every fable plan's "Who builds" section now
+  opens with `( X% Opus, Y% Fable )` per the human's ask —
+  doubt-favors-Fable. Spread: 90/10 (checkpoint, cockpit, saves, ship),
+  85/15 (ripple, telemetry), 80/20 (inbox), 70/30 (CI), 65/35 (sim),
+  70% FABLE (taste-bar), 60% FABLE (narrative format).
+- **Repair:** the other session's decisions.md linked the v0.3.5 build
+  plan at `project/archive/` while the file lives in `docs/plans/` —
+  repointed (it was blocking every commit via md-links).
+- A first-attempt perl quoting error double-inserted 5 confidence lines
+  (silently succeeded before the chain errored); caught by grep -c and
+  deduped — the staged-set echo isn't the only place counts matter.

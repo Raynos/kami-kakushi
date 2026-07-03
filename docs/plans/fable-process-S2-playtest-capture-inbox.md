@@ -13,6 +13,9 @@ the D-075 variant harness (`src/ui/dev.ts`) · the save codec
 
 ## Who builds this — Fable or Opus?
 
+**Confidence: ( 80% Opus, 20% Fable )** — the 20%: the drain-skill triage
+wording shapes every future taste call it routes; Fable eyes there.
+
 **Build: Opus 4.8 is sufficient. Running drains: either — Fable preferred
 when captures need taste triage.** The build phases are well-specified
 engineering with mechanical DoDs: a DEV-only overlay (not a player-facing

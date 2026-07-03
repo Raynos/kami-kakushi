@@ -13,6 +13,9 @@ lands it (the pre-commit queue gate enforces this).
 
 ## Who builds this — Fable or Opus?
 
+**Confidence: ( 90% Opus, 10% Fable )** — the 10%: Phase 5 edits process
+canon (working-agreements, session-brief), prescribed but canon-adjacent.
+
 **Opus 4.8 — Fable not required.** The judgment this plan needed (what is
 derivable, which rung soundly holds each invariant, the cry-wolf
 calibration) is already spent and encoded in the audit tables and DoDs

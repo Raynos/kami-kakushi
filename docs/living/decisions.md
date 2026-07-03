@@ -1301,3 +1301,126 @@ design ADR.
   compressed territory baseline on acceptance criteria + ADRs + generated
   docs, not detail-prose; §6 tech-architecture folds into the T0 sweep. Per
   **D-022**, governs.
+
+## v0.3.5 — the agent-default audit decisions (2026-07-03)
+
+Seven ADRs from the interactive agent-default audit
+([`project/audit/reports/2026-07-03-agent-default-decision-audit.md`](../../project/audit/reports/2026-07-03-agent-default-decision-audit.md)):
+six T0-build plans were verified against git + source, then every place the
+agent had picked a "default" and shipped it was walked through with the human.
+Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opus-2026-07-03-v0.3.5-build-plan.md).
+
+### D-118 ✅ — Economy: koku is pure standing (no income flywheel); rice storage must cost something
+- **created_date:** 2026-07-03
+- **Context:** The koku-economy re-core (**D-107**) shipped Phases 1–4; the audit
+  verified it and surfaced two economy calls for the human. The shipped kura is
+  free, lossless and loss-safe, so "always hold rice until spring" dominates the
+  seasonal store-vs-sell choice (`economy-balance-watch`).
+- **Decision (human, 2026-07-03):** **(1)** koku is **pure standing + the
+  ascension gate** — ratified. It reads as House prestige and gates the climb, but
+  **never multiplies income** (the soft-flywheel is rejected). **(2)** Rice storage
+  must **cost something** — a per-season spoilage %, a kura capacity cap, or a
+  small upkeep fee — so store-vs-sell is a live decision. The exact mechanism is
+  **liquid**, chosen at build (**D-059**).
+- **Why:** koku-as-standing keeps the pillar legible and the economy honest; a
+  costed store closes a dominated decision without adding UI.
+- **Consequences:** build-plan §1 adds the storage cost; the balance-watch item
+  closes. Relates **D-107**, **D-059**.
+
+### D-119 ✅ — IA: the tab set is SEVEN — Quests regains its own tab; Inventory reveal staggered to R3 (supersedes D-112's six-tab lock)
+- **created_date:** 2026-07-03
+- **Context:** **D-112** (2026-07-02) locked a **six-tab** set and folded Quests
+  into Character as "Undertakings 用", explicitly superseding **D-037**'s "Quests
+  is its own tab." But D-112's own build DoD said the quest-home fork (§8.1) must
+  be "resolved WITH the human" — it was shipped on the agent's default instead.
+  The audit put it (and the R1 triple-reveal) to the human.
+- **Decision (human, 2026-07-03):** **(1)** Quests get their **own dedicated tab**
+  again — the set is now **SEVEN**: Work · Map · Estate · Inventory · Character ·
+  Combat · Quests. This **supersedes D-112's six-tab lock and reinstates D-037's
+  intent**. The Quests glyph is **用** provisionally (a taste call, overridable).
+  **(2)** The **Inventory tab reveals at R3** (staggered), not R1 — ending the
+  Map+Estate+Inventory triple-reveal, which better honours the locked "nav reveal
+  one-tab-at-a-time" intent. **(3)** Ratified: House Influence (koku) stays on the
+  **Estate** tab; the tab kanji glyphs (地図 · 家 · 蔵 · 己 · 武) are locked as the
+  first cut.
+- **Why:** quests earned a legible home of their own (the DoD flagged this for the
+  human); staggering resolves a latent reveal-slam.
+- **Consequences:** build-plan §3–§4; the PRD IA section → seven tabs; the stale
+  code comments at `render.ts:4504–4506` (citing "D-112 supersedes D-037") are
+  corrected. **Supersedes D-112** (six-tab set); reinstates/relates **D-037**.
+
+### D-120 ✅ — Housing: the hearth homes the cook verb; the chest is real storage; no morale system
+- **created_date:** 2026-07-03
+- **Context:** Deep housing (**D-111**) shipped a T0 slice, but the audit found the
+  hearth and chest had been built as **raw stat bonuses** — diverging from the
+  plan's stated intent — and asked whether to add a morale/upkeep register.
+- **Decision (human, 2026-07-03):** **(1)** the **hearth homes the cook verb**
+  (`cook_meal` happens at the hearth) — not a satiety stat. **(2)** the **chest
+  (nagamochi) is real storage** (a belongings buffer/capacity) — not a satiety
+  stat. **(3)** **No morale/upkeep system** — housing comfort stays concrete: rest
+  recovery, satiety, and storage. The plan's "morale/upkeep" comfort channel is
+  dropped for good.
+- **Why:** diegetic mechanics beat raw stats; morale/upkeep is a whole new system
+  the human declined for T0.
+- **Consequences:** build-plan §5–§6 reverse the two off-plan defaults; the closed
+  `ComfortKind` widens to include **storage** (not morale). Relates **D-111**.
+
+### D-121 ✅ — Story: rung-beat cast & rewards ratified; the R7 capstone becomes a mechanical branch
+- **created_date:** 2026-07-03
+- **Context:** The rung-up story beats (**D-110**) shipped; the audit ratified the
+  cast/rewards and asked whether the R7 capstone should matter mechanically.
+- **Decision (human, 2026-07-03):** **(1)** ratified — keep the three invented
+  faces (**Tokubei** the Ōmi pedlar, **Rokusuke**, the smith **Tōzō**); keep rare,
+  varied rewards **including the one-time +1 AGI at R3**; **Naoyuki** (the heir)
+  stays mentioned-but-unseen in T0. **(2)** OVERRIDE — the **R7 capstone choice
+  must matter mechanically** (a real, legible branch carried into play), not just a
+  remembered flag.
+- **Why:** the cast/rewards read well; a capstone that changes nothing undersells
+  the T0→T1 seam.
+- **Consequences:** build-plan §7 adds the mechanical branch; the full beat prose
+  is still an R8 read. Relates **D-110**.
+
+### D-122 ✅ — Status tokens: T0 grants exactly ONE home token; the full ladder is T1–T5
+- **created_date:** 2026-07-03
+- **Context:** koku Phase 5 (status tokens: surname → two swords → gōshi) was never
+  built, and the housing status-mirror was deferred. The audit split Phase 5 out
+  and asked about its scope.
+- **Decision (human, 2026-07-03):** T0 grants **exactly one** hard-won home
+  **status token** across R1→R7, displayed by the housing **status-mirror**. The
+  full surname → two-swords → gōshi ladder is deliberately **T1–T5 PRD planning**.
+  Verbatim: *"how much status can you get in T0 lol… Maybe somewhere in T0 from
+  R1→R7 you can get one 'status token' for your home. And the rest is just planning
+  for the PRD T1–T5."*
+- **Why:** scopes status accrual to the tier's reality; avoids over-building a
+  ladder T0 can't fill.
+- **Consequences:** build-plan §8 (the one-token slice + status-mirror); the full
+  ladder becomes a PRD multi-tier arc, unbuilt in T0. Relates **D-109**, **D-111**.
+
+### D-123 ✅ — Render: the append-only engine ratified; the Now-view residual closes
+- **created_date:** 2026-07-03
+- **Context:** The append-only render engine shipped all three phases on five
+  agent-picked open-question defaults; the audit ratified them and flagged the one
+  surface left doing a wholesale rebuild (`renderNowView`).
+- **Decision (human, 2026-07-03):** ratify **all five** choices — migrate all
+  surfaces · ship per-phase · the shared `reconcile.ts` helper · full
+  flash-elimination (over a cheap throttle stopgap) · a standing zero-churn test
+  per surface. OVERRIDE the residual — **migrate `renderNowView` to append-only
+  too**, so no surface does a wholesale rebuild.
+- **Why:** the engine is sound and shipped; consistency closes the last flash
+  offender.
+- **Consequences:** build-plan §2 migrates the Now-view.
+
+### D-124 ✅ — Process: subagents inherit the parent's model by default (no lateral model switch)
+- **created_date:** 2026-07-03
+- **Context:** With multiple model tiers available (Opus, Fable, Sonnet, Haiku), a
+  plan's "who builds this" section had begun proposing cross-model routing (e.g.
+  Opus spawning Fable for taste work), risking silent lateral model switches.
+- **Decision (human, 2026-07-03):** subagents and `Workflow` agents **inherit the
+  parent's model by default**. The **only** self-serve exception is dropping to a
+  **smaller/cheaper model for exploration or trivial mechanical work**. **No
+  lateral switch** to a different same-tier model (e.g. Opus→Fable) without an
+  explicit human instruction. A plan's routing section **proposes**; it does not
+  license a switch.
+- **Why:** predictable cost/quality; the human owns cross-model routing.
+- **Consequences:** AGENTS.md "How to work here" gains the rule (applied this
+  session); plan "who builds this" sections are proposals pending human approval.

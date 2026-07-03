@@ -6,12 +6,17 @@ steps awaiting or under execution. This directory holds **active plans only**.
 - **A plan lives here while it's live** (proposed, approved-but-unstarted, or in
   progress). Add a new plan to the [reading queue](../../project/todo-human.md) in
   the same commit you author it (a pre-commit gate enforces this).
-- **Filename = `<model>-<date>-<slug>.md`** (human, 2026-07-03): prefix with the
-  model of the session that WROTE the plan — `fable-` or `opus-` (extend the set
-  as models arrive) — so the human can tell provenance at a glance. This is the
-  authoring session's model (what the `Assisted-by:` trailer records), NOT who
-  should build the plan (that's the "Who builds this" section inside). A
-  pre-commit WARN nags an unprefixed new plan.
+- **Filename = `<model>-<series>-<slug>.md`** (human, 2026-07-03): prefix with
+  the model of the session that WROTE the plan — `fable-` or `opus-` (extend
+  the set as models arrive) — so the human can tell provenance at a glance.
+  This is the authoring session's model (what the `Assisted-by:` trailer
+  records), NOT who should build the plan (that's the "Who builds this"
+  section inside). A pre-commit WARN nags an unprefixed new plan.
+  `<series>` is the date by default; a named wave may replace it — e.g. the
+  2026-07-03 process mega-session uses `process-S{n}` (the original retro
+  suggestions 1–5) and `process-N{n}` (the top-10 numbers), giving
+  `fable-process-N1-balance-cockpit.md`. `S`/`N` were chosen because
+  `R`/`H`/`D`/`F`/`A` already number reviews/decisions/feedback/rules here.
 - **When a plan is done, archive it** — `git mv` it to
   [`../../project/archive/`](../../project/archive) the moment its Status line
   reads ✅ done, so this directory never accumulates finished plans and its file

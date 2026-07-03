@@ -4,6 +4,9 @@
 
 ## Who builds this — Fable or Opus?
 
+**Confidence: ( 65% Opus, 35% Fable )** — Ph2 envelope-soundness
+calibration can pollute canon if mis-called; doubt tilts it to Fable.
+
 **Opus 4.8 builds Ph1/Ph3/Ph4; Ph2's envelope calibration is the one
 Fable-preferred step.** Personas, metrics, the runner and the report are
 mechanical builds against explicit DoDs — Ph1 must byte-reproduce the

@@ -29,6 +29,9 @@ instead of ADR archaeology.
 
 ## Who builds this — Fable or Opus?
 
+**Confidence: ( 85% Opus, 15% Fable )** — Ph1 is already built (by Fable);
+the 15%: the pilot gen-region edits PRD canon — Fable eyes on that diff.
+
 **Opus 4.8 — all four phases.** The drift reporter and region splicer are
 deterministic tooling against explicit DoDs; the two skills transcribe
 procedures already written and human-locked in the brainstorm
