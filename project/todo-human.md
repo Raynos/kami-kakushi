@@ -33,6 +33,11 @@
 > or a **design doc awaiting a taste call**. Added in the commit that authors it
 > (a pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
+>
+> **An ARCHIVED doc (`project/archive/`) NEVER belongs here** — archiving means it's
+> done/superseded, and git history + `decisions.md` + the journal are its record.
+> When a plan/doc is archived, remove its queue entry in the same move (any still-owed
+> bit lives as an R-item in `human-in-the-loop/review.md`, not here).
 
 **⭐ Tonight's headline — the taste standard (the key read):**
 
@@ -44,9 +49,6 @@
 
 **Owed reviews / taste calls (async, no rush):**
 
-- [ ] `project/archive/opus-2026-07-02-rung-up-story-transitions.md` — the **rung
-  R0→R7 cast + beat prose** (built & archived; §6.5 cast + §7 prose await your read
-  — cast ratified in the audit, but the full prose is still an R8 read). Also R8.
 - [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy
   balance-watch**: 4 liquid tuning items (rice out-produces its sinks → coin too
   abundant; the koku capstone is reached too fast; season store/sell dominated;
