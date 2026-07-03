@@ -41,6 +41,11 @@
 
 **⭐ Tonight's headline — the taste standard (the key read):**
 
+- [ ] `project/brainstorms/2026-07-03-taste-transfer-architecture.md` — the
+  **strategy for the ⭐ redo** (being discussed live in-session): the pyramid
+  (values + touchstones over the 22 principles), delivery rungs, the
+  prediction-test + repeat-rate measurement, and the 4-step redo process.
+
 - [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD**: the cross-cutting design
   taste distilled from ALL 117 of your feedback items — ~12–16 memorable
   meta-principles + a pre-build / pre-ship checklist, so future features are built
