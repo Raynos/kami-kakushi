@@ -103,3 +103,13 @@ qa-playtesting.md. Per the human's ask, the build order now lives as a
 little plan: `docs/plans/fable-2026-07-03-taste-redo.md` (P0 lock → P1
 taste.md ≤150 → P2 ui-design ≤400 → P3 register + budgets gate → P4
 prediction test; strictly serial). Grill continues with the §10 open flags.
+
+## P0 CLOSED — the top layer is locked → ADR D-126
+
+Grill rounds 2–4 (all checkpointed in brainstorm §10): V4 density demoted
+to principle → **four values**; Kurosawa = "weaker than the docs claim" →
+provisional pending R9 (the P2 cull must NOT harden it); inspiration refs
+found in README L26–30 (proto23 = 23html.github.io, yet-another-idle-rpg =
+miktaew) — agent screenshots them in P1 prep and proposes what-to-take;
+budgets **150/400 confirmed**; backstop: "that's complete." Promoted to
+**D-126** in decisions.md; plan Status → P0 ✅. Next: P1 re-derivation.

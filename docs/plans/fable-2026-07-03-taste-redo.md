@@ -1,6 +1,6 @@
 # The taste redo — lock, cull, wire (the ⭐ TODO, executable form)
 
-**Status: ▶️ ACTIVE — Phase 0 (the lock) in flight.**
+**Status: ▶️ ACTIVE — P0 ✅ locked (ADR D-126); next: P1 (re-derive + rewrite).**
 **Confidence: ( 5% Opus, 95% Fable )** — this is the taste keystone; only
 the P3 gate wiring is routine enough for either.
 

@@ -310,10 +310,53 @@ Execution plan for what follows this lock:
 - Asked: where do the DEV-tooling principles live after the cull?
 - Captured: **move to `qa-playtesting.md`** — taste.md stays player-facing.
 
+### Q5 — V4 fate
+- Asked: keep-reframed / demote / drop the two-registers value?
+- Captured: **demote to principle.** The values layer is now **four:
+  V1 one-home · V2 never-yank-the-ground · V3 fiction-causes-mechanics ·
+  V5 never-guess-state.** Density stays mid-layer (P7), pointing at the
+  proto23 / yet-another-idle-rpg references.
+- Derived default (agent, override async): with V6 also demoted, P19
+  (in-palette everywhere, error modal) stays a mid-layer principle grouped
+  under V1 (the palette is single-sourced = one home for colour).
+
+### Q6 — Kurosawa's status
+- Asked: why didn't Kurosawa/woodblock make the touchstone cut?
+- Captured: **"Weaker than the docs claim."** The woodblock/ink direction
+  is SOFTER canon than ui-design.md treats it — do not restate it as a
+  locked touchstone; **flag it for a future taste call**. Natural venue:
+  **R9** (the UI-remaster variants review — "the game's next UI
+  generation"), where the visual identity gets resettled.
+- Ripple: P2's ui-design cull must mark the vision statement as
+  provisional-pending-R9, not harden it further.
+
+### Q7 — the two inspiration references
+- Asked: where do proto23 / yet-another-idle-rpg live + what to take?
+- Captured (human: "open the damn README"): README.md L26–30 —
+  **proto23** = <https://23html.github.io/>
+  (repo `23html/23html.github.io`); **yet another idle rpg** =
+  <https://miktaew.github.io/yet-another-idle-rpg/>
+  (repo `miktaew/yet-another-idle-rpg`). Both hosted; the agent will
+  screenshot them (P1 prep), commit a few reference shots, and propose
+  the what-to-take line for human confirm.
+- Flags: what-to-take per game → agent proposes after capture.
+
+### Q8 — doc budgets
+- Asked: confirm caps 150 (taste) / 400 (ui-design) before the gate?
+- Captured: **confirmed 150 / 400.**
+
+### Q9 — completeness backstop
+- Asked: anything about how the game should FEEL missing from the locked
+  top layer?
+- Captured: **"That's complete."** The lock closes.
+
+**P0 CLOSED — promoted to ADR D-126** (decisions.md). The locked layer:
+**4 values** (one-home · never-yank-the-ground · fiction-causes-mechanics ·
+never-guess-state) · **3 touchstones** (GBA typewriter · JRPG learned boxes
+· Fallout dialogue tree) · **2 density references** (proto23 ·
+yet-another-idle-rpg). Kurosawa provisional → R9.
+
 ## Open flags (pending input)
-- V4 two-registers: keep / merge / drop.
-- V6 demotion: where its non-DEV content (P19 in-palette) sits.
-- Kurosawa: touchstone, or ui-design-only identity?
-- proto23 + yet-another-idle-rpg: repo locations + what to take from each.
-- Doc budgets 150/400: confirm.
-- Missing values: anything the six clusters don't cover (esp. fun/pacing).
+- What-to-take lines for proto23 / yet-another-idle-rpg (agent proposes
+  after screenshot capture in P1 prep; human confirms).
+- Kurosawa resettle → rides R9, not this lock.

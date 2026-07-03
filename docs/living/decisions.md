@@ -1495,3 +1495,46 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   the side quests are T1 content (R8→R15) and T1 isn't built (R6 — don't build
   unreachable); the R7 *choice* already ships. Full build-ready spec graduated to
   [`capstone-t0-branch.md`](../living/capstone-t0-branch.md); its plan is archived.
+
+### D-126 ✅ — Taste: the top layer locked (4 values · 3 touchstones · 2 references) + the taste docs become budgeted snapshots
+- **created_date:** 2026-07-03
+- **Context:** the ⭐ "redo taste-distillation WITH Fable" TODO. The first-cut
+  `taste.md` (437 lines, 22 principles) is corrective, not generative — its
+  F-coverage is near-total but it has no top layer an agent can reason from in
+  situations no rule covers; and living docs bloat without a bound (the
+  326-line `project-status.md` lesson). Grill session + full Q&A log:
+  `project/brainstorms/2026-07-03-taste-transfer-architecture.md` (§10);
+  build order: `docs/plans/fable-2026-07-03-taste-redo.md`.
+- **Options:** (a) more principles + a bigger checklist; (b) a generative top
+  layer (values + touchstones) over culled principles, with hard doc budgets;
+  (c) leave the draft as-is.
+- **Decision:** (b), locked as:
+  - **Values ×4:** one-home-for-everything · never-yank-the-ground(-under-the-
+    player) · fiction-causes-mechanics · never-guess-state. The two-registers
+    density value is DEMOTED to a principle; "no-backstage" is demoted too
+    (its DEV-ergonomics content P21/P22 moves to `qa-playtesting.md`).
+  - **Touchstones ×3:** GBA-era typewriter · JRPG "learned" boxes ·
+    Fallout-style dialogue tree.
+  - **Density references ×2:** proto23 (<https://23html.github.io/>) +
+    yet-another-idle-rpg (<https://miktaew.github.io/yet-another-idle-rpg/>)
+    — the what-to-take lines are agent-proposed after screenshot capture,
+    human-confirmed.
+  - **Kurosawa/woodblock is SOFTER canon than `ui-design.md` claims** — treat
+    the visual identity as provisional pending **R9** (the UI-remaster taste
+    call); do not restate it as locked.
+  - **`taste.md` + `ui-design.md` are snapshot-class** (replace-in-place,
+    never append) with **hard caps 150 / 400 lines** (rewrite targets
+    ~110 / ~300), gated by a `verify-doc-budgets` docs-lane verify gate; the
+    F-corpus in `project/human-feedback/` stays the lossless example record.
+    The pre-ship checklist LEAVES `taste.md` → F10's generated scorecards.
+  - **Derivation corpus:** `2026-07-02-playtest.md` ONLY (the first and only
+    playtest); a systems-taste layer waits for a systems playtest.
+- **Why:** "build it as if I wrote it" needs a layer that *predicts* verdicts
+  in novel situations — values and touchstones transfer; rules only correct.
+  A hard budget turns append into displace, so the standard sharpens instead
+  of growing; the examples already live in the corpus, and restating them in
+  living docs is drift, not safety.
+- **Consequences:** the taste-redo plan P1–P4 executes against this lock;
+  AGENTS.md gains a ~10-line taste register (P3); F10 re-plans once
+  `taste.md` locks; `ui-design.md`'s vision statement gets a
+  provisional-pending-R9 marker in the P2 cull.
