@@ -43,8 +43,15 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
   static list. Phase 0 = a design pass (grill-me/diverge) to lock the open shape
   questions; then build (T0-later/T1, NOT R0/R1). D-114/D-115/D-116-adjacent.
 
-_(The **UI-remaster variants** — the six live demos + their plan — are tracked as
-**R9** in `human-in-the-loop/review.md`; review them there, live.)_
+- [ ] `docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md` — **the
+  Moonlit × Lacquer fusion trio** (you asked for 3 blends of 01 + 04): build demos
+  **07 Andon** (warmth-as-place), **08 Night Seal** (warmth-as-you), **09 Damascene
+  Duet** (a third steel substrate) — a spanning set from a 7-way fan-out. Review
+  the built demos **live under R9**; this plan is the build spec + idea/ranking.
+
+_(The **UI-remaster variants** — the six live demos + the 3 new fusion demos +
+their plans — are tracked as **R9** in `human-in-the-loop/review.md`; review them
+there, live.)_
 
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**

@@ -282,6 +282,25 @@ win worth carrying into UI-v2 regardless of which visual direction wins.
   (uniform states, spacing rhythm, held seal ceremony, ledger market).
   "My current game, its best self" — the comparison anchor for 01–05.
 
+**Moonlit × Lacquer fusion round (2026-07-03, human-requested).** Torn between
+**01** and **04**, the human asked for 3 blends. A 7-way idea fan-out → a spanning
+trio, built as demos 07–09. Idea/ranking:
+[`project/brainstorms/2026-07-03-moonlit-lacquer-fusion.md`](../brainstorms/2026-07-03-moonlit-lacquer-fusion.md);
+build spec: [`docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md`](../../docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md).
+Each attacks the fusion from a different axis so the three read as three distinct
+temperatures at a glance:
+
+- [ ] **07 · Andon** — *warmth is a PLACE.* A warm lamplit lacquer desk (you act)
+  beside a cool moonlit paper **window** — the log (the world remembers).
+  Temperature = mode, type = light-source (serif lamp / sans moon); the cursor is
+  a diamond crest that stamps a vermillion seal on commit. Warm-forward.
+- [ ] **08 · Night Seal** — *warmth is YOU.* A wholly cold indigo-lacquer house;
+  the only warm thing is a vermillion **seal-cursor** that glides to point, stamps
+  to commit, and grows into the rank-up ceremony. Cold, one red actor.
+- [ ] **09 · Damascene Duet** — *warmth transcended into a THIRD ground.* A
+  blackened-steel bimetal jewel-box: silver = state, gold = value, vermillion =
+  commit; one strike-lozenge is both cursor and CTA. Neutral-dark, no paper.
+
 - **Asking for:** which direction (or blend) becomes the real game's UI-v2 —
   and per variant: does it read as *this* game, a generation better?
 - **How to look:** **<https://kami-kakushi-ui-demos.vercel.app>** (or
