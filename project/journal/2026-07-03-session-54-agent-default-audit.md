@@ -154,3 +154,22 @@ R7 capstone build is post-v0.3.5.
 
 **Next:** push the session (v0.3.5 + all the design docs are unpushed); clean the
 merged worktree; the capstone build waits for T1.
+
+---
+
+## Update 5 — checkpoint / exit (pushed + DEPLOYED + cleaned)
+
+- **Archived** both done opus-2026-07-03 plans (v0.3.5-build ✅ built+merged,
+  cleanup-docs) + the r7-capstone plan; **graduated** the capstone design to
+  `docs/living/capstone-t0-branch.md` (build deferred to T1).
+- **Reconciled todo-human** hard: dropped every signed-off / archived / stale /
+  duplicated-in-review.md item; codified "archived docs never belong in the queue";
+  the balance-watch report was **read** by the human → all 4 items are D-059
+  feel-calls (best tuned by playing) → cleared from the queue, left as the report.
+- **`emergent-node-actions`** brainstorm → an implementation plan (Phase-0 design
+  pass first).
+- **PUSHED** `origin/main` (pre-push verify green) and **DEPLOYED to gh-pages** —
+  the v0.3.5 build (7-tab IA, rice spoilage, wall-weapon, …) is now **live** at
+  raynos.github.io/kami-kakushi (`bef8b5c`, DEV-cheats-stripped gate passed).
+- **Removed** the merged agent worktree + branch. Snapshot brought current.
+- **State at exit:** `main` == `origin/main`, tree clean, verify green.

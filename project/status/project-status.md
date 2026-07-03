@@ -28,24 +28,23 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
   per-section files `docs/living/prd/*`. §4 balance + §7 M2–M7 stay provisional (D-059).
 - **v0.3.0–v0.3.3 shipped** the T0 M0–M4 arc + playtest rounds 1–3 (F1–F85):
-  5-attr combat, bank, spatial map, Bestiary, quests; app-shell overhaul, the
-  append-only **VN intro** (D-104), **log v2**, LOCKED multi-panel (D-106), 1780
-  cold-open (D-105).
-- **✅ AUTONOMOUS T0 REBUILD — COMPLETE + DEPLOYED** (2026-07-03, `origin/main`,
-  green; live at **raynos.github.io/kami-kakushi** as **v0.3.5**). Full autonomy +
-  scope in ADRs **D-107–D-116**. **Eight lanes:** ① append-only render engine
-  (`reconcile.ts`, flash-free) · ② economy re-core Ph1–4 + audited — koku→**coin+
-  rice**, rice loop, mon/monme/ryō, koku=House **standing** (D-107/108/109/113) ·
-  ③ IA 6-tab reorg (Work·Map·Estate·Inventory·Character·Combat, incremental;
-  vendors-as-people; nav→Now, D-116) · ④ estate-map diverge (7 DEV variants V5A–G,
-  F102) · ⑤ rung-up story beats — every rung a player-triggered VN beat (D-110;
-  pending→beat→apply; SCHEMA 5→6) · ⑥ log/UI polish (Chat F111 · Now-timer F115 ·
-  footer F92 · About modal F104/105 · F116 dup-ladder · F117 log rebalance) ·
-  ⑦ deep housing T0 (home/belongings/comfort, D-111) · ⑧ combat-log voice (F91).
-- **v0.3.4→v0.3.5 deploys** + a backfilled `CHANGELOG.md` (v0.1.0→v0.3.5) + the
-  **12th verify gate** `verify-changelog` (version↔changelog single-source, A21).
-  **Two adversarial audits** ran — economy balance-watch (4 liquid tuning items,
-  left un-tuned for the human, D-059) + a deploy-gate check. **All F86–F117 ✅.**
+  combat, bank, spatial map, Bestiary, quests, VN intro (D-104), log v2, 1780 cold-open.
+- **✅ AUTONOMOUS T0 REBUILD — COMPLETE + DEPLOYED** (2026-07-03, v0.3.5; ADRs
+  **D-107–D-116**; all **F86–F117 ✅**). **Eight lanes:** append-only render engine
+  (`reconcile.ts`) · economy re-core Ph1–4 (koku→coin+rice, koku=House **standing**,
+  D-107/108/109/113) · IA tab reorg (vendors-as-people, nav→Now, D-116) · estate-map
+  diverge (7 variants, F102) · rung-up story VN beats (D-110, SCHEMA 5→6) · log/UI
+  polish · deep housing T0 (D-111) · combat-log voice. + `CHANGELOG.md` + the 12th
+  gate `verify-changelog` (A21).
+- **✅ Agent-default audit + v0.3.5 deltas (this session, `origin/main` green +
+  REDEPLOYED):** 6 T0 plans verified→archived; every agent-picked default walked
+  through with the human → ADRs **D-118–D-125**. Shipped: **7-tab IA** (Quests
+  regains its own tab @R5, D-119) · **rice spoilage + upgradeable kura cap** (D-118)
+  · Now-view append-only · hearth→cook / chest→storage (D-120) · **R5 wall-weapon
+  status token** (D-122) · home reveal→R3. **R7 capstone** DESIGNED (D-125 — the
+  reusable pattern + the 3×3 board) → **build DEFERRED to T1** (T1 doesn't exist
+  yet, R6; graduated to `docs/living/capstone-t0-branch.md`). Subagents inherit the
+  parent's model (**D-124**). `emergent-node-actions` graduated to a plan.
 - **Fable parallel:** six T0 remaster variants (R9) — **mobile pass landed**:
   six + gallery phone-ready, desktop unchanged (VARIANT-SPEC §4) — pushed and
   live at <https://kami-kakushi-ui-demos.vercel.app> (prod redeployed, s56).
@@ -57,16 +56,17 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Waiting on the human
 
-- **REVIEW PASSOVER** 🔲 (R1) — play/review the **deployed** T0 (VN intro, log v2,
-  6-tab IA, the economy re-core, estate-map, the rung beats).
+- **REVIEW PASSOVER** 🔲 (R1) — play/review the **freshly-redeployed** T0 (VN intro,
+  log v2, **7-tab IA**, economy re-core + rice spoilage/cap, estate-map, rung beats,
+  R5 wall-weapon).
 - **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
   home/Inventory **A/B/C** (R6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
   older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
-- **Balance-watch** 🔲 — 4 liquid tuning items the economy audit found (rice out-
-  produces sinks → coin too abundant; koku capstone too fast). NOT silently
-  re-tuned — your feel-call. `audit/reports/2026-07-02-economy-balance-watch.md`.
+- **Balance-watch** 🔲 — read this session; the 4 items are D-059 feel-calls best
+  tuned by **playing** (#2 store-vs-sell already helped by v0.3.5 spoilage+cap). Left
+  as the audit report; the balance-cockpit plan (fable-process-N1) is the tuning aid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
-  Tokubei, Rokusuke, smith Tōzō). `docs/plans/opus-2026-07-02-rung-up-story-transitions.md`.
+  Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
 - **UI-remaster variants** 🔲 (R9, Fable) — **shortlisted 6 → 3** (01 Moonlit ·
   04 Lacquer · 06 Washi; no winner/refine/blend yet). Winner → the D-075 diverge.
 
@@ -74,9 +74,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
-Economy **Phase 5** status tokens (captured — PRD §2 + D-109 + both plans) ·
-**home grows with rung** · **per-tier/rung NPC placement** (F113) · the
-balance-watch tuning (above). *(The 'lord' voice — D-110 — shipped s52.)*
+**R7 capstone side-quests** → **T1** (designed, `capstone-t0-branch.md`; T1=R8→R15 not
+built) · **status-token ladder** → T1–T5 (T0 wall-weapon shipped, D-122) · home grows
+w/ rung · NPC placement (F113) · balance feel-tune · `emergent-node-actions` (Phase 0).
 
 ## Toolchain
 
@@ -102,19 +102,19 @@ clone: `git config core.hooksPath .githooks`.
 
 ## How to resume
 
-> 🎮 **Autonomous T0 rebuild COMPLETE + deployed (2026-07-03, v0.3.5).** All eight
-> lanes are on `origin/main` (green) and live at raynos.github.io/kami-kakushi.
-> What's open is the human async queue above; the deferred/owed tail is the next
-> autonomous work as picks land. Scope locked in ADRs D-107–D-116.
+> 🎮 **T0 rebuild + the agent-default-audit v0.3.5 deltas are COMPLETE + deployed
+> (2026-07-03).** Everything is on `origin/main` (green) + live at
+> raynos.github.io/kami-kakushi. Scope in ADRs **D-107–D-125**. What's open is the
+> human async queue above; the deferred/owed tail (led by the R7-capstone build once
+> **T1** exists) is the next autonomous work.
 
-1. Read the **newest journal** (`journal/2026-07-03-session-56-ui-demos-mobile.md`,
-   then back through s55/s54/s52) + the feedback doc (`human-feedback/2026-07-02-playtest.md`) +
-   `todo-human.md` (the reading queue + open forks) for the full arc.
+1. Read the **newest journals** (`journal/2026-07-03-session-54-agent-default-audit.md`
+   — the audit + v0.3.5 + capstone-design arc — and `-session-56-ui-demos-mobile.md`,
+   back through s55/s52) + `todo-human.md` (the reading queue + open forks) for the arc.
 2. `npm install` → `npm run verify` (green, 12 gates) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Serial `render.ts` lane** — next autonomous work is the deferred/owed tail (the
-   home-panel diverge is highest-value). Balance stays liquid (D-059) for the human.
+4. **Next autonomous work** = the deferred/owed tail above. Balance liquid (D-059).
 5. **Shared tree:** stage only your own files by explicit path; Fable's UI-v2 prototype
    (`prototype/`) + snapshot edits are theirs — leave untouched.
