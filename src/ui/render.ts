@@ -812,6 +812,8 @@ export function mount(
     card: HTMLElement;
     homeName: HTMLElement;
     homeBlurb: HTMLElement;
+    // D-122 — the status-mirror: the weapon mounted on your home wall (granted at R5), read live.
+    statusMirror: HTMLElement;
     ownedHead: HTMLElement;
     ownedList: HTMLElement;
     comfort: HTMLElement;
@@ -4144,6 +4146,8 @@ export function mount(
       const card = el('div', 'rung-card frame');
       const homeName = el('div', 'rung-now');
       const homeBlurb = el('div', 'skill-blurb');
+      // D-122 — the status-mirror: the weapon mounted on your wall at R5 (its own inked line).
+      const statusMirror = el('div', 'rung-hint belongings-status-mirror');
       const ownedHead = el('div', 'belongings-subhead', 'What is yours');
       const ownedList = el('div', 'belongings-list');
       const comfort = el('div', 'rung-hint belongings-comfort-summary');
@@ -4158,6 +4162,7 @@ export function mount(
       card.append(
         homeName,
         homeBlurb,
+        statusMirror,
         ownedHead,
         ownedList,
         comfort,
@@ -4170,6 +4175,7 @@ export function mount(
         card,
         homeName,
         homeBlurb,
+        statusMirror,
         ownedHead,
         ownedList,
         comfort,
@@ -4185,6 +4191,18 @@ export function mount(
     const tier = HOME_TIERS[0]!;
     setText(r.homeName, `${tier.label} ${tier.kanji}`);
     setText(r.homeBlurb, tier.blurb);
+
+    // D-122 — the status-mirror: at R5 your wielded weapon is mounted on the wall. Read the ACTUAL
+    // equipped weapon LIVE (never a generic sword), so re-equipping updates the mount. Hidden until R5.
+    const hasWallWeapon = hasFlag(state, 'wall-weapon');
+    toggle(r.statusMirror, hasWallWeapon);
+    if (hasWallWeapon) {
+      const w = getWeapon(state.equippedWeapon);
+      setText(
+        r.statusMirror,
+        `On the wall · your ${w.label.toLowerCase()} ${w.kanji} — a servant's token`,
+      );
+    }
 
     // the OWNED list — the granted keepsakes (mat + bowl) + any bought furniture, in roster order.
     const owned = ownedBelongings(state);

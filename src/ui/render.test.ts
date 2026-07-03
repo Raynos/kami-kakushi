@@ -23,6 +23,7 @@ import {
   promotionReady,
   RUNG_BEATS,
   getBelonging,
+  getWeapon,
   type GameState,
   type Intent,
   type LogEntry,
@@ -2242,6 +2243,24 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     expect(pane.querySelector('.belongings-comfort-summary')?.textContent).toContain(
       `rest +${amt}`,
     );
+  });
+
+  it('mounts the WIELDED weapon on the wall at R5 (status-mirror), reading the actual weapon (D-122)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = homeState();
+    // pre-R5 (no wall-weapon flag) → the status-mirror is hidden.
+    render(s, null);
+    openInventory();
+    expect(root.querySelector<HTMLElement>('.belongings-status-mirror')!.hidden).toBe(true);
+    // at R5 with the token + a SPECIFIC weapon wielded → the mount names THAT weapon (not a generic
+    // sword), read live from equippedWeapon. RED against a hardcoded mount / an ignored weapon.
+    const axe = getWeapon('wood_axe');
+    render({ ...s, flags: { ...s.flags, 'wall-weapon': true }, equippedWeapon: axe.id }, null);
+    openInventory();
+    const mirror = root.querySelector<HTMLElement>('.belongings-status-mirror')!;
+    expect(mirror.hidden).toBe(false);
+    expect(mirror.textContent!.toLowerCase()).toContain(axe.label.toLowerCase());
+    expect(mirror.textContent!.toLowerCase()).not.toContain('sword');
   });
 
   it('hides the belongings pane before the home is granted (reveal-gated, no ghost box F72)', () => {

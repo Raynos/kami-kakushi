@@ -161,7 +161,10 @@ export const RANKS: readonly RankDef[] = [
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: () => true,
     rewardOnReach: {
-      flags: ['rank-r5'],
+      // D-122 — the T0 status token: reaching R5 mounts the weapon you WIELD on your home wall (the
+      // housing status-mirror). The `wall-weapon` flag latches the mount; applyPromotion emits the
+      // dynamic reveal line naming your ACTUAL weapon (never a generic sword), and the home renders it.
+      flags: ['rank-r5', 'wall-weapon'],
       // v0.3.2 A7 — the combat-rung beat: the stance control (glass-cannon↔tank) reveals here,
       // the last staggered combat surface (§4.6.9). D-119 — the QUESTS tab also reveals at R5 (its own
       // quest-log beat, tab-quests), one beat per rung.

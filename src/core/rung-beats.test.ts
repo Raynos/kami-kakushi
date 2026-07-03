@@ -7,6 +7,7 @@ import {
   pendingPromotionTarget,
   RUNG_BEATS,
   getRank,
+  getWeapon,
   isUnlocked,
   hasFlag,
   revealPass,
@@ -92,6 +93,31 @@ describe('D-110 full-arc e2e — a promotion walks THROUGH the beat (R0→R7)', 
     }
     expect(s.rung).toBe('R7');
     expect(hasFlag(s, 't0-capstone')).toBe(true); // the capstone fired on the R7 terminal choice
+  });
+});
+
+describe('D-122 — the R5 wall-weapon status token (the one T0 home token)', () => {
+  it('reaching R5 mounts the weapon you WIELD — reads the actual weapon, never a generic sword', () => {
+    const base: GameState = { ...atDoneIntro(), rung: 'R4' };
+    // wielding the default carrying-pole → the mount names IT (source-of-truth label).
+    const r5pole = applyPromotion({ ...base, equippedWeapon: getWeapon('carrying_pole').id }, 'R5');
+    expect(hasFlag(r5pole, 'wall-weapon')).toBe(true);
+    const poleLine = r5pole.log.entries.map((e) => e.text).find((t) => t.includes('mount'));
+    expect(poleLine).toBeDefined();
+    expect(poleLine!.toLowerCase()).toContain(getWeapon('carrying_pole').label.toLowerCase());
+
+    // wielding a DIFFERENT weapon → the mount names THAT one, proving it reads the wielded weapon.
+    // RED against a hardcoded/generic sword or an ignored equippedWeapon.
+    const r5axe = applyPromotion({ ...base, equippedWeapon: getWeapon('wood_axe').id }, 'R5');
+    const axeLine = r5axe.log.entries.map((e) => e.text).find((t) => t.includes('mount'));
+    expect(axeLine!.toLowerCase()).toContain(getWeapon('wood_axe').label.toLowerCase());
+    expect(axeLine!.toLowerCase()).not.toContain('sword');
+  });
+
+  it('a rung that does NOT grant the token (R4) mounts nothing — the token is R5-specific', () => {
+    const r4 = applyPromotion({ ...atDoneIntro(), rung: 'R3' }, 'R4');
+    expect(hasFlag(r4, 'wall-weapon')).toBe(false);
+    expect(r4.log.entries.some((e) => e.text.includes('mount'))).toBe(false);
   });
 });
 
