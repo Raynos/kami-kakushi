@@ -141,10 +141,19 @@ Toggle: titlebar chip, aria-pressed, prefers-color-scheme default,
 localStorage persist, pre-paint apply (no flash). Full QA sweep re-run in
 BOTH themes (50 checks green); light mode verified pixel-unchanged.
 
+## 9 · Session close (checkpoint on /prepare-to-exit)
+
+Human returned 10:36, ran /prepare-to-exit before doing the R9 pass. Final
+state: six variants live + dark-mode toggle on 06; R9 open (six line items);
+the gallery link stays in the reading queue ON PURPOSE — its purpose (the
+per-variant verdict) is unserved until R9 closes, so D-089 cleanup doesn't
+apply yet. No subagents left running (all five builders + the dark-mode
+agent completed and reported). Snapshot corrected five→six.
+
 ## Next intended steps
 
-1. Human's morning read: the gallery — now SIX variants (R9 verdicts each);
-   06 has the light/dark toggle top-right.
+1. Human: the R9 pass — verdicts per variant (or a blend call) at
+   <https://kami-kakushi-ui-demos.vercel.app>; 06 has the ☾ toggle top-right.
 2. On the human's pick(s): decide the port path into `src/` — a proper D-075
    diverge of the chosen direction(s) against the real engine.
 3. Idea worth surfacing when picking: directions can BLEND (e.g. 06's
