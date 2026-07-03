@@ -58,10 +58,9 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (npm run checkpoint — do not edit inside) -->
-**14 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**13 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-process-F10-taste-bar-enforcement.md`](fable-process-F10-taste-bar-enforcement.md) — PARKED
-- [`fable-process-F1a-mechanical-checkpoint.md`](fable-process-F1a-mechanical-checkpoint.md) — IN-PROGRESS
 - [`fable-process-F1b-prd-ripple-tooling.md`](fable-process-F1b-prd-ripple-tooling.md) — PROPOSED
 - [`fable-process-F2-github-actions-ci.md`](fable-process-F2-github-actions-ci.md) — PROPOSED
 - [`fable-process-F3-playtest-capture-inbox.md`](fable-process-F3-playtest-capture-inbox.md) — PROPOSED

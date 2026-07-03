@@ -2,14 +2,16 @@
 
 ## ☀️ SUMMARY (read this first)
 
-Building **F1a — the mechanical checkpoint** (`docs/plans/fable-process-F1a-mechanical-checkpoint.md`),
-Opus, phase by phase (each its own verify-green commit). Applies the repo's own
-"generate, don't duplicate" convention to the PROCESS layer: a `checkpoint.ts`
-regenerates the derivable process-doc regions (gate roster + count, active-plans
-list) from their single sources (`gates.ts`, the `docs/plans/` listing), so
+**Built F1a — the mechanical checkpoint** (spec now archived at
+`project/archive/fable-process-F1a-mechanical-checkpoint.md`), Opus, phase by phase
+(each its own verify-green commit). **DONE — all 5 phases + completion landed; the
+tool auto-archived its own plan.** Applies the repo's own "generate, don't
+duplicate" convention to the PROCESS layer: a `checkpoint.ts` regenerates the
+derivable process-doc regions (gate roster + count, active-plans list) from their
+single sources (`gates.ts`, the `docs/plans/` listing) + graduates DONE plans, so
 doc-vs-doc drift becomes impossible-by-construction rather than policed after the
-fact. This file is HISTORY, not live state — the live snapshot is
-[`../status/project-status.md`](../status/project-status.md).
+fact. `checkpoint` is now the **14th verify gate**. This file is HISTORY, not live
+state — the live snapshot is [`../status/project-status.md`](../status/project-status.md).
 
 Human ratified routing (Opus) + all defaults; see the plan's "Decisions already
 ratified" preamble. WARN→block promotion of the DONE-not-archived check is
@@ -150,14 +152,35 @@ Converged the process layer on the ONE closed vocabulary + delegated the mechani
 exact §0.6 glyph mis-tag, fixed); the agreements/skill/hook diffs are net deletions;
 `npm run verify` green (14 gates).
 
-## Next intended steps
+## 6 · F1a completion — the tool archives itself
 
-1. **F1a completion:** flip this plan's own Status to `✅ DONE` and run
-   `npm run checkpoint` so it AUTO-ARCHIVES itself to `project/archive/` (the
-   cleanest dogfood of Phase 2). Its reading-queue entry stays, path-rewritten +
-   tagged. Commit. Then F1a is done — F1b is a SEPARATE later builder.
+Flipped `fable-process-F1a-mechanical-checkpoint.md`'s Status to `✅ DONE` and ran
+`npm run checkpoint`: it MOVED the plan to `project/archive/`, regenerated the
+active-plans region (13 active plans, F1a excluded), and rewrote the reading-queue
+backtick path to `project/archive/…` tagged `(archived — done)` — the cleanest
+possible dogfood of Phase 2, proving the tool works on a real plan. `md-links` green
+(75 files), `checkpoint --check` green (13 tokens valid), `npm run verify` green.
+
+**F1a is DONE.** All 5 phases + completion landed as verify-green commits:
+Ph1 `59910ee` · Ph2 `a05e8d2` · Ph3 `571166f` · Ph4 `0545d43` · Ph5 `9e27732` ·
+completion (this). F1b is a SEPARATE later builder — untouched beyond its Ph2
+Status-token normalization.
 
 ## Landmines
+
+- **Shared tree, live.** A co-agent held `docs/plans/opus-2026-07-03-ui-demos-…md`
+  dirty/committing throughout (its Status is my Ph2 `🔨 IN-PROGRESS`; its body is
+  their WIP). I never staged it. Re-check `git diff --cached --name-only` before
+  every commit.
+- **project-status.md is at the 120-line cap** — zero headroom; any net line add
+  fails `doc-budgets`. The gate-roster region is budgeted to 3 body lines even at
+  14 gates (verified: "…doc-budgets, checkpoint." still fits).
+- **Closed vocabulary has no "built-but-awaiting-review" state.** The ui-demos plan
+  (built + verified, awaiting R9) is parked at `🔨 IN-PROGRESS` — NOT DONE, so
+  checkpoint won't auto-archive a co-agent's under-review plan out from under them.
+- **Archived F1a's queue entry is KEPT (tagged), per the ratified default (D-089).**
+  This is a known tension with `todo-human.md`'s "archived docs never belong here"
+  prose — the human clears it after reading (checkpoint only tags mechanically).
 
 - **Shared tree, live.** A co-agent committed to `main` mid-build (the ui-demos
   plan BUILDING→BUILT). Stage ONLY my own paths by explicit pathspec; re-check

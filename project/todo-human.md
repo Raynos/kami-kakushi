@@ -60,7 +60,7 @@ _(The **master plan** — `docs/plans/fable-process-master-plan.md`, the
 F1–F10 build order + merge map — was ratified in-session 2026-07-03 and its
 queue entry cleared; the plans below are renamed + reordered to match it.)_
 
-- [ ] `docs/plans/fable-process-F1a-mechanical-checkpoint.md` — **the mechanical
+- [ ] `project/archive/fable-process-F1a-mechanical-checkpoint.md` (archived — done) — **the mechanical
   checkpoint** (retro suggestion #1): generate the process layer's derivable
   sections (gate roster, active-plans list, plan-status tokens, queue paths)
   via a `checkpoint.ts` + a 13th verify gate. Found live drift as receipts:
