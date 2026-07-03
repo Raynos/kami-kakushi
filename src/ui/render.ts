@@ -80,6 +80,8 @@ import {
   ownedBelongings,
   homeRestBonus,
   homeSatietyBonus,
+  homeStorageBonus,
+  homeHasCook,
   homeSetComplete,
   ownedBelongingIds,
   HOME_TIERS,
@@ -91,7 +93,15 @@ import {
   NPC_VOICE,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
-import { reconcileList, setText, toggle, setClass, setDisabled, setStyle } from './reconcile';
+import {
+  reconcileList,
+  resetReconcile,
+  setText,
+  toggle,
+  setClass,
+  setDisabled,
+  setStyle,
+} from './reconcile';
 import {
   LOG_SCALE_MIN,
   LOG_SCALE_MAX,
@@ -244,7 +254,7 @@ type Dispatch = (intent: Intent) => void;
 // once it has content (§3 of the IA reorg plan). Work R0 → Map/Estate/Inventory R1 → Character R2
 // → Combat R3. `skills`/`quests` are folded into Character; `map` now means the node-map (nav's
 // sole home), not the old "Estate 地図".
-type Tab = 'work' | 'map' | 'estate' | 'inventory' | 'character' | 'combat';
+type Tab = 'work' | 'map' | 'estate' | 'inventory' | 'character' | 'combat' | 'quests';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -802,9 +812,14 @@ export function mount(
     card: HTMLElement;
     homeName: HTMLElement;
     homeBlurb: HTMLElement;
+    // D-122 — the status-mirror: the weapon mounted on your home wall (granted at R5), read live.
+    statusMirror: HTMLElement;
     ownedHead: HTMLElement;
     ownedList: HTMLElement;
     comfort: HTMLElement;
+    // D-120 — the hearth homes the cook verb: a cook affordance surfaced in the home when owned.
+    cookRow: HTMLElement;
+    cookBtn: HTMLButtonElement;
     acquireHead: HTMLElement;
     acquireList: HTMLElement;
   } | null = null;
@@ -1092,13 +1107,22 @@ export function mount(
     inventory: 'Inventory 蔵',
     character: 'Character 己',
     combat: 'Combat 武',
+    quests: 'Quests 用', // D-119 — Quests regains its own tab (glyph 用, provisional taste call)
   };
   // ── the six-tab reveal predicates (D-112 §3) — a tab's chip appears the render its PRIMARY content
   //    first unlocks, and NEVER before (the incremental-reveal signature). Each reuses an EXISTING
   //    surface predicate — NO new flags — and is the anti-empty-tab guard (§7) lifted to the tab
   //    level: it answers "would this tab have visible content if active?" WITHOUT switching activeTab.
-  //    Work R0 always · Map/Estate/Inventory R1 · Character R2 · Combat R3.
-  const TAB_ORDER: readonly Tab[] = ['work', 'map', 'estate', 'inventory', 'character', 'combat'];
+  //    Work R0 always · Map/Estate R1 · Character R2 · Combat/Inventory R3 · Quests R5 (D-119).
+  const TAB_ORDER: readonly Tab[] = [
+    'work',
+    'map',
+    'estate',
+    'inventory',
+    'character',
+    'combat',
+    'quests',
+  ];
   // does the Character tab have any visible content? — the true anti-empty guard (§7): a skill card
   // to show (skills visible via by-doing OR a skill row unlocked), OR the R3 sections (training /
   // bestiary), OR quests. Skills-only-but-no-skill (an isolated fixture) leaves it EMPTY → no chip.
@@ -1109,8 +1133,9 @@ export function mount(
     return (
       skillsHaveCard ||
       isUnlocked(state, 'readout-combat-level') || // training (attrs)
-      isUnlocked(state, 'panel-bestiary') || // the bestiary
-      isUnlocked(state, 'tab-combat') // quests ("Undertakings 用")
+      isUnlocked(state, 'panel-bestiary') // the bestiary
+      // D-119 — quests are NO LONGER a Character section; they have their own tab (revealed at R5),
+      // so the old `tab-combat` (quests-in-Character) branch is gone.
     );
   }
   // "would this tab have visible content if active?" — the anti-empty-tab guard (§7) lifted to the
@@ -1131,16 +1156,22 @@ export function mount(
         // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
         return isUnlocked(state, 'panel-estate');
       case 'inventory':
-        // the kura bank (carried vs stored coin/rice, panel-estate ~R1) OR the home + belongings
-        // (panel-home, R1 — D-111/F89). Both land at R1, so this reads true the moment the tab earns
-        // its content; the OR keeps it honest if either surface arrives first.
-        return isUnlocked(state, 'panel-estate') || isUnlocked(state, 'panel-home');
+        // D-119 — the Inventory tab STAGGERS to R3 (was R1), ending the Map+Estate+Inventory
+        // triple-reveal so R1 isn't a slam of three tabs. It reveals with combat (tab-combat/R3):
+        // banking only matters once a lost fight can bite your carried wealth, so R3 is its natural
+        // beat. Its content (the kura bank, panel-estate ~R1, + the home/belongings, panel-home R1)
+        // is already unlocked by then; the tab is just held back until R3.
+        return isUnlocked(state, 'tab-combat');
       case 'character':
         // Skills first (R2), attrs + bestiary + quests at R3 — but only once something actually shows.
         return characterHasContent(state);
       case 'combat':
         // the fight surface — watch + XP + weapon (tab-combat, R3).
         return isUnlocked(state, 'tab-combat');
+      case 'quests':
+        // D-119 — the Quests tab reveals at R5 (its OWN quest-log beat, tab-quests), NOT batched into
+        // the R3 combat wave. Gated on its R5 content-unlock, so the chip lights one beat at a time.
+        return isUnlocked(state, 'tab-quests');
     }
   }
   function visibleTabs(state: GameState): Tab[] {
@@ -3613,10 +3644,12 @@ export function mount(
     nowCollapseTimers.add(t);
   }
   function nowEmptyPlaceholder(): void {
-    // empty when nothing recent — a calm placeholder so the tab never reads broken.
+    // empty when nothing recent — a calm placeholder so the tab never reads broken. Idempotent: only
+    // appends when there's no live line AND the placeholder isn't already up, so a repeated
+    // empty-state render churns nothing (D-123 zero-churn). NOT a wholesale clear — reconcile owns
+    // the now-line nodes; the placeholder is the sole foreign sibling and is removed before a repaint.
     if (logLines.querySelector('.now-line')) return; // still has live lines
     if (nowEmptyEl && nowEmptyEl.isConnected) return;
-    logLines.textContent = '';
     nowEmptyEl = el('div', 'log-empty', 'Quiet, just now — the moment has passed.');
     logLines.append(nowEmptyEl);
   }
@@ -3665,29 +3698,42 @@ export function mount(
     }
     if (live === 0) nowEmptyPlaceholder();
   }
-  // Full rebuild on a state change: paint the ephemeral entries STILL inside their window (newest at
-  // the bottom). F115 — this NO LONGER stamps (stampEphemeral, run for every view, owns that); it only
-  // READS the stamps, so an entry whose stamp already aged out (while Now was hidden) is simply absent.
+  // D-123 — the Now view is APPEND-ONLY (F81 / reconcile.ts), no longer a `textContent=''` rebuild.
+  // A state-change re-render RECONCILES the currently-visible ephemeral entries (stamped, still inside
+  // their TTL) keyed by log key: a surviving line keeps its node (zero churn), an aged-out line is
+  // removed, a new fleeting line is appended. F115 — this only READS the stamps (stampEphemeral, run
+  // for every view, owns writing them), so an entry aged out while Now was hidden is simply absent.
   function renderNowView(state: GameState): void {
     const now = Date.now();
-    const ephemeral = state.log.entries.filter((e) => e.ephemeral === true);
-    logLines.textContent = '';
-    nowEmptyEl = undefined;
     const reduced = reduceMotion();
-    let painted = 0;
-    for (const e of ephemeral) {
+    // the ephemeral entries STILL inside their render window (newest at the bottom — log order).
+    const visible = state.log.entries.filter((e) => {
+      if (e.ephemeral !== true) return false;
       const seen = nowSeen.get(e.key);
-      if (seen === undefined) continue; // never stamped, or already aged out — not shown
-      const age = now - seen;
-      if (age >= NOW_TTL_MS) continue;
-      const line = buildLogLine(e, false);
-      line.classList.add('now-line');
-      line.dataset.nowKey = String(e.key);
-      if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS) line.classList.add('now-fading');
-      logLines.append(line);
-      painted += 1;
+      return seen !== undefined && now - seen < NOW_TTL_MS;
+    });
+    // the placeholder is the one FOREIGN sibling reconcile doesn't own — drop it before a real repaint
+    // so the container holds only reconciled now-lines (reconcile's single-owner contract).
+    if (visible.length > 0 && nowEmptyEl) {
+      nowEmptyEl.remove();
+      nowEmptyEl = undefined;
     }
-    if (painted === 0) nowEmptyPlaceholder();
+    reconcileList(logLines, visible, {
+      key: (e) => String(e.key),
+      build: (e) => {
+        const line = buildLogLine(e, false);
+        line.classList.add('now-line');
+        line.dataset.nowKey = String(e.key);
+        return line;
+      },
+      patch: (line, e) => {
+        const seen = nowSeen.get(e.key);
+        const age = seen === undefined ? 0 : now - seen;
+        setClass(line, 'now-fading', !reduced && age >= NOW_TTL_MS - NOW_FADE_MS);
+      },
+      order: true,
+    });
+    if (visible.length === 0) nowEmptyPlaceholder();
     ensureExpiryClock(); // keep the fade/prune loop alive while Now is shown
     scrollLogToNewest();
   }
@@ -3721,6 +3767,9 @@ export function mount(
     logFilter = f;
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
     logLines.textContent = '';
+    resetReconcile(logLines); // D-123 — the Now view reconciles this shared container; a wholesale
+    // clear must forget its key→node map or the next Now render would patch detached nodes.
+    nowEmptyEl = undefined;
     clearFreshDivider();
     // F115 — leaving Now WIPES its DOM (below), so cancel any in-flight collapse animations; but KEEP
     // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
@@ -3756,6 +3805,7 @@ export function mount(
     const didReset = state.log.seq < lastSeq;
     if (didReset) {
       logLines.textContent = '';
+      resetReconcile(logLines); // D-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
       lastPaintedKey = -1;
       lastPaintedCount = 0;
@@ -3922,7 +3972,7 @@ export function mount(
         el(
           'div',
           'skill-blurb',
-          'Stow your coin and rice in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
+          'Stow your coin and rice in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep — but rice spoils a little each season, and the kura holds only so much (raise it by improving the estate).',
         ),
       );
       const when = el('div', 'influence-when');
@@ -3957,9 +4007,12 @@ export function mount(
     const banked = state.banked.coin ?? 0;
     const carriedRice = state.resources.rice ?? 0;
     const bankedRice = state.banked.rice ?? 0;
+    // D-118 §1 — the kura's rice cap (raised by estate upgrades); show stored/N so the wall is legible.
+    const riceCap = balance.kuraRiceCap(state.estateStage);
+    const riceRoom = Math.max(0, riceCap - bankedRice);
     setText(
       r.when,
-      `Carried ${formatCoin(carried)}, ${carriedRice} rice · stored ${formatCoin(banked)}, ${bankedRice} rice (safe)`,
+      `Carried ${formatCoin(carried)}, ${carriedRice} rice · stored ${formatCoin(banked)}, ${bankedRice}/${riceCap} rice (safe)`,
     );
     // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
     // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
@@ -3974,8 +4027,14 @@ export function mount(
       setDisabled(r.wd, banked <= 0);
       const wdTitle = r.wd.disabled ? 'Nothing stored to withdraw.' : '';
       if (r.wd.title !== wdTitle) r.wd.title = wdTitle;
-      setDisabled(r.depRice, carriedRice <= 0);
-      const depRiceTitle = r.depRice.disabled ? 'No carried rice to store.' : '';
+      // D-118 §1 — a full kura (no room under the cap) disables the rice store, pointing at the fix.
+      setDisabled(r.depRice, carriedRice <= 0 || riceRoom <= 0);
+      const depRiceTitle =
+        carriedRice <= 0
+          ? 'No carried rice to store.'
+          : riceRoom <= 0
+            ? 'The kura is full — improve the estate to raise its rice capacity.'
+            : '';
       if (r.depRice.title !== depRiceTitle) r.depRice.title = depRiceTitle;
       setDisabled(r.wdRice, bankedRice <= 0);
       const wdRiceTitle = r.wdRice.disabled ? 'No rice stored to withdraw.' : '';
@@ -3986,11 +4045,34 @@ export function mount(
   // D-111 / F89 — the comfort badge a belonging carries (a keepsake, or its legible comfort bonus).
   // Read from the def's comfort field (source of truth), so the shown bonus never drifts from the
   // real one applied by the reducer/selector (A6).
+  // D-120 — the home's live-comfort summary line: rest recovery, any warmth buffer, the chest's
+  // storage capacity, and the hearth-cook note — read through the SAME selectors the reducer uses (A6).
+  function comfortSummaryText(state: GameState, settled: boolean): string {
+    const restB = homeRestBonus(state);
+    const bodyB = homeSatietyBonus(state);
+    const storageB = homeStorageBonus(state);
+    const parts: string[] = [];
+    if (restB > 0) parts.push(`rest +${restB} body`);
+    if (bodyB > 0) parts.push(`+${bodyB} max body`);
+    if (storageB > 0) parts.push(`storage for ${storageB} belongings`);
+    if (homeHasCook(state)) parts.push('a hearth to cook at');
+    const base =
+      parts.length > 0
+        ? `Comfort in effect · ${parts.join(' · ')}`
+        : 'A bare corner — no comforts yet.';
+    return settled ? `${base} · a settled home 整` : base;
+  }
   function comfortLabel(def: BelongingDef): string {
+    if (def.homesCook) return 'The hearth · cook here'; // D-120 — diegetic, not a stat
     if (!def.comfort) return 'Keepsake';
-    return def.comfort.kind === 'rest'
-      ? `Comfort · rest +${def.comfort.amount}`
-      : `Comfort · warmth +${def.comfort.amount} max body`;
+    switch (def.comfort.kind) {
+      case 'rest':
+        return `Comfort · rest +${def.comfort.amount}`;
+      case 'storage':
+        return `Storage · keeps ${def.comfort.amount} belongings`; // D-120 — a dry buffer, not a stat
+      case 'body':
+        return `Comfort · warmth +${def.comfort.amount} max body`;
+    }
   }
   // build ONE belonging row (owned OR acquirable): kanji · name, the inked blurb, the comfort badge,
   // and — for an acquirable piece — a buy cell. Stable structure; patch fills the mutable bits.
@@ -4040,20 +4122,11 @@ export function mount(
         const ownedHead = el('div', 'belongings-subhead', 'What is yours');
         const ownedList = el('div', 'belongings-list');
         for (const def of ownedBelongings(state)) ownedList.append(buildBelongingRow(def));
-        const restBd = homeRestBonus(state);
-        const bodyBd = homeSatietyBonus(state);
         const settledD = homeSetComplete(ownedBelongingIds(state));
-        const partsD: string[] = [];
-        if (restBd > 0) partsD.push(`rest +${restBd} body`);
-        if (bodyBd > 0) partsD.push(`+${bodyBd} max body`);
-        const baseD =
-          partsD.length > 0
-            ? `Comfort in effect · ${partsD.join(' · ')}`
-            : 'A bare corner — no comforts yet.';
         const comfortD = el(
           'div',
           'rung-hint belongings-comfort-summary',
-          settledD ? `${baseD} · a settled home 整` : baseD,
+          comfortSummaryText(state, settledD),
         );
         const acquirableD = BELONGINGS.filter(
           (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
@@ -4073,20 +4146,41 @@ export function mount(
       const card = el('div', 'rung-card frame');
       const homeName = el('div', 'rung-now');
       const homeBlurb = el('div', 'skill-blurb');
+      // D-122 — the status-mirror: the weapon mounted on your wall at R5 (its own inked line).
+      const statusMirror = el('div', 'rung-hint belongings-status-mirror');
       const ownedHead = el('div', 'belongings-subhead', 'What is yours');
       const ownedList = el('div', 'belongings-list');
       const comfort = el('div', 'rung-hint belongings-comfort-summary');
+      // D-120 — the cook-at-the-hearth affordance (shown once the hearth is owned).
+      const cookRow = el('div', 'labour-row belongings-cook');
+      const cookBtn = el('button', 'verb') as HTMLButtonElement;
+      cookBtn.type = 'button';
+      cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
+      cookRow.append(cookBtn);
       const acquireHead = el('div', 'belongings-subhead', 'Settle your corner');
       const acquireList = el('div', 'belongings-list');
-      card.append(homeName, homeBlurb, ownedHead, ownedList, comfort, acquireHead, acquireList);
+      card.append(
+        homeName,
+        homeBlurb,
+        statusMirror,
+        ownedHead,
+        ownedList,
+        comfort,
+        cookRow,
+        acquireHead,
+        acquireList,
+      );
       belongingsPane.append(card);
       belongingsRefs = {
         card,
         homeName,
         homeBlurb,
+        statusMirror,
         ownedHead,
         ownedList,
         comfort,
+        cookRow,
+        cookBtn,
         acquireHead,
         acquireList,
       };
@@ -4098,6 +4192,18 @@ export function mount(
     setText(r.homeName, `${tier.label} ${tier.kanji}`);
     setText(r.homeBlurb, tier.blurb);
 
+    // D-122 — the status-mirror: at R5 your wielded weapon is mounted on the wall. Read the ACTUAL
+    // equipped weapon LIVE (never a generic sword), so re-equipping updates the mount. Hidden until R5.
+    const hasWallWeapon = hasFlag(state, 'wall-weapon');
+    toggle(r.statusMirror, hasWallWeapon);
+    if (hasWallWeapon) {
+      const w = getWeapon(state.equippedWeapon);
+      setText(
+        r.statusMirror,
+        `On the wall · your ${w.label.toLowerCase()} ${w.kanji} — a servant's token`,
+      );
+    }
+
     // the OWNED list — the granted keepsakes (mat + bowl) + any bought furniture, in roster order.
     const owned = ownedBelongings(state);
     reconcileList(r.ownedList, owned, {
@@ -4107,19 +4213,28 @@ export function mount(
     });
 
     // the comfort SUMMARY — the live bonuses in effect (read through the SAME selectors the reducer
-    // uses, A6). Reads 0/0 for a bare corner; the settled-home set adds its synergy note.
-    const restB = homeRestBonus(state);
-    const bodyB = homeSatietyBonus(state);
+    // uses, A6). Reads bare for an empty corner; the settled-home set adds its synergy note. D-120 —
+    // the hearth (cook locus) + the chest (storage) show their diegetic worth, not a satiety stat.
     const ownedIds = ownedBelongingIds(state);
     const settled = homeSetComplete(ownedIds);
-    const parts: string[] = [];
-    if (restB > 0) parts.push(`rest +${restB} body`);
-    if (bodyB > 0) parts.push(`+${bodyB} max body`);
-    const base =
-      parts.length > 0
-        ? `Comfort in effect · ${parts.join(' · ')}`
-        : 'A bare corner — no comforts yet.';
-    setText(r.comfort, settled ? `${base} · a settled home 整` : base);
+    setText(r.comfort, comfortSummaryText(state, settled));
+
+    // D-120 — the hearth homes the cook verb: once you own the hearth, cooking a meal (sansai → HP)
+    // is reachable here, at your own fire. Shown only when the hearth is owned AND cook is unlocked
+    // (verb-cook, ~R2); disabled + explained when you're short on sansai (mirrors the Work-column cook).
+    const canCookHere = homeHasCook(state) && isUnlocked(state, 'verb-cook');
+    toggle(r.cookRow, canCookHere);
+    if (canCookHere) {
+      const cost = balance.COOK_SANSAI_COST;
+      const short = (state.resources.sansai ?? 0) < cost;
+      setText(r.cookBtn, `Cook a meal at the hearth (${cost} sansai)`);
+      setClass(r.cookBtn, 'primary', state.character.hp < hpMax(state)); // the heal cue when hurt
+      setDisabled(r.cookBtn, short);
+      const title = short
+        ? `Need ${cost} sansai to cook — forage the satoyama for wild greens.`
+        : 'Boil the wild greens into a hot meal — the only way to mend a wound (D-050).';
+      if (r.cookBtn.title !== title) r.cookBtn.title = title;
+    }
 
     // the ACQUIRE list — buyable comfort pieces you don't yet own; disabled when you can't pay.
     const acquirable = BELONGINGS.filter(
@@ -4501,11 +4616,10 @@ export function mount(
     toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
   }
   function renderQuests(state: GameState): void {
-    // IA reorg (D-112 §8.1) — the six-tab set has no Quests tab; quests fold into Character as the
-    // "Undertakings 用" section (a personal journal of goals taken on). D-112 (newest steer)
-    // supersedes D-037's "Quests is its own tab." They still open with combat (the crop-raider
-    // quest needs the field-defence verbs), so gate on tab-combat as before — but shown on Character.
-    const show = activeTab === 'character' && isUnlocked(state, 'tab-combat');
+    // D-119 (supersedes D-112 §8.1, reinstates D-037) — Quests regains its OWN dedicated tab, revealed
+    // at R5 (tab-quests) as its own quest-log beat. It's no longer a Character section, so it self-gates
+    // to the Quests tab and hides everywhere else (no ghost slice).
+    const show = activeTab === 'quests' && isUnlocked(state, 'tab-quests');
     toggle(questsPane, show);
     if (!show) return;
     // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live DEV-only

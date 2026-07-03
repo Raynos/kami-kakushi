@@ -175,8 +175,8 @@ The home GROWING with rung + the status-mirror are deferred T1+ seams (only tier
 | `straw_mat` | A straw sleeping-mat | 筵 | keepsake | granted |
 | `bowl` | A rice bowl | 椀 | keepsake | granted |
 | `bedding` | A futon | 布団 | rest +5 | buy 60 coin |
-| `hearth` | A sunken hearth | 囲炉裏 | body +12 | buy 120 coin |
-| `chest` | A clothes chest | 長持 | body +5 | buy 90 coin |
+| `hearth` | A sunken hearth | 囲炉裏 | cook here | buy 120 coin |
+| `chest` | A clothes chest | 長持 | storage +6 | buy 90 coin |
 
 Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (the whole > the sum). Magnitudes LIQUID (D-059).
 
@@ -221,6 +221,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `verb-repair` | verb |
 | `verb-equip-axe` | verb |
 | `stance-control` | panel |
+| `tab-quests` | tab |
 | `house-omoya` | row |
 | `house-workshops` | row |
 | `house-granary` | row |

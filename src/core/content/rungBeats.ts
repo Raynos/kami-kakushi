@@ -402,7 +402,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     rank: 'R5',
     voice: 'arms',
     speaker: 'kihei', // the decision (the stance teach) reacts in Kihei's voice
-    motivates: ['stance-control'],
+    motivates: ['stance-control', 'tab-quests'], // D-119 — the Quests tab also reveals at R5
     greeting: [
       narr(`Genemon calls you to the omoya's inner room — a place season-hands never see.`),
       says(

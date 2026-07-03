@@ -5,12 +5,14 @@
 // dtTicks from active elapsed time only).
 
 import type { GameState } from './state';
-import { TICKS_PER_DAY, PHASE2_JUDGE_INTERVAL_DAYS } from './constants';
+import { withResource, withBanked } from './state';
+import { TICKS_PER_DAY, PHASE2_JUDGE_INTERVAL_DAYS, DAYS_PER_SEASON } from './constants';
 import { revealPass } from './unlock';
 import { phaseOf } from './ranks';
 import { seasonalJudge } from './pillars';
 import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
+import { riceSpoilage } from './content/balance';
 
 function onReckoning(state: GameState): GameState {
   // The periodic judged-appraisal (M2·4 / D-049). In Phase 2 (post-R7), when the Estate pillar has
@@ -38,11 +40,42 @@ function onReckoning(state: GameState): GameState {
   });
 }
 
+function onSeasonTurn(state: GameState): GameState {
+  // D-118 / build-plan §1 lever (a) — SPOILAGE. On each season boundary a fraction of ALL rice decays,
+  // CARRIED and BANKED alike (each pile floors on its own, so splitting the hoard is no dodge). This is
+  // what makes holding rice COST something — pure hoarding always bleeds, and the kura no longer
+  // out-stores the loss. Deterministic (no RNG), so it stays fold-invariant with the clock (B10).
+  const carried = state.resources.rice ?? 0;
+  const banked = state.banked.rice ?? 0;
+  const lostCarried = riceSpoilage(carried);
+  const lostBanked = riceSpoilage(banked);
+  const total = lostCarried + lostBanked;
+  if (total <= 0) return state;
+  let next = state;
+  if (lostCarried > 0) next = withResource(next, 'rice', -lostCarried);
+  if (lostBanked > 0) next = withBanked(next, 'rice', -lostBanked);
+  // Fleeting flavor (ephemeral → the "Now" view): a recurring bite the player should feel but that
+  // must not spam the permanent Story log every season.
+  return applyRewards(next, {
+    log: [
+      {
+        channel: 'system',
+        voice: 'narrator',
+        ephemeral: true,
+        text: `The season turns, and some of your rice has spoiled in the store. (−${total} rice)`,
+      },
+    ],
+  });
+}
+
 function onDayRollover(state: GameState): GameState {
-  // Per-day plans fire once, in fixed order (B10). The reckoning boundary first.
+  // Per-day plans fire once, in fixed order (B10). The reckoning boundary first, then the season turn.
   let next = state;
   if (next.clock.day > 0 && next.clock.day % PHASE2_JUDGE_INTERVAL_DAYS === 0) {
     next = onReckoning(next);
+  }
+  if (next.clock.day > 0 && next.clock.day % DAYS_PER_SEASON === 0) {
+    next = onSeasonTurn(next);
   }
   return next;
 }

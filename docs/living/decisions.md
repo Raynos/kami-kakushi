@@ -1351,6 +1351,15 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
 - **Consequences:** build-plan §3–§4; the PRD IA section → seven tabs; the stale
   code comments at `render.ts:4504–4506` (citing "D-112 supersedes D-037") are
   corrected. **Supersedes D-112** (six-tab set); reinstates/relates **D-037**.
+- **Amendment (human, 2026-07-03):** staggering the Inventory tab to R3 left the
+  **home** (`panel-home`) still revealing at R1 (`rank-r1`) with its "a place here
+  is yours" narration — but the home/belongings pane lives *inside* the Inventory
+  tab, so for two rungs the log promised a home with no tab to open. **`panel-home`'s
+  reveal is moved to R3** (gated on the same `tab-combat` its tab uses), so the home
+  is announced exactly when its tab appears. This **adjusts D-111's "home at R1"
+  timing to home at R3** (*"R3 is fine, we don't need deep housing at R1 — plenty of
+  R1 features already"*). `rest` still degrades gracefully pre-home (the cold-open
+  post line, zero comfort); nothing at R1 depends on `panel-home`.
 
 ### D-120 ✅ — Housing: the hearth homes the cook verb; the chest is real storage; no morale system
 - **created_date:** 2026-07-03

@@ -7,6 +7,7 @@
 import type { GameState } from './state';
 import { getRank, nextRankId, type RankDef, type RankId } from './content/ranks';
 import { RUNG_POINTS_PER_ACT, rungThreshold } from './content/balance';
+import { getWeapon } from './content/weapons';
 import { applyRewards } from './rewards';
 import { satietyMax } from './selectors';
 
@@ -56,6 +57,21 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
   const rank = getRank(target);
   let next: GameState = { ...state, rung: target, rungMeter: 0 };
   if (rank.rewardOnReach) next = applyRewards(next, rank.rewardOnReach);
+  // D-122 — the T0 status token: a rung that grants `wall-weapon` mounts the weapon you WIELD at that
+  // moment on your home wall (the status-mirror). The reveal names your ACTUAL weapon (never a generic
+  // sword), read from state — data-driven off the flag, so the R-rung isn't hard-coded here.
+  if (rank.rewardOnReach?.flags?.includes('wall-weapon')) {
+    const w = getWeapon(next.equippedWeapon);
+    next = applyRewards(next, {
+      log: [
+        {
+          channel: 'milestone',
+          voice: 'narrator',
+          text: `You mount your ${w.label.toLowerCase()} on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.`,
+        },
+      ],
+    });
+  }
   // F103 (channel fix): the ONE terse mechanical marker on the Progress/milestone channel — a
   // scannable progression record. Single-sourced from the RankDef (A21 — never hand-typed); the
   // rung-up STORY prose lives in the beat greeting (Story channel), never here.

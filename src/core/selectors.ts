@@ -15,7 +15,13 @@ import {
   SKILL_YIELD_DEN,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
-import { BELONGINGS, HOME_SURFACE, comfortBonus, type BelongingDef } from './content/home';
+import {
+  BELONGINGS,
+  HOME_SURFACE,
+  comfortBonus,
+  homeHasCookLocus,
+  type BelongingDef,
+} from './content/home';
 import {
   DAYS_PER_SEASON,
   DAYS_PER_WEEK,
@@ -81,10 +87,23 @@ export function homeRestBonus(state: GameState): number {
   return comfortBonus(ownedBelongingIds(state), 'rest');
 }
 
-/** satietyMax buffer from owned comfort furniture (hearth/chest warmth) — the personal-scale mirror
- *  of the estate buffer (like it, curve-neutral: it never touches the full-satiety combat win-rate). */
+/** satietyMax buffer from owned comfort furniture (`body` comfort) — the personal-scale mirror of the
+ *  estate buffer (curve-neutral: never touches the full-satiety combat win-rate). D-120 retired the
+ *  hearth/chest `body` bonuses (hearth homes cook, chest is storage), so no T0 piece feeds this today;
+ *  kept as the live channel for a future warmth piece. */
 export function homeSatietyBonus(state: GameState): number {
   return comfortBonus(ownedBelongingIds(state), 'body');
+}
+
+/** Belongings STORAGE capacity from owned furniture (the chest, D-120) — a prestige buffer for what's
+ *  yours, read through the SAME comfort math the UI shows (A6). 0 until you own a storage piece. */
+export function homeStorageBonus(state: GameState): number {
+  return comfortBonus(ownedBelongingIds(state), 'storage');
+}
+
+/** D-120 — is a cook locus (the hearth) among your owned belongings? Drives the home's cook affordance. */
+export function homeHasCook(state: GameState): boolean {
+  return homeHasCookLocus(ownedBelongingIds(state));
 }
 
 /** satietyMax grows with combat level (FU21/Q47) + the estate buffer (audit #5) + the home comfort

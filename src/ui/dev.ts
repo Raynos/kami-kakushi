@@ -28,6 +28,8 @@ import {
   homeSetComplete,
   homeRestBonus,
   homeSatietyBonus,
+  homeStorageBonus,
+  homeHasCook,
   ownedBelongings,
   ownedBelongingIds,
   ownsBelonging,
@@ -494,22 +496,31 @@ function renderHomeVariant(
   const ownedIds = ownedBelongingIds(state);
   const restB = homeRestBonus(state);
   const bodyB = homeSatietyBonus(state);
+  const storageB = homeStorageBonus(state);
   const settled = homeSetComplete(ownedIds);
   const coin = state.resources.coin ?? 0;
   const acquirable = BELONGINGS.filter(
     (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
   );
   const comfortNote = (def: BelongingDef): string => {
+    if (def.homesCook) return 'cook here'; // D-120 — the hearth homes the cook verb
     if (!def.comfort) return 'a keepsake';
-    return def.comfort.kind === 'rest'
-      ? `rest +${def.comfort.amount} body`
-      : `+${def.comfort.amount} max body`;
+    switch (def.comfort.kind) {
+      case 'rest':
+        return `rest +${def.comfort.amount} body`;
+      case 'storage':
+        return `keeps ${def.comfort.amount} belongings`; // D-120 — the chest is storage
+      case 'body':
+        return `+${def.comfort.amount} max body`;
+    }
   };
   // the live comfort-in-effect tally string, shared by both variants (A6: the SAME selectors the
   // reducer + the prod default read — a bare corner reads 0, the settled set adds its note).
   const tallyParts: string[] = [];
   if (restB > 0) tallyParts.push(`rest +${restB} body`);
   if (bodyB > 0) tallyParts.push(`+${bodyB} max body`);
+  if (storageB > 0) tallyParts.push(`storage for ${storageB} belongings`);
+  if (homeHasCook(state)) tallyParts.push('a hearth to cook at');
   const tallyBase =
     tallyParts.length > 0
       ? `Comfort in effect · ${tallyParts.join(' · ')}`
