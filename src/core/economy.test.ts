@@ -20,7 +20,9 @@ import {
   ESTATE_STAGES,
   MARKET_ITEMS,
   DAYS_PER_SEASON,
+  TICKS_PER_DAY,
   SEASONS,
+  tick,
   balance,
   promotionReady,
   introActive,
@@ -583,6 +585,21 @@ describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw
     expect(s.banked.rice ?? 0).toBe(0);
   });
 
+  it('the kura CAPS stored rice at kuraRiceCap(estateStage); a full kura deposits nothing (D-118 §1b)', () => {
+    // the LEVER: only room UNDER the cap is deposited. Cap derived from the source of truth, never a
+    // magic number — RED against the old uncapped deposit that swept the whole carried pile in.
+    const cap = balance.kuraRiceCap(0); // U0 estate
+    const over = cap + 50;
+    let s = atKura(over);
+    s = reduce(s, { type: 'deposit', resource: 'rice' });
+    expect(s.banked.rice ?? 0).toBe(cap); // filled exactly to the wall, not past it
+    expect(s.resources.rice ?? 0).toBe(over - cap); // the overflow stays carried
+    // a full kura is a no-op (nothing more to store) — identity return.
+    expect(reduce(s, { type: 'deposit', resource: 'rice' })).toBe(s);
+    // improving the estate RAISES the wall, so more can be stored (the coin-sink reason to invest).
+    expect(balance.kuraRiceCap(1)).toBeGreaterThan(cap);
+  });
+
   it('a lost fight bleeds carried rice but the kura-STORED rice is sheltered (D-113)', () => {
     const base = atKura(0);
     const armed: GameState = {
@@ -596,6 +613,40 @@ describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw
     expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
     expect(after.resources.rice).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC)); // carried bitten
     expect(after.banked.rice).toBe(50); // stored rice untouched — the shelter holds
+  });
+});
+
+describe('D-118 §1a — rice SPOILS on a season turn, carried AND banked (holding costs something)', () => {
+  // Park the clock one tick short of a season boundary, then advance ONE tick across it so exactly
+  // one season turn fires. Fixtures derive the loss from riceSpoilage (source of truth), so a broken
+  // or missing spoilage step flips these RED (against the old free/lossless kura).
+  function eveOfSeason(carried: number, banked: number): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      // last tick of the last day of season 0 → the next tick rolls day → DAYS_PER_SEASON (a turn).
+      clock: { tick: TICKS_PER_DAY - 1, day: DAYS_PER_SEASON - 1 },
+      resources: { ...s.resources, rice: carried },
+      banked: { ...s.banked, rice: banked },
+    };
+  }
+
+  it('a season turn decays BOTH piles by exactly riceSpoilage(each), leaving the rest', () => {
+    const carried = 100;
+    const banked = 200;
+    const after = tick(eveOfSeason(carried, banked), 1); // cross exactly one season boundary
+    expect(after.resources.rice).toBe(carried - balance.riceSpoilage(carried));
+    expect(after.banked.rice).toBe(banked - balance.riceSpoilage(banked));
+    // the LEVER is a real bleed on a hoard (source-of-truth fraction > 0 for these piles).
+    expect(balance.riceSpoilage(carried)).toBeGreaterThan(0);
+    expect(balance.riceSpoilage(banked)).toBeGreaterThan(0);
+  });
+
+  it('mid-season (no boundary crossed) spoils nothing — the cost is per-season, not per-tick', () => {
+    const s = { ...eveOfSeason(100, 200), clock: { tick: 0, day: 1 } }; // deep inside season 0
+    const after = tick(s, 1);
+    expect(after.resources.rice).toBe(100);
+    expect(after.banked.rice).toBe(200);
   });
 });
 

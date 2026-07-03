@@ -3922,7 +3922,7 @@ export function mount(
         el(
           'div',
           'skill-blurb',
-          'Stow your coin and rice in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep.',
+          'Stow your coin and rice in the kura, safe from a beating on the road. What you carry, a lost fight can take; what you store, you keep — but rice spoils a little each season, and the kura holds only so much (raise it by improving the estate).',
         ),
       );
       const when = el('div', 'influence-when');
@@ -3957,9 +3957,12 @@ export function mount(
     const banked = state.banked.coin ?? 0;
     const carriedRice = state.resources.rice ?? 0;
     const bankedRice = state.banked.rice ?? 0;
+    // D-118 §1 — the kura's rice cap (raised by estate upgrades); show stored/N so the wall is legible.
+    const riceCap = balance.kuraRiceCap(state.estateStage);
+    const riceRoom = Math.max(0, riceCap - bankedRice);
     setText(
       r.when,
-      `Carried ${formatCoin(carried)}, ${carriedRice} rice · stored ${formatCoin(banked)}, ${bankedRice} rice (safe)`,
+      `Carried ${formatCoin(carried)}, ${carriedRice} rice · stored ${formatCoin(banked)}, ${bankedRice}/${riceCap} rice (safe)`,
     );
     // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
     // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
@@ -3974,8 +3977,14 @@ export function mount(
       setDisabled(r.wd, banked <= 0);
       const wdTitle = r.wd.disabled ? 'Nothing stored to withdraw.' : '';
       if (r.wd.title !== wdTitle) r.wd.title = wdTitle;
-      setDisabled(r.depRice, carriedRice <= 0);
-      const depRiceTitle = r.depRice.disabled ? 'No carried rice to store.' : '';
+      // D-118 §1 — a full kura (no room under the cap) disables the rice store, pointing at the fix.
+      setDisabled(r.depRice, carriedRice <= 0 || riceRoom <= 0);
+      const depRiceTitle =
+        carriedRice <= 0
+          ? 'No carried rice to store.'
+          : riceRoom <= 0
+            ? 'The kura is full — improve the estate to raise its rice capacity.'
+            : '';
       if (r.depRice.title !== depRiceTitle) r.depRice.title = depRiceTitle;
       setDisabled(r.wdRice, bankedRice <= 0);
       const wdRiceTitle = r.wdRice.disabled ? 'No rice stored to withdraw.' : '';

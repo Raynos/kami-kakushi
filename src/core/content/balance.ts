@@ -369,3 +369,30 @@ export const RICE_SELL_PRICE_BY_SEASON: Record<Season, number> = {
 export function riceSellPrice(season: Season): number {
   return RICE_SELL_PRICE_BY_SEASON[season];
 }
+
+// ── Rice STORAGE COST (D-118 / build-plan §1) — holding rice must COST something so the seasonal
+// store-vs-sell choice is LIVE. The shipped kura was free, lossless and loss-safe, so "always hold
+// until spring" dominated. TWO levers, both applied here: (a) SPOILAGE — a per-season decay on ALL
+// rice, CARRIED and BANKED, so pure hoarding always bleeds and you can't out-store the loss; (b) a
+// KURA CAPACITY CAP — the kura holds only N rice, and raising N is an estate/kura upgrade (a coin
+// sink + a reason to invest). Magnitudes LIQUID (D-059) — tuned by feel. Integer fixed-point (no
+// floats), so spoilage stays deterministic (no RNG) and fold-invariant with the clock (B10). ──
+/** Fraction of held rice that spoils on each season turn (carried + banked): floor(held·NUM/DEN). */
+export const RICE_SPOILAGE_NUM = 1; // ≈10% per season — a real bleed on a hoard, gentle on a small pile
+export const RICE_SPOILAGE_DEN = 10;
+/** Rice lost to spoilage from a pile on a season turn — floor(held·NUM/DEN). Pure + deterministic
+ *  (no RNG), so it folds one-day-at-a-time with the clock (B10 / engine fold-invariance). Applied to
+ *  the CARRIED and the BANKED pile SEPARATELY (each floors on its own), so a split hoard isn't a dodge. */
+export function riceSpoilage(held: number): number {
+  if (held <= 0) return 0;
+  return Math.floor((held * RICE_SPOILAGE_NUM) / RICE_SPOILAGE_DEN);
+}
+/** The kura's RICE capacity — a base cap raised by each estate/kura upgrade stage you've bought
+ *  (improve_estate). A real wall you INVEST past (the coin sink of §1's lever (b)); only rice is
+ *  capped (coin/materials bank freely — the cap is the rice-hoard governor, not a bank limit).
+ *  U0 120 · U1 200 · U2 280 · U3 360 · U4 440. Liquid (D-059). */
+export const KURA_RICE_CAP_BASE = 120;
+export const KURA_RICE_CAP_PER_STAGE = 80;
+export function kuraRiceCap(estateStage: number): number {
+  return KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE;
+}

@@ -51,6 +51,7 @@ import {
   EAT_RICE_COST,
   EAT_RICE_SATIETY,
   riceSellPrice,
+  kuraRiceCap,
 } from './content/balance';
 import { ESTATE_STAGES } from './content/estate';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
@@ -849,11 +850,20 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (next.location !== 'kura') return state;
       const have = next.resources[intent.resource] ?? 0;
       if (have <= 0) return state;
-      next = withResource(next, intent.resource, -have);
-      next = withBanked(next, intent.resource, have);
+      // D-118 / build-plan §1 lever (b) — the KURA CAP: only RICE is capped (the hoard governor); coin
+      // banks freely. You can store only up to the room left under the cap; a full kura stores nothing
+      // (raise the cap by improving the estate). Uncapped resources take the whole pile as before.
+      let stored = have;
+      if (intent.resource === 'rice') {
+        const room = Math.max(0, kuraRiceCap(next.estateStage) - (next.banked.rice ?? 0));
+        stored = Math.min(have, room);
+        if (stored <= 0) return state; // the kura is full — nothing to deposit
+      }
+      next = withResource(next, intent.resource, -stored);
+      next = withBanked(next, intent.resource, stored);
       // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain counts.
       const storedAmount =
-        intent.resource === 'coin' ? formatCoin(have) : `${have} ${intent.resource}`;
+        intent.resource === 'coin' ? formatCoin(stored) : `${stored} ${intent.resource}`;
       next = applyRewards(next, {
         log: [
           {
