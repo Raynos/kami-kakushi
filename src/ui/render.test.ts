@@ -1544,6 +1544,27 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     );
   });
 
+  it('renderNowView — a fleeting Now line survives a re-render; idle ticks churn nothing (D-123)', () => {
+    // D-123 closes the last wholesale-rebuild surface: the Now view now RECONCILES its ephemeral
+    // lines instead of `textContent=''` + rebuild. RED against the old rebuild — every idle tick
+    // recreated the node (churn) and dropped its identity.
+    const render = mount(root, () => {}, noopHooks());
+    let s = awake(['room-gate-forecourt', 'room-home-paddies'], { location: 'gate-forecourt' });
+    // a move emits an EPHEMERAL arrival line (the sole feed of the Now view).
+    s = reduce(s, { type: 'move_to', to: 'home-paddies' });
+    render(s, null);
+    // switch the log to the "Now" filter so the ephemeral line is stamped + painted.
+    [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
+      .find((b) => (b.textContent ?? '') === 'Now')
+      ?.click();
+    const logLines = root.querySelector<HTMLElement>('.log-lines')!;
+    const nowLine = logLines.querySelector<HTMLElement>('.now-line');
+    expect(nowLine).not.toBeNull(); // the fleeting line reached the Now view
+    render(s, s);
+    expect(logLines.querySelector('.now-line')).toBe(nowLine); // SAME node — reconciled, not rebuilt
+    expect(churnOnReRender(logLines, s, render)).toEqual([]); // idle ticks churn nothing
+  });
+
   it('renderMap — the you-are-here card survives a re-render (identity; moveStrip is Phase 2)', () => {
     const render = mount(root, () => {}, noopHooks());
     const s = awake(['room-gate-forecourt', 'room-home-paddies'], { location: 'gate-forecourt' });

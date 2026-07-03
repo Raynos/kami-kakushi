@@ -75,6 +75,17 @@ export function reconcileList<T>(
   }
 }
 
+/**
+ * Forget a container's key→node bookkeeping. Call this AFTER a caller force-clears the container's
+ * DOM itself (`container.textContent = ''`) OUTSIDE `reconcileList` — otherwise the map holds keys
+ * pointing at now-detached nodes, and the next `reconcileList` would patch (not re-append) them,
+ * silently dropping content. Needed only for a container that a reconcile path SHARES with a
+ * wholesale-clear path (e.g. the log lines, shared by the Now view and the filter-switch teardown).
+ */
+export function resetReconcile(container: HTMLElement): void {
+  rendered.delete(container);
+}
+
 /** Set a node's text only if it changed — idempotent, no mutation when equal. */
 export function setText(el: HTMLElement, text: string): void {
   if (el.textContent !== text) el.textContent = text;

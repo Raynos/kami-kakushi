@@ -91,7 +91,15 @@ import {
   NPC_VOICE,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
-import { reconcileList, setText, toggle, setClass, setDisabled, setStyle } from './reconcile';
+import {
+  reconcileList,
+  resetReconcile,
+  setText,
+  toggle,
+  setClass,
+  setDisabled,
+  setStyle,
+} from './reconcile';
 import {
   LOG_SCALE_MIN,
   LOG_SCALE_MAX,
@@ -3613,10 +3621,12 @@ export function mount(
     nowCollapseTimers.add(t);
   }
   function nowEmptyPlaceholder(): void {
-    // empty when nothing recent — a calm placeholder so the tab never reads broken.
+    // empty when nothing recent — a calm placeholder so the tab never reads broken. Idempotent: only
+    // appends when there's no live line AND the placeholder isn't already up, so a repeated
+    // empty-state render churns nothing (D-123 zero-churn). NOT a wholesale clear — reconcile owns
+    // the now-line nodes; the placeholder is the sole foreign sibling and is removed before a repaint.
     if (logLines.querySelector('.now-line')) return; // still has live lines
     if (nowEmptyEl && nowEmptyEl.isConnected) return;
-    logLines.textContent = '';
     nowEmptyEl = el('div', 'log-empty', 'Quiet, just now — the moment has passed.');
     logLines.append(nowEmptyEl);
   }
@@ -3665,29 +3675,42 @@ export function mount(
     }
     if (live === 0) nowEmptyPlaceholder();
   }
-  // Full rebuild on a state change: paint the ephemeral entries STILL inside their window (newest at
-  // the bottom). F115 — this NO LONGER stamps (stampEphemeral, run for every view, owns that); it only
-  // READS the stamps, so an entry whose stamp already aged out (while Now was hidden) is simply absent.
+  // D-123 — the Now view is APPEND-ONLY (F81 / reconcile.ts), no longer a `textContent=''` rebuild.
+  // A state-change re-render RECONCILES the currently-visible ephemeral entries (stamped, still inside
+  // their TTL) keyed by log key: a surviving line keeps its node (zero churn), an aged-out line is
+  // removed, a new fleeting line is appended. F115 — this only READS the stamps (stampEphemeral, run
+  // for every view, owns writing them), so an entry aged out while Now was hidden is simply absent.
   function renderNowView(state: GameState): void {
     const now = Date.now();
-    const ephemeral = state.log.entries.filter((e) => e.ephemeral === true);
-    logLines.textContent = '';
-    nowEmptyEl = undefined;
     const reduced = reduceMotion();
-    let painted = 0;
-    for (const e of ephemeral) {
+    // the ephemeral entries STILL inside their render window (newest at the bottom — log order).
+    const visible = state.log.entries.filter((e) => {
+      if (e.ephemeral !== true) return false;
       const seen = nowSeen.get(e.key);
-      if (seen === undefined) continue; // never stamped, or already aged out — not shown
-      const age = now - seen;
-      if (age >= NOW_TTL_MS) continue;
-      const line = buildLogLine(e, false);
-      line.classList.add('now-line');
-      line.dataset.nowKey = String(e.key);
-      if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS) line.classList.add('now-fading');
-      logLines.append(line);
-      painted += 1;
+      return seen !== undefined && now - seen < NOW_TTL_MS;
+    });
+    // the placeholder is the one FOREIGN sibling reconcile doesn't own — drop it before a real repaint
+    // so the container holds only reconciled now-lines (reconcile's single-owner contract).
+    if (visible.length > 0 && nowEmptyEl) {
+      nowEmptyEl.remove();
+      nowEmptyEl = undefined;
     }
-    if (painted === 0) nowEmptyPlaceholder();
+    reconcileList(logLines, visible, {
+      key: (e) => String(e.key),
+      build: (e) => {
+        const line = buildLogLine(e, false);
+        line.classList.add('now-line');
+        line.dataset.nowKey = String(e.key);
+        return line;
+      },
+      patch: (line, e) => {
+        const seen = nowSeen.get(e.key);
+        const age = seen === undefined ? 0 : now - seen;
+        setClass(line, 'now-fading', !reduced && age >= NOW_TTL_MS - NOW_FADE_MS);
+      },
+      order: true,
+    });
+    if (visible.length === 0) nowEmptyPlaceholder();
     ensureExpiryClock(); // keep the fade/prune loop alive while Now is shown
     scrollLogToNewest();
   }
@@ -3721,6 +3744,9 @@ export function mount(
     logFilter = f;
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
     logLines.textContent = '';
+    resetReconcile(logLines); // D-123 — the Now view reconciles this shared container; a wholesale
+    // clear must forget its key→node map or the next Now render would patch detached nodes.
+    nowEmptyEl = undefined;
     clearFreshDivider();
     // F115 — leaving Now WIPES its DOM (below), so cancel any in-flight collapse animations; but KEEP
     // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
@@ -3756,6 +3782,7 @@ export function mount(
     const didReset = state.log.seq < lastSeq;
     if (didReset) {
       logLines.textContent = '';
+      resetReconcile(logLines); // D-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
       lastPaintedKey = -1;
       lastPaintedCount = 0;
