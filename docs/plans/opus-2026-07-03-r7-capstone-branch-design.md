@@ -36,9 +36,13 @@ Kurosawa**, heir **Naoyuki**); the player's surname is the **T3** reveal. "Devot
 
 ---
 
-## §A · DOCS — ripple the PRD + document the capstone PATTERN
+## §A · DOCS — ripple the PRD + document the capstone PATTERN — ✅ DONE 2026-07-03
 
-Two doc jobs; both Opus (D-124).
+Two doc jobs; both Opus (D-124). **Landed:** ADR **D-125** (the pattern + T0
+design); PRD **§3.0.2 "Capstone branches"** (the reusable pattern + the palette +
+out-of-scope + balance philosophy + the full 9-board with the human's ratings + the
+three chosen outcomes); the R7 ladder row + 01-vision R7 row repointed from "branch
+TBD" to D-125/§3.0.2; D-121 marked designed. (Original spec below, for the record.)
 
 ### A.1 — Document "capstones" as a reusable design pattern (for T1–T5)
 Add a **"Capstones" concept subsection** to the PRD (home: `prd/03-unlock-ladder.md`

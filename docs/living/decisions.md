@@ -1380,10 +1380,10 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
   remembered flag.
 - **Why:** the cast/rewards read well; a capstone that changes nothing undersells
   the T0→T1 seam.
-- **Consequences:** split to its own design track —
-  [`opus-2026-07-03-r7-capstone-branch-design.md`](../plans/opus-2026-07-03-r7-capstone-branch-design.md)
-  (design + sign-off, THEN build); removed from the v0.3.5 build sweep. The full
-  beat prose is still an R8 read. Relates **D-110**.
+- **Consequences:** split to its own design track and **now DESIGNED + signed —
+  see D-125** (the capstone-branch pattern + the T0 design); build is post-v0.3.5.
+  Removed from the v0.3.5 build sweep. The full beat prose is still an R8 read.
+  Relates **D-110**, **D-125**.
 
 ### D-122 ✅ — Status tokens: T0 grants exactly ONE home token; the full ladder is T1–T5
 - **created_date:** 2026-07-03
@@ -1436,3 +1436,51 @@ Code deltas → [`docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../plans/opu
 - **Why:** predictable cost/quality; the human owns cross-model routing.
 - **Consequences:** AGENTS.md "How to work here" gains the rule (applied this
   session); plan "who builds this" sections are proposals pending human approval.
+
+### D-125 ✅ — Capstone branches: the tier-seam choice pattern (+ the T0 design)
+- **created_date:** 2026-07-03
+- **Context:** D-121 locked that the **R7 capstone choice must matter
+  mechanically**, then split it to a design pass. A `grill-me` + `diverge` session
+  (`project/brainstorms/2026-07-03-r7-capstone-branch.md`) settled both a **reusable
+  pattern** (so T1–T5 capstones can be designed later) and the **concrete T0
+  design**. This ADR records the pattern as canon; the design plan
+  ([`opus-2026-07-03-r7-capstone-branch-design.md`](../plans/opus-2026-07-03-r7-capstone-branch-design.md))
+  carries the build detail.
+- **Decision (human, 2026-07-03) — THE PATTERN (applies every tier):** at each
+  tier's **capstone rung** (the final Phase-1 rung — R7 for T0), the existing rung
+  VN beat's **values choice** becomes a **branch**: each option **keeps** its
+  relationship memory (`regard` + NPC warmth) **AND** unlocks a **unique next-tier
+  side quest** giving **(1) a unique equippable ITEM + (2) a separate UNLOCK**. One
+  choice per playthrough → one path; the others **lock out** (replay driver). **Full
+  continuity — ascension is NEVER a reset** (stats/items/skills/standing all carry
+  forward).
+  - **The "quest + X" palette:** unique character / location (map node) / combat
+    enemy / activity-or-skill / crafting recipes / shop / reputation-or-perk /
+    reputation micro-faction / equippable item — or any balanceable combo.
+  - **Out of scope:** new deeds; novel new UI *surfaces* (a new map node / a skill
+    in the EXISTING systems is fine); a parallel "standing" advancement lane
+    (micro-factions OK); a new *system* (helper / auto-labour); a whole new crafting
+    *branch* (recipes + narrow refinements are fine).
+  - **Balance philosophy:** the options **need not be equal** — a best / an OP / a
+    narrative-only / a 5-min / an hours-of-grind option is fine. **Range is a
+    feature.**
+- **The T0 design (signed):** the R7 Shigemasa beat (**devoted / ambitious /
+  humble**) → each unlocks:
+  - **Devoted → "The House's Buried Shame"** — *item:* Sadamune's heirloom blade;
+    *unlock:* a repeatable **enemy** (the enforcer **Kumagorō**) in a new hideout.
+  - **Ambitious → "The Contest of Heirs"** — *item:* a fine dueling blade; *unlock:*
+    **Naoyuki**'s B1-exclusive **early rival-debut at R7** (distinct VN scene; his
+    normal intro fires at his normal rung for the other paths) + repeatable
+    **spars** + a **Naoyuki-regard micro-faction**.
+  - **Humble → "The Late Student"** — *item:* **Tōsai's chisel** (a craft-tool, NOT
+    a weapon); *unlock:* the master **Tōsai** + a workshop node + a **craft
+    activity/skill (or shop)** whose levels unlock **2–3 recipes**.
+  - Item mix: weapon / weapon / craft-tool. Names Kumagorō & Tōsai are vetoable.
+- **Why:** a values choice at the tier seam that *reshapes the next tier* is more
+  memorable than a stat nudge; a reusable pattern lets each tier's capstone be
+  designed to the same template; preserving the 9-option board + the human's
+  ratings in the PRD gives future designers a worked example.
+- **Consequences:** the PRD gains a **Capstone-branches** section (§3.0.2) with the
+  pattern + the full T0 9-board + ratings + the three chosen outcomes; the R7 ladder
+  row's "branch design TBD" note resolves to this. Supersedes the "TBD" half of
+  **D-121**; relates **D-110** (rung beats), **D-119**. Build is post-v0.3.5.

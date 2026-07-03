@@ -173,6 +173,60 @@ Phase 2 → grind the REVEALED pillars to the hybrid profile → tier-up.**
 
 ---
 
+## 3.0.2 Capstone branches — the tier-seam CHOICE (the reusable pattern · D-125)
+
+At each tier's **capstone rung** (the final Phase-1 rung — **R7** for T0), the
+rung's VN beat already asks a **values question**. That choice is a **branch**:
+each option **keeps** its relationship memory (`regard` + NPC warmth) **AND**
+unlocks a **unique NEXT-TIER side quest** that gives **(1) a unique equippable
+ITEM + (2) a separate UNLOCK**. **One choice per playthrough** → one path; the
+others **lock out** (a replay driver). **Ascension is NEVER a reset** — everything
+carries forward; the branch *colours* the next tier, it doesn't restart it.
+
+**This is a pattern to reuse for every tier's capstone (T1–T5), not a T0
+one-off.** When you design a later capstone, follow this template:
+
+- **The "quest + X" palette** (the "X" the unlock draws from): a unique
+  **character** · **location** (a new map node) · **combat enemy** · **activity /
+  skill** (existing skill system) · **crafting recipes** · **shop** · **reputation
+  / perk** · **reputation micro-faction** (levels up) · **equippable item** — or any
+  balanceable combo.
+- **Out of scope** (too hard to balance): new **deeds**; novel new UI **surfaces**
+  (a new node / a skill in the *existing* systems is fine — reuse, don't invent a
+  paradigm); a parallel **"standing" advancement lane** (a small micro-faction rep
+  IS fine); a new **system** (helper / auto-labour); a whole new **crafting branch**
+  (recipes + narrow refinements like "silver-inlaid armor" are fine).
+- **Balance philosophy:** the options **need not be equal** — a best / an
+  overpowered / a narrative-only / a **5-min** / an **hours-of-grind** (RS-style xp)
+  option is all fine. **Range is a feature**, not a bug.
+
+### The T0 capstone — the worked example (the design that ships)
+
+The R7 Shigemasa beat (*"How do you answer the lord?"*) — **devoted / ambitious /
+humble** — each unlocks:
+
+| R7 answer | Side quest | Item | Separate unlock |
+|---|---|---|---|
+| **Devoted** | "The House's Buried Shame" | Sadamune's heirloom blade *(weapon)* | a repeatable **enemy** (the enforcer **Kumagorō**) in a new **hideout** |
+| **Ambitious** | "The Contest of Heirs" | a fine dueling blade *(weapon)* | **Naoyuki**'s early rival-debut (at R7, B1-only) + repeatable **spars** + a **Naoyuki-regard micro-faction** |
+| **Humble** | "The Late Student" | **Tōsai's chisel** *(craft-tool, not a weapon)* | the master **Tōsai** + a **workshop** node + a **craft activity/skill** whose levels unlock **2–3 recipes** |
+
+**The full 9-option diverge board + the human's ratings** (necessary context — a
+future designer copies this shape). Nine options were generated (three per answer);
+the human rated and chose the top of each path:
+
+| Devoted | Ambitious | Humble |
+|---|---|---|
+| A1 Red Ledger (Accounting skill) — 3/5 | B1 **Contest of Heirs — 4/5 ✅** | C1 Teach What You Know (drill grind) — 3/5 |
+| A2 **Buried Shame — 4/5 ✅** | B2 Sponsor's Price (luxury shop) — 2/5 | C2 **Late Student — 3/5 ✅** |
+| A3 Confidential Errand (quartermaster shop) — 4/5 | B3 A Name of Your Own (farmable lair) — 3/5 | C3 Hands Remember (servants' faction) — 3/5 |
+
+Full option text + the resolved detail: the design plan
+([`opus-2026-07-03-r7-capstone-branch-design.md`](../../plans/opus-2026-07-03-r7-capstone-branch-design.md))
+and the brainstorm. **ADR: D-125.**
+
+---
+
 ## 3.1 The cold open — minute one (T0, before R0)
 
 The lone hand-authored, pre-ladder state. Built from **§2.1 (reveal engine + log)**, **§2.3 (soft stamina)**,
@@ -233,7 +287,7 @@ floor, not the rungs; §3.3/§2.17).
 | **R4 — Trusted hand & houseman** | `RANK` Estate Service (win **Lady Chiyo's** regard for indoor work + heir **Naoyuki's** grudging vouch — seeding the rivalry→respect arc; authored trust beats) | **The Main House / *Omoya*** interior area (kitchen, inner rooms, household shrine); the **household domestic economy** rows (textiles, kitchen, provisioning — feeds **Cooking** §2.6 and the satiety loop §2.3); the **first *shinden* reclamation** begins (a LAND lever — its recognised yield is a **Phase-2 Estate deed**, not yet accruing); the **Crafting SECTION** — a **section, NOT a top-level tab** (**D-119**), revealed as its own beat (§2.11, hybrid — *simple recipes first*) with the early **loot→craft loop** (Smith **Gonta**, §2.10/§2.11) — the **first found/crafted weapon** joins the roster here (at least one of T0's weapons is craftable; §3.5.1); **graded weapon-durability bands** surface here with that loop (a **4-band** scale; a weapon degrades but is **NEVER auto-unequipped**; §3.5.1). **[THREAD: Tama — seed only]** the house simply sees a proven, honest hand; **no one speaks the name "Tama"** yet (the village ignites the legend at T2-V0). | *"Lady Chiyo nods you indoors. Naoyuki, bored: 'He'll do.' The inner rooms open; the first fallow plot is yours to bring back; Gonta hands you a hammer. You earned this with honest hands."* |
 | **R5 — Gate-guard (*monban*)** | `RANK` Combat Rank (stand a real watch; clear first pest/animal threats; weapon-skill milestones — conditioning floor at R3) | The **Quests** tab opens here — its own **R5** quest-log beat (**D-119**, kept out of the R3 combat wave) — and the **T0 CORE / starter quest set** fills out in it, revealed as each is first taken: **PEST CONTROL → HUNT → CLEAR → DEFEND** (this is the *starter set, **NOT a cap*** — author whatever quest types fit each later stage). The **stance slot** unlocks on the Combat panel — the **glass-cannon ↔ tank** choice (aggressive: deal more, take more; defensive: take less, deal less; §3.5.1/§2.8). **DEFEND** is the activity that *will* earn **Arms** — but the **Arms pillar is not revealed until T1** (the full estate); in T0, R5 combat feeds the **character (combat) level** + the **Combat Rank rung-meter** (curated activities) only, **not** the Arms pillar yet. | *"You stand the gate, and the work finds you: vermin in the stores, a boar in the paddies, a night-watch to hold. Your sword starts to matter — not just your back."* |
 | **R6 — Foreman of works (*kogashira*)** | `RANK` Estate Service (drive the *shinden* + workshops to recorded yield; house edging toward solvency) | The **Workshops** and **Granary** areas; **proto-industry levers** (the LAND/TREASURY strands whose recorded yields become **Phase-2 Estate deeds**); the **low palisade** (martial fabric); the **3rd T0 weapon** unlocks (completing T0's roster of three — the carrying-pole plus two found/crafted, at least one craftable; §3.5.1/§2.10.1); **errands beyond the estate are authorised — the FULL-ESTATE recovery (T1) opens after tier-up; the VILLAGE (T2) opens later, at T1's capstone** (the **tier-expansion map** seed + the road out). *(No pillar standing is "recorded" here — **Estate DEEDS do not accrue until Phase 2, post-R7**; the **Arms pillar waits for T1**.)* | *"The frame of a workshop is raised; the granary takes shape; the ledger is no longer only red. Genemon, grudging: 'Carry the house's business down to the village.' A road opens past the gate — once the house itself is set right."* |
-| **R7 — Bailiff of the home fields (*jikata-yaku*)** *(capstone — END of PHASE 1 / ENTRY to PHASE 2)* | `RANK` Estate Service rung-meter **+ STORY** (first reclamation recorded; the lord names the bailiff) — **rung-meter + story ONLY**; the **Estate PILLAR profile (EXCELLENT — the 1-pillar collapse) is the SEPARATE Phase-2 tier-up gate** (below) | The **lord's study** (ledgers) in the Main House; **jobs-as-offices** begin (field administration framed as **the MC's own quests/offices — NOT a management layer**, §2.6); **THE HOUSE INFLUENCE PANEL becomes visible** (§2.16) — the house's four-pillar standing, re-expressed as its assessed **koku score** (never spent, never an income multiplier; re-assessed each season and at the tier jump, §2.4) — and its reveal **OPENS PHASE 2**: the tier's pillar **DEEDS now start accruing** (**Estate** from the *shinden*/solvency — **T0 reveals one pillar**). The panel lights only the **T0-revealed pillar** — **Estate** — its bar, the other three as **locked silhouettes** (Arms/Office/Name not yet revealed, never checked — Arms joins at T1); **cash-crop levers**; the **per-tier domain ranking** read (§2.18) first appears here as "unranked." **The T0→T1 TIER-UP** is the **Phase-2 gate** (the **1-pillar special case**: the gate **collapses to EXCELLENT in Estate**; numbers → §4) — cleared by grinding Phase-2 Estate deeds, **then T1 — the full-estate recovery — opens** (the **first ascension lands BIG** regardless of grade — and the **capstone ascension choice is now a real MECHANICAL BRANCH**: the T0→T1 choice *matters*, not just a flourish (**D-121**, branch design TBD at build); the valley opens later, at T1's capstone). | *"The lord enters your name in his own ledger — bailiff of the home fields. The rungs are climbed. Now he points past them: 'The house is off the cliff. Make it *rise*.' For the first time you see what the house can become — a standing to raise. (Then: the full recovery — and, beyond it, the valley.)"* |
+| **R7 — Bailiff of the home fields (*jikata-yaku*)** *(capstone — END of PHASE 1 / ENTRY to PHASE 2)* | `RANK` Estate Service rung-meter **+ STORY** (first reclamation recorded; the lord names the bailiff) — **rung-meter + story ONLY**; the **Estate PILLAR profile (EXCELLENT — the 1-pillar collapse) is the SEPARATE Phase-2 tier-up gate** (below) | The **lord's study** (ledgers) in the Main House; **jobs-as-offices** begin (field administration framed as **the MC's own quests/offices — NOT a management layer**, §2.6); **THE HOUSE INFLUENCE PANEL becomes visible** (§2.16) — the house's four-pillar standing, re-expressed as its assessed **koku score** (never spent, never an income multiplier; re-assessed each season and at the tier jump, §2.4) — and its reveal **OPENS PHASE 2**: the tier's pillar **DEEDS now start accruing** (**Estate** from the *shinden*/solvency — **T0 reveals one pillar**). The panel lights only the **T0-revealed pillar** — **Estate** — its bar, the other three as **locked silhouettes** (Arms/Office/Name not yet revealed, never checked — Arms joins at T1); **cash-crop levers**; the **per-tier domain ranking** read (§2.18) first appears here as "unranked." **The T0→T1 TIER-UP** is the **Phase-2 gate** (the **1-pillar special case**: the gate **collapses to EXCELLENT in Estate**; numbers → §4) — cleared by grinding Phase-2 Estate deeds, **then T1 — the full-estate recovery — opens** (the **first ascension lands BIG** regardless of grade — and the **capstone ascension choice is a real MECHANICAL BRANCH**: the T0→T1 choice *matters*, not just a flourish — each answer unlocks a unique T1 side quest → item + unlock (**D-121** → **designed, D-125 / §3.0.2**); the valley opens later, at T1's capstone). | *"The lord enters your name in his own ledger — bailiff of the home fields. The rungs are climbed. Now he points past them: 'The house is off the cliff. Make it *rise*.' For the first time you see what the house can become — a standing to raise. (Then: the full recovery — and, beyond it, the valley.)"* |
 
 > **T0 deliberately withheld (fractal discipline):** the **full-estate grind** — the **Arms pillar**, the **2nd
 > weapon line (sword)**, the first paid retinue, and the rice-and-coin flywheel branching into LAND/TREASURY/TRADE — is
