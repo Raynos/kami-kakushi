@@ -79,3 +79,17 @@ saved to agent memory). No variant hit the wall.
   verified by construction only.
 - 05-aizome exposes `window.__eng`, 01-moonlit `window.__moonlit` — DEV/QA
   hooks for tap-driving the summons state; demo-only, documented in-file.
+
+---
+
+## Addendum — gate fix + push/deploy (same session, human-directed)
+
+The human asked to push & deploy, and to "update verify to not mess with
+worktrees". Landed the gate fix flagged in the landmine above: excluded
+`.claude/worktrees/` from **md-links** (`EXCLUDE_DIRS` in
+`check-md-links.ts`), **prettier** (`.prettierignore`), and **eslint**
+(global `ignores`) — a co-agent worktree is a transient full-repo checkout;
+scanning it made three gates cry wolf (A11). `verify` back to 12/12 green
+with the co-agent worktree still present. Then: push `main` (pre-push gate
+green) + Vercel prod redeploy of `ui-demos/` (human-approved outward
+actions).

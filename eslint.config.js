@@ -58,6 +58,8 @@ export default tseslint.config(
       'tmp/**',
       // ui-demos: the UI-remaster staging ground (plain browser JS demos, not product code)
       'ui-demos/**',
+      // co-agent git worktrees: transient full-repo checkouts, never this checkout's code
+      '.claude/worktrees/**',
     ],
   },
   js.configs.recommended,

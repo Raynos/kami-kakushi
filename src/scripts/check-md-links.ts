@@ -29,7 +29,9 @@ const SCAN_ROOTS = [
   'project/human-in-the-loop',
   'project/todo-human.md',
 ];
-const EXCLUDE_DIRS = new Set(['node_modules', '.git', 'dist', 'tmp']);
+// 'worktrees': co-agent git worktrees under .claude/worktrees — transient full-repo
+// checkouts whose relative links break one level deeper; scanning them cries wolf (A11).
+const EXCLUDE_DIRS = new Set(['node_modules', '.git', 'dist', 'tmp', 'worktrees']);
 
 function walk(abs: string, out: string[]): void {
   const st = statSync(abs);
