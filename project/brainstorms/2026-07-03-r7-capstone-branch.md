@@ -179,6 +179,61 @@ UNLOCK** (the separate thing), tagged **⏱ scope** and the **systems it reuses*
   favours → minor passive perks (a labour yield %, event warnings). *⏱ light–medium.*
   *Reuses:* rep track + equipment + passive perks.
 
+## Detailed spec — the three chosen options (DRAFT, my recommended fills)
+
+Each needs: unique **quest** · **quest-giver** (existing/new char) · unique
+**reward** · the option-specific **unlocks** (char / location / enemy / activity /
+micro-faction / recipes). Below = my proposals; ⚠ = open call for the human.
+
+### A2 · "The House's Buried Shame" (DEVOTED) — ⏱ medium
+- **Quest-giver:** **Genemon** (chief steward) — devotion earns his trust with the
+  house's shame. *(existing char)*
+- **Quest:** uncover the truth of Sadamune's ruinous venture (the Inherited Debt's
+  origin) → trace it to who's still bleeding the house.
+- **Unique character (new):** the **debtor's enforcer** — a minor antagonist
+  (needs a name). ⚠
+- **Unique location (new node):** the enforcer's **hideout** (e.g. an abandoned
+  mill / a moneylender's back-room).
+- **Unique enemy:** the enforcer — a **repeatable grindable** foe at the hideout.
+- **Reward:** **Sadamune's recovered blade** (heirloom weapon).
+- **Naoyuki:** not involved.
+
+### B1 · "The Contest of Heirs" (AMBITIOUS) — ⏱ hours
+- **Quest-giver:** **Naoyuki** himself — he challenges the upstart. *(This IS his
+  real introduction.)*
+- **Unique EARLY character intro:** **Naoyuki** steps onstage as your rival (in T0
+  he was mentioned-but-unseen; the ambitious path is where he gets a face). ⚠ see
+  the Naoyuki-timing question below.
+- **Unique micro-faction:** **Naoyuki-regard** — a rival-respect track.
+- **Unique activity:** repeatable **sparring** bouts (combat-XP grind) that RAISE
+  the Naoyuki-regard; higher regard → sparring perks (better XP, tougher bouts).
+- **Unique location:** a **sparring ground** (reuse Kihei's drill yard, or a new
+  private ground). ⚠
+- **Reward:** a **fine dueling blade** (won by besting him / gifted at the
+  rivalry's resolution).
+
+### C2 · "The Late Student" (HUMBLE) — ⏱ medium(→hours w/ the grind)
+- **Quest-giver:** **the reclusive master** — he seeks YOU out (word of the man who
+  does the work). *(new char — needs a name)* ⚠
+- **Unique character (new):** the retired **master artisan**.
+- **Unique location (new node):** the master's **workshop / hermitage**.
+- **Unique micro-faction:** your **student-standing** with the master — a small
+  track raised by practice.
+- **Unique activities:** practice/craft sessions at the workshop that raise your
+  standing and **progressively unlock the recipes**.
+- **Unique recipes:** **2–3 unique recipes** (the master's techniques — narrow).
+- **Reward:** **the master's piece** (a strong crafted equippable — the graduation
+  piece). *(⚠ this is the 3rd weapon — reflavour to a tool/armor?)*
+
+### ⚠ Key open question — Naoyuki's introduction timing
+Naoyuki is the canonical in-house RIVAL, currently **mentioned-but-unseen in T0**.
+Options:
+- **(a) B1-only intro (my lean):** Naoyuki gets his real face/onstage debut ONLY in
+  the ambitious (B1) path — the choice that activates the rivalry. In A2/C2 he
+  stays mentioned-only until later. Clean: the ambitious pick *earns* the rival.
+- **(b) General early-T1 intro:** Naoyuki debuts to everyone in early T1 regardless
+  of path (the succession seed); B1 just deepens him into an active rival.
+
 ## Parking lot (tangents / parallel threads)
 
 ## Open flags (pending input)

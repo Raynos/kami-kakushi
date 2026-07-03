@@ -1,65 +1,143 @@
 # R7 capstone branch — design plan
 
-**Status:** ✅ DESIGNED (human-signed 2026-07-03) — **awaiting build**. Split out
-of the v0.3.5 build plan so the seven mechanical deltas could ship in parallel;
-the design was settled via a `grill-me` + `diverge` pass
-([`project/brainstorms/2026-07-03-r7-capstone-branch.md`](../../project/brainstorms/2026-07-03-r7-capstone-branch.md)).
-Source: the agent-default audit (D-121).
+**Status:** ✅ DESIGNED (human-signed 2026-07-03) — **awaiting build**. Two build
+sections below: **§A Docs** (ripple the PRD + document the capstone *pattern*) and
+**§B Code** (build the T0 capstone + its content). Design settled via a `grill-me`
++ `diverge` pass
+([`project/brainstorms/2026-07-03-r7-capstone-branch.md`](../../project/brainstorms/2026-07-03-r7-capstone-branch.md)
+— the full 9-option board + the human's ratings live there). Source: D-121.
 
 ## Who builds this — Opus
 
-Opus (per D-124). Now that the design is signed, this is a small, self-contained
-core+content+render build — but it depends on the v0.3.5 seven-tab IA (the Quests
-tab at R5) and is **T1 content**, so it lands after v0.3.5 merges.
+Opus (per D-124), both sections. Depends on the v0.3.5 seven-tab IA (Quests at R5)
+and is T1 content, so it lands **after v0.3.5 merges**.
 
 ## The design (signed 2026-07-03)
 
 The **R7 capstone** is the existing three-way Shigemasa beat — *"How do you answer
 the lord?"* (`rungBeats.ts` R7): **devoted / ambitious / humble**. Each option:
-1. **Keeps** its current "light branch" — the per-NPC `regard` flag +
-   Shigemasa `warmthDelta` (relationship memory). Unchanged.
-2. **PLUS** unlocks a **unique T1 side quest** (the full estate, R8→R15) that
-   gives **a unique equippable ITEM + a separate UNLOCK**.
+1. **Keeps** its "light branch" — the `regard` flag + Shigemasa `warmthDelta`
+   (relationship memory). Unchanged.
+2. **PLUS** unlocks a **unique T1 side quest** (full estate, R8→R15) giving **a
+   unique equippable ITEM + a separate UNLOCK**.
 
 One choice per playthrough → one quest; the other two lock out (replay driver).
 **Full continuity** — everything carries forward; ascension is NOT a reset.
 
-| R7 answer | Side quest | Item (equippable) | Separate unlock | ⏱ |
+| R7 answer | Quest | Item | Separate unlock | ⏱ |
 |---|---|---|---|---|
-| **Devoted** — *"carry the Kurosawa name"* | **"The House's Buried Shame"** — uncover Sadamune's ruinous venture; confront who's bleeding the house | **Sadamune's recovered blade** (heirloom weapon) | a repeatable **combat enemy** (the debtor's enforcer at his hideout) | medium |
-| **Ambitious** — *"a name can be made"* | **"The Contest of Heirs"** — ambition wakes Naoyuki into open competition | a **fine dueling blade** | repeatable **spars** (combat-XP grind) + a **Naoyuki-regard micro-faction** (levels → sparring perks) | hours |
-| **Humble** — *"only the work"* | **"The Late Student"** — a retired master takes you on | the **master's piece** (a strong crafted equippable) | **2–3 unique crafting recipes** (narrow, e.g. a silver-inlaid refinement) | medium |
+| **Devoted** | "The House's Buried Shame" | Sadamune's recovered blade | a repeatable **enemy** (the debtor's enforcer) in a new **hideout** location | med |
+| **Ambitious** | "The Contest of Heirs" | a fine dueling blade | **Naoyuki** intro + a **spar activity** + a **Naoyuki-regard micro-faction** | hrs |
+| **Humble** | "The Late Student" | the master's piece | a new **master** char + **workshop** location + **student micro-faction** + **2–3 recipes** | med |
 
-**Canon note:** the player is a **retainer** of the **Kurosawa** house (lord =
-**Shigemasa Kurosawa**, heir **Naoyuki**); the player's own surname is the **T3**
-origin reveal. The "devoted" line means advancing his *lord's* house — tighten the
-prose so it can't misread as the player claiming the Kurosawa name.
+**Canon:** player = a **retainer** of the **Kurosawa** house (lord = **Shigemasa
+Kurosawa**, heir **Naoyuki**); the player's surname is the **T3** reveal. "Devoted"
+= advancing his *lord's* house — tighten so it can't misread as claiming the name.
 
-## Design guard-rails (human — what the build must respect)
+---
 
-- **Reuse existing systems** — the skill/xp system, map nodes, combat/bestiary,
-  craft recipes, shops, small rep tracks, equipment. Do **not** invent new
-  paradigms.
-- **OUT OF SCOPE:** new deeds; novel new UI surfaces; a parallel "standing"
-  advancement lane (a small micro-faction rep IS fine); a new system
-  (helper/auto-labour); a whole new crafting branch (recipes + narrow refinements
-  are fine).
-- **The 9 need not be balanced equally** — a best choice / an OP one / a narrative
-  one is fine; scope may range 5-min → hours-of-grind. (These three: medium /
-  hours / medium.)
+## §A · DOCS — ripple the PRD + document the capstone PATTERN
 
-## Open build-detail flags (resolve at build, tune by feel — D-059)
-- Stats/tier of each item (heirloom blade, dueling blade, master's piece). *(All
-  three chosen items are weapons — the human may reflavour C2's "master's piece"
-  to a tool/armor for variety; PENDING confirm.)*
-- The enforcer enemy's stats + drop; the spar loop's XP/perk curve + the
-  Naoyuki micro-faction's levels/perks; which 2–3 recipes + the master's-piece
-  recipe.
-- Where the quest lives in the T1 quest data + how the R7 pick gates it.
+Two doc jobs; both Opus (D-124).
+
+### A.1 — Document "capstones" as a reusable design pattern (for T1–T5)
+Add a **"Capstones" concept subsection** to the PRD (home: `prd/03-unlock-ladder.md`
+near the tier-gate / ascension framing, cross-linked from `prd/01-vision.md §1.6`).
+It must let **someone else design the T1–T5 capstones later**, so document the
+*generalizable pattern*, not just T0:
+- **What a capstone is:** the choice at each tier's **cap rung** (R7 for T0, the
+  next tier's top rung for T1…), taken at the **tier→next ascension seam**. A
+  **values/identity** choice (2–3+ options).
+- **The structure (the template):** each option **keeps its relationship memory**
+  (regard/warmth) **AND** unlocks a **unique next-tier side quest** → **a unique
+  equippable ITEM + a separate UNLOCK**.
+- **The "quest + X" palette:** unique character / location (map node) / combat
+  enemy / activity-or-skill / crafting recipes / shop / reputation-or-perk /
+  reputation micro-faction / equippable item — or any balanceable combo.
+- **Out of scope** (copy the guard-rails): no new deeds; no novel new UI surfaces;
+  no parallel "standing" advancement lane (micro-factions OK); no new system
+  (helper/auto-labour); no whole new crafting branch (recipes + narrow refinements
+  OK).
+- **Balance philosophy:** the options **need not be equal** — a best / an OP / a
+  narrative-only / a 5-min / an hours-of-grind option is fine; **range is a
+  feature**.
+
+### A.2 — Preserve the T0 worked example (necessary context)
+In the PRD capstone section, **keep the FULL T0 nine-option diverge board WITH the
+human's ratings** and which three were chosen — verbatim as the canonical worked
+example (a future designer copies its shape):
+
+> A1 3/5 · **A2 4/5 (chosen)** · A3 4/5 · **B1 4/5 (chosen)** · B2 2/5 · B3 3/5 ·
+> C1 3/5 · **C2 3/5 (chosen)** · C3 3/5 — full board text in the brainstorm.
+
+Then document the **three chosen T0 outcomes** (the table above) as the T0 capstone
+that ships. *(Also ripple: `rungBeats.ts` R7 is no longer "a light branch" — the
+PRD/ui-design lines that call it that get a pointer to this design.)*
+
+---
+
+## §B · CODE — build the T0 capstone + its content
+
+Build the three chosen options into the game. Each = a T1 side quest gated on the
+R7 pick flag (`r7-devoted` / `r7-ambitious` / `r7-humble`), reachable in T1,
+reusing existing systems only.
+
+### B.A2 · "The House's Buried Shame" (DEVOTED) — ⏱ medium
+- **Quest-giver:** **Genemon** (existing) — devotion earns his trust with the
+  house's shame.
+- **Quest:** uncover Sadamune's ruinous venture (the Inherited Debt's origin) →
+  trace who's still bleeding the house.
+- **New character:** the **debtor's enforcer** (minor antagonist — ⚠ name).
+- **New location (map node):** the enforcer's **hideout**.
+- **Enemy:** the enforcer — a **repeatable grindable** foe (bestiary + combat).
+- **Item:** **Sadamune's recovered blade** (heirloom weapon).
+
+### B.B1 · "The Contest of Heirs" (AMBITIOUS) — ⏱ hours
+- **Quest-giver:** **Naoyuki** — he challenges the upstart; **this is his onstage
+  introduction** (⚠ timing, see flags).
+- **Micro-faction:** **Naoyuki-regard** (rival-respect track).
+- **Activity + location:** repeatable **sparring** bouts (combat-XP grind) at a
+  **sparring ground** (⚠ reuse Kihei's drill yard vs a new node) that **raise the
+  Naoyuki-regard**; higher regard → sparring perks (better XP / tougher bouts).
+- **Item:** a **fine dueling blade** (won/gifted at the rivalry's turn).
+
+### B.C2 · "The Late Student" (HUMBLE) — ⏱ medium (→hours w/ the grind)
+- **Quest-giver / new character:** the retired **master artisan** — seeks you out
+  (⚠ name).
+- **New location (map node):** the master's **workshop / hermitage**.
+- **Micro-faction:** **student-standing** with the master (raised by practice).
+- **Activities:** practice/craft sessions that raise standing and **progressively
+  unlock the recipes**.
+- **Recipes:** **2–3 unique recipes** (narrow — e.g. a silver-inlaid refinement).
+- **Item:** **the master's piece** (a strong crafted equippable — ⚠ 3rd weapon;
+  reflavour to a tool/armor?).
+
+### Build mechanics (all three)
+- Each quest gates on the R7 pick flag + the T1 unlock; the R7 beat's `flags`
+  already emit `r7-devoted`/`r7-ambitious`/`r7-humble` — read those.
+- **Reuse only:** the quest data model, map nodes, combat/bestiary, craft recipes,
+  small rep tracks, equipment. No new paradigms.
+- **Tests:** a test asserts the three picks unlock **different** quests/items
+  (could have gone RED when it was flag-only); each chosen path is **reachable**
+  in the running game (R6).
+
+## Design guard-rails (what the build must respect)
+- Reuse existing systems (above). · Out-of-scope list (§A.1). · The three need not
+  be balanced equally (medium / hours / medium here).
+
+## Open flags (resolve before/at build — mostly D-059 tuning)
+- **⚠ Naoyuki intro timing:** (a) B1-only debut (the ambitious pick earns the
+  rival — my lean) vs (b) a general early-T1 intro deepened by B1. **Human call.**
+- **⚠ Names:** the debtor's enforcer (A2), the reclusive master (C2).
+- **⚠ 3 weapons:** all three items are weapons — reflavour C2's "master's piece"
+  to a tool/armor for variety?
+- **Tuning (D-059):** item stats/tier; enforcer stats + drop; the spar XP/perk
+  curve + Naoyuki-regard levels; which 2–3 recipes + the master's-piece recipe;
+  sparring-ground node choice.
 
 ## Done-when
-
-A human-signed design exists (✅) **and** is built: the three R7 picks each unlock
-their distinct T1 side quest → item + unlock; a test asserts the branch diverges
-(could have gone RED when it was flag-only); each quest is reachable in the running
-game (R6).
+- **§A:** the PRD carries a reusable **capstone pattern** subsection + the T0
+  9-board with ratings + the three chosen outcomes; the "light branch" lines point
+  here.
+- **§B:** the three R7 picks each unlock their distinct T1 quest → item + unlock,
+  reachable in-game, with a test asserting the branch diverges.
