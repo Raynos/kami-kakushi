@@ -95,20 +95,45 @@ console errors; every stage/tab/moment driven; screenshots to
   (incl. Kihei's ask-hub end-to-end).
 - **01 Moonlit Menu** ✅ — clean; fixed real bugs in its own code (nested
   buttons, camelCase dataset lowercasing silently killing VN/Fight clicks).
-- **05 Aizome** 🔨 still building at this entry.
+- **05 Aizome** ✅ — its first run died instantly on the account session
+  limit (resets 02:50); per the resumable-subagents norm, wrapped the
+  interim (deploy of four, R9, queue, push), set a background timer, and
+  resumed the SAME agent at 02:55 with its context + the three shared-engine
+  notes. Returned clean: zero console errors, all stages/tabs/moments, the
+  stitch-draw ceremony verified. Independent screenshot review: PASS — the
+  log-center thesis lands.
 
 Main-session independent screenshot review of the four: PASS — same game,
 four genuinely different generation-ups; ceremonies each in-register.
 Committed the four variants (this commit). Human is asleep; instructed to
 continue autonomously + queue everything for the morning read.
 
+## 6 · Night wrap-up (human asleep — instructed to continue + queue for morning)
+
+- Deployed `ui-demos/` to **<https://kami-kakushi-ui-demos.vercel.app>**
+  (insurance deploy with four; redeployed with all five once Aizome landed).
+- **R9** filed in `human-in-the-loop/review.md` — one line item per variant;
+  reading queue links the live gallery + plan (D-089 lifecycle as usual).
+- All five variants committed; checkpoint pushed green.
+
 ## Next intended steps
 
-1. Land + QA 05 Aizome; commit.
-2. R-items per variant in `human-in-the-loop/review.md`; reading-queue entry
-   pointing at the gallery + Vercel deploy of `ui-demos/`.
-3. Checkpoint: snapshot current, push `main` (respect the other agent's WIP
-   — stage own paths only; don't fight their red if the pre-push gate trips).
+1. Human's morning read: the gallery (R9 verdicts per variant) + the plan.
+2. On the human's pick(s): decide the port path into `src/` — a proper D-075
+   diverge of the chosen direction(s) against the real engine.
+3. Idea worth surfacing when picking: directions can BLEND (e.g. 04's
+   material + 01's rail readouts + 05's stitch meters).
+
+## Landmines
+
+- **Do not touch `src/`** — another agent is actively building there (they
+  shipped v0.3.5 + docs reconciliation overnight; sessions 48–50).
+- `ui-demos/` is excluded from prettier + eslint (staging ground); its mock
+  engine drifts from the real core BY DESIGN (fake balance, no persistence)
+  — never port engine code from here into `src/`.
+- The five variants import `../shared/*` — serve over HTTP (ES modules), the
+  gallery 404s under `file://`.
+- `tmp/ui-demos-qa/` screenshots are session QA artifacts (git-ignored tmp).
 
 ## Landmines
 

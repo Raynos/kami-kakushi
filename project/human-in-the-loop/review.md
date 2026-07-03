@@ -254,8 +254,8 @@ errors, every stage/tab/moment) + an independent screenshot review. Plan:
   exact composition in urushi black + gold keylines + vermillion seal CTAs +
   paper log well. "Same screen, premium dark edition."
 - [ ] **05 · Aizome** — indigo textile: log center-stage, sashiko stitch-line
-  seams/meters, cloth-tag tabs, embroidered-crest ceremony. _(Landing overnight —
-  builder hit the session-limit reset; will be live at the same URL.)_
+  seams/meters, cloth-tag tabs, embroidered-crest ceremony. The most
+  structurally adventurous of the five.
 
 - **Asking for:** which direction (or blend) becomes the real game's UI-v2 —
   and per variant: does it read as *this* game, a generation better?

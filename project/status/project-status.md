@@ -46,8 +46,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   **12th verify gate** `verify-changelog` (version↔changelog single-source, A21).
   **Two adversarial audits** ran — economy balance-watch (4 liquid tuning items,
   left un-tuned for the human, D-059) + a deploy-gate check. **All F86–F117 ✅.**
-- **Parallel worker (Fable):** a **UI-v2 prototype** gallery (`prototype/index.html`) —
-  a taste-call spike, separate from this rebuild.
+- **Parallel worker (Fable):** UI-v2 round 2 — `prototype/` human-vetoed (lost
+  resemblance) → **five full T0 remaster variants** in `ui-demos/`, live at
+  <https://kami-kakushi-ui-demos.vercel.app> (R9; plan in `docs/plans/`).
 - **Philosophy** R1–R6 + **process canon** D-086–089 (tension>generosity · loop
   done-rule · e2e+invariants DoD · implicit queue sign-off).
 - **D-117: the frontier PRD** — PRD = forward spec of the unbuilt; tiers
@@ -66,7 +67,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   re-tuned — your feel-call. `audit/reports/2026-07-02-economy-balance-watch.md`.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `docs/plans/2026-07-02-rung-up-story-transitions.md`.
-- **UI-v2 gallery** 🔲 — `prototype/index.html` (Fable): pick a framing → `diverge`.
+- **UI-remaster variants** 🔲 (R9, Fable) — pick a direction (or blend) at
+  <https://kami-kakushi-ui-demos.vercel.app> → it becomes the D-075 diverge.
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
