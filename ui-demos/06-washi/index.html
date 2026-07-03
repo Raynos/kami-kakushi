@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Kami-kakushi — Washi &amp; Ink</title>
   <script>
     // theme before first paint: the persisted choice, else the OS preference
@@ -38,6 +38,9 @@
     <main id="workspace" class="workspace paper">
       <section id="pane" class="work" aria-label="Actions"></section>
       <aside id="logpanel" class="log" aria-label="The house remembers">
+        <!-- mobile-only: the folded-log peek strip (hidden in base CSS, revealed ≤920px) -->
+        <button id="logpeek" class="log-peek" type="button" data-act="log-peek"
+          aria-expanded="false" aria-controls="logscroll"></button>
         <div id="loghead" class="log-head"></div>
         <div id="logscroll" class="log-lines">
           <ol id="logfeed"></ol>

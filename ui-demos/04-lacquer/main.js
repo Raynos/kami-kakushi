@@ -19,6 +19,7 @@ const ui = {
   lastStage: null,
   stripOpen: false,
   ceremonyAt: 0,
+  logExpanded: false, // mobile-only: the log band pulled tall (hidden on desktop)
 };
 
 const prevVals = new Map(); // data-vk → last value (number pops)
@@ -491,7 +492,10 @@ function combatHTML(s) {
 // ── the log (hero surface) ───────────────────────────────────────────────────
 
 function logHeadHTML() {
+  // .log-expand is mobile-only (display:none in base CSS): pulls the paper
+  // band tall for reading, in place — the log stays first-class on a phone.
   return `<h2>${esc(D.LOG_HEADER)}</h2>
+  <button class="log-expand${ui.logExpanded ? ' on' : ''}" data-act="log-expand" aria-expanded="${ui.logExpanded}" aria-label="${ui.logExpanded ? 'Shrink the record' : 'Expand the record'}">⌃</button>
   <div class="filters">${D.LOG_FILTERS.map((f) => `<button class="f${f === ui.logFilter ? ' on' : ''}" data-act="filter" data-filter="${f}">${esc(D.LOG_FILTER_LABELS[f])}</button>`).join('')}</div>`;
 }
 
@@ -607,7 +611,7 @@ function vnHTML(s) {
   return `<div class="vn">
     <div class="vn-scroll">
       <div class="vn-roller top"></div>
-      <div class="vn-paper"${vn.phase === 'greeting' ? ' data-act="vn-next"' : ''}>
+      <div class="vn-paper"${vn.phase === 'greeting' ? ' data-act="vn-next" onclick=""' : ''}>
         <div class="vn-plate"><span class="plate-seal">${esc(scene.sealText)}</span><span class="plate-name">${esc(plateName)}</span></div>
         <div class="vn-lines">${lines}${tail}</div>
       </div>
@@ -619,7 +623,7 @@ function vnHTML(s) {
 function ceremonyHTML(s) {
   const c = s.ceremony;
   const initial = c.title.trim()[0].toUpperCase();
-  return `<div class="ceremony" data-act="dismiss-ceremony">
+  return `<div class="ceremony" data-act="dismiss-ceremony" onclick="">
     <div class="cer-field">
       <div class="cer-promoted">${esc(D.COPY.promoted)}</div>
       <div class="cer-seal"><span>${esc(initial)}</span></div>
@@ -633,7 +637,7 @@ function ceremonyHTML(s) {
 // ── stage selector (review affordance — VARIANT-SPEC §2) ─────────────────────
 
 function stripHTML(s) {
-  return `<button class="ss-head" data-act="ss-toggle">❖ <span>Stage</span> · ${esc(s.stageId)}</button>
+  return `<button class="ss-head" data-act="ss-toggle">❖ <span>Stage</span><span class="ss-sep"> · </span>${esc(s.stageId)}</button>
   <div class="ss-body">
     <div class="ss-row">${D.STAGES.map((st) => `<button class="ss-btn${st.id === s.stageId ? ' on' : ''}" data-act="ss-stage" data-stage="${st.id}" title="${esc(st.blurb)}">${esc(st.label)}</button>`).join('')}</div>
     <div class="ss-row moments">
@@ -685,6 +689,7 @@ function renderAll() {
     ui.lastStage = s.stageId;
     ui.tab = 'work';
     ui.logFilter = 'story';
+    ui.logExpanded = false;
     ui.seenTabs = new Set(sel.visibleTabs(s).map((t) => t.id));
     prevVals.clear();
     meterPrev.clear();
@@ -703,6 +708,7 @@ function renderAll() {
       sel.visibleTabs(s).forEach((t) => ui.seenTabs.add(t.id));
     }
     $('main').classList.toggle('sparse', !navOn);
+    $('main').classList.toggle('logx', ui.logExpanded);
     renderPane(s);
     setHTML($('loghead'), logHeadHTML());
     renderLogFeed(s);
@@ -733,6 +739,14 @@ document.addEventListener('click', (e) => {
     // chrome
     case 'tab': ui.tab = d.tab; renderAll(); break;
     case 'filter': ui.logFilter = d.filter; renderAll(); break;
+    case 'log-expand': {
+      const sc = $('logscroll');
+      const pinned = sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 48;
+      ui.logExpanded = !ui.logExpanded;
+      renderAll();
+      if (pinned) sc.scrollTop = sc.scrollHeight;
+      break;
+    }
     case 'summons': eng.dispatch({ type: 'begin_rung_beat' }); break;
     // work
     case 'rake': eng.dispatch({ type: 'rake_rice' }); break;

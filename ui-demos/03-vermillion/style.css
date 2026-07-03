@@ -826,6 +826,7 @@ body.no-nav .pane { max-width: 680px; }
 .foe-info { flex: 1; min-width: 0; }
 .foe-info b { font-family: var(--disp); font-weight: 800; font-size: 16px; color: var(--ink-hi); }
 .foe-info p { font-size: 12px; color: var(--ink-dim); margin-top: 3px; line-height: 1.4; }
+.foe-unfaced { font-size: 10.5px; color: var(--ink-mute); margin-left: 8px; }
 .foe-side { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .foe-actions { display: flex; align-items: center; gap: 8px; }
 .fight-btn {
@@ -1198,4 +1199,345 @@ body.no-nav .pane { max-width: 680px; }
   .cere-kicker, .cere-title, .cere-rank, .cere-hint { opacity: 1 !important; }
   .cere-underline { width: min(560px, 60vw); }
   .spark { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE — VARIANT-SPEC §4. Everything below is invisible on desktop:
+   base rules only HIDE the mobile-only nodes; all recomposition lives
+   behind (hover:none) touch guards + the ≤920px structural breakpoint.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* mobile-only DOM nodes — hidden in base CSS (§4.0 law 1) */
+#ticker, .log-close, .strip-toggle { display: none; }
+
+/* ── touch guards — every hover affordance gets a felt :active twin ────── */
+@media (hover: none) {
+  button, [data-action] { touch-action: manipulation; }
+  .tab:active { color: var(--ink); background: rgba(214, 60, 34, .12); }
+  .switch:active { background: rgba(255, 255, 255, .05); }
+  .lf:active { color: var(--ink-hi); }
+  .act-main:active:not(:disabled) .act-name { color: #fff; }
+  .move:active:not(:disabled) { border-bottom-color: var(--verm); }
+  .btn:active:not(:disabled) { border-bottom-color: var(--gold); }
+  .mkt-buy:active:not(:disabled) { border-bottom-color: var(--gold); }
+  .vn-topic:active { border-left-color: var(--verm); background: rgba(214, 60, 34, .09); }
+  .vn-slab:active { border-bottom-color: var(--verm); background: linear-gradient(180deg, #362b1e, #2a2118); }
+  .fight-btn:active, .summons:active, .ladder-cta:active, .cold-verb:active,
+  .attr-plus:active:not(:disabled) { filter: brightness(1.12); }
+  #strip { opacity: 1; }
+}
+
+/* ── the phone recomposition (≤920px) ──────────────────────────────────── */
+@media (max-width: 920px) {
+  html { -webkit-text-size-adjust: 100%; }
+
+  /* ═ shell: single column, fixed chrome, 100dvh (iOS URL-bar safe) ═ */
+  #app, body.no-nav #app {
+    /* minmax(0,1fr): never let any row's intrinsic min-content widen the shell */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    height: 100dvh;
+  }
+  #hdr  { grid-column: 1; grid-row: 1; }
+  #main { grid-column: 1; grid-row: 2; min-height: 0; overscroll-behavior: contain; }
+  #ticker { grid-column: 1; grid-row: 3; display: block; overflow: hidden; }
+  #rail { grid-column: 1; grid-row: 4; }
+  /* nowrap text (ticker line, tab tags) must never inflate the 1fr column:
+     a flex item's min-content CONTRIBUTION ignores min-width:0, so contain
+     the intrinsic inline size of the full-width chrome rows outright */
+  #hdr, #ticker, #rail { min-width: 0; contain: inline-size; }
+
+  /* ═ header — stacked rows: brand+rung / life+body / chip rail ═ */
+  #hdr {
+    flex-wrap: wrap;
+    gap: 9px 10px;
+    padding: calc(9px + env(safe-area-inset-top)) 14px 9px;
+  }
+  .brand { gap: 10px; }
+  .crest { width: 34px; height: 34px; }
+  .crest i { inset: 4px; box-shadow: inset 0 0 0 2.5px #171310, inset 0 0 0 4px var(--gold); }
+  .brand-text .kicker { font-size: 10px; letter-spacing: .2em; margin-bottom: 0; }
+  .brand-text b { font-size: 15px; letter-spacing: .05em; }
+
+  .rung-wrap { flex: 1 1 150px; width: auto; min-width: 140px; max-width: 230px; }
+  .rung-head .rung-line { gap: 7px; margin-bottom: 5px; }
+  .rung-head .rung-line b {
+    font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .rung-plate { font-size: 10.5px; }
+  .rung-meter { height: 9px; }
+  .rung-nums { font-size: 11px; margin-top: 3px; }
+
+  /* the summons breaks out to a full-width blazing banner — unmissable */
+  #hdr .rung-wrap:has(.summons) {
+    flex: 1 1 100%; width: 100%; max-width: none; order: 10;
+  }
+  .summons { padding: 12px 16px 13px; min-height: 48px; }
+  .summons .summons-k { font-size: 11px; letter-spacing: .18em; }
+  .summons b { font-size: 17px; }
+
+  .bars { order: 8; width: 100%; flex-direction: row; gap: 14px; }
+  .vbar { flex: 1; grid-template-columns: auto 1fr auto; gap: 7px; }
+  .vbar-k { font-size: 11px; letter-spacing: .08em; }
+  .vbar-track { height: 10px; }
+  .vbar-n { font-size: 12px; }
+
+  .vitals {
+    order: 9; width: 100%;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+  }
+  .vitals::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 6px 12px 7px; min-width: 62px; }
+  .chip span { font-size: 11px; letter-spacing: .1em; }
+  .chip b { font-size: 16px; }
+  .chip.coin b { font-size: 13.5px; }
+  .chip.clock b { font-size: 12px; }
+
+  /* ═ nav — the icon rail becomes the chunky bottom tab bar ═ */
+  #rail {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 2px;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    border-right: none;
+    border-top: 1px solid var(--edge);
+    background: linear-gradient(0deg, #14100c, var(--bg-2));
+  }
+  .tab { width: auto; flex: 1 1 0; min-width: 0; height: 52px; gap: 3px; }
+  .tab::before { /* the edge blade rides the top edge now */
+    left: 22%; right: 22%; top: -7px; bottom: auto;
+    width: auto; height: 4px;
+    transform: scaleX(0);
+  }
+  .tab.on::before { transform: scaleX(1); animation-name: bladex; }
+  .tab .tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .01em; text-transform: none;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .glyph { transform: scale(.92); }
+  .flyout { display: none; }
+
+  /* ═ the record ticker — the newest line, always alive, one tap to open ═ */
+  .ticker-btn {
+    position: relative;
+    display: flex; align-items: center; gap: 9px;
+    width: 100%; min-height: 46px;
+    padding: 8px 12px 8px 16px;
+    background: linear-gradient(180deg, #1e1913, #171310);
+    border-top: 1px solid var(--edge);
+    text-align: left;
+    overflow: hidden;
+  }
+  .ticker-btn::before { /* the vermillion blade */
+    content: '';
+    position: absolute; left: 0; top: 20%; bottom: 20%; width: 4px;
+    background: var(--verm);
+    box-shadow: 0 0 10px rgba(255, 90, 54, .55);
+  }
+  .ticker-btn:active { background: linear-gradient(180deg, #262019, #1c1712); }
+  .tk-text {
+    flex: 1; min-width: 0;
+    font-size: 14px; color: var(--ink);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .tk-text.arrive { animation: llin 300ms var(--snap); }
+  .tk-text .bullet { margin-right: 6px; font-size: 12px; }
+  .tk-sp {
+    margin-right: 7px;
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .tk-ch-milestone { color: var(--gold-hi); font-weight: 700; }
+  .tk-ch-combat { color: #d8a08f; }
+  .tk-ch-system, .tk-ch-reward { color: var(--ink-dim); }
+  .tk-more {
+    flex: none;
+    font-family: var(--disp); font-weight: 800; font-size: 17px;
+    color: var(--verm-hi);
+  }
+  /* with no nav row below it (R0), the ticker owns the home-indicator edge */
+  body.no-nav .ticker-btn { padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+
+  /* ═ the log — a full-screen record sheet, one tap from anywhere ═ */
+  #log {
+    position: fixed; inset: 0; z-index: 45;
+    border-left: none;
+    background:
+      radial-gradient(900px 420px at 16% -8%, rgba(214, 60, 34, .07), transparent 60%),
+      var(--bg);
+    transform: translateY(103%);
+    visibility: hidden;
+    transition: transform 300ms var(--snap), visibility 0s 300ms;
+  }
+  body.log-open #log { transform: none; visibility: visible; transition: transform 300ms var(--snap), visibility 0s 0s; }
+  #log-top {
+    position: relative;
+    padding: calc(14px + env(safe-area-inset-top)) 18px 10px;
+    border-top: 3px solid var(--verm);
+  }
+  .log-close {
+    display: flex; align-items: center; justify-content: center;
+    position: absolute; right: 12px; top: calc(10px + env(safe-area-inset-top));
+    width: 44px; height: 44px;
+    font-family: var(--disp); font-weight: 800; font-size: 17px;
+    color: var(--ink-dim);
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    clip-path: polygon(0 0, calc(100% - var(--cut-sm)) 0, 100% var(--cut-sm), 100% 100%, 0 100%);
+  }
+  .log-close:active { color: var(--ink-hi); background: #352d20; }
+  #log-filters { padding: 0 10px; overflow-x: auto; }
+  #log-filters::-webkit-scrollbar { display: none; }
+  .lf { padding: 15px 10px; font-size: 11px; letter-spacing: .08em; flex: none; }
+  #log-feed {
+    padding: 8px 16px calc(20px + env(safe-area-inset-bottom));
+    overscroll-behavior: contain;
+  }
+  .ll { font-size: 14px; margin-top: 9px; }
+  .ll-reward { font-size: 13px; }
+  .ll-system { font-size: 13px; }
+  .ll-milestone { font-size: 15px; }
+  .xn { font-size: 11px; }
+  body.log-open #strip { opacity: 0; pointer-events: none; }
+
+  /* ═ main pane — bigger thumb targets, single-column grids ═ */
+  #main { padding: 18px 14px 96px; }
+  .pane-head { margin-bottom: 14px; }
+  .pane-title { font-size: 22px; }
+  .sec-head { margin: 22px 0 10px; }
+  .sec-head h3 { font-size: 16.5px; }
+  .kicker { font-size: 11px; }
+  .card { padding: 16px 15px; }
+  .blurb { font-size: 14px; }
+  .note { font-size: 14px; }
+  .gold-line { font-size: 13px; }
+
+  .act-grid { grid-template-columns: 1fr; gap: 10px; }
+  .act-main { padding: 15px 15px 19px; gap: 5px; }
+  .act-name { font-size: 17px; }
+  .act-sub { font-size: 13px; }
+  .act-skill { font-size: 11px; }
+  .act-card.danger .act-main { padding: 18px 16px 22px; }
+  .act-card.danger .act-name { font-size: 19px; }
+  .switch span { font-size: 11px; }
+  .switch.sm { padding: 11px 10px; min-height: 44px; }
+
+  .hint { font-size: 13.5px; }
+  .ladder-cta { min-height: 48px; }
+
+  .move {
+    width: 100%; justify-content: space-between;
+    padding: 13px 16px; min-height: 48px;
+    background: linear-gradient(180deg, #322a1e, var(--panel-2));
+    border-bottom-color: #453a28;
+  }
+  .move .reason { font-size: 11px; }
+  .person-row { flex-wrap: wrap; }
+  .btn { padding: 13px 16px; min-height: 46px; white-space: normal; }
+  .mkt-row { flex-wrap: wrap; gap: 10px 16px; }
+  .mkt-buy { min-height: 46px; }
+  .mkt-buy span { font-size: 11px; }
+  .mkt-info p { font-size: 12.5px; }
+  .improve-foot { flex-wrap: wrap; }
+
+  .lock-chip { font-size: 11px; }
+  .bank-grid { grid-template-columns: 1fr; }
+  .bal-line { font-size: 14px; }
+
+  .skill-row p { font-size: 12.5px; }
+  .attr-row { grid-template-columns: 52px 1fr auto auto; gap: 10px; }
+  .attr-plus { width: 46px; height: 46px; }
+  .beast-grid { grid-template-columns: 1fr; }
+  .beast p { font-size: 12.5px; }
+  .kind-badge { font-size: 11px; }
+  .state-chip { font-size: 11px; padding: 10px 12px; }
+  .quest > p { font-size: 13.5px; }
+  .step { font-size: 13.5px; padding: 5px 0; }
+  .quest-foot { flex-wrap: wrap; }
+
+  .combat-top { grid-template-columns: 1fr; }
+  .foe-row { flex-wrap: wrap; gap: 10px 16px; }
+  .foe-info { flex: 1 1 100%; }
+  .foe-info p { font-size: 12.5px; }
+  .foe-unfaced { font-size: 11px; }
+  .foe-side { width: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .foe-side .pip { flex: 1 1 auto; }
+  .foe-actions { flex: 1 1 auto; min-width: 0; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+  .fight-btn { min-height: 46px; }
+
+  /* ═ full-screen moments — safe-area padded, thumb-zone actions ═ */
+  #cold { overflow-y: auto; }
+  .cold-inner {
+    padding: calc(24px + env(safe-area-inset-top)) 22px calc(30px + env(safe-area-inset-bottom));
+  }
+  .cold-sub { font-size: 11px; letter-spacing: .4em; }
+  .cold-title { font-size: clamp(34px, 11.5vw, 58px); letter-spacing: .04em; }
+  .cold-lede { font-size: 14.5px; }
+  .cold-verb { margin-top: 34px; padding: 16px 40px; min-height: 52px; }
+
+  #vn { padding: 0 8px calc(10px + env(safe-area-inset-bottom)); }
+  .vn-panel { width: 100%; }
+  .vn-box { padding: 26px 16px 16px; }
+  .vn-lines { max-height: 44dvh; overscroll-behavior: contain; }
+  .vn-plate { left: 10px; padding: 7px 14px 7px 10px; }
+  .vn-plate b { font-size: 13px; }
+  .vn-progress { right: 16px; }
+  .vn-next { min-height: 46px; padding: 12px 32px; }
+  .vn-topic { padding: 14px; min-height: 48px; }
+  .vn-slab { padding: 16px; min-height: 52px; }
+  .vn-answer { padding: 13px 14px; }
+  .vn-prompt { font-size: 17px; }
+
+  #ceremony { overflow-y: auto; }
+  .cere-inner { padding: 24px 18px; }
+  .cere-kicker { font-size: 11.5px; letter-spacing: .4em; }
+  .cere-title { font-size: clamp(38px, 12vw, 64px); }
+  .cere-hint { margin-top: 34px; }
+
+  /* ═ stage strip — collapsed to a 46px stage badge above the nav ═ */
+  #strip {
+    right: 10px;
+    bottom: calc(122px + env(safe-area-inset-bottom));
+    height: auto; padding: 0;
+    flex-direction: column; align-items: stretch; gap: 4px;
+    background: transparent; border: none; backdrop-filter: none;
+    opacity: 1;
+  }
+  body.no-nav #strip { bottom: calc(64px + env(safe-area-inset-bottom)); }
+  /* never collide with the VN panel (it owns the bottom of the screen):
+     while a VN scene is up, the strip docks top-right instead */
+  #vn.show ~ #strip { bottom: auto; top: calc(10px + env(safe-area-inset-top)); }
+  #strip .sbtn, #strip .sdiv { display: none; }
+  #strip .strip-toggle {
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; margin-left: auto;
+    font-family: var(--disp); font-weight: 800; font-size: 12px;
+    color: var(--gold-hi);
+    background: rgba(12, 10, 7, .85);
+    border: 1px solid var(--edge); border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .45);
+    opacity: .85;
+  }
+  #strip .strip-toggle:active { color: #fff; border-color: var(--verm); }
+  body.strip-open #strip {
+    background: #0e0b08;
+    border: 1px solid var(--edge); border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, .6);
+    /* never taller than the screen (landscape!) — scroll inside instead */
+    max-height: calc(100dvh - 120px - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  body.strip-open #strip .strip-toggle {
+    position: sticky; bottom: 0; background: #0e0b08; opacity: 1;
+  }
+  body.strip-open #strip .sbtn:not(.strip-toggle) {
+    display: block;
+    min-height: 42px; min-width: 148px;
+    padding: 10px 14px;
+    font-size: 12px; text-align: left;
+  }
+  body.strip-open #strip .strip-toggle { border-color: var(--verm); color: #fff; }
 }

@@ -13,10 +13,18 @@ const eng = createEngine('R1'); // default landing stage per VARIANT-SPEC §1
 
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// mobile breakpoint — mirrors the style.css @media (max-width: 920px) block.
+// On a phone the spread closes to a single page; `ui.face` says which page
+// is up ('work' = the active tab, 'record' = the log). Desktop ignores it.
+const MQ_MOBILE = matchMedia('(max-width: 920px)');
+MQ_MOBILE.addEventListener('change', () => render(eng.state));
+
 // ── UI-local state ───────────────────────────────────────────
 const ui = {
   tab: 'work',
   filter: 'story',
+  face: 'work', // mobile only: which page of the closed journal is up
+  seenLogId: 0, // newest log id the reader has had in view (mobile unread dot)
   stripOpen: false,
   animatedLogId: 0, // log ids ≤ this never (re-)animate
   seenTabs: new Set(),
@@ -91,44 +99,49 @@ const cardH = (t) => `<h3 class="card-h">${esc(t)}</h3>`;
 const pageHead = (t) => `<h2 class="page-title">${esc(t)}</h2><div class="rule-kumiko"></div>`;
 
 // ── header vitals: desk instruments ──────────────────────────
+// Two row-groups: small instruments (mark/resources/clock) and the meter
+// dials (life/body/rung). On desktop the wrappers are `display: contents`
+// (layout identical to a flat row); at ≤920px they become the condensed
+// two-row rail — a scrollable instrument row over a fixed meter row.
 function vitalsHTML(s) {
   const res = s.resources;
   // wrap a live number in a .pop span when it just grew (animates once)
   const val = (key, text, grewNow) => (grewNow ? `<span class="pop">${text}</span>` : text);
   const grew = (key, v) => !!prevVitals && v > prevVitals[key];
 
-  const parts = [];
-  parts.push(
+  const insts = [];
+  const meters = [];
+  insts.push(
     `<div class="inst mark"><div class="k">the house</div><div class="v">${esc(D.HOUSE_MARK)}</div></div>`,
   );
-  parts.push(
+  insts.push(
     `<div class="inst"><div class="k">rice</div><div class="v num">${val('rice', formatKMB(res.rice), grew('rice', res.rice))}</div></div>`,
   );
   if (res.coin + s.banked.coin > 0) {
-    parts.push(
+    insts.push(
       `<div class="inst"><div class="k">coin</div><div class="v num">${val('coin', esc(formatCoin(res.coin)), grew('coin', res.coin))}</div></div>`,
     );
   }
   if (sel.isUnlocked(s, 'row-wood')) {
-    parts.push(
+    insts.push(
       `<div class="inst"><div class="k">wood</div><div class="v num">${val('wood', formatKMB(res.wood), grew('wood', res.wood))}</div></div>`,
     );
   }
   if (sel.isUnlocked(s, 'row-sansai')) {
-    parts.push(
+    insts.push(
       `<div class="inst"><div class="k">sansai</div><div class="v num">${val('sansai', formatKMB(res.sansai), grew('sansai', res.sansai))}</div></div>`,
     );
   }
   if (sel.isUnlocked(s, 'readout-clock')) {
     const se = sel.seasonOf(s.clock.day);
-    parts.push(
+    insts.push(
       `<div class="inst clock"><div class="k">${esc(se.label)} ${se.emoji}</div><div class="v num">Year ${sel.yearOf(s.clock.day)} · day ${sel.dayOfSeason(s.clock.day)}</div></div>`,
     );
   }
   if (sel.isUnlocked(s, 'verb-face-wolf')) {
     const max = sel.hpMax(s);
     const low = s.character.hp <= max * 0.3;
-    parts.push(
+    meters.push(
       `<div class="inst gauge life${low ? ' low' : ''}">
         <div class="krow"><span class="k">life</span><span class="v num">${s.character.hp}/${max}</span></div>
         ${meter('hp', s.character.hp / max, 'life')}
@@ -137,7 +150,7 @@ function vitalsHTML(s) {
   }
   if (sel.isUnlocked(s, 'readout-stamina')) {
     const max = sel.satietyMax(s);
-    parts.push(
+    meters.push(
       `<div class="inst gauge">
         <div class="krow"><span class="k">body</span><span class="v num">${s.character.satiety}/${max}</span></div>
         ${meter('sat', s.character.satiety / max, 'body')}
@@ -147,34 +160,44 @@ function vitalsHTML(s) {
   // the rung head
   const r = sel.rung(s);
   if (sel.summonsReady(s)) {
-    parts.push(
+    meters.push(
       `<button class="inst rung summons" data-act="dispatch" data-payload='${pay({ type: 'begin_rung_beat' })}'>
         <div class="k">the summons</div><div class="v">${esc(D.COPY.summons)}</div>
       </button>`,
     );
   } else {
     const shown = Math.min(s.rungMeter, r.threshold);
-    parts.push(
+    meters.push(
       `<div class="inst rung">
         <div class="krow"><span class="k">${esc(r.title)}</span><span class="v num">${formatKMB(shown)} / ${formatKMB(r.threshold)}</span></div>
         ${meter('rung', s.rungMeter / r.threshold)}
       </div>`,
     );
   }
-  return parts.join('');
+  return `<div class="vrow vrow-insts">${insts.join('')}</div><div class="vrow vrow-meters">${meters.join('')}</div>`;
 }
 
 // ── bookmark tabs ────────────────────────────────────────────
+// The tab bookmarks ride in a `.bm-tabs` wrapper (display: contents on
+// desktop; the scrollable half of the bottom bookmark bar on mobile), and a
+// mobile-only leather "Record" bookmark flips the closed journal to the log
+// page — with a candle-lit dot when unread lines have landed there.
 function bookmarksHTML(s) {
   if (!sel.navVisible(s)) return '';
-  return sel
+  const onRecord = ui.face === 'record';
+  const tabs = sel
     .visibleTabs(s)
     .map(
       (t) =>
-        `<button class="bookmark bm-${t.id}${t.id === ui.tab ? ' active' : ''}${ui.freshTabs.has(t.id) ? ' fresh' : ''}"
+        `<button class="bookmark bm-${t.id}${t.id === ui.tab && !onRecord ? ' active' : ''}${ui.freshTabs.has(t.id) ? ' fresh' : ''}"
           data-act="tab" data-tab="${t.id}">${esc(t.label)}</button>`,
     )
     .join('');
+  const maxId = Math.max(0, ...s.log.map((l) => l.id));
+  const dot = maxId > ui.seenLogId && !onRecord ? '<span class="dot" aria-hidden="true"></span>' : '';
+  return `<div class="bm-tabs">${tabs}</div>
+    <button class="bookmark bm-record mobile-only${onRecord ? ' active' : ''}" data-act="face"
+      aria-label="${esc(D.LOG_HEADER)}">Record${dot}</button>`;
 }
 
 // ── Work tab ─────────────────────────────────────────────────
@@ -821,9 +844,11 @@ function render(s) {
     lastStage = s.stageId;
     ui.tab = 'work';
     ui.filter = 'story';
+    ui.face = 'work';
     ui.seenTabs = new Set(sel.visibleTabs(s).map((t) => t.id));
     ui.freshTabs = new Set();
     ui.animatedLogId = Math.max(0, ...s.log.map((l) => l.id));
+    ui.seenLogId = ui.animatedLogId;
     for (const k of Object.keys(meterMemo)) delete meterMemo[k];
     prevVitals = null;
   }
@@ -837,10 +862,36 @@ function render(s) {
     for (const id of visibleIds) ui.seenTabs.add(id);
   }
 
-  document.body.className = `phase-${s.phase}`;
+  // mobile face bookkeeping — the desktop spread always shows both pages,
+  // so off-mobile the face pins to 'work' (keeps desktop DOM canonical).
+  // The record counts as "read" whenever the log page is actually in view:
+  // on desktop always, on mobile when the record face is up or the log is
+  // inlined below the verbs (the sparse pre-nav R0 page).
+  if (!MQ_MOBILE.matches && ui.face !== 'work') ui.face = 'work';
+  const maxLogId = Math.max(0, ...s.log.map((l) => l.id));
+  if (!MQ_MOBILE.matches || ui.face === 'record' || !sel.navVisible(s)) ui.seenLogId = maxLogId;
+
+  document.body.className = `phase-${s.phase} face-${ui.face}${sel.navVisible(s) ? '' : ' log-inline'}`;
 
   setHTML('vitals', s.phase === 'cold-open' ? '' : vitalsHTML(s));
-  setHTML('bookmarks', s.phase === 'cold-open' ? '' : bookmarksHTML(s));
+
+  // the mobile bookmark ribbon scrolls — keep the reader's place across
+  // re-renders (innerHTML rebuilds reset scrollLeft)
+  const bmOld = document.querySelector('.bm-tabs');
+  const bmScroll = bmOld ? bmOld.scrollLeft : 0;
+  if (setHTML('bookmarks', s.phase === 'cold-open' ? '' : bookmarksHTML(s))) {
+    const bmNew = document.querySelector('.bm-tabs');
+    if (bmNew) bmNew.scrollLeft = bmScroll;
+  }
+
+  // a newly-revealed bookmark must announce itself even off-screen — slide
+  // the mobile bookmark bar so the fresh tab's rise is seen
+  if (fresh.length && MQ_MOBILE.matches) {
+    requestAnimationFrame(() => {
+      const el = document.querySelector('.bookmark.fresh');
+      if (el) el.scrollIntoView({ inline: 'center', block: 'nearest', behavior: REDUCED ? 'auto' : 'smooth' });
+    });
+  }
 
   // left page (preserve scroll within the same tab)
   const leftEl = $('page-left');
@@ -881,6 +932,14 @@ function render(s) {
   setHTML('stagestrip', stripHTML(s));
   animateMeters();
 
+  // iOS WebKit only synthesizes `click` for taps on interactive elements —
+  // the few non-button tap targets (.vn-lines, .vn-hint, the ceremony veil)
+  // need a direct no-op handler so the delegated click listener hears them.
+  // Re-applied every render because innerHTML rebuilds the nodes.
+  for (const el of document.querySelectorAll('[data-act]:not(button)')) {
+    if (!el.onclick) el.onclick = () => {};
+  }
+
   prevVitals = {
     rice: s.resources.rice,
     coin: s.resources.coin,
@@ -898,12 +957,14 @@ function moment(m) {
   } else if (m === 'wolf') {
     eng.setStage('R2'); // wakes at the kura — the wolf is here
     ui.filter = 'combat';
+    ui.face = 'record'; // on mobile, flip to the record so the fight is seen
     eng.dispatch({ type: 'face_wolf' });
   } else if (m === 'fight') {
     eng.setStage('R3');
     eng.dispatch({ type: 'move_to', node: 'gate-forecourt' });
     ui.tab = 'combat';
     ui.filter = 'combat';
+    ui.face = 'record';
     eng.dispatch({ type: 'fight', mobId: 'rice_rats' });
   } else if (m === 'rungup') {
     // Documented demo hack — VARIANT-SPEC §2: fill the meter AND set the
@@ -929,6 +990,11 @@ document.addEventListener('click', (e) => {
     eng.dispatch(JSON.parse(el.dataset.payload));
   } else if (act === 'tab') {
     ui.tab = el.dataset.tab;
+    ui.face = 'work'; // a tab bookmark always flips the journal to the work page
+    render(eng.state);
+    document.querySelector('.bookmark.active')?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+  } else if (act === 'face') {
+    ui.face = 'record'; // the Record bookmark flips to the log page
     render(eng.state);
   } else if (act === 'filter') {
     ui.filter = el.dataset.filter;
@@ -942,6 +1008,12 @@ document.addEventListener('click', (e) => {
   } else if (act === 'moment') {
     ui.stripOpen = false;
     moment(el.dataset.moment);
+  }
+  // when the record page just became visible (it renders while hidden, so
+  // the usual stick-to-bottom pass can't reach it), pin it to the newest line
+  if (MQ_MOBILE.matches && ui.face === 'record') {
+    const ls = $('log-scroll');
+    if (ls) ls.scrollTop = ls.scrollHeight;
   }
 });
 

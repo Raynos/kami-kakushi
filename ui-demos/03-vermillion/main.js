@@ -35,6 +35,7 @@ const ui = {
   cereKey: null,
   cereAt: 0,
   prevMaxLogId: -1,
+  tickerId: -1,              // mobile record-ticker: last rendered log id
 };
 
 // ── region writer (skip when unchanged; keep scroll) ─────────────────────────
@@ -556,7 +557,7 @@ function combatTab(s) {
       const autoFlee = s.autoCombat === mob.id && s.autoCombatRetreat;
       return `<div class="foe-row">
         <div class="foe-info"><b class="${faced ? '' : 'fog'}">${esc(mob.label)}</b>
-          ${faced ? '' : `<span style="font-size:10.5px;color:var(--ink-mute);margin-left:8px">${esc(D.COPY.bestiaryNotFaced)}</span>`}
+          ${faced ? '' : `<span class="foe-unfaced">${esc(D.COPY.bestiaryNotFaced)}</span>`}
           <p>${esc(mob.blurb)}</p></div>
         <div class="foe-side">
           ${pipHtml(pct)}
@@ -601,7 +602,8 @@ function logLineHtml(l, arrive) {
 
 function renderLog(s) {
   setRegion('logtop', 'log-top',
-    `<span class="kicker">The record</span><h2 class="log-title">${esc(D.LOG_HEADER)}</h2>`);
+    `<span class="kicker">The record</span><h2 class="log-title">${esc(D.LOG_HEADER)}</h2>
+     <button class="log-close" data-action="log-toggle" aria-label="Close the record">✕</button>`);
   setRegion('logbar', 'log-filters', D.LOG_FILTERS.map((f) =>
     `<button class="lf ${ui.logFilter === f ? 'on' : ''}" data-action="filter" data-arg="${f}">
       ${esc(D.LOG_FILTER_LABELS[f])}</button>`).join(''));
@@ -646,6 +648,26 @@ function renderLog(s) {
   }
   ui.renderedLog = view.map((l) => ({ id: l.id, count: l.count, text: l.text }));
   ui.logFilterRendered = ui.logFilter;
+}
+
+// Mobile-only record ticker (hidden on desktop): the newest log line, alive.
+// Tapping it opens the full log sheet — the log stays one tap from any tab.
+function updateTicker(s) {
+  let last = null;
+  for (const l of s.log) if (!last || l.id > last.id) last = l;
+  if (!last) { setRegion('ticker', 'ticker', ''); ui.tickerId = -1; return; }
+  const arrive = last.id !== ui.tickerId && ui.tickerId !== -1 && !reduced;
+  ui.tickerId = last.id;
+  let bullet = D.CHANNEL_BULLET[last.channel] ?? '';
+  if (bullet && last.text.startsWith(bullet)) bullet = '';
+  const sp = last.voice
+    ? `<b class="tk-sp v-${last.voice}">${esc(last.speaker ?? last.voice)}</b>` : '';
+  setRegion('ticker', 'ticker', `<button class="ticker-btn" data-action="log-toggle"
+      aria-label="Open the record">
+    <span class="tk-text tk-ch-${last.channel} ${arrive ? 'arrive' : ''}">
+      ${bullet ? `<span class="bullet">${bullet}</span>` : ''}${sp}${esc(last.text)}</span>
+    <span class="tk-more">»</span>
+  </button>`);
 }
 
 // ═══ FULL-SCREEN MOMENTS ══════════════════════════════════════════════════
@@ -791,7 +813,10 @@ function renderStrip(s) {
     <button class="sbtn moment" data-action="moment" data-arg="wolf" title="R2 at the kura — face the wolf">Wolf</button>
     <button class="sbtn moment" data-action="moment" data-arg="fight" title="R3 — pick a fight at the forecourt">Fight</button>
     <button class="sbtn moment" data-action="moment" data-arg="rungup" title="Force the meter and play the next rung beat">Rung-up</button>`;
-  setRegion('strip', 'strip', `${stages}<span class="sdiv"></span>${moments}`);
+  // mobile-only collapsed toggle (hidden in base CSS) — shows the current stage
+  const toggle = `<button class="sbtn strip-toggle" data-action="strip-toggle"
+    aria-label="Stage selector">${s.stageId === 'cold-open' ? '◆' : esc(s.stageId)}</button>`;
+  setRegion('strip', 'strip', `${stages}<span class="sdiv"></span>${moments}${toggle}`);
 }
 
 // DEMO-ONLY documented hack (VARIANT-SPEC §2 · stage selector) — the ONLY
@@ -910,6 +935,7 @@ function render(s, events) {
   renderRail(s);
   renderMain(s);
   renderLog(s);
+  updateTicker(s);
   renderCold(s);
   renderVN(s);
   renderCeremony(s);
@@ -924,6 +950,12 @@ const rerender = () => render(eng.state, []);
 const ACTIONS = {
   'tab':        (ds) => { ui.tab = ds.arg; rerender(); },
   'filter':     (ds) => { ui.logFilter = ds.arg; rerender(); },
+  // mobile-only (no engine state touched): the log sheet + the stage-strip fold
+  'log-toggle': () => {
+    const open = document.body.classList.toggle('log-open');
+    if (open) { const feed = $('log-feed'); feed.scrollTop = feed.scrollHeight; }
+  },
+  'strip-toggle': () => document.body.classList.toggle('strip-open'),
   'stage':      (ds) => eng.setStage(ds.arg),
   'moment':     (ds) => runMoment(ds.arg),
   'open-eyes':  () => eng.dispatch({ type: 'open_eyes' }),
@@ -966,6 +998,24 @@ document.addEventListener('click', (e) => {
   const fn = ACTIONS[t.dataset.action];
   if (fn) fn(t.dataset, t);
 });
+
+// iOS/WebKit never synthesizes a click for taps on non-interactive elements
+// (a plain [data-action] div like the VN panel or the ceremony overlay), so
+// those go through touchend. Buttons keep their real clicks — skipped here to
+// avoid double-firing. A moved finger (scroll gesture) is ignored.
+let touchAt = null;
+document.addEventListener('touchstart', (e) => {
+  touchAt = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+}, { passive: true });
+document.addEventListener('touchend', (e) => {
+  const c = e.changedTouches[0];
+  if (!c || !touchAt) return;
+  if (Math.abs(c.clientX - touchAt.x) > 10 || Math.abs(c.clientY - touchAt.y) > 10) return;
+  const t = e.target.closest('[data-action]');
+  if (!t || t.disabled || t.closest('button')) return;
+  const fn = ACTIONS[t.dataset.action];
+  if (fn) { e.preventDefault(); fn(t.dataset, t); }
+}, { passive: false });
 
 // go
 eng.subscribe(render);

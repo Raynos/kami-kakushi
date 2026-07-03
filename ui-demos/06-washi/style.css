@@ -2336,6 +2336,458 @@ h3 {
   scrollbar-color: color-mix(in srgb, var(--ink-faint) 40%, transparent) transparent;
 }
 
+/* ═══ MOBILE — VARIANT-SPEC §4. The same woodblock sheet, recomposed for one
+   hand: the nav strip re-orders to a bottom tab bar (active rule flips to the
+   top edge), the framed log FOLDS to a one-line peek strip that stays alive
+   and unfolds over the work pane on a tap, vitals condense to tight wrap-rows
+   with the summons swelling to a full-width vermilion bar, and the VN card
+   stacks story-over-choices so decisions sit in the thumb zone.
+   Law 1: everything below lives behind (max-width: 920px) / (hover: none) —
+   desktop ≥1280px renders byte-identical to the sheet above. ─────────────── */
+
+/* the peek strip node exists in the static shell — hidden except on mobile */
+.log-peek {
+  display: none;
+}
+
+/* ── touch feel (any coarse/touch device, incl. tablets): every :hover
+      affordance gets a felt :active twin; kill tap-highlight + dbl-tap zoom ── */
+@media (hover: none) {
+  button,
+  [tabindex] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .verb:active:not(:disabled) {
+    background: color-mix(in srgb, var(--ai) 10%, var(--washi));
+    border-color: var(--ai);
+  }
+  .verb.primary:active:not(:disabled) {
+    background: color-mix(in srgb, var(--shu) 9%, var(--washi));
+    border-color: var(--shu-deep);
+  }
+  .co-verb:active {
+    background: color-mix(in srgb, var(--shu) 15%, transparent);
+  }
+  .nav-tab:active,
+  .lf:active:not(.on) {
+    color: var(--ai);
+    background: color-mix(in srgb, var(--ai) 7%, transparent);
+  }
+  .lstep:active:not(:disabled) {
+    color: var(--ai);
+    border-color: var(--ink-faint);
+  }
+  .auto:active:not(.on) {
+    border-color: var(--ai);
+    color: var(--ai);
+  }
+  .topic:active:not(:disabled),
+  .vn-done:active {
+    border-color: var(--ochre);
+    color: var(--ink);
+    background: color-mix(in srgb, var(--ochre) 7%, transparent);
+  }
+  .choice:active {
+    background: color-mix(in srgb, var(--ai) 16%, var(--washi));
+    border-color: var(--ai);
+  }
+  .theme-toggle:active,
+  .ss-head:active,
+  .ss-btn:active:not(.on) {
+    color: var(--chrome-fg);
+    border-color: var(--chrome-fg-dim);
+  }
+  .rung-head.ready .rung-trigger:active {
+    background: color-mix(in srgb, var(--shu) 10%, var(--washi));
+  }
+  .log-peek:active {
+    background: color-mix(in srgb, var(--ai) 6%, transparent);
+  }
+}
+
+/* ── the structural breakpoint ──────────────────────────────────────────── */
+@media (max-width: 920px) {
+  html {
+    font-size: 100%; /* body 16px / small 14px / micro 12px — §4.2 floors */
+  }
+  :root {
+    --tap-min: 44px; /* every verb/auto/choice rides the token up */
+  }
+
+  /* titlebar — crest + name + the theme toggle; demo meta yields the room */
+  .titlebar {
+    padding:
+      calc(var(--space-1) + env(safe-area-inset-top))
+      calc(var(--space-3) + env(safe-area-inset-right))
+      var(--space-1)
+      calc(var(--space-3) + env(safe-area-inset-left));
+  }
+  .title-roman,
+  .title-meta {
+    display: none;
+  }
+  .theme-toggle {
+    min-height: 40px;
+    padding: 4px var(--space-3);
+  }
+
+  /* ── vitals — tight wrap-rows; labels micro, numbers small ────────────── */
+  .vitals {
+    gap: var(--space-1) var(--space-3);
+    padding:
+      var(--space-2)
+      calc(var(--space-3) + env(safe-area-inset-right))
+      var(--space-2)
+      calc(var(--space-3) + env(safe-area-inset-left));
+  }
+  .house-mark {
+    font-size: var(--fs-h3);
+    margin-right: 0;
+  }
+  .vital {
+    gap: var(--space-1);
+  }
+  .vital .label {
+    font-size: var(--fs-micro);
+  }
+  .vital .value {
+    font-size: var(--fs-body);
+    min-width: 0;
+  }
+  .bar {
+    width: 76px;
+  }
+  .rung-mini {
+    width: 56px;
+  }
+  .rung-trigger {
+    min-height: 40px;
+  }
+  /* the summons — a full-width vermilion bar; unmissable at 393pt (§4.1) */
+  .rung-head.ready {
+    flex: 1 0 100%;
+    order: 99;
+    margin-left: 0;
+  }
+  .rung-head.ready .rung-trigger {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+  .rung-head.ready .summons-cue {
+    font-size: var(--fs-body);
+  }
+
+  /* ── nav → bottom tab bar (same element, re-ordered; active rule on top) ── */
+  .shell > .nav {
+    order: 10;
+    border-bottom: 0;
+    border-top: 2px solid var(--line);
+    gap: 0;
+    padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .nav-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: var(--space-2) 2px;
+    min-height: 52px;
+    font-size: var(--fs-micro);
+    letter-spacing: 0;
+    border-bottom: 0;
+    border-top: 3px solid transparent;
+  }
+  .nav-tab.on {
+    border-top-color: var(--shu);
+  }
+  .nav-tab.fresh::after {
+    top: -3px;
+    bottom: auto;
+    left: 2px;
+    right: 2px;
+  }
+  .appbar-footer {
+    display: none; /* the bottom strip belongs to the thumb bar */
+  }
+
+  /* ── workspace — one column; panes still scroll internally ────────────── */
+  .workspace {
+    flex-direction: column;
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+  /* no nav yet (R0) → the workspace itself meets the home indicator */
+  .shell:has(> .nav[hidden]) .workspace {
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  }
+  .work {
+    flex: 1 1 auto;
+    padding-right: 0;
+  }
+  .work,
+  .log-lines,
+  .vn-story,
+  .vn-panel {
+    overscroll-behavior: contain;
+  }
+
+  /* action rows stack: full-width verb, then the yield line + auto toggle */
+  .row {
+    flex-wrap: wrap;
+    row-gap: var(--space-1);
+  }
+  .row .verb {
+    flex: 1 1 100%;
+  }
+  .row-info {
+    flex: 1 1 auto;
+    order: 2;
+    text-align: left;
+  }
+  .row .auto {
+    order: 3;
+    margin-left: auto;
+  }
+  .person {
+    flex-wrap: wrap;
+  }
+  .person .verb {
+    flex: 1 1 100%;
+  }
+
+  /* ── the log — a folded strip that keeps its woodblock frame ──────────── */
+  .log {
+    flex: 0 0 auto;
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+  }
+  .log-head,
+  .log-lines,
+  .log-filter-bar {
+    display: none;
+  }
+  .log-peek {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 48px;
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: var(--fs-small);
+    color: var(--text-2);
+    text-align: left;
+    cursor: pointer;
+  }
+  .log-peek .lb {
+    flex: 0 0 auto;
+    width: 1.4em;
+    text-align: center;
+    opacity: 0.85;
+  }
+  .log-peek .lb.lb-dot {
+    color: var(--ink-faint);
+  }
+  .log-peek .lp-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .log-peek .lp-title {
+    flex: 1 1 auto;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: var(--fs-h3);
+    color: var(--ai);
+  }
+  .log-peek .lp-chev {
+    flex: 0 0 auto;
+    color: var(--ink-faint);
+    font-size: var(--fs-micro);
+  }
+  @keyframes lp-in {
+    from {
+      opacity: 0.2;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .log-peek .lp-text.lp-fresh {
+    animation: lp-in 360ms var(--ease-ink);
+  }
+  /* unfolded: the log takes the whole workspace; the peek is the handle */
+  .workspace.log-open .work {
+    display: none;
+  }
+  .workspace.log-open .log {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .workspace.log-open .log-peek {
+    border-bottom: 1px solid var(--ink-faint);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .workspace.log-open .log-lines {
+    display: block;
+    margin: 0;
+    padding: 0 var(--space-4);
+  }
+  .workspace.log-open .log-filter-bar {
+    display: flex;
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--ink-faint);
+  }
+  .lf {
+    min-height: 40px;
+    padding: 3px var(--space-3);
+  }
+  .lstep {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  /* ── full-screen moments — safe-area padded, actions in the thumb zone ── */
+  .coldopen {
+    padding:
+      calc(var(--space-6) + env(safe-area-inset-top))
+      var(--space-4)
+      calc(var(--space-6) + env(safe-area-inset-bottom));
+  }
+  .co-card {
+    padding: 2rem 1.3rem 1.8rem;
+  }
+  .co-verb {
+    min-height: 48px;
+  }
+  .vn-scene {
+    padding: 0;
+  }
+  .vn-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    gap: var(--space-3);
+    padding:
+      calc(var(--space-4) + env(safe-area-inset-top))
+      calc(var(--space-4) + env(safe-area-inset-right))
+      calc(var(--space-3) + env(safe-area-inset-bottom))
+      calc(var(--space-4) + env(safe-area-inset-left));
+  }
+  .vn-seal {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.3rem;
+  }
+  .vn-body {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .vn-story {
+    border-right: 0;
+    padding-right: 0;
+    flex: 1 1 0; /* basis 0 — the transcript takes the leftover, never starves the panel */
+  }
+  .vn-panel {
+    /* full ask/decide/perk content shows whole (the 4-topic ask hub ≈ 347px on
+       a 659px visual viewport needs 60%); the transcript scrolls instead */
+    flex: 0 0 auto;
+    max-width: none;
+    max-height: 60%;
+    border-top: 1px dotted color-mix(in srgb, var(--ink-faint) 40%, transparent);
+    padding-top: var(--space-3);
+  }
+  .topic,
+  .choice,
+  .vn-done,
+  .vn-continue {
+    min-height: var(--tap-min);
+  }
+  /* stacked columns put the transcript's prompt echo right above the panel's
+     own prompt — keep the one in the decision panel (P1: one home) */
+  .vn-lines .vn-prompt {
+    display: none;
+  }
+  .ceremony {
+    padding: var(--space-4);
+  }
+  .cer-card {
+    max-width: 100%;
+    padding: var(--space-8) var(--space-6);
+  }
+  .cer-seal {
+    width: 108px;
+    height: 108px;
+    font-size: 3.4rem;
+  }
+
+  /* ── stage strip — clear of the thumb bar + the folded log ────────────── */
+  #stagestrip {
+    right: max(var(--space-2), env(safe-area-inset-right));
+    bottom: calc(116px + env(safe-area-inset-bottom));
+    max-width: calc(100vw - var(--space-4));
+  }
+  .ss-head {
+    min-height: 40px;
+    padding: 8px var(--space-3);
+  }
+  .ss-btn {
+    min-height: 40px;
+    padding: 6px 10px;
+  }
+  .ss-body {
+    max-width: calc(100vw - var(--space-4));
+  }
+}
+
+/* narrowest phones: six tab labels must not clip */
+@media (max-width: 480px) {
+  .nav-tab {
+    font-size: 11px;
+  }
+}
+
+/* landscape phones (852×393-class): shave the vertical chrome — functional */
+@media (max-width: 920px) and (max-height: 460px) {
+  .vitals {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .nav-tab {
+    min-height: 44px;
+    padding-top: var(--space-1);
+    padding-bottom: var(--space-1);
+  }
+  .log-peek {
+    min-height: 40px;
+  }
+  .vn-panel {
+    max-height: 56%;
+  }
+  .cer-card {
+    padding: var(--space-4) var(--space-6);
+    gap: var(--space-2);
+  }
+  .cer-seal {
+    width: 72px;
+    height: 72px;
+    font-size: 2.3rem;
+  }
+  #stagestrip {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+}
+
 /* ── reduced motion ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,

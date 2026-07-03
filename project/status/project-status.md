@@ -46,9 +46,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   **12th verify gate** `verify-changelog` (version↔changelog single-source, A21).
   **Two adversarial audits** ran — economy balance-watch (4 liquid tuning items,
   left un-tuned for the human, D-059) + a deploy-gate check. **All F86–F117 ✅.**
-- **Parallel worker (Fable):** UI-v2 round 2 → **six T0 remaster variants** at
-  <https://kami-kakushi-ui-demos.vercel.app> (R9, 06 = faithful baseline); a
-  **mobile pass** over all six is in-flight (`ui-demos/*` uncommitted).
+- **Fable parallel:** six T0 remaster variants (R9) — **mobile pass landed**:
+  six + gallery phone-ready, desktop unchanged (VARIANT-SPEC §4; live at
+  <https://kami-kakushi-ui-demos.vercel.app>). Commit LOCAL — push pending (s56).
 - **Philosophy** R1–R6 + **process canon** D-086–089 (tension>generosity · loop
   done-rule · e2e+invariants DoD · implicit queue sign-off).
 - **D-117 frontier PRD + the process wave** — tiers compress at taste
@@ -107,8 +107,8 @@ clone: `git config core.hooksPath .githooks`.
 > What's open is the human async queue above; the deferred/owed tail is the next
 > autonomous work as picks land. Scope locked in ADRs D-107–D-116.
 
-1. Read the **newest journal** (`journal/2026-07-03-session-52-docs-reconcile-taste-r6-lord.md`,
-   then back through s51/s50/s49) + the feedback doc (`human-feedback/2026-07-02-playtest.md`) +
+1. Read the **newest journal** (`journal/2026-07-03-session-56-ui-demos-mobile.md`,
+   then back through s55/s54/s52) + the feedback doc (`human-feedback/2026-07-02-playtest.md`) +
    `todo-human.md` (the reading queue + open forks) for the full arc.
 2. `npm install` → `npm run verify` (green, 12 gates) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).

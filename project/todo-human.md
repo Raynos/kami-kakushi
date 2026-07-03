@@ -97,6 +97,13 @@
 - [ ] `project/archive/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**
   (Fable's parallel spike): the plan behind the link above — §3 has the five
   briefs, §2 the invariants (the remaster midpoint contract).
+- [ ] `project/archive/fable-2026-07-03-mobile-ui-demos.md` — **ui-demos mobile
+  support** (done, landed): all six variants + gallery now work on iPhone
+  (WebKit-verified, desktop unchanged); the in-place-vs-fork call + your
+  "two good UIs over one compromised responsive" steer recorded. The mobile
+  contract itself is `ui-demos/shared/VARIANT-SPEC.md` §4. Try it on your
+  actual phone after the next Vercel redeploy — safe-area insets are the one
+  thing emulation can't verify.
 - [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
   actions** (parked idea, D-116-adjacent): you *discover* what to do at a map node
   via rumours / low-chance events / description hints, not a static list. T0-later/T1.

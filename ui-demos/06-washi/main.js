@@ -21,6 +21,8 @@ const ui = {
   tabFreshAt: new Map(), // tabId → first-seen ms (drives the one-time glint)
   lastStage: null,
   stripOpen: false,
+  logOpen: false, // mobile only — the folded log expanded over the work pane
+  lastPeekKey: '', // newest 'all'-line key (drives the peek's fresh animation)
   logScaleIdx: 1, // index into LOG_SCALES (the A−/A+ stepper)
   ceremonyAt: 0,
   ceremonyTimer: 0,
@@ -153,7 +155,7 @@ function vitalsHTML(s) {
   const into = Math.min(s.rungMeter, rung.threshold);
   const trigger = ready
     ? `<button class="rung-trigger" data-act="summons"><span class="summons-cue">${esc(D.COPY.summons)}</span></button>`
-    : `<div class="rung-trigger" tabindex="0"><span class="rung-name">${esc(rung.title)}</span><span class="rung-mini"><i data-m="rung" data-w="${((into / rung.threshold) * 100).toFixed(2)}" style="width:${(meterPrev.get('rung') ?? (into / rung.threshold) * 100).toFixed(2)}%"></i></span></div>`;
+    : `<div class="rung-trigger" tabindex="0" onclick=""><span class="rung-name">${esc(rung.title)}</span><span class="rung-mini"><i data-m="rung" data-w="${((into / rung.threshold) * 100).toFixed(2)}" style="width:${(meterPrev.get('rung') ?? (into / rung.threshold) * 100).toFixed(2)}%"></i></span></div>`;
   parts.push(`<div class="rung-head${ready ? ' ready' : ''}">
     ${trigger}
     <div class="rung-card" role="tooltip">
@@ -593,6 +595,37 @@ function renderLogFeed(s) {
   if (!appended || nearBottom) scroller.scrollTop = scroller.scrollHeight;
 }
 
+// The mobile folded-log peek strip (desktop: display:none in base CSS).
+// Collapsed → the newest line across ALL channels, alive on arrival;
+// expanded → the log header as the fold-away handle.
+function renderLogPeek(s) {
+  const peek = $('logpeek');
+  const lines = sel.logView(s, 'all');
+  const last = lines[lines.length - 1];
+  const key = last ? last.id + ':' + last.count : 'none';
+  let html;
+  if (ui.logOpen) {
+    html = `<span class="lp-title">${esc(D.LOG_HEADER)}</span><span class="lp-chev">▾</span>`;
+  } else if (!last) {
+    html = `<span class="lb lb-dot">·</span><span class="lp-text">Nothing here yet — the house is listening.</span><span class="lp-chev">▴</span>`;
+  } else {
+    const bullet = D.CHANNEL_BULLET[last.channel];
+    let text = last.text;
+    if (bullet && text.startsWith(bullet)) text = text.slice(bullet.length).trimStart();
+    const spk = last.voice && last.speaker ? `<span class="spk v-${last.voice}">${esc(last.speaker)}:</span> ` : '';
+    const cnt = last.count > 1 ? ` <span class="xn">×${last.count}</span>` : '';
+    const lb = bullet ? `<span class="lb">${em(bullet)}</span>` : '<span class="lb lb-dot">·</span>';
+    html = `${lb}<span class="lp-text">${spk}${accentDeltas(esc(text))}${cnt}</span><span class="lp-chev">▴</span>`;
+  }
+  const changed = setHTML(peek, html);
+  peek.setAttribute('aria-expanded', String(ui.logOpen));
+  peek.setAttribute('aria-label', ui.logOpen ? 'Fold the log away' : `${D.LOG_HEADER} — open the log`);
+  if (changed && !ui.logOpen && !RM && ui.lastPeekKey && ui.lastPeekKey !== key) {
+    peek.querySelector('.lp-text')?.classList.add('lp-fresh');
+  }
+  ui.lastPeekKey = key;
+}
+
 /* ── overlays: cold open · VN scene · seal ceremony ──────────────────────── */
 
 function coldHTML() {
@@ -711,7 +744,10 @@ function vnHTML(s) {
       <button class="verb vn-continue fade-in" data-act="vn-continue">${esc(D.COPY.continueBtn)}</button>`;
   }
 
-  return `<div class="vn-scene${vn.phase === 'greeting' ? ' typing' : ''}" data-vn-phase="${vn.phase}">
+  // onclick="" — iOS WebKit only synthesizes click events from taps on
+  // "clickable" targets; the empty handler marks the scene tappable so the
+  // delegated click-anywhere-to-advance works under a thumb (no-op elsewhere).
+  return `<div class="vn-scene${vn.phase === 'greeting' ? ' typing' : ''}" data-vn-phase="${vn.phase}" onclick="">
     <div class="vn-card paper">
       <div class="vn-plate v-${scene.voice}">
         <span class="vn-seal">${esc(scene.sealText)}</span>
@@ -728,7 +764,7 @@ function vnHTML(s) {
 function ceremonyHTML(s) {
   const c = s.ceremony;
   const initial = c.title.trim()[0].toUpperCase();
-  return `<div class="ceremony" data-act="dismiss-ceremony">
+  return `<div class="ceremony" data-act="dismiss-ceremony" onclick="">
     <div class="cer-card paper">
       <span class="stud tl"></span><span class="stud tr"></span><span class="stud bl"></span><span class="stud br"></span>
       <div class="cer-kicker">${esc(D.COPY.promoted)}</div>
@@ -854,6 +890,8 @@ function renderAll() {
     ui.lastStage = s.stageId;
     ui.tab = 'work';
     ui.logFilter = 'story';
+    ui.logOpen = false;
+    ui.lastPeekKey = '';
     ui.logKeys = [];
     ui.tabFreshAt = new Map(sel.visibleTabs(s).map((t) => [t.id, 0]));
     prevVals.clear();
@@ -874,11 +912,13 @@ function renderAll() {
     $('nav').hidden = !navOn;
     if (navOn) setHTML($('nav'), navHTML(s));
     $('workspace').classList.toggle('sparse', !navOn);
+    $('workspace').classList.toggle('log-open', ui.logOpen);
     renderPane(s);
     setHTML($('loghead'), logHeadHTML());
     setHTML($('logfoot'), logFootHTML());
     $('logscroll').style.fontSize = LOG_SCALES[ui.logScaleIdx] + 'em';
     renderLogFeed(s);
+    renderLogPeek(s);
   }
   renderOverlay(s);
   const strip = $('stagestrip');
@@ -907,8 +947,14 @@ document.addEventListener('click', (e) => {
       case 'vn-choose': eng.dispatch({ type: 'vn_choose', optionId: d.opt }); return;
       case 'vn-continue': eng.dispatch({ type: 'vn_continue' }); return;
       // chrome
-      case 'tab': ui.tab = d.tab; renderAll(); return;
+      case 'tab': ui.tab = d.tab; ui.logOpen = false; renderAll(); return;
       case 'filter': ui.logFilter = d.filter; renderAll(); return;
+      case 'log-peek': { // mobile: unfold / fold the log over the work pane
+        ui.logOpen = !ui.logOpen;
+        renderAll();
+        if (ui.logOpen) { const sc = $('logscroll'); sc.scrollTop = sc.scrollHeight; }
+        return;
+      }
       case 'log-font':
         ui.logScaleIdx = Math.max(0, Math.min(LOG_SCALES.length - 1, ui.logScaleIdx + Number(d.d)));
         renderAll();

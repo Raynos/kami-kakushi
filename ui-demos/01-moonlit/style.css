@@ -1433,6 +1433,14 @@ button.m-main:hover:not(:disabled) .m-cursor {
   margin-right: 6px;
 }
 .vn-hint {
+  /* button-reset so the <button> renders exactly like the former div */
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-menu);
+  cursor: pointer;
   margin-top: var(--s3);
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -1772,5 +1780,664 @@ button.m-main:hover:not(:disabled) .m-cursor {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   MOBILE (spec §4) — the same moonlit menu recomposed for a phone.
+   Everything below is fenced behind (hover:none) / (max-width:920px); the two
+   mobile-only toggle nodes are hidden here in base CSS. Desktop is untouched.
+   ========================================================================== */
+
+/* mobile-only DOM nodes — revealed only inside the breakpoint */
+.log-toggle,
+.ss-toggle {
+  display: none;
+}
+
+/* ----------------------------------------------------------------------------
+   Touch: the crest cursor can't hover — it answers the PRESS instead. Every
+   hover affordance gets a felt :active twin; the diamond crest lights under
+   the thumb the way it lit under the cursor.
+   -------------------------------------------------------------------------- */
+@media (hover: none) {
+  button,
+  [data-act] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .tab:active {
+    color: var(--silver);
+    background: linear-gradient(180deg, var(--night-2), var(--night-1));
+  }
+  .tab:active .t-cursor {
+    opacity: 1;
+  }
+  button.m-main:active:not(:disabled) {
+    background: linear-gradient(180deg, var(--night-3), var(--night-1));
+  }
+  button.m-main:active:not(:disabled) .m-cursor {
+    opacity: 1;
+    transform: translateY(-50%) rotate(45deg) scale(0.55);
+  }
+  .vn-choice:active:not(.gated):not(.asked) {
+    background: linear-gradient(180deg, var(--night-3), var(--night-1));
+  }
+  .vn-choice:active:not(.gated):not(.asked) .c-cursor {
+    opacity: 1;
+  }
+  .move-btn:active:not(:disabled),
+  .bank-btn:active:not(:disabled) {
+    background: linear-gradient(180deg, var(--night-3), var(--night-1));
+    color: var(--ink-bright);
+  }
+  .mk-buy:active:not(:disabled),
+  .attr-row .a-plus:active:not(:disabled) {
+    background: linear-gradient(180deg, #2e2c1e, var(--night-0));
+    color: var(--gold-bright);
+  }
+  .auto-pill:active:not(.on),
+  .filt:active:not(.active) {
+    color: var(--silver);
+    border-color: var(--border-inner);
+  }
+  .cta:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 24px -2px rgba(206, 120, 96, 0.75),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  .summons-btn:active,
+  .btn-continue:active,
+  .co-verb-btn:active {
+    transform: translateY(1px);
+    filter: brightness(1.08);
+  }
+  .ss-btn:active {
+    color: var(--silver);
+    background: var(--night-2);
+  }
+  .ce-dismiss:active {
+    color: var(--ink-bright);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   ≤920px — single column: condensed vitals / scrolling tab pane / the log as
+   a collapsible dialogue-box band / the menu rail reborn as a bottom tab bar.
+   -------------------------------------------------------------------------- */
+@media (max-width: 920px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .app {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    height: 100dvh; /* never bare 100vh — iOS URL-bar */
+    padding: calc(var(--s2) + env(safe-area-inset-top))
+      calc(var(--s2) + env(safe-area-inset-right)) 0
+      calc(var(--s2) + env(safe-area-inset-left));
+    gap: var(--s2);
+    /* WebKit sizes an implicit grid track from a wrapped flex child's
+       UNWRAPPED intrinsic width — pin the single column (spec §4.3) */
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ---- header vitals: compact inline stat boxes, wrap by priority; the rung
+         head becomes a full-width banner so the summons is unmissable ---- */
+  .vitals {
+    gap: 5px;
+  }
+  .vitals > div:not(.vital) {
+    display: none; /* the desktop flex spacer */
+  }
+  .vital {
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    padding: 6px 9px;
+    border-radius: 6px;
+    border-width: 1px;
+  }
+  .vital .vk {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .vital .vv {
+    font-size: 15px;
+  }
+  .vital.house {
+    gap: 6px;
+  }
+  .vital.house .crest {
+    --sz: 12px;
+  }
+  .vital.house .vv {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  /* life/body become party-status bar chips sharing a row */
+  .vital:not(.runghead):has(.barwrap) {
+    flex: 1 1 44%;
+  }
+  .vital:not(.runghead) .barwrap {
+    width: auto;
+    flex: 1 1 44px;
+    min-width: 44px;
+  }
+  .runghead .barwrap {
+    flex: 0 0 auto;
+  }
+  .runghead {
+    flex: 1 1 100%;
+    min-width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 7px 10px;
+  }
+  .runghead .rh-into {
+    font-size: 11px;
+  }
+  .summons-btn {
+    min-height: 46px;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ---- the play column ---- */
+  .stage,
+  .stage.no-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s2);
+    min-height: 0;
+  }
+  .center {
+    order: 1;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-right: 0;
+    padding-bottom: var(--s2);
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ---- the log: a collapsed dialogue-box band above the nav; one tap opens
+         the full record. The newest lines stay live in the band. ---- */
+  .log {
+    order: 2;
+    flex: 0 0 auto;
+    height: 148px;
+    transition: height 240ms var(--ease);
+  }
+  .log.log-open {
+    height: min(62dvh, 520px);
+  }
+  .log-head {
+    position: relative;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px var(--s3);
+  }
+  .log-toggle {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .log-toggle::after {
+    content: "▲";
+    position: absolute;
+    right: var(--s3);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--silver-faint);
+    transition: transform var(--dur-cursor) var(--ease);
+  }
+  .log-open .log-toggle::after {
+    content: "▼";
+    color: var(--silver-dim);
+  }
+  .log-lines {
+    padding: var(--s2) var(--s3);
+    gap: 8px;
+    overscroll-behavior: contain;
+  }
+  .log-line {
+    font-size: 14px;
+  }
+  .log:not(.log-open) .log-filters {
+    display: none;
+  }
+  .log-filters {
+    gap: 8px;
+    padding: var(--s2) var(--s3) calc(var(--s2) + 2px);
+  }
+  .filt {
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 11px;
+    flex: 1 1 auto;
+  }
+
+  /* ---- the menu rail reborn: a bottom tab bar, crest cursor above the word.
+         Same night-gradient box, same gold diamond — thumb-height. ---- */
+  .rail {
+    order: 3;
+    flex: 0 0 auto;
+    flex-direction: row;
+  }
+  .rail-brand {
+    display: none;
+  }
+  .rail-tabs {
+    flex-direction: row;
+    gap: 2px;
+    padding: 5px 5px calc(5px + env(safe-area-inset-bottom));
+  }
+  .tab {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 2px;
+    min-height: 52px;
+  }
+  .tab .t-cursor {
+    position: static;
+    --sz: 9px;
+    transform: rotate(45deg);
+    opacity: 0.12;
+    box-shadow: none;
+    transition: opacity var(--dur-cursor) var(--ease),
+      box-shadow var(--dur-cursor) var(--ease);
+  }
+  .tab.active .t-cursor {
+    opacity: 1;
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px rgba(230, 207, 138, 0.6);
+  }
+  .tab .t-label {
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: center;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tab .t-stat {
+    display: none;
+  }
+  @keyframes tab-ink-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  .rail-tabs.anim .tab {
+    animation-name: tab-ink-up;
+  }
+
+  /* ---- content: comfortable reading + thumb-size rows ---- */
+  .box-body {
+    padding: 0 var(--s3) var(--s3);
+  }
+  .menu-list {
+    gap: 5px;
+  }
+  .m-main {
+    min-height: 48px;
+    padding: 10px 12px 10px 30px;
+  }
+  .m-main .m-name {
+    font-size: 15px;
+  }
+  .m-main .m-sub {
+    font-size: 11px;
+  }
+  .mrow.disabled .m-reason {
+    font-size: 11px;
+  }
+  .auto-pill {
+    min-height: 40px;
+    padding: 6px 11px;
+    font-size: 11px;
+  }
+  .cta {
+    min-height: 52px;
+    font-size: 16px;
+  }
+  .note {
+    font-size: 14px;
+  }
+  .gloss {
+    font-size: 12px;
+  }
+  .subhead {
+    font-size: 11px;
+  }
+  .hereblurb {
+    font-size: 14px;
+  }
+  .kv-line {
+    font-size: 13px;
+  }
+  .move-btn {
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  .move-btn .mb-reason {
+    font-size: 11px;
+  }
+  .move-strip {
+    gap: 8px;
+  }
+  .person {
+    flex-wrap: wrap;
+  }
+  .person .p-tell {
+    font-size: 12px;
+  }
+  .market-row {
+    align-items: center;
+  }
+  .market-row .mk-label {
+    font-size: 14px;
+  }
+  .market-row .mk-blurb {
+    font-size: 12px;
+  }
+  .market-row .mk-buy {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .bank-btns {
+    gap: 8px;
+  }
+  .bank-btn {
+    min-height: 44px;
+    flex: 1 1 45%;
+    font-size: 13px;
+  }
+  .card .c-blurb {
+    font-size: 12px;
+  }
+  .card .c-hint {
+    font-size: 11px;
+  }
+  .badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  .attr-row {
+    padding: 6px 8px;
+    gap: var(--s2);
+  }
+  .attr-row .a-plus {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+  .attr-row .a-name small {
+    font-size: 11px;
+  }
+  .quest-steps li {
+    font-size: 12px;
+  }
+  .silhouette {
+    min-height: 40px;
+    font-size: 13px;
+  }
+  .silhouette .lock-rung {
+    font-size: 11px;
+  }
+  .locked-foot {
+    font-size: 12px;
+  }
+  .empty-hint {
+    font-size: 13px;
+  }
+  .ladder .lad-next {
+    font-size: 11px;
+  }
+  .ladder .lad-into,
+  .ladder .lad-hint {
+    font-size: 12px;
+  }
+
+  /* ---- full-screen moments ---- */
+  .coldopen {
+    padding: var(--s5) var(--s4) calc(var(--s5) + env(safe-area-inset-bottom));
+  }
+  .coldopen .co-crest {
+    --sz: 28px;
+  }
+  .coldopen .co-title {
+    font-size: clamp(26px, 9.5vw, 44px);
+    letter-spacing: 0.22em;
+    margin-right: -0.22em; /* re-center: trailing tracking space */
+  }
+  .coldopen .co-sub {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    margin-right: -0.3em;
+  }
+  .coldopen .co-lede {
+    font-size: 14px;
+    line-height: 1.75;
+    max-width: 100%;
+  }
+  .coldopen .co-verb {
+    margin-top: 4vh;
+  }
+  .co-verb-btn {
+    min-height: 52px;
+    font-size: 16px;
+    padding: 14px 30px;
+  }
+
+  .vn-scene {
+    padding: 0 var(--s3) calc(var(--s3) + env(safe-area-inset-bottom));
+  }
+  .vn-topmatter {
+    padding: 4vh var(--s2);
+  }
+  .vn-memory {
+    font-size: 17px;
+  }
+  .vn-box {
+    width: 100%;
+    padding: var(--s4) var(--s4) var(--s3);
+    margin-top: 34px;
+  }
+  .vn-plate {
+    left: 12px;
+    top: -20px;
+    padding: 6px 13px 6px 10px;
+  }
+  .vn-lines {
+    min-height: 72px;
+    gap: 8px;
+  }
+  .vn-line {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .vn-hint {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: var(--s2);
+    font-size: 12px;
+  }
+  .vn-choice {
+    min-height: 46px;
+    padding: 12px 12px 12px 32px;
+  }
+  .vn-prompt {
+    font-size: 14px;
+  }
+  .btn-continue {
+    min-height: 46px;
+  }
+  .vn-perk .pk-tag {
+    font-size: 11px;
+  }
+  .vn-perk .pk-desc {
+    font-size: 13px;
+  }
+
+  .ceremony {
+    padding: var(--s5) var(--s4) calc(var(--s5) + env(safe-area-inset-bottom));
+  }
+  .ceremony .ce-title {
+    font-size: clamp(24px, 8.5vw, 38px);
+    letter-spacing: 0.18em;
+    margin-right: -0.18em;
+  }
+  @keyframes rule-sweep-m {
+    from {
+      width: 0;
+    }
+    to {
+      width: 76vw;
+    }
+  }
+  .ceremony .ce-rule,
+  .ceremony.anim .ce-rule {
+    width: 76vw;
+    animation-name: rule-sweep-m;
+  }
+  .ceremony .ce-dismiss {
+    min-height: 46px;
+    padding: 12px 26px;
+  }
+
+  /* ---- stage strip: collapsed to a discreet crest chip above the nav; taps
+         open a vertical stage/moment panel ---- */
+  .stage-strip {
+    left: auto;
+    top: auto;
+    right: calc(var(--s2) + env(safe-area-inset-right));
+    bottom: calc(70px + env(safe-area-inset-bottom));
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 4px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    max-width: none;
+  }
+  .stage-strip .ss-label,
+  .stage-strip .ss-sep,
+  .stage-strip .ss-btn {
+    display: none;
+  }
+  .ss-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    font-size: 16px;
+    color: var(--silver-dim);
+    background: linear-gradient(180deg, rgba(20, 24, 46, 0.94), rgba(8, 10, 20, 0.94));
+    border: 1px solid var(--border-inner);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    transition: color var(--dur-cursor) var(--ease);
+  }
+  .stage-strip.open {
+    padding: 7px;
+    background: linear-gradient(180deg, rgba(20, 24, 46, 0.96), rgba(8, 10, 20, 0.96));
+    border: 1px solid var(--border-inner);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.85);
+    max-height: 70dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .stage-strip.open .ss-label {
+    display: block;
+    padding: 3px 4px;
+    font-size: 11px;
+  }
+  .stage-strip.open .ss-btn {
+    display: block;
+    min-height: 42px;
+    padding: 8px 12px;
+    font-size: 13px;
+    text-align: left;
+  }
+  .stage-strip.open .ss-toggle {
+    color: var(--gold);
+    border-color: var(--gold-deep);
+  }
+  /* while a full-screen moment is live, dock the strip top-right so it can
+     never sit on the VN/ceremony action zone (the overlay renders before the
+     strip, so the sibling selector holds whenever an overlay exists) */
+  .overlay ~ .stage-strip {
+    bottom: auto;
+    top: calc(var(--s2) + env(safe-area-inset-top));
+  }
+
+  /* ---- landscape phones: same shape, tighter bands ---- */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .vital {
+      padding: 4px 8px;
+    }
+    .runghead {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--s2);
+    }
+    .runghead .rh-top {
+      flex: 0 0 auto;
+      gap: var(--s2);
+    }
+    .runghead .barwrap {
+      flex: 1;
+    }
+    .runghead .rh-into {
+      white-space: nowrap;
+    }
+    .summons-btn {
+      min-height: 40px;
+      margin-top: 0;
+    }
+    .log {
+      height: 104px;
+    }
+    .log.log-open {
+      height: min(62dvh, 520px);
+    }
+    .tab {
+      min-height: 44px;
+      flex-direction: row;
+      gap: 6px;
+    }
   }
 }

@@ -92,7 +92,7 @@ button {
 }
 button:disabled { cursor: default; }
 
-.app { height: 100vh; display: flex; flex-direction: column; }
+.app { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
 
 /* numerals are always tabular */
 .num, .vnum, .count, .meter-nums, .price, .lv {
@@ -759,6 +759,208 @@ button:disabled { cursor: default; }
   transition: color 0.2s;
 }
 .strip-toggle:hover { color: var(--cotton); }
+
+/* ═══ Mobile — the bolt, folded (VARIANT-SPEC §4) ══════════════════════════
+   ≤920px the three-column bolt folds into one: the log stays sewn to the top
+   (sticky — center-stage on every tab), the tab panes slide in beneath it,
+   and the cloth tags restitch along the bottom hem in thumb reach. All rules
+   live behind the breakpoint / (hover:none); desktop is untouched. */
+
+/* mobile-only affordances exist in base DOM but stay hidden until the fold */
+.unfurl-btn { display: none; }
+
+/* tags rise from the hem (the mobile mirror of tag-drop) */
+@keyframes tag-rise {
+  0% { transform: translateY(26px); opacity: 0; }
+  60% { transform: translateY(-2px); opacity: 1; }
+  100% { transform: translateY(0); }
+}
+
+@media (max-width: 920px) {
+  :root {
+    --fs-small: 13px;
+    --fs-log: 15px;
+    --fs-verb: 16px;
+  }
+
+  /* ── the woven band wraps into a compact double weft ── */
+  .vitals-band {
+    flex-wrap: wrap;
+    height: auto;
+    padding: max(10px, env(safe-area-inset-top)) var(--s3) 9px;
+    gap: 7px var(--s3);
+  }
+  .vit-sep { display: none; }
+  .house-mark { font-size: 11px; letter-spacing: 0.1em; gap: 6px; }
+  .vit-group { flex-wrap: wrap; gap: 4px var(--s3); }
+  /* row discipline: resources · LIFE+BODY pair · clock+rung hem row */
+  .bar-vit { width: auto; flex: 1 1 40%; order: 14; }
+  .clock { font-size: var(--fs-micro); margin-left: 0; order: 16; }
+  .rung-head { width: auto; flex: 1 1 220px; margin-left: auto; order: 17; }
+  /* the summons becomes a full-width madder band — unmissable at 393pt */
+  .summons {
+    width: 100%; margin-left: 0; order: 17;
+    text-align: center; padding: 13px 16px; min-height: 46px;
+  }
+
+  /* ── main: one bolt — the log sewn to the top, panes slide beneath ── */
+  .main {
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 10px calc(96px + env(safe-area-inset-bottom));
+    gap: 0;
+  }
+  .app.sparse .main { display: flex; max-width: none; margin: 0; }
+  #logcol {
+    position: sticky; top: 0; z-index: 6;
+    order: 1; flex: none;
+    height: clamp(180px, 42dvh, 400px);
+    margin-bottom: var(--s3);
+    box-shadow: 0 14px 28px rgba(4, 8, 14, 0.55);
+  }
+  /* unfurled: the log takes the whole bolt */
+  .app.logfull #logcol { height: auto; flex: 1 1 auto; min-height: 0; }
+  .app.logfull #side, .app.logfull #rail { display: none; }
+
+  #side, #rail {
+    overflow: visible; flex: none; height: auto;
+    padding: 0 2px;
+  }
+  #side { order: 2; }
+  #rail { order: 3; }
+  /* verbs first where the verb is the point */
+  .app[data-tab='work'] #side, .app[data-tab='combat'] #side { order: 4; }
+
+  /* ── log head: tighter, with the unfurl toggle ── */
+  .log-head { padding: var(--s3) var(--s4) var(--s2); }
+  .log-title { font-size: 12px; letter-spacing: 0.16em; }
+  .log-title::after { order: 1; }
+  .unfurl-btn {
+    order: 2;
+    display: inline-flex; align-items: center;
+    min-height: 40px; padding: 6px 13px; border-radius: 12px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pale); background: rgba(10, 18, 30, 0.4);
+    box-shadow: 0 0 0 1px var(--thread-faint) inset;
+    transition: color 0.2s;
+  }
+  .filters {
+    flex-wrap: nowrap; overflow-x: auto;
+    scrollbar-width: none; margin-top: var(--s2);
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    flex: none; min-height: 40px; padding: 8px 14px;
+    display: inline-flex; align-items: center;
+  }
+  .log-lines {
+    padding: var(--s1) var(--s4) var(--s4);
+    overscroll-behavior: contain;
+    /* soft top fade so scrolled lines never hard-cut under the filter row */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18px);
+    mask-image: linear-gradient(180deg, transparent 0, #000 18px);
+  }
+
+  /* ── nav: cloth tags stitched along the hem, thumb reach ── */
+  .tag-row {
+    order: 3;
+    height: auto;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, #0e1a2b 0%, #0b1420 100%);
+  }
+  .tag-row::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background-image: repeating-linear-gradient(90deg,
+      var(--thread-dim) 0 7px, transparent 7px 12px);
+  }
+  #tags:empty { display: none; }
+  .tags { align-items: stretch; gap: 5px; height: auto; }
+  .tag {
+    flex: 1 1 0; min-width: 0;
+    padding: 12px 2px; min-height: 48px;
+    font-size: 10.5px; letter-spacing: 0.03em; text-align: center;
+    border-radius: 8px 8px 0 0;
+    transform: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tag::after { top: auto; bottom: 4px; left: 50%; margin-left: -2px; }
+  .tag.active::before { inset: 5px 5px 4px; border-radius: 5px 5px 0 0; border-top: 1px dashed var(--thread-dim); border-bottom: none; }
+  .tag:hover { transform: none; }
+  .tag.active { transform: translateY(-3px); }
+  .tag.tag-new { animation: tag-rise 0.6s var(--ease); }
+  .tag.active.tag-new { animation: none; }
+
+  /* ── touch-comfortable components ── */
+  .patch-btn { min-height: 46px; }
+  .patch-btn.small { min-height: 44px; font-size: 14px; padding: 10px 14px; }
+  .auto-chip {
+    min-height: 40px; padding: 8px 14px;
+    display: inline-flex; align-items: center;
+  }
+  .plus-btn { width: 46px; height: 42px; font-size: 15px; }
+  .rowline { padding: 10px 2px; }
+
+  /* ── full-screen moments: full viewport, thumb-zone actions ── */
+  .overlay.cold {
+    padding: max(24px, env(safe-area-inset-top)) 20px
+      max(24px, env(safe-area-inset-bottom));
+  }
+  .co-title { font-size: clamp(28px, 9vw, 46px); letter-spacing: 0.22em; text-indent: 0.22em; }
+  .co-sub { font-size: 12px; letter-spacing: 0.34em; text-indent: 0.34em; }
+  .co-lede { font-size: 15px; }
+  .co-verb { width: 100%; max-width: 340px; min-height: 52px; }
+
+  .overlay.vn { padding: 0 8px calc(10px + env(safe-area-inset-bottom)); }
+  .vn-panel {
+    width: 100%;
+    max-height: calc(100dvh - 64px - env(safe-area-inset-top));
+    padding: var(--s5) var(--s4) var(--s4);
+    overscroll-behavior: contain;
+  }
+  /* the nameplate sits in-flow at the head of the cloth (the absolute
+     -16px plate clips against the panel's scroll box on a short screen) */
+  .plate { position: static; display: inline-flex; margin: -6px 0 4px; }
+  .vn-lines { margin-top: var(--s2); }
+  .vn-controls { flex-direction: column; align-items: stretch; }
+  .vn-patch { min-height: 46px; padding: 12px 16px; font-size: 14px; }
+
+  .overlay.cere { padding: 24px 16px; }
+  .crest { width: 190px; height: 190px; }
+  .cere-title { font-size: 24px; letter-spacing: 0.14em; text-indent: 0.14em; }
+  .cere-continue { min-height: 50px; }
+
+  /* ── stage strip: floats above the hem, safe-area aware ── */
+  .strip-root { right: 10px; bottom: calc(70px + env(safe-area-inset-bottom)); }
+  #tags:empty ~ .strip-root { bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .strip-body { max-width: calc(100vw - 20px); }
+  .strip-row { flex-wrap: wrap; justify-content: flex-end; }
+  .strip-btn { min-height: 40px; padding: 8px 12px; }
+  .strip-toggle {
+    height: 40px; border-radius: 20px; padding: 0 13px; font-size: 9px;
+    background: #101d30; /* opaque: content scrolls beneath it */
+    box-shadow: 0 4px 12px rgba(3, 6, 11, 0.6), 0 0 0 1px var(--thread-faint) inset;
+  }
+}
+
+/* ── landscape phones: the log rides the bolt instead of pinning it ────────
+   (a pinned 180px log on a 393pt-tall viewport letterboxes the tab pane) */
+@media (max-width: 920px) and (max-height: 500px) {
+  #logcol { position: static; height: 300px; }
+  .app.logfull #logcol { height: auto; }
+}
+
+/* ── touch: felt press states, no tap-highlight flash ─────────────────────── */
+@media (hover: none) {
+  button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .tag:active { color: var(--cotton); }
+  .filter-chip:active { color: var(--cotton); background: var(--raised); }
+  .auto-chip:active { color: var(--cotton); }
+  .unfurl-btn:active { color: var(--cotton); }
+  .strip-btn:active:not(:disabled) { color: var(--cotton); }
+  .strip-toggle:active { color: var(--cotton); }
+}
 
 /* ── reduced motion ────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

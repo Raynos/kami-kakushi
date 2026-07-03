@@ -66,6 +66,12 @@
   --slow: 320ms; --mid: 240ms; --fast: 140ms;
   --ease: cubic-bezier(.32, .08, .24, 1);
 
+  /* ── MOBILE (≤920px) — used only inside the §4 breakpoint ── */
+  --m-nav-h: 54px;       /* bottom lacquer tab bar                          */
+  --m-log-band: 41%;     /* the paper band's resting share of the column    */
+  --m-log-band-x: 74%;   /* … pulled tall for reading                       */
+  --m-tap: 44px;         /* primary touch target                            */
+
   /* ── paper grain (inline SVG turbulence — texture only, no art) ── */
   --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.33 0 0 0 0 0.26 0 0 0 0 0.15 0 0 0 0.055 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
 }
@@ -465,6 +471,7 @@ button:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
 .log-tray { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 
 #loghead { display: flex; align-items: baseline; gap: 12px; padding: 13px 16px 10px; flex-wrap: wrap; }
+.log-expand { display: none; } /* mobile-only control — revealed in the §4 block */
 #loghead h2 { font: 600 15px/1 var(--serif); letter-spacing: .12em; color: var(--gold); text-transform: uppercase; }
 #loghead .filters { display: flex; gap: 2px; margin-left: auto; }
 #loghead .f {
@@ -727,6 +734,7 @@ b[data-vk] { display: inline-block; }
 }
 .ss-head:hover { color: var(--gold); border-color: var(--key); }
 .ss-head span { color: var(--gold-dim); }
+.ss-head .ss-sep { color: var(--tx-3); } /* the separator keeps the head's own color */
 .ss-body { display: none; }
 #stagestrip.open .ss-body {
   display: flex; flex-direction: column; gap: 6px; order: -1;
@@ -756,4 +764,215 @@ b[data-vk] { display: inline-block; }
     transition-duration: .01ms !important;
   }
   .cer-continue, .cold-verb, .cold-title, .cold-sub, .cold-lede, .cold-crest { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE — VARIANT-SPEC §4. Everything below lives behind the ≤920px
+   breakpoint and/or touch guards; desktop (≥1280px) renders untouched.
+   The recomposition stays in-language: the tab strip becomes a lacquer tray
+   at the thumb edge (same gold inlay + vermillion dot), the paper well stays
+   inline as a bottom text-band — the JRPG reading of "work left / log right"
+   — and the crown row keeps crest + rung (or the glowing summons seal).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── touch affordances (no rendering change under a mouse) ── */
+@media (hover: none), (pointer: coarse) {
+  button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .tab:active { color: var(--gold-hi); background: rgba(238,208,146,.06); }
+  .qbtn:active:not(:disabled) { color: var(--gold-hi); border-color: var(--gold); background: rgba(238,208,146,.07); }
+  .qbtn.paper:active:not(:disabled) { color: var(--ink); border-color: var(--ink-2); background: rgba(60,40,18,.1); }
+  #loghead .f:active { color: var(--gold-hi); background: rgba(200,161,91,.08); }
+  .topic:active:not(:disabled):not(.asked) { background: rgba(60,40,18,.12); border-color: var(--ink-3); }
+  .choice:active { border-color: #a07834; background: linear-gradient(180deg, rgba(200,161,91,.2), rgba(200,161,91,.08)); }
+  .ss-head:active { color: var(--gold); border-color: var(--key); }
+  .ss-btn:active { color: var(--gold-hi); border-color: var(--key); }
+  .log-expand:active { color: var(--gold-hi); border-color: var(--gold); }
+}
+
+/* ── structure at ≤920px ── */
+@media (max-width: 920px) {
+  html { -webkit-text-size-adjust: 100%; }
+
+  /* shell: header crown / content / bottom tray-nav. The explicit
+     minmax(0,1fr) column pins the track to the viewport — WebKit otherwise
+     sizes the implicit column from the wrapped vitals row's intrinsic
+     (unwrapped) width and pushes the whole shell past the screen. */
+  #app { grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); }
+  #hdr { grid-row: 1; }
+  #main { grid-row: 2; }
+  #nav { grid-row: 3; }
+
+  /* ── header: crown row (crest · rung) + wrapped cartouches + paired bars ── */
+  #hdr {
+    height: auto; flex-wrap: wrap; gap: 8px 10px;
+    padding: calc(8px + env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 9px max(12px, env(safe-area-inset-left));
+  }
+  .house { order: 0; }
+  .crest { width: 28px; height: 28px; font-size: 15px; }
+  .house-name { font-size: 11px; letter-spacing: .16em; }
+  .rung-slot { order: 1; }
+  .rung-head { gap: 3px; }
+  .rh-title { font-size: 12px; }
+  .rung-head .meter { width: 96px; }
+  .summons { font-size: 13px; padding: 10px 14px; min-height: var(--m-tap); }
+  .vitals { order: 2; flex-basis: 100%; flex-wrap: wrap; gap: 6px 8px; }
+  .pill { padding: 5px 9px; gap: 6px; }
+  .pill .pl, .vbar .pl { font-size: 11px; letter-spacing: .1em; }
+  .pill b { font-size: 13px; }
+  .cl-season { font-size: 12px; }
+  .cl-date { font-size: 11px; }
+  .vbar { gap: 6px; }
+  .vbar .meter { width: 68px; }
+  .vbar .bv { font-size: 12px; }
+
+  /* ── nav: the gold-inlaid strip re-laid as a lacquer tray at the thumb edge ── */
+  #nav {
+    height: auto; justify-content: space-around;
+    padding: 0 max(6px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(6px, env(safe-area-inset-left));
+    background: linear-gradient(0deg, var(--lac-0), var(--lac-1));
+    border-bottom: none; border-top: 1px solid var(--key);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.7), inset 0 1px 0 rgba(238,208,146,.06);
+  }
+  .tab {
+    flex: 1 1 auto; min-width: 0; min-height: var(--m-nav-h);
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0 6px; font-size: 11px; line-height: 1.2; letter-spacing: .06em;
+    white-space: nowrap;
+  }
+  .tab.on { background: linear-gradient(0deg, var(--lac-hi), transparent); }
+  .tab.on::after { top: 0; bottom: auto; left: 8px; right: 8px; } /* inlay meets the content edge */
+  .tab.on::before { top: auto; bottom: 7px; }
+  .tab-sep { display: none; }
+
+  /* ── main: pane above, the paper band riding the nav (log stays inline) ── */
+  #main {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 10px max(10px, env(safe-area-inset-right)) 10px max(10px, env(safe-area-inset-left));
+  }
+  #pane { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-right: 0; overscroll-behavior: contain; }
+  #logpanel { flex: 0 0 var(--m-log-band); min-height: 0; }
+  #main.logx #logpanel { flex-basis: var(--m-log-band-x); }
+  /* R0 sparse: one column, the work tray on top, the paper filling the rest.
+     The verb tray is the R0 surface — hold it at least ~half the column. */
+  #main.sparse #pane { flex: 0 1 auto; min-height: min(48%, 330px); overflow-y: auto; }
+  #main.sparse #logpanel { flex: 1 1 auto; }
+  #main.sparse .log-expand { display: none; }
+
+  /* the log head compacts; the mobile pull-tall control appears */
+  #loghead { padding: 6px 12px 6px; gap: 4px 10px; align-items: center; }
+  #loghead h2 { font-size: 13px; }
+  .log-expand {
+    display: grid; place-items: center; order: 1; margin-left: auto;
+    width: 40px; height: 40px;
+    font: 600 15px/1 var(--sans); color: var(--tx-2);
+    border: 1px solid var(--key-dim); border-radius: 2px;
+    transition: transform var(--mid) var(--ease), color var(--fast) var(--ease), border-color var(--fast) var(--ease);
+  }
+  .log-expand.on { transform: rotate(180deg); color: var(--gold-hi); border-color: var(--key); }
+  #loghead h2 { order: 0; }
+  #loghead .filters { order: 2; flex-basis: 100%; margin-left: 0; gap: 4px; flex-wrap: wrap; }
+  #loghead .f { min-height: 40px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px; font-size: 11px; letter-spacing: .06em; }
+  .log-well { margin: 0 8px 8px; }
+  .log-scroll { overscroll-behavior: contain; }
+  .ll { font-size: 14px; padding: 5px 12px; gap: 8px; }
+  .ll .lb { width: 16px; }
+  .ll-milestone::before, .ll-milestone::after { left: 12px; right: 12px; }
+  .xn { font-size: 11px; }
+
+  /* ── type floor at the breakpoint (body ≥14 / micro ≥11) ── */
+  .micro { font-size: 11px; }
+  .prose { font-size: 14px; }
+  .note { font-size: 13px; }
+  .hint { font-size: 13.5px; }
+  .chip { font-size: 11px; padding: 4px 7px; }
+  .kind { font-size: 11px; }
+  .rung-id { font-size: 11px; }
+  .tray-head h3 { font-size: 11px; }
+  .q-steps li { font-size: 13px; }
+  .vnl { font-size: 15px; }
+
+  /* the wolf beat leads the phone screen — the most dramatic button must
+     not hide below the fold (the pane is a flex column; desktop untouched) */
+  .pane-inner[data-tab="work"] .wolf-card { order: -1; }
+
+  /* ── touch targets ≥40px (primary verbs ≥44) ── */
+  .seal { min-height: var(--m-tap); }
+  .seal.seal-sm { min-height: 40px; }
+  .seal.sq { width: var(--m-tap); min-height: var(--m-tap); }
+  .qbtn { min-height: 40px; font-size: 13px; }
+  .qbtn.auto { min-height: 40px; font-size: 11px; }
+  .topic { min-height: var(--m-tap); }
+  .choice { min-height: var(--m-tap); }
+  .row { flex-wrap: wrap; padding: 10px 12px; gap: 8px 10px; }
+  .bank-grid { gap: 8px; padding: 0 12px 12px; }
+  .attr-tag { font-size: 11px; }
+  .attr-row { gap: 10px; padding: 8px 12px; }
+
+  /* ── full-screen moments: safe-area padded, actions in the thumb zone ── */
+  .cold-inner { padding: 24px 20px calc(28px + env(safe-area-inset-bottom)); gap: 18px; }
+  .cold-title { font-size: clamp(24px, 8vw, 46px); letter-spacing: .18em; text-indent: .18em; }
+  .cold-sub { font-size: 10px; letter-spacing: .3em; text-indent: .3em; gap: 10px; }
+  .cold-sub .rule { width: 36px; }
+  .cold-lede { font-size: 15px; }
+  .cold-verb { min-height: 48px; }
+
+  .vn {
+    place-items: end center;
+    padding: 12px 12px calc(14px + env(safe-area-inset-bottom));
+  }
+  .vn-scroll { width: 100%; }
+  .vn-paper { padding: 24px 18px 16px; }
+  .vn-plate { left: 12px; }
+  .plate-seal { width: 34px; height: 34px; font-size: 17px; }
+  .plate-name { font-size: 11px; letter-spacing: .16em; padding: 6px 9px; }
+  .vn-lines { max-height: min(62vh, 520px); overscroll-behavior: contain; }
+  .vn-hub .done, .qbtn.paper { min-height: 40px; }
+
+  .ceremony { padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); }
+  .cer-field { gap: var(--s3); }
+  .cer-seal { width: 148px; height: 148px; }
+  .cer-seal span { font-size: 74px; }
+  .cer-seal::after { inset: -12px; }
+  .cer-title { font-size: 24px; letter-spacing: .26em; text-indent: .26em; }
+  .cer-promoted { font-size: 12px; letter-spacing: .4em; text-indent: .4em; }
+  .cer-continue { min-height: var(--m-tap); }
+
+  /* ── stage strip: clear of the nav + home indicator ── */
+  #stagestrip {
+    right: max(10px, env(safe-area-inset-right));
+    bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+  body:has(#nav:not([hidden])) #stagestrip {
+    bottom: calc(var(--m-nav-h) + 12px + env(safe-area-inset-bottom));
+  }
+  /* while a full-screen moment is live, dock left so the pill never sits on
+     the scene's right-aligned Continue cue */
+  #overlay.live ~ #stagestrip {
+    right: auto; left: max(10px, env(safe-area-inset-left));
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    align-items: flex-start;
+  }
+  #overlay.live ~ #stagestrip .ss-row { justify-content: flex-start; }
+  .ss-head { height: 40px; font-size: 11px; line-height: 40px; border-radius: 20px; }
+  .ss-head span { display: none; } /* "❖ R1" — the pill keeps off the paper */
+  .ss-body { max-width: calc(100vw - 20px); }
+  .ss-row { flex-wrap: wrap; }
+  .ss-btn { min-height: 40px; font-size: 11px; padding: 8px 10px; }
+}
+
+/* ── narrowest phones: keep six tabs on one row ── */
+@media (max-width: 374px) {
+  .tab { font-size: 10px; letter-spacing: .02em; padding: 0 4px; }
+}
+
+/* ── landscape phone: the desktop composition returns, nav stays at the thumb ── */
+@media (max-width: 920px) and (orientation: landscape) {
+  #hdr { padding-top: calc(6px + env(safe-area-inset-top)); }
+  #main { flex-direction: row; }
+  #logpanel { flex: 0 0 42%; }
+  #main.logx #logpanel { flex-basis: 42%; }
+  #main.sparse #pane { flex: 1 1 auto; }
+  #main.sparse #logpanel { flex: 1 1 50%; }
+  .log-expand { display: none; }
+  .vn-lines { max-height: 52vh; }
 }

@@ -10,7 +10,10 @@ import { formatKMB, formatCoin } from '../shared/format.js';
 const eng = createEngine('R1'); // default landing stage: R1
 
 // ── local UI state ───────────────────────────────────────────────────────
-const ui = { tab: 'work', filter: 'story', stripOpen: false };
+// logFull: mobile-only "unfurl the log" toggle (its button is display:none
+// on desktop, so the flag can never change there).
+const ui = { tab: 'work', filter: 'story', stripOpen: false, logFull: false };
+const mqMobile = window.matchMedia('(max-width: 920px)');
 
 // ── tiny helpers ─────────────────────────────────────────────────────────
 const $ = (id) => document.getElementById(id);
@@ -526,10 +529,12 @@ function lineHTML(l, animate) {
 }
 
 function renderLogHead(s) {
-  region('loghead', JSON.stringify([ui.filter, s.phase]), () => {
+  region('loghead', JSON.stringify([ui.filter, s.phase, ui.logFull]), () => {
     const chips = D.LOG_FILTERS.map((f) =>
       `<button class="filter-chip${f === ui.filter ? ' active' : ''}" data-action="filter" data-filter="${f}">${esc(D.LOG_FILTER_LABELS[f])}</button>`).join('');
-    return `<h1 class="log-title">${esc(D.LOG_HEADER)}</h1><div class="filters">${chips}</div>`;
+    // .unfurl-btn is mobile-only (base CSS hides it; the fold reveals it)
+    const unfurl = `<button class="unfurl-btn" data-action="log-unfurl">${ui.logFull ? 'Fold ▾' : 'Unfurl ▴'}</button>`;
+    return `<h1 class="log-title">${esc(D.LOG_HEADER)}${unfurl}</h1><div class="filters">${chips}</div>`;
   });
 }
 
@@ -756,6 +761,8 @@ function render(s) {
   const app = $('app');
   app.classList.toggle('phase-cold', s.phase === 'cold-open');
   app.classList.toggle('sparse', !sel.navVisible(s));
+  app.classList.toggle('logfull', ui.logFull); // mobile unfurl (no desktop CSS)
+  app.dataset.tab = ui.tab; // mobile pane ordering (no desktop CSS)
 
   // shared content signature for the two contextual panes
   const paneSig = JSON.stringify([
@@ -795,10 +802,17 @@ document.addEventListener('click', (e) => {
   const b = e.target.closest('[data-action]');
   if (!b || b.disabled) return;
   const a = b.dataset.action;
+  // mobile: leaving the log's unfurled state / landing on a fresh tab starts
+  // the bolt back at the top (the log is sticky, panes scroll beneath it)
+  const mobFresh = () => {
+    ui.logFull = false;
+    if (mqMobile.matches) $('main').scrollTop = 0;
+  };
   if (a === 'dispatch') eng.dispatch(JSON.parse(b.dataset.intent));
-  else if (a === 'tab') { ui.tab = b.dataset.tab; rerender(); }
+  else if (a === 'tab') { ui.tab = b.dataset.tab; mobFresh(); rerender(); }
   else if (a === 'filter') { ui.filter = b.dataset.filter; rerender(); }
-  else if (a === 'stage') { ui.tab = 'work'; eng.setStage(b.dataset.stage); }
+  else if (a === 'stage') { ui.tab = 'work'; mobFresh(); eng.setStage(b.dataset.stage); }
+  else if (a === 'log-unfurl') { ui.logFull = !ui.logFull; rerender(); }
   else if (a === 'moment') moment(b.dataset.moment);
   else if (a === 'strip-toggle') { ui.stripOpen = !ui.stripOpen; rerender(); }
   else if (a === 'vn-next') eng.dispatch({ type: 'vn_next' });
@@ -809,3 +823,7 @@ document.addEventListener('click', (e) => {
 });
 
 eng.subscribe((state) => render(state));
+
+// Review/QA hook (VARIANT-SPEC §4.3): lets a driver stage the earned-only
+// summons state (meter + gate flag) that taps can't reach in demo time.
+window.__eng = eng;

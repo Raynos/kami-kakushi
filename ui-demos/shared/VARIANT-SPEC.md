@@ -51,7 +51,10 @@ eng.subscribe((state, events) => render(state, events));
 
 Re-render however you like (full innerHTML re-render is acceptable at this
 scale, but preserve scroll positions of the log + input focus; reconcile
-smarter where juice needs it).
+smarter where juice needs it). **Mobile note:** preserve EVERY scrolled
+pane's position, not just the log's — the 480ms tick re-render resetting a
+content pane to top is invisible on desktop (content mostly fits) but breaks
+every long tab on a phone.
 
 ## 2 · The screen inventory (what must exist, per stage)
 
@@ -194,3 +197,106 @@ rice/wood/sansai via `formatKMB`, coin via `formatCoin`.
   reason. No console errors. No dead tabs.
 - The variant's §3 brief (plan doc) drives composition + components — follow
   it, and where you improvise, improvise INSIDE that direction.
+
+## 4 · Mobile (added 2026-07-03 — the phone contract)
+
+Every variant must ALSO work on a phone: baseline **iPhone 16 class, WebKit**
+(iOS Safari and iOS Chrome are both WebKit). Same game, same stages, same
+inventory as §2 — mobile is an *additive recomposition*, not a second app.
+
+### 4.0 · The three mobile laws
+
+1. **Desktop unchanged.** Every mobile rule lives behind the structural
+   breakpoint `@media (max-width: 920px)` and/or touch guards
+   (`(hover: none)`, `(pointer: coarse)`). Rendering at ≥1280px must be
+   layout-identical before/after (engine-tick noise excepted). Mobile-only
+   DOM nodes are fine but are hidden (`display: none`) in the base CSS and
+   only revealed inside the breakpoint. (920 rather than 768: it also
+   catches landscape phones and small tablets; §1's desktop target starts
+   at 1280, so nothing sanctioned changes.)
+2. **In-language.** The phone layout is the SAME variant recomposed — same
+   tokens, same component language, same voice, same drama beats. Never a
+   generic "mobile theme" bolted onto the side.
+3. **The log stays first-class** (it's the hero surface): visible inline or
+   reachable within ONE tap from any tab, and new lines still FEEL alive.
+
+### 4.1 · Structure at ≤920px
+
+- Single column; fixed app chrome — the page itself never scrolls, panes
+  scroll internally (same philosophy as desktop). Root height `100dvh`,
+  never bare `100vh` (iOS URL-bar bug).
+- Nav becomes a thumb-reachable bar — bottom tab bar is the default answer;
+  in-language variations welcome. If the log isn't visible inline, its
+  access point lives here too (law 3). Nav stays hidden until
+  `sel.navVisible` exactly as on desktop — R0 stays one sparse surface.
+- Header vitals condense (wrap, priority order, or a scrollable pill row):
+  rice + coin + rung always visible; the **"Answer the summons ›"**
+  affordance must stay unmissable on a 393pt-wide screen.
+- Full-screen moments (cold open, VN scenes, ceremony): full viewport,
+  safe-area padded, primary actions in the thumb zone.
+- Stage strip (the review affordance): still present and tappable, safe-area
+  aware, and must not collide with the mobile nav or the home indicator —
+  collapsed by default is fine.
+
+### 4.2 · Touch + iOS specifics
+
+- `viewport-fit=cover` in the viewport meta + `env(safe-area-inset-*)`
+  padding on any fixed top/bottom chrome.
+- Tap targets ≥ 44×44 CSS pt (≥40 acceptable with ≥8px gaps); primary verbs
+  comfortably larger.
+- Every `:hover` affordance gets a felt `:active` twin under
+  `(hover: none)`; set `-webkit-tap-highlight-color: transparent` and
+  `touch-action: manipulation` on interactive elements (kills double-tap
+  zoom delay).
+- No horizontal page scroll at 390px — ever, on any stage or screen.
+- Body text ≥14px, micro ≥11px at the breakpoint; keep `tabular-nums`.
+- Internal scroll panes: `min-height: 0` on the flex/grid child,
+  `overflow-y: auto`, `overscroll-behavior: contain` (no scroll-chaining
+  out of the fixed chrome).
+- `prefers-reduced-motion` still honored; keep the juice (typewriter, meter
+  fills) as cheap transform/opacity work.
+- **iOS click-synthesis trap** (found on 06-washi, likely everywhere): WebKit
+  does NOT synthesize `click` from taps on non-interactive elements — a
+  delegated `document` click handler behind a tap-anywhere surface (VN
+  advance, overlay dismiss) is DEAD on touch unless the surface is a real
+  `<button>` or carries `onclick=""`/a direct handler. Audit every
+  tap-anywhere affordance.
+- **Flex min-content contribution trap** (03-vermillion; the mechanism behind
+  the grid note in §4.3): `min-width: 0` on a nowrap flex item does NOT cap
+  that item's *min-content contribution* to an ancestor grid track — one
+  line of nowrap ticker text inflated a `1fr` column to 1193px. Fix pattern:
+  `contain: inline-size` on full-width chrome rows + `minmax(0,1fr)` tracks.
+- **`clip-path` cards clip hit-testing** (03-vermillion): a child pushed past
+  a cut card's border box is excluded from hit-testing entirely — a button
+  can silently become untappable on narrow screens. Check clipped cards
+  whose rows are `flex: none`.
+
+### 4.3 · Verification (per variant, before you call it done)
+
+1. **Desktop no-drift**: BEFORE editing, screenshot chromium 1440×900 at
+   R0/R1/R2/R3 + cold open + a VN scene. After editing, retake and compare —
+   any diff is judged by eye and must be engine-tick noise, never layout.
+2. **Phone arc in WebKit** (Playwright `devices['iPhone 15 Pro']` or
+   393×852 @3x + touch — note the device profile's *visual* viewport is
+   393×**659** after Safari chrome, so budget panel heights to ~659, not
+   852): drive cold open → intro → R0 rake/rest → R1
+   map/trade/estate/inventory → R2 wolf → R3 fight → summons → ceremony
+   **using taps on real buttons + the stage strip** (the human's actual
+   review path), screenshot every surface + every tab at R3, and REVIEW
+   YOUR OWN SHOTS against §3 + this section. Iterate until it would pass
+   the taste bar, not merely render. Known friction: the *summons-ready*
+   header state is unreachable by taps on the demo path (the strip's
+   Rung-up moment dispatches `begin_rung_beat` directly, and the engine
+   zeroes `rungMeter` on rung-up) — use the documented §2 demo hack to fill
+   the meter, then tap the REAL summons button.
+3. **Asserts on every screen**: no horizontal overflow — but beware the
+   false green: WebKit clamps `scrollingElement.scrollWidth` under
+   `overflow:hidden` roots while content genuinely overflows (an implicit
+   grid track sized from a flex child's *unwrapped* intrinsic width pushed
+   one shell to 433px with scrollWidth still 393 — fix:
+   `grid-template-columns: minmax(0,1fr)`). Assert per-element instead:
+   every *visible* element's `getBoundingClientRect().right <= innerWidth`
+   (and `left >= 0`). Plus: interactive targets ≥40px effective; zero
+   console errors.
+4. **Landscape (852×393)**: functional — nothing unreachable or broken;
+   polish optional.

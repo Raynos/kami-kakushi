@@ -12,6 +12,10 @@ const app = document.getElementById('app');
 // — UI-only state —
 let activeTab = 'work';
 let logFilter = 'story';
+// mobile-only chrome state (classes are unstyled outside the ≤920px breakpoint,
+// and the toggle buttons are display:none in base CSS — desktop never sees them)
+let logOpen = false;
+let stripOpen = false;
 
 // — number-pop tracking —
 let prev = { rice: null, coin: null, wood: null, sansai: null, meter: null };
@@ -690,9 +694,12 @@ function logHTML(s) {
       `<button class="filt ${f === logFilter ? 'active' : ''}" data-act="set_filter" data-filter="${f}">${esc(D.LOG_FILTER_LABELS[f])}</button>`,
   ).join('');
 
+  // .log-open + .log-toggle are mobile-only (toggle is display:none in base CSS;
+  // .log-open is unstyled outside the ≤920px breakpoint).
   return (
-    `<section class="log">` +
-    `<div class="log-head">${crest()}<span class="lh-title">${esc(D.LOG_HEADER)}</span></div>` +
+    `<section class="log${logOpen ? ' log-open' : ''}">` +
+    `<div class="log-head">${crest()}<span class="lh-title">${esc(D.LOG_HEADER)}</span>` +
+    `<button class="log-toggle" data-act="toggle_log" aria-expanded="${logOpen}" aria-label="${logOpen ? 'Collapse the log' : 'Expand the log'}"></button></div>` +
     `<div class="log-lines" id="logLines">${linesHTML}</div>` +
     `<div class="log-filters">${filters}</div></section>`
   );
@@ -740,8 +747,10 @@ function vnHTML(s) {
   let interact = '';
   const moreGreeting = vn.shown < scene.greeting.length;
 
+  // NOTE: the continue hint is a real <button> — iOS WebKit does not
+  // synthesize click from taps on non-interactive elements (spec §4.2).
   if (moreGreeting) {
-    interact = `<div class="vn-hint" data-act="vn_next">▽  continue</div>`;
+    interact = `<button class="vn-hint" data-act="vn_next">▽  continue</button>`;
   } else if (vn.phase === 'greeting' || vn.phase === 'ask') {
     // ask hub (if topics) then done
     if (scene.topics.length) {
@@ -766,7 +775,7 @@ function vnHTML(s) {
         `<div class="vn-choices"><div class="vn-prompt">Ask what you will —</div>${topicBtns}` +
         `<button class="btn-continue" data-act="vn_done_asking" style="align-self:flex-end;margin-top:12px">${esc(D.COPY.doneQuestioning)}</button></div>`;
     } else {
-      interact = `<div class="vn-hint" data-act="vn_next">▽  continue</div>`;
+      interact = `<button class="vn-hint" data-act="vn_next">▽  continue</button>`;
     }
   } else if (vn.phase === 'decide') {
     const opts = scene.decision.options
@@ -834,9 +843,12 @@ function stageStripHTML(s) {
     `<button class="ss-btn moment" data-act="moment" data-name="wolf">▷ Wolf</button>` +
     `<button class="ss-btn moment" data-act="moment" data-name="fight">▷ Fight</button>` +
     `<button class="ss-btn moment" data-act="moment" data-name="rungup">▷ Rung-up</button>`;
+  // .open + .ss-toggle are mobile-only (toggle is display:none in base CSS;
+  // .open is unstyled outside the ≤920px breakpoint).
   return (
-    `<div class="stage-strip"><span class="ss-label">Stage</span>${stages}` +
-    `<span class="ss-sep"></span><span class="ss-label">Moment</span>${moments}</div>`
+    `<div class="stage-strip${stripOpen ? ' open' : ''}"><span class="ss-label">Stage</span>${stages}` +
+    `<span class="ss-sep"></span><span class="ss-label">Moment</span>${moments}` +
+    `<button class="ss-toggle" data-act="toggle_strip" aria-expanded="${stripOpen}" aria-label="Stage and moment selector">◈</button></div>`
   );
 }
 
@@ -867,6 +879,11 @@ function render(s) {
     logAtBottom =
       prevLog.scrollHeight - prevLog.scrollTop - prevLog.clientHeight < 24;
   }
+  // preserve the center pane's scroll across tick re-renders (same contract as
+  // the log): a scrolled pane must not snap to top every 480ms. Restored only
+  // when the view is structurally unchanged — a tab/stage switch lands at top.
+  const prevCenter = app.querySelector('.center');
+  const centerScroll = prevCenter ? prevCenter.scrollTop : 0;
 
   // structural identity — box/rail/ceremony entry animation plays only when this
   // changes, so the 480ms tick re-render never restarts them.
@@ -906,6 +923,12 @@ function render(s) {
   // restore log scroll
   const logEl = document.getElementById('logLines');
   if (logEl && logAtBottom) logEl.scrollTop = logEl.scrollHeight;
+
+  // restore center scroll (structure unchanged only)
+  if (!structuralAnim && centerScroll) {
+    const centerEl = app.querySelector('.center');
+    if (centerEl) centerEl.scrollTop = centerScroll;
+  }
 
   afterRender(s);
 }
@@ -989,6 +1012,16 @@ app.addEventListener('click', (e) => {
     runMoment(el.dataset.name);
     return;
   }
+  if (act === 'toggle_log') {
+    logOpen = !logOpen;
+    render(eng.state);
+    return;
+  }
+  if (act === 'toggle_strip') {
+    stripOpen = !stripOpen;
+    render(eng.state);
+    return;
+  }
 
   // engine intents
   const intent = { type: act };
@@ -1018,3 +1051,7 @@ app.addEventListener('keydown', (e) => {
 });
 
 eng.subscribe((s) => render(s));
+
+// QA hook (repo convention: playtest via code) — lets a headless driver read
+// and stage engine state. No render path reads this; UI behavior is unchanged.
+window.__moonlit = { eng, sel };
