@@ -284,7 +284,9 @@ win worth carrying into UI-v2 regardless of which visual direction wins.
 
 **Moonlit × Lacquer fusion round (2026-07-03, human-requested).** Torn between
 **01** and **04**, the human asked for 3 blends. A 7-way idea fan-out → a spanning
-trio, built as demos 07–09. Idea/ranking:
+trio, built as demos 07–09. Then, after reviewing them, the human landed on a
+synthesis → demo **10 Andon Steel** (07's layout in 09's steel + a 06 cold-open).
+Idea/ranking:
 [`project/brainstorms/2026-07-03-moonlit-lacquer-fusion.md`](../brainstorms/2026-07-03-moonlit-lacquer-fusion.md);
 build spec: [`docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md`](../../docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md).
 Each attacks the fusion from a different axis so the three read as three distinct
@@ -300,6 +302,12 @@ temperatures at a glance:
 - [ ] **09 · Damascene Duet** — *warmth transcended into a THIRD ground.* A
   blackened-steel bimetal jewel-box: silver = state, gold = value, vermillion =
   commit; one strike-lozenge is both cursor and CTA. Neutral-dark, no paper.
+- [ ] **10 · Andon Steel** *(the synthesis you landed on)* — 07's layout in 09's
+  blackened steel: uniform bimetal (silver state / gold value / vermillion commit),
+  the nunome stripped to clean steel, the log a dark steel well, and a **06-style
+  GBA typewriter cold-open** (types the intro behind a gold caret). Name "Andon
+  Steel" — rename at will. Open dials: Damascene sans vs Andon's condensed; the
+  seal-press red-flood not ported (only the cursor blooms).
 
 - **Asking for:** which direction (or blend) becomes the real game's UI-v2 —
   and per variant: does it read as *this* game, a generation better?

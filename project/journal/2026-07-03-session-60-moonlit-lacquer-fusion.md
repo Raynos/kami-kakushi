@@ -93,3 +93,42 @@ This file is HISTORY; live state = `project/status/project-status.md`.
 - Cross-variant dial (inherent to the game's sparse story content, not a bug): the
   *bright* paper logs (07 window, 08 well) read empty at low line-counts; 09's
   dark steel log sidesteps it.
+
+## 3 · Demo 10 — Andon Steel (the human's synthesis, follow-on session)
+
+After reviewing 07–09 the human landed on a specific remix (verbatim: *"Andon, in
+the color scheme of damascene, remove the cross net / nunome bg. But the cold-open
+is like 06, the behavior, with the GBA text scrolling."*). Paused mid-spec →
+handoff to `tmp/handoff-demo-10-andon-damascene.md` → resumed and built.
+
+- **Built via one Opus agent**, forking 07 Andon into `ui-demos/10-andon-steel/`
+  (index.html + style.css 1220 + main.js 912). First launch **misfired** (returned
+  in 1.5s, 0 tool uses, stray `_authorised:true`) — relaunched, second run built
+  it clean. Changes: remap 07's `:root` → Damascene steel tokens + retreat every
+  structural surface to steel; **remove the nunome** (3 sites + Andon's grain +
+  shoji lattice); **port 06's `playColdOpen` typewriter** (title→sub→char-by-char
+  lede at 24ms/char behind a gold caret→verb; RM-safe; fires once).
+- **My own-eyes QA:** the GBA typewriter cold-open is the standout (reads like a
+  JRPG title card); the flat steel reads **alive** (gold keylines + silver rim +
+  gold terminator spine carry it — nunome not missed); bimetal split holds; dark
+  steel log-well sidesteps the bright-empty dial; ceremony = the damascene lozenge
+  on a vermillion field-flood. 0 console errors, 0 overflow desktop+phone.
+- Known dials → the plan's "Known dials (demo 10)": Damascene sans vs Andon's
+  condensed (one-line revert); seal-press red-flood not ported (only the cursor
+  blooms). Both minor, left for the human's R9 call (R5).
+- Wired into the gallery (07–10) + R9 (10th row) as single writer.
+
+### What changed (this commit)
+- `ui-demos/10-andon-steel/` — NEW variant (index.html + style.css + main.js).
+- `ui-demos/index.html` — gallery intro (07–10) + the Andon Steel row.
+- `project/human-in-the-loop/review.md` — R9 extended with demo 10.
+- `docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md` — `## 10` section
+  → BUILT; DoD ticked; "Known dials (demo 10)" added.
+- this journal (§3).
+
+### Landmines (demo 10)
+- The push carries the **F1a co-agent's 4 finished checkpoint commits** (they
+  committed but didn't push) plus their live WIP is verified by the pre-push gate —
+  if red, leave local, don't override.
+- Background build agents can misfire (instant 0-tool return) — check the dir got
+  created before trusting the report; relaunch, don't resume a no-op.

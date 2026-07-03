@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kami-kakushi — Andon Steel</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="hdr" aria-label="House vitals"></header>
+    <nav id="nav" hidden aria-label="Tabs"></nav>
+    <main id="main">
+      <section id="pane" aria-label="Actions"></section>
+      <aside id="logpanel" aria-label="The house remembers">
+        <div class="tray log-tray">
+          <div id="loghead"></div>
+          <div class="log-well">
+            <div class="log-scroll" id="logscroll"><ol id="logfeed"></ol></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <div id="overlay"></div>
+  <div id="fx" aria-hidden="true"></div>
+  <div id="stagestrip" aria-label="Review stages"></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

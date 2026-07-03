@@ -206,3 +206,56 @@ into one blackened-steel jewel-box. Neither night-box nor urushi-and-paper.
 - **09 Damascene Duet** — the R0 Rake lozenge is the brassiest gold moment (sole
   anchor, so attention is correct); composition is 04's by the fork mandate — the
   novelty is material + semantics + the strike, a re-inlay not a re-architecture.
+
+## 10 · Andon Steel — the human's synthesis pick  *(fork 07 Andon)*
+
+**Status: ✅ BUILT + verified (session, 2026-07-03) — awaiting the R9 pick.**
+After reviewing 07–09 the human landed on a specific remix (verbatim: *"Andon, in the color scheme of damascene,
+remove the cross net / nunome bg. But the cold-open UI is like 06, the behavior,
+with the GBA text scrolling. that's what we are going to fucking do."*). Full
+research handoff: `tmp/handoff-demo-10-andon-damascene.md` (git-ignored).
+
+**DNA:** Andon's composition rendered in Damascene's blackened steel — the warm/
+cool two-light grade dropped for a uniform bimetal skin — with a 06-style
+typewriter cold-open.
+
+- **Fork 07 Andon**, keep its composition + all wiring (left rail · center trays ·
+  log-window-right · the crest-to-seal cursor · engine/reconcile/mobile/iOS fixes).
+- **Reskin to 09 Damascene's steel palette** (lift its `:root` verbatim): grounds
+  `#070810`/`#0e1016`/`#161922`/`#1b1f29`/`#20242f`; **silver = state** (`#cdd6ee`,
+  wire `rgba(205,214,238,.55)`), **gold = value** (`#d8b978`/`#f2dca0`, keyline
+  `rgba(216,185,120,.42)`), **vermillion = commit** (`#bf3b25`/`#de5a3a`); quiet
+  prose ramp `#c2c8d8`/`#8a90a4`/`#5c6274`. Andon's two-light warm/cool **goes
+  away** — uniform steel. The log-window becomes a **dark recessed steel well**
+  (silver-on-dark, no cream paper). The cursor → Damascene's strike treatment
+  (silver-wire + gold, flushes vermillion on commit).
+- **Remove the nunome** cross-hatch texture entirely — clean flat steel fields
+  (don't port Damascene's `--nunome` at its 3 usage sites; drop Andon's warm
+  log-grain). Fields stay alive on keylines + silver top-rim + gradients, not
+  texture.
+- **Cold-open = 06 Washi's behavior + GBA text scroll.** Port 06's `coldHTML()` +
+  `playColdOpen()` (`ui-demos/06-washi/main.js` L631–671): staged title (200ms) →
+  subtitle (1000ms) → **lede typed char-by-char at 24ms/char** (1700ms) → verb on
+  finish; `at(6200)` verb safety-net; reduced-motion reveals all instantly. Render
+  in the steel/silver/gold palette. The typewriter *is* the "GBA scrolling."
+- **Name:** default **"Andon Steel"** (dir `10-andon-steel`) — honours the human's
+  "andon 10" framing; alt "Kurogane" if they prefer. **Surface for override.**
+- **Watch the risks:** flat steel with the nunome gone can read *dead* — lean hard
+  on the gold keyline, silver top-rim, and steel gradients for life. Hold
+  Damascene's semantic split (silver/gold never fight over one element). The
+  typewriter must fire once, be RM-safe, and not restart on the 480ms tick.
+
+### DoD (demo 10)
+- [x] Full working variant (R0–R3, every tab, every moment, mobile) forked from 07.
+- [x] Damascene steel palette applied; nunome removed; log = steel well.
+- [x] 06-style typewriter cold-open ported + RM-safe + palette-matched.
+- [x] Playwright arc sweep (0 console errors, 0 overflow desktop+phone) + my
+      own-eyes review; wired into the gallery; R9 extended. _Push pending._
+
+### Known dials (demo 10 — for the R9 call)
+- Uses Damascene's regular sans, not Andon's **condensed** labels — a one-line
+  `--sans` revert if the human wants Andon's tighter type identity back.
+- The vermillion-on-commit comes only from the cursor bloom; 09's in-button
+  `.struck` red-flood is **not** ported (seal buttons don't flood on press).
+- The dark steel log-well is the quietest surface at low line-counts (alive via
+  keyline + inset shadow, but subtle) — could deepen the inset if wanted.
