@@ -12,9 +12,12 @@
 # The HARD budget check is the explicit `npm run verify:budget`; the pre-push hook surfaces it
 # loudly-but-non-blocking. Principle (X-3): noisy about drift, never blocking the task in flight.
 #
-# Bypass:  SKIP_VERIFY=1  git commit …   (docs-only/trivial: skip the verify gate)
+# Bypass:  SKIP_CODE_VERIFY=1 git commit …  (docs-only commit: skip the code gates, docs gates STILL run — ~1s)
+#          SKIP_DOCS_VERIFY=1 git commit …  (pure-code commit: skip the docs-lane gates)
+#          SKIP_VERIFY=1  git commit …   (skip the WHOLE verify — last resort; prefer the lane flags above)
 #          SKIP_JOURNAL=1 git commit …   (skip the journal gate)
 #          SKIP_QUEUE=1   git commit …   (skip the reading-queue gate: a new plan genuinely not for the human)
+# Lane semantics live in src/scripts/verify-run.ts + verify-scope.ts (the flags pass through env).
 # Enable once per clone:  git config core.hooksPath .githooks
 
 set -uo pipefail
@@ -28,12 +31,13 @@ run_verify() {
     return 0
   fi
 
-  echo "  - npm run verify (full gate; SKIP_VERIFY=1 to bypass a docs-only commit)…" >&2
+  echo "  - npm run verify (docs-only commit? SKIP_CODE_VERIFY=1 keeps the docs gates + skips the slow lane)…" >&2
   local start end elapsed
   start=$(date +%s)
   if ! npm run --silent verify >&2; then
     echo "" >&2
-    echo "  X commit blocked - verify failed. Fix it, or SKIP_VERIFY=1 for a docs-only commit." >&2
+    echo "  X commit blocked - verify failed. Fix it; a docs-only commit can SKIP_CODE_VERIFY=1" >&2
+    echo "    (docs gates still run). SKIP_VERIFY=1 skips everything - last resort." >&2
     return 1
   fi
   end=$(date +%s)
@@ -67,7 +71,7 @@ git diff --cached --name-only | sed 's/^/      /' >&2
 
 if ! run_verify; then
   echo "" >&2
-  echo "  commit blocked by verify (bypass a docs-only commit: SKIP_VERIFY=1 git commit …)" >&2
+  echo "  commit blocked by verify (docs-only commit: SKIP_CODE_VERIFY=1 git commit … keeps the docs gates)" >&2
   exit 1
 fi
 

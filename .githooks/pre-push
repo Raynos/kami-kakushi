@@ -3,6 +3,8 @@
 # The build must be green to leave the machine. Simple and unconditional.
 #
 # Bypass:  SKIP_VERIFY=1 git push   (emergencies / deliberate red push only)
+# NB: the commit-time lane flags (SKIP_CODE_VERIFY / SKIP_DOCS_VERIFY) are deliberately
+# UNSET here — a push always verifies the FULL roster, even if a shell exports them.
 # Enable once per clone:  git config core.hooksPath .githooks
 
 set -uo pipefail
@@ -13,7 +15,7 @@ if [ "${SKIP_VERIFY:-0}" = "1" ]; then
 fi
 
 echo "  - pre-push: verify must be GREEN to push…" >&2
-if ! npm run --silent verify >&2; then
+if ! env -u SKIP_CODE_VERIFY -u SKIP_DOCS_VERIFY npm run --silent verify >&2; then
   echo "" >&2
   echo "  ✗ BLOCKED: verify is RED — refusing to push." >&2
   echo "    Fix it, or 'SKIP_VERIFY=1 git push' to override (emergencies only)." >&2

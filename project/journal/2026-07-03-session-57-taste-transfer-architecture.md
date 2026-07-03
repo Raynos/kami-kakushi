@@ -59,6 +59,36 @@ the first cut and wrote the strategy as a durable brainstorm.
 
 - Do NOT edit `taste.md` in place before the re-derivation diff exists —
   verify-don't-trust applies to the first cut.
-- N7 explicitly forbids wiring scorecards against the *draft* taste.md.
+- N7 (now F10 after the co-agent's S/N→F rename) explicitly forbids wiring
+  scorecards against the *draft* taste.md.
 - Journal numbering: two session-55 files exist for 2026-07-03; this file
   takes 57 (56 = ui-demos-mobile).
+
+## Side quest (human ask) — code/docs lane flags for verify
+
+Audited the pre-commit/verify flow by what each gate READS and split it
+into lanes; the audit lives as scope labels + comments on the roster in
+`verify-run.ts` (its single source of truth):
+
+- **code** (7): tsc, eslint, prettier (md is `.prettierignore`d), vitest,
+  verify-content (imports registries), pacing (imports `../core`), playcheck.
+- **docs** (1): verify-prd (reads `docs/living/prd/*` only).
+- **both** — code↔docs invariants, skipped only when BOTH lanes skip (4):
+  gen-docs (src→`docs/content`), md-links (src renames break doc links),
+  milestone-integrity (roadmap DoD→real tests), verify-changelog
+  (package.json→CHANGELOG).
+
+New flags, semantics in the new pure `src/scripts/verify-scope.ts`
+(+ 5 unit tests on synthetic gates — a filter bug would be a silent false
+green, R3): `SKIP_CODE_VERIFY=1` (docs-only commits: docs lane still runs,
+measured 0.22s vs 4.35s full) · `SKIP_DOCS_VERIFY=1` (mirror; drops only
+verify-prd today — thin lane, noted honestly). `--budget` ignores the
+flags; `.githooks/pre-push` now `env -u`'s them so a push ALWAYS runs the
+full roster. Guidance updated: pre-commit hints + AGENTS.md commit bullet
+now steer docs-only commits to `SKIP_CODE_VERIFY=1` instead of the
+skip-everything `SKIP_VERIFY=1` — which also mostly supersedes §9d's
+"standalone pre-commit call" for the future doc-budgets gate (brainstorm
+updated with strikethrough).
+
+Verified: all four flag combos + budget-with-flags run live; new tests
+pass; full verify green.

@@ -256,15 +256,16 @@ snapshot's 120 so caps live in ONE place):
    `run_verify`), every push (pre-push runs verify on all branches), and
    CI when N3 lands. Objective line count — the highest sound rung, can't
    cry wolf (A11-safe, same class as `verify-changelog`).
-2. **Pre-commit standalone call**, outside the `SKIP_VERIFY` path — mirroring
-   exactly how the snapshot-shape gate works today. This matters because
-   taste/ui-design edits are usually **docs-only commits, which is precisely
-   when agents use `SKIP_VERIFY=1`** — without this rung the cap would be
-   routinely dodged at commit time and only caught at push. Checks the
-   **index blob** (`git show :path`) so it judges what's actually being
-   committed, not a co-agent's dirty working tree. Bypass:
-   `SKIP_DOCBUDGET=1`, documented as *human-blessed cap raise only* — the
-   block message says "cull, don't bypass; displacement is the mechanism."
+2. ~~**Pre-commit standalone call**, outside the `SKIP_VERIFY` path — because
+   taste/ui-design edits are docs-only commits, exactly when agents use
+   `SKIP_VERIFY=1`.~~ **Mostly superseded (2026-07-03, same session): the
+   human's side-note landed scoped lane flags** — `SKIP_CODE_VERIFY=1` is
+   now the documented path for docs-only commits, and it *keeps the docs
+   lane running*, so a docs-scoped `verify-doc-budgets` gate fires at
+   commit time through the normal flow. The standalone call shrinks to a
+   defense against full `SKIP_VERIFY=1` only — decide at build time whether
+   that residual rung is worth its lines (the pre-push full roster already
+   backstops it). Bypass for a deliberate cap raise stays human-blessed.
 
 **e. Genre tripwires (warn rung).** Alongside the cap, the pre-commit warn
 that already catches "Phase update —" bullets in the snapshot extends to
