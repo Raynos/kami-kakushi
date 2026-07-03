@@ -47,8 +47,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   **Two adversarial audits** ran — economy balance-watch (4 liquid tuning items,
   left un-tuned for the human, D-059) + a deploy-gate check. **All F86–F117 ✅.**
 - **Fable parallel:** six T0 remaster variants (R9) — **mobile pass landed**:
-  six + gallery phone-ready, desktop unchanged (VARIANT-SPEC §4; live at
-  <https://kami-kakushi-ui-demos.vercel.app>). Commit LOCAL — push pending (s56).
+  six + gallery phone-ready, desktop unchanged (VARIANT-SPEC §4) — pushed and
+  live at <https://kami-kakushi-ui-demos.vercel.app> (prod redeployed, s56).
 - **Philosophy** R1–R6 + **process canon** D-086–089 (tension>generosity · loop
   done-rule · e2e+invariants DoD · implicit queue sign-off).
 - **D-117 frontier PRD + the process wave** — tiers compress at taste

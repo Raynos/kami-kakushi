@@ -92,4 +92,9 @@ worktrees". Landed the gate fix flagged in the landmine above: excluded
 scanning it made three gates cry wolf (A11). `verify` back to 12/12 green
 with the co-agent worktree still present. Then: push `main` (pre-push gate
 green) + Vercel prod redeploy of `ui-demos/` (human-approved outward
-actions).
+actions); live site confirmed serving the mobile CSS.
+
+Checkpoint (`/prepare-to-exit`): snapshot brought current (pushed +
+redeployed); the mobile-plan queue entry cleared per D-089 (worked through
+live with the human this whole session — the steer, the push, the deploy);
+the R9 vercel-link queue entry freshened with the phone-ready note.
