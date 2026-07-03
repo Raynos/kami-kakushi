@@ -135,6 +135,15 @@ function invalidTokenPlans(): Array<{ file: string; token: string | null }> {
   return bad;
 }
 
+/** Done/superseded plans still physically sitting in docs/plans/ (write mode
+ *  auto-archives them; in --check we can only FLAG). A loud WARN, never a block:
+ *  mid-flight a co-agent may mark DONE moments before archiving, so a tree-wide
+ *  hard block day-one would collide with "don't fight someone else's red" (§3.2).
+ *  Promotion WARN->block is DEFERRED to the human after a clean soak week. */
+function unArchivedDonePlans(): string[] {
+  return planFiles().filter((f) => parseStatusToken(read(`${PLANS_DIR}/${f}`))?.archivable);
+}
+
 // --- auto-archive done plans (§2.3–2.4) ---------------------------------------
 // A plan whose token is DONE/SUPERSEDED graduates OUT of docs/plans/. We move the
 // file, recompute every intra-repo markdown link that pointed at it, and rewrite
@@ -397,6 +406,14 @@ function runCli(): void {
         console.error('    Run `npm run checkpoint` to regenerate, then stage the files.');
       }
       process.exit(1);
+    }
+    // DONE-not-archived: a loud WARN, never a block (promotion deferred to the human).
+    const unarchived = unArchivedDonePlans();
+    for (const f of unarchived) {
+      console.error(
+        `  ~ checkpoint WARN: ${PLANS_DIR}/${f} reads DONE/SUPERSEDED but still sits in ${PLANS_DIR}/ —` +
+          ` run \`npm run checkpoint\` to graduate it to ${ARCHIVE_DIR}/. (WARN only, not blocking.)`,
+      );
     }
     console.log(
       `  ✓ checkpoint --check: ${targetFiles.length} region-doc(s) fresh; ${planFiles().length} plan token(s) valid.`,

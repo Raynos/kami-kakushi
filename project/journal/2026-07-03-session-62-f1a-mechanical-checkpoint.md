@@ -103,12 +103,29 @@ filled; a forced path-collision proved create-only — with `session-63` pre-exi
 the scaffold targets `session-64` and leaves the existing file byte-unchanged; a
 bare `checkpoint` only reports (creates nothing). `npm run verify` green.
 
+## 4 · Phase 4 — teeth (checkpoint joins GATES)
+
+- Added `checkpoint` (`tsx checkpoint.ts --check`, scope `both`) to `gates.ts` —
+  the **14th** gate (not "13th"; `doc-budgets` had already landed post-plan). The
+  system now maintains its own docs: adding the gate made the gate-roster regions
+  regenerate to "14 gates … checkpoint" in the SAME commit (dogfood). project-status
+  held at its exact 120-line cap (the 3-line body absorbed the 14th name).
+- DONE-not-archived: a loud **WARN** in `--check` (never blocks; exit 0). Promotion
+  WARN→block after a clean soak week is **DEFERRED to the human** (their call, per
+  the ratified defaults) — I left it WARN and did not promote it.
+- **`verify:budget` recorded:** 14 gates, median **4.94s**, **0.06s headroom**
+  under the 5.00s budget (PASS). The checkpoint gate is **0.25s** — nowhere near the
+  critical path (vitest 4.94s · prettier 4.83s · eslint 4.76s · tsc 4.63s dominate;
+  everything else < 0.85s). fs-only, no compile, invisible in parallel.
+
+**DoD met:** 14 gates green in parallel; a deliberately-staled region turns `verify`
+RED via the checkpoint gate (1/14 failed → commit would be blocked); a clean tree
+emits no WARN; the DONE-not-archived WARN fires on a probe DONE plan without
+blocking (check exit 0). `npm run verify` green.
+
 ## Next intended steps
 
-1. Phase 4 — add `checkpoint` to GATES (becomes the 14th); the gate-roster regions
-   self-update in the same commit (dogfood); record `verify:budget` headroom;
-   DONE-not-archived = WARN (promotion to block DEFERRED to the human).
-2. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
+1. Phase 5 — converge `session-brief.sh` + README vocab on the closed tokens;
    trim working-agreements / prepare-to-exit / pre-commit roster comment. Then
    flip F1a to DONE + let checkpoint auto-archive itself.
 

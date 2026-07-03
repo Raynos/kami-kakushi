@@ -83,9 +83,9 @@ Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint
 boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` runs
 in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
-**13 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
+**14 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
 gen-docs, pacing, playcheck, md-links, milestone-integrity, verify-changelog,
-doc-budgets.
+doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
 Docs-only: `SKIP_CODE_VERIFY=1` (docs lane runs, ~0.3s; `SKIP_VERIFY=1` last resort).
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
