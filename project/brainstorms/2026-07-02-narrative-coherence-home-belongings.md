@@ -257,9 +257,9 @@ is a default surfaced for override, not a decision — the depth call is the hum
    home can grow with real standing? Recommendation: a *small* furniture set at T0,
    the *deep* set/synergy system at T1+.
 5. **Interaction with the in-flight koku / economy re-diagnosis.** There is live
-   work reshaping the economy — `docs/plans/2026-07-02-economy-koku-rediagnosis.md`
+   work reshaping the economy — `docs/plans/opus-2026-07-02-economy-koku-rediagnosis.md`
    (🆕 diagnosis, awaiting a taste call; a possible koku/mon/rice split) and
-   `docs/plans/2026-07-02-koku-economy-t0-build.md` (🆕, **blocked** on the PRD
+   `docs/plans/opus-2026-07-02-koku-economy-t0-build.md` (🆕, **blocked** on the PRD
    ripple; its **Phase 5 adds status-token rank rewards** — surname → swords →
    gōshi). A home that *costs koku* (Option 2/3) and *mirrors status* (Option 3)
    plugs directly into both. **Question:** should the home wait for that economy

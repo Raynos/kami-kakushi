@@ -54,9 +54,18 @@
   `docs/living/fun-factor.md` were rippled with the new mechanics (rung-beats, housing,
   vendors-as-people). Skim to confirm they describe the game you played.
 
+**⭐ In progress — the agent-default audit (we're walking through this live):**
+
+- [ ] `project/audit/reports/2026-07-03-agent-default-decision-audit.md` — every
+  place across the T0-build plans where the agent picked a default and built it,
+  with verified build status. **Key finding:** `koku-economy-t0-build` is only
+  Ph1–4 built — **Phase 5 (status tokens) is unbuilt**, so it's NOT archived.
+  Being walked through via AskUserQuestion (economy → IA tabs → housing → rung
+  story → append-only).
+
 **Owed reviews / taste calls (async, no rush):**
 
-- [ ] `docs/plans/2026-07-02-rung-up-story-transitions.md` — the **rung R0→R7 cast +
+- [ ] `docs/plans/opus-2026-07-02-rung-up-story-transitions.md` — the **rung R0→R7 cast +
   beat prose** (built; §6.5 cast + §7 prose await your read — 3 invented faces: the
   pedlar **Tokubei**, **Rokusuke**, the smith **Tōzō** — rename/veto freely). Also R8.
 - [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy
@@ -72,7 +81,7 @@
   bottom-right stage strip (cold open → R3 + the moments); every verb is real
   against the mock engine. Verdict per variant → **R9** in
   `human-in-the-loop/review.md`.
-- [ ] `docs/plans/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**
+- [ ] `project/archive/2026-07-02-ui-remaster-variants.md` — **UI-remaster variants**
   (Fable's parallel spike): the plan behind the link above — §3 has the five
   briefs, §2 the invariants (the remaster midpoint contract).
 - [ ] `project/brainstorms/2026-07-02-emergent-node-actions.md` — **emergent node
@@ -82,18 +91,18 @@
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**
 
-- [ ] `docs/plans/2026-07-03-mechanical-checkpoint.md` — **the mechanical
+- [ ] `docs/plans/fable-2026-07-03-mechanical-checkpoint.md` — **the mechanical
   checkpoint** (retro suggestion #1): generate the process layer's derivable
   sections (gate roster, active-plans list, plan-status tokens, queue paths)
   via a `checkpoint.ts` + a 13th verify gate. Found live drift as receipts:
   the gate-count sentence says 11 (there are 12), `docs/plans/README.md`
   claims "no active plans", and session-brief mis-tags LOCKED plans as DONE.
-- [ ] `docs/plans/2026-07-03-playtest-capture-inbox.md` — **playtest capture
+- [ ] `docs/plans/fable-2026-07-03-playtest-capture-inbox.md` — **playtest capture
   inbox** (suggestion #2): backquote-hotkey in-game note box → Vite
   dev-middleware → `project/playtest-inbox/` → a `/drain-inbox` skill. Your
   synchronous feedback typing becomes async play-and-dump; repro via
   state+seed+variants, no screenshots needed.
-- [ ] `docs/plans/2026-07-03-balance-sim-gates.md` — **persona-bot balance
+- [ ] `docs/plans/fable-2026-07-03-balance-sim-gates.md` — **persona-bot balance
   sim** (suggestion #4): greedy/idler/explorer bots over the real reducers,
   pacing envelopes derived from `balance.ts`, on-demand `verify:balance` + a
   generated pacing report whose diff rides every balance change.
@@ -101,7 +110,7 @@
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
   compressed territory; §6 folded into the T0 sweep).
-- [ ] `docs/plans/2026-07-03-prd-ripple-tooling.md` — **PRD ripple tooling**
+- [ ] `docs/plans/fable-2026-07-03-prd-ripple-tooling.md` — **PRD ripple tooling**
   (D-117 Phase 0, the buildable-NOW slice you asked for): a `prd:drift`
   reporter (game registries → PRD punch-list; retired-terms tripwire), one
   pilot gen-region (§3 T0 rung names, drift-PROOF), and two skills —

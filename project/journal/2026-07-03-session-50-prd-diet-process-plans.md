@@ -12,12 +12,12 @@ ran autonomously (R4).
 
 ## What changed
 
-- `docs/plans/2026-07-03-mechanical-checkpoint.md` — NEW (Plan subagent):
+- `docs/plans/fable-2026-07-03-mechanical-checkpoint.md` — NEW (Plan subagent):
   generate the process layer's derivable sections; checkpoint = one command +
   one commit; found live doc drift as receipts.
-- `docs/plans/2026-07-03-playtest-capture-inbox.md` — NEW (Plan subagent):
+- `docs/plans/fable-2026-07-03-playtest-capture-inbox.md` — NEW (Plan subagent):
   in-game hotkey capture → dev-middleware → repo inbox → `/drain-inbox`.
-- `docs/plans/2026-07-03-balance-sim-gates.md` — NEW (Plan subagent):
+- `docs/plans/fable-2026-07-03-balance-sim-gates.md` — NEW (Plan subagent):
   persona bots + pacing envelopes from `balance.ts` + `verify:balance`.
 - `project/brainstorms/2026-07-03-prd-on-a-diet.md` — NEW: 6-round Q&A
   capture, derived flows (design-change / compression / onboarding / audit),

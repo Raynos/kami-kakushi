@@ -3,7 +3,7 @@
 **Summary:** The human asked whether the PRD diet has a buildable-now slice —
 can rippling from the game back into the PRD be partially automated, or
 failing that, become a skill? Answer: both. Authored
-`docs/plans/2026-07-03-prd-ripple-tooling.md`: a `prd:drift` fact reporter
+`docs/plans/fable-2026-07-03-prd-ripple-tooling.md`: a `prd:drift` fact reporter
 (the game's typed registries — the same ones `gen-docs.ts` already exports —
 diffed against PRD prose, plus a retired-terms tripwire), one pilot
 gen-region (§3 T0 rung names) reusing the mechanical-checkpoint plan's
@@ -14,7 +14,7 @@ surface.
 
 ## What changed
 
-- `docs/plans/2026-07-03-prd-ripple-tooling.md` — NEW: the plan (4 phases,
+- `docs/plans/fable-2026-07-03-prd-ripple-tooling.md` — NEW: the plan (4 phases,
   Opus-routable; the eventual compression sweep stays Fable + human-signed).
 - `project/todo-human.md` — queued the plan (same-commit queue gate).
 
@@ -88,6 +88,19 @@ hook can tell an agent's files apart. So two rungs, both landed:
 Tested live (see the commit): a canary file staged alongside a pathspec
 commit stayed OUT of the commit and REMAINED staged; a bare `git commit`
 was blocked by the guard.
+
+## 1d · Plan filenames now carry the authoring model (same session, later)
+
+Human ask (sanity): plan files in `docs/plans/` are prefixed by the MODEL
+of the session that WROTE them — `fable-`/`opus-` — provenance at a
+glance, distinct from the in-file "Who builds this" routing. Verified via
+each plan's authoring-commit `Assisted-by:` trailer (R2, not guessed): the
+six 2026-07-02 plans → `opus-`, the four 2026-07-03 plans → `fable-`. All
+ten `git mv`'d; every inbound path reference rewritten repo-wide (queue,
+decisions, journals, brainstorms, archive, snapshot, `prd-drift.ts`,
+ui-demos); convention codified in `docs/plans/README.md` + a WARN-only
+pre-commit nag for unprefixed new plans. NOT retrofitted onto
+`project/archive/` (don't mass-retrofit history).
 
 ## 2 · Second-wave suggestions: 25 → top 10 (same session, later)
 

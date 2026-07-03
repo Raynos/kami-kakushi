@@ -106,7 +106,13 @@ if [ "${SKIP_QUEUE:-0}" != "1" ]; then
       docs/plans/README.md)
         : ;;  # the dir's own README documents the convention; never a for-the-human plan
       docs/plans/*.md)
-        grep -Fq "$f" <<<"$queue_now" || unqueued_plans="${unqueued_plans}    - ${f}"$'\n' ;;
+        grep -Fq "$f" <<<"$queue_now" || unqueued_plans="${unqueued_plans}    - ${f}"$'\n'
+        # Model-prefix convention (human, 2026-07-03): plan filenames carry the AUTHORING
+        # session's model — fable-/opus-… (see docs/plans/README.md). WARN-only rung.
+        case "$(basename "$f")" in
+          fable-*|opus-*|sonnet-*|haiku-*) : ;;
+          *) echo "  ~ new plan '$f' lacks a model prefix (fable-/opus-…) — name it <model>-<date>-<slug>.md (docs/plans/README.md)" >&2 ;;
+        esac ;;
       project/brainstorms/*.md|project/audit/reports/*.md)
         grep -Fq "$f" <<<"$queue_now" || unqueued_soft="${unqueued_soft}    - ${f}"$'\n' ;;
     esac

@@ -179,7 +179,7 @@ set — just at **beat completion**, not at raw meter-fill.
 
 This is exactly the "reusable meet-an-NPC dialogue trigger" D-104 named as future
 work. The rung beat **generalizes** it. ⚠️ The append-only VN engine was *just
-rebuilt* (`docs/plans/2026-07-02-append-only-rendering-engine.md`, active) —
+rebuilt* (`docs/plans/opus-2026-07-02-append-only-rendering-engine.md`, active) —
 **build ON it, do not fork it.**
 
 ---
@@ -1128,7 +1128,7 @@ Tokubei is there (F99), and the panel inks in when the R1 modal tears down.
 3. **UI:** the `vnActive` gate flip + `activeVn` projection + `source` dispatch + the
    F106 header trigger. Reuse `buildIntroShell`/`reconcileIntro` unchanged.
 4. **Coordinate with the append-only engine plan**
-   (`2026-07-02-append-only-rendering-engine.md`, active) — build ON it, land after it.
+   (`opus-2026-07-02-append-only-rendering-engine.md`, active) — build ON it, land after it.
    The **economy re-core (D-107–D-109)** rescopes the pedlar's coin copy separately
    (OQ6 / the "no parallel build during a ripple" memory) — the beat framework is
    copy-agnostic; the pedlar's trade line is one string the economy ripple can retune.
@@ -1180,7 +1180,7 @@ Tokubei is there (F99), and the panel inks in when the R1 modal tears down.
 ## 9 · Risks & notes
 
 - **Build ON the append-only VN engine, don't fork it.** It was *just* rebuilt
-  (`docs/plans/2026-07-02-append-only-rendering-engine.md`, active; scene at
+  (`docs/plans/opus-2026-07-02-append-only-rendering-engine.md`, active; scene at
   `render.ts:488-1586`). §3.2(a) reuses `buildIntroShell`/`reconcileIntro`
   unchanged and only generalizes the **active-scene gate** (`introActive` →
   `vnActive`) + the scene source. Coordinate landing order with that plan.

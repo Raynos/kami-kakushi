@@ -66,7 +66,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   produces sinks → coin too abundant; koku capstone too fast). NOT silently
   re-tuned — your feel-call. `audit/reports/2026-07-02-economy-balance-watch.md`.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
-  Tokubei, Rokusuke, smith Tōzō). `docs/plans/2026-07-02-rung-up-story-transitions.md`.
+  Tokubei, Rokusuke, smith Tōzō). `docs/plans/opus-2026-07-02-rung-up-story-transitions.md`.
 - **UI-remaster variants** 🔲 (R9, Fable) — pick a direction/blend at the
   URL above → it becomes the D-075 diverge.
 

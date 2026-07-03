@@ -16,8 +16,8 @@ Live state is the snapshot, not this file — see
 HISTORY, not live state.**
 
 Key output docs:
-- `docs/plans/2026-07-02-append-only-rendering-engine.md` (uncommitted → human review)
-- `docs/plans/2026-07-02-rung-up-story-transitions.md` (uncommitted → human review)
+- `docs/plans/opus-2026-07-02-append-only-rendering-engine.md` (uncommitted → human review)
+- `docs/plans/opus-2026-07-02-rung-up-story-transitions.md` (uncommitted → human review)
 - `project/brainstorms/2026-07-02-narrative-coherence-home-belongings.md`
   (uncommitted → human review)
 
@@ -48,10 +48,10 @@ all green through the pre-push gate:
 Three durable design docs, each awaiting a **human scope call** (queued in
 `project/todo-human.md`):
 
-- **`docs/plans/2026-07-02-append-only-rendering-engine.md`** — generalize the
+- **`docs/plans/opus-2026-07-02-append-only-rendering-engine.md`** — generalize the
   intro's append-only render to kill the whole flash/repaint class app-wide.
   **5 open questions** for the human.
-- **`docs/plans/2026-07-02-rung-up-story-transitions.md`** (F97/F99/F103) —
+- **`docs/plans/opus-2026-07-02-rung-up-story-transitions.md`** (F97/F99/F103) —
   rung-ups become **player-initiated VN story beats** that motivate the unlocks
   + entity discovery. Ties D-104.
 - **`project/brainstorms/2026-07-02-narrative-coherence-home-belongings.md`**
@@ -60,7 +60,7 @@ Three durable design docs, each awaiting a **human scope call** (queued in
 ## 4 · Economy re-core: verified (verdict GO)
 
 Reviewed the concurrent koku-worker's plan
-`docs/plans/2026-07-02-koku-economy-t0-build.md` this session. **Verdict: GO.**
+`docs/plans/opus-2026-07-02-koku-economy-t0-build.md` this session. **Verdict: GO.**
 One correction noted: the plan's file map missed `fight.ts` / `enemies.ts` /
 `quests.ts` / `dev.ts` (to be corrected by the worker). **Phase 1** (pure-core
 rename koku→coin + rice + the v4→v5 save migration) is the **next build**.

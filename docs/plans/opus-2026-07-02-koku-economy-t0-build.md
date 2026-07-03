@@ -8,7 +8,7 @@ deferred Plan A DoD item:** refresh `project/status/project-status.md` to the
 coin/rice/standing wording once the code migrates.
 
 **For:** a separate agent to execute after Plan A. **Model:** see
-[`2026-07-02-economy-koku-rediagnosis.md`](2026-07-02-economy-koku-rediagnosis.md)
+[`opus-2026-07-02-economy-koku-rediagnosis.md`](opus-2026-07-02-economy-koku-rediagnosis.md)
 §9–§14 (locked decisions). This plan realises the model in the **T0 slice up to the
 current v0.3.2 milestone** — no new tiers.
 

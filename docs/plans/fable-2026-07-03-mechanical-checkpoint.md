@@ -49,7 +49,7 @@ The process layer never got the same treatment. Live drift, found in the tree
    ("verify = tsc + eslint + prettier + vitest + verify-content + gen:docs
    --check + pacing:check") — a third stale copy of the same fact.
 5. `project/todo-human.md` queue entry for
-   `2026-07-02-koku-economy-t0-build.md` says "**being implemented now by the
+   `opus-2026-07-02-koku-economy-t0-build.md` says "**being implemented now by the
    main session**" while the snapshot's "Where we are now" says the economy
    re-core is "DONE + pushed … audited."
 6. A latent **cry-wolf bug** in `session-brief.sh` (line ~146): it tags a plan

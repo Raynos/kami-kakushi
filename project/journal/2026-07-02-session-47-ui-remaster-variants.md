@@ -11,7 +11,7 @@ English-only UI (romanized terms OK), desktop-first, staged states + live
 verbs on a mock engine, **no placeholder art**. Five directions locked live
 (three human picks with own spin + two repo-rooted originals). Work stages in
 `ui-demos/` — never touches `src/` (another agent's turf). Plan:
-`docs/plans/2026-07-02-ui-remaster-variants.md`.
+`docs/plans/opus-2026-07-02-ui-remaster-variants.md`.
 
 ---
 
@@ -49,7 +49,7 @@ AskUserQuestion:
   the `GameState` shape + all 30 intents, balance constants, formatters,
   the VN/ceremony surfaces, and the visual-language tokens. Distilled into
   the plan's §2 invariants + §5 engine contract.
-- Authored `docs/plans/2026-07-02-ui-remaster-variants.md` — the midpoint
+- Authored `docs/plans/opus-2026-07-02-ui-remaster-variants.md` — the midpoint
   contract, five variant briefs (composition + components + type each),
   the `ui-demos/` staging layout, mock-engine contract, build order
   (shared modules first → five parallel variant-builder agents → main-session

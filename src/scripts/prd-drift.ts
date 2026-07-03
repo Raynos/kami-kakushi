@@ -1,5 +1,5 @@
 // prd-drift — the game→PRD fact-drift REPORT (D-117 Phase 0; plan:
-// docs/plans/2026-07-03-prd-ripple-tooling.md §1).
+// docs/plans/fable-2026-07-03-prd-ripple-tooling.md §1).
 //
 // One-directional by design (game → PRD) so the frontier can never false-fire:
 // an unbuilt T3 beat is SUPPOSED to be absent from the build, but a BUILT
@@ -145,7 +145,7 @@ lines.push(
   driftCount === 0
     ? 'prd-drift: CLEAN — no game→PRD fact drift detected. [OK]'
     : `prd-drift: ${driftCount} drift item(s) — the ripple punch-list above. ` +
-        '(Report-only; ripple per Flow 1 — docs/plans/2026-07-03-prd-ripple-tooling.md.)',
+        '(Report-only; ripple per Flow 1 — docs/plans/fable-2026-07-03-prd-ripple-tooling.md.)',
 );
 console.log(lines.join('\n'));
 if (STRICT && driftCount > 0) process.exit(1);

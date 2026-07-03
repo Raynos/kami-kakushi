@@ -8,7 +8,7 @@ per-NPC memory) ships in the intro VN scene. Live record: the feedback doc
 touched).
 **Cluster:** the story-presentation cluster — playtest **F47** (a better UI for
 talking to an NPC; "think Fallout 4"). Builds directly ON the shipped
-interactive intro (`docs/plans/2026-07-02-interactive-intro-dialogue.md`,
+interactive intro (`docs/plans/opus-2026-07-02-interactive-intro-dialogue.md`,
 IMPLEMENTED) and **D-104** (the full-screen VN scene = the canonical frame for
 story-significant, interactive NPCs).
 **Scope:** REPLACE the linear 3-beat intro flow with a **dialogue-tree** model —

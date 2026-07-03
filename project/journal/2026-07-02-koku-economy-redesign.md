@@ -12,13 +12,13 @@ blast radius and wrote two implementation plans. **No game code changed.**
 - `project/brainstorms/2026-07-02-edo-social-political-research.md` — research pass 2
   (status mobility, giri/on, village collective-liability, patronage/Tanuma,
   factional risk, Tenmei famine) — feeds the T2+ social layer.
-- `docs/plans/2026-07-02-economy-koku-rediagnosis.md` — the 8-part diagnosis +
+- `docs/plans/opus-2026-07-02-economy-koku-rediagnosis.md` — the 8-part diagnosis +
   all locked decisions (§9–§14): tier→koku ladder, coin denominations, T5 office
   track, status tokens, personal stipend T4+.
-- `docs/plans/2026-07-02-koku-ripple-docs.md` — **Plan A** (doc/PRD ripple): from a
+- `docs/plans/opus-2026-07-02-koku-ripple-docs.md` — **Plan A** (doc/PRD ripple): from a
   12-doc audit workflow — 81 contradictions / 16 renames / 70 enrichments, ~12 ADRs
   superseded, three new ADRs D-107/108/109.
-- `docs/plans/2026-07-02-koku-economy-t0-build.md` — **Plan B** (T0 build, gated on
+- `docs/plans/opus-2026-07-02-koku-economy-t0-build.md` — **Plan B** (T0 build, gated on
   Plan A).
 - `project/todo-human.md` — reading-queue entries for the above.
 - Raw audit snapshot: `project/brainstorms/raw/2026-07-02-prd-koku-ripple-audit-*`

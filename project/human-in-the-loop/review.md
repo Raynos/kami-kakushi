@@ -227,7 +227,7 @@ Rung promotions are now **player-triggered VN story beats** (D-110) — each
 narratively motivates the unlocks it grants. The **cast** (three invented faces:
 pedlar Tokubei, Rokusuke, smith Tōzō) and the **R0→R7 beat script** are drafted
 for your read in
-[`docs/plans/2026-07-02-rung-up-story-transitions.md`](../../docs/plans/2026-07-02-rung-up-story-transitions.md)
+[`docs/plans/opus-2026-07-02-rung-up-story-transitions.md`](../../docs/plans/opus-2026-07-02-rung-up-story-transitions.md)
 (§6.6 cast / §7 beats).
 
 - **Asking for:** a taste/read pass on the cast + the per-rung beats — do the
@@ -246,7 +246,7 @@ same verbs/numbers/log, each a generation up in its own direction (the human-loc
 midpoint: never a reskin, never a reinvention). Built on a shared mock engine
 (staged stages + live verbs); each variant passed a Playwright sweep (zero console
 errors, every stage/tab/moment) + an independent screenshot review. Plan:
-[`docs/plans/2026-07-02-ui-remaster-variants.md`](../../docs/plans/2026-07-02-ui-remaster-variants.md).
+[`project/archive/2026-07-02-ui-remaster-variants.md`](../../project/archive/2026-07-02-ui-remaster-variants.md).
 
 - [ ] **01 · Moonlit Menu** — PSX-classic DNA: left menu rail (with per-tab micro
   readouts), night-gradient double-border boxes, crest cursor, gold tabular

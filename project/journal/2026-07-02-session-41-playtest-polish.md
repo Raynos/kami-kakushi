@@ -10,7 +10,7 @@ the settled taste rules **graduated into
 [`ui-design.md`](../../docs/living/ui-design.md)** (new §4.7 app-shell contract +
 §4.8 density). The human then handed off an **autonomous run** ("keep building,
 with variants"); the remaining intro/story + layout features are sequenced in
-[`docs/plans/2026-07-02-playtest-polish-build.md`](../../docs/plans/2026-07-02-playtest-polish-build.md).
+[`docs/plans/opus-2026-07-02-playtest-polish-build.md`](../../docs/plans/opus-2026-07-02-playtest-polish-build.md).
 _This file is HISTORY; live state is
 [`project-status.md`](../status/project-status.md)._
 
@@ -59,7 +59,7 @@ note records the in-flight cluster without asserting unbuilt behavior.
 ## 4 · Autonomous handoff — the remaining clusters
 
 The human stepped away and said keep building with variants; approve/prune later.
-Plan `docs/plans/2026-07-02-playtest-polish-build.md` sequences it: **[done] DEV
+Plan `docs/plans/opus-2026-07-02-playtest-polish-build.md` sequences it: **[done] DEV
 panel restructure → [done] cold-open reveal →** then **F15 story-cascade-after-open
 (folded into the intro cluster — risky alone), F9 filterable log (diverge), F12
 GBA story-typewriter, F13 interactive intro (respond to Sōan — likely an ADR),
