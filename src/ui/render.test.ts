@@ -2186,8 +2186,9 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     document.body.append(root);
   });
 
-  // the home GRANTED (panel-home, R1) + the estate economy open, and combat live so the Inventory
-  // tab is REVEALED (D-119 — the tab staggers to R3/tab-combat, though its belongings content is R1).
+  // the home GRANTED (panel-home) + the estate economy open, and combat live so the Inventory tab is
+  // REVEALED. D-111 timing moved to R3 (human 2026-07-03) — panel-home now gates on tab-combat, the
+  // same R3 surface as its tab, so the home is announced exactly when its tab appears.
   function homeState(extra?: Partial<GameState>): GameState {
     const s = createInitialState(1);
     return {

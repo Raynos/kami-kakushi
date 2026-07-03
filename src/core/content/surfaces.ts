@@ -103,13 +103,15 @@ export const SURFACES: readonly Surface[] = [
   },
   {
     // The player's HOME — "a place here is yours" made real (D-111 / F89). STATE-PREDICATE reveal
-    // keyed to the latched `rank-r1` flag (set once at R1, never cleared) so it back-reveals for any
-    // R1+ save with no migrate(). `rest` re-sites here, the granted mat + bowl become owned, and the
-    // Inventory tab's belongings section opens. The R1 rung beat MOTIVATES it (dialogue.ts:81); this
-    // is the reachable entity that promise owes.
+    // keyed to the latched `tab-combat` surface (R3), so it back-reveals for any R3+ save with no
+    // migrate(). D-111's "home at R1" TIMING was moved to R3 (human, 2026-07-03): the home/belongings
+    // pane renders inside the Inventory tab, which staggers to R3 (D-119) — so announcing the home at
+    // R1 promised a space with no tab to open it for two rungs. Gating on the SAME `tab-combat` the
+    // Inventory tab uses fires the reveal EXACTLY when its tab appears — no dangling promise. `rest`
+    // re-sites here, the granted mat + bowl become owned, and the belongings section opens.
     id: 'panel-home',
     kind: 'panel',
-    unlock: (s) => hasFlag(s, 'rank-r1'),
+    unlock: (s) => s.unlocked.includes('tab-combat'),
     revealLine: narrate(HOME_REVEAL_LINE),
   },
   { id: 'readout-stamina', kind: 'readout', unlock: () => false },

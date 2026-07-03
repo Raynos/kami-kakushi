@@ -62,12 +62,20 @@ function preHome(): GameState {
 const restLineOf = (s: GameState): string =>
   s.log.entries.filter((e) => e.channel === 'system').at(-1)?.text ?? '';
 
-describe('T0-A — the home is GRANTED at R1 (the reveal wiring, not a hand-set fixture)', () => {
-  it('reaching R1 (rank-r1 flag) reveals panel-home + makes the promised mat + bowl real', () => {
+describe('T0-A — the home is GRANTED at R3 (moved from R1; the reveal wiring, not a hand-set fixture)', () => {
+  it('R1 does NOT reveal the home; combat opening (R3, tab-combat) does — with the mat + bowl real', () => {
+    // D-111's "home at R1" timing was moved to R3 (human, 2026-07-03): the home/belongings pane lives
+    // in the Inventory tab, which staggers to R3 (D-119), so the home is announced exactly when its
+    // tab appears — no reveal promising a space with no tab to open. Gated on the SAME `tab-combat`.
     let s = setFlag(createInitialState(1), 'awake', true);
-    expect(isUnlocked(s, 'panel-home')).toBe(false); // no home before R1
+    expect(isUnlocked(s, 'panel-home')).toBe(false); // no home yet
     expect(ownsBelonging(s, 'bowl')).toBe(false);
-    s = revealPass(setFlag(s, 'rank-r1', true)); // the R1 promotion sets rank-r1; finish() reveals
+    // reaching R1 no longer reveals the home — RED against the old `rank-r1` gate.
+    s = revealPass(setFlag(s, 'rank-r1', true));
+    expect(isUnlocked(s, 'panel-home')).toBe(false);
+    expect(ownsBelonging(s, 'bowl')).toBe(false);
+    // combat opening (tab-combat, R3) reveals the home the instant its Inventory tab appears.
+    s = revealPass({ ...s, unlocked: [...s.unlocked, 'tab-combat'] });
     expect(isUnlocked(s, 'panel-home')).toBe(true);
     expect(ownsBelonging(s, 'bowl')).toBe(true); // "a dry corner and a bowl" — cashed
     // the reveal fires "a place here is yours" into the log (dialogue.ts:81 made mechanical).

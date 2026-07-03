@@ -371,9 +371,9 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
     document.body.append(root);
   });
 
-  // the home granted (panel-home, R1) + coin in the purse (so a comfort piece is affordable — the buy
-  // button is live). tab-combat is present so the Inventory tab is REVEALED (D-119 — the tab staggers
-  // to R3, though its belongings content is R1).
+  // the home granted (panel-home) + coin in the purse (so a comfort piece is affordable — the buy
+  // button is live). tab-combat is present so the Inventory tab is REVEALED and the home is granted
+  // (D-111 timing moved to R3, human 2026-07-03 — panel-home now gates on tab-combat, like the tab).
   function homeState(extra?: Partial<GameState>): GameState {
     const base = createInitialState(1);
     return {
