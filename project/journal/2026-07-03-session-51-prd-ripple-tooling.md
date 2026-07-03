@@ -63,6 +63,32 @@ magnitudes are ripple-frozen, so nudging there would push against D-117).
   tree, re-check `git diff --cached --name-only` immediately before EVERY
   commit retry — the index is shared and moves under you.
 
+## 1c · Sweep-guard: pathspec commits enforced (same session, later)
+
+The human asked what hook can stop the co-agent commit-sweep class
+(f84aff9). Key fact: git's index records WHAT is staged, not WHO — no git
+hook can tell an agent's files apart. So two rungs, both landed:
+
+- **PreToolUse guard (the teeth):** `guard-git-add-all.sh` now BLOCKS a
+  bare `git commit` — the canonical form is `git commit -m "…" --
+  path/a path/b` (git `--only` semantics: temp index from HEAD + named
+  paths → co-agents' staged work untouchable by construction). Escapes:
+  `--amend`, merge-in-progress (`.git/MERGE_HEAD`), `SKIP_SWEEPGUARD=1`.
+  Known false-allow: a commit MESSAGE containing ' -- ' (rare; backstopped
+  by the echo). Applies to every agent session via the tracked
+  `.claude/settings.json`.
+- **Staged-set echo (visibility):** `.githooks/pre-commit` prints exactly
+  what THIS commit contains, first thing — a swept file is loud, not
+  silent (would have caught f84aff9). Covers humans + `--amend` too.
+- **Canon:** working-agreements Checkpoint step 1 rewritten to the
+  pathspec-commit form. The fuller structural fix (per-agent worktrees +
+  branches) is top-10 candidate #9 — kills tree-level contention too,
+  which pathspec commits do not.
+
+Tested live (see the commit): a canary file staged alongside a pathspec
+commit stayed OUT of the commit and REMAINED staged; a bare `git commit`
+was blocked by the guard.
+
 ## 2 · Second-wave suggestions: 25 → top 10 (same session, later)
 
 The human asked for a wider ideation pass: 25 process-improvement

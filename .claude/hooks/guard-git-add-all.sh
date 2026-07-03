@@ -24,9 +24,28 @@ This repo is edited by multiple concurrent agents — broad staging sweeps anoth
 agent's in-flight files into your commit. Stage EXPLICIT paths instead:
 
     git add path/to/file1 path/to/file2
-    git commit <paths> -m "..."        # commit only those paths
+    git commit -m "..." -- path/to/file1 path/to/file2
 
-(git add -p, git commit -m, git commit --amend, and explicit-path adds are fine.)
+(git add -p, git commit --amend, and explicit-path adds are fine.)
+EOF
+  exit 2
+}
+
+deny_commit() {
+  cat >&2 <<EOF
+BLOCKED by .claude/hooks/guard-git-add-all.sh: bare 'git commit' (no ' -- <pathspec>')
+
+This repo shares ONE git index across concurrent agents. A bare commit snapshots
+that shared index — sweeping whatever a co-agent staged between your 'git add'
+and now (f84aff9 did exactly this). Commit with an explicit pathspec instead:
+
+    git add path/a path/b          # new files only; edits don't even need it
+    git commit -m "..." -- path/a path/b
+
+The pathspec form commits ONLY those paths (git's --only semantics: a temporary
+index from HEAD + the named paths) and leaves co-agents' staged work untouched.
+Escapes: '--amend' passes; a merge-in-progress passes (git forbids pathspec
+commits mid-merge); SKIP_SWEEPGUARD=1 for a deliberate whole-index commit.
 EOF
   exit 2
 }
@@ -47,6 +66,21 @@ fi
 # git commit -a / -am / --all  (stages all tracked modifications). Allow -m, --amend.
 if printf '%s' "$cmd" | grep -qE "${B}git[[:space:]]+commit[[:space:]]+([^;&|]*[[:space:]])?(--all|-[A-Za-z]*a[A-Za-z]*)([[:space:]]|$)"; then
   deny "git commit -a / -am / --all"
+fi
+
+# git commit WITHOUT an explicit ' -- <pathspec>' — commits the SHARED index, sweeping
+# whatever a co-agent staged between your 'git add' and your commit (bit us: f84aff9,
+# a prettier-fail retry carried 4 of another agent's staged files). Require the
+# canonical pathspec form: git commit -m "..." -- path/a path/b   (--only semantics).
+# Heuristic: presence of a standalone ' -- ' token anywhere in the command; a commit
+# MESSAGE containing ' -- ' can false-allow (rare; the pre-commit staged-set echo is
+# the backstop). Allowed bare: --amend, merge-in-progress, SKIP_SWEEPGUARD=1.
+if printf '%s' "$cmd" | grep -qE "${B}git[[:space:]]+commit([[:space:]]|$)" \
+  && ! printf '%s' "$cmd" | grep -q 'SKIP_SWEEPGUARD=1' \
+  && ! printf '%s' "$cmd" | grep -qE "${B}git[[:space:]]+commit[^;&|]*--amend" \
+  && ! [ -e .git/MERGE_HEAD ] \
+  && ! printf '%s' "$cmd" | grep -qE '[[:space:]]--([[:space:]]|$)'; then
+  deny_commit
 fi
 
 exit 0

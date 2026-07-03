@@ -59,6 +59,12 @@ run_verify() {
   return 0
 }
 
+# --- Staged-set echo (sweep visibility): the index is SHARED across agents — print exactly
+#     what THIS commit will contain, so a swept-in co-agent file is loud, not silent. Under a
+#     pathspec commit (git commit … -- paths) this reflects the temp index = only your paths. ---
+echo "  - staged for THIS commit:" >&2
+git diff --cached --name-only | sed 's/^/      /' >&2
+
 if ! run_verify; then
   echo "" >&2
   echo "  commit blocked by verify (bypass a docs-only commit: SKIP_VERIFY=1 git commit …)" >&2

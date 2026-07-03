@@ -29,7 +29,13 @@ touched an approved design/balance pick, flag + offer to revert (P2).
 
 ## Checkpoint (run when asked to "checkpoint" or before exiting)
 
-1. **Commit** your own files by explicit path (`git add path/…`, never `-A` / `-a`).
+1. **Commit** your own files by explicit **pathspec commit**:
+   `git add path/…` (new files) then `git commit -m … -- path/…` (never `-A`/`-a`).
+   A BARE `git commit` snapshots the SHARED index and sweeps whatever a co-agent
+   staged in the window (f84aff9) — the `--` form commits only your paths (git's
+   `--only` semantics). Guard-enforced (`guard-git-add-all.sh`); the pre-commit
+   hook echoes the staged set as the visibility backstop. `SKIP_SWEEPGUARD=1`
+   for a deliberate whole-index commit.
 2. **Journal** — stage a `journal/` entry (pre-commit requires it).
 3. **Snapshot** — bring [`project-status.md`](project-status.md) current (it, not the journal, is the resume point).
 4. **Reading queue (D-089)** — clear from [`../todo-human.md`](../todo-human.md) only docs the human engaged
