@@ -51,8 +51,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **Philosophy** R1–R6 + **process canon** D-086–089 (tension>generosity · loop
   done-rule · e2e+invariants DoD · implicit queue sign-off).
 - **D-117 frontier PRD + the process wave** — tiers compress at taste
-  sign-off; §4 ripple-frozen. **10 `fable-process-*` plans queued** (picks
-  1/3/5/6/7/8/10; 2/9 rejected). BUILT: `prd:drift` + the sweep-guard.
+  sign-off; §4 ripple-frozen. **Process plans queued, ordered F1–F10 by
+  `docs/plans/fable-process-master-plan.md`**. BUILT: `prd:drift` + sweep-guard.
 
 ## Waiting on the human
 
@@ -64,7 +64,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
 - **Balance-watch** 🔲 — read this session; the 4 items are D-059 feel-calls best
   tuned by **playing** (#2 store-vs-sell already helped by v0.3.5 spoilage+cap). Left
-  as the audit report; the balance-cockpit plan (fable-process-N1) is the tuning aid.
+  as the audit report; the balance-cockpit plan (fable-process-F7) is the tuning aid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
 - **UI-remaster variants** 🔲 (R9, Fable) — **shortlisted 6 → 3** (01 Moonlit ·

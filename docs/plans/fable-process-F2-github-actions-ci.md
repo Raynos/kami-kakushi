@@ -31,7 +31,7 @@ any parity surprise should get a Fable-or-human read before cutover.
      incident briefly made origin/main link-dead while local verify stayed
      green. CI on a clean clone catches exactly that class.
   2. **A rung for slow suites** — the balance-sim plan
-     (`docs/plans/fable-process-S4-balance-sim-gates.md` §5a) names
+     (`docs/plans/fable-process-F4-balance-sim-gates.md` §5a) names
      CI-nightly as `verify:balance`'s first tenant, "if CI ever lands".
   3. **Prod build + DEV-strip grep on every push** — today that gate runs
      only at deploy time (`src/scripts/gh-pages.sh` step 1b).
@@ -216,7 +216,7 @@ that catches what the shared dirty worktree hides. No PR gates until PRs
 exist.
 
 **Deploy composition (stub only — NOT owned here).** The sibling /ship
-release-skill plan (`docs/plans/fable-process-N10-ship-skill.md`) owns
+release-skill plan (`docs/plans/fable-process-F9-ship-skill.md`) owns
 deploy. Hook points left for it: `verify.yml` has `workflow_dispatch`; Ph2
 extracts the strip gate into `src/scripts/verify-dev-strip.sh` so
 gh-pages.sh, CI, and a future `deploy.yml` (building from clean HEAD) all

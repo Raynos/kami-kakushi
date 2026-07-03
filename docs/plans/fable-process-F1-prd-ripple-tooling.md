@@ -93,8 +93,10 @@ promotion pattern).
 
 The splicer module (`src/scripts/gen-regions.ts`: fenced
 `<!-- gen:begin/end -->` markers, byte-idempotent write + `--check`) is
-**shared infrastructure** — the mechanical-checkpoint plan's Phase 1 names
-the same module; whichever plan builds first owns it, the other imports it.
+**shared infrastructure** — built ONCE by the mechanical-checkpoint plan's
+Phase 1 (the shared **F1 build lane**: one builder, checkpoint first, then
+this plan's remainder — `fable-process-master-plan.md` merge #1); this
+plan's Ph2 **imports it, never re-writes it**.
 
 **Deliberately pilot-scale before R1 closes:** D-117 says compressed canon
 is human-signed, so bulk transclusion waits for the sweep. Ph2 lands ONE
@@ -156,8 +158,9 @@ canon, so the human sees it.
    spec-altitude set. *Default:* the two-tier split above; moving a
    registry between tiers is a one-line, reviewable edit.
 3. **Module ownership collision** with the mechanical-checkpoint plan.
-   *Default:* first-lander owns `gen-regions.ts`; the second plan's build
-   starts by importing, not re-writing (noted in both plans' queues).
+   *Resolved (`fable-process-master-plan.md` merge #1, 2026-07-03):* the
+   checkpoint plan builds `gen-regions.ts` first in the shared F1 lane;
+   this plan's Ph2 imports it, never re-writes it.
 4. **Does the pilot region pre-empt the human-signed sweep?** *Default:*
    no — one region of already-shipped names, filed as a queued diff; bulk
    transclusion explicitly waits for `/prd-compress` + R1.

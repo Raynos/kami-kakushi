@@ -279,8 +279,11 @@ All edits are ordinary forward commits; nothing is rewritten in git history.
 
 ## 5 · Phased steps (each independently committable, verify-green)
 
-**Phase 1 — core script + regions.** `gates.ts` extraction; `checkpoint.ts`
-with region splicing, status-token parser, `--check`; npm scripts
+**Phase 1 — core script + regions.** `gates.ts` extraction; the region
+splicer lands as the shared `src/scripts/gen-regions.ts` module (the
+PRD-ripple plan's Ph2 imports it — same F1 build lane, one builder;
+`fable-process-master-plan.md` merge #1); `checkpoint.ts`
+consuming it, status-token parser, `--check`; npm scripts
 `checkpoint` / `checkpoint:check`; marker migration (§4.1–4.3); vitest
 coverage for splicing (markers preserved-outside, idempotent, missing-marker
 error) and token parsing.

@@ -11,10 +11,10 @@ surface.
 (`src/persistence/codec.ts`, `migrate.ts`, `validate.ts`) · the F96
 backup/restore slot (`saveManager.ts`) · `focusedOptimalIntent`
 (`src/core/autoplay.ts`) and the t0-arc drive pattern · the balance
-cockpit plan (`fable-process-N1-balance-cockpit.md` — consumes fixtures
-as known tuning start-states) · `fable-process-S4-balance-sim-gates.md`
+cockpit plan (`fable-process-F7-balance-cockpit.md` — consumes fixtures
+as known tuning start-states) · `fable-process-F4-balance-sim-gates.md`
 (persona bots — a future generator upgrade) ·
-`fable-process-S2-playtest-capture-inbox.md` (captures can GRADUATE to
+`fable-process-F3-playtest-capture-inbox.md` (captures can GRADUATE to
 fixtures, §2.6) · `qa-playtesting.md`.
 
 ## Who builds this — Fable or Opus?
@@ -269,16 +269,16 @@ trusting it (R2).
 
 ### 2.6 Sibling-plan wiring (cross-reference, don't duplicate)
 
-- **Balance cockpit (`fable-process-N1-balance-cockpit.md`):** fixtures
+- **Balance cockpit (`fable-process-F7-balance-cockpit.md`):** fixtures
   ARE its known start-states — it should load them via
   `__qa.loadFixture` / `?fixture=`, never grow a second snapshot
   mechanism.
-- **Balance-sim gates (`fable-process-S4-balance-sim-gates.md`):** when
+- **Balance-sim gates (`fable-process-F4-balance-sim-gates.md`):** when
   `src/sim/personas.ts` lands, a spec's `play` can be built from a
   persona policy instead of `focusedOptimalIntent` (e.g. an
   `idler-day-30` fixture). The spec model above needs no change —
   `play` is just a function.
-- **Playtest capture inbox (`fable-process-S2-playtest-capture-inbox.md`)
+- **Playtest capture inbox (`fable-process-F3-playtest-capture-inbox.md`)
   — the graduation flow:** a drained capture whose moment keeps being
   useful graduates to a fixture by writing a SPEC that reproduces the
   property (policy + stop condition + expects), then `fixtures:regen` —

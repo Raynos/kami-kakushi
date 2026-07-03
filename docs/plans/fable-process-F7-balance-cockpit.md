@@ -30,7 +30,7 @@ repeat. The cockpit collapses that to: drag a slider mid-run, feel it
 immediately, export the touched keys as a committable artifact. A
 ~10-minute session replaces an afternoon, and the output composes
 directly with the sim-gates plan's re-verify flow
-(`docs/plans/fable-process-S4-balance-sim-gates.md` §5b: a balance
+(`docs/plans/fable-process-F4-balance-sim-gates.md` §5b: a balance
 VALUE change stales the report fingerprint — the exported diff is
 exactly the event that flow is built to catch).
 
@@ -46,7 +46,7 @@ exactly the event that flow is built to catch).
   threading, the `import.meta.env.DEV` fold that makes stripping work.
 - `src/scripts/gh-pages.sh` step 1b — the marker-grep deploy gate
   (`__qa`, `__KAMI_DEV_PANEL__`) to extend.
-- `docs/plans/fable-process-S2-playtest-capture-inbox.md` §2.4 — the
+- `docs/plans/fable-process-F3-playtest-capture-inbox.md` §2.4 — the
   Vite dev-middleware POST transport + `project/playtest-inbox/`
   lifecycle the export rides.
 - `src/core/selectors.ts` + `src/core/pillars.ts` + `npm run pacing` —
@@ -282,11 +282,10 @@ reproduce the session.
 
 **Primary:** POST to the playtest-inbox dev-middleware, landing
 `project/playtest-inbox/<ISO-stamp>-balance-tune.md`. Compose, don't
-collide: if the inbox plan has landed, reuse its endpoint + hardening
-verbatim (same dir-jail, filename allowlist, size cap); if the cockpit
-lands first, ship the same handler-module shape
-(`apply: 'serve'` inline plugin in `vite.config.ts`, node-testable
-handler) under `/__balance-export` so the inbox plan converges onto it.
+collide — **ordering resolved (`fable-process-master-plan.md` merge #2):
+the capture-inbox plan (F3) builds BEFORE this plan and owns the
+transport.** This plan reuses its endpoint + hardening verbatim (same
+dir-jail, filename allowlist, size cap) and ships NO handler of its own.
 One inbox dir, one drain loop, one lifecycle (intake-commit → process →
 delete-with-the-commit).
 
@@ -439,9 +438,10 @@ green; plan archived.
    *Default:* v1 scopes to `balance.ts` (the deliverable diff stays
    one-file + the known `ranks.ts` mirror); a v2 "content levers"
    group is parked as an H-item once the v1 loop proves itself.
-6. **Transport ordering vs the inbox plan.** *Default:* whichever lands
-   first ships the shared handler-module shape (§6b); the second plan
-   reuses it. No coupling in either plan's DoD.
+6. **Transport ordering vs the inbox plan.** *Resolved
+   (`fable-process-master-plan.md` merge #2, 2026-07-03):* the inbox
+   plan (F3) builds first and owns the transport; this plan reuses it
+   (§6b) and ships no handler.
 7. **Slider ranges as accidental canon** (a human reads ×¼–×4 as the
    sanctioned space). *Default:* ranges are cockpit metadata with a
    panel footnote ("bounds are UI, not canon"); the numeric input

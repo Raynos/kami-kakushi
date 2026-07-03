@@ -66,32 +66,57 @@ _(The **UI-remaster variants** — the six live demos + their plan — are track
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**
 
-- [ ] `docs/plans/fable-process-S1-mechanical-checkpoint.md` — **the mechanical
+- [ ] `docs/plans/fable-process-master-plan.md` — **the process-wave MASTER
+  PLAN** (read this one first): the build order F1–F10 + merge map — why F1
+  builds alone, why CI is early, the serialized DEV-tooling lane
+  F3→F6→F7→F8, the hot-file trampling map, the two race clauses resolved,
+  and the S/N → F rename map. All entries below are renamed + reordered to
+  match it.
+- [ ] `docs/plans/fable-process-F1-mechanical-checkpoint.md` — **the mechanical
   checkpoint** (retro suggestion #1): generate the process layer's derivable
   sections (gate roster, active-plans list, plan-status tokens, queue paths)
   via a `checkpoint.ts` + a 13th verify gate. Found live drift as receipts:
   the gate-count sentence says 11 (there are 12), `docs/plans/README.md`
   claims "no active plans", and session-brief mis-tags LOCKED plans as DONE.
-- [ ] `docs/plans/fable-process-S2-playtest-capture-inbox.md` — **playtest capture
-  inbox** (suggestion #2): backquote-hotkey in-game note box → Vite
-  dev-middleware → `project/playtest-inbox/` → a `/drain-inbox` skill. Your
-  synchronous feedback typing becomes async play-and-dump; repro via
-  state+seed+variants, no screenshots needed.
-- [ ] `docs/plans/fable-process-S4-balance-sim-gates.md` — **persona-bot balance
-  sim** (suggestion #4): greedy/idler/explorer bots over the real reducers,
-  pacing envelopes derived from `balance.ts`, on-demand `verify:balance` + a
-  generated pacing report whose diff rides every balance change.
+- [ ] `docs/plans/fable-process-F1-prd-ripple-tooling.md` — **PRD ripple tooling**
+  (D-117 Phase 0, the buildable-NOW slice you asked for; shares the F1 build
+  lane with the checkpoint plan): a `prd:drift` reporter (game registries →
+  PRD punch-list; retired-terms tripwire), one pilot gen-region (§3 T0 rung
+  names, drift-PROOF), and two skills — `/prd-ripple` (Flow 1 routing per
+  change) + `/prd-compress` (dormant until R1 closes; the sweep itself stays
+  Fable + human-signed).
 - [ ] `project/brainstorms/2026-07-03-prd-on-a-diet.md` — **the PRD-diet
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
   compressed territory; §6 folded into the T0 sweep).
-- [ ] `docs/plans/fable-process-S5-prd-ripple-tooling.md` — **PRD ripple tooling**
-  (D-117 Phase 0, the buildable-NOW slice you asked for): a `prd:drift`
-  reporter (game registries → PRD punch-list; retired-terms tripwire), one
-  pilot gen-region (§3 T0 rung names, drift-PROOF), and two skills —
-  `/prd-ripple` (Flow 1 routing per change) + `/prd-compress` (dormant
-  until R1 closes; the sweep itself stays Fable + human-signed).
-- [ ] `docs/plans/fable-process-N1-balance-cockpit.md` — **the balance-tuning
+- [ ] `docs/plans/fable-process-F2-github-actions-ci.md` — **GitHub Actions
+  CI** (top10 #3, your spec): two parallel jobs (verify + build/strip) ≈
+  1.5 min wall vs the 5-min target — setup dominates, so a 6-way split
+  would fork the gate roster into YAML for nothing; nightly stub for the
+  slow suites; **web-grounded oxlint/oxfmt verdicts**: two-tier lint (oxlint
+  can't express the `new Date()` core ban), oxfmt only behind a zero-diff
+  parity proof.
+- [ ] `docs/plans/fable-process-F3-playtest-capture-inbox.md` — **playtest capture
+  inbox** (suggestion #2): backquote-hotkey in-game note box → Vite
+  dev-middleware → `project/playtest-inbox/` → a `/drain-inbox` skill. Your
+  synchronous feedback typing becomes async play-and-dump; repro via
+  state+seed+variants, no screenshots needed. Owns the transport F7/F8 reuse.
+- [ ] `docs/plans/fable-process-F4-balance-sim-gates.md` — **persona-bot balance
+  sim** (suggestion #4): greedy/idler/explorer bots over the real reducers,
+  pacing envelopes derived from `balance.ts`, on-demand `verify:balance` + a
+  generated pacing report whose diff rides every balance change.
+- [ ] `docs/plans/fable-process-F5-narrative-format.md` — **narrative
+  authoring format** (top10 #8): story as structured markdown (worked
+  example: the REAL R3 Kihei beat, round-trip faithful), compiler emits the
+  typed registries, 12 referential-integrity validations, byte-preserving
+  migration proof. Bonus finding: R7 speaks Shigemasa in 'official' voice
+  while canon says 'lord' — exactly what the validator would catch.
+- [ ] `docs/plans/fable-process-F6-scenario-saves.md` — **scenario save
+  library** (top10 #5): six generated fixture saves (pre-wolf, rung-beat,
+  post-loss, worn-weapon, pre-ascension, wealthy-idler) — one-click load
+  from a DEV "Scenarios" tab / `?fixture=`, byte-stable regen, your real
+  run auto-backed-up before every load.
+- [ ] `docs/plans/fable-process-F7-balance-cockpit.md` — **the balance-tuning
   cockpit** (top10 #1, your 5/5 pick): a DEV-panel Balance tab of live
   sliders over the curated `balance.ts` levers (the 4 balance-watch items
   first), URL-persisted overrides that NEVER touch saves, live ETA readouts
@@ -99,40 +124,22 @@ _(The **UI-remaster variants** — the six live demos + their plan — are track
   a reviewed commit. Grounded: live-binding override mechanism verified
   against real access patterns; one frozen constant (`AUTO_REPEAT_MS`)
   excluded.
-- [ ] `docs/plans/fable-process-N10-ship-skill.md` — **the `/ship` release
+- [ ] `docs/plans/fable-process-F8-play-telemetry.md` — **real-play
+  telemetry** (top10 #6): your attended-time spec as a pure, unit-proven
+  sessionizer — the 5/20/5 case is a named test asserting exactly 10 min;
+  grounded finding: hidden pauses the sim but **blur does not**, so the
+  report shows ticks vs attended side by side.
+- [ ] `docs/plans/fable-process-F9-ship-skill.md` — **the `/ship` release
   skill** (top10 #10): one human-invoked command for the whole train — bump
   → CHANGELOG → verify → **isolated temp-worktree build of HEAD** (never
   ships co-agents' WIP) → deploy → **live-site version PROOF** (fetches the
   deployed bundle, requires the new version + build SHA) → record. Found 4
   real gaps in today's deploy path, incl. dirty-tree builds and a
   silently-stranded gh-pages commit.
-- [ ] `docs/plans/fable-process-N7-taste-bar-enforcement.md` — **taste-bar
+- [ ] `docs/plans/fable-process-F10-taste-bar-enforcement.md` — **taste-bar
   enforcement PLACEHOLDER** (top10 #7): deliberately thin — the mechanism
   sketch (per-surface self-scorecards attached to R-items) parked until you
   lock `taste.md` with the other session; redone in full then.
-- [ ] `docs/plans/fable-process-N3-github-actions-ci.md` — **GitHub Actions
-  CI** (top10 #3, your spec): two parallel jobs (verify + build/strip) ≈
-  1.5 min wall vs the 5-min target — setup dominates, so a 6-way split
-  would fork the gate roster into YAML for nothing; nightly stub for the
-  slow suites; **web-grounded oxlint/oxfmt verdicts**: two-tier lint (oxlint
-  can't express the `new Date()` core ban), oxfmt only behind a zero-diff
-  parity proof.
-- [ ] `docs/plans/fable-process-N5-scenario-saves.md` — **scenario save
-  library** (top10 #5): six generated fixture saves (pre-wolf, rung-beat,
-  post-loss, worn-weapon, pre-ascension, wealthy-idler) — one-click load
-  from a DEV "Scenarios" tab / `?fixture=`, byte-stable regen, your real
-  run auto-backed-up before every load.
-- [ ] `docs/plans/fable-process-N6-play-telemetry.md` — **real-play
-  telemetry** (top10 #6): your attended-time spec as a pure, unit-proven
-  sessionizer — the 5/20/5 case is a named test asserting exactly 10 min;
-  grounded finding: hidden pauses the sim but **blur does not**, so the
-  report shows ticks vs attended side by side.
-- [ ] `docs/plans/fable-process-N8-narrative-format.md` — **narrative
-  authoring format** (top10 #8): story as structured markdown (worked
-  example: the REAL R3 Kihei beat, round-trip faithful), compiler emits the
-  typed registries, 12 referential-integrity validations, byte-preserving
-  migration proof. Bonus finding: R7 speaks Shigemasa in 'official' voice
-  while canon says 'lord' — exactly what the validator would catch.
 
 _(All the 2026-07-02 T0-build plans + both 2026-07-03 v0.3.5 plans (build +
 cleanup-docs) + the R7-capstone design plan are **BUILT/DONE and archived to

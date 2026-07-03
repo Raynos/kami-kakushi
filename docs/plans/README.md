@@ -13,10 +13,14 @@ steps awaiting or under execution. This directory holds **active plans only**.
   records), NOT who should build the plan (that's the "Who builds this"
   section inside). A pre-commit WARN nags an unprefixed new plan.
   `<series>` is the date by default; a named wave may replace it — e.g. the
-  2026-07-03 process mega-session uses `process-S{n}` (the original retro
-  suggestions 1–5) and `process-N{n}` (the top-10 numbers), giving
-  `fable-process-N1-balance-cockpit.md`. `S`/`N` were chosen because
-  `R`/`H`/`D`/`F`/`A` already number reviews/decisions/feedback/rules here.
+  2026-07-03 process mega-session's plans are `process-F{n}`, where `n` is
+  the **build-order rank** from
+  [`fable-process-master-plan.md`](fable-process-master-plan.md) (human
+  call, 2026-07-03 — renamed from the original `S{n}`/`N{n}` retro
+  numbering; the master plan carries the rename map, and old names survive
+  in journals/brainstorms as history). This `F` is the wave's rank letter,
+  not a feedback item — context disambiguates. Two plans share `F1`: one
+  merged build lane, two review surfaces.
 - **When a plan is done, archive it** — `git mv` it to
   [`../../project/archive/`](../../project/archive) the moment its Status line
   reads ✅ done, so this directory never accumulates finished plans and its file

@@ -6,9 +6,9 @@
 localStorage telemetry ring · the per-rung attended-time report · the
 DEV-panel Telemetry section · the strip-gate extension for the new surface.
 **Composes with (does NOT own):** the balance-sim pacing report
-(`docs/plans/fable-process-S4-balance-sim-gates.md` — the bot side of the
+(`docs/plans/fable-process-F4-balance-sim-gates.md` — the bot side of the
 triangulation) · the playtest capture inbox
-(`docs/plans/fable-process-S2-playtest-capture-inbox.md` — **UNBUILT**; Ph4
+(`docs/plans/fable-process-F3-playtest-capture-inbox.md` — **UNBUILT**; Ph4
 adapter only) · `pacing-report.ts`'s wall-minutes model · the D-075 DEV panel
 (`src/ui/dev.ts`) · the `gh-pages.sh` strip gate.
 
