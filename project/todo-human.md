@@ -100,6 +100,12 @@
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
   compressed territory; §6 folded into the T0 sweep).
+- [ ] `docs/plans/2026-07-03-prd-ripple-tooling.md` — **PRD ripple tooling**
+  (D-117 Phase 0, the buildable-NOW slice you asked for): a `prd:drift`
+  reporter (game registries → PRD punch-list; retired-terms tripwire), one
+  pilot gen-region (§3 T0 rung names, drift-PROOF), and two skills —
+  `/prd-ripple` (Flow 1 routing per change) + `/prd-compress` (dormant
+  until R1 closes; the sweep itself stays Fable + human-signed).
 
 _(The economy, deep-housing, and 6-tab-IA build plans are now IMPLEMENTED + shipped —
 their owed bits live as R-items in `human-in-the-loop/review.md` [R6 home-panel diverge,
