@@ -253,6 +253,15 @@ errors, every stage/tab/moment) + an independent screenshot review. Plan:
 refinement round, not a blend; just the field cut. 02 Candlelit, 03 Vermillion,
 05 Aizome are out of contention.
 
+**iOS-Safari ranking (human, 2026-07-03)** — a **mobile-specific** axis (scored
+only on iOS Safari; full note:
+[`project/human-feedback/2026-07-03-ui-remaster-ios-safari-ranking.md`](../human-feedback/2026-07-03-ui-remaster-ios-safari-ranking.md)):
+**01 Moonlit 4/5**, **04 Lacquer 4/5**, **03 Vermillion 3/5**, **06 Washi 3/5**
+(02 Candlelit, 05 Aizome unranked). Vermillion — desktop-cut — **re-enters on
+mobile** at 3/5 for its **chat-log one-line → full-screen expand**; Washi's 3/5
+is for the same interaction. Signal: that collapsed-log gesture is a real mobile
+win worth carrying into UI-v2 regardless of which visual direction wins.
+
 - [ ] ⭐ **01 · Moonlit Menu** — PSX-classic DNA: left menu rail (with per-tab micro
   readouts), night-gradient double-border boxes, crest cursor, gold tabular
   numerals, dialogue-box log, vignette ceremony.
