@@ -211,19 +211,23 @@ humble** — each unlocks:
 | **Ambitious** | "The Contest of Heirs" | a fine dueling blade *(weapon)* | **Naoyuki**'s early rival-debut (at R7, B1-only) + repeatable **spars** + a **Naoyuki-regard micro-faction** |
 | **Humble** | "The Late Student" | **Tōsai's chisel** *(craft-tool, not a weapon)* | the master **Tōsai** + a **workshop** node + a **craft activity/skill** whose levels unlock **2–3 recipes** |
 
-**The full 9-option diverge board + the human's ratings** (necessary context — a
-future designer copies this shape). Nine options were generated (three per answer);
-the human rated and chose the top of each path:
+**The full 3×3 diverge board (the pattern is best illustrated by the nine
+examples — study these when designing a T1–T5 capstone).** Three options were
+generated per answer; the human rated each `n/5` and chose the top of each path
+(**✅**). Read across the **"X"** (the unlock type) and **⏱** (scope): they range
+across the whole palette — skill-grind · enemy · shop · spar+faction · lair ·
+activity+perk · recipes · micro-faction — and from a 5-min errand to hours of
+RS-style grind. **That range is the point** (options need not be equal).
 
-| Devoted | Ambitious | Humble |
+| **Devoted** — *house before self* | **Ambitious** — *make a name* | **Humble** — *the work* |
 |---|---|---|
-| A1 Red Ledger (Accounting skill) — 3/5 | B1 **Contest of Heirs — 4/5 ✅** | C1 Teach What You Know (drill grind) — 3/5 |
-| A2 **Buried Shame — 4/5 ✅** | B2 Sponsor's Price (luxury shop) — 2/5 | C2 **Late Student — 3/5 ✅** |
-| A3 Confidential Errand (quartermaster shop) — 4/5 | B3 A Name of Your Own (farmable lair) — 3/5 | C3 Hands Remember (servants' faction) — 3/5 |
+| **A1 · "The Red Ledger"** (3/5) — *item:* abacus-charm · *X:* an **Accounting skill** at a counting-house node (grindable xp + perks) · ⏱ **hours** | **B1 · "The Contest of Heirs" ✅** (4/5) — *item:* a fine dueling blade · *X:* Naoyuki's rival-debut + repeatable **spars** + a **Naoyuki-regard micro-faction** · ⏱ **hours** | **C1 · "Teach What You Know"** (3/5) — *item:* a paired training-staff · *X:* a repeatable **drill-yard activity** + a "teacher" XP perk · ⏱ **med–hrs** |
+| **A2 · "The House's Buried Shame" ✅** (4/5) — *item:* Sadamune's heirloom blade · *X:* a repeatable **enemy** (the enforcer Kumagorō) in a new **hideout** · ⏱ **med** | **B2 · "A Sponsor's Price"** (2/5) — *item:* the patron's blade · *X:* a **luxury / rare-goods shop** · ⏱ **med** | **C2 · "The Late Student" ✅** (3/5) — *item:* Tōsai's chisel *(craft-tool)* · *X:* a **craft activity/skill** whose levels unlock **2–3 recipes** · ⏱ **med** |
+| **A3 · "The Confidential Errand"** (4/5) — *item:* the Kurosawa-crest haori · *X:* a **quartermaster shop** + a trusted-discount perk · ⏱ **light** | **B3 · "A Name of Your Own"** (3/5) — *item:* a trophy charm · *X:* a farmable **named-beast lair** + a valley-rep perk · ⏱ **hours** | **C3 · "The Hands Remember"** (3/5) — *item:* a folk charm · *X:* a **servants' micro-faction** + minor labour perks · ⏱ **light–med** |
 
-Full option text + the resolved detail: the design plan
-([`opus-2026-07-03-r7-capstone-branch-design.md`](../../plans/opus-2026-07-03-r7-capstone-branch-design.md))
-and the brainstorm. **ADR: D-125.**
+Resolved build detail for the three chosen: the design plan
+([`opus-2026-07-03-r7-capstone-branch-design.md`](../../plans/opus-2026-07-03-r7-capstone-branch-design.md));
+the full option prose: the brainstorm. **ADR: D-125.**
 
 ---
 
