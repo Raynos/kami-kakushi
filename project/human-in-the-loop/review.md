@@ -248,7 +248,12 @@ midpoint: never a reskin, never a reinvention). Built on a shared mock engine
 errors, every stage/tab/moment) + an independent screenshot review. Plan:
 [`project/archive/2026-07-02-ui-remaster-variants.md`](../../project/archive/2026-07-02-ui-remaster-variants.md).
 
-- [ ] **01 · Moonlit Menu** — PSX-classic DNA: left menu rail (with per-tab micro
+**Human shortlist (2026-07-03):** narrowed 6 → **3 candidates — 01 Moonlit,
+04 Lacquer, 06 Washi** (⭐ below). No next step chosen yet — not a winner, not a
+refinement round, not a blend; just the field cut. 02 Candlelit, 03 Vermillion,
+05 Aizome are out of contention.
+
+- [ ] ⭐ **01 · Moonlit Menu** — PSX-classic DNA: left menu rail (with per-tab micro
   readouts), night-gradient double-border boxes, crest cursor, gold tabular
   numerals, dialogue-box log, vignette ceremony.
 - [ ] **02 · Candlelit Ledger** — storybook DNA: an open journal on a candlelit
@@ -256,13 +261,13 @@ errors, every stage/tab/moment) + an independent screenshot review. Plan:
   the right-hand page, illuminated-page ceremony.
 - [ ] **03 · Vermillion** — modern-indie DNA: chunky icon rail, clipped-corner
   cards, bold feed log, juicy press states, black-slam ceremony. The loudest.
-- [ ] **04 · Lacquer & Gold** — the direct remaster (conservative anchor): today's
+- [ ] ⭐ **04 · Lacquer & Gold** — the direct remaster (conservative anchor): today's
   exact composition in urushi black + gold keylines + vermillion seal CTAs +
   paper log well. "Same screen, premium dark edition."
 - [ ] **05 · Aizome** — indigo textile: log center-stage, sashiko stitch-line
   seams/meters, cloth-tag tabs, embroidered-crest ceremony. The most
   structurally adventurous of the five.
-- [ ] **06 · Washi & Ink** — the **faithful baseline** (human-requested):
+- [ ] ⭐ **06 · Washi & Ink** — the **faithful baseline** (human-requested):
   the current v0.3.5 woodblock/paper language kept exactly — same tokens,
   fonts, composition — with every component/interaction UX-polished
   (uniform states, spacing rhythm, held seal ceremony, ledger market).
