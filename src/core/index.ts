@@ -133,9 +133,11 @@ export {
   BELONGING_IDS,
   getBelonging,
   comfortBonus,
+  homeHasCookLocus,
   homeSetComplete,
   SETTLED_HOME_SET,
   SETTLED_HOME_REST_BONUS,
+  CHEST_STORAGE_CAPACITY,
   HOME_TIERS,
   HOME_SURFACE,
   HOME_REVEAL_LINE,
@@ -226,6 +228,8 @@ export {
   ownedBelongings,
   homeRestBonus,
   homeSatietyBonus,
+  homeStorageBonus,
+  homeHasCook,
 } from './selectors';
 export type { LabourOption } from './selectors';
 export { PEOPLE, PEOPLE_IDS, getPerson } from './content/people';

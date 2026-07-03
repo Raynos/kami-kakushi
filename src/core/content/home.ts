@@ -30,16 +30,22 @@ import type { RankId } from './ranks';
 export const HOME_SURFACE = 'panel-home';
 
 /** The COMFORT channels a belonging can grant. A CLOSED, prestige-only set — NEVER a combat stat
- *  (the D-111 guard; the invariant test pins it). Both route through an EXISTING pure-core system so
- *  the bonus is real and felt, not a dead number. */
+ *  (the D-111 guard; the invariant test pins it). Each routes through an EXISTING pure-core system so
+ *  the bonus is real and felt, not a dead number. D-120 widened it to include `storage` (the chest's
+ *  belongings capacity) — NOT a morale register (that whole system was declined). */
 export type ComfortKind =
   | 'rest' // adds to the satiety a `rest` restores (bedding) — you wake mended, not merely rested
-  | 'body'; // adds to satietyMax (hearth/chest) — a warm, dry corner keeps more of your reserve
+  | 'body' // adds to satietyMax — a warm, dry corner keeps more of your reserve (no T0 piece uses it now)
+  | 'storage'; // belongings CAPACITY (the chest, D-120) — a dry buffer for what's yours; never a stat
 
 export interface ComfortBonus {
   readonly kind: ComfortKind;
   readonly amount: number;
 }
+
+/** The chest's belongings STORAGE capacity (D-120) — a modest, legible buffer for what's yours. In
+ *  T0 it is a shown prestige capacity (a seam for a T1+ overflow model); LIQUID (D-059). */
+export const CHEST_STORAGE_CAPACITY = 6;
 
 export interface BelongingDef {
   readonly id: string;
@@ -47,9 +53,14 @@ export interface BelongingDef {
   readonly kanji: string;
   /** Inked home detail (woodblock/ink, D-018) — reads as a possession, not a bare menu row. */
   readonly blurb: string;
-  /** `null` ⇒ a flavour KEEPSAKE (the mat, the bowl) — the emotional anchor, no mechanic. A
-   *  `ComfortBonus` ⇒ comfort FURNITURE (bedding / hearth / chest). */
+  /** `null` ⇒ a flavour KEEPSAKE (the mat, the bowl) OR a diegetic piece whose value isn't a stat
+   *  (the hearth, whose worth is that you COOK at it — see `homesCook`). A `ComfortBonus` ⇒ comfort
+   *  FURNITURE with a real bonus (bedding rest / chest storage). */
   readonly comfort: ComfortBonus | null;
+  /** D-120 — the hearth HOMES the cook verb (you boil your meals here), so its worth is diegetic, not
+   *  a satiety stat. The renderer surfaces a cook affordance in the home when a `homesCook` piece is
+   *  owned; the reducer's core `cook_meal` stays reachable elsewhere too (see intents.ts). */
+  readonly homesCook?: boolean;
   /** How you come to own it. `granted` arrives WITH the home (auto-owned once the corner exists —
    *  the promised mat + bowl); `buy` is a personal-COIN purchase, owned once (you have it or you
    *  don't — no stacking). */
@@ -94,26 +105,32 @@ export const BELONGINGS: readonly BelongingDef[] = [
       'You lay a quilted futon over the straw in your corner. The nights come easier now.',
   },
   {
+    // D-120 — the hearth HOMES the cook verb (you boil your meals here). Its worth is diegetic —
+    // where cooking happens — NOT the old flat +12 satietyMax stat (comfort: null, homesCook: true).
     id: 'hearth',
     label: 'A sunken hearth',
     kanji: '囲炉裏',
     blurb:
-      'A small irori cut into the floor — warmth against the damp of a cold spring, and a place to boil water.',
-    comfort: { kind: 'body', amount: 12 },
+      'A small irori cut into the floor — a place to hang a pot and boil the wild greens into a hot meal, warm against the damp of a cold spring.',
+    comfort: null,
+    homesCook: true,
     source: { kind: 'buy', coinCost: 120 },
     acquireLine:
-      'You cut a small irori into the corner floor. Its warmth keeps the cold out of your bones.',
+      'You cut a small irori into the corner floor. Now you have a place to cook a proper meal.',
   },
   {
+    // D-120 — the chest is REAL STORAGE (a modest belongings buffer), NOT the old +5 satiety stat.
+    // `storage` capacity is a prestige register (a dry place for what's yours), never a combat/satiety
+    // stat — and deliberately holds BELONGINGS, not rice/goods, so it stays clear of the kura economy.
     id: 'chest',
     label: 'A clothes chest',
     kanji: '長持',
     blurb:
-      'A long nagamochi chest for a spare robe and what little else is yours — a dry place for your things.',
-    comfort: { kind: 'body', amount: 5 },
+      'A long nagamochi chest for a spare robe and what little else is yours — a dry, safe place to keep your belongings.',
+    comfort: { kind: 'storage', amount: CHEST_STORAGE_CAPACITY },
     source: { kind: 'buy', coinCost: 90 },
     acquireLine:
-      'You set a nagamochi chest against the wall. Your few belongings keep dry and to hand.',
+      'You set a nagamochi chest against the wall. Your few belongings keep dry, safe, and to hand.',
   },
 ];
 
@@ -149,6 +166,13 @@ export function comfortBonus(owned: ReadonlySet<string>, kind: ComfortKind): num
   }
   if (kind === 'rest' && homeSetComplete(owned)) total += SETTLED_HOME_REST_BONUS; // synergy > sum
   return total;
+}
+
+/** D-120 — do you own a piece that HOMES the cook verb (the hearth)? PURE over the id set, so the
+ *  renderer's cook-at-the-hearth affordance and any future core gate read the SAME truth (A6). */
+export function homeHasCookLocus(owned: ReadonlySet<string>): boolean {
+  for (const def of BELONGINGS) if (def.homesCook && owned.has(def.id)) return true;
+  return false;
 }
 
 export interface HomeTierDef {

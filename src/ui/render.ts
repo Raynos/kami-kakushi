@@ -80,6 +80,8 @@ import {
   ownedBelongings,
   homeRestBonus,
   homeSatietyBonus,
+  homeStorageBonus,
+  homeHasCook,
   homeSetComplete,
   ownedBelongingIds,
   HOME_TIERS,
@@ -813,6 +815,9 @@ export function mount(
     ownedHead: HTMLElement;
     ownedList: HTMLElement;
     comfort: HTMLElement;
+    // D-120 — the hearth homes the cook verb: a cook affordance surfaced in the home when owned.
+    cookRow: HTMLElement;
+    cookBtn: HTMLButtonElement;
     acquireHead: HTMLElement;
     acquireList: HTMLElement;
   } | null = null;
@@ -4038,11 +4043,34 @@ export function mount(
   // D-111 / F89 — the comfort badge a belonging carries (a keepsake, or its legible comfort bonus).
   // Read from the def's comfort field (source of truth), so the shown bonus never drifts from the
   // real one applied by the reducer/selector (A6).
+  // D-120 — the home's live-comfort summary line: rest recovery, any warmth buffer, the chest's
+  // storage capacity, and the hearth-cook note — read through the SAME selectors the reducer uses (A6).
+  function comfortSummaryText(state: GameState, settled: boolean): string {
+    const restB = homeRestBonus(state);
+    const bodyB = homeSatietyBonus(state);
+    const storageB = homeStorageBonus(state);
+    const parts: string[] = [];
+    if (restB > 0) parts.push(`rest +${restB} body`);
+    if (bodyB > 0) parts.push(`+${bodyB} max body`);
+    if (storageB > 0) parts.push(`storage for ${storageB} belongings`);
+    if (homeHasCook(state)) parts.push('a hearth to cook at');
+    const base =
+      parts.length > 0
+        ? `Comfort in effect · ${parts.join(' · ')}`
+        : 'A bare corner — no comforts yet.';
+    return settled ? `${base} · a settled home 整` : base;
+  }
   function comfortLabel(def: BelongingDef): string {
+    if (def.homesCook) return 'The hearth · cook here'; // D-120 — diegetic, not a stat
     if (!def.comfort) return 'Keepsake';
-    return def.comfort.kind === 'rest'
-      ? `Comfort · rest +${def.comfort.amount}`
-      : `Comfort · warmth +${def.comfort.amount} max body`;
+    switch (def.comfort.kind) {
+      case 'rest':
+        return `Comfort · rest +${def.comfort.amount}`;
+      case 'storage':
+        return `Storage · keeps ${def.comfort.amount} belongings`; // D-120 — a dry buffer, not a stat
+      case 'body':
+        return `Comfort · warmth +${def.comfort.amount} max body`;
+    }
   }
   // build ONE belonging row (owned OR acquirable): kanji · name, the inked blurb, the comfort badge,
   // and — for an acquirable piece — a buy cell. Stable structure; patch fills the mutable bits.
@@ -4092,20 +4120,11 @@ export function mount(
         const ownedHead = el('div', 'belongings-subhead', 'What is yours');
         const ownedList = el('div', 'belongings-list');
         for (const def of ownedBelongings(state)) ownedList.append(buildBelongingRow(def));
-        const restBd = homeRestBonus(state);
-        const bodyBd = homeSatietyBonus(state);
         const settledD = homeSetComplete(ownedBelongingIds(state));
-        const partsD: string[] = [];
-        if (restBd > 0) partsD.push(`rest +${restBd} body`);
-        if (bodyBd > 0) partsD.push(`+${bodyBd} max body`);
-        const baseD =
-          partsD.length > 0
-            ? `Comfort in effect · ${partsD.join(' · ')}`
-            : 'A bare corner — no comforts yet.';
         const comfortD = el(
           'div',
           'rung-hint belongings-comfort-summary',
-          settledD ? `${baseD} · a settled home 整` : baseD,
+          comfortSummaryText(state, settledD),
         );
         const acquirableD = BELONGINGS.filter(
           (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
@@ -4128,9 +4147,24 @@ export function mount(
       const ownedHead = el('div', 'belongings-subhead', 'What is yours');
       const ownedList = el('div', 'belongings-list');
       const comfort = el('div', 'rung-hint belongings-comfort-summary');
+      // D-120 — the cook-at-the-hearth affordance (shown once the hearth is owned).
+      const cookRow = el('div', 'labour-row belongings-cook');
+      const cookBtn = el('button', 'verb') as HTMLButtonElement;
+      cookBtn.type = 'button';
+      cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
+      cookRow.append(cookBtn);
       const acquireHead = el('div', 'belongings-subhead', 'Settle your corner');
       const acquireList = el('div', 'belongings-list');
-      card.append(homeName, homeBlurb, ownedHead, ownedList, comfort, acquireHead, acquireList);
+      card.append(
+        homeName,
+        homeBlurb,
+        ownedHead,
+        ownedList,
+        comfort,
+        cookRow,
+        acquireHead,
+        acquireList,
+      );
       belongingsPane.append(card);
       belongingsRefs = {
         card,
@@ -4139,6 +4173,8 @@ export function mount(
         ownedHead,
         ownedList,
         comfort,
+        cookRow,
+        cookBtn,
         acquireHead,
         acquireList,
       };
@@ -4159,19 +4195,28 @@ export function mount(
     });
 
     // the comfort SUMMARY — the live bonuses in effect (read through the SAME selectors the reducer
-    // uses, A6). Reads 0/0 for a bare corner; the settled-home set adds its synergy note.
-    const restB = homeRestBonus(state);
-    const bodyB = homeSatietyBonus(state);
+    // uses, A6). Reads bare for an empty corner; the settled-home set adds its synergy note. D-120 —
+    // the hearth (cook locus) + the chest (storage) show their diegetic worth, not a satiety stat.
     const ownedIds = ownedBelongingIds(state);
     const settled = homeSetComplete(ownedIds);
-    const parts: string[] = [];
-    if (restB > 0) parts.push(`rest +${restB} body`);
-    if (bodyB > 0) parts.push(`+${bodyB} max body`);
-    const base =
-      parts.length > 0
-        ? `Comfort in effect · ${parts.join(' · ')}`
-        : 'A bare corner — no comforts yet.';
-    setText(r.comfort, settled ? `${base} · a settled home 整` : base);
+    setText(r.comfort, comfortSummaryText(state, settled));
+
+    // D-120 — the hearth homes the cook verb: once you own the hearth, cooking a meal (sansai → HP)
+    // is reachable here, at your own fire. Shown only when the hearth is owned AND cook is unlocked
+    // (verb-cook, ~R2); disabled + explained when you're short on sansai (mirrors the Work-column cook).
+    const canCookHere = homeHasCook(state) && isUnlocked(state, 'verb-cook');
+    toggle(r.cookRow, canCookHere);
+    if (canCookHere) {
+      const cost = balance.COOK_SANSAI_COST;
+      const short = (state.resources.sansai ?? 0) < cost;
+      setText(r.cookBtn, `Cook a meal at the hearth (${cost} sansai)`);
+      setClass(r.cookBtn, 'primary', state.character.hp < hpMax(state)); // the heal cue when hurt
+      setDisabled(r.cookBtn, short);
+      const title = short
+        ? `Need ${cost} sansai to cook — forage the satoyama for wild greens.`
+        : 'Boil the wild greens into a hot meal — the only way to mend a wound (D-050).';
+      if (r.cookBtn.title !== title) r.cookBtn.title = title;
+    }
 
     // the ACQUIRE list — buyable comfort pieces you don't yet own; disabled when you can't pay.
     const acquirable = BELONGINGS.filter(

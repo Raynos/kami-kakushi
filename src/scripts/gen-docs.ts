@@ -226,7 +226,11 @@ function generate(): string {
   L.push('| id | belonging | kanji | comfort | source |');
   L.push('|---|---|---|---|---|');
   for (const b of BELONGINGS) {
-    const comfort = b.comfort ? `${b.comfort.kind} +${b.comfort.amount}` : 'keepsake';
+    const comfort = b.homesCook
+      ? 'cook here' // D-120 — the hearth homes the cook verb (diegetic, not a stat)
+      : b.comfort
+        ? `${b.comfort.kind} +${b.comfort.amount}`
+        : 'keepsake';
     const source = b.source.kind === 'buy' ? `buy ${b.source.coinCost} coin` : 'granted';
     L.push(`| \`${b.id}\` | ${b.label} | ${b.kanji} | ${comfort} | ${source} |`);
   }

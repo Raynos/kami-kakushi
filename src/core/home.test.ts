@@ -19,6 +19,8 @@ import {
   ownedBelongings,
   homeRestBonus,
   homeSatietyBonus,
+  homeStorageBonus,
+  homeHasCook,
   homeSetComplete,
   homeRestLine,
   getBelonging,
@@ -26,6 +28,7 @@ import {
   BELONGING_IDS,
   SETTLED_HOME_SET,
   SETTLED_HOME_REST_BONUS,
+  CHEST_STORAGE_CAPACITY,
   ATTR_IDS,
   type GameState,
 } from '../core';
@@ -159,15 +162,31 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
     expect(restedBed.character.satiety - restedBare.character.satiety).toBe(bedding.comfort.amount);
   });
 
-  it('the hearth → a warmer body: satietyMax rises by exactly its comfort amount', () => {
+  it('the hearth HOMES the cook verb (diegetic), and is NOT a satiety stat (D-120)', () => {
     const hearth = getBelonging('hearth');
-    if (!hearth.comfort || hearth.comfort.kind !== 'body') {
-      throw new Error('fixture: hearth must grant a body/warmth bonus');
-    }
+    // the LEVER changed: the hearth's worth is that you cook AT it — comfort is null, homesCook true.
+    // RED against the old +12 satietyMax `body` stat.
+    expect(hearth.comfort).toBeNull();
+    expect(hearth.homesCook).toBe(true);
     const base = atHome();
     const withHearth = { ...base, belongings: ['hearth'] };
-    expect(homeSatietyBonus(withHearth)).toBe(hearth.comfort.amount);
-    expect(satietyMax(withHearth) - satietyMax(base)).toBe(hearth.comfort.amount);
+    // owning it flips the cook-locus selector on, and moves satietyMax by NOTHING (no stat bump).
+    expect(homeHasCook(base)).toBe(false);
+    expect(homeHasCook(withHearth)).toBe(true);
+    expect(satietyMax(withHearth) - satietyMax(base)).toBe(0);
+  });
+
+  it('the chest is STORAGE (a belongings buffer), NOT a satiety stat (D-120)', () => {
+    const chest = getBelonging('chest');
+    // the LEVER changed: the chest grants `storage` capacity, not the old +5 `body` satiety stat.
+    // RED against the old body bonus and against a chest that touched satietyMax.
+    expect(chest.comfort?.kind).toBe('storage');
+    expect(chest.comfort?.amount).toBe(CHEST_STORAGE_CAPACITY);
+    const base = atHome();
+    const withChest = { ...base, belongings: ['chest'] };
+    expect(homeStorageBonus(base)).toBe(0);
+    expect(homeStorageBonus(withChest)).toBe(CHEST_STORAGE_CAPACITY);
+    expect(satietyMax(withChest) - satietyMax(base)).toBe(0); // storage is not a satiety stat
   });
 
   it('the settled-home SET is worth MORE than the sum of its parts (synergy), and loses it on removal', () => {
@@ -200,12 +219,13 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
 });
 
 describe('D-111 invariant — PRESTIGE not power: no furniture ever grants a combat stat', () => {
-  it('every belonging comfort channel is COMFORT (rest/body), never an attribute/combat stat', () => {
+  it('every belonging comfort channel is COMFORT (rest/body/storage), never a combat stat', () => {
     const attrIds = new Set<string>(ATTR_IDS);
     for (const def of BELONGINGS) {
       if (def.comfort === null) continue;
-      // the guard: a comfort kind is a closed prestige set — never an attr id (no "+atk pillow").
-      expect(['rest', 'body']).toContain(def.comfort.kind);
+      // the guard: a comfort kind is a closed prestige set (D-120 widened it to include storage) —
+      // never an attr id (no "+atk pillow"). RED if a future piece adds a combat channel.
+      expect(['rest', 'body', 'storage']).toContain(def.comfort.kind);
       expect(attrIds.has(def.comfort.kind)).toBe(false);
     }
   });
