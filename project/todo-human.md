@@ -66,12 +66,10 @@ _(The **UI-remaster variants** — the six live demos + their plan — are track
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**
 
-- [ ] `docs/plans/fable-process-master-plan.md` — **the process-wave MASTER
-  PLAN** (read this one first): the build order F1–F10 + merge map — why F1
-  builds alone, why CI is early, the serialized DEV-tooling lane
-  F3→F6→F7→F8, the hot-file trampling map, the two race clauses resolved,
-  and the S/N → F rename map. All entries below are renamed + reordered to
-  match it.
+_(The **master plan** — `docs/plans/fable-process-master-plan.md`, the
+F1–F10 build order + merge map — was ratified in-session 2026-07-03 and its
+queue entry cleared; the plans below are renamed + reordered to match it.)_
+
 - [ ] `docs/plans/fable-process-F1a-mechanical-checkpoint.md` — **the mechanical
   checkpoint** (retro suggestion #1): generate the process layer's derivable
   sections (gate roster, active-plans list, plan-status tokens, queue paths)

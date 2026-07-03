@@ -1,7 +1,8 @@
 # Process-wave master plan — build order + merge map (F1–F10)
 
-**Status: 📋 PROPOSED — ordering discussed with the human 2026-07-03; the
-F-numbering below is the human's call (files renamed from the S/N series).**
+**Status: ✅ LOCKED — ordering + merge calls ratified in-session (human,
+2026-07-03): the F-renames, the F1a/F1b split, and the ripple edits landed
+the same day. Build starts per this order.**
 **created_date:** 2026-07-03
 
 Orders the ten open process-wave plans by (a) what builds first, (b) impact

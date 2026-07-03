@@ -57,3 +57,10 @@ The human preferred distinct names over a shared F1 rank: renamed to
 `fable-process-F1a-mechanical-checkpoint.md` (builds first) and
 `fable-process-F1b-prd-ripple-tooling.md`; references rippled (master
 plan, plans README, reading queue, `prd-drift.ts`).
+
+## Checkpoint (session close)
+
+Master plan Status → ✅ LOCKED (ordering + merge calls ratified in-session:
+the human directed the order, the renames, and the ripple edits) and its
+queue entry cleared per D-089; the 11 individual plan entries stay queued —
+their contents are still unread. Pushed `main`.
