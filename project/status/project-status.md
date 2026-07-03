@@ -51,9 +51,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   light/dark) at <https://kami-kakushi-ui-demos.vercel.app> (R9).
 - **Philosophy** R1–R6 + **process canon** D-086–089 (tension>generosity · loop
   done-rule · e2e+invariants DoD · implicit queue sign-off).
-- **D-117: the frontier PRD** — PRD = forward spec of the unbuilt; tiers
-  compress at taste sign-off (human-signed sweep); §4 ripple-frozen NOW. Three
-  process plans queued (checkpoint · playtest-inbox · balance-sim).
+- **D-117 frontier PRD + the process wave** — tiers compress at taste
+  sign-off; §4 ripple-frozen. **10 `fable-process-*` plans queued** (picks
+  1/3/5/6/7/8/10; 2/9 rejected). BUILT: `prd:drift` + the sweep-guard.
 
 ## Waiting on the human
 

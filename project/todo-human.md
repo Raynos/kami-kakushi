@@ -65,10 +65,12 @@
   deltas** from the audit (rice storage cost · Now-view append-only · stagger
   Inventory to R3 · Quests own tab · hearth→cook · chest→storage · R7 capstone
   matters · koku Ph5 one-token slice). Read before I build.
-- [ ] `docs/plans/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc ripples**:
-  7 ratifications → ADRs (Opus), and the PRD ripples for the overrides (Fable +
-  human-signed): 6→7 tabs, staggered reveal, housing semantics, rice storage,
-  the T0-one-token / T1–T5 status-ladder split, the R7 branch.
+- ✅ `project/archive/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc
+  ripples: DONE & archived 2026-07-03** (Opus, per D-124). ADRs **D-118…D-124**
+  in `decisions.md`; the PRD rippled across all six `docs/living/prd/*` files
+  (7-tab IA, staggered reveal, housing semantics + no-morale, rice storage cost,
+  T0-one-token status split, R7 capstone branch); ui-design + fun-factor
+  reconciled. Skim `decisions.md` D-118…D-124 if you want the record.
 
 **Owed reviews / taste calls (async, no rush):**
 
@@ -123,10 +125,6 @@
   pilot gen-region (§3 T0 rung names, drift-PROOF), and two skills —
   `/prd-ripple` (Flow 1 routing per change) + `/prd-compress` (dormant
   until R1 closes; the sweep itself stays Fable + human-signed).
-- [ ] `project/brainstorms/2026-07-03-process-top10.md` — **the second-wave
-  top 10** — now the VERDICT BOARD: you picked #1/#3/#5/#6/#7/#8/#10 (plans
-  landed or in flight), rejected #2/#9; #4 remains open. Scores + one-line
-  whys inside.
 - [ ] `docs/plans/fable-process-N1-balance-cockpit.md` — **the balance-tuning
   cockpit** (top10 #1, your 5/5 pick): a DEV-panel Balance tab of live
   sliders over the curated `balance.ts` levers (the 4 balance-watch items
