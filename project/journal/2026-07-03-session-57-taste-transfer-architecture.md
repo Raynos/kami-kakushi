@@ -155,3 +155,18 @@ beats), the summary + sources (git history holds provenance). Full verify
 green (one transient eslint ENOENT on a vite `config.timestamp-*.mjs`
 temp file from the running dev server — re-ran clean; a lint-ignore for
 that pattern would kill the race for good).
+
+## P3 SHIPPED — the taste register + the doc-budgets gate
+
+`verify-doc-budgets.ts` is the **13th verify gate** (docs-lane): hard
+caps in ONE table — taste.md 150 · ui-design.md 400 · project-status.md
+120 (absorbing the pre-commit snapshot gate's count check; that hook
+section now just re-invokes the script under a full `SKIP_VERIFY=1`,
+bypass `SKIP_DOCBUDGET=1` = human-blessed raise only) + warn-only genre
+tripwires (`(session-NN)` in the design docs, "Phase update" bullets in
+the snapshot). **RED-proven live**: padded taste.md to 151 → gate blocked
+with the cull-don't-bypass message; restored → green; docs lane now runs
+6/13 gates in ~0.3s. AGENTS.md's stale build-to-taste bullet (it cited
+the removed checklist) replaced by the **taste register** — T1–T4 value
+one-liners mirroring the philosophy R1–R6 pattern, pointing at taste.md.
+Full 13-gate verify green.

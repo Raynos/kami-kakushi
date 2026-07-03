@@ -44,6 +44,7 @@ const GATES: ReadonlyArray<{ name: string; cmd: string; scope: GateScope }> = [
   { name: 'md-links', cmd: 'tsx src/scripts/check-md-links.ts', scope: 'both' }, // md links break via src renames too
   { name: 'milestone-integrity', cmd: 'tsx src/scripts/milestone-integrity.ts', scope: 'both' }, // roadmap DoD -> real tests
   { name: 'verify-changelog', cmd: 'tsx src/scripts/verify-changelog.ts', scope: 'both' }, // package.json -> CHANGELOG
+  { name: 'doc-budgets', cmd: 'tsx src/scripts/verify-doc-budgets.ts', scope: 'docs' }, // snapshot-doc caps (D-126)
 ];
 
 interface GateResult {

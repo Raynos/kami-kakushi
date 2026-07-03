@@ -215,12 +215,19 @@ Full version:
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/living/qa-playtesting.md).
-- **Build to the taste standard (before you build).** Before building or
-  restyling **any** UI surface, feature, or narrative beat, read
-  [`docs/living/taste.md`](docs/living/taste.md) — the distilled bar from the
-  117-item playtest — and run its **pre-ship checklist** against the finished
-  work before you call it done. It's the **standing taste**, so the same feedback
-  isn't earned twice.
+- **Build to the taste standard — the four taste values (D-126).** Before
+  building or restyling **any** UI surface, feature, or narrative beat, read
+  [`docs/living/taste.md`](docs/living/taste.md) (snapshot-class, hard-capped,
+  the human-locked bar) and score the finished work against its principles.
+  When no principle covers, reason from the values — they predict the verdict:
+  - **T1 · One home for everything** — one tab per capability, one shared
+    primitive per idiom, one source per value; delete the old copy on a move.
+  - **T2 · Never yank the ground from under the player** — a watched surface
+    never flashes, resets, resizes, or rebuilds; even a crash reads composed.
+  - **T3 · The fiction causes the mechanics** — discovered, not spawned; story
+    promises exist in the game; the UI reveal follows the story beat.
+  - **T4 · The player never guesses state** — speaker, changes, newness,
+    progress: readable at a glance.
 - **QA fun & visuals, not just function.** A compiling build isn't the bar — the
   game must be *paced and fun* and *look intentional* (woodblock/ink, **not**
   generic AI-slop). Three distinct living docs own this: **what fun *is* & how
