@@ -378,12 +378,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         location: 'kura',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate'],
+        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // D-119 — Inventory tab reveals at R3
         resources: { ...base.resources, coin: 50 },
       },
       null,
     );
-    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab (F108 / IA reorg D-112)
+    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab (F108 / IA reorg D-112, revealed R3 D-119)
     expect(clickText('Store all coin')).toBe(true);
     expect(seen).toContainEqual({ type: 'deposit', resource: 'coin' });
   });
@@ -396,12 +396,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         location: 'kura',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate'],
+        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // D-119 — Inventory tab reveals at R3
         resources: { ...base.resources, rice: 40 },
       },
       null,
     );
-    openTab('蔵'); // Inventory tab
+    openTab('蔵'); // Inventory tab (revealed R3, D-119)
     expect(clickText('Store all rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'deposit', resource: 'rice' });
   });
@@ -529,6 +529,64 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     // at full HP → cook is a plain option, not shouting.
     render({ ...ready, character: { ...ready.character, hp: 9999 } }, null);
     expect(cookBtn().classList.contains('primary')).toBe(false);
+  });
+});
+
+// ── D-119 — the seven-tab reveal CADENCE (Work R0 · Map/Estate R1 · Character R2 · Combat/Inventory
+//    R3 · Quests R5). These assert the NAV chips that light at each beat, so a mis-gated tab (e.g. the
+//    old Inventory-at-R1 triple-reveal, or a Quests-at-R3 batch) flips them RED. ──
+describe('D-119 — tabs reveal one beat at a time (Inventory R3, Quests R5)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+  function tabLabels(): string[] {
+    return [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].map(
+      (b) => b.textContent ?? '',
+    );
+  }
+  function at(unlocked: string[]): void {
+    const base = createInitialState(1);
+    const render = mount(root, () => {}, noopHooks());
+    render(
+      { ...base, flags: { ...base.flags, awake: true }, unlocked: [...base.unlocked, ...unlocked] },
+      null,
+    );
+  }
+
+  it('R1 (Map+Estate live) reveals Map + Estate but NOT Inventory — no triple-reveal', () => {
+    at(['room-gate-forecourt', 'panel-estate', 'panel-home']);
+    const labels = tabLabels();
+    expect(labels.some((l) => l.includes('地図'))).toBe(true); // Map
+    expect(labels.some((l) => l.includes('家') && !l.includes('武'))).toBe(true); // Estate
+    // RED against the old gate: Inventory used to light here (panel-estate/panel-home).
+    expect(labels.some((l) => l.includes('Inventory'))).toBe(false);
+    expect(labels.some((l) => l.includes('Quests'))).toBe(false);
+  });
+
+  it('R3 (combat live) is where the Inventory tab finally reveals', () => {
+    at(['room-gate-forecourt', 'panel-estate', 'panel-home', 'tab-combat']);
+    expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(true);
+    // …but Quests is still held for its own R5 beat, not batched into the R3 combat wave.
+    expect(tabLabels().some((l) => l.includes('Quests'))).toBe(false);
+  });
+
+  it('R5 (tab-quests granted) is where the Quests tab reveals — its own beat', () => {
+    at(['room-gate-forecourt', 'panel-estate', 'panel-home', 'tab-combat', 'tab-quests']);
+    expect(tabLabels().some((l) => l.includes('Quests'))).toBe(true);
   });
 });
 
@@ -1475,10 +1533,12 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderSkills — a skill card + meter survive a re-render, empty pane stays empty (F72)', () => {
     const render = mount(root, () => {}, noopHooks());
-    // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards. tab-combat
-    // gives the Character tab OTHER content (quests) so the tab reveals while skills is genuinely
-    // empty — the exact F72 ghost-box case (a shown-but-empty SECTION inside a non-empty tab).
-    const s = awake(['tab-skills', 'tab-combat']);
+    // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards.
+    // readout-combat-level gives the Character tab OTHER content (the training/attrs section) so the
+    // tab reveals while skills is genuinely empty — the exact F72 ghost-box case (a shown-but-empty
+    // SECTION inside a non-empty tab). (D-119 — quests moved to their own tab, so they no longer keep
+    // Character non-empty here.)
+    const s = awake(['tab-skills', 'readout-combat-level']);
     render(s, null);
     openTab('己'); // skills is a section of the Character 己 tab now (IA reorg D-112)
     expect(root.querySelector('.skills-pane .skill-row')).toBeNull();
@@ -1486,7 +1546,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(root.querySelector<HTMLElement>('.skills-pane')!.childElementCount).toBe(0);
 
     // give farming enough XP to surface its skill card, then prove identity across a tick.
-    const withSkill = awake(['tab-skills', 'tab-combat'], {
+    const withSkill = awake(['tab-skills', 'readout-combat-level'], {
       skillXp: { ...createInitialState(1).skillXp, farming: 50 },
     });
     render(withSkill, s);
@@ -1503,9 +1563,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderQuests — a quest card survives a re-render and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['tab-combat']); // quests open with combat, folded into Character (D-112 §8.1)
+    const s = awake(['tab-combat', 'tab-quests']); // D-119 — Quests is its OWN tab now (revealed R5)
     render(s, null);
-    openTab('己'); // Undertakings 用 is a section of the Character 己 tab now
+    openTab('Quests'); // the Quests 用 tab (D-119, reinstating D-037)
     const card = root.querySelector<HTMLElement>('.quests-pane .quest-card')!;
     expect(card).not.toBeNull();
     render(s, s);
@@ -1518,7 +1578,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderStorehouse — the kura card survives a re-render; idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate'], { location: 'kura' });
+    const s = awake(['panel-estate', 'tab-combat'], { location: 'kura' }); // D-119 — Inventory reveals R3
     render(s, null);
     openTab('蔵'); // the kura bank is on the Inventory 蔵 tab now (F108 / IA reorg D-112)
     const card = root.querySelector<HTMLElement>('.storehouse-pane .rung-card')!;
@@ -2125,8 +2185,8 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     document.body.append(root);
   });
 
-  // an R1 state: kept on, the home GRANTED (panel-home), the estate economy open — the Inventory tab
-  // has content and its belongings section reveals.
+  // the home GRANTED (panel-home, R1) + the estate economy open, and combat live so the Inventory
+  // tab is REVEALED (D-119 — the tab staggers to R3/tab-combat, though its belongings content is R1).
   function homeState(extra?: Partial<GameState>): GameState {
     const s = createInitialState(1);
     return {
@@ -2140,6 +2200,7 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
+        'tab-combat', // D-119 — the Inventory tab reveals at R3; without it the tab won't appear
       ],
       ...extra,
     };

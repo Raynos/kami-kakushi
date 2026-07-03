@@ -371,8 +371,9 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
     document.body.append(root);
   });
 
-  // an R1 state with the home granted (panel-home) + coin in the purse (so a comfort piece is
-  // affordable — the buy button is live, not disabled).
+  // the home granted (panel-home, R1) + coin in the purse (so a comfort piece is affordable — the buy
+  // button is live). tab-combat is present so the Inventory tab is REVEALED (D-119 — the tab staggers
+  // to R3, though its belongings content is R1).
   function homeState(extra?: Partial<GameState>): GameState {
     const base = createInitialState(1);
     return {
@@ -386,6 +387,7 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
+        'tab-combat', // D-119 — the Inventory tab reveals at R3
       ],
       resources: { ...base.resources, coin: 500 },
       ...extra,

@@ -221,6 +221,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `verb-repair` | verb |
 | `verb-equip-axe` | verb |
 | `stance-control` | panel |
+| `tab-quests` | tab |
 | `house-omoya` | row |
 | `house-workshops` | row |
 | `house-granary` | row |

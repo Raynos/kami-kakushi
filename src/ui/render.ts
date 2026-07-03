@@ -252,7 +252,7 @@ type Dispatch = (intent: Intent) => void;
 // once it has content (§3 of the IA reorg plan). Work R0 → Map/Estate/Inventory R1 → Character R2
 // → Combat R3. `skills`/`quests` are folded into Character; `map` now means the node-map (nav's
 // sole home), not the old "Estate 地図".
-type Tab = 'work' | 'map' | 'estate' | 'inventory' | 'character' | 'combat';
+type Tab = 'work' | 'map' | 'estate' | 'inventory' | 'character' | 'combat' | 'quests';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -1100,13 +1100,22 @@ export function mount(
     inventory: 'Inventory 蔵',
     character: 'Character 己',
     combat: 'Combat 武',
+    quests: 'Quests 用', // D-119 — Quests regains its own tab (glyph 用, provisional taste call)
   };
   // ── the six-tab reveal predicates (D-112 §3) — a tab's chip appears the render its PRIMARY content
   //    first unlocks, and NEVER before (the incremental-reveal signature). Each reuses an EXISTING
   //    surface predicate — NO new flags — and is the anti-empty-tab guard (§7) lifted to the tab
   //    level: it answers "would this tab have visible content if active?" WITHOUT switching activeTab.
-  //    Work R0 always · Map/Estate/Inventory R1 · Character R2 · Combat R3.
-  const TAB_ORDER: readonly Tab[] = ['work', 'map', 'estate', 'inventory', 'character', 'combat'];
+  //    Work R0 always · Map/Estate R1 · Character R2 · Combat/Inventory R3 · Quests R5 (D-119).
+  const TAB_ORDER: readonly Tab[] = [
+    'work',
+    'map',
+    'estate',
+    'inventory',
+    'character',
+    'combat',
+    'quests',
+  ];
   // does the Character tab have any visible content? — the true anti-empty guard (§7): a skill card
   // to show (skills visible via by-doing OR a skill row unlocked), OR the R3 sections (training /
   // bestiary), OR quests. Skills-only-but-no-skill (an isolated fixture) leaves it EMPTY → no chip.
@@ -1117,8 +1126,9 @@ export function mount(
     return (
       skillsHaveCard ||
       isUnlocked(state, 'readout-combat-level') || // training (attrs)
-      isUnlocked(state, 'panel-bestiary') || // the bestiary
-      isUnlocked(state, 'tab-combat') // quests ("Undertakings 用")
+      isUnlocked(state, 'panel-bestiary') // the bestiary
+      // D-119 — quests are NO LONGER a Character section; they have their own tab (revealed at R5),
+      // so the old `tab-combat` (quests-in-Character) branch is gone.
     );
   }
   // "would this tab have visible content if active?" — the anti-empty-tab guard (§7) lifted to the
@@ -1139,16 +1149,22 @@ export function mount(
         // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
         return isUnlocked(state, 'panel-estate');
       case 'inventory':
-        // the kura bank (carried vs stored coin/rice, panel-estate ~R1) OR the home + belongings
-        // (panel-home, R1 — D-111/F89). Both land at R1, so this reads true the moment the tab earns
-        // its content; the OR keeps it honest if either surface arrives first.
-        return isUnlocked(state, 'panel-estate') || isUnlocked(state, 'panel-home');
+        // D-119 — the Inventory tab STAGGERS to R3 (was R1), ending the Map+Estate+Inventory
+        // triple-reveal so R1 isn't a slam of three tabs. It reveals with combat (tab-combat/R3):
+        // banking only matters once a lost fight can bite your carried wealth, so R3 is its natural
+        // beat. Its content (the kura bank, panel-estate ~R1, + the home/belongings, panel-home R1)
+        // is already unlocked by then; the tab is just held back until R3.
+        return isUnlocked(state, 'tab-combat');
       case 'character':
         // Skills first (R2), attrs + bestiary + quests at R3 — but only once something actually shows.
         return characterHasContent(state);
       case 'combat':
         // the fight surface — watch + XP + weapon (tab-combat, R3).
         return isUnlocked(state, 'tab-combat');
+      case 'quests':
+        // D-119 — the Quests tab reveals at R5 (its OWN quest-log beat, tab-quests), NOT batched into
+        // the R3 combat wave. Gated on its R5 content-unlock, so the chip lights one beat at a time.
+        return isUnlocked(state, 'tab-quests');
     }
   }
   function visibleTabs(state: GameState): Tab[] {
@@ -4537,11 +4553,10 @@ export function mount(
     toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
   }
   function renderQuests(state: GameState): void {
-    // IA reorg (D-112 §8.1) — the six-tab set has no Quests tab; quests fold into Character as the
-    // "Undertakings 用" section (a personal journal of goals taken on). D-112 (newest steer)
-    // supersedes D-037's "Quests is its own tab." They still open with combat (the crop-raider
-    // quest needs the field-defence verbs), so gate on tab-combat as before — but shown on Character.
-    const show = activeTab === 'character' && isUnlocked(state, 'tab-combat');
+    // D-119 (supersedes D-112 §8.1, reinstates D-037) — Quests regains its OWN dedicated tab, revealed
+    // at R5 (tab-quests) as its own quest-log beat. It's no longer a Character section, so it self-gates
+    // to the Quests tab and hides everywhere else (no ghost slice).
+    const show = activeTab === 'quests' && isUnlocked(state, 'tab-quests');
     toggle(questsPane, show);
     if (!show) return;
     // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live DEV-only

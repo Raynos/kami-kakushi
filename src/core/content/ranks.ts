@@ -163,8 +163,9 @@ export const RANKS: readonly RankDef[] = [
     rewardOnReach: {
       flags: ['rank-r5'],
       // v0.3.2 A7 — the combat-rung beat: the stance control (glass-cannon↔tank) reveals here,
-      // the last staggered combat surface (§4.6.9).
-      unlock: ['stance-control'],
+      // the last staggered combat surface (§4.6.9). D-119 — the QUESTS tab also reveals at R5 (its own
+      // quest-log beat, tab-quests), one beat per rung.
+      unlock: ['stance-control', 'tab-quests'],
       // F103 / D-110: story prose → RUNG_BEATS.R5.greeting (Genemon confers + Kihei teaches the
       // stance, two-voice; BQ3). Terse "Rank ↑" marker only.
     },

@@ -248,6 +248,16 @@ export const SURFACES: readonly Surface[] = [
       'The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.',
     ),
   },
+  // ── R5 — the Quests tab (D-119, reinstating D-037): quests earn a legible home of their own, revealed
+  //    as their OWN quest-log beat (not batched into the R3 combat wave). ──
+  {
+    id: 'tab-quests',
+    kind: 'tab',
+    unlock: () => false,
+    revealLine: narrate(
+      'You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.',
+    ),
+  },
 
   // ── Interior-house AREA reveals (A8 / canon §I / PRD §3.3) — the house physically REOPENS its
   // rooms as your standing rises: the omoya at R4, the workshops + granary at R6, the lord's study
