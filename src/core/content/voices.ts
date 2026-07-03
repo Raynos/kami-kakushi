@@ -19,14 +19,13 @@ export type VoiceCategory =
   | 'physician' // Sōan (scholar / rational)
   | 'steward' // Genemon / Lady Chiyo / household
   | 'arms' // Kihei / the smith Tōzō / drill-yard
-  | 'official' // magistrate / castle voices — incl. the lord Shigemasa (D-110 R7, see note)
-  | 'villager'; // Asagiri folk / Rokusuke the kept-hand (D-110 R2)
+  | 'official' // magistrate / castle voices (the touring inspector, castle clerks)
+  | 'villager' // Asagiri folk / Rokusuke the kept-hand (D-110 R2)
+  | 'lord'; // the domain lord Shigemasa's R7 capstone (D-110) — murasaki 紫, its own dignified voice
 
-// NOTE (D-110 / UI pass): the plan §7.2 calls for a DEDICATED `'lord'` VoiceCategory for Shigemasa's
-// capstone colour. Adding a new category requires extending render.ts's exhaustive
-// `Record<VoiceCategory, …>` VOICE_COLOR / VOICE_SEAL maps — a UI-pass edit (render.ts is off-limits
-// this pass). Until then Shigemasa borrows the `'official'` castle/authority colour (distinct from
-// Chiyo's `'steward'`). The UI pass should add `'lord'` + its colour/seal and repoint `shigemasa`.
+// D-110 'lord' voice — RESOLVED. Shigemasa now speaks in the dedicated `'lord'` category (its
+// murasaki colour + 殿 seal live in render.ts's VOICE_COLOR / VOICE_SEAL, which are exhaustive over
+// this union — a missing key is a tsc error). `'official'` is now the magistrate/clerk voice only.
 
 /** The MC's spoken-line nameplate (voice `player`). */
 export const PLAYER_SPEAKER = 'You';
@@ -41,7 +40,7 @@ export const NPC_VOICE: Readonly<Record<NpcId, VoiceCategory>> = {
   rokusuke: 'villager',
   tozo: 'arms',
   chiyo: 'steward',
-  shigemasa: 'official', // borrows the castle/authority colour until a dedicated 'lord' voice lands (UI pass)
+  shigemasa: 'lord', // the domain lord's own voice — murasaki 紫 (D-110 R7 capstone)
 };
 
 /** The display name (nameplate) for a remembered NPC — reuses the canonical NAMES table. */

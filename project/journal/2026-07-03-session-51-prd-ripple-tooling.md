@@ -36,6 +36,24 @@ surface.
 
 ---
 
+## 1b · Ph1 BUILT — `prd:drift` live, 19 real gaps found (same session, later)
+
+Built Ph1 autonomously (report-only, no canon): `src/scripts/prd-drift.ts`
++ `npm run prd:drift` (+ `--strict`) + a warn-only pre-commit nudge
+(content-registry commits without a PRD touch; `balance.ts` excluded — §4
+magnitudes are ripple-frozen, so nudging there would push against D-117).
+
+- **Findings:** 19 presence gaps — §3's pre-reshape rung titles (6/8
+  missing), §4's weapon roster diverges from the build (axe vs kama-yari),
+  4/8 mobs, stance ids, and the R8-pending cast trio. All in T0-sweep
+  territory → left as the quantified sweep backlog, NOT hand-rippled
+  (deliberate DoD deviation, noted in the plan's Ph1 build notes).
+- **The tool cried wolf on run #1:** the retired-terms tripwire hit §2's
+  real-name DENYLIST — the one line where retired names belong. Calibrated:
+  a hit line that names the successor is a documented rename, not drift.
+  Retired-terms now genuinely clean (3 allowed lines).
+- **Could-go-RED proof:** `--strict` exits 1 today on real data.
+
 ## 2 · Second-wave suggestions: 25 → top 10 (same session, later)
 
 The human asked for a wider ideation pass: 25 process-improvement

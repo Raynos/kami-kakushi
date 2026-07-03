@@ -65,6 +65,18 @@ if ! run_verify; then
   exit 1
 fi
 
+# --- PRD-drift nudge (D-117 Phase 0 — WARN ONLY, never blocks): a commit that touches the content
+#     registries (src/core/content/*, where display names live) without touching the PRD may have
+#     staled a spec fact — `npm run prd:drift` prints the punch-list. balance.ts is EXCLUDED: it
+#     holds magnitudes, and §4's magnitudes are deliberately ripple-frozen (D-117 interim rule),
+#     so nudging a PRD edit there would push AGAINST canon. Report-only tool, warn-only rung (A11). ---
+staged_all="$(git diff --cached --name-only)"
+if echo "$staged_all" | grep -vE '^src/core/content/balance\.ts$' | grep -qE '^src/core/content/' \
+  && ! echo "$staged_all" | grep -qE '^docs/living/prd/'; then
+  echo "  ~ content registries changed without a PRD touch — if a display name / roster moved," >&2
+  echo "    run 'npm run prd:drift' for the game->PRD punch-list (report-only; D-117 Flow 1)." >&2
+fi
+
 # --- Reading-queue gate: a durable doc whose PURPOSE is the human reading / reviewing / signing off on
 #     it must be listed in the reading queue (project/todo-human.md) in the SAME commit, or it silently
 #     never reaches the human (the bug this fixes). Fires on brand-NEW files only — editing or archiving

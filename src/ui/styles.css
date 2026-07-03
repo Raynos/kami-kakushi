@@ -51,6 +51,11 @@
   --rokusho: #3e6958;
   --gold: #b08d4f;
 
+  /* ── MURASAKI — the lord's voice (D-110): 紫, the historic highest-court-rank
+     colour, reserved for the domain lord Shigemasa — dignified, distinct from the
+     magistrate 'official' kihada and the muted --attr-int grey-purple. ─────────── */
+  --murasaki: #5a4a7a;
+
   /* ── ATTRIBUTE pigments — the five stats, each a traditional colour that sits on washi. The
      intro decision buttons + the perk they grant are themed by the attribute the choice boosts
      (+1), so a pick reads as belonging to its stat. Kanji live in ATTR_META (src/core). ── */

@@ -139,13 +139,11 @@ const COLD_OPEN_LEDE =
 
 // ── the interactive intro VN scene (D-104 / F43–F48) — the SOLE prod intro presentation ──
 // Voice → on-palette colour: the nameplate seal + name take it (mirrors the log voice colours).
-// D-110 'lord' voice — DEFERRED, NOT resolved this pass. The plan §7.2 wants a DEDICATED `'lord'`
-// VoiceCategory (a distinct dignified colour/seal) for Shigemasa's R7 capstone. Adding a key here
-// (a `Record<VoiceCategory, …>` — exhaustive over the CORE union) requires `'lord'` to first exist
-// in the core `VoiceCategory` union (`src/core/content/voices.ts`); it does NOT (the union is
-// narrator|player|physician|steward|arms|official|villager). Core is off-limits this pass, so
-// Shigemasa keeps the `'official'` castle/authority colour (distinct from Chiyo's `steward`) — see
-// the matching note in voices.ts. Add `'lord'` to the core union first, then a token here + repoint.
+// D-110 'lord' voice — RESOLVED. Shigemasa's R7 capstone speaks in a DEDICATED `'lord'`
+// VoiceCategory (added to the core union in `voices.ts`): murasaki 紫 — the historic
+// highest-court-rank colour — distinct from the magistrate `'official'` kihada and Chiyo's
+// `'steward'` ochre. These maps are exhaustive over the core `VoiceCategory` union, so `lord`
+// must carry a key in BOTH (a missing key is a tsc error — the compile-time guarantee).
 const VOICE_COLOR: Record<VoiceCategory, string> = {
   narrator: 'var(--ink-soft)',
   player: 'var(--rokusho)',
@@ -154,6 +152,7 @@ const VOICE_COLOR: Record<VoiceCategory, string> = {
   arms: 'var(--beni)',
   official: 'var(--kihada)',
   villager: 'var(--gold)',
+  lord: 'var(--murasaki)',
 };
 // Attribute → its themed pigment (the five traditional colours in styles.css `:root`). An intro
 // decision + the perk it grants are tinted by the attribute the choice boosts (+1), so a pick reads
@@ -175,6 +174,7 @@ const VOICE_SEAL: Record<VoiceCategory, string> = {
   arms: '武',
   official: '官',
   villager: '里',
+  lord: '殿', // 殿 (dono) — his lordship, the domain lord Shigemasa (D-110 R7)
 };
 /** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. Takes a
  *  minimal structural shape so BOTH the intro `DialogueScene` and the normalized `VnScene` (rung

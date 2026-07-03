@@ -1,6 +1,24 @@
 # PRD ripple tooling — partial automation now (D-117 Phase 0)
 
-**Status: 📋 PROPOSED — awaiting human read.**
+**Status: 📋 PROPOSED — awaiting human read; Ph1 BUILT 2026-07-03**
+(autonomously — report-only, touches no canon; Ph2–Ph4 await your read).
+
+> **Ph1 build notes (2026-07-03).** `prd:drift` is live (`npm run
+> prd:drift`; `--strict` exits 1 — currently RED on real data). Day-one
+> findings: **19 presence gaps** — §3 still carries the pre-reshape rung
+> titles (6/8 missing), §4's T0 weapon roster diverges from the build
+> (built: carrying-pole + **woodlot axe** + forged yari; PRD: carrying-pole
+> + yari + **kama-yari**), 4/8 mobs and the 3 stance ids unmentioned, and
+> the 3 rung-beat cast names absent (expected — the cast awaits your R8
+> read). **One DoD deviation, deliberate:** the "fix one gap in a follow-up
+> ripple commit" clause was NOT executed for the presence gaps — every one
+> sits in territory the T0 compression sweep (D-117) will rewrite, so
+> hand-rippling now double-pays; the punch-list IS the sweep's backlog,
+> now quantified. What DID get fixed on day one: the retired-terms
+> tripwire **false-fired on its first run** (on §2's real-name denylist —
+> the one line where retired names belong) and was calibrated with a
+> documented-rename allowance (a hit line naming the successor is not
+> drift). A11 in action, worth keeping.
 
 The buildable-NOW slice of **D-117** (the frontier PRD). The T0 compression
 sweep itself stays human-gated on R1 closing — nothing here jumps that gate.
