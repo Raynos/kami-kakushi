@@ -35,21 +35,61 @@ This file is HISTORY; live state = `project/status/project-status.md`.
 - `project/human-in-the-loop/review.md` — R9 extended with 07/08/09.
 - `project/journal/…session-60…` — this file.
 
+## 2 · Build + QA + gallery wiring
+
+- Built via **3 parallel resumable Opus agents** (one per variant, disjoint dirs
+  → parallel-safe on the shared tree). Each forked its parent's 3 files, kept the
+  proven engine/reconcile/mobile machinery, transformed the design language, and
+  self-verified (Playwright desktop + WebKit-iPhone arc, screenshot self-review).
+  All three returned clean: **0 console errors, 0 per-element overflow** on
+  desktop (1440×900) and phone (393px), full arc R0→R3 + VN + ceremony + all tabs.
+- **Orchestrator QA (R2, my own eyes):** reviewed the key frames of each against
+  VARIANT-SPEC §3 + taste T1–T4 and each concept's named slop-risk. Verdicts:
+  - **07 Andon** — two-light read lands (cold-open title grades gold→silver; warm
+    lamp vs cool window; gold mullion carries the terminator — no mud). Ship.
+  - **08 Night Seal** — "cold house, one warm seal" reads; ceremony grows the
+    cursor into the stamp (continuity payoff); "01 + red cursor" collapse
+    defeated by lacquer material + the paper-log inversion. Ship.
+  - **09 Damascene Duet** — genuine third steel substrate; silver=state/gold=value
+    split legible; strike floods vermillion; nunome keeps quiet fields alive;
+    gunmetal/trophy both defeated; dark recessed log avoids the empty-paper dial.
+    Ship.
+  - Residual items are **taste dials for the human**, captured in the plan's
+    "Known taste dials" — I did NOT silently tune them (R5: the human is the
+    taste arbiter; the demos exist for the pick).
+- Wired all three into `ui-demos/index.html` as the **single writer** (intro
+  updated; three `<li>` rows with axis-flavoured DNA tags). Local server confirms
+  the gallery lists + serves all three.
+
+### What changed (this commit)
+- `ui-demos/07-andon/`, `ui-demos/08-night-seal/`, `ui-demos/09-damascene/` — NEW
+  full variants (index.html + style.css + main.js each).
+- `ui-demos/index.html` — gallery intro + three rows for 07–09.
+- `docs/plans/opus-2026-07-03-ui-demos-07-09-moonlit-lacquer.md` — Status → BUILT;
+  DoD ticked; "Known taste dials" section added.
+- this journal.
+
 ## Next intended steps
-1. Build 07/08/09 — one resumable Opus agent per variant (fork its parent →
-   reskin/recompose → self-verify per VARIANT-SPEC §4.3). Disjoint dirs →
-   parallel-safe.
-2. QA each myself (drive + screenshot R0–R3 + moments + mobile; score vs §3 +
-   taste T1–T4); fix anything off.
-3. Wire `ui-demos/index.html` (gallery rows 07–09); keep R9 current; checkpoint +
-   push so the Vercel demo updates.
+1. Checkpoint push `main` so the Vercel demo carries 07–09 (for the human's iOS
+   review). **If the pre-push gate goes red on the concurrent F1a agent's
+   in-flight `src/scripts` WIP, do NOT override** — leave the commit local, note
+   it, and push once their tree is green.
+2. On the human's R9 pick: tune the chosen variant's taste dials, or run a
+   refine/blend round; archive this plan.
 
 ## Landmines
-- Build agents must touch **only** their own `ui-demos/0N-<name>/` dir — never the
-  shared gallery `index.html`, `shared/`, or each other's dirs (shared-tree
-  safety). I wire the gallery as the single writer.
-- ui-demos is excluded from Prettier/ESLint but is still served as ES modules from
-  repo root — relative `../shared/` imports, no build step, no external requests.
-- The three concepts each carry a named slop-risk (Andon terminator mud; Night
-  Seal "01 + red cursor"; Damascene gunmetal/trophy) — QA must judge those
-  specifically, not just "does it render".
+- **Shared tree, live:** a concurrent agent is building **F1a** (mechanical
+  checkpoint) — `package.json`, `src/scripts/verify-run.ts` + new `checkpoint.ts`
+  / `gates.ts` / `gen-regions.ts`, and it also edits `project/status/project-status.md`.
+  I staged ONLY my `ui-demos/` + plan + journal by explicit path; left all of
+  theirs (incl. the snapshot) untouched. The snapshot update for the fusion demos
+  is deferred to avoid sweeping their WIP into my commit.
+- ui-demos is excluded from Prettier/ESLint but served as ES modules from repo
+  root — relative `../shared/` imports, no build step, no external requests. So
+  the commit uses `SKIP_CODE_VERIFY=1` (the code lane can't judge ui-demos and
+  would only run against the other agent's in-flight src changes).
+- Concurrent build agents' QA teardown `pkill` swept up my local review server
+  twice (exit 144) — a stable server is only safe once all build agents finish.
+- Cross-variant dial (inherent to the game's sparse story content, not a bug): the
+  *bright* paper logs (07 window, 08 well) read empty at low line-counts; 09's
+  dark steel log sidesteps it.

@@ -1,8 +1,10 @@
 # Plan — UI demos 07–09: the Moonlit × Lacquer fusion trio
 
-**Status: ▶️ BUILDING (session 2026-07-03).** Concepts locked (7-way fan-out →
-spanning trio); building 07 Andon, 08 Night Seal, 09 Damascene Duet as full
-working `ui-demos/` variants, then QA + gallery wiring + R9 review items.
+**Status: ✅ BUILT + verified (session 2026-07-03) — awaiting the human's R9
+pick.** All three (07 Andon, 08 Night Seal, 09 Damascene Duet) built as full
+working `ui-demos/` variants, self-verified + orchestrator-QA'd (full arc, 0
+console errors, 0 overflow desktop + mobile, each thesis reads in 2s, each named
+slop-risk defeated) and wired into the gallery. Archive once the R9 pick closes.
 
 Human ask (2026-07-03): torn between **01 Moonlit** and **04 Lacquer**, wants **3
 fusion variants** built as demos **07–09** to feel which one pulls. Idea fan-out +
@@ -182,12 +184,25 @@ into one blackened-steel jewel-box. Neither night-box nor urushi-and-paper.
 
 ## Definition of done
 
-- [ ] 07 Andon, 08 Night Seal, 09 Damascene Duet each a **full working** variant
+- [x] 07 Andon, 08 Night Seal, 09 Damascene Duet each a **full working** variant
       (every stage R0–R3, every tab, every moment, mobile) — VARIANT-SPEC §0–§4.
-- [ ] Each passes a Playwright arc sweep (zero console errors) + a screenshot
+- [x] Each passes a Playwright arc sweep (zero console errors) + a screenshot
       review by me against §3 and the four taste values (T1–T4).
-- [ ] The 2-second resemblance test holds at R0→R3 for each; each is distinct from
+- [x] The 2-second resemblance test holds at R0→R3 for each; each is distinct from
       **both** parents and from the other two.
-- [ ] Wired into `ui-demos/index.html`; R9 extended; this plan queued; pushed so
-      the live gallery carries them.
+- [x] Wired into `ui-demos/index.html`; R9 extended; this plan queued. Pushed so
+      the live gallery carries them: _pending the checkpoint push_.
 - [ ] Plan archived to `project/archive/` once the human's R9 pick round closes.
+
+## Known taste dials (for the human's R9 call — not defects)
+
+- **07 Andon** — the cool wash on the moonlit log-window is *gentle* (reads more
+  warm-cream than strongly moonlit); the shōji mullions are a true whisper. Both
+  can be pushed on request (risk: over-cooling → "mildewed cream").
+- **08 Night Seal** — the bone-white paper log reads *large-and-empty* at late
+  stages (few story lines, now on a bright panel); lacquer catchlight is
+  restrained ("won, but conservatively"); the ink-bloom centers on the row box,
+  not pinned to the seal glyph.
+- **09 Damascene Duet** — the R0 Rake lozenge is the brassiest gold moment (sole
+  anchor, so attention is correct); composition is 04's by the fork mandate — the
+  novelty is material + semantics + the strike, a re-inlay not a re-architecture.
