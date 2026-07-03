@@ -170,3 +170,35 @@ with the cull-don't-bypass message; restored → green; docs lane now runs
 the removed checklist) replaced by the **taste register** — T1–T4 value
 one-liners mirroring the philosophy R1–R6 pattern, pointing at taste.md.
 Full 13-gate verify green.
+
+## P4 SHIPPED — the prediction test: the transfer WORKS. Plan DONE.
+
+Two blind judges (fresh agents, zero inherited context, reading ONLY
+taste.md + qa§9) scored 12 disguised cases (10 real pre-fix F-states + 2
+compliant decoys): **verdicts 24/24, zero false positives; principle
+attribution 11/12 each — and the single miss was IDENTICAL across both**
+(case 7/F41: intro-choice stat line → they said Story, the human said
+Progress). A convergent miss = a real wording ambiguity → principle 16
+sharpened in place ("a scene's stat-grant LINE is Progress; its prose is
+Story"); taste.md now sits at exactly 150/150. Results: brainstorm §12.
+Closed out: the ⭐ TODO closed in todo-human (docs stay queued for the
+lock read); the taste-redo plan flipped ✅ and **archived** (links in the
+brainstorm + D-126 repointed); F10's placeholder marked RE-PLAN TRIGGER
+FIRED with the no-more-checklist note.
+
+## Next intended steps (current)
+
+1. Human: lock reads of taste.md + ui-design.md (queued) + the brainstorm.
+2. F10 full re-plan (scorecards vs the 21 numbered principles) — next
+   session.
+3. Repeat-rate tagging rides the F3 capture-inbox format when built.
+
+## Landmines (current)
+
+- taste.md is at exactly 150/150 — the next edit MUST displace a line
+  (the doc-budgets gate blocks >150).
+- The `(session-NN)` genre tripwire warns (never blocks) if a session ref
+  sneaks into taste/ui-design.
+- eslint can transiently fail on a vanished `vite.config.ts.timestamp-*`
+  temp file while the dev server runs — re-run; an ignore pattern would
+  kill the race.

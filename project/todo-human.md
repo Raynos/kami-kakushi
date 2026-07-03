@@ -16,14 +16,10 @@
 
 ## TODO
 
-- [ ] **⭐ Redo the taste-distillation + ui-design rewrite WITH FABLE** — this is
-  critical enough to warrant a dedicated, human-in-the-loop re-pass, not just the
-  autonomous first cut. Tonight's `docs/living/taste.md` (the 117-item taste
-  standard) + the `ui-design.md` reconciliation are the highest-leverage artifacts
-  of the session — they set the bar every future feature is built to. Sit with
-  Fable (the design agent), review/rework them together, and lock the taste bar
-  you actually want. Treat the autonomous version as a **strong first draft**, not
-  the final word.
+_(The ⭐ taste-redo TODO **closed 2026-07-03** — done WITH Fable: D-126 lock →
+taste.md rewritten (149→150 lines, prediction-tested 24/24) → ui-design culled
+→ register + `doc-budgets` gate shipped. The two rewritten docs sit in the
+reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 
 ## Reading queue
 
@@ -41,10 +37,6 @@
 
 **⭐ Tonight's headline — the taste standard (the key read):**
 
-- [ ] `docs/plans/fable-2026-07-03-taste-redo.md` — **the taste-redo build
-  order** (little plan, per your ask): P0 lock (in flight) → P1 taste.md
-  rewrite ≤150 → P2 ui-design cull ≤400 → P3 register + budgets gate →
-  P4 prediction test. Strictly serial; the brainstorm holds all decisions.
 - [ ] `project/brainstorms/2026-07-03-taste-transfer-architecture.md` — the
   **strategy for the ⭐ redo** (being discussed live in-session): the pyramid
   (values + touchstones over the 22 principles), delivery rungs, the

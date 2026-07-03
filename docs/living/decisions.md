@@ -1504,7 +1504,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   situations no rule covers; and living docs bloat without a bound (the
   326-line `project-status.md` lesson). Grill session + full Q&A log:
   `project/brainstorms/2026-07-03-taste-transfer-architecture.md` (§10);
-  build order: `docs/plans/fable-2026-07-03-taste-redo.md`.
+  build order: `project/archive/fable-2026-07-03-taste-redo.md` (✅ done, archived).
 - **Options:** (a) more principles + a bigger checklist; (b) a generative top
   layer (values + touchstones) over culled principles, with hard doc budgets;
   (c) leave the draft as-is.

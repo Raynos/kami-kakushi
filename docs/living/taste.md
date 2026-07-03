@@ -114,9 +114,10 @@ When no principle covers, **reason from the four values**.
 ### IV · Legible state (V4)
 
 16. **Route by narrative weight.** Story = mandatory beats · Chat =
-    optional Q&A · Progress = earned · Combat · Work = notable · Now =
+    optional Q&A · Progress = earned (a scene's stat-grant LINE is
+    Progress; its prose is Story) · Combat · Work = notable · Now =
     fleeting (wall-clock expiry even unwatched; fade + slide up); tabs
-    ordered by importance. (F9 F41 F52 F53 F58 F103 F111 F114 F115)
+    by importance. (F9 F41 F52 F53 F58 F103 F111 F114 F115)
 17. **Controls advertise their state.** Active choice highlighted;
     explored options dimmed (≠ disabled); off-view channels badged unread,
     cleared on visit; loaded history is SEEN. (F20 F21 F49 F59 F87)

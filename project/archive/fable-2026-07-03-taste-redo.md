@@ -1,6 +1,11 @@
 # The taste redo — lock, cull, wire (the ⭐ TODO, executable form)
 
-**Status: ▶️ ACTIVE — P0 ✅ locked (ADR D-126); next: P1 (re-derive + rewrite).**
+**Status: ✅ DONE (2026-07-03) — all five phases shipped.** P0 lock → D-126;
+P1 taste.md pyramid (150 lines, full coverage); P2 ui-design cull (351/400,
+tokens generated); P3 taste register + `doc-budgets` gate (RED-proven); P4
+prediction test 24/24 (one wording ambiguity found + fixed in place). The
+human's lock reads of the two docs ride the reading queue; the F10 re-plan
+trigger has fired.
 **Confidence: ( 5% Opus, 95% Fable )** — this is the taste keystone; only
 the P3 gate wiring is routine enough for either.
 

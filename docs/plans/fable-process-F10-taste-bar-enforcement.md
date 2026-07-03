@@ -1,11 +1,13 @@
 # Taste-bar enforcement — self-scorecards against taste.md
 
-**Status: ⏸️ PLACEHOLDER — deliberately lightweight.** `docs/living/taste.md`
-is a **first draft pending the human's re-pass with the other session** (the
-open ⭐ TODO: "redo the taste-distillation WITH Fable"). Enforcing an
-unvetted standard would bake in the wrong bar, so this plan intentionally
-stops at the mechanism sketch. **It is REDONE in full once taste.md is
-locked** — the re-plan trigger is that TODO closing.
+**Status: ⏸️ PLACEHOLDER — RE-PLAN TRIGGER FIRED (2026-07-03).**
+`docs/living/taste.md` is now **LOCKED** (D-126: 4 values → touchstones →
+21 numbered principles, hard-capped 150 lines by the `doc-budgets` gate,
+prediction-tested 24/24 — receipts: the archived taste-redo plan + the
+taste-transfer brainstorm §12). The ⭐ TODO closed, so this placeholder is
+due its full rewrite. Note for the re-plan: **the pre-ship checklist no
+longer exists** — the per-surface scorecard IS its operational form,
+scoring against the 21 numbered principles.
 
 ## Who builds this — Fable or Opus?
 

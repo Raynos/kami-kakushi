@@ -280,8 +280,8 @@ new principle needs a value it expresses — and a line it displaces.
 
 ## 10 · Top-layer lock — Q&A log (grill, 2026-07-03)
 
-Execution plan for what follows this lock:
-[`docs/plans/fable-2026-07-03-taste-redo.md`](../../docs/plans/fable-2026-07-03-taste-redo.md).
+Execution plan for what follows this lock (✅ DONE, archived):
+[`project/archive/fable-2026-07-03-taste-redo.md`](../archive/fable-2026-07-03-taste-redo.md).
 
 ### Q1 — the six strawman values
 - Asked: do V1–V6 capture the taste as taste.md's top layer?
@@ -406,6 +406,25 @@ principles verified **evidence-sound** — no invented rules found. Changes:
 - **DoD receipts**: taste.md = **149 lines** (cap 150); corpus ∖
   (taste.md ∪ qa-playtesting §9) = **∅**.
 
+## 12 · P4 — the prediction test (2026-07-03): the transfer WORKS
+
+Two independent blind judges (fresh agents, NO inherited context, reading
+ONLY taste.md + qa-playtesting §9) scored 12 disguised situations: 10
+real pre-fix F-item states + 2 compliant decoys.
+
+- **Verdicts: 24/24 correct** — every violation caught, both decoys
+  passed, zero false positives.
+- **Principle attribution: 11/12 exact per judge**, and the single miss
+  was IDENTICAL across both (case 7 = F41: the intro-choice stat line —
+  both routed it to Story; the human's actual call was Progress). A
+  convergent miss = a real wording ambiguity, exactly what the test
+  exists to catch → **principle 16 sharpened in place** ("a scene's
+  stat-grant LINE is Progress; its prose is Story"). taste.md sits at
+  exactly 150/150 after the fix — the next edit must displace.
+- The doc's own promise is now measured going forward: the repeat-rate
+  tag rides the F3 (capture-inbox) format when that plan builds.
+
 ## Open flags (pending input)
 - Kurosawa resettle → rides R9, not this lock.
-- The rewritten taste.md awaits the human's lock read (queued).
+- The rewritten taste.md + culled ui-design.md await the human's lock
+  read (queued); the F10 re-plan trigger has FIRED (noted in its plan).
