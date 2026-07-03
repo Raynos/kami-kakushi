@@ -55,6 +55,10 @@
   redo, P1)**: your 4 locked values + touchstones/references + 21 culled
   principles, 149 lines (cap 150), full F1–F117 coverage (workshop bar →
   `qa-playtesting.md` §9). **Your lock read** — the D-126 pyramid made real.
+- [ ] `docs/living/ui-design.md` — **the bible, culled 1,159 → 351 lines**
+  (P2): vision marked provisional-pending-R9, token values → generated
+  `docs/content/ui-tokens.md` (from styles.css), judgment → taste.md
+  pointers. Skim to confirm nothing you rely on was lost.
 
 **Owed reviews / taste calls (async, no rush):**
 

@@ -138,3 +138,20 @@ P21/P22 + DEV F-items) relocated to `qa-playtesting.md` **§9** in the
 same commit. Coverage receipt: corpus ∖ (taste ∪ qa§9) = ∅; F72 resolved
 (embedded in F67's body). Substance diff: brainstorm §11. Queued for the
 human's lock read.
+
+## P2 SHIPPED — ui-design.md culled 1,159 → 351 lines (cap 400)
+
+The bible is now snapshot-class: judgment points at taste.md, token
+VALUES point at a new **generated** `docs/content/ui-tokens.md`
+(`gen-docs.ts` emits the `:root` block of styles.css verbatim — rides the
+existing gen-docs gate, so a token edit without regen goes RED), CSS
+recipes point at styles.css. §1 vision carries the **provisional-pending-
+R9 marker** (D-126: "softer canon than the docs claim" — do not harden).
+Kept whole: palette roles + discipline, type rules, app-shell/multi-panel
+contract, 7-tab IA table, component contracts (log/perks/meters/rung/VN
+scene…), motion table, the locked emoji set, the anti-slop checklist.
+Culled: the ~90 lines of CSS code blocks, per-screen prose (→ terse
+beats), the summary + sources (git history holds provenance). Full verify
+green (one transient eslint ENOENT on a vite `config.timestamp-*.mjs`
+temp file from the running dev server — re-ran clean; a lint-ignore for
+that pattern would kill the race for good).
