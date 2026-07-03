@@ -49,9 +49,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **Fable parallel:** six T0 remaster variants (R9), mobile pass landed — live
   at <https://kami-kakushi-ui-demos.vercel.app> (s56).
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
-- **D-117 frontier PRD + the process wave** — §4 ripple-frozen; process plans
-  queued, **ordered F1–F10 by `fable-process-master-plan.md`**. BUILT so far:
-  `prd:drift` + sweep-guard.
+- **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
+  `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard, F1a checkpoint
+  (14th gate, self-archived). NEXT: F1b Ph2–4.**
 
 ## Waiting on the human
 
@@ -114,7 +114,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** = the **F10 full re-plan** (taste scorecards vs the 21
-   principles — its trigger fired at the D-126 lock), then the F1+ process wave /
-   the deferred tail above. Balance liquid (D-059).
+4. **Next autonomous work** = **F1b Ph2–4** (Wave-0 lane resumes; F1a done), then
+   F2→F10 per `fable-process-master-plan.md`. F10 re-plan trigger fired (D-126),
+   folds into the wave. Balance liquid (D-059).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
