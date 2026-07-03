@@ -14,38 +14,21 @@
 //   SKIP_DOCS_VERIFY=1  skip the 'docs'-scoped gates (a pure code commit)
 // Ignored by --budget (it measures the full roster) and by pre-push (a push always runs everything).
 //
-// This is the single source of truth for the gate list (it replaced the package.json `&&` chain and
-// the old verify-budget.ts). `npm run verify` → this; `npm run verify:budget` → this --budget.
+// The gate list itself now lives in `gates.ts` (the single source of truth — extracted so
+// checkpoint.ts can import the roster without running this runner). `npm run verify` → this;
+// `npm run verify:budget` → this --budget.
 export {};
 
 import { spawn } from 'node:child_process';
 import { cpus } from 'node:os';
 import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
-import { gatesForFlags, scopeFlagsFromEnv, type GateScope } from './verify-scope';
+import { GATES } from './gates';
+import { gatesForFlags, scopeFlagsFromEnv } from './verify-scope';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 const binDir = fileURLToPath(new URL('../../node_modules/.bin', import.meta.url));
 const env = { ...process.env, PATH: `${binDir}:${process.env.PATH ?? ''}` };
-
-// scope (audited 2026-07-03): what a gate READS decides its lane — code = src/config only ·
-// docs = markdown only · both = a code<->docs invariant ('both' is skipped only when BOTH
-// lanes are skipped — see verify-scope.ts).
-const GATES: ReadonlyArray<{ name: string; cmd: string; scope: GateScope }> = [
-  { name: 'tsc', cmd: 'tsc --noEmit', scope: 'code' },
-  { name: 'eslint', cmd: 'eslint .', scope: 'code' },
-  { name: 'prettier', cmd: 'prettier --check .', scope: 'code' }, // *.md + docs dirs are .prettierignore'd
-  { name: 'vitest', cmd: 'vitest run', scope: 'code' },
-  { name: 'verify-content', cmd: 'tsx src/scripts/verify-content.ts', scope: 'code' }, // imports registries only
-  { name: 'verify-prd', cmd: 'tsx src/scripts/verify-prd.ts', scope: 'docs' }, // reads docs/living/prd/* only
-  { name: 'gen-docs', cmd: 'tsx src/scripts/gen-docs.ts --check', scope: 'both' }, // src registries -> docs/content
-  { name: 'pacing', cmd: 'tsx src/scripts/pacing-report.ts --check', scope: 'code' }, // imports ../core only
-  { name: 'playcheck', cmd: 'tsx src/playcheck.ts --check', scope: 'code' },
-  { name: 'md-links', cmd: 'tsx src/scripts/check-md-links.ts', scope: 'both' }, // md links break via src renames too
-  { name: 'milestone-integrity', cmd: 'tsx src/scripts/milestone-integrity.ts', scope: 'both' }, // roadmap DoD -> real tests
-  { name: 'verify-changelog', cmd: 'tsx src/scripts/verify-changelog.ts', scope: 'both' }, // package.json -> CHANGELOG
-  { name: 'doc-budgets', cmd: 'tsx src/scripts/verify-doc-budgets.ts', scope: 'docs' }, // snapshot-doc caps (D-126)
-];
 
 interface GateResult {
   name: string;

@@ -80,16 +80,16 @@ ladder** → T1–T5 · home grows w/ rung · NPC placement (F113) · balance fe
 ## Toolchain
 
 Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint
-boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` = **13
-gates** (tsc, eslint, prettier, vitest, verify-content, verify-prd, gen:docs --check,
-pacing:check, playcheck:check, md-links, milestone-integrity, verify-changelog,
-doc-budgets) **in parallel** via `verify-run.ts`; docs-only commits:
-`SKIP_CODE_VERIFY=1` (docs lane still runs, ~0.3s; `SKIP_VERIFY=1` = last resort).
-**`.githooks/pre-commit`** runs full `verify` + the reading-queue/journal/snapshot
-gates; **`.githooks/pre-push`** runs `verify` and **blocks on red** (`SKIP_VERIFY=1`
-overrides). **Note: HMR is OFF** (`vite.config.ts`) — hit F5 to see dev changes.
-`npm run dev` · `npm run build` (→ `dist/`, itch) · `build:itch`. Hooks once per
-clone: `git config core.hooksPath .githooks`.
+boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` runs
+in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
+<!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
+**13 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
+gen-docs, pacing, playcheck, md-links, milestone-integrity, verify-changelog,
+doc-budgets.
+<!-- gen:end gate-roster -->
+Docs-only: `SKIP_CODE_VERIFY=1` (docs lane runs, ~0.3s; `SKIP_VERIFY=1` last resort).
+**`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
+blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `build:itch`.
 
 ## Code & repo layout
 
@@ -110,7 +110,7 @@ clone: `git config core.hooksPath .githooks`.
 
 1. Read the **newest journals** (`journal/2026-07-03-session-57-taste-transfer-architecture.md`
    — the taste lock/redo arc — then s54/s56) + `todo-human.md` for the open forks.
-2. `npm install` → `npm run verify` (green, 13 gates) → `npm run dev` (→ localhost:5173).
+2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.

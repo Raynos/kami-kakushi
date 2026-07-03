@@ -13,8 +13,14 @@ durable design → [`../../docs/`](../../docs) (edited in place); ADRs → [`dec
 per-fact memory here.
 
 **Commit gate.** Keep the build working; stage a `journal/` change every commit and gate on `npm run verify`
-(both enforced by `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). The gate roster is owned by
-[`verify-run.ts`](../../src/scripts/verify-run.ts) — single source, **11 gates** — so it can't drift here.
+(both enforced by `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). The roster is owned by
+[`gates.ts`](../../src/scripts/gates.ts) — the single source, so the count can't drift here:
+<!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
+**13 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
+gen-docs, pacing, playcheck, md-links, milestone-integrity, verify-changelog,
+doc-budgets.
+<!-- gen:end gate-roster -->
+Run `npm run checkpoint` after adding / removing a gate to regenerate that list.
 
 **Autonomy.** Pick next → build → verify → commit → journal → repeat. Stop and ask only for (1) decisions that
 change what the game *is*, and (2) outward-facing / irreversible actions (deploy, delete, force-push). **Routine
