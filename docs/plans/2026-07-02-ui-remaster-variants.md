@@ -1,7 +1,10 @@
 # UI-remaster variants — five full T0 remasters in `ui-demos/`
 
-**Status: ▶️ IN PROGRESS (session 47).** Human-briefed live this session; scope
-locked interactively (directions, depth, language, target all human-picked).
+**Status: ✅ BUILT — awaiting the R9 taste call (session 47).** All five
+variants live at <https://kami-kakushi-ui-demos.vercel.app>; verdict per
+variant in `project/human-in-the-loop/review.md` (R9). Scope was locked
+interactively (directions, depth, language, target all human-picked); the
+plan archives once the pick lands and the port path is decided.
 
 ## 1 · Goal & calibration
 
