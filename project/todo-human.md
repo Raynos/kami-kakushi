@@ -35,23 +35,6 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an R-item in `human-in-the-loop/review.md`, not here).
 
-**⭐ Tonight's headline — the taste standard (the key read):**
-
-- [ ] `project/brainstorms/2026-07-03-taste-transfer-architecture.md` — the
-  **strategy for the ⭐ redo** (being discussed live in-session): the pyramid
-  (values + touchstones over the 22 principles), delivery rungs, the
-  prediction-test + repeat-rate measurement, §9 budgets, and §10 — the
-  live grill log locking the top layer.
-
-- [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD, REWRITTEN (the Fable
-  redo, P1)**: your 4 locked values + touchstones/references + 21 culled
-  principles, 149 lines (cap 150), full F1–F117 coverage (workshop bar →
-  `qa-playtesting.md` §9). **Your lock read** — the D-126 pyramid made real.
-- [ ] `docs/living/ui-design.md` — **the bible, culled 1,159 → 351 lines**
-  (P2): vision marked provisional-pending-R9, token values → generated
-  `docs/content/ui-tokens.md` (from styles.css), judgment → taste.md
-  pointers. Skim to confirm nothing you rely on was lost.
-
 **Owed reviews / taste calls (async, no rush):**
 
 - [ ] `docs/plans/opus-2026-07-03-emergent-node-actions.md` — **emergent node

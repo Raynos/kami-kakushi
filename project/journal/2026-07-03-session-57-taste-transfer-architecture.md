@@ -202,3 +202,10 @@ FIRED with the no-more-checklist note.
 - eslint can transiently fail on a vanished `vite.config.ts.timestamp-*`
   temp file while the dev server runs — re-run; an ignore pattern would
   kill the race.
+
+## Checkpoint (session close)
+
+Snapshot brought current (the new doc-budgets gate caught it at 127/120
+mid-edit — displaced to 120 exactly; the mechanism works on its author).
+Queue reconciled with the human (AskUserQuestion): taste.md, ui-design.md
+and the taste-transfer brainstorm all cleared — signed off. Pushed main.
