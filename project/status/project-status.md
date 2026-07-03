@@ -74,9 +74,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
-The **'lord' voice** needs a core `VoiceCategory` extension · economy **Phase 5**
-status tokens (captured — PRD §2 + D-109 + both plans) · **home grows with rung** ·
-**per-tier/rung NPC placement** (F113) · the balance-watch tuning (above).
+Economy **Phase 5** status tokens (captured — PRD §2 + D-109 + both plans) ·
+**home grows with rung** · **per-tier/rung NPC placement** (F113) · the
+balance-watch tuning (above). *(The 'lord' voice — D-110 — shipped s52.)*
 
 ## Toolchain
 
@@ -107,8 +107,8 @@ clone: `git config core.hooksPath .githooks`.
 > What's open is the human async queue above; the deferred/owed tail is the next
 > autonomous work as picks land. Scope locked in ADRs D-107–D-116.
 
-1. Read the **newest journal** (`journal/2026-07-03-session-49-t0-rebuild-complete.md`)
-   + the feedback doc (`human-feedback/2026-07-02-playtest.md`, F1–F117 all ✅) +
+1. Read the **newest journal** (`journal/2026-07-03-session-52-docs-reconcile-taste-r6-lord.md`,
+   then back through s51/s50/s49) + the feedback doc (`human-feedback/2026-07-02-playtest.md`) +
    `todo-human.md` (the reading queue + open forks) for the full arc.
 2. `npm install` → `npm run verify` (green, 12 gates) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
