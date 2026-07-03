@@ -217,13 +217,15 @@ micro-faction / recipes). Below = my proposals; ⚠ = open call for the human.
   does the work). *(new char — needs a name)* ⚠
 - **Unique character (new):** the retired **master artisan**.
 - **Unique location (new node):** the master's **workshop / hermitage**.
-- **Unique micro-faction:** your **student-standing** with the master — a small
-  track raised by practice.
-- **Unique activities:** practice/craft sessions at the workshop that raise your
-  standing and **progressively unlock the recipes**.
+- **NO micro-faction** (that was a misread of C3). Instead → a unique
+  **activity / craft-skill / grind (or a little shop) AT the workshop**, whose
+  **levels / progress UNLOCK the unique crafting recipes** (recipes as
+  level-unlocks — RuneScape-style tier gating).
 - **Unique recipes:** **2–3 unique recipes** (the master's techniques — narrow).
-- **Reward:** **the master's piece** (a strong crafted equippable — the graduation
-  piece). *(⚠ this is the 3rd weapon — reflavour to a tool/armor?)*
+  **NOT a quest reward** — earned by grinding the workshop activity/skill (or bought
+  at the little workshop shop as you level).
+- **Reward (quest):** **the master's piece** (a strong crafted equippable — the
+  graduation item). *(⚠ 3rd weapon — reflavour to a tool/armor?)*
 
 ### ⚠ Key open question — Naoyuki's introduction timing
 Naoyuki is the canonical in-house RIVAL, currently **mentioned-but-unseen in T0**.

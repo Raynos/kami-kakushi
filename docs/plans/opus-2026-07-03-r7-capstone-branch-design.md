@@ -28,7 +28,7 @@ One choice per playthrough → one quest; the other two lock out (replay driver)
 |---|---|---|---|---|
 | **Devoted** | "The House's Buried Shame" | Sadamune's recovered blade | a repeatable **enemy** (the debtor's enforcer) in a new **hideout** location | med |
 | **Ambitious** | "The Contest of Heirs" | a fine dueling blade | **Naoyuki** intro + a **spar activity** + a **Naoyuki-regard micro-faction** | hrs |
-| **Humble** | "The Late Student" | the master's piece | a new **master** char + **workshop** location + **student micro-faction** + **2–3 recipes** | med |
+| **Humble** | "The Late Student" | the master's piece | a new **master** char + **workshop** location + a **craft activity/skill (or little shop)** whose levels **unlock 2–3 recipes** | med |
 
 **Canon:** player = a **retainer** of the **Kurosawa** house (lord = **Shigemasa
 Kurosawa**, heir **Naoyuki**); the player's surname is the **T3** reveal. "Devoted"
@@ -105,12 +105,15 @@ reusing existing systems only.
 - **Quest-giver / new character:** the retired **master artisan** — seeks you out
   (⚠ name).
 - **New location (map node):** the master's **workshop / hermitage**.
-- **Micro-faction:** **student-standing** with the master (raised by practice).
-- **Activities:** practice/craft sessions that raise standing and **progressively
-  unlock the recipes**.
-- **Recipes:** **2–3 unique recipes** (narrow — e.g. a silver-inlaid refinement).
-- **Item:** **the master's piece** (a strong crafted equippable — ⚠ 3rd weapon;
-  reflavour to a tool/armor?).
+- **Unlock = a craft activity / skill / grind (or a little workshop shop):** the
+  **recipes are gated behind LEVELING it** (not handed out by the quest). Reuse the
+  existing skill/activity + craft systems — recipes appear as level/progress
+  unlocks (RS-style tier gating), or bought at the workshop shop as you rank up.
+  **No micro-faction** (that was a C3 misread).
+- **Recipes:** **2–3 unique recipes** (narrow — e.g. a silver-inlaid refinement),
+  unlocked by the activity above.
+- **Item (quest reward):** **the master's piece** (a strong crafted equippable —
+  ⚠ 3rd weapon; reflavour to a tool/armor?).
 
 ### Build mechanics (all three)
 - Each quest gates on the R7 pick flag + the T1 unlock; the R7 beat's `flags`
