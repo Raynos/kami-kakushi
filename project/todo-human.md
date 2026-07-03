@@ -41,10 +41,15 @@
 
 **⭐ Tonight's headline — the taste standard (the key read):**
 
+- [ ] `docs/plans/fable-2026-07-03-taste-redo.md` — **the taste-redo build
+  order** (little plan, per your ask): P0 lock (in flight) → P1 taste.md
+  rewrite ≤150 → P2 ui-design cull ≤400 → P3 register + budgets gate →
+  P4 prediction test. Strictly serial; the brainstorm holds all decisions.
 - [ ] `project/brainstorms/2026-07-03-taste-transfer-architecture.md` — the
   **strategy for the ⭐ redo** (being discussed live in-session): the pyramid
   (values + touchstones over the 22 principles), delivery rungs, the
-  prediction-test + repeat-rate measurement, and the 4-step redo process.
+  prediction-test + repeat-rate measurement, §9 budgets, and §10 — the
+  live grill log locking the top layer.
 
 - [ ] `docs/living/taste.md` — ⭐ **THE TASTE STANDARD**: the cross-cutting design
   taste distilled from ALL 117 of your feedback items — ~12–16 memorable

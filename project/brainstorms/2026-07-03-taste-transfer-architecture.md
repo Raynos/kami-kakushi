@@ -275,3 +275,45 @@ ui-design.md is the journal genre leaking in — loud warn, move it.
 **f. The flywheel sharpens in place.** N7 scorecard disagreements edit an
 existing principle's wording rather than appending a new rule; a genuinely
 new principle needs a value it expresses — and a line it displaces.
+
+---
+
+## 10 · Top-layer lock — Q&A log (grill, 2026-07-03)
+
+Execution plan for what follows this lock:
+[`docs/plans/fable-2026-07-03-taste-redo.md`](../../docs/plans/fable-2026-07-03-taste-redo.md).
+
+### Q1 — the six strawman values
+- Asked: do V1–V6 capture the taste as taste.md's top layer?
+- Captured: **V1 ✓, V2 ✓, V3 ✓, V5 ✓ — locked.** V4 (two registers):
+  *"don't know, skip?"* — unresolved, re-grill. V6 (no-backstage): *"not
+  worthy to be so high"* — **demoted from the values layer**; its content
+  needs a home (P19 in-palette stays a principle; P21/P22 → see Q4).
+- Flags: V4 fate → grill next; V6 demotion target → grill.
+
+### Q2 — the chrome-density reference
+- Asked: which idle-RPG is THE density reference?
+- Captured: *"proto23, yet another idle rpg, as per the README"* —
+  README.md L13: "For inspiration, look at proto23 and yet another idle
+  rpg." **Two named references**, both the human's own prior work.
+- Flags: neither lives under `~/projects/games/` — where they live + what
+  exactly to take from each → grill.
+
+### Q3 — touchstones
+- Asked: which inferred touchstones are canonical?
+- Captured: **GBA-era typewriter ✓ · JRPG "learned" boxes ✓ · Fallout
+  dialogue tree ✓.** Kurosawa/woodblock **not selected**.
+- Flags: why Kurosawa unpicked (already ui-design.md's whole identity, or
+  genuinely not canon?) → grill.
+
+### Q4 — P21/P22 home
+- Asked: where do the DEV-tooling principles live after the cull?
+- Captured: **move to `qa-playtesting.md`** — taste.md stays player-facing.
+
+## Open flags (pending input)
+- V4 two-registers: keep / merge / drop.
+- V6 demotion: where its non-DEV content (P19 in-palette) sits.
+- Kurosawa: touchstone, or ui-design-only identity?
+- proto23 + yet-another-idle-rpg: repo locations + what to take from each.
+- Doc budgets 150/400: confirm.
+- Missing values: anything the six clusters don't cover (esp. fun/pacing).

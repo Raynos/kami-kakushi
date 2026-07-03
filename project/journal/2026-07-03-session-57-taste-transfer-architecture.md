@@ -92,3 +92,14 @@ updated with strikethrough).
 
 Verified: all four flag combos + budget-with-flags run live; new tests
 pass; full verify green.
+
+## The lock begins (grill) + the little plan
+
+Round-1 AskUserQuestion answers checkpointed to brainstorm §10: V1/V2/V3/V5
+locked, V4 unsure, V6 demoted; touchstones GBA/JRPG-boxes/Fallout locked,
+Kurosawa unpicked (probe why); density refs = proto23 +
+yet-another-idle-rpg (README L13; locations unknown — flagged); P21/P22 →
+qa-playtesting.md. Per the human's ask, the build order now lives as a
+little plan: `docs/plans/fable-2026-07-03-taste-redo.md` (P0 lock → P1
+taste.md ≤150 → P2 ui-design ≤400 → P3 register + budgets gate → P4
+prediction test; strictly serial). Grill continues with the §10 open flags.
