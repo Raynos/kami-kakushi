@@ -1017,7 +1017,7 @@ design ADR.
 ### D-110 ✅ — Every rung is a full, player-TRIGGERED VN story beat with remembered choices + occasional small varied bonuses; NOT every rung a perk
 - **created_date:** 2026-07-02
 - **Context:** The rung-up transition plan
-  ([`docs/plans/opus-2026-07-02-rung-up-story-transitions.md`](../plans/opus-2026-07-02-rung-up-story-transitions.md))
+  ([`project/archive/opus-2026-07-02-rung-up-story-transitions.md`](../../project/archive/opus-2026-07-02-rung-up-story-transitions.md))
   diagnosed that promotion is today an instant, silent hot-path side effect — a
   number-fill plus a single mis-channeled log line — with no player affordance and
   no motivation for the areas/panels/people it unlocks (playtest **F97/F99/F103**).
@@ -1090,7 +1090,7 @@ design ADR.
   ties the domestic rise to the economy's status tokens for one unified
   "your-rise-is-visible" reading.
 - **Consequences:** Gets a dedicated build plan
-  ([`docs/plans/opus-2026-07-02-deep-housing-build.md`](../plans/opus-2026-07-02-deep-housing-build.md)),
+  ([`project/archive/opus-2026-07-02-deep-housing-build.md`](../../project/archive/opus-2026-07-02-deep-housing-build.md)),
   phased T0-first. The belongings inventory lives in the **Inventory tab (F108)**,
   distinct from consumables/resources; the home's status-mirror ties the economy's
   **D-109** status tokens (surname / two swords / gōshi). Home tiers ride the rung

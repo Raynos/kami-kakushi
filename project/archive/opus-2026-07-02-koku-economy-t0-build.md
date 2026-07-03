@@ -1,5 +1,11 @@
 # Plan B — the koku/coin/rice economy T0 build (to v0.3.2)
 
+> **📦 ARCHIVED 2026-07-03 — Ph1–4 BUILT & verified; Ph5 split out.** Phases 1–4
+> (coin/rice split, rice loop, mon/monme/ryō display, koku-as-standing) shipped &
+> verified. **Phase 5 (status tokens) was never built** — it's split into
+> [`../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md)
+> §8 (T0 = one home token; full ladder = T1–T5). The Status line below is stale.
+
 **Status:** 🆕 spec ready — **UNBLOCKED** (Plan A, the PRD ripple, landed 2026-07-02
 in commit `421c18e`; archived at
 [`project/archive/2026-07-02-koku-ripple-docs.md`](../../project/archive/2026-07-02-koku-ripple-docs.md)).

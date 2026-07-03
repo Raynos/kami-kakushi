@@ -4,7 +4,7 @@ The shared contract for the five `ui-demos/` variants. Each variant is a
 complete, working, desktop-first remaster of the ACTUAL game's T0 (R0–R3) UI
 on top of the shared mock engine. Read this whole file before writing a line.
 
-Plan & taste brief: `docs/plans/2026-07-02-ui-remaster-variants.md` (§1–§3).
+Plan & taste brief: `project/archive/2026-07-02-ui-remaster-variants.md` (§1–§3).
 
 ## 0 · The three laws
 

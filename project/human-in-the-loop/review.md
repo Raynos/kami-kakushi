@@ -227,7 +227,7 @@ Rung promotions are now **player-triggered VN story beats** (D-110) — each
 narratively motivates the unlocks it grants. The **cast** (three invented faces:
 pedlar Tokubei, Rokusuke, smith Tōzō) and the **R0→R7 beat script** are drafted
 for your read in
-[`docs/plans/opus-2026-07-02-rung-up-story-transitions.md`](../../docs/plans/opus-2026-07-02-rung-up-story-transitions.md)
+[`project/archive/opus-2026-07-02-rung-up-story-transitions.md`](../../project/archive/opus-2026-07-02-rung-up-story-transitions.md)
 (§6.6 cast / §7 beats).
 
 - **Asking for:** a taste/read pass on the cast + the per-rung beats — do the

@@ -1,5 +1,10 @@
 # Economy & progression re-diagnosis — the koku problem
 
+> **📦 ARCHIVED 2026-07-03 — DONE (superseded).** The diagnosis's model shipped
+> as the koku-economy build (D-107, Ph1–4). Verified in the agent-default audit
+> ([`project/audit/reports/2026-07-03-agent-default-decision-audit.md`](../../project/audit/reports/2026-07-03-agent-default-decision-audit.md)).
+> The Status line below predates that and is stale.
+
 **Status:** 🆕 proposal, awaiting human read + a taste call. Diagnosis only — **no
 code changed.** Companion to
 [`project/brainstorms/2026-07-02-koku-edo-economy-research.md`](../../project/brainstorms/2026-07-02-koku-edo-economy-research.md)

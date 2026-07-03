@@ -1,5 +1,12 @@
 # Deep housing build — a home that grows with your rise (D-111)
 
+> **📦 ARCHIVED 2026-07-03 — BUILT & verified** (T0 slice; commit `9733632`,
+> shipped v0.3.5 `3fea58b`). Two mechanics were **overridden** in the
+> agent-default audit — the **hearth homes the cook verb** (not a stat) and the
+> **chest is real storage** (not a stat) — now in
+> [`../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md)
+> §5–§6. The Status line below is stale.
+
 **Status:** ✅ scope LOCKED (human, 2026-07-02 — **D-111**); **no code changed
 yet** — this is the build spec. Implements the **deep** option (Option 3) from the
 narrative-coherence brainstorm

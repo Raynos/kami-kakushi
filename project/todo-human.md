@@ -54,20 +54,27 @@
   `docs/living/fun-factor.md` were rippled with the new mechanics (rung-beats, housing,
   vendors-as-people). Skim to confirm they describe the game you played.
 
-**⭐ In progress — the agent-default audit (we're walking through this live):**
+**⭐ The agent-default audit — WALKED THROUGH 2026-07-03; two plans authored:**
 
-- [ ] `project/audit/reports/2026-07-03-agent-default-decision-audit.md` — every
-  place across the T0-build plans where the agent picked a default and built it,
-  with verified build status. **Key finding:** `koku-economy-t0-build` is only
-  Ph1–4 built — **Phase 5 (status tokens) is unbuilt**, so it's NOT archived.
-  Being walked through via AskUserQuestion (economy → IA tabs → housing → rung
-  story → append-only).
+- [ ] `project/audit/reports/2026-07-03-agent-default-decision-audit.md` — the
+  record: every T0-build plan verified (5 built, koku-economy only Ph1–4 — Ph5
+  split off), every agent-picked default walked through live. See its
+  **"Decisions recorded"** table for each outcome. The overrides + new work →
+  the build plan; the ratifications + PRD ripples → the cleanup-docs plan:
+- [ ] `docs/plans/opus-2026-07-03-v0.3.5-build-plan.md` — the **eight code
+  deltas** from the audit (rice storage cost · Now-view append-only · stagger
+  Inventory to R3 · Quests own tab · hearth→cook · chest→storage · R7 capstone
+  matters · koku Ph5 one-token slice). Read before I build.
+- [ ] `docs/plans/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc ripples**:
+  7 ratifications → ADRs (Opus), and the PRD ripples for the overrides (Fable +
+  human-signed): 6→7 tabs, staggered reveal, housing semantics, rice storage,
+  the T0-one-token / T1–T5 status-ladder split, the R7 branch.
 
 **Owed reviews / taste calls (async, no rush):**
 
-- [ ] `docs/plans/opus-2026-07-02-rung-up-story-transitions.md` — the **rung R0→R7 cast +
-  beat prose** (built; §6.5 cast + §7 prose await your read — 3 invented faces: the
-  pedlar **Tokubei**, **Rokusuke**, the smith **Tōzō** — rename/veto freely). Also R8.
+- [ ] `project/archive/opus-2026-07-02-rung-up-story-transitions.md` — the **rung
+  R0→R7 cast + beat prose** (built & archived; §6.5 cast + §7 prose await your read
+  — cast ratified in the audit, but the full prose is still an R8 read). Also R8.
 - [ ] `project/audit/reports/2026-07-02-economy-balance-watch.md` — **economy
   balance-watch**: 4 liquid tuning items (rice out-produces its sinks → coin too
   abundant; the koku capstone is reached too fast; season store/sell dominated;
@@ -123,7 +130,8 @@
   (one deep-linked pass over R1/R6/R7/R9 + a WIP cap), #3 GitHub Actions CI
   (the missing rung the other plans already point at).
 
-_(The economy, deep-housing, and 6-tab-IA build plans are now IMPLEMENTED + shipped —
-their owed bits live as R-items in `human-in-the-loop/review.md` [R6 home-panel diverge,
-R7 estate-map variant pick] + the balance-watch above; the plans themselves archive to
-`project/archive/` at the next checkpoint.)_
+_(The economy, deep-housing, 6-tab-IA, rung-story, and append-only build plans were
+verified BUILT and **archived to `project/archive/` on 2026-07-03** — their owed bits
+live as R-items in `human-in-the-loop/review.md` [R6 home-panel diverge, R7 estate-map
+variant pick] + the balance-watch above; their override/follow-up deltas are captured in
+the two `opus-2026-07-03-v0.3.5-*` plans above.)_

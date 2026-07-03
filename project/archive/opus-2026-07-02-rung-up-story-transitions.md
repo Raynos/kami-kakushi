@@ -1,5 +1,12 @@
 # Rung-up story transitions — the promotion beat (F97 + F99 + F103)
 
+> **📦 ARCHIVED 2026-07-03 — BUILT & verified** (commits `6bf861f` / `592ec79`).
+> Cast + rewards ratified in the agent-default audit (keep Tokubei/Rokusuke/Tōzō;
+> keep the rare +1 AGI; Naoyuki stays offstage). One **override** — the **R7
+> capstone must matter mechanically** — is in
+> [`../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md)
+> §7. The Status line below is stale.
+
 **Status:** ✅ scope LOCKED (human, 2026-07-02 — **D-110**); **no code changed
 yet** — spec-ready for build. The chosen model is **NOT** the earlier "Option 2
 default"; see the scope banner below.

@@ -1,5 +1,11 @@
 # Append-only rendering engine — migrate off wholesale DOM rebuilds
 
+> **📦 ARCHIVED 2026-07-03 — BUILT & verified** (all 3 phases; commits `2752d61`
+> / `abd2698` / `9b01c7a`). All five §6 choices ratified in the agent-default
+> audit. One **override** — migrate the **Now-view residual** too — is in
+> [`../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md)
+> §2. The Status line below is stale.
+
 **Status:** 🆕 proposal — awaiting human sign-off; **no code changed yet**.
 
 The whole workspace UI — every pane except the vitals header and the story log —

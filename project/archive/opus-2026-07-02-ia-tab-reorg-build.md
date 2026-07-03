@@ -1,5 +1,11 @@
 # IA tab reorg — the six-tab set (build plan)
 
+> **📦 ARCHIVED 2026-07-03 — BUILT & verified** (6 tabs shipped; commits
+> `57370b8` / `bebc1f2`). Two §8 forks were **overridden** in the agent-default
+> audit — **Quests → its own tab (6→7)** and **stagger Inventory to R3** — now in
+> [`../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md`](../../docs/plans/opus-2026-07-03-v0.3.5-build-plan.md)
+> §3–§4. The Status line below is stale.
+
 **Status:** 📋 PROPOSED — spec only, awaiting a later code lane. DOCS ONLY (this
 document defines the reorg; it writes no code and touches no runtime).
 **created_date:** 2026-07-02

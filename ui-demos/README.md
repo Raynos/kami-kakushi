@@ -1,7 +1,7 @@
 # ui-demos — the UI-remaster variants (staging ground)
 
 Five full, working remasters of the actual game's T0 (R0–R3) UI, per
-[`docs/plans/2026-07-02-ui-remaster-variants.md`](../docs/plans/2026-07-02-ui-remaster-variants.md).
+[`project/archive/2026-07-02-ui-remaster-variants.md`](../project/archive/2026-07-02-ui-remaster-variants.md).
 Same game — same 6-tab IA, verbs, numbers, log-centric shape — each variant a
 generation better in its own direction. The midpoint between "change the CSS"
 and "reinvent the UI" (never a reskin, never a reinvention).
