@@ -113,3 +113,15 @@ found in README L26–30 (proto23 = 23html.github.io, yet-another-idle-rpg =
 miktaew) — agent screenshots them in P1 prep and proposes what-to-take;
 budgets **150/400 confirmed**; backstop: "that's complete." Promoted to
 **D-126** in decisions.md; plan Status → P0 ✅. Next: P1 re-derivation.
+
+## Reference screenshots landed (human-captured, agent-organized)
+
+The human captured 6 shots of the two inspiration games themselves
+(explicit steer: copy, don't re-capture) → committed under
+`raw/screenshots/{proto23,yet-another-idle-rpg}/` with descriptive names +
+an annotated README; `raw/` added to repo-map (distinct from the
+git-ignored `project/brainstorms/raw/`). Agent viewed all six and proposed
+the two what-to-take one-liners in brainstorm §10 (Q10) — the last P0
+residual, pending human confirm. Notables seen: proto23's LOCKED-slots-
+visible + colour-coded log + discoverable node actions; YAIR's per-skill
+bars + rate/ETA-legible activity cards.

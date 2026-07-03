@@ -83,6 +83,12 @@ always-loaded context while being editable on its own.
 - [`project/audit/`](project/audit) — QA outputs: written findings/reports under
   `reports/` + screenshots/ recordings under `screens/` (one dated pass-folder
   each; `screens/latest/` is the live `qa-shots.mjs` gallery).
+- [`raw/`](raw) — **committed reference material from outside the repo**:
+  [`screenshots/`](raw/screenshots) holds the human-captured shots of the two
+  README inspiration games (proto23, yet-another-idle-rpg — the D-126 density
+  references), one folder per game, annotated in its
+  [`README`](raw/screenshots/README.md). *(Distinct from
+  `project/brainstorms/raw/`, which is git-ignored scratch.)*
 - [`tmp/`](tmp) — repo-local scratchpad for throwaway working files (git-ignored
   except its README).
 - `.claude/skills/` — `grill-me` (stress-test a design / extract one into a

@@ -356,7 +356,19 @@ never-guess-state) · **3 touchstones** (GBA typewriter · JRPG learned boxes
 · Fallout dialogue tree) · **2 density references** (proto23 ·
 yet-another-idle-rpg). Kurosawa provisional → R9.
 
+### Q10 — the reference screenshots + proposed what-to-take lines
+- The human captured 6 shots (3 per game) → organized + annotated in
+  `raw/screenshots/` (repo-mapped; the detail lives in its README, so
+  taste.md's lines stay one-liners). Agent's proposed lines:
+- **proto23** — *TAKE: the boxed panel-dashboard register — one
+  semantically colour-coded message log carrying the play, LOCKED slots
+  visible before unlock, locations as flavour + discoverable in-fiction
+  action rows.*
+- **yet-another-idle-rpg** — *TAKE: many small visible progressions —
+  per-skill bars with level/cap + %, and activity cards that state their
+  rate and ETA in plain numbers.*
+- Flags: both lines → human confirm (the last P0 residual).
+
 ## Open flags (pending input)
-- What-to-take lines for proto23 / yet-another-idle-rpg (agent proposes
-  after screenshot capture in P1 prep; human confirms).
+- The two what-to-take lines above: human confirm/edit.
 - Kurosawa resettle → rides R9, not this lock.
