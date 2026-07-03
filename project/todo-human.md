@@ -107,6 +107,12 @@
   pilot gen-region (§3 T0 rung names, drift-PROOF), and two skills —
   `/prd-ripple` (Flow 1 routing per change) + `/prd-compress` (dormant
   until R1 closes; the sweep itself stays Fable + human-signed).
+- [ ] `project/brainstorms/2026-07-03-process-top10.md` — **the second-wave
+  top 10** (25 generated → ranked → 15 discarded): pick 1–2 to become full
+  plans. Headliners: #1 balance-tuning cockpit (DEV sliders + export-diff —
+  makes your "tune by feel" TODO a 10-min session), #2 guided review tour
+  (one deep-linked pass over R1/R6/R7/R9 + a WIP cap), #3 GitHub Actions CI
+  (the missing rung the other plans already point at).
 
 _(The economy, deep-housing, and 6-tab-IA build plans are now IMPLEMENTED + shipped —
 their owed bits live as R-items in `human-in-the-loop/review.md` [R6 home-panel diverge,

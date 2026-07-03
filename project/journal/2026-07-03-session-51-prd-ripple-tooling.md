@@ -33,3 +33,15 @@ surface.
 - Bulk PRD transclusion waits for the human-signed compression sweep (Q3);
   the pilot region is one already-shipped fact slice, filed as a queued
   diff.
+
+---
+
+## 2 · Second-wave suggestions: 25 → top 10 (same session, later)
+
+The human asked for a wider ideation pass: 25 process-improvement
+candidates, ranked, top 10 kept, 15 discarded. Authored
+`project/brainstorms/2026-07-03-process-top10.md` (ranked by human-time
+leverage × compounding × feasibility × non-overlap with the four in-flight
+plans; discards summarized by category at the bottom) and queued it. The
+human intends to pick 1–2; each pick becomes a full `docs/plans/` plan
+before any build. Recommended pair: #1 balance-tuning cockpit + #3 CI.
