@@ -60,6 +60,12 @@ The process layer never got the same treatment. Live drift, found in the tree
    — but two live plans open with "**Status:** ✅ scope LOCKED", so the brief
    mis-tags LOCKED-but-unbuilt plans as done. Free-prose Status lines are not
    machine-readable; the heuristic guesses.
+   **Fixed ahead of F1a (2026-07-03):** the brief now keys off the *leading*
+   status token (the word after `Status:`, glyph skipped), not a substring — see
+   `docs/plans/README.md` → Status-line vocabulary. This was the targeted
+   cry-wolf fix only; **don't redo it.** F1a's Phase 5 still stands — it applies
+   the fuller closed *machine-token* vocabulary (§2.2), which `session-brief.sh`
+   then re-parses.
 
 ---
 

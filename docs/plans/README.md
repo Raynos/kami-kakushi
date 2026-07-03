@@ -28,6 +28,42 @@ steps awaiting or under execution. This directory holds **active plans only**.
   the old `docs/plans/` path in the same commit (the `md-links` gate will catch a
   stale link).
 
+## Status-line vocabulary
+
+Every plan opens with a `**Status:**` line, and the session-start brief
+(`src/scripts/session-brief.sh`) classifies each plan as **archivable** or
+**active** by reading the **leading status token** — the word(s) immediately
+after `Status:`, up to the first separator (`—`, `-`, `:`, `(`). The token is a
+**word**; a leading glyph (✅ 🔧 📋 …) is decoration, not signal. Prose may
+follow the token freely.
+
+**The rule the brief enforces:** _only a leading DONE-class token is
+archivable._ A `✅` glyph anywhere, or the word "done" appearing **mid-line**
+(e.g. "…is DONE only when all ten land"), is **not** the signal — the parser
+keys off the first word after `Status:`, nothing else.
+
+Canonical leading tokens and what each means for archival:
+
+- **`DONE`** (and the synonyms `COMPLETE` / `SHIPPED`) — built **and** verified;
+  the work is finished. → graduate the plan to
+  [`../../project/archive/`](../../project/archive) (the brief nudges this).
+- **`SUPERSEDED`** / **`ARCHIVED`** — no longer the live plan (replaced or
+  retired). → also graduates out of `docs/plans/`.
+- **`LOCKED`** — decisions / scope / ordering **ratified**, but the work is
+  **NOT built yet**. → **stays active.** (This is the case the old substring
+  matcher mis-tagged as done because of the leading `✅` glyph.)
+- **`IN PROGRESS`** / **`ACTIVE`** / **`BUILDING`** — being built right now. →
+  active.
+- **`DRAFT`** / **`PROPOSED`** — authored but pre-sign-off. → active.
+- **`BLOCKED`** / **`PLACEHOLDER`** — parked, waiting on a trigger. → active.
+
+Anything that is not a leading DONE-class token (DONE / COMPLETE / SHIPPED /
+SUPERSEDED / ARCHIVED) is treated as **active** and left in `docs/plans/`. This
+`README.md` has no `Status:` line, so it is never classified as a plan. (A
+future machine-token convention with a single closed vocabulary is scoped in
+[`fable-process-F1a-mechanical-checkpoint.md`](fable-process-F1a-mechanical-checkpoint.md)
+§2.2; until it lands, this section is the authority.)
+
 Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 

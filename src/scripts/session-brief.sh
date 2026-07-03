@@ -137,13 +137,22 @@ fi
 # Plans in docs/plans/ — normally all ACTIVE (done plans get archived to
 # project/archive/); tag each from its OWN status line so a not-yet-archived done
 # plan is flagged (and nudged to archive) rather than mistaken for active.
+# Classify by the LEADING status token — the word right after "Status:" (the
+# glyph is decoration, skipped) — NOT a substring anywhere in the line. Only a
+# leading DONE-class token (done/complete/shipped/archived/superseded) means
+# "archivable"; a ✅ glyph or a mid-line "done" is NOT the signal, so a plan whose
+# Status leads with LOCKED / IN PROGRESS / PROPOSED / … stays tagged active. See
+# the Status-line vocabulary in docs/plans/README.md.
 if [[ -d "$PLANS_DIR" ]]; then
   plans="$(ls -1 "$PLANS_DIR"/*.md 2>/dev/null | sort -r)"
   if [[ -n "$plans" ]]; then
     add "- 📐 **Plans in \`$PLANS_DIR\`** — the *active* plans (done ones are archived to \`project/archive/\`); open one for its sequenced steps:"
     while IFS= read -r p; do
       sl="$(head -8 "$p" | grep -m1 -iE 'status' || true)"
-      if printf '%s' "$sl" | grep -qiE 'done|complete|shipped|✅'; then
+      # Strip the bold markers + the "Status:" label + the leading glyph, then
+      # take the first alphabetic word — that's the canonical status token.
+      tok="$(printf '%s' "$sl" | sed -E 's/\*\*//g; s/^[[:space:]]*[Ss]tatus[[:space:]]*:?[[:space:]]*//' | grep -oiE '[A-Za-z]+' | head -1 || true)"
+      if printf '%s' "$tok" | grep -qiE '^(done|complete|completed|shipped|archived|superseded)$'; then
         add "  - ✅ \`$p\` — DONE (archive it to \`project/archive/\`)"
       else
         add "  - ▶️ \`$p\` — maybe active (open it; confirm via Status + commits)"
