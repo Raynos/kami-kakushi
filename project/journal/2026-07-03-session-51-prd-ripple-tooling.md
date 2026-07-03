@@ -53,6 +53,15 @@ magnitudes are ripple-frozen, so nudging there would push against D-117).
   a hit line that names the successor is a documented rename, not drift.
   Retired-terms now genuinely clean (3 allowed lines).
 - **Could-go-RED proof:** `--strict` exits 1 today on real data.
+- **⚠️ Shared-index sweep (f84aff9):** the Ph1 commit unintentionally
+  carried 4 files the PARALLEL session had staged between my `git add` and
+  my retry-after-prettier-fail: `src/core/content/voices.ts` + new
+  `voices.test.ts`, `src/ui/render.ts`, `src/ui/styles.css` (their 'lord'-
+  voice work). Their content is intact, verify-green, and pushed — only
+  the commit attribution is mixed; no action needed by them (git sees no
+  diff on their next commit). Lesson recorded to memory: in this shared
+  tree, re-check `git diff --cached --name-only` immediately before EVERY
+  commit retry — the index is shared and moves under you.
 
 ## 2 · Second-wave suggestions: 25 → top 10 (same session, later)
 
