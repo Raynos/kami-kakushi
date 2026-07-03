@@ -59,9 +59,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 - **REVIEW PASSOVER** 🔲 (R1) — play/review the **deployed** T0 (VN intro, log v2,
   6-tab IA, the economy re-core, estate-map, the rung beats).
-- **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7) +
-  older surfaces (R2/R5). **OWED:** the home/Inventory **D-075 diverge** (R6) wasn't
-  built (headless) — a diverge is owed before that surface is reviewable.
+- **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
+  home/Inventory **A/B/C** (R6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
+  older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
 - **Balance-watch** 🔲 — 4 liquid tuning items the economy audit found (rice out-
   produces sinks → coin too abundant; koku capstone too fast). NOT silently
   re-tuned — your feel-call. `audit/reports/2026-07-02-economy-balance-watch.md`.
@@ -74,9 +74,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
-Home/Inventory **D-075 diverge** (owed, R6) · the **'lord' voice** needs a core
-`VoiceCategory` extension · economy **Phase 5** status tokens · **home grows with
-rung** · **per-tier/rung NPC placement** (F113) · the balance-watch tuning (above).
+The **'lord' voice** needs a core `VoiceCategory` extension · economy **Phase 5**
+status tokens (captured — PRD §2 + D-109 + both plans) · **home grows with rung** ·
+**per-tier/rung NPC placement** (F113) · the balance-watch tuning (above).
 
 ## Toolchain
 

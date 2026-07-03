@@ -181,22 +181,28 @@ fighting, mirroring the combat-tab fog). Three FULL working takes are live behin
 
 ---
 
-### R6 🔲 — home/Inventory panel — the D-075 diverge is OWED (default shipped, live variants NOT built)
+### R6 🔲 — home/Inventory panel — pick among the 3 built D-075 variants
 
-The **deep-housing T0 pass** (D-111, F89) shipped ONE prod default for the home /
-belongings / comfort surface (now in the **Inventory** tab), but the mandatory
-**D-075 diverge** — 2–3 genuinely-distinct WORKING variants behind the DEV-panel
-toggle for a live human pick — was **not built**: the autonomous rebuild ran
-headless and couldn't author + self-review live UI variants. This is outstanding
-design debt, not a reviewed surface.
+The **deep-housing T0 pass** (D-111, F89) shipped a prod default for the home /
+belongings / comfort surface (in the **Inventory** tab); the owed **D-075 diverge**
+is now **BUILT** — three genuinely-distinct WORKING variants behind the DEV-panel
+toggle, each reading the same home data through the same selectors the reducer uses
+(no preview/reality drift; every buy wired to the real `buy_belonging` intent):
 
-- **Asking for:** nothing to pick yet — this is a **flag** that the diverge is
-  owed. The `diverge` skill must run on the home/Inventory panel (FULL 2–3 live
-  variants behind the DEV toggle, a self-picked default, an R-item per variant)
-  before this surface counts as "reviewed"; then you pick live.
-- **How to look:** once built — `npm run dev` → the **Inventory** tab → toggle
-  "VARIANT · Home/Inventory" in the DEV panel. _(Not yet available.)_
-- **Verdict:** _(blocked — awaiting the diverge build)_
+- **A · functional list** _(current prod default)_ — inked belonging rows +
+  comfort-in-effect tally + a "Settle your corner" acquire list.
+- **B · 一間 room cutaway** — a diegetic woodblock room; belongings sit **in situ**
+  (bowl on the mat, futon over the straw, hearth in the floor); acquire list reframed
+  as "what the room still lacks."
+- **C · 持ち物帳 possessions ledger** — a household register: owned pieces as ruled
+  ledger lines with marginal comfort notes, a 合計 foot line, buyables as 未入 lines
+  you ink in.
+
+- **Asking for:** pick the presentation you want as prod (A/B/C) — then I strip the
+  other two (zero flag-debt). B/C are the bolder diegetic bets; A is the calm default.
+- **How to look:** `npm run dev` → the **Inventory** tab → DEV panel → toggle the
+  **Home/Inventory** variant (V…A/B/C). All three work live.
+- **Verdict:** _(awaiting your pick)_
 
 ---
 
