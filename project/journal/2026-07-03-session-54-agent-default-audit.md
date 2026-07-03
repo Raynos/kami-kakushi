@@ -111,3 +111,25 @@ Human review of the build plan. Resolved:
 
 **Next:** hand the seven-task v0.3.5 build plan to a build subagent (Opus, per
 D-124); separately run the R7 capstone design pass.
+
+---
+
+## Update 3 — parallel tracks: v0.3.5 built (worktree) + R7 capstone designed
+
+- **Track A — v0.3.5 build subagent DONE** (worktree branch
+  `worktree-agent-a125ef980e547d3ef`, 5 commits, 591 tests + 12-gate verify +
+  playcheck green). All 7 tasks landed. Honest R6 caveat: reachability proven at
+  the JSDOM-renderer + core-sim level, not a live browser screenshot. Merge
+  landmines flagged (cook verb NOT hard-gated on the hearth so pre-hearth combat
+  healing survives; chest storage is a shown buffer not yet a binding wall;
+  md-links cries wolf from the *shared* checkout because it recurses into
+  `.claude/worktrees/*`). **NOT yet merged — parent to review-then-merge (R2/R3).**
+- **Track B — R7 capstone DESIGNED** via grill-me + diverge
+  (`project/brainstorms/2026-07-03-r7-capstone-branch.md`). The three-way
+  (devoted/ambitious/humble) each keeps its regard/warmth AND unlocks a unique T1
+  side quest → a unique equippable item + a separate unlock. Human picked **A2 /
+  B1 / C2** from a 9-option board. Promoted to the (now un-stubbed) design plan.
+  One PENDING: all 3 items are weapons — offer to reflavour one.
+
+**Next:** (1) review + merge the v0.3.5 worktree branch to main; (2) push; (3) the
+R7 capstone build is post-v0.3.5.

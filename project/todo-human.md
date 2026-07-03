@@ -66,9 +66,14 @@
   spoilage + upgradeable kura cap · Now-view append-only · Inventory→R3 · Quests
   own tab @R5 · hearth→cook · chest→belongings-store · R5 wall-weapon token).
   Buildable by a subagent. Read before I hand it off.
-- [ ] `docs/plans/opus-2026-07-03-r7-capstone-branch-design.md` — **STUB**: the
-  **R7 capstone branch** split out of the build plan (your call) — needs a design
-  pass (grill-me/diverge → signed design) before any code. Not in the build sweep.
+- [ ] `docs/plans/opus-2026-07-03-r7-capstone-branch-design.md` — **✅ DESIGNED**
+  (grill-me + diverge, signed 2026-07-03): the R7 three-way (devoted/ambitious/
+  humble) each unlocks a unique T1 side quest → a unique equippable **item + a
+  separate unlock**. Picks: **A2** Buried Shame (Sadamune's blade + a grind enemy)
+  · **B1** Contest of Heirs (dueling blade + spar-grind + Naoyuki micro-faction) ·
+  **C2** Late Student (master's piece + unique recipes). Awaiting build (post-v0.3.5).
+  One PENDING flag: all 3 items are weapons — reflavour one? (brainstorm has the
+  full 9-option board + your rankings.)
 - ✅ `project/archive/opus-2026-07-03-v0.3.5-cleanup-docs.md` — the **doc
   ripples: DONE & archived 2026-07-03** (Opus, per D-124). ADRs **D-118…D-124**
   in `decisions.md`; the PRD rippled across all six `docs/living/prd/*` files

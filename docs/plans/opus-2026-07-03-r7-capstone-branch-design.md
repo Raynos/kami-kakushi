@@ -1,52 +1,65 @@
-# R7 capstone branch — design plan (STUB)
+# R7 capstone branch — design plan
 
-**Status:** 🌱 STUB — awaiting a design pass; **no code, no design decided yet**.
-Split out of the v0.3.5 build plan 2026-07-03 (human call) so the seven
-mechanical deltas can be built by a subagent while this gets the design attention
-it needs. Source decision: the agent-default audit
-([`project/audit/reports/2026-07-03-agent-default-decision-audit.md`](../../project/audit/reports/2026-07-03-agent-default-decision-audit.md),
-D-121).
+**Status:** ✅ DESIGNED (human-signed 2026-07-03) — **awaiting build**. Split out
+of the v0.3.5 build plan so the seven mechanical deltas could ship in parallel;
+the design was settled via a `grill-me` + `diverge` pass
+([`project/brainstorms/2026-07-03-r7-capstone-branch.md`](../../project/brainstorms/2026-07-03-r7-capstone-branch.md)).
+Source: the agent-default audit (D-121).
 
-## Who builds this — Fable or Opus?
+## Who builds this — Opus
 
-**Design pass: Opus** (per D-124, inherit the parent's model; no Fable unless the
-human routes there). This is a *design* task first — a `grill-me` / `diverge`
-pass, then a short signed design — **then** a small Opus build. It is **not** part
-of the v0.3.5 build subagent's scope.
+Opus (per D-124). Now that the design is signed, this is a small, self-contained
+core+content+render build — but it depends on the v0.3.5 seven-tab IA (the Quests
+tab at R5) and is **T1 content**, so it lands after v0.3.5 merges.
 
-## The decision so far (locked)
+## The design (signed 2026-07-03)
 
-- **D-121 (human, 2026-07-03):** the **R7 → T0→T1 capstone choice must be a real
-  mechanical branch** — the pick changes something a player can feel, not just a
-  remembered story flag.
-- **Handling (human, 2026-07-03):** **design it separately first.** Don't rush the
-  branch into the mechanical sweep; give it its own pass and sign-off.
+The **R7 capstone** is the existing three-way Shigemasa beat — *"How do you answer
+the lord?"* (`rungBeats.ts` R7): **devoted / ambitious / humble**. Each option:
+1. **Keeps** its current "light branch" — the per-NPC `regard` flag +
+   Shigemasa `warmthDelta` (relationship memory). Unchanged.
+2. **PLUS** unlocks a **unique T1 side quest** (the full estate, R8→R15) that
+   gives **a unique equippable ITEM + a separate UNLOCK**.
 
-## What's NOT decided (the design pass owns these)
+One choice per playthrough → one quest; the other two lock out (replay driver).
+**Full continuity** — everything carries forward; ascension is NOT a reset.
 
-- **The shape of the branch.** Candidate shapes surfaced but not chosen:
-  - a **lasting stat / playstyle boon** carried into T1 (e.g. labour-leaning vs
-    combat-leaning modifier);
-  - an **unlocked path / ally** into T1 (diverging content);
-  - something else the design pass invents.
-- **How many choices**, what each *is* narratively (the R7 beat already exists —
-  `rungBeats.ts` R7 — as a "light branch"; this upgrades its payload).
-- **How big** the mechanical difference should be (it lands at the T0→T1 seam, so
-  it colours the whole next tier — powerful, but must not unbalance T1).
-- **Reversibility / visibility** — is the choice remembered-and-shown, and can it
-  ever be re-chosen? (Probably not — no respec is a standing lock, D-051.)
+| R7 answer | Side quest | Item (equippable) | Separate unlock | ⏱ |
+|---|---|---|---|---|
+| **Devoted** — *"carry the Kurosawa name"* | **"The House's Buried Shame"** — uncover Sadamune's ruinous venture; confront who's bleeding the house | **Sadamune's recovered blade** (heirloom weapon) | a repeatable **combat enemy** (the debtor's enforcer at his hideout) | medium |
+| **Ambitious** — *"a name can be made"* | **"The Contest of Heirs"** — ambition wakes Naoyuki into open competition | a **fine dueling blade** | repeatable **spars** (combat-XP grind) + a **Naoyuki-regard micro-faction** (levels → sparring perks) | hours |
+| **Humble** — *"only the work"* | **"The Late Student"** — a retired master takes you on | the **master's piece** (a strong crafted equippable) | **2–3 unique crafting recipes** (narrow, e.g. a silver-inlaid refinement) | medium |
 
-## Process (fill this in during the design pass)
+**Canon note:** the player is a **retainer** of the **Kurosawa** house (lord =
+**Shigemasa Kurosawa**, heir **Naoyuki**); the player's own surname is the **T3**
+origin reveal. The "devoted" line means advancing his *lord's* house — tighten the
+prose so it can't misread as the player claiming the Kurosawa name.
 
-1. **`grill-me`** the branch: what does the R7 pick *mean* to the player, and what
-   T1 fantasy does each side promise? Capture to `project/brainstorms/`.
-2. Optionally **`diverge`** 2–3 concrete branch designs.
-3. Land a **signed design** (here or a sibling doc), then a small build task:
-   `src/core/content/rungBeats.ts` (R7 option payloads) + the state field the
-   branch reads + where the consequence applies + a test asserting the two picks
-   diverge (could have gone RED when it was flag-only).
+## Design guard-rails (human — what the build must respect)
+
+- **Reuse existing systems** — the skill/xp system, map nodes, combat/bestiary,
+  craft recipes, shops, small rep tracks, equipment. Do **not** invent new
+  paradigms.
+- **OUT OF SCOPE:** new deeds; novel new UI surfaces; a parallel "standing"
+  advancement lane (a small micro-faction rep IS fine); a new system
+  (helper/auto-labour); a whole new crafting branch (recipes + narrow refinements
+  are fine).
+- **The 9 need not be balanced equally** — a best choice / an OP one / a narrative
+  one is fine; scope may range 5-min → hours-of-grind. (These three: medium /
+  hours / medium.)
+
+## Open build-detail flags (resolve at build, tune by feel — D-059)
+- Stats/tier of each item (heirloom blade, dueling blade, master's piece). *(All
+  three chosen items are weapons — the human may reflavour C2's "master's piece"
+  to a tool/armor for variety; PENDING confirm.)*
+- The enforcer enemy's stats + drop; the spar loop's XP/perk curve + the
+  Naoyuki micro-faction's levels/perks; which 2–3 recipes + the master's-piece
+  recipe.
+- Where the quest lives in the T1 quest data + how the R7 pick gates it.
 
 ## Done-when
 
-A human-signed branch design exists **and** is built: the two (or more) R7 picks
-produce a mechanically-distinct outcome carried into T1, covered by a test.
+A human-signed design exists (✅) **and** is built: the three R7 picks each unlock
+their distinct T1 side quest → item + unlock; a test asserts the branch diverges
+(could have gone RED when it was flag-only); each quest is reachable in the running
+game (R6).
