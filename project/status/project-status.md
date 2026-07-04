@@ -42,9 +42,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   till then. Resolves D-126's "visual identity provisional pending R9".
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
-  `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a · F2 CI ·
-  ✅ F4 balance sim (D-132). F3 landed (co-agent); ✅ F6 scenario saves
-  (6 fixtures · DEV Scenarios tab · `?fixture=`). NEXT: F1b Ph2–4 · F5.**
+  `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a/F1b ·
+  F2 CI · ✅ F4 balance sim (D-132). F3 landed (co-agent); ✅ F6 scenario saves
+  (6 fixtures · DEV Scenarios tab · `?fixture=`). NEXT: F5 · F7.**
 - **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN stays soft).
   **H19→D-133:** Phase 2 ≈ Phase 1 (~1:1), general per-tier rule → hard
   `verify:balance` **ratio gate** `[0.8, 1.2]`. Stopgap **hotfix shipped**
@@ -114,7 +114,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** = **F1b Ph2–4** or **F5** per the master plan
-   (F2/F4/F6 ✅ · F3 co-agent). Balance liquid (D-059) — every balance
+4. **Next autonomous work** = **F5** (Fable Ph1) or **F7** cockpit per the master
+   plan (F1a/F1b/F2/F4/F6 ✅ · F3 co-agent). Balance liquid (D-059) — every balance
    change runs the D-132 flow (`verify:balance` → report diff → `--summary`).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
