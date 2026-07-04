@@ -40,3 +40,35 @@ lock, not the port.
   when UI-v2 is ported into `src/`.
 - **R2/R5/R6/R7 left OPEN deliberately** — closing them is the human's call, not
   mine (they may still want interim polish on the washi UI).
+
+---
+
+## Continued — UI-v2 plan drafting + ui-demos deploy (same session)
+
+After the R9 lock the human asked to (a) redeploy all 10 ui-demos and (b)
+start an **interactive** plan to port Andon Steel into the real game.
+
+- **Deployed `ui-demos/` to Vercel prod** (human-approved outward action) —
+  `npx vercel --prod --cwd ui-demos`, aliased to
+  <https://kami-kakushi-ui-demos.vercel.app>; all 10 (+ index R9 banner) return
+  200. Auth was already present (`raynos`).
+- **Two grounding analyses** (parallel Explore agents): the Andon Steel
+  design-language + do-NOT-copy catalog, and the current-UI delta + the
+  design-language locks that reopen. Both distilled into the plan (not snapshotted
+  raw — they were Explore agents, not Workflows).
+- **Drafted `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md`**
+  (Status: PROPOSED) — risk-tiered (theme/layout/flow × low/med/high) milestones
+  M1 steel palette → M6 doc ripple; premise = full replacement (human), keep our
+  reconcile/render engine, copy zero demo bugs. Queued in `todo-human.md`.
+- **Human decision folded in:** the **commit-seal cursor is CUT** ("no red flash
+  on click") — removes the highest-risk item. Recorded in the plan (struck, with
+  the why).
+
+**Still open in the plan (interactive):** layout depth (M5 — re-skin current
+composition vs adopt Andon's rail+window), R2/R5/R6/R7 fate, version (0.3.6 vs
+0.4.0). Building starts only after the human approves.
+
+**Landmine — shared tree is BUSY:** the F1b agent (session-64) is editing the
+index + `project-status.md` (gate roster now 15) concurrently. Commit ONLY own
+files by explicit path (`git commit -o -- <paths>`); a blanket `git add`
+swept their staged F1b files into my index once (caught by the checkpoint gate).

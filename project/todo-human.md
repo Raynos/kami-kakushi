@@ -37,16 +37,20 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 
 **Owed reviews / taste calls (async, no rush):**
 
+- [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
+  Steel migration** (v0.3.6): the full-replacement remaster plan, **being
+  co-authored live with you** — risk-tiered milestones (M1 steel palette → M6 doc
+  ripple), theme-vs-flow split, keeps our render engine, copies zero demo bugs.
+  Cursor CUT (no red-flash). Open: layout depth (M5), R2/R5/R6/R7 fate, version.
 - [ ] `docs/plans/opus-2026-07-03-emergent-node-actions.md` — **emergent node
   actions** (graduated from the parked brainstorm into a plan): you *discover* what
   to do at a map node via rumours / low-chance events / description hints, not a
   static list. Phase 0 = a design pass (grill-me/diverge) to lock the open shape
   questions; then build (T0-later/T1, NOT R0/R1). D-114/D-115/D-116-adjacent.
 
-_(The **UI-remaster variants** — the six live demos + the **Moonlit × Lacquer
-fusion demos 07–10** (Andon · Night Seal · Damascene · Andon Steel) + their
-build-spec plan — are tracked as **R9** in `human-in-the-loop/review.md`; review
-them there, live. Plan cleared from this queue: engaged + built this session.)_
+_(**R9 is CLOSED (2026-07-04 → 10 Andon Steel, D-127).** The UI-remaster field
+(01–09 + demo 10) stays anchored in `ui-demos/`; the winner now feeds the Andon
+Steel migration plan queued above.)_
 
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**
@@ -61,7 +65,13 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   PRD punch-list; retired-terms tripwire), one pilot gen-region (§3 T0 rung
   names, drift-PROOF), and two skills — `/prd-ripple` (Flow 1 routing per
   change) + `/prd-compress` (dormant until R1 closes; the sweep itself stays
-  Fable + human-signed).
+  Fable + human-signed). **✅ Ph2–Ph4 BUILT (session-64).** ⬅ **The canon call
+  for you:** the Ph2 pilot region now transcludes the **build's** R0→R7 rung
+  titles into **§3.2** of `docs/living/prd/03-unlock-ladder.md` (right above the
+  ladder table) — the *mechanical* titles, honestly flagged as reconciled to the
+  §3.2 *narrative* titles by the future R1-gated sweep. **Review that diff** (it
+  edits canon). Ph3's real `/prd-ripple` invocation is deferred to the next
+  built-system change.
 - [ ] `project/brainstorms/2026-07-03-prd-on-a-diet.md` — **the PRD-diet
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
