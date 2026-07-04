@@ -211,7 +211,7 @@ Each milestone (M0…M7) is **not "done" until its QA sweep passes** (this is it
 §7). The sweep, adapted from the ironsight per-chapter pass:
 
 - **Correctness:** the milestone's headless run reaches its target state; `state()`/`reveals()`
-  assertions pass; `npm run verify` green (tsc + oxlint + oxfmt + vitest + verify-content +
+  assertions pass; `npm run verify` green (tsgo + oxlint + oxfmt + vitest + verify-content +
   `gen:docs --check` — verify-content enforces the id/canon invariants + a real-name denylist, and
   K/M/B is unit-tested; the macron lint + the §4.8 pacing regression are **planned** additions, not
   yet in the gate); a fixed-seed determinism test is byte-identical; save round-trips.

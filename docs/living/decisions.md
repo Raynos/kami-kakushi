@@ -1685,3 +1685,21 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
     neither), and it's a tightening, never a hole. The `src/persistence` save-layer
     `Date.now` exemption is unaffected (the override is scoped to `src/core/**`).
   - F2 Ph3 is now DONE — this was its deliverable.
+
+### D-131 ✅ — Toolchain: swap `tsc` → `tsgo` (native-preview TS compiler) for the typecheck gate
+- **created_date:** 2026-07-04
+- **Context:** after D-130 dropped ESLint+Prettier, `tsc --noEmit` (~3.15 s) was
+  tied with vitest for the `verify` critical path. `tsgo`
+  (`@typescript/native-preview`, the Go-native TypeScript 7 compiler) is a
+  CLI-compatible drop-in that typechecks the same `tsconfig.json`.
+- **Decision (human, 2026-07-04):** swap the typecheck **gate + `build` +
+  `verify:seq`** from `tsc --noEmit` to `tsgo --noEmit`. Keep the `typescript`
+  devDep installed (Vite/editor/language-service + an escape hatch), since
+  tsgo is still a **preview**.
+- **Why it's sound (parity proven — R3):** `tsgo --noEmit` passes clean on the
+  type-correct tree AND flags a deliberate `TS2322` with the **same error code**
+  as tsc (exit 1), green again after removal. Typecheck **~3.15 s → ~0.39 s**.
+- **Consequences / risk:** tsgo is a dev-preview; the pinned exact version moves
+  deliberately. If it ever mis-types (misses or false-flags), the escape hatch is
+  one line — `tsgo --noEmit` back to `tsc --noEmit` in `gates.ts` (typescript is
+  still installed). The gate name in the roster is now `tsgo`.

@@ -128,3 +128,19 @@ the plan's two-tier (no `eslint src/core` kept). Rationale + parity proofs:
   PRD + refactoring `verify-run.ts`). Staged only my own paths; `gates.ts` was
   untouched by them. The F2 plan is now ✅ DONE (archivable, not yet moved).
 - **Next (this session):** swap `tsc` → `tsgo` (human-asked) as its own change.
+
+---
+
+## Bonus — `tsc` → `tsgo` swap (D-131, human-asked mid-session)
+
+Human: "let's move from tsc to tsgo right now, that's a quick win." Swapped the
+typecheck gate + `build` + `verify:seq` from `tsc --noEmit` to `tsgo --noEmit`
+(`@typescript/native-preview` 7.0.0-dev, exact-pinned). Kept the `typescript`
+devDep (Vite/editor + escape hatch — tsgo is a preview).
+
+- **Parity proven (R3):** `tsgo --noEmit` green on the clean tree; a deliberate
+  `TS2322` → exit 1 (same code as tsc); green again after removal.
+- Typecheck **~3.15 s → ~0.39 s**. Gate renamed `tsc`→`tsgo` in the roster.
+- Files: `gates.ts`, `package.json` (build + verify:seq), PRD §6/§7 +
+  qa-playtesting command examples, ADR D-131, regenerated gate-roster region.
+- Escape hatch if tsgo ever mis-types: one line back to `tsc --noEmit`.

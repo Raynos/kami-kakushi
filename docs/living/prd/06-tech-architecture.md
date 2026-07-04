@@ -58,7 +58,7 @@ lockfile (everything is pinned — no ad-hoc toolchain). Output is
 One command must pass before any commit and in CI:
 
 ```
-npm run verify  =  tsc --noEmit
+npm run verify  =  tsgo --noEmit
                && oxlint
                && oxfmt --check
                && vitest run

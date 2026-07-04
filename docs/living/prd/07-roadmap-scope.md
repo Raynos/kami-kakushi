@@ -217,7 +217,7 @@ locked scope & shape; the roadmap wins on sequence.**
   (versioned, ordered, pre-migration raw backup; a corrupt save degrades gracefully,
   never a "save is kill" wall).
 - **The `npm run verify` release gate.** The **same** one-command gate that guards
-  every commit (§6.1) is the release gate: `tsc --noEmit && oxlint &&
+  every commit (§6.1) is the release gate: `tsgo --noEmit && oxlint &&
   oxfmt --check && vitest run && verify-content && gen:docs --check` — i.e.
   **typecheck + unit tests + the content-verifier (incl. the number-format checks —
   K/M/B for koku standing + the mon/monme/ryō coin denominations — plus macron + the
