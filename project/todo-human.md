@@ -45,6 +45,12 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 
 **Owed reviews / taste calls (async, no rush):**
 
+- [ ] `docs/plans/opus-2026-07-05-shrink-save-file.md` — **shrink the save
+  file**. Measured: the log is ~57% of the save; the rest is ~2 KB. **A
+  (gzip the envelope) is the fix — 48 KB → 3.65 KB (13×)**, self-contained
+  codec change, zero risk. **C** (log-as-descriptors) is optional and only ~1 KB
+  better once compressed — worth it only for the T1 cleanliness. **D** (intent
+  trace + replay) was measured out and dropped. **Read to pick: A only, or A+C.**
 - [ ] `docs/plans/opus-2026-07-04-phase2-economy-redesign.md` — **T0 Phase-2
   economy redesign** (the REAL fix D-133 queued after the stopgap hotfix): makes
   T0 Phase 2 a ~1:1, ~40–83-min *fun* chunk instead of a threshold-inflated slog.
