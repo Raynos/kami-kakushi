@@ -33,8 +33,9 @@ function onReckoning(state: GameState): GameState {
         channel: 'milestone',
         // D-107/D-109: the season re-assesses the House's worth "in waves" — the koku STANDING steps
         // up. (Keeps "accounts are reckoned"; the weightier "assessors arrive" tier-jump beat is
-        // DEFERRED — a T1+ event, not built here.)
-        text: `The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+${bonus} koku)`,
+        // DEFERRED — a T1+ event, not built here.) Words live in log-content.ts (Stage C).
+        contentKey: 'season.reckoned',
+        params: { bonus },
       },
     ],
   });
@@ -62,7 +63,8 @@ function onSeasonTurn(state: GameState): GameState {
         channel: 'system',
         voice: 'narrator',
         ephemeral: true,
-        text: `The season turns, and some of your rice has spoiled in the store. (−${total} rice)`,
+        contentKey: 'season.spoilage',
+        params: { total },
       },
     ],
   });

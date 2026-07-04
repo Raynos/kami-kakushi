@@ -149,21 +149,43 @@ load:  for (const d of logRecord)  ring.push({ ...d, text: d.legacy ? d.text
 Order is preserved because it's a serialized array (and every entry carries
 `tick`). No seed, no replay, no determinism guarantee needed.
 
-### The real cost — a log-content registry
+### The real cost — a log-content registry (scoped 2026-07-05)
 
-Today log text is authored **inline** at emit sites (`step.ts:37`, `:65`) via the
-rewards bus (`src/core/rewards.ts:39`). C requires the text to be a pure function
-of `(key, params)`:
+**Scope measured:** ~**55 `text:` emit sites** across 7 core files (`step.ts`,
+`intents.ts`, `fight.ts`, `ranks.ts`, `ascension.ts`, `content/quests.ts`,
+`content/surfaces.ts`) + 13 direct `pushLog` calls. Much text is **dynamically
+composed**, incl. helper calls — e.g. `` `…sell ${rice} rice at ${formatCoin(price)}…
+(+${formatCoin(coinGain)})` ``. So each site needs a stable key, **exact param
+capture** (`rice`, `price`, `coinGain`), and a render fn that reproduces the
+string (calling `formatCoin` itself).
+
+**Registry design:**
 
 ```
-// src/core/log-content.ts (new)
-LOG_CONTENT: Record<string, (params) => string>
-renderLogLine(key, params) => LOG_CONTENT[key](params)
+// src/core/content/log-content.ts (new)
+type LogParams = Record<string, string | number | boolean>
+LOG_CONTENT: Record<string, (p: LogParams) => string>   // the moved templates
+renderLogLine(contentKey, params) => LOG_CONTENT[contentKey](params)
 ```
 
-Every emit site changes from handing a finished `text` to handing `{key,
-params}`; `LogEntry` carries `key`+`params`; text is derived. This is the whole
-cost of C — a broad, mechanical extraction across every emit site.
+`LogEntry` gains optional `contentKey` + `params` (+ `legacy?: true` for migrated
+prose); `RewardBundle.log` accepts `{channel, contentKey, params?}` and
+`applyRewards` derives `text` via `renderLogLine`. `text` stays on the LIVE entry
+(the renderer + the coalesce key are unchanged); only the PERSISTED form drops
+`text` for keyed entries.
+
+**Incremental-green build order (each its own commit, verify green):**
+
+- **C1 · Infra** — `log-content.ts` + additive optional `LogEntry.contentKey/
+  params/legacy`; `applyRewards` accepts EITHER `text` OR `contentKey` (derive).
+  No schema bump, no persistence change yet — pure additive, nothing breaks.
+- **C2…C8 · Migrate one file per commit** — move each file's inline templates
+  into `LOG_CONTENT`, swap `text:` → `contentKey`+`params`. The **golden test**
+  (re-derived text === the old inline text) guards every move.
+- **C-final · Persist descriptors** — codec stores `contentKey`+`params` (drops
+  `text` for keyed entries), migration 7→8 wraps legacy prose as `{legacy, text}`,
+  size measured. This is the only step that bumps the schema / touches the save
+  shape.
 
 ### Migration (only if C ships) — SCHEMA_VERSION 7 → 8
 

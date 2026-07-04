@@ -7,6 +7,7 @@ import type { GameState, ResourceId, FlagId } from './state';
 import { withResource, setFlag } from './state';
 import { pushLog, type LogChannel } from './log';
 import type { VoiceCategory } from './content/voices';
+import { renderLogLine, type LogParams } from './content/log-content';
 import { revealSurface } from './unlock';
 
 export interface RewardBundle {
@@ -15,7 +16,12 @@ export interface RewardBundle {
   readonly unlock?: readonly string[];
   readonly log?: readonly {
     readonly channel: LogChannel;
-    readonly text: string;
+    /** The line's words, EITHER inline (`text`) OR via the log-content registry
+     *  (`contentKey` + `params`). During the Stage-C migration both forms coexist; a
+     *  keyed line persists as a compact descriptor, an inline line as its prose. */
+    readonly text?: string | undefined;
+    readonly contentKey?: string | undefined;
+    readonly params?: LogParams | undefined;
     /** Optional speaker nameplate + voice tag (carried to the log entry; F23/F26). */
     readonly speaker?: string | undefined;
     readonly voice?: VoiceCategory | undefined;
@@ -38,13 +44,21 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
   }
   if (rewards.log) {
     for (const line of rewards.log) {
+      // A keyed line derives its text from the registry (the single source, T1); an inline
+      // line uses its prose verbatim (transitional, until every emit site is migrated).
+      const text =
+        line.contentKey !== undefined
+          ? renderLogLine(line.contentKey, line.params)
+          : (line.text ?? '');
       next = {
         ...next,
-        log: pushLog(next.log, line.channel, line.text, next.clock.tick, {
+        log: pushLog(next.log, line.channel, text, next.clock.tick, {
           speaker: line.speaker,
           voice: line.voice,
           ephemeral: line.ephemeral,
           chat: line.chat,
+          contentKey: line.contentKey,
+          params: line.params,
         }),
       };
     }

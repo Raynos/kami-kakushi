@@ -5,6 +5,7 @@
 
 import { LOG_RING_MAX } from './constants';
 import type { VoiceCategory } from './content/voices';
+import type { LogParams } from './content/log-content';
 
 /** Visual/semantic channels (ui-design.md §5.1). */
 export type LogChannel = 'narration' | 'reward' | 'combat' | 'system' | 'milestone';
@@ -34,6 +35,12 @@ export interface LogEntry {
    *  keeps its voice/nameplate rendering) but routes to the "Chat" tab (and `all`), never the
    *  MANDATORY "Story" tab. Absent ⇒ a mandatory line (Story holds only the scene beats you must see). */
   readonly chat?: boolean;
+  /** Log-content registry key (shrink-save-file Stage C). Present ⇒ `text` is DERIVED via
+   *  `renderLogLine(contentKey, params)` and the save persists this + `params`, not the prose.
+   *  Absent ⇒ a legacy/inline line whose `text` is authoritative. */
+  readonly contentKey?: string;
+  /** Dynamic values for `contentKey`'s template. Absent ⇒ a keyed line with no params. */
+  readonly params?: LogParams;
 }
 
 export interface LogState {
@@ -61,11 +68,13 @@ export function pushLog(
     readonly voice?: VoiceCategory | undefined;
     readonly ephemeral?: boolean | undefined;
     readonly chat?: boolean | undefined;
+    readonly contentKey?: string | undefined;
+    readonly params?: LogParams | undefined;
   },
 ): LogState {
   const last = log.entries[log.entries.length - 1];
   // Coalesce key stays channel+text (speech lines rarely byte-repeat); the bumped entry
-  // keeps its original speaker/voice via `...last` (identical-text runs share them anyway).
+  // keeps its original speaker/voice/contentKey via `...last` (identical-text runs share them).
   if (last !== undefined && last.channel === channel && last.text === text) {
     const bumped: LogEntry = { ...last, count: last.count + 1, tick };
     return { entries: [...log.entries.slice(0, -1), bumped], seq: log.seq };
@@ -80,6 +89,8 @@ export function pushLog(
     ...(meta?.voice !== undefined ? { voice: meta.voice } : {}),
     ...(meta?.ephemeral !== undefined ? { ephemeral: meta.ephemeral } : {}),
     ...(meta?.chat !== undefined ? { chat: meta.chat } : {}),
+    ...(meta?.contentKey !== undefined ? { contentKey: meta.contentKey } : {}),
+    ...(meta?.params !== undefined ? { params: meta.params } : {}),
   };
   const next =
     log.entries.length >= LOG_RING_MAX

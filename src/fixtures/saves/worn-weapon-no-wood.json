@@ -1164,7 +1164,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 893
+          }
         },
         {
           "key": 1132,
@@ -2478,7 +2482,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 958
+          }
         },
         {
           "key": 1278,

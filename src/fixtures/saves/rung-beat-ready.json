@@ -832,7 +832,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 91
+          }
         },
         {
           "key": 88,

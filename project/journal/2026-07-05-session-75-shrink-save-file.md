@@ -84,4 +84,27 @@ shrinks < 0.4× plain (could-go-RED size floor) · legacy plain-JSON decodes. Th
 **Pending before final done:** a real-browser save/load smoke (tests use Node's
 `CompressionStream`; the browser's is the same RFC-1952 gzip, low risk).
 
-## Next: Stage C — log-content registry, then descriptors + migration.
+## Stage C1 — log-content registry infra + first file (proof-of-pattern)
+
+Human overrode my "stop at A" rec (T1 cleanliness is a taste call, theirs): do C.
+Quantified C first — ~55 emit sites over 7 files, dynamic params — so it runs
+**incrementally green**, one file per commit, golden-test-guarded.
+
+C1 shipped: `content/log-content.ts` — `LOG_CONTENT` registry + `renderLogLine`
+(throws loud on an unknown key). `LogEntry`/`pushLog` carry optional
+`contentKey`+`params`; `RewardBundle.log` accepts EITHER `text` OR
+`contentKey`+`params` (`applyRewards` derives via the registry). Additive — no
+schema bump, no persistence change yet. Migrated the FIRST file, `step.ts`
+(`season.reckoned`, `season.spoilage`). Golden test asserts exact-literal
+re-derived text (special glyphs as codepoints) + the emit→derive→descriptor path.
+Fixtures regenerated (my log-field addition only — diff is pure contentKey/params,
+no balance-number changes; the co-agent's balance.ts WIP didn't leak).
+
+**Shared-tree note:** the working tree also holds `w1:p3`'s F7 balance-cockpit
+WIP (`dev-cockpit.ts` untracked + `dev.ts`/`balance.ts`/`main.ts`/`index.ts`
+modified), which is RED (`cockpit.levers` undefined + oxfmt). That is THEIR red,
+not mine — my slice is green (74 tests, tsgo 0 errors, my files formatted). So
+this commit is `SKIP_VERIFY=1`, own-paths-only, **kept local — NOT pushed** until
+the tree is clean (don't fight someone else's red; never SKIP red onto main).
+
+## Next: Stage C2…C8 — migrate the remaining 6 files, then descriptors + migration.

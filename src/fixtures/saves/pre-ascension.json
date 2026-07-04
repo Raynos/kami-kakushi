@@ -245,7 +245,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8401,
@@ -621,7 +625,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8443,
@@ -997,7 +1005,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8485,
@@ -1141,7 +1153,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 1910
+          }
         },
         {
           "key": 8501,
@@ -1328,7 +1344,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8522,
@@ -1623,7 +1643,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8555,
@@ -1909,7 +1933,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8587,
@@ -2195,7 +2223,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8619,
@@ -2490,7 +2522,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8652,
@@ -2499,7 +2535,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 1897
+          }
         },
         {
           "key": 8653,
@@ -2785,7 +2825,11 @@
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
         },
         {
           "key": 8685,
