@@ -26,23 +26,16 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 - **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
   per-section files `docs/living/prd/*`. §4 balance + §7 M2–M7 stay provisional (D-059).
-- **v0.3.0–v0.3.3 shipped** the T0 M0–M4 arc + playtests (F1–F85): combat, bank,
-  map, Bestiary, quests, VN intro (D-104), log v2, cold-open.
-- **✅ AUTONOMOUS T0 REBUILD — COMPLETE + DEPLOYED** (2026-07-03, v0.3.5; ADRs
-  **D-107–D-116**; all **F86–F117 ✅**). **Eight lanes:** append-only render engine
-  (`reconcile.ts`) · economy re-core Ph1–4 (koku→coin+rice, koku=House **standing**,
-  D-107/108/109/113) · IA tab reorg (vendors-as-people, nav→Now, D-116) · estate-map
-  diverge (7 variants, F102) · rung-up story VN beats (D-110, SCHEMA 5→6) · log/UI
-  polish · deep housing T0 (D-111) · combat-log voice. + `CHANGELOG.md` + the 12th
-  gate `verify-changelog` (A21).
-- **✅ Agent-default audit + v0.3.5 deltas (`origin/main` green + REDEPLOYED):**
-  6 T0 plans verified→archived; agent defaults walked with the human → ADRs
-  **D-118–D-125** (7-tab IA · rice spoilage/kura cap · cook/storage · R5
-  wall-weapon token · home→R3). **R7 capstone** DESIGNED (D-125) → build
-  DEFERRED to T1 (`capstone-t0-branch.md`). `emergent-node-actions` → a plan.
+- **v0.3.0–v0.3.5 shipped** the full T0 M0–M4 arc (F1–F117) + the **autonomous
+  T0 rebuild** (2026-07-03, ADRs **D-107–D-116**): append-only render engine ·
+  economy re-core (koku=House **standing**) · 7-tab IA · estate-map · rung VN
+  beats (SCHEMA 6) · `CHANGELOG.md` + `verify-changelog` gate.
+- **✅ Agent-default audit + v0.3.5 deltas** (ADRs **D-118–D-125**: 7-tab IA ·
+  rice spoilage/cap · cook/storage · R5 wall-weapon · home→R3). **R7 capstone**
+  DESIGNED (D-125), build DEFERRED to T1. `emergent-node-actions` → a plan.
 - **✅ THE TASTE LOCK (D-126, s57):** top layer locked WITH the human → `taste.md`
-  rewritten (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens
-  GENERATED) · AGENTS.md T1–T4 register · `doc-budgets` gate · **F10 re-plan FIRED**.
+  (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens GENERATED)
+  · `doc-budgets` gate · **F10 re-plan FIRED**.
 - **✅ UI-v2 direction LOCKED (R9 → D-127): 10 Andon Steel** (blackened-steel
   bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
   01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
@@ -50,8 +43,15 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a · F2 CI ·
-  ✅ F4 balance sim (D-132: `src/sim/` personas, `verify:balance` + report +
-  freshness WARN; open H19/H20). F3 IN FLIGHT (co-agent). NEXT: F1b Ph2–4 · F5/F6.**
+  ✅ F4 balance sim (D-132). F3 landed (co-agent); F6 IN FLIGHT (co-agent).
+  NEXT: F1b Ph2–4 · F5.**
+- **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN stays soft).
+  **H19→D-133:** Phase 2 ≈ Phase 1 (~1:1), general per-tier rule → hard
+  `verify:balance` **ratio gate** `[0.8, 1.2]`. Stopgap **hotfix shipped**
+  (fractional sub-koku deeds → greedy Phase 2 0.94:1; 480-koku gate/fiction
+  intact). Real Phase-2 **redesign** planned + queued
+  (`opus-2026-07-04-phase2-economy-redesign.md`) — needs a human direction call
+  (literal 1:1 vs. rebalance split) + loop pick.
 
 ## Waiting on the human
 
