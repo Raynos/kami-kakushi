@@ -1,10 +1,10 @@
 # Plan — UI demos 07–09: the Moonlit × Lacquer fusion trio
 
-**Status: 🔨 IN-PROGRESS — BUILT + verified (session 2026-07-03), awaiting the human's R9
-pick.** All three (07 Andon, 08 Night Seal, 09 Damascene Duet) built as full
-working `ui-demos/` variants, self-verified + orchestrator-QA'd (full arc, 0
-console errors, 0 overflow desktop + mobile, each thesis reads in 2s, each named
-slop-risk defeated) and wired into the gallery. Archive once the R9 pick closes.
+**Status: ✅ DONE — R9 CLOSED (human, 2026-07-04): the pick is 10 Andon Steel
+(→ ADR D-127). Plan archived.** All three fusion variants (07 Andon, 08 Night
+Seal, 09 Damascene Duet) built + verified; they fed the human's synthesis into
+demo 10, which won R9 as UI-v2's direction. 07–09 (and the rest of the field)
+are anchored in `ui-demos/` as the exploration record, not deleted.
 
 Human ask (2026-07-03): torn between **01 Moonlit** and **04 Lacquer**, wants **3
 fusion variants** built as demos **07–09** to feel which one pulls. Idea fan-out +
@@ -192,7 +192,8 @@ into one blackened-steel jewel-box. Neither night-box nor urushi-and-paper.
       **both** parents and from the other two.
 - [x] Wired into `ui-demos/index.html`; R9 extended; this plan queued. Pushed so
       the live gallery carries them: _pending the checkpoint push_.
-- [ ] Plan archived to `project/archive/` once the human's R9 pick round closes.
+- [x] Plan archived to `project/archive/` once the human's R9 pick round closes.
+      (R9 closed 2026-07-04 → 10 Andon Steel; ADR D-127.)
 
 ## Known taste dials (for the human's R9 call — not defects)
 

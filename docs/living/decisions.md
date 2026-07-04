@@ -1538,3 +1538,47 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   AGENTS.md gains a ~10-line taste register (P3); F10 re-plans once
   `taste.md` locks; `ui-design.md`'s vision statement gets a
   provisional-pending-R9 marker in the P2 cull.
+
+### D-127 ✅ — UI-v2 direction: **10 Andon Steel** (R9 resolved)
+- **created_date:** 2026-07-04
+- **Context:** **R9** — the UI-remaster taste call — asked which of the full
+  working `ui-demos/` remasters becomes the real game's next UI generation. The
+  field: six directions (01 Moonlit … 06 Washi), human-shortlisted to 01 / 04 /
+  06; then, torn between **01 Moonlit** and **04 Lacquer**, the human commissioned
+  a **Moonlit × Lacquer fusion round** (07 Andon · 08 Night Seal · 09 Damascene),
+  and after reviewing those landed on a synthesis built as **10 Andon Steel** (07's
+  composition in 09's blackened steel + a 06-style GBA typewriter cold-open). Field
+  cut + build specs: `project/archive/2026-07-02-ui-remaster-variants.md`,
+  `project/brainstorms/2026-07-03-moonlit-lacquer-fusion.md`, and the fusion plan
+  (archived).
+- **Options:** any of 01–10, a further blend, or a refinement round.
+- **Decision (human, 2026-07-04):** **10 Andon Steel** is the locked UI-v2
+  direction — *"R9 we choose andon 10, lock that in."* Demo 10's language becomes
+  the target for the real game's UI: **uniform blackened-steel bimetal** (silver =
+  state · gold = value · vermillion = commit), the two-light warm/cool grade and
+  the nunome texture dropped for clean steel, the log a dark recessed steel well,
+  and a **06-style GBA typewriter cold-open**. The name "Andon Steel" is a working
+  label (renamable).
+- **The rest of the field is ANCHORED, not deleted (R2 · archive-don't-remove):**
+  01–09 stay in `ui-demos/` as the committed exploration record (the reference the
+  pick was made against); the gallery marks 10 as the locked winner. Nothing is
+  stripped from `ui-demos/` (it's a mock staging ground — no PROD flag-debt to
+  clear; the real strip happens when UI-v2 is ported into `src/`).
+- **Why:** the human reviewed the whole field live and synthesized the winner
+  himself; 10 is that synthesis. A single locked direction lets a UI-v2 build plan
+  target one language instead of hedging across the field.
+- **Consequences:**
+  - **🔁 Amends D-126** — its "*Kurosawa/woodblock is SOFTER canon … visual
+    identity provisional pending R9*" clause now **resolves**: the UI-v2 target
+    identity is **Andon Steel** (blackened-steel bimetal), which **supersedes** the
+    woodblock/washi/paper language *as the target*. `ui-design.md` + `taste.md`'s
+    visual-identity sections get rewritten when the UI-v2 port is planned — not now
+    (they're snapshot-capped; the port owns that rewrite).
+  - **⏳ Build DEFERRED — the port to `src/` is a future plan (R6):** demo 10 is a
+    `ui-demos/` mock; porting its language into the real game is a large, not-yet-
+    scoped build. Until it lands, the **current washi build keeps shipping**.
+  - **Open, surfaced for the human:** whether the still-open current-UI variant
+    picks (**R2 / R5 / R6 / R7** — panel/map/bestiary/home diverges on today's washi
+    UI) are now moot given UI-v2 supersedes them, or still wanted as interim polish.
+    Left to the human; not closed here.
+  - Closes **R9**; graduated to the human-in-the-loop archive.

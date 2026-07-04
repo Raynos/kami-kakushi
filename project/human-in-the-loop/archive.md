@@ -42,5 +42,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 |----|-------|-----------------------|-----------------|------|--------|
 | R3 | T0-M4 breadth diverge picks | Superseded — folded into the unified per-variant **R2** review | **D-075** (diverge v2) | 2026-06-30 | [r4-playtest-decisions](../human-feedback/2026-06-30-r4-playtest-decisions.md) |
 | R4 | v0.3 fidelity-battery judgment queue (6 calls) | All 6 decided via AskUserQuestion (clock / fork / auto-combat / cold-open / breadth / koku) | **D-076…D-079** (+D-056) | 2026-06-30 | [r4-playtest-decisions](../human-feedback/2026-06-30-r4-playtest-decisions.md) |
+| R9 | UI-remaster direction (`ui-demos/` field of 10) | **10 Andon Steel** locked as UI-v2's direction; 01–09 anchored as the exploration record (not deleted) | **D-127** | 2026-07-04 | (in-session steer) |
 
-> _Open reviews live in [`review.md`](review.md): **R1** (playtest) · **R2** (UI variants, per-variant, D-075)._
+> _Open reviews live in [`review.md`](review.md): **R1** (playtest) · **R2** (UI variants, per-variant, D-075)
+> · **R5** (bestiary) · **R6** (home panel) · **R7** (estate map) · **R8** (rung cast/beats)._

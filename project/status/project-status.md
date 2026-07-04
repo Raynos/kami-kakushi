@@ -41,13 +41,14 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   wall-weapon token · home→R3). **R7 capstone** DESIGNED (D-125) → build
   DEFERRED to T1 (`capstone-t0-branch.md`). `emergent-node-actions` → a plan.
 - **✅ THE TASTE LOCK (D-126, s57):** top layer locked WITH the human (4 values ·
-  3 touchstones · proto23/YAIR refs, shots in `raw/screenshots/`) → **`taste.md`
-  rewritten** (pyramid, 21 principles, 150-cap) · **`ui-design.md` 1159→351**
-  (vision provisional→R9; tokens GENERATED → `docs/content/ui-tokens.md`) ·
-  workshop bar → qa§9 · AGENTS.md **T1–T4 register** · 13th gate **`doc-budgets`**
-  · **prediction test 24/24** · ⭐ TODO closed; **F10 re-plan trigger FIRED**.
-- **UI remaster (R9):** six T0 variants + a **Moonlit × Lacquer fusion round**
-  (07 Andon · 08 Night Seal · 09 Damascene · 10 Andon Steel) — <https://kami-kakushi-ui-demos.vercel.app>.
+  3 touchstones · proto23/YAIR refs) → **`taste.md` rewritten** (pyramid, 21
+  principles, 150-cap) · **`ui-design.md` 1159→351** (tokens GENERATED →
+  `docs/content/ui-tokens.md`) · AGENTS.md **T1–T4 register** · 13th gate
+  **`doc-budgets`** · ⭐ TODO closed; **F10 re-plan trigger FIRED**.
+- **✅ UI-v2 direction LOCKED (R9 → D-127): 10 Andon Steel** (blackened-steel
+  bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
+  01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
+  till then. Resolves D-126's "visual identity provisional pending R9".
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard, F1a checkpoint
@@ -65,9 +66,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   balance-cockpit plan (fable-process-F7) is the tuning aid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **UI-remaster variants** 🔲 (R9) — shortlisted 6 → 3, then a **Moonlit × Lacquer
-  fusion round (07–10)**; the human's leaning toward **10 Andon Steel**. Winner →
-  the D-075 diverge; R9 also resettles the visual identity (D-126).
+- **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, D-127). Open: are R2/R5/R6/R7
+  (washi-UI picks) still wanted as interim polish now UI-v2 supersedes them?
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -83,9 +83,9 @@ Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint
 boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` runs
 in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
-**14 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
-gen-docs, pacing, playcheck, md-links, milestone-integrity, verify-changelog,
-doc-budgets, checkpoint.
+**15 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
+gen-docs, gen-prd-regions, pacing, playcheck, md-links, milestone-integrity,
+verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
 Docs-only: `SKIP_CODE_VERIFY=1` (docs lane runs, ~0.3s; `SKIP_VERIFY=1` last resort).
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
