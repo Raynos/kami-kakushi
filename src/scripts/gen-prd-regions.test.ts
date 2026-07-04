@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { genT0RungTitles } from './gen-prd-regions';
+import { genT0RungTitles, genT0WeaponRoster, genT0Bestiary } from './gen-prd-regions';
 import { spliceRegion } from './gen-regions';
-import { RANKS } from '../core';
+import { RANKS, WEAPONS, MOBS, getMob } from '../core';
 
 // Proves the F1b Phase 2 PRD-region generator is DERIVED from RANKS (not
 // hand-copied) and splices cleanly. Each assertion can go RED: a generator that
@@ -42,5 +42,56 @@ describe('genT0RungTitles', () => {
     expect(once).toContain('Prose above.');
     expect(once).toContain('Prose below.');
     expect(once).not.toContain('seed');
+  });
+});
+
+describe('genT0WeaponRoster', () => {
+  it('names every WEAPON label, kanji, and archetype — derived from the registry', () => {
+    const body = genT0WeaponRoster();
+    for (const w of WEAPONS) {
+      // fixtures from the source of truth (WEAPONS): rename a weapon in weapons.ts
+      // and this fails until the region is regenerated (the mismatch that shipped
+      // kama-yari in §4 while the build had the woodlot axe, D-128).
+      expect(body).toContain(`> | ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
+    }
+  });
+
+  it('emits exactly one row per weapon (none dropped or duplicated)', () => {
+    const rows = genT0WeaponRoster()
+      .split('\n')
+      .filter((l) => WEAPONS.some((w) => l.startsWith(`> | ${w.label} |`)));
+    expect(rows).toHaveLength(WEAPONS.length);
+  });
+
+  it('is IDENTITY only — the provisional §4 tuning numbers stay OUT (D-021)', () => {
+    const body = genT0WeaponRoster();
+    // the durabilityMax values are §4-domain tuning; a generator that leaked them
+    // would fail here (and would re-drift every time a number is tuned).
+    for (const w of WEAPONS) expect(body).not.toContain(String(w.durabilityMax));
+  });
+});
+
+describe('genT0Bestiary', () => {
+  it('names every T0-reachable mob — derived from MOBS', () => {
+    const body = genT0Bestiary();
+    for (const m of MOBS.filter((x) => (x.minTier ?? 0) < 2)) {
+      expect(body).toContain(`> | ${m.label} | ${m.kanji} |`);
+    }
+  });
+
+  it('EXCLUDES the road bandit — the T2-gated foe belongs in §5, not the T0 bestiary', () => {
+    const bandit = getMob('bandit');
+    expect(bandit.minTier).toBe(2); // guards the fixture: the filter's whole reason
+    // the sharpest RED-able line: drop the minTier filter and the bandit leaks in.
+    expect(genT0Bestiary()).not.toContain(bandit.label);
+  });
+
+  it('emits one row per T0 foe (bandit excluded) — count matches the filter', () => {
+    const t0 = MOBS.filter((m) => (m.minTier ?? 0) < 2);
+    const rows = genT0Bestiary()
+      .split('\n')
+      .filter((l) => t0.some((m) => l.startsWith(`> | ${m.label} |`)));
+    expect(rows).toHaveLength(t0.length);
+    expect(t0.length).toBe(MOBS.length - 1); // exactly the bandit is held back
   });
 });

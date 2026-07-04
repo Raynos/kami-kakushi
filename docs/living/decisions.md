@@ -1618,3 +1618,30 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
     decision, not a reflexive add.
   - First ripple under this rule: the **three stance names** (jodan/gedan/chudan)
     into §2.8 + §3 R5, landed 2026-07-04.
+
+### D-129 ✅ — Content: the T0 weapon roster is pole + woodlot-axe + forged-yari (kama-yari retired from T0)
+- **created_date:** 2026-07-04
+- **Context:** `prd:drift` (D-128's first sweep) surfaced a genuine roster
+  **mismatch**, not a mere missing name: §4.6.9's weapon table designed the T0
+  second/third weapons as **kama-yari** (cross-spear, "Sweep") + yari, but the
+  build ships **woodlot-axe** (`wood_axe`, a found/crafted heavy tool) + **forged
+  yari** (`yari`, the Line-1 spear you graduate to). The kama-yari was never built.
+- **Options:** (a) ripple §4 to match the build (build is the territory, R2);
+  (b) treat the shipped roster as drift and move the code back toward kama-yari.
+- **Decision (human, 2026-07-04):** **(a) — ripple §4 to the build.** The T0
+  roster is **carrying-pole (0th improvised) → woodlot-axe (found/crafted 2nd) →
+  forged yari (Line-1 spear, the graduation weapon)**. Kama-yari is **retired from
+  the T0 roster** (not currently built); whether it returns as a later-tier spear
+  variant is an open frontier call, not decided here.
+- **Why:** the build has shipped, been played, and is the territory; §4's kama-yari
+  row was stale forward-design that the woodlot-axe replaced. Keeping the PRD's
+  named roster matched to the registry is exactly D-128's "no T0 backlog" intent.
+- **Consequences:**
+  - §4.6.9's T0 rows now read woodlot-axe + forged-yari (the provisional TUNING
+    numbers stay hand-authored per D-021 — only the roster identity was rippled).
+  - The **weapon identity roster is now a gen-region** (§2.10.1, from `WEAPONS`)
+    and the **T0 bestiary** likewise (§2.9, from `MOBS`, tier-filtered) — so this
+    class of name-drift is now impossible by construction, not just detected
+    (D-128's durable mechanism; the `gen-prd-regions` gate holds it).
+  - The **road bandit** (T2-gated, A10) got its proper §5 frontier mention in the
+    same sweep — it is NOT in the T0 bestiary region (correctly excluded).

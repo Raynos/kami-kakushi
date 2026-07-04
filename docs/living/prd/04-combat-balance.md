@@ -1214,8 +1214,8 @@ are **FOUND and CRAFTED, never gifted**, and reveal **one at a time** on the com
 | Weapon | Line | First reveal | `baseSpeed` | `reach` | `targetCount` | signature ability |
 |---|---|---|---|---|---|---|
 | Carrying-pole *(0th improvised)* | — | T0 convalescence | 0.80 | 2 | 1 | — *(no signature)* |
-| **Yari** *(starter)* | 1 Spear | **T0-R3** | 1.00 | 3 | 1 | **Thrust-through** (partial armour pierce) |
-| Kama-yari *(cross-spear)* | 1 Spear | T0 | 0.95 | 3 | 2 | **Sweep** (strikes 2 targets) |
+| **Woodlot axe** *(found/crafted 2nd)* | — *(found tool)* | T0 *(crafted; §3 R4–R5)* | 0.85 | 1 | 1 | — *(heavy bite, no signature)* |
+| **Forged yari** *(Line-1 spear — the graduation weapon)* | 1 Spear | T0 *(§3 R3→R6)* | 1.00 | 3 | 1 | **Thrust-through** *(pierce — T1 ability slot)* |
 | Kodachi *(short sword)* | 2 Sword | T1 | 1.25 | 1 | 1 | **Riposte** (counter on evade) |
 | Uchigatana | 2 Sword | T1 | 1.10 | 2 | 1 | **Iai draw** (crit on opening swing) |
 | Ōdachi *(great sword)* | 2 Sword | T1 | 0.90 | 2 | 2 | **Wide arc** (cleave 2) |

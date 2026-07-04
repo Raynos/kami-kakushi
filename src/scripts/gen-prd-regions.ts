@@ -2,12 +2,17 @@
 // so that class of game→PRD drift becomes impossible, not merely reported
 // (F1b Phase 2; plan: docs/plans/fable-process-F1b-prd-ripple-tooling.md §2).
 //
-// The F1b Phase 1 reporter (prd-drift.ts) DETECTS drift; this PREVENTS it, for
-// one pilot slice: the §3 T0 rung-ladder TITLES (R0→R7), read straight from the
-// RANKS registry — the same typed data the running game uses. RANKS titles are
-// shipped, played, and stable through every re-core, so they are the least
-// contestable build==end-state fact (thresholds are provisional per D-021 and
-// stay OUT — numbers are §4's ripple-frozen domain, never transcluded).
+// The F1b Phase 1 reporter (prd-drift.ts) DETECTS drift; this PREVENTS it, by
+// transcluding the derivable T0 rosters straight from the typed registries the
+// running game uses. It began as ONE pilot slice (the §3 rung-ladder TITLES from
+// RANKS); D-128 ("ripple during T0 — no compression backlog") expanded it to the
+// full set of shipped, stable T0 IDENTITY facts:
+//   • §3 rung-ladder titles (RANKS)          — genT0RungTitles
+//   • §2.10.1 weapon roster (WEAPONS)         — genT0WeaponRoster
+//   • §2.9 bestiary, T0-reachable (MOBS)      — genT0Bestiary
+// IDENTITY only — labels/kanji/archetype/where-found. The provisional TUNING
+// numbers (thresholds, baseAttack, per-mob level) stay OUT: those are §4's
+// ripple-frozen domain (D-021), never transcluded.
 //
 // Mechanism: the shared region splicer (gen-regions.ts, built once in the F1a
 // lane) replaces only the bytes between a marker pair and preserves every byte
@@ -25,7 +30,7 @@ export {};
 import { readFileSync, writeFileSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RANKS } from '../core';
+import { RANKS, WEAPONS, MOBS } from '../core';
 import { spliceRegion } from './gen-regions';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -56,6 +61,49 @@ export function genT0RungTitles(): string {
   ].join('\n');
 }
 
+/** The T0 weapon roster — identity only (label · kanji · archetype · flavour),
+ *  derived from WEAPONS. Every current weapon is T0, so the whole registry ships;
+ *  if a tier field is added later, filter here. The per-weapon tuning numbers
+ *  (`baseAttack`/`baseSpeed`/durability) stay OUT — those are §4.6.9's provisional,
+ *  ripple-frozen domain (D-021), never transcluded. Pure fn; exported for test. */
+export function genT0WeaponRoster(): string {
+  const rows = WEAPONS.map((w) => `| ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
+  return [
+    '> **The T0 weapon roster, as the build ships it** — GENERATED from `WEAPONS`',
+    '> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `npm run',
+    '> gen:prd-regions`; **do not edit between the markers**. Identity only — the',
+    '> per-weapon `baseAttack`/`baseSpeed`/durability tuning lives in §4.6.9 (the',
+    '> ripple-frozen provisional numbers, D-021), never here. Adding or renaming a',
+    '> weapon in `WEAPONS` without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Weapon | 漢字 | Archetype | Note |',
+    '> |---|---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 bestiary — identity + location (label · kanji · where-found), derived
+ *  from MOBS, tier-filtered to T0-reachable foes (`minTier` 0 / undefined). The
+ *  road bandit (`minTier` 2 — the first HUMAN threat, canon-held for T2 per A10)
+ *  is EXCLUDED: it ripples into §5 frontier, not the T0 bestiary (D-128). Per-mob
+ *  `level` is §4.6 tuning and stays out. Pure fn of MOBS; exported for test. */
+export function genT0Bestiary(): string {
+  const t0 = MOBS.filter((m) => (m.minTier ?? 0) < 2);
+  const rows = t0.map((m) => `| ${m.label} | ${m.kanji} | ${m.area.replace(/-/g, ' ')} |`);
+  return [
+    '> **The T0 bestiary, as the build ships it** — GENERATED from `MOBS`',
+    '> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `npm run',
+    '> gen:prd-regions`; **do not edit between the markers**. T0-reachable foes',
+    '> only — the road bandit is canon-held for T2 (§5) and excluded here (A10);',
+    '> per-mob `level` is §4.6 tuning, kept out. Adding or renaming a T0 mob in',
+    '> `MOBS` without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Foe | 漢字 | Found on |',
+    '> |---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
 // --- region wiring ------------------------------------------------------------
 
 interface RegionSpec {
@@ -65,6 +113,8 @@ interface RegionSpec {
 }
 const REGIONS: ReadonlyArray<RegionSpec> = [
   { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-rung-titles', gen: genT0RungTitles },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-weapon-roster', gen: genT0WeaponRoster },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-bestiary', gen: genT0Bestiary },
 ];
 
 /** Apply every region targeting `file` and return before/after. */

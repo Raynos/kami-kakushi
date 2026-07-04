@@ -13,6 +13,10 @@ pillar-reveal ramp running **1→2→3→4→4**. The sword line opens at T1, th
 line at T2 (so the roster is complete by end-of-T2 and the Region is combat
 depth), the two rival houses are introduced and the contest begins at T2 with
 its climax at T3, and cross-pillar combos surface partial at T2 and full at T3.
+The **Road bandit** (野伏) — the first HUMAN threat — is canon-held for **T2**
+(A10): it lives in the balance curve as the high-end wall from T0, but is not a
+reachable, fightable foe until the Village opens (the T0 bestiary is grounded
+animals only; the moral weight of a human enemy waits for T2).
 
 # T0 — Estate (the tutorial)
 

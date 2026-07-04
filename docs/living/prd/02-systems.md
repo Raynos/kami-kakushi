@@ -588,6 +588,25 @@ mixed motives and CLEAR/CAPTURE choices with consequences; some are reachable co
   location-filtered live set the combat watch reads, while the win-rate CURVE the balance gates read stays
   location-INDEPENDENT.
 
+<!-- gen:begin t0-bestiary (npm run gen:prd-regions — do not edit inside) -->
+> **The T0 bestiary, as the build ships it** — GENERATED from `MOBS`
+> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `npm run
+> gen:prd-regions`; **do not edit between the markers**. T0-reachable foes
+> only — the road bandit is canon-held for T2 (§5) and excluded here (A10);
+> per-mob `level` is §4.6 tuning, kept out. Adding or renaming a T0 mob in
+> `MOBS` without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Foe | 漢字 | Found on |
+> |---|---|---|
+> | Grain-store wolf | 狼 | kura |
+> | Grain-rat swarm | 稲鼠 | gate forecourt |
+> | Crop-raiding monkey | 猿 | home paddies |
+> | Crop-raiding troop | 猿群 | home paddies |
+> | Lean wolf | 狼 | near satoyama |
+> | Mamushi (pit viper) | 蝮 | near satoyama |
+> | Wild boar | 猪 | deep satoyama |
+<!-- gen:end t0-bestiary -->
+
 **(d) Ties to the four pillars.** **Arms** — clearing/securing against mobs is the recognized martial
 service that converts to Arms (as **Phase-2 deeds**; §2.8(d)/§2.15.1). Loot also feeds Estate & Wealth
 (crafting materials, §2.10/2.11).
@@ -661,6 +680,21 @@ milestones (L10 unlocks the ability/item slots; richer signatures ~L25/L50).
   **byte-identical** to §4.6 and `content/items.ts` (§6.5).
 - A weapon's improvised 0th entry carries a minimal archetype (slow, short, single-target) and **no**
   signature. *(Exact per-weapon numbers → §4.6.)*
+
+<!-- gen:begin t0-weapon-roster (npm run gen:prd-regions — do not edit inside) -->
+> **The T0 weapon roster, as the build ships it** — GENERATED from `WEAPONS`
+> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `npm run
+> gen:prd-regions`; **do not edit between the markers**. Identity only — the
+> per-weapon `baseAttack`/`baseSpeed`/durability tuning lives in §4.6.9 (the
+> ripple-frozen provisional numbers, D-021), never here. Adding or renaming a
+> weapon in `WEAPONS` without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Weapon | 漢字 | Archetype | Note |
+> |---|---|---|---|
+> | Worn carrying-pole | 天秤棒 | reach · blunt | A porter's shoulder-pole. Not a weapon — but it has reach, and it is what you have. |
+> | Woodlot axe | 斧 | heavy · single | A felling axe off the woodlot rack — heavy, slow, and it bites deep. |
+> | Forged yari | 槍 | reach · thrust | A spear forged and lashed at the woodlot smithy — a straight ash haft and a keen head. Not a farm tool turned to fighting, but a real weapon, made to a soldier’s pattern. |
+<!-- gen:end t0-weapon-roster -->
 
 **(d) Ties to the four pillars.** **Arms** (better weapons → more achievable deeds). Crafted weapons also
 exercise the smithing chain that feeds **Estate & Wealth** (tools/trade goods, ≤ ⅓ trade cap).

@@ -89,3 +89,34 @@ build has three (a balanced middle). `prd:drift` STANCES now 3/3.
 Extend `gen-prd-regions.ts` with tier-filtered roster regions (T0 weapons, T0
 mobs, stance table) — the durable "no backlog by construction" mechanism D-128
 unblocked. Resolve the weapon roster mismatch with the human first.
+
+---
+
+## Addendum — gen-region extension + §4 weapon ripple (D-128 durable mechanism, D-129)
+
+The human took both recommended options: ripple §4 to the build, and build the
+gen-region extension now. Done:
+- **`gen-prd-regions.ts`** — two new pure generators: `genT0WeaponRoster` (from
+  `WEAPONS`, identity only — label/kanji/archetype/blurb, NO tuning numbers) and
+  `genT0Bestiary` (from `MOBS`, tier-filtered `minTier<2` so the T2 road bandit is
+  excluded). Registered as regions in §2.10.1 + §2.9; the `gen-prd-regions` gate
+  now holds all three T0 rosters (rungs + weapons + bestiary) drift-proof.
+- **§4.6.9 weapon table** — replaced the stale `kama-yari` row with the build's
+  real roster (**woodlot-axe** + **forged-yari**); numbers stay hand-authored
+  provisional (D-021). ADR **D-129** records the roster ripple + kama-yari's T0
+  retirement.
+- **§5 narrative** — the **road bandit** got its proper frontier mention (T2, A10),
+  so its presence is legit, not an incidental match in the exclusion note.
+- **Tests** — `gen-prd-regions.test.ts` +6: derived-from-registry, one-row-per,
+  identity-only (durability numbers stay out), and the sharp one — the bestiary
+  EXCLUDES the bandit (drop the filter → RED). 10/10 green.
+- `prd:drift`: WEAPONS 3/3, MOBS 8/8, STANCES 3/3. Only the R8-gated cast names
+  remain (correctly blocked).
+
+**Commit constraint (shared tree):** committed via `git commit --only <my paths>`
+because a concurrent **session-67** agent is mid verify/toolchain overhaul and had
+`project-status.md` + `verify-run.ts` + their journal staged in the shared index.
+Their WIP left the `checkpoint` gate RED (stale status-file regions) — NOT my
+change. Verified my work green in isolation (vitest 10/10; the full-verify failure
+was solely their two status files). Did NOT push (their red stays off the remote);
+did NOT touch their files or index. Surfaced to the human.
