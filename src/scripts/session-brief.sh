@@ -58,12 +58,36 @@ section_items() {
   ' "$file"
 }
 
+# --- herdr: other agents live on THIS working tree (shared-tree safety) ---------
+# Delegates to the shared herdr-peers helper (clean no-op without herdr — D-124:
+# optional local tooling, never a hard dependency). The helper does one fast local
+# socket call by the SCRIPT (not an agent round-trip), so the brief stays ≤5s.
+# Prints nothing in the common solo case (no noise). Advisory only; never blocks.
+herdr_shared_tree() {
+  local peers
+  peers="$(bash "$ROOT/src/scripts/herdr-peers.sh" "$ROOT" 2>/dev/null || true)"
+  [[ -n "$peers" ]] || return 0
+
+  local count; count="$(printf '%s\n' "$peers" | grep -c .)"
+  add "### ⚠️ Shared tree — ${count} other agent(s) live in this repo right now"
+  local pane status goal
+  while IFS=$'\t' read -r pane status goal; do
+    [[ -n "$pane" ]] || continue
+    if [[ -n "$goal" ]]; then add "- \`$pane\` — $status · _${goal}_"; else add "- \`$pane\` — $status"; fi
+  done <<<"$peers"
+  add "> Respect shared-tree safety: stage **only your own paths** (never \`git add -A\`); never \`stash\`/\`checkout\`/\`restore\` files you didn't author. A push may be **correctly** blocked by another agent's red WIP — leave it local, don't \`SKIP_VERIFY\` it onto \`main\`. (\`herdr agent list\` for the live picture.)"
+  add ""
+}
+
 add "## 🧑‍⚖️ Human-in-the-loop brief (auto-surfaced at session start)"
 add ""
 add "> ⏱️ **Opening turn ≤5s — relay this brief with ZERO tool calls.** Everything you need (queue, reviews, commits, the active-plan tag) is already inlined below. Do **not** run \`git\`/\`Read\`/\`verify\` or open any file just to brief — even one round-trip costs several seconds and blows the budget. Defer every verify-against-git check to when you actually pick the work up."
 add ""
 add "_Surface these to the human early. Full lists: \`$HUMAN_TODO\`, \`$DECISIONS\`, \`$REVIEWS\`._"
 add ""
+
+# herdr: warn up front if other agents share this working tree (no-op without herdr).
+herdr_shared_tree
 
 # --- Human TODO + reading queue: section-aware unticked checkboxes -------------
 if [[ -f "$HUMAN_TODO" ]]; then

@@ -14,6 +14,20 @@ if [ "${SKIP_VERIFY:-0}" = "1" ]; then
   exit 0
 fi
 
+# herdr advisory (optional; clean no-op without herdr): if other agents share this
+# working tree, name them so a verify RED you did NOT cause is legible, not
+# mysterious. Advisory only — never changes the push outcome (D-124; advisory rung).
+if [ "${SKIP_HERDR_PEERS:-0}" != "1" ]; then
+  _peers="$(bash "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/src/scripts/herdr-peers.sh" 2>/dev/null || true)"
+  if [ -n "$_peers" ]; then
+    echo "  - herdr: other agents share this tree — a RED below may be THEIR WIP, not yours:" >&2
+    printf '%s\n' "$_peers" | while IFS="$(printf '\t')" read -r _pane _status _goal; do
+      [ -n "$_pane" ] || continue
+      if [ -n "$_goal" ]; then echo "      $_pane ($_status) — $_goal" >&2; else echo "      $_pane ($_status)" >&2; fi
+    done
+  fi
+fi
+
 echo "  - pre-push: verify must be GREEN to push…" >&2
 if ! env -u SKIP_CODE_VERIFY -u SKIP_DOCS_VERIFY npm run --silent verify >&2; then
   echo "" >&2

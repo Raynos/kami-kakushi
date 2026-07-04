@@ -71,6 +71,21 @@ run_verify() {
 echo "  - staged for THIS commit:" >&2
 git diff --cached --name-only | sed 's/^/      /' >&2
 
+# --- herdr peer FYI (optional; clean no-op without herdr): the index is shared, and so is
+#     the working tree — remind a long-running agent WHO ELSE is live here right now, with
+#     each agent's current goal. Advisory only; never blocks (D-124; advisory rung). ---
+if [ "${SKIP_HERDR_PEERS:-0}" != "1" ]; then
+  _peers="$(bash "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/src/scripts/herdr-peers.sh" 2>/dev/null || true)"
+  if [ -n "$_peers" ]; then
+    _n="$(printf '%s\n' "$_peers" | grep -c .)"
+    echo "  - herdr FYI: $_n other agent(s) live on this tree (stage only your paths; never 'git add -A'):" >&2
+    printf '%s\n' "$_peers" | while IFS="$(printf '\t')" read -r _pane _status _goal; do
+      [ -n "$_pane" ] || continue
+      if [ -n "$_goal" ]; then echo "      $_pane ($_status) — $_goal" >&2; else echo "      $_pane ($_status)" >&2; fi
+    done
+  fi
+fi
+
 if ! run_verify; then
   echo "" >&2
   echo "  commit blocked by verify (docs-only commit: SKIP_CODE_VERIFY=1 git commit … keeps the docs gates)" >&2
@@ -87,6 +102,24 @@ if echo "$staged_all" | grep -vE '^src/core/content/balance\.ts$' | grep -qE '^s
   && ! echo "$staged_all" | grep -qE '^docs/living/prd/'; then
   echo "  ~ content registries changed without a PRD touch — if a display name / roster moved," >&2
   echo "    run 'npm run prd:drift' for the game->PRD punch-list (report-only; D-117 Flow 1)." >&2
+fi
+
+# --- Balance-report freshness WARN (F4 §5b — WARN ONLY for now; promotion to a hard gate is
+#     H20, decided by whether this gets ignored): a commit that touches the sim's design inputs
+#     (src/core/content/*) without a regenerated docs/content/t0-pacing.md has probably staled
+#     the committed pacing report. `balance-sim --check-fresh` recomputes the input FINGERPRINT
+#     (evaluated values, no sim run, <1 s) vs the report header — it fires exactly on a VALUE
+#     change, never on comments/formatting, so this warn can't cry wolf. Scoped to commits that
+#     stage a design-input file, so every other commit pays nothing. ---
+if [ "${SKIP_BALANCE_FRESH:-0}" != "1" ]; then
+  if echo "$staged_all" | grep -qE '^src/core/content/'; then
+    if ! npx tsx src/scripts/balance-sim.ts --check-fresh >&2; then
+      echo "  !! balance WARN (NOT blocking): this commit changes design inputs but the committed" >&2
+      echo "     pacing report was generated from OLDER values. Run 'npm run verify:balance' (the" >&2
+      echo "     machine verdict) then 'npm run balance:report' and commit the diff WITH the change" >&2
+      echo "     — the report diff IS the before/after. (F4 §5b; silence with SKIP_BALANCE_FRESH=1.)" >&2
+    fi
+  fi
 fi
 
 # --- Reading-queue gate: a durable doc whose PURPOSE is the human reading / reviewing / signing off on
