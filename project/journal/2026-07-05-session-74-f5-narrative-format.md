@@ -124,3 +124,16 @@ INTENTIONAL — keep it, allowlist the Ph2 WARN.
   rather than copying it.
 - Could-go-RED proofs: one-word mutation in EACH of the three files went RED,
   reverted, green; `--check` in sync.
+
+---
+
+## 5 · Ph3 flips — intro/dialogue/coldOpen re-export generated data
+
+- `intro.ts` drops the DIALOGUE_SCENES literal + GENEMON_GREET (the reuse now
+  lives in the generated module as `getDialogueLine(…)`); `dialogue.ts` drops
+  the DIALOGUES literal; `coldOpen.ts` drops the COLD_OPEN literal and keeps
+  `rakeLine` (real logic stays code). Each re-exports its `.gen.ts`.
+- `narrative-equivalence-ph3.test.ts` retired at the flips per the plan; the
+  standing seals — `intro.test.ts`, `dialogue.test.ts`, `coldOpen.test.ts`,
+  plus the intro-flow/dialogue-tree/m1 suites — pass UNCHANGED (full verify
+  green, 17 gates).
