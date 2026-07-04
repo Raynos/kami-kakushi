@@ -11,9 +11,12 @@
 //   --check-fresh the staleness gate (F4 §5b): recompute the input fingerprint (imports +
 //                hash, NO sim run, <1 s) and compare to the committed report's header —
 //                fires exactly when a balance VALUE changed without a fresh report.
+//   --summary    the paste-into-the-commit-body block (F4 §5b flow step 4): greedy per-rung
+//                medians + band verdicts + the delta vs the HEAD-committed report.
 export {};
 
 import { writeFileSync, readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import {
   ACTIVITIES,
@@ -336,6 +339,51 @@ function check(): number {
   return reds;
 }
 
+// ── --summary: the commit-body block (per-rung medians + deltas vs HEAD + verdicts) ──────────
+
+/** Parse the greedy time-to-rung wall-min medians out of a committed report's markdown. */
+function parseReportMedians(text: string): Map<string, number> {
+  const out = new Map<string, number>();
+  const lines = text.split('\n');
+  const start = lines.findIndex((l) => l.startsWith('## greedy — time-to-rung'));
+  if (start < 0) return out;
+  for (let i = start; i < lines.length && !lines[i + 1]?.startsWith('## greedy — arc'); i++) {
+    const m = /^\| (R\d) \| \d+ \|(?:[^|]*\|){4} ([\d.]+) \|/.exec(lines[i] ?? '');
+    if (m) out.set(m[1]!, Number(m[2]));
+  }
+  return out;
+}
+
+function summary(): void {
+  let before = new Map<string, number>();
+  try {
+    before = parseReportMedians(
+      execFileSync('git', ['show', `HEAD:${OUT}`], { encoding: 'utf-8' }),
+    );
+  } catch {
+    // no committed report to diff against — deltas print as “—”.
+  }
+  const runs = SIM_SEEDS.map((seed) => runPersona(greedy, seed).metrics);
+  console.log('balance-sim --summary (greedy medians vs the HEAD-committed report):');
+  console.log('```');
+  console.log('rung   wall-min   Δ vs HEAD   band verdict');
+  for (const v of greedyBandVerdicts(runs)) {
+    const med = median(runs.map((r) => r.rungs.find((x) => x.rung === v.rung)?.wallMin ?? 0));
+    const prev = before.get(v.rung);
+    const delta = prev === undefined ? '—' : `${med >= prev ? '+' : ''}${(med - prev).toFixed(1)}`;
+    console.log(
+      `${v.rung.padEnd(6)} ${min1(med).padStart(8)} ${String(delta).padStart(11)}   ` +
+        `${v.ok ? 'in' : 'OUT OF'} [${v.bandMin}, ${v.bandMax}]`,
+    );
+  }
+  const p2 = runs.map((r) => r.economy.phase2Intents ?? 0);
+  console.log(
+    `Phase-2 window ${min1(wallMinutes(median(p2)))} min (report-only, H19); ` +
+      `fingerprint ${inputFingerprint()}`,
+  );
+  console.log('```');
+}
+
 // ── CLI ───────────────────────────────────────────────────────────────────────────────────────
 
 const RUN_AS_CLI = process.argv[1]?.includes('balance-sim') ?? false;
@@ -356,6 +404,8 @@ if (RUN_AS_CLI) {
     process.exit(1);
   } else if (args.includes('--check')) {
     process.exit(check() ? 1 : 0);
+  } else if (args.includes('--summary')) {
+    summary();
   } else if (args.includes('--selftest')) {
     const failures = selftest();
     process.exit(failures ? 1 : 0);

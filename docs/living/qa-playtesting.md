@@ -5,8 +5,9 @@ plan for the QA spine (built in **M0**, per [§6.10](prd.md) and the milestone r
 loops we run on top of it every milestone and in the **M6 polish pass**.
 
 > **Status:** LIVING GUIDE — the `__qa` harness is BUILT (`src/app/main.ts`, DEV-guarded); the
-> visual/feel loop has run from M1 (`audit/` screenshots). Still pending: the §2 headless auto-player
-> bot + the §3 automated fun-proxy suite as a verify gate. Adapted from the
+> visual/feel loop has run from M1 (`audit/` screenshots); the §2 headless auto-player is BUILT
+> for T0 (the F4 persona-bot balance sim, `npm run verify:balance` — 2026-07-04). Still pending:
+> the §3 automated fun-proxy suite as a verify gate + the §2 T1+ scope. Adapted from the
 > ironsight-saga QA harness + polish-loop, retargeted from a turn-based FPS to a long-horizon
 > **incremental RPG**. The big differences for us: there's **no pointer-lock problem**, but there
 > *is* a **28.5h grind** no human can hand-play to validate, a **multi-screen reveal** that is the
@@ -111,29 +112,38 @@ tool).
 
 ---
 
-## 2. The headless auto-player ("the bot") — for the 28.5h no human can hand-play
+## 2. The headless auto-player ("the bot") — **BUILT for T0** (F4, 2026-07-04)
 
-The single biggest QA gap for a long incremental: **you cannot manually play 28.5 hours to find out
-if the pacing works.** So we build a **scripted/heuristic auto-player** on top of `__qa` that plays a
-full T0→T3 run (the v1 scope) headlessly in seconds and emits telemetry.
+The single biggest QA gap for a long incremental: **you cannot manually play the whole arc to find
+out if the pacing works.** The T0 instance of this is now **built and gating** — the persona-bot
+balance sim (`src/sim/`, plan `project/archive`-bound `fable-process-F4-balance-sim-gates.md`):
 
-- **What it does:** loops `state()` → pick the best legal action (a simple greedy/heuristic policy:
-  do the highest-value available deed, advance rungs when gated thresholds are met, take quests, let
-  idle-combat run, advance time to the next meaningful event) → `dispatch`/`tick` → record metrics.
-- **Variants:** an **optimal-ish bot** (validates the *floor* — fastest sensible clear, checks the
-  ≥30-min-per-rung floor isn't trivially broken) and a **casual bot** (sub-optimal play — checks the
-  ceiling isn't a wall). Run both per seed; run several seeds.
-- **Determinism contract (the bot underwrites every deterministic gate, so it must reproduce
-  byte-identically):** a total, **stable action-id tie-break** so "do the highest-value available deed"
-  resolves identically whenever two deeds tie; a dedicated **seed-pinned bot-RNG sub-stream, separate from
-  the game's RNG cursors** (drives the casual/sub-optimal bot's choices without perturbing game state); an
-  **integer/rational value function with a fixed reduction order** (no float-ordering drift); and the **bot
-  seeds committed alongside the win-rate seed-set**.
-- **What it proves (hard data, not vibes):** the §4.8 pacing budget (T0≈4.5h / T1≈8h / T2≈16h),
-  every gate is *reachable*, no pillar is un-satisfiable, the 70/30 deed/seasonal split actually
-  lands, no dead-ends, the save survives a full arc + migration.
-- This is the **§4 balance-tuning engine** — it turns "does the grind feel right?" into a tunable
-  number loop (the M6 balance pass, run continuously from M3).
+- **Three personas** (pure policies over player-visible state, no cheating — real `Intent`s
+  through `reduce` only): **greedy** (the shared `focusedOptimalIntent` + a real R3 combat leg —
+  the floor), **idler** (replays the shipped `autoModeIntent` auto-loop verbatim between sparse
+  check-ins — the "leave it running" reality), **explorer** (novelty-first breadth over every
+  verb/topic/node — the ceiling probe). Skipped intents print per persona in every report.
+- **The commands:** `npm run verify:balance` (the gating matrix: greedy per-rung bands from
+  `T0_PACING_BAND_MIN/MAX` with margins printed, structural arc-closure gates for all 3 personas
+  × the 5 `SIM_SEEDS`, report freshness) · `npm run balance:report` (regenerate
+  [`docs/content/t0-pacing.md`](../content/t0-pacing.md) — committed, so **`git diff` on it IS
+  the before/after of a balance change**) · `balance:sim --fuzz N` (structural-only seed sweep) ·
+  `balance:selftest` (harness self-proof) · `balance:fresh` (fingerprint staleness, also a
+  pre-commit WARN). A slim in-gate tripwire (`src/sim/pacing-envelope.test.ts`) rides the vitest
+  gate (~40 ms).
+- **The balance-change flow (the norm):** (1) touch balance/content values → (2)
+  `npm run verify:balance` → (3) `npm run balance:report` + eyeball the report diff → (4) commit
+  the report WITH the change, pasting `balance-sim --summary` (per-rung deltas + verdicts) into
+  the commit body. A staged design-input change with a stale report trips the pre-commit WARN.
+- **Determinism contract:** personas are deterministic functions of (state, issued-history);
+  all game randomness stays in `GameState.rng`; same (persona, seed) ⇒ byte-identical
+  `RunMetrics` (test-asserted). Soft-locks RED at `SIM_SOFTLOCK_INTENTS` no-progress intents.
+- **What it measures:** time-to-rung (wall-model: intents × `AUTO_REPEAT_MS`), economy curves,
+  first-coin, the Phase-2 window (report-only until H19 signs a band), combat W/L/R + loss
+  bleed, starvation/durability stalls.
+- **T1+ scope (still ahead):** the full T0→T3 pacing budget (§4.8), the ≥30-min rung floor
+  (`RUNG_WALL_FLOOR_MIN` gates from T1 — D-088 makes this harness the per-tier instrument),
+  the 70/30 deed/seasonal split assert, and save-survives-a-full-arc.
 
 ---
 

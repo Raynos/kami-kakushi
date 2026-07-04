@@ -123,3 +123,29 @@ optimal); explorer ~81.7 min, is the ONLY persona to touch coin (3 682
 end coin, first coin at 5.1 min), and loses 3 fights (wolf/boar tastings)
 bleeding 3 511 coin + 4 484 rice. Blooding-fight losses on all seeds for
 all personas remain a watch item.
+
+---
+
+## 3 · Ph4 (same session, appended)
+
+**Diff flow + docs.** `balance-sim --summary` (per-rung medians + Δ vs the
+HEAD-committed report + band verdicts — the paste-into-commit-body block);
+the pre-commit **balance-freshness WARN** (fires only when a staged
+`src/core/content/*` change stales the report fingerprint — demonstrated
+live: staging a `RICE_PER_RAKE` flip fired STALE, reverting restored
+fresh); `qa-playtesting.md` §2 flipped to BUILT-for-T0 with the
+balance-change flow as the norm; the AGENTS.md test-discipline bullet got
+the one-line D-132 pointer; **ADR D-132** records the envelope/gating
+design (bands only from signed canon, report-only without intent,
+WARN-first enforcement per the human's 2026-07-04 call).
+
+**Deferred tail (shared-tree safety, intentionally left):** the plan's
+Status→✅ flip + `git mv` to `project/archive/` + the todo-human queue-line
+update + the plans-README regen must land as ONE commit, but those files
+currently carry the F3/F2 agent's uncommitted archival WIP — committing
+them now would push a committed tree whose links/gen-regions are red in CI
+while green locally (the known trap). Same for `.githooks/pre-commit` (the
+WARN block is written but the file also holds the co-agent's uncommitted
+herdr-FYI block) and `package.json` (`verify:balance`/`balance:fresh`
+script lines ride with the co-agent's `modern-screenshot` dep). Sweep them
+the moment the co-agent's tree clears.

@@ -1708,3 +1708,39 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   deliberately. If it ever mis-types (misses or false-flags), the escape hatch is
   one line — `tsgo --noEmit` back to `tsc --noEmit` in `gates.ts` (typescript is
   still installed). The gate name in the roster is now `tsgo`.
+
+### D-132 ✅ — QA: the persona-bot balance sim + envelope gates (F4) — bands only from signed canon
+- **created_date:** 2026-07-04
+- **Context:** balance canon written before play has a poor survival rate (the
+  koku → coin/rice/standing re-coring inside ~36 h), and the only machine
+  pacing answer stopped at R3 (`pacing:check`) — the whole post-combat climb,
+  Phase 2, and every non-optimal style were unmeasured until a human played.
+  The economy balance-watch had already named the cost (the ~0.4-min Phase-2
+  anticlimax).
+- **Decision:** a standing sim harness (`src/sim/`, F4): three persona bots —
+  greedy (`focusedOptimalIntent` + a real combat leg), idler (the extracted
+  `autoModeIntent` the app loop itself now consumes), explorer
+  (novelty-first breadth) — drive the REAL engine through public intents
+  only, over 5 fixed seeds. **Envelope rules:** a band may derive ONLY from a
+  signed constant (`T0_PACING_BAND_MIN/MAX` gates greedy's per-rung
+  wall-time; structure — ladder + ascension + no soft-lock — gates every
+  persona); no signed intent ⇒ report-only (idler/explorer times, the
+  Phase-2 window → H19), never an agent-invented band. A RED is a
+  design-drift ALARM for a human, never auto-canon. **Rung placement
+  (§5a):** on-demand `verify:balance` + a ~40 ms vitest tripwire (canonical
+  seed) + a `--check-fresh` fingerprint **pre-commit WARN** (human call
+  2026-07-04; promotion to a hard gate = H20). The generated
+  `docs/content/t0-pacing.md` is committed so its `git diff` is every
+  balance change's before/after; `--summary` pastes per-rung deltas into
+  the commit body.
+- **Why it's sound (R3):** the harness self-verifies against known reality —
+  greedy's R0–R2 buckets equal `walkPacing()` EXACTLY on the canonical seed,
+  and the report *rediscovered* the balance-watch's Phase-2 anticlimax.
+  RED-ability was proven live (R5 threshold ×3 → the gate, tripwire and
+  freshness all RED naming R5). The soft-lock detector (500 no-progress
+  intents ≈ 45× the measured green ceiling) is proven to fire on a
+  manufactured stall and never on green runs. Matrix runtime ~1 s.
+- **Consequences:** every balance change now has a machine verdict + a
+  committed before/after; `t0-arc.test.ts`'s `applyGrindFight` shortcut is
+  superseded by greedy's stronger real-`fight` proof (migration parked, F4
+  §8 Q7); `RUNG_WALL_FLOOR_MIN` gets its instrument when T1 lands (D-088).

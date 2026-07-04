@@ -194,6 +194,11 @@ Full version:
   *teeth* is the **milestone-integrity gate** (D-054, v0.3.1 Step 7 — every
   DoD-named test must resolve to a real test); per-test RED-ability stays a **norm**,
   deliberately **not** gated (a lint can't judge RED-ability without crying wolf — A11).
+  **Balance changes get a machine verdict (D-132):** after touching balance/content
+  magnitudes, run `npm run verify:balance` → `npm run balance:report` and commit the
+  regenerated `docs/content/t0-pacing.md` WITH the change (its diff is the before/after;
+  paste `balance-sim --summary` into the commit body) — the full flow lives in
+  [`qa-playtesting.md` §2](docs/living/qa-playtesting.md).
 - **Single source of truth — generate, don't duplicate.** Anything derivable
   from the game's data (balance tables, content lists) is **generated** into
   `docs/`, never hand-maintained twice. A **version label is a single-source
