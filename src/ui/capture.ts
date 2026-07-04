@@ -408,11 +408,11 @@ export function mountCapture(opts: CaptureOptions): () => void {
     // bottom-right), sized from the remembered rect so a bigger window sticks across captures —
     // for when the human is giving a lot of feedback and wants a bigger text area.
     const view = doc.defaultView ?? (typeof window !== 'undefined' ? window : undefined);
-    const vw = view?.innerWidth ?? 1280;
     const vh = view?.innerHeight ?? 800;
     const w = boxRect?.width ?? 360;
     const h = boxRect?.height ?? 200;
-    const left = boxRect?.left ?? Math.max(8, vw - w - 16);
+    // Default to bottom-LEFT (human call); a remembered rect from a drag/resize still wins.
+    const left = boxRect?.left ?? 16;
     const top = boxRect?.top ?? Math.max(8, vh - h - 16);
     el.style.cssText =
       `position:fixed;left:${left}px;top:${top}px;width:${w}px;height:${h}px;` +
