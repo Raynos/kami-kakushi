@@ -27,23 +27,6 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-### H19 🔲 — sign a T0 Phase-2 pacing band (the capstone→ascension anticlimax)
-
-- **Question / fork:** the balance sim (F4) measures the Phase-2 window (R7
-  capstone → EXCELLENT → ascend) at **~0.4 wall-minutes** for every persona ×
-  seed — the economy balance-watch's "anticlimax" finding, now
-  machine-measured. There is NO signed design intent for how long Phase 2
-  should take, so the sim reports it but cannot gate it (an agent-invented
-  band would manufacture wolf-cries).
-- **Options:** (A) sign a `T0_PHASE2_BAND_MIN/MAX` pair (wall-minutes) in
-  `balance.ts` — the gate lands the day the constants do; (B) declare the
-  thin Phase-2 intentional for T0 and keep it report-only; (C) defer until
-  the Phase-2 economy redesign the balance-watch flags, then sign from the
-  redesigned reality.
-- **Recommendation:** (C) — signing a band against the current shape would
-  freeze a known anticlimax as canon.
-- **Resolution:** _(pending)_
-
 ### H20 🔲 — promote the balance-report freshness WARN to a hard gate?
 
 - **Question / fork:** F4 ships `balance-sim --check-fresh` as a pre-commit

@@ -35,6 +35,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H16 | Stance cost-axis (F4) | Glass cannon ↔ tank (attack vs damage-taken); retire wear-as-the-axis | **D-101** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
 | H17 | Weapon roster / craftability (F5) | "≥1 craftable" (amends D-052/D-095); T0 ships 3 weapons (pole + 2) | **D-102** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
 | H18 | Interactive resumable combat (F6) | Defer to forward-tier (T1/T2); auto-resolve stays the T0 spine | **D-103** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
+| H19 | T0 Phase-2 pacing band (the ~0.4-min anticlimax) | Phase 2 ≈ Phase 1 (~1:1) as a GENERAL rule → ratio band `[0.8, 1.2]`, HARD gate, + a quick T0 hotfix; real economy redesign queued | **D-133** | 2026-07-04 | [h19 brainstorm](../brainstorms/2026-07-04-h19-t0-phase2-pacing-band.md) |
 
 ## Reviews (closed R-items)
 

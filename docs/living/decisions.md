@@ -1744,3 +1744,39 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   committed before/after; `t0-arc.test.ts`'s `applyGrindFight` shortcut is
   superseded by greedy's stronger real-`fight` proof (migration parked, F4
   §8 Q7); `RUNG_WALL_FLOOR_MIN` gets its instrument when T1 lands (D-088).
+
+### D-133 ✅ — Design/QA: Phase 2 ≈ Phase 1 (~1:1 wall-time) — the ratio band gate (resolves H19)
+- **created_date:** 2026-07-04
+- **Context:** the F4 sim (D-132) machine-measured the T0 capstone→ascension
+  window (R7 capstone → Estate EXCELLENT → ascend) at **~0.4 wall-min** for
+  every persona × seed, against a ~83-min Phase 1 — the economy
+  balance-watch's "anticlimax," now confirmed. The PRD (§1.6.4) promised only
+  that Phase 2 is "NOT a dead consolidation half"; it never fixed a *duration*
+  or a *ratio* to Phase 1, so the sim could report the window but had no signed
+  band to gate it (an agent-invented band = a wolf-cry, D-132). H19 asked
+  whether to sign one.
+- **Decision (human, 2026-07-04):** Phase 2 should take **roughly equal time to
+  Phase 1 (~1:1)** — a **GENERAL RULE across tiers**, a tunable playtest
+  default, not a frozen constant (*"24s is dumb and 1:1 is a better random ass
+  default"*). Expressed as a **ratio band** `PHASE2_PHASE1_RATIO_BAND =
+  [0.8, 1.2]` (single-sourced, A21 — auto-scales per tier, can't drift from
+  "equal time"), landed as a **HARD `verify:balance` gate** (*"we can block on
+  it hard"*). The gate is **scoped to tiers whose Phase 2 is actually built**
+  (today: T0 only) so it no-ops on unbuilt T1+.
+- **Sequencing (R3 — a gate must be green-able):** the current build produces
+  0.4 min, so the ratio gate ships in the **same change** as a **quick T0
+  Phase-2 economy hotfix** that stretches the window to ~1:1 — never a
+  permanently-red hard gate. Balance-magnitude change ⇒ D-132 protocol
+  (`verify:balance` → `balance:report`, regenerate + commit
+  `docs/content/t0-pacing.md`, `--summary` in the body).
+- **Known debt (R5):** a pure-threshold hotfix stretches *duration* but not
+  *fun* — 83 min of one repeated action is the "dead consolidation half" the
+  PRD warns against, and the band gate proves duration, NOT fun (a
+  threshold-only fix that greens the gate is a false-green). So the T0 hotfix
+  is an explicit **stopgap** (stretch + minimal texture); the real **Phase-2
+  economy redesign** (multiple deed sources, the E0→E1 build as pacing beats,
+  authored reveals) is the queued follow-on that earns the duration.
+- **Consequences:** H19 closes; `PHASE2_PHASE1_RATIO_BAND` becomes the
+  single-source pacing law for every tier's Phase 2; T1+ Phase-2 economies are
+  designed to hit ~1:1 from the start; the T0 hotfix + gate is the next build
+  task; the Phase-2 economy redesign is queued (fun, not just duration).
