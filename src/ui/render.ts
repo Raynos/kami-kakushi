@@ -1074,6 +1074,9 @@ export function mount(
   // then the next line starts on its own (no click needed). A click only ever SPEEDS this up — it
   // completes an in-flight line, or skips the remaining hold — it never pauses the sequence. Tunable.
   const INTRO_LINE_ADVANCE_MS = 2000;
+  // F118 — when the human CLICKS to complete a line (actively reading through), the next line starts
+  // on a much shorter beat than the atmospheric auto-hold above; clicking should feel snappy.
+  const INTRO_CLICK_ADVANCE_MS = 450;
   let typeTimer: number | undefined;
   let finishTypeNow: (() => void) | undefined;
   // F27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
@@ -1979,17 +1982,17 @@ export function mount(
   }
   // Arm the ~2s inter-line hold, then AUTO-START the next line (F86) — no click needed. Guards the
   // timer to a single pending instance so a click racing the auto-fire can't double-advance.
-  function scheduleIntroAutoAdvance(): void {
+  function scheduleIntroAutoAdvance(ms: number = INTRO_LINE_ADVANCE_MS): void {
     if (introAdvanceTimer !== undefined) return; // already armed — never stack two
     introAdvanceTimer = window.setTimeout(() => {
       introAdvanceTimer = undefined;
       if (introBlockIndex < introBlockNodes.length - 1) introStartLine(introBlockIndex + 1);
-    }, INTRO_LINE_ADVANCE_MS);
+    }, ms);
   }
-  function introLineComplete(): void {
+  function introLineComplete(advanceMs: number = INTRO_LINE_ADVANCE_MS): void {
     introLineTyping = false;
     if (introBlockIndex >= introBlockNodes.length - 1) introFinishBlock();
-    else scheduleIntroAutoAdvance(); // F86 — auto-advance after a beat; a click only speeds it up
+    else scheduleIntroAutoAdvance(advanceMs); // F86 auto-advance; F118 shorter beat after a click
   }
   function introStartLine(index: number): void {
     introBlockIndex = index;
@@ -2034,7 +2037,7 @@ export function mount(
       }
       const node = introBlockNodes[introBlockIndex];
       if (node) node.span.textContent = node.text;
-      introLineComplete();
+      introLineComplete(INTRO_CLICK_ADVANCE_MS); // F118 — click-through: snappy beat, not the 2s hold
     } else if (introBlockIndex < introBlockNodes.length - 1) {
       if (introAdvanceTimer !== undefined) {
         window.clearTimeout(introAdvanceTimer); // skip the remaining hold — go faster

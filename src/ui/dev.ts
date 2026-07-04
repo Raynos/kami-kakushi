@@ -1905,7 +1905,8 @@ export function mountDevPanel(
   // clips (overflow:hidden); the SCROLL lives on the tab panes below, NOT the whole panel, so the
   // New-game footer stays pinned no matter how far the variants scroll.
   panel.style.cssText =
-    'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:16rem;max-height:82vh;' +
+    // F119 — widened 16rem → 24rem so the F6 Scenarios tab (long fixture names) isn't clipped.
+    'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
     'display:flex;flex-direction:column;overflow:hidden;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
     'border:1px solid #b08d4f;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.45);';

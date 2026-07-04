@@ -1657,12 +1657,19 @@ h3 {
   box-shadow: 0 4px 12px #00000022;
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--dur-fast) var(--ease-ink);
+  /* HIDE is delayed (a ~0.4s linger so it doesn't flick away the moment you leave, F120);
+     SHOW is instant (the :hover rule zeroes the delay). visibility flips after the fade. */
+  transition:
+    opacity var(--dur-fast) var(--ease-ink) 0.4s,
+    visibility 0s linear calc(var(--dur-fast) + 0.4s);
 }
 .rung-head:hover .rung-head-card,
 .rung-head:focus-within .rung-head-card {
   opacity: 1;
   visibility: visible;
+  transition:
+    opacity var(--dur-fast) var(--ease-ink),
+    visibility 0s;
 }
 .rung-head-card-now {
   font-family: var(--font-head);

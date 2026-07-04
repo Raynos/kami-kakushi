@@ -385,3 +385,20 @@ the now-dead `variantsInline`/`logTailLines` md formatters. Docs (README, drain
 skill, AGENTS, qa-playtesting) updated; drain now reads the save from the linked
 `.json`. Typecheck clean, 31 F3 tests, strip proof green (via `vite build`,
 bypassing the F5 narrative session's tsgo-red WIP).
+
+## 17 · First HUMAN drain — 080f37 → F118–F121 (2026-07-05)
+
+Drained the human's real session `080f37` (4 captures) via `/drain-inbox`.
+Intake already durable (auto-commit). Reproduced each against the running game,
+then:
+- **F118 ✅** intro typewriter — a click-to-complete now uses a 450 ms beat, not
+  the 2 s auto-hold (`render.ts` INTRO_CLICK_ADVANCE_MS).
+- **F119 ✅** DEV panel `max-width` 16rem → 24rem so the F6 Scenarios tab isn't
+  clipped (`dev.ts`) — verified live (panel now 24rem).
+- **F120 ✅** rung-meter popover (`.rung-head-card`) now lingers ~0.4 s on
+  mouse-out instead of vanishing instantly; show stays instant (`styles.css`).
+- **F121 💬** truncated note about the rung progress readout — surfaced for a
+  re-capture; not acted on (R4).
+
+Verified: typecheck clean, game renders without crash. Session archived
+(pending → archive). F-log: `project/human-feedback/2026-07-05-playtest.md`.
