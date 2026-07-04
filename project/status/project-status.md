@@ -43,8 +43,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a/F1b ·
-  F2 CI · ✅ F4 balance sim (D-132). ✅ F3 capture inbox + `/drain-inbox` (pick · metadata sidecar · auto-commit); ✅ F6 scenario saves
-  (6 fixtures · DEV Scenarios tab · `?fixture=`). NEXT: F5 · F7.**
+  F2 CI · ✅ F4 balance sim (D-132) · ✅ F3 capture inbox + `/drain-inbox` · ✅ F6
+  scenario saves. 🔧 F5 narrative format IN BUILD (s74, Ph1–2 ✅). NEXT: F7.**
 - **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN stays soft).
   **H19→D-133:** Phase 2 ≈ Phase 1 (~1:1), general per-tier rule → hard
   `verify:balance` **ratio gate** `[0.8, 1.2]`. Stopgap **hotfix shipped**

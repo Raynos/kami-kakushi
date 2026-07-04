@@ -126,9 +126,9 @@ function emitRungOption(opt: OptionNode, scene: RungSceneNode): string {
   const sceneSpeaker = scene.meta.get('speaker')?.value;
   const L: string[] = ['{'];
   L.push(`id: ${str(opt.id)},`);
-  L.push(`label: ${str(opt.label)},`);
-  L.push(`say: ${str(opt.say ?? opt.label)},`);
-  L.push(`react: ${str(react.text)},`);
+  L.push(`label: ${textExpr(opt.label, opt.loc)},`);
+  L.push(`say: ${textExpr(opt.say ?? opt.label, opt.loc)},`);
+  L.push(`react: ${textExpr(react.text, react.loc)},`);
   if (r.npc !== sceneSpeaker) L.push(`reactNpc: '${r.npc}',`);
   if (opt.memory) {
     const entries = opt.memory.map((m) => {
@@ -140,7 +140,7 @@ function emitRungOption(opt: OptionNode, scene: RungSceneNode): string {
   if (opt.flags) L.push(`flags: [${opt.flags.map(str).join(', ')}],`);
   if (opt.bonus) {
     L.push(
-      `statBonus: { attr: '${opt.bonus.attr}', amount: ${opt.bonus.amount}, note: ${str(opt.bonus.note)} },`,
+      `statBonus: { attr: '${opt.bonus.attr}', amount: ${opt.bonus.amount}, note: ${textExpr(opt.bonus.note, opt.loc)} },`,
     );
   }
   if (opt.stance) L.push(`setStance: '${opt.stance}',`);
@@ -154,7 +154,7 @@ function emitTopics(scene: RungSceneNode | IntroSceneNode): string {
   for (const t of scene.topics) {
     L.push('{');
     L.push(`id: ${str(t.id)},`);
-    L.push(`label: ${str(t.label)},`);
+    L.push(`label: ${textExpr(t.label, t.loc)},`);
     if (t.after) L.push(`gate: (asked) => asked.has(${str(t.after)}),`);
     L.push('answer: [');
     for (const line of t.answer) L.push(emitProseLine(line));
@@ -188,7 +188,7 @@ function emitRungScene(scene: RungSceneNode): string {
   L.push(emitTopics(scene));
   const d = scene.decision!; // parse guarantees presence
   L.push('decision: {');
-  L.push(`prompt: ${str(d.prompt)},`);
+  L.push(`prompt: ${textExpr(d.prompt, d.loc)},`);
   L.push('options: [');
   for (const o of d.options) L.push(emitRungOption(o, scene));
   L.push('],');
@@ -245,11 +245,13 @@ function emitIntroOption(opt: OptionNode, scene: IntroSceneNode): string {
   if (!opt.perk) throw new NarrativeError(opt.loc, `intro option "${opt.id}" is missing "perk:"`);
   const L: string[] = ['{'];
   L.push(`id: ${str(opt.id)},`);
-  L.push(`label: ${str(opt.label)},`);
-  L.push(`say: ${str(opt.say ?? opt.label)},`);
-  L.push(`react: ${str(react.text)},`);
+  L.push(`label: ${textExpr(opt.label, opt.loc)},`);
+  L.push(`say: ${textExpr(opt.say ?? opt.label, opt.loc)},`);
+  L.push(`react: ${textExpr(react.text, react.loc)},`);
   L.push(`stat: { up: '${opt.stat.up}', down: '${opt.stat.down}' },`);
-  L.push(`perk: { name: ${str(opt.perk.name)}, desc: ${str(opt.perk.desc)} },`);
+  L.push(
+    `perk: { name: ${textExpr(opt.perk.name, opt.loc)}, desc: ${textExpr(opt.perk.desc, opt.loc)} },`,
+  );
   if (opt.memory) {
     if (opt.memory.length !== 1 || opt.memory[0]!.regard === undefined) {
       throw new NarrativeError(
@@ -278,7 +280,7 @@ function emitIntroScene(scene: IntroSceneNode): string {
   L.push(emitTopics(scene));
   const d = scene.decision!;
   L.push('decision: {');
-  L.push(`prompt: ${str(d.prompt)},`);
+  L.push(`prompt: ${textExpr(d.prompt, d.loc)},`);
   L.push('options: [');
   for (const o of d.options) L.push(emitIntroOption(o, scene));
   L.push('],');

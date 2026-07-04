@@ -101,3 +101,26 @@ INTENTIONAL — keep it, allowlist the Ph2 WARN.
 - `gates.ts` — `gen-narrative` joins the roster (scope 'code'; 17 gates).
 - DoD proofs: hand-editing `rungBeats.gen.ts` → gate RED naming the `.md`
   (performed + reverted); `verify:budget` median 4.16s, 0.84s headroom.
+
+---
+
+## 4 · Ph3 — intro / dialogue / cold-open back-port (pre-flip)
+
+- Grammar extensions live in parse/emit (committed with Ph2): `## scene` /
+  `## dialogue` / `## prose` blocks, `when:` gates (flag + regard forms),
+  `stat:` / `perk:` / `say:`, `@cold-open.<key>` + `@dialogue.<def>/<line>`
+  reuse refs, `{key}` NAMES interpolation (now uniform across ALL text fields).
+- `narrative/intro.md`, `dialogue.md`, `cold-open.md` — seeded by the Ph3
+  inverse transcriber (`tmp/transcribe-ph3.ts`): reverse-interpolates NAMES
+  values to `{key}` (word-boundary, longest-first), recovers `when:` from the
+  gate/memGate closures, and matches reuse text back to `@…` refs.
+- `intro.gen.ts`, `dialogue.gen.ts`, `coldOpen.gen.ts` generated + validated
+  (whole-set cross-file validation: reuse resolution, dialogue routing —
+  kihei-intro/soan-intro carry `unrouted: awaiting-routing`).
+- `narrative-equivalence-ph3.test.ts` (TEMPORARY, retires at the flips):
+  deep-equal per module + behavioral gate/memGate equality (domains derived
+  from the authoring file's `when:` conditions) + a source-level proof the
+  generated intro REFERENCES shared text (COLD_OPEN.wake, getDialogueLine)
+  rather than copying it.
+- Could-go-RED proofs: one-word mutation in EACH of the three files went RED,
+  reverted, green; `--check` in sync.
