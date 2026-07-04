@@ -108,7 +108,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-04-session-65-resume-pointer-gen-region.md`](../journal/2026-07-04-session-65-resume-pointer-gen-region.md)
+   [`journal/2026-07-04-session-66-f2-github-actions-ci.md`](../journal/2026-07-04-session-66-f2-github-actions-ci.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).

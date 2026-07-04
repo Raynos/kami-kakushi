@@ -56,15 +56,7 @@ npm run build
 #     __qa hands players cheats, and a leaked variant harness ships the non-default UI variants
 #     (prod must ship ONLY the self-picked default — zero flag-debt, D-075). A deploy GATE that
 #     can't be forgotten.
-echo "▸ verifying DEV tools + variant harness are stripped from the prod bundle…"
-for marker in "__qa" "__KAMI_DEV_PANEL__"; do
-  if grep -lF "$marker" "$REPO_ROOT/dist/assets/"*.js >/dev/null 2>&1; then
-    echo "✗ DEV marker '$marker' leaked into the prod bundle — refusing to deploy." >&2
-    echo "  Keep DEV-only code behind 'import.meta.env.DEV' (src/app/main.ts, src/ui/dev.ts)." >&2
-    exit 1
-  fi
-done
-echo "  ✓ no DEV markers (__qa / variant harness) in the prod bundle."
+bash "$REPO_ROOT/src/scripts/verify-dev-strip.sh"
 
 # 2. sync the built site into the worktree ROOT; --delete drops stale files,
 #    but never touch the worktree's .git pointer.
