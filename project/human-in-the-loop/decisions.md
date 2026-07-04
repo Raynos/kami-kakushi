@@ -27,14 +27,3 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-### H20 🔲 — promote the balance-report freshness WARN to a hard gate?
-
-- **Question / fork:** F4 ships `balance-sim --check-fresh` as a pre-commit
-  **WARN** (a loud line when a staged balance change stales
-  `docs/content/t0-pacing.md` — your 2026-07-04 call). After ~a milestone of
-  use, should it become a hard `verify` gate (~1 s, parallel, fits the
-  budget)?
-- **Options:** (A) promote to a hard gate; (B) keep the WARN; (C) drop it.
-- **Recommendation:** decide by whether the WARN gets ignored (the
-  promotion criterion in the F4 plan §5b).
-- **Resolution:** _(pending)_
