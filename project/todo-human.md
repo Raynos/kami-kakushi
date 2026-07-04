@@ -45,6 +45,14 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 
 **Owed reviews / taste calls (async, no rush):**
 
+- [ ] `docs/plans/opus-2026-07-04-phase2-economy-redesign.md` — **T0 Phase-2
+  economy redesign** (the REAL fix D-133 queued after the stopgap hotfix): makes
+  T0 Phase 2 a ~1:1, ~40–83-min *fun* chunk instead of a threshold-inflated slog.
+  **DESIGN-DIVERGENT** — proposes 3 distinct loops (multi-deed grind · staged
+  estate-BUILD beats · light allocation layer; recommends the A+B hybrid) for you
+  to pick at a Phase-0 diverge. **Two open direction calls need you:** literal 1:1
+  (T0 → ~2.8 h) vs. rebalance a ~90-min split, and which loop ships. **Read to
+  pick the loop + the split → then Phase-0 diverge starts.**
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
