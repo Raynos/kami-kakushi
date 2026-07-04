@@ -46,8 +46,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   (vision provisional→R9; tokens GENERATED → `docs/content/ui-tokens.md`) ·
   workshop bar → qa§9 · AGENTS.md **T1–T4 register** · 13th gate **`doc-budgets`**
   · **prediction test 24/24** · ⭐ TODO closed; **F10 re-plan trigger FIRED**.
-- **Fable parallel:** six T0 remaster variants (R9), mobile pass landed — live
-  at <https://kami-kakushi-ui-demos.vercel.app> (s56).
+- **UI remaster (R9):** six T0 variants + a **Moonlit × Lacquer fusion round**
+  (07 Andon · 08 Night Seal · 09 Damascene · 10 Andon Steel) — <https://kami-kakushi-ui-demos.vercel.app>.
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard, F1a checkpoint
@@ -65,9 +65,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   balance-cockpit plan (fable-process-F7) is the tuning aid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **UI-remaster variants** 🔲 (R9, Fable) — **shortlisted 6 → 3** (01 Moonlit ·
-  04 Lacquer · 06 Washi). Winner → the D-075 diverge. **R9 now also resettles
-  the visual identity** (D-126: woodblock/ink is provisional, not hard canon).
+- **UI-remaster variants** 🔲 (R9) — shortlisted 6 → 3, then a **Moonlit × Lacquer
+  fusion round (07–10)**; the human's leaning toward **10 Andon Steel**. Winner →
+  the D-075 diverge; R9 also resettles the visual identity (D-126).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
