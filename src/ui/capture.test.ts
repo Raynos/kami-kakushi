@@ -138,6 +138,67 @@ describe('mountCapture — pick mode', () => {
   });
 });
 
+describe('mountCapture — drag/resize window', () => {
+  const RECT = {
+    left: 900,
+    top: 600,
+    right: 1260,
+    bottom: 800,
+    width: 360,
+    height: 200,
+    x: 900,
+    y: 600,
+    toJSON: () => ({}),
+  } as DOMRect;
+
+  it('the box is resizable and drags to move (grab anywhere but the textarea)', () => {
+    mount();
+    pick(null);
+    const el = boxEl()!;
+    expect(el.style.resize).toBe('both'); // resizable window
+    el.getBoundingClientRect = () => RECT; // jsdom has no layout — stub the rect
+    el.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 950, clientY: 620 }));
+    document.dispatchEvent(
+      new MouseEvent('pointermove', { bubbles: true, clientX: 850, clientY: 700 }),
+    );
+    expect(el.style.left).toBe('800px'); // 900 + (850 - 950)
+    expect(el.style.top).toBe('680px'); // 600 + (700 - 620)
+    document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
+  });
+
+  it('does not drag when the grab starts on the textarea (typing/selection preserved)', () => {
+    mount();
+    pick(null);
+    const el = boxEl()!;
+    el.getBoundingClientRect = () => RECT;
+    const before = el.style.left;
+    el.querySelector('textarea')!.dispatchEvent(
+      new MouseEvent('pointerdown', { bubbles: true, clientX: 950, clientY: 700 }),
+    );
+    document.dispatchEvent(
+      new MouseEvent('pointermove', { bubbles: true, clientX: 850, clientY: 700 }),
+    );
+    expect(el.style.left).toBe(before); // unchanged
+  });
+
+  it('remembers the size/position for the next capture in the session', () => {
+    mount();
+    pick(null);
+    const el1 = boxEl()!;
+    el1.getBoundingClientRect = () =>
+      ({ ...RECT, left: 400, top: 300, width: 500, height: 340 }) as DOMRect;
+    // close (Escape) — closeBox reads the rect and stores it
+    el1
+      .querySelector('textarea')!
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    // reopen — should restore the remembered left/top/size
+    pick(null);
+    const el2 = boxEl()!;
+    expect(el2.style.left).toBe('400px');
+    expect(el2.style.width).toBe('500px');
+  });
+});
+
 describe('mountCapture — submit', () => {
   it('posts session + header + entry, and closes the box', async () => {
     mount();

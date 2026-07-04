@@ -224,6 +224,9 @@ export function mountCapture(opts: CaptureOptions): () => void {
     readonly element: ElementDescriptor | null;
   }
   let box: OpenBox | null = null;
+  // Remembered box position + size (the human can drag/resize the feedback window; the size
+  // persists across captures in the session so a "lots of feedback" size sticks).
+  let boxRect: { left: number; top: number; width: number; height: number } | null = null;
 
   function positionHighlight(el: HTMLElement): void {
     const r = el.getBoundingClientRect();
@@ -305,9 +308,38 @@ export function mountCapture(opts: CaptureOptions): () => void {
   }
 
   function closeBox(): void {
-    box?.el.remove();
+    if (box) {
+      // Remember where/how big the human left the window, so the next capture reopens the same.
+      const r = box.el.getBoundingClientRect();
+      boxRect = { left: r.left, top: r.top, width: r.width, height: r.height };
+      box.el.remove();
+    }
     box = null;
     highlight.remove(); // clear the locked highlight
+  }
+
+  /** Drag the WHOLE feedback window (grab it anywhere) to move it and see what's underneath.
+   *  Skips the textarea (so typing/selection still works) and the bottom-right resize grip.
+   *  Pointer-based so it works with mouse/touch/pen. */
+  function startDrag(e: PointerEvent): void {
+    if (!box) return;
+    if (e.target instanceof HTMLTextAreaElement) return; // let the text area type/select
+    const r = box.el.getBoundingClientRect();
+    if (e.clientX > r.right - 22 && e.clientY > r.bottom - 22) return; // leave the resize grip alone
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const onMove = (ev: PointerEvent): void => {
+      if (!box) return;
+      box.el.style.left = `${r.left + (ev.clientX - startX)}px`;
+      box.el.style.top = `${r.top + (ev.clientY - startY)}px`;
+    };
+    const onUp = (): void => {
+      doc.removeEventListener('pointermove', onMove, true);
+      doc.removeEventListener('pointerup', onUp, true);
+    };
+    doc.addEventListener('pointermove', onMove, true);
+    doc.addEventListener('pointerup', onUp, true);
   }
 
   function toast(text: string): void {
@@ -372,31 +404,45 @@ export function mountCapture(opts: CaptureOptions): () => void {
 
     const el = doc.createElement('div');
     el.dataset.kamiCapture = CAPTURE_SENTINEL; // strip-gate marker
+    // A DRAGGABLE + RESIZABLE window: positioned by left/top (so `resize:both` grows toward the
+    // bottom-right), sized from the remembered rect so a bigger window sticks across captures —
+    // for when the human is giving a lot of feedback and wants a bigger text area.
+    const view = doc.defaultView ?? (typeof window !== 'undefined' ? window : undefined);
+    const vw = view?.innerWidth ?? 1280;
+    const vh = view?.innerHeight ?? 800;
+    const w = boxRect?.width ?? 360;
+    const h = boxRect?.height ?? 200;
+    const left = boxRect?.left ?? Math.max(8, vw - w - 16);
+    const top = boxRect?.top ?? Math.max(8, vh - h - 16);
     el.style.cssText =
-      'position:fixed;right:1rem;bottom:1rem;z-index:2147483646;width:min(360px,90vw);' +
-      'box-sizing:border-box;background:#26221E;color:#F3E9D2;border:1px solid #7A6C59;' +
-      'border-radius:4px;padding:.75rem;box-shadow:0 2px 0 #00000030, 0 14px 34px #00000066;' +
-      "font:0.9rem/1.4 'Hiragino Mincho ProN','Yu Mincho',serif;";
+      `position:fixed;left:${left}px;top:${top}px;width:${w}px;height:${h}px;` +
+      'z-index:2147483646;box-sizing:border-box;background:#26221E;color:#F3E9D2;' +
+      'border:1px solid #7A6C59;border-radius:4px;box-shadow:0 2px 0 #00000030, 0 14px 34px #00000066;' +
+      "font:0.9rem/1.4 'Hiragino Mincho ProN','Yu Mincho',serif;display:flex;flex-direction:column;" +
+      'resize:both;overflow:hidden;min-width:280px;min-height:150px;max-width:96vw;max-height:88vh;' +
+      'cursor:move;'; // grab anywhere on the chrome to move it
+    // Drag the WHOLE panel (grab it anywhere but the textarea / resize grip) — see §startDrag.
+    el.addEventListener('pointerdown', startDrag);
 
-    if (element) {
-      const tag = doc.createElement('div');
-      tag.textContent = `▸ ${element.label}`;
-      tag.style.cssText =
-        'margin-bottom:.4rem;font-size:0.8rem;color:#E4B24A;overflow:hidden;' +
-        'text-overflow:ellipsis;white-space:nowrap;';
-      el.appendChild(tag);
-    }
+    // header — shows the picked element, or a general-note hint
+    const bar = doc.createElement('div');
+    bar.textContent = element ? `▸ ${element.label}` : 'Feedback note';
+    bar.title = 'drag anywhere to move · drag the ↘ corner to resize';
+    bar.style.cssText =
+      'flex:0 0 auto;user-select:none;padding:.5rem .6rem;font-size:0.8rem;' +
+      'color:#E4B24A;background:#1F1C18;border-bottom:1px solid #3A342C;overflow:hidden;' +
+      'text-overflow:ellipsis;white-space:nowrap;';
 
     const textarea = doc.createElement('textarea');
-    textarea.rows = 3;
     textarea.placeholder = element ? `What about "${element.label}"?` : 'What did you notice?';
     textarea.style.cssText =
-      'width:100%;box-sizing:border-box;resize:vertical;background:#1A1713;color:#F3E9D2;' +
-      'border:1px solid #7A6C59;border-radius:3px;padding:.5rem;font:inherit;outline:none;';
+      'flex:1 1 auto;width:100%;box-sizing:border-box;resize:none;background:#1A1713;' +
+      'color:#F3E9D2;border:none;padding:.6rem;font:inherit;outline:none;cursor:text;';
 
     const hintLine = doc.createElement('div');
-    hintLine.textContent = '⌘/Ctrl+Enter send · Esc cancel';
-    hintLine.style.cssText = 'margin-top:.4rem;font-size:0.72rem;color:#B8A98C;text-align:right;';
+    hintLine.textContent = '⌘/Ctrl+Enter send · Esc cancel · drag to move · ↘ resize';
+    hintLine.style.cssText =
+      'flex:0 0 auto;padding:.35rem 1rem .35rem .6rem;font-size:0.72rem;color:#B8A98C;text-align:right;';
 
     textarea.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -408,7 +454,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
       }
     });
 
-    el.append(textarea, hintLine);
+    el.append(bar, textarea, hintLine);
     doc.body.appendChild(el);
     textarea.focus();
     box = { el, textarea, capturedAt, base, shot, element };

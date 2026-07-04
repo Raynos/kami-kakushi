@@ -342,3 +342,14 @@ Verified LIVE: picking the meter now opens the box, and the game doesn't react
 
 This was only debuggable *after* the §12 vite watch fix — before that the server
 served stale code and every edit needed a restart.
+
+## 14 · Feedback box: draggable + resizable (human, 2026-07-05)
+
+For long feedback the fixed box was cramped. Made the capture window a proper
+draggable + resizable panel (`src/ui/capture.ts`): `resize: both` + a flex
+column so the textarea (flex:1) grows with the box; positioned by left/top so it
+grows down-right. **Grab anywhere on the panel to move it** (pointer-drag,
+skipping the textarea so typing/selection still works, and the bottom-right
+resize grip). Size/position persist across captures in the session (remembered
+on close), so a bigger window sticks. 3 jsdom tests (drag moves · textarea-grab
+doesn't · size remembered).
