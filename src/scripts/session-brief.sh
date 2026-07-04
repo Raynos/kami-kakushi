@@ -158,6 +158,13 @@ if [[ -n "$recent" ]]; then
   add "- 🔀 **Recent commits** (momentum — read more with \`git log\`):"
   while IFS= read -r c; do add "  - $c"; done <<<"$recent"
 fi
+# Playtest capture inbox (F3) — an AGENT-facing async nudge (distinct from the human
+# queue): captures dropped in-game via the ` overlay wait here to be metabolized.
+# SILENT at zero (no busywork nudge); drain oldest-first with /drain-inbox.
+inbox_n="$(find project/playtest-inbox/pending -maxdepth 1 -name '*.md' 2>/dev/null | wc -l | tr -d ' ' || true)"
+if [[ "${inbox_n:-0}" -gt 0 ]]; then
+  add "- 📥 **Playtest inbox:** ${inbox_n} capture(s) waiting in \`project/playtest-inbox/pending/\` — drain with \`/drain-inbox\`."
+fi
 # Main's latest CI conclusion — time-boxed (2s) so a slow/absent gh never hangs or
 # aborts the brief (set -e safe via 2>/dev/null + trailing || true → empty string).
 ci_state="$(timeout 2 gh run list -L 1 -b main -w verify.yml --json conclusion,status --jq '.[0] | (.status + "/" + (.conclusion // "—"))' 2>/dev/null || true)"

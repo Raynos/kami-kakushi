@@ -230,6 +230,16 @@ Full version:
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/living/qa-playtesting.md).
+- **Playtest capture inbox — capture in-game, drain async (F3).** In a DEV
+  build the `` ` `` hotkey pops a note box; ⌘/Ctrl+Enter drops a self-contained
+  capture (note + deterministic save + a git-ignored screenshot) into
+  [`project/playtest-inbox/pending/`](project/playtest-inbox) and vanishes. The
+  human plays whenever; an agent drains whenever with **`/drain-inbox`**
+  (reproduce from the save → triage → log an **Fnn** in `project/human-feedback/`
+  → **`git mv` the capture to `archive/`** — completion is the archive move, not
+  deletion). It's **agent-facing** (not the human queue); the session brief
+  surfaces the `pending/` count. See the
+  [`drain-inbox`](.claude/skills/drain-inbox/SKILL.md) skill.
 - **Build to the taste standard — the four taste values (D-126).** Before
   building or restyling **any** UI surface, feature, or narrative beat, read
   [`docs/living/taste.md`](docs/living/taste.md) (snapshot-class, hard-capped,

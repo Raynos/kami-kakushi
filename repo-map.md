@@ -83,6 +83,11 @@ always-loaded context while being editable on its own.
 - [`project/audit/`](project/audit) — QA outputs: written findings/reports under
   `reports/` + screenshots/ recordings under `screens/` (one dated pass-folder
   each; `screens/latest/` is the live `qa-shots.mjs` gallery).
+- [`project/playtest-inbox/`](project/playtest-inbox) — **agent-facing** transport
+  queue for in-game playtest captures (F3): `pending/` holds captures waiting to
+  be drained (`/drain-inbox`), `archive/` keeps drained ones long-term. The `.md`
+  (note + deterministic save) is committed; the `.png` screenshot is git-ignored.
+  Not the human queue — see its [`README`](project/playtest-inbox/README.md).
 - [`raw/`](raw) — **committed reference material from outside the repo**:
   [`screenshots/`](raw/screenshots) holds the human-captured shots of the two
   README inspiration games (proto23, yet-another-idle-rpg — the D-126 density

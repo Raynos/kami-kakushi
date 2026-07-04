@@ -54,6 +54,19 @@ Built in M0 alongside the engine; gated on `import.meta.env.DEV`, **stripped fro
 wraps the pure core so the game can be driven and observed from code (a console, or an MCP browser
 tool).
 
+### Capture (the playtest inbox — F3)
+
+The DEV build also carries an **in-game capture overlay** (also `import.meta.env.DEV`, also
+stripped from prod — proven by `verify-dev-strip.sh`). The `` ` `` hotkey pops a note box;
+⌘/Ctrl+Enter drops a self-contained capture — the note + the **deterministic save** (seed + RNG
+cursors + clock + location + log) + a git-ignored `modern-screenshot` PNG — into
+`project/playtest-inbox/pending/` via a dev-server endpoint, then vanishes (< 5 s, the game never
+pauses). Because the save reproduces the moment byte-identically (§0), one capture **is** a full
+repro context. The human plays and captures whenever; an agent drains asynchronously with
+[`/drain-inbox`](../../.claude/skills/drain-inbox/SKILL.md) — reproduce from the save headlessly →
+triage → log an **Fnn** in `project/human-feedback/` → `git mv` the capture to `archive/`. This is
+the async twin of the human's live playtest loop; it never blocks either side.
+
 ### Observe
 
 | Method | Returns | Notes |

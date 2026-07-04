@@ -191,12 +191,27 @@ archive move + R9). This honestly exercises the surface-to-human drain path.
 
 ---
 
+## 7 · Ph4 — conventions wiring (the loop is discoverable)
+
+- `src/scripts/session-brief.sh` — an agent-facing "📥 Playtest inbox: N
+  capture(s) waiting" line (counts `pending/*.md`; **silent at zero**, no
+  busywork nudge).
+- `AGENTS.md` — a Conventions bullet (capture in-game → `pending/`, drain with
+  `/drain-inbox`, completion = archive move; agent-facing).
+- `repo-map.md` — the `project/playtest-inbox/` dir entry.
+- `docs/living/qa-playtesting.md` — a "Capture (the playtest inbox)" subsection
+  under §1 (the overlay is part of the QA harness).
+
+**F3 is COMPLETE** — all four phases built, verified, and the loop is live end
+to end (capture in-game → drain async → F-entry → archive).
+
+---
+
 ## Next intended steps (current)
 
-1. **Ph4** — conventions wiring: `session-brief.sh` `pending/` count, AGENTS.md
-   Conventions bullet, `repo-map.md` entry, a `qa-playtesting.md` section.
-2. Push the Ph3/Ph4 commits at the next collective-green window.
-3. Then F3 is COMPLETE — mark the plan DONE + graduate it to `project/archive/`.
+1. Push the Ph3/Ph4 commits at the next collective-green window.
+2. Mark the F3 plan DONE + graduate it to `project/archive/` (mind the
+   `docs/plans/README.md` gen-region — regenerate via `npm run checkpoint`).
 
 ## Landmines (current)
 
