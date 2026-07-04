@@ -199,6 +199,16 @@ Full version:
   regenerated `docs/content/t0-pacing.md` WITH the change (its diff is the before/after;
   paste `balance-sim --summary` into the commit body) — the full flow lives in
   [`qa-playtesting.md` §2](docs/living/qa-playtesting.md).
+- **Story is authored as text — registries are generated (F5).** T0 narrative
+  content (rung beats, intro scenes, dialogue lines, the cold open) is authored
+  as prose-first markdown in
+  [`src/core/content/narrative/`](src/core/content/narrative/README.md) — the
+  source of truth — and compiled by `npm run gen:narrative` into `*.gen.ts`
+  registries (+ the readable script `docs/content/t0-story.md`). **Never edit a
+  `*.gen.ts`** — the `gen-narrative` verify gate byte-compares and its error
+  names the `.md` to edit. Real logic (helpers, gates beyond the declared
+  grammar) stays hand-written TS; a beat needing real code uses the plan's
+  `native:` escape hatch rather than growing the grammar.
 - **Single source of truth — generate, don't duplicate.** Anything derivable
   from the game's data (balance tables, content lists) is **generated** into
   `docs/`, never hand-maintained twice. A **version label is a single-source

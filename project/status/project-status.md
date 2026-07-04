@@ -44,14 +44,14 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a/F1b ·
   F2 CI · ✅ F4 balance sim (D-132) · ✅ F3 capture inbox + `/drain-inbox` · ✅ F6
-  scenario saves. 🔧 F5 narrative format IN BUILD (s74, Ph1–2 ✅). NEXT: F7.**
+  scenario saves · ✅ F5 narrative format (s74 — story in `narrative/*.md` +
+  `gen-narrative` gate + `t0-story.md`). NEXT: F7.**
 - **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN stays soft).
   **H19→D-133:** Phase 2 ≈ Phase 1 (~1:1), general per-tier rule → hard
   `verify:balance` **ratio gate** `[0.8, 1.2]`. Stopgap **hotfix shipped**
   (fractional sub-koku deeds → greedy Phase 2 0.94:1; 480-koku gate/fiction
   intact). Real Phase-2 **redesign** planned + queued
-  (`opus-2026-07-04-phase2-economy-redesign.md`) — needs a human direction call
-  (literal 1:1 vs. rebalance split) + loop pick.
+  (`opus-2026-07-04-phase2-economy-redesign.md`) — needs a human direction call.
 
 ## Waiting on the human
 
@@ -114,7 +114,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** = **F5** (Fable Ph1) or **F7** cockpit per the master
-   plan (F1a/F1b/F2/F4/F6 ✅ · F3 co-agent). Balance liquid (D-059) — every balance
+4. **Next autonomous work** = **F7** cockpit per the master plan
+   (F1a/F1b/F2/F3/F4/F5/F6 ✅). Balance liquid (D-059) — every balance
    change runs the D-132 flow (`verify:balance` → report diff → `--summary`).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.

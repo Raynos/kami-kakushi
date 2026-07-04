@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { parseNarrative, NarrativeError, type NarrativeDoc } from './narrative/parse';
 import { emitColdOpen, emitDialogue, emitIntro, emitRungBeats } from './narrative/emit';
+import { emitStoryDoc } from './narrative/story-doc';
 import { validateNarrative } from './narrative/validate';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -97,9 +98,28 @@ try {
       console.log(`  gen-narrative: wrote ${t.out} (from ${t.md})`);
     }
   }
+  // The one-page reading script (Ph4) — drift-checked like the modules; markdown,
+  // so no formatter pass (docs/*.md are oxfmt-ignored).
+  const STORY_OUT = 'docs/content/t0-story.md';
+  const story = emitStoryDoc([...docs.values()]);
+  const storyAbs = join(repoRoot, STORY_OUT);
+  if (check) {
+    const onDisk = existsSync(storyAbs) ? readFileSync(storyAbs, 'utf-8') : '';
+    if (onDisk !== story) {
+      console.error(
+        `  X gen-narrative: ${STORY_OUT} is out of date (or hand-edited/deleted).\n` +
+          `    It regenerates from src/core/content/narrative/*.md — run \`npm run gen:narrative\`.`,
+      );
+      drift++;
+    }
+  } else {
+    writeFileSync(storyAbs, story);
+    console.log(`  gen-narrative: wrote ${STORY_OUT}`);
+  }
+
   if (check) {
     if (drift) process.exit(1);
-    console.log(`  gen-narrative: ${present.length} generated module(s) in sync`);
+    console.log(`  gen-narrative: ${present.length} module(s) + ${STORY_OUT} in sync`);
   }
 } catch (e) {
   if (e instanceof NarrativeError) {

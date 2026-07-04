@@ -13,7 +13,23 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
 
 - `rung-beats.md` → `../rungBeats.gen.ts` — the D-110 rung-up beats, R1→R7
   (re-exported by `../rungBeats.ts`, which keeps the types + helpers).
-- *(Ph3: `intro.md`, `dialogue.md`, `cold-open.md`.)*
+- `intro.md` → `../intro.gen.ts` — the three intro VN scenes (`## scene` —
+  fixed order soan/dream/genemon; options carry `say:`/`stat:`/`perk:`).
+- `dialogue.md` → `../dialogue.gen.ts` — teach-by-reveal defs (`## dialogue
+  <id> · <NAMES-key>`, `### line <id>` with `voice:`/`when:`; an unreferenced
+  def must carry `unrouted: <reason>`).
+- `cold-open.md` → `../coldOpen.gen.ts` — keyed prose (`## prose cold-open`,
+  `### <key>`); `rakeLine` (real logic) stays hand-written.
+- All four also compile into the one-page reading script
+  [`docs/content/t0-story.md`](../../../../docs/content/t0-story.md).
+
+Ph3 grammar quick-reference (details inline below where shared): `when: <flag>`
+gates a dialogue line on a story flag; `when: <npc>.regard is|not <value>` on
+per-NPC memory. `@cold-open.<key>` / `@dialogue.<def>/<line>` REUSE a line
+(compiled to the same single-source expression, never a copy). `{key}`
+interpolates a `NAMES` entry in any text. `say:` overrides an option label as
+the MC's spoken line; `stat: +int -str` is the intro's net-zero lean;
+`perk: <Name> — <desc>` the granted perk.
 
 ## Grammar
 

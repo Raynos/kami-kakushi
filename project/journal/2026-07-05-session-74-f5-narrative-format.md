@@ -137,3 +137,21 @@ INTENTIONAL — keep it, allowlist the Ph2 WARN.
   standing seals — `intro.test.ts`, `dialogue.test.ts`, `coldOpen.test.ts`,
   plus the intro-flow/dialogue-tree/m1 suites — pass UNCHANGED (full verify
   green, 17 gates).
+
+---
+
+## 6 · Ph4 — the reading script + pointers; F5 COMPLETE
+
+- `src/scripts/narrative/story-doc.ts` + gen-narrative wiring —
+  `docs/content/t0-story.md`: the one-page compiled script in play order
+  (cold open → intro scenes → R1…R7, rank titles from RANKS, choices with
+  effect small-print, ⭐ marking the three BQ2 bonuses). Joins the same
+  `--check`; delete/hand-edit both proven RED.
+- R8 "how to look" now points at `t0-story.md` + the authoring files (the
+  human can mark up `narrative/*.md` directly).
+- Pointers: repo-map.md gets the `src/core/content/narrative/` entry;
+  AGENTS.md conventions get the "story is authored as text" bullet;
+  narrative/README.md documents the full Ph3 grammar.
+- Plan graduated: Status ✅ → `project/archive/fable-process-F5-narrative-format.md`;
+  reading-queue entry removed (read + built — D-089 agent-owned cleanup);
+  snapshot updated (F5 ✅, NEXT: F7).

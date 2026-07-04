@@ -232,9 +232,13 @@ for your read in
 
 - **Asking for:** a taste/read pass on the cast + the per-rung beats — do the
   faces + the transition prose land, or do you want any recast / retuned?
-- **How to look:** read the plan §6.6 (cast) + §7 (beats); or play it live —
+- **How to look:** read the ONE-PAGE generated script
+  [`docs/content/t0-story.md`](../../docs/content/t0-story.md) (F5 — cold open →
+  intro → R1…R7 in play order, choices + effects inline); or play it live —
   `npm run dev`, then `__qa.toRung('R1')`… to trigger each rung's beat in the VN
-  modal.
+  modal. Prose edits now land directly in
+  [`src/core/content/narrative/`](../../src/core/content/narrative/) (the F5
+  authoring source — you can mark up those files yourself).
 - **Verdict:** _(awaiting the human)_
 
 ---

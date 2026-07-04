@@ -102,12 +102,6 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   from `balance.ts`, on-demand `verify:balance` + a generated pacing report
   (`docs/content/t0-pacing.md`) whose diff rides every balance change. Built:
   ADR D-132; open calls for you → **H19** (Phase-2 band) + **H20** (WARN→gate).
-- [ ] `docs/plans/fable-process-F5-narrative-format.md` — **narrative
-  authoring format** (top10 #8): story as structured markdown (worked
-  example: the REAL R3 Kihei beat, round-trip faithful), compiler emits the
-  typed registries, 12 referential-integrity validations, byte-preserving
-  migration proof. Bonus finding: R7 speaks Shigemasa in 'official' voice
-  while canon says 'lord' — exactly what the validator would catch.
 - [ ] `docs/plans/fable-process-F7-balance-cockpit.md` — **the balance-tuning
   cockpit** (top10 #1, your 5/5 pick): a DEV-panel Balance tab of live
   sliders over the curated `balance.ts` levers (the 4 balance-watch items

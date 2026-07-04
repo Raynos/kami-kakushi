@@ -73,6 +73,14 @@ always-loaded context while being editable on its own.
   [`snapshot-research.sh`](src/scripts/snapshot-research.sh),
   [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start
   human-queue brief).
+- [`src/core/content/narrative/`](src/core/content/narrative) — **F5 narrative
+  authoring sources**: the T0 story as structured markdown (`rung-beats.md`,
+  `intro.md`, `dialogue.md`, `cold-open.md` — prose-first, readable as a script;
+  spec in its [`README`](src/core/content/narrative/README.md)). `gen-narrative`
+  (`gen:narrative`, the `gen-narrative` gate) compiles them to `*.gen.ts`
+  registries the hand-written modules re-export, plus the one-page reading
+  script [`docs/content/t0-story.md`](docs/content/t0-story.md). Story edits
+  land HERE, never in the `.gen.ts`.
 - [`src/fixtures/`](src/fixtures) — **F6 scenario-save library**: named,
   GENERATED start-states so "reproduce X" is "load X, look". `specs.ts` drives the
   REAL engine to each waypoint (nothing hand-authored); `gen-fixtures.ts`

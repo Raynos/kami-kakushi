@@ -1,6 +1,11 @@
 # Narrative authoring format — story as text, registries generated
 
-**Status:** 📋 PROPOSED — awaiting human read.
+**Status:** ✅ DONE — built 2026-07-05 (session 74), all four phases. Human
+calls at build start: format locked mostly-as-written (liberties in
+`src/core/content/narrative/README.md`), migrate-now, Shigemasa 'official'
+INTENTIONAL (allowlisted). Ph1–Ph4 landed as commits 52b873c → (this one);
+authoring sources live in `src/core/content/narrative/`, the reading script at
+`docs/content/t0-story.md`, the `gen-narrative` gate holds drift.
 
 ## Who builds this — Fable or Opus?
 
