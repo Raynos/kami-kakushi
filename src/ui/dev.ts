@@ -48,6 +48,11 @@ import {
 } from '../core';
 import { el, pct } from './render';
 import { FIXTURES_SENTINEL } from '../fixtures';
+import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
+// Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
+// here, riding this module's DEV fold + sentinel graph (F7 / D-059).
+export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
+export type { BalanceCockpit, TuneMeta, TouchedLever, LeverDef } from './dev-cockpit';
 
 /** A marker that exists ONLY in this DEV module. The gh-pages guard greps the prod bundle for
  *  it and refuses to deploy if it leaked — proof the DEV harness + variants were stripped. */
@@ -1893,9 +1898,9 @@ export interface DevQa {
 
 export function mountDevPanel(
   host: HTMLElement,
-  opts: { qa: DevQa; dev: DevApi; rerender: () => void },
+  opts: { qa: DevQa; dev: DevApi; rerender: () => void; cockpit: BalanceCockpit },
 ): void {
-  const { qa, dev, rerender } = opts;
+  const { qa, dev, rerender, cockpit } = opts;
 
   const panel = el('div');
   panel.setAttribute('data-dev', DEV_SENTINEL);
@@ -1939,8 +1944,11 @@ export function mountDevPanel(
   // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
   //    (the D-075 review focus). Each tab shows its pane and hides the other. ──
   const tabBar = el('div');
-  // F37 — the tab bar is fixed above the scroll region (never scrolls with the panes).
-  tabBar.style.cssText = 'flex:0 0 auto;display:flex;gap:.25rem;margin-bottom:.15rem;';
+  // F37 — the tab bar is fixed above the scroll region (never scrolls with the panes). F7 — it now
+  // WRAPS (four tabs no longer fit the 15rem expanded width on one row), so the Balance tab is always
+  // reachable (two rows of two) instead of clipping off the right edge.
+  tabBar.style.cssText =
+    'flex:0 0 auto;display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.15rem;';
   // F37 — the panes are the ONLY scrolling area: each grows to fill the body's middle and scrolls
   // its own overflow, so the fixed footer below stays pinned no matter how tall the content is.
   const paneScroll = 'flex:1 1 auto;min-height:0;overflow:auto;';
@@ -1952,23 +1960,30 @@ export function mountDevPanel(
   // D-075 diverge mandate doesn't apply — capture-inbox precedent). Populated after enableRestore.
   const scenariosPane = el('div');
   scenariosPane.style.cssText = `display:none;flex-direction:column;gap:.2rem;${paneScroll}`;
+  // F7 — a fourth pane: the balance-tuning cockpit (DEV instrument panel, D-059; not a player
+  // surface, so the D-075 diverge mandate doesn't apply — same precedent as Scenarios/capture-inbox).
+  const balancePane = el('div');
+  balancePane.style.cssText = `display:none;flex-direction:column;gap:.15rem;${paneScroll}`;
 
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
     b.type = 'button';
+    // flex-basis 40% ⇒ two tabs per row inside the wrapping bar; nowrap keeps each label on one line.
     b.style.cssText =
-      'flex:1;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .4rem;' +
+      'flex:1 1 40%;white-space:nowrap;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .4rem;' +
       'font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
-  type TabId = 'settings' | 'variants' | 'scenarios';
+  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance';
   const settingsTab = tabBtn('Settings');
   const variantsTab = tabBtn('Variants');
   const scenariosTab = tabBtn('Scenarios');
+  const balanceTab = tabBtn('Balance');
   const tabs: Record<TabId, { tab: HTMLButtonElement; pane: HTMLElement }> = {
     settings: { tab: settingsTab, pane: settingsPane },
     variants: { tab: variantsTab, pane: variantsPane },
     scenarios: { tab: scenariosTab, pane: scenariosPane },
+    balance: { tab: balanceTab, pane: balancePane },
   };
   const selectTab = (which: TabId): void => {
     for (const id of Object.keys(tabs) as TabId[]) {
@@ -1985,8 +2000,16 @@ export function mountDevPanel(
       selectTab(id);
     });
   }
-  tabBar.append(settingsTab, variantsTab, scenariosTab);
-  body.append(tabBar, settingsPane, variantsPane, scenariosPane);
+  tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab);
+  body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane);
+
+  // F7 — mount the balance cockpit into its pane; the touched count badges the tab label
+  // (`Balance (3)`) so a dirty tuning session is obvious no matter which sub-tab is showing.
+  mountBalanceCockpit(balancePane, cockpit, {
+    onDirty: (count) => {
+      balanceTab.textContent = count > 0 ? `Balance (${count})` : 'Balance';
+    },
+  });
 
   const mono = (label: string, onClick: () => void): HTMLButtonElement => {
     const b = el('button', undefined, label);

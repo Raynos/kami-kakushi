@@ -253,6 +253,14 @@ export {
 } from './content/dialogue';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';
+// F7 balance cockpit (DEV-only, D-059) — the live-tuning hook. Named exports so the cockpit imports
+// them tree-shakably; unused by prod code, so Rollup strips them (verify-dev-strip.sh proves it).
+export {
+  readBalanceLever,
+  __setBalanceLever,
+  __resetBalanceLevers,
+  BALANCE_CANON,
+} from './content/balance';
 
 export {
   APP_ID,

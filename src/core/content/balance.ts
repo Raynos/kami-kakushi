@@ -25,9 +25,13 @@ export const STAMINA_FLAT_ABOVE = 0.7;
 // ── Cold-open economy (PRD §3.1, §5 T0.2 beat 1) ────────────────────────────────
 /** Rice raked back from the spilled grain-store floor per rake act (D-107: this is genuinely
  *  RICE now — the real resource — not a coin alias). */
-export const RICE_PER_RAKE = 3;
+// `let`, not `const`: a curated set of feel levers is DEV-live-tunable via the balance cockpit
+// (F7 / D-059). Only this module reassigns them (through `__setBalanceLever` at the file foot); the
+// setter is DEV-folded dead code in prod, so canon semantics are untouched and `prefer-const` stays
+// green (the binding IS reassigned in-module). Every call site reads the live binding unchanged.
+export let RICE_PER_RAKE = 3;
 export const SATIETY_PER_ACT = 2;
-export const SATIETY_PER_REST = 18;
+export let SATIETY_PER_REST = 18;
 export const TICKS_PER_ACT = 2;
 
 // ── Skills (PRD §4.5) — integer 1.3×-per-level XP curve (deterministic, no floats) ─
@@ -365,8 +369,9 @@ export const EAT_RICE_COST = 3;
 /** Work-stamina (satiety) a plain-rice meal restores. Sized ABOVE a free `rest` (SATIETY_PER_REST,
  *  18) on purpose — the DESIGN LEVER that keeps eat_rice from being dominated by rest: a proper
  *  meal refuels FASTER than merely resting, trading your own rice for readiness (never strictly
- *  worse than a free rest, never the only satiety source). provisional (v0.2, liquid D-059). */
-export const EAT_RICE_SATIETY = 30;
+ *  worse than a free rest, never the only satiety source). provisional (v0.2, liquid D-059).
+ *  `let` for the F7 balance cockpit — see RICE_PER_RAKE. */
+export let EAT_RICE_SATIETY = 30;
 
 /** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (D-107 / §14): DEAR in the
  *  lean spring, CHEAP at the autumn glut — a light store-vs-sell TIMING decision that pairs with
@@ -410,4 +415,63 @@ export const KURA_RICE_CAP_BASE = 120;
 export const KURA_RICE_CAP_PER_STAGE = 80;
 export function kuraRiceCap(estateStage: number): number {
   return KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE;
+}
+
+// ── DEV-only live-tuning hook (balance cockpit, F7 / D-059) ─────────────────────────────────────
+// INERT unless called: only the DEV-folded cockpit (src/ui/dev-cockpit.ts) ever calls these, and
+// the whole DEV branch dead-code-eliminates from prod — so tests, sims, scripts and the shipped
+// game all run CANON. Only the DECLARING module can reassign its own `export let` bindings, so the
+// setter must live HERE. The `balance-override:` string literal in the throws survives minification
+// and is the strip-gate marker (verify-dev-strip.sh). CONTRACT: nothing outside ui/dev-cockpit.ts
+// (and its tests) may import these — they exist to serve the HUMAN's feel-tuning, never to move a
+// number into canon on an agent's behalf (D-059). Purity: no DOM / no `import.meta` — core stays
+// env-free so the tsx scripts (pacing-report, balance-sim) keep importing it cleanly.
+//
+// An explicit `switch` (not a dynamic table) keeps `tsc` owning the path list. Ph1 curates three
+// scalar levers; Ph2 grows the set (structured map paths mutate their runtime object in place).
+
+/** Read a lever's CURRENT (possibly overridden) value by its cockpit path. */
+export function readBalanceLever(path: string): number {
+  switch (path) {
+    case 'RICE_PER_RAKE':
+      return RICE_PER_RAKE;
+    case 'EAT_RICE_SATIETY':
+      return EAT_RICE_SATIETY;
+    case 'SATIETY_PER_REST':
+      return SATIETY_PER_REST;
+    default:
+      throw new Error(`balance-override: unknown lever ${path}`);
+  }
+}
+
+/** Override a curated lever live (DEV cockpit only). Reassigns this module's own binding, so every
+ *  importer's next read sees the new value (ES named imports are live bindings). */
+export function __setBalanceLever(path: string, value: number): void {
+  switch (path) {
+    case 'RICE_PER_RAKE':
+      RICE_PER_RAKE = value;
+      return;
+    case 'EAT_RICE_SATIETY':
+      EAT_RICE_SATIETY = value;
+      return;
+    case 'SATIETY_PER_REST':
+      SATIETY_PER_REST = value;
+      return;
+    default:
+      throw new Error(`balance-override: unknown lever ${path}`);
+  }
+}
+
+/** The canon (module-init) value of every cockpit lever, keyed by path. Captured HERE — before any
+ *  setter can run — so it backs reset + the cockpit's `canon → current (Δ%)` readout WITHOUT any
+ *  hand-copied magic number (test discipline: derive from the source of truth). */
+export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
+  RICE_PER_RAKE,
+  EAT_RICE_SATIETY,
+  SATIETY_PER_REST,
+});
+
+/** Reset every overridden lever back to its canon value (the cockpit's "Reset all to canon"). */
+export function __resetBalanceLevers(): void {
+  for (const path of Object.keys(BALANCE_CANON)) __setBalanceLever(path, BALANCE_CANON[path]!);
 }

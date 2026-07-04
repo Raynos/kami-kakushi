@@ -8,7 +8,18 @@
 // B/C asserts flip red; if it always delegated, the prod-default assert flips red.)
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
-import { createDevApi, mountDevPanel, type DevQa } from './dev';
+import { createDevApi, mountDevPanel, createBalanceCockpit, type DevQa } from './dev';
+
+/** A minimal balance cockpit for the panel-mount tests (F7 — the Balance sub-tab is required opts). */
+const testCockpit = () =>
+  createBalanceCockpit({
+    meta: () => ({
+      build: 'test',
+      seed: 1,
+      clock: { day: 0, tick: 0 },
+      capturedAt: '1970-01-01T00:00:00.000Z',
+    }),
+  });
 import {
   createInitialState,
   getBelonging,
@@ -505,7 +516,12 @@ describe('DEV panel — Speed row (F49)', () => {
   it('offers 1·2·4·8·16 (16× is present)', () => {
     const host = document.createElement('div');
     document.body.append(host);
-    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
     const labels = speedButtons(host).map((b) => b.textContent);
     expect(labels).toEqual(['1×', '2×', '4×', '8×', '16×']);
     host.remove();
@@ -514,7 +530,12 @@ describe('DEV panel — Speed row (F49)', () => {
   it('highlights 1× by default and no other', () => {
     const host = document.createElement('div');
     document.body.append(host);
-    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
     const btns = speedButtons(host);
     const active = btns.filter(isActive);
     expect(active).toHaveLength(1);
@@ -526,7 +547,7 @@ describe('DEV panel — Speed row (F49)', () => {
     const host = document.createElement('div');
     document.body.append(host);
     const qa = stubQa();
-    mountDevPanel(host, { qa, dev: createDevApi(), rerender: () => {} });
+    mountDevPanel(host, { qa, dev: createDevApi(), rerender: () => {}, cockpit: testCockpit() });
     const btns = speedButtons(host);
     const four = btns.find((b) => b.textContent === '4×')!;
     four.click();
@@ -567,7 +588,12 @@ describe('DEV panel — New-game footer safety (F95)', () => {
   it('renders the New-game button half-width and left-anchored (not full width)', () => {
     const host = document.createElement('div');
     document.body.append(host);
-    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
     const btn = btnByText(host, 'New game');
     expect(btn).toBeTruthy();
     // half width + pinned left (was flex:1 / full width) so a stray double-click misses it.
@@ -579,7 +605,12 @@ describe('DEV panel — New-game footer safety (F95)', () => {
   it('renders "goto last backup" ABOVE New game, disabled until a backup exists', () => {
     const host = document.createElement('div');
     document.body.append(host);
-    mountDevPanel(host, { qa: stubQa(), dev: createDevApi(), rerender: () => {} });
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
     const restore = btnByText(host, 'last backup');
     const newGame = btnByText(host, 'New game');
     expect(restore).toBeTruthy();
@@ -600,6 +631,7 @@ describe('DEV panel — New-game footer safety (F95)', () => {
       qa: stubQa({ newGame: () => void newGames++ }),
       dev: createDevApi(),
       rerender: () => {},
+      cockpit: testCockpit(),
     });
     const restore = btnByText(host, 'last backup');
     const newGame = btnByText(host, 'New game');
@@ -619,6 +651,7 @@ describe('DEV panel — New-game footer safety (F95)', () => {
       qa: stubQa({ hasBackup: async () => true, restoreBackup: async () => (restored++, true) }),
       dev: createDevApi(),
       rerender: () => {},
+      cockpit: testCockpit(),
     });
     await Promise.resolve(); // let the async hasBackup probe settle
     const restore = btnByText(host, 'last backup');

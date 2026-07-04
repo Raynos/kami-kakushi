@@ -25,7 +25,7 @@ import { createBrowserSaveManager, type SaveManager, toBase64 } from '../persist
 import { getFixtures, getFixture } from '../fixtures';
 import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
-import { createDevApi, mountDevPanel } from '../ui/dev';
+import { createDevApi, mountDevPanel, createBalanceCockpit } from '../ui/dev';
 import { mountCapture } from '../ui/capture';
 import { snapshotDom } from '../ui/capture-screenshot';
 
@@ -297,9 +297,24 @@ async function boot(): Promise<void> {
       }
       return state.location;
     };
+    // F7 — the balance-tuning cockpit controller, shared by the DEV panel's Balance sub-tab and the
+    // headless `__qa.balance` handle. onChange re-renders so a live override refreshes interpolated
+    // tooltips; meta captures the export header (build stamp + seed + clock) from live state.
+    const cockpit = createBalanceCockpit({
+      onChange: () => safely(() => render(state, null)),
+      meta: () => ({
+        build: `${__VERSION__} (${__BUILD_SHA__}, ${__BUILD_DATE__})`,
+        seed: state.rng.seed,
+        clock: { day: state.clock.day, tick: state.clock.tick },
+        capturedAt: new Date().toISOString(),
+      }),
+    });
+
     const qa = {
       state: () => state,
       dispatch: (intent: Intent) => dispatch(intent),
+      // F7 — headless balance-cockpit handle: set(path,v) / read / touched / reset / exportMarkdown.
+      balance: cockpit,
       activity: (id: ActivityId) => dispatch({ type: 'do_activity', activityId: id }),
       auto: (id: ActivityId | null) => dispatch({ type: 'set_auto', activityId: id }),
       /** Walk to a map node via real move_to hops over the revealed graph. */
@@ -470,6 +485,7 @@ async function boot(): Promise<void> {
         qa,
         dev,
         rerender: () => safely(() => render(state, null)),
+        cockpit,
       });
     }
 
