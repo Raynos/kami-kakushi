@@ -49,3 +49,18 @@ trivially from an **ordered descriptor array** (C), no replay. **D dropped.**
 Committed only my own files by explicit path (shared tree — w1:p2/p3 live).
 The plan file was untracked while a co-agent's regenerated `docs/plans/README.md`
 already referenced it (dead-link RED on CI); this commit greens that.
+
+## Update — decisions locked, build started
+
+Walked the human through the plan's open decisions. Locked:
+
+1. **Scope — A + C.** Compression AND the log-content registry.
+2. **Codec — native gzip** (`CompressionStream` browser / `node:zlib` Node).
+3. **Exports stay plain** base64-JSON (recoverable backup); only the internal
+   store is gzipped. Synergy: the async ripple hits only `flushSave` (already
+   async), since `exportBase64` stays sync.
+4. **Routing — Opus builds all** (incl. the mechanical extraction).
+5. **Go — build now**, staged: codec (A) → log-content registry (C) →
+   descriptors + migration (schema 7→8).
+
+Building in that order; each stage its own commit + tests + green verify.

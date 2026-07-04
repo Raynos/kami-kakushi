@@ -42,15 +42,29 @@ save. Everything else is small.
 
 ## Recommendation
 
-- **A · Compress the envelope — DO THIS.** The fix. 13×, zero fidelity/
-  determinism risk, prose stays intact.
-- **C · Log-as-descriptors — OPTIONAL, not for size.** Only ~1 KB better than A
-  once compressed, and needs a real log-content-registry refactor. Worth it *only*
+- **A · Compress the envelope.** The fix. 13×, zero fidelity/determinism risk,
+  prose stays intact.
+- **C · Log-as-descriptors.** Only ~1 KB better than A once compressed, but taken
   for the architectural win (one pure source for a line's words, T1; "reword once
-  → all history updates"). Defer unless that cleanliness is wanted for its own
-  sake.
+  → all history updates").
 - **D · Intent trace + replay — DROPPED.** Saves nothing; adds byte-identical-
   replay risk. Gone.
+
+## Decisions locked (human, 2026-07-05)
+
+1. **Scope — A + C together.** Compression AND the log-content registry (schema
+   bump 7→8, migration, every emit site → `render(key, params)`).
+2. **Codec — native gzip.** `CompressionStream` in the browser, `node:zlib`
+   `gzipSync` in Node/tests. Best ratio, no vendored dependency.
+3. **Export channel — keep exports plain.** Compress only the internal store
+   (the quota-bearing path); the copy-out backup (`exportBase64`) stays **plain
+   base64-JSON** for maximum recoverability (any tool decodes base64→JSON).
+
+**Synergy — the async ripple is contained.** "Keep exports plain" means
+`exportBase64` / `importBase64` stay **sync**; only the internal store gains an
+**async** gzip step — and that path (`flushSave`, `src/app/main.ts:248`) is
+already async. So gzip's one downside (async) touches only a path that was
+already async. Net: two encode paths — sync-plain (export) + async-gzip (store).
 
 ---
 
@@ -66,12 +80,15 @@ decode: base64 → detect magic → decompress → JSON.parse   (fall back to pl
         parse when the magic is absent, so pre-A exports still import)
 ```
 
-- **Codec choice:** a tiny **vendored sync LZ** (lz-string-class) over
-  `CompressionStream`. Reasons: sync (the sim/test/Node paths and the
-  synchronous save path stay simple), dependency-light, works in browser + Node,
-  base64-native. `CompressionStream` is async and browser-only — awkward here.
-- **Magic byte / version tag** on the encoded string so a mixed store (old
-  uncompressed + new compressed) round-trips. The importer sniffs it.
+- **Codec choice (LOCKED — native gzip):** `CompressionStream('gzip')` in the
+  browser, `node:zlib` `gzipSync` in Node/tests. Best ratio, no vendored dep. The
+  **store** encode/decode is async (browser path); the **export** stays sync-plain
+  (below), so the async ripple hits only `flushSave` (already async).
+- **Two encode paths:** `encodeStore` (async, gzip → base64, for localStorage) +
+  `exportBase64` (sync, plain JSON → base64, the recoverable backup — unchanged).
+- **Magic byte / version tag** on the stored string so a mixed store (old
+  uncompressed + new gzipped) round-trips. The decoder sniffs it → gzip path or
+  plain fallback. Exports carry the plain marker.
 - The RNG stays JSON-safe (draw-count integers, `src/core/rng.ts`), so nothing
   about serialization changes — only an added compress/decompress layer.
 
@@ -104,10 +121,16 @@ decode: base64 → detect magic → decompress → JSON.parse   (fall back to pl
 
 ---
 
-## Part C — Log as descriptors (OPTIONAL — architectural, not size)
+## Part C — Log as descriptors (IN SCOPE — locked 2026-07-05)
 
-Only pursue if the human wants the T1 cleanliness (one pure source per line) for
-its own sake — the size gain over A is ~1 KB.
+Taken for the T1 cleanliness (one pure source per line) — the size gain over A is
+~1 KB but the single-source architecture is the point.
+
+> **Content-key design note.** Today `LogEntry.key` is a **numeric seq id**
+> (uniqueness for the ring), NOT a content key — see the sampled entry
+> `{"key":8391,…}`. C adds a **new stable string content-key** (e.g.
+> `contentKey: 'reward.rake'`) that maps into `LOG_CONTENT`; the numeric `key`
+> keeps its ring-uniqueness role. Don't overload the existing field.
 
 ### How the log rebuilds (the answer to "is it even possible?")
 
