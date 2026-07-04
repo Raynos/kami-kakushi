@@ -1,10 +1,13 @@
 # Playtest capture inbox + async drain loop (build plan)
 
-**Status:** 📋 PROPOSED — awaiting human read
+**Status:** PROPOSED — decisions locked (human, 2026-07-04); building Ph1→Ph4.
+*(Token stays PROPOSED to avoid a `docs/plans/README.md` regen that would
+entangle the decoupled F2-archival WIP; flip to DONE at archive-time.)*
 **created_date:** 2026-07-03
-**Owns:** the DEV-only in-game capture overlay · the dev-server → repo
-transport · `project/playtest-inbox/` and its lifecycle · the
-`/drain-inbox` skill · the strip-gate extension for the new DEV surface.
+**Owns:** the DEV-only in-game capture overlay (note box + in-browser
+screenshot) · the dev-server → repo transport · `project/playtest-inbox/`
+(`pending/` + `archive/`) and its lifecycle · the `/drain-inbox` skill · the
+strip-gate extension for the new DEV surface.
 **Composes with (does NOT own):** the F-log metabolization loop
 (`project/human-feedback/*-playtest.md`, F1–F117 to date) · the
 `capture-game-states` skill + `qa-playtesting.md` harness (headless repro) ·
@@ -25,6 +28,31 @@ DRAIN time, and the skill routes it safely by design — mechanical bugs are
 fixed by rule, unsettled taste goes to R-items/diverge, design forks go to
 H-items — so an Opus-run drain cannot silently decide taste. Fable-run
 drains simply produce better first-pass fixes on ambiguous taste captures.
+
+---
+
+## Decisions locked (human, 2026-07-04) — four open questions closed
+
+Before the build, the four §5-class open questions were run past the human.
+Two landed on the plan's proposed defaults; two overrode them. All four are
+now canon (D-022: human intent supersedes the prior draft) and the sections
+below are edited to match.
+
+1. **Hotkey → Backquote `` ` `` (default kept).** §2.1 stands.
+2. **Screenshots → CAPTURE in-browser, git-ignored (OVERRIDE of §2.3's
+   skip-default).** A shot is taken at the note moment and stored as a
+   **git-ignored** PNG sidecar; the note + save-JSON stay committed and remain
+   the durable, deterministic repro source. The screenshot lib is a
+   `devDependency` stripped from the prod bundle with the rest of the overlay
+   (§2.8 gate), so the **prod zero-runtime-dep guarantee is NOT broken.**
+   Rewritten §2.3.
+3. **Storage → COMMITTED, two-tier pending/archive (REFINES §2.5/§2.6's flat
+   dir + delete-on-drain).** Captures land in
+   `project/playtest-inbox/pending/`; the drain **`git mv`s** each into
+   `project/playtest-inbox/archive/` (durable long-term, like
+   `project/human-feedback/`) instead of deleting it. Note + save-JSON
+   committed in both dirs; PNG git-ignored. Rewritten §2.5/§2.6/§2.7.
+4. **Scope → DEV-server only (default kept).** §2.4 stands; §5.1 closed.
 
 ---
 
@@ -124,20 +152,30 @@ Captured by a thunk built in `main.ts` (which already closes over `state`,
   complaints are viewport-shaped — F117's column-balance class of feedback).
 - **The page URL** (carries variant params + `?dev=no` verbatim).
 
-### 2.3 Screenshots — **skip them (default)**
+### 2.3 Screenshots — **capture in-browser, git-ignored** (human, 2026-07-04)
 
-No in-browser screenshot at capture time. Justification:
+The human chose to snapshot the game at the note moment, overriding the
+plan's original state-repro-only default. Their rationale: a shot is
+*immediately viewable* in the inbox (no drain-time repro just to eyeball a
+layout complaint) and it survives the one thing state-repro cannot — a truly
+transient render-only glitch (a mid-animation frame).
 
-- The UI is **DOM-rendered, not canvas** — an in-browser shot needs a heavy
-  imperfect dependency (html2canvas); the game ships zero runtime deps today.
-- State + seed + variants + viewport make the moment **deterministically
-  reproducible**: the drain loop loads the save into the existing headless
-  harness, resizes to the captured viewport, applies the variant params, and
-  takes a *pixel-perfect* screenshot then — strictly better than a lossy one
-  now.
-- The known loss — truly transient render-only glitches (a mid-animation
-  frame) — is accepted: those get a 💬 F-entry asking for a repro hint. If
-  this bites repeatedly, revisit (risk §4.7); don't pre-pay the dependency.
+- **Mechanism:** a DOM→PNG snapshot of the game root via a lightweight,
+  actively-maintained rasteriser (`html-to-image` / `modern-screenshot`,
+  chosen in Ph2 for woodblock/ink CSS fidelity over the older html2canvas).
+  The PNG data URL is POSTed alongside the markdown.
+- **Prod zero-runtime-dep guarantee is NOT broken.** The overlay and its
+  screenshot import live only in the `import.meta.env.DEV` branch and are
+  stripped from the prod bundle (proven by the gh-pages grep gate, §2.8) — so
+  the rasteriser is a **`devDependency`, never in the shipped static build.**
+- **The PNG is git-ignored; the note + save-JSON are committed (§2.6).** The
+  image is a local-only viewing aid — the durable record is the text plus the
+  deterministic save, which still reproduces the moment pixel-perfectly if the
+  PNG is gone. State-repro stays the source of truth; the shot is a
+  convenience layer, and where a rasteriser mis-renders a CSS feature the
+  embedded save is authoritative.
+- **Orphaning is harmless:** the PNG is optional and git-ignored, so a save
+  with no shot (or vice-versa) costs nothing — no orphanable *committed* pair.
 
 ### 2.4 Transport — Vite dev-middleware POST (primary)
 
@@ -175,10 +213,13 @@ and that's correct: every playtest session to date ran on `localhost:5173`
 inbox to write to anyway. Revisit only if the human starts playtesting
 deployed builds (open question §5.1).
 
-### 2.5 Inbox format — one self-contained file per capture
+### 2.5 Inbox format — committed markdown + git-ignored PNG sidecar
 
-`project/playtest-inbox/<ISO-stamp>-<slug>.md` — slug = first ~4 words of
-the note, kebab-cased; stamp makes ordering and uniqueness:
+`project/playtest-inbox/pending/<ISO-stamp>-<slug>.md` — slug = first ~4
+words of the note, kebab-cased; stamp makes ordering and uniqueness. The
+optional screenshot rides as a **same-stem `.png` sidecar**
+(`<ISO-stamp>-<slug>.png`) — **git-ignored** (§2.6), referenced by name in
+the frontmatter so the drain agent can find the local file if it's present:
 
 ```markdown
 ---
@@ -192,6 +233,7 @@ active_tab: work
 variants: { market: market-c }   # non-default only; {} = all defaults
 viewport: 1728x1117 @2x
 url: /?market=market-c
+screenshot: 2026-07-03T18-42-07-open-eyes-button-off.png  # git-ignored; omitted if none
 ---
 
 ## Note
@@ -204,31 +246,36 @@ url: /?market=market-c
 eyJhcHAiOiJra2FtaS…
 ```
 
-Embedded save (not a sidecar JSON): one file = one capture = one atomic
-create/delete; no orphanable pairs. Size is fine — the envelope measures
-tens of KB with the 300-entry log ring, and the file's life is short.
+The **committed** payload is the markdown: note + save-JSON envelope embedded
+(not a sidecar) so one `.md` is one atomic, self-contained repro. The **PNG is
+a git-ignored local aid** — its absence never breaks a repro (the save is
+authoritative, §2.3). Size is fine — the envelope measures tens of KB with the
+300-entry log ring.
 
-### 2.6 Lifecycle — committed, drained, deleted
+### 2.6 Lifecycle — committed, drained, archived (not deleted)
 
-**Committed, not git-ignored (recommendation).** The repo is the memory ("if
-it isn't a committed file, it doesn't exist"); a capture may wait days for a
-drain, across sessions or machines. The counter-argument (churn) is answered
-by the lifecycle: the inbox never accumulates.
+**Committed, two-tier pending/archive** (human, 2026-07-04). The repo is the
+memory ("if it isn't a committed file, it doesn't exist"); a capture may wait
+days for a drain, across sessions or machines, and the human wants the raw
+feedback kept **durable long-term, like `project/human-feedback/`** — so a
+drained capture is **archived, not deleted**. Two dirs, `.md` committed in
+both, `.png` git-ignored in both (one `.gitignore` line:
+`project/playtest-inbox/**/*.png`):
 
-1. **Capture:** middleware writes the file (untracked, machine-written —
-   never hand-edited; the dir README states the contract).
-2. **Intake:** the drain's first act commits all pending captures verbatim
-   (`chore(inbox): intake N playtest captures`). This makes the raw capture
-   durable in git history *before* processing — the append-only/lossless
-   norm holds even though the file is later deleted.
+1. **Capture:** middleware writes `pending/<stamp>-<slug>.md` (+ optional
+   git-ignored `.png`) — untracked, machine-written, never hand-edited; the
+   dir README states the contract.
+2. **Intake:** the drain's first act commits all pending `.md` captures
+   verbatim (`chore(inbox): intake N playtest captures`). Raw capture durable
+   in git history *before* processing — append-only/lossless holds.
 3. **Drain:** per item — reproduce → triage → fix → log its **Fnn** in the
-   canonical feedback log → **delete the capture file in the same commit as
-   its F-entry**. Completion is deletion; the F-log (which quotes the note
-   verbatim, per the existing template) is the durable record; the intake
-   commit preserves the raw bytes forever.
-4. **Empty dir = drained.** The inbox is a transport queue, never a tracker
-   — there is no status field to go stale, because a capture has exactly two
-   states: present (pending) or deleted (logged as Fnn).
+   canonical feedback log → **`git mv` the capture `.md` from `pending/` into
+   `archive/` in the same commit as its F-entry.** Completion is the archive
+   move, not deletion; the F-log (which quotes the note verbatim) is the
+   *distilled* record, the `archive/` `.md` is the *raw* durable record.
+4. **Empty `pending/` = drained.** `pending/` is a transport queue, never a
+   tracker — a capture has exactly two states: in `pending/` (to do) or in
+   `archive/` (logged as Fnn). No status field to go stale.
 
 The inbox is **agent-facing**: it never enters `project/todo-human.md` (the
 pre-commit reading-queue gate ignores this path — verified against the
@@ -239,8 +286,8 @@ optional window into the results stays the existing F-log.
 
 User-invocable as `/drain-inbox`; also runnable under `/loop` overnight.
 
-- **Read** `project/playtest-inbox/*.md` oldest-first (README exempt).
-  Empty → say so and stop (the per-run stopping condition; a `/loop`
+- **Read** `project/playtest-inbox/pending/*.md` oldest-first (README
+  exempt). Empty → say so and stop (the per-run stopping condition; a `/loop`
   iteration on an empty inbox is a fast no-op).
 - **Intake-commit** all pending captures (§2.6.2). This is also the
   concurrency claim: a second drain seeing a clean inbox-status knows one is
@@ -258,8 +305,8 @@ User-invocable as `/drain-inbox`; also runnable under `/loop` overnight.
   - **(iii) Design fork (what the game *is*)** → surface as an **H-item** in
     `project/human-in-the-loop/`, log the Fnn as 💬 — **never auto-decide**
     (R4: bias to motion, surface forks async). Its capture file is still
-    deleted once logged: the F-entry + H-item are the record; the intake
-    commit holds the save if repro is needed later.
+    archived once logged: the F-entry + H-item are the distilled record; the
+    `archive/` `.md` holds the raw save if repro is needed later.
 - **F-numbering continues globally:** next free number after the current max
   (F118 as of today). Entries append to a dated
   `project/human-feedback/<date>-playtest.md` (created per drain-day with
@@ -269,12 +316,13 @@ User-invocable as `/drain-inbox`; also runnable under `/loop` overnight.
   exactly as the F1–F117 loop does; ADR-worthy calls → `decisions.md` only
   with the human (via the H-item).
 - **Commit convention: one commit per item** — fix + F-entry + capture
-  deletion + journal line, staged **by explicit path only** (shared-tree
-  rule; `guard-git-add-all.sh` already enforces the no-`-A` half). Subject
-  style: `fix(ui): recenter open-eyes button (F118, inbox drain)`. Full
-  `verify` runs per commit as normal.
+  `git mv` (pending → archive) + journal line, staged **by explicit path
+  only** (shared-tree rule; `guard-git-add-all.sh` already enforces the
+  no-`-A` half). Subject style:
+  `fix(ui): recenter open-eyes button (F118, inbox drain)`. Full `verify`
+  runs per commit as normal.
 - **End of run:** journal summary (items drained, Fnn range, forks
-  surfaced), inbox empty, then the normal checkpoint loop.
+  surfaced), `pending/` empty, then the normal checkpoint loop.
 
 ### 2.8 Teeth & hygiene
 
@@ -295,33 +343,44 @@ User-invocable as `/drain-inbox`; also runnable under `/loop` overnight.
   under test; only the thin fs/DOM shells are untested glue.
 - **No human-facing surface:** no todo-human entry, no new living doc; the
   dir README addresses agents.
+- **Screenshot hygiene:** the DOM→PNG rasteriser is imported only by
+  `src/ui/capture.ts` (which carries the `CAPTURE_SENTINEL`), so the same
+  strip gate that proves the overlay is absent from `dist/` proves the
+  rasteriser is too — it's a `devDependency`, never a prod runtime dep
+  (§2.3). PNGs are git-ignored via `project/playtest-inbox/**/*.png`; the
+  middleware writes the `.png` beside the `.md` when the POST carries one.
 
 ## 3 · Phases (each independently committable, with DoD)
 
 ### Ph1 — capture core + transport (no UI yet)
 
-Inbox dir + README (lifecycle contract §2.6) · `src/ui/capture-format.ts` +
-tests · middleware handler module + tests · the `vite.config.ts` plugin.
+`pending/` + `archive/` dirs + README (lifecycle contract §2.6) +
+`.gitignore` line for `**/*.png` · `src/ui/capture-format.ts` + tests ·
+middleware handler module + tests (writes `.md` to `pending/`, and the `.png`
+sidecar when the body carries one) · the `vite.config.ts` plugin.
 
 **DoD (could-go-RED):** with `npm run dev` up, a scripted
 `fetch('/__playtest-capture', …)` from a headless page lands a well-formed
-inbox file (frontmatter parses, save round-trips through `__qa.load`); a
-path-traversal filename and an oversized body are **rejected** (asserted in
-tests); `verify` green.
+`pending/*.md` (frontmatter parses, save round-trips through `__qa.load`); a
+PNG-bearing POST also writes the git-ignored `.png` sidecar; a path-traversal
+filename and an oversized body are **rejected** (asserted in tests); `verify`
+green.
 
 ### Ph2 — overlay UX
 
 `src/ui/capture.ts` (hotkey/guards §2.1, box, toast, download fallback,
-sentinel) · mount from `main.ts` DEV branch (independent of `?dev=no`) · the
-one-line `data-active-tab` stamp in `render.ts` · `gh-pages.sh` marker
-extension.
+sentinel, DOM→PNG snapshot at submit §2.3) · pick + wire the rasteriser
+(`html-to-image`/`modern-screenshot`, `devDependency`) · mount from `main.ts`
+DEV branch (independent of `?dev=no`) · the one-line `data-active-tab` stamp
+in `render.ts` · `gh-pages.sh` marker extension.
 
 **DoD:** driven headlessly through the REAL flow — dispatch a real `` ` ``
-KeyboardEvent, type into the real textarea, ⌘Enter — the file appears with
-correct seed/variants/tab/viewport; `?dev=no` still captures; the hotkey is
-inert while focused in the save-import textarea; `npm run build` + grep
-shows **zero** sentinels / endpoint strings in `dist/` (the strip proven,
-not assumed); wall-clock capture < 5 s.
+KeyboardEvent, type into the real textarea, ⌘Enter — the `pending/` `.md`
+appears with correct seed/variants/tab/viewport and a `.png` sidecar;
+`?dev=no` still captures; the hotkey is inert while focused in the
+save-import textarea; `npm run build` + grep shows **zero** sentinels /
+endpoint strings / rasteriser code in `dist/` (the strip proven, not
+assumed); wall-clock capture < 5 s.
 
 ### Ph3 — drain skill + first REAL drained batch (the R3 proof)
 
@@ -330,26 +389,29 @@ least one genuine capture produced through the real overlay + endpoint
 (agent-produced headlessly is an acceptable bootstrap; the human's first
 live capture is invited via an R-item, never waited on), drained end-to-end
 — intake commit → headless repro from the embedded save → fix or triage →
-**F118+** logged in the canonical feedback log → capture deleted.
+**F118+** logged in the canonical feedback log → capture `git mv`'d to
+`archive/`.
 
 **DoD:** the full round-trip exists in git history (intake commit + per-item
-drain commit); the F-entry cites the fix commit; the inbox is empty; the
-fix itself verified in the running game (the `verify` skill / headless
-drive), not just green gates.
+drain commit with the pending→archive move); the F-entry cites the fix
+commit; `pending/` is empty and `archive/` holds the drained `.md`; the fix
+itself verified in the running game (the `verify` skill / headless drive),
+not just green gates.
 
 ### Ph4 — loop-mode + conventions wiring
 
-`session-brief.sh` prints "playtest inbox: N capture(s) waiting" (the async
-nudge that makes cold-session drains happen — agent-facing, distinct from
-the human queue) · AGENTS.md Conventions bullet (captures →
-`project/playtest-inbox/`, drained by `/drain-inbox`, completion is
-deletion) · `repo-map.md` dir entry · a short `qa-playtesting.md` section
-(the capture overlay is part of the QA harness) · `/loop` guidance in the
-skill (idle iterations exit fast; single drain lane at a time).
+`session-brief.sh` prints "playtest inbox: N capture(s) waiting" (counts
+`pending/*.md`; the async nudge that makes cold-session drains happen —
+agent-facing, distinct from the human queue) · AGENTS.md Conventions bullet
+(captures → `project/playtest-inbox/pending/`, drained by `/drain-inbox`,
+completion is the archive move) · `repo-map.md` dir entry · a short
+`qa-playtesting.md` section (the capture overlay is part of the QA harness) ·
+`/loop` guidance in the skill (idle iterations exit fast; single drain lane
+at a time).
 
-**DoD:** brief shows the count (silent at zero); `md-links` green; docs
-wrapped ~80; a `/loop`-style repeated invocation on an empty inbox is a
-clean fast no-op.
+**DoD:** brief shows the `pending/` count (silent at zero); `md-links` green;
+docs wrapped ~80; a `/loop`-style repeated invocation on an empty `pending/`
+is a clean fast no-op.
 
 ## 4 · Risks (each with a proposed default — never block on the human)
 
@@ -368,27 +430,33 @@ clean fast no-op.
    migration chain; frontmatter carries the build SHA. Default: drain on
    current `main`; checkout the captured SHA only when repro fails on main.
 5. **The inbox rots into a tracker.** Structural teeth: no status field
-   exists to go stale (present xor deleted); deletion rides the same commit
-   as the F-entry; the session brief keeps the count visible.
+   exists to go stale (in `pending/` xor in `archive/`); the archive move
+   rides the same commit as the F-entry; the session brief keeps the
+   `pending/` count visible.
 6. **Concurrent drains (shared tree).** Intake-commit-first is the claim;
-   the skill checks for an in-flight drain (uncommitted inbox deletions) and
-   stands down; per-item explicit-path staging already governs. Worst case
-   is a duplicate Fnn, caught at the F-log append.
-7. **Transient render-only glitches don't survive state repro** (§2.3
-   accepted loss). Default: log 💬 with a repro-hint request; reconsider
-   in-browser screenshots only if this class recurs.
+   the skill checks for an in-flight drain (uncommitted pending→archive
+   moves) and stands down; per-item explicit-path staging already governs.
+   Worst case is a duplicate Fnn, caught at the F-log append.
+7. **Transient render-only glitches** — now *captured* by the in-browser PNG
+   (§2.3, human 2026-07-04), no longer an accepted loss. If a glitch predates
+   the shot (mid-animation timing), fall back to a 💬 repro-hint request.
 
-## 5 · Open questions (proposed defaults)
+## 5 · Open questions
 
-1. **Deployed-build capture?** Default: no — DEV-server-only scope (§2.4);
-   revisit if the human playtests gh-pages builds.
-2. **F-entry home:** per-drain-day `human-feedback/<date>-playtest.md` vs
+**The four that gated the build were closed by the human on 2026-07-04 — see
+"Decisions locked" at the top.** In brief: (1) deployed-build capture → **no**,
+DEV-server-only (§2.4); (2) screenshots → **capture in-browser, git-ignored**
+(§2.3); (3) storage → **committed, two-tier pending/archive** (§2.5/§2.6);
+(4) hotkey → **Backquote** (§2.1). Remaining, non-blocking defaults the agent
+owns during the build:
+
+1. **F-entry home:** per-drain-day `human-feedback/<date>-playtest.md` vs
    one rolling async log? Default: per-day file (matches the established
    per-session pattern and keeps files bounded).
-3. **Pause the sim while the note box is open?** Default: no — snapshot at
+2. **Pause the sim while the note box is open?** Default: no — snapshot at
    open (§2.1) already freezes the evidence; pausing would make capture feel
    heavier than 5 seconds.
-4. **A verify-time bundle-strip gate (build + grep) in addition to the
+3. **A verify-time bundle-strip gate (build + grep) in addition to the
    deploy-time one?** Default: no — a build in `verify` blows the 5 s
    budget; the deploy gate is the established rung for exactly this check
    (the `__qa` precedent).
