@@ -487,6 +487,8 @@ describe('DEV panel — Speed row (F49)', () => {
       newGame: () => {},
       hasBackup: async () => false,
       restoreBackup: async () => false,
+      loadFixture: async () => ({ ok: true }),
+      fixtures: () => [],
       selectors: { rung: () => 'R0' as RankId },
     };
     return q;
@@ -551,6 +553,8 @@ describe('DEV panel — New-game footer safety (F95)', () => {
       newGame: () => {},
       hasBackup: async () => false,
       restoreBackup: async () => false,
+      loadFixture: async () => ({ ok: true }),
+      fixtures: () => [],
       selectors: { rung: () => 'R0' as RankId },
       ...over,
     };

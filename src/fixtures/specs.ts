@@ -17,8 +17,15 @@ import {
   estateGrade,
   applyGrindFight,
   focusedOptimalIntent,
+  nextHopToward,
   getMob,
+  getWeapon,
+  durabilityBand,
+  promotionReady,
+  pendingPromotionTarget,
+  phaseOf,
   balance,
+  ESTATE_STAGES,
   type GameState,
   type Intent,
   type MobId,
@@ -85,6 +92,40 @@ export function drive(s0: GameState, stop: StopFn): GameState {
   return s;
 }
 
+/** Walk to `node` via REAL `move_to` hops along the revealed graph (the same BFS the DEV panel's
+ *  walk-to uses). A no-op if already there or unreachable (danger-gated / un-revealed). */
+export function walkTo(s: GameState, node: string): GameState {
+  let guard = 0;
+  while (s.location !== node && guard++ < 64) {
+    const hop = nextHopToward(s.location, node, new Set(s.unlocked));
+    if (!hop) break;
+    s = reduce(s, { type: 'move_to', to: hop });
+  }
+  return s;
+}
+
+/** The equipped weapon's current durability band name (Pristine / Worn / Battered / Broken). */
+function bandName(s: GameState): string {
+  return durabilityBand(s.weaponDurability, getWeapon(s.equippedWeapon).durabilityMax).name;
+}
+
+/** Walk to `mobId`'s node, then grind REAL fights until `stop(s)` or a guard trips. Repairs a worn
+ *  blade when wood allows (a real intent) so the loop keeps swinging — mirrors the auto-combat rule. */
+export function grindUntil(s: GameState, mobId: MobId, stop: (s: GameState) => boolean): GameState {
+  s = walkTo(s, getMob(mobId).area);
+  let guard = 0;
+  while (!stop(s) && guard++ < 200) {
+    if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST && bandName(s) !== 'Pristine') {
+      s = reduce(s, { type: 'repair_weapon' });
+    }
+    s = applyGrindFight(s, mobId);
+  }
+  return s;
+}
+
+/** The "rich" bar — 2× the dearest estate-stage cost (no magic number; §5.3). */
+const WEALTHY_COIN_THRESHOLD = 2 * Math.max(...ESTATE_STAGES.map((e) => e.coinCost));
+
 // ── the v1 scenario set (§2.3) — Ph1 ships the two full-arc-policy waypoints ────────────────────
 // The set is deliberately small; growth comes from capture graduation + persona bots, not
 // speculation. The seed is the t0-arc seed (proven to climb the whole ladder R0…R7).
@@ -127,6 +168,97 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       must(ascensionAvailable(s), 'ascension should be available at this waypoint');
       must(estateGrade(s) === 'EXCELLENT', `expected Estate EXCELLENT, got ${estateGrade(s)}`);
       must(hasFlag(s, 't0-capstone'), 'the R7 capstone flag should be set');
+    },
+  },
+  {
+    name: 'rung-beat-ready',
+    blurb:
+      'The first rung-up story beat is READY — stopped on the trigger affordance, before the VN modal.',
+    seed: T0_ARC_SEED,
+    play: (s0) =>
+      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'begin_rung_beat'),
+    expect: (s) => {
+      must(promotionReady(s), 'a rung promotion should be ready to trigger');
+      must(
+        s.rungBeat === null,
+        'the rung beat should NOT yet be begun (stopped before begin_rung_beat)',
+      );
+      must(pendingPromotionTarget(s) !== null, 'a pending promotion target should exist');
+    },
+  },
+  {
+    name: 'post-loss-broke',
+    blurb:
+      'The post-loss slump (D-113): HP at the floor, carried rice bled in the rout, the kura hoard sheltered.',
+    seed: T0_ARC_SEED,
+    // Drive to R3 (a lvl-1 gate-watch never grinds combat, so it truly LOSES), bank some rice in the
+    // kura (so the shelter is legible), then take the documented rout against the monkey.
+    play: (s0) => {
+      let s = drive(s0, (st) => st.rung === 'R3');
+      s = walkTo(s, 'kura');
+      s = reduce(s, { type: 'deposit', resource: 'rice' }); // shelter a slice under the kura cap
+      s = walkTo(s, getMob('monkey').area);
+      return applyGrindFight(s, 'monkey'); // the lvl-1 MC is beaten — the setback fires
+    },
+    expect: (s) => {
+      must(
+        s.character.hp === balance.SETBACK_HP,
+        `expected HP at the setback floor ${balance.SETBACK_HP}, got ${s.character.hp}`,
+      );
+      must(
+        (s.banked.rice ?? 0) > 0,
+        'the kura should shelter banked rice (the rout cannot touch it)',
+      );
+      must(
+        (s.resources.rice ?? 0) > 0,
+        'carried rice should remain (bled by a fraction, not zeroed)',
+      );
+    },
+  },
+  {
+    name: 'worn-weapon-no-wood',
+    blurb:
+      'A Battered blade with no wood to mend it — the repair-loop bind (win-rate cliff + the repair CTA).',
+    seed: T0_ARC_SEED,
+    play: (s0) => {
+      const s = drive(s0, (st) => st.rung === 'R3');
+      return grindUntil(s, 'monkey', (st) => bandName(st) === 'Battered');
+    },
+    expect: (s) => {
+      must(bandName(s) === 'Battered', `expected a Battered weapon, got ${bandName(s)}`);
+      must(
+        (s.resources.wood ?? 0) < balance.REPAIR_WOOD_COST,
+        `expected carried wood < ${balance.REPAIR_WOOD_COST} (can't repair), got ${s.resources.wood ?? 0}`,
+      );
+    },
+  },
+  {
+    name: 'wealthy-idler',
+    blurb:
+      'Phase 2, coffers full — rice sold and coin banked past 2× the dearest estate stage; idle at the kura.',
+    seed: T0_ARC_SEED,
+    // Full arc to the Phase-2 threshold, then run the coin faucet: sell the rice hoard and bank the
+    // coin until rich. Idles at the kura (F32 resets in-flight automation on every load — genuinely idle).
+    play: (s0) => {
+      let s = walkTo(
+        drive(s0, (_st, next) => next.kind === 'ascend'),
+        'kura',
+      );
+      let guard = 0;
+      while ((s.banked.coin ?? 0) < WEALTHY_COIN_THRESHOLD && guard++ < 30) {
+        if ((s.resources.rice ?? 0) > 0) s = reduce(s, { type: 'sell_rice' });
+        if ((s.resources.coin ?? 0) <= 0) break;
+        s = reduce(s, { type: 'deposit', resource: 'coin' });
+      }
+      return s;
+    },
+    expect: (s) => {
+      must(phaseOf(s) === 2, `expected Phase 2, got phase ${phaseOf(s)}`);
+      must(s.location === 'kura', `expected to idle at the kura, got ${s.location}`);
+      must(
+        (s.banked.coin ?? 0) >= WEALTHY_COIN_THRESHOLD,
+        `expected banked coin >= ${WEALTHY_COIN_THRESHOLD}, got ${s.banked.coin ?? 0}`,
+      );
     },
   },
 ];

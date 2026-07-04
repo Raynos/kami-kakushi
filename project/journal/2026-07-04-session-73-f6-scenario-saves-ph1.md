@@ -55,8 +55,43 @@ plan-vs-reality drifts caught and corrected (R2).
   relies on the same DEV-branch-only reference + tree-shake path as `ui/dev.ts`,
   to be PROVEN by a real build+grep in Ph3.
 
+## Ph2 (same session) — DEV Scenarios tab + 4 fixtures + ?fixture=
+
+**Summary:** Shipped the remaining 4 fixtures, the DEV panel "Scenarios" sub-tab,
+and the `?fixture=` boot param. An exploration probe (`tmp/explore-f6.ts`) drove the
+real engine to design each waypoint against REAL numbers — which caught more plan
+drift (R2).
+
+### What changed
+- `src/fixtures/specs.ts` — `walkTo`, `grindUntil`, `bandName`, `WEALTHY_COIN_THRESHOLD`
+  helpers; the 4 new specs (`rung-beat-ready`, `post-loss-broke`, `worn-weapon-no-wood`,
+  `wealthy-idler`).
+- `src/fixtures/saves/{rung-beat-ready,post-loss-broke,worn-weapon-no-wood,wealthy-idler}.json`
+  (new, generated).
+- `src/ui/dev.ts` — third "Scenarios" sub-tab (generalised the 2-tab selectTab to
+  3); one row per fixture (name · blurb · Load, backup-first → enableRestore); the
+  pane stamps `FIXTURES_SENTINEL` for the Ph3 strip gate.
+- `src/ui/dev.test.ts` — both `stubQa` mocks gain `loadFixture`/`fixtures` (DevQa grew).
+- `src/app/main.ts` — `?fixture=<name>` DEV boot param (backup-first → import → adopt).
+
+### Plan-vs-reality drifts corrected (R2)
+3. **The bandit is `minTier:2` — GATED OUT of any T0 fight.** The plan's `post-loss-broke`
+   said "walk to the bandit, lose." Reality: the focused-optimal arc leaves the MC at
+   LEVEL 1 (it barely fights), so it loses to the **monkey** deterministically — used
+   that instead. `wolf`/`boar` are danger-gated (unreachable without conditioning).
+4. The economy is **rice-based** (rice≈17k carried, coin≈0), not coin — so bleeds/banking
+   run through `sell_rice`. Dearest estate cost is **1400** → wealthy threshold 2800.
+
+### Verification (Ph2 DoD)
+- All 6 regen byte-stable; `fixtures:check` clean; each waypoint asserted at gen-time.
+- Headless panel drive (`tmp/drive-f6-ph2.mjs`): Scenarios tab + 6 Load rows; every
+  fixture loads via a REAL panel click onto its waypoint; "↩ last backup" enables +
+  restores after a load; `?fixture=post-loss-broke` boots into the rout (hp 1, banked
+  rice 120 sheltered). Zero page errors.
+- `post-loss-broke` nails the D-113 story: hp→1, carried rice bled, banked rice 120 safe.
+
 ## Next intended steps
-1. Ph2 — DEV panel "Scenarios" sub-tab + the remaining 4 specs (`rung-beat-ready`,
-   `post-loss-broke`, `worn-weapon-no-wood`, `wealthy-idler`) + `?fixture=` boot param.
-2. Ph3 — `fixtures.test.ts` round-trip + `fixtures:check` into `gates.ts` +
-   `verify:budget` + gh-pages strip-grep + docs.
+1. Ph3 — `src/fixtures/fixtures.test.ts` round-trip (registry↔disk parity + `validateEnvelope`
+   + waypoint `expect`); `fixtures:check` into `src/scripts/gates.ts` (NOT verify-run.ts);
+   `verify:budget` measurement (demote to gh-pages if >5s); `gh-pages.sh` strip-grep +
+   a real build proving zero fixture bytes in `dist/`; docs (qa-playtesting §1, repo-map).

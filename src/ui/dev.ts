@@ -47,6 +47,7 @@ import {
   type RankId,
 } from '../core';
 import { el, pct } from './render';
+import { FIXTURES_SENTINEL } from '../fixtures';
 
 /** A marker that exists ONLY in this DEV module. The gh-pages guard greps the prod bundle for
  *  it and refuses to deploy if it leaked — proof the DEV harness + variants were stripped. */
@@ -1883,6 +1884,9 @@ export interface DevQa {
    *  rewinds to the pre-New-game snapshot. Both async (they hit the redundant storage backends). */
   hasBackup(): Promise<boolean>;
   restoreBackup(): Promise<boolean>;
+  /** F6 scenario saves: load a NAMED fixture (backup-first) + list the available scenarios. */
+  loadFixture(name: string): Promise<unknown>;
+  fixtures(): ReadonlyArray<{ name: string; blurb: string }>;
   /** Read the live rung so the panel can highlight it (structural subset of __qa.selectors). */
   selectors: { rung(): RankId };
 }
@@ -1943,6 +1947,10 @@ export function mountDevPanel(
   settingsPane.style.cssText = `display:none;flex-direction:column;gap:.5rem;${paneScroll}`;
   const variantsPane = el('div');
   variantsPane.style.cssText = `display:flex;flex-direction:column;gap:.4rem;${paneScroll}`;
+  // F6 — a third pane: named scenario-save fixtures (DEV tooling; not a player surface, so the
+  // D-075 diverge mandate doesn't apply — capture-inbox precedent). Populated after enableRestore.
+  const scenariosPane = el('div');
+  scenariosPane.style.cssText = `display:none;flex-direction:column;gap:.2rem;${paneScroll}`;
 
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
@@ -1952,27 +1960,32 @@ export function mountDevPanel(
       'font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
+  type TabId = 'settings' | 'variants' | 'scenarios';
   const settingsTab = tabBtn('Settings');
   const variantsTab = tabBtn('Variants');
-  const selectTab = (which: 'settings' | 'variants'): void => {
-    const onSettings = which === 'settings';
-    settingsPane.style.display = onSettings ? 'flex' : 'none';
-    variantsPane.style.display = onSettings ? 'none' : 'flex';
-    settingsTab.style.background = onSettings ? '#b08d4f' : '#3a322a';
-    settingsTab.style.color = onSettings ? '#1c1814' : '#e7d9bc';
-    variantsTab.style.background = onSettings ? '#3a322a' : '#b08d4f';
-    variantsTab.style.color = onSettings ? '#e7d9bc' : '#1c1814';
+  const scenariosTab = tabBtn('Scenarios');
+  const tabs: Record<TabId, { tab: HTMLButtonElement; pane: HTMLElement }> = {
+    settings: { tab: settingsTab, pane: settingsPane },
+    variants: { tab: variantsTab, pane: variantsPane },
+    scenarios: { tab: scenariosTab, pane: scenariosPane },
   };
-  settingsTab.addEventListener('click', (e) => {
-    e.stopPropagation();
-    selectTab('settings');
-  });
-  variantsTab.addEventListener('click', (e) => {
-    e.stopPropagation();
-    selectTab('variants');
-  });
-  tabBar.append(settingsTab, variantsTab);
-  body.append(tabBar, settingsPane, variantsPane);
+  const selectTab = (which: TabId): void => {
+    for (const id of Object.keys(tabs) as TabId[]) {
+      const { tab, pane } = tabs[id];
+      const on = id === which;
+      pane.style.display = on ? 'flex' : 'none';
+      tab.style.background = on ? '#b08d4f' : '#3a322a';
+      tab.style.color = on ? '#1c1814' : '#e7d9bc';
+    }
+  };
+  for (const id of Object.keys(tabs) as TabId[]) {
+    tabs[id].tab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectTab(id);
+    });
+  }
+  tabBar.append(settingsTab, variantsTab, scenariosTab);
+  body.append(tabBar, settingsPane, variantsPane, scenariosPane);
 
   const mono = (label: string, onClick: () => void): HTMLButtonElement => {
     const b = el('button', undefined, label);
@@ -2186,6 +2199,29 @@ export function mountDevPanel(
     restoreBtn.style.cursor = 'pointer';
   };
   footer.append(restoreBtn);
+
+  // F6 — populate the Scenarios pane: one row per fixture (name · blurb · Load). loadFixture is
+  // backup-first (it snapshots the current run to the F96 slot), so a load can never destroy the
+  // human's real save — lighting "↩ last backup" is the way home. The sentinel stamps the pane so
+  // the strip gate (gh-pages.sh) can grep-prove these DEV bytes never ship (Ph3, R2).
+  scenariosPane.dataset.sentinel = FIXTURES_SENTINEL;
+  for (const { name, blurb } of qa.fixtures()) {
+    const row = el('div');
+    row.style.cssText =
+      'display:flex;flex-direction:column;gap:.1rem;padding:.3rem 0;border-bottom:1px solid #3a322a;';
+    const top = el('div');
+    top.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:.5rem;';
+    const nm = el('div', undefined, name);
+    nm.style.cssText = 'font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;';
+    const loadBtn = mono('Load', () => {
+      void Promise.resolve(qa.loadFixture(name)).then(() => enableRestore());
+    });
+    top.append(nm, loadBtn);
+    const bl = el('div', undefined, blurb);
+    bl.style.cssText = 'font-size:11px;color:#a89878;line-height:1.35;';
+    row.append(top, bl);
+    scenariosPane.append(row);
+  }
 
   // F95 — New game is HALF WIDTH + left-anchored (was flex:1 / full width) so an accidental
   // double-click on the compact dev menu can't land on it and wipe the run; the right half is empty.

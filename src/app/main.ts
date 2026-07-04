@@ -99,6 +99,28 @@ async function boot(): Promise<void> {
     state = createInitialState(DEFAULT_SEED);
   }
 
+  // F6 — `?fixture=<name>` DEV boot param: replace the loaded run with a named scenario save. Backs
+  // up the real run to the F96 slot FIRST (so navigating here is never a silent loss), then routes
+  // through the SAME import → migrate → validate path as a normal load (and adopts it, so a reload
+  // keeps you in the scenario). Stripped from prod with the whole DEV branch.
+  if (import.meta.env.DEV) {
+    const fixtureName =
+      typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search).get('fixture')
+        : null;
+    if (fixtureName) {
+      const fixture = getFixture(fixtureName);
+      if (fixture) {
+        await save.backup(state);
+        const res = await save.importState(toBase64(JSON.stringify(fixture.env)));
+        if ('state' in res) state = res.state;
+        else note(root, `Fixture "${fixtureName}" failed to load: ${res.reason}`);
+      } else {
+        note(root, `Unknown fixture "${fixtureName}".`);
+      }
+    }
+  }
+
   // Load-path reveal reconciliation (audit fix). The `unlocked` latch is write-once, but several
   // surfaces are STATE-PREDICATE reveals (readout-coin on coin>0, panel-estate/verb-eat-rice on a
   // latched ladder, …). A loaded/migrated save can ALREADY satisfy such a predicate while its
