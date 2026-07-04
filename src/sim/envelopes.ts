@@ -46,6 +46,50 @@ export function greedyBandVerdicts(runs: readonly RunMetrics[]): BandVerdict[] {
   });
 }
 
+export interface RatioVerdict {
+  /** Measured phase2Wall / phase1Wall across the gating seeds. */
+  measuredMin: number;
+  measuredMax: number;
+  bandMin: number;
+  bandMax: number;
+  /** How many of the runs actually reached Phase 2 (a built Phase-2 economy); the gate no-ops when
+   *  none did — an unbuilt tier is not a RED. */
+  built: number;
+  ok: boolean;
+}
+
+/** Phase 2 ≈ Phase 1 (D-133 / H19): greedy's phase2Wall / phase1Wall must sit inside the signed
+ *  ratio band. Time-based ⇒ greedy only (idler/explorer carry no time bands, per this file's rule).
+ *  SCOPED to runs with a BUILT Phase 2 (ascended + a measured window): a tier with no Phase-2
+ *  economy yet never reaches here, so the gate can't cry wolf on the unbuilt. Wall-min is linear in
+ *  intents (one cadence), so the ratio is computed straight from the intent counts. Generalises
+ *  per-tier the day the sim spans more than T0. */
+export function phase2RatioVerdict(runs: readonly RunMetrics[]): RatioVerdict {
+  const ratios: number[] = [];
+  for (const r of runs) {
+    const p2 = r.economy.phase2Intents;
+    if (!r.ascended || p2 === null || p2 <= 0) continue; // Phase 2 not built/reached — skip
+    const p1 = r.totalIntents - p2;
+    if (p1 <= 0) continue;
+    ratios.push(p2 / p1);
+  }
+  const built = ratios.length;
+  const measuredMin = built ? Math.min(...ratios) : 0;
+  const measuredMax = built ? Math.max(...ratios) : 0;
+  return {
+    measuredMin,
+    measuredMax,
+    bandMin: balance.PHASE2_PHASE1_RATIO_MIN,
+    bandMax: balance.PHASE2_PHASE1_RATIO_MAX,
+    built,
+    // No built Phase 2 anywhere ⇒ no-op (ok). Otherwise every built run must sit in the band.
+    ok:
+      built === 0 ||
+      (measuredMin >= balance.PHASE2_PHASE1_RATIO_MIN &&
+        measuredMax <= balance.PHASE2_PHASE1_RATIO_MAX),
+  };
+}
+
 export interface StructuralVerdict {
   personaId: string;
   seed: number;

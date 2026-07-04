@@ -33,7 +33,7 @@ import { runPersona } from '../sim/run';
 import type { RunMetrics, RungMetric } from '../sim/metrics';
 import { wallMinutes } from '../sim/metrics';
 import { SIM_SEEDS, CANONICAL_SEED, fuzzSeeds } from '../sim/seeds';
-import { greedyBandVerdicts, structuralVerdict, PHASE2_RUNG } from '../sim/envelopes';
+import { greedyBandVerdicts, structuralVerdict, phase2RatioVerdict } from '../sim/envelopes';
 import { walkPacing } from './pacing-report';
 
 const OUT = 'docs/content/t0-pacing.md';
@@ -109,6 +109,7 @@ function rungRow(runs: RunMetrics[], rung: string): RungMetric[] {
 }
 
 const min1 = (n: number): string => n.toFixed(1);
+const r2 = (n: number): string => n.toFixed(2);
 const RUNG_ORDER = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'] as const;
 
 // ── report / table rendering ──────────────────────────────────────────────────────────────────
@@ -295,13 +296,26 @@ function check(): number {
     }
   }
 
-  // Phase-2 window: NO signed band yet (H19) — report-only, echoed here for visibility.
+  // Phase 2 ≈ Phase 1 (D-133/H19): greedy's phase2/phase1 wall-time ratio vs the signed band.
+  const rv = phase2RatioVerdict(greedyRuns);
   const p2 = greedyRuns.map((r) => r.economy.phase2Intents ?? 0);
-  console.log(
-    `  · ${PHASE2_RUNG} residence = the Phase-2 window: ` +
-      `[${min1(wallMinutes(Math.min(...p2)))}–${min1(wallMinutes(Math.max(...p2)))}] min — ` +
-      'REPORT-ONLY until a T0_PHASE2_BAND_* is signed (H19).',
-  );
+  const p2min = `[${min1(wallMinutes(Math.min(...p2)))}–${min1(wallMinutes(Math.max(...p2)))}] min`;
+  if (rv.built === 0) {
+    console.log(`  · Phase-2 ratio: no built Phase-2 economy in the matrix — gate no-op.`);
+  } else if (rv.ok) {
+    console.log(
+      `  ✓ Phase-2 ≈ Phase-1: ratio [${r2(rv.measuredMin)}–${r2(rv.measuredMax)}] in band ` +
+        `[${rv.bandMin}, ${rv.bandMax}] (window ${p2min})`,
+    );
+  } else {
+    reds++;
+    console.error(
+      `  ✗ RED Phase-2 ratio: measured [${r2(rv.measuredMin)}–${r2(rv.measuredMax)}] ` +
+        `OUTSIDE the band [${rv.bandMin}, ${rv.bandMax}] (window ${p2min}) — Phase 2's wall-time ` +
+        `drifted from ~1:1 with Phase 1 (D-133); a human decision is required (re-tune the ` +
+        `Phase-2 economy or re-sign PHASE2_PHASE1_RATIO_* in balance.ts — never a test-side fudge).`,
+    );
+  }
 
   // (2) structural gates — every persona × seed: full ladder, ascension, zero soft-locks.
   for (const pr of matrix) {
@@ -377,9 +391,11 @@ function summary(): void {
     );
   }
   const p2 = runs.map((r) => r.economy.phase2Intents ?? 0);
+  const rv = phase2RatioVerdict(runs);
   console.log(
-    `Phase-2 window ${min1(wallMinutes(median(p2)))} min (report-only, H19); ` +
-      `fingerprint ${inputFingerprint()}`,
+    `Phase-2 window ${min1(wallMinutes(median(p2)))} min · ratio ` +
+      `[${r2(rv.measuredMin)}–${r2(rv.measuredMax)}] ${rv.ok ? 'in' : 'OUT OF'} ` +
+      `[${rv.bandMin}, ${rv.bandMax}] (D-133); fingerprint ${inputFingerprint()}`,
   );
   console.log('```');
 }

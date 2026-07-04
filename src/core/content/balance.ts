@@ -86,6 +86,14 @@ export const RUNG_WALL_FLOOR_MIN = 30;
  *  rungs ≈ 10–15 min. Liquid (D-059) — widen by playtest, never below the floor by stealth. */
 export const T0_PACING_BAND_MIN = 3;
 export const T0_PACING_BAND_MAX = 22;
+/** Phase 2 ≈ Phase 1 in wall-time (D-133, H19): the capstone→ascension grind should take roughly
+ *  as long as the R0→R7 climb. A GENERAL rule across tiers (a tunable playtest default, not frozen)
+ *  — expressed as a RATIO (phase2Wall / phase1Wall) so it single-sources the "equal time" law and
+ *  auto-scales to every tier's Phase 1, rather than N hand-signed per-tier minute bands. Gated HARD
+ *  (`verify:balance`), but ONLY for tiers whose Phase 2 is actually built (today: T0) — it no-ops
+ *  where there is no Phase-2 economy yet, so it never cries wolf on an unbuilt tier. Liquid (D-059). */
+export const PHASE2_PHASE1_RATIO_MIN = 0.8;
+export const PHASE2_PHASE1_RATIO_MAX = 1.2;
 
 // ── House-Influence pillars (M2·3 / D-049/D-055/D-057) — the macro engine. T0 Estate (家産)
 // grade bands + the deed/seasonal accrual rates. All PROVISIONAL T0 magnitudes (liquid, D-059
@@ -94,8 +102,15 @@ export const T0_PACING_BAND_MAX = 22;
 export const ESTATE_BANDS = { good: 240, great: 360, excellent: 480 } as const;
 /** Per-deed cap = this/100 · GOOD (anti-spike: one deed can't jump the grade). 0.04·240 ≈ 10. */
 export const PER_DEED_CAP_NUM = 4;
-/** Estate standing a single Phase-2 labour act banks (a "deed"); under the per-deed cap. */
-export const ESTATE_DEED_PER_ACT = 8;
+/** Estate standing a single Phase-2 labour act banks (a "deed") — a SUB-koku fraction, accumulated
+ *  (`PillarState.frac`) and banked as whole koku when it crosses 1. Fractional so Phase 2 grinds at
+ *  ~1:1 with Phase 1's wall-time (D-133 · the `PHASE2_PHASE1_RATIO_BAND` gate) WITHOUT inflating the
+ *  480-koku ascension gate (which must stay a small, minor-household standing below the 10,000-koku
+ *  daimyō line — a bigger threshold would collapse the inter-tier koku ladder). This is the D-133
+ *  STOPGAP: it buys the duration honestly (one day's labour barely moves a household's standing) but
+ *  NOT the texture — the real Phase-2 economy redesign (long AND fun) supersedes it. Liquid (D-059);
+ *  tuned against the sim to land greedy's Phase 2 inside the ratio band. */
+export const ESTATE_DEED_PER_ACT = 0.04;
 /** The season judge contributes this fraction of the season's deed-growth — seasonal:deeds =
  *  3:7 = the 70/30 share (D-049). */
 export const SEASONAL_OVER_DEEDS_NUM = 3;

@@ -37,13 +37,17 @@ export type ResourceId = string;
 export type FlagId = string;
 
 /** One House-Influence pillar's accrued standing (D-049/D-055). `value` is the live grade
- *  total (deeds + seasonal); `highWater` is the best `value` ever reached; `judged` is the
- *  high-water as of the LAST seasonal judge — the season judge fires only on a NEW high-water
- *  (highWater > judged), the 30% seasonal share. Phase-2-gated accrual (post-capstone, FU7). */
+ *  total (deeds + seasonal), in whole koku; `highWater` is the best `value` ever reached; `judged`
+ *  is the high-water as of the LAST seasonal judge — the season judge fires only on a NEW high-water
+ *  (highWater > judged), the 30% seasonal share. `frac` is the sub-koku deed accumulator (0 ≤ frac
+ *  < 1): a single labour deed banks a fraction of a koku (D-133), carried here until it crosses a
+ *  whole koku into `value`. Optional/additive — absent on a pre-D-133 save = 0. Phase-2-gated
+ *  accrual (post-capstone, FU7). */
 export interface PillarState {
   readonly value: number;
   readonly highWater: number;
   readonly judged: number;
+  readonly frac?: number;
 }
 
 /** House Influence (家威) — one pillar per tier (D-048). T0 lights only the Estate (家産)
@@ -226,7 +230,7 @@ export function createInitialState(seed: number): GameState {
     autoCombatRetreat: false,
     stance: 'chudan',
     tier: 0,
-    influence: { estate: { value: 0, highWater: 0, judged: 0 } },
+    influence: { estate: { value: 0, highWater: 0, judged: 0, frac: 0 } },
   };
 }
 

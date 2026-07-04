@@ -84,7 +84,13 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
   it('grinds Estate deeds to EXCELLENT in Phase 2, then ascends T0→T1', () => {
     let s: GameState = atPhase2();
     s = { ...s, unlocked: [...s.unlocked, 'verb-farm'] }; // labour available
-    expect(ascensionAvailable(s)).toBe(false); // grade NONE at the capstone
+    // Seed the estate just below the EXCELLENT gate. This closure test proves the reducer→deed→
+    // gate→ascend CHAIN fires; the FULL ~1:1 grind duration (D-133) is owned by the sim + t0-arc,
+    // so we grind only the last koku or two here rather than ~12k fractional-deed acts (A17).
+    const nearGate = balance.ESTATE_BANDS.excellent - 2;
+    s = { ...s, influence: { estate: { value: nearGate, highWater: nearGate, judged: nearGate } } };
+    expect(estateGrade(s)).toBe('GREAT'); // below EXCELLENT
+    expect(ascensionAvailable(s)).toBe(false); // not yet at the gate
 
     let guard = 0;
     while (estateGrade(s) !== 'EXCELLENT' && guard++ < 1000) {

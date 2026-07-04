@@ -47,7 +47,10 @@ function validateInfluence(v: unknown): GameState['influence'] {
     const value = Math.max(0, num(o.value, 0).value);
     const highWater = Math.max(value, num(o.highWater, 0).value);
     const judged = Math.min(highWater, Math.max(0, num(o.judged, 0).value));
-    return { value, highWater, judged };
+    // `frac`: the sub-koku deed accumulator (D-133), additive — absent on a pre-D-133 save = 0.
+    // Clamp to [0, 1); a corrupt out-of-range frac is cosmetic (worth <1 koku), so coerce silently.
+    const frac = Math.min(0.999999, Math.max(0, num(o.frac, 0).value));
+    return { value, highWater, judged, frac };
   };
   const o = isObject(v) ? v : {};
   return { estate: pillar(o.estate) };

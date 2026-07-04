@@ -32,27 +32,34 @@ export function gradeOf(value: number, bands: GradeBands = ESTATE_BANDS): Grade 
   return 'NONE';
 }
 
-/** The cap a single deed may contribute (0.04 · GOOD) — no one act spikes the grade. In the thin
- *  T0 Phase 2 this cap sits ABOVE the sole producer (`ESTATE_DEED_PER_ACT`), so it never *binds*
- *  yet — that is intentional FORWARD-HEADROOM (battery #22, "documented not gated"): it is the
- *  anti-spike guardrail for T1+, where multiple, larger deed producers land and a single fat deed
- *  COULD spike the grade. (Whether T0 estate-standing should bank from ALL labour or only
+/** The cap a single deed may contribute (0.04 · GOOD) — no one act spikes the grade. At T0 the sole
+ *  producer (`ESTATE_DEED_PER_ACT`) is now a SUB-koku fraction (D-133), far under this cap, so it
+ *  never *binds* yet — that is intentional FORWARD-HEADROOM (battery #22, "documented not gated"):
+ *  it is the anti-spike guardrail for T1+, where multiple, larger deed producers land and a single
+ *  fat deed COULD spike the grade. (Whether T0 estate-standing should bank from ALL labour or only
  *  estate-relevant work — farm/haul, not forage/woodcut — is a separate T1 balance/design call.) */
 export function perDeedCap(bands: GradeBands = ESTATE_BANDS): number {
   return Math.max(1, Math.round((bands.good * PER_DEED_CAP_NUM) / 100));
 }
 
-/** Bank ONE deed into a pillar, capped per-deed; bumps the high-water. Pure; returns the same
- *  ref when the (capped) delta is ≤ 0 (structural sharing). */
+/** Bank ONE deed into a pillar, capped per-deed; bumps the high-water. Deeds are SUB-koku (D-133):
+ *  `rawDelta` (a fraction) accumulates in `frac` and only banks whole koku into `value` once it
+ *  crosses 1 — so the Phase-2 grind takes ~1:1 with Phase 1 without inflating the koku gate. A whole
+ *  integer `rawDelta` still banks immediately (frac untouched → 0), so integer callers/tests are
+ *  unchanged. Pure; returns the same ref only when nothing moved (delta ≤ 0). */
 export function accrueDeed(
   pillar: PillarState,
   rawDelta: number,
   bands: GradeBands = ESTATE_BANDS,
 ): PillarState {
-  const capped = Math.min(perDeedCap(bands), Math.max(0, Math.round(rawDelta)));
-  if (capped === 0) return pillar;
-  const value = pillar.value + capped;
-  return { ...pillar, value, highWater: Math.max(pillar.highWater, value) };
+  const capped = Math.min(perDeedCap(bands), Math.max(0, rawDelta));
+  if (capped <= 0) return pillar;
+  const pool = (pillar.frac ?? 0) + capped;
+  const whole = Math.floor(pool);
+  const frac = pool - whole;
+  if (whole === 0) return { ...pillar, frac }; // sub-koku progress only — value/high-water hold
+  const value = pillar.value + whole;
+  return { ...pillar, value, highWater: Math.max(pillar.highWater, value), frac };
 }
 
 /** Bank an Estate deed onto the state — ONLY in Phase 2 (post-R7 capstone, FU7). The labour
@@ -86,7 +93,8 @@ export function seasonalJudge(
   const highWater = Math.max(pillar.highWater, value);
   // Advance `judged` to the POST-bonus high-water — the bonus is BANKED, never re-judged next
   // season (was `pillar.highWater`, which re-judged its own payout → geometric inflation; battery fix).
-  return { pillar: { value, highWater, judged: highWater }, bonus };
+  // Carry `frac` (the sub-koku deed accumulator) untouched — the seasonal bonus banks whole koku.
+  return { pillar: { value, highWater, judged: highWater, frac: pillar.frac ?? 0 }, bonus };
 }
 
 /** The live Estate grade (the ascension gate + the UI bar read it). */

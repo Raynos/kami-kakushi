@@ -26,7 +26,7 @@ describe('multi-backend redundant save', () => {
     const rich: GameState = {
       ...sample(),
       tier: 1,
-      influence: { estate: { value: 312, highWater: 360, judged: 240 } },
+      influence: { estate: { value: 312, highWater: 360, judged: 240, frac: 0.5 } },
       quests: {
         accepted: ['crop-raiders'],
         progress: { 'crop-raiders': ['rout-monkey', 'mend-fence'] },
