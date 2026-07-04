@@ -303,3 +303,25 @@ swallow of the follow-up `click` so the game never acts on it. Verified live:
 mousedown pick opens the box + records the element; strip proof still green;
 24/24 tests. (Note: `set-label.sh` now needs a 2nd ≤12-char tag arg — CLAUDE.md
 update this turn.)
+
+## 12 · Vite: watch + re-transform, no auto-reload (human, 2026-07-05)
+
+Debugging the meter-pick bug surfaced a bigger DX problem: **the dev server was
+serving STALE code** — `hmr: false` (F75) meant edits weren't re-transformed
+until a manual server restart, so both the human (still on old code) and my
+debugging were stuck. Human's diagnosis was exactly right: keep no-auto-refresh
+but restore watch+rebuild. Fix in `vite.config.ts`:
+
+- `server.watch: { usePolling: true, interval: 250 }` — native fs events weren't
+  reaching vite in this env; polling makes the watcher detect changes (proven:
+  an edited module re-transforms on the next request, no restart).
+- a `kami-no-auto-reload` plugin with `handleHotUpdate: () => []` — the module
+  graph still invalidates (F5 = fresh) but NO update/full-reload is sent to the
+  browser, so a live playtest is never yanked (F75 preserved). Removed the old
+  `hmr: false`.
+
+Verified both: a marker export appears without restart (watch), AND an open
+page's `window` flag survives a file edit (no reload).
+
+(Debug lesson: a *comment* marker is useless for testing this — esbuild strips
+comments on transform; use a real `export const`.)

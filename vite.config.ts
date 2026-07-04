@@ -78,6 +78,17 @@ export default defineConfig(({ command }) => {
           server.middlewares.use(CAPTURE_ENDPOINT, playtestInboxHandler(pendingDir));
         },
       },
+      {
+        // Watch + re-transform, but NEVER auto-reload the page (F75). The file-change still
+        // invalidates the module graph (so a manual F5 serves fresh code); returning [] from
+        // handleHotUpdate tells vite there is nothing to hot-update, so no `update` /
+        // `full-reload` message is ever sent to the browser — a live playtest is never yanked.
+        name: 'kami-no-auto-reload',
+        apply: 'serve',
+        handleHotUpdate() {
+          return [];
+        },
+      },
     ],
     server: {
       // One dev server, on 5173, or none: pin the port and refuse to cascade. The
@@ -85,12 +96,14 @@ export default defineConfig(({ command }) => {
       // so a race (port taken between the check and the bind) still fails instead of sprawling.
       port: DEV_PORT,
       strictPort: true,
-      // Auto-reload OFF (human call, F75): the dev server does NOT hot-reload or
-      // full-refresh on a file change — the player hits F5 themselves. As a bonus
-      // this shields a live playtest from an agent's mid-edit WIP flashing in
-      // (the half-drawn state behind the F60 crash). Vite auto-restarts the server
-      // when THIS config changes, so the switch takes effect on the next request.
-      hmr: false,
+      // Auto-reload OFF (human call, F75): the browser does NOT hot-reload or full-refresh
+      // on a file change — the player hits F5 themselves (shields a live playtest from an
+      // agent's mid-edit WIP flashing in). BUT the server must still WATCH + re-transform so
+      // that a manual F5 serves fresh code (2026-07-05: `hmr:false` alone left the server
+      // serving STALE modules until a restart). `usePolling` forces the watcher to detect
+      // changes even where native fs events don't fire in this environment; the reload itself
+      // is suppressed by the no-op HMR update in `handleHotUpdate` (plugin below), not here.
+      watch: { usePolling: true, interval: 250 },
     },
     build: {
       outDir: '../dist',
