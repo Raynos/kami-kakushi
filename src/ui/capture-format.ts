@@ -33,6 +33,16 @@ export interface CaptureLogLine {
   readonly speaker?: string;
 }
 
+/** The UI element the capture is about (pick mode) — a semantic label, its text, a best-effort
+ *  selector, and its on-screen rect (so the drain can re-find and re-highlight it). Absent ⇒ a
+ *  general whole-page note. */
+export interface ElementDescriptor {
+  readonly label: string;
+  readonly text: string;
+  readonly selector: string;
+  readonly rect: { readonly x: number; readonly y: number; readonly w: number; readonly h: number };
+}
+
 /** Session-level metadata — written into the header once, on the first capture of the session. */
 export interface SessionMeta {
   /** Filename base (no `.md`, no separators); also the screenshots folder name. */
@@ -62,6 +72,8 @@ export interface CaptureContext {
   readonly logTail: readonly CaptureLogLine[];
   /** True ⇒ a screenshot accompanies this entry (in the session folder). */
   readonly hasScreenshot: boolean;
+  /** The picked UI element (pick mode); absent ⇒ a general whole-page note. */
+  readonly element?: ElementDescriptor;
 }
 
 export interface BuiltEntry {
@@ -171,6 +183,14 @@ export function buildEntry(note: string, ctx: CaptureContext, sessionId: string)
     '',
     `**Where:** ${where}`,
   ];
+  if (ctx.element) {
+    const el = ctx.element;
+    const textPart = el.text ? ` — "${el.text}"` : '';
+    lines.push(
+      `**Element:** ${el.label}${textPart} · \`${el.selector}\` · ` +
+        `@${el.rect.x},${el.rect.y} ${el.rect.w}×${el.rect.h}`,
+    );
+  }
   if (screenshotName) lines.push(`**Screenshot:** \`${sessionId}/${screenshotName}\``);
   if (ctx.logTail.length > 0) lines.push('', '**Log tail:**', ...logTailLines(ctx.logTail));
   lines.push(

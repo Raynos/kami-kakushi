@@ -277,3 +277,29 @@ to kill it + `KAMI_ALLOW_MULTI_DEV=1` bypass) and `process.exit(1)`. Plus
 `server: { port: 5173, strictPort: true }` as the race backstop (vite won't
 cascade). Verified: a 2nd `npm run dev` is refused with the message; vitest +
 build unaffected; one server on 5173 in the herdr dev-server workspace (w5).
+
+## 11 · Element-pick targeting (human, 2026-07-05)
+
+The plan had NOTHING about targeting the specific UI element being critiqued —
+captures were whole-moment only. Added **pick mode**: `` ` `` → hover-highlights
+the element under the cursor → **click LOCKS it** → the note box opens; the entry
+gains an `**Element:**` line (semantic label preferring `data-panel`/`data-node`/
+button text, + a CSS-ish selector + on-screen rect), and the **full-page
+screenshot is taken with the highlight still on** (human call: keep the whole
+page, box the element). Click empty / Esc → a general whole-page note (nothing
+lost).
+
+- `capture-format.ts` — `ElementDescriptor` type + `CaptureContext.element?`;
+  `buildEntry` renders the `**Element:**` line.
+- `capture.ts` — pick machinery (hover-highlight as a `host` child so it rides
+  into the domToPng shot; `describeElement` + `cssPath`).
+- Tests: element rendering (format) + jsdom pick flow (element vs general).
+
+**Bug the human hit + fixed same-turn:** on a **hover-effect element** (the rung
+meter, whose tooltip pops on hover and whose fill re-renders each tick), a
+`click` never fired — the element detaches/target-changes between mousedown and
+mouseup. Switched the pick to fire on **`mousedown`** (press), + a one-shot
+swallow of the follow-up `click` so the game never acts on it. Verified live:
+mousedown pick opens the box + records the element; strip proof still green;
+24/24 tests. (Note: `set-label.sh` now needs a 2nd ≤12-char tag arg — CLAUDE.md
+update this turn.)

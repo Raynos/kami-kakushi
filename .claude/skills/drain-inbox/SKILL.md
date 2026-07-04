@@ -55,7 +55,9 @@ many captures — process every entry):
 
 **Reproduce (verify the complaint against reality).** Read the entry's note +
 its `**Where:**` line (seed, clock, location, rung, variants, viewport) + its
-`**Save:**` base64. Drive the game **headlessly** (never headed —
+`**Save:**` base64. If the entry has an `**Element:**` line, that's the exact UI
+element the note is about (a semantic label + selector + on-screen rect, and the
+screenshot boxes it) — focus the repro there. Drive the game **headlessly** (never headed —
 `.claude/hooks/enforce-headless-qa.sh` enforces it): `npm run dev`, navigate
 with the captured variant/`?dev=no` params, `__qa.load('<the entry's Save
 base64>')`, resize to the captured viewport, then screenshot / observe. Confirm

@@ -1,7 +1,8 @@
 # Playtest capture inbox (F3)
 
 An **agent-facing** transport queue for in-game playtest captures. The DEV-only
-capture overlay (`` ` `` hotkey → note → ⌘/Ctrl+Enter) POSTs each capture here;
+capture overlay (`` ` `` → **pick the element** you mean → note → ⌘/Ctrl+Enter)
+POSTs each capture here;
 an agent drains it later via `/drain-inbox`. Nobody waits: the human plays
 whenever, the agent drains whenever.
 

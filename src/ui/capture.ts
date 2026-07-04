@@ -1,8 +1,10 @@
-// DEV-only in-game playtest capture overlay (F3). A `` ` `` hotkey pops a small ink-dark note box;
-// ⌘/Ctrl+Enter APPENDS a capture to this game session's file and vanishes; Escape cancels. Target
-// flow: hotkey → type → send, < 5 s, the game never pauses. Evidence (context + optional
-// screenshot) is frozen at box-OPEN (§2.1). All captures from one session (browser tab; the id
-// survives a reload) land in ONE file `pending/<session>.md`, screenshots in `pending/<session>/`.
+// DEV-only in-game playtest capture overlay (F3). Press `` ` `` to enter PICK mode — hover
+// highlights the element under the cursor, click LOCKS it (or click empty / Esc for a general
+// note), then a small ink-dark note box opens; ⌘/Ctrl+Enter APPENDS the capture to this game
+// session's file and vanishes. The full-page screenshot is taken with the highlight still on, so
+// the shot shows the whole page AND which element you meant. Evidence is frozen at PICK (§2.1).
+// All captures from one session (browser tab; the id survives a reload) land in ONE file
+// `pending/<session>.md`, screenshots in `pending/<session>/`.
 //
 // DEV-ONLY: mounted only from main.ts's `import.meta.env.DEV` branch and stamped with
 // CAPTURE_SENTINEL, so verify-dev-strip.sh proves it — and its injected screenshot rasteriser —
@@ -18,9 +20,10 @@ import {
   CAPTURE_ENDPOINT,
   type CaptureBuild,
   type CaptureContext,
+  type ElementDescriptor,
 } from './capture-format';
 
-/** Bundle marker: stamped on the box node so verify-dev-strip.sh can prove the overlay is absent
+/** Bundle marker: stamped on our nodes so verify-dev-strip.sh can prove the overlay is absent
  *  from prod (it greps dist for this literal). */
 export const CAPTURE_SENTINEL = '__KAMI_PLAYTEST_CAPTURE__';
 
@@ -33,16 +36,16 @@ const SESSION_KEY = 'kami-capture-session';
 /** DOM→PNG data URL, or null when no shot is available. Injected (the real impl lands at the mount). */
 export type DomSnapshotter = (el: HTMLElement) => Promise<string | null>;
 
-/** The per-capture context minus the two fields the overlay fills itself (`capturedAt`, frozen at
- *  open here; `hasScreenshot`, known only after the shot resolves). main.ts supplies this. */
-export type CaptureEntryContext = Omit<CaptureContext, 'capturedAt' | 'hasScreenshot'>;
+/** The per-capture context minus the fields the overlay fills itself (`capturedAt`, frozen at
+ *  pick; `hasScreenshot`, known after the shot; `element`, from the pick). main.ts supplies this. */
+export type CaptureEntryContext = Omit<CaptureContext, 'capturedAt' | 'hasScreenshot' | 'element'>;
 
 export interface CaptureOptions {
-  /** Where the toast mounts, and the element rasterised for the screenshot (the #app root). */
+  /** Where the toast/highlight mount, and the element rasterised for the screenshot (the #app root). */
   readonly host: HTMLElement;
   /** Session-level build stamp (constant for the session; goes in the file header). */
   readonly build: CaptureBuild;
-  /** Freeze the per-capture game context at box-OPEN. Closes over live state (main.ts). */
+  /** Freeze the per-capture game context at pick. Closes over live state (main.ts). */
   readonly buildContext: () => CaptureEntryContext;
   /** DOM→PNG snapshotter; omitted ⇒ no screenshot (the real impl is injected at the mount). */
   readonly snapshot?: DomSnapshotter;
@@ -81,8 +84,6 @@ function randomToken(): string {
   }
 }
 
-/** Resolve this session's id + start time: an injected id (tests), else a sessionStorage-backed id
- *  (survives a reload within the tab; a fresh tab mints a new one). */
 function resolveSession(
   opts: CaptureOptions,
   now: () => Date,
@@ -116,7 +117,65 @@ function isEditableTarget(t: EventTarget | null): boolean {
   return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
 }
 
-/** Mount the capture overlay. Returns an unmount fn (removes the listener + any open box). */
+/** A short best-effort CSS-ish path (stops at #app or a data-panel/data-node anchor). */
+function cssPath(el: HTMLElement): string {
+  const parts: string[] = [];
+  let cur: HTMLElement | null = el;
+  let depth = 0;
+  while (cur && cur.id !== 'app' && depth < 4) {
+    let part = cur.tagName.toLowerCase();
+    if (cur.dataset.panel) {
+      parts.unshift(`${part}[data-panel=${cur.dataset.panel}]`);
+      break;
+    }
+    if (cur.dataset.node) {
+      parts.unshift(`${part}[data-node=${cur.dataset.node}]`);
+      break;
+    }
+    const parent: HTMLElement | null = cur.parentElement;
+    if (parent) {
+      const sibs = Array.from(parent.children).filter((c) => c.tagName === cur!.tagName);
+      if (sibs.length > 1) part += `:nth-of-type(${sibs.indexOf(cur) + 1})`;
+    }
+    parts.unshift(part);
+    cur = parent;
+    depth++;
+  }
+  return parts.join(' > ') || el.tagName.toLowerCase();
+}
+
+/** Describe the picked element — prefer the game's own semantic hooks over a brittle path. */
+function describeElement(el: HTMLElement): ElementDescriptor {
+  const r = el.getBoundingClientRect();
+  const rect = {
+    x: Math.round(r.x),
+    y: Math.round(r.y),
+    w: Math.round(r.width),
+    h: Math.round(r.height),
+  };
+  const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 60);
+
+  const btn = el.closest('button, [role="button"]');
+  const node = el.closest<HTMLElement>('[data-node]');
+  const panel = el.closest<HTMLElement>('[data-panel]');
+  const aria = el.getAttribute('aria-label');
+  let label: string;
+  if (btn) {
+    label = `button "${(btn.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 40)}"`;
+  } else if (node) {
+    label = `map node "${node.dataset.node}"`;
+  } else if (panel) {
+    label = `panel "${panel.dataset.panel}"`;
+  } else if (aria) {
+    label = `${el.tagName.toLowerCase()} "${aria}"`;
+  } else {
+    const cls = typeof el.className === 'string' ? el.className.split(/\s+/)[0] : '';
+    label = el.tagName.toLowerCase() + (cls ? `.${cls}` : '');
+  }
+  return { label, text, selector: cssPath(el), rect };
+}
+
+/** Mount the capture overlay. Returns an unmount fn (removes listeners + any open box/highlight). */
 export function mountCapture(opts: CaptureOptions): () => void {
   const doc = opts.doc ?? document;
   const now = opts.now ?? ((): Date => new Date());
@@ -137,13 +196,24 @@ export function mountCapture(opts: CaptureOptions): () => void {
       }
     });
 
+  const host = opts.host;
   const session = resolveSession(opts, now, storage);
-  // The header is constant for the session; the server writes it only when creating the file.
   const header = buildSessionHeader({
     sessionId: session.sessionId,
     startedAt: session.startedAt,
     build: opts.build,
   });
+
+  // The pick highlight — a child of `host` so it rides INTO the domToPng(host) screenshot
+  // (vermilion box, pointer-events:none so it never intercepts elementFromPoint).
+  const highlight = doc.createElement('div');
+  highlight.dataset.kamiHighlight = '1';
+  highlight.style.cssText =
+    'position:fixed;z-index:2147483645;pointer-events:none;display:none;box-sizing:border-box;' +
+    'border:2px solid #D7402C;background:#D7402C22;border-radius:2px;box-shadow:0 0 0 1px #26221E;';
+
+  let hint: HTMLElement | null = null;
+  let picking = false;
 
   interface OpenBox {
     readonly el: HTMLElement;
@@ -151,12 +221,90 @@ export function mountCapture(opts: CaptureOptions): () => void {
     readonly capturedAt: string;
     readonly base: CaptureEntryContext;
     readonly shot: Promise<string | null>;
+    readonly element: ElementDescriptor | null;
   }
   let box: OpenBox | null = null;
+
+  function positionHighlight(el: HTMLElement): void {
+    const r = el.getBoundingClientRect();
+    highlight.style.left = `${r.x}px`;
+    highlight.style.top = `${r.y}px`;
+    highlight.style.width = `${r.width}px`;
+    highlight.style.height = `${r.height}px`;
+    highlight.style.display = 'block';
+  }
+
+  function elementUnder(e: MouseEvent): HTMLElement | null {
+    const el = doc.elementFromPoint(e.clientX, e.clientY);
+    return el instanceof HTMLElement ? el : null;
+  }
+
+  function showHint(): void {
+    hint = doc.createElement('div');
+    hint.textContent = 'click the element you mean · Esc / click empty for a general note';
+    hint.style.cssText =
+      'position:fixed;left:50%;top:1rem;transform:translateX(-50%);z-index:2147483646;' +
+      'pointer-events:none;background:#26221E;color:#F3E9D2;border:1px solid #7A6C59;' +
+      "border-radius:3px;padding:.4rem .9rem;font:0.8rem/1.4 'Hiragino Mincho ProN',serif;";
+    doc.body.appendChild(hint);
+  }
+  function hideHint(): void {
+    hint?.remove();
+    hint = null;
+  }
+
+  function enterPick(): void {
+    picking = true;
+    host.appendChild(highlight);
+    showHint();
+    doc.addEventListener('mousemove', onPickMove, true);
+    // Pick on mousedown, NOT click: a hover-effect element (e.g. a tooltip/popover that appears
+    // under the cursor) can change what's beneath the pointer between mousedown and mouseup, so
+    // the browser never fires a `click` — the pick would silently do nothing. mousedown fires on
+    // press, before any hover popover can steal the target.
+    doc.addEventListener('mousedown', onPickDown, true);
+  }
+  function exitPickListeners(): void {
+    picking = false;
+    doc.removeEventListener('mousemove', onPickMove, true);
+    doc.removeEventListener('mousedown', onPickDown, true);
+    hideHint();
+  }
+  function cancelPick(): void {
+    exitPickListeners();
+    highlight.remove();
+  }
+  function onPickMove(e: MouseEvent): void {
+    const el = elementUnder(e);
+    if (el) positionHighlight(el);
+  }
+  // Swallow the click that follows our pick-mousedown so the game never acts on it (e.g. a rung
+  // meter doesn't open its beat). Self-removes on the first click or after a short window.
+  function swallowNextClick(e: MouseEvent): void {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    doc.removeEventListener('click', swallowNextClick, true);
+  }
+  function onPickDown(e: MouseEvent): void {
+    e.preventDefault();
+    e.stopImmediatePropagation(); // do NOT let the game receive this press
+    const el = elementUnder(e);
+    exitPickListeners();
+    doc.addEventListener('click', swallowNextClick, true);
+    setTimeout(() => doc.removeEventListener('click', swallowNextClick, true), 400);
+    if (el) {
+      positionHighlight(el); // lock it — stays on (with any hover popover) for the screenshot
+      openBox(describeElement(el));
+    } else {
+      highlight.remove();
+      openBox(null); // pressed empty → a general whole-page note
+    }
+  }
 
   function closeBox(): void {
     box?.el.remove();
     box = null;
+    highlight.remove(); // clear the locked highlight
   }
 
   function toast(text: string): void {
@@ -168,12 +316,11 @@ export function mountCapture(opts: CaptureOptions): () => void {
       'background:#26221E;color:#F3E9D2;border:1px solid #7A6C59;border-radius:3px;' +
       "padding:.5rem 1rem;font:0.85rem/1.4 'Hiragino Mincho ProN','Yu Mincho',serif;" +
       'box-shadow:0 2px 0 #00000030, 0 10px 26px #00000055;';
-    opts.host.appendChild(t);
+    host.appendChild(t);
     setTimeout(() => t.remove(), TOAST_MS);
   }
 
   function downloadFallback(filename: string, markdown: string): void {
-    // POST failed — offer the entry markdown as a file the human keeps. Zero dependencies.
     const blob = new Blob([markdown], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = doc.createElement('a');
@@ -187,12 +334,17 @@ export function mountCapture(opts: CaptureOptions): () => void {
 
   async function submit(): Promise<void> {
     if (!box) return;
-    const { capturedAt, base, textarea } = box;
+    const { capturedAt, base, textarea, element } = box;
     const note = textarea.value;
     const shot = await box.shot;
     closeBox();
 
-    const ctx: CaptureContext = { ...base, capturedAt, hasScreenshot: shot !== null };
+    const ctx: CaptureContext = {
+      ...base,
+      capturedAt,
+      hasScreenshot: shot !== null,
+      ...(element ? { element } : {}),
+    };
     const { entry, screenshotName } = buildEntry(note, ctx, session.sessionId);
     const payload =
       shot && screenshotName
@@ -206,13 +358,13 @@ export function mountCapture(opts: CaptureOptions): () => void {
     }
   }
 
-  function openBox(): void {
+  function openBox(element: ElementDescriptor | null): void {
     if (box) return; // one at a time
-    // Freeze the evidence AT OPEN — the hotkey marks the moment you saw it.
+    // Freeze the evidence at PICK — the highlight is already locked (in the shot), so snapshot now.
     const capturedAt = localIso(now());
     const base = opts.buildContext();
     const shot: Promise<string | null> = opts.snapshot
-      ? opts.snapshot(opts.host).catch(() => null)
+      ? opts.snapshot(host).catch(() => null)
       : Promise.resolve(null);
 
     const el = doc.createElement('div');
@@ -223,16 +375,25 @@ export function mountCapture(opts: CaptureOptions): () => void {
       'border-radius:4px;padding:.75rem;box-shadow:0 2px 0 #00000030, 0 14px 34px #00000066;' +
       "font:0.9rem/1.4 'Hiragino Mincho ProN','Yu Mincho',serif;";
 
+    if (element) {
+      const tag = doc.createElement('div');
+      tag.textContent = `▸ ${element.label}`;
+      tag.style.cssText =
+        'margin-bottom:.4rem;font-size:0.8rem;color:#E4B24A;overflow:hidden;' +
+        'text-overflow:ellipsis;white-space:nowrap;';
+      el.appendChild(tag);
+    }
+
     const textarea = doc.createElement('textarea');
     textarea.rows = 3;
-    textarea.placeholder = 'What did you notice?';
+    textarea.placeholder = element ? `What about "${element.label}"?` : 'What did you notice?';
     textarea.style.cssText =
       'width:100%;box-sizing:border-box;resize:vertical;background:#1A1713;color:#F3E9D2;' +
       'border:1px solid #7A6C59;border-radius:3px;padding:.5rem;font:inherit;outline:none;';
 
-    const hint = doc.createElement('div');
-    hint.textContent = '⌘/Ctrl+Enter send · Esc cancel';
-    hint.style.cssText = 'margin-top:.4rem;font-size:0.72rem;color:#B8A98C;text-align:right;';
+    const hintLine = doc.createElement('div');
+    hintLine.textContent = '⌘/Ctrl+Enter send · Esc cancel';
+    hintLine.style.cssText = 'margin-top:.4rem;font-size:0.72rem;color:#B8A98C;text-align:right;';
 
     textarea.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -244,23 +405,30 @@ export function mountCapture(opts: CaptureOptions): () => void {
       }
     });
 
-    el.append(textarea, hint);
+    el.append(textarea, hintLine);
     doc.body.appendChild(el);
     textarea.focus();
-    box = { el, textarea, capturedAt, base, shot };
+    box = { el, textarea, capturedAt, base, shot, element };
   }
 
   function onKeyDown(e: KeyboardEvent): void {
+    if (picking && e.key === 'Escape') {
+      e.preventDefault();
+      cancelPick();
+      return;
+    }
     if (e.code !== HOTKEY) return;
     if (isEditableTarget(e.target)) return; // typing in a field ⇒ the backtick is a character
     e.preventDefault();
     if (box) closeBox();
-    else openBox();
+    else if (picking) cancelPick();
+    else enterPick();
   }
 
   doc.addEventListener('keydown', onKeyDown);
   return (): void => {
     doc.removeEventListener('keydown', onKeyDown);
+    exitPickListeners();
     closeBox();
   };
 }

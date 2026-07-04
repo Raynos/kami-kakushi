@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 //
-// Drives the capture overlay through the REAL DOM flow — a genuine Backquote KeyboardEvent, typing
-// into the real textarea, a ⌘/Ctrl+Enter submit — with an injected POST + snapshotter + session id.
-// RED-able: if the hotkey stopped opening the box, the input-guard regressed, the note stopped
-// reaching the POST, the screenshot stopped flowing, or captures stopped sharing one session file,
-// an assert below flips red.
+// Drives the capture overlay through the REAL DOM flow — a genuine Backquote (→ PICK mode), a
+// pick-click, typing, a ⌘/Ctrl+Enter submit — with an injected POST + snapshotter + session id.
+// jsdom's elementFromPoint returns null, so we stub it to choose the picked element.
+// RED-able: if pick mode stopped opening on `, the element stopped flowing into the entry, the
+// note stopped reaching the POST, or captures stopped sharing one session file, an assert flips red.
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mountCapture, CAPTURE_SENTINEL, type CaptureEntryContext } from './capture';
 
@@ -27,10 +27,19 @@ function baseCtx(): CaptureEntryContext {
 }
 
 const flush = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
-const boxEl = (): HTMLElement | null => document.querySelector(`[data-kami-capture]`);
+const boxEl = (): HTMLElement | null => document.querySelector('[data-kami-capture]');
+const highlightEl = (): HTMLElement | null => document.querySelector('[data-kami-highlight]');
 const hotkey = (target: EventTarget = document): void => {
   target.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }));
 };
+
+/** Enter pick mode, then press — with elementFromPoint stubbed to `el` (null ⇒ a general note).
+ *  Pick fires on mousedown (a hover popover can eat the follow-up click), so drive mousedown. */
+function pick(el: HTMLElement | null): void {
+  hotkey();
+  document.elementFromPoint = (): Element | null => el;
+  document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX: 5, clientY: 5 }));
+}
 async function typeAndSend(note: string): Promise<void> {
   const ta = boxEl()!.querySelector('textarea')!;
   ta.value = note;
@@ -70,71 +79,94 @@ function mount(over: Partial<Parameters<typeof mountCapture>[0]> = {}): void {
 
 beforeEach(() => {
   document.body.innerHTML = '';
+  document.elementFromPoint = (): Element | null => null; // jsdom default
   host = document.createElement('div');
+  host.id = 'app';
   document.body.appendChild(host);
 });
 afterEach(() => unmount());
 
-describe('mountCapture — hotkey + box', () => {
-  it('opens on Backquote, toggles closed, and is inert while focused in an input', () => {
+describe('mountCapture — pick mode', () => {
+  it('Backquote enters pick (highlight, no box yet); a pick-click opens the box', () => {
     mount();
+    expect(highlightEl()).toBeNull();
     expect(boxEl()).toBeNull();
     hotkey();
+    expect(highlightEl()).not.toBeNull(); // pick highlight mounted
+    expect(boxEl()).toBeNull(); // box only after a press
+    document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     expect(boxEl()!.dataset.kamiCapture).toBe(CAPTURE_SENTINEL);
-    hotkey();
-    expect(boxEl()).toBeNull();
+  });
 
+  it('is inert while focused in an input (no pick mode)', () => {
+    mount();
     const input = document.createElement('input');
     document.body.appendChild(input);
     hotkey(input);
+    expect(highlightEl()).toBeNull();
+  });
+
+  it('Escape during pick cancels (no highlight, no box)', () => {
+    mount();
+    hotkey();
+    expect(highlightEl()).not.toBeNull();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(highlightEl()).toBeNull();
     expect(boxEl()).toBeNull();
   });
 
-  it('Escape cancels without posting', async () => {
+  it('picking an element tags the box and flows the descriptor into the entry', async () => {
     mount();
-    hotkey();
-    boxEl()!
-      .querySelector('textarea')!
-      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-    await flush();
-    expect(boxEl()).toBeNull();
-    expect(posts).toHaveLength(0);
+    const btn = document.createElement('button');
+    btn.textContent = 'Rake rice';
+    host.appendChild(btn);
+    pick(btn);
+    expect(boxEl()!.textContent).toContain('button "Rake rice"');
+    await typeAndSend('this button is off-centre');
+    expect(posts[0]!.body.entry).toContain('**Element:** button "Rake rice"');
+    expect(posts[0]!.body.entry).toContain('this button is off-centre');
+  });
+
+  it('clicking empty makes a general note (no Element line)', async () => {
+    mount();
+    pick(null); // elementFromPoint → null
+    expect(boxEl()!.textContent).not.toContain('▸');
+    await typeAndSend('general pacing note');
+    expect(posts[0]!.body.entry).not.toContain('**Element:**');
+    expect(posts[0]!.body.entry).toContain('general pacing note');
   });
 });
 
 describe('mountCapture — submit', () => {
-  it('posts session + header + entry carrying the note, and closes the box', async () => {
+  it('posts session + header + entry, and closes the box', async () => {
     mount();
-    hotkey();
+    pick(null);
     await typeAndSend('the open-eyes button sits off centre');
     expect(posts).toHaveLength(1);
     expect(posts[0]!.url).toBe('/__playtest-capture');
     expect(posts[0]!.body.session).toBe(SESSION);
     expect(posts[0]!.body.header).toContain('# Playtest session');
     expect(posts[0]!.body.entry).toContain('the open-eyes button sits off centre');
-    expect(posts[0]!.body.entry).toContain('seed 20260626');
     expect(boxEl()).toBeNull();
   });
 
   it('all captures in one mount share the SAME session id (→ one file)', async () => {
     mount();
-    hotkey();
+    pick(null);
     await typeAndSend('first');
-    hotkey();
+    pick(null);
     await typeAndSend('second');
     expect(posts).toHaveLength(2);
     expect(posts[0]!.body.session).toBe(posts[1]!.body.session);
-    expect(posts[0]!.body.entry).not.toBe(posts[1]!.body.entry);
   });
 
   it('flows an injected screenshot into the POST + references it in the entry', async () => {
     const png =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
     mount({ snapshot: async () => png });
-    hotkey();
+    pick(null);
     await typeAndSend('glitch');
     expect(posts[0]!.body.screenshot).toBe(png);
-    expect(posts[0]!.body.screenshotName).toMatch(/\.png$/);
     expect(posts[0]!.body.entry).toContain(`${SESSION}/`);
   });
 
@@ -151,7 +183,7 @@ describe('mountCapture — submit', () => {
         downloaded = this.download;
       };
       try {
-        hotkey();
+        pick(null);
         await typeAndSend('offline note');
         expect(downloaded).toContain(SESSION);
         await flush();

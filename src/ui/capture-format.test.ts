@@ -107,4 +107,23 @@ describe('buildEntry', () => {
     expect(entry).toContain('variants { market: market-c }');
     expect(entry).toContain('- [combat] You: You strike. ×3');
   });
+
+  it('renders the picked element descriptor when present, and omits it otherwise', () => {
+    expect(buildEntry('n', ctx(), META.sessionId).entry).not.toContain('**Element:**');
+    const { entry } = buildEntry(
+      'n',
+      ctx({
+        element: {
+          label: 'button "Rake rice"',
+          text: 'Rake rice',
+          selector: 'div[data-panel=do] > button:nth-of-type(2)',
+          rect: { x: 40, y: 120, w: 96, h: 32 },
+        },
+      }),
+      META.sessionId,
+    );
+    expect(entry).toContain(
+      '**Element:** button "Rake rice" — "Rake rice" · `div[data-panel=do] > button:nth-of-type(2)` · @40,120 96×32',
+    );
+  });
 });
