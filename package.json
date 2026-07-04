@@ -30,7 +30,6 @@
     "checkpoint": "tsx src/scripts/checkpoint.ts",
     "checkpoint:check": "tsx src/scripts/checkpoint.ts --check",
     "verify": "tsx src/scripts/verify-run.ts",
-    "verify:seq": "tsgo --noEmit && oxlint && oxfmt --check && vitest run && tsx src/scripts/verify-content.ts && tsx src/scripts/verify-prd.ts && tsx src/scripts/gen-docs.ts --check && tsx src/scripts/pacing-report.ts --check && tsx src/playcheck.ts --check && tsx src/scripts/check-md-links.ts",
     "verify:budget": "tsx src/scripts/verify-run.ts --budget"
   },
   "devDependencies": {

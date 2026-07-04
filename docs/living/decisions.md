@@ -1696,6 +1696,11 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   `verify:seq`** from `tsc --noEmit` to `tsgo --noEmit`. Keep the `typescript`
   devDep installed (Vite/editor/language-service + an escape hatch), since
   tsgo is still a **preview**.
+  - _Update (2026-07-04, later same day): `verify:seq` was **removed** — it was a
+    hand-maintained `&&` duplicate of the `gates.ts` roster and had drifted (10 of
+    15 gates), a false-green risk (R3). The serial view is now `npm run verify --
+    --sequential`, which reads the roster from `gates.ts` like every other mode, so
+    it can't drift again._
 - **Why it's sound (parity proven — R3):** `tsgo --noEmit` passes clean on the
   type-correct tree AND flags a deliberate `TS2322` with the **same error code**
   as tsc (exit 1), green again after removal. Typecheck **~3.15 s → ~0.39 s**.

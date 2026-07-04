@@ -7,6 +7,9 @@
 //
 // Modes:
 //   (default)       run once · per-gate pass/fail · exit non-zero on any failure
+//   --sequential    run the gates ONE AT A TIME in roster order, streaming each gate's output
+//                   live (the clean single-stream debug view — replaces the old `verify:seq`
+//                   `&&` chain, which drifted from gates.ts because it was hand-maintained)
 //   --verbose, -v   also print every gate's captured output (pass AND fail) + a timing table
 //   --debug         --verbose + the resolved config up front (roster, cmds, scope, concurrency, env)
 //   --performance   a single pass/fail run PLUS the per-gate critical-path timing table (no budget gate)
@@ -20,7 +23,8 @@
 //
 // The gate list itself now lives in `gates.ts` (the single source of truth — extracted so
 // checkpoint.ts can import the roster without running this runner). `npm run verify` → this;
-// `npm run verify:budget` → this --budget.
+// `npm run verify:budget` → this --budget; `npm run verify -- --sequential` → the serial view.
+// EVERY mode reads the roster from gates.ts, so none can drift from it (the lesson of `verify:seq`).
 export {};
 
 import { spawn } from 'node:child_process';
@@ -75,6 +79,29 @@ async function runAll(
   return results;
 }
 
+// --sequential runner: one gate at a time, output streamed LIVE (stdio inherit) with a header
+// per gate — the clean single-stream debug view. NOT fail-fast (the old `&&` chain stopped at the
+// first red; running all and summarising is strictly more informative for a debug pass, and a hang
+// is obvious from which header printed last). Returns pass/fail + timing; there's no captured output
+// to return because it went straight to the terminal.
+function runGateSequential(g: {
+  name: string;
+  cmd: string;
+}): Promise<{ name: string; code: number; ms: number; output: string }> {
+  return new Promise((resolve) => {
+    const t0 = performance.now();
+    console.log(`\n  ▶ ${g.name}  (${g.cmd})`);
+    const child = spawn(g.cmd, { cwd: repoRoot, env, shell: true, stdio: 'inherit' });
+    child.on('close', (code) =>
+      resolve({ name: g.name, code: code ?? 1, ms: performance.now() - t0, output: '' }),
+    );
+    child.on('error', (e) => {
+      console.error(String(e));
+      resolve({ name: g.name, code: 1, ms: performance.now() - t0, output: '' });
+    });
+  });
+}
+
 const fmt = (ms: number): string => `${(ms / 1000).toFixed(2)}s`;
 const indent = (s: string): string =>
   s
@@ -91,6 +118,8 @@ const flags = scopeFlagsFromEnv(process.env);
 const argv = process.argv.slice(2);
 const KNOWN = new Set([
   '--budget',
+  '--sequential',
+  '--seq',
   '--help',
   '-h',
   '--verbose',
@@ -107,6 +136,7 @@ for (const a of argv) {
   }
 }
 const budget = hasFlag('--budget');
+const sequential = hasFlag('--sequential', '--seq');
 const debug = hasFlag('--debug');
 const verbose = hasFlag('--verbose', '-v') || debug; // --debug implies --verbose
 const perf = hasFlag('--performance', '--perf');
@@ -117,6 +147,7 @@ function printHelp(): void {
 
 Usage:
   npm run verify                    run once · per-gate pass/fail · exit non-zero on any failure
+  npm run verify -- --sequential    run the gates one at a time, streaming live output (debug view)
   npm run verify -- --verbose       + every gate's captured output (pass and fail) + a timing table
   npm run verify -- --debug         --verbose + the resolved config before running
   npm run verify -- --performance   a real run + the per-gate timing table (the critical path)
@@ -155,6 +186,49 @@ if (hasFlag('--help', '-h')) {
   process.exit(0);
 }
 
+// Loud, never-silent scoped-run note (shared by the sequential + parallel paths): a lane-skipped
+// run must be unmistakable in the output, never a false "all green".
+function noteScope(skipped: ReadonlyArray<{ name: string }>): void {
+  if (!skipped.length) return;
+  const via = [flags.skipCode && 'SKIP_CODE_VERIFY', flags.skipDocs && 'SKIP_DOCS_VERIFY']
+    .filter(Boolean)
+    .join(' + ');
+  console.log(
+    `  ~ scoped verify (${via}) — skipping ${skipped.length}/${GATES.length}: ${skipped.map((g) => g.name).join(', ')}`,
+  );
+}
+
+if (sequential) {
+  const { run: roster, skipped } = gatesForFlags(GATES, flags);
+  noteScope(skipped);
+  if (roster.length === 0) {
+    console.log(
+      '  ~ ALL gates skipped (both lane flags set = a full skip — prefer SKIP_VERIFY=1 to say that).',
+    );
+    process.exit(0);
+  }
+  console.log(
+    `verify --sequential — ${roster.length} gate(s) one at a time, live output (not fail-fast):`,
+  );
+  const t0 = performance.now();
+  const results: GateResult[] = [];
+  for (const g of roster) results.push(await runGateSequential(g));
+  const total = performance.now() - t0;
+  printTimings(results);
+  const failed = results.filter((r) => r.code !== 0);
+  if (failed.length) {
+    console.error(
+      `\n  verify FAILED — ${failed.length}/${roster.length} gate(s) in ${fmt(total)} (sequential): ${failed
+        .map((f) => f.name)
+        .join(', ')}`,
+    );
+    process.exit(1);
+  }
+  const scopeNote = skipped.length ? ` of ${GATES.length} (${skipped.length} lane-skipped)` : '';
+  console.log(`\n  verify OK — ${roster.length} gates${scopeNote} in ${fmt(total)} (sequential)`);
+  process.exit(0);
+}
+
 if (!budget) {
   const { run: roster, skipped } = gatesForFlags(GATES, flags);
   if (debug) {
@@ -166,15 +240,7 @@ if (!budget) {
     for (const g of roster) console.log(`      ${g.name.padEnd(20)} ${g.cmd}`);
     console.log('');
   }
-  if (skipped.length) {
-    // Loud, never silent: a scoped run must be unmistakable in the output (no false "all green").
-    const via = [flags.skipCode && 'SKIP_CODE_VERIFY', flags.skipDocs && 'SKIP_DOCS_VERIFY']
-      .filter(Boolean)
-      .join(' + ');
-    console.log(
-      `  ~ scoped verify (${via}) — skipping ${skipped.length}/${GATES.length}: ${skipped.map((g) => g.name).join(', ')}`,
-    );
-  }
+  noteScope(skipped);
   if (roster.length === 0) {
     console.log(
       '  ~ ALL gates skipped (both lane flags set = a full skip — prefer SKIP_VERIFY=1 to say that).',
