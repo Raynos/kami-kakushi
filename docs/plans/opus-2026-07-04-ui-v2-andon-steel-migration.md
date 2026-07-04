@@ -22,6 +22,18 @@ delta/locks map. The reference build is `ui-demos/10-andon-steel/`.
 - **The pure core is untouched entirely** — no rule, number, or loop changes. This
   is a presentation migration.
 
+### Decisions locked with the human (2026-07-04)
+- **Full replacement** of the washi identity (not a coexisting edition).
+- **Adopt the Andon composition** — left-rail tabs + center desk + right-hand log
+  "window" (steel well). The layout moves, not just the paint. (M2 core, not
+  optional.)
+- **Commit-seal cursor CUT** — no red-flash-on-click.
+- **Re-implement the diverged variant surfaces in Andon Steel** — R2 (House-
+  Influence · map · craft · market · quests · log-filter) · R5 (bestiary) · R6
+  (home/inventory) · R7 (estate-map). Each variant rebuilt in steel behind the
+  DEV toggle so the human picks in the NEW look (D-075). Absorbed as M5.
+- **Version:** v0.3.6 (per the human).
+
 ### Do-NOT-copy (from the demo's throwaway mock — the catalog's list)
 The demo ignores the engine's `events[]` and re-renders every surface ~2×/sec by
 string-diffing innerHTML; hand-rolls a fragile log reconcile; pokes the DOM for
@@ -87,18 +99,36 @@ Each milestone is a coherent, **buildable + playtestable** slice. You playtest
 R0/R1 after the early ones and steer before we touch anything risky.
 
 - **M1 · Steel palette core** — ① THEME · LOW. Re-point the ~14 semantic aliases;
-  collapse the 8-role palette to the bimetal. No component/engine edits. *First
-  playtest gate: R0/R1 look steel, play identically.*
-- **M2 · Steel materials** — ① THEME · MED. Re-author plates (keyline + silver
-  top-rim), the dark recessed log well, meters (gold thread in steel groove);
-  drop paper-grain + woodblock frame + bokashi. *Second playtest gate.*
+  collapse the 8-role palette to the bimetal. No component/engine edits — the
+  current layout picks up steel *colours* for free. *First playtest gate: R0/R1
+  read steel, play identically.* (Layout-agnostic — these tokens carry unchanged
+  into the new shell, so this is not throwaway.)
+- **M2 · Andon shell + steel materials** — ①+② THEME/LAYOUT · MED–HIGH. The big
+  structural milestone: build the **Andon composition** (left-rail tabs + center
+  desk + right-hand log "window") AND author the steel **materials** in it (plates
+  with 1px gold keyline + silver top-rim, the dark recessed log well, meters as
+  gold thread in a steel groove); drop paper-grain + woodblock frame + bokashi.
+  Composition and materials land together because the new materials live on the new
+  shell. Rebuilt on our reconcile engine — build-once/patch, no full re-renders.
+  *Second playtest gate: R0/R1 in the new shell.*
 - **M3 · GBA-typewriter cold-open** — ③ FLOW · MED. Redesign the cold-open surface
   to type the lede char-by-char (reuse `TYPE_MS_PER_CHAR`), RM-safe, one-shot.
 - **M4 · VN + ceremony re-skin** — ①/③ · MED. Steel VN nameplate/scroll; rank-up +
   T0→T1 ascension seals restyled to the vermillion-commit motif. Contract kept.
-- **M5 · Layout → Andon composition** — ② LAYOUT · MED–HIGH. **❓ OPTIONAL** — only
-  if we choose to adopt the rail+window composition; else this milestone is
-  "keep-composition, already reskinned by M1–M2" and drops out.
+- **M5 · Variant surfaces, rebuilt + re-chosen in steel** — ①/② · MED. Absorbs
+  **R2/R5/R6/R7**. Every currently-open diverged surface is **re-implemented in the
+  Andon Steel language**, each variant **live behind the DEV toggle** so the human
+  **picks in the NEW look** (D-075); the chosen one ships, the rest are stripped
+  (zero flag-debt). One sub-step per surface:
+  - **House-Influence** grade panel (A/B/C) · **Craft** panel (A/B/C) ·
+    **Travelling market** (A/B/C) · **Quests** tab (A/B/C) · **Log-filter** bar
+    (A/B/C) — the R2 surfaces.
+  - **Bestiary** (A/B/C) — R5. · **Home / Inventory** (A/B/C) — R6. ·
+    **Estate-map** (V5A–V5G) — R7 (this also subsumes R2's older walkable-map
+    variants).
+  - *Open sub-question for the human:* re-implement **every** existing variant
+    verbatim in steel, or **re-diverge fresh** in steel per surface (fewer, better
+    variants tuned to the new language)? — see Open decisions.
 - ~~**M6 · Commit-seal cursor**~~ — **CUT** (human: no red-flash-on-click).
 - **M6 · Doc ripple + lock retirement** — Fable-eligible. Rewrite the visual-
   identity sections of `ui-design.md`, the pointer line in `taste.md`, and the
@@ -107,12 +137,14 @@ R0/R1 after the early ones and steer before we touch anything risky.
 
 ## What changes flow vs theme (the explicit split you asked for)
 
-- **Pure theme — the game plays IDENTICALLY, only looks different:** M1, M2, and
-  M4's materials. Zero flow change; the pure core never moves.
-- **Flow / behavior changes:** M3 (cold-open cadence) and M5 (layout — where things
-  sit), *if* we adopt it. These are the ones to scrutinize and playtest hardest.
-  (The commit-seal cursor — the only other flow change — is **cut**.)
-- **Rules / numbers / core loop:** untouched in every milestone.
+- **Pure theme — plays IDENTICALLY, only looks different:** M1 (palette), M4
+  materials, and the *re-skin* half of M5. Zero flow change.
+- **Layout — where things sit (no rule change, but the eye re-learns the screen):**
+  M2 (the Andon shell) and the per-surface recomposition in M5. Playtest these.
+- **Flow / cadence:** M3 (cold-open typewriter). (The commit-seal cursor — the only
+  other candidate flow change — is **cut**.)
+- **Rules / numbers / core loop:** untouched in every milestone. The pure core
+  never moves.
 
 ## Locks that unlock (the ripple — M7)
 
@@ -130,16 +162,20 @@ declares it superseded *as the target*). The concrete list:
 
 ## Open decisions ❓ (lock with the human before the dependent milestone)
 
-1. **Layout depth (gates M5).** Keep today's composition and only re-skin it
-   (lowest risk, fastest to a playable steel R0/R1) — or also adopt Andon's
-   left-rail + right-log-window composition? Recommend: **re-skin first, decide
-   M5 after you've played the M1–M2 steel look.**
-2. ~~Commit-seal cursor~~ — **RESOLVED (human, 2026-07-04): CUT.** No red flash on
-   click; M6-cursor removed.
-3. **R2/R5/R6/R7 interim picks.** Are the open washi-UI variant reviews still wanted
-   as interim polish, or dropped now UI-v2 supersedes them? (Carried from D-127.)
-4. **Version.** `v0.3.6` (incremental, per your ask) or `v0.4.0` (this is a UI
-   *generation*)? Default: **v0.3.6** as you said.
+1. ~~Layout depth~~ — **RESOLVED (2026-07-04): adopt the Andon composition**
+   (rail + center + log-window). M2 core, not optional.
+2. ~~Commit-seal cursor~~ — **RESOLVED: CUT.** No red flash on click.
+3. ~~R2/R5/R6/R7 fate~~ — **RESOLVED: re-implement all in steel** (M5); the human
+   picks each variant live in the new look, then we strip to the pick.
+4. ~~Version~~ — **v0.3.6** (per the human).
+5. ~~M5 variant strategy~~ — **RESOLVED (human, 2026-07-04): re-theme ALL existing
+   variants to steel, then choose.** Every open variant is carried forward and
+   re-implemented in the Andon Steel language (its UI/theme updated), all live
+   behind the DEV toggle so the human picks in the new look; then strip to the
+   pick. **Agent discretion:** where a washi-specific idea doesn't translate to
+   steel (e.g. a paper-grain-dependent treatment), adapt it to the nearest
+   steel-native form and **flag that surface** for the human — never silently drop
+   a variant. No decisions left open; the plan is ready to LOCK on the human's word.
 
 ## Definition of done (per milestone)
 

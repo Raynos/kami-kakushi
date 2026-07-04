@@ -64,9 +64,13 @@ start an **interactive** plan to port Andon Steel into the real game.
   on click") — removes the highest-risk item. Recorded in the plan (struck, with
   the why).
 
-**Still open in the plan (interactive):** layout depth (M5 — re-skin current
-composition vs adopt Andon's rail+window), R2/R5/R6/R7 fate, version (0.3.6 vs
-0.4.0). Building starts only after the human approves.
+**All plan decisions now locked (human, live this session):** full replacement ·
+**adopt the Andon composition** (rail + center + log-window, M2 core) · cursor CUT ·
+**re-theme ALL open variants to steel then choose** (R2/R5/R6/R7 absorbed as M5,
+D-075 pick in the new look) · v0.3.6. Final milestone spine: M1 palette → M2 Andon
+shell+materials → M3 GBA cold-open → M4 VN/ceremony → M5 variant surfaces → M6 doc
+ripple. Plan is PROPOSED, ready to LOCK + start M1 on the human's word — no build
+started yet.
 
 **Landmine — shared tree is BUSY:** the F1b agent (session-64) is editing the
 index + `project-status.md` (gate roster now 15) concurrently. Commit ONLY own
