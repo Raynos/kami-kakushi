@@ -1,21 +1,18 @@
-// Pure builder for a playtest-capture inbox file (F3, D-… plan). The DEV-only capture
-// overlay (src/ui/capture.ts, Ph2) closes over live game state and calls buildCapture()
-// to turn a human note + a snapshot context into the {filename, markdown} the dev-server
-// middleware (src/scripts/playtest-inbox.ts) writes into project/playtest-inbox/pending/.
+// Pure builders for the playtest-capture SESSION file (F3). A "game session" (one browser-tab
+// play sitting — the id survives a reload via sessionStorage, a fresh tab starts a new one)
+// gets ONE markdown file, `project/playtest-inbox/pending/<sessionId>.md`, with the session
+// header written once and one `##` ENTRY appended per capture. Screenshots for the session live
+// in a sibling folder `pending/<sessionId>/` (git-ignored), same base name as the file.
 //
-// PURE + node-testable: no DOM, no fs, and NO Date — the caller passes `capturedAt`
-// (snapshotted at box-OPEN, §2.1, so typing time never drifts the evidence). Everything
-// here is a deterministic function of its inputs, so a fixed context reproduces a fixed
-// file (the same determinism the save envelope itself carries).
+// PURE + node-testable: no DOM, no fs, and NO Date — callers pass ISO timestamps (snapshotted at
+// box-OPEN, §2.1). Deterministic in / deterministic out.
 
-/** The dev-server POST path the overlay targets. Lives HERE (a browser-safe, node-free
- *  module) so both the client overlay (src/ui/capture.ts) and the node transport
- *  (src/scripts/playtest-inbox.ts, which re-exports it) share one source — without the
- *  client ever importing the fs/http-laden server module. */
+/** The dev-server POST path the overlay targets. Lives HERE (a browser-safe, node-free module)
+ *  so the client overlay and the node transport (which re-exports it) share one source. */
 export const CAPTURE_ENDPOINT = '/__playtest-capture';
 
-/** The build stamp (from vite's __VERSION__ / __BUILD_SHA__ / __BUILD_DATE__ defines).
- *  `version` already carries its leading `v` (vite sets __VERSION__ = `v${pkg.version}`). */
+/** The build stamp (vite __VERSION__ / __BUILD_SHA__ / __BUILD_DATE__). Session-level (constant
+ *  for the session), so it lives in the header, not each entry. `version` carries its leading `v`. */
 export interface CaptureBuild {
   readonly version: string;
   readonly sha: string;
@@ -28,8 +25,7 @@ export interface CaptureViewport {
   readonly dpr: number;
 }
 
-/** One log line, already reduced to the fields the tail renders (the overlay maps the
- *  core LogEntry down to this so capture-format stays free of a core import). */
+/** One log line, reduced to the fields the tail renders. */
 export interface CaptureLogLine {
   readonly channel: string;
   readonly text: string;
@@ -37,48 +33,71 @@ export interface CaptureLogLine {
   readonly speaker?: string;
 }
 
-export interface CaptureContext {
-  /** ISO-8601 with offset, snapshotted at box-OPEN (§2.1). Drives the frontmatter + the stamp. */
-  readonly capturedAt: string;
+/** Session-level metadata — written into the header once, on the first capture of the session. */
+export interface SessionMeta {
+  /** Filename base (no `.md`, no separators); also the screenshots folder name. */
+  readonly sessionId: string;
+  /** ISO-8601 (local offset) of when the session started. */
+  readonly startedAt: string;
   readonly build: CaptureBuild;
+}
+
+/** Per-capture context — one appended entry. No build (that's session-level, in the header). */
+export interface CaptureContext {
+  /** ISO-8601 with offset, snapshotted at box-OPEN. */
+  readonly capturedAt: string;
   readonly seed: number;
   readonly clock: { readonly day: number; readonly tick: number };
   readonly location: string;
   readonly rung: string;
   readonly tier: number;
   readonly activeTab: string;
-  /** Non-default variant picks only (surface → variantId); {} = all defaults. */
+  /** Non-default variant picks only ({} = all defaults). */
   readonly variants: Readonly<Record<string, string>>;
   readonly viewport: CaptureViewport;
   readonly url: string;
-  /** The base64 save envelope (save.exportState) — the deterministic repro source. */
+  /** The base64 save envelope — the deterministic repro source for THIS entry. */
   readonly saveBase64: string;
-  /** Oldest→newest tail (already sliced to the last N by the caller). */
+  /** Oldest→newest tail (already sliced by the caller). */
   readonly logTail: readonly CaptureLogLine[];
-  /** True ⇒ a git-ignored `.png` sidecar (same stem) accompanies this `.md` (§2.3/§2.6). */
+  /** True ⇒ a screenshot accompanies this entry (in the session folder). */
   readonly hasScreenshot: boolean;
 }
 
-export interface CaptureFile {
-  /** `<stamp>-<slug>.md` — safe for the server filename allowlist /^[A-Za-z0-9T.-]+\.md$/. */
-  readonly filename: string;
-  readonly markdown: string;
+export interface BuiltEntry {
+  /** The markdown `##` block to APPEND to the session file. */
+  readonly entry: string;
+  /** `<stamp>.png` — the screenshot basename inside the session folder; present iff hasScreenshot. */
+  readonly screenshotName?: string;
 }
 
-/** `2026-07-03T18:42:07+0200` → `2026-07-03T18-42-07` (colons are illegal in the allowlist).
- *  Falls back to a sanitised whole-string if the ISO shape is unexpected (never throws). */
-export function stampOf(capturedAt: string): string {
-  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/.exec(capturedAt);
+/** The session file's name from its id. */
+export function sessionFilename(sessionId: string): string {
+  return `${sessionId}.md`;
+}
+
+/** `2026-07-03T18:42:07+0200` → `2026-07-03T18-42-07` (colons are illegal in the allowlist). */
+export function stampOf(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/.exec(iso);
   if (m) return `${m[1]}-${m[2]}-${m[3]}T${m[4]}-${m[5]}-${m[6]}`;
-  const cleaned = capturedAt
+  const cleaned = iso
     .replace(/[^A-Za-z0-9T.-]+/g, '-')
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '');
   return cleaned || 'capture';
 }
 
-/** First ~4 words of the note, kebab-cased and stripped to the filename allowlist.
- *  Empty/all-symbol notes fall back to `note` so the filename is always well-formed. */
+/** A session id from its start time + a short uniquifier token — `<stamp>-<token>`, allowlist-safe. */
+export function mintSessionId(startISO: string, token: string): string {
+  const t =
+    token
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '')
+      .slice(0, 6) || 'x';
+  return `${stampOf(startISO)}-${t}`;
+}
+
+/** First ~4 words of the note, kebab-cased; falls back to "note". Used in each entry's heading. */
 export function slugOf(note: string): string {
   const slug = note
     .toLowerCase()
@@ -93,58 +112,75 @@ export function slugOf(note: string): string {
   return slug || 'note';
 }
 
-function variantsLine(variants: Readonly<Record<string, string>>): string {
+function variantsInline(variants: Readonly<Record<string, string>>): string {
   const entries = Object.entries(variants);
   if (entries.length === 0) return '{}';
   return `{ ${entries.map(([k, v]) => `${k}: ${v}`).join(', ')} }`;
 }
 
 function logTailLines(tail: readonly CaptureLogLine[]): string[] {
-  if (tail.length === 0) return ['_(no log lines)_'];
   return tail.map((e) => {
     const who = e.speaker ? `${e.speaker}: ` : '';
     const tally = e.count > 1 ? ` ×${e.count}` : '';
-    const text = e.text.replace(/\s*\n\s*/g, ' '); // keep one bullet per line
+    const text = e.text.replace(/\s*\n\s*/g, ' ');
     return `- [${e.channel}] ${who}${text}${tally}`;
   });
 }
 
-/** Turn a human note + a snapshot context into the inbox file the middleware writes. */
-export function buildCapture(note: string, ctx: CaptureContext): CaptureFile {
+/** The session file header — written ONCE, on the first capture of the session. */
+export function buildSessionHeader(meta: SessionMeta): string {
+  return (
+    [
+      `# Playtest session — ${meta.startedAt}`,
+      '',
+      `- **build:** ${meta.build.version} (${meta.build.sha}, ${meta.build.date})`,
+      `- **session:** \`${meta.sessionId}\``,
+      `- **screenshots:** \`./${meta.sessionId}/\` (git-ignored)`,
+      '',
+      'Each `##` block below is one in-game capture (`` ` `` → note → send) from',
+      'this session, appended in order. Reproduce any one from its own embedded save.',
+      '',
+    ].join('\n') + '\n'
+  );
+}
+
+/** Build one capture ENTRY (the `##` block appended to the session file). */
+export function buildEntry(note: string, ctx: CaptureContext, sessionId: string): BuiltEntry {
   const stamp = stampOf(ctx.capturedAt);
   const slug = slugOf(note);
-  const filename = `${stamp}-${slug}.md`;
+  const screenshotName = ctx.hasScreenshot ? `${stamp}.png` : undefined;
 
-  const front: string[] = [
-    '---',
-    `captured_at: ${ctx.capturedAt}`,
-    `build: ${ctx.build.version} (${ctx.build.sha}, ${ctx.build.date})`,
-    `seed: ${ctx.seed}`,
-    `clock: { day: ${ctx.clock.day}, tick: ${ctx.clock.tick} }`,
-    `location: ${ctx.location}`,
-    `rung: ${ctx.rung}`,
-    `tier: ${ctx.tier}`,
-    `active_tab: ${ctx.activeTab}`,
-    `variants: ${variantsLine(ctx.variants)}`,
-    `viewport: ${ctx.viewport.w}x${ctx.viewport.h} @${ctx.viewport.dpr}x`,
-    `url: ${ctx.url}`,
-  ];
-  // The screenshot line names the git-ignored sidecar (same stem). Omitted when there's none.
-  if (ctx.hasScreenshot) front.push(`screenshot: ${stamp}-${slug}.png`);
-  front.push('---');
+  const where = [
+    `seed ${ctx.seed}`,
+    `day ${ctx.clock.day} tick ${ctx.clock.tick}`,
+    ctx.location,
+    ctx.rung,
+    `tier ${ctx.tier}`,
+    `tab ${ctx.activeTab}`,
+    `variants ${variantsInline(ctx.variants)}`,
+    `${ctx.viewport.w}×${ctx.viewport.h}@${ctx.viewport.dpr}x`,
+    `url ${ctx.url}`,
+  ].join(' · ');
 
-  const body: string[] = [
+  const lines: string[] = [
     '',
-    '## Note',
+    `## ${ctx.capturedAt} — ${slug}`,
+    '',
+    '**Note:**',
     note.trim() || '_(empty note)_',
     '',
-    '## Log tail (last 20)',
-    ...logTailLines(ctx.logTail),
-    '',
-    '## Save (base64 envelope — `__qa.load()` this to reproduce)',
-    ctx.saveBase64,
-    '',
+    `**Where:** ${where}`,
   ];
+  if (screenshotName) lines.push(`**Screenshot:** \`${sessionId}/${screenshotName}\``);
+  if (ctx.logTail.length > 0) lines.push('', '**Log tail:**', ...logTailLines(ctx.logTail));
+  lines.push(
+    '',
+    '**Save (base64 — `__qa.load()` to reproduce):**',
+    `\`${ctx.saveBase64}\``,
+    '',
+    '---',
+  );
 
-  return { filename, markdown: [...front, ...body].join('\n') };
+  const entry = `${lines.join('\n')}\n`;
+  return screenshotName ? { entry, screenshotName } : { entry };
 }

@@ -231,10 +231,12 @@ Full version:
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/living/qa-playtesting.md).
 - **Playtest capture inbox — capture in-game, drain async (F3).** In a DEV
-  build the `` ` `` hotkey pops a note box; ⌘/Ctrl+Enter drops a self-contained
-  capture (note + deterministic save + a git-ignored screenshot) into
-  [`project/playtest-inbox/pending/`](project/playtest-inbox) and vanishes. The
-  human plays whenever; an agent drains whenever with **`/drain-inbox`**
+  build the `` ` `` hotkey pops a note box; ⌘/Ctrl+Enter appends a capture (note
+  + deterministic save + a git-ignored screenshot) to **that game session's
+  file** in [`project/playtest-inbox/pending/`](project/playtest-inbox) — one
+  `<session>.md` per browser-tab sitting, screenshots in a sibling folder — and
+  vanishes. The human plays whenever; an agent drains whenever with
+  **`/drain-inbox`**
   (reproduce from the save → triage → log an **Fnn** in `project/human-feedback/`
   → **`git mv` the capture to `archive/`** — completion is the archive move, not
   deletion). It's **agent-facing** (not the human queue); the session brief

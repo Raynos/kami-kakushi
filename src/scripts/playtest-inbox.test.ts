@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import {
@@ -8,7 +8,7 @@ import {
   MAX_MARKDOWN_BYTES,
   type ResolvedCapture,
 } from './playtest-inbox';
-import { buildCapture, type CaptureContext } from '../ui/capture-format';
+import { buildEntry, buildSessionHeader, type CaptureContext } from '../ui/capture-format';
 import { createInitialState, APP_ID } from '../core';
 import { exportBase64, importBase64, makeEnvelope, type SaveEnvelope } from '../persistence/codec';
 
@@ -27,119 +27,122 @@ function ok(r: ResolvedCapture): Extract<ResolvedCapture, { ok: true }> {
   return r;
 }
 
+const SESSION = '2026-07-04T22-00-00-abc123';
 const PNG_1PX =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 describe('resolveCapture — validation', () => {
   const dir = '/tmp/does-not-matter';
+  const good = { session: SESSION, header: '# h\n', entry: '\n## x\n' };
 
-  it('accepts a well-formed body and jails the path inside pending/', () => {
-    const r = ok(
-      resolveCapture({ filename: '2026-07-03T18-42-07-note.md', markdown: '# hi' }, dir),
-    );
+  it('accepts a well-formed body and jails the paths inside pending/', () => {
+    const r = ok(resolveCapture(good, dir));
     expect(dirname(r.mdPath)).toBe(dir);
-    expect(basename(r.mdPath)).toBe('2026-07-03T18-42-07-note.md');
-    expect(r.markdown).toBe('# hi');
-    expect(r.pngPath).toBeUndefined();
+    expect(basename(r.mdPath)).toBe(`${SESSION}.md`);
   });
 
-  it('rejects a path-traversal filename', () => {
-    const r = resolveCapture({ filename: '../evil.md', markdown: 'x' }, dir);
-    expect(r).toMatchObject({ ok: false, status: 400 });
+  it('rejects a path-traversal / separator session id', () => {
+    expect(resolveCapture({ ...good, session: '../evil' }, dir).ok).toBe(false);
+    expect(resolveCapture({ ...good, session: 'sub/dir' }, dir).ok).toBe(false);
   });
 
-  it('rejects a filename with a path separator', () => {
-    expect(resolveCapture({ filename: 'sub/dir.md', markdown: 'x' }, dir).ok).toBe(false);
-  });
-
-  it('rejects a non-.md extension', () => {
-    expect(resolveCapture({ filename: 'note.txt', markdown: 'x' }, dir).ok).toBe(false);
-    expect(resolveCapture({ filename: 'note.png', markdown: 'x' }, dir).ok).toBe(false);
-  });
-
-  it('rejects a non-object / missing fields', () => {
+  it('rejects missing fields', () => {
     expect(resolveCapture(null, dir).ok).toBe(false);
-    expect(resolveCapture({ filename: 'a.md' }, dir).ok).toBe(false);
-    expect(resolveCapture({ filename: 42, markdown: 'x' }, dir).ok).toBe(false);
+    expect(resolveCapture({ session: SESSION, entry: 'x' }, dir).ok).toBe(false); // no header
   });
 
-  it('rejects an oversized markdown body (413)', () => {
+  it('rejects oversized markdown (413)', () => {
     const big = 'a'.repeat(MAX_MARKDOWN_BYTES + 1);
-    const r = resolveCapture({ filename: 'a.md', markdown: big }, dir);
-    expect(r).toMatchObject({ ok: false, status: 413 });
+    expect(resolveCapture({ ...good, entry: big }, dir)).toMatchObject({ ok: false, status: 413 });
   });
-});
 
-describe('resolveCapture — screenshot sidecar', () => {
-  const dir = '/tmp/does-not-matter';
-
-  it('decodes a png data URL to a same-stem .png sidecar', () => {
-    const r = ok(resolveCapture({ filename: 'shot.md', markdown: 'x', screenshot: PNG_1PX }, dir));
-    expect(r.pngPath).toBe(join(dir, 'shot.png'));
-    expect(r.pngBuffer).toBeInstanceOf(Buffer);
-    // a real PNG starts with the 8-byte signature
+  it('screenshot: decodes a png to <session>/<name>.png inside the folder', () => {
+    const r = ok(
+      resolveCapture(
+        { ...good, screenshot: PNG_1PX, screenshotName: '2026-07-04T22-01-00.png' },
+        dir,
+      ),
+    );
+    expect(r.shotPath).toBe(join(dir, SESSION, '2026-07-04T22-01-00.png'));
     expect(r.pngBuffer!.subarray(0, 4).toString('hex')).toBe('89504e47');
   });
 
-  it('rejects a non-png / malformed data URL', () => {
+  it('screenshot: rejects a png without a name, a bad name, or a non-png url', () => {
+    expect(resolveCapture({ ...good, screenshot: PNG_1PX }, dir).ok).toBe(false); // no name
     expect(
-      resolveCapture({ filename: 'a.md', markdown: 'x', screenshot: 'not-a-url' }, dir).ok,
+      resolveCapture({ ...good, screenshot: PNG_1PX, screenshotName: 'a/b.png' }, dir).ok,
     ).toBe(false);
     expect(
       resolveCapture(
-        { filename: 'a.md', markdown: 'x', screenshot: 'data:image/gif;base64,AAAA' },
+        { ...good, screenshot: 'data:image/gif;base64,AA', screenshotName: 'a.png' },
         dir,
       ).ok,
     ).toBe(false);
   });
 });
 
-describe('writeCapture — end to end with a real save', () => {
-  function realCtx(saveBase64: string): CaptureContext {
+describe('writeCapture — one file per session, header once, entries appended', () => {
+  function realCtx(saveBase64: string, capturedAt: string, shot: boolean): CaptureContext {
     return {
-      capturedAt: '2026-07-03T18:42:07+0200',
-      build: { version: 'v0.3.5', sha: 'abc1234', date: '2026-07-03' },
+      capturedAt,
       seed: 20260626,
       clock: { day: 0, tick: 0 },
-      location: 'home-paddies',
+      location: 'kura',
       rung: 'R0',
       tier: 0,
       activeTab: 'work',
       variants: {},
-      viewport: { w: 1728, h: 1117, dpr: 2 },
+      viewport: { w: 1280, h: 800, dpr: 1 },
       url: '/',
       saveBase64,
       logTail: [],
-      hasScreenshot: true,
+      hasScreenshot: shot,
     };
   }
 
-  it('writes the .md + .png, and the embedded save round-trips through the codec', () => {
+  it('creates with header on the first capture, appends on the next (one file, header once)', () => {
     const pending = freshPending();
-    // a REAL exported save envelope — the deterministic repro source the drain loads.
+    const header = buildSessionHeader({
+      sessionId: SESSION,
+      startedAt: '2026-07-04T22:00:00+0200',
+      build: { version: 'v0.3.5', sha: 'abc1234', date: '2026-07-04' },
+    });
     const save = exportBase64(makeEnvelope(createInitialState(20260626), 1, 0));
-    const file = buildCapture('open eyes button off centre', realCtx(save));
 
-    // buildCapture's filename must survive the server validator (the real cross-module contract).
-    const resolved = ok(resolveCapture({ ...file, screenshot: PNG_1PX }, pending));
-    writeCapture(resolved, pending);
+    const e1 = buildEntry('first note', realCtx(save, '2026-07-04T22:00:05+0200', true), SESSION);
+    const w1 = ok(
+      resolveCapture(
+        {
+          session: SESSION,
+          header,
+          entry: e1.entry,
+          screenshot: PNG_1PX,
+          screenshotName: e1.screenshotName,
+        },
+        pending,
+      ),
+    );
+    writeCapture(w1, pending);
 
-    const written = readFileSync(resolved.mdPath, 'utf-8');
-    expect(written).toBe(file.markdown);
+    const e2 = buildEntry('second note', realCtx(save, '2026-07-04T22:01:12+0200', false), SESSION);
+    const w2 = ok(resolveCapture({ session: SESSION, header, entry: e2.entry }, pending));
+    writeCapture(w2, pending);
 
-    // extract the base64 (the last content line) and prove it decodes back to a valid envelope.
-    const embedded = written
-      .trim()
-      .split('\n')
-      .filter((l) => l.trim())
-      .pop()!;
-    const env = importBase64(embedded) as SaveEnvelope;
+    const md = readFileSync(join(pending, `${SESSION}.md`), 'utf-8');
+    // header written EXACTLY once, both entries present in order
+    expect(md.match(/# Playtest session/g)).toHaveLength(1);
+    expect(md).toContain('first note');
+    expect(md).toContain('second note');
+    expect(md.indexOf('first note')).toBeLessThan(md.indexOf('second note'));
+
+    // the screenshot from the first capture landed in the session folder
+    const shots = readdirSync(join(pending, SESSION));
+    expect(shots).toEqual(['2026-07-04T22-00-05.png']);
+
+    // the save embedded in the first entry round-trips through the codec
+    const line = md.split('\n').find((l) => l.startsWith('`eyJ'))!;
+    const env = importBase64(line.replaceAll('`', '').trim()) as SaveEnvelope;
     expect(env.app).toBe(APP_ID);
-    expect(env.state).toBeDefined();
     expect(env.state.rng.seed).toBe(20260626);
-
-    // the git-ignored png sidecar landed beside it.
-    const png = readFileSync(resolved.pngPath!);
-    expect(png.subarray(0, 4).toString('hex')).toBe('89504e47');
   });
 });

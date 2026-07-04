@@ -58,11 +58,12 @@ tool).
 
 The DEV build also carries an **in-game capture overlay** (also `import.meta.env.DEV`, also
 stripped from prod — proven by `verify-dev-strip.sh`). The `` ` `` hotkey pops a note box;
-⌘/Ctrl+Enter drops a self-contained capture — the note + the **deterministic save** (seed + RNG
-cursors + clock + location + log) + a git-ignored `modern-screenshot` PNG — into
-`project/playtest-inbox/pending/` via a dev-server endpoint, then vanishes (< 5 s, the game never
-pauses). Because the save reproduces the moment byte-identically (§0), one capture **is** a full
-repro context. The human plays and captures whenever; an agent drains asynchronously with
+⌘/Ctrl+Enter appends a capture — the note + the **deterministic save** (seed + RNG cursors +
+clock + location + log) + a git-ignored `modern-screenshot` PNG — to **that game session's file**
+in `project/playtest-inbox/pending/` via a dev-server endpoint, then vanishes (< 5 s, the game
+never pauses). One `<session>.md` per browser-tab sitting collects every capture (screenshots in a
+sibling folder). Because the save reproduces the moment byte-identically (§0), each entry **is** a
+full repro context. The human plays and captures whenever; an agent drains asynchronously with
 [`/drain-inbox`](../../.claude/skills/drain-inbox/SKILL.md) — reproduce from the save headlessly →
 triage → log an **Fnn** in `project/human-feedback/` → `git mv` the capture to `archive/`. This is
 the async twin of the human's live playtest loop; it never blocks either side.

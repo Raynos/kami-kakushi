@@ -7,11 +7,12 @@ disable-model-invocation: true
 # Drain the playtest capture inbox
 
 Metabolize the DEV capture overlay's output (F3). Captures land in
-`project/playtest-inbox/pending/` (one self-contained `.md` each: a note +
-at-a-glance frontmatter + a base64 save envelope + an optional git-ignored
-`.png`). This skill drains them into the established Fnn → fix → graduate loop,
-exactly as the human's live playtests do — the human plays whenever, you drain
-whenever, nobody waits.
+`project/playtest-inbox/pending/` as **one markdown file per game session**:
+`<session>.md` holds a header plus one `##` **entry** per capture (each entry =
+a note + at-a-glance context + a base64 save), and `<session>/` is a sibling,
+git-ignored folder of that session's screenshots. This skill drains those
+entries into the established Fnn → fix → graduate loop, exactly as the human's
+live playtests do — the human plays whenever, you drain whenever, nobody waits.
 
 **The capture is a claim, not the truth (R2).** Reproduce and verify every
 capture against the *running* game before you touch code. Where the note and
@@ -27,36 +28,39 @@ proceed.
 ## 1 · Read the queue
 
 List `project/playtest-inbox/pending/*.md` **oldest-first** (the README is
-exempt). **Empty → say so and stop** — this is the per-run stopping condition;
-a `/loop` iteration on an empty inbox is a clean fast no-op (don't manufacture
-work).
+exempt). Each is a session file with one or more `##` entries — read them all.
+**Empty → say so and stop** — this is the per-run stopping condition; a `/loop`
+iteration on an empty inbox is a clean fast no-op (don't manufacture work).
 
 ## 2 · Intake-commit (durability before processing)
 
-Commit *all* pending captures verbatim in one commit before touching anything:
+Commit *all* pending session files verbatim in one commit before touching
+anything:
 
 ```
 git add project/playtest-inbox/pending/*.md
-git commit -m "chore(inbox): intake N playtest capture(s)" -- project/playtest-inbox/pending
+git commit -m "chore(inbox): intake N session(s)" -- project/playtest-inbox/pending
 ```
 
 This makes the raw bytes durable in git history *before* processing, so the
 append-only/lossless norm holds even though each `.md` later moves to
-`archive/`. (The `.png` sidecars are git-ignored — never staged.) This intake
-commit is also the concurrency claim: a second drain seeing the clean intake at
-HEAD knows a drain is live.
+`archive/`. (The `<session>/` screenshot folders are git-ignored — never
+staged.) This intake commit is also the concurrency claim: a second drain
+seeing the clean intake at HEAD knows a drain is live.
 
-## 3 · Per capture — reproduce, then triage
+## 3 · Per ENTRY — reproduce, then triage
 
-For each capture, oldest first:
+For each `##` entry in each session file, oldest first (a session file may hold
+many captures — process every entry):
 
-**Reproduce (verify the complaint against reality).** Read the note + the
-frontmatter (seed, clock, location, rung, variants, viewport). Drive the game
-**headlessly** (never headed — `.claude/hooks/enforce-headless-qa.sh` enforces
-it): `npm run dev`, navigate with the captured variant/`?dev=no` params,
-`__qa.load('<base64 from the ## Save block>')`, resize to the captured viewport,
-then screenshot / observe. Confirm the symptom is real before acting. (The
-capture's `.png`, if present, is a local aid; the save is authoritative.)
+**Reproduce (verify the complaint against reality).** Read the entry's note +
+its `**Where:**` line (seed, clock, location, rung, variants, viewport) + its
+`**Save:**` base64. Drive the game **headlessly** (never headed —
+`.claude/hooks/enforce-headless-qa.sh` enforces it): `npm run dev`, navigate
+with the captured variant/`?dev=no` params, `__qa.load('<the entry's Save
+base64>')`, resize to the captured viewport, then screenshot / observe. Confirm
+the symptom is real before acting. (The entry's screenshot in `<session>/`, if
+present, is a local aid; the save is authoritative.)
 
 **Triage** — route by kind (this is the established metabolization made
 explicit):
@@ -93,22 +97,25 @@ fixed · 🅿️ parked · 💬 needs-discussion):
 as the F1–F117 loop does; ADR-worthy calls go to `decisions.md` **only with the
 human** (via the H-item).
 
-## 5 · Complete = archive (not delete)
+## 5 · Complete a session = archive (not delete)
 
-Move the drained capture from `pending/` to `archive/` — completion is the
-archive move, keeping the raw feedback durable long-term (like
-`project/human-feedback/`):
+A session file is done when **every** `##` entry in it is drained. Then move it
+from `pending/` to `archive/` (and `mv` its git-ignored screenshot folder
+alongside) — completion is the archive move, keeping the raw feedback durable
+long-term (like `project/human-feedback/`):
 
 ```
-git mv project/playtest-inbox/pending/<file>.md project/playtest-inbox/archive/<file>.md
+git mv project/playtest-inbox/pending/<session>.md project/playtest-inbox/archive/<session>.md
+mv    project/playtest-inbox/pending/<session>     project/playtest-inbox/archive/<session>   # screenshots (git-ignored)
 ```
 
-## 6 · One commit per item
+## 6 · One commit per entry
 
-Fix (if any) + the F-entry + the `git mv` (pending → archive) + a journal line,
-staged **by explicit path only** (shared-tree rule — never `git add -A`;
-`guard-git-add-all.sh` enforces the no-`-A` half, and the sweep-guard wants the
-`git commit … -- <paths>` pathspec form). Subject style:
+Fix (if any) + the F-entry + a journal line, staged **by explicit path only**
+(shared-tree rule — never `git add -A`; `guard-git-add-all.sh` enforces the
+no-`-A` half, and the sweep-guard wants the `git commit … -- <paths>` pathspec
+form). The `git mv` (pending → archive) rides the **last** entry's commit for
+that session. Subject style:
 
 ```
 fix(ui): recenter the open-eyes button (F118, inbox drain)

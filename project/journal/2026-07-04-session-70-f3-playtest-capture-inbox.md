@@ -235,3 +235,32 @@ capture/drain loop itself stay — only the manufactured test *content* was
 pulled. (Intake `e35b9c1` / drain `3b624b4` remain in history — append-only.)
 **Note for future drains:** an agent-produced bootstrap capture should NOT file
 a human-facing R-item; route it to a plain note or skip the R-item.
+
+## 9 · Storage redesign — one session file, not one file per capture (human, 2026-07-04)
+
+Human steer (D-022): all captures from a game session should land in **one**
+`.md`, appended, with a sibling **screenshots folder** of the same name — not a
+file per comment. Rebuilt the storage model:
+
+- **`capture-format.ts`** — split `buildCapture` into `buildSessionHeader` (once)
+  + `buildEntry` (per capture, a `##` block); added `mintSessionId` /
+  `sessionFilename`. `build` moved from per-entry to session-level.
+- **`playtest-inbox.ts`** — the endpoint now takes `{session, header, entry,
+  screenshotName?, screenshot?}` and **creates-with-header or appends** to
+  `pending/<session>.md`; screenshots write into `pending/<session>/`.
+- **`capture.ts`** — mints a **sessionStorage-backed** session id (survives a
+  reload within the tab; a fresh tab = new session), builds the header once,
+  POSTs an entry per capture.
+- **`main.ts`** — passes `build` as a top-level mount option.
+- Docs (README, drain-inbox skill, AGENTS.md, qa-playtesting) updated to the
+  session-file model; drain now iterates `##` entries and archives a session file
+  once every entry is drained (+ `mv`s its screenshot folder).
+
+**Verified:** typecheck clean, 20/20 tests (incl. a create-then-append + a
+two-captures-share-one-session test), prod strip proof green, and a **live e2e**
+— two captures in one page load produced ONE `.md` (header once + 2 entries) and
+ONE folder with 2 screenshots. `git-ignore` `**/*.png` already covers the
+folders (no gitignore change).
+
+**Session = browser-tab sitting** (sessionStorage) — noted for the human; easy
+to switch to per-page-load if they meant that instead.

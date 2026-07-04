@@ -445,8 +445,8 @@ async function boot(): Promise<void> {
     mountCapture({
       host: root,
       snapshot: snapshotDom,
+      build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
       buildContext: () => ({
-        build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
         seed: state.rng.seed,
         clock: { day: state.clock.day, tick: state.clock.tick },
         location: state.location,

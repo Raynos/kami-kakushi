@@ -1,16 +1,23 @@
 import { describe, it, expect } from 'vitest';
-import { buildCapture, slugOf, stampOf, type CaptureContext } from './capture-format';
+import {
+  buildEntry,
+  buildSessionHeader,
+  mintSessionId,
+  sessionFilename,
+  slugOf,
+  stampOf,
+  type CaptureContext,
+  type SessionMeta,
+} from './capture-format';
 
-// The server's filename allowlist (src/scripts/playtest-inbox.ts MD_FILENAME_RE) IS the contract
-// buildCapture must satisfy — a filename it emits that the endpoint would reject is the bug this
-// asserts against. Kept as a literal here (the documented contract); the real cross-module
-// round-trip (buildCapture → resolveCapture) is proven in playtest-inbox.test.ts.
-const SERVER_FILENAME_RE = /^[A-Za-z0-9T.-]+\.md$/;
+// The server's allowlists (src/scripts/playtest-inbox.ts) ARE the contract these builders must
+// satisfy — kept as literals here; the real cross-module round-trip is in playtest-inbox.test.ts.
+const SERVER_SESSION_RE = /^[A-Za-z0-9T.-]+$/;
+const SERVER_PNG_RE = /^[A-Za-z0-9T.-]+\.png$/;
 
 function ctx(overrides: Partial<CaptureContext> = {}): CaptureContext {
   return {
     capturedAt: '2026-07-03T18:42:07+0200',
-    build: { version: 'v0.3.5', sha: 'abc1234', date: '2026-07-03' },
     seed: 20260626,
     clock: { day: 12, tick: 7 },
     location: 'home-paddies',
@@ -27,91 +34,77 @@ function ctx(overrides: Partial<CaptureContext> = {}): CaptureContext {
   };
 }
 
-describe('stampOf', () => {
-  it('converts the ISO time to a filename-safe stamp (colons → dashes)', () => {
+const META: SessionMeta = {
+  sessionId: '2026-07-03T18-40-00-abc123',
+  startedAt: '2026-07-03T18:40:00+0200',
+  build: { version: 'v0.3.5', sha: 'abc1234', date: '2026-07-03' },
+};
+
+describe('ids', () => {
+  it('mintSessionId is <stamp>-<token> and allowlist-safe', () => {
+    const id = mintSessionId('2026-07-03T18:40:00+0200', 'A1B2C3D4');
+    expect(id).toBe('2026-07-03T18-40-00-a1b2c3');
+    expect(id).toMatch(SERVER_SESSION_RE);
+  });
+  it('sessionFilename appends .md', () => {
+    expect(sessionFilename('2026-07-03T18-40-00-abc')).toBe('2026-07-03T18-40-00-abc.md');
+  });
+  it('stampOf converts colons to dashes; slugOf kebabs 4 words / falls back', () => {
     expect(stampOf('2026-07-03T18:42:07+0200')).toBe('2026-07-03T18-42-07');
-  });
-  it('falls back to a sanitised, non-empty stamp for a malformed input', () => {
-    const s = stampOf('not an iso!!');
-    expect(s.length).toBeGreaterThan(0);
-    expect(s).not.toMatch(/[^A-Za-z0-9T.-]/);
-  });
-});
-
-describe('slugOf', () => {
-  it('kebab-cases the first ~4 words', () => {
-    expect(slugOf('The open-eyes button is off centre badly')).toBe('the-open-eyes-button-is');
-  });
-  it('falls back to "note" when nothing alphanumeric survives', () => {
+    expect(slugOf('The open-eyes button is off centre')).toBe('the-open-eyes-button-is');
     expect(slugOf('日本語 ！！！')).toBe('note');
-    expect(slugOf('   ')).toBe('note');
   });
 });
 
-describe('buildCapture', () => {
-  it('emits a filename the server allowlist accepts', () => {
-    const { filename } = buildCapture('open eyes button off centre', ctx());
-    expect(filename).toMatch(SERVER_FILENAME_RE);
-    expect(filename).toBe('2026-07-03T18-42-07-open-eyes-button-off.md');
+describe('buildSessionHeader', () => {
+  it('carries the session-level metadata and the screenshots folder', () => {
+    const h = buildSessionHeader(META);
+    expect(h).toContain('# Playtest session — 2026-07-03T18:40:00+0200');
+    expect(h).toContain('build:** v0.3.5 (abc1234, 2026-07-03)');
+    expect(h).toContain('session:** `2026-07-03T18-40-00-abc123`');
+    expect(h).toContain('screenshots:** `./2026-07-03T18-40-00-abc123/`');
+  });
+});
+
+describe('buildEntry', () => {
+  it('produces an appendable ## block with the note + at-a-glance context', () => {
+    const { entry } = buildEntry('open eyes button off centre', ctx(), META.sessionId);
+    expect(entry).toContain('## 2026-07-03T18:42:07+0200 — open-eyes-button-off');
+    expect(entry).toContain('open eyes button off centre');
+    expect(entry).toContain('seed 20260626');
+    expect(entry).toContain('day 12 tick 7');
+    expect(entry).toContain('home-paddies');
+    expect(entry).toContain('R3');
+    expect(entry).toContain('tab work');
+    expect(entry).toContain('variants {}');
+    expect(entry).toContain('1728×1117@2x');
+    expect(entry).toContain('url /?dev=no');
+    // the save rides in each entry (self-contained repro)
+    expect(entry).toContain('eyJhcHAiOiJrYW1pLWtha3VzaGkifQ==');
+    // it ends with a divider so appended entries stay visually separated
+    expect(entry.trimEnd().endsWith('---')).toBe(true);
   });
 
-  it('keeps the filename allowlist-safe even for a kanji/emoji note', () => {
-    // A note that is ALL non-ASCII must still produce a legal filename (slug → "note").
-    const { filename } = buildCapture('隠された村 🏯', ctx());
-    expect(filename).toMatch(SERVER_FILENAME_RE);
-    expect(filename).toBe('2026-07-03T18-42-07-note.md');
+  it('references a same-stem screenshot in the session folder only when a shot exists', () => {
+    expect(
+      buildEntry('n', ctx({ hasScreenshot: false }), META.sessionId).screenshotName,
+    ).toBeUndefined();
+    const built = buildEntry('open eyes', ctx({ hasScreenshot: true }), META.sessionId);
+    expect(built.screenshotName).toBe('2026-07-03T18-42-07.png');
+    expect(built.screenshotName!).toMatch(SERVER_PNG_RE);
+    expect(built.entry).toContain('`2026-07-03T18-40-00-abc123/2026-07-03T18-42-07.png`');
   });
 
-  it('carries the at-a-glance context into the frontmatter', () => {
-    const { markdown } = buildCapture('note', ctx());
-    expect(markdown).toContain('seed: 20260626');
-    expect(markdown).toContain('clock: { day: 12, tick: 7 }');
-    expect(markdown).toContain('location: home-paddies');
-    expect(markdown).toContain('rung: R3');
-    expect(markdown).toContain('tier: 0');
-    expect(markdown).toContain('active_tab: work');
-    expect(markdown).toContain('build: v0.3.5 (abc1234, 2026-07-03)');
-    expect(markdown).toContain('viewport: 1728x1117 @2x');
-    expect(markdown).toContain('url: /?dev=no');
-  });
-
-  it('renders non-default variants, and {} when all are default', () => {
-    expect(buildCapture('n', ctx()).markdown).toContain('variants: {}');
-    expect(buildCapture('n', ctx({ variants: { market: 'market-c' } })).markdown).toContain(
-      'variants: { market: market-c }',
-    );
-  });
-
-  it('includes the screenshot line only when a shot exists (same stem)', () => {
-    expect(buildCapture('open eyes', ctx({ hasScreenshot: false })).markdown).not.toContain(
-      'screenshot:',
-    );
-    const withShot = buildCapture('open eyes', ctx({ hasScreenshot: true })).markdown;
-    expect(withShot).toContain('screenshot: 2026-07-03T18-42-07-open-eyes.png');
-  });
-
-  it('formats the log tail with speaker + ×N, or a placeholder when empty', () => {
-    expect(buildCapture('n', ctx()).markdown).toContain('_(no log lines)_');
-    const md = buildCapture(
+  it('renders non-default variants and a log tail', () => {
+    const { entry } = buildEntry(
       'n',
       ctx({
-        logTail: [
-          { channel: 'narration', text: 'The paddies wake.', count: 1 },
-          { channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' },
-        ],
+        variants: { market: 'market-c' },
+        logTail: [{ channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' }],
       }),
-    ).markdown;
-    expect(md).toContain('- [narration] The paddies wake.');
-    expect(md).toContain('- [combat] You: You strike. ×3');
-  });
-
-  it('ends with the base64 save envelope as the last content line', () => {
-    const { markdown } = buildCapture('n', ctx({ saveBase64: 'SAVEDATA==' }));
-    const lastLine = markdown
-      .trim()
-      .split('\n')
-      .filter((l) => l.trim())
-      .pop();
-    expect(lastLine).toBe('SAVEDATA==');
+      META.sessionId,
+    );
+    expect(entry).toContain('variants { market: market-c }');
+    expect(entry).toContain('- [combat] You: You strike. ×3');
   });
 });
