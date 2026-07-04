@@ -258,16 +258,18 @@ export function mountCapture(opts: CaptureOptions): () => void {
     host.appendChild(highlight);
     showHint();
     doc.addEventListener('mousemove', onPickMove, true);
-    // Pick on mousedown, NOT click: a hover-effect element (e.g. a tooltip/popover that appears
-    // under the cursor) can change what's beneath the pointer between mousedown and mouseup, so
-    // the browser never fires a `click` — the pick would silently do nothing. mousedown fires on
-    // press, before any hover popover can steal the target.
-    doc.addEventListener('mousedown', onPickDown, true);
+    // Pick on POINTERDOWN, not click OR mousedown. `click` never fires when a hover popover /
+    // per-tick re-render changes the target between press and release. And `mousedown` is
+    // suppressed entirely when an element preventDefault()s its `pointerdown` (the browser then
+    // cancels the compatibility mouse events) — which the rung meter does, so a mousedown listener
+    // silently never fired on it. `pointerdown` fires on press for mouse/touch/pen and reaches
+    // document regardless, so it's the robust choice.
+    doc.addEventListener('pointerdown', onPickDown, true);
   }
   function exitPickListeners(): void {
     picking = false;
     doc.removeEventListener('mousemove', onPickMove, true);
-    doc.removeEventListener('mousedown', onPickDown, true);
+    doc.removeEventListener('pointerdown', onPickDown, true);
     hideHint();
   }
   function cancelPick(): void {
@@ -278,8 +280,9 @@ export function mountCapture(opts: CaptureOptions): () => void {
     const el = elementUnder(e);
     if (el) positionHighlight(el);
   }
-  // Swallow the click that follows our pick-mousedown so the game never acts on it (e.g. a rung
-  // meter doesn't open its beat). Self-removes on the first click or after a short window.
+  // Swallow the click that follows our pick-pointerdown so the game never acts on it (e.g. a rung
+  // meter doesn't open its beat). Belt-and-suspenders — preventDefault() on the pointerdown already
+  // suppresses the compatibility click in most browsers. Self-removes on the first click or timeout.
   function swallowNextClick(e: MouseEvent): void {
     e.preventDefault();
     e.stopImmediatePropagation();

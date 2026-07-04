@@ -325,3 +325,20 @@ page's `window` flag survives a file edit (no reload).
 
 (Debug lesson: a *comment* marker is useless for testing this — esbuild strips
 comments on transform; use a real `export const`.)
+
+## 13 · Pick the rung meter — pointerdown, not mousedown (human, 2026-07-05)
+
+The mousedown fix (§11) did NOT fix the human's hover-meter case. Reproduced via
+the F6 `fresh-R3-pre-wolf` fixture + a raw diagnostic listener: on the rung
+meter, `pointerdown` fires on document but **`mousedown` does not** (on empty
+space both fire). Root cause: the rung meter `preventDefault()`s its
+`pointerdown`, and per the Pointer Events spec that **suppresses the
+compatibility `mousedown`/`mouseup`/`click`** — so a mousedown listener silently
+never fired on it. Switched the pick to **`pointerdown`** (fires on press for
+mouse/touch/pen, reaches document regardless); `preventDefault()` on it also
+suppresses the game's click, and the click-swallow stays as belt-and-suspenders.
+Verified LIVE: picking the meter now opens the box, and the game doesn't react
+(no rung-beat VN).
+
+This was only debuggable *after* the §12 vite watch fix — before that the server
+served stale code and every edit needed a restart.

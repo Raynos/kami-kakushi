@@ -34,11 +34,12 @@ const hotkey = (target: EventTarget = document): void => {
 };
 
 /** Enter pick mode, then press — with elementFromPoint stubbed to `el` (null ⇒ a general note).
- *  Pick fires on mousedown (a hover popover can eat the follow-up click), so drive mousedown. */
+ *  Pick fires on pointerdown (mousedown is suppressed when an element preventDefaults pointerdown;
+ *  a hover popover also eats the follow-up click), so drive pointerdown. */
 function pick(el: HTMLElement | null): void {
   hotkey();
   document.elementFromPoint = (): Element | null => el;
-  document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX: 5, clientY: 5 }));
+  document.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }));
 }
 async function typeAndSend(note: string): Promise<void> {
   const ta = boxEl()!.querySelector('textarea')!;
@@ -94,7 +95,7 @@ describe('mountCapture — pick mode', () => {
     hotkey();
     expect(highlightEl()).not.toBeNull(); // pick highlight mounted
     expect(boxEl()).toBeNull(); // box only after a press
-    document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    document.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
     expect(boxEl()!.dataset.kamiCapture).toBe(CAPTURE_SENTINEL);
   });
 
