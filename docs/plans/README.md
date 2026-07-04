@@ -61,7 +61,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 **12 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-process-F10-taste-bar-enforcement.md`](fable-process-F10-taste-bar-enforcement.md) — PARKED
-- [`fable-process-F2-github-actions-ci.md`](fable-process-F2-github-actions-ci.md) — PROPOSED
+- [`fable-process-F2-github-actions-ci.md`](fable-process-F2-github-actions-ci.md) — IN-PROGRESS
 - [`fable-process-F3-playtest-capture-inbox.md`](fable-process-F3-playtest-capture-inbox.md) — PROPOSED
 - [`fable-process-F4-balance-sim-gates.md`](fable-process-F4-balance-sim-gates.md) — PROPOSED
 - [`fable-process-F5-narrative-format.md`](fable-process-F5-narrative-format.md) — PROPOSED

@@ -1,6 +1,13 @@
 # GitHub Actions CI — parallel jobs, ~5-min budget, fast-lint groundwork
 
-**Status:** 📋 PROPOSED — awaiting human read.
+**Status:** 🔧 IN-PROGRESS — **Ph1 + Ph2 BUILT & verified on the remote
+2026-07-04** (session 66): `verify.yml` (two parallel push jobs) +
+`verify-nightly.yml` + the extracted `verify-dev-strip.sh` + README badge +
+session-brief CI line. Green-run proof (Actions run 28712361436, both jobs
+green on a real push) AND could-go-RED proof (a throwaway `ci-red-proof`
+branch went red, then deleted) both done. **Ph3 (oxlint two-tier + oxfmt)
+remains — Fable-routed**, separately committable (D-124). Flips to DONE when
+Ph3 lands or is explicitly dropped.
 
 ## Who builds this — Fable or Opus?
 

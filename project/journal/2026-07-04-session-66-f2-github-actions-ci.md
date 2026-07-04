@@ -47,17 +47,29 @@ file-lanes), then integrated + verified here. Live snapshot:
   again. `npm run build` works end-to-end.
 - **session-brief** completes in 0.4s with the CI probe unresolved (fallback
   line exercised) — inside the ≤5s budget.
-- **CI green-run + could-go-RED proof (Actions):** _appended below after the
-  push._
+- **CI green-run (Actions) ✅** — pushed `9d1ea3c` to main; run 28712361436
+  went **green on both jobs on a real push**. Measured (replaces the plan's
+  estimates): `npm ci` **~3–4 s** (cold, no cache yet — small dep tree),
+  `npm run verify` **18 s**, `npm run build` **4 s**, strip gate **<1 s**.
+  Job wall-clock: verify **~27 s**, build-strip **~11 s** → parallel
+  **~27 s total**, ~11× under the 5-min target. (Faster than the plan's
+  50–90 s guess — the ubuntu runner + tiny deps beat the estimate.)
+- **Could-go-RED proof (Actions) ✅** — an isolated linked worktree
+  (`git worktree add`, so the shared main tree was never switched) on a
+  throwaway `ci-red-proof` branch with a deliberate tsc type error, pushed
+  with `SKIP_VERIFY=1`. Run 28712415831 went **RED on both jobs**. Branch +
+  remote ref + worktree all deleted after. Red never touched `main`.
+
+## Result
+**F2 Ph1 + Ph2 are DONE and verified on the remote.** Ph3 (oxlint two-tier +
+oxfmt swap) is a deliberate, separately-committable Fable-routed follow-up
+(D-124: no Opus→Fable without a human steer).
 
 ## Next intended steps
-1. Push main → confirm both `verify.yml` jobs go green on a real push; record
-   wall-clock + `npm ci` timing here (replaces the plan's estimates).
-2. Could-go-RED proof: a deliberate-violation scratch branch goes RED in
-   Actions (pushed with `SKIP_VERIFY=1` so the pre-push gate doesn't block the
-   intentional red), then delete the branch. Keeps red off `main`.
-3. Ph3 (oxlint two-tier + oxfmt) — **Fable-routed**, separate follow-up; not
-   this session (D-124: no Opus→Fable without a human steer).
+1. Ph3 (oxlint two-tier + oxfmt) — Fable-routed, when the human routes it.
+2. F2 unblocks Wave 1: F3 (lane A) and F4 (lane B) can now build in parallel
+   (F4 Ph3 touches `main.ts`, so dodge the F3 lane there — per the master
+   plan).
 
 ## Landmines
 - **Shared tree:** another agent's F1b→archive WIP (`docs/plans/README.md`,
