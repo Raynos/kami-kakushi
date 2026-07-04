@@ -175,3 +175,14 @@ Human steer: "finish all of F4, I trust you" + turn off the herdr ping.
 - `herdr-notify.sh` → `--sound none` (the audible ping doubled the
   play.sh chimes; visual notification stays). Verified the play.sh sound
   setup is INTACT — files + hooks all present; nothing was nuked.
+
+---
+
+## 5 · Checkpoint (/prepare-to-exit)
+
+Snapshot's process-wave bullet + resume step brought current (F2 ✅ · F4 ✅
+D-132 · F3 in flight co-agent · next F1b Ph2–4 or F5/F6; balance-watch line
+now points at the sim + H19/H20). Tree was already clean and pushed at
+`4bd42ca`→`582bde7` (co-agents landed their WIP + pushes). No running
+subagents/workflows left from this session (the F2-archival waiter exited
+on its own once the sweep committed).

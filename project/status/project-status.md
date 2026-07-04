@@ -40,19 +40,18 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   **D-118–D-125** (7-tab IA · rice spoilage/kura cap · cook/storage · R5
   wall-weapon token · home→R3). **R7 capstone** DESIGNED (D-125) → build
   DEFERRED to T1 (`capstone-t0-branch.md`). `emergent-node-actions` → a plan.
-- **✅ THE TASTE LOCK (D-126, s57):** top layer locked WITH the human (4 values ·
-  3 touchstones · proto23/YAIR refs) → **`taste.md` rewritten** (pyramid, 21
-  principles, 150-cap) · **`ui-design.md` 1159→351** (tokens GENERATED →
-  `docs/content/ui-tokens.md`) · AGENTS.md **T1–T4 register** · 13th gate
-  **`doc-budgets`** · ⭐ TODO closed; **F10 re-plan trigger FIRED**.
+- **✅ THE TASTE LOCK (D-126, s57):** top layer locked WITH the human → `taste.md`
+  rewritten (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens
+  GENERATED) · AGENTS.md T1–T4 register · `doc-budgets` gate · **F10 re-plan FIRED**.
 - **✅ UI-v2 direction LOCKED (R9 → D-127): 10 Andon Steel** (blackened-steel
   bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
   01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
   till then. Resolves D-126's "visual identity provisional pending R9".
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
-  `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard, F1a checkpoint
-  (14th gate, self-archived). NEXT: F1b Ph2–4.**
+  `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a · F2 CI ·
+  ✅ F4 balance sim (D-132: `src/sim/` personas, `verify:balance` + report +
+  freshness WARN; open H19/H20). F3 IN FLIGHT (co-agent). NEXT: F1b Ph2–4 · F5/F6.**
 
 ## Waiting on the human
 
@@ -62,8 +61,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
   home/Inventory **A/B/C** (R6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
   older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
-- **Balance-watch** 🔲 — 4 D-059 feel-calls best tuned by **playing**; the
-  balance-cockpit plan (fable-process-F7) is the tuning aid.
+- **Balance-watch** 🔲 — 4 D-059 feel-calls best tuned by **playing**; the F4 sim
+  now machine-measures pacing (`docs/content/t0-pacing.md`) — open: **H19**
+  (Phase-2 band) + **H20** (freshness WARN→gate). F7 cockpit is the tuning aid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
 - **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, D-127). Open: are R2/R5/R6/R7
@@ -114,7 +114,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** = **F1b Ph2–4** (Wave-0 lane resumes; F1a done), then
-   F2→F10 per `fable-process-master-plan.md`. F10 re-plan trigger fired (D-126),
-   folds into the wave. Balance liquid (D-059).
+4. **Next autonomous work** = **F1b Ph2–4** or **F5/F6** per the master plan
+   (F2/F4 ✅ · F3 in flight, co-agent). Balance liquid (D-059) — every balance
+   change runs the D-132 flow (`verify:balance` → report diff → `--summary`).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
