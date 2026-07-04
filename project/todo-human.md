@@ -88,11 +88,6 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   slow suites; **web-grounded oxlint/oxfmt verdicts**: two-tier lint (oxlint
   can't express the `new Date()` core ban), oxfmt only behind a zero-diff
   parity proof.
-- [ ] `docs/plans/fable-process-F3-playtest-capture-inbox.md` — **playtest capture
-  inbox** (suggestion #2): backquote-hotkey in-game note box → Vite
-  dev-middleware → `project/playtest-inbox/` → a `/drain-inbox` skill. Your
-  synchronous feedback typing becomes async play-and-dump; repro via
-  state+seed+variants, no screenshots needed. Owns the transport F7/F8 reuse.
 - [ ] `project/archive/fable-process-F4-balance-sim-gates.md` (archived — done,
   discussed pre-build 2026-07-04) — **persona-bot balance sim** (suggestion #4):
   greedy/idler/explorer bots over the real reducers, pacing envelopes derived

@@ -1,8 +1,8 @@
 # Playtest capture inbox + async drain loop (build plan)
 
-**Status:** PROPOSED — decisions locked (human, 2026-07-04); building Ph1→Ph4.
-*(Token stays PROPOSED to avoid a `docs/plans/README.md` regen that would
-entangle the decoupled F2-archival WIP; flip to DONE at archive-time.)*
+**Status:** DONE — all four phases built, verified, and pushed (2026-07-04,
+session 70). Capture in-game (`` ` `` overlay) → drain async (`/drain-inbox`) →
+F-entry → archive, live end to end. First drained capture: F118 → R9.
 **created_date:** 2026-07-03
 **Owns:** the DEV-only in-game capture overlay (note box + in-browser
 screenshot) · the dev-server → repo transport · `project/playtest-inbox/`
