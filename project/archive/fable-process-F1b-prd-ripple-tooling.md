@@ -1,9 +1,15 @@
 # PRD ripple tooling — partial automation now (D-117 Phase 0)
 
-**Status:** 🔧 IN-PROGRESS — Ph1 BUILT 2026-07-03; **Ph2–Ph4 BUILT 2026-07-04**
-(Opus, session-64, on the human's "Ph2 + Ph3/Ph4 skills" steer). **One DoD stays
-open:** Ph3's *real* `/prd-ripple` invocation awaits the next built-system change
-(nothing queued today) — until then Ph3 ships as skill + AGENTS.md pointer only.
+**Status:** ✅ DONE — Ph1 BUILT 2026-07-03; **Ph2–Ph4 BUILT 2026-07-04**;
+**closed 2026-07-04** (Opus, session-65, on the human's reframe call). All
+*buildable* scope shipped: `prd:drift`, the shared splicer + pilot canon region
+(gate #8), and both skills. **Ph3's DoD was reframed** (see Ph3 below): the
+skill + AGENTS.md pointer are the buildable deliverable and are done; the "one
+*real* `/prd-ripple` invocation" is a **standing expectation**, not plan scope —
+it fires automatically on the next built-system change (the mechanism, the
+AGENTS.md convention pointer, is in place to guarantee it), likely the UI-v2
+migration. Holding the whole plan open indefinitely for an unrelated future
+change would strand it against the active-only `docs/plans/` discipline.
 The **Ph2 pilot region edits canon** (§3 RANKS titles) — queued for your read.
 
 > **Ph2–Ph4 build notes (2026-07-04).**
@@ -158,9 +164,15 @@ canon, so the human sees it.
   `gen:docs` — builder's call), pilot diff queued for the human.
   *DoD:* editing a rung title in `RANKS` without regenerating goes RED;
   regenerating fixes it; `verify:budget` median still under 5 s.
-- **Ph3 — `/prd-ripple`.** Skill + AGENTS.md conventions pointer + one
-  REAL invocation on the next built-system change (the proof is a commit
-  whose ripple was punch-list-driven).
+- **Ph3 — `/prd-ripple`.** Skill + AGENTS.md conventions pointer. **DoD
+  (reframed 2026-07-04):** the buildable deliverable is the skill + the
+  convention pointer — both shipped, so Ph3 is done. The originally-listed
+  "one REAL invocation on the next built-system change (a commit whose
+  ripple was punch-list-driven)" is **not plan scope** — it can't be
+  manufactured without an unrelated future change to ripple. It is now a
+  **standing expectation** the AGENTS.md convention enforces on the next
+  built-system change (likely UI-v2); the proof commit will reference this
+  plan when it lands.
 - **Ph4 — `/prd-compress`.** Skill file (procedure + Fable routing +
   "waits on the tier's R-item closing" guard). *DoD:* a dry-run against a
   COPY of one §3 subsection in `tmp/` produces a plausible compressed

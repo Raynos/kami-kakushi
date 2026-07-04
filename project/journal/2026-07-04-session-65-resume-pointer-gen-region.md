@@ -30,3 +30,24 @@ the gate-roster region already used. No ADR — a tooling hardening, not a desig
   Don't hand-edit inside the markers; run `npm run checkpoint`.
 - Session-64 (F1b) was authored by a concurrent agent and landed during this session;
   this s65 entry is a separate thread (the checkpoint-tooling change).
+
+---
+
+## Addendum — F1b closed (reframe & archive)
+
+The human reviewed F1b (PRD ripple tooling) and made the call to close it.
+Verified against the build first: Ph1 (`prd:drift`), Ph2 (splicer + pilot §3
+canon region, gate #8), and Ph4 (`/prd-compress` skill) all shipped with DoDs
+met. The lone open item was **Ph3's "one *real* `/prd-ripple` invocation"** — a
+DoD that can't be self-completed because it needs an unrelated future
+built-system change to exist as something to ripple (zero `/prd-ripple`
+invocations and zero PRD-touching commits since `e197546`, confirmed).
+
+Resolution (human's pick): **reframe & close.** Ph3's buildable deliverable is
+the skill + AGENTS.md convention pointer — both shipped. The "real invocation"
+is demoted from plan scope to a **standing expectation** the AGENTS.md
+convention enforces on the next built-system change (likely UI-v2); the proof
+commit will reference the archived plan when it lands. Flipped the Status token
+to `DONE`, reframed the Ph3 DoD in-file, ran `npm run checkpoint` →
+auto-archived the plan to `project/archive/`, relinked `docs/plans/README.md`,
+and cleared the reading-queue entry (D-089 — the human engaged with it here).

@@ -71,19 +71,12 @@ _(The **master plan** — `docs/plans/fable-process-master-plan.md`, the
 F1–F10 build order + merge map — was ratified in-session 2026-07-03 and its
 queue entry cleared; the plans below are renamed + reordered to match it.)_
 
-- [ ] `docs/plans/fable-process-F1b-prd-ripple-tooling.md` — **PRD ripple tooling**
-  (D-117 Phase 0, the buildable-NOW slice you asked for; second half of the
-  F1 build lane, after F1a): a `prd:drift` reporter (game registries →
-  PRD punch-list; retired-terms tripwire), one pilot gen-region (§3 T0 rung
-  names, drift-PROOF), and two skills — `/prd-ripple` (Flow 1 routing per
-  change) + `/prd-compress` (dormant until R1 closes; the sweep itself stays
-  Fable + human-signed). **✅ Ph2–Ph4 BUILT (session-64).** ⬅ **The canon call
-  for you:** the Ph2 pilot region now transcludes the **build's** R0→R7 rung
-  titles into **§3.2** of `docs/living/prd/03-unlock-ladder.md` (right above the
-  ladder table) — the *mechanical* titles, honestly flagged as reconciled to the
-  §3.2 *narrative* titles by the future R1-gated sweep. **Review that diff** (it
-  edits canon). Ph3's real `/prd-ripple` invocation is deferred to the next
-  built-system change.
+- [ ] **Canon-diff read (F1b Ph2 pilot region)** — the gen-region now transcludes
+  the **build's** R0→R7 rung titles into **§3.2** of
+  `docs/living/prd/03-unlock-ladder.md` (above the ladder table) — the
+  *mechanical* titles, honestly flagged as reconciled to the §3.2 *narrative*
+  titles by the future R1-gated sweep. **Review that diff** (it edits canon).
+  _(The F1b plan itself is closed + archived — reframe call made 2026-07-04.)_
 - [ ] `project/brainstorms/2026-07-03-prd-on-a-diet.md` — **the PRD-diet
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
