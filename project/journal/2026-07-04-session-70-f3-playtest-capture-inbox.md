@@ -94,17 +94,50 @@ reproducible cases but not the live render (the subprocess doesn't inherit the
 env var). Human handed it to another agent — dropped. (That file is global
 config, outside the repo — nothing committed.)
 
+## 4 · Ph2a — overlay module + strip gate (built, green; NOT the mount)
+
+Split Ph2 into **2a (non-`main.ts`, done now)** and **2b (the F4-blocked
+wire-up, deferred)** because F4 has `main.ts` broken AND has uncommitted
+`package.json` scripts (`verify:balance`/`balance:fresh`) in the working tree.
+
+**Ph2a landed:**
+
+- `src/ui/capture.ts` — the DEV overlay: `` ` `` hotkey + focused-input guard,
+  ink-dark note box, ⌘/Ctrl+Enter submit + Escape cancel, toast, download
+  fallback, `CAPTURE_SENTINEL`. Evidence frozen at box-OPEN. **Dependency-free
+  by design** — the DOM→PNG snapshotter is an INJECTED seam (`DomSnapshotter`),
+  so the module is fully jsdom-testable and the real `modern-screenshot` impl
+  lands with the mount (Ph2b).
+- Moved `CAPTURE_ENDPOINT` into `capture-format.ts` (browser-safe) so the
+  client overlay shares it WITHOUT importing the fs/http-laden
+  `playtest-inbox.ts`; the node module re-exports it (vite.config unchanged).
+- `src/ui/capture.test.ts` — 6 jsdom tests driving the REAL flow (real
+  KeyboardEvents, real textarea, ⌘/Ctrl+Enter): open/toggle, input-guard,
+  Escape-cancels, submit-posts-the-note, screenshot-flows, POST-fail→download.
+- `verify-dev-strip.sh` — marker loop extended with `__KAMI_PLAYTEST_CAPTURE__`
+  + `__playtest-capture` (the overlay + endpoint, incl. the injected
+  rasteriser that rides in via the overlay module).
+
+**Verified:** typecheck clean on all my files (only `main.ts` errors, all
+F4's), 26/26 F3 tests green, oxlint/oxfmt clean, strip gate parses.
+
+**Deliberately backed out:** I installed `modern-screenshot` then reverted it
+(removed my `package.json` line leaving F4's scripts untouched;
+`git checkout package-lock.json`) — the lib + snapshotter + mount all belong to
+Ph2b on a clean `package.json`, and the screenshot can't be PROVEN until mounted
+anyway.
+
 ---
 
 ## Next intended steps (current)
 
-1. **Ph2 — overlay UX** (`src/ui/capture.ts`): the `` ` `` hotkey + guards, the
-   note box, toast, download fallback, the `CAPTURE_SENTINEL`, and the
-   in-browser DOM→PNG snapshot (pick `html-to-image`/`modern-screenshot` as a
-   devDependency). Mount from `main.ts` DEV branch (independent of `?dev=no`);
-   the one-line `root.dataset.activeTab` stamp in `render.ts` `setTab`
-   (line ~1083); extend `verify-dev-strip.sh`'s marker loop.
-   **COORDINATE the `main.ts` edit with the live F4 session.**
+1. **Ph2b — the wire-up (BLOCKED on F4's `main.ts` + `package.json`
+   settling green):** add `modern-screenshot` devDep; the real `DomSnapshotter`
+   (domToPng of `#app`); mount `mountCapture` from `main.ts`'s
+   `import.meta.env.DEV` branch (independent of `?dev=no`) with a `buildContext`
+   closure over live state/save/dev; the one-line `root.dataset.activeTab` stamp
+   in `render.ts` `setTab` (~line 1083); then the build+grep strip proof + the
+   headless real-flow DoD. **COORDINATE the `main.ts` edit with F4.**
 2. Ph3 — the `/drain-inbox` skill + first real drained batch.
 3. Ph4 — loop-mode + conventions wiring (session-brief count, AGENTS.md,
    repo-map, qa-playtesting).

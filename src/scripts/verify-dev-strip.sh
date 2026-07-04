@@ -14,11 +14,16 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 echo "▸ verifying DEV tools + variant harness are stripped from the prod bundle…"
-for marker in "__qa" "__KAMI_DEV_PANEL__"; do
+# __qa = the DEV play-API; __KAMI_DEV_PANEL__ = the variant harness; __KAMI_PLAYTEST_CAPTURE__ +
+# __playtest-capture = the F3 playtest capture overlay + its dev-server endpoint (incl. its
+# injected screenshot rasteriser, which rides in via the overlay module). All are gated on
+# `import.meta.env.DEV` and must dead-code-eliminate from prod.
+for marker in "__qa" "__KAMI_DEV_PANEL__" "__KAMI_PLAYTEST_CAPTURE__" "__playtest-capture"; do
   if grep -lF "$marker" "$REPO_ROOT/dist/assets/"*.js >/dev/null 2>&1; then
     echo "✗ DEV marker '$marker' leaked into the prod bundle — refusing to deploy." >&2
-    echo "  Keep DEV-only code behind 'import.meta.env.DEV' (src/app/main.ts, src/ui/dev.ts)." >&2
+    echo "  Keep DEV-only code behind 'import.meta.env.DEV'" >&2
+    echo "  (src/app/main.ts, src/ui/dev.ts, src/ui/capture.ts)." >&2
     exit 1
   fi
 done
-echo "  ✓ no DEV markers (__qa / variant harness) in the prod bundle."
+echo "  ✓ no DEV markers (__qa / variant harness / playtest capture) in the prod bundle."

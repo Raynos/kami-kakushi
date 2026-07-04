@@ -8,6 +8,12 @@
 // here is a deterministic function of its inputs, so a fixed context reproduces a fixed
 // file (the same determinism the save envelope itself carries).
 
+/** The dev-server POST path the overlay targets. Lives HERE (a browser-safe, node-free
+ *  module) so both the client overlay (src/ui/capture.ts) and the node transport
+ *  (src/scripts/playtest-inbox.ts, which re-exports it) share one source — without the
+ *  client ever importing the fs/http-laden server module. */
+export const CAPTURE_ENDPOINT = '/__playtest-capture';
+
 /** The build stamp (from vite's __VERSION__ / __BUILD_SHA__ / __BUILD_DATE__ defines).
  *  `version` already carries its leading `v` (vite sets __VERSION__ = `v${pkg.version}`). */
 export interface CaptureBuild {

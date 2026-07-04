@@ -13,8 +13,10 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { basename, resolve, sep } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-/** The POST path the overlay targets. Shared so client (Ph2), server, and the strip gate agree. */
-export const CAPTURE_ENDPOINT = '/__playtest-capture';
+// The POST path is single-sourced in the browser-safe format module so the client overlay
+// can share it WITHOUT importing this fs/http-laden server module. Re-exported here so
+// vite.config.ts (and any server-side reader) keeps importing it from `./playtest-inbox`.
+export { CAPTURE_ENDPOINT } from '../ui/capture-format';
 
 /** The markdown payload (note + save envelope) is bounded — the save is tens of KB. */
 export const MAX_MARKDOWN_BYTES = 256 * 1024;
