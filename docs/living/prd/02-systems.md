@@ -491,8 +491,9 @@ layer**; the T0 spine is atomic auto-resolve.)
   `attackPower` already carries the **durability-band × satietyRate** scaling) → separate seeded crit/block
   rolls → status effects applied per tick. All draws from the **combat RNG cursor** (`cursors.combat`; §2.19)
   — reproducible, unit-testable, **integer-pow only** (no `Math.pow`; §6).
-- `Stance { atkMult, takenMult }` — the **glass-cannon ↔ tank** axis (aggressive: more damage dealt + more
-  taken; defensive: less dealt + less taken; balanced sits between). `CombatInterventionIntent`
+- `Stance { atkMult, takenMult }` — the **glass-cannon ↔ tank** axis, three named stances: **jodan**
+  (aggressive — more damage dealt + more taken), **gedan** (defensive — less dealt + less taken), and
+  **chudan** (balanced — the identity default). `CombatInterventionIntent`
   (stance/ability/item/retreat). **Weapon `speed`/`reach`/`targetCount` live on the WEAPON archetype, not the
   stance.**
 - **A kill writes to `character.level`'s combat-XP ONLY** — *never* the Combat Rank rung-meter, *never* the

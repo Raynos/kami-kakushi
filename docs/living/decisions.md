@@ -1582,3 +1582,39 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
     UI) are now moot given UI-v2 supersedes them, or still wanted as interim polish.
     Left to the human; not closed here.
   - Closes **R9**; graduated to the human-in-the-loop archive.
+
+### D-128 ✅ — Process: ripple the PRD *during T0 too* — NO T0 compression backlog
+- **created_date:** 2026-07-04
+- **Context:** F1b Ph1 (the `prd:drift` reporter) made a deliberate call to
+  **defer** every T0 spec-altitude presence gap it found (weapons, mobs, stances,
+  cast names) to the future **R1-gated compression sweep** (Flow 2, D-117) —
+  reasoning that the sweep will rewrite that territory anyway, so hand-rippling
+  now "double-pays," and that "the punch-list IS the sweep's backlog." That left
+  a growing pile of game→PRD drift sitting un-rippled through all of T0.
+- **Options:** (a) keep deferring T0 gaps to the compression sweep; (b) ripple
+  continuously during T0, letting the punch-list drive small ongoing edits so no
+  backlog accumulates.
+- **Decision (human, 2026-07-04):** **(b).** *"I don't want a T0 compression
+  backlog at all, I want to ripple during T0 too."* The `prd:drift` punch-list is
+  worked **continuously**, not stockpiled — each built-system change ripples its
+  own drift as it lands (Flow 1), and standing gaps are cleared as we go.
+- **Why:** a backlog that waits for a single tier-close sweep is exactly the
+  drift-accumulation the PRD-on-a-diet effort exists to kill; keeping the PRD in
+  sync incrementally is cheaper to review (small diffs) and means the spec always
+  matches the build (R2 — the build is the territory).
+- **Consequences:**
+  - **🔁 Refines D-117 and reverses F1b Ph1's defer decision.** The compression
+    sweep (**Flow 2 / `/prd-compress`**) stays alive for its real job — *prose
+    compression* to intent + acceptance criteria at a tier's taste-review close —
+    but **presence-gap rippling no longer waits for it**. The two are decoupled.
+  - **Unblocks bulk gen-region transclusion** (F1b Ph2 had gated it on R1): the
+    durable no-backlog mechanism is to transclude derivable T0 rosters (weapons,
+    mobs, stances) as **gen-regions** so that whole class of drift becomes
+    impossible by construction, not merely detected. Proposed as the next build.
+  - **Per-item judgment still applies** — `prd:drift` is tier-blind, so a
+    deliberately tier-gated entity (e.g. the **road bandit**, gated to T2 per
+    A10/`9a5fc4e`) ripples into the **frontier** section (§5), not T0 (§3); a
+    genuine roster *mismatch* (built weapons ≠ §4's designed roster) is its own
+    decision, not a reflexive add.
+  - First ripple under this rule: the **three stance names** (jodan/gedan/chudan)
+    into §2.8 + §3 R5, landed 2026-07-04.
