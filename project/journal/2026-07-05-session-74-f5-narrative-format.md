@@ -78,3 +78,26 @@ INTENTIONAL — keep it, allowlist the Ph2 WARN.
 - One shared-tree pause: a co-agent's in-flight `src/ui/capture.ts` red
   (unused var) blocked the commit's verify; waited for their tree to green
   rather than touching a file I don't own.
+
+---
+
+## 3 · Ph2 — validation roster + the gen-narrative verify gate
+
+- `src/scripts/narrative/validate.ts` — the §3 roster over the AST, every
+  finding citing authoring file:line: speaker resolution, real voices
+  (`VOICE_CATEGORIES`), globally-unique topic/option ids, `after:` resolution
+  (non-self, non-cyclic), memory NPC + ±3 warmth clamp, bonus attr / stance
+  rosters, motivates ⊆ SURFACE_IDS **and verbatim-equal to
+  `RANKS[rank].rewardOnReach.unlock`** (the coherence check rungBeats.ts asked
+  for — probed against real data first: all 7 rungs hold), rank keys real +
+  no R0 + no duplicates. WARN (not error) on off-register voice overrides,
+  with the human-signed allowlist `shigemasa:official` (ruled intentional
+  2026-07-05).
+- `src/core/content/voices.ts` — `VOICE_CATEGORIES` runtime roster derived
+  from an exhaustive `Record<VoiceCategory, true>` (union drift = tsc error
+  both directions; the one hand-written enabling change).
+- `src/scripts/narrative/validate.test.ts` — 25 RED proofs, one per
+  validation, fixtures derived from RANKS/NPC/ATTR/STANCE sources of truth.
+- `gates.ts` — `gen-narrative` joins the roster (scope 'code'; 17 gates).
+- DoD proofs: hand-editing `rungBeats.gen.ts` → gate RED naming the `.md`
+  (performed + reverted); `verify:budget` median 4.16s, 0.84s headroom.

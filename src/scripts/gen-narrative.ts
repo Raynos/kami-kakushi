@@ -5,23 +5,26 @@
 // buffer and byte-compares — drift (including a hand edit to a generated file) goes RED
 // with an error naming the markdown to edit instead.
 //
-// The emitted source is piped through oxfmt (the repo formatter, via --stdin-filepath) so
-// the on-disk bytes are stable and pass the `oxfmt --check` gate untouched.
+// All narrative files are parsed FIRST and validated AS A SET (cross-file reuse references
+// and dialogue routing need the whole picture), then each compiles independently. The
+// emitted source is piped through oxfmt (the repo formatter, via --stdin-filepath) so the
+// on-disk bytes are stable and pass the `oxfmt --check` gate untouched.
 export {};
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
-import { parseNarrative, NarrativeError } from './narrative/parse';
-import { emitRungBeats } from './narrative/emit';
+import { parseNarrative, NarrativeError, type NarrativeDoc } from './narrative/parse';
+import { emitColdOpen, emitDialogue, emitIntro, emitRungBeats } from './narrative/emit';
+import { validateNarrative } from './narrative/validate';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
 interface Target {
   readonly md: string;
   readonly out: string;
-  readonly emit: (doc: ReturnType<typeof parseNarrative>) => string;
+  readonly emit: (doc: NarrativeDoc) => string;
 }
 
 const TARGETS: readonly Target[] = [
@@ -29,6 +32,21 @@ const TARGETS: readonly Target[] = [
     md: 'src/core/content/narrative/rung-beats.md',
     out: 'src/core/content/rungBeats.gen.ts',
     emit: emitRungBeats,
+  },
+  {
+    md: 'src/core/content/narrative/intro.md',
+    out: 'src/core/content/intro.gen.ts',
+    emit: emitIntro,
+  },
+  {
+    md: 'src/core/content/narrative/dialogue.md',
+    out: 'src/core/content/dialogue.gen.ts',
+    emit: emitDialogue,
+  },
+  {
+    md: 'src/core/content/narrative/cold-open.md',
+    out: 'src/core/content/coldOpen.gen.ts',
+    emit: emitColdOpen,
   },
 ];
 
@@ -49,35 +67,44 @@ function format(source: string, outPath: string): string {
 const check = process.argv.includes('--check');
 let drift = 0;
 
-for (const t of TARGETS) {
-  let generated: string;
-  try {
-    const doc = parseNarrative(readFileSync(join(repoRoot, t.md), 'utf-8'), t.md);
-    generated = format(t.emit(doc), t.out);
-  } catch (e) {
-    if (e instanceof NarrativeError) {
-      console.error(`  X gen-narrative: ${e.message}`);
-      process.exit(1);
-    }
-    throw e;
+try {
+  // Parse everything first — validation is a whole-set concern.
+  const present = TARGETS.filter((t) => existsSync(join(repoRoot, t.md)));
+  const docs = new Map<string, NarrativeDoc>(
+    present.map((t) => [t.md, parseNarrative(readFileSync(join(repoRoot, t.md), 'utf-8'), t.md)]),
+  );
+  const verdict = validateNarrative([...docs.values()]);
+  for (const w of verdict.warnings) console.warn(`  ~ gen-narrative WARN: ${w}`);
+  if (verdict.errors.length) {
+    for (const e of verdict.errors) console.error(`  X gen-narrative: ${e}`);
+    process.exit(1);
   }
-  const outAbs = join(repoRoot, t.out);
-  if (check) {
-    const onDisk = existsSync(outAbs) ? readFileSync(outAbs, 'utf-8') : '';
-    if (onDisk !== generated) {
-      console.error(
-        `  X gen-narrative: ${t.out} is out of date (or hand-edited).\n` +
-          `    The source of truth is ${t.md} — edit THAT, then run \`npm run gen:narrative\`.`,
-      );
-      drift++;
-    }
-  } else {
-    writeFileSync(outAbs, generated);
-    console.log(`  gen-narrative: wrote ${t.out} (from ${t.md})`);
-  }
-}
 
-if (check) {
-  if (drift) process.exit(1);
-  console.log(`  gen-narrative: ${TARGETS.length} generated module(s) in sync`);
+  for (const t of present) {
+    const generated = format(t.emit(docs.get(t.md)!), t.out);
+    const outAbs = join(repoRoot, t.out);
+    if (check) {
+      const onDisk = existsSync(outAbs) ? readFileSync(outAbs, 'utf-8') : '';
+      if (onDisk !== generated) {
+        console.error(
+          `  X gen-narrative: ${t.out} is out of date (or hand-edited).\n` +
+            `    The source of truth is ${t.md} — edit THAT, then run \`npm run gen:narrative\`.`,
+        );
+        drift++;
+      }
+    } else {
+      writeFileSync(outAbs, generated);
+      console.log(`  gen-narrative: wrote ${t.out} (from ${t.md})`);
+    }
+  }
+  if (check) {
+    if (drift) process.exit(1);
+    console.log(`  gen-narrative: ${present.length} generated module(s) in sync`);
+  }
+} catch (e) {
+  if (e instanceof NarrativeError) {
+    console.error(`  X gen-narrative: ${e.message}`);
+    process.exit(1);
+  }
+  throw e;
 }

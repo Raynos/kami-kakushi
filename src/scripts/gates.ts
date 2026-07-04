@@ -29,6 +29,7 @@ export const GATES: ReadonlyArray<Gate> = [
   { name: 'verify-prd', cmd: 'tsx src/scripts/verify-prd.ts', scope: 'docs' }, // reads docs/living/prd/* only
   { name: 'gen-docs', cmd: 'tsx src/scripts/gen-docs.ts --check', scope: 'both' }, // src registries -> docs/content
   { name: 'fixtures', cmd: 'tsx src/scripts/gen-fixtures.ts --check', scope: 'code' }, // specs+core -> src/fixtures/saves (F6)
+  { name: 'gen-narrative', cmd: 'tsx src/scripts/gen-narrative.ts --check', scope: 'code' }, // narrative/*.md -> *.gen.ts (F5; reads src only)
   { name: 'gen-prd-regions', cmd: 'tsx src/scripts/gen-prd-regions.ts --check', scope: 'both' }, // RANKS -> PRD §3 region (F1b Ph2)
   { name: 'pacing', cmd: 'tsx src/scripts/pacing-report.ts --check', scope: 'code' }, // imports ../core only
   { name: 'playcheck', cmd: 'tsx src/playcheck.ts --check', scope: 'code' },

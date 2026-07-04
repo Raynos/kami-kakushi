@@ -54,6 +54,24 @@ export const NPC_NAME: Readonly<Record<NpcId, string>> = {
   shigemasa: NAMES.lord,
 };
 
+/** Runtime roster of the `VoiceCategory` union (F5 Ph2 — the one hand-written enabling change,
+ *  so the narrative compiler can validate authored voices). Derived from an exhaustive Record,
+ *  so a union change without a roster change is a tsc error in BOTH directions — the same
+ *  idiom as render.ts's VOICE_COLOR / VOICE_SEAL. */
+const VOICE_CATEGORY_SET: Readonly<Record<VoiceCategory, true>> = {
+  narrator: true,
+  player: true,
+  physician: true,
+  steward: true,
+  arms: true,
+  official: true,
+  villager: true,
+  lord: true,
+};
+export const VOICE_CATEGORIES: readonly VoiceCategory[] = Object.keys(
+  VOICE_CATEGORY_SET,
+) as VoiceCategory[];
+
 export const NPC_IDS: readonly NpcId[] = [
   'soan',
   'genemon',
