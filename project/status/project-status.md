@@ -83,7 +83,7 @@ Vite 5 + TS (strict) + Vitest 2 + ESLint 9 (flat) + Prettier. Pure-core ESLint
 boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` runs
 in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
-**15 gates**: tsc, eslint, prettier, vitest, verify-content, verify-prd,
+**15 gates**: tsc, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, gen-prd-regions, pacing, playcheck, md-links, milestone-integrity,
 verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
@@ -108,7 +108,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-04-session-66-f2-github-actions-ci.md`](../journal/2026-07-04-session-66-f2-github-actions-ci.md)
+   [`journal/2026-07-04-session-67-verify-introspection-flags.md`](../journal/2026-07-04-session-67-verify-introspection-flags.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).

@@ -6,8 +6,12 @@
 // output, and reports pass/fail at the end — failures print their captured output.
 //
 // Modes:
-//   (default)  run once · per-gate pass/fail · exit non-zero on any failure
-//   --budget   run the suite RUNS× · median total · per-gate critical-path breakdown · 5s hard check
+//   (default)       run once · per-gate pass/fail · exit non-zero on any failure
+//   --verbose, -v   also print every gate's captured output (pass AND fail) + a timing table
+//   --debug         --verbose + the resolved config up front (roster, cmds, scope, concurrency, env)
+//   --performance   a single pass/fail run PLUS the per-gate critical-path timing table (no budget gate)
+//   --budget        run the suite RUNS× · median total · per-gate critical-path breakdown · 5s hard check
+//   --help, -h      usage + the full gate roster + the env knobs, then exit
 //
 // Lane flags (commit-time convenience; semantics in verify-scope.ts):
 //   SKIP_CODE_VERIFY=1  skip the 'code'-scoped gates (a docs-only commit — the docs gates still run)
@@ -72,12 +76,96 @@ async function runAll(
 }
 
 const fmt = (ms: number): string => `${(ms / 1000).toFixed(2)}s`;
+const indent = (s: string): string =>
+  s
+    .trimEnd()
+    .split('\n')
+    .map((l) => '    ' + l)
+    .join('\n');
 const concurrency = Number(process.env.VERIFY_CONCURRENCY) || cpus().length;
-const budget = process.argv.includes('--budget');
 const flags = scopeFlagsFromEnv(process.env);
+
+// --- flag parsing (introspection) -------------------------------------------
+// npm eats bare args, so users pass these as `npm run verify -- --verbose`;
+// pnpm forwards them directly (`pnpm run verify --verbose`). Both land in argv.
+const argv = process.argv.slice(2);
+const KNOWN = new Set([
+  '--budget',
+  '--help',
+  '-h',
+  '--verbose',
+  '-v',
+  '--debug',
+  '--performance',
+  '--perf',
+]);
+const hasFlag = (...names: string[]): boolean => names.some((n) => argv.includes(n));
+for (const a of argv) {
+  if (a.startsWith('-') && !KNOWN.has(a)) {
+    console.error(`  ! unknown flag "${a}" — try \`npm run verify -- --help\``);
+    process.exit(2);
+  }
+}
+const budget = hasFlag('--budget');
+const debug = hasFlag('--debug');
+const verbose = hasFlag('--verbose', '-v') || debug; // --debug implies --verbose
+const perf = hasFlag('--performance', '--perf');
+
+function printHelp(): void {
+  const budgetMs = fmt(Number(process.env.VERIFY_BUDGET_MS ?? 5000));
+  console.log(`verify — run the ${GATES.length} verify gates in parallel and report pass/fail.
+
+Usage:
+  npm run verify                    run once · per-gate pass/fail · exit non-zero on any failure
+  npm run verify -- --verbose       + every gate's captured output (pass and fail) + a timing table
+  npm run verify -- --debug         --verbose + the resolved config before running
+  npm run verify -- --performance   a real run + the per-gate timing table (the critical path)
+  npm run verify:budget             run the suite RUNS× · median total · hard ${budgetMs} budget check
+  npm run verify -- --help          this text
+  (pnpm forwards args without the \`--\`, e.g. \`pnpm run verify --verbose\`.)
+
+Env knobs:
+  VERIFY_CONCURRENCY   worker-pool size (default = CPU count, currently ${cpus().length})
+  SKIP_CODE_VERIFY=1   skip the 'code'-scoped gates (a docs-only commit)
+  SKIP_DOCS_VERIFY=1   skip the 'docs'-scoped gates (a pure code commit)
+  VERIFY_BUDGET_MS     --budget target in ms (default 5000)
+  VERIFY_BUDGET_RUNS   --budget sample count (default 3)
+
+Gates (source of truth: src/scripts/gates.ts):
+${GATES.map((g) => `  ${g.scope.padEnd(4)}  ${g.name.padEnd(20)} ${g.cmd}`).join('\n')}`);
+}
+
+function printTimings(results: GateResult[]): void {
+  console.log('\n  per-gate run time (slowest first = the critical path):');
+  for (const g of [...results].sort((a, b) => b.ms - a.ms)) {
+    console.log(`    ${fmt(g.ms).padStart(7)}  ${g.name}`);
+  }
+}
+
+function printAllOutput(results: GateResult[]): void {
+  for (const r of [...results].sort((a, b) => b.ms - a.ms)) {
+    const out = r.output.trim();
+    console.log(`\n  ${r.code === 0 ? '✓' : '✗'} ${r.name} (${fmt(r.ms)}, exit ${r.code}):`);
+    console.log(out ? indent(out) : '    (no output)');
+  }
+}
+
+if (hasFlag('--help', '-h')) {
+  printHelp();
+  process.exit(0);
+}
 
 if (!budget) {
   const { run: roster, skipped } = gatesForFlags(GATES, flags);
+  if (debug) {
+    console.log('  debug — resolved config:');
+    console.log(`    concurrency: ${concurrency} (${cpus().length} CPUs)`);
+    console.log(`    scope flags: skipCode=${flags.skipCode} skipDocs=${flags.skipDocs}`);
+    console.log(`    PATH prepend: ${binDir}`);
+    console.log(`    roster: ${roster.length}/${GATES.length} gate(s)`);
+    for (const g of roster) console.log(`      ${g.name.padEnd(20)} ${g.cmd}`);
+    console.log('');
+  }
   if (skipped.length) {
     // Loud, never silent: a scoped run must be unmistakable in the output (no false "all green").
     const via = [flags.skipCode && 'SKIP_CODE_VERIFY', flags.skipDocs && 'SKIP_DOCS_VERIFY']
@@ -97,17 +185,20 @@ if (!budget) {
   const results = await runAll(roster, concurrency);
   const total = performance.now() - t0;
   const failed = results.filter((r) => r.code !== 0);
+  // --verbose/--debug dump every gate's output (incl. failures); --performance shows just timings.
+  if (verbose) {
+    printAllOutput(results);
+    printTimings(results);
+  } else if (perf) {
+    printTimings(results);
+  }
   if (failed.length) {
-    for (const f of failed) {
-      console.error(`\n  ✗ ${f.name} FAILED (exit ${f.code}):`);
-      console.error(
-        f.output
-          .trimEnd()
-          .split('\n')
-          .map((l) => '    ' + l)
-          .join('\n'),
-      );
-    }
+    // Skip the per-failure reprint when --verbose already dumped everything above.
+    if (!verbose)
+      for (const f of failed) {
+        console.error(`\n  ✗ ${f.name} FAILED (exit ${f.code}):`);
+        console.error(indent(f.output));
+      }
     console.error(
       `\n  verify FAILED — ${failed.length}/${roster.length} gate(s) in ${fmt(total)} (${concurrency}-way parallel)`,
     );
