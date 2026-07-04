@@ -149,3 +149,10 @@ WARN block is written but the file also holds the co-agent's uncommitted
 herdr-FYI block) and `package.json` (`verify:balance`/`balance:fresh`
 script lines ride with the co-agent's `modern-screenshot` dep). Sweep them
 the moment the co-agent's tree clears.
+
+**Ph4 tail note:** the `.githooks/pre-commit` balance-freshness WARN block
+rode into the co-agent's herdr commit (73239c9) — the shared file went
+clean under us; content verified committed intact. `package.json`'s
+`verify:balance`/`balance:fresh` lines committed here once the co-agent's
+`modern-screenshot` dep landed (F3 Ph2a). Still deferred: the plan-✅ +
+archive + queue/README sweep, blocked on the F2-archival WIP.
