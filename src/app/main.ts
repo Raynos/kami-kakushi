@@ -22,7 +22,7 @@ import {
   type StanceId,
 } from '../core';
 import { createBrowserSaveManager, type SaveManager, toBase64 } from '../persistence';
-import { FIXTURES, getFixture } from '../fixtures';
+import { getFixtures, getFixture } from '../fixtures';
 import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
 import { createDevApi, mountDevPanel } from '../ui/dev';
@@ -439,7 +439,7 @@ async function boot(): Promise<void> {
         return qa.load(toBase64(JSON.stringify(fixture.env)));
       },
       /** List the available scenarios ({ name, blurb }) — the DEV panel + headless drivers read it. */
-      fixtures: () => FIXTURES.map(({ name, blurb }) => ({ name, blurb })),
+      fixtures: () => getFixtures().map(({ name, blurb }) => ({ name, blurb })),
       forceState: (patch: Partial<GameState>) => {
         commit({ ...state, ...patch });
       },

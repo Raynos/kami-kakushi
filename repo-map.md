@@ -73,6 +73,12 @@ always-loaded context while being editable on its own.
   [`snapshot-research.sh`](src/scripts/snapshot-research.sh),
   [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start
   human-queue brief).
+- [`src/fixtures/`](src/fixtures) — **F6 scenario-save library**: named,
+  GENERATED start-states so "reproduce X" is "load X, look". `specs.ts` drives the
+  REAL engine to each waypoint (nothing hand-authored); `gen-fixtures.ts`
+  (`fixtures:regen`/`:check`, the `fixtures` gate) writes `saves/*.json`; the DEV
+  panel **Scenarios** tab + `__qa.loadFixture` + `?fixture=` load them (DEV-only,
+  strip-gated). Consumed by the QA harness — see qa-playtesting.md §1.
 - `project/journal/` — per-session chronological **LOG** (history, not live
   state); one file per session (ordering rule: see AGENTS.md → "Kami-kakushi
   specifics" → "Docs taxonomy"). See [`README`](project/journal/README.md) +

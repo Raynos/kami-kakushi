@@ -1,6 +1,13 @@
 # Scenario save library — named, generated fixture saves (build plan)
 
-**Status:** 📋 PROPOSED — awaiting human read.
+**Status:** ✅ DONE — Ph1–Ph3 shipped (session 73, 2026-07-04). Six generated
+fixtures + the DEV Scenarios tab + `?fixture=` + the round-trip test + the
+`fixtures` verify gate + the deploy strip-grep. Two plan assumptions were corrected
+against the real engine during the build (recorded in the session-73 journal): the
+gate roster lives in `gates.ts` (not `verify-run.ts`) and the formatter is oxfmt
+(not prettier); and — mechanically — the bandit is T2-gated so `post-loss-broke`
+loses to the monkey (the focused-optimal arc leaves the MC at level 1), and the
+economy is rice-based (`wealthy-idler` banks coin via `sell_rice`).
 **created_date:** 2026-07-03
 **Owns:** `src/fixtures/` (specs + generated saves + registry) ·
 `src/scripts/gen-fixtures.ts` (`fixtures:regen` / `fixtures:check`) ·

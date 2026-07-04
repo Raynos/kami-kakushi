@@ -16,9 +16,9 @@ per-fact memory here.
 (both enforced by `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). The roster is owned by
 [`gates.ts`](../../src/scripts/gates.ts) — the single source, so the count can't drift here:
 <!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
-**15 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
-gen-docs, gen-prd-regions, pacing, playcheck, md-links, milestone-integrity,
-verify-changelog, doc-budgets, checkpoint.
+**16 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
+gen-docs, fixtures, gen-prd-regions, pacing, playcheck, md-links,
+milestone-integrity, verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
 Run `npm run checkpoint` after adding / removing a gate to regenerate that list.
 

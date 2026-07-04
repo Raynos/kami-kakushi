@@ -16,9 +16,11 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 echo "▸ verifying DEV tools + variant harness are stripped from the prod bundle…"
 # __qa = the DEV play-API; __KAMI_DEV_PANEL__ = the variant harness; __KAMI_PLAYTEST_CAPTURE__ +
 # __playtest-capture = the F3 playtest capture overlay + its dev-server endpoint (incl. its
-# injected screenshot rasteriser, which rides in via the overlay module). All are gated on
+# injected screenshot rasteriser, which rides in via the overlay module); __KAMI_FIXTURES__ +
+# a fixture name = the F6 scenario-save registry + its committed envelopes (belt-and-braces: the
+# name catches an emitted JSON chunk even if the sentinel were somehow dropped). All are gated on
 # `import.meta.env.DEV` and must dead-code-eliminate from prod.
-for marker in "__qa" "__KAMI_DEV_PANEL__" "__KAMI_PLAYTEST_CAPTURE__" "__playtest-capture"; do
+for marker in "__qa" "__KAMI_DEV_PANEL__" "__KAMI_PLAYTEST_CAPTURE__" "__playtest-capture" "__KAMI_FIXTURES__" "fresh-R3-pre-wolf"; do
   if grep -lF "$marker" "$REPO_ROOT/dist/assets/"*.js >/dev/null 2>&1; then
     echo "✗ DEV marker '$marker' leaked into the prod bundle — refusing to deploy." >&2
     echo "  Keep DEV-only code behind 'import.meta.env.DEV'" >&2

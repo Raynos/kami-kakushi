@@ -24,17 +24,23 @@ export interface FixtureEntry {
   readonly env: SaveEnvelope;
 }
 
-/** The specs joined to their on-disk saves, in spec order. A spec with no generated save throws
- *  loudly (the registry↔disk parity the round-trip test also guards) — run `npm run fixtures:regen`. */
-export const FIXTURES: readonly FixtureEntry[] = FIXTURE_SPECS.map((spec) => {
-  const mod = saves[`./saves/${spec.name}.json`];
-  if (!mod)
-    throw new Error(
-      `fixture save missing for spec "${spec.name}" — run \`npm run fixtures:regen\``,
-    );
-  return { name: spec.name, blurb: spec.blurb, env: mod.default };
-});
+/** The specs joined to their on-disk saves, in spec order. LAZY on purpose: a top-level
+ *  `FIXTURE_SPECS.map(… throw …)` const is a module side effect Rollup can't prove pure, so it would
+ *  pin this DEV-only registry (specs + the glob'd JSON) into the PROD bundle even though every caller
+ *  sits behind `import.meta.env.DEV`. Computing inside a function keeps this module side-effect-free,
+ *  so it dead-code-eliminates — proven by the verify-dev-strip gate (R2). A spec with no generated
+ *  save throws (the registry↔disk parity the round-trip test also guards) — run `fixtures:regen`. */
+export function getFixtures(): readonly FixtureEntry[] {
+  return FIXTURE_SPECS.map((spec) => {
+    const mod = saves[`./saves/${spec.name}.json`];
+    if (!mod)
+      throw new Error(
+        `fixture save missing for spec "${spec.name}" — run \`npm run fixtures:regen\``,
+      );
+    return { name: spec.name, blurb: spec.blurb, env: mod.default };
+  });
+}
 
 export function getFixture(name: string): FixtureEntry | undefined {
-  return FIXTURES.find((f) => f.name === name);
+  return getFixtures().find((f) => f.name === name);
 }

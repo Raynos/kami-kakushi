@@ -108,11 +108,6 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   typed registries, 12 referential-integrity validations, byte-preserving
   migration proof. Bonus finding: R7 speaks Shigemasa in 'official' voice
   while canon says 'lord' — exactly what the validator would catch.
-- [ ] `docs/plans/fable-process-F6-scenario-saves.md` — **scenario save
-  library** (top10 #5): six generated fixture saves (pre-wolf, rung-beat,
-  post-loss, worn-weapon, pre-ascension, wealthy-idler) — one-click load
-  from a DEV "Scenarios" tab / `?fixture=`, byte-stable regen, your real
-  run auto-backed-up before every load.
 - [ ] `docs/plans/fable-process-F7-balance-cockpit.md` — **the balance-tuning
   cockpit** (top10 #1, your 5/5 pick): a DEV-panel Balance tab of live
   sliders over the curated `balance.ts` levers (the 4 balance-watch items

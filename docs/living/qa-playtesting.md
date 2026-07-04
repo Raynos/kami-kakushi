@@ -113,6 +113,7 @@ the async twin of the human's live playtest loop; it never blocks either side.
 | `speed(mult)` | **DEV speed toggle** — run **N auto-steps per tick** (2× / 4× / 8×; `1` = prod cadence), so the build plays hands-on at a compressed-but-real pace. Distinct from `tick` (one discrete step) and the `toRung`/`toTier` teleport (instant warp). |
 | `pause()` / `resume()` | Pause / resume the active-only auto-loop. |
 | `save()` / `load(b64)` | The base64 round-trip + migration chain (§6.8): `save()` **returns** the export string; `load(b64)` imports it. *(No separate `export`/`import` — these are it.)* |
+| `loadFixture(name)` / `fixtures()` | **F6 named scenario saves** — `loadFixture(name)` loads a GENERATED fixture waypoint (backup-first via the F96 slot, so the human's run is safe — "↩ last backup" restores it); `fixtures()` lists `{name, blurb}`. Also on the **DEV panel → Scenarios** tab and as the **`?fixture=<name>`** boot param (`page.goto('/?fixture=pre-ascension')`). See the scenario library below. |
 | `forceState(patch)` / `setSeed(n)` | DEV state patch / reseed — **spot-checks only, never the gate runs** (they fabricate per-rung tick-counts; see the gate-run invariant below). |
 
 > **Mode-guarded, never throws.** Calling an intent that isn't currently legal is a no-op returning
@@ -123,6 +124,24 @@ the async twin of the human's live playtest loop; it never blocks either side.
 > `forceState`/`toRung`/`toTier` — those fabricate (or zero) the per-rung tick-counts, so a win-rate could
 > read green on a loadout that never paid its deed cost. The time-compression helpers stay for **spot-checks**,
 > not for the gate runs.
+
+### Scenario library (F6 — named fixture saves)
+
+Six committed, GENERATED start-states so "reproduce X" becomes "load X, look" — never a
+hand-driven climb. Each is rebuilt by driving the REAL engine from a fixed seed
+(`npm run fixtures:regen`; the `fixtures` verify gate keeps them fresh), so a balance retune
+or schema bump regenerates the whole library from scratch. Load via `__qa.loadFixture(name)`,
+the DEV panel's **Scenarios** tab, or `?fixture=<name>`:
+
+- `fresh-R3-pre-wolf` — R2, wolf-ready (the first-fight taste check), one click before `face_wolf`.
+- `rung-beat-ready` — the first rung-up story beat, on the trigger, before the VN modal.
+- `post-loss-broke` — the post-loss slump (D-113): HP at the floor, carried rice bled, kura hoard sheltered.
+- `worn-weapon-no-wood` — a Battered blade with no wood to mend it (the repair-loop bind).
+- `pre-ascension` — the full T0 arc at the ascension threshold (Estate EXCELLENT), before the ceremony.
+- `wealthy-idler` — Phase 2, coffers full (coin banked past 2× the dearest estate stage), idle at the kura.
+
+Fixtures are DEV-only (stripped from prod; the `verify-dev-strip` deploy gate greps the bundle to
+prove it). Home + spec model: `src/fixtures/` (specs drive the engine; nothing hand-authored).
 
 ---
 

@@ -90,8 +90,41 @@ drift (R2).
   rice 120 sheltered). Zero page errors.
 - `post-loss-broke` nails the D-113 story: hp→1, carried rice bled, banked rice 120 safe.
 
-## Next intended steps
-1. Ph3 — `src/fixtures/fixtures.test.ts` round-trip (registry↔disk parity + `validateEnvelope`
-   + waypoint `expect`); `fixtures:check` into `src/scripts/gates.ts` (NOT verify-run.ts);
-   `verify:budget` measurement (demote to gh-pages if >5s); `gh-pages.sh` strip-grep +
-   a real build proving zero fixture bytes in `dist/`; docs (qa-playtesting §1, repo-map).
+## Ph3 (same session) — teeth + strip + docs (F6 DONE)
+
+**Summary:** Shipped the round-trip test, the `fixtures` verify gate, the prod strip
+proof, and the docs. The strip gate caught a REAL prod leak (R2/R3 payoff) and I
+fixed it. F6 is done; full `npm run verify` GREEN (16 gates, 4.24s).
+
+### What changed
+- `src/fixtures/fixtures.test.ts` (new) — registry↔disk parity + `validateEnvelope`
+  (with `migrate`) + each waypoint's `expect` (the teeth). 7 tests, ~2ms.
+- `src/scripts/gates.ts` — added the `fixtures` gate (`gen-fixtures.ts --check`,
+  scope code). `verify:budget` median 4.12s (0.88s headroom) → STAYS in the roster,
+  no demotion. checkpoint regenerated the 15→16 gate-count regions (project-status,
+  working-agreements) + the plans list (docs/plans/README.md after the archive move).
+- `src/scripts/verify-dev-strip.sh` — added `__KAMI_FIXTURES__` + a fixture-name
+  marker to the deploy strip grep.
+- `src/fixtures/index.ts` — **made the registry LAZY (`getFixtures()`)**. The strip
+  proof (real `npm run build` + grep) caught the fixture NAME + glob'd JSON leaking
+  into prod: a top-level `FIXTURE_SPECS.map(… throw …)` const is a module side effect
+  Rollup can't prove pure, so it pinned the DEV-only registry into the bundle despite
+  every caller being behind `import.meta.env.DEV`. Computing inside a function makes
+  the module side-effect-free → it dead-code-eliminates. Re-proven: zero sentinel /
+  name / blurb bytes in `dist/`. main.ts + fixtures.test.ts updated to `getFixtures`.
+- Docs: qa-playtesting.md §1 (loadFixture/fixtures row + a scenario-library subsection);
+  repo-map.md (`src/fixtures/` entry).
+- Plan graduated: Status ✅ DONE; `git mv` to `project/archive/`; reading-queue item
+  removed from todo-human.md (D-089, human-directed build).
+
+### Verification (Ph3 DoD)
+- `verify` GREEN — 16 gates, 4.24s; round-trip test green; `verify:budget` 4.12s.
+- Real build + `verify-dev-strip.sh`: zero fixture bytes in the prod bundle (the leak
+  the gate caught is fixed and re-proven).
+- The `fixtures` gate is RED-able: hand-edit a save → `--check` names the `.md` to regen.
+
+## F6 — DONE. Landmine for the next agent
+- **Still LOCAL only.** Ph1/Ph2 were committed with `SKIP_VERIFY=1` past another
+  agent's then-red tree; Ph3 commits on a now-GREEN tree. If the tree is green at
+  checkpoint, push; otherwise leave local and note it (the co-agents' capture.ts /
+  AGENTS.md WIP is uncommitted — untouched by me).
