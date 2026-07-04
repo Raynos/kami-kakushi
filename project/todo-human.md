@@ -81,7 +81,7 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
   compressed territory; §6 folded into the T0 sweep).
-- [ ] `docs/plans/fable-process-F2-github-actions-ci.md` — **GitHub Actions
+- [ ] `project/archive/fable-process-F2-github-actions-ci.md` (archived — done) — **GitHub Actions
   CI** (top10 #3, your spec): two parallel jobs (verify + build/strip) ≈
   1.5 min wall vs the 5-min target — setup dominates, so a 6-way split
   would fork the gate roster into YAML for nothing; nightly stub for the
@@ -93,10 +93,12 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   dev-middleware → `project/playtest-inbox/` → a `/drain-inbox` skill. Your
   synchronous feedback typing becomes async play-and-dump; repro via
   state+seed+variants, no screenshots needed. Owns the transport F7/F8 reuse.
-- [ ] `docs/plans/fable-process-F4-balance-sim-gates.md` — **persona-bot balance
-  sim** (suggestion #4): greedy/idler/explorer bots over the real reducers,
-  pacing envelopes derived from `balance.ts`, on-demand `verify:balance` + a
-  generated pacing report whose diff rides every balance change.
+- [ ] `project/archive/fable-process-F4-balance-sim-gates.md` (archived — done,
+  discussed pre-build 2026-07-04) — **persona-bot balance sim** (suggestion #4):
+  greedy/idler/explorer bots over the real reducers, pacing envelopes derived
+  from `balance.ts`, on-demand `verify:balance` + a generated pacing report
+  (`docs/content/t0-pacing.md`) whose diff rides every balance change. Built:
+  ADR D-132; open calls for you → **H19** (Phase-2 band) + **H20** (WARN→gate).
 - [ ] `docs/plans/fable-process-F5-narrative-format.md` — **narrative
   authoring format** (top10 #8): story as structured markdown (worked
   example: the REAL R3 Kihei beat, round-trip faithful), compiler emits the

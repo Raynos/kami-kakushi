@@ -1,6 +1,9 @@
 # Persona-bot balance sim — pacing-envelope assertions (T0)
 
-**Status:** 📋 PROPOSED — awaiting human read.
+**Status:** ✅ DONE (2026-07-04, Fable 5) — all four phases built + gated.
+Ph1 `7834a14` · Ph2+Ph3 `83c6253` · Ph4 `f26a677`/`3586bb8`. §8 defaults
+confirmed by the human pre-build (Phase-2 band report-only → H19;
+`--check-fresh` pre-commit WARN → promotion parked as H20). ADR D-132.
 
 ## Who builds this — Fable or Opus?
 

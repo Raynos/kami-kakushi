@@ -58,12 +58,10 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (npm run checkpoint — do not edit inside) -->
-**12 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**11 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-process-F10-taste-bar-enforcement.md`](fable-process-F10-taste-bar-enforcement.md) — PARKED
-- [`fable-process-F2-github-actions-ci.md`](fable-process-F2-github-actions-ci.md) — IN-PROGRESS
 - [`fable-process-F3-playtest-capture-inbox.md`](fable-process-F3-playtest-capture-inbox.md) — PROPOSED
-- [`fable-process-F4-balance-sim-gates.md`](fable-process-F4-balance-sim-gates.md) — PROPOSED
 - [`fable-process-F5-narrative-format.md`](fable-process-F5-narrative-format.md) — PROPOSED
 - [`fable-process-F6-scenario-saves.md`](fable-process-F6-scenario-saves.md) — PROPOSED
 - [`fable-process-F7-balance-cockpit.md`](fable-process-F7-balance-cockpit.md) — PROPOSED
@@ -71,6 +69,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 - [`fable-process-F9-ship-skill.md`](fable-process-F9-ship-skill.md) — PROPOSED
 - [`fable-process-master-plan.md`](fable-process-master-plan.md) — IN-PROGRESS
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — PROPOSED
+- [`opus-2026-07-04-herdr-repo-integration.md`](opus-2026-07-04-herdr-repo-integration.md) — IN-PROGRESS
 - [`opus-2026-07-04-ui-v2-andon-steel-migration.md`](opus-2026-07-04-ui-v2-andon-steel-migration.md) — PROPOSED
 <!-- gen:end active-plans -->
 

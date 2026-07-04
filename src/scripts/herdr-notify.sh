@@ -23,6 +23,8 @@ if [ "${HERDR_ENV:-}" != "1" ] || ! command -v herdr >/dev/null 2>&1; then
   exit 0
 fi
 
-args=(notification show "$title" --sound request)
+# --sound none (human, 2026-07-04): the visual notification is the surface; the audible ping
+# doubled up on the existing ~/.claude/sounds/play.sh chimes and the human turned it off.
+args=(notification show "$title" --sound none)
 [ -n "$body" ] && args+=(--body "$body")
 herdr "${args[@]}" >/dev/null 2>&1 || true

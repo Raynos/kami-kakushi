@@ -156,3 +156,22 @@ clean under us; content verified committed intact. `package.json`'s
 `verify:balance`/`balance:fresh` lines committed here once the co-agent's
 `modern-screenshot` dep landed (F3 Ph2a). Still deferred: the plan-✅ +
 archive + queue/README sweep, blocked on the F2-archival WIP.
+
+---
+
+## 4 · F4 close-out (archival sweep) + herdr ping off
+
+Human steer: "finish all of F4, I trust you" + turn off the herdr ping.
+
+- F4 plan Status → ✅ DONE; `git mv` to `project/archive/`; the todo-human
+  reading-queue line updated to the archived path (F2's precedent), naming
+  H19/H20 as the open calls; plans-README + project-status gen-regions
+  regenerated.
+- **Deliberate sweep-in:** this commit also carries the ORPHANED, complete
+  F2-archival pieces (the F2 plan's delete + archive copy + its
+  todo-human/README lines — left uncommitted by an earlier session's race,
+  see c8f9da1). Committing my F4 archival without them would push broken
+  links; committing both keeps every path in the committed tree resolving.
+- `herdr-notify.sh` → `--sound none` (the audible ping doubled the
+  play.sh chimes; visual notification stays). Verified the play.sh sound
+  setup is INTACT — files + hooks all present; nothing was nuked.
