@@ -46,11 +46,11 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 **Owed reviews / taste calls (async, no rush):**
 
 - [ ] `docs/plans/opus-2026-07-05-shrink-save-file.md` — **shrink the save
-  file**. Measured: the log is ~57% of the save; the rest is ~2 KB. **A
-  (gzip the envelope) is the fix — 48 KB → 3.65 KB (13×)**, self-contained
-  codec change, zero risk. **C** (log-as-descriptors) is optional and only ~1 KB
-  better once compressed — worth it only for the T1 cleanliness. **D** (intent
-  trace + replay) was measured out and dropped. **Read to pick: A only, or A+C.**
+  file** (decisions LOCKED 2026-07-05, Opus building). Log is ~57% of the save.
+  **A** = gzip the store (native `CompressionStream`/`zlib`, 13×); **C** =
+  log-as-descriptors via a new `log-content` registry (schema 7→8, migration);
+  exports stay plain base64-JSON; **D** dropped. **Read to confirm the approach**
+  (build is underway in stages — codec → registry → descriptors + migration).
 - [ ] `docs/plans/opus-2026-07-04-phase2-economy-redesign.md` — **T0 Phase-2
   economy redesign** (the REAL fix D-133 queued after the stopgap hotfix): makes
   T0 Phase 2 a ~1:1, ~40–83-min *fun* chunk instead of a threshold-inflated slog.
@@ -91,6 +91,12 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   *mechanical* titles, honestly flagged as reconciled to the §3.2 *narrative*
   titles by the future R1-gated sweep. **Review that diff** (it edits canon).
   _(The F1b plan itself is closed + archived — reframe call made 2026-07-04.)_
+- [ ] `project/brainstorms/2026-07-05-requirements-based-rung-progression.md` —
+  **your F121 proposal**: replace the raw rung points meter (476/1100) with a
+  finite **checklist of named requirements** per rung, completable in any order
+  (R0 = rake 100/200/300/400/500 rice → 20/40/60/80/100%). A progression-model
+  redesign — needs your scope call (replace vs wrap the points model?) before a
+  design pass / plan.
 - [ ] `project/brainstorms/2026-07-03-prd-on-a-diet.md` — **the PRD-diet
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for

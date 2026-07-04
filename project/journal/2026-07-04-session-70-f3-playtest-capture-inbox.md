@@ -402,3 +402,28 @@ then:
 
 Verified: typecheck clean, game renders without crash. Session archived
 (pending → archive). F-log: `project/human-feedback/2026-07-05-playtest.md`.
+
+## 18 · F121 was NOT truncated — mis-triage fixed + drain skill reworked (2026-07-05)
+
+The human asked why F121 looked truncated. It wasn't — my drain used an
+`awk '/^\*\*Note:\*\*/{getline;print}'` that printed only the FIRST line after
+`**Note:**`, so a full multi-line note read as cut-off. The real F121 is a
+substantial **progression-model redesign** proposal: replace the raw rung points
+meter (476/1100) with a finite **checklist of named requirements** per rung,
+completable in any order (R0 = rake 100/200/300/400/500 rice → 20/40/60/80/100%),
+moving away from "all activities give N points; X points → rung up".
+
+- Corrected the F121 F-entry (💬 truncated → 💬 design proposal, full note + real
+  triage as a design fork, R4 — surfaced, not built).
+- Captured it durably:
+  `project/brainstorms/2026-07-05-requirements-based-rung-progression.md`
+  (proposal + 5 open questions) + added to the human reading queue.
+
+**Drain-inbox skill reworked (per two human steers):**
+1. **Read the WHOLE note** — never triage off a first-line grep (the F121 trap
+   made explicit in §3).
+2. **Interactive + batched** — take **≤5 captures per pass**, **propose a
+   fix/route for each and wait for the human's go-ahead** before landing anything
+   (new §4 gate); use AskUserQuestion freely. Renumbered §4→§8.
+3. **Removed all `/loop` guidance** — `/loop` is expensive and opt-in; the human
+   prefixes it themselves if wanted. Skill is `/drain-inbox`, interactive.
