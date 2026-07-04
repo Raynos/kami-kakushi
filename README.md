@@ -1,6 +1,10 @@
 # KamiKakushi : An Incremental RPG game.
 
-[![CI](https://github.com/Raynos/kami-kakushi/actions/workflows/verify.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/verify.yml)
+[![lint](https://github.com/Raynos/kami-kakushi/actions/workflows/lint.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/lint.yml)
+[![typecheck](https://github.com/Raynos/kami-kakushi/actions/workflows/typecheck.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/typecheck.yml)
+[![test](https://github.com/Raynos/kami-kakushi/actions/workflows/test.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/test.yml)
+[![build](https://github.com/Raynos/kami-kakushi/actions/workflows/build.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/build.yml)
+[![verify](https://github.com/Raynos/kami-kakushi/actions/workflows/verify.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/verify.yml)
 
 > **Note — this is the preserved original seed prompt, kept as a historical artifact.** It is not
 > the current canon and some details have since evolved (e.g. the protagonist's age). For the

@@ -168,3 +168,34 @@ UNCOMMITTED shared-tree state**:
 commit **all** carriers; and never let a committed cross-doc link depend on a
 co-agent's uncommitted move. Fixed in the follow-up commit; re-verified green on
 the remote.
+
+---
+
+## Human steer — split the ONE opaque `verify` check into ATOMIC per-check workflows
+
+Human (looking at the checks popup): *"All I see is verify & verify-nightly,
+doesn't tell me anything. I want it broken down into multiple actions"* — a
+direct override (D-022) of F2's "reuse one `npm run verify` job" call. The
+single lumped check gave no glanceable signal on WHAT failed.
+
+Split `verify.yml`'s two jobs into **five atomic workflows**, each its own
+status check + README badge:
+- **lint.yml** → `npm run lint` (oxlint) + `npm run format:check` (oxfmt)
+- **typecheck.yml** → `npm run typecheck` (new script: `tsgo --noEmit`)
+- **test.yml** → `npm test` (the FULL vitest suite — 46 files / 638 tests, 0
+  excluded)
+- **build.yml** → `npm run build` + the DEV-strip gate (moved out of verify.yml)
+- **verify.yml** → `npm run verify` (all 15 gates — the authoritative
+  "everything" backstop; the 11 house-specific gates run ONLY here)
+
+The full-roster `verify` stays as the backstop so the 11 house gates
+(content/PRD/gen-regions/md-links/checkpoint/…) still run and the roster stays
+single-sourced in `gates.ts` (never forked into YAML). The classics now run
+both atomically (glanceable) AND inside verify (authoritative) — cheap
+redundancy, free on a public repo. `verify-nightly.yml` unchanged.
+
+**Also settled a recurring question:** `verify`'s vitest gate runs the **full**
+suite — `include: ['**/*.test.ts']`, no `exclude`, no test projects, 0
+`.skip`/`.todo`/env-gated. Measured: **46 files, 638 tests, all run**. The only
+test-like things outside verify are the manual Playwright QA harnesses
+(`playtest.mjs`, `qa-shots.mjs`) — not assertion tests, never gates.

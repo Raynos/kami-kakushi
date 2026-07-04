@@ -1,9 +1,12 @@
-# CI verify — two parallel jobs on every push.
+# The FULL gate roster — `npm run verify` runs all 15 gates (the atomic
+# lint/typecheck/test checks PLUS the 11 house-specific invariant gates:
+# content/PRD verifiers, gen-region freshness, md-links, milestone-integrity,
+# changelog, doc-budgets, checkpoint). This is the authoritative "everything
+# passed" backstop; the atomic per-check workflows (lint/typecheck/test/build)
+# exist alongside it so a failure reads meaningfully at a glance.
 #
-# This workflow deliberately REUSES `npm run verify` rather than forking the
-# gate roster into YAML. The gate roster lives in ONE place —
-# src/scripts/verify-run.ts — so the Ph3 lint swap and every future gate land
-# in CI with zero edits here. The gates already run wide inside the single job.
+# Roster lives in ONE place — src/scripts/verify-run.ts (gates.ts) — never
+# forked into YAML: every future gate lands here with zero workflow edits.
 name: verify
 
 on:
@@ -12,7 +15,7 @@ on:
   workflow_dispatch: {}
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: verify-${{ github.ref }}
   cancel-in-progress: true # agents push often; newest commit wins
 
 jobs:
@@ -27,16 +30,3 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run verify
-
-  build-strip:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci --no-audit --no-fund
-      - run: npm run build
-      - run: bash src/scripts/verify-dev-strip.sh

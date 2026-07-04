@@ -1,0 +1,26 @@
+# Atomic check — build (prod bundle) + the DEV-strip ship-hygiene gate.
+# Split out of verify.yml so a broken build reads as "build ✗" at a glance.
+name: build
+
+on:
+  push:
+    branches-ignore: [gh-pages]
+  workflow_dispatch: {}
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build # tsgo --noEmit && vite build → dist/
+      - run: bash src/scripts/verify-dev-strip.sh # refuse a bundle leaking __qa / DEV panel
