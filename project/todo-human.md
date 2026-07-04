@@ -55,12 +55,6 @@ _(The **master plan** — `docs/plans/fable-process-master-plan.md`, the
 F1–F10 build order + merge map — was ratified in-session 2026-07-03 and its
 queue entry cleared; the plans below are renamed + reordered to match it.)_
 
-- [ ] `project/archive/fable-process-F1a-mechanical-checkpoint.md` (archived — done) — **the mechanical
-  checkpoint** (retro suggestion #1): generate the process layer's derivable
-  sections (gate roster, active-plans list, plan-status tokens, queue paths)
-  via a `checkpoint.ts` + a 13th verify gate. Found live drift as receipts:
-  the gate-count sentence says 11 (there are 12), `docs/plans/README.md`
-  claims "no active plans", and session-brief mis-tags LOCKED plans as DONE.
 - [ ] `docs/plans/fable-process-F1b-prd-ripple-tooling.md` — **PRD ripple tooling**
   (D-117 Phase 0, the buildable-NOW slice you asked for; second half of the
   F1 build lane, after F1a): a `prd:drift` reporter (game registries →
