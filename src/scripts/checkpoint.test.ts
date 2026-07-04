@@ -6,6 +6,7 @@ import {
   rewriteQueuePath,
   relinkTarget,
   nextSessionNumber,
+  newestJournalName,
   slugify,
   fillJournalSkeleton,
 } from './checkpoint';
@@ -159,6 +160,30 @@ describe('nextSessionNumber', () => {
 
   it('starts at 1 when there are no numbered sessions', () => {
     expect(nextSessionNumber(['README.md', '_TEMPLATE.md'])).toBe(1);
+  });
+});
+
+// Proves the resume-journal region picker (the "can't-rot pointer" fix). RED-able:
+// a naive `.sort()[last]` mis-ranks unpadded "session-9" ABOVE "session-63" and
+// would return the wrong (lexically-last) file; a bad filter would let README slip
+// through. Both cases below go RED against those regressions.
+
+describe('newestJournalName', () => {
+  it('picks the GREATEST session number, not the lexical max', () => {
+    // Lexical sort ranks "session-9" above "session-63" ('9' > '6'); the newest
+    // session is 63. A `.sort()[last]` implementation returns session-9 → RED.
+    expect(
+      newestJournalName([
+        '2026-07-04-session-9-a.md',
+        '2026-07-04-session-63-b.md',
+        'README.md',
+        '_TEMPLATE.md',
+      ]),
+    ).toBe('2026-07-04-session-63-b.md');
+  });
+
+  it('returns null when the listing holds no session journals', () => {
+    expect(newestJournalName(['README.md', '_TEMPLATE.md'])).toBeNull();
   });
 });
 

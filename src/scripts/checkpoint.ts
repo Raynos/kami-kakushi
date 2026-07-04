@@ -113,6 +113,20 @@ function genActivePlans(): string {
   return `${head}\n\n${rows.join('\n')}`;
 }
 
+/** The resume-block "newest journal" pointer for project-status.md — a markdown
+ *  link to the newest journal, relative to project/status/. Generated so the hand-
+ *  typed filename can't rot (it lagged 6 sessions behind newest at s63, the exact
+ *  drift this closes). Only the derivable path lives inside the markers; the prose
+ *  around them stays hand-authored. The 3-space indent aligns the line as the
+ *  step-1 list continuation it sits inside — bake it in so a dry run byte-matches. */
+function genResumeJournal(): string {
+  const newest = newestJournalName(readdirSync(abs(JOURNAL_DIR)));
+  const link = newest
+    ? `[\`journal/${newest}\`](../journal/${newest})`
+    : '_(no journal yet — `project/journal/` is empty)_';
+  return `   ${link}`;
+}
+
 // --- plan listing + token validation ------------------------------------------
 
 /** Every real plan file in docs/plans/ (README is exempt — it documents the dir). */
@@ -299,6 +313,26 @@ export function nextSessionNumber(names: string[]): number {
   return (nums.length ? Math.max(...nums) : 0) + 1;
 }
 
+/** The newest journal filename from a listing = the one with the GREATEST session
+ *  number. Session numbers are globally monotonic (nextSessionNumber = max + 1), so
+ *  the max number is authoritative — and it beats a lexical `.sort()`, which mis-
+ *  ranks an unpadded "session-9" ABOVE "session-63". Returns null when the listing
+ *  holds no session journals. Pure — exported for test. */
+export function newestJournalName(names: string[]): string | null {
+  let best: string | null = null;
+  let bestNum = -Infinity;
+  for (const f of names) {
+    const m = /^\d{4}-\d{2}-\d{2}-session-(\d+).*\.md$/.exec(f);
+    if (!m) continue;
+    const n = Number(m[1]);
+    if (n > bestNum) {
+      bestNum = n;
+      best = f;
+    }
+  }
+  return best;
+}
+
 export function slugify(topic: string): string {
   return topic
     .toLowerCase()
@@ -360,6 +394,7 @@ interface RegionSpec {
 }
 const REGIONS: ReadonlyArray<RegionSpec> = [
   { file: 'project/status/project-status.md', id: 'gate-roster', gen: genGateRoster },
+  { file: 'project/status/project-status.md', id: 'resume-journal', gen: genResumeJournal },
   { file: 'project/status/working-agreements.md', id: 'gate-roster', gen: genGateRoster },
   { file: 'docs/plans/README.md', id: 'active-plans', gen: genActivePlans },
 ];
@@ -464,13 +499,11 @@ function runCli(): void {
       `  !! flagged: non-closed status token in ${b.file}: ${b.token ?? '(no **Status: line)'}`,
     );
 
-  // Newest journal — a bare run just names it (no scaffolding).
+  // Newest journal — a bare run just names it (no scaffolding). Same picker the
+  // resume-journal region uses, so the printout and the spliced pointer agree.
   if (!scaffolded) {
-    const journals = readdirSync(abs(JOURNAL_DIR))
-      .filter((f) => /^\d{4}-\d{2}-\d{2}-session-\d+.*\.md$/.test(f))
-      .sort();
-    if (journals.length)
-      console.log(`  newest journal: ${JOURNAL_DIR}/${journals[journals.length - 1]}`);
+    const newest = newestJournalName(readdirSync(abs(JOURNAL_DIR)));
+    if (newest) console.log(`  newest journal: ${JOURNAL_DIR}/${newest}`);
   }
   process.exit(0);
 }

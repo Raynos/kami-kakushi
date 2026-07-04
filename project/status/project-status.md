@@ -102,14 +102,14 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 ## How to resume
 
-> 🎮 **T0 rebuild + the agent-default-audit v0.3.5 deltas are COMPLETE + deployed
-> (2026-07-03).** Everything is on `origin/main` (green) + live at
-> raynos.github.io/kami-kakushi. Scope in ADRs **D-107–D-125**. What's open is the
-> human async queue above; the deferred/owed tail (led by the R7-capstone build once
-> **T1** exists) is the next autonomous work.
+> 🎮 **T0 rebuild + agent-default-audit (v0.3.5): COMPLETE + deployed 2026-07-03.**
+> On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **D-107–D-125**.
+> Open = the human queue above; the deferred tail (R7-capstone once **T1**) is next.
 
-1. Read the **newest journals** (`journal/2026-07-03-session-57-taste-transfer-architecture.md`
-   — the taste lock/redo arc — then s54/s56) + `todo-human.md` for the open forks.
+1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
+   <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
+   [`journal/2026-07-04-session-65-resume-pointer-gen-region.md`](../journal/2026-07-04-session-65-resume-pointer-gen-region.md)
+   <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
