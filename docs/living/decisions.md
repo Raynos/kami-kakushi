@@ -1645,3 +1645,43 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
     (D-128's durable mechanism; the `gen-prd-regions` gate holds it).
   - The **road bandit** (T2-gated, A10) got its proper §5 frontier mention in the
     same sweep — it is NOT in the T0 bestiary region (correctly excluded).
+
+### D-130 ✅ — Toolchain: swap ESLint→oxlint and Prettier→oxfmt (full replacement, no two-tier)
+- **created_date:** 2026-07-04
+- **Context:** ESLint (4.06 s) + Prettier (4.17 s) were the two heaviest `verify`
+  gates — together they set the critical path and left only 0.41 s of headroom
+  under the 5 s drift budget (D-072). The F2-CI Ph3 plan
+  ([`fable-process-F2-github-actions-ci.md`](../../project/archive/fable-process-F2-github-actions-ci.md))
+  scoped a **two-tier** swap (oxlint repo-wide + a thin `eslint src/core` kept for
+  the boundary rules) because oxlint historically lacked `no-restricted-syntax`
+  (the esquery `new Date()` ban) — the four pure-core boundary rules (PRD §6.1/§6.2)
+  are the crown jewels and a missed rule is a silent determinism hole.
+- **Decision (human, 2026-07-04):** **full replacement — drop ESLint and Prettier
+  entirely**, no two-tier. oxlint 1.72 + oxfmt 0.57, exact-pinned.
+- **Why the full swap is sound (parity PROVEN, not assumed — R2/R3):**
+  - The `new Date()` gap is closed by banning the **`Date` global** in the
+    `src/core/**` override (`no-restricted-globals`) — which subsumes BOTH
+    `new Date()` and `Date.now` (core uses no `Date` at all, only comments). A
+    scratch probe hitting all violation classes was run through **both** the old
+    ESLint config and the new `.oxlintrc.json`: **both flag the identical 7
+    classes** (`window`, `Math.pow`, `Math.random`, `new Date()`, `Date.now`,
+    `performance.now`, the `../ui` import) and **neither** flags the allowed
+    `Math.sqrt`. `performance.now` is likewise covered by banning the
+    `performance` global.
+  - oxfmt's `--migrate=prettier` reproduced the `.prettierrc.json` settings +
+    `.prettierignore` scope into `.oxfmtrc.json`; `--list-different` showed **zero**
+    reformatting on the committed tree. Full parity, so no churn.
+- **Consequences:**
+  - Gate roster (`gates.ts`): `eslint .`→`oxlint`, `prettier --check .`→`oxfmt --check`.
+    `verify` median **4.59 s → 3.48 s** (headroom 0.41 s → **1.52 s**); the two
+    heavies drop to oxlint **0.16 s** + oxfmt **0.42 s**. Critical path is now
+    vitest + tsc (as predicted).
+  - Removed: `eslint.config.js`, `.prettierrc.json`, `.prettierignore`, and the
+    `eslint` / `@eslint/js` / `typescript-eslint` / `prettier` / `globals` devDeps.
+    Added: `.oxlintrc.json` (the boundary override lives here now — the "one home"
+    for the pure-core rules moved from `eslint.config.js`), `.oxfmtrc.json`.
+  - Slightly **stricter** than before by design: the whole `Date` and `performance`
+    globals are banned in core (not just `.now`) — no false positives (core uses
+    neither), and it's a tightening, never a hole. The `src/persistence` save-layer
+    `Date.now` exemption is unaffected (the override is scoped to `src/core/**`).
+  - F2 Ph3 is now DONE — this was its deliverable.

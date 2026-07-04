@@ -1,0 +1,233 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "typescript/no-useless-empty-export": "off",
+    "unicorn/prefer-string-starts-ends-with": "off"
+  },
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "coverage",
+    "project/archive",
+    "src/scripts/*.mjs",
+    "tmp",
+    "ui-demos",
+    ".claude/worktrees"
+  ],
+  "overrides": [
+    {
+      "files": ["src/core/**/*.ts"],
+      "excludeFiles": ["src/core/**/*.test.ts"],
+      "rules": {
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "window",
+            "message": "core is pure & deterministic: no 'window' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "document",
+            "message": "core is pure & deterministic: no 'document' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "localStorage",
+            "message": "core is pure & deterministic: no 'localStorage' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "sessionStorage",
+            "message": "core is pure & deterministic: no 'sessionStorage' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "indexedDB",
+            "message": "core is pure & deterministic: no 'indexedDB' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "navigator",
+            "message": "core is pure & deterministic: no 'navigator' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "location",
+            "message": "core is pure & deterministic: no 'location' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "fetch",
+            "message": "core is pure & deterministic: no 'fetch' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "requestAnimationFrame",
+            "message": "core is pure & deterministic: no 'requestAnimationFrame' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "cancelAnimationFrame",
+            "message": "core is pure & deterministic: no 'cancelAnimationFrame' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "caches",
+            "message": "core is pure & deterministic: no 'caches' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "XMLHttpRequest",
+            "message": "core is pure & deterministic: no 'XMLHttpRequest' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "WebSocket",
+            "message": "core is pure & deterministic: no 'WebSocket' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "alert",
+            "message": "core is pure & deterministic: no 'alert' in src/core (PRD §6.1/§6.2)."
+          },
+          {
+            "name": "Date",
+            "message": "core is clock-free: no Date in src/core — this bans both `new Date()` and `Date.now` (the save-layer tiebreaker exemption lives in src/persistence). PRD §6.1."
+          },
+          {
+            "name": "performance",
+            "message": "core is clock-free: no performance.now in src/core (PRD §6.1)."
+          }
+        ],
+        "no-restricted-properties": [
+          "error",
+          {
+            "object": "Math",
+            "property": "random",
+            "message": "core uses the one seeded RNG (core/rng), never Math.random (PRD §6.1)."
+          },
+          {
+            "object": "Math",
+            "property": "pow",
+            "message": "core bans Math.pow: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "exp",
+            "message": "core bans Math.exp: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "expm1",
+            "message": "core bans Math.expm1: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "log",
+            "message": "core bans Math.log: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "log2",
+            "message": "core bans Math.log2: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "log10",
+            "message": "core bans Math.log10: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "log1p",
+            "message": "core bans Math.log1p: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "sin",
+            "message": "core bans Math.sin: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "cos",
+            "message": "core bans Math.cos: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "tan",
+            "message": "core bans Math.tan: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "asin",
+            "message": "core bans Math.asin: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "acos",
+            "message": "core bans Math.acos: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "atan",
+            "message": "core bans Math.atan: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "atan2",
+            "message": "core bans Math.atan2: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "sinh",
+            "message": "core bans Math.sinh: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "cosh",
+            "message": "core bans Math.cosh: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "tanh",
+            "message": "core bans Math.tanh: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "asinh",
+            "message": "core bans Math.asinh: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "acosh",
+            "message": "core bans Math.acosh: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "atanh",
+            "message": "core bans Math.atanh: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "cbrt",
+            "message": "core bans Math.cbrt: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          },
+          {
+            "object": "Math",
+            "property": "hypot",
+            "message": "core bans Math.hypot: use integer-pow; only Math.sqrt is whitelisted (PRD §6.1 / Q36)."
+          }
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "**/ui",
+                  "**/ui/**",
+                  "**/app",
+                  "**/app/**",
+                  "**/persistence",
+                  "**/persistence/**"
+                ],
+                "message": "core may not import from ui/app/persistence — the dependency rule is one-directional (PRD §6.2)."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

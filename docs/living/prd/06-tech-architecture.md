@@ -15,7 +15,7 @@ field, an additive backwards-compatible schema, and a monotonic-counter newest-w
 
 ## 6.1 Toolchain & build
 
-**Stack: Vite + TypeScript + Vitest, with ESLint + Prettier.** Committed `package.json` +
+**Stack: Vite + TypeScript + Vitest, with oxlint + oxfmt.** Committed `package.json` +
 lockfile (everything is pinned — no ad-hoc toolchain). Output is
 **fully static** — `vite build` → `dist/` → zipped and uploaded to itch.io, no server, no backend.
 
@@ -29,9 +29,10 @@ lockfile (everything is pinned — no ad-hoc toolchain). Output is
 - **Vitest** unit-tests the pure core (it imports cleanly in Node because it has zero DOM/canvas/window
   references — see §6.2). Determinism tests assert that a fixed seed + a fixed intent/tick script produces a
   byte-identical `GameState` (snapshot or structural hash).
-- **ESLint** enforces the architectural rules as lint, not just convention:
-  - **no `Math.random()` anywhere in `src/core/`** (custom `no-restricted-syntax` / `no-restricted-globals`
-    rule) — all randomness flows through `core/rng` (convention: *one RNG*);
+- **oxlint** enforces the architectural rules as lint, not just convention (the pure-core boundary
+  lives in the `src/core/**` override in `.oxlintrc.json`):
+  - **no `Math.random()` anywhere in `src/core/`** (a `no-restricted-properties` rule) — all randomness
+    flows through `core/rng` (convention: *one RNG*);
   - **no `Math.pow` / `Math.exp` / `Math.log` / trig (`sin`/`cos`/`tan`…) anywhere in `src/core/`** (a
     `no-restricted-properties` rule; **`Math.sqrt` is whitelisted**) — every growth-curve power is computed
     by **integer-power-by-repeated-multiplication**, not floating transcendentals, accumulated in **ONE
@@ -49,7 +50,7 @@ lockfile (everything is pinned — no ad-hoc toolchain). Output is
     deterministic core stays clock-free; only the side-effectful persistence layer reads the wall clock;
   - the renderer (`src/ui/`) may use the DOM but may **not** import from another screen's internals or
     mutate `GameState` directly (it only dispatches intents).
-- **Prettier** for formatting; **lint-staged + the `.githooks/pre-commit`** keep each commit
+- **oxfmt** for formatting; **the `.githooks/pre-commit`** keep each commit
   green and journaled (the hook already requires a `journal/` entry; `SKIP_JOURNAL=1` for trivial commits).
 
 ### `npm run verify` (the single gate)
@@ -58,8 +59,8 @@ One command must pass before any commit and in CI:
 
 ```
 npm run verify  =  tsc --noEmit
-               && eslint .
-               && prettier --check .
+               && oxlint
+               && oxfmt --check
                && vitest run
                && node src/scripts/verify-content.ts      # the content verifier + invariants (§6.6/§6.6.1)
                && node src/scripts/gen-docs.ts --check     # generated docs are up to date (§6.6)
@@ -896,7 +897,7 @@ done now**:
 
 | Convention (CLAUDE.md) | How §6 satisfies it |
 |---|---|
-| **Pure-core boundary** | All logic/state/math in `src/core/` with **zero DOM/canvas/window** — enforced by an ESLint boundary rule (build failure, not review). Renderer consumes plain data; one-directional dependency. The only wall-clock read (`Date.now` for the save-`savedAt` tiebreaker) is a **documented save-layer exemption** in `persistence/`, never in core. (§6.2, §6.1) |
+| **Pure-core boundary** | All logic/state/math in `src/core/` with **zero DOM/canvas/window** — enforced by an oxlint boundary rule (build failure, not review). Renderer consumes plain data; one-directional dependency. The only wall-clock read (`Date.now` for the save-`savedAt` tiebreaker) is a **documented save-layer exemption** in `persistence/`, never in core. (§6.2, §6.1) |
 | **Determinism: one RNG** | A single seeded RNG **in `GameState`** as **per-named-stream MONOTONIC cursors** `{ seed, cursors:{combat,loot,seasonal,worldgen} }`, saved/loaded; pure per-stream `next` (no child-RNG-by-splitting); **stateless day-keyed weather/lunar** (re-derived, not stored); **`Math.random()` AND `Math.pow`/`exp`/`log`/trig lint-banned** in core (integer-pow only). Replays are byte-identical (Vitest-asserted). (§6.7, §6.7.1, §6.3, §6.1) |
 | **Single source of truth — generate, don't duplicate** | Content is typed data registries (`core/content`); a **hardened** content verifier cross-checks ids and the **invariants** (gate-monotonicity/ceiling, accrual tie-out, **per-perk magnitude**, **real-name denylist**, **trade-≤⅓-post-combo proof**, hybrid gate-distribution); balance/content docs are **generated** into `docs/balance/` + `docs/content/` from the same data and `gen:docs --check` fails the build on drift. (§6.5, §6.6, §6.6.1) |
 | **Playtest via code, not synthetic input** | DEV-only `window.__qa` (read state, drive intents, tick/frames, pause, force-state, seed, `goto` a node) drives the **real** typed intents headlessly; powers `capture-game-states` and pacing/unlock regression. (§6.10) |

@@ -1,6 +1,6 @@
 // Pure integer/clamp helpers for the deterministic core.
 //
-// The core BANS Math.pow / exp / log / trig (ESLint-enforced, PRD §6.1 / Q36):
+// The core BANS Math.pow / exp / log / trig (oxlint-enforced, PRD §6.1 / Q36):
 // every growth-curve power is integer-pow-by-repeated-multiplication so a fixed
 // seed replays byte-identically across engines and an exported save is portable.
 // Math.sqrt is the one whitelisted transcendental.

@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "coverage",
+    "src/ui/fonts",
+    "scripts/*.mjs",
+    "*.md",
+    "docs",
+    "brainstorms",
+    "journal",
+    "memory",
+    "archive",
+    "audit",
+    "human-in-the-loop",
+    "tmp",
+    "ui-demos",
+    "playcheck.baseline.json",
+    ".claude/settings.local.json",
+    ".claude/worktrees"
+  ]
+}

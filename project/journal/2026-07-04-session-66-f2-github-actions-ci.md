@@ -80,3 +80,51 @@ oxfmt swap) is a deliberate, separately-committable Fable-routed follow-up
   local and note it here, don't override a red push.
 - The badge shows "no runs" / the brief shows "status unavailable" until
   `verify.yml` actually lands on the remote and runs once — expected.
+
+---
+
+## F2 Ph3 — ESLint→oxlint + Prettier→oxfmt FULL swap (D-130)
+
+**Human-authorized mid-session** ("I authorize you to rewrite the repo from
+eslint/prettier to oxlint/oxfmt") — this overrides the plan's Fable routing
+for Ph3 (D-022, human intent is canon). Done as a **full replacement**, not
+the plan's two-tier (no `eslint src/core` kept). Rationale + parity proofs:
+**D-130**.
+
+### What changed
+- `src/scripts/gates.ts` — `eslint .`→`oxlint`, `prettier --check .`→`oxfmt --check`.
+- `.oxlintrc.json` — **new.** Repo-wide correctness + `no-unused-vars` (`^_`),
+  and the pure-core boundary as a `src/core/**` override (the boundary's "one
+  home" moved here from `eslint.config.js`).
+- `.oxfmtrc.json` — **new**, via `oxfmt --migrate=prettier` (faithful copy of
+  `.prettierrc.json` + `.prettierignore` scope).
+- `package.json` — `lint`/`format`/`format:check`/`verify:seq` scripts swapped;
+  removed `eslint`, `@eslint/js`, `typescript-eslint`, `prettier`, `globals`
+  devDeps; added pinned `oxlint@1.72.0` + `oxfmt@0.57.0`. Lockfile pruned.
+- Deleted `eslint.config.js`, `.prettierrc.json`, `.prettierignore`.
+- `tsconfig.json` — dropped the deleted `eslint.config.js` from `include`.
+- Doc/comment sync: `src/core/math.ts` + `src/core/index.ts` ("ESLint-enforced"
+  → "oxlint-enforced"), `AGENTS.md`, PRD `06-tech-architecture.md` +
+  `07-roadmap-scope.md`, `qa-playtesting.md`, the regenerated gate-roster region
+  in `working-agreements.md`, and the ADR D-130 in `decisions.md`.
+
+### Verification (R3)
+- **Boundary parity PROVEN**: a scratch `src/core` probe with all violation
+  classes → OLD eslint and NEW oxlint both flag the identical 7 (`window`,
+  `Math.pow`, `Math.random`, `new Date()`, `Date.now`, `performance.now`,
+  `../ui` import); neither flags allowed `Math.sqrt`. The `new Date()` +
+  `Date.now` coverage comes from banning the **`Date` global** (oxlint has no
+  `no-restricted-syntax`); `performance.now` from banning the `performance`
+  global.
+- **oxfmt parity**: `--list-different` = zero reformatting on the committed tree.
+- `npm run verify` green (15 gates); `verify:budget` median **3.48 s** (was
+  4.59 s), 1.52 s headroom (was 0.41 s). oxlint 0.16 s, oxfmt 0.42 s.
+
+### Landmines
+- The oxlint boundary is slightly **stricter**: whole `Date`/`performance`
+  globals banned in core (not just `.now`). No false positives today (core uses
+  neither). `src/persistence` is unaffected — the override is `src/core/**` only.
+- Done during heavy concurrent shared-tree churn (another agent rippling the
+  PRD + refactoring `verify-run.ts`). Staged only my own paths; `gates.ts` was
+  untouched by them. The F2 plan is now ✅ DONE (archivable, not yet moved).
+- **Next (this session):** swap `tsc` → `tsgo` (human-asked) as its own change.

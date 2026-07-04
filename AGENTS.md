@@ -269,7 +269,7 @@ Full version:
   prefers markdown prose and paragraphs hard-wrapped at **≈80 characters**
   (re-flowable in any editor, clean diffs, no horizontal scroll). It's a **soft
   norm**, deliberately **not** enforced by `verify` — markdown is excluded from
-  Prettier (`.prettierignore`), and 80 is impractical to hard-block everywhere
+  the formatter (the `.oxfmtrc.json` ignore list), and 80 is impractical to hard-block everywhere
   (wide CJK glyphs, long URLs/paths, and **markdown tables** — whose rows can't
   wrap — are accepted exceptions; prefer bullet-sections over a wide table when
   the cells carry prose). Apply it to **new/edited** docs; don't mass-retrofit

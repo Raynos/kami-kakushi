@@ -22,8 +22,8 @@ export interface Gate {
 
 export const GATES: ReadonlyArray<Gate> = [
   { name: 'tsc', cmd: 'tsc --noEmit', scope: 'code' },
-  { name: 'eslint', cmd: 'eslint .', scope: 'code' },
-  { name: 'prettier', cmd: 'prettier --check .', scope: 'code' }, // *.md + docs dirs are .prettierignore'd
+  { name: 'oxlint', cmd: 'oxlint', scope: 'code' }, // .oxlintrc.json; pure-core boundary in its src/core override
+  { name: 'oxfmt', cmd: 'oxfmt --check', scope: 'code' }, // .oxfmtrc.json; *.md + docs dirs ignored there
   { name: 'vitest', cmd: 'vitest run', scope: 'code' },
   { name: 'verify-content', cmd: 'tsx src/scripts/verify-content.ts', scope: 'code' }, // imports registries only
   { name: 'verify-prd', cmd: 'tsx src/scripts/verify-prd.ts', scope: 'docs' }, // reads docs/living/prd/* only

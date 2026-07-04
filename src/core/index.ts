@@ -1,5 +1,5 @@
 // Public surface of the pure core (PRD §6.2). The ui/app/persistence layers import
-// from here; `core` imports from none of them (one-directional, ESLint-enforced).
+// from here; `core` imports from none of them (one-directional, oxlint-enforced).
 // Everything is pure, deterministic, immutable-in/out.
 
 export { ipow, clamp } from './math';
