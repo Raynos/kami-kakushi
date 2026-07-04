@@ -6,12 +6,7 @@ import {
   createInitialState,
   reduce,
   tick as coreTick,
-  availableActions,
-  canDoActivity,
-  getActivity,
-  getWeapon,
-  durabilityBand,
-  satietyMax,
+  autoModeIntent,
   nextHopToward,
   getMob,
   applyPromotion,
@@ -238,64 +233,11 @@ async function boot(): Promise<void> {
   let autoSpeed = 1; // DEV-only 2×/4×/8× time multiplier (prod stays 1; set via __qa.speed)
   function autoStep(): void {
     if (paused || document.hidden || crashed) return;
-    // auto-fight takes priority over auto-labour
-    if (state.autoCombat) {
-      if (
-        state.character.satiety < satietyMax(state) * balance.STAMINA_FLAT_ABOVE &&
-        availableActions(state).includes('rest')
-      ) {
-        dispatch({ type: 'rest' });
-        return;
-      }
-      // D-076: the auto-loop NO LONGER auto-heals. HP accumulates (D-050 — only eating mends),
-      // so a foe that deals ≥1 dmg grinds you down, and a LOST fight stops the autopilot (the
-      // reducer nulls autoCombat — see fight.ts). Healing is now a deliberate manual pre-fight
-      // choice. (The auto-retreat-@20% mode lands in Step 3d.)
-      // auto-manage durability: a worn weapon's win-rate craters (Broken = ~0%), so an
-      // unattended grind must not silently fight a broken blade forever. Repair when wood
-      // allows; if Broken with no wood, STOP auto-combat rather than grind at ~0%.
-      const weapon = getWeapon(state.equippedWeapon);
-      const band = durabilityBand(state.weaponDurability, weapon.durabilityMax);
-      const worn = band.name === 'Battered' || band.name === 'Broken';
-      if (worn && (state.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) {
-        dispatch({ type: 'repair_weapon' });
-        return;
-      }
-      if (band.name === 'Broken') {
-        dispatch({ type: 'set_auto_combat', mobId: null, reason: 'weapon-broken' });
-        return;
-      }
-      dispatch({ type: 'fight', mobId: state.autoCombat, retreat: state.autoCombatRetreat });
-      return;
-    }
-    // auto-rake the R0 cold-open (rake is a meta verb, no ActivityId) — so the ~5-min opening isn't a
-    // blind manual click-grind. Rest when starving; clear itself once raking is no longer legal (R1).
-    if (state.autoRake) {
-      if (!availableActions(state).includes('rake_rice')) {
-        dispatch({ type: 'set_auto_rake', on: false });
-      } else if (
-        state.character.satiety < satietyMax(state) * balance.STAMINA_FLAT_ABOVE &&
-        availableActions(state).includes('rest')
-      ) {
-        dispatch({ type: 'rest' });
-      } else {
-        dispatch({ type: 'rake_rice' });
-      }
-      return;
-    }
-    const auto = state.autoActivity;
-    if (!auto) return;
-    const act = getActivity(auto);
-    // auto-manage stamina so an unattended grind doesn't crawl at the floor
-    if (
-      state.character.satiety < satietyMax(state) * balance.STAMINA_FLAT_ABOVE &&
-      availableActions(state).includes('rest')
-    ) {
-      dispatch({ type: 'rest' });
-      return;
-    }
-    if (canDoActivity(state, act)) dispatch({ type: 'do_activity', activityId: auto });
-    else dispatch({ type: 'set_auto', activityId: null });
+    // The DECISION is the pure core's autoModeIntent (F4 Ph3 — the sim's idler persona consumes
+    // the SAME function, so the shipped auto-loop and the sim can never desync); this loop keeps
+    // only the app concerns: the DOM guards above and the dispatch below.
+    const intent = autoModeIntent(state);
+    if (intent) dispatch(intent);
   }
   window.setInterval(() => {
     for (let i = 0; i < autoSpeed; i++) autoStep();

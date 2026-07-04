@@ -5,19 +5,79 @@
 //   --selftest   the Ph1 DoD asserts (walkPacing R0–R2 equality · determinism · all seeds ascend)
 //   --fuzz N     N derived seeds, STRUCTURAL checks only (soft-locks are bugs at any seed);
 //                fuzz never gates envelopes. Output → console only.
-// Envelope gating (`--check`) + the report fingerprint (`--check-fresh`) land in Ph2.
+//   --check      the `verify:balance` gating matrix (F4 §5a): greedy per-rung bands +
+//                structural gates for every persona × seed, margins printed beside every
+//                band, non-zero exit on any RED.
+//   --check-fresh the staleness gate (F4 §5b): recompute the input fingerprint (imports +
+//                hash, NO sim run, <1 s) and compare to the committed report's header —
+//                fires exactly when a balance VALUE changed without a fresh report.
 export {};
 
-import { writeFileSync } from 'node:fs';
-import { balance } from '../core';
+import { writeFileSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import {
+  ACTIVITIES,
+  ESTATE_STAGES,
+  MARKET_ITEMS,
+  MOBS,
+  RANKS,
+  RECIPES,
+  WEAPONS,
+  balance,
+} from '../core';
 import { PERSONAS, greedy, skippedIntents, type Persona } from '../sim/personas';
 import { runPersona } from '../sim/run';
 import type { RunMetrics, RungMetric } from '../sim/metrics';
 import { wallMinutes } from '../sim/metrics';
 import { SIM_SEEDS, CANONICAL_SEED, fuzzSeeds } from '../sim/seeds';
+import { greedyBandVerdicts, structuralVerdict, PHASE2_RUNG } from '../sim/envelopes';
 import { walkPacing } from './pacing-report';
 
 const OUT = 'docs/content/t0-pacing.md';
+
+// ── input fingerprint (F4 §5b) — a stable hash of the EVALUATED design inputs the sim consumes:
+// values, not file text, so comment/formatting edits never change it. Sorted keys ⇒ stable JSON. ──
+
+function stable(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(stable);
+  if (v && typeof v === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const k of Object.keys(v as Record<string, unknown>).sort()) {
+      const x = (v as Record<string, unknown>)[k];
+      if (typeof x === 'function') continue; // helpers (rungThreshold, riceSellPrice…) — not values
+      out[k] = stable(x);
+    }
+    return out;
+  }
+  return v;
+}
+
+export function inputFingerprint(): string {
+  const inputs = stable({
+    balance: { ...balance },
+    ranks: RANKS.map((r) => ({ id: r.id, threshold: r.meterThreshold, eligible: r.eligible })),
+    activities: ACTIVITIES,
+    mobs: MOBS,
+    weapons: WEAPONS,
+    estateStages: ESTATE_STAGES,
+    market: MARKET_ITEMS,
+    recipes: RECIPES,
+  });
+  return createHash('sha256').update(JSON.stringify(inputs)).digest('hex').slice(0, 16);
+}
+
+const FINGERPRINT_PREFIX = '- Input fingerprint: `';
+
+function reportFingerprint(): string | null {
+  let text: string;
+  try {
+    text = readFileSync(OUT, 'utf-8');
+  } catch {
+    return null;
+  }
+  const line = text.split('\n').find((l) => l.startsWith(FINGERPRINT_PREFIX));
+  return line ? (line.slice(FINGERPRINT_PREFIX.length).split('`')[0] ?? null) : null;
+}
 
 // ── run the matrix ────────────────────────────────────────────────────────────────────────────
 
@@ -128,6 +188,11 @@ function generateReport(matrix: PersonaRuns[]): string {
   L.push('');
   L.push(`- Seeds: ${SIM_SEEDS.join(', ')} (canonical: ${CANONICAL_SEED})`);
   L.push(`- Personas: ${PERSONAS.map((p) => p.id).join(', ')}`);
+  L.push(`${FINGERPRINT_PREFIX}${inputFingerprint()}\` (the evaluated design inputs —`);
+  L.push('  `balance-sim --check-fresh` compares this against the live constants, so a balance');
+  L.push(
+    '  VALUE change without a regenerated report is caught; comments/formatting never fire it)',
+  );
   L.push(
     `- Wall model: one intent per ${balance.AUTO_REPEAT_MS} ms (the active-loop cadence) — ` +
       `wall-min = intents × ${balance.AUTO_REPEAT_MS} / 60000. Every dispatch counts (moves and`,
@@ -197,12 +262,101 @@ function selftest(): number {
   return failures;
 }
 
+// ── the gating matrix (`verify:balance`) ──────────────────────────────────────────────────────
+
+function check(): number {
+  const started = performance.now();
+  const matrix = runMatrix();
+  let reds = 0;
+
+  // (1) greedy per-rung bands (the per-lever gate), margins printed beside every band.
+  const greedyRuns = matrix.find((pr) => pr.persona.id === 'greedy')!.runs;
+  console.log(
+    `greedy per-rung wall-min vs the T0 band [${balance.T0_PACING_BAND_MIN}, ` +
+      `${balance.T0_PACING_BAND_MAX}] (D-056), measured across seeds ${SIM_SEEDS.join(', ')}:`,
+  );
+  for (const v of greedyBandVerdicts(greedyRuns)) {
+    const margin = `margin −${min1(v.measuredMin - v.bandMin)}/+${min1(v.bandMax - v.measuredMax)}`;
+    if (v.ok) {
+      console.log(
+        `  ✓ ${v.rung}: [${min1(v.measuredMin)}–${min1(v.measuredMax)}] in band (${margin})`,
+      );
+    } else {
+      reds++;
+      console.error(
+        `  ✗ RED ${v.rung}: measured [${min1(v.measuredMin)}–${min1(v.measuredMax)}] min ` +
+          `OUTSIDE the band [${v.bandMin}, ${v.bandMax}] — the ${v.rung} lever ` +
+          `(rungThreshold) moved outside signed intent; a human decision is required ` +
+          `(re-derive the threshold or re-sign the band in balance.ts — never a test-side fudge).`,
+      );
+    }
+  }
+
+  // Phase-2 window: NO signed band yet (H19) — report-only, echoed here for visibility.
+  const p2 = greedyRuns.map((r) => r.economy.phase2Intents ?? 0);
+  console.log(
+    `  · ${PHASE2_RUNG} residence = the Phase-2 window: ` +
+      `[${min1(wallMinutes(Math.min(...p2)))}–${min1(wallMinutes(Math.max(...p2)))}] min — ` +
+      'REPORT-ONLY until a T0_PHASE2_BAND_* is signed (H19).',
+  );
+
+  // (2) structural gates — every persona × seed: full ladder, ascension, zero soft-locks.
+  for (const pr of matrix) {
+    for (const m of pr.runs) {
+      const s = structuralVerdict(m);
+      if (s.ok) {
+        console.log(`  ✓ ${s.personaId} seed ${s.seed}: ladder + ascension, no soft-lock`);
+      } else {
+        reds++;
+        console.error(
+          `  ✗ RED ${s.personaId} seed ${s.seed}: ascended=${s.ascended} ` +
+            `fullLadder=${s.fullLadder} softLock=${JSON.stringify(s.softLock)}`,
+        );
+      }
+    }
+  }
+
+  // (3) freshness — the committed report must match the live design inputs.
+  const live = inputFingerprint();
+  const committed = reportFingerprint();
+  if (committed === live) console.log(`  ✓ report fresh (fingerprint ${live})`);
+  else {
+    reds++;
+    console.error(
+      `  ✗ RED report stale: ${OUT} header says ${committed ?? '(missing)'}, live inputs ` +
+        `hash ${live} — run \`npm run balance:report\` and commit the diff.`,
+    );
+  }
+
+  const secs = ((performance.now() - started) / 1000).toFixed(1);
+  console.log(
+    `verify:balance — ${reds ? `${reds} RED` : 'GREEN'} ` +
+      `(${PERSONAS.length} persona(s) × ${SIM_SEEDS.length} seeds in ${secs}s)`,
+  );
+  return reds;
+}
+
 // ── CLI ───────────────────────────────────────────────────────────────────────────────────────
 
 const RUN_AS_CLI = process.argv[1]?.includes('balance-sim') ?? false;
 if (RUN_AS_CLI) {
   const args = process.argv.slice(2);
-  if (args.includes('--selftest')) {
+  if (args.includes('--check-fresh')) {
+    const live = inputFingerprint();
+    const committed = reportFingerprint();
+    if (committed === live) {
+      console.log(`balance report fresh (fingerprint ${live})`);
+      process.exit(0);
+    }
+    console.error(
+      `balance report STALE: ${OUT} header says ${committed ?? '(missing)'}, live design ` +
+        `inputs hash ${live}. Run \`npm run balance:report\`, eyeball the diff (it IS the ` +
+        'before/after), and commit it with the balance change.',
+    );
+    process.exit(1);
+  } else if (args.includes('--check')) {
+    process.exit(check() ? 1 : 0);
+  } else if (args.includes('--selftest')) {
     const failures = selftest();
     process.exit(failures ? 1 : 0);
   } else if (args.includes('--fuzz')) {

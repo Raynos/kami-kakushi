@@ -76,3 +76,50 @@ four phases autonomous.
   in-flight WIP — left strictly untouched.
 - The greedy persona's readiness knobs (`GREEDY_MEND_HP_FRAC` etc.) are
   PLAYER-MODEL knobs, not canon — envelopes must never fixture on them.
+
+---
+
+## 2 · Ph2 + Ph3 (same session, appended)
+
+**Ph2 — envelopes + gates.** `src/sim/envelopes.ts` (bands read from
+`balance`/`RANKS` only — zero magic numbers), `balance-sim --check`
+(= `npm run verify:balance`: greedy per-rung bands with min/max margins
+printed beside every band + structural gates for every persona × seed +
+freshness), `--check-fresh` (= `npm run balance:fresh`: a sorted-JSON
+sha256 of the EVALUATED design inputs — balance exports, RANKS
+thresholds, ACTIVITIES/MOBS/WEAPONS/ESTATE_STAGES/market/recipes — vs the
+report header; values not text, so comments never fire it), and the slim
+vitest tripwire `src/sim/pacing-envelope.test.ts` (~40 ms in-gate).
+**RED-ability proven live:** flipping `RUNG_METER_THRESHOLDS.R5` 3100→9300
+turned the gate, the tripwire AND the freshness check RED, each naming R5
+(43.4 min vs [3, 22]); reverting restored green. All current climb rungs
+sit IN band with visible margin — the only day-one finding is the known
+Phase-2 anticlimax → **H19** filed (recommend deferring the band until the
+Phase-2 redesign); **H20** filed (WARN→gate promotion, parked per plan).
+Matrix runtime 1.0 s (target <30 s); `verify:budget` median 3.32 s.
+
+**Ph3 — idler + explorer + soft-lock detector.** Extracted the app loop's
+inline auto-mode decision into the pure `autoModeIntent` in
+`core/autoplay.ts` — `main.ts`'s `autoStep` is now DOM-guards + dispatch
+only, and the idler consumes the SAME function (the focusedOptimalIntent
+no-desync move). The idler arms `set_auto_rake`/`set_auto`/
+`set_auto_combat` at sparse check-ins and otherwise replays the shipped
+auto-loop verbatim; the explorer prefers any legal never-yet-issued
+(type, payload) pair in fixed registry order (topics, nodes, every verb),
+falling back to greedy. **Contract deviation (self-picked):**
+`decide(s, issued)` — the runner passes the issued-key digest, because
+GameState deliberately doesn't store intent history and a stateful
+persona would break reproducibility. Soft-lock detector:
+`SIM_SOFTLOCK_INTENTS = 500` (~45× the worst green ceiling — measured
+maxNoProgress: greedy 3, idler 4, explorer 11), proven to fire on a
+manufactured stall in `src/sim/sim.test.ts` (which also pins the
+autoModeIntent decision order — the extraction's equivalence proof — and
+idler/explorer determinism). All 15 gating runs green; all 660+11 tests
+green.
+
+**Report findings (all three personas):** idler ascends in ~84.2 min
+(nearly identical to greedy's 83.9 — auto-modes are that close to
+optimal); explorer ~81.7 min, is the ONLY persona to touch coin (3 682
+end coin, first coin at 5.1 min), and loses 3 fights (wolf/boar tastings)
+bleeding 3 511 coin + 4 484 rice. Blooding-fight losses on all seeds for
+all personas remain a watch item.

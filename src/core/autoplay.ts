@@ -13,9 +13,16 @@ import { ACTIVITIES, getActivity, type ActivityId } from './content/activities';
 import { getRank } from './content/ranks';
 import { reachableFrom } from './content/map';
 import { getMob } from './content/enemies';
+import { getWeapon } from './content/weapons';
+import { durabilityBand } from './combat';
 import { isUnlocked } from './unlock';
 import { skillLevel } from './skills';
-import { rungThreshold, CONDITIONING_GATE_LEVEL } from './content/balance';
+import {
+  rungThreshold,
+  CONDITIONING_GATE_LEVEL,
+  STAMINA_FLAT_ABOVE,
+  REPAIR_WOOD_COST,
+} from './content/balance';
 import { introActive, introSceneAt } from './content/intro';
 import { promotionReady, pendingPromotionTarget } from './ranks';
 import { RUNG_BEATS } from './content/rungBeats';
@@ -75,6 +82,48 @@ export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: st
  * (`choose_rung_option`). The beat drivers pick the FIRST decision option deterministically (the
  * exact pick is relationship/flag flavour; the climb is identical whichever is chosen).
  */
+/**
+ * The SHIPPED auto-mode's next intent (F4 Ph3) — the pure decision the app loop's `autoStep`
+ * dispatched inline until now, extracted so the app loop AND the idler persona consume the SAME
+ * function and can never desync (the exact no-desync move `focusedOptimalIntent` already made).
+ * Decision order preserved verbatim: auto-COMBAT (rest below the knee > repair a worn blade when
+ * wood allows > STOP on Broken with no wood > fight) > auto-RAKE (clear when illegal > rest > rake)
+ * > auto-LABOUR (rest > do > clear when undoable). Returns null when NO auto mode is armed (or the
+ * armed labour just cleared) — the loop idles. The DOM guards (paused / document.hidden / crashed)
+ * stay in main.ts; they are app concerns, not decisions.
+ */
+export function autoModeIntent(s: GameState): Intent | null {
+  const belowKnee = (): boolean =>
+    s.character.satiety < satietyMax(s) * STAMINA_FLAT_ABOVE &&
+    availableActions(s).includes('rest');
+  // auto-fight takes priority over auto-labour
+  if (s.autoCombat) {
+    if (belowKnee()) return { type: 'rest' };
+    // auto-manage durability: repair when wood allows; if Broken with no wood, STOP auto-combat
+    // rather than grind at ~0% (the reducer voices the weapon-broken stop line).
+    const weapon = getWeapon(s.equippedWeapon);
+    const band = durabilityBand(s.weaponDurability, weapon.durabilityMax);
+    const worn = band.name === 'Battered' || band.name === 'Broken';
+    if (worn && (s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+    if (band.name === 'Broken') {
+      return { type: 'set_auto_combat', mobId: null, reason: 'weapon-broken' };
+    }
+    return { type: 'fight', mobId: s.autoCombat, retreat: s.autoCombatRetreat };
+  }
+  // auto-rake the R0 cold-open; clears itself once raking is no longer legal (R1).
+  if (s.autoRake) {
+    if (!availableActions(s).includes('rake_rice')) return { type: 'set_auto_rake', on: false };
+    if (belowKnee()) return { type: 'rest' };
+    return { type: 'rake_rice' };
+  }
+  const auto = s.autoActivity;
+  if (!auto) return null;
+  const act = getActivity(auto);
+  if (belowKnee()) return { type: 'rest' };
+  if (canDoActivity(s, act)) return { type: 'do_activity', activityId: auto };
+  return { type: 'set_auto', activityId: null };
+}
+
 export function focusedOptimalIntent(s: GameState): Intent | null {
   const acts = availableActions(s);
   if (acts.includes('open_eyes')) return { type: 'open_eyes' };

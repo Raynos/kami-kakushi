@@ -6,7 +6,10 @@
 > balance change (F4 §5b).
 
 - Seeds: 20260626, 1, 7, 11, 13 (canonical: 20260626)
-- Personas: greedy
+- Personas: greedy, idler, explorer
+- Input fingerprint: `3d39225ca2a76560` (the evaluated design inputs —
+  `balance-sim --check-fresh` compares this against the live constants, so a balance
+  VALUE change without a regenerated report is caught; comments/formatting never fire it)
 - Wall model: one intent per 480 ms (the active-loop cadence) — wall-min = intents × 480 / 60000. Every dispatch counts (moves and
   story beats included), so the model reflects what the auto-loop actually issues.
 - T0 climb band (D-056): [3, 22] wall-min per climb rung. Envelope VERDICTS land with `verify:balance` (F4 Ph2);
@@ -47,6 +50,78 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 | 11 | 1 | 0/1/0 | 0 | 1739 | 0 | 10408 | 0 | 3 |
 | 13 | 1 | 0/1/0 | 0 | 1739 | 0 | 10408 | 0 | 3 |
 
+## idler — time-to-rung
+
+Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; acts/rests/moves from the canonical seed 20260626.
+
+| rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
+|---|---|---|---|---|---|---|---|---|
+| R0 | 1100 | 550 | 62 | 0 | 619 | 5.0 | [5.0–5.0] | 5.0 |
+| R1 | 2150 | 1075 | 178 | 2 | 1259 | 10.1 | [10.1–10.1] | 15.0 |
+| R2 | 2600 | 1300 | 215 | 2 | 1520 | 12.2 | [12.2–12.2] | 27.2 |
+| R3 | 2800 | 1400 | 232 | 2 | 1638 | 13.1 | [13.1–13.1] | 40.3 |
+| R4 | 2950 | 1475 | 244 | 0 | 1721 | 13.8 | [13.8–13.8] | 54.1 |
+| R5 | 3100 | 1550 | 257 | 0 | 1809 | 14.5 | [14.5–14.5] | 68.5 |
+| R6 | 3250 | 1625 | 269 | 0 | 1896 | 15.2 | [15.2–15.2] | 83.7 |
+| R7 | 3400 | 50 | 7 | 0 | 58 | 0.5 | [0.5–0.5] | 84.2 |
+
+## idler — arc + economy (per seed)
+
+| seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate |
+|---|---|---|---|---|---|---|---|---|
+| 20260626 | ✅ | 10520 | 84.2 | 0.5 | — | 0 | 21957 | 586 |
+| 1 | ✅ | 10520 | 84.2 | 0.5 | — | 0 | 21957 | 571 |
+| 7 | ✅ | 10520 | 84.2 | 0.5 | — | 0 | 21957 | 565 |
+| 11 | ✅ | 10520 | 84.2 | 0.5 | — | 0 | 21957 | 569 |
+| 13 | ✅ | 10520 | 84.2 | 0.5 | — | 0 | 21957 | 575 |
+
+## idler — combat · starvation · durability (per seed)
+
+| seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
+|---|---|---|---|---|---|---|---|---|
+| 20260626 | 1 | 0/1/0 | 0 | 2344 | 0 | 1474 | 0 | 4 |
+| 1 | 1 | 0/1/0 | 0 | 2344 | 0 | 1474 | 0 | 4 |
+| 7 | 1 | 0/1/0 | 0 | 2344 | 0 | 1474 | 0 | 4 |
+| 11 | 1 | 0/1/0 | 0 | 2344 | 0 | 1474 | 0 | 4 |
+| 13 | 1 | 0/1/0 | 0 | 2344 | 0 | 1474 | 0 | 4 |
+
+## explorer — time-to-rung
+
+Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; acts/rests/moves from the canonical seed 20260626.
+
+| rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
+|---|---|---|---|---|---|---|---|---|
+| R0 | 1100 | 550 | 59 | 0 | 629 | 5.0 | [5.0–5.0] | 5.0 |
+| R1 | 2150 | 1075 | 176 | 4 | 1268 | 10.1 | [10.1–10.1] | 15.2 |
+| R2 | 2600 | 1302 | 213 | 4 | 1527 | 12.2 | [12.2–12.2] | 27.4 |
+| R3 | 2800 | 1400 | 153 | 4 | 1570 | 12.6 | [12.6–12.6] | 40.0 |
+| R4 | 2950 | 1475 | 161 | 0 | 1638 | 13.1 | [13.1–13.1] | 53.1 |
+| R5 | 3100 | 1550 | 169 | 0 | 1724 | 13.8 | [13.8–13.8] | 66.8 |
+| R6 | 3250 | 1625 | 178 | 0 | 1808 | 14.5 | [14.5–14.5] | 81.3 |
+| R7 | 3400 | 44 | 2 | 0 | 47 | 0.4 | [0.4–0.4] | 81.7 |
+
+## explorer — arc + economy (per seed)
+
+| seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate |
+|---|---|---|---|---|---|---|---|---|
+| 20260626 | ✅ | 10211 | 81.7 | 0.4 | 5.1 | 3682 | 18743 | 486 |
+| 1 | ✅ | 10210 | 81.7 | 0.4 | 5.1 | 3682 | 18734 | 487 |
+| 7 | ✅ | 10209 | 81.7 | 0.4 | 5.1 | 3682 | 18724 | 489 |
+| 11 | ✅ | 10209 | 81.7 | 0.4 | 5.1 | 3682 | 18724 | 485 |
+| 13 | ✅ | 10209 | 81.7 | 0.4 | 5.1 | 3682 | 18724 | 484 |
+
+## explorer — combat · starvation · durability (per seed)
+
+| seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
+|---|---|---|---|---|---|---|---|---|
+| 20260626 | 3 | 0/3/0 | 3511 | 4484 | 0 | 10097 | 0 | 11 |
+| 1 | 3 | 0/3/0 | 3511 | 4484 | 0 | 10096 | 0 | 11 |
+| 7 | 3 | 0/3/0 | 3511 | 4484 | 0 | 10095 | 0 | 11 |
+| 11 | 3 | 0/3/0 | 3511 | 4484 | 0 | 10095 | 0 | 11 |
+| 13 | 3 | 0/3/0 | 3511 | 4484 | 0 | 10095 | 0 | 11 |
+
 ## Skipped intents (per persona — loud, never a silent gap)
 
 - **greedy** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, set_auto, set_auto_rake, set_auto_combat, equip_weapon, set_stance, eat_rice, sell_rice, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw
+- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw
+- **explorer** never issues: advance_intro, advance_rung_beat, set_auto, set_auto_rake, set_auto_combat

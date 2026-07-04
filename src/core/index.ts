@@ -82,7 +82,12 @@ export type { NpcId, VoiceCategory } from './content/voices';
 
 export type { Intent, IntentType } from './intents';
 export { reduce, availableActions } from './intents';
-export { focusedOptimalIntent, nextHopToward, cheapestEligibleGlobal } from './autoplay';
+export {
+  focusedOptimalIntent,
+  autoModeIntent,
+  nextHopToward,
+  cheapestEligibleGlobal,
+} from './autoplay';
 
 export { tick, advanceClock } from './step';
 

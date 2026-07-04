@@ -79,7 +79,11 @@ export interface RunMetrics {
   /** The longest run of consecutive intents with NO progress signal — the raw number the Ph3
    *  soft-lock detector (SIM_SOFTLOCK_INTENTS) is calibrated against. Report-only in Ph1. */
   maxIntentsWithoutProgress: number;
-  softLock: null | { reason: 'no-intent' | 'guard'; atIntent: number; rung: RankId };
+  softLock: null | {
+    reason: 'no-intent' | 'guard' | 'no-progress';
+    atIntent: number;
+    rung: RankId;
+  };
 }
 
 /** Sample the economy curve every this-many intents (report terseness — F4 risk 6). */
