@@ -18,6 +18,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "gen:docs": "tsx src/scripts/gen-docs.ts",
+    "gen:prd-regions": "tsx src/scripts/gen-prd-regions.ts",
+    "gen:prd-regions:check": "tsx src/scripts/gen-prd-regions.ts --check",
     "pacing": "tsx src/scripts/pacing-report.ts",
     "pacing:check": "tsx src/scripts/pacing-report.ts --check",
     "playcheck": "tsx src/playcheck.ts",

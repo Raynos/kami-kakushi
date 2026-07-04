@@ -202,6 +202,16 @@ Full version:
   transform**, diff in **TEXT mode** (word-diff vs `HEAD`) **and** assert the
   output is **NUL-free (A15)** — a binary output gives a false-clean diff; count
   prose width by *characters*, not bytes.
+- **PRD stays in sync via the ripple/compress flows (D-117).** The build is the
+  territory; the PRD is the forward spec. After a **built-system** design change,
+  run [`/prd-ripple`](.claude/skills/prd-ripple/SKILL.md) — classify it (balance
+  number → no §4 edit · system/narrative → targeted ripple + ADR · intent → stop
+  for the human · frontier → edit freely), then `npm run prd:drift` for the
+  game→PRD punch-list. Derivable facts transclude as **gen-regions**
+  (`gen-prd-regions.ts`, the `gen-prd-regions` gate) so they can't drift. The
+  once-per-tier **compression** sweep (`/prd-compress`) is a separate,
+  human-signed, **Fable-routed** event, dormant until that tier's taste R-item
+  closes.
 - **Keep a CHANGELOG — a version bump must be documented (A22).** The project
   keeps a top-level [`CHANGELOG.md`](CHANGELOG.md) (Keep-a-Changelog style,
   newest-first; the in-game footer + About modal link to it). The displayed

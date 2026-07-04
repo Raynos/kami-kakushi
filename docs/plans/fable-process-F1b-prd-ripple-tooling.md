@@ -1,7 +1,24 @@
 # PRD ripple tooling — partial automation now (D-117 Phase 0)
 
-**Status:** 📋 PROPOSED — awaiting human read; Ph1 BUILT 2026-07-03.
-(autonomously — report-only, touches no canon; Ph2–Ph4 await your read).
+**Status:** 🔧 IN-PROGRESS — Ph1 BUILT 2026-07-03; **Ph2–Ph4 BUILT 2026-07-04**
+(Opus, session-64, on the human's "Ph2 + Ph3/Ph4 skills" steer). **One DoD stays
+open:** Ph3's *real* `/prd-ripple` invocation awaits the next built-system change
+(nothing queued today) — until then Ph3 ships as skill + AGENTS.md pointer only.
+The **Ph2 pilot region edits canon** (§3 RANKS titles) — queued for your read.
+
+> **Ph2–Ph4 build notes (2026-07-04).**
+> - **Ph2** — `gen-prd-regions.ts` (imports the F1a shared splicer) transcludes
+>   the §3 T0 rung titles (R0→R7) from `RANKS`; added as the **15th verify gate**
+>   (`gen-prd-regions`). `prd:drift` RANKS presence flipped **6/8 → 8/8**. RED-proof
+>   done (a `RANKS` title edit turns the gate RED; regen fixes it). `verify:budget`
+>   median **4.47s** (0.53s headroom). Framed **honestly**: the region is the
+>   *mechanical* titles; the §3.2 *narrative* titles (Stray / Bonded hand / …) are
+>   reconciled to them by the R1-gated compression sweep, **not** here.
+> - **Ph3** — `/prd-ripple` skill (Flow 1, four-way classify) + an AGENTS.md
+>   conventions pointer. Real-invocation DoD deferred (above).
+> - **Ph4** — `/prd-compress` skill (Flow 2, `disable-model-invocation` + Fable
+>   routing + the R1 guard) + a `tmp/` dry-run rehearsal against a COPY of §3.3
+>   (588→298 words, verbatim archive, NUL-free — nothing in canon).
 
 > **Ph1 build notes (2026-07-03).** `prd:drift` is live (`npm run
 > prd:drift`; `--strict` exits 1 — currently RED on real data). Day-one

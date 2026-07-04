@@ -283,6 +283,28 @@ Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5
 across Phase 1, but **the E1 "Stabilising" BUILD COMPLETES as a Phase-2 beat** (gated on the pillar-Influence
 floor, not the rungs; §3.3/§2.17).
 
+<!-- gen:begin t0-rung-titles (npm run gen:prd-regions — do not edit inside) -->
+> **The T0 rung titles, as the build ships them** — GENERATED from `RANKS`
+> ([`ranks.ts`](../../../src/core/content/ranks.ts)) by `npm run
+> gen:prd-regions`; **do not edit between the markers**. These are the
+> **mechanical** rung labels the running game uses. The richer *narrative*
+> titles in the §3.2 ladder table below are reconciled to these by the T0
+> compression sweep (Flow 2, gated on R1 — `/prd-compress`), not here.
+> Editing a title in `RANKS` without regenerating turns the
+> `gen-prd-regions` gate RED.
+>
+> | Rung | Title (build) | 漢字 |
+> |---|---|---|
+> | R0 | Day-labourer | 日雇 |
+> | R1 | Kept hand | 下人 |
+> | R2 | Trusted hand | 手代 |
+> | R3 | Gate-watch | 門番 |
+> | R4 | Kura-warden | 蔵番 |
+> | R5 | House-servant | 家人 |
+> | R6 | Steward's man | 用人 |
+> | R7 | Trusted of the house | 内衆 |
+<!-- gen:end t0-rung-titles -->
+
 | Rung | Trigger (rung gate) | What this rung REVEALS (in fractal order) | Diegetic event-log line(s) |
 |---|---|---|---|
 | **R0 — Stray ("another mouth")** | `STORY` (met at the open; cold-open §3.1 complete) | The bare **diegetic estate dashboard** as a single screen (the *kura* room readout); the body/rest bar + rice counter carried from the cold open. | *"You can stand. Barely. The household calls you nothing yet — 'another mouth.'"* |
