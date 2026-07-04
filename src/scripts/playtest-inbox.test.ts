@@ -3,6 +3,7 @@ import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import {
+  commitCapture,
   resolveCapture,
   writeCapture,
   MAX_MARKDOWN_BYTES,
@@ -144,5 +145,40 @@ describe('writeCapture — one file per session, header once, entries appended',
     const env = importBase64(line.replaceAll('`', '').trim()) as SaveEnvelope;
     expect(env.app).toBe(APP_ID);
     expect(env.state.rng.seed).toBe(20260626);
+  });
+});
+
+describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () => {
+  const MD = '/repo/project/playtest-inbox/pending/s.md';
+  const PENDING = '/repo/project/playtest-inbox/pending';
+
+  it('git-adds then commits ONLY the .md by explicit path (--no-verify)', () => {
+    const calls: string[][] = [];
+    commitCapture(MD, PENDING, (args) => calls.push(args));
+    expect(calls[0]).toEqual(['add', '--', MD]);
+    expect(calls[1]![0]).toBe('commit');
+    expect(calls[1]).toContain('--no-verify');
+    expect(calls[1]!.slice(-2)).toEqual(['--', MD]); // pathspec = only this file
+  });
+
+  it('is fail-soft — a throwing git never breaks the capture', () => {
+    expect(() =>
+      commitCapture(MD, PENDING, () => {
+        throw new Error('index.lock');
+      }),
+    ).not.toThrow();
+  });
+
+  it('skips entirely under KAMI_INBOX_NO_COMMIT=1', () => {
+    const prev = process.env.KAMI_INBOX_NO_COMMIT;
+    process.env.KAMI_INBOX_NO_COMMIT = '1';
+    try {
+      const calls: string[][] = [];
+      commitCapture(MD, PENDING, (args) => calls.push(args));
+      expect(calls).toHaveLength(0);
+    } finally {
+      if (prev === undefined) delete process.env.KAMI_INBOX_NO_COMMIT;
+      else process.env.KAMI_INBOX_NO_COMMIT = prev;
+    }
   });
 });

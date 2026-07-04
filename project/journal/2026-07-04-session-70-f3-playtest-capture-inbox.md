@@ -353,3 +353,16 @@ skipping the textarea so typing/selection still works, and the bottom-right
 resize grip). Size/position persist across captures in the session (remembered
 on close), so a bigger window sticks. 3 jsdom tests (drag moves · textarea-grab
 doesn't · size remembered).
+
+## 15 · Auto-commit captures on write (human, 2026-07-05)
+
+Human: nobody was committing the capture `.md`s, so they sat uncommitted (their
+real 080f37 feedback among them). Added `commitCapture` to the dev-server
+transport (`playtest-inbox.ts`): after each write, `git add -- <the .md>` then
+`git commit --no-verify --only -- <the .md>` — so a capture is durable in git
+the instant it's made. Isolated (commits ONLY that one path — the `.png` stays
+git-ignored — leaving any co-agent's staged work untouched), `--no-verify` (a
+data write, not a code change; the tree may be co-agent-red anyway), FAIL-SOFT
+(the file is on disk regardless; a failed commit is never a lost capture), and
+opt-out via `KAMI_INBOX_NO_COMMIT=1`. Git-runner injected for testing (3 tests:
+right args · fail-soft · opt-out) — no real git spawned in the suite.

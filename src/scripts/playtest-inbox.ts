@@ -10,6 +10,7 @@
 // `writeCapture` is the thin fs shell (create-with-header or append); `playtestInboxHandler` is the
 // connect-middleware glue. Tests hit the pure parts.
 
+import { execFileSync } from 'node:child_process';
 import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { basename, resolve, sep } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
@@ -114,6 +115,38 @@ export function writeCapture(
   }
 }
 
+/** Auto-commit the capture `.md` so a capture is durable in git the moment it's made (no capture
+ *  sits uncommitted). FAIL-SOFT: the file is already on disk, so a failed commit (index lock,
+ *  co-agent race, not-a-repo in tests) is never a lost capture — we just skip it. Isolated by
+ *  design: `git commit --only -- <the .md>` commits ONLY that one path (the `.png` is git-ignored),
+ *  leaving any co-agent's staged work untouched; `--no-verify` skips the code gates (a data write,
+ *  not a code change). Opt out with `KAMI_INBOX_NO_COMMIT=1`. */
+export function commitCapture(
+  mdPath: string,
+  pendingDir: string,
+  run?: (args: string[]) => void, // injectable git-runner (tests); defaults to real `git`
+): void {
+  if (process.env.KAMI_INBOX_NO_COMMIT === '1') return;
+  // pending/ → playtest-inbox/ → project/ → <repo root>
+  const repoRoot = resolve(pendingDir, '..', '..', '..');
+  const git =
+    run ??
+    ((args: string[]): void => void execFileSync('git', args, { cwd: repoRoot, stdio: 'ignore' }));
+  try {
+    git(['add', '--', mdPath]); // stage it (new or appended)
+    git([
+      'commit',
+      '--no-verify',
+      '-m',
+      `chore(inbox): playtest capture ${basename(mdPath)}`,
+      '--',
+      mdPath,
+    ]);
+  } catch {
+    /* fail-soft — the capture is on disk; leaving it uncommitted is never a lost capture */
+  }
+}
+
 function respond(res: ServerResponse, status: number, payload: unknown): void {
   res.statusCode = status;
   res.setHeader('content-type', 'application/json');
@@ -163,6 +196,7 @@ export function playtestInboxHandler(
         respond(res, 500, { error: `write failed: ${String(e)}` });
         return;
       }
+      commitCapture(resolved.mdPath, pendingDir); // durable-in-git, fail-soft
       respond(res, 200, { ok: true, file: basename(resolved.mdPath) });
     });
   };
