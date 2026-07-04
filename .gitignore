@@ -19,3 +19,8 @@ project/brainstorms/raw/*.json
 # Capture into latest/; graduate a curated few elsewhere by force-add if needed.
 project/audit/screens/*
 !project/audit/screens/latest/
+
+# Playtest-capture screenshots (F3): the .png sidecars are local-only viewing aids —
+# the note + save-JSON .md is the committed durable record (the save reproduces the
+# moment pixel-perfectly). Keep every capture's PNG out of git (human call 2026-07-04).
+project/playtest-inbox/**/*.png

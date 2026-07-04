@@ -1,6 +1,8 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
+import { CAPTURE_ENDPOINT, playtestInboxHandler } from './src/scripts/playtest-inbox';
 
 // The VERSION is the SINGLE SOURCE OF TRUTH from package.json — NOT git tags
 // (human call, H1/2026-07-01): the game/HTML/TS must never read a git tag for
@@ -28,6 +30,21 @@ export default defineConfig({
   // index.html lives in src/ (the web root); outDir climbs back to repo-root dist/.
   root: 'src',
   base: './',
+  // Playtest-capture inbox (F3): a DEV-SERVER-ONLY endpoint the capture overlay POSTs to.
+  // `apply: 'serve'` keeps it out of `vite build` entirely — the prod static bundle has no
+  // server, so the endpoint is structurally absent from prod (never a shipped write surface).
+  plugins: [
+    {
+      name: 'playtest-inbox',
+      apply: 'serve',
+      configureServer(server) {
+        const pendingDir = fileURLToPath(
+          new URL('./project/playtest-inbox/pending', import.meta.url),
+        );
+        server.middlewares.use(CAPTURE_ENDPOINT, playtestInboxHandler(pendingDir));
+      },
+    },
+  ],
   server: {
     // Auto-reload OFF (human call, F75): the dev server does NOT hot-reload or
     // full-refresh on a file change — the player hits F5 themselves. As a bonus
