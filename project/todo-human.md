@@ -16,6 +16,14 @@
 
 ## TODO
 
+- [ ] **Ask Fable 5 to review the context** — AGENTS.md, the pre-commit hook, the
+  git hooks (`.githooks/`), the skills (`.claude/skills/`), hookify, etc. A
+  fresh-eyes pass over the agentic scaffolding for drift / bloat / gaps.
+- [ ] **Ask Fable 5 to review the current integration / e2e tests** — worry: the
+  tests may be written as unit tests and not actually exercise the whole UI
+  end-to-end. Want a real integration test that drives the UI + game as a player
+  experiences it in Chrome (Playwright or similar), not just pure-core assertions.
+
 _(The ⭐ taste-redo TODO **closed 2026-07-03** — done WITH Fable: D-126 lock →
 taste.md rewritten (149→150 lines, prediction-tested 24/24) → ui-design culled
 → register + `doc-budgets` gate shipped. The two rewritten docs sit in the
@@ -38,10 +46,14 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 **Owed reviews / taste calls (async, no rush):**
 
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
-  Steel migration** (v0.3.6): the full-replacement remaster plan, **being
-  co-authored live with you** — risk-tiered milestones (M1 steel palette → M6 doc
-  ripple), theme-vs-flow split, keeps our render engine, copies zero demo bugs.
-  Cursor CUT (no red-flash). Open: layout depth (M5), R2/R5/R6/R7 fate, version.
+  Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
+  co-authored with you. All calls locked (full replacement · Andon composition ·
+  Western fonts · cursor cut · re-theme all variants · straight-on-main). **7 build
+  cards** M1 palette → M2 materials → M3 composition → M4 GBA cold-open → M5
+  VN/ceremony → M6 variant surfaces (R2/R5/R6/R7) → M7 doc ripple, each with
+  `file:line` anchors + acceptance criteria, written for a Sonnet-class builder;
+  4 reference appendices (token map · material CSS · fonts · variant recipe).
+  **Read to LOCK → then I start M1.**
 - [ ] `docs/plans/opus-2026-07-03-emergent-node-actions.md` — **emergent node
   actions** (graduated from the parked brainstorm into a plan): you *discover* what
   to do at a map node via rumours / low-chance events / description hints, not a
