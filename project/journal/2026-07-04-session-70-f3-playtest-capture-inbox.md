@@ -223,3 +223,15 @@ to end (capture in-game → drain async → F-entry → archive).
   with the in-flight F2-archival WIP.
 - Ph2's `main.ts` overlay mount and F4 Ph3's `autoStep` extraction touch the
   same file — coordinate before editing.
+
+## 8 · Correction — removed the bootstrap F118 / R9 (human, 2026-07-04)
+
+The Ph3 "first drained capture" was an **agent-manufactured bootstrap** (I drove
+the overlay myself to prove the loop), so F118 + R9 were *my* observation, not
+the human's. On review the human called the ~8s cold-open reveal fine / intended
+and asked to delete it. Removed: **R9** from `review.md`, the **F118** feedback
+file, and the archived capture (`.md` + `.png`). The `/drain-inbox` skill + the
+capture/drain loop itself stay — only the manufactured test *content* was
+pulled. (Intake `e35b9c1` / drain `3b624b4` remain in history — append-only.)
+**Note for future drains:** an agent-produced bootstrap capture should NOT file
+a human-facing R-item; route it to a plain note or skip the R-item.
