@@ -21,6 +21,8 @@
     "gen:docs": "tsx src/scripts/gen-docs.ts",
     "gen:prd-regions": "tsx src/scripts/gen-prd-regions.ts",
     "gen:prd-regions:check": "tsx src/scripts/gen-prd-regions.ts --check",
+    "fixtures:regen": "tsx src/scripts/gen-fixtures.ts",
+    "fixtures:check": "tsx src/scripts/gen-fixtures.ts --check",
     "balance:sim": "tsx src/scripts/balance-sim.ts",
     "balance:report": "tsx src/scripts/balance-sim.ts --report",
     "balance:selftest": "tsx src/scripts/balance-sim.ts --selftest",

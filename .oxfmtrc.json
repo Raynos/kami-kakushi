@@ -23,6 +23,7 @@
     "human-in-the-loop",
     "tmp",
     "ui-demos",
+    "src/fixtures/saves",
     "playcheck.baseline.json",
     ".claude/settings.local.json",
     ".claude/worktrees"

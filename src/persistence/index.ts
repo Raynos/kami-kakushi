@@ -21,7 +21,7 @@ export {
 } from './backends';
 export type { StorageBackend } from './backends';
 export type { SaveEnvelope } from './codec';
-export { exportBase64, importBase64 } from './codec';
+export { exportBase64, importBase64, toBase64 } from './codec';
 export { migrate } from './migrate';
 
 /** The real browser save manager: three redundant backends + the wall clock. */

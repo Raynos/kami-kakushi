@@ -21,7 +21,8 @@ import {
   type MobId,
   type StanceId,
 } from '../core';
-import { createBrowserSaveManager, type SaveManager } from '../persistence';
+import { createBrowserSaveManager, type SaveManager, toBase64 } from '../persistence';
+import { FIXTURES, getFixture } from '../fixtures';
 import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
 import { createDevApi, mountDevPanel } from '../ui/dev';
@@ -405,6 +406,18 @@ async function boot(): Promise<void> {
         }
         return res;
       },
+      // F6 — load a NAMED scenario fixture (the generated envelope). Backs up the CURRENT run to the
+      // F96 slot FIRST (same safety net as newGame), then runs the FULL import → migrate → validate
+      // path via `load` (re-encoding the pretty-printed envelope to the base64 the codec expects), so
+      // a playtest can never destroy the human's real save — "↩ last backup" is the way home.
+      loadFixture: async (name: string) => {
+        const fixture = getFixture(name);
+        if (!fixture) return { ok: false as const, reason: `unknown-fixture:${name}` };
+        await save.backup(state);
+        return qa.load(toBase64(JSON.stringify(fixture.env)));
+      },
+      /** List the available scenarios ({ name, blurb }) — the DEV panel + headless drivers read it. */
+      fixtures: () => FIXTURES.map(({ name, blurb }) => ({ name, blurb })),
       forceState: (patch: Partial<GameState>) => {
         commit({ ...state, ...patch });
       },
