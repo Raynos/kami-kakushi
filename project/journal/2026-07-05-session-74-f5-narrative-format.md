@@ -64,3 +64,17 @@ INTENTIONAL — keep it, allowlist the Ph2 WARN.
 - `rungBeats.gen.ts` imports `type { RungScene } from './rungBeats'` while
   rungBeats.ts (post-flip) imports the data back — type-only, erased, no
   runtime cycle.
+
+---
+
+## 2 · Ph1 flip — rungBeats.ts re-exports the generated data
+
+- `src/core/content/rungBeats.ts` — 655 → 91 lines: the literal + the
+  narr()/says()/pedlar() helpers retire; types + helpers stay; the module
+  re-exports `RUNG_BEATS` from `rungBeats.gen.ts` (zero import churn).
+- `narrative-equivalence.test.ts` deleted at the flip per the plan (it would
+  compare a re-export to itself); the D-110 `rung-beats.test.ts` suite passed
+  UNCHANGED over the generated data — that's the standing seal.
+- One shared-tree pause: a co-agent's in-flight `src/ui/capture.ts` red
+  (unused var) blocked the commit's verify; waited for their tree to green
+  rather than touching a file I don't own.
