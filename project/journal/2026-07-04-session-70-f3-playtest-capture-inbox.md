@@ -160,16 +160,43 @@ isolates cleanly). Then built the wire-up:
 
 Typecheck clean (whole project), 26/26 F3 tests. **F3 Ph2 is COMPLETE.**
 
+Ph1 + Ph2 pushed to origin during a collective-green window (pre-push gate
+green, 15 gates).
+
+## 6 · Ph3 — the /drain-inbox skill + the first REAL drained capture
+
+- `.claude/skills/drain-inbox/SKILL.md` — the drain loop (§2.7): stand-down
+  check → read `pending/` oldest-first (empty ⇒ fast no-op) → intake-commit →
+  reproduce from the embedded save (headless) → triage (bug fix · taste →
+  R-item · design → H-item) → log the Fnn → `git mv` to `archive/` → one commit
+  per item → `/loop` guidance. User-invoked (`disable-model-invocation`).
+- **First real drained capture (the DoD, done honestly):** drove the live
+  overlay headlessly at the cold open and captured a GENUINE observation — the
+  "Open your eyes" button is `opacity: 0` for ~8 s (through the intro), so the
+  player first sees a title card with no visible way to begin. Drained it:
+  - **Intake commit** `e35b9c1` (raw capture durable before processing).
+  - **Reproduced + verified (R2):** tracked the button's computed opacity —
+    0 at 500/1500/3000/5000 ms → 1 at ~8000 ms; present + styled the whole
+    time, just transparent. Symptom real.
+  - **Triaged as TASTE, not a bug** (the button DOES appear; the reveal is
+    intentional, F86): logged **F118 💬** in a new
+    `project/human-feedback/2026-07-04-playtest.md` (async-inbox source) and
+    routed it to **R9** in `review.md` — the human's cold-open pacing call.
+    Did NOT invent the taste or fake a fix (R3/R4).
+  - **Archived:** `git mv` pending → `archive/` (the `.png` rode along,
+    git-ignored). `pending/` empty.
+
+Full round-trip in git history: intake commit + the drain commit (F118 +
+archive move + R9). This honestly exercises the surface-to-human drain path.
+
 ---
 
 ## Next intended steps (current)
 
-1. Ph3 — the `/drain-inbox` skill + first real drained batch.
-2. Ph4 — loop-mode + conventions wiring (session-brief `pending/` count,
-   AGENTS.md, repo-map, qa-playtesting).
-3. **Push** all commits (Ph1, Ph2a, Ph2b) once the shared tree hits a
-   collective-green window — the pre-push gate verifies the WHOLE working tree,
-   so it waits on the co-agents' WIP too.
+1. **Ph4** — conventions wiring: `session-brief.sh` `pending/` count, AGENTS.md
+   Conventions bullet, `repo-map.md` entry, a `qa-playtesting.md` section.
+2. Push the Ph3/Ph4 commits at the next collective-green window.
+3. Then F3 is COMPLETE — mark the plan DONE + graduate it to `project/archive/`.
 
 ## Landmines (current)
 

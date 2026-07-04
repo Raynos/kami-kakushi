@@ -237,6 +237,21 @@ for your read in
   modal.
 - **Verdict:** _(awaiting the human)_
 
+### R9 🔲 — Cold-open reveal cadence: the ~8s before "Open your eyes" appears (F118)
+
+- **Asking for:** a **pacing / first-glance** verdict. On the cold open the
+  "Open your eyes" button is `opacity: 0` for ~8 s while the intro plays, so a
+  new player's first sight is a title card with an empty box and no visible way
+  to begin (the intro is click-to-skip, but that isn't signalled). Is this the
+  intended opening beat, or do you want a faster reveal / a subtle "the story is
+  unfolding…" affordance / a visible skip hint? (F118, first drained inbox
+  capture.)
+- **How to look:** `npm run dev`, load `/` fresh and watch the first ~8 s; or
+  reproduce F118's exact moment via the archived capture's save —
+  `__qa.load('<base64 from
+  project/playtest-inbox/archive/2026-07-04T23-04-02-cold-open-the-title.md>')`.
+- **Verdict:** _(awaiting the human)_
+
 ---
 
 > _This queue holds **open** reviews only. Closed reviews graduate to
