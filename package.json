@@ -19,6 +19,8 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "gen:docs": "tsx src/scripts/gen-docs.ts",
+    "gen:narrative": "tsx src/scripts/gen-narrative.ts",
+    "gen:narrative:check": "tsx src/scripts/gen-narrative.ts --check",
     "gen:prd-regions": "tsx src/scripts/gen-prd-regions.ts",
     "gen:prd-regions:check": "tsx src/scripts/gen-prd-regions.ts --check",
     "fixtures:regen": "tsx src/scripts/gen-fixtures.ts",
