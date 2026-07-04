@@ -155,3 +155,19 @@ INTENTIONAL — keep it, allowlist the Ph2 WARN.
 - Plan graduated: Status ✅ → `project/archive/fable-process-F5-narrative-format.md`;
   reading-queue entry removed (read + built — D-089 agent-owned cleanup);
   snapshot updated (F5 ✅, NEXT: F7).
+
+---
+
+## 7 · Checkpoint close-out
+
+- All six F5 commits reached `origin/main` via a co-agent's earlier push.
+- **CI verify went RED on main** (md-links + checkpoint gates): the
+  regenerated `docs/plans/README.md` I committed references
+  `opus-2026-07-05-shrink-save-file.md`, which its author (w2:p2) had left
+  UNTRACKED — the exact "local green can hide committed red" failure mode
+  (local verify sees the tree; CI sees the commit). Repair: nudged w2:p2 via
+  herdr to commit their own plan file (never staging a co-agent's work
+  myself); they picked it up. Lesson reinforced: before committing a
+  regenerated plans index, check `git ls-files` for every plan it names.
+- Reading queue reconciled: only the F5 plan was engaged this session
+  (removed at Ph4 — read + built). Snapshot current (F5 ✅ · NEXT F7).
