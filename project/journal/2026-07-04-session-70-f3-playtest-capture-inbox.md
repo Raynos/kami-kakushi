@@ -127,20 +127,49 @@ F4's), 26/26 F3 tests green, oxlint/oxfmt clean, strip gate parses.
 Ph2b on a clean `package.json`, and the screenshot can't be PROVEN until mounted
 anyway.
 
+## 5 · Ph2b — the wire-up (built, green, DoD proven live)
+
+Coordinated via herdr: read the F4 session (`w1:p1`, Fable-5, on its Ph4) —
+confirmed its `main.ts` `autoModeIntent` extraction was DONE + committed (my
+mount won't collide) and its `package.json` scripts had landed (so my devDep
+isolates cleanly). Then built the wire-up:
+
+- `src/ui/capture-screenshot.ts` — the real `DomSnapshotter` (`domToPng` of the
+  `#app` root; null on failure — a shot never breaks a capture). Own module so
+  `capture.ts` stays dependency-free.
+- `package.json` — `modern-screenshot@4.7.0` **devDependency** (chosen over
+  html-to-image: smaller, newer, better CSS fidelity).
+- `src/app/main.ts` — mount `mountCapture` in the `import.meta.env.DEV` branch,
+  OUTSIDE `if (dev)` so `?dev=no` still captures (F2). `buildContext` closes
+  over live `state`/`save`/`dev`: build stamp, seed, clock, location, rung,
+  tier, `root.dataset.activeTab`, non-default variants, viewport, url, the
+  base64 save, last-20 log tail.
+- `src/ui/render.ts` — one-line `root.dataset.activeTab = tab` stamp in
+  `setTab`.
+
+**Verified — the two Ph2 DoDs, for real:**
+
+- **Strip proof:** `npm run build` + `verify-dev-strip.sh` + a grep — the
+  overlay, the `__playtest-capture` endpoint, AND all `modern-screenshot`/
+  `domToPng`/`foreignObject` code are ABSENT from `dist/`. The prod
+  zero-runtime-dep guarantee holds (the lib tree-shakes out; DEV-only).
+- **Headless real-flow:** a real Playwright browser pressed `` ` ``, typed,
+  Ctrl+Enter — a well-formed `.md` (real build SHA, seed, location `kura`,
+  viewport, `?dev=no` url) + a genuine 721 KB PNG landed in `pending/`, on BOTH
+  the default URL and `?dev=no`. Artifacts cleaned; dev server stopped.
+
+Typecheck clean (whole project), 26/26 F3 tests. **F3 Ph2 is COMPLETE.**
+
 ---
 
 ## Next intended steps (current)
 
-1. **Ph2b — the wire-up (BLOCKED on F4's `main.ts` + `package.json`
-   settling green):** add `modern-screenshot` devDep; the real `DomSnapshotter`
-   (domToPng of `#app`); mount `mountCapture` from `main.ts`'s
-   `import.meta.env.DEV` branch (independent of `?dev=no`) with a `buildContext`
-   closure over live state/save/dev; the one-line `root.dataset.activeTab` stamp
-   in `render.ts` `setTab` (~line 1083); then the build+grep strip proof + the
-   headless real-flow DoD. **COORDINATE the `main.ts` edit with F4.**
-2. Ph3 — the `/drain-inbox` skill + first real drained batch.
-3. Ph4 — loop-mode + conventions wiring (session-brief count, AGENTS.md,
-   repo-map, qa-playtesting).
+1. Ph3 — the `/drain-inbox` skill + first real drained batch.
+2. Ph4 — loop-mode + conventions wiring (session-brief `pending/` count,
+   AGENTS.md, repo-map, qa-playtesting).
+3. **Push** all commits (Ph1, Ph2a, Ph2b) once the shared tree hits a
+   collective-green window — the pre-push gate verifies the WHOLE working tree,
+   so it waits on the co-agents' WIP too.
 
 ## Landmines (current)
 

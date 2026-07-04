@@ -42,6 +42,7 @@
     "@types/node": "^22.10.2",
     "@typescript/native-preview": "7.0.0-dev.20260704.1",
     "jsdom": "^25.0.1",
+    "modern-screenshot": "4.7.0",
     "oxfmt": "0.57.0",
     "oxlint": "1.72.0",
     "playwright": "^1.61.1",

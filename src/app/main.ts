@@ -25,6 +25,8 @@ import { createBrowserSaveManager, type SaveManager } from '../persistence';
 import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
 import { createDevApi, mountDevPanel } from '../ui/dev';
+import { mountCapture } from '../ui/capture';
+import { snapshotDom } from '../ui/capture-screenshot';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -435,6 +437,41 @@ async function boot(): Promise<void> {
         rerender: () => safely(() => render(state, null)),
       });
     }
+
+    // ── F3 playtest capture overlay: `` ` `` → note box → POST to the dev-inbox → vanish.
+    //    Mounted from the DEV branch but OUTSIDE the `if (dev)` gate, so it survives `?dev=no`
+    //    (the human's true-layout preview keeps capture — F2). Evidence (context + screenshot)
+    //    is frozen at box-OPEN by mountCapture; buildContext reads the LIVE `state` each open.
+    mountCapture({
+      host: root,
+      snapshot: snapshotDom,
+      buildContext: () => ({
+        build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
+        seed: state.rng.seed,
+        clock: { day: state.clock.day, tick: state.clock.tick },
+        location: state.location,
+        rung: state.rung,
+        tier: state.tier,
+        activeTab: root.dataset.activeTab ?? 'work',
+        // non-default variant picks only ({} under `?dev=no`, where dev is undefined)
+        variants: dev
+          ? Object.fromEntries(
+              dev.surfaces
+                .filter((s) => dev.getVariant(s.id) !== s.variants[0]!.id)
+                .map((s) => [s.id, dev.getVariant(s.id)]),
+            )
+          : {},
+        viewport: { w: window.innerWidth, h: window.innerHeight, dpr: window.devicePixelRatio },
+        url: window.location.pathname + window.location.search,
+        saveBase64: save.exportState(state),
+        logTail: state.log.entries.slice(-20).map((e) => ({
+          channel: e.channel,
+          text: e.text,
+          count: e.count,
+          ...(e.speaker !== undefined ? { speaker: e.speaker } : {}),
+        })),
+      }),
+    });
   }
 }
 

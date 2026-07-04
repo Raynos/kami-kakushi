@@ -1082,6 +1082,9 @@ export function mount(
 
   function setTab(tab: Tab): void {
     activeTab = tab;
+    // Stamp the active tab on the root so the DEV playtest-capture overlay (F3) can read it
+    // (a DOM attribute, no render-API change); also handy to qa-shots.mjs.
+    root.dataset.activeTab = tab;
     if (lastState) render(lastState, null);
   }
 
