@@ -1,5 +1,7 @@
 # KamiKakushi : An Incremental RPG game.
 
+[![CI](https://github.com/Raynos/kami-kakushi/actions/workflows/verify.yml/badge.svg)](https://github.com/Raynos/kami-kakushi/actions/workflows/verify.yml)
+
 > **Note — this is the preserved original seed prompt, kept as a historical artifact.** It is not
 > the current canon and some details have since evolved (e.g. the protagonist's age). For the
 > authoritative present-day vision see [`docs/living/prd.md`](docs/living/prd.md) §1, and for what is actually

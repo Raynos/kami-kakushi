@@ -134,6 +134,14 @@ if [[ -n "$recent" ]]; then
   add "- 🔀 **Recent commits** (momentum — read more with \`git log\`):"
   while IFS= read -r c; do add "  - $c"; done <<<"$recent"
 fi
+# Main's latest CI conclusion — time-boxed (2s) so a slow/absent gh never hangs or
+# aborts the brief (set -e safe via 2>/dev/null + trailing || true → empty string).
+ci_state="$(timeout 2 gh run list -L 1 -b main -w verify.yml --json conclusion,status --jq '.[0] | (.status + "/" + (.conclusion // "—"))' 2>/dev/null || true)"
+if [[ -n "$ci_state" ]]; then
+  add "- 🔦 **CI (main, verify.yml):** \`$ci_state\`"
+else
+  add "- 🔦 **CI (main):** _(status unavailable)_"
+fi
 # Plans in docs/plans/ — normally all ACTIVE (done plans get archived to
 # project/archive/); tag each from its OWN status line so a not-yet-archived done
 # plan is flagged (and nudged to archive) rather than mistaken for active.
