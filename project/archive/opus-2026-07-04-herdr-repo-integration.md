@@ -1,7 +1,9 @@
 # Plan — herdr repo integration (guarded-hybrid)
 
-**Status:** IN-PROGRESS — authored 2026-07-04 (session on herdr onboarding).
-Decisions locked with the human via AskUserQuestion the same day (see below).
+**Status:** ✅ DONE — all five builds (helper + B1–B5) shipped & tested live
+2026-07-04; verified on disk + observed live (session brief callout + commit-time
+peer FYI) and confirmed complete by the human 2026-07-05. Authored 2026-07-04;
+decisions locked with the human via AskUserQuestion the same day (see below).
 
 Wire the [herdr](https://herdr.dev) terminal-workspace manager into how we work in
 this repo, so the fact that **multiple Claude agents share one working tree** (the
