@@ -7,8 +7,8 @@ import { SCHEMA_VERSION, type GameState } from '../core';
 import type { StorageBackend } from './backends';
 import {
   makeEnvelope,
-  encodeEnvelope,
-  decodeEnvelope,
+  encodeStore,
+  decodeStore,
   exportBase64,
   importBase64,
   type SaveEnvelope,
@@ -95,7 +95,7 @@ export class SaveManager {
 
     const saveCounter = this.counter + 1;
     const env = makeEnvelope(state, saveCounter, this.now());
-    const raw = encodeEnvelope(env);
+    const raw = await encodeStore(env);
     const key = this.slotKey(saveCounter % this.ringSlots);
 
     const results = await Promise.all(
@@ -121,7 +121,7 @@ export class SaveManager {
         if (!raw) continue;
         let parsed: unknown;
         try {
-          parsed = decodeEnvelope(raw);
+          parsed = await decodeStore(raw);
         } catch {
           continue; // unparseable / poisoned blob → ignored (recovery)
         }
@@ -184,7 +184,7 @@ export class SaveManager {
     if (!check.ok) return { ok: false, reason: `backup-invalid:${check.reason}` };
     if (this.backends.length === 0) return { ok: false, reason: 'no-backends' };
     const env = makeEnvelope(state, this.counter, this.now());
-    const raw = encodeEnvelope(env);
+    const raw = await encodeStore(env);
     const results = await Promise.all(
       this.backends.map(async (b) => {
         try {
@@ -215,7 +215,7 @@ export class SaveManager {
       if (!raw) continue;
       let parsed: unknown;
       try {
-        parsed = decodeEnvelope(raw);
+        parsed = await decodeStore(raw);
       } catch {
         continue; // corrupt blob in this backend → try the next
       }

@@ -64,3 +64,24 @@ Walked the human through the plan's open decisions. Locked:
    descriptors + migration (schema 7→8).
 
 Building in that order; each stage its own commit + tests + green verify.
+
+## Stage A shipped — gzip store codec
+
+`codec.ts`: `encodeStore`/`decodeStore` — JSON → gzip (`CompressionStream`,
+a global in browser + Node ≥18, one codepath) → base64, magic-prefixed
+(`KKgz1:`). A prefix-less blob = a legacy plain-JSON save, so pre-gzip stores
+still load (backward-compatible). `exportBase64`/`importBase64` untouched — the
+copy-out backup stays plain base64-JSON (recoverable with any tool). The 4 store
+call sites in `saveManager.ts` (save/backup/readCandidates/restoreBackup, all
+already async) now use the async codec.
+
+**Measured (real fixtures): ~10×** — wealthy-idler 48151 → 4886, pre-ascension
+48052 → 4538 bytes (base64 adds ~33% over raw gzip; unavoidable for the
+string-typed backends). `codec.test.ts`: gzip round-trip · full-300-log fixture
+shrinks < 0.4× plain (could-go-RED size floor) · legacy plain-JSON decodes. The
+21 existing save tests now round-trip through gzip end-to-end. 17 gates green.
+
+**Pending before final done:** a real-browser save/load smoke (tests use Node's
+`CompressionStream`; the browser's is the same RFC-1952 gzip, low risk).
+
+## Next: Stage C — log-content registry, then descriptors + migration.
