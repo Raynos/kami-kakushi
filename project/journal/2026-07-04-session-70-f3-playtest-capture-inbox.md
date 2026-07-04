@@ -366,3 +366,22 @@ data write, not a code change; the tree may be co-agent-red anyway), FAIL-SOFT
 (the file is on disk regardless; a failed commit is never a lost capture), and
 opt-out via `KAMI_INBOX_NO_COMMIT=1`. Git-runner injected for testing (3 tests:
 right args · fail-soft · opt-out) — no real git spawned in the suite.
+
+## 16 · Metadata JSON sidecar — lean .md, no inline base64 (human, 2026-07-05)
+
+The saves are ~92% log text (a 300-entry ring), so each entry's inline base64
+made the `.md` massive + unreadable. Human call: split it. Now per capture:
+- `<session>.md` entry is LEAN — the note, the picked `**Element:**`, a
+  `**Screenshot:**` link, and a `**Details:**` link. No inline base64.
+- `<session>/<stamp>.json` (committed) holds the heavy machine data: the base64
+  save, the recent `logTail`, and the full context (seed/clock/location/rung/
+  variants/viewport/url/element).
+- `<session>/<stamp>.png` (git-ignored) is the screenshot.
+
+`buildEntry` now returns `{ entry, metadataName, metadata, screenshotName? }`;
+the endpoint validates + writes the `.json` (allowlist `*.json`, dir-jailed, 4MB
+cap); `commitCapture` commits the `.md` + `.json` (png stays ignored). Removed
+the now-dead `variantsInline`/`logTailLines` md formatters. Docs (README, drain
+skill, AGENTS, qa-playtesting) updated; drain now reads the save from the linked
+`.json`. Typecheck clean, 31 F3 tests, strip proof green (via `vite build`,
+bypassing the F5 narrative session's tsgo-red WIP).

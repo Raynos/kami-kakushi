@@ -20,24 +20,30 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 // importing it from `./playtest-inbox`.
 export { CAPTURE_ENDPOINT } from '../ui/capture-format';
 
-/** The appended markdown per capture (header + entry) is bounded; the save is tens of KB. */
+/** The appended markdown per capture (header + LEAN entry) is small — the save is no longer inline. */
 export const MAX_MARKDOWN_BYTES = 512 * 1024;
-/** The body may also carry a base64 PNG, which dwarfs the markdown — so the overall body cap is
- *  generous while the markdown stays tightly bounded above. */
+/** The metadata JSON carries the base64 save (tens of KB) + recent logs — bounded, but bigger. */
+export const MAX_METADATA_BYTES = 4 * 1024 * 1024;
+/** The body may also carry a base64 PNG, which dwarfs both — so the overall body cap is generous. */
 export const MAX_BODY_BYTES = 12 * 1024 * 1024;
 
-// Session id: allowlist-safe, no separators, no dots-only traversal. Screenshot basename: <name>.png.
+// Session id: allowlist-safe, no separators, no dots-only traversal. Sidecar basenames: <name>.png / .json.
 const SESSION_RE = /^[A-Za-z0-9T.-]+$/;
 const PNG_NAME_RE = /^[A-Za-z0-9T.-]+\.png$/;
+const JSON_NAME_RE = /^[A-Za-z0-9T.-]+\.json$/;
 const PNG_DATA_URL_RE = /^data:image\/png;base64,([A-Za-z0-9+/=]+)$/;
 
 export interface CaptureBody {
-  /** The session id — filename base (no `.md`) and the screenshots folder name. */
+  /** The session id — filename base (no `.md`) and the sidecar folder name. */
   readonly session: string;
   /** The session header — written ONLY when the session file is first created. */
   readonly header: string;
-  /** The `##` entry markdown — appended to the session file. */
+  /** The lean `##` entry markdown — appended to the session file. */
   readonly entry: string;
+  /** Metadata sidecar basename (`<stamp>.json`) inside the session folder. */
+  readonly metadataName: string;
+  /** The metadata JSON content (save + recent logs + full context) — written to the sidecar. */
+  readonly metadata: string;
   /** Screenshot basename (`<stamp>.png`) inside the session folder; required iff `screenshot` set. */
   readonly screenshotName?: string;
   /** Optional data URL `data:image/png;base64,…`. */
@@ -50,7 +56,9 @@ export type ResolvedCapture =
       readonly mdPath: string;
       readonly header: string;
       readonly entry: string;
-      readonly shotDir?: string;
+      readonly sessionDir: string;
+      readonly metadataPath: string;
+      readonly metadata: string;
       readonly shotPath?: string;
       readonly pngBuffer?: Buffer;
     }
@@ -64,7 +72,8 @@ function fail(status: number, error: string): ResolvedCapture {
  *  server-side regardless of what the client sent (R2 — the endpoint trusts nothing). */
 export function resolveCapture(body: unknown, pendingDir: string): ResolvedCapture {
   if (typeof body !== 'object' || body === null) return fail(400, 'body must be a JSON object');
-  const { session, header, entry, screenshotName, screenshot } = body as Record<string, unknown>;
+  const { session, header, entry, metadataName, metadata, screenshotName, screenshot } =
+    body as Record<string, unknown>;
 
   if (typeof session !== 'string' || typeof header !== 'string' || typeof entry !== 'string') {
     return fail(400, 'session, header and entry are required strings');
@@ -73,19 +82,31 @@ export function resolveCapture(body: unknown, pendingDir: string): ResolvedCaptu
   if (Buffer.byteLength(header, 'utf-8') + Buffer.byteLength(entry, 'utf-8') > MAX_MARKDOWN_BYTES) {
     return fail(413, 'markdown exceeds the size cap');
   }
+  if (typeof metadataName !== 'string' || typeof metadata !== 'string') {
+    return fail(400, 'metadataName and metadata are required strings');
+  }
+  if (!JSON_NAME_RE.test(metadataName)) return fail(400, `illegal metadata name: ${metadataName}`);
+  if (Buffer.byteLength(metadata, 'utf-8') > MAX_METADATA_BYTES) {
+    return fail(413, 'metadata exceeds the size cap');
+  }
 
   const dir = resolve(pendingDir);
   const mdPath = resolve(dir, `${session}.md`);
-  const shotDir = resolve(dir, session);
-  // Dir-jail: both the .md and the session folder must stay strictly inside pending/.
+  const sessionDir = resolve(dir, session);
+  // Dir-jail: the .md and the session folder must stay strictly inside pending/.
   if (mdPath !== `${dir}${sep}${session}.md` || !mdPath.startsWith(`${dir}${sep}`)) {
     return fail(400, 'resolved path escapes the inbox');
   }
-  if (shotDir !== `${dir}${sep}${session}` || !shotDir.startsWith(`${dir}${sep}`)) {
-    return fail(400, 'resolved screenshot folder escapes the inbox');
+  if (sessionDir !== `${dir}${sep}${session}` || !sessionDir.startsWith(`${dir}${sep}`)) {
+    return fail(400, 'resolved session folder escapes the inbox');
+  }
+  const metadataPath = resolve(sessionDir, metadataName);
+  if (!metadataPath.startsWith(`${sessionDir}${sep}`)) {
+    return fail(400, 'metadata path escapes the folder');
   }
 
-  if (screenshot === undefined) return { ok: true, mdPath, header, entry };
+  const base = { ok: true, mdPath, header, entry, sessionDir, metadataPath, metadata } as const;
+  if (screenshot === undefined) return base;
   if (typeof screenshot !== 'string' || typeof screenshotName !== 'string') {
     return fail(400, 'screenshot requires a data URL string + a screenshotName');
   }
@@ -94,10 +115,10 @@ export function resolveCapture(body: unknown, pendingDir: string): ResolvedCaptu
   const m = PNG_DATA_URL_RE.exec(screenshot);
   if (!m) return fail(400, 'screenshot must be a base64 image/png data URL');
   const pngBuffer = Buffer.from(m[1]!, 'base64');
-  const shotPath = resolve(shotDir, screenshotName);
-  if (!shotPath.startsWith(`${shotDir}${sep}`))
+  const shotPath = resolve(sessionDir, screenshotName);
+  if (!shotPath.startsWith(`${sessionDir}${sep}`))
     return fail(400, 'screenshot path escapes the folder');
-  return { ok: true, mdPath, header, entry, shotDir, shotPath, pngBuffer };
+  return { ...base, shotPath, pngBuffer };
 }
 
 /** Write a resolved capture: create the session file with its header (first capture) or append the
@@ -109,10 +130,11 @@ export function writeCapture(
   mkdirSync(resolve(pendingDir), { recursive: true });
   if (existsSync(resolved.mdPath)) appendFileSync(resolved.mdPath, resolved.entry);
   else writeFileSync(resolved.mdPath, resolved.header + resolved.entry, 'utf-8');
-  if (resolved.shotDir && resolved.shotPath && resolved.pngBuffer) {
-    mkdirSync(resolved.shotDir, { recursive: true });
-    writeFileSync(resolved.shotPath, resolved.pngBuffer);
-  }
+  // Sidecars in the session folder: the metadata JSON (committed — save + logs + context) and the
+  // optional screenshot (git-ignored).
+  mkdirSync(resolved.sessionDir, { recursive: true });
+  writeFileSync(resolved.metadataPath, resolved.metadata, 'utf-8');
+  if (resolved.shotPath && resolved.pngBuffer) writeFileSync(resolved.shotPath, resolved.pngBuffer);
 }
 
 /** Auto-commit the capture `.md` so a capture is durable in git the moment it's made (no capture
@@ -122,25 +144,26 @@ export function writeCapture(
  *  leaving any co-agent's staged work untouched; `--no-verify` skips the code gates (a data write,
  *  not a code change). Opt out with `KAMI_INBOX_NO_COMMIT=1`. */
 export function commitCapture(
-  mdPath: string,
+  paths: readonly string[], // the .md + the metadata .json (the .png stays git-ignored)
   pendingDir: string,
   run?: (args: string[]) => void, // injectable git-runner (tests); defaults to real `git`
 ): void {
   if (process.env.KAMI_INBOX_NO_COMMIT === '1') return;
+  if (paths.length === 0) return;
   // pending/ → playtest-inbox/ → project/ → <repo root>
   const repoRoot = resolve(pendingDir, '..', '..', '..');
   const git =
     run ??
     ((args: string[]): void => void execFileSync('git', args, { cwd: repoRoot, stdio: 'ignore' }));
   try {
-    git(['add', '--', mdPath]); // stage it (new or appended)
+    git(['add', '--', ...paths]); // stage them (new or appended)
     git([
       'commit',
       '--no-verify',
       '-m',
-      `chore(inbox): playtest capture ${basename(mdPath)}`,
+      `chore(inbox): playtest capture ${basename(paths[0]!)}`,
       '--',
-      mdPath,
+      ...paths,
     ]);
   } catch {
     /* fail-soft — the capture is on disk; leaving it uncommitted is never a lost capture */
@@ -196,7 +219,7 @@ export function playtestInboxHandler(
         respond(res, 500, { error: `write failed: ${String(e)}` });
         return;
       }
-      commitCapture(resolved.mdPath, pendingDir); // durable-in-git, fail-soft
+      commitCapture([resolved.mdPath, resolved.metadataPath], pendingDir); // durable-in-git, fail-soft
       respond(res, 200, { ok: true, file: basename(resolved.mdPath) });
     });
   };

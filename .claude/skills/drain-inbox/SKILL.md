@@ -8,10 +8,12 @@ disable-model-invocation: true
 
 Metabolize the DEV capture overlay's output (F3). Captures land in
 `project/playtest-inbox/pending/` as **one markdown file per game session**:
-`<session>.md` holds a header plus one `##` **entry** per capture (each entry =
-a note + at-a-glance context + a base64 save), and `<session>/` is a sibling,
-git-ignored folder of that session's screenshots. This skill drains those
-entries into the established Fnn → fix → graduate loop, exactly as the human's
+`<session>.md` holds a header plus one `##` **entry** per capture — each entry is
+LEAN (the note + the picked element + a screenshot link + a **Details** link).
+The heavy machine data lives in a sibling folder `<session>/`: `<stamp>.json`
+(the base64 save + recent logs + full context — **committed**) and `<stamp>.png`
+(the screenshot — git-ignored). This skill drains those entries into the
+established Fnn → fix → graduate loop, exactly as the human's
 live playtests do — the human plays whenever, you drain whenever, nobody waits.
 
 **The capture is a claim, not the truth (R2).** Reproduce and verify every
@@ -54,15 +56,16 @@ For each `##` entry in each session file, oldest first (a session file may hold
 many captures — process every entry):
 
 **Reproduce (verify the complaint against reality).** Read the entry's note +
-its `**Where:**` line (seed, clock, location, rung, variants, viewport) + its
-`**Save:**` base64. If the entry has an `**Element:**` line, that's the exact UI
-element the note is about (a semantic label + selector + on-screen rect, and the
+its **Details** link → open that `<session>/<stamp>.json` for the full context
+(seed, clock, location, rung, variants, viewport) + the `save` (base64) + recent
+`logTail`. If the entry has an `**Element:**` line, that's the exact UI element
+the note is about (a semantic label + selector + on-screen rect, and the
 screenshot boxes it) — focus the repro there. Drive the game **headlessly** (never headed —
 `.claude/hooks/enforce-headless-qa.sh` enforces it): `npm run dev`, navigate
-with the captured variant/`?dev=no` params, `__qa.load('<the entry's Save
-base64>')`, resize to the captured viewport, then screenshot / observe. Confirm
-the symptom is real before acting. (The entry's screenshot in `<session>/`, if
-present, is a local aid; the save is authoritative.)
+with the captured variant/`?dev=no` params, `__qa.load('<the .json's save>')`,
+resize to the captured viewport, then screenshot / observe. Confirm the symptom
+is real before acting. (The entry's screenshot in `<session>/`, if present, is a
+local aid; the save is authoritative.)
 
 **Triage** — route by kind (this is the established metabolization made
 explicit):
@@ -102,13 +105,15 @@ human** (via the H-item).
 ## 5 · Complete a session = archive (not delete)
 
 A session file is done when **every** `##` entry in it is drained. Then move it
-from `pending/` to `archive/` (and `mv` its git-ignored screenshot folder
-alongside) — completion is the archive move, keeping the raw feedback durable
-long-term (like `project/human-feedback/`):
+from `pending/` to `archive/` along with its sidecar folder — completion is the
+archive move, keeping the raw feedback durable long-term (like
+`project/human-feedback/`). The `.md` and the folder's `.json`s are tracked
+(`git mv`); the `.png`s are git-ignored (plain `mv`):
 
 ```
-git mv project/playtest-inbox/pending/<session>.md project/playtest-inbox/archive/<session>.md
-mv    project/playtest-inbox/pending/<session>     project/playtest-inbox/archive/<session>   # screenshots (git-ignored)
+git mv project/playtest-inbox/pending/<session>.md   project/playtest-inbox/archive/<session>.md
+git mv project/playtest-inbox/pending/<session>/*.json project/playtest-inbox/archive/<session>/   # metadata (tracked)
+mv     project/playtest-inbox/pending/<session>      project/playtest-inbox/archive/<session>       # leftover .pngs (ignored)
 ```
 
 ## 6 · One commit per entry

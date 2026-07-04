@@ -34,12 +34,27 @@ const PNG_1PX =
 
 describe('resolveCapture — validation', () => {
   const dir = '/tmp/does-not-matter';
-  const good = { session: SESSION, header: '# h\n', entry: '\n## x\n' };
+  const good = {
+    session: SESSION,
+    header: '# h\n',
+    entry: '\n## x\n',
+    metadataName: 'm.json',
+    metadata: '{"save":"eyJ"}',
+  };
 
-  it('accepts a well-formed body and jails the paths inside pending/', () => {
+  it('accepts a well-formed body and resolves the .md + metadata sidecar inside pending/', () => {
     const r = ok(resolveCapture(good, dir));
     expect(dirname(r.mdPath)).toBe(dir);
     expect(basename(r.mdPath)).toBe(`${SESSION}.md`);
+    expect(r.metadataPath).toBe(join(dir, SESSION, 'm.json'));
+    expect(r.metadata).toBe('{"save":"eyJ"}');
+  });
+
+  it('rejects a missing or illegal metadata name', () => {
+    const { metadataName: _drop, ...noMeta } = good;
+    expect(resolveCapture(noMeta, dir).ok).toBe(false);
+    expect(resolveCapture({ ...good, metadataName: 'm.txt' }, dir).ok).toBe(false);
+    expect(resolveCapture({ ...good, metadataName: 'a/b.json' }, dir).ok).toBe(false);
   });
 
   it('rejects a path-traversal / separator session id', () => {
@@ -117,6 +132,8 @@ describe('writeCapture — one file per session, header once, entries appended',
           session: SESSION,
           header,
           entry: e1.entry,
+          metadataName: e1.metadataName,
+          metadata: e1.metadata,
           screenshot: PNG_1PX,
           screenshotName: e1.screenshotName,
         },
@@ -126,7 +143,18 @@ describe('writeCapture — one file per session, header once, entries appended',
     writeCapture(w1, pending);
 
     const e2 = buildEntry('second note', realCtx(save, '2026-07-04T22:01:12+0200', false), SESSION);
-    const w2 = ok(resolveCapture({ session: SESSION, header, entry: e2.entry }, pending));
+    const w2 = ok(
+      resolveCapture(
+        {
+          session: SESSION,
+          header,
+          entry: e2.entry,
+          metadataName: e2.metadataName,
+          metadata: e2.metadata,
+        },
+        pending,
+      ),
+    );
     writeCapture(w2, pending);
 
     const md = readFileSync(join(pending, `${SESSION}.md`), 'utf-8');
@@ -135,14 +163,22 @@ describe('writeCapture — one file per session, header once, entries appended',
     expect(md).toContain('first note');
     expect(md).toContain('second note');
     expect(md.indexOf('first note')).toBeLessThan(md.indexOf('second note'));
+    // the .md is LEAN — no inline base64 save
+    expect(md).not.toContain(save);
 
-    // the screenshot from the first capture landed in the session folder
-    const shots = readdirSync(join(pending, SESSION));
-    expect(shots).toEqual(['2026-07-04T22-00-05.png']);
+    // the session folder holds both metadata JSONs + the first capture's screenshot
+    const files = readdirSync(join(pending, SESSION)).sort();
+    expect(files).toEqual([
+      '2026-07-04T22-00-05.json',
+      '2026-07-04T22-00-05.png',
+      '2026-07-04T22-01-12.json',
+    ]);
 
-    // the save embedded in the first entry round-trips through the codec
-    const line = md.split('\n').find((l) => l.startsWith('`eyJ'))!;
-    const env = importBase64(line.replaceAll('`', '').trim()) as SaveEnvelope;
+    // the save lives in the metadata JSON and round-trips through the codec
+    const meta = JSON.parse(
+      readFileSync(join(pending, SESSION, '2026-07-04T22-00-05.json'), 'utf-8'),
+    );
+    const env = importBase64(meta.save) as SaveEnvelope;
     expect(env.app).toBe(APP_ID);
     expect(env.state.rng.seed).toBe(20260626);
   });
@@ -154,7 +190,7 @@ describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () =>
 
   it('git-adds then commits ONLY the .md by explicit path (--no-verify)', () => {
     const calls: string[][] = [];
-    commitCapture(MD, PENDING, (args) => calls.push(args));
+    commitCapture([MD], PENDING, (args) => calls.push(args));
     expect(calls[0]).toEqual(['add', '--', MD]);
     expect(calls[1]![0]).toBe('commit');
     expect(calls[1]).toContain('--no-verify');
@@ -163,7 +199,7 @@ describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () =>
 
   it('is fail-soft — a throwing git never breaks the capture', () => {
     expect(() =>
-      commitCapture(MD, PENDING, () => {
+      commitCapture([MD], PENDING, () => {
         throw new Error('index.lock');
       }),
     ).not.toThrow();
@@ -174,7 +210,7 @@ describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () =>
     process.env.KAMI_INBOX_NO_COMMIT = '1';
     try {
       const calls: string[][] = [];
-      commitCapture(MD, PENDING, (args) => calls.push(args));
+      commitCapture([MD], PENDING, (args) => calls.push(args));
       expect(calls).toHaveLength(0);
     } finally {
       if (prev === undefined) delete process.env.KAMI_INBOX_NO_COMMIT;

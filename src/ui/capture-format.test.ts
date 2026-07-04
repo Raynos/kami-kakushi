@@ -67,22 +67,40 @@ describe('buildSessionHeader', () => {
 });
 
 describe('buildEntry', () => {
-  it('produces an appendable ## block with the note + at-a-glance context', () => {
-    const { entry } = buildEntry('open eyes button off centre', ctx(), META.sessionId);
+  it('keeps the .md LEAN — note + details link, NO inline base64', () => {
+    const { entry, metadataName } = buildEntry(
+      'open eyes button off centre',
+      ctx(),
+      META.sessionId,
+    );
     expect(entry).toContain('## 2026-07-03T18:42:07+0200 — open-eyes-button-off');
-    expect(entry).toContain('open eyes button off centre');
-    expect(entry).toContain('seed 20260626');
-    expect(entry).toContain('day 12 tick 7');
-    expect(entry).toContain('home-paddies');
-    expect(entry).toContain('R3');
-    expect(entry).toContain('tab work');
-    expect(entry).toContain('variants {}');
-    expect(entry).toContain('1728×1117@2x');
-    expect(entry).toContain('url /?dev=no');
-    // the save rides in each entry (self-contained repro)
-    expect(entry).toContain('eyJhcHAiOiJrYW1pLWtha3VzaGkifQ==');
-    // it ends with a divider so appended entries stay visually separated
+    expect(entry).toContain('open eyes button off centre'); // the human's note
+    expect(metadataName).toBe('2026-07-03T18-42-07.json');
+    expect(entry).toContain(`**Details:** \`${META.sessionId}/${metadataName}\``); // link out
+    // the heavy stuff is NOT inline in the .md
+    expect(entry).not.toContain('eyJhcHAiOiJrYW1pLWtha3VzaGkifQ=='); // no base64 save
+    expect(entry).not.toContain('seed 20260626'); // no context dump
     expect(entry.trimEnd().endsWith('---')).toBe(true);
+  });
+
+  it('puts the save + logs + full context in the metadata JSON', () => {
+    const { metadata } = buildEntry(
+      'n',
+      ctx({
+        variants: { market: 'market-c' },
+        logTail: [{ channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' }],
+      }),
+      META.sessionId,
+    );
+    const m = JSON.parse(metadata);
+    expect(m.save).toBe('eyJhcHAiOiJrYW1pLWtha3VzaGkifQ==');
+    expect(m.seed).toBe(20260626);
+    expect(m.clock).toEqual({ day: 12, tick: 7 });
+    expect(m.location).toBe('home-paddies');
+    expect(m.variants).toEqual({ market: 'market-c' });
+    expect(m.logTail).toEqual([
+      { channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' },
+    ]);
   });
 
   it('references a same-stem screenshot in the session folder only when a shot exists', () => {
@@ -93,19 +111,8 @@ describe('buildEntry', () => {
     expect(built.screenshotName).toBe('2026-07-03T18-42-07.png');
     expect(built.screenshotName!).toMatch(SERVER_PNG_RE);
     expect(built.entry).toContain('`2026-07-03T18-40-00-abc123/2026-07-03T18-42-07.png`');
-  });
-
-  it('renders non-default variants and a log tail', () => {
-    const { entry } = buildEntry(
-      'n',
-      ctx({
-        variants: { market: 'market-c' },
-        logTail: [{ channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' }],
-      }),
-      META.sessionId,
-    );
-    expect(entry).toContain('variants { market: market-c }');
-    expect(entry).toContain('- [combat] You: You strike. ×3');
+    // the metadata records the screenshot name too
+    expect(JSON.parse(built.metadata).screenshot).toBe('2026-07-03T18-42-07.png');
   });
 
   it('renders the picked element descriptor when present, and omits it otherwise', () => {

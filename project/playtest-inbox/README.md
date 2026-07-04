@@ -14,39 +14,45 @@ results is the feedback log (`project/human-feedback/<date>-playtest.md`).
 
 All captures from **one game session** (a browser-tab play sitting — the id
 survives a reload, a fresh tab starts a new session) append to **one** markdown
-file. Its screenshots live in a **sibling folder of the same name**:
+file. Its per-capture sidecars live in a **sibling folder of the same name**:
 
 ```
 pending/
-  2026-07-04T23-31-14-c4c97a.md        ← the session file (committed)
-  2026-07-04T23-31-14-c4c97a/          ← its screenshots (git-ignored)
-    2026-07-04T23-31-14.png
+  2026-07-04T23-31-14-c4c97a.md        ← the session file — LEAN (committed)
+  2026-07-04T23-31-14-c4c97a/
+    2026-07-04T23-31-14.json           ← save + logs + context (committed)
+    2026-07-04T23-31-14.png            ← screenshot (git-ignored)
+    2026-07-04T23-31-15.json
     2026-07-04T23-31-15.png
 ```
 
 The `.md` is a session header (build + start time) written once, then one `##`
-**entry** appended per capture — each entry carrying the note, at-a-glance
-context (seed, clock, location, rung, tab, variants, viewport, url), a
-`**Screenshot:**` reference into the folder, and the **base64 save** for that
-moment (so every entry is an independent, deterministic repro).
+**entry** appended per capture. Each entry is **lean and human-readable** — the
+note, the picked `**Element:**`, a `**Screenshot:**` link, and a `**Details:**`
+link to that capture's `<stamp>.json`. The **heavy machine data** (the base64
+save, the recent log lines, and the full at-a-glance context) lives in the
+`.json`, so the `.md` never bloats with inline base64. Each `.json` is an
+independent, deterministic repro (`__qa.load(<its save>)`).
 
 ## Layout
 
 - **`pending/`** — session files (+ their screenshot folders) waiting to be
   drained.
 - **`archive/`** — drained session files, kept **durable long-term** (like
-  `project/human-feedback/`). Completion is a `git mv` of the `.md` (and a plain
-  `mv` of its screenshot folder) from `pending/` to here, **not** deletion — the
-  archived `.md` is the raw record; the F-log entries are the distilled ones.
+  `project/human-feedback/`). Completion is a `git mv` of the `.md` + the
+  folder's `.json`s (and a plain `mv` of the git-ignored `.png`s) from `pending/`
+  to here, **not** deletion — the archived `.md` + `.json`s are the raw record;
+  the F-log entries are the distilled ones.
 
 ## What's committed vs. ignored
 
-- **Committed:** the session `.md` (notes + save-JSON). The save reproduces each
-  captured moment pixel-perfectly through the headless harness, so the `.md`
-  alone is a complete repro of every entry.
-- **Git-ignored:** every `.png` (`project/playtest-inbox/**/*.png`, which covers
-  the per-session folders). Screenshots are local-only viewing aids (human call,
-  2026-07-04); their absence never breaks a repro.
+- **Committed:** the session `.md` (lean, human-readable notes) **and** each
+  capture's `<stamp>.json` (save + logs + context). The `.json`'s save
+  reproduces the moment pixel-perfectly through the headless harness, so the
+  `.md` + its `.json`s are a complete repro of every entry.
+- **Git-ignored:** every `.png` (`project/playtest-inbox/**/*.png`). Screenshots
+  are local-only viewing aids (human call, 2026-07-04); their absence never
+  breaks a repro.
 
 ## Lifecycle (the drain contract)
 

@@ -77,9 +77,15 @@ export interface CaptureContext {
 }
 
 export interface BuiltEntry {
-  /** The markdown `##` block to APPEND to the session file. */
+  /** The LEAN markdown `##` block to APPEND to the session file — the human's note, the picked
+   *  element, the screenshot link, and a link out to the metadata JSON. No inline base64. */
   readonly entry: string;
-  /** `<stamp>.png` — the screenshot basename inside the session folder; present iff hasScreenshot. */
+  /** `<stamp>.json` — the metadata sidecar basename (in the session folder). */
+  readonly metadataName: string;
+  /** The metadata JSON content to write to `<session>/<metadataName>` — the heavy machine record:
+   *  the base64 save, the recent log lines, and the full at-a-glance context. */
+  readonly metadata: string;
+  /** `<stamp>.png` — the screenshot basename; present iff hasScreenshot. */
   readonly screenshotName?: string;
 }
 
@@ -124,21 +130,6 @@ export function slugOf(note: string): string {
   return slug || 'note';
 }
 
-function variantsInline(variants: Readonly<Record<string, string>>): string {
-  const entries = Object.entries(variants);
-  if (entries.length === 0) return '{}';
-  return `{ ${entries.map(([k, v]) => `${k}: ${v}`).join(', ')} }`;
-}
-
-function logTailLines(tail: readonly CaptureLogLine[]): string[] {
-  return tail.map((e) => {
-    const who = e.speaker ? `${e.speaker}: ` : '';
-    const tally = e.count > 1 ? ` ×${e.count}` : '';
-    const text = e.text.replace(/\s*\n\s*/g, ' ');
-    return `- [${e.channel}] ${who}${text}${tally}`;
-  });
-}
-
 /** The session file header — written ONCE, on the first capture of the session. */
 export function buildSessionHeader(meta: SessionMeta): string {
   return (
@@ -147,10 +138,12 @@ export function buildSessionHeader(meta: SessionMeta): string {
       '',
       `- **build:** ${meta.build.version} (${meta.build.sha}, ${meta.build.date})`,
       `- **session:** \`${meta.sessionId}\``,
-      `- **screenshots:** \`./${meta.sessionId}/\` (git-ignored)`,
+      `- **details + screenshots:** \`./${meta.sessionId}/\` (\`<stamp>.json\` = save + logs +`,
+      '  context, committed; `<stamp>.png` = screenshot, git-ignored)',
       '',
       'Each `##` block below is one in-game capture (`` ` `` → note → send) from',
-      'this session, appended in order. Reproduce any one from its own embedded save.',
+      'this session, appended in order. The heavy machine data (save + logs) lives in',
+      'the linked `<stamp>.json`; reproduce any one with `__qa.load(<its save>)`.',
       '',
     ].join('\n') + '\n'
   );
@@ -161,27 +154,39 @@ export function buildEntry(note: string, ctx: CaptureContext, sessionId: string)
   const stamp = stampOf(ctx.capturedAt);
   const slug = slugOf(note);
   const screenshotName = ctx.hasScreenshot ? `${stamp}.png` : undefined;
+  const metadataName = `${stamp}.json`;
 
-  const where = [
-    `seed ${ctx.seed}`,
-    `day ${ctx.clock.day} tick ${ctx.clock.tick}`,
-    ctx.location,
-    ctx.rung,
-    `tier ${ctx.tier}`,
-    `tab ${ctx.activeTab}`,
-    `variants ${variantsInline(ctx.variants)}`,
-    `${ctx.viewport.w}×${ctx.viewport.h}@${ctx.viewport.dpr}x`,
-    `url ${ctx.url}`,
-  ].join(' · ');
+  // The heavy machine record — base64 save + recent logs + full context — lives in a JSON sidecar
+  // the .md links to, so the session file stays lean + readable (no massive inline base64).
+  const metadata = JSON.stringify(
+    {
+      capturedAt: ctx.capturedAt,
+      seed: ctx.seed,
+      clock: ctx.clock,
+      location: ctx.location,
+      rung: ctx.rung,
+      tier: ctx.tier,
+      activeTab: ctx.activeTab,
+      variants: ctx.variants,
+      viewport: ctx.viewport,
+      url: ctx.url,
+      element: ctx.element ?? null,
+      screenshot: screenshotName ?? null,
+      logTail: ctx.logTail,
+      save: ctx.saveBase64, // base64 — `__qa.load()` this to reproduce
+    },
+    null,
+    2,
+  );
 
+  // The .md keeps ONLY what a human reads: the feedback text, the picked element, the screenshot,
+  // and a link out to the metadata JSON.
   const lines: string[] = [
     '',
     `## ${ctx.capturedAt} — ${slug}`,
     '',
-    '**Note:**',
     note.trim() || '_(empty note)_',
     '',
-    `**Where:** ${where}`,
   ];
   if (ctx.element) {
     const el = ctx.element;
@@ -192,15 +197,14 @@ export function buildEntry(note: string, ctx: CaptureContext, sessionId: string)
     );
   }
   if (screenshotName) lines.push(`**Screenshot:** \`${sessionId}/${screenshotName}\``);
-  if (ctx.logTail.length > 0) lines.push('', '**Log tail:**', ...logTailLines(ctx.logTail));
   lines.push(
-    '',
-    '**Save (base64 — `__qa.load()` to reproduce):**',
-    `\`${ctx.saveBase64}\``,
+    `**Details:** \`${sessionId}/${metadataName}\` — save + recent logs + full context`,
     '',
     '---',
   );
 
   const entry = `${lines.join('\n')}\n`;
-  return screenshotName ? { entry, screenshotName } : { entry };
+  return screenshotName
+    ? { entry, metadataName, metadata, screenshotName }
+    : { entry, metadataName, metadata };
 }

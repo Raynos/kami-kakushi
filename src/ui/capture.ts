@@ -380,11 +380,22 @@ export function mountCapture(opts: CaptureOptions): () => void {
       hasScreenshot: shot !== null,
       ...(element ? { element } : {}),
     };
-    const { entry, screenshotName } = buildEntry(note, ctx, session.sessionId);
-    const payload =
-      shot && screenshotName
-        ? { session: session.sessionId, header, entry, screenshotName, screenshot: shot }
-        : { session: session.sessionId, header, entry };
+    const { entry, metadataName, metadata, screenshotName } = buildEntry(
+      note,
+      ctx,
+      session.sessionId,
+    );
+    const payload: Record<string, unknown> = {
+      session: session.sessionId,
+      header,
+      entry,
+      metadataName,
+      metadata,
+    };
+    if (shot && screenshotName) {
+      payload.screenshotName = screenshotName;
+      payload.screenshot = shot;
+    }
     const ok = await post(CAPTURE_ENDPOINT, JSON.stringify(payload));
     if (ok) toast('captured → inbox');
     else {
