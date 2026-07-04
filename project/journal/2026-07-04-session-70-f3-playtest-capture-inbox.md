@@ -264,3 +264,16 @@ folders (no gitignore change).
 
 **Session = browser-tab sitting** (sessionStorage) — noted for the human; easy
 to switch to per-page-load if they meant that instead.
+
+## 10 · Spin-off — single-dev-server guard (human, 2026-07-04)
+
+The concurrent-agent sprawl left 3+ `vite` servers cascading 5173→5174→5175.
+Human asked for a sanity guard so only ONE runs. Added to `vite.config.ts` (kept
+out of the co-agent-dirty `package.json`): a `singleServerGuard()` preflight that,
+for `command === 'serve'` only (skipped for `build`/`preview`/vitest via a
+`VITEST` check — so it never blocks the verify gate), greps `lsof` for a listener
+on `DEV_PORT` (5173) and, if found, prints a friendly message (holder pid + how
+to kill it + `KAMI_ALLOW_MULTI_DEV=1` bypass) and `process.exit(1)`. Plus
+`server: { port: 5173, strictPort: true }` as the race backstop (vite won't
+cascade). Verified: a 2nd `npm run dev` is refused with the message; vitest +
+build unaffected; one server on 5173 in the herdr dev-server workspace (w5).
