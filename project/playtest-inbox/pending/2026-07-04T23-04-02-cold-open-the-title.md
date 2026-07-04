@@ -1,0 +1,23 @@
+---
+captured_at: 2026-07-04T23:04:02+0200
+build: v0.3.5 (97d364f, 2026-07-04)
+seed: 20260626
+clock: { day: 0, tick: 0 }
+location: kura
+rung: R0
+tier: 0
+active_tab: work
+variants: {}
+viewport: 1280x800 @1x
+url: /
+screenshot: 2026-07-04T23-04-02-cold-open-the-title.png
+---
+
+## Note
+Cold open: the title card sits with an empty box below it for several seconds — the "Open your eyes" button only fades in after the intro (~8s). Felt stuck at first, unsure how to begin.
+
+## Log tail (last 20)
+_(no log lines)_
+
+## Save (base64 envelope — `__qa.load()` this to reproduce)
+eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjo3LCJzYXZlQ291bnRlciI6MCwic2F2ZWRBdCI6MTc4MzE5OTA0MjA1NCwic3RhdGUiOnsic2NoZW1hVmVyc2lvbiI6Nywicm5nIjp7InNlZWQiOjIwMjYwNjI2LCJjdXJzb3JzIjp7ImNvbWJhdCI6MCwibG9vdCI6MCwic2Vhc29uYWwiOjAsIndvcmxkZ2VuIjowfX0sImNsb2NrIjp7InRpY2siOjAsImRheSI6MH0sImNoYXJhY3RlciI6eyJocCI6NTgsInNhdGlldHkiOjY0LCJhdHRyaWJ1dGVQb2ludHMiOjAsImF0dHJzIjp7InN0ciI6NSwiYWdpIjo1LCJpbnQiOjUsInNwZCI6NSwibHVjayI6NX0sImxldmVsIjoxLCJjb21iYXRYcCI6MH0sInJlc291cmNlcyI6eyJjb2luIjowLCJyaWNlIjowfSwiYmFua2VkIjp7ImNvaW4iOjAsInJpY2UiOjB9LCJmbGFncyI6e30sInVubG9ja2VkIjpbInNjcmVlbi1jb2xkLW9wZW4iLCJ2ZXJiLW9wZW4tZXllcyJdLCJsb2ciOnsiZW50cmllcyI6W10sInNlcSI6MH0sInNraWxsWHAiOnt9LCJkZWxpdmVyZWREaWFsb2d1ZSI6W10sIm5wY01lbW9yeSI6e30sImludHJvQmVhdCI6LTEsInJ1bmdCZWF0IjpudWxsLCJhc2tlZFRvcGljcyI6W10sInF1ZXN0cyI6eyJhY2NlcHRlZCI6W10sInByb2dyZXNzIjp7fSwiY29tcGxldGVkIjpbXX0sIm1hcmtldEJvdWdodCI6e30sImJlbG9uZ2luZ3MiOltdLCJsb2NhdGlvbiI6Imt1cmEiLCJydW5nIjoiUjAiLCJydW5nTWV0ZXIiOjAsImVzdGF0ZVN0YWdlIjowLCJhdXRvQWN0aXZpdHkiOm51bGwsImF1dG9SYWtlIjpmYWxzZSwiZXF1aXBwZWRXZWFwb24iOiJjYXJyeWluZ19wb2xlIiwid2VhcG9uRHVyYWJpbGl0eSI6NDAsImF1dG9Db21iYXQiOm51bGwsImF1dG9Db21iYXRSZXRyZWF0IjpmYWxzZSwic3RhbmNlIjoiY2h1ZGFuIiwidGllciI6MCwiaW5mbHVlbmNlIjp7ImVzdGF0ZSI6eyJ2YWx1ZSI6MCwiaGlnaFdhdGVyIjowLCJqdWRnZWQiOjB9fX19
