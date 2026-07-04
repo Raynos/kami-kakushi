@@ -45,12 +45,6 @@ reading queue below for your lock read; the F10 re-plan trigger has fired.)_
 
 **Owed reviews / taste calls (async, no rush):**
 
-- [ ] `docs/plans/opus-2026-07-05-shrink-save-file.md` — **shrink the save
-  file** (decisions LOCKED 2026-07-05, Opus building). Log is ~57% of the save.
-  **A** = gzip the store (native `CompressionStream`/`zlib`, 13×); **C** =
-  log-as-descriptors via a new `log-content` registry (schema 7→8, migration);
-  exports stay plain base64-JSON; **D** dropped. **Read to confirm the approach**
-  (build is underway in stages — codec → registry → descriptors + migration).
 - [ ] `docs/plans/opus-2026-07-04-phase2-economy-redesign.md` — **T0 Phase-2
   economy redesign** (the REAL fix D-133 queued after the stopgap hotfix): makes
   T0 Phase 2 a ~1:1, ~40–83-min *fun* chunk instead of a threshold-inflated slog.
@@ -101,19 +95,6 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
   compressed territory; §6 folded into the T0 sweep).
-- [ ] `project/archive/fable-process-F2-github-actions-ci.md` (archived — done) — **GitHub Actions
-  CI** (top10 #3, your spec): two parallel jobs (verify + build/strip) ≈
-  1.5 min wall vs the 5-min target — setup dominates, so a 6-way split
-  would fork the gate roster into YAML for nothing; nightly stub for the
-  slow suites; **web-grounded oxlint/oxfmt verdicts**: two-tier lint (oxlint
-  can't express the `new Date()` core ban), oxfmt only behind a zero-diff
-  parity proof.
-- [ ] `project/archive/fable-process-F4-balance-sim-gates.md` (archived — done,
-  discussed pre-build 2026-07-04) — **persona-bot balance sim** (suggestion #4):
-  greedy/idler/explorer bots over the real reducers, pacing envelopes derived
-  from `balance.ts`, on-demand `verify:balance` + a generated pacing report
-  (`docs/content/t0-pacing.md`) whose diff rides every balance change. Built:
-  ADR D-132; open calls for you → **H19** (Phase-2 band) + **H20** (WARN→gate).
 - [ ] `docs/plans/fable-process-F7-balance-cockpit.md` — **the balance-tuning
   cockpit** (top10 #1, your 5/5 pick): a DEV-panel Balance tab of live
   sliders over the curated `balance.ts` levers (the 4 balance-watch items
