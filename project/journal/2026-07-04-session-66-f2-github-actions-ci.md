@@ -144,3 +144,27 @@ devDep (Vite/editor + escape hatch — tsgo is a preview).
 - Files: `gates.ts`, `package.json` (build + verify:seq), PRD §6/§7 +
   qa-playtesting command examples, ADR D-131, regenerated gate-roster region.
 - Escape hatch if tsgo ever mis-types: one line back to `tsc --noEmit`.
+
+---
+
+## CI red on push — the clean-room caught a local-only green (the whole point)
+
+After pushing the two toolchain commits, `verify.yml` went **RED** on the
+committed tree while local `verify` was green — precisely the clean-room value
+F2 was built for. Two gate failures, both from **local green depending on
+UNCOMMITTED shared-tree state**:
+- **md-links**: D-130's link to the F2 plan had been rewritten to the archive
+  path (`../../project/archive/…`) by a co-agent's in-flight archival tooling,
+  but the archive move itself is **uncommitted** — so the link resolved locally,
+  dead in CI. **F2 is half-archived** (moved on disk, still at `docs/plans/` in
+  the commit) → no single link path is green in both trees. Fix: drop the link,
+  cite the plan as plain inline-code (immune to the move).
+- **checkpoint**: the gate-roster gen-region lives in **TWO** docs
+  (`working-agreements.md` + `project-status.md`); the tsgo swap committed only
+  the first. Committed `project-status.md` regen (→ tsgo) + fixed its stale
+  stack prose.
+
+**Lesson:** when a gen-region change touches a value mirrored in multiple docs,
+commit **all** carriers; and never let a committed cross-doc link depend on a
+co-agent's uncommitted move. Fixed in the follow-up commit; re-verified green on
+the remote.

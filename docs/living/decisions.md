@@ -1651,7 +1651,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
 - **Context:** ESLint (4.06 s) + Prettier (4.17 s) were the two heaviest `verify`
   gates — together they set the critical path and left only 0.41 s of headroom
   under the 5 s drift budget (D-072). The F2-CI Ph3 plan
-  ([`fable-process-F2-github-actions-ci.md`](../../project/archive/fable-process-F2-github-actions-ci.md))
+  (`fable-process-F2-github-actions-ci.md`, being archived this session)
   scoped a **two-tier** swap (oxlint repo-wide + a thin `eslint src/core` kept for
   the boundary rules) because oxlint historically lacked `no-restricted-syntax`
   (the esquery `new Date()` ban) — the four pure-core boundary rules (PRD §6.1/§6.2)
