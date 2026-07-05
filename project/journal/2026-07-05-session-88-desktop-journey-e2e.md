@@ -56,3 +56,11 @@ own 120s budget), comfortably inside the ≤3min CI target. `verify` holds at
 - Watch `e2e.yml` on the push; on green, archive the plan to `project/archive/`.
 - The R3 repair-gap design glance (finding 1) and the fresh-profile import UX
   (finding 3) are candidates for the human's queue if they bother anyone.
+
+## Close-out (appended)
+
+CI green on `27086bb`: verify workflows + `e2e.yml` (3 projects, 81 tests,
+~50s Playwright run inside a 3m08s job wall incl. setup) — the DoD's last box.
+Plan flipped DONE and archived to `project/archive/`; the two design findings
+(R3 mend-path gap, fresh-profile import behind the intro) queued as human
+TODOs in `project/todo-human.md`.

@@ -1,8 +1,8 @@
 # Plan: desktop e2e lane + player-journey regression net
 
-**Status: IN-PROGRESS — all phases built on `main` (s88, commits
-f18bd8a…dc7cbbe); flips DONE + archives on the checkpoint push's `e2e.yml`
-CI green.**
+**Status: DONE — all phases built on `main` (s88, f18bd8a…27086bb); `e2e.yml`
+CI green on 27086bb with 3 projects, 81 tests (~50s Playwright run, 3m08s job
+wall incl. setup). Findings + RED-proofs: the session-88 journal.**
 ~~Status: LOCKED — human signed off the four open calls, 2026-07-05.~~
 Confidence: ( 75% Opus, 25% Fable )
 

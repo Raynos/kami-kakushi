@@ -17,7 +17,14 @@
 
 ## TODO
 
-_(none open)_
+- [ ] **Design glance (s88 e2e finding):** at R3 a player can hold a Battered
+  blade with **no visible mend path** — `verb-repair` reveals at R4 by design
+  (`ranks.ts:150`), so the win-rate sags for a stretch with no CTA. Intended
+  tension, or should a mend affordance (or at least a hint) exist earlier?
+- [ ] **UX glance (s88 e2e finding):** restoring a save on a **fresh
+  device/profile** requires replaying the whole intro first — the Settings
+  entry (→ Saves → Import) lives in the shell footer, hidden until the VN
+  releases the shell. OK, or should a cold boot offer an import path?
 
 ## Reading queue
 
