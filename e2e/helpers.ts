@@ -1,7 +1,16 @@
-// Shared helpers for the mobile e2e lane. Tests boot the game with `?dev=no`
-// (true player layout) — `__qa` and `?fixture=` stay available (DEV-gated, not
-// dev-panel-gated), so state driving works against exactly what a player sees.
-import { expect, type Page } from '@playwright/test';
+// Shared helpers for the browser e2e lane (mobile + desktop). Tests boot the game
+// with `?dev=no` (true player layout) — `__qa` and `?fixture=` stay available
+// (DEV-gated, not dev-panel-gated), so state driving works against exactly what a
+// player sees.
+import { expect, test, type Locator, type Page } from '@playwright/test';
+
+/** The one input-semantics switch (fable-2026-07-05-desktop-journey-e2e P1): a REAL
+ *  tap on touch profiles, a REAL click otherwise — so one journey spec drives every
+ *  project without synthetic dispatch on either. */
+export async function press(locator: Locator): Promise<void> {
+  if (test.info().project.use.hasTouch) await locator.tap();
+  else await locator.click();
+}
 
 /** The named scenario fixtures (F6). Mirrored statically so each gets its own
  *  test; the `fixture registry drift` test asserts this list matches the live
@@ -65,11 +74,18 @@ interface ControlBox {
 }
 
 /** Every visible interactive control must (a) sit fully inside the viewport
- *  horizontally, (b) meet the WCAG 2.2 24px minimum target height (the floor the
- *  repo's own `--tap-min: 28px` token cites), and (c) actually RECEIVE the tap —
+ *  horizontally, (b) meet the minimum target height — the WCAG 2.2 24px floor on
+ *  touch profiles (the floor the repo's own `--tap-min: 28px` token cites); a laxer
+ *  18px on desktop, where the pointer is finer and hover-scale styles would
+ *  false-flag the 24px floor — and (c) actually RECEIVE the pointer —
  *  elementFromPoint at its centre resolves to the control, not something painted
  *  over it (the bug class where the log column overlapped the work verbs). */
-export async function expectControlsTappable(page: Page, label: string): Promise<void> {
+export async function expectControlsTappable(
+  page: Page,
+  label: string,
+  opts: { minTargetPx?: number } = {},
+): Promise<void> {
+  const minTargetPx = opts.minTargetPx ?? 24;
   const boxes: ControlBox[] = await page.evaluate(() => {
     const sel = 'button.verb, .nav-tab, .settings-btn, .rung-head-trigger:not([disabled])';
     const out: ControlBox[] = [];
@@ -111,8 +127,8 @@ export async function expectControlsTappable(page: Page, label: string): Promise
     expect(b.left, `${label}: "${b.label}" hangs off the left edge`).toBeGreaterThanOrEqual(-1);
     expect(
       b.height,
-      `${label}: "${b.label}" is under the 24px WCAG tap floor`,
-    ).toBeGreaterThanOrEqual(24);
+      `${label}: "${b.label}" is under the ${minTargetPx}px target floor`,
+    ).toBeGreaterThanOrEqual(minTargetPx);
     expect(b.covered, `${label}: "${b.label}" is painted over by ${b.covered}`).toBeNull();
   }
 }
@@ -150,4 +166,44 @@ export async function expectSingleColumnStack(page: Page, label: string): Promis
     Math.abs(m.logWidth - m.workWidth),
     `${label}: work/log widths diverge`,
   ).toBeLessThanOrEqual(8);
+}
+
+/** The desktop mirror of `expectSingleColumnStack` — the byōbu SPREAD: work and log
+ *  side-by-side, BOTH alive (nonzero width AND height), no overlap, and the log
+ *  held to its design cap (46% of the workspace, styles.css F117). RED-proof: the
+ *  dead-CSS regression class — a fold at zero size, or painted over the other —
+ *  the desktop twin of the day-one mobile bug (see the ≤720px block's comment). */
+export async function expectTwoColumnSpread(page: Page, label: string): Promise<void> {
+  const m = await page.evaluate(() => {
+    const ws = document.querySelector('.workspace');
+    if (!ws || ws.getAttribute('data-layout') !== 'layout-byobu') return null;
+    const work = ws.querySelector('.work');
+    const log = ws.querySelector('.slice-log');
+    if (!work || !log) return null;
+    const wr = work.getBoundingClientRect();
+    const lr = log.getBoundingClientRect();
+    return {
+      dir: getComputedStyle(ws).flexDirection,
+      workWidth: Math.round(wr.width),
+      workHeight: Math.round(wr.height),
+      workRight: Math.round(wr.right),
+      logLeft: Math.round(lr.left),
+      logWidth: Math.round(lr.width),
+      logHeight: Math.round(lr.height),
+      wsWidth: Math.round(ws.getBoundingClientRect().width),
+    };
+  });
+  if (m === null) return; // pre-byōbu states (cold open, intro) have no spread yet
+  expect(m.dir, `${label}: byōbu must be a two-fold ROW spread on desktop`).toBe('row');
+  expect(m.workWidth, `${label}: the work fold collapsed to zero width`).toBeGreaterThan(0);
+  expect(m.workHeight, `${label}: the work fold collapsed to zero height`).toBeGreaterThan(0);
+  expect(m.logWidth, `${label}: the log fold collapsed to zero width`).toBeGreaterThan(0);
+  expect(m.logHeight, `${label}: the log fold collapsed to zero height`).toBeGreaterThan(0);
+  expect(
+    m.workRight,
+    `${label}: the work fold must sit LEFT of the log, not under it`,
+  ).toBeLessThanOrEqual(m.logLeft + 1);
+  expect(m.logWidth, `${label}: the log fold overruns its 46% design cap`).toBeLessThanOrEqual(
+    Math.ceil(m.wsWidth * 0.46) + 1,
+  );
 }

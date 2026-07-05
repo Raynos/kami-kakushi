@@ -1,4 +1,4 @@
-// Playwright config — the MOBILE e2e lane (qa-playtesting.md §1 "Mobile e2e lane").
+// Playwright config — the browser e2e lane (qa-playtesting.md §1 "Browser e2e lane").
 //
 // Why a separate lane and not a verify gate: verify's roster lives under a hard 5s
 // budget (D-072) and a real-browser suite is orders of magnitude past it. This lane
@@ -36,8 +36,26 @@ export default defineConfig({
   // Two real mobile profiles: Android Chrome (chromium) + the iOS floor (webkit,
   // 375px — the width every Andon build card's "Mobile" accept names). WebKit is
   // deliberate: iOS Safari is where mobile layouts actually break (dvh, -webkit-mask).
+  // Plus the desktop lane (fable-2026-07-05-desktop-journey-e2e): desktop-chromium
+  // ONLY — no desktop-webkit (locked; mobile-webkit already guards the engine class).
+  // Scoping is per-project testIgnore, never copy-pasted specs: layout suites are
+  // profile-specific; journeys run everywhere; persistence is desktop-only
+  // (localStorage semantics don't differ per profile in ways we exercise).
   projects: [
-    { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
-    { name: 'mobile-webkit', use: { ...devices['iPhone SE (3rd gen)'] } },
+    {
+      name: 'mobile-chromium',
+      use: { ...devices['Pixel 7'] },
+      testIgnore: [/desktop-layout/, /persistence/],
+    },
+    {
+      name: 'mobile-webkit',
+      use: { ...devices['iPhone SE (3rd gen)'] },
+      testIgnore: [/desktop-layout/, /persistence/],
+    },
+    {
+      name: 'desktop-chromium',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+      testIgnore: [/mobile-layout/],
+    },
   ],
 });
