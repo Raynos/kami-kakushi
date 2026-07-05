@@ -19,9 +19,8 @@
 // gate would cry wolf, A11). `--strict` exits 1 on drift for scripted use.
 //
 // CLI:  tsx src/scripts/prd-drift.ts  [--strict]
-export {};
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import {
@@ -36,25 +35,31 @@ import {
   RECIPES,
   MATERIALS,
   BELONGINGS,
+  QUESTS,
+  ACTIVITIES,
+  ESTATE_STAGES,
 } from '../core';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 const PRD_DIR = join(repoRoot, 'docs/living/prd');
 const STRICT = process.argv.includes('--strict');
 
-// ── the corpus: all 7 PRD section files, lowercased ─────────────────────────
-const prdFiles = readdirSync(PRD_DIR).filter((f) => f.endsWith('.md') && f !== 'README.md');
-const corpusByFile = new Map<string, string>(
-  prdFiles.map((f) => [f, readFileSync(join(PRD_DIR, f), 'utf8').toLowerCase()]),
-);
-const corpus = [...corpusByFile.values()].join('\n');
+/** Whole-word containment: `needle` in `haystack` with no letter/digit flush
+ *  against either end. Plain `includes()` let a short name hide inside a longer
+ *  one — "Toku" (the Dowager) stayed "mentioned" via Toku*bei* / Toku*jirō* /
+ *  Toku*emon* even with every real mention deleted (a false-CLEAN, found by the
+ *  2026-07-05 audit). Unicode-aware (`\p{L}` — Tōzō, Sōan). */
+export function hasWholeWord(haystack: string, needle: string): boolean {
+  const esc = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?<![\\p{L}\\p{N}])${esc}(?![\\p{L}\\p{N}])`, 'u').test(haystack);
+}
 
 // A display name counts as mentioned if the full label OR its core (the label
 // minus any trailing parenthetical, e.g. "Mamushi (pit viper)" → "Mamushi")
-// appears case-insensitively anywhere in the PRD.
-function mentioned(label: string): boolean {
+// appears case-insensitively, as a whole word, anywhere in the PRD.
+export function matchesLabel(corpus: string, label: string): boolean {
   const forms = [label, label.replace(/\s*\([^)]*\)\s*$/, '')].map((s) => s.trim().toLowerCase());
-  return forms.some((f) => f.length > 0 && corpus.includes(f));
+  return forms.some((f) => f.length > 0 && hasWholeWord(corpus, f));
 }
 
 interface RegistryCheck {
@@ -71,14 +76,23 @@ const SPEC: readonly RegistryCheck[] = [
   { registry: 'SKILLS', labels: SKILLS.map((s) => s.label) },
   { registry: 'STANCES', labels: [...STANCE_ORDER] },
   { registry: 'NAMES (cast)', labels: Object.values(NAMES) },
+  // A whole built quest is above spec altitude (2026-07-05 audit: 3 of 4 T0
+  // quest TITLES were spec-invisible and unscanned). Titles only — step
+  // labels are prose-phrased and would cry wolf (A11).
+  { registry: 'QUESTS (titles)', labels: QUESTS.map((q) => q.title) },
 ];
 
-// INFORMATIONAL: listed for coverage, never counted as drift.
+// INFORMATIONAL: listed for coverage, never counted as drift. ACTIVITIES and
+// ESTATE_STAGES carry verb-phrase labels ("Patch the kura") the PRD states as
+// prose, not as labels — label-presence over them would cry wolf (A11), so
+// they report coverage only.
 const INFO: readonly RegistryCheck[] = [
   { registry: 'MATERIALS', labels: MATERIALS.map((m) => m.label) },
   { registry: 'MARKET_ITEMS', labels: MARKET_ITEMS.map((i) => i.label) },
   { registry: 'BELONGINGS', labels: BELONGINGS.map((b) => b.label) },
   { registry: 'RECIPES', labels: RECIPES.map((r) => r.label) },
+  { registry: 'ACTIVITIES', labels: ACTIVITIES.map((a) => a.label) },
+  { registry: 'ESTATE_STAGES', labels: ESTATE_STAGES.map((e) => e.label) },
 ];
 
 // RETIRED TERMS — term + the ADR that retired it (PRD-only scan). A hit line
@@ -94,58 +108,72 @@ const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
 ];
 
 // ── run ──────────────────────────────────────────────────────────────────────
-let driftCount = 0;
-const lines: string[] = [];
-lines.push(`prd-drift — game→PRD fact drift (${prdFiles.length} PRD section files scanned)`);
-lines.push('');
+function run(): void {
+  // the corpus: all 7 PRD section files, lowercased
+  const prdFiles = readdirSync(PRD_DIR).filter((f) => f.endsWith('.md') && f !== 'README.md');
+  const corpusByFile = new Map<string, string>(
+    prdFiles.map((f) => [f, readFileSync(join(PRD_DIR, f), 'utf8').toLowerCase()]),
+  );
+  const corpus = [...corpusByFile.values()].join('\n');
 
-lines.push('── SPEC-ALTITUDE presence (missing = drift) ──');
-for (const { registry, labels } of SPEC) {
-  const missing = labels.filter((l) => !mentioned(l));
-  const ok = labels.length - missing.length;
-  lines.push(`  ${registry}: ${ok}/${labels.length} mentioned`);
-  for (const m of missing) {
-    driftCount++;
-    lines.push(`    ✗ MISSING from PRD: "${m}"`);
-  }
-}
+  let driftCount = 0;
+  const lines: string[] = [];
+  lines.push(`prd-drift — game→PRD fact drift (${prdFiles.length} PRD section files scanned)`);
+  lines.push('');
 
-lines.push('');
-lines.push('── RETIRED TERMS (any hit = drift; rename-documenting lines allowed) ──');
-for (const { term, adr, successor } of RETIRED) {
-  let bad = 0;
-  let allowed = 0;
-  for (const [file, text] of corpusByFile) {
-    for (const line of text.split('\n')) {
-      if (!line.includes(term)) continue;
-      if (successor && line.includes(successor)) {
-        allowed++;
-        continue; // documents the rename (old → new on one line) — not drift
-      }
-      bad++;
+  lines.push('── SPEC-ALTITUDE presence (missing = drift) ──');
+  for (const { registry, labels } of SPEC) {
+    const missing = labels.filter((l) => !matchesLabel(corpus, l));
+    const ok = labels.length - missing.length;
+    lines.push(`  ${registry}: ${ok}/${labels.length} mentioned`);
+    for (const m of missing) {
       driftCount++;
-      lines.push(`  ✗ RETIRED "${term}" in ${file} — ${adr}`);
+      lines.push(`    ✗ MISSING from PRD: "${m}"`);
     }
   }
-  if (bad === 0)
-    lines.push(
-      `  ✓ "${term}" — clean${allowed > 0 ? ` (${allowed} documented-rename line(s) allowed)` : ''}`,
-    );
+
+  lines.push('');
+  lines.push('── RETIRED TERMS (any hit = drift; rename-documenting lines allowed) ──');
+  for (const { term, adr, successor } of RETIRED) {
+    let bad = 0;
+    let allowed = 0;
+    for (const [file, text] of corpusByFile) {
+      for (const line of text.split('\n')) {
+        if (!line.includes(term)) continue;
+        if (successor && line.includes(successor)) {
+          allowed++;
+          continue; // documents the rename (old → new on one line) — not drift
+        }
+        bad++;
+        driftCount++;
+        lines.push(`  ✗ RETIRED "${term}" in ${file} — ${adr}`);
+      }
+    }
+    if (bad === 0)
+      lines.push(
+        `  ✓ "${term}" — clean${allowed > 0 ? ` (${allowed} documented-rename line(s) allowed)` : ''}`,
+      );
+  }
+
+  lines.push('');
+  lines.push('── INFORMATIONAL coverage (report-only, never drift) ──');
+  for (const { registry, labels } of INFO) {
+    const ok = labels.filter((l) => matchesLabel(corpus, l)).length;
+    lines.push(`  ${registry}: ${ok}/${labels.length} mentioned`);
+  }
+
+  lines.push('');
+  lines.push(
+    driftCount === 0
+      ? 'prd-drift: CLEAN — no game→PRD fact drift detected. [OK]'
+      : `prd-drift: ${driftCount} drift item(s) — the ripple punch-list above. ` +
+          '(Report-only; ripple per Flow 1 — docs/plans/fable-process-F1b-prd-ripple-tooling.md.)',
+  );
+  console.log(lines.join('\n'));
+  if (STRICT && driftCount > 0) process.exit(1);
 }
 
-lines.push('');
-lines.push('── INFORMATIONAL coverage (report-only, never drift) ──');
-for (const { registry, labels } of INFO) {
-  const ok = labels.filter((l) => mentioned(l)).length;
-  lines.push(`  ${registry}: ${ok}/${labels.length} mentioned`);
-}
-
-lines.push('');
-lines.push(
-  driftCount === 0
-    ? 'prd-drift: CLEAN — no game→PRD fact drift detected. [OK]'
-    : `prd-drift: ${driftCount} drift item(s) — the ripple punch-list above. ` +
-        '(Report-only; ripple per Flow 1 — docs/plans/fable-process-F1b-prd-ripple-tooling.md.)',
-);
-console.log(lines.join('\n'));
-if (STRICT && driftCount > 0) process.exit(1);
+// Run the CLI only when invoked directly (tsx src/scripts/prd-drift.ts), NOT
+// when a test imports hasWholeWord/matchesLabel for their pure behaviour.
+const invoked = process.argv[1] ? realpathSync(process.argv[1]) : '';
+if (invoked === fileURLToPath(import.meta.url)) run();

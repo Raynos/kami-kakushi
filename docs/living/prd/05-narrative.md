@@ -247,6 +247,11 @@ spine).
 - **First dream fragment** — the half-drowning / the voice in the water. **[THREAD: Origin]**, guaranteed-cadence
   seed; **no stat gift from the clue.**
 - **Dowager Toku's first memory of the fall** — Sadamune's venture (optional lore that humanises the debt).
+- **The combat side-quest board (the built starting four):** **"Drive off the crop-raiders"** ·
+  **"Hunt the satoyama predators"** · **"Clear the satoyama trails"** · **"Defend the grain-store"** —
+  open-ended multi-step suggestions worked from the estate's own troubles (monkeys in the home paddies,
+  wolves on the trails, the kura at night). This is the **PEST-CONTROL / HUNT / CLEAR / DEFEND** type-set
+  that T1.7's board deepens on estate ground.
 - *(No inn-rumour folklore yet — the rumours board is a T2 unlock; T0 keeps the screen lean.)*
 
 ---
