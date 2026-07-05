@@ -9,6 +9,10 @@
 
 set -uo pipefail
 
+# Capture the ref lines git feeds on stdin (<local ref> <local sha> <remote ref>
+# <remote sha>) BEFORE verify runs — used by the e2e blast-radius advisory below.
+_push_refs="$(cat)"
+
 if [ "${SKIP_VERIFY:-0}" = "1" ]; then
   echo "  - SKIP_VERIFY=1 -> pre-push verify skipped" >&2
   exit 0
@@ -34,6 +38,36 @@ if ! env -u SKIP_CODE_VERIFY -u SKIP_DOCS_VERIFY npm run --silent verify >&2; th
   echo "  ✗ BLOCKED: verify is RED — refusing to push." >&2
   echo "    Fix it, or 'SKIP_VERIFY=1 git push' to override (emergencies only)." >&2
   exit 1
+fi
+
+# e2e blast-radius advisory (loud warn, NEVER blocks): the Playwright e2e lane
+# (`npm run test:e2e`) gates only in CI (e2e.yml) — it's far past verify's 5s
+# budget (D-072), so no local hook runs it. When the pushed commits touch the
+# lane's covered surface, name the files and nudge a local run now, instead of
+# a red e2e.yml surfacing minutes after the push. Silence: SKIP_E2E_WARN=1.
+if [ "${SKIP_E2E_WARN:-0}" != "1" ] && [ -n "$_push_refs" ]; then
+  _e2e_paths='^e2e/|^playwright\.config\.ts$|^src/fixtures/|^src/ui/styles\.css$'
+  _pushed_files=""
+  while read -r _lref _lsha _rref _rsha; do
+    [ -n "${_lsha:-}" ] || continue
+    case "$_lsha" in *[!0]*) ;; *) continue ;; esac  # all-zero sha = ref delete
+    case "$_rsha" in
+      *[!0]*) _base="$_rsha" ;;  # existing remote ref: diff what's new to it
+      *) _base="$(git merge-base "$_lsha" origin/main 2>/dev/null || true)" ;;  # new ref
+    esac
+    [ -n "$_base" ] || continue
+    _pushed_files="$_pushed_files
+$(git diff --name-only "$_base" "$_lsha" 2>/dev/null)"
+  done <<< "$_push_refs"
+  _e2e_touched="$(printf '%s\n' "$_pushed_files" | grep -E "$_e2e_paths" | sort -u || true)"
+  if [ -n "$_e2e_touched" ]; then
+    echo "" >&2
+    echo "  ⚠ e2e blast radius — this push touches the e2e-covered surface:" >&2
+    printf '%s\n' "$_e2e_touched" | sed 's/^/      /' >&2
+    echo "    The Playwright lane is CI-only (D-072); consider a local" >&2
+    echo "    'npm run test:e2e' (~12s) now rather than a red e2e.yml after the" >&2
+    echo "    push lands. Advisory only — pushing anyway. (SKIP_E2E_WARN=1 hides this.)" >&2
+  fi
 fi
 
 exit 0

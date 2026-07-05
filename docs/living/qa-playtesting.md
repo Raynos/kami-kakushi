@@ -167,7 +167,11 @@ Two suites:
 **Where it gates:** its own CI workflow (`.github/workflows/e2e.yml`, every push)
 — deliberately NOT a `verify` gate: the roster lives under the 5s budget (D-072)
 and a browser suite (~12s local, minutes in CI) is the same RED-able backstop at
-the rung its cost affords. Born proving its worth: its first run caught the nav
+the rung its cost affords. A **pre-push blast-radius advisory** (`.githooks/pre-push`
+— loud warn, never blocks; `SKIP_E2E_WARN=1` silences) names any pushed files
+inside the lane's covered surface (`e2e/`, `playwright.config.ts`,
+`src/fixtures/`, `src/ui/styles.css`) and nudges a local `npm run test:e2e`
+before CI discovers the red minutes later. Born proving its worth: its first run caught the nav
 tab-strip overflowing at 375px AND the dead ≤720px byōbu block (`.work` at
 height 0, the log painted over the verbs — work-tab taps hit the log on phones).
 
