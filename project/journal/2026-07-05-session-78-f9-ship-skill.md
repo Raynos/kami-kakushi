@@ -78,6 +78,21 @@ no waiting, warm path. The human declared `/ship` complete. Close-out:
 DROPPED by the completion call — revive only if it bites) and graduates
 to `project/archive/` via checkpoint.
 
+## v3 — "one script lol" (human steer after close-out)
+
+Even v2 felt like "so much fucking around": the LLM ceremony (preflight
+prose, payload confirm, separate commit/push turns, journal + snapshot
+ripple commits) dwarfed the 15s script. v3 collapses the WHOLE train into
+`ship.sh` — bump (patch default / minor / x.y.z), release commit
+(pathspec, SKIP_JOURNAL+SKIP_ATTRIB — mechanical, human-invoked), tag,
+push main+tag, isolated build, deploy. The skill is now two moves: draft
+the CHANGELOG section → run the script. CUT: the payload confirm, the
+step-9 journal/snapshot ripple (tag + CHANGELOG + versioned deploy commit
+are the record), all resume prose (the tag is the completion marker — an
+untagged current version resumes instead of double-bumping). Tested: bad
+arg, changelog-gate refusal (exits pre-mutation), bump/resume math,
+one-shot verify-live.
+
 ## Next intended steps
 
 1. None for F9 — complete. Loose thread if it ever bites: gap §0.3
