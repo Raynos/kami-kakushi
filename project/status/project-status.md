@@ -50,6 +50,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   Phase 2 ≈ Phase 1 → hard `verify:balance` ratio gate `[0.8, 1.2]`; stopgap
   hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** human-PARKED
   in [`project/BACKLOG.md`](../BACKLOG.md) (2026-07-05) — direction calls pending.
+- **✅ s86 context audit (Fable):** scaffolding healthy, drift fixed; hardening
+  plan PROPOSED (`fable-2026-07-05-context-hardening.md`) · **H21/H22 open**.
 
 ## Waiting on the human
 
@@ -59,8 +61,6 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
   home/Inventory **A/B/C** (R6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
   older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
-- **Balance-watch** — ✅ **R10 CLOSED (s76):** human adopted the F7 W1–W4 tunings
-  (`RICE_PER_RAKE 3→2`, `autumn 3→4`, `EAT_RICE_COST 3→2`; W4 no-op). Still liquid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
 - **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, D-127). Open: are R2/R5/R6/R7

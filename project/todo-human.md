@@ -41,12 +41,6 @@ _(none open)_
   Files H21 (worktrees vs shared tree) + H22 (journal shape / 4× write-up)
   as open H-items rather than building them. **Read to nod P1–P3; P4 lands
   per-cut with your review.**
-- [ ] `project/audit/reports/2026-07-05-context-audit.md` — **context audit**
-  (your "review the agentic scaffolding" ask, done by Fable 5): the lattice is
-  healthy — 2 HIGH + 5 MEDIUM findings; the doc-drift half is already fixed
-  (headless-QA contradiction, wrong gate-roster owner, dead CI probe in the
-  session brief, PRD-split staleness); the enforcement-shape half awaits your
-  steer (§Punch-list: auto-wire `core.hooksPath` is the big one).
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·

@@ -73,3 +73,13 @@ H21 (per-agent worktrees vs shared tree) + H22 (journal shape — the 4×
 write-up cost) filed as open H-items in `human-in-the-loop/decisions.md`
 (lock direction before building process). Plan queued in todo-human.md (same
 commit — the hard gate).
+
+## Entry 3 — /prepare-to-exit checkpoint
+
+Queue reconciled: the context-audit REPORT cleared from the reading queue
+(human confirmed via AskUserQuestion — discussed in full this session, D-089;
+the PLAN entry stays, unread). Snapshot: s86 bullet added under "Where we are
+now"; the stale ✅-closed Balance-watch/R10 bullet trimmed from "Waiting on
+the human" (snapshot-replace rule; journal is the record). Co-agent WIP left
+untouched in the tree at exit: `package.json` modified + untracked
+`pnpm-lock.yaml` (w2:p2's lane, flagged to the human in-session).
