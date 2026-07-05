@@ -148,7 +148,7 @@ need no tune; the tool surfaced it.
 ## 5 · Post-build — W1–W4 review-only tuning proposals (decision #4) ✅
 
 Candidates derived from the live-feel readouts + the balance-watch, surfaced as
-`?bal.*` URLs + review item **R9** (`human-in-the-loop/review.md`) with the full
+`?bal.*` URLs + review item **R10** (`human-in-the-loop/review.md`) with the full
 analysis in `project/brainstorms/2026-07-05-f7-w-proposals.md`. **Nothing on
 canon** — the human feels each on the sliders and exports their final numbers.
 
@@ -160,6 +160,29 @@ canon** — the human feels each on the sliders and exports their final numbers.
 
 **F7 COMPLETE** — all four phases + the review-only proposals shipped to
 `origin/main` (Ph1 `1a04aa0`, Ph2 `b749a4b`, Ph3 `210c205`, Ph4 `46bd9ed`).
+
+## 6 · R10 — the human adopted the W-tunings; applied to canon ✅
+
+The human reviewed the proposals and said "apply your recommendations and close
+R9" — their explicit sign-off IS the D-059 human decision (D-022: newest intent
+governs). Corrected an ID collision along the way: **R9 was already the archived
+UI-remaster review** (→ D-127), so the balance review is **R10** (fixed in
+review.md / brainstorm / archive.md).
+
+**Applied to `balance.ts` (human-adopted):**
+- W1 `RICE_PER_RAKE 3 → 2` · W2 `RICE_SELL_PRICE_BY_SEASON.autumn 3 → 4` ·
+  W3 `EAT_RICE_COST 3 → 2`. **W4 unchanged** (D-133 already lands the capstone
+  ~96 min).
+
+**Re-verify (D-132 flow):** `gen:docs` → `verify:balance` (all signed bands
+green — R5/R6 in band, **rung pacing Δ +0.0** since rice/coin don't touch the
+per-act rung meter, Phase-2 ratio 0.94 in band) → `balance:report` (regen
+`t0-pacing.md`) → `fixtures:regen` (3 saves restated). Fixed 4 of my own
+dev-cockpit tests that hard-coded `RICE_PER_RAKE=3` — now derive from
+`BALANCE_CANON` (the D-086 lesson, self-inflicted + corrected). Full verify green
+(17 gates), 753 tests.
+
+R10 graduated to `human-in-the-loop/archive.md`.
 
 ## Landmines (current)
 

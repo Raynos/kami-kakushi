@@ -29,7 +29,7 @@ export let STAMINA_FLAT_ABOVE = 0.7;
 // (F7 / D-059). Only this module reassigns them (through `__setBalanceLever` at the file foot); the
 // setter is DEV-folded dead code in prod, so canon semantics are untouched and `prefer-const` stays
 // green (the binding IS reassigned in-module). Every call site reads the live binding unchanged.
-export let RICE_PER_RAKE = 3;
+export let RICE_PER_RAKE = 2; // R9 (2026-07-05): 3→2, trim the faucet (W1) — human-adopted via F7
 export let SATIETY_PER_ACT = 2;
 export let SATIETY_PER_REST = 18;
 export const TICKS_PER_ACT = 2;
@@ -365,7 +365,7 @@ export let COOK_HP_RESTORE = 14;
 // numbers provisional (v0.2, liquid D-059) — tune by playtest / `npm run pacing`. ──
 
 /** Rice one plain-rice meal consumes (the `eat_rice` satiety path, beside `rest`/`cook_meal`). */
-export let EAT_RICE_COST = 3;
+export let EAT_RICE_COST = 2; // R9 (2026-07-05): 3→2, narrow eat's coin gap vs free rest (W3)
 /** Work-stamina (satiety) a plain-rice meal restores. Sized ABOVE a free `rest` (SATIETY_PER_REST,
  *  18) on purpose — the DESIGN LEVER that keeps eat_rice from being dominated by rest: a proper
  *  meal refuels FASTER than merely resting, trading your own rice for readiness (never strictly
@@ -382,7 +382,8 @@ export let EAT_RICE_SATIETY = 30;
 export const RICE_SELL_PRICE_BY_SEASON: Record<Season, number> = {
   spring: 6, // lean spring — rice is DEAR (the best season to sell)
   summer: 5,
-  autumn: 3, // the autumn glut — rice is CHEAP (hold it in the kura if you can)
+  autumn: 4, // R9 (2026-07-05): 3→4, narrow the swing to 6:4 (W2) — still the cheapest season
+
   winter: 5,
 };
 /** The current coin-per-rice sell price for a season (pure — keyed off the season selector). */

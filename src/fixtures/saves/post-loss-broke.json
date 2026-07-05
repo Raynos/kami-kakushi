@@ -34,7 +34,7 @@
     },
     "resources": {
       "coin": 0,
-      "rice": 6858
+      "rice": 6698
     },
     "banked": {
       "coin": 0,
@@ -1232,14 +1232,14 @@
         {
           "key": 1131,
           "channel": "system",
-          "text": "The season turns, and some of your rice has spoiled in the store. (−893 rice)",
+          "text": "The season turns, and some of your rice has spoiled in the store. (−869 rice)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "season.spoilage",
           "params": {
-            "total": 893
+            "total": 869
           }
         },
         {
@@ -2550,14 +2550,14 @@
         {
           "key": 1277,
           "channel": "system",
-          "text": "The season turns, and some of your rice has spoiled in the store. (−958 rice)",
+          "text": "The season turns, and some of your rice has spoiled in the store. (−935 rice)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "season.spoilage",
           "params": {
-            "total": 958
+            "total": 935
           }
         },
         {
@@ -2799,7 +2799,7 @@
         {
           "key": 1304,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1715 rice in the rout. Eat and mend before you take the field again.",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1675 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
           "count": 1,
           "contentKey": "combat.loss",
@@ -2808,7 +2808,7 @@
             "hpBefore": 1,
             "hpAfter": 1,
             "lostCoin": 0,
-            "lostRice": 1715,
+            "lostRice": 1675,
             "lostMats": 0
           }
         }

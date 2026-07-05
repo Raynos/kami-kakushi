@@ -34,7 +34,7 @@
     },
     "resources": {
       "coin": 0,
-      "rice": 1559
+      "rice": 1040
     },
     "banked": {
       "coin": 0,
@@ -182,7 +182,7 @@
         {
           "key": 15,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
@@ -208,7 +208,7 @@
         {
           "key": 18,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
@@ -226,7 +226,7 @@
         {
           "key": 20,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 4,
           "count": 1,
           "voice": "narrator",
@@ -243,7 +243,7 @@
         {
           "key": 22,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 17,
           "voice": "narrator",
@@ -261,7 +261,7 @@
         {
           "key": 24,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -279,7 +279,7 @@
         {
           "key": 26,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -297,7 +297,7 @@
         {
           "key": 28,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -315,7 +315,7 @@
         {
           "key": 30,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -333,7 +333,7 @@
         {
           "key": 32,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -351,7 +351,7 @@
         {
           "key": 34,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -369,7 +369,7 @@
         {
           "key": 36,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -387,7 +387,7 @@
         {
           "key": 38,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -405,7 +405,7 @@
         {
           "key": 40,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -423,7 +423,7 @@
         {
           "key": 42,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -441,7 +441,7 @@
         {
           "key": 44,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -459,7 +459,7 @@
         {
           "key": 46,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -477,7 +477,7 @@
         {
           "key": 48,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -495,7 +495,7 @@
         {
           "key": 50,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -513,7 +513,7 @@
         {
           "key": 52,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -531,7 +531,7 @@
         {
           "key": 54,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -549,7 +549,7 @@
         {
           "key": 56,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -567,7 +567,7 @@
         {
           "key": 58,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -585,7 +585,7 @@
         {
           "key": 60,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -603,7 +603,7 @@
         {
           "key": 62,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -621,7 +621,7 @@
         {
           "key": 64,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -639,7 +639,7 @@
         {
           "key": 66,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -657,7 +657,7 @@
         {
           "key": 68,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -675,7 +675,7 @@
         {
           "key": 70,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -693,7 +693,7 @@
         {
           "key": 72,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -711,7 +711,7 @@
         {
           "key": 74,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -729,7 +729,7 @@
         {
           "key": 76,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -747,7 +747,7 @@
         {
           "key": 78,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -765,7 +765,7 @@
         {
           "key": 80,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -783,7 +783,7 @@
         {
           "key": 82,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -801,7 +801,7 @@
         {
           "key": 84,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -819,7 +819,7 @@
         {
           "key": 86,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 5,
           "voice": "narrator",
@@ -828,20 +828,20 @@
         {
           "key": 87,
           "channel": "system",
-          "text": "The season turns, and some of your rice has spoiled in the store. (−91 rice)",
+          "text": "The season turns, and some of your rice has spoiled in the store. (−60 rice)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "season.spoilage",
           "params": {
-            "total": 91
+            "total": 60
           }
         },
         {
           "key": 88,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 4,
           "voice": "narrator",
@@ -859,7 +859,7 @@
         {
           "key": 90,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -877,7 +877,7 @@
         {
           "key": 92,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -895,7 +895,7 @@
         {
           "key": 94,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -913,7 +913,7 @@
         {
           "key": 96,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -931,7 +931,7 @@
         {
           "key": 98,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -949,7 +949,7 @@
         {
           "key": 100,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -967,7 +967,7 @@
         {
           "key": 102,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -985,7 +985,7 @@
         {
           "key": 104,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -1003,7 +1003,7 @@
         {
           "key": 106,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -1021,7 +1021,7 @@
         {
           "key": 108,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -1039,7 +1039,7 @@
         {
           "key": 110,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -1057,7 +1057,7 @@
         {
           "key": 112,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -1075,7 +1075,7 @@
         {
           "key": 114,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -1093,7 +1093,7 @@
         {
           "key": 116,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -1111,7 +1111,7 @@
         {
           "key": 118,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -1129,7 +1129,7 @@
         {
           "key": 120,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -1147,7 +1147,7 @@
         {
           "key": 122,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -1165,7 +1165,7 @@
         {
           "key": 124,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -1183,7 +1183,7 @@
         {
           "key": 126,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -1201,7 +1201,7 @@
         {
           "key": 128,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -1219,7 +1219,7 @@
         {
           "key": 130,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
           "count": 9,
           "voice": "narrator",
@@ -1237,7 +1237,7 @@
         {
           "key": 132,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
           "count": 9,
           "voice": "narrator",
@@ -1255,7 +1255,7 @@
         {
           "key": 134,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
           "count": 9,
           "voice": "narrator",
@@ -1273,7 +1273,7 @@
         {
           "key": 136,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 6,
           "count": 9,
           "voice": "narrator",
@@ -1291,7 +1291,7 @@
         {
           "key": 138,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
           "count": 9,
           "voice": "narrator",
@@ -1309,7 +1309,7 @@
         {
           "key": 140,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
           "count": 9,
           "voice": "narrator",
@@ -1327,7 +1327,7 @@
         {
           "key": 142,
           "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+3 rice)",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 16,
           "count": 8,
           "voice": "narrator",

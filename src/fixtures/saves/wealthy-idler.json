@@ -37,7 +37,7 @@
       "rice": 0
     },
     "banked": {
-      "coin": 104778,
+      "coin": 104772,
       "rice": 0
     },
     "flags": {
@@ -2817,15 +2817,15 @@
         {
           "key": 8688,
           "channel": "system",
-          "text": "You sell 17463 rice to the pedlar at 6 mon the measure. (+26 ryō 9 monme 58 mon)",
+          "text": "You sell 17462 rice to the pedlar at 6 mon the measure. (+26 ryō 9 monme 52 mon)",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 17463,
+            "rice": 17462,
             "price": 6,
-            "coinGain": 104778
+            "coinGain": 104772
           }
         },
         {
@@ -2839,13 +2839,13 @@
         {
           "key": 8690,
           "channel": "system",
-          "text": "You store 26 ryō 9 monme 58 mon safe in the kura storehouse.",
+          "text": "You store 26 ryō 9 monme 52 mon safe in the kura storehouse.",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
           "contentKey": "bank.deposit",
           "params": {
-            "amount": 104778,
+            "amount": 104772,
             "resource": "coin"
           }
         }

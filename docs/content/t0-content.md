@@ -139,7 +139,7 @@
 
 Rice is a REAL resource with three uses, so it never dead-ends (G-NO-DEAD-VALUES):
 
-- **EAT** — `eat_rice` spends `EAT_RICE_COST = 3` rice for `EAT_RICE_SATIETY = 30` work-stamina (a proper meal refuels MORE than a free `rest`, trading rice for readiness).
+- **EAT** — `eat_rice` spends `EAT_RICE_COST = 2` rice for `EAT_RICE_SATIETY = 30` work-stamina (a proper meal refuels MORE than a free `rest`, trading rice for readiness).
 - **STORE** — `deposit`/`withdraw` shelter rice in the kura (see the kura bank below).
 - **SELL** — `sell_rice` converts your carried rice to coin at a SEASON-swinging price (the coin faucet): DEAR in the lean spring, CHEAP at the autumn glut — a light store-vs-sell timing call (no live forex).
 
@@ -147,7 +147,7 @@ Rice is a REAL resource with three uses, so it never dead-ends (G-NO-DEAD-VALUES
 |---|---|
 | spring | 6 |
 | summer | 5 |
-| autumn | 3 |
+| autumn | 4 |
 | winter | 5 |
 
 ## The kura bank (carried vs banked)

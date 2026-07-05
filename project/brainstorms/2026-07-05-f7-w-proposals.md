@@ -1,8 +1,16 @@
 # F7 cockpit — W1–W4 review-only tuning proposals (2026-07-05)
 
-**Status:** candidates for the human to FEEL, not canon. Per D-059/D-134, an
+**UPDATE 2026-07-05 — ADOPTED (R10 closed).** The human reviewed R9→R10 and said
+"apply your recommendations" — so W1 (`RICE_PER_RAKE 3→2`), W2 (`autumn 3→4`),
+W3 (`EAT_RICE_COST 3→2`) are now **on canon** (W4 unchanged). Applied via the F7
+apply-flow: `gen:docs` + `verify:balance` (all signed bands green, rung pacing
+Δ +0.0) + `balance:report` + `fixtures:regen`. The text below is the original
+proposal (kept as the reasoning record).
+
+**Status (original):** candidates for the human to FEEL, not canon. Per D-059/D-134, an
 agent never moves a lever into canon on the human's behalf; these are starting
-points surfaced as shareable `?bal.*` URLs + review item **R9**. The human
+points surfaced as shareable `?bal.*` URLs + review item **R10** (was mis-filed as
+R9, which is the archived UI-remaster review — corrected). The human
 accepts / adjusts / rejects each live in the cockpit; adoption then rides the
 D-059 apply-flow (export → transcribe → `verify:balance`).
 

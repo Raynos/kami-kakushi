@@ -34,7 +34,7 @@
     },
     "resources": {
       "coin": 0,
-      "rice": 8693
+      "rice": 8493
     },
     "banked": {
       "coin": 0,
@@ -1363,14 +1363,14 @@
         {
           "key": 1131,
           "channel": "system",
-          "text": "The season turns, and some of your rice has spoiled in the store. (−893 rice)",
+          "text": "The season turns, and some of your rice has spoiled in the store. (−869 rice)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "season.spoilage",
           "params": {
-            "total": 893
+            "total": 869
           }
         },
         {
@@ -2681,14 +2681,14 @@
         {
           "key": 1277,
           "channel": "system",
-          "text": "The season turns, and some of your rice has spoiled in the store. (−958 rice)",
+          "text": "The season turns, and some of your rice has spoiled in the store. (−935 rice)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "season.spoilage",
           "params": {
-            "total": 958
+            "total": 935
           }
         },
         {

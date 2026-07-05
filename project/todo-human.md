@@ -99,9 +99,10 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   pick). The DEV panel now has a **Balance** tab of live sliders → feel a lever
   mid-run → **Export tune → inbox**. Design + human/agent division recorded as
   **D-134**; plan archived to
-  `project/archive/fable-process-F7-balance-cockpit.md`. **W1–W4 starting
-  tunings are proposed as review-only R-items** (see `human-in-the-loop/review.md`)
-  — nothing committed to canon; you accept/adjust/reject each live in the cockpit.
+  `project/archive/fable-process-F7-balance-cockpit.md`. **W1–W4 tunings ADOPTED
+  (R10 closed, 2026-07-05):** you signed off on the candidates — `RICE_PER_RAKE
+  3→2`, `autumn 3→4`, `EAT_RICE_COST 3→2` are on canon; W4 left as-is (already
+  ~96 min). Re-tune any time via the cockpit; these are still liquid (D-059).
 - [ ] `docs/plans/fable-process-F8-play-telemetry.md` — **real-play
   telemetry** (top10 #6): your attended-time spec as a pure, unit-proven
   sessionizer — the 5/20/5 case is a named test asserting exactly 10 min;

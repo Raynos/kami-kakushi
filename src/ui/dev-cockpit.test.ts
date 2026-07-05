@@ -35,6 +35,10 @@ function cockpit() {
   return createBalanceCockpit({ meta: () => META });
 }
 
+// Derive lever canons from the source of truth (D-086 — never a copied magic number, so a tune to
+// RICE_PER_RAKE / EAT_RICE_SATIETY doesn't break these tests).
+const RAKE = BALANCE_CANON['RICE_PER_RAKE']!;
+
 // The setter mutates MODULE-GLOBAL bindings — reset to canon after every case so no test leaks an
 // override into the next (the cockpit's own afterEach discipline, §8 determinism note).
 afterEach(() => __resetBalanceLevers());
@@ -118,16 +122,16 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
   it('an override propagates to a named importer (live binding), touched() lists it', () => {
     const c = cockpit();
     expect(c.touched()).toEqual([]); // clean at canon
-    expect(balance.RICE_PER_RAKE).toBe(3);
+    expect(balance.RICE_PER_RAKE).toBe(RAKE);
 
     c.set('RICE_PER_RAKE', 10);
     expect(c.read('RICE_PER_RAKE')).toBe(10);
     expect(balance.RICE_PER_RAKE).toBe(10); // the module binding moved — importers see it
-    expect(c.canon('RICE_PER_RAKE')).toBe(3); // canon is preserved for the readout
-    expect(c.touched()).toEqual([{ path: 'RICE_PER_RAKE', canon: 3, current: 10 }]);
+    expect(c.canon('RICE_PER_RAKE')).toBe(RAKE); // canon is preserved for the readout
+    expect(c.touched()).toEqual([{ path: 'RICE_PER_RAKE', canon: RAKE, current: 10 }]);
 
     c.reset();
-    expect(balance.RICE_PER_RAKE).toBe(3);
+    expect(balance.RICE_PER_RAKE).toBe(RAKE);
     expect(c.touched()).toEqual([]);
   });
 
@@ -156,10 +160,10 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
     expect(p.session).toBe('2026-07-03T18-42-07.000Z-balance-tune'); // colons stripped (SESSION_RE)
     expect(p.session).not.toContain(':');
     expect(p.metadataName).toBe('2026-07-03T18-42-07.000Z-balance-tune.json');
-    expect(p.markdown).toContain('| RICE_PER_RAKE | 3 | 5 | +67% |');
+    expect(p.markdown).toContain(`| RICE_PER_RAKE | ${RAKE} | 5 |`);
     const meta = JSON.parse(p.metadata) as { kind: string; touched: { path: string }[] };
     expect(meta.kind).toBe('balance-tune');
-    expect(meta.touched).toEqual([{ path: 'RICE_PER_RAKE', canon: 3, current: 5 }]);
+    expect(meta.touched).toEqual([{ path: 'RICE_PER_RAKE', canon: RAKE, current: 5 }]);
   });
 });
 
@@ -225,8 +229,10 @@ describe('export transport — rides the F3 inbox endpoint verbatim (Ph3)', () =
       writeCapture(resolved, dir);
       const md = readFileSync(join(dir, `${p.session}.md`), 'utf-8');
       expect(md).toContain('kind: balance-tune');
-      expect(md).toContain('| RICE_PER_RAKE | 3 | 5 | +67% |');
-      expect(md).toContain('- `export let RICE_PER_RAKE = 3;` → `export let RICE_PER_RAKE = 5;`');
+      expect(md).toContain(`| RICE_PER_RAKE | ${RAKE} | 5 |`);
+      expect(md).toContain(
+        `- \`export let RICE_PER_RAKE = ${RAKE};\` → \`export let RICE_PER_RAKE = 5;\``,
+      );
       expect(md).toContain('- `ESTATE_BANDS.excellent`: 480 → 960');
       // the machine sidecar landed too
       const json = readFileSync(join(dir, p.session, p.metadataName), 'utf-8');
@@ -261,7 +267,7 @@ describe('export transport — mount POST + fallback (Ph3)', () => {
     const parsed = JSON.parse(posted!.body) as { session: string; header: string; entry: string };
     expect(parsed.session).toContain('-balance-tune');
     expect(parsed.entry).toBe('');
-    expect(parsed.header).toContain('| RICE_PER_RAKE | 3 | 9 |');
+    expect(parsed.header).toContain(`| RICE_PER_RAKE | ${RAKE} | 9 |`);
   });
 
   it('falls back to a file download when the inbox POST fails', async () => {
