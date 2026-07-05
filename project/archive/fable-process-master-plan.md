@@ -1,13 +1,12 @@
 # Process-wave master plan — build order + merge map (F1–F10)
 
-**Status: 🔨 IN-PROGRESS (the wave, F1–F10) — the ordering + merge calls are
-LOCKED (ratified in-session, human, 2026-07-03): the F-renames, the F1a/F1b
-split, and the ripple edits landed the same day. Build starts per this order.
-This plan is DONE only when all ten F-plans land; until then it is the live
-ordering map — do NOT archive it. Its leading token stays 🔨 IN-PROGRESS, never
-a DONE-class token: only a leading DONE / SUPERSEDED token is archivable,
-so the mid-line word "DONE" above is not the signal (see
-[`README.md`](README.md) → Status-line vocabulary).**
+**Status: ✅ DONE (2026-07-05) — the wave landed: all ten F-plans (eleven
+files, F1a+F1b) are built and archived with DONE-class Status lines; the
+snapshot commit 76b1cf4 declares the wave complete. This doc's own condition
+("DONE only when all ten F-plans land") is met, so it graduates to
+`project/archive/` per the archival rule. The ordering + merge calls it
+locked (ratified in-session, human, 2026-07-03) are history now, kept for
+provenance.**
 **created_date:** 2026-07-03
 
 Orders the ten open process-wave plans by (a) what builds first, (b) impact

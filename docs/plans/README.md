@@ -15,7 +15,7 @@ steps awaiting or under execution. This directory holds **active plans only**.
   `<series>` is the date by default; a named wave may replace it — e.g. the
   2026-07-03 process mega-session's plans are `process-F{n}`, where `n` is
   the **build-order rank** from
-  [`fable-process-master-plan.md`](fable-process-master-plan.md) (human
+  [`../../project/archive/fable-process-master-plan.md`](../../project/archive/fable-process-master-plan.md) (human
   call, 2026-07-03 — renamed from the original `S{n}`/`N{n}` retro
   numbering; the master plan carries the rename map, and old names survive
   in journals/brainstorms as history). This `F` is the wave's rank letter,
@@ -58,9 +58,8 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (npm run checkpoint — do not edit inside) -->
-**4 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**3 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
-- [`fable-process-master-plan.md`](fable-process-master-plan.md) — IN-PROGRESS
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — PROPOSED
 - [`opus-2026-07-04-phase2-economy-redesign.md`](opus-2026-07-04-phase2-economy-redesign.md) — PROPOSED
 - [`opus-2026-07-04-ui-v2-andon-steel-migration.md`](opus-2026-07-04-ui-v2-andon-steel-migration.md) — PROPOSED

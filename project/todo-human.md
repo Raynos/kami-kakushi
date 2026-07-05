@@ -75,7 +75,7 @@ Steel migration plan queued above.)_
 **Process-improvement plans + the PRD-diet session (2026-07-03, from the
 496-commit git-log retro):**
 
-_(The **master plan** — `docs/plans/fable-process-master-plan.md`, the
+_(The **master plan** — `project/archive/fable-process-master-plan.md` (archived — done), the
 F1–F10 build order + merge map — was ratified in-session 2026-07-03 and its
 queue entry cleared; the plans below are renamed + reordered to match it.)_
 
