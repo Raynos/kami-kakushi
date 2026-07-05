@@ -64,7 +64,7 @@ philosophy wins.**
   routine work — committing as you go *is* the workflow. *(This overrides the
   generic "branch off main / commit only when asked" default.)* Each commit runs
   the **full `npm run verify`** (the gate roster is owned by
-  `src/scripts/verify-run.ts` — the single source of truth — and the gates run in
+  `src/scripts/gates.ts` — the single source of truth — and the gates run in
   **parallel**, comfortably under the soft 5s drift budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
   `SKIP_CODE_VERIFY=1` for a docs-only commit — skips the code lane, the
@@ -271,10 +271,10 @@ Full version:
   *with the highlight baked in* to a git-ignored `<stamp>.png`, both in a sibling
   folder. Every capture is auto-committed to git on write. The human plays
   whenever; an agent drains whenever with
-  **`/drain-inbox`**
-  (reproduce from the save → triage → log an **Fnn** in `project/human-feedback/`
-  → **`git mv` the capture to `archive/`** — completion is the archive move, not
-  deletion). It's **agent-facing** (not the human queue); the session brief
+  **`/drain-inbox`** — an **interactive** pass, batches of ≤5: reproduce each
+  from the save → triage → **propose, and wait for the human's go-ahead** before
+  any fix lands → log an **Fnn** in `project/human-feedback/` → **`git mv` the
+  capture to `archive/`** (completion is the archive move, not deletion). It's **agent-facing** (not the human queue); the session brief
   surfaces the `pending/` count. See the
   [`drain-inbox`](.claude/skills/drain-inbox/SKILL.md) skill.
 - **Build to the taste standard — the four taste values (D-126).** Before

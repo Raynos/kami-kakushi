@@ -17,9 +17,8 @@
 
 ## TODO
 
-- [ ] **Ask Fable 5 to review the context** — AGENTS.md, the pre-commit hook, the
-  git hooks (`.githooks/`), the skills (`.claude/skills/`), hookify, etc. A
-  fresh-eyes pass over the agentic scaffolding for drift / bloat / gaps.
+_(none open)_
+
 ## Reading queue
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
@@ -34,6 +33,12 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an R-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `project/audit/reports/2026-07-05-context-audit.md` — **context audit**
+  (your "review the agentic scaffolding" ask, done by Fable 5): the lattice is
+  healthy — 2 HIGH + 5 MEDIUM findings; the doc-drift half is already fixed
+  (headless-QA contradiction, wrong gate-roster owner, dead CI probe in the
+  session brief, PRD-split staleness); the enforcement-shape half awaits your
+  steer (§Punch-list: auto-wire `core.hooksPath` is the big one).
 - [ ] `project/audit/reports/2026-07-05-test-suite-audit.md` — **test-suite
   audit** (your "are the tests basically unit tests?" worry, answered): test
   *quality* is high (797 vitest tests, near-zero false greens, real-reducer

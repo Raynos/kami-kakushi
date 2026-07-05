@@ -194,7 +194,9 @@ if [[ "$tele_n" -gt 0 ]]; then
 fi
 # Main's latest CI conclusion — time-boxed (2s) so a slow/absent gh never hangs or
 # aborts the brief (set -e safe via 2>/dev/null + trailing || true → empty string).
-ci_state="$(timeout 2 gh run list -L 1 -b main -w verify.yml --json conclusion,status --jq '.[0] | (.status + "/" + (.conclusion // "—"))' 2>/dev/null || true)"
+# NB: macOS has no `timeout` binary (GNU coreutils), which silently killed this
+# probe for weeks — perl's alarm+exec is the portable time-box (alarm survives exec).
+ci_state="$(perl -e 'alarm shift @ARGV; exec @ARGV' 2 gh run list -L 1 -b main -w verify.yml --json conclusion,status --jq '.[0] | (.status + "/" + (.conclusion // "—"))' 2>/dev/null || true)"
 if [[ -n "$ci_state" ]]; then
   add "- 🔦 **CI (main, verify.yml):** \`$ci_state\`"
 else

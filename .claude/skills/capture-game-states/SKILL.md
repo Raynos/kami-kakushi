@@ -27,11 +27,22 @@ that wraps the same actions the UI sends to the core, plus read access and loop 
 > settle/advance one deterministic frame, and shoot — used by both the screenshot and recording paths.
 > *(There is no `__qa.step()`; use `frames(1)`/`tick`.)*
 
-## Setup
+## Setup — HEADLESS ONLY
 
-Run the dev server, then drive via **Playwright MCP** or **Chrome DevTools MCP**
-(`navigate` / `evaluate` / `take_screenshot`). Prefer **headful** — headless can miss
-semi-transparent DOM overlays (menus, modals), which are often half the UI.
+Run the dev server (`npm run dev`), then drive the game **headlessly** — never a
+headed browser window ([qa-playtesting.md](../../../docs/living/qa-playtesting.md)
+§0; the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook **blocks** the
+Playwright MCP / Chrome DevTools MCP browser tools, so don't reach for them):
+
+- **`node src/scripts/qa-shots.mjs`** — the tracked headless screenshot gallery
+  (outputs land in `project/audit/screens/latest/`); `playtest.mjs` is its
+  play-driver sibling.
+- **An ad-hoc headless page** for states the gallery doesn't cover: a short node
+  script under `tmp/` (playwright chromium, `headless: true`) that navigates to
+  the dev URL, `evaluate`s `window.__qa.…` verbs, and screenshots to a file.
+  Semi-transparent DOM overlays (menus, modals) render fine under modern
+  headless chromium — screenshot the *page*, not the canvas alone, so overlays
+  are included.
 
 ## Recipe A — static state screenshot
 

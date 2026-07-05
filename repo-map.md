@@ -18,8 +18,9 @@ always-loaded context while being editable on its own.
   ripple landed in the PRD — the pattern, a "locked-ADRs-not-yet-rippled"
   checklist deleted when empty, may recur.)*
 - [`docs/`](docs) — design docs (living, edited in place), under
-  **[`docs/living/`](docs/living)**: **[prd.md](docs/living/prd.md)** (the
-  merged PRD / vision spec), **[decisions.md](docs/living/decisions.md)** (the
+  **[`docs/living/`](docs/living)**: **[prd.md](docs/living/prd.md)** (the PRD
+  index/preamble — the body is split per-section under
+  [`docs/living/prd/`](docs/living/prd)), **[decisions.md](docs/living/decisions.md)** (the
   **ADR log** — *why* the design is the way it is),
   **[roadmap.md](docs/living/roadmap.md)** (the milestone tracker),
   **[ui-design.md](docs/living/ui-design.md)** (the woodblock/ink UI bible),

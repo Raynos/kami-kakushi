@@ -37,10 +37,11 @@ and play** — each need a different QA tool. This plan covers all three.
   `state()` assertions — authored test-first via the [`tdd`](../../.claude/skills/tdd) skill, which owns the
   red→green→refactor discipline; this §0 owns the *why*); (2) **headless pacing/fun** (the auto-player +
   fun-proxy telemetry — the only
-  way to "play" 28.5h); (3) **visual/feel** (MCP browser drive + screenshots that **the agent itself
+  way to "play" 28.5h); (3) **visual/feel** (headless screenshot drive — `qa-shots.mjs` / the
+  `capture-game-states` skill — that **the agent itself
   reviews** with its own vision against the UI design-language bible).
-- **The agent is a capable reviewer, not a blind builder.** With Playwright MCP + Chrome DevTools MCP
-  + the [`capture-game-states`](../../.claude/skills) skill + its own multimodal vision, the agent
+- **The agent is a capable reviewer, not a blind builder.** With the headless capture drivers
+  (`src/scripts/qa-shots.mjs`, the [`capture-game-states`](../../.claude/skills) skill) + its own multimodal vision, the agent
   **looks at every screen itself**, catches slop/misalignment/visual bugs, and iterates **before**
   the human sees it. The **human is the higher-level taste & fun arbiter** on self-vetted candidates.
 - **Fun is a hypothesis tested by play, not a spec verified once.** We instrument proxies for it,
@@ -395,11 +396,11 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 ## 7. Tooling
 
 - **Dev server:** `npm run dev` → Vite (it does **not** survive a Claude restart — relaunch on cold
-  pickup). The MCP browser tools point at it.
-- **MCP browser servers (headless):** Playwright MCP + Chrome DevTools MCP, both available. Drive the
-  harness via their evaluate tools (`evaluate_script` / `browser_evaluate` with `() => window.__qa.…`),
-  screenshot between steps, inspect console/network. Headless config takes effect only after a client
-  restart; until then the game is headful but harmless (no pointer-lock to steal the cursor).
+  pickup). The headless drivers point at it.
+- **MCP browser servers: BLOCKED (headed).** The Playwright / Chrome-DevTools MCP browser tools open
+  a *visible* window and are denied by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook
+  (§0 "HEADLESS ONLY"). Drive `window.__qa` through a **headless page** instead — the tracked node
+  drivers (`qa-shots.mjs`, `playtest.mjs`) or an ad-hoc headless-chromium script under `tmp/`.
 - **The [`capture-game-states`](../../.claude/skills) skill:** the project's purpose-built driver for
   "drive the game headlessly and screenshot/record its states" — the front door for the §4 visual loop
   and audit sweeps; outputs land in [`audit/screens/latest/`](../../project/audit/screens/latest).

@@ -17,8 +17,9 @@
 ## How to read this document
 
 This PRD plans the **whole saga in full detail up front**, authored and reviewed one section at a time.
-It is now a **single living document** — every authored section lives below, in order; sections still to
-be written appear as in-place placeholders. Each section is drafted in full, walked through with the human,
+It is one living spec **split per-section** — this file is the index + preamble, and each authored
+section lives in its own file under [`prd/`](prd/) (linked below); sections still to be written appear
+as in-place placeholders. Each section is drafted in full, walked through with the human,
 revised, and its load-bearing decisions locked as ADRs.
 
 | § | Section | Status |
