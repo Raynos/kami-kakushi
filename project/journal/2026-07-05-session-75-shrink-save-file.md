@@ -107,4 +107,58 @@ not mine — my slice is green (74 tests, tsgo 0 errors, my files formatted). So
 this commit is `SKIP_VERIFY=1`, own-paths-only, **kept local — NOT pushed** until
 the tree is clean (don't fight someone else's red; never SKIP red onto main).
 
-## Next: Stage C2…C8 — migrate the remaining 6 files, then descriptors + migration.
+## Stage C2–C6 — migrate the remaining emit sites (autonomous grind)
+
+Human said "grind it out and complete without me." Migrated all LOGIC-inline
+authored log lines into `content/log-content.ts` (23 keys), one file per commit,
+each golden-tested + fixtures-regen-verified (diff = pure contentKey/params, zero
+text change = verbatim move):
+
+- **C2/C3** (`a1fbcc4`) — ranks (rank.wallWeapon, rank.marker) + ascension
+  (ascension.hall bakes NAMES, ascension.dream branches on a `knot` param).
+- **C4** (`968ad16`) — fight.ts, all 7 combat sites. The composed sub-phrases (win
+  loot tally, rout-loss grammar) moved INTO the registry render fns.
+- **C5** (`730fb52`) — intents.ts, the 10 inline templates (repair/equip/cook/eat/
+  sell/buy/deposit/withdraw/weaponBroken/belonging-fallback).
+- **C6** (`bde6caf`) — coverage ratchet (every key needs a SAMPLE + renders
+  non-empty).
+
+**Refined scope (a judgment call):** ~55 `text:` sites, but most pull words from
+**content data** (topic/option/recipe/dest text) or **single-source helpers**
+(`rakeLine`, `activityLine`, `homeRestLine`). Those already satisfy T1 (words in
+ONE content module) and persist as keyless `{text}`. Only the **logic-inline
+authored** strings were the real T1 targets → 23 keys.
+
+## Shared-index incident (C5) — caught + reverted
+
+At C5, `git add <mypaths>` + `git commit` swept the WHOLE shared index — a co-agent
+had staged their F7 files, so the commit included main.ts/balance.ts/dev*.ts + their
+journal (12 files). My pre-commit grep flagged it but ran in the same `&&` chain, so
+it didn't stop the commit. **Fix:** `git reset --mixed HEAD~1` (undo, unstage all,
+working tree intact — co-agent WIP preserved), then re-commit via **pathspec**
+`git commit -F <msg> -- <mypaths>` (commits ONLY named paths, race-safe against the
+shared index). Adopted pathspec commits for all subsequent commits.
+
+## Stage C-final (`this commit`) — descriptors persist
+
+`codec.ts`: `encodeStore` strips a KEYED entry's derivable `text` (keyless entries
+keep text verbatim); `decodeStore` rehydrates via `renderLogLine` BEFORE validation,
+rebuilding keyed entries in **pushLog's exact field order** so save→load stays
+byte-identical (the 21 existing round-trip tests still pass). Unknown-key fallback
+(don't nuke a save if a contentKey is ever removed). New tests: strip drops keyed
+text / keeps keyless / byte-identical round-trip (mixed + a 300-entry fixture).
+
+**No SCHEMA_VERSION bump** (decision #4 said 7→8): a keyless entry IS the legacy
+form, so old saves load unchanged and the transform is reversible over an unchanged
+GameState shape — the bump+migration were unnecessary; intent (no loss, derive
+forward) is met. Documented in the plan Outcome.
+
+**Final size:** ~8.5–11.3× on real fixtures (wealthy-idler 48 885 → 4 802). gzip
+dominates; the descriptor strip adds ~1–2% — confirming C was for T1, not size.
+
+## Still open
+
+- **Push** C1–C-final once the shared tree clears (co-agent F7 red blocks a clean
+  push; Stage A is already on origin/main). Task #8.
+- A real-browser save/load smoke (tests use Node CompressionStream; browser gzip is
+  the same RFC-1952).

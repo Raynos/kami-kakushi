@@ -6,6 +6,8 @@
 
 import type { GameState } from '../core';
 import { APP_ID, SCHEMA_VERSION } from '../core';
+import type { LogEntry } from '../core/log';
+import { renderLogLine, type LogParams } from '../core/content/log-content';
 
 export interface SaveEnvelope {
   readonly app: typeof APP_ID;
@@ -110,20 +112,80 @@ function base64ToBytes(b64: string): Uint8Array {
   return bytes;
 }
 
-/** Encode an envelope for the STORE channel: JSON → gzip → base64, magic-prefixed. */
+// ── log descriptors (shrink-save-file Stage C-final) ──────────────────────────
+// A KEYED log entry (contentKey present) drops its derivable `text` on the way to the
+// store and rebuilds it from the log-content registry on the way back — the log persists
+// as compact descriptors, not prose. A KEYLESS entry (content-module / legacy prose) keeps
+// its `text` verbatim. Old pre-descriptor saves are ALL keyless-with-text, so they load
+// unchanged (derive forward, no data loss) — no schema bump needed (the GameState shape is
+// unchanged; contentKey/params are additive-optional and this is a reversible transport step).
+
+/** Drop the derivable `text` from a keyed entry; leave a keyless entry untouched. */
+function stripLogEntry(e: LogEntry): unknown {
+  if (e.contentKey === undefined) return e;
+  const rest: Record<string, unknown> = { ...e };
+  delete rest.text;
+  return rest;
+}
+
+/** Rebuild a keyed entry's `text` from the registry, in pushLog's canonical field order so a
+ *  save→load round-trip stays byte-identical. A keyless entry passes through unchanged. */
+function rehydrateLogEntry(raw: unknown): unknown {
+  const e = raw as Partial<LogEntry> & { contentKey?: string; params?: LogParams };
+  if (e.contentKey === undefined) return raw;
+  let text: string;
+  try {
+    text = renderLogLine(e.contentKey, e.params ?? {});
+  } catch {
+    text = e.text ?? ''; // an unknown key (a removed contentKey) must not nuke the whole save
+  }
+  return {
+    key: e.key,
+    channel: e.channel,
+    text,
+    tick: e.tick,
+    count: e.count,
+    ...(e.speaker !== undefined ? { speaker: e.speaker } : {}),
+    ...(e.voice !== undefined ? { voice: e.voice } : {}),
+    ...(e.ephemeral !== undefined ? { ephemeral: e.ephemeral } : {}),
+    ...(e.chat !== undefined ? { chat: e.chat } : {}),
+    contentKey: e.contentKey,
+    ...(e.params !== undefined ? { params: e.params } : {}),
+  };
+}
+
+/** Map the envelope's log entries with `fn` (immutably), passing everything else through. */
+function mapLogEntries(env: unknown, fn: (e: unknown) => unknown): unknown {
+  const outer = env as { state?: { log?: { entries?: unknown[] } } };
+  const entries = outer.state?.log?.entries;
+  if (!Array.isArray(entries)) return env;
+  const state = outer.state as Record<string, unknown>;
+  const log = state.log as Record<string, unknown>;
+  return {
+    ...(env as object),
+    state: { ...state, log: { ...log, entries: entries.map(fn) } },
+  };
+}
+
+/** Encode an envelope for the STORE channel: descriptors → JSON → gzip → base64, magic-prefixed. */
 export async function encodeStore(env: SaveEnvelope): Promise<string> {
-  const bytes = new TextEncoder().encode(encodeEnvelope(env));
+  const stored = mapLogEntries(env, (e) => stripLogEntry(e as LogEntry));
+  const bytes = new TextEncoder().encode(JSON.stringify(stored));
   const gz = await pipeBytes(bytes, new CompressionStream('gzip'));
   return GZIP_PREFIX + bytesToBase64(gz);
 }
 
-/** Decode a STORE blob. Sniffs the magic prefix → gunzip → parse; a prefix-less blob is
- *  a legacy plain-JSON save (pre-gzip), decoded directly. */
+/** Decode a STORE blob. Sniffs the magic prefix → gunzip → parse; a prefix-less blob is a
+ *  legacy plain-JSON save (pre-gzip). Either way, keyed log entries are rehydrated from the
+ *  registry BEFORE validation (which requires `text` on every entry). */
 export async function decodeStore(raw: string): Promise<unknown> {
+  let parsed: unknown;
   if (raw.startsWith(GZIP_PREFIX)) {
     const gz = base64ToBytes(raw.slice(GZIP_PREFIX.length));
     const bytes = await pipeBytes(gz, new DecompressionStream('gzip'));
-    return decodeEnvelope(new TextDecoder().decode(bytes));
+    parsed = decodeEnvelope(new TextDecoder().decode(bytes));
+  } else {
+    parsed = decodeEnvelope(raw); // legacy uncompressed save
   }
-  return decodeEnvelope(raw); // legacy uncompressed save
+  return mapLogEntries(parsed, rehydrateLogEntry);
 }

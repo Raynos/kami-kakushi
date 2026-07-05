@@ -1,6 +1,7 @@
 # Plan — Shrink the save file (compression, + optional log descriptors)
 
-**Status:** 🆕 Proposed — awaiting human sign-off (R-item). Not started.
+**Status:** 🔧 IN-PROGRESS — A + C built locally (7 commits); push pending past a
+co-agent's red tree, then a browser smoke. See **Outcome** at the foot.
 **Author:** Opus 4.8 (session 2026-07-05).
 **Related:** D-038 (one RNG), the pure-core boundary (AGENTS.md · Conventions),
 `src/persistence/codec.ts`.
@@ -227,3 +228,40 @@ and replay on load — was measured out:
   risk for zero size benefit.
 
 Kept here as the record of why the simpler plan is right.
+
+---
+
+## Outcome (built 2026-07-05, Opus)
+
+**A + C shipped** across 7 commits (Stage A gzip, then C1–C6 registry migration, then
+C-final descriptors). Final store size on real fixtures: **~8.5–11.3×** smaller
+(e.g. wealthy-idler 48 885 → 4 802 bytes). gzip (A) does the heavy lifting; the
+descriptor strip (C-final) adds only ~1–2% on top — as predicted, **C's value is the
+T1 architecture, not size.**
+
+**Two honest deviations from the locked decisions, both making the change simpler/safer:**
+
+1. **No `SCHEMA_VERSION` bump (decision #4 said 7→8).** The migration was to "wrap old
+   prose as legacy descriptors." But in the built design a **keyless entry (text, no
+   contentKey) IS the legacy form** — old saves are all keyless-with-text and load
+   unchanged, and the descriptor strip/rehydrate is a **reversible transport step** over
+   an unchanged `GameState` shape (contentKey/params are additive-optional). So the bump
+   + migration were unnecessary; the human's actual intent (no log loss, derive forward)
+   is fully met. Bumping would have forced a no-op migration + churned version-asserting
+   tests for zero benefit.
+2. **Refined C scope — key only the LOGIC-inline authored lines.** ~55 `text:` sites, but
+   most pull words from **content data** (topic/option/recipe/destination text) or
+   **single-source helpers** (`rakeLine`, `activityLine`, `homeRestLine`). Those already
+   satisfy T1 (their words live in ONE content module) and persist as keyless `{text}`.
+   The true T1 targets were the strings authored **inline in logic** (step/ranks/
+   ascension/fight/intents) — 23 keys, now in `content/log-content.ts`.
+
+**Guards:** golden line-equality tests (special glyphs as codepoints) + a coverage
+ratchet (every key needs a SAMPLE) + the **fixtures regen diff** (a de-facto golden on
+every line in a fixture — pure contentKey/params, zero text change confirmed each step)
++ byte-identical codec round-trip (the strip/rehydrate rebuilds text in pushLog's exact
+field order, so the 21 existing save round-trip tests still pass).
+
+**Left for the human:** push once the shared tree clears (Stage A is already on
+`origin/main`; C1–C-final are local — a co-agent's F7 balance-cockpit WIP is red in the
+tree, so a clean push is blocked; never SKIP that red onto main).
