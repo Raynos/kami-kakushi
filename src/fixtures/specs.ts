@@ -21,6 +21,7 @@ import {
   getMob,
   getWeapon,
   durabilityBand,
+  skillLevel,
   promotionReady,
   pendingPromotionTarget,
   phaseOf,
@@ -189,12 +190,26 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   {
     name: 'post-loss-broke',
     blurb:
-      'The post-loss slump (D-113): HP at the floor, carried rice bled in the rout, the kura hoard sheltered.',
+      'The post-loss slump (D-113): HP at the floor, carried rice bled in the rout, the kura hoard sheltered — sansai on hand so the cook-to-heal answer (D-076) is one press away.',
     seed: T0_ARC_SEED,
-    // Drive to R3 (a lvl-1 gate-watch never grinds combat, so it truly LOSES), bank some rice in the
-    // kura (so the shelter is legible), then take the documented rout against the monkey.
+    // Drive to R3 (a lvl-1 gate-watch never grinds combat, so it truly LOSES), earn the
+    // conditioning gate by hauling (real labour) so the satoyama opens, forage enough sansai
+    // to cook, bank some rice in the kura (so the shelter is legible), then take the
+    // documented rout against the monkey. The sansai makes the D-076 recovery loop (cook →
+    // heal) drivable from this waypoint through visible controls alone — the journey lane
+    // (fable-2026-07-05-desktop-journey-e2e P2) boots it and presses Cook.
     play: (s0) => {
       let s = drive(s0, (st) => st.rung === 'R3');
+      s = walkTo(s, 'gate-forecourt');
+      let guard = 0;
+      while (skillLevel(s, 'conditioning') < balance.CONDITIONING_GATE_LEVEL && guard++ < 200) {
+        s = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });
+      }
+      s = walkTo(s, 'near-satoyama');
+      guard = 0;
+      while ((s.resources.sansai ?? 0) < balance.COOK_SANSAI_COST && guard++ < 10) {
+        s = reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' });
+      }
       s = walkTo(s, 'kura');
       s = reduce(s, { type: 'deposit', resource: 'rice' }); // shelter a slice under the kura cap
       s = walkTo(s, getMob('monkey').area);
@@ -213,6 +228,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         (s.resources.rice ?? 0) > 0,
         'carried rice should remain (bled by a fraction, not zeroed)',
       );
+      must(
+        (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST,
+        'sansai on hand — the cook-to-heal answer must be pressable from this waypoint',
+      );
     },
   },
   {
@@ -220,8 +239,12 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     blurb:
       'A Battered blade with no wood to mend it — the repair-loop bind (win-rate cliff + the repair CTA).',
     seed: T0_ARC_SEED,
+    // R4, not R3: `verb-repair` is an R4 unlock BY DESIGN (ranks.ts — repair waits for R4),
+    // so the UI-layer bind — a Battered blade, a visible Repair CTA, and no wood to feed
+    // it — only exists from R4 on. (At R3 the reducer can repair but no player can; the
+    // journey lane drives visible controls only, so the waypoint moved up one rung.)
     play: (s0) => {
-      const s = drive(s0, (st) => st.rung === 'R3');
+      const s = drive(s0, (st) => st.rung === 'R4');
       return grindUntil(s, 'monkey', (st) => bandName(st) === 'Battered');
     },
     expect: (s) => {
@@ -230,6 +253,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         (s.resources.wood ?? 0) < balance.REPAIR_WOOD_COST,
         `expected carried wood < ${balance.REPAIR_WOOD_COST} (can't repair), got ${s.resources.wood ?? 0}`,
       );
+      must(s.unlocked.includes('verb-repair'), 'the Repair CTA must be revealed (R4 unlock)');
     },
   },
   {
@@ -259,6 +283,45 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         (s.banked.coin ?? 0) >= WEALTHY_COIN_THRESHOLD,
         `expected banked coin >= ${WEALTHY_COIN_THRESHOLD}, got ${s.banked.coin ?? 0}`,
       );
+    },
+  },
+  {
+    name: 'rice-at-gate',
+    blurb:
+      'R3 with the rice hoard carried to the forecourt — Tokubei one press away (the D-114 talk-to-open market loop).',
+    seed: T0_ARC_SEED,
+    // The market-loop journey's start (fable-2026-07-05-desktop-journey-e2e P2): standing at
+    // the gate where the pedlar keeps his ground, rice on the back, nothing yet sold.
+    play: (s0) =>
+      walkTo(
+        drive(s0, (st) => st.rung === 'R3'),
+        'gate-forecourt',
+      ),
+    expect: (s) => {
+      must(s.location === 'gate-forecourt', `expected the gate-forecourt, got ${s.location}`);
+      must((s.resources.rice ?? 0) > 0, 'carried rice to sell — the loop needs stock');
+      must(
+        s.unlocked.includes('panel-estate'),
+        'panel-estate must be revealed (Tokubei stands the gate on it)',
+      );
+    },
+  },
+  {
+    name: 'at-kura-with-coin',
+    blurb: 'R3, standing in the kura with sale-coin in the sleeve — the deposit one press away.',
+    seed: T0_ARC_SEED,
+    // The kura-deposit journey's start (P2): rice sold at the gate, the coin walked home.
+    play: (s0) => {
+      let s = walkTo(
+        drive(s0, (st) => st.rung === 'R3'),
+        'gate-forecourt',
+      );
+      s = reduce(s, { type: 'sell_rice' });
+      return walkTo(s, 'kura');
+    },
+    expect: (s) => {
+      must(s.location === 'kura', `expected the kura, got ${s.location}`);
+      must((s.resources.coin ?? 0) > 0, 'carried coin — the deposit needs something to store');
     },
   },
 ];

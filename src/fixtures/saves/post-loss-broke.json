@@ -15,12 +15,12 @@
       }
     },
     "clock": {
-      "tick": 22,
-      "day": 282
+      "tick": 6,
+      "day": 283
     },
     "character": {
       "hp": 1,
-      "satiety": 100,
+      "satiety": 85,
       "attributePoints": 0,
       "attrs": {
         "str": 5,
@@ -33,8 +33,9 @@
       "combatXp": 0
     },
     "resources": {
-      "coin": 0,
-      "rice": 6698
+      "coin": 6,
+      "rice": 6698,
+      "sansai": 2
     },
     "banked": {
       "coin": 0,
@@ -91,100 +92,12 @@
       "readout-combat-level",
       "panel-bestiary",
       "panel-house-influence",
-      "panel-home"
+      "panel-home",
+      "readout-coin",
+      "skill-foraging"
     ],
     "log": {
       "entries": [
-        {
-          "key": 1005,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1006,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1007,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1008,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1009,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1010,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1011,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1012,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1013,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1014,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
         {
           "key": 1015,
           "channel": "reward",
@@ -2767,9 +2680,98 @@
         },
         {
           "key": 1301,
+          "channel": "narration",
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1302,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1303,
+          "channel": "narration",
+          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1304,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 18,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1305,
+          "channel": "narration",
+          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1306,
+          "channel": "narration",
+          "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1307,
+          "channel": "reward",
+          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1308,
+          "channel": "narration",
+          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1309,
+          "channel": "narration",
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1310,
+          "channel": "narration",
+          "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1311,
           "channel": "system",
           "text": "You store 120 rice safe in the kura storehouse.",
-          "tick": 14,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "contentKey": "bank.deposit",
@@ -2779,44 +2781,46 @@
           }
         },
         {
-          "key": 1302,
+          "key": 1312,
           "channel": "narration",
           "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 14,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 1303,
+          "key": 1313,
           "channel": "narration",
           "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 14,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 1304,
+          "key": 1314,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1675 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 14,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1 mon and 1675 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
+            "lostCoin": 1,
             "lostRice": 1675,
             "lostMats": 0
           }
         }
       ],
-      "seq": 1305
+      "seq": 1315
     },
     "skillXp": {
-      "farming": 9142
+      "farming": 9142,
+      "conditioning": 15,
+      "foraging": 5
     },
     "deliveredDialogue": [
       "gen-greet",
@@ -2855,7 +2859,7 @@
     "belongings": [],
     "location": "home-paddies",
     "rung": "R3",
-    "rungMeter": 0,
+    "rungMeter": 8,
     "estateStage": 0,
     "autoActivity": null,
     "autoRake": false,

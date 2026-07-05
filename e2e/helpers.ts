@@ -22,6 +22,8 @@ export const FIXTURES = [
   'post-loss-broke',
   'worn-weapon-no-wood',
   'wealthy-idler',
+  'rice-at-gate',
+  'at-kura-with-coin',
 ] as const;
 
 /** Collect page errors + console errors for the whole test; assert empty at the
