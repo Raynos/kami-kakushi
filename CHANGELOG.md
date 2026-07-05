@@ -12,6 +12,31 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+## [0.3.6] — 2026-07-05
+
+Mostly an under-the-hood release: the endgame climb now takes its intended
+time, saves shrank ~10×, and the intro reads snappier when you click through.
+
+### Changed
+
+- **The Phase-2 climb is a real climb (D-133 stopgap).** Estate deeds now bank
+  the House's standing in sub-koku fractions — one day's labour barely moves a
+  household's ledger — so the capstone→ascension stretch takes about as long
+  as Phase 1 instead of ending in a half-minute anticlimax.
+- **Economy tunings from live playtest (R10).** Raking yields a little less
+  rice, autumn pays a little more for it, and eating rice costs less coin —
+  the sell-vs-hold call swings closer, and a warm meal competes with free rest.
+- **Saves are ~10× smaller.** The internal save is compressed and log lines are
+  stored as compact descriptors rebuilt on load. Old saves and copied-out
+  plain-text backups still load unchanged.
+
+### Fixed
+
+- Clicking through the intro now advances on a snappy beat instead of the slow
+  atmospheric hold (hands-off auto-advance keeps its unhurried pacing).
+- The rung-meter popover lingers a moment on mouse-out instead of vanishing the
+  instant your cursor slips off it.
+
 ### Internal
 
 - **Balance-tuning cockpit (F7 / D-134).** A DEV-only panel (DEV → Balance tab)
@@ -20,6 +45,13 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
   transcribes back to canon (D-059 — an agent never tunes on the human's behalf).
   Overrides live in the module binding + a `?bal.*` URL, never the save file, and
   the whole hook is stripped from the production bundle. Not player-facing.
+- **Playtest capture inbox (F3).** In a DEV build the `` ` `` hotkey picks the
+  element you're commenting on and files a note + deterministic save into
+  `project/playtest-inbox/`, auto-committed; `/drain-inbox` triages it later.
+- **Story authored as text (F5)** — T0 narrative now compiles from prose-first
+  markdown into generated registries; **scenario-save library (F6)** — named,
+  engine-generated start-states loadable from the DEV panel; **/ship release
+  train (F9)** — one command: isolated build, deploy, live proof.
 
 ## [0.3.5] — 2026-07-03
 
