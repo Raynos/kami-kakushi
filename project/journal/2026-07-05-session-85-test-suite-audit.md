@@ -32,6 +32,16 @@ both queued for the human.
 - `project/todo-human.md` — queued both docs; removed the now-fulfilled
   "review the integration / e2e tests" TODO (this session is that review).
 
+- **P5 hygiene (follow-up commit, same session):** the plan's Phase 5 items
+  that needed no sign-off — `sfx.test.ts` (c2) now *measures* every voice's
+  scheduled stop against the 400ms spec cap (was no-throw only — the suite's
+  one false green; `STOP_TAIL_S` exported from `sfx.ts` so the envelope is
+  derived, not copied); `capture-format.test.ts` imports the server allowlist
+  regexes from `playtest-inbox.ts` (now exported) instead of copied literals;
+  `pacing.test.ts` literals commented as the deliberate copied-mirror
+  exception. Skipped the `e2e/helpers.ts` boot-settle fix — another agent is
+  actively on mobile e2e (left to the plan build).
+
 ## Verification
 
 - Report claims spot-checked against the files (e2e specs/helpers/config, CI

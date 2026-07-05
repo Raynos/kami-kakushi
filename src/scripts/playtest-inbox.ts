@@ -28,8 +28,10 @@ export const MAX_METADATA_BYTES = 4 * 1024 * 1024;
 export const MAX_BODY_BYTES = 12 * 1024 * 1024;
 
 // Session id: allowlist-safe, no separators, no dots-only traversal. Sidecar basenames: <name>.png / .json.
-const SESSION_RE = /^[A-Za-z0-9T.-]+$/;
-const PNG_NAME_RE = /^[A-Za-z0-9T.-]+\.png$/;
+// The first two are exported: capture-format.test.ts asserts the client builders satisfy
+// THESE regexes (one source — a copied literal there stayed green if the server drifted).
+export const SESSION_RE = /^[A-Za-z0-9T.-]+$/;
+export const PNG_NAME_RE = /^[A-Za-z0-9T.-]+\.png$/;
 const JSON_NAME_RE = /^[A-Za-z0-9T.-]+\.json$/;
 const PNG_DATA_URL_RE = /^data:image\/png;base64,([A-Za-z0-9+/=]+)$/;
 

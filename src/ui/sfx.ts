@@ -37,6 +37,9 @@ export interface SfxOptions {
 // ── Mix + envelope constants (kept quiet & short per the spec: master ~0.15, <400ms) ──
 const MASTER_GAIN = 0.15; // never auto-loud (sfx-spec §3)
 const ENV_FLOOR = 0.0001; // exponential ramps can't touch 0 — ramp to this near-silence
+/** Anti-click tail past the envelope's end before the oscillator stops. Exported so the
+ *  <400ms-voice contract test can assert envelope length from the scheduled stop time. */
+export const STOP_TAIL_S = 0.02;
 
 type AudioCtor = new () => AudioContext;
 
@@ -90,7 +93,7 @@ function playVoice(ctx: AudioContext, master: GainNode, spec: VoiceSpec): void {
   osc.connect(env);
   env.connect(master);
   osc.start(t0);
-  osc.stop(end + 0.02);
+  osc.stop(end + STOP_TAIL_S);
 }
 
 // ── The three voices (woodblock-Edo palette; pentatonic 陽 brightness, all <400ms) ──

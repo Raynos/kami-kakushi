@@ -37,6 +37,8 @@ describe('T0 pacing (single profile, D-056)', () => {
   });
 
   it('the meter map mirrors RankDef thresholds (drift guard, belt-and-suspenders w/ verify-content)', () => {
+    // DELIBERATE copied literals — the suite's one magic-number mirror. Deriving from the
+    // source would make this a tautology; a threshold retune updates these on purpose.
     expect(balance.RUNG_METER_THRESHOLDS).toMatchObject({ R0: 1100, R1: 2150, R2: 2600 });
   });
 });

@@ -5,7 +5,7 @@
 // global AudioContext that captures every oscillator/gain it builds, and assert the
 // real contract — full API, muted → silence, unmuted → voices, no-context → no-op.
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createSfx, type Sfx } from './sfx';
+import { createSfx, STOP_TAIL_S, type Sfx } from './sfx';
 
 // ── A capturing fake of the slice of Web Audio the module touches ──
 interface FakeParam {
@@ -28,15 +28,19 @@ class FakeOscillator {
   frequency = fakeParam(440);
   started = false;
   stopped = false;
+  startAt: number | undefined;
+  stopAt: number | undefined;
   connections: unknown[] = [];
   connect(node: unknown): void {
     this.connections.push(node);
   }
-  start(): void {
+  start(when?: number): void {
     this.started = true;
+    this.startAt = when ?? 0;
   }
-  stop(): void {
+  stop(when?: number): void {
     this.stopped = true;
+    this.stopAt = when;
   }
 }
 class FakeGain {
@@ -156,15 +160,22 @@ describe('createSfx — public contract', () => {
     }
   });
 
-  it('(c2) keeps every voice short (<400ms) — no scheduled stop runs long', () => {
-    // a proxy for the spec "voices <400ms": all cues fire without error and the engine
-    // is built exactly once; the durations live in the voice specs (compile-time).
+  it('(c2) keeps every voice short (<400ms) — every scheduled stop measured', () => {
+    // The spec lever, actually measured (the old version only asserted no-throw — a false
+    // green): every oscillator any cue builds must schedule a stop, and its envelope
+    // (stop − start − the exported anti-click tail) must stay under the 400ms spec cap.
     const sfx = createSfx();
-    expect(() => {
-      sfx.hit();
-      sfx.reward();
-      sfx.rankUp();
-    }).not.toThrow();
+    sfx.hit();
+    sfx.reward();
+    sfx.rankUp();
+    const oscs = FakeAudioContext.instances.flatMap((c) => c.oscillators);
+    expect(oscs.length).toBeGreaterThan(0);
+    for (const o of oscs) {
+      expect(o.stopAt, 'a voice never scheduled its stop (would ring forever)').toBeDefined();
+      const envelope = o.stopAt! - STOP_TAIL_S - (o.startAt ?? 0);
+      expect(envelope, 'a voice envelope runs past the 400ms spec cap').toBeLessThan(0.4);
+      expect(envelope).toBeGreaterThan(0);
+    }
   });
 
   it('(d) when AudioContext is undefined, all methods are safe no-ops', () => {

@@ -11,9 +11,12 @@ import {
 } from './capture-format';
 
 // The server's allowlists (src/scripts/playtest-inbox.ts) ARE the contract these builders must
-// satisfy — kept as literals here; the real cross-module round-trip is in playtest-inbox.test.ts.
-const SERVER_SESSION_RE = /^[A-Za-z0-9T.-]+$/;
-const SERVER_PNG_RE = /^[A-Za-z0-9T.-]+\.png$/;
+// satisfy — imported from the server module (one source; a copied literal here stayed green
+// when the server drifted). The full round-trip lives in playtest-inbox.test.ts.
+import {
+  PNG_NAME_RE as SERVER_PNG_RE,
+  SESSION_RE as SERVER_SESSION_RE,
+} from '../scripts/playtest-inbox';
 
 function ctx(overrides: Partial<CaptureContext> = {}): CaptureContext {
   return {
