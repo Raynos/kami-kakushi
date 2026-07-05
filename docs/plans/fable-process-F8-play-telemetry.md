@@ -17,6 +17,15 @@
 - Human pacing data **never gates** (§7.5 default).
 - **Ph4 redirected** — see the strikethrough at §Ph4: reports go to a
   git-ignored `project/telemetry/`, NOT the playtest inbox.
+- **Ph3 is MINIMAL** (locked in the follow-up round): live one-liner
+  (attended today / current class / taint) + two buttons — *drop report
+  now* · *clear history*. The copy/download/console.table buttons are CUT;
+  Ph4's folder drop is the transport.
+- **Reports drop AUTOMATICALLY on session-end** (tab-hide/unload with new
+  data), plus the manual panel button.
+- **D-075 diverge: EXEMPT** — the Telemetry section is agent/dev-facing
+  tooling inside the existing DEV panel (its `section()` pattern), not a
+  player surface; one coherent build, no variants.
 **Owns:** the DEV-only attended-time sessionizer (`src/telemetry/`) · the
 localStorage telemetry ring · the per-rung attended-time report · the
 DEV-panel Telemetry section · the strip-gate extension for the new surface.
@@ -414,17 +423,20 @@ advance (the D-079 cross-check); a reload recovers the persisted run from
 localStorage; `npm run build` + grep shows zero `__KAMI_TELEMETRY__` in
 `dist/` (strip proven, not assumed); `verify` green.
 
-### Ph3 — report UX + docs
+### Ph3 — minimal report UX + docs (trimmed by the human 2026-07-05)
 
-DEV-panel "Telemetry" section (panel `section()` pattern): live one-line
-summary (attended today / current class), buttons — copy report · download
-`.md` · `console.table` · clear (confirm). Session-end `console.info` on
-segment close. Docs: a `qa-playtesting.md` section (the attended-time model,
-the constants, how to read the report vs sim/bands), `repo-map.md` entry,
+DEV-panel "Telemetry" section (panel `section()` pattern), **minimal**:
+live one-line summary (attended today / current class / taint) + two
+buttons — **drop report now** · **clear history** (confirm). ~~copy
+report · download `.md` · `console.table`~~ — cut; Ph4's folder drop is
+the transport. Session-end `console.info` on segment close. D-075
+diverge: exempt (dev tooling, not a player surface — locked 2026-07-05).
+Docs: a `qa-playtesting.md` section (the attended-time model, the
+constants, how to read the report vs sim/bands), `repo-map.md` entry,
 one AGENTS.md Conventions line.
 
-**DoD:** driven headlessly through the real panel, the copy/download
-buttons emit a report whose per-rung table columns line up with
+**DoD:** driven headlessly through the real panel, the report (via the
+drop path) has per-rung table columns lining up with
 `pacing-report.ts`'s (eyeball-diffable); a tainted run renders labelled and
 is excluded from the vs-sim columns; docs wrapped ~80, `md-links` green;
 `verify` green.

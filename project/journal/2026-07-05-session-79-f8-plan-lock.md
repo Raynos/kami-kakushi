@@ -55,3 +55,25 @@ notes with numbers quoted — the brainstorms/raw two-tier pattern).
 - The two-tier TTL means the sessionizer's walked-away retro-split must
   pick the TTL by the autos-armed state *at the last input* — a test case
   the original plan doesn't list; add it in Ph1.
+
+---
+
+## 2 · Ph1 built — the pure sessionizer, unit-proven
+
+`src/telemetry/{sessionizer,milestones,report}.ts` + 28 tests, all green,
+full `verify` green (17 gates). The 5/20/5 headline asserts exactly
+600 000 ms; RED-proven by flattening the two-tier TTL (3 tests fail).
+Semantics settled during the build (each with a test):
+
+- **TTL by CURRENT autos-armed state during the gap** (not at-last-input):
+  an auto-stop mid-gap drops the span to the static TTL — the grind you
+  were watching has ended. Deadline clamped to `lastEventT` so credit
+  legitimately accrued under the armed TTL is never clawed back.
+- **Sleep-gap beats idle-ttl** on total event silence (no heartbeats =
+  frozen tab = nothing verifiable to credit; close at last sign of life).
+- **A segment opens only on input/intent while visible+focused** —
+  attention is proven by acting; becoming visible alone opens nothing
+  (matches §2.2's class definitions).
+- Loss detector is best-effort (hp → SETBACK_HP from above), commented as
+  such; disarm emits the `note` the re-engage rule consumes;
+  promotion-ready note derives from `rungThreshold` (D-086 rule 2).
