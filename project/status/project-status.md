@@ -42,11 +42,10 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   till then. Resolves D-126's "visual identity provisional pending R9".
 - **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
-  `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a/F1b ·
-  F2 CI · ✅ F4 balance sim (D-132) · ✅ F3 capture inbox + `/drain-inbox` · ✅ F6
-  scenario saves · ✅ F5 narrative format (s74) · ✅ F7 balance cockpit (s76 — DEV
-  Balance tab, `?bal.*` URLs, export→inbox, **D-134**) · ✅ F10 taste two-pass
-  (s77, **D-135** — distill pipe deferred). F8+F9 in flight (parallel agents).**
+  `fable-process-master-plan.md`. **BUILT ✅: F1a/F1b · F2 CI · F3 inbox ·
+  F4 sim (D-132) · F5 narrative · F6 saves · F7 cockpit (D-134) · F9 `/ship`
+  (tagged, fast/bounded; shipped v0.3.6+v0.3.7) · F10 taste two-pass
+  (D-135). F8 in flight (parallel agent) — the wave's last plan.**
 - **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN soft). **H19→D-133:**
   Phase 2 ≈ Phase 1 → hard `verify:balance` ratio gate `[0.8, 1.2]`; stopgap
   hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** queued
