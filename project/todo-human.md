@@ -39,13 +39,6 @@ _(none open)_
   (headless-QA contradiction, wrong gate-roster owner, dead CI probe in the
   session brief, PRD-split staleness); the enforcement-shape half awaits your
   steer (§Punch-list: auto-wire `core.hooksPath` is the big one).
-- [ ] `project/audit/reports/2026-07-05-test-suite-audit.md` — **test-suite
-  audit** (your "are the tests basically unit tests?" worry, answered): test
-  *quality* is high (797 vitest tests, near-zero false greens, real-reducer
-  full-arc tests, real-tap mobile e2e) — the gap is *geometry*: desktop has
-  zero real-browser coverage, no browser test drives the story journeys
-  (intro VN, market, quests, ascension, save/reload). Read for the ranked
-  gaps + the "does anything go red?" table.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
