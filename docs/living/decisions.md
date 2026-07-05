@@ -1296,11 +1296,11 @@ design ADR.
   human-signed, once-per-tier event.
 - **Consequences:** §4 gains a no-hand-ripple banner (applied this session);
   `prd.md` "How to read" gains the frontier-line note. First compression event =
-  **T0, triggered when R1 closes**. Claude-picked defaults pending async
-  override (flagged in the brainstorm's Open flags): fidelity audits of
-  compressed territory baseline on acceptance criteria + ADRs + generated
-  docs, not detail-prose; §6 tech-architecture folds into the T0 sweep. Per
-  **D-022**, governs.
+  **T0, triggered when R1 closes**. Claude-picked defaults (flagged in the
+  brainstorm's Open flags, **confirmed by the human 2026-07-05** — no
+  override): fidelity audits of compressed territory baseline on acceptance
+  criteria + ADRs + generated docs, not detail-prose; §6 tech-architecture
+  folds into the T0 sweep. Per **D-022**, governs.
 
 ## v0.3.5 — the agent-default audit decisions (2026-07-03)
 

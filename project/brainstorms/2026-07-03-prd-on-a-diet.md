@@ -272,17 +272,19 @@ earlier solo compression).
   `--check`) is shared infrastructure for D-117's generated-facts half —
   build it first.
 
-## Open flags (pending input)
+## Open flags — CLOSED (human confirmed both defaults, 2026-07-05)
 
 _Claude-picked defaults (R4: acted on, surfaced for async override — the
-human went to bed before these two were asked):_
+human went to bed before these two were asked). **Both confirmed by the
+human 2026-07-05 (AskUserQuestion, session 82) — no override; recorded in
+D-117's Consequences.**_
 
 - **Audit/battery baseline for COMPRESSED territory** — default adopted
   (Flow 4): acceptance criteria + ADRs + generated docs; batteries stop
   flagging missing detail-prose for compressed slices (that's the design,
-  not drift). → human may override.
+  not drift). ✅ confirmed.
 - **§6 tech-architecture** — default adopted: fold into the T0 compression
-  sweep; no early solo compression. → human may override.
+  sweep; no early solo compression. ✅ confirmed.
 
 ## Wrap-up (2026-07-03, autonomous)
 
@@ -290,3 +292,13 @@ Promoted: **ADR D-117** in `docs/living/decisions.md`; the §4 ripple-frozen
 banner + the `prd.md` FRAMING-2 frontier note applied in the same commit.
 This file + the three process plans queued in `project/todo-human.md`.
 Pending: the 2 defaults above; the first compression sweep waits on R1.
+
+**Closed 2026-07-05 (session 82):** everything buildable here was built by
+the F1a/F1b process wave — Flow 1 is the `/prd-ripple` skill, the drift
+detector is `npm run prd:drift`, the gen-regions half is the
+`gen-prd-regions` gate, Flow 2 is the (dormant) `/prd-compress` skill, Flow
+3 is the FRAMING-2 note. The 2 defaults are human-confirmed (above). The
+only remaining execution is the **T0 compression sweep itself**, correctly
+dormant: its trigger (R1) is open AND the backlogged Phase-2 economy
+redesign will re-core T0's economy first — compressing before that would
+archive canon about to change. Nothing plan-shaped remains in this file.

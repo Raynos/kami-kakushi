@@ -59,7 +59,3 @@
   (R0 = rake 100/200/300/400/500 rice → 20/40/60/80/100%). A progression-model
   redesign — needs your scope call (replace vs wrap the points model?) before a
   design pass / plan.
-- [ ] `project/brainstorms/2026-07-03-prd-on-a-diet.md` — **the PRD-diet
-  session record** (→ ADR D-117): your 6 locked answers + the derived flows +
-  **2 Claude-picked defaults awaiting your override** (audit baseline for
-  compressed territory; §6 folded into the T0 sweep).
