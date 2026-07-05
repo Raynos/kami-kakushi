@@ -11,8 +11,6 @@ import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from '.
 import { hpMax } from './selectors';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
-import { formatCoin } from './format';
-import { NAMES } from './content/names';
 import { rollMaterialDrop, getMaterial, MATERIALS } from './content/crafting';
 import { applyQuestEvent } from './quest-engine';
 import {
@@ -62,12 +60,7 @@ function gainCombatXp(state: GameState, amount: number): GameState {
     };
     // D-050: a level-up no longer free-heals — HP carries, and eating is the only mend.
     next = applyRewards(next, {
-      log: [
-        {
-          channel: 'milestone',
-          text: `Your body has hardened with the fighting. Combat level ${newLevel}.`,
-        },
-      ],
+      log: [{ channel: 'milestone', contentKey: 'combat.levelUp', params: { level: newLevel } }],
     });
   }
   return next;
@@ -86,12 +79,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     return applyRewards(
       { ...state, autoCombat: null },
       {
-        log: [
-          {
-            channel: 'combat',
-            text: 'You are too hurt to hold the line — eat and mend before you take the field.',
-          },
-        ],
+        log: [{ channel: 'combat', contentKey: 'combat.tooHurt' }],
       },
     );
   }
@@ -119,15 +107,23 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     next = { ...next, rng: lootRng };
     const gained: Record<string, number> = { coin: mob.coinReward };
     if (drop) gained[drop.material] = drop.qty;
-    const lootStr = drop ? `, +${drop.qty} ${getMaterial(drop.material).label.toLowerCase()}` : '';
     // SUMMARISED log (D-076 / batch-1 call 2): ONE outcome line per fight, carrying the HP swing
-    // + loot. The blow-by-blow is suppressed — the auto-grind fires this hundreds of times.
+    // + loot. The blow-by-blow is suppressed — the auto-grind fires this hundreds of times. The
+    // loot-tally + coin wording live in the log-content registry (Stage C); pass raw pieces.
     next = applyRewards(next, {
       resources: gained,
       log: [
         {
           channel: 'combat',
-          text: `You bring down the ${mob.label.toLowerCase()}. ✓ (HP ${hpBefore}→${result.mcHpLeft} · +${formatCoin(mob.coinReward)}${lootStr})`,
+          contentKey: 'combat.win',
+          params: {
+            mob: mob.label.toLowerCase(),
+            hpBefore,
+            hpAfter: result.mcHpLeft,
+            coin: mob.coinReward,
+            lootQty: drop ? drop.qty : 0,
+            lootLabel: drop ? getMaterial(drop.material).label.toLowerCase() : '',
+          },
         },
       ],
     });
@@ -147,7 +143,8 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       log: [
         {
           channel: 'combat',
-          text: `You break off the fight with the ${mob.label.toLowerCase()} and fall back — winded, blade up, but whole. (HP ${hpBefore}→${result.mcHpLeft})`,
+          contentKey: 'combat.flee',
+          params: { mob: mob.label.toLowerCase(), hpBefore, hpAfter: result.mcHpLeft },
         },
       ],
     });
@@ -173,22 +170,21 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
         lostMats += lose;
       }
     }
-    // Name the rout loss across all three carried resources ("N coin, M rice, and K of your spoils").
-    const lostParts = [
-      lostCoin > 0 ? formatCoin(lostCoin) : '',
-      lostRice > 0 ? `${lostRice} rice` : '',
-      lostMats > 0 ? `${lostMats} of your spoils` : '',
-    ].filter(Boolean);
-    const lostPhrase =
-      lostParts.length <= 1
-        ? lostParts.join('')
-        : `${lostParts.slice(0, -1).join(', ')} and ${lostParts[lostParts.length - 1]}`;
-    const drop = lostPhrase ? ` You drop ${lostPhrase} in the rout.` : '';
+    // The rout-loss wording (which of the three carried resources you drop, and the grammar
+    // that joins them) lives in the log-content registry (Stage C); pass the raw amounts.
     next = applyRewards(next, {
       log: [
         {
           channel: 'combat',
-          text: `The ${mob.label.toLowerCase()} overcomes you; you limp home badly used. (HP ${hpBefore}→${SETBACK_HP})${drop} Eat and mend before you take the field again.`,
+          contentKey: 'combat.loss',
+          params: {
+            mob: mob.label.toLowerCase(),
+            hpBefore,
+            hpAfter: SETBACK_HP,
+            lostCoin,
+            lostRice,
+            lostMats,
+          },
         },
       ],
     });
@@ -218,12 +214,12 @@ export function applyScriptedWolf(state: GameState): GameState {
         // qualifiesForTypewriter) on lines the auto-loop fires one-per-tick. This one-time beat has
         // no such cost.
         voice: 'narrator',
-        text: `The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.`,
+        contentKey: 'combat.wolfScripted',
       },
       {
         channel: 'narration',
         voice: 'narrator', // F91/F93 — third-person scene narration → consistent narrator voice
-        text: `${NAMES.drillmaster} the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: "You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest."`,
+        contentKey: 'combat.drillmaster',
       },
     ],
   });

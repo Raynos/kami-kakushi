@@ -2593,7 +2593,8 @@
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "combat.wolfScripted"
         },
         {
           "key": 1290,
@@ -2601,7 +2602,8 @@
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "combat.drillmaster"
         },
         {
           "key": 1291,
@@ -2714,70 +2716,160 @@
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1739 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 1739,
+            "lostMats": 0
+          }
         },
         {
           "key": 1304,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1391 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 1391,
+            "lostMats": 0
+          }
         },
         {
           "key": 1305,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1113 rice in the rout. Eat and mend before you take the field again.",
           "tick": 6,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 1113,
+            "lostMats": 0
+          }
         },
         {
           "key": 1306,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 890 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 890,
+            "lostMats": 0
+          }
         },
         {
           "key": 1307,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 712 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 712,
+            "lostMats": 0
+          }
         },
         {
           "key": 1308,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 570 rice in the rout. Eat and mend before you take the field again.",
           "tick": 6,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 570,
+            "lostMats": 0
+          }
         },
         {
           "key": 1309,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 456 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 456,
+            "lostMats": 0
+          }
         },
         {
           "key": 1310,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 364 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 364,
+            "lostMats": 0
+          }
         },
         {
           "key": 1311,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 292 rice in the rout. Eat and mend before you take the field again.",
           "tick": 6,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 292,
+            "lostMats": 0
+          }
         },
         {
           "key": 1312,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 233 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 233,
+            "lostMats": 0
+          }
         }
       ],
       "seq": 1313

@@ -9,6 +9,7 @@
 // Populated incrementally as emit sites migrate (Stage C2…C8), grouped by source file.
 
 import { NAMES } from './names';
+import { formatCoin } from '../format';
 
 export type LogParamValue = string | number | boolean;
 export type LogParams = Readonly<Record<string, LogParamValue>>;
@@ -37,6 +38,37 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     p.knot
       ? `That night the dream comes clearer than it ever has: hands that are yours and not yours, tying a porter's knot you never learned; a road in the dark; a name on the tip of your tongue. You wake reaching for it, and it is already gone.`
       : `That night a dream comes — a road in the dark, a name almost remembered — and is gone by the time you wake.`,
+
+  // ── fight.ts — combat ────────────────────────────────────────────────────────
+  // The win/loss/flee lines are the auto-grind's highest-frequency output. Their
+  // composed sub-phrases (loot tally, rout-loss grammar) live HERE, not at the emit
+  // site — the registry owns every word; the emit site passes only raw numbers/labels.
+  'combat.levelUp': (p) => `Your body has hardened with the fighting. Combat level ${p.level}.`,
+  'combat.tooHurt': () =>
+    'You are too hurt to hold the line — eat and mend before you take the field.',
+  'combat.win': (p) => {
+    const loot = Number(p.lootQty) > 0 ? `, +${p.lootQty} ${p.lootLabel}` : '';
+    return `You bring down the ${p.mob}. ✓ (HP ${p.hpBefore}→${p.hpAfter} · +${formatCoin(Number(p.coin))}${loot})`;
+  },
+  'combat.flee': (p) =>
+    `You break off the fight with the ${p.mob} and fall back — winded, blade up, but whole. (HP ${p.hpBefore}→${p.hpAfter})`,
+  'combat.loss': (p) => {
+    const parts = [
+      Number(p.lostCoin) > 0 ? formatCoin(Number(p.lostCoin)) : '',
+      Number(p.lostRice) > 0 ? `${p.lostRice} rice` : '',
+      Number(p.lostMats) > 0 ? `${p.lostMats} of your spoils` : '',
+    ].filter(Boolean);
+    const phrase =
+      parts.length <= 1
+        ? parts.join('')
+        : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+    const drop = phrase ? ` You drop ${phrase} in the rout.` : '';
+    return `The ${p.mob} overcomes you; you limp home badly used. (HP ${p.hpBefore}→${p.hpAfter})${drop} Eat and mend before you take the field again.`;
+  },
+  'combat.wolfScripted': () =>
+    `The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.`,
+  'combat.drillmaster': () =>
+    `${NAMES.drillmaster} the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: "You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest."`,
 };
 
 /** Render a line's text from its content-key + params. Throws on an unknown key —

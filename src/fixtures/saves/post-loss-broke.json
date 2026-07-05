@@ -2665,7 +2665,8 @@
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "combat.wolfScripted"
         },
         {
           "key": 1290,
@@ -2673,7 +2674,8 @@
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "combat.drillmaster"
         },
         {
           "key": 1291,
@@ -2794,7 +2796,16 @@
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1715 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostRice": 1715,
+            "lostMats": 0
+          }
         }
       ],
       "seq": 1305

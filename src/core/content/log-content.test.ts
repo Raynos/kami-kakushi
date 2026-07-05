@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { renderLogLine } from './log-content';
+import { formatCoin } from '../format';
 import { createInitialState } from '..';
 import { applyRewards } from '../rewards';
 
@@ -32,6 +33,45 @@ describe('log-content registry — golden line equality', () => {
     );
     expect(renderLogLine('ascension.dream', { knot: false })).toBe(
       'That night a dream comes — a road in the dark, a name almost remembered — and is gone by the time you wake.',
+    );
+  });
+
+  it('combat.win assembles the outcome line with and without loot (✓ · → glyphs)', () => {
+    expect(
+      renderLogLine('combat.win', {
+        mob: 'boar',
+        hpBefore: 50,
+        hpAfter: 42,
+        coin: 8,
+        lootQty: 2,
+        lootLabel: 'boar hide',
+      }),
+    ).toBe(`You bring down the boar. ✓ (HP 50→42 · +${formatCoin(8)}, +2 boar hide)`);
+    expect(
+      renderLogLine('combat.win', {
+        mob: 'boar',
+        hpBefore: 50,
+        hpAfter: 42,
+        coin: 8,
+        lootQty: 0,
+        lootLabel: '',
+      }),
+    ).toBe(`You bring down the boar. ✓ (HP 50→42 · +${formatCoin(8)})`);
+  });
+
+  it('combat.loss joins the rout-loss phrase at 3 / 1 / 0 dropped resources', () => {
+    const base = { mob: 'boar', hpBefore: 40, hpAfter: 5 };
+    // 3 parts → "A, B and C"
+    expect(renderLogLine('combat.loss', { ...base, lostCoin: 10, lostRice: 3, lostMats: 2 })).toBe(
+      `The boar overcomes you; you limp home badly used. (HP 40→5) You drop ${formatCoin(10)}, 3 rice and 2 of your spoils in the rout. Eat and mend before you take the field again.`,
+    );
+    // 1 part → no "and"
+    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostRice: 3, lostMats: 0 })).toBe(
+      'The boar overcomes you; you limp home badly used. (HP 40→5) You drop 3 rice in the rout. Eat and mend before you take the field again.',
+    );
+    // 0 parts → no drop clause at all
+    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostRice: 0, lostMats: 0 })).toBe(
+      'The boar overcomes you; you limp home badly used. (HP 40→5) Eat and mend before you take the field again.',
     );
   });
 
