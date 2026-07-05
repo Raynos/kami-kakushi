@@ -78,6 +78,18 @@ Each card: **Goal · Files · Steps (anchored) · Keep intact · Accept (incl. a
 tests) · Mobile.** Reference tables (token map, material recipes, fonts, variant
 recipe) are the appendices; cards point to them.
 
+**Every card's "Mobile" accept is now MACHINE-CHECKED (added 2026-07-05):** the
+mobile e2e lane (`npm run test:e2e` — `e2e/mobile-layout.spec.ts` +
+`e2e/mobile-journey.spec.ts`, real Android-Chrome + iOS-WebKit profiles; CI
+workflow `e2e.yml` on every push) asserts no-horizontal-scroll, single-column
+stacking, tap-target reach/coverage, and the tap journeys, per fixture. A
+milestone's "verify at 375px" line means: the lane is GREEN on the milestone's
+result (plus the card's own eyes-on spot-check). M3's phone recomposition must
+UPDATE the lane's stacking assertions in the same commit that moves the layout
+(byōbu single-column → bottom-tab-bar composition), and the 44px tap floor the
+Andon language targets should then replace the lane's interim 24px WCAG floor
+(`e2e/helpers.ts` — one constant).
+
 ## M1 · Steel palette + Western fonts  ① THEME · LOW
 
 **Goal:** recolour the entire game to the steel bimetal and swap to Western type —
@@ -482,7 +494,9 @@ Per surface X (model on `renderHomeVariant` `dev.ts:486`):
 
 ## Definition of done (whole migration)
 
-- M1–M7 each: `verify` green · headless R0/R1 (+ the milestone's surface) capture ·
+- M1–M7 each: `verify` green · **the mobile e2e lane green** (`npm run test:e2e`;
+  M3 updates its stacking assertions + raises the tap floor to 44px in-commit) ·
+  headless R0/R1 (+ the milestone's surface) capture ·
   **human playtests R0/R1 and signs off** before the next · engine contract intact ·
   zero copied demo bugs · RM + touch verified for M3/M4.
 - M6 closes R2/R5/R6/R7 (picks made, unpicked variants stripped — zero flag-debt).

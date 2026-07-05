@@ -1,0 +1,45 @@
+# Atomic check — the MOBILE e2e lane (playwright.config.ts → e2e/*.spec.ts).
+# Real mobile browser profiles (Android Chrome + iOS-floor WebKit) drive the DEV
+# server through real taps and layout probes: no horizontal scroll, single-column
+# stacking, tap-target reach, the core play journeys. Its own workflow — NOT a
+# verify gate — because verify's roster lives under the 5s budget (D-072) and a
+# browser suite is far past it; this is the same RED-able backstop at the right
+# rung for its cost. Locally: `npm run test:e2e`.
+name: e2e
+
+on:
+  push:
+    branches-ignore: [gh-pages]
+  workflow_dispatch: {}
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      # cache the browser binaries — keyed on the playwright version so a bump
+      # re-downloads; ~400MB saved per run otherwise
+      - id: pw-version
+        run: echo "v=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw-version.outputs.v }}
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run test:e2e
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7

@@ -380,39 +380,9 @@ h3 {
     grid-template-rows: auto;
     overflow: visible;
   }
-  /* Byōbu collapses to a single stacked column on narrow screens (natural page flow): the work
-     column and the log stack; the ⅓-viewport log floor lifts and the card framing drops — a single
-     column has no inter-slice framing to carry. */
-  .workspace[data-layout='layout-byobu'] {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-  .workspace[data-layout='layout-byobu'] > .work {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-    min-width: 0;
-    overflow: visible;
-  }
-  .workspace[data-layout='layout-byobu'] .slice-log {
-    flex: 0 0 auto;
-    min-width: 0;
-    min-height: 0;
-    max-height: none;
-  }
-  .workspace[data-layout='layout-byobu'] .slice {
-    flex: 0 0 auto;
-    min-height: 0;
-  }
-  /* drop the card framing on mobile (single column) — no borders, boxes, or forced padding */
-  .workspace[data-layout='layout-byobu'] .slice:not(.slice-log) {
-    border: none;
-    box-shadow: none;
-    background: none;
-    padding: 0;
-  }
+  /* (The byōbu single-column collapse lives in its own media block AFTER the byōbu
+     base rules below — equal-specificity overrides must follow what they override;
+     this block once held them and they were silently dead. See "byōbu on narrow". */
   .log,
   .work,
   .slice {
@@ -507,6 +477,43 @@ h3 {
    at ALL viewport widths. (Wider than classic's 1200 so the 2-fold spread has room to breathe.) */
 .shell[data-layout='layout-byobu'] {
   max-width: 1440px;
+}
+
+/* ── byōbu on NARROW (≤720px): collapse to a single stacked column (natural page flow) —
+   work fold first, log below it, full width; the ⅓-viewport log floor lifts and the card
+   framing drops. This block MUST sit AFTER the byōbu base rules above: the overrides are
+   equal-specificity, so source order is what makes them win. (It originally sat before
+   them — every rule here was silently dead, `.work` computed `flex:1 1 0`→height 0 on
+   phones and the log painted OVER the work column: work-tab taps hit the log. Caught by
+   the mobile e2e lane — e2e/mobile-layout.spec.ts asserts the stacking.) ─────────────── */
+@media (max-width: 720px) {
+  .workspace[data-layout='layout-byobu'] {
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .workspace[data-layout='layout-byobu'] > .work {
+    flex: 0 0 auto;
+    gap: var(--space-6);
+    overflow: visible;
+  }
+  .workspace[data-layout='layout-byobu'] .slice-log {
+    flex: 0 0 auto;
+    min-width: 0;
+    max-width: none; /* the desktop 46% log cap has no place in a single column */
+    max-height: none;
+  }
+  .workspace[data-layout='layout-byobu'] .slice {
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+  /* drop the card framing on mobile (single column) — no borders, boxes, or forced
+     padding. Matches the framing-cards selector exactly so it out-orders it. */
+  .workspace[data-layout='layout-byobu'][data-framing='framing-cards'] .slice:not(.slice-log) {
+    border: none;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+  }
 }
 
 .log {
@@ -1512,6 +1519,14 @@ h3 {
   border-bottom: 1px solid var(--ink-faint);
   background: var(--surface-deep);
   animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+@media (max-width: 720px) {
+  /* narrow: the strip WRAPS — 6-7 unlocked tabs must never push the row past the
+     viewport (an offscreen tab is a hidden capability, T4 — and it dragged the
+     whole page into horizontal scroll; the mobile e2e lane guards this). */
+  .nav {
+    flex-wrap: wrap;
+  }
 }
 .nav-tab {
   font-family: var(--font-head);

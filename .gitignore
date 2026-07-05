@@ -14,6 +14,10 @@ project/brainstorms/raw/*.json
 # Playwright MCP scratch (screenshots/snapshots from live verification runs)
 .playwright-mcp/
 
+# Mobile e2e lane artifacts (traces/reports on failure — local + CI only)
+test-results/
+playwright-report/
+
 # QA screenshots: only the live gallery (screens/latest/) is tracked. All other
 # sweep/gallery folders stay local-only — full-res PNGs bloated git to 150MB+.
 # Capture into latest/; graduate a curated few elsewhere by force-add if needed.

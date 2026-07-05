@@ -13,6 +13,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed --project=mobile-chromium",
     "typecheck": "tsgo --noEmit",
     "cloc": "cloc --exclude-ext=json --vcs=git .",
     "lint": "oxlint",

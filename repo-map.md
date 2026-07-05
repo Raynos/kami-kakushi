@@ -83,6 +83,12 @@ always-loaded context while being editable on its own.
   registries the hand-written modules re-export, plus the one-page reading
   script [`docs/content/t0-story.md`](docs/content/t0-story.md). Story edits
   land HERE, never in the `.gen.ts`.
+- [`e2e/`](e2e) — the **mobile e2e lane**: Playwright specs (`mobile-layout` /
+  `mobile-journey` + `helpers`) driven by root `playwright.config.ts` on two real
+  mobile profiles (Android Chrome + iOS-floor WebKit) against the DEV server.
+  `npm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a
+  `verify` gate — the 5s budget, D-072). Spec + rationale:
+  [qa-playtesting.md §1 "Mobile e2e lane"](docs/living/qa-playtesting.md).
 - [`src/fixtures/`](src/fixtures) — **F6 scenario-save library**: named,
   GENERATED start-states so "reproduce X" is "load X, look". `specs.ts` drives the
   REAL engine to each waypoint (nothing hand-authored); `gen-fixtures.ts`

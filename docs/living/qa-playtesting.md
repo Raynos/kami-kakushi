@@ -144,7 +144,31 @@ the DEV panel's **Scenarios** tab, or `?fixture=<name>`:
 Fixtures are DEV-only (stripped from prod; the `verify-dev-strip` deploy gate greps the bundle to
 prove it). Home + spec model: `src/fixtures/` (specs drive the engine; nothing hand-authored).
 
-### Balance-tuning cockpit (F7 — DEV panel **Balance** tab)
+### Mobile e2e lane (`e2e/` — real-browser taps, CI-gated, 2026-07-05)
+
+The automated mobile regression net: `npm run test:e2e` runs Playwright
+(`playwright.config.ts`) on two REAL mobile profiles — Android Chrome (Pixel 7,
+chromium) and the iOS floor (iPhone SE 3rd gen, webkit, 375px) — against the DEV
+server at `?dev=no` (true player layout; `__qa` observes, never acts in journeys).
+Two suites:
+
+- **`e2e/mobile-layout.spec.ts`** — the invariants, per fixture + cold open +
+  landscape + a desktop→mobile mid-run resize (T2): **no horizontal scroll**,
+  byōbu stacks to ONE column (work above log, work never height-0), every control
+  in reach / ≥24px (WCAG 2.2, the `--tap-min` floor) / actually RECEIVES its tap
+  (`elementFromPoint`, re-probed at scroll-centre so fixed bars don't false-flag).
+  A registry-drift test forces every new F6 fixture into mobile coverage.
+- **`e2e/mobile-journey.spec.ts`** — real TAPS (touch, not synthetic dispatch)
+  through the play paths: cold-open wake, tab switching, a work action landing as
+  a player intent, the scripted wolf fight, the rung-beat summons, settings
+  open/close. Every test also fails on any `pageerror`/`console.error`.
+
+**Where it gates:** its own CI workflow (`.github/workflows/e2e.yml`, every push)
+— deliberately NOT a `verify` gate: the roster lives under the 5s budget (D-072)
+and a browser suite (~12s local, minutes in CI) is the same RED-able backstop at
+the rung its cost affords. Born proving its worth: its first run caught the nav
+tab-strip overflowing at 375px AND the dead ≤720px byōbu block (`.work` at
+height 0, the log painted over the verbs — work-tab taps hit the log on phones).
 
 A live slider panel over a curated set of `balance.ts` feel levers (the W1–W4 balance-watch
 targets first, then stamina / rung / sink / combat feel). **The division is D-059: the HUMAN
