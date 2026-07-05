@@ -20,11 +20,6 @@
 - [ ] **Ask Fable 5 to review the context** — AGENTS.md, the pre-commit hook, the
   git hooks (`.githooks/`), the skills (`.claude/skills/`), hookify, etc. A
   fresh-eyes pass over the agentic scaffolding for drift / bloat / gaps.
-- [ ] **Ask Fable 5 to review the current integration / e2e tests** — worry: the
-  tests may be written as unit tests and not actually exercise the whole UI
-  end-to-end. Want a real integration test that drives the UI + game as a player
-  experiences it in Chrome (Playwright or similar), not just pure-core assertions.
-
 ## Reading queue
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
@@ -39,6 +34,18 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an R-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `project/audit/reports/2026-07-05-test-suite-audit.md` — **test-suite
+  audit** (your "are the tests basically unit tests?" worry, answered): test
+  *quality* is high (797 vitest tests, near-zero false greens, real-reducer
+  full-arc tests, real-tap mobile e2e) — the gap is *geometry*: desktop has
+  zero real-browser coverage, no browser test drives the story journeys
+  (intro VN, market, quests, ascension, save/reload). Read for the ranked
+  gaps + the "does anything go red?" table.
+- [ ] `docs/plans/fable-2026-07-05-desktop-journey-e2e.md` — **the fix plan**
+  for the audit: desktop e2e lane → 8 story-beat browser journeys →
+  persistence journeys → an Intent→affordance coverage ratchet → hygiene.
+  Sequenced to land the desktop lane BEFORE the Andon UI migration restyles
+  the uncovered surfaces. Read to lock the phases.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
