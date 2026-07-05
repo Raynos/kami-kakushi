@@ -1877,6 +1877,8 @@ function renderMapGraph(container: HTMLElement, ctx: MapNavCtx): void {
 /** The subset of `window.__qa` the panel drives. main.ts's qa object satisfies this
  *  structurally; the panel never sees the rest of __qa. */
 export interface DevQa {
+  /** Live state, for the F7 balance cockpit's §5 live-feedback readouts (rung/capstone ETA, etc.). */
+  state(): GameState;
   speed(mult: number): number;
   jumpToPhase2(): unknown;
   jumpToAscension(): void;
@@ -2006,6 +2008,7 @@ export function mountDevPanel(
   // F7 — mount the balance cockpit into its pane; the touched count badges the tab label
   // (`Balance (3)`) so a dirty tuning session is obvious no matter which sub-tab is showing.
   mountBalanceCockpit(balancePane, cockpit, {
+    getState: qa.state,
     onDirty: (count) => {
       balanceTab.textContent = count > 0 ? `Balance (${count})` : 'Balance';
     },

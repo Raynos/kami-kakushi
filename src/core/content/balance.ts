@@ -19,8 +19,8 @@ export const SATIETY_PER_LEVEL = 4;
 export const COLD_OPEN_SATIETY = 64;
 
 /** Soft-stamina throttle (FU16/FU21): the rate ramps down to the floor, never to 0. */
-export const STAMINA_RATE_FLOOR = 0.5;
-export const STAMINA_FLAT_ABOVE = 0.7;
+export let STAMINA_RATE_FLOOR = 0.5;
+export let STAMINA_FLAT_ABOVE = 0.7;
 
 // ── Cold-open economy (PRD §3.1, §5 T0.2 beat 1) ────────────────────────────────
 /** Rice raked back from the spilled grain-store floor per rake act (D-107: this is genuinely
@@ -30,7 +30,7 @@ export const STAMINA_FLAT_ABOVE = 0.7;
 // setter is DEV-folded dead code in prod, so canon semantics are untouched and `prefer-const` stays
 // green (the binding IS reassigned in-module). Every call site reads the live binding unchanged.
 export let RICE_PER_RAKE = 3;
-export const SATIETY_PER_ACT = 2;
+export let SATIETY_PER_ACT = 2;
 export let SATIETY_PER_REST = 18;
 export const TICKS_PER_ACT = 2;
 
@@ -49,7 +49,7 @@ export const HARVEST_AUTUMN_MULT_DEN = 10;
 
 // ── Rung meter (PRD §4.1.1 / FU6) — per-rung-reset; DEMO thresholds in ranks.ts ──
 /** Points a curated eligible activity adds to the current rung's meter. */
-export const RUNG_POINTS_PER_ACT = 2;
+export let RUNG_POINTS_PER_ACT = 2;
 
 // ── Rung-meter thresholds (audit G-PACING) — D-056: the DEMO/REAL profile fork is RETIRED
 // here at M2·8. ONE shipped profile, re-derived to the LOCKED T0 targets: R0 ≈ 5-min cold-open
@@ -105,7 +105,7 @@ export const PHASE2_PHASE1_RATIO_MAX = 1.2;
 // → ascension) and the season judge is a visible beat. ──
 export const ESTATE_BANDS = { good: 240, great: 360, excellent: 480 } as const;
 /** Per-deed cap = this/100 · GOOD (anti-spike: one deed can't jump the grade). 0.04·240 ≈ 10. */
-export const PER_DEED_CAP_NUM = 4;
+export let PER_DEED_CAP_NUM = 4;
 /** Estate standing a single Phase-2 labour act banks (a "deed") — a SUB-koku fraction, accumulated
  *  (`PillarState.frac`) and banked as whole koku when it crosses 1. Fractional so Phase 2 grinds at
  *  ~1:1 with Phase 1's wall-time (D-133 · the `PHASE2_PHASE1_RATIO_BAND` gate) WITHOUT inflating the
@@ -114,7 +114,7 @@ export const PER_DEED_CAP_NUM = 4;
  *  STOPGAP: it buys the duration honestly (one day's labour barely moves a household's standing) but
  *  NOT the texture — the real Phase-2 economy redesign (long AND fun) supersedes it. Liquid (D-059);
  *  tuned against the sim to land greedy's Phase 2 inside the ratio band. */
-export const ESTATE_DEED_PER_ACT = 0.04;
+export let ESTATE_DEED_PER_ACT = 0.04;
 /** The season judge contributes this fraction of the season's deed-growth — seasonal:deeds =
  *  3:7 = the 70/30 share (D-049). */
 export const SEASONAL_OVER_DEEDS_NUM = 3;
@@ -265,14 +265,14 @@ export const FORCED_REST_TICKS = 18;
  *  COIN + RICE (the two wealth resources); what's BANKED in the kura storehouse is SAFE. The "real
  *  bite" magnitude (batch-1 call 3) — liquid (D-059), tuned by playtest. koku (House standing) is
  *  never carried, so a loss never touches it (D-107). */
-export const LOSS_COIN_FRAC = 0.2;
-export const LOSS_MATERIAL_FRAC = 0.34;
+export let LOSS_COIN_FRAC = 0.2;
+export let LOSS_MATERIAL_FRAC = 0.34;
 
 /** Auto-retreat threshold (batch-2 call 6): the "auto-fight, retreat @20%" mode breaks off on a
  *  turn where HP drops below this fraction of MAX HP — a PER-TURN check, so a burst foe that kills
  *  outright still wins (a killing blow is a loss, not a flee). The safer auto-mode: no death, no
  *  loss-penalty, but it STOPS the autopilot (you mend + re-engage). Liquid (D-059). */
-export const AUTO_RETREAT_FRAC = 0.2;
+export let AUTO_RETREAT_FRAC = 0.2;
 
 // ── Durability bands (D-034/FU17): attackPower multiplier; never auto-unequipped ──
 export const DURABILITY_BANDS: readonly { min: number; mult: number; name: string }[] = [
@@ -283,11 +283,11 @@ export const DURABILITY_BANDS: readonly { min: number; mult: number; name: strin
 ];
 export const DURABILITY_WEAR_PER_FIGHT = 2;
 /** Wood to repair the equipped weapon to full (a coin/material sink, D-Q-craft+coin). */
-export const REPAIR_WOOD_COST = 5;
+export let REPAIR_WOOD_COST = 5;
 /** Coin to repair (v0.3.1 Step 4 — a recurring combat-UPKEEP coin sink; D-086 scarcity / batch-1
  *  call 4 / D-107). Closes the fight→coin→repair→fight loop (A4), so a grind pays its own upkeep.
  *  Liquid (D-059, tune by playtest). */
-export const REPAIR_COIN_COST = 6;
+export let REPAIR_COIN_COST = 6;
 /** Ticks the fight itself costs. */
 export const FIGHT_TICKS = 2;
 
@@ -345,19 +345,19 @@ export const CURVE_MASTERY_MIN_KILLS = 8; // provisional (v0.2) — tune by play
 // currency WITHOUT trivialising rung promotion. skillYieldNum(1) === DEN → L1 yields
 // are byte-identical to v0.1. ──
 export const SKILL_YIELD_DEN = 100; // fixed-point denominator for the skill yield multiplier
-export const SKILL_YIELD_PER_LEVEL_NUM = 4; // +4% labour yield per skill level above 1 — provisional (v0.2) — tune by playtest
-export const SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), reached at skill L51 — provisional (v0.2) — tune by playtest
+export let SKILL_YIELD_PER_LEVEL_NUM = 4; // +4% labour yield per skill level above 1 — provisional (v0.2) — tune by playtest
+export let SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), reached at skill L51 — provisional (v0.2) — tune by playtest
 
 // ── Economy: sinks (audit #5) — the first-ever consumers of the surfaced labour
 // values. Cook turns sansai → satiety; the estate (estate.ts) turns coin → a soft
 // satietyMax buffer; spent attribute points feed combat (the 5 attrs, §4.6.1). ──
-export const COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
+export let COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
 /** HP a hot meal mends (D-050: eating is the ONLY HP heal — couples combat ↔ cook sink).
  *  F22: cook recovers HEALTH *only* now — the belly/work-stamina (satiety) refill is the
  *  separate `rest` action (SATIETY_PER_REST); a meal no longer doubles as a work-rest, so the
  *  old COOK_SATIETY_RESTORE was retired. Sized so a couple of meals returns a hurt fighter to
  *  fighting shape. provisional (v0.2). */
-export const COOK_HP_RESTORE = 14;
+export let COOK_HP_RESTORE = 14;
 
 // ── Rice sinks (D-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
 // STORE it in the kura (deposit/withdraw), or SELL it for coin at a SEASON-swinging price. This is
@@ -365,7 +365,7 @@ export const COOK_HP_RESTORE = 14;
 // numbers provisional (v0.2, liquid D-059) — tune by playtest / `npm run pacing`. ──
 
 /** Rice one plain-rice meal consumes (the `eat_rice` satiety path, beside `rest`/`cook_meal`). */
-export const EAT_RICE_COST = 3;
+export let EAT_RICE_COST = 3;
 /** Work-stamina (satiety) a plain-rice meal restores. Sized ABOVE a free `rest` (SATIETY_PER_REST,
  *  18) on purpose — the DESIGN LEVER that keeps eat_rice from being dominated by rest: a proper
  *  meal refuels FASTER than merely resting, trading your own rice for readiness (never strictly
@@ -427,48 +427,278 @@ export function kuraRiceCap(estateStage: number): number {
 // number into canon on an agent's behalf (D-059). Purity: no DOM / no `import.meta` — core stays
 // env-free so the tsx scripts (pacing-report, balance-sim) keep importing it cleanly.
 //
-// An explicit `switch` (not a dynamic table) keeps `tsc` owning the path list. Ph1 curates three
-// scalar levers; Ph2 grows the set (structured map paths mutate their runtime object in place).
+// An explicit `switch` (not a dynamic table) keeps `tsc` owning the path list. The full §2 curated
+// set: scalar levers reassign their own `let` binding; STRUCTURED map paths (ESTATE_BANDS.*,
+// RUNG_METER_THRESHOLDS.*, STANCE_MODS.*, RICE_SELL_PRICE_BY_SEASON.*) mutate the runtime object IN
+// PLACE — `readonly`/`as const` is compile-time only, so a local cast is safe and importers reading
+// the property/helper at call time see the change. `readBalanceLever` + `__setBalanceLever` MUST
+// stay in lockstep; the cockpit's registry round-trip test (set→read→reset every path) is the guard.
 
 /** Read a lever's CURRENT (possibly overridden) value by its cockpit path. */
 export function readBalanceLever(path: string): number {
   switch (path) {
+    // W1 · rice faucet / coin
     case 'RICE_PER_RAKE':
       return RICE_PER_RAKE;
+    case 'SKILL_YIELD_PER_LEVEL_NUM':
+      return SKILL_YIELD_PER_LEVEL_NUM;
+    case 'SKILL_YIELD_CAP_NUM':
+      return SKILL_YIELD_CAP_NUM;
+    // W2 · store-vs-sell (season price table)
+    case 'RICE_SELL_PRICE_BY_SEASON.spring':
+      return RICE_SELL_PRICE_BY_SEASON.spring;
+    case 'RICE_SELL_PRICE_BY_SEASON.summer':
+      return RICE_SELL_PRICE_BY_SEASON.summer;
+    case 'RICE_SELL_PRICE_BY_SEASON.autumn':
+      return RICE_SELL_PRICE_BY_SEASON.autumn;
+    case 'RICE_SELL_PRICE_BY_SEASON.winter':
+      return RICE_SELL_PRICE_BY_SEASON.winter;
+    // W3 · eat-rice vs rest
     case 'EAT_RICE_SATIETY':
       return EAT_RICE_SATIETY;
+    case 'EAT_RICE_COST':
+      return EAT_RICE_COST;
     case 'SATIETY_PER_REST':
       return SATIETY_PER_REST;
+    // W4 · capstone pacing
+    case 'ESTATE_BANDS.good':
+      return ESTATE_BANDS.good;
+    case 'ESTATE_BANDS.great':
+      return ESTATE_BANDS.great;
+    case 'ESTATE_BANDS.excellent':
+      return ESTATE_BANDS.excellent;
+    case 'ESTATE_DEED_PER_ACT':
+      return ESTATE_DEED_PER_ACT;
+    case 'PER_DEED_CAP_NUM':
+      return PER_DEED_CAP_NUM;
+    // Stamina / meals
+    case 'SATIETY_PER_ACT':
+      return SATIETY_PER_ACT;
+    case 'STAMINA_RATE_FLOOR':
+      return STAMINA_RATE_FLOOR;
+    case 'STAMINA_FLAT_ABOVE':
+      return STAMINA_FLAT_ABOVE;
+    case 'COOK_SANSAI_COST':
+      return COOK_SANSAI_COST;
+    case 'COOK_HP_RESTORE':
+      return COOK_HP_RESTORE;
+    // Rung pacing (threshold levers carry the ranks.ts meterThreshold mirror in the export)
+    case 'RUNG_POINTS_PER_ACT':
+      return RUNG_POINTS_PER_ACT;
+    case 'RUNG_METER_THRESHOLDS.R0':
+      return RUNG_METER_THRESHOLDS.R0!;
+    case 'RUNG_METER_THRESHOLDS.R1':
+      return RUNG_METER_THRESHOLDS.R1!;
+    case 'RUNG_METER_THRESHOLDS.R2':
+      return RUNG_METER_THRESHOLDS.R2!;
+    case 'RUNG_METER_THRESHOLDS.R3':
+      return RUNG_METER_THRESHOLDS.R3!;
+    case 'RUNG_METER_THRESHOLDS.R4':
+      return RUNG_METER_THRESHOLDS.R4!;
+    case 'RUNG_METER_THRESHOLDS.R5':
+      return RUNG_METER_THRESHOLDS.R5!;
+    case 'RUNG_METER_THRESHOLDS.R6':
+      return RUNG_METER_THRESHOLDS.R6!;
+    case 'RUNG_METER_THRESHOLDS.R7':
+      return RUNG_METER_THRESHOLDS.R7!;
+    // Sinks / upkeep
+    case 'REPAIR_COIN_COST':
+      return REPAIR_COIN_COST;
+    case 'REPAIR_WOOD_COST':
+      return REPAIR_WOOD_COST;
+    // Combat feel
+    case 'STANCE_MODS.jodan.atkMult':
+      return STANCE_MODS.jodan.atkMult;
+    case 'STANCE_MODS.jodan.takenMult':
+      return STANCE_MODS.jodan.takenMult;
+    case 'STANCE_MODS.gedan.atkMult':
+      return STANCE_MODS.gedan.atkMult;
+    case 'STANCE_MODS.gedan.takenMult':
+      return STANCE_MODS.gedan.takenMult;
+    case 'LOSS_COIN_FRAC':
+      return LOSS_COIN_FRAC;
+    case 'LOSS_MATERIAL_FRAC':
+      return LOSS_MATERIAL_FRAC;
+    case 'AUTO_RETREAT_FRAC':
+      return AUTO_RETREAT_FRAC;
     default:
       throw new Error(`balance-override: unknown lever ${path}`);
   }
 }
 
-/** Override a curated lever live (DEV cockpit only). Reassigns this module's own binding, so every
- *  importer's next read sees the new value (ES named imports are live bindings). */
+/** Override a curated lever live (DEV cockpit only). Scalars reassign this module's own binding;
+ *  structured map paths mutate the object in place. Every importer's next read sees the new value. */
 export function __setBalanceLever(path: string, value: number): void {
   switch (path) {
+    // W1
     case 'RICE_PER_RAKE':
       RICE_PER_RAKE = value;
       return;
+    case 'SKILL_YIELD_PER_LEVEL_NUM':
+      SKILL_YIELD_PER_LEVEL_NUM = value;
+      return;
+    case 'SKILL_YIELD_CAP_NUM':
+      SKILL_YIELD_CAP_NUM = value;
+      return;
+    // W2
+    case 'RICE_SELL_PRICE_BY_SEASON.spring':
+      RICE_SELL_PRICE_BY_SEASON.spring = value;
+      return;
+    case 'RICE_SELL_PRICE_BY_SEASON.summer':
+      RICE_SELL_PRICE_BY_SEASON.summer = value;
+      return;
+    case 'RICE_SELL_PRICE_BY_SEASON.autumn':
+      RICE_SELL_PRICE_BY_SEASON.autumn = value;
+      return;
+    case 'RICE_SELL_PRICE_BY_SEASON.winter':
+      RICE_SELL_PRICE_BY_SEASON.winter = value;
+      return;
+    // W3
     case 'EAT_RICE_SATIETY':
       EAT_RICE_SATIETY = value;
+      return;
+    case 'EAT_RICE_COST':
+      EAT_RICE_COST = value;
       return;
     case 'SATIETY_PER_REST':
       SATIETY_PER_REST = value;
       return;
+    // W4 — ESTATE_BANDS is `as const` (compile-time readonly); cast to mutate the runtime object.
+    case 'ESTATE_BANDS.good':
+      (ESTATE_BANDS as { good: number }).good = value;
+      return;
+    case 'ESTATE_BANDS.great':
+      (ESTATE_BANDS as { great: number }).great = value;
+      return;
+    case 'ESTATE_BANDS.excellent':
+      (ESTATE_BANDS as { excellent: number }).excellent = value;
+      return;
+    case 'ESTATE_DEED_PER_ACT':
+      ESTATE_DEED_PER_ACT = value;
+      return;
+    case 'PER_DEED_CAP_NUM':
+      PER_DEED_CAP_NUM = value;
+      return;
+    // Stamina / meals
+    case 'SATIETY_PER_ACT':
+      SATIETY_PER_ACT = value;
+      return;
+    case 'STAMINA_RATE_FLOOR':
+      STAMINA_RATE_FLOOR = value;
+      return;
+    case 'STAMINA_FLAT_ABOVE':
+      STAMINA_FLAT_ABOVE = value;
+      return;
+    case 'COOK_SANSAI_COST':
+      COOK_SANSAI_COST = value;
+      return;
+    case 'COOK_HP_RESTORE':
+      COOK_HP_RESTORE = value;
+      return;
+    // Rung pacing
+    case 'RUNG_POINTS_PER_ACT':
+      RUNG_POINTS_PER_ACT = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R0':
+      RUNG_METER_THRESHOLDS.R0 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R1':
+      RUNG_METER_THRESHOLDS.R1 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R2':
+      RUNG_METER_THRESHOLDS.R2 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R3':
+      RUNG_METER_THRESHOLDS.R3 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R4':
+      RUNG_METER_THRESHOLDS.R4 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R5':
+      RUNG_METER_THRESHOLDS.R5 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R6':
+      RUNG_METER_THRESHOLDS.R6 = value;
+      return;
+    case 'RUNG_METER_THRESHOLDS.R7':
+      RUNG_METER_THRESHOLDS.R7 = value;
+      return;
+    // Sinks / upkeep
+    case 'REPAIR_COIN_COST':
+      REPAIR_COIN_COST = value;
+      return;
+    case 'REPAIR_WOOD_COST':
+      REPAIR_WOOD_COST = value;
+      return;
+    // Combat feel — StanceMod fields are `readonly`; cast to mutate in place.
+    case 'STANCE_MODS.jodan.atkMult':
+      (STANCE_MODS.jodan as { atkMult: number }).atkMult = value;
+      return;
+    case 'STANCE_MODS.jodan.takenMult':
+      (STANCE_MODS.jodan as { takenMult: number }).takenMult = value;
+      return;
+    case 'STANCE_MODS.gedan.atkMult':
+      (STANCE_MODS.gedan as { atkMult: number }).atkMult = value;
+      return;
+    case 'STANCE_MODS.gedan.takenMult':
+      (STANCE_MODS.gedan as { takenMult: number }).takenMult = value;
+      return;
+    case 'LOSS_COIN_FRAC':
+      LOSS_COIN_FRAC = value;
+      return;
+    case 'LOSS_MATERIAL_FRAC':
+      LOSS_MATERIAL_FRAC = value;
+      return;
+    case 'AUTO_RETREAT_FRAC':
+      AUTO_RETREAT_FRAC = value;
+      return;
     default:
       throw new Error(`balance-override: unknown lever ${path}`);
   }
 }
 
-/** The canon (module-init) value of every cockpit lever, keyed by path. Captured HERE — before any
- *  setter can run — so it backs reset + the cockpit's `canon → current (Δ%)` readout WITHOUT any
- *  hand-copied magic number (test discipline: derive from the source of truth). */
+/** The canon (module-init) value of every cockpit lever, keyed by path. A PLAIN LITERAL (references
+ *  the bindings directly, never the setter/switch) so the whole DEV hook still tree-shakes from prod
+ *  — captured HERE, before any setter runs, so no magic number is hand-copied (derive from source). */
 export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   RICE_PER_RAKE,
+  SKILL_YIELD_PER_LEVEL_NUM,
+  SKILL_YIELD_CAP_NUM,
+  'RICE_SELL_PRICE_BY_SEASON.spring': RICE_SELL_PRICE_BY_SEASON.spring,
+  'RICE_SELL_PRICE_BY_SEASON.summer': RICE_SELL_PRICE_BY_SEASON.summer,
+  'RICE_SELL_PRICE_BY_SEASON.autumn': RICE_SELL_PRICE_BY_SEASON.autumn,
+  'RICE_SELL_PRICE_BY_SEASON.winter': RICE_SELL_PRICE_BY_SEASON.winter,
   EAT_RICE_SATIETY,
+  EAT_RICE_COST,
   SATIETY_PER_REST,
+  'ESTATE_BANDS.good': ESTATE_BANDS.good,
+  'ESTATE_BANDS.great': ESTATE_BANDS.great,
+  'ESTATE_BANDS.excellent': ESTATE_BANDS.excellent,
+  ESTATE_DEED_PER_ACT,
+  PER_DEED_CAP_NUM,
+  SATIETY_PER_ACT,
+  STAMINA_RATE_FLOOR,
+  STAMINA_FLAT_ABOVE,
+  COOK_SANSAI_COST,
+  COOK_HP_RESTORE,
+  RUNG_POINTS_PER_ACT,
+  'RUNG_METER_THRESHOLDS.R0': RUNG_METER_THRESHOLDS.R0!,
+  'RUNG_METER_THRESHOLDS.R1': RUNG_METER_THRESHOLDS.R1!,
+  'RUNG_METER_THRESHOLDS.R2': RUNG_METER_THRESHOLDS.R2!,
+  'RUNG_METER_THRESHOLDS.R3': RUNG_METER_THRESHOLDS.R3!,
+  'RUNG_METER_THRESHOLDS.R4': RUNG_METER_THRESHOLDS.R4!,
+  'RUNG_METER_THRESHOLDS.R5': RUNG_METER_THRESHOLDS.R5!,
+  'RUNG_METER_THRESHOLDS.R6': RUNG_METER_THRESHOLDS.R6!,
+  'RUNG_METER_THRESHOLDS.R7': RUNG_METER_THRESHOLDS.R7!,
+  REPAIR_COIN_COST,
+  REPAIR_WOOD_COST,
+  'STANCE_MODS.jodan.atkMult': STANCE_MODS.jodan.atkMult,
+  'STANCE_MODS.jodan.takenMult': STANCE_MODS.jodan.takenMult,
+  'STANCE_MODS.gedan.atkMult': STANCE_MODS.gedan.atkMult,
+  'STANCE_MODS.gedan.takenMult': STANCE_MODS.gedan.takenMult,
+  LOSS_COIN_FRAC,
+  LOSS_MATERIAL_FRAC,
+  AUTO_RETREAT_FRAC,
 });
 
 /** Reset every overridden lever back to its canon value (the cockpit's "Reset all to canon"). */

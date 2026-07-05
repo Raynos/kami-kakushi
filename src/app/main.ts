@@ -478,6 +478,11 @@ async function boot(): Promise<void> {
     };
     (window as unknown as { __qa?: typeof qa }).__qa = qa;
 
+    // F7 — apply any `?bal.<path>=<value>` overrides from the URL (F5-survival + shareable tune
+    // links). OUTSIDE the `if (dev)` gate so a shared tune link still applies under `?dev=no` (the
+    // true-layout playtest carries the override set, mirroring the capture overlay).
+    cockpit.hydrate();
+
     // the in-UI DEV panel — the __qa tools as buttons + the live variant toggle (D-075). Hosts
     // on document.body (fixed-position) so it floats over the shell regardless of #app styling.
     if (dev) {

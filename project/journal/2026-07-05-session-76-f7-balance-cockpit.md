@@ -64,17 +64,47 @@ module* propagates to every importer's next read. Verified against the real code
   envelope.
 - `npm run verify` — **17 gates green**; full suite 728→735 tests.
 
+## 2 · Ph2 — full curated lever set + persistence + live feedback ✅
+
+**Built:**
+- `balance.ts` — 16 more scalars `const`→`let`; both switches (`readBalanceLever`
+  / `__setBalanceLever`) + `BALANCE_CANON` extended to the **full §2 set (35
+  levers)**, structured map paths (`ESTATE_BANDS.*`, `RUNG_METER_THRESHOLDS.*`,
+  `STANCE_MODS.*.{atk,taken}Mult`, `RICE_SELL_PRICE_BY_SEASON.*`) mutating their
+  runtime object in place via local casts. Kept the two-switch shape the plan
+  chose; `BALANCE_CANON` stays a PLAIN literal (references bindings, never the
+  switch) so the whole DEV hook still tree-shakes.
+- `dev-cockpit.ts` — the full registry (groups/watch tags/guards/`appliesAt`);
+  `bal.*` URL **hydrate + mirror + clean-URL reset** (F18 pattern, inert under
+  vitest); the **§5 live readouts** (next-rung ETA · capstone ETA · eat-vs-rest ·
+  rice→coin), selector-derived, recomputed on every override.
+- `dev.ts` — `DevQa.state()` added; `getState: qa.state` threaded to the readouts.
+- `main.ts` — `cockpit.hydrate()` at boot (outside `if (dev)` so `?dev=no` still
+  applies a shared tune link).
+- Tests — registry/CANON lockstep, every-path round-trip (tripwire vs a future
+  `Object.freeze`), structured-path in-place mutation.
+
+**DoD — all met (headless `tmp/f7-ph2-dod.mjs`):** F5 with
+`?bal.EAT_RICE_SATIETY=36` hydrates + the row shows `30 → 36 (+20%)`; the
+capstone-ETA readout moves live when `ESTATE_BANDS.excellent` is dragged
+(`480 → 2000` ⇒ `96.0 → 400.0 min`); reset-all restores byte-identical canon +
+a clean URL; a set mirrors `?bal.RICE_PER_RAKE=7`; zero console errors. Prod
+strip re-measured: **0 hits** for `balance-override` (the bigger CANON + switches
+still tree-shake). `npm run verify` — **17 gates green**.
+
+**Notable finding (for the W-proposals):** the live readouts show the capstone is
+ALREADY ~96 min under current canon (`ESTATE_DEED_PER_ACT` is now `0.04`, the
+D-133 fractional stopgap) — the balance-watch's "~30 s capstone" is STALE. W4 may
+need no tune; the tool surfaced it.
+
 ## Next intended steps (current)
 
-1. Commit + push Ph1 (green tree, co-agent's fixtures now regenerated).
-2. **Ph2** — full curated §2 lever set (structured map paths: `ESTATE_BANDS.*`,
-   `RUNG_METER_THRESHOLDS.*`, `STANCE_MODS.*`, `RICE_SELL_PRICE_BY_SEASON.*`),
-   the registry with groups/guards/ranges/`appliesAt`, `bal.*` URL
-   hydrate+mirror+clean-URL reset, the §5 selector-derived live readouts.
-3. **Ph3** — export transport (reuse the F3 inbox middleware; no new handler) +
-   clipboard/download fallback + the agent apply-flow doc.
-4. **Ph4** — polish + docs (ADR, CHANGELOG, AGENTS.md pointer, archive plan).
-5. Post-build — propose W1–W4 tunings as review-only R-items.
+1. Commit + push Ph2.
+2. **Ph3** — export transport (reuse the F3 inbox middleware; no new handler) +
+   clipboard/download fallback + the agent apply-flow doc (stale-canon guard).
+3. **Ph4** — polish + docs (ADR, CHANGELOG, AGENTS.md pointer, archive plan).
+4. Post-build — propose W1–W4 tunings as review-only R-items (note W4 may be a
+   no-op given the ~96-min finding).
 
 ## Landmines (current)
 

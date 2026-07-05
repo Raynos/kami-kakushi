@@ -11,7 +11,7 @@
 //  · the SAVE-NON-LEAK test proves overrides live in module bindings, never the save envelope — if a
 //    future refactor stashed overrides in GameState, the re-encoded envelope would differ and flip red.
 import { describe, it, expect, afterEach } from 'vitest';
-import { createInitialState, balance, __resetBalanceLevers } from '../core';
+import { createInitialState, balance, __resetBalanceLevers, BALANCE_CANON } from '../core';
 import { makeEnvelope, encodeEnvelope } from '../persistence/codec';
 import { createBalanceCockpit, buildTuneArtifact, type TuneMeta } from './dev-cockpit';
 
@@ -113,6 +113,46 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
     const md = c.exportMarkdown();
     expect(md).toContain('| EAT_RICE_SATIETY | 30 | 36 | +20% |');
     expect(md).not.toContain('RICE_PER_RAKE'); // untouched → absent
+  });
+});
+
+describe('the full §2 lever set — registry / CANON / switches in lockstep', () => {
+  it('the registry paths and BALANCE_CANON keys are identical sets', () => {
+    const c = cockpit();
+    const registry = c.levers.map((l) => l.path).sort();
+    const canon = Object.keys(BALANCE_CANON).sort();
+    expect(registry).toEqual(canon); // a path in one but not the other → red
+  });
+
+  it('every registered lever round-trips set→read→reset (both switches wired; not frozen)', () => {
+    const c = cockpit();
+    // set every lever to a distinct non-canon probe; read must reflect it (proves set+read wired,
+    // and that a structured map is not Object.frozen — a frozen map would no-op the set).
+    for (const lever of c.levers) {
+      const probe = c.canon(lever.path) + 1;
+      c.set(lever.path, probe);
+      expect(c.read(lever.path)).toBe(probe);
+    }
+    expect(c.touched().length).toBe(c.levers.length); // all dirty now
+    c.reset();
+    for (const lever of c.levers) {
+      expect(c.read(lever.path)).toBe(BALANCE_CANON[lever.path]); // reset restored canon from CANON
+    }
+    expect(c.touched()).toEqual([]);
+  });
+
+  it('a structured map path overrides the live namespace value (in-place mutation)', () => {
+    const c = cockpit();
+    expect(balance.ESTATE_BANDS.excellent).toBe(BALANCE_CANON['ESTATE_BANDS.excellent']);
+    c.set('ESTATE_BANDS.excellent', 960);
+    expect(balance.ESTATE_BANDS.excellent).toBe(960); // importers reading the property see it live
+    c.set('RICE_SELL_PRICE_BY_SEASON.spring', 9);
+    expect(balance.riceSellPrice('spring')).toBe(9); // the helper reads the mutated table
+    c.set('STANCE_MODS.jodan.atkMult', 2);
+    expect(balance.STANCE_MODS.jodan.atkMult).toBe(2);
+    c.reset();
+    expect(balance.ESTATE_BANDS.excellent).toBe(BALANCE_CANON['ESTATE_BANDS.excellent']);
+    expect(balance.STANCE_MODS.jodan.atkMult).toBe(BALANCE_CANON['STANCE_MODS.jodan.atkMult']);
   });
 });
 

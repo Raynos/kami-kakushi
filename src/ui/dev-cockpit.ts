@@ -9,7 +9,17 @@
 // (only the declaring module can reassign its own `export let` bindings); this file is the UI +
 // controller + the pure export-diff builder.
 
-import { __setBalanceLever, __resetBalanceLevers, readBalanceLever, BALANCE_CANON } from '../core';
+import {
+  __setBalanceLever,
+  __resetBalanceLevers,
+  readBalanceLever,
+  BALANCE_CANON,
+  balance,
+  perDeedCap,
+  season,
+  homeRestBonus,
+  type GameState,
+} from '../core';
 import { el } from './render';
 
 /** A tunable lever's cockpit metadata. `path` is the key into core's setter/reader + BALANCE_CANON;
@@ -28,12 +38,17 @@ export interface LeverDef {
   readonly guard?: string;
   /** Canon is an integer ⇒ integer slider step; else a fine 0.01 step. */
   readonly integer?: boolean;
+  /** 'new-game' = read only by createInitialState/level-up math, so it applies from the next New
+   *  game (the binding updates live but existing state was already derived). Undefined = live,
+   *  mid-run. None of the curated set is 'new-game' (§1c), but the field keeps the class explicit. */
+  readonly appliesAt?: 'new-game';
 }
 
-/** Ph1 curated set — the W1 rice faucet + the W3 eat-vs-rest pair. Ph2 grows this to the full §2
- *  table (structured map paths included). Canon values come from BALANCE_CANON (single source), so
- *  no magic number is copied here. */
+/** The full §2 curated lever set — the four balance-watch targets first (W1…W4), then the obvious
+ *  feel levers. Canon values come from BALANCE_CANON (single source), so no magic number is copied
+ *  here; slider `min/max/step` are cockpit metadata derived from canon at mount, never canon. */
 export const BALANCE_LEVERS: readonly LeverDef[] = [
+  // W1 · rice faucet / coin
   {
     path: 'RICE_PER_RAKE',
     label: 'Rice per rake',
@@ -42,11 +57,64 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     integer: true,
   },
   {
+    path: 'SKILL_YIELD_PER_LEVEL_NUM',
+    label: 'Skill yield / level (%)',
+    group: 'W1 · rice faucet',
+    watch: 'W1',
+    integer: true,
+  },
+  {
+    path: 'SKILL_YIELD_CAP_NUM',
+    label: 'Skill yield cap (%)',
+    group: 'W1 · rice faucet',
+    watch: 'W1',
+    integer: true,
+  },
+  // W2 · store-vs-sell (season price table)
+  {
+    path: 'RICE_SELL_PRICE_BY_SEASON.spring',
+    label: 'Rice price · spring',
+    group: 'W2 · store-vs-sell',
+    watch: 'W2',
+    integer: true,
+    guard: 'spring-dearest / autumn-cheapest monotonic direction is test-asserted canon',
+  },
+  {
+    path: 'RICE_SELL_PRICE_BY_SEASON.summer',
+    label: 'Rice price · summer',
+    group: 'W2 · store-vs-sell',
+    watch: 'W2',
+    integer: true,
+  },
+  {
+    path: 'RICE_SELL_PRICE_BY_SEASON.autumn',
+    label: 'Rice price · autumn',
+    group: 'W2 · store-vs-sell',
+    watch: 'W2',
+    integer: true,
+    guard: 'the autumn glut — must stay the cheapest season',
+  },
+  {
+    path: 'RICE_SELL_PRICE_BY_SEASON.winter',
+    label: 'Rice price · winter',
+    group: 'W2 · store-vs-sell',
+    watch: 'W2',
+    integer: true,
+  },
+  // W3 · eat-rice vs rest
+  {
     path: 'EAT_RICE_SATIETY',
     label: 'Eat-rice satiety',
     group: 'W3 · eat vs rest',
     watch: 'W3',
+    integer: true,
     guard: 'EAT_RICE_SATIETY > SATIETY_PER_REST is the documented design lever',
+  },
+  {
+    path: 'EAT_RICE_COST',
+    label: 'Eat-rice cost (rice)',
+    group: 'W3 · eat vs rest',
+    watch: 'W3',
     integer: true,
   },
   {
@@ -56,6 +124,116 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     watch: 'W3',
     integer: true,
   },
+  // W4 · capstone pacing
+  {
+    path: 'ESTATE_BANDS.good',
+    label: 'Estate band · Good',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+    integer: true,
+  },
+  {
+    path: 'ESTATE_BANDS.great',
+    label: 'Estate band · Great',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+    integer: true,
+  },
+  {
+    path: 'ESTATE_BANDS.excellent',
+    label: 'Estate band · Excellent (gate)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+    integer: true,
+  },
+  {
+    path: 'ESTATE_DEED_PER_ACT',
+    label: 'Estate deed / act (koku)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+  },
+  {
+    path: 'PER_DEED_CAP_NUM',
+    label: 'Per-deed cap (%·Good)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+    integer: true,
+  },
+  // Stamina / meals
+  { path: 'SATIETY_PER_ACT', label: 'Satiety cost / act', group: 'Stamina / meals', integer: true },
+  { path: 'STAMINA_RATE_FLOOR', label: 'Stamina rate floor', group: 'Stamina / meals' },
+  { path: 'STAMINA_FLAT_ABOVE', label: 'Stamina flat-above', group: 'Stamina / meals' },
+  { path: 'COOK_SANSAI_COST', label: 'Cook sansai cost', group: 'Stamina / meals', integer: true },
+  { path: 'COOK_HP_RESTORE', label: 'Cook HP restore', group: 'Stamina / meals', integer: true },
+  // Rung pacing (threshold levers must carry the ranks.ts meterThreshold mirror in the export)
+  { path: 'RUNG_POINTS_PER_ACT', label: 'Rung points / act', group: 'Rung pacing', integer: true },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R0',
+    label: 'Rung meter · R0',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R1',
+    label: 'Rung meter · R1',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R2',
+    label: 'Rung meter · R2',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R3',
+    label: 'Rung meter · R3',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R4',
+    label: 'Rung meter · R4',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R5',
+    label: 'Rung meter · R5',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R6',
+    label: 'Rung meter · R6',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  {
+    path: 'RUNG_METER_THRESHOLDS.R7',
+    label: 'Rung meter · R7 (capstone)',
+    group: 'Rung pacing',
+    integer: true,
+    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
+  },
+  // Sinks / upkeep
+  { path: 'REPAIR_COIN_COST', label: 'Repair coin cost', group: 'Sinks / upkeep', integer: true },
+  { path: 'REPAIR_WOOD_COST', label: 'Repair wood cost', group: 'Sinks / upkeep', integer: true },
+  // Combat feel
+  { path: 'STANCE_MODS.jodan.atkMult', label: 'Jōdan atk ×', group: 'Combat feel' },
+  { path: 'STANCE_MODS.jodan.takenMult', label: 'Jōdan taken ×', group: 'Combat feel' },
+  { path: 'STANCE_MODS.gedan.atkMult', label: 'Gedan atk ×', group: 'Combat feel' },
+  { path: 'STANCE_MODS.gedan.takenMult', label: 'Gedan taken ×', group: 'Combat feel' },
+  { path: 'LOSS_COIN_FRAC', label: 'Loss · coin frac', group: 'Combat feel' },
+  { path: 'LOSS_MATERIAL_FRAC', label: 'Loss · material frac', group: 'Combat feel' },
+  { path: 'AUTO_RETREAT_FRAC', label: 'Auto-retreat HP frac', group: 'Combat feel' },
 ];
 
 /** One touched lever: its canon and current (overridden) value. */
@@ -91,6 +269,9 @@ export interface BalanceCockpit {
   reset(): void;
   /** Render the committable tune artifact for the current touched set (empty-safe). */
   exportMarkdown(note?: string): string;
+  /** Apply any `?bal.<path>=<value>` URL params (F5-survival + shareable tune links). Ignores stale/
+   *  unknown paths. Fires onChange once if anything applied. */
+  hydrate(): void;
   /** Subscribe to override changes (the panel repaints its rows) — so ANY set/reset, whether from a
    *  slider, `__qa.balance.set`, or URL hydration, keeps the panel display truthful (never stale). */
   subscribe(fn: () => void): void;
@@ -166,9 +347,39 @@ export function createBalanceCockpit(opts: {
     for (const s of subscribers) s();
   };
   const canon = (path: string): number => BALANCE_CANON[path] ?? readBalanceLever(path);
+
+  // ── URL persistence (F18 variant pattern): each touched lever mirrors to `?bal.<path>=<value>`;
+  //    the param is DROPPED when the lever returns to canon (a clean state keeps a clean URL). Legible
+  //    + shareable + dies with the tab — never a sticky localStorage retune (the D-059 silent-retune
+  //    failure). Inert under vitest (jsdom shares location across a file) and when there is no URL. ──
+  const urlOn =
+    typeof location !== 'undefined' &&
+    typeof history !== 'undefined' &&
+    import.meta.env.MODE !== 'test';
+  const mirror = (path: string, value: number): void => {
+    if (!urlOn) return;
+    const params = new URLSearchParams(location.search);
+    const key = `bal.${path}`;
+    if (value === canon(path)) params.delete(key);
+    else params.set(key, String(value));
+    const qs = params.toString();
+    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  };
+  const clearUrl = (): void => {
+    if (!urlOn) return;
+    const params = new URLSearchParams(location.search);
+    // collect-then-delete (never mutate while iterating .keys()).
+    const balKeys: string[] = [];
+    for (const k of params.keys()) if (k.startsWith('bal.')) balKeys.push(k);
+    for (const k of balKeys) params.delete(k);
+    const qs = params.toString();
+    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  };
+
   return {
     set: (path, value) => {
       __setBalanceLever(path, value);
+      mirror(path, value);
       fire();
     },
     read: (path) => readBalanceLever(path),
@@ -181,7 +392,24 @@ export function createBalanceCockpit(opts: {
       })).filter((t) => t.current !== t.canon),
     reset: () => {
       __resetBalanceLevers();
+      clearUrl();
       fire();
+    },
+    hydrate: () => {
+      if (!urlOn) return;
+      const params = new URLSearchParams(location.search);
+      const known = new Set(BALANCE_LEVERS.map((l) => l.path));
+      let any = false;
+      for (const [k, v] of params) {
+        if (!k.startsWith('bal.')) continue;
+        const path = k.slice(4);
+        if (!known.has(path)) continue; // stale / typo param — ignore (guard, like the variant hydrate)
+        const n = Number(v);
+        if (!Number.isFinite(n)) continue;
+        __setBalanceLever(path, n);
+        any = true;
+      }
+      if (any) fire();
     },
     subscribe: (fn) => void subscribers.push(fn),
     exportMarkdown: (note) =>
@@ -206,9 +434,9 @@ export function createBalanceCockpit(opts: {
 export function mountBalanceCockpit(
   pane: HTMLElement,
   cockpit: BalanceCockpit,
-  opts: { onDirty?: (count: number) => void } = {},
+  opts: { onDirty?: (count: number) => void; getState?: () => GameState } = {},
 ): void {
-  const { onDirty } = opts;
+  const { onDirty, getState } = opts;
 
   // a footnote: slider bounds are UI metadata, not sanctioned canon (§7 open question 7).
   const foot = el(
@@ -227,6 +455,55 @@ export function mountBalanceCockpit(
     onDirty?.(cockpit.touched().length);
   };
   cockpit.subscribe(repaintAll);
+
+  // ── §5 live feedback — cheap, selector-derived, recomputed on EVERY override. Explicitly NOT a
+  //    simulation: pure arithmetic over the same selectors the game uses, reading the LIVE (overridden)
+  //    balance values, so a dragged band visibly moves the capstone ETA. The authoritative after-check
+  //    stays in node (the export's re-verify block). Absent when no live state is threaded (tests). ──
+  if (getState) {
+    const box = el('div');
+    box.style.cssText =
+      'border:1px solid #3a322a;border-radius:3px;padding:.3rem .4rem;margin-bottom:.4rem;display:flex;flex-direction:column;gap:.15rem;';
+    const title = el('div', undefined, 'Live feel — selector estimate, not a sim');
+    title.style.cssText = 'color:#b08d4f;font-size:10px;text-transform:uppercase;';
+    box.append(title);
+    const lines = [el('div'), el('div'), el('div'), el('div')];
+    for (const l of lines) {
+      l.style.cssText = 'color:#c9b79a;font-size:10px;line-height:1.35;';
+      box.append(l);
+    }
+    pane.append(box);
+
+    // acts → wall-time using the exact AUTO_REPEAT_MS cadence (the walkPacing wall-time model).
+    const fmtMin = (acts: number): string => {
+      const min = (acts * balance.AUTO_REPEAT_MS) / 60000;
+      return min < 1 ? `${Math.round(min * 60)}s` : `${min.toFixed(1)} min`;
+    };
+    const paintReadouts = (): void => {
+      const s = getState();
+      // 1 · next-rung ETA
+      const remain = Math.max(0, balance.rungThreshold(s.rung) - s.rungMeter);
+      const perAct = balance.RUNG_POINTS_PER_ACT;
+      const acts1 = perAct > 0 ? Math.ceil(remain / perAct) : 0;
+      lines[0]!.textContent = `Next rung ${s.rung}: ${acts1} acts ≈ ${fmtMin(acts1)}`;
+      // 2 · capstone ETA (W4) — Estate value → EXCELLENT at the (capped) deed-per-act rate
+      const deed = Math.min(balance.ESTATE_DEED_PER_ACT, perDeedCap());
+      const gap = Math.max(0, balance.ESTATE_BANDS.excellent - s.influence.estate.value);
+      const acts2 = deed > 0 ? Math.ceil(gap / deed) : 0;
+      lines[1]!.textContent = `Capstone (Excellent ${balance.ESTATE_BANDS.excellent}): ${acts2} acts ≈ ${fmtMin(acts2)}`;
+      // 3 · eat-vs-rest verdict (W3)
+      const seasonNow = season(s);
+      const coinWorth = balance.EAT_RICE_COST * balance.riceSellPrice(seasonNow);
+      const restBody = balance.SATIETY_PER_REST + homeRestBonus(s);
+      lines[2]!.textContent = `Eat +${balance.EAT_RICE_SATIETY} body / ${balance.EAT_RICE_COST} rice (≈${coinWorth} coin, ${seasonNow}) vs rest +${restBody} free`;
+      // 4 · rice→coin flow (W1/W2)
+      const price = balance.riceSellPrice(seasonNow);
+      const spring = balance.riceSellPrice('spring');
+      const autumn = balance.riceSellPrice('autumn');
+      lines[3]!.textContent = `Rice→coin: ${balance.RICE_PER_RAKE}/rake × ${price} = ${balance.RICE_PER_RAKE * price} coin/act (spring:autumn ${spring}:${autumn})`;
+    };
+    repainters.push(paintReadouts);
+  }
 
   // group the levers, preserving registry order (watch items first).
   const groups: string[] = [];

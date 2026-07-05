@@ -485,6 +485,7 @@ describe('DEV panel — Speed row (F49)', () => {
   function stubQa(): DevQa & { last: number | null } {
     const q = {
       last: null as number | null,
+      state: () => createInitialState(1),
       speed(m: number) {
         q.last = m;
         return m;
@@ -564,6 +565,7 @@ describe('DEV panel — Speed row (F49)', () => {
 describe('DEV panel — New-game footer safety (F95)', () => {
   function stubQa(over: Partial<DevQa> = {}): DevQa {
     return {
+      state: () => createInitialState(1),
       speed: (m: number) => m,
       jumpToPhase2: () => 0,
       jumpToAscension: () => {},
