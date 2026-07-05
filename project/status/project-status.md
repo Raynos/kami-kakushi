@@ -26,7 +26,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 - **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
   per-section files `docs/living/prd/*`. §4 balance + §7 M2–M7 stay provisional (D-059).
-- **v0.3.0–v0.3.6 shipped** the full T0 M0–M4 arc (F1–F117) + the **autonomous
+- **v0.3.0–v0.3.7 shipped** the full T0 M0–M4 arc (F1–F117) + the **autonomous
   T0 rebuild** (2026-07-03, ADRs **D-107–D-116**): append-only render engine ·
   economy re-core (koku=House **standing**) · 7-tab IA · estate-map · rung VN
   beats (SCHEMA 6) · `CHANGELOG.md` + `verify-changelog` gate.
@@ -99,14 +99,14 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 ## How to resume
 
-> 🎮 **v0.3.6 deployed 2026-07-05 via the first real `/ship` run** (Phase-2
-> pacing stopgap + R10 tunings + 10× saves; live-proven `build ce71cf4`).
-> On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **D-107–D-125**.
+> 🎮 **v0.3.7 pushed 2026-07-05 via `/ship`** (tooling-only refresh — F10 taste +
+> /ship v2 + F8 plan lock; nothing player-facing; gh-pages `f4697b5` ← `b1b3403`,
+> not live-verified). On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **D-107–D-125**.
 > Open = the human queue above; the deferred tail (R7-capstone once **T1**) is next.
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-05-session-80-v036-ship.md`](../journal/2026-07-05-session-80-v036-ship.md)
+   [`journal/2026-07-05-session-81-v037-ship.md`](../journal/2026-07-05-session-81-v037-ship.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
