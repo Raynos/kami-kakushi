@@ -1,6 +1,8 @@
 # Balance-tuning cockpit — live DEV sliders + export-diff (T0)
 
-**Status:** 📋 PROPOSED — awaiting human read.
+**Status:** ✅ COMPLETE — built + shipped in session 76 (2026-07-05), all four
+phases DoD-met (see `project/journal/2026-07-05-session-76-f7-balance-cockpit.md`).
+Mechanism + human/agent division recorded as **D-134**. Archived.
 
 ## Who builds this — Fable or Opus?
 

@@ -1780,3 +1780,43 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   single-source pacing law for every tier's Phase 2; T1+ Phase-2 economies are
   designed to hit ~1:1 from the start; the T0 hotfix + gate is the next build
   task; the Phase-2 economy redesign is queued (fun, not just duration).
+
+### D-134 ✅ — DEV-tooling: the balance-tuning cockpit (F7) — live overrides, human tunes / agent transcribes
+- **created_date:** 2026-07-05
+- **Context:** the D-059 "liquid magnitude" call means only a human may set
+  which balance numbers feel right, but the tuning loop was
+  edit-`balance.ts`→rebuild→reload→replay-to-the-moment→repeat — an afternoon
+  per feel item, with four open balance-watch targets (rice faucet, store-vs-sell,
+  eat-vs-rest, the koku capstone). No way to feel a number mid-run.
+- **Decision:** a DEV-only **balance cockpit** (the DEV panel's Balance tab +
+  `__qa.balance`). A curated set of `balance.ts` levers is made live-tunable:
+  scalars flip `export const`→`export let` and are reassigned **in-module** by
+  `__setBalanceLever` (ES named imports are live bindings, so every reader's next
+  read sees the new value — zero call sites change); structured map paths
+  (`ESTATE_BANDS.*`, `RUNG_METER_THRESHOLDS.*`, `STANCE_MODS.*`,
+  `RICE_SELL_PRICE_BY_SEASON.*`) mutate their runtime object in place. Overrides
+  live in the module binding **+ the URL** (`?bal.<path>=<value>`, F18 pattern) —
+  **never the save envelope** (a sticky localStorage retune is exactly the D-059
+  silent-retune failure). The **human/agent division is the point:** the human
+  drags a slider, feels it, and **exports** a committable diff artifact (riding
+  the F3 playtest-inbox endpoint verbatim); an **agent transcribes** the exact
+  old→new edits — an agent **never** moves a slider into canon on the human's
+  behalf. The whole hook is DEV-folded and dead-code-eliminated from prod (the
+  `balance-override` string is in the `verify-dev-strip` deploy gate).
+- **Why it's sound (R3):** proven on the real dev server headlessly —
+  `__qa.balance.set('RICE_PER_RAKE',10)` → the next rake gained exactly 10, reset
+  → 3 (a dead live binding would give 3, so the test could go RED); a prod build
+  greps **0** hits for `balance-override` (Rollup strips the setter — Risk 1 moot,
+  even through the `export * as balance` namespace re-export); a save-non-leak
+  test pins that overrides never reach the envelope; the registry/CANON/switch
+  lockstep + every-path round-trip tests are the tripwire against drift or a
+  future `Object.freeze`.
+- **Consequences:** feel-tuning collapses from an afternoon to ~10 min (drag →
+  feel → export → hand to an agent); the export composes with the F4 balance-sim
+  re-verify flow (a VALUE change stales the report fingerprint — the exported
+  diff is exactly that event, D-132); the cockpit **revealed** the koku capstone
+  is already ~96 min under current canon (`ESTATE_DEED_PER_ACT` = 0.04, the D-133
+  stopgap) — the balance-watch's "~30 s" was stale. Content-side magnitudes
+  (`ACTIVITIES` yields, mob stats) stay out of v1 (a parked v2 "content levers"
+  group); `AUTO_REPEAT_MS` is excluded (load-time-frozen into the boot
+  `setInterval`).

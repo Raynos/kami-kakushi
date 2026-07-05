@@ -10,6 +10,17 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 <sha> · <date>`). Pre-`0.3.1` builds were tagged `v0.1` / `v0.2` in git; from
 `0.3.1` on the version lives only in `package.json`, never a git tag.
 
+## [Unreleased]
+
+### Internal
+
+- **Balance-tuning cockpit (F7 / D-134).** A DEV-only panel (DEV → Balance tab)
+  of live sliders over the curated `balance.ts` feel levers: the human drags a
+  lever mid-run, feels it immediately, and exports a committable diff an agent
+  transcribes back to canon (D-059 — an agent never tunes on the human's behalf).
+  Overrides live in the module binding + a `?bal.*` URL, never the save file, and
+  the whole hook is stripped from the production bundle. Not player-facing.
+
 ## [0.3.5] — 2026-07-03
 
 Continues the T0 rebuild — the housing feature, more log/UI polish, and a

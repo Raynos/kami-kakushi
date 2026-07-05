@@ -129,13 +129,41 @@ need no tune; the tool surfaced it.
   surface; reverted → **canon byte-identical**, verify green (17 gates). No
   invented number committed to canon.
 
-## Next intended steps (current)
+## 4 · Ph4 — polish + docs wiring ✅
 
-1. Commit + push Ph3.
-2. **Ph4** — polish + docs (decisions.md ADR, CHANGELOG, AGENTS.md pointer,
-   Status → ✅ + `git mv` the plan to `project/archive/`).
-3. Post-build — propose W1–W4 tunings as review-only R-items (note W4 may be a
-   no-op given the ~96-min capstone finding; W1/W2/W3 still open).
+- **decisions.md** — **D-134** (the override mechanism + the human-tunes /
+  agent-transcribes division + the strip proof + the ~96-min capstone finding).
+- **AGENTS.md** — the balance-verdict convention now points to the cockpit +
+  "an agent never moves a slider into canon on the human's behalf (D-134/D-059)".
+- **CHANGELOG.md** — an `[Unreleased] → Internal` entry (DEV-only, no version
+  bump — not player-facing).
+- **qa-playtesting.md** — the apply-flow + ~10-min recipe (landed in Ph3).
+- Verified the rung-threshold mirror the artifact emits is REAL —
+  `verify-content.ts:60` enforces `RUNG_METER_THRESHOLDS[r.id] ===
+  RankDef.meterThreshold`.
+- Plan **Status → ✅** and `git mv` to `project/archive/`; the generated
+  active-plans region (`docs/plans/README.md`) + reading queue updated by
+  `npm run checkpoint`. Full verify green (17 gates).
+
+## 5 · Post-build — W1–W4 review-only tuning proposals (decision #4)
+
+Deriving candidate values from the live-feel readouts, surfaced as `?bal.*` URLs
++ per-item R-items in `human-in-the-loop/review.md`. **Nothing committed to
+canon** — the human accepts/adjusts/rejects each live in the cockpit.
+
+## Landmines (current)
+
+- **Shared tree, co-agent (w2:p2) live** in `log-content.ts` / `intents.ts` +
+  the fixtures. Their C-stage commits transiently restale fixtures — if a push/
+  commit blocks on `fixtures`, it's theirs; leave local, don't `SKIP_VERIFY` red
+  onto main. Stage only F7 paths by explicit path.
+- The override switches (`readBalanceLever` / `__setBalanceLever` in
+  `balance.ts`) must stay in lockstep with the cockpit registry + `BALANCE_CANON`
+  — the round-trip test is the tripwire. Structured paths mutate in place; a
+  future `Object.freeze` on a map would silently no-op a set (the test catches it).
+- `BALANCE_CANON` MUST stay a plain literal (never computed from the
+  switch/access) or the whole DEV hook stops tree-shaking → `balance-override`
+  leaks the strip gate.
 
 ## Landmines (current)
 

@@ -95,14 +95,13 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   session record** (→ ADR D-117): your 6 locked answers + the derived flows +
   **2 Claude-picked defaults awaiting your override** (audit baseline for
   compressed territory; §6 folded into the T0 sweep).
-- [ ] `docs/plans/fable-process-F7-balance-cockpit.md` — **the balance-tuning
-  cockpit** (top10 #1, your 5/5 pick): a DEV-panel Balance tab of live
-  sliders over the curated `balance.ts` levers (the 4 balance-watch items
-  first), URL-persisted overrides that NEVER touch saves, live ETA readouts
-  (capstone/next-rung), and an **export-diff** artifact an agent applies as
-  a reviewed commit. Grounded: live-binding override mechanism verified
-  against real access patterns; one frozen constant (`AUTO_REPEAT_MS`)
-  excluded.
+- ✅ **F7 balance-tuning cockpit — BUILT** (session 76, 2026-07-05; your 5/5
+  pick). The DEV panel now has a **Balance** tab of live sliders → feel a lever
+  mid-run → **Export tune → inbox**. Design + human/agent division recorded as
+  **D-134**; plan archived to
+  `project/archive/fable-process-F7-balance-cockpit.md`. **W1–W4 starting
+  tunings are proposed as review-only R-items** (see `human-in-the-loop/review.md`)
+  — nothing committed to canon; you accept/adjust/reject each live in the cockpit.
 - [ ] `docs/plans/fable-process-F8-play-telemetry.md` — **real-play
   telemetry** (top10 #6): your attended-time spec as a pure, unit-proven
   sessionizer — the 5/20/5 case is a named test asserting exactly 10 min;

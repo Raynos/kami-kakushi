@@ -199,6 +199,12 @@ Full version:
   regenerated `docs/content/t0-pacing.md` WITH the change (its diff is the before/after;
   paste `balance-sim --summary` into the commit body) — the full flow lives in
   [`qa-playtesting.md` §2](docs/living/qa-playtesting.md).
+  **The human tunes by slider; an agent only transcribes (D-134 / D-059).** The
+  DEV **balance cockpit** (DEV panel → Balance tab) lets the *human* drag a lever
+  live and **export** a committable diff to `project/playtest-inbox/`. An **agent
+  never moves a slider into canon on the human's behalf** — it reads the exported
+  artifact and applies the exact old→new edits (stale-canon guard first), per the
+  apply-flow in [`qa-playtesting.md` §1](docs/living/qa-playtesting.md).
 - **Story is authored as text — registries are generated (F5).** T0 narrative
   content (rung beats, intro scenes, dialogue lines, the cold open) is authored
   as prose-first markdown in
