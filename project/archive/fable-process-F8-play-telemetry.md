@@ -1,7 +1,7 @@
 # Real-play telemetry — attended-time instrumentation of the human's sessions
 
-**Status:** 🔧 IN PROGRESS — human read + decisions locked 2026-07-05
-(session 77, Fable); building Ph1→Ph4 autonomously, commit per phase.
+**Status:** ✅ DONE (2026-07-05, session 79, Fable) — all four phases built,
+proven & committed; ADR **D-136**; archived same day.
 **created_date:** 2026-07-03
 
 **Human decisions (2026-07-05) — supersede the §7 defaults where they differ:**
