@@ -12,6 +12,22 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+## [0.3.7] — 2026-07-05
+
+A tooling-only release — nothing changes for the player. It cuts a clean build
+of the process work landed since 0.3.6 so the deployed version tracks HEAD.
+
+### Internal
+
+- **Two-pass taste flow (F10 / D-135).** Player-visible work now runs a
+  constraint brief _before_ building and a 21-principle scorecard _after_, so
+  taste is designed in rather than graded at the end.
+- **Leaner, tagged release train (/ship v2).** The deploy reuses a persistent
+  build worktree and only re-installs when the lockfile moves, exit-0 means
+  "pushed" without waiting on GitHub Pages, and every release commit is now
+  git-tagged so deploy messages version themselves.
+- **F8 play-telemetry plan locked** and the plans index regenerated.
+
 ## [0.3.6] — 2026-07-05
 
 Mostly an under-the-hood release: the endgame climb now takes its intended
