@@ -26,6 +26,10 @@ Run `npm run checkpoint` after adding / removing a gate to regenerate that list.
 change what the game *is*, and (2) outward-facing / irreversible actions (deploy, delete, force-push). **Routine
 `git push origin main` is standing-approved as part of a checkpoint**, not a per-push ask.
 
+**Deploys = `/ship`, human-invoked (F9).** A release/deploy happens ONLY when the human runs `/ship` — the
+invocation is the sign-off. Agents never self-invoke it, never run `src/scripts/ship.sh` autonomously, and never
+"helpfully" ship at the end of a loop.
+
 **Loop done-rule (D-087).** In a long `/loop`, when high-value work runs dry, keep finding work rather than
 idling — but **flag low-value ticks honestly** (never dress busy-work up as high-value — R3).
 

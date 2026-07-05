@@ -1,8 +1,15 @@
 # /ship — the one-command release train (skill + script)
 
-**Status:** 🔨 IN-PROGRESS — ratified by the human in-session (2026-07-05,
-all §8 defaults walked through interactively); building Ph1. One
-user-invoked command — `/ship` — runs the whole release train:
+**Status:** ✅ DONE — human-declared complete 2026-07-05 after two REAL
+releases shipped through it (v0.3.6 first run; v0.3.7 on the reworked
+fast/bounded/tagged v2 train — `deploy: v0.3.7 (main b1b3403)`). Ph2
+disposition: `--verify-live` shipped (as a single-shot check), resume
+rules shipped in SKILL.md, working-agreements deploy one-liner +
+repo-map entry landed at close-out; the stranded-gh-pages-commit guard
+(gap §0.3) was DROPPED by the human's completion call (never observed in
+practice; any content change pushes on rerun anyway) — revive it only if
+it actually bites. One user-invoked command — `/ship` — runs the whole
+release train:
 bump → CHANGELOG → verify → isolated build → DEV-strip gate → deploy →
 **live-site version proof** → record → journal/snapshot ripple. Every piece
 exists today as a separate script, gate, or convention; the skill removes the

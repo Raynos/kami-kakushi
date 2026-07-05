@@ -67,12 +67,21 @@ Committed with `SKIP_VERIFY=1`: the tree was red with the F8 agent's
 in-flight `src/telemetry/` WIP (oxfmt + vitest) — their red, not this
 commit's (own files only, by pathspec).
 
+## Close-out — F9 DONE (human call)
+
+The second real release (v0.3.7) ran the v2 train end-to-end: tagged
+release commit, `deploy: v0.3.7 (main b1b3403)` versioned via describe,
+no waiting, warm path. The human declared `/ship` complete. Close-out:
+`v0.3.6` retro-tag pushed to origin; working-agreements gained the
+"deploys = /ship, human-invoked" rule; repo-map's skill list gained
+`ship`; the plan flipped ✅ DONE (Ph2's stranded-gh-pages-commit guard
+DROPPED by the completion call — revive only if it bites) and graduates
+to `project/archive/` via checkpoint.
+
 ## Next intended steps
 
-1. Push main + the `v0.3.6` tag once the shared tree is green (F8 WIP).
-2. Ph2 hardening: stranded gh-pages-commit push (gap §0.3), resume
-   detection polish, working-agreements deploy one-liner, repo-map skill
-   list entry.
+1. None for F9 — complete. Loose thread if it ever bites: gap §0.3
+   (stranded gh-pages commit on a failed push + byte-identical rerun).
 
 ## Landmines (current)
 

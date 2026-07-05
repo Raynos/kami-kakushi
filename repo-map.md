@@ -123,6 +123,9 @@ always-loaded context while being editable on its own.
   adopted ~1:1), `distill-taste` (triage a new feedback corpus into the CAPPED
   taste standard — five moves, never append; budgets + coverage + prediction
   test; top-layer changes human-locked; user-invoked only via
-  `/distill-taste`), and `prepare-to-exit` (the runnable form of the **checkpoint
+  `/distill-taste`), `prepare-to-exit` (the runnable form of the **checkpoint
   ritual** — commit own work → journal → snapshot → push `main` → confirm clean;
-  user-invoked only via `/prepare-to-exit`).
+  user-invoked only via `/prepare-to-exit`), and `ship` (the one-command
+  **release train** — bump → CHANGELOG → tagged release commit → push →
+  `src/scripts/ship.sh` isolated build + gh-pages push, fast & bounded, done
+  at the push; user-invoked only via `/ship`, never agent-initiated — F9).
