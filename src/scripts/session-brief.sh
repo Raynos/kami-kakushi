@@ -64,18 +64,30 @@ section_items() {
 # socket call by the SCRIPT (not an agent round-trip), so the brief stays ≤5s.
 # Prints nothing in the common solo case (no noise). Advisory only; never blocks.
 herdr_shared_tree() {
-  local peers
-  peers="$(bash "$ROOT/src/scripts/herdr-peers.sh" "$ROOT" 2>/dev/null || true)"
-  [[ -n "$peers" ]] || return 0
+  # Include-self mode: the helper returns a 4th column (peer|self) so we can show
+  # WHICH row is this session. Gate on the PEER count (self never counts) — so the
+  # callout fires only when ≥1 OTHER agent shares the tree; a solo session stays
+  # silent even though our own row is in the output.
+  local rows
+  rows="$(HERDR_PEERS_INCLUDE_SELF=1 bash "$ROOT/src/scripts/herdr-peers.sh" "$ROOT" 2>/dev/null || true)"
+  [[ -n "$rows" ]] || return 0
 
-  local count; count="$(printf '%s\n' "$peers" | grep -c .)"
-  add "### ⚠️ Shared tree — ${count} other agent(s) live in this repo right now"
-  local pane status goal
-  while IFS=$'\t' read -r pane status goal; do
+  local peer_count; peer_count="$(printf '%s\n' "$rows" | awk -F'\t' 'NF>=4 && $4=="peer"' | grep -c .)"
+  [[ "${peer_count:-0}" -gt 0 ]] || return 0  # solo (only self on tree) → no noise
+
+  local total=$((peer_count + 1))
+  add "### ⚠️ Shared tree — ${peer_count} OTHER agent(s) live here, plus you (${total} total)"
+  local pane status goal role label
+  while IFS=$'\t' read -r pane status goal role; do
     [[ -n "$pane" ]] || continue
-    if [[ -n "$goal" ]]; then add "- \`$pane\` — $status · _${goal}_"; else add "- \`$pane\` — $status"; fi
-  done <<<"$peers"
-  add "> Respect shared-tree safety: stage **only your own paths** (never \`git add -A\`); never \`stash\`/\`checkout\`/\`restore\` files you didn't author. A push may be **correctly** blocked by another agent's red WIP — leave it local, don't \`SKIP_VERIFY\` it onto \`main\`. (\`herdr agent list\` for the live picture.)"
+    if [[ "$role" == "self" ]]; then
+      label="**you** (this session)"
+    else
+      label="$status"
+    fi
+    if [[ -n "$goal" ]]; then add "- \`$pane\` — $label · _${goal}_"; else add "- \`$pane\` — $label"; fi
+  done <<<"$rows"
+  add "> One of the rows above is **this session** (marked _you_) — the ${peer_count} without that mark are the other agent(s). Respect shared-tree safety: stage **only your own paths** (never \`git add -A\`); never \`stash\`/\`checkout\`/\`restore\` files you didn't author. A push may be **correctly** blocked by another agent's red WIP — leave it local, don't \`SKIP_VERIFY\` it onto \`main\`. (\`herdr agent list\` for the live picture.)"
   add ""
 }
 
