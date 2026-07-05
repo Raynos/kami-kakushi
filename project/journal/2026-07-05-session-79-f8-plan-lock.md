@@ -135,6 +135,22 @@ as one unit:
   landing), strip build+grep clean, full verify green. CHANGELOG
   [Unreleased] entry added. Report `vv` version double-prefix fixed (A21).
 
+---
+
+## 5 · First real contact + the F5-resume fix
+
+The human played ~30 s and closed the tab: the sensor recorded **0.5 min
+attended, untainted, flush-closed** — honest to the decimal (the
+keepalive drop survived the tab dying). First contact PASSED. It also
+exposed my deviation from plan §3.1: `onRunStart('boot')` fired on EVERY
+boot, so each reload minted a new run record (two files 1 s apart).
+Human: "im gonna hit f5 a lot lol" → fixed: boot-with-existing-save now
+passes **'resume'**, which continues the newest stored run for the seed
+(same runId; segments/milestones/taints carried; attribution sums across
+boots). Smoke gained the assert (`reload RESUMED run …`); 8/8 PASS;
+verify green. Too little data yet for the reserved TTL calibration read —
+that waits for a real session.
+
 **Landmine hit & surfaced:** editing vite.config.ts triggered vite's
 config-restart, which re-ran `singleServerGuard` — the guard saw its OWN
 old listener on :5173 and `process.exit(1)`'d, KILLING the running dev

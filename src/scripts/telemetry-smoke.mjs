@@ -128,6 +128,19 @@ try {
     fail(`run ${runId} not found in the ring after reload`);
   }
 
+  // ── F5-resume: a reload with an existing save CONTINUES the run (same runId, carried
+  //    segments) — the human F5s a lot; reloads must never fragment the history. ──
+  const resumed = await page.evaluate(() => window.__qa.telemetry.summary());
+  if (resumed.runId === runId && resumed.segments >= 2) {
+    ok(
+      `reload RESUMED run ${runId} (carried ${resumed.segments} segments, ${resumed.attendedMin} min)`,
+    );
+  } else {
+    fail(
+      `reload minted a new run (${resumed.runId} vs ${runId}, ${resumed.segments} segments) — F5 fragments history`,
+    );
+  }
+
   // ── Ph4: the session-end auto-drop landed a report FILE in project/telemetry/ ──
   // (Only provable when the target is the local dev server serving THIS tree.)
   if (BASE.includes('localhost')) {

@@ -28,7 +28,10 @@ import { walkPacing } from '../scripts/pacing-report';
  *  for it and refuses to deploy a leak (the DEV_SENTINEL pattern). */
 export const TELEMETRY_SENTINEL = '__KAMI_TELEMETRY__';
 
-export type RunStartReason = 'boot' | 'new-game' | 'import' | 'fixture';
+/** `resume` = boot WITH an existing save (plan §3.1: a NEW run starts only at
+ *  boot-with-no-save / newGame / import) — the newest stored run for the same seed is
+ *  CONTINUED, so an F5 mid-session doesn't shred the run history into per-boot fragments. */
+export type RunStartReason = 'boot' | 'resume' | 'new-game' | 'import' | 'fixture';
 
 export interface TelemetrySummary {
   readonly runId: string;
@@ -77,6 +80,16 @@ export function createTelemetry(opts: {
   let seed = 0;
   let runStartT = now();
   let startedAtISO = new Date(runStartT).toISOString();
+  // Segments carried in from a RESUMED run (prior boots of the same save) — the sessionizer
+  // itself restarts fresh each boot; the run record is the durable spine across reloads.
+  let carriedSegments: RunRecord['segments'] = [];
+  let carriedActiveMs = 0;
+  let carriedIdleMs = 0;
+
+  /** Monotonic run-scoped attended total: prior boots' segments + this boot's sessionizer. */
+  function runAttendedMs(): number {
+    return carriedActiveMs + carriedIdleMs + attendedMs(ss);
+  }
 
   function currentRun(): RunRecord {
     return {
@@ -87,7 +100,7 @@ export function createTelemetry(opts: {
       startedAtISO,
       taints: [...taints],
       milestones,
-      segments: ss.segments,
+      segments: [...carriedSegments, ...ss.segments],
     };
   }
 
@@ -154,24 +167,27 @@ export function createTelemetry(opts: {
             : t - ss.lastInputT <= ss.config.inputRecencyMs
               ? 'active'
               : 'idle';
-      const active = ss.closedActiveMs + (ss.open?.activeMs ?? 0);
-      const idle = ss.closedIdleMs + (ss.open?.idleMs ?? 0);
+      const active = carriedActiveMs + ss.closedActiveMs + (ss.open?.activeMs ?? 0);
+      const idle = carriedIdleMs + ss.closedIdleMs + (ss.open?.idleMs ?? 0);
       return {
         runId,
         class: cls,
-        attendedMin: Math.round((attendedMs(ss) / 60000) * 10) / 10,
+        attendedMin: Math.round((runAttendedMs() / 60000) * 10) / 10,
         activeMin: Math.round((active / 60000) * 10) / 10,
         idleMin: Math.round((idle / 60000) * 10) / 10,
-        segments: ss.segments.length,
+        segments: carriedSegments.length + ss.segments.length,
         taints: [...taints],
       };
     },
     report(): string {
       // Fold the OPEN segment in via a throwaway finalize so mid-session reads are current.
       const closed = finalize(ss, now());
-      return formatRunReport({ ...currentRun(), segments: closed.segments }, simRows());
+      return formatRunReport(
+        { ...currentRun(), segments: [...carriedSegments, ...closed.segments] },
+        simRows(),
+      );
     },
-    segments: () => ss.segments,
+    segments: () => [...carriedSegments, ...ss.segments],
     runs: () => store.loadRuns(),
     configure(patch): TelemetryConfig {
       if (patch.inputThrottleMs !== undefined) inputThrottleMs = patch.inputThrottleMs;
@@ -194,13 +210,39 @@ export function createTelemetry(opts: {
       ss = finalize(ss, now());
       persist();
     }
-    runStartT = now();
+    const t = now();
+    // RESUME (F5 with an existing save): continue the newest stored run for this seed — same
+    // runId, carried segments/milestones/taints — so reloads never fragment the history. Falls
+    // through to a fresh run when the ring has nothing to continue (first boot, cleared ring).
+    if (reason === 'resume') {
+      const prior = store
+        .loadRuns()
+        .filter((r) => r.seed === seed)
+        .at(-1);
+      if (prior) {
+        runId = prior.runId;
+        startedAtISO = prior.startedAtISO;
+        const parsed = Date.parse(prior.startedAtISO);
+        runStartT = Number.isFinite(parsed) ? parsed : t;
+        milestones = [...prior.milestones];
+        taints = new Set(prior.taints);
+        carriedSegments = prior.segments;
+        carriedActiveMs = prior.segments.reduce((a, s) => a + s.activeMs, 0);
+        carriedIdleMs = prior.segments.reduce((a, s) => a + s.idleMs, 0);
+        ss = createSessionizer(t, ss.config, initVisibility());
+        return;
+      }
+    }
+    runStartT = t;
     startedAtISO = new Date(runStartT).toISOString();
     runId = `${seed}-${Math.floor(runStartT / 1000)}`;
     milestones = [];
     taints = new Set(
       reason === 'import' ? ['save-import'] : reason === 'fixture' ? ['fixture'] : [],
     );
+    carriedSegments = [];
+    carriedActiveMs = 0;
+    carriedIdleMs = 0;
     ss = createSessionizer(runStartT, ss.config, initVisibility());
   }
 
@@ -220,7 +262,7 @@ export function createTelemetry(opts: {
         if (ev.kind === 'auto') emit({ t, kind: 'auto', armed: ev.armed });
         else if (ev.kind === 'note') emit({ t, kind: 'note' });
         else {
-          milestones.push({ event: ev, attendedMs: attendedMs(ss), wallMs: t - runStartT });
+          milestones.push({ event: ev, attendedMs: runAttendedMs(), wallMs: t - runStartT });
           persist();
         }
       }

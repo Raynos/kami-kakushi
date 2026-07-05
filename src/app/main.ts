@@ -202,7 +202,9 @@ async function boot(): Promise<void> {
   const telemetry = import.meta.env.DEV
     ? createTelemetry({ build: { version: __VERSION__, sha: __BUILD_SHA__ } })
     : undefined;
-  telemetry?.onRunStart(bootedFromFixture ? 'fixture' : 'boot', state);
+  // 'resume' (boot with an existing save) CONTINUES the newest stored run for this seed —
+  // the human F5s a lot; a reload must never fragment the run history (plan §3.1).
+  telemetry?.onRunStart(bootedFromFixture ? 'fixture' : loaded ? 'resume' : 'boot', state);
 
   // The RENDERER'S dispatch copy only is wrapped — every intent through it is a PLAYER intent.
   // autoStep below keeps the raw dispatch (auto-mode intents are not the human acting).
