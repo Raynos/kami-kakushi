@@ -1,0 +1,17 @@
+# Backlog — deferred work, parked by the human
+
+> Work deliberately pulled OUT of the active surfaces: not in flight (that's
+> `docs/plans/` + the live snapshot), not awaiting a read (that's
+> [`todo-human.md`](todo-human.md)'s reading queue — the session brief nags
+> that list, never this one). An item moves back out when the human pulls it
+> forward. The underlying plan/doc files stay where they live.
+
+- [ ] `docs/plans/opus-2026-07-04-phase2-economy-redesign.md` — **T0 Phase-2
+  economy redesign** (the REAL fix D-133 queued after the stopgap hotfix):
+  makes T0 Phase 2 a ~1:1, ~40–83-min *fun* chunk instead of a
+  threshold-inflated slog. **DESIGN-DIVERGENT** — proposes 3 distinct loops
+  (multi-deed grind · staged estate-BUILD beats · light allocation layer;
+  recommends the A+B hybrid). **Two open direction calls need the human:**
+  literal 1:1 (T0 → ~2.8 h) vs. rebalance a ~90-min split, and which loop
+  ships. Read to pick the loop + the split → then Phase-0 diverge starts.
+  _(Backlogged from the reading queue 2026-07-05.)_

@@ -43,7 +43,9 @@ always-loaded context while being editable on its own.
   **Decisions** + **Reviews**; H-items also graduate to an ADR), and leave the
   live `decisions.md`/`review.md` open-only (see that dir's `README` for the
   lifecycle). [`project/todo-human.md`](project/todo-human.md) is the companion
-  list: loose **TODOs** for the human plus the **reading queue**. **What belongs
+  list: loose **TODOs** for the human plus the **reading queue**;
+  [`project/BACKLOG.md`](project/BACKLOG.md) holds work the human has
+  deliberately parked — never nagged by the session brief. **What belongs
   in the reading queue** — *any durable doc whose purpose is for the human to
   read / review / sign off*: an implementation **plan** or proposal
   (`docs/plans/`), a **brainstorm or retrospective put up for adoption**
