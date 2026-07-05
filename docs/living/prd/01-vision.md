@@ -749,11 +749,17 @@ static**; the origin cast unlocks at T3.
 | **Oai** | Head maidservant, ~40; runs the indoor staff and the servant-gossip network. | Quest-giver and information broker inside the house. | E0 (T0) |
 | **Kyūsuke** | Estate cook, ~50; warm comic relief. | Runs the food/provisioning sub-economy; a soft daily-life anchor. | E0 (T0) |
 | **Sōan** | Estate physician, ~55; rational, plain-spoken. | Dresses the healing scalp wound (grounding the mundane amnesia), names symptoms not visions, gates healing/medicine; flatly disbelieves the kami story. *(Origin/Scholars seed.)* | E0 (T0) |
+| **Rokusuke** | Fellow kept-hand, taken on two winters before the protagonist; wry, knows where the bodies are buried. | The early climb's **peer and gossip-voice** — shows the floor's unwritten rules and vouches the newcomer into the pedlar's softer prices; met at the **R2** rung beat (D-110 casting). | E0 (T0, met R2) |
+| **Tōzō** | Estate smith at the woodlot smithy; keeps the estate's iron. | Teaches **weapon wear/repair** and opens the forge to the protagonist (place-gated); met at the **R4** rung beat. | E0 (T0, met R4) |
 | **Tokujirō** | Green recruit, ~16; joins after the protagonist has risen. | The mirror that proves the protagonist's growth; seeds the late-tier **"you now teach others from zero"** layer. | E1 (T0→T1) |
 | **Gohei & Yatarō** | Ex-*ashigaru* men-at-arms hired off the road. | The first paid martial outsiders; the 2–3-man rota at E2. | E2 (T1) |
 | **Saburozaemon** *(later)* | Stern senior retainer, ~55; traditional, exacting. | Gatekeeps respect at the retainer rungs; later marshals the lord's procession. | T2+ |
 | **Heisuke** *(later)* | Friendly peer retainer, ~30; open-handed. | Shows the ropes of retainer life; low-friction quest-giver; later the field escort lead. | T2+ |
 | **Kanbei** *(later)* | Jealous middling retainer, ~35; cornered and proud, not evil. | **In-household antagonist-rival** who sees the rising stray as a threat; player-influenceable détente or self-inflicted washout. | T2+ |
+
+> **Ambient (deliberately NOT on the roster):** **Tokubei**, an Ōmi pedlar who keeps his mat at the estate's
+> gate-forecourt — the **R1** rung beat's new face and the early coin/trade flavour ("a softer price for a
+> friend"). An ambient trader, not a household member: no roster card, no relationship tracking.
 
 ### Village (side) — Asagiri *(static cast)*
 

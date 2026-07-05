@@ -172,6 +172,12 @@ toward solvency (continued at **T1.3**).
 **Joins this tier:** green recruit **Tokujirō** (~16) arrives at E1 (T0→T1 seam) — the mirror that will later
 prove the MC's growth and seed the "you now teach others from zero" layer.
 
+**Met through the climb (rung-beat casting — some rungs introduce a new face, others deepen a known one):**
+the **R1** beat brings pedlar **Tokubei** of Ōmi to the gate-forecourt (an ambient trader — no roster card);
+**R2** pairs the MC with fellow kept-hand **Rokusuke**, the floor's peer and gossip-voice; **R4** opens the
+woodlot smithy and its smith **Tōzō**, who teaches wear/repair. *(Kihei R3, Chiyo R6 and Shigemasa R7 are
+existing roster faces whose beats first-meet them on the climb; cross-ref §1.8.)*
+
 **Buildings (E0 → E1):**
 - **E0 — Foreclosure's Edge:** leaning gate, sagging cracked kura, fallow paddies, a rusty door-bar as the only
   "defence."
