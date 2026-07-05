@@ -58,8 +58,9 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (npm run checkpoint — do not edit inside) -->
-**3 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**4 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
+- [`fable-2026-07-05-requirements-rung-progression.md`](fable-2026-07-05-requirements-rung-progression.md) — LOCKED
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — PROPOSED
 - [`opus-2026-07-04-phase2-economy-redesign.md`](opus-2026-07-04-phase2-economy-redesign.md) — PROPOSED
 - [`opus-2026-07-04-ui-v2-andon-steel-migration.md`](opus-2026-07-04-ui-v2-andon-steel-migration.md) — PROPOSED

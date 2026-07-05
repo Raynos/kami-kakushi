@@ -53,9 +53,10 @@
   to do at a map node via rumours / low-chance events / description hints, not a
   static list. Phase 0 = a design pass (grill-me/diverge) to lock the open shape
   questions; then build (T0-later/T1, NOT R0/R1). D-114/D-115/D-116-adjacent.
-- [ ] `project/brainstorms/2026-07-05-requirements-based-rung-progression.md` —
-  **your F121 proposal**: replace the raw rung points meter (476/1100) with a
-  finite **checklist of named requirements** per rung, completable in any order
-  (R0 = rake 100/200/300/400/500 rice → 20/40/60/80/100%). A progression-model
-  redesign — needs your scope call (replace vs wrap the points model?) before a
-  design pass / plan.
+- [ ] `docs/plans/fable-2026-07-05-requirements-rung-progression.md` —
+  **requirements-based rung progression** (F121 → grilled 2026-07-05 → ADR
+  D-137): the plan for the direction you locked live — points model fully
+  deleted; hidden anything-goes requirements per rung; rounded-% bar (5–10
+  chunk updates); flavor line per completion; 100% alone unlocks the rung
+  beat; F5 markdown authoring; bands re-derive; all R0–R7. Read to confirm
+  the 7 phases + sequencing before the build starts.

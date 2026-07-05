@@ -1898,3 +1898,32 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   asserts incl. attended≠wall and zero hidden ticks).
 - **Supersedes:** the F8 plan's flat 5-min TTL and inbox-bound Ph4
   (`project/archive/fable-process-F8-play-telemetry.md` carries the full spec).
+
+### D-137 ✅ — design: requirements-based rung progression replaces the points meter (F121)
+- **created_date:** 2026-07-05
+- **Context:** the rung meter rendered raw points (`476/1100`) — the human's
+  read (playtest capture F121): *"a random ass number that has to go up."*
+  Points accrued flatly (`RUNG_POINTS_PER_ACT` per eligible act vs a per-rung
+  threshold table), so progress was volume, not meaning. Grilled live
+  2026-07-05 (three AskUserQuestion rounds, checkpointed in
+  `project/brainstorms/2026-07-05-requirements-based-rung-progression.md`).
+- **Decision (all locked by the human in-session):** each rung R0–R7 has a
+  finite authored list of **hidden requirements**, order-free, and a
+  requirement can be **anything internally consistent with the game and
+  story** — counted acts, quest-token goals, economy/state predicates, story
+  beats. The player sees only a **rounded integer % bar** (no checklist, no
+  task HUD); counted requirements move it in 5–10 quantized chunks, atomic
+  ones jump; every completion fires a **diegetic flavor line**. **100% alone
+  unlocks the rung beat** (`RankDef.storyGate` deleted — story preconditions
+  become requirements; the D-110 hold + rung-up screen unchanged: the beat is
+  the story that explains the promotion). **Points model fully deleted**, not
+  wrapped. Pacing **re-derives**: author for fiction first, the F4 sim
+  measures, the bands re-sign from what the model produces. Lists are
+  **authored in F5 narrative markdown** (`requirements.md` → gen; counts are
+  md numbers, no balance.ts mirror — the cockpit rung sliders retire).
+  **All 8 rungs in one pass.**
+- **Deferred:** an optional player-facing hint system (parked); a DEV-only
+  cheatlist ships with the build so the human can inspect the live lists.
+- **Plan:** `docs/plans/fable-2026-07-05-requirements-rung-progression.md`.
+  Supersedes the D-056 threshold-table mechanism (the band *targets* remain
+  the pacing intent until the Phase 5 re-derivation re-signs them).
