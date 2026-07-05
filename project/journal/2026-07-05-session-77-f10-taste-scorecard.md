@@ -34,11 +34,19 @@ AskUserQuestion — the design improved materially:
 - ADR D-135 (two-pass, locked forks, named deferrals).
 - Plan → ✅ DONE.
 
+## Checkpoint (session close)
+
+F10 commits reached `origin/main` via a co-agent's push (tip was `ce71cf4`
+at checkpoint). Closed out: snapshot F10 lines brought current; the engaged
+F10 reading-queue entry cleared (D-089 — grilled + locked + built this
+session). The plan-archive move had already been auto-done by
+`npm run checkpoint` in the build commit.
+
 ## Next intended steps
-1. Archive the F10 plan + fix its reading-queue link once `todo-human.md`
-   frees up (co-agent WIP).
-2. After F9 merges: one-line /ship step ("touched surfaces have brief +
+1. After F9 merges: one-line /ship step ("touched surfaces have brief +
    scorecards").
+2. Future plan (deferred by human call): the /distill-taste mismatch pipe
+   (shape C) — evidence accumulates via [blind spot] tags meanwhile.
 
 ## Landmines
 - `project/todo-human.md` has co-agent WIP (MM) — do NOT touch it; F10's

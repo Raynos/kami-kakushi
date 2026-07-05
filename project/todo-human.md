@@ -103,10 +103,6 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   (R10 closed, 2026-07-05):** you signed off on the candidates — `RICE_PER_RAKE
   3→2`, `autumn 3→4`, `EAT_RICE_COST 3→2` are on canon; W4 left as-is (already
   ~96 min). Re-tune any time via the cockpit; these are still liquid (D-059).
-- [ ] `project/archive/fable-process-F10-taste-bar-enforcement.md` (archived — done) — **taste-bar
-  enforcement PLACEHOLDER** (top10 #7): deliberately thin — the mechanism
-  sketch (per-surface self-scorecards attached to R-items) parked until you
-  lock `taste.md` with the other session; redone in full then.
 
 _(All the 2026-07-02 T0-build plans + both 2026-07-03 v0.3.5 plans (build +
 cleanup-docs) + the R7-capstone design plan are **BUILT/DONE and archived to
