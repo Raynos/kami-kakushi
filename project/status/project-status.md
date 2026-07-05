@@ -26,7 +26,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 - **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
   per-section files `docs/living/prd/*`. §4 balance + §7 M2–M7 stay provisional (D-059).
-- **v0.3.0–v0.3.5 shipped** the full T0 M0–M4 arc (F1–F117) + the **autonomous
+- **v0.3.0–v0.3.6 shipped** the full T0 M0–M4 arc (F1–F117) + the **autonomous
   T0 rebuild** (2026-07-03, ADRs **D-107–D-116**): append-only render engine ·
   economy re-core (koku=House **standing**) · 7-tab IA · estate-map · rung VN
   beats (SCHEMA 6) · `CHANGELOG.md` + `verify-changelog` gate.
@@ -35,7 +35,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   DESIGNED (D-125), build DEFERRED to T1. `emergent-node-actions` → a plan.
 - **✅ THE TASTE LOCK (D-126, s57):** top layer locked WITH the human → `taste.md`
   (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens GENERATED)
-  · `doc-budgets` gate · **F10 re-plan FIRED**.
+  · `doc-budgets` gate · **✅ F10 built (s77 — two-pass taste flow, D-135)**.
 - **✅ UI-v2 direction LOCKED (R9 → D-127): 10 Andon Steel** (blackened-steel
   bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
   01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
@@ -45,13 +45,12 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a/F1b ·
   F2 CI · ✅ F4 balance sim (D-132) · ✅ F3 capture inbox + `/drain-inbox` · ✅ F6
   scenario saves · ✅ F5 narrative format (s74) · ✅ F7 balance cockpit (s76 — DEV
-  Balance tab, `?bal.*` URLs, export→inbox, **D-134**). NEXT: F8 or Phase-2 redesign.**
-- **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN stays soft).
-  **H19→D-133:** Phase 2 ≈ Phase 1 (~1:1), general per-tier rule → hard
-  `verify:balance` **ratio gate** `[0.8, 1.2]`. Stopgap **hotfix shipped**
-  (fractional sub-koku deeds → greedy Phase 2 0.94:1; 480-koku gate/fiction
-  intact). Real Phase-2 **redesign** planned + queued
-  (`opus-2026-07-04-phase2-economy-redesign.md`) — needs a human direction call.
+  Balance tab, `?bal.*` URLs, export→inbox, **D-134**) · ✅ F10 taste two-pass
+  (s77, **D-135** — distill pipe deferred). F8+F9 in flight (parallel agents).**
+- **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN soft). **H19→D-133:**
+  Phase 2 ≈ Phase 1 → hard `verify:balance` ratio gate `[0.8, 1.2]`; stopgap
+  hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** queued
+  (`opus-2026-07-04-phase2-economy-redesign.md`) — human direction call.
 
 ## Waiting on the human
 
@@ -100,13 +99,14 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 ## How to resume
 
-> 🎮 **T0 rebuild + agent-default-audit (v0.3.5): COMPLETE + deployed 2026-07-03.**
+> 🎮 **v0.3.6 deployed 2026-07-05 via the first real `/ship` run** (Phase-2
+> pacing stopgap + R10 tunings + 10× saves; live-proven `build ce71cf4`).
 > On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **D-107–D-125**.
 > Open = the human queue above; the deferred tail (R7-capstone once **T1**) is next.
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-05-session-79-f8-plan-lock.md`](../journal/2026-07-05-session-79-f8-plan-lock.md)
+   [`journal/2026-07-05-session-80-v036-ship.md`](../journal/2026-07-05-session-80-v036-ship.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
