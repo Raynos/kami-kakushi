@@ -51,7 +51,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** human-PARKED
   in [`project/BACKLOG.md`](../BACKLOG.md) (2026-07-05) — direction calls pending.
 - **✅ s86 context audit (Fable):** scaffolding healthy, drift fixed; hardening
-  plan PROPOSED (`fable-2026-07-05-context-hardening.md`) · **H21/H22 open**.
+  plan PROPOSED (`fable-2026-07-05-context-hardening.md`) · H21/H22 closed → A.
 
 ## Waiting on the human
 
@@ -105,7 +105,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-05-session-86-context-audit.md`](../journal/2026-07-05-session-86-context-audit.md)
+   [`journal/2026-07-05-session-87-e2e-prepush-advisory.md`](../journal/2026-07-05-session-87-e2e-prepush-advisory.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).

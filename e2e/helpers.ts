@@ -46,8 +46,15 @@ export async function boot(page: Page, fixture?: string): Promise<string[]> {
   const url = fixture ? `/?dev=no&fixture=${encodeURIComponent(fixture)}` : '/?dev=no';
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForFunction('Boolean(window.__qa)');
-  // one settle beat: fixture import + first render + reveal pass
-  await page.waitForTimeout(400);
+  // settle on CONDITIONS, not a fixed beat (plan P5.2 — the old 400ms sleep paid
+  // its worst case on every boot): fonts loaded (layout metrics final) + two
+  // animation frames (first render committed + the reveal pass scheduled after
+  // it). Playwright's own waitForFunction timeout stays as the fallback bound.
+  await page.evaluate(() =>
+    document.fonts.ready.then(
+      () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(null)))),
+    ),
+  );
   return errors;
 }
 
