@@ -61,7 +61,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 **6 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-2026-07-05-context-hardening.md`](fable-2026-07-05-context-hardening.md) — PROPOSED
-- [`fable-2026-07-05-desktop-journey-e2e.md`](fable-2026-07-05-desktop-journey-e2e.md) — LOCKED
+- [`fable-2026-07-05-desktop-journey-e2e.md`](fable-2026-07-05-desktop-journey-e2e.md) — IN-PROGRESS
 - [`fable-2026-07-05-requirements-rung-progression.md`](fable-2026-07-05-requirements-rung-progression.md) — LOCKED
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — PROPOSED
 - [`opus-2026-07-04-phase2-economy-redesign.md`](opus-2026-07-04-phase2-economy-redesign.md) — PROPOSED

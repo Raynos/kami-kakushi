@@ -1,6 +1,9 @@
 # Plan: desktop e2e lane + player-journey regression net
 
-**Status: LOCKED — human signed off the four open calls, 2026-07-05.**
+**Status: IN-PROGRESS — all phases built on `main` (s88, commits
+f18bd8a…dc7cbbe); flips DONE + archives on the checkpoint push's `e2e.yml`
+CI green.**
+~~Status: LOCKED — human signed off the four open calls, 2026-07-05.~~
 Confidence: ( 75% Opus, 25% Fable )
 
 **Locked calls (human, 2026-07-05, via AskUserQuestion):**

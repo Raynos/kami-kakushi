@@ -145,35 +145,60 @@ the DEV panel's **Scenarios** tab, or `?fixture=<name>`:
 Fixtures are DEV-only (stripped from prod; the `verify-dev-strip` deploy gate greps the bundle to
 prove it). Home + spec model: `src/fixtures/` (specs drive the engine; nothing hand-authored).
 
-### Mobile e2e lane (`e2e/` — real-browser taps, CI-gated, 2026-07-05)
+### Browser e2e lane (`e2e/` — real-browser input, CI-gated, 2026-07-05)
 
-The automated mobile regression net: `npm run test:e2e` runs Playwright
-(`playwright.config.ts`) on two REAL mobile profiles — Android Chrome (Pixel 7,
-chromium) and the iOS floor (iPhone SE 3rd gen, webkit, 375px) — against the DEV
-server at `?dev=no` (true player layout; `__qa` observes, never acts in journeys).
-Two suites:
+The automated real-browser regression net: `npm run test:e2e` runs Playwright
+(`playwright.config.ts`) on THREE projects — Android Chrome (Pixel 7, chromium),
+the iOS floor (iPhone SE 3rd gen, webkit, 375px), and **desktop-chromium
+(1280×800)** — against the DEV server at `?dev=no` (true player layout; `__qa`
+observes, never acts in journeys). Input goes through the `press()` helper: a
+REAL tap on touch profiles, a REAL click on desktop — one spec drives every
+project. Project scoping is per-project `testIgnore`, never copy-pasted specs.
+The suites:
 
-- **`e2e/mobile-layout.spec.ts`** — the invariants, per fixture + cold open +
-  landscape + a desktop→mobile mid-run resize (T2): **no horizontal scroll**,
-  byōbu stacks to ONE column (work above log, work never height-0), every control
-  in reach / ≥24px (WCAG 2.2, the `--tap-min` floor) / actually RECEIVES its tap
-  (`elementFromPoint`, re-probed at scroll-centre so fixed bars don't false-flag).
-  A registry-drift test forces every new F6 fixture into mobile coverage.
-- **`e2e/mobile-journey.spec.ts`** — real TAPS (touch, not synthetic dispatch)
-  through the play paths: cold-open wake, tab switching, a work action landing as
-  a player intent, the scripted wolf fight, the rung-beat summons, settings
-  open/close. Every test also fails on any `pageerror`/`console.error`.
+- **`e2e/mobile-layout.spec.ts`** (mobile projects) — the invariants, per fixture
+  + cold open + landscape + a desktop→mobile mid-run resize (T2): **no horizontal
+  scroll**, byōbu stacks to ONE column (work above log, work never height-0),
+  every control in reach / ≥24px (WCAG 2.2, the `--tap-min` floor) / actually
+  RECEIVES its tap (`elementFromPoint`, re-probed at scroll-centre so fixed bars
+  don't false-flag).
+- **`e2e/desktop-layout.spec.ts`** (desktop) — the mirror: no horizontal scroll,
+  the byōbu SPREAD holds two live columns (both nonzero, no overlap, log ≤ its
+  46% cap), controls ≥18px (a laxer desktop floor — hover-scale styles would
+  false-flag 24px) and receiving the pointer. The shared `FIXTURES` constant +
+  each suite's registry-drift test force every new F6 fixture into BOTH nets.
+- **`e2e/mobile-journey.spec.ts`** (all projects) — the short play paths:
+  cold-open wake, tab switching, a work action landing as a player intent, the
+  scripted wolf fight, the rung-beat summons, settings open/close.
+- **`e2e/journeys.spec.ts`** (all projects) — the story-beat reachability net
+  (the 8 flows of `docs/plans` → `project/archive/` fable-2026-07-05-desktop-journey-e2e):
+  the whole intro VN to the shell, a rung-beat promotion landing, the Tokubei
+  market loop (D-114 talk-to-open), the kura deposit, cook-to-heal (D-076), the
+  repair bind (R4 — `verb-repair` is an R4 unlock by design), a quest slice, and
+  the ascension ceremony. Fixtures checkpoint past grind; tests press only
+  visible controls and assert state + surface outcomes.
+- **`e2e/persistence.spec.ts`** (desktop-chromium only) — what only a real
+  browser proves: the autosave ring lands in `localStorage` and a fresh boot
+  resumes it; the shipped settings textareas round-trip an export/import across
+  browser contexts; a mid-intro refresh resumes the scene (T2).
+
+Every test fails on any `pageerror`/`console.error`. The wiring layer below the
+browser has its own cheap ratchet in the verify gate:
+`src/ui/affordance-coverage.test.ts` — every player-facing `Intent` must be
+dispatched by ≥1 control across representative render states (a new intent fails
+typecheck until classified; an orphaned control fails the sweep).
 
 **Where it gates:** its own CI workflow (`.github/workflows/e2e.yml`, every push)
 — deliberately NOT a `verify` gate: the roster lives under the 5s budget (D-072)
-and a browser suite (~12s local, minutes in CI) is the same RED-able backstop at
-the rung its cost affords. A **pre-push blast-radius advisory** (`.githooks/pre-push`
-— loud warn, never blocks; `SKIP_E2E_WARN=1` silences) names any pushed files
-inside the lane's covered surface (`e2e/`, `playwright.config.ts`,
-`src/fixtures/`, `src/ui/styles.css`) and nudges a local `npm run test:e2e`
-before CI discovers the red minutes later. Born proving its worth: its first run caught the nav
-tab-strip overflowing at 375px AND the dead ≤720px byōbu block (`.work` at
-height 0, the log painted over the verbs — work-tab taps hit the log on phones).
+and a browser suite (~50s local across 3 projects, minutes in CI) is the same
+RED-able backstop at the rung its cost affords. A **pre-push blast-radius advisory**
+(`.githooks/pre-push` — loud warn, never blocks; `SKIP_E2E_WARN=1` silences)
+names any pushed files inside the lane's covered surface (`e2e/`,
+`playwright.config.ts`, `src/fixtures/`, `src/ui/styles.css`) and nudges a local
+`npm run test:e2e` before CI discovers the red minutes later. Born proving its
+worth: its first run caught the nav tab-strip overflowing at 375px AND the dead
+≤720px byōbu block (`.work` at height 0, the log painted over the verbs —
+work-tab taps hit the log on phones).
 
 A live slider panel over a curated set of `balance.ts` feel levers (the W1–W4 balance-watch
 targets first, then stamina / rung / sink / combat feel). **The division is D-059: the HUMAN
