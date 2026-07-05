@@ -91,27 +91,37 @@ The infra is **already built** (v0.3.1 Step 1): the `SURFACES` registry + `rende
 
 1. **Gate (§1).** Confirm the surface is new / a major restyle and the change is render-only against existing
    pure-core props. One-liners are exempt.
-2. **Author the default (A) INLINE in the surface's renderer** (`src/ui/render.ts`) as the normal render path —
+2. **Taste constraint brief — Pass 1 of the [`taste-scorecard`](../taste-scorecard/SKILL.md) skill (F10, D-135).**
+   BEFORE authoring any variant: walk taste.md's 21 principles, write one concrete line per applicable principle
+   (what THIS surface must do to honor it). The brief constrains ALL variants — they diverge in approach, not in
+   whether they meet the bar. Full walk → journal; the compressed brief is carried into the R-item at step 10.
+3. **Author the default (A) INLINE in the surface's renderer** (`src/ui/render.ts`) as the normal render path —
    this is what SHIPS. It needs no variant machinery.
-3. **Add a `SURFACES` entry** in `src/ui/dev.ts`: `{ id: '<surface>', label, variants: [A, B, C] }` — each
+4. **Add a `SURFACES` entry** in `src/ui/dev.ts`: `{ id: '<surface>', label, variants: [A, B, C] }` — each
    variant `{ id, label, blurb }`, `variants[0]` = the self-picked prod default (its `blurb` says "shipped
    default").
-4. **Author the alternates (B / C) in `src/ui/dev.ts`** (a `render<Surface>Variant(variantId, container, state,
+5. **Author the alternates (B / C) in `src/ui/dev.ts`** (a `render<Surface>Variant(variantId, container, state,
    dispatch)` fn returning `true` when it rendered, `false` to fall through to the default). Wire it into
    `renderSurfaceVariant`. Genuinely distinct *approaches* (layout / hierarchy / density / motion — **never**
    palette swaps), all **within the bible** (paper+ink+indigo; vermilion/seal rare; no
    drop-shadow/gradient/glassmorphism/neon/default-component look). Every variant must actually WORK.
-5. **Add the fall-through in the surface's renderer:**
+6. **Add the fall-through in the surface's renderer:**
    `if (import.meta.env.DEV && dev && dev.renderVariant('<surface>', pane, state, dispatch)) return;` **before**
    the default render — so DEV routes to the selected variant and prod (where `dev` is undefined) always draws A.
-6. **Self-review each** live in the DEV panel against the §5 rubric (the Intentionality gate + the conservative
+7. **Self-review each** live in the DEV panel against the §5 rubric (the Intentionality gate + the conservative
    tiebreak) — self-pick the prod default (A).
-7. **Prove strip-safety:** `npm run build` then grep `dist/` for `DEV_SENTINEL` + the variant strings → **0 hits**
+8. **Taste scorecard — Pass 2 (F10, D-135):** score **EVERY variant** against ALL 21 taste.md principles via the
+   [`taste-scorecard`](../taste-scorecard/SKILL.md) skill (a variant the human might pick must not hide a
+   violation) — fix what you can first, compress each verdict, tag each ✘ **[briefed]** (it was in the step-2
+   brief — knew-and-missed) or **[blind spot]** (taste.md's text failed to fire). The brief + per-variant
+   scorecard blocks are **mandatory sections of the R-item** (§6).
+9. **Prove strip-safety:** `npm run build` then grep `dist/` for `DEV_SENTINEL` + the variant strings → **0 hits**
    (the alternates tree-shake out of prod; zero flag-debt).
-8. **File the R-items:** add **one `review.md` line item per variant** (§6 shape, minus the branch/screenshot
-   specifics — "review LIVE in the DEV panel"). Bump the journal + `project-status.md`.
-9. **Commit** (small, green) and **move on** — never wait for the human. The alternates stay DEV-only until the
-   human confirms/overrides via the toggle.
+10. **File the R-items:** add **one `review.md` line item per variant** (§6 shape, minus the branch/screenshot
+    specifics — "review LIVE in the DEV panel"), **plus the taste brief (step 2) + per-variant `Scorecard:`
+    blocks (step 8)**. Bump the journal + `project-status.md`.
+11. **Commit** (small, green) and **move on** — never wait for the human. The alternates stay DEV-only until the
+    human confirms/overrides via the toggle.
 
 ## §3 · [SUPERSEDED] The old `?variant=` flag model
 
@@ -226,9 +236,14 @@ alternates are *built; DEV-only*. Reviewed by toggling each in the running DEV p
 
 ```md
 - **<surface>** (what it is) — ✅ **all three LIVE in the DEV panel** ("VARIANT · <label>"):
+  - **Taste brief (pass 1):** P<n> <one-line constraint> · P<n> … _(mandatory — authored BEFORE the variants)_
   - [ ] **A — <name>** _(self-picked prod default; ships)_ — <one-line what it is>.
+    - **Scorecard (A):** N✔ · N✘ · N— _(mandatory — full 21-walk per variant; ✘ lines below, each tagged
+      [briefed] or [blind spot])_
   - [ ] **B — <name>** _(built; DEV-only)_ — <one-line distinct approach>.
+    - **Scorecard (B):** N✔ · N✘ · N—
   - [ ] **C — <name>** _(built; DEV-only)_ — <one-line distinct approach>.
+    - **Scorecard (C):** N✔ · N✘ · N—
 ```
 
 Silence is a **safe** answer (A already ships; the alternates are DEV-only and cost nothing until picked). **How

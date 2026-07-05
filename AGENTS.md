@@ -266,7 +266,13 @@ Full version:
 - **Build to the taste standard — the four taste values (D-126).** Before
   building or restyling **any** UI surface, feature, or narrative beat, read
   [`docs/living/taste.md`](docs/living/taste.md) (snapshot-class, hard-capped,
-  the human-locked bar) and score the finished work against its principles.
+  the human-locked bar) and run the **two-pass
+  [`taste-scorecard`](.claude/skills/taste-scorecard/SKILL.md) flow (F10,
+  D-135)**: **Pass 1** — a constraint brief BEFORE building (one line per
+  applicable principle: what this work must do to honor it); **Pass 2** — the
+  full 21-walk scorecard AFTER (per variant in a diverge), each ✘ tagged
+  [briefed] or [blind spot]; brief + verdicts attach to the R-item (the
+  diverge flow bakes both in as its §2 steps 2 + 8).
   When no principle covers, reason from the values — they predict the verdict:
   - **T1 · One home for everything** — one tab per capability, one shared
     primitive per idiom, one source per value; delete the old copy on a move.

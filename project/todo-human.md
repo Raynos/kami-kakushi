@@ -103,12 +103,7 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   (R10 closed, 2026-07-05):** you signed off on the candidates — `RICE_PER_RAKE
   3→2`, `autumn 3→4`, `EAT_RICE_COST 3→2` are on canon; W4 left as-is (already
   ~96 min). Re-tune any time via the cockpit; these are still liquid (D-059).
-- [ ] `docs/plans/fable-process-F8-play-telemetry.md` — **real-play
-  telemetry** (top10 #6): your attended-time spec as a pure, unit-proven
-  sessionizer — the 5/20/5 case is a named test asserting exactly 10 min;
-  grounded finding: hidden pauses the sim but **blur does not**, so the
-  report shows ticks vs attended side by side.
-- [ ] `docs/plans/fable-process-F10-taste-bar-enforcement.md` — **taste-bar
+- [ ] `project/archive/fable-process-F10-taste-bar-enforcement.md` (archived — done) — **taste-bar
   enforcement PLACEHOLDER** (top10 #7): deliberately thin — the mechanism
   sketch (per-surface self-scorecards attached to R-items) parked until you
   lock `taste.md` with the other session; redone in full then.

@@ -1820,3 +1820,44 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   (`ACTIVITIES` yields, mob stats) stay out of v1 (a parked v2 "content levers"
   group); `AUTO_REPEAT_MS` is excluded (load-time-frozen into the boot
   `setInterval`).
+
+### D-135 ✅ — process: taste-bar enforcement — the TWO-PASS taste flow (F10)
+- **created_date:** 2026-07-05
+- **Context:** taste.md locked (D-126: 4 values → 21 numbered principles,
+  capped, prediction-tested) but only fired as a "read this first" norm — an
+  agent could build a surface, never walk the principles, and the human would
+  discover the violations in review. taste.md line 150 promised "the pre-ship
+  checklist is the F10 scorecard flow" with no flow built. A post-hoc
+  scorecard alone is a grading instrument, not a generative one — the human
+  steered the shape to two passes (locked in-session, 2026-07-05).
+- **Decision — two passes, everywhere:** every new/restyled surface,
+  feature, or narrative beat (one-liners/fixes exempt) runs the
+  `taste-scorecard` skill twice. **Pass 1 · constraint brief, BEFORE
+  building:** walk ALL 21 principles; one concrete line per applicable one
+  (what THIS work must do to honor it) — the standard as a design input; in
+  a diverge it's authored before ANY variant so it constrains all of them.
+  **Pass 2 · scorecard, AFTER:** the full 21-re-walk (`✔/✘/—`), **per
+  variant** in a diverge (a variant the human might pick must not hide a
+  violation); fix-before-score; a shipped `✘` is a NAMED corner-cut (A19).
+  **The pass-diff is the calibration signal:** each ✘ is tagged
+  **[briefed]** (knew-and-missed → execution slip) or **[blind spot]**
+  (taste.md's text failed to fire → THAT principle is the one to sharpen,
+  D-126 amendment path). Homes: full walks → journal; compressed brief +
+  per-variant verdicts (`N✔ · N✘ · N—` + ✘ lines) → the R-item, intent
+  beside result. Deliberately NO surface-type applicability matrix (a
+  second home for taste.md's structure that would rot — V1); n/a marks are
+  cheap and prove consideration.
+- **Enforcement rung (A11):** a **skill-step + mandatory R-item template
+  sections** — NOT a verify gate (taste pass/fail is judgment; a lint would
+  cry wolf). The teeth are artifact-shaped: an R-item missing its brief /
+  `Scorecard:` blocks is visibly incomplete. Greppable candidates (P4
+  container resets, P20 raw `vw`) graduate to a real gate only on a
+  RECURRING violation — promoted on evidence, not speculation.
+- **Deferred (named, human call — shape B):** the closed distill loop —
+  logging human-vs-scorecard mismatches as F-items feeding `/distill-taste`,
+  with the prediction test re-run as a regression harness — is NOT built;
+  re-distill of taste.md stays **manual only** (the human invokes it).
+  Blind-spot tags accumulate in R-items/journals meanwhile, so the evidence
+  corpus exists whenever the human fires a re-distill.
+- **Anti-theater tripwire:** if scorecards trend all-✔ with never a ✘, the
+  flow is rubber-stamping — revisit the instrument, not the surfaces.

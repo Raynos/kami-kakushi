@@ -9,6 +9,10 @@ pacing. IDs `R1…Rn`, never reused. Status: 🔲 open · ⏳ waiting on Claude 
 ### R1 🔲 — {what to review}
 - **Asking for:** {the specific verdict needed}
 - **How to look:** {dev URL / screenshot / steps to reproduce}
+- **Taste brief (pass 1):** {mandatory for surface/feature R-items — the pre-build
+  constraint lines per applicable taste.md principle (F10, D-135)}
+- **Scorecard:** N✔ · N✘ · N— {mandatory — the post-build 21-walk verdict, per variant
+  in a diverge; ✘ lines below, each tagged [briefed] or [blind spot]}
 - **Verdict:** {filled in by the human}
 -->
 

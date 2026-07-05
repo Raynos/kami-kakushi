@@ -11,11 +11,34 @@ locked, D-126) — rewrote it into the full plan, then built the scorecard flow.
   phases Ph1–Ph4, named deferrals (/ship composition awaits F9; mechanical
   sub-gates await a recurring violation).
 
+## Mid-build steer (the important part)
+
+The human stopped the initial solo build and locked the shape via
+AskUserQuestion — the design improved materially:
+
+- **Two-pass** (human's idea): Pass 1 = a constraint brief BEFORE building
+  (the standard as design input, authored before any variant); Pass 2 = the
+  post-build scorecard. The pass-diff tags each ✘ **[briefed]**
+  (knew-and-missed) vs **[blind spot]** (taste.md text failed to fire →
+  the principle to sharpen).
+- Locked forks: shape **B** (distill pipe deferred, re-distill **manual
+  only**) · all-21 walk · compressed verdicts (full walks → journal; brief
+  in BOTH journal + R-item) · **every variant fully scored** (override of
+  my default+deltas pick) · skill-step rung, no gate · coverage everywhere.
+
+## Built (all landed)
+- `.claude/skills/taste-scorecard/SKILL.md` (new) — the two-pass flow.
+- diverge SKILL.md — §2 steps 2 + 8 + 10 (renumbered), §6 template.
+- AGENTS.md D-126 bullet → two-pass pointer.
+- review.md format comment → brief + scorecard sections.
+- ADR D-135 (two-pass, locked forks, named deferrals).
+- Plan → ✅ DONE.
+
 ## Next intended steps
-1. Ph2 — author `.claude/skills/taste-scorecard/SKILL.md`.
-2. Ph3 — wire diverge §2/§6 + AGENTS.md D-126 pointer + review.md format
-   comment.
-3. Ph4 — ADR D-135, flip plan DONE.
+1. Archive the F10 plan + fix its reading-queue link once `todo-human.md`
+   frees up (co-agent WIP).
+2. After F9 merges: one-line /ship step ("touched surfaces have brief +
+   scorecards").
 
 ## Landmines
 - `project/todo-human.md` has co-agent WIP (MM) — do NOT touch it; F10's
