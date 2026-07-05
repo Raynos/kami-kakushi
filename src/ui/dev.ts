@@ -1896,6 +1896,24 @@ export interface DevQa {
   fixtures(): ReadonlyArray<{ name: string; blurb: string }>;
   /** Read the live rung so the panel can highlight it (structural subset of __qa.selectors). */
   selectors: { rung(): RankId };
+  /** F8 — the attended-time telemetry handle (absent only in tests that stub qa). The panel's
+   *  Telemetry section is MINIMAL by human lock: one-liner + drop/clear (no copy/download). */
+  telemetry?:
+    | undefined
+    | {
+        sentinel: string;
+        summary(): {
+          runId: string;
+          class: string;
+          attendedMin: number;
+          activeMin: number;
+          idleMin: number;
+          segments: number;
+          taints: readonly string[];
+        };
+        drop(): void;
+        clear(): void;
+      };
 }
 
 export function mountDevPanel(
@@ -2101,6 +2119,33 @@ export function mountDevPanel(
       qa.autoCombat(null);
     }),
   );
+
+  // F8 — Telemetry (MINIMAL by human lock 2026-07-05: one live line + drop/clear; the
+  // copy/download/console.table buttons were cut — the project/telemetry/ folder drop is the
+  // transport). DEV instrument panel, not a player surface → diverge-exempt (locked; the
+  // Scenarios/Balance precedent). The line refreshes on a slow tick; stamped with the F8
+  // sentinel so the strip gate can see the section rode the DEV fold.
+  if (qa.telemetry) {
+    const tele = section('Telemetry');
+    const t = qa.telemetry;
+    const line = el('div');
+    line.style.cssText = 'flex:1 1 100%;color:#e7d9bc;opacity:.85;';
+    line.dataset.sentinel = t.sentinel;
+    const refresh = (): void => {
+      const s = t.summary();
+      const taint = s.taints.length > 0 ? ` · TAINTED (${s.taints.join(', ')})` : '';
+      line.textContent = `${s.attendedMin} min attended (${s.activeMin} active / ${s.idleMin} idle) · now: ${s.class} · ${s.segments} seg${taint}`;
+    };
+    refresh();
+    window.setInterval(refresh, 5000);
+    tele.append(line);
+    tele.append(mono('Drop report → project/telemetry/', () => t.drop()));
+    tele.append(
+      mono('Clear history', () => {
+        if (window.confirm('Clear ALL telemetry history (every stored run)?')) t.clear();
+      }),
+    );
+  }
 
   // F38 — New game lives ONLY in the fixed footer now (it used to be duplicated here in a
   // Settings→Game section). The footer copy (below, F34) is the single always-visible one.

@@ -253,6 +253,13 @@ Full version:
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/living/qa-playtesting.md).
+- **Real-play telemetry — read `project/telemetry/` before touching balance
+  (F8).** The human's DEV sessions auto-drop attended-time pacing reports
+  (git-ignored, local sensor data) there; the D-132 balance flow's step 0
+  ([qa-playtesting.md §2](docs/living/qa-playtesting.md)) is: if untainted
+  reports exist, quote attended-vs-sim for the touched rungs in the commit
+  body, and distill any pacing conclusion into a committed note (the folder
+  README's diary rule). Human pacing data never gates.
 - **Playtest capture inbox — capture in-game, drain async (F3).** In a DEV
   build the `` ` `` hotkey enters **pick mode** (hover-highlight → click the
   element you're commenting on, or click empty / Esc for a general note); a note

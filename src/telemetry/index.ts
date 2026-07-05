@@ -21,6 +21,7 @@ import { autosArmed, detectMilestones } from './milestones';
 import { formatRunReport, type MilestoneEntry, type RunRecord, type SimRow } from './report';
 import { attachSignals, INPUT_THROTTLE_MS } from './signals';
 import { createTelemetryStore, TELEMETRY_STORE_KEY } from './store';
+import { postSessionReport } from './drop';
 import { walkPacing } from '../scripts/pacing-report';
 
 /** A marker that exists ONLY in this DEV module — verify-dev-strip.sh greps the prod bundle
@@ -47,6 +48,9 @@ export interface TelemetryQa {
   segments(): SessionizerState['segments'];
   runs(): readonly RunRecord[];
   configure(patch: Partial<TelemetryConfig & { inputThrottleMs: number }>): TelemetryConfig;
+  /** Drop the current run's report into project/telemetry/ NOW (the panel button; session-end
+   *  drops happen automatically on segment close). */
+  drop(): void;
   clear(): void;
 }
 
@@ -104,6 +108,9 @@ export function createTelemetry(opts: {
           `[telemetry] segment closed (${seg.closer}): +${((seg.activeMs + seg.idleMs) / 60000).toFixed(1)} attended min · run total ${(attendedMs(ss) / 60000).toFixed(1)} min`,
         );
       }
+      // Session-end auto-drop (human-locked): every close re-drops the run's report file into
+      // project/telemetry/ — fire-and-forget; the ring is the buffer if the drop fails.
+      postSessionReport(runId, qa.report());
     }
   }
 
@@ -171,6 +178,9 @@ export function createTelemetry(opts: {
       const { inputThrottleMs: _drop, ...cfg } = patch;
       ss = { ...ss, config: { ...ss.config, ...cfg } };
       return ss.config;
+    },
+    drop(): void {
+      postSessionReport(runId, qa.report());
     },
     clear(): void {
       store.clear();

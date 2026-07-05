@@ -102,6 +102,13 @@ always-loaded context while being editable on its own.
   be drained (`/drain-inbox`), `archive/` keeps drained ones long-term. The `.md`
   (note + deterministic save) is committed; the `.png` screenshot is git-ignored.
   Not the human queue — see its [`README`](project/playtest-inbox/README.md).
+- [`project/telemetry/`](project/telemetry) — **git-ignored** real-play
+  attended-time reports (F8): one `<runId>.md` per game run, auto-dropped on
+  session-end by the DEV telemetry (`src/telemetry/` + the `telemetry-drop`
+  vite dev-middleware). Local sensor data agents read before balance work —
+  never committed; the [`README`](project/telemetry/README.md) (committed)
+  carries the contract incl. the diary rule (distill conclusions into
+  committed notes).
 - [`raw/`](raw) — **committed reference material from outside the repo**:
   [`screenshots/`](raw/screenshots) holds the human-captured shots of the two
   README inspiration games (proto23, yet-another-idle-rpg — the D-126 density

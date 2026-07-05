@@ -12,6 +12,20 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+### Internal
+
+- **Real-play attended-time telemetry (F8).** A DEV-only, unit-proven
+  sessionizer measures the human's ACTUAL play minutes (5-min-play /
+  20-min-away / 5-min-play records 10, not 30): two-tier idle TTL (5 min
+  autos / 2 min static), blur/hidden excluded, retroactive walk-away splits,
+  sleep watchdog, note re-engagement, and a taint ledger so `__qa`-driven
+  runs never pollute the data. Per-rung reports (attended vs sim vs band)
+  auto-drop into git-ignored `project/telemetry/` on session-end; the
+  session brief shouts fresh reports; the D-132 balance flow now starts by
+  reading them. DEV panel gains a minimal Telemetry section (live line +
+  drop/clear). Stripped from prod (new `__KAMI_TELEMETRY__` deploy-gate
+  marker, proven by build+grep). Nothing changes for the player.
+
 ## [0.3.7] — 2026-07-05
 
 A tooling-only release — nothing changes for the player. It cuts a clean build

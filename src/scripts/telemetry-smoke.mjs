@@ -7,6 +7,8 @@
 //
 // Run with a dev server up:  npm run dev  →  node src/scripts/telemetry-smoke.mjs
 // (QA_URL overrides the target, like save-smoke.mjs.)
+import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 const BASE = process.env.QA_URL || 'http://localhost:5173';
@@ -124,6 +126,22 @@ try {
     );
   } else {
     fail(`run ${runId} not found in the ring after reload`);
+  }
+
+  // ── Ph4: the session-end auto-drop landed a report FILE in project/telemetry/ ──
+  // (Only provable when the target is the local dev server serving THIS tree.)
+  if (BASE.includes('localhost')) {
+    const dropPath = fileURLToPath(new URL(`../../project/telemetry/${runId}.md`, import.meta.url));
+    if (existsSync(dropPath)) {
+      const body = readFileSync(dropPath, 'utf-8');
+      if (body.includes(runId) && body.includes('segments:')) {
+        ok(`auto-drop landed project/telemetry/${runId}.md (${body.length} B, report-shaped)`);
+      } else {
+        fail(`dropped file exists but isn't report-shaped (${body.slice(0, 60)}…)`);
+      }
+    } else {
+      fail(`no auto-dropped report at project/telemetry/${runId}.md`);
+    }
   }
 
   if (pageErrors.length) fail('page errors: ' + pageErrors.slice(0, 3).join(' | '));

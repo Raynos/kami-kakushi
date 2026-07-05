@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { CAPTURE_ENDPOINT, playtestInboxHandler } from './src/scripts/playtest-inbox';
+import { TELEMETRY_DROP_ENDPOINT, telemetryDropHandler } from './src/scripts/telemetry-drop';
 
 // The VERSION is the SINGLE SOURCE OF TRUTH from package.json — NOT git tags
 // (human call, H1/2026-07-01): the game/HTML/TS must never read a git tag for
@@ -76,6 +77,17 @@ export default defineConfig(({ command }) => {
             new URL('./project/playtest-inbox/pending', import.meta.url),
           );
           server.middlewares.use(CAPTURE_ENDPOINT, playtestInboxHandler(pendingDir));
+        },
+      },
+      {
+        // Telemetry report drop (F8 Ph4): the attended-time report auto-drops on session-end
+        // into git-ignored project/telemetry/ (local sensor data agents read — see its README).
+        // Same `apply: 'serve'` shape as the inbox: structurally absent from any build.
+        name: 'telemetry-drop',
+        apply: 'serve',
+        configureServer(server) {
+          const dir = fileURLToPath(new URL('./project/telemetry', import.meta.url));
+          server.middlewares.use(TELEMETRY_DROP_ENDPOINT, telemetryDropHandler(dir));
         },
       },
       {

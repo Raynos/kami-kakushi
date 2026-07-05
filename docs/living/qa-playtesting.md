@@ -178,6 +178,41 @@ with a clipboard-copy + file-download fallback if the dev server is unreachable.
 5. **Commit** citing the artifact (quote the touched-levers table in the body) and **`git mv` /
    delete the inbox file in the same commit** (completion is the archive move, like `/drain-inbox`).
 
+### Real-play telemetry (F8 — the attended-time stopwatch, 2026-07-05)
+
+The third leg of the pacing triangle: sim bots (theory, §2) · design bands
+(intent) · **the human's real minutes (this)**. A DEV-only sessionizer
+(`src/telemetry/`, pure + unit-proven) classifies every instant as
+attended-active / attended-idle / hidden-away / walked-away, so
+5-min-play → 20-min-away → 5-min-play records **10 minutes, not 30**:
+
+- **The model:** input within 60 s ⇒ active; visible+focused with no input
+  stays counted (watching autos / reading the log IS play) up to a
+  **two-tier idle TTL** — 5 min with autos armed, 2 min static; hidden or
+  blurred is excluded ALWAYS; a walk-away with the tab up is detected
+  retroactively (segment closed back-dated to lastInput+TTL); a 30 s
+  heartbeat watchdog catches lid-close sleeps; reacting to a game note
+  within 30 s reopens back-dated to the note. Constants live in
+  `src/telemetry/sessionizer.ts`, all injectable via
+  `__qa.telemetry.configure`.
+- **The taint ledger:** any `__qa` drive/teleport/speed/import labels the
+  run (`qa-drive`, `toRung`, `speed>1`, `save-import`, …) — tainted runs
+  render labelled and are EXCLUDED from vs-sim columns. **Agents: your
+  headless runs are automatically tainted; `__qa.telemetry.clear()` after
+  a harness session keeps the ring lean.**
+- **Where the data lands:** per-rung reports (attended vs `walkPacing()`
+  sim minutes vs the band, + ticks + economy snapshots) auto-drop on
+  session-end into **git-ignored [`project/telemetry/`](../../project/telemetry/README.md)**
+  — read that README's contract (never commit reports; distill conclusions
+  into committed notes). Handles: `__qa.telemetry.{summary,report,segments,
+  runs,configure,drop,clear}`; the DEV panel's **Telemetry** section shows
+  the live one-liner + drop/clear buttons.
+- **Smoke:** `node src/scripts/telemetry-smoke.mjs` (dev server up) —
+  compressed 5/20/5 with real events; proves attended ≠ wall, zero hidden
+  ticks (D-079), ring persistence, the auto-drop file.
+- **Human pacing data NEVER gates** (locked 2026-07-05): n=1 evidence for
+  the human's own tuning; the sim owns gating.
+
 ---
 
 ## 2. The headless auto-player ("the bot") — **BUILT for T0** (F4, 2026-07-04)
@@ -199,10 +234,14 @@ balance sim (`src/sim/`, plan `project/archive`-bound `fable-process-F4-balance-
   `balance:selftest` (harness self-proof) · `balance:fresh` (fingerprint staleness, also a
   pre-commit WARN). A slim in-gate tripwire (`src/sim/pacing-envelope.test.ts`) rides the vitest
   gate (~40 ms).
-- **The balance-change flow (the norm):** (1) touch balance/content values → (2)
-  `npm run verify:balance` → (3) `npm run balance:report` + eyeball the report diff → (4) commit
-  the report WITH the change, pasting `balance-sim --summary` (per-rung deltas + verdicts) into
-  the commit body. A staged design-input change with a stale report trips the pre-commit WARN.
+- **The balance-change flow (the norm):** (0) **read `project/telemetry/` first (F8)** — if
+  untainted real-play reports exist, quote attended-vs-sim for the touched rungs in the commit
+  body (the human's real minutes outrank the bot's theory as evidence; a conclusion drawn from
+  them gets distilled into a committed note per that folder's README) → (1) touch
+  balance/content values → (2) `npm run verify:balance` → (3) `npm run balance:report` + eyeball
+  the report diff → (4) commit the report WITH the change, pasting `balance-sim --summary`
+  (per-rung deltas + verdicts) into the commit body. A staged design-input change with a stale
+  report trips the pre-commit WARN.
 - **Determinism contract:** personas are deterministic functions of (state, issued-history);
   all game randomness stays in `GameState.rng`; same (persona, seed) ⇒ byte-identical
   `RunMetrics` (test-asserted). Soft-locks RED at `SIM_SOFTLOCK_INTENTS` no-progress intents.

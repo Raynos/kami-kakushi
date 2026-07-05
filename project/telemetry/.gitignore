@@ -1,0 +1,4 @@
+# F8: telemetry reports are LOCAL sensor data — never committed (see README.md).
+*
+!.gitignore
+!README.md

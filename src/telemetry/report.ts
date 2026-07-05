@@ -52,7 +52,9 @@ export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = [])
   const tainted = run.taints.length > 0;
   const label = tainted ? `TAINTED: ${run.taints.join(', ')}` : 'untainted';
   const lines: string[] = [];
-  lines.push(`run ${run.runId} (v${run.buildVersion} ${run.buildSha}) — ${label}`);
+  // buildVersion is printed AS-IS — the __VERSION__ define already carries its own prefix (A21:
+  // one source for the version string, never re-decorated here into a "vv").
+  lines.push(`run ${run.runId} (${run.buildVersion} ${run.buildSha}) — ${label}`);
   lines.push(`started ${run.startedAtISO} · seed ${run.seed}`);
   lines.push('');
 

@@ -102,3 +102,41 @@ green (17 gates; the telemetry suite is now 33 tests).
 
 **Side fix:** `pacing-report.ts`'s CLI guard is now `typeof process`-safe
 — the browser report imports `walkPacing()` for the vs-sim column.
+
+---
+
+## 4 · Ph3+Ph4 built — panel, transport, and the delivery loop
+
+Built together (the panel's drop button IS the Ph4 transport), committed
+as one unit:
+
+- **Folder:** `project/telemetry/` — committed README (the contract: never
+  commit reports; the DIARY RULE — conclusions distilled into committed
+  notes) + `.gitignore` (`*` except README); ignore proven via
+  `git check-ignore`.
+- **Transport:** `src/telemetry/drop.ts` (fetch, keepalive, warn-once) →
+  `src/scripts/telemetry-drop.ts` (vite dev-middleware, `apply:'serve'`,
+  runId allowlist + traversal jail + size cap) wired in vite.config.ts.
+  Auto-drop on EVERY segment close (session-end included) + the manual
+  panel button + `__qa.telemetry.drop()`. Traversal POST rejected (proven
+  by curl).
+- **Panel (Ph3, minimal per lock):** Telemetry section in the DEV panel's
+  Settings pane — live one-liner (attended/active/idle · current class ·
+  taints, 5 s refresh, sentinel-stamped) + Drop report + Clear (confirm).
+  Headless-proven present with a live line reading `away` (correct: a
+  headless page is unfocused).
+- **Shout:** `session-brief.sh` prints 📊 when `project/telemetry/*.md`
+  (excl. README) is newer than the last `balance(…)` commit — proven BOTH
+  firing (fake report → one line) and silent (no reports → zero lines).
+- **Signpost:** qa-playtesting §1 gains the F8 telemetry subsection;
+  §2's balance flow gains step 0 (read telemetry first, quote
+  attended-vs-sim); AGENTS.md Conventions line + repo-map entry.
+- **Proofs re-run:** telemetry-smoke (7/7 incl. the auto-drop file
+  landing), strip build+grep clean, full verify green. CHANGELOG
+  [Unreleased] entry added. Report `vv` version double-prefix fixed (A21).
+
+**Landmine hit & surfaced:** editing vite.config.ts triggered vite's
+config-restart, which re-ran `singleServerGuard` — the guard saw its OWN
+old listener on :5173 and `process.exit(1)`'d, KILLING the running dev
+server. Restarted it. Latent bug: ANY config edit kills a live dev server;
+the guard should skip when the holder pid is its own process tree.
