@@ -145,11 +145,21 @@ need no tune; the tool surfaced it.
   active-plans region (`docs/plans/README.md`) + reading queue updated by
   `npm run checkpoint`. Full verify green (17 gates).
 
-## 5 · Post-build — W1–W4 review-only tuning proposals (decision #4)
+## 5 · Post-build — W1–W4 review-only tuning proposals (decision #4) ✅
 
-Deriving candidate values from the live-feel readouts, surfaced as `?bal.*` URLs
-+ per-item R-items in `human-in-the-loop/review.md`. **Nothing committed to
-canon** — the human accepts/adjusts/rejects each live in the cockpit.
+Candidates derived from the live-feel readouts + the balance-watch, surfaced as
+`?bal.*` URLs + review item **R9** (`human-in-the-loop/review.md`) with the full
+analysis in `project/brainstorms/2026-07-05-f7-w-proposals.md`. **Nothing on
+canon** — the human feels each on the sliders and exports their final numbers.
+
+- **W4 — no change proposed** (D-133 already lands the capstone at ~96 min; the
+  watch item was stale).
+- **W1** `RICE_PER_RAKE 3→2` · **W2** `RICE_SELL_PRICE_BY_SEASON.autumn 3→4` ·
+  **W3** `EAT_RICE_COST 3→2`. Combined URL hydrates clean (headless-verified, 3
+  touched, 0 errors).
+
+**F7 COMPLETE** — all four phases + the review-only proposals shipped to
+`origin/main` (Ph1 `1a04aa0`, Ph2 `b749a4b`, Ph3 `210c205`, Ph4 `46bd9ed`).
 
 ## Landmines (current)
 

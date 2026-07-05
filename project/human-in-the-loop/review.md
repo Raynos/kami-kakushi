@@ -243,6 +243,32 @@ for your read in
 
 ---
 
+### R9 🔲 — F7 balance-cockpit: W1–W4 tuning proposals (feel them live, D-059 — nothing on canon)
+
+The F7 balance cockpit is built (D-134). These are **starting-point candidates**
+for the four economy balance-watch feel items, surfaced for you to FEEL live —
+**nothing is committed to canon**; you accept / adjust / reject each on the
+sliders, then **Export tune → inbox** and an agent transcribes your final numbers.
+Full analysis + reasoning:
+[`project/brainstorms/2026-07-05-f7-w-proposals.md`](../brainstorms/2026-07-05-f7-w-proposals.md).
+
+- **W4 (capstone pacing) — I propose NO change.** The watch item predates D-133;
+  the cockpit readout now shows the capstone at ~96 min (in the intended ~85-min
+  band). Please confirm by feel.
+- **W1 (rice faucet):** `RICE_PER_RAKE 3 → 2` (trim the faucet 33%).
+- **W2 (store-vs-sell):** `RICE_SELL_PRICE_BY_SEASON.autumn 3 → 4` (narrow the
+  swing to 1.5×; D-118 spoilage already added a holding cost).
+- **W3 (eat vs rest):** `EAT_RICE_COST 3 → 2` (narrow eat's coin disadvantage;
+  keeps the eat-faster-than-rest lever).
+- **Asking for:** which candidates (if any) feel right — and your final numbers.
+- **How to look:** `npm run dev`, then load the combined tune link
+  `/?bal.RICE_PER_RAKE=2&bal.RICE_SELL_PRICE_BY_SEASON.autumn=4&bal.EAT_RICE_COST=2`
+  (or open the DEV panel → **Balance** tab and drag). Play; when a set feels
+  right, **Export tune → inbox**.
+- **Verdict:** _(awaiting the human)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **R4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **D-076…D-079** (+D-056); **R3** folded into R2 (**D-075**).
