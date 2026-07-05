@@ -62,7 +62,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 
 - [`fable-process-F10-taste-bar-enforcement.md`](fable-process-F10-taste-bar-enforcement.md) — PARKED
 - [`fable-process-F8-play-telemetry.md`](fable-process-F8-play-telemetry.md) — PROPOSED
-- [`fable-process-F9-ship-skill.md`](fable-process-F9-ship-skill.md) — PROPOSED
+- [`fable-process-F9-ship-skill.md`](fable-process-F9-ship-skill.md) — IN-PROGRESS
 - [`fable-process-master-plan.md`](fable-process-master-plan.md) — IN-PROGRESS
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — PROPOSED
 - [`opus-2026-07-04-phase2-economy-redesign.md`](opus-2026-07-04-phase2-economy-redesign.md) — PROPOSED

@@ -108,13 +108,6 @@ queue entry cleared; the plans below are renamed + reordered to match it.)_
   sessionizer — the 5/20/5 case is a named test asserting exactly 10 min;
   grounded finding: hidden pauses the sim but **blur does not**, so the
   report shows ticks vs attended side by side.
-- [ ] `docs/plans/fable-process-F9-ship-skill.md` — **the `/ship` release
-  skill** (top10 #10): one human-invoked command for the whole train — bump
-  → CHANGELOG → verify → **isolated temp-worktree build of HEAD** (never
-  ships co-agents' WIP) → deploy → **live-site version PROOF** (fetches the
-  deployed bundle, requires the new version + build SHA) → record. Found 4
-  real gaps in today's deploy path, incl. dirty-tree builds and a
-  silently-stranded gh-pages commit.
 - [ ] `docs/plans/fable-process-F10-taste-bar-enforcement.md` — **taste-bar
   enforcement PLACEHOLDER** (top10 #7): deliberately thin — the mechanism
   sketch (per-surface self-scorecards attached to R-items) parked until you

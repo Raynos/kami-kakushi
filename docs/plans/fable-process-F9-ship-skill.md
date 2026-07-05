@@ -1,15 +1,29 @@
 # /ship — the one-command release train (skill + script)
 
-**Status:** 📋 PROPOSED — awaiting human read. No code changed yet. One
-user-invoked command — `/ship patch|minor` — runs the whole release train:
+**Status:** 🔨 IN-PROGRESS — ratified by the human in-session (2026-07-05,
+all §8 defaults walked through interactively); building Ph1. One
+user-invoked command — `/ship` — runs the whole release train:
 bump → CHANGELOG → verify → isolated build → DEV-strip gate → deploy →
 **live-site version proof** → record → journal/snapshot ripple. Every piece
 exists today as a separate script, gate, or convention; the skill removes the
 between-steps friction and the forget-a-step class.
 
-**Reading queue:** this is a new `docs/plans/*.md` proposal, so it must be
-added to [`project/todo-human.md`](../../project/todo-human.md) in the commit
-that lands it (the pre-commit queue gate enforces this).
+**Ratified decisions (human, 2026-07-05):**
+
+- **Tags: skip** (§3 default stands).
+- **Mid-train confirm: keep, exactly one** (§3 step 3 stands).
+- **itch: OUT of the train entirely** — supersedes §3 step 8 / §8.5: no
+  `--itch` flag; `npm run build:itch` stays a separate manual path. Struck
+  below.
+- **Bump grammar: `/ship` alone = patch**; `/ship minor` or an explicit
+  `/ship 0.4.0` override — no `AskUserQuestion` fallback (supersedes §3
+  step 1's "if absent, ask once").
+- **Bump advice:** at the payload confirm the skill *may* flag a
+  minor-weight CHANGELOG section and suggest minor; it never decides.
+- **Worktree: `tmp/ship/wt`** (§8.6 default stands).
+- **No bash test scaffolding** (§8.7 default stands) — the real release is
+  the acceptance test.
+- **Sequencing: Ph1 → the human runs `/ship` (v0.3.6) → Ph2.**
 
 ## Who builds this — Fable or Opus?
 
@@ -116,8 +130,10 @@ Judgment steps (bump choice, CHANGELOG prose, commit, journal) live in
    shared-tree dirt (never touch); note any co-agent red ("don't fight
    someone else's red" — a red tree will block step 4's pre-commit verify,
    so surface it now).
-1. **Bump choice** (skill). `/ship patch` or `/ship minor` via skill args
-   (`argument-hint: "patch | minor"`); if absent, `AskUserQuestion` once.
+1. **Bump choice** (skill). ~~`/ship patch` or `/ship minor` via skill args
+   (`argument-hint: "patch | minor"`); if absent, `AskUserQuestion` once.~~
+   *(Superseded — ratified 2026-07-05:)* args are
+   `patch (default when absent) | minor | x.y.z` — no question asked.
    Compute `NEW` from `package.json`. Bump with `npm pkg set version=$NEW` —
    touches `package.json` only, matching the 2-file house release diff (the
    lockfile's root version sits deliberately at `0.0.0`; leave it).
@@ -153,11 +169,9 @@ Judgment steps (bump choice, CHANGELOG prose, commit, journal) live in
    footer triple verbatim. **The deploy is not done until this passes** —
    exit 0 requires the proof; a timeout exits nonzero saying "pushed but
    UNPROVEN" (§4).
-8. **Optional itch zip** (`ship.sh --itch`). Zip the *temp worktree's*
-   `dist/` (the exact deployed bytes — don't rerun `build:itch`, which would
-   rebuild from the shared tree) → `$REPO_ROOT/kami-kakushi-itch.zip`
-   (already gitignored). Print "upload manually" — upload stays
-   human/browser (D-016: manual, human-approved itch upload; no butler).
+8. ~~**Optional itch zip** (`ship.sh --itch`).~~ *(Struck — ratified
+   2026-07-05: itch is OUT of the train entirely; `npm run build:itch`
+   stays the separate manual path, upload manual per D-016.)*
 9. **Record + ripple** (skill). Journal entry (append-only house shape):
    version, release SHA, gh-pages deploy SHA, the fetched live footer string,
    itch zip if built. Refresh the deployed-version mentions in
@@ -193,7 +207,9 @@ after success, rsyncs a no-op and re-proves the live site.
 - **Autonomous invocation** — never; `/ship` is the sign-off (§1).
 - **Force-push** — never, either branch. `gh-pages.sh --force` (empty-commit
   redeploy) is not part of the train; humans can still run it directly.
-- **itch upload** — the zip is produced; upload is manual (D-016).
+- **itch, entirely** — ~~the zip is produced; upload is manual (D-016)~~
+  *(ratified 2026-07-05: no `--itch` flag; `build:itch` + manual upload
+  stay a separate path outside the train).*
 - **Git tags** (§3), **CI/butler automation**, **rollback automation**
   (rollback = a human decision; fix forward or redeploy an older SHA by
   hand), **any stash/checkout/restore of files the skill didn't author**.
@@ -209,21 +225,22 @@ The judgment ends — bump choice, CHANGELOG voice, commit messages, journal
 prose, the confirm — cannot be scripted and stay in `SKILL.md`. So:
 
 - `.claude/skills/ship/SKILL.md` — frontmatter (`name: ship`,
-  `argument-hint: "patch | minor"`, `disable-model-invocation: true`);
-  steps 0–5 and 9 as short prose; steps 6–8 as "run
-  `bash src/scripts/ship.sh [--itch]` and relay its report"; the resume
+  `argument-hint: "[patch | minor | x.y.z] (default patch)"`,
+  `disable-model-invocation: true`);
+  steps 0–5 and 9 as short prose; steps 6–7 as "run
+  `bash src/scripts/ship.sh` and relay its report"; the resume
   rules of §4. Like prepare-to-exit, it holds **no copy** of the deploy
   mechanics — `ship.sh` is the single source.
 - `src/scripts/ship.sh` — preflight ancestor check, temp-worktree build
   (§2), delegation to the temp `gh-pages.sh`, live proof (§3.7),
-  `--itch`, `--verify-live`, EXIT-trap cleanup
+  `--verify-live`, EXIT-trap cleanup
   (`git worktree remove --force` + `prune`). `PAGES_URL` env-overridable
   constant. Header: human-invoked via `/ship` only.
 
 ## 7 · Phases
 
 **Phase 1 — the happy path, proven on a real release.** `ship.sh` (preflight
-+ temp-worktree build + delegation to gh-pages.sh + live proof + `--itch` +
++ temp-worktree build + delegation to gh-pages.sh + live proof +
 cleanup trap); `SKILL.md`; queue entry for this plan.
 *DoD:* a REAL patch release (v0.3.6) ships end-to-end via `/ship` — one
 invocation, one confirm — and the journal entry quotes the live-fetched
@@ -257,8 +274,9 @@ rather than rewriting it.
    public; one question per release is cheap (D-089 spirit: ask once, about
    the thing that matters).*
 4. **Tags.** *Default: skip (H1 rationale, §3). Cheap to add later.*
-5. **itch in the train.** *Default: out; `--itch` produces the zip from the
-   deployed bytes; upload manual (D-016).*
+5. **itch in the train.** ~~*Default: out; `--itch` produces the zip from
+   the deployed bytes; upload manual (D-016).*~~ *(Ratified 2026-07-05:
+   out entirely — no `--itch` flag at all.)*
 6. **Temp worktree location.** *Default: `tmp/ship/wt` (repo-local,
    gitignored, sandbox-friendly); sibling-dir alternative like the gh-pages
    worktree if tmp/ churn bothers anyone.*
