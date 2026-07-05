@@ -8,6 +8,8 @@
 // A leaf module: imports nothing from core, so it never closes a dependency cycle.
 // Populated incrementally as emit sites migrate (Stage C2…C8), grouped by source file.
 
+import { NAMES } from './names';
+
 export type LogParamValue = string | number | boolean;
 export type LogParams = Readonly<Record<string, LogParamValue>>;
 
@@ -20,6 +22,21 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     `The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+${p.bonus} koku)`,
   'season.spoilage': (p) =>
     `The season turns, and some of your rice has spoiled in the store. (−${p.total} rice)`,
+
+  // ── ranks.ts — promotions ────────────────────────────────────────────────────
+  'rank.wallWeapon': (p) =>
+    `You mount your ${p.weapon} on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.`,
+  'rank.marker': (p) => `Rank ↑ — ${p.title} ${p.kanji}`,
+
+  // ── ascension.ts — T0→T1 ─────────────────────────────────────────────────────
+  // Global NAMES constants are baked in (not per-event params); re-derivation stays
+  // consistent if a name is ever retconned. Only the event-dynamic `knot` is a param.
+  'ascension.hall': () =>
+    `The house gathers in the main hall. The lord ${NAMES.lord} names you a man of the ${NAMES.house} — no longer a servant earning his rice, but one entrusted with the house's own standing. You feel the weight of it settle, and something in you answer to it. (You ascend — the Estate rises.)`,
+  'ascension.dream': (p) =>
+    p.knot
+      ? `That night the dream comes clearer than it ever has: hands that are yours and not yours, tying a porter's knot you never learned; a road in the dark; a name on the tip of your tongue. You wake reaching for it, and it is already gone.`
+      : `That night a dream comes — a road in the dark, a name almost remembered — and is gone by the time you wake.`,
 };
 
 /** Render a line's text from its content-key + params. Throws on an unknown key —

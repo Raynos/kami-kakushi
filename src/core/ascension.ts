@@ -15,7 +15,6 @@ import {
   ASCENSION_BOON_BASE_POINTS,
   ASCENSION_BOON_OVERSHOOT_PER_POINT,
 } from './content/balance';
-import { NAMES } from './content/names';
 
 /** The T0→T1 ascension gate (D-049/D-057): Estate ≥ EXCELLENT, in Phase 2, still at tier 0.
  *  This unlocks the OPTION only — the ascension is a manual opt-in story event (D-049/D-062). */
@@ -53,14 +52,13 @@ export function ascend(state: GameState): GameState {
     log: [
       {
         channel: 'milestone',
-        text: `The house gathers in the main hall. The lord ${NAMES.lord} names you a man of the ${NAMES.house} — no longer a servant earning his rice, but one entrusted with the house's own standing. You feel the weight of it settle, and something in you answer to it. (You ascend — the Estate rises.)`,
+        contentKey: 'ascension.hall',
       },
       {
         channel: 'narration',
         voice: 'narrator', // F91/F93 — scene narration → consistent narrator voice
-        text: knot
-          ? `That night the dream comes clearer than it ever has: hands that are yours and not yours, tying a porter's knot you never learned; a road in the dark; a name on the tip of your tongue. You wake reaching for it, and it is already gone.`
-          : `That night a dream comes — a road in the dark, a name almost remembered — and is gone by the time you wake.`,
+        contentKey: 'ascension.dream',
+        params: { knot },
       },
     ],
   });

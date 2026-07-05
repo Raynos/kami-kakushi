@@ -2748,7 +2748,12 @@
           "channel": "milestone",
           "text": "Rank ↑ — Gate-watch 門番",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "Gate-watch",
+            "kanji": "門番"
+          }
         },
         {
           "key": 1300,

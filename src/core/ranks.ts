@@ -67,7 +67,8 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
         {
           channel: 'milestone',
           voice: 'narrator',
-          text: `You mount your ${w.label.toLowerCase()} on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.`,
+          contentKey: 'rank.wallWeapon',
+          params: { weapon: w.label.toLowerCase() },
         },
       ],
     });
@@ -76,7 +77,13 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
   // scannable progression record. Single-sourced from the RankDef (A21 — never hand-typed); the
   // rung-up STORY prose lives in the beat greeting (Story channel), never here.
   next = applyRewards(next, {
-    log: [{ channel: 'milestone', text: `Rank ↑ — ${rank.title} ${rank.kanji}` }],
+    log: [
+      {
+        channel: 'milestone',
+        contentKey: 'rank.marker',
+        params: { title: rank.title, kanji: rank.kanji },
+      },
+    ],
   });
   // a promotion is a renewal — the house feasts a new rank, so the BELLY refills (satiety). HP does
   // NOT: under D-050 only eating (cook) mends wounds, so a rung climb can't be farmed as a free heal.

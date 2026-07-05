@@ -20,6 +20,21 @@ describe('log-content registry — golden line equality', () => {
     );
   });
 
+  it('rank.marker renders the terse progression line (arrow U+2191, em dash U+2014)', () => {
+    expect(renderLogLine('rank.marker', { title: 'Steward', kanji: '家令' })).toBe(
+      'Rank ↑ — Steward 家令',
+    );
+  });
+
+  it('ascension.dream branches on the porters-knot param', () => {
+    expect(renderLogLine('ascension.dream', { knot: true })).toBe(
+      "That night the dream comes clearer than it ever has: hands that are yours and not yours, tying a porter's knot you never learned; a road in the dark; a name on the tip of your tongue. You wake reaching for it, and it is already gone.",
+    );
+    expect(renderLogLine('ascension.dream', { knot: false })).toBe(
+      'That night a dream comes — a road in the dark, a name almost remembered — and is gone by the time you wake.',
+    );
+  });
+
   it('throws loudly on an unknown contentKey (a migration bug, not a blank line)', () => {
     expect(() => renderLogLine('nope.missing')).toThrow(/unknown contentKey/);
   });
