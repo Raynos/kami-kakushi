@@ -1,8 +1,7 @@
 # Plan — Shrink the save file (compression, + optional log descriptors)
 
-**Status:** 🔧 IN-PROGRESS — A + C built locally (7 commits); push pending past a
-co-agent's red tree, then a browser smoke. See **Outcome** at the foot.
-**Author:** Opus 4.8 (session 2026-07-05).
+**Status:** ✅ DONE — A + C shipped to origin/main; e2e + headless browser smoke
+green. See **Outcome** at the foot. **Author:** Opus 4.8 (session 2026-07-05).
 **Related:** D-038 (one RNG), the pure-core boundary (AGENTS.md · Conventions),
 `src/persistence/codec.ts`.
 
@@ -265,3 +264,16 @@ field order, so the 21 existing save round-trip tests still pass).
 **Left for the human:** push once the shared tree clears (Stage A is already on
 `origin/main`; C1–C-final are local — a co-agent's F7 balance-cockpit WIP is red in the
 tree, so a clean push is blocked; never SKIP that red onto main).
+
+## Verification (2026-07-05, browser + e2e)
+
+- **e2e** (`src/persistence/save-e2e.test.ts`): drives the WHOLE T0 arc via the real
+  reducer (`focusedOptimalIntent` + `applyGrindFight`, no forced flags) → a log with
+  BOTH keyed descriptors and keyless content lines → round-trips through the real
+  `SaveManager` (gzip + descriptor strip/rehydrate) **byte-identically**, rebuilds every
+  keyed entry's text from the registry, and round-trips the plain base64 export backstop.
+- **Headless browser smoke** (`src/scripts/save-smoke.mjs`, qa-playtesting §0 headless):
+  loads a rich fixture → confirms localStorage holds a **gzipped** (`KKgz1:`) descriptor
+  blob → reloads from storage → the **300-entry log (13 keyed) rehydrates
+  byte-identically** and the UI paints. Run: `QA_URL=http://localhost:5173 node
+  src/scripts/save-smoke.mjs` (needs `npm run dev`). **PASS.**

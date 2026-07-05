@@ -162,3 +162,18 @@ dominates; the descriptor strip adds ~1–2% — confirming C was for T1, not si
   push; Stage A is already on origin/main). Task #8.
 - A real-browser save/load smoke (tests use Node CompressionStream; browser gzip is
   the same RFC-1952).
+
+## Follow-up (human asked: browser test + save/load e2e) — both green, plan DONE
+
+- **e2e** `src/persistence/save-e2e.test.ts` — drives the whole T0 arc via the real
+  reducer (focusedOptimalIntent + applyGrindFight, no forced flags) → a log with BOTH
+  keyed descriptors and keyless lines → round-trips through the real SaveManager (gzip +
+  descriptor strip/rehydrate) byte-identically + rebuilds keyed text from the registry +
+  the plain base64 export backstop. 4 tests, in the 17-gate roster.
+- **Headless browser smoke** `src/scripts/save-smoke.mjs` (qa-playtesting §0 headless,
+  Playwright on the live :5173 dev server) — loads a rich fixture → confirms localStorage
+  holds a **gzipped `KKgz1:` descriptor blob** → reloads from storage → the **300-entry
+  log (13 keyed) rehydrates byte-identically** and the UI paints. PASS. This closes the
+  one verification I couldn't do headlessly-in-tests (proves the browser CompressionStream
+  path + reload boot() path work).
+- Plan marked **DONE** and archived to `project/archive/`. All work on origin/main.
