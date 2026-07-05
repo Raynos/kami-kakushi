@@ -1,7 +1,18 @@
 # Plan: desktop e2e lane + player-journey regression net
 
-**Status: PROPOSED — awaiting human read (queued in todo-human.md).**
+**Status: LOCKED — human signed off the four open calls, 2026-07-05.**
 Confidence: ( 75% Opus, 25% Fable )
+
+**Locked calls (human, 2026-07-05, via AskUserQuestion):**
+
+1. **Routing: Opus builds all phases** (P2's journey map is pinned below;
+   scope surprises get surfaced, not worked around).
+2. **Sequencing: the desktop lane lands BEFORE Andon M1** (the migration
+   restyles with a net; M3's recomposition churn is accepted and budgeted,
+   same as the mobile lane's DoD).
+3. **Browsers: `desktop-chromium` only** — no desktop-webkit project
+   (mobile-webkit already guards the engine class).
+4. **P2 scope: all 8 journeys in one phase.**
 
 Born from the 2026-07-05 test-suite audit
 (`project/audit/reports/2026-07-05-test-suite-audit.md`): the suite's quality
@@ -11,23 +22,22 @@ the story-critical player journeys. This plan closes the three ❌ rows of the
 audit's regression-net table (desktop layout, journey reachability, browser
 persistence) plus the small hygiene findings.
 
-**Sequencing pressure:** Phase 1 should land **before** the UI-v2 Andon Steel
+**Sequencing (locked):** Phase 1 lands **before** the UI-v2 Andon Steel
 migration (`docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md`) starts
 restyling desktop surfaces — that plan's M1–M6 rebuild exactly the surfaces
-that currently have no desktop net. If the migration starts first, its builder
-inherits Phase 1 as its M0.
+that currently have no desktop net. Andon M3's recomposition will then update
+the lane's layout assertions in-commit, exactly as the mobile lane's DoD
+already requires of it.
 
 ## Who builds this — Fable or Opus?
 
-**Opus builds Phases 1, 3, 4, 5** — mechanical Playwright/vitest authoring
-against a written spec, with proven in-repo patterns to copy (the mobile lane's
-helpers and drift-guard, the render-test spy-mount). **Phase 2's coverage map
-(which journeys, which fixture checkpoints, what each asserts) is judgment** —
-it decides what "a player can reach it" means per flow; this plan pins that map
-below (§Phase 2), so Opus can build from it. If a flow resists (a fixture
-doesn't exist, an affordance is genuinely unreachable), that's a finding, not a
-workaround — surface it, don't force it green. Doubt on any scope call →
-Fable.
+**LOCKED (human, 2026-07-05): Opus builds ALL phases.** The mechanical lanes
+(P1/P3/P4/P5) are Playwright/vitest authoring against proven in-repo patterns
+(the mobile lane's helpers and drift-guard, the render-test spy-mount), and
+Phase 2's coverage map — the judgment part — is pinned below (§Phase 2), so
+Opus builds from it. If a flow resists (a fixture doesn't exist, an affordance
+is genuinely unreachable), that's a finding, not a workaround — surface it,
+don't force it green.
 
 ## Ground rules (inherited, restated)
 
@@ -48,9 +58,8 @@ Fable.
 ## Phase 1 — the desktop e2e lane
 
 1. `playwright.config.ts`: add `desktop-chromium` (1280×800, `Desktop Chrome`)
-   as a third project. (A `desktop-webkit` fourth is optional — mobile-webkit
-   already guards the WebKit engine class; add it only if runtime stays in
-   budget.)
+   as a third project. (Locked: NO `desktop-webkit` fourth — mobile-webkit
+   already guards the WebKit engine class.)
 2. New `e2e/desktop-layout.spec.ts`, reusing/extending `helpers.ts`:
    - **No horizontal overflow** — as-is (`expectNoHorizontalOverflow`).
    - **Controls receive the pointer** — `expectControlsTappable` generalized:

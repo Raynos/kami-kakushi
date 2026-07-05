@@ -46,11 +46,6 @@ _(none open)_
   zero real-browser coverage, no browser test drives the story journeys
   (intro VN, market, quests, ascension, save/reload). Read for the ranked
   gaps + the "does anything go red?" table.
-- [ ] `docs/plans/fable-2026-07-05-desktop-journey-e2e.md` — **the fix plan**
-  for the audit: desktop e2e lane → 8 story-beat browser journeys →
-  persistence journeys → an Intent→affordance coverage ratchet → hygiene.
-  Sequenced to land the desktop lane BEFORE the Andon UI migration restyles
-  the uncovered surfaces. Read to lock the phases.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·

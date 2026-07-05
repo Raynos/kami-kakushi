@@ -57,6 +57,14 @@ both queued for the human.
 2. P5 hygiene items are small and uncontroversial — buildable immediately if
    picked up, no human call needed beyond the plan's sign-off.
 
+## Plan locked (same session, human returned)
+
+The human locked all four open calls via AskUserQuestion: **Opus builds all
+phases** · **desktop lane lands before Andon M1** · **desktop-chromium only**
+(no desktop-webkit) · **all 8 P2 journeys in one phase**. Plan Status →
+LOCKED; its reading-queue entry cleared (discussed = signed off, D-089). The
+plan is now startable autonomous work for an Opus session — P1 first.
+
 ## Landmines
 
 - The plan deliberately does NOT propose pixel-diff visual regression (flaky
