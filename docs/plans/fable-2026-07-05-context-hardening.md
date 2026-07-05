@@ -126,25 +126,22 @@ Order chosen so each cut is independently revertable (one commit each):
 attached for cut 2; `verify` green throughout; the caps go RED when exceeded
 (prove once via a scratch over-length edit, then revert).
 
-## Deliberately NOT in this plan (H-items filed instead)
+## Deliberately NOT in this plan (H-items — filed, then closed same-day)
 
-- **H21 — per-agent worktrees vs the shared tree.** The sweep-guard,
-  tree-mutation warns, staged-set echo, herdr FYIs and "don't fight someone
-  else's red" all defend ONE choice: N agents on one working tree + one
-  index. Worktrees would delete the hazard class (hooksPath is repo-level, so
-  hooks follow for free) at the cost of dev-server/journal-merge friction.
-  Direction call, not execution — needs a grill, not a commit.
-- **H22 — journal shape for routine commits.** The same unit of work is
-  written up to 4× (commit body / journal / snapshot / report-queue). Letting
-  a routine commit's body satisfy the journal gate (journal files
-  materialized from `git log`; hand journals reserved for session summaries)
-  is the single biggest token saver available — and a change to the repo's
-  memory model, so it's yours to shape.
+- **H21 — per-agent worktrees vs the shared tree: CLOSED → A, status quo**
+  (human, 2026-07-05: no appetite for the weight of per-agent
+  worktrees/branches/merging). Consequence: the shared-tree guards are
+  load-bearing **permanently**, which *raises* the value of P2 (test the
+  guards) and P3 (extend their coverage).
+- **H22 — journal shape for routine commits: CLOSED → A, status quo**
+  (human, 2026-07-05: hand journals stay; `SKIP_JOURNAL=1` already covers
+  trivial commits). The 4× write-up cost is accepted as the price of the
+  on-disk memory model — no gate change.
 - `AGENTS.md` prose-register rewrite beyond cut 3 — only worth doing after
   the caps exist and only with you (it's your voice in that file).
 
 ## Sequencing
 
 P1 → P2 → P3 in order, any session, no human gate except the two ⚠️ items.
-P4 starts only after you've read this plan (each cut lands solo). H21/H22 are
-independent conversations; nothing here blocks on them.
+P4 starts only after you've read this plan (each cut lands solo). H21/H22
+closed 2026-07-05 (both → status quo); nothing here was blocked on them.

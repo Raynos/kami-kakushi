@@ -37,6 +37,8 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H18 | Interactive resumable combat (F6) | Defer to forward-tier (T1/T2); auto-resolve stays the T0 spine | **D-103** | 2026-07-01 | [reconcile plan](../archive/2026-07-01-prd-standalone-endstate-reconcile.md) |
 | H19 | T0 Phase-2 pacing band (the ~0.4-min anticlimax) | Phase 2 ≈ Phase 1 (~1:1) as a GENERAL rule → ratio band `[0.8, 1.2]`, HARD gate, + a quick T0 hotfix; real economy redesign queued | **D-133** | 2026-07-04 | [h19 brainstorm](../brainstorms/2026-07-04-h19-t0-phase2-pacing-band.md) |
 | H20 | Promote the balance-report freshness WARN → hard gate? | **B — keep the WARN** (no-op process call; not yet ignored, so no promotion; revisit if it starts getting missed) | kept as WARN (no ADR; see **D-132** §5a) | 2026-07-04 | (in-session steer) |
+| H21 | Per-agent worktrees vs the shared working tree | **A — status quo** (no per-agent worktree/branch/merge weight wanted; the shared-tree guards stay load-bearing permanently) | kept shared tree (no ADR; raises the value of context-hardening P2/P3) | 2026-07-05 | (in-session steer) |
+| H22 | Journal shape for routine commits (the 4× write-up) | **A — status quo** (hand journals stay; `SKIP_JOURNAL=1` already covers trivial commits; write-up cost accepted as the price of the memory model) | kept journal gate (no ADR) | 2026-07-05 | (in-session steer) |
 
 ## Reviews (closed R-items)
 

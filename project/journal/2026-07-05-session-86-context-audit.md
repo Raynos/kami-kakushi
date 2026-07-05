@@ -83,3 +83,16 @@ now"; the stale ✅-closed Balance-watch/R10 bullet trimmed from "Waiting on
 the human" (snapshot-replace rule; journal is the record). Co-agent WIP left
 untouched in the tree at exit: `package.json` modified + untracked
 `pnpm-lock.yaml` (w2:p2's lane, flagged to the human in-session).
+
+## Entry 4 — H21/H22 closed by the human (both → A, status quo)
+
+Mid-checkpoint the human answered both open H-items: **H21 → A** (no
+per-agent worktrees — doesn't want the branch/merge weight; the shared-tree
+guards stay load-bearing permanently, which strengthens the plan's P2/P3
+rationale) and **H22 → A** (journals stay as-is; `SKIP_JOURNAL=1` covers
+trivial commits). Archived per the H20 no-ADR precedent (status-quo process
+calls); `decisions.md` back to open-items-empty; plan §NOT-in-plan +
+snapshot + queue entry rippled. Push state at exit: `origin/main` at
+`61756b5`; local-only commits `f18bd8a` (co-agent) + `699c422` + this one —
+pre-push correctly RED on a co-agent's in-flight `oxfmt` (code lane, not
+docs); left local per "don't fight someone else's red".

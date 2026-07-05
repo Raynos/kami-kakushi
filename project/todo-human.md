@@ -38,9 +38,9 @@ _(none open)_
   `core.hooksPath` → P2 a RED-able `verify:tooling` meta-suite (nightly) → P3
   guardrail coverage/dedupe → P4 context diet (namespace collisions, diverge
   archive, checkpoint-bullet compression, budget-cap AGENTS.md/repo-map).
-  Files H21 (worktrees vs shared tree) + H22 (journal shape / 4× write-up)
-  as open H-items rather than building them. **Read to nod P1–P3; P4 lands
-  per-cut with your review.**
+  H21 (worktrees) + H22 (journal shape) were filed and CLOSED same-day —
+  both → status quo, archived. **Read to nod P1–P3; P4 lands per-cut with
+  your review.**
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
