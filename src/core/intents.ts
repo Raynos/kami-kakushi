@@ -17,7 +17,6 @@ import {
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { advanceClock } from './step';
-import { formatCoin } from './format';
 import { clamp } from './math';
 import {
   satietyMax,
@@ -606,7 +605,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             {
               channel: 'system',
               voice: 'narrator', // F91/F93 — scene narration, consistent narrator voice
-              text: `Your ${getWeapon(next.equippedWeapon).label.toLowerCase()} is broken and there's no wood to mend it — the watch breaks off. Gather wood and repair before you fight on.`,
+              contentKey: 'combat.weaponBroken',
+              params: { weapon: getWeapon(next.equippedWeapon).label.toLowerCase() },
             },
           ],
         });
@@ -634,7 +634,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You repair the ${weapon.label.toLowerCase()}. (−${REPAIR_WOOD_COST} wood${coinFee > 0 ? `, −${formatCoin(coinFee)}` : ''})`,
+            contentKey: 'craft.repair',
+            params: { weapon: weapon.label.toLowerCase(), wood: REPAIR_WOOD_COST, coinFee },
           },
         ],
       });
@@ -662,7 +663,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator',
-            text: `You take up the ${weapon.label.toLowerCase()}.`,
+            contentKey: 'craft.equip',
+            params: { weapon: weapon.label.toLowerCase() },
           },
         ],
       });
@@ -687,7 +689,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             channel: 'system',
             // F91/F93 — cook RESULT flavor is scene narration → `narrator` voice.
             voice: 'narrator',
-            text: `You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−${COOK_SANSAI_COST} sansai${hpGain > 0 ? `, +${hpGain} HP` : ''})`,
+            contentKey: 'food.cook',
+            params: { sansai: COOK_SANSAI_COST, hpGain },
           },
         ],
       });
@@ -711,7 +714,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You take a bowl of plain rice. (−${EAT_RICE_COST} rice${satGain > 0 ? `, +${satGain} body` : ''})`,
+            contentKey: 'food.eatRice',
+            params: { rice: EAT_RICE_COST, satGain },
           },
         ],
       });
@@ -736,7 +740,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You sell ${rice} rice to the pedlar at ${formatCoin(price)} the measure. (+${formatCoin(coinGain)})`,
+            contentKey: 'market.sellRice',
+            params: { rice, price, coinGain },
           },
         ],
       });
@@ -811,7 +816,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You barter ${formatCoin(item.coinCost)} for a ${item.label.toLowerCase()}.`,
+            contentKey: 'market.buyItem',
+            params: { coin: item.coinCost, item: item.label.toLowerCase() },
           },
         ],
       });
@@ -832,12 +838,17 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // the acquire line is a PERMANENT Progress beat (you settled your corner a little more) — not
       // fleeting like a labour line; furnishing your home is a small milestone, F41.
       next = applyRewards(next, {
+        // A granted keepsake carries its own authored acquire line (content, kept as text); a
+        // plain buy uses the registry template (Stage C).
         log: [
-          {
-            channel: 'milestone',
-            voice: 'narrator',
-            text: def.acquireLine ?? `You bring a ${def.label.toLowerCase()} into your corner.`,
-          },
+          def.acquireLine !== undefined
+            ? { channel: 'milestone', voice: 'narrator', text: def.acquireLine }
+            : {
+                channel: 'milestone',
+                voice: 'narrator',
+                contentKey: 'belonging.acquire',
+                params: { item: def.label.toLowerCase() },
+              },
         ],
       });
       break;
@@ -861,15 +872,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       }
       next = withResource(next, intent.resource, -stored);
       next = withBanked(next, intent.resource, stored);
-      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain counts.
-      const storedAmount =
-        intent.resource === 'coin' ? formatCoin(stored) : `${stored} ${intent.resource}`;
+      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain
+      // counts. The denomination now lives in the log-content registry (bank.deposit, Stage C).
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You store ${storedAmount} safe in the kura storehouse.`,
+            contentKey: 'bank.deposit',
+            params: { amount: stored, resource: intent.resource },
           },
         ],
       });
@@ -882,15 +893,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (have <= 0) return state;
       next = withBanked(next, intent.resource, -have);
       next = withResource(next, intent.resource, have);
-      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain counts.
-      const drawnAmount =
-        intent.resource === 'coin' ? formatCoin(have) : `${have} ${intent.resource}`;
+      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain
+      // counts. The denomination now lives in the log-content registry (bank.withdraw, Stage C).
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
             voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
-            text: `You draw ${drawnAmount} back out of the kura storehouse.`,
+            contentKey: 'bank.withdraw',
+            params: { amount: have, resource: intent.resource },
           },
         ],
       });

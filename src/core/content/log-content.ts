@@ -69,6 +69,28 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     `The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.`,
   'combat.drillmaster': () =>
     `${NAMES.drillmaster} the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: "You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest."`,
+
+  // ── intents.ts — player actions ──────────────────────────────────────────────
+  // Only the INLINE-authored templates live here; lines pulled from content data
+  // (topic/option/recipe/destination text) and single-source helpers (rakeLine,
+  // activityLine, homeRestLine) stay in their content modules and persist as {text}.
+  'combat.weaponBroken': (p) =>
+    `Your ${p.weapon} is broken and there's no wood to mend it — the watch breaks off. Gather wood and repair before you fight on.`,
+  'craft.repair': (p) =>
+    `You repair the ${p.weapon}. (−${p.wood} wood${Number(p.coinFee) > 0 ? `, −${formatCoin(Number(p.coinFee))}` : ''})`,
+  'craft.equip': (p) => `You take up the ${p.weapon}.`,
+  'food.cook': (p) =>
+    `You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−${p.sansai} sansai${Number(p.hpGain) > 0 ? `, +${p.hpGain} HP` : ''})`,
+  'food.eatRice': (p) =>
+    `You take a bowl of plain rice. (−${p.rice} rice${Number(p.satGain) > 0 ? `, +${p.satGain} body` : ''})`,
+  'market.sellRice': (p) =>
+    `You sell ${p.rice} rice to the pedlar at ${formatCoin(Number(p.price))} the measure. (+${formatCoin(Number(p.coinGain))})`,
+  'market.buyItem': (p) => `You barter ${formatCoin(Number(p.coin))} for a ${p.item}.`,
+  'belonging.acquire': (p) => `You bring a ${p.item} into your corner.`,
+  'bank.deposit': (p) =>
+    `You store ${p.resource === 'coin' ? formatCoin(Number(p.amount)) : `${p.amount} ${p.resource}`} safe in the kura storehouse.`,
+  'bank.withdraw': (p) =>
+    `You draw ${p.resource === 'coin' ? formatCoin(Number(p.amount)) : `${p.amount} ${p.resource}`} back out of the kura storehouse.`,
 };
 
 /** Render a line's text from its content-key + params. Throws on an unknown key —

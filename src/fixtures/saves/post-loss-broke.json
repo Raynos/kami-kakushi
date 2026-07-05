@@ -2771,7 +2771,12 @@
           "text": "You store 120 rice safe in the kura storehouse.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "bank.deposit",
+          "params": {
+            "amount": 120,
+            "resource": "rice"
+          }
         },
         {
           "key": 1302,

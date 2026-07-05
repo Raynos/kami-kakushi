@@ -2820,7 +2820,13 @@
           "text": "You sell 17463 rice to the pedlar at 6 mon the measure. (+26 ryō 9 monme 58 mon)",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 17463,
+            "price": 6,
+            "coinGain": 104778
+          }
         },
         {
           "key": 8689,
@@ -2836,7 +2842,12 @@
           "text": "You store 26 ryō 9 monme 58 mon safe in the kura storehouse.",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "bank.deposit",
+          "params": {
+            "amount": 104778,
+            "resource": "coin"
+          }
         }
       ],
       "seq": 8691

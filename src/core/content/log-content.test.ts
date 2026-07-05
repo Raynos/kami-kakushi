@@ -75,6 +75,33 @@ describe('log-content registry — golden line equality', () => {
     );
   });
 
+  it('craft.repair shows the coin fee only when one was charged', () => {
+    expect(renderLogLine('craft.repair', { weapon: 'bo staff', wood: 2, coinFee: 5 })).toBe(
+      `You repair the bo staff. (−2 wood, −${formatCoin(5)})`,
+    );
+    expect(renderLogLine('craft.repair', { weapon: 'bo staff', wood: 2, coinFee: 0 })).toBe(
+      'You repair the bo staff. (−2 wood)',
+    );
+  });
+
+  it('food.cook shows the HP gain only when wounds actually mended', () => {
+    expect(renderLogLine('food.cook', { sansai: 2, hpGain: 8 })).toBe(
+      'You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +8 HP)',
+    );
+    expect(renderLogLine('food.cook', { sansai: 2, hpGain: 0 })).toBe(
+      'You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai)',
+    );
+  });
+
+  it('bank.deposit denominates coin but leaves plain resources as counts', () => {
+    expect(renderLogLine('bank.deposit', { amount: 40, resource: 'coin' })).toBe(
+      `You store ${formatCoin(40)} safe in the kura storehouse.`,
+    );
+    expect(renderLogLine('bank.deposit', { amount: 12, resource: 'rice' })).toBe(
+      'You store 12 rice safe in the kura storehouse.',
+    );
+  });
+
   it('throws loudly on an unknown contentKey (a migration bug, not a blank line)', () => {
     expect(() => renderLogLine('nope.missing')).toThrow(/unknown contentKey/);
   });
