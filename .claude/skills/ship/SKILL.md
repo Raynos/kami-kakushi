@@ -42,33 +42,41 @@ revert your own two unstaged edits by path (`git checkout -- package.json
 CHANGELOG.md` ONLY if you authored both changes this run) and report
 "aborted, nothing shipped".
 
-**4 · Release commit.** Pathspec commit of exactly
+**4 · Release commit + tag.** Pathspec commit of exactly
 `package.json CHANGELOG.md`; message `chore(release): vX.Y.Z — <highlights>`
-(50/72 body + `Assisted-by:` trailer); `SKIP_JOURNAL=1` (the journal lands at
-step 9, AFTER the proof — you can't record "live-verified" before it's
-verified). Pre-commit verify + the `verify-changelog` gate run here.
+(50/72 body + `Assisted-by:` trailer); `SKIP_JOURNAL=1` (the journal lands
+at step 9). Pre-commit verify + the `verify-changelog` gate run here. Then
+**tag the release commit: `git tag "v$NEW"`** — the tag is what makes
+`git describe` version the gh-pages deploy messages. *(Why not
+`npm version`, which would bump+commit+tag in one move? It bare-commits the
+SHARED index — sweeping co-agents' staged files — and rewrites the lockfile
+root version this repo pins at `0.0.0`. These explicit steps are its safe
+equivalent; plain `npm version` is fine in a single-agent clone.)*
 
-**5 · Push main.** `git push origin main` — standing-approved; pre-push
-verify fires. The deploy must ship a publicly-reachable SHA (ship.sh
-enforces this with an ancestor check).
+**5 · Push main + tag.** `git push origin main "v$NEW"` —
+standing-approved; pre-push verify fires. The deploy must ship a
+publicly-reachable SHA (ship.sh enforces this with an ancestor check).
 
-**6–7 · Build, deploy, prove.** Run `bash src/scripts/ship.sh` and relay its
-report. It builds a detached temp worktree of HEAD (`tmp/ship/wt`) →
-`npm ci` → `npm run verify` in isolation → the temp copy of `gh-pages.sh`
-(build + DEV-strip gate + rsync + push) → polls the live site until it
-serves BOTH the new `__VERSION__` and the release `__BUILD_SHA__`.
-**Exit 0 = proven live. Nonzero "UNPROVEN" = pushed but not yet proven** —
-re-poll with `bash src/scripts/ship.sh --verify-live`; do NOT proceed to
-step 9 until the proof passes (R3).
+**6–7 · Build + deploy.** Run `bash src/scripts/ship.sh` and relay its
+report. It snaps the persistent temp worktree (`tmp/ship/wt`) to HEAD →
+`npm ci` ONLY when the lockfile hash changed (node_modules is reused
+between ships) → the temp copy of `gh-pages.sh` (build + DEV-strip gate +
+rsync + push, deploy message versioned via `git describe --tags`). No
+verify step — pre-commit + pre-push already ran the full roster against
+the release commit — and NOTHING waits on GitHub Pages: **exit 0 = the
+deploy is PUSHED — that's done** (ratified 2026-07-05). Curious whether
+it's serving yet? `bash src/scripts/ship.sh --verify-live` is a single
+bounded check (never a poll loop).
 
 *(itch is OUT of the train — ratified 2026-07-05. `npm run build:itch` +
 manual upload stay a separate path, D-016.)*
 
 **9 · Record + ripple.** Journal entry (house shape): version, release SHA,
-gh-pages deploy SHA, the live-fetched proof line verbatim. Refresh the
-deployed-version mentions in `project/status/project-status.md`
-(`npm run checkpoint` regenerates the derivable regions). Pathspec commit +
-push. Report done — quoting the proof.
+gh-pages deploy SHA — recorded as **"pushed @ <sha>"**, never
+"live-verified" (that claim needs a `--verify-live` pass; quote its output
+if one ran). Refresh the deployed-version mentions in
+`project/status/project-status.md` (`npm run checkpoint` regenerates the
+derivable regions). Pathspec commit + push. Report done.
 
 ## Resume rules (re-invoking after any failure is safe)
 
@@ -77,14 +85,18 @@ never redo, never re-draft:
 
 - version already bumped + CHANGELOG section present → skip to step 3
   (confirm the existing payload; don't draft a second section).
-- release commit exists but not on origin → step 5.
-- pushed but site unproven → `ship.sh --verify-live`, then step 9.
+- release commit exists but no `v$NEW` tag → tag it (step 4), then step 5.
+- release commit + tag exist but not on origin → step 5.
+- deployed but step 9 not recorded → just do step 9 (`--verify-live` is
+  optional, never a prerequisite).
 - `ship.sh` red in the temp worktree → HEAD itself is bad: fix FORWARD with
   a new commit (no version re-bump — nothing shipped, `verify-changelog`
   still satisfied), then re-invoke; the fix SHA becomes `__BUILD_SHA__`.
 
 ## Never
 
-Autonomous invocation · force-push (either branch) · git tags (H1:
-`package.json` is the single version source) · stash/checkout/restore of
-files this skill didn't author · declaring "shipped" on an UNPROVEN deploy.
+Autonomous invocation · force-push (either branch) · `npm version` in the
+shared tree (bare-commits the shared index; step 4 explains the safe
+equivalent) · stash/checkout/restore of files this skill didn't author ·
+claiming "live-verified" without a `--verify-live` pass ("pushed" is the
+honest claim) · any poll loop (checks are single-shot and bounded).

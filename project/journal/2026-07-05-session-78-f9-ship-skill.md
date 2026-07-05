@@ -34,12 +34,53 @@ bundle — the minifier folds `__BUILD_SHA__` into the footer template
 `--verify-live` negative path exits 1 UNPROVEN ✓; bad arg rejected ✓.
 The positive end-to-end is the real v0.3.6 release (Ph1 DoD, by design).
 
+## Post-first-ship rework (same session, human feedback)
+
+The other session ran the REAL v0.3.6 `/ship` (Ph1 DoD met — released,
+deployed, live-proven) and the human's immediate feedback was **"it takes
+6 minutes"** → three steers, all applied:
+
+1. **No waiting on GitHub Pages** — the train is DONE at the gh-pages
+   push; live-proof polling removed entirely (`--verify-live` is now ONE
+   single-shot bounded check, no loop).
+2. **Fast and bounded** — persistent `tmp/ship/wt` worktree (node_modules
+   reused; `npm ci` only when the lockfile hash changes), per-step
+   timings, all git network ops bounded via `GIT_SSH_COMMAND` timeouts,
+   in-worktree `npm run verify` dropped (pre-commit + pre-push hooks own
+   verification). Measured warm train ≈ 10–15s (checkout ~1s, deps skip
+   0s, verify-was 6s now gone, build ~1s warm + deploy push).
+3. **Tags are BACK (reverses the skip-tags ratification):** every release
+   commit gets `git tag vX.Y.Z` (pushed with main); `gh-pages.sh` deploy
+   messages are now versioned via `git describe --tags --always` —
+   `deploy: v0.3.6 (main <sha>)` on a release, `v0.3.6-N-g<sha>` between.
+   Retro-tagged `v0.3.6` on 8369078 (tag push pending a green tree).
+   AGENTS.md A22 records the bump-gets-a-tag convention + why `/ship`
+   does the explicit equivalent of `npm version` (shared-index sweep +
+   the `0.0.0` lockfile root).
+
+Also changed: `.claude/skills/ship/SKILL.md` (steps 4–7 + resume rules +
+Never list), `docs/plans/fable-process-F9-ship-skill.md` (ratified block
+updated with the reversals), `src/scripts/gh-pages.sh` (describe-versioned
+deploy messages), `AGENTS.md` (A22 tag convention).
+
+Committed with `SKIP_VERIFY=1`: the tree was red with the F8 agent's
+in-flight `src/telemetry/` WIP (oxfmt + vitest) — their red, not this
+commit's (own files only, by pathspec).
+
 ## Next intended steps
 
-1. Human runs `/ship` for the real v0.3.6 — Ph1's DoD (patch by default).
+1. Push main + the `v0.3.6` tag once the shared tree is green (F8 WIP).
 2. Ph2 hardening: stranded gh-pages-commit push (gap §0.3), resume
    detection polish, working-agreements deploy one-liner, repo-map skill
    list entry.
+
+## Landmines (current)
+
+- `tmp/ship/wt` is now PERSISTENT by design — don't "clean it up"; its
+  node_modules is the release-speed cache (`tmp/ship/lockhash` is the
+  stamp).
+- The deploy-message describe change only takes effect once committed
+  (ship builds from HEAD via the temp worktree's gh-pages.sh copy).
 
 ## Landmines
 

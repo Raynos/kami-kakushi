@@ -10,7 +10,16 @@ between-steps friction and the forget-a-step class.
 
 **Ratified decisions (human, 2026-07-05):**
 
-- **Tags: skip** (§3 default stands).
+- ~~**Tags: skip** (§3 default stands).~~ **REVERSED (human, 2026-07-05,
+  post-first-ship):** every release gets a git tag `vX.Y.Z` on the release
+  commit — a consumer now exists: `git describe --tags` versions the
+  gh-pages deploy messages (`deploy: v0.3.6 (main <sha>)` /
+  `v0.3.6-3-g<sha>` between releases). The tag is created in lockstep by
+  the /ship flow (never lagging — the H1 hazard), and the DISPLAYED version
+  stays package.json-sourced (H1/A21 untouched). `npm version` would tag
+  for free but bare-commits the shared index + rewrites the `0.0.0`
+  lockfile root, so /ship does the explicit equivalent; AGENTS.md A22
+  records the convention.
 - **Mid-train confirm: keep, exactly one** (§3 step 3 stands).
 - **itch: OUT of the train entirely** — supersedes §3 step 8 / §8.5: no
   `--itch` flag; `npm run build:itch` stays a separate manual path. Struck
@@ -24,6 +33,22 @@ between-steps friction and the forget-a-step class.
 - **No bash test scaffolding** (§8.7 default stands) — the real release is
   the acceptance test.
 - **Sequencing: Ph1 → the human runs `/ship` (v0.3.6) → Ph2.**
+- **Speed feedback (human, 2026-07-05, after the first real run — ~6 min):
+  the live-site proof no longer BLOCKS the train.** `ship.sh` is DONE at
+  the gh-pages push ("don't wait for GitHub Pages on the backend to do
+  its shit — just git push and then you're done"); the step-9 record
+  says *pushed @ sha*, never "live-verified", and `--verify-live` stays
+  as the optional on-demand proof. Supersedes §3.7's "the deploy is not
+  done until this passes" and §4's UNPROVEN row (no longer a failure
+  state — just an optional check you haven't run). Tightened further the
+  same day: **fast and bounded** — NOTHING polls, ever (`--verify-live`
+  is one single-shot bounded check, no loop), and the in-worktree
+  `npm run verify` is DROPPED ("pnpm verify runs in pre-commit and
+  pre-push so we don't have to manually run it" — the hooks own
+  verification, superseding §2's isolated-verify bonus). Plus: per-step
+  timings, persistent worktree, node_modules reuse keyed on the lockfile
+  hash (`npm ci` only on lockfile change), all git network ops bounded
+  via `GIT_SSH_COMMAND` timeouts. Measured warm train: ~10–15s.
 
 ## Who builds this — Fable or Opus?
 

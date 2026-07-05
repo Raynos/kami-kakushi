@@ -3,67 +3,81 @@
 # Agents must never run this autonomously: a deploy is outward-facing, and
 # the /ship invocation IS the human sign-off (F9 plan §1; working-agreements).
 #
-#   bash src/scripts/ship.sh                full train: isolated build → deploy → live proof
-#   bash src/scripts/ship.sh --verify-live  re-poll the live-site proof only (no build, no deploy)
+#   bash src/scripts/ship.sh                the train: isolated build → deploy push. DONE at the push.
+#   bash src/scripts/ship.sh --verify-live  OPTIONAL single-shot check: is the live site serving this build?
 #
-# The train builds from a DETACHED TEMP WORKTREE of HEAD (tmp/ship/wt) — never
-# from the shared working tree — so the deploy ships exactly the committed
-# release SHA: co-agents' uncommitted WIP can't leak into a release, and the
-# gh-pages "deploy: site @ main <sha>" label is truthful by construction.
-# Running the TEMP WORKTREE'S copy of gh-pages.sh makes it build + DEV-strip
-# check + stamp from the temp tree unchanged (it derives REPO_ROOT from its
-# own BASH_SOURCE); GH_PAGES_WORKTREE points it back at the real worktree.
+# FAST AND BOUNDED (human, 2026-07-05): the train never waits on GitHub
+# Pages' propagation — exit 0 means the gh-pages push landed, full stop —
+# and NOTHING polls, ever (--verify-live is ONE bounded check, no loop).
+# No verify step either: pre-commit + pre-push already ran the full roster
+# against the release commit (the hooks own verification, not the train).
+# Every network op is timeout-bounded. Speed comes from a PERSISTENT temp
+# worktree (tmp/ship/wt, gitignored): node_modules survives between ships
+# and `npm ci` reruns only when package-lock.json's hash changes. Per-step
+# timings print so a slow release says where it went.
 #
-# The deploy is NOT done until the live proof passes: the deployed bundle must
-# serve both the new __VERSION__ and the release __BUILD_SHA__ (R3 — done is
-# earned). A timeout exits nonzero saying "pushed but UNPROVEN"; recover with
-# --verify-live once Pages' cache (~10 min TTL) catches up.
+# The isolation story is unchanged: the build runs from a detached worktree
+# of HEAD — never the shared working tree — so the deploy ships exactly the
+# committed release SHA and co-agents' WIP can't leak into a release. The
+# TEMP WORKTREE'S copy of gh-pages.sh builds + DEV-strip checks + stamps from
+# the temp tree (it derives REPO_ROOT from its own BASH_SOURCE);
+# GH_PAGES_WORKTREE points it back at the real gh-pages worktree.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PAGES_URL="${PAGES_URL:-https://raynos.github.io/kami-kakushi/}"
 GH_WT="${GH_PAGES_WORKTREE:-$REPO_ROOT/../gh-pages-kami-kakushi}"
 WT="$REPO_ROOT/tmp/ship/wt"
-POLL_INTERVAL="${SHIP_POLL_INTERVAL:-15}" # seconds between live-proof polls
-POLL_MAX="${SHIP_POLL_MAX:-600}"          # give up after 10 min (Pages' max-age=600)
+LOCK_STAMP="$REPO_ROOT/tmp/ship/lockhash"
+CURL_MAX=15 # seconds per HTTP fetch (--verify-live)
+
+# Bound every git network op: connect ≤10s, a stalled transfer dies ≤30s.
+export GIT_SSH_COMMAND="ssh -o ConnectTimeout=10 -o ServerAliveInterval=10 -o ServerAliveCountMax=3"
 
 cd "$REPO_ROOT"
 
 VERSION="v$(node -p "require('./package.json').version")"
 SHA="$(git rev-parse --short HEAD)"
 
-# ── the live proof ──────────────────────────────────────────────────────────
-# Fetch index.html (cache-busted), find the hashed entry bundle, fetch it, and
-# require BOTH the version string and the release short SHA. The SHA is the
-# stronger proof — unique per build (vite.config.ts stamps both). NOTE the
-# grep shapes are dictated by the real minified bundle (verified against the
-# live v0.3.5 deploy): the minifier folds the constants into the footer
-# template, so the bundle contains `v0.3.5 · build f8fc4f6`, NOT standalone
-# quoted literals — we grep the unquoted `$VERSION` and the `build $SHA`
-# fragment (a bare 7-hex grep would false-positive on asset hashes).
+T0=$(date +%s)
+STEP_T=$T0
+step() { # step "label" — print the previous step's elapsed, start the next
+  local now
+  now=$(date +%s)
+  if [ -n "${LAST_STEP:-}" ]; then
+    echo "  ✓ ${LAST_STEP} ($((now - STEP_T))s)"
+  fi
+  LAST_STEP="$1"
+  STEP_T=$now
+  echo "▸ $1 …"
+}
+finish() {
+  local now
+  now=$(date +%s)
+  echo "  ✓ ${LAST_STEP} ($((now - STEP_T))s)"
+  echo "✓ $1 — total $((now - T0))s"
+}
+
+# ── the optional live check (ONE bounded shot — NEVER a poll loop) ──────────
+# Grep shapes are dictated by the real minified bundle: the minifier folds the
+# constants into the footer template (`v0.3.5 · build f8fc4f6`), so we grep
+# the unquoted $VERSION and the `build $SHA` fragment (a bare 7-hex grep
+# would false-positive on asset hashes).
 verify_live() {
-  echo "▸ proving the live site serves $VERSION @ $SHA …"
-  local waited=0 html js_path js
-  while true; do
-    html="$(curl -fsS "${PAGES_URL}?ship=$(date +%s)" 2>/dev/null || true)"
-    js_path="$(grep -oE 'assets/index-[^"]+\.js' <<<"$html" | head -1 || true)"
-    if [ -n "$js_path" ]; then
-      js="$(curl -fsS "${PAGES_URL}${js_path}?ship=$(date +%s)" 2>/dev/null || true)"
-      if grep -qF "$VERSION" <<<"$js" && grep -qF "build $SHA" <<<"$js"; then
-        echo "✓ LIVE-PROVEN: $PAGES_URL serves $VERSION · build $SHA ($js_path)"
-        return 0
-      fi
+  echo "▸ one-shot check: does $PAGES_URL serve $VERSION @ $SHA ?"
+  local html js_path js
+  html="$(curl -fsS --max-time "$CURL_MAX" "${PAGES_URL}?ship=$(date +%s)" 2>/dev/null || true)"
+  js_path="$(grep -oE 'assets/index-[^"]+\.js' <<<"$html" | head -1 || true)"
+  if [ -n "$js_path" ]; then
+    js="$(curl -fsS --max-time "$CURL_MAX" "${PAGES_URL}${js_path}?ship=$(date +%s)" 2>/dev/null || true)"
+    if grep -qF "$VERSION" <<<"$js" && grep -qF "build $SHA" <<<"$js"; then
+      echo "✓ LIVE: $PAGES_URL serves $VERSION · build $SHA"
+      return 0
     fi
-    if [ "$waited" -ge "$POLL_MAX" ]; then
-      echo "✗ UNPROVEN after ${POLL_MAX}s: the deploy is pushed, but the live site" >&2
-      echo "  does not yet serve $VERSION @ $SHA (Pages cache TTL is ~10 min)." >&2
-      echo "  Re-poll without rebuilding:  bash src/scripts/ship.sh --verify-live" >&2
-      return 1
-    fi
-    sleep "$POLL_INTERVAL"
-    waited=$((waited + POLL_INTERVAL))
-    echo "  … still waiting (${waited}s / ${POLL_MAX}s)"
-  done
+  fi
+  echo "· not (yet) serving $VERSION @ $SHA — Pages propagation takes minutes (TTL ~10 min)." >&2
+  echo "  The deploy is whatever was pushed; re-check whenever: bash src/scripts/ship.sh --verify-live" >&2
+  return 1
 }
 
 if [ "${1:-}" = "--verify-live" ]; then
@@ -74,11 +88,9 @@ elif [ -n "${1:-}" ]; then
   exit 1
 fi
 
-# ── preflight ───────────────────────────────────────────────────────────────
-# Deploy only a publicly-reachable commit: HEAD must be an ancestor of
-# origin/main (guards the skill's push step — an unpushed release can't ship).
-echo "▸ preflight: HEAD ($SHA) must be on origin/main …"
-git fetch origin
+# ── preflight (bounded fetch + ancestor check) ──────────────────────────────
+step "preflight: HEAD ($SHA) on origin/main?"
+git fetch --quiet origin
 if ! git merge-base --is-ancestor HEAD origin/main; then
   echo "✗ HEAD ($SHA) is not an ancestor of origin/main — push main first." >&2
   exit 1
@@ -87,31 +99,37 @@ if [ ! -e "$GH_WT/.git" ]; then
   echo "✗ gh-pages worktree not found at: $GH_WT" >&2
   exit 1
 fi
-# Informational only — the temp worktree makes shared-tree dirt harmless.
 DIRT="$(git status --porcelain | wc -l | tr -d ' ')"
-[ "$DIRT" != "0" ] && echo "  (shared tree has $DIRT dirty path(s) — ignored: building from HEAD in isolation)"
+[ "$DIRT" != "0" ] && echo "  (shared tree has $DIRT dirty path(s) — ignored: building HEAD in isolation)"
 
-# ── isolated build + deploy ─────────────────────────────────────────────────
-cleanup() {
+# ── persistent temp worktree of HEAD ────────────────────────────────────────
+# Reused between ships (node_modules is the prize). Recreated only if absent
+# or corrupt. Tracked files snap to HEAD via checkout+reset; untracked build
+# output (dist/) is fine — vite empties it, rsync --delete squares the rest.
+step "worktree → HEAD"
+mkdir -p "$REPO_ROOT/tmp/ship"
+if [ -d "$WT" ] && git -C "$WT" rev-parse --git-dir >/dev/null 2>&1; then
+  git -C "$WT" checkout --quiet --detach "$SHA"
+  git -C "$WT" reset --quiet --hard "$SHA"
+else
   git worktree remove --force "$WT" 2>/dev/null || true
   git worktree prune 2>/dev/null || true
-}
-trap cleanup EXIT
-cleanup # clear a stale worktree from a previous crashed run
+  git worktree add --quiet --detach "$WT" HEAD
+fi
 
-echo "▸ temp worktree of HEAD → $WT …"
-mkdir -p "$REPO_ROOT/tmp/ship"
-git worktree add --detach "$WT" HEAD
+# ── deps: npm ci only when the lockfile changed ─────────────────────────────
+step "deps"
+LOCK_HASH="$(shasum -a 256 "$WT/package-lock.json" | cut -d' ' -f1)"
+if [ -d "$WT/node_modules" ] && [ -f "$LOCK_STAMP" ] && [ "$(cat "$LOCK_STAMP")" = "$LOCK_HASH" ]; then
+  echo "  node_modules reused (lockfile unchanged)"
+else
+  (cd "$WT" && npm ci --prefer-offline --no-audit --no-fund)
+  printf '%s' "$LOCK_HASH" >"$LOCK_STAMP"
+fi
 
-echo "▸ npm ci (honest deps from the shipped lockfile) …"
-(cd "$WT" && npm ci --prefer-offline --no-audit --no-fund)
-
-echo "▸ verify — the committed snapshot, green in isolation …"
-(cd "$WT" && npm run verify)
-
-echo "▸ build + DEV-strip gate + deploy (temp worktree's gh-pages.sh) …"
+# ── build + deploy (verification already happened: pre-commit + pre-push
+#    ran the full roster against the release commit — the hooks own it) ──────
+step "build + DEV-strip gate + gh-pages push"
 GH_PAGES_WORKTREE="$GH_WT" bash "$WT/src/scripts/gh-pages.sh"
 
-# ── the proof ───────────────────────────────────────────────────────────────
-verify_live
-echo "✓ shipped: $VERSION · build $SHA · $PAGES_URL"
+finish "shipped: $VERSION · build $SHA pushed to gh-pages (live-check: ship.sh --verify-live)"

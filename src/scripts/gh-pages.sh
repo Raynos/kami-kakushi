@@ -66,22 +66,27 @@ rsync -a --delete --exclude='.git' "$REPO_ROOT/dist/" "$WORKTREE/"
 # 3. tell GitHub Pages not to run Jekyll (serve assets/ and any _-files verbatim).
 touch "$WORKTREE/.nojekyll"
 
-# 4. commit + push from the worktree.
+# 4. commit + push from the worktree. The deploy message carries the VERSION:
+#    `git describe --tags` — the exact release tag (v0.3.6) when deploying a
+#    tagged release, or vX.Y.Z-N-g<sha> for N commits past it (/ship creates
+#    the tag at release; see .claude/skills/ship/SKILL.md). --always falls
+#    back to the bare sha if no tag is reachable.
 SHA="$(git rev-parse --short HEAD)"
+DESCRIBE="$(git describe --tags --always)"
 cd "$WORKTREE"
 git add -A
 if git diff --cached --quiet; then
   if [ "$FORCE" -eq 1 ]; then
     echo "▸ no site changes — forcing an empty commit (--force)…"
-    git commit --allow-empty -m "deploy: site @ main $SHA (forced redeploy)"
+    git commit --allow-empty -m "deploy: $DESCRIBE (main $SHA, forced redeploy)"
     git push -u origin gh-pages
-    echo "✓ published gh-pages @ main $SHA (forced empty commit)"
+    echo "✓ published gh-pages @ $DESCRIBE (main $SHA, forced empty commit)"
     exit 0
   fi
   echo "✓ no site changes to publish."
   echo "  (pass --force to redeploy anyway: npm run gh-pages -- --force)"
   exit 0
 fi
-git commit -m "deploy: site @ main $SHA"
+git commit -m "deploy: $DESCRIBE (main $SHA)"
 git push -u origin gh-pages
-echo "✓ published gh-pages @ main $SHA"
+echo "✓ published gh-pages @ $DESCRIBE (main $SHA)"

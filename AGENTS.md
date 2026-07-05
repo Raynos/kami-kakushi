@@ -242,6 +242,13 @@ Full version:
   and CI). So **bumping the version and forgetting the changelog entry fails the
   build** — it's a content invariant (highest sound rung, never cries wolf), not a
   diff heuristic. When you bump `package.json`, add the release section.
+  **A version bump also gets a git tag `vX.Y.Z` on the release commit**
+  (human, 2026-07-05): the tag is what lets `git describe --tags` version
+  the gh-pages deploy messages. Prefer `npm version x.y.z` (bump + commit +
+  tag in one move) in a single-agent clone — but in THIS shared tree it
+  bare-commits the shared index and rewrites the pinned-at-`0.0.0` lockfile
+  root, so releases go through **`/ship`**, which does the safe explicit
+  equivalent (`npm pkg set` → pathspec commit → `git tag`).
 - **Playtest via code, not synthetic input.** Expose a DEV-only play API on
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
