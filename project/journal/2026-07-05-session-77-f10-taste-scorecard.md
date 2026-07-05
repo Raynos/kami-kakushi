@@ -42,11 +42,23 @@ F10 reading-queue entry cleared (D-089 — grilled + locked + built this
 session). The plan-archive move had already been auto-done by
 `npm run checkpoint` in the build commit.
 
+## Post-checkpoint steer — shape C simplified to NOTHING (human, s77)
+
+Walked the human through how a feedback-vs-scorecard diff would work
+(principle tagging at drain time, mismatch F-items, prediction-test
+regression). Verdict: "sounds complicated af" — and that's the answer.
+**No machinery.** The diff already happens for free: the scorecard sits in
+the R-item; when the human's verdict contradicts a ✔, the agent handling
+that verdict sharpens the mis-scored taste.md principle ON THE SPOT (D-126
+amendment path). Revisit the built pipe ONLY if, after ~a dozen scorecarded
+reviews, mismatches demonstrably leak (dropped, or the same principle
+mis-scored 3×). Do NOT eagerly build shape C.
+
 ## Next intended steps
 1. After F9 merges: one-line /ship step ("touched surfaces have brief +
    scorecards").
-2. Future plan (deferred by human call): the /distill-taste mismatch pipe
-   (shape C) — evidence accumulates via [blind spot] tags meanwhile.
+2. Shape C: deliberately nothing (see above) — on-the-spot taste.md fixes;
+   machinery only on demonstrated leakage.
 
 ## Landmines
 - `project/todo-human.md` has co-agent WIP (MM) — do NOT touch it; F10's
