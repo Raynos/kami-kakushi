@@ -28,6 +28,7 @@ import { createSfx } from '../ui/sfx';
 import { createDevApi, mountDevPanel, createBalanceCockpit } from '../ui/dev';
 import { mountCapture } from '../ui/capture';
 import { snapshotDom } from '../ui/capture-screenshot';
+import { createTelemetry } from '../telemetry';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -103,6 +104,7 @@ async function boot(): Promise<void> {
   // up the real run to the F96 slot FIRST (so navigating here is never a silent loss), then routes
   // through the SAME import → migrate → validate path as a normal load (and adopts it, so a reload
   // keeps you in the scenario). Stripped from prod with the whole DEV branch.
+  let bootedFromFixture = false;
   if (import.meta.env.DEV) {
     const fixtureName =
       typeof window !== 'undefined'
@@ -113,8 +115,10 @@ async function boot(): Promise<void> {
       if (fixture) {
         await save.backup(state);
         const res = await save.importState(toBase64(JSON.stringify(fixture.env)));
-        if ('state' in res) state = res.state;
-        else note(root, `Fixture "${fixtureName}" failed to load: ${res.reason}`);
+        if ('state' in res) {
+          state = res.state;
+          bootedFromFixture = true;
+        } else note(root, `Fixture "${fixtureName}" failed to load: ${res.reason}`);
       } else {
         note(root, `Unknown fixture "${fixtureName}".`);
       }
@@ -153,6 +157,7 @@ async function boot(): Promise<void> {
           // reconcile the imported save's write-once latch against its state predicates (same
           // load-path back-reveal as boot) before the first render.
           state = revealPass(res.state);
+          telemetry?.onRunStart('import', state); // F8: an imported save is a new (tainted) run
           safely(() => render(state, null));
         } else {
           // surface a FAILED restore — otherwise the modal just closes and a bad/truncated save
@@ -166,6 +171,7 @@ async function boot(): Promise<void> {
       state = createInitialState(DEFAULT_SEED);
       reveals.length = 0;
       actionCount = 0;
+      telemetry?.onRunStart('new-game', state); // F8: fresh run record (history kept, run-id tagged)
       safely(() => render(state, null));
       void flushSave();
     },
@@ -189,7 +195,18 @@ async function boot(): Promise<void> {
     typeof window !== 'undefined' && /[?&]dev=(?:no|0|false)\b/i.test(window.location.search);
   const dev = import.meta.env.DEV && !devOff ? createDevApi() : undefined;
 
-  const render = mount(root, dispatch, hooks, dev);
+  // F8 — attended-time telemetry (DEV-only; the same ternary-fold idiom, so src/telemetry/
+  // tree-shakes out of prod — verify-dev-strip.sh greps for its sentinel to PROVE it).
+  // Deliberately OUTSIDE the `if (dev)` gate: `?dev=no` true-layout playtests are exactly the
+  // sessions worth measuring, and telemetry has no visible surface to distort them.
+  const telemetry = import.meta.env.DEV
+    ? createTelemetry({ build: { version: __VERSION__, sha: __BUILD_SHA__ } })
+    : undefined;
+  telemetry?.onRunStart(bootedFromFixture ? 'fixture' : 'boot', state);
+
+  // The RENDERER'S dispatch copy only is wrapped — every intent through it is a PLAYER intent.
+  // autoStep below keeps the raw dispatch (auto-mode intents are not the human acting).
+  const render = mount(root, telemetry ? telemetry.wrapDispatch(dispatch) : dispatch, hooks, dev);
 
   // reveal-on-load: render existing log statically (no re-spam)
   safely(() => render(state, null));
@@ -205,6 +222,9 @@ async function boot(): Promise<void> {
   function commit(next: GameState): void {
     if (next === state) return;
     trackReveals(state, next);
+    // F8 — the milestone tap: rung-ups/ascensions/losses + auto/note transitions, observed as
+    // a (prev, next) diff exactly like trackReveals. One DEV-guarded line; core untouched.
+    if (import.meta.env.DEV) telemetry?.onCommit(state, next);
     prev = state;
     state = next;
     safely(() => render(state, prev));
@@ -310,15 +330,32 @@ async function boot(): Promise<void> {
       }),
     });
 
+    // F8 — the taint ledger (plan §3.1): any __qa drive/teleport/time-distortion labels the
+    // run, so agent-driven or cheated sessions can never silently pollute the human pacing
+    // data (they render labelled, excluded from the vs-sim comparison).
+    const qaTaint = (name: string): void => telemetry?.taint(name);
+
     const qa = {
       state: () => state,
-      dispatch: (intent: Intent) => dispatch(intent),
+      dispatch: (intent: Intent) => {
+        qaTaint('qa-drive');
+        dispatch(intent);
+      },
       // F7 — headless balance-cockpit handle: set(path,v) / read / touched / reset / exportMarkdown.
       balance: cockpit,
-      activity: (id: ActivityId) => dispatch({ type: 'do_activity', activityId: id }),
-      auto: (id: ActivityId | null) => dispatch({ type: 'set_auto', activityId: id }),
+      activity: (id: ActivityId) => {
+        qaTaint('qa-drive');
+        dispatch({ type: 'do_activity', activityId: id });
+      },
+      auto: (id: ActivityId | null) => {
+        qaTaint('qa-drive');
+        dispatch({ type: 'set_auto', activityId: id });
+      },
       /** Walk to a map node via real move_to hops over the revealed graph. */
-      goto: (node: string) => walkTo(node),
+      goto: (node: string) => {
+        qaTaint('qa-drive');
+        return walkTo(node);
+      },
       // DEV teleport to ANY rung, in EITHER direction (F68). This USED to greedily re-simulate the
       // focused-optimal policy tick-by-tick (up to 50_000 steps, each a fresh map BFS) — a long
       // synchronous sim that spun the CPU and FROZE the page (F24); it also only ever climbed UP.
@@ -327,6 +364,7 @@ async function boot(): Promise<void> {
       // stale higher-rung unlock/panel) then re-climbs — the human's "new game + RX back-to-back to
       // go down a rung". Still O(rungs) applyPromotion calls with NO tick-resim, so the F24 fix holds.
       toRung: (id: RankId) => {
+        qaTaint('toRung');
         const plan = planRungJump(state, id);
         if (plan.state === state) return state.rung; // unknown target → no-op
         if (plan.reset) {
@@ -348,23 +386,30 @@ async function boot(): Promise<void> {
       // spatial (Step 5b): walk to the foe's ground first, then face it — so a DEV drive fights the
       // real foe on its node rather than silently no-opping off it.
       faceWolf: () => {
+        qaTaint('qa-drive');
         walkTo(getMob('wolf_scripted').area);
         dispatch({ type: 'face_wolf' });
       },
       fight: (mobId: MobId) => {
+        qaTaint('qa-drive');
         walkTo(getMob(mobId).area);
         dispatch({ type: 'fight', mobId });
       },
-      autoCombat: (mobId: MobId | null) => dispatch({ type: 'set_auto_combat', mobId }),
+      autoCombat: (mobId: MobId | null) => {
+        qaTaint('qa-drive');
+        dispatch({ type: 'set_auto_combat', mobId });
+      },
       setStance: (stance: StanceId) => dispatch({ type: 'set_stance', stance }),
       // ── DEV playtest tools (DS#1/DS#16/D-067) — speed toggle + jump-to teleports ──
       /** 2×/4×/8× time multiplier: run N auto-steps per tick (1 = prod cadence). */
       speed: (mult: number) => {
         autoSpeed = Math.max(1, Math.floor(mult));
+        if (autoSpeed > 1) qaTaint('speed>1'); // F8: distorted time — pacing data unusable
         return autoSpeed;
       },
       /** Jump to the R7 capstone (Phase 2 open) so the live macro spine is reachable at once. */
       jumpToPhase2: () => {
+        qaTaint('jumpToPhase2');
         commit({
           ...state,
           rung: 'R7',
@@ -375,6 +420,7 @@ async function boot(): Promise<void> {
       },
       /** Jump to an ascension-ready state (Estate EXCELLENT) so the T0→T1 ceremony is one click away. */
       jumpToAscension: () => {
+        qaTaint('jumpToAscension');
         const exc = balance.ESTATE_BANDS.excellent;
         commit({
           ...state,
@@ -392,8 +438,14 @@ async function boot(): Promise<void> {
         });
       },
       /** Teleport the stored tier (the jump-to-tier teleport; pairs with toRung). */
-      toTier: (t: number) => commit({ ...state, tier: Math.max(0, Math.floor(t)) }),
-      tick: (dt: number) => commit(coreTick(state, dt)),
+      toTier: (t: number) => {
+        qaTaint('toTier');
+        commit({ ...state, tier: Math.max(0, Math.floor(t)) });
+      },
+      tick: (dt: number) => {
+        qaTaint('qa.tick');
+        commit(coreTick(state, dt));
+      },
       frames: (n: number) => {
         for (let i = 0; i < n; i++) safely(() => render(state, prev));
       },
@@ -412,6 +464,7 @@ async function boot(): Promise<void> {
         state = createInitialState(seed);
         reveals.length = 0;
         actionCount = 0;
+        telemetry?.onRunStart('new-game', state); // F8
         safely(() => render(state, null));
       },
       // F96 — the save-backup safety net exposed for the DEV panel's "goto last backup" button.
@@ -424,6 +477,7 @@ async function boot(): Promise<void> {
           state = res.state;
           reveals.length = 0;
           actionCount = 0;
+          telemetry?.onRunStart('import', state); // F8
           safely(() => render(state, null));
           return true;
         }
@@ -439,6 +493,7 @@ async function boot(): Promise<void> {
           // reconcile the imported save's write-once latch against its state predicates (same
           // load-path back-reveal as boot) before the first render.
           state = revealPass(res.state);
+          telemetry?.onRunStart('import', state); // F8: tainted `save-import` run
           safely(() => render(state, null));
         }
         return res;
@@ -456,13 +511,17 @@ async function boot(): Promise<void> {
       /** List the available scenarios ({ name, blurb }) — the DEV panel + headless drivers read it. */
       fixtures: () => getFixtures().map(({ name, blurb }) => ({ name, blurb })),
       forceState: (patch: Partial<GameState>) => {
+        qaTaint('forceState');
         commit({ ...state, ...patch });
       },
       setSeed: (seed: number) => {
         prev = null;
         state = createInitialState(seed);
+        telemetry?.onRunStart('new-game', state); // F8
         safely(() => render(state, null));
       },
+      // F8 — the attended-time handle: summary / report / segments / runs / configure / clear.
+      telemetry: telemetry?.qa,
       pacing: () => ({
         actionCount,
         ticks: state.clock.day * 24 + state.clock.tick,

@@ -77,3 +77,28 @@ Semantics settled during the build (each with a test):
 - Loss detector is best-effort (hp → SETBACK_HP from above), commented as
   such; disarm emits the `note` the re-engage rule consumes;
   promotion-ready note derives from `rungThreshold` (D-086 rule 2).
+
+---
+
+## 3 · Ph2 built — DOM shell + ring + main.ts wiring + strip teeth
+
+`signals.ts` (one-line passive listeners; self-rescheduling heartbeat so
+configure() re-cadences live), `store.ts` (localStorage ring, 256 KB cap,
+oldest-whole-run pruning, in-memory degrade — 5 unit tests), `index.ts`
+(createTelemetry: wrapDispatch renderer-only tap, onCommit milestone tap,
+run lifecycle, taint ledger, `__qa.telemetry` handle, multi-tab beacon
+warn). main.ts: DEV ternary-fold creation, run starts on
+boot/new-game/import/fixture/restore, taints on every distorting `__qa`
+verb (speed>1, toRung, jumps, toTier, tick, forceState) + `qa-drive` on
+the drive verbs. `verify-dev-strip.sh` gains `__KAMI_TELEMETRY__`.
+
+**Proofs (Ph2 DoD, all real):** prod build + grep = zero telemetry marker
+(strip proven); `telemetry-smoke.mjs` (headless, real pointer events +
+real visibilitychange with overridden visibilityState) — attended
+2656 ms ≈ scripted 2500 ms play with the 2000 ms hidden span EXCLUDED,
+hidden span advanced ZERO game ticks (D-079 cross-check), run recovered
+from the ring after reload, `__qa` drive tainted the run. Full verify
+green (17 gates; the telemetry suite is now 33 tests).
+
+**Side fix:** `pacing-report.ts`'s CLI guard is now `typeof process`-safe
+— the browser report imports `walkPacing()` for the vs-sim column.

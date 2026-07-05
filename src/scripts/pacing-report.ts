@@ -122,7 +122,10 @@ export function walkPacing(seed = SEED): RungPacing[] {
 //    D-056: ONE profile now — T0 is ≥30-floor-EXEMPT, gated instead on the sane T0 band
 //    [T0_PACING_BAND_MIN, T0_PACING_BAND_MAX] = [3, 22] min. Guarded so importing this from a
 //    test does NOT run the CLI. ──
-const RUN_AS_CLI = process.argv[1]?.includes('pacing-report') ?? false;
+// `typeof process` guard: the F8 DEV telemetry report imports walkPacing() in the BROWSER
+// (the vs-sim column) — a bare `process.argv` there is a boot-time ReferenceError.
+const RUN_AS_CLI =
+  typeof process !== 'undefined' && (process.argv[1]?.includes('pacing-report') ?? false);
 if (RUN_AS_CLI) {
   const check = process.argv.includes('--check');
   const rows = walkPacing();
