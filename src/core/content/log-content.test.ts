@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderLogLine } from './log-content';
+import { renderLogLine, LOG_CONTENT, type LogParams } from './log-content';
 import { formatCoin } from '../format';
 import { createInitialState } from '..';
 import { applyRewards } from '../rewards';
@@ -104,6 +104,51 @@ describe('log-content registry — golden line equality', () => {
 
   it('throws loudly on an unknown contentKey (a migration bug, not a blank line)', () => {
     expect(() => renderLogLine('nope.missing')).toThrow(/unknown contentKey/);
+  });
+});
+
+// Coverage ratchet: every registry key must render a non-empty string with sample params.
+// Adding a key without a sample here fails RED — so the registry can never grow a key that is
+// referenced by an emit site but broken/blank.
+describe('log-content registry — coverage', () => {
+  const SAMPLE: Readonly<Record<string, LogParams>> = {
+    'season.reckoned': { bonus: 1 },
+    'season.spoilage': { total: 1 },
+    'rank.wallWeapon': { weapon: 'bo staff' },
+    'rank.marker': { title: 'Steward', kanji: '家令' },
+    'ascension.hall': {},
+    'ascension.dream': { knot: true },
+    'combat.levelUp': { level: 3 },
+    'combat.tooHurt': {},
+    'combat.win': {
+      mob: 'boar',
+      hpBefore: 50,
+      hpAfter: 40,
+      coin: 8,
+      lootQty: 1,
+      lootLabel: 'hide',
+    },
+    'combat.flee': { mob: 'boar', hpBefore: 50, hpAfter: 20 },
+    'combat.loss': { mob: 'boar', hpBefore: 40, hpAfter: 5, lostCoin: 1, lostRice: 1, lostMats: 1 },
+    'combat.wolfScripted': {},
+    'combat.drillmaster': {},
+    'combat.weaponBroken': { weapon: 'bo staff' },
+    'craft.repair': { weapon: 'bo staff', wood: 2, coinFee: 3 },
+    'craft.equip': { weapon: 'bo staff' },
+    'food.cook': { sansai: 2, hpGain: 5 },
+    'food.eatRice': { rice: 1, satGain: 3 },
+    'market.sellRice': { rice: 5, price: 2, coinGain: 10 },
+    'market.buyItem': { coin: 5, item: 'straw hat' },
+    'belonging.acquire': { item: 'futon' },
+    'bank.deposit': { amount: 10, resource: 'coin' },
+    'bank.withdraw': { amount: 10, resource: 'rice' },
+  };
+
+  it('every registry key has sample params and renders a non-empty string', () => {
+    for (const key of Object.keys(LOG_CONTENT)) {
+      expect(SAMPLE[key], `add a SAMPLE entry for new key "${key}"`).toBeDefined();
+      expect(renderLogLine(key, SAMPLE[key]).length, `"${key}" rendered empty`).toBeGreaterThan(0);
+    }
   });
 });
 
