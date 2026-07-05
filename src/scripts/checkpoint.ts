@@ -225,6 +225,18 @@ export function relinkTarget(
   return rel + suffix;
 }
 
+/** Swap ONLY the target inside a matched `[text](target …)` link. A naive
+ *  `whole.replace(tgt, next)` hits the FIRST occurrence of the target string —
+ *  and in this repo's dominant [`path`](path) idiom that first occurrence is
+ *  the link TEXT, so the text got rewritten and the target stayed stale
+ *  (found the hard way archiving the process-wave master plan; md-links
+ *  caught the dead target). The text cannot contain `]` (LINK_RE), so the
+ *  first `](` is the text/target boundary — splice by position. */
+export function replaceLinkTarget(whole: string, tgt: string, next: string): string {
+  const sep = whole.indexOf('](') + 2;
+  return whole.slice(0, sep) + next + whole.slice(sep + tgt.length);
+}
+
 /** Rewrite the backticked plan path in the reading queue to its archive path and
  *  tag it `(archived — done)` — KEEP the entry (D-089: removal is human judgment).
  *  Pure string transform. Idempotent (won't double-tag). */
@@ -273,7 +285,7 @@ function archiveDonePlans(stage: boolean): { moves: Move[]; relinked: string[]; 
     for (const m of moves) {
       after = after.replace(LINK_RE, (whole, tgt: string) => {
         const next = relinkTarget(fileAbs, tgt, m.oldAbs, m.newAbs);
-        return next === null ? whole : whole.replace(tgt, next);
+        return next === null ? whole : replaceLinkTarget(whole, tgt, next);
       });
     }
     if (after !== before) {

@@ -5,6 +5,7 @@ import {
   CLOSED_TOKENS,
   rewriteQueuePath,
   relinkTarget,
+  replaceLinkTarget,
   nextSessionNumber,
   newestJournalName,
   slugify,
@@ -139,6 +140,29 @@ describe('relinkTarget', () => {
   it('preserves an #anchor suffix on the rewritten link', () => {
     expect(relinkTarget(fromAbs, '../docs/plans/x.md#open', oldAbs, newAbs)).toBe(
       './archive/x.md#open',
+    );
+  });
+});
+
+describe('replaceLinkTarget', () => {
+  it('rewrites the TARGET when the text is the same string (the [`path`](path) idiom)', () => {
+    // RED against the old `whole.replace(tgt, next)`: the first occurrence of
+    // the target string sits in the link TEXT, so the text got rewritten and
+    // the target stayed a dead path (the master-plan archival regression).
+    expect(replaceLinkTarget('[`x.md`](x.md)', 'x.md', './archive/x.md')).toBe(
+      '[`x.md`](./archive/x.md)',
+    );
+  });
+
+  it('leaves the link text untouched when it differs from the target', () => {
+    expect(replaceLinkTarget('[the X plan](x.md)', 'x.md', './archive/x.md')).toBe(
+      '[the X plan](./archive/x.md)',
+    );
+  });
+
+  it('preserves a "title" suffix after the target', () => {
+    expect(replaceLinkTarget('[t](x.md "T")', 'x.md', './archive/x.md')).toBe(
+      '[t](./archive/x.md "T")',
     );
   });
 });
