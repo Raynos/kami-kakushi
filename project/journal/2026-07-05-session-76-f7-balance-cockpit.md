@@ -97,14 +97,45 @@ ALREADY ~96 min under current canon (`ESTATE_DEED_PER_ACT` is now `0.04`, the
 D-133 fractional stopgap) — the balance-watch's "~30 s capstone" is STALE. W4 may
 need no tune; the tool surfaced it.
 
+## 3 · Ph3 — export transport + agent apply flow ✅
+
+**Built:**
+- `dev-cockpit.ts` — `buildTuneArtifact` now emits the **mirror & re-verify
+  block** (+ a conditional `ranks.ts` mirror bullet when a
+  `RUNG_METER_THRESHOLDS.*` lever moves), and structured paths get a field-edit
+  line (not `export let`). New `exportPayload()` shapes the F3 CaptureBody
+  (colon-free `<stamp>-balance-tune` session). The Balance pane grows an **Export
+  tune → inbox** button + note input; the transport POSTs to the F3 endpoint
+  (`CAPTURE_ENDPOINT`) **verbatim — no new handler** — with a clipboard +
+  file-download fallback.
+- `qa-playtesting.md` — the **agent apply-flow** section (stale-canon guard →
+  exact edits + ranks mirror → re-verify → commit-and-delete) + the ~10-min
+  human tuning-session recipe.
+- Tests — the artifact rides the **real F3 handler** (`resolveCapture` +
+  `writeCapture` → correct `.md` + sidecar); the mount POSTs the right body;
+  the download fallback fires on POST failure.
+
+**DoD — all met:**
+- Real dev server (no-commit throwaway on :5199): tuned 2 levers (a scalar +
+  `RUNG_METER_THRESHOLDS.R7`) → **Export** → the file landed at
+  `pending/<stamp>-balance-tune.md` with correct frontmatter, both exact
+  old→new lines, and the ranks.ts mirror bullet; zero console errors. (Cleaned
+  up — no repo pollution.)
+- Fallback download proven (unit).
+- **Worked apply (throwaway, reverted — D-059/decision #4):** the artifact's
+  old-string matched `balance.ts` verbatim (stale-canon guard passes); applied
+  `RICE_PER_RAKE 3→4` + `gen:docs` + `verify` → the loop correctly SURFACED the
+  honest REDs (fixtures stale + a balance-sensitive test) an apply is meant to
+  surface; reverted → **canon byte-identical**, verify green (17 gates). No
+  invented number committed to canon.
+
 ## Next intended steps (current)
 
-1. Commit + push Ph2.
-2. **Ph3** — export transport (reuse the F3 inbox middleware; no new handler) +
-   clipboard/download fallback + the agent apply-flow doc (stale-canon guard).
-3. **Ph4** — polish + docs (ADR, CHANGELOG, AGENTS.md pointer, archive plan).
-4. Post-build — propose W1–W4 tunings as review-only R-items (note W4 may be a
-   no-op given the ~96-min finding).
+1. Commit + push Ph3.
+2. **Ph4** — polish + docs (decisions.md ADR, CHANGELOG, AGENTS.md pointer,
+   Status → ✅ + `git mv` the plan to `project/archive/`).
+3. Post-build — propose W1–W4 tunings as review-only R-items (note W4 may be a
+   no-op given the ~96-min capstone finding; W1/W2/W3 still open).
 
 ## Landmines (current)
 

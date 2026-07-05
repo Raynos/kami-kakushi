@@ -144,6 +144,40 @@ the DEV panel's **Scenarios** tab, or `?fixture=<name>`:
 Fixtures are DEV-only (stripped from prod; the `verify-dev-strip` deploy gate greps the bundle to
 prove it). Home + spec model: `src/fixtures/` (specs drive the engine; nothing hand-authored).
 
+### Balance-tuning cockpit (F7 — DEV panel **Balance** tab)
+
+A live slider panel over a curated set of `balance.ts` feel levers (the W1–W4 balance-watch
+targets first, then stamina / rung / sink / combat feel). **The division is D-059: the HUMAN
+tunes and exports; an agent transcribes — an agent NEVER moves a slider into canon on the
+human's behalf.** Drag a lever mid-run and it takes effect immediately (ES named imports are
+live bindings; the override lives only in the module binding + the URL, never in the save
+envelope). The `?bal.<path>=<value>` URL params make a tune F5-survivable and shareable; the
+`__qa.balance` handle (`set` / `read` / `touched` / `reset` / `exportMarkdown` / `exportPayload`)
+drives it headlessly. Overrides are DEV-only (the `balance-override` marker is in the
+`verify-dev-strip` gate).
+
+**The human's ~10-minute tuning session:** open the DEV panel → **Balance** tab → drag a lever →
+feel it in the running game (the live-feel readouts estimate next-rung / capstone ETA, eat-vs-rest,
+rice→coin) → **Export tune → inbox**. The export drops a `<stamp>-balance-tune.md` artifact into
+`project/playtest-inbox/pending/` (reusing the F3 inbox endpoint verbatim — no separate handler),
+with a clipboard-copy + file-download fallback if the dev server is unreachable.
+
+**The agent apply-flow (transcription only — the human already picked the numbers):**
+
+1. **Read** the artifact from `project/playtest-inbox/pending/<stamp>-balance-tune.md`.
+2. **Stale-canon guard:** if any `canon` value in the Touched-levers table ≠ the value currently
+   in `balance.ts`, **STOP and ask** — the file moved since the session; never merge by guess.
+3. **Apply the exact `old → new` edits** the artifact lists (scalars are `export let` lines;
+   structured paths name the object field), plus any listed `src/core/content/ranks.ts`
+   `meterThreshold` mirror (a `RUNG_METER_THRESHOLDS.*` tune requires it — verify-content enforces
+   the 1:1). The agent picks **NO** numbers and widens **NO** bands.
+4. **Run the re-verify block** the artifact prints (`npm run gen:docs && npm run verify`; then the
+   balance-sim flow `npm run verify:balance && npm run balance:report`, §2 above). An honest RED
+   (gen-docs bakes `EAT_RICE_*` / the price table; a moved arc trips `pacing:check` or a signed
+   band) is a **finding to surface to the human** for a signed re-derivation — never a test-side fudge.
+5. **Commit** citing the artifact (quote the touched-levers table in the body) and **`git mv` /
+   delete the inbox file in the same commit** (completion is the archive move, like `/drain-inbox`).
+
 ---
 
 ## 2. The headless auto-player ("the bot") — **BUILT for T0** (F4, 2026-07-04)

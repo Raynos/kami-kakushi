@@ -11,9 +11,18 @@
 //  · the SAVE-NON-LEAK test proves overrides live in module bindings, never the save envelope — if a
 //    future refactor stashed overrides in GameState, the re-encoded envelope would differ and flip red.
 import { describe, it, expect, afterEach } from 'vitest';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { createInitialState, balance, __resetBalanceLevers, BALANCE_CANON } from '../core';
 import { makeEnvelope, encodeEnvelope } from '../persistence/codec';
-import { createBalanceCockpit, buildTuneArtifact, type TuneMeta } from './dev-cockpit';
+import { resolveCapture, writeCapture } from '../scripts/playtest-inbox';
+import {
+  createBalanceCockpit,
+  buildTuneArtifact,
+  mountBalanceCockpit,
+  type TuneMeta,
+} from './dev-cockpit';
 
 const META: TuneMeta = {
   build: 'v0.3.4 (abc1234, 2026-07-03)',
@@ -50,6 +59,11 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
         '',
         '## Apply — src/core/content/balance.ts (old → new, exact)',
         '- `export let EAT_RICE_SATIETY = 30;` → `export let EAT_RICE_SATIETY = 36;`',
+        '',
+        '## Mirrors & re-verify',
+        '- run: `npm run gen:docs && npm run verify` (pacing:check is in verify).',
+        '- balance-sim gate: `npm run verify:balance && npm run balance:report` — this diff is',
+        '  exactly the value change that stales its fingerprint; commit the regenerated report.',
       ].join('\n') + '\n';
     expect(md).toBe(expected);
   });
@@ -66,6 +80,26 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
     expect(md).toContain('| EAT_RICE_SATIETY | 30 | 45 | +50% |');
     expect(md).toContain('- `export let RICE_PER_RAKE = 3;` → `export let RICE_PER_RAKE = 2;`');
     expect(md).toContain('session_url: /?bal.RICE_PER_RAKE=2&bal.EAT_RICE_SATIETY=45');
+  });
+
+  it('a structured map path emits a field-edit line (not `export let`)', () => {
+    const md = buildTuneArtifact(
+      [{ path: 'ESTATE_BANDS.excellent', canon: 480, current: 960 }],
+      META,
+    );
+    expect(md).toContain('| ESTATE_BANDS.excellent | 480 | 960 | +100% |');
+    expect(md).toContain('- `ESTATE_BANDS.excellent`: 480 → 960');
+    expect(md).not.toContain('export let ESTATE_BANDS'); // structured ≠ a scalar binding
+  });
+
+  it('a rung-threshold tune adds the ranks.ts mirror bullet; a scalar does not', () => {
+    const withRung = buildTuneArtifact(
+      [{ path: 'RUNG_METER_THRESHOLDS.R7', canon: 3400, current: 4000 }],
+      META,
+    );
+    expect(withRung).toContain('src/core/content/ranks.ts');
+    const scalar = buildTuneArtifact([{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }], META);
+    expect(scalar).not.toContain('src/core/content/ranks.ts');
   });
 
   it('appends an optional note section only when non-empty', () => {
@@ -114,6 +148,19 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
     expect(md).toContain('| EAT_RICE_SATIETY | 30 | 36 | +20% |');
     expect(md).not.toContain('RICE_PER_RAKE'); // untouched → absent
   });
+
+  it('exportPayload shapes a colon-free session stamp + a machine-readable sidecar', () => {
+    const c = cockpit();
+    c.set('RICE_PER_RAKE', 5);
+    const p = c.exportPayload('felt fast');
+    expect(p.session).toBe('2026-07-03T18-42-07.000Z-balance-tune'); // colons stripped (SESSION_RE)
+    expect(p.session).not.toContain(':');
+    expect(p.metadataName).toBe('2026-07-03T18-42-07.000Z-balance-tune.json');
+    expect(p.markdown).toContain('| RICE_PER_RAKE | 3 | 5 | +67% |');
+    const meta = JSON.parse(p.metadata) as { kind: string; touched: { path: string }[] };
+    expect(meta.kind).toBe('balance-tune');
+    expect(meta.touched).toEqual([{ path: 'RICE_PER_RAKE', canon: 3, current: 5 }]);
+  });
 });
 
 describe('the full §2 lever set — registry / CANON / switches in lockstep', () => {
@@ -153,6 +200,106 @@ describe('the full §2 lever set — registry / CANON / switches in lockstep', (
     c.reset();
     expect(balance.ESTATE_BANDS.excellent).toBe(BALANCE_CANON['ESTATE_BANDS.excellent']);
     expect(balance.STANCE_MODS.jodan.atkMult).toBe(BALANCE_CANON['STANCE_MODS.jodan.atkMult']);
+  });
+});
+
+describe('export transport — rides the F3 inbox endpoint verbatim (Ph3)', () => {
+  it('the payload resolves + writes through the REAL F3 handler to a `<stamp>-balance-tune.md`', () => {
+    const c = cockpit();
+    c.set('RICE_PER_RAKE', 5);
+    c.set('ESTATE_BANDS.excellent', 960);
+    const p = c.exportPayload('felt off');
+    // shape the exact F3 CaptureBody the mount POSTs, and run it through the real handler.
+    const body = {
+      session: p.session,
+      header: p.markdown,
+      entry: '',
+      metadataName: p.metadataName,
+      metadata: p.metadata,
+    };
+    const dir = mkdtempSync(join(tmpdir(), 'kami-tune-'));
+    try {
+      const resolved = resolveCapture(body, dir);
+      expect(resolved.ok).toBe(true); // the colon-free stamp passes SESSION_RE (no handler change)
+      if (!resolved.ok) return;
+      writeCapture(resolved, dir);
+      const md = readFileSync(join(dir, `${p.session}.md`), 'utf-8');
+      expect(md).toContain('kind: balance-tune');
+      expect(md).toContain('| RICE_PER_RAKE | 3 | 5 | +67% |');
+      expect(md).toContain('- `export let RICE_PER_RAKE = 3;` → `export let RICE_PER_RAKE = 5;`');
+      expect(md).toContain('- `ESTATE_BANDS.excellent`: 480 → 960');
+      // the machine sidecar landed too
+      const json = readFileSync(join(dir, p.session, p.metadataName), 'utf-8');
+      expect(JSON.parse(json).kind).toBe('balance-tune');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('export transport — mount POST + fallback (Ph3)', () => {
+  it('POSTs the CaptureBody to the inbox endpoint when a lever is touched', async () => {
+    document.body.innerHTML = '';
+    const pane = document.createElement('div');
+    document.body.append(pane);
+    const c = cockpit();
+    c.set('RICE_PER_RAKE', 9);
+    let posted: { url: string; body: string } | null = null;
+    mountBalanceCockpit(pane, c, {
+      post: async (url, body) => {
+        posted = { url, body };
+        return true;
+      },
+    });
+    const btn = [...pane.querySelectorAll('button')].find((b) =>
+      /Export tune/.test(b.textContent ?? ''),
+    )!;
+    btn.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(posted!.url).toBe('/__playtest-capture');
+    const parsed = JSON.parse(posted!.body) as { session: string; header: string; entry: string };
+    expect(parsed.session).toContain('-balance-tune');
+    expect(parsed.entry).toBe('');
+    expect(parsed.header).toContain('| RICE_PER_RAKE | 3 | 9 |');
+  });
+
+  it('falls back to a file download when the inbox POST fails', async () => {
+    document.body.innerHTML = '';
+    const pane = document.createElement('div');
+    document.body.append(pane);
+    const c = cockpit();
+    c.set('RICE_PER_RAKE', 9);
+    const downloads: string[] = [];
+    const customDoc = {
+      createElement: (tag: string) => {
+        const node = document.createElement(tag);
+        if (tag === 'a') node.click = () => downloads.push((node as HTMLAnchorElement).download);
+        return node;
+      },
+      body: document.body,
+    } as unknown as Document;
+    const origCreate = URL.createObjectURL;
+    const origRevoke = URL.revokeObjectURL;
+    URL.createObjectURL = () => 'blob:test';
+    URL.revokeObjectURL = () => {};
+    try {
+      mountBalanceCockpit(pane, c, { post: async () => false, doc: customDoc });
+      const btn = [...pane.querySelectorAll('button')].find((b) =>
+        /Export tune/.test(b.textContent ?? ''),
+      )!;
+      btn.click();
+      await Promise.resolve();
+      await Promise.resolve();
+      await Promise.resolve();
+      expect(downloads.some((d) => d.endsWith('-balance-tune.md'))).toBe(true);
+      // flush downloadFallback's deferred `setTimeout(revokeObjectURL, 0)` while the stub is still
+      // installed, so it doesn't fire against a restored (jsdom-undefined) revokeObjectURL.
+      await new Promise((r) => setTimeout(r, 5));
+    } finally {
+      URL.createObjectURL = origCreate;
+      URL.revokeObjectURL = origRevoke;
+    }
   });
 });
 

@@ -21,6 +21,7 @@ import {
   type GameState,
 } from '../core';
 import { el } from './render';
+import { CAPTURE_ENDPOINT } from './capture-format';
 
 /** A tunable lever's cockpit metadata. `path` is the key into core's setter/reader + BALANCE_CANON;
  *  everything else is UI-only. Slider `min/max/step` are cockpit metadata, NEVER canon (§7 footnote:
@@ -269,6 +270,8 @@ export interface BalanceCockpit {
   reset(): void;
   /** Render the committable tune artifact for the current touched set (empty-safe). */
   exportMarkdown(note?: string): string;
+  /** The full transport payload (artifact + filename stamp + machine JSON) for the inbox POST. */
+  exportPayload(note?: string): TunePayload;
   /** Apply any `?bal.<path>=<value>` URL params (F5-survival + shareable tune links). Ignores stale/
    *  unknown paths. Fires onChange once if anything applied. */
   hydrate(): void;
@@ -293,9 +296,42 @@ function balQuery(touched: readonly TouchedLever[]): string {
   return '/?' + touched.map((t) => `bal.${t.path}=${t.current}`).join('&');
 }
 
+/** The registered levers whose current (live) value differs from canon — the single derivation the
+ *  controller's touched()/exportMarkdown/exportPayload all share (no dirty-set to drift). */
+function computeTouched(): TouchedLever[] {
+  return BALANCE_LEVERS.map((l) => ({
+    path: l.path,
+    canon: BALANCE_CANON[l.path] ?? readBalanceLever(l.path),
+    current: readBalanceLever(l.path),
+  })).filter((t) => t.current !== t.canon);
+}
+
+/** The transport payload for a tune export: the artifact markdown + a filename stamp + the
+ *  machine-readable sidecar JSON. Shaped to ride the F3 playtest-inbox endpoint verbatim (§6b). */
+export interface TunePayload {
+  /** Filename stamp / inbox session id (SESSION_RE-safe — colons stripped from the ISO stamp). */
+  readonly session: string;
+  /** The committable artifact markdown (the `.md` the agent transcribes). */
+  readonly markdown: string;
+  /** Sidecar basename (`<stamp>.json`). */
+  readonly metadataName: string;
+  /** Machine-readable tune JSON (kind + build + touched levers). */
+  readonly metadata: string;
+}
+
+/** The exact `old → new` edit line for one touched lever. A SCALAR lever is an `export let` binding;
+ *  a STRUCTURED path (dotted) is a field of a map/object literal, so it names the field to edit. */
+function applyLine(t: TouchedLever): string {
+  if (t.path.includes('.')) {
+    return `- \`${t.path}\`: ${t.canon} → ${t.current}  (edit the field in the object literal in src/core/content/balance.ts)`;
+  }
+  return `- \`export let ${t.path} = ${t.canon};\` → \`export let ${t.path} = ${t.current};\``;
+}
+
 /** PURE export-diff builder (unit-tested on bytes). Renders the touched-lever set as a committable
- *  markdown artifact: frontmatter + the touched table + the EXACT `old → new` balance.ts edits. The
- *  mirror + re-verify block (Ph3) is appended by the transport layer. Scalar levers only in Ph1. */
+ *  markdown artifact: frontmatter + the touched table + the EXACT `old → new` balance.ts edits + the
+ *  mirror & re-verify block the applying agent runs. Scalars emit an `export let` line; structured
+ *  map paths name the field. Empty-safe (no touched levers → a "no changes" artifact). */
 export function buildTuneArtifact(
   touched: readonly TouchedLever[],
   meta: TuneMeta,
@@ -304,11 +340,8 @@ export function buildTuneArtifact(
   const rows = touched
     .map((t) => `| ${t.path} | ${t.canon} | ${t.current} | ${deltaPct(t.canon, t.current)} |`)
     .join('\n');
-  const applies = touched
-    .map(
-      (t) => `- \`export let ${t.path} = ${t.canon};\` → \`export let ${t.path} = ${t.current};\``,
-    )
-    .join('\n');
+  const applies = touched.map(applyLine).join('\n');
+  const touchesRungThreshold = touched.some((t) => t.path.startsWith('RUNG_METER_THRESHOLDS.'));
   const lines = [
     '---',
     'kind: balance-tune',
@@ -321,11 +354,24 @@ export function buildTuneArtifact(
     '## Touched levers',
     '| path | canon | tuned | Δ |',
     '|---|---|---|---|',
-    rows,
+    rows || '| (none) | | | |',
     '',
     '## Apply — src/core/content/balance.ts (old → new, exact)',
-    applies,
+    applies || '- (no levers touched)',
+    '',
+    '## Mirrors & re-verify',
   ];
+  if (touchesRungThreshold) {
+    lines.push(
+      '- a RUNG_METER_THRESHOLDS.* lever moved — update the matching `meterThreshold` in',
+      '  src/core/content/ranks.ts (verify-content enforces the 1:1 mirror).',
+    );
+  }
+  lines.push(
+    '- run: `npm run gen:docs && npm run verify` (pacing:check is in verify).',
+    '- balance-sim gate: `npm run verify:balance && npm run balance:report` — this diff is',
+    '  exactly the value change that stales its fingerprint; commit the regenerated report.',
+  );
   if (note && note.trim().length > 0) {
     lines.push('', '## Note', note.trim());
   }
@@ -384,12 +430,7 @@ export function createBalanceCockpit(opts: {
     },
     read: (path) => readBalanceLever(path),
     canon,
-    touched: () =>
-      BALANCE_LEVERS.map((l) => ({
-        path: l.path,
-        canon: canon(l.path),
-        current: readBalanceLever(l.path),
-      })).filter((t) => t.current !== t.canon),
+    touched: () => computeTouched(),
     reset: () => {
       __resetBalanceLevers();
       clearUrl();
@@ -412,16 +453,23 @@ export function createBalanceCockpit(opts: {
       if (any) fire();
     },
     subscribe: (fn) => void subscribers.push(fn),
-    exportMarkdown: (note) =>
-      buildTuneArtifact(
-        BALANCE_LEVERS.map((l) => ({
-          path: l.path,
-          canon: canon(l.path),
-          current: readBalanceLever(l.path),
-        })).filter((t) => t.current !== t.canon),
-        meta(),
-        note,
-      ),
+    exportMarkdown: (note) => buildTuneArtifact(computeTouched(), meta(), note),
+    exportPayload: (note) => {
+      const m = meta();
+      const touched = computeTouched();
+      // colons are illegal in the inbox SESSION_RE — strip them from the ISO stamp.
+      const stamp = `${m.capturedAt.replace(/:/g, '-')}-balance-tune`;
+      return {
+        session: stamp,
+        markdown: buildTuneArtifact(touched, m, note),
+        metadataName: `${stamp}.json`,
+        metadata: JSON.stringify(
+          { kind: 'balance-tune', build: m.build, seed: m.seed, clock: m.clock, touched },
+          null,
+          2,
+        ),
+      };
+    },
     levers: BALANCE_LEVERS,
   };
 }
@@ -434,9 +482,30 @@ export function createBalanceCockpit(opts: {
 export function mountBalanceCockpit(
   pane: HTMLElement,
   cockpit: BalanceCockpit,
-  opts: { onDirty?: (count: number) => void; getState?: () => GameState } = {},
+  opts: {
+    onDirty?: (count: number) => void;
+    getState?: () => GameState;
+    /** Injectable POST (tests) — defaults to fetch. Returns whether the inbox write succeeded. */
+    post?: (url: string, body: string) => Promise<boolean>;
+    doc?: Document;
+  } = {},
 ): void {
   const { onDirty, getState } = opts;
+  const doc = opts.doc ?? document;
+  const post =
+    opts.post ??
+    (async (url: string, body: string): Promise<boolean> => {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body,
+        });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    });
 
   // a footnote: slider bounds are UI metadata, not sanctioned canon (§7 open question 7).
   const foot = el(
@@ -607,6 +676,73 @@ export function mountBalanceCockpit(
     'margin-top:.3rem;background:#3a322a;color:#e7d9bc;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .5rem;font:inherit;cursor:pointer;font-weight:700;';
   resetAll.addEventListener('click', () => cockpit.reset());
   pane.append(resetAll);
+
+  // ── §6 export — build the committable artifact, POST it to the F3 playtest-inbox endpoint
+  //    (reused verbatim; this ships NO handler of its own), and fall back to clipboard + a file
+  //    download if the dev-server endpoint is unreachable (a tune is a page of text, so the
+  //    clipboard is a legitimate fallback here). The HUMAN exports; an agent transcribes (D-059). ──
+  const exportWrap = el('div');
+  exportWrap.style.cssText =
+    'margin-top:.45rem;padding-top:.35rem;border-top:1px solid #3a322a;display:flex;flex-direction:column;gap:.25rem;';
+  const noteInput = el('input') as HTMLInputElement;
+  noteInput.type = 'text';
+  noteInput.placeholder = 'optional note — why this tune…';
+  noteInput.style.cssText =
+    'background:#26221e;color:#e7d9bc;border:1px solid #7a6c59;border-radius:3px;padding:.15rem .35rem;font:inherit;font-size:11px;';
+  const exportBtn = el('button', undefined, 'Export tune → inbox') as HTMLButtonElement;
+  exportBtn.type = 'button';
+  exportBtn.style.cssText =
+    'background:#b08d4f;color:#1c1814;border:1px solid #7a6c59;border-radius:3px;padding:.22rem .5rem;font:inherit;cursor:pointer;font-weight:700;';
+  const status = el('div', undefined, '');
+  status.style.cssText = 'color:#9b8e78;font-size:10px;min-height:1.2em;';
+  exportWrap.append(noteInput, exportBtn, status);
+  pane.append(exportWrap);
+
+  const downloadFallback = (filename: string, markdown: string): void => {
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = doc.createElement('a');
+    a.href = url;
+    a.download = filename;
+    doc.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  };
+
+  const doExport = async (): Promise<void> => {
+    const payload = cockpit.exportPayload(noteInput.value);
+    // shape the F3 CaptureBody: the whole artifact rides in `header` (the file is always new — a
+    // unique session per export), `entry` empty; the machine JSON is the metadata sidecar.
+    const body = JSON.stringify({
+      session: payload.session,
+      header: payload.markdown,
+      entry: '',
+      metadataName: payload.metadataName,
+      metadata: payload.metadata,
+    });
+    status.textContent = 'exporting…';
+    const ok = await post(CAPTURE_ENDPOINT, body);
+    if (ok) {
+      status.textContent = `tune → inbox: ${payload.session}.md`;
+    } else {
+      try {
+        await navigator.clipboard?.writeText(payload.markdown);
+      } catch {
+        /* clipboard denied — the download below still delivers the bytes */
+      }
+      downloadFallback(`${payload.session}.md`, payload.markdown);
+      status.textContent = 'inbox unreachable — copied to clipboard + downloaded';
+    }
+  };
+  exportBtn.addEventListener('click', () => void doExport());
+  // disable export when nothing is touched (a clean run has nothing to export).
+  repainters.push(() => {
+    const clean = cockpit.touched().length === 0;
+    exportBtn.disabled = clean;
+    exportBtn.style.opacity = clean ? '.5' : '1';
+    exportBtn.style.cursor = clean ? 'not-allowed' : 'pointer';
+  });
 
   repaintAll();
 }
