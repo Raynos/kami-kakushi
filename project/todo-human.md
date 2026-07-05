@@ -33,6 +33,14 @@ _(none open)_
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an R-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `docs/plans/fable-2026-07-05-context-hardening.md` — **context-hardening
+  plan** (the audit + your four meta-questions, made durable): P1 auto-wire
+  `core.hooksPath` → P2 a RED-able `verify:tooling` meta-suite (nightly) → P3
+  guardrail coverage/dedupe → P4 context diet (namespace collisions, diverge
+  archive, checkpoint-bullet compression, budget-cap AGENTS.md/repo-map).
+  Files H21 (worktrees vs shared tree) + H22 (journal shape / 4× write-up)
+  as open H-items rather than building them. **Read to nod P1–P3; P4 lands
+  per-cut with your review.**
 - [ ] `project/audit/reports/2026-07-05-context-audit.md` — **context audit**
   (your "review the agentic scaffolding" ask, done by Fable 5): the lattice is
   healthy — 2 HIGH + 5 MEDIUM findings; the doc-drift half is already fixed
