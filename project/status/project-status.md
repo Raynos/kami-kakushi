@@ -48,8 +48,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   (D-135) · F8 telemetry (D-136). **THE F1–F10 PROCESS WAVE IS COMPLETE.**
 - **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN soft). **H19→D-133:**
   Phase 2 ≈ Phase 1 → hard `verify:balance` ratio gate `[0.8, 1.2]`; stopgap
-  hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** queued
-  (`opus-2026-07-04-phase2-economy-redesign.md`) — human direction call.
+  hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** human-PARKED
+  in [`project/BACKLOG.md`](../BACKLOG.md) (2026-07-05) — direction calls pending.
 
 ## Waiting on the human
 
@@ -111,9 +111,10 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** — the process wave (F1–F10) is DONE; next is the
-   **Phase-2 economy redesign** (`opus-2026-07-04-phase2-economy-redesign.md`,
-   needs the human's loop+split calls) or the **UI-v2 Andon Steel migration**
-   (`opus-2026-07-04-ui-v2-andon-steel-migration.md`, needs the human's lock). Balance liquid (D-059) — every balance change runs
-   the D-132 flow (`verify:balance` → report diff → `--summary`).
+4. **Next autonomous work** — the F1–F10 wave is DONE; next: **requirements
+   rung progression** (`fable-2026-07-05-requirements-rung-progression.md`,
+   D-137, human phase-confirm pending) or **UI-v2 Andon Steel migration**
+   (needs the human's lock). Phase-2 economy redesign = human-parked in
+   `project/BACKLOG.md`, don't pick up unprompted. Balance liquid (D-059) —
+   every change runs D-132 (`verify:balance` → report diff → `--summary`).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.

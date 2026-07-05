@@ -43,13 +43,14 @@ spec-invisible built quests. Both fixed + tested; report in
 
 ## Next intended steps
 
-1. Push the session's local commits at the next checkpoint (tree shared with
-   session-82's in-flight work — their staged set must land first or a
-   pathspec push moment be found).
-2. Human reads the audit report (reading-queue line deferred: session-82 has
-   `todo-human.md` staged mid-flight — add the line once their commit lands).
+1. ~~Push at the next checkpoint~~ → done (this checkpoint; s82's push carried
+   the earlier commits, the rest went with the exit ritual).
+2. ~~Human reads the audit report~~ → CLOSED same-session: the human walked the
+   report live, confirmed all 3 default resolutions (RETIRED-terms written
+   norm in the decisions.md header · item registries below spec altitude ·
+   prose drift sweep-owned); queue entry cleared (D-089).
 3. The T0 compression sweep stays dormant until R1 closes AND the Phase-2
-   economy redesign (backlogged) lands.
+   economy redesign (human-parked in BACKLOG.md) lands.
 
 ## Landmines
 
