@@ -44,8 +44,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
   `fable-process-master-plan.md`. **BUILT: `prd:drift`+sweep-guard · F1a/F1b ·
   F2 CI · ✅ F4 balance sim (D-132) · ✅ F3 capture inbox + `/drain-inbox` · ✅ F6
-  scenario saves · ✅ F5 narrative format (s74 — story in `narrative/*.md` +
-  `gen-narrative` gate + `t0-story.md`). NEXT: F7.**
+  scenario saves · ✅ F5 narrative format (s74) · ✅ F7 balance cockpit (s76 — DEV
+  Balance tab, `?bal.*` URLs, export→inbox, **D-134**). NEXT: F8 or Phase-2 redesign.**
 - **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN stays soft).
   **H19→D-133:** Phase 2 ≈ Phase 1 (~1:1), general per-tier rule → hard
   `verify:balance` **ratio gate** `[0.8, 1.2]`. Stopgap **hotfix shipped**
@@ -61,9 +61,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
   home/Inventory **A/B/C** (R6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
   older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
-- **Balance-watch** 🔲 — 4 D-059 feel-calls best tuned by **playing**; the F4 sim
-  now machine-measures pacing (`docs/content/t0-pacing.md`) — open: **H19**
-  (Phase-2 band) + **H20** (freshness WARN→gate). F7 cockpit is the tuning aid.
+- **Balance-watch** — ✅ **R10 CLOSED (s76):** human adopted the F7 W1–W4 tunings
+  (`RICE_PER_RAKE 3→2`, `autumn 3→4`, `EAT_RICE_COST 3→2`; W4 no-op). Still liquid.
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
 - **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, D-127). Open: are R2/R5/R6/R7
@@ -87,7 +86,6 @@ in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
-Docs-only: `SKIP_CODE_VERIFY=1` (docs lane runs, ~0.3s; `SKIP_VERIFY=1` last resort).
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
 blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `build:itch`.
 
@@ -114,7 +112,9 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
    Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** = **F7** cockpit per the master plan
-   (F1a/F1b/F2/F3/F4/F5/F6 ✅). Balance liquid (D-059) — every balance
-   change runs the D-132 flow (`verify:balance` → report diff → `--summary`).
+4. **Next autonomous work** = **F8 play-telemetry** (next in the wave;
+   F1a/F1b/F2/F3/F4/F5/F6/F7 ✅) — OR the **Phase-2 economy redesign**
+   (`opus-2026-07-04-phase2-economy-redesign.md`, higher game-impact); the human
+   owns that direction call. Balance liquid (D-059) — every balance change runs
+   the D-132 flow (`verify:balance` → report diff → `--summary`).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
