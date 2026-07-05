@@ -60,9 +60,3 @@
   chunk updates); flavor line per completion; 100% alone unlocks the rung
   beat; F5 markdown authoring; bands re-derive; all R0–R7. Read to confirm
   the 7 phases + sequencing before the build starts.
-- [ ] `project/audit/reports/2026-07-05-prd-ripple-drift-audit.md` — **the
-  /prd-ripple + prd:drift audit** you asked for: verdict YES-they-assisted
-  (3 rippled drift catches on record, receipts in git) + 2 detector defects
-  found & FIXED same-session (masked-name false-CLEAN via substring match;
-  QUESTS unscanned — 3 built quest titles were spec-invisible, now rippled).
-  One open norm-rung risk: the RETIRED-terms list is hand-maintained.

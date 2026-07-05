@@ -76,6 +76,24 @@ Mechanism checks, all verified live:
    so, the report is warn-rung, and D-117's answer to semantic staleness is
    the compression sweep + human review, not a lint. No action.
 
+## Resolutions (human, 2026-07-05 — same session, via AskUserQuestion)
+
+The three open calls were put to the human after the report was written; all
+three defaults confirmed:
+
+- **Finding 4 (RETIRED list)** → held as a **written norm**: the decisions.md
+  header now instructs a rename ADR to add its `RETIRED` entry in the same
+  commit. Closed.
+- **Informational band all-zero** → **below spec altitude by design** —
+  MATERIALS / MARKET_ITEMS / BELONGINGS / RECIPES stay out of the PRD; the
+  registries + generated `docs/content/` tables are their truth. No change.
+- **Finding 6 (semantic prose drift)** → **accepted as designed** —
+  presence-only detection + the R1-gated compression sweep + continuous
+  `/prd-ripple` discipline; no prose-lint, no battery lens for now.
+
+With these, every finding in this audit is fixed, resolved, or a documented
+norm — nothing remains open.
+
 ## What this does NOT change
 
 The T0 compression sweep (Flow 2, `/prd-compress`) stays dormant: its trigger

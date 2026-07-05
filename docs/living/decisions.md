@@ -16,6 +16,12 @@ ground. *(Dates D-001…D-074 were backfilled 2026-06-29 from git first-appearan
 **Reversing a decision:** don't delete it. Mark the old entry `⛔ REVERSED by D-XXX ({date})`, strike
 its claim with `~~strikethrough~~`, and add a new ADR with the new call. History stays intact.
 
+**Rename ADRs feed the drift tripwire (norm — human, 2026-07-05):** an ADR that renames or retires a
+player-visible term (a cast name, a mechanic phrase like "spend koku") also adds its entry to the
+`RETIRED` list in [`src/scripts/prd-drift.ts`](../../src/scripts/prd-drift.ts) **in the same commit** —
+that list is hand-maintained, and no gate can soundly know a rename happened (audit:
+[`2026-07-05-prd-ripple-drift-audit.md`](../../project/audit/reports/2026-07-05-prd-ripple-drift-audit.md)).
+
 > Resolved [`human-in-the-loop`](../../project/human-in-the-loop/decisions.md) `H`-items graduate into ADRs here.
 
 ---
