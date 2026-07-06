@@ -108,6 +108,11 @@ export default defineConfig(({ command }) => {
       // so a race (port taken between the check and the bind) still fails instead of sprawling.
       port: DEV_PORT,
       strictPort: true,
+      // Pre-transform the module graph at server start (parallel with browser
+      // boot) so the FIRST page load doesn't pay on-demand compile — the e2e
+      // lane's first test per run was eating ~5s of it. Paths are root-relative
+      // (root is `src`).
+      warmup: { clientFiles: ['./index.html', './app/main.ts'] },
       // Auto-reload OFF (human call, F75): the browser does NOT hot-reload or full-refresh
       // on a file change — the player hits F5 themselves (shields a live playtest from an
       // agent's mid-edit WIP flashing in). BUT the server must still WATCH + re-transform so

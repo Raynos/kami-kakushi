@@ -54,10 +54,13 @@ async function playVnScene(page: Page): Promise<void> {
 }
 
 test('intro VN completes: cold boot to the working shell', async ({ page }) => {
-  // The longest journey by design — the WHOLE intro, scene by scene, at the
-  // typewriter's pace (hurried by real clicks, still many beats). Own budget.
+  // The longest journey by design — the WHOLE intro, scene by scene. Boots with
+  // instant text (the DEV QA affordance): what this test guards is the CHAIN
+  // (every scene's decide grid enables → Continue dispatches → the shell
+  // reveals), not the cadence; at 32ms/char it paid ~25s of typewriter. The
+  // cold-open + rung-beat tests keep the real pacing + hurry-click path covered.
   test.setTimeout(120_000);
-  const errors = await boot(page);
+  const errors = await boot(page, undefined, { instantText: true });
   await press(page.locator('button.verb.primary')); // Open your eyes
   await page.waitForFunction('window.__qa.state().flags.awake === true');
 

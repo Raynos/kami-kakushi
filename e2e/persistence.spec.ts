@@ -94,7 +94,8 @@ test('export → import round-trips through the real settings UI', async ({ page
 });
 
 test('mid-intro refresh resumes the intro at the same beat (T2)', async ({ page }) => {
-  const errors = await boot(page);
+  // instant text: this test's subject is persistence, not pacing
+  const errors = await boot(page, undefined, { instantText: true });
   const ringBefore = await saveRing(page);
   await press(page.locator('button.verb.primary')); // Open your eyes
   await page.waitForFunction('window.__qa.state().flags.awake === true');

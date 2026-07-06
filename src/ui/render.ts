@@ -1068,15 +1068,23 @@ export function mount(
   // keeps the instant append. `typeTimer` is the in-flight per-char tick (cancelled on
   // reset/filter-clear like `revealTimer`); `finishTypeNow` finalizes the current line
   // instantly when the cascade has to catch up (the >12 flush valve).
-  const TYPE_MS_PER_CHAR = 32; // GBA typewriter cadence (~30–34ms/char)
-  const TYPE_NEXT_BEAT_MS = 180; // pause after a typed line before the next cascades in
+  // DEV-only QA affordance (`?instanttext=1`) — zero the narrative pacing so the
+  // e2e journey lane isn't clocked by the typewriter (the intro test alone paid
+  // ~25s of cadence). Player-invisible: the ternaries fold to the literals in a
+  // prod build (`import.meta.env.DEV` is false), same strip path as `?fixture=`.
+  const QA_INSTANT_TEXT =
+    import.meta.env.DEV &&
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).has('instanttext');
+  const TYPE_MS_PER_CHAR = QA_INSTANT_TEXT ? 0 : 32; // GBA typewriter cadence (~30–34ms/char)
+  const TYPE_NEXT_BEAT_MS = QA_INSTANT_TEXT ? 0 : 180; // pause after a typed line before the next cascades in
   // F86 — the intro typewriter AUTO-ADVANCES: after a line finishes typing it holds for this beat,
   // then the next line starts on its own (no click needed). A click only ever SPEEDS this up — it
   // completes an in-flight line, or skips the remaining hold — it never pauses the sequence. Tunable.
-  const INTRO_LINE_ADVANCE_MS = 2000;
+  const INTRO_LINE_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 2000;
   // F118 — when the human CLICKS to complete a line (actively reading through), the next line starts
   // on a much shorter beat than the atmospheric auto-hold above; clicking should feel snappy.
-  const INTRO_CLICK_ADVANCE_MS = 450;
+  const INTRO_CLICK_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 450;
   let typeTimer: number | undefined;
   let finishTypeNow: (() => void) | undefined;
   // F27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
@@ -2002,6 +2010,12 @@ export function mount(
       introLineComplete();
       return;
     }
+    if (QA_INSTANT_TEXT) {
+      // one step, no per-char timers (setTimeout(0) still clamps to ~4ms/char)
+      node.span.textContent = node.text;
+      introLineComplete();
+      return;
+    }
     introLineTyping = true;
     let i = 0;
     const step = (): void => {
@@ -2100,7 +2114,9 @@ export function mount(
     if (on) {
       if (elx.hidden) {
         elx.hidden = false;
-        elx.classList.add('vn-panel-in'); // soft staggered fade/rise (auto-zeroed for reduced-motion)
+        // soft staggered fade/rise (auto-zeroed for reduced-motion); skipped under
+        // QA instant text — the animation makes every e2e press wait for stability
+        if (!QA_INSTANT_TEXT) elx.classList.add('vn-panel-in');
       }
     } else if (!elx.hidden) {
       elx.hidden = true;
@@ -3519,6 +3535,12 @@ export function mount(
       onDone();
       return;
     }
+    if (QA_INSTANT_TEXT) {
+      finishTypeNow = undefined;
+      finalize();
+      onDone();
+      return;
+    }
     let i = 0;
     const step = (): void => {
       typeTimer = undefined;
@@ -4680,7 +4702,8 @@ export function mount(
     coLede.textContent = COLD_OPEN_LEDE;
     for (const it of items) it.classList.remove('in');
     const showButton = (): void => coVerb.classList.add('in');
-    if (coldOpenReduced()) {
+    // QA instant-text rides the same everything-at-once path reduced-motion takes
+    if (coldOpenReduced() || QA_INSTANT_TEXT) {
       for (const it of items) it.classList.add('in');
       cancelColdOpenReveal = undefined;
       return;

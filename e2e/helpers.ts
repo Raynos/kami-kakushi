@@ -42,11 +42,24 @@ export function expectNoPageErrors(errors: string[]): void {
   expect(errors, 'the page must stay error-free').toEqual([]);
 }
 
-/** Navigate to the game (optionally into a named fixture) and wait for boot. */
-export async function boot(page: Page, fixture?: string): Promise<string[]> {
+/** Navigate to the game (optionally into a named fixture) and wait for boot.
+ *  `instantText` boots with the DEV `?instanttext=1` affordance — zero narrative
+ *  pacing, for journeys whose runtime would otherwise be the typewriter's (the
+ *  hurry-click player path stays covered by the tests that DON'T set it). */
+export async function boot(
+  page: Page,
+  fixture?: string,
+  opts: { instantText?: boolean } = {},
+): Promise<string[]> {
   const errors = trackErrors(page);
-  const url = fixture ? `/?dev=no&fixture=${encodeURIComponent(fixture)}` : '/?dev=no';
-  await page.goto(url, { waitUntil: 'networkidle' });
+  const flags = opts.instantText ? '&instanttext=1' : '';
+  const url = fixture
+    ? `/?dev=no&fixture=${encodeURIComponent(fixture)}${flags}`
+    : `/?dev=no${flags}`;
+  // 'domcontentloaded', NOT 'networkidle': networkidle's built-in 500ms quiet
+  // window taxed every boot; the __qa wait + the settle conditions below are the
+  // real readiness signal (they gate on the app, not the network).
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction('Boolean(window.__qa)');
   // settle on CONDITIONS, not a fixed beat (plan P5.2 — the old 400ms sleep paid
   // its worst case on every boot): fonts loaded (layout metrics final) + two

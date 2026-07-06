@@ -16,6 +16,10 @@ const PORT = 5199; // NOT 5173 — never fights the human's live dev server
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
+  // 60% of cores (human, 2026-07-06): 75% pinned every core at 100% — spooky on
+  // a laptop; 60% keeps headroom while still beating the 50% default. CI keeps
+  // the default (its runners have 2–4 cores; oversubscribing thrashes).
+  ...(process.env.CI ? {} : { workers: '60%' }),
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   timeout: 30_000,

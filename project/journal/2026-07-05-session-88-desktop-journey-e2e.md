@@ -74,3 +74,14 @@ The two s88 findings were wrongly filed as `## TODO` lines in
 pre-commit **gate** hard-blocks added TODO lines (`SKIP_HUMAN_TODO=1` for a
 human-dictated one; RED-proof shown), a repo-map.md context line, and an
 agent-memory note.
+
+## e2e lane speed pass (2026-07-06, appended)
+
+Human asked for a faster lane. 47.5s → 30.5s local: `domcontentloaded`
+instead of networkidle (−500ms/boot), vite `server.warmup` (the first test
+paid ~5s of on-demand compile), workers 60% (75% pinned all cores — human
+call), and a DEV-only `?instanttext=1` QA affordance (zeroes typewriter
+cadence + line holds + the cold-open staged reveal + VN panel fades; folds
+out of prod) used by the intro-VN + mid-intro-persistence tests only — the
+cold-open and rung-beat tests keep the real pacing covered. Remaining floor:
+the intro journey (~13.5s), which is per-press actionability across ~7 scenes.
