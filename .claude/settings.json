@@ -17,6 +17,10 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/guard-git-add-all.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-bash-safety.sh"
           }
         ]
       },
