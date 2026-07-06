@@ -58,6 +58,26 @@ before the redesign). Built the compiler half:
   cite authoring file:line; emitter output through the canon emitters;
   empty-registry stability).
 
+## Entry 3 — DEV-surfaces build: Phase 3 (Story set-switcher, live)
+
+- `src/ui/dev.ts` — DevApi grows the ADR-139 story API: `storyBundles`,
+  `get/setStoryTake` (URL-persisted `?story-<bundle>=<take>`),
+  `get/setStoryUnit` (per-unit override beats the set), `subRungScene` /
+  `subIntroScene` (identity when canon), `storyEpoch()`. New **Story** tab
+  (5th pane, count-badged) — per-bundle block: Canon/take set buttons +
+  active brief, per-unit rows only for multi-unit bundles, display-only
+  hint. `createDevApi(bundles = STORY_TAKE_BUNDLES)` injectable for tests.
+- `src/ui/render.ts` — `activeVn` substitutes via the dev gate
+  (`__DEV_TOOLS__ && dev`); the VN scene key folds in `storyEpoch()` so a
+  take swap rebuilds the append-only transcript (found live: without it the
+  transcript never re-drew — the smoke caught it, the unit tests didn't).
+- `src/ui/dev.test.ts` — +5 RED-able tests (injected bundles; identity /
+  set-substitution / override-beats-set / unknown-id rejection / panel
+  mount+badge).
+- **Proven live, headless** (`tmp/story-swap-smoke.mjs`, R6): fixture
+  `rung-beat-ready` → beat live → canon→B→C→canon round-trip, each swap
+  visible in the running VN. Screenshot `tmp/story-swap-smoke.png`.
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the

@@ -1830,13 +1830,19 @@ export function mount(
   // shows). The reducers own the core rung selectors (`rungTopic`/`rungOption`/`availableRungTopics`);
   // the renderer reads options off the projection + inlines the (source-agnostic) topic gate.
   function activeVn(state: GameState): VnScene | null {
+    // ADR-139 — the DEV story take-switcher substitutes the ACTIVE scene with a selected
+    // take (display/content only; state + RNG never fork — takes are state-compatible by
+    // the narrative/takes README rule). Identity when everything is 'canon'; folds to the
+    // plain selectors in a strip build (same `__DEV_TOOLS__` axis as the panel, ADR-138).
     if (introActive(state.introBeat)) {
       const s = introSceneAt(state.introBeat);
-      return s ? projectIntro(s) : null;
+      const sub = __DEV_TOOLS__ && dev && s ? dev.subIntroScene(s) : s;
+      return sub ? projectIntro(sub) : null;
     }
     if (state.rungBeat !== null) {
       const s = rungBeatFor(state.rungBeat);
-      return s ? projectRung(s) : null;
+      const sub = __DEV_TOOLS__ && dev && s ? dev.subRungScene(s) : s;
+      return sub ? projectRung(sub) : null;
     }
     return null;
   }
@@ -2324,9 +2330,13 @@ export function mount(
       teardownIntroScene(); // the VN ended → drop the scene, reset everything
       return;
     }
-    if (scene.id !== introSceneCurrentId) {
+    // ADR-139 — a DEV take swap must rebuild the (append-only) live transcript: fold the story
+    // epoch into the scene key so a swap reads as a scene change. Identity in prod/strip builds.
+    const sceneKey =
+      __DEV_TOOLS__ && dev && dev.storyEpoch() > 0 ? `${scene.id}#${dev.storyEpoch()}` : scene.id;
+    if (sceneKey !== introSceneCurrentId) {
       teardownIntroScene(); // a new scene ⇒ the one place we rebuild the shell wholesale
-      introSceneCurrentId = scene.id;
+      introSceneCurrentId = sceneKey;
       // a decision-only scene (the dream — no topics) opens straight in the decide phase.
       introPhase = scene.topics.length > 0 ? 'ask' : 'decide';
       pendingChoiceId = null;

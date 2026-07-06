@@ -48,6 +48,10 @@ import {
 } from '../core';
 import { el, pct } from './render';
 import { FIXTURES_SENTINEL } from '../fixtures';
+// ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
+import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
+import type { RungScene } from '../core/content/rungBeats';
+import type { DialogueScene } from '../core/content/intro';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
@@ -278,6 +282,24 @@ export interface DevApi {
   getVariant(surface: string): string;
   setVariant(surface: string, id: string): void;
   surfaces: readonly SurfaceDef[];
+  /** ADR-139 story take-sets — the OPEN narrative-diverge bundles (empty ⇒ nothing
+   *  awaiting story review). `'canon'` is always a valid take id (the live pick). */
+  storyBundles: readonly StoryTakeBundle[];
+  getStoryTake(bundle: string): string;
+  setStoryTake(bundle: string, id: string): void;
+  /** Per-unit override WITHIN the chosen set (unit keys: `rung:R1` / `intro:<sceneId>`).
+   *  `undefined` clears the override (the unit follows the bundle's set again). */
+  getStoryUnit(bundle: string, unit: string): string | undefined;
+  setStoryUnit(bundle: string, unit: string, id: string | undefined): void;
+  /** Substitute an ACTIVE canon scene with the selected take's version (identity when
+   *  everything is 'canon'). Called from render.ts's `activeVn` behind the dev gate —
+   *  display/content substitution only; state and RNG never fork (takes are
+   *  state-compatible by the takes/README rule). */
+  subRungScene(scene: RungScene): RungScene;
+  subIntroScene(scene: DialogueScene): DialogueScene;
+  /** Bumps on every set/unit change — render.ts folds it into the VN scene key so a
+   *  take swap rebuilds the (otherwise append-only) live transcript. */
+  storyEpoch(): number;
   /** Render a NON-default variant of `surface` into `container`. Returns true if it rendered
    *  (a non-default is selected) → the caller skips its default; false → the caller renders the
    *  prod default. `dispatch` is the renderer's own dispatch (threaded so interactive variants —
@@ -290,10 +312,23 @@ export interface DevApi {
   ): boolean;
 }
 
-export function createDevApi(): DevApi {
+export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BUNDLES): DevApi {
   const variant: Record<string, string> = {};
   for (const s of SURFACES) variant[s.id] = s.variants[0]!.id;
   const defaultOf = (s: string): string => SURFACES.find((x) => x.id === s)?.variants[0]?.id ?? '';
+
+  // ── ADR-139 story take-sets: bundle-level active set + per-unit overrides. 'canon' = the
+  //    live pick (always valid). Injected `bundles` default to the generated registry — a
+  //    test passes its own so the suite never depends on which diverges happen to be open. ──
+  const storyTake: Record<string, string> = {};
+  for (const b of bundles) storyTake[b.id] = 'canon';
+  const unitOverride: Record<string, Record<string, string>> = {};
+  let storyEpoch = 0;
+  const validTake = (b: string, id: string): boolean =>
+    id === 'canon' || (bundles.find((x) => x.id === b)?.takes.some((t) => t.id === id) ?? false);
+  /** The effective take for a unit: its override if set, else the bundle's active set. */
+  const effective = (b: string, unit: string): string =>
+    unitOverride[b]?.[unit] ?? storyTake[b] ?? 'canon';
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
   // chosen set can be shared as a link. For each surface, `?<surface.id>=<variantId>` overrides the
@@ -305,6 +340,11 @@ export function createDevApi(): DevApi {
     for (const s of SURFACES) {
       const q = params.get(s.id);
       if (q && s.variants.some((v) => v.id === q)) variant[s.id] = q;
+    }
+    // story sets ride the same channel: `?story-<bundle>=<take>` (guarded like variants).
+    for (const b of bundles) {
+      const q = params.get(`story-${b.id}`);
+      if (q && validTake(b.id, q)) storyTake[b.id] = q;
     }
   }
 
@@ -332,6 +372,55 @@ export function createDevApi(): DevApi {
       const id = variant[s] ?? defaultOf(s);
       if (id === defaultOf(s)) return false; // default → the caller renders it (and ships it)
       return renderSurfaceVariant(s, id, container, state, dispatch);
+    },
+    storyBundles: bundles,
+    getStoryTake: (b) => storyTake[b] ?? 'canon',
+    setStoryTake: (b, id) => {
+      if (!validTake(b, id)) return;
+      storyTake[b] = id;
+      storyEpoch++;
+      // mirror to the URL like variant picks — 'canon' (the default) keeps a clean URL.
+      if (
+        typeof location !== 'undefined' &&
+        typeof history !== 'undefined' &&
+        import.meta.env.MODE !== 'test'
+      ) {
+        const params = new URLSearchParams(location.search);
+        if (id === 'canon') params.delete(`story-${b}`);
+        else params.set(`story-${b}`, id);
+        const qs = params.toString();
+        history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+      }
+    },
+    getStoryUnit: (b, unit) => unitOverride[b]?.[unit],
+    setStoryUnit: (b, unit, id) => {
+      if (id === undefined) {
+        delete unitOverride[b]?.[unit];
+        storyEpoch++;
+        return;
+      }
+      if (!validTake(b, id)) return;
+      (unitOverride[b] ??= {})[unit] = id;
+      storyEpoch++;
+    },
+    storyEpoch: () => storyEpoch,
+    subRungScene: (scene) => {
+      for (const b of bundles) {
+        const eff = effective(b.id, `rung:${scene.rank}`);
+        if (eff === 'canon') continue;
+        const alt = b.takes.find((t) => t.id === eff)?.rungBeats?.[scene.rank];
+        if (alt) return alt;
+      }
+      return scene;
+    },
+    subIntroScene: (scene) => {
+      for (const b of bundles) {
+        const eff = effective(b.id, `intro:${scene.id}`);
+        if (eff === 'canon') continue;
+        const alt = b.takes.find((t) => t.id === eff)?.introScenes?.find((s) => s.id === scene.id);
+        if (alt) return alt;
+      }
+      return scene;
     },
   };
 }
@@ -1984,6 +2073,13 @@ export function mountDevPanel(
   // surface, so the ADR-075 diverge mandate doesn't apply — same precedent as Scenarios/capture-inbox).
   const balancePane = el('div');
   balancePane.style.cssText = `display:none;flex-direction:column;gap:.15rem;${paneScroll}`;
+  // ADR-139 — a fifth pane: the STORY take-set switcher (sibling of the UI-variant toggle, per the
+  // human's lock: "variants & story variants as different elements in the DEV menu"). DEV review
+  // instrument for open narrative diverges; single-idea + taste brief per the locked lighter
+  // ADR-075 split (the Scenarios/Balance precedent) — the script-reader modal is the full-diverge
+  // surface, not this switcher.
+  const storyPane = el('div');
+  storyPane.style.cssText = `display:none;flex-direction:column;gap:.4rem;${paneScroll}`;
 
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
@@ -1994,16 +2090,18 @@ export function mountDevPanel(
       'font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
-  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance';
+  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story';
   const settingsTab = tabBtn('Settings');
   const variantsTab = tabBtn('Variants');
   const scenariosTab = tabBtn('Scenarios');
   const balanceTab = tabBtn('Balance');
+  const storyTab = tabBtn('Story');
   const tabs: Record<TabId, { tab: HTMLButtonElement; pane: HTMLElement }> = {
     settings: { tab: settingsTab, pane: settingsPane },
     variants: { tab: variantsTab, pane: variantsPane },
     scenarios: { tab: scenariosTab, pane: scenariosPane },
     balance: { tab: balanceTab, pane: balancePane },
+    story: { tab: storyTab, pane: storyPane },
   };
   const selectTab = (which: TabId): void => {
     for (const id of Object.keys(tabs) as TabId[]) {
@@ -2020,8 +2118,8 @@ export function mountDevPanel(
       selectTab(id);
     });
   }
-  tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab);
-  body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane);
+  tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab, storyTab);
+  body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane, storyPane);
 
   // FB-7 — mount the balance cockpit into its pane; the touched count badges the tab label
   // (`Balance (3)`) so a dirty tuning session is obvious no matter which sub-tab is showing.
@@ -2031,7 +2129,6 @@ export function mountDevPanel(
       balanceTab.textContent = count > 0 ? `Balance (${count})` : 'Balance';
     },
   });
-
   const mono = (label: string, onClick: () => void): HTMLButtonElement => {
     const b = el('button', undefined, label);
     b.type = 'button';
@@ -2149,6 +2246,121 @@ export function mountDevPanel(
 
   // FB-38 — New game lives ONLY in the fixed footer now (it used to be duplicated here in a
   // Settings→Game section). The footer copy (below, FB-34) is the single always-visible one.
+
+  // ── ADR-139 — the STORY pane: one block per OPEN narrative-diverge bundle. Coarse
+  //    set-switch (Canon / take …) keeps a whole coherent take live so pacing reads true;
+  //    per-unit override rows below mix within the set. Swaps are display-only (takes are
+  //    state-compatible) and re-render immediately; live swap covers the VN scene types
+  //    (rung beats + intro scenes) — dialogue/cold-open units read in the script-reader. ──
+  storyTab.textContent =
+    dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
+  if (dev.storyBundles.length === 0) {
+    const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
+    empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';
+    storyPane.append(empty);
+  }
+  const LIVE_UNITS = /^(rung|intro):/;
+  const unitKeysOf = (b: StoryTakeBundle): string[] => {
+    const keys = new Set<string>();
+    for (const t of b.takes) {
+      for (const k of Object.keys(t.rungBeats ?? {})) keys.add(`rung:${k}`);
+      for (const s of t.introScenes ?? []) keys.add(`intro:${s.id}`);
+      for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
+      for (const k of Object.keys(t.coldOpen ?? {})) keys.add(`cold-open:${k}`);
+    }
+    return [...keys].sort();
+  };
+  for (const bundle of dev.storyBundles) {
+    const sec = el('div');
+    sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;padding:.28rem .4rem;';
+    const title = el('div', undefined, bundle.title);
+    title.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;';
+    sec.append(title);
+
+    // the active take's brief (or the pick rationale on Canon) — refreshed on every click.
+    const brief = el('div', undefined, '');
+    brief.style.cssText = 'color:#9b8e78;font-size:11px;margin:.15rem 0;';
+
+    const takeOf = (id: string): StoryTake | undefined => bundle.takes.find((t) => t.id === id);
+    const setRow = el('div');
+    setRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.2rem;';
+    const setBtns = new Map<string, HTMLButtonElement>();
+    const refresh = (): void => {
+      const active = dev.getStoryTake(bundle.id);
+      for (const [id, b] of setBtns) {
+        const on = id === active;
+        b.style.background = on ? '#b08d4f' : '#3a322a';
+        b.style.color = on ? '#1c1814' : '#e7d9bc';
+        b.style.fontWeight = on ? '700' : 'normal';
+      }
+      brief.textContent =
+        active === 'canon'
+          ? (bundle.rationale ?? 'Canon — the live pick.')
+          : (takeOf(active)?.brief ?? '');
+    };
+    const takeBtn = (id: string, label: string): void => {
+      const b = mono(label, () => {
+        dev.setStoryTake(bundle.id, id);
+        refresh();
+        rerender();
+      });
+      setBtns.set(id, b);
+      setRow.append(b);
+    };
+    takeBtn('canon', 'Canon');
+    for (const t of bundle.takes) takeBtn(t.id, `${t.id.toUpperCase()} — ${t.label}`);
+    sec.append(setRow, brief);
+
+    // per-unit override rows — "·" follows the set; a take letter pins THIS unit to that take.
+    // (a single-unit bundle skips the block: the set switch IS the unit switch.)
+    const units = unitKeysOf(bundle);
+    if (units.length > 1) {
+      const uHead = el('div', undefined, 'Per-unit override (· = follow set)');
+      uHead.style.cssText =
+        'color:#b08d4f;font-size:10px;text-transform:uppercase;margin-top:.25rem;';
+      sec.append(uHead);
+      for (const unit of units) {
+        const row = el('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:.25rem;flex-wrap:wrap;';
+        const lbl = el('span', undefined, LIVE_UNITS.test(unit) ? unit : `${unit} (reader-only)`);
+        lbl.style.cssText = 'color:#e7d9bc;font-size:11px;flex:1 1 auto;';
+        row.append(lbl);
+        const uBtns = new Map<string | undefined, HTMLButtonElement>();
+        const uRefresh = (): void => {
+          const cur = dev.getStoryUnit(bundle.id, unit);
+          for (const [id, b] of uBtns) {
+            const on = id === cur;
+            b.style.background = on ? '#b08d4f' : '#3a322a';
+            b.style.color = on ? '#1c1814' : '#e7d9bc';
+          }
+        };
+        const uBtn = (id: string | undefined, label: string): void => {
+          const b = mono(label, () => {
+            dev.setStoryUnit(bundle.id, unit, id);
+            uRefresh();
+            rerender();
+          });
+          b.style.padding = '.05rem .3rem';
+          uBtns.set(id, b);
+          row.append(b);
+        };
+        uBtn(undefined, '·');
+        uBtn('canon', 'canon');
+        for (const t of bundle.takes) uBtn(t.id, t.id.toUpperCase());
+        uRefresh();
+        sec.append(row);
+      }
+    }
+    const hint = el(
+      'div',
+      undefined,
+      'Swaps are display-only. To see a rung beat live: Settings → Rung → jump to it.',
+    );
+    hint.style.cssText = 'color:#9b8e78;font-size:10px;margin-top:.25rem;opacity:.8;';
+    sec.append(hint);
+    refresh();
+    storyPane.append(sec);
+  }
 
   // ── the live variant toggle — the heart of ADR-075 review. Each surface is a COLLAPSED summary
   //    row (label + current pick + caret); clicking it reveals the blurb + the option buttons.

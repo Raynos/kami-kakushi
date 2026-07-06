@@ -9,6 +9,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { createDevApi, mountDevPanel, createBalanceCockpit, type DevQa } from './dev';
+import type { StoryTakeBundle } from './storyTakes';
+import type { RungScene } from '../core/content/rungBeats';
 
 /** A minimal balance cockpit for the panel-mount tests (FB-7 — the Balance sub-tab is required opts). */
 const testCockpit = () =>
@@ -660,6 +662,103 @@ describe('DEV panel — New-game footer safety (F95)', () => {
     expect(restore.disabled).toBe(false);
     restore.click();
     expect(restored).toBe(1);
+    host.remove();
+  });
+});
+
+// ── ADR-139 — the story take-set switcher: substitution routing. Bundles are INJECTED (the
+// suite never depends on which real diverges happen to be open). RED-able: if the seam stopped
+// honouring the set pick, always substituted, or let the per-unit override lose to the set,
+// the asserts below flip red. ──
+describe('ADR-139 story take-sets', () => {
+  function stubQa(): DevQa {
+    return {
+      state: () => createInitialState(1),
+      speed: (m: number) => m,
+      jumpToPhase2: () => 0,
+      jumpToAscension: () => {},
+      faceWolf: () => {},
+      toRung: () => 0,
+      auto: () => {},
+      autoCombat: () => {},
+      newGame: () => {},
+      hasBackup: async () => false,
+      restoreBackup: async () => false,
+      loadFixture: async () => ({ ok: true }),
+      fixtures: () => [],
+      selectors: { rung: () => 'R0' as RankId },
+    };
+  }
+  const btnByText = (host: HTMLElement, needle: string): HTMLButtonElement =>
+    [...host.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes(needle),
+    ) as HTMLButtonElement;
+
+  const scene = (text: string): RungScene => ({
+    id: 'rung-r1',
+    rank: 'R1' as RankId,
+    voice: 'steward',
+    greeting: [{ voice: 'narrator', text }],
+    topics: [],
+    decision: { prompt: 'p?', options: [{ id: 'o1', label: 'l', say: 's', react: 'r' }] },
+    motivates: [],
+  });
+  const canon = scene('canon line');
+  const altB = scene('take-b line');
+  const bundle: StoryTakeBundle = {
+    id: 'test-bundle',
+    title: 'Test bundle',
+    takes: [
+      { id: 'b', label: 'Colder', brief: 'withholds warmth', rungBeats: { R1: altB } },
+      { id: 'c', label: 'Warmer', brief: 'lets the weariness show' },
+    ],
+  };
+
+  it('substitutes nothing while everything is canon (identity)', () => {
+    const dev = createDevApi([bundle]);
+    expect(dev.getStoryTake('test-bundle')).toBe('canon');
+    expect(dev.subRungScene(canon)).toBe(canon);
+  });
+
+  it('substitutes the selected take, and falls back to canon when the take lacks the unit', () => {
+    const dev = createDevApi([bundle]);
+    dev.setStoryTake('test-bundle', 'b');
+    expect(dev.subRungScene(canon)).toBe(altB);
+    dev.setStoryTake('test-bundle', 'c'); // take c carries no rungBeats → canon shows
+    expect(dev.subRungScene(canon)).toBe(canon);
+  });
+
+  it('per-unit override beats the bundle set, and clears back to the set', () => {
+    const dev = createDevApi([bundle]);
+    dev.setStoryTake('test-bundle', 'b');
+    dev.setStoryUnit('test-bundle', 'rung:R1', 'canon');
+    expect(dev.subRungScene(canon)).toBe(canon);
+    dev.setStoryUnit('test-bundle', 'rung:R1', undefined);
+    expect(dev.subRungScene(canon)).toBe(altB);
+  });
+
+  it('rejects an unknown take id (set + unit)', () => {
+    const dev = createDevApi([bundle]);
+    dev.setStoryTake('test-bundle', 'nope');
+    expect(dev.getStoryTake('test-bundle')).toBe('canon');
+    dev.setStoryUnit('test-bundle', 'rung:R1', 'nope');
+    expect(dev.getStoryUnit('test-bundle', 'rung:R1')).toBeUndefined();
+  });
+
+  it('mounts a Story tab that lists the open bundle and badges the count', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi([bundle]),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
+    const storyTab = btnByText(host, 'Story (1)');
+    expect(storyTab).toBeTruthy();
+    storyTab.click();
+    expect(host.textContent).toContain('Test bundle');
+    expect(host.textContent).toContain('B — Colder');
     host.remove();
   });
 });
