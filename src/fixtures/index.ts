@@ -35,7 +35,7 @@ export function getFixtures(): readonly FixtureEntry[] {
     const mod = saves[`./saves/${spec.name}.json`];
     if (!mod)
       throw new Error(
-        `fixture save missing for spec "${spec.name}" — run \`npm run fixtures:regen\``,
+        `fixture save missing for spec "${spec.name}" — run \`pnpm run fixtures:regen\``,
       );
     return { name: spec.name, blurb: spec.blurb, env: mod.default };
   });

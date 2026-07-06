@@ -11,7 +11,7 @@ Run the repo's **Checkpoint** ritual, then report. The steps are the single sour
 (commit-by-path → journal → snapshot → reading-queue → push → confirm, plus the safety rules). Read it fresh —
 it may have grown a step — and execute in order; don't paraphrase or shortcut.
 
-The snapshot/queue step is now half mechanical: **`npm run checkpoint`** regenerates the derivable process-doc
+The snapshot/queue step is now half mechanical: **`pnpm run checkpoint`** regenerates the derivable process-doc
 regions (gate roster, active-plans list) and graduates any DONE plan to `project/archive/` — run it, then finish
 the judgment half by hand (snapshot prose, clearing engaged reading-queue items).
 

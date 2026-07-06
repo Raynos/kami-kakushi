@@ -39,7 +39,7 @@ fails on **undershoot only** (§7.1.2).
    source).
 3. **§7.3 Deployment** — the static itch.io build, the multi-backend + export/import
    save path, the bundled asset set, the About/Credits + license + content
-   descriptors, and the `npm run verify` release gate.
+   descriptors, and the `pnpm run verify` release gate.
 4. **§7.4 Risk register + scope-risk posture** — the top risks, the gates that catch
    them, and how scope is held. **v1 = full T0–T3, non-negotiable (no pre-planned
    descope).**
@@ -177,7 +177,7 @@ Phase-1 rung-meter climb, then its Phase-2 four-pillar grind + the scaled grade-
 
 The ordered build sequence that stands this scope up — each milestone a verifiable
 **vertical slice** (core + content + renderer + tests together, leaving
-`npm run verify` green and the game playable to its frontier), sequenced to the §3
+`pnpm run verify` green and the game playable to its frontier), sequenced to the §3
 reveal ladder and the §6 architecture — lives in the living
 [`roadmap.md`](../roadmap.md) as the **single source of truth**
 (generate-don't-duplicate). §7 owns the *what* (the locked v1 scope §7.1, deployment
@@ -194,7 +194,7 @@ locked scope & shape; the roadmap wins on sequence.**
 **single HTML bundle** + hashed JS/CSS + the **bundled asset set**, §7.3.1), zipped
 (contents-at-root) and uploaded to **itch.io**.
 
-- **Static itch.io build.** `npm run build:itch` = `vite build` + zip **the
+- **Static itch.io build.** `pnpm run build:itch` = `vite build` + zip **the
   *contents* of** `dist/` (so `index.html` sits at the **archive root**, never
   nested under a `dist/` folder — itch.io requires `index.html` at the zip root or
   the embed shows a blank frame). itch.io serves the unzipped bundle from a project
@@ -216,7 +216,7 @@ locked scope & shape; the roadmap wins on sequence.**
   survival is tested on Chromium AND WebKit**. Import validates + migrates
   (versioned, ordered, pre-migration raw backup; a corrupt save degrades gracefully,
   never a "save is kill" wall).
-- **The `npm run verify` release gate.** The **same** one-command gate that guards
+- **The `pnpm run verify` release gate.** The **same** one-command gate that guards
   every commit (§6.1) is the release gate: `tsgo --noEmit && oxlint &&
   oxfmt --check && vitest run && verify-content && gen:docs --check` — i.e.
   **typecheck + unit tests + the content-verifier (incl. the number-format checks —
@@ -226,8 +226,8 @@ locked scope & shape; the roadmap wins on sequence.**
   artifact is **only ever cut from a verify-green commit**; `verify` is run
   **locally** as the pre-push / release gate (**no hosted CI, no deploy
   automation**).
-- **How to ship to itch.io (brief).** (1) `npm run verify` green; (2)
-  `npm run build:itch` → a zipped `dist/` (contents at root); (3) on itch.io, create
+- **How to ship to itch.io (brief).** (1) `pnpm run verify` green; (2)
+  `pnpm run build:itch` → a zipped `dist/` (contents at root); (3) on itch.io, create
   / edit the project, set **Kind = HTML**, upload the zip, tick **"This file will be
   played in the browser,"** set the viewport (a sensible default frame; the layout
   is responsive per §6.9), set pricing to **free / pay-what-you-want**, **and declare

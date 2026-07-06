@@ -22,8 +22,8 @@
 // Ignored by --budget (it measures the full roster) and by pre-push (a push always runs everything).
 //
 // The gate list itself now lives in `gates.ts` (the single source of truth — extracted so
-// checkpoint.ts can import the roster without running this runner). `npm run verify` → this;
-// `npm run verify:budget` → this --budget; `npm run verify -- --sequential` → the serial view.
+// checkpoint.ts can import the roster without running this runner). `pnpm run verify` → this;
+// `pnpm run verify:budget` → this --budget; `pnpm run verify --sequential` → the serial view.
 // EVERY mode reads the roster from gates.ts, so none can drift from it (the lesson of `verify:seq`).
 export {};
 
@@ -113,8 +113,8 @@ const concurrency = Number(process.env.VERIFY_CONCURRENCY) || cpus().length;
 const flags = scopeFlagsFromEnv(process.env);
 
 // --- flag parsing (introspection) -------------------------------------------
-// npm eats bare args, so users pass these as `npm run verify -- --verbose`;
-// pnpm forwards them directly (`pnpm run verify --verbose`). Both land in argv.
+// pnpm forwards args directly (`pnpm run verify --verbose`); npm (if used) eats
+// bare args, so it needs the separator (`npm run verify -- --verbose`). Both land in argv.
 const argv = process.argv.slice(2);
 const KNOWN = new Set([
   '--budget',
@@ -131,7 +131,7 @@ const KNOWN = new Set([
 const hasFlag = (...names: string[]): boolean => names.some((n) => argv.includes(n));
 for (const a of argv) {
   if (a.startsWith('-') && !KNOWN.has(a)) {
-    console.error(`  ! unknown flag "${a}" — try \`npm run verify -- --help\``);
+    console.error(`  ! unknown flag "${a}" — try \`pnpm run verify --help\``);
     process.exit(2);
   }
 }
@@ -146,14 +146,14 @@ function printHelp(): void {
   console.log(`verify — run the ${GATES.length} verify gates in parallel and report pass/fail.
 
 Usage:
-  npm run verify                    run once · per-gate pass/fail · exit non-zero on any failure
-  npm run verify -- --sequential    run the gates one at a time, streaming live output (debug view)
-  npm run verify -- --verbose       + every gate's captured output (pass and fail) + a timing table
-  npm run verify -- --debug         --verbose + the resolved config before running
-  npm run verify -- --performance   a real run + the per-gate timing table (the critical path)
-  npm run verify:budget             run the suite RUNS× · median total · hard ${budgetMs} budget check
-  npm run verify -- --help          this text
-  (pnpm forwards args without the \`--\`, e.g. \`pnpm run verify --verbose\`.)
+  pnpm run verify                   run once · per-gate pass/fail · exit non-zero on any failure
+  pnpm run verify --sequential      run the gates one at a time, streaming live output (debug view)
+  pnpm run verify --verbose         + every gate's captured output (pass and fail) + a timing table
+  pnpm run verify --debug           --verbose + the resolved config before running
+  pnpm run verify --performance     a real run + the per-gate timing table (the critical path)
+  pnpm run verify:budget            run the suite RUNS× · median total · hard ${budgetMs} budget check
+  pnpm run verify --help            this text
+  (npm, if used, needs the \`--\` separator, e.g. \`npm run verify -- --verbose\`.)
 
 Env knobs:
   VERIFY_CONCURRENCY   worker-pool size (default = CPU count, currently ${cpus().length})

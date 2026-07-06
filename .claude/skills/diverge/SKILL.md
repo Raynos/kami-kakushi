@@ -96,7 +96,7 @@ The infra is **already built** (v0.3.1 Step 1): the `SURFACES` registry + `rende
    violation) — fix what you can first, compress each verdict, tag each ✘ **[briefed]** (it was in the step-2
    brief — knew-and-missed) or **[blind spot]** (taste.md's text failed to fire). The brief + per-variant
    scorecard blocks are **mandatory sections of the HR-item** (§6).
-9. **Prove strip-safety:** `npm run build` then grep `dist/` for `DEV_SENTINEL` + the variant strings → **0 hits**
+9. **Prove strip-safety:** `pnpm run build` then grep `dist/` for `DEV_SENTINEL` + the variant strings → **0 hits**
    (the alternates tree-shake out of prod; zero flag-debt).
 10. **File the HR-items:** add **one `review.md` line item per variant** (§6 shape, minus the branch/screenshot
     specifics — "review LIVE in the DEV panel"), **plus the taste brief (step 2) + per-variant `Scorecard:`
@@ -146,7 +146,7 @@ alternates are *built; DEV-only*. Reviewed by toggling each in the running DEV p
 ```
 
 Silence is a **safe** answer (A already ships; the alternates are DEV-only and cost nothing until picked). **How
-to review:** `npm run dev` → the DEV panel (top-right) → toggle each surface's variant, the surface updates
+to review:** `pnpm run dev` → the DEV panel (top-right) → toggle each surface's variant, the surface updates
 instantly. If the human picks B/C, promote it to the inline default in `render.ts` (and demote A into `dev.ts`),
 re-check a11y on the new default, then the alternates can be retired.
 

@@ -29,6 +29,6 @@ Curious if it's serving yet? `bash src/scripts/ship.sh --verify-live`
 (one bounded check, never a loop).
 
 **Never:** agent-initiated invocation or running `ship.sh` autonomously ·
-force-push · `npm version` in the shared tree (bare-commits the shared
+force-push · `pnpm version` in the shared tree (bare-commits the shared
 index; the script's pathspec commit is the safe equivalent) · touching
 files you didn't author.

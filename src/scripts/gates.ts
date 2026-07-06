@@ -6,7 +6,7 @@
 // gate-count docs from this array) cannot import verify-run. This module is pure
 // data — no side effects, no top-level execution — so both verify-run.ts and
 // checkpoint.ts import it. Add / remove a gate HERE and nowhere else; the
-// gate-roster doc regions regenerate from this list (npm run checkpoint).
+// gate-roster doc regions regenerate from this list (pnpm run checkpoint).
 //
 // scope (audited 2026-07-03): what a gate READS decides its lane — code = src/config
 // only · docs = markdown only · both = a code<->docs invariant ('both' is skipped

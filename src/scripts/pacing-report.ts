@@ -4,7 +4,7 @@
 // so the "model" cannot drift from the game), converts dispatched intents → modeled
 // wall-minutes via the 480ms active-loop cadence, prints a per-rung table, and flags any
 // T0 climb rung OUT of the sane T0 band (T0 is ≥30-min-floor-EXEMPT; the floor gates from
-// T1). `--check` is the G-PACING gate (in `npm run verify` via the pacing:check script).
+// T1). `--check` is the G-PACING gate (in `pnpm run verify` via the pacing:check script).
 //
 // Model: the active-only loop dispatches exactly ONE intent per AUTO_REPEAT_MS while
 // focused, so modeled wall-time per rung = (intents to clear that rung) × AUTO_REPEAT_MS.

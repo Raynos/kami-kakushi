@@ -10,7 +10,7 @@
 // (src/ui/dev.ts) — never by the pure core or the plain renderer — so in a
 // strip build it dead-code-eliminates with the rest of the DEV panel.
 // Source of truth: `src/core/content/narrative/takes/<bundle>/` →
-// `npm run gen:narrative` → `storyTakes.gen.ts` (byte-compared by the gate).
+// `pnpm run gen:narrative` → `storyTakes.gen.ts` (byte-compared by the gate).
 
 import type { RankId } from '../core/content/ranks';
 import type { RungScene } from '../core/content/rungBeats';

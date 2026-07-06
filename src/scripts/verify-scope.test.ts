@@ -1,5 +1,5 @@
 // The scope filter guards against a FALSE GREEN: a bug that silently drops
-// gates would make `npm run verify` pass instantly forever (R3). Semantics
+// gates would make `pnpm run verify` pass instantly forever (R3). Semantics
 // are asserted on a synthetic roster (asserting the real roster's scope
 // labels would be a copied-magic-value change-detector, not a test).
 import { describe, expect, it } from 'vitest';

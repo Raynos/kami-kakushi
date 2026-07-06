@@ -283,9 +283,9 @@ Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5
 across Phase 1, but **the E1 "Stabilising" BUILD COMPLETES as a Phase-2 beat** (gated on the pillar-Influence
 floor, not the rungs; §3.3/§2.17).
 
-<!-- gen:begin t0-rung-titles (npm run gen:prd-regions — do not edit inside) -->
+<!-- gen:begin t0-rung-titles (pnpm run gen:prd-regions — do not edit inside) -->
 > **The T0 rung titles, as the build ships them** — GENERATED from `RANKS`
-> ([`ranks.ts`](../../../src/core/content/ranks.ts)) by `npm run
+> ([`ranks.ts`](../../../src/core/content/ranks.ts)) by `pnpm run
 > gen:prd-regions`; **do not edit between the markers**. These are the
 > **mechanical** rung labels the running game uses. The richer *narrative*
 > titles in the §3.2 ladder table below are reconciled to these by the T0

@@ -82,7 +82,7 @@ its **Details** link → open that `<session>/<stamp>.json` for the full context
 `logTail`. If the entry has an `**Element:**` line, that's the exact UI element
 the note is about (a semantic label + selector + on-screen rect, and the
 screenshot boxes it) — focus the repro there. Drive the game **headlessly** (never headed —
-`.claude/hooks/enforce-headless-qa.sh` enforces it): `npm run dev`, navigate
+`.claude/hooks/enforce-headless-qa.sh` enforces it): `pnpm run dev`, navigate
 with the captured variant/`?dev=no` params, `__qa.load('<the .json's save>')`,
 resize to the captured viewport, then screenshot / observe. Confirm the symptom
 is real before acting. (The entry's screenshot in `<session>/`, if present, is a
@@ -172,7 +172,7 @@ style:
 fix(ui): recenter the open-eyes button (FB-118, inbox drain)
 ```
 
-Full `npm run verify` runs per commit as normal. If the shared tree is red on a
+Full `pnpm run verify` runs per commit as normal. If the shared tree is red on a
 co-agent's WIP (not yours), commit locally and leave the push for a green window
 — don't `SKIP_VERIFY` a red tree onto the remote.
 

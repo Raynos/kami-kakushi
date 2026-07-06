@@ -4,7 +4,7 @@
 # stacking, tap-target reach, the core play journeys. Its own workflow — NOT a
 # verify gate — because verify's roster lives under the 5s budget (D-072) and a
 # browser suite is far past it; this is the same RED-able backstop at the right
-# rung for its cost. Locally: `npm run test:e2e`.
+# rung for its cost. Locally: `pnpm run test:e2e`.
 name: e2e
 
 on:

@@ -33,7 +33,7 @@ describe('genT0RungTitles', () => {
 
   it('splices byte-idempotently into a doc carrying the marker pair', () => {
     const begin =
-      '<!-- gen:begin t0-rung-titles (npm run gen:prd-regions — do not edit inside) -->';
+      '<!-- gen:begin t0-rung-titles (pnpm run gen:prd-regions — do not edit inside) -->';
     const end = '<!-- gen:end t0-rung-titles -->';
     const doc = ['# §3', '', 'Prose above.', begin, 'seed', end, 'Prose below.', ''].join('\n');
     const once = spliceRegion(doc, 't0-rung-titles', genT0RungTitles());

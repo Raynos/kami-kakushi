@@ -6,7 +6,7 @@ loops we run on top of it every milestone and in the **MS6 polish pass**.
 
 > **Status:** LIVING GUIDE — the `__qa` harness is BUILT (`src/app/main.ts`, DEV-guarded); the
 > visual/feel loop has run from MS1 (`audit/` screenshots); the §2 headless auto-player is BUILT
-> for T0 (the FB-4 persona-bot balance sim, `npm run verify:balance` — 2026-07-04). Still pending:
+> for T0 (the FB-4 persona-bot balance sim, `pnpm run verify:balance` — 2026-07-04). Still pending:
 > the §3 automated fun-proxy suite as a verify gate + the §2 T1+ scope. Adapted from the
 > ironsight-saga QA harness + polish-loop, retargeted from a turn-based FPS to a long-horizon
 > **incremental RPG**. The big differences for us: there's **no pointer-lock problem**, but there
@@ -26,7 +26,7 @@ and play** — each need a different QA tool. This plan covers all three.
   `window.__qa` through a headless page. **Do NOT use the Playwright / Chrome-DevTools
   MCP browser tools** — they open a *visible* browser window, which is disallowed here
   (enforced by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook). Running the
-  dev server (`npm run dev`) is fine — just observe it headlessly.
+  dev server (`pnpm run dev`) is fine — just observe it headlessly.
 - **Drive real code paths, never synthetic input.** All QA routes through the pure-core
   `reduce(state, intent)` / `tick(state, dt)` contracts (§6.3) via a DEV-only API — the *same* flow a
   real player triggers. No test-only shortcuts; a scripted pass exercises the actual game.
@@ -131,7 +131,7 @@ the async twin of the human's live playtest loop; it never blocks either side.
 
 Six committed, GENERATED start-states so "reproduce X" becomes "load X, look" — never a
 hand-driven climb. Each is rebuilt by driving the REAL engine from a fixed seed
-(`npm run fixtures:regen`; the `fixtures` verify gate keeps them fresh), so a balance retune
+(`pnpm run fixtures:regen`; the `fixtures` verify gate keeps them fresh), so a balance retune
 or schema bump regenerates the whole library from scratch. Load via `__qa.loadFixture(name)`,
 the DEV panel's **Scenarios** tab, or `?fixture=<name>`:
 
@@ -147,7 +147,7 @@ prove it). Home + spec model: `src/fixtures/` (specs drive the engine; nothing h
 
 ### Browser e2e lane (`e2e/` — real-browser input, CI-gated, 2026-07-05)
 
-The automated real-browser regression net: `npm run test:e2e` runs Playwright
+The automated real-browser regression net: `pnpm run test:e2e` runs Playwright
 (`playwright.config.ts`) on THREE projects — Android Chrome (Pixel 7, chromium),
 the iOS floor (iPhone SE 3rd gen, webkit, 375px), and **desktop-chromium
 (1280×800)** — against the DEV server at `?dev=no` (true player layout; `__qa`
@@ -195,7 +195,7 @@ RED-able backstop at the rung its cost affords. A **pre-push blast-radius adviso
 (`.githooks/pre-push` — loud warn, never blocks; `SKIP_E2E_WARN=1` silences)
 names any pushed files inside the lane's covered surface (`e2e/`,
 `playwright.config.ts`, `src/fixtures/`, `src/ui/styles.css`) and nudges a local
-`npm run test:e2e` before CI discovers the red minutes later. Born proving its
+`pnpm run test:e2e` before CI discovers the red minutes later. Born proving its
 worth: its first run caught the nav tab-strip overflowing at 375px AND the dead
 ≤720px byōbu block (`.work` at height 0, the log painted over the verbs —
 work-tab taps hit the log on phones).
@@ -225,8 +225,8 @@ with a clipboard-copy + file-download fallback if the dev server is unreachable.
    structured paths name the object field), plus any listed `src/core/content/ranks.ts`
    `meterThreshold` mirror (a `RUNG_METER_THRESHOLDS.*` tune requires it — verify-content enforces
    the 1:1). The agent picks **NO** numbers and widens **NO** bands.
-4. **Run the re-verify block** the artifact prints (`npm run gen:docs && npm run verify`; then the
-   balance-sim flow `npm run verify:balance && npm run balance:report`, §2 above). An honest RED
+4. **Run the re-verify block** the artifact prints (`pnpm run gen:docs && pnpm run verify`; then the
+   balance-sim flow `pnpm run verify:balance && pnpm run balance:report`, §2 above). An honest RED
    (gen-docs bakes `EAT_RICE_*` / the price table; a moved arc trips `pacing:check` or a signed
    band) is a **finding to surface to the human** for a signed re-derivation — never a test-side fudge.
 5. **Commit** citing the artifact (quote the touched-levers table in the body) and **`git mv` /
@@ -280,9 +280,9 @@ balance sim (`src/sim/`, plan `project/archive`-bound `fable-process-F4-balance-
   the floor), **idler** (replays the shipped `autoModeIntent` auto-loop verbatim between sparse
   check-ins — the "leave it running" reality), **explorer** (novelty-first breadth over every
   verb/topic/node — the ceiling probe). Skipped intents print per persona in every report.
-- **The commands:** `npm run verify:balance` (the gating matrix: greedy per-rung bands from
+- **The commands:** `pnpm run verify:balance` (the gating matrix: greedy per-rung bands from
   `T0_PACING_BAND_MIN/MAX` with margins printed, structural arc-closure gates for all 3 personas
-  × the 5 `SIM_SEEDS`, report freshness) · `npm run balance:report` (regenerate
+  × the 5 `SIM_SEEDS`, report freshness) · `pnpm run balance:report` (regenerate
   [`docs/content/t0-pacing.md`](../content/t0-pacing.md) — committed, so **`git diff` on it IS
   the before/after of a balance change**) · `balance:sim --fuzz N` (structural-only seed sweep) ·
   `balance:selftest` (harness self-proof) · `balance:fresh` (fingerprint staleness, also a
@@ -292,7 +292,7 @@ balance sim (`src/sim/`, plan `project/archive`-bound `fable-process-F4-balance-
   untainted real-play reports exist, quote attended-vs-sim for the touched rungs in the commit
   body (the human's real minutes outrank the bot's theory as evidence; a conclusion drawn from
   them gets distilled into a committed note per that folder's README) → (1) touch
-  balance/content values → (2) `npm run verify:balance` → (3) `npm run balance:report` + eyeball
+  balance/content values → (2) `pnpm run verify:balance` → (3) `pnpm run balance:report` + eyeball
   the report diff → (4) commit the report WITH the change, pasting `balance-sim --summary`
   (per-rung deltas + verdicts) into the commit body. A staged design-input change with a stale
   report trips the pre-commit WARN.
@@ -382,7 +382,7 @@ Each milestone (MS0…MS7) is **not "done" until its QA sweep passes** (this is 
 §7). The sweep, adapted from the ironsight per-chapter pass:
 
 - **Correctness:** the milestone's headless run reaches its target state; `state()`/`reveals()`
-  assertions pass; `npm run verify` green (tsgo + oxlint + oxfmt + vitest + verify-content +
+  assertions pass; `pnpm run verify` green (tsgo + oxlint + oxfmt + vitest + verify-content +
   `gen:docs --check` — verify-content enforces the id/canon invariants + a real-name denylist, and
   K/M/B is unit-tested; the macron lint + the §4.8 pacing regression are **planned** additions, not
   yet in the gate); a fixed-seed determinism test is byte-identical; save round-trips.
@@ -424,7 +424,7 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 
 ## 7. Tooling
 
-- **Dev server:** `npm run dev` → Vite (it does **not** survive a Claude restart — relaunch on cold
+- **Dev server:** `pnpm run dev` → Vite (it does **not** survive a Claude restart — relaunch on cold
   pickup). The headless drivers point at it.
 - **MCP browser servers: BLOCKED (headed).** The Playwright / Chrome-DevTools MCP browser tools open
   a *visible* window and are denied by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook

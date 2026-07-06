@@ -5,7 +5,7 @@
 // file (gen-docs.ts's model, right for pure content), we splice ONLY the bytes
 // between a pair of HTML-comment markers and preserve every byte outside them:
 //
-//   <!-- gen:begin <id> (npm run checkpoint — do not edit inside) -->
+//   <!-- gen:begin <id> (pnpm run checkpoint — do not edit inside) -->
 //   ...generated body (replaced on every run)...
 //   <!-- gen:end <id> -->
 //
@@ -35,7 +35,7 @@ export class MissingRegionError extends Error {
   ) {
     super(
       `gen-regions: region "${id}" ${detail}. Re-add the marker pair\n` +
-        `    <!-- gen:begin ${id} (npm run checkpoint — do not edit inside) -->\n` +
+        `    <!-- gen:begin ${id} (pnpm run checkpoint — do not edit inside) -->\n` +
         `    <!-- gen:end ${id} -->\n` +
         `  (or run the marker migration), then regenerate.`,
     );

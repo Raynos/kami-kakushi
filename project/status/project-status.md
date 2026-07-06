@@ -79,7 +79,7 @@ ladder** → T1–T5 · home grows w/ rung · NPC placement (FB-113) · balance 
 Vite 5 + TS (strict, `tsgo`) + Vitest 2 + oxlint + oxfmt. Pure-core oxlint
 boundary (no Math.random/pow/DOM/Date.now in `src/core`). `pnpm run verify` runs
 in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
-<!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
+<!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
 **17 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint.
@@ -104,7 +104,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 > Open = the human queue above; the deferred tail (R7-capstone once **T1**) is next.
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
-   <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
+   <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
    [`journal/2026-07-06-session-97-hook-path-fix.md`](../journal/2026-07-06-session-97-hook-path-fix.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).

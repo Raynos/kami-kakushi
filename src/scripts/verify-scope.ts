@@ -1,6 +1,6 @@
 // verify-scope — pure lane-filtering semantics for the verify gate roster.
 //
-// Two commit-time convenience flags narrow `npm run verify` to the lane a
+// Two commit-time convenience flags narrow `pnpm run verify` to the lane a
 // commit actually touches (the pre-commit hook passes env straight through):
 //   SKIP_CODE_VERIFY=1  -> skip 'code'-scoped gates  (a docs-only commit)
 //   SKIP_DOCS_VERIFY=1  -> skip 'docs'-scoped gates  (a pure code commit)

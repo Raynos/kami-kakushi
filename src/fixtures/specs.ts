@@ -2,7 +2,7 @@
 // DEV panel all read. Each spec is a NAMED waypoint reached by driving the REAL engine through
 // REAL intents from a fixed seed — never hand-authored state, never a field poke. The generator
 // (src/scripts/gen-fixtures.ts) runs `play` from createInitialState(seed), asserts `expect`, and
-// writes the resulting envelope to saves/<name>.json, so `npm run fixtures:regen` rebuilds the
+// writes the resulting envelope to saves/<name>.json, so `pnpm run fixtures:regen` rebuilds the
 // whole library from scratch after any balance retune / schema bump / content rename.
 //
 // Pure-core boundary: this imports ONLY the core's public index (like src/sim/). Nothing in

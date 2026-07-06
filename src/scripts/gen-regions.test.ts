@@ -7,7 +7,7 @@ import { spliceRegion, hasRegion, wrap, MissingRegionError } from './gen-regions
 // can go RED (a splicer that clobbered surrounding prose, drifted on re-run, or
 // swallowed a missing marker would fail here).
 
-const begin = (id: string) => `<!-- gen:begin ${id} (npm run checkpoint — do not edit inside) -->`;
+const begin = (id: string) => `<!-- gen:begin ${id} (pnpm run checkpoint — do not edit inside) -->`;
 const end = (id: string) => `<!-- gen:end ${id} -->`;
 
 const doc = (id: string, body: string) =>

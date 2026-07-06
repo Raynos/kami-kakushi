@@ -1,7 +1,7 @@
 # Narrative authoring format (FB-5)
 
 The T0 story is authored HERE, as structured markdown — these files are the
-**source of truth**; `npm run gen:narrative` compiles them into the generated
+**source of truth**; `pnpm run gen:narrative` compiles them into the generated
 `*.gen.ts` registries the engine imports (`gen-narrative --check` is the drift
 gate). Prose is the visible thing: the file reads as a script in any markdown
 preview, and a story edit is a prose edit.

@@ -79,7 +79,7 @@ tests) · Mobile.** Reference tables (token map, material recipes, fonts, varian
 recipe) are the appendices; cards point to them.
 
 **Every card's "Mobile" accept is now MACHINE-CHECKED (added 2026-07-05):** the
-mobile e2e lane (`npm run test:e2e` — `e2e/mobile-layout.spec.ts` +
+mobile e2e lane (`pnpm run test:e2e` — `e2e/mobile-layout.spec.ts` +
 `e2e/mobile-journey.spec.ts`, real Android-Chrome + iOS-WebKit profiles; CI
 workflow `e2e.yml` on every push) asserts no-horizontal-scroll, single-column
 stacking, tap-target reach/coverage, and the tap journeys, per fixture. A
@@ -127,7 +127,7 @@ token values left in the `:root` (material rules still reference them until M2 �
 that's expected); **a11y:** confirm the text ramp on steel meets WCAG AA — `--ink`
 `#c2c8d8` and `--ink-2` `#8a90a4` on `#161922` pass for body; `--ink-3` `#5c6274`
 is **decorative only** (≈3:1 — never load-bearing text); gold `#d8b978` and silver
-`#cdd6ee` on steel pass. `npm run verify` green; headless R0/R1 capture; **human
+`#cdd6ee` on steel pass. `pnpm run verify` green; headless R0/R1 capture; **human
 playtests.**
 
 **Mobile:** none (token-only; the responsive rules inherit the new values).
@@ -160,7 +160,7 @@ animation `reconcile.ts` relies on) — keep the transition, change only fill/tr
 **Accept:** R0/R1 read as **clean blackened steel** (no grain, no woodblock frame,
 no cream) on the current composition; log is a recessed steel well; meters are gold
 thread in a steel groove; **a11y** re-checked on the new plate backgrounds (the
-gold `--num-key` on steel-2, the silver labels); `npm run verify` green; headless
+gold `--num-key` on steel-2, the silver labels); `pnpm run verify` green; headless
 capture; **human playtests.**
 
 **Mobile:** the recipes are token/shadow swaps — responsive breakpoints inherit;
@@ -215,7 +215,7 @@ reconcile-owned children).
 
 **Accept:** the Andon frame renders at R1+ (rail left, desk center, log window
 right); R0 (pre-nav, <2 tabs) still composes sanely; scroll-to-bottom + sticky-log
-still work (the `:1215-1239` tests pass); `npm run verify` green; headless capture
+still work (the `:1215-1239` tests pass); `pnpm run verify` green; headless capture
 of R0→R3; **human playtests** (this is the highest-risk card — the eye re-learns
 the screen).
 
@@ -250,7 +250,7 @@ safe-area insets, 44px tap floors. Verify no horizontal scroll at 375px.
 a re-render).
 
 **Accept:** cold-open types title → roman → lede char-by-char then reveals the CTA;
-fires **once**; RM shows all instantly; steel-styled; `npm run verify` green;
+fires **once**; RM shows all instantly; steel-styled; `pnpm run verify` green;
 headless capture of the cold-open sequence; **human playtests** the cadence.
 
 **Mobile:** verify the typewriter + caret at 375px; type size floors.
@@ -282,7 +282,7 @@ structure kept).
 
 **Accept:** VN scenes + a rung beat + the T0→T1 ascension render in steel with the
 vermillion seal-press landing BIG on ascension; contract tests (`render.test.ts`
-`:1006-1058` shell-hide / VN) still pass; `npm run verify` green; headless capture
+`:1006-1058` shell-hide / VN) still pass; `pnpm run verify` green; headless capture
 of a VN beat + the ceremony; **human playtests** a rung-up + ascension.
 
 **Mobile:** verify the VN full-screen surface + seal scale at 375px.
@@ -319,7 +319,7 @@ flag-debt); the `dev.ts` leak-guard sentinel.
 
 **Accept:** every surface's variants toggle live in the DEV panel in steel; each
 surface's `variant[0]` is a coherent self-picked steel default; `?dev=no` shows the
-true player layout; `npm run verify` green (incl. new `dev.test.ts` routing);
+true player layout; `pnpm run verify` green (incl. new `dev.test.ts` routing);
 headless capture per surface; **the human picks each live**, then a follow-up strips
 the unpicked variants (ADR-075) and closes HR-2/HR-5/HR-6/HR-7.
 
@@ -335,7 +335,7 @@ the unpicked variants (ADR-075) and closes HR-2/HR-5/HR-6/HR-7.
 `02-systems`, `06-tech-architecture`, `07-roadmap-scope`); new ADR **retiring
 ADR-018** (keep its "CSS-only, no asset pipeline" constraint, replace the aesthetic);
 mark ADR-045's ink-contrast rule superseded by the steel a11y targets; re-caption
-ADR-068's woodblock justification. `npm run prd:drift` clean.
+ADR-068's woodblock justification. `pnpm run prd:drift` clean.
 
 **Accept:** `verify` green (incl. `doc-budgets` — ui-design.md ≤400, taste.md ≤150);
 `prd:drift` clean; the ADR lands; no stale "washi/woodblock" identity claim remains
@@ -494,7 +494,7 @@ Per surface X (model on `renderHomeVariant` `dev.ts:486`):
 
 ## Definition of done (whole migration)
 
-- M1–M7 each: `verify` green · **the mobile e2e lane green** (`npm run test:e2e`;
+- M1–M7 each: `verify` green · **the mobile e2e lane green** (`pnpm run test:e2e`;
   M3 updates its stacking assertions + raises the tap floor to 44px in-commit) ·
   headless R0/R1 (+ the milestone's surface) capture ·
   **human playtests R0/R1 and signs off** before the next · engine contract intact ·

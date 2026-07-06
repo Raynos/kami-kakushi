@@ -31,7 +31,7 @@ ui-demos/0N-<name>/
   main.js       render + reconcile + engine wiring
 ```
 
-- Serve from repo root (`npx serve ui-demos` or any static server) — pages
+- Serve from repo root (`pnpm exec serve ui-demos` or any static server) — pages
   are opened at `/0N-<name>/`. Use relative imports (`../shared/engine.js`).
 - No build step, no external requests (fonts: system stacks or none;
   `@font-face` only if self-hosted — prefer system stacks).

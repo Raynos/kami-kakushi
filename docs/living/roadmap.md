@@ -274,7 +274,7 @@ bounded close → free-play) stays in **T3-M3**; Ship owns the **technical** rel
 | Fun-slice | Status | The fun | DoD |
 |---|---|---|---|
 | **Ship-M2-F1** Save durability at release | 🆕 | your save survives the real world — the itch.io cross-origin iframe, a mid-write crash, a poisoned record — verified on an actual build | the **cross-origin-iframe SAVE-SURVIVAL test** (PRD §6.8) on a real itch build; crash-recovery ring + safe-mode + poison-suppression verified; the **`migrate()` chain test-covered end-to-end** (ADR-067 / D-013a — the real forward-migration path exercised, not just the dev save-wipe); no new UI surface (no DIVERGE) |
-| **Ship-M2-F2** Cut the itch.io build & ship | 🆕 | the game actually goes out — a stamped itch.io build, uploaded the deliberate, human-approved way | `npm run build:itch` (content descriptors + build stamp); the deliberate, **HUMAN-APPROVED itch.io upload** (ADR-017 — outward-facing, requires human sign-off, never auto); the bounded "v1 complete" narrative close already shipped in T3-M3 — Ship-M2 is the technical release |
+| **Ship-M2-F2** Cut the itch.io build & ship | 🆕 | the game actually goes out — a stamped itch.io build, uploaded the deliberate, human-approved way | `pnpm run build:itch` (content descriptors + build stamp); the deliberate, **HUMAN-APPROVED itch.io upload** (ADR-017 — outward-facing, requires human sign-off, never auto); the bounded "v1 complete" narrative close already shipped in T3-M3 — Ship-M2 is the technical release |
 
 ---
 

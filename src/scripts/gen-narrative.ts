@@ -95,7 +95,7 @@ try {
       if (onDisk !== generated) {
         console.error(
           `  X gen-narrative: ${t.out} is out of date (or hand-edited).\n` +
-            `    The source of truth is ${t.md} — edit THAT, then run \`npm run gen:narrative\`.`,
+            `    The source of truth is ${t.md} — edit THAT, then run \`pnpm run gen:narrative\`.`,
         );
         drift++;
       }
@@ -114,7 +114,7 @@ try {
     if (onDisk !== story) {
       console.error(
         `  X gen-narrative: ${STORY_OUT} is out of date (or hand-edited/deleted).\n` +
-          `    It regenerates from src/core/content/narrative/*.md — run \`npm run gen:narrative\`.`,
+          `    It regenerates from src/core/content/narrative/*.md — run \`pnpm run gen:narrative\`.`,
       );
       drift++;
     }
@@ -152,7 +152,7 @@ try {
     if (onDisk !== takesGenerated) {
       console.error(
         `  X gen-narrative: ${TAKES_OUT} is out of date (or hand-edited).\n` +
-          `    The source of truth is ${TAKES_DIR}/ — edit THAT, then run \`npm run gen:narrative\`.`,
+          `    The source of truth is ${TAKES_DIR}/ — edit THAT, then run \`pnpm run gen:narrative\`.`,
       );
       drift++;
     }

@@ -1,4 +1,4 @@
-# The FULL gate roster — `npm run verify` runs all 15 gates (the atomic
+# The FULL gate roster — `pnpm run verify` runs all 15 gates (the atomic
 # lint/typecheck/test checks PLUS the 11 house-specific invariant gates:
 # content/PRD verifiers, gen-region freshness, md-links, milestone-integrity,
 # changelog, doc-budgets, checkpoint). This is the authoritative "everything

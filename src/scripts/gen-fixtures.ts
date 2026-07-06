@@ -43,14 +43,14 @@ if (check) {
     const existing = existsSync(path) ? readFileSync(path, 'utf-8') : '';
     if (existing !== content) {
       console.error(
-        `fixtures:check FAILED: src/fixtures/saves/${file} is stale. Run \`npm run fixtures:regen\`.`,
+        `fixtures:check FAILED: src/fixtures/saves/${file} is stale. Run \`pnpm run fixtures:regen\`.`,
       );
       stale = true;
     }
   }
   for (const orphan of orphansOnDisk()) {
     console.error(
-      `fixtures:check FAILED: src/fixtures/saves/${orphan} has no spec. Run \`npm run fixtures:regen\`.`,
+      `fixtures:check FAILED: src/fixtures/saves/${orphan} has no spec. Run \`pnpm run fixtures:regen\`.`,
     );
     stale = true;
   }

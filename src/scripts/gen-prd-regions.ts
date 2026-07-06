@@ -18,8 +18,8 @@
 // lane) replaces only the bytes between a marker pair and preserves every byte
 // outside — so a co-agent's concurrent edit to the surrounding §3 prose survives.
 // Two modes mirror gen-docs.ts / checkpoint.ts:
-//   npm run gen:prd-regions          write: regenerate the region(s) in place
-//   npm run gen:prd-regions -- --check  regenerate into memory, fail on any byte
+//   pnpm run gen:prd-regions          write: regenerate the region(s) in place
+//   pnpm run gen:prd-regions -- --check  regenerate into memory, fail on any byte
 //                                        diff; writes nothing (the verify gate)
 //
 // Determinism (why --check is a SOUND gate, never AC-11 wolf-crying): the only
@@ -47,7 +47,7 @@ export function genT0RungTitles(): string {
   const rows = RANKS.map((r) => `| ${r.id} | ${r.title} | ${r.kanji} |`);
   return [
     '> **The T0 rung titles, as the build ships them** — GENERATED from `RANKS`',
-    '> ([`ranks.ts`](../../../src/core/content/ranks.ts)) by `npm run',
+    '> ([`ranks.ts`](../../../src/core/content/ranks.ts)) by `pnpm run',
     '> gen:prd-regions`; **do not edit between the markers**. These are the',
     '> **mechanical** rung labels the running game uses. The richer *narrative*',
     '> titles in the §3.2 ladder table below are reconciled to these by the T0',
@@ -70,7 +70,7 @@ export function genT0WeaponRoster(): string {
   const rows = WEAPONS.map((w) => `| ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
   return [
     '> **The T0 weapon roster, as the build ships it** — GENERATED from `WEAPONS`',
-    '> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `npm run',
+    '> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `pnpm run',
     '> gen:prd-regions`; **do not edit between the markers**. Identity only — the',
     '> per-weapon `baseAttack`/`baseSpeed`/durability tuning lives in §4.6.9 (the',
     '> ripple-frozen provisional numbers, D-021), never here. Adding or renaming a',
@@ -92,7 +92,7 @@ export function genT0Bestiary(): string {
   const rows = t0.map((m) => `| ${m.label} | ${m.kanji} | ${m.area.replace(/-/g, ' ')} |`);
   return [
     '> **The T0 bestiary, as the build ships it** — GENERATED from `MOBS`',
-    '> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `npm run',
+    '> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `pnpm run',
     '> gen:prd-regions`; **do not edit between the markers**. T0-reachable foes',
     '> only — the road bandit is canon-held for T2 (§5) and excluded here (A10);',
     '> per-mob `level` is §4.6 tuning, kept out. Adding or renaming a T0 mob in',
@@ -142,7 +142,7 @@ function runCli(): void {
     if (stale.length) {
       console.error('  X gen-prd-regions --check FAILED: generated PRD region(s) are stale:');
       for (const f of stale) console.error(`      ${f}`);
-      console.error('    Run `npm run gen:prd-regions` to regenerate, then stage the file.');
+      console.error('    Run `pnpm run gen:prd-regions` to regenerate, then stage the file.');
       process.exit(1);
     }
     console.log(`  ✓ gen-prd-regions --check: ${targetFiles.length} PRD region-doc(s) fresh.`);

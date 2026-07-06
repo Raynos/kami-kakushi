@@ -9,8 +9,8 @@
 // (gates.ts, the docs/plans/ listing) so the drift is impossible by construction.
 //
 // Two modes, mirroring gen-docs.ts:
-//   npm run checkpoint          write: regenerate the regions in place, then report
-//   npm run checkpoint:check    --check: regenerate into memory, fail on any byte
+//   pnpm run checkpoint          write: regenerate the regions in place, then report
+//   pnpm run checkpoint:check    --check: regenerate into memory, fail on any byte
 //                               diff; writes nothing (the verify gate — F1a Phase 4)
 //
 // Determinism (why --check is a SOUND gate — §3.1): every input is a committed
@@ -450,7 +450,7 @@ function runCli(): void {
       if (stale.length) {
         console.error('  X checkpoint --check FAILED: generated region(s) are stale:');
         for (const f of stale) console.error(`      ${f}`);
-        console.error('    Run `npm run checkpoint` to regenerate, then stage the files.');
+        console.error('    Run `pnpm run checkpoint` to regenerate, then stage the files.');
       }
       process.exit(1);
     }
@@ -459,7 +459,7 @@ function runCli(): void {
     for (const f of unarchived) {
       console.error(
         `  ~ checkpoint WARN: ${PLANS_DIR}/${f} reads DONE/SUPERSEDED but still sits in ${PLANS_DIR}/ —` +
-          ` run \`npm run checkpoint\` to graduate it to ${ARCHIVE_DIR}/. (WARN only, not blocking.)`,
+          ` run \`pnpm run checkpoint\` to graduate it to ${ARCHIVE_DIR}/. (WARN only, not blocking.)`,
       );
     }
     console.log(

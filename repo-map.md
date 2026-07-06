@@ -92,7 +92,7 @@ always-loaded context while being editable on its own.
 - [`e2e/`](e2e) — the **mobile e2e lane**: Playwright specs (`mobile-layout` /
   `mobile-journey` + `helpers`) driven by root `playwright.config.ts` on two real
   mobile profiles (Android Chrome + iOS-floor WebKit) against the DEV server.
-  `npm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a
+  `pnpm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a
   `verify` gate — the 5s budget, ADR-072). Spec + rationale:
   [qa-playtesting.md §1 "Mobile e2e lane"](docs/living/qa-playtesting.md).
 - `.github/workflows/` — the CI fan-out: `verify` (push/PR — the gate roster) ·

@@ -1,6 +1,6 @@
 // The rung-up STORY BEATS (ADR-110) — DATA, not script, parallel to the intro's DIALOGUE_SCENES.
 // The DATA is authored as prose in `narrative/rung-beats.md` (FB-5 — the source of truth) and
-// compiled to `rungBeats.gen.ts` by `npm run gen:narrative`; this module keeps the hand-written
+// compiled to `rungBeats.gen.ts` by `pnpm run gen:narrative`; this module keeps the hand-written
 // TYPES + HELPERS and re-exports the generated registry, so consumers see one unchanged surface.
 // EVERY rung R1→R7 is a player-TRIGGERED VN beat that narratively MOTIVATES its unlocks (FB-97) and
 // discovers its people (FB-99); SOME rungs introduce a new face (Tokubei R1, Rokusuke R2, Kihei R3,

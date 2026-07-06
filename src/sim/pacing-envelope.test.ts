@@ -1,6 +1,6 @@
 // The slim in-gate pacing tripwire (FB-4 §5a) — ONE greedy run on the canonical seed inside the
 // vitest gate, asserting the per-rung T0 band + the arc closing. Deliberately rationed (AC-17):
-// the full gating matrix (all personas × SIM_SEEDS + margins) lives in `npm run verify:balance`
+// the full gating matrix (all personas × SIM_SEEDS + margins) lives in `pnpm run verify:balance`
 // (on-demand); this is the always-on drift alarm that costs ~40 ms. Genuinely RED-able: flip a
 // RUNG_METER_THRESHOLDS entry ×3 and the band assert names that rung (proven in Ph2's DoD).
 

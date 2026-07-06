@@ -1,6 +1,6 @@
 // Pure display helpers (PRD §6.4 core/format, §6.9): the shared K/M/B number
 // formatter, moved OUT of the renderer so it's table-driven boundary-tested under
-// `npm run verify`. Letter notation the whole game — never scientific, never myriad
+// `pnpm run verify`. Letter notation the whole game — never scientific, never myriad
 // man/oku (ui-design.md §5.7). Fixed to 2 decimals max, fixed width (1.20K), so
 // digits don't jitter as values tick.
 

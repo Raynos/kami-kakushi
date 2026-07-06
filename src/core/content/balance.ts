@@ -58,7 +58,7 @@ export let RUNG_POINTS_PER_ACT = 2;
 // Review velocity now comes from the DEV-only 2×/4×/8× speed toggle (ADR-056) — NOT a fast profile.
 // Single source of truth (gen:docs + verify-content + the pacing sim own it); mirrored by
 // RankDef.meterThreshold (verifier-enforced). PROVISIONAL / liquid (ADR-059) — tune by
-// `npm run pacing`. R0..R2 are simulator-verified to the targets; R3..R7 ride a gentle
+// `pnpm run pacing`. R0..R2 are simulator-verified to the targets; R3..R7 ride a gentle
 // continuing ramp (the sim stops at R3, so they re-derive when the T0-combat path is simulated). ──
 export const RUNG_METER_THRESHOLDS: Partial<Record<RankId, number>> = {
   R0: 1100, // ≈ 5-min cold-open
@@ -362,7 +362,7 @@ export let COOK_HP_RESTORE = 14;
 // ── Rice sinks (ADR-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
 // STORE it in the kura (deposit/withdraw), or SELL it for coin at a SEASON-swinging price. This is
 // what closes the "rice has no consumer" gap (integrity ledger) + restores the coin faucet. All
-// numbers provisional (v0.2, liquid ADR-059) — tune by playtest / `npm run pacing`. ──
+// numbers provisional (v0.2, liquid ADR-059) — tune by playtest / `pnpm run pacing`. ──
 
 /** Rice one plain-rice meal consumes (the `eat_rice` satiety path, beside `rest`/`cook_meal`). */
 export let EAT_RICE_COST = 2; // R9 (2026-07-05): 3→2, narrow eat's coin gap vs free rest (W3)

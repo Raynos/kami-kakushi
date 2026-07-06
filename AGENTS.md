@@ -63,7 +63,7 @@ philosophy wins.**
 - **Many small commits, straight to the working branch.** Don't branch for
   routine work — committing as you go *is* the workflow. *(This overrides the
   generic "branch off main / commit only when asked" default.)* Each commit runs
-  the **full `npm run verify`** (the gate roster is owned by
+  the **full `pnpm run verify`** (the gate roster is owned by
   `src/scripts/gates.ts` — the single source of truth — and the gates run in
   **parallel**, comfortably under the soft 5s drift budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
@@ -73,7 +73,7 @@ philosophy wins.**
   `SKIP_JOURNAL=1` for trivial commits. A push always verifies the FULL
   roster — the lane flags are commit-time only).
   A soft 5s **drift timer** warns (never blocks) as the gate slows;
-  `npm run verify:budget` is the hard, on-demand budget check (ADR-072). Enable
+  `pnpm run verify:budget` is the hard, on-demand budget check (ADR-072). Enable
   the hook once per clone: `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out
   research, multi-file sweeps).
@@ -178,7 +178,7 @@ Full version:
   DoD-named test must resolve to a real test); per-test RED-ability stays a **norm**,
   deliberately **not** gated (a lint can't judge RED-ability without crying wolf — AC-11).
   **Balance changes get a machine verdict (ADR-132):** after touching balance/content
-  magnitudes, run `npm run verify:balance` → `npm run balance:report` and commit the
+  magnitudes, run `pnpm run verify:balance` → `pnpm run balance:report` and commit the
   regenerated `docs/content/t0-pacing.md` WITH the change (its diff is the before/after;
   paste `balance-sim --summary` into the commit body) — the full flow lives in
   [`qa-playtesting.md` §2](docs/living/qa-playtesting.md).
@@ -192,7 +192,7 @@ Full version:
   content (rung beats, intro scenes, dialogue lines, the cold open) is authored
   as prose-first markdown in
   [`src/core/content/narrative/`](src/core/content/narrative/README.md) — the
-  source of truth — and compiled by `npm run gen:narrative` into `*.gen.ts`
+  source of truth — and compiled by `pnpm run gen:narrative` into `*.gen.ts`
   registries (+ the readable script `docs/content/t0-story.md`). **Never edit a
   `*.gen.ts`** — the `gen-narrative` verify gate byte-compares and its error
   names the `.md` to edit. Real logic (helpers, gates beyond the declared
@@ -210,7 +210,7 @@ Full version:
   territory; the PRD is the forward spec. After a **built-system** design change,
   run [`/prd-ripple`](.claude/skills/prd-ripple/SKILL.md) — classify it (balance
   number → no §4 edit · system/narrative → targeted ripple + ADR · intent → stop
-  for the human · frontier → edit freely), then `npm run prd:drift` for the
+  for the human · frontier → edit freely), then `pnpm run prd:drift` for the
   game→PRD punch-list. Derivable facts transclude as **gen-regions**
   (`gen-prd-regions.ts`, the `gen-prd-regions` gate) so they can't drift. The
   once-per-tier **compression** sweep (`/prd-compress`) is a separate,
@@ -227,11 +227,11 @@ Full version:
   diff heuristic. When you bump `package.json`, add the release section.
   **A version bump also gets a git tag `vX.Y.Z` on the release commit**
   (human, 2026-07-05): the tag is what lets `git describe --tags` version
-  the gh-pages deploy messages. Prefer `npm version x.y.z` (bump + commit +
+  the gh-pages deploy messages. Prefer `pnpm version x.y.z` (bump + commit +
   tag in one move) in a single-agent clone — but in THIS shared tree it
   bare-commits the shared index and rewrites the pinned-at-`0.0.0` lockfile
   root, so releases go through **`/ship`**, which does the safe explicit
-  equivalent (`npm pkg set` → pathspec commit → `git tag`).
+  equivalent (`pnpm pkg set` → pathspec commit → `git tag`).
 - **Playtest via code, not synthetic input.** Expose a DEV-only play API on
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the

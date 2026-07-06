@@ -5,7 +5,7 @@
 // span advanced ZERO game ticks (the D-079 cross-check); that the run persisted to the
 // localStorage ring across a reload; and that __qa driving tainted the run.
 //
-// Run with a dev server up:  npm run dev  →  node src/scripts/telemetry-smoke.mjs
+// Run with a dev server up:  pnpm run dev  →  node src/scripts/telemetry-smoke.mjs
 // (QA_URL overrides the target, like save-smoke.mjs.)
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';

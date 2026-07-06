@@ -1,6 +1,6 @@
 <!-- The dialogue registry (teach-by-reveal lines, ADR-039/ADR-063) — the AUTHORING
   SOURCE OF TRUTH (FB-5). Compiled to src/core/content/dialogue.gen.ts by
-  `npm run gen:narrative`; the pure cursor + helpers stay in dialogue.ts.
+  `pnpm run gen:narrative`; the pure cursor + helpers stay in dialogue.ts.
   `when: <flag>` gates on a story flag; `when: <npc>.regard is|not <v>` on
   per-NPC memory. {key} interpolates NAMES entries. Spec: ./README.md. -->
 

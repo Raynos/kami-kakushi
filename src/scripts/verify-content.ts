@@ -1,6 +1,6 @@
 // Content verifier (PRD §6.6 / §6.6.1): cross-checks ids across the typed registries
 // and enforces the canon invariants. Grows additively as registries arrive. Run
-// inside `npm run verify`; a violation fails the build.
+// inside `pnpm run verify`; a violation fails the build.
 export {};
 
 import {

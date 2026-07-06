@@ -29,7 +29,7 @@ file: take-b.md
 
 Take files use the exact grammar of the sibling canon files
 ([`../README.md`](../README.md)) and are parsed/emitted by the same compiler
-(`npm run gen:narrative` → `src/ui/storyTakes.gen.ts`, byte-compared by the
+(`pnpm run gen:narrative` → `src/ui/storyTakes.gen.ts`, byte-compared by the
 `gen-narrative` gate). A take may vary any unit type the switcher can swap LIVE
 (ADR-143): rung beats, intro scenes, and **UI flavor lines** (`## prose flavor`
 → `dev.subFlavor`, live on the weapon-card etc.). Dialogue + cold-open keyed

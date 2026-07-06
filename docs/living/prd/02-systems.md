@@ -588,9 +588,9 @@ mixed motives and CLEAR/CAPTURE choices with consequences; some are reachable co
   location-filtered live set the combat watch reads, while the win-rate CURVE the balance gates read stays
   location-INDEPENDENT.
 
-<!-- gen:begin t0-bestiary (npm run gen:prd-regions — do not edit inside) -->
+<!-- gen:begin t0-bestiary (pnpm run gen:prd-regions — do not edit inside) -->
 > **The T0 bestiary, as the build ships it** — GENERATED from `MOBS`
-> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `npm run
+> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `pnpm run
 > gen:prd-regions`; **do not edit between the markers**. T0-reachable foes
 > only — the road bandit is canon-held for T2 (§5) and excluded here (A10);
 > per-mob `level` is §4.6 tuning, kept out. Adding or renaming a T0 mob in
@@ -681,9 +681,9 @@ milestones (L10 unlocks the ability/item slots; richer signatures ~L25/L50).
 - A weapon's improvised 0th entry carries a minimal archetype (slow, short, single-target) and **no**
   signature. *(Exact per-weapon numbers → §4.6.)*
 
-<!-- gen:begin t0-weapon-roster (npm run gen:prd-regions — do not edit inside) -->
+<!-- gen:begin t0-weapon-roster (pnpm run gen:prd-regions — do not edit inside) -->
 > **The T0 weapon roster, as the build ships it** — GENERATED from `WEAPONS`
-> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `npm run
+> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `pnpm run
 > gen:prd-regions`; **do not edit between the markers**. Identity only — the
 > per-weapon `baseAttack`/`baseSpeed`/durability tuning lives in §4.6.9 (the
 > ripple-frozen provisional numbers, D-021), never here. Adding or renaming a
@@ -1431,7 +1431,7 @@ loop control (`tick`/`step`/`frames(n,ms)`, `pause`/`resume`), `new`/`load`/`sav
 helpers** (jump to a late unlock / rare outcome / terminal screen). Expose a DEV-only play API
 on `window` so the game can be driven and observed headlessly (used by the `capture-game-states` skill).
 **The content verifier** (`Verify_Game_Objects` equivalent) cross-checks all ids/refs across registries at
-test time, and **balance/content docs are GENERATED** from the same data the game runs (`npm run gen:docs`
+test time, and **balance/content docs are GENERATED** from the same data the game runs (`pnpm run gen:docs`
 → **`docs/balance/`** + **`docs/content/`**; duplicated derived values are tagged "illustrative — see
 generated"; the `content/world.ts` world-sim registry is generated/verified like the others).
 

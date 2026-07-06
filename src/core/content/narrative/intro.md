@@ -1,6 +1,6 @@
 <!-- The interactive intro (3 VN scenes: soan / dream / genemon — the fixed
   order the engine cursor + v3→v4 migration assume) — the AUTHORING SOURCE OF
-  TRUTH (FB-5). Compiled to src/core/content/intro.gen.ts by `npm run
+  TRUTH (FB-5). Compiled to src/core/content/intro.gen.ts by `pnpm run
   gen:narrative`; types + helpers stay in intro.ts. Every option is a NET-ZERO
   +1/−1 lean (stat:) and grants a perk (perk:); `say:` overrides the label as
   the MC's spoken line. `@…` lines REUSE cold-open / dialogue text

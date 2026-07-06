@@ -65,8 +65,8 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
         '- `export let EAT_RICE_SATIETY = 30;` → `export let EAT_RICE_SATIETY = 36;`',
         '',
         '## Mirrors & re-verify',
-        '- run: `npm run gen:docs && npm run verify` (pacing:check is in verify).',
-        '- balance-sim gate: `npm run verify:balance && npm run balance:report` — this diff is',
+        '- run: `pnpm run gen:docs && pnpm run verify` (pacing:check is in verify).',
+        '- balance-sim gate: `pnpm run verify:balance && pnpm run balance:report` — this diff is',
         '  exactly the value change that stales its fingerprint; commit the regenerated report.',
       ].join('\n') + '\n';
     expect(md).toBe(expected);

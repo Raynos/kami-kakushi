@@ -3,7 +3,7 @@
 // The durable guard against the monolith-truncation failure class: once the PRD is split, assert all 7
 // sections are present, ASCII-named, contiguous (§1…§7), non-truncated, and linked from the stub index.
 // SAFE-WHEN-ABSENT: if the split hasn't been applied yet (no docs/living/prd/ dir), it exits 0 with a
-// note — so it can be wired into `npm run verify` now or at split time without breaking the build.
+// note — so it can be wired into `pnpm run verify` now or at split time without breaking the build.
 //
 // CLI:  tsx src/scripts/verify-prd.ts  [--dir=<split-dir>] [--index=<stub-prd.md>]
 export {};

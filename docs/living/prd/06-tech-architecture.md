@@ -53,12 +53,12 @@ lockfile (everything is pinned — no ad-hoc toolchain). Output is
 - **oxfmt** for formatting; **the `.githooks/pre-commit`** keep each commit
   green and journaled (the hook already requires a `journal/` entry; `SKIP_JOURNAL=1` for trivial commits).
 
-### `npm run verify` (the single gate)
+### `pnpm run verify` (the single gate)
 
 One command must pass before any commit and in CI:
 
 ```
-npm run verify  =  tsgo --noEmit
+pnpm run verify  =  tsgo --noEmit
                && oxlint
                && oxfmt --check
                && vitest run
@@ -68,7 +68,7 @@ npm run verify  =  tsgo --noEmit
 
 `gen:docs --check` regenerates the balance/content docs into a temp buffer and fails if they differ from
 what's committed — this is how *generate-don't-duplicate* is enforced mechanically: you cannot land a data
-change without regenerating its docs. `npm run gen:docs` (without `--check`) writes them.
+change without regenerating its docs. `pnpm run gen:docs` (without `--check`) writes them.
 
 **Scripts:** `dev` (Vite dev server), `build` (`vite build` → `dist/`), `preview`, `test`, `test:watch`,
 `verify`, `gen:docs`, `lint`, `format`. `build:itch` = `build` + zip `dist/` for upload.
@@ -142,7 +142,7 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/content` | The **data registries** (one module per content type; §6.5) + the registry index. Data-as-code. | yes |
 | `core/log` | The event/story log model (append, severity/colour tag) — data only; the renderer paints it. A **true ring buffer** with a pinned hard cap **`LOG_RING_MAX ≈ 300`** (oldest entries evicted on overflow — never an unbounded list). | yes |
 | `core/selectors` | Derived/computed reads (current production rates, effective stats, `satietyMax`, `durabilityBand`, the gate profile, what's unlocked, current tier). **Pure functions of `GameState`; nothing stored.** | yes |
-| `core/format` | Pure display helpers — the shared **K/M/B** number formatter (`999,999 → '1.0M'`, etc.) for the **koku standing / pillar** numbers, the **coin mixed-denomination formatter** (mon → monme → ryō, higher denominations revealed incrementally as wealth grows), + macron/label helpers — kept in core (not `src/ui/`) so they're **table-driven boundary-tested under `npm run verify`**; the renderer imports them (§6.9). | yes |
+| `core/format` | Pure display helpers — the shared **K/M/B** number formatter (`999,999 → '1.0M'`, etc.) for the **koku standing / pillar** numbers, the **coin mixed-denomination formatter** (mon → monme → ryō, higher denominations revealed incrementally as wealth grows), + macron/label helpers — kept in core (not `src/ui/`) so they're **table-driven boundary-tested under `pnpm run verify`**; the renderer imports them (§6.9). | yes |
 
 **Public surface of `core`:** the `GameState` type, `createInitialState`, `reduce`, `tick`, the selectors,
 the registries, and the RNG helpers. **Nothing else mutates state.** Everything is immutable-in/immutable-out
@@ -423,7 +423,7 @@ profit, with the silk *meibutsu* and the trade ≤⅓ clamp) is a separate, esta
 
 ## 6.6 The content verifier + generated docs (generate-don't-duplicate)
 
-**Content verifier** (`src/scripts/verify-content.ts`, run in `npm run verify`): cross-checks every id/reference
+**Content verifier** (`src/scripts/verify-content.ts`, run in `pnpm run verify`): cross-checks every id/reference
 across all registries (a recipe's inputs exist; an area's travel edges resolve; a quest's reward items exist;
 a rank's unlock surface exists; every `SurfaceId` referenced by a screen is registered; no orphan ids). It
 also asserts the **canon invariants** as machine checks so they cannot silently rot:
@@ -801,7 +801,7 @@ Once-per-game reveal log-lines are emitted by the `unlocked` write-once latch **
   **mon → monme → ryō** (1 ryō = 50 monme = 4,000 mon; 1 monme = 80 mon), with higher denominations
   revealed INCREMENTALLY as wealth grows (mon T0–T1 → monme → ryō T4–T5). Both shared display formatters
   **live in `core/format`** (pure helpers — with the other pure display helpers — kept in core,
-  **table-driven boundary tests under `npm run verify`**: `999,999 → '1.0M'`, `4,080 mon → '1 ryō 1 monme'`,
+  **table-driven boundary tests under `pnpm run verify`**: `999,999 → '1.0M'`, `4,080 mon → '1 ryō 1 monme'`,
   etc.); **the renderer imports them**. They keep the scale legible as the koku standing / pillar numbers and
   the coin balance climb.
 - **Active-only loop, with the "leave it running" feel.** The app-layer tick loop runs **while the
@@ -902,4 +902,4 @@ done now**:
 | **Single source of truth — generate, don't duplicate** | Content is typed data registries (`core/content`); a **hardened** content verifier cross-checks ids and the **invariants** (gate-monotonicity/ceiling, accrual tie-out, **per-perk magnitude**, **real-name denylist**, **trade-≤⅓-post-combo proof**, hybrid gate-distribution); balance/content docs are **generated** into `docs/balance/` + `docs/content/` from the same data and `gen:docs --check` fails the build on drift. (§6.5, §6.6, §6.6.1) |
 | **Playtest via code, not synthetic input** | DEV-only `window.__qa` (read state, drive intents, tick/frames, pause, force-state, seed, `goto` a node) drives the **real** typed intents headlessly; powers `capture-game-states` and pacing/unlock regression. (§6.10) |
 | **Active-only, no offline** | `tick` takes **whole-integer abstract** ticks (the app loop accumulates the fractional remainder); the active-only loop lives in the app layer, **pauses on `document.hidden`**, and runs **auto-resolve combat + auto-repeat labour while the tab is active** (the "leave it running" feel); load resumes the exact saved state with **no** offline accrual code path; auto-producers stay T4+. (§6.3, §6.8, §6.9) |
-| **Lean / high-impact** | One `npm run verify` gate; minimal stored save (additive-optional growth, §6.8.2); no speculative subsystems — the module list maps 1:1 to systems already locked in §§1–5; anything bigger is scoped in §7's roadmap. (§6.1, §6.4, §6.8.2) |
+| **Lean / high-impact** | One `pnpm run verify` gate; minimal stored save (additive-optional growth, §6.8.2); no speculative subsystems — the module list maps 1:1 to systems already locked in §§1–5; anything bigger is scoped in §7's roadmap. (§6.1, §6.4, §6.8.2) |

@@ -12,15 +12,15 @@ metadata:
 durable design → [`../../docs/`](../../docs) (edited in place); ADRs → [`decisions.md`](../../docs/living/decisions.md);
 per-fact memory here.
 
-**Commit gate.** Keep the build working; stage a `journal/` change every commit and gate on `npm run verify`
+**Commit gate.** Keep the build working; stage a `journal/` change every commit and gate on `pnpm run verify`
 (both enforced by `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). The roster is owned by
 [`gates.ts`](../../src/scripts/gates.ts) — the single source, so the count can't drift here:
-<!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
+<!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
 **17 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
-Run `npm run checkpoint` after adding / removing a gate to regenerate that list.
+Run `pnpm run checkpoint` after adding / removing a gate to regenerate that list.
 
 **Autonomy.** Pick next → build → verify → commit → journal → repeat. Stop and ask only for (1) decisions that
 change what the game *is*, and (2) outward-facing / irreversible actions (deploy, delete, force-push). **Routine
@@ -47,7 +47,7 @@ touched an approved design/balance pick, flag + offer to revert (P2).
    hook echoes the staged set as the visibility backstop. `SKIP_SWEEPGUARD=1`
    for a deliberate whole-index commit.
 2. **Journal** — stage a `journal/` entry (pre-commit requires it).
-3. **Checkpoint the mechanicals, then finish the judgment half.** `npm run checkpoint`
+3. **Checkpoint the mechanicals, then finish the judgment half.** `pnpm run checkpoint`
    regenerates the derivable regions (gate roster, active-plans) + graduates any DONE plan; then YOU do the
    judgment part — bring [`project-status.md`](project-status.md) current (the resume point, not the journal),
    and clear from [`../todo-human.md`](../todo-human.md) only reading-queue docs the human engaged *this session*

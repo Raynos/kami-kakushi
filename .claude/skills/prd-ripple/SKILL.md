@@ -51,8 +51,8 @@ design lever's meaning change, or only its value?* Value-only → balance number
 ## Step 3 — run `prd:drift` and clear what the change staled
 
 ```
-npm run prd:drift          # the report — the game→PRD ripple punch-list
-npm run prd:drift -- --strict   # exits 1 on any drift (scripted use)
+pnpm run prd:drift          # the report — the game→PRD ripple punch-list
+pnpm run prd:drift -- --strict   # exits 1 on any drift (scripted use)
 ```
 
 The report is **one-directional** (game → PRD) and **never a gate** (prose
@@ -63,7 +63,7 @@ ripple's remaining work. Clear the gaps your change caused; a frontier-only gap
 
 ## Step 4 — verify + commit
 
-`npm run verify` (green), then commit code + ADR + PRD ripple together with a
+`pnpm run verify` (green), then commit code + ADR + PRD ripple together with a
 body that leads with the *why*. The
 [`gen-prd-regions`](../../../src/scripts/gates.ts) gate keeps any transcluded
 region honest by construction.

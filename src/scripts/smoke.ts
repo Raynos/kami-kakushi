@@ -3,7 +3,7 @@
 // Boots the PURE CORE and runs a handful of real intents, asserting it neither throws nor
 // produces an obviously-broken state. Pure-core only (no DOM, no I/O) → milliseconds. This
 // is the cheapest possible "does the game still boot?" guard; it is NOT a substitute for the
-// full suite (`npm run verify` / pre-ship), only a fast catch for gross breakage at commit.
+// full suite (`pnpm run verify` / pre-ship), only a fast catch for gross breakage at commit.
 
 import { createInitialState, reduce, type GameState, type Intent } from '../core';
 

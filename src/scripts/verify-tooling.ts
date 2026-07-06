@@ -6,7 +6,7 @@
 // weeks; the phantom herdr self-peer). This suite makes the advisory layer
 // able to go RED. Context-hardening P2 (docs/plans → archived plan).
 //
-// Wiring: `npm run verify:tooling`, run by .github/workflows/verify-nightly.yml
+// Wiring: `pnpm run verify:tooling`, run by .github/workflows/verify-nightly.yml
 // ONLY — deliberately NOT in the commit/push roster (src/scripts/gates.ts):
 // ADR-072's 5s budget is sacred, and this suite spawns dozens of processes.
 //

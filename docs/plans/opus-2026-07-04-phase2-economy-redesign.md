@@ -269,7 +269,7 @@ together — otherwise the sim measures a Phase 2 the bots never actually play
 **Tuning to land in-band:** the per-source deed magnitudes, the per-deed cap, the
 build-stage thresholds, and the EXCELLENT band (`ESTATE_BANDS`) are the levers.
 All are **PROVISIONAL / liquid (ADR-059)** — this plan does NOT canonise numbers.
-The flow is: pick magnitudes → `npm run balance:sim` → read the ratio → adjust →
+The flow is: pick magnitudes → `pnpm run balance:sim` → read the ratio → adjust →
 repeat until all 15 cells sit inside `[0.8, 1.2]` with margin. Because the ratio
 is *relative*, the Phase-1/Phase-2 split rebalance (Open Q1) is just a choice of
 which side to move.
@@ -323,10 +323,10 @@ This redesign touches balance magnitudes → the full ADR-132 machine-verdict fl
 1. Change the constants in `src/core/content/balance.ts` (deed-source table,
    per-deed cap, stage thresholds, `ESTATE_BANDS` if retuned) — all annotated
    PROVISIONAL / liquid (ADR-059).
-2. `npm run verify:balance` (`balance-sim --check`) — the hard envelope verdict,
+2. `pnpm run verify:balance` (`balance-sim --check`) — the hard envelope verdict,
    now including the ADR-133 ratio band. Iterate magnitudes until all 15 cells are
    in-band.
-3. `npm run balance:report` — regenerate `docs/content/t0-pacing.md`. Its
+3. `pnpm run balance:report` — regenerate `docs/content/t0-pacing.md`. Its
    `git diff` **IS** the before/after of the change (the Phase-2 rows go from
    ~0.4 min to ~40–83 min; the report gains the texture metrics).
 4. **Commit `t0-pacing.md` WITH the code change** (same commit), and paste the
@@ -450,7 +450,7 @@ the redesign lands. Classification (Flow 1):
 - Any facts that are **derivable** (stage counts, deed-source list) should
   transclude as **gen-regions** (the `gen-prd-regions` gate) rather than be
   hand-maintained, so they can't drift.
-- Then `npm run prd:drift` for the game→PRD punch-list; clear what the change
+- Then `pnpm run prd:drift` for the game→PRD punch-list; clear what the change
   staled.
 - **An ADR:** the *loop choice* itself (which of §2's options ships) is a
   design decision worth an ADR entry in `decisions.md` (it refines ADR-133's

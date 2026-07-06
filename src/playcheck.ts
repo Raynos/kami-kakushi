@@ -3,7 +3,7 @@
 // Scoped per the v2-lite reel-back: RATCHET mode, the few proxies that are pure wiring over the
 // REAL engine (createInitialState → reduce). It deliberately does NOT re-gate what's already
 // gated elsewhere — `minutesPerRung` is owned by `pacing:check` and the combat win-curve by
-// `m2.test` (both already in `npm run verify`). playcheck's JOB is the two §3 proxies that
+// `m2.test` (both already in `pnpm run verify`). playcheck's JOB is the two §3 proxies that
 // NOTHING else measures — the first-action HOOK and DEAD-TIME — plus presenting the whole §3
 // vector in one place as a dashboard.
 //
@@ -181,13 +181,15 @@ if (RUN_AS_CLI) {
     try {
       base = JSON.parse(readFileSync(fileURLToPath(baselineUrl), 'utf8')) as Baseline;
     } catch {
-      console.error('\n  X no playcheck.baseline.json — run `npm run playcheck -- --bless` first.');
+      console.error(
+        '\n  X no playcheck.baseline.json — run `pnpm run playcheck -- --bless` first.',
+      );
       process.exit(2);
     }
     // Guard against a stale baseline: a different blessing seed means the proxies aren't comparable.
     if (base.seed !== SEED) {
       console.error(
-        `\n  X baseline seed ${base.seed} != current ${SEED} — re-bless: npm run playcheck -- --bless`,
+        `\n  X baseline seed ${base.seed} != current ${SEED} — re-bless: pnpm run playcheck -- --bless`,
       );
       process.exit(2);
     }
@@ -197,7 +199,7 @@ if (RUN_AS_CLI) {
       console.error('\n  X playcheck FAILED (the build got less fun):');
       for (const f of fails) console.error(`    - ${f}`);
       console.error(
-        '  If this is an intentional, accepted change, re-bless: npm run playcheck -- --bless',
+        '  If this is an intentional, accepted change, re-bless: pnpm run playcheck -- --bless',
       );
       process.exit(1);
     }

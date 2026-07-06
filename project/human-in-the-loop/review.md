@@ -34,7 +34,7 @@ pacing. IDs `HR-1…HR-n`, never reused. Status: 🔲 open · ⏳ waiting on Cla
   → **Phase 2 opens at R7**: your estate deeds bank into the live **House-Influence 家威** pillar; the **season
   judges** your high-water; reach **Excellent** → the **manual Ascend** → the T0→T1 ceremony. Plus the **Quests**
   tab (drive off the crop-raiders), the tiny **market**, and the walkable **Estate 地図** map.
-- **How to look — `npm run dev`, then in the browser console use the DEV tools** (DEV-only, stripped from prod):
+- **How to look — `pnpm run dev`, then in the browser console use the DEV tools** (DEV-only, stripped from prod):
   - `__qa.speed(8)` — run the auto-loop 8× to grind fast. `__qa.auto('farm_paddy')` / `__qa.autoCombat('monkey')`
     set an auto-target.
   - `__qa.jumpToPhase2()` — jump to the R7 capstone (the live macro spine, Phase 2 open).
@@ -68,7 +68,7 @@ pacing. IDs `HR-1…HR-n`, never reused. Status: 🔲 open · ⏳ waiting on Cla
 
 > **New process (ADR-075, supersedes the old HR-2/HR-3 single-pick).** Every diverged surface ships **FULL 2–3 working
 > variants**, switchable live in the **DEV panel**; **each variant is its own line item below**, reviewed by
-> toggling it in the running build (not screenshots). ✅ The **DEV panel is BUILT** (v0.3.1 Step 1) — `npm run dev`
+> toggling it in the running build (not screenshots). ✅ The **DEV panel is BUILT** (v0.3.1 Step 1) — `pnpm run dev`
 > and it sits top-right with a **VARIANT** section per surface; **House-Influence A/B/C are LIVE now**. The
 > craft / market / quests variants land in **Step 2** (items flip to "live" as they land). Tick the variant you
 > want as the prod default (or note changes).
@@ -147,7 +147,7 @@ pacing. IDs `HR-1…HR-n`, never reused. Status: 🔲 open · ⏳ waiting on Cla
     panel's Variants tab, then click the filter tabs at the log foot._
 - _a11y: each surface's A ships a11y-100. B/C are DEV-only until picked; if you pick one I'll re-check WCAG
   contrast (the `--rokusho` grant + `--ochre`/gold accents on washi are the ones to watch)._
-- **How to review:** `npm run dev` → the **DEV panel** floats at the bottom-right (click **DEV** to expand) →
+- **How to review:** `pnpm run dev` → the **DEV panel** floats at the bottom-right (click **DEV** to expand) →
   open its **Variants** tab and toggle each surface's variant; the surface updates live. The agent self-picks a
   default (every prod default = **A**); you confirm/override per variant by ticking it here.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
@@ -175,7 +175,7 @@ fighting, mirroring the combat-tab fog). Three FULL working takes are live behin
   tell/odds beneath; unfaced foes read as a rumour, not a stat-line. The most in-world, least tabular.
 
 - **Asking for:** which take ships as the prod default (I self-picked **A**), or a tune to any.
-- **How to look:** `npm run dev` → reach R3 (`__qa.toRung('R3')` then `__qa.faceWolf()`, or just
+- **How to look:** `pnpm run dev` → reach R3 (`__qa.toRung('R3')` then `__qa.faceWolf()`, or just
   play in) → the **Combat** tab → toggle "VARIANT · Bestiary" A/B/C in the DEV panel (top-right).
   Fight a foe (or `__qa.fight('monkey')`) to see an entry ink in from its fogged state.
 - _a11y: A ships a11y-legible (pip hue is never the only signal — the word + % carry it). B/C are
@@ -204,7 +204,7 @@ toggle, each reading the same home data through the same selectors the reducer u
 
 - **Asking for:** pick the presentation you want as prod (A/B/C) — then I strip the
   other two (zero flag-debt). B/C are the bolder diegetic bets; A is the calm default.
-- **How to look:** `npm run dev` → the **Inventory** tab → DEV panel → toggle the
+- **How to look:** `pnpm run dev` → the **Inventory** tab → DEV panel → toggle the
   **Home/Inventory** variant (V…A/B/C). All three work live.
 - **Verdict:** _(awaiting your pick)_
 
@@ -218,7 +218,7 @@ about the next zone). **Seven** working takes (**V5A–V5G**) ship behind the DE
 toggle for a live pick; the agent self-picked a coherent prod default.
 
 - **Asking for:** which of V5A–V5G ships as the prod default (or a tune to one).
-- **How to look:** `npm run dev` → the **Map** tab → toggle "VARIANT · Estate
+- **How to look:** `pnpm run dev` → the **Map** tab → toggle "VARIANT · Estate
   map" (V5A–V5G) in the DEV panel (top-right); the surface updates live. Use
   `?dev=no` afterward to see your pick in the true player layout.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
@@ -239,7 +239,7 @@ for your read in
 - **How to look:** read the ONE-PAGE generated script
   [`docs/content/t0-story.md`](../../docs/content/t0-story.md) (FB-5 — cold open →
   intro → R1…R7 in play order, choices + effects inline); or play it live —
-  `npm run dev`, then `__qa.toRung('R1')`… to trigger each rung's beat in the VN
+  `pnpm run dev`, then `__qa.toRung('R1')`… to trigger each rung's beat in the VN
   modal. Prose edits now land directly in
   [`src/core/content/narrative/`](../../src/core/content/narrative/) (the FB-5
   authoring source — you can mark up those files yourself).

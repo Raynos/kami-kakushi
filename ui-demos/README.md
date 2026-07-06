@@ -9,7 +9,7 @@ and "reinvent the UI" (never a reskin, never a reinvention).
 ## Review
 
 ```
-npx serve ui-demos     # or any static server; ES modules need http://
+pnpm exec serve ui-demos     # or any static server; ES modules need http://
 ```
 
 Open the gallery (`/`), pick a variant, then use the bottom-right stage strip:

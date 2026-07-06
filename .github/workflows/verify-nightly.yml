@@ -34,7 +34,7 @@ jobs:
       # nightly cadence. They are COMMENTED, not present-but-skipping: a step
       # that silently no-ops when its script is missing is a gate that can never
       # go RED. The balance-sim plan (F4 §5a) un-comments the balance block when
-      # `npm run verify:balance` actually exists; add soak suites likewise.
+      # `pnpm run verify:balance` actually exists; add soak suites likewise.
       #
       # - run: pnpm run verify:balance   # balance-sim matrix (F4 §5a)
       # - run: pnpm run verify:fuzz      # seeded fuzz sweep (F4)

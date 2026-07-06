@@ -34,8 +34,36 @@ release/dev scripts so the toolchain actually runs on pnpm.
    still present) but read stale. Many live in generated `*.gen.ts` headers, so
    that sweep edits the generators + regenerates, not the `.gen.ts` directly.
 
+## Follow-up — full `npm`→`pnpm` sweep (same session)
+Human: "switch to pnpm everywhere." Second commit sweeps every **living**
+surface (78 files):
+- **Generators fixed + regenerated** (single-source): edited the emit strings
+  in `gen-docs`/`gen-narrative`/`gen-prd-regions`/`gen-regions`/`balance-sim`/
+  `checkpoint`/`narrative/*` + the narrative `*.md` sources, then ran
+  `gen:narrative`, `gen:docs`, `gen:prd-regions`, `balance:report`, `checkpoint`
+  so `docs/content/*` and every `*.gen.ts` regenerated to pnpm (never hand-edited
+  a `.gen.ts`).
+- **Living docs**: `docs/living/**` (incl. PRD sections + ADR command refs),
+  `docs/plans/*`, `AGENTS.md`, `repo-map.md`, `.claude/skills/*`, `ui-demos/*`,
+  `project/status/working-agreements.md`, the live `human-in-the-loop/review.md`
+  "how to look" instructions.
+- **Config**: `playwright.config.ts` (`npx vite` → `pnpm exec vite`).
+- **`verify-run.ts` help** made pnpm-native (no `--` separator); kept two
+  deliberate "npm, if used, needs `--`" compat notes.
+
+**Deliberately NOT changed** — the append-only historical record:
+`project/journal/`, `project/archive/`, `project/audit/reports/`,
+`project/brainstorms/`, `project/human-feedback/`, and historical `CHANGELOG.md`
+entries. Rewriting those would falsify what those sessions actually ran (npm).
+
 ## Landmines
 - CI order matters: `pnpm/action-setup` MUST precede `setup-node` or
   `cache: pnpm` fails (pnpm not yet on PATH). Kept that order.
 - `pnpm run verify -- --flags` vs `pnpm run verify --flags`: pnpm forwards args
   without the `--`; `verify-run.ts` help already documents both forms.
+- Gen-region **marker lines** (`<!-- gen:begin id (… — do not edit inside) -->`)
+  are stable anchors — the generators match by id and rewrite only the CONTENT,
+  not the marker. So the marker text is hand-edited; regen won't revert it (the
+  generator emit now says pnpm too, for any NEW region).
+- `settings.local.json` (untracked, local-only) also updated its `Bash(npx tsx)`
+  → `pnpm exec tsx` permission — not committed.

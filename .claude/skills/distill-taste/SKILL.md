@@ -68,7 +68,7 @@ agent-owned — the human sees it in the commit + queue.
 
 ## 4 · Verify — the DoD
 
-1. **Budgets**: `npx tsx src/scripts/verify-doc-budgets.ts` green
+1. **Budgets**: `pnpm exec tsx src/scripts/verify-doc-budgets.ts` green
    (taste ≤150 · ui-design ≤400).
 2. **Coverage**: every corpus F-number appears in taste.md ∪
    qa-playtesting §9 (set-diff the `F\d+` tokens; investigate any gap —
@@ -78,7 +78,7 @@ agent-owned — the human sees it in the commit + queue.
    cases — reversed pre-fix states + ≥2 compliant decoys. A convergent
    miss = a wording ambiguity → fix the doc, re-run. Record the score in
    the distillation's brainstorm/journal entry.
-4. Full `npm run verify` green; commit by pathspec; queue taste.md for
+4. Full `pnpm run verify` green; commit by pathspec; queue taste.md for
    the human's read if the top layer or ≥3 principles changed.
 
 ## 5 · Close the loop

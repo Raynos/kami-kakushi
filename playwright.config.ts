@@ -3,7 +3,7 @@
 // Why a separate lane and not a verify gate: verify's roster lives under a hard 5s
 // budget (D-072) and a real-browser suite is orders of magnitude past it. This lane
 // runs as its own CI workflow (.github/workflows/e2e.yml) on every push — same
-// RED-able backstop, right rung for its cost. Locally: `npm run test:e2e`.
+// RED-able backstop, right rung for its cost. Locally: `pnpm run test:e2e`.
 //
 // The suite drives the DEV server (never a prod build): the `__qa` play API and the
 // `?fixture=` boot param are DEV-only by design (verify-dev-strip.sh PROVES prod
@@ -32,7 +32,7 @@ export default defineConfig({
   webServer: {
     // KAMI_ALLOW_MULTI_DEV bypasses the single-dev-server guard (which watches 5173
     // regardless of our port); --strictPort keeps this lane from cascading either.
-    command: `KAMI_ALLOW_MULTI_DEV=1 npx vite --port ${PORT} --strictPort`,
+    command: `KAMI_ALLOW_MULTI_DEV=1 pnpm exec vite --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,

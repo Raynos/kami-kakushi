@@ -131,7 +131,7 @@ t0-story section renders readable prose.
   automatically (they drive the REAL engine) — `fixtures:regen` + eyeball.
 - `src/sim/personas.ts` + `src/core/autoplay.ts` consume `promotionReady`.
 
-**DoD:** full `npm run verify` green; `save-smoke.mjs` passes migration.
+**DoD:** full `pnpm run verify` green; `save-smoke.mjs` passes migration.
 
 ### Phase 4 — UI: the % bar, flavor lines, DEV cheatlist
 
@@ -166,7 +166,7 @@ Pass 2 scorecard attached to the HR-item.
 - Run the sim → **re-derive** the per-rung band numbers from measured
   time-to-rung; the human signs the new bands (HD-item if they shift far from
   today's R0≈5min / climb≈10–15min targets, else note-and-proceed per R4/ADR-059).
-- `npm run verify:balance` + `npm run balance:report`; commit the regenerated
+- `pnpm run verify:balance` + `pnpm run balance:report`; commit the regenerated
   `docs/content/t0-pacing.md` with the change; paste `balance-sim --summary`.
 
 **DoD:** verify:balance green against the re-derived bands; pacing doc diff
@@ -186,7 +186,7 @@ committed with the sim summary in the commit body.
 - **ADR ADR-137** (lands with this plan) — the design record.
 - **PRD:** run `/prd-ripple` — this is a **system change**: §3.2.1 / §4.1.1 /
   FU6 / FU7 (the rung-meter + AND-gate language) get a targeted ripple;
-  `npm run prd:drift` + `gen-prd-regions` afterwards.
+  `pnpm run prd:drift` + `gen-prd-regions` afterwards.
 - `docs/living/ui-design.md` §5.3 (the distance-to-next-gate read) → the
   rounded-% read + flavor-line pattern.
 - `docs/living/fun-factor.md` if the hidden-requirements loop earns a line;
