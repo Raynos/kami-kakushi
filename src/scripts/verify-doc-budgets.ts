@@ -23,6 +23,12 @@ const BUDGETS: ReadonlyArray<{ path: string; cap: number; genreLeak: RegExp }> =
     cap: 120,
     genreLeak: /^\s*-\s+\*\*Phase update/m,
   },
+  // The ALWAYS-LOADED layer (context-hardening P4c4): AGENTS.md + repo-map.md
+  // are injected into every session's context, so growth there taxes every
+  // turn of every agent. Same displace-don't-append discipline; ratchet
+  // AGENTS.md toward ~350 only with the human (the prose-register rewrite).
+  { path: 'AGENTS.md', cap: 420, genreLeak: /\(session-\d+\)/ },
+  { path: 'repo-map.md', cap: 160, genreLeak: /\(session-\d+\)/ },
 ];
 
 let red = false;
@@ -37,7 +43,7 @@ for (const { path, cap, genreLeak } of BUDGETS) {
   if (lines > cap) {
     console.error(`  X doc-budgets: ${path} is ${lines} lines — over its ${cap}-line cap.`);
     console.error(
-      '    SNAPSHOT-CLASS doc (D-126): replace in place — to add a line, displace a weaker',
+      '    SNAPSHOT-CLASS doc (ADR-126): replace in place — to add a line, displace a weaker',
     );
     console.error(
       '    one. Cull, do not bypass (SKIP_DOCBUDGET=1 is a human-blessed cap raise only).',
