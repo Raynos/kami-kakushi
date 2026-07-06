@@ -62,11 +62,20 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    (both LIVE since session 92 — DEV panel → **Story** tab: the set-switcher
    + the "⤢ Explore story" full-page reader; the reader-variant pick is
    HR-9. Source-area spec: `src/core/content/narrative/takes/README.md`).
+   **The alternates MUST switch LIVE in the running game (ADR-143), not
+   reader-only.** The set-switcher's live override covers rung beats, intro
+   scenes, and **UI flavor lines** (`## prose flavor` → `dev.subFlavor`); if the
+   unit you diverged is a type the engine can't yet swap live (dialogue,
+   cold-open keyed prose today), **wiring that live-swap is part of the
+   diverge** — extend the override (`dev.ts subRungScene`-pattern) + add the
+   prefix to `LIVE_UNITS` so the human reviews it by *playing to the surface and
+   toggling the take*, never by reading a doc or the reader-only modal.
 8. **File ONE HR-item per bundle** in `project/human-in-the-loop/review.md`:
    the picked script as a continuous read, alternates under each unit, Pass-1
-   brief + per-take scorecard blocks, pick rationale, and how to review
-   in-game (which DEV set-switcher entries). Journal + status bump, commit,
-   move on.
+   brief + per-take scorecard blocks, pick rationale, and **exactly how to
+   review it LIVE** — which DEV set-switcher entry, and the in-game surface +
+   state to reach so the swap is visible (ADR-143: never "read the alternates
+   below" as the review path). Journal + status bump, commit, move on.
 9. **Sign-off is conversational.** The human reads in-game (set-switcher +
    script-reader modal) and tells the agent the verdict; no export controls,
    no in-modal canon writes. On sign-off: prune the losing takes from the

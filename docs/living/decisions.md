@@ -2082,3 +2082,37 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   sibling (not nested in the hidden shell); clicking the line opens it on the
   Saves tab. Verified live: the line reveals with the wake verb and opens the
   import surface over the dark cold-open field.
+
+### ADR-143 ✅ — a narrative diverge reviewed by the human MUST be live in the DEV switcher (refines ADR-139)
+- **created_date:** 2026-07-06
+- **Context:** reviewing **HR-10** (the HD-23 R3 mend-hint), the human asked to
+  compare the 3 takes **live in the DEV story set-switcher**, not read them from
+  the review doc. The mend-hint was a `render.ts` string literal, and the takes
+  **live-override** layer (`dev.ts` `subRungScene`/`subIntroScene`) only swaps
+  **rung beats + intro scenes** — cold-open/dialogue/flavor units were
+  **reader-only** (shown in the DEV script-reader modal, but the running game
+  kept rendering canon). So a UI micro-line could not be switched live.
+- **Decision — two locks (human, 2026-07-06):**
+  1. **The process rule:** any narrative diverge that asks the human to review
+     **MUST be live-switchable in the DEV set-switcher** — rendered in the running
+     game via the override, **not** reader-only, **not** doc-only. If the diverged
+     unit type isn't yet live-swappable in the engine, **wiring that live-swap is
+     part of the diverge**. (Kills the ADR-139 "no switcher for a one-liner"
+     escape.) Encoded in `narrative-diverge/SKILL.md` §7/§8.
+  2. **The unit type + engine reach:** a new fiction-voiced **UI flavor-line**
+     narrative unit — keyed prose (`## prose flavor` → `flavor.md` →
+     `FLAVOR.gen.ts`) the renderer shows outside a VN scene (lock-hints, gate
+     explainers). Canon carries the pick; the compiler routes take prose by group
+     (`cold-open`→`coldOpen`, `flavor`→`flavor`); `dev.subFlavor(key, canon)`
+     extends the live override and `flavor:` joins `LIVE_UNITS`; render.ts renders
+     `FLAVOR.mendHint` through `subFlavor` (both weapon-card paths). The mend-hint
+     is its first user — the `takes/hd23-mend-hint/` bundle ships takes A + C.
+- **Scope note:** dialogue + cold-open keyed prose remain reader-only for now
+  (no live diverge asks for them yet); the rule makes wiring their live-swap part
+  of the first diverge that touches them.
+- **Soundness:** RED-able `dev.subFlavor` unit test (`dev.test.ts` — canon
+  identity, swaps the active take, falls back when a take lacks the key) + the
+  HD-23 render test now asserts the hint equals `FLAVOR.mendHint` (single-source,
+  not a literal); the `gen-narrative` gate byte-compares `flavor.gen.ts` +
+  `storyTakes.gen.ts`. Verified live: `?story-hd23-mend-hint=a|c` renders take
+  A/C on the R3 weapon-card, and the DEV Story tab lists the bundle.

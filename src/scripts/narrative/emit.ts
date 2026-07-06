@@ -38,6 +38,9 @@ const NAMES_KEYS = new Set(Object.keys(NAMES));
 
 const str = (s: string): string => JSON.stringify(s);
 
+/** Emit an object key bare when it's a valid identifier, quoted otherwise (e.g. dashy flavor keys). */
+export const keyExpr = (k: string): string => (/^[A-Za-z_$][\w$]*$/.test(k) ? k : str(k));
+
 /** Emit a prose text as a TS expression: `{key}` NAMES interpolations become a template
  *  literal with `${NAMES.key}` parts; plain text stays a JSON string. */
 export function textExpr(text: string, loc: { file: string; line: number }): string {
@@ -364,4 +367,18 @@ export function emitColdOpen(doc: NarrativeDoc): string {
   return withImports(GENERATED(doc.file, 'coldOpen.ts'), body, [
     `import { NAMES } from './names';`,
   ]);
+}
+
+/** Compile the flavor narrative doc into the `flavor.gen.ts` module source (unformatted).
+ *  Flavor = fiction-voiced UI micro-copy (lock-hints, gate explainers) the renderer shows
+ *  outside a VN scene — ADR-139 live-switchable lines. Same `## prose <group>` grammar as
+ *  the cold open; the NAMES import auto-drops when no `{key}` interpolation is used. */
+export function emitFlavor(doc: NarrativeDoc): string {
+  const block = doc.blocks.find((b) => b.kind === 'prose');
+  if (!block) throw new NarrativeError({ file: doc.file, line: 1 }, 'no `## prose` block found');
+  const entries = block.entries
+    .map((e) => `${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`)
+    .join('\n');
+  const body = `export const FLAVOR = {\n${entries}\n} as const;`;
+  return withImports(GENERATED(doc.file, 'flavor.ts'), body, [`import { NAMES } from './names';`]);
 }

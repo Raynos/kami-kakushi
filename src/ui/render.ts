@@ -63,6 +63,7 @@ import {
   combatXpProgress,
   durabilityBand,
   getWeapon,
+  FLAVOR,
   WEAPONS,
   STANCE_ORDER,
   AREAS,
@@ -2944,7 +2945,11 @@ export function mount(
     // repair (R4) isn't yet the player's. Mirrored here for DEV-wholesale parity.
     if (!isUnlocked(state, 'verb-repair') && (band.name === 'Battered' || band.name === 'Broken')) {
       wc.append(
-        el('div', 'lock-hint', 'A worn edge is mended by hands the house has come to trust.'),
+        el(
+          'div',
+          'lock-hint',
+          __DEV_TOOLS__ && dev ? dev.subFlavor('mendHint', FLAVOR.mendHint) : FLAVOR.mendHint,
+        ),
       );
     }
     const wctrl = el('div', 'labour-row');
@@ -3147,8 +3152,13 @@ export function mount(
     const wornNoMend =
       !isUnlocked(state, 'verb-repair') && (band.name === 'Battered' || band.name === 'Broken');
     toggle(r.wcHint, wornNoMend);
+    // The line is FB-5 canon (FLAVOR.mendHint); in DEV the story set-switcher can swap it live
+    // for an HR-10 alternate (ADR-139) — the weapon-card patches each render, so no epoch key needed.
     if (wornNoMend)
-      setText(r.wcHint, 'A worn edge is mended by hands the house has come to trust.');
+      setText(
+        r.wcHint,
+        __DEV_TOOLS__ && dev ? dev.subFlavor('mendHint', FLAVOR.mendHint) : FLAVOR.mendHint,
+      );
     toggle(r.repairBtn, showRepair);
     if (showRepair) {
       setText(

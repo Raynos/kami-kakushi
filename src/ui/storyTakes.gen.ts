@@ -5,4 +5,35 @@
 
 import type { StoryTakeBundle } from './storyTakes';
 
-export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [];
+export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
+  {
+    id: 'hd23-mend-hint',
+    title: 'HD-23 R3 mend-hint',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take B (proverbial/systemic) — tightest, echoes the existing lock-hint idiom, and names no character before the player meets the smith at R4.',
+    takes: [
+      {
+        id: 'a',
+        label: 'diegetic, character-anchored',
+        brief:
+          'Names the estate smith Tōzō + the forge past the woodlot; frames the gate as permission/standing you have not yet earned.',
+        scorecard: 'warm, in-world — but names Tōzō pre-meet (R4) and is the longest line.',
+        flavor: {
+          mendHint:
+            'The smith Tōzō keeps a forge past the woodlot; his mending is not yet yours to ask.',
+        },
+      },
+      {
+        id: 'c',
+        label: 'interior, first-person resolve',
+        brief:
+          "The player's own inward read of the failing blade — grim, present-tense, the remedy known but not yet within reach.",
+        scorecard: 'strong voice — but slightly instructional and shifts to first-person.',
+        flavor: {
+          mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
+        },
+      },
+    ],
+  },
+];

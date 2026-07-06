@@ -19,6 +19,7 @@ import {
   emitIntroScene,
   emitRungScene,
   GENERATED,
+  keyExpr,
   textExpr,
   withImports,
 } from './emit';
@@ -170,10 +171,12 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
     for (const d of dialogues) L.push(emitDialogueDef(d));
     L.push('],');
   }
-  const prose = doc.blocks.find((b) => b.kind === 'prose');
-  if (prose) {
-    L.push('coldOpen: {');
-    for (const e of prose.entries) L.push(`${e.key}: ${textExpr(e.text, e.loc)},`);
+  // Keyed prose routes to a registry field by its group id: `## prose cold-open` → `coldOpen`,
+  // `## prose flavor` → `flavor` (fiction-voiced UI micro-copy — ADR-139 live-switchable lines).
+  for (const prose of doc.blocks.filter((b) => b.kind === 'prose')) {
+    const field = prose.id === 'flavor' ? 'flavor' : 'coldOpen';
+    L.push(`${field}: {`);
+    for (const e of prose.entries) L.push(`${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`);
     L.push('},');
   }
   L.push('},');

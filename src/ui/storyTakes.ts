@@ -28,6 +28,9 @@ export interface StoryTake {
   readonly introScenes?: readonly DialogueScene[];
   readonly dialogues?: readonly DialogueDef[];
   readonly coldOpen?: Readonly<Record<string, string>>;
+  /** ADR-139 — fiction-voiced UI flavor lines (lock-hints, gate explainers) the
+   *  renderer shows outside a VN scene; keyed by the `## prose flavor` key. */
+  readonly flavor?: Readonly<Record<string, string>>;
 }
 
 export interface StoryTakeBundle {

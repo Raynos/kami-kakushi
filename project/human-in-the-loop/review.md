@@ -266,12 +266,14 @@ I self-picked **take B** into canon — override from the bundle if another land
   — close, grim, present-tense; the player's own read. Slightly more
   instructional ("climb higher") and shifts to first-person "mine" (a register
   the game's hint voice doesn't otherwise use).
-- **How to look:** play to R3 with a worn blade (or `__qa`: load an R3 fixture,
-  `forceState({ weaponDurability: <~8% of max> })`, open the Combat tab — the hint
-  sits under the weapon blurb). To compare a losing take, swap the string at its
-  single call site (`src/ui/render.ts`, weapon-card block). Per ADR-139 the
-  alternates live only here (this doc is the archive) — no DEV switcher for a
-  one-line lock-hint.
+- **How to look (LIVE in the DEV switcher — ADR-143):** get to the R3 weapon-card
+  with a worn blade — `__qa.loadFixture('post-loss-broke')` then
+  `__qa.forceState({ weaponDurability: 3 })`, open the **Combat 武** tab; the hint
+  sits under the weapon blurb. Open **DEV panel → Story**: the *HD-23 R3 mend-hint*
+  bundle offers **Canon / take a / take c** — toggle and the weapon-card line
+  swaps **live**. (Or deep-link `?story-hd23-mend-hint=a` / `=c`.) The picked take
+  (B) is canon; alternates live in `takes/hd23-mend-hint/` (pruned on sign-off —
+  this doc is the archive).
 - **Verdict:** _(awaiting the human)_
 
 ---

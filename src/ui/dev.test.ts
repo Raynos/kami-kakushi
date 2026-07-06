@@ -752,6 +752,25 @@ describe('ADR-139 story take-sets', () => {
     expect(dev.getStoryUnit('test-bundle', 'rung:R1')).toBeUndefined();
   });
 
+  // ADR-139 — UI flavor lines swap LIVE too (a lock-hint diverge like HR-10), not reader-only.
+  const flavorBundle: StoryTakeBundle = {
+    id: 'flav',
+    title: 'Flavor bundle',
+    takes: [
+      { id: 'a', label: 'A', brief: 'names the smith', flavor: { mendHint: 'take-a line' } },
+      { id: 'b', label: 'B', brief: 'no flavor unit' }, // b carries no flavor → canon shows
+    ],
+  };
+  it('subFlavor: canon identity, swaps the selected take, falls back when the take lacks the key', () => {
+    const dev = createDevApi([flavorBundle]);
+    expect(dev.subFlavor('mendHint', 'CANON')).toBe('CANON'); // all canon → identity
+    dev.setStoryTake('flav', 'a');
+    expect(dev.subFlavor('mendHint', 'CANON')).toBe('take-a line');
+    expect(dev.subFlavor('otherKey', 'CANON')).toBe('CANON'); // take a lacks this key
+    dev.setStoryTake('flav', 'b'); // take b carries no flavor → canon shows
+    expect(dev.subFlavor('mendHint', 'CANON')).toBe('CANON');
+  });
+
   it('mounts a Story tab that lists the open bundle and badges the count', () => {
     const host = document.createElement('div');
     document.body.append(host);

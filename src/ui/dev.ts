@@ -59,6 +59,7 @@ import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './stor
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
 import { COLD_OPEN } from '../core/content/coldOpen';
+import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
@@ -304,6 +305,10 @@ export interface DevApi {
    *  state-compatible by the takes/README rule). */
   subRungScene(scene: RungScene): RungScene;
   subIntroScene(scene: DialogueScene): DialogueScene;
+  /** Substitute a canon UI flavor line (`FLAVOR[key]`) with the active take's version
+   *  (ADR-139 — identity when everything is 'canon'). Called from render.ts behind the dev
+   *  gate so a flavor-line diverge swaps LIVE in the running game, not just in the reader. */
+  subFlavor(key: string, canon: string): string;
   /** Bumps on every set/unit change — render.ts folds it into the VN scene key so a
    *  take swap rebuilds the (otherwise append-only) live transcript. */
   storyEpoch(): number;
@@ -428,6 +433,15 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
         if (alt) return alt;
       }
       return scene;
+    },
+    subFlavor: (key, canon) => {
+      for (const b of bundles) {
+        const eff = effective(b.id, `flavor:${key}`);
+        if (eff === 'canon') continue;
+        const alt = b.takes.find((t) => t.id === eff)?.flavor?.[key];
+        if (alt !== undefined) return alt;
+      }
+      return canon;
     },
   };
 }
@@ -2258,7 +2272,8 @@ export function mountDevPanel(
   //    set-switch (Canon / take …) keeps a whole coherent take live so pacing reads true;
   //    per-unit override rows below mix within the set. Swaps are display-only (takes are
   //    state-compatible) and re-render immediately; live swap covers the VN scene types
-  //    (rung beats + intro scenes) — dialogue/cold-open units read in the script-reader. ──
+  //    (rung beats + intro scenes) + UI flavor lines (lock-hints) — dialogue/cold-open
+  //    units read in the script-reader. ──
   storyTab.textContent =
     dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
   if (dev.storyBundles.length === 0) {
@@ -2274,7 +2289,7 @@ export function mountDevPanel(
     openBtn.style.alignSelf = 'flex-start';
     storyPane.append(openBtn);
   }
-  const LIVE_UNITS = /^(rung|intro):/;
+  const LIVE_UNITS = /^(rung|intro|flavor):/;
   const unitKeysOf = (b: StoryTakeBundle): string[] => {
     const keys = new Set<string>();
     for (const t of b.takes) {
@@ -2282,6 +2297,7 @@ export function mountDevPanel(
       for (const s of t.introScenes ?? []) keys.add(`intro:${s.id}`);
       for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
       for (const k of Object.keys(t.coldOpen ?? {})) keys.add(`cold-open:${k}`);
+      for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
     }
     return [...keys].sort();
   };
@@ -2608,9 +2624,18 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
     for (const s of t.introScenes ?? []) keys.add(`intro:${s.id}`);
     for (const k of Object.keys(t.rungBeats ?? {})) keys.add(`rung:${k}`);
     for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
+    for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
   }
   const order = (k: string): number =>
-    k.startsWith('cold-open:') ? 0 : k.startsWith('intro:') ? 1 : k.startsWith('rung:') ? 2 : 3;
+    k.startsWith('cold-open:')
+      ? 0
+      : k.startsWith('intro:')
+        ? 1
+        : k.startsWith('rung:')
+          ? 2
+          : k.startsWith('flavor:')
+            ? 4
+            : 3;
   return [...keys].sort((a, b) => order(a) - order(b) || a.localeCompare(b));
 }
 
@@ -2641,6 +2666,10 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
           kind: 'line' as const,
         }))
       : null;
+  }
+  if (kind === 'flavor') {
+    const text = take === 'canon' ? (FLAVOR as Record<string, string>)[key] : take.flavor?.[key];
+    return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
   const text = take === 'canon' ? (COLD_OPEN as Record<string, string>)[key] : take.coldOpen?.[key];
   return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;

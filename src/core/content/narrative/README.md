@@ -20,6 +20,11 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
   def must carry `unrouted: <reason>`).
 - `cold-open.md` → `../coldOpen.gen.ts` — keyed prose (`## prose cold-open`,
   `### <key>`); `rakeLine` (real logic) stays hand-written.
+- `flavor.md` → `../flavor.gen.ts` — fiction-voiced **UI flavor lines** the
+  renderer shows OUTSIDE a VN scene (lock-hints, gate explainers), keyed prose
+  (`## prose flavor`, `### <key>`). Live-switchable in the DEV set-switcher
+  (`dev.subFlavor`) — a diverge on one ships its takes as a `takes/` bundle
+  (ADR-143). Re-exported by `../flavor.ts`.
 - All four also compile into the one-page reading script
   [`docs/content/t0-story.md`](../../../../docs/content/t0-story.md).
 

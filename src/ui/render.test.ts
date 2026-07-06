@@ -25,6 +25,7 @@ import {
   getBelonging,
   getWeapon,
   durabilityBand,
+  FLAVOR,
   type GameState,
   type Intent,
   type LogEntry,
@@ -706,7 +707,8 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     const hint = root.querySelector<HTMLElement>('.weapon-card .lock-hint');
     expect(hint).not.toBeNull();
     expect(hint!.hidden).toBe(false);
-    expect(hint!.textContent).toContain('mended by hands the house');
+    // the line is single-sourced from the FB-5 flavor registry (canon = take B), not a literal.
+    expect(hint!.textContent).toBe(FLAVOR.mendHint);
     // …and no Repair button is reachable at R3.
     const repairAtR3 = [...root.querySelectorAll<HTMLButtonElement>('button')].some(
       (b) => (b.textContent ?? '').includes('Repair') && !b.hidden,

@@ -119,6 +119,7 @@ export {
   rungOption,
 } from './content/rungBeats';
 export type { RungScene, RungDecision, RungOption } from './content/rungBeats';
+export { FLAVOR } from './content/flavor';
 export {
   gradeOf,
   perDeedCap,
