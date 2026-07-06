@@ -1,0 +1,33 @@
+{
+  "capturedAt": "2026-07-06T11:56:25+0200",
+  "seed": 20260626,
+  "clock": {
+    "day": 0,
+    "tick": 0
+  },
+  "location": "kura",
+  "rung": "R0",
+  "tier": 0,
+  "activeTab": "work",
+  "variants": {},
+  "viewport": {
+    "w": 1496,
+    "h": 718,
+    "dpr": 2
+  },
+  "url": "/",
+  "element": {
+    "label": "button \"Returning? Restore a saved game\"",
+    "text": "Returning? Restore a saved game",
+    "selector": "div:nth-of-type(1) > div > button:nth-of-type(2)",
+    "rect": {
+      "x": 638,
+      "y": 460,
+      "w": 219,
+      "h": 22
+    }
+  },
+  "screenshot": "2026-07-06T11-56-25.png",
+  "logTail": [],
+  "save": "eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjo3LCJzYXZlQ291bnRlciI6NDE0OSwic2F2ZWRBdCI6MTc4MzMzMTc4NTQ1Nywic3RhdGUiOnsic2NoZW1hVmVyc2lvbiI6Nywicm5nIjp7InNlZWQiOjIwMjYwNjI2LCJjdXJzb3JzIjp7ImNvbWJhdCI6MCwibG9vdCI6MCwic2Vhc29uYWwiOjAsIndvcmxkZ2VuIjowfX0sImNsb2NrIjp7InRpY2siOjAsImRheSI6MH0sImNoYXJhY3RlciI6eyJocCI6NTgsInNhdGlldHkiOjY0LCJhdHRyaWJ1dGVQb2ludHMiOjAsImF0dHJzIjp7InN0ciI6NSwiYWdpIjo1LCJpbnQiOjUsInNwZCI6NSwibHVjayI6NX0sImxldmVsIjoxLCJjb21iYXRYcCI6MH0sInJlc291cmNlcyI6eyJjb2luIjowLCJyaWNlIjowfSwiYmFua2VkIjp7ImNvaW4iOjAsInJpY2UiOjB9LCJmbGFncyI6e30sInVubG9ja2VkIjpbInNjcmVlbi1jb2xkLW9wZW4iLCJ2ZXJiLW9wZW4tZXllcyJdLCJsb2ciOnsiZW50cmllcyI6W10sInNlcSI6MH0sInNraWxsWHAiOnt9LCJkZWxpdmVyZWREaWFsb2d1ZSI6W10sIm5wY01lbW9yeSI6e30sImludHJvQmVhdCI6LTEsInJ1bmdCZWF0IjpudWxsLCJhc2tlZFRvcGljcyI6W10sInF1ZXN0cyI6eyJhY2NlcHRlZCI6W10sInByb2dyZXNzIjp7fSwiY29tcGxldGVkIjpbXX0sIm1hcmtldEJvdWdodCI6e30sImJlbG9uZ2luZ3MiOltdLCJsb2NhdGlvbiI6Imt1cmEiLCJydW5nIjoiUjAiLCJydW5nTWV0ZXIiOjAsImVzdGF0ZVN0YWdlIjowLCJhdXRvQWN0aXZpdHkiOm51bGwsImF1dG9SYWtlIjpmYWxzZSwiZXF1aXBwZWRXZWFwb24iOiJjYXJyeWluZ19wb2xlIiwid2VhcG9uRHVyYWJpbGl0eSI6NDAsImF1dG9Db21iYXQiOm51bGwsImF1dG9Db21iYXRSZXRyZWF0IjpmYWxzZSwic3RhbmNlIjoiY2h1ZGFuIiwidGllciI6MCwiaW5mbHVlbmNlIjp7ImVzdGF0ZSI6eyJ2YWx1ZSI6MCwiaGlnaFdhdGVyIjowLCJqdWRnZWQiOjAsImZyYWMiOjB9fX19"
+}
