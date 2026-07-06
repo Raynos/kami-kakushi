@@ -108,6 +108,13 @@ before the redesign). Built the compiler half:
 - Plan **archived** → `project/archive/fable-2026-07-06-narrative-dev-surfaces.md`
   (Status ✅; the human remainder is HR-9).
 
+## Entry 6 — HR-9 lean applied
+
+Human leaned **B — Galley columns** in-session: the reader now opens on
+galley; A/C stay live behind the pills until the verdict is firm (HR-9
+remains open with the 390px h-scroll caveat flagged for the confirming
+pass).
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the

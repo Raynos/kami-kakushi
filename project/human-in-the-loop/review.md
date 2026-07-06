@@ -267,13 +267,14 @@ The narrative-diverge review tooling is LIVE (plan
   paint, NO typewriter · P17/TST4 bundle/take/brief/scorecard at a glance ·
   P19 script breathes, chrome dense · TST1 reader is the ONE home for
   script text.
-- [ ] **A — Annotated script** _(self-picked default)_ — play-order script,
+- [ ] **A — Annotated script** _(was the self-pick; superseded by the human lean below)_ — play-order script,
   canon inline, alternates nested (indigo-ruled) under each unit.
   - **Scorecard (A):** 19✔ · 1✘ · 1— — ✘ the floating DEV panel can overlay
     the modal's right edge (z-order) [blind spot]; — P12 n/a-by-design
     (instant paint is the briefed intent).
-- [ ] **B — Galley columns** _(built; pill)_ — units as rows, canon + takes
-  side-by-side; strongest for line-level compare.
+- [x] **B — Galley columns** _(HUMAN LEAN 2026-07-06 — now the reader's
+  default; pills keep A/C live until the verdict is firm)_ — units as rows,
+  canon + takes side-by-side; strongest for line-level compare.
   - **Scorecard (B):** 18✔ · 2✘ · 1— — ✘ 390px reads via in-container
     horizontal scroll (accepted P6 form, but weakest mobile) [briefed];
     ✘ panel-overlay as A [blind spot].
@@ -285,7 +286,11 @@ The narrative-diverge review tooling is LIVE (plan
 - **Self-pick rationale:** A = highest weighted total (hierarchy + mobile
   legibility; single column, alternates in reading order). C is the bold
   pacing-true option — pick it if you review by *listening*, not comparing.
-- **Verdict:** _(pending)_
+- **Verdict:** leaning **B — Galley columns** (human, 2026-07-06, in-session);
+  default switched to galley. OPEN until firm — confirm (or reverse) and the
+  losing variants get retired. Caveat to check when confirming: galley at
+  390px reads via in-container horizontal scroll (the briefed mobile
+  trade-off).
 
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was

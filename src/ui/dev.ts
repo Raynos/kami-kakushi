@@ -2798,10 +2798,12 @@ function renderReaderStage(host: HTMLElement, bundle: StoryTakeBundle): void {
 
 export type StoryReaderVariant = 'annotated' | 'galley' | 'stage';
 
-/** Open the full-page reader. Returns the scrim (exposed for tests). */
+/** Open the full-page reader. Returns the scrim (exposed for tests).
+ *  Default = galley (the human's HR-9 lean, 2026-07-06); pills keep all three
+ *  live until the verdict is firm. */
 export function openStoryReader(
   bundles: readonly StoryTakeBundle[],
-  initial: StoryReaderVariant = 'annotated',
+  initial: StoryReaderVariant = 'galley',
 ): HTMLElement {
   const scrim = el('div');
   scrim.className = 'modal-scrim';
