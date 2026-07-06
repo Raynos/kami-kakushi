@@ -1326,24 +1326,38 @@ h3 {
 .vn-line.vn-pending {
   display: none;
 }
-/* FB-153 — the in-modal promotion ceremony: seal + flavour + Continue, centred
-   in the outcome panel (replaces the fly-by rank-up overlay for beat closes). */
+/* FB-153/FB-159 — the in-modal promotion ceremony is the card's BIG moment:
+   it overlays the whole vn-card (steel plate ground), seal + flavour +
+   Continue centred (replaces the fly-by rank-up overlay for beat closes). */
 .vn-rung-ceremony {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) 0;
+  justify-content: center;
+  gap: var(--space-6);
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  border-radius: var(--radius);
 }
 .vn-rung-ceremony .hanko-css {
-  width: 88px;
-  height: 88px;
-  font-size: 2.4rem;
+  width: 148px;
+  height: 148px;
+  font-size: 4rem;
 }
 .vn-rung-flavor {
   color: var(--gold-hi);
   font-family: var(--font-head);
+  font-size: var(--fs-h2);
   text-align: center;
+}
+/* the ceremony's Continue sits centred UNDER the flavour (the .intro-continue
+   base rule left-anchors it inside the outcome panel — not here) */
+.vn-rung-ceremony .intro-continue {
+  align-self: center;
+  border-left-width: 1px;
+  padding: var(--space-2) var(--space-6);
 }
 
 /* ── F47 the ask HUB (exploration) vs the DECISION (commitment) — two distinct reads ──

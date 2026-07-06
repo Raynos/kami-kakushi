@@ -22,8 +22,11 @@ export const APP_ID = 'kami-kakushi' as const;
  *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain. */
 export const SCHEMA_VERSION = 7 as const;
 
-/** The event-log ring cap (PRD §6.4 / core/log): oldest entries evicted past this. */
-export const LOG_RING_MAX = 300 as const;
+/** FB-160/FB-161 (human, 2026-07-06): DURABLE log history (story/chat/progress) is
+ *  UNBOUNDED — the whole point of the log is a memory that goes far, far back; a
+ *  durable line is NEVER evicted. Only fleeting (ephemeral) lines are capped: they
+ *  fade from the Now view in ~15s and need no deep history. */
+export const LOG_EPHEMERAL_MAX = 100 as const;
 
 /** Readability gate (audit §3 #3 / G-LOG): an auto-run must coalesce repeats — no more
  *  than this many byte-identical consecutive log lines. Provisional (v0.2) — tune by playtest. */

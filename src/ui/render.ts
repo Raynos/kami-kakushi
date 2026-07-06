@@ -280,11 +280,18 @@ export function pct(n: number): string {
 // total "…×N (+total unit)". Multi-resource / non-matching lines fall back to a bare
 // "…×N" so a wrong total is impossible (the unit group excludes commas).
 export function formatLogText(entry: LogEntry): string {
+  // FB-158 — spoken lines ALWAYS display quoted: a voiced non-narrator line whose
+  // authored text carries no quotation marks is wrapped at display time, so bare
+  // dialogue (dialogue.md teach lines) reads like every other utterance.
+  const text =
+    entry.voice !== undefined && entry.voice !== 'narrator' && !/["“]/.test(entry.text)
+      ? `"${entry.text}"`
+      : entry.text;
   const n = entry.count ?? 1;
-  if (n <= 1) return entry.text;
-  const m = entry.text.match(/^(.*?)\s*\(\+(\d+)\s+([^),]+)\)\s*$/);
+  if (n <= 1) return text;
+  const m = text.match(/^(.*?)\s*\(\+(\d+)\s+([^),]+)\)\s*$/);
   if (m) return `${m[1]} ×${n} (+${Number(m[2]) * n} ${m[3]})`;
-  return `${entry.text} ×${n}`;
+  return `${text} ×${n}`;
 }
 
 // FB-53/FB-115 — the "Now" (ephemeral) view's wall-clock timings (a RENDER-time concern; the pure core
@@ -1088,7 +1095,11 @@ export function mount(
   let lastSeq = 0;
   // staggered log reveal: new lines cascade in one-by-one (text-adventure feel)
   const LOG_STAGGER_MS = 240;
-  const LOG_DOM_MAX = 300; // mirrors core LOG_RING_MAX
+  // FB-160/FB-161 — the CORE log history is unbounded (durable lines never evict);
+  // the RENDERER paints a window: at most this many newest lines live in the DOM
+  // (append-trim + the load/tab-switch repaint slice). Scroll-back past the window
+  // is future polish (lazy backfill), per the human's call — never data loss.
+  const LOG_DOM_MAX = 300;
   const revealQueue: LogEntry[] = [];
   let revealTimer: number | undefined;
   // P2 — GBA-style character-by-character typewriter for STORY lines (narration /
@@ -2155,20 +2166,21 @@ export function mount(
       // only the speech itself types in.
       if (e.speaker) p.append(el('span', 'vn-speaker', `${e.speaker}: `));
       const span = el('span', 'vn-text');
-      // FB-144 — a voiced line with NO quotation marks IS speech end-to-end
-      // (narrative sources may write bare dialogue): colour the whole span.
-      if (!e.prompt && e.voice !== 'narrator' && !/["“]/.test(e.text))
-        span.classList.add('vn-speech');
       p.append(span);
+      // FB-144/FB-158 — a voiced line with NO quotation marks IS bare dialogue
+      // (dialogue.md teach lines): display it QUOTED like every other utterance,
+      // which also routes it through the speech-colour segmenter for free.
+      const text =
+        !e.prompt && e.voice !== 'narrator' && !/["“]/.test(e.text) ? `"${e.text}"` : e.text;
       introStoryLinesEl?.append(p);
       introRenderedKeys.add(e.key);
       if (instant) {
-        writeVnSlice(span, e.text, e.text.length); // FB-141 — speech-scoped colour
+        writeVnSlice(span, text, text.length); // FB-141 — speech-scoped colour
       } else {
         // FB-152 — a queued line stays fully HIDDEN (name included) until its
         // turn types; the FB-50 instant-name rule applies per line, not per block.
         p.classList.add('vn-pending');
-        nodes.push({ span, text: e.text });
+        nodes.push({ span, text });
       }
     }
     introScrollToBottom();
@@ -2238,7 +2250,7 @@ export function mount(
       const rungUp = el('button', 'verb intro-continue vn-rungup', 'Rung up');
       rungUp.type = 'button';
       rungUp.addEventListener('click', () => {
-        if (wrap.querySelector('.vn-rung-ceremony')) return;
+        if (introScene?.querySelector('.vn-rung-ceremony')) return;
         const target = introLastState?.rungBeat;
         const rank = RANKS.find((r) => r.id === target);
         const cer = el('div', 'vn-rung-ceremony');
@@ -2258,9 +2270,11 @@ export function mount(
         });
         cer.append(cont);
         rungUp.remove();
-        wrap.append(cer);
+        // FB-159 — the promotion is HUGE: the ceremony overlays the WHOLE card,
+        // seal + flavour + Continue centred (not a strip in the side panel).
+        const card = introScene?.querySelector('.vn-card');
+        (card ?? wrap).append(cer);
         hooks.sfx.rankUp(); // the temple bell rings AT the ceremony, not after the modal
-        introScrollToBottom();
       });
       wrap.append(rungUp);
     }
@@ -4086,9 +4100,14 @@ export function mount(
       return;
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
-    const freshVisible = fresh.filter((e) =>
+    let freshVisible = fresh.filter((e) =>
       logFilterMatches(e.channel, logFilter, e.ephemeral === true, e.chat === true),
     );
+    // FB-160/FB-161 — a FULL repaint (load / reset / tab switch) paints only the
+    // newest LOG_DOM_MAX window; deeper history stays safe in core (never a
+    // thousands-of-nodes DOM flood on a long run's tab switch).
+    if ((firstRender || didReset) && freshVisible.length > LOG_DOM_MAX)
+      freshVisible = freshVisible.slice(-LOG_DOM_MAX);
 
     // FB-48 — while a VN scene owns the live reveal (intro OR a rung beat — ADR-110), the LOG is only the
     // historical transcript: append its lines INSTANTLY (no typewriter, no cascade) so it's ready the

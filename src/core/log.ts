@@ -1,9 +1,10 @@
-// The event/story log model (PRD §6.4 / core/log): a true ring buffer capped at
-// LOG_RING_MAX. Data only — the renderer paints it (via textContent, never
-// innerHTML; PRD §6.9 XSS guard). The log is the HERO surface (ui-design.md §5.1):
-// each line is a tier of the house's story.
+// The event/story log model (PRD §6.4 / core/log): DURABLE history is UNBOUNDED
+// (FB-160/FB-161 — the log is the house's memory; a story/chat/progress line is
+// never evicted); only fleeting `ephemeral` lines ring-cap at LOG_EPHEMERAL_MAX.
+// Data only — the renderer paints it (via textContent, never innerHTML; PRD §6.9
+// XSS guard). The log is the HERO surface (ui-design.md §5.1).
 
-import { LOG_RING_MAX } from './constants';
+import { LOG_EPHEMERAL_MAX } from './constants';
 import type { VoiceCategory } from './content/voices';
 import type { LogParams } from './content/log-content';
 
@@ -92,9 +93,17 @@ export function pushLog(
     ...(meta?.contentKey !== undefined ? { contentKey: meta.contentKey } : {}),
     ...(meta?.params !== undefined ? { params: meta.params } : {}),
   };
-  const next =
-    log.entries.length >= LOG_RING_MAX
-      ? [...log.entries.slice(log.entries.length - LOG_RING_MAX + 1), entry]
-      : [...log.entries, entry];
+  let next: LogEntry[] = [...log.entries, entry];
+  // FB-160/FB-161 — durable history NEVER evicts; only the fleeting lines ring.
+  // An ephemeral push past the cap drops the OLDEST ephemeral line (a durable
+  // push can't grow the ephemeral count, so it never scans).
+  if (entry.ephemeral === true) {
+    let eph = 0;
+    for (const e of next) if (e.ephemeral === true) eph += 1;
+    if (eph > LOG_EPHEMERAL_MAX) {
+      const idx = next.findIndex((e) => e.ephemeral === true);
+      next = [...next.slice(0, idx), ...next.slice(idx + 1)];
+    }
+  }
   return { entries: next, seq: log.seq + 1 };
 }

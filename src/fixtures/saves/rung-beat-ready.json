@@ -180,15 +180,6 @@
           "count": 1
         },
         {
-          "key": 15,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 16,
           "channel": "narration",
           "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
@@ -206,15 +197,6 @@
           "voice": "narrator"
         },
         {
-          "key": 18,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 19,
           "channel": "narration",
           "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
@@ -224,210 +206,12 @@
           "voice": "steward"
         },
         {
-          "key": 20,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 21,
           "channel": "narration",
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
           "count": 1,
           "voice": "narrator"
-        },
-        {
-          "key": 22,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 14,
-          "count": 17,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 23,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 24,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 10,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 25,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 26,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 6,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 27,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 28,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 2,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 29,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 30,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 22,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 31,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 32,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 18,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 33,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 34,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 14,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 35,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 36,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 10,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 37,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 38,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 6,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 39,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 40,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 2,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 41,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 42,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 22,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
         },
         {
           "key": 43,

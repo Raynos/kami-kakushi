@@ -137,3 +137,15 @@ The human filed two more captures into session 4ea4cf after the drain read it
 review): FB-156 eat/cook result lines → ephemeral (Now, not Work); FB-157
 estate border-soup → nested cards de-framed today, full redesign routed to the
 M6 diverge. verify green.
+
+## Addendum 6 — round-3 drain (FB-158…FB-161) + the log-history lock
+
+- FB-158 bare dialogue displays QUOTED (render-time wrap, VN + log).
+- FB-159 the promotion ceremony overlays the whole card, seal + Continue
+  centred.
+- FB-160/FB-161 root-caused to the 300-entry log RING: ephemeral grind spam
+  evicted perks + story. **Human lock: durable history is UNBOUNDED (never
+  evict); only ephemeral lines cap (LOG_EPHEMERAL_MAX=100).** LOG_RING_MAX
+  retired; renderer paints a newest-300 DOM window on full repaints
+  (scroll-back backfill = sanctioned future polish); core log tests rewritten
+  (durable-survival + unbounded assertions); fixtures regenerated.
