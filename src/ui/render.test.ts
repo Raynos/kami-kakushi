@@ -1119,18 +1119,25 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(seen).toContainEqual({ type: 'ask_rung_topic', topicId: topic.id });
   });
 
-  it('picking a rung option latches; ONLY Continue dispatches choose_rung_option', () => {
+  it('picking a rung option latches; Rung up performs the in-modal ceremony; its Continue dispatches (FB-153)', () => {
     const { seen, render } = spyMount();
     render(rungBeatState('R1'), null);
     const opt = RUNG_BEATS.R1!.decision.options[0]!;
     byText('.intro-choice', opt.label)!.click();
     // latching alone does NOT advance (no promotion yet) — mirrors the intro's FB-62 fix.
     expect(seen.some((i) => i.type === 'choose_rung_option')).toBe(false);
-    // the chosen reply appended to the story + a single Continue is the only way onward…
+    // the chosen reply appended to the story…
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
       opt.react.slice(1, 20),
     );
+    // FB-153 — step 1: "Rung up" renders the ceremony IN the modal, still no dispatch…
     root.querySelector<HTMLButtonElement>('.intro-continue')!.click();
+    expect(seen.some((i) => i.type === 'choose_rung_option')).toBe(false);
+    const ceremony = root.querySelector<HTMLElement>('.vn-rung-ceremony')!;
+    expect(ceremony).not.toBeNull();
+    expect(ceremony.textContent).toContain("You've been promoted to");
+    // …step 2: the ceremony's Continue is the ONE dispatching control.
+    ceremony.querySelector<HTMLButtonElement>('.intro-continue')!.click();
     expect(seen).toContainEqual({ type: 'choose_rung_option', optionId: opt.id });
   });
 

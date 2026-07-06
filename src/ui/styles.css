@@ -1024,6 +1024,11 @@ h3 {
   color: var(--silver-hi);
   outline: none;
 }
+/* FB-145 — action verbs never span the whole work column ("way too wide, a bit
+   silly"): one shared cap keeps the stack a tidy left-aligned column. */
+.slice-do .verb {
+  max-width: 40ch;
+}
 .verb:focus-visible {
   box-shadow:
     0 0 0 2px var(--washi),
@@ -1303,6 +1308,30 @@ h3 {
 .vn-speech {
   color: var(--voice, inherit);
 }
+/* FB-152 — a queued transcript line is fully hidden until its typewriter turn
+   (a block used to pre-paint every speaker name with empty speech). */
+.vn-line.vn-pending {
+  display: none;
+}
+/* FB-153 — the in-modal promotion ceremony: seal + flavour + Continue, centred
+   in the outcome panel (replaces the fly-by rank-up overlay for beat closes). */
+.vn-rung-ceremony {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+.vn-rung-ceremony .hanko-css {
+  width: 88px;
+  height: 88px;
+  font-size: 2.4rem;
+}
+.vn-rung-flavor {
+  color: var(--gold-hi);
+  font-family: var(--font-head);
+  text-align: center;
+}
 
 /* ── F47 the ask HUB (exploration) vs the DECISION (commitment) — two distinct reads ──
    The Ask group is QUIET (a muted heading + light secondary buttons): free, re-askable questions.
@@ -1343,11 +1372,8 @@ h3 {
     color 120ms,
     background-color 120ms;
 }
-.intro-ask::before {
-  content: '・';
-  color: var(--ink-faint);
-  margin-right: 0.35rem;
-}
+/* (FB-151 — the '・' bullet ::before died: a quoted line IS the affordance;
+   the dot read as a stray list marker inside the button.) */
 .intro-ask:hover {
   border-color: var(--silver-wire);
   color: var(--silver-hi);
@@ -1440,21 +1466,12 @@ h3 {
    Both are auto-neutralised by the reduced-motion media query AND the .reduced-motion
    class below (animation-duration forced ~0), so no JS RM branch is needed.
    Durations provisional (v0.2) — tune by playtest. ── */
-@keyframes num-pop {
-  0% {
-    transform: scale(1);
-  }
-  28% {
-    transform: scale(1.16);
-    color: var(--shu);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+/* FB-148 — the vitals number-pop is RETIRED (human: the scale+vermillion flash
+   on every increment reads as strobing during auto-grind — a headache, not
+   juice). The .pop class still cycles in render.ts (harmless no-op hook) but
+   animates nothing; steady numerals, the meters carry the motion. */
 .vital .value.pop {
-  animation: num-pop 360ms var(--ease-press);
-  transform-origin: right center; /* the value is right-aligned */
+  animation: none;
 }
 @keyframes tally-flash {
   0% {
@@ -2047,7 +2064,10 @@ html {
   background: transparent;
   border: 1px solid var(--silver-faint);
   border-radius: var(--radius);
-  padding: var(--space-1) var(--space-3);
+  padding: 0 var(--space-3);
+  /* FB-149 — EXACT 28px (border-box) so the DEV chip beside it pixel-matches */
+  height: var(--tap-min);
+  box-sizing: border-box;
   min-height: var(--tap-min); /* a11y touch target */
   display: inline-flex;
   align-items: center;

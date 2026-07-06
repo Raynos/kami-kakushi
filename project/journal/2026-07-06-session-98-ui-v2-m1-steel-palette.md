@@ -109,3 +109,23 @@ verify green (17 gates) · mobile e2e lane green (73) · headless R0/R1 + R3/R7
 captures reviewed. Human playtest = the M2 gate. Note: the ⚔ combat verb
 currently reads gold like any primary — a dedicated `.danger` vermillion
 treatment lands with the combat surfaces (M5/M6).
+
+## Addendum 4 — M2 review drain (FB-144…FB-155)
+
+Second interactive drain: 12 captures from the M2 review, swept in one
+approved pass (human picked: 40ch button cap; all-12 scope):
+
+- FB-144 unquoted NPC speech → whole-span voice colour · FB-145 verb 40ch cap ·
+  **FB-146 manual acts DISARM all autos** (player-dispatch wrapper in main.ts) ·
+  FB-147 rung-choice warmth accents (gold/silver/shu; statBonus wears its attr) ·
+  FB-148 vitals num-pop retired · FB-149 DEV chip = Settings 28px ·
+  FB-150 smooth whole-line log glide (unpin-guard keeps FB-77 fixed) ·
+  FB-151 ask bullet died · FB-152 queued VN lines hidden till their turn ·
+  **FB-153 rung-up ceremony IN the beat modal** (human spec: "Rung up" button →
+  seal + promoted-to flavour + Continue; overlay suppressed; e2e walker + rung
+  unit test updated in-commit).
+- FB-154 hover — already fixed by M2 (711d0b1), re-check on refresh.
+- FB-155 cursor flicker — could not reproduce (stable node, pointer computed);
+  suspected HMR bursts; recapture if it persists.
+
+verify green (17) + e2e green (73). Both sessions archived; inbox empty.

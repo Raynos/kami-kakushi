@@ -2050,8 +2050,12 @@ export function mountDevPanel(
 
   // header (click to collapse the body) — fixed (never scrolls)
   const head = el('div');
+  // FB-149 — collapsed, the chip must PIXEL-match the footer Settings button:
+  // 26px head + the panel's 2×1px border = 28px total (= --tap-min), bottoms
+  // aligned by the .25rem panel inset (the footer's --space-1 padding).
   head.style.cssText =
-    'flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:.35rem .5rem;' +
+    'flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;' +
+    'height:26px;box-sizing:border-box;padding:0 .5rem;' +
     'background:#26221e;border-bottom:1px solid #7a6c59;cursor:pointer;user-select:none;font-weight:700;';
   head.append(el('span', undefined, '⚙ DEV'));
   const caret = el('span', undefined, '▾');

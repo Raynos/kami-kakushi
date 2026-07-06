@@ -44,6 +44,7 @@ import {
   season,
   year,
   currentRank,
+  RANKS,
   rungProgress,
   nextRankId,
   getRank,
@@ -582,6 +583,9 @@ export function mount(
   // a LATCHED-but-not-yet-dispatched decision: on pick the reply + perk + Continue show; ONLY
   // Continue dispatches `choose_intro` (⇒ advances the scene). Picking never jumps scenes.
   let pendingChoiceId: string | null = null;
+  // FB-153 — the beat modal held the promotion ceremony itself: skip the floating
+  // rank-up overlay ONCE for the rung change that lands when the modal closes.
+  let suppressRankUpOverlay = false;
   // per-scene mounted refs + append-only bookkeeping (ALL reset by teardownIntroScene).
   let introStoryLinesEl: HTMLElement | null = null; // the LEFT transcript column's line container
   let introPanelEl: HTMLElement | null = null; // the RIGHT interactive column (always present)
@@ -707,6 +711,10 @@ export function mount(
   // but leaves a reader who scrolled UP into history alone until they return to the foot.
   const LOG_STICK_THRESHOLD_PX = 24; // "at bottom" tolerance (sub-pixel scroll + a line's leading)
   let logPinnedToBottom = true;
+  // FB-150 — while a programmatic SMOOTH glide to the foot is in flight, its
+  // intermediate scroll positions must not read as "the reader scrolled up"
+  // and unpin (that risk is why FB-77 originally chose the instant jump).
+  let smoothScrollUntil = 0;
 
   const logSection = el('section', 'log');
   logSection.setAttribute('aria-live', 'polite');
@@ -717,8 +725,11 @@ export function mount(
   // Track whether the reader is pinned to the foot (within tolerance). Our own programmatic pin
   // fires this too and re-confirms `true`, so there's no fight with the auto-follow.
   logLines.addEventListener('scroll', () => {
-    logPinnedToBottom =
+    const atFoot =
       logLines.scrollHeight - logLines.scrollTop - logLines.clientHeight <= LOG_STICK_THRESHOLD_PX;
+    // FB-150 — mid-glide positions may only RE-pin, never unpin.
+    if (!atFoot && performance.now() < smoothScrollUntil) return;
+    logPinnedToBottom = atFoot;
   });
   // the bottom filter bar (FB-9) — filters which channels show; Story leads, default 'story'.
   const logFilterBar = el('div', 'log-filter-bar');
@@ -1780,7 +1791,8 @@ export function mount(
     readonly react: string; // the speaker's reaction → the transcript, in `reactVoice`
     readonly reactVoice: VoiceCategory;
     readonly reactSpeaker?: string; // the react nameplate (undefined ⇒ a narrator react)
-    readonly attr?: AttrId; // intro decision-button theming (+1 attr); rung has none
+    readonly attr?: AttrId; // intro decision-button theming (+1 attr); rung: only the statBonus pick
+    readonly accent?: string; // FB-147 — rung choice hint: warmth gold / even silver / costly shu
     readonly perk?: { readonly name: string; readonly desc: string; readonly mechanics: string };
     readonly note?: string; // rung `statBonus` delight line (the rare bonus) → a small outcome note
   }
@@ -1830,6 +1842,13 @@ export function mount(
       options: scene.decision.options.map((o): VnOption => {
         // a two-voice beat (R4 Tōzō) overrides the react to a NON-default speaker; else the scene's.
         const rs = o.reactNpc ? NPC_NAME[o.reactNpc] : beatReactSpeaker(scene);
+        // FB-147 — the choice's colour hint: the rare statBonus pick wears its attr
+        // pigment; otherwise the honest mechanical axis is the relationship write —
+        // warmth-gaining reads GOLD, even reads SILVER, warmth-costing reads SHU
+        // (deliberately telegraphs relational cost — TST4, the player never guesses).
+        const warmth = (o.memory ?? []).reduce((n, m) => n + m.warmthDelta, 0);
+        const accent =
+          warmth > 0 ? 'var(--gold)' : warmth < 0 ? 'var(--shu-hi)' : 'var(--silver-dim)';
         return {
           id: o.id,
           label: o.label,
@@ -1837,7 +1856,7 @@ export function mount(
           react: o.react,
           reactVoice: o.reactNpc ? NPC_VOICE[o.reactNpc] : beatReactVoice(scene),
           ...(rs !== undefined ? { reactSpeaker: rs } : {}),
-          ...(o.statBonus ? { note: o.statBonus.note } : {}),
+          ...(o.statBonus ? { note: o.statBonus.note, attr: o.statBonus.attr } : { accent }),
         };
       }),
     };
@@ -2055,8 +2074,9 @@ export function mount(
   }
   function introStartLine(index: number): void {
     introBlockIndex = index;
-    introScrollToBottom();
     const node = introBlockNodes[index];
+    node?.span.parentElement?.classList.remove('vn-pending'); // FB-152 — its turn: reveal the line
+    introScrollToBottom();
     if (!node || node.text.length === 0) {
       introLineComplete();
       return;
@@ -2086,7 +2106,10 @@ export function mount(
       window.clearTimeout(introTypeTimer);
       introTypeTimer = undefined;
     }
-    for (const n of introBlockNodes) writeVnSlice(n.span, n.text, n.text.length);
+    for (const n of introBlockNodes) {
+      n.span.parentElement?.classList.remove('vn-pending'); // FB-152
+      writeVnSlice(n.span, n.text, n.text.length);
+    }
     introFinishBlock();
   }
   // A click on the scene SPEEDS UP the auto-advancing typewriter (FB-86) — it never pauses it.
@@ -2132,12 +2155,21 @@ export function mount(
       // only the speech itself types in.
       if (e.speaker) p.append(el('span', 'vn-speaker', `${e.speaker}: `));
       const span = el('span', 'vn-text');
+      // FB-144 — a voiced line with NO quotation marks IS speech end-to-end
+      // (narrative sources may write bare dialogue): colour the whole span.
+      if (!e.prompt && e.voice !== 'narrator' && !/["“]/.test(e.text))
+        span.classList.add('vn-speech');
       p.append(span);
       introStoryLinesEl?.append(p);
       introRenderedKeys.add(e.key);
-      if (instant)
+      if (instant) {
         writeVnSlice(span, e.text, e.text.length); // FB-141 — speech-scoped colour
-      else nodes.push({ span, text: e.text });
+      } else {
+        // FB-152 — a queued line stays fully HIDDEN (name included) until its
+        // turn types; the FB-50 instant-name rule applies per line, not per block.
+        p.classList.add('vn-pending');
+        nodes.push({ span, text: e.text });
+      }
     }
     introScrollToBottom();
     if (instant || nodes.length === 0) {
@@ -2192,17 +2224,46 @@ export function mount(
     wrap.hidden = true;
     if (opt.perk) wrap.append(buildVnPerkBox(opt.perk, opt.attr));
     else if (opt.note) wrap.append(el('div', 'vn-outcome-note', opt.note)); // rung statBonus delight
-    const cont = el('button', 'verb intro-continue', 'Continue');
-    cont.type = 'button';
     const optId = opt.id;
-    cont.addEventListener('click', () =>
-      dispatch(
-        scene.source === 'intro'
-          ? { type: 'choose_intro', optionId: optId }
-          : { type: 'choose_rung_option', optionId: optId },
-      ),
-    );
-    wrap.append(cont);
+    if (scene.source === 'intro') {
+      const cont = el('button', 'verb intro-continue', 'Continue');
+      cont.type = 'button';
+      cont.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: optId }));
+      wrap.append(cont);
+    } else {
+      // FB-153 — the promotion ceremony lives IN the beat modal (human spec): the
+      // outcome's control reads "Rung up"; pressing it renders the seal + the
+      // promoted-to flavour HERE, and its Continue does the real dispatch. The old
+      // floating overlay is suppressed for this transition (showRankUp skip-once).
+      const rungUp = el('button', 'verb intro-continue vn-rungup', 'Rung up');
+      rungUp.type = 'button';
+      rungUp.addEventListener('click', () => {
+        if (wrap.querySelector('.vn-rung-ceremony')) return;
+        const target = introLastState?.rungBeat;
+        const rank = RANKS.find((r) => r.id === target);
+        const cer = el('div', 'vn-rung-ceremony');
+        cer.append(el('div', 'rankup-kicker', 'Promoted'));
+        const seal = el('div', 'hanko-css');
+        seal.lang = 'ja';
+        seal.textContent = rank?.kanji ?? '昇';
+        cer.append(seal);
+        cer.append(
+          el('div', 'vn-rung-flavor', `You've been promoted to ${rank?.title ?? 'a new rung'}.`),
+        );
+        const cont = el('button', 'verb intro-continue', 'Continue');
+        cont.type = 'button';
+        cont.addEventListener('click', () => {
+          suppressRankUpOverlay = true; // the modal already held the ceremony
+          dispatch({ type: 'choose_rung_option', optionId: optId });
+        });
+        cer.append(cont);
+        rungUp.remove();
+        wrap.append(cer);
+        hooks.sfx.rankUp(); // the temple bell rings AT the ceremony, not after the modal
+        introScrollToBottom();
+      });
+      wrap.append(rungUp);
+    }
     introPanelEl.append(wrap);
     introOutcomeEl = wrap;
   }
@@ -2288,8 +2349,9 @@ export function mount(
       const attr = opt.attr;
       const b = el('button', 'verb intro-choice', opt.label);
       b.type = 'button';
-      // theme by the POSITIVE (+1) attribute; a pure-flavour choice with none falls back to --ai.
-      b.style.setProperty('--attr-accent', attr ? ATTR_COLOR[attr] : 'var(--ai)');
+      // theme by the POSITIVE (+1) attribute; a rung choice with none carries its
+      // FB-147 warmth accent (gold/silver/shu); a pure-flavour choice falls to --ai.
+      b.style.setProperty('--attr-accent', attr ? ATTR_COLOR[attr] : (opt.accent ?? 'var(--ai)'));
       if (attr) b.append(el('span', 'intro-choice-tag', ATTR_META[attr].kanji));
       // UI-only: LATCH the choice (shows the reply + perk + Continue); the dispatch waits for Continue.
       b.addEventListener('click', () => {
@@ -3586,19 +3648,26 @@ export function mount(
     line.classList.add('tally');
     hooks.sfx.reward(); // the coin-tally cue — a shamisen/koto pluck (T0-M1-F4)
   }
-  // FB-77 — follow the newest line and STAY pinned to the foot as content arrives. The pin is an
-  // INSTANT, authoritative jump to the bottom (a smooth scroll lagged behind rapid cascade/
-  // typewriter appends and stranded the view at an OLD position — the "holding an old scroll
-  // position" bug). It only fires while the reader is pinned: someone scrolled UP into history is
-  // left where they are until they return to the bottom (see the scroll listener above).
-  function scrollLogToNewest(): void {
+  // FB-77 — follow the newest line and STAY pinned to the foot as content arrives; a reader
+  // scrolled UP into history is left alone until they return (see the scroll listener above).
+  // FB-150 — a WHOLE-LINE append glides smoothly (the instant one-line-height jump read as
+  // "chunky"); the per-char typewriter + floods keep the instant authoritative jump (FB-77's
+  // original lag bug), and the smoothScrollUntil window stops the glide's intermediate
+  // positions from unpinning the reader. Reduced-motion always jumps.
+  function scrollLogToNewest(smooth = false): void {
     if (!logPinnedToBottom) return;
+    // (typeof guard: jsdom has no scrollTo — tests take the instant jump)
+    if (smooth && !reduceMotion() && typeof logLines.scrollTo === 'function') {
+      smoothScrollUntil = performance.now() + 450;
+      logLines.scrollTo({ top: logLines.scrollHeight, behavior: 'smooth' });
+      return;
+    }
     logLines.scrollTop = logLines.scrollHeight;
   }
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
-    scrollLogToNewest(); // smoothly follow the newest line (FB-7)
+    scrollLogToNewest(animate); // follow the newest line (FB-7); animated appends glide (FB-150)
   }
   // P2 — a line typewrites only if it is STORY text: a narration line, or any line
   // carrying a speaker `voice` (narrator / player / NPC dialogue). Combat/reward/
@@ -4958,7 +5027,11 @@ export function mount(
     // the signature beats: a rung promotion presses the house seal (ui-design §6.2); a TIER
     // ascension lands the bigger ceremony (ADR-062). Tier change wins (don't double-fire).
     if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);
-    else if (prev && prev.rung !== state.rung && !firstRender) showRankUp(state);
+    else if (prev && prev.rung !== state.rung && !firstRender) {
+      // FB-153 — the beat modal already performed the ceremony (skip-once).
+      if (suppressRankUpOverlay) suppressRankUpOverlay = false;
+      else showRankUp(state);
+    }
     introEndingRender = false; // one-shot: the intro-reveal render is done
     firstRender = false;
   }

@@ -46,8 +46,12 @@ async function playVnScene(page: Page): Promise<void> {
   await press(choice); // latches the option
   await hurryTypewriter(page); // the outcome types out before Continue shows
   const cont = page.locator('button.intro-continue');
-  await expect(cont, 'Continue never appeared after choosing').toBeVisible();
-  await press(cont); // the ONE dispatching control
+  await expect(cont.first(), 'Continue never appeared after choosing').toBeVisible();
+  await press(cont.first()); // intro: dispatches · rung: "Rung up" performs the ceremony (FB-153)
+  // FB-153 — a rung beat holds its promotion ceremony IN the modal: a second
+  // Continue (inside .vn-rung-ceremony) is the dispatching control there.
+  const ceremonyCont = page.locator('.vn-rung-ceremony button.intro-continue');
+  if (await ceremonyCont.isVisible().catch(() => false)) await press(ceremonyCont);
 }
 
 test('intro VN completes: cold boot to the working shell', async ({ page }) => {

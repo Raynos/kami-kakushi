@@ -224,7 +224,33 @@ async function boot(): Promise<void> {
 
   // The RENDERER'S dispatch copy only is wrapped — every intent through it is a PLAYER intent.
   // autoStep below keeps the raw dispatch (auto-mode intents are not the human acting).
-  const render = mount(root, telemetry ? telemetry.wrapDispatch(dispatch) : dispatch, hooks, dev);
+  // FB-146 — a MANUAL act through the player path first DISARMS every armed auto: clicking
+  // rake/rest/an activity/a fight while an auto grinds takes over, never races it (human,
+  // 2026-07-06). The auto loop's own dispatches bypass this wrapper, so it can't self-cancel.
+  const MANUAL_DISARM = new Set<Intent['type']>([
+    'rake_rice',
+    'rest',
+    'do_activity',
+    'fight',
+    'face_wolf',
+    'cook_meal',
+    'eat_rice',
+    'repair_weapon',
+  ]);
+  function playerDispatch(intent: Intent): void {
+    if (MANUAL_DISARM.has(intent.type)) {
+      if (state.autoRake) dispatch({ type: 'set_auto_rake', on: false });
+      if (state.autoActivity !== null) dispatch({ type: 'set_auto', activityId: null });
+      if (state.autoCombat !== null) dispatch({ type: 'set_auto_combat', mobId: null });
+    }
+    dispatch(intent);
+  }
+  const render = mount(
+    root,
+    telemetry ? telemetry.wrapDispatch(playerDispatch) : playerDispatch,
+    hooks,
+    dev,
+  );
 
   // reveal-on-load: render existing log statically (no re-spam)
   safely(() => render(state, null));
