@@ -34,6 +34,12 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `docs/plans/fable-2026-07-06-story-quality-ladder.md` — the **story-quality
+  umbrella plan**: your 19-answer decision pass recorded verbatim (§1 answer
+  sheet — adopted vs rejected) + the forward phases (§2): Phase 1 = the
+  story-bible co-write (cast sheet first), Phase 2 = the T0 prose wave in five
+  diverge bundles. **No ADR minted yet, per your call** — approve the plan and
+  the ADR is pulled from §1, then Phase 1 starts.
 - [ ] `project/audit/reports/2026-07-06-story-narrative-slop-audit.md` — the
   **fable story/narrative LLM-slop audit** you asked for: world architecture
   is NOT slop (protect list §1); the prose has a specific fixable LLM accent
