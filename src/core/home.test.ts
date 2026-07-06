@@ -1,4 +1,4 @@
-// DEEP HOUSING — the home + belongings + comfort (D-111 / F89). The T0 core: rest RE-SITES to your
+// DEEP HOUSING — the home + belongings + comfort (ADR-111 / FB-89). The T0 core: rest RE-SITES to your
 // corner, belongings are OWNABLE + DISTINCT from resources, and comfort furniture gives real,
 // legible bonuses (the prestige-not-power register — never a combat stat). Every fixture derives its
 // expectation from the SOURCE OF TRUTH (the BelongingDef.comfort amounts, SATIETY_PER_REST), never a
@@ -64,8 +64,8 @@ const restLineOf = (s: GameState): string =>
 
 describe('T0-A — the home is GRANTED at R3 (moved from R1; the reveal wiring, not a hand-set fixture)', () => {
   it('R1 does NOT reveal the home; combat opening (R3, tab-combat) does — with the mat + bowl real', () => {
-    // D-111's "home at R1" timing was moved to R3 (human, 2026-07-03): the home/belongings pane lives
-    // in the Inventory tab, which staggers to R3 (D-119), so the home is announced exactly when its
+    // ADR-111's "home at R1" timing was moved to R3 (human, 2026-07-03): the home/belongings pane lives
+    // in the Inventory tab, which staggers to R3 (ADR-119), so the home is announced exactly when its
     // tab appears — no reveal promising a space with no tab to open. Gated on the SAME `tab-combat`.
     let s = setFlag(createInitialState(1), 'awake', true);
     expect(isUnlocked(s, 'panel-home')).toBe(false); // no home yet
@@ -231,7 +231,7 @@ describe('D-111 invariant — PRESTIGE not power: no furniture ever grants a com
     const attrIds = new Set<string>(ATTR_IDS);
     for (const def of BELONGINGS) {
       if (def.comfort === null) continue;
-      // the guard: a comfort kind is a closed prestige set (D-120 widened it to include storage) —
+      // the guard: a comfort kind is a closed prestige set (ADR-120 widened it to include storage) —
       // never an attr id (no "+atk pillow"). RED if a future piece adds a combat channel.
       expect(['rest', 'body', 'storage']).toContain(def.comfort.kind);
       expect(attrIds.has(def.comfort.kind)).toBe(false);

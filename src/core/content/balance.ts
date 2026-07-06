@@ -11,7 +11,7 @@ import type { Season } from '../constants';
 
 // ── Vitals (PRD §2.3, §4.6.1, §6.4) ─────────────────────────────────────────────
 // hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1) — level (NOT level-1)
-// so a fresh L1 base-STR MC reads 40 + 8·1 + 2·5 = 58 HP. Liquid (D-059) — tune by playtest.
+// so a fresh L1 base-STR MC reads 40 + 8·1 + 2·5 = 58 HP. Liquid (ADR-059) — tune by playtest.
 export const HP_BASE = 40; // §4.6.1 — was 32 (v0.2 3-attr placeholder)
 export const HP_PER_LEVEL = 8; // §4.6.1 — was 4
 export const SATIETY_BASE = 100;
@@ -23,13 +23,13 @@ export let STAMINA_RATE_FLOOR = 0.5;
 export let STAMINA_FLAT_ABOVE = 0.7;
 
 // ── Cold-open economy (PRD §3.1, §5 T0.2 beat 1) ────────────────────────────────
-/** Rice raked back from the spilled grain-store floor per rake act (D-107: this is genuinely
+/** Rice raked back from the spilled grain-store floor per rake act (ADR-107: this is genuinely
  *  RICE now — the real resource — not a coin alias). */
 // `let`, not `const`: a curated set of feel levers is DEV-live-tunable via the balance cockpit
-// (F7 / D-059). Only this module reassigns them (through `__setBalanceLever` at the file foot); the
+// (FB-7 / ADR-059). Only this module reassigns them (through `__setBalanceLever` at the file foot); the
 // setter is DEV-folded dead code in prod, so canon semantics are untouched and `prefer-const` stays
 // green (the binding IS reassigned in-module). Every call site reads the live binding unchanged.
-export let RICE_PER_RAKE = 2; // R9 (2026-07-05): 3→2, trim the faucet (W1) — human-adopted via F7
+export let RICE_PER_RAKE = 2; // R9 (2026-07-05): 3→2, trim the faucet (W1) — human-adopted via FB-7
 export let SATIETY_PER_ACT = 2;
 export let SATIETY_PER_REST = 18;
 export const TICKS_PER_ACT = 2;
@@ -51,13 +51,13 @@ export const HARVEST_AUTUMN_MULT_DEN = 10;
 /** Points a curated eligible activity adds to the current rung's meter. */
 export let RUNG_POINTS_PER_ACT = 2;
 
-// ── Rung-meter thresholds (audit G-PACING) — D-056: the DEMO/REAL profile fork is RETIRED
+// ── Rung-meter thresholds (audit G-PACING) — ADR-056: the DEMO/REAL profile fork is RETIRED
 // here at M2·8. ONE shipped profile, re-derived to the LOCKED T0 targets: R0 ≈ 5-min cold-open
-// (D-022); the climb rungs ≈ 10–15 min each (battery R4#2); T0 is ≥30-min-floor-EXEMPT (the
+// (ADR-022); the climb rungs ≈ 10–15 min each (battery R4#2); T0 is ≥30-min-floor-EXEMPT (the
 // signed ≥30-min/rank floor gates from T1 per the 6-tier reshape, NOT T0 "quick but not easy").
-// Review velocity now comes from the DEV-only 2×/4×/8× speed toggle (D-056) — NOT a fast profile.
+// Review velocity now comes from the DEV-only 2×/4×/8× speed toggle (ADR-056) — NOT a fast profile.
 // Single source of truth (gen:docs + verify-content + the pacing sim own it); mirrored by
-// RankDef.meterThreshold (verifier-enforced). PROVISIONAL / liquid (D-059) — tune by
+// RankDef.meterThreshold (verifier-enforced). PROVISIONAL / liquid (ADR-059) — tune by
 // `npm run pacing`. R0..R2 are simulator-verified to the targets; R3..R7 ride a gentle
 // continuing ramp (the sim stops at R3, so they re-derive when the T0-combat path is simulated). ──
 export const RUNG_METER_THRESHOLDS: Partial<Record<RankId, number>> = {
@@ -70,7 +70,7 @@ export const RUNG_METER_THRESHOLDS: Partial<Record<RankId, number>> = {
   R6: 3250,
   R7: 3400, // ≈ 16 min — the capstone, the longest climb
 };
-/** The active meter threshold for a rung (single profile — D-056, fork retired). */
+/** The active meter threshold for a rung (single profile — ADR-056, fork retired). */
 export function rungThreshold(rankId: RankId): number {
   const t = RUNG_METER_THRESHOLDS[rankId];
   if (t === undefined) throw new Error(`no meter threshold for rung ${rankId}`);
@@ -84,23 +84,23 @@ export const AUTO_REPEAT_MS = 480;
  *  (per the 6-tier reshape; T0 is EXEMPT, "quick but not easy"). Kept for when the T1+ pacing
  *  sim lands. provisional (v0.2). */
 export const RUNG_WALL_FLOOR_MIN = 30;
-/** T0 pacing band (D-056): the fork is retired, so T0 has ONE profile and instead of the ≥30
+/** T0 pacing band (ADR-056): the fork is retired, so T0 has ONE profile and instead of the ≥30
  *  floor each measured T0 climb rung must land in this sane band — slow enough not to be
  *  DEMO-trivial, fast enough to stay a tutorial tier. Targets: R0 ≈ 5-min cold-open, climb
- *  rungs ≈ 10–15 min. Liquid (D-059) — widen by playtest, never below the floor by stealth. */
+ *  rungs ≈ 10–15 min. Liquid (ADR-059) — widen by playtest, never below the floor by stealth. */
 export const T0_PACING_BAND_MIN = 3;
 export const T0_PACING_BAND_MAX = 22;
-/** Phase 2 ≈ Phase 1 in wall-time (D-133, H19): the capstone→ascension grind should take roughly
+/** Phase 2 ≈ Phase 1 in wall-time (ADR-133, HD-19): the capstone→ascension grind should take roughly
  *  as long as the R0→R7 climb. A GENERAL rule across tiers (a tunable playtest default, not frozen)
  *  — expressed as a RATIO (phase2Wall / phase1Wall) so it single-sources the "equal time" law and
  *  auto-scales to every tier's Phase 1, rather than N hand-signed per-tier minute bands. Gated HARD
  *  (`verify:balance`), but ONLY for tiers whose Phase 2 is actually built (today: T0) — it no-ops
- *  where there is no Phase-2 economy yet, so it never cries wolf on an unbuilt tier. Liquid (D-059). */
+ *  where there is no Phase-2 economy yet, so it never cries wolf on an unbuilt tier. Liquid (ADR-059). */
 export const PHASE2_PHASE1_RATIO_MIN = 0.8;
 export const PHASE2_PHASE1_RATIO_MAX = 1.2;
 
-// ── House-Influence pillars (M2·3 / D-049/D-055/D-057) — the macro engine. T0 Estate (家産)
-// grade bands + the deed/seasonal accrual rates. All PROVISIONAL T0 magnitudes (liquid, D-059
+// ── House-Influence pillars (M2·3 / ADR-049/ADR-055/ADR-057) — the macro engine. T0 Estate (家産)
+// grade bands + the deed/seasonal accrual rates. All PROVISIONAL T0 magnitudes (liquid, ADR-059
 // — re-derived at Ship-M1-F2); chosen so the THIN spine demonstrably CLOSES (deeds → EXCELLENT
 // → ascension) and the season judge is a visible beat. ──
 export const ESTATE_BANDS = { good: 240, great: 360, excellent: 480 } as const;
@@ -108,31 +108,31 @@ export const ESTATE_BANDS = { good: 240, great: 360, excellent: 480 } as const;
 export let PER_DEED_CAP_NUM = 4;
 /** Estate standing a single Phase-2 labour act banks (a "deed") — a SUB-koku fraction, accumulated
  *  (`PillarState.frac`) and banked as whole koku when it crosses 1. Fractional so Phase 2 grinds at
- *  ~1:1 with Phase 1's wall-time (D-133 · the `PHASE2_PHASE1_RATIO_BAND` gate) WITHOUT inflating the
+ *  ~1:1 with Phase 1's wall-time (ADR-133 · the `PHASE2_PHASE1_RATIO_BAND` gate) WITHOUT inflating the
  *  480-koku ascension gate (which must stay a small, minor-household standing below the 10,000-koku
- *  daimyō line — a bigger threshold would collapse the inter-tier koku ladder). This is the D-133
+ *  daimyō line — a bigger threshold would collapse the inter-tier koku ladder). This is the ADR-133
  *  STOPGAP: it buys the duration honestly (one day's labour barely moves a household's standing) but
- *  NOT the texture — the real Phase-2 economy redesign (long AND fun) supersedes it. Liquid (D-059);
+ *  NOT the texture — the real Phase-2 economy redesign (long AND fun) supersedes it. Liquid (ADR-059);
  *  tuned against the sim to land greedy's Phase 2 inside the ratio band. */
 export let ESTATE_DEED_PER_ACT = 0.04;
 /** The season judge contributes this fraction of the season's deed-growth — seasonal:deeds =
- *  3:7 = the 70/30 share (D-049). */
+ *  3:7 = the 70/30 share (ADR-049). */
 export const SEASONAL_OVER_DEEDS_NUM = 3;
 export const SEASONAL_OVER_DEEDS_DEN = 7;
-/** The season judge's ±10% swing on its payoff (a good/lean season), never net-negative (D-061). */
+/** The season judge's ±10% swing on its payoff (a good/lean season), never net-negative (ADR-061). */
 export const SEASONAL_SWING = 0.1;
 /** The mythic ceiling the House's koku STANDING climbs toward — the DAIMYŌ line (10,000 koku, the
- *  historical daimyō threshold; D-109's tier→koku ladder reaches it at T4). At T0 it is ONLY a
+ *  historical daimyō threshold; ADR-109's tier→koku ladder reaches it at T4). At T0 it is ONLY a
  *  NAMED HORIZON on the standing panel — the far destination that gives the small T0 koku number a
  *  direction — it gates nothing here (the T0 gate is EXCELLENT via ESTATE_BANDS). The ladder bands
- *  are liquid (D-059), but 10,000 = the daimyō line is fixed. Single source for the "10,000 koku"
- *  copy — never hard-type the number in the renderer/tests (A21). */
+ *  are liquid (ADR-059), but 10,000 = the daimyō line is fixed. Single source for the "10,000 koku"
+ *  copy — never hard-type the number in the renderer/tests (AC-21). */
 export const DAIMYO_KOKU = 10_000;
 
-// ── Ascension boon (M2·5 / D-049/D-062) — the permanent reward for ascending. The FIRST
+// ── Ascension boon (M2·5 / ADR-049/ADR-062) — the permanent reward for ascending. The FIRST
 // ascension always lands BIG (the base), and OVERSHOOTING the gate buys more (grade-scaled).
 // Granted as attribute points (a real, permanent stat investment). provisional (v0.2, liquid). ──
-export const ASCENSION_BOON_BASE_POINTS = 5; // the "always big" first-contact boon (D-062)
+export const ASCENSION_BOON_BASE_POINTS = 5; // the "always big" first-contact boon (ADR-062)
 export const ASCENSION_BOON_OVERSHOOT_PER_POINT = 60; // +1 point per this much Estate-value past EXCELLENT
 
 // ── Conditioning gate (PRD §4.4/§4.6.1) — the ZERO-stat weak→capable enablement ──
@@ -143,7 +143,7 @@ export const CONDITIONING_GATE_LEVEL = 2;
 // attributes STR/AGI/INT/SPD/LUCK drive the derived combat stats (§4.6.1); the per-swing
 // exchange is accuracy/evasion hit-chance + ±15% variance + a per-attacker damage floor
 // (§4.6.3/§4.6.4). The first-fight (monkey @L1, base attrs) SEED-ROBUST win-rate lands in
-// the signed humbling-but-winnable 20–35% band (G3/FU19). Magnitudes liquid (D-059). ──
+// the signed humbling-but-winnable 20–35% band (G3/FU19). Magnitudes liquid (ADR-059). ──
 
 // ── The 5 attributes (§4.6.1 / §4.4). Each starts at ATTR_BASE (mediocre-start), soft-cap
 // ~30; +1 point every ATTR_POINTS_PER_LEVELS character levels, allocated manually. ──
@@ -221,13 +221,13 @@ export const WINRATE_GAIN = 1.0;
 /** Combat satiety throttle: attackPower × this floor when empty (FU16/§4.6.1b). */
 export const COMBAT_SATIETY_FLOOR = 0.5;
 export const COMBAT_SATIETY_FLAT_ABOVE = 0.7;
-// (COMBAT_HEAL_FRAC retired by D-076 — the auto-loop no longer auto-heals; HP accumulates and
+// (COMBAT_HEAL_FRAC retired by ADR-076 — the auto-loop no longer auto-heals; HP accumulates and
 //  mend is manual (cook). The unused constant + its now-false "unattended grind eats" doc were
 //  removed so nothing claims a combat cadence the build doesn't run.)
 
 /** Enemy stat curve — ONE linear-in-level rule per stat (§4.6.1d), plus per-mob archetype
  *  knobs (baseSpeed / accBonus / evaBonus in enemies.ts). Tuned so monkey@L1 lands in the
- *  20–35% first-fight band and the foe curve is a graded rolling frontier. Liquid (D-059). */
+ *  20–35% first-fight band and the foe curve is a graded rolling frontier. Liquid (ADR-059). */
 export const MOB_ATK_BASE = 9;
 export const MOB_ATK_K = 0.8;
 export const MOB_DEF_BASE = 1;
@@ -261,20 +261,20 @@ export const SETBACK_HP = 1;
 export const SETBACK_TICKS = 12; // ~½ day
 export const FORCED_REST_TICKS = 18;
 
-/** Loss penalty (D-076 + batch-2 call 7 + D-113): a lost fight drops this fraction of your CARRIED
+/** Loss penalty (ADR-076 + batch-2 call 7 + ADR-113): a lost fight drops this fraction of your CARRIED
  *  COIN + RICE (the two wealth resources); what's BANKED in the kura storehouse is SAFE. The "real
- *  bite" magnitude (batch-1 call 3) — liquid (D-059), tuned by playtest. koku (House standing) is
- *  never carried, so a loss never touches it (D-107). */
+ *  bite" magnitude (batch-1 call 3) — liquid (ADR-059), tuned by playtest. koku (House standing) is
+ *  never carried, so a loss never touches it (ADR-107). */
 export let LOSS_COIN_FRAC = 0.2;
 export let LOSS_MATERIAL_FRAC = 0.34;
 
 /** Auto-retreat threshold (batch-2 call 6): the "auto-fight, retreat @20%" mode breaks off on a
  *  turn where HP drops below this fraction of MAX HP — a PER-TURN check, so a burst foe that kills
  *  outright still wins (a killing blow is a loss, not a flee). The safer auto-mode: no death, no
- *  loss-penalty, but it STOPS the autopilot (you mend + re-engage). Liquid (D-059). */
+ *  loss-penalty, but it STOPS the autopilot (you mend + re-engage). Liquid (ADR-059). */
 export let AUTO_RETREAT_FRAC = 0.2;
 
-// ── Durability bands (D-034/FU17): attackPower multiplier; never auto-unequipped ──
+// ── Durability bands (ADR-034/FU17): attackPower multiplier; never auto-unequipped ──
 export const DURABILITY_BANDS: readonly { min: number; mult: number; name: string }[] = [
   { min: 75, mult: 1.0, name: 'Pristine' },
   { min: 50, mult: 0.9, name: 'Worn' },
@@ -284,9 +284,9 @@ export const DURABILITY_BANDS: readonly { min: number; mult: number; name: strin
 export const DURABILITY_WEAR_PER_FIGHT = 2;
 /** Wood to repair the equipped weapon to full (a coin/material sink, D-Q-craft+coin). */
 export let REPAIR_WOOD_COST = 5;
-/** Coin to repair (v0.3.1 Step 4 — a recurring combat-UPKEEP coin sink; D-086 scarcity / batch-1
- *  call 4 / D-107). Closes the fight→coin→repair→fight loop (A4), so a grind pays its own upkeep.
- *  Liquid (D-059, tune by playtest). */
+/** Coin to repair (v0.3.1 Step 4 — a recurring combat-UPKEEP coin sink; ADR-086 scarcity / batch-1
+ *  call 4 / ADR-107). Closes the fight→coin→repair→fight loop (A4), so a grind pays its own upkeep.
+ *  Liquid (ADR-059, tune by playtest). */
 export let REPAIR_COIN_COST = 6;
 /** Ticks the fight itself costs. */
 export const FIGHT_TICKS = 2;
@@ -304,7 +304,7 @@ export interface StanceMod {
   readonly takenMult: number;
 }
 export const STANCE_MODS: Record<StanceId, StanceMod> = {
-  // §4.6.10 — liquid (D-059), tune by playtest
+  // §4.6.10 — liquid (ADR-059), tune by playtest
   chudan: { atkMult: 1.0, takenMult: 1.0 },
   jodan: { atkMult: 1.35, takenMult: 1.15 },
   gedan: { atkMult: 0.8, takenMult: 0.85 },
@@ -352,33 +352,33 @@ export let SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), rea
 // values. Cook turns sansai → satiety; the estate (estate.ts) turns coin → a soft
 // satietyMax buffer; spent attribute points feed combat (the 5 attrs, §4.6.1). ──
 export let COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
-/** HP a hot meal mends (D-050: eating is the ONLY HP heal — couples combat ↔ cook sink).
- *  F22: cook recovers HEALTH *only* now — the belly/work-stamina (satiety) refill is the
+/** HP a hot meal mends (ADR-050: eating is the ONLY HP heal — couples combat ↔ cook sink).
+ *  FB-22: cook recovers HEALTH *only* now — the belly/work-stamina (satiety) refill is the
  *  separate `rest` action (SATIETY_PER_REST); a meal no longer doubles as a work-rest, so the
  *  old COOK_SATIETY_RESTORE was retired. Sized so a couple of meals returns a hurt fighter to
  *  fighting shape. provisional (v0.2). */
 export let COOK_HP_RESTORE = 14;
 
-// ── Rice sinks (D-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
+// ── Rice sinks (ADR-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
 // STORE it in the kura (deposit/withdraw), or SELL it for coin at a SEASON-swinging price. This is
 // what closes the "rice has no consumer" gap (integrity ledger) + restores the coin faucet. All
-// numbers provisional (v0.2, liquid D-059) — tune by playtest / `npm run pacing`. ──
+// numbers provisional (v0.2, liquid ADR-059) — tune by playtest / `npm run pacing`. ──
 
 /** Rice one plain-rice meal consumes (the `eat_rice` satiety path, beside `rest`/`cook_meal`). */
 export let EAT_RICE_COST = 2; // R9 (2026-07-05): 3→2, narrow eat's coin gap vs free rest (W3)
 /** Work-stamina (satiety) a plain-rice meal restores. Sized ABOVE a free `rest` (SATIETY_PER_REST,
  *  18) on purpose — the DESIGN LEVER that keeps eat_rice from being dominated by rest: a proper
  *  meal refuels FASTER than merely resting, trading your own rice for readiness (never strictly
- *  worse than a free rest, never the only satiety source). provisional (v0.2, liquid D-059).
- *  `let` for the F7 balance cockpit — see RICE_PER_RAKE. */
+ *  worse than a free rest, never the only satiety source). provisional (v0.2, liquid ADR-059).
+ *  `let` for the FB-7 balance cockpit — see RICE_PER_RAKE. */
 export let EAT_RICE_SATIETY = 30;
 
-/** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (D-107 / §14): DEAR in the
+/** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (ADR-107 / §14): DEAR in the
  *  lean spring, CHEAP at the autumn glut — a light store-vs-sell TIMING decision that pairs with
  *  the kura (hold the cheap-autumn haul, sell into the dear spring). No live forex — a fixed
  *  per-season table (the Dōjima swing, abstracted to seasons). Base unit mon. The MONOTONIC
  *  DIRECTION (spring dearest, autumn cheapest) is the design lever the tests assert; the exact
- *  magnitudes are provisional (v0.2, liquid D-059). */
+ *  magnitudes are provisional (v0.2, liquid ADR-059). */
 export const RICE_SELL_PRICE_BY_SEASON: Record<Season, number> = {
   spring: 6, // lean spring — rice is DEAR (the best season to sell)
   summer: 5,
@@ -391,12 +391,12 @@ export function riceSellPrice(season: Season): number {
   return RICE_SELL_PRICE_BY_SEASON[season];
 }
 
-// ── Rice STORAGE COST (D-118 / build-plan §1) — holding rice must COST something so the seasonal
+// ── Rice STORAGE COST (ADR-118 / build-plan §1) — holding rice must COST something so the seasonal
 // store-vs-sell choice is LIVE. The shipped kura was free, lossless and loss-safe, so "always hold
 // until spring" dominated. TWO levers, both applied here: (a) SPOILAGE — a per-season decay on ALL
 // rice, CARRIED and BANKED, so pure hoarding always bleeds and you can't out-store the loss; (b) a
 // KURA CAPACITY CAP — the kura holds only N rice, and raising N is an estate/kura upgrade (a coin
-// sink + a reason to invest). Magnitudes LIQUID (D-059) — tuned by feel. Integer fixed-point (no
+// sink + a reason to invest). Magnitudes LIQUID (ADR-059) — tuned by feel. Integer fixed-point (no
 // floats), so spoilage stays deterministic (no RNG) and fold-invariant with the clock (B10). ──
 /** Fraction of held rice that spoils on each season turn (carried + banked): floor(held·NUM/DEN). */
 export const RICE_SPOILAGE_NUM = 1; // ≈10% per season — a real bleed on a hoard, gentle on a small pile
@@ -411,21 +411,21 @@ export function riceSpoilage(held: number): number {
 /** The kura's RICE capacity — a base cap raised by each estate/kura upgrade stage you've bought
  *  (improve_estate). A real wall you INVEST past (the coin sink of §1's lever (b)); only rice is
  *  capped (coin/materials bank freely — the cap is the rice-hoard governor, not a bank limit).
- *  U0 120 · U1 200 · U2 280 · U3 360 · U4 440. Liquid (D-059). */
+ *  U0 120 · U1 200 · U2 280 · U3 360 · U4 440. Liquid (ADR-059). */
 export const KURA_RICE_CAP_BASE = 120;
 export const KURA_RICE_CAP_PER_STAGE = 80;
 export function kuraRiceCap(estateStage: number): number {
   return KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE;
 }
 
-// ── DEV-only live-tuning hook (balance cockpit, F7 / D-059) ─────────────────────────────────────
+// ── DEV-only live-tuning hook (balance cockpit, FB-7 / ADR-059) ─────────────────────────────────────
 // INERT unless called: only the DEV-folded cockpit (src/ui/dev-cockpit.ts) ever calls these, and
 // the whole DEV branch dead-code-eliminates from prod — so tests, sims, scripts and the shipped
 // game all run CANON. Only the DECLARING module can reassign its own `export let` bindings, so the
 // setter must live HERE. The `balance-override:` string literal in the throws survives minification
 // and is the strip-gate marker (verify-dev-strip.sh). CONTRACT: nothing outside ui/dev-cockpit.ts
 // (and its tests) may import these — they exist to serve the HUMAN's feel-tuning, never to move a
-// number into canon on an agent's behalf (D-059). Purity: no DOM / no `import.meta` — core stays
+// number into canon on an agent's behalf (ADR-059). Purity: no DOM / no `import.meta` — core stays
 // env-free so the tsx scripts (pacing-report, balance-sim) keep importing it cleanly.
 //
 // An explicit `switch` (not a dynamic table) keeps `tsc` owning the path list. The full §2 curated

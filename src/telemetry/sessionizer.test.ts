@@ -9,7 +9,7 @@ import {
   type TelemetryEvent,
 } from './sessionizer';
 
-// The F8 correctness proof (plan §4) — every case here is arithmetic the model MUST hit
+// The FB-8 correctness proof (plan §4) — every case here is arithmetic the model MUST hit
 // exactly, derived from the plan's worked examples (§2.5), not from running the code first.
 // The headline: the human's own 5/20/5 requirement ⇒ exactly 600 000 attended ms.
 

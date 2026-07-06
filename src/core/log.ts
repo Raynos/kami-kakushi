@@ -30,7 +30,7 @@ export interface LogEntry {
    *  fades ~15s after it appears (a RENDER-time, wall-clock concern; the pure core never times it).
    *  The permanent channels + `all` never show it. Absent ⇒ a normal, permanent line. */
   readonly ephemeral?: boolean;
-  /** OPTIONAL Q&A the player CHOSE to ask (F111 — the intro `ask_topic` + rung-beat `ask_rung_topic`
+  /** OPTIONAL Q&A the player CHOSE to ask (FB-111 — the intro `ask_topic` + rung-beat `ask_rung_topic`
    *  exchanges). A render filter axis orthogonal to `channel`: a chat line stays `narration` (so it
    *  keeps its voice/nameplate rendering) but routes to the "Chat" tab (and `all`), never the
    *  MANDATORY "Story" tab. Absent ⇒ a mandatory line (Story holds only the scene beats you must see). */

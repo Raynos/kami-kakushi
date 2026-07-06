@@ -1,30 +1,30 @@
 ---
 name: taste-scorecard
-description: The two-pass taste flow (F10, D-135) — Pass 1 BEFORE building (walk taste.md's 21 principles into a constraint brief that shapes the work), Pass 2 AFTER (score what was built, per variant, against that brief). Fires on every new/restyled surface, feature, or narrative beat — from the diverge skill (§2) or standalone. Use when starting player-visible work, when filing its R-item, or when the human asks "score this against taste".
+description: The two-pass taste flow (FB-10, ADR-135) — Pass 1 BEFORE building (walk taste.md's 21 principles into a constraint brief that shapes the work), Pass 2 AFTER (score what was built, per variant, against that brief). Fires on every new/restyled surface, feature, or narrative beat — from the diverge skill (§2) or standalone. Use when starting player-visible work, when filing its HR-item, or when the human asks "score this against taste".
 ---
 
 # Taste two-pass — brief, then scorecard
 
 The operational form of [`docs/living/taste.md`](../../../docs/living/taste.md)
-(F10, D-135; two-pass shape locked with the human 2026-07-05). taste.md is the
+(FB-10, ADR-135; two-pass shape locked with the human 2026-07-05). taste.md is the
 standard; this is how it fires — **twice** per piece of work:
 
 - **Pass 1 · the constraint brief** (before building): the standard as a
   *design input* — what must THIS work do to honor the principles that apply?
 - **Pass 2 · the scorecard** (after building): the standard as a *check* —
-  did it? Scored per variant, attached to the R-item beside the brief, so the
+  did it? Scored per variant, attached to the HR-item beside the brief, so the
   human reads stated intent and scored result side by side.
 
 The **diff between the passes is the calibration signal**: a ✘ on a principle
 the brief NAMED is *knew-and-missed* (execution slip — fix it); a ✘ the brief
 never named is a *blind spot* (taste.md's text failed to fire — that principle
-is the one to sharpen, via the D-126 human-locked amendment path).
+is the one to sharpen, via the ADR-126 human-locked amendment path).
 
 ## When it fires
 
 - **Every diverge** — Pass 1 at §2 step 2 (before authoring ANY variant, so
   the brief constrains all of them); Pass 2 on **every variant** before the
-  R-items are filed.
+  HR-items are filed.
 - **Every non-diverge feature or narrative beat** that ships player-visible
   (coverage is everything, human call 2026-07-05 — §III/IV of the standard
   are mostly story and state, not chrome).
@@ -43,7 +43,7 @@ is the one to sharpen, via the D-126 human-locked amendment path).
    taste half of the acceptance criteria.
 3. **Homes:** the full walk + notes → the session **journal**; the
    compressed brief (the applicable-principle lines) → carried forward into
-   the **R-item** at filing time (beside the Pass-2 scorecards).
+   the **HR-item** at filing time (beside the Pass-2 scorecards).
 
 ## Pass 2 — the scorecard (after building)
 
@@ -56,10 +56,10 @@ is the one to sharpen, via the D-126 human-locked amendment path).
 3. **Compress:** header `N✔ · N✘ · N—` per variant + one line per ✘ (and
    borderline ✔ worth flagging), each ✘ tagged **[briefed]** or
    **[blind spot]**.
-4. **Attach to the R-item** with the Pass-1 brief above the scorecards.
+4. **Attach to the HR-item** with the Pass-1 brief above the scorecards.
    Full walks stay in the journal.
 
-## The R-item format
+## The HR-item format
 
 ```md
 - **Taste brief (pass 1):** P4 append-only log · P15 no-spoil node card ·
@@ -74,9 +74,9 @@ is the one to sharpen, via the D-126 human-locked amendment path).
 
 ## Rung + the deferred loop (named, not silent)
 
-- **Rung (A11):** a skill-step + mandatory R-item sections — NOT a verify
+- **Rung (AC-11):** a skill-step + mandatory HR-item sections — NOT a verify
   gate (taste is judgment; a lint would cry wolf). The teeth are
-  artifact-shaped: an R-item missing its brief/scorecard blocks is visibly
+  artifact-shaped: an HR-item missing its brief/scorecard blocks is visibly
   incomplete. Greppable principles (P4 resets, P20 raw `vw`) graduate to a
   real gate only on a RECURRING violation.
 - **Deferred — the distill pipe:** logging human-vs-scorecard mismatches as
@@ -84,4 +84,4 @@ is the one to sharpen, via the D-126 human-locked amendment path).
   regression harness, is deliberately NOT built (human call 2026-07-05:
   shape B). Re-distill of taste.md is **manual only** — the human invokes
   `/distill-taste` when a corpus warrants it. Blind-spot tags accumulate in
-  R-items/journals meanwhile, so the evidence is there when it fires.
+  HR-items/journals meanwhile, so the evidence is there when it fires.

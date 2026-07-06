@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// Step 1 (v0.3.1, D-075): the variant-toggle infra. The renderer reads a DEV-only
+// Step 1 (v0.3.1, ADR-075): the variant-toggle infra. The renderer reads a DEV-only
 // `variant: Record<surface,id>` and renders the chosen variant of a diverged surface; nothing
 // in src/core branches on it. These RED-able tests prove the routing — a non-default selection
 // swaps the House-Influence grade visual, and the default (= prod, where `dev` is undefined)
@@ -10,7 +10,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { createDevApi, mountDevPanel, createBalanceCockpit, type DevQa } from './dev';
 
-/** A minimal balance cockpit for the panel-mount tests (F7 — the Balance sub-tab is required opts). */
+/** A minimal balance cockpit for the panel-mount tests (FB-7 — the Balance sub-tab is required opts). */
 const testCockpit = () =>
   createBalanceCockpit({
     meta: () => ({
@@ -51,7 +51,7 @@ function noopHooks(): AppHooks {
 }
 
 /** A Phase-2 state with the live House-Influence pillar — phaseOf===2 needs R7 + t0-capstone
- *  (ranks.ts). IA reorg (D-112 §8.3): the koku panel MOVED from Work to the Estate 家 tab, so it
+ *  (ranks.ts). IA reorg (ADR-112 §8.3): the koku panel MOVED from Work to the Estate 家 tab, so it
  *  shows once `panel-house-influence` is unlocked AND the Estate tab is active. `panel-estate` (an
  *  R1 reward — long unlocked by the R7 capstone) is present so the Estate tab chip is reachable. */
 function livingInfluenceState(value = 300): GameState {
@@ -75,7 +75,7 @@ describe('createDevApi — the variant registry + selection', () => {
     dev.setVariant('influence', 'influence-b');
     expect(dev.getVariant('influence')).toBe('influence-b');
   });
-  // D-075 zero-flag-debt — the workspace layout+framing pick is LOCKED (byōbu + soft cards), so the
+  // ADR-075 zero-flag-debt — the workspace layout+framing pick is LOCKED (byōbu + soft cards), so the
   // `layout`/`framing` variant surfaces were PRUNED. RED-able: if either toggle surface returned, the
   // registry would carry it again (and the prod default would stop being the sole rendering).
   it('no longer registers the pruned layout/framing surfaces', () => {
@@ -106,7 +106,7 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
     document.body.append(root);
   });
 
-  // IA reorg (D-112 §8.3) — the koku standing lives on the Estate 家 tab now; activate it before
+  // IA reorg (ADR-112 §8.3) — the koku standing lives on the Estate 家 tab now; activate it before
   // asserting the variant routing (the panel self-gates to `activeTab === 'estate'`).
   function openEstate(): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
@@ -153,7 +153,7 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
   });
 });
 
-// F102 / D-115 / D-116 — the Estate map splits into a SHARED you-are-here FLAVOR card (render.ts) +
+// FB-102 / ADR-115 / ADR-116 — the Estate map splits into a SHARED you-are-here FLAVOR card (render.ts) +
 // a terse, HINT-FREE NAVIGATION section. This surface diverges only the NAVIGATION presentation:
 // A (the terse paths list) ships; B…G live DEV-only. EVERY variant must (1) keep the shared flavor
 // card, (2) move by CLICKING a node (reusing move_to), (3) show a conditioning-locked edge GREYED,
@@ -277,7 +277,7 @@ describe('renderer variant routing — Estate map (F102 / D-115 — terse, hint-
         render(gatedState(), null);
         openMapTab();
         const text = navOf().textContent ?? '';
-        // the destination's blurb never leaks into navigation (it updates on ARRIVAL, D-116).
+        // the destination's blurb never leaks into navigation (it updates on ARRIVAL, ADR-116).
         expect(text).not.toContain('sansai to gather'); // near-satoyama blurb
         expect(text).not.toContain('first teeth of the wild'); // near-satoyama blurb
         expect(text).not.toContain('a foe stirs');
@@ -319,7 +319,7 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
       'mob-monkey',
     );
   }
-  // IA reorg (D-112) — the Bestiary SPLIT OUT of renderCombat onto the Character 己 tab (it sits with
+  // IA reorg (ADR-112) — the Bestiary SPLIT OUT of renderCombat onto the Character 己 tab (it sits with
   // the character sheet now, not the fight surface), so the DEV variant host resolves under Character.
   function openCharacter(): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
@@ -358,7 +358,7 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
   });
 });
 
-// D-111 / F89 — the HOME / belongings panel diverge (D-075). A (the functional list) ships inline
+// ADR-111 / FB-89 — the HOME / belongings panel diverge (ADR-075). A (the functional list) ships inline
 // in render.ts; B (一間 room cutaway) / C (持ち物帳 ledger) live DEV-only. Every variant re-presents
 // the SAME home data (header, owned belongings + comfort, the live comfort tally, the buyable
 // acquire list) and every buy button drives the REAL `buy_belonging` intent. These RED-able tests
@@ -384,7 +384,7 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
 
   // the home granted (panel-home) + coin in the purse (so a comfort piece is affordable — the buy
   // button is live). tab-combat is present so the Inventory tab is REVEALED and the home is granted
-  // (D-111 timing moved to R3, human 2026-07-03 — panel-home now gates on tab-combat, like the tab).
+  // (ADR-111 timing moved to R3, human 2026-07-03 — panel-home now gates on tab-combat, like the tab).
   function homeState(extra?: Partial<GameState>): GameState {
     const base = createInitialState(1);
     return {
@@ -398,7 +398,7 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
-        'tab-combat', // D-119 — the Inventory tab reveals at R3
+        'tab-combat', // ADR-119 — the Inventory tab reveals at R3
       ],
       resources: { ...base.resources, coin: 500 },
       ...extra,
@@ -480,7 +480,7 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
   });
 });
 
-// F49 — the DEV Speed row: 1·2·4·8·16, active multiplier highlighted (gold #b08d4f bg), default 1×.
+// FB-49 — the DEV Speed row: 1·2·4·8·16, active multiplier highlighted (gold #b08d4f bg), default 1×.
 describe('DEV panel — Speed row (F49)', () => {
   function stubQa(): DevQa & { last: number | null } {
     const q = {
@@ -560,7 +560,7 @@ describe('DEV panel — Speed row (F49)', () => {
   });
 });
 
-// F95 — the New-game footer button is HALF WIDTH + left-anchored so an accidental double-click on
+// FB-95 — the New-game footer button is HALF WIDTH + left-anchored so an accidental double-click on
 // the compact dev menu can't land on it (the right half of the row is deliberately empty).
 describe('DEV panel — New-game footer safety (F95)', () => {
   function stubQa(over: Partial<DevQa> = {}): DevQa {

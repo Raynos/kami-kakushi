@@ -48,12 +48,12 @@ function farm(n: number): Intent[] {
   );
 }
 // Acts to fill the CURRENT rung's meter — flat RUNG_POINTS_PER_ACT/act, satiety-INDEPENDENT
-// (ranks.ts). D-056 retired the tiny DEMO thresholds, so a promotion is driven by the rung's
+// (ranks.ts). ADR-056 retired the tiny DEMO thresholds, so a promotion is driven by the rung's
 // real point count, not a hand-tuned literal; deriving it keeps these tests threshold-agnostic.
 const actsToPromote = (s: GameState): number =>
   Math.ceil(rungThreshold(s.rung) / RUNG_POINTS_PER_ACT);
 
-// D-110: promotion is now a player-TRIGGERED beat, not an auto-hot-path side effect. These helpers
+// ADR-110: promotion is now a player-TRIGGERED beat, not an auto-hot-path side effect. These helpers
 // drive the real player path — finish the intro's VN scenes, then TRIGGER + complete a ready rung
 // beat (begin_rung_beat → choose_rung_option → applyPromotion). The option pick is flavour; any
 // pick promotes.
@@ -88,7 +88,7 @@ describe('T0 Phase-1 rung climb', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
     expect(s.rung).toBe('R0');
     s = run(s, repeat('rake_rice', actsToPromote(s))); // raking fills the R0 meter (holds — no auto-promote)
-    expect(s.rung).toBe('R0'); // D-110: the meter holds ready; the rung waits on the beat
+    expect(s.rung).toBe('R0'); // ADR-110: the meter holds ready; the rung waits on the beat
     s = playBeat(s); // trigger + complete the R1 story beat → the promotion applies
     expect(s.rung).toBe('R1');
     expect(hasFlag(s, 'rank-r1')).toBe(true);
@@ -138,7 +138,7 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
       rungMeter: 100000, // meter half of the AND-gate satisfied
       flags: { ...base.flags, awake: true, ...extra },
     });
-    // D-110: the meter alone never promotes — the AND-gate is read by `promotionReady` (the beat's
+    // ADR-110: the meter alone never promotes — the AND-gate is read by `promotionReady` (the beat's
     // trigger guard). Meter-full but storyGate-unmet ⇒ NOT ready; combat-blooded set ⇒ ready → R4.
     expect(promotionReady(atR3({}))).toBe(false); // meter alone won't pass
     expect(promotionReady(atR3({ 'combat-blooded': true }))).toBe(true); // duty done → ready
@@ -164,7 +164,7 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
 });
 
 // T0-M1-F3 — the diegetic labour mentor Genemon greets + teaches, data-not-script, in the
-// story LOG (not a popup, D-039/D-063/D-064); the gated acknowledgment is reveal-as-plot.
+// story LOG (not a popup, ADR-039/ADR-063/ADR-064); the gated acknowledgment is reveal-as-plot.
 describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
   it('waking retires the registry greet/stakes (Beat 3 carries them) but keeps the teach deferred', () => {
     // The interactive intro now owns the opening: Genemon's greet is Beat 3, so waking marks the
@@ -198,7 +198,7 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
     expect(s.deliveredDialogue.length).toBe(before);
   });
 
-  // F91/F93 — flavor-text VOICE consistency: every emitted cold-open/labour/reveal line must carry
+  // FB-91/FB-93 — flavor-text VOICE consistency: every emitted cold-open/labour/reveal line must carry
   // the SAME voice/speaker convention the intro uses, so the renderer colours + prefixes it
   // consistently. Genemon's SPEECH renders "Genemon: …" (steward voice); third-person prose + the
   // rake/reveal RESULT lines render in the narrator voice with NO nameplate. Fixtures are read from
@@ -249,7 +249,7 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
 });
 
 // T0-M4-F4 — the small walkable estate map: areas you MOVE BETWEEN, gated by the existing
-// room reveals + the conditioning danger-ring gate (D-065).
+// room reveals + the conditioning danger-ring gate (ADR-065).
 describe('walkable estate map (T0-M4-F4 / D-065)', () => {
   it('move_to walks to an adjacent revealed node, blocks non-adjacent + the danger gate', () => {
     const base = createInitialState(1);
@@ -358,7 +358,7 @@ describe('soft stamina + season', () => {
   });
 });
 
-// F53 + F58a — the FLEETING flavor lines (rest, per-rake +rice output, per-activity labour output)
+// FB-53 + F58a — the FLEETING flavor lines (rest, per-rake +rice output, per-activity labour output)
 // are tagged `ephemeral`, so the render routes them to the self-fading "Now" view and keeps them OFF
 // the permanent channels. RED-able + discriminating: the flag is NOT a blanket — a milestone
 // perk-unlock line on the SAME log stays permanent (ephemeral falsey), so the discriminator holds.
@@ -402,7 +402,7 @@ describe('ephemeral flavor tagging (F53 + F58a)', () => {
     expect(farmLine).toBeDefined();
     expect(farmLine!.ephemeral).toBe(true);
 
-    // …but the flag is NOT a blanket: a milestone perk-unlock line (F56) stays a PERMANENT record.
+    // …but the flag is NOT a blanket: a milestone perk-unlock line (FB-56) stays a PERMANENT record.
     const perked = reduce(reduce(createInitialState(1), { type: 'open_eyes' }), {
       type: 'choose_intro',
       optionId: 'soan-grateful',

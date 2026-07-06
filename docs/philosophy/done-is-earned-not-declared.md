@@ -1,7 +1,7 @@
 # Philosophy: done is earned, not declared
 
-> Operating-philosophy register **R3** — the self-facing twin of **R2 —
-> [verify, don't trust](verify-dont-trust.md)**. R2 distrusts _others'_ work; R3
+> Operating-philosophy register **PH3** — the self-facing twin of **PH2 —
+> [verify, don't trust](verify-dont-trust.md)**. PH2 distrusts _others'_ work; PH3
 > distrusts your **own** apparent success. See the [register](README.md); when a
 > tactic conflicts with this, this wins.
 
@@ -13,7 +13,7 @@ never something you _declare_ because the work feels finished.
 
 - **Done means done.** Never claim _done / green / shipped_ unless it is literally,
   verifiably true. Lead a report with what is still missing rather than letting a
-  gap pass silently; never push a red tree onto the remote. _(D-054 bans
+  gap pass silently; never push a red tree onto the remote. _(ADR-054 bans
   "SHIPPED (slice)" — a milestone is shipped only when every DoD line is met or
   ADR-amended.)_
 - **Checks with teeth.** A green check is worth nothing unless it (a) drives the
@@ -28,7 +28,7 @@ never something you _declare_ because the work feels finished.
   test"_; commit `f92b3da` — _"the guard test protected the wrong experience."_
 - The QA substrate is _"drive real code paths, never synthetic input — the same
   flow a real player triggers"_ (`docs/living/qa-playtesting.md` §0).
-- **D-054**: a machine check is what prevents the honest-intention-but-silent-gap
+- **ADR-054**: a machine check is what prevents the honest-intention-but-silent-gap
   failure.
 
-Canon: **D-082**. Twin of **R2**; part of the register seeded by **R1** (D-080).
+Canon: **ADR-082**. Twin of **PH2**; part of the register seeded by **PH1** (ADR-080).

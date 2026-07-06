@@ -1,9 +1,9 @@
-// T0 quests as ORDER-FREE advance-event sets (PRD §2.13 / T0-M4-F1 / D-037 / D-032 / A6).
+// T0 quests as ORDER-FREE advance-event sets (PRD §2.13 / T0-M4-F1 / ADR-037 / ADR-032 / AC-6).
 // A quest is a small goal beyond grinding: a kind (PEST / HUNT / CLEAR / DEFEND), grounded
 // estate flavour, and a set of steps that complete in ANY order. Each step listens for an `event`
 // TOKEN — a '<verb>:<subject>' string ('kill:monkey', 'gather:wood') emitted by the fight /
 // labour reducers — so there is no fixed step order and no nesting. Surfaces under a
-// TOP-LEVEL Quests nav tab (D-037), not a nested panel; no fixed quest-type budget (D-032).
+// TOP-LEVEL Quests nav tab (ADR-037), not a nested panel; no fixed quest-type budget (ADR-032).
 // PURE data + pure progression with NO GameState coupling (it takes a plain done-set), so it
 // wires into state / intents / reducers later without this file ever importing them.
 

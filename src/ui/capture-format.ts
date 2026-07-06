@@ -1,4 +1,4 @@
-// Pure builders for the playtest-capture SESSION file (F3). A "game session" (one browser-tab
+// Pure builders for the playtest-capture SESSION file (FB-3). A "game session" (one browser-tab
 // play sitting — the id survives a reload via sessionStorage, a fresh tab starts a new one)
 // gets ONE markdown file, `project/playtest-inbox/pending/<sessionId>.md`, with the session
 // header written once and one `##` ENTRY appended per capture. Screenshots for the session live

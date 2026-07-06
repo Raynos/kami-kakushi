@@ -110,7 +110,7 @@ export {
   rungProgress,
   phaseOf,
 } from './ranks';
-// ── the rung-up story beats (D-110) ──
+// ── the rung-up story beats (ADR-110) ──
 export {
   RUNG_BEATS,
   rungBeatFor,
@@ -132,7 +132,7 @@ export { ascensionAvailable, ascensionBoon, ascend } from './ascension';
 export { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 export type { EstateStageDef } from './content/estate';
 
-// ── the player HOME + belongings (D-111 / F89) ──
+// ── the player HOME + belongings (ADR-111 / FB-89) ──
 export {
   BELONGINGS,
   BELONGING_IDS,
@@ -253,7 +253,7 @@ export {
 } from './content/dialogue';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';
-// F7 balance cockpit (DEV-only, D-059) — the live-tuning hook. Named exports so the cockpit imports
+// FB-7 balance cockpit (DEV-only, ADR-059) — the live-tuning hook. Named exports so the cockpit imports
 // them tree-shakably; unused by prod code, so Rollup strips them (verify-dev-strip.sh proves it).
 export {
   readBalanceLever,

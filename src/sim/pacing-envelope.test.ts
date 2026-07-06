@@ -1,5 +1,5 @@
-// The slim in-gate pacing tripwire (F4 §5a) — ONE greedy run on the canonical seed inside the
-// vitest gate, asserting the per-rung T0 band + the arc closing. Deliberately rationed (A17):
+// The slim in-gate pacing tripwire (FB-4 §5a) — ONE greedy run on the canonical seed inside the
+// vitest gate, asserting the per-rung T0 band + the arc closing. Deliberately rationed (AC-17):
 // the full gating matrix (all personas × SIM_SEEDS + margins) lives in `npm run verify:balance`
 // (on-demand); this is the always-on drift alarm that costs ~40 ms. Genuinely RED-able: flip a
 // RUNG_METER_THRESHOLDS entry ×3 and the band assert names that rung (proven in Ph2's DoD).
@@ -12,7 +12,7 @@ import { greedyBandVerdicts, structuralVerdict, phase2RatioVerdict } from './env
 import type { RunMetrics } from './metrics';
 import { balance } from '../core';
 
-// ONE greedy run, shared across the tripwires below (A17 — don't re-run the sim per describe).
+// ONE greedy run, shared across the tripwires below (AC-17 — don't re-run the sim per describe).
 const { metrics } = runPersona(greedy, CANONICAL_SEED);
 
 /** A minimal RunMetrics stub — `phase2RatioVerdict` reads only these three fields, so the RED-able

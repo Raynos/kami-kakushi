@@ -1,7 +1,7 @@
-// v0.3.1 Step 3 — the combat rework (D-076 + batch-2). RED-able guards for the new behaviours,
+// v0.3.1 Step 3 — the combat rework (ADR-076 + batch-2). RED-able guards for the new behaviours,
 // added as each sub-step lands: 3a summarised one-line outcomes + a LOSS stops the autopilot
 // (no auto-heal grind); 3c the carried-resource loss penalty (banked is safe); 3d the
-// auto-retreat-@20% mode (a 3rd "fled" outcome). HP still carries (D-050).
+// auto-retreat-@20% mode (a 3rd "fled" outcome). HP still carries (ADR-050).
 //
 // Fixtures are driven by the SEED-ROBUST combat curve (m2.test header): mc(5) vs monkey ≈ 1.00
 // (a guaranteed win) and mc(1) vs bandit ≈ 0.00 (a guaranteed loss) — so these are deterministic
@@ -56,7 +56,7 @@ describe('3a · summarised one-line fight outcomes (D-076 / batch-1 call 2)', ()
     const line = combatLines(after).at(-1) ?? '';
     expect(line).toMatch(/bring down the .*monkey/i);
     expect(line).toMatch(/HP \d+→\d+/); // the HP swing is IN the outcome line
-    // D-108 — the coin reward is DENOMINATED (mon/monme/ryō), matching the pills; NOT raw " coin".
+    // ADR-108 — the coin reward is DENOMINATED (mon/monme/ryō), matching the pills; NOT raw " coin".
     expect(line).toContain(`+${formatCoin(getMob('monkey').coinReward)}`);
     expect(line).not.toMatch(/\d+ coin/); // RED against the old "+N coin" raw-integer form
   });
@@ -335,7 +335,7 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     expect(here.flags['first-fight-survived']).toBe(true);
   });
 
-  // F91/F93 voice-consistency (voice-only, no mechanics): every scene-narration line the scripted
+  // FB-91/FB-93 voice-consistency (voice-only, no mechanics): every scene-narration line the scripted
   // wolf beat emits carries the `narrator` voice EXPLICITLY — no stray plain/un-voiced line among
   // the voiced ones. RED-able: the attack line shipped un-voiced (voice: undefined) before this pass.
   it('the scripted-wolf beat voices its scene-narration lines as narrator (no stray plain line)', () => {
@@ -348,7 +348,7 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     const after = applyScriptedWolf(base);
     const beat = after.log.entries.filter((e) => e.key >= base.log.seq);
     // the attack-narration line (its combat-log home tab) + the drillmaster follow-up (narration):
-    // both are scene narration, so BOTH carry `narrator` — the pure-core convention F91 codified.
+    // both are scene narration, so BOTH carry `narrator` — the pure-core convention FB-91 codified.
     const attack = beat.find((e) => e.channel === 'combat')!;
     const drill = beat.find((e) => e.channel === 'narration')!;
     expect(attack.voice).toBe('narrator');

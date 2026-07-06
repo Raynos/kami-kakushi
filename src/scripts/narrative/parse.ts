@@ -1,4 +1,4 @@
-// Narrative authoring-format parser (F5) — structured markdown → AST.
+// Narrative authoring-format parser (FB-5) — structured markdown → AST.
 //
 // The story is authored as prose-first markdown in `src/core/content/narrative/`
 // (the source of truth); this parser turns one file into an AST that `emit.ts`

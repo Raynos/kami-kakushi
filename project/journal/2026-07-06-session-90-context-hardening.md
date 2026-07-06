@@ -76,6 +76,33 @@ patterns; the suite's parse-only fallback confirmed no structural break);
 battery skill gains "(create if absent)"; repo-map gains the CI fan-out line.
 P3.3 (`settings.local.json` prune) left for the human — their file.
 
+## 5 · P4 cut 1 — the namespace collapse (ADR-140)
+
+Human locked the map via AskUserQuestion (D→ADR · F→FB · A→AC · H→HD ·
+review-R→HR · M→MS · taste V#/T#→TST · philosophy R→PH; sweep code comments
+too). ~190 files: living docs + src/e2e comment-tails, historical records
+untouched. The sweep surfaced FOUR id-collision classes the plan never knew
+about — each caught by post-sweep audit, not luck:
+
+- `V#` is QUADRUPLE-booked: taste values (→TST) vs PRD versions (V2.3) vs the
+  T1/T2 **village rungs V1–V4** vs the T2 **V0–V7 village ladder** — PRD/
+  roadmap/fun-factor V's reverted to V#; only taste.md + taste-citations carry
+  TST.
+- The PRD unlock-ladder has an **A1/B1/C1 quest-fork grid** — A→AC is
+  enumerated (AC-6/11/15/17/20/21/22), never blind.
+- Roadmap **composite codes** (`T2-M1-F2`) keep internal letters (lookbehind
+  guards); plan-local card labels (ui-v2's M1→M7) stay.
+- `git ls-files 'docs/living/**/*.md'` does NOT match the dir's top level —
+  the first sweep silently missed decisions/roadmap/taste etc.; caught by the
+  leftover-grep audit (PH3 in action).
+
+Also repaired a co-agent's AGENTS.md clobber (their ADR-139 insertion ate the
+"Push each quality rule…" bullet lead) + normalized their fresh ADR-139's
+"R8"→"HR-8". gen:narrative/gen:docs/prd-regions/checkpoint regenerated —
+**zero .gen.ts diffs** (player text untouched). verify 17 green ·
+verify:tooling 25 green. Old ids remain valid in journal/archive via the
+ADR-140 table.
+
 ## Next intended steps (current)
 
 1. P2 — `verify:tooling` meta-suite (nightly-only), five fixture-driven groups.

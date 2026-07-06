@@ -23,7 +23,7 @@ export function revealSurface(state: GameState, id: SurfaceId): GameState {
   if (surface?.revealLine) {
     next = {
       ...next,
-      // F91/F93 — carry the reveal line's voice tag (narrator for scene prose) so it renders in
+      // FB-91/FB-93 — carry the reveal line's voice tag (narrator for scene prose) so it renders in
       // the same voice as the intro's narration, not as an un-voiced/plain line.
       log: pushLog(next.log, surface.revealLine.channel, surface.revealLine.text, next.clock.tick, {
         voice: surface.revealLine.voice,

@@ -205,8 +205,8 @@ if [ "${SKIP_HUMAN_TODO:-0}" != "1" ]; then
         printf '%s\n' "$_new_todos" | sed 's/^/      /'
         echo ""
         echo "  That section is the HUMAN's own list - agents never append to it. File the item in"
-        echo "  project/human-in-the-loop/ instead: a design fork/question -> decisions.md (H-item),"
-        echo "  a look/feel/taste check -> review.md (R-item). The session brief surfaces both."
+        echo "  project/human-in-the-loop/ instead: a design fork/question -> decisions.md (HD-item),"
+        echo "  a look/feel/taste check -> review.md (HR-item). The session brief surfaces both."
         echo ""
         echo "  Human dictated this TODO to you verbatim?  SKIP_HUMAN_TODO=1 git commit ..."
         echo ""

@@ -19,7 +19,7 @@ steps awaiting or under execution. This directory holds **active plans only**.
   call, 2026-07-03 — renamed from the original `S{n}`/`N{n}` retro
   numbering; the master plan carries the rename map, and old names survive
   in journals/brainstorms as history). This `F` is the wave's rank letter,
-  not a feedback item — context disambiguates. The F1 rank is split
+  not a feedback item — context disambiguates. The FB-1 rank is split
   `F1a`/`F1b`: one merged build lane (a builds first), two review surfaces.
 - **When a plan is done, archive it** — `git mv` it to
   [`../../project/archive/`](../../project/archive) the moment its Status line
@@ -58,10 +58,11 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (npm run checkpoint — do not edit inside) -->
-**6 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**7 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-2026-07-05-context-hardening.md`](fable-2026-07-05-context-hardening.md) — LOCKED
 - [`fable-2026-07-05-requirements-rung-progression.md`](fable-2026-07-05-requirements-rung-progression.md) — LOCKED
+- [`fable-2026-07-06-narrative-dev-surfaces.md`](fable-2026-07-06-narrative-dev-surfaces.md) — LOCKED
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — PROPOSED
 - [`opus-2026-07-04-phase2-economy-redesign.md`](opus-2026-07-04-phase2-economy-redesign.md) — PROPOSED
 - [`opus-2026-07-04-ui-v2-andon-steel-migration.md`](opus-2026-07-04-ui-v2-andon-steel-migration.md) — PROPOSED

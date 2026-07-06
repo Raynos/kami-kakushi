@@ -58,7 +58,7 @@ function gainCombatXp(state: GameState, amount: number): GameState {
         attributePoints: next.character.attributePoints + pointsGained,
       },
     };
-    // D-050: a level-up no longer free-heals — HP carries, and eating is the only mend.
+    // ADR-050: a level-up no longer free-heals — HP carries, and eating is the only mend.
     next = applyRewards(next, {
       log: [{ channel: 'milestone', contentKey: 'combat.levelUp', params: { level: newLevel } }],
     });
@@ -101,13 +101,13 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
   if (result.won) {
     const hpBefore = state.character.hp;
     next = setHp(next, result.mcHpLeft);
-    // loot→craft (D-052): roll the carcass drop FIRST (seeded LOOT stream, independent of the
+    // loot→craft (ADR-052): roll the carcass drop FIRST (seeded LOOT stream, independent of the
     // combat cursor) so it folds into the SINGLE summarised outcome line below.
     const [drop, lootRng] = rollMaterialDrop(next.rng, mob.id);
     next = { ...next, rng: lootRng };
     const gained: Record<string, number> = { coin: mob.coinReward };
     if (drop) gained[drop.material] = drop.qty;
-    // SUMMARISED log (D-076 / batch-1 call 2): ONE outcome line per fight, carrying the HP swing
+    // SUMMARISED log (ADR-076 / batch-1 call 2): ONE outcome line per fight, carrying the HP swing
     // + loot. The blow-by-blow is suppressed — the auto-grind fires this hundreds of times. The
     // loot-tally + coin wording live in the log-content registry (Stage C); pass raw pieces.
     next = applyRewards(next, {
@@ -128,7 +128,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       ],
     });
     next = gainCombatXp(next, mob.level * COMBAT_XP_K);
-    // quest advance token — 'kill:<mob>' (D-037), e.g. 'kill:monkey' / 'kill:boar'.
+    // quest advance token — 'kill:<mob>' (ADR-037), e.g. 'kill:monkey' / 'kill:boar'.
     next = applyQuestEvent(next, `kill:${mob.id}`);
     next = advanceClock(next, FIGHT_TICKS);
   } else if (result.fled) {
@@ -150,11 +150,11 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     });
     next = advanceClock(next, FIGHT_TICKS);
   } else {
-    // soft setback (D-050/§4.6.6) + D-076 + D-113: limp home at the HP floor (never losing
+    // soft setback (ADR-050/§4.6.6) + ADR-076 + ADR-113: limp home at the HP floor (never losing
     // level/xp/gear), the autopilot STOPS, and you drop a slice of ALL THREE carried resources —
     // COIN + RICE + materials — in the rout. What is BANKED in the kura storehouse stays safe
-    // (batch-2 call 7). koku (House standing) is never carried, so a loss never touches it (D-107).
-    // Magnitude liquid (D-059).
+    // (batch-2 call 7). koku (House standing) is never carried, so a loss never touches it (ADR-107).
+    // Magnitude liquid (ADR-059).
     const hpBefore = state.character.hp;
     next = setHp(next, SETBACK_HP);
     next = { ...next, autoCombat: null };
@@ -205,7 +205,7 @@ export function applyScriptedWolf(state: GameState): GameState {
     log: [
       {
         channel: 'combat',
-        // F91/F93 — this scripted one-time attack beat is scene NARRATION, so it carries the
+        // FB-91/FB-93 — this scripted one-time attack beat is scene NARRATION, so it carries the
         // `narrator` voice EXPLICITLY (matching the drillmaster beat right after it + every other
         // scene-narration line), never a stray plain/un-voiced line. Stays on the `combat` channel
         // (its home tab); only the VOICE dimension is set. NOTE: the auto-grind outcome lines above
@@ -218,7 +218,7 @@ export function applyScriptedWolf(state: GameState): GameState {
       },
       {
         channel: 'narration',
-        voice: 'narrator', // F91/F93 — third-person scene narration → consistent narrator voice
+        voice: 'narrator', // FB-91/FB-93 — third-person scene narration → consistent narrator voice
         contentKey: 'combat.drillmaster',
       },
     ],

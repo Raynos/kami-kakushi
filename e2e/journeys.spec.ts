@@ -1,5 +1,5 @@
 // Story-beat journeys — the reachability net (fable-2026-07-05-desktop-journey-e2e P2).
-// Every test boots a fixture checkpoint (F6 — never grinds a meter), drives ONLY
+// Every test boots a fixture checkpoint (FB-6 — never grinds a meter), drives ONLY
 // visible player controls via `press` (tap on touch, click on desktop), and asserts
 // BOTH the state outcome (`__qa.state()` observation, never action) and the surface
 // outcome (the thing a player would see). Runs on ALL projects.
@@ -105,7 +105,7 @@ test('market loop: speak with Tokubei, sell the rice, the coin rises', async ({ 
   const coinBefore = await page.evaluate<number>('__qa.state().resources.coin ?? 0');
 
   await press(page.locator('.nav-tab', { hasText: '地図' })); // Map
-  // D-114 talk-to-open: the market shows ONLY after speaking with the pedlar
+  // ADR-114 talk-to-open: the market shows ONLY after speaking with the pedlar
   await expect(page.locator('.market-sell')).toBeHidden();
   await press(page.locator('button.person-talk', { hasText: 'Speak with Tokubei' }));
   const sell = page.locator('.market-sell button.auto-toggle');

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// F7 balance cockpit (Ph1) — the override mechanism + the pure export-diff builder.
+// FB-7 balance cockpit (Ph1) — the override mechanism + the pure export-diff builder.
 //
 // RED-able by construction:
 //  · the artifact BYTES test pins the exact `old → new` apply line + table row — a builder that
@@ -35,7 +35,7 @@ function cockpit() {
   return createBalanceCockpit({ meta: () => META });
 }
 
-// Derive lever canons from the source of truth (D-086 — never a copied magic number, so a tune to
+// Derive lever canons from the source of truth (ADR-086 — never a copied magic number, so a tune to
 // RICE_PER_RAKE / EAT_RICE_SATIETY doesn't break these tests).
 const RAKE = BALANCE_CANON['RICE_PER_RAKE']!;
 
@@ -213,7 +213,7 @@ describe('export transport — rides the F3 inbox endpoint verbatim (Ph3)', () =
     c.set('RICE_PER_RAKE', 5);
     c.set('ESTATE_BANDS.excellent', 960);
     const p = c.exportPayload('felt off');
-    // shape the exact F3 CaptureBody the mount POSTs, and run it through the real handler.
+    // shape the exact FB-3 CaptureBody the mount POSTs, and run it through the real handler.
     const body = {
       session: p.session,
       header: p.markdown,

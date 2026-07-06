@@ -44,7 +44,7 @@ export interface MobDef {
   readonly minTier?: number;
   /** A scripted story beat the MC always survives (never a grindable encounter). */
   readonly scripted?: boolean;
-  /** Coin scavenged on a win (the modest spoils of a kept hand; base unit mon — D-107). */
+  /** Coin scavenged on a win (the modest spoils of a kept hand; base unit mon — ADR-107). */
   readonly coinReward: number;
   readonly blurb: string;
 }
@@ -126,7 +126,7 @@ export const MOBS: readonly MobDef[] = [
     area: 'near-satoyama',
     // A pit viper coiled in the hill-grass — FAST and deadly-ACCURATE (a lunging strike that rarely
     // misses), the sharp opposite of the monkey_troop's misses. A short, sharp duel: it bites hard
-    // and lands its bites. (Its venom/gall consumable is a T1 feature, D-095 — no status effect yet.)
+    // and lands its bites. (Its venom/gall consumable is a T1 feature, ADR-095 — no status effect yet.)
     baseSpeed: 1.3,
     accBonus: 3,
     coinReward: 4,

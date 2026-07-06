@@ -24,38 +24,38 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Where we are now
 
-- **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
-  per-section files `docs/living/prd/*`. §4 balance + §7 M2–M7 stay provisional (D-059).
-- **v0.3.0–v0.3.7 shipped** the full T0 M0–M4 arc (F1–F117) + the **autonomous
-  T0 rebuild** (2026-07-03, ADRs **D-107–D-116**): append-only render engine ·
+- **PRD TST2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
+  per-section files `docs/living/prd/*`. §4 balance + §7 MS2–MS7 stay provisional (ADR-059).
+- **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117) + the **autonomous
+  T0 rebuild** (2026-07-03, ADRs **ADR-107–ADR-116**): append-only render engine ·
   economy re-core (koku=House **standing**) · 7-tab IA · estate-map · rung VN
   beats (SCHEMA 6) · `CHANGELOG.md` + `verify-changelog` gate.
-- **✅ Agent-default audit + v0.3.5 deltas** (ADRs **D-118–D-125**: 7-tab IA ·
+- **✅ Agent-default audit + v0.3.5 deltas** (ADRs **ADR-118–ADR-125**: 7-tab IA ·
   rice spoilage/cap · cook/storage · R5 wall-weapon · home→R3). **R7 capstone**
-  DESIGNED (D-125), build DEFERRED to T1. `emergent-node-actions` → a plan.
-- **✅ THE TASTE LOCK (D-126, s57):** top layer locked WITH the human → `taste.md`
+  DESIGNED (ADR-125), build DEFERRED to T1. `emergent-node-actions` → a plan.
+- **✅ THE TASTE LOCK (ADR-126, s57):** top layer locked WITH the human → `taste.md`
   (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens GENERATED)
-  · `doc-budgets` gate · **✅ F10 built (s77 — two-pass taste flow, D-135)**.
-- **✅ UI-v2 direction LOCKED (R9 → D-127): 10 Andon Steel** (blackened-steel
+  · `doc-budgets` gate · **✅ FB-10 built (s77 — two-pass taste flow, ADR-135)**.
+- **✅ UI-v2 direction LOCKED (R9 → ADR-127): 10 Andon Steel** (blackened-steel
   bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
   01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
-  till then. Resolves D-126's "visual identity provisional pending R9".
-- **Philosophy** R1–R6 + taste T1–T4 + process canon D-086–089.
-- **D-117 frontier PRD + the process wave** — §4 ripple-frozen; F1–F10 ordered by
-  `fable-process-master-plan.md`. **BUILT ✅: F1a/F1b · F2 CI · F3 inbox ·
-  F4 sim (D-132) · F5 narrative · F6 saves · F7 cockpit (D-134) · F9 `/ship`
-  (tagged, fast/bounded; shipped v0.3.6+v0.3.7) · F10 taste two-pass
-  (D-135) · F8 telemetry (D-136). **THE F1–F10 PROCESS WAVE IS COMPLETE.**
-- **✅ H19/H20 CLOSED:** H20→B (soft WARN) · H19→D-133 (ratio gate `[0.8,1.2]`,
+  till then. Resolves ADR-126's "visual identity provisional pending R9".
+- **Philosophy** R1–R6 + taste T1–T4 + process canon ADR-086–089.
+- **ADR-117 frontier PRD + the process wave** — §4 ripple-frozen; FB-1–FB-10 ordered by
+  `fable-process-master-plan.md`. **BUILT ✅: F1a/F1b · FB-2 CI · FB-3 inbox ·
+  FB-4 sim (ADR-132) · FB-5 narrative · FB-6 saves · FB-7 cockpit (ADR-134) · FB-9 `/ship`
+  (tagged, fast/bounded; shipped v0.3.6+v0.3.7) · FB-10 taste two-pass
+  (ADR-135) · FB-8 telemetry (ADR-136). **THE FB-1–FB-10 PROCESS WAVE IS COMPLETE.**
+- **✅ HD-19/HD-20 CLOSED:** HD-20→B (soft WARN) · HD-19→ADR-133 (ratio gate `[0.8,1.2]`,
   stopgap 0.94:1); real **Phase-2 redesign** human-PARKED in `BACKLOG.md`.
 - **✅ s86 context audit (Fable):** healthy, drift fixed; hardening plan
-  PROPOSED (`fable-2026-07-05-context-hardening.md`) · H21/H22 closed → A.
+  PROPOSED (`fable-2026-07-05-context-hardening.md`) · HD-21/HD-22 closed → A.
 - **✅ s88 desktop-journey e2e DONE (archived):** 3-project browser lane (desktop
-  · journeys · persistence · ratchet), CI green, 25s · **H23/H24** · TODO gate.
+  · journeys · persistence · ratchet), CI green, 25s · **HD-23/HD-24** · TODO gate.
 
 ## Waiting on the human
 
-- **REVIEW PASSOVER** 🔲 (R1) — play/review the **freshly-redeployed** T0 (VN intro,
+- **REVIEW PASSOVER** 🔲 (HR-1) — play/review the **freshly-redeployed** T0 (VN intro,
   log v2, **7-tab IA**, economy re-core + rice spoilage/cap, estate-map, rung beats,
   R5 wall-weapon).
 - **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
@@ -63,7 +63,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
 - **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, D-127). Open: are R2/R5/R6/R7
+- **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, ADR-127). Open: are R2/R5/R6/R7
   (washi-UI picks) still wanted as interim polish now UI-v2 supersedes them?
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
@@ -71,7 +71,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
 **R7 capstone side-quests** → T1 (`capstone-t0-branch.md`) · **status-token
-ladder** → T1–T5 · home grows w/ rung · NPC placement (F113) · balance feel-tune
+ladder** → T1–T5 · home grows w/ rung · NPC placement (FB-113) · balance feel-tune
 · `emergent-node-actions` (Phase 0).
 
 ## Toolchain
@@ -85,7 +85,7 @@ gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
-blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `build:itch`.
+blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `npm run dev` · `build` · `build:itch`.
 
 ## Code & repo layout
 
@@ -98,23 +98,23 @@ blocks red. **HMR OFF** (`vite.config.ts`) — F5. `npm run dev` · `build` · `
 
 ## How to resume
 
-> 🎮 **v0.3.7 pushed 2026-07-05 via `/ship`** (tooling-only refresh — F10 taste +
-> /ship v2 + F8 plan lock; nothing player-facing; gh-pages `f4697b5` ← `b1b3403`,
-> not live-verified). On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **D-107–D-125**.
+> 🎮 **v0.3.7 pushed 2026-07-05 via `/ship`** (tooling-only refresh — FB-10 taste +
+> /ship v2 + FB-8 plan lock; nothing player-facing; gh-pages `f4697b5` ← `b1b3403`,
+> not live-verified). On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **ADR-107–ADR-125**.
 > Open = the human queue above; the deferred tail (R7-capstone once **T1**) is next.
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-06-session-91-ship-dev-tools-t0.md`](../journal/2026-07-06-session-91-ship-dev-tools-t0.md)
+   [`journal/2026-07-06-session-92-narrative-diverge-design.md`](../journal/2026-07-06-session-92-narrative-diverge-design.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
-   Use **`?dev=no`** for the true player layout. F5 to reload (HMR off).
+   Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** — the F1–F10 wave is DONE; next: **requirements
+4. **Next autonomous work** — the FB-1–FB-10 wave is DONE; next: **requirements
    rung progression** (`fable-2026-07-05-requirements-rung-progression.md`,
-   D-137, human phase-confirm pending) or **UI-v2 Andon Steel migration**
+   ADR-137, human phase-confirm pending) or **UI-v2 Andon Steel migration**
    (needs the human's lock). Phase-2 economy redesign = human-parked in
-   `project/BACKLOG.md`, don't pick up unprompted. Balance liquid (D-059) —
-   every change runs D-132 (`verify:balance` → report diff → `--summary`).
+   `project/BACKLOG.md`, don't pick up unprompted. Balance liquid (ADR-059) —
+   every change runs ADR-132 (`verify:balance` → report diff → `--summary`).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.

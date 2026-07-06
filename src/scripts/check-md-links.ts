@@ -1,10 +1,10 @@
 // check-md-links — resolve every intra-repo relative markdown link and fail on a dead target.
 //
-// The "highest rung that SOUNDLY holds it" for link rot (A11): file/dir EXISTENCE only — strict,
+// The "highest rung that SOUNDLY holds it" for link rot (AC-11): file/dir EXISTENCE only — strict,
 // zero false-positive over the repo's links. Anchor-checking is deliberately OMITTED — there are no
 // intra-repo `#anchor` links today, and slugifying the §/kanji/emoji headings would risk crying
 // wolf; add it only if anchor links appear. External links (http/mailto) and same-page `#anchors`
-// are skipped. History / scratch dirs are NOT scanned (their staleness is by design — A22), but a
+// are skipped. History / scratch dirs are NOT scanned (their staleness is by design — AC-22), but a
 // link POINTING INTO them is still resolved (the target must exist).
 //
 // Motivated by the 2026-06-30 stale-markdown sweep (the completeness critic's #1 next-check): the
@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
-// Authoritative / living docs to SCAN (history & scratch excluded by design — A22).
+// Authoritative / living docs to SCAN (history & scratch excluded by design — AC-22).
 const SCAN_ROOTS = [
   'AGENTS.md',
   'CLAUDE.md',
@@ -30,7 +30,7 @@ const SCAN_ROOTS = [
   'project/todo-human.md',
 ];
 // 'worktrees': co-agent git worktrees under .claude/worktrees — transient full-repo
-// checkouts whose relative links break one level deeper; scanning them cries wolf (A11).
+// checkouts whose relative links break one level deeper; scanning them cries wolf (AC-11).
 const EXCLUDE_DIRS = new Set(['node_modules', '.git', 'dist', 'tmp', 'worktrees']);
 
 function walk(abs: string, out: string[]): void {

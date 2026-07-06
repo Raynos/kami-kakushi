@@ -15,7 +15,7 @@ const ALL_CHANNELS: readonly LogChannel[] = [
 describe('LOG_FILTERS — the F111 bar order', () => {
   it('reads Story · Progress · Chat · Combat · Work · All · Now, left→right', () => {
     // derive the expected order from the ids (the labels come along for the ride); if the source
-    // reorders, this goes RED — the order IS the design lever here (F111 inserts Chat after Progress).
+    // reorders, this goes RED — the order IS the design lever here (FB-111 inserts Chat after Progress).
     expect(LOG_FILTERS.map((f) => f.id)).toEqual([
       'story',
       'progression',
@@ -25,10 +25,10 @@ describe('LOG_FILTERS — the F111 bar order', () => {
       'all',
       'now',
     ]);
-    // Chat sits third, right after Progress (the F111 slot), labelled "Chat".
+    // Chat sits third, right after Progress (the FB-111 slot), labelled "Chat".
     expect(LOG_FILTERS[2]!.id).toBe('chat');
     expect(LOG_FILTERS[2]!.label).toBe('Chat');
-    // `now` is last and labelled "Now" (F53).
+    // `now` is last and labelled "Now" (FB-53).
     const last = LOG_FILTERS[LOG_FILTERS.length - 1]!;
     expect(last.id).toBe('now');
     expect(last.label).toBe('Now');
@@ -38,7 +38,7 @@ describe('LOG_FILTERS — the F111 bar order', () => {
 describe('logFilterMatches — the F111 chat axis (optional Q&A vs mandatory Story)', () => {
   it('an ASKED question (chat) shows in Chat, NOT in Story', () => {
     // an ask_topic / ask_rung_topic line is `narration` + `chat:true`. It routes to Chat, and is
-    // WITHHELD from the mandatory Story tab (the split F111 asks for).
+    // WITHHELD from the mandatory Story tab (the split FB-111 asks for).
     expect(logFilterMatches('narration', 'chat', false, true)).toBe(true);
     expect(logFilterMatches('narration', 'story', false, true)).toBe(false);
   });

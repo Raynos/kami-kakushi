@@ -1,4 +1,4 @@
-// gen-narrative (F5) — compile the narrative authoring markdown into generated TS registries.
+// gen-narrative (FB-5) — compile the narrative authoring markdown into generated TS registries.
 //
 // Mirrors gen-docs.ts, INVERTED: the `.md` under src/core/content/narrative/ is the source
 // of truth and the `.gen.ts` is the artifact. Bare = write; `--check` regenerates into a
@@ -11,7 +11,7 @@
 // on-disk bytes are stable and pass the `oxfmt --check` gate untouched.
 export {};
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
@@ -19,6 +19,7 @@ import { parseNarrative, NarrativeError, type NarrativeDoc } from './narrative/p
 import { emitColdOpen, emitDialogue, emitIntro, emitRungBeats } from './narrative/emit';
 import { emitStoryDoc } from './narrative/story-doc';
 import { validateNarrative } from './narrative/validate';
+import { emitStoryTakes, parseBundleMeta, type ParsedTakeBundle } from './narrative/takes';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
@@ -117,9 +118,49 @@ try {
     console.log(`  gen-narrative: wrote ${STORY_OUT}`);
   }
 
+  // Story take-sets (ADR-139) — open narrative-diverge bundles under
+  // narrative/takes/<bundle>/ compile into the DEV-only registry. Always
+  // emitted (a stable empty array when no bundle is open) so the byte-compare
+  // has a fixed target.
+  const TAKES_DIR = 'src/core/content/narrative/takes';
+  const TAKES_OUT = 'src/ui/storyTakes.gen.ts';
+  const takesAbs = join(repoRoot, TAKES_DIR);
+  const bundleIds = existsSync(takesAbs)
+    ? readdirSync(takesAbs, { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => d.name)
+        .sort()
+    : [];
+  const bundles: ParsedTakeBundle[] = bundleIds.map((b) => {
+    const metaPath = `${TAKES_DIR}/${b}/bundle.md`;
+    const meta = parseBundleMeta(readFileSync(join(repoRoot, metaPath), 'utf-8'), metaPath);
+    const docs = meta.takes.map((t) => {
+      const p = `${TAKES_DIR}/${b}/${t.file}`;
+      return parseNarrative(readFileSync(join(repoRoot, p), 'utf-8'), p);
+    });
+    return { meta, docs };
+  });
+  const takesGenerated = format(emitStoryTakes(bundles), TAKES_OUT);
+  const takesOutAbs = join(repoRoot, TAKES_OUT);
+  if (check) {
+    const onDisk = existsSync(takesOutAbs) ? readFileSync(takesOutAbs, 'utf-8') : '';
+    if (onDisk !== takesGenerated) {
+      console.error(
+        `  X gen-narrative: ${TAKES_OUT} is out of date (or hand-edited).\n` +
+          `    The source of truth is ${TAKES_DIR}/ — edit THAT, then run \`npm run gen:narrative\`.`,
+      );
+      drift++;
+    }
+  } else {
+    writeFileSync(takesOutAbs, takesGenerated);
+    console.log(`  gen-narrative: wrote ${TAKES_OUT} (${bundles.length} open bundle(s))`);
+  }
+
   if (check) {
     if (drift) process.exit(1);
-    console.log(`  gen-narrative: ${present.length} module(s) + ${STORY_OUT} in sync`);
+    console.log(
+      `  gen-narrative: ${present.length} module(s) + ${STORY_OUT} + ${TAKES_OUT} in sync`,
+    );
   }
 } catch (e) {
   if (e instanceof NarrativeError) {

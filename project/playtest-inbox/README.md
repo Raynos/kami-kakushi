@@ -1,4 +1,4 @@
-# Playtest capture inbox (F3)
+# Playtest capture inbox (FB-3)
 
 An **agent-facing** transport queue for in-game playtest captures. The DEV-only
 capture overlay (`` ` `` → **pick the element** you mean → note → ⌘/Ctrl+Enter)

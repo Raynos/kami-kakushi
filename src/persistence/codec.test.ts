@@ -14,7 +14,7 @@ function inspectStored(stored: string): { state: { log: { entries: Record<string
   return JSON.parse(json);
 }
 
-/** The GameState inside a real F6 fixture save (a full 300-entry log — the worst case). */
+/** The GameState inside a real FB-6 fixture save (a full 300-entry log — the worst case). */
 function fixtureState(name: string): GameState {
   const path = fileURLToPath(new URL(`../fixtures/saves/${name}.json`, import.meta.url));
   const parsed = JSON.parse(readFileSync(path, 'utf-8')) as { state: GameState };

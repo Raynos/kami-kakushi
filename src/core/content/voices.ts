@@ -1,11 +1,11 @@
-// Speaker / voice model (interactive-intro plan §3.1, F23/F26). A leaf module (imports
+// Speaker / voice model (interactive-intro plan §3.1, FB-23/FB-26). A leaf module (imports
 // nothing from core) so both `state.ts` (npcMemory keys) and the log/dialogue/intro
 // content can share the ids without a cycle. The RENDERER colours speech by `VoiceCategory`
 // (a later phase); the pure core only CARRIES the tag. Pure data — no DOM, no Math/Date.
 
 import { NAMES } from './names';
 
-/** A remembered non-player character. Grows per tier as new cast is routed. D-110 adds the
+/** A remembered non-player character. Grows per tier as new cast is routed. ADR-110 adds the
  *  rung-beat granters/peers: `rokusuke` (R2 peer), `tozo` (R4 smith), `chiyo` (R6), `shigemasa`
  *  (R7). NOTE: the pedlar (Tokubei) is deliberately NOT an NpcId — he is an ambient trader whose
  *  one lever is the `pedlar-favour` flag (BQ6), so he takes no `npcMemory` slot. */
@@ -20,10 +20,10 @@ export type VoiceCategory =
   | 'steward' // Genemon / Lady Chiyo / household
   | 'arms' // Kihei / the smith Tōzō / drill-yard
   | 'official' // magistrate / castle voices (the touring inspector, castle clerks)
-  | 'villager' // Asagiri folk / Rokusuke the kept-hand (D-110 R2)
-  | 'lord'; // the domain lord Shigemasa's R7 capstone (D-110) — murasaki 紫, its own dignified voice
+  | 'villager' // Asagiri folk / Rokusuke the kept-hand (ADR-110 R2)
+  | 'lord'; // the domain lord Shigemasa's R7 capstone (ADR-110) — murasaki 紫, its own dignified voice
 
-// D-110 'lord' voice — RESOLVED. Shigemasa now speaks in the dedicated `'lord'` category (its
+// ADR-110 'lord' voice — RESOLVED. Shigemasa now speaks in the dedicated `'lord'` category (its
 // murasaki colour + 殿 seal live in render.ts's VOICE_COLOR / VOICE_SEAL, which are exhaustive over
 // this union — a missing key is a tsc error). `'official'` is now the magistrate/clerk voice only.
 
@@ -40,7 +40,7 @@ export const NPC_VOICE: Readonly<Record<NpcId, VoiceCategory>> = {
   rokusuke: 'villager',
   tozo: 'arms',
   chiyo: 'steward',
-  shigemasa: 'lord', // the domain lord's own voice — murasaki 紫 (D-110 R7 capstone)
+  shigemasa: 'lord', // the domain lord's own voice — murasaki 紫 (ADR-110 R7 capstone)
 };
 
 /** The display name (nameplate) for a remembered NPC — reuses the canonical NAMES table. */
@@ -54,7 +54,7 @@ export const NPC_NAME: Readonly<Record<NpcId, string>> = {
   shigemasa: NAMES.lord,
 };
 
-/** Runtime roster of the `VoiceCategory` union (F5 Ph2 — the one hand-written enabling change,
+/** Runtime roster of the `VoiceCategory` union (FB-5 Ph2 — the one hand-written enabling change,
  *  so the narrative compiler can validate authored voices). Derived from an exhaustive Record,
  *  so a union change without a roster change is a tsc error in BOTH directions — the same
  *  idiom as render.ts's VOICE_COLOR / VOICE_SEAL. */

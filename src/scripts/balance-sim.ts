@@ -1,17 +1,17 @@
-// Persona-bot balance sim CLI (F4 §5) — drives the REAL engine with the persona roster over the
+// Persona-bot balance sim CLI (FB-4 §5) — drives the REAL engine with the persona roster over the
 // gating seed matrix and reports pacing shape. Modes:
 //   (no flag)    per-rung pacing table + per-seed summaries (console)
 //   --report     regenerate docs/content/t0-pacing.md (gen-docs pattern: committed, diffable)
 //   --selftest   the Ph1 DoD asserts (walkPacing R0–R2 equality · determinism · all seeds ascend)
 //   --fuzz N     N derived seeds, STRUCTURAL checks only (soft-locks are bugs at any seed);
 //                fuzz never gates envelopes. Output → console only.
-//   --check      the `verify:balance` gating matrix (F4 §5a): greedy per-rung bands +
+//   --check      the `verify:balance` gating matrix (FB-4 §5a): greedy per-rung bands +
 //                structural gates for every persona × seed, margins printed beside every
 //                band, non-zero exit on any RED.
-//   --check-fresh the staleness gate (F4 §5b): recompute the input fingerprint (imports +
+//   --check-fresh the staleness gate (FB-4 §5b): recompute the input fingerprint (imports +
 //                hash, NO sim run, <1 s) and compare to the committed report's header —
 //                fires exactly when a balance VALUE changed without a fresh report.
-//   --summary    the paste-into-the-commit-body block (F4 §5b flow step 4): greedy per-rung
+//   --summary    the paste-into-the-commit-body block (FB-4 §5b flow step 4): greedy per-rung
 //                medians + band verdicts + the delta vs the HEAD-committed report.
 export {};
 
@@ -38,7 +38,7 @@ import { walkPacing } from './pacing-report';
 
 const OUT = 'docs/content/t0-pacing.md';
 
-// ── input fingerprint (F4 §5b) — a stable hash of the EVALUATED design inputs the sim consumes:
+// ── input fingerprint (FB-4 §5b) — a stable hash of the EVALUATED design inputs the sim consumes:
 // values, not file text, so comment/formatting edits never change it. Sorted keys ⇒ stable JSON. ──
 
 function stable(v: unknown): unknown {
@@ -296,7 +296,7 @@ function check(): number {
     }
   }
 
-  // Phase 2 ≈ Phase 1 (D-133/H19): greedy's phase2/phase1 wall-time ratio vs the signed band.
+  // Phase 2 ≈ Phase 1 (ADR-133/HD-19): greedy's phase2/phase1 wall-time ratio vs the signed band.
   const rv = phase2RatioVerdict(greedyRuns);
   const p2 = greedyRuns.map((r) => r.economy.phase2Intents ?? 0);
   const p2min = `[${min1(wallMinutes(Math.min(...p2)))}–${min1(wallMinutes(Math.max(...p2)))}] min`;

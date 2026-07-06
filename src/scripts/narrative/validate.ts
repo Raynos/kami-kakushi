@@ -1,4 +1,4 @@
-// Narrative validation roster (F5 Ph2+Ph3) — the gate's teeth.
+// Narrative validation roster (FB-5 Ph2+Ph3) — the gate's teeth.
 //
 // Runs over the parsed ASTs BEFORE emit; every finding cites the AUTHORING
 // file:line. Fixtures for the unit tests derive from the source-of-truth
@@ -38,7 +38,7 @@ export interface Verdict {
 
 /** Speech-voice overrides the human has ruled INTENTIONAL (`npc:voice`). The WARN
  *  stays quiet on these. Shigemasa keeps the formal 'official' register at R7 while his
- *  registered voice is 'lord' — human call, 2026-07-05 (F5 plan Risks #3). */
+ *  registered voice is 'lord' — human call, 2026-07-05 (FB-5 plan Risks #3). */
 const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['shigemasa:official']);
 
 /** The fixed intro scene order — the engine's `introBeat` cursor (0/1/2) and the v3→v4

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { COLD_OPEN } from './coldOpen';
 
-// The 1780 setting anchor (ADR D-105 / plan 2026-07-02-anchor-1780-code-surfacing)
+// The 1780 setting anchor (ADR ADR-105 / plan 2026-07-02-anchor-1780-code-surfacing)
 // surfaces to the player exactly once — in the cold open — as FLAVOUR: spring, the
 // ninth year of An'ei (= 1780). These assert the grounding INTENT (season + era
 // present, kept diegetic), not a brittle full-string copy: each goes RED if the

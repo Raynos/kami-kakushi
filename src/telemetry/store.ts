@@ -1,4 +1,4 @@
-// Telemetry storage (F8) — a capped localStorage RING, following the ui-prefs guarded
+// Telemetry storage (FB-8) — a capped localStorage RING, following the ui-prefs guarded
 // pattern, NOT the save chain: the critical write moment is the tab-hide/unload edge, and
 // localStorage is SYNCHRONOUS — the write completes before the tab freezes (IndexedDB's async
 // transaction can be dropped at unload; the save manager tolerates that via its 15s cadence,

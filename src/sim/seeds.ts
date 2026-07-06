@@ -1,4 +1,4 @@
-// The balance-sim seed sets (F4 §4). SIM_SEEDS is the FIXED gating matrix — 20260626 is the
+// The balance-sim seed sets (FB-4 §4). SIM_SEEDS is the FIXED gating matrix — 20260626 is the
 // canonical arc seed every existing arc proof uses (t0-arc / invariants / walkPacing); the rest
 // are the already-familiar small test seeds. Same seed ⇒ byte-identical run (the determinism
 // assert in balance-sim --selftest). Fuzz seeds are DERIVED deterministically from a base via the

@@ -42,7 +42,7 @@ window were about to expire. Under that **self-imposed, nonexistent time-box**,
 three breadth UI surfaces shipped a single-idea **"diverge-LITE"** instead of
 the full 2–3 working variants the `diverge` skill requires. The human rejected
 the shortcut outright (*"full 2–3 variants or nothing"*) — see
-[**D-075**](../living/decisions.md) (which retired diverge-LITE) and the v0.3
+[**ADR-075**](../living/decisions.md) (which retired diverge-LITE) and the v0.3
 [process-learnings retro](../../project/brainstorms/2026-06-30-v03-process-learnings.md)
 (P3: an autonomous loop without a definition-of-done drifts toward shortcuts or
 busy-work).
@@ -52,4 +52,4 @@ the shortcut bought nothing. So the clock is **deleted, not managed** — the
 human **prefers correct & slow over shitty & fast**, and is happy to come back
 to a loop that's only half-done, as long as every finished piece is done right.
 
-Canon: [**D-080**](../living/decisions.md).
+Canon: [**ADR-080**](../living/decisions.md).

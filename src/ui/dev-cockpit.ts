@@ -1,7 +1,7 @@
-// Balance-tuning cockpit (F7 / D-059) — DEV-only, stripped from prod. A live slider panel over a
+// Balance-tuning cockpit (FB-7 / ADR-059) — DEV-only, stripped from prod. A live slider panel over a
 // CURATED set of `balance.ts` feel levers: drag mid-run, feel it immediately, export the touched
 // keys as a committable artifact an agent transcribes back into canon. The HUMAN owns which numbers
-// feel right (D-059); agents build the cockpit and transcribe its exports — they never move a slider
+// feel right (ADR-059); agents build the cockpit and transcribe its exports — they never move a slider
 // into canon on the human's behalf.
 //
 // This module is imported ONLY by ui/dev.ts (the mount) and re-exported to main.ts through it, so it
@@ -272,7 +272,7 @@ export interface BalanceCockpit {
   exportMarkdown(note?: string): string;
   /** The full transport payload (artifact + filename stamp + machine JSON) for the inbox POST. */
   exportPayload(note?: string): TunePayload;
-  /** Apply any `?bal.<path>=<value>` URL params (F5-survival + shareable tune links). Ignores stale/
+  /** Apply any `?bal.<path>=<value>` URL params (FB-5-survival + shareable tune links). Ignores stale/
    *  unknown paths. Fires onChange once if anything applied. */
   hydrate(): void;
   /** Subscribe to override changes (the panel repaints its rows) — so ANY set/reset, whether from a
@@ -307,7 +307,7 @@ function computeTouched(): TouchedLever[] {
 }
 
 /** The transport payload for a tune export: the artifact markdown + a filename stamp + the
- *  machine-readable sidecar JSON. Shaped to ride the F3 playtest-inbox endpoint verbatim (§6b). */
+ *  machine-readable sidecar JSON. Shaped to ride the FB-3 playtest-inbox endpoint verbatim (§6b). */
 export interface TunePayload {
   /** Filename stamp / inbox session id (SESSION_RE-safe — colons stripped from the ISO stamp). */
   readonly session: string;
@@ -394,9 +394,9 @@ export function createBalanceCockpit(opts: {
   };
   const canon = (path: string): number => BALANCE_CANON[path] ?? readBalanceLever(path);
 
-  // ── URL persistence (F18 variant pattern): each touched lever mirrors to `?bal.<path>=<value>`;
+  // ── URL persistence (FB-18 variant pattern): each touched lever mirrors to `?bal.<path>=<value>`;
   //    the param is DROPPED when the lever returns to canon (a clean state keeps a clean URL). Legible
-  //    + shareable + dies with the tab — never a sticky localStorage retune (the D-059 silent-retune
+  //    + shareable + dies with the tab — never a sticky localStorage retune (the ADR-059 silent-retune
   //    failure). Inert under vitest (jsdom shares location across a file) and when there is no URL. ──
   const urlOn =
     typeof location !== 'undefined' &&
@@ -677,10 +677,10 @@ export function mountBalanceCockpit(
   resetAll.addEventListener('click', () => cockpit.reset());
   pane.append(resetAll);
 
-  // ── §6 export — build the committable artifact, POST it to the F3 playtest-inbox endpoint
+  // ── §6 export — build the committable artifact, POST it to the FB-3 playtest-inbox endpoint
   //    (reused verbatim; this ships NO handler of its own), and fall back to clipboard + a file
   //    download if the dev-server endpoint is unreachable (a tune is a page of text, so the
-  //    clipboard is a legitimate fallback here). The HUMAN exports; an agent transcribes (D-059). ──
+  //    clipboard is a legitimate fallback here). The HUMAN exports; an agent transcribes (ADR-059). ──
   const exportWrap = el('div');
   exportWrap.style.cssText =
     'margin-top:.45rem;padding-top:.35rem;border-top:1px solid #3a322a;display:flex;flex-direction:column;gap:.25rem;';
@@ -712,7 +712,7 @@ export function mountBalanceCockpit(
 
   const doExport = async (): Promise<void> => {
     const payload = cockpit.exportPayload(noteInput.value);
-    // shape the F3 CaptureBody: the whole artifact rides in `header` (the file is always new — a
+    // shape the FB-3 CaptureBody: the whole artifact rides in `header` (the file is always new — a
     // unique session per export), `entry` empty; the machine JSON is the metadata sidecar.
     const body = JSON.stringify({
       session: payload.session,

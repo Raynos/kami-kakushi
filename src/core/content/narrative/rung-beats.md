@@ -1,4 +1,4 @@
-<!-- The rung-up story beats (D-110), R1→R7 — the AUTHORING SOURCE OF TRUTH (F5).
+<!-- The rung-up story beats (ADR-110), R1→R7 — the AUTHORING SOURCE OF TRUTH (FB-5).
   Compiled to src/core/content/rungBeats.gen.ts by `npm run gen:narrative`.
   Format spec: ./README.md. R0 has no beat — the intro IS the R0 beat. -->
 

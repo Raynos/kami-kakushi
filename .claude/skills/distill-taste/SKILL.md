@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Distill taste — feedback → the standard, without slop
 
-The standard (D-126) is a **capped snapshot**: 4 human-locked values →
+The standard (ADR-126) is a **capped snapshot**: 4 human-locked values →
 touchstones/references → ~21 principles, ≤150 lines, gated by
 `verify-doc-budgets`. The corpus (`project/human-feedback/*.md`) is the
 lossless record. **Distillation therefore never appends — it triages.**
@@ -29,7 +29,7 @@ IS data; never paraphrase a quote away):
 
 1. **Repeat-offense** — an existing principle already forbids it. The doc
    did not fail; the *delivery* failed. → Strengthen the RUNG, not the
-   prose: file it against the F10 scorecard/gate work, and only sharpen
+   prose: file it against the FB-10 scorecard/gate work, and only sharpen
    the principle's wording if the judges/builder genuinely misread it.
    **Never add a rule for a repeat.** Tag the item `repeat` in the corpus
    (the repeat-rate is the standard's health metric).
@@ -63,7 +63,7 @@ the agent proposes edits there but never applies one without the human
 
 A new/removed/reworded **value, touchstone, or reference** = a design
 decision: AskUserQuestion (or a grill-me round for anything contested),
-then record it as an ADR amending D-126. Principle-level sharpening is
+then record it as an ADR amending ADR-126. Principle-level sharpening is
 agent-owned — the human sees it in the commit + queue.
 
 ## 4 · Verify — the DoD
@@ -85,5 +85,5 @@ agent-owned — the human sees it in the commit + queue.
 
 Tag distilled items in the corpus (`distilled → P<n>` / `repeat` /
 `corpus-only`), journal the pass (counts per move + the repeat-rate), and
-if the repeat-rate is rising, the next work item is F10 enforcement — not
+if the repeat-rate is rising, the next work item is FB-10 enforcement — not
 more prose.

@@ -8,7 +8,7 @@
 //
 // Wiring: `npm run verify:tooling`, run by .github/workflows/verify-nightly.yml
 // ONLY — deliberately NOT in the commit/push roster (src/scripts/gates.ts):
-// D-072's 5s budget is sacred, and this suite spawns dozens of processes.
+// ADR-072's 5s budget is sacred, and this suite spawns dozens of processes.
 //
 // Checks (all fixture/table-driven so each can go RED):
 //   1. hook syntax + executability   bash -n + +x on .githooks/* and .claude/hooks/*.sh
@@ -325,7 +325,7 @@ if (run('bash', ['-c', 'command -v gh && gh auth status']).code === 0) {
   );
 }
 
-// herdr-peers must be a clean no-op in EVERY environment (D-124).
+// herdr-peers must be a clean no-op in EVERY environment (ADR-124).
 {
   const without = run('bash', [join(ROOT, 'src/scripts/herdr-peers.sh'), ROOT], {
     env: { HERDR_ENV: undefined },

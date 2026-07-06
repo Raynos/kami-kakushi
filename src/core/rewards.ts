@@ -22,12 +22,12 @@ export interface RewardBundle {
     readonly text?: string | undefined;
     readonly contentKey?: string | undefined;
     readonly params?: LogParams | undefined;
-    /** Optional speaker nameplate + voice tag (carried to the log entry; F23/F26). */
+    /** Optional speaker nameplate + voice tag (carried to the log entry; FB-23/FB-26). */
     readonly speaker?: string | undefined;
     readonly voice?: VoiceCategory | undefined;
-    /** Fleeting flavor (F53) — routed to the "Now" view only; kept off the permanent channels. */
+    /** Fleeting flavor (FB-53) — routed to the "Now" view only; kept off the permanent channels. */
     readonly ephemeral?: boolean | undefined;
-    /** Optional Q&A (F111) — routed to the "Chat" tab (+ `all`), kept off the mandatory "Story" tab. */
+    /** Optional Q&A (FB-111) — routed to the "Chat" tab (+ `all`), kept off the mandatory "Story" tab. */
     readonly chat?: boolean | undefined;
   }[];
 }

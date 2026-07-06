@@ -1,4 +1,4 @@
-// DEV-only in-game playtest capture overlay (F3). Press `` ` `` to enter PICK mode — hover
+// DEV-only in-game playtest capture overlay (FB-3). Press `` ` `` to enter PICK mode — hover
 // highlights the element under the cursor, click LOCKS it (or click empty / Esc for a general
 // note), then a small ink-dark note box opens; ⌘/Ctrl+Enter APPENDS the capture to this game
 // session's file and vanishes. The full-page screenshot is taken with the highlight still on, so

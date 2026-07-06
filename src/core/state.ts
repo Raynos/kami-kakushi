@@ -36,11 +36,11 @@ export type SurfaceId = string;
 export type ResourceId = string;
 export type FlagId = string;
 
-/** One House-Influence pillar's accrued standing (D-049/D-055). `value` is the live grade
+/** One House-Influence pillar's accrued standing (ADR-049/ADR-055). `value` is the live grade
  *  total (deeds + seasonal), in whole koku; `highWater` is the best `value` ever reached; `judged`
  *  is the high-water as of the LAST seasonal judge — the season judge fires only on a NEW high-water
  *  (highWater > judged), the 30% seasonal share. `frac` is the sub-koku deed accumulator (0 ≤ frac
- *  < 1): a single labour deed banks a fraction of a koku (D-133), carried here until it crosses a
+ *  < 1): a single labour deed banks a fraction of a koku (ADR-133), carried here until it crosses a
  *  whole koku into `value`. Optional/additive — absent on a pre-D-133 save = 0. Phase-2-gated
  *  accrual (post-capstone, FU7). */
 export interface PillarState {
@@ -50,7 +50,7 @@ export interface PillarState {
   readonly frac?: number;
 }
 
-/** House Influence (家威) — one pillar per tier (D-048). T0 lights only the Estate (家産)
+/** House Influence (家威) — one pillar per tier (ADR-048). T0 lights only the Estate (家産)
  *  pillar; Arms/Office/Name are added ADDITIVELY at their tier (T1+), never pre-declared. */
 export interface Influence {
   readonly estate: PillarState;
@@ -66,7 +66,7 @@ export interface NpcMemory {
   readonly warmth: number;
 }
 
-/** Quest progress (T0-M4-F1 / D-037). `progress` holds the done STEP ids per quest (a set,
+/** Quest progress (T0-M4-F1 / ADR-037). `progress` holds the done STEP ids per quest (a set,
  *  stored as a JSON-friendly array); `completed` guards the one-time reward grant. */
 export interface QuestState {
   readonly accepted: readonly string[];
@@ -106,7 +106,7 @@ export interface GameState {
   readonly rng: Rng;
   readonly clock: Clock;
   readonly character: Character;
-  /** Carried wealth — on you, at RISK on a lost fight (D-076 / batch-2 call 7). */
+  /** Carried wealth — on you, at RISK on a lost fight (ADR-076 / batch-2 call 7). */
   readonly resources: Readonly<Record<ResourceId, number>>;
   /** The kura storehouse — resources SHELTERED from the lost-fight penalty. Deposit/withdraw move
    *  between this and `resources` (carried); spending + earning use carried (banked is a safe
@@ -120,7 +120,7 @@ export interface GameState {
   // ── progression (M1+, additive) ──
   /** Per-skill XP; level is derived (PRD §4.5). */
   readonly skillXp: Readonly<Partial<Record<SkillId, number>>>;
-  /** Ids of dialogue lines already delivered (the diegetic-mentor cursor, D-039/D-063). */
+  /** Ids of dialogue lines already delivered (the diegetic-mentor cursor, ADR-039/ADR-063). */
   readonly deliveredDialogue: readonly string[];
   /** Per-NPC memory written by the interactive intro's choices, read by that NPC's later lines
    *  (plan §3.2). Default `{}`; NEVER cleared on ascension (persists across the whole run). */
@@ -130,7 +130,7 @@ export interface GameState {
    *  The unit is now a dialogue SCENE (npc-dialogue-tree plan); the field name is kept `introBeat`
    *  so the migration + cursor stay trivial (scene order == old beat order). */
   readonly introBeat: number;
-  /** The active rung-up story beat's TARGET rank, or `null` when no beat is live (D-110). A rung
+  /** The active rung-up story beat's TARGET rank, or `null` when no beat is live (ADR-110). A rung
    *  beat is ONE scene (greeting → optional ask-hub → one decision → apply), so a single nullable
    *  rank suffices (unlike the intro's 3-scene numeric `introBeat`). Set by `begin_rung_beat` when
    *  a promotion is ready + triggered; cleared by `choose_rung_option` after the promotion applies.
@@ -142,23 +142,23 @@ export interface GameState {
    *  2026-07-02) and the branch gates. Default `[]`; NEVER cleared on ascension (part of the run's
    *  history — `ascend` spreads state, so it carries through). */
   readonly askedTopics: readonly string[];
-  /** Quest acceptance + per-step progress + completion (T0-M4-F1 / D-037). */
+  /** Quest acceptance + per-step progress + completion (T0-M4-F1 / ADR-037). */
   readonly quests: QuestState;
-  /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / D-008). */
+  /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / ADR-008). */
   readonly marketBought: Readonly<Record<string, number>>;
-  /** Owned BELONGINGS — the ids of comfort furniture you've BOUGHT for your home (D-111 / F89). A
+  /** Owned BELONGINGS — the ids of comfort furniture you've BOUGHT for your home (ADR-111 / FB-89). A
    *  category DISTINCT from resources + equipment: never consumed, never carried into a fight, never
-   *  bitten by the D-113 loss. GRANTED keepsakes (the mat + bowl) are NOT stored here — they are
+   *  bitten by the ADR-113 loss. GRANTED keepsakes (the mat + bowl) are NOT stored here — they are
    *  auto-owned once the home surface latches (see selectors.ownedBelongingIds). Additive (default
    *  []); a lost fight never touches it. SCHEMA_VERSION 7. */
   readonly belongings: readonly string[];
-  /** Where you stand on the small walkable estate map (T0-M4-F4 / D-065). Default the kura. */
+  /** Where you stand on the small walkable estate map (T0-M4-F4 / ADR-065). Default the kura. */
   readonly location: MapNodeId;
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
   readonly rung: RankId;
   /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
   readonly rungMeter: number;
-  /** Kura-works PURCHASE stage U0…U4 (the coin upgrade ladder; D-098/D-107). The narrative
+  /** Kura-works PURCHASE stage U0…U4 (the coin upgrade ladder; ADR-098/ADR-107). The narrative
    *  CONDITION ladder E0–E5 is a SEPARATE axis (docs only). Flavour, not a sim; PRD §2.17. */
   readonly estateStage: number;
   /** The tab-open auto-repeat labour target, or null (FU23). */
@@ -179,10 +179,10 @@ export interface GameState {
   readonly stance: StanceId;
 
   // ── the tier spine (T0-M3+, additive; SCHEMA_VERSION 2) ──
-  /** Current tier 0..5 (Estate-tut → Estate → Village → Region → Castle-town → Edo, D-048).
+  /** Current tier 0..5 (Estate-tut → Estate → Village → Region → Castle-town → Edo, ADR-048).
    *  Stored, bumped by the manual opt-in ascension; v1 ships T0→T3 (D-013a). */
   readonly tier: number;
-  /** House-Influence pillar accrual (Phase-2-gated; the macro engine, D-049/D-055). */
+  /** House-Influence pillar accrual (Phase-2-gated; the macro engine, ADR-049/ADR-055). */
   readonly influence: Influence;
 }
 
@@ -201,7 +201,7 @@ export function createInitialState(seed: number): GameState {
       level: 1,
       combatXp: 0,
     },
-    // D-107: coin (base unit mon, the spendable currency) + rice (a real resource). koku is NO
+    // ADR-107: coin (base unit mon, the spendable currency) + rice (a real resource). koku is NO
     // LONGER a carried resource — it is the House's assessed STANDING (lives in `influence`).
     resources: { coin: 0, rice: 0 },
     banked: { coin: 0, rice: 0 },
@@ -213,7 +213,7 @@ export function createInitialState(seed: number): GameState {
     deliveredDialogue: [],
     npcMemory: {},
     introBeat: -1, // pre-wake; open_eyes starts the intro at scene 0
-    rungBeat: null, // no rung beat live until a ready promotion is triggered (D-110)
+    rungBeat: null, // no rung beat live until a ready promotion is triggered (ADR-110)
     askedTopics: [],
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
@@ -276,7 +276,7 @@ export function npcRegard(state: GameState, npc: NpcId): string {
   return state.npcMemory[npc]?.regard ?? '';
 }
 
-/** DEEPEN one NPC's relationship (D-110 rung beats). Distinct from the intro's overwrite-only
+/** DEEPEN one NPC's relationship (ADR-110 rung beats). Distinct from the intro's overwrite-only
  *  `rememberNpc`: `warmthDelta` ACCUMULATES onto the prior warmth (clamped to [-3, +3]), so a
  *  recurring granter's trust visibly deepens across rungs (Genemon R1→R4, Kihei R3→R5) rather than
  *  being re-stamped each meeting. `regard` overwrites only when present; absent ⇒ warmth-only. */

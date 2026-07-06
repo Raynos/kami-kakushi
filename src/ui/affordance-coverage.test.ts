@@ -9,8 +9,8 @@
 //      allowlisted);
 //   2. a removed/renamed control that orphans a wired intent → the runtime sweep
 //      fails (the intent is no longer reachable from any mounted state).
-// States come from the F6 fixture envelopes (cheap: parse + validate, NO simulation)
-// plus a few one-intent reductions — rationing the vitest gate's time (A17).
+// States come from the FB-6 fixture envelopes (cheap: parse + validate, NO simulation)
+// plus a few one-intent reductions — rationing the vitest gate's time (AC-17).
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
 import { validateEnvelope } from '../persistence/validate';
@@ -189,7 +189,7 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
     sweep(reduce(fixtureState('pre-ascension'), { type: 'ascend' }), seen);
 
     // synthetic RENDER states (the render.test pattern — a spread that flips one
-    // field is honest at the wiring layer; F6's no-poke purity is the e2e lane's
+    // field is honest at the wiring layer; FB-6's no-poke purity is the e2e lane's
     // contract, not this one's). Each exists to ENABLE one tail affordance:
     const worn = fixtureState('worn-weapon-no-wood');
     // equip_weapon: a forged axe waiting in the rack beside the equipped pole

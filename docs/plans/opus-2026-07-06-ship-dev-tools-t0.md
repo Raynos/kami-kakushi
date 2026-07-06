@@ -3,12 +3,12 @@
 **Status:** ▶️ in progress — 2026-07-06 (opus session)
 **Locks:** human answered the two direction forks via AskUserQuestion (2026-07-06):
 scope = **client-side tools only**; strip-gate = **invert under a T0 build flag +
-ADR**. Recorded as **D-138**.
+ADR**. Recorded as **ADR-138**.
 
 ## Who builds this — Fable or Opus?
 
 **Opus, whole thing.** This is build-shape + ship-hygiene surgery that reverses a
-documented invariant (D-067 / `verify-dev-strip.sh`) and touches the composition
+documented invariant (ADR-067 / `verify-dev-strip.sh`) and touches the composition
 root's DCE gating — judgment concentrates in getting the tree-shaking soundness
 right (a wrong gate ships cheats to players or breaks e2e). No mechanical bulk to
 farm to a cheaper tier.
@@ -21,10 +21,10 @@ dev keeps today's behaviour (tools on by default, `?dev=no` opts out). Post-T0 a
 single build flag flips back to the hard strip.
 
 **In scope (ship into gh-pages):** the `__qa` play-API, the DEV panel + variant
-harness (D-075), the balance cockpit, and the F6 scenario fixtures (+ `?fixture=`
+harness (ADR-075), the balance cockpit, and the FB-6 scenario fixtures (+ `?fixture=`
 boot param). All pure client-side — they work on static hosting.
 
-**Out of scope (stay stripped):** F8 telemetry and the F3 playtest-capture overlay
+**Out of scope (stay stripped):** FB-8 telemetry and the FB-3 playtest-capture overlay
 — both POST to **dev-server** endpoints that don't exist on gh-pages, so shipping
 them is dead weight. They remain gated on `import.meta.env.DEV`.
 
@@ -68,7 +68,7 @@ existing off-set).
    **always** ABSENT; client markers (`__qa`, `__KAMI_DEV_PANEL__`,
    `__KAMI_FIXTURES__`, `fresh-R3-pre-wolf`, `balance-override`) PRESENT in T0
    (ship mode), ABSENT post-T0. Keeps the gate sound in both directions.
-6. **ADR D-138** in `decisions.md` (refines/limits D-067 for T0).
+6. **ADR ADR-138** in `decisions.md` (refines/limits ADR-067 for T0).
 
 ## Soundness / risks
 

@@ -1,9 +1,9 @@
-// Dev-server transport for the F8 telemetry report drop. A Vite dev-middleware endpoint
+// Dev-server transport for the FB-8 telemetry report drop. A Vite dev-middleware endpoint
 // (wired in vite.config.ts, `apply: 'serve'` — structurally absent from any build) receives a
 // POSTed run report and writes it to `project/telemetry/<runId>.md`, OVERWRITING per run: one
 // file per game run, always the current report (session-ends re-drop the grown report).
 //
-// UNLIKE the F3 inbox, nothing here touches git: `project/telemetry/` is git-ignored BY
+// UNLIKE the FB-3 inbox, nothing here touches git: `project/telemetry/` is git-ignored BY
 // CONTRACT (see its README) — local sensor data agents read when talking pacing, never repo
 // history. Split for testability: `resolveDrop` is the pure validator (runId allowlist,
 // traversal jail, size cap); the handler is thin connect glue.

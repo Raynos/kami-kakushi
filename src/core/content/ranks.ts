@@ -19,7 +19,7 @@ export interface RankDef {
   readonly granter?: string;
   /** Points to fill THIS rung's meter, toward the next rung (per-rung-reset). The canonical
    *  mirror of balance.RUNG_METER_THRESHOLDS[id] (drift is verifier-enforced); resolved at
-   *  runtime via balance.rungThreshold(id). Single profile since D-056 (fork retired). */
+   *  runtime via balance.rungThreshold(id). Single profile since ADR-056 (fork retired). */
   readonly meterThreshold: number;
   /** Action ids that feed the meter while AT this rung (curated, one-to-many). */
   readonly eligible: readonly string[];
@@ -38,7 +38,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: 'Day-labourer',
     kanji: '日雇',
-    meterThreshold: 1100, // D-056 single profile — ≈ 5-min cold-open (mirrors balance.ts)
+    meterThreshold: 1100, // ADR-056 single profile — ≈ 5-min cold-open (mirrors balance.ts)
     eligible: ['rake_rice'],
     storyGate: () => true, // raking the spilled stores is proof enough to be kept on
   },
@@ -57,7 +57,7 @@ export const RANKS: readonly RankDef[] = [
       // `rank-r1` gates a reveal (intents.ts) and the rest are the per-rung record used by test
       // fixtures + reserved as gate-hooks for later rungs — kept complete, not dead write-only cruft.
       flags: ['rank-r1'],
-      // F103 / D-110: the rung-up STORY prose now lives in RUNG_BEATS.R1.greeting (spoken in the
+      // FB-103 / ADR-110: the rung-up STORY prose now lives in RUNG_BEATS.R1.greeting (spoken in the
       // beat → Story channel); `applyPromotion` emits the single terse "Rank ↑" marker to Progress.
       // So `rewardOnReach` carries NO log line — only the flags + the surfaces the beat motivates.
       unlock: [
@@ -83,7 +83,7 @@ export const RANKS: readonly RankDef[] = [
     advanceHint: 'Service enough — but the grain-store wolf still waits. Face it to rise.',
     rewardOnReach: {
       flags: ['rank-r2', 'porters-knot'],
-      // F103 / D-110: both the milestone prose AND the porters-knot narration move into
+      // FB-103 / ADR-110: both the milestone prose AND the porters-knot narration move into
       // RUNG_BEATS.R2.greeting (the beat's closing narrator line), so all of R2's story prose lives
       // in one place (Story channel). `rewardOnReach` keeps only flags + unlocks; `applyPromotion`
       // emits the terse "Rank ↑" marker to Progress.
@@ -128,7 +128,7 @@ export const RANKS: readonly RankDef[] = [
         'panel-bestiary',
         'panel-house-influence',
       ],
-      // F103 / D-110: story prose → RUNG_BEATS.R3.greeting (Kihei's full VN meet); terse marker only.
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R3.greeting (Kihei's full VN meet); terse marker only.
     },
   },
   // R4–R7 — the rest of the T0 estate ladder (M2·2, deliberately THIN: threshold + a reveal-as-
@@ -148,7 +148,7 @@ export const RANKS: readonly RankDef[] = [
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
       unlock: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya'],
-      // F103 / D-110: story prose → RUNG_BEATS.R4.greeting (Genemon + the smith Tōzō); terse marker only.
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R4.greeting (Genemon + the smith Tōzō); terse marker only.
     },
   },
   {
@@ -161,15 +161,15 @@ export const RANKS: readonly RankDef[] = [
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     storyGate: () => true,
     rewardOnReach: {
-      // D-122 — the T0 status token: reaching R5 mounts the weapon you WIELD on your home wall (the
+      // ADR-122 — the T0 status token: reaching R5 mounts the weapon you WIELD on your home wall (the
       // housing status-mirror). The `wall-weapon` flag latches the mount; applyPromotion emits the
       // dynamic reveal line naming your ACTUAL weapon (never a generic sword), and the home renders it.
       flags: ['rank-r5', 'wall-weapon'],
       // v0.3.2 A7 — the combat-rung beat: the stance control (glass-cannon↔tank) reveals here,
-      // the last staggered combat surface (§4.6.9). D-119 — the QUESTS tab also reveals at R5 (its own
+      // the last staggered combat surface (§4.6.9). ADR-119 — the QUESTS tab also reveals at R5 (its own
       // quest-log beat, tab-quests), one beat per rung.
       unlock: ['stance-control', 'tab-quests'],
-      // F103 / D-110: story prose → RUNG_BEATS.R5.greeting (Genemon confers + Kihei teaches the
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R5.greeting (Genemon confers + Kihei teaches the
       // stance, two-voice; BQ3). Terse "Rank ↑" marker only.
     },
   },
@@ -185,7 +185,7 @@ export const RANKS: readonly RankDef[] = [
     rewardOnReach: {
       flags: ['rank-r6'],
       unlock: ['house-workshops', 'house-granary'],
-      // F103 / D-110: story prose → RUNG_BEATS.R6.greeting (Lady Chiyo's full VN meet); terse marker only.
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R6.greeting (Lady Chiyo's full VN meet); terse marker only.
     },
   },
   {
@@ -202,7 +202,7 @@ export const RANKS: readonly RankDef[] = [
       // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5).
       flags: ['rank-r7', 't0-capstone'],
       unlock: ['house-study'],
-      // F103 / D-110: story prose → RUNG_BEATS.R7.greeting (the lord Shigemasa's capstone VN meet);
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R7.greeting (the lord Shigemasa's capstone VN meet);
       // terse "Rank ↑" marker only. `t0-capstone` fires here regardless of the beat's choice (BQ4).
     },
   },

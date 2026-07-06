@@ -24,13 +24,13 @@ export interface Surface {
   readonly revealLine?: {
     readonly channel: LogChannel;
     readonly text: string;
-    /** Speaker-voice tag (F91/F93). Absent on the milestone frontier beat; set to `narrator`
+    /** Speaker-voice tag (FB-91/FB-93). Absent on the milestone frontier beat; set to `narrator`
      *  by `narrate()` so every scene-reveal line renders in the same narrator voice as the intro. */
     readonly voice?: VoiceCategory;
   };
 }
 
-// F91/F93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
+// FB-91/FB-93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
 // EXPLICITLY (matching the intro's narration convention), never emitted as an un-voiced/plain line.
 const narrate = (text: string): { channel: LogChannel; text: string; voice: VoiceCategory } => ({
   channel: 'narration',
@@ -64,7 +64,7 @@ export const SURFACES: readonly Surface[] = [
     revealLine: narrate(COLD_OPEN.riceReveal),
   },
   {
-    // COIN is a "first wage" beat (D-107 / D4): the cold open is RICE-only, and the coin pill stays
+    // COIN is a "first wage" beat (ADR-107 / D4): the cold open is RICE-only, and the coin pill stays
     // hidden until the player first EARNS coin — the porter's wage from hauling stores at the gate
     // (~R1), or a combat spoil. STATE-PREDICATE reveal (keyed to carried-or-banked coin) so it
     // back-reveals for any save. A no-op earlier: at R0 you only rake rice, so coin stays at 0.
@@ -102,10 +102,10 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   {
-    // The player's HOME — "a place here is yours" made real (D-111 / F89). STATE-PREDICATE reveal
+    // The player's HOME — "a place here is yours" made real (ADR-111 / FB-89). STATE-PREDICATE reveal
     // keyed to the latched `tab-combat` surface (R3), so it back-reveals for any R3+ save with no
-    // migrate(). D-111's "home at R1" TIMING was moved to R3 (human, 2026-07-03): the home/belongings
-    // pane renders inside the Inventory tab, which staggers to R3 (D-119) — so announcing the home at
+    // migrate(). ADR-111's "home at R1" TIMING was moved to R3 (human, 2026-07-03): the home/belongings
+    // pane renders inside the Inventory tab, which staggers to R3 (ADR-119) — so announcing the home at
     // R1 promised a space with no tab to open it for two rungs. Gating on the SAME `tab-combat` the
     // Inventory tab uses fires the reveal EXACTLY when its tab appears — no dangling promise. `rest`
     // re-sites here, the granted mat + bowl become owned, and the belongings section opens.
@@ -168,7 +168,7 @@ export const SURFACES: readonly Surface[] = [
   { id: 'row-wood', kind: 'row', unlock: () => false },
   { id: 'row-sansai', kind: 'row', unlock: () => false },
   {
-    // STATE-PREDICATE reveal (keyed to the sansai row) — the sansai→HP heal sink (F22: the
+    // STATE-PREDICATE reveal (keyed to the sansai row) — the sansai→HP heal sink (FB-22: the
     // HEALTH-recovery action; work-stamina is the separate `rest` verb).
     id: 'verb-cook',
     kind: 'verb',
@@ -178,7 +178,7 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   {
-    // D-107 Phase 2 — the plain-rice FOOD path opens WITH the estate economy (panel-estate, ~R1),
+    // ADR-107 Phase 2 — the plain-rice FOOD path opens WITH the estate economy (panel-estate, ~R1),
     // the moment rice gains its eat/sell/store uses. STATE-PREDICATE (keyed to the latched
     // panel-estate) so it back-reveals for any save. Held back from the calm rake-only cold open so
     // it doesn't compete with the free `rest` before rice has a real alternative use (sell).
@@ -250,7 +250,7 @@ export const SURFACES: readonly Surface[] = [
       'The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.',
     ),
   },
-  // ── R5 — the Quests tab (D-119, reinstating D-037): quests earn a legible home of their own, revealed
+  // ── R5 — the Quests tab (ADR-119, reinstating ADR-037): quests earn a legible home of their own, revealed
   //    as their OWN quest-log beat (not batched into the R3 combat wave). ──
   {
     id: 'tab-quests',

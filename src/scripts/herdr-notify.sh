@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # herdr-notify.sh — ping the human with a desktop notification when an agent hits
-# something worth surfacing async: a just-filed H-item / R-item, or a blocking fork
+# something worth surfacing async: a just-filed HD-item / HR-item, or a blocking fork
 # it's about to leave for a human call. Serves D-083 ("surface, don't block") — the
 # agent keeps moving and the human sees the flag without watching the pane.
 #

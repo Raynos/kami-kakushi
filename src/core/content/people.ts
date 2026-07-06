@@ -1,4 +1,4 @@
-// The vendors-as-people registry (D-114 / F109/F110): every vendor is a PERSON you
+// The vendors-as-people registry (ADR-114 / FB-109/FB-110): every vendor is a PERSON you
 // TALK to at a map node's "who's here" list — never a bare inline menu — arranged on a
 // SPECTRUM of interaction depth, with an OPTIONAL place-gate. A vendor = (a person on the
 // spectrum) + (an optional place-gate). Pure data + pure predicates (no DOM, no RNG, no
@@ -11,8 +11,8 @@ import type { MapNodeId } from './map';
 import type { VoiceCategory } from './voices';
 import { NAMES } from './names';
 
-/** The D-114 depth spectrum — how much authoring a vendor carries:
- *  - `vn`    — a FULL VN character: a D-104 full-screen intro + dialogue/quests (the richest).
+/** The ADR-114 depth spectrum — how much authoring a vendor carries:
+ *  - `vn`    — a FULL VN character: a ADR-104 full-screen intro + dialogue/quests (the richest).
  *  - `small` — a SMALL person: a line or two of dialogue PLUS a trade (real voice, light presence).
  *  - `tiny`  — a TINY trader: ZERO questions; talking opens STRAIGHT into the trade menu (a face on
  *              a shop, no dialogue tree). */
@@ -27,10 +27,10 @@ export interface NodePerson {
   readonly voice: VoiceCategory;
   /** Where they stand (content/map.ts) — they only appear in `peopleHere` at THIS node. */
   readonly node: MapNodeId;
-  /** The D-114 spectrum position (a/b/c). */
+  /** The ADR-114 spectrum position (a/b/c). */
   readonly depth: PersonDepth;
 
-  /** (D-114 place-gate) a surface/flag the LOCATION needs before this person is reachable — you
+  /** (ADR-114 place-gate) a surface/flag the LOCATION needs before this person is reachable — you
    *  must REACH or BUILD the place first (e.g. the smithy before the smith). Undefined = no gate. */
   readonly placeGate?: SurfaceId;
 
@@ -39,7 +39,7 @@ export interface NodePerson {
   readonly presence?: (s: GameState) => boolean;
 
   // ── depth-specific payloads ──
-  /** `vn` → the D-104 DialogueScene id to open (the shared VN engine). */
+  /** `vn` → the ADR-104 DialogueScene id to open (the shared VN engine). */
   readonly sceneId?: string;
   /** `small`/`tiny` → a line or two shown on talk (so a trader reads as a person, not a menu). */
   readonly greeting?: string;
@@ -50,7 +50,7 @@ export interface NodePerson {
 }
 
 export const PEOPLE: readonly NodePerson[] = [
-  // ── the PEDLAR (F109 worked example) — a TINY trader (a face on a shop) with ONE greeting line so
+  // ── the PEDLAR (FB-109 worked example) — a TINY trader (a face on a shop) with ONE greeting line so
   //    he reads as a person, not a menu (a hair toward `small`; easy to promote later). He "passes
   //    now and then" — present at the gate-forecourt once the estate economy opens (panel-estate,
   //    ~R1). No place-gate: he comes to YOU (contrast the smith, who is tied to a place). ──
@@ -67,11 +67,11 @@ export const PEOPLE: readonly NodePerson[] = [
     shopId: 'pedlar',
     tell: 'an Ōmi pedlar — greens, wood, a whetstone',
   },
-  // ── the SMITH (place-gate SEAM, D-114 §4.2) — a `small` person TIED TO A PLACE: unavailable until
+  // ── the SMITH (place-gate SEAM, ADR-114 §4.2) — a `small` person TIED TO A PLACE: unavailable until
   //    the woodlot smithy is YOURS to use (placeGate `panel-equipment`, the R4 reward). Before then he
   //    is simply not in `peopleHere` (the reveal reuses the existing surface latch — no new machinery),
   //    so the shop feels EARNED and SITED. A deliberate STUB here (a greeting, no full character): the
-  //    two examples together cover both halves of D-114 (person-who-comes-to-you vs place-gated). ──
+  //    two examples together cover both halves of ADR-114 (person-who-comes-to-you vs place-gated). ──
   {
     id: 'smith',
     name: 'The smith',

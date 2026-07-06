@@ -43,13 +43,13 @@ export function formatRate(perTick: number, unit = 'tick'): string {
   return `${sign}${formatKMB(perTick)}/${unit}`;
 }
 
-// ── Coin denominations (D-108, LOCKED) ─────────────────────────────────────────
+// ── Coin denominations (ADR-108, LOCKED) ─────────────────────────────────────────
 // Money is ONE quantity — base unit **mon** — rendered in MIXED fixed-denomination
 // notation (like £·s·d / a mixed radix). The rate is FIXED for the whole game:
 // **1 ryō = 50 monme = 4,000 mon** (so 1 monme = 80 mon). These constants are the
 // SINGLE SOURCE for that math — never hard-code the magic numbers a second time; the
 // formatter AND its tests derive from them (matches the Bank-of-Japan 1601 primary
-// source + the human's worked example, D-108). Kept HERE (the pure display module),
+// source + the human's worked example, ADR-108). Kept HERE (the pure display module),
 // not in balance.ts, because the rate is display-only: it never affects a mechanic.
 export const MON_PER_MONME = 80;
 export const MONME_PER_RYO = 50;
@@ -57,7 +57,7 @@ export const MON_PER_RYO = MON_PER_MONME * MONME_PER_RYO; // 4_000
 
 /**
  * Format a coin amount (base unit **mon**) in MIXED mon→monme→ryō denominations with
- * INCREMENTAL REVEAL (D-108) — the notation itself signals the player's rise:
+ * INCREMENTAL REVEAL (ADR-108) — the notation itself signals the player's rise:
  *   - below 1 monme  (< 80 mon):            `"N mon"`
  *   - 1 monme … <1 ryō (80 … 3,999 mon):    `"M monme K mon"`
  *   - at/above 1 ryō  (≥ 4,000 mon):        `"R ryō M monme K mon"`

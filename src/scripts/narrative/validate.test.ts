@@ -1,9 +1,9 @@
-// F5 Ph2 — the validation roster's RED proofs: every §3 validation demonstrably
+// FB-5 Ph2 — the validation roster's RED proofs: every §3 validation demonstrably
 // goes RED against an inline fixture, and every error cites the authoring
 // file:line. The base fixture derives from the SOURCE-OF-TRUTH registries
 // (RANKS' unlock list, real NPC ids, real attrs/stances) — never copied magic
 // values — so a registry change moves the fixtures with it (test discipline,
-// D-086…D-088).
+// ADR-086…ADR-088).
 
 import { describe, it, expect } from 'vitest';
 import { parseNarrative, NarrativeError } from './parse';

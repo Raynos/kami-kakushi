@@ -1,5 +1,5 @@
 // Headless time-per-rung pacing report (audit G-PACING). Drives the focused-optimal
-// auto-play path per rung on the single shipped profile (D-056 — the DEMO/REAL fork is
+// auto-play path per rung on the single shipped profile (ADR-056 — the DEMO/REAL fork is
 // retired) using the REAL engine (createInitialState + reduce — NOT a re-derived formula,
 // so the "model" cannot drift from the game), converts dispatched intents → modeled
 // wall-minutes via the 480ms active-loop cadence, prints a per-rung table, and flags any
@@ -36,7 +36,7 @@ export interface RungPacing {
   wallMin: number;
   inGameDays: number;
   terminal: boolean;
-  /** T0 (D-056): true when a climb rung falls OUTSIDE the sane T0 band (too fast/too slow). */
+  /** T0 (ADR-056): true when a climb rung falls OUTSIDE the sane T0 band (too fast/too slow). */
   outOfBand: boolean;
 }
 
@@ -119,10 +119,10 @@ export function walkPacing(seed = SEED): RungPacing[] {
 }
 
 // ── CLI: (no flag) print the table · --check (exit 1 if any T0 climb rung is OUT OF BAND).
-//    D-056: ONE profile now — T0 is ≥30-floor-EXEMPT, gated instead on the sane T0 band
+//    ADR-056: ONE profile now — T0 is ≥30-floor-EXEMPT, gated instead on the sane T0 band
 //    [T0_PACING_BAND_MIN, T0_PACING_BAND_MAX] = [3, 22] min. Guarded so importing this from a
 //    test does NOT run the CLI. ──
-// `typeof process` guard: the F8 DEV telemetry report imports walkPacing() in the BROWSER
+// `typeof process` guard: the FB-8 DEV telemetry report imports walkPacing() in the BROWSER
 // (the vs-sim column) — a bare `process.argv` there is a boot-time ReferenceError.
 const RUN_AS_CLI =
   typeof process !== 'undefined' && (process.argv[1]?.includes('pacing-report') ?? false);

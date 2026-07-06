@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { MARKET_ITEMS, MARKET_ITEM_IDS, getItem, canBuy, MARKET_COIN_SINK_NOTE } from './market';
 
-// The capped coin-sink market (T0-M4-F3 / D-008: trade ≤ ⅓, a MINORITY lane). The
+// The capped coin-sink market (T0-M4-F3 / ADR-008: trade ≤ ⅓, a MINORITY lane). The
 // contract under test is the canBuy gate (coin AND the per-run stockCap), that the
 // roster is a tiny taste of REAL T0 goods, and that costs/caps stay small enough to
 // keep it from ever becoming a primary engine.
@@ -45,7 +45,7 @@ describe('MARKET_ITEMS — a tiny roster of real T0 goods', () => {
   it('is a small taste roster (≤6) with unique ids', () => {
     expect(MARKET_ITEMS.length).toBeGreaterThanOrEqual(3);
     // v0.3.1 Step 4 market-depth add → 6; still a MINORITY lane by SPEND (≤⅓ of the estate
-    // sink — asserted in economy.test), which is the real D-008 invariant, not the item count.
+    // sink — asserted in economy.test), which is the real ADR-008 invariant, not the item count.
     expect(MARKET_ITEMS.length).toBeLessThanOrEqual(6);
     expect(MARKET_ITEM_IDS.size).toBe(MARKET_ITEMS.length); // ids are unique
   });

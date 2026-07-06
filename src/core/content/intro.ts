@@ -1,4 +1,4 @@
-// The interactive intro — DATA, not script (interactive-intro plan §3.4/§4, D-039 discipline).
+// The interactive intro — DATA, not script (interactive-intro plan §3.4/§4, ADR-039 discipline).
 // After "Open your eyes," the cold open becomes a VN-style, click-to-continue sequence of
 // weighty BALANCED choices: each option is a net-zero +1/−1 attribute lean (never power creep),
 // and each NPC beat writes PER-NPC memory (plan §3.2) read by that NPC's later lines. The exact
@@ -29,7 +29,7 @@ export interface IntroOption {
   readonly say: string; // the MC's spoken reply → log, voice 'player'
   readonly react: string; // the NPC's / narrator's immediate reaction → log, voice = beat.voice
   readonly stat: IntroStat; // +1 up / −1 down (net-zero)
-  /** The post-pick outcome, as a PERK UNLOCK (F56): the choice grants a named perk. `name` is a
+  /** The post-pick outcome, as a PERK UNLOCK (FB-56): the choice grants a named perk. `name` is a
    *  short perk name that MAY reference the character/context; `desc` is a STANDALONE one-line
    *  flavor of what the perk IS — readable WITHOUT the intro-conversation context. The ± mechanics
    *  are appended by `introPerkLine` (single-source via `introStatDelta`), NEVER baked in here.
@@ -85,7 +85,7 @@ export interface IntroBeat {
 }
 
 /** The ordered intro as dialogue SCENES (npc-dialogue-tree plan §3.4) — the single source of
- *  truth, AUTHORED in `narrative/intro.md` (F5) and compiled to `intro.gen.ts`. Scene order ==
+ *  truth, AUTHORED in `narrative/intro.md` (FB-5) and compiled to `intro.gen.ts`. Scene order ==
  *  the old 3-beat order (soan/dream/genemon → scenes 0/1/2), so the `introBeat` cursor and the
  *  v3→v4 migration stay trivial. */
 export { DIALOGUE_SCENES } from './intro.gen';
@@ -159,9 +159,9 @@ export function introStatLine(stat: IntroStat): string {
   return `The choice settles into you. (${introStatDelta(stat)})`;
 }
 
-/** The post-pick PERK-UNLOCK line (F56): the option's granted perk — its `name` + standalone `desc`
+/** The post-pick PERK-UNLOCK line (FB-56): the option's granted perk — its `name` + standalone `desc`
  *  — with the exact ± mechanics woven in as context (never a bare delta). Emitted on the MILESTONE
- *  channel so it reads under Progress, not Work (F41). The ± is single-source via `introStatDelta`,
+ *  channel so it reads under Progress, not Work (FB-41). The ± is single-source via `introStatDelta`,
  *  so it always matches the trade the reducer actually applies. (The UI renders the perk as a
  *  JRPG-style box in a later pass; this is the log-line form of the same data.) */
 export function introPerkLine(opt: IntroOption): string {

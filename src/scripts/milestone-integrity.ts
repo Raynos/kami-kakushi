@@ -1,11 +1,11 @@
-// Milestone-integrity gate (battery #20 / D-054, backstops D-088) — pushes the milestone-integrity
-// NORM up to a verify GATE. D-054: "a milestone SHIPS only when every DoD line is met or ADR-amended,
+// Milestone-integrity gate (battery #20 / ADR-054, backstops ADR-088) — pushes the milestone-integrity
+// NORM up to a verify GATE. ADR-054: "a milestone SHIPS only when every DoD line is met or ADR-amended,
 // and a CI check asserts every instrument a DoD NAMES resolves to a real test/tool." This is the CI
 // check, kept LEAN on purpose: a hand-curated MANIFEST maps each named DoD forward-contract to the
 // test/tool that implements it, and the gate asserts (1) every manifest instrument RESOLVES (its file
 // exists and carries a stable marker), and (2) every named contract the roadmap MENTIONS is in the
 // manifest (so a DoD can't name an instrument that was never wired). No fragile full-markdown parse —
-// it fails only when a named instrument genuinely doesn't resolve, so it never cries wolf (A11).
+// it fails only when a named instrument genuinely doesn't resolve, so it never cries wolf (AC-11).
 //
 // Run: `tsx src/scripts/milestone-integrity.ts` (a verify gate). Fast (a few file reads).
 export {};
@@ -17,7 +17,7 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 const read = (rel: string): string | null =>
   existsSync(root + rel) ? readFileSync(root + rel, 'utf8') : null;
 
-/** Each named DoD forward-contract (roadmap §"DoD forward-contracts" + D-088's per-tier tests) →
+/** Each named DoD forward-contract (roadmap §"DoD forward-contracts" + ADR-088's per-tier tests) →
  *  the instrument that RESOLVES it: a file that must exist + a stable marker proving it's the real
  *  check (a contract name embedded in a describe, or a load-bearing symbol). */
 const MANIFEST: ReadonlyArray<{ contract: string; file: string; marker: string }> = [
@@ -30,7 +30,7 @@ const MANIFEST: ReadonlyArray<{ contract: string; file: string; marker: string }
   },
   { contract: 'DISPLAYED==TESTED', file: 'src/core/m2.test.ts', marker: 'seed-robust' },
   { contract: 'playcheck', file: 'src/playcheck.ts', marker: 'focusedOptimalIntent' },
-  // D-088 — the per-tier hard DoD contract: a full-arc e2e + an invariants test, each a real test.
+  // ADR-088 — the per-tier hard DoD contract: a full-arc e2e + an invariants test, each a real test.
   { contract: 'T0-e2e (D-088)', file: 'src/core/t0-arc.test.ts', marker: 'focusedOptimalIntent' },
   { contract: 'T0-invariants (D-088)', file: 'src/core/invariants.test.ts', marker: 'invariant' },
 ];

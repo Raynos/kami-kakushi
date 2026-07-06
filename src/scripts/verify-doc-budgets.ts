@@ -1,4 +1,4 @@
-// verify-doc-budgets — snapshot-class docs hold their hard line caps (D-126).
+// verify-doc-budgets — snapshot-class docs hold their hard line caps (ADR-126).
 //
 // A hard budget turns "append" into "displace": to add a line, cull a weaker
 // one, so the doc sharpens instead of growing (project-status.md once bloated
@@ -10,7 +10,7 @@
 //
 // WARN-only genre tripwire: a `(session-NN)` reference inside taste/ui-design,
 // or a "Phase update" bullet in the status snapshot, is the journal genre
-// leaking into a replace-in-place doc — loud, never blocking (A11).
+// leaking into a replace-in-place doc — loud, never blocking (AC-11).
 export {};
 
 import { readFileSync, existsSync } from 'node:fs';

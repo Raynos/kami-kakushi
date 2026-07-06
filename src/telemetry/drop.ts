@@ -1,4 +1,4 @@
-// The report drop (F8 Ph4, browser side) — POSTs the run's report markdown to the dev-server
+// The report drop (FB-8 Ph4, browser side) — POSTs the run's report markdown to the dev-server
 // middleware, which writes it into the git-ignored `project/telemetry/` folder (the agent-
 // facing delivery loop's FOLDER). Fire-and-forget + fail-soft: the localStorage ring is the
 // buffer, the files are the archive — a failed drop (dev server absent, prod preview) is a

@@ -250,7 +250,7 @@ describe('migration wiring + pre-migration backup', () => {
   });
 });
 
-// F96 — the "New game" safety net: back up the current run to a distinct slot, then restore it.
+// FB-96 — the "New game" safety net: back up the current run to a distinct slot, then restore it.
 describe('backup / restore slot (F96)', () => {
   function rich(seed = 7): GameState {
     return { ...sample(seed), tier: 1, location: 'home-paddies' };

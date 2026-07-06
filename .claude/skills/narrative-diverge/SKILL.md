@@ -1,14 +1,14 @@
 ---
 name: narrative-diverge
-description: Generate 3+ genuinely-distinct TAKES for any fiction-voiced text the player reads (beats, dialogue, cold open, flavor lines, names, descriptions) — each take authored by an independent blind agent under a distinct dramatic brief, scored per-option with the taste scorecard, self-picked into canon, and surfaced to the human as a coherent review bundle with the alternates kept DEV-only until sign-off. D-139 (the story sibling of D-075). MANDATORY for all new story elements and all feedback-driven story improvements; only mechanical edits (typo, name sync) are exempt. Use when authoring or revising any narrative content, or when the human says "diverge the story / show me story options".
+description: Generate 3+ genuinely-distinct TAKES for any fiction-voiced text the player reads (beats, dialogue, cold open, flavor lines, names, descriptions) — each take authored by an independent blind agent under a distinct dramatic brief, scored per-option with the taste scorecard, self-picked into canon, and surfaced to the human as a coherent review bundle with the alternates kept DEV-only until sign-off. ADR-139 (the story sibling of ADR-075). MANDATORY for all new story elements and all feedback-driven story improvements; only mechanical edits (typo, name sync) are exempt. Use when authoring or revising any narrative content, or when the human says "diverge the story / show me story options".
 ---
 
-# Narrative diverge (D-139)
+# Narrative diverge (ADR-139)
 
 > **THE RULE:** no fiction-voiced text ships from a single take. Every new
 > story element and every feedback-driven story improvement comes with **3+
 > options**, each a **distinct dramatic choice** — the anti-slop discipline
-> D-075 applies to UI, applied to story. Sibling skill:
+> ADR-075 applies to UI, applied to story. Sibling skill:
 > [`diverge`](../diverge/SKILL.md) (UI surfaces; shares the philosophy, not
 > the procedure).
 
@@ -35,7 +35,7 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    bundle** (a beat + its dialogue; a feedback batch touching one scene).
    Judgment call — bundles the human can review in one sitting, never 25+
    atomized picks, never everything forced into one mega-doc.
-2. **Taste Pass 1 (F10, D-135).** Walk `docs/living/taste.md` into a
+2. **Taste Pass 1 (FB-10, ADR-135).** Walk `docs/living/taste.md` into a
    constraint brief for the bundle — it binds ALL takes (they diverge in
    dramatic approach, not in whether they meet the bar).
 3. **Write the dramatic briefs.** One per take, 3+ total, each committing to
@@ -44,7 +44,7 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    take commits the story to that the others don't. Paraphrase sets are
    rejected before authoring starts.
 4. **Author blind, one agent per TAKE.** Independent agents (session-model
-   routing, D-124), each authoring the COMPLETE bundle under its brief in F5
+   routing, ADR-124), each authoring the COMPLETE bundle under its brief in FB-5
    narrative markdown, blind to the other takes — sets stay internally
    coherent. Workflow-friendly fan-out.
 5. **Taste Pass 2 per take.** Score EVERY take with the
@@ -55,14 +55,14 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    Write the pick **rationale** into the bundle review doc. Never block on
    the human.
 7. **Land the pick in canon; keep alternates DEV-only.** The picked take goes
-   into the F5 source (`src/core/content/narrative/` → `gen:narrative`).
+   into the FB-5 source (`src/core/content/narrative/` → `gen:narrative`).
    Alternates live in the DEV-only narrative-variants area (compiled,
    strip-gated from prod — zero prod flag-debt), switchable via the DEV
    **story-variant set-switcher** and readable in the **script-reader modal**
    (build plan: `docs/plans/fable-2026-07-06-narrative-dev-surfaces.md`;
    until those surfaces exist, the bundle review doc alone carries the
-   alternates — say so in the R-item).
-8. **File ONE R-item per bundle** in `project/human-in-the-loop/review.md`:
+   alternates — say so in the HR-item).
+8. **File ONE HR-item per bundle** in `project/human-in-the-loop/review.md`:
    the picked script as a continuous read, alternates under each unit, Pass-1
    brief + per-take scorecard blocks, pick rationale, and how to review
    in-game (which DEV set-switcher entries). Journal + status bump, commit,
@@ -71,7 +71,7 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    script-reader modal) and tells the agent the verdict; no export controls,
    no in-modal canon writes. On sign-off: prune the losing takes from the
    DEV area — **the committed review doc is the archive** (canon carries only
-   the pick). On override: swap the picked unit(s) in the F5 source,
+   the pick). On override: swap the picked unit(s) in the FB-5 source,
    regenerate, then prune.
 
 ## §3 · Anti-patterns
@@ -80,9 +80,9 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
   step 3, before authoring.
 - **Peeking takes** — an author agent shown a sibling take converges;
   authoring is blind, always.
-- **Atomized review** — filing one R-item (or one question) per line; the
+- **Atomized review** — filing one HR-item (or one question) per line; the
   human reviews bundles.
-- **Alternates in canon** — the F5 source never grows an alternates syntax;
+- **Alternates in canon** — the FB-5 source never grows an alternates syntax;
   losers live in the review doc + DEV area only, and leave the tree at
   sign-off.
 - **Pre-wiring the human's audit/redesign TODOs** — those get fresh,

@@ -1,4 +1,4 @@
-// DEV-only harness (PRD §6.10 / D-075): the in-UI DEV panel + the live variant-toggle
+// DEV-only harness (PRD §6.10 / ADR-075): the in-UI DEV panel + the live variant-toggle
 // infrastructure. This WHOLE module is referenced only behind `import.meta.env.DEV` —
 // `createDevApi`/`mountDevPanel` are called from a DEV-guarded branch in main.ts, and the
 // renderer reaches `renderVariant` only through `import.meta.env.DEV && dev` (a branch Vite
@@ -9,7 +9,7 @@
 // The renderer reads a DEV-only `variant: Record<surface,id>` to choose which rendering of a
 // diverged surface to show; NOTHING in src/core branches on it — variants are pure
 // presentation. Prod ships only each surface's DEFAULT (the first variant), so there is zero
-// prod flag-debt (D-075).
+// prod flag-debt (ADR-075).
 
 import {
   balance,
@@ -50,7 +50,7 @@ import { el, pct } from './render';
 import { FIXTURES_SENTINEL } from '../fixtures';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
-// here, riding this module's DEV fold + sentinel graph (F7 / D-059).
+// here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
 export type { BalanceCockpit, TuneMeta, TouchedLever, LeverDef } from './dev-cockpit';
 
@@ -137,7 +137,7 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
-  // F101 — the human reordered these two SURFACES so the Estate MAP sits at the TOP of the
+  // FB-101 — the human reordered these two SURFACES so the Estate MAP sits at the TOP of the
   //   recency-reversed panel list: `quests` moved UP to index 3 (→ V3) and `map` moved DOWN to
   //   index 5 (→ V5, top of the list). Only the array POSITIONS changed; the entries are verbatim.
   {
@@ -185,7 +185,7 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
-  // F102 / D-115 / D-116 — the Map splits into a SHARED you-are-here FLAVOR card (rendered in
+  // FB-102 / ADR-115 / ADR-116 — the Map splits into a SHARED you-are-here FLAVOR card (rendered in
   //   render.ts) + a terse, hint-free NAVIGATION section. This surface diverges the NAVIGATION
   //   PRESENTATION only: every variant is terse, gives NO next-zone hint (no loot/foe/reward
   //   preview), shows locked/unreachable edges GREYED, and moves by CLICKING the node (no separate
@@ -238,7 +238,7 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
-  // D-111 / F89 — the home / belongings panel (the deep-housing pass shipped ONE prod default,
+  // ADR-111 / FB-89 — the home / belongings panel (the deep-housing pass shipped ONE prod default,
   //   renderBelongings; this diverge adds the mandatory live DEV alternates). Every variant shows
   //   the SAME home data (header, owned belongings + comfort badges, the live comfort tally, and the
   //   buyable acquire list wired to `buy_belonging`) — only the PRESENTATION differs.
@@ -268,7 +268,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   // ── Workspace layout + framing (multi-panel, M2) — LOCKED, not toggleable. The human picked
   //    屏風 folding-columns (`layout-byobu`) + soft cards (`framing-cards`) as the sole prod
-  //    rendering (D-075 zero-flag-debt), so the `layout`/`framing` variant surfaces were pruned:
+  //    rendering (ADR-075 zero-flag-debt), so the `layout`/`framing` variant surfaces were pruned:
   //    render.ts stamps the two data-attributes as CONSTANTS and CSS does all the arranging. No
   //    dead variant code ships (the classic / 番付 / 巻物 layouts + woodblock-box / hairline
   //    framings were removed here and from styles.css). ──
@@ -295,7 +295,7 @@ export function createDevApi(): DevApi {
   for (const s of SURFACES) variant[s.id] = s.variants[0]!.id;
   const defaultOf = (s: string): string => SURFACES.find((x) => x.id === s)?.variants[0]?.id ?? '';
 
-  // F18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
+  // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
   // chosen set can be shared as a link. For each surface, `?<surface.id>=<variantId>` overrides the
   // seeded default IFF the id is a real variant of that surface (guard against a stale/typo param).
   // (`MODE !== 'test'` keeps this inert under vitest, whose jsdom `location`/`history` are SHARED
@@ -312,7 +312,7 @@ export function createDevApi(): DevApi {
     getVariant: (s) => variant[s] ?? defaultOf(s),
     setVariant: (s, id) => {
       variant[s] = id;
-      // F18 — mirror the pick back into the URL so a reload restores it (and the URL is shareable).
+      // FB-18 — mirror the pick back into the URL so a reload restores it (and the URL is shareable).
       // Drop the param when the pick is the surface's DEFAULT (variants[0]) so a clean state keeps
       // a clean URL; otherwise write `?<s>=<id>`.
       if (
@@ -488,7 +488,7 @@ function renderBestiaryVariant(
  *  functional list) ships inline in render.ts; B/C re-present the SAME home data — the header, the
  *  owned belongings (mat + bowl + bought furniture with their comfort), the live comfort-in-effect
  *  tally, and the buyable acquire list. Every buy button drives the REAL `buy_belonging` intent via
- *  the threaded `dispatch`, so a purchase moves the true state (A6 — same numbers as the default). */
+ *  the threaded `dispatch`, so a purchase moves the true state (AC-6 — same numbers as the default). */
 function renderHomeVariant(
   variantId: string,
   container: HTMLElement,
@@ -509,18 +509,18 @@ function renderHomeVariant(
     (b) => b.source.kind === 'buy' && !ownsBelonging(state, b.id),
   );
   const comfortNote = (def: BelongingDef): string => {
-    if (def.homesCook) return 'cook here'; // D-120 — the hearth homes the cook verb
+    if (def.homesCook) return 'cook here'; // ADR-120 — the hearth homes the cook verb
     if (!def.comfort) return 'a keepsake';
     switch (def.comfort.kind) {
       case 'rest':
         return `rest +${def.comfort.amount} body`;
       case 'storage':
-        return `keeps ${def.comfort.amount} belongings`; // D-120 — the chest is storage
+        return `keeps ${def.comfort.amount} belongings`; // ADR-120 — the chest is storage
       case 'body':
         return `+${def.comfort.amount} max body`;
     }
   };
-  // the live comfort-in-effect tally string, shared by both variants (A6: the SAME selectors the
+  // the live comfort-in-effect tally string, shared by both variants (AC-6: the SAME selectors the
   // reducer + the prod default read — a bare corner reads 0, the settled set adds its note).
   const tallyParts: string[] = [];
   if (restB > 0) tallyParts.push(`rest +${restB} body`);
@@ -768,7 +768,7 @@ function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameS
   } else {
     return false;
   }
-  // D-107: keep the DEV variants' footer koku-consistent with the prod default's re-skin.
+  // ADR-107: keep the DEV variants' footer koku-consistent with the prod default's re-skin.
   card.append(
     el('div', 'influence-when', `The season re-assesses at ${formatKMB(est.highWater)} koku.`),
   );
@@ -1290,7 +1290,7 @@ function renderQuestsVariant(
 
 // ── the diverged Estate-map NAVIGATION presentations (B…G) — DEV-only, stripped from prod. The
 //    SHARED you-are-here FLAVOR card + the "who's here" list stay in render.ts; each variant here
-//    re-presents ONLY the terse, HINT-FREE navigation (F102 / D-115 / D-116): NO next-zone preview
+//    re-presents ONLY the terse, HINT-FREE navigation (FB-102 / ADR-115 / ADR-116): NO next-zone preview
 //    (no loot / foe / reward), locked or undiscovered edges shown GREYED, and moving = CLICKING the
 //    node (no separate "go" button). The default A (the terse paths list) ships inline in render.ts.
 //    Every walk target / locked edge carries a uniform `data-node` (+ `data-locked`) hook so the
@@ -1877,7 +1877,7 @@ function renderMapGraph(container: HTMLElement, ctx: MapNavCtx): void {
 /** The subset of `window.__qa` the panel drives. main.ts's qa object satisfies this
  *  structurally; the panel never sees the rest of __qa. */
 export interface DevQa {
-  /** Live state, for the F7 balance cockpit's §5 live-feedback readouts (rung/capstone ETA, etc.). */
+  /** Live state, for the FB-7 balance cockpit's §5 live-feedback readouts (rung/capstone ETA, etc.). */
   state(): GameState;
   speed(mult: number): number;
   jumpToPhase2(): unknown;
@@ -1887,16 +1887,16 @@ export interface DevQa {
   auto(id: ActivityId | null): void;
   autoCombat(id: MobId | null): void;
   newGame(seed?: number): void;
-  /** F96 save-backup safety net: `hasBackup` gates the "goto last backup" button; `restoreBackup`
+  /** FB-96 save-backup safety net: `hasBackup` gates the "goto last backup" button; `restoreBackup`
    *  rewinds to the pre-New-game snapshot. Both async (they hit the redundant storage backends). */
   hasBackup(): Promise<boolean>;
   restoreBackup(): Promise<boolean>;
-  /** F6 scenario saves: load a NAMED fixture (backup-first) + list the available scenarios. */
+  /** FB-6 scenario saves: load a NAMED fixture (backup-first) + list the available scenarios. */
   loadFixture(name: string): Promise<unknown>;
   fixtures(): ReadonlyArray<{ name: string; blurb: string }>;
   /** Read the live rung so the panel can highlight it (structural subset of __qa.selectors). */
   selectors: { rung(): RankId };
-  /** F8 — the attended-time telemetry handle (absent only in tests that stub qa). The panel's
+  /** FB-8 — the attended-time telemetry handle (absent only in tests that stub qa). The panel's
    *  Telemetry section is MINIMAL by human lock: one-liner + drop/clear (no copy/download). */
   telemetry?:
     | undefined
@@ -1925,12 +1925,12 @@ export function mountDevPanel(
   const panel = el('div');
   panel.setAttribute('data-dev', DEV_SENTINEL);
   // bottom-anchored floating overlay; collapsed it shrinks to the header (width:fit-content),
-  // expanded it grows to 15rem (see the head click handler). Never reserves layout space (F2/F4).
-  // F37 — the panel is a FLEX COLUMN (fixed head / scrolling body / fixed footer) and itself
+  // expanded it grows to 15rem (see the head click handler). Never reserves layout space (FB-2/FB-4).
+  // FB-37 — the panel is a FLEX COLUMN (fixed head / scrolling body / fixed footer) and itself
   // clips (overflow:hidden); the SCROLL lives on the tab panes below, NOT the whole panel, so the
   // New-game footer stays pinned no matter how far the variants scroll.
   panel.style.cssText =
-    // F119 — widened 16rem → 24rem so the F6 Scenarios tab (long fixture names) isn't clipped.
+    // FB-119 — widened 16rem → 24rem so the FB-6 Scenarios tab (long fixture names) isn't clipped.
     'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
     'display:flex;flex-direction:column;overflow:hidden;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
@@ -1947,7 +1947,7 @@ export function mountDevPanel(
   panel.append(head);
 
   const body = el('div');
-  // start COLLAPSED so the panel is as small as possible by default (F4). F37 — the body is the
+  // start COLLAPSED so the panel is as small as possible by default (FB-4). FB-37 — the body is the
   // flex-growing middle of the panel column (min-height:0 lets its scrolling pane child shrink);
   // it clips so ONLY the panes scroll, keeping the tab bar and footer pinned.
   body.style.cssText =
@@ -1962,26 +1962,26 @@ export function mountDevPanel(
   });
 
   // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
-  //    (the D-075 review focus). Each tab shows its pane and hides the other. ──
+  //    (the ADR-075 review focus). Each tab shows its pane and hides the other. ──
   const tabBar = el('div');
-  // F37 — the tab bar is fixed above the scroll region (never scrolls with the panes). F7 — it now
+  // FB-37 — the tab bar is fixed above the scroll region (never scrolls with the panes). FB-7 — it now
   // WRAPS (four tabs no longer fit the 15rem expanded width on one row), so the Balance tab is always
   // reachable (two rows of two) instead of clipping off the right edge.
   tabBar.style.cssText =
     'flex:0 0 auto;display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.15rem;';
-  // F37 — the panes are the ONLY scrolling area: each grows to fill the body's middle and scrolls
+  // FB-37 — the panes are the ONLY scrolling area: each grows to fill the body's middle and scrolls
   // its own overflow, so the fixed footer below stays pinned no matter how tall the content is.
   const paneScroll = 'flex:1 1 auto;min-height:0;overflow:auto;';
   const settingsPane = el('div');
   settingsPane.style.cssText = `display:none;flex-direction:column;gap:.5rem;${paneScroll}`;
   const variantsPane = el('div');
   variantsPane.style.cssText = `display:flex;flex-direction:column;gap:.4rem;${paneScroll}`;
-  // F6 — a third pane: named scenario-save fixtures (DEV tooling; not a player surface, so the
-  // D-075 diverge mandate doesn't apply — capture-inbox precedent). Populated after enableRestore.
+  // FB-6 — a third pane: named scenario-save fixtures (DEV tooling; not a player surface, so the
+  // ADR-075 diverge mandate doesn't apply — capture-inbox precedent). Populated after enableRestore.
   const scenariosPane = el('div');
   scenariosPane.style.cssText = `display:none;flex-direction:column;gap:.2rem;${paneScroll}`;
-  // F7 — a fourth pane: the balance-tuning cockpit (DEV instrument panel, D-059; not a player
-  // surface, so the D-075 diverge mandate doesn't apply — same precedent as Scenarios/capture-inbox).
+  // FB-7 — a fourth pane: the balance-tuning cockpit (DEV instrument panel, ADR-059; not a player
+  // surface, so the ADR-075 diverge mandate doesn't apply — same precedent as Scenarios/capture-inbox).
   const balancePane = el('div');
   balancePane.style.cssText = `display:none;flex-direction:column;gap:.15rem;${paneScroll}`;
 
@@ -2023,7 +2023,7 @@ export function mountDevPanel(
   tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab);
   body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane);
 
-  // F7 — mount the balance cockpit into its pane; the touched count badges the tab label
+  // FB-7 — mount the balance cockpit into its pane; the touched count badges the tab label
   // (`Balance (3)`) so a dirty tuning session is obvious no matter which sub-tab is showing.
   mountBalanceCockpit(balancePane, cockpit, {
     getState: qa.state,
@@ -2056,7 +2056,7 @@ export function mountDevPanel(
     return rows;
   };
 
-  // speed — F49: 1·2·4·8·16, with the ACTIVE multiplier highlighted (reuse the gold #b08d4f /
+  // speed — FB-49: 1·2·4·8·16, with the ACTIVE multiplier highlighted (reuse the gold #b08d4f /
   // dark #1c1814 active idiom the tab bar + variant toggles use). Track the selected button so a
   // click marks it active and clears the rest; default the highlight to 1× (the game's start speed).
   const speed = section('Speed');
@@ -2083,7 +2083,7 @@ export function mountDevPanel(
   const jump = section('Jump');
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));
-  // F68 — a button for EVERY rung in the roster (source of truth: RANKS/ranks.ts), not a partial
+  // FB-68 — a button for EVERY rung in the roster (source of truth: RANKS/ranks.ts), not a partial
   // set. Clicking teleports in EITHER direction (toRung resets-then-climbs to descend); the CURRENT
   // rung reads highlighted (the gold #b08d4f active idiom the Speed row + tab bar use). Compact:
   // id + kanji on the button face, the full English title in the tooltip.
@@ -2120,10 +2120,10 @@ export function mountDevPanel(
     }),
   );
 
-  // F8 — Telemetry (MINIMAL by human lock 2026-07-05: one live line + drop/clear; the
+  // FB-8 — Telemetry (MINIMAL by human lock 2026-07-05: one live line + drop/clear; the
   // copy/download/console.table buttons were cut — the project/telemetry/ folder drop is the
   // transport). DEV instrument panel, not a player surface → diverge-exempt (locked; the
-  // Scenarios/Balance precedent). The line refreshes on a slow tick; stamped with the F8
+  // Scenarios/Balance precedent). The line refreshes on a slow tick; stamped with the FB-8
   // sentinel so the strip gate can see the section rode the DEV fold.
   if (qa.telemetry) {
     const tele = section('Telemetry');
@@ -2147,14 +2147,14 @@ export function mountDevPanel(
     );
   }
 
-  // F38 — New game lives ONLY in the fixed footer now (it used to be duplicated here in a
-  // Settings→Game section). The footer copy (below, F34) is the single always-visible one.
+  // FB-38 — New game lives ONLY in the fixed footer now (it used to be duplicated here in a
+  // Settings→Game section). The footer copy (below, FB-34) is the single always-visible one.
 
-  // ── the live variant toggle — the heart of D-075 review. Each surface is a COLLAPSED summary
+  // ── the live variant toggle — the heart of ADR-075 review. Each surface is a COLLAPSED summary
   //    row (label + current pick + caret); clicking it reveals the blurb + the option buttons.
   //    Rows are RECENCY-ordered: SURFACES is oldest→newest (new surfaces are appended), so we
   //    display it REVERSED — the most-recently-introduced surface sits at the top. ──
-  // V-numbering (F36) — per-SURFACE, assigned in REGISTRY order: each surface gets ONE number
+  // V-numbering (FB-36) — per-SURFACE, assigned in REGISTRY order: each surface gets ONE number
   // (surface[0]=V0, surface[1]=V1, …), and its variants share that number with a LETTER suffix =
   // the variant's index (A/B/C). So quests (registry #6) → V6A/V6B/V6C. Registry order (not the
   // recency-reversed DISPLAY order) keeps a tag pinned to its variant: it never shifts when the
@@ -2172,7 +2172,7 @@ export function mountDevPanel(
     const sec = el('div');
     sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;';
 
-    // the clickable collapsed summary row — a two-line VERTICAL stack (playtest F35): line 1 is
+    // the clickable collapsed summary row — a two-line VERTICAL stack (playtest FB-35): line 1 is
     // the caret + surface NAME only; line 2 sits underneath (indented under the name, muted) as
     // `V{n}{letter} · {label}` — V-tag first. Stacking (vs cramming name+label+[Vn] on one line) stops
     // the long rows (e.g. HOUSE-INFLUENCE GRADE) wrapping badly / overflowing the panel's edge.
@@ -2221,7 +2221,7 @@ export function mountDevPanel(
         paint();
         rerender();
       });
-      // F35 — left-align the option label (mono defaults to centered), so a long pick like
+      // FB-35 — left-align the option label (mono defaults to centered), so a long pick like
       // `V6A · A · price-button list` reads cleanly instead of centre-wrapping.
       b.style.textAlign = 'left';
       buttons.push(b);
@@ -2243,18 +2243,18 @@ export function mountDevPanel(
   // default active sub-tab = Variants (the review focus)
   selectTab('variants');
 
-  // F34/F37 — a PERMANENT New-game footer, TRULY fixed at the bottom of the panel column
+  // FB-34/FB-37 — a PERMANENT New-game footer, TRULY fixed at the bottom of the panel column
   // (flex:0 0 auto, outside the scrolling panes) so it's reachable no matter which sub-tab is
-  // active OR how far the variants scroll. F38 — this is now the SOLE New-game control (the old
+  // active OR how far the variants scroll. FB-38 — this is now the SOLE New-game control (the old
   // duplicate in the Settings→Game section was removed).
-  // F96 — the footer stacks two half-width rows: "goto last backup" ABOVE "New game". A flex COLUMN
+  // FB-96 — the footer stacks two half-width rows: "goto last backup" ABOVE "New game". A flex COLUMN
   // so the buttons stack; each button is width:50% + align-self:flex-start (left-anchored).
   const footer = el('div');
   footer.style.cssText =
     'flex:0 0 auto;margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;' +
     'display:flex;flex-direction:column;gap:.25rem;';
 
-  // F96 — "goto last backup": restores the snapshot New game takes before it wipes the run. Starts
+  // FB-96 — "goto last backup": restores the snapshot New game takes before it wipes the run. Starts
   // DISABLED (dimmed) and is enabled once a backup exists — either found on mount (a prior session)
   // or created the moment New game is pressed.
   const restoreBtn = mono('↩ last backup', () => {
@@ -2272,8 +2272,8 @@ export function mountDevPanel(
   };
   footer.append(restoreBtn);
 
-  // F6 — populate the Scenarios pane: one row per fixture (name · blurb · Load). loadFixture is
-  // backup-first (it snapshots the current run to the F96 slot), so a load can never destroy the
+  // FB-6 — populate the Scenarios pane: one row per fixture (name · blurb · Load). loadFixture is
+  // backup-first (it snapshots the current run to the FB-96 slot), so a load can never destroy the
   // human's real save — lighting "↩ last backup" is the way home. The sentinel stamps the pane so
   // the strip gate (gh-pages.sh) can grep-prove these DEV bytes never ship (Ph3, R2).
   scenariosPane.dataset.sentinel = FIXTURES_SENTINEL;
@@ -2295,9 +2295,9 @@ export function mountDevPanel(
     scenariosPane.append(row);
   }
 
-  // F95 — New game is HALF WIDTH + left-anchored (was flex:1 / full width) so an accidental
+  // FB-95 — New game is HALF WIDTH + left-anchored (was flex:1 / full width) so an accidental
   // double-click on the compact dev menu can't land on it and wipe the run; the right half is empty.
-  // F96 — pressing it also enables the restore button (a fresh backup now exists).
+  // FB-96 — pressing it also enables the restore button (a fresh backup now exists).
   const newGameFooterBtn = mono('⟳ New game', () => {
     qa.newGame();
     enableRestore();
@@ -2317,6 +2317,6 @@ export function mountDevPanel(
 
   host.append(panel);
   // NOTE: the panel is position:fixed and floats OVER the app (bottom-right), so it reserves
-  // NO layout space — the game UI centers on the full viewport (playtest F2/F4). The old
+  // NO layout space — the game UI centers on the full viewport (playtest FB-2/FB-4). The old
   // `#app paddingRight:16rem` gutter (which de-centered the UI and exposed a white strip) is gone.
 }

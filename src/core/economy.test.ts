@@ -32,7 +32,7 @@ import {
 } from './index';
 import { validateState } from '../persistence/validate';
 
-// D-110: promotion is a player-TRIGGERED beat now. These local helpers drive the real path — finish
+// ADR-110: promotion is a player-TRIGGERED beat now. These local helpers drive the real path — finish
 // the intro's VN scenes, then trigger + complete a ready rung beat.
 function finishIntro(s: GameState): GameState {
   while (introActive(s.introBeat)) {
@@ -70,7 +70,7 @@ function farmReady(seed = SEASON_SPRING_SAFE): GameState {
 }
 
 function farmYield(s: GameState): number {
-  // farm_paddy now yields RICE (D-107) — the honest noun for working the paddies.
+  // farm_paddy now yields RICE (ADR-107) — the honest noun for working the paddies.
   const before = s.resources.rice ?? 0;
   const after = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
   return (after.resources.rice ?? 0) - before;
@@ -130,14 +130,14 @@ describe('skill → yield multiplier (audit #4)', () => {
 
   it('rung pacing is independent of skill — acts-to-promote do not shrink as yield grows', () => {
     let atR1 = finishIntro(reduce(createInitialState(SEASON_SPRING_SAFE), { type: 'open_eyes' }));
-    // D-056 single profile: derive the rake count from the real R0 threshold (flat pts/act).
+    // ADR-056 single profile: derive the rake count from the real R0 threshold (flat pts/act).
     const rakesToR1 = Math.ceil(balance.rungThreshold('R0') / balance.RUNG_POINTS_PER_ACT);
     for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' }); // fill the R0 meter
-    atR1 = playBeat(atR1); // R0 → R1 via the story beat (D-110)
+    atR1 = playBeat(atR1); // R0 → R1 via the story beat (ADR-110)
     expect(atR1.rung).toBe('R1');
 
     const CAP = 5000;
-    // Count the farm acts that FILL the R1 meter (open the promotion gate). D-110: the rung no longer
+    // Count the farm acts that FILL the R1 meter (open the promotion gate). ADR-110: the rung no longer
     // auto-advances, so we measure "acts to ready" (promotionReady) — the same acts-to-promote the
     // old auto-promote consumed, still per-act (skill-independent).
     const actsToR2 = (start: GameState): number => {
@@ -158,8 +158,8 @@ describe('skill → yield multiplier (audit #4)', () => {
 });
 
 describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
-  // F22: cook is the HEALTH-recovery action — it mends HP and does NOT touch work-stamina
-  // (satiety). See the F22 distinctness block below for the "one action must not refill both".
+  // FB-22: cook is the HEALTH-recovery action — it mends HP and does NOT touch work-stamina
+  // (satiety). See the FB-22 distinctness block below for the "one action must not refill both".
   function cookReady(hp: number, sansai = 5): GameState {
     const s = createInitialState(1);
     return {
@@ -191,7 +191,7 @@ describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
 });
 
 describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery actions', () => {
-  // The core F22 invariant: "rest from work" ≠ "recover from a fight". Two meters —
+  // The core FB-22 invariant: "rest from work" ≠ "recover from a fight". Two meters —
   // work-stamina (satiety) and health (hp) — each with its OWN recovery action, and NO single
   // action refills both. All fixtures derive their expected deltas from the balance source of
   // truth (SATIETY_PER_REST / COOK_HP_RESTORE / COOK_SANSAI_COST), never a copied magic number.
@@ -360,8 +360,8 @@ describe('persistence — the explicit character rebuild keeps the attribute bui
   });
 });
 
-// T0-M4-F3 — the tiny provisioning shop: a PERSONAL coin sink (D-099/D-107 — the player buys for his
-// own needs, NOT the estate trading), held to a minority lane by the per-run stockCap (D-008).
+// T0-M4-F3 — the tiny provisioning shop: a PERSONAL coin sink (ADR-099/ADR-107 — the player buys for his
+// own needs, NOT the estate trading), held to a minority lane by the per-run stockCap (ADR-008).
 describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
   function withMarket(): GameState {
     const s = createInitialState(1);
@@ -416,7 +416,7 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
     expect(after.resources.wood ?? 0).toBe(10 - balance.REPAIR_WOOD_COST);
     expect(after.resources.coin ?? 0).toBe(30 - balance.REPAIR_COIN_COST); // ← the coin sink bites
     expect(after.weaponDurability).toBeGreaterThan(ready.weaponDurability); // repaired to max
-    // D-108 — the repair fee is denominated (mon/monme/ryō) in the log, matching the pills.
+    // ADR-108 — the repair fee is denominated (mon/monme/ryō) in the log, matching the pills.
     const line = after.log.entries.find((e) => e.text.includes('repair the'))?.text ?? '';
     expect(line).toContain(formatCoin(balance.REPAIR_COIN_COST)); // the fee, as the pill renders it
     expect(line).not.toMatch(/\d+ coin/); // RED against the old "−N coin" raw-integer fee
@@ -452,7 +452,7 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
   });
 });
 
-// ── D-107 Phase 2 — the RICE LOOP (eat / store / sell). Rice becomes a REAL resource: a coin
+// ── ADR-107 Phase 2 — the RICE LOOP (eat / store / sell). Rice becomes a REAL resource: a coin
 // FAUCET (sell at the season price), a food path (eat → satiety), and a kura-sheltered store. Every
 // fixture derives from the balance source of truth (riceSellPrice / EAT_RICE_* / LOSS_COIN_FRAC),
 // never a copied magic number, and each assertion could go RED against the split. ──
@@ -504,7 +504,7 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
 
   it('the sell line DENOMINATES the per-measure price + proceeds (D-108, matching the pills)', () => {
     // 100 rice at the spring price clears ≥1 monme of proceeds — the log shows the SAME mon/monme/ryō
-    // rendering the coin pill uses, never a raw " coin" integer (the D-108 same-transaction mismatch).
+    // rendering the coin pill uses, never a raw " coin" integer (the ADR-108 same-transaction mismatch).
     const s = seller(100); // day 0 → spring
     const price = balance.riceSellPrice('spring');
     const proceeds = 100 * price;

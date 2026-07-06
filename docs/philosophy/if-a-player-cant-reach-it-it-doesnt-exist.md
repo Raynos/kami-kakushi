@@ -1,6 +1,6 @@
 # Philosophy: if a player can't reach it, it doesn't exist
 
-> Operating-philosophy register **R6** — build discipline. See the
+> Operating-philosophy register **PH6** — build discipline. See the
 > [register](README.md); when a tactic conflicts with this, this wins.
 
 **What counts as _built_ is what a human player can reach.** A change that lives
@@ -25,15 +25,15 @@ compiles.
   consumer).
 - **Diverge before you converge.** For a meaningful surface or choice, build 2–3
   genuinely-distinct, _working_ alternatives, judge them live, then converge —
-  never ship the first idea straight to convergence (the diverge gate D-075).
+  never ship the first idea straight to convergence (the diverge gate ADR-075).
 
 ## Why this exists
 
 - Verbatim human direction: _"you want to build ones that can be accessed by human
   players of the game,"_ not features that live only in the TypeScript files.
-- **D-078**: at least one breadth surface must be **load-bearing**, not chrome.
+- **ADR-078**: at least one breadth surface must be **load-bearing**, not chrome.
 - The roadmap is axed into fun-slices — _"a fun-slice ships a playable, fun
   increment… never just an internal feature"_ (`docs/living/roadmap.md`) — enforced
-  by the playcheck / manifest gates (D-054 / D-060 / D-074).
+  by the playcheck / manifest gates (ADR-054 / ADR-060 / ADR-074).
 
-Canon: **D-085**. Part of the register seeded by **R1** (D-080).
+Canon: **ADR-085**. Part of the register seeded by **PH1** (ADR-080).

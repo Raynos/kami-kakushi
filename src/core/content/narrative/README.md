@@ -1,4 +1,4 @@
-# Narrative authoring format (F5)
+# Narrative authoring format (FB-5)
 
 The T0 story is authored HERE, as structured markdown — these files are the
 **source of truth**; `npm run gen:narrative` compiles them into the generated
@@ -11,7 +11,7 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
 
 ## Files
 
-- `rung-beats.md` → `../rungBeats.gen.ts` — the D-110 rung-up beats, R1→R7
+- `rung-beats.md` → `../rungBeats.gen.ts` — the ADR-110 rung-up beats, R1→R7
   (re-exported by `../rungBeats.ts`, which keeps the types + helpers).
 - `intro.md` → `../intro.gen.ts` — the three intro VN scenes (`## scene` —
   fixed order soan/dream/genemon; options carry `say:`/`stat:`/`perk:`).
@@ -116,7 +116,7 @@ All interfaces and engine types; the reducers/intents; every selector/helper
 the **native escape hatch** (plan §8.1): declare the scene `native:` and keep
 its data in a `*.native.ts` sidecar — never grow this grammar toward code.
 
-## Liberties vs the F5 plan (documented per the "mostly locked" human call)
+## Liberties vs the FB-5 plan (documented per the "mostly locked" human call)
 
 - **oxfmt, not prettier** — the plan predates the repo's formatter; generated
   output is piped through oxfmt so it passes the `oxfmt --check` gate untouched.

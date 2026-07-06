@@ -12,8 +12,8 @@ export type Migration = (state: unknown) => unknown;
 export type MigrateFn = (state: unknown, fromVersion: number) => unknown;
 
 const MIGRATIONS: Readonly<Record<number, Migration>> = {
-  // v1 → v2 (the 6-tier reshape, D-048): additively hydrate the macro-spine fields with
-  // their defaults. Pre-launch dev/v0.2 saves are WIPED (D-067 — no users), but this is the
+  // v1 → v2 (the 6-tier reshape, ADR-048): additively hydrate the macro-spine fields with
+  // their defaults. Pre-launch dev/v0.2 saves are WIPED (ADR-067 — no users), but this is the
   // genuine forward path: an old save loads as a fresh-spine T0 with its progress intact.
   1: (s) => ({
     ...(s as object),
@@ -37,7 +37,7 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // in-flight save resumes at the same index with an empty ask hub (nothing asked yet). npcMemory +
   // introBeat ride along untouched.
   3: (s) => ({ ...(s as object), askedTopics: [] }),
-  // v4 → v5 (the RICE/COIN/KOKU economy re-core, D-107): the carried+banked `koku` resource is
+  // v4 → v5 (the RICE/COIN/KOKU economy re-core, ADR-107): the carried+banked `koku` resource is
   // renamed to `coin` (the spendable currency), and `rice` (a real resource) is introduced at 0.
   // koku LEAVES `resources` entirely (its meaning — House standing — already lives in `influence`,
   // which is untouched). Whatever the old save carried/banked as "koku" was really the flattened
@@ -50,11 +50,11 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
     };
     return { ...(s as object), resources: rename(st.resources), banked: rename(st.banked) };
   },
-  // v5 → v6 (the rung-up STORY BEAT, D-110): additively hydrate the `rungBeat` cursor to its inert
+  // v5 → v6 (the rung-up STORY BEAT, ADR-110): additively hydrate the `rungBeat` cursor to its inert
   // default (null — no beat live). A mid-"ready" save simply shows the header affordance on load; an
   // already-promoted save is unaffected (rung + reward already applied). Nothing else moves.
   5: (s) => ({ ...(s as object), rungBeat: null }),
-  // v6 → v7 (DEEP HOUSING, D-111 / F89): additively hydrate the `belongings` array to empty — an old
+  // v6 → v7 (DEEP HOUSING, ADR-111 / FB-89): additively hydrate the `belongings` array to empty — an old
   // save owns no BOUGHT furniture yet. The GRANTED keepsakes (the mat + bowl) are derived from the
   // home surface (not stored), so an R1+ save shows them the moment it loads; nothing else moves.
   6: (s) => ({ ...(s as object), belongings: [] }),

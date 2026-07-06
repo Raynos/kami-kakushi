@@ -2,7 +2,7 @@
 // FIRST sound (T0-M1-F4 juice pass / DS#2: lands before the R1 taste call). Three cues
 // only — a TAIKO 太鼓 hit-thud, a SHAMISEN/KOTO 三味線・箏 reward-pluck, and a struck
 // SUZU 鈴 temple-bell rank-up — each synthesised from OscillatorNode + GainNode ADSR
-// envelopes, NO audio assets (palette = D-068; synth-only = D-041; contract =
+// envelopes, NO audio assets (palette = ADR-068; synth-only = ADR-041; contract =
 // docs/living/sfx-spec.md; mapping = ui-design.md §6.8). This is the ONE UI module
 // permitted Web Audio; the pure core stays silent & deterministic and only emits the
 // semantic events (hit / reward / rankUp) this consumer maps to cues.

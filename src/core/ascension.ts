@@ -1,6 +1,6 @@
-// The manual opt-in tier ascension (PRD §1.6.4 / §3.3 / D-049/D-062/D-013a). T0→T1: the gate
+// The manual opt-in tier ascension (PRD §1.6.4 / §3.3 / ADR-049/ADR-062/D-013a). T0→T1: the gate
 // is Estate ≥ EXCELLENT and the player CHOOSES the moment — it never auto-advances. Overshoot
-// buys a better permanent boon; the FIRST ascension always lands BIG (D-062). Performing it
+// buys a better permanent boon; the FIRST ascension always lands BIG (ADR-062). Performing it
 // bumps `tier` 0→1, grants the boon, fires the per-tier DREAM beat (which READS the accumulated
 // mystery flags — the porter's-knot stranger's-habit hands — so they are no longer write-only,
 // fixing the v0.1 bug), and emits the ceremonial cascade the UI renders. Pure & deterministic.
@@ -16,13 +16,13 @@ import {
   ASCENSION_BOON_OVERSHOOT_PER_POINT,
 } from './content/balance';
 
-/** The T0→T1 ascension gate (D-049/D-057): Estate ≥ EXCELLENT, in Phase 2, still at tier 0.
- *  This unlocks the OPTION only — the ascension is a manual opt-in story event (D-049/D-062). */
+/** The T0→T1 ascension gate (ADR-049/ADR-057): Estate ≥ EXCELLENT, in Phase 2, still at tier 0.
+ *  This unlocks the OPTION only — the ascension is a manual opt-in story event (ADR-049/ADR-062). */
 export function ascensionAvailable(state: GameState): boolean {
   return state.tier === 0 && phaseOf(state) === 2 && estateGrade(state) === 'EXCELLENT';
 }
 
-/** The grade-scaled permanent boon (attribute points): the always-big base (D-062) + overshoot. */
+/** The grade-scaled permanent boon (attribute points): the always-big base (ADR-062) + overshoot. */
 export function ascensionBoon(state: GameState): number {
   const overshoot = Math.max(0, state.influence.estate.value - ESTATE_BANDS.excellent);
   return ASCENSION_BOON_BASE_POINTS + Math.floor(overshoot / ASCENSION_BOON_OVERSHOOT_PER_POINT);
@@ -56,7 +56,7 @@ export function ascend(state: GameState): GameState {
       },
       {
         channel: 'narration',
-        voice: 'narrator', // F91/F93 — scene narration → consistent narrator voice
+        voice: 'narrator', // FB-91/FB-93 — scene narration → consistent narrator voice
         contentKey: 'ascension.dream',
         params: { knot },
       },

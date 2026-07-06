@@ -51,7 +51,7 @@ describe('genT0WeaponRoster', () => {
     for (const w of WEAPONS) {
       // fixtures from the source of truth (WEAPONS): rename a weapon in weapons.ts
       // and this fails until the region is regenerated (the mismatch that shipped
-      // kama-yari in §4 while the build had the woodlot axe, D-128).
+      // kama-yari in §4 while the build had the woodlot axe, ADR-128).
       expect(body).toContain(`> | ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
     }
   });

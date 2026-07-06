@@ -1,4 +1,4 @@
-// prd-drift — the game→PRD fact-drift REPORT (D-117 Phase 0; plan:
+// prd-drift — the game→PRD fact-drift REPORT (ADR-117 Phase 0; plan:
 // docs/plans/fable-process-F1b-prd-ripple-tooling.md §1).
 //
 // One-directional by design (game → PRD) so the frontier can never false-fire:
@@ -16,7 +16,7 @@
 //      sweep clears it.
 //
 // This is a REPORT, never a verify gate (prose matching is heuristic — a hard
-// gate would cry wolf, A11). `--strict` exits 1 on drift for scripted use.
+// gate would cry wolf, AC-11). `--strict` exits 1 on drift for scripted use.
 //
 // CLI:  tsx src/scripts/prd-drift.ts  [--strict]
 
@@ -78,13 +78,13 @@ const SPEC: readonly RegistryCheck[] = [
   { registry: 'NAMES (cast)', labels: Object.values(NAMES) },
   // A whole built quest is above spec altitude (2026-07-05 audit: 3 of 4 T0
   // quest TITLES were spec-invisible and unscanned). Titles only — step
-  // labels are prose-phrased and would cry wolf (A11).
+  // labels are prose-phrased and would cry wolf (AC-11).
   { registry: 'QUESTS (titles)', labels: QUESTS.map((q) => q.title) },
 ];
 
 // INFORMATIONAL: listed for coverage, never counted as drift. ACTIVITIES and
 // ESTATE_STAGES carry verb-phrase labels ("Patch the kura") the PRD states as
-// prose, not as labels — label-presence over them would cry wolf (A11), so
+// prose, not as labels — label-presence over them would cry wolf (AC-11), so
 // they report coverage only.
 const INFO: readonly RegistryCheck[] = [
   { registry: 'MATERIALS', labels: MATERIALS.map((m) => m.label) },
@@ -98,7 +98,7 @@ const INFO: readonly RegistryCheck[] = [
 // RETIRED TERMS — term + the ADR that retired it (PRD-only scan). A hit line
 // that ALSO names the successor is a documented rename (e.g. the §2 real-name
 // denylist "Munenori … → Shigemasa"), not drift — calibrated after the
-// tripwire's very first run false-fired on exactly that line (A11).
+// tripwire's very first run false-fired on exactly that line (AC-11).
 const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
   { term: 'munenori', adr: 'Q39/Block N (Yagyū-echo rename)', successor: 'shigemasa' },
   { term: 'jūbei', adr: 'Q12/Q39 (Yagyū-echo rename)', successor: 'kihei' },

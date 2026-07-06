@@ -97,10 +97,10 @@ describe('nextDialogueLines cursor', () => {
 });
 
 describe('cold-open voice convention (F91/F93 — supersedes F57)', () => {
-  // The human's F91/F93 steer: every cold-open line must be INTERNALLY CONSISTENT with the intro's
+  // The human's FB-91/FB-93 steer: every cold-open line must be INTERNALLY CONSISTENT with the intro's
   // conventions. Genemon's SPEECH (first-person "we reckon…", "without my standing over you…")
   // carries his steward voice so it renders "Genemon: …"; third-person NARRATOR prose ("…Genemon
-  // says…") carries the narrator voice with no nameplate. (This flips gen-rake from the old F57
+  // says…") carries the narrator voice with no nameplate. (This flips gen-rake from the old FB-57
   // 'narrator' tag — the human now reads it as Genemon speaking.)
   const voiceOf = (lineId: string) =>
     getDialogue(COLD_OPEN_DIALOGUE_ID).lines.find((l) => l.id === lineId)?.voice;

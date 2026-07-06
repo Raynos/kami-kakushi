@@ -1,11 +1,11 @@
-// The dialogue registry (PRD §2 onboarding / §5 cast; D-039 data-not-scripting,
-// D-063 diegetic mentor, D-015/D-064 non-hand-holdy; DoD T0-M1-F3). The LINES are
-// authored in `narrative/dialogue.md` (F5 — the source of truth) and compiled to
+// The dialogue registry (PRD §2 onboarding / §5 cast; ADR-039 data-not-scripting,
+// ADR-063 diegetic mentor, ADR-015/ADR-064 non-hand-holdy; DoD T0-M1-F3). The LINES are
+// authored in `narrative/dialogue.md` (FB-5 — the source of truth) and compiled to
 // `dialogue.gen.ts`; this module keeps the types + the pure cursor/helpers and
 // re-exports the generated registry. Mentors are DATA,
 // not script: each speaker owns an ORDERED set of teach-by-reveal lines, gated on plain
 // boolean flags, and a PURE cursor returns the not-yet-delivered, gate-satisfied lines in
-// registry order (deterministic). The cast is domain-split (D-046): Genemon (estate/labour),
+// registry order (deterministic). The cast is domain-split (ADR-046): Genemon (estate/labour),
 // Kihei (arms), Sōan (healing) — the arms/healing onboarding fills in at their tier, so here
 // they exist as SHORT stubs. Teaching is in-world (no tooltip/hint phrasing) — onboarding by
 // plot, not popup. Pure-core: no DOM, no Math.*, no Date; immutable-in/immutable-out.
@@ -23,7 +23,7 @@ export interface DialogueLine {
   readonly text: string;
   /** Reveal-as-plot gate over plain GameState flags; absent = always shown. */
   readonly gate?: (flags: Readonly<Record<string, boolean>>) => boolean;
-  /** Optional speaker-category colour tag (F23/F26); absent ⇒ renderer infers from speaker. */
+  /** Optional speaker-category colour tag (FB-23/FB-26); absent ⇒ renderer infers from speaker. */
   readonly voice?: VoiceCategory;
   /** Optional per-NPC MEMORY gate (plan §3.6): ANDed with `gate`. A later line branches on what
    *  an NPC remembers of the intro — e.g. two mutually-exclusive greetings, one per regard. */

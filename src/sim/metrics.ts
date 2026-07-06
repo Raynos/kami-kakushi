@@ -1,4 +1,4 @@
-// RunMetrics (F4 §2) — what one persona × seed run measures. Collected by classifying each
+// RunMetrics (FB-4 §2) — what one persona × seed run measures. Collected by classifying each
 // dispatched intent + the state diff around its reduce (the playcheck reward-trace technique).
 // The wall-time model is walkPacing's: the active loop dispatches ONE intent per AUTO_REPEAT_MS,
 // so modeled wall-minutes = intents × AUTO_REPEAT_MS / 60000. Two intent counts are kept per rung:
@@ -86,7 +86,7 @@ export interface RunMetrics {
   };
 }
 
-/** Sample the economy curve every this-many intents (report terseness — F4 risk 6). */
+/** Sample the economy curve every this-many intents (report terseness — FB-4 risk 6). */
 export const SAMPLE_EVERY = 250;
 
 const SAMPLE_MINUTES = (SAMPLE_EVERY * balance.AUTO_REPEAT_MS) / 60_000;
@@ -131,7 +131,7 @@ function totalCoin(s: GameState): number {
   return (s.resources.coin ?? 0) + (s.banked.coin ?? 0);
 }
 
-/** Any forward movement a player would recognise — the progress-signal set (F4 §2 soft-lock).
+/** Any forward movement a player would recognise — the progress-signal set (FB-4 §2 soft-lock).
  *  hp UP counts (mending is progress toward a fight); hp down does not (losing isn't). */
 export function madeProgress(before: GameState, after: GameState): boolean {
   if (after.tier !== before.tier || after.rung !== before.rung) return true;

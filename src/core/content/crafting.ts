@@ -1,4 +1,4 @@
-// Loot→craft recipe system (PRD §2.10 FIND+CRAFT / §2.11 simple recipes / D-052 the
+// Loot→craft recipe system (PRD §2.10 FIND+CRAFT / §2.11 simple recipes / ADR-052 the
 // "one craftable" showcase taste; DoD T0-M2-F2). RETIRES the combat-L2 wood_axe GRANT
 // (fight.ts) — the axe is now FOUND (materials drop from felled foes) and CRAFTED from
 // them at the woodlot smithy, never gifted off a rack. T0 stays SIMPLE flat recipes
@@ -53,7 +53,7 @@ export interface RecipeDef {
   readonly blurb: string;
 }
 
-/** T0 craftables (D-052/D-095 "≥1 craftable"; D-102 — pole + 2, the yari a CRAFTED spear). Flat
+/** T0 craftables (ADR-052/ADR-095 "≥1 craftable"; ADR-102 — pole + 2, the yari a CRAFTED spear). Flat
  *  inputs → one weapon. Ordered by progression: the axe first (cheap), then the yari (the martial
  *  graduation, leans sinew-lashing over the axe's hardwood haft). T0 stays SIMPLE flat recipes. */
 export const RECIPES: readonly RecipeDef[] = [

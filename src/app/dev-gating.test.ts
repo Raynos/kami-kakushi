@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { resolveDevGating } from './dev-gating';
 
-// The D-138 gate is the seam between "code shipped" and "code active". These assert
+// The ADR-138 gate is the seam between "code shipped" and "code active". These assert
 // the full truth table — most importantly the PROD-with-tools rows, the ones the
 // dev-server e2e lane can't reach (it always boots with DEV=true).
 describe('resolveDevGating (D-138)', () => {

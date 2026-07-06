@@ -1,15 +1,15 @@
-# Requirements-based rung progression (F121) — implementation plan
+# Requirements-based rung progression (FB-121) — implementation plan
 
 **Status:** 📐 LOCKED (design locked in the human grill, 2026-07-05) — build
 not started.
-**ADR:** D-137. **Source:** playtest capture F121 + the grilled brainstorm
+**ADR:** ADR-137. **Source:** playtest capture FB-121 + the grilled brainstorm
 [`project/brainstorms/2026-07-05-requirements-based-rung-progression.md`](../../project/brainstorms/2026-07-05-requirements-based-rung-progression.md).
 
 ## Who builds this — Fable or Opus?
 
 **Confidence: ( 70% Opus, 30% Fable ).** The design is fully locked below, so
 the build is careful execution against a spec — Opus territory. Judgment
-concentrates in two places: **Phase 2** (the requirements grammar — a new F5
+concentrates in two places: **Phase 2** (the requirements grammar — a new FB-5
 markdown dialect must stay small and not grow into a DSL) and **Phase 5** (the
 sim's requirement-driving policy + band re-derivation — a wrong bot policy
 silently re-signs pacing). If either fights back, route that phase to Fable
@@ -38,14 +38,14 @@ rather than improvising; everything else is Opus-safe.
    cause the player can feel (T3/T4) without naming a checklist item.
 5. **100% alone unlocks the story gate.** `RankDef.storyGate` is deleted; any
    story precondition that mattered becomes a requirement IN the list. At 100%
-   the rung beat unlocks (the existing D-110 hold: nothing advances until the
+   the rung beat unlocks (the existing ADR-110 hold: nothing advances until the
    player triggers + completes the beat), and the beat ends in the rung-up
    screen — the story explains *why* you were promoted.
 6. **Pacing re-derives.** Requirements are authored for fun/fiction first; the
-   F4 sim then measures the new time-to-rung and the band numbers re-derive
+   FB-4 sim then measures the new time-to-rung and the band numbers re-derive
    from what the model actually produces (the current thresholds are not a
-   constraint to preserve). Human sign-off on the new bands per D-056/D-059.
-7. **Authored in narrative markdown** — a new `requirements.md` in the F5
+   constraint to preserve). Human sign-off on the new bands per ADR-056/ADR-059.
+7. **Authored in narrative markdown** — a new `requirements.md` in the FB-5
    pipeline (`src/core/content/narrative/`), gen'd to `requirements.gen.ts`.
    Counts are tunable numbers in the md; **no balance.ts mirror** — the old
    cockpit rung-pacing sliders retire with the points model, and rung tuning
@@ -65,7 +65,7 @@ shape) + the requirement types. A requirement def is one of:
 - `count` — N occurrences of an advance token (`'act:rake_rice'`,
   `'kill:boar'`, `'gather:wood'` — ONE token grammar shared with quests).
 - `state` — a predicate over GameState snapshots (mon held, item owned),
-  expressed in a tiny declared grammar with the F5 `native:` escape hatch for
+  expressed in a tiny declared grammar with the FB-5 `native:` escape hatch for
   anything it can't say.
 - `flag` — a story flag turning true (absorbs the old `storyGate` milestones).
 
@@ -79,7 +79,7 @@ like the meter today). Selectors:
 - `promotionReady(state)` — ALL requirements done (replaces meter ≥ threshold
   AND storyGate in `src/core/ranks.ts:28-46`).
 
-Glue per A20: labour/fight/economy reducers already emit quest advance tokens
+Glue per AC-20: labour/fight/economy reducers already emit quest advance tokens
 (`src/core/fight.ts:131`); requirements consume the SAME stream through shared
 glue — never reducer→reducer. Audit `RankDef.eligible` consumers: it currently
 feeds only `accrueRungMeter` (which dies) — keep it only if the UI/act
@@ -108,7 +108,7 @@ drive: talk steward
 `drive:` is a machine-readable hint for the Phase 5 sim bot (how a bot
 satisfies this requirement) — part of the grammar from day one so authoring
 and simulability can't drift apart. Real logic beyond the grammar uses
-`native:` per F5, never a grammar extension.
+`native:` per FB-5, never a grammar extension.
 
 Author all eight lists (R0–R7), internally consistent with the existing story
 (R0 stays rake-centred per the human's worked example; R2 absorbs the
@@ -144,35 +144,35 @@ t0-story section renders readable prose.
 - **DEV cheatlist** (DEV panel, `import.meta.env.DEV`, strip-gated like the
   Scenarios tab): the current rung's full requirement list with live
   progress — the human's debugging window; NOT a player surface.
-- **Not a D-075 diverge** — the bar stays a bar (same surface, new data
+- **Not a ADR-075 diverge** — the bar stays a bar (same surface, new data
   source); this is below the "majorly restyled" bar. The **taste-scorecard
-  two-pass (F10) still fires**; Pass 1 brief: T1 one home (the rung-head stays
+  two-pass (FB-10) still fires**; Pass 1 brief: T1 one home (the rung-head stays
   the single progress surface), T2 no ground-yank (the bar transitions, never
   resets mid-watch; quantized steps mean it only ever moves forward), T3 the
   fiction causes it (flavor line lands WITH the jump), T4 no guessing (every
   jump has a visible cause in the log; rounded % is the single number).
 
 **DoD:** capture-game-states screenshots of R0 start → mid → 100% → beat;
-Pass 2 scorecard attached to the R-item.
+Pass 2 scorecard attached to the HR-item.
 
-### Phase 5 — sim rework + band re-derivation (D-132)
+### Phase 5 — sim rework + band re-derivation (ADR-132)
 
-- **Step 0 (F8):** read `project/telemetry/` reports first; quote
+- **Step 0 (FB-8):** read `project/telemetry/` reports first; quote
   attended-vs-sim for R0–R2 in the commit body.
 - `src/scripts/balance-sim.ts` + the autoplay policy complete requirements via
   their `drive:` hints (the greedy/casual personas map a hint to an intent
   sequence). The `rungThreshold`-moved guard (`balance-sim.ts:293`) rewires to
   the new lever (an authored count moved outside signed intent).
 - Run the sim → **re-derive** the per-rung band numbers from measured
-  time-to-rung; the human signs the new bands (H-item if they shift far from
-  today's R0≈5min / climb≈10–15min targets, else note-and-proceed per R4/D-059).
+  time-to-rung; the human signs the new bands (HD-item if they shift far from
+  today's R0≈5min / climb≈10–15min targets, else note-and-proceed per R4/ADR-059).
 - `npm run verify:balance` + `npm run balance:report`; commit the regenerated
   `docs/content/t0-pacing.md` with the change; paste `balance-sim --summary`.
 
 **DoD:** verify:balance green against the re-derived bands; pacing doc diff
 committed with the sim summary in the commit body.
 
-### Phase 6 — tier tests (D-088)
+### Phase 6 — tier tests (ADR-088)
 
 - Update the T0 full-arc e2e to climb via requirements (it must break if the
   glue drops a token — could-go-RED, R3).
@@ -183,7 +183,7 @@ committed with the sim summary in the commit body.
 
 ### Phase 7 — docs + PRD ripple (explicitly in-scope per the human)
 
-- **ADR D-137** (lands with this plan) — the design record.
+- **ADR ADR-137** (lands with this plan) — the design record.
 - **PRD:** run `/prd-ripple` — this is a **system change**: §3.2.1 / §4.1.1 /
   FU6 / FU7 (the rung-meter + AND-gate language) get a targeted ripple;
   `npm run prd:drift` + `gen-prd-regions` afterwards.
@@ -206,7 +206,7 @@ committed with the sim summary in the commit body.
   probably shouldn't be authored yet.
 - The old model is load-bearing in tests: `economy.test.ts`, `m1.test.ts`,
   `rung-beats.test.ts` import `rungThreshold` — re-derive their fixtures from
-  the new registry (never freeze old numbers into them, D-086).
+  the new registry (never freeze old numbers into them, ADR-086).
 - Shared tree: this touches high-traffic files (`render.ts`, `balance.ts`,
   `ranks.ts`) — coordinate via project-status before starting while the UI-v2
   Andon migration plan is live (it owns `render.ts` restyling; this plan

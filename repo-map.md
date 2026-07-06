@@ -7,7 +7,7 @@ always-loaded context while being editable on its own.
 - [README.md](README.md) — the game's vision.
 - [CHANGELOG.md](CHANGELOG.md) — the release log (Keep-a-Changelog, newest-first;
   the footer/About modal link to it). A version bump in `package.json` **must** add
-  its `## [x.y.z]` section — the `verify-changelog` gate enforces it (A22).
+  its `## [x.y.z]` section — the `verify-changelog` gate enforces it (AC-22).
 - [`project/status/`](project/status) — **live operational state** + **live
   trackers** (mutable, edited in place; this is where a checkbox tracker
   belongs, **not** `docs/plans/`, which is pre-canon proposals):
@@ -38,16 +38,16 @@ always-loaded context while being editable on its own.
   alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now
   applied to the PRD).
 - [`project/human-in-the-loop/`](project/human-in-the-loop) — the human's queue:
-  **open** decisions (`H`-items) and reviews (`R`-items) only a person can
-  action; closed `H`-items **and** `R`-items graduate to a one-line row in
+  **open** decisions (`HD`-items) and reviews (`HR`-items) only a person can
+  action; closed `HD`-items **and** `HR`-items graduate to a one-line row in
   [`archive.md`](project/human-in-the-loop/archive.md) (two sections —
-  **Decisions** + **Reviews**; H-items also graduate to an ADR), and leave the
+  **Decisions** + **Reviews**; HD-items also graduate to an ADR), and leave the
   live `decisions.md`/`review.md` open-only (see that dir's `README` for the
   lifecycle). [`project/todo-human.md`](project/todo-human.md) is the companion
   list: loose **TODOs** for the human plus the **reading queue**. **The `## TODO`
   section is HUMAN-authored — an agent NEVER appends to it** (human, 2026-07-06):
-  an agent-surfaced finding or question is an **H-item** (`decisions.md`) or
-  **R-item** (`review.md`) in `human-in-the-loop/`; a pre-commit gate hard-blocks
+  an agent-surfaced finding or question is an **HD-item** (`decisions.md`) or
+  **HR-item** (`review.md`) in `human-in-the-loop/`; a pre-commit gate hard-blocks
   added TODO lines (`SKIP_HUMAN_TODO=1` only for a TODO the human dictated
   verbatim);
   [`project/BACKLOG.md`](project/BACKLOG.md) holds work the human has
@@ -58,7 +58,7 @@ always-loaded context while being editable on its own.
   (`project/brainstorms/`), an **audit / battery report** or **changelog**
   (`project/audit/reports/`), or a **design doc awaiting a taste call**. Add it
   **in the same commit you author it**. **Sign-off is implicit and the agent owns
-  the cleanup (D-089):** the human never ticks these off — once they've read a
+  the cleanup (ADR-089):** the human never ticks these off — once they've read a
   doc or it comes up in discussion, the agent removes it; `/prepare-to-exit`
   reconciles the queue and asks the human to confirm uncertain removals. The
   test is *"do I need a human to read this?"* — raw discovery dumps /
@@ -81,7 +81,7 @@ always-loaded context while being editable on its own.
   [`snapshot-research.sh`](src/scripts/snapshot-research.sh),
   [`session-brief.sh`](src/scripts/session-brief.sh) — the session-start
   human-queue brief).
-- [`src/core/content/narrative/`](src/core/content/narrative) — **F5 narrative
+- [`src/core/content/narrative/`](src/core/content/narrative) — **FB-5 narrative
   authoring sources**: the T0 story as structured markdown (`rung-beats.md`,
   `intro.md`, `dialogue.md`, `cold-open.md` — prose-first, readable as a script;
   spec in its [`README`](src/core/content/narrative/README.md)). `gen-narrative`
@@ -93,13 +93,13 @@ always-loaded context while being editable on its own.
   `mobile-journey` + `helpers`) driven by root `playwright.config.ts` on two real
   mobile profiles (Android Chrome + iOS-floor WebKit) against the DEV server.
   `npm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a
-  `verify` gate — the 5s budget, D-072). Spec + rationale:
+  `verify` gate — the 5s budget, ADR-072). Spec + rationale:
   [qa-playtesting.md §1 "Mobile e2e lane"](docs/living/qa-playtesting.md).
 - `.github/workflows/` — the CI fan-out: `verify` (push/PR — the gate roster) ·
   `verify-nightly` (clean-clone canary + prod build + strip check +
   `verify:tooling`, the process-scaffolding meta-suite) · `build` · `lint` ·
   `test` · `typecheck` · `e2e`.
-- [`src/fixtures/`](src/fixtures) — **F6 scenario-save library**: named,
+- [`src/fixtures/`](src/fixtures) — **FB-6 scenario-save library**: named,
   GENERATED start-states so "reproduce X" is "load X, look". `specs.ts` drives the
   REAL engine to each waypoint (nothing hand-authored); `gen-fixtures.ts`
   (`fixtures:regen`/`:check`, the `fixtures` gate) writes `saves/*.json`; the DEV
@@ -116,12 +116,12 @@ always-loaded context while being editable on its own.
   `reports/` + screenshots/ recordings under `screens/` (one dated pass-folder
   each; `screens/latest/` is the live `qa-shots.mjs` gallery).
 - [`project/playtest-inbox/`](project/playtest-inbox) — **agent-facing** transport
-  queue for in-game playtest captures (F3): `pending/` holds captures waiting to
+  queue for in-game playtest captures (FB-3): `pending/` holds captures waiting to
   be drained (`/drain-inbox`), `archive/` keeps drained ones long-term. The `.md`
   (note + deterministic save) is committed; the `.png` screenshot is git-ignored.
   Not the human queue — see its [`README`](project/playtest-inbox/README.md).
 - [`project/telemetry/`](project/telemetry) — **git-ignored** real-play
-  attended-time reports (F8): one `<runId>.md` per game run, auto-dropped on
+  attended-time reports (FB-8): one `<runId>.md` per game run, auto-dropped on
   session-end by the DEV telemetry (`src/telemetry/` + the `telemetry-drop`
   vite dev-middleware). Local sensor data agents read before balance work —
   never committed; the [`README`](project/telemetry/README.md) (committed)
@@ -129,7 +129,7 @@ always-loaded context while being editable on its own.
   committed notes).
 - [`raw/`](raw) — **committed reference material from outside the repo**:
   [`screenshots/`](raw/screenshots) holds the human-captured shots of the two
-  README inspiration games (proto23, yet-another-idle-rpg — the D-126 density
+  README inspiration games (proto23, yet-another-idle-rpg — the ADR-126 density
   references), one folder per game, annotated in its
   [`README`](raw/screenshots/README.md). *(Distinct from
   `project/brainstorms/raw/`, which is git-ignored scratch.)*
@@ -142,8 +142,8 @@ always-loaded context while being editable on its own.
   through the pure-core public contract; adopted ~1:1 from
   [mattpocock/skills](https://github.com/mattpocock/skills)), `diverge` (FULL
   2–3 working UI variants live behind a DEV-panel toggle → self-pick + a
-  per-variant R-item; zero PROD flag-debt; mandatory for new/major UI
-  surfaces — D-075 v2), `handoff`
+  per-variant HR-item; zero PROD flag-debt; mandatory for new/major UI
+  surfaces — ADR-075 v2), `handoff`
   (compact the session into a `/handoff` doc for a fresh agent to resume;
   adopted ~1:1), `distill-taste` (triage a new feedback corpus into the CAPPED
   taste standard — five moves, never append; budgets + coverage + prediction
@@ -153,4 +153,4 @@ always-loaded context while being editable on its own.
   user-invoked only via `/prepare-to-exit`), and `ship` (the one-command
   **release train** — bump → CHANGELOG → tagged release commit → push →
   `src/scripts/ship.sh` isolated build + gh-pages push, fast & bounded, done
-  at the push; user-invoked only via `/ship`, never agent-initiated — F9).
+  at the push; user-invoked only via `/ship`, never agent-initiated — FB-9).

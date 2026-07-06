@@ -65,7 +65,7 @@ for itch.io.
    *authored* so beats arrive singly (there is **no runtime reveal-queue**) — and obey a general
    **NO-UI-DUMPS** principle (stagger everything, slowly and gently). The player UI resolves to a **SEVEN-TAB
    IA — Work · Map · Estate · Inventory · Character · Combat · Quests — each revealed only as it unlocks**
-   (**D-119**, reinstating D-037 and superseding D-112's six-tab lock: **Quests regains its own top-level tab**;
+   (**ADR-119**, reinstating ADR-037 and superseding ADR-112's six-tab lock: **Quests regains its own top-level tab**;
    crafting stays a **section**, not its own tab): **one capability per thematic tab**, so the main surface
    stays the active labour/deeds/combat loop. Where each remaining capability is homed within those seven tabs
    is **`ui-design.md`'s domain** (the PRD owns the reveal *order*, not the layout).
@@ -136,7 +136,7 @@ for itch.io.
 **Tone:** grounded, warm, bittersweet **Edo folk-mystery** wrapped around a cozy, satisfying **restoration
 fantasy** — **set in 1780** (*An'ei* 9, 安永9年), mid-Edo, stable and commercial, kept **fictional**. The
 anchor is **real YEAR, fictional GEOGRAPHY & POLITICS**: every place and house is invented (no real place or
-daimyō names — D-018), and "the shōgun" is only ever an **unnamed office**, never the historical Tokugawa. The
+daimyō names — ADR-018), and "the shōgun" is only ever an **unnamed office**, never the historical Tokugawa. The
 era's real commercial texture is *ambient flavour*, never named politics. The dominant texture is peaceful Edo labour (farm, forage, woodcut, fish, craft) over a rice-and-coin
 base economy — numbers-go-up as honest sweat — with combat as a dangerous, earned second pillar. Beneath the
 warmth runs a quiet grim undercurrent: a house broken by an ancestor's failed venture, a village grieving a
@@ -267,7 +267,7 @@ late-game convenience only (§1.12).
 | **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun; the **simple Crafting tab + loot→craft loop** (Smith Gonta), surfaced as a **top-level nav tab**; **graded weapon-durability bands** surface with it (a weapon degrades but is **never auto-unequipped**). |
 | **R5 — Gate-guard (*monban*)** | combat | Stand a real watch; clear the first pest/animal threats; weapon-skill milestones reached. (**Combat Rank** gate; conditioning floor at R3.) | Estate-defence duties; the **stance slot** unlocks; **PEST-CONTROL / HUNT / CLEAR / DEFEND** quest types, surfaced on a **top-level Quests nav tab**. *(Curated combat activities feed the **Combat Rank** rung-meter here; the **Arms PILLAR deeds** do **not** accrue yet — they are gated to **Phase 2**, post-R7.)* |
 | **R6 — Foreman of works (*kogashira*)** | labour | Drive the *shinden* reclamation and the workshops to recorded yield; the house edging toward solvency. | The workshops and granary; the low palisade; proto-industry levers; **the first errands past the estate gate** (the valley comes into view; the **village tier proper opens after Phase 2 / tier-up**). |
-| **R7 — Bailiff of the home fields (*jikata-yaku*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **the capstone OPENS Phase 2** — the four-pillar **estate-influence grind** — and the **capstone CHOICE is a mechanical branch** (each answer unlocks a unique T1 side quest → item + unlock; **§3.0.2 / D-125**) — with **House Influence made visible** (the standing panel, showing the **revealed** pillar: at T0 that is **Estate** only — Arms reveals at T1; §1.6.4/§2.16(e)); cash-crop levers; the **tier-expansion map**. Clearing T0's **single-EXCELLENT Estate gate** (Estate only — Arms reveals at T1; §1.6.3) is what **tiers up to T1.** |
+| **R7 — Bailiff of the home fields (*jikata-yaku*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **the capstone OPENS Phase 2** — the four-pillar **estate-influence grind** — and the **capstone CHOICE is a mechanical branch** (each answer unlocks a unique T1 side quest → item + unlock; **§3.0.2 / ADR-125**) — with **House Influence made visible** (the standing panel, showing the **revealed** pillar: at T0 that is **Estate** only — Arms reveals at T1; §1.6.4/§2.16(e)); cash-crop levers; the **tier-expansion map**. Clearing T0's **single-EXCELLENT Estate gate** (Estate only — Arms reveals at T1; §1.6.3) is what **tiers up to T1.** |
 
 **T1 — Estate (full): the real grind begins (~8 new rungs `R8→R15`; a fresh ladder, not a continuation of T0).**
 The same one estate at **full depth** — the deliberate **≥30-min-per-rung** climb first bites here (T0's
@@ -476,7 +476,7 @@ so the grind stays load-bearing.
 > Office / court-rank / favour track** (koku = scale, office = access) with rank milestones granting **visible
 > status tokens** (surname → the two swords → *gōshi* rank). **T0 already grants exactly ONE hard-won home
 > status token** (across R1→R7, shown by the housing status-mirror); the **full** surname→swords→*gōshi*
-> ladder is the deliberate **T1–T5** arc (**D-122**).
+> ladder is the deliberate **T1–T5** arc (**ADR-122**).
 
 > **The pillar-reveal schedule.** The four pillars **reveal one per tier** across the
 > spine — **Estate (家産) at T0 → + Arms (武威) at T1 → + Office (官威) at T2 → + Name & Honour (家格) at T3** —
@@ -497,7 +497,7 @@ so the grind stays load-bearing.
 > In **T0** the economy is a **single LINEAR taste** — one work → **rice + a little coin** → upgrade → more
 > output — the flywheel shown in miniature, with **no branching and no trade strand**. **Rice is a real
 > resource** (not a synonym for the *koku* standing): you **eat** it (satiety), **store** it in the *kura*
-> **at a cost** (spoilage / cap / fee, mechanism TBD — **D-118**, so store-vs-sell is a real choice), or
+> **at a cost** (spoilage / cap / fee, mechanism TBD — **ADR-118**, so store-vs-sell is a real choice), or
 > **sell** it for coin at a price that **swings by season**. At **T1** (the full estate) it **branches into
 > the three capped sub-engines — LAND / TREASURY / TRADE** (the *meibutsu* silk strand stays **≤⅓** of the
 > pillar). The real village silk market (Onatsu's *meibutsu*) opens later still, at **T2 Village**.
@@ -576,7 +576,7 @@ over years.
 > forward. The **first ascension (T0→T1) always lands BIG** on first contact regardless of grade — the
 > locked silhouettes stir, a new pillar reveals. **The T0→T1 capstone now also carries a
 > mechanically-distinct BRANCH** — a real choice that matters mechanically, not just the grade-scaled boon;
-> the exact branch design is **TBD at build** (**D-121**; opus-2026-07-03-v0.3.5-build-plan §7). Throughout,
+> the exact branch design is **TBD at build** (**ADR-121**; opus-2026-07-03-v0.3.5-build-plan §7). Throughout,
 > the **standing panel teases the locked pillars as
 > unnamed silhouettes** beside the active one(s) (§1.6.4 / §2.16(e)), so the player always senses *more* is
 > coming without it being spelled out.
@@ -621,11 +621,11 @@ phases**:
   what **tiers up** to the next, larger canvas. *(There is **no stored "phase" flag** — the current phase is
   **derivable from the current rung**: pre-capstone = Phase 1, post-capstone = Phase 2.)*
 
-> **Every rung-up is a player-TRIGGERED story beat, not a silent number-fill (D-110, extending D-104).**
+> **Every rung-up is a player-TRIGGERED story beat, not a silent number-fill (ADR-110, extending ADR-104).**
 > Clearing a rung's AND-gate only **readies** the promotion — it **holds** (surfaced at the header rung
 > element) until the player chooses to stop grinding and **trigger** it, and a ready rung can be **ignored**
 > (grind combat forever, never advance; never a forced modal every few seconds). Triggering plays the rung as
-> a **full-screen VN beat** on the same scene engine as an NPC first-meet (D-104): **some** rungs introduce a
+> a **full-screen VN beat** on the same scene engine as an NPC first-meet (ADR-104): **some** rungs introduce a
 > **new character**, others deepen a known one (no rung is a silent number-fill). The beat carries **choices**,
 > and **NPCs REMEMBER** them — per-NPC relationships + story flags persisting across ascension (`npcMemory`,
 > §2.12). Choices **mainly** move **relationships + flags**, with only **occasional, small, varied** bonuses —
@@ -653,7 +653,7 @@ grade-gate** **over the pillars revealed by that tier** — for **N** open pilla
 Revealed set (one per tier): **T0 = Estate**, **T1 = + Arms**, **T2 = + Office**, **T3 = + Name** (4).
 Ascension is a **manual opt-in story event** (the gate only unlocks the *option*); **overshoot** earns a
 **grade-scaled permanent boon**; the **first ascension (T0→T1) always lands BIG** and now also carries a
-**mechanically-distinct BRANCH** (a real capstone choice; design TBD at build — **D-121**). The
+**mechanically-distinct BRANCH** (a real capstone choice; design TBD at build — **ADR-121**). The
 per-pillar-per-tier thresholds are back-solved against the fixed deed inventory in §4; trade
 stays **≤⅓** of Estate & Wealth as the **only** structural cap, with cross-pillar combos computed **post-clamp**
 and excluded from the gate-check.
@@ -749,7 +749,7 @@ static**; the origin cast unlocks at T3.
 | **Oai** | Head maidservant, ~40; runs the indoor staff and the servant-gossip network. | Quest-giver and information broker inside the house. | E0 (T0) |
 | **Kyūsuke** | Estate cook, ~50; warm comic relief. | Runs the food/provisioning sub-economy; a soft daily-life anchor. | E0 (T0) |
 | **Sōan** | Estate physician, ~55; rational, plain-spoken. | Dresses the healing scalp wound (grounding the mundane amnesia), names symptoms not visions, gates healing/medicine; flatly disbelieves the kami story. *(Origin/Scholars seed.)* | E0 (T0) |
-| **Rokusuke** | Fellow kept-hand, taken on two winters before the protagonist; wry, knows where the bodies are buried. | The early climb's **peer and gossip-voice** — shows the floor's unwritten rules and vouches the newcomer into the pedlar's softer prices; met at the **R2** rung beat (D-110 casting). | E0 (T0, met R2) |
+| **Rokusuke** | Fellow kept-hand, taken on two winters before the protagonist; wry, knows where the bodies are buried. | The early climb's **peer and gossip-voice** — shows the floor's unwritten rules and vouches the newcomer into the pedlar's softer prices; met at the **R2** rung beat (ADR-110 casting). | E0 (T0, met R2) |
 | **Tōzō** | Estate smith at the woodlot smithy; keeps the estate's iron. | Teaches **weapon wear/repair** and opens the forge to the protagonist (place-gated); met at the **R4** rung beat. | E0 (T0, met R4) |
 | **Tokujirō** | Green recruit, ~16; joins after the protagonist has risen. | The mirror that proves the protagonist's growth; seeds the late-tier **"you now teach others from zero"** layer. | E1 (T0→T1) |
 | **Gohei & Yatarō** | Ex-*ashigaru* men-at-arms hired off the road. | The first paid martial outsiders; the 2–3-man rota at E2. | E2 (T1) |
@@ -979,7 +979,7 @@ panel/tab/resource/area, grants the perk, and advances a story flag — so featu
 silent menu growth. **Reveals are design-staggered one-at-a-time** — the unlock schedule is *authored* so beats
 arrive singly (there is **no runtime reveal-queue**) — and obey a general **NO-UI-DUMPS** principle.
 The UI resolves to the **seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · Quests —
-**D-119**, reinstating D-037 over D-112's six-tab lock: Quests regains its own top-level tab, crafting stays
+**ADR-119**, reinstating ADR-037 over ADR-112's six-tab lock: Quests regains its own top-level tab, crafting stays
 a section), each tab revealed only as it unlocks; the home of each capability within those tabs is
 `ui-design.md`'s domain. Reveals follow the **per-tier rank ladders** (a fresh ladder per tier — see §1.5.1), **not** one
 continuous R0→R7 climb, and each ladder runs the **sequential Phase-1 (climb the rungs) → Phase-2 (estate

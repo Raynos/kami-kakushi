@@ -1,4 +1,4 @@
-// Storage backends for the multi-backend redundant save (PRD §6.8.1 / D-030). Each
+// Storage backends for the multi-backend redundant save (PRD §6.8.1 / ADR-030). Each
 // autosave writes to ALL available backends; on load we read ALL and pick the
 // newest. This survives itch's cross-origin-iframe partition/eviction better than
 // any single backend (with the honest caveat, §6.8.1: inside one iframe partition

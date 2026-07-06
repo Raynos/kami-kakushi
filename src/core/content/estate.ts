@@ -1,4 +1,4 @@
-// The kura-works PURCHASE ladder (U1–U4, D-098/D-107; PRD §2.17 / audit #5): the COIN SINK
+// The kura-works PURCHASE ladder (U1–U4, ADR-098/ADR-107; PRD §2.17 / audit #5): the COIN SINK
 // that mutates `estateStage` (U0→U4). Each stage grants a small persistent
 // satietyMax bonus — a curve-NEUTRAL soft-pacing buffer (it never touches the combat
 // win-rate, which is computed at full satiety). Costs are strictly ascending and the
@@ -8,10 +8,10 @@
 export interface EstateStageDef {
   readonly stage: number;
   readonly label: string;
-  /** Integer coin price (base unit mon) — the estate coin sink (D-107). */
+  /** Integer coin price (base unit mon) — the estate coin sink (ADR-107). */
   readonly coinCost: number;
   readonly satietyMaxBonus: number;
-  /** Labour-yield bonus this stage adds, in fixed-point /100 (T0-M4-F2 / D-051 / D-066): the
+  /** Labour-yield bonus this stage adds, in fixed-point /100 (T0-M4-F2 / ADR-051 / ADR-066): the
    *  coin flywheel — a higher estate raises every labour act's output, so work→coin→upgrade→
    *  MORE output compounds. Cumulative across stages (like satietyMaxBonus). provisional (v0.2). */
   readonly yieldBonusNum: number;
@@ -51,7 +51,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     blurb: 'Break new paddy from the fallow ground.',
   },
   {
-    // U4 (v0.3.1 Step 4 — a DEEPER estate coin sink; D-086 scarcity / batch-1 call 4). The
+    // U4 (v0.3.1 Step 4 — a DEEPER estate coin sink; ADR-086 scarcity / batch-1 call 4). The
     // flywheel's biggest turn: a late-T0 coin sink to work toward, priming the house's rise to T1.
     stage: 4,
     label: 'Raise the long-house',

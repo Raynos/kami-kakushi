@@ -1,10 +1,10 @@
 # §4 — Combat, Progression & Balance Model
 
-> **D-117 (2026-07-03) — ripple-frozen: no per-change hand-updates.** The
+> **ADR-117 (2026-07-03) — ripple-frozen: no per-change hand-updates.** The
 > illustrative magnitudes below are **no longer hand-updated as balance
 > tunes**; `core/content/balance.ts` + the generated `docs/content/` tables
 > are the live truth (R2: the build wins). This section's numbers refresh at
-> the **T0 compression sweep** (D-117 — triggered when the R1 taste review
+> the **T0 compression sweep** (ADR-117 — triggered when the R1 taste review
 > closes), not per-change.
 
 > This section is authored from the two-phase progression spine (§1.6.4 — the
@@ -121,9 +121,9 @@ bands (distinct from the resource scale above):
 | **T2 Village** | **~1,000 → 5,000** | |
 | **T3 Region** *(v1 end-gate)* | **~5,000 → 10,000** | approaches the daimyō line by the v1 end-gate |
 | **T4 Castle-town** *(beyond v1)* | **10,000 (DAIMYŌ) → ~100,000** | 10,000 koku = the daimyō threshold; a **personal koku stipend** appears from T4+ (House-only before) |
-| **T5 Edo** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 caps the full parallel **Office / court-rank / favour** track (koku = scale, office = access) — T0 grants exactly ONE home status token; the surname→two-swords→gōshi ladder is T1–T5 (**D-122**) |
+| **T5 Edo** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 caps the full parallel **Office / court-rank / favour** track (koku = scale, office = access) — T0 grants exactly ONE home status token; the surname→two-swords→gōshi ladder is T1–T5 (**ADR-122**) |
 
-*(Recorded as ADRs **D-107** — the rice/coin/koku split, **D-108** — coin denominations, **D-109** — the
+*(Recorded as ADRs **ADR-107** — the rice/coin/koku split, **ADR-108** — coin denominations, **ADR-109** — the
 tier→koku ladder + office track + T4 stipend. The upper koku bands are provisional/liquid.)*
 
 **Lever:** the **per-tier multiplier `TIER_MAG = 10`** (the order-of-magnitude step) and the
@@ -1130,7 +1130,7 @@ foe that deals **≥1 damage** grinds you down across a run, and the **only** fo
 
 **A lost fight (0 HP)** — the `applyGrindFight` loss path: the soft setback (§4.6.6: **1 HP**, ~½-day) **AND**
 the **autopilot STOPS** (no auto-resume) **AND** you **drop a real bite of ALL THREE carried resources —
-coin + rice + materials** (**D-113**) — `LOSS_COIN_FRAC` (~20%) of carried coin + `LOSS_MATERIAL_FRAC` (~⅓,
+coin + rice + materials** (**ADR-113**) — `LOSS_COIN_FRAC` (~20%) of carried coin + `LOSS_MATERIAL_FRAC` (~⅓,
 floored) of carried rice + materials. **What's BANKED in the kura storehouse (§4.6.6c) is safe.** Still **never** a level/gear/Influence/koku-standing loss. The autopilot stopping (not
 auto-resuming) means the player **feels** the loss and chooses to recover, rather than the loop papering over
 it.
@@ -1147,7 +1147,7 @@ on a lost fight) and **banked** (`state.banked` — sheltered in the kura storeh
 penalty). *(Koku standing is **not** wealth — it is never carried, banked, or at risk; it is the assessed
 prestige score of §4.0b.)* **Deposit/withdraw** move a
 resource between the two; spending + earning use carried (banked is a safe reserve). **Banked coin stays
-free/safe, but stored RICE now carries a cost** (spoilage / cap / holding fee — mechanism TBD, **D-118**), so
+free/safe, but stored RICE now carries a cost** (spoilage / cap / holding fee — mechanism TBD, **ADR-118**), so
 store-vs-sell is a real choice rather than a free hoard. **Deposit/withdraw are
 gated to the kura node** — so banking your haul means physically returning home, and fighting far afield with a
 full purse becomes the gamble. The risk/reward — bank before a risky fight, or carry it and chance the bite —
@@ -1359,7 +1359,7 @@ rule, the yields-already-NET model, and the separate labour/combat throttle coef
   the score is already in [0,1].
 
 **Resource counts are UNBOUNDED** (no caps; K/M/B abbreviation reads them, §4.0) — **except stored RICE now
-carries a cost** (spoilage / cap / holding fee — mechanism TBD, **D-118**), so a banked rice hoard is no longer
+carries a cost** (spoilage / cap / holding fee — mechanism TBD, **ADR-118**), so a banked rice hoard is no longer
 free/safe and store-vs-sell stays a real choice; **coin remains unbounded and safe.** **Coin exists from T0** (base
 unit mon; higher denominations reveal later, §4.0a) — but the **market opens a real coin SINK from the Village
 tier:** the market row lets the player **spend coin on market purchases and component-buying** (buying

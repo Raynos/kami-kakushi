@@ -54,7 +54,7 @@ for (const r of RANKS) {
   }
 }
 
-// 3b. Rung-meter drift guard (audit G-PACING; D-056 — single profile, fork retired): the
+// 3b. Rung-meter drift guard (audit G-PACING; ADR-056 — single profile, fork retired): the
 //     RUNG_METER_THRESHOLDS map is the single source of truth, mirrored 1:1 by RankDef.meterThreshold.
 for (const r of RANKS) {
   if (RUNG_METER_THRESHOLDS[r.id] !== r.meterThreshold) {
@@ -102,7 +102,7 @@ ESTATE_STAGES.forEach((e, i) => {
   }
 });
 
-// 5. Real-name denylist — no real Edo figures may surface as canon names (D-042 / Q39).
+// 5. Real-name denylist — no real Edo figures may surface as canon names (ADR-042 / Q39).
 const DENYLIST = new Set([
   'munenori',
   'jubei',

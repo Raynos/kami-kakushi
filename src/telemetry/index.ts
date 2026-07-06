@@ -1,4 +1,4 @@
-// createTelemetry() (F8) — the DEV-only wiring hub: owns the sessionizer state, the run
+// createTelemetry() (FB-8) — the DEV-only wiring hub: owns the sessionizer state, the run
 // record, the taint ledger and the storage ring; exposes the two taps main.ts needs
 // (wrapDispatch + onCommit) and the `__qa.telemetry` handle. Zero core changes — everything
 // it knows arrives via the commit diff (milestones.ts) and the DOM shell (signals.ts).
@@ -30,7 +30,7 @@ export const TELEMETRY_SENTINEL = '__KAMI_TELEMETRY__';
 
 /** `resume` = boot WITH an existing save (plan §3.1: a NEW run starts only at
  *  boot-with-no-save / newGame / import) — the newest stored run for the same seed is
- *  CONTINUED, so an F5 mid-session doesn't shred the run history into per-boot fragments. */
+ *  CONTINUED, so an FB-5 mid-session doesn't shred the run history into per-boot fragments. */
 export type RunStartReason = 'boot' | 'resume' | 'new-game' | 'import' | 'fixture';
 
 export interface TelemetrySummary {
@@ -211,7 +211,7 @@ export function createTelemetry(opts: {
       persist();
     }
     const t = now();
-    // RESUME (F5 with an existing save): continue the newest stored run for this seed — same
+    // RESUME (FB-5 with an existing save): continue the newest stored run for this seed — same
     // runId, carried segments/milestones/taints — so reloads never fragment the history. Falls
     // through to a fresh run when the ring has nothing to continue (first boot, cleared ring).
     if (reason === 'resume') {

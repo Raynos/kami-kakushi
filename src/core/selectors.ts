@@ -48,7 +48,7 @@ export function estateSatietyBonus(state: GameState): number {
 }
 
 /** The cumulative labour-yield multiplier from the estate stages, in fixed-point /SKILL_YIELD_DEN
- *  (T0-M4-F2 / D-051: the compounding coin flywheel). estateYieldNum(E0) === SKILL_YIELD_DEN, so a
+ *  (T0-M4-F2 / ADR-051: the compounding coin flywheel). estateYieldNum(E0) === SKILL_YIELD_DEN, so a
  *  fresh estate is identity; each bought stage lifts every labour act's output. */
 export function estateYieldNum(state: GameState): number {
   let bonus = 0;
@@ -56,7 +56,7 @@ export function estateYieldNum(state: GameState): number {
   return SKILL_YIELD_DEN + bonus;
 }
 
-// ── HOME / belongings (D-111 / F89) — the comfort register, pure over GameState ──────────────────
+// ── HOME / belongings (ADR-111 / FB-89) — the comfort register, pure over GameState ──────────────────
 
 /** Does the MC own this belonging? A GRANTED keepsake (mat/bowl) is auto-owned once the home surface
  *  latches — the promised things arrive WITH the corner, not as a purchase; a BUY piece is owned once
@@ -69,7 +69,7 @@ export function ownsBelonging(state: GameState, id: string): boolean {
 }
 
 /** The full owned-belonging id set (granted-with-home ∪ bought). The single read the comfort math
- *  and the UI both go through, so preview and reality never drift (A6). Empty until the home exists. */
+ *  and the UI both go through, so preview and reality never drift (AC-6). Empty until the home exists. */
 export function ownedBelongingIds(state: GameState): Set<string> {
   const owned = new Set<string>();
   for (const def of BELONGINGS) if (ownsBelonging(state, def.id)) owned.add(def.id);
@@ -88,26 +88,26 @@ export function homeRestBonus(state: GameState): number {
 }
 
 /** satietyMax buffer from owned comfort furniture (`body` comfort) — the personal-scale mirror of the
- *  estate buffer (curve-neutral: never touches the full-satiety combat win-rate). D-120 retired the
+ *  estate buffer (curve-neutral: never touches the full-satiety combat win-rate). ADR-120 retired the
  *  hearth/chest `body` bonuses (hearth homes cook, chest is storage), so no T0 piece feeds this today;
  *  kept as the live channel for a future warmth piece. */
 export function homeSatietyBonus(state: GameState): number {
   return comfortBonus(ownedBelongingIds(state), 'body');
 }
 
-/** Belongings STORAGE capacity from owned furniture (the chest, D-120) — a prestige buffer for what's
- *  yours, read through the SAME comfort math the UI shows (A6). 0 until you own a storage piece. */
+/** Belongings STORAGE capacity from owned furniture (the chest, ADR-120) — a prestige buffer for what's
+ *  yours, read through the SAME comfort math the UI shows (AC-6). 0 until you own a storage piece. */
 export function homeStorageBonus(state: GameState): number {
   return comfortBonus(ownedBelongingIds(state), 'storage');
 }
 
-/** D-120 — is a cook locus (the hearth) among your owned belongings? Drives the home's cook affordance. */
+/** ADR-120 — is a cook locus (the hearth) among your owned belongings? Drives the home's cook affordance. */
 export function homeHasCook(state: GameState): boolean {
   return homeHasCookLocus(ownedBelongingIds(state));
 }
 
 /** satietyMax grows with combat level (FU21/Q47) + the estate buffer (audit #5) + the home comfort
- *  buffer (D-111 — a warm, dry corner keeps more of your body's reserve). */
+ *  buffer (ADR-111 — a warm, dry corner keeps more of your body's reserve). */
 export function satietyMax(state: GameState): number {
   return (
     SATIETY_BASE +
@@ -186,7 +186,7 @@ export function canDoActivity(state: GameState, activity: ActivityDef): boolean 
   return true;
 }
 
-/** The PEOPLE present + reachable at the MC's current node (D-114 vendors-as-people; mirrors the
+/** The PEOPLE present + reachable at the MC's current node (ADR-114 vendors-as-people; mirrors the
  *  spatial `foesHere`). The Map tab's "who's here" list shows only these: a person appears once you
  *  stand at their node, their `placeGate` (if any) is satisfied — you REACHED or BUILT the place —
  *  and their `presence` (if any) holds. Pure + deterministic over the surface latch (no RNG), so a

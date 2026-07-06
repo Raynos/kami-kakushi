@@ -35,7 +35,7 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
         expect(opt.label).toBeTruthy();
         expect(opt.say).toBeTruthy();
         expect(opt.react).toBeTruthy();
-        // F56: every option grants a PERK — a short name + a STANDALONE one-line desc (flavor that
+        // FB-56: every option grants a PERK — a short name + a STANDALONE one-line desc (flavor that
         // stands without the intro-conversation context). The ± mechanics are appended by
         // introPerkLine (single-source), NEVER baked into the perk's name or desc.
         expect(opt.perk.name).toBeTruthy();

@@ -1,4 +1,4 @@
-// The DOM shell (F8) — the ONLY telemetry producer in the app. Deliberately a SHELL: every
+// The DOM shell (FB-8) — the ONLY telemetry producer in the app. Deliberately a SHELL: every
 // handler is one line (read the clock, emit one event); all judgment lives in the pure
 // sessionizer, which is where the tests are (plan §4). Passive listeners throughout — the
 // shell must never affect the game it measures.

@@ -4,12 +4,12 @@
 ([`project/brainstorms/2026-07-02-emergent-node-actions.md`](../../project/brainstorms/2026-07-02-emergent-node-actions.md)).
 **Scope: T0-later / T1, explicitly NOT R0/R1** (human steer). The open *shape*
 questions (§Open) need a design pass before code — no mechanics are locked yet.
-Relates **D-114/D-115** (who's-here map model) + **D-116** (the hint-carrying node
+Relates **ADR-114/ADR-115** (who's-here map model) + **ADR-116** (the hint-carrying node
 description).
 
 ## Who builds this — Fable or Opus?
 
-**Opus**, in two beats (per D-124, inherit the parent's model). **Phase 0 is a
+**Opus**, in two beats (per ADR-124, inherit the parent's model). **Phase 0 is a
 DESIGN pass** — a `grill-me` / `diverge` to resolve the open shape questions
 (permanence, hint-escalation, discovery-log, rumor-routing) with the human, since
 they change what the feature *is*. **Phases 1–3 are the build** — pure-core reveal
@@ -38,10 +38,10 @@ description just reads differently — never a "NEW ACTION!" banner).
 - **The one seeded RNG** — low-chance unlocks + random events flow through the
   single seeded RNG (determinism); the "after doing X enough times" counter is
   plain state, not wall-clock luck.
-- **The node model (D-114/D-115)** — nodes already carry a "who's here" people list
+- **The node model (ADR-114/ADR-115)** — nodes already carry a "who's here" people list
   + a presentation; discovery makes **both the people set and the action set
   growable**, not fixed authoring.
-- **The node description as hint surface (D-116)** — the standing description
+- **The node description as hint surface (ADR-116)** — the standing description
   foreshadows an undiscovered action; hints tighten as you close in.
 - **People + rumors as discovery sources** — a person can surface a new action; a
   **rumor** is a portable pointer overheard at node A that unlocks an action at
@@ -83,7 +83,7 @@ A portable rumor pointer (overheard at A → unlocks at B) with **robust routing
 - **Rumor routing:** how does a rumor at node A target node B without a brittle
   hand-authored web?
 
-## Scope & reachability (R6)
+## Scope & reachability (PH6)
 Parked for **T0-later / T1**, NOT R0/R1 (R0/R1 ship the static node model). It's
 **buildable on the existing T0 walkable estate map** (the base map + who's-here
 people exist), so — unlike the capstone — it does **not** hard-depend on T1; but

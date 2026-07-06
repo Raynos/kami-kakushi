@@ -6,20 +6,20 @@
 export const APP_ID = 'kami-kakushi' as const;
 
 /** Bumped only on a breaking save-schema change; additive growth needs no bump (PRD §6.8.2).
- *  v2 = the 6-tier reshape (D-048): adds `tier` + `influence` (the macro spine).
+ *  v2 = the 6-tier reshape (ADR-048): adds `tier` + `influence` (the macro spine).
  *  v3 = the interactive intro: adds `npcMemory` (per-NPC memory) + `introBeat` (the intro cursor).
  *  v4 = the NPC dialogue TREE: adds `askedTopics` (the ask-hub dim/gate set); `introBeat` carries
  *  over unchanged (scene order == old beat order).
- *  v5 = the RICE/COIN/KOKU economy re-core (D-107): renames the carried+banked `koku` resource key
+ *  v5 = the RICE/COIN/KOKU economy re-core (ADR-107): renames the carried+banked `koku` resource key
  *  to `coin` (the spendable currency) and adds `rice` (a real resource); koku leaves `resources`
  *  entirely (it is now House STANDING, in `influence`).
- *  v6 = the rung-up STORY BEAT (D-110): adds `rungBeat` (the active rung beat's target rank, or
+ *  v6 = the rung-up STORY BEAT (ADR-110): adds `rungBeat` (the active rung beat's target rank, or
  *  null). Additive — an in-flight save defaults it inert (a ready promotion just shows the header
  *  affordance on load; an already-promoted save is unaffected).
- *  v7 = DEEP HOUSING (D-111 / F89): adds `belongings` (the ids of BOUGHT comfort furniture for the
+ *  v7 = DEEP HOUSING (ADR-111 / FB-89): adds `belongings` (the ids of BOUGHT comfort furniture for the
  *  home). Additive — an old save defaults it `[]` (owns no furniture; the granted mat + bowl are
  *  derived from the home surface, not stored, so they back-reveal for any R1+ save).
- *  Pre-launch dev saves are wiped (D-067), but each forward step is a real, test-covered chain. */
+ *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain. */
 export const SCHEMA_VERSION = 7 as const;
 
 /** The event-log ring cap (PRD §6.4 / core/log): oldest entries evicted past this. */
@@ -38,7 +38,7 @@ export const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
 export type Season = (typeof SEASONS)[number];
 
 /** The Phase-2 RECKONING cadence (days) — how often the house is JUDGED (the seasonal-share bonus,
- *  §4.2 / D-049). **LIQUID (D-059).** Decoupled from the 28-day calendar `DAYS_PER_SEASON` on purpose:
+ *  §4.2 / ADR-049). **LIQUID (ADR-059).** Decoupled from the 28-day calendar `DAYS_PER_SEASON` on purpose:
  *  in the compressed T0 showcase a full season never turns inside the ~5-day Estate deed-grind, so a
  *  season-boundary judge fired **0×** before ascension (battery #8) — the house is reckoned on this
  *  SHORTER cadence so the mechanic is actually FELT in T0. Must stay **≤ the grind's day-span** so a

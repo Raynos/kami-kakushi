@@ -5,7 +5,7 @@
 > deed/fight** (`do_activity`/`fight`/`face_wolf` — the per-action thud), `reward` (shamisen/koto) on a
 > koku tally, `rankUp` (suzu temple-bell) on a rank-up/ascension. This
 > doc is the **contract** it implements; the genuinely-deferred part is **§4 (the full bed)**. Locked
-> by **D-068** (palette + timing), sequenced within **D-041** (a small *synthesized* Web Audio set —
+> by **ADR-068** (palette + timing), sequenced within **ADR-041** (a small *synthesized* Web Audio set —
 > no audio-file pipeline).
 > Companion to the look: [`ui-design.md`](ui-design.md) (the woodblock/ink bible) and
 > [`fun-factor.md`](fun-factor.md) (juice = the make-or-break priority).
@@ -26,7 +26,7 @@ Three cues only — **built & wired** so the human's **R1 taste verdict** has re
 Everything else (ambience, per-deed variety, UI ticks, the **shakuhachi** big-beat swell) is the
 **full bed** — out of this pass.
 
-## 2. The traditional-Japanese palette mapping (D-068)
+## 2. The traditional-Japanese palette mapping (ADR-068)
 
 The audio analogue of the woodblock visual discipline — the anti-slop defence in *sound*:
 
@@ -40,7 +40,7 @@ Never generic UI blips; never an orchestral wash. Synthesized to match `ui-desig
 
 ## 3. Technical contract (as built)
 
-- **Synthesized Web Audio only** (D-041) — oscillator/noise + envelopes + filters; **no audio files**,
+- **Synthesized Web Audio only** (ADR-041) — oscillator/noise + envelopes + filters; **no audio files**,
   no asset pipeline. Cues are generated, not sampled.
 - **Mute-safe:** a single master gain with a persisted mute/volume toggle (the **Sound on/off** button);
   **default loudness is a human call**, never auto-loud. Honour an OS/`prefers-reduced-motion` signal as a sound-reducing hint

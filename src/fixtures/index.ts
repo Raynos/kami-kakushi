@@ -1,4 +1,4 @@
-// Scenario-save DEV registry (F6) — pairs each spec with its GENERATED envelope, loaded via Vite's
+// Scenario-save DEV registry (FB-6) — pairs each spec with its GENERATED envelope, loaded via Vite's
 // `import.meta.glob`. Browser + vitest only (glob is a Vite transform). This module is referenced
 // ONLY from `import.meta.env.DEV` branches (main.ts `__qa`, the DEV panel Scenarios pane), so it
 // folds to dead code + tree-shakes out of the prod bundle — the same strip path as ui/dev.ts. The

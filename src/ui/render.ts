@@ -147,9 +147,9 @@ const COLD_OPEN_ROMAN = 'Kamikakushi';
 const COLD_OPEN_LEDE =
   'Dark. Straw against your cheek, the smell of wet rice, a low roof you do not know. Your name, your past — gone, as if the night swallowed them whole.';
 
-// ── the interactive intro VN scene (D-104 / F43–F48) — the SOLE prod intro presentation ──
+// ── the interactive intro VN scene (ADR-104 / FB-43–FB-48) — the SOLE prod intro presentation ──
 // Voice → on-palette colour: the nameplate seal + name take it (mirrors the log voice colours).
-// D-110 'lord' voice — RESOLVED. Shigemasa's R7 capstone speaks in a DEDICATED `'lord'`
+// ADR-110 'lord' voice — RESOLVED. Shigemasa's R7 capstone speaks in a DEDICATED `'lord'`
 // VoiceCategory (added to the core union in `voices.ts`): murasaki 紫 — the historic
 // highest-court-rank colour — distinct from the magistrate `'official'` kihada and Chiyo's
 // `'steward'` ochre. These maps are exhaustive over the core `VoiceCategory` union, so `lord`
@@ -184,11 +184,11 @@ const VOICE_SEAL: Record<VoiceCategory, string> = {
   arms: '武',
   official: '官',
   villager: '里',
-  lord: '殿', // 殿 (dono) — his lordship, the domain lord Shigemasa (D-110 R7)
+  lord: '殿', // 殿 (dono) — his lordship, the domain lord Shigemasa (ADR-110 R7)
 };
 /** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. Takes a
  *  minimal structural shape so BOTH the intro `DialogueScene` and the normalized `VnScene` (rung
- *  beats) feed it (D-110 §7.3). */
+ *  beats) feed it (ADR-110 §7.3). */
 function introNameplate(scene: {
   readonly voice: VoiceCategory;
   readonly speaker?: NpcId;
@@ -207,9 +207,9 @@ function introNameplate(scene: {
 }
 
 // (the four-pillar names live in core/content now; the T0 UI shows ONLY the active Estate
-// pillar live + the rest as unnamed silhouettes, D-055 — see renderHouseInfluence.)
+// pillar live + the rest as unnamed silhouettes, ADR-055 — see renderHouseInfluence.)
 
-// The kura-works PURCHASE ladder (U1–U4, D-098) — indexed by estateStage. Stage 0 is
+// The kura-works PURCHASE ladder (U1–U4, ADR-098) — indexed by estateStage. Stage 0 is
 // the un-worked starting state; the flavour words are the estate's condition after each
 // work. (The narrative CONDITION ladder E0–E5 is a separate axis, lives in the docs.)
 const ESTATE_STAGE_NAMES = [
@@ -231,7 +231,7 @@ const CHANNEL_BULLET: Record<LogChannel, string> = {
   reward: '🌾',
   combat: '⚔️',
   system: '',
-  // a quiet ink mark, not the red dot the human disliked (F56) — milestones read as progress, calmly.
+  // a quiet ink mark, not the red dot the human disliked (FB-56) — milestones read as progress, calmly.
   milestone: '❖',
 };
 
@@ -250,7 +250,7 @@ const RESOURCE_LABEL: Record<string, string> = {
 };
 
 type Dispatch = (intent: Intent) => void;
-// The six-tab IA (D-112): every capability lives in exactly one thematic tab, each revealed only
+// The six-tab IA (ADR-112): every capability lives in exactly one thematic tab, each revealed only
 // once it has content (§3 of the IA reorg plan). Work R0 → Map/Estate/Inventory R1 → Character R2
 // → Combat R3. `skills`/`quests` are folded into Character; `map` now means the node-map (nav's
 // sole home), not the old "Estate 地図".
@@ -283,9 +283,9 @@ export function formatLogText(entry: LogEntry): string {
   return `${entry.text} ×${n}`;
 }
 
-// F53/F115 — the "Now" (ephemeral) view's wall-clock timings (a RENDER-time concern; the pure core
+// FB-53/FB-115 — the "Now" (ephemeral) view's wall-clock timings (a RENDER-time concern; the pure core
 // never times this). Module-scope + exported so a test derives its fixtures from the SAME source the
-// renderer uses (D-086 — no copied magic numbers). F115: the expiry runs regardless of the active
+// renderer uses (ADR-086 — no copied magic numbers). FB-115: the expiry runs regardless of the active
 // view, so a fleeting line clears on schedule even while Now is hidden.
 export const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appearance
 export const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
@@ -366,7 +366,7 @@ function buildSettings(hooks: AppHooks): {
   h.append(el('span', 'kami', '神隠し'), el('span', 'roman', 'Kamikakushi'));
   card.append(h);
 
-  // ── sub-tab bar (playtest F31): Settings · Saves · About ──
+  // ── sub-tab bar (playtest FB-31): Settings · Saves · About ──
   // one long column split into three panels; the active tab shows, the rest hide.
   const tabBar = el('div', 'modal-tabs');
   tabBar.setAttribute('role', 'tablist');
@@ -523,8 +523,8 @@ function buildSettings(hooks: AppHooks): {
   aboutSec.append(
     el('p', 'modal-meta', 'Content notes: mild thematic — child-disappearance, drowning, debt.'),
   );
-  // F105 — deep-link to the raw CHANGELOG on GitHub (opens in a new tab); a raw-file link is fine per
-  // the human's spec. The version's story is one click from the footer (F104 version → About → here).
+  // FB-105 — deep-link to the raw CHANGELOG on GitHub (opens in a new tab); a raw-file link is fine per
+  // the human's spec. The version's story is one click from the footer (FB-104 version → About → here).
   const changelogRow = el('p', 'modal-meta');
   const changelog = el('a', 'modal-link', 'Changelog') as HTMLAnchorElement;
   changelog.href = 'https://raw.githubusercontent.com/Raynos/kami-kakushi/main/CHANGELOG.md';
@@ -534,12 +534,12 @@ function buildSettings(hooks: AppHooks): {
   aboutSec.append(changelogRow);
 
   card.append(settingsSec, savesSec, aboutSec);
-  showTab('about'); // default active tab — the human prefers opening on About (F33)
+  showTab('about'); // default active tab — the human prefers opening on About (FB-33)
 
   scrim.append(card);
   return {
     modal: scrim,
-    // F104 — an optional `tab` opens the modal straight on that sub-tab (the footer version opens it
+    // FB-104 — an optional `tab` opens the modal straight on that sub-tab (the footer version opens it
     // on "about"); called with no arg (the gear button) it keeps whichever tab was last shown.
     open: (tab?: string) => {
       opener = (document.activeElement as HTMLElement) ?? null;
@@ -560,14 +560,14 @@ export function mount(
   root.removeAttribute('aria-busy');
 
   let activeTab: Tab = 'work';
-  // D-114 — the Map "who's here" open-conversation state (UI-only, like activeTab): the id of the
+  // ADR-114 — the Map "who's here" open-conversation state (UI-only, like activeTab): the id of the
   // person you're currently TALKING to (their trade/greeting is open), or null. A `tiny` trader's
   // shop (the pedlar's wares) shows ONLY while he is the open person — talk-to-reveal, never inline.
   let openPersonId: string | null = null;
   let lastState: GameState | null = null;
-  // ── the interactive intro VN scene (D-104) — the SOLE prod intro presentation. While the intro
+  // ── the interactive intro VN scene (ADR-104) — the SOLE prod intro presentation. While the intro
   //    is live it HIDES the whole shell and mounts a full-screen scene on `root`; the estate inks
-  //    in only AFTER the intro ends. The intro is APPEND-ONLY (F81): the scene shell is built ONCE
+  //    in only AFTER the intro ends. The intro is APPEND-ONLY (FB-81): the scene shell is built ONCE
   //    per scene, then each state change DIFFS the transcript against the DOM and APPENDS only the
   //    new lines — no node already on screen is destroyed/recreated within a scene (that wholesale
   //    teardown+rebuild was the flash + wiped typewriter + resizing card the human saw). A full
@@ -588,16 +588,16 @@ export function mount(
   const introTopicBtns = new Map<string, HTMLButtonElement>(); // topicId → ask button (dim/gate in place)
   const introRenderedKeys = new Set<string>(); // transcript entry keys already appended to the DOM
   let introLastState: GameState | null = null; // latest state, for the UI-only (Done / pick) handlers
-  // typewriter over the newly-appended block: its typing nodes + a per-line cursor (F62 click-advance).
+  // typewriter over the newly-appended block: its typing nodes + a per-line cursor (FB-62 click-advance).
   let introBlockNodes: { readonly span: HTMLElement; readonly text: string }[] = [];
   let introBlockIndex = -1; // index of the line currently revealing within the block (−1 ⇒ idle)
   let introLineTyping = false; // is that line still animating char-by-char?
   let introOnBlockDone: (() => void) | undefined; // fired when the block's LAST line completes
   let introTypeTimer: number | undefined; // the pending per-char step timeout
-  let introAdvanceTimer: number | undefined; // the inter-line ~2s auto-advance timeout (F86)
+  let introAdvanceTimer: number | undefined; // the inter-line ~2s auto-advance timeout (FB-86)
   const introAuxTimers: number[] = []; // other pending intro timeouts (fresh-divider fades)
   // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
-  // INSTANTLY as the shell reveals (F48 — no slow catch-up), not via the story cascade.
+  // INSTANTLY as the shell reveals (FB-48 — no slow catch-up), not via the story cascade.
   let introEndingRender = false;
 
   const shell = el('div', 'shell paper');
@@ -618,7 +618,7 @@ export function mount(
   settingsBtn.setAttribute('aria-haspopup', 'dialog');
   const settings = buildSettings(hooks);
   settingsBtn.addEventListener('click', () => settings.open());
-  // the Settings control now lives in the fixed footer (playtest F5); the titlebar shows the name.
+  // the Settings control now lives in the fixed footer (playtest FB-5); the titlebar shows the name.
   titlebar.append(title);
   shell.append(titlebar);
 
@@ -630,7 +630,7 @@ export function mount(
   houseMark.textContent = '黒沢家';
   header.append(houseMark);
 
-  // D-107: two carried-wealth pills — RICE (raked/farmed) + COIN (the spendable currency, base
+  // ADR-107: two carried-wealth pills — RICE (raked/farmed) + COIN (the spendable currency, base
   // unit mon). Rice reveals on the cold open (readout-rice); coin holds back until the first wage
   // (readout-coin). koku is NOT a pill — it is House standing (surfaced elsewhere, Phase 4).
   const rice = vital('rice', 'rice');
@@ -647,7 +647,7 @@ export function mount(
   const staminaFill = el('span');
   staminaBar.append(staminaFill);
   stamina.append(staminaBar);
-  // HP — a life-or-death meter once combat opens (D-076: HP accumulates, no auto-heal, a lost fight
+  // HP — a life-or-death meter once combat opens (ADR-076: HP accumulates, no auto-heal, a lost fight
   // bites carried coin + rice). It sits beside `body` so the player can always SEE they're hurt + heal (eat).
   const health = el('div', 'vital health');
   health.hidden = true;
@@ -662,14 +662,14 @@ export function mount(
   const sansai = vital('sansai', 'sansai');
   header.append(rice.wrap, coin.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
 
-  // ── F106 (D-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
+  // ── FB-106 (ADR-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
   //    progress bar (the rungMeter toward the next rung) with a HOVER card of detail. This is the
   //    rung's HOME + the PLAYER-TRIGGERED beat start: when a promotion is READY (and no beat is live
   //    / not in the intro) the element becomes the "Answer the summons" affordance → dispatch
   //    `begin_rung_beat`, which navigates to the full-screen VN beat. It NEVER auto-fires — a ready
-  //    promotion BANKS here and the player may ignore it and keep grinding (D-110). The Work-column
+  //    promotion BANKS here and the player may ignore it and keep grinding (ADR-110). The Work-column
   //    ladder stays as the secondary cue (§3.3). Build-once + patch in place (renderRungHead) so an
-  //    idle re-render produces zero DOM churn (F81). ──
+  //    idle re-render produces zero DOM churn (FB-81). ──
   const rungHead = el('div', 'rung-head');
   rungHead.hidden = true;
   const rungHeadTrigger = el('button', 'rung-head-trigger') as HTMLButtonElement;
@@ -699,7 +699,7 @@ export function mount(
   const workspace = el('main', 'workspace');
   workspace.setAttribute('role', 'main');
 
-  // F77 — sticky-bottom bookkeeping (declared before the log section so the scroll listener can
+  // FB-77 — sticky-bottom bookkeeping (declared before the log section so the scroll listener can
   // bind): the log auto-follows the newest line and STAYS pinned to the bottom as new lines arrive,
   // but leaves a reader who scrolled UP into history alone until they return to the foot.
   const LOG_STICK_THRESHOLD_PX = 24; // "at bottom" tolerance (sub-pixel scroll + a line's leading)
@@ -717,7 +717,7 @@ export function mount(
     logPinnedToBottom =
       logLines.scrollHeight - logLines.scrollTop - logLines.clientHeight <= LOG_STICK_THRESHOLD_PX;
   });
-  // the bottom filter bar (F9) — filters which channels show; Story leads, default 'story'.
+  // the bottom filter bar (FB-9) — filters which channels show; Story leads, default 'story'.
   const logFilterBar = el('div', 'log-filter-bar');
   const logFilterBtns = new Map<LogFilter, HTMLButtonElement>();
   for (const f of LOG_FILTERS) {
@@ -728,9 +728,9 @@ export function mount(
     logFilterBtns.set(f.id, b);
     logFilterBar.append(b);
   }
-  // F74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar. It scales ONLY
+  // FB-74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar. It scales ONLY
   // the log's reading text (a log-scoped `--log-scale` CSS var on the log section → `.log-lines`
-  // font-size), leaving the F73 chrome density alone. The choice PERSISTS in localStorage (the
+  // font-size), leaving the FB-73 chrome density alone. The choice PERSISTS in localStorage (the
   // ui-prefs seam) and re-applies on every mount; the buttons disable at the min/max bounds.
   let logScale = loadLogScale();
   const logFontStepper = el('div', 'log-font-stepper');
@@ -766,20 +766,20 @@ export function mount(
   const estatePane = el('div', 'estate-pane');
   const marketPane = el('div', 'market-pane');
   const storehousePane = el('div', 'storehouse-pane');
-  const belongingsPane = el('div', 'belongings-pane'); // D-111 / F89 — the home + belongings (Inventory tab)
+  const belongingsPane = el('div', 'belongings-pane'); // ADR-111 / FB-89 — the home + belongings (Inventory tab)
   const influence = el('div', 'influence');
   const actions = el('div', 'actions');
   const skillsPane = el('div', 'skills-pane');
   const combatPane = el('div', 'combat-pane');
   const questsPane = el('div', 'quests-pane');
   const mapPane = el('div', 'map-pane');
-  // IA reorg (D-112) — the Character tab's SPLIT-OUT halves of renderCombat: the attribute-training
+  // IA reorg (ADR-112) — the Character tab's SPLIT-OUT halves of renderCombat: the attribute-training
   // rows + the bestiary field-guide (they live with the character sheet, not the fight surface).
-  // Own containers so each is a build-once/patch surface on the Character tab (F81), and so the
+  // Own containers so each is a build-once/patch surface on the Character tab (FB-81), and so the
   // per-tab anti-empty guard can see them (§7). Points are still EARNED in Combat (the coupling holds).
   const characterTrain = el('div', 'character-train');
   const characterBestiary = el('div', 'character-bestiary');
-  // ── incremental-render refs (append-only migration, F81 generalised via ui/reconcile.ts) ──
+  // ── incremental-render refs (append-only migration, FB-81 generalised via ui/reconcile.ts) ──
   //    Each easy surface builds its card shell ONCE (lazily on first show) and PATCHES in place
   //    after, so an idle re-render of unchanged state produces zero DOM churn (meter transitions
   //    survive, focus survives, the ~2×/s tick stops flashing). null ⇒ not yet built.
@@ -798,32 +798,32 @@ export function mount(
     row: HTMLElement;
     dep: HTMLButtonElement;
     wd: HTMLButtonElement;
-    // D-107 Phase 2 — rice deposit/withdraw, so the kura shelters rice beside coin (the D-113
+    // ADR-107 Phase 2 — rice deposit/withdraw, so the kura shelters rice beside coin (the ADR-113
     // loss-shelter now applies to rice too). deposit/withdraw are already resource-generic.
     riceRow: HTMLElement;
     depRice: HTMLButtonElement;
     wdRice: HTMLButtonElement;
     away: HTMLElement;
   } | null = null;
-  // belongingsRefs (D-111 / F89) — the home card: a header, the owned-belongings list (the mat + bowl
-  // + bought furniture), the acquire (buy) list, and a comfort-summary line. Build-once/patch (F81):
+  // belongingsRefs (ADR-111 / FB-89) — the home card: a header, the owned-belongings list (the mat + bowl
+  // + bought furniture), the acquire (buy) list, and a comfort-summary line. Build-once/patch (FB-81):
   // the two lists reconcile, the summary patches its text, so an idle re-render churns nothing.
   let belongingsRefs: {
     card: HTMLElement;
     homeName: HTMLElement;
     homeBlurb: HTMLElement;
-    // D-122 — the status-mirror: the weapon mounted on your home wall (granted at R5), read live.
+    // ADR-122 — the status-mirror: the weapon mounted on your home wall (granted at R5), read live.
     statusMirror: HTMLElement;
     ownedHead: HTMLElement;
     ownedList: HTMLElement;
     comfort: HTMLElement;
-    // D-120 — the hearth homes the cook verb: a cook affordance surfaced in the home when owned.
+    // ADR-120 — the hearth homes the cook verb: a cook affordance surfaced in the home when owned.
     cookRow: HTMLElement;
     cookBtn: HTMLButtonElement;
     acquireHead: HTMLElement;
     acquireList: HTMLElement;
   } | null = null;
-  // marketRefs — the buy rows + (D-107 Phase 2) the sell-rice faucet (season price + sell button).
+  // marketRefs — the buy rows + (ADR-107 Phase 2) the sell-rice faucet (season price + sell button).
   let marketRefs: {
     card: HTMLElement;
     rows: HTMLElement;
@@ -831,7 +831,7 @@ export function mount(
     sellBtn: HTMLButtonElement;
   } | null = null;
   let questsRefs: { list: HTMLElement } | null = null;
-  // renderHouseInfluence refs (IA reorg — migrated to append-only, F81). The card shell + the
+  // renderHouseInfluence refs (IA reorg — migrated to append-only, FB-81). The card shell + the
   // koku headline/grade/bar/silhouettes are built ONCE and PATCHED in place; the structural
   // locked↔live↔ascended transitions swap named sub-sections via `hidden`, never a
   // `textContent=''` teardown. `mode` records the last-built structure so an idle re-render of the
@@ -864,23 +864,23 @@ export function mount(
     loc: HTMLElement;
     kanji: HTMLElement;
     blurb: HTMLElement;
-    // F102 — the Map splits into TWO sections: (a) the bordered you-are-here FLAVOR card above
+    // FB-102 — the Map splits into TWO sections: (a) the bordered you-are-here FLAVOR card above
     // (card/loc/kanji/blurb), and (b) a terse, hint-free NAVIGATION section below (nav/navLabel/
     // strip) — a sibling of the flavor card, not nested in it.
     nav: HTMLElement;
     navLabel: HTMLElement;
     strip: HTMLElement;
-    // D-114 — the Map "who's here" section (built ONCE; the person rows reconcile). Hidden (F72
+    // ADR-114 — the Map "who's here" section (built ONCE; the person rows reconcile). Hidden (FB-72
     // ghost-box) when no one is present, so an empty node never leaves a framed ghost card.
     whos: HTMLElement;
     whosList: HTMLElement;
   } | null = null;
-  // ── Phase 2 (F81) — the two big flash offenders go incremental. `actions` (the Work hero, rebuilt
+  // ── Phase 2 (FB-81) — the two big flash offenders go incremental. `actions` (the Work hero, rebuilt
   //    ~2×/s) and `combatPane` (a 6-block composite) are split into named sub-containers built ONCE;
   //    each keyed section is a reconcileList, each per-tick bit is patched in place. `null` ⇒ not
   //    yet built. metaRow/areaGroups/watchList/craftHost are their own flex-gap sub-containers (see
   //    the `.actions-group`/`.combat-group` CSS) so wrapping doesn't collapse the parent's gap;
-  //    they toggle `hidden` when empty so an empty section leaves no phantom flex-gap (F72).
+  //    they toggle `hidden` when empty so an empty section leaves no phantom flex-gap (FB-72).
   let actionsRefs: {
     metaRow: HTMLElement;
     wolfBox: HTMLElement;
@@ -890,11 +890,11 @@ export function mount(
     noWork: HTMLElement;
     cookRow: HTMLElement;
     cookBtn: HTMLButtonElement;
-    // D-107 Phase 2 — eat plain rice → satiety (the rice food path, beside cook).
+    // ADR-107 Phase 2 — eat plain rice → satiety (the rice food path, beside cook).
     eatRiceRow: HTMLElement;
     eatRiceBtn: HTMLButtonElement;
   } | null = null;
-  // IA reorg (D-112) — the Combat tab keeps ONLY the fight surface: XP · weapon · craft · stance ·
+  // IA reorg (ADR-112) — the Combat tab keeps ONLY the fight surface: XP · weapon · craft · stance ·
   // watch. Training (attrs) + the bestiary SPLIT OUT to the Character tab (their refs live in
   // characterRefs below); points are still EARNED from combat leveling (the coupling holds).
   let combatRefs: {
@@ -916,7 +916,7 @@ export function mount(
     watchList: HTMLElement;
   } | null = null;
   // characterRefs — the Character tab's SPLIT-OUT halves of combat (training attrs + bestiary),
-  // each a build-once/patch surface (F81). Reveal at R3 (`readout-combat-level` / `panel-bestiary`).
+  // each a build-once/patch surface (FB-81). Reveal at R3 (`readout-combat-level` / `panel-bestiary`).
   // Each half builds lazily + independently (both reveal at R3 in practice, but the refs never
   // assume the other is present), so a null field means "that half not yet built".
   let characterTrainRefs: { train: HTMLElement; trainPts: HTMLElement } | null = null;
@@ -940,12 +940,12 @@ export function mount(
   const sliceDo = el('section', 'slice slice-do');
   sliceDo.dataset.panel = 'do';
   sliceDo.setAttribute('aria-label', 'Work');
-  // IA reorg (D-112) — Phase A keeps the current byōbu DOM grouping; the SIX tabs are realised by
+  // IA reorg (ADR-112) — Phase A keeps the current byōbu DOM grouping; the SIX tabs are realised by
   // re-gating each pane's `activeTab` check (§6.3). Only the active tab's panes are ever visible, so
   // the slice grouping is unchanged for layout. The Do slice hosts every single-column tab surface:
   // Work labour, the node-Map, Estate improve-card, Character (skills + training + bestiary + quests),
   // and Combat. The market/storehouse/influence coin panes stay in the Estate slice (their tab
-  // re-homes are Map/Inventory/Estate — self-gated, F100-style). Phase B (deferred) gives each tab
+  // re-homes are Map/Inventory/Estate — self-gated, FB-100-style). Phase B (deferred) gives each tab
   // its own container section.
   sliceDo.append(
     workHead,
@@ -958,12 +958,12 @@ export function mount(
     mapPane,
     estatePane,
   );
-  // P2 · Path & Progress — REMOVED (F116). The rung/progress display is now the SOLE responsibility
-  // of the header rung element (renderRungHead, F106, top-right); the old Work-column ladder was a
+  // P2 · Path & Progress — REMOVED (FB-116). The rung/progress display is now the SOLE responsibility
+  // of the header rung element (renderRungHead, FB-106, top-right); the old Work-column ladder was a
   // duplicate of it, so the "Path & progress" slice is gone (no empty ghost — the slice itself is
   // deleted, not just hidden).
   // P3 · Estate & Economy — the coin sinks (market/storehouse) + the R7 House-Influence capstone
-  // (~R2). The estate-IMPROVE card (`estatePane`) moved to the Estate/map tab (F100, see sliceDo).
+  // (~R2). The estate-IMPROVE card (`estatePane`) moved to the Estate/map tab (FB-100, see sliceDo).
   const sliceEstate = el('section', 'slice slice-estate');
   sliceEstate.dataset.panel = 'estate';
   sliceEstate.setAttribute('aria-label', 'Estate & economy');
@@ -980,21 +980,21 @@ export function mount(
   // are hidden, so early game is Do + Log only and the screen inks in as surfaces unlock.
   const gatedSlices = [sliceDo, sliceEstate];
 
-  // the story log lives in the RIGHT column (idle-RPG convention, playtest F8); the interactive
+  // the story log lives in the RIGHT column (idle-RPG convention, playtest FB-8); the interactive
   // work/actions column sits on the LEFT (classic). Byōbu re-arranges the same DOM via CSS.
   workspace.append(work, logSection);
 
-  // ── fixed footer bar (F5) — the version stamp + the Settings entry, pinned to the bottom ──
+  // ── fixed footer bar (FB-5) — the version stamp + the Settings entry, pinned to the bottom ──
   const footer = el('footer', 'appbar-footer');
-  // F104 — the version is CLICKABLE → the About modal (single-sourced from __VERSION__, never
-  // hand-typed — A21). A real button for keyboard/a11y, styled to read as the plain version stamp.
+  // FB-104 — the version is CLICKABLE → the About modal (single-sourced from __VERSION__, never
+  // hand-typed — AC-21). A real button for keyboard/a11y, styled to read as the plain version stamp.
   const versionBtn = el('button', 'foot-meta foot-version', __VERSION__) as HTMLButtonElement;
   versionBtn.type = 'button';
   versionBtn.setAttribute('aria-haspopup', 'dialog');
   versionBtn.setAttribute('aria-label', `About Kami-kakushi ${__VERSION__}`);
   versionBtn.addEventListener('click', () => settings.open('about'));
   footer.append(versionBtn, settingsBtn);
-  // F92 — the DEV toggle floats as a fixed overlay at the bottom-right corner (dev.ts). Reserve its
+  // FB-92 — the DEV toggle floats as a fixed overlay at the bottom-right corner (dev.ts). Reserve its
   // corner in the footer (DEV builds only) so the Settings button sits clear of it — no collision.
   if (import.meta.env.DEV && dev) footer.classList.add('has-dev-toggle');
 
@@ -1021,7 +1021,7 @@ export function mount(
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
   let logFilter: LogFilter = 'story';
-  // F20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
+  // FB-20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
   const logSeen: Record<LogFilter, number> = {
     story: -1,
@@ -1032,22 +1032,22 @@ export function mount(
     all: -1,
     now: -1,
   };
-  // F59 — one-shot: on the first awake log render the loaded entries are HISTORY (already seen),
+  // FB-59 — one-shot: on the first awake log render the loaded entries are HISTORY (already seen),
   // so we seed every channel's `logSeen` to its max key. Unread dots then fire ONLY for entries
   // that arrive DURING the session, never for a save's back-history on page load / refresh.
   let logSeenSeeded = false;
-  // F53/F115 — the "Now" (ephemeral) view's wall-clock state (render-only; the pure core never times
+  // FB-53/FB-115 — the "Now" (ephemeral) view's wall-clock state (render-only; the pure core never times
   // this). `nowSeen` stamps each ephemeral entry's first-OBSERVED Date.now() (keyed by entry key).
-  // F115: an entry is stamped the moment the renderer first SEES it — regardless of the active view —
+  // FB-115: an entry is stamped the moment the renderer first SEES it — regardless of the active view —
   // and a single light interval ages the stamps out on wall time whether or not Now is showing, so a
   // fleeting line clears on schedule (open Now later → already gone, not a backlog). The interval
   // ALSO drives the DOM fade/collapse while Now is the active view. All state is cleared on reset.
   const nowSeen = new Map<number, number>();
-  // F115 — the high-water key already stamped; keys are monotonic (log.seq), so a stamp aged out of
+  // FB-115 — the high-water key already stamped; keys are monotonic (log.seq), so a stamp aged out of
   // `nowSeen` is NEVER re-created fresh when it's still present in the (permanent) log ring.
   let lastEphStampKey = -1;
   // F58b — pending height-collapse timers (one per expiring Now line); tracked so a reset tears them
-  // all down (leak-free, per the F53 discipline).
+  // all down (leak-free, per the FB-53 discipline).
   const nowCollapseTimers = new Set<number>();
   let nowInterval: number | undefined;
   let nowEmptyEl: HTMLElement | undefined;
@@ -1078,29 +1078,29 @@ export function mount(
     new URLSearchParams(window.location.search).has('instanttext');
   const TYPE_MS_PER_CHAR = QA_INSTANT_TEXT ? 0 : 32; // GBA typewriter cadence (~30–34ms/char)
   const TYPE_NEXT_BEAT_MS = QA_INSTANT_TEXT ? 0 : 180; // pause after a typed line before the next cascades in
-  // F86 — the intro typewriter AUTO-ADVANCES: after a line finishes typing it holds for this beat,
+  // FB-86 — the intro typewriter AUTO-ADVANCES: after a line finishes typing it holds for this beat,
   // then the next line starts on its own (no click needed). A click only ever SPEEDS this up — it
   // completes an in-flight line, or skips the remaining hold — it never pauses the sequence. Tunable.
   const INTRO_LINE_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 2000;
-  // F118 — when the human CLICKS to complete a line (actively reading through), the next line starts
+  // FB-118 — when the human CLICKS to complete a line (actively reading through), the next line starts
   // on a much shorter beat than the atmospheric auto-hold above; clicking should feel snappy.
   const INTRO_CLICK_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 450;
   let typeTimer: number | undefined;
   let finishTypeNow: (() => void) | undefined;
-  // F27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
+  // FB-27 — a transient "fresh entries" divider dropped between history + new lines; self-fades.
   let freshDivider: HTMLElement | undefined;
   let freshDividerTimer: number | undefined;
 
   function setTab(tab: Tab): void {
     activeTab = tab;
-    // Stamp the active tab on the root so the DEV playtest-capture overlay (F3) can read it
+    // Stamp the active tab on the root so the DEV playtest-capture overlay (FB-3) can read it
     // (a DOM attribute, no render-API change); also handy to qa-shots.mjs.
     root.dataset.activeTab = tab;
     if (lastState) render(lastState, null);
   }
 
   // M1 reveal-gating — a slice is present only while at least one of its panes is visible AND
-  // carries real content. F72 — a pane that returns early WITHOUT hiding its own container (it just
+  // carries real content. FB-72 — a pane that returns early WITHOUT hiding its own container (it just
   // empties its text) must NOT keep the slice alive as an empty framed ghost box: only count a
   // non-hidden pane that actually rendered something (a child element or non-blank text).
   function hasVisibleChild(slice: HTMLElement): boolean {
@@ -1121,13 +1121,13 @@ export function mount(
     inventory: 'Inventory 蔵',
     character: 'Character 己',
     combat: 'Combat 武',
-    quests: 'Quests 用', // D-119 — Quests regains its own tab (glyph 用, provisional taste call)
+    quests: 'Quests 用', // ADR-119 — Quests regains its own tab (glyph 用, provisional taste call)
   };
-  // ── the six-tab reveal predicates (D-112 §3) — a tab's chip appears the render its PRIMARY content
+  // ── the six-tab reveal predicates (ADR-112 §3) — a tab's chip appears the render its PRIMARY content
   //    first unlocks, and NEVER before (the incremental-reveal signature). Each reuses an EXISTING
   //    surface predicate — NO new flags — and is the anti-empty-tab guard (§7) lifted to the tab
   //    level: it answers "would this tab have visible content if active?" WITHOUT switching activeTab.
-  //    Work R0 always · Map/Estate R1 · Character R2 · Combat/Inventory R3 · Quests R5 (D-119).
+  //    Work R0 always · Map/Estate R1 · Character R2 · Combat/Inventory R3 · Quests R5 (ADR-119).
   const TAB_ORDER: readonly Tab[] = [
     'work',
     'map',
@@ -1148,7 +1148,7 @@ export function mount(
       skillsHaveCard ||
       isUnlocked(state, 'readout-combat-level') || // training (attrs)
       isUnlocked(state, 'panel-bestiary') // the bestiary
-      // D-119 — quests are NO LONGER a Character section; they have their own tab (revealed at R5),
+      // ADR-119 — quests are NO LONGER a Character section; they have their own tab (revealed at R5),
       // so the old `tab-combat` (quests-in-Character) branch is gone.
     );
   }
@@ -1164,13 +1164,13 @@ export function mount(
         return true;
       case 'map':
         // the walkable node-map opens once the gate does (R1 — you can step off the kura floor). Nav's
-        // sole home (F107); the market/pedlar lives here too, but the node-map is the primary content.
+        // sole home (FB-107); the market/pedlar lives here too, but the node-map is the primary content.
         return isUnlocked(state, 'room-gate-forecourt');
       case 'estate':
         // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
         return isUnlocked(state, 'panel-estate');
       case 'inventory':
-        // D-119 — the Inventory tab STAGGERS to R3 (was R1), ending the Map+Estate+Inventory
+        // ADR-119 — the Inventory tab STAGGERS to R3 (was R1), ending the Map+Estate+Inventory
         // triple-reveal so R1 isn't a slam of three tabs. It reveals with combat (tab-combat/R3):
         // banking only matters once a lost fight can bite your carried wealth, so R3 is its natural
         // beat. Its content (the kura bank, panel-estate ~R1, + the home/belongings, panel-home R1)
@@ -1183,7 +1183,7 @@ export function mount(
         // the fight surface — watch + XP + weapon (tab-combat, R3).
         return isUnlocked(state, 'tab-combat');
       case 'quests':
-        // D-119 — the Quests tab reveals at R5 (its OWN quest-log beat, tab-quests), NOT batched into
+        // ADR-119 — the Quests tab reveals at R5 (its OWN quest-log beat, tab-quests), NOT batched into
         // the R3 combat wave. Gated on its R5 content-unlock, so the chip lights one beat at a time.
         return isUnlocked(state, 'tab-quests');
     }
@@ -1200,7 +1200,7 @@ export function mount(
     if (!tabs.includes(activeTab)) activeTab = 'work';
     // the tab SET changes rarely (a chip lights up at a rung boundary), so a wholesale rebuild of a
     // handful of buttons only WHEN the set or the active tab changes is cheap + idle-churn-free. The
-    // reconcileList keeps each chip's node stable across idle ticks (node-identity, F81 / §7).
+    // reconcileList keeps each chip's node stable across idle ticks (node-identity, FB-81 / §7).
     reconcileList(nav, tabs, {
       key: (tab) => tab,
       build: (tab) => {
@@ -1214,11 +1214,11 @@ export function mount(
     });
   }
 
-  // F106 (D-110) — patch the header rung element in place (build-once nodes above). Shows the compact
+  // FB-106 (ADR-110) — patch the header rung element in place (build-once nodes above). Shows the compact
   // rung name + a meter toward the next rung; when a promotion is READY it becomes the player-triggered
   // "Answer the summons" affordance (dispatches `begin_rung_beat`) — never auto, and ignorable. The
   // hover card carries the meter numbers + the current/next rung. All writes go through the reconcile
-  // helpers (patch-if-changed), so an idle re-render mutates nothing (zero churn, F81).
+  // helpers (patch-if-changed), so an idle re-render mutates nothing (zero churn, FB-81).
   function renderRungHead(state: GameState): void {
     // the rung's home once the ladder is meaningful (first rake / the R1 reveal) — gated like the
     // Work-column ladder but WITHOUT the tab check (the header is always on screen).
@@ -1229,7 +1229,7 @@ export function mount(
     const prog = rungProgress(state);
     // READY (the affordance) = the AND-gate is open, a NEXT rung actually exists, no beat is already
     // live, and we're out of the intro. `begin_rung_beat` guards the same in core; the UI only OFFERS
-    // it here (D-110). The `target !== null` guard is load-bearing at the terminal rung (R7): its
+    // it here (ADR-110). The `target !== null` guard is load-bearing at the terminal rung (R7): its
     // meter keeps refilling and promotionReady stays true, but there is no next rank to advance to —
     // without this the header would light a 'summons' that no-ops on click (a dead capstone button).
     const target = pendingPromotionTarget(state);
@@ -1252,7 +1252,7 @@ export function mount(
         : 'Answer the summons'
       : `${rank.title} — Estate service ${prog.into}/${prog.needed}`;
     if (rungHeadTrigger.title !== triggerTitle) rungHeadTrigger.title = triggerTitle;
-    // the hover-card detail (F106): the current rung, the meter numbers, the next rung.
+    // the hover-card detail (FB-106): the current rung, the meter numbers, the next rung.
     setText(rungHeadCardNow, `${rank.title} · ${rank.kanji}`);
     setText(
       rungHeadCardMeter,
@@ -1271,8 +1271,8 @@ export function mount(
     );
   }
 
-  // F116 — the Work-column rung ladder (renderLadder) was REMOVED: it duplicated the header rung
-  // element (renderRungHead, F106), which is now the SOLE home of the rung name + progress meter
+  // FB-116 — the Work-column rung ladder (renderLadder) was REMOVED: it duplicated the header rung
+  // element (renderRungHead, FB-106), which is now the SOLE home of the rung name + progress meter
   // (top-right, always on screen, with the hover-detail card + the ready-to-advance summons).
 
   // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
@@ -1285,12 +1285,12 @@ export function mount(
     { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
   ];
   function renderEstate(state: GameState): void {
-    // F100 (D-112) — the estate-improve card (kura-works flywheel) is the Estate tab's home. It
+    // FB-100 (ADR-112) — the estate-improve card (kura-works flywheel) is the Estate tab's home. It
     // self-gates to the Estate tab; on every other tab it stays hidden (no ghost slice).
     const show = activeTab === 'estate' && isUnlocked(state, 'panel-estate');
     toggle(estatePane, show);
     if (!show) return;
-    // build the shell ONCE (F81): the improve card carries every mutable child up front (blurb /
+    // build the shell ONCE (FB-81): the improve card carries every mutable child up front (blurb /
     // hint / button toggle in place); the house-rooms card is a keyed row list that grows.
     if (!estateRefs) {
       const card = el('div', 'rung-card frame');
@@ -1348,7 +1348,7 @@ export function mount(
   }
 
   function silhouetteRow(): HTMLElement {
-    // a pillar still to come — D-055: shown UNNAMED (a greyed silhouette), never spoiled. The greyed
+    // a pillar still to come — ADR-055: shown UNNAMED (a greyed silhouette), never spoiled. The greyed
     // ◆ ———— ghost-row already reads as "locked", so we drop the non-curated 🔒 that sat outside the
     // woodblock motif set (battery #21 color-discipline); the a11y label moves to the row so a screen
     // reader still announces it (the visual teaser itself stays aria-hidden).
@@ -1416,17 +1416,17 @@ export function mount(
     }
   }
 
-  // ── the House's koku standing (D-055/D-107) — migrated to append-only (F81). The card shell is
+  // ── the House's koku standing (ADR-055/ADR-107) — migrated to append-only (FB-81). The card shell is
   //    built ONCE and PATCHED in place; the structural locked↔live↔ascended transitions swap named
-  //    sub-sections via `hidden`, never a `textContent=''` teardown. IA reorg (D-112): the koku IS
+  //    sub-sections via `hidden`, never a `textContent=''` teardown. IA reorg (ADR-112): the koku IS
   //    House standing → its home is the Estate tab. The DEV variant path stays wholesale. ──
   function renderHouseInfluence(state: GameState): void {
-    // IA reorg (D-112 §2/§8.3) — the koku (House standing) moves from Work to the Estate tab.
+    // IA reorg (ADR-112 §2/§8.3) — the koku (House standing) moves from Work to the Estate tab.
     const show = activeTab === 'estate' && isUnlocked(state, 'panel-house-influence');
     toggle(influence, show);
     if (!show) return;
 
-    const live = phaseOf(state) === 2; // the macro engine opens at the R7 capstone (D-055)
+    const live = phaseOf(state) === 2; // the macro engine opens at the R7 capstone (ADR-055)
     const bands = balance.ESTATE_BANDS;
 
     // ── DEV variant path — a fresh wholesale build each render (the toggle needs a fresh container).
@@ -1509,7 +1509,7 @@ export function mount(
       return;
     }
 
-    // ── prod / test — build the persistent shell ONCE (F81), then patch/toggle in place. ──
+    // ── prod / test — build the persistent shell ONCE (FB-81), then patch/toggle in place. ──
     if (!influenceRefs) {
       const card = el('div', 'influence-panel frame');
       const head = el('div', 'rung-now');
@@ -1641,12 +1641,12 @@ export function mount(
       `The road runs on toward daimyō 大名 — at ${balance.DAIMYO_KOKU.toLocaleString('en-US')} koku.`,
     );
 
-    // ── the ascension foot — three mutually-exclusive states toggled in place (D-049/D-062). ──
+    // ── the ascension foot — three mutually-exclusive states toggled in place (ADR-049/ADR-062). ──
     const risen = state.tier >= 1;
     const canAscend = !risen && ascensionAvailable(state);
     toggle(r.ascendBtn, canAscend);
     if (risen) {
-      // the AFTER of the payoff (F2) — the resolved risen next-state, NOT the stale gate prompt.
+      // the AFTER of the payoff (FB-2) — the resolved risen next-state, NOT the stale gate prompt.
       toggle(r.foot, true);
       setClass(r.foot, 'lock-hint', false);
       setText(
@@ -1679,7 +1679,7 @@ export function mount(
   }
 
   /** The reachable-neighbour move buttons (`→ node`, danger ⚠ + the conditioning lock). The Map tab's
-   *  navigation (F107 — nav's sole home after the IA reorg). Returns null when nowhere is walkable
+   *  navigation (FB-107 — nav's sole home after the IA reorg). Returns null when nowhere is walkable
    *  from here. `keyPrefix` keeps the described-by ids unique. */
   function moveStrip(state: GameState, keyPrefix: string): HTMLElement | null {
     const revealed = new Set(state.unlocked);
@@ -1689,7 +1689,7 @@ export function mount(
     for (const n of moves) {
       const danger = n.dangerRing === true;
       const gated = danger && skillLevel(state, 'conditioning') < balance.CONDITIONING_GATE_LEVEL;
-      // F102 — TERSE, HINT-FREE navigation (D-115 / D-116). The road onward is just `→ node 漢字`;
+      // FB-102 — TERSE, HINT-FREE navigation (ADR-115 / ADR-116). The road onward is just `→ node 漢字`;
       // clicking it IS the move (no separate "go" button, no destination preview). We give NO hint
       // about what waits at the next zone — no loot / foe / yield — because the flavor updates on
       // ARRIVAL. A node behind the conditioning ring reads as a GREYED, disabled road carrying its
@@ -1734,11 +1734,11 @@ export function mount(
     return movesEl;
   }
 
-  // ── the interactive intro VN scene (D-104 / F47) — the dialogue TREE: meet → ask → decide ──
+  // ── the interactive intro VN scene (ADR-104 / FB-47) — the dialogue TREE: meet → ask → decide ──
   // A full-screen washi surface mounted on `root` that HIDES the shell. The scene reads the SCENE
   // TREE (`introSceneAt`): a nameplate + a LEFT transcript column (greeting + every asked Q/A + the
   // chosen reply) where each fragment types on the GBA typewriter as it FIRST appears, and a RIGHT
-  // interactive column gated ask → decide → outcome. The model is APPEND-ONLY (F81): the shell is
+  // interactive column gated ask → decide → outcome. The model is APPEND-ONLY (FB-81): the shell is
   // built ONCE per scene, then each state change appends only the NEW transcript lines and mutates
   // the panel in place — never a wholesale teardown+rebuild (that flashed, wiped the typewriter, and
   // resized the card). Reduced-motion / test env → instant (no typing). The MC's question + NPC's
@@ -1751,7 +1751,7 @@ export function mount(
   }
   const introInstant = (): boolean => introReduced() || import.meta.env.MODE === 'test';
 
-  // ── the source-tagged VN projection (D-110 §7.3) — the ONE normalized shape both the intro
+  // ── the source-tagged VN projection (ADR-110 §7.3) — the ONE normalized shape both the intro
   //    (`DIALOGUE_SCENES`) and the rung beats (`RUNG_BEATS`) feed into the SAME append-only engine.
   //    The engine below renders from `VnScene`/`VnOption` only, so it never branches on the raw
   //    scene type; only the DISPATCH (choose_intro vs choose_rung_option) reads `source`. ──
@@ -1840,17 +1840,17 @@ export function mount(
     }
     return null;
   }
-  // Is a full-screen VN scene live? (the render gate — intro OR a rung beat). D-110 §7.3: the washi
+  // Is a full-screen VN scene live? (the render gate — intro OR a rung beat). ADR-110 §7.3: the washi
   // surface hides the shell during BOTH; the world inks in only after the active scene ends.
   function vnActive(state: GameState): boolean {
     return introActive(state.introBeat) || state.rungBeat !== null;
   }
-  // pin the LEFT transcript column to its newest line (F84) — the .vn-lines' scroll parent (.vn-story).
+  // pin the LEFT transcript column to its newest line (FB-84) — the .vn-lines' scroll parent (.vn-story).
   function introScrollToBottom(): void {
     const scroller = introStoryLinesEl?.parentElement;
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
   }
-  // clear every pending intro timeout WITHOUT tearing down the DOM (F81 — timer cleanup ≠ teardown).
+  // clear every pending intro timeout WITHOUT tearing down the DOM (FB-81 — timer cleanup ≠ teardown).
   function clearIntroTimers(): void {
     if (introTypeTimer !== undefined) {
       window.clearTimeout(introTypeTimer);
@@ -1864,7 +1864,7 @@ export function mount(
     introAuxTimers.length = 0;
     introLineTyping = false;
   }
-  // the fade-away "fresh entries" divider — the SAME idiom the main log uses (F27/F54), reused here
+  // the fade-away "fresh entries" divider — the SAME idiom the main log uses (FB-27/FB-54), reused here
   // (identical `.log-fresh-divider` node) so a resolved choice's new lines are marked, then self-fade.
   function buildFreshDividerNode(): HTMLElement {
     const d = el('div', 'log-fresh-divider');
@@ -1902,7 +1902,7 @@ export function mount(
     introPhase = 'ask';
   }
   // One entry of the LEFT-column transcript. `speaker` renders a "<name>: " prefix on any voiced line
-  // (NPC or player — F88); `player` flags the player's own lines (the player colour); `fresh` marks a
+  // (NPC or player — FB-88); `player` flags the player's own lines (the player colour); `fresh` marks a
   // resolved-choice line (⇒ the fade-away divider); `prompt` styles the decision question. `key` is
   // stable across renders so the append-only diff never re-adds an entry.
   interface VnEntry {
@@ -1945,7 +1945,7 @@ export function mount(
     const pending = pendingChoiceId
       ? scene.options.find((o) => o.id === pendingChoiceId)
       : undefined;
-    // the decision prompt joins the transcript once we're deciding (so it, too, TYPES — F82/F83).
+    // the decision prompt joins the transcript once we're deciding (so it, too, TYPES — FB-82/FB-83).
     if (introPhase === 'decide' || pending)
       out.push({ key: 'prompt', voice: 'narrator', text: scene.prompt, prompt: true });
     if (pending) {
@@ -1969,7 +1969,7 @@ export function mount(
     return out;
   }
 
-  // ── the per-block typewriter (F62/F78) — types the NEWLY-appended lines one at a time; a click on
+  // ── the per-block typewriter (FB-62/FB-78) — types the NEWLY-appended lines one at a time; a click on
   //    the scene completes the current line (if mid-type) or advances to the next (one line/click). ──
   function introFinishBlock(): void {
     if (introTypeTimer !== undefined) {
@@ -1988,7 +1988,7 @@ export function mount(
     introOnBlockDone = undefined;
     cb?.(); // ⇒ fade the RIGHT panel's controls in, AFTER the text has finished typing
   }
-  // Arm the ~2s inter-line hold, then AUTO-START the next line (F86) — no click needed. Guards the
+  // Arm the ~2s inter-line hold, then AUTO-START the next line (FB-86) — no click needed. Guards the
   // timer to a single pending instance so a click racing the auto-fire can't double-advance.
   function scheduleIntroAutoAdvance(ms: number = INTRO_LINE_ADVANCE_MS): void {
     if (introAdvanceTimer !== undefined) return; // already armed — never stack two
@@ -2000,7 +2000,7 @@ export function mount(
   function introLineComplete(advanceMs: number = INTRO_LINE_ADVANCE_MS): void {
     introLineTyping = false;
     if (introBlockIndex >= introBlockNodes.length - 1) introFinishBlock();
-    else scheduleIntroAutoAdvance(advanceMs); // F86 auto-advance; F118 shorter beat after a click
+    else scheduleIntroAutoAdvance(advanceMs); // FB-86 auto-advance; FB-118 shorter beat after a click
   }
   function introStartLine(index: number): void {
     introBlockIndex = index;
@@ -2022,7 +2022,7 @@ export function mount(
       introTypeTimer = undefined;
       i += 1;
       node.span.textContent = node.text.slice(0, i);
-      introScrollToBottom(); // F84 — stick to the bottom as each char lands
+      introScrollToBottom(); // FB-84 — stick to the bottom as each char lands
       if (i < node.text.length) introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
       else introLineComplete();
     };
@@ -2038,7 +2038,7 @@ export function mount(
     for (const n of introBlockNodes) n.span.textContent = n.text;
     introFinishBlock();
   }
-  // A click on the scene SPEEDS UP the auto-advancing typewriter (F86) — it never pauses it.
+  // A click on the scene SPEEDS UP the auto-advancing typewriter (FB-86) — it never pauses it.
   //   • mid-type  → complete this line instantly; the ~2s auto-advance then runs (introLineComplete).
   //   • in the ~2s hold → cancel the wait and start the next line NOW.
   // Guarded so a click racing the pending auto-timer can't fire the next line twice.
@@ -2051,7 +2051,7 @@ export function mount(
       }
       const node = introBlockNodes[introBlockIndex];
       if (node) node.span.textContent = node.text;
-      introLineComplete(INTRO_CLICK_ADVANCE_MS); // F118 — click-through: snappy beat, not the 2s hold
+      introLineComplete(INTRO_CLICK_ADVANCE_MS); // FB-118 — click-through: snappy beat, not the 2s hold
     } else if (introBlockIndex < introBlockNodes.length - 1) {
       if (introAdvanceTimer !== undefined) {
         window.clearTimeout(introAdvanceTimer); // skip the remaining hold — go faster
@@ -2065,12 +2065,12 @@ export function mount(
   function introAppendBlock(entries: VnEntry[], onDone: () => void): void {
     if (introBlockNodes.length > 0) introFlushBlock(); // never leave a half-typed prior block
     const instant = introInstant();
-    if (entries.some((e) => e.fresh)) dropIntroFreshDivider(); // F76 — mark a resolved-choice block
+    if (entries.some((e) => e.fresh)) dropIntroFreshDivider(); // FB-76 — mark a resolved-choice block
     const nodes: { span: HTMLElement; text: string }[] = [];
     for (const e of entries) {
       const p = el('p', `vn-line${e.prompt ? ' vn-prompt-line' : ''}`);
-      p.style.color = VOICE_COLOR[e.voice]; // the speaker's on-palette voice colour (F26 idiom)
-      // F88/F50 — EVERY voiced line carries its speaker-name prefix ("Sōan: " / "Genemon: " / "You: "),
+      p.style.color = VOICE_COLOR[e.voice]; // the speaker's on-palette voice colour (FB-26 idiom)
+      // FB-88/FB-50 — EVERY voiced line carries its speaker-name prefix ("Sōan: " / "Genemon: " / "You: "),
       // not just the player's: the NAME is the primary "who's talking" signal, colour only reinforces
       // it. The narrator/decision-prompt line has no speaker ⇒ no prefix. The name paints instantly;
       // only the speech itself types in.
@@ -2094,8 +2094,8 @@ export function mount(
     introStartLine(0);
   }
 
-  // ── the RIGHT panel — a STABLE, always-present region (F79): its sub-panels swap in place, never
-  //    a teardown. The active one fades in ONCE (F78) after the left text finishes; the others hide. ──
+  // ── the RIGHT panel — a STABLE, always-present region (FB-79): its sub-panels swap in place, never
+  //    a teardown. The active one fades in ONCE (FB-78) after the left text finishes; the others hide. ──
   type PanelKind = 'ask' | 'decide' | 'outcome';
   function activePanelKind(): PanelKind {
     return pendingChoiceId ? 'outcome' : introPhase;
@@ -2104,7 +2104,7 @@ export function mount(
     const kind = activePanelKind();
     return kind === 'ask' ? introAskEl : kind === 'decide' ? introDecideEl : introOutcomeEl;
   }
-  // is the active sub-panel already revealed? (F90 — lets an idle tick skip the reveal entirely.)
+  // is the active sub-panel already revealed? (FB-90 — lets an idle tick skip the reveal entirely.)
   function activePanelShown(): boolean {
     const elx = activePanelEl();
     return !!elx && !elx.hidden;
@@ -2126,7 +2126,7 @@ export function mount(
   // build the outcome sub-panel (perk/bonus box + Continue) the first time a choice is latched. The
   // intro shows its granted PERK; a rung beat shows its rare `statBonus` NOTE when the pick carries
   // one (most rung picks are relationship/flag-only ⇒ just the Continue). Continue is the ONLY control
-  // that advances — it dispatches by SOURCE (`choose_intro` vs `choose_rung_option`, D-110 §7.3).
+  // that advances — it dispatches by SOURCE (`choose_intro` vs `choose_rung_option`, ADR-110 §7.3).
   function ensureOutcomePanel(scene: VnScene): void {
     if (introOutcomeEl || !introPanelEl) return;
     const opt = pendingChoiceId ? scene.options.find((o) => o.id === pendingChoiceId) : undefined;
@@ -2167,7 +2167,7 @@ export function mount(
     if (kind !== 'outcome') showPanel(introOutcomeEl, false);
   }
   // reconcile the ask hub IN PLACE: append any newly-gated topic buttons, dim asked ones — never a
-  // rebuild (F81), so the panel stays static (F79).
+  // rebuild (FB-81), so the panel stays static (FB-79).
   function reconcileAskHub(scene: VnScene, state: GameState): void {
     if (!introAskEl) return; // decision-only scene → no ask hub
     const topicsWrap = introAskEl.querySelector<HTMLElement>('.vn-ask-topics');
@@ -2200,7 +2200,7 @@ export function mount(
     }
   }
 
-  // ── build the scene SHELL exactly ONCE per scene (F81); reconcileIntro then only appends/mutates. ──
+  // ── build the scene SHELL exactly ONCE per scene (FB-81); reconcileIntro then only appends/mutates. ──
   function buildAskPanel(): HTMLElement {
     const askGroup = el('div', 'vn-ask');
     askGroup.hidden = true;
@@ -2250,7 +2250,7 @@ export function mount(
     const card = el('div', 'vn-card frame');
     card.append(introNameplate(scene));
     // TWO columns: LEFT = the diegetic transcript (the ONLY place text renders; scrolls internally,
-    // fixed height so the card never resizes — F80/F84); RIGHT = the stable interactive panel (F79).
+    // fixed height so the card never resizes — FB-80/FB-84); RIGHT = the stable interactive panel (FB-79).
     const body = el('div', 'vn-body');
     const story = el('div', 'vn-story');
     const lines = el('div', 'vn-lines');
@@ -2259,7 +2259,7 @@ export function mount(
     body.append(story, panel);
     card.append(body);
     root_.append(card);
-    // a click on the scene (not on a control) advances the typewriter by one line (F62).
+    // a click on the scene (not on a control) advances the typewriter by one line (FB-62).
     root_.addEventListener('click', (e) => {
       if ((e.target as HTMLElement).closest('button')) return;
       introAdvance();
@@ -2275,7 +2275,7 @@ export function mount(
     root.append(root_);
   }
   // APPEND-ONLY reconcile: diff the transcript vs the DOM, append + type only the NEW lines, mutate
-  // the panel in place. NEVER a teardown/rebuild within a scene (that was the flash — F81).
+  // the panel in place. NEVER a teardown/rebuild within a scene (that was the flash — FB-81).
   function reconcileIntro(scene: VnScene, state: GameState): void {
     introLastState = state;
     reconcileAskHub(scene, state); // dim asked / surface newly-gated topics (in place)
@@ -2286,7 +2286,7 @@ export function mount(
     } else if (introBlockNodes.length === 0 && !activePanelShown()) {
       // no new text, nothing mid-type, and the active panel isn't yet up ⇒ a pure panel swap (Done)
       // that needs its first reveal. Once it IS shown, an idle tick does NOTHING here — no re-fade,
-      // no scroll yank — so a re-render of unchanged intro state can never flicker (F90).
+      // no scroll yank — so a re-render of unchanged intro state can never flicker (FB-90).
       revealActivePanel(scene);
     }
   }
@@ -2294,7 +2294,7 @@ export function mount(
   // by the attribute the choice grants +1: an accent bar + a filled attribute KANJI chip, so the
   // perk visibly "belongs" to its stat. A pure-flavour choice (no attr) falls back to the neutral box.
   // Takes the ALREADY-normalized perk (`{name,desc,mechanics}`) so both the intro's granted perk and
-  // any future VN outcome feed it (D-110 §7.3) — the ± mechanics are baked in at projection time.
+  // any future VN outcome feed it (ADR-110 §7.3) — the ± mechanics are baked in at projection time.
   function buildVnPerkBox(
     perk: { readonly name: string; readonly desc: string; readonly mechanics: string },
     attr: AttrId | undefined,
@@ -2319,7 +2319,7 @@ export function mount(
   // only in-intro teardown — a genuine new card, so its ink-in fade is welcome); every other update
   // is APPEND-ONLY via reconcileIntro, so an unrelated re-render never flashes or restarts typing.
   function syncIntroScene(state: GameState): void {
-    const scene = activeVn(state); // intro scene OR the ready-and-triggered rung beat (D-110 §7.3)
+    const scene = activeVn(state); // intro scene OR the ready-and-triggered rung beat (ADR-110 §7.3)
     if (!scene) {
       teardownIntroScene(); // the VN ended → drop the scene, reset everything
       return;
@@ -2355,7 +2355,7 @@ export function mount(
   }
 
   // build ONE labour row (verb + auto-toggle + lock-hint, all present); patch toggles which show +
-  // the disabled/on state in place. The auto-toggle NODE survives every re-render (F81) so the
+  // the disabled/on state in place. The auto-toggle NODE survives every re-render (FB-81) so the
   // button the player is watching never loses focus / re-creates mid-auto-run.
   function buildLabourRow(o: LabourOption): HTMLElement {
     const row = el('div', 'labour-row');
@@ -2403,7 +2403,7 @@ export function mount(
     // (the interactive intro no longer renders here — while it's live the shell is hidden and the
     // full-screen VN scene owns the screen; render() returns before renderActions is ever reached.)
 
-    // build the section skeleton ONCE (F81): named sub-containers in the same order the old wholesale
+    // build the section skeleton ONCE (FB-81): named sub-containers in the same order the old wholesale
     // build produced, each patched/reconciled in place after. `.actions-group` gives the reconciled
     // sections the parent's flex-gap so wrapping doesn't collapse the button stack.
     if (!actionsRefs) {
@@ -2438,7 +2438,7 @@ export function mount(
       eatRiceBtn.type = 'button';
       eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
       eatRiceRow.append(eatRiceBtn);
-      // F107 (D-112) — the "Walk on 道" nav strip is GONE from Work: the Map tab is navigation's
+      // FB-107 (ADR-112) — the "Walk on 道" nav strip is GONE from Work: the Map tab is navigation's
       // SOLE home. Labour is all the Work tab holds now.
       actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, eatRiceRow);
       actionsRefs = {
@@ -2545,7 +2545,7 @@ export function mount(
         isUnlocked(state, 'room-gate-forecourt'),
     );
 
-    // cook a meal — sansai → satiety AND the ONLY way to mend HP (D-050/D-076). Say so, and make it
+    // cook a meal — sansai → satiety AND the ONLY way to mend HP (ADR-050/ADR-076). Say so, and make it
     // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
     const showCook = isUnlocked(state, 'verb-cook');
     toggle(r.cookRow, showCook);
@@ -2561,7 +2561,7 @@ export function mount(
       if (r.cookBtn.title !== title) r.cookBtn.title = title;
     }
 
-    // eat plain rice — rice → satiety (D-107 Phase 2), the rice food path beside cook. A proper meal
+    // eat plain rice — rice → satiety (ADR-107 Phase 2), the rice food path beside cook. A proper meal
     // refuels FASTER than a free rest (the design lever), trading your own rice for readiness.
     const showEatRice = isUnlocked(state, 'verb-eat-rice');
     toggle(r.eatRiceRow, showEatRice);
@@ -2575,17 +2575,17 @@ export function mount(
         : `A plain bowl of rice restores ${balance.EAT_RICE_SATIETY} body — more than a mere rest, at the cost of ${cost} rice.`;
       if (r.eatRiceBtn.title !== title) r.eatRiceBtn.title = title;
     }
-    // (F107 — no "Walk on" strip here anymore: navigation lives ONLY on the Map tab.)
+    // (FB-107 — no "Walk on" strip here anymore: navigation lives ONLY on the Map tab.)
   }
 
   function renderSkills(state: GameState): void {
-    // IA reorg (D-112 §2) — skills is a section of the Character tab (with attrs + bestiary).
+    // IA reorg (ADR-112 §2) — skills is a section of the Character tab (with attrs + bestiary).
     const show = activeTab === 'character' && isUnlocked(state, 'tab-skills');
     toggle(skillsPane, show);
     if (!show) return;
     // the visible skill rows — reconciled as a keyed list so each card is built ONCE (its meter fill
     // persists ⇒ the width transition plays) and patched in place; a not-yet-visible skill has no
-    // node, so an empty pane stays genuinely empty (F72 ghost-box contract).
+    // node, so an empty pane stays genuinely empty (FB-72 ghost-box contract).
     const visible = SKILLS.filter(
       (def) => skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`),
     );
@@ -2712,7 +2712,7 @@ export function mount(
     }
   }
 
-  // one persistent foe-watch row (F81) — the Fight verb + two auto-mode toggles are built ONCE (their
+  // one persistent foe-watch row (FB-81) — the Fight verb + two auto-mode toggles are built ONCE (their
   // listeners read live state), the name / forecast pip / blurb / toggle-state patch in place.
   function buildFoeRow(fc: ReturnType<typeof foesHere>[number]): HTMLElement {
     const mob = fc.mob.id as MobId;
@@ -2774,7 +2774,7 @@ export function mount(
     setText(toggles[1]!, retreatOn ? '■ stop' : '▶ auto · flee @20%');
   }
 
-  // one Bestiary field-guide card (F81) — built once per foe; the fog→inked flip patches in place.
+  // one Bestiary field-guide card (FB-81) — built once per foe; the fog→inked flip patches in place.
   function buildBestiaryCard(): HTMLElement {
     const card = el('div', 'foe-row frame bestiary-card');
     const head = el('div', 'skill-head');
@@ -2819,7 +2819,7 @@ export function mount(
     }
   }
 
-  // one stance button (F81) — the label + offense/defense trade are static per stance (mods are
+  // one stance button (FB-81) — the label + offense/defense trade are static per stance (mods are
   // constants), so they're built once; only the `.on`/aria-pressed selection patches per render.
   function buildStanceBtn(s: StanceId): HTMLElement {
     const ui = STANCE_UI[s];
@@ -2838,7 +2838,7 @@ export function mount(
     return btn;
   }
 
-  // one loot→craft card (F81) — keyed by recipe.id so it's rebuilt only when the recipe ADVANCES
+  // one loot→craft card (FB-81) — keyed by recipe.id so it's rebuilt only when the recipe ADVANCES
   // (axe → yari); the material tally + forge-button state patch in place while the recipe holds.
   function buildCraftCard(recipe: (typeof RECIPES)[number]): HTMLElement {
     const cc = el('div', 'weapon-card frame craft-card');
@@ -2899,7 +2899,7 @@ export function mount(
     lvl.append(el('div', 'rung-hint', `Combat XP ${cx.into}/${cx.needed}`));
     combatPane.append(lvl);
 
-    // (IA reorg D-112 — training attrs + the bestiary SPLIT OUT to the Character tab; they no longer
+    // (IA reorg ADR-112 — training attrs + the bestiary SPLIT OUT to the Character tab; they no longer
     // render on the Combat surface. See renderCharacterSheet's DEV wholesale path.)
 
     const weapon = getWeapon(state.equippedWeapon);
@@ -2987,7 +2987,7 @@ export function mount(
       combatPane.append(stanceRow);
     }
 
-    // (IA reorg D-112 — the bestiary SPLIT OUT to the Character tab.)
+    // (IA reorg ADR-112 — the bestiary SPLIT OUT to the Character tab.)
 
     combatPane.append(el('h3', 'foes-head', 'The watch'));
     const present = foesHere(state);
@@ -3029,7 +3029,7 @@ export function mount(
       renderCombatWholesale(state);
       return;
     }
-    // build the sub-container skeleton ONCE (F81), then patch/reconcile each block in place. Order
+    // build the sub-container skeleton ONCE (FB-81), then patch/reconcile each block in place. Order
     // mirrors the wholesale build: XP · training · weapon · craft · stance · bestiary · watch.
     if (!combatRefs) {
       const xpCard = el('div', 'rung-card frame');
@@ -3040,7 +3040,7 @@ export function mount(
       const xpHint = el('div', 'rung-hint');
       xpCard.append(xpNow, xm, xpHint);
 
-      // (IA reorg D-112 — training attrs + the bestiary moved to the Character tab; see
+      // (IA reorg ADR-112 — training attrs + the bestiary moved to the Character tab; see
       //  renderCharacterSheet. The Combat tab keeps XP · weapon · craft · stance · watch only.)
 
       const wc = el('div', 'weapon-card frame');
@@ -3173,7 +3173,7 @@ export function mount(
       toggle(r.stanceHost, false);
     }
 
-    // (IA reorg D-112 — the Bestiary SPLIT OUT to the Character tab; see renderCharacterSheet.)
+    // (IA reorg ADR-112 — the Bestiary SPLIT OUT to the Character tab; see renderCharacterSheet.)
 
     // ── the watch (spatial) — the foes on THIS node; forecasts patch in place, no strobe ──
     const present = foesHere(state);
@@ -3187,10 +3187,10 @@ export function mount(
     });
   }
 
-  // ── the Character tab's SPLIT-OUT combat halves (IA reorg D-112) — the attribute-TRAINING rows
+  // ── the Character tab's SPLIT-OUT combat halves (IA reorg ADR-112) — the attribute-TRAINING rows
   //    (points earned in combat, spent here) + the BESTIARY field-guide. Each self-gates to the
   //    Character tab and its R3 surface (`readout-combat-level` / `panel-bestiary`), and each is a
-  //    build-once/patch surface (F81) so a hurt idle tick churns nothing. renderSkills + renderQuests
+  //    build-once/patch surface (FB-81) so a hurt idle tick churns nothing. renderSkills + renderQuests
   //    (the tab's other sections) render into their own panes; this fn owns training + bestiary. ──
   function renderCharacterSheet(state: GameState): void {
     const onCharacter = activeTab === 'character';
@@ -3202,7 +3202,7 @@ export function mount(
     const showTrain = onCharacter && isUnlocked(state, 'readout-combat-level');
     toggle(characterTrain, showTrain);
     if (showTrain) {
-      // build-once shell + a fixed keyed list of the 5 attr rows (F81), mirroring the old combat build.
+      // build-once shell + a fixed keyed list of the 5 attr rows (FB-81), mirroring the old combat build.
       if (!characterTrainRefs) {
         const train = el('div', 'weapon-card frame');
         const th = el('div', 'skill-head');
@@ -3257,7 +3257,7 @@ export function mount(
       }
       return;
     }
-    // prod / test — build the bestiary host ONCE (F81), patch in place.
+    // prod / test — build the bestiary host ONCE (FB-81), patch in place.
     if (showBestiary) {
       if (!characterBestiaryRefs) {
         const host = el('div', 'bestiary');
@@ -3301,8 +3301,8 @@ export function mount(
       rice.value.textContent = formatKMB(v);
       popValue(rice.value, v, prev?.resources.rice);
     }
-    // COIN — the first-wage reveal (D-107): hidden until the player earns coin (readout-coin).
-    // Rendered in mixed mon/monme/ryō with incremental reveal (D-108, formatCoin) — NOT the
+    // COIN — the first-wage reveal (ADR-107): hidden until the player earns coin (readout-coin).
+    // Rendered in mixed mon/monme/ryō with incremental reveal (ADR-108, formatCoin) — NOT the
     // plain K/M/B count (rice keeps that; coin is denominated). popValue still fires on the raw
     // mon delta, so the tally-pop is unaffected by the denomination string.
     coin.wrap.hidden = !isUnlocked(state, 'readout-coin');
@@ -3332,7 +3332,7 @@ export function mount(
     }
 
     // HP — revealed the moment combat first matters (the R2 wolf beat), then always visible. Shows an
-    // exact number (1 HP vs a full bar is life-or-death, D-076) + a bar that flags `low` when ≤ 30%.
+    // exact number (1 HP vs a full bar is life-or-death, ADR-076) + a bar that flags `low` when ≤ 30%.
     health.hidden = !(isUnlocked(state, 'verb-face-wolf') || isUnlocked(state, 'tab-combat'));
     if (!health.hidden) {
       const max = hpMax(state);
@@ -3362,7 +3362,7 @@ export function mount(
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
   // Split narration text into narrator prose + quoted-speech runs, wrapping each "…" (straight
-  // or curly) in a .speech span so a spoken line reads as a distinct voice (F23). Non-narration
+  // or curly) in a .speech span so a spoken line reads as a distinct voice (FB-23). Non-narration
   // channels paint as plain text.
   function appendNarration(line: HTMLElement, text: string): void {
     const re = /"[^"]*"|[“][^”]*[”]/g;
@@ -3375,7 +3375,7 @@ export function mount(
     }
     if (last < text.length) line.append(document.createTextNode(text.slice(last)));
   }
-  // F50 — a spoken line gets a "Name: " prefix (the speaker's display name). The stored
+  // FB-50 — a spoken line gets a "Name: " prefix (the speaker's display name). The stored
   // `entry.speaker` already IS the display name (NAMES.* / PLAYER_SPEAKER = "You"); NPC_NAME maps
   // an id defensively should one ever arrive, else the value passes through. The voice colour
   // rides on the line's `voice-<category>` class, so the prefix inherits it — no extra colour code.
@@ -3384,7 +3384,7 @@ export function mount(
     const name = NPC_NAME[entry.speaker as keyof typeof NPC_NAME] ?? entry.speaker;
     return el('span', 'log-speaker', `${name}: `);
   }
-  // F56 — the intro perk-unlock milestone line "Perk unlocked — {name}: {desc} (±mechanics)" renders
+  // FB-56 — the intro perk-unlock milestone line "Perk unlocked — {name}: {desc} (±mechanics)" renders
   // as an old-school JRPG PERK BOX, not the red milestone strip. Parse the single-source shape the
   // core emits (`introPerkLine`); a non-perk milestone falls through to normal styling.
   function parsePerkLine(
@@ -3423,16 +3423,16 @@ export function mount(
     const prefix = speakerPrefixNode(entry);
     if (prefix) line.append(prefix);
     const text = formatLogText(entry);
-    // F26 — when a line carries a speaker `voice`, the whole line takes that
+    // FB-26 — when a line carries a speaker `voice`, the whole line takes that
     // voice's colour (via the `voice-<category>` class on the line, added in
-    // buildLogLine), so who's talking reads at a glance. The F23 quote-detection
+    // buildLogLine), so who's talking reads at a glance. The FB-23 quote-detection
     // (`.speech` spans) stays only as the FALLBACK for narration lines with NO
     // voice tag — a voiced line renders as plain text and lets the class colour it.
     if (entry.channel === 'narration' && entry.voice === undefined) appendNarration(line, text);
     else line.append(document.createTextNode(text));
   }
   function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
-    // F56 — a perk-unlock milestone becomes a JRPG box: drop the `milestone` class (no red strip),
+    // FB-56 — a perk-unlock milestone becomes a JRPG box: drop the `milestone` class (no red strip),
     // carry a plain `perk-line` wrapper the box lives inside.
     if (parsePerkLine(entry)) {
       const line = el('div', 'log-line perk-line');
@@ -3440,7 +3440,7 @@ export function mount(
       if (animate) line.classList.add('reveal');
       return line;
     }
-    // the voice-<category> class carries the speaker colour (F26); absent voice ⇒
+    // the voice-<category> class carries the speaker colour (FB-26); absent voice ⇒
     // today's channel-only styling (narrator quote-detection fallback).
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const line = el('div', `log-line ${entry.channel}${voiceClass}`);
@@ -3455,7 +3455,7 @@ export function mount(
     line.classList.add('tally');
     hooks.sfx.reward(); // the coin-tally cue — a shamisen/koto pluck (T0-M1-F4)
   }
-  // F77 — follow the newest line and STAY pinned to the foot as content arrives. The pin is an
+  // FB-77 — follow the newest line and STAY pinned to the foot as content arrives. The pin is an
   // INSTANT, authoritative jump to the bottom (a smooth scroll lagged behind rapid cascade/
   // typewriter appends and stranded the view at an OLD position — the "holding an old scroll
   // position" bug). It only fires while the reader is pinned: someone scrolled UP into history is
@@ -3467,7 +3467,7 @@ export function mount(
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
-    scrollLogToNewest(); // smoothly follow the newest line (F7)
+    scrollLogToNewest(); // smoothly follow the newest line (FB-7)
   }
   // P2 — a line typewrites only if it is STORY text: a narration line, or any line
   // carrying a speaker `voice` (narrator / player / NPC dialogue). Combat/reward/
@@ -3500,7 +3500,7 @@ export function mount(
   // P2 — build the line with EMPTY text (bullet + voice/.log-line classes), append it,
   // then reveal `formatLogText` one character at a time into a text node, following the
   // scroll as it types. On completion, an untagged narration line (quotes, no voice) is
-  // re-rendered through renderLineContent so the F23 quote-`.speech` spans apply; a
+  // re-rendered through renderLineContent so the FB-23 quote-`.speech` spans apply; a
   // voiced line needs no re-render (the whole line is the voice colour). `onDone` fires
   // once the line is fully typed (or the line was evicted), never on a cancel.
   function typeLine(entry: LogEntry, onDone: () => void): void {
@@ -3512,7 +3512,7 @@ export function mount(
       b.setAttribute('aria-hidden', 'true');
       line.append(b);
     }
-    // F50 — a spoken line shows its "Name: " prefix immediately, before the quote types in.
+    // FB-50 — a spoken line shows its "Name: " prefix immediately, before the quote types in.
     const prefix = speakerPrefixNode(entry);
     if (prefix) line.append(prefix);
     const textNode = document.createTextNode('');
@@ -3525,7 +3525,7 @@ export function mount(
     const isNarrationQuote = entry.channel === 'narration' && entry.voice === undefined;
     const finalize = (): void => {
       textNode.data = full;
-      if (isNarrationQuote) renderLineContent(line, entry); // F23 .speech spans
+      if (isNarrationQuote) renderLineContent(line, entry); // FB-23 .speech spans
       scrollLogToNewest();
     };
     finishTypeNow = finalize;
@@ -3586,10 +3586,10 @@ export function mount(
     }
   }
   function paintLogFilterBar(): void {
-    logFilterBar.dataset.variant = 'log-filter-segmented'; // human pick (F21); A/B removed
+    logFilterBar.dataset.variant = 'log-filter-segmented'; // human pick (FB-21); A/B removed
     for (const [id, btn] of logFilterBtns) btn.classList.toggle('active', id === logFilter);
   }
-  // F20 — the highest entry key that shows under filter `f`.
+  // FB-20 — the highest entry key that shows under filter `f`.
   function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
     let mx = -1;
     for (const e of entries)
@@ -3602,7 +3602,7 @@ export function mount(
     logSeen[logFilter] = maxKeyForFilter(entries, logFilter); // viewing = seen
     for (const [id, btn] of logFilterBtns) {
       // `all` is excluded — it always shows everything, so a badge there would be noise; `now` too
-      // (F53 — its lines fade on their own, so an unread dot there would just flicker).
+      // (FB-53 — its lines fade on their own, so an unread dot there would just flicker).
       const unread =
         id !== logFilter &&
         id !== 'all' &&
@@ -3611,9 +3611,9 @@ export function mount(
       btn.classList.toggle('unread', unread);
     }
   }
-  // ── F53/F115 · the "Now" view — a rolling window of FLEETING flavor (ephemeral entries) that each
+  // ── FB-53/FB-115 · the "Now" view — a rolling window of FLEETING flavor (ephemeral entries) that each
   //    fade ~15s after first appearing. Wall-clock + DOM only (a render concern; the pure core never
-  //    sees time). F115: the EXPIRY CLOCK is DECOUPLED from the active view — a single light interval
+  //    sees time). FB-115: the EXPIRY CLOCK is DECOUPLED from the active view — a single light interval
   //    ages `nowSeen` stamps out on wall time whether or not Now is showing (so a fleeting line clears
   //    on schedule; open Now later → already gone, not a backlog) and, WHILE Now is active, also drives
   //    the DOM fade/collapse. Leak-free: the clock self-terminates when no stamps remain and Now isn't
@@ -3629,7 +3629,7 @@ export function mount(
   }
   function cancelNowCollapse(): void {
     // F58b — cancel any in-flight collapse animations so their removal timers don't fire late (used
-    // when the Now DOM is about to be wiped by a filter switch — the stamps + clock are KEPT, F115).
+    // when the Now DOM is about to be wiped by a filter switch — the stamps + clock are KEPT, FB-115).
     for (const t of nowCollapseTimers) window.clearTimeout(t);
     nowCollapseTimers.clear();
   }
@@ -3641,7 +3641,7 @@ export function mount(
     lastEphStampKey = -1;
     nowEmptyEl = undefined;
   }
-  // F115 — stamp any NEWLY-observed ephemeral entry with its wall-clock birth, for ANY active view.
+  // FB-115 — stamp any NEWLY-observed ephemeral entry with its wall-clock birth, for ANY active view.
   // The monotonic high-water key means an entry whose stamp already aged out of `nowSeen` is never
   // re-stamped fresh (it stays in the permanent log ring, but its render-life is over). Starts the
   // expiry clock the moment there's anything to age out.
@@ -3674,14 +3674,14 @@ export function mount(
   function nowEmptyPlaceholder(): void {
     // empty when nothing recent — a calm placeholder so the tab never reads broken. Idempotent: only
     // appends when there's no live line AND the placeholder isn't already up, so a repeated
-    // empty-state render churns nothing (D-123 zero-churn). NOT a wholesale clear — reconcile owns
+    // empty-state render churns nothing (ADR-123 zero-churn). NOT a wholesale clear — reconcile owns
     // the now-line nodes; the placeholder is the sole foreign sibling and is removed before a repaint.
     if (logLines.querySelector('.now-line')) return; // still has live lines
     if (nowEmptyEl && nowEmptyEl.isConnected) return;
     nowEmptyEl = el('div', 'log-empty', 'Quiet, just now — the moment has passed.');
     logLines.append(nowEmptyEl);
   }
-  // F115 — the interval body: ALWAYS ages the stamps out on wall time (so the expiry runs regardless
+  // FB-115 — the interval body: ALWAYS ages the stamps out on wall time (so the expiry runs regardless
   // of the active view), and — only while Now is the active view — drives the DOM fade/collapse. The
   // clock self-terminates once nothing is pending (no stamps + Now not shown).
   function tickExpiry(): void {
@@ -3692,7 +3692,7 @@ export function mount(
       pruneNowViewDom(now);
     } else {
       // Now is HIDDEN: no DOM to touch — just age the logical clock so lines are already gone when the
-      // player switches to Now next (the core of the F115 fix).
+      // player switches to Now next (the core of the FB-115 fix).
       for (const [key, seen] of nowSeen) if (now - seen >= NOW_TTL_MS) nowSeen.delete(key);
     }
     if (nowSeen.size === 0 && logFilter !== 'now') stopExpiryClock();
@@ -3726,10 +3726,10 @@ export function mount(
     }
     if (live === 0) nowEmptyPlaceholder();
   }
-  // D-123 — the Now view is APPEND-ONLY (F81 / reconcile.ts), no longer a `textContent=''` rebuild.
+  // ADR-123 — the Now view is APPEND-ONLY (FB-81 / reconcile.ts), no longer a `textContent=''` rebuild.
   // A state-change re-render RECONCILES the currently-visible ephemeral entries (stamped, still inside
   // their TTL) keyed by log key: a surviving line keeps its node (zero churn), an aged-out line is
-  // removed, a new fleeting line is appended. F115 — this only READS the stamps (stampEphemeral, run
+  // removed, a new fleeting line is appended. FB-115 — this only READS the stamps (stampEphemeral, run
   // for every view, owns writing them), so an entry aged out while Now was hidden is simply absent.
   function renderNowView(state: GameState): void {
     const now = Date.now();
@@ -3765,7 +3765,7 @@ export function mount(
     ensureExpiryClock(); // keep the fade/prune loop alive while Now is shown
     scrollLogToNewest();
   }
-  // F27 — clear/drop the transient fresh-entries divider.
+  // FB-27 — clear/drop the transient fresh-entries divider.
   function clearFreshDivider(): void {
     if (freshDividerTimer !== undefined) {
       window.clearTimeout(freshDividerTimer);
@@ -3776,7 +3776,7 @@ export function mount(
   }
   function markFreshDivider(): void {
     clearFreshDivider();
-    const d = buildFreshDividerNode(); // same idiom the intro reuses (F27/F54)
+    const d = buildFreshDividerNode(); // same idiom the intro reuses (FB-27/FB-54)
     logLines.append(d); // fresh lines append AFTER it
     freshDivider = d;
     freshDividerTimer = window.setTimeout(() => {
@@ -3795,11 +3795,11 @@ export function mount(
     logFilter = f;
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
     logLines.textContent = '';
-    resetReconcile(logLines); // D-123 — the Now view reconciles this shared container; a wholesale
+    resetReconcile(logLines); // ADR-123 — the Now view reconciles this shared container; a wholesale
     // clear must forget its key→node map or the next Now render would patch detached nodes.
     nowEmptyEl = undefined;
     clearFreshDivider();
-    // F115 — leaving Now WIPES its DOM (below), so cancel any in-flight collapse animations; but KEEP
+    // FB-115 — leaving Now WIPES its DOM (below), so cancel any in-flight collapse animations; but KEEP
     // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
     if (wasNow) cancelNowCollapse();
     lastKey = -1;
@@ -3818,10 +3818,10 @@ export function mount(
       firstRender = wasFirst;
     }
     paintLogFilterBar();
-    if (lastState) refreshLogTabs(lastState); // F20 — switching a tab clears its dot
-    // F51 — land at the NEWEST line (bottom) INSTANTLY on a tab switch, so the reader always
+    if (lastState) refreshLogTabs(lastState); // FB-20 — switching a tab clears its dot
+    // FB-51 — land at the NEWEST line (bottom) INSTANTLY on a tab switch, so the reader always
     // starts at the freshest of the newly-filtered view (not stranded mid-scroll or up top). Re-pin
-    // (F77) so subsequent lines in the newly-filtered view keep following the foot.
+    // (FB-77) so subsequent lines in the newly-filtered view keep following the foot.
     logPinnedToBottom = true;
     logLines.scrollTop = logLines.scrollHeight;
   }
@@ -3833,7 +3833,7 @@ export function mount(
     const didReset = state.log.seq < lastSeq;
     if (didReset) {
       logLines.textContent = '';
-      resetReconcile(logLines); // D-123 — forget the Now view's key→node map on a wholesale reset
+      resetReconcile(logLines); // ADR-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
       lastPaintedKey = -1;
       lastPaintedCount = 0;
@@ -3844,14 +3844,14 @@ export function mount(
         revealTimer = undefined;
       }
       stopTyping(); // P2 — a reset must cancel any in-flight per-char typing timer
-      clearNowView(); // F53 — a reset drops the fleeting-flavor stamps + fade timer too
+      clearNowView(); // FB-53 — a reset drops the fleeting-flavor stamps + fade timer too
     }
     lastSeq = state.log.seq;
-    // F115 — stamp any newly-observed ephemeral entry for EVERY view (not just Now), so its expiry
+    // FB-115 — stamp any newly-observed ephemeral entry for EVERY view (not just Now), so its expiry
     // clock starts the moment it arrives regardless of which tab is showing. This is the decoupling:
     // the fleeting lines age out on wall time even while Now is hidden.
     stampEphemeral(state);
-    // F53 — the "Now" view owns its own rolling, self-fading render path (not the incremental
+    // FB-53 — the "Now" view owns its own rolling, self-fading render path (not the incremental
     // cascade): fully rebuild it from the ephemeral entries + their (view-independent) stamps.
     if (logFilter === 'now') {
       renderNowView(state);
@@ -3886,13 +3886,13 @@ export function mount(
       logFilterMatches(e.channel, logFilter, e.ephemeral === true, e.chat === true),
     );
 
-    // F48 — while a VN scene owns the live reveal (intro OR a rung beat — D-110), the LOG is only the
+    // FB-48 — while a VN scene owns the live reveal (intro OR a rung beat — ADR-110), the LOG is only the
     // historical transcript: append its lines INSTANTLY (no typewriter, no cascade) so it's ready the
     // moment the shell reveals, never making the player wait for the log to catch up to choices
     // already made. `introEndingRender` carries the same instant path onto the single reveal render.
     const introInstant = vnActive(state) || introEndingRender;
 
-    // F27 — new lines flowing in over existing history get a transient divider before them (never
+    // FB-27 — new lines flowing in over existing history get a transient divider before them (never
     // while the intro paints the hidden log — the player isn't watching the transcript build).
     if (
       freshVisible.length > 0 &&
@@ -3960,10 +3960,10 @@ export function mount(
     window.setTimeout(() => overlay.remove(), 1900);
   }
 
-  // the T0→T1 ascension ceremony (D-062 — the first ascension always lands BIG): a larger,
+  // the T0→T1 ascension ceremony (ADR-062 — the first ascension always lands BIG): a larger,
   // longer-held title card than a rung promotion, the silhouettes stirring behind it.
   function showAscension(state: GameState): void {
-    hooks.sfx.rankUp(); // the ascension also rings the bell (the bigger ceremony, D-062)
+    hooks.sfx.rankUp(); // the ascension also rings the bell (the bigger ceremony, ADR-062)
     const overlay = el('div', 'rankup-seal ascension');
     overlay.setAttribute('role', 'status');
     const inner = el('div', 'seal-inner');
@@ -3983,15 +3983,15 @@ export function mount(
   }
 
   function renderStorehouse(state: GameState): void {
-    // the kura storehouse (batch-2 call 7 / D-113) — shelter CARRIED coin + rice from a lost-fight
-    // penalty. Opens with the estate economy; spatially gated to the kura node in Step 5. D-107
+    // the kura storehouse (batch-2 call 7 / ADR-113) — shelter CARRIED coin + rice from a lost-fight
+    // penalty. Opens with the estate economy; spatially gated to the kura node in Step 5. ADR-107
     // Phase 2 surfaces RICE beside coin (deposit/withdraw are already resource-generic), so the
     // "what you store, you keep" shelter closes the rice loss-shelter gap.
-    // IA reorg (D-112 §2 / F108) — the kura bank is the Inventory tab's home (a clean lift).
+    // IA reorg (ADR-112 §2 / FB-108) — the kura bank is the Inventory tab's home (a clean lift).
     const show = activeTab === 'inventory' && isUnlocked(state, 'panel-estate');
     toggle(storehousePane, show);
     if (!show) return;
-    // build the shell ONCE (F81): the coin + rice store/withdraw rows and the "walk back" blurb are
+    // build the shell ONCE (FB-81): the coin + rice store/withdraw rows and the "walk back" blurb are
     // all present, toggled in place by location; the balance line patches its text.
     if (!storehouseRefs) {
       const card = el('div', 'rung-card frame');
@@ -4035,7 +4035,7 @@ export function mount(
     const banked = state.banked.coin ?? 0;
     const carriedRice = state.resources.rice ?? 0;
     const bankedRice = state.banked.rice ?? 0;
-    // D-118 §1 — the kura's rice cap (raised by estate upgrades); show stored/N so the wall is legible.
+    // ADR-118 §1 — the kura's rice cap (raised by estate upgrades); show stored/N so the wall is legible.
     const riceCap = balance.kuraRiceCap(state.estateStage);
     const riceRoom = Math.max(0, riceCap - bankedRice);
     setText(
@@ -4055,7 +4055,7 @@ export function mount(
       setDisabled(r.wd, banked <= 0);
       const wdTitle = r.wd.disabled ? 'Nothing stored to withdraw.' : '';
       if (r.wd.title !== wdTitle) r.wd.title = wdTitle;
-      // D-118 §1 — a full kura (no room under the cap) disables the rice store, pointing at the fix.
+      // ADR-118 §1 — a full kura (no room under the cap) disables the rice store, pointing at the fix.
       setDisabled(r.depRice, carriedRice <= 0 || riceRoom <= 0);
       const depRiceTitle =
         carriedRice <= 0
@@ -4070,11 +4070,11 @@ export function mount(
     }
   }
 
-  // D-111 / F89 — the comfort badge a belonging carries (a keepsake, or its legible comfort bonus).
+  // ADR-111 / FB-89 — the comfort badge a belonging carries (a keepsake, or its legible comfort bonus).
   // Read from the def's comfort field (source of truth), so the shown bonus never drifts from the
-  // real one applied by the reducer/selector (A6).
-  // D-120 — the home's live-comfort summary line: rest recovery, any warmth buffer, the chest's
-  // storage capacity, and the hearth-cook note — read through the SAME selectors the reducer uses (A6).
+  // real one applied by the reducer/selector (AC-6).
+  // ADR-120 — the home's live-comfort summary line: rest recovery, any warmth buffer, the chest's
+  // storage capacity, and the hearth-cook note — read through the SAME selectors the reducer uses (AC-6).
   function comfortSummaryText(state: GameState, settled: boolean): string {
     const restB = homeRestBonus(state);
     const bodyB = homeSatietyBonus(state);
@@ -4091,13 +4091,13 @@ export function mount(
     return settled ? `${base} · a settled home 整` : base;
   }
   function comfortLabel(def: BelongingDef): string {
-    if (def.homesCook) return 'The hearth · cook here'; // D-120 — diegetic, not a stat
+    if (def.homesCook) return 'The hearth · cook here'; // ADR-120 — diegetic, not a stat
     if (!def.comfort) return 'Keepsake';
     switch (def.comfort.kind) {
       case 'rest':
         return `Comfort · rest +${def.comfort.amount}`;
       case 'storage':
-        return `Storage · keeps ${def.comfort.amount} belongings`; // D-120 — a dry buffer, not a stat
+        return `Storage · keeps ${def.comfort.amount} belongings`; // ADR-120 — a dry buffer, not a stat
       case 'body':
         return `Comfort · warmth +${def.comfort.amount} max body`;
     }
@@ -4124,19 +4124,19 @@ export function mount(
   }
 
   function renderBelongings(state: GameState): void {
-    // D-111 / F89 — the HOME + belongings, the Inventory tab's second home beside the kura bank.
+    // ADR-111 / FB-89 — the HOME + belongings, the Inventory tab's second home beside the kura bank.
     // Reveal-gated on the home existing (panel-home, R1 — "a place here is yours"); hidden on every
-    // other tab + before the home is granted (no ghost box, F72). Belongings are DISTINCT from the
+    // other tab + before the home is granted (no ghost box, FB-72). Belongings are DISTINCT from the
     // storehouse's resources: possessions you own + keep, shown with their comfort bonuses.
     const show = activeTab === 'inventory' && isUnlocked(state, 'panel-home');
     toggle(belongingsPane, show);
     if (!show) return;
-    // ── the diverged HOME / belongings presentation (D-075) — A = the functional list (default,
+    // ── the diverged HOME / belongings presentation (ADR-075) — A = the functional list (default,
     //    ships). B (一間 room cutaway) / C (持ち物帳 ledger) live DEV-only behind the variant toggle
     //    (ui/dev.ts). This DEV branch folds to dead code in prod (`import.meta.env.DEV` → false,
     //    tree-shaken) and `dev` is undefined in prod AND tests, so ONLY a live DEV session takes it —
     //    where the variant toggle needs the wholesale clear-and-rebuild. Prod/tests use the
-    //    incremental path below (F81, zero idle churn). Every variant shows the SAME home data + the
+    //    incremental path below (FB-81, zero idle churn). Every variant shows the SAME home data + the
     //    SAME live comfort tally, and every buy button drives the real `buy_belonging` intent. ──
     if (import.meta.env.DEV && dev) {
       const tierD = HOME_TIERS[0]!;
@@ -4174,12 +4174,12 @@ export function mount(
       const card = el('div', 'rung-card frame');
       const homeName = el('div', 'rung-now');
       const homeBlurb = el('div', 'skill-blurb');
-      // D-122 — the status-mirror: the weapon mounted on your wall at R5 (its own inked line).
+      // ADR-122 — the status-mirror: the weapon mounted on your wall at R5 (its own inked line).
       const statusMirror = el('div', 'rung-hint belongings-status-mirror');
       const ownedHead = el('div', 'belongings-subhead', 'What is yours');
       const ownedList = el('div', 'belongings-list');
       const comfort = el('div', 'rung-hint belongings-comfort-summary');
-      // D-120 — the cook-at-the-hearth affordance (shown once the hearth is owned).
+      // ADR-120 — the cook-at-the-hearth affordance (shown once the hearth is owned).
       const cookRow = el('div', 'labour-row belongings-cook');
       const cookBtn = el('button', 'verb') as HTMLButtonElement;
       cookBtn.type = 'button';
@@ -4215,12 +4215,12 @@ export function mount(
     }
     const r = belongingsRefs;
     // T0 ships one home tier (HOME_TIERS[0] — "your corner"); the growing-with-rung tiers are a
-    // deferred T1+ seam (D-111 §2.1), so this is a stable header today.
+    // deferred T1+ seam (ADR-111 §2.1), so this is a stable header today.
     const tier = HOME_TIERS[0]!;
     setText(r.homeName, `${tier.label} ${tier.kanji}`);
     setText(r.homeBlurb, tier.blurb);
 
-    // D-122 — the status-mirror: at R5 your wielded weapon is mounted on the wall. Read the ACTUAL
+    // ADR-122 — the status-mirror: at R5 your wielded weapon is mounted on the wall. Read the ACTUAL
     // equipped weapon LIVE (never a generic sword), so re-equipping updates the mount. Hidden until R5.
     const hasWallWeapon = hasFlag(state, 'wall-weapon');
     toggle(r.statusMirror, hasWallWeapon);
@@ -4241,13 +4241,13 @@ export function mount(
     });
 
     // the comfort SUMMARY — the live bonuses in effect (read through the SAME selectors the reducer
-    // uses, A6). Reads bare for an empty corner; the settled-home set adds its synergy note. D-120 —
+    // uses, AC-6). Reads bare for an empty corner; the settled-home set adds its synergy note. ADR-120 —
     // the hearth (cook locus) + the chest (storage) show their diegetic worth, not a satiety stat.
     const ownedIds = ownedBelongingIds(state);
     const settled = homeSetComplete(ownedIds);
     setText(r.comfort, comfortSummaryText(state, settled));
 
-    // D-120 — the hearth homes the cook verb: once you own the hearth, cooking a meal (sansai → HP)
+    // ADR-120 — the hearth homes the cook verb: once you own the hearth, cooking a meal (sansai → HP)
     // is reachable here, at your own fire. Shown only when the hearth is owned AND cook is unlocked
     // (verb-cook, ~R2); disabled + explained when you're short on sansai (mirrors the Work-column cook).
     const canCookHere = homeHasCook(state) && isUnlocked(state, 'verb-cook');
@@ -4294,7 +4294,7 @@ export function mount(
       .map(([r, n]) => `+${n} ${r}`)
       .join(', ');
   }
-  // build ONE pedlar row skeleton (F67/F72 vertical stack: item copy, then the buy cell). The
+  // build ONE pedlar row skeleton (FB-67/FB-72 vertical stack: item copy, then the buy cell). The
   // price label + click listener are stable; patchMarketRow fills the mutable state.
   function buildMarketRow(item: (typeof MARKET_ITEMS)[number]): HTMLElement {
     const row = el('div', 'market-row');
@@ -4304,7 +4304,7 @@ export function mount(
     // the WHEN/WHY blurb (authored in market.ts) — so trade isn't a bare price list.
     left.append(el('span', 'skill-blurb market-blurb', item.blurb));
     row.append(left);
-    // F67/F72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
+    // FB-67/FB-72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
     // vertical stack, styles.css), so a narrow byōbu column can't let the price float over the copy.
     const buy = el('div', 'market-buy');
     const btn = el('button', 'auto-toggle', formatCoin(item.coinCost));
@@ -4325,7 +4325,7 @@ export function mount(
     setText(row.querySelector('.market-grant')!, `${grantStr}${capped ? ' · sold out' : ''}`);
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     // a11y: the visible label is just the price — a full accessible name so a screen-reader hears
-    // WHAT it buys, not a bare "10 mon" (D-045 a11y-ink).
+    // WHAT it buys, not a bare "10 mon" (ADR-045 a11y-ink).
     const aria = `Buy ${item.label} (${grantStr}) for ${formatCoin(item.coinCost)}${capped ? ' — sold out' : ''}`;
     if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
     setDisabled(btn, !canBuy(state.resources, item, bought));
@@ -4336,7 +4336,7 @@ export function mount(
         : '';
     if (btn.title !== title) btn.title = title;
   }
-  // ── the SELL-RICE faucet (D-107 Phase 2 / §14): rice → coin at the SEASON-swinging price. The
+  // ── the SELL-RICE faucet (ADR-107 Phase 2 / §14): rice → coin at the SEASON-swinging price. The
   //    pedlar buys your rice — DEAR in the lean spring, CHEAP at the autumn glut — so store-or-sell
   //    is a light timing call. Built ONCE; the price line + sell button patch in place (zero churn). ──
   function buildSellRice(): {
@@ -4383,7 +4383,7 @@ export function mount(
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
-    // IA reorg (D-112 §2 / F109 / D-114) — the pedlar (Tokubei) is now a TALKABLE PERSON on the Map
+    // IA reorg (ADR-112 §2 / FB-109 / ADR-114) — the pedlar (Tokubei) is now a TALKABLE PERSON on the Map
     // tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
     // he is the OPEN person: talk-to-reveal. Gate on `openPersonId === 'pedlar'` AND that he is
     // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).
@@ -4391,11 +4391,11 @@ export function mount(
     const show = activeTab === 'map' && openPersonId === 'pedlar' && pedlarPresent;
     toggle(marketPane, show);
     if (!show) return;
-    // ── the diverged goods presentation (D-075) — A = the price-button list (default, ships).
+    // ── the diverged goods presentation (ADR-075) — A = the price-button list (default, ships).
     //    B/C live DEV-only behind the variant toggle (ui/dev.ts). This DEV branch folds to dead code
     //    in prod (`import.meta.env.DEV` → false, tree-shaken) and `dev` is undefined in prod AND
     //    tests, so ONLY a live DEV session takes it — where the variant toggle needs the wholesale
-    //    clear-and-rebuild. Prod/tests use the incremental path below (F81, zero idle churn). ──
+    //    clear-and-rebuild. Prod/tests use the incremental path below (FB-81, zero idle churn). ──
     if (import.meta.env.DEV && dev) {
       marketRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       marketPane.textContent = '';
@@ -4454,9 +4454,9 @@ export function mount(
       toggle(kanji, false);
     }
   }
-  // ── the Map "who's here 衆" people (D-114 vendors-as-people) — a talk affordance per present
+  // ── the Map "who's here 衆" people (ADR-114 vendors-as-people) — a talk affordance per present
   //    person: a category-coloured hanko seal + name + a one-line tell + a Speak button. Built ONCE
-  //    (listener bound here); patch flips the open/closed label + the greeting line in place (F81).
+  //    (listener bound here); patch flips the open/closed label + the greeting line in place (FB-81).
   //    Talk dispatches by depth: a `tiny` trader's Speak opens his wares (renderMarket, gated on
   //    `openPersonId`); a `small`/`vn` person opens his greeting line (a simple talk panel for now). ──
   function buildPersonRow(p: NodePerson): HTMLElement {
@@ -4509,13 +4509,13 @@ export function mount(
     const show = activeTab === 'map';
     toggle(mapPane, show);
     if (!show) return;
-    // D-114 — if the person you were talking to is no longer here (you walked off, or a place-gate
+    // ADR-114 — if the person you were talking to is no longer here (you walked off, or a place-gate
     // that had opened isn't satisfied), close the conversation so no stale wares/greeting linger.
     const present = peopleHere(state);
     if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
-    // ── the Map body (F102 / D-115 / D-116) — TWO sections: (a) the bordered you-are-here FLAVOR
+    // ── the Map body (FB-102 / ADR-115 / ADR-116) — TWO sections: (a) the bordered you-are-here FLAVOR
     //    card (the immersive current-node description — SHARED across every variant), then (b) a
-    //    terse, hint-free NAVIGATION section below it. The navigation PRESENTATION is a D-075
+    //    terse, hint-free NAVIGATION section below it. The navigation PRESENTATION is a ADR-075
     //    diverge: A (the terse paths list) is the self-picked prod default and SHIPS; B…G live
     //    DEV-only behind the variant toggle (ui/dev.ts), all terse/hint-free, click-to-move. The
     //    DEV branch folds to dead code in prod (tree-shaken) and `dev` is undefined in prod AND
@@ -4544,7 +4544,7 @@ export function mount(
         if (strip) nav.append(el('div', 'lock-hint map-nav-label', 'onward 道'), strip);
       }
       mapPane.append(nav);
-      // D-114 who's-here (DEV-default parity with prod, §6.5) — a fresh list each wholesale render.
+      // ADR-114 who's-here (DEV-default parity with prod, §6.5) — a fresh list each wholesale render.
       if (present.length > 0) {
         const whos = el('div', 'whos-here');
         whos.append(el('div', 'rung-now', 'Who’s here 衆'));
@@ -4555,11 +4555,11 @@ export function mount(
       }
       return;
     }
-    // prod / test — build the h2 + flavor card + nav section shell ONCE (F81), patch text in place.
+    // prod / test — build the h2 + flavor card + nav section shell ONCE (FB-81), patch text in place.
     // The moveStrip is mounted via the shared patchStrip (Phase 2), so it's zero-churn on an idle tick.
     if (!mapRefs) {
       mapPane.append(el('h2', undefined, 'The estate 地図'));
-      // (a) the bordered you-are-here FLAVOR card (F102): the immersive current-node description.
+      // (a) the bordered you-are-here FLAVOR card (FB-102): the immersive current-node description.
       const card = el('div', 'map-here frame');
       const h = el('div', 'rung-now');
       const loc = el('span');
@@ -4569,15 +4569,15 @@ export function mount(
       const blurb = el('div', 'skill-blurb');
       card.append(h, blurb);
       mapPane.append(card);
-      // (b) the terse, hint-free NAVIGATION section (F102) — a SIBLING of the flavor card. A subtle
+      // (b) the terse, hint-free NAVIGATION section (FB-102) — a SIBLING of the flavor card. A subtle
       // label + the click-to-move paths strip; NO destination preview (the flavor updates on arrival).
       const nav = el('div', 'map-nav');
       const navLabel = el('div', 'lock-hint map-nav-label', 'onward 道');
       const strip = el('div', 'map-strip');
       nav.append(navLabel, strip);
       mapPane.append(nav);
-      // D-114 — the who's-here section, a sibling of the flavor card (built ONCE; the person rows
-      // reconcile). Hidden below when no one is present (F72 ghost-box — no empty framed card).
+      // ADR-114 — the who's-here section, a sibling of the flavor card (built ONCE; the person rows
+      // reconcile). Hidden below when no one is present (FB-72 ghost-box — no empty framed card).
       const whos = el('div', 'whos-here');
       whos.append(el('div', 'rung-now', 'Who’s here 衆'));
       const whosList = el('div', 'whos-list');
@@ -4592,7 +4592,7 @@ export function mount(
     // the move strip is now zero-churn too (Phase 2): patchStrip only swaps it when the reachable
     // set actually changed, so an idle re-render leaves the live buttons (and their focus) untouched.
     toggle(r.nav, patchStrip(r.strip, state, 'work'));
-    // D-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
+    // ADR-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
     toggle(r.whos, fillWhosHere(r.whosList, present));
   }
 
@@ -4644,16 +4644,16 @@ export function mount(
     toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
   }
   function renderQuests(state: GameState): void {
-    // D-119 (supersedes D-112 §8.1, reinstates D-037) — Quests regains its OWN dedicated tab, revealed
+    // ADR-119 (supersedes ADR-112 §8.1, reinstates ADR-037) — Quests regains its OWN dedicated tab, revealed
     // at R5 (tab-quests) as its own quest-log beat. It's no longer a Character section, so it self-gates
     // to the Quests tab and hides everywhere else (no ghost slice).
     const show = activeTab === 'quests' && isUnlocked(state, 'tab-quests');
     toggle(questsPane, show);
     if (!show) return;
-    // ── the diverged Quests body (D-075) — A = the .frame cards (default, ships). B/C live DEV-only
+    // ── the diverged Quests body (ADR-075) — A = the .frame cards (default, ships). B/C live DEV-only
     //    behind the variant toggle (ui/dev.ts). The DEV branch folds to dead code in prod
     //    (tree-shaken) and `dev` is undefined in prod AND tests, so only a live DEV session takes it;
-    //    prod/tests use the incremental path below (F81, zero idle churn). ──
+    //    prod/tests use the incremental path below (FB-81, zero idle churn). ──
     if (import.meta.env.DEV && dev) {
       questsRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       questsPane.textContent = '';
@@ -4690,7 +4690,7 @@ export function mount(
       document.documentElement.classList.contains('reduced-motion')
     );
   }
-  // The slow cold-open reveal (F14) — the GBA-typewriter take, human-approved as the prod
+  // The slow cold-open reveal (FB-14) — the GBA-typewriter take, human-approved as the prod
   // default (2026-07-02). Runs once per cold-open (the started-flag guards re-entry); the
   // wake-path resets the flag so a New Game replays it.
   function applyColdOpenReveal(): void {
@@ -4739,8 +4739,8 @@ export function mount(
       coldOpen.hidden = false;
       shell.hidden = true;
       firstRender = false; // so the post-wake log cascades rather than dumping statically
-      activeTab = 'work'; // New Game → reset the UI to the zero state (F25)
-      openPersonId = null; // …and close any open who's-here conversation (D-114)
+      activeTab = 'work'; // New Game → reset the UI to the zero state (FB-25)
+      openPersonId = null; // …and close any open who's-here conversation (ADR-114)
       logFilter = 'story';
       applyColdOpenReveal();
       return;
@@ -4751,10 +4751,10 @@ export function mount(
       cancelColdOpenReveal?.();
       coldOpenRevealStarted = false;
     }
-    // F44/D-104 + D-110 — a VN scene (the intro OR a player-triggered rung beat) plays as a
+    // FB-44/ADR-104 + ADR-110 — a VN scene (the intro OR a player-triggered rung beat) plays as a
     // FULL-SCREEN washi surface that hides the whole shell; the estate inks in only AFTER it ends
     // (the incremental-reveal signature — a rung beat's newly-motivated panels ink in on teardown,
-    // §7.4). The log is kept painted INSTANTLY behind the scene (F48) so it's ready the moment the
+    // §7.4). The log is kept painted INSTANTLY behind the scene (FB-48) so it's ready the moment the
     // shell reveals — the scene owns the live spoken reveal, the log is only the historical transcript.
     if (vnActive(state)) {
       shell.hidden = true;
@@ -4766,7 +4766,7 @@ export function mount(
       return;
     }
     // the intro is over (or never ran) — drop the scene and reveal the shell. Flag the single
-    // reveal render so the final beat's log lines paint instantly too (F48), not via the cascade.
+    // reveal render so the final beat's log lines paint instantly too (FB-48), not via the cascade.
     if (introScene) introEndingRender = true;
     teardownIntroScene();
     shell.hidden = false;
@@ -4779,7 +4779,7 @@ export function mount(
       window.setTimeout(() => shell.classList.remove('intro-reveal'), 1200);
     }
     // Multi-panel layout (M2) — LOCKED to 屏風 folding-columns (`layout-byobu`) + soft cards
-    // (`framing-cards`), the human's picked default and now the SOLE prod rendering (D-075
+    // (`framing-cards`), the human's picked default and now the SOLE prod rendering (ADR-075
     // zero-flag-debt; the layout/framing variant toggles were pruned from ui/dev.ts). CSS arranges
     // the slices per `.workspace[data-layout]` and frames them per `[data-framing]`; the shell
     // carries the layout too so the framed spread widens (but never full-bleeds) with the workspace.
@@ -4787,18 +4787,18 @@ export function mount(
     workspace.dataset.framing = 'framing-cards';
     shell.dataset.layout = 'layout-byobu';
     renderVitals(state, prev);
-    renderRungHead(state); // F106 — the header rung element + the player-triggered beat affordance
+    renderRungHead(state); // FB-106 — the header rung element + the player-triggered beat affordance
     renderNav(state);
     renderLog(state);
     paintLogFilterBar();
-    // F59 — first awake render: mark all loaded entries seen (history), so no channel shows a
+    // FB-59 — first awake render: mark all loaded entries seen (history), so no channel shows a
     // stale unread dot on load/refresh. After this, only mid-session arrivals trip a dot.
     if (!logSeenSeeded) {
       logSeenSeeded = true;
       const loaded = state.log.entries;
       for (const f of Object.keys(logSeen) as LogFilter[]) logSeen[f] = maxKeyForFilter(loaded, f);
     }
-    refreshLogTabs(state); // F20 — repaint per-tab unread dots
+    refreshLogTabs(state); // FB-20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
     renderEstate(state);
     renderMarket(state);
@@ -4817,7 +4817,7 @@ export function mount(
     // of the screen becomes a progression beat). Hidden slices collapse out of the grid/flex flow.
     for (const slice of gatedSlices) slice.hidden = !hasVisibleChild(slice);
     // the signature beats: a rung promotion presses the house seal (ui-design §6.2); a TIER
-    // ascension lands the bigger ceremony (D-062). Tier change wins (don't double-fire).
+    // ascension lands the bigger ceremony (ADR-062). Tier change wins (don't double-fire).
     if (prev && prev.tier !== state.tier && !firstRender) showAscension(state);
     else if (prev && prev.rung !== state.rung && !firstRender) showRankUp(state);
     introEndingRender = false; // one-shot: the intro-reveal render is done

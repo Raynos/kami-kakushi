@@ -18,9 +18,9 @@ import {
 } from './index';
 import { logFilterMatches } from '../ui/log-filter';
 
-// The D-110 rung-up STORY BEAT tier proof (D-088 pair): a full-arc e2e that walks a promotion
+// The ADR-110 rung-up STORY BEAT tier proof (ADR-088 pair): a full-arc e2e that walks a promotion
 // THROUGH the beat + an INVARIANT that no rung advances WITHOUT its beat (RED-able against the old
-// auto-promote hot path). Plus the F103 channel routing, the migration is in migrate.test.ts, and
+// auto-promote hot path). Plus the FB-103 channel routing, the migration is in migrate.test.ts, and
 // the three rare bonuses. Fixtures are derived from RUNG_BEATS + the RankDefs (source of truth), not
 // magic numbers.
 
@@ -176,14 +176,14 @@ describe('D-110 / F103 channel routing — story prose → Story, terse marker �
       optionId: RUNG_BEATS.R1!.decision.options[0]!.id,
     });
     const r1 = getRank('R1');
-    const marker = `Rank ↑ — ${r1.title} ${r1.kanji}`; // single-sourced from the RankDef (A21)
+    const marker = `Rank ↑ — ${r1.title} ${r1.kanji}`; // single-sourced from the RankDef (AC-21)
     const markerEntry = s.log.entries.find((e) => e.text === marker);
     expect(markerEntry).toBeDefined();
     expect(markerEntry!.channel).toBe('milestone');
     expect(logFilterMatches('milestone', 'progression', false)).toBe(true); // shows under Progress
     expect(logFilterMatches('milestone', 'story', false)).toBe(false); // NOT Story
 
-    // the OLD prose milestone line is GONE — rewardOnReach carries no log now (F103 fix).
+    // the OLD prose milestone line is GONE — rewardOnReach carries no log now (FB-103 fix).
     expect(r1.rewardOnReach?.log).toBeUndefined();
     // and the terse marker is the ONLY milestone entry (no story paragraph leaked to Progress).
     const milestones = s.log.entries.filter((e) => e.channel === 'milestone');

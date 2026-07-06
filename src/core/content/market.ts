@@ -1,10 +1,10 @@
-// A tiny CAPPED provisioning shop — a PERSONAL COIN SINK (D-099/D-107): the player spends HIS OWN
+// A tiny CAPPED provisioning shop — a PERSONAL COIN SINK (ADR-099/ADR-107): the player spends HIS OWN
 // coin on goods for HIS OWN character/needs (greens for the pot, wood to keep an edge), NOT the
 // estate trading for profit. This is the player finance lane, distinct from the ESTATE lane — the
 // estate's own coin sink is the kura-works ladder (estate.ts). A deliberate MINORITY lane (total
 // spend ≤ ⅓ of the kura-works sink, §4.6.6d), each item small-stockCap-capped so buying can never
 // become a primary income/output loop. The estate-scale TRADE ENGINE (trade on the estate's behalf,
-// broker standing, the silk meibutsu) arrives at T2 (D-066/D-099). Pure data + pure predicates;
+// broker standing, the silk meibutsu) arrives at T2 (ADR-066/ADR-099). Pure data + pure predicates;
 // costs are integer coin (base unit mon, no floats). All numbers are provisional (v0.2) — tune by
 // playtest.
 
@@ -14,11 +14,11 @@ export interface MarketItem {
   readonly id: MarketItemId;
   readonly label: string;
   readonly blurb: string;
-  /** Integer coin price (base unit mon) — the sink (D-107). */
+  /** Integer coin price (base unit mon) — the sink (ADR-107). */
   readonly coinCost: number;
   /** Resources granted on a buy (e.g. { sansai: 3 } or { wood: 5 }) — real T0 goods. */
   readonly grants: Readonly<Record<string, number>>;
-  /** Hard per-run buy cap — the clamp that keeps TRADE a minority lane (D-008). */
+  /** Hard per-run buy cap — the clamp that keeps TRADE a minority lane (ADR-008). */
   readonly stockCap: number;
 }
 
@@ -59,8 +59,8 @@ export const MARKET_ITEMS: readonly MarketItem[] = [
     grants: { sansai: 9 },
     stockCap: 2,
   },
-  // v0.3.1 Step 4 — market DEPTH (a deeper coin sink; D-086 scarcity / batch-1 call 4), still held
-  // inside the D-008 MINORITY-lane cap (≤ ⅓ of Estate & Wealth) by tight per-run stockCaps.
+  // v0.3.1 Step 4 — market DEPTH (a deeper coin sink; ADR-086 scarcity / batch-1 call 4), still held
+  // inside the ADR-008 MINORITY-lane cap (≤ ⅓ of Estate & Wealth) by tight per-run stockCaps.
   {
     id: 'road_rations',
     label: "Porter's road-rations",
@@ -106,7 +106,7 @@ export function canBuy(
 
 /**
  * The standing intent of this surface, for docs/UI/reviewers: the market is a small
- * CAPPED coin sink (the TRADE taste, T0-M4-F3), held to a MINORITY lane by D-008
+ * CAPPED coin sink (the TRADE taste, T0-M4-F3), held to a MINORITY lane by ADR-008
  * (trade ≤ ⅓ of Estate & Wealth). Every good carries a tiny per-run stockCap so
  * buying can never become a primary income or output engine — that is deliberate.
  * The real village market (broker standing, the silk meibutsu) is T2, not here.

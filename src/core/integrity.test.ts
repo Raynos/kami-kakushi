@@ -16,10 +16,10 @@ import {
 // surfacing a new value without a consumer (and without ledgering it) fails the build —
 // that is the ratchet's teeth, WITHOUT forcing the deferred design forks (H-items).
 //
-// Authored POST-economy (Commit 2 landed the sinks/multipliers). Under the D-107 economy re-core
+// Authored POST-economy (Commit 2 landed the sinks/multipliers). Under the ADR-107 economy re-core
 // coin→improve_estate + buy_item + repair fee, wood→repair_weapon, sansai→cook_meal,
 // farming/foraging/woodcutting→skillYieldNum, conditioning→danger-ring gate, and
-// attributePoints→spend_attribute. D-107 Phase 2 wired RICE's own sinks — eat_rice (→ satiety),
+// attributePoints→spend_attribute. ADR-107 Phase 2 wired RICE's own sinks — eat_rice (→ satiety),
 // sell_rice (→ coin at the season price), and deposit/withdraw (kura shelter) — so rice is NO
 // LONGER tracked-inert: the ratchet now confirms EVERY surfaced value has a live consumer.
 
@@ -38,8 +38,8 @@ const CURRENCY_LEDGER: Ledger = {
     consumer:
       'improve_estate estate-upgrade sink + buy_item market sink + repair_weapon fee (intents)',
   },
-  // RICE — earned (rake/farm), carried (at-risk on a lost fight, D-113), and now CONSUMED three
-  // ways (D-107 Phase 2): eat_rice (→ satiety), sell_rice (→ coin at the season price), plus the
+  // RICE — earned (rake/farm), carried (at-risk on a lost fight, ADR-113), and now CONSUMED three
+  // ways (ADR-107 Phase 2): eat_rice (→ satiety), sell_rice (→ coin at the season price), plus the
   // kura deposit/withdraw shelter. No longer tracked-inert.
   rice: {
     consumer:
@@ -68,7 +68,7 @@ const ATTRIBUTE_LEDGER: Ledger = {
   spd: { consumer: 'mcCombatStats attackSpeed (combat)' },
   luck: { consumer: 'mcCombatStats critChance (combat)' },
 };
-// Post-economy ledger (D-107 Phase 2): there is NO tracked-inert value — every surfaced
+// Post-economy ledger (ADR-107 Phase 2): there is NO tracked-inert value — every surfaced
 // currency/skill/attribute now has a live consumer (rice's eat/sell/store sinks landed). The
 // ratchet asserts EXACTLY this empty debt, so surfacing a NEW dead value (or letting an existing
 // consumer rot) flips this RED; a value legitimately deferred again must be re-added here.

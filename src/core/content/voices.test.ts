@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { NPC_VOICE, NPC_IDS } from './voices';
 
-// D-110 'lord' voice — the domain lord Shigemasa speaks in his OWN dedicated voice
+// ADR-110 'lord' voice — the domain lord Shigemasa speaks in his OWN dedicated voice
 // category (murasaki 紫 + the 殿 seal, applied by render.ts's exhaustive VOICE_COLOR /
 // VOICE_SEAL maps), NOT the borrowed magistrate 'official'. RED against the pre-fix
 // `shigemasa: 'official'`.

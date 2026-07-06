@@ -47,7 +47,7 @@ function validateInfluence(v: unknown): GameState['influence'] {
     const value = Math.max(0, num(o.value, 0).value);
     const highWater = Math.max(value, num(o.highWater, 0).value);
     const judged = Math.min(highWater, Math.max(0, num(o.judged, 0).value));
-    // `frac`: the sub-koku deed accumulator (D-133), additive — absent on a pre-D-133 save = 0.
+    // `frac`: the sub-koku deed accumulator (ADR-133), additive — absent on a pre-D-133 save = 0.
     // Clamp to [0, 1); a corrupt out-of-range frac is cosmetic (worth <1 koku), so coerce silently.
     const frac = Math.min(0.999999, Math.max(0, num(o.frac, 0).value));
     return { value, highWater, judged, frac };
@@ -241,7 +241,7 @@ export function validateState(rawState: unknown): ValidateResult {
         : (rawState.flags as Record<string, unknown>).awake === true
           ? INTRO_BEAT_COUNT
           : -1,
-    // The rung-beat cursor (v6, additive; D-110). A known rank id ⇒ resume the in-flight beat;
+    // The rung-beat cursor (v6, additive; ADR-110). A known rank id ⇒ resume the in-flight beat;
     // absent / malformed / unknown ⇒ null (no beat live — the correct inert default). Matches the
     // v5→v6 migration.
     rungBeat:
@@ -257,7 +257,7 @@ export function validateState(rawState: unknown): ValidateResult {
     marketBought: isObject(base.marketBought)
       ? (base.marketBought as GameState['marketBought'])
       : {},
-    // ── deep housing (v7, additive; D-111): the ids of BOUGHT comfort furniture. Absent (any
+    // ── deep housing (v7, additive; ADR-111): the ids of BOUGHT comfort furniture. Absent (any
     // pre-housing save) → [] (owns no furniture — the correct fresh default); malformed → []. Matches
     // the v6→v7 migration. Granted keepsakes are derived, not stored, so they need no hydration.
     belongings: Array.isArray(base.belongings) ? (base.belongings as readonly string[]) : [],
@@ -265,7 +265,7 @@ export function validateState(rawState: unknown): ValidateResult {
     rung: base.rung ?? 'R0',
     rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
-    // ── in-flight automation is NOT restored on load (F32) ──────────────────────────────
+    // ── in-flight automation is NOT restored on load (FB-32) ──────────────────────────────
     // A loaded save starts IDLE: the "currently auto-doing X" targets (auto-labour,
     // auto-rake, auto-fight) reset to their idle value regardless of what was persisted, so
     // a refresh never resumes auto-ing on its own — the player opts back in. We persist
@@ -281,7 +281,7 @@ export function validateState(rawState: unknown): ValidateResult {
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
     tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,
     influence: validateInfluence(base.influence),
-    // (D-056: the balanceProfile field is RETIRED from GameState — nothing reads it any more.
+    // (ADR-056: the balanceProfile field is RETIRED from GameState — nothing reads it any more.
     // A legacy save's stray `balanceProfile` rides through inertly via the `...base` spread above
     // [harmless dead data; this builder is additive-tolerant by design, NOT a whitelist rebuild];
     // new games never write it, so it simply ages out.)

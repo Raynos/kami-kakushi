@@ -80,7 +80,7 @@ export function parseStatusToken(content: string): PlanStatus | null {
   if (!m) return null;
   let token = m[0].toUpperCase();
   // Only the space-separated "IN PROGRESS" two-worder folds into the canonical
-  // token; every other status is a single leading word (so "SUPERSEDED by F2"
+  // token; every other status is a single leading word (so "SUPERSEDED by FB-2"
   // parses as SUPERSEDED, not SUPERSEDED-BY).
   if (token === 'IN' && /^\s+PROGRESS\b/i.test(s.slice(m[0].length))) token = 'IN-PROGRESS';
   return { token, archivable: ARCHIVABLE.has(token) };
@@ -161,7 +161,7 @@ function unArchivedDonePlans(): string[] {
 // --- auto-archive done plans (§2.3–2.4) ---------------------------------------
 // A plan whose token is DONE/SUPERSEDED graduates OUT of docs/plans/. We move the
 // file, recompute every intra-repo markdown link that pointed at it, and rewrite
-// its backticked path in the reading queue (tagging it, never removing it — D-089
+// its backticked path in the reading queue (tagging it, never removing it — ADR-089
 // removal is human-engagement judgment, §2.4). Nothing is staged unless --stage.
 
 // Mirror check-md-links' SCAN_ROOTS so a moved plan never leaves a dead link.
@@ -238,7 +238,7 @@ export function replaceLinkTarget(whole: string, tgt: string, next: string): str
 }
 
 /** Rewrite the backticked plan path in the reading queue to its archive path and
- *  tag it `(archived — done)` — KEEP the entry (D-089: removal is human judgment).
+ *  tag it `(archived — done)` — KEEP the entry (ADR-089: removal is human judgment).
  *  Pure string transform. Idempotent (won't double-tag). */
 export function rewriteQueuePath(queue: string, oldRel: string, newRel: string): string {
   const escaped = oldRel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

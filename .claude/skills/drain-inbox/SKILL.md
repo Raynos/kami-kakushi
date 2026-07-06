@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Drain the playtest capture inbox
 
-Metabolize the DEV capture overlay's output (F3). Captures land in
+Metabolize the DEV capture overlay's output (FB-3). Captures land in
 `project/playtest-inbox/pending/` as **one markdown file per game session**:
 `<session>.md` holds a header plus one `##` **entry** per capture — each entry is
 LEAN (the note + the picked element + a screenshot link + a **Details** link).
@@ -21,7 +21,7 @@ reproduce them, then **propose a fix/route for each and wait for the human's
 go-ahead** before landing anything (§4). It's a back-and-forth — ask questions,
 take their steer — not an autonomous sweep.
 
-**The capture is a claim, not the truth (R2).** Reproduce and verify every
+**The capture is a claim, not the truth (PH2).** Reproduce and verify every
 capture against the *running* game before you touch code. Where the note and
 the build disagree, the build wins.
 
@@ -72,7 +72,7 @@ fix/route, but **do not touch code or commit yet**. This step produces a
 long, multi-paragraph proposal (line-broken with ` / ` or real newlines).
 **Read the entire `**Note:**` block by eye** (Read the `.md` entry, or the
 `<stamp>.json`'s `note` field) — **never** triage off a `grep`/`awk` that prints
-only the first line after `**Note:**` (that made F121, a full design proposal,
+only the first line after `**Note:**` (that made FB-121, a full design proposal,
 look "truncated" — a mis-triage). If a note reads as cut-off, re-read the raw
 entry before you believe it; genuine truncation is rare.
 
@@ -96,10 +96,10 @@ explicit). In every case you produce a *proposed action*, not a landed change:
   running game first so the proposal is grounded, not guessed.
 - **(ii) Taste / UI** → if a settled `ui-design.md` rule covers it, propose the
   fix per the rule. If it's unsettled taste, **don't invent it** — propose
-  logging 💬/🅿️ + an R-item in `project/human-in-the-loop/review.md` or a
+  logging 💬/🅿️ + an HR-item in `project/human-in-the-loop/review.md` or a
   `diverge` lane.
 - **(iii) Design fork (what the game *is*)** → propose surfacing it as an
-  **H-item**, log the Fnn as 💬 — **never auto-decide** (R4: surface forks
+  **HD-item**, log the FB-nn as 💬 — **never auto-decide** (PH4: surface forks
   async).
 
 ## 4 · Propose the batch → get the go-ahead (interactive gate)
@@ -110,14 +110,14 @@ batch (≤5) to the human in one concise message, one short block per item:
 - **What** — the capture note (paraphrased) + the picked element, if any.
 - **Repro** — confirmed / couldn't reproduce / needs their input.
 - **Proposed action** — the fix (root cause + the concrete change) for a bug, or
-  the route (R-item / H-item / park) for taste / a design fork.
+  the route (HR-item / HD-item / park) for taste / a design fork.
 
 Then **stop and wait for the human's steer** — e.g. _"yeah sounds good, fix the
-5"_, or per-item corrections ("skip #2", "F123 is actually a design fork, don't
+5"_, or per-item corrections ("skip #2", "FB-123 is actually a design fork, don't
 fix it", "make the delay 300 ms not 450"). **Fix nothing and commit nothing until
 they reply.** While proposing, **use the AskUserQuestion tool freely** — a design
 fork's direction, an ambiguous repro, a taste call, "which of these two fixes" —
-drain is *meant* to be a back-and-forth, so ask rather than guess (R4).
+drain is *meant* to be a back-and-forth, so ask rather than guess (PH4).
 
 Only once the human approves (in whole or with edits) do you proceed to §5+ and
 land the approved items. Items they defer/reject are left in `pending/` (or
@@ -142,8 +142,8 @@ fixed · 🅿️ parked · 💬 needs-discussion):
 ```
 
 **Graduate** distilled taste rules to `ui-design.md` / `fun-factor.md` exactly
-as the F1–F117 loop does; ADR-worthy calls go to `decisions.md` **only with the
-human** (via the H-item).
+as the FB-1–FB-117 loop does; ADR-worthy calls go to `decisions.md` **only with the
+human** (via the HD-item).
 
 ## 6 · Complete a session = archive (not delete)
 
@@ -169,7 +169,7 @@ sweep-guard wants the `git commit … -- <paths>` pathspec form). The `git mv`
 style:
 
 ```
-fix(ui): recenter the open-eyes button (F118, inbox drain)
+fix(ui): recenter the open-eyes button (FB-118, inbox drain)
 ```
 
 Full `npm run verify` runs per commit as normal. If the shared tree is red on a

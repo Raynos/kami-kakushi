@@ -18,40 +18,40 @@ register is
 gets lost. **When a tactic anywhere in this file conflicts with one of these, the
 philosophy wins.**
 
-- **R1 · No clock, and no shortcuts.** Correct & slow beats shitty & fast. You are
+- **PH1 · No clock, and no shortcuts.** Correct & slow beats shitty & fast. You are
   never on a deadline — an overnight `/loop` is an invitation to do excellent
   work, not a countdown; never compress quality to "fit a window" or ship a "lite"
   shortcut. Partial-and-excellent beats complete-and-compromised. →
-  [`no-clock-no-shortcuts.md`](docs/philosophy/no-clock-no-shortcuts.md) (D-080)
-- **R2 · Verify, don't trust.** A maker is blind to their own gaps, and you can't
+  [`no-clock-no-shortcuts.md`](docs/philosophy/no-clock-no-shortcuts.md) (ADR-080)
+- **PH2 · Verify, don't trust.** A maker is blind to their own gaps, and you can't
   trust provenance you can't see — so existing files, written canon, and other
   agents' work are _checked, not trusted_, against independent eyes / the gates /
   reality. The map is not the territory: where a doc and the build disagree, the
   build wins. (This is about work you did _not_ author.) →
-  [`verify-dont-trust.md`](docs/philosophy/verify-dont-trust.md) (D-081)
-- **R3 · Done is earned, not declared.** The self-facing twin of R2 — be skeptical
+  [`verify-dont-trust.md`](docs/philosophy/verify-dont-trust.md) (ADR-081)
+- **PH3 · Done is earned, not declared.** The self-facing twin of PH2 — be skeptical
   of your _own_ green. Never claim done/shipped unless it's literally, verifiably
   true (lead with what's missing, never push red); a passing check counts only if
   it drives the real player path and _could have gone RED_. A false green is worse
   than no check. →
-  [`done-is-earned-not-declared.md`](docs/philosophy/done-is-earned-not-declared.md) (D-082)
-- **R4 · Bias to motion: act, self-vet, surface.** The human owns direction, taste
+  [`done-is-earned-not-declared.md`](docs/philosophy/done-is-earned-not-declared.md) (ADR-082)
+- **PH4 · Bias to motion: act, self-vet, surface.** The human owns direction, taste
   & the irreversible; the agent owns execution — reversible progress by default,
   self-picked defaults, self-vetted work, every fork _surfaced for async override_
   rather than waited on. Never block; never silently decide. →
-  [`bias-to-motion.md`](docs/philosophy/bias-to-motion.md) (D-083)
-- **R5 · If it isn't fun, it isn't finished.** A compiling build is the floor; the
+  [`bias-to-motion.md`](docs/philosophy/bias-to-motion.md) (ADR-083)
+- **PH5 · If it isn't fun, it isn't finished.** A compiling build is the floor; the
   bar is paced, genuinely fun, intentional (woodblock/ink, never AI-slop). Fun is a
   hypothesis tested by play — proxies prove its absence, only a human certifies its
   presence. Lock the design language first (constraint reads handmade, defaults
   read slop), and the player gets the real game, never the scaffolding. →
-  [`if-it-isnt-fun-it-isnt-finished.md`](docs/philosophy/if-it-isnt-fun-it-isnt-finished.md) (D-084)
-- **R6 · If a player can't reach it, it doesn't exist.** What counts as _built_ is
+  [`if-it-isnt-fun-it-isnt-finished.md`](docs/philosophy/if-it-isnt-fun-it-isnt-finished.md) (ADR-084)
+- **PH6 · If a player can't reach it, it doesn't exist.** What counts as _built_ is
   what a human player can reach: a change living only in TypeScript — no UI, not
   reachable in the live MCP playtest — is _not done_. Build lean (everything earns
   its place), in fun-complete vertical slices a player can use, and diverge into
   real working alternatives before converging. →
-  [`if-a-player-cant-reach-it-it-doesnt-exist.md`](docs/philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md) (D-085)
+  [`if-a-player-cant-reach-it-it-doesnt-exist.md`](docs/philosophy/if-a-player-cant-reach-it-it-doesnt-exist.md) (ADR-085)
 
 ## How to work here
 
@@ -73,7 +73,7 @@ philosophy wins.**
   `SKIP_JOURNAL=1` for trivial commits. A push always verifies the FULL
   roster — the lane flags are commit-time only).
   A soft 5s **drift timer** warns (never blocks) as the gate slows;
-  `npm run verify:budget` is the hard, on-demand budget check (D-072). Enable
+  `npm run verify:budget` is the hard, on-demand budget check (ADR-072). Enable
   the hook once per clone: `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out
   research, multi-file sweeps).
@@ -93,7 +93,7 @@ philosophy wins.**
   approval.
 - **The human's intent is canon.** The newest human steer supersedes any prior
   ADR or lock; when a living doc disagrees with intent, the **doc** is what's
-  wrong — fix it. (**D-022** governs; `created_date` disambiguates which call is
+  wrong — fix it. (**ADR-022** governs; `created_date` disambiguates which call is
   current.)
 - **The session is disposable; the repo is the memory — leave it resumable.** If
   it isn't a committed file, it doesn't exist: all state lives in commits + the
@@ -141,7 +141,7 @@ philosophy wins.**
   `.claude/settings.json`), which prints the open **human queue** — the unticked
   **TODOs** + **reading queue**
   ([`project/todo-human.md`](project/todo-human.md)) plus open decisions
-  (`H`-items) and reviews (`R`-items) in
+  (`HD`-items) and reviews (`HR`-items) in
   [`project/human-in-the-loop/`](project/human-in-the-loop). **Lead each fresh
   session by relaying that brief to the human** before diving into work, so
   blocking sign-offs don't sit unseen. The brief then **nudges the next
@@ -166,46 +166,46 @@ Full version:
   core** with no DOM/canvas imports, and let the renderer consume it as plain
   data. The core is then deterministic and unit-testable — the single most
   valuable architectural rule for a game. **Route derived feedback (forecasts,
-  previews) through the SAME pure-core fn the action uses (A6)** — e.g.
+  previews) through the SAME pure-core fn the action uses (AC-6)** — e.g.
   `mcCombatStats` feeds both the real fight and the shown forecast, so a hurt
   fighter's displayed win-rate drops for free: emergent UI legibility, zero extra
   UI code, and no drift between preview and reality.
-- **Acyclic core — cross-cutting emitters go in shared glue (A20).** A concern
+- **Acyclic core — cross-cutting emitters go in shared glue (AC-20).** A concern
   that fires from more than one reducer (quests, achievements) lives in a
   **shared glue module both reducers import**, never as a reducer→reducer call —
   keeps the core dependency graph acyclic.
 - **Determinism: one RNG.** All randomness flows through a single seeded RNG so
   runs reproduce.
-- **Test discipline (the ambient rule — D-086…D-088 adoption).** A test earns its
+- **Test discipline (the ambient rule — ADR-086…ADR-088 adoption).** A test earns its
   place only if it **could have gone RED**: a false green is worse than no test
-  (R3). So, on **every** new test: **(1)** ask *"can this go RED?"* — a tautology
+  (PH3). So, on **every** new test: **(1)** ask *"can this go RED?"* — a tautology
   or a dead-value ratchet is not a test; **(2)** derive fixtures from the
   **source of truth** (`rungThreshold`, the `balance` constants), **never** copied
-  magic numbers (hard-coded act-counts broke ~6 tests at M2·8); **(3)** assert the
+  magic numbers (hard-coded act-counts broke ~6 tests at MS2·8); **(3)** assert the
   **design lever** (atk/taken/wear multiplier, the monotonic *mechanism*), not a
   collapsed metric (win-rate conflates levers; 15% vs 35% both round to "5"). And
-  **per D-088:** every **tier** ships a **full-arc e2e + an invariants test, named
+  **per ADR-088:** every **tier** ships a **full-arc e2e + an invariants test, named
   in its first milestone's DoD** (proves the seams between fragment tests hold) —
-  *ration their gate-time* (A17). This lives here, **always-loaded**, on purpose:
+  *ration their gate-time* (AC-17). This lives here, **always-loaded**, on purpose:
   it's a rule that must fire every time, so it does **not** live only in the
   opt-in [`tdd` skill](.claude/skills/tdd/SKILL.md) (which stays the deep
   red→green→refactor *procedure* this bullet points to — a standing rule buried in
   a never-invoked skill doesn't fire). **Enforcement (human, 2026-06-30):** the
-  *teeth* is the **milestone-integrity gate** (D-054, v0.3.1 Step 7 — every
+  *teeth* is the **milestone-integrity gate** (ADR-054, v0.3.1 Step 7 — every
   DoD-named test must resolve to a real test); per-test RED-ability stays a **norm**,
-  deliberately **not** gated (a lint can't judge RED-ability without crying wolf — A11).
-  **Balance changes get a machine verdict (D-132):** after touching balance/content
+  deliberately **not** gated (a lint can't judge RED-ability without crying wolf — AC-11).
+  **Balance changes get a machine verdict (ADR-132):** after touching balance/content
   magnitudes, run `npm run verify:balance` → `npm run balance:report` and commit the
   regenerated `docs/content/t0-pacing.md` WITH the change (its diff is the before/after;
   paste `balance-sim --summary` into the commit body) — the full flow lives in
   [`qa-playtesting.md` §2](docs/living/qa-playtesting.md).
-  **The human tunes by slider; an agent only transcribes (D-134 / D-059).** The
+  **The human tunes by slider; an agent only transcribes (ADR-134 / ADR-059).** The
   DEV **balance cockpit** (DEV panel → Balance tab) lets the *human* drag a lever
   live and **export** a committable diff to `project/playtest-inbox/`. An **agent
   never moves a slider into canon on the human's behalf** — it reads the exported
   artifact and applies the exact old→new edits (stale-canon guard first), per the
   apply-flow in [`qa-playtesting.md` §1](docs/living/qa-playtesting.md).
-- **Story is authored as text — registries are generated (F5).** T0 narrative
+- **Story is authored as text — registries are generated (FB-5).** T0 narrative
   content (rung beats, intro scenes, dialogue lines, the cold open) is authored
   as prose-first markdown in
   [`src/core/content/narrative/`](src/core/content/narrative/README.md) — the
@@ -218,12 +218,12 @@ Full version:
 - **Single source of truth — generate, don't duplicate.** Anything derivable
   from the game's data (balance tables, content lists) is **generated** into
   `docs/`, never hand-maintained twice. A **version label is a single-source
-  invariant too (A21)** — derive it from one source, never hand-type it across
+  invariant too (AC-21)** — derive it from one source, never hand-type it across
   docs (the v0.4.1→v0.3.1 mismatch). And when you **verify a content-preserving
   transform**, diff in **TEXT mode** (word-diff vs `HEAD`) **and** assert the
-  output is **NUL-free (A15)** — a binary output gives a false-clean diff; count
+  output is **NUL-free (AC-15)** — a binary output gives a false-clean diff; count
   prose width by *characters*, not bytes.
-- **PRD stays in sync via the ripple/compress flows (D-117).** The build is the
+- **PRD stays in sync via the ripple/compress flows (ADR-117).** The build is the
   territory; the PRD is the forward spec. After a **built-system** design change,
   run [`/prd-ripple`](.claude/skills/prd-ripple/SKILL.md) — classify it (balance
   number → no §4 edit · system/narrative → targeted ripple + ADR · intent → stop
@@ -231,12 +231,12 @@ Full version:
   game→PRD punch-list. Derivable facts transclude as **gen-regions**
   (`gen-prd-regions.ts`, the `gen-prd-regions` gate) so they can't drift. The
   once-per-tier **compression** sweep (`/prd-compress`) is a separate,
-  human-signed, **Fable-routed** event, dormant until that tier's taste R-item
+  human-signed, **Fable-routed** event, dormant until that tier's taste HR-item
   closes.
-- **Keep a CHANGELOG — a version bump must be documented (A22).** The project
+- **Keep a CHANGELOG — a version bump must be documented (AC-22).** The project
   keeps a top-level [`CHANGELOG.md`](CHANGELOG.md) (Keep-a-Changelog style,
   newest-first; the in-game footer + About modal link to it). The displayed
-  version is single-sourced from `package.json` (A21) — and the **`verify-changelog`
+  version is single-sourced from `package.json` (AC-21) — and the **`verify-changelog`
   gate** binds the two: `package.json`'s `version` MUST have a matching
   `## [x.y.z]` section in `CHANGELOG.md`, or `verify` goes RED (at commit, push,
   and CI). So **bumping the version and forgetting the changelog entry fails the
@@ -254,13 +254,13 @@ Full version:
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/living/qa-playtesting.md).
 - **Real-play telemetry — read `project/telemetry/` before touching balance
-  (F8).** The human's DEV sessions auto-drop attended-time pacing reports
-  (git-ignored, local sensor data) there; the D-132 balance flow's step 0
+  (FB-8).** The human's DEV sessions auto-drop attended-time pacing reports
+  (git-ignored, local sensor data) there; the ADR-132 balance flow's step 0
   ([qa-playtesting.md §2](docs/living/qa-playtesting.md)) is: if untainted
   reports exist, quote attended-vs-sim for the touched rungs in the commit
   body, and distill any pacing conclusion into a committed note (the folder
   README's diary rule). Human pacing data never gates.
-- **Playtest capture inbox — capture in-game, drain async (F3).** In a DEV
+- **Playtest capture inbox — capture in-game, drain async (FB-3).** In a DEV
   build the `` ` `` hotkey enters **pick mode** (hover-highlight → click the
   element you're commenting on, or click empty / Esc for a general note); a note
   box opens and ⌘/Ctrl+Enter appends a **lean** entry (note + picked-element
@@ -273,28 +273,28 @@ Full version:
   whenever; an agent drains whenever with
   **`/drain-inbox`** — an **interactive** pass, batches of ≤5: reproduce each
   from the save → triage → **propose, and wait for the human's go-ahead** before
-  any fix lands → log an **Fnn** in `project/human-feedback/` → **`git mv` the
+  any fix lands → log a **FB-nn** in `project/human-feedback/` → **`git mv` the
   capture to `archive/`** (completion is the archive move, not deletion). It's **agent-facing** (not the human queue); the session brief
   surfaces the `pending/` count. See the
   [`drain-inbox`](.claude/skills/drain-inbox/SKILL.md) skill.
-- **Build to the taste standard — the four taste values (D-126).** Before
+- **Build to the taste standard — the four taste values (ADR-126).** Before
   building or restyling **any** UI surface, feature, or narrative beat, read
   [`docs/living/taste.md`](docs/living/taste.md) (snapshot-class, hard-capped,
   the human-locked bar) and run the **two-pass
-  [`taste-scorecard`](.claude/skills/taste-scorecard/SKILL.md) flow (F10,
-  D-135)**: **Pass 1** — a constraint brief BEFORE building (one line per
+  [`taste-scorecard`](.claude/skills/taste-scorecard/SKILL.md) flow (FB-10,
+  ADR-135)**: **Pass 1** — a constraint brief BEFORE building (one line per
   applicable principle: what this work must do to honor it); **Pass 2** — the
   full 21-walk scorecard AFTER (per variant in a diverge), each ✘ tagged
-  [briefed] or [blind spot]; brief + verdicts attach to the R-item (the
+  [briefed] or [blind spot]; brief + verdicts attach to the HR-item (the
   diverge flow bakes both in as its §2 steps 2 + 8).
   When no principle covers, reason from the values — they predict the verdict:
-  - **T1 · One home for everything** — one tab per capability, one shared
+  - **TST1 · One home for everything** — one tab per capability, one shared
     primitive per idiom, one source per value; delete the old copy on a move.
-  - **T2 · Never yank the ground from under the player** — a watched surface
+  - **TST2 · Never yank the ground from under the player** — a watched surface
     never flashes, resets, resizes, or rebuilds; even a crash reads composed.
-  - **T3 · The fiction causes the mechanics** — discovered, not spawned; story
+  - **TST3 · The fiction causes the mechanics** — discovered, not spawned; story
     promises exist in the game; the UI reveal follows the story beat.
-  - **T4 · The player never guesses state** — speaker, changes, newness,
+  - **TST4 · The player never guesses state** — speaker, changes, newness,
     progress: readable at a glance.
 - **QA fun & visuals, not just function.** A compiling build isn't the bar — the
   game must be *paced and fun* and *look intentional* (woodblock/ink, **not**
@@ -306,7 +306,7 @@ Full version:
   language** → [`docs/living/ui-design.md`](docs/living/ui-design.md). The agent
   reviews its own screenshots with its own vision and iterates; the human is the
   final fun & taste arbiter.
-- **Design by divergence (new/major UI surfaces) — D-075 (v2, refines D-073).**
+- **Design by divergence (new/major UI surfaces) — ADR-075 (v2, refines ADR-073).**
   No new or majorly-restyled UI surface ships from a single idea — run the
   **`diverge`** skill for **FULL 2–3 distinct, *working* approaches**. **No
   "diverge-LITE" single-idea shortcut, and no buggy variants** — every variant
@@ -317,9 +317,9 @@ Full version:
   [`project/human-in-the-loop/review.md`](project/human-in-the-loop/review.md)**.
   The agent self-picks a coherent prod default (never blocks); the toggle keeps
   the alternates until the human confirms — **zero PROD flag-debt** (prod ships
-  only the default). One-line tweaks are exempt. See **D-075** +
+  only the default). One-line tweaks are exempt. See **ADR-075** +
   [`.claude/skills/diverge/SKILL.md`](.claude/skills/diverge/SKILL.md).
-- **Story diverges too — every narrative element ships from 3+ takes (D-139).**
+- **Story diverges too — every narrative element ships from 3+ takes (ADR-139).**
   ALL new story elements and ALL feedback-driven story improvements come with
   **3+ options** — any **fiction-voiced text** the player reads (beats,
   dialogue, flavor lines, names, descriptions), at its own unit size;
@@ -330,7 +330,8 @@ Full version:
   the human overrides from **coherent bundles** — never 25+ atomized taste
   calls. Alternates stay DEV-only until sign-off; canon carries only the pick.
   Procedure:
-  [`.claude/skills/narrative-diverge/SKILL.md`](.claude/skills/narrative-diverge/SKILL.md). to the highest rung that can _soundly_ hold it** — a
+  [`.claude/skills/narrative-diverge/SKILL.md`](.claude/skills/narrative-diverge/SKILL.md).
+- **Push each quality rule to the highest rung that can _soundly_ hold it** — a
   `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**,
   calibrated so a gate never cries wolf. Prefer the rung that can't be quietly
   forgotten (a green-or-red check beats a good intention).
@@ -382,10 +383,10 @@ above are the portable part; these are what's specific to kami-kakushi.
   place (don't fork copies).
 - **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to
   **locked intent** — the §1 vision + the human-signed acceptance criteria —
-  **not** the route there: the §4 balance numbers and §7 M2–M7 milestone detail
+  **not** the route there: the §4 balance numbers and §7 MS2–MS7 milestone detail
   stay **provisional** (revised by playtest), never frozen as locked canon. Full
-  rule, rationale + current freeze state: **D-021** (refines D-020, refined by
-  D-059) in [`decisions.md`](docs/living/decisions.md).
+  rule, rationale + current freeze state: **ADR-021** (refines ADR-020, refined by
+  ADR-059) in [`decisions.md`](docs/living/decisions.md).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp)
   for all scratch / working files (intermediate output, throwaway scripts,
   scratch notes) — **not** the global system scratchpad. Anything worth keeping

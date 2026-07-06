@@ -2,12 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { walkPacing } from '../scripts/pacing-report';
 import { balance } from '../core';
 
-// D-056: the DEMO/REAL profile fork is RETIRED — ONE shipped profile. T0 is ≥30-min-floor-EXEMPT
+// ADR-056: the DEMO/REAL profile fork is RETIRED — ONE shipped profile. T0 is ≥30-min-floor-EXEMPT
 // ("quick but not easy"; the signed ≥30-min/rank floor gates from T1 per the 6-tier reshape).
 // So the T0 pacing criterion is the sane BAND: each measured climb rung slow enough not to be
 // the seconds-fast DEMO crutch, fast enough to stay a tutorial. walkPacing drives the REAL reducer
 // (createInitialState + reduce), so the model can't drift from the game. RED-able.
-// Targets (locked): R0 ≈ 5-min cold-open (D-022); the climb rungs ≈ 10–15 min (battery R4#2).
+// Targets (locked): R0 ≈ 5-min cold-open (ADR-022); the climb rungs ≈ 10–15 min (battery R4#2).
 describe('T0 pacing (single profile, D-056)', () => {
   const rows = walkPacing();
   const climb = rows.filter((r) => !r.terminal && r.intents > 0);

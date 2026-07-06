@@ -1,6 +1,6 @@
 # Philosophy: if it isn't fun, it isn't finished
 
-> Operating-philosophy register **R5**. See the [register](README.md); when a
+> Operating-philosophy register **PH5**. See the [register](README.md); when a
 > tactic conflicts with this, this wins.
 
 **A compiling build is the floor, not the bar.** For this game the real bar is
@@ -25,11 +25,11 @@ AI-slop. Function is necessary and nowhere near sufficient.
 
 ## Why this exists
 
-- **D-019**: treat fun as the make-or-break priority — a hypothesis tested by
+- **ADR-019**: treat fun as the make-or-break priority — a hypothesis tested by
   play, whose absence is measurable.
 - `docs/living/fun-factor.md` §3: _"green proxies mean boredom/walls/starvation
   are absent — necessary, not sufficient."_
 - `docs/living/ui-design.md` §9 (the anti-slop meta-rule): _"strong, explicit,
   opinionated constraints read as intentional; defaults read as generated."_
 
-Canon: **D-084**. Part of the register seeded by **R1** (D-080).
+Canon: **ADR-084**. Part of the register seeded by **PH1** (ADR-080).

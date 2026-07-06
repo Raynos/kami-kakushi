@@ -1,4 +1,4 @@
-// Generate the scenario-save library (F6) — drive the REAL engine to each spec's waypoint and
+// Generate the scenario-save library (FB-6) — drive the REAL engine to each spec's waypoint and
 // write the resulting envelope to src/fixtures/saves/<name>.json. The gen-docs `--check` idiom:
 // bare run writes; `--check` regenerates into memory and byte-compares (a hand-edit to a generated
 // save is drift by definition — the error names `fixtures:regen` to fix it).

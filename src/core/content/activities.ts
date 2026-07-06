@@ -13,7 +13,7 @@ export type ActivityId =
   | 'woodcut_edge'
   | 'forage_satoyama'
   | 'forage_deepwoods';
-// D-107: labour yields RICE (rake + paddy work), COIN (hauling wage + a little from forage), wood
+// ADR-107: labour yields RICE (rake + paddy work), COIN (hauling wage + a little from forage), wood
 // (woodcut), or sansai (forage greens). koku is never labour-earned — it is House standing.
 export type LabourResource = 'rice' | 'coin' | 'wood' | 'sansai';
 
@@ -50,7 +50,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     label: 'Haul stores at the forecourt',
     skill: 'conditioning',
     area: 'gate-forecourt',
-    // The first COIN-paying labour — a porter's wage (D-107 / D4: coin arrives as the "first wage").
+    // The first COIN-paying labour — a porter's wage (ADR-107 / D4: coin arrives as the "first wage").
     yields: { coin: 2 },
     satietyCost: 4,
     xp: 5,
@@ -78,7 +78,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     surface: 'verb-forage',
   },
   {
-    // v0.3.1 Step 5d — the load-bearing yield (D-078): the SAME foraging verb, richer on the deeper
+    // v0.3.1 Step 5d — the load-bearing yield (ADR-078): the SAME foraging verb, richer on the deeper
     // node. You walk one hill farther (past the danger ring) for a materially better haul — the map
     // gates income, tying the spatial spine to the Step-4 coin economy + the combat cook-loop.
     id: 'forage_deepwoods',

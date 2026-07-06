@@ -1,4 +1,4 @@
-// Milestone detectors (F8) — PURE (prev, next) GameState diffs, the same observation trick
+// Milestone detectors (FB-8) — PURE (prev, next) GameState diffs, the same observation trick
 // trackReveals already uses in main.ts: everything telemetry needs is visible on the public
 // state, so src/core stays untouched. Fed from the commit tap (Ph2); unit-proven here.
 

@@ -6,7 +6,7 @@ argument-hint: "What changed? (the system / narrative / balance edit you just ma
 
 # PRD ripple (Flow 1 — the day-to-day design change)
 
-> Encodes **Flow 1** of the D-117 "PRD on a diet" decision
+> Encodes **Flow 1** of the ADR-117 "PRD on a diet" decision
 > ([`project/brainstorms/2026-07-03-prd-on-a-diet.md`](../../../project/brainstorms/2026-07-03-prd-on-a-diet.md),
 > Flows 1–2, human-locked). The **punch-list replaces memory**: instead of
 > recalling which PRD prose a change staled, classify the change, ripple only
@@ -21,7 +21,7 @@ After **any built-system design change** — a code edit that alters a **shipped
 system, a narrative beat, or a content registry (`src/core/content/*`). A
 pre-commit **WARN** already nudges you: a staged commit touching
 `src/core/content/*` without touching `docs/living/prd/` prints a loud reminder
-(never blocks — A11). This skill is that reminder's procedure.
+(never blocks — AC-11). This skill is that reminder's procedure.
 
 ## Step 1 — classify the change (the four-way cut)
 
@@ -29,9 +29,9 @@ Read the diff and place it in exactly one class:
 
 | Class | What it is | The ripple |
 |---|---|---|
-| **Balance number** | a constant / threshold / price / curve / multiplier tuning nudge | **NO §4 edit.** §4 carries the frozen-provisional banner (D-021/Q5). Code + tests (+ the pacing report). An **ADR only** when the change is a *design-level re-derivation*, not a tuning nudge. |
+| **Balance number** | a constant / threshold / price / curve / multiplier tuning nudge | **NO §4 edit.** §4 carries the frozen-provisional banner (ADR-021/Q5). Code + tests (+ the pacing report). An **ADR only** when the change is a *design-level re-derivation*, not a tuning nudge. |
 | **System / narrative (BUILT territory)** | a shipped system's behaviour, a shipped rung/beat, a registry entry | Code + **ADR (the why)** + a **targeted PRD ripple** (Q5 status quo — ripple *continues* until that tier's compression event retires it). Edit only the subsections the change staled. |
-| **Intent-level** | changes what the game **IS** (the §1 vision / acceptance criteria) | **STOP — not autonomous.** Human decision → ADR + PRD §1 / acceptance-criteria edit. Record the fork; do not self-decide (R4). |
+| **Intent-level** | changes what the game **IS** (the §1 vision / acceptance criteria) | **STOP — not autonomous.** Human decision → ADR + PRD §1 / acceptance-criteria edit. Record the fork; do not self-decide (PH4). |
 | **Frontier (unbuilt)** | T1–T5 / endgame design not yet built | Edit the **fat frontier sections directly** — that's where forward design lives (Q1). Full detail welcome; no drift risk (the frontier is *supposed* to lead the build). |
 
 **If in doubt between "balance number" and "system/narrative":** ask *did a
@@ -56,7 +56,7 @@ npm run prd:drift -- --strict   # exits 1 on any drift (scripted use)
 ```
 
 The report is **one-directional** (game → PRD) and **never a gate** (prose
-matching is heuristic — A11). Read the **SPEC-ALTITUDE presence** gaps: any
+matching is heuristic — AC-11). Read the **SPEC-ALTITUDE presence** gaps: any
 built entity your change added/renamed that is now missing from the PRD is your
 ripple's remaining work. Clear the gaps your change caused; a frontier-only gap
 (an unbuilt entity absent by design) is **not** yours to fix.
@@ -70,7 +70,7 @@ region honest by construction.
 
 ---
 
-**Compression, not ripple?** When a whole **tier's** taste review (its R-item)
+**Compression, not ripple?** When a whole **tier's** taste review (its HR-item)
 closes and you want to *compress* that tier's fat prose to intent + acceptance
 criteria, that's **Flow 2** — a different, human-signed, **Fable-routed** event.
 Use [`/prd-compress`](../prd-compress/SKILL.md), not this skill.

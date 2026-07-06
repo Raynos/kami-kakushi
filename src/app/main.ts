@@ -1,5 +1,5 @@
 // Composition root (PRD §6.2): wires core ↔ ui ↔ persistence, runs the active-only
-// tick loop, wraps tick/render in a crash boundary (D-044), and installs window.__qa
+// tick loop, wraps tick/render in a crash boundary (ADR-044), and installs window.__qa
 // in DEV. The renderer never mutates state; the core is the only place state changes.
 
 import {
@@ -41,15 +41,15 @@ interface RevealMark {
   tick: number;
 }
 
-/** Compute the DEV rung-teleport target state, working in EITHER direction (F68). Pure: no side
+/** Compute the DEV rung-teleport target state, working in EITHER direction (FB-68). Pure: no side
  *  effects — returns the landed state plus whether a reset happened (so the caller clears its
  *  reveal/action counters). Climb UP from `current`; jump AT-OR-BELOW the current rung ⇒ a fresh
  *  `createInitialState` FIRST (so no stale higher-rung unlock/panel lingers) then re-climb — the
  *  human's "new game + RX back-to-back to go down a rung". O(rungs) `applyPromotion` calls, NO
- *  tick-resim (keeps the F24 no-CPU-spin fix). Exported so the descend-resets-then-climbs logic is
+ *  tick-resim (keeps the FB-24 no-CPU-spin fix). Exported so the descend-resets-then-climbs logic is
  *  unit-testable against the pure core.
  *
- *  D-110: the DEV seek BYPASSES the rung beats by design — it calls `applyPromotion` directly per
+ *  ADR-110: the DEV seek BYPASSES the rung beats by design — it calls `applyPromotion` directly per
  *  rung (a dev jump, not the player path), so the DEV teleport still reaches any rung without
  *  driving a VN modal. The only story-half gates below R4 are granted so the raw apply is coherent. */
 export function planRungJump(
@@ -82,7 +82,7 @@ async function boot(): Promise<void> {
 
   const save: SaveManager = createBrowserSaveManager();
 
-  // D-138 — the two-axis DEV-tools gate, resolved ONCE at boot. `__DEV_TOOLS__` is
+  // ADR-138 — the two-axis DEV-tools gate, resolved ONCE at boot. `__DEV_TOOLS__` is
   // the build-time inclusion gate (tree-shaking); `gating.{qa,panel}` is the runtime
   // activation. In a dev serve both default on (`?dev=no` opts the panel out, __qa
   // stays for e2e). In a T0 prod bundle both default OFF, opt-in via `?dev=yes`.
@@ -92,7 +92,7 @@ async function boot(): Promise<void> {
     typeof window !== 'undefined' ? window.location.search : '',
   );
 
-  // ── load newest, with crash-recovery safe-mode rollback (D-044) ──
+  // ── load newest, with crash-recovery safe-mode rollback (ADR-044) ──
   let state: GameState;
   const loaded = await save.load();
   if (loaded && loaded.safeMode) {
@@ -111,8 +111,8 @@ async function boot(): Promise<void> {
     state = createInitialState(DEFAULT_SEED);
   }
 
-  // F6 — `?fixture=<name>` DEV boot param: replace the loaded run with a named scenario save. Backs
-  // up the real run to the F96 slot FIRST (so navigating here is never a silent loss), then routes
+  // FB-6 — `?fixture=<name>` DEV boot param: replace the loaded run with a named scenario save. Backs
+  // up the real run to the FB-96 slot FIRST (so navigating here is never a silent loss), then routes
   // through the SAME import → migrate → validate path as a normal load (and adopts it, so a reload
   // keeps you in the scenario). Stripped from prod with the whole DEV branch.
   let bootedFromFixture = false;
@@ -168,7 +168,7 @@ async function boot(): Promise<void> {
           // reconcile the imported save's write-once latch against its state predicates (same
           // load-path back-reveal as boot) before the first render.
           state = revealPass(res.state);
-          telemetry?.onRunStart('import', state); // F8: an imported save is a new (tainted) run
+          telemetry?.onRunStart('import', state); // FB-8: an imported save is a new (tainted) run
           safely(() => render(state, null));
         } else {
           // surface a FAILED restore — otherwise the modal just closes and a bad/truncated save
@@ -182,7 +182,7 @@ async function boot(): Promise<void> {
       state = createInitialState(DEFAULT_SEED);
       reveals.length = 0;
       actionCount = 0;
-      telemetry?.onRunStart('new-game', state); // F8: fresh run record (history kept, run-id tagged)
+      telemetry?.onRunStart('new-game', state); // FB-8: fresh run record (history kept, run-id tagged)
       safely(() => render(state, null));
       void flushSave();
     },
@@ -198,14 +198,14 @@ async function boot(): Promise<void> {
     },
   };
 
-  // The D-075 variant harness — undefined when the panel isn't active (the ternary folds to
+  // The ADR-075 variant harness — undefined when the panel isn't active (the ternary folds to
   // `undefined`, so ui/dev.ts tree-shakes when `__DEV_TOOLS__` is false). Threaded into the
   // renderer + the DEV panel below. `gating.panel` is off under `?dev=no` in a dev build (the
-  // human previews the TRUE player-facing layout, playtest F2) and default-off in a T0 prod
-  // bundle (opt-in `?dev=yes`) — see resolveDevGating (D-138).
+  // human previews the TRUE player-facing layout, playtest FB-2) and default-off in a T0 prod
+  // bundle (opt-in `?dev=yes`) — see resolveDevGating (ADR-138).
   const dev = __DEV_TOOLS__ && gating.panel ? createDevApi() : undefined;
 
-  // F8 — attended-time telemetry (DEV-only; the same ternary-fold idiom, so src/telemetry/
+  // FB-8 — attended-time telemetry (DEV-only; the same ternary-fold idiom, so src/telemetry/
   // tree-shakes out of prod — verify-dev-strip.sh greps for its sentinel to PROVE it).
   // Deliberately OUTSIDE the `if (dev)` gate: `?dev=no` true-layout playtests are exactly the
   // sessions worth measuring, and telemetry has no visible surface to distort them.
@@ -240,7 +240,7 @@ async function boot(): Promise<void> {
   function commit(next: GameState): void {
     if (next === state) return;
     trackReveals(state, next);
-    // F8 — the milestone tap: rung-ups/ascensions/losses + auto/note transitions, observed as
+    // FB-8 — the milestone tap: rung-ups/ascensions/losses + auto/note transitions, observed as
     // a (prev, next) diff exactly like trackReveals. One DEV-guarded line; core untouched.
     if (import.meta.env.DEV) telemetry?.onCommit(state, next);
     prev = state;
@@ -260,7 +260,7 @@ async function boot(): Promise<void> {
   }
 
   // ── crash boundary ──
-  // A caught render/tick error draws a FULL-SCREEN error modal (F61) that COVERS the
+  // A caught render/tick error draws a FULL-SCREEN error modal (FB-61) that COVERS the
   // broken/half-drawn UI — an intentional error screen, not a banner over a blank page.
   // The save already happened (autosave/debounce), so "your progress is saved" holds.
   function safely(fn: () => void): void {
@@ -296,7 +296,7 @@ async function boot(): Promise<void> {
   let autoSpeed = 1; // DEV-only 2×/4×/8× time multiplier (prod stays 1; set via __qa.speed)
   function autoStep(): void {
     if (paused || document.hidden || crashed) return;
-    // The DECISION is the pure core's autoModeIntent (F4 Ph3 — the sim's idler persona consumes
+    // The DECISION is the pure core's autoModeIntent (FB-4 Ph3 — the sim's idler persona consumes
     // the SAME function, so the shipped auto-loop and the sim can never desync); this loop keeps
     // only the app concerns: the DOM guards above and the dispatch below.
     const intent = autoModeIntent(state);
@@ -337,7 +337,7 @@ async function boot(): Promise<void> {
       }
       return state.location;
     };
-    // F7 — the balance-tuning cockpit controller, shared by the DEV panel's Balance sub-tab and the
+    // FB-7 — the balance-tuning cockpit controller, shared by the DEV panel's Balance sub-tab and the
     // headless `__qa.balance` handle. onChange re-renders so a live override refreshes interpolated
     // tooltips; meta captures the export header (build stamp + seed + clock) from live state.
     const cockpit = createBalanceCockpit({
@@ -350,7 +350,7 @@ async function boot(): Promise<void> {
       }),
     });
 
-    // F8 — the taint ledger (plan §3.1): any __qa drive/teleport/time-distortion labels the
+    // FB-8 — the taint ledger (plan §3.1): any __qa drive/teleport/time-distortion labels the
     // run, so agent-driven or cheated sessions can never silently pollute the human pacing
     // data (they render labelled, excluded from the vs-sim comparison).
     const qaTaint = (name: string): void => telemetry?.taint(name);
@@ -361,7 +361,7 @@ async function boot(): Promise<void> {
         qaTaint('qa-drive');
         dispatch(intent);
       },
-      // F7 — headless balance-cockpit handle: set(path,v) / read / touched / reset / exportMarkdown.
+      // FB-7 — headless balance-cockpit handle: set(path,v) / read / touched / reset / exportMarkdown.
       balance: cockpit,
       activity: (id: ActivityId) => {
         qaTaint('qa-drive');
@@ -376,13 +376,13 @@ async function boot(): Promise<void> {
         qaTaint('qa-drive');
         return walkTo(node);
       },
-      // DEV teleport to ANY rung, in EITHER direction (F68). This USED to greedily re-simulate the
+      // DEV teleport to ANY rung, in EITHER direction (FB-68). This USED to greedily re-simulate the
       // focused-optimal policy tick-by-tick (up to 50_000 steps, each a fresh map BFS) — a long
-      // synchronous sim that spun the CPU and FROZE the page (F24); it also only ever climbed UP.
+      // synchronous sim that spun the CPU and FROZE the page (FB-24); it also only ever climbed UP.
       // Now the pure `planRungJump` does the work: climbing up promotes from the current state as
       // before; a jump AT-OR-BELOW the current rung RESETS to a fresh game first (clearing every
       // stale higher-rung unlock/panel) then re-climbs — the human's "new game + RX back-to-back to
-      // go down a rung". Still O(rungs) applyPromotion calls with NO tick-resim, so the F24 fix holds.
+      // go down a rung". Still O(rungs) applyPromotion calls with NO tick-resim, so the FB-24 fix holds.
       toRung: (id: RankId) => {
         qaTaint('toRung');
         const plan = planRungJump(state, id);
@@ -420,11 +420,11 @@ async function boot(): Promise<void> {
         dispatch({ type: 'set_auto_combat', mobId });
       },
       setStance: (stance: StanceId) => dispatch({ type: 'set_stance', stance }),
-      // ── DEV playtest tools (DS#1/DS#16/D-067) — speed toggle + jump-to teleports ──
+      // ── DEV playtest tools (DS#1/DS#16/ADR-067) — speed toggle + jump-to teleports ──
       /** 2×/4×/8× time multiplier: run N auto-steps per tick (1 = prod cadence). */
       speed: (mult: number) => {
         autoSpeed = Math.max(1, Math.floor(mult));
-        if (autoSpeed > 1) qaTaint('speed>1'); // F8: distorted time — pacing data unusable
+        if (autoSpeed > 1) qaTaint('speed>1'); // FB-8: distorted time — pacing data unusable
         return autoSpeed;
       },
       /** Jump to the R7 capstone (Phase 2 open) so the live macro spine is reachable at once. */
@@ -476,7 +476,7 @@ async function boot(): Promise<void> {
         paused = false;
       },
       newGame: (seed = DEFAULT_SEED) => {
-        // F96 — snapshot the CURRENT run to the backup slot BEFORE wiping it, so a New game is
+        // FB-96 — snapshot the CURRENT run to the backup slot BEFORE wiping it, so a New game is
         // never an irrecoverable loss. `backup(state)` encodes the old state synchronously (the
         // envelope is built before the first await), so reassigning `state` below is safe.
         void save.backup(state);
@@ -484,10 +484,10 @@ async function boot(): Promise<void> {
         state = createInitialState(seed);
         reveals.length = 0;
         actionCount = 0;
-        telemetry?.onRunStart('new-game', state); // F8
+        telemetry?.onRunStart('new-game', state); // FB-8
         safely(() => render(state, null));
       },
-      // F96 — the save-backup safety net exposed for the DEV panel's "goto last backup" button.
+      // FB-96 — the save-backup safety net exposed for the DEV panel's "goto last backup" button.
       backupSave: () => save.backup(state),
       hasBackup: () => save.hasBackup(),
       restoreBackup: async () => {
@@ -497,13 +497,13 @@ async function boot(): Promise<void> {
           state = res.state;
           reveals.length = 0;
           actionCount = 0;
-          telemetry?.onRunStart('import', state); // F8
+          telemetry?.onRunStart('import', state); // FB-8
           safely(() => render(state, null));
           return true;
         }
         return false;
       },
-      // (D-056: profile/setProfile retired with the DEMO/REAL fork — single profile now.
+      // (ADR-056: profile/setProfile retired with the DEMO/REAL fork — single profile now.
       //  The DEV speed toggle + teleports below STAY: they're the permanent review harness.)
       save: () => save.exportState(state),
       load: async (b64: string) => {
@@ -513,13 +513,13 @@ async function boot(): Promise<void> {
           // reconcile the imported save's write-once latch against its state predicates (same
           // load-path back-reveal as boot) before the first render.
           state = revealPass(res.state);
-          telemetry?.onRunStart('import', state); // F8: tainted `save-import` run
+          telemetry?.onRunStart('import', state); // FB-8: tainted `save-import` run
           safely(() => render(state, null));
         }
         return res;
       },
-      // F6 — load a NAMED scenario fixture (the generated envelope). Backs up the CURRENT run to the
-      // F96 slot FIRST (same safety net as newGame), then runs the FULL import → migrate → validate
+      // FB-6 — load a NAMED scenario fixture (the generated envelope). Backs up the CURRENT run to the
+      // FB-96 slot FIRST (same safety net as newGame), then runs the FULL import → migrate → validate
       // path via `load` (re-encoding the pretty-printed envelope to the base64 the codec expects), so
       // a playtest can never destroy the human's real save — "↩ last backup" is the way home.
       loadFixture: async (name: string) => {
@@ -537,10 +537,10 @@ async function boot(): Promise<void> {
       setSeed: (seed: number) => {
         prev = null;
         state = createInitialState(seed);
-        telemetry?.onRunStart('new-game', state); // F8
+        telemetry?.onRunStart('new-game', state); // FB-8
         safely(() => render(state, null));
       },
-      // F8 — the attended-time handle: summary / report / segments / runs / configure / clear.
+      // FB-8 — the attended-time handle: summary / report / segments / runs / configure / clear.
       telemetry: telemetry?.qa,
       pacing: () => ({
         actionCount,
@@ -557,12 +557,12 @@ async function boot(): Promise<void> {
     };
     (window as unknown as { __qa?: typeof qa }).__qa = qa;
 
-    // F7 — apply any `?bal.<path>=<value>` overrides from the URL (F5-survival + shareable tune
+    // FB-7 — apply any `?bal.<path>=<value>` overrides from the URL (FB-5-survival + shareable tune
     // links). OUTSIDE the `if (dev)` gate so a shared tune link still applies under `?dev=no` (the
     // true-layout playtest carries the override set, mirroring the capture overlay).
     cockpit.hydrate();
 
-    // the in-UI DEV panel — the __qa tools as buttons + the live variant toggle (D-075). Hosts
+    // the in-UI DEV panel — the __qa tools as buttons + the live variant toggle (ADR-075). Hosts
     // on document.body (fixed-position) so it floats over the shell regardless of #app styling.
     if (dev) {
       mountDevPanel(document.body, {
@@ -574,10 +574,10 @@ async function boot(): Promise<void> {
     }
   }
 
-  // ── F3 playtest capture overlay: `` ` `` → note box → POST to the dev-inbox → vanish.
+  // ── FB-3 playtest capture overlay: `` ` `` → note box → POST to the dev-inbox → vanish.
   //    SERVER-COUPLED (POSTs to a dev-server endpoint absent on gh-pages), so it stays gated on
-  //    `import.meta.env.DEV` alone — OUT of the T0 `__DEV_TOOLS__` ship set (D-138 scope). It runs
-  //    on the dev server even under `?dev=no` (the human's true-layout preview keeps capture — F2)
+  //    `import.meta.env.DEV` alone — OUT of the T0 `__DEV_TOOLS__` ship set (ADR-138 scope). It runs
+  //    on the dev server even under `?dev=no` (the human's true-layout preview keeps capture — FB-2)
   //    and is fully stripped from any prod bundle. Evidence (context + screenshot) is frozen at
   //    box-OPEN by mountCapture; buildContext reads the LIVE `state` each open.
   if (import.meta.env.DEV) {
@@ -614,7 +614,7 @@ async function boot(): Promise<void> {
   }
 }
 
-// Full-screen render/tick crash screen (F61). A caught error mounts ONE fixed,
+// Full-screen render/tick crash screen (FB-61). A caught error mounts ONE fixed,
 // full-viewport overlay on <body> (high z-index) in the woodblock/ink palette — a dark
 // ink ground under a washi card — so a crash reads as a clean, intentional error screen
 // that COVERS the broken UI, never a banner over a blank/half-drawn page. Idempotent:

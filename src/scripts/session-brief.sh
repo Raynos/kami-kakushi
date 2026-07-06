@@ -6,8 +6,8 @@
 #   1. human TODOs        (project/todo-human.md ## TODO — unticked tasks)
 #   2. the reading queue  (project/todo-human.md ## Reading queue — unticked sign-offs)
 #   3. pending PRD changes (project/status/pending-prd-changes.md — locked canon not yet applied)
-#   4. open decisions     (project/human-in-the-loop/decisions.md — H-items)
-#   5. open reviews       (project/human-in-the-loop/review.md — R-items)
+#   4. open decisions     (project/human-in-the-loop/decisions.md — HD-items)
+#   5. open reviews       (project/human-in-the-loop/review.md — HR-items)
 # ...then a "what to DO next" nudge so a cold pickup knows where the work lives:
 #   6. next autonomous work — NOT a maintained list. Just points at the sources
 #      that are ALREADY kept current (the active plan(s), project-status.md, the
@@ -146,7 +146,7 @@ if [[ -f "$PENDING_PRD" ]]; then
   fi
 fi
 
-# --- Open decisions (H-items) and reviews (R-items): heading lines with 🔲 ----
+# --- Open decisions (HD-items) and reviews (HR-items): heading lines with 🔲 ----
 add_open_items() {
   local file="$1" label="$2"
   [[ -f "$file" ]] || return 0
@@ -160,8 +160,8 @@ add_open_items() {
   add ""
 }
 
-add_open_items "$DECISIONS" "🔀 Open decisions (H-items)"
-add_open_items "$REVIEWS" "👁️ Open reviews (R-items)"
+add_open_items "$DECISIONS" "🔀 Open decisions (HD-items)"
+add_open_items "$REVIEWS" "👁️ Open reviews (HR-items)"
 
 # --- What to DO next: an INVESTIGATION nudge, NOT a stored/parsed task list -----
 # We deliberately keep no "next tasks" file and compute no answer here — both would

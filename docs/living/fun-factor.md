@@ -1,7 +1,7 @@
 # Fun Factor — the #1 design priority for *Kamikakushi*
 
 > **Status: LIVING — the fun targets the build is measured against; `pacing()` is instrumented
-> (report-only), the auto-player bot + the gating fun-suite are still pending (M6).**
+> (report-only), the auto-player bot + the gating fun-suite are still pending (MS6).**
 >
 > The design doc on **the game's fun**: *what* fun factor is for an incremental RPG, *why* it is the
 > make-or-break priority, *how* to measure it, *how* to improve it, and *how* to keep it high across the
@@ -41,7 +41,7 @@ finger on the button is that pressing it feels good.** So:
   if the player stays long enough to feel it. Narrative is *delivered through* the fun loop (the UI
   reveal IS the plot beat, §1.12); if the loop stalls, the story never arrives.
 - Our two riskiest bets — a **deliberately long ~28.5 h grind** (§4.8) and **active-only, no idle
-  layer** (D-013) — are both *fun bets*. The grind is only justified if the grind itself is pleasurable;
+  layer** (ADR-013) — are both *fun bets*. The grind is only justified if the grind itself is pleasurable;
   active-only is only justified if every active minute offers a *decision*, not a wait. Both raise the
   fun bar rather than lowering it.
 
@@ -76,7 +76,7 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 ### 2.2 The rung-climb loop (~30–120 min) — *"one more rung"*
 - **What:** the estate-rank ladder (a fresh `R/V/G` ladder per tier, §3) — each rung a named promotion
   with a concrete trigger, an in-fiction reason, and a named granter (§3.2.1). **Every rung-up is a
-  player-TRIGGERED, ignorable VN story beat, not a silent number-fill (D-110, on D-104's scene engine):**
+  player-TRIGGERED, ignorable VN story beat, not a silent number-fill (ADR-110, on ADR-104's scene engine):**
   a ready promotion *holds* at the header rung until you choose to stop grinding and **trigger** it — some
   rungs introduce a **new character**, others deepen a known one, and they carry **choices the NPCs
   remember** (persisting across ascension). It is **NOT the case that every rung grants a perk** — the
@@ -87,7 +87,7 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   reveal* (§2.4), so the climb pays double. "One more rung" is the meso-engine that turns a session into
   "just push to the next promotion." And because the rung is a **triggered, chosen** beat rather than an
   auto-snap, the promotion lands as a moment you *earned and acted on* — a narrative reward that motivates
-  the areas/panels/people it unlocks — never a number silently ticking over (the old silent pop-in, F97/F99).
+  the areas/panels/people it unlocks — never a number silently ticking over (the old silent pop-in, FB-97/FB-99).
 - **Lever:** **the ≥30-min floor + the ≤2–3× never-balloon rule (§4.8, both LOCKED).** The floor is
   **T0-exempt and first binds from T1** — T0's tutorial rungs run a gentler ~10–15 min so the hook lands
   fast, and the deliberate grind-floor begins with the full estate at T1. The floor stops
@@ -112,10 +112,10 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **What:** every panel, tab, resource row, area, and screen fades in **one at a time**, gated on game
   state, each reveal firing as **one event** that is simultaneously a log line + an unlock + a plot beat
   (§2.1, §3.0). Single-screen at minute one → multi-screen shell over the climb. The **seven tabs themselves**
-  (Work · Map · Estate · Inventory · Character · Combat · Quests — D-112 → D-119) reveal incrementally, so the whole IA
+  (Work · Map · Estate · Inventory · Character · Combat · Quests — ADR-112 → ADR-119) reveal incrementally, so the whole IA
   *grows with the player*, never a slam of empty tabs. And entities arrive by **DISCOVERY, not spawn** — you
   *meet* the pedlar or *find* a place for a **reason** (a talkable person on a map node's "who's here", a hint
-  in the node's standing description — D-114/D-116/F99), never a shop-menu blinking into existence.
+  in the node's standing description — ADR-114/ADR-116/FB-99), never a shop-menu blinking into existence.
 - **Why it's fun:** **novelty + curiosity** — the strongest, freshest pleasure we have, and our biggest
   differentiator (A Dark Room proves it can carry a whole game). A reveal isn't a new button; done right
   it **reframes** what the player thought the game was (the Office tab reframes the estate's place in a
@@ -126,9 +126,9 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   loop. Never dump; never go silent (qa-playtesting.md §3 "novelty drip"). Onboarding rides this **same
   channel** — each new system is taught **in-world by a diegetic mentor** as it unlocks (Genemon for
   labour/rice+coin in T0, Kihei for arms/combat from T1, Sōan for healing in the cold open), **never via a popup
-  or tutorial modal** (D-063/D-064): the reveal *is* the lesson, so learning the game stays part of the fun
+  or tutorial modal** (ADR-063/ADR-064): the reveal *is* the lesson, so learning the game stays part of the fun
   rather than a gate in front of it. **Teach each thing at its MOMENT OF NEED, not front-loaded at unlock
-  (F1):** gate the lesson to the beat where the mechanic first *matters* — the rice/coin lesson lands *as the
+  (FB-1):** gate the lesson to the beat where the mechanic first *matters* — the rice/coin lesson lands *as the
   first yield lands in hand*, not as five mentor lines dumped on the first click (the v0.3 cold-open's clearest
   fun miss). One teach per moment; never a monologue dump. The battery `onboarding` lens checks this.
 
@@ -156,7 +156,7 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   *mean* something; the soft-setback (drop to 1 HP, ~½-day, light injury, maybe drop carried loot —
   **never levels/gear/Influence**, §4.6.6) keeps tension *real* without ever punishing the player out of
   their progress. Loss motivates training; it never erases it. The **mediocre-start bite is a
-  throughout-v1 stance, not just the R3 spike** (D-061): even the **T0 tutorial is quick but never *easy***
+  throughout-v1 stance, not just the R3 spike** (ADR-061): even the **T0 tutorial is quick but never *easy***
   — fast to learn, still humbling to master. The bite always stays inside hard guardrails — every fight is
   **winnable**, setbacks are **soft only**, and there is **no permanent loss and no dead-end / stranding** —
   so humbling pulls the player to *train*, it never pushes them out of the game.
@@ -168,9 +168,9 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 - **What:** the diegetic beats — promotions narrated by named granters, the village's "Tama" legend, the
   recurring-dream memory thread, the Origin family opening at T3 (Region), the rival houses dethroned at G7
   (§1.5, §3.6) — **and the home you rest in**: a furnishable personal home + belongings that grow with your
-  rung (D-111), the domestic half of the same rise. Delivered **through** mechanics, not over them — and when
+  rung (ADR-111), the domestic half of the same rise. Delivered **through** mechanics, not over them — and when
   the story *promises* a thing (the dry corner, the bowl Genemon offers), that thing **mechanically EXISTS**:
-  a narrative promise with no mechanical existence is a coherence debt (F89), and *closing* it is itself a
+  a narrative promise with no mechanical existence is a coherence debt (FB-89), and *closing* it is itself a
   payoff. **Narrative-mechanical coherence is a fun requirement, not a nicety** — the world's spoken promises
   must be reachable, or the restoration fantasy rings hollow.
 - **Why it's fun:** **meaning makes the numbers matter** (Universal Paperclips' lesson). The restoration
@@ -179,8 +179,8 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   so they never break balance — the **home + belongings are PRESTIGE, not stat-gear** (concrete comfort —
   rest, satiety, storage — plus a *visible status-mirror* of your climb; in T0 that mirror is **one** hard-won
   status token — **a weapon of yours mounted on the wall at R5** (the weapon you actually wield; never a
-  surname — that's the T3 origin beat — D-122), the full surname → two-swords → gōshi ladder being
-  T1–T5 — never a combat lane, D-111/D-120), so "look how far you've come" is *shown*, not just titled.
+  surname — that's the T3 origin beat — ADR-122), the full surname → two-swords → gōshi ladder being
+  T1–T5 — never a combat lane, ADR-111/ADR-120), so "look how far you've come" is *shown*, not just titled.
 - **Lever:** **mechanical narrative > text narrative.** Let the *structural* reveal (new tier, new map,
   new political layer) carry the story; keep prose sparse (memory note: light folklore, open-ended).
   Place the warmest beats at the longest tier's payoff (T3 Region, §7) so the slog has an emotional anchor.
@@ -192,7 +192,7 @@ tunes it.** These are the things the harness watches and the polish loop juices.
 Fun isn't unit-testable, but its **absence is measurable.** These are the **targets**; `pacing()` is
 built and instrumented (`window.__qa.pacing()`, report-only) in [`qa-playtesting.md`](qa-playtesting.md)
 §3, but the auto-player bot + the automated "fun regression suite" are **not yet wired into `verify`**
-(planned for M6) — a one-off headless playtest has run (and caught a real combat dead-end). A proxy
+(planned for MS6) — a one-off headless playtest has run (and caught a real combat dead-end). A proxy
 fail is a *design smell*, not a proof of boredom — the human play-judgment is the real test; the
 proxies make the loop fast.
 
@@ -241,7 +241,7 @@ Six levers, in roughly the order to reach for them. Most fun problems are one of
 6. **Difficulty + clarity.** Two failure modes: a *wall* (too hard/slow/opaque → frustration) and a
    *desert* (too easy/trivial → boredom). Fix walls with clarity first (a legend, a visible threshold, a
    forecast) before lowering numbers — often the math is fine and the player just can't *see* the path.
-   **Bias the dial toward tension, not comfort (D-086):** scarcity and a real fail-state are the *default*;
+   **Bias the dial toward tension, not comfort (ADR-086):** scarcity and a real fail-state are the *default*;
    reach for generosity (auto-heal, autopilot, a looser economy) only with a justification, never
    reflexively. The self-inflicted *desert* — softening stakes until nothing bites — is the more common
    failure than a wall, because comfort is the path of least resistance when building.
@@ -257,9 +257,9 @@ The long game is where incrementals die — they front-load engagement and rot i
 desert." Our defences, mapped to the no-reset, tier-replaces-prestige spine:
 
 **(a) Expanding domain + evolving verbs ARE our prestige — the "fresh climb" with no reset.** We have **no
-reset of any kind** (D-004 reversed), so we reproduce prestige's three gifts — a fresh start, permanent power,
+reset of any kind** (ADR-004 reversed), so we reproduce prestige's three gifts — a fresh start, permanent power,
 a *change in the unit of play* — *without* zeroing the player **and without breaking the core-loop canon (the
-MC's OWN actions; NO people-management sim; D-015)**. Through all of **v1 the player stays hands-on**; what
+MC's OWN actions; NO people-management sim; ADR-015)**. Through all of **v1 the player stays hands-on**; what
 changes each tier is the **DOMAIN** the house acts on and the **VERB SET** in the MC's own hands:
 - **T0 — you *do*, on the estate (tutorial)** (work the paddy, craft, the humbling first fight) — the domain
   is one house, taught quick.
@@ -316,18 +316,18 @@ the whole climb). This is what makes hour 20 still mean something.
 | **Grind-walls** | The next rung balloons; progress stalls into frustration | **≤2–3× never-balloon rule** within a tier + **1.15× intra-tier growth** (§4.8, canon); tier steps are deliberate chapter breaks, not walls. Casual-bot "never stuck" proxy (§3). |
 | **Plateaus / number-only tiers** | "Same loop, bigger numbers" — the classic mid-game rot | **Expanding domain + a new verb set per tier** (§5a–b) keeps each tier hands-on but fresh; delegation/auto-producers are a deliberate **T4+** escalation (§2.5), never a v1 management layer; T3 anti-slump package (§5d). |
 | **Reward-deserts** | Long stretches with no hit; the grind reads as starvation | **No-dead-time** + **reward-cadence** proxies (§3); the ~70% deed stream sized to "a recognised act every ~4.5–5 min" (§4.8.1). |
-| **Choice-deserts** | Active-only "nothing to *decide*," just a wait | **Active-only, no idle** by design (D-013); every deed-duration filled with a choice (§4 lever 4); auto-producers held to **T4+ only** (§2.5) so early game stays hands-on. |
+| **Choice-deserts** | Active-only "nothing to *decide*," just a wait | **Active-only, no idle** by design (ADR-013); every deed-duration filled with a choice (§4 lever 4); auto-producers held to **T4+ only** (§2.5) so early game stays hands-on. |
 | **Runaway / trivial economy** | One strategy snowballs and trivialises everything | **Trade ≤⅓ cap** (hard invariant, §4.2.3); **0.04 per-event cap** so no deed spikes a pillar (§4.2.1); **per-tier required-pillar drift** stops single-pillar dominance (§1.6.3). |
 | **Complexity dumps** | A wall of new panels/controls at once; overwhelm | **Fractal incrementality** — one piece at a time, the drill yard reveals post → rack → slots (§1.2 pillar 2, §3.0); **progressive disclosure** is the signature, not a cost. |
 | **"Nothing to do" (active-only trap)** | Player opens the game and there's no live goal | **Always-a-visible-next-goal** proxy (§3); the **seasonal exam** gives every session a near-term target (§2.5); telegraphed locks keep the horizon full. |
-| **Punishing setbacks** | A loss erases real progress → rage-quit / save-scum | **Soft-setback shape LOCKED** — 1 HP, ~½-day, light injury, never levels/gear/Influence (§4.6.6); **no permanent holding-loss, never a wipe** (§1.13); **no dead-end / stranding — humbling is always winnable** (D-061). |
+| **Punishing setbacks** | A loss erases real progress → rage-quit / save-scum | **Soft-setback shape LOCKED** — 1 HP, ~½-day, light injury, never levels/gear/Influence (§4.6.6); **no permanent holding-loss, never a wipe** (§1.13); **no dead-end / stranding — humbling is always winnable** (ADR-061). |
 | **City-builder/4X tedium creep** | The estate becomes a management spreadsheet | Estate growth is **flavour, not a sim** (§1.2 pillar 5); **no assignment/management panel, no labour-gang** ever (§1.12); Influence stays diegetic (§1.13). |
 | **Reveal-deserts (too-fast rungs)** | Rungs clear so fast reveals run out → late-game emptiness | **≥30-min-per-rung floor LOCKED** (§4.8); novelty-drip proxy ensures reveals are paced, never exhausted (§3). |
-| **Reflexive generosity** (auto-heal, autopilot, a loose economy) | Stakes quietly leak away — nothing is scarce, no choice bites, the grind self-completes while you watch | **Tension/scarcity is the DEFAULT; generosity must be JUSTIFIED, never reached for (D-086).** HP-attrition + no auto-heal (D-076); tighter **coin** + real **rice** pressure (eat/store/sell,
-  swinging seasonal prices), poor-until-T5 (D-077). Generosity-creep is a battery `tension/scarcity` finding, not a feature. (Always inside the §1.13 guardrails — winnable, soft-setback only, no stranding: tension *pulls in*, never *pushes out*.) |
-| **Stale after-state** (a climax onto a dead next-screen) | The bell rings on the big payoff — then the panel still reads "Reach Excellent 480/480"; the moment deflates | **Design the AFTER of every payoff, not just the payoff (F2).** A ceremony/milestone beat must resolve into a satisfying next-state — *"…and then what do I see and do in the next ten seconds?"* The battery `fun`/`onboarding` lens runs this "…and then what?" check on every milestone/ceremony beat. |
+| **Reflexive generosity** (auto-heal, autopilot, a loose economy) | Stakes quietly leak away — nothing is scarce, no choice bites, the grind self-completes while you watch | **Tension/scarcity is the DEFAULT; generosity must be JUSTIFIED, never reached for (ADR-086).** HP-attrition + no auto-heal (ADR-076); tighter **coin** + real **rice** pressure (eat/store/sell,
+  swinging seasonal prices), poor-until-T5 (ADR-077). Generosity-creep is a battery `tension/scarcity` finding, not a feature. (Always inside the §1.13 guardrails — winnable, soft-setback only, no stranding: tension *pulls in*, never *pushes out*.) |
+| **Stale after-state** (a climax onto a dead next-screen) | The bell rings on the big payoff — then the panel still reads "Reach Excellent 480/480"; the moment deflates | **Design the AFTER of every payoff, not just the payoff (FB-2).** A ceremony/milestone beat must resolve into a satisfying next-state — *"…and then what do I see and do in the next ten seconds?"* The battery `fun`/`onboarding` lens runs this "…and then what?" check on every milestone/ceremony beat. |
 | **Buffer mistaken for a flywheel** | Upgrades grant comfort (a satiety *buffer*) but value never compounds — breadth without depth, a number that climbs but doesn't *snowball* | **Every upgrade must close a work→output→more-output loop, not merely grant a buffer (A4).** Watch the economic invariants: a high-water mark must not re-judge its own payout (self-inflation); breadth ≠ depth. The battery `economy-arithmetic` lens checks each upgrade actually closes a loop. |
-| **Empty narrative promises** (spoken but not built) | The story *names* a thing — a home, a bowl, "a place here is yours" — that has **zero mechanical existence**; the world's words and its systems quietly disagree | **Narrative-mechanical coherence — a spoken promise must be REACHABLE (F89).** Deep housing makes the promised corner/bowl real (D-111, §2.17.1); every rung-up is now an *earned, triggered* story beat that motivates its unlocks (D-110). The narrative-coherence brainstorm / battery lens audits each spoken promise for a mechanical home. |
+| **Empty narrative promises** (spoken but not built) | The story *names* a thing — a home, a bowl, "a place here is yours" — that has **zero mechanical existence**; the world's words and its systems quietly disagree | **Narrative-mechanical coherence — a spoken promise must be REACHABLE (FB-89).** Deep housing makes the promised corner/bowl real (ADR-111, §2.17.1); every rung-up is now an *earned, triggered* story beat that motivates its unlocks (ADR-110). The narrative-coherence brainstorm / battery lens audits each spoken promise for a mechanical home. |
 
 ---
 
@@ -337,10 +337,10 @@ the whole climb). This is what makes hour 20 still mean something.
 - *Fun engine:* the fastest reveal cadence in the game (a panel every few minutes, on a gentle ~10–15 min/rung
   ramp) + the deed-loop's first juicy hits + the humbling R3 first fight as an early emotional spike.
   Onboarding is **diegetic** — Genemon teaches labour/rice+coin and Sōan opens the healing thread **in-world,
-  never via a popup** (D-063). The cold open is one verb + a log — the purest first impression (§3.1).
+  never via a popup** (ADR-063). The cold open is one verb + a log — the purest first impression (§3.1).
 - *Fun risk:* **the cold open failing to hook** (first-5-min target, §3) and **over-teaching** (a text
   wall instead of learn-by-doing). T0 is a tutorial that must never *feel* like one — **quick, but never
-  *easy***: the mediocre-start bite stays intact even here (D-061).
+  *easy***: the mediocre-start bite stays intact even here (ADR-061).
 - *Watch:* first action < 5 s; the deed→rice/coin→reveal stack legible within 5 min; reveals reframe, not just
   add; the wolf is humbling-but-winnable (~20–35%), not a brick wall; the teaching lands by *doing*, no modals.
 
@@ -352,7 +352,7 @@ the whole climb). This is what makes hour 20 still mean something.
 - *Fun risk:* the floor reading as a **stall** rather than an *earned* grind — T0's fast tutorial cadence has
   just ended, and the deliberate slow-down must feel like the game **deepening**, not braking; the new Arms axis
   must read as a fresh pillar, not a tax. Humbling continues — still winnable, soft-setback only, no permanent
-  loss, no dead-ends (D-061).
+  loss, no dead-ends (ADR-061).
 - *Watch:* each rung visibly *fills* the whole ≥30 min (§2.2); the cadence shift from hook→floor reads as depth,
   not a brake; the first ascension lands as a genuine fanfare; Arms feels like a new fantasy, not bookkeeping.
 
@@ -393,7 +393,7 @@ the whole climb). This is what makes hour 20 still mean something.
 - The **seasonal-twist rotation** (what the judge rewards each cycle) is named here as an anti-slump
   device but its concrete schedule is a §4/§5 balance-and-content task.
 - The exact **no-dead-time `~N s`** and **reward-cadence `~X min`** thresholds are left as tunables for
-  qa-playtesting.md §3 to pin during the M3 first-playable pass.
+  qa-playtesting.md §3 to pin during the MS3 first-playable pass.
 
 ---
 

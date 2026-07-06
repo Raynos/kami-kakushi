@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// The SFX contract (T0-M1-F4 / DS#2 / D-068 / D-041): a lazy, synth-only Web-Audio
+// The SFX contract (T0-M1-F4 / DS#2 / ADR-068 / ADR-041): a lazy, synth-only Web-Audio
 // engine that is mute-safe and silent when Web Audio is unavailable. We stub a fake
 // global AudioContext that captures every oscillator/gain it builds, and assert the
 // real contract — full API, muted → silence, unmuted → voices, no-context → no-op.

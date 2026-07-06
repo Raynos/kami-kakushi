@@ -35,7 +35,7 @@ describe('cold-open reducer flow', () => {
     // the rake verb is legal once awake (the intro is a parallel presentation layer, plan §4.4)
     expect(availableActions(s)).toEqual(['rake_rice']);
     // waking no longer dumps the cold open — it starts Beat 0 (the wake line + Sōan's grounding),
-    // revealed AFTER the click (F15). The dream + Genemon greet are now LATER beats, not on wake.
+    // revealed AFTER the click (FB-15). The dream + Genemon greet are now LATER beats, not on wake.
     expect(s.introBeat).toBe(0);
     expect(s.log.entries.some((e) => e.voice === 'physician' && e.text.includes('Sōan'))).toBe(
       true,

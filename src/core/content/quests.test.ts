@@ -9,7 +9,7 @@ import {
 } from './quests';
 import { GRINDABLE_MOBS } from './enemies';
 
-// The order-free advance-event-set contract (T0-M4-F1 / D-037). The progression is PURE:
+// The order-free advance-event-set contract (T0-M4-F1 / ADR-037). The progression is PURE:
 // advanceQuest never mutates the `done` set, steps complete in ANY order, partial progress is
 // never complete, and an unrelated event is a no-op. Exercised against the REAL QUESTS[0] (the
 // "Drive off the crop-raiders" PEST quest) so the content and the engine stay in lockstep.

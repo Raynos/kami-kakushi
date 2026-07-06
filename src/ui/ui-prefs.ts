@@ -1,10 +1,10 @@
 // UI preferences — small, DEVICE-scoped display prefs that live in localStorage, NOT the
 // game save (they're per-browser comfort settings, like the a11y text-scale, not run state).
-// This is the persistence seam the F74 per-log font stepper reuses: a pure clamp + a
+// This is the persistence seam the FB-74 per-log font stepper reuses: a pure clamp + a
 // try/guarded load/save round-trip, unit-testable against a localStorage mock. The core stays
 // untouched (no DOM/storage in the pure core); the renderer owns the CSS-var application.
 
-/** The per-log reading-text scale (F74). Bounds keep the log legible on washi at either end. */
+/** The per-log reading-text scale (FB-74). Bounds keep the log legible on washi at either end. */
 export const LOG_SCALE_MIN = 0.85;
 export const LOG_SCALE_MAX = 1.4;
 export const LOG_SCALE_STEP = 0.1;

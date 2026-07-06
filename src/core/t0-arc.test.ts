@@ -81,7 +81,7 @@ describe('T0 arc closes end-to-end via real intents (cold open → ascension)', 
   });
 });
 
-// D-107/D-108/D-113 — the RICE / COIN / KOKU economy split, driven on the REAL reducer + fight path
+// ADR-107/ADR-108/ADR-113 — the RICE / COIN / KOKU economy split, driven on the REAL reducer + fight path
 // (the DoD end-to-end economy proof). Fixtures ride the seed-robust curve (m2 header): a level-5 MC
 // beats the monkey ≈ 1.00 (a guaranteed win) and a fresh L1 MC loses to the bandit ≈ 0.00 (a
 // guaranteed loss) — deterministic without fishing a magic seed, and RED-able against the split.
@@ -151,7 +151,7 @@ describe('the D-107 economy on the real path (rice / coin / koku split)', () => 
     expect(after.influence.estate.value).toBe(before.influence.estate.value); // standing untouched
   });
 
-  // D-107 Phase 2 — the RICE LOOP end-to-end on the REAL reducer: rake → RICE → SELL → COIN → SPEND
+  // ADR-107 Phase 2 — the RICE LOOP end-to-end on the REAL reducer: rake → RICE → SELL → COIN → SPEND
   // (the coin faucet), and store-rice → a lost fight shelters it. This is the Phase-2 DoD proof that
   // rice's sinks actually connect through the real player path, not just in isolation.
   it('the coin faucet closes the loop: rake → RICE → sell → COIN → spend the estate sink', () => {

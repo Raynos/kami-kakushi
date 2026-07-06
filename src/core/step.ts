@@ -15,7 +15,7 @@ import { applyRewards } from './rewards';
 import { riceSpoilage } from './content/balance';
 
 function onReckoning(state: GameState): GameState {
-  // The periodic judged-appraisal (M2·4 / D-049). In Phase 2 (post-R7), when the Estate pillar has
+  // The periodic judged-appraisal (M2·4 / ADR-049). In Phase 2 (post-R7), when the Estate pillar has
   // reached a NEW high-water since the last judge, the reckoning pays out the 30% seasonal share
   // (±10%) via the day-keyed `seasonal` substream — deterministic, no cursor mutation. Folded ONE
   // day at a time by singleTick, so a multi-interval jump fires each boundary's judge in turn (no
@@ -31,7 +31,7 @@ function onReckoning(state: GameState): GameState {
     log: [
       {
         channel: 'milestone',
-        // D-107/D-109: the season re-assesses the House's worth "in waves" — the koku STANDING steps
+        // ADR-107/ADR-109: the season re-assesses the House's worth "in waves" — the koku STANDING steps
         // up. (Keeps "accounts are reckoned"; the weightier "assessors arrive" tier-jump beat is
         // DEFERRED — a T1+ event, not built here.) Words live in log-content.ts (Stage C).
         contentKey: 'season.reckoned',
@@ -42,7 +42,7 @@ function onReckoning(state: GameState): GameState {
 }
 
 function onSeasonTurn(state: GameState): GameState {
-  // D-118 / build-plan §1 lever (a) — SPOILAGE. On each season boundary a fraction of ALL rice decays,
+  // ADR-118 / build-plan §1 lever (a) — SPOILAGE. On each season boundary a fraction of ALL rice decays,
   // CARRIED and BANKED alike (each pile floors on its own, so splitting the hoard is no dodge). This is
   // what makes holding rice COST something — pure hoarding always bleeds, and the kura no longer
   // out-stores the loss. Deterministic (no RNG), so it stays fold-invariant with the clock (B10).

@@ -117,7 +117,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
     document.body.append(root);
   });
 
-  // IA reorg (D-112) — the House-Influence koku standing lives on the Estate tab now; click its chip.
+  // IA reorg (ADR-112) — the House-Influence koku standing lives on the Estate tab now; click its chip.
   function openTab(marker: string): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes(marker))
@@ -215,7 +215,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
       character: { ...s.character, attributePoints: 5 },
     };
     render(ascended, null);
-    openTab('家'); // the koku standing is on the Estate 家 tab (IA reorg D-112)
+    openTab('家'); // the koku standing is on the Estate 家 tab (IA reorg ADR-112)
 
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     expect(panel).toBeTruthy();
@@ -226,7 +226,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
     expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
   });
 
-  // ── D-107 Phase 4 — the House-Influence pillar re-skinned as the koku STANDING ──
+  // ── ADR-107 Phase 4 — the House-Influence pillar re-skinned as the koku STANDING ──
   // A Phase-2 (post-R7 capstone), pre-ascension House at a chosen pillar value. Fixtures derive
   // from ESTATE_BANDS / gradeOf / DAIMYO_KOKU (the pillar source of truth), never copied magic numbers.
   function liveHouse(value: number): GameState {
@@ -273,7 +273,7 @@ describe('render — settings a11y + unknown-foe fog', () => {
       render(liveHouse(value), null);
       openTab('家');
       const gradeEl = root.querySelector<HTMLElement>('.influence-grade')!;
-      // the grade class is derived from the same gradeOf the ascension gate reads (A6 — one source).
+      // the grade class is derived from the same gradeOf the ascension gate reads (AC-6 — one source).
       expect(gradeEl.className).toContain(`grade-${gradeOf(value).toLowerCase()}`);
     }
   });
@@ -379,12 +379,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         location: 'kura',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // D-119 — Inventory tab reveals at R3
+        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // ADR-119 — Inventory tab reveals at R3
         resources: { ...base.resources, coin: 50 },
       },
       null,
     );
-    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab (F108 / IA reorg D-112, revealed R3 D-119)
+    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab (FB-108 / IA reorg ADR-112, revealed R3 ADR-119)
     expect(clickText('Store all coin')).toBe(true);
     expect(seen).toContainEqual({ type: 'deposit', resource: 'coin' });
   });
@@ -397,12 +397,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         location: 'kura',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // D-119 — Inventory tab reveals at R3
+        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // ADR-119 — Inventory tab reveals at R3
         resources: { ...base.resources, rice: 40 },
       },
       null,
     );
-    openTab('蔵'); // Inventory tab (revealed R3, D-119)
+    openTab('蔵'); // Inventory tab (revealed R3, ADR-119)
     expect(clickText('Store all rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'deposit', resource: 'rice' });
   });
@@ -421,8 +421,8 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
-    openTab('地図'); // the pedlar's market is on the Map 地図 tab now (F109 / IA reorg D-112)
-    // D-114 — his wares open only by TALKING to him (Tokubei), never inline.
+    openTab('地図'); // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112)
+    // ADR-114 — his wares open only by TALKING to him (Tokubei), never inline.
     expect(clickText('Speak with Tokubei')).toBe(true);
     expect(clickText('Sell all rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'sell_rice' });
@@ -473,7 +473,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
-    // the default Work tab carries NO move strip (F107 — nav's single home is Map).
+    // the default Work tab carries NO move strip (FB-107 — nav's single home is Map).
     expect(root.querySelector('.actions .walk-on')).toBeNull();
     expect(root.querySelector('.actions .map-move')).toBeNull();
     // open the Map tab — the move buttons live there, and moving from Map still works.
@@ -533,7 +533,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
   });
 });
 
-// ── D-119 — the seven-tab reveal CADENCE (Work R0 · Map/Estate R1 · Character R2 · Combat/Inventory
+// ── ADR-119 — the seven-tab reveal CADENCE (Work R0 · Map/Estate R1 · Character R2 · Combat/Inventory
 //    R3 · Quests R5). These assert the NAV chips that light at each beat, so a mis-gated tab (e.g. the
 //    old Inventory-at-R1 triple-reveal, or a Quests-at-R3 batch) flips them RED. ──
 describe('D-119 — tabs reveal one beat at a time (Inventory R3, Quests R5)', () => {
@@ -649,7 +649,7 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     // the fight floor is present on Combat
     expect(root.querySelector('.weapon-card')).not.toBeNull();
     expect(root.querySelector('.foe-row')).not.toBeNull();
-    // IA reorg (D-112) — the Bestiary is NOT on the Combat tab anymore; it lives on Character.
+    // IA reorg (ADR-112) — the Bestiary is NOT on the Combat tab anymore; it lives on Character.
     expect(root.textContent).not.toContain('Bestiary 図鑑');
     expect(root.querySelector('.character-bestiary .bestiary')).toBeNull(); // hidden while on Combat
     openCharacter();
@@ -691,7 +691,7 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     const render = mount(root, () => {}, noopHooks());
     const state = combatState([]);
     render(state, null);
-    openCharacter(); // the bestiary lives on the Character 己 tab (IA reorg D-112)
+    openCharacter(); // the bestiary lives on the Character 己 tab (IA reorg ADR-112)
     // no foe faced → the bestiary cards read as fogged silhouettes
     const cards = [...root.querySelectorAll<HTMLElement>('.bestiary-card')];
     expect(cards.length).toBeGreaterThan(0);
@@ -710,7 +710,7 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
   });
 });
 
-// ── F62 — the two-column VN intro modal: ask → done → decide gating + choose → reply → Continue ──
+// ── FB-62 — the two-column VN intro modal: ask → done → decide gating + choose → reply → Continue ──
 // (MODE==='test' → the typewriter is instant, so the panel + transcript render synchronously.)
 describe('F62/F81 — the interactive intro VN scene (append-only, two columns)', () => {
   let root: HTMLElement;
@@ -745,7 +745,7 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
       (b.textContent ?? '').includes(substr),
     );
   // a sub-panel counts as SHOWN only when it exists and isn't hidden (the panel is a stable region
-  // whose sub-panels toggle `hidden` in place — F79, never removed from the DOM).
+  // whose sub-panels toggle `hidden` in place — FB-79, never removed from the DOM).
   const shown = (sel: string): boolean => {
     const e = root.querySelector<HTMLElement>(sel);
     return !!e && !e.hidden;
@@ -781,7 +781,7 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(root.querySelectorAll('.intro-choice').length).toBe(
       DIALOGUE_SCENES[0]!.decision.options.length,
     );
-    // the decision prompt joined the story transcript (so it, too, is typed — F82/F83).
+    // the decision prompt joined the story transcript (so it, too, is typed — FB-82/FB-83).
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
       DIALOGUE_SCENES[0]!.decision.prompt,
     );
@@ -825,7 +825,7 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
       opt.react.slice(1, 20),
     );
-    // …under the SAME fade-away fresh-entries divider the main log uses (F76)…
+    // …under the SAME fade-away fresh-entries divider the main log uses (FB-76)…
     expect(root.querySelector('.vn-story .log-fresh-divider')).not.toBeNull();
     // …the granted perk shows as an attribute-themed box, and the outcome panel is shown…
     const perk = root.querySelector<HTMLElement>('.perk-box')!;
@@ -858,13 +858,13 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(root.querySelector('.vn-choices.vn-grid')).not.toBeNull();
     expect(root.querySelector('.intro-ask')).toBeNull(); // no ask hub for a topic-less scene
     expect(root.querySelector('.intro-done')).toBeNull();
-    // the prompt still types into the story on entry (nothing pops in un-typed — F82/F83).
+    // the prompt still types into the story on entry (nothing pops in un-typed — FB-82/FB-83).
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
       DIALOGUE_SCENES[dreamIdx]!.decision.prompt,
     );
   });
 
-  // F88 — EVERY voiced line carries its speaker-name prefix, not just the player's. The NPC greeting
+  // FB-88 — EVERY voiced line carries its speaker-name prefix, not just the player's. The NPC greeting
   // (a non-player line) must render "<name>: " the same way the player's "You: " does.
   it('F88 — a voiced NPC greeting line renders its speaker-name prefix, not just player lines', () => {
     const { render } = spyMount();
@@ -875,11 +875,11 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     const prefixes = [...root.querySelectorAll<HTMLElement>('.vn-line .vn-speaker')].map(
       (s) => s.textContent,
     );
-    // the NPC's own name prefixes its line (RED before F88 — NPC lines had no .vn-speaker span).
+    // the NPC's own name prefixes its line (RED before FB-88 — NPC lines had no .vn-speaker span).
     expect(prefixes).toContain(`${npcName}: `);
   });
 
-  // F87 — an asked topic keeps the `asked` class (the hook the gray styling hangs on). Re-askable
+  // FB-87 — an asked topic keeps the `asked` class (the hook the gray styling hangs on). Re-askable
   // (still a live button), just de-emphasized in CSS.
   it('F87 — an asked topic button carries the gray "asked" class', () => {
     const { render } = spyMount();
@@ -893,7 +893,7 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
   });
 });
 
-// ── D-110 / F106 — the rung-up STORY BEAT is REACHABLE: the header rung element is the player-
+// ── ADR-110 / FB-106 — the rung-up STORY BEAT is REACHABLE: the header rung element is the player-
 //    triggered start, the beat plays in the SAME full-screen VN scene as the intro (vnActive), and a
 //    ready promotion is IGNORABLE (it banks; the grind never forces the modal). Reuses the intro's
 //    append-only VN engine (§7.3) — the rung options ride the same latch → Continue → dispatch path. ──
@@ -1015,7 +1015,7 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(root.querySelectorAll('.intro-choice').length).toBe(
       RUNG_BEATS.R1!.decision.options.length,
     );
-    // the greeting prose typed into the story (the beat is the story surface, F103).
+    // the greeting prose typed into the story (the beat is the story surface, FB-103).
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
       RUNG_BEATS.R1!.greeting[0]!.text.slice(0, 24),
     );
@@ -1039,7 +1039,7 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     render(rungBeatState('R1'), null);
     const opt = RUNG_BEATS.R1!.decision.options[0]!;
     byText('.intro-choice', opt.label)!.click();
-    // latching alone does NOT advance (no promotion yet) — mirrors the intro's F62 fix.
+    // latching alone does NOT advance (no promotion yet) — mirrors the intro's FB-62 fix.
     expect(seen.some((i) => i.type === 'choose_rung_option')).toBe(false);
     // the chosen reply appended to the story + a single Continue is the only way onward…
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
@@ -1063,7 +1063,7 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
   });
 });
 
-// ── F86/F90 — the intro typewriter under the ANIMATED path (MODE!=='test', motion allowed): lines
+// ── FB-86/FB-90 — the intro typewriter under the ANIMATED path (MODE!=='test', motion allowed): lines
 //    AUTO-advance (a click only speeds up), and an idle re-render of settled state mutates nothing. ──
 describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (animated)', () => {
   let root: HTMLElement;
@@ -1104,8 +1104,8 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     return !!e && !e.hidden;
   };
 
-  // F86 — the core fix: with NO click at all, the block types line 0, then AUTO-advances (the ~2s
-  // timer) into each subsequent line to the end, and reveals the panel. RED before F86: a finished
+  // FB-86 — the core fix: with NO click at all, the block types line 0, then AUTO-advances (the ~2s
+  // timer) into each subsequent line to the end, and reveals the panel. RED before FB-86: a finished
   // non-last line just paused, so line 1+ never typed without a click.
   it('F86 — lines auto-advance through the whole block with NO click, then reveal the panel', () => {
     const render = spyMount();
@@ -1118,7 +1118,7 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect(shown('.vn-ask')).toBe(true); // …and the panel revealed after the last line
   });
 
-  // F86 — a click while a line is still typing COMPLETES it instantly (speeds up); it never pauses.
+  // FB-86 — a click while a line is still typing COMPLETES it instantly (speeds up); it never pauses.
   it('F86 — a click mid-type completes the current line instantly', () => {
     const render = spyMount();
     render(introState(0), null);
@@ -1129,7 +1129,7 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect(first.textContent).toBe(full); // the click filled the line at once
   });
 
-  // F86 — a click DURING the ~2s inter-line hold skips the remaining wait and starts the next line
+  // FB-86 — a click DURING the ~2s inter-line hold skips the remaining wait and starts the next line
   // now. RED against a model that ignores the click in the gap (line 1 would stay empty until ~2s).
   it('F86 — a click during the inter-line hold advances immediately (skips the wait)', () => {
     const render = spyMount();
@@ -1142,7 +1142,7 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect((lineTexts()[1] ?? '').length).toBeGreaterThan(0); // it started early, not at ~2s
   });
 
-  // F90 — the flicker guard: once the block has typed out and the panel is revealed, re-rendering
+  // FB-90 — the flicker guard: once the block has typed out and the panel is revealed, re-rendering
   // the SAME intro state (as the tick loop does) must not touch the scene DOM — no re-added fade
   // class, no re-typed text, no re-hidden/re-shown panel. A DOM mutation here is a visible flicker.
   it('F90 — an idle re-render of settled intro state mutates nothing in the scene', () => {
@@ -1242,11 +1242,11 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     const render = mount(root, () => {}, noopHooks());
     // stand at the forecourt so the pedlar (Tokubei) is actually present to talk to.
     render({ ...awake(['panel-estate', 'room-gate-forecourt']), location: 'gate-forecourt' }, null);
-    // the pedlar's market is on the Map 地図 tab now (F109 / IA reorg D-112).
+    // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112).
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('地図'))
       ?.click();
-    // D-114 — talk to Tokubei to open his wares (talk-to-reveal, never inline).
+    // ADR-114 — talk to Tokubei to open his wares (talk-to-reveal, never inline).
     [...root.querySelectorAll<HTMLButtonElement>('button')]
       .find((b) => (b.textContent ?? '').includes('Speak with Tokubei'))
       ?.click();
@@ -1279,7 +1279,7 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     );
     expect(root.querySelector('.work .ladder')).toBeNull(); // the Work-column ladder is removed
     expect(root.querySelector('.slice-progress')).toBeNull(); // …and so is its "Path & progress" slice
-    // the rung/progress display lives in the header (F106), which IS shown for this state.
+    // the rung/progress display lives in the header (FB-106), which IS shown for this state.
     expect(root.querySelector<HTMLElement>('.rung-head')!.hidden).toBe(false);
   });
 
@@ -1287,9 +1287,9 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     const render = mount(root, () => {}, noopHooks());
     render(awake(['panel-estate', 'room-gate-forecourt', 'panel-rung-ladder']), null);
     const work = root.querySelector<HTMLElement>('.work')!;
-    // The F94 fix (`.workspace[data-layout=layout-byobu] > .work > .slice { flex: 0 0 auto }`) can
+    // The FB-94 fix (`.workspace[data-layout=layout-byobu] > .work > .slice { flex: 0 0 auto }`) can
     // only reach the slices if they are DIRECT children of `.work` — nest them deeper and the cards
-    // squeeze/overlap again. Guard that seam structurally. (F116 dropped `slice-progress`.)
+    // squeeze/overlap again. Guard that seam structurally. (FB-116 dropped `slice-progress`.)
     for (const cls of ['slice-do', 'slice-estate']) {
       const slice = root.querySelector<HTMLElement>(`.${cls}`)!;
       expect(slice).not.toBeNull();
@@ -1320,7 +1320,7 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
   });
 });
 
-// ── F74 — the per-log font stepper (log-scoped scale, persisted) ─────────────────────────────────
+// ── FB-74 — the per-log font stepper (log-scoped scale, persisted) ─────────────────────────────────
 describe('F74 — per-log font stepper scales the log text + persists', () => {
   let root: HTMLElement;
   beforeEach(() => {
@@ -1413,7 +1413,7 @@ describe('F74 — per-log font stepper scales the log text + persists', () => {
 //    (via ui/reconcile.ts), NOT a `textContent=''` rebuild. The invariant: an idle re-render of
 //    UNCHANGED state produces ZERO DOM churn (no node recreated, no attribute re-written), so meter
 //    transitions survive and the ~2×/s tick stops flashing. Modelled on the intro's node-identity
-//    block (`F81`). MODE==='test' keeps the renderer synchronous. ─────────────────────────────────
+//    block (`FB-81`). MODE==='test' keeps the renderer synchronous. ─────────────────────────────────
 describe('append-only migration — node identity + zero idle churn (Phase 1)', () => {
   let root: HTMLElement;
   beforeEach(() => {
@@ -1448,7 +1448,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
       .find((b) => (b.textContent ?? '').includes(marker))
       ?.click();
   }
-  // D-114 — talk to Tokubei on the Map's who's-here list to open his wares (talk-to-reveal).
+  // ADR-114 — talk to Tokubei on the Map's who's-here list to open his wares (talk-to-reveal).
   function talkToPedlar(): void {
     [...root.querySelectorAll<HTMLButtonElement>('button')]
       .find((b) => (b.textContent ?? '').includes('Speak with Tokubei'))
@@ -1470,7 +1470,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
   }
 
   it('renderRungHead — the header rung + meter fill survive a re-render (identity + width persists)', () => {
-    // F116 — the Work-column ladder was removed; the HEADER rung element (renderRungHead, F106) is the
+    // FB-116 — the Work-column ladder was removed; the HEADER rung element (renderRungHead, FB-106) is the
     // build-once/patch progress home now, so the append-only identity guard lives here.
     const render = mount(root, () => {}, noopHooks());
     const s = awake([], { flags: { ...createInitialState(1).flags, awake: true, raked: true } });
@@ -1515,7 +1515,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     });
     render(s, null);
     openTab('地図'); // the pedlar's market is on the Map tab now
-    talkToPedlar(); // D-114 — open his wares by talking (never inline)
+    talkToPedlar(); // ADR-114 — open his wares by talking (never inline)
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     expect(btn.disabled).toBe(true); // no coin → can't buy
@@ -1536,14 +1536,14 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const render = mount(root, () => {}, noopHooks());
     // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards.
     // readout-combat-level gives the Character tab OTHER content (the training/attrs section) so the
-    // tab reveals while skills is genuinely empty — the exact F72 ghost-box case (a shown-but-empty
-    // SECTION inside a non-empty tab). (D-119 — quests moved to their own tab, so they no longer keep
+    // tab reveals while skills is genuinely empty — the exact FB-72 ghost-box case (a shown-but-empty
+    // SECTION inside a non-empty tab). (ADR-119 — quests moved to their own tab, so they no longer keep
     // Character non-empty here.)
     const s = awake(['tab-skills', 'readout-combat-level']);
     render(s, null);
-    openTab('己'); // skills is a section of the Character 己 tab now (IA reorg D-112)
+    openTab('己'); // skills is a section of the Character 己 tab now (IA reorg ADR-112)
     expect(root.querySelector('.skills-pane .skill-row')).toBeNull();
-    // F72 ghost-box: a shown-but-empty pane leaves NO element children (no orphan keeps a slice up).
+    // FB-72 ghost-box: a shown-but-empty pane leaves NO element children (no orphan keeps a slice up).
     expect(root.querySelector<HTMLElement>('.skills-pane')!.childElementCount).toBe(0);
 
     // give farming enough XP to surface its skill card, then prove identity across a tick.
@@ -1564,9 +1564,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderQuests — a quest card survives a re-render and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['tab-combat', 'tab-quests']); // D-119 — Quests is its OWN tab now (revealed R5)
+    const s = awake(['tab-combat', 'tab-quests']); // ADR-119 — Quests is its OWN tab now (revealed R5)
     render(s, null);
-    openTab('Quests'); // the Quests 用 tab (D-119, reinstating D-037)
+    openTab('Quests'); // the Quests 用 tab (ADR-119, reinstating ADR-037)
     const card = root.querySelector<HTMLElement>('.quests-pane .quest-card')!;
     expect(card).not.toBeNull();
     render(s, s);
@@ -1579,9 +1579,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderStorehouse — the kura card survives a re-render; idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate', 'tab-combat'], { location: 'kura' }); // D-119 — Inventory reveals R3
+    const s = awake(['panel-estate', 'tab-combat'], { location: 'kura' }); // ADR-119 — Inventory reveals R3
     render(s, null);
-    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab now (F108 / IA reorg D-112)
+    openTab('蔵'); // the kura bank is on the Inventory 蔵 tab now (FB-108 / IA reorg ADR-112)
     const card = root.querySelector<HTMLElement>('.storehouse-pane .rung-card')!;
     expect(card).not.toBeNull();
     render(s, s);
@@ -1595,7 +1595,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const render = mount(root, () => {}, noopHooks());
     const s = awake(['panel-estate', 'room-gate-forecourt']);
     render(s, null);
-    openTab('家'); // IA reorg (D-112) — the estate-improve card lives on the Estate 家 tab now
+    openTab('家'); // IA reorg (ADR-112) — the estate-improve card lives on the Estate 家 tab now
     const card = root.querySelector<HTMLElement>('.estate-pane .rung-card')!;
     expect(card.textContent).toContain('Estate ·');
     render(s, s);
@@ -1606,7 +1606,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
   });
 
   it('renderNowView — a fleeting Now line survives a re-render; idle ticks churn nothing (D-123)', () => {
-    // D-123 closes the last wholesale-rebuild surface: the Now view now RECONCILES its ephemeral
+    // ADR-123 closes the last wholesale-rebuild surface: the Now view now RECONCILES its ephemeral
     // lines instead of `textContent=''` + rebuild. RED against the old rebuild — every idle tick
     // recreated the node (churn) and dropped its identity.
     const render = mount(root, () => {}, noopHooks());
@@ -1705,7 +1705,7 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
   it('renderActions — the labour row + its auto-toggle survive; idle churns nothing', () => {
     const render = mount(root, () => {}, noopHooks());
     // a labour node with an auto-labour running (the auto-toggle the player is watching must not
-    // re-create / lose focus on the ~2×/s tick). F107 (D-112): the "Walk on 道" nav strip is GONE
+    // re-create / lose focus on the ~2×/s tick). FB-107 (ADR-112): the "Walk on 道" nav strip is GONE
     // from Work — navigation's sole home is the Map tab, so move-node identity is asserted in the
     // renderMap test above (`.map-pane .map-move` survives a re-render), not here.
     const s = awake(['verb-farm', 'room-home-paddies', 'room-gate-forecourt'], {
@@ -1720,7 +1720,7 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     const auto = actions.querySelector<HTMLButtonElement>('.area-group .auto-toggle')!;
     expect(auto).not.toBeNull();
     expect(auto.classList.contains('on')).toBe(true); // the auto-labour is running
-    // the Work tab holds no nav strip anymore (F107) — its sole home is Map.
+    // the Work tab holds no nav strip anymore (FB-107) — its sole home is Map.
     expect(actions.querySelector('.walk-on')).toBeNull();
     render(s, s);
     // every node the player can touch is REUSED, not rebuilt (focus + auto-run survive).
@@ -1790,7 +1790,7 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
   });
 });
 
-// ── Phase B (D-114 vendors-as-people + D-116 location flavor) — the pedlar (Tokubei) is a talkable
+// ── Phase B (ADR-114 vendors-as-people + ADR-116 location flavor) — the pedlar (Tokubei) is a talkable
 //    person on the Map's "who's here" list; his wares open only by TALKING (never inline); and the
 //    move-arrival flavor is a transient Now line, not a permanent Story entry. ──────────────────────
 describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-116)', () => {
@@ -1917,7 +1917,7 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
   });
 });
 
-// F102 / D-115 / D-116 — the Map splits into (a) a bordered you-are-here FLAVOR card and (b) a
+// FB-102 / ADR-115 / ADR-116 — the Map splits into (a) a bordered you-are-here FLAVOR card and (b) a
 // terse, HINT-FREE navigation section. You move by CLICKING a road (no separate "go" button), and
 // no unvisited node leaks a loot/foe/reward hint (the flavor updates on ARRIVAL). The prod DEFAULT
 // (map-a) is the terse paths list — these tests drive the SHIPPED path (no DEV harness).
@@ -1981,7 +1981,7 @@ describe('Estate map — flavor + terse hint-free navigation (F102, prod default
     render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
     openMapTab();
     const text = root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
-    // the destination's blurb never leaks into navigation (it updates on ARRIVAL, D-116)…
+    // the destination's blurb never leaks into navigation (it updates on ARRIVAL, ADR-116)…
     expect(text).not.toContain(getNode('home-paddies').blurb);
     // …and there is no loot/foe preview of the next zone (the old default tagged yields + "a foe stirs").
     expect(text).not.toContain('rice');
@@ -2005,10 +2005,10 @@ describe('Estate map — flavor + terse hint-free navigation (F102, prod default
   });
 });
 
-// ── F111 · the "Chat" log tab — the OPTIONAL Q&A you chose to ask, split off from the MANDATORY
+// ── FB-111 · the "Chat" log tab — the OPTIONAL Q&A you chose to ask, split off from the MANDATORY
 //    Story. A chat line is `narration` + `chat:true`; the filter routes it to Chat (+ All), never
-//    Story. F104/F105 · the footer version is clickable → the About modal, which deep-links the raw
-//    CHANGELOG on GitHub. F115 · the Now expiry runs on wall time regardless of the active view. ──
+//    Story. FB-104/FB-105 · the footer version is clickable → the About modal, which deep-links the raw
+//    CHANGELOG on GitHub. FB-115 · the Now expiry runs on wall time regardless of the active view. ──
 describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
   let root: HTMLElement;
   beforeEach(() => {
@@ -2091,7 +2091,7 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     render(awake(), null);
     const ver = root.querySelector<HTMLButtonElement>('.appbar-footer .foot-version')!;
     expect(ver).not.toBeNull();
-    // single-sourced from __VERSION__ (package.json), never hand-typed (A21).
+    // single-sourced from __VERSION__ (package.json), never hand-typed (AC-21).
     expect(ver.textContent).toBe(__VERSION__);
     const scrim = root.querySelector<HTMLElement>('.modal-scrim')!;
     expect(scrim.hidden).toBe(true); // closed to start
@@ -2137,7 +2137,7 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     try {
       const render = mount(root, () => {}, noopHooks());
       // render on the Story tab (default) — the ephemeral line is stamped the moment it's SEEN,
-      // and its expiry clock ticks regardless of which tab is showing (F115).
+      // and its expiry clock ticks regardless of which tab is showing (FB-115).
       render(withEphemeral(), null);
       // wait out the TTL (derived from the SAME source the renderer uses) WHILE still on Story…
       vi.advanceTimersByTime(NOW_TTL_MS + 2000);
@@ -2187,7 +2187,7 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
   });
 
   // the home GRANTED (panel-home) + the estate economy open, and combat live so the Inventory tab is
-  // REVEALED. D-111 timing moved to R3 (human 2026-07-03) — panel-home now gates on tab-combat, the
+  // REVEALED. ADR-111 timing moved to R3 (human 2026-07-03) — panel-home now gates on tab-combat, the
   // same R3 surface as its tab, so the home is announced exactly when its tab appears.
   function homeState(extra?: Partial<GameState>): GameState {
     const s = createInitialState(1);
@@ -2202,7 +2202,7 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
-        'tab-combat', // D-119 — the Inventory tab reveals at R3; without it the tab won't appear
+        'tab-combat', // ADR-119 — the Inventory tab reveals at R3; without it the tab won't appear
       ],
       ...extra,
     };
@@ -2272,7 +2272,7 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     expect(pane === null || pane.hidden).toBe(true);
   });
 
-  // D-075 — the prod default (variant A, no DEV harness) is the shipped functional list; a buy button
+  // ADR-075 — the prod default (variant A, no DEV harness) is the shipped functional list; a buy button
   // drives the REAL buy_belonging intent (RED-able: if the button stopped dispatching, or the DEV
   // variant leaked into prod and replaced the list, this flips red).
   it('the prod default buy button dispatches buy_belonging (no DEV variant leaks in)', () => {

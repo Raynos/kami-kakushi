@@ -1,4 +1,4 @@
-// The sim runner (F4 §1): drive the REAL engine (createInitialState + reduce — never a
+// The sim runner (FB-4 §1): drive the REAL engine (createInitialState + reduce — never a
 // re-derived model) with one persona on one seed, cold open → ascension, collecting RunMetrics
 // around every dispatch. Pure + deterministic: the persona is a pure function of state, all
 // randomness lives in GameState.rng, so the same (persona, seed) reproduces byte-identically.
@@ -14,7 +14,7 @@ import { createCollector, madeProgress } from './metrics';
  *  silently truncated. The full greedy arc is ~15 k dispatches; this is ~65× headroom. */
 export const SIM_GUARD_INTENTS = 1_000_000;
 
-/** The soft-lock detector (F4 §2): RED when NO progress signal (rung/meter/wealth/xp/unlock/
+/** The soft-lock detector (FB-4 §2): RED when NO progress signal (rung/meter/wealth/xp/unlock/
  *  beat/hp-up — metrics.madeProgress) lands for this many CONSECUTIVE intents. Calibration
  *  (soundness before teeth, Ph3 DoD): the worst green run measured across all personas × the
  *  gating seeds is the explorer's novelty-tasting stretch at 11 intents

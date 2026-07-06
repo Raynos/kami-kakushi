@@ -4,7 +4,7 @@ import { detectMilestones, autosArmed, snapshot } from './milestones';
 
 // Detector proofs: fixtures start from the REAL createInitialState and mutate the public
 // fields the detectors read — thresholds derived from the source of truth (rungThreshold,
-// SETBACK_HP), never copied magic numbers (D-086 rule 2).
+// SETBACK_HP), never copied magic numbers (ADR-086 rule 2).
 
 const base = createInitialState(20260705);
 const patch = (s: GameState, p: Partial<GameState>): GameState => ({ ...s, ...p });

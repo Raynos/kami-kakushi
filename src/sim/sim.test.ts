@@ -1,4 +1,4 @@
-// F4 Ph3 in-gate tests — rationed (A17): the full 3×5 gating matrix lives in `verify:balance`
+// FB-4 Ph3 in-gate tests — rationed (AC-17): the full 3×5 gating matrix lives in `verify:balance`
 // (on-demand); these keep only what must be always-on and RED-able: (1) each persona reproduces
 // byte-identically (the determinism contract the whole harness stands on), (2) the soft-lock
 // detector actually FIRES on a manufactured stall (a detector that can't go RED is not a check),

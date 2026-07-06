@@ -33,7 +33,7 @@ const OUT = 'docs/content/t0-content.md';
 const OUT_TOKENS = 'docs/content/ui-tokens.md';
 
 // The design-token reference is DERIVED from the stylesheet's `:root` block —
-// ui-design.md points here instead of hand-maintaining CSS copies (A21/D-126).
+// ui-design.md points here instead of hand-maintaining CSS copies (AC-21/ADR-126).
 function generateTokens(): string {
   const css = readFileSync('src/ui/styles.css', 'utf-8').split('\n');
   const start = css.findIndex((l) => /^:root\s*\{/.test(l));
@@ -250,7 +250,7 @@ function generate(): string {
   L.push('|---|---|---|---|---|');
   for (const b of BELONGINGS) {
     const comfort = b.homesCook
-      ? 'cook here' // D-120 — the hearth homes the cook verb (diegetic, not a stat)
+      ? 'cook here' // ADR-120 — the hearth homes the cook verb (diegetic, not a stat)
       : b.comfort
         ? `${b.comfort.kind} +${b.comfort.amount}`
         : 'keepsake';

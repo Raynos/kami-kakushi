@@ -36,7 +36,7 @@ export function rungProgress(state: GameState): { into: number; needed: number; 
 
 /** True when the CURRENT rung's AND-gate is open (meter ≥ threshold AND the story milestone).
  *  A thin read over `rungProgress().ready` — the header affordance + `begin_rung_beat` consult it.
- *  D-110: a ready promotion HOLDS here; nothing advances until the player triggers + completes the
+ *  ADR-110: a ready promotion HOLDS here; nothing advances until the player triggers + completes the
  *  rung beat (`choose_rung_option` → `applyPromotion`). */
 export function promotionReady(state: GameState): boolean {
   return rungProgress(state).ready;
@@ -48,7 +48,7 @@ export function pendingPromotionTarget(state: GameState): RankId | null {
   return promotionReady(state) ? nextRankId(state.rung) : null;
 }
 
-/** Apply EXACTLY ONE promotion INTO `target` (D-110). The former `promoteRungs` body, minus the
+/** Apply EXACTLY ONE promotion INTO `target` (ADR-110). The former `promoteRungs` body, minus the
  *  gate/loop: bump the rung, reset the meter, fire `rewardOnReach` (flags + unlocks), refill satiety.
  *  This is the SOLE place a rung advances — called only from `choose_rung_option`'s terminal node
  *  (behind the beat) and the DEV rung-seek (a deliberate beat-bypass). It does NOT check the gate;
@@ -57,7 +57,7 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
   const rank = getRank(target);
   let next: GameState = { ...state, rung: target, rungMeter: 0 };
   if (rank.rewardOnReach) next = applyRewards(next, rank.rewardOnReach);
-  // D-122 — the T0 status token: a rung that grants `wall-weapon` mounts the weapon you WIELD at that
+  // ADR-122 — the T0 status token: a rung that grants `wall-weapon` mounts the weapon you WIELD at that
   // moment on your home wall (the status-mirror). The reveal names your ACTUAL weapon (never a generic
   // sword), read from state — data-driven off the flag, so the R-rung isn't hard-coded here.
   if (rank.rewardOnReach?.flags?.includes('wall-weapon')) {
@@ -73,8 +73,8 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
       ],
     });
   }
-  // F103 (channel fix): the ONE terse mechanical marker on the Progress/milestone channel — a
-  // scannable progression record. Single-sourced from the RankDef (A21 — never hand-typed); the
+  // FB-103 (channel fix): the ONE terse mechanical marker on the Progress/milestone channel — a
+  // scannable progression record. Single-sourced from the RankDef (AC-21 — never hand-typed); the
   // rung-up STORY prose lives in the beat greeting (Story channel), never here.
   next = applyRewards(next, {
     log: [
@@ -86,7 +86,7 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
     ],
   });
   // a promotion is a renewal — the house feasts a new rank, so the BELLY refills (satiety). HP does
-  // NOT: under D-050 only eating (cook) mends wounds, so a rung climb can't be farmed as a free heal.
+  // NOT: under ADR-050 only eating (cook) mends wounds, so a rung climb can't be farmed as a free heal.
   next = { ...next, character: { ...next.character, satiety: satietyMax(next) } };
   return next;
 }

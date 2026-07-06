@@ -1,4 +1,4 @@
-// Vendors-as-people (D-114) + location-flavor routing (D-116) — pure-core tests. Fixtures derive
+// Vendors-as-people (ADR-114) + location-flavor routing (ADR-116) — pure-core tests. Fixtures derive
 // from the source of truth (the PEOPLE registry, getNode's blurb, each person's own placeGate /
 // presence predicate), never copied literals, so a mis-gated selector or a re-channelled move line
 // fails RED.

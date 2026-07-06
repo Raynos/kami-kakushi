@@ -1,4 +1,4 @@
-// The save orchestrator (PRD §6.8 / D-030 / D-044). Atomic redundant write to all
+// The save orchestrator (PRD §6.8 / ADR-030 / ADR-044). Atomic redundant write to all
 // backends, a monotonic save-counter newest-wins selector (timestamp tiebreaker), a
 // rolling last-known-good ring for crash-recovery, a crash-counter stored OUTSIDE
 // GameState, safe-mode rollback, autosave-poison suppression, and base64 export/import.
@@ -19,7 +19,7 @@ import { migrate, type MigrateFn } from './migrate';
 const SAVE_PREFIX = 'kk:save:';
 const CRASH_KEY = 'kk:crash:v1';
 const PREMIGRATE_PREFIX = 'kk:premigrate:v';
-// F96 — a single "last backup" slot, OUTSIDE the rolling save ring, written just before a DEV
+// FB-96 — a single "last backup" slot, OUTSIDE the rolling save ring, written just before a DEV
 // New game wipes the run. Distinct key so a backup is never clobbered by ordinary autosaves.
 const BACKUP_KEY = 'kk:save:backup';
 
@@ -176,7 +176,7 @@ export class SaveManager {
     await Promise.all(this.backends.map((b) => b.set(key, raw).catch(() => undefined)));
   }
 
-  // ── F96 backup slot: snapshot-before-wipe safety net for the DEV New game button ──
+  // ── FB-96 backup slot: snapshot-before-wipe safety net for the DEV New game button ──
   /** Copy the CURRENT state into the single backup slot across all backends (overwrites the
    *  previous backup). Poison-suppressed like save(): an invalid state never lands as a backup. */
   async backup(state: GameState): Promise<SaveResult> {
@@ -236,7 +236,7 @@ export class SaveManager {
     return { ok: false, reason: 'no-valid-backup' };
   }
 
-  // ── crash counter (stored OUTSIDE GameState, D-044) ───────────────────────────
+  // ── crash counter (stored OUTSIDE GameState, ADR-044) ───────────────────────────
   async getCrashCount(): Promise<number> {
     for (const b of this.backends) {
       const raw = await b.get(CRASH_KEY);

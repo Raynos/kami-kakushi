@@ -182,7 +182,7 @@ own counter — the *rice* heartbeat — **NOT** a currency and **NOT** a synony
 rice (+ a little coin), and you **EAT it** (satiety, §2.3), **STORE it** (the *kura*), or **SELL it for
 coin** at a **price that SWINGS BY SEASON** (the season rice price, §4). **Storing rice now COSTS
 something** (spoilage / a capacity cap / a small storehouse fee — the exact mechanism is a build-time
-call, **D-118**), so *store-vs-sell* is a real decision rather than free, unbounded, risk-free hoarding;
+call, **ADR-118**), so *store-vs-sell* is a real decision rather than free, unbounded, risk-free hoarding;
 **carried/banked COIN is unaffected** (still uncapped and safe). **KOKU is neither of these** — it
 is the house's assessed **STANDING** (a kokudaka-like prestige SCORE re-expressing House Influence),
 **never spent, never a resource**; it lives in §2.16 and is kept OUT of `resources`. **The four House
@@ -196,7 +196,7 @@ rice price, sinks, the silk *meibutsu* economics, `MarketState`) are detailed in
 character — gear, provisions, tools) is a **distinct lane** from the **estate's** coin/wealth (the estate
 economy and, later, the trade engine). A personal coin **SINK** — a small, capped **provisioning shop**
 where the player buys goods for himself, priced in **coin (mon)** — is live from **T0** (reached by talking
-to a **trader** at a map node, on the vendor-as-person spectrum, **not** a bare inline menu — D-114/§2.12); the estate-scale
+to a **trader** at a map node, on the vendor-as-person spectrum, **not** a bare inline menu — ADR-114/§2.12); the estate-scale
 **TRADE engine** (selling the estate's surplus rice and crafted goods for coin) opens at **T2**. Early
 spending and grinding run on the player lane; the estate lane grows as the house recovers.
 
@@ -226,7 +226,7 @@ grinding interesting and stopping trade running away (reinforced by the trade �
   in combat); **counts only, UNBOUNDED — no caps**; derived rates computed, never stored.
 - `GameState.banked: Record<resourceId, amount>` — the **kura storehouse** (rice, coin, materials),
   sheltered from combat loss; deposit/withdraw only at the *kura* node (§2.6/§2.8). **Banked RICE now
-  carries a holding cost** (spoilage / capacity cap / storehouse fee — mechanism TBD at build, **D-118**),
+  carries a holding cost** (spoilage / capacity cap / storehouse fee — mechanism TBD at build, **ADR-118**),
   so stored rice is no longer free/unbounded/safe; **banked COIN stays uncapped and safe.**
 - `MarketState { perGoodPriceIndex, saturationByGood, recoveryRate, seasonalRicePrice }` — the **per-unit
   progressive** damper **plus the season-swinging rice price**; numbers → §4.
@@ -464,7 +464,7 @@ layer**; the T0 spine is atomic auto-resolve.)
   exchange** — you attack, the enemy attacks back, both lose HP until one reaches 0. HP **carries between
   fights and never auto-heals**: the only mend is **eating** (§2.3), so healing is a real pre-fight decision.
   Reaching **0 HP is a lost fight** — it sets **HP → 1**, **bites a real slice of ALL THREE carried
-  resources — coin + rice + materials** (D-113; ~20% of carried **coin** + ~⅓ of carried **rice + materials**,
+  resources — coin + rice + materials** (ADR-113; ~20% of carried **coin** + ~⅓ of carried **rice + materials**,
   floored), and **STOPS the autopilot** (no grinding at the floor — you mend by hand and re-engage). **BANKED
   wealth sheltered in the *kura* storehouse is safe** (§2.4) — so banking before a risky fight is the play.
   A loss never costs levels, gear, or Influence (**koku STANDING is immune** — it is a score, not
@@ -712,7 +712,7 @@ later.** Early crafting is a flat recipe (inputs → output). Later it becomes *
 is built from components, and **quality = crafter skill + component quality + station tier**, with
 **processing chains** (wood → charcoal → forge → tools → blades; hides → tanner → armour; cocoons →
 silk → woven textile). **Disassembly returns materials.** Crafting is a capability **homed within the
-seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · Quests — **D-119**; crafting stays a
+seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · Quests — **ADR-119**; crafting stays a
 **section of Character**, the exact placement is `ui-design.md`'s call), revealed as its own beat — **not**
 its own top-level tab (superseding the earlier per-activity-tab framing).
 
@@ -764,20 +764,20 @@ choice applies its effect — `locksLineIds[]` (closes off other lines) and/or `
 conversation branches. It is **DATA, not scripting**, and **deterministic (no RNG)**; **only the chosen
 flags persist** (save-light). Authored in **`content/dialogue.ts`**.
 
-**Meeting a character = a full-screen VN scene, with per-NPC memory (D-104).** When the player **first
+**Meeting a character = a full-screen VN scene, with per-NPC memory (ADR-104).** When the player **first
 meets** an NPC who is **story-significant AND interactive** (touches the story, offers **choices**, or has
 real discussion), the meeting plays as a **full-screen VN dialogue scene** that **hides the rest of the game
 UI** — a kanji ink-seal nameplate (coloured per voice), the NPC's lines revealed with the GBA typewriter,
 diegetic choice replies — reinforcing the incremental-reveal signature (the world inks back in **after** the
-scene). **The same scene engine frames every player-triggered rung-up beat** (D-110, §1.6.4). Minor /
+scene). **The same scene engine frames every player-triggered rung-up beat** (ADR-110, §1.6.4). Minor /
 ambient NPCs (no story weight, no choices) stay **inline in the event log**, never blown up to a scene — the
 scene is reserved for characters who matter and can be answered. Each such NPC **independently REMEMBERS how
 you treated them** — a durable **`npcMemory`** (per-NPC relationship + story flags) that **persists across
 ascension**, distinct from and longer-lived than the save-light per-line flags above.
 
-**Every vendor is a PERSON on a spectrum, not a bare menu (D-114).** A shop is someone you talk to at a map
+**Every vendor is a PERSON on a spectrum, not a bare menu (ADR-114).** A shop is someone you talk to at a map
 node's "who's here" list (§2.9 / the Map tab), arranged on an interaction spectrum: **(a) full VN characters**
-(a D-104 scene + quests + ongoing dialogue), **(b) small people** (a line or two of dialogue + a trade), and
+(a ADR-104 scene + quests + ongoing dialogue), **(b) small people** (a line or two of dialogue + a trade), and
 **(c) tiny traders** (zero questions to ask — talking opens straight into the trade / market menu; a face on
 a shop). A vendor may also be **place-gated** — you must **reach or BUILD** the location first (e.g. the
 smithery before the smith), so the vendor's shop reveals only when its node is reached/built (reuse the
@@ -791,8 +791,8 @@ lines unlock content, advance flags, and **offer in-line choices** that lock/bra
 *aim + a rough where* (e.g. "something is in the lower field at night"), then **read the world** to find
 the truth (one boar or a sounder? where does it den?) — preparation and approach are the player's. Quest
 events drive the unlock graph. The **quest log REGAINS its OWN top-level tab** — **Quests**, the seventh in
-the **seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · Quests — **D-119**, reinstating
-**D-037** and superseding **D-112**'s homed-in-Character framing). **Per-tier side-quest lists
+the **seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · Quests — **ADR-119**, reinstating
+**ADR-037** and superseding **ADR-112**'s homed-in-Character framing). **Per-tier side-quest lists
 never gate the spine** (§1.9).
 
 **(c) Rough DATA shape.**
@@ -801,9 +801,9 @@ never gate the spine** (§1.9).
 - `Choice { id (ChoiceId), label, effect: { locksLineIds[]?, flagsSet[]? } }` — **deterministic; only
   chosen flags persist.**
 - `NpcMemory: Record<NpcId, { relationship: number; flags: Set<StoryFlagId> }>` — the **durable per-NPC
-  memory** (D-104/D-110); each story-NPC independently remembers how you treated them, **persisting across
+  memory** (ADR-104/ADR-110); each story-NPC independently remembers how you treated them, **persisting across
   ascension** (part of the saved `GameState`, §6.4). A `Vendor { npcId, tier ('vn'|'small'|'tiny'),
-  placeGate?: NodeId|BuildId }` binds a shop to its person + optional place-gate (D-114).
+  placeGate?: NodeId|BuildId }` binds a shop to its person + optional place-gate (ADR-114).
 - `Quest { id, type ('PEST_CONTROL'|'HUNT'|'CLEAR'|'DEFEND'|…author-as-needed…), suggestionText,
   openEnded: true, advanceEvents[], rewards: RewardBundle, gatesSpine: false (for side-quests),
   repeatable?: boolean, maxAwards?: number }` — **the type union is OPEN** (no parked cap; author
@@ -1032,7 +1032,7 @@ conceptual statement is §1.6.4; exact curves/thresholds are §4).
   **hybrid good/great/excellent pillar profile** (§2.16) is then what **tiers up.** The capstone confirms
   **Phase 1**; the **Phase-2 hybrid pillar gate is the actual tier-gate**, ANDed with the capstone rung.
   *(The **T0→T1 (R7) capstone now carries a mechanical BRANCH** — a player-facing capstone choice, not a
-  bare confirm — **D-121**; its content lives where the R7 capstone is authored.)*
+  bare confirm — **ADR-121**; its content lives where the R7 capstone is authored.)*
 
 **(b) The rung-meter accrual law.** Both meters are **numeric and PER-RUNG-RESET**; each rung's
 threshold = **(≥30-min-per-rung floor × that rung's eligible curated-activity rate)** — **back-solved from
@@ -1080,7 +1080,7 @@ koku STIPEND** appears only from **T4+** (House-only before); **T5** adds a **fu
 court-rank / favour track** (koku = scale, office = access), and rank milestones grant **visible STATUS
 TOKENS** (surname → the two swords → *gōshi* rank) — that **full ladder is T1–T5 planning**, though **T0
 already grants exactly ONE home status token** (across R1→R7), shown by the housing status-mirror
-(§2.17.1). (ADRs **D-107 / D-108 / D-109 / D-122**.)
+(§2.17.1). (ADRs **ADR-107 / ADR-108 / ADR-109 / ADR-122**.)
 
 **Accrual = two shapes only — never a passive time-trickle, never a flat per-action increment — and ONLY on
 the PHASE-2 estate-influence track:** pillar **DEEDS do not accrue while climbing the rungs** (they
@@ -1158,7 +1158,7 @@ climb (multipliers) without changing what's reachable.
 - **`kokuStanding` is a DERIVED read** over the four-pillar roll-up (a kokudaka-like score, read-only —
   like the banzuke rank, §2.18), **never a stored field, never spent, never in `resources`** (§2.4). The
   seasonal JUDGE re-assesses it; the personal koku **stipend** (T4+) and the T5 **office track** hang off
-  it (D-107/D-109).
+  it (ADR-107/ADR-109).
 - `AccrualEvent { kind ('jump'|'judged'), pillar, sourceDeedId, amount (capped), highWaterMarkCheck,
   phase: 'phase2' (deeds only ever accrue in Phase 2) }` — **deeds also write the additive deed-only
   `gateEligibleValue` accumulator per pillar (the value the gate-band check reads); combos do NOT.**
@@ -1258,31 +1258,31 @@ Recovering+** (a third workshop + full granary, the palisade closed into a prope
 v1 (folded into the G-rungs). Each structure reveals fractally (a drill yard = one post → a rack →
 sparring slots). **E4–E5 parked** for post-v1.
 
-### 2.17.1 Housing — the personal home, belongings & comfort (DEEP; D-111)
+### 2.17.1 Housing — the personal home, belongings & comfort (DEEP; ADR-111)
 
 **(a) What it is.** The protagonist's **own home** — a DISTINCT system from the estate fabric (§2.17): the
 estate is the *house's* economic/martial shell (no-sim flavour); **housing is the MC's personal quarters, and
 it is DEEP.** It has three parts: (1) a **furnishable home that grows with the player's rung** — the cold
 open's **dry corner → your quarters → the inner rooms**; (2) a **belongings inventory** distinct from
 resources and equipment (the **bowl** Genemon promises, a robe, a keepsake — things you *own and keep*),
-homed in the **Inventory tab** (§2.10 / D-119); and (3) **furniture + belongings that carry comfort bonuses
+homed in the **Inventory tab** (§2.10 / ADR-119); and (3) **furniture + belongings that carry comfort bonuses
 with set/synergy.** The register is **PRESTIGE OVER POWER — NOT RPG stat-gear** and **never a combat power
 lane**: it is the domestic half of the "look how far you've come" fantasy. This system exists to cash T0's
 sharpest narrative-coherence debt — the home the story *names* three times (the promised corner, the bowl,
-"a place here is yours") now mechanically **exists** (F89; the narrative-coherence brainstorm).
+"a place here is yours") now mechanically **exists** (FB-89; the narrative-coherence brainstorm).
 
 **(b) Player-facing behaviour / loop.** Spend **coin** (+ materials) to furnish and upgrade your quarters —
 every acquisition a **diegetic beat**, never silent menu inflation. Bonuses are **Edo-flavoured COMFORT**,
 and comfort is **ONLY three things: better rest recovery** (feeds the §2.3 satiety/rest loop), **satiety**,
 and **storage** — plus **set/synergy** bonuses when belongings complement each other. **There is NO morale
-and NO upkeep system** (**D-120**): housing comfort never becomes a chore-meter to feed. Two furnishings
+and NO upkeep system** (**ADR-120**): housing comfort never becomes a chore-meter to feed. Two furnishings
 carry real VERBS / capacity, not stats: the **HEARTH homes the COOK verb** — `cook_meal` happens at the
 hearth (the domestic anchor of the §2.3 satiety loop) — and the **chest / *nagamochi* is REAL STORAGE**, a
 belongings buffer / capacity you actually fill, not a number. **PLUS** the home is a **VISIBLE STATUS-MIRROR
 of your rise**: it physically *shows* the climb — and in **T0 it shows exactly ONE home status token** (the
 **surname**), **not** the full ladder; the **surname → two swords on the wall → *gōshi*** ladder is **T1–T5
-planning** (**D-122**; the same D-109 status tokens the economy grants, §2.16). Home tiers **ride the rung
-ladder**, so a home upgrade is one of the rewards a **rung-up beat** (D-110) can motivate. The status-mirror
+planning** (**ADR-122**; the same ADR-109 status tokens the economy grants, §2.16). Home tiers **ride the rung
+ladder**, so a home upgrade is one of the rewards a **rung-up beat** (ADR-110) can motivate. The status-mirror
 layer makes every "you're more than a servant now" rung *shown*, not just titled.
 
 **(c) Rough DATA shape.**
@@ -1291,24 +1291,24 @@ layer makes every "you're more than a servant now" rung *shown*, not just titled
 - `Belonging { id, name, kind ('furniture'|'keepsake'|'robe'|…), comfortBonus (restRecovery|satiety|storage),
   setId?, coinCost }` — owned items, **kept in the Inventory tab**, separate from `ResourceDef` (§2.4) and
   equipment (§2.10). `setId` drives set/synergy bonuses. **No `morale` / `upkeep` field** — those systems
-  do not exist (**D-120**). The **HEARTH** furnishing **homes the `cook_meal` verb** (§2.3), and the
+  do not exist (**ADR-120**). The **HEARTH** furnishing **homes the `cook_meal` verb** (§2.3), and the
   **chest / *nagamochi*** is a **storage-capacity buffer**, not a comfort stat.
 - `HomeState { stageId, ownedBelongings: Set<BelongingId>, comfort: derived }` — **comfort is DERIVED** from
   the owned set + stage (never a stored aggregate), and feeds §2.3 (rest + satiety) / storage; the
-  status-mirror read is derived from the D-109 status tokens (§2.16), **never** a pillar or combat stat —
-  and in **T0 it resolves to exactly ONE token** (the surname; the full ladder is T1–T5, **D-122**).
+  status-mirror read is derived from the ADR-109 status tokens (§2.16), **never** a pillar or combat stat —
+  and in **T0 it resolves to exactly ONE token** (the surname; the full ladder is T1–T5, **ADR-122**).
 
 **(d) Ties to the four pillars.** **Indirect and prestige-only.** Housing feeds **NO pillar directly and NO
 combat stat** — that separation is the guardrail that keeps the home from becoming a power lane competing with
-gear. Its comfort bonuses ease the *loop* (**rest, satiety, storage** — **no upkeep**, D-120); its
-status-mirror **reflects** the standing the pillars already earned (via the D-109 tokens) — **one token in
-T0** (D-122) — never generating standing itself.
+gear. Its comfort bonuses ease the *loop* (**rest, satiety, storage** — **no upkeep**, ADR-120); its
+status-mirror **reflects** the standing the pillars already earned (via the ADR-109 tokens) — **one token in
+T0** (ADR-122) — never generating standing itself.
 
 **(e) When introduced / fractal reveal.** **T0** — the **dry corner** at the cold open becomes a real
 rest-place at **R1** (the "sleeping-place"); the first belongings (the bowl) and the first comfort furniture
 land across the T0 rungs; **your own quarters** open as the MC's standing rises, the **inner rooms** later.
-The belongings inventory reveals with the **Inventory tab** (D-119). A new home panel is a new UI surface, so
-it runs a **D-075 diverge** pass. Furniture/belongings deepen per tier alongside the estate stages (§2.17),
+The belongings inventory reveals with the **Inventory tab** (ADR-119). A new home panel is a new UI surface, so
+it runs a **ADR-075 diverge** pass. Furniture/belongings deepen per tier alongside the estate stages (§2.17),
 staying **comfort + prestige** throughout.
 
 ---

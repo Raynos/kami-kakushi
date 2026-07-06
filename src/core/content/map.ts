@@ -1,4 +1,4 @@
-// The walkable T0 estate node-graph (DoD T0-M4-F4 / D-065 / NQ-3): the estate is
+// The walkable T0 estate node-graph (DoD T0-M4-F4 / ADR-065 / NQ-3): the estate is
 // areas you MOVE BETWEEN, not a menu. MINIMAL here — a hard MAP_NODE_CEILING pins the
 // T0 node-count so the graph stays a hamlet you can hold in your head; it GROWS in T1.
 // Pure data + pure helpers (no DOM, no RNG): the nodes mirror content/areas.ts, and
@@ -24,7 +24,7 @@ export interface MapNode {
   readonly dangerRing?: boolean;
 }
 
-/** Hard T0 node-count ceiling (D-065 minimal-here): MAP_NODES.length must stay <= this.
+/** Hard T0 node-count ceiling (ADR-065 minimal-here): MAP_NODES.length must stay <= this.
  *  Room for one more node before T1 explodes the graph; the test enforces the bound. */
 export const MAP_NODE_CEILING = 7;
 

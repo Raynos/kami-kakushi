@@ -91,7 +91,7 @@ export type Intent =
   | { type: 'advance_intro' } // Continue past a narration-only intro scene
   | { type: 'ask_topic'; topicId: string } // ASK a hub topic — reveal its answer, mark it asked
   | { type: 'choose_intro'; optionId: string } // the DECISION: pick a balanced closer at a scene
-  | { type: 'begin_rung_beat' } // D-110: trigger the ready rung-up story beat (player-initiated)
+  | { type: 'begin_rung_beat' } // ADR-110: trigger the ready rung-up story beat (player-initiated)
   | { type: 'advance_rung_beat' } // Continue past a narration-only rung beat (inert today)
   | { type: 'ask_rung_topic'; topicId: string } // ASK a rung-beat hub topic (full VN meets R3/R6/R7)
   | { type: 'choose_rung_option'; optionId: string } // the terminal beat choice → apply the promotion
@@ -107,14 +107,14 @@ export type Intent =
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
-  | { type: 'eat_rice' } // rice → satiety (D-107 Phase 2 — the plain-rice food path)
-  | { type: 'sell_rice' } // rice → coin at the season price (D-107 Phase 2 — the coin faucet)
+  | { type: 'eat_rice' } // rice → satiety (ADR-107 Phase 2 — the plain-rice food path)
+  | { type: 'sell_rice' } // rice → coin at the season price (ADR-107 Phase 2 — the coin faucet)
   | { type: 'improve_estate' }
   | { type: 'spend_attribute'; attr: AttrId }
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
   | { type: 'buy_item'; itemId: string }
-  | { type: 'buy_belonging'; belongingId: string } // D-111: buy a comfort furniture piece for the home
+  | { type: 'buy_belonging'; belongingId: string } // ADR-111: buy a comfort furniture piece for the home
   | { type: 'deposit'; resource: string }
   | { type: 'withdraw'; resource: string }
   | { type: 'move_to'; to: string }
@@ -141,14 +141,14 @@ function adjustSatiety(state: GameState, delta: number): GameState {
 }
 
 function finish(state: GameState): GameState {
-  // D-110: the hot path NO LONGER auto-promotes. A ready promotion HOLDS (the meter caps visually);
+  // ADR-110: the hot path NO LONGER auto-promotes. A ready promotion HOLDS (the meter caps visually);
   // the rung advances ONLY through the player-triggered beat (begin_rung_beat → choose_rung_option →
   // applyPromotion). `finish` just runs the reveal pass, so filling the meter never bumps the rung.
   return revealPass(state);
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
- *  diegetic mentor, D-039/D-063 — the log IS the surface, never a popup). Advances the cursor. */
+ *  diegetic mentor, ADR-039/ADR-063 — the log IS the surface, never a popup). Advances the cursor. */
 function deliverDialogue(state: GameState, dialogueId: string, cap?: number): GameState {
   // `cap` limits how many newly-eligible lines land in ONE call — so a single rake doesn't dump the
   // whole raked-gated monologue at once (fun-factor "one teach per moment; never a monologue dump").
@@ -164,7 +164,7 @@ function deliverDialogue(state: GameState, dialogueId: string, cap?: number): Ga
     ...state,
     deliveredDialogue: [...state.deliveredDialogue, ...fresh.map((l) => l.id)],
   };
-  // F91/F93 — carry the line's VOICE *and* its speaker nameplate through to the log, so a
+  // FB-91/FB-93 — carry the line's VOICE *and* its speaker nameplate through to the log, so a
   // steward/physician line renders "Genemon: …" / "Sōan: …" in that voice's colour. A narrator
   // line (third-person prose) suppresses the nameplate — it is not "spoken by" a named NPC.
   return applyRewards(next, {
@@ -179,7 +179,7 @@ function deliverDialogue(state: GameState, dialogueId: string, cap?: number): Ga
 
 // ── The interactive intro (plan §3.5) — pure reducer helpers for the beat sequence. ──────────────
 
-/** Reveal one scene's greeting lines into the log NOW (F15 — after the advancing click, never
+/** Reveal one scene's greeting lines into the log NOW (FB-15 — after the advancing click, never
  *  pre-run behind a curtain). Each line carries its authored voice + optional nameplate. */
 function revealIntroBeat(state: GameState, index: number): GameState {
   const scene = introSceneAt(index);
@@ -232,9 +232,9 @@ function enterNextBeat(state: GameState, newIndex: number): GameState {
     : completeIntroTail(advanced);
 }
 
-// ── The rung-up story beats (D-110) — pure reducer helpers, mirroring the intro's. ────────────────
+// ── The rung-up story beats (ADR-110) — pure reducer helpers, mirroring the intro's. ────────────────
 
-/** Reveal one rung beat's greeting lines into the log NOW (the Story/narration channel — F103). Each
+/** Reveal one rung beat's greeting lines into the log NOW (the Story/narration channel — FB-103). Each
  *  line carries its authored voice + optional nameplate, so a two-voice beat (R4/R5) reads correctly. */
 function revealRungBeat(state: GameState, target: RankId): GameState {
   const scene = RUNG_BEATS[target];
@@ -268,7 +268,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = setFlag(next, 'awake', true);
       next = applyRewards(next, { flags: ['dream-1'] });
       // The interactive intro STARTS here (plan §3.5): reveal Beat 0's setup (the wake line + Sōan's
-      // grounding) NOW — after the click, never a pre-run dump (F15). The old grounding/dream/Genemon
+      // grounding) NOW — after the click, never a pre-run dump (FB-15). The old grounding/dream/Genemon
       // dump is gone; those are BEATS now, revealed on advance.
       next = { ...next, introBeat: 0 };
       next = revealIntroBeat(next, 0);
@@ -302,7 +302,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state; // gate unmet ⇒ no-op
       // 1) VOICE the MC's question (a `player` line, "You: …"), THEN 2) the NPC's answer line(s),
       //    each in its own authored voice + nameplate — the scrollback reads as a two-sided exchange.
-      //    F111 — this is OPTIONAL Q&A the player chose to ask, so it's flagged `chat`: it routes to
+      //    FB-111 — this is OPTIONAL Q&A the player chose to ask, so it's flagged `chat`: it routes to
       //    the "Chat" tab, keeping the mandatory "Story" tab to scene beats you must see.
       next = applyRewards(next, {
         log: [
@@ -334,7 +334,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!scene) return state;
       const opt = introSceneOption(scene, intent.optionId);
       if (!opt) return state; // an option id that isn't on THIS scene's decision ⇒ no-op
-      // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, F23/F26)
+      // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, FB-23/FB-26)
       next = applyRewards(next, {
         log: [
           { channel: 'narration', text: opt.say, voice: 'player', speaker: PLAYER_SPEAKER },
@@ -355,16 +355,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
           warmth: opt.memory.warmth,
         });
       }
-      // 5) the post-pick PERK-UNLOCK line (F56) — the granted perk's name + standalone desc + the
+      // 5) the post-pick PERK-UNLOCK line (FB-56) — the granted perk's name + standalone desc + the
       //    exact ±, landing AFTER the pick on the MILESTONE channel so it reads under Progress, not
-      //    Work (F41). The UI renders it as a JRPG-style perk box in a later pass.
+      //    Work (FB-41). The UI renders it as a JRPG-style perk box in a later pass.
       next = applyRewards(next, { log: [{ channel: 'milestone', text: introPerkLine(opt) }] });
       // 6) advance to the next beat, or fire the intro-complete tail
       next = enterNextBeat(next, state.introBeat + 1);
       break;
     }
     case 'begin_rung_beat': {
-      // D-110: player-TRIGGERED promotion. Guard: a promotion is ready (meter + storyGate), no beat
+      // ADR-110: player-TRIGGERED promotion. Guard: a promotion is ready (meter + storyGate), no beat
       // is already live, and the intro is done (the VN surfaces never overlap). Opens the target
       // rung's beat — reveals its greeting into the Story channel. A ready promotion HOLDS until this
       // fires; the player may ignore it and grind on. No-op on a rank with no registered beat.
@@ -387,7 +387,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const topic = rungTopic(scene, intent.topicId);
       if (!topic) return state;
       if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state;
-      // F111 — an OPTIONAL rung-beat question is `chat` (routes to the Chat tab, off the Story tab).
+      // FB-111 — an OPTIONAL rung-beat question is `chat` (routes to the Chat tab, off the Story tab).
       next = applyRewards(next, {
         log: [
           {
@@ -410,7 +410,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'choose_rung_option': {
-      // The TERMINAL beat node (D-110) — the SOLE place a rung advances. In order: (a) voice the MC's
+      // The TERMINAL beat node (ADR-110) — the SOLE place a rung advances. In order: (a) voice the MC's
       // say + the speaker's react to Story; (b) DEEPEN each memory write; (c) set the story flags;
       // (d) the rare statBonus / the R5 stance default; (e) applyPromotion (the ONLY rewardOnReach
       // application + the terse Progress marker); (f) clear the cursor — the world inks in on teardown.
@@ -420,7 +420,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!scene) return state;
       const opt = rungOption(scene, intent.optionId);
       if (!opt) return state;
-      // (a) the exchange → Story (F103): the MC's reply, then the speaker's reaction.
+      // (a) the exchange → Story (FB-103): the MC's reply, then the speaker's reaction.
       const react = rungReactVoiceSpeaker(scene, opt.reactNpc);
       next = applyRewards(next, {
         log: [
@@ -458,7 +458,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       }
       if (opt.setStance) next = { ...next, stance: opt.setStance };
       // (e) APPLY the promotion — the sole place rewardOnReach fires (rank-rN flags + unlocks + the
-      //     terse marker). No rung ever advances without this beat completing (the D-110 invariant).
+      //     terse marker). No rung ever advances without this beat completing (the ADR-110 invariant).
       next = applyPromotion(next, target);
       // (f) clear the cursor — the beat is done; the shell/world reveals post-scene.
       next = { ...next, rungBeat: null };
@@ -486,7 +486,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // joins do_activity's labour output as ephemeral). The rice still banks; only the line fades.
       next = applyRewards(next, {
         flags: ['raked'],
-        // F91/F93 — the rake RESULT line is scene narration, so it carries the `narrator` voice
+        // FB-91/FB-93 — the rake RESULT line is scene narration, so it carries the `narrator` voice
         // (matching the intro's narration convention), never plain/unstyled.
         log: [
           { channel: 'reward', text: rakeLine(RICE_PER_RAKE), voice: 'narrator', ephemeral: true },
@@ -501,16 +501,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'rest': {
       if (!metaLegal(state, 'rest')) return state;
-      // D-111 / F89 — rest is RE-SITED to your home once the corner exists (T0-A). Pre-home it's the
+      // ADR-111 / FB-89 — rest is RE-SITED to your home once the corner exists (T0-A). Pre-home it's the
       // cold-open post ("against the cool post"); once "a place here is yours" (panel-home, R1) it's
       // your corner, and bedding/the settled-home set add to the satiety it restores (homeRestBonus —
       // 0 pre-home + for a bare corner, so the base rest is byte-identical until you earn comfort).
       const atHome = isUnlocked(next, 'panel-home');
       next = adjustSatiety(next, SATIETY_PER_REST + homeRestBonus(next));
       const restLine = atHome ? homeRestLine(ownsBelonging(next, 'bedding')) : COLD_OPEN.restAct;
-      // F53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
+      // FB-53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
-      // F91/F93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
+      // FB-91/FB-93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
       // the intro's narration (not an un-voiced/plain line).
       next = applyRewards(next, {
         log: [{ channel: 'system', text: restLine, voice: 'narrator', ephemeral: true }],
@@ -546,10 +546,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = applyRewards(next, {
         resources: gained as Record<string, number>,
         flags: storyFlags,
-        // F53 — the per-activity labour output line is fleeting flavor ("you worked / +N"): it
+        // FB-53 — the per-activity labour output line is fleeting flavor ("you worked / +N"): it
         // shows only in the "Now" view and fades. The gained resources still bank on the state;
         // only the noisy line is transient (crafts/purchases/rung-ups stay permanent).
-        // F91/F93 — the labour RESULT line is scene narration → `narrator` voice, consistent
+        // FB-91/FB-93 — the labour RESULT line is scene narration → `narrator` voice, consistent
         // with the intro's narration convention.
         log: [
           {
@@ -563,7 +563,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = accrueRungMeter(next, act.id);
       // Phase 2 (post-R7): estate labour also banks an Estate-pillar deed (no-op in Phase 1).
       next = applyEstateDeed(next);
-      // quest advance tokens — 'gather:<resource>' for each thing the act yielded (D-037).
+      // quest advance tokens — 'gather:<resource>' for each thing the act yielded (ADR-037).
       for (const res of Object.keys(gained)) next = applyQuestEvent(next, `gather:${res}`);
       next = advanceClock(next, TICKS_PER_ACT);
       break;
@@ -604,7 +604,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           log: [
             {
               channel: 'system',
-              voice: 'narrator', // F91/F93 — scene narration, consistent narrator voice
+              voice: 'narrator', // FB-91/FB-93 — scene narration, consistent narrator voice
               contentKey: 'combat.weaponBroken',
               params: { weapon: getWeapon(next.equippedWeapon).label.toLowerCase() },
             },
@@ -621,8 +621,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'repair_weapon': {
       // v0.3.1 Step 4: repair costs wood (the HARD requirement) + a COIN FEE up to REPAIR_COIN_COST,
       // WAIVED when you can't pay (the smith extends a broke goshi credit). A recurring combat-upkeep
-      // coin sink (D-086 / batch-1 call 4 / D-107) that can NEVER softlock (the no-stranding
-      // guardrail — D-061, held inside D-086's "tension never pushes the player out").
+      // coin sink (ADR-086 / batch-1 call 4 / ADR-107) that can NEVER softlock (the no-stranding
+      // guardrail — ADR-061, held inside ADR-086's "tension never pushes the player out").
       if ((next.resources.wood ?? 0) < REPAIR_WOOD_COST) return state;
       const coinFee = Math.min(next.resources.coin ?? 0, REPAIR_COIN_COST);
       const weapon = getWeapon(next.equippedWeapon);
@@ -633,7 +633,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
-            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'craft.repair',
             params: { weapon: weapon.label.toLowerCase(), wood: REPAIR_WOOD_COST, coinFee },
           },
@@ -642,7 +642,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'equip_weapon': {
-      // the wood_axe is now FOUND/CRAFTED (D-052) — gate equipping it on having forged it,
+      // the wood_axe is now FOUND/CRAFTED (ADR-052) — gate equipping it on having forged it,
       // not on the retired drillmaster grant.
       if (intent.weaponId === 'wood_axe' && !hasFlag(next, 'crafted-wood_axe')) return state;
       if (intent.weaponId === next.equippedWeapon) return state; // re-equip = no-op
@@ -658,7 +658,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         weaponDurability: Math.min(next.weaponDurability, weapon.durabilityMax),
       };
       next = applyRewards(next, {
-        // F91/F93 — player-action narration, consistent narrator voice.
+        // FB-91/FB-93 — player-action narration, consistent narrator voice.
         log: [
           {
             channel: 'system',
@@ -671,11 +671,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'cook_meal': {
-      // sansai → HP, the HEALTH-recovery action (F22 + D-050). Eating is the ONLY mend
+      // sansai → HP, the HEALTH-recovery action (FB-22 + ADR-050). Eating is the ONLY mend
       // for combat wounds (couples food ↔ combat), and it recovers HEALTH *only* — it does
       // NOT refill work-stamina (satiety). Work-stamina is the SEPARATE `rest` action's job
-      // (F22: "rest from work" ≠ "recover from a fight" — one action must not refill both).
-      // Costs greens, so a heal always costs something (D-076: no free/auto-heal).
+      // (FB-22: "rest from work" ≠ "recover from a fight" — one action must not refill both).
+      // Costs greens, so a heal always costs something (ADR-076: no free/auto-heal).
       if (!isUnlocked(next, 'verb-cook')) return state;
       if ((next.resources.sansai ?? 0) < COOK_SANSAI_COST) return state;
       next = withResource(next, 'sansai', -COOK_SANSAI_COST);
@@ -687,7 +687,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
-            // F91/F93 — cook RESULT flavor is scene narration → `narrator` voice.
+            // FB-91/FB-93 — cook RESULT flavor is scene narration → `narrator` voice.
             voice: 'narrator',
             contentKey: 'food.cook',
             params: { sansai: COOK_SANSAI_COST, hpGain },
@@ -698,7 +698,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'eat_rice': {
-      // rice → satiety (D-107 Phase 2): the plain-rice FOOD path, a light rice SINK beside `rest`
+      // rice → satiety (ADR-107 Phase 2): the plain-rice FOOD path, a light rice SINK beside `rest`
       // (free satiety) + `cook_meal` (sansai → HP). A proper meal refuels MORE than a mere rest
       // (EAT_RICE_SATIETY > SATIETY_PER_REST), so eating your OWN harvest trades rice for a faster
       // refuel — never a strictly-worse rest. Opens with the estate economy (verb-eat-rice), where
@@ -713,7 +713,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
-            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'food.eatRice',
             params: { rice: EAT_RICE_COST, satGain },
           },
@@ -723,7 +723,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'sell_rice': {
-      // rice → COIN (D-107 Phase 2 / §14): the coin FAUCET. Sell your whole carried rice pile to the
+      // rice → COIN (ADR-107 Phase 2 / §14): the coin FAUCET. Sell your whole carried rice pile to the
       // pedlar at the SEASON-swinging coin-per-rice rate (dear spring, cheap autumn) — the light
       // store-vs-sell timing decision (hold the cheap-autumn haul in the kura, sell into dear
       // spring). A transaction (no clock cost, like buy_item). Opens with the estate economy
@@ -739,7 +739,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
-            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'market.sellRice',
             params: { rice, price, coinGain },
           },
@@ -748,7 +748,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'improve_estate': {
-      // coin → estateStage (audit #5 / D-107). A commissioning (no clock cost, like equipping).
+      // coin → estateStage (audit #5 / ADR-107). A commissioning (no clock cost, like equipping).
       if (!isUnlocked(next, 'panel-estate')) return state;
       const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
       if (!target) return state;
@@ -771,14 +771,14 @@ export function reduce(state: GameState, intent: Intent): GameState {
           attributePoints: c.attributePoints - 1,
         },
       };
-      // F91/F93 — attribute-gain flavor is scene narration → consistent narrator voice.
+      // FB-91/FB-93 — attribute-gain flavor is scene narration → consistent narrator voice.
       next = applyRewards(next, {
         log: [{ channel: 'system', text: ATTR_META[a].log, voice: 'narrator' }],
       });
       break;
     }
     case 'craft_weapon': {
-      // loot→craft (D-052): the FOUND/CRAFTED 2nd weapon, replacing the retired grant. Consume
+      // loot→craft (ADR-052): the FOUND/CRAFTED 2nd weapon, replacing the retired grant. Consume
       // the gathered materials, forge + take up the weapon. Gated on combat being live + the
       // materials being on hand (discover-by-doing: the panel surfaces once you've looted).
       if (!isUnlocked(next, 'tab-combat')) return state;
@@ -802,7 +802,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'buy_item': {
-      // the tiny CAPPED market (TRADE taste, T0-M4-F3/D-008) — a commissioning, no clock cost.
+      // the tiny CAPPED market (TRADE taste, T0-M4-F3/ADR-008) — a commissioning, no clock cost.
       // Opens with the estate economy (panel-estate). The per-run stockCap is the minority clamp.
       if (!isUnlocked(next, 'panel-estate')) return state;
       const item = getItem(intent.itemId);
@@ -815,7 +815,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
         log: [
           {
             channel: 'system',
-            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'market.buyItem',
             params: { coin: item.coinCost, item: item.label.toLowerCase() },
           },
@@ -824,10 +824,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'buy_belonging': {
-      // D-111 / F89 — buy one comfort furniture piece for the home (a personal-COIN sink, parallel to
+      // ADR-111 / FB-89 — buy one comfort furniture piece for the home (a personal-COIN sink, parallel to
       // the market lane). A commissioning: no clock cost. Gated on the home existing (panel-home, R1);
       // a granted keepsake can't be bought, and each piece is owned ONCE (no stacking). The bonus is
-      // COMFORT (rest/warmth), never a combat stat (prestige-not-power, D-111).
+      // COMFORT (rest/warmth), never a combat stat (prestige-not-power, ADR-111).
       if (!isUnlocked(next, 'panel-home')) return state;
       const def = getBelonging(intent.belongingId);
       if (def.source.kind !== 'buy') return state; // the mat/bowl arrive with the home, never bought
@@ -836,7 +836,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = withResource(next, 'coin', -def.source.coinCost);
       next = { ...next, belongings: [...next.belongings, def.id] };
       // the acquire line is a PERMANENT Progress beat (you settled your corner a little more) — not
-      // fleeting like a labour line; furnishing your home is a small milestone, F41.
+      // fleeting like a labour line; furnishing your home is a small milestone, FB-41.
       next = applyRewards(next, {
         // A granted keepsake carries its own authored acquire line (content, kept as text); a
         // plain buy uses the registry template (Stage C).
@@ -861,7 +861,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (next.location !== 'kura') return state;
       const have = next.resources[intent.resource] ?? 0;
       if (have <= 0) return state;
-      // D-118 / build-plan §1 lever (b) — the KURA CAP: only RICE is capped (the hoard governor); coin
+      // ADR-118 / build-plan §1 lever (b) — the KURA CAP: only RICE is capped (the hoard governor); coin
       // banks freely. You can store only up to the room left under the cap; a full kura stores nothing
       // (raise the cap by improving the estate). Uncapped resources take the whole pile as before.
       let stored = have;
@@ -872,13 +872,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       }
       next = withResource(next, intent.resource, -stored);
       next = withBanked(next, intent.resource, stored);
-      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain
+      // ADR-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain
       // counts. The denomination now lives in the log-content registry (bank.deposit, Stage C).
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
-            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'bank.deposit',
             params: { amount: stored, resource: intent.resource },
           },
@@ -893,13 +893,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (have <= 0) return state;
       next = withBanked(next, intent.resource, -have);
       next = withResource(next, intent.resource, have);
-      // D-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain
+      // ADR-108 — coin denominates (mon/monme/ryō) to match the pills; rice/materials stay plain
       // counts. The denomination now lives in the log-content registry (bank.withdraw, Stage C).
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
-            voice: 'narrator', // F91/F93 — player-action narration, consistent narrator voice
+            voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'bank.withdraw',
             params: { amount: have, resource: intent.resource },
           },
@@ -908,7 +908,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'move_to': {
-      // walk the small estate map (T0-M4-F4 / D-065): adjacent + revealed (nodes reuse the
+      // walk the small estate map (T0-M4-F4 / ADR-065): adjacent + revealed (nodes reuse the
       // existing room-unlock surfaces), and the danger ring needs the conditioning gate.
       if (!canMove(next.location, intent.to, new Set(next.unlocked))) return state;
       const dest = getNode(intent.to);
@@ -917,7 +917,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Walking away from a foe's node ends the auto-grind on it (Step 5b — foes are spatial, so
       // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
       next = { ...next, location: intent.to, autoCombat: null };
-      // D-116 (resolves F114) — location/navigation flavor does NOT belong in the Story log. The
+      // ADR-116 (resolves FB-114) — location/navigation flavor does NOT belong in the Story log. The
       // STANDING "you are looking around" description lives on the Map node (the renderer reads
       // `getNode(location).blurb`); the ARRIVAL line is a light TRANSIENT "Now" line that FADES.
       // Emit it `ephemeral: true` → log-filter routes ephemeral entries to the `now` view ONLY and

@@ -5,14 +5,14 @@
 // The F1b Phase 1 reporter (prd-drift.ts) DETECTS drift; this PREVENTS it, by
 // transcluding the derivable T0 rosters straight from the typed registries the
 // running game uses. It began as ONE pilot slice (the §3 rung-ladder TITLES from
-// RANKS); D-128 ("ripple during T0 — no compression backlog") expanded it to the
+// RANKS); ADR-128 ("ripple during T0 — no compression backlog") expanded it to the
 // full set of shipped, stable T0 IDENTITY facts:
 //   • §3 rung-ladder titles (RANKS)          — genT0RungTitles
 //   • §2.10.1 weapon roster (WEAPONS)         — genT0WeaponRoster
 //   • §2.9 bestiary, T0-reachable (MOBS)      — genT0Bestiary
 // IDENTITY only — labels/kanji/archetype/where-found. The provisional TUNING
 // numbers (thresholds, baseAttack, per-mob level) stay OUT: those are §4's
-// ripple-frozen domain (D-021), never transcluded.
+// ripple-frozen domain (ADR-021), never transcluded.
 //
 // Mechanism: the shared region splicer (gen-regions.ts, built once in the F1a
 // lane) replaces only the bytes between a marker pair and preserves every byte
@@ -22,7 +22,7 @@
 //   npm run gen:prd-regions -- --check  regenerate into memory, fail on any byte
 //                                        diff; writes nothing (the verify gate)
 //
-// Determinism (why --check is a SOUND gate, never A11 wolf-crying): the only
+// Determinism (why --check is a SOUND gate, never AC-11 wolf-crying): the only
 // input is a committed worktree file (the RANKS registry). No clock, no git, no
 // network — the same RANKS yields the same bytes every run.
 export {};
@@ -65,7 +65,7 @@ export function genT0RungTitles(): string {
  *  derived from WEAPONS. Every current weapon is T0, so the whole registry ships;
  *  if a tier field is added later, filter here. The per-weapon tuning numbers
  *  (`baseAttack`/`baseSpeed`/durability) stay OUT — those are §4.6.9's provisional,
- *  ripple-frozen domain (D-021), never transcluded. Pure fn; exported for test. */
+ *  ripple-frozen domain (ADR-021), never transcluded. Pure fn; exported for test. */
 export function genT0WeaponRoster(): string {
   const rows = WEAPONS.map((w) => `| ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
   return [
@@ -85,7 +85,7 @@ export function genT0WeaponRoster(): string {
 /** The T0 bestiary — identity + location (label · kanji · where-found), derived
  *  from MOBS, tier-filtered to T0-reachable foes (`minTier` 0 / undefined). The
  *  road bandit (`minTier` 2 — the first HUMAN threat, canon-held for T2 per A10)
- *  is EXCLUDED: it ripples into §5 frontier, not the T0 bestiary (D-128). Per-mob
+ *  is EXCLUDED: it ripples into §5 frontier, not the T0 bestiary (ADR-128). Per-mob
  *  `level` is §4.6 tuning and stays out. Pure fn of MOBS; exported for test. */
 export function genT0Bestiary(): string {
   const t0 = MOBS.filter((m) => (m.minTier ?? 0) < 2);

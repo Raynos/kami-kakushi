@@ -1,6 +1,6 @@
 // verify-changelog — the CHANGELOG must document the CURRENT version (single-source consistency).
 //
-// The displayed game version is single-sourced from package.json (A21). This gate makes
+// The displayed game version is single-sourced from package.json (AC-21). This gate makes
 // CHANGELOG.md a first-class part of that contract: the package.json `version` MUST have a
 // matching `## [x.y.z]` release section (Keep-a-Changelog format). So a version bump that forgets
 // its changelog entry FAILS verify — at commit (pre-commit), push (pre-push), and CI — and can't

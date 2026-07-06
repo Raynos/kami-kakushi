@@ -1,4 +1,4 @@
-// The quest progression glue (T0-M4-F1 / D-037). Sits between the pure quest DATA
+// The quest progression glue (T0-M4-F1 / ADR-037). Sits between the pure quest DATA
 // (content/quests.ts) and the GameState reducers: it accepts quests and routes advance-event
 // tokens ('<verb>:<subject>') from the fight/labour reducers to every accepted quest. Lives
 // in its own module so BOTH fight.ts and intents.ts can emit events without an import cycle

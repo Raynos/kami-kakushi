@@ -32,7 +32,7 @@ import {
 // attribute points (+1 per ATTR_POINTS_PER_LEVELS levels, §4.4) poured into a STR/AGI build.
 // At L1 that is ZERO points → BASE attrs, so the monkey@L1 first-foe anchor stays base (the
 // locked 20–35% band is measured at base attrs). Higher levels reflect a player who levelled.
-// The CANONICAL curve is measured at full HP — the LIVE forecast reflects carried HP (D-050),
+// The CANONICAL curve is measured at full HP — the LIVE forecast reflects carried HP (ADR-050),
 // which the carry tests exercise separately.
 function mc(level = 1, satiety = 100): GameState {
   const s = createInitialState(1);
@@ -150,7 +150,7 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
 
   it('NO stance strictly dominates — offense trades against HP-retention (A2 glass-cannon↔tank)', () => {
     // A2 simplifies the stance axis to {atkMult, takenMult}: jodan hits harder but takes more,
-    // gedan the reverse. Because HP CARRIES between fights (D-050), the tank's lower damage-taken
+    // gedan the reverse. Because HP CARRIES between fights (ADR-050), the tank's lower damage-taken
     // genuinely trades against the glass-cannon's output — so no stance strictly dominates on BOTH
     // levers (offense via atkMult, hpRetention via LESS incoming damage; higher = better). The
     // marker string 'stance strictly dominates' below keeps the milestone-integrity gate resolving.
@@ -195,7 +195,7 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
   });
 });
 
-// D-050 — HP carries between fights and heals ONLY by eating. The v0.2 build seeded
+// ADR-050 — HP carries between fights and heals ONLY by eating. The v0.2 build seeded
 // every fight at full HP and free-healed on loss/level/promotion; the spine contract is
 // that a fight starts from your CURRENT hp, a loss leaves you hurt, and the cook sink is
 // the only mend — so "eat before you fight" is a real, legible decision.
@@ -221,7 +221,7 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
       character: { ...base.character, hp: 6 },
       flags: { ...base.flags, awake: true, raked: true },
     };
-    // D-110: the beat-terminal apply (applyPromotion) refills the belly (satiety), never HP.
+    // ADR-110: the beat-terminal apply (applyPromotion) refills the belly (satiety), never HP.
     const promoted = applyPromotion(parked, 'R1');
     expect(promoted.rung).toBe('R1'); // it did promote…
     expect(promoted.character.hp).toBe(6); // …without a free heal
@@ -271,7 +271,7 @@ describe('the seeded auto-battler', () => {
 describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LOCKED)', () => {
   // Stability invariant only (title now matches the body): a fight never regresses
   // combat-XP or level. The coin spoils on a win + the coin/rice/materials setback on a
-  // loss (D-107/D-113) are owned by t0-arc.test.ts ('the D-107 economy on the real path').
+  // loss (ADR-107/ADR-113) are owned by t0-arc.test.ts ('the ADR-107 economy on the real path').
   it('a grind fight grows combat-XP and never regresses level (stability)', () => {
     const s = atFullSatiety(createInitialState(7));
     const before = s.character.combatXp;
@@ -295,7 +295,7 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
   it('no-stranding (D-061): a fresh L1 reaches combat-L2 via the REAL eat+repair intents, never fighting Broken', () => {
     // Drive the ACTUAL production recovery loop through the real reducer intents — woodcut→
     // repair_weapon and forage→cook_meal (the same path main.ts autoStep runs) — NOT abstract
-    // mutation. The invariant (D-061): a fresh L1 reaches combat-L2 in bounded actions and never
+    // mutation. The invariant (ADR-061): a fresh L1 reaches combat-L2 in bounded actions and never
     // has to fight a Broken blade. `foughtBroken` is genuinely reachable here: if the recovery
     // intents failed (no wood/sansai obtainable, or a gate blocked them) the blade would degrade
     // to Broken and the fight would set it — so the assertion can go RED.
@@ -337,7 +337,7 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
                 );
           continue;
         }
-        // eat via the real cook intent to mend HEALTH — forage for sansai if short (F22: cook
+        // eat via the real cook intent to mend HEALTH — forage for sansai if short (FB-22: cook
         // heals hp only now, no longer refuels work-stamina)
         if (s.character.hp < hpMax(s) * 0.8) {
           s =
@@ -350,7 +350,7 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
           continue;
         }
         // refuel WORK-STAMINA via the real rest intent — a fed/rested fighter swings at full
-        // power (satiety throttles attackPower). This is the F22 second recovery action.
+        // power (satiety throttles attackPower). This is the FB-22 second recovery action.
         if (s.character.satiety < satietyMax(s) * balance.STAMINA_FLAT_ABOVE) {
           s = reduce(s, { type: 'rest' });
           continue;
@@ -372,10 +372,10 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
   });
 });
 
-// T0-M2-F2 — the FOUND/CRAFTED 2nd weapon (D-052): the drillmaster grant is RETIRED; the
+// T0-M2-F2 — the FOUND/CRAFTED 2nd weapon (ADR-052): the drillmaster grant is RETIRED; the
 // wood_axe is looted-for + forged, never gifted off a rack.
 describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () => {
-  // HP carries (D-050), so a bare grind sticks at 1 HP after a loss — these tests heal +
+  // HP carries (ADR-050), so a bare grind sticks at 1 HP after a loss — these tests heal +
   // repair between fights (the eat/repair loop the auto-loop runs), as the no-stranding test does.
   const recover = (s: GameState): GameState => {
     const w = getWeapon(s.equippedWeapon);
@@ -424,7 +424,7 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
     expect(reduce(crafted, { type: 'craft_weapon', recipeId: 'craft_wood_axe' })).toBe(crafted);
   });
 
-  // D-052 "never-gifted" gate (battery #16): equipping the axe is refused until you've forged
+  // ADR-052 "never-gifted" gate (battery #16): equipping the axe is refused until you've forged
   // it — a RED-able guard so a regression that re-allows the un-crafted axe can't pass green.
   it('the axe cannot be equipped until it has been crafted (D-052 never-gifted gate)', () => {
     const base = atFullSatiety(createInitialState(1));

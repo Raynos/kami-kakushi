@@ -16,7 +16,7 @@ unknowns. This plan is that conversation made durable.
   regex extensions); the judgment was spent in the audit. Each step has a
   RED-able DoD.
 - **Phase 4: Fable + the human.** Editorial cuts to always-loaded canon —
-  wrong-cut risk is silent meaning-loss, the D-117-compression class of work.
+  wrong-cut risk is silent meaning-loss, the ADR-117-compression class of work.
   Each cut is its own commit; the human reviews diffs, not prose promises.
 
 ## Why (one paragraph)
@@ -51,7 +51,7 @@ A meta-suite for the ~20 process scripts/hooks that currently have zero tests
 (the game has 797; the scaffolding has none — that's where both silent
 failures lived). New `src/scripts/verify-tooling.ts` + npm script
 `verify:tooling`, wired into **`verify-nightly.yml` only** — NOT the commit
-roster (D-072's 5s budget is sacred).
+roster (ADR-072's 5s budget is sacred).
 
 Checks, all fixture-driven so each can go RED:
 
@@ -111,7 +111,7 @@ Order chosen so each cut is independently revertable (one commit each):
    - Philosophies `R1–R6` → **`PH1–PH6`** (as planned) across
      docs/philosophy/ + AGENTS.md §Philosophy + ADR back-refs.
    - **Sweep step:** inventory the remaining single-letter ID schemes
-     (review `R`-items, `H`-items, `F`-feedback, `A`-conventions, `M`-
+     (review `HR`-items, `HD`-items, `F`-feedback, `A`-conventions, `M`-
      milestones, `D`-ADRs, …), draft a rename map in `tmp/`, apply to
      **living/always-loaded docs only** — historical records
      (`project/journal/`, `project/archive/`, closed ledgers) stay untouched
@@ -120,7 +120,7 @@ Order chosen so each cut is independently revertable (one commit each):
 2. **diverge skill** — graduate §0/§3/§4/§7/§8 (the retired
    branch/`?variant=`/contact-sheet/GC model, ~140 lines, both dead refs)
    verbatim to `project/archive/2026-07-05-diverge-v1-branch-model.md` with a
-   forward pointer; live skill keeps header + §1/§2/§5/§6. A15 discipline:
+   forward pointer; live skill keeps header + §1/§2/§5/§6. AC-15 discipline:
    text-mode word-diff proves content moved, not changed.
 3. **AGENTS.md checkpoint bullet** — compress ~40 lines to ~8 (the three
    non-negotiables + pointer); `working-agreements.md → Checkpoint` is already
@@ -135,14 +135,14 @@ Order chosen so each cut is independently revertable (one commit each):
 attached for cut 2; `verify` green throughout; the caps go RED when exceeded
 (prove once via a scratch over-length edit, then revert).
 
-## Deliberately NOT in this plan (H-items — filed, then closed same-day)
+## Deliberately NOT in this plan (HD-items — filed, then closed same-day)
 
-- **H21 — per-agent worktrees vs the shared tree: CLOSED → A, status quo**
+- **HD-21 — per-agent worktrees vs the shared tree: CLOSED → A, status quo**
   (human, 2026-07-05: no appetite for the weight of per-agent
   worktrees/branches/merging). Consequence: the shared-tree guards are
   load-bearing **permanently**, which *raises* the value of P2 (test the
   guards) and P3 (extend their coverage).
-- **H22 — journal shape for routine commits: CLOSED → A, status quo**
+- **HD-22 — journal shape for routine commits: CLOSED → A, status quo**
   (human, 2026-07-05: hand journals stay; `SKIP_JOURNAL=1` already covers
   trivial commits). The 4× write-up cost is accepted as the price of the
   on-disk memory model — no gate change.
@@ -154,5 +154,5 @@ attached for cut 2; `verify` green throughout; the caps go RED when exceeded
 P1 → P2 → P3 in order, any session. Remaining ⚠️: P3.3 (`settings.local.json`
 prune) stays human-owned — your 5 minutes, not an agent edit. P4 green-lit
 2026-07-06: all cuts land as individual commits, diffs reviewed after.
-H21/H22 closed 2026-07-05 (both → status quo); nothing here was blocked on
+HD-21/HD-22 closed 2026-07-05 (both → status quo); nothing here was blocked on
 them.

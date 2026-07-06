@@ -1,9 +1,9 @@
-// The run report formatter (F8) — PURE: RunRecord in, markdown-ish text out. The per-rung
+// The run report formatter (FB-8) — PURE: RunRecord in, markdown-ish text out. The per-rung
 // table deliberately rhymes with pacing-report.ts / the sim's t0-pacing.md (rung · minutes ·
 // band) so human-vs-bot-vs-intent is one eyeball pass — the third leg of the pacing triangle.
 //
 // BOTH attended(min) and ticks print per rung: ticks climbing while attended stalls =
-// background-window play (blur keeps the loop ticking, D-079) — a visible finding, never a
+// background-window play (blur keeps the loop ticking, ADR-079) — a visible finding, never a
 // silent lie (plan §3.2).
 
 import { balance } from '../core';
@@ -52,7 +52,7 @@ export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = [])
   const tainted = run.taints.length > 0;
   const label = tainted ? `TAINTED: ${run.taints.join(', ')}` : 'untainted';
   const lines: string[] = [];
-  // buildVersion is printed AS-IS — the __VERSION__ define already carries its own prefix (A21:
+  // buildVersion is printed AS-IS — the __VERSION__ define already carries its own prefix (AC-21:
   // one source for the version string, never re-decorated here into a "vv").
   lines.push(`run ${run.runId} (${run.buildVersion} ${run.buildSha}) — ${label}`);
   lines.push(`started ${run.startedAtISO} · seed ${run.seed}`);

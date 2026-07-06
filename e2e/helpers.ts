@@ -12,7 +12,7 @@ export async function press(locator: Locator): Promise<void> {
   else await locator.click();
 }
 
-/** The named scenario fixtures (F6). Mirrored statically so each gets its own
+/** The named scenario fixtures (FB-6). Mirrored statically so each gets its own
  *  test; the `fixture registry drift` test asserts this list matches the live
  *  `__qa.fixtures()` registry — adding a fixture without mobile coverage is RED. */
 export const FIXTURES = [
@@ -53,7 +53,7 @@ export async function boot(
 ): Promise<string[]> {
   const errors = trackErrors(page);
   // `telemetry=no`: automated runs must NOT drop machine-time reports into
-  // project/telemetry/ — that folder is the human's attended-play sensor (F8).
+  // project/telemetry/ — that folder is the human's attended-play sensor (FB-8).
   const flags = `&telemetry=no${opts.instantText ? '&instanttext=1' : ''}`;
   const url = fixture
     ? `/?dev=no&fixture=${encodeURIComponent(fixture)}${flags}`
@@ -194,7 +194,7 @@ export async function expectSingleColumnStack(page: Page, label: string): Promis
 
 /** The desktop mirror of `expectSingleColumnStack` — the byōbu SPREAD: work and log
  *  side-by-side, BOTH alive (nonzero width AND height), no overlap, and the log
- *  held to its design cap (46% of the workspace, styles.css F117). RED-proof: the
+ *  held to its design cap (46% of the workspace, styles.css FB-117). RED-proof: the
  *  dead-CSS regression class — a fold at zero size, or painted over the other —
  *  the desktop twin of the day-one mobile bug (see the ≤720px block's comment). */
 export async function expectTwoColumnSpread(page: Page, label: string): Promise<void> {

@@ -1,4 +1,4 @@
-// The attended-time sessionizer (F8) — a PURE incremental reducer that turns a timeline of
+// The attended-time sessionizer (FB-8) — a PURE incremental reducer that turns a timeline of
 // typed events into attended-time segments, so 5-min-play / 20-min-away / 5-min-play records
 // 10 minutes of gameplay, not 30 (the human's rule, the plan's §2 worked example).
 //

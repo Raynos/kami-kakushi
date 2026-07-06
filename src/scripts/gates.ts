@@ -28,14 +28,14 @@ export const GATES: ReadonlyArray<Gate> = [
   { name: 'verify-content', cmd: 'tsx src/scripts/verify-content.ts', scope: 'code' }, // imports registries only
   { name: 'verify-prd', cmd: 'tsx src/scripts/verify-prd.ts', scope: 'docs' }, // reads docs/living/prd/* only
   { name: 'gen-docs', cmd: 'tsx src/scripts/gen-docs.ts --check', scope: 'both' }, // src registries -> docs/content
-  { name: 'fixtures', cmd: 'tsx src/scripts/gen-fixtures.ts --check', scope: 'code' }, // specs+core -> src/fixtures/saves (F6)
-  { name: 'gen-narrative', cmd: 'tsx src/scripts/gen-narrative.ts --check', scope: 'code' }, // narrative/*.md -> *.gen.ts (F5; reads src only)
+  { name: 'fixtures', cmd: 'tsx src/scripts/gen-fixtures.ts --check', scope: 'code' }, // specs+core -> src/fixtures/saves (FB-6)
+  { name: 'gen-narrative', cmd: 'tsx src/scripts/gen-narrative.ts --check', scope: 'code' }, // narrative/*.md -> *.gen.ts (FB-5; reads src only)
   { name: 'gen-prd-regions', cmd: 'tsx src/scripts/gen-prd-regions.ts --check', scope: 'both' }, // RANKS -> PRD §3 region (F1b Ph2)
   { name: 'pacing', cmd: 'tsx src/scripts/pacing-report.ts --check', scope: 'code' }, // imports ../core only
   { name: 'playcheck', cmd: 'tsx src/playcheck.ts --check', scope: 'code' },
   { name: 'md-links', cmd: 'tsx src/scripts/check-md-links.ts', scope: 'both' }, // md links break via src renames too
   { name: 'milestone-integrity', cmd: 'tsx src/scripts/milestone-integrity.ts', scope: 'both' }, // roadmap DoD -> real tests
   { name: 'verify-changelog', cmd: 'tsx src/scripts/verify-changelog.ts', scope: 'both' }, // package.json -> CHANGELOG
-  { name: 'doc-budgets', cmd: 'tsx src/scripts/verify-doc-budgets.ts', scope: 'docs' }, // snapshot-doc caps (D-126)
+  { name: 'doc-budgets', cmd: 'tsx src/scripts/verify-doc-budgets.ts', scope: 'docs' }, // snapshot-doc caps (ADR-126)
   { name: 'checkpoint', cmd: 'tsx src/scripts/checkpoint.ts --check', scope: 'both' }, // gates.ts/plans -> process-doc regions
 ];

@@ -1,5 +1,5 @@
 // Shared keyed-reconcile DOM helpers — the intro's proven build-once / diff-and-append pattern
-// (F81, src/ui/render.ts) generalised into reusable primitives so every workspace pane can go
+// (FB-81, src/ui/render.ts) generalised into reusable primitives so every workspace pane can go
 // incremental. Pure DOM, no framework, NO game logic: a node is BUILT once on its first
 // appearance (listeners bound there) and PATCHED in place after, so an idle re-render of
 // unchanged state produces ZERO DOM churn — no node recreated, no attribute re-written, no
@@ -42,7 +42,7 @@ export function reconcileList<T>(
     rendered.set(container, map);
   }
   // 1. drop nodes whose key is no longer wanted (leaves a genuinely-empty container when the
-  //    list empties — the F72 ghost-box contract: no orphan node keeps a slice revealed).
+  //    list empties — the FB-72 ghost-box contract: no orphan node keeps a slice revealed).
   const wanted = new Set<string>();
   for (const item of items) wanted.add(opts.key(item));
   for (const [k, node] of map) {

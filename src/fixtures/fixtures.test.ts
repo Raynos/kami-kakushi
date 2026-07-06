@@ -1,4 +1,4 @@
-// F6 scenario-save teeth (§2.5a) — the round-trip test. Cheap (parse + validateEnvelope + assert;
+// FB-6 scenario-save teeth (§2.5a) — the round-trip test. Cheap (parse + validateEnvelope + assert;
 // NO simulation), so it lives IN the vitest gate. Two things it proves, each RED-able:
 //   1. registry ↔ disk parity — an orphan save or a spec with no save goes RED.
 //   2. every committed envelope loads through the REAL import → migrate → validate chain AND lands

@@ -1,4 +1,4 @@
-// The ONE seeded RNG (PRD §6.7 / D-038). splitmix64, exposed as per-named-stream
+// The ONE seeded RNG (PRD §6.7 / ADR-038). splitmix64, exposed as per-named-stream
 // cursors so different concerns (combat / loot / seasonal / worldgen) advance
 // independently and a save restores the exact sequence position.
 //

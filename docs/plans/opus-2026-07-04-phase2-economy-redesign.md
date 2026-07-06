@@ -2,8 +2,8 @@
 
 **Status:** 📋 PROPOSED — awaiting sign-off (design divergence; human picks the loop)
 
-> **What this is.** The REAL Phase-2 redesign that D-133 queued as the follow-on
-> to the quick threshold hotfix. D-133 locked the *law* (Phase 2 ≈ Phase 1 in
+> **What this is.** The REAL Phase-2 redesign that ADR-133 queued as the follow-on
+> to the quick threshold hotfix. ADR-133 locked the *law* (Phase 2 ≈ Phase 1 in
 > wall-time, `PHASE2_PHASE1_RATIO_BAND = [0.8, 1.2]`, a hard `verify:balance`
 > gate) and a stopgap hotfix greens that gate by *stretching a threshold*. But
 > the band gate proves **duration**, not **fun** — a threshold-only stretch is 83
@@ -28,7 +28,7 @@ mechanical tail (constant wiring, doc regen, persona-bot plumbing) once the loop
 is locked.** This is the taste-and-fun-critical heart of T0 — it decides what the
 player *does* for the back half of the tier, it is bound to the four taste values
 and the fun-factor doc, and it touches the pure-core economy that every later
-tier's Phase 2 inherits (D-133 made 1:1 a general law). That judgment
+tier's Phase 2 inherits (ADR-133 made 1:1 a general law). That judgment
 concentrates in the design pass and the core reducer/selector work. Split:
 
 - **Phase 0 (design lock) — Opus.** Run `diverge` on the loop options in §2 with
@@ -38,21 +38,21 @@ concentrates in the design pass and the core reducer/selector work. Split:
   sources, the staged-build state machine, the seasonal-judge interaction, and
   the RED-able tests that assert the *design levers* (not collapsed metrics) are
   Opus work — a mis-derived fixture or a tautological test here is a false green
-  on the game's spine (R3).
-- **Phase 4 (UI surfaces) — Opus to design the variants (D-075 diverge), a
+  on the game's spine (PH3).
+- **Phase 4 (UI surfaces) — Opus to design the variants (ADR-075 diverge), a
   cheaper model MAY implement a locked variant.** New Phase-2 surfaces (a
-  build-progress tracker; if Option C, an allocation panel) are new UI → D-075
+  build-progress tracker; if Option C, an allocation panel) are new UI → ADR-075
   mandatory. Opus authors the 2–3 working variants + self-picks the default; a
   Sonnet-class builder can wire an already-designed variant.
 - **Mechanical tail — cheaper model OK.** Once the loop + magnitudes are locked:
   regenerating `docs/content/t0-pacing.md`, wiring new balance constants that are
   already specified, extending the sim personas to exercise the new intents, and
   the PRD gen-region regen are mechanical and cheaply delegable (with an Opus
-  review of the balance verdict). Per D-124 these inherit the parent model unless
+  review of the balance verdict). Per ADR-124 these inherit the parent model unless
   the human routes otherwise; the smaller-model drop is the sanctioned
   exploration/boilerplate exception only.
 
-**Model-routing note (D-124):** nothing here self-authorizes an Opus→Fable
+**Model-routing note (ADR-124):** nothing here self-authorizes an Opus→Fable
 switch; the cheaper-model lines above are *proposals for the human to approve*,
 scoped to plainly-mechanical sub-phases.
 
@@ -80,20 +80,20 @@ Phase-1 rung climb it mirrors in length:
 
 **Reasoned from the four taste values (`taste.md`):**
 
-- **V1 · One home.** Every new deed source and the build-progress read live in
+- **TST1 · One home.** Every new deed source and the build-progress read live in
   the **Estate tab** (its existing home) — no capability operable from two tabs;
   reuse the influence panel + the `--attr-*` pigments + the typewriter/beat
   primitives, never fork a local variant.
-- **V2 · Never yank the ground.** The influence/standing panel is *watched* the
+- **TST2 · Never yank the ground.** The influence/standing panel is *watched* the
   whole of Phase 2 — it must patch/append, never wholesale-reset when a build
   stage completes or a deed source unlocks. A stage-completion is an appended
   beat + an in-place bar advance, not a rebuild.
-- **V3 · Fiction causes mechanics.** Each deed source and each build stage is
+- **TST3 · Fiction causes mechanics.** Each deed source and each build stage is
   *discovered via a beat* — the shinden reclamation *pays out* and that reveals
   it as a recurring earner; the workshop's first yield *fires a line*. Nothing
   spawns; the story the R4–R7 rungs already promised (the shinden, workshops,
   granary, long-house) is what *causes* the Phase-2 economy.
-- **V4 · Never guess state.** The lagging-Estate read is surfaced from the FIRST
+- **TST4 · Never guess state.** The lagging-Estate read is surfaced from the FIRST
   Phase-2 season (§2.16(b) / §3.2) — the bar reads plainly "Estate is still
   short," each deed source states its rate, and the build stage shows how far to
   the next beat. yet-another-idle-rpg's "many small visible progressions" is the
@@ -105,10 +105,10 @@ the *legible compounding climb* + *authored beats punctuating the grind* — the
 same texture that makes the Phase-1 climb work, re-voiced for "building a house
 up" instead of "climbing rungs." The redesign must clear the fun bar by
 *measurable-absence proxies* (variety of intents issued, beats fired, decisions
-taken across the window) — but only a human certifies presence (R5). A live MCP
-playtest of the full Phase-2 window is a DoD gate (R6), not just the sim.
+taken across the window) — but only a human certifies presence (PH5). A live MCP
+playtest of the full Phase-2 window is a DoD gate (PH6), not just the sim.
 
-**A tension to resolve at design-lock (raised in the H19 brainstorm, Q2):**
+**A tension to resolve at design-lock (raised in the HD-19 brainstorm, Q2):**
 literal 1:1 makes T0 total ~2.8 h. The human called 1:1 "a better random ass
 default," tunable in playtest — so the redesign MAY instead rebalance the
 *split* of a ~90-min T0 (shorten Phase 1 too), rather than bolt ~83 min onto the
@@ -151,8 +151,8 @@ share on the aggregate high-water.
   its own it's still "grind, just with 4 buttons" — needs the build-stage beats
   (Option B) layered on to feel like *building*, not just *accumulating*.
 - **UI:** mostly reuses the Estate/influence panel + deed log. A multi-source
-  deed log MAY warrant a **D-075 diverge** (how to show 4 concurrent earners
-  legibly, V4) — flag at build time; likely light.
+  deed log MAY warrant a **ADR-075 diverge** (how to show 4 concurrent earners
+  legibly, TST4) — flag at build time; likely light.
 
 ### Option B — Staged estate-BUILD milestones (the "watch it rise" loop)
 
@@ -174,17 +174,17 @@ the PRD's promised "E1 Stabilising completes as a Phase-2 beat" that T0 never
 shipped.
 
 - **Texture:** the strongest *fun* answer — the estate literally rises before
-  your eyes, each stage an old-school "learned box" reveal (V3), the pacing
+  your eyes, each stage an old-school "learned box" reveal (TST3), the pacing
   carried by beats not just a bar. Maps 1:1 onto the existing `ESTATE_STAGES`
   ladder and `improve_estate`, re-gated off *deeds* (or deeds+coin) instead of
   pure coin.
 - **Tradeoffs:** needs the stages re-paced to fill ~40–80 min (today U1–U4 are a
   coin sink reachable fast); risks feeling *linear* (one path) unless paired with
   Option A's multiple earners feeding it. The build-stage state must be
-  derivable/append-only (V2) — a stage completing must never rebuild the panel.
+  derivable/append-only (TST2) — a stage completing must never rebuild the panel.
 - **UI:** a **build-progress tracker** surface (stages + the next-beat ETA) is a
-  new/majorly-restyled surface → **D-075 diverge REQUIRED.** Lives in the Estate
-  tab (V1).
+  new/majorly-restyled surface → **ADR-075 diverge REQUIRED.** Lives in the Estate
+  tab (TST1).
 
 ### Option C — Light allocation layer (the "steward's choices" loop)
 
@@ -205,7 +205,7 @@ diminishing returns per track (so spreading vs specialising is a real decision).
   MC choosing which of his own labours to do next*, not an abstract allocation
   dashboard. If it drifts into a management UI it violates canon — a design-lock
   risk the human must weigh.
-- **UI:** an allocation/choice surface → **D-075 diverge REQUIRED**, and a taste
+- **UI:** an allocation/choice surface → **ADR-075 diverge REQUIRED**, and a taste
   review specifically against the "not a management sim" constraint.
 
 ### Recommended shape (a self-picked default, per R4 — the human overrides)
@@ -214,7 +214,7 @@ diminishing returns per track (so spreading vs specialising is a real decision).
 (A) *driving* a visible staged build (B), with the seasonal judge as the payout
 rhythm. It reuses the existing engine (A is low-risk on core; B maps onto
 `ESTATE_STAGES`), delivers the PRD's promised build-completes-as-a-beat, and
-needs exactly one new UI surface (the build tracker, D-075). Option C's best
+needs exactly one new UI surface (the build tracker, ADR-075). Option C's best
 idea (the store-vs-sell timing lever) is *already built* and can enrich A+B
 without adopting the management-layer risk. **This is a proposal, not a
 decision** — the diverge board in Phase 0 puts all three (and the A+B hybrid) in
@@ -224,8 +224,8 @@ front of the human.
 
 ## 3 · How it hits ~1:1 and how the sim VERIFIES it
 
-**The acceptance test is the F4 sim's ratio band.** D-133 adds
-`PHASE2_PHASE1_RATIO_BAND = [0.8, 1.2]` to `balance.ts` (single-sourced, A21) and
+**The acceptance test is the FB-4 sim's ratio band.** ADR-133 adds
+`PHASE2_PHASE1_RATIO_BAND = [0.8, 1.2]` to `balance.ts` (single-sourced, AC-21) and
 a hard `verify:balance` envelope gate. The redesign is *accepted* iff, across
 **all 5 fixed seeds × all 3 personas** (greedy, idler, explorer):
 
@@ -238,7 +238,7 @@ capstone→ascension window. The sim already computes the pieces:
 `metrics.ts` records `phase2Intents = total − capstoneAtIntent` (L277); the
 ratio is `phase2Intents / capstoneAtIntent` (both → wall via the 480 ms model).
 The envelope lands in `src/sim/envelopes.ts` alongside `PHASE2_RUNG` (L19), which
-today explicitly marks the window "report-only, see H19" — D-133 flips it to a
+today explicitly marks the window "report-only, see HD-19" — ADR-133 flips it to a
 gated verdict.
 
 **Why the redesign can hit the band where a threshold-stretch is a false green:**
@@ -247,14 +247,14 @@ gated verdict.
   it. The difference is **what fills the duration**: the stopgap fills ~83 min
   with one repeated intent (the sim's `phase2Intents` climbs but the *variety* is
   ~1); the redesign fills it with multiple deed sources + staged beats.
-- **So the sim's job here is dual:** (1) the *duration* verdict (the D-133 ratio
+- **So the sim's job here is dual:** (1) the *duration* verdict (the ADR-133 ratio
   band — the hard gate), and (2) a *texture* proxy that guards against a
   regression back to single-action grind. Add report-only metrics the personas
   surface: **distinct Phase-2 intent types issued**, **build stages reached**,
   **seasonal judges fired** in the window. These are *reported* (not gated — a
-  fun proxy proves absence, not presence, R5/D-132), but a drop to "1 distinct
+  fun proxy proves absence, not presence, R5/ADR-132), but a drop to "1 distinct
   intent" in the report is the visible alarm that the loop collapsed back to a
-  slog. (Gating a fun-proxy would cry wolf — keep it report-only per D-132's
+  slog. (Gating a fun-proxy would cry wolf — keep it report-only per ADR-132's
   sound-rung rule.)
 
 **Persona work the sim needs (mechanical, but load-bearing):** the current
@@ -268,7 +268,7 @@ together — otherwise the sim measures a Phase 2 the bots never actually play
 
 **Tuning to land in-band:** the per-source deed magnitudes, the per-deed cap, the
 build-stage thresholds, and the EXCELLENT band (`ESTATE_BANDS`) are the levers.
-All are **PROVISIONAL / liquid (D-059)** — this plan does NOT canonise numbers.
+All are **PROVISIONAL / liquid (ADR-059)** — this plan does NOT canonise numbers.
 The flow is: pick magnitudes → `npm run balance:sim` → read the ratio → adjust →
 repeat until all 15 cells sit inside `[0.8, 1.2]` with margin. Because the ratio
 is *relative*, the Phase-1/Phase-2 split rebalance (Open Q1) is just a choice of
@@ -300,38 +300,38 @@ which side to move.
   (the sim consumes the pure core; the ratio is computed from pure-core intent
   counts, no renderer involvement).
 
-**Route forecasts/previews through the SAME pure-core fn (A6).** The Estate
+**Route forecasts/previews through the SAME pure-core fn (AC-6).** The Estate
 panel's "distance to EXCELLENT / to the next build stage / seasons-to-gate"
 forecast MUST read the same pure functions the accrual uses — e.g. a
 `phase2Forecast(state)` selector that both the shown ETA and (where relevant) the
 sim consult, so the displayed "Estate is still short" read can never drift from
-the real gate (V4 "displayed == tested"; the ascension gate-readiness already
+the real gate (TST4 "displayed == tested"; the ascension gate-readiness already
 follows this pattern per the roadmap's DISPLAYED==TESTED rows).
 
 **Stays in the renderer (DOM/canvas):** the Estate-tab layout, the build-progress
 tracker widget, the deed-log rendering, the allocation control (Option C) — all
-consume the pure-core data as plain values (V2 append-only render; never
+consume the pure-core data as plain values (TST2 append-only render; never
 wholesale-reset the watched panel on a stage/deed tick).
 
 ---
 
-## 5 · Balance-change protocol (D-132)
+## 5 · Balance-change protocol (ADR-132)
 
-This redesign touches balance magnitudes → the full D-132 machine-verdict flow is
+This redesign touches balance magnitudes → the full ADR-132 machine-verdict flow is
 **mandatory**, not optional:
 
 1. Change the constants in `src/core/content/balance.ts` (deed-source table,
    per-deed cap, stage thresholds, `ESTATE_BANDS` if retuned) — all annotated
-   PROVISIONAL / liquid (D-059).
+   PROVISIONAL / liquid (ADR-059).
 2. `npm run verify:balance` (`balance-sim --check`) — the hard envelope verdict,
-   now including the D-133 ratio band. Iterate magnitudes until all 15 cells are
+   now including the ADR-133 ratio band. Iterate magnitudes until all 15 cells are
    in-band.
 3. `npm run balance:report` — regenerate `docs/content/t0-pacing.md`. Its
    `git diff` **IS** the before/after of the change (the Phase-2 rows go from
    ~0.4 min to ~40–83 min; the report gains the texture metrics).
 4. **Commit `t0-pacing.md` WITH the code change** (same commit), and paste the
    `balance-sim --summary` per-rung/ratio deltas into the commit body.
-5. The `--check-fresh` fingerprint WARN (D-132 §5a) catches a magnitude change
+5. The `--check-fresh` fingerprint WARN (ADR-132 §5a) catches a magnitude change
    that forgot the report regen; don't bypass it.
 
 Full flow reference: `docs/living/qa-playtesting.md` §2.
@@ -340,9 +340,9 @@ Full flow reference: `docs/living/qa-playtesting.md` §2.
 
 ## 6 · Milestones / phases with DoD (each names a RED-able test)
 
-Sequenced so **nothing ships half-reachable (R6)** — every phase leaves the game
+Sequenced so **nothing ships half-reachable (PH6)** — every phase leaves the game
 playable by a human, and the sim green. Each DoD names a test that **could have
-gone RED** (D-088), asserts a **design lever** not a collapsed metric, and
+gone RED** (ADR-088), asserts a **design lever** not a collapsed metric, and
 derives fixtures from the **source of truth** (the balance constants), never a
 copied magic number.
 
@@ -351,7 +351,7 @@ Run `diverge` on §2's options with the human; lock the loop + provisional
 magnitudes + the Phase-1/Phase-2-split call (Open Q1). Write the locked shape
 back into this plan (or a short follow-up).
 *DoD:* the human has picked a loop; magnitudes drafted as liquid constants.
-*(No test — a design gate. The stopgap hotfix + D-133 gate must already be landed
+*(No test — a design gate. The stopgap hotfix + ADR-133 gate must already be landed
 so the ratio band exists to build against.)*
 
 **Phase 1 — Multi-source deeds in pure core (Opus).**
@@ -370,33 +370,33 @@ authored reveal beat + the E1 "Stabilising — the estate STANDS" build-complete
 beat at the final stage.
 *DoD test (RED-able):* a `t0-arc.test.ts` / `ascension.test.ts` extension that
 drives the real Phase-2 grind and asserts **the build stages advance in order and
-each fires its beat exactly once (append-only, V2), the E1-complete beat fires
+each fires its beat exactly once (append-only, TST2), the E1-complete beat fires
 before/at the EXCELLENT gate, and the stage boundaries are derived from the
 `ESTATE_STAGES` thresholds** (source of truth). RED if a stage is skipped, a beat
-double-fires (V2 violation), or the build-complete beat is missing.
+double-fires (TST2 violation), or the build-complete beat is missing.
 
-**Phase 3 — Balance land the ratio (Opus; D-132 flow).**
-Tune magnitudes; run the D-132 protocol until all 15 sim cells sit inside
+**Phase 3 — Balance land the ratio (Opus; ADR-132 flow).**
+Tune magnitudes; run the ADR-132 protocol until all 15 sim cells sit inside
 `[0.8, 1.2]`. Extend the personas to issue the new Phase-2 intents; add the
 report-only texture metrics.
-*DoD test (RED-able):* the `verify:balance` ratio-band envelope (the D-133 hard
+*DoD test (RED-able):* the `verify:balance` ratio-band envelope (the ADR-133 hard
 gate) is GREEN across 3 personas × 5 seeds **AND** the tripwire vitest
 (`pacing-envelope.test.ts`, canonical seed) asserts the ratio is in-band. Proven
 RED-able by construction: revert to the old single-source magnitude → the ratio
-collapses to ~0.005 → the gate reddens naming the ratio (mirror of D-132's R5
+collapses to ~0.005 → the gate reddens naming the ratio (mirror of ADR-132's R5
 threshold-×3 RED proof). The texture metrics are **report-only** (not gated — fun
-proxy, D-132 sound-rung rule).
+proxy, ADR-132 sound-rung rule).
 
 **Phase 4 — The Phase-2 UI surfaces (Opus design, cheaper-model build OK).**
 The build-progress tracker (Option B) and, if Option C, the allocation control —
-each a new/majorly-restyled surface → **D-075 diverge**: 2–3 working variants
-behind the DEV-panel toggle, self-pick a prod default, one R-item per variant in
+each a new/majorly-restyled surface → **ADR-075 diverge**: 2–3 working variants
+behind the DEV-panel toggle, self-pick a prod default, one HR-item per variant in
 `review.md`. Route the panel's ETA/forecast through the Phase-2 pure-core
-selector (A6). Live-MCP-playtest the full window (R6 — a human-reachable Phase 2,
+selector (AC-6). Live-MCP-playtest the full window (PH6 — a human-reachable Phase 2,
 not just a sim-green one).
 *DoD test (RED-able):* a selector unit test that the shown "distance to EXCELLENT
-/ next stage" equals the pure-core forecast (DISPLAYED==TESTED, V4) — RED if the
-renderer computes its own drifting estimate. Plus the D-088 **tier-level** duty:
+/ next stage" equals the pure-core forecast (DISPLAYED==TESTED, TST4) — RED if the
+renderer computes its own drifting estimate. Plus the ADR-088 **tier-level** duty:
 the full-arc e2e + invariants test named in this tier's DoD must now cover the
 redesigned Phase 2 (extend, don't fork).
 
@@ -406,12 +406,12 @@ redesigned Phase 2 (extend, don't fork).
 
 ## 7 · Relationship to the stopgap hotfix (the migration)
 
-**This plan SUPERSEDES the stopgap's threshold inflation.** D-133 ships a quick
+**This plan SUPERSEDES the stopgap's threshold inflation.** ADR-133 ships a quick
 T0 Phase-2 hotfix so the new hard ratio gate is green on landing (a gate must be
-green-able — R3). That hotfix is explicitly a *stopgap*: it stretches a threshold
+green-able — PH3). That hotfix is explicitly a *stopgap*: it stretches a threshold
 (likely the `ESTATE_BANDS.excellent` deed gate and/or `ESTATE_DEED_PER_ACT`) to
 pad the window to ~1:1 with **minimal texture** — it greens *duration* but not
-*fun* (D-133 "Known debt (R5)").
+*fun* (ADR-133 "Known debt (PH5)").
 
 **Migration when this redesign lands:**
 
@@ -420,7 +420,7 @@ pad the window to ~1:1 with **minimal texture** — it greens *duration* but not
   beats. The stopgap's `ESTATE_BANDS`/`ESTATE_DEED_PER_ACT` values are re-derived
   from scratch against the new multi-source economy (Phase 3), so the stopgap's
   magic threshold number does not survive.
-- **The ratio band gate and its plumbing are KEPT** — the D-133 gate,
+- **The ratio band gate and its plumbing are KEPT** — the ADR-133 gate,
   `PHASE2_PHASE1_RATIO_BAND`, the envelope, the tripwire test. The redesign keeps
   the *same acceptance test green*, just via a real economy instead of a padded
   threshold. No gate churn.
@@ -434,7 +434,7 @@ pad the window to ~1:1 with **minimal texture** — it greens *duration* but not
 
 ---
 
-## 8 · PRD ripple (D-117)
+## 8 · PRD ripple (ADR-117)
 
 **Yes — targeted ripple (this changes a BUILT system).** Run `/prd-ripple` after
 the redesign lands. Classification (Flow 1):
@@ -453,11 +453,11 @@ the redesign lands. Classification (Flow 1):
 - Then `npm run prd:drift` for the game→PRD punch-list; clear what the change
   staled.
 - **An ADR:** the *loop choice* itself (which of §2's options ships) is a
-  design decision worth an ADR entry in `decisions.md` (it refines D-133's
+  design decision worth an ADR entry in `decisions.md` (it refines ADR-133's
   "queued follow-on" into the concrete loop), single-sourced so the PRD points at
   it rather than restating.
 
-**Generalises forward (D-133 is a general law):** because 1:1 is now every
+**Generalises forward (ADR-133 is a general law):** because 1:1 is now every
 tier's Phase-2 law, the T0 loop chosen here is the *template* T1-M4 / T2-M4 build
 their Phase-2 economies against (the roadmap's T1-M4-F1 already says "reuses the
 T0 Phase-2 / influence surface (no new DIVERGE)"). Design the T0 loop so it
@@ -469,8 +469,8 @@ T0 Phase-2 / influence surface (no new DIVERGE)"). Design the T0 loop so it
 ## Open questions for the human
 
 - **Q1 — Literal 1:1 (~83 min bolted on, T0 total ~2.8 h) OR rebalance the split
-  of a ~90-min T0 (shorten Phase 1 too)?** D-133 locked the *ratio*, not the
-  *absolute* — and the H19 brainstorm (Q2) flagged this exact tension. The
+  of a ~90-min T0 (shorten Phase 1 too)?** ADR-133 locked the *ratio*, not the
+  *absolute* — and the HD-19 brainstorm (Q2) flagged this exact tension. The
   mechanics below work either way; the answer sets the magnitude-tuning target in
   Phase 3. **This is a direction call only a human makes.**
 - **Q2 — Which loop (§2)?** A (many earners) / B (staged build) / C (allocation)

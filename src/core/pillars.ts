@@ -1,9 +1,9 @@
-// The House-Influence (家威) macro engine (PRD §1.6 / §4.2 / D-049/D-055/D-057). One pillar
+// The House-Influence (家威) macro engine (PRD §1.6 / §4.2 / ADR-049/ADR-055/ADR-057). One pillar
 // per tier; T0 lights the Estate (家産) pillar. The loop: in PHASE 2 (post-R7 capstone, FU7)
 // your recognised deeds bank standing (capped per-deed, anti-spike); each season the house is
 // JUDGED at a new high-water (the 30% seasonal share, ±10%); the grade (NONE→GOOD→GREAT→
 // EXCELLENT) gates the ascension (T0 = Estate ≥ EXCELLENT). Pure & deterministic; balance
-// magnitudes are LIQUID (D-059). Deeds accrue ONLY in Phase 2 so the spine can't bank early.
+// magnitudes are LIQUID (ADR-059). Deeds accrue ONLY in Phase 2 so the spine can't bank early.
 
 import type { GameState, PillarState } from './state';
 import { phaseOf } from './ranks';
@@ -24,7 +24,7 @@ export interface GradeBands {
   readonly excellent: number;
 }
 
-/** The grade a pillar value earns (the ascension gate reads this; D-049/D-057). */
+/** The grade a pillar value earns (the ascension gate reads this; ADR-049/ADR-057). */
 export function gradeOf(value: number, bands: GradeBands = ESTATE_BANDS): Grade {
   if (value >= bands.excellent) return 'EXCELLENT';
   if (value >= bands.great) return 'GREAT';
@@ -33,7 +33,7 @@ export function gradeOf(value: number, bands: GradeBands = ESTATE_BANDS): Grade 
 }
 
 /** The cap a single deed may contribute (0.04 · GOOD) — no one act spikes the grade. At T0 the sole
- *  producer (`ESTATE_DEED_PER_ACT`) is now a SUB-koku fraction (D-133), far under this cap, so it
+ *  producer (`ESTATE_DEED_PER_ACT`) is now a SUB-koku fraction (ADR-133), far under this cap, so it
  *  never *binds* yet — that is intentional FORWARD-HEADROOM (battery #22, "documented not gated"):
  *  it is the anti-spike guardrail for T1+, where multiple, larger deed producers land and a single
  *  fat deed COULD spike the grade. (Whether T0 estate-standing should bank from ALL labour or only
@@ -42,7 +42,7 @@ export function perDeedCap(bands: GradeBands = ESTATE_BANDS): number {
   return Math.max(1, Math.round((bands.good * PER_DEED_CAP_NUM) / 100));
 }
 
-/** Bank ONE deed into a pillar, capped per-deed; bumps the high-water. Deeds are SUB-koku (D-133):
+/** Bank ONE deed into a pillar, capped per-deed; bumps the high-water. Deeds are SUB-koku (ADR-133):
  *  `rawDelta` (a fraction) accumulates in `frac` and only banks whole koku into `value` once it
  *  crosses 1 — so the Phase-2 grind takes ~1:1 with Phase 1 without inflating the koku gate. A whole
  *  integer `rawDelta` still banks immediately (frac untouched → 0), so integer callers/tests are
@@ -74,9 +74,9 @@ export function applyEstateDeed(
   return { ...state, influence: { ...state.influence, estate } };
 }
 
-/** The seasonal judge (PRD §4.2 / D-049): on a NEW high-water (highWater > judged), the season
+/** The seasonal judge (PRD §4.2 / ADR-049): on a NEW high-water (highWater > judged), the season
  *  pays the 30% share — `growth · 3/7`, swung ±10% by the day-keyed RNG float `r` ∈ [0,1). Never
- *  net-negative (no permanent loss, D-061). Returns the updated pillar + the bonus (for the log).
+ *  net-negative (no permanent loss, ADR-061). Returns the updated pillar + the bonus (for the log).
  *  No new high-water → a no-op (same ref, bonus 0). */
 export function seasonalJudge(
   pillar: PillarState,

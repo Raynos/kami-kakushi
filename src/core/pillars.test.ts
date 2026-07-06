@@ -55,7 +55,7 @@ describe('Estate deeds are Phase-2-gated (FU7) (M2·3)', () => {
   it('applyEstateDeed accrues SUB-koku, banking whole koku only as frac crosses 1 (D-133)', () => {
     const deed = balance.ESTATE_DEED_PER_ACT;
     expect(deed).toBeGreaterThan(0);
-    expect(deed).toBeLessThan(1); // the D-133 stopgap: one labour deed is a fraction of a koku
+    expect(deed).toBeLessThan(1); // the ADR-133 stopgap: one labour deed is a fraction of a koku
     // one deed banks NO whole koku yet — it rides in `frac`; `value` holds at 0
     const one = applyEstateDeed(atPhase2(), deed);
     expect(one.influence.estate.value).toBe(0);
@@ -74,7 +74,7 @@ describe('Estate deeds are Phase-2-gated (FU7) (M2·3)', () => {
       { ...base, location: 'home-paddies', unlocked: [...base.unlocked, 'verb-farm'] },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
-    // The deed is SUB-koku (D-133): a single act banks into `frac`, not yet a whole koku in `value`.
+    // The deed is SUB-koku (ADR-133): a single act banks into `frac`, not yet a whole koku in `value`.
     expect(s.influence.estate.frac ?? 0).toBeGreaterThan(0);
   });
 });

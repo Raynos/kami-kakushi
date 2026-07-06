@@ -1,8 +1,8 @@
-// Persona bots (F4 §1) — PURE decision policies over player-visible state, OUTSIDE the core
+// Persona bots (FB-4 §1) — PURE decision policies over player-visible state, OUTSIDE the core
 // (a player model, not game rules). No cheating, by construction: a persona only ever issues
 // `Intent`s through `reduce` (never applyGrindFight, never forced flags, never state surgery),
 // and reads state only through the same public selectors the UI renders from (a review norm,
-// not a lint — A11).
+// not a lint — AC-11).
 //
 // Contract note (a self-picked deviation from the plan's `decide(s)`): `decide(s, issued)` also
 // receives the run's issued (type:payload) key set, maintained by the runner. The explorer's
@@ -48,7 +48,7 @@ import {
   satietyMax,
 } from '../core';
 
-// The ONE runtime list of all intent types (F4 §1). When the game grows an intent, `tsc`
+// The ONE runtime list of all intent types (FB-4 §1). When the game grows an intent, `tsc`
 // (already in `verify`) goes RED here until the map is updated; each persona's skip-list
 // (ALL_INTENTS − persona.knows) is then printed as a SKIPPED INTENTS table in every report —
 // a loud, standing admission, never a silent gap.
@@ -170,7 +170,7 @@ function combatLegIntent(s: GameState): Intent | null {
     if (hop) return { type: 'move_to', to: hop };
     // can't reach wood — fall through and fight with what's in hand rather than stall.
   }
-  // (2) mend the body when hurt and a hot meal is on hand (eating is the ONLY HP heal, D-050).
+  // (2) mend the body when hurt and a hot meal is on hand (eating is the ONLY HP heal, ADR-050).
   if (
     s.character.hp < hpMax(s) * GREEDY_MEND_HP_FRAC &&
     isUnlocked(s, 'verb-cook') &&
@@ -221,7 +221,7 @@ export const greedy: Persona = {
 };
 
 // ── idler ─────────────────────────────────────────────────────────────────────────────────────
-// Minimal input, the auto-modes do the work (F4 §1). Everything between check-ins is LITERALLY
+// Minimal input, the auto-modes do the work (FB-4 §1). Everything between check-ins is LITERALLY
 // the shipped auto-loop (`autoModeIntent` — the same pure function the app loop dispatches from,
 // extracted in this phase), so the idler measures what "leave it running" actually paces like.
 // Check-ins fire only when the auto-mode has nothing to do or a promotion/intro/beat affordance
@@ -314,7 +314,7 @@ export const idler: Persona = {
 };
 
 // ── explorer ──────────────────────────────────────────────────────────────────────────────────
-// Breadth before optimisation (F4 §1): prefer any LEGAL never-yet-issued (type, payload-id) pair
+// Breadth before optimisation (FB-4 §1): prefer any LEGAL never-yet-issued (type, payload-id) pair
 // in deterministic registry order — ask every topic, walk every revealed node, taste every verb —
 // falling back to greedy when nothing novel is legal. Legality is probed against the real
 // reducer (an illegal intent returns the SAME state reference — the mode-guard contract), so the
@@ -389,5 +389,5 @@ export const explorer: Persona = {
   },
 };
 
-/** The full F4 roster (Ph3). */
+/** The full FB-4 roster (Ph3). */
 export const PERSONAS: readonly Persona[] = [greedy, idler, explorer];

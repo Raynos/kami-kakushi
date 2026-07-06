@@ -1,4 +1,4 @@
-// t0-story.md emitter (F5 Ph4) — the one-page compiled READING script.
+// t0-story.md emitter (FB-5 Ph4) — the one-page compiled READING script.
 //
 // The authoring files are already readable; this renders them as ONE page in
 // play order — cold open → the three intro scenes → the R1…R7 rung beats —

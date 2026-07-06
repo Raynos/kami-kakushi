@@ -1,4 +1,4 @@
-// Dev-server transport for the playtest capture overlay (F3). A Vite dev-middleware endpoint
+// Dev-server transport for the playtest capture overlay (FB-3). A Vite dev-middleware endpoint
 // (wired in vite.config.ts, `apply: 'serve'`) receives a POSTed capture from the DEV-only overlay
 // and APPENDS it to that game session's file: `project/playtest-inbox/pending/<session>.md` (header
 // written once, one `##` entry per capture), with the entry's screenshot written into the sibling

@@ -7,7 +7,7 @@
 > forward. The underlying plan/doc files stay where they live.
 
 - [ ] `docs/plans/opus-2026-07-04-phase2-economy-redesign.md` — **T0 Phase-2
-  economy redesign** (the REAL fix D-133 queued after the stopgap hotfix):
+  economy redesign** (the REAL fix ADR-133 queued after the stopgap hotfix):
   makes T0 Phase 2 a ~1:1, ~40–83-min *fun* chunk instead of a
   threshold-inflated slog. **DESIGN-DIVERGENT** — proposes 3 distinct loops
   (multi-deed grind · staged estate-BUILD beats · light allocation layer;

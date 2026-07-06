@@ -1,12 +1,12 @@
-// The two-axis DEV-tools gate (D-138). Splits "is the code in the bundle"
+// The two-axis DEV-tools gate (ADR-138). Splits "is the code in the bundle"
 // (build-time `__DEV_TOOLS__`, tree-shaking) from "is it active" (this runtime fn).
 //
 // Two independently-gated surfaces:
-//  - `qa`    — the `__qa` play-API + F6 fixtures (+ `?fixture=` boot). In a DEV
+//  - `qa`    — the `__qa` play-API + FB-6 fixtures (+ `?fixture=` boot). In a DEV
 //              SERVE build it stays on even under `?dev=no`, because e2e/agents
 //              drive the game through `__qa` (see e2e/helpers.ts — a hard
 //              requirement). In a T0 PROD bundle it's default-OFF, opt-in `?dev=yes`.
-//  - `panel` — the visible DEV panel + D-075 variant harness + balance cockpit.
+//  - `panel` — the visible DEV panel + ADR-075 variant harness + balance cockpit.
 //              DEV serve: default-on, `?dev=no` opts out. T0 prod: default-off,
 //              `?dev=yes` opts in.
 //

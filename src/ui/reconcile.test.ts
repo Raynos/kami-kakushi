@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 //
 // Unit tests for the shared keyed-reconcile DOM helpers (ui/reconcile.ts) — the generalization of
-// the intro's build-once / diff-and-append pattern (F81). The invariant under test: a node is
+// the intro's build-once / diff-and-append pattern (FB-81). The invariant under test: a node is
 // BUILT once per key and PATCHED in place after, so an unchanged re-render appends nothing,
 // recreates nothing, and mutates nothing (zero DOM churn). These are the primitives every migrated
 // pane leans on, so they carry the load-bearing assertions once, centrally.

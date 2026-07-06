@@ -1,13 +1,13 @@
 # Philosophy: verify, don't trust
 
-> Operating-philosophy register **R2**. See the [register](README.md); when a
-> tactic elsewhere conflicts with this, this wins. The self-facing twin is **R3 —
+> Operating-philosophy register **PH2**. See the [register](README.md); when a
+> tactic elsewhere conflicts with this, this wins. The self-facing twin is **PH3 —
 > [done is earned, not declared](done-is-earned-not-declared.md)**.
 
 **A maker is blind to their own gaps, and you can't trust provenance you can't
 see.** So existing files on disk, written canon, and work other agents did are
 _checked, not trusted_ — against independent eyes, the gates, or reality. This is
-about work you did **not** author (trusting your _own_ apparent success is R3).
+about work you did **not** author (trusting your _own_ apparent success is PH3).
 
 ## The principles
 
@@ -27,9 +27,9 @@ about work you did **not** author (trusting your _own_ apparent success is R3).
   output… there is no self-grading loop here"_ (`.claude/skills/battery/SKILL.md`).
 - It is self-demonstrating: an independent 6-agent re-pass found **23 learnings
   the builder's own retro had missed** (commit `7ca6ac2`).
-- **D-079**: a signed ADR (D-053) described the _opposite_ of what the code did,
+- **ADR-079**: a signed ADR (ADR-053) described the _opposite_ of what the code did,
   and it was resolved by fixing the doc to match the build — canon was a claim,
   the territory was the truth.
 
-Canon: **D-081**. Part of the register seeded by **R1** —
-[no clock, no shortcuts](no-clock-no-shortcuts.md) (D-080).
+Canon: **ADR-081**. Part of the register seeded by **PH1** —
+[no clock, no shortcuts](no-clock-no-shortcuts.md) (ADR-080).

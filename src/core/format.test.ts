@@ -62,7 +62,7 @@ describe('coin denominations (D-108 — mixed mon/monme/ryō)', () => {
   });
 
   it('breaks monme + mon (the human worked example: 500 mon)', () => {
-    // 6 monme (6×80 = 480) + 20 mon = 500 mon — the exact example from D-108.
+    // 6 monme (6×80 = 480) + 20 mon = 500 mon — the exact example from ADR-108.
     expect(6 * MON_PER_MONME + 20).toBe(500);
     expect(formatCoin(6 * MON_PER_MONME + 20)).toBe('6 monme 20 mon');
   });

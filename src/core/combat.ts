@@ -136,7 +136,7 @@ export function mcCombatStats(state: GameState, foeKnown = false): CombatStats {
   return {
     attackPower: Math.max(1, Math.round(rawAtk)),
     defense: STR_DEF_COEFF * a.str,
-    // D-050: a fight starts from your CARRIED hp, not a free full refill. hpMax is the
+    // ADR-050: a fight starts from your CARRIED hp, not a free full refill. hpMax is the
     // ceiling (level/STR); the only mend is eating (cook). A hurt fighter forecasts lower.
     hp: clamp(state.character.hp, 0, hpMax(state)),
     attackSpeed: weapon.baseSpeed * (1 + SPD_ATKSPEED_COEFF * a.spd),
@@ -299,7 +299,7 @@ export function foeTell(mob: MobDef): string {
 /** One Bestiary record (A7): the foe, whether it's been ENCOUNTERED (its `mob-<id>` flag set on
  *  first fight), its seed-robust win-rate forecast, its derived tell, and the node it haunts. The
  *  renderer fogs an un-encountered foe (mirrors the combat-tab scout-by-fighting fog). Pure over
- *  the same forecast the fight uses (A6), so a hurt fighter's shown win-rate drops for free. */
+ *  the same forecast the fight uses (AC-6), so a hurt fighter's shown win-rate drops for free. */
 export interface BestiaryEntry {
   readonly mob: MobDef;
   readonly seen: boolean;

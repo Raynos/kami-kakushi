@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// F68 — the DEV rung-teleport must reach ANY rung in EITHER direction. `planRungJump` is the pure
+// FB-68 — the DEV rung-teleport must reach ANY rung in EITHER direction. `planRungJump` is the pure
 // core of __qa.toRung: climbing UP promotes from the current state; a jump AT-OR-BELOW the current
 // rung RESETS to a fresh game first, then re-climbs — so no stale higher-rung unlock/panel lingers.
 // (jsdom env only so importing main.ts — which ends in `void boot()` — finds a `document`; boot

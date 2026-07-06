@@ -57,12 +57,12 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
     const texts = after.log.entries.map((e) => e.text);
     expect(texts).toContain(opt.say);
     expect(texts).toContain(opt.react);
-    // F41: the post-pick perk-unlock lands on the MILESTONE channel (Progress), NOT system (Work).
+    // FB-41: the post-pick perk-unlock lands on the MILESTONE channel (Progress), NOT system (Work).
     const outcome = after.log.entries.find((e) => e.channel === 'milestone');
     expect(outcome?.text).toBe(introPerkLine(opt));
-    // and it is NOT emitted on the system channel anymore (the F41 relocation)
+    // and it is NOT emitted on the system channel anymore (the FB-41 relocation)
     expect(after.log.entries.find((e) => e.channel === 'system')).toBeUndefined();
-    // F56: that line carries the granted PERK — its name + standalone desc — plus the ±, not a bare delta.
+    // FB-56: that line carries the granted PERK — its name + standalone desc — plus the ±, not a bare delta.
     expect(outcome?.text).toContain(opt.perk.name);
     expect(outcome?.text).toContain(opt.perk.desc);
     expect(outcome?.text).toContain(introStatDelta(opt.stat)); // ± still present, single-source

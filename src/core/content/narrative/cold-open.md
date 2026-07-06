@@ -1,5 +1,5 @@
 <!-- The cold open (PRD §3.1) — keyed prose constants, the AUTHORING SOURCE OF
-  TRUTH (F5). Compiled to src/core/content/coldOpen.gen.ts by `npm run
+  TRUTH (FB-5). Compiled to src/core/content/coldOpen.gen.ts by `npm run
   gen:narrative`; rakeLine (real logic) stays hand-written in coldOpen.ts.
   {key} interpolates NAMES entries. Format spec: ./README.md. -->
 

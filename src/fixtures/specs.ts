@@ -1,4 +1,4 @@
-// Scenario-save SPECS (F6) — the single source the generator, the round-trip test, and the
+// Scenario-save SPECS (FB-6) — the single source the generator, the round-trip test, and the
 // DEV panel all read. Each spec is a NAMED waypoint reached by driving the REAL engine through
 // REAL intents from a fixed seed — never hand-authored state, never a field poke. The generator
 // (src/scripts/gen-fixtures.ts) runs `play` from createInitialState(seed), asserts `expect`, and
@@ -195,7 +195,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     // Drive to R3 (a lvl-1 gate-watch never grinds combat, so it truly LOSES), earn the
     // conditioning gate by hauling (real labour) so the satoyama opens, forage enough sansai
     // to cook, bank some rice in the kura (so the shelter is legible), then take the
-    // documented rout against the monkey. The sansai makes the D-076 recovery loop (cook →
+    // documented rout against the monkey. The sansai makes the ADR-076 recovery loop (cook →
     // heal) drivable from this waypoint through visible controls alone — the journey lane
     // (fable-2026-07-05-desktop-journey-e2e P2) boots it and presses Cook.
     play: (s0) => {
@@ -262,7 +262,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       'Phase 2, coffers full — rice sold and coin banked past 2× the dearest estate stage; idle at the kura.',
     seed: T0_ARC_SEED,
     // Full arc to the Phase-2 threshold, then run the coin faucet: sell the rice hoard and bank the
-    // coin until rich. Idles at the kura (F32 resets in-flight automation on every load — genuinely idle).
+    // coin until rich. Idles at the kura (FB-32 resets in-flight automation on every load — genuinely idle).
     play: (s0) => {
       let s = walkTo(
         drive(s0, (_st, next) => next.kind === 'ascend'),

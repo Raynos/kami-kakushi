@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// F74 persistence seam — the per-log font scale round-trips through localStorage and clamps to its
+// FB-74 persistence seam — the per-log font scale round-trips through localStorage and clamps to its
 // bounds. Fixtures are derived from the module's own source-of-truth constants (never copied magic
 // numbers), so a drift in the bounds updates the assertions with them. Each test can go RED: break
 // the clamp and the bound tests fail; break the round-trip and the load/save tests fail.

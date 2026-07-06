@@ -77,13 +77,13 @@ export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: st
  * rest-if-starving > rake_rice > (walk-to-then-)face the scripted wolf @R2 > WALK-to / do the
  * cheapest-eligible labour (spatial, v0.3.1 Step 5).
  *
- * D-110: promotion is no longer an auto-hot-path side effect — the perfect player must (a) answer
+ * ADR-110: promotion is no longer an auto-hot-path side effect — the perfect player must (a) answer
  * the intro's VN scenes, then (b) TRIGGER each ready rung beat (`begin_rung_beat`) and complete it
  * (`choose_rung_option`). The beat drivers pick the FIRST decision option deterministically (the
  * exact pick is relationship/flag flavour; the climb is identical whichever is chosen).
  */
 /**
- * The SHIPPED auto-mode's next intent (F4 Ph3) — the pure decision the app loop's `autoStep`
+ * The SHIPPED auto-mode's next intent (FB-4 Ph3) — the pure decision the app loop's `autoStep`
  * dispatched inline until now, extracted so the app loop AND the idler persona consume the SAME
  * function and can never desync (the exact no-desync move `focusedOptimalIntent` already made).
  * Decision order preserved verbatim: auto-COMBAT (rest below the knee > repair a worn blade when

@@ -1,4 +1,4 @@
-// The real DOM→PNG snapshotter for the capture overlay (F3 Ph2b). Kept in its own module so
+// The real DOM→PNG snapshotter for the capture overlay (FB-3 Ph2b). Kept in its own module so
 // capture.ts stays dependency-free and fully unit-testable — main.ts injects this at the mount
 // (as the overlay's `DomSnapshotter`). DEV-ONLY: imported only from main.ts's
 // `import.meta.env.DEV` branch, so modern-screenshot dead-code-eliminates from the prod bundle

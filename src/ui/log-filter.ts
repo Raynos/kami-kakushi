@@ -1,4 +1,4 @@
-// The event-log channel FILTER (playtest F9): the log panel gains a bottom bar that
+// The event-log channel FILTER (playtest FB-9): the log panel gains a bottom bar that
 // filters which channels show, so the story is a first-class, returnable view rather than
 // buried under work/combat spam. Pure (no DOM) so the channel→category mapping is unit-
 // tested directly; the renderer + the bar presentation live in render.ts / dev.ts.
@@ -7,9 +7,9 @@ import type { LogChannel } from '../core/log';
 
 export type LogFilter = 'story' | 'progression' | 'chat' | 'combat' | 'work' | 'all' | 'now';
 
-/** The bar's buttons, left→right (F111): Story · Progress · Chat · Combat · Work · All · Now.
- *  `story` leads (the default returnable view — F9); `chat` holds the OPTIONAL Q&A you chose to ask
- *  (F111); `all` is the escape hatch; `now` trails as the fleeting-flavor scratch view (F53 — fades). */
+/** The bar's buttons, left→right (FB-111): Story · Progress · Chat · Combat · Work · All · Now.
+ *  `story` leads (the default returnable view — FB-9); `chat` holds the OPTIONAL Q&A you chose to ask
+ *  (FB-111); `all` is the escape hatch; `now` trails as the fleeting-flavor scratch view (FB-53 — fades). */
 export const LOG_FILTERS: readonly { id: LogFilter; label: string }[] = [
   { id: 'story', label: 'Story' },
   { id: 'progression', label: 'Progress' },
@@ -21,9 +21,9 @@ export const LOG_FILTERS: readonly { id: LogFilter; label: string }[] = [
 ];
 
 /** channel → which category-set shows it. `null` = the catch-all (`all` shows everything).
- *  Mapping (F9): Story = the diegetic narration; Work = labour rewards + mundane system
- *  lines; Combat = the fight; Progression = milestones (rung-ups, unlocks, crafts). `now` (F53)
- *  and `chat` (F111) are NOT here — they're the ephemeral / optional-Q&A axes, orthogonal to
+ *  Mapping (FB-9): Story = the diegetic narration; Work = labour rewards + mundane system
+ *  lines; Combat = the fight; Progression = milestones (rung-ups, unlocks, crafts). `now` (FB-53)
+ *  and `chat` (FB-111) are NOT here — they're the ephemeral / optional-Q&A axes, orthogonal to
  *  channel and handled specially in logFilterMatches. */
 const FILTER_CHANNELS: Record<
   Exclude<LogFilter, 'now' | 'chat'>,
@@ -38,9 +38,9 @@ const FILTER_CHANNELS: Record<
 
 /** Does a log entry (`channel` + its `ephemeral` / `chat` flags) show under the active `filter`?
  *  Two axes sit ORTHOGONAL to the channel mapping:
- *  - F53: `now` is the SOLE home of fleeting flavor — it matches ONLY ephemeral entries; every
+ *  - FB-53: `now` is the SOLE home of fleeting flavor — it matches ONLY ephemeral entries; every
  *    other filter hides ephemeral entirely, so the permanent channels + All never carry it.
- *  - F111: `chat` is the home of the OPTIONAL Q&A the player chose to ask — a chat line shows in
+ *  - FB-111: `chat` is the home of the OPTIONAL Q&A the player chose to ask — a chat line shows in
  *    Chat (and the All escape-hatch), never in the MANDATORY Story tab (which keeps only the scene
  *    beats you must see). A chat line stays `narration` so it renders with its voice/nameplate. */
 export function logFilterMatches(
@@ -49,10 +49,10 @@ export function logFilterMatches(
   ephemeral: boolean,
   chat = false,
 ): boolean {
-  // ephemeral axis first (F53): Now shows only ephemeral; no permanent view shows ephemeral.
+  // ephemeral axis first (FB-53): Now shows only ephemeral; no permanent view shows ephemeral.
   if (filter === 'now') return ephemeral;
   if (ephemeral) return false;
-  // chat axis (F111): the optional Q&A lives in Chat + All, and is withheld from Story/etc.
+  // chat axis (FB-111): the optional Q&A lives in Chat + All, and is withheld from Story/etc.
   if (filter === 'chat') return chat;
   if (chat) return filter === 'all';
   // permanent, non-chat lines: the channel→category mapping.

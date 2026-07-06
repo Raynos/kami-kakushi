@@ -1,11 +1,11 @@
 ---
 name: diverge
-description: Generate FULL 2–3 genuinely-distinct, WORKING visual/design variants of a UI surface, wire each into the live DEV-panel toggle, self-review each against ui-design.md, self-pick a prod default, and file EACH variant as its own line item in human-in-the-loop/review.md for the human to review live and override. D-075 (refines D-073) — variants live IN the codebase behind a DEV-only toggle (stripped from prod), NOT on branches / as screenshots; NO "diverge-LITE" single-idea shortcut and NO buggy variants. MANDATORY for any new or majorly-restyled UI surface (one-line tweaks exempt). Use when building or restyling a meaningful UI surface, or when the human says "show me variants / options".
+description: Generate FULL 2–3 genuinely-distinct, WORKING visual/design variants of a UI surface, wire each into the live DEV-panel toggle, self-review each against ui-design.md, self-pick a prod default, and file EACH variant as its own line item in human-in-the-loop/review.md for the human to review live and override. ADR-075 (refines ADR-073) — variants live IN the codebase behind a DEV-only toggle (stripped from prod), NOT on branches / as screenshots; NO "diverge-LITE" single-idea shortcut and NO buggy variants. MANDATORY for any new or majorly-restyled UI surface (one-line tweaks exempt). Use when building or restyling a meaningful UI surface, or when the human says "show me variants / options".
 ---
 
 # Diverge
 
-> **THE MODEL — D-075 v2 (refines D-073). This header is authoritative; §2 is the built procedure.** Two rules:
+> **THE MODEL — ADR-075 v2 (refines ADR-073). This header is authoritative; §2 is the built procedure.** Two rules:
 > 1. **FULL 2–3 working variants, always.** No "diverge-LITE" single-idea shortcut; no shipping a buggy variant —
 >    every variant must actually work so the human can compare them fairly.
 > 2. **Variants live IN the codebase, switched live via the DEV panel** (DEV-only, `import.meta.env.DEV`, stripped
@@ -15,7 +15,7 @@ description: Generate FULL 2–3 genuinely-distinct, WORKING visual/design varia
 >    coherent **prod default** (the surface's inline render, which ships); the toggle keeps the alternates until
 >    the human confirms → **zero PROD flag-debt**.
 >
-> **§1 (entry gate), §2 (procedure), §5 (self-pick rubric) and §6 (the R-item) are current.** §0/§3/§4/§7/§8
+> **§1 (entry gate), §2 (procedure), §5 (self-pick rubric) and §6 (the HR-item) are current.** §0/§3/§4/§7/§8
 > below describe the RETIRED branch/`?variant=`/contact-sheet/GC infrastructure (never built — the DEV-panel model
 > replaced it); they are kept only as the design *rationale* for the caps + the anti-slop discipline. Where they
 > say "branch" / "`git branch -D`" / "committed screenshots" / "isolation guard", the built reality is: the
@@ -25,7 +25,7 @@ No new or majorly-restyled UI surface ships from a single idea. `diverge` genera
 approaches**, self-reviews them against the woodblock/ink bible
 ([`docs/living/ui-design.md`](../../../docs/living/ui-design.md)), wires each into the **live DEV-panel toggle** —
 then **self-picks** a prod default and files **each variant** as a review.md line item so the human can review
-them live and override, **without ever blocking forward progress** (CLAUDE.md autonomy + D-071).
+them live and override, **without ever blocking forward progress** (CLAUDE.md autonomy + ADR-071).
 
 ## The core discipline — in-codebase variants, DEV-only (zero PROD flag-debt)
 
@@ -51,10 +51,10 @@ a *persistent* live test against evolving `main` — **hard-capped at 2 repo-wid
 - **Wire the decision-log INTO the cleanup, or the audit trail rots.** When a variant is retired, record
   *why* in its DECISION sheet **as part of removing it** — not as a separate step that gets forgotten.
 - **NAME a time-box corner-cut; never ship one quietly.** If real constraints force a reduced pass, label it
-  explicitly (the way "diverge-LITE" was named before D-075 retired it) so it's a visible, revertable debt —
+  explicitly (the way "diverge-LITE" was named before ADR-075 retired it) so it's a visible, revertable debt —
   a silent corner-cut reads as "done."
 
-**One correspondence per surface:** `1 surface ⇒ 1 diverge/<surface> branch ⇒ 1 variants-log row ⇒ 1 R-item ⇒
+**One correspondence per surface:** `1 surface ⇒ 1 diverge/<surface> branch ⇒ 1 variants-log row ⇒ 1 HR-item ⇒
 1 committed contact sheet`.
 
 ## §0 · First-use setup (build JIT, the first time you diverge)
@@ -63,13 +63,13 @@ These small pieces are built on the **first** real diverge (you can't test varia
 
 - `qa-shots.mjs` gains a `--variant` flag + `VITE_UI_VARIANT` env + a `__qa.setVariant('B')` hook — gate it
   on `import.meta.env.DEV` and expose it via the existing `window.__qa` install in `src/app/main.ts`.
-  *(The old `?balance` / `resolveBootProfile` boot-channel this once mirrored was **retired by D-056** — don't
+  *(The old `?balance` / `resolveBootProfile` boot-channel this once mirrored was **retired by ADR-056** — don't
   reuse it. The §3 references to it below are stale and flagged for the §§2-8 v0.3.1 DEV-panel rework.)*
 - `src/scripts/variant-gc.mjs` — the deterministic GC (the rote half of §4).
 - A **content-aware isolation guard** appended to `.githooks/pre-commit` — runs only when `src/ui/variants/**`
   or the resolver is staged; fails the commit if a `?variant=` literal or a `from '…/variants/'` import appears
   outside `src/ui/variants/` + the single resolver, or if `src/core/**` references `variants/`.
-- A one-line note in `project/human-in-the-loop/README.md` documenting the standing-R-item fallback (below).
+- A one-line note in `project/human-in-the-loop/README.md` documenting the standing-HR-item fallback (below).
 
 The registry [`project/audit/variants-log.md`](../../../project/audit/variants-log.md) already exists (stub).
 
@@ -91,10 +91,10 @@ The infra is **already built** (v0.3.1 Step 1): the `SURFACES` registry + `rende
 
 1. **Gate (§1).** Confirm the surface is new / a major restyle and the change is render-only against existing
    pure-core props. One-liners are exempt.
-2. **Taste constraint brief — Pass 1 of the [`taste-scorecard`](../taste-scorecard/SKILL.md) skill (F10, D-135).**
+2. **Taste constraint brief — Pass 1 of the [`taste-scorecard`](../taste-scorecard/SKILL.md) skill (FB-10, ADR-135).**
    BEFORE authoring any variant: walk taste.md's 21 principles, write one concrete line per applicable principle
    (what THIS surface must do to honor it). The brief constrains ALL variants — they diverge in approach, not in
-   whether they meet the bar. Full walk → journal; the compressed brief is carried into the R-item at step 10.
+   whether they meet the bar. Full walk → journal; the compressed brief is carried into the HR-item at step 10.
 3. **Author the default (A) INLINE in the surface's renderer** (`src/ui/render.ts`) as the normal render path —
    this is what SHIPS. It needs no variant machinery.
 4. **Add a `SURFACES` entry** in `src/ui/dev.ts`: `{ id: '<surface>', label, variants: [A, B, C] }` — each
@@ -110,14 +110,14 @@ The infra is **already built** (v0.3.1 Step 1): the `SURFACES` registry + `rende
    the default render — so DEV routes to the selected variant and prod (where `dev` is undefined) always draws A.
 7. **Self-review each** live in the DEV panel against the §5 rubric (the Intentionality gate + the conservative
    tiebreak) — self-pick the prod default (A).
-8. **Taste scorecard — Pass 2 (F10, D-135):** score **EVERY variant** against ALL 21 taste.md principles via the
+8. **Taste scorecard — Pass 2 (FB-10, ADR-135):** score **EVERY variant** against ALL 21 taste.md principles via the
    [`taste-scorecard`](../taste-scorecard/SKILL.md) skill (a variant the human might pick must not hide a
    violation) — fix what you can first, compress each verdict, tag each ✘ **[briefed]** (it was in the step-2
    brief — knew-and-missed) or **[blind spot]** (taste.md's text failed to fire). The brief + per-variant
-   scorecard blocks are **mandatory sections of the R-item** (§6).
+   scorecard blocks are **mandatory sections of the HR-item** (§6).
 9. **Prove strip-safety:** `npm run build` then grep `dist/` for `DEV_SENTINEL` + the variant strings → **0 hits**
    (the alternates tree-shake out of prod; zero flag-debt).
-10. **File the R-items:** add **one `review.md` line item per variant** (§6 shape, minus the branch/screenshot
+10. **File the HR-items:** add **one `review.md` line item per variant** (§6 shape, minus the branch/screenshot
     specifics — "review LIVE in the DEV panel"), **plus the taste brief (step 2) + per-variant `Scorecard:`
     blocks (step 8)**. Bump the journal + `project-status.md`.
 11. **Commit** (small, green) and **move on** — never wait for the human. The alternates stay DEV-only until the
@@ -125,7 +125,7 @@ The infra is **already built** (v0.3.1 Step 1): the `SURFACES` registry + `rende
 
 ## §3 · [SUPERSEDED] The old `?variant=` flag model
 
-**Retired by D-075 v2 (never built).** The variant system is the `SURFACES` registry + `renderVariant` in
+**Retired by ADR-075 v2 (never built).** The variant system is the `SURFACES` registry + `renderVariant` in
 `src/ui/dev.ts` (see §2), NOT `src/ui/variants/<surface>/{A,B,C}.ts` + a `resolveVariant` URL channel. The
 isolation principle still holds in spirit — **`src/core/**` never branches on variant; alternates are
 render-only, DEV-only, and tree-shaken from prod** — but it's enforced by the `import.meta.env.DEV` guard + the
@@ -168,8 +168,8 @@ build 2–3   winner = plain        human verdict   main = one plain render path
 on branch,  path on main;         OR expiry/      branch deleted; losers live only
 self-pick,  losers only on        cap-evict       in committed screenshots + git
 collapse    diverge/<surface>;    (→ self-pick    history (30-day "restorable" window)
-winner,     R-item ticking        wins)
-file R-item
+winner,     HR-item ticking        wins)
+file HR-item
 ```
 
 **Caps (knobs at the top of the registry):** **open diverges = 3** (bound = the human's review bandwidth, since
@@ -183,15 +183,15 @@ crosswalk at the bottom (`surface · R# · winner · who/when · branch-was`).
 
 | Human says | Agent does |
 |---|---|
-| **(silence past TTL)** | Promote self-pick to canon; archive R-item "auto-confirmed"; `git branch -D`; close the row. |
+| **(silence past TTL)** | Promote self-pick to canon; archive HR-item "auto-confirmed"; `git branch -D`; close the row. |
 | **`pick A`** (confirm) | Same, immediately (A already live — no code change). |
 | **`pick B`** (override) | Cherry-pick B's render diff onto `main` as the new default; re-shoot; commit; close + GC. |
-| **`blend A+C`** | **Bounded** mini-diverge: author the single blend as *one new* variant on the branch, screenshot, append to the same contact sheet. **Promote the blend onto `main` as the new live default, set it as the R-item's self-pick, and reset the TTL** — so later silence auto-confirms the *blend*, not the superseded original pick. (One new variant — not a fresh 3-way.) |
+| **`blend A+C`** | **Bounded** mini-diverge: author the single blend as *one new* variant on the branch, screenshot, append to the same contact sheet. **Promote the blend onto `main` as the new live default, set it as the HR-item's self-pick, and reset the TTL** — so later silence auto-confirms the *blend*, not the superseded original pick. (One new variant — not a fresh 3-way.) |
 | **`reject all`** | Revert to baseline; open a *fresh* diverge carrying the human's reason as a new constraint; GC the branch. |
 | **`keep-flags B`** | The **only** path to a durable `main` flag: promote the *named* variants to a permanent `?variant=` flag in `main` (owner + expiry), counted against the **cap of 2**. **If the kept-flags table is already at 2,** the agent does **not** silently exceed the hard cap — it reports "kept-flags at cap 2" and asks the human to resolve or `📌`-unpin an existing kept-flag first. |
 
 **GC** (`variant-gc.mjs <surface> <winner>` does the rote parts): winner on `main` → `git branch -D
-diverge/<surface>` + delete refs → move the registry row to Closed → mark the R-item `✅` → **graduate if
+diverge/<surface>` + delete refs → move the registry row to Closed → mark the HR-item `✅` → **graduate if
 durable** (a reusable pattern → ADR in `decisions.md` + update `ui-design.md`; a one-off taste pick is
 archive-row-only).
 
@@ -201,8 +201,8 @@ archive-row-only).
    human verdict yet** (the automated half-life rewording in §6 does *not* count as a "touch") → auto-resolve it
    early → slot freed.
 3. **Single-idea mode (documented exception)** — all 3 are fresh → **do not** open a 4th. Self-pick the single
-   best approach with the §6 rubric, ship it **straight to `main` flag-free** (zero debt, no branch, no R-item),
-   **and add a `deferred-single-idea` row to the registry's Open table** (the surface + which R-item blocked it)
+   best approach with the §6 rubric, ship it **straight to `main` flag-free** (zero debt, no branch, no HR-item),
+   **and add a `deferred-single-idea` row to the registry's Open table** (the surface + which HR-item blocked it)
    so the sweep re-offers a real diverge the moment a slot frees — the "diverge later" promise is *tracked*, not
    verbal. Log `single-idea — at cap (blocked by R<n>): shipped flag-free; deferred-diverge tracked`.
 
@@ -223,15 +223,15 @@ archive-row-only).
   → (4) most conventional within the bible → (5) lowest letter. *The bold option only "wins for real" if a human
   affirmatively picks it.*
 
-## §6 · Autonomy — logging + the R-item (the DEV-panel reality)
+## §6 · Autonomy — logging + the HR-item (the DEV-panel reality)
 
 **Durable writes (the pick must survive compaction):** (1) **one `review.md` line item per variant** (the human
 reviews each LIVE in the DEV panel — not a screenshot); (2) a journal entry + bump `project/status/project-status.md`.
 There is no contact sheet and no `variants-log.md`/branch registry in the DEV-panel model — the `SURFACES`
 registry in `src/ui/dev.ts` IS the live source of what variants exist.
 
-**R-items** — one per variant, grouped under the surface's block in `project/human-in-the-loop/review.md`
-(the DEV-panel R2 block already groups them by surface). The default (A) is marked *self-picked prod default*; the
+**HR-items** — one per variant, grouped under the surface's block in `project/human-in-the-loop/review.md`
+(the DEV-panel HR-2 block already groups them by surface). The default (A) is marked *self-picked prod default*; the
 alternates are *built; DEV-only*. Reviewed by toggling each in the running DEV panel:
 
 ```md
@@ -251,11 +251,11 @@ to review:** `npm run dev` → the DEV panel (top-right) → toggle each surface
 instantly. If the human picks B/C, promote it to the inline default in `render.ts` (and demote A into `dev.ts`),
 re-check a11y on the new default, then the alternates can be retired.
 
-**Stale-R-item expiry (lazy — no daemon — checked at every session start and every diverge):**
+**Stale-HR-item expiry (lazy — no daemon — checked at every session start and every diverge):**
 - **TTL = 14 days** from `opened`, **OR immediately when the surface's render-props contract changes** (a frozen
   render-only branch can't be trusted past that). Whichever first.
-- **7-day half-life:** escalate only — reword the R-item/brief to `⏳ nearing auto-confirm`.
-- **At TTL:** **auto-confirm the self-pick**, GC the branch, downgrade the R-item to a soft note; the committed
+- **7-day half-life:** escalate only — reword the HR-item/brief to `⏳ nearing auto-confirm`.
+- **At TTL:** **auto-confirm the self-pick**, GC the branch, downgrade the HR-item to a soft note; the committed
   screenshots remain the recoverable record (a dropped variant is re-implementable from its screenshot + scored
   rationale on request — **no data loss**).
 - **Human-only `📌 pin`** exempts a kept-flag from expiry (never autonomous); a pin still counts against the 2.
@@ -266,7 +266,7 @@ re-check a11y on the new default, then the alternates can be retired.
 approaches within the bible ✓ · each an isolated module behind the single `resolveVariant`, no `if(variant===…)`
 in shared code, `src/core/**` untouched ✓ · desktop+mobile shot, self-scored with the Intentionality gate ✓ ·
 contact sheet **graduated to `project/audit/reports/…` and committed** ✓ · winner collapsed onto `main`
-**flag-free** ✓ · registry row + R-item filed with expiry + journal/status bumped ✓ · commit green ✓.
+**flag-free** ✓ · registry row + HR-item filed with expiry + journal/status bumped ✓ · commit green ✓.
 
 **Periodic debt sweep (session start + at cap):** read the registry; auto-resolve expired / render-contract-
 changed rows; mark half-life+untouched as stale; **orphan check** (every `diverge/*` branch ⇔ exactly one open
@@ -279,7 +279,7 @@ row); kept-flags ≤ 2 each with owner + unexpired date; the isolation guard sta
 - **Durable `main` flags as the default** — unbounded `O(surfaces×variants)` debt — *rejected; branch-
   preservation keeps resting debt at 0; durable flags only via capped `keep-flags`.*
 - **Contact sheet left in `tmp/`** (git-ignored) — *always graduate the committed copy.*
-- **Blocking on the human** — *self-pick + ship; the R-item is a later override, never a gate.*
+- **Blocking on the human** — *self-pick + ship; the HR-item is a later override, never a gate.*
 - **Unbounded queue / "resolve later"** — *cap (3) + TTL (14d auto-confirm) make silence safe & lossless.*
 - **Orphaned `diverge/*` branches** — *the sweep's orphan check + GC-on-resolve prevent drift.*
 - **Palette-swap "variants"** — *not distinct approaches; reject.*

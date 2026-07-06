@@ -10,7 +10,7 @@
 This is the **settled, human-signed design** for the T0 capstone branch, graduated
 here from its (now-archived) plan so it's durable canon. The **pattern** (reusable
 for every tier's capstone) + the full 9-option board + the human's ratings live in
-the PRD (**§3.0.2** of `prd/03-unlock-ladder.md`) and **ADR D-125**. This doc is the
+the PRD (**§3.0.2** of `prd/03-unlock-ladder.md`) and **ADR ADR-125**. This doc is the
 **build-ready detail** for the T0 instance.
 
 ## The design (signed 2026-07-03)
@@ -76,7 +76,7 @@ Each = a T1 side quest gated on the R7 pick flag (`r7-devoted` / `r7-ambitious` 
   accessory** (boosts crafting), **not a weapon**. Item mix: A2 weapon · B1 weapon ·
   C2 craft-tool.
 
-## Design guard-rails (must respect — from D-125)
+## Design guard-rails (must respect — from ADR-125)
 - **Reuse existing systems** — the skill/xp system, map nodes, combat/bestiary,
   craft recipes, shops, small rep tracks, equipment. No new paradigms.
 - **Out of scope:** new deeds; novel new UI surfaces; a parallel "standing"
@@ -90,7 +90,7 @@ Each = a T1 side quest gated on the R7 pick flag (`r7-devoted` / `r7-ambitious` 
 - **Names:** enforcer **Kumagorō**, master **Tōsai** (both vetoable).
 - **Item mix:** A2 weapon · B1 weapon · **C2 craft-tool**.
 
-## Still open (resolve at build — D-059 tuning)
+## Still open (resolve at build — ADR-059 tuning)
 Item stats/tier; Kumagorō's stats + drop; the spar XP/perk curve + Naoyuki-regard
 levels; which 2–3 recipes + how the workshop activity/skill unlocks them; the
 master's-chisel craft-bonus; the sparring-ground node choice; Naoyuki's

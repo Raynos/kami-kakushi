@@ -1,4 +1,4 @@
-// Envelope assertions (F4 §3) — the machine verdict on "did the arc's pacing shape survive".
+// Envelope assertions (FB-4 §3) — the machine verdict on "did the arc's pacing shape survive".
 // Test-discipline rules apply in full: every band DERIVES from the design source of truth
 // (`balance` constants / the RANKS structure), never a copied magic number; bands assert the
 // DESIGN LEVER (per-rung wall-time — each rung's threshold is an independently tunable lever),
@@ -12,10 +12,10 @@ import type { RunMetrics } from './metrics';
 
 /** The T0 climb rungs — every rank EXCEPT the final one. Time spent AT the final rung is not a
  *  meter climb: the capstone fires on REACHING it, so residence there is the Phase-2 window
- *  (capstone → ascension), which has NO signed band yet (F4 open Q1 / H19) and is report-only. */
+ *  (capstone → ascension), which has NO signed band yet (FB-4 open Q1 / HD-19) and is report-only. */
 export const CLIMB_RUNGS: readonly string[] = RANKS.slice(0, -1).map((r) => r.id);
 
-/** The final rung — its residence time IS the Phase-2 window (report-only, see H19). */
+/** The final rung — its residence time IS the Phase-2 window (report-only, see HD-19). */
 export const PHASE2_RUNG: string = RANKS[RANKS.length - 1]!.id;
 
 export interface BandVerdict {
@@ -28,7 +28,7 @@ export interface BandVerdict {
   ok: boolean;
 }
 
-/** Greedy per-rung wall-time vs the signed T0 band (D-056, [T0_PACING_BAND_MIN/MAX]) — the
+/** Greedy per-rung wall-time vs the signed T0 band (ADR-056, [T0_PACING_BAND_MIN/MAX]) — the
  *  per-lever gate: a regression localises to the rung whose threshold moved. */
 export function greedyBandVerdicts(runs: readonly RunMetrics[]): BandVerdict[] {
   return CLIMB_RUNGS.map((rung) => {
@@ -58,7 +58,7 @@ export interface RatioVerdict {
   ok: boolean;
 }
 
-/** Phase 2 ≈ Phase 1 (D-133 / H19): greedy's phase2Wall / phase1Wall must sit inside the signed
+/** Phase 2 ≈ Phase 1 (ADR-133 / HD-19): greedy's phase2Wall / phase1Wall must sit inside the signed
  *  ratio band. Time-based ⇒ greedy only (idler/explorer carry no time bands, per this file's rule).
  *  SCOPED to runs with a BUILT Phase 2 (ascended + a measured window): a tier with no Phase-2
  *  economy yet never reaches here, so the gate can't cry wolf on the unbuilt. Wall-min is linear in

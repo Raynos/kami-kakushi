@@ -10,7 +10,7 @@ recipes · exact `render.ts` seams + variant wiring). Reference build:
 
 ## Premise (locked)
 
-- **D-127:** Andon Steel is UI-v2's direction — a **FULL REPLACEMENT** of the
+- **ADR-127:** Andon Steel is UI-v2's direction — a **FULL REPLACEMENT** of the
   washi/woodblock identity (no coexistence edition). The old identity retires.
 - **`ui-demos/10-andon-steel/` is a VISUAL target only.** We port its *design
   language* (tokens, bimetal semantics, composition, animation *looks*). We do
@@ -31,9 +31,9 @@ recipes · exact `render.ts` seams + variant wiring). Reference build:
   right-hand log "window" (steel well). Layout moves, not just paint.
 - **Commit-seal cursor CUT** — no red-flash-on-click; vermillion stays reserved for
   rank-up / ascension beats (M5), never per-click.
-- **Re-theme ALL open variant surfaces to steel, then choose** (R2/R5/R6/R7) — each
+- **Re-theme ALL open variant surfaces to steel, then choose** (HR-2/HR-5/HR-6/HR-7) — each
   variant rebuilt in steel behind the DEV toggle; the human picks in the new look
-  (D-075); strip to the pick. Absorbed as M6.
+  (ADR-075); strip to the pick. Absorbed as M6.
 - **Fonts: WESTERN** — a Palatino-class serif + an Avenir-class sans (the demo's
   system stack). The self-hosted Japanese brush fonts retire.
 - **Build STRAIGHT ON MAIN** — no `?ui=v2` flag, no branch. Every milestone lands
@@ -56,7 +56,7 @@ authorized that (2026-07-04).** The judgment lives in the *spec*: this Opus sess
 front-loads every design call into the build cards + reference tables below, so the
 builder executes concrete, anchored steps rather than making taste calls. What a
 small model can't self-certify stays a gate: each milestone ends with a screenshot
-review **and the human playtests R0/R1** before the next begins (D-084 / R5 — only
+review **and the human playtests R0/R1** before the next begins (ADR-084 / PH5 — only
 a human certifies fun & taste). If a card proves ambiguous mid-build, the builder
 **stops and surfaces**, never guesses.
 
@@ -258,7 +258,7 @@ headless capture of the cold-open sequence; **human playtests** the cadence.
 ## M5 · VN + ceremony re-skin  ① THEME (+③ motion) · MED
 
 **Goal:** re-skin the VN nameplate/scroll and the rank-up + ascension seals to the
-steel/vermillion motif — **CSS only, DOM contract unchanged** (D-104/D-110/D-062
+steel/vermillion motif — **CSS only, DOM contract unchanged** (ADR-104/ADR-110/ADR-062
 structure kept).
 
 **Files:** `src/ui/styles.css` (the `.vn-*`, `.rankup-seal`, `.hanko-css`,
@@ -289,14 +289,14 @@ of a VN beat + the ceremony; **human playtests** a rung-up + ascension.
 
 ## M6 · Variant surfaces, rebuilt + re-chosen in steel  ①/② · MED
 
-**Goal:** absorb **R2/R5/R6/R7** — re-implement each open diverged surface in the
+**Goal:** absorb **HR-2/HR-5/HR-6/HR-7** — re-implement each open diverged surface in the
 Andon Steel language, all variants live behind the DEV toggle so the human **picks
-in the new look** (D-075), then strip to the pick (zero flag-debt). One sub-step per
+in the new look** (ADR-075), then strip to the pick (zero flag-debt). One sub-step per
 surface.
 
 **Surfaces (each its A/B/C, estate-map its V5A–G):** House-Influence · Craft ·
-Travelling-market · Quests · Log-filter (R2) · Bestiary (R5) · Home/Inventory (R6)
-· Estate-map (R7, subsumes R2's older walkable-map).
+Travelling-market · Quests · Log-filter (HR-2) · Bestiary (HR-5) · Home/Inventory (HR-6)
+· Estate-map (HR-7, subsumes HR-2's older walkable-map).
 
 **Files:** `src/ui/dev.ts` (the `SURFACES` registry `:70`, `renderSurfaceVariant()`
 `:335`, per-surface renderers) + the caller seams in `src/ui/render.ts` (influence
@@ -321,7 +321,7 @@ flag-debt); the `dev.ts` leak-guard sentinel.
 surface's `variant[0]` is a coherent self-picked steel default; `?dev=no` shows the
 true player layout; `npm run verify` green (incl. new `dev.test.ts` routing);
 headless capture per surface; **the human picks each live**, then a follow-up strips
-the unpicked variants (D-075) and closes R2/R5/R6/R7.
+the unpicked variants (ADR-075) and closes HR-2/HR-5/HR-6/HR-7.
 
 **Mobile:** each surface's variants verified at 375px.
 
@@ -333,9 +333,9 @@ the unpicked variants (D-075) and closes R2/R5/R6/R7.
 (§1/§2/§3/§4.1/§6/§7/§9) to steel; update the one woodblock pointer line in
 `taste.md`; replace the woodblock phrases in the four PRD files (`01-vision`,
 `02-systems`, `06-tech-architecture`, `07-roadmap-scope`); new ADR **retiring
-D-018** (keep its "CSS-only, no asset pipeline" constraint, replace the aesthetic);
-mark D-045's ink-contrast rule superseded by the steel a11y targets; re-caption
-D-068's woodblock justification. `npm run prd:drift` clean.
+ADR-018** (keep its "CSS-only, no asset pipeline" constraint, replace the aesthetic);
+mark ADR-045's ink-contrast rule superseded by the steel a11y targets; re-caption
+ADR-068's woodblock justification. `npm run prd:drift` clean.
 
 **Accept:** `verify` green (incl. `doc-budgets` — ui-design.md ≤400, taste.md ≤150);
 `prd:drift` clean; the ADR lands; no stale "washi/woodblock" identity claim remains
@@ -499,7 +499,7 @@ Per surface X (model on `renderHomeVariant` `dev.ts:486`):
   headless R0/R1 (+ the milestone's surface) capture ·
   **human playtests R0/R1 and signs off** before the next · engine contract intact ·
   zero copied demo bugs · RM + touch verified for M3/M4.
-- M6 closes R2/R5/R6/R7 (picks made, unpicked variants stripped — zero flag-debt).
+- M6 closes HR-2/HR-5/HR-6/HR-7 (picks made, unpicked variants stripped — zero flag-debt).
 - M7: woodblock locks retired by ADR; `prd:drift` clean; `doc-budgets` green.
 - Final: the shipped game *is* Andon Steel end-to-end, on our own engine, and a
-  human has certified R0/R1 fun & taste (R5/D-084).
+  human has certified R0/R1 fun & taste (PH5/ADR-084).

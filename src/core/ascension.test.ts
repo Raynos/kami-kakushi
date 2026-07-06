@@ -85,8 +85,8 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     let s: GameState = atPhase2();
     s = { ...s, unlocked: [...s.unlocked, 'verb-farm'] }; // labour available
     // Seed the estate just below the EXCELLENT gate. This closure test proves the reducer→deed→
-    // gate→ascend CHAIN fires; the FULL ~1:1 grind duration (D-133) is owned by the sim + t0-arc,
-    // so we grind only the last koku or two here rather than ~12k fractional-deed acts (A17).
+    // gate→ascend CHAIN fires; the FULL ~1:1 grind duration (ADR-133) is owned by the sim + t0-arc,
+    // so we grind only the last koku or two here rather than ~12k fractional-deed acts (AC-17).
     const nearGate = balance.ESTATE_BANDS.excellent - 2;
     s = { ...s, influence: { estate: { value: nearGate, highWater: nearGate, judged: nearGate } } };
     expect(estateGrade(s)).toBe('GREAT'); // below EXCELLENT
