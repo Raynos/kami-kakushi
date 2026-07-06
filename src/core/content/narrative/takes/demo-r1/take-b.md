@@ -18,12 +18,12 @@ Genemon: "Gate and forecourt pass to your keeping, and the home paddies with
 them. The kura's repair draws on the house's surplus — spend it as entered,
 and enter what you spend."
 
-> A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi
-> pedlar, come because a tended gate draws trade. He lifts a hand as you pass.
+> A pack-laden stranger has weighed the swept forecourt with a trader's eye
+> and laid his mat in the lee of the gate-post before anyone said he might.
 
-Tokubei (villager): "A tended gate's a lucky gate for a man with a pack.
-Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your
-own spends as well as any lord's."
+Tokubei (villager): "Tokubei, of Ōmi. A counted store and a swept gate — a man
+can do business with a house like this. May I keep my mat here, young master?
+Coin of your own spends as well as any lord's."
 
 ### decide · How do you take the keeping?
 

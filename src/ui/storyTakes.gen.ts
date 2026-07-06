@@ -53,12 +53,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               },
               {
                 voice: 'narrator',
-                text: 'A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.',
+                text: "A pack-laden stranger has weighed the swept forecourt with a trader's eye and laid his mat in the lee of the gate-post before anyone said he might.",
               },
               {
                 voice: 'villager',
                 speaker: NAMES.pedlar,
-                text: '"A tended gate\'s a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord\'s."',
+                text: '"Tokubei, of Ōmi. A counted store and a swept gate — a man can do business with a house like this. May I keep my mat here, young master? Coin of your own spends as well as any lord\'s."',
               },
             ],
             topics: [],
@@ -132,12 +132,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               },
               {
                 voice: 'narrator',
-                text: 'A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.',
+                text: 'A pack-laden stranger has laid a mat in the lee of the gate-post, the way a man does who has been passing this gate for years and never once stopped.',
               },
               {
                 voice: 'villager',
                 speaker: NAMES.pedlar,
-                text: '"A tended gate\'s a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord\'s."',
+                text: '"Tokubei, of Ōmi — twenty years on this road, and this is the first time this gate looked worth stopping at. Mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord\'s."',
               },
             ],
             topics: [],

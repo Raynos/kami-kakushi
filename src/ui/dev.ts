@@ -2646,8 +2646,14 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
   return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
 }
 
-/** Append `lines` as an instant-paint script block (the reading register — it breathes). */
-function readerScriptBlock(host: HTMLElement, lines: readonly ReaderLine[]): void {
+/** Append `lines` as an instant-paint script block (the reading register — it breathes).
+ *  A line whose text is byte-identical to canon (`canonTexts`) DIMS and labels itself —
+ *  deliberate sharing must never read as a failed substitution (FB-124, TST4). */
+function readerScriptBlock(
+  host: HTMLElement,
+  lines: readonly ReaderLine[],
+  canonTexts?: ReadonlySet<string>,
+): void {
   const block = el('div');
   block.style.cssText = 'display:flex;flex-direction:column;gap:.5rem;max-width:62ch;';
   for (const l of lines) {
@@ -2659,6 +2665,10 @@ function readerScriptBlock(host: HTMLElement, lines: readonly ReaderLine[]): voi
     if (l.kind === 'option') line.style.cssText += 'margin-top:.4rem;';
     line.textContent =
       (l.kind === 'option' ? '▸ ' : '') + (l.speaker ? `${l.speaker}: ${l.text}` : l.text);
+    if (canonTexts?.has(l.text)) {
+      line.style.opacity = '.45';
+      line.title = 'identical to canon (shared line)';
+    }
     block.append(line);
   }
   host.append(block);
@@ -2684,38 +2694,6 @@ function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement):
   host.append(h);
 }
 
-/** Variant "annotated" — the play-order script with alternates nested under each unit. */
-function renderReaderAnnotated(host: HTMLElement, bundle: StoryTakeBundle): void {
-  for (const unit of readerUnitsOf(bundle)) {
-    readerUnitHeader(host, unit);
-    const canon = readerUnitLines(unit, 'canon');
-    if (canon) {
-      const tag = el('div');
-      tag.append(readerChip('canon · the pick', 'pick'));
-      tag.style.marginBottom = '.4rem';
-      host.append(tag);
-      readerScriptBlock(host, canon);
-    }
-    for (const t of bundle.takes) {
-      const lines = readerUnitLines(unit, t);
-      if (!lines) continue;
-      const alt = el('div');
-      alt.style.cssText =
-        'border-left:3px solid var(--ai);margin:.7rem 0 0 .35rem;padding:.5rem 0 .5rem .9rem;';
-      const tag = el('div');
-      tag.style.cssText =
-        'display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap;';
-      tag.append(readerChip(`${t.id} · ${t.label}`, 'alt'));
-      const brief = el('span', undefined, t.brief);
-      brief.style.cssText = 'color:var(--ink-faint);font-size:12px;';
-      tag.append(brief);
-      alt.append(tag);
-      readerScriptBlock(alt, lines);
-      host.append(alt);
-    }
-  }
-}
-
 /** Variant "galley" — units as rows, takes as columns (side-by-side compare). */
 function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle): void {
   for (const unit of readerUnitsOf(bundle)) {
@@ -2725,14 +2703,18 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle): void {
     const row = el('div');
     const cols = 1 + bundle.takes.length;
     row.style.cssText = `display:grid;grid-template-columns:repeat(${cols},minmax(17rem,1fr));gap:1rem;`;
-    const cell = (head: HTMLElement, lines: ReaderLine[] | null): void => {
+    const cell = (
+      head: HTMLElement,
+      lines: ReaderLine[] | null,
+      canonTexts?: ReadonlySet<string>,
+    ): void => {
       const c = el('div');
       c.style.cssText = 'border:1px solid var(--ink-faint);padding:.7rem .8rem;min-width:0;';
       const hd = el('div');
       hd.style.cssText = 'margin-bottom:.5rem;display:flex;gap:.5rem;flex-wrap:wrap;';
       hd.append(head);
       c.append(hd);
-      if (lines) readerScriptBlock(c, lines);
+      if (lines) readerScriptBlock(c, lines, canonTexts);
       else {
         const none = el('div', undefined, '— no take for this unit (canon plays) —');
         none.style.cssText = 'color:var(--ink-faint);font-size:12px;';
@@ -2740,71 +2722,22 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle): void {
       }
       row.append(c);
     };
-    cell(readerChip('canon · the pick', 'pick'), readerUnitLines(unit, 'canon'));
-    for (const t of bundle.takes)
-      cell(readerChip(`${t.id} · ${t.label}`, 'alt'), readerUnitLines(unit, t));
+    const canonLines = readerUnitLines(unit, 'canon');
+    const canonTexts = new Set((canonLines ?? []).map((l) => l.text));
+    cell(readerChip('canon · the pick', 'pick'), canonLines);
+    for (const t of bundle.takes) {
+      cell(readerChip(`${t.id} · ${t.label}`, 'alt'), readerUnitLines(unit, t), canonTexts);
+    }
     scroll.append(row);
     host.append(scroll);
   }
 }
 
-/** Variant "stage" — ONE take end-to-end (how a player would hear it), local take pills. */
-function renderReaderStage(host: HTMLElement, bundle: StoryTakeBundle): void {
-  let active: string = 'canon';
-  const bar = el('div');
-  bar.style.cssText = 'display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem;';
-  const meta = el('div');
-  meta.style.cssText = 'color:var(--ink-soft);font-size:13px;margin-bottom:.6rem;max-width:62ch;';
-  const body = el('div');
-  const pills = new Map<string, HTMLButtonElement>();
-  const draw = (): void => {
-    for (const [id, p] of pills) {
-      const on = id === active;
-      p.style.background = on ? 'var(--ink)' : 'transparent';
-      p.style.color = on ? 'var(--washi)' : 'var(--ink)';
-    }
-    const take = bundle.takes.find((t) => t.id === active);
-    meta.textContent =
-      active === 'canon'
-        ? (bundle.rationale ?? 'Canon — the live pick.')
-        : `${take?.brief ?? ''}${take?.scorecard ? ` · scorecard: ${take.scorecard}` : ''}`;
-    body.textContent = '';
-    for (const unit of readerUnitsOf(bundle)) {
-      const own = take ? readerUnitLines(unit, take) : null;
-      const lines = active === 'canon' ? readerUnitLines(unit, 'canon') : own;
-      const fallback = active !== 'canon' && !own ? readerUnitLines(unit, 'canon') : null;
-      readerUnitHeader(body, unit, fallback ? readerChip('canon plays here', 'pick') : undefined);
-      readerScriptBlock(body, lines ?? fallback ?? []);
-    }
-  };
-  const pill = (id: string, label: string): void => {
-    const p = el('button', undefined, label);
-    p.type = 'button';
-    p.style.cssText =
-      'border:1px solid var(--ink);border-radius:999px;padding:.15rem .8rem;font:inherit;' +
-      'font-size:12px;cursor:pointer;background:transparent;color:var(--ink);';
-    p.addEventListener('click', () => {
-      active = id;
-      draw();
-    });
-    pills.set(id, p);
-    bar.append(p);
-  };
-  pill('canon', 'Canon');
-  for (const t of bundle.takes) pill(t.id, `${t.id.toUpperCase()} · ${t.label}`);
-  host.append(bar, meta, body);
-  draw();
-}
-
-export type StoryReaderVariant = 'annotated' | 'galley' | 'stage';
-
 /** Open the full-page reader. Returns the scrim (exposed for tests).
- *  Default = galley (the human's HR-9 lean, 2026-07-06); pills keep all three
- *  live until the verdict is firm. */
-export function openStoryReader(
-  bundles: readonly StoryTakeBundle[],
-  initial: StoryReaderVariant = 'galley',
-): HTMLElement {
+ *  Galley-only since FB-125: the human picked Galley columns FIRM (HR-9 ✅);
+ *  the annotated/stage variants were retired (recoverable from git history +
+ *  the HR-9 archive record). */
+export function openStoryReader(bundles: readonly StoryTakeBundle[]): HTMLElement {
   const scrim = el('div');
   scrim.className = 'modal-scrim';
   scrim.dataset['dev'] = DEV_SENTINEL;
@@ -2834,65 +2767,31 @@ export function openStoryReader(
   title.append(kami, roman);
   card.append(title);
 
-  // the reader-variant pills (the ADR-075 diverge of THIS surface) — tight chrome register.
-  const variants: readonly { id: StoryReaderVariant; label: string }[] = [
-    { id: 'annotated', label: 'Annotated script' },
-    { id: 'galley', label: 'Galley columns' },
-    { id: 'stage', label: 'Stage read' },
-  ];
-  let variant: StoryReaderVariant = initial;
-  const vbar = el('div');
-  vbar.style.cssText = 'display:flex;gap:.35rem;flex-wrap:wrap;margin:1rem 0 .4rem;';
-  const vbtns = new Map<string, HTMLButtonElement>();
-  // the ONE scrolling region (FB-123) — the frame + title + pills above never move.
+  // galley-only since FB-125 (HR-9 ✅ — the human picked Galley columns firm).
+  // the ONE scrolling region (FB-123) — the frame + title above never move.
   const content = el('div');
-  content.style.cssText = 'flex:1 1 auto;min-height:0;overflow-y:auto;padding-right:.5rem;';
-
-  const drawContent = (): void => {
-    for (const [id, b] of vbtns) {
-      const on = id === variant;
-      b.style.background = on ? 'var(--ink)' : 'transparent';
-      b.style.color = on ? 'var(--washi)' : 'var(--ink)';
-    }
-    content.textContent = '';
-    if (bundles.length === 0) {
-      const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
-      empty.style.cssText = 'color:var(--ink-faint);margin-top:1rem;';
-      content.append(empty);
-      return;
-    }
-    for (const bundle of bundles) {
-      const bh = el('div');
-      bh.style.cssText = 'margin-top:1.1rem;display:flex;flex-direction:column;gap:.25rem;';
-      const bt = el('div', undefined, bundle.title);
-      bt.style.cssText = 'font-weight:700;color:var(--ink);letter-spacing:.04em;';
-      bh.append(bt);
-      if (bundle.review) {
-        const rv = el('div', undefined, `review doc: ${bundle.review}`);
-        rv.style.cssText = 'color:var(--ink-faint);font-size:12px;';
-        bh.append(rv);
-      }
-      content.append(bh);
-      if (variant === 'annotated') renderReaderAnnotated(content, bundle);
-      else if (variant === 'galley') renderReaderGalley(content, bundle);
-      else renderReaderStage(content, bundle);
-    }
-  };
-  for (const v of variants) {
-    const b = el('button', undefined, v.label);
-    b.type = 'button';
-    b.style.cssText =
-      'border:1px solid var(--ink);border-radius:3px;padding:.15rem .6rem;font:inherit;' +
-      'font-size:12px;cursor:pointer;background:transparent;color:var(--ink);';
-    b.addEventListener('click', () => {
-      variant = v.id;
-      drawContent();
-    });
-    vbtns.set(v.id, b);
-    vbar.append(b);
+  content.style.cssText =
+    'flex:1 1 auto;min-height:0;overflow-y:auto;padding-right:.5rem;margin-top:1rem;';
+  if (bundles.length === 0) {
+    const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
+    empty.style.cssText = 'color:var(--ink-faint);margin-top:1rem;';
+    content.append(empty);
   }
-  card.append(vbar, content);
-  drawContent();
+  for (const bundle of bundles) {
+    const bh = el('div');
+    bh.style.cssText = 'margin-top:1.1rem;display:flex;flex-direction:column;gap:.25rem;';
+    const bt = el('div', undefined, bundle.title);
+    bt.style.cssText = 'font-weight:700;color:var(--ink);letter-spacing:.04em;';
+    bh.append(bt);
+    if (bundle.review) {
+      const rv = el('div', undefined, `review doc: ${bundle.review}`);
+      rv.style.cssText = 'color:var(--ink-faint);font-size:12px;';
+      bh.append(rv);
+    }
+    content.append(bh);
+    renderReaderGalley(content, bundle);
+  }
+  card.append(content);
 
   const dismiss = (): void => {
     document.removeEventListener('keydown', onKey);

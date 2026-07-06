@@ -130,6 +130,14 @@ interactively (batch approved via AskUserQuestion):
   human asked for annotated + stage to be removed. Retired (code deleted;
   recoverable from git history + the HR-9 record); HR-9 closed → archive.
 
+## Entry 8 — drain landed; HR-9 CLOSED
+
+FB-122/123 in 298b94f (+ oxfmt now ignores `project/playtest-inbox` — the
+overlay's compact JSON sidecars were red-blocking every commit).
+FB-124/125 in this commit: galley-only reader (variants retired), shared
+lines dim, demo Tokubei varied per register, HR-9 → ✅ archive row, drained
+session archived — `pending/` is empty.
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the

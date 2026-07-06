@@ -247,51 +247,6 @@ for your read in
 
 ---
 
-### HR-9 🔲 — ADR-139 story DEV surfaces: the script-reader's 3 variants (+ the Story switcher)
-
-The narrative-diverge review tooling is LIVE (plan
-`fable-2026-07-06-narrative-dev-surfaces` · sessions 92 · demo bundle
-`demo-r1` seeds it). Review in `npm run dev` → DEV panel → **Story** tab.
-
-- **Asking for:** (1) pick the **reader variant** that should become THE
-  reader (the pills in the modal header switch them live); (2) confirm the
-  **Story switcher** tab reads right (single-idea surface, locked lighter
-  ADR-075 split); (3) note anything the first REAL bundle review will need
-  that the demo doesn't show.
-- **How to look:** DEV panel → Story → set-switch Canon/B/C on the live R1
-  beat (Settings → Rung → R1 first), then "⤢ Explore story — full-page
-  reader" → flip the three pills. Mobile: 390px too.
-- **Taste brief (pass 1):** P2 clone `.modal-*` + `log-line voice-*`
-  primitives · P3 name-prefixed voice-coloured speakers · P5/P6 fixed card,
-  scrolls inside, unclipped at 390px · P12/P14 review instrument ⇒ instant
-  paint, NO typewriter · P17/TST4 bundle/take/brief/scorecard at a glance ·
-  P19 script breathes, chrome dense · TST1 reader is the ONE home for
-  script text.
-- [ ] **A — Annotated script** _(was the self-pick; superseded by the human lean below)_ — play-order script,
-  canon inline, alternates nested (indigo-ruled) under each unit.
-  - **Scorecard (A):** 19✔ · 1✘ · 1— — ✘ the floating DEV panel can overlay
-    the modal's right edge (z-order) [blind spot]; — P12 n/a-by-design
-    (instant paint is the briefed intent).
-- [x] **B — Galley columns** _(HUMAN LEAN 2026-07-06 — now the reader's
-  default; pills keep A/C live until the verdict is firm)_ — units as rows,
-  canon + takes side-by-side; strongest for line-level compare.
-  - **Scorecard (B):** 18✔ · 2✘ · 1— — ✘ 390px reads via in-container
-    horizontal scroll (accepted P6 form, but weakest mobile) [briefed];
-    ✘ panel-overlay as A [blind spot].
-- [ ] **C — Stage read** _(built; pill)_ — ONE take end-to-end with local
-  take pills — closest to how the player hears it; canon-fallback units
-  chipped.
-  - **Scorecard (C):** 19✔ · 1✘ · 1— — ✘ panel-overlay as A [blind spot];
-    cross-take compare needs pill-flipping (by design).
-- **Self-pick rationale:** A = highest weighted total (hierarchy + mobile
-  legibility; single column, alternates in reading order). C is the bold
-  pacing-true option — pick it if you review by *listening*, not comparing.
-- **Verdict:** leaning **B — Galley columns** (human, 2026-07-06, in-session);
-  default switched to galley. OPEN until firm — confirm (or reverse) and the
-  losing variants get retired. Caveat to check when confirming: galley at
-  390px reads via in-container horizontal scroll (the briefed mobile
-  trade-off).
-
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

@@ -770,11 +770,12 @@ describe('ADR-139 story take-sets', () => {
   });
 });
 
-// ── ADR-139 — the script-reader modal (the full-diverge surface): RED-able routing proofs.
-// jsdom-level: each variant renders the bundle's script content; canon text comes from the
-// LIVE registries; Escape dismisses. Visual taste is scored on real screenshots, not here. ──
+// ── ADR-139 — the script-reader modal (galley-only since FB-125 / HR-9 ✅): RED-able
+// routing proofs. jsdom-level: the galley renders canon (from the LIVE registry) beside the
+// takes; canon-identical take lines DIM (FB-124); Escape dismisses. Visual taste was scored
+// on real screenshots in the HR-9 flow, not here. ──
 describe('ADR-139 story reader modal', () => {
-  const scene = (text: string): RungScene => ({
+  const scene = (text: string, react: string): RungScene => ({
     id: 'rung-r1',
     rank: 'R1' as RankId,
     voice: 'steward',
@@ -782,7 +783,7 @@ describe('ADR-139 story reader modal', () => {
     topics: [],
     decision: {
       prompt: 'How?',
-      options: [{ id: 'o1', label: 'l', say: 'my line', react: 'the react' }],
+      options: [{ id: 'o1', label: 'l', say: 'my line', react }],
     },
     motivates: [],
   });
@@ -791,7 +792,14 @@ describe('ADR-139 story reader modal', () => {
     title: 'Reader bundle',
     rationale: 'canon reads truest',
     takes: [
-      { id: 'b', label: 'Colder', brief: 'withholds', rungBeats: { R1: scene('alt-b greeting') } },
+      {
+        id: 'b',
+        label: 'Colder',
+        brief: 'withholds',
+        // greeting differs from canon; the react is a SHARED line (dim test target below
+        // pins the mechanism on a fixture-local pair, not on live-canon text).
+        rungBeats: { R1: scene('alt-b greeting', 'the shared react') },
+      },
     ],
   };
 
@@ -799,33 +807,48 @@ describe('ADR-139 story reader modal', () => {
     document.querySelectorAll('.modal-scrim').forEach((n) => n.remove());
   });
 
-  it('annotated variant shows canon (live registry) AND the alternate under the unit', () => {
-    const scrim = openStoryReader([bundle], 'annotated');
+  it('renders canon (live registry) and the take side by side', () => {
+    const scrim = openStoryReader([bundle]);
     const text = scrim.textContent ?? '';
     expect(text).toContain('Reader bundle');
-    expect(text).toContain('alt-b greeting'); // the take
-    expect(text).toContain('rung:R1'); // the unit chip
+    expect(text).toContain('canon · the pick');
+    expect(text).toContain('b · Colder');
+    expect(text).toContain('alt-b greeting');
+    expect(text).toContain('rung:R1');
     // canon text comes from the LIVE registry — assert via the source of truth, not a copy.
     const canonGreeting = RUNG_BEATS.R1!.greeting[0]!.text;
     expect(text).toContain(canonGreeting.slice(0, 40));
   });
 
-  it('galley variant lays canon and takes side by side; stage variant reads one take', () => {
-    const galley = openStoryReader([bundle], 'galley');
-    expect(galley.textContent).toContain('canon · the pick');
-    galley.remove();
-    const stage = openStoryReader([bundle], 'stage');
-    // stage opens on canon; switching to B swaps the read.
-    const bPill = [...stage.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').startsWith('B ·'),
-    )!;
-    bPill.click();
-    expect(stage.textContent).toContain('alt-b greeting');
-    expect(stage.textContent).toContain('withholds');
+  it('dims a take line that is byte-identical to canon (FB-124)', () => {
+    // Build a bundle whose take shares ONE line verbatim with the canon R1 beat.
+    const sharedText = RUNG_BEATS.R1!.greeting[0]!.text;
+    const sharing: StoryTakeBundle = {
+      ...bundle,
+      takes: [
+        {
+          id: 'b',
+          label: 'Colder',
+          brief: 'withholds',
+          rungBeats: { R1: scene(sharedText, 'a fresh react') },
+        },
+      ],
+    };
+    const scrim = openStoryReader([sharing]);
+    const dimmed = [...scrim.querySelectorAll('.log-line')].filter(
+      (n) => (n as HTMLElement).style.opacity === '0.45',
+    );
+    expect(dimmed.length).toBeGreaterThan(0);
+    expect(dimmed.some((n) => (n.textContent ?? '').includes(sharedText.slice(0, 30)))).toBe(true);
+    // a line unique to the take stays undimmed.
+    const fresh = [...scrim.querySelectorAll('.log-line')].find((n) =>
+      (n.textContent ?? '').includes('a fresh react'),
+    ) as HTMLElement;
+    expect(fresh.style.opacity).not.toBe('0.45');
   });
 
   it('Escape dismisses the reader', () => {
-    const scrim = openStoryReader([bundle], 'annotated');
+    const scrim = openStoryReader([bundle]);
     expect(document.body.contains(scrim)).toBe(true);
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(document.body.contains(scrim)).toBe(false);

@@ -19,12 +19,12 @@ Genemon: "The gate and the forecourt are yours now, and the home paddies — the
 rice that feeds us all. The kura wants shoring; spend the house's little
 surplus on it. It was my task once. Carry it better than I did."
 
-> A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi
-> pedlar, come because a tended gate draws trade. He lifts a hand as you pass.
+> A pack-laden stranger has laid a mat in the lee of the gate-post, the way a
+> man does who has been passing this gate for years and never once stopped.
 
-Tokubei (villager): "A tended gate's a lucky gate for a man with a pack.
-Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your
-own spends as well as any lord's."
+Tokubei (villager): "Tokubei, of Ōmi — twenty years on this road, and this is
+the first time this gate looked worth stopping at. Mind if I keep my mat here
+a while, young master? Coin of your own spends as well as any lord's."
 
 ### decide · How do you take the keeping?
 
