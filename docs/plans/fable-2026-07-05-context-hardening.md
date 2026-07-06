@@ -1,7 +1,9 @@
 # Plan — context hardening (from the 2026-07-05 context audit)
 
-**Status:** PROPOSED — awaiting the human's read; phases 1–3 are build-ready on
-a nod, phase 4 needs per-cut sign-off.
+**Status:** LOCKED (human, 2026-07-06) — P1–P3 green-lit; P3.2 cull confirmed
+(delete `no-bulk-git-add`); P4 lands all cuts as individual commits, human
+reviews the diffs after (revert anything that reads wrong). P4 cut 1 rescoped
+by the human — see the cut for the new label scheme.
 **Confidence:** ( 70% Opus, 30% Fable ) — see routing below.
 **Sources:** [`project/audit/reports/2026-07-05-context-audit.md`](../../project/audit/reports/2026-07-05-context-audit.md)
 (the audit) + the follow-up assessment discussed with the human (2026-07-05,
@@ -80,10 +82,9 @@ worktree, per the established pattern).
    `git switch` (except `-c`/`-C`) · `git reset --hard` · `git clean` with
    force. Fixtures land in the Phase-2 rule matrix first (red), then the
    pattern (green).
-2. **Cull `no-bulk-git-add`** ⚠️ *needs-nod (your hookify rule)*: it warns on
-   the exact patterns `guard-git-add-all.sh` already blocks — double message
-   per offense, zero added protection. Recommend delete; keep if you want
-   belt-and-braces.
+2. **Cull `no-bulk-git-add`** ✅ *nod given (human, 2026-07-06 — delete)*: it
+   warns on the exact patterns `guard-git-add-all.sh` already blocks — double
+   message per offense, zero added protection.
 3. **`settings.local.json` prune** ⚠️ *human-owned file — your 5 minutes, not
    an agent edit*: drop the two `sed` RICE_PER_RAKE one-offs, the
    `node tmp/mobile-ui/*` entries, and consider narrowing
@@ -100,14 +101,22 @@ dry-run in a scratch session draws the warn.
 
 Order chosen so each cut is independently revertable (one commit each):
 
-1. **Namespace collisions** — smallest cut, do first:
-   - AGENTS.md's taste values `T1–T4` → **`V1–V4`** (taste.md, the SoT,
-     already uses V1–V4 — AGENTS.md is drifted, and `T#` collides with game
-     tiers T0–T5).
-   - Philosophies `R1–R6` → **`PH1–PH6`** (collides with review R-items
-     R1–R8) across docs/philosophy/ + AGENTS.md §Philosophy + any ADR
-     back-refs a grep finds. ⚠️ *needs-nod: touches the philosophy register's
-     identity; pure relabel, zero prose change.*
+1. **Namespace collisions — RESCOPED by the human (2026-07-06):** single
+   letters are over-used repo-wide; move ID prefixes to **2/3-letter** forms.
+   The ONLY single-letter schemes that stay are the game's fundamental
+   levels: **rungs R0–R7** and **tiers T0–T5**.
+   - Taste values → **`TST1–TST4`** (supersedes the plan's original `V#`
+     pick — taste.md's `V#` AND AGENTS.md's drifted `T#` both unify on
+     `TST#`).
+   - Philosophies `R1–R6` → **`PH1–PH6`** (as planned) across
+     docs/philosophy/ + AGENTS.md §Philosophy + ADR back-refs.
+   - **Sweep step:** inventory the remaining single-letter ID schemes
+     (review `R`-items, `H`-items, `F`-feedback, `A`-conventions, `M`-
+     milestones, `D`-ADRs, …), draft a rename map in `tmp/`, apply to
+     **living/always-loaded docs only** — historical records
+     (`project/journal/`, `project/archive/`, closed ledgers) stay untouched
+     per append-only; the map + an ADR land with the cut, human reviews the
+     diff.
 2. **diverge skill** — graduate §0/§3/§4/§7/§8 (the retired
    branch/`?variant=`/contact-sheet/GC model, ~140 lines, both dead refs)
    verbatim to `project/archive/2026-07-05-diverge-v1-branch-model.md` with a
@@ -142,6 +151,8 @@ attached for cut 2; `verify` green throughout; the caps go RED when exceeded
 
 ## Sequencing
 
-P1 → P2 → P3 in order, any session, no human gate except the two ⚠️ items.
-P4 starts only after you've read this plan (each cut lands solo). H21/H22
-closed 2026-07-05 (both → status quo); nothing here was blocked on them.
+P1 → P2 → P3 in order, any session. Remaining ⚠️: P3.3 (`settings.local.json`
+prune) stays human-owned — your 5 minutes, not an agent edit. P4 green-lit
+2026-07-06: all cuts land as individual commits, diffs reviewed after.
+H21/H22 closed 2026-07-05 (both → status quo); nothing here was blocked on
+them.
