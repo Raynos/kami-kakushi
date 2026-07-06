@@ -55,6 +55,11 @@ import {
   RUNG_BEATS,
 } from '../core';
 import { el, pct, ESTATE_STAGE_NAMES, HOUSE_ROOMS } from './render';
+import { renderMapEzu } from './map-variants/ezu';
+import { renderMapModelBoard } from './map-variants/model-board';
+import { renderMapCadastral } from './map-variants/cadastral';
+import { renderMapLantern } from './map-variants/lantern';
+import { renderMapKamon } from './map-variants/kamon';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
@@ -1606,6 +1611,22 @@ function renderMapVariant(
       return true;
     case 'map-g':
       renderMapGraph(container, ctx);
+      return true;
+    // the REAL-map diverge takes (HR-7 re-scope) — each in its own module.
+    case 'map-h':
+      renderMapEzu(container, ctx, state, dispatch);
+      return true;
+    case 'map-i':
+      renderMapModelBoard(container, ctx, state, dispatch);
+      return true;
+    case 'map-j':
+      renderMapCadastral(container, ctx, state, dispatch);
+      return true;
+    case 'map-k':
+      renderMapLantern(container, ctx, state, dispatch);
+      return true;
+    case 'map-l':
+      renderMapKamon(container, ctx, state, dispatch);
       return true;
     default:
       return false; // map-a → render.ts renders the terse paths list (ships)

@@ -282,3 +282,14 @@ improvements — 10 candidate directions written up in
 `docs/plans/fable-2026-07-06-estate-real-map-options.md` (queued); the human
 picks 3, each to be built by a Fable-5 xhigh subagent (ADR-075). The Map tab
 also goes two-column (flavour card | map) as shared groundwork. verify green.
+
+## Addendum 16 — real-map diverge: 5 picks, 5 subagents, seams scaffolded
+
+The human picked FIVE directions (1 ezu · 4 model board · 6 cadastral ·
+8 lantern · 9 kamon — "I know I said 3 but 5 is great") to be built by five
+Fable-5 xhigh subagents. Scaffolding landed first so the agents never touch
+the same file: one module per take under `src/ui/map-variants/` (imported
+only by dev.ts → prod tree-shake), `shared.ts` with MapCtx + BFS/fog +
+travel/gate wiring, registry entries map-h…map-l + router cases, stub
+placeholders, verify green. Agents write ONLY their own module; no commits;
+I verify + land the batch.
