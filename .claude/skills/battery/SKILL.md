@@ -66,9 +66,9 @@ selection palette; don't re-run unchanged areas — re-run proven winners only a
 |---|---|
 | `doc-consistency` | Stale text, broken cross-refs, **generated-vs-source drift** (`docs/content/` vs `gen-docs.ts`). |
 | `persona-simulation` | Walk the spec/build as a concrete **player persona**; where does their path break? |
-| `economy-arithmetic` | Balance math: koku sinks, yield multipliers, time-to-rank / 70-30 / ~28.5h targets, ratios — **and the invariants that secretly decide fun (A4):** does each upgrade close a **work→output→more-output loop**, or merely grant a *buffer*? do high-water marks **self-inflate** (re-judge their own payout)? is it **breadth without depth**? |
+| `economy-arithmetic` | Balance math: koku sinks, yield multipliers, time-to-rank / 70-30 / ~28.5h targets, ratios — **and the invariants that secretly decide fun (AC-4):** does each upgrade close a **work→output→more-output loop**, or merely grant a *buffer*? do high-water marks **self-inflate** (re-judge their own payout)? is it **breadth without depth**? |
 | `instruction-coherence` | Internal coherence of PRD / CLAUDE.md / ADRs — contradictions, undefined defaults. |
-| `canon-vs-build` | Reconcile the ADR log / PRD against the **actual build (A12)**: a signed ADR is a **claim to verify, not proof** (ADR-053 described the opposite of the code). Flag locks that drifted from what shipped + stale task/milestone *labels* (a "retire DEV tools" label nearly deleted the live harness). |
+| `canon-vs-build` | Reconcile the ADR log / PRD against the **actual build (AC-12)**: a signed ADR is a **claim to verify, not proof** (ADR-053 described the opposite of the code). Flag locks that drifted from what shipped + stale task/milestone *labels* (a "retire DEV tools" label nearly deleted the live harness). |
 | `failure-state-walking` | Soft-stuck, durability dead-ends, legacy/edge states — walk every way to get stuck. |
 | `ui-state-correctness` | Every UI state renders right: loading / empty / error / boundary / overflow. |
 | `save-integrity` | Corrupt / legacy / tampered `localStorage` saves + `migrate()`. *(The useful kernel of "adversarial security" — the only real attack surface in a single-player offline browser game.)* |

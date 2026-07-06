@@ -103,6 +103,17 @@ Also repaired a co-agent's AGENTS.md clobber (their ADR-139 insertion ate the
 verify:tooling 25 green. Old ids remain valid in journal/archive via the
 ADR-140 table.
 
+## 6 · P4 cut 2 — diverge skill v1 model archived
+
+`.claude/skills/diverge/SKILL.md` 285 → 163 lines: §0/§3/§4/§7/§8 + the
+one-correspondence line (the retired branch/`?variant=`/contact-sheet/GC
+model, both dead refs) graduated VERBATIM to
+`project/archive/2026-07-05-diverge-v1-branch-model.md`; live skill keeps
+header (pointer rewritten to the archive) + §1/§2/§5/§6. AC-15 proof: HEAD
+extraction vs archive body diffs EMPTY (blank-lines aside) + NUL-free.
+Stragglers: battery (AC-4)/(AC-12), decisions AC-4 self-inflation, diverge
+AC-19.
+
 ## Next intended steps (current)
 
 1. P2 — `verify:tooling` meta-suite (nightly-only), five fixture-driven groups.
