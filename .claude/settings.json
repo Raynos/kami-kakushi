@@ -16,11 +16,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/guard-git-add-all.sh"
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-git-add-all.sh\""
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/guard-bash-safety.sh"
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-bash-safety.sh\""
           }
         ]
       },
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/enforce-headless-qa.sh"
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/enforce-headless-qa.sh\""
           }
         ]
       }
@@ -39,7 +39,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash src/scripts/session-brief.sh"
+            "command": "bash \"$CLAUDE_PROJECT_DIR/src/scripts/session-brief.sh\""
           }
         ]
       }
