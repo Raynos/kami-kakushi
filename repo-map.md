@@ -44,7 +44,12 @@ always-loaded context while being editable on its own.
   **Decisions** + **Reviews**; H-items also graduate to an ADR), and leave the
   live `decisions.md`/`review.md` open-only (see that dir's `README` for the
   lifecycle). [`project/todo-human.md`](project/todo-human.md) is the companion
-  list: loose **TODOs** for the human plus the **reading queue**;
+  list: loose **TODOs** for the human plus the **reading queue**. **The `## TODO`
+  section is HUMAN-authored — an agent NEVER appends to it** (human, 2026-07-06):
+  an agent-surfaced finding or question is an **H-item** (`decisions.md`) or
+  **R-item** (`review.md`) in `human-in-the-loop/`; a pre-commit gate hard-blocks
+  added TODO lines (`SKIP_HUMAN_TODO=1` only for a TODO the human dictated
+  verbatim);
   [`project/BACKLOG.md`](project/BACKLOG.md) holds work the human has
   deliberately parked — never nagged by the session brief. **What belongs
   in the reading queue** — *any durable doc whose purpose is for the human to

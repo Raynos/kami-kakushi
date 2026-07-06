@@ -64,3 +64,13 @@ CI green on `27086bb`: verify workflows + `e2e.yml` (3 projects, 81 tests,
 Plan flipped DONE and archived to `project/archive/`; the two design findings
 (R3 mend-path gap, fresh-profile import behind the intro) queued as human
 TODOs in `project/todo-human.md`.
+
+## Correction (2026-07-06, appended)
+
+The two s88 findings were wrongly filed as `## TODO` lines in
+`project/todo-human.md` — that section is the human's own list. Moved to
+`human-in-the-loop/decisions.md` as **H23** (R3 mend-path gap) + **H24**
+(fresh-profile import behind the intro). Tombstoned at three rungs: a
+pre-commit **gate** hard-blocks added TODO lines (`SKIP_HUMAN_TODO=1` for a
+human-dictated one; RED-proof shown), a repo-map.md context line, and an
+agent-memory note.

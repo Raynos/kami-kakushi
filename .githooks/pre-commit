@@ -183,6 +183,39 @@ if [ "${SKIP_QUEUE:-0}" != "1" ]; then
   fi
 fi
 
+# --- Human-TODO ownership gate (human, 2026-07-06 — HARD BLOCK): the '## TODO' section of
+#     project/todo-human.md is the HUMAN's list — tasks only they can do, authored by them.
+#     An agent surfacing a finding/question files it in project/human-in-the-loop/
+#     (H-decision or R-review), NEVER as a TODO line (the s88 mistake this gate tombstones).
+#     Fires only when a commit ADDS a checkbox line inside '## TODO' (edits to the Reading
+#     queue section — which the reading-queue gate REQUIRES — never trip it; neither does
+#     removing/ticking lines). Sound at the block rung: ~every commit here is agent-made.
+#     The human dictating an addition is the one bypass:  SKIP_HUMAN_TODO=1 git commit … ---
+if [ "${SKIP_HUMAN_TODO:-0}" != "1" ]; then
+  if git diff --cached --name-only | grep -qx 'project/todo-human.md'; then
+    _todo_section() { sed -n '/^## TODO/,/^## Reading queue/p' | grep -E '^- \[' || true; }
+    _head_todos="$(git show HEAD:project/todo-human.md 2>/dev/null | _todo_section)"
+    _staged_todos="$(git show :project/todo-human.md 2>/dev/null | _todo_section)"
+    _new_todos="$(comm -13 <(printf '%s\n' "$_head_todos" | sort -u) \
+                           <(printf '%s\n' "$_staged_todos" | sort -u) | grep -E '^- \[' || true)"
+    if [ -n "$_new_todos" ]; then
+      {
+        echo ""
+        echo "  X commit blocked - new line(s) under '## TODO' in project/todo-human.md:"
+        printf '%s\n' "$_new_todos" | sed 's/^/      /'
+        echo ""
+        echo "  That section is the HUMAN's own list - agents never append to it. File the item in"
+        echo "  project/human-in-the-loop/ instead: a design fork/question -> decisions.md (H-item),"
+        echo "  a look/feel/taste check -> review.md (R-item). The session brief surfaces both."
+        echo ""
+        echo "  Human dictated this TODO to you verbatim?  SKIP_HUMAN_TODO=1 git commit ..."
+        echo ""
+      } >&2
+      exit 1
+    fi
+  fi
+fi
+
 # --- Doc-budget gate (D-126, absorbs the old snapshot-shape gate): snapshot-class docs
 #     (project-status 120 · taste.md 150 · ui-design.md 400) hold HARD line caps + genre warns.
 #     The caps live in ONE place: src/scripts/verify-doc-budgets.ts, a docs-lane verify gate —
