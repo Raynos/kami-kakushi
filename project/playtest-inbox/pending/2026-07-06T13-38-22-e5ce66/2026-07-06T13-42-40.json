@@ -1,0 +1,141 @@
+{
+  "capturedAt": "2026-07-06T13:42:40+0200",
+  "seed": 20260626,
+  "clock": {
+    "day": 2,
+    "tick": 6
+  },
+  "location": "kura",
+  "rung": "R0",
+  "tier": 0,
+  "activeTab": "work",
+  "variants": {},
+  "viewport": {
+    "w": 1496,
+    "h": 718,
+    "dpr": 2
+  },
+  "url": "/",
+  "element": {
+    "label": "button \"×\"",
+    "text": "×",
+    "selector": "div:nth-of-type(3) > div > button",
+    "rect": {
+      "x": 937,
+      "y": 238,
+      "w": 28,
+      "h": 28
+    }
+  },
+  "screenshot": "2026-07-06T13-42-40.png",
+  "logTail": [
+    {
+      "channel": "narration",
+      "text": "\"...Hm. No patience for a physician. Well — the body heals the same whether you thank me or not.\"",
+      "count": 1,
+      "speaker": "Sōan"
+    },
+    {
+      "channel": "milestone",
+      "text": "Perk unlocked — Sickbed Grit: A back that shoulders the work before the wits can weigh in. (+1 STR / −1 INT)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"A porter's knot. My hands know this much.\"",
+      "count": 1,
+      "speaker": "You"
+    },
+    {
+      "channel": "narration",
+      "text": "Your fingers move before you decide to — a labourer's memory, still in the muscle.",
+      "count": 1
+    },
+    {
+      "channel": "milestone",
+      "text": "Perk unlocked — The Porter's Hands: Hands that remember the work before the head does. (+1 STR / −1 LUCK)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "\"I'll earn my keep. Point me at it.\"",
+      "count": 1,
+      "speaker": "You"
+    },
+    {
+      "channel": "narration",
+      "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "milestone",
+      "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+      "count": 1
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "Your arms are leaden. You could rest a moment against the cool post.",
+      "count": 1
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
+      "count": 1
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 5
+    },
+    {
+      "channel": "system",
+      "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+      "count": 2
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 17
+    }
+  ],
+  "save": "eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjo3LCJzYXZlQ291bnRlciI6NDMyNCwic2F2ZWRBdCI6MTc4MzMzODE2MDQ4MCwic3RhdGUiOnsic2NoZW1hVmVyc2lvbiI6Nywicm5nIjp7InNlZWQiOjIwMjYwNjI2LCJjdXJzb3JzIjp7ImNvbWJhdCI6MCwibG9vdCI6MCwic2Vhc29uYWwiOjAsIndvcmxkZ2VuIjowfX0sImNsb2NrIjp7InRpY2siOjYsImRheSI6Mn0sImNoYXJhY3RlciI6eyJocCI6NTgsInNhdGlldHkiOjUwLCJhdHRyaWJ1dGVQb2ludHMiOjAsImF0dHJzIjp7InN0ciI6OCwiYWdpIjo0LCJpbnQiOjQsInNwZCI6NSwibHVjayI6NH0sImxldmVsIjoxLCJjb21iYXRYcCI6MH0sInJlc291cmNlcyI6eyJjb2luIjowLCJyaWNlIjo1MH0sImJhbmtlZCI6eyJjb2luIjowLCJyaWNlIjowfSwiZmxhZ3MiOnsiYXdha2UiOnRydWUsImRyZWFtLTEiOnRydWUsInJha2VkIjp0cnVlfSwidW5sb2NrZWQiOlsic2NyZWVuLWNvbGQtb3BlbiIsInZlcmItb3Blbi1leWVzIiwicmVhZG91dC1ib2R5IiwicmVhZG91dC1yaWNlIiwidmVyYi1yYWtlIiwidmVyYi1yZXN0Il0sImxvZyI6eyJlbnRyaWVzIjpbeyJrZXkiOjAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiWW91IG9wZW4geW91ciBleWVzLiBTdHJhdyBiZW5lYXRoIHlvdSwgdGhlIHNtZWxsIG9mIHdldCByaWNlLCBhIGxvdyByb29mIHlvdSBkbyBub3Qga25vdy4gQSBjb2xkIHNwcmluZyDigJQgdGhlIG5pbnRoIHllYXIgb2YgQW4nZWkg4oCUIHRob3VnaCB0aGUgeWVhciBpcyBhcyBsb3N0IHRvIHlvdSBhcyB5b3VyIG5hbWUuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIllvdSdyZSBhd2FrZS5cIiBTxY1hbiB0aGUgcGh5c2ljaWFuIHNpdHMgYmFjayBvbiBoaXMgaGVlbHMuIFwiTm8ga2FtaSBjYXJyaWVkIHlvdSBvZmYsIHdoYXRldmVyIHRoZSB2aWxsYWdlIHdhbnRzIHRvIGJlbGlldmUuIEEgZmxvb2QgdG9vayB5b3UsIGFuZCBhIGJsb3cgdG8gdGhlIGhlYWQgdG9vayB0aGUgcmVzdC4gQm9kaWVzIGZvcmdldC4gR2l2ZW4gd29yayBhbmQgcmljZSwgdGhleSBhbHNvIG1lbmQuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IlPFjWFuIiwidm9pY2UiOiJwaHlzaWNpYW4ifSx7ImtleSI6MiwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJZb3UgdGFrZSBzdG9jayBvZiB5b3Vyc2VsZjogYnJ1aXNlZCwgaG9sbG93LCBoYWxmLXN0YXJ2ZWQg4oCUIGJ1dCBicmVhdGhpbmcuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJSaWNlIGxpZXMgc2NhdHRlcmVkIGFjcm9zcyB0aGUgS3Vyb3Nhd2EgZ3JhaW4tc3RvcmUgZmxvb3IuIFNwaWxsZWQgc3RvcmVzIGFyZSB3YXN0ZSDigJQgYW5kIGNsZWFyaW5nIHdhc3RlIGlzIGEga2luZCBvZiB3b3JrLCBpZiB5b3Ugc2V0IHlvdXIgaGFuZHMgdG8gaXQuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6NCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIkthbWkgb3IgZmxvb2QsIEknbSBzdGlsbCBicmVhdGhpbmcuIFdoZXJlJ3MgdGhlIHdvcms/XCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IllvdSIsInZvaWNlIjoicGxheWVyIn0seyJrZXkiOjUsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCIuLi5IbS4gTm8gcGF0aWVuY2UgZm9yIGEgcGh5c2ljaWFuLiBXZWxsIOKAlCB0aGUgYm9keSBoZWFscyB0aGUgc2FtZSB3aGV0aGVyIHlvdSB0aGFuayBtZSBvciBub3QuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IlPFjWFuIiwidm9pY2UiOiJwaHlzaWNpYW4ifSx7ImtleSI6NiwiY2hhbm5lbCI6Im1pbGVzdG9uZSIsInRleHQiOiJQZXJrIHVubG9ja2VkIOKAlCBTaWNrYmVkIEdyaXQ6IEEgYmFjayB0aGF0IHNob3VsZGVycyB0aGUgd29yayBiZWZvcmUgdGhlIHdpdHMgY2FuIHdlaWdoIGluLiAoKzEgU1RSIC8g4oiSMSBJTlQpIiwidGljayI6MCwiY291bnQiOjF9LHsia2V5Ijo3LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlNvbWV0aGluZyBzdXJmYWNlcyBhbmQgaXMgZ29uZSDigJQgYSBwb3J0ZXIncyBrbm90LCBhIHJvYWQgaW4gZ3JleSByYWluLCBhIG5hbWUgeW91IGNhbm5vdCBrZWVwIGhvbGQgb2YuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6OCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIkEgcG9ydGVyJ3Mga25vdC4gTXkgaGFuZHMga25vdyB0aGlzIG11Y2guXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IllvdSIsInZvaWNlIjoicGxheWVyIn0seyJrZXkiOjksImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiWW91ciBmaW5nZXJzIG1vdmUgYmVmb3JlIHlvdSBkZWNpZGUgdG8g4oCUIGEgbGFib3VyZXIncyBtZW1vcnksIHN0aWxsIGluIHRoZSBtdXNjbGUuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MTAsImNoYW5uZWwiOiJtaWxlc3RvbmUiLCJ0ZXh0IjoiUGVyayB1bmxvY2tlZCDigJQgVGhlIFBvcnRlcidzIEhhbmRzOiBIYW5kcyB0aGF0IHJlbWVtYmVyIHRoZSB3b3JrIGJlZm9yZSB0aGUgaGVhZCBkb2VzLiAoKzEgU1RSIC8g4oiSMSBMVUNLKSIsInRpY2siOjAsImNvdW50IjoxfSx7ImtleSI6MTEsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiT24geW91ciBmZWV0LCB0aGVuLiBJIGFtIEdlbmVtb24sIHN0ZXdhcmQgb2YgdGhpcyBob3VzZSwgYW5kIEkga2VlcCB0aGUgbGl0dGxlIGl0IGhhcyBsZWZ0IHRvIGtlZXAuIFlvdSdsbCBub3QgcmVtZW1iZXIgYW55IG9mIGl0LCBzbyBoZWFyIGl0IHBsYWluOiB0aGUgS3Vyb3Nhd2EgYXJlIHNhbXVyYWkgc3RpbGwg4oCUIG9uIHRoZSBsb3JkJ3Mgcm9sbHMsIGlmIG5vd2hlcmUgaW4gdGhlIGdyYW5hcnkuIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJHZW5lbW9uIiwidm9pY2UiOiJzdGV3YXJkIn0seyJrZXkiOjEyLCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiSSdsbCBlYXJuIG15IGtlZXAuIFBvaW50IG1lIGF0IGl0LlwiIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJZb3UiLCJ2b2ljZSI6InBsYXllciJ9LHsia2V5IjoxMywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIi4uLkdvb2QuIFRoZSBob3VzZSBoYXMgaGFkIGl0cyBmaWxsIG9mIGhhbmRzIHRoYXQgZG9uJ3QuIFdlJ2xsIHNlZSBpZiB5b3UgbWVhbiBpdC5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiR2VuZW1vbiIsInZvaWNlIjoic3Rld2FyZCJ9LHsia2V5IjoxNCwiY2hhbm5lbCI6Im1pbGVzdG9uZSIsInRleHQiOiJQZXJrIHVubG9ja2VkIOKAlCBHZW5lbW9uJ3MgQ2hhcmdlOiBIb25lc3QgbXVzY2xlIHNldCBwbGFpbmx5IHRvIHRoZSB0YXNrIOKAlCBzdXJlIG92ZXIgbmltYmxlLiAoKzEgU1RSIC8g4oiSMSBBR0kpIiwidGljayI6MCwiY291bnQiOjF9LHsia2V5IjoxNSwiY2hhbm5lbCI6InJld2FyZCIsInRleHQiOiJZb3UgcmFrZSB0aGUgc3BpbGxlZCByaWNlIGJhY2sgdG93YXJkIHRoZSBiYXNrZXQuICgrMiByaWNlKSIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIiwiZXBoZW1lcmFsIjp0cnVlfSx7ImtleSI6MTYsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiU28geW91IHB1dCB5b3VyIGhhbmRzIHRvIGl0LiBSYWtlIHdoYXQgZ3JhaW4gaXMgc3RpbGwgd2hvbGUgYmFjayB0b3dhcmQgdGhlIGJhc2tldCwgYSBmaXN0ZnVsIGF0IGEgdGltZS4gV2UgcmVja29uIGEgc2FtdXJhaSBob3VzZeKAmXMgd29ydGggaW4ga29rdSDigJQgYSB5ZWFy4oCZcyBlYXRpbmcgZm9yIG9uZSBtYW4g4oCUIGFuZCBldmVyeSBiYXNrZXQgeW91IHNhdmUgdXMgaXMgYSBtZWFzdXJlIHdlIG5lZWQgbm90IGdvIGJlZ2dpbmcgdG8gdGhlIGxvcmQgdG8gbWFrZSBnb29kLiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiR2VuZW1vbiIsInZvaWNlIjoic3Rld2FyZCJ9LHsia2V5IjoxNywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJZb3VyIGFybXMgYXJlIGxlYWRlbi4gWW91IGNvdWxkIHJlc3QgYSBtb21lbnQgYWdhaW5zdCB0aGUgY29vbCBwb3N0LiIsInRpY2siOjIsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjE4LCJjaGFubmVsIjoicmV3YXJkIiwidGV4dCI6IllvdSByYWtlIHRoZSBzcGlsbGVkIHJpY2UgYmFjayB0b3dhcmQgdGhlIGJhc2tldC4gKCsyIHJpY2UpIiwidGljayI6MiwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IiLCJlcGhlbWVyYWwiOnRydWV9LHsia2V5IjoxOSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJDbGVhciBpdCB3aXRob3V0IG15IHN0YW5kaW5nIG92ZXIgeW91LCBhbmQgeW91J2xsIGhhdmUgZWFybmVkIHlvdXIgcmljZSBhbmQgYSBkcnkgY29ybmVyIHRvIHNsZWVwIGluLiBJJ2xsIG1ha2UgeW91IG5vIGdyYW5kZXIgcHJvbWlzZSB0aGFuIHRoYXQuIEluIHRoaXMgaG91c2UsIG5vbmUgb2YgdXMgaG9sZHMgb25lLiIsInRpY2siOjIsImNvdW50IjoxLCJzcGVha2VyIjoiR2VuZW1vbiIsInZvaWNlIjoic3Rld2FyZCJ9LHsia2V5IjoyMCwiY2hhbm5lbCI6InJld2FyZCIsInRleHQiOiJZb3UgcmFrZSB0aGUgc3BpbGxlZCByaWNlIGJhY2sgdG93YXJkIHRoZSBiYXNrZXQuICgrMiByaWNlKSIsInRpY2siOjQsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIiwiZXBoZW1lcmFsIjp0cnVlfSx7ImtleSI6MjEsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCIuLi5Zb3UgZG9uJ3Qgc2hpcmsgdGhlIHdvcmssXCIgR2VuZW1vbiBzYXlzLCBleWVpbmcgdGhlIGNsZWFyZWQgYm9hcmRzIGFuZCB0aGUgZmlsbGluZyBiYXNrZXQuIFwiVGhlIGhvdXNlIGhhcyBoYWQgaXRzIGZpbGwgb2YgaGFuZHMgdGhhdCBkby4gRWFybiB5b3VyIGtlZXAsIGFuZCBhIHBsYWNlIGhlcmUgaXMgeW91cnMuXCIiLCJ0aWNrIjo0LCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoyMiwiY2hhbm5lbCI6InJld2FyZCIsInRleHQiOiJZb3UgcmFrZSB0aGUgc3BpbGxlZCByaWNlIGJhY2sgdG93YXJkIHRoZSBiYXNrZXQuICgrMiByaWNlKSIsInRpY2siOjE0LCJjb3VudCI6NSwidm9pY2UiOiJuYXJyYXRvciIsImVwaGVtZXJhbCI6dHJ1ZX0seyJrZXkiOjIzLCJjaGFubmVsIjoic3lzdGVtIiwidGV4dCI6IllvdSByZXN0IGFnYWluc3QgdGhlIHBvc3QuIFRoZSBhY2hlIGR1bGxzOyB0aGUgbGlnaHQgdGhyb3VnaCB0aGUgc2xhdHMgc2hpZnRzLiIsInRpY2siOjE4LCJjb3VudCI6Miwidm9pY2UiOiJuYXJyYXRvciIsImVwaGVtZXJhbCI6dHJ1ZX0seyJrZXkiOjI0LCJjaGFubmVsIjoicmV3YXJkIiwidGV4dCI6IllvdSByYWtlIHRoZSBzcGlsbGVkIHJpY2UgYmFjayB0b3dhcmQgdGhlIGJhc2tldC4gKCsyIHJpY2UpIiwidGljayI6NCwiY291bnQiOjE3LCJ2b2ljZSI6Im5hcnJhdG9yIiwiZXBoZW1lcmFsIjp0cnVlfV0sInNlcSI6MjV9LCJza2lsbFhwIjp7fSwiZGVsaXZlcmVkRGlhbG9ndWUiOlsiZ2VuLWdyZWV0IiwiZ2VuLXN0b3JlcyIsImdlbi1yYWtlIiwiZ2VuLWtlZXAiLCJnZW4ta2VwdCJdLCJucGNNZW1vcnkiOnsic29hbiI6eyJyZWdhcmQiOiJjdXJ0Iiwid2FybXRoIjotMX0sImdlbmVtb24iOnsicmVnYXJkIjoiZWFybmVzdCIsIndhcm10aCI6MX19LCJpbnRyb0JlYXQiOjMsInJ1bmdCZWF0IjpudWxsLCJhc2tlZFRvcGljcyI6W10sInF1ZXN0cyI6eyJhY2NlcHRlZCI6W10sInByb2dyZXNzIjp7fSwiY29tcGxldGVkIjpbXX0sIm1hcmtldEJvdWdodCI6e30sImJlbG9uZ2luZ3MiOltdLCJsb2NhdGlvbiI6Imt1cmEiLCJydW5nIjoiUjAiLCJydW5nTWV0ZXIiOjUwLCJlc3RhdGVTdGFnZSI6MCwiYXV0b0FjdGl2aXR5IjpudWxsLCJhdXRvUmFrZSI6ZmFsc2UsImVxdWlwcGVkV2VhcG9uIjoiY2FycnlpbmdfcG9sZSIsIndlYXBvbkR1cmFiaWxpdHkiOjQwLCJhdXRvQ29tYmF0IjpudWxsLCJhdXRvQ29tYmF0UmV0cmVhdCI6ZmFsc2UsInN0YW5jZSI6ImNodWRhbiIsInRpZXIiOjAsImluZmx1ZW5jZSI6eyJlc3RhdGUiOnsidmFsdWUiOjAsImhpZ2hXYXRlciI6MCwianVkZ2VkIjowLCJmcmFjIjowfX19fQ=="
+}
