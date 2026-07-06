@@ -32,6 +32,32 @@ explicitly left untouched (fresh-context work the human kicks off).
 3. Until the DEV surfaces exist, any narrative-diverge bundle is reviewed
    from its R-item/review doc (skill §2.7 interim note).
 
+## Entry 2 — DEV-surfaces build: Phase 1+2 (take-set compiler)
+
+Plan locked live with the human (routing = Fable end-to-end this session ·
+lighter D-075 split: switcher single-idea, modal full-diverge · build now,
+before the redesign). Built the compiler half:
+
+- `src/scripts/narrative/takes.ts` — `parseBundleMeta` (bundle.md grammar:
+  `# bundle`, top meta, `## take` sections w/ brief/scorecard/file) +
+  `emitStoryTakes` (reuses the canon per-scene emitters, exported from
+  emit.ts).
+- `src/scripts/gen-narrative.ts` — scans `narrative/takes/*/`, always emits
+  `src/ui/storyTakes.gen.ts` (stable empty registry when no bundle open),
+  byte-compared by the existing gate. (These two tracked-file edits were
+  swept into the co-agent's ADR-140 rename commit c3aed3e — content correct,
+  attribution note here.)
+- `src/ui/storyTakes.ts` — hand-written types (`StoryTakeBundle`/`StoryTake`)
+  + gen re-export; imported ONLY from the dev fold.
+- `src/core/content/narrative/takes/` — README (format + the
+  state-compatibility rule: takes substitute what the player READS, never
+  option ids/flags/memory) + `demo-r1/` DEMO bundle (2 alternate registers of
+  the R1 beat, clearly-labeled tooling fixture; prune when a real bundle
+  lands).
+- `src/scripts/narrative/takes.test.ts` — 7 RED-able tests (parser errors
+  cite authoring file:line; emitter output through the canon emitters;
+  empty-registry stability).
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the
