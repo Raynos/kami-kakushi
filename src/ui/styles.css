@@ -1402,6 +1402,8 @@ h3 {
   place-items: center;
   height: 100%;
   min-height: 100dvh;
+  /* FB-126 — a positioning context for the bottom-anchored .coldopen-restore footer. */
+  position: relative;
   padding: var(--space-8);
   /* battery #22: you wake in the DARK storehouse (§10 "kura-dark" waking beat), not a light field —
      a deep sumi space dimming to black at the edges, the woodblock title inked pale, before the
@@ -1445,24 +1447,30 @@ h3 {
 .coldopen-lede {
   text-align: left;
 }
-/* HD-24 — the quiet "restore a saved game" line under the wake verb: a muted, chromeless
-   text link on the dark kura field (never competes with the primary CTA), underlined so it
-   reads as actionable; light-on-dark keeps it AA-legible. */
+/* HD-24 / FB-126 — the quiet "restore a saved game" line: a tiny, subtle FOOTER anchored at the
+   bottom of the dark kura field (a sibling of the title card, NOT a button under the CTA — it must
+   never compete with "Open your eyes"). Chromeless micro text, dimmed light-on-dark; the underline
+   is held for hover/focus so at rest it reads as a faint footer, not an actionable button. */
 .coldopen-restore {
-  margin-top: var(--space-4);
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
   background: transparent;
   border: 0;
-  padding: 0;
-  color: var(--washi-deep);
-  font-size: var(--fs-small);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  padding: var(--space-2);
+  color: color-mix(in srgb, var(--washi-deep) 55%, transparent);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  text-decoration: none;
   cursor: pointer;
   transition: color 160ms var(--ease-ink);
 }
 .coldopen-restore:hover,
 .coldopen-restore:focus-visible {
-  color: var(--washi);
+  color: var(--washi-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 /* staged cold-open reveal (F14): items start hidden; JS adds .in at the scripted beat.
    Reduced-motion zeroes the transition (global RM rule) + the JS reveals everything at once. */

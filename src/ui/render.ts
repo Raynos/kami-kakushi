@@ -1012,14 +1012,15 @@ export function mount(
   const coVerb = el('button', 'verb primary', META_LABELS.open_eyes);
   coVerb.type = 'button';
   coVerb.addEventListener('click', () => dispatch({ type: 'open_eyes' }));
-  // HD-24 (option B) — a quiet "restore a save" line under the wake verb, so a returning player on a
-  // fresh device/profile can import BEFORE replaying the whole intro (the Settings→Saves import
-  // otherwise sits behind the awake shell). Reuses the existing Saves modal — no new surface.
+  // HD-24 (option B) — a quiet "restore a save" line so a returning player on a fresh device/profile
+  // can import BEFORE replaying the whole intro (the Settings→Saves import otherwise sits behind the
+  // awake shell). Reuses the existing Saves modal — no new surface. FB-126: anchored as a tiny,
+  // subtle footer at the BOTTOM of the field (a sibling of the card, not a button under the CTA).
   const coRestore = el('button', 'coldopen-restore', 'Returning? Restore a saved game');
   coRestore.type = 'button';
   coRestore.addEventListener('click', () => settings.open('saves'));
-  coFrame.append(coTitle, coRoman, coLede, coVerb, coRestore);
-  coldOpen.append(coFrame);
+  coFrame.append(coTitle, coRoman, coLede, coVerb);
+  coldOpen.append(coFrame, coRestore);
 
   // The Settings/Saves modal is a root-level sibling (not inside `shell`) so it can overlay BOTH the
   // awake shell AND the pre-awake cold-open — the shell is `hidden` before waking (HD-24).
