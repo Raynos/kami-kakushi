@@ -1175,14 +1175,19 @@ h3 {
   gap: var(--space-3);
 }
 .vn-seal {
+  /* M5 — a damascene nameplate seal: raised steel face, the speaker's voice
+     colour as the keyline + glyph (currentColor), silver top-rim catchlight */
   flex: 0 0 auto;
   width: 2.8rem;
   height: 2.8rem;
   display: grid;
   place-items: center;
-  border: 2px solid currentColor;
+  border: 1px solid currentColor;
   border-radius: var(--radius-seal);
-  background: var(--washi);
+  background: linear-gradient(135deg, var(--steel-hi), var(--steel-0));
+  box-shadow:
+    inset 0 1px 0 var(--silver-faint),
+    0 2px 8px rgba(0, 0, 0, 0.45);
   font-family: var(--font-display);
   font-size: 1.5rem;
 }
@@ -1210,7 +1215,7 @@ h3 {
   min-width: 0;
   min-height: 0;
   overflow-y: auto; /* F80/F84 — the ONLY scroller; the card stays a fixed size */
-  border-right: 1px solid #7a6c5933; /* the hairline divider */
+  border-right: 1px solid var(--key-dim); /* the hairline divider (M5 — gold) */
   padding-right: var(--space-6);
 }
 .vn-panel {
@@ -2373,9 +2378,9 @@ html {
   place-items: center;
   pointer-events: none;
   z-index: 60;
-  /* a faint sumi scrim so the seal reads OVER the page, never garbling the log behind it
+  /* a faint void scrim so the seal reads OVER the page, never garbling the log behind it
      (battery fix — was transparent and collided with the left-aligned log + nav). */
-  background: #26221e55;
+  background: rgba(7, 8, 16, 0.55);
 }
 .seal-inner {
   display: flex;
@@ -2383,12 +2388,15 @@ html {
   align-items: center;
   gap: var(--space-3);
   opacity: 1;
-  /* an opaque paper card so the title/kicker sit on washi, not transparently over the log. */
-  background: var(--washi);
+  /* M5 — an opaque steel plate (B.2) so the title/kicker sit on steel, never
+     transparently over the log. */
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
   padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--ink-faint);
+  border: 1px solid var(--key);
   border-radius: var(--radius-card, 4px);
-  box-shadow: 0 8px 30px #26221e55;
+  box-shadow:
+    inset 0 1px 0 var(--silver-wire),
+    0 8px 30px rgba(0, 0, 0, 0.6);
 }
 .seal-inner.animate {
   animation: seal-press 1900ms var(--ease-press) both;
@@ -2415,16 +2423,22 @@ html {
   }
 }
 .rankup-kicker {
-  font-family: var(--font-body);
+  /* M5 — vermillion LIVES at the ceremony: the kicker is a shu band, pale
+     lettering (the lone hot accent, per the bimetal rule) */
+  font-family: var(--font-num);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: var(--fs-small);
-  color: var(--ink-soft);
+  color: #f7ead9;
+  background: var(--shu);
+  padding: 0.1rem var(--space-3);
+  border-radius: var(--radius);
 }
 /* ── the seal (B.3) — a gold-faced bimetal plate: dark kanji on brushed gold,
-   silver wire rim, inner steel relief. The ceremony's vermillion flush lands
-   in M5 (the ::after radial heat). */
+   silver wire rim, inner steel relief. M5 adds the vermillion ceremony HEAT
+   (the ::after radial flush that fires as the seal presses). */
 .hanko-css {
+  position: relative; /* M5 — anchors the ::after heat flush */
   width: 116px;
   height: 116px;
   display: grid;
@@ -2440,6 +2454,40 @@ html {
     inset 0 0 0 3px rgba(14, 16, 22, 0.5),
     0 0 8px rgba(216, 185, 120, 0.3),
     0 6px 22px rgba(0, 0, 0, 0.55);
+}
+/* M5 — the ceremony's VERMILLION HEAT: a radial flush that blooms around the
+   seal as it presses, then dies — the single hot accent, spent only here.
+   Auto-neutralised by the global reduced-motion animation kill. */
+.seal-inner .hanko-css::after,
+.vn-rung-ceremony .hanko-css::after {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--shu-hi), var(--shu) 50%, transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.seal-inner.animate .hanko-css::after {
+  animation: seal-heat 1900ms var(--ease-press) both;
+}
+.vn-rung-ceremony .hanko-css::after {
+  animation: seal-heat 2200ms var(--ease-ink) both;
+}
+@keyframes seal-heat {
+  0% {
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.85;
+  }
+  46% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .rankup-title {
   font-family: var(--font-head);
@@ -2811,14 +2859,18 @@ html {
   color: var(--washi);
 }
 
-/* the T0→T1 ascension ceremony — a bigger, longer-held seal than a rung promotion (D-062) */
+/* the T0→T1 ascension ceremony — a bigger, longer-held seal than a rung promotion (D-062).
+   M5 — the gold-faced bimetal seal reads as-is; the ascension form only grows and glows
+   (the old gold-on-gold border/color overrides died with the woodblock seal). */
 .rankup-seal.ascension .hanko-css {
   width: 148px;
   height: 148px;
   font-size: 4rem;
-  border-color: var(--gold);
-  color: var(--gold);
-  box-shadow: 0 8px 30px #26221e77;
+  box-shadow:
+    inset 0 0 0 1px var(--silver-wire),
+    inset 0 0 0 3px rgba(14, 16, 22, 0.5),
+    0 0 26px rgba(216, 185, 120, 0.4),
+    0 8px 30px rgba(0, 0, 0, 0.6);
 }
 .rankup-kicker.subtitle {
   text-transform: none;

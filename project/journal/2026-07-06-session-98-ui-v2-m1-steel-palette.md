@@ -195,3 +195,23 @@ cadence) rides whichever element is typing. Reduced-motion/QA-instant keep
 the everything-at-once path; the one-shot guard + cancel path keep working
 (cancelled runs restore full text for replay). verify green; staged headless
 captures reviewed.
+
+## Addendum 10 — M5 · VN + ceremony re-skin (① THEME +③ motion · MED)
+
+CSS-only, DOM contract untouched (ADR-104/ADR-110/ADR-062 kept):
+
+- `.vn-seal` → a damascene nameplate seal: raised steel face, the speaker's
+  voice colour as keyline + glyph (currentColor), silver top-rim.
+- `.vn-story` divider → gold key-dim hairline.
+- `.seal-inner` (rank-up overlay card) → a steel plate; the scrim → void.
+- `.rankup-kicker` → the VERMILLION band (pale lettering on shu) — the lone
+  hot accent, spent only at the ceremony.
+- **The vermillion HEAT (B.3):** a radial shu flush blooms around the
+  gold-faced seal as it presses — wired to BOTH the overlay's seal-press and
+  the FB-153 in-modal rung ceremony; auto-neutralised under reduced motion.
+- Ascension seal: the gold-on-gold border/colour overrides died (the bimetal
+  face reads as-is); the ascension form only grows + glows.
+
+verify green (17) · e2e green (73) · headless captures of the nameplate +
+in-modal ceremony (heat visible) reviewed. M4+M5 = ONE human review batch
+(the human's call).
