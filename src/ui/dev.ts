@@ -2810,9 +2810,13 @@ export function openStoryReader(
   scrim.dataset['dev'] = DEV_SENTINEL;
   const card = el('div');
   card.className = 'modal-card frame';
-  // full-page reading surface (the modal default is a narrow 56ch card — the reader is a page).
+  // FB-122/FB-123 — a true full-page reading surface. The CARD never scrolls (the .frame
+  // key-lines stay intact — scrolling the frame itself left its absolute ::after border
+  // stranded mid-content); title + pills pin, and the content pane below scrolls internally
+  // (the "chrome pinned, panes scroll" idiom).
   card.style.cssText =
-    'max-width:min(96vw,72rem);width:100%;height:min(94vh,60rem);overflow-y:auto;';
+    'max-width:none;width:100%;height:calc(100dvh - 2rem);overflow:hidden;' +
+    'display:flex;flex-direction:column;';
   scrim.append(card);
 
   const close = el('button', undefined, '×');
@@ -2840,7 +2844,9 @@ export function openStoryReader(
   const vbar = el('div');
   vbar.style.cssText = 'display:flex;gap:.35rem;flex-wrap:wrap;margin:1rem 0 .4rem;';
   const vbtns = new Map<string, HTMLButtonElement>();
+  // the ONE scrolling region (FB-123) — the frame + title + pills above never move.
   const content = el('div');
+  content.style.cssText = 'flex:1 1 auto;min-height:0;overflow-y:auto;padding-right:.5rem;';
 
   const drawContent = (): void => {
     for (const [id, b] of vbtns) {

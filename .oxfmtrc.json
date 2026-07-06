@@ -24,6 +24,7 @@
     "tmp",
     "ui-demos",
     "src/fixtures/saves",
+    "project/playtest-inbox",
     "playcheck.baseline.json",
     ".claude/settings.local.json",
     ".claude/worktrees"

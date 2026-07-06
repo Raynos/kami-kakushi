@@ -115,6 +115,21 @@ galley; A/C stay live behind the pills until the verdict is firm (HR-9
 remains open with the 390px h-scroll caveat flagged for the confirming
 pass).
 
+## Entry 7 — inbox drain: the human's live review of the reader (FB-122…125)
+
+Four captures from the human's in-game HR-9 review sitting, drained
+interactively (batch approved via AskUserQuestion):
+
+- **FB-122** wider → the card is full-viewport (no rem cap).
+- **FB-123** double border under scroll → the framed card no longer scrolls;
+  title + pills pin, the content pane scrolls (frame key-lines intact).
+- **FB-124** identical Tokubei lines read as a broken swap → demo takes now
+  vary Tokubei per register; the galley reader DIMS lines byte-identical to
+  canon ("shared with canon" ≠ "failed substitution").
+- **FB-125** the HR-9 verdict went FIRM mid-drain: **Galley wins** — the
+  human asked for annotated + stage to be removed. Retired (code deleted;
+  recoverable from git history + the HR-9 record); HR-9 closed → archive.
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the
