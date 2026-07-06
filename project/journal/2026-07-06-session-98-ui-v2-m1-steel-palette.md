@@ -331,3 +331,10 @@ five agents flagged it; fixed) + full verify (17) + e2e (73):
   follow the picks as ordinary HR work.
 - The migration plan graduated to `project/archive/` (Status ✅ DONE) and left
   the reading queue.
+
+## Addendum 20 — checkpoint (prepare-to-exit)
+
+The archive move's deletion half (docs/plans/ side of the git mv) had missed
+the bf8aebc pathspec — committed here; queue reconciled; snapshot brought
+current. Session closes with UI-v2 certified + archived, five map takes live,
+inbox empty, tree green.
