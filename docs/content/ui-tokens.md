@@ -7,75 +7,88 @@
 
 ```css
 :root {
-  /* ── PAPER (washi) — the dominant field; never pure #FFF ─────────────── */
-  --washi: #f3e9d2;
-  --washi-shade: #e7d9bc;
-  --washi-deep: #ddcfae;
+  /* ── BLACKENED-STEEL grounds — the dominant field; never pure #000 ──── */
+  --void: #070810; /* page depth — the outer ground        */
+  --steel-0: #0e1016; /* well / recess                        */
+  --steel-1: #161922; /* plate base                           */
+  --steel-2: #1b1f29; /* plate top                            */
+  --steel-hi: #20242f; /* raised / hover catchlight            */
+  /* legacy washi names → steel, so untouched rules re-skin in place */
+  --washi: #161922;
+  --washi-shade: #1b1f29;
+  --washi-deep: #0e1016;
 
-  /* ── INK (sumi) — ALL text, borders, rules; never #000 ──────────────── */
-  --ink: #26221e;
-  --ink-soft: #4a3f33;
-  --ink-faint: #7a6c59;
+  /* ── INK — the quiet cool-grey text ramp on steel; never silver ─────── */
+  --ink: #c2c8d8;
+  --ink-soft: #8a90a4;
+  --ink-faint: #5c6274; /* DECORATIVE only (≈3:1) — never load-bearing text */
 
-  /* ── INDIGO (ai) — the "second ink": structure & key numbers ────────── */
-  --ai: #27496d;
-  --ai-soft: #5c8b93;
+  /* ── SILVER — state / chrome / labels / TOP-EDGE rim only ───────────── */
+  --silver: #cdd6ee;
+  --silver-hi: #e7ecff;
+  --silver-dim: #99a2bf;
+  --silver-wire: rgba(205, 214, 238, 0.55); /* top-edge rim + hairline */
+  --silver-faint: rgba(205, 214, 238, 0.14);
+  /* legacy indigo names → silver (structure/chrome keeps its role) */
+  --ai: #cdd6ee;
+  --ai-soft: #99a2bf;
 
-  /* ── VERMILION (shu) — the SEAL & the single most important CTA ─────── */
-  --shu: #d7402c;
-  --shu-deep: #a8301f;
+  /* ── GOLD — value / numerals / progress / KEYLINE only ──────────────── */
+  --gold: #d8b978;
+  --gold-hi: #f2dca0;
+  --gold-dim: #93794a;
+  --key: rgba(216, 185, 120, 0.42); /* the 1px gold keyline */
+  --key-dim: rgba(216, 185, 120, 0.15);
 
-  /* ── BENI — secondary red: negatives, warnings ──────────────────────── */
-  --beni: #a93b47;
+  /* ── VERMILLION (shu) — commit / danger: the single hot accent ──────── */
+  --shu: #bf3b25;
+  --shu-hi: #de5a3a;
+  --shu-deep: #7e2414;
+  --beni: #bf3b25; /* legacy secondary red → vermillion */
 
-  /* ── EARTH secondaries — one per context ────────────────────────────── */
-  --kihada: #e0b23c;
-  --ochre: #c68a3e;
-  --rokusho: #3e6958;
-  --gold: #b08d4f;
+  /* ── legacy earth pigments → the 3-metal collapse ────────────────────── */
+  --kihada: #d8b978;
+  --ochre: #93794a;
+  --rokusho: #99a2bf;
+  --murasaki: #e7ecff; /* the lord's voice (D-110) — dignified silver-hi */
 
-  /* ── MURASAKI — the lord's voice (D-110): 紫, the historic highest-court-rank
-     colour, reserved for the domain lord Shigemasa — dignified, distinct from the
-     magistrate 'official' kihada and the muted --attr-int grey-purple. ─────────── */
-  --murasaki: #5a4a7a;
+  /* ── ATTRIBUTE pigments — the 3-metal collapse (Appendix A default).
+     The 5-voice ramp alternative lives on [data-attr-palette='voices'] below,
+     DEV-toggleable for a live compare. Kanji live in ATTR_META (src/core). ── */
+  --attr-str: #bf3b25; /* 力 — vermillion (danger/commit)  */
+  --attr-agi: #99a2bf; /* 敏 — silver-dim                  */
+  --attr-int: #cdd6ee; /* 智 — silver                      */
+  --attr-spd: #99a2bf; /* 速 — silver-dim                  */
+  --attr-luck: #d8b978; /* 運 — gold                        */
 
-  /* ── ATTRIBUTE pigments — the five stats, each a traditional colour that sits on washi. The
-     intro decision buttons + the perk they grant are themed by the attribute the choice boosts
-     (+1), so a pick reads as belonging to its stat. Kanji live in ATTR_META (src/core). ── */
-  --attr-str: #a83f2b; /* 力 bengara iron-red — +atk */
-  --attr-agi: #4f8a5b; /* 敏 wakatake green — +eva·acc */
-  --attr-int: #6b5b95; /* 智 murasaki purple — +dmg·known */
-  --attr-spd: #2d8fa5; /* 速 asagi cyan — +speed */
-  --attr-luck: #c0902e; /* 運 kincha gold — +crit·luck */
-
-  /* ── semantic aliases ───────────────────────────────────────────────── */
+  /* ── semantic aliases (role beats hue) ──────────────────────────────── */
   --bg: var(--washi);
   --surface: var(--washi-shade);
   --surface-deep: var(--washi-deep);
   --text: var(--ink);
   --text-2: var(--ink-soft);
   --text-mute: var(--ink-faint);
-  --line: var(--ink);
-  --link: var(--ai);
-  --num-key: var(--ai);
-  --delta-pos: var(--ai);
-  --delta-neg: var(--beni);
+  --line: var(--key); /* borders are gold KEYLINES now, not ink */
+  --link: var(--silver);
+  --num-key: var(--gold); /* numerals are VALUE = gold */
+  --delta-pos: var(--gold);
+  --delta-neg: var(--shu-hi);
   --seal: var(--shu);
 
   /* ── four-pillar identities ─────────────────────────────────────────── */
-  --pillar-arms: var(--beni);
-  --pillar-estate: var(--ochre);
-  --pillar-office: var(--ai);
-  --pillar-name: var(--rokusho);
-  --pillar-kai: var(--shu);
+  --pillar-arms: var(--shu);
+  --pillar-estate: var(--gold);
+  --pillar-office: var(--silver);
+  --pillar-name: var(--silver-dim);
+  --pillar-kai: var(--gold-hi);
 
-  /* ── type ───────────────────────────────────────────────────────────── */
-  --font-head:
-    'Shippori Mincho B1', 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif;
-  --font-body:
-    'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', 'MS Mincho', serif;
-  --font-display: 'Yuji Syuku', 'Shippori Mincho B1', serif;
-  --font-num: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+  /* ── type — Western stacks (Appendix C): serif = prose/numerals/titles;
+     sans = uppercase chrome labels. macOS/iOS render true Palatino/Avenir;
+     elsewhere Georgia + the system sans. Zero font pipeline. ───────────── */
+  --font-head: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-body: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-num: 'Avenir Next', Avenir, 'Helvetica Neue', ui-sans-serif, system-ui, sans-serif;
 
   --fs-display: calc(clamp(1.6rem, 4vw, 2.6rem) * var(--text-scale, 1));
   --fs-h1: calc(1.3rem * var(--text-scale, 1));
@@ -104,8 +117,10 @@
 
   /* ── motion ─────────────────────────────────────────────────────────── */
   --ease-ink: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease: cubic-bezier(0.32, 0.08, 0.24, 1); /* the steel ease */
   --ease-press: cubic-bezier(0.34, 1.56, 0.64, 1);
   --dur-fast: 140ms;
+  --dur-mid: 240ms;
   --dur: 320ms;
   --dur-beat: 620ms;
 }

@@ -2197,6 +2197,34 @@ export function mountDevPanel(
   }
   markSpeed(1); // the game starts at 1×
 
+  // UI-v2 M1 — attribute-palette compare (human pick pending): the 3-metal collapse
+  // (prod default) vs the 5-voice ramp, swapped live via data-attr-palette on <html>
+  // (the CSS override block in styles.css). DEV-only; prod always ships the default.
+  const attrPal = section('Attr palette');
+  const palBtns = new Map<string, HTMLButtonElement>();
+  const markPal = (active: string): void => {
+    for (const [id, b] of palBtns) {
+      const on = id === active;
+      b.style.background = on ? '#b08d4f' : '#3a322a';
+      b.style.color = on ? '#1c1814' : '#e7d9bc';
+      b.style.fontWeight = on ? '700' : 'normal';
+    }
+  };
+  const setPal = (id: string): void => {
+    if (id === 'voices') document.documentElement.dataset.attrPalette = 'voices';
+    else delete document.documentElement.dataset.attrPalette;
+    markPal(id);
+  };
+  for (const [id, label] of [
+    ['metal', '3-metal (default)'],
+    ['voices', '5-voice ramp'],
+  ] as const) {
+    const b = mono(label, () => setPal(id));
+    palBtns.set(id, b);
+    attrPal.append(b);
+  }
+  markPal(document.documentElement.dataset.attrPalette === 'voices' ? 'voices' : 'metal');
+
   // teleports
   const jump = section('Jump');
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));

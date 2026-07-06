@@ -1,9 +1,12 @@
 # Plan — UI-v2: the Andon Steel migration (v0.3.6)
 
-**Status: 🖊️ PROPOSED — build-ready. Co-authored with the human (session 63,
+**Status: 🔒 LOCKED — IN PROGRESS (M1 started 2026-07-06, session 98). The human
+gave the go and is steering interactively this session; building in-session on
+Fable 5 (human routing call 2026-07-06, supersedes the Sonnet-class proposal
+below). Attr-colors: BOTH treatments built behind a DEV toggle for a live
+compare (human call).** Co-authored with the human (session 63,
 2026-07-04); every design call is locked (see "Decisions"), and each milestone is
-written as a concrete build card a Sonnet-class model can execute without taste
-calls.** Awaiting the human's go to LOCK + start M1. Grounded in four analyses this
+written as a concrete build card. Grounded in four analyses this
 session (Andon Steel catalog · current-UI/locks delta · exact token-map + material
 recipes · exact `render.ts` seams + variant wiring). Reference build:
 `ui-demos/10-andon-steel/`.

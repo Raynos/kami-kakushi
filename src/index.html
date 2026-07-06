@@ -3,20 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="dark" />
     <meta
       name="description"
       content="Kamikakushi — a grounded, story-driven incremental RPG set in mid-Edo rural Japan. Rise through a declining samurai house, one earned rung at a time."
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='8' y='8' width='84' height='84' rx='8' fill='none' stroke='%23D7402C' stroke-width='7'/%3E%3Ctext x='50' y='52' text-anchor='middle' dominant-baseline='central' font-size='56' font-family='serif' fill='%23D7402C'%3E家%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='8' y='8' width='84' height='84' rx='8' fill='none' stroke='%23BF3B25' stroke-width='7'/%3E%3Ctext x='50' y='52' text-anchor='middle' dominant-baseline='central' font-size='56' font-family='serif' fill='%23BF3B25'%3E家%3C/text%3E%3C/svg%3E"
     />
     <title>Kamikakushi · 神隠し</title>
-    <!-- Self-hosted faces (Shippori Mincho B1, Yuji Syuku) load via @font-face in
-         ui/styles.css with font-display:swap — no <link rel=preload> here on purpose:
-         Vite content-hashes the woff2 URLs, so a hand-written preload path would go
-         stale. swap = non-blocking (system Mincho paints first, the face swaps in). -->
+    <!-- Type is pure system stacks (Palatino/Avenir-class, ui/styles.css) —
+         no self-hosted faces, no preload, zero font pipeline (UI-v2, ADR-127). -->
   </head>
   <body>
     <div id="app" aria-busy="true">Kamikakushi — loading…</div>
