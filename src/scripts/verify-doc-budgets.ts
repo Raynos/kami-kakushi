@@ -15,7 +15,11 @@ export {};
 
 import { readFileSync, existsSync } from 'node:fs';
 
-const BUDGETS: ReadonlyArray<{ path: string; cap: number; genreLeak: RegExp }> = [
+// `warn` (optional) is the SOFT line — an early "start displacing" nudge,
+// loud but never blocking (same two-tier shape as the 5s drift timer vs
+// verify:budget). The hard `cap` raises only via a human-reviewed edit here;
+// SKIP_DOCBUDGET=1 stays the same-day escape while that edit is discussed.
+const BUDGETS: ReadonlyArray<{ path: string; cap: number; warn?: number; genreLeak: RegExp }> = [
   { path: 'docs/living/taste.md', cap: 150, genreLeak: /\(session-\d+\)/ },
   { path: 'docs/living/ui-design.md', cap: 400, genreLeak: /\(session-\d+\)/ },
   {
@@ -23,16 +27,17 @@ const BUDGETS: ReadonlyArray<{ path: string; cap: number; genreLeak: RegExp }> =
     cap: 120,
     genreLeak: /^\s*-\s+\*\*Phase update/m,
   },
-  // The ALWAYS-LOADED layer (context-hardening P4c4): AGENTS.md + repo-map.md
-  // are injected into every session's context, so growth there taxes every
-  // turn of every agent. Same displace-don't-append discipline; ratchet
-  // AGENTS.md toward ~350 only with the human (the prose-register rewrite).
-  { path: 'AGENTS.md', cap: 420, genreLeak: /\(session-\d+\)/ },
-  { path: 'repo-map.md', cap: 160, genreLeak: /\(session-\d+\)/ },
+  // The ALWAYS-LOADED layer (context-hardening P4c4, thresholds re-set with
+  // the human 2026-07-06): AGENTS.md + repo-map.md are injected into every
+  // session's context, so growth there taxes every turn of every agent —
+  // but the hard cap is deliberately generous (a co-agent adding a bullet
+  // mid-flight must never hit a wall); the warn is the working pressure.
+  { path: 'AGENTS.md', cap: 500, warn: 420, genreLeak: /\(session-\d+\)/ },
+  { path: 'repo-map.md', cap: 250, warn: 220, genreLeak: /\(session-\d+\)/ },
 ];
 
 let red = false;
-for (const { path, cap, genreLeak } of BUDGETS) {
+for (const { path, cap, warn, genreLeak } of BUDGETS) {
   if (!existsSync(path)) {
     console.error(`  X doc-budgets: budgeted doc missing: ${path}`);
     red = true;
@@ -49,6 +54,10 @@ for (const { path, cap, genreLeak } of BUDGETS) {
       '    one. Cull, do not bypass (SKIP_DOCBUDGET=1 is a human-blessed cap raise only).',
     );
     red = true;
+  } else if (warn !== undefined && lines > warn) {
+    console.log(
+      `  ~ doc-budgets WARN: ${path} is ${lines} lines — past its ${warn}-line soft line (hard cap ${cap}). Start displacing.`,
+    );
   }
   if (genreLeak.test(text)) {
     console.log(
