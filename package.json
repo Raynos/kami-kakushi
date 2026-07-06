@@ -6,6 +6,7 @@
   "description": "Kamikakushi — a grounded, story-driven incremental RPG set in mid-Edo rural Japan. Built agentically.",
   "license": "MIT",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "dev": "vite",
     "build": "tsgo --noEmit && vite build",
     "build:itch": "npm run build && cd dist && zip -r ../kami-kakushi-itch.zip . && cd ..",
