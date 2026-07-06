@@ -338,3 +338,9 @@ The archive move's deletion half (docs/plans/ side of the git mv) had missed
 the bf8aebc pathspec — committed here; queue reconciled; snapshot brought
 current. Session closes with UI-v2 certified + archived, five map takes live,
 inbox empty, tree green.
+
+Checkpoint close-out: the real-map options plan graduated to archive (picks
+made + built same-day; HR-7 holds the live verdict), review.md link re-pointed,
+snapshot rewritten current + culled back to the 120 cap. Note: the dev-server
+background task exited at session end (restart: `pnpm run dev`); a co-agent
+(w1:p2) owns the verify-budget trim.

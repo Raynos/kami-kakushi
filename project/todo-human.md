@@ -33,13 +33,7 @@ _(none open)_
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-- [ ] `docs/plans/fable-2026-07-06-estate-real-map-options.md` — **the REAL
-  estate map — 10 candidate directions**: your map verdicts applied (C/D/E/F
-  stripped, B/G held), and 10 illustrated-map directions written up (ezu survey
-  plan · yamato-e clouds · sumi-e terrain · model board · tier sheets ·
-  cadastral · road panorama · the lantern map · kamon medallions · orihon
-  album), each with its evolution story (tier growth + estate improvements).
-  **Pick 3** → each gets a Fable-5 xhigh subagent build (ADR-075).
+
 - [ ] `docs/plans/fable-2026-07-06-story-quality-ladder.md` — the **story-quality
   umbrella plan**: your 19-answer decision pass recorded verbatim (§1 answer
   sheet — adopted vs rejected) + the forward phases (§2): Phase 1 = the

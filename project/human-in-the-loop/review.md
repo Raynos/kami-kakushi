@@ -223,7 +223,7 @@ toggle for a live pick; the agent self-picked a coherent prod default.
   what-is-where navigation, held as interim candidates. The human's direction:
   **a REAL illustrated 2D estate map** that grows per tier and changes with
   estate improvements — 10 candidate directions are written up in
-  [`docs/plans/fable-2026-07-06-estate-real-map-options.md`](../../docs/plans/fable-2026-07-06-estate-real-map-options.md);
+  [`docs/plans/fable-2026-07-06-estate-real-map-options.md`](../archive/fable-2026-07-06-estate-real-map-options.md);
   the human picks 3, each built by a Fable-5 xhigh subagent (ADR-075).
   Also: the Map tab goes two-column (flavour card | map).
 - **UPDATE (2026-07-06, same day): ALL FIVE picked takes are BUILT and LIVE** —
@@ -247,7 +247,11 @@ toggle for a live pick; the agent self-picked a coherent prod default.
   + house-room evolution. **How to look:** `pnpm run dev` → Map 地図 tab → DEV
   panel → Variants → "Estate map" (H–L; B/G remain as interim schematics), or
   `?map=map-h` … `?map=map-l`.
-- **Verdict:** _(awaiting the human — pick the map among H–L, or a tune)_
+- **NARROWED (human, 2026-07-06):** finalists are **H · 絵図 survey plan** and
+  **I · model board** — the two most opposed takes (flat authored sheet vs.
+  tilted 3-D diorama). All five stay live (J/K/L not stripped yet); the human
+  makes the final H-vs-I pick live in the DEV panel.
+- **Verdict:** _(awaiting the human — final pick between H and I)_
 
 > **UI-v2 note (M6, 2026-07-06):** ALL open variant surfaces (HR-2/5/6/7/9)
 > now render **Andon-Steel-native** — the M1 token flip re-skinned every

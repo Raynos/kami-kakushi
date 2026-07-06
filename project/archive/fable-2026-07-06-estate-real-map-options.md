@@ -1,6 +1,6 @@
 # The REAL estate map — 10 candidate directions (pick 3 to build)
 
-**Status: PROPOSED — awaiting the human's pick of 3.** Human steer (2026-07-06,
+**Status: DONE — the human picked FIVE (1/4/6/8/9, 2026-07-06 same day) and all five takes are BUILT and live (map-h…map-l); the live pick among them is HR-7's open verdict.** Human steer (2026-07-06,
 UI-v2 session): the seven schematic map takes are dead or provisional — C/D/E/F
 stripped, A disliked, **B (spatial schematic) & G (ink node-graph) survive only
 because they have real 2D what-is-where navigation**. The destination is a
