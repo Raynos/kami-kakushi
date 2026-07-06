@@ -1969,3 +1969,41 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   mode; T0 runs `ship`). A T0-window convenience, not a permanent reversal —
   the single `SHIP_DEV_TOOLS` switch flips it back cleanly.
 - **Plan:** `docs/plans/opus-2026-07-06-ship-dev-tools-t0.md`.
+
+### D-139 — Narrative diverge: every story element ships from 3+ takes, never one
+- **created_date:** 2026-07-06
+- **Context:** the anti-slop problem D-075 solved for UI exists for story too:
+  a single-authored narrative take defaults to generic prose. The human queued
+  "implement & design a diverge for story & narrative" (todo, 2026-07-06);
+  grilled live 2026-07-06 (six AskUserQuestion rounds, checkpointed in
+  `project/brainstorms/2026-07-06-narrative-diverge-design.md`).
+- **Decision (all locked by the human in-session):** a **standing rule** — ALL
+  new story elements and ALL feedback-driven story improvements come with **3+
+  options**. Scope: any **fiction-voiced text** the player reads (beats,
+  dialogue, cold open, flavor lines, item/creature/location names +
+  descriptions) at its own unit size; mechanical UI copy and typo/name-sync
+  edits exempt. **Distinctness bar:** each option makes a different *dramatic* 
+  choice (register / information revealed-withheld / character stance) — a
+  paraphrase is not an option. **Authoring:** independent blind agents, **one
+  agent per complete TAKE** of a bundle (sets stay internally coherent),
+  session-model routing (D-124 default, no standing Fable exception).
+  **Pick:** agent self-picks via per-option taste-scorecard Pass 2 (F10,
+  D-135) + canon fit; rationale in the bundle review doc; human overrides —
+  never blocks. **Bundling:** taste calls reach the human in coherent bundles
+  sized by judgment (story-drop or per-dramatic-unit), never 25+ atomized
+  picks. **Review medium:** in-game DEV surfaces — a story-variant
+  set-switcher (sets + per-unit override) + a read-only full-page
+  script-reader modal; sign-off is conversational (read in-game, tell the
+  agent). **Lifecycle:** alternates live DEV-only until sign-off, then are
+  pruned; the committed review doc is the archive (canon F5 markdown carries
+  only the pick — zero prod flag-debt, mirrors D-075).
+- **Boundaries:** the queued fable **audit** + **redesign** TODOs stay
+  untouched fresh-context work the human kicks off (no pre-wiring from this
+  design session); retro coverage of the existing T0 story arrives via that
+  redesign. R8 stays open as-is.
+- **Enforcement rung:** ADR (this) + always-loaded AGENTS.md bullet + the
+  [`narrative-diverge`](../../.claude/skills/narrative-diverge/SKILL.md) skill
+  (sibling of `diverge`, cross-linked). No gate — it would cry wolf on
+  mechanical edits (A11).
+- **Plan:** `docs/plans/fable-2026-07-06-narrative-dev-surfaces.md` (the two
+  DEV review surfaces — design now, build next).

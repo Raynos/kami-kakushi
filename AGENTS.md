@@ -319,7 +319,18 @@ Full version:
   the alternates until the human confirms — **zero PROD flag-debt** (prod ships
   only the default). One-line tweaks are exempt. See **D-075** +
   [`.claude/skills/diverge/SKILL.md`](.claude/skills/diverge/SKILL.md).
-- **Push each quality rule to the highest rung that can _soundly_ hold it** — a
+- **Story diverges too — every narrative element ships from 3+ takes (D-139).**
+  ALL new story elements and ALL feedback-driven story improvements come with
+  **3+ options** — any **fiction-voiced text** the player reads (beats,
+  dialogue, flavor lines, names, descriptions), at its own unit size;
+  mechanical UI copy and typo/name-sync edits exempt. Options are **distinct
+  dramatic choices** (register / reveal / stance — a paraphrase is not an
+  option), authored by independent blind agents, **one agent per complete
+  take**; the agent self-picks (per-option taste scorecard + canon fit) and
+  the human overrides from **coherent bundles** — never 25+ atomized taste
+  calls. Alternates stay DEV-only until sign-off; canon carries only the pick.
+  Procedure:
+  [`.claude/skills/narrative-diverge/SKILL.md`](.claude/skills/narrative-diverge/SKILL.md). to the highest rung that can _soundly_ hold it** — a
   `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**,
   calibrated so a gate never cries wolf. Prefer the rung that can't be quietly
   forgotten (a green-or-red check beats a good intention).

@@ -40,6 +40,13 @@
   the D-067 strip for T0 under a `SHIP_DEV_TOOLS` build flag (ADR **D-138**);
   server-coupled telemetry/capture stay stripped. Direction locked by you via
   AskUserQuestion — this plan is the record, build is already in flight.
+- [ ] `docs/plans/fable-2026-07-06-narrative-dev-surfaces.md` — **narrative DEV
+  review surfaces** (D-139 tooling): the story-variant set-switcher + the
+  read-only "explore story variant" full-page script-reader modal you asked
+  for in the grill — 5-phase shape, `__DEV_TOOLS__`-gated, prune path. Read to
+  confirm shape + routing before the build kicks off. (The D-139 rule itself
+  is already canon: ADR + AGENTS.md bullet + `narrative-diverge` skill, from
+  `project/brainstorms/2026-07-06-narrative-diverge-design.md`.)
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
