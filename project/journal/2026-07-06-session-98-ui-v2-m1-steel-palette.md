@@ -241,3 +241,25 @@ in-modal ceremony (heat visible) reviewed. M4+M5 = ONE human review batch
   new look" note.
 - M6's completion (per the card) = the human's live picks + the strip; the
   BUILD side is done.
+
+## Addendum 13 — M7 · doc ripple + woodblock lock retirement (ADR-144)
+
+- `ui-design.md` REWRITTEN as the **Andon Steel bible** (373/400 lines): bimetal
+  vision, steel palette roles (+ the locked temper attrs + voice ramp), Western
+  system stacks (zero font pipeline), the Appendix-B material contracts, the
+  Andon shell + phone band, every component section reconciled to what M1–M6
+  actually built (log window/history/readability rules, in-modal ceremony,
+  steel buttons + auto-disarm, rail nav, seal heat, cooled emoji, updated
+  anti-slop table incl. "vermillion is SPENT, not worn" + "no texture/grain").
+- PRD: the three identity claims re-pointed (01-vision register · 02-systems
+  identity-hues · 07-roadmap R4 art/feel + fonts); the in-fiction woodblock
+  BROADSHEET survives deliberately (period prop, not UI identity).
+- `taste.md`: already identity-neutral — untouched.
+- decisions.md: **ADR-144** (retire-by-supersession, executes ADR-127);
+  ADR-018 bannered RETIRED (its CSS-only/no-pipeline constraint now total);
+  ADR-045 bannered TRANSLATED (the rule survives on the new ramp); ADR-068
+  re-anchored (the SFX palette is diegetic).
+- `prd:drift` CLEAN · doc-budgets green · verify green (17).
+
+**UI-v2 M1–M7: all built.** Remaining human gates: variant picks
+(HR-2/5/6/7/9) + strip, final R0/R1 + mobile certification.

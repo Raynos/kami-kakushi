@@ -1,10 +1,12 @@
 # Plan — UI-v2: the Andon Steel migration (v0.3.6)
 
-**Status: 🔒 LOCKED — IN PROGRESS (M1 started 2026-07-06, session 98). The human
-gave the go and is steering interactively this session; building in-session on
-Fable 5 (human routing call 2026-07-06, supersedes the Sonnet-class proposal
-below). Attr-colors: BOTH treatments built behind a DEV toggle for a live
-compare (human call).** Co-authored with the human (session 63,
+**Status: 🔧 IN-PROGRESS — M1–M7 ALL BUILT (2026-07-06, session 98 — one interactive day,
+human-steered with live playtest drains after every milestone; built in-session
+on Fable 5 per the human's routing call). ADR-144 retired the woodblock locks.
+REMAINING to close: the human's live variant PICKS (HR-2/5/6/7/9) + the
+unpicked-variant strip, and the final R0/R1 + mobile human certification (PH5).
+Attr palette: temper LOCKED (F131). The FB-127…FB-168 drain series landed
+alongside.** Co-authored with the human (session 63,
 2026-07-04); every design call is locked (see "Decisions"), and each milestone is
 written as a concrete build card. Grounded in four analyses this
 session (Andon Steel catalog · current-UI/locks delta · exact token-map + material

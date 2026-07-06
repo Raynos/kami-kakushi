@@ -1494,9 +1494,9 @@ mobile; colour cues backed by text/shape (never colour-only); full keyboard and 
 ambient seasonal audio with a mute toggle. One carefully-tuned **difficulty** (no modes). **A11y
 correctness:** a **persistent quiet a11y entry point from minute one**; an **ARIA live-region
 scoped to narration + milestone** ("polite"); a **large-textScale reflow case** + a **screen-reader
-acceptance pass**. **Identity HUES are FILLS / ACCENTS only** — woodblock identity lives in chrome (fills,
-bars, pips, borders), **never as the sole carrier of meaning**; **ALL meaning-bearing TEXT renders in
-AA-passing ink (`--ink-soft`, contrast ratio ~7.3)** on the paper surfaces it sits on. **There
+acceptance pass**. **Identity HUES are FILLS / ACCENTS only** — the bimetal identity (ADR-127) lives in chrome (fills,
+bars, pips, keylines), **never as the sole carrier of meaning**; **ALL meaning-bearing TEXT renders in
+AA-passing ink-ramp greys** on the steel surfaces it sits on. **There
 is NO coloured WIN/LOSS word-as-text and NO coloured label-text** — outcome words and labels render in
 `--ink-soft`; **`--ink-faint` is decorative-only**; the meter fill is darkened for contrast. **Number-flash
 tokens:** **gain = `--ai`, loss = `--beni`** are an **accent on the ± number** (its sign/shape carries the

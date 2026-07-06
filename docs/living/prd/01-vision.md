@@ -1031,8 +1031,8 @@ to keep pacing varied (estate steep-geometric per-tier ladders; village gentle p
 one-tier rep ladder `O0→O5`), and the **per-rung-reset rung-meter** is the numeric per-rung curve that
 drives the Phase-1 reveals. The side factions act as Influence **multipliers** (shave **~10–15%** off
 time-to-tier — felt, never a wall). The presentation register throughout is **text + emoji + CSS art**
-(woodblock palette; kanji season tags; colour-coded rarities), with **load-bearing period motifs as
-inline SVG** and **functional text at `--ink-soft`** (WCAG AA) (§6).
+(the Andon Steel bimetal palette, ADR-127; kanji season tags; colour-coded rarities), with **load-bearing
+period motifs as inline SVG** and **functional text on the AA-passing ink ramp** (§6).
 
 ## 1.13 Risks & guardrails
 

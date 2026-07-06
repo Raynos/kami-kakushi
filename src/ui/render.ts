@@ -3966,6 +3966,12 @@ export function mount(
   // of the active view), and — only while Now is the active view — drives the DOM fade/collapse. The
   // clock self-terminates once nothing is pending (no stamps + Now not shown).
   function tickExpiry(): void {
+    // a torn-down mount (tests, a hard page swap) must not keep ticking: without
+    // this the interval outlived the DOM and threw after environment teardown.
+    if (typeof window === 'undefined' || !logLines.isConnected) {
+      stopExpiryClock();
+      return;
+    }
     const now = Date.now();
     if (logFilter === 'now') {
       // Now IS visible: the DOM pass owns the stamp lifecycle (collapse/remove drop the stamp), so it

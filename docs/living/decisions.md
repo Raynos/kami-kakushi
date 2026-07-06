@@ -227,9 +227,12 @@ that list is hand-maintained, and no gate can soundly know a rename happened (au
 
 ### ADR-018 ✅ — UI design language: mid-Edo woodblock/ink, strong CSS, NO asset pipeline
 
-> 🔁 **Amended by [ADR-041]** (the explicit correcting ADR). The "**NO asset pipeline**" claim no longer holds —
-> self-hosted OFL fonts + inline-SVG motifs + synthesized/CC0 audio are now in scope. The woodblock/ink CSS
-> language itself is unchanged.
+> 🔁 **RETIRED by [ADR-144]** (UI-v2 shipped): the woodblock/ink AESTHETIC is superseded by **Andon Steel**
+> (ADR-127) — the enduring parts of this ADR (a strong CSS design-language built to a written bible, the
+> agent-driven screenshot-QA loop, the anti-slop posture) carry forward unchanged, and the "no asset
+> pipeline" constraint is now STRONGER than ever (the self-hosted fonts retired too — pure system stacks).
+> *(Earlier: amended by [ADR-041] — self-hosted OFL fonts + inline-SVG motifs + synthesized/CC0 audio came
+> into scope; the fonts have since left it again.)*
 - **created_date:** 2026-06-26
 - **Context:** §6.9 named "text + emoji + CSS, woodblock palette" but carried no design *vision* — the slop risk the human flagged ("avoid generic AI-slop / placeholder engineer art; want a coherent design language with a vision"). The art ambition was locked at "a strong CSS design-language, no asset pipeline."
 - **Options:** improvise UI per-screen · use a generic component library · **lock a design-language bible BEFORE building any UI.**
@@ -376,6 +379,11 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 - **Consequences:** **§6.8** gains a crash-recovery subsection (error boundary + ring + safe-mode + poison-suppression); **MS0** builds the save ring + the out-of-state crash-counter; **MS6** adds a terminal/crash test exercising the safe-mode path. Resolves B12. Recorded for PRD V2.1; supersedes any conflicting earlier ADR/lock per **ADR-022**.
 
 ### ADR-045 ✅ — Accessibility ink rule: identity hues are FILLS/ACCENTS only; meaning-bearing TEXT in AA-passing ink
+
+> 🔁 **Translated by [ADR-144]** (UI-v2): the RULE survives verbatim — identity hues in chrome only,
+> meaning-bearing text on an AA-passing ink ramp — but the concrete values moved with the palette
+> (the warm sumi `--ink-soft`-on-washi ratios became the cool-grey ramp-on-steel targets; ui-design.md §2
+> carries the current per-token guarantees).
 - **created_date:** 2026-06-26
 - **Context:** Block N a11y review (**[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**, item D-Q-a11y): the woodblock identity palette was carrying *meaning* through coloured text — a coloured WIN/LOSS word, coloured label-text — at contrast ratios that did not pass WCAG AA, and the PRD/ui-design overclaimed "AA on every surface" without stating the real per-token ratios.
 - **Options:** (A) Keep identity hues on text, accept sub-AA contrast for "atmosphere" · (B) Drop the woodblock identity palette entirely for monochrome legibility · (C) Split the roles — identity hues live only in chrome (fills/accents); all meaning-bearing text renders in AA-passing ink.
@@ -614,8 +622,8 @@ design ADR.
 - **created_date:** 2026-06-29
 - **Context:** **ADR-041** put a small synthesized Web Audio set in scope but didn't fix the palette or the timing. The human chose both: a traditional Japanese instrument palette, and a minimal SFX pass before the human's R1 taste verdict.
 - **Options:** *Palette* — generic UI blips · **a traditional Japanese instrument palette** · a full orchestral bed. *Timing* — full bed up front · **a minimal SFX pass before R1, the full bed later** · audio last.
-- **Decision:** **A synthesized traditional Japanese SFX palette** — **taiko** (combat), **shamisen / koto** (UI/deeds), **shakuhachi** (big beats), **temple bell / 鈴** (rank-ups) — anti-slop, matching the woodblock bible (**ADR-018**). A **minimal SFX pass** (hit / reward / rank-up cues) lands **before the R1 taste call**; the full synthesized bed comes later.
-- **Why:** A traditional palette is the audio analogue of the woodblock visual discipline — the defence against generic-AI-slop in sound; landing minimal SFX before R1 gives the human's taste verdict real audio to judge without blocking on the full bed.
+- **Decision:** **A synthesized traditional Japanese SFX palette** — **taiko** (combat), **shamisen / koto** (UI/deeds), **shakuhachi** (big beats), **temple bell / 鈴** (rank-ups) — anti-slop, matching the game's period fiction and restraint discipline (originally anchored to the woodblock bible ADR-018; the anchor is now the Andon Steel bible per ADR-144 — the PALETTE choice survives the reskin because it is diegetic, not visual). A **minimal SFX pass** (hit / reward / rank-up cues) lands **before the R1 taste call**; the full synthesized bed comes later.
+- **Why:** A traditional palette is the audio analogue of the game's visual restraint discipline — the defence against generic-AI-slop in sound; landing minimal SFX before R1 gives the human's taste verdict real audio to judge without blocking on the full bed.
 - **Consequences:** Sequences within **ADR-041**'s in-scope audio (annotated there); drives the minimal SFX pass ahead of R1. Web Audio synthesis (honours ADR-041's synthesized-audio posture). prd.md **§ audio**. **PRD/docs/code application PENDING.** Per **ADR-022**, governs.
 
 ### ADR-069 ✅ — Durable-by-default: a plan/brainstorm/analysis is a committed FILE before it's a deliverable
@@ -2123,3 +2131,33 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   `storyTakes.gen.ts`. Verified live pre-sign-off: `?story-hd23-mend-hint=a|c`
   rendered take A/C on the R3 weapon-card; post-sign-off the weapon-card renders
   take C as canon.
+
+### ADR-144 ✅ — UI-v2 SHIPPED: the woodblock locks retire; Andon Steel is the built identity (executes ADR-127)
+- **created_date:** 2026-07-06
+- **Context:** ADR-127 chose **Andon Steel** as UI-v2's direction (a FULL replacement of the woodblock/washi
+  identity). The migration plan (M1–M7) has now shipped: steel tokens + Western system stacks (M1), the
+  steel material recipes (M2), the Andon rail|desk|log-window composition + the fixed-frame phone
+  recomposition (M3), the full GBA-typewriter cold open (M4), the VN/ceremony re-skin with the vermillion
+  seal-heat (M5), and every diverged surface verified steel-native with the estate-section diverge added
+  (M6). The woodblock-era locks in the doc canon needed retiring to match the territory.
+- **Options:** leave the woodblock ADRs standing and let readers reconcile · rewrite history (edit the old
+  ADRs in place) · **retire-by-supersession: banner the affected ADRs, keep their enduring mechanisms, and
+  re-anchor the bible.**
+- **Decision:** **Retire-by-supersession.** `ui-design.md` is rewritten to the **Andon Steel bible**
+  (bimetal semantics: SILVER=state · GOLD=value · VERMILLION=commit/danger, spent not worn). **ADR-018
+  retires** — its aesthetic is superseded; its enduring constraints (a strong CSS design-language built to
+  a written bible, agent screenshot-QA, anti-slop) carry forward, and **"no asset pipeline" is now total**
+  (the self-hosted OFL fonts retired with M1 — pure system stacks, zero webfonts). **ADR-045 translates**
+  — the fills-only identity + AA-text rule survives verbatim on the new ramp. **ADR-068 re-anchors** — the
+  traditional SFX palette stands because it is diegetic, not woodblock-visual. The four PRD identity
+  claims (01-vision presentation register, 02-systems identity-hues rule, 07-roadmap R4 art/feel) are
+  re-pointed; the in-fiction woodblock BROADSHEET (02-systems §legend) deliberately survives — period
+  props are content, not UI identity.
+- **Why:** The build is the territory (PH2): the shipped game is Andon Steel end-to-end, and a living-doc
+  canon that still says "washi/woodblock" would make every future taste call start from a false premise.
+  Supersession banners keep the *why*-history lossless (the append-only norm) while making the current
+  truth unambiguous.
+- **Consequences:** `ui-design.md` = the steel bible (≤400-line cap holds); `taste.md` untouched (already
+  identity-neutral); PRD re-pointed; `prd:drift` + `doc-budgets` green. The open variant picks
+  (HR-2/5/6/7/9) + the M6 strip are the migration's only remaining human gates; a `/prd-compress` sweep
+  stays a separate, human-signed event. Per **ADR-022**, governs.
