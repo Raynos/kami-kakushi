@@ -123,9 +123,28 @@
   --dur-beat: 620ms;
 }
 
-/* ── the 5-voice attribute ramp — the Appendix A fallback, kept live behind a
-   DEV toggle (data-attr-palette on <html>) so the 3-metal collapse and the
-   voice ramp can be compared in-game before either is locked (M1 decision). */
+/* ── attribute-palette candidates — DEV compare via data-attr-palette on <html>.
+   Human steer (2026-07-06): the 3-metal THEME wins, but the five attrs need a
+   distinct "5-metal" accent set (intro perk buttons read too similar under the
+   collapse). Two metal-true candidates + the demo voice ramp as reference; the
+   pick graduates into :root and these blocks die. */
+:root[data-attr-palette='temper'] {
+  /* steel temper-oxide colours — straw → bronze → purple → blue → pale (in-fiction:
+     what tempered steel actually turns) */
+  --attr-str: #c0875f; /* 力 bronze  */
+  --attr-agi: #93c5c5; /* 敏 pale-quench */
+  --attr-int: #b193c9; /* 智 temper-purple */
+  --attr-spd: #8fb6d9; /* 速 temper-blue */
+  --attr-luck: #d8b978; /* 運 straw-gold */
+}
+:root[data-attr-palette='noble'] {
+  /* noble metals — copper · verdigris · silver · steel-blue · gold */
+  --attr-str: #d08b6d; /* 力 copper */
+  --attr-agi: #94bfa4; /* 敏 verdigris */
+  --attr-int: #cdd6ee; /* 智 silver */
+  --attr-spd: #9ab0cc; /* 速 steel-blue */
+  --attr-luck: #d8b978; /* 運 gold */
+}
 :root[data-attr-palette='voices'] {
   --attr-str: #cf9a86; /* 力 rust  */
   --attr-agi: #a9c391; /* 敏 sage  */

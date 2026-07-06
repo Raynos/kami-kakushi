@@ -48,3 +48,14 @@ playtest; attr-colors: **both** treatments built behind a DEV toggle.
 
 - Human playtests R0/R1 (M1 gate) + picks an attr palette when ready.
 - M2 — steel material recipes (Appendix B) after sign-off.
+
+## Addendum — M1 live review begins (same session)
+
+- Human steer 1: all UI-v2 temp toggles → one 'UI-v2 (temp toggles)' DEV
+  section, pinned to the top of Settings.
+- Human steer 2 (attr fork resolved in direction): 3-metal THEME wins; the
+  five attrs get a distinct 5-metal accent set. Built two candidates behind
+  `data-attr-palette` — 'temper' (steel temper-oxide colours) and 'noble'
+  (noble metals) — plus the demo 5-voice ramp as reference; pick pending.
+- Inbox drain (M1 feedback) in flight: 14 captures pending, first batch of 5
+  reproduced; proposals presented to the human next.

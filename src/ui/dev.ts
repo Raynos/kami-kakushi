@@ -2197,10 +2197,19 @@ export function mountDevPanel(
   }
   markSpeed(1); // the game starts at 1×
 
-  // UI-v2 M1 — attribute-palette compare (human pick pending): the 3-metal collapse
-  // (prod default) vs the 5-voice ramp, swapped live via data-attr-palette on <html>
-  // (the CSS override block in styles.css). DEV-only; prod always ships the default.
-  const attrPal = section('Attr palette');
+  // UI-v2 — TEMPORARY migration toggles, ONE section so the human finds them all
+  // in one place (human, 2026-07-06). Every pending-compare toggle of the Andon
+  // Steel migration lands in this section; the whole section dies when the
+  // migration's forks are resolved.
+  const uiV2 = section('UI-v2 (temp toggles)');
+  // pin the section to the TOP of the Settings pane — it's the live review focus.
+  if (uiV2.parentElement) settingsPane.prepend(uiV2.parentElement);
+  const palLabel = el('span', undefined, 'attr palette:');
+  palLabel.style.cssText = 'color:#e7d9bc;opacity:.7;align-self:center;';
+  uiV2.append(palLabel);
+  // Attr palette: the 3-metal collapse (prod default) vs the 5-voice ramp, swapped
+  // live via data-attr-palette on <html> (the CSS override block in styles.css).
+  const attrPal = uiV2;
   const palBtns = new Map<string, HTMLButtonElement>();
   const markPal = (active: string): void => {
     for (const [id, b] of palBtns) {
@@ -2211,12 +2220,14 @@ export function mountDevPanel(
     }
   };
   const setPal = (id: string): void => {
-    if (id === 'voices') document.documentElement.dataset.attrPalette = 'voices';
-    else delete document.documentElement.dataset.attrPalette;
+    if (id === 'metal') delete document.documentElement.dataset.attrPalette;
+    else document.documentElement.dataset.attrPalette = id;
     markPal(id);
   };
   for (const [id, label] of [
     ['metal', '3-metal (default)'],
+    ['temper', '5-temper oxides'],
+    ['noble', '5-noble metals'],
     ['voices', '5-voice ramp'],
   ] as const) {
     const b = mono(label, () => setPal(id));
