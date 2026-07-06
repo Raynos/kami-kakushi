@@ -114,6 +114,18 @@ extraction vs archive body diffs EMPTY (blank-lines aside) + NUL-free.
 Stragglers: battery (AC-4)/(AC-12), decisions AC-4 self-inflation, diverge
 AC-19.
 
+## 7 · P4 cuts 3+4 — checkpoint bullet compressed; always-loaded caps
+
+c3: AGENTS.md checkpoint bullet 27 → 10 lines (loop one-liner + the standing
+push-approval sentence — the ONE detail working-agreements didn't carry — +
+the three non-negotiables + SoT pointer; verified the SoT holds every cut
+detail BEFORE cutting). AGENTS.md → 397 lines.
+
+c4: `verify-doc-budgets.ts` gains AGENTS.md ≤ 420 + repo-map.md ≤ 160 (the
+plan's numbers; the ~350 ratchet waits on the human-gated prose-register
+rewrite the plan defers). RED proven live with a scratch over-length edit,
+then reverted.
+
 ## Next intended steps (current)
 
 1. P2 — `verify:tooling` meta-suite (nightly-only), five fixture-driven groups.
