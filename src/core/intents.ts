@@ -691,6 +691,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'narrator',
             contentKey: 'food.cook',
             params: { sansai: COOK_SANSAI_COST, hpGain },
+            // FB-156 — repetitive consumption output is fleeting flavor (the F58a
+            // rake/labour precedent): it lives in "Now" and fades, never spams Work.
+            ephemeral: true,
           },
         ],
       });
@@ -716,6 +719,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'food.eatRice',
             params: { rice: EAT_RICE_COST, satGain },
+            ephemeral: true, // FB-156 — fleeting consumption flavor → "Now", never Work spam
           },
         ],
       });

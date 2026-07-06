@@ -1029,6 +1029,19 @@ h3 {
 .slice-do .verb {
   max-width: 40ch;
 }
+/* FB-157 — a card nested INSIDE the framed do-column drops its own plate frame
+   (plate-in-plate + button keyline read as a "triple border"): a key-dim top
+   rule scopes the section instead. The full estate-section redesign is routed
+   to the M6 diverge (human ask). */
+.slice-do .rung-card.frame {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-top: 1px solid var(--key-dim);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
 .verb:focus-visible {
   box-shadow:
     0 0 0 2px var(--washi),

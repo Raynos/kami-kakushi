@@ -129,3 +129,11 @@ approved pass (human picked: 40ch button cap; all-12 scope):
   suspected HMR bursts; recapture if it persists.
 
 verify green (17) + e2e green (73). Both sessions archived; inbox empty.
+
+## Addendum 5 — two late captures (FB-156/FB-157)
+
+The human filed two more captures into session 4ea4cf after the drain read it
+(the archive commit carried their JSONs unread — caught on the staged-set
+review): FB-156 eat/cook result lines → ephemeral (Now, not Work); FB-157
+estate border-soup → nested cards de-framed today, full redesign routed to the
+M6 diverge. verify green.
