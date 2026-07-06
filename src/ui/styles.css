@@ -235,16 +235,73 @@ h3 {
   height: 100dvh;
   overflow: hidden;
 }
+/* ── the ANDON frame (M3, B.8): header rows full-width, then rail | desk |
+   log-window, then the footer. The middle row is the only 1fr — panes scroll
+   internally, the page never scrolls (F5/F6). ── */
 .shell {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(300px, 38%);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'title title title'
+    'vitals vitals vitals'
+    'nav work log'
+    'footer footer footer';
   height: 100%;
   overflow: hidden;
-  max-width: 1200px; /* wider main UI (F4) — was 980; a paper column on the ink ground */
+  max-width: 1200px; /* wider main UI (F4) — was 980; a plate column on the void */
   margin: 0 auto;
 }
-/* pinned header rows + a pinned footer; the workspace fills the middle and scrolls
-   internally so the page itself never scrolls (F5/F6). */
+.shell > .titlebar {
+  grid-area: title;
+}
+.shell > .vitals {
+  grid-area: vitals;
+}
+.shell > .nav {
+  grid-area: nav;
+}
+.shell > .workspace {
+  grid-area: work;
+  min-height: 0;
+  min-width: 0;
+}
+.shell > .log {
+  grid-area: log;
+  min-height: 0;
+  /* a too-short row (phone landscape) CLIPS the window rather than spilling its
+     fixed chrome (header/filter bar) over the neighbouring grid rows */
+  overflow: hidden;
+  margin: var(--space-4) var(--space-4) var(--space-4) 0;
+}
+.shell > .appbar-footer {
+  grid-area: footer;
+}
+/* ── the ANDON phone recomposition (≤920px, the demo's mobile breakpoint):
+   ONE column — header rows, the work desk (scrolls), the log as a BAND with
+   its own scroll, then the tab BAR + footer at the bottom. Tap targets rise
+   to the 44px floor (the Andon language's --m-tap; the mobile e2e lane holds
+   it). ── */
+@media (max-width: 920px) {
+  :root {
+    --tap-min: 44px;
+  }
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1.3fr) minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      'title'
+      'vitals'
+      'work'
+      'log'
+      'nav'
+      'footer';
+  }
+  .shell > .log {
+    margin: 0 var(--space-3) var(--space-2);
+  }
+}
+/* (legacy pinned-row sizing — harmless under grid, kept for any flex fallback) */
 .shell > .titlebar,
 .shell > .vitals,
 .shell > .nav,
@@ -391,30 +448,14 @@ h3 {
   min-height: 0;
   overflow: hidden;
 }
-@media (max-width: 720px) {
-  /* narrow: fall back to natural page flow (stacked columns, page scrolls) */
-  #app,
-  .shell {
-    height: auto;
-    min-height: 100dvh;
-    overflow: visible;
-  }
-  body {
-    overflow: auto;
-  }
+/* (M3 — the old ≤720px "natural page flow" fallback died with the Andon phone
+   recomposition: #app/.shell height:auto let the grid rows size to CONTENT and
+   the shell exploded past 17,000px with the unbounded log. The phone is now the
+   same FIXED frame — single-column grid, panes scroll internally.) */
+@media (max-width: 920px) {
   .workspace {
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    overflow: visible;
-  }
-  /* (The byōbu single-column collapse lives in its own media block AFTER the byōbu
-     base rules below — equal-specificity overrides must follow what they override;
-     this block once held them and they were silently dead. See "byōbu on narrow". */
-  .log,
-  .work,
-  .slice {
-    max-height: none;
-    overflow: visible;
+    grid-template-rows: minmax(0, 1fr);
   }
 }
 
@@ -506,28 +547,21 @@ h3 {
   max-width: 1440px;
 }
 
-/* ── byōbu on NARROW (≤720px): collapse to a single stacked column (natural page flow) —
-   work fold first, log below it, full width; the ⅓-viewport log floor lifts and the card
-   framing drops. This block MUST sit AFTER the byōbu base rules above: the overrides are
-   equal-specificity, so source order is what makes them win. (It originally sat before
-   them — every rule here was silently dead, `.work` computed `flex:1 1 0`→height 0 on
-   phones and the log painted OVER the work column: work-tab taps hit the log. Caught by
-   the mobile e2e lane — e2e/mobile-layout.spec.ts asserts the stacking.) ─────────────── */
-@media (max-width: 720px) {
+/* ── the work DESK on NARROW (≤920px, M3): the log is a shell sibling now (the
+   Andon phone grid stacks it as its own band), so the desk keeps its single
+   work fold and scrolls INTERNALLY — the shell grid owns the height; there is
+   no page-flow column anymore. This block sits AFTER the byōbu base rules:
+   equal-specificity, source order wins (the original dead-CSS lesson — the
+   mobile e2e lane guards the stacking). ─────────────────────────────────── */
+@media (max-width: 920px) {
   .workspace[data-layout='layout-byobu'] {
     flex-direction: column;
     gap: var(--space-6);
   }
   .workspace[data-layout='layout-byobu'] > .work {
-    flex: 0 0 auto;
+    flex: 1 1 auto;
     gap: var(--space-6);
-    overflow: visible;
-  }
-  .workspace[data-layout='layout-byobu'] .slice-log {
-    flex: 0 0 auto;
-    min-width: 0;
-    max-width: none; /* the desktop 46% log cap has no place in a single column */
-    max-height: none;
+    overflow-y: auto;
   }
   .workspace[data-layout='layout-byobu'] .slice {
     flex: 0 0 auto;
@@ -1669,23 +1703,16 @@ h3 {
 /* ── nav (the "UI as progression" chrome — first appears at R2) ───────────── */
 .nav {
   display: flex;
-  gap: var(--space-2);
-  /* F73 — the tab strip is chrome: slimmer padding (was --space-2·--space-6) for a compact nav. */
-  padding: var(--space-1) var(--space-4);
-  /* B.5 (M2 horizontal form; the vertical rail is M3) — a steel strip: gold
-     keyline base + faint silver top-rim. */
-  border-bottom: 1px solid var(--key);
-  background: linear-gradient(180deg, var(--steel-1), var(--steel-0) 70%);
-  box-shadow: inset 0 1px 0 var(--silver-faint);
+  /* B.5-rail (M3) — the Andon LEFT RAIL: a vertical steel strip, gold keyline
+     on its right edge, tabs stacked with a LEFT gold post for the active one. */
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-2);
+  border-right: 1px solid var(--key);
+  background: linear-gradient(90deg, var(--steel-1), var(--steel-0) 80%);
+  box-shadow: inset -1px 0 0 var(--silver-faint);
   animation: ink-in var(--dur-beat) var(--ease-ink) both;
-}
-@media (max-width: 720px) {
-  /* narrow: the strip WRAPS — 6-7 unlocked tabs must never push the row past the
-     viewport (an offscreen tab is a hidden capability, T4 — and it dragged the
-     whole page into horizontal scroll; the mobile e2e lane guards this). */
-  .nav {
-    flex-wrap: wrap;
-  }
 }
 .nav-tab {
   font-family: var(--font-head);
@@ -1693,7 +1720,7 @@ h3 {
   color: var(--ink-soft);
   background: transparent;
   border: 0;
-  border-bottom: 3px solid transparent;
+  border-left: 3px solid transparent; /* M3 rail — the active post sits LEFT */
   padding: var(--space-1) var(--space-3);
   min-height: var(--tap-min); /* a11y touch target */
   display: inline-flex;
@@ -1702,15 +1729,38 @@ h3 {
 }
 .nav-tab.active {
   /* active = silver label + a GOLD post (B.5) — vermillion stays reserved for
-     commit/danger (the locked cursor-cut decision). */
+     commit/danger (the locked cursor-cut decision). M3: the post sits LEFT. */
   color: var(--silver-hi);
-  border-bottom-color: var(--gold);
+  border-left-color: var(--gold);
 }
 .nav-tab:focus-visible {
   outline: none;
   box-shadow:
     0 0 0 2px var(--washi),
     0 0 0 4px var(--ai);
+}
+@media (max-width: 920px) {
+  /* phone (the Andon mobile recomposition): the rail becomes the BOTTOM TAB BAR;
+     it WRAPS (7 unlocked tabs never push past the viewport — an offscreen tab is
+     a hidden capability, T4, and the e2e lane treats it as hanging off-edge). */
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: var(--space-1) var(--space-2);
+    border-right: 0;
+    border-top: 1px solid var(--key);
+    background: linear-gradient(180deg, var(--steel-1), var(--steel-0) 70%);
+    box-shadow: inset 0 1px 0 var(--silver-faint);
+  }
+  .nav-tab {
+    flex: 0 0 auto;
+    border-left: 0;
+    border-top: 3px solid transparent;
+  }
+  .nav-tab.active {
+    border-left-color: transparent;
+    border-top-color: var(--gold);
+  }
 }
 
 /* ── rung card (shared by the estate / storehouse / combat cards; the Work-column rung ladder that
@@ -1770,6 +1820,7 @@ h3 {
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target (44px on phones, M3) */
   background: transparent;
   border: 1px solid var(--ink-faint);
   border-radius: var(--radius);

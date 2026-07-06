@@ -98,10 +98,10 @@ interface ControlBox {
 }
 
 /** Every visible interactive control must (a) sit fully inside the viewport
- *  horizontally, (b) meet the minimum target height — the WCAG 2.2 24px floor on
- *  touch profiles (the floor the repo's own `--tap-min: 28px` token cites); a laxer
- *  18px on desktop, where the pointer is finer and hover-scale styles would
- *  false-flag the 24px floor — and (c) actually RECEIVE the pointer —
+ *  horizontally, (b) meet the minimum target height — the Andon language's 44px
+ *  floor on touch profiles (M3: the phone recomposition raises `--tap-min` to
+ *  44px, replacing the interim WCAG 24px floor); a laxer 18px on desktop, where
+ *  the pointer is finer — and (c) actually RECEIVE the pointer —
  *  elementFromPoint at its centre resolves to the control, not something painted
  *  over it (the bug class where the log column overlapped the work verbs). */
 export async function expectControlsTappable(
@@ -109,7 +109,7 @@ export async function expectControlsTappable(
   label: string,
   opts: { minTargetPx?: number } = {},
 ): Promise<void> {
-  const minTargetPx = opts.minTargetPx ?? 24;
+  const minTargetPx = opts.minTargetPx ?? 44;
   const boxes: ControlBox[] = await page.evaluate(() => {
     const sel = 'button.verb, .nav-tab, .settings-btn, .rung-head-trigger:not([disabled])';
     const out: ControlBox[] = [];
@@ -157,39 +157,50 @@ export async function expectControlsTappable(
   }
 }
 
-/** On narrow screens the byōbu spread must stack into ONE column: the work fold
- *  above the log, both full-width, work at natural height (the dead-CSS regression
- *  left `.work` at height 0 with the log painted over it — this is its tombstone). */
+/** M3 (Andon phone recomposition): on narrow screens the shell grid stacks ONE
+ *  column — the work desk above the log BAND, both alive and full-width, with
+ *  the tab BAR at the bottom (below the log). The log is a SHELL sibling now
+ *  (`.shell > .log`), not a workspace fold — the dead-CSS/overlap bug class this
+ *  guards is unchanged (a pane at zero size, or painted over another). */
 export async function expectSingleColumnStack(page: Page, label: string): Promise<void> {
   const m = await page.evaluate(() => {
-    const ws = document.querySelector('.workspace');
-    if (!ws || ws.getAttribute('data-layout') !== 'layout-byobu') return null;
-    const work = ws.querySelector('.work');
-    const log = ws.querySelector('.slice-log');
-    if (!work || !log) return null;
-    const wr = work.getBoundingClientRect();
+    const shell = document.querySelector<HTMLElement>('.shell');
+    if (!shell || shell.hidden || shell.getAttribute('data-layout') !== 'layout-byobu') return null;
+    const ws = shell.querySelector('.workspace');
+    const log = shell.querySelector(':scope > .log');
+    const nav = shell.querySelector<HTMLElement>(':scope > .nav');
+    if (!ws || !log) return null;
+    const wr = ws.getBoundingClientRect();
     const lr = log.getBoundingClientRect();
+    const nr = nav && !nav.hidden ? nav.getBoundingClientRect() : null;
     return {
-      dir: getComputedStyle(ws).flexDirection,
       workHeight: Math.round(wr.height),
       workBottom: Math.round(wr.bottom),
       logTop: Math.round(lr.top),
+      logHeight: Math.round(lr.height),
       logWidth: Math.round(lr.width),
       workWidth: Math.round(wr.width),
+      navTop: nr ? Math.round(nr.top) : null,
+      logBottom: Math.round(lr.bottom),
     };
   });
-  if (m === null) return; // pre-byōbu states (cold open, intro) have no spread to stack
-  expect(m.dir, `${label}: byōbu must collapse to a column on mobile`).toBe('column');
-  expect(m.workHeight, `${label}: the work fold collapsed to zero height`).toBeGreaterThan(0);
+  if (m === null) return; // pre-shell states (cold open, intro) have nothing to stack
+  expect(m.workHeight, `${label}: the work desk collapsed to zero height`).toBeGreaterThan(0);
+  expect(m.logHeight, `${label}: the log band collapsed to zero height`).toBeGreaterThan(0);
   expect(
     m.logTop,
-    `${label}: the log must stack BELOW the work fold, not over it`,
+    `${label}: the log band must stack BELOW the work desk, not over it`,
   ).toBeGreaterThanOrEqual(m.workBottom - 1);
-  // full width within a few px of each other — no desktop 46% log cap leaking in
+  if (m.navTop !== null)
+    expect(
+      m.navTop,
+      `${label}: the tab bar must sit BELOW the log band (bottom bar)`,
+    ).toBeGreaterThanOrEqual(m.logBottom - 1);
+  // full width within a few px of each other — no desktop log column leaking in
   expect(
     Math.abs(m.logWidth - m.workWidth),
     `${label}: work/log widths diverge`,
-  ).toBeLessThanOrEqual(8);
+  ).toBeLessThanOrEqual(24); // the log band keeps a small side margin
 }
 
 /** The desktop mirror of `expectSingleColumnStack` — the byōbu SPREAD: work and log
@@ -199,35 +210,34 @@ export async function expectSingleColumnStack(page: Page, label: string): Promis
  *  the desktop twin of the day-one mobile bug (see the ≤720px block's comment). */
 export async function expectTwoColumnSpread(page: Page, label: string): Promise<void> {
   const m = await page.evaluate(() => {
-    const ws = document.querySelector('.workspace');
-    if (!ws || ws.getAttribute('data-layout') !== 'layout-byobu') return null;
-    const work = ws.querySelector('.work');
-    const log = ws.querySelector('.slice-log');
-    if (!work || !log) return null;
-    const wr = work.getBoundingClientRect();
+    const shell = document.querySelector<HTMLElement>('.shell');
+    if (!shell || shell.hidden || shell.getAttribute('data-layout') !== 'layout-byobu') return null;
+    const ws = shell.querySelector('.workspace');
+    const log = shell.querySelector(':scope > .log');
+    if (!ws || !log) return null;
+    const wr = ws.getBoundingClientRect();
     const lr = log.getBoundingClientRect();
     return {
-      dir: getComputedStyle(ws).flexDirection,
       workWidth: Math.round(wr.width),
       workHeight: Math.round(wr.height),
       workRight: Math.round(wr.right),
       logLeft: Math.round(lr.left),
       logWidth: Math.round(lr.width),
       logHeight: Math.round(lr.height),
-      wsWidth: Math.round(ws.getBoundingClientRect().width),
+      shellWidth: Math.round(shell.getBoundingClientRect().width),
     };
   });
-  if (m === null) return; // pre-byōbu states (cold open, intro) have no spread yet
-  expect(m.dir, `${label}: byōbu must be a two-fold ROW spread on desktop`).toBe('row');
-  expect(m.workWidth, `${label}: the work fold collapsed to zero width`).toBeGreaterThan(0);
-  expect(m.workHeight, `${label}: the work fold collapsed to zero height`).toBeGreaterThan(0);
-  expect(m.logWidth, `${label}: the log fold collapsed to zero width`).toBeGreaterThan(0);
-  expect(m.logHeight, `${label}: the log fold collapsed to zero height`).toBeGreaterThan(0);
+  if (m === null) return; // pre-shell states (cold open, intro) have no frame yet
+  expect(m.workWidth, `${label}: the work desk collapsed to zero width`).toBeGreaterThan(0);
+  expect(m.workHeight, `${label}: the work desk collapsed to zero height`).toBeGreaterThan(0);
+  expect(m.logWidth, `${label}: the log window collapsed to zero width`).toBeGreaterThan(0);
+  expect(m.logHeight, `${label}: the log window collapsed to zero height`).toBeGreaterThan(0);
   expect(
     m.workRight,
-    `${label}: the work fold must sit LEFT of the log, not under it`,
+    `${label}: the work desk must sit LEFT of the log window, not under it`,
   ).toBeLessThanOrEqual(m.logLeft + 1);
-  expect(m.logWidth, `${label}: the log fold overruns its 46% design cap`).toBeLessThanOrEqual(
-    Math.ceil(m.wsWidth * 0.46) + 1,
+  // the Andon log window is capped at 38% of the shell (styles.css M3 grid)
+  expect(m.logWidth, `${label}: the log window overruns its 38% design cap`).toBeLessThanOrEqual(
+    Math.ceil(m.shellWidth * 0.38) + 1,
   );
 }

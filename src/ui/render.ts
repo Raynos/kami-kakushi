@@ -1002,9 +1002,11 @@ export function mount(
   // are hidden, so early game is Do + Log only and the screen inks in as surfaces unlock.
   const gatedSlices = [sliceDo, sliceEstate];
 
-  // the story log lives in the RIGHT column (idle-RPG convention, playtest FB-8); the interactive
-  // work/actions column sits on the LEFT (classic). Byōbu re-arranges the same DOM via CSS.
-  workspace.append(work, logSection);
+  // M3 (Andon) — the workspace holds ONLY the work desk now; the story log is a
+  // first-class SHELL sibling (the right log window in the Andon grid). The
+  // reconcilers key on element identity (reconcile.ts WeakMap), so re-parenting
+  // logSection breaks nothing — same node, same scroll hooks.
+  workspace.append(work);
 
   // ── fixed footer bar (FB-5) — the version stamp + the Settings entry, pinned to the bottom ──
   const footer = el('footer', 'appbar-footer');
@@ -1020,7 +1022,8 @@ export function mount(
   // corner in the footer (DEV builds only) so the Settings button sits clear of it — no collision.
   if (import.meta.env.DEV && dev) footer.classList.add('has-dev-toggle');
 
-  shell.append(header, nav, workspace, footer);
+  // M3 (Andon) — grid areas: title / vitals / nav-rail | work desk | log window / footer.
+  shell.append(header, nav, workspace, logSection, footer);
 
   // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
   const coldOpen = el('div', 'coldopen');

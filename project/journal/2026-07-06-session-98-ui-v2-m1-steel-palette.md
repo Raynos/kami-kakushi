@@ -149,3 +149,29 @@ M6 diverge. verify green.
   retired; renderer paints a newest-300 DOM window on full repaints
   (scroll-back backfill = sanctioned future polish); core log tests rewritten
   (durable-survival + unbounded assertions); fixtures regenerated.
+
+## Addendum 7 — M3 · the Andon composition (② LAYOUT · MED–HIGH)
+
+The screen becomes the Andon frame — Approach A (minimal DOM churn):
+
+- `render.ts` — the log re-parented from the workspace to a SHELL sibling
+  (2 lines); every reconciler/scroll hook survived (element-identity keyed).
+- `.shell` → the B.8 grid: title / vitals / rail|desk|log-window / footer;
+  the log window column `minmax(300px, 38%)`.
+- `.nav` → the vertical LEFT RAIL (gold keyline right edge, active post LEFT).
+- Byōbu neutralized: the workspace keeps its single work fold; the
+  `.slice-log` fold rules went inert; the `data-layout` stamps stay (tests).
+- **Phone recomposition (≤920px, the demo's breakpoint):** ONE fixed-frame
+  column — header rows / desk (scrolls) / log BAND / bottom tab BAR (wraps) /
+  footer; `--tap-min` rises to 44px. The old ≤720 "natural page flow"
+  fallback DIED — it set `#app/.shell` height:auto and the grid exploded to
+  17,000px+ with the unbounded log (caught by headless phone probe; the e2e
+  lane didn't see vertical explosion — noted as a lane gap).
+- e2e updated IN-COMMIT (the M3 card's requirement): both layout helpers
+  rewritten to Andon geometry (`.shell > .log`, bottom-bar ordering, the 38%
+  window cap), the mobile tap floor 24→44px; `.rung-head-trigger` gained the
+  `--tap-min` floor; the log window clips (landscape short rows).
+
+verify green (17) · e2e green (73, both phone profiles + desktop) · headless
+desktop + Pixel-7 captures reviewed. Human playtest = the M3 gate (the
+highest-risk card — the eye re-learns the screen).
