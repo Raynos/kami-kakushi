@@ -20,8 +20,11 @@ import { readFileSync, existsSync } from 'node:fs';
 // verify:budget). The hard `cap` raises only via a human-reviewed edit here;
 // SKIP_DOCBUDGET=1 stays the same-day escape while that edit is discussed.
 const BUDGETS: ReadonlyArray<{ path: string; cap: number; warn?: number; genreLeak: RegExp }> = [
+  // taste.md + project-status.md live PINNED at their caps by design (the cap
+  // IS the displacement pressure) — a soft warn there would fire on every run
+  // forever, teaching deafness (AC-11). Warns go only where headroom is the norm.
   { path: 'docs/living/taste.md', cap: 150, genreLeak: /\(session-\d+\)/ },
-  { path: 'docs/living/ui-design.md', cap: 400, genreLeak: /\(session-\d+\)/ },
+  { path: 'docs/living/ui-design.md', cap: 400, warn: 360, genreLeak: /\(session-\d+\)/ },
   {
     path: 'project/status/project-status.md',
     cap: 120,
