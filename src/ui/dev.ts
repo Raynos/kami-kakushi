@@ -15,6 +15,8 @@ import {
   balance,
   bestiaryEntries,
   canBuy,
+  ESTATE_STAGES,
+  isUnlocked,
   formatCoin,
   formatKMB,
   canCraft,
@@ -52,7 +54,7 @@ import {
   PLAYER_SPEAKER,
   RUNG_BEATS,
 } from '../core';
-import { el, pct } from './render';
+import { el, pct, ESTATE_STAGE_NAMES, HOUSE_ROOMS } from './render';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
@@ -86,6 +88,27 @@ export interface SurfaceDef {
 /** The registry of diverged surfaces + their variants — the single source the panel toggle
  *  and the renderer both read. Grows as Step 2 adds craft / market / quests. */
 export const SURFACES: SurfaceDef[] = [
+  {
+    id: 'estate-section',
+    label: 'Estate section (FB-157)',
+    variants: [
+      {
+        id: 'estate-a',
+        label: 'A · quiet sections',
+        blurb: 'De-framed key-dim sections inside the do-column (the shipped default).',
+      },
+      {
+        id: 'estate-b',
+        label: 'B · ledger strip',
+        blurb: 'One dense ledger row — stage ··· cost ··· Improve; rooms as kanji chips.',
+      },
+      {
+        id: 'estate-c',
+        label: 'C · bimetal plaque',
+        blurb: 'A centred engraved plaque — stage in gold, payoff etched, rooms a plaque rail.',
+      },
+    ],
+  },
   {
     id: 'influence',
     label: 'House-Influence grade',
@@ -462,6 +485,139 @@ function renderSurfaceVariant(
   if (surface === 'map') return renderMapVariant(variantId, container, state, dispatch);
   if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
   if (surface === 'home') return renderHomeVariant(variantId, container, state, dispatch);
+  if (surface === 'estate-section')
+    return renderEstateVariant(variantId, container, state, dispatch);
+  return false;
+}
+
+/** The diverged ESTATE SECTION (FB-157/M6, ADR-075) — B/C are DEV-only re-presentations of the
+ *  SAME live estate data (stage, next upgrade, coin gate, opened rooms); the Improve button drives
+ *  the real `improve_estate` intent in every take. Default A (the quiet de-framed sections) ships
+ *  inline in render.ts. */
+function renderEstateVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId === 'estate-a') return false;
+  const stage = state.estateStage;
+  const name = ESTATE_STAGE_NAMES[stage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
+  const nextStage = ESTATE_STAGES.find((s) => s.stage === stage + 1);
+  const carried = state.resources.coin ?? 0;
+  const banked = state.banked.coin ?? 0;
+  const rooms = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
+  const improveBtn = (): HTMLButtonElement => {
+    const b = el('button', 'verb', '') as HTMLButtonElement;
+    b.type = 'button';
+    if (nextStage) {
+      b.textContent = `${nextStage.label} (${formatCoin(nextStage.coinCost)})`;
+      b.disabled = carried < nextStage.coinCost;
+      b.title = b.disabled
+        ? banked >= nextStage.coinCost
+          ? 'Draw coin from the kura storehouse first'
+          : `Needs ${formatCoin(nextStage.coinCost)}`
+        : '';
+      b.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
+    }
+    return b;
+  };
+
+  if (variantId === 'estate-b') {
+    // B · LEDGER STRIP — one dense row: stage ··· leader ··· improve; payoff small
+    // beneath; opened rooms as a kanji chip row. The incremental-RPG ledger idiom.
+    const wrap = el('div');
+    const row = el('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:.5rem;min-height:28px;';
+    const stageEl = el('span', undefined, `Estate · ${name}`);
+    stageEl.style.cssText =
+      'font-family:var(--font-num);font-size:var(--fs-small);letter-spacing:.12em;text-transform:uppercase;color:var(--silver, var(--ai));white-space:nowrap;';
+    const leader = el('span');
+    leader.style.cssText =
+      'flex:1;height:0;border-bottom:1px dotted rgba(216,185,120,.25);min-width:1rem;';
+    row.append(stageEl, leader);
+    if (nextStage) row.append(improveBtn());
+    else {
+      const done = el('span', undefined, 'restored 成');
+      done.style.cssText = 'color:var(--gold);font-size:var(--fs-small);';
+      row.append(done);
+    }
+    wrap.append(row);
+    if (nextStage) {
+      const payoff = el(
+        'div',
+        'rung-hint',
+        `+${nextStage.yieldBonusNum}% labour output · +${nextStage.satietyMaxBonus} max body`,
+      );
+      payoff.style.cssText = 'margin:.15rem 0 0;';
+      wrap.append(payoff);
+    }
+    if (rooms.length > 0) {
+      const chips = el('div');
+      chips.style.cssText = 'display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem;';
+      for (const room of rooms) {
+        const chip = el('span', undefined, room.kanji);
+        chip.lang = 'ja';
+        chip.title = room.label;
+        chip.style.cssText =
+          'display:inline-grid;place-items:center;min-width:2.1rem;padding:.2rem .35rem;' +
+          'border:1px solid rgba(216,185,120,.42);border-radius:3px;color:var(--gold);' +
+          'background:linear-gradient(180deg,var(--washi-shade),var(--washi-deep));font-size:.95rem;';
+        chips.append(chip);
+      }
+      wrap.append(chips);
+    }
+    container.append(wrap);
+    return true;
+  }
+
+  if (variantId === 'estate-c') {
+    // C · BIMETAL PLAQUE — the estate as a centred engraved plaque: stage in gold
+    // serif, payoff etched silver beneath, one improve action; rooms a plaque rail.
+    const plaque = el('div');
+    plaque.style.cssText =
+      'display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;' +
+      'padding:1rem .75rem;border:1px solid rgba(216,185,120,.42);border-radius:3px;' +
+      'background:linear-gradient(180deg,var(--washi-shade),var(--washi) 55%,var(--washi-deep));' +
+      'box-shadow:inset 0 1px 0 rgba(205,214,238,.14);';
+    const kicker = el('div', undefined, 'THE ESTATE');
+    kicker.style.cssText =
+      'font-family:var(--font-num);font-size:var(--fs-micro);letter-spacing:.28em;color:var(--ai-soft);';
+    const stageEl = el('div', undefined, name);
+    stageEl.style.cssText =
+      'font-family:var(--font-head);font-size:var(--fs-h2);color:var(--gold);';
+    plaque.append(kicker, stageEl);
+    if (nextStage) {
+      const payoff = el(
+        'div',
+        undefined,
+        `+${nextStage.yieldBonusNum}% labour output · +${nextStage.satietyMaxBonus} max body`,
+      );
+      payoff.style.cssText = 'color:var(--ai-soft);font-size:var(--fs-small);';
+      plaque.append(payoff, improveBtn());
+    } else {
+      const done = el('div', undefined, 'The estate stands restored.');
+      done.style.cssText = 'color:var(--gold);font-size:var(--fs-small);';
+      plaque.append(done);
+    }
+    if (rooms.length > 0) {
+      const rail = el('div');
+      rail.style.cssText = 'display:flex;gap:.4rem;justify-content:center;margin-top:.25rem;';
+      for (const room of rooms) {
+        const mini = el('span', undefined, room.kanji);
+        mini.lang = 'ja';
+        mini.title = room.label;
+        mini.style.cssText =
+          'display:inline-grid;place-items:center;width:2.3rem;height:2.3rem;' +
+          'border:1px solid rgba(205,214,238,.55);border-radius:3px;color:var(--ink);' +
+          'background:linear-gradient(135deg,var(--washi-shade),var(--washi-deep));';
+        rail.append(mini);
+      }
+      plaque.append(rail);
+    }
+    container.append(plaque);
+    return true;
+  }
   return false;
 }
 

@@ -224,3 +224,20 @@ in-modal ceremony (heat visible) reviewed. M4+M5 = ONE human review batch
 - FB-168 (human steer, the demo's m-log-band): phone log = a one-line band →
   tap expands to a near-full-screen sheet → header '▾ fold' collapses;
   desktop untouched. verify + e2e green; Pixel-7 expand/fold verified.
+
+## Addendum 12 — M6 · variant surfaces in steel + the estate diverge
+
+- Audit: every diverged surface's renderers are TOKEN-built — the M1 flip
+  re-skinned them in place (zero washi literals; the two meter fills + the
+  one plaque chip verified token-coherent). A 14-shot headless sweep
+  (estate/influence/home/craft/bestiary/quests/market/map variants) reviewed
+  via contact sheet — all steel-native, nothing translated poorly, so no
+  variant needed the "flag for the human" escape.
+- **FB-157 estate diverge built (ADR-075 FULL):** A quiet-sections (prod
+  default) · B ledger strip · C bimetal plaque — all three drive the real
+  `improve_estate` + live stage/coin/rooms; registered in SURFACES + routed +
+  RED-able routing tests (default renders rung-cards; B/C swap them out and
+  dispatch improve_estate). New **HR-9** filed; HR-2/5/7 got the "pick in the
+  new look" note.
+- M6's completion (per the card) = the human's live picks + the strip; the
+  BUILD side is done.

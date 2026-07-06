@@ -223,6 +223,32 @@ toggle for a live pick; the agent self-picked a coherent prod default.
   `?dev=no` afterward to see your pick in the true player layout.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
+> **UI-v2 note (M6, 2026-07-06):** ALL open variant surfaces (HR-2/5/6/7/9)
+> now render **Andon-Steel-native** — the M1 token flip re-skinned every
+> variant in place (they are token-built; an M6 sweep verified all 14 takes
+> headlessly, zero washi leftovers). Make your picks in the NEW look.
+
+---
+
+### HR-9 🔲 — Estate SECTION redesign — pick among the 3 built variants (FB-157, ADR-075)
+
+The human called the estate section (the Estate tab's improve + house-rooms
+cards) **border soup** and asked for a diverge. Three working takes ship
+behind the DEV toggle; each drives the real `improve_estate` intent + live
+stage/coin/rooms data:
+
+- **A · quiet sections** (prod default, self-picked) — the de-framed key-dim
+  sections the FB-157 quick-fix shipped.
+- **B · ledger strip** — one dense ledger row (stage ··· dotted leader ···
+  Improve), payoff beneath, opened rooms as gold kanji chips.
+- **C · bimetal plaque** — a centred engraved plaque: stage in gold serif,
+  payoff etched silver, rooms as a mini-plaque rail.
+
+- **Asking for:** which of A/B/C ships (or a tune).
+- **How to look:** `pnpm run dev` → **Estate 家** tab → DEV panel → Variants →
+  "Estate section (FB-157)"; or `?estate-section=estate-b` / `estate-c`.
+- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
+
 ---
 
 ### HR-8 🔲 — Rung-up cast + R0→R7 story beats — read & sign off (FB-97/FB-103, ADR-110)

@@ -216,12 +216,24 @@ function introNameplate(scene: {
 // The kura-works PURCHASE ladder (U1–U4, ADR-098) — indexed by estateStage. Stage 0 is
 // the un-worked starting state; the flavour words are the estate's condition after each
 // work. (The narrative CONDITION ladder E0–E5 is a separate axis, lives in the docs.)
-const ESTATE_STAGE_NAMES = [
+// exported for the DEV estate-section variants (dev.ts) — single source, no drift.
+export const ESTATE_STAGE_NAMES = [
   "Foreclosure's edge",
   'U1 · Stabilising',
   'U2 · Recovering',
   'U3 · Prosperous',
   'U4 · Risen',
+];
+
+// A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
+// granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
+// map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
+// Exported for the DEV estate-section variants (dev.ts).
+export const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
+  { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
+  { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
+  { surface: 'house-granary', kanji: '板倉', label: 'A new granary raised' },
+  { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
 ];
 
 // Static pane blurbs — hoisted so the incremental (prod/test) path and the DEV-variant
@@ -1334,21 +1346,22 @@ export function mount(
   // element (renderRungHead, FB-106), which is now the SOLE home of the rung name + progress meter
   // (top-right, always on screen, with the hover-detail card + the ready-to-advance summons).
 
-  // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
-  // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
-  // map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
-  const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
-    { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
-    { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
-    { surface: 'house-granary', kanji: '板倉', label: 'A new granary raised' },
-    { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
-  ];
   function renderEstate(state: GameState): void {
     // FB-100 (ADR-112) — the estate-improve card (kura-works flywheel) is the Estate tab's home. It
     // self-gates to the Estate tab; on every other tab it stays hidden (no ghost slice).
     const show = activeTab === 'estate' && isUnlocked(state, 'panel-estate');
     toggle(estatePane, show);
     if (!show) return;
+    // ── FB-157/M6 — the DIVERGED estate section (ADR-075): A (prod default, the quiet
+    //    de-framed sections) ships; B/C live DEV-only behind the variant toggle. The DEV
+    //    branch folds to dead code in prod; only a live DEV session takes the wholesale
+    //    clear-and-rebuild path (the incremental path below stays the prod/test route). ──
+    if (import.meta.env.DEV && dev) {
+      estateRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
+      estatePane.textContent = '';
+      if (dev.renderVariant('estate-section', estatePane, state, dispatch)) return;
+      // default A falls through to the incremental build below (fresh shell each render in DEV)
+    }
     // build the shell ONCE (FB-81): the improve card carries every mutable child up front (blurb /
     // hint / button toggle in place); the house-rooms card is a keyed row list that grows.
     if (!estateRefs) {
