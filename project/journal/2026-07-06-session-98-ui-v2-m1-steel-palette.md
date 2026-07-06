@@ -271,3 +271,14 @@ in-modal ceremony (heat visible) reviewed. M4+M5 = ONE human review batch
   the header; the R0–R2 no-persistent-readout gap flagged in the F-log).
 - ALL variant picks (HR-2/5/6/7/9): deferred to the human's live in-game pass.
 - Queue steer: just the rice move; strip waits for the picks.
+
+## Addendum 15 — HR-7 re-scoped: the REAL estate map (10 directions)
+
+Human verdicts on the seven map takes: A disliked · **C/D/E/F rejected and
+STRIPPED** (renderers + registry + helpers; dev.test ALTERNATES → [b, g]) ·
+**B & G held** (the only real 2D what-is-where navigation). New direction: a
+genuine ILLUSTRATED 2D estate map that grows per tier and changes with estate
+improvements — 10 candidate directions written up in
+`docs/plans/fable-2026-07-06-estate-real-map-options.md` (queued); the human
+picks 3, each to be built by a Fable-5 xhigh subagent (ADR-075). The Map tab
+also goes two-column (flavour card | map) as shared groundwork. verify green.

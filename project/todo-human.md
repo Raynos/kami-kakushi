@@ -33,6 +33,13 @@ _(none open)_
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `docs/plans/fable-2026-07-06-estate-real-map-options.md` — **the REAL
+  estate map — 10 candidate directions**: your map verdicts applied (C/D/E/F
+  stripped, B/G held), and 10 illustrated-map directions written up (ezu survey
+  plan · yamato-e clouds · sumi-e terrain · model board · tier sheets ·
+  cadastral · road panorama · the lantern map · kamon medallions · orihon
+  album), each with its evolution story (tier growth + estate improvements).
+  **Pick 3** → each gets a Fable-5 xhigh subagent build (ADR-075).
 - [ ] `docs/plans/fable-2026-07-06-story-quality-ladder.md` — the **story-quality
   umbrella plan**: your 19-answer decision pass recorded verbatim (§1 answer
   sheet — adopted vs rejected) + the forward phases (§2): Phase 1 = the
@@ -40,7 +47,7 @@ _(none open)_
   diverge bundles. **No ADR minted yet, per your call** — approve the plan and
   the ADR is pulled from §1, then Phase 1 starts.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
-  Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
+  Steel migration** (v0.3.6): **M1–M7 ALL BUILT 2026-07-06** — read for the record; what's left is your certification + variant picks (HR-2/5/6/7/9). Originally the full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
   Western fonts · cursor cut · re-theme all variants · straight-on-main). **7 build
   cards** M1 palette → M2 materials → M3 composition → M4 GBA cold-open → M5

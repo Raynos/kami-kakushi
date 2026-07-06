@@ -217,11 +217,16 @@ now" flavor panel split from a terse click-to-navigate map that hints nothing
 about the next zone). **Seven** working takes (**V5A–V5G**) ship behind the DEV
 toggle for a live pick; the agent self-picked a coherent prod default.
 
-- **Asking for:** which of V5A–V5G ships as the prod default (or a tune to one).
-- **How to look:** `pnpm run dev` → the **Map** tab → toggle "VARIANT · Estate
-  map" (V5A–V5G) in the DEV panel (top-right); the surface updates live. Use
-  `?dev=no` afterward to see your pick in the true player layout.
-- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
+- **Asking for:** ~~which of V5A–V5G ships~~ → **RE-SCOPED (human verdicts,
+  2026-07-06):** A disliked · **C/D/E/F REJECTED and stripped** (not map-like
+  enough / disorienting) · **B & G survive** as the only takes with real 2D
+  what-is-where navigation, held as interim candidates. The human's direction:
+  **a REAL illustrated 2D estate map** that grows per tier and changes with
+  estate improvements — 10 candidate directions are written up in
+  [`docs/plans/fable-2026-07-06-estate-real-map-options.md`](../../docs/plans/fable-2026-07-06-estate-real-map-options.md);
+  the human picks 3, each built by a Fable-5 xhigh subagent (ADR-075).
+  Also: the Map tab goes two-column (flavour card | map).
+- **Verdict:** _(pending — the 3-of-10 pick, then the live pick among the built takes)_
 
 > **UI-v2 note (M6, 2026-07-06):** ALL open variant surfaces (HR-2/5/6/7/9)
 > now render **Andon-Steel-native** — the M1 token flip re-skinned every

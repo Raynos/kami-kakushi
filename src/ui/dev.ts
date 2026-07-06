@@ -242,30 +242,6 @@ export const SURFACES: SurfaceDef[] = [
           'A 2D estate schematic laid out by distance from the kura; locked / undiscovered areas greyed; click a lit node.',
       },
       {
-        id: 'map-c',
-        label: 'C · lacquer location cards',
-        blurb:
-          'Each road onward a coloured lacquer card you click to walk — no destination preview, locked greyed.',
-      },
-      {
-        id: 'map-d',
-        label: 'D · 巻物 dōchūki scroll',
-        blurb:
-          'The estate as an unrolled scroll-ribbon; the ways onward are terse chips you click, locked greyed.',
-      },
-      {
-        id: 'map-e',
-        label: 'E · 方位 compass',
-        blurb:
-          'You at the hub, the roads onward set around you like a compass; click a spoke to walk.',
-      },
-      {
-        id: 'map-f',
-        label: 'F · 道 breadcrumb trail',
-        blurb:
-          'The trail from the kura to where you stand, then the forks onward as terse click targets.',
-      },
-      {
         id: 'map-g',
         label: 'G · 墨 ink node-graph',
         blurb:
@@ -1571,10 +1547,6 @@ interface MapNavCtx {
   gateReason: string;
 }
 
-/** Is stepping to this neighbour blocked by the conditioning ring right now? */
-function navGated(n: MapNode, ctx: MapNavCtx): boolean {
-  return n.dangerRing === true && !ctx.condOk;
-}
 /** Make `btn` a LIVE walk target — click walks there (reuse render.ts's move_to; no core change). */
 function linkMove(btn: HTMLButtonElement, id: string, ctx: MapNavCtx): void {
   btn.type = 'button';
@@ -1598,9 +1570,6 @@ function navTag(text: string, color: string): HTMLElement {
   t.style.cssText = `font-size:var(--fs-micro);color:${color};`;
   return t;
 }
-function navEmpty(): HTMLElement {
-  return el('div', 'skill-blurb', 'No road leads on from here.');
-}
 /** BFS shortest-hop distance of every revealed, reachable node from the kura (the spatial spine). */
 function mapDepths(revealed: ReadonlySet<string>): Map<string, number> {
   const depth = new Map<string, number>([['kura', 0]]);
@@ -1614,27 +1583,6 @@ function mapDepths(revealed: ReadonlySet<string>): Map<string, number> {
     }
   }
   return depth;
-}
-/** The BFS trail of node ids from the kura to `here` (the breadcrumb spine). */
-function pathToHere(here: string, revealed: ReadonlySet<string>): string[] {
-  const parent = new Map<string, string | null>([['kura', null]]);
-  const q: string[] = ['kura'];
-  while (q.length) {
-    const cur = q.shift()!;
-    for (const nb of reachableFrom(cur, revealed)) {
-      if (parent.has(nb.id)) continue;
-      parent.set(nb.id, cur);
-      q.push(nb.id);
-    }
-  }
-  if (!parent.has(here)) return [here];
-  const path: string[] = [];
-  let cur: string | null = here;
-  while (cur !== null) {
-    path.unshift(cur);
-    cur = parent.get(cur) ?? null;
-  }
-  return path;
 }
 
 function renderMapVariant(
@@ -1655,18 +1603,6 @@ function renderMapVariant(
   switch (variantId) {
     case 'map-b':
       renderMapSchematic(container, ctx);
-      return true;
-    case 'map-c':
-      renderMapCards(container, ctx);
-      return true;
-    case 'map-d':
-      renderMapScroll(container, ctx);
-      return true;
-    case 'map-e':
-      renderMapCompass(container, ctx);
-      return true;
-    case 'map-f':
-      renderMapTrail(container, ctx);
       return true;
     case 'map-g':
       renderMapGraph(container, ctx);
@@ -1766,265 +1702,6 @@ function renderMapSchematic(container: HTMLElement, ctx: MapNavCtx): void {
     board.append(colEl);
   }
   container.append(board);
-}
-
-// ── C · lacquer location cards — each road onward a coloured lacquer card; the WHOLE card is the
-//    click target (no separate button, no destination preview). Colour is a per-node accent, always
-//    backed by the label + kanji (never colour alone, §9); locked cards greyed with their reason. ──
-function renderMapCards(container: HTMLElement, ctx: MapNavCtx): void {
-  const wrap = el('div');
-  wrap.style.cssText = 'display:flex;flex-direction:column;gap:.45rem;';
-  const ACCENTS = ['var(--ai)', 'var(--rokusho)', 'var(--ochre)', 'var(--gold)', 'var(--ai-soft)'];
-  ctx.neighbours.forEach((n, i) => {
-    const gated = navGated(n, ctx);
-    const accent = n.dangerRing === true ? 'var(--beni)' : ACCENTS[i % ACCENTS.length]!;
-    const card = el('button');
-    card.style.cssText =
-      'text-align:left;display:flex;align-items:center;gap:.55rem;padding:.5rem .6rem;font:inherit;' +
-      'cursor:' +
-      (gated ? 'default' : 'pointer') +
-      ';border:1px solid var(--ink-faint);border-left:5px solid ' +
-      accent +
-      ';background:' +
-      (gated ? 'var(--washi-deep)' : 'var(--washi)') +
-      ';color:' +
-      (gated ? 'var(--ink-soft)' : 'var(--ink)') +
-      ';' +
-      (gated ? 'opacity:.7;' : '');
-    if (n.kanji) {
-      const k = el('span', undefined, n.kanji);
-      k.lang = 'ja';
-      k.style.cssText = `font-size:1.35rem;line-height:1;color:${accent};`;
-      card.append(k);
-    }
-    const body = el('div');
-    body.style.cssText = 'display:flex;flex-direction:column;gap:.05rem;flex:1;min-width:0;';
-    const nm = el('span', undefined, n.label.replace(/^The /, ''));
-    nm.style.fontWeight = '700';
-    body.append(nm);
-    body.append(
-      navTag(gated ? ctx.gateReason : 'walk here →', gated ? 'var(--shu-deep)' : 'var(--ink-soft)'),
-    );
-    card.append(body);
-    if (gated) linkLocked(card, n.id, ctx);
-    else linkMove(card, n.id, ctx);
-    wrap.append(card);
-  });
-  if (ctx.neighbours.length === 0) wrap.append(navEmpty());
-  container.append(wrap);
-}
-
-// ── D · 巻物 dōchūki — the estate as an unrolled SCROLL-ribbon (a horizontal band by distance from
-//    the kura); the current position marked, the ways onward terse chips you click, locked greyed,
-//    and a trailing "？" chip where the scroll runs into undiscovered ground. Hint-free. ──
-function renderMapScroll(container: HTMLElement, ctx: MapNavCtx): void {
-  const { here, revealed } = ctx;
-  const depth = mapDepths(revealed);
-  const ordered = [...depth.entries()].sort((a, b) => a[1] - b[1]).map(([id]) => id);
-  const isNb = (id: string): boolean => ctx.neighbours.some((n) => n.id === id);
-  const strip = el('div');
-  strip.style.cssText =
-    'display:flex;align-items:center;gap:.35rem;overflow-x:auto;padding:.5rem .3rem;' +
-    'border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);background:var(--washi);';
-  ordered.forEach((id, i) => {
-    if (i > 0) {
-      const sep = el('span', undefined, '━');
-      sep.style.color = 'var(--ink-faint)';
-      strip.append(sep);
-    }
-    const node = getNode(id);
-    const hereNode = id === here;
-    const nb = isNb(id);
-    const gated = nb && node.dangerRing === true && !ctx.condOk;
-    const live = nb && !gated;
-    const chip = el(live ? 'button' : 'div');
-    chip.style.cssText =
-      'flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.3rem .5rem;font:inherit;white-space:nowrap;' +
-      'border:' +
-      (hereNode ? '2px solid var(--gold)' : '1px solid var(--ink-faint)') +
-      ';background:' +
-      (hereNode || nb ? 'var(--washi-shade)' : 'var(--washi-deep)') +
-      ';color:' +
-      (hereNode || nb ? 'var(--ink)' : 'var(--ink-soft)') +
-      ';cursor:' +
-      (live ? 'pointer' : 'default') +
-      ';' +
-      (hereNode || nb ? '' : 'opacity:.7;');
-    if (node.kanji) {
-      const k = el('span', undefined, node.kanji);
-      k.lang = 'ja';
-      k.style.fontSize = '1.2rem';
-      chip.append(k);
-    }
-    chip.append(el('span', undefined, node.label.replace(/^The /, '')));
-    if (hereNode) {
-      chip.dataset.here = '1';
-      chip.append(navTag('現在地', 'var(--gold)'));
-    } else if (gated) {
-      linkLocked(chip, id, ctx);
-      chip.append(navTag('険 locked', 'var(--shu-deep)'));
-    } else if (live) {
-      linkMove(chip as HTMLButtonElement, id, ctx);
-      chip.append(navTag('walk →', 'var(--ink-soft)'));
-    } else {
-      chip.dataset.node = id;
-    }
-    strip.append(chip);
-  });
-  const hasFog = ordered.some((id) =>
-    getNode(id).neighbors.some((nb) => !depth.has(nb) && !canMove(id, nb, revealed)),
-  );
-  if (hasFog) {
-    const sep = el('span', undefined, '━');
-    sep.style.color = 'var(--ink-faint)';
-    const sil = el('div');
-    sil.dataset.locked = '1';
-    sil.setAttribute('aria-disabled', 'true');
-    sil.style.cssText =
-      'flex:0 0 auto;display:flex;align-items:center;gap:.2rem;padding:.3rem .5rem;white-space:nowrap;' +
-      'border:1px dashed var(--ink-faint);color:var(--ink-faint);opacity:.6;';
-    const q = el('span', undefined, '？');
-    q.lang = 'ja';
-    sil.append(q, document.createTextNode(' unexplored'));
-    strip.append(sep, sil);
-  }
-  container.append(strip);
-}
-
-// ── E · 方位 compass — you at the hub, the roads onward set around you like a compass rose (N/E/S/W
-//    then corners). Click a spoke to walk it; locked spokes greyed. Terse — direction + name only. ──
-function renderMapCompass(container: HTMLElement, ctx: MapNavCtx): void {
-  const grid = el('div');
-  grid.style.cssText =
-    'display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,minmax(3rem,auto));gap:.4rem;' +
-    'border:2px solid var(--ink);background:var(--washi-shade);padding:.6rem;';
-  const SLOTS = [1, 5, 7, 3, 0, 2, 6, 8]; // N, E, S, W, then the four corners — the ring around the hub
-  const DIR: Record<number, string> = { 1: '北', 5: '東', 7: '南', 3: '西' };
-  const place = (elm: HTMLElement, slot: number): void => {
-    elm.style.gridColumn = String((slot % 3) + 1);
-    elm.style.gridRow = String(Math.floor(slot / 3) + 1);
-  };
-  const hereNode = getNode(ctx.here);
-  const hub = el('div');
-  hub.dataset.here = '1';
-  hub.style.cssText =
-    'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem;padding:.3rem;' +
-    'border:2px solid var(--gold);background:var(--washi);color:var(--ink);';
-  place(hub, 4);
-  if (hereNode.kanji) {
-    const k = el('span', undefined, hereNode.kanji);
-    k.lang = 'ja';
-    k.style.fontSize = '1.3rem';
-    hub.append(k);
-  }
-  hub.append(el('span', undefined, hereNode.label.replace(/^The /, '')));
-  hub.append(navTag('you are here', 'var(--gold)'));
-  grid.append(hub);
-  ctx.neighbours.forEach((n, i) => {
-    const slot = SLOTS[i % SLOTS.length]!;
-    const gated = navGated(n, ctx);
-    const cell = el(gated ? 'div' : 'button');
-    cell.style.cssText =
-      'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.05rem;padding:.3rem;font:inherit;' +
-      'cursor:' +
-      (gated ? 'default' : 'pointer') +
-      ';border:1px solid ' +
-      (n.dangerRing === true ? 'var(--beni)' : 'var(--ink-faint)') +
-      ';background:' +
-      (gated ? 'var(--washi-deep)' : 'var(--washi)') +
-      ';color:' +
-      (gated ? 'var(--ink-soft)' : 'var(--ink)') +
-      ';' +
-      (gated ? 'opacity:.7;' : '');
-    place(cell, slot);
-    const dir = DIR[slot];
-    if (dir) {
-      const d = el('span', undefined, dir);
-      d.lang = 'ja';
-      d.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-faint);';
-      cell.append(d);
-    }
-    if (n.kanji) {
-      const k = el('span', undefined, n.kanji);
-      k.lang = 'ja';
-      k.style.fontSize = '1.2rem';
-      cell.append(k);
-    }
-    cell.append(el('span', undefined, n.label.replace(/^The /, '')));
-    cell.append(
-      navTag(gated ? '険 locked' : 'walk →', gated ? 'var(--shu-deep)' : 'var(--ink-soft)'),
-    );
-    if (gated) linkLocked(cell, n.id, ctx);
-    else linkMove(cell as HTMLButtonElement, n.id, ctx);
-    grid.append(cell);
-  });
-  container.append(grid);
-}
-
-// ── F · 道 breadcrumb trail — the trail from the kura to where you stand (read-only waypoints, the
-//    current one marked), then the forks onward as terse click targets; locked forks greyed. ──
-function renderMapTrail(container: HTMLElement, ctx: MapNavCtx): void {
-  const wrap = el('div');
-  wrap.style.cssText =
-    'border:1px solid var(--ink);background:var(--washi);padding:.5rem .6rem;display:flex;flex-direction:column;gap:.5rem;';
-  const trail = el('div');
-  trail.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:.3rem;';
-  const path = pathToHere(ctx.here, ctx.revealed);
-  path.forEach((id, i) => {
-    if (i > 0) {
-      const s = el('span', undefined, '›');
-      s.style.color = 'var(--ink-faint)';
-      trail.append(s);
-    }
-    const node = getNode(id);
-    const hereNode = id === ctx.here;
-    const crumb = el(
-      'span',
-      undefined,
-      (node.kanji ? node.kanji + ' ' : '') + node.label.replace(/^The /, ''),
-    );
-    crumb.style.cssText = `font-weight:${hereNode ? '700' : '400'};color:${hereNode ? 'var(--ink)' : 'var(--ink-soft)'};`;
-    if (hereNode) crumb.dataset.here = '1';
-    trail.append(crumb);
-  });
-  wrap.append(trail);
-  const forks = el('div');
-  forks.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;';
-  const lead = el('span', undefined, 'onward');
-  lead.style.cssText = 'color:var(--ink-faint);font-size:var(--fs-micro);';
-  forks.append(lead);
-  ctx.neighbours.forEach((n) => {
-    const gated = navGated(n, ctx);
-    const b = el(gated ? 'div' : 'button');
-    b.style.cssText =
-      'display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .5rem;font:inherit;' +
-      'cursor:' +
-      (gated ? 'default' : 'pointer') +
-      ';border:1px solid ' +
-      (n.dangerRing === true ? 'var(--beni)' : 'var(--ink-faint)') +
-      ';background:' +
-      (gated ? 'var(--washi-deep)' : 'var(--washi-shade)') +
-      ';color:' +
-      (gated ? 'var(--ink-soft)' : 'var(--ink)') +
-      ';' +
-      (gated ? 'opacity:.7;' : '');
-    b.append(document.createTextNode('› ' + n.label.replace(/^The /, '') + ' '));
-    if (n.kanji) {
-      const k = el('span', undefined, n.kanji);
-      k.lang = 'ja';
-      b.append(k);
-    }
-    if (gated) {
-      b.append(navTag(ctx.gateReason, 'var(--shu-deep)'));
-      linkLocked(b, n.id, ctx);
-    } else {
-      linkMove(b as HTMLButtonElement, n.id, ctx);
-    }
-    forks.append(b);
-  });
-  if (ctx.neighbours.length === 0) forks.append(navEmpty());
-  wrap.append(forks);
-  container.append(wrap);
 }
 
 // ── G · 墨 ink node-graph — a brushed SVG graph of the revealed estate: sumi edges between adjacent

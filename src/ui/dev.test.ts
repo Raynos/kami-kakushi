@@ -237,7 +237,9 @@ describe('renderer variant routing — Estate map (F102 / D-115 — terse, hint-
     expect(navOf().querySelector('.map-move')).not.toBeNull(); // the terse paths list
   });
 
-  const ALTERNATES = ['map-b', 'map-c', 'map-d', 'map-e', 'map-f', 'map-g'] as const;
+  // HR-7 verdicts (human, 2026-07-06): C/D/E/F stripped (ADR-075 zero flag-debt);
+  // B & G survive as the 2D-nav candidates while the real-map diverge builds.
+  const ALTERNATES = ['map-b', 'map-g'] as const;
 
   for (const vid of ALTERNATES) {
     describe(`variant ${vid}`, () => {
