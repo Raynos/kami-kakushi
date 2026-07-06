@@ -97,3 +97,9 @@ per worker, swapping state via `__qa.loadFixture`/`newGame` per test —
 read-only invariants on wholesale-rebuilt state, so nothing can leak.
 Journeys/persistence keep cold boots (deep mutation / storage isolation).
 Wall floor is now the cold-open journey (~7.5s, deliberately real-paced).
+
+## Checkpoint (2026-07-06, appended)
+
+Session close: snapshot brought current (s88 bullet — lane DONE, 25s, H23/H24,
+the TODO-ownership gate); reading queue untouched this session (no items
+engaged, none removed). Pushed to origin/main.

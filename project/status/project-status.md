@@ -46,12 +46,12 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   F4 sim (D-132) · F5 narrative · F6 saves · F7 cockpit (D-134) · F9 `/ship`
   (tagged, fast/bounded; shipped v0.3.6+v0.3.7) · F10 taste two-pass
   (D-135) · F8 telemetry (D-136). **THE F1–F10 PROCESS WAVE IS COMPLETE.**
-- **✅ H19/H20 CLOSED (2026-07-04):** H20→B (freshness WARN soft). **H19→D-133:**
-  Phase 2 ≈ Phase 1 → hard `verify:balance` ratio gate `[0.8, 1.2]`; stopgap
-  hotfix shipped (greedy Phase 2 0.94:1). Real **Phase-2 redesign** human-PARKED
-  in [`project/BACKLOG.md`](../BACKLOG.md) (2026-07-05) — direction calls pending.
-- **✅ s86 context audit (Fable):** scaffolding healthy, drift fixed; hardening
-  plan PROPOSED (`fable-2026-07-05-context-hardening.md`) · H21/H22 closed → A.
+- **✅ H19/H20 CLOSED:** H20→B (soft WARN) · H19→D-133 (ratio gate `[0.8,1.2]`,
+  stopgap 0.94:1); real **Phase-2 redesign** human-PARKED in `BACKLOG.md`.
+- **✅ s86 context audit (Fable):** healthy, drift fixed; hardening plan
+  PROPOSED (`fable-2026-07-05-context-hardening.md`) · H21/H22 closed → A.
+- **✅ s88 desktop-journey e2e DONE (archived):** 3-project browser lane (desktop
+  · journeys · persistence · ratchet), CI green, 25s · **H23/H24** · TODO gate.
 
 ## Waiting on the human
 
