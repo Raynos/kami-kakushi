@@ -2041,7 +2041,9 @@ export function mountDevPanel(
   // New-game footer stays pinned no matter how far the variants scroll.
   panel.style.cssText =
     // FB-119 — widened 16rem → 24rem so the FB-6 Scenarios tab (long fixture names) isn't clipped.
-    'position:fixed;bottom:.5rem;right:.5rem;z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
+    // F136 — bottom .25rem matches the footer's --space-1 padding, so the collapsed
+    // DEV chip bottom-aligns with the Settings button beside it.
+    'position:fixed;bottom:.25rem;right:.5rem;z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
     'display:flex;flex-direction:column;overflow:hidden;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
     'border:1px solid #b08d4f;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.45);';
@@ -2197,44 +2199,18 @@ export function mountDevPanel(
   }
   markSpeed(1); // the game starts at 1×
 
-  // UI-v2 — TEMPORARY migration toggles, ONE section so the human finds them all
-  // in one place (human, 2026-07-06). Every pending-compare toggle of the Andon
-  // Steel migration lands in this section; the whole section dies when the
-  // migration's forks are resolved.
+  // UI-v2 — TEMPORARY migration toggles, ONE section pinned to the top of Settings
+  // so the human finds every pending compare in one place (human, 2026-07-06).
+  // Every pending-compare toggle of the Andon Steel migration lands here; a
+  // resolved compare leaves only its lock note, and the section dies when the
+  // migration's forks are all resolved.
+  // Resolved so far: attr palette → 'temper' (LOCKED 2026-07-06; the alternates +
+  // the data-attr-palette toggle died with the lock — ADR-075 zero flag-debt).
   const uiV2 = section('UI-v2 (temp toggles)');
-  // pin the section to the TOP of the Settings pane — it's the live review focus.
   if (uiV2.parentElement) settingsPane.prepend(uiV2.parentElement);
-  const palLabel = el('span', undefined, 'attr palette:');
-  palLabel.style.cssText = 'color:#e7d9bc;opacity:.7;align-self:center;';
-  uiV2.append(palLabel);
-  // Attr palette: the 3-metal collapse (prod default) vs the 5-voice ramp, swapped
-  // live via data-attr-palette on <html> (the CSS override block in styles.css).
-  const attrPal = uiV2;
-  const palBtns = new Map<string, HTMLButtonElement>();
-  const markPal = (active: string): void => {
-    for (const [id, b] of palBtns) {
-      const on = id === active;
-      b.style.background = on ? '#b08d4f' : '#3a322a';
-      b.style.color = on ? '#1c1814' : '#e7d9bc';
-      b.style.fontWeight = on ? '700' : 'normal';
-    }
-  };
-  const setPal = (id: string): void => {
-    if (id === 'metal') delete document.documentElement.dataset.attrPalette;
-    else document.documentElement.dataset.attrPalette = id;
-    markPal(id);
-  };
-  for (const [id, label] of [
-    ['metal', '3-metal (default)'],
-    ['temper', '5-temper oxides'],
-    ['noble', '5-noble metals'],
-    ['voices', '5-voice ramp'],
-  ] as const) {
-    const b = mono(label, () => setPal(id));
-    palBtns.set(id, b);
-    attrPal.append(b);
-  }
-  markPal(document.documentElement.dataset.attrPalette === 'voices' ? 'voices' : 'metal');
+  const uiV2Note = el('span', undefined, 'attr palette: temper ✓ locked · no open compares');
+  uiV2Note.style.cssText = 'color:#e7d9bc;opacity:.6;align-self:center;';
+  uiV2.append(uiV2Note);
 
   // teleports
   const jump = section('Jump');

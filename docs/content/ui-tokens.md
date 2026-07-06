@@ -52,14 +52,29 @@
   --rokusho: #99a2bf;
   --murasaki: #e7ecff; /* the lord's voice (D-110) — dignified silver-hi */
 
-  /* ── ATTRIBUTE pigments — the 3-metal collapse (Appendix A default).
-     The 5-voice ramp alternative lives on [data-attr-palette='voices'] below,
-     DEV-toggleable for a live compare. Kanji live in ATTR_META (src/core). ── */
-  --attr-str: #bf3b25; /* 力 — vermillion (danger/commit)  */
-  --attr-agi: #99a2bf; /* 敏 — silver-dim                  */
-  --attr-int: #cdd6ee; /* 智 — silver                      */
-  --attr-spd: #99a2bf; /* 速 — silver-dim                  */
-  --attr-luck: #d8b978; /* 運 — gold                        */
+  /* ── ATTRIBUTE pigments — the 5-METAL "temper" set (F131, human-LOCKED
+     2026-07-06): the 3-metal THEME holds, but the five attrs carry distinct
+     accents (Dwell +INT vs Shake +SPD were near-identical under the collapse).
+     Steel temper-oxide colours — what tempered steel actually turns.
+     Kanji live in ATTR_META (src/core). ── */
+  --attr-str: #c0875f; /* 力 bronze        */
+  --attr-agi: #93c5c5; /* 敏 pale-quench   */
+  --attr-int: #b193c9; /* 智 temper-purple */
+  --attr-spd: #8fb6d9; /* 速 temper-blue   */
+  --attr-luck: #d8b978; /* 運 straw-gold    */
+
+  /* ── VOICES — per-speaker prose colours on steel (F128): dark-tuned,
+     distinct per character; the log voice-* classes + the VN VOICE_COLOR map
+     (render.ts) consume these. Player reads BRIGHT (your words pop), narrator
+     stays muted. ── */
+  --v-narrator: #9aa4c4;
+  --v-player: #e3ecff;
+  --v-physician: #8fbfc4;
+  --v-steward: #c9975c; /* FB-143 — drier ochre, clear of the gold-hi CTA */
+  --v-arms: #cf9a86;
+  --v-official: #b79ad0;
+  --v-villager: #a9c391;
+  --v-lord: #c9b8ea; /* wisteria — dignified, distinct from the official violet */
 
   /* ── semantic aliases (role beats hue) ──────────────────────────────── */
   --bg: var(--washi);

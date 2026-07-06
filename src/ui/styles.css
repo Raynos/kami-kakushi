@@ -50,14 +50,29 @@
   --rokusho: #99a2bf;
   --murasaki: #e7ecff; /* the lord's voice (D-110) — dignified silver-hi */
 
-  /* ── ATTRIBUTE pigments — the 3-metal collapse (Appendix A default).
-     The 5-voice ramp alternative lives on [data-attr-palette='voices'] below,
-     DEV-toggleable for a live compare. Kanji live in ATTR_META (src/core). ── */
-  --attr-str: #bf3b25; /* 力 — vermillion (danger/commit)  */
-  --attr-agi: #99a2bf; /* 敏 — silver-dim                  */
-  --attr-int: #cdd6ee; /* 智 — silver                      */
-  --attr-spd: #99a2bf; /* 速 — silver-dim                  */
-  --attr-luck: #d8b978; /* 運 — gold                        */
+  /* ── ATTRIBUTE pigments — the 5-METAL "temper" set (F131, human-LOCKED
+     2026-07-06): the 3-metal THEME holds, but the five attrs carry distinct
+     accents (Dwell +INT vs Shake +SPD were near-identical under the collapse).
+     Steel temper-oxide colours — what tempered steel actually turns.
+     Kanji live in ATTR_META (src/core). ── */
+  --attr-str: #c0875f; /* 力 bronze        */
+  --attr-agi: #93c5c5; /* 敏 pale-quench   */
+  --attr-int: #b193c9; /* 智 temper-purple */
+  --attr-spd: #8fb6d9; /* 速 temper-blue   */
+  --attr-luck: #d8b978; /* 運 straw-gold    */
+
+  /* ── VOICES — per-speaker prose colours on steel (F128): dark-tuned,
+     distinct per character; the log voice-* classes + the VN VOICE_COLOR map
+     (render.ts) consume these. Player reads BRIGHT (your words pop), narrator
+     stays muted. ── */
+  --v-narrator: #9aa4c4;
+  --v-player: #e3ecff;
+  --v-physician: #8fbfc4;
+  --v-steward: #c9975c; /* FB-143 — drier ochre, clear of the gold-hi CTA */
+  --v-arms: #cf9a86;
+  --v-official: #b79ad0;
+  --v-villager: #a9c391;
+  --v-lord: #c9b8ea; /* wisteria — dignified, distinct from the official violet */
 
   /* ── semantic aliases (role beats hue) ──────────────────────────────── */
   --bg: var(--washi);
@@ -123,35 +138,9 @@
   --dur-beat: 620ms;
 }
 
-/* ── attribute-palette candidates — DEV compare via data-attr-palette on <html>.
-   Human steer (2026-07-06): the 3-metal THEME wins, but the five attrs need a
-   distinct "5-metal" accent set (intro perk buttons read too similar under the
-   collapse). Two metal-true candidates + the demo voice ramp as reference; the
-   pick graduates into :root and these blocks die. */
-:root[data-attr-palette='temper'] {
-  /* steel temper-oxide colours — straw → bronze → purple → blue → pale (in-fiction:
-     what tempered steel actually turns) */
-  --attr-str: #c0875f; /* 力 bronze  */
-  --attr-agi: #93c5c5; /* 敏 pale-quench */
-  --attr-int: #b193c9; /* 智 temper-purple */
-  --attr-spd: #8fb6d9; /* 速 temper-blue */
-  --attr-luck: #d8b978; /* 運 straw-gold */
-}
-:root[data-attr-palette='noble'] {
-  /* noble metals — copper · verdigris · silver · steel-blue · gold */
-  --attr-str: #d08b6d; /* 力 copper */
-  --attr-agi: #94bfa4; /* 敏 verdigris */
-  --attr-int: #cdd6ee; /* 智 silver */
-  --attr-spd: #9ab0cc; /* 速 steel-blue */
-  --attr-luck: #d8b978; /* 運 gold */
-}
-:root[data-attr-palette='voices'] {
-  --attr-str: #cf9a86; /* 力 rust  */
-  --attr-agi: #a9c391; /* 敏 sage  */
-  --attr-int: #b79ad0; /* 智 violet */
-  --attr-spd: #8fbfc4; /* 速 teal  */
-  --attr-luck: #d3b681; /* 運 amber */
-}
+/* (The attr-palette compare alternates lived here through the M1 review; the
+   human LOCKED 'temper' 2026-07-06 — the :root values above ARE the pick, and
+   the [data-attr-palette] override blocks died with the lock, ADR-075 style.) */
 
 * {
   box-sizing: border-box;
@@ -239,12 +228,12 @@ h3 {
   opacity: 0.5;
 }
 
-/* ── ink-brush divider ──────────────────────────────────────────────────── */
+/* ── divider — a quiet gold hairline (was the ink-brush stroke; F130: the ink   gradient flipped BRIGHT when the ramp inverted — steel dividers stay faint) ── */
 .brush-rule {
-  height: 5px;
+  height: 2px;
   border: 0;
   margin: var(--space-6) 0;
-  background: linear-gradient(90deg, var(--ink), var(--ink-soft));
+  background: linear-gradient(90deg, var(--key-dim), var(--key), var(--key-dim));
   -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
@@ -742,26 +731,50 @@ h3 {
    F23 quote-detection stopgap (kept as the fallback for lines with no voice). These
    sit AFTER `.log-line.narration` so, at equal specificity, the voice wins. */
 .log-line.voice-narrator {
-  color: var(--ink-soft);
+  color: var(--v-narrator);
 }
 .log-line.voice-player {
-  color: var(--rokusho);
+  color: var(--v-player);
   font-weight: 600;
 }
 .log-line.voice-physician {
-  color: var(--ai);
+  color: var(--v-physician);
 }
 .log-line.voice-steward {
-  color: var(--ochre);
+  color: var(--v-steward);
 }
 .log-line.voice-arms {
-  color: var(--beni);
+  color: var(--v-arms);
 }
 .log-line.voice-official {
-  color: var(--kihada);
+  color: var(--v-official);
 }
 .log-line.voice-villager {
-  color: var(--gold);
+  color: var(--v-villager);
+}
+.log-line.voice-lord {
+  color: var(--v-lord);
+}
+/* F127 — chat grouping kicker: a quiet inline rule opening each conversation
+   ("— with Sōan —") whenever the interlocutor changes, so chats with different
+   people never read as one context-less feed. Lives INSIDE the first line of
+   the group (reconcile-safe), managed via data-kicker in render.ts. */
+.chat-kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin: var(--space-2) 0 var(--space-1);
+}
+.chat-kicker::before,
+.chat-kicker::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--silver-faint);
 }
 .log-line.reward {
   color: var(--ink);
@@ -992,8 +1005,11 @@ h3 {
   opacity: 0.7;
 }
 .verb.primary {
-  border-color: var(--shu);
-  box-shadow: inset 0 0 0 1px var(--shu);
+  /* F133 steel language: the suggested action is a GOLD keyline (value/CTA);
+     vermillion retreats to genuine commit/danger only (the locked cursor-cut
+     decision). M2's button recipes formalize the danger treatment. */
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px var(--key);
 }
 
 /* ── the interactive intro — the full-screen VN scene (D-104 / F43–F48; F62 two-column) ──────
@@ -1241,8 +1257,18 @@ h3 {
 /* the speaker-name prefix on any voiced scrollback line ("Sōan: " / "Genemon: " / "You: " — F88).
    It inherits its line's voice colour, so the NAME (primary "who") is reinforced by the colour. */
 .vn-speaker {
-  font-weight: 600;
-  opacity: 0.85;
+  /* F134 — the name prefix is the primary who's-talking signal: full-weight
+     bold, in the line's voice colour (FB-141 — the surrounding narration is
+     neutral; name + speech carry the voice). */
+  font-weight: 700;
+  opacity: 1;
+  color: var(--voice, inherit);
+}
+/* FB-141 — only what the character SAYS carries the voice colour; the in-line
+   stage narration stays neutral ink. The typewriter writes through the same
+   segmenter (writeVnSlice), so speech colours as it types. */
+.vn-speech {
+  color: var(--voice, inherit);
 }
 
 /* ── F47 the ask HUB (exploration) vs the DECISION (commitment) — two distinct reads ──
@@ -1272,9 +1298,10 @@ h3 {
   appearance: none;
   text-align: left;
   font: inherit;
-  color: var(--ink-soft);
+  /* FB-142 — these ARE your words-to-be: same colour as the rendered player line */
+  color: var(--v-player);
   background: transparent;
-  border: 1px solid #7a6c5955;
+  border: 1px solid var(--silver-faint);
   border-radius: var(--radius-sm, 3px);
   padding: var(--space-2) var(--space-3);
   cursor: pointer;
@@ -2006,7 +2033,7 @@ html {
 .modal-card {
   position: relative;
   background: var(--surface);
-  max-width: 56ch;
+  max-width: 62ch; /* F140 — wide enough that the About build line never wraps */
   width: 100%;
   max-height: 92vh;
   overflow-y: auto;
@@ -2016,8 +2043,9 @@ html {
 }
 .modal-close {
   position: absolute;
-  top: var(--space-2);
-  right: var(--space-3);
+  /* F139 — breathe: the × sits clear of the card's keylines, not against them */
+  top: var(--space-4);
+  right: var(--space-4);
   width: var(--tap-min); /* a11y touch target (was 2.25rem = 36px) */
   height: var(--tap-min);
   display: grid;
@@ -2136,9 +2164,12 @@ html {
   resize: vertical;
 }
 .modal-meta {
-  font-size: var(--fs-small);
+  /* F140 — the About footer is compact METADATA, not reading prose: micro
+     type, near-zero leading, so the whole block reads as one quiet colophon. */
+  font-size: var(--fs-micro);
   color: var(--ink-faint);
-  margin: var(--space-1) 0;
+  margin: 0.15rem 0;
+  line-height: 1.45;
 }
 /* F105 — the About modal's CHANGELOG deep-link (opens the raw file on GitHub in a new tab). */
 .modal-link {

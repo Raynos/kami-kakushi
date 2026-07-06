@@ -59,3 +59,23 @@ playtest; attr-colors: **both** treatments built behind a DEV toggle.
   (noble metals) — plus the demo 5-voice ramp as reference; pick pending.
 - Inbox drain (M1 feedback) in flight: 14 captures pending, first batch of 5
   reproduced; proposals presented to the human next.
+
+## Addendum 2 — M1 inbox drain (FB-127…FB-143)
+
+Drained all 17 captures from the human's M1 review sessions (three session
+files; human approved the full batch + two live round-2 steers):
+
+- FB-127 chat `— with <name> —` grouping kickers · FB-128/129/135 per-character
+  `--v-*` voice ramp · FB-130 divider → gold hairline · **FB-131 attr palette →
+  5-temper-oxides, human-LOCKED** (alternates + toggle stripped, ADR-075) ·
+  FB-132 decision prompt → gold CTA · FB-133 `.verb.primary` vermillion → gold ·
+  FB-134 bold speaker prefixes · FB-136 DEV chip/footer alignment · FB-137
+  attr-tinted ±stat lines · FB-139/140 About-modal polish · FB-141 voice colour
+  scoped to SPOKEN words only (`writeVnSlice` segmenter) · FB-142 ask buttons →
+  player colour · FB-143 steward ochre vs gold-hi CTA separation.
+- FB-138 (rake → Now) — could NOT reproduce: works live; the 15s fleeting TTL
+  (FB-115) explains the empty-tab observation. No change.
+- "Buttons broken" report — could not reproduce headlessly (fresh-load DEV
+  New-game + cold-open CTA both work, zero console errors); stale HMR tab or
+  armed pick-mode overlay suspected; human resumed playing after.
+- All three sessions archived; F-log: `project/human-feedback/2026-07-06-playtest.md`.

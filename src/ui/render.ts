@@ -156,14 +156,16 @@ const COLD_OPEN_LEDE =
 // `'steward'` ochre. These maps are exhaustive over the core `VoiceCategory` union, so `lord`
 // must carry a key in BOTH (a missing key is a tsc error — the compile-time guarantee).
 const VOICE_COLOR: Record<VoiceCategory, string> = {
-  narrator: 'var(--ink-soft)',
-  player: 'var(--rokusho)',
-  physician: 'var(--ai)',
-  steward: 'var(--ochre)',
-  arms: 'var(--beni)',
-  official: 'var(--kihada)',
-  villager: 'var(--gold)',
-  lord: 'var(--murasaki)',
+  // FB-128 — first-class per-speaker voice tokens (--v-*, styles.css :root — F128): the
+  // M1 pigment collapse had merged the cast into near-identical silvers/golds.
+  narrator: 'var(--v-narrator)',
+  player: 'var(--v-player)',
+  physician: 'var(--v-physician)',
+  steward: 'var(--v-steward)',
+  arms: 'var(--v-arms)',
+  official: 'var(--v-official)',
+  villager: 'var(--v-villager)',
+  lord: 'var(--v-lord)',
 };
 // Attribute → its themed pigment (the five traditional colours in styles.css `:root`). An intro
 // decision + the perk it grants are tinted by the attribute the choice boosts (+1), so a pick reads
@@ -1031,6 +1033,10 @@ export function mount(
   let coldOpenRevealStarted = false;
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
+  // F127 — the interlocutor of the last-painted CHAT line: a chat line whose
+  // partner differs opens a new conversation group (a "— with X —" kicker inside
+  // that line). Render-sequence state only; reset on filter switch / log reset.
+  let lastChatPartner: string | null = null;
   let logFilter: LogFilter = 'story';
   // FB-20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
@@ -2019,6 +2025,34 @@ export function mount(
     if (introBlockIndex >= introBlockNodes.length - 1) introFinishBlock();
     else scheduleIntroAutoAdvance(advanceMs); // FB-86 auto-advance; FB-118 shorter beat after a click
   }
+  // FB-141 — voice colour scopes to the SPOKEN words only: a VN line's quoted
+  // segments render as .vn-speech spans (coloured by the line's --voice), the
+  // in-line narration stays neutral ink. The typewriter writes through the same
+  // segmenter so speech is coloured AS it types, no completion pop.
+  function vnSegments(text: string): { text: string; speech: boolean }[] {
+    const re = /"[^"]*"|[“][^”]*[”]/g;
+    const segs: { text: string; speech: boolean }[] = [];
+    let last = 0;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > last) segs.push({ text: text.slice(last, m.index), speech: false });
+      segs.push({ text: m[0], speech: true });
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) segs.push({ text: text.slice(last), speech: false });
+    return segs;
+  }
+  function writeVnSlice(span: HTMLElement, text: string, upTo: number): void {
+    span.textContent = '';
+    let pos = 0;
+    for (const seg of vnSegments(text)) {
+      if (pos >= upTo) break;
+      const take = seg.text.slice(0, Math.max(0, upTo - pos));
+      if (seg.speech) span.append(el('span', 'vn-speech', take));
+      else span.append(document.createTextNode(take));
+      pos += seg.text.length;
+    }
+  }
   function introStartLine(index: number): void {
     introBlockIndex = index;
     introScrollToBottom();
@@ -2029,7 +2063,7 @@ export function mount(
     }
     if (QA_INSTANT_TEXT) {
       // one step, no per-char timers (setTimeout(0) still clamps to ~4ms/char)
-      node.span.textContent = node.text;
+      writeVnSlice(node.span, node.text, node.text.length);
       introLineComplete();
       return;
     }
@@ -2038,7 +2072,7 @@ export function mount(
     const step = (): void => {
       introTypeTimer = undefined;
       i += 1;
-      node.span.textContent = node.text.slice(0, i);
+      writeVnSlice(node.span, node.text, i);
       introScrollToBottom(); // FB-84 — stick to the bottom as each char lands
       if (i < node.text.length) introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
       else introLineComplete();
@@ -2052,7 +2086,7 @@ export function mount(
       window.clearTimeout(introTypeTimer);
       introTypeTimer = undefined;
     }
-    for (const n of introBlockNodes) n.span.textContent = n.text;
+    for (const n of introBlockNodes) writeVnSlice(n.span, n.text, n.text.length);
     introFinishBlock();
   }
   // A click on the scene SPEEDS UP the auto-advancing typewriter (FB-86) — it never pauses it.
@@ -2067,7 +2101,7 @@ export function mount(
         introTypeTimer = undefined;
       }
       const node = introBlockNodes[introBlockIndex];
-      if (node) node.span.textContent = node.text;
+      if (node) writeVnSlice(node.span, node.text, node.text.length);
       introLineComplete(INTRO_CLICK_ADVANCE_MS); // FB-118 — click-through: snappy beat, not the 2s hold
     } else if (introBlockIndex < introBlockNodes.length - 1) {
       if (introAdvanceTimer !== undefined) {
@@ -2086,7 +2120,12 @@ export function mount(
     const nodes: { span: HTMLElement; text: string }[] = [];
     for (const e of entries) {
       const p = el('p', `vn-line${e.prompt ? ' vn-prompt-line' : ''}`);
-      p.style.color = VOICE_COLOR[e.voice]; // the speaker's on-palette voice colour (FB-26 idiom)
+      // FB-141 — the voice colour rides a per-line --voice custom property and lands
+      // only on the SPOKEN segments (.vn-speech) + the name prefix; in-line narration
+      // stays neutral ink. A decision PROMPT is the scene's call to action and reads
+      // BRIGHT GOLD whole-line (F132/FB-143 — gold-hi, clear of the steward amber).
+      if (e.prompt) p.style.color = 'var(--gold-hi)';
+      else p.style.setProperty('--voice', VOICE_COLOR[e.voice]);
       // FB-88/FB-50 — EVERY voiced line carries its speaker-name prefix ("Sōan: " / "Genemon: " / "You: "),
       // not just the player's: the NAME is the primary "who's talking" signal, colour only reinforces
       // it. The narrator/decision-prompt line has no speaker ⇒ no prefix. The name paints instantly;
@@ -2096,7 +2135,8 @@ export function mount(
       p.append(span);
       introStoryLinesEl?.append(p);
       introRenderedKeys.add(e.key);
-      if (instant) span.textContent = e.text;
+      if (instant)
+        writeVnSlice(span, e.text, e.text.length); // FB-141 — speech-scoped colour
       else nodes.push({ span, text: e.text });
     }
     introScrollToBottom();
@@ -3454,8 +3494,47 @@ export function mount(
     box.append(el('div', 'perk-tag', 'Perk unlocked'));
     box.append(el('div', 'perk-name', perk.name));
     box.append(el('div', 'perk-desc', perk.desc));
-    box.append(el('div', 'perk-stat', perk.mechanics));
+    box.append(buildStatLine(perk.mechanics));
     line.append(box);
+  }
+  // F137 — tint each "±N ATTR" token in a mechanics string with its attribute
+  // pigment (the 5-metal set), so a stat delta reads as belonging to its stat.
+  function buildStatLine(mechanics: string): HTMLElement {
+    const out = el('div', 'perk-stat');
+    const re = /([+\-−]\d+\s+)(STR|AGI|INT|SPD|LUCK)/g;
+    let idx = 0;
+    for (const m of mechanics.matchAll(re)) {
+      if (m.index > idx) out.append(document.createTextNode(mechanics.slice(idx, m.index)));
+      const tok = el('span', 'stat-attr', `${m[1]}${m[2]}`);
+      tok.style.color = ATTR_COLOR[m[2]!.toLowerCase() as AttrId];
+      out.append(tok);
+      idx = m.index + m[0].length;
+    }
+    if (idx < mechanics.length) out.append(document.createTextNode(mechanics.slice(idx)));
+    return out;
+  }
+  // F127 — a chat line that OPENS a conversation group (new NPC interlocutor)
+  // marks itself with data-kicker; the kicker div renders inside the line, so the
+  // reconcilers/coalesce repaints never see a foreign sibling. Player lines never
+  // open a group (the partner is the NPC you're talking to).
+  function chatPartnerOf(entry: LogEntry): string | null {
+    if (entry.chat !== true) return null;
+    if (entry.voice === 'player' || entry.speaker === undefined) return null;
+    return entry.speaker;
+  }
+  function stampChatKicker(line: HTMLElement, entry: LogEntry): void {
+    if (entry.chat !== true) {
+      // a non-chat line breaks the run: the next chat line re-opens its group.
+      lastChatPartner = null;
+      return;
+    }
+    const partner = chatPartnerOf(entry);
+    if (partner === null || partner === lastChatPartner) return;
+    lastChatPartner = partner;
+    line.dataset.kicker = partner;
+  }
+  function kickerNode(partner: string): HTMLElement {
+    return el('div', 'chat-kicker', `— with ${partner} —`);
   }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
     const perk = parsePerkLine(entry);
@@ -3464,6 +3543,7 @@ export function mount(
       return;
     }
     line.textContent = '';
+    if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
       const b = el('span', 'bullet emoji', bullet); // .emoji ties the bullet to the palette
@@ -3494,6 +3574,7 @@ export function mount(
     // today's channel-only styling (narrator quote-detection fallback).
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const line = el('div', `log-line ${entry.channel}${voiceClass}`);
+    stampChatKicker(line, entry); // F127 — before content, so renderLineContent sees the stamp
     renderLineContent(line, entry);
     if (animate) line.classList.add('reveal');
     return line;
@@ -3556,6 +3637,8 @@ export function mount(
   function typeLine(entry: LogEntry, onDone: () => void): void {
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const line = el('div', `log-line ${entry.channel}${voiceClass}`);
+    stampChatKicker(line, entry); // F127 — group-opener mark survives the post-type re-render
+    if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
       const b = el('span', 'bullet emoji', bullet);
@@ -3853,6 +3936,7 @@ export function mount(
     // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
     if (wasNow) cancelNowCollapse();
     lastKey = -1;
+    lastChatPartner = null; // F127 — the repaint re-derives conversation groups
     lastPaintedKey = -1;
     lastPaintedCount = 0;
     revealQueue.length = 0;
@@ -3885,6 +3969,7 @@ export function mount(
       logLines.textContent = '';
       resetReconcile(logLines); // ADR-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
+      lastChatPartner = null; // F127
       lastPaintedKey = -1;
       lastPaintedCount = 0;
       revealQueue.length = 0;
