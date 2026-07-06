@@ -12,19 +12,33 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+## [0.3.8] — 2026-07-06
+
+Another tooling-only release — nothing changes for an ordinary player. It cuts a
+clean build of the QA and telemetry work landed since 0.3.7, and — for this early
+chapter only — folds the development harness into the deployed game so it can be
+reviewed on the real build.
+
 ### Internal
 
+- **The dev harness now rides the live build (T0-only).** During the opening
+  chapter the deployed game ships the review tools — the dev panel, state
+  driving, variant toggles, the balance cockpit — compiled in but **dormant**:
+  an ordinary visitor sees nothing, and appending `?dev=yes` to the URL wakes
+  them. A single build switch flips back to the old hard strip once the chapter
+  closes, and the always-on telemetry and playtest-capture (which need a local
+  server) stay stripped as before.
 - **Real-play attended-time telemetry (F8).** A DEV-only, unit-proven
-  sessionizer measures the human's ACTUAL play minutes (5-min-play /
-  20-min-away / 5-min-play records 10, not 30): two-tier idle TTL (5 min
-  autos / 2 min static), blur/hidden excluded, retroactive walk-away splits,
-  sleep watchdog, note re-engagement, and a taint ledger so `__qa`-driven
-  runs never pollute the data. Per-rung reports (attended vs sim vs band)
-  auto-drop into git-ignored `project/telemetry/` on session-end; the
-  session brief shouts fresh reports; the D-132 balance flow now starts by
-  reading them. DEV panel gains a minimal Telemetry section (live line +
-  drop/clear). Stripped from prod (new `__KAMI_TELEMETRY__` deploy-gate
-  marker, proven by build+grep). Nothing changes for the player.
+  sessionizer measures actual play minutes (5-min-play / 20-min-away /
+  5-min-play records 10, not 30) — idle-aware, blur-excluded, taint-guarded so
+  `__qa`-driven runs never pollute the data. Per-rung reports auto-drop into a
+  git-ignored folder on session-end and now seed the balance-tuning flow.
+  Stripped from prod. Nothing changes for the player.
+- **A real end-to-end test net.** Desktop-Chromium and mobile (Android Chrome +
+  iOS WebKit) Playwright lanes now drive the actual game through its story
+  beats, persistence journeys and layout invariants — the reachability net that
+  proves a player can still get from the cold open to the capstone. Faster boot
+  and a phone-layout fix ride along.
 
 ## [0.3.7] — 2026-07-05
 
