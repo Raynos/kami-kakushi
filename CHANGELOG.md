@@ -12,6 +12,66 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+## [0.3.9] — 2026-07-06
+
+The steel release. The whole game re-dressed in one day — the washi paper and
+woodblock ink retire, and **Andon Steel** takes their place: dark plate
+surfaces under lantern light, silver for what things ARE, gold for what they're
+WORTH, and vermillion spent only where it means something. Same game, same
+rules, a new house.
+
+### Changed
+
+- **The look, end to end.** Blackened-steel plates with gold keylines and
+  silver catchlights replace the paper-and-ink surfaces; Western serif type
+  (Palatino-class) replaces the brush faces; every meter is a gold thread in a
+  steel groove (your life reads silver, satiety a quiet green). The old grain,
+  frames and washes are gone entirely.
+- **The screen is a new frame.** Tabs live in a left rail now, your work in
+  the centre desk, and the story log in its own tall window on the right. On a
+  phone the game holds one fixed column — the log folds to a single line that
+  opens near-full-screen on a tap and folds back — with proper 44px touch
+  targets throughout.
+- **The cold open types itself.** Title, name and first words each strike in
+  character by character behind a blinking gold caret, old-handheld style.
+- **Promotions are a ceremony.** Answering the summons now ends on its own
+  full-card moment — the gold house seal presses with a bloom of vermillion
+  heat and "You've been promoted." — instead of a fleeting overlay.
+- **A quieter header.** Rice, coin and the calendar have left the top strip —
+  wealth lives on the Inventory tab where it's managed; the season and year
+  sit small at the rail's foot. And the calendar itself now turns 24× slower,
+  so years pass like years, not weeks.
+- **The story reads like a page.** Spoken words alone carry each speaker's
+  colour (narration stays quiet ink), every voice keeps its own shade, names
+  are bold, quotes are always quoted, conversations open with a small
+  "— with Sōan —" rule, and different speakers get breathing room between
+  blocks.
+
+### Fixed
+
+- **Nothing the house remembers is ever forgotten.** Story, chat and progress
+  history is now unbounded — an afternoon of auto-raking can no longer push
+  your perks and story out of the log's memory. Only fleeting flavour lines
+  expire.
+- **Clicking takes over from auto.** Doing anything by hand now stops a
+  running auto-action instead of racing it.
+- **The review toolkit works on the live build.** The `?dev=yes` variant
+  toggles on the deployed game were dead — the panel showed, the variants
+  didn't switch. They do now.
+- Steadier chrome besides: no more number-flash strobe on ticking counters,
+  the log glides instead of jumping, slim steel scrollbars off the text, and
+  the tab rail renders without a load animation.
+
+### Internal
+
+- **Five illustrated estate maps** (a surveyed ezu plan, a 3-D model board, a
+  cadastral register-map, a lantern-lit etched plate, and engraved kamon
+  medallions) built in parallel and live behind the DEV toggle for the map
+  verdict, alongside the estate-section redesign takes.
+- ADR-144 retires the woodblock design canon; the UI bible is rewritten to
+  steel; the attribute palette locked to steel temper-oxide colours; the
+  calendar change carries a clean balance verdict (±0.0 min on every rung).
+
 ## [0.3.8] — 2026-07-06
 
 Another tooling-only release — nothing changes for an ordinary player. It cuts a
