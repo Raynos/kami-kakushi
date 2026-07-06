@@ -85,3 +85,15 @@ cadence + line holds + the cold-open staged reveal + VN panel fades; folds
 out of prod) used by the intro-VN + mid-intro-persistence tests only — the
 cold-open and rung-beat tests keep the real pacing covered. Remaining floor:
 the intro journey (~13.5s), which is per-press actionability across ~7 scenes.
+
+## Warm-page harness + the hurry-loop bug (2026-07-06, appended)
+
+30.5s → 25.0s. Two moves: (1) the intro test's 13–17s residue was OUR bug —
+`hurryTypewriter`'s exit check used `.first().isVisible()`, and `.first()`
+picks the first DOM match EVEN IF HIDDEN, so the loop burned its full 60×40ms
+budget several times per scene; `:visible` in the selector fixed it (intro
+25s → ~4s). (2) `e2e/warm.ts`: both layout suites now recycle ONE booted page
+per worker, swapping state via `__qa.loadFixture`/`newGame` per test —
+read-only invariants on wholesale-rebuilt state, so nothing can leak.
+Journeys/persistence keep cold boots (deep mutation / storage isolation).
+Wall floor is now the cold-open journey (~7.5s, deliberately real-paced).

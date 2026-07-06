@@ -13,17 +13,14 @@ import { boot, expectNoHorizontalOverflow, expectNoPageErrors, press } from './h
 /** Hurry the typewriter exactly as a player would — clicking the transcript
  *  advances a line — until one of the scene's interactive controls is visible. */
 async function hurryTypewriter(page: Page): Promise<void> {
-  const controls = page.locator(
-    'button.intro-ask, button.intro-done, button.intro-choice, button.intro-continue',
+  // ':visible' matters: a plain .first() picks the first matching element in
+  // DOM order EVEN IF HIDDEN, so the loop never saw the visible control behind
+  // it and burned its full budget (60×40ms, several times per scene).
+  const visibleControls = page.locator(
+    'button.intro-ask:visible, button.intro-done:visible, button.intro-choice:visible, button.intro-continue:visible',
   );
   for (let i = 0; i < 60; i++) {
-    if (
-      (await controls
-        .first()
-        .isVisible()
-        .catch(() => false)) === true
-    )
-      return;
+    if ((await visibleControls.count().catch(() => 0)) > 0) return;
     await page.locator('.vn-story').click({ position: { x: 20, y: 20 } });
     await page.waitForTimeout(40);
   }
@@ -35,12 +32,12 @@ async function hurryTypewriter(page: Page): Promise<void> {
  *  advanced (the next scene mounted, or the VN closed). */
 async function playVnScene(page: Page): Promise<void> {
   await hurryTypewriter(page);
-  const ask = page.locator('.vn-ask button.intro-ask:not(.asked)').first();
+  const ask = page.locator('.vn-ask button.intro-ask:not(.asked):visible').first();
   if (await ask.isVisible().catch(() => false)) {
     await press(ask); // ask ≥1 topic — the decide grid must survive the detour
     await hurryTypewriter(page); // the answer types out too
   }
-  const done = page.locator('button.intro-done');
+  const done = page.locator('button.intro-done:visible').first();
   if (await done.isVisible().catch(() => false)) {
     await press(done); // "I've heard enough" — flips the panel to decide
   }
