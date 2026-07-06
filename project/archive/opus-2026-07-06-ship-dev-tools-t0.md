@@ -1,6 +1,7 @@
 # Ship client-side DEV tools into the T0 gh-pages bundle (default-off, `?dev=yes`)
 
-**Status:** ▶️ in progress — 2026-07-06 (opus session)
+**Status:** ✅ DONE — all 6 steps landed & verified in `bd33887` (2026-07-06,
+opus session). Archived to `project/archive/`.
 **Locks:** human answered the two direction forks via AskUserQuestion (2026-07-06):
 scope = **client-side tools only**; strip-gate = **invert under a T0 build flag +
 ADR**. Recorded as **ADR-138**.
