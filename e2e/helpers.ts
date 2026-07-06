@@ -52,7 +52,9 @@ export async function boot(
   opts: { instantText?: boolean } = {},
 ): Promise<string[]> {
   const errors = trackErrors(page);
-  const flags = opts.instantText ? '&instanttext=1' : '';
+  // `telemetry=no`: automated runs must NOT drop machine-time reports into
+  // project/telemetry/ — that folder is the human's attended-play sensor (F8).
+  const flags = `&telemetry=no${opts.instantText ? '&instanttext=1' : ''}`;
   const url = fixture
     ? `/?dev=no&fixture=${encodeURIComponent(fixture)}${flags}`
     : `/?dev=no${flags}`;

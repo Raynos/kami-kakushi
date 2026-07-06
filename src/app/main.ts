@@ -199,9 +199,15 @@ async function boot(): Promise<void> {
   // tree-shakes out of prod — verify-dev-strip.sh greps for its sentinel to PROVE it).
   // Deliberately OUTSIDE the `if (dev)` gate: `?dev=no` true-layout playtests are exactly the
   // sessions worth measuring, and telemetry has no visible surface to distort them.
-  const telemetry = import.meta.env.DEV
-    ? createTelemetry({ build: { version: __VERSION__, sha: __BUILD_SHA__ } })
-    : undefined;
+  // `?telemetry=no` (also =0/=off) opts OUT so automated runs (the e2e lane) don't drop
+  // machine-time reports into project/telemetry/ and pollute the human's attended-play sensor.
+  const telemetryOff =
+    typeof window !== 'undefined' &&
+    /[?&]telemetry=(?:no|0|off|false)\b/i.test(window.location.search);
+  const telemetry =
+    import.meta.env.DEV && !telemetryOff
+      ? createTelemetry({ build: { version: __VERSION__, sha: __BUILD_SHA__ } })
+      : undefined;
   // 'resume' (boot with an existing save) CONTINUES the newest stored run for this seed —
   // the human F5s a lot; a reload must never fragment the run history (plan §3.1).
   telemetry?.onRunStart(bootedFromFixture ? 'fixture' : loaded ? 'resume' : 'boot', state);

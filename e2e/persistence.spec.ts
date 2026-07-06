@@ -38,7 +38,7 @@ test('reload-resume: the run survives a fresh boot, not a cold open', async ({ p
 
   // a FRESH boot without the fixture param (reload would re-import the fixture
   // and mask a dead autosave): the persisted run must come back, not a cold open
-  await page.goto('/?dev=no');
+  await page.goto('/?dev=no&telemetry=no');
   await page.waitForFunction('Boolean(window.__qa)');
   await page.waitForFunction('window.__qa.state().flags.awake === true');
   const resumed = await page.evaluate<{ banked: number; loc: string }>(
@@ -74,7 +74,7 @@ test('export → import round-trips through the real settings UI', async ({ page
   const ctx = await browser.newContext();
   try {
     const page2 = await ctx.newPage();
-    await page2.goto(`http://localhost:5199/?dev=no&fixture=fresh-R3-pre-wolf`);
+    await page2.goto(`http://localhost:5199/?dev=no&telemetry=no&fixture=fresh-R3-pre-wolf`);
     await page2.waitForFunction('Boolean(window.__qa)');
     await page2.waitForFunction(`window.__qa.state().rung === 'R2'`);
     await press(page2.locator('.settings-btn'));
@@ -104,7 +104,7 @@ test('mid-intro refresh resumes the intro at the same beat (T2)', async ({ page 
   await waitForAutosave(page, ringBefore);
 
   // refresh mid-intro: the ground must hold — the scene, not a restart-from-black
-  await page.goto('/?dev=no');
+  await page.goto('/?dev=no&telemetry=no');
   await page.waitForFunction('Boolean(window.__qa)');
   await page.waitForFunction('window.__qa.state().flags.awake === true');
   await expect(

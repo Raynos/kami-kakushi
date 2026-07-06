@@ -24,7 +24,8 @@ export const test = base.extend<WarmFixtures, { workerPage: Page }>({
     async ({ browser }, use) => {
       const context = await browser.newContext();
       const page = await context.newPage();
-      await page.goto('/?dev=no', { waitUntil: 'domcontentloaded' });
+      // telemetry=no: the e2e lane must not pollute the human's attended-play sensor (F8)
+      await page.goto('/?dev=no&telemetry=no', { waitUntil: 'domcontentloaded' });
       await page.waitForFunction('Boolean(window.__qa)');
       await use(page);
       await context.close();
