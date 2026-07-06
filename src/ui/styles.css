@@ -172,14 +172,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ── the paper substrate — warm, fibrous, handmade (feTurbulence grain) ── */
+/* ── the page ground — clean steel depth, NO grain (B.1): a cool overhead
+   glow dimming into the void, fixed so panes scroll over a still ground ── */
 .paper {
-  background-color: var(--washi);
+  background-color: var(--void);
   background-image:
-    radial-gradient(120% 80% at 50% 0%, #fff8ea55, transparent 60%),
-    linear-gradient(0deg, #00000010, transparent 30%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  background-blend-mode: multiply;
+    radial-gradient(1500px 950px at 50% -14%, #141726 0%, transparent 60%),
+    linear-gradient(180deg, #0b0d15, var(--void) 44%);
+  background-attachment: fixed;
 }
 
 h1,
@@ -204,28 +204,20 @@ h3 {
   filter: grayscale(0.7) brightness(0.9);
 }
 
-/* ── woodblock key-block frame ──────────────────────────────────────────── */
+/* ── steel plate frame (B.2) — 1px gold keyline + silver top-rim catchlight
+   over a vertical steel-plate gradient; the woodblock triple-inset is gone ── */
 .frame {
   position: relative;
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  border: 1px solid var(--key);
   box-shadow:
-    inset 0 0 0 2px var(--line),
-    inset 0 0 0 4px var(--surface),
-    inset 0 0 0 5px var(--line),
-    0 2px 0 #00000018;
-  /* F73 — the base woodblock card frame is chrome: denser padding (was --space-4·--space-6). The
+    inset 0 1px 0 var(--silver-wire),
+    0 3px 14px rgba(0, 0, 0, 0.5);
+  /* F73 — the base plate frame is chrome: denser padding (was --space-4·--space-6). The
      reading-surface frames (.vn-card / .modal-card / .coldopen .frame) set their own roomy padding
      later in the cascade, so they keep their breathing room. */
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius);
-}
-.frame::after {
-  content: '';
-  position: absolute;
-  inset: 9px;
-  border: 1px solid var(--ink-faint);
-  pointer-events: none;
-  opacity: 0.5;
 }
 
 /* ── divider — a quiet gold hairline (was the ink-brush stroke; F130: the ink   gradient flipped BRIGHT when the ramp inverted — steel dividers stay faint) ── */
@@ -310,8 +302,12 @@ h3 {
   gap: var(--space-4);
   flex-wrap: wrap;
   padding: var(--space-2) var(--space-4);
-  border-bottom: 2px solid var(--line);
-  background: linear-gradient(180deg, #5c8b9314 0%, transparent 80%);
+  /* B.7 — a raised steel strip: gold keyline base, silver top-rim, deep drop */
+  border-bottom: 1px solid var(--key);
+  background: linear-gradient(180deg, #1d212c, #12141c 78%, var(--steel-0));
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 var(--silver-wire);
 }
 .vitals .house-mark {
   font-family: var(--font-head);
@@ -344,25 +340,42 @@ h3 {
 }
 
 /* satiety / vital bar */
+/* ── meters (B.4) — gold thread in a dark steel groove; the width transition
+   stays (reconcile.ts relies on the CSS animation, never JS-driven widths) ── */
 .bar {
   --fill: 60%;
   position: relative;
-  height: 10px;
+  height: 6px;
   width: 120px;
-  background: var(--surface-deep);
-  border: 1px solid var(--ink-faint);
-  border-radius: 2px;
+  background: var(--steel-0);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
   overflow: hidden;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--silver-faint);
 }
 .bar > span {
   position: absolute;
   inset: 0 auto 0 0;
   width: var(--fill);
-  background: var(--ai-soft);
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold) 55%, var(--gold-hi));
+  box-shadow: 0 0 6px rgba(216, 185, 120, 0.4);
   transition: width var(--dur) var(--ease-ink);
 }
+.vital.health .bar > span {
+  /* life = SILVER (state), never gold (value) — the bimetal split */
+  background: linear-gradient(90deg, #6f7896, var(--silver) 58%, var(--silver-hi));
+  box-shadow: 0 0 6px rgba(205, 214, 238, 0.35);
+}
+.vital.stamina .bar > span {
+  /* satiety — a quiet verdant thread */
+  background: linear-gradient(90deg, #5f8a6d, #9fc79a 60%, #c3e6bd);
+  box-shadow: 0 0 6px rgba(159, 199, 154, 0.3);
+}
 .bar.low > span {
-  background: var(--beni);
+  background: linear-gradient(90deg, var(--shu-deep), var(--shu-hi));
+  box-shadow: 0 0 6px rgba(222, 90, 58, 0.4);
 }
 
 /* ── workspace + the event-log hero ─────────────────────────────────────── */
@@ -530,13 +543,14 @@ h3 {
   }
 }
 
+/* ── the log — a recessed steel WELL (B.6): plate outside, sunken dark pane
+   inside; the flex column + .log-lines scroll/mask hooks stay untouched ── */
 .log {
-  background: var(--surface);
-  background-image: linear-gradient(180deg, transparent, #5c8b9314 95%);
+  background: linear-gradient(180deg, var(--steel-1), var(--steel-0));
+  border: 1px solid var(--key);
   box-shadow:
-    inset 0 0 0 2px var(--line),
-    inset 0 0 0 4px var(--surface),
-    inset 0 0 0 5px var(--line);
+    inset 0 1px 0 var(--silver-wire),
+    0 3px 18px rgba(0, 0, 0, 0.5);
   border-radius: var(--radius);
   padding: var(--space-4) var(--space-6);
   min-height: 0;
@@ -545,14 +559,29 @@ h3 {
 }
 .log > h2 {
   flex: 0 0 auto;
+  font-family: var(--font-num);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--silver);
   padding-bottom: var(--space-2);
   margin-bottom: var(--space-1);
-  border-bottom: 1px solid var(--ink-faint);
+  border-bottom: 1px solid var(--key-dim);
 }
 .log-lines {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  /* B.6 — the reading pane is a SUNKEN well inside the plate: darker-than-plate
+     gradient + deep inset shadows + a faint silver hairline. */
+  background: linear-gradient(180deg, var(--steel-0), #0a0c12);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  box-shadow:
+    inset 0 2px 12px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 1px var(--silver-faint),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.5);
   /* F74 — the log READING text is scaled by its own persisted `--log-scale` (the per-log stepper),
      independent of the F73 chrome density: this is a reading surface, so it stays roomy and the
      reader tunes it. Default 1 (no change) until the stepper sets it on the `.log` section. */
@@ -791,18 +820,18 @@ h3 {
   color: var(--ink-faint);
   font-size: var(--fs-small);
 }
-/* F56 — a milestone reads as calm PROGRESS, not an alarm: a warm ochre wash + rule replaces the
-   red (#d7402c / --shu) strip the human disliked. The perk-unlock milestone gets its own JRPG box
-   (see .perk-box) and opts out of this class entirely. */
+/* F56/B.6 — a milestone reads as calm PROGRESS, not an alarm: bright gold text
+   over a faint gold wash + a gold left post (progress = gold, the bimetal rule).
+   The perk-unlock milestone gets its own JRPG box (see .perk-box) and opts out. */
 .log-line.milestone {
-  color: var(--ink);
+  color: var(--gold-hi);
   font-weight: 600;
-  background: linear-gradient(90deg, #c68a3e18, transparent 60%);
+  background: linear-gradient(90deg, rgba(216, 185, 120, 0.09), transparent 60%);
   padding-left: var(--space-3);
-  border-left: 3px solid var(--ochre);
+  border-left: 3px solid var(--gold);
 }
 .log-line.milestone .bullet {
-  color: var(--ochre);
+  color: var(--gold);
 }
 
 /* F50 — the "Name: " prefix on a spoken line; inherits the line's voice colour, just weighted. */
@@ -965,15 +994,17 @@ h3 {
   gap: var(--space-3);
 }
 
-/* ── verbs (flat ink-outlined paper buttons) ────────────────────────────── */
+/* ── verbs — small steel plates (B.2-lite): subtle vertical grade, gold
+   keyline, faint silver top-rim; hover RAISES the plate (steel-hi + a brighter
+   rim), never a light fill (light-on-light was the washi idiom) ───────────── */
 .verb {
   font-family: var(--font-body);
   /* F73 — action buttons are chrome: step the label down a notch (was --fs-body) + slimmer padding
      (was --space-3·--space-4) for a compact incremental-RPG button stack, not oversized web buttons. */
   font-size: var(--fs-small);
   color: var(--ink);
-  background: var(--surface);
-  border: 1.5px solid var(--line);
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1));
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-2) var(--space-3);
   text-align: left;
@@ -981,14 +1012,16 @@ h3 {
   display: flex;
   align-items: center;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 var(--silver-faint);
   transition:
     background var(--dur-fast) var(--ease-ink),
     transform var(--dur-fast) var(--ease-ink);
 }
 .verb:hover,
 .verb:focus-visible {
-  background: var(--ai-soft);
-  border-color: var(--ai);
+  background: var(--steel-hi);
+  border-color: var(--silver-wire);
+  color: var(--silver-hi);
   outline: none;
 }
 .verb:focus-visible {
@@ -1236,9 +1269,9 @@ h3 {
     background-color 120ms;
 }
 .intro-done:hover {
-  border-color: var(--ochre);
+  border-color: var(--silver-wire);
   color: var(--ink);
-  background: #c68a3e12;
+  background: var(--steel-hi);
 }
 .intro-done:focus-visible {
   outline: 2px solid var(--ochre);
@@ -1316,9 +1349,9 @@ h3 {
   margin-right: 0.35rem;
 }
 .intro-ask:hover {
-  border-color: var(--ochre);
-  color: var(--ink);
-  background: #c68a3e12;
+  border-color: var(--silver-wire);
+  color: var(--silver-hi);
+  background: var(--steel-hi);
 }
 .intro-ask:focus-visible {
   outline: 2px solid var(--ochre);
@@ -1337,8 +1370,8 @@ h3 {
 }
 .intro-ask.asked:hover {
   color: var(--ink-soft);
-  border-color: var(--ochre);
-  background: #c68a3e12;
+  border-color: var(--silver-faint);
+  background: var(--steel-hi);
 }
 .intro-ask.asked::after {
   content: ' · asked';
@@ -1595,8 +1628,11 @@ h3 {
   gap: var(--space-2);
   /* F73 — the tab strip is chrome: slimmer padding (was --space-2·--space-6) for a compact nav. */
   padding: var(--space-1) var(--space-4);
-  border-bottom: 1px solid var(--ink-faint);
-  background: var(--surface-deep);
+  /* B.5 (M2 horizontal form; the vertical rail is M3) — a steel strip: gold
+     keyline base + faint silver top-rim. */
+  border-bottom: 1px solid var(--key);
+  background: linear-gradient(180deg, var(--steel-1), var(--steel-0) 70%);
+  box-shadow: inset 0 1px 0 var(--silver-faint);
   animation: ink-in var(--dur-beat) var(--ease-ink) both;
 }
 @media (max-width: 720px) {
@@ -1657,19 +1693,24 @@ h3 {
 
 /* ── meter (rung + skill) — track + ink fill + ease ──────────────────────── */
 .meter {
+  /* B.4 — same steel groove as .bar: progress is a gold thread */
   position: relative;
-  height: 8px;
+  height: 6px;
   margin: var(--space-2) 0;
-  background: var(--surface-deep);
-  border: 1px solid var(--ink-faint);
-  border-radius: 2px;
+  background: var(--steel-0);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
   overflow: hidden;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--silver-faint);
 }
 .meter > span {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  background: linear-gradient(90deg, var(--ai), var(--ai-soft));
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold) 55%, var(--gold-hi));
+  box-shadow: 0 0 6px rgba(216, 185, 120, 0.4);
   transition: width var(--dur) var(--ease-ink);
 }
 
@@ -2239,19 +2280,25 @@ html {
   font-size: var(--fs-small);
   color: var(--ink-soft);
 }
+/* ── the seal (B.3) — a gold-faced bimetal plate: dark kanji on brushed gold,
+   silver wire rim, inner steel relief. The ceremony's vermillion flush lands
+   in M5 (the ::after radial heat). */
 .hanko-css {
   width: 116px;
   height: 116px;
   display: grid;
   place-items: center;
-  border: 6px solid var(--shu);
+  border: 1px solid var(--silver-wire);
   border-radius: var(--radius-seal);
-  color: var(--shu);
+  color: #14110b;
   font-family: var(--font-display);
   font-size: 3.2rem;
-  background: var(--washi);
-  box-shadow: 0 6px 22px #26221e55;
-  mix-blend-mode: multiply;
+  background: linear-gradient(135deg, var(--gold-hi), var(--gold-dim));
+  box-shadow:
+    inset 0 0 0 1px var(--silver-wire),
+    inset 0 0 0 3px rgba(14, 16, 22, 0.5),
+    0 0 8px rgba(216, 185, 120, 0.3),
+    0 6px 22px rgba(0, 0, 0, 0.55);
 }
 .rankup-title {
   font-family: var(--font-head);

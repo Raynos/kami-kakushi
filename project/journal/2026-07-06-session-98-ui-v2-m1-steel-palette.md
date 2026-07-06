@@ -79,3 +79,33 @@ files; human approved the full batch + two live round-2 steers):
   New-game + cold-open CTA both work, zero console errors); stale HMR tab or
   armed pick-mode overlay suspected; human resumed playing after.
 - All three sessions archived; F-log: `project/human-feedback/2026-07-06-playtest.md`.
+
+## Addendum 3 — M2 · steel materials (Appendix B recipes)
+
+All seven material recipes applied to `src/ui/styles.css` (CSS-only; engine +
+composition untouched):
+
+- B.1 `.paper` → clean steel depth-glow ground, feTurbulence grain DELETED.
+- B.2 `.frame` → steel plate (gold keyline + silver top-rim + plate gradient);
+  the woodblock triple-inset + `::after` inner rule died. `.verb` buttons get
+  the B.2-lite plate; hover now RAISES (steel-hi) instead of the light fill.
+- B.3 `.hanko-css` → gold-faced bimetal seal (dark kanji on brushed gold,
+  silver wire rim); `mix-blend-mode: multiply` died. Vermillion ceremony
+  flush deferred to M5 as planned.
+- B.4 `.bar`/`.meter` → gold thread in a dark steel groove; life = silver
+  (state), satiety = verdant, danger = shu; the width transition kept
+  (reconcile.ts contract).
+- B.5 `.nav` → horizontal steel strip (gold keyline base + silver top-rim);
+  the vertical rail is M3.
+- B.6 `.log` → plate + `.log-lines` recessed WELL (sunken gradient + deep
+  inset shadows); flex/min-height/scroll mask hooks untouched; log h2 →
+  uppercase tracked silver; milestone lines → gold-hi + gold post.
+- B.7 `.vitals` → raised steel strip.
+- Universal sweep CLEAN: 0 hits for feTurbulence / triple-frames /
+  `#5c8b93|#fff8ea|#efe4c8|#c68a3e` bokashi / any blend-mode; intro hover
+  washes → steel-hi raise.
+
+verify green (17 gates) · mobile e2e lane green (73) · headless R0/R1 + R3/R7
+captures reviewed. Human playtest = the M2 gate. Note: the ⚔ combat verb
+currently reads gold like any primary — a dedicated `.danger` vermillion
+treatment lands with the combat surfaces (M5/M6).
