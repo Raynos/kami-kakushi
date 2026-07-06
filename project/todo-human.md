@@ -35,6 +35,11 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an R-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `docs/plans/opus-2026-07-06-ship-dev-tools-t0.md` — **ship client-side DEV
+  tools into the T0 gh-pages bundle** (default-off, `?dev=yes` reveals). Inverts
+  the D-067 strip for T0 under a `SHIP_DEV_TOOLS` build flag (ADR **D-138**);
+  server-coupled telemetry/capture stay stripped. Direction locked by you via
+  AskUserQuestion — this plan is the record, build is already in flight.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·

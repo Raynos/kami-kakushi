@@ -1933,3 +1933,39 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
 - **Plan:** `docs/plans/fable-2026-07-05-requirements-rung-progression.md`.
   Supersedes the D-056 threshold-table mechanism (the band *targets* remain
   the pacing intent until the Phase 5 re-derivation re-signs them).
+
+### D-138 ✅ — T0: ship the client-side DEV tools INTO the gh-pages bundle, default-off (`?dev=yes`)
+- **created_date:** 2026-07-06
+- **Context:** D-067 hard-stripped ALL DEV tooling from prod (the
+  `verify-dev-strip.sh` deploy gate refuses any bundle leaking `__qa` / the
+  D-075 variant harness). But during T0 the human wants to reach the DEV panel,
+  `__qa`, the variant toggle, the balance cockpit and the F6 fixtures **on the
+  live gh-pages deploy** — reviewing variants (R2/R5/R6/R7) and driving state on
+  the real deployed build, not only a local dev server. Direction locked by the
+  human via AskUserQuestion (2026-07-06): scope = **client-side tools only**;
+  gate = **invert under a T0 build flag + this ADR**.
+- **Decision:** split the one `import.meta.env.DEV` gate into two axes.
+  **(1) Inclusion** — a new `__DEV_TOOLS__` vite define (tree-shaking gate):
+  `command === 'serve' || SHIP_DEV_TOOLS`, where `SHIP_DEV_TOOLS` defaults ON
+  (we're in T0). So the client tools compile into the prod bundle now; post-T0
+  `SHIP_DEV_TOOLS=0` folds every `__DEV_TOOLS__ && …` gate to dead code and the
+  hard strip returns. **(2) Activation** — the pure `resolveDevGating(isDev,
+  hasTools, search)` (`src/app/dev-gating.ts`): a T0 prod bundle is
+  **default-OFF**, opt-in `?dev=yes` (aliases `1|true|on`); a dev serve is
+  default-ON, `?dev=no` opts the panel out (aliases `0|false|off`) while `__qa`
+  stays for e2e. **Scope:** only the pure client-side tools ship — the
+  server-coupled **F8 telemetry** and **F3 playtest-capture** overlay POST to a
+  dev server absent on gh-pages, so they stay gated on `import.meta.env.DEV`
+  and are always stripped (the cockpit's `/__playtest-capture` endpoint *string*
+  rides along inertly — its POST 404s harmlessly under `?dev=yes`).
+- **Soundness:** `verify-dev-strip.sh` is now two-mode (follows `SHIP_DEV_TOOLS`):
+  **ship** → client markers MUST be present, server markers absent; **strip** →
+  all absent (the original D-067 gate). The *default-inert* runtime behaviour —
+  which the dev-server e2e lane can't reach (it always boots `DEV=true`) — is
+  proven by the RED-able `resolveDevGating` unit matrix
+  (`src/app/dev-gating.test.ts`). Both gate modes verified to go RED against the
+  wrong build.
+- **Scope of this ADR:** LIMITS D-067 to post-T0 (D-067's strip is the `strip`
+  mode; T0 runs `ship`). A T0-window convenience, not a permanent reversal —
+  the single `SHIP_DEV_TOOLS` switch flips it back cleanly.
+- **Plan:** `docs/plans/opus-2026-07-06-ship-dev-tools-t0.md`.

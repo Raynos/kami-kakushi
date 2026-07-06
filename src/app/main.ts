@@ -29,6 +29,7 @@ import { createDevApi, mountDevPanel, createBalanceCockpit } from '../ui/dev';
 import { mountCapture } from '../ui/capture';
 import { snapshotDom } from '../ui/capture-screenshot';
 import { createTelemetry } from '../telemetry';
+import { resolveDevGating } from './dev-gating';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -81,6 +82,16 @@ async function boot(): Promise<void> {
 
   const save: SaveManager = createBrowserSaveManager();
 
+  // D-138 — the two-axis DEV-tools gate, resolved ONCE at boot. `__DEV_TOOLS__` is
+  // the build-time inclusion gate (tree-shaking); `gating.{qa,panel}` is the runtime
+  // activation. In a dev serve both default on (`?dev=no` opts the panel out, __qa
+  // stays for e2e). In a T0 prod bundle both default OFF, opt-in via `?dev=yes`.
+  const gating = resolveDevGating(
+    import.meta.env.DEV,
+    __DEV_TOOLS__,
+    typeof window !== 'undefined' ? window.location.search : '',
+  );
+
   // ── load newest, with crash-recovery safe-mode rollback (D-044) ──
   let state: GameState;
   const loaded = await save.load();
@@ -105,7 +116,7 @@ async function boot(): Promise<void> {
   // through the SAME import → migrate → validate path as a normal load (and adopts it, so a reload
   // keeps you in the scenario). Stripped from prod with the whole DEV branch.
   let bootedFromFixture = false;
-  if (import.meta.env.DEV) {
+  if (__DEV_TOOLS__ && gating.qa) {
     const fixtureName =
       typeof window !== 'undefined'
         ? new URLSearchParams(window.location.search).get('fixture')
@@ -187,13 +198,12 @@ async function boot(): Promise<void> {
     },
   };
 
-  // DEV-only variant harness (D-075) — undefined in prod (the ternary folds to `undefined`, so
-  // ui/dev.ts tree-shakes out of the bundle). Threaded into the renderer + the DEV panel below.
-  // `?dev=no` (also dev=0/dev=false) opts OUT even in a dev build, so the human can preview the
-  // TRUE player-facing layout with no DEV panel and prod-default variants (playtest F2).
-  const devOff =
-    typeof window !== 'undefined' && /[?&]dev=(?:no|0|false)\b/i.test(window.location.search);
-  const dev = import.meta.env.DEV && !devOff ? createDevApi() : undefined;
+  // The D-075 variant harness — undefined when the panel isn't active (the ternary folds to
+  // `undefined`, so ui/dev.ts tree-shakes when `__DEV_TOOLS__` is false). Threaded into the
+  // renderer + the DEV panel below. `gating.panel` is off under `?dev=no` in a dev build (the
+  // human previews the TRUE player-facing layout, playtest F2) and default-off in a T0 prod
+  // bundle (opt-in `?dev=yes`) — see resolveDevGating (D-138).
+  const dev = __DEV_TOOLS__ && gating.panel ? createDevApi() : undefined;
 
   // F8 — attended-time telemetry (DEV-only; the same ternary-fold idiom, so src/telemetry/
   // tree-shakes out of prod — verify-dev-strip.sh greps for its sentinel to PROVE it).
@@ -310,8 +320,10 @@ async function boot(): Promise<void> {
     void flushSave();
   });
 
-  // ── DEV play API (PRD §6.10) — DEV-only, dead-code-eliminated in production ──
-  if (import.meta.env.DEV) {
+  // ── DEV play API (PRD §6.10) — shipped when `__DEV_TOOLS__` (T0: into gh-pages too), but
+  //    ACTIVE only when `gating.qa` (dev serve always; a T0 prod bundle only under `?dev=yes`).
+  //    When `__DEV_TOOLS__` is statically false (post-T0) the whole block dead-code-eliminates. ──
+  if (__DEV_TOOLS__ && gating.qa) {
     // walk the REVEALED map graph to a node via real move_to hops (Step 5b: activities + foes are
     // spatial, so every DEV drive-to must navigate — the shared BFS keeps it honest to the graph).
     const walkTo = (node: string): string => {
@@ -560,11 +572,15 @@ async function boot(): Promise<void> {
         cockpit,
       });
     }
+  }
 
-    // ── F3 playtest capture overlay: `` ` `` → note box → POST to the dev-inbox → vanish.
-    //    Mounted from the DEV branch but OUTSIDE the `if (dev)` gate, so it survives `?dev=no`
-    //    (the human's true-layout preview keeps capture — F2). Evidence (context + screenshot)
-    //    is frozen at box-OPEN by mountCapture; buildContext reads the LIVE `state` each open.
+  // ── F3 playtest capture overlay: `` ` `` → note box → POST to the dev-inbox → vanish.
+  //    SERVER-COUPLED (POSTs to a dev-server endpoint absent on gh-pages), so it stays gated on
+  //    `import.meta.env.DEV` alone — OUT of the T0 `__DEV_TOOLS__` ship set (D-138 scope). It runs
+  //    on the dev server even under `?dev=no` (the human's true-layout preview keeps capture — F2)
+  //    and is fully stripped from any prod bundle. Evidence (context + screenshot) is frozen at
+  //    box-OPEN by mountCapture; buildContext reads the LIVE `state` each open.
+  if (import.meta.env.DEV) {
     mountCapture({
       host: root,
       snapshot: snapshotDom,

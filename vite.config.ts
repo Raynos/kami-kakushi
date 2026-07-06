@@ -25,6 +25,18 @@ const VERSION = process.env.BUILD_VERSION ?? `v${pkg.version}`;
 const BUILD_SHA = process.env.BUILD_SHA ?? git('rev-parse --short HEAD') ?? 'dev';
 const BUILD_DATE = process.env.BUILD_DATE ?? git('log -1 --format=%cs') ?? 'dev';
 
+// D-138 — T0-only: ship the CLIENT-SIDE DEV tools (__qa play-API, DEV panel +
+// variant harness, balance cockpit, F6 fixtures) INTO the prod (gh-pages) bundle,
+// default-OFF, opt-in via `?dev=yes`. Default = enabled (we're in T0). Flip back to
+// the hard strip post-T0 with `SHIP_DEV_TOOLS=0` on the build (and the same env on
+// verify-dev-strip.sh, which reads it too). `__DEV_TOOLS__` is the tree-shaking
+// inclusion gate; the runtime activation is resolveDevGating() in src/app/. Server-
+// coupled telemetry + playtest-capture stay on `import.meta.env.DEV` (they need a
+// dev server absent on gh-pages) — out of scope here.
+const SHIP_DEV_TOOLS = !['0', 'false', 'no', 'off'].includes(
+  (process.env.SHIP_DEV_TOOLS ?? '').toLowerCase(),
+);
+
 // Single-dev-server guard (the concurrent-agent sprawl): `npm run dev` REFUSES to start a
 // second server. If DEV_PORT is already listening, name the holder and exit — instead of
 // silently cascading to 5174/5175/… and leaving a pile of servers behind. `strictPort` below
@@ -133,6 +145,11 @@ export default defineConfig(({ command }) => {
       __VERSION__: JSON.stringify(VERSION),
       __BUILD_SHA__: JSON.stringify(BUILD_SHA),
       __BUILD_DATE__: JSON.stringify(BUILD_DATE),
+      // D-138 — whether the client-side DEV tools are compiled INTO this bundle.
+      // Always true in a dev serve (tools available locally); in a `vite build`
+      // it follows SHIP_DEV_TOOLS (default true during T0). When statically false,
+      // every `__DEV_TOOLS__ && …` gate dead-code-eliminates → the hard strip.
+      __DEV_TOOLS__: JSON.stringify(command === 'serve' || SHIP_DEV_TOOLS),
     },
     test: {
       // Core is pure and Node-importable; UI tests opt into jsdom via a per-file
