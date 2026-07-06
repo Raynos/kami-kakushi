@@ -175,3 +175,11 @@ The screen becomes the Andon frame — Approach A (minimal DOM churn):
 verify green (17) · e2e green (73, both phone profiles + desktop) · headless
 desktop + Pixel-7 captures reviewed. Human playtest = the M3 gate (the
 highest-risk card — the eye re-learns the screen).
+
+## Addendum 8 — M3-review drain (FB-162…FB-166)
+
+FB-162 DEV chip tracks the shell edge · FB-163 shell side keylines (vertical
+frame) · FB-164 slim 6px steel scrollbars · FB-165 chat kicker map now PURE
+(lookahead — the header leads the player's opening question; verified against
+the original capture save) · FB-166 rice-counter value = 💬 design question
+bounced to the human. verify green.

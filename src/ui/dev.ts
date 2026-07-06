@@ -2042,8 +2042,10 @@ export function mountDevPanel(
   panel.style.cssText =
     // FB-119 — widened 16rem → 24rem so the FB-6 Scenarios tab (long fixture names) isn't clipped.
     // F136 — bottom .25rem matches the footer's --space-1 padding, so the collapsed
-    // DEV chip bottom-aligns with the Settings button beside it.
-    'position:fixed;bottom:.25rem;right:.5rem;z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
+    // DEV chip bottom-aligns with the Settings button beside it. FB-162 — the right
+    // inset tracks the CENTRED shell's edge (max-width 1440), not the viewport corner,
+    // so on wide screens the chip sits inside the frame, not out in the whitespace.
+    'position:fixed;bottom:.25rem;right:max(.75rem, calc(50vw - 720px + .75rem));z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
     'display:flex;flex-direction:column;overflow:hidden;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
     'border:1px solid #b08d4f;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.45);';

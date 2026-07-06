@@ -235,6 +235,27 @@ h3 {
   height: 100dvh;
   overflow: hidden;
 }
+/* FB-164 — slim steel scrollbars everywhere a pane scrolls: the default-wide
+   bar sat ON the text at the well's edge. Firefox + WebKit forms. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(205, 214, 238, 0.22) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(205, 214, 238, 0.22);
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(205, 214, 238, 0.4);
+}
+
 /* ── the ANDON frame (M3, B.8): header rows full-width, then rail | desk |
    log-window, then the footer. The middle row is the only 1fr — panes scroll
    internally, the page never scrolls (F5/F6). ── */
@@ -251,6 +272,11 @@ h3 {
   overflow: hidden;
   max-width: 1200px; /* wider main UI (F4) — was 980; a plate column on the void */
   margin: 0 auto;
+  /* FB-163 — the frame has VERTICAL edges: side keylines terminate the header/
+     nav/footer rules instead of letting them die into the void ("the lack of
+     vertical lines is weirding me out"). */
+  border-left: 1px solid var(--key-dim);
+  border-right: 1px solid var(--key-dim);
 }
 .shell > .titlebar {
   grid-area: title;

@@ -1054,10 +1054,12 @@ export function mount(
   let coldOpenRevealStarted = false;
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
-  // F127 — the interlocutor of the last-painted CHAT line: a chat line whose
-  // partner differs opens a new conversation group (a "— with X —" kicker inside
-  // that line). Render-sequence state only; reset on filter switch / log reset.
-  let lastChatPartner: string | null = null;
+  // F127/FB-165 — key → conversation partner for chat lines that OPEN a group
+  // (the "— with X —" kicker renders inside that line). Derived PURELY from the
+  // entries list (recomputed in renderLog), so a player's opening question wears
+  // the kicker via lookahead to the NPC's reply — never out of order.
+  let chatKickers = new Map<number, string>();
+  let chatKickersSeq = -1;
   let logFilter: LogFilter = 'story';
   // FB-20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
@@ -3592,25 +3594,44 @@ export function mount(
     if (idx < mechanics.length) out.append(document.createTextNode(mechanics.slice(idx)));
     return out;
   }
-  // F127 — a chat line that OPENS a conversation group (new NPC interlocutor)
+  // F127/FB-165 — a chat line that OPENS a conversation group (new interlocutor)
   // marks itself with data-kicker; the kicker div renders inside the line, so the
-  // reconcilers/coalesce repaints never see a foreign sibling. Player lines never
-  // open a group (the partner is the NPC you're talking to).
-  function chatPartnerOf(entry: LogEntry): string | null {
-    if (entry.chat !== true) return null;
-    if (entry.voice === 'player' || entry.speaker === undefined) return null;
-    return entry.speaker;
+  // reconcilers/coalesce repaints never see a foreign sibling. The map is a PURE
+  // function of the entries: a PLAYER line that opens a run finds its partner by
+  // LOOKAHEAD to the NPC's reply, so the "— with X —" header sits above the
+  // player's opening question, never mid-conversation.
+  function computeChatKickers(entries: readonly LogEntry[]): Map<number, string> {
+    const map = new Map<number, string>();
+    let current: string | null = null; // the active conversation partner
+    for (let i = 0; i < entries.length; i++) {
+      const e = entries[i]!;
+      if (e.chat !== true) {
+        current = null; // a non-chat line breaks the run
+        continue;
+      }
+      let partner = e.voice !== 'player' && e.speaker !== undefined ? e.speaker : null;
+      if (partner === null) {
+        // a player line: the partner is whoever replies next in this chat run
+        for (let j = i + 1; j < entries.length; j++) {
+          const n = entries[j]!;
+          if (n.chat !== true) break;
+          if (n.voice !== 'player' && n.speaker !== undefined) {
+            partner = n.speaker;
+            break;
+          }
+        }
+        if (partner === null) partner = current; // mid-group player line
+      }
+      if (partner !== null && partner !== current) {
+        map.set(e.key, partner);
+        current = partner;
+      }
+    }
+    return map;
   }
   function stampChatKicker(line: HTMLElement, entry: LogEntry): void {
-    if (entry.chat !== true) {
-      // a non-chat line breaks the run: the next chat line re-opens its group.
-      lastChatPartner = null;
-      return;
-    }
-    const partner = chatPartnerOf(entry);
-    if (partner === null || partner === lastChatPartner) return;
-    lastChatPartner = partner;
-    line.dataset.kicker = partner;
+    const partner = chatKickers.get(entry.key);
+    if (partner !== undefined) line.dataset.kicker = partner;
   }
   function kickerNode(partner: string): HTMLElement {
     return el('div', 'chat-kicker', `— with ${partner} —`);
@@ -4022,7 +4043,6 @@ export function mount(
     // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
     if (wasNow) cancelNowCollapse();
     lastKey = -1;
-    lastChatPartner = null; // F127 — the repaint re-derives conversation groups
     lastPaintedKey = -1;
     lastPaintedCount = 0;
     revealQueue.length = 0;
@@ -4047,6 +4067,11 @@ export function mount(
   }
   function renderLog(state: GameState): void {
     const entries = state.log.entries;
+    // FB-165 — refresh the pure kicker map whenever the log advanced or reset.
+    if (state.log.seq !== chatKickersSeq) {
+      chatKickers = computeChatKickers(entries);
+      chatKickersSeq = state.log.seq;
+    }
     // a state replacement (new game / import) rewinds log.seq — clear the stale painted
     // log + reveal queue and re-render the fresh log from scratch (tab-switches keep seq, so
     // they never trigger this).
@@ -4055,7 +4080,6 @@ export function mount(
       logLines.textContent = '';
       resetReconcile(logLines); // ADR-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
-      lastChatPartner = null; // F127
       lastPaintedKey = -1;
       lastPaintedCount = 0;
       revealQueue.length = 0;
