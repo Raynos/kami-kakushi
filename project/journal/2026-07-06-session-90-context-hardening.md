@@ -38,6 +38,24 @@ after): fresh clone → hooksPath UNSET + warn fires → `npm install` → hooks
 `npm pkg delete scripts.prepare` + reinstall → stays UNSET + warn fires (the
 check bites). Wired main repo: warn count 0 (no false positive).
 
+## 3 · P2 — verify:tooling meta-suite
+
+New `src/scripts/verify-tooling.ts` (+ npm script `verify:tooling`), wired into
+`verify-nightly.yml` ONLY (D-072's 5s commit budget untouched). 26 checks, all
+table-driven: hook `bash -n`/+x · a 15-case guard-git-add-all allow/block
+matrix (run hermetically from a temp CWD — the bare-commit branch consults
+`.git/MERGE_HEAD`) · an 9-case commit-msg matrix · hookify frontmatter/pattern/
+fixtures (rules without registered fixtures get parse-only, so culling
+no-bulk-git-add in P3 won't break it) · probe liveness (perl alarm+exec
+time-box both directions, gh probe when authed, herdr-peers exit-0 both envs,
+session-brief completes) · a mutation self-test (broken guard regex in a TEMP
+copy → matrix RED; 5 cases caught it).
+
+First run immediately caught a spec subtlety: `Assisted-by: Claude: Code:model`
+legitimately PASSES the hook (first colon is the delimiter; extra colons land
+in VERSION) — fixture corrected to encode that contract + a genuinely-bad case
+(name starting with a colon) kept RED-able.
+
 ## Next intended steps (current)
 
 1. P2 — `verify:tooling` meta-suite (nightly-only), five fixture-driven groups.

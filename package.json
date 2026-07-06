@@ -42,7 +42,8 @@
     "verify": "tsx src/scripts/verify-run.ts",
     "verify:budget": "tsx src/scripts/verify-run.ts --budget",
     "verify:balance": "tsx src/scripts/balance-sim.ts --check",
-    "balance:fresh": "tsx src/scripts/balance-sim.ts --check-fresh"
+    "balance:fresh": "tsx src/scripts/balance-sim.ts --check-fresh",
+    "verify:tooling": "tsx src/scripts/verify-tooling.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

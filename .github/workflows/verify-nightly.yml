@@ -23,6 +23,10 @@ jobs:
       - run: npm run verify
       - run: npm run build
       - run: bash src/scripts/verify-dev-strip.sh
+      # The process-scaffolding meta-suite (context-hardening P2): git hooks,
+      # Claude guards, hookify rules, brief probes. Nightly-only ON PURPOSE —
+      # it spawns dozens of processes; the commit roster keeps D-072's 5s budget.
+      - run: npm run verify:tooling
 
       # --- FUTURE NIGHTLY-ONLY TENANTS (intentionally commented out) ---------
       # These are too slow / too broad for every-push CI and belong here on the
