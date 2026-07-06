@@ -138,6 +138,16 @@ FB-124/125 in this commit: galley-only reader (variants retired), shared
 lines dim, demo Tokubei varied per register, HR-9 → ✅ archive row, drained
 session archived — `pending/` is empty.
 
+## Entry 9 — demo bundle pruned (human call)
+
+`takes/demo-r1/` deleted — the tooling it existed to exercise is reviewed
+(HR-9 ✅), so its job is done ahead of the "prune when a real bundle lands"
+default. First live exercise of the prune flow: regen → stable empty
+registry, gates green, Story tab + reader now show their empty states. The
+demo content survives in git history; the grill capture
+(`brainstorms/2026-07-06-narrative-diverge-design.md`) STAYS — it's the
+ADR-139 design record, not demo scrap (clarified with the human).
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the
