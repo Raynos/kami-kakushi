@@ -129,5 +129,5 @@ batch with a plain-language summary of what changed and how to revert.
 ## Lessons log (separate from batteries)
 
 When real use (a build/playtest gate, the human) reveals the battery **missed** something, log it in
-`project/audit/battery-lessons.md` (*what missed · context · the fix*). On confirmation, patch **this skill**
+`project/audit/battery-lessons.md` (create if absent; *what missed · context · the fix*). On confirmation, patch **this skill**
 — and prefer abstracting a principle that prevents a whole **family** of misses over patching the instance.

@@ -214,8 +214,24 @@ console.log('\n4 · hookify rules parse + fixtures');
 // no-bulk-git-add) never breaks this suite structurally.
 const RULE_FIXTURES: Record<string, { match: string[]; noMatch: string[] }> = {
   'no-tree-mutation': {
-    match: ['git stash', 'git restore src/app.ts', 'git checkout main'],
-    noMatch: ['git checkout -b feature/x', 'git show HEAD:file', 'git diff'],
+    match: [
+      'git stash',
+      'git restore src/app.ts',
+      'git checkout main',
+      // P3 extension — the three worst uncovered tree-mutators:
+      'git switch main',
+      'git reset --hard origin/main',
+      'git clean -fd',
+      'git clean --force',
+    ],
+    noMatch: [
+      'git checkout -b feature/x',
+      'git show HEAD:file',
+      'git diff',
+      'git switch -c feature/x',
+      'git reset --soft HEAD~1',
+      'git clean -n',
+    ],
   },
   'no-skip-verify-push': {
     match: ['SKIP_VERIFY=1 git push origin main', 'git push && SKIP_VERIFY=1 git push'],

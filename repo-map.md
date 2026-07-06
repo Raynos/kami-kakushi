@@ -95,6 +95,10 @@ always-loaded context while being editable on its own.
   `npm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a
   `verify` gate — the 5s budget, D-072). Spec + rationale:
   [qa-playtesting.md §1 "Mobile e2e lane"](docs/living/qa-playtesting.md).
+- `.github/workflows/` — the CI fan-out: `verify` (push/PR — the gate roster) ·
+  `verify-nightly` (clean-clone canary + prod build + strip check +
+  `verify:tooling`, the process-scaffolding meta-suite) · `build` · `lint` ·
+  `test` · `typecheck` · `e2e`.
 - [`src/fixtures/`](src/fixtures) — **F6 scenario-save library**: named,
   GENERATED start-states so "reproduce X" is "load X, look". `specs.ts` drives the
   REAL engine to each waypoint (nothing hand-authored); `gen-fixtures.ts`

@@ -56,6 +56,26 @@ legitimately PASSES the hook (first colon is the delimiter; extra colons land
 in VERSION) — fixture corrected to encode that contract + a genuinely-bad case
 (name starting with a colon) kept RED-able.
 
+## 4 · P2 red-proof + a REAL committed-red catch · P3
+
+Red-proof branch `tooling-redproof` (isolated worktree, per the established
+pattern): broken guard regex committed, nightly dispatched
+(run 28778902182) — expect RED at the `verify:tooling` step; branch + worktree
+deleted after. **Pushing it surfaced that committed main is RED** (md-links +
+checkpoint): my P1 commit's mechanically-regenerated `docs/plans/README.md`
+links `opus-2026-07-06-ship-dev-tools-t0.md`, which a co-agent authored but
+has NOT committed — the exact `local-green-hides-committed-red` class. Fixed
+on the branch by regen; main heals when the co-agent's plan commit lands —
+HOLD any main push until then (or land their plan file first, attributed).
+
+P3: no-tree-mutation extended (fixtures FIRST → suite RED on
+`git switch` / `git reset --hard` / `git clean -f` → pattern extended → green;
+`switch -c`, `reset --soft`, `clean -n` stay exempt); `no-bulk-git-add`
+DELETED (human nod — guard-git-add-all already hard-blocks those exact
+patterns; the suite's parse-only fallback confirmed no structural break);
+battery skill gains "(create if absent)"; repo-map gains the CI fan-out line.
+P3.3 (`settings.local.json` prune) left for the human — their file.
+
 ## Next intended steps (current)
 
 1. P2 — `verify:tooling` meta-suite (nightly-only), five fixture-driven groups.
