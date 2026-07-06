@@ -22,7 +22,7 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 # --- Fallback when herdr isn't available: tell the caller how to do it by hand. ---
 if [ "${HERDR_ENV:-}" != "1" ] || ! command -v herdr >/dev/null 2>&1 || ! command -v python3 >/dev/null 2>&1; then
-  echo "herdr not available — start the dev server yourself:  (cd '$ROOT' && npm run dev)" >&2
+  echo "herdr not available — start the dev server yourself:  (cd '$ROOT' && pnpm run dev)" >&2
   exit 0
 fi
 
@@ -95,7 +95,7 @@ if url:
     sys.exit(0)
 
 print(f"starting dev server in workspace '{LABEL}' ({ws}), pane {pane}…", file=sys.stderr)
-herdr("pane", "run", str(pane), "npm run dev")
+herdr("pane", "run", str(pane), "pnpm run dev")
 # Block until Vite prints its URL (best-effort; never fatal on timeout).
 herdr("wait", "output", str(pane), "--match", r"localhost:\d+", "--regex",
       "--timeout", TIMEOUT, timeout=(int(TIMEOUT) / 1000 + 5))

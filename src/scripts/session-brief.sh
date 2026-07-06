@@ -99,13 +99,13 @@ add "_Surface these to the human early. Full lists: \`$HUMAN_TODO\`, \`$DECISION
 add ""
 
 # --- hooksPath floor: the whole enforcement lattice is opt-in on this config ----
-# Belt for clones that never ran `npm install` (the "prepare" script is the braces).
+# Belt for clones that never ran `pnpm install` (the "prepare" script is the braces).
 # Loud, first thing in the brief — an unwired clone commits without ANY gate.
 hooks_path="$(git config core.hooksPath 2>/dev/null || true)"
 if [[ "$hooks_path" != ".githooks" ]]; then
   add "### 🚨 UNGATED CLONE — \`core.hooksPath\` is ${hooks_path:-unset} (expected \`.githooks\`)"
   add "> Every commit/push gate (verify, journal, attribution, TODO guard) is OFF in this clone."
-  add "> Fix NOW: \`git config core.hooksPath .githooks\` (or \`npm install\`, which wires it via \`prepare\`)."
+  add "> Fix NOW: \`git config core.hooksPath .githooks\` (or \`pnpm install\`, which wires it via \`prepare\`)."
   add ""
 fi
 

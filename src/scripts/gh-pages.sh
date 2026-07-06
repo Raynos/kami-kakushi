@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the site and publish it to the gh-pages worktree, then push.
 #
-#   pnpm run gh-pages                 (or: npm run gh-pages)
+#   pnpm run gh-pages                 (or: pnpm run gh-pages)
 #   pnpm run gh-pages -- --force      redeploy even with no site changes
 #
 # The gh-pages branch lives in a sibling worktree whose ROOT is the published
@@ -47,7 +47,7 @@ fi
 
 # 1. build — tsc typecheck + vite build → dist/ (relative base, set in vite.config.ts).
 echo "▸ building…"
-npm run build
+pnpm run build
 
 # 1b. ship-hygiene gate (D-067, extended for the D-075 variant harness): the DEV play-API
 #     (__qa — speed cheats + jump-to teleports) AND the DEV panel + variant harness (ui/dev.ts,
@@ -84,7 +84,7 @@ if git diff --cached --quiet; then
     exit 0
   fi
   echo "✓ no site changes to publish."
-  echo "  (pass --force to redeploy anyway: npm run gh-pages -- --force)"
+  echo "  (pass --force to redeploy anyway: pnpm run gh-pages -- --force)"
   exit 0
 fi
 git commit -m "deploy: $DESCRIBE (main $SHA)"

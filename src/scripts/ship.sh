@@ -19,7 +19,7 @@
 # ISOLATION: the deploy builds from a persistent detached worktree of HEAD
 # (tmp/ship/wt) — never the shared working tree — so co-agents' WIP can't
 # leak into a release and the deploy label is truthful. node_modules survives
-# between ships; `npm ci` reruns only when package-lock.json's hash changes.
+# between ships; `pnpm install` reruns only when pnpm-lock.yaml's hash changes.
 # Verification is the HOOKS' job (pre-commit + pre-push run the full roster).
 set -euo pipefail
 
@@ -92,7 +92,7 @@ grep -qF "## [$NEW]" CHANGELOG.md || {
 
 # ── 3 · release commit (pathspec: exactly the two release files) ────────────
 step "release commit + tag"
-[ "$(node -p "require('./package.json').version")" != "$NEW" ] && npm pkg set version="$NEW" >/dev/null
+[ "$(node -p "require('./package.json').version")" != "$NEW" ] && pnpm pkg set version="$NEW" >/dev/null
 if ! git diff --quiet -- package.json CHANGELOG.md; then
   SKIP_JOURNAL=1 SKIP_ATTRIB=1 git commit -q -m "chore(release): v$NEW
 
@@ -118,11 +118,11 @@ else
 fi
 
 step "deps"
-LOCK_HASH="$(shasum -a 256 "$WT/package-lock.json" | cut -d' ' -f1)"
+LOCK_HASH="$(shasum -a 256 "$WT/pnpm-lock.yaml" | cut -d' ' -f1)"
 if [ -d "$WT/node_modules" ] && [ -f "$LOCK_STAMP" ] && [ "$(cat "$LOCK_STAMP")" = "$LOCK_HASH" ]; then
   echo "  node_modules reused (lockfile unchanged)"
 else
-  (cd "$WT" && npm ci --prefer-offline --no-audit --no-fund)
+  (cd "$WT" && pnpm install --frozen-lockfile --prefer-offline)
   printf '%s' "$LOCK_HASH" >"$LOCK_STAMP"
 fi
 

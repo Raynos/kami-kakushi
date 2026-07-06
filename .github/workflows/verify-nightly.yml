@@ -15,18 +15,19 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci --no-audit --no-fund
-      - run: npm run verify
-      - run: npm run build
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run verify
+      - run: pnpm run build
       - run: bash src/scripts/verify-dev-strip.sh
       # The process-scaffolding meta-suite (context-hardening P2): git hooks,
       # Claude guards, hookify rules, brief probes. Nightly-only ON PURPOSE —
       # it spawns dozens of processes; the commit roster keeps D-072's 5s budget.
-      - run: npm run verify:tooling
+      - run: pnpm run verify:tooling
 
       # --- FUTURE NIGHTLY-ONLY TENANTS (intentionally commented out) ---------
       # These are too slow / too broad for every-push CI and belong here on the
@@ -35,6 +36,6 @@ jobs:
       # go RED. The balance-sim plan (F4 §5a) un-comments the balance block when
       # `npm run verify:balance` actually exists; add soak suites likewise.
       #
-      # - run: npm run verify:balance   # balance-sim matrix (F4 §5a)
-      # - run: npm run verify:fuzz      # seeded fuzz sweep (F4)
-      # - run: npm run soak             # future long-running soak suites
+      # - run: pnpm run verify:balance   # balance-sim matrix (F4 §5a)
+      # - run: pnpm run verify:fuzz      # seeded fuzz sweep (F4)
+      # - run: pnpm run soak             # future long-running soak suites

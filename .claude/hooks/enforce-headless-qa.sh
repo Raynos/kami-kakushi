@@ -8,7 +8,7 @@
 #
 # Contract: this hook is wired (in .claude/settings.json) to the headed-browser MCP
 # tool-name prefixes, so whenever one of those tools fires it simply denies (exit 2)
-# with guidance. Running the dev server (npm run dev) is unaffected — only the
+# with guidance. Running the dev server (pnpm run dev) is unaffected — only the
 # headed-browser DRIVER tools are blocked.
 
 set -euo pipefail

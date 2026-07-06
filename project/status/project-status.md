@@ -77,7 +77,7 @@ ladder** → T1–T5 · home grows w/ rung · NPC placement (FB-113) · balance 
 ## Toolchain
 
 Vite 5 + TS (strict, `tsgo`) + Vitest 2 + oxlint + oxfmt. Pure-core oxlint
-boundary (no Math.random/pow/DOM/Date.now in `src/core`). `npm run verify` runs
+boundary (no Math.random/pow/DOM/Date.now in `src/core`). `pnpm run verify` runs
 in parallel via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (npm run checkpoint — do not edit inside) -->
 **17 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
@@ -85,7 +85,7 @@ gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint.
 <!-- gen:end gate-roster -->
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
-blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `npm run dev` · `build` · `build:itch`.
+blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` · `build:itch`.
 
 ## Code & repo layout
 
@@ -105,9 +105,9 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `npm run dev` · `build` ·
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-06-session-95-story-slop-audit.md`](../journal/2026-07-06-session-95-story-slop-audit.md)
+   [`journal/2026-07-06-session-97-hook-path-fix.md`](../journal/2026-07-06-session-97-hook-path-fix.md)
    <!-- gen:end resume-journal -->
-2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
+2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.

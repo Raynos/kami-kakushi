@@ -33,7 +33,7 @@ if [ "${SKIP_HERDR_PEERS:-0}" != "1" ]; then
 fi
 
 echo "  - pre-push: verify must be GREEN to push…" >&2
-if ! env -u SKIP_CODE_VERIFY -u SKIP_DOCS_VERIFY npm run --silent verify >&2; then
+if ! env -u SKIP_CODE_VERIFY -u SKIP_DOCS_VERIFY pnpm run --silent verify >&2; then
   echo "" >&2
   echo "  ✗ BLOCKED: verify is RED — refusing to push." >&2
   echo "    Fix it, or 'SKIP_VERIFY=1 git push' to override (emergencies only)." >&2
@@ -41,7 +41,7 @@ if ! env -u SKIP_CODE_VERIFY -u SKIP_DOCS_VERIFY npm run --silent verify >&2; th
 fi
 
 # e2e blast-radius advisory (loud warn, NEVER blocks): the Playwright e2e lane
-# (`npm run test:e2e`) gates only in CI (e2e.yml) — it's far past verify's 5s
+# (`pnpm run test:e2e`) gates only in CI (e2e.yml) — it's far past verify's 5s
 # budget (D-072), so no local hook runs it. When the pushed commits touch the
 # lane's covered surface, name the files and nudge a local run now, instead of
 # a red e2e.yml surfacing minutes after the push. Silence: SKIP_E2E_WARN=1.
@@ -65,7 +65,7 @@ $(git diff --name-only "$_base" "$_lsha" 2>/dev/null)"
     echo "  ⚠ e2e blast radius — this push touches the e2e-covered surface:" >&2
     printf '%s\n' "$_e2e_touched" | sed 's/^/      /' >&2
     echo "    The Playwright lane is CI-only (D-072); consider a local" >&2
-    echo "    'npm run test:e2e' (~12s) now rather than a red e2e.yml after the" >&2
+    echo "    'pnpm run test:e2e' (~12s) now rather than a red e2e.yml after the" >&2
     echo "    push lands. Advisory only — pushing anyway. (SKIP_E2E_WARN=1 hides this.)" >&2
   fi
 fi

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Pre-commit gate (op-model v2 FINAL, Workstreams A+B — 2026-06-29):
-#   1. Run the FULL `npm run verify` (~5s measured) so a commit can never be red.
+#   1. Run the FULL `pnpm run verify` (~5s measured) so a commit can never be red.
 #      The gate roster is owned by src/scripts/gates.ts (the single source — do NOT
-#      re-list it here; that copy drifted). `npm run checkpoint` regenerates the
+#      re-list it here; that copy drifted). `pnpm run checkpoint` regenerates the
 #      human-facing roster docs from it.
 #   2. Wrap it in a soft 5s-budget DRIFT timer: green (<4s) silent · amber (4–5s) note ·
 #      red (>5s) loud nudge — but NEVER block on time (a slow machine must not fail a commit).
@@ -11,7 +11,7 @@
 #      block); a new brainstorm / audit report not listed is a LOUD WARN (judgment dirs). So a doc meant
 #      for the human can't silently miss their reading queue. See CLAUDE.md "Reading queue".
 #   4. Journal-hygiene gate (unchanged).
-# The HARD budget check is the explicit `npm run verify:budget`; the pre-push hook surfaces it
+# The HARD budget check is the explicit `pnpm run verify:budget`; the pre-push hook surfaces it
 # loudly-but-non-blocking. Principle (X-3): noisy about drift, never blocking the task in flight.
 #
 # Bypass:  SKIP_CODE_VERIFY=1 git commit …  (docs-only commit: skip the code gates, docs gates STILL run — ~1s)
@@ -33,10 +33,10 @@ run_verify() {
     return 0
   fi
 
-  echo "  - npm run verify (docs-only commit? SKIP_CODE_VERIFY=1 keeps the docs gates + skips the slow lane)…" >&2
+  echo "  - pnpm run verify (docs-only commit? SKIP_CODE_VERIFY=1 keeps the docs gates + skips the slow lane)…" >&2
   local start end elapsed
   start=$(date +%s)
-  if ! npm run --silent verify >&2; then
+  if ! pnpm run --silent verify >&2; then
     echo "" >&2
     echo "  X commit blocked - verify failed. Fix it; a docs-only commit can SKIP_CODE_VERIFY=1" >&2
     echo "    (docs gates still run). SKIP_VERIFY=1 skips everything - last resort." >&2
@@ -58,7 +58,7 @@ run_verify() {
 
   if [ "$elapsed" -gt "$BUDGET_S" ]; then
     echo "  !! verify took ${elapsed}s - OVER the ${BUDGET_S}s budget. Worth trimming/speeding the gate when" >&2
-    echo "     you get a chance: run 'npm run verify:budget' for the per-gate breakdown. (NOT blocking this commit.)" >&2
+    echo "     you get a chance: run 'pnpm run verify:budget' for the per-gate breakdown. (NOT blocking this commit.)" >&2
   elif [ "$elapsed" -ge "$AMBER_S" ]; then
     echo "  ~ verify took ${elapsed}s - approaching the ${BUDGET_S}s budget." >&2
   fi
@@ -94,14 +94,14 @@ fi
 
 # --- PRD-drift nudge (D-117 Phase 0 — WARN ONLY, never blocks): a commit that touches the content
 #     registries (src/core/content/*, where display names live) without touching the PRD may have
-#     staled a spec fact — `npm run prd:drift` prints the punch-list. balance.ts is EXCLUDED: it
+#     staled a spec fact — `pnpm run prd:drift` prints the punch-list. balance.ts is EXCLUDED: it
 #     holds magnitudes, and §4's magnitudes are deliberately ripple-frozen (D-117 interim rule),
 #     so nudging a PRD edit there would push AGAINST canon. Report-only tool, warn-only rung (A11). ---
 staged_all="$(git diff --cached --name-only)"
 if echo "$staged_all" | grep -vE '^src/core/content/balance\.ts$' | grep -qE '^src/core/content/' \
   && ! echo "$staged_all" | grep -qE '^docs/living/prd/'; then
   echo "  ~ content registries changed without a PRD touch — if a display name / roster moved," >&2
-  echo "    run 'npm run prd:drift' for the game->PRD punch-list (report-only; D-117 Flow 1)." >&2
+  echo "    run 'pnpm run prd:drift' for the game->PRD punch-list (report-only; D-117 Flow 1)." >&2
 fi
 
 # --- Balance-report freshness WARN (F4 §5b — WARN ONLY for now; promotion to a hard gate is
@@ -113,10 +113,10 @@ fi
 #     stage a design-input file, so every other commit pays nothing. ---
 if [ "${SKIP_BALANCE_FRESH:-0}" != "1" ]; then
   if echo "$staged_all" | grep -qE '^src/core/content/'; then
-    if ! npx tsx src/scripts/balance-sim.ts --check-fresh >&2; then
+    if ! pnpm exec tsx src/scripts/balance-sim.ts --check-fresh >&2; then
       echo "  !! balance WARN (NOT blocking): this commit changes design inputs but the committed" >&2
-      echo "     pacing report was generated from OLDER values. Run 'npm run verify:balance' (the" >&2
-      echo "     machine verdict) then 'npm run balance:report' and commit the diff WITH the change" >&2
+      echo "     pacing report was generated from OLDER values. Run 'pnpm run verify:balance' (the" >&2
+      echo "     machine verdict) then 'pnpm run balance:report' and commit the diff WITH the change" >&2
       echo "     — the report diff IS the before/after. (F4 §5b; silence with SKIP_BALANCE_FRESH=1.)" >&2
     fi
   fi
@@ -224,7 +224,7 @@ fi
 #     commits are exactly when the caps matter. Bypass (a deliberate, human-blessed cap
 #     raise ONLY):  SKIP_DOCBUDGET=1 git commit … ---
 if [ "${SKIP_VERIFY:-0}" = "1" ] && [ "${SKIP_DOCBUDGET:-0}" != "1" ]; then
-  if ! npx tsx src/scripts/verify-doc-budgets.ts >&2; then
+  if ! pnpm exec tsx src/scripts/verify-doc-budgets.ts >&2; then
     echo "" >&2
     echo "  X commit blocked - a snapshot-class doc is over its hard cap. Cull, don't bypass" >&2
     echo "    (SKIP_DOCBUDGET=1 is for a human-blessed cap raise only)." >&2

@@ -5,11 +5,12 @@
   "type": "module",
   "description": "Kamikakushi — a grounded, story-driven incremental RPG set in mid-Edo rural Japan. Built agentically.",
   "license": "MIT",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "prepare": "git config core.hooksPath .githooks || true",
     "dev": "vite",
     "build": "tsgo --noEmit && vite build",
-    "build:itch": "npm run build && cd dist && zip -r ../kami-kakushi-itch.zip . && cd ..",
+    "build:itch": "pnpm run build && cd dist && zip -r ../kami-kakushi-itch.zip . && cd ..",
     "gh-pages": "bash src/scripts/gh-pages.sh",
     "preview": "vite preview",
     "test": "vitest run",

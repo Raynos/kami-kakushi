@@ -37,7 +37,7 @@ const SHIP_DEV_TOOLS = !['0', 'false', 'no', 'off'].includes(
   (process.env.SHIP_DEV_TOOLS ?? '').toLowerCase(),
 );
 
-// Single-dev-server guard (the concurrent-agent sprawl): `npm run dev` REFUSES to start a
+// Single-dev-server guard (the concurrent-agent sprawl): `pnpm run dev` REFUSES to start a
 // second server. If DEV_PORT is already listening, name the holder and exit — instead of
 // silently cascading to 5174/5175/… and leaving a pile of servers behind. `strictPort` below
 // is the belt-and-suspenders (vite itself won't cascade). Bypass with KAMI_ALLOW_MULTI_DEV=1.

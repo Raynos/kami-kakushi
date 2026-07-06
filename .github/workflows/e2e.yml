@@ -22,11 +22,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci --no-audit --no-fund
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       # cache the browser binaries — keyed on the playwright version so a bump
       # re-downloads; ~400MB saved per run otherwise
       - id: pw-version
@@ -35,8 +36,8 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.pw-version.outputs.v }}
-      - run: npx playwright install --with-deps chromium webkit
-      - run: npm run test:e2e
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - run: pnpm run test:e2e
       - if: failure()
         uses: actions/upload-artifact@v4
         with:

@@ -17,9 +17,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci --no-audit --no-fund
-      - run: npm test # vitest run — the whole suite
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test # vitest run — the whole suite
