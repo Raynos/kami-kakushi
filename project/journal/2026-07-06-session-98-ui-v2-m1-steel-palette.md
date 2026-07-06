@@ -263,3 +263,11 @@ in-modal ceremony (heat visible) reviewed. M4+M5 = ONE human review batch
 
 **UI-v2 M1–M7: all built.** Remaining human gates: variant picks
 (HR-2/5/6/7/9) + strip, final R0/R1 + mobile certification.
+
+## Addendum 14 — the decision walkthrough (AskUserQuestion rounds)
+
+- Certification: PENDING — the human plays the final R0/R1 + mobile pass next.
+- FB-166 rice counter: **Inventory only** — implemented (vital removed from
+  the header; the R0–R2 no-persistent-readout gap flagged in the F-log).
+- ALL variant picks (HR-2/5/6/7/9): deferred to the human's live in-game pass.
+- Queue steer: just the rice move; strip waits for the picks.

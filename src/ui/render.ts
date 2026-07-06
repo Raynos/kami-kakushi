@@ -656,10 +656,11 @@ export function mount(
   houseMark.textContent = '黒沢家';
   header.append(houseMark);
 
-  // ADR-107: two carried-wealth pills — RICE (raked/farmed) + COIN (the spendable currency, base
-  // unit mon). Rice reveals on the cold open (readout-rice); coin holds back until the first wage
-  // (readout-coin). koku is NOT a pill — it is House standing (surfaced elsewhere, Phase 4).
-  const rice = vital('rice', 'rice');
+  // ADR-107 + FB-166 (human, 2026-07-06): ONE carried-wealth pill — COIN (the spendable
+  // currency, base unit mon; reveals at the first wage, readout-coin). RICE left the vitals
+  // strip entirely — its home is the Inventory 蔵 tab (the kura carried/stored rows); the
+  // `readout-rice` unlock survives in core (it still gates rice-costed verbs' visibility).
+  // koku is NOT a pill — it is House standing (surfaced elsewhere, Phase 4).
   const coin = vital('coin', 'coin');
   const clock = el('div', 'vital clock');
   clock.hidden = true;
@@ -686,7 +687,7 @@ export function mount(
   health.append(healthNum);
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
-  header.append(rice.wrap, coin.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
+  header.append(coin.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
 
   // ── FB-106 (ADR-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
   //    progress bar (the rungMeter toward the next rung) with a HOVER card of detail. This is the
@@ -3494,12 +3495,7 @@ export function mount(
   }
 
   function renderVitals(state: GameState, prev: GameState | null): void {
-    rice.wrap.hidden = !isUnlocked(state, 'readout-rice');
-    if (!rice.wrap.hidden) {
-      const v = state.resources.rice ?? 0;
-      rice.value.textContent = formatKMB(v);
-      popValue(rice.value, v, prev?.resources.rice);
-    }
+    // (FB-166 — rice left the vitals strip; its readout lives on the Inventory 蔵 tab.)
     // COIN — the first-wage reveal (ADR-107): hidden until the player earns coin (readout-coin).
     // Rendered in mixed mon/monme/ryō with incremental reveal (ADR-108, formatCoin) — NOT the
     // plain K/M/B count (rice keeps that; coin is denominated). popValue still fires on the raw
