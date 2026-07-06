@@ -17,7 +17,9 @@
 
 ## TODO
 
-_(none open)_
+- [ ] Implement & design a **diverge** for story & narrative.
+- [ ] Kick off a **fable audit** of story & narrative.
+- [ ] Kick off a **fable redesign** of the story beats.
 
 ## Reading queue
 
