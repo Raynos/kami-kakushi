@@ -215,3 +215,12 @@ CSS-only, DOM contract untouched (ADR-104/ADR-110/ADR-062 kept):
 verify green (17) · e2e green (73) · headless captures of the nameplate +
 in-modal ceremony (heat visible) reviewed. M4+M5 = ONE human review batch
 (the human's call).
+
+## Addendum 11 — FB-167 log block-breaks + FB-168 mobile log band
+
+- FB-167: speaker-block breathing room in the log (voice/speaker/channel
+  change → `log-break` margin); with FB-158 quotes + prefixes the feed reads
+  as distinct blocks.
+- FB-168 (human steer, the demo's m-log-band): phone log = a one-line band →
+  tap expands to a near-full-screen sheet → header '▾ fold' collapses;
+  desktop untouched. verify + e2e green; Pixel-7 expand/fold verified.

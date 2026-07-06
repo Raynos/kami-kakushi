@@ -314,7 +314,8 @@ h3 {
   }
   .shell {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1.3fr) minmax(0, 1fr) auto auto;
+    /* FB-168 — the desk takes the height; the log is a one-line BAND (auto row) */
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto auto;
     grid-template-areas:
       'title'
       'vitals'
@@ -323,8 +324,47 @@ h3 {
       'nav'
       'footer';
   }
+  /* FB-168 — the demo's m-log-band: COLLAPSED = a single-line strip showing the
+     newest log line (the pinned-bottom scroll keeps it the latest); TAP expands
+     it to a near-full-screen sheet; tapping its header folds it back. */
   .shell > .log {
     margin: 0 var(--space-3) var(--space-2);
+  }
+  .shell > .log:not(.m-expanded) {
+    cursor: pointer;
+  }
+  .shell > .log:not(.m-expanded) > h2,
+  .shell > .log:not(.m-expanded) .log-filter-bar {
+    display: none;
+  }
+  .shell > .log:not(.m-expanded) .log-lines {
+    max-height: 2.5em;
+    overflow: hidden;
+    padding: var(--space-1) var(--space-3);
+    -webkit-mask: none;
+    mask: none;
+  }
+  .shell > .log.m-expanded {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 7dvh;
+    bottom: 0;
+    margin: 0;
+    z-index: 35;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
+  }
+  .shell > .log.m-expanded > h2 {
+    cursor: pointer;
+  }
+  .shell > .log.m-expanded > h2::after {
+    content: '▾ fold';
+    margin-left: auto;
+    float: right;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    color: var(--silver-dim);
   }
 }
 /* (legacy pinned-row sizing — harmless under grid, kept for any flex fallback) */
@@ -703,6 +743,13 @@ h3 {
   color: var(--silver-hi);
   border-color: var(--silver-wire);
 }
+/* FB-167 — breathing room when the SPEAKER-BLOCK changes (a different voice /
+   speaker / channel takes over): narration, dialogue and teach lines read as
+   distinct blocks, never one undifferentiated feed. */
+.log-line.log-break {
+  margin-top: var(--space-4);
+}
+
 /* F20 — per-tab unread dot: a channel with entries the reader hasn't seen yet. */
 .log-filter-tab {
   position: relative;

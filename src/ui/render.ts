@@ -738,6 +738,21 @@ export function mount(
     if (!atFoot && performance.now() < smoothScrollUntil) return;
     logPinnedToBottom = atFoot;
   });
+  // FB-168 — PHONE: the log is a collapsed one-line band; tapping the band
+  // expands it to a near-full-screen sheet; tapping the sheet's header folds it
+  // back (the demo's m-log-band). Desktop never enters this path.
+  const mobileLogBand = window.matchMedia('(max-width: 920px)');
+  logSection.addEventListener('click', (e) => {
+    if (!mobileLogBand.matches) return;
+    const t = e.target as HTMLElement;
+    if (logSection.classList.contains('m-expanded')) {
+      if (t.closest('.log > h2')) logSection.classList.remove('m-expanded');
+      return;
+    }
+    if (t.closest('button')) return;
+    logSection.classList.add('m-expanded');
+    logLines.scrollTop = logLines.scrollHeight; // re-pin to the newest on expand
+  });
   // the bottom filter bar (FB-9) — filters which channels show; Story leads, default 'story'.
   const logFilterBar = el('div', 'log-filter-bar');
   const logFilterBtns = new Map<LogFilter, HTMLButtonElement>();
@@ -3661,11 +3676,22 @@ export function mount(
     if (entry.channel === 'narration' && entry.voice === undefined) appendNarration(line, text);
     else line.append(document.createTextNode(text));
   }
+  // FB-167 — the paint-order key of the last-built line: when the SPEAKER-BLOCK
+  // changes (a different voice/speaker/channel takes over), the new line opens
+  // with breathing room, so narration / dialogue / teach lines never run together
+  // as "one big log". Paint-order derived; reset with the painted view.
+  let lastBlockKey: string | null = null;
+  function stampBlockBreak(line: HTMLElement, entry: LogEntry): void {
+    const key = `${entry.channel}|${entry.voice ?? ''}|${entry.speaker ?? ''}`;
+    if (lastBlockKey !== null && key !== lastBlockKey) line.classList.add('log-break');
+    lastBlockKey = key;
+  }
   function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
     // FB-56 — a perk-unlock milestone becomes a JRPG box: drop the `milestone` class (no red strip),
     // carry a plain `perk-line` wrapper the box lives inside.
     if (parsePerkLine(entry)) {
       const line = el('div', 'log-line perk-line');
+      lastBlockKey = 'perk'; // a perk box breaks the run either side
       renderLineContent(line, entry);
       if (animate) line.classList.add('reveal');
       return line;
@@ -3675,6 +3701,7 @@ export function mount(
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const line = el('div', `log-line ${entry.channel}${voiceClass}`);
     stampChatKicker(line, entry); // F127 — before content, so renderLineContent sees the stamp
+    stampBlockBreak(line, entry); // FB-167 — breathing room when the speaker-block changes
     renderLineContent(line, entry);
     if (animate) line.classList.add('reveal');
     return line;
@@ -3745,6 +3772,7 @@ export function mount(
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const line = el('div', `log-line ${entry.channel}${voiceClass}`);
     stampChatKicker(line, entry); // F127 — group-opener mark survives the post-type re-render
+    stampBlockBreak(line, entry); // FB-167
     if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
@@ -4043,6 +4071,7 @@ export function mount(
     // the stamps + the expiry clock running so the fleeting lines keep aging out while Now is hidden.
     if (wasNow) cancelNowCollapse();
     lastKey = -1;
+    lastBlockKey = null; // FB-167 — the repaint re-derives block breaks
     lastPaintedKey = -1;
     lastPaintedCount = 0;
     revealQueue.length = 0;
@@ -4080,6 +4109,7 @@ export function mount(
       logLines.textContent = '';
       resetReconcile(logLines); // ADR-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
+      lastBlockKey = null; // FB-167
       lastPaintedKey = -1;
       lastPaintedCount = 0;
       revealQueue.length = 0;
