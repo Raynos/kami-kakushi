@@ -192,6 +192,37 @@ TODOs and R8.
   AGENTS.md bullet + `narrative-diverge` skill + DEV-surfaces build plan,
   queue the plan, commit.
 
+## Build appendix — taste Pass 1 briefs (F10/ADR-135, 2026-07-06 build leg)
+
+**Story set-switcher (single idea, per the locked lighter split):**
+- P2 one primitive: reuse the panel's mono/gold-active button idiom — no new
+  control style. ✓ (built)
+- P17 controls advertise state: active set gold-highlighted; per-unit "·"
+  means follow-set; Story tab count-badged. ✓
+- TST1 one home: story variants get their OWN tab, never mixed into the
+  UI-variants tab; the switcher never duplicates script text (that's the
+  reader's home). ✓
+- TST2: swaps are player-invisible until invoked from the panel; hint says
+  display-only. ✓
+
+**Script-reader modal (constrains ALL 3 variants):**
+- P2 one primitive: clone `.modal-scrim`/`.modal-card frame`/`.modal-close`
+  — no bespoke modal chrome; speaker colour via the `.log-line voice-*`
+  classes, never a forked palette.
+- P3 voice at source: every speech line shows `Name:` prefix coloured by
+  voice category — narration unprefixed; the NAME is the primary signal.
+- P5/P6 frames stable, complete or absent: fixed full-page card, content
+  scrolls inside; readable and unclipped at 390px.
+- P12/P14 typewriter scope: the reader is a review instrument, NOT story
+  scope — text paints instantly, no typewriter, no reveal ceremony.
+- P17/TST4 legible state: which bundle, which take, its brief + scorecard —
+  readable at a glance; the active take control highlighted; picked-vs-
+  alternate never ambiguous.
+- P19 two registers: the script BREATHES (reading measure, roomy line
+  height); the chrome (take pills, unit labels, briefs) is tight and dense.
+- TST1 one home: the reader is THE place to read a bundle; the switcher
+  links to it; no third copy of script text anywhere.
+
 ## Parking lot (tangents / parallel threads)
 
 ## Open flags (pending input)

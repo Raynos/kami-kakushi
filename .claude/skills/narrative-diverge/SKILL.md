@@ -59,9 +59,9 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    Alternates live in the DEV-only narrative-variants area (compiled,
    strip-gated from prod — zero prod flag-debt), switchable via the DEV
    **story-variant set-switcher** and readable in the **script-reader modal**
-   (build plan: `docs/plans/fable-2026-07-06-narrative-dev-surfaces.md`;
-   until those surfaces exist, the bundle review doc alone carries the
-   alternates — say so in the HR-item).
+   (both LIVE since session 92 — DEV panel → **Story** tab: the set-switcher
+   + the "⤢ Explore story" full-page reader; the reader-variant pick is
+   HR-9. Source-area spec: `src/core/content/narrative/takes/README.md`).
 8. **File ONE HR-item per bundle** in `project/human-in-the-loop/review.md`:
    the picked script as a continuous read, alternates under each unit, Pass-1
    brief + per-take scorecard blocks, pick rationale, and how to review

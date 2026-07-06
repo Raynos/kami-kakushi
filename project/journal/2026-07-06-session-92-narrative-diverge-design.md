@@ -78,6 +78,24 @@ before the redesign). Built the compiler half:
   `rung-beat-ready` → beat live → canon→B→C→canon round-trip, each swap
   visible in the running VN. Screenshot `tmp/story-swap-smoke.png`.
 
+## Entry 4 — DEV-surfaces build: Phase 4 (script-reader modal, full diverge)
+
+- `src/ui/dev.ts` — `openStoryReader(bundles, initial?)`: full-page
+  read-only modal cloning `.modal-scrim`/`.modal-card frame`/`.modal-close`;
+  three genuinely-distinct reading variants behind header pills (the FULL
+  ADR-075 diverge of this surface): **annotated** (play-order script,
+  alternates nested), **galley** (canon+takes side-by-side per unit),
+  **stage** (one take end-to-end, local pills, canon-fallback chips).
+  Script lines instant-paint with `log-line voice-*` speaker colours (P12:
+  review instrument, not story scope). Entry: Story pane → "⤢ Explore
+  story". Esc / scrim / × dismiss.
+- `src/ui/dev.test.ts` — +3 RED-able reader tests (canon text asserted via
+  the LIVE registry, alternates render, stage take-switch, Esc dismiss).
+- Taste flow: Pass-1 brief in the brainstorm's build appendix; Pass-2
+  per-variant scorecards + self-pick (**annotated**) filed as **HR-9** with
+  the switcher confirmation bundled in.
+- Screenshots (desktop + 390px, all variants): `tmp/reader-*.png`.
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the

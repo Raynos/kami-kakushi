@@ -6,11 +6,18 @@
 // swaps the House-Influence grade visual, and the default (= prod, where `dev` is undefined)
 // renders A. (RED-able: if the seam stopped honouring the selection, or always rendered A, the
 // B/C asserts flip red; if it always delegated, the prod-default assert flips red.)
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount, type AppHooks } from './render';
-import { createDevApi, mountDevPanel, createBalanceCockpit, type DevQa } from './dev';
+import {
+  createDevApi,
+  mountDevPanel,
+  createBalanceCockpit,
+  openStoryReader,
+  type DevQa,
+} from './dev';
 import type { StoryTakeBundle } from './storyTakes';
 import type { RungScene } from '../core/content/rungBeats';
+import { RUNG_BEATS } from '../core/content/rungBeats';
 
 /** A minimal balance cockpit for the panel-mount tests (FB-7 — the Balance sub-tab is required opts). */
 const testCockpit = () =>
@@ -760,5 +767,67 @@ describe('ADR-139 story take-sets', () => {
     expect(host.textContent).toContain('Test bundle');
     expect(host.textContent).toContain('B — Colder');
     host.remove();
+  });
+});
+
+// ── ADR-139 — the script-reader modal (the full-diverge surface): RED-able routing proofs.
+// jsdom-level: each variant renders the bundle's script content; canon text comes from the
+// LIVE registries; Escape dismisses. Visual taste is scored on real screenshots, not here. ──
+describe('ADR-139 story reader modal', () => {
+  const scene = (text: string): RungScene => ({
+    id: 'rung-r1',
+    rank: 'R1' as RankId,
+    voice: 'steward',
+    greeting: [{ voice: 'narrator', text }],
+    topics: [],
+    decision: {
+      prompt: 'How?',
+      options: [{ id: 'o1', label: 'l', say: 'my line', react: 'the react' }],
+    },
+    motivates: [],
+  });
+  const bundle: StoryTakeBundle = {
+    id: 'reader-bundle',
+    title: 'Reader bundle',
+    rationale: 'canon reads truest',
+    takes: [
+      { id: 'b', label: 'Colder', brief: 'withholds', rungBeats: { R1: scene('alt-b greeting') } },
+    ],
+  };
+
+  afterEach(() => {
+    document.querySelectorAll('.modal-scrim').forEach((n) => n.remove());
+  });
+
+  it('annotated variant shows canon (live registry) AND the alternate under the unit', () => {
+    const scrim = openStoryReader([bundle], 'annotated');
+    const text = scrim.textContent ?? '';
+    expect(text).toContain('Reader bundle');
+    expect(text).toContain('alt-b greeting'); // the take
+    expect(text).toContain('rung:R1'); // the unit chip
+    // canon text comes from the LIVE registry — assert via the source of truth, not a copy.
+    const canonGreeting = RUNG_BEATS.R1!.greeting[0]!.text;
+    expect(text).toContain(canonGreeting.slice(0, 40));
+  });
+
+  it('galley variant lays canon and takes side by side; stage variant reads one take', () => {
+    const galley = openStoryReader([bundle], 'galley');
+    expect(galley.textContent).toContain('canon · the pick');
+    galley.remove();
+    const stage = openStoryReader([bundle], 'stage');
+    // stage opens on canon; switching to B swaps the read.
+    const bPill = [...stage.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').startsWith('B ·'),
+    )!;
+    bPill.click();
+    expect(stage.textContent).toContain('alt-b greeting');
+    expect(stage.textContent).toContain('withholds');
+  });
+
+  it('Escape dismisses the reader', () => {
+    const scrim = openStoryReader([bundle], 'annotated');
+    expect(document.body.contains(scrim)).toBe(true);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(document.body.contains(scrim)).toBe(false);
   });
 });
