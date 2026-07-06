@@ -9,4 +9,4 @@
 
 ### mendHint
 
-A worn edge is mended by hands the house has come to trust.
+The edge is going. Not yet mine to mend — climb higher, then set it right.

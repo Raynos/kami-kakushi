@@ -4,5 +4,5 @@
 // Data only — the types + helpers stay hand-written in flavor.ts, which re-exports this.
 
 export const FLAVOR = {
-  mendHint: 'A worn edge is mended by hands the house has come to trust.',
+  mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
 } as const;

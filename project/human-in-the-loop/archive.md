@@ -51,6 +51,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | R9 | UI-remaster direction (`ui-demos/` field of 10) | **10 Andon Steel** locked as UI-v2's direction; 01–09 anchored as the exploration record (not deleted) | **D-127** | 2026-07-04 | (in-session steer) |
 | R10 | F7 balance-cockpit W1–W4 tunings | Adopted the proposed candidates: `RICE_PER_RAKE 3→2` (W1), `RICE_SELL_PRICE_BY_SEASON.autumn 3→4` (W2), `EAT_RICE_COST 3→2` (W3); **W4 no-op** (D-133 already lands the capstone ~96 min). Applied to canon in-session; rung pacing unchanged (Δ +0.0), Phase-2 ratio 0.94 in band | **D-134** (via the F7 apply-flow / D-132) | 2026-07-05 | (in-session steer) |
 | HR-9 | ADR-139 story DEV surfaces — reader variant + switcher | **Galley columns** picked FIRM (in-session lean → FB-125 verbatim retire order); annotated/stage retired, switcher confirmed by use | FB-122…FB-125 drained; galley is THE reader | 2026-07-06 | [2026-07-06-playtest](../human-feedback/2026-07-06-playtest.md) |
+| HR-10 | HD-23 R3 mend-hint line — 3 ADR-139 takes | **Take C** locked (human override of the take-B self-pick), reviewed LIVE in the DEV switcher (ADR-143): _"The edge is going. Not yet mine to mend — climb higher, then set it right."_ Bundle pruned; canon carries C | **ADR-141 / ADR-143** | 2026-07-06 | (in-session steer) |
 
 > _Open reviews live in [`review.md`](review.md): **R1** (playtest) · **R2** (UI variants, per-variant, D-075)
 > · **R5** (bestiary) · **R6** (home panel) · **R7** (estate map) · **R8** (rung cast/beats)._

@@ -2053,10 +2053,11 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   the mechanics: the repair unlock IS a trust rung); the mend path is legibly
   *earned*, not *asked*. Preserves the ADR-110 unlock cadence untouched.
 - **Narrative provenance (ADR-139):** the hint is fiction-voiced, so it shipped
-  from **3 blind takes**; the picked line (take B, the proverbial/systemic
-  register) beat a character-anchored take (named the smith Tōzō before the
-  player meets him at R4 — a premature reveal) and a first-person-resolve take.
-  Alternates + pick rationale: **HR-10** in `review.md`.
+  from **3 blind takes**. The agent self-picked take B (proverbial/systemic), but
+  on **HR-10 sign-off the human overrode to take C** — the interior, first-person
+  resolve, now canon: *"The edge is going. Not yet mine to mend — climb higher,
+  then set it right."* Reviewed LIVE in the DEV switcher (ADR-143); the bundle was
+  pruned on sign-off. Provenance: HR-10 (archived, 2026-07-06).
 - **Soundness:** render-level RED-able test (`src/ui/render.test.ts`, the A7
   block) — an R3 Battered blade shows the hint and NO Repair button; R4 (repair
   unlocked) retires the hint and offers the real CTA. The Battered fixture is
@@ -2106,13 +2107,19 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
      (`cold-open`→`coldOpen`, `flavor`→`flavor`); `dev.subFlavor(key, canon)`
      extends the live override and `flavor:` joins `LIVE_UNITS`; render.ts renders
      `FLAVOR.mendHint` through `subFlavor` (both weapon-card paths). The mend-hint
-     is its first user — the `takes/hd23-mend-hint/` bundle ships takes A + C.
+     was its first user — the `takes/hd23-mend-hint/` bundle shipped takes A + C.
+- **Outcome (HR-10 sign-off, 2026-07-06):** the human reviewed the bundle **live
+  in the switcher** — the very flow this ADR mandates — and **overrode to take C**.
+  Canon (`flavor.md → mendHint`) now carries C; the bundle was **pruned** per
+  ADR-139 (the archived HR-10 row is the record). So `takes/` is empty again —
+  proof the loop closes end-to-end, not just that it renders.
 - **Scope note:** dialogue + cold-open keyed prose remain reader-only for now
   (no live diverge asks for them yet); the rule makes wiring their live-swap part
   of the first diverge that touches them.
 - **Soundness:** RED-able `dev.subFlavor` unit test (`dev.test.ts` — canon
   identity, swaps the active take, falls back when a take lacks the key) + the
-  HD-23 render test now asserts the hint equals `FLAVOR.mendHint` (single-source,
+  HD-23 render test asserts the hint equals `FLAVOR.mendHint` (single-source,
   not a literal); the `gen-narrative` gate byte-compares `flavor.gen.ts` +
-  `storyTakes.gen.ts`. Verified live: `?story-hd23-mend-hint=a|c` renders take
-  A/C on the R3 weapon-card, and the DEV Story tab lists the bundle.
+  `storyTakes.gen.ts`. Verified live pre-sign-off: `?story-hd23-mend-hint=a|c`
+  rendered take A/C on the R3 weapon-card; post-sign-off the weapon-card renders
+  take C as canon.
