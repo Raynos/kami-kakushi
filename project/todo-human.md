@@ -46,12 +46,3 @@ _(none open)_
   story-bible co-write (cast sheet first), Phase 2 = the T0 prose wave in five
   diverge bundles. **No ADR minted yet, per your call** — approve the plan and
   the ADR is pulled from §1, then Phase 1 starts.
-- [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
-  Steel migration** (v0.3.6): **M1–M7 ALL BUILT 2026-07-06** — read for the record; what's left is your certification + variant picks (HR-2/5/6/7/9). Originally the full-replacement remaster plan,
-  co-authored with you. All calls locked (full replacement · Andon composition ·
-  Western fonts · cursor cut · re-theme all variants · straight-on-main). **7 build
-  cards** M1 palette → M2 materials → M3 composition → M4 GBA cold-open → M5
-  VN/ceremony → M6 variant surfaces (HR-2/HR-5/HR-6/HR-7) → M7 doc ripple, each with
-  `file:line` anchors + acceptance criteria, written for a Sonnet-class builder;
-  4 reference appendices (token map · material CSS · fonts · variant recipe).
-  **Read to LOCK → then I start M1.**

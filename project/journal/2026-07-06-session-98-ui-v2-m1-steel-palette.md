@@ -319,3 +319,15 @@ five agents flagged it; fixed) + full verify (17) + e2e (73):
   plate) · L kamon medallions (struck engraved dies, damascened roads).
 - One lint fix landed on kamon (a useless spread fallback).
 - HR-7 updated: pick among H–L live. Screenshots: tmp/m6-shots/map-*.png.
+
+## Addendum 19 — UI-v2 CERTIFIED (PH5) · plan archived · toggle section retired
+
+- **The human certified UI-v2's fun & taste (PH5, 2026-07-06)** — the final DoD
+  line closes; the Andon Steel migration is DONE end to end, one session.
+- The UI-v2 DEV temp-toggle section retired (attr palette locked 'temper';
+  no open compares lived there).
+- **The variants are deliberately KEPT** (human call): all takes across
+  HR-2/5/6/7/9 stay live for a detailed review-and-play pass; the strips
+  follow the picks as ordinary HR work.
+- The migration plan graduated to `project/archive/` (Status ✅ DONE) and left
+  the reading queue.

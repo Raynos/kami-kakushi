@@ -2085,18 +2085,9 @@ export function mountDevPanel(
   }
   markSpeed(1); // the game starts at 1×
 
-  // UI-v2 — TEMPORARY migration toggles, ONE section pinned to the top of Settings
-  // so the human finds every pending compare in one place (human, 2026-07-06).
-  // Every pending-compare toggle of the Andon Steel migration lands here; a
-  // resolved compare leaves only its lock note, and the section dies when the
-  // migration's forks are all resolved.
-  // Resolved so far: attr palette → 'temper' (LOCKED 2026-07-06; the alternates +
-  // the data-attr-palette toggle died with the lock — ADR-075 zero flag-debt).
-  const uiV2 = section('UI-v2 (temp toggles)');
-  if (uiV2.parentElement) settingsPane.prepend(uiV2.parentElement);
-  const uiV2Note = el('span', undefined, 'attr palette: temper ✓ locked · no open compares');
-  uiV2Note.style.cssText = 'color:#e7d9bc;opacity:.6;align-self:center;';
-  uiV2.append(uiV2Note);
+  // (The UI-v2 temp-toggle section lived here through the migration; RETIRED with
+  // the human's PH5 certification, 2026-07-06 — attr palette locked 'temper'; the
+  // open variant picks live in the Variants pane, not here.)
 
   // teleports
   const jump = section('Jump');
