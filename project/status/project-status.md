@@ -43,8 +43,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   inbox · sim · narrative · saves · cockpit · /ship · taste two-pass · telemetry).
 - **✅ s90 context-hardening DONE (archived):** hooksPath auto-wired ·
   `verify:tooling` nightly · **ADR-140 id collapse** · caps.
-- **✅ s88 desktop-journey e2e DONE (archived):** 3-project browser lane (desktop
-  · journeys · persistence · ratchet), CI green, 25s · **HD-23/HD-24** · TODO gate.
+- **✅ s88 e2e + HD-23/24 DONE:** 3-project browser lane (desktop · journeys ·
+  persistence · ratchet), CI green 25s; HD-23 R3 mend-hint **ADR-141** · HD-24 cold-open restore **ADR-142** (s94, hint HR-10).
 - **✅ s92 ADR-139 NARRATIVE DIVERGE:** standing 3+-takes rule (skill +
   AGENTS.md) + DEV Story surfaces — takes compiler · live set-switcher ·
   **galley** reader (HR-9 ✅ same-day; drain FB-122–125). `takes/` empty —
@@ -105,7 +105,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `npm run dev` · `build` ·
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (npm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-06-session-93-native-bash-guards.md`](../journal/2026-07-06-session-93-native-bash-guards.md)
+   [`journal/2026-07-06-session-94-hd23-hd24.md`](../journal/2026-07-06-session-94-hd23-hd24.md)
    <!-- gen:end resume-journal -->
 2. `npm install` → `npm run verify` (green) → `npm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).

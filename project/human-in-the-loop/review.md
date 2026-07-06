@@ -245,6 +245,35 @@ for your read in
   authoring source — you can mark up those files yourself).
 - **Verdict:** _(awaiting the human)_
 
+### HR-10 🔲 — HD-23 R3 mend-hint line — pick among 3 ADR-139 takes (shipped default: take B)
+
+The R3 "battered blade, no mend path" fix (HD-23 → **ADR-141**) adds a diegetic
+`.lock-hint` on the combat weapon-card when the blade is Battered/Broken but
+repair (R4) isn't yours yet. Per ADR-139 the line shipped from **3 blind takes**;
+I self-picked **take B** into canon — override from the bundle if another lands better.
+
+- **Shipped (take B · proverbial / systemic):**
+  *"A worn edge is mended by hands the house has come to trust."*
+  — no named character; states the gate as house-fact; echoes the existing
+  lock-hint idiom ("Trusted of the house"); reads the mend as a **standing** you
+  climb to (TST3/TST4). **13 words.**
+- **Alternate A · diegetic, character-anchored:**
+  *"The smith Tōzō keeps a forge past the woodlot; his mending is not yet yours to ask."*
+  — warm, in-world, names the forge; **but names Tōzō before the player meets him
+  at R4** (premature reveal) and is the longest (17 words). Rejected on the name-spoiler.
+- **Alternate C · interior, first-person resolve:**
+  *"The edge is going. Not yet mine to mend — climb higher, then set it right."*
+  — close, grim, present-tense; the player's own read. Slightly more
+  instructional ("climb higher") and shifts to first-person "mine" (a register
+  the game's hint voice doesn't otherwise use).
+- **How to look:** play to R3 with a worn blade (or `__qa`: load an R3 fixture,
+  `forceState({ weaponDurability: <~8% of max> })`, open the Combat tab — the hint
+  sits under the weapon blurb). To compare a losing take, swap the string at its
+  single call site (`src/ui/render.ts`, weapon-card block). Per ADR-139 the
+  alternates live only here (this doc is the archive) — no DEV switcher for a
+  one-line lock-hint.
+- **Verdict:** _(awaiting the human)_
+
 ---
 
 > _This queue holds **open** reviews only. Closed reviews graduate to

@@ -2036,3 +2036,49 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   living usage; an old id in a historical file is read through this table. The
   session brief, hooks, and skills print the new item-type names (`HD-items`,
   `HR-items`).
+
+### ADR-141 ✅ — T0: a legible mend-path lock-hint at R3 (keep the R4 repair gate) — resolves HD-23
+- **created_date:** 2026-07-06
+- **Context:** an s88 e2e finding (HD-23): `verb-repair` (plus `readout-durability`
+  and the Equipment panel) reveals at **R4** by design (`ranks.ts` — the ADR-110
+  one-beat-per-rung cadence), but a blade can already wear to **Battered/Broken**
+  at **R3**, where combat opens. So an R3 player watched their win-rate sag with
+  **no mend CTA on any surface** and no signal the mend even exists — reading as
+  "is this a bug?" (fails TST4, "the player never guesses state").
+- **Decision (human, 2026-07-06 — option C over A "leave it" / B "reveal repair
+  at R3"):** **keep the R4 gate**, but when the equipped blade is Battered/Broken
+  **and** `verb-repair` is not yet unlocked, show a diegetic `.lock-hint` on the
+  combat weapon-card: *"A worn edge is mended by hands the house has come to
+  trust."* Frames the gate as **standing, not a bug** (TST3 — the fiction causes
+  the mechanics: the repair unlock IS a trust rung); the mend path is legibly
+  *earned*, not *asked*. Preserves the ADR-110 unlock cadence untouched.
+- **Narrative provenance (ADR-139):** the hint is fiction-voiced, so it shipped
+  from **3 blind takes**; the picked line (take B, the proverbial/systemic
+  register) beat a character-anchored take (named the smith Tōzō before the
+  player meets him at R4 — a premature reveal) and a first-person-resolve take.
+  Alternates + pick rationale: **HR-10** in `review.md`.
+- **Soundness:** render-level RED-able test (`src/ui/render.test.ts`, the A7
+  block) — an R3 Battered blade shows the hint and NO Repair button; R4 (repair
+  unlocked) retires the hint and offers the real CTA. The Battered fixture is
+  derived from the `DURABILITY_BANDS` source (asserted, never a copied number).
+  Verified live at R3 via `__qa` (`weaponDurability` forced into the Battered band).
+
+### ADR-142 ✅ — T0: a cold-open "restore a saved game" affordance — resolves HD-24
+- **created_date:** 2026-07-06
+- **Context:** an s88 e2e finding (HD-24): save Import lives in Settings → Saves,
+  which is in the shell footer — reachable only **after** the awake shell mounts.
+  A returning player on a fresh device/profile therefore had to replay the whole
+  intro VN before they could restore a save.
+- **Decision (human, 2026-07-06 — option B over A "rare, leave it" / C
+  "import-first skips the intro"):** a **quiet** underlined "Returning? Restore a
+  saved game" line under the cold-open wake verb (subordinate to the primary
+  "Open your eyes" CTA — TST3: genuinely-new players still open the game through
+  the fiction). It **reuses the existing Saves modal** (no new surface). To let
+  that modal overlay the pre-awake cold-open (the shell is `hidden` before
+  waking), the Settings/Saves modal is re-parented from the shell to a
+  **root-level sibling**.
+- **Soundness:** render-level RED-able test (`src/ui/render.test.ts`, the HD-24
+  block) — the pre-awake card shows the restore line; the modal is a root-level
+  sibling (not nested in the hidden shell); clicking the line opens it on the
+  Saves tab. Verified live: the line reveals with the wake verb and opens the
+  import surface over the dark cold-open field.

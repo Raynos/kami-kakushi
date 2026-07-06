@@ -39,6 +39,8 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 | H20 | Promote the balance-report freshness WARN → hard gate? | **B — keep the WARN** (no-op process call; not yet ignored, so no promotion; revisit if it starts getting missed) | kept as WARN (no ADR; see **D-132** §5a) | 2026-07-04 | (in-session steer) |
 | H21 | Per-agent worktrees vs the shared working tree | **A — status quo** (no per-agent worktree/branch/merge weight wanted; the shared-tree guards stay load-bearing permanently) | kept shared tree (no ADR; raises the value of context-hardening P2/P3) | 2026-07-05 | (in-session steer) |
 | H22 | Journal shape for routine commits (the 4× write-up) | **A — status quo** (hand journals stay; `SKIP_JOURNAL=1` already covers trivial commits; write-up cost accepted as the price of the memory model) | kept journal gate (no ADR) | 2026-07-05 | (in-session steer) |
+| HD-23 | R3 Battered blade with no visible mend path (s88) | **C** — keep the R4 repair gate, add a diegetic `.lock-hint` at R3 ("mended by hands the house has come to trust"); hint from 3 ADR-139 takes (HR-10) | **ADR-141** | 2026-07-06 | (in-session steer) |
+| HD-24 | Fresh-profile save import sits behind the whole intro (s88) | **B** — a quiet "Restore a saved game" line under the cold-open wake verb, reusing the Saves modal (re-parented to root so it overlays the pre-awake card) | **ADR-142** | 2026-07-06 | (in-session steer) |
 
 ## Reviews (closed R-items)
 

@@ -24,6 +24,7 @@ import {
   RUNG_BEATS,
   getBelonging,
   getWeapon,
+  durabilityBand,
   type GameState,
   type Intent,
   type LogEntry,
@@ -687,6 +688,45 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     expect(root.querySelector('.stance-row')).not.toBeNull();
   });
 
+  it('HD-23 (option C) — an R3 Battered blade shows the mend lock-hint; R4 swaps it for the repair CTA', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // an R3 blade worn to Battered — `verb-repair` reveals at R4, so no mend CTA is reachable yet.
+    const r3 = combatState([]);
+    const weapon = getWeapon(r3.equippedWeapon);
+    // derive a Battered durability from the balance source (never a copied magic number), and assert
+    // the fixture really lands in the Battered band — so a bands re-tune can't silently no-op this test.
+    const battered: GameState = {
+      ...r3,
+      weaponDurability: Math.max(1, Math.round(weapon.durabilityMax * 0.1)),
+    };
+    expect(durabilityBand(battered.weaponDurability, weapon.durabilityMax).name).toBe('Battered');
+
+    render(battered, null);
+    openCombat();
+    const hint = root.querySelector<HTMLElement>('.weapon-card .lock-hint');
+    expect(hint).not.toBeNull();
+    expect(hint!.hidden).toBe(false);
+    expect(hint!.textContent).toContain('mended by hands the house');
+    // …and no Repair button is reachable at R3.
+    const repairAtR3 = [...root.querySelectorAll<HTMLButtonElement>('button')].some(
+      (b) => (b.textContent ?? '').includes('Repair') && !b.hidden,
+    );
+    expect(repairAtR3).toBe(false);
+
+    // R4: `verb-repair` unlocks — the SAME worn blade now offers the real mend CTA and the hint retires.
+    const r4: GameState = {
+      ...battered,
+      unlocked: [...battered.unlocked, 'readout-durability', 'panel-equipment', 'verb-repair'],
+    };
+    render(r4, battered);
+    const hintR4 = root.querySelector<HTMLElement>('.weapon-card .lock-hint');
+    expect(hintR4 === null || hintR4.hidden).toBe(true);
+    const repairAtR4 = [...root.querySelectorAll<HTMLButtonElement>('button')].some(
+      (b) => (b.textContent ?? '').includes('Repair') && !b.hidden,
+    );
+    expect(repairAtR4).toBe(true);
+  });
+
   it('the Bestiary (on Character) fogs an unfaced foe, then inks its entry once its mob-<id> is set', () => {
     const render = mount(root, () => {}, noopHooks());
     const state = combatState([]);
@@ -707,6 +747,49 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     expect(inked).toBeTruthy();
     expect(inked!.textContent).toContain('%');
     expect(inked!.textContent).toContain('Tell —');
+  });
+});
+
+// ── HD-24 — the cold-open "restore a save" affordance (import before replaying the intro) ──
+describe('HD-24 (option B) — cold-open offers a quiet restore-a-save line', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  it('the pre-awake card shows a Restore line that opens the Saves modal over the cold-open', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(createInitialState(1), null); // no `awake` flag → the cold-open card is shown
+    const restore = root.querySelector<HTMLButtonElement>('.coldopen-restore');
+    expect(restore).not.toBeNull();
+
+    const scrim = root.querySelector<HTMLElement>('.modal-scrim');
+    expect(scrim).not.toBeNull();
+    // the modal is a ROOT-level sibling (not nested in the pre-awake-`hidden` shell), so it can
+    // overlay the cold-open — the crux of HD-24.
+    expect(scrim!.parentElement).toBe(root);
+    expect(scrim!.hidden).toBe(true); // closed until asked
+
+    restore!.click();
+    expect(scrim!.hidden).toBe(false); // the restore line opens it…
+    // …straight onto the Saves tab (the import textarea's section is the active one).
+    const savesTab = [...root.querySelectorAll<HTMLButtonElement>('.modal-tab')].find((b) =>
+      (b.textContent ?? '').includes('Saves'),
+    );
+    expect(savesTab?.getAttribute('aria-selected')).toBe('true');
   });
 });
 

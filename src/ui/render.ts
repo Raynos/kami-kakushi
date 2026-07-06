@@ -905,6 +905,7 @@ export function mount(
     wcName: HTMLElement;
     wcBand: HTMLElement;
     wcBlurb: HTMLElement;
+    wcHint: HTMLElement;
     wctrl: HTMLElement;
     repairBtn: HTMLButtonElement;
     craftHost: HTMLElement;
@@ -998,7 +999,7 @@ export function mount(
   // corner in the footer (DEV builds only) so the Settings button sits clear of it — no collision.
   if (import.meta.env.DEV && dev) footer.classList.add('has-dev-toggle');
 
-  shell.append(header, nav, workspace, footer, settings.modal);
+  shell.append(header, nav, workspace, footer);
 
   // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
   const coldOpen = el('div', 'coldopen');
@@ -1011,10 +1012,18 @@ export function mount(
   const coVerb = el('button', 'verb primary', META_LABELS.open_eyes);
   coVerb.type = 'button';
   coVerb.addEventListener('click', () => dispatch({ type: 'open_eyes' }));
-  coFrame.append(coTitle, coRoman, coLede, coVerb);
+  // HD-24 (option B) — a quiet "restore a save" line under the wake verb, so a returning player on a
+  // fresh device/profile can import BEFORE replaying the whole intro (the Settings→Saves import
+  // otherwise sits behind the awake shell). Reuses the existing Saves modal — no new surface.
+  const coRestore = el('button', 'coldopen-restore', 'Returning? Restore a saved game');
+  coRestore.type = 'button';
+  coRestore.addEventListener('click', () => settings.open('saves'));
+  coFrame.append(coTitle, coRoman, coLede, coVerb, coRestore);
   coldOpen.append(coFrame);
 
-  root.append(coldOpen, shell);
+  // The Settings/Saves modal is a root-level sibling (not inside `shell`) so it can overlay BOTH the
+  // awake shell AND the pre-awake cold-open — the shell is `hidden` before waking (HD-24).
+  root.append(coldOpen, shell, settings.modal);
 
   let firstRender = true;
   let coldOpenRevealStarted = false;
@@ -2930,6 +2939,13 @@ export function mount(
           : weapon.archetype,
       ),
     );
+    // HD-23 (option C) — see the incremental path: a diegetic lock-hint when the blade is worn but
+    // repair (R4) isn't yet the player's. Mirrored here for DEV-wholesale parity.
+    if (!isUnlocked(state, 'verb-repair') && (band.name === 'Battered' || band.name === 'Broken')) {
+      wc.append(
+        el('div', 'lock-hint', 'A worn edge is mended by hands the house has come to trust.'),
+      );
+    }
     const wctrl = el('div', 'labour-row');
     if (showEquip && isUnlocked(state, 'verb-repair')) {
       const rep = el(
@@ -3061,6 +3077,11 @@ export function mount(
       wc.append(wh);
       const wcBlurb = el('div', 'skill-blurb');
       wc.append(wcBlurb);
+      // HD-23 (option C) — at R3 the blade can go Battered/Broken but `verb-repair` reveals at R4
+      // (ranks.ts), so there's no mend CTA to reach for. A diegetic lock-hint keeps the ADR-110 unlock
+      // cadence while killing the "is this a bug?" read: the mend PATH exists, just not yours yet (T4).
+      const wcHint = el('div', 'lock-hint');
+      wc.append(wcHint);
       const wctrl = el('div', 'labour-row');
       const repairBtn = el('button', 'auto-toggle');
       repairBtn.type = 'button';
@@ -3087,6 +3108,7 @@ export function mount(
         wcName,
         wcBand,
         wcBlurb,
+        wcHint,
         wctrl,
         repairBtn,
         craftHost,
@@ -3119,6 +3141,13 @@ export function mount(
         : weapon.archetype,
     );
     const showRepair = showEquip && isUnlocked(state, 'verb-repair');
+    // HD-23 (option C) — R3 has no mend path (verb-repair reveals at R4). When the blade is worn AND
+    // repair isn't yet the player's, a diegetic lock-hint says the mend exists but is earned, not asked.
+    const wornNoMend =
+      !isUnlocked(state, 'verb-repair') && (band.name === 'Battered' || band.name === 'Broken');
+    toggle(r.wcHint, wornNoMend);
+    if (wornNoMend)
+      setText(r.wcHint, 'A worn edge is mended by hands the house has come to trust.');
     toggle(r.repairBtn, showRepair);
     if (showRepair) {
       setText(
@@ -4707,11 +4736,15 @@ export function mount(
     if (coldOpenRevealStarted) return;
     coldOpenRevealStarted = true;
     cancelColdOpenReveal?.();
-    const items = [coTitle, coRoman, coLede, coVerb];
+    const items = [coTitle, coRoman, coLede, coVerb, coRestore];
     for (const it of items) it.classList.add('co-reveal-item');
     coLede.textContent = COLD_OPEN_LEDE;
     for (const it of items) it.classList.remove('in');
-    const showButton = (): void => coVerb.classList.add('in');
+    // the wake verb and the quiet restore line (HD-24) wake in together, after the lede types out.
+    const showButton = (): void => {
+      coVerb.classList.add('in');
+      coRestore.classList.add('in');
+    };
     // QA instant-text rides the same everything-at-once path reduced-motion takes
     if (coldOpenReduced() || QA_INSTANT_TEXT) {
       for (const it of items) it.classList.add('in');

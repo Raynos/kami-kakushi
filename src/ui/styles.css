@@ -1445,6 +1445,25 @@ h3 {
 .coldopen-lede {
   text-align: left;
 }
+/* HD-24 — the quiet "restore a saved game" line under the wake verb: a muted, chromeless
+   text link on the dark kura field (never competes with the primary CTA), underlined so it
+   reads as actionable; light-on-dark keeps it AA-legible. */
+.coldopen-restore {
+  margin-top: var(--space-4);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--washi-deep);
+  font-size: var(--fs-small);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 160ms var(--ease-ink);
+}
+.coldopen-restore:hover,
+.coldopen-restore:focus-visible {
+  color: var(--washi);
+}
 /* staged cold-open reveal (F14): items start hidden; JS adds .in at the scripted beat.
    Reduced-motion zeroes the transition (global RM rule) + the JS reveals everything at once. */
 .co-reveal-item {
