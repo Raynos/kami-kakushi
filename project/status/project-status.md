@@ -48,8 +48,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   (ADR-135) · FB-8 telemetry (ADR-136). **THE FB-1–FB-10 PROCESS WAVE IS COMPLETE.**
 - **✅ HD-19/HD-20 CLOSED:** HD-20→B (soft WARN) · HD-19→ADR-133 (ratio gate `[0.8,1.2]`,
   stopgap 0.94:1); real **Phase-2 redesign** human-PARKED in `BACKLOG.md`.
-- **✅ s86 context audit (Fable):** healthy, drift fixed; hardening plan
-  PROPOSED (`fable-2026-07-05-context-hardening.md`) · HD-21/HD-22 closed → A.
+- **✅ s90 context-hardening DONE (archived):** hooksPath auto-wired ·
+  `verify:tooling` nightly · **ADR-140 id collapse** · caps. Open: P3.3 (human).
 - **✅ s88 desktop-journey e2e DONE (archived):** 3-project browser lane (desktop
   · journeys · persistence · ratchet), CI green, 25s · **HD-23/HD-24** · TODO gate.
 

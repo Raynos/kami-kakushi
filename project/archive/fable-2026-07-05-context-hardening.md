@@ -1,9 +1,11 @@
 # Plan — context hardening (from the 2026-07-05 context audit)
 
-**Status:** LOCKED (human, 2026-07-06) — P1–P3 green-lit; P3.2 cull confirmed
-(delete `no-bulk-git-add`); P4 lands all cuts as individual commits, human
-reviews the diffs after (revert anything that reads wrong). P4 cut 1 rescoped
-by the human — see the cut for the new label scheme.
+**Status:** DONE ✅ (2026-07-06, session 90, all four phases) — P1 `3b84699` ·
+P2 `e223672` (+CI red-proof run 28778902182) · P3 `0c1ba7b` · P4 cuts
+`c3aed3e`/`636930c`/`ddbd548`/`b9b3bff` (ADR-140 records the id map). Human
+reviews the P4 diffs async per the lock; the only open remainder is P3.3
+(`settings.local.json` prune — human-owned) and the deferred ~350 AGENTS.md
+ratchet.
 **Confidence:** ( 70% Opus, 30% Fable ) — see routing below.
 **Sources:** [`project/audit/reports/2026-07-05-context-audit.md`](../../project/audit/reports/2026-07-05-context-audit.md)
 (the audit) + the follow-up assessment discussed with the human (2026-07-05,

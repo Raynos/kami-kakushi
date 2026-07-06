@@ -128,9 +128,14 @@ then reverted.
 
 ## Next intended steps (current)
 
-1. P2 — `verify:tooling` meta-suite (nightly-only), five fixture-driven groups.
-2. P3 — no-tree-mutation extension + delete `no-bulk-git-add` + micro-hygiene.
-3. P4 cuts 1–4, one commit each (relabel sweep first, map in `tmp/`).
+1. **Plan DONE — nothing left to build.** Human reviews the P4 diffs async
+   (revert-by-commit if any cut reads wrong); P3.3 `settings.local.json`
+   prune is the human's 5 minutes; the ~350 AGENTS.md ratchet waits on the
+   human-gated prose rewrite.
+2. Push `main` at next green-tree checkpoint (held during co-agent narrative
+   WIP — don't fight their red).
+3. Follow-up (tiny): normalize id stragglers in docs authored mid-sweep
+   (`fable-2026-07-06-narrative-dev-surfaces.md`) as they're touched.
 
 ## Landmines (current)
 
