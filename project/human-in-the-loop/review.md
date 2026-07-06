@@ -226,7 +226,28 @@ toggle for a live pick; the agent self-picked a coherent prod default.
   [`docs/plans/fable-2026-07-06-estate-real-map-options.md`](../../docs/plans/fable-2026-07-06-estate-real-map-options.md);
   the human picks 3, each built by a Fable-5 xhigh subagent (ADR-075).
   Also: the Map tab goes two-column (flavour card | map).
-- **Verdict:** _(pending — the 3-of-10 pick, then the live pick among the built takes)_
+- **UPDATE (2026-07-06, same day): ALL FIVE picked takes are BUILT and LIVE** —
+  the human picked 1/4/6/8/9 ("I know I said 3 but 5 is great"); five Fable-5
+  xhigh subagents built them in parallel, one module each:
+  - **H · 絵図 survey plan** — title cartouche, terraced parcels, walled
+    compound, north mark + legend + scale bar; U-stage amendments redraw the
+    sheet; rooms stamp their seals.
+  - **I · model board** — a true tilted CSS-3D diorama: raised plates with
+    side-faces, standing cutout scenery, museum plaques, shōgi koma (people =
+    silver koma; YOU = the lone vermillion 主, walks on travel).
+  - **J · cadastral kokudaka** — the survey drawing + a paired 検地帳 register
+    (kanji-numeral seals key rows to parcels); 改 red-seal amendments margin.
+  - **K · the lantern map** — the whole estate etched on one dark plate,
+    revealed by warm lamplight pools per visited node; standing andon lanterns;
+    the gated lamp GUTTERS; rooms light windows in the house.
+  - **L · kamon medallions** — coin-like struck dies with real engraved scenes
+    (reeding, burin hatching), damascened gold-wire roads, stage rings.
+  All five: real move_to travel (click-verified), conditioning gate + reason,
+  fog-of-war (unnamed frontier), per-node labour/foe/people marks, estate-stage
+  + house-room evolution. **How to look:** `pnpm run dev` → Map 地図 tab → DEV
+  panel → Variants → "Estate map" (H–L; B/G remain as interim schematics), or
+  `?map=map-h` … `?map=map-l`.
+- **Verdict:** _(awaiting the human — pick the map among H–L, or a tune)_
 
 > **UI-v2 note (M6, 2026-07-06):** ALL open variant surfaces (HR-2/5/6/7/9)
 > now render **Andon-Steel-native** — the M1 token flip re-skinned every

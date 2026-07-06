@@ -307,3 +307,15 @@ I verify + land the batch.
   in-commit; the m1 season test re-derived from source constants (a copied
   28×24 magic died). FLAGGED: seasonal spoilage/autumn boost now epoch-rare —
   the human confirms whether the sink should re-express on days.
+
+## Addendum 18 — the REAL-map diverge: all five takes BUILT (map-h…map-l)
+
+Five Fable-5 xhigh subagents, one module each, all self-verified (travel
+click / gate / fog / evolution / typecheck) and re-verified by me through the
+DEV registry (the scaffold's registry insertion had silently failed — all
+five agents flagged it; fixed) + full verify (17) + e2e (73):
+- H 絵図 survey plan · I model board (true CSS-3D diorama) · J cadastral
+  kokudaka (sheet + 検地帳 register) · K the lantern map (lamplit etched
+  plate) · L kamon medallions (struck engraved dies, damascened roads).
+- One lint fix landed on kamon (a useless spread fallback).
+- HR-7 updated: pick among H–L live. Screenshots: tmp/m6-shots/map-*.png.

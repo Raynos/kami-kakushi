@@ -252,6 +252,32 @@ export const SURFACES: SurfaceDef[] = [
         blurb:
           'A brushed node-graph of the estate; current node inked, reachable nodes clickable, locked greyed.',
       },
+      // ── the REAL-map diverge takes (HR-7 re-scope; one module + one subagent each) ──
+      {
+        id: 'map-h',
+        label: 'H · 絵図 survey plan',
+        blurb: 'REAL-map take: a hand-surveyed estate plan — parcels, footprints, brushed roads.',
+      },
+      {
+        id: 'map-i',
+        label: 'I · model board',
+        blurb: 'REAL-map take: a tabletop diorama — raised area tiles, koma where people stand.',
+      },
+      {
+        id: 'map-j',
+        label: 'J · cadastral kokudaka',
+        blurb: 'REAL-map take: drawn parcels + the register — yields, work marks, name-chips.',
+      },
+      {
+        id: 'map-k',
+        label: 'K · the lantern map',
+        blurb: 'REAL-map take: dark etched steel; visited ground is lamplit pools of detail.',
+      },
+      {
+        id: 'map-l',
+        label: 'L · kamon medallions',
+        blurb: 'REAL-map take: engraved area medallions joined by damascened road inlays.',
+      },
     ],
   },
   // ADR-111 / FB-89 — the home / belongings panel (the deep-housing pass shipped ONE prod default,
