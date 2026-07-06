@@ -112,9 +112,9 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `npm run dev` · `build` ·
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
 4. **Next autonomous work** — the FB-1–FB-10 wave is DONE; next: **requirements
-   rung progression** (`fable-2026-07-05-requirements-rung-progression.md`,
-   ADR-137, human phase-confirm pending) or **UI-v2 Andon Steel migration**
-   (needs the human's lock). Phase-2 economy redesign = human-parked in
-   `project/BACKLOG.md`, don't pick up unprompted. Balance liquid (ADR-059) —
-   every change runs ADR-132 (`verify:balance` → report diff → `--summary`).
+   rung progression** (ADR-137, human phase-confirm pending) or **UI-v2 Andon
+   Steel migration** (needs the human's lock). **Story-quality plan**
+   (`fable-2026-07-06-story-quality-ladder.md`): 19 answers in, HUMAN-GATED —
+   approval → ADR → bible co-write. Phase-2 economy = human-parked
+   (`BACKLOG.md`). Balance liquid (ADR-059) — changes run ADR-132.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
