@@ -24,7 +24,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Where we are now
 
-- **PRD TST2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
+- **PRD V2.3** — the 6-tier reshape is fully rippled; `prd.md` is a stub index →
   per-section files `docs/living/prd/*`. §4 balance + §7 MS2–MS7 stay provisional (ADR-059).
 - **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117) + the **autonomous
   T0 rebuild** (2026-07-03, ADRs **ADR-107–ADR-116**): append-only render engine ·
@@ -36,11 +36,11 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **✅ THE TASTE LOCK (ADR-126, s57):** top layer locked WITH the human → `taste.md`
   (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens GENERATED)
   · `doc-budgets` gate · **✅ FB-10 built (s77 — two-pass taste flow, ADR-135)**.
-- **✅ UI-v2 direction LOCKED (R9 → ADR-127): 10 Andon Steel** (blackened-steel
+- **✅ UI-v2 direction LOCKED (HR-9 → ADR-127): 10 Andon Steel** (blackened-steel
   bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
   01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
-  till then. Resolves ADR-126's "visual identity provisional pending R9".
-- **Philosophy** R1–R6 + taste T1–T4 + process canon ADR-086–089.
+  till then. Resolves ADR-126's "visual identity provisional pending HR-9".
+- **Philosophy** PH1–PH6 + taste TST1–TST4 + process canon ADR-086–089.
 - **ADR-117 frontier PRD + the process wave** — §4 ripple-frozen; FB-1–FB-10 ordered by
   `fable-process-master-plan.md`. **BUILT ✅: F1a/F1b · FB-2 CI · FB-3 inbox ·
   FB-4 sim (ADR-132) · FB-5 narrative · FB-6 saves · FB-7 cockpit (ADR-134) · FB-9 `/ship`
@@ -49,7 +49,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **✅ HD-19/HD-20 CLOSED:** HD-20→B (soft WARN) · HD-19→ADR-133 (ratio gate `[0.8,1.2]`,
   stopgap 0.94:1); real **Phase-2 redesign** human-PARKED in `BACKLOG.md`.
 - **✅ s90 context-hardening DONE (archived):** hooksPath auto-wired ·
-  `verify:tooling` nightly · **ADR-140 id collapse** · caps. Open: P3.3 (human).
+  `verify:tooling` nightly · **ADR-140 id collapse** · caps. Open: P3.3 (human); P4 diffs human-confirmed s90.
 - **✅ s88 desktop-journey e2e DONE (archived):** 3-project browser lane (desktop
   · journeys · persistence · ratchet), CI green, 25s · **HD-23/HD-24** · TODO gate.
 
@@ -58,12 +58,12 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **REVIEW PASSOVER** 🔲 (HR-1) — play/review the **freshly-redeployed** T0 (VN intro,
   log v2, **7-tab IA**, economy re-core + rice spoilage/cap, estate-map, rung beats,
   R5 wall-weapon).
-- **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (R7),
-  home/Inventory **A/B/C** (R6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
-  older surfaces (R2/R5). Pick each live → I strip the rest (zero flag-debt).
-- **Rung cast + R0→R7 beats** 🔲 (R8) — drafted for your read (3 faces: pedlar
+- **DEV-variant picks** 🔲 — live in the DEV panel: estate-map **V5A–G** (HR-7),
+  home/Inventory **A/B/C** (HR-6, now BUILT — list · 一間 room · 持ち物帳 ledger) +
+  older surfaces (HR-2/HR-5). Pick each live → I strip the rest (zero flag-debt).
+- **Rung cast + R0→R7 beats** 🔲 (HR-8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **UI-v2 build** ⏳ — R9 CLOSED (10 Andon Steel, ADR-127). Open: are R2/R5/R6/R7
+- **UI-v2 build** ⏳ — HR-9 CLOSED (10 Andon Steel, ADR-127). Open: are HR-2/HR-5/HR-6/HR-7
   (washi-UI picks) still wanted as interim polish now UI-v2 supersedes them?
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)

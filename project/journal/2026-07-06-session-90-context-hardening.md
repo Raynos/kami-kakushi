@@ -126,12 +126,19 @@ plan's numbers; the ~350 ratchet waits on the human-gated prose-register
 rewrite the plan defers). RED proven live with a scratch over-length edit,
 then reverted.
 
+## 8 · P4 diff review — human sign-off (same day)
+
+Walked all four cuts with the human (AskUserQuestion, 2026-07-06): **c3 keep
+lean** (war stories stay SoT-only) · **c2 verdict table archive-only** ·
+**c1 plan-local M# vs milestone MS# livable as-is** · **c1 A-series partial
+conversion accepted** (A8/A10/fork-grid stay single-letter). Zero reverts —
+P4 is fully confirmed canon; caps stay 420/160.
+
 ## Next intended steps (current)
 
-1. **Plan DONE — nothing left to build.** Human reviews the P4 diffs async
-   (revert-by-commit if any cut reads wrong); P3.3 `settings.local.json`
-   prune is the human's 5 minutes; the ~350 AGENTS.md ratchet waits on the
-   human-gated prose rewrite.
+1. **Plan DONE + P4 review CLOSED.** P3.3 `settings.local.json` prune is the
+   human's 5 minutes; the ~350 AGENTS.md ratchet waits on the human-gated
+   prose rewrite.
 2. Push `main` at next green-tree checkpoint (held during co-agent narrative
    WIP — don't fight their red).
 3. Follow-up (tiny): normalize id stragglers in docs authored mid-sweep
