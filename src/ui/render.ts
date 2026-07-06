@@ -4941,14 +4941,20 @@ export function mount(
     );
   }
   // The slow cold-open reveal (FB-14) — the GBA-typewriter take, human-approved as the prod
-  // default (2026-07-02). Runs once per cold-open (the started-flag guards re-entry); the
-  // wake-path resets the flag so a New Game replays it.
+  // default (2026-07-02). M4 (ADR-127): the WHOLE card types — title → roman → lede, staged
+  // char-by-char through the shared TYPE_MS_PER_CHAR cadence (single-sourced; the title's
+  // heavier kanji run at 3× per-char so they land with weight), a gold block caret riding
+  // whichever element is typing. Runs once per cold-open (the started-flag guards
+  // re-entry); the wake-path resets the flag so a New Game replays it.
   function applyColdOpenReveal(): void {
     if (coldOpenRevealStarted) return;
     coldOpenRevealStarted = true;
     cancelColdOpenReveal?.();
     const items = [coTitle, coRoman, coLede, coVerb, coRestore];
     for (const it of items) it.classList.add('co-reveal-item');
+    // restore the full authored text — a cancelled prior run may have left slices
+    coTitle.textContent = COLD_OPEN_TITLE;
+    coRoman.textContent = COLD_OPEN_ROMAN;
     coLede.textContent = COLD_OPEN_LEDE;
     for (const it of items) it.classList.remove('in');
     // the wake verb and the quiet restore line (HD-24) wake in together, after the lede types out.
@@ -4962,28 +4968,35 @@ export function mount(
       cancelColdOpenReveal = undefined;
       return;
     }
-    // GBA typewriter (human-approved 2026-07-02): the title shows, the subtitle fades in,
-    // the lede types out character-by-character (old-Pokémon feel), then the CTA wakes in.
-    coTitle.classList.add('in');
     const timers: number[] = [];
     const at = (fn: () => void, ms: number): void => {
       timers.push(window.setTimeout(fn, ms));
     };
-    at(() => coRoman.classList.add('in'), 400);
-    coLede.textContent = '';
-    coLede.classList.add('in');
-    const full = COLD_OPEN_LEDE;
-    const start = 1100;
-    const per = 32;
-    for (let i = 0; i < full.length; i++) {
-      at(
-        () => {
-          coLede.textContent = full.slice(0, i + 1);
-        },
-        start + i * per,
-      );
+    const stages: { el: HTMLElement; text: string; per: number; holdAfter: number }[] = [
+      { el: coTitle, text: COLD_OPEN_TITLE, per: TYPE_MS_PER_CHAR * 3, holdAfter: 380 },
+      { el: coRoman, text: COLD_OPEN_ROMAN, per: TYPE_MS_PER_CHAR, holdAfter: 380 },
+      { el: coLede, text: COLD_OPEN_LEDE, per: TYPE_MS_PER_CHAR, holdAfter: 900 },
+    ];
+    let t = 350; // a beat of dark before the title strikes
+    for (const s of stages) {
+      const { el: node, text, per } = s;
+      at(() => {
+        node.classList.add('in', 'co-typing');
+        node.textContent = '';
+      }, t);
+      for (let i = 0; i < text.length; i++) {
+        at(
+          () => {
+            node.textContent = text.slice(0, i + 1);
+          },
+          t + (i + 1) * per,
+        );
+      }
+      t += (text.length + 1) * per;
+      at(() => node.classList.remove('co-typing'), t);
+      t += s.holdAfter;
     }
-    at(showButton, start + full.length * per + 900);
+    at(showButton, t);
     cancelColdOpenReveal = () => timers.forEach((id) => window.clearTimeout(id));
   }
   function render(state: GameState, prev: GameState | null): void {

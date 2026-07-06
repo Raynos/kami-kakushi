@@ -183,3 +183,15 @@ frame) · FB-164 slim 6px steel scrollbars · FB-165 chat kicker map now PURE
 (lookahead — the header leads the player's opening question; verified against
 the original capture save) · FB-166 rice-counter value = 💬 design question
 bounced to the human. verify green.
+
+## Addendum 9 — M4 · GBA-typewriter cold-open (③ FLOW · MED)
+
+The human was half-right that this already existed: the LEDE typed since
+FB-14. M4's actual delta, per the card: the TITLE and ROMAN now type too
+(staged: title → roman → lede, the title's kanji at 3× per-char so they land
+with weight), the cadence is single-sourced from TYPE_MS_PER_CHAR (the local
+per=32 literal died), and a GOLD BLOCK CARET (hard steps() blink — the retro
+cadence) rides whichever element is typing. Reduced-motion/QA-instant keep
+the everything-at-once path; the one-shot guard + cancel path keep working
+(cancelled runs restore full text for replay). verify green; staged headless
+captures reviewed.
