@@ -36,22 +36,19 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **✅ THE TASTE LOCK (ADR-126, s57):** top layer locked WITH the human → `taste.md`
   (pyramid, 21 principles, 150-cap) · `ui-design.md` 1159→351 (tokens GENERATED)
   · `doc-budgets` gate · **✅ FB-10 built (s77 — two-pass taste flow, ADR-135)**.
-- **✅ UI-v2 direction LOCKED (HR-9 → ADR-127): 10 Andon Steel** (blackened-steel
-  bimetal · silver=state/gold=value/vermillion=commit · GBA typewriter cold-open).
-  01–09 anchored in `ui-demos/`; the `src/` port is a future build, washi ships
-  till then. Resolves ADR-126's "visual identity provisional pending HR-9".
-- **Philosophy** PH1–PH6 + taste TST1–TST4 + process canon ADR-086–089.
-- **ADR-117 frontier PRD + the process wave** — §4 ripple-frozen; FB-1–FB-10 ordered by
-  `fable-process-master-plan.md`. **BUILT ✅: F1a/F1b · FB-2 CI · FB-3 inbox ·
-  FB-4 sim (ADR-132) · FB-5 narrative · FB-6 saves · FB-7 cockpit (ADR-134) · FB-9 `/ship`
-  (tagged, fast/bounded; shipped v0.3.6+v0.3.7) · FB-10 taste two-pass
-  (ADR-135) · FB-8 telemetry (ADR-136). **THE FB-1–FB-10 PROCESS WAVE IS COMPLETE.**
-- **✅ HD-19/HD-20 CLOSED:** HD-20→B (soft WARN) · HD-19→ADR-133 (ratio gate `[0.8,1.2]`,
-  stopgap 0.94:1); real **Phase-2 redesign** human-PARKED in `BACKLOG.md`.
+- **✅ UI-v2 direction LOCKED (historical R9 → ADR-127): 10 Andon Steel**; 01–09
+  anchored in `ui-demos/`; the `src/` port is a future build, washi ships till
+  then. (The live **HR-9** id now = the story reader, closed 2026-07-06.)
+- **✅ THE FB-1–FB-10 PROCESS WAVE IS COMPLETE** (ADR-117 frontier PRD; CI ·
+  inbox · sim · narrative · saves · cockpit · /ship · taste two-pass · telemetry).
 - **✅ s90 context-hardening DONE (archived):** hooksPath auto-wired ·
-  `verify:tooling` nightly · **ADR-140 id collapse** · caps. Open: P3.3 (human); P4 diffs human-confirmed s90.
+  `verify:tooling` nightly · **ADR-140 id collapse** · caps.
 - **✅ s88 desktop-journey e2e DONE (archived):** 3-project browser lane (desktop
   · journeys · persistence · ratchet), CI green, 25s · **HD-23/HD-24** · TODO gate.
+- **✅ s92 ADR-139 NARRATIVE DIVERGE:** standing 3+-takes rule (skill +
+  AGENTS.md) + DEV Story surfaces — takes compiler · live set-switcher ·
+  **galley** reader (HR-9 ✅ same-day; drain FB-122–125). `takes/` empty —
+  awaits the first real bundle (the human-kicked beat redesign).
 
 ## Waiting on the human
 
@@ -63,8 +60,11 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   older surfaces (HR-2/HR-5). Pick each live → I strip the rest (zero flag-debt).
 - **Rung cast + R0→R7 beats** 🔲 (HR-8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **UI-v2 build** ⏳ — HR-9 CLOSED (10 Andon Steel, ADR-127). Open: are HR-2/HR-5/HR-6/HR-7
+- **UI-v2 build** ⏳ — direction locked (ADR-127). Open: are HR-2/HR-5/HR-6/HR-7
   (washi-UI picks) still wanted as interim polish now UI-v2 supersedes them?
+- **Story track kickoffs** 🔲 — the 2 TODOs: fable **audit** of story/narrative,
+  then the fable **beat redesign** (fresh sessions; the redesign = the first
+  real ADR-139 bundle, reviewed in the new Story surfaces).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
