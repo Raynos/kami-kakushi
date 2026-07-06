@@ -303,6 +303,28 @@ h3 {
 .shell > .appbar-footer {
   grid-area: footer;
 }
+/* FB-172 — the calendar dock: shares the rail's grid AREA, pinned to its foot
+   (never inside the nav element — its children are reconciler-owned). Quiet
+   chrome: micro type, silver-dim. */
+.shell > .clock-dock {
+  grid-area: nav;
+  align-self: end;
+  justify-self: stretch;
+  padding: var(--space-2);
+  border-right: 1px solid var(--key);
+  pointer-events: none;
+}
+.clock-dock .vital.clock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: var(--fs-micro);
+  color: var(--silver-dim);
+}
+.clock-dock .season-tag,
+.clock-dock .rate {
+  font-size: var(--fs-micro);
+}
 /* ── the ANDON phone recomposition (≤920px, the demo's mobile breakpoint):
    ONE column — header rows, the work desk (scrolls), the log as a BAND with
    its own scroll, then the tab BAR + footer at the bottom. Tap targets rise
@@ -365,6 +387,19 @@ h3 {
     font-size: var(--fs-micro);
     letter-spacing: 0.08em;
     color: var(--silver-dim);
+  }
+  /* FB-172 — on the phone the rail is the bottom BAR: the calendar dock moves to
+     the footer area's centre instead (the version sits left, Settings right). */
+  .shell > .clock-dock {
+    grid-area: footer;
+    align-self: center;
+    justify-self: center;
+    border-right: 0;
+    padding: 0;
+  }
+  .clock-dock .vital.clock {
+    flex-direction: row;
+    gap: var(--space-2);
   }
 }
 /* (legacy pinned-row sizing — harmless under grid, kept for any flex fallback) */
@@ -833,10 +868,12 @@ h3 {
   margin-bottom: var(--space-3);
 }
 .log-line {
-  padding: var(--space-2) 0;
-  border-bottom: 1px dotted #7a6c5944;
+  /* FB-170 — tighter line rhythm (was --space-2/1.6): the block-breaks (FB-167)
+     now carry the BETWEEN-blocks air, so lines inside a block sit close. */
+  padding: var(--space-1) 0;
+  border-bottom: 1px dotted rgba(205, 214, 238, 0.14);
   color: var(--text-2);
-  line-height: var(--lh-body);
+  line-height: 1.45;
 }
 .log-line:last-child {
   border-bottom: 0;
@@ -1807,7 +1844,8 @@ h3 {
   border-right: 1px solid var(--key);
   background: linear-gradient(90deg, var(--steel-1), var(--steel-0) 80%);
   box-shadow: inset -1px 0 0 var(--silver-faint);
-  animation: ink-in var(--dur-beat) var(--ease-ink) both;
+  /* FB-169 — the rail renders STATICALLY (the human disliked the load ink-in;
+     individual tabs still slide in on their unlock beats). */
 }
 .nav-tab {
   font-family: var(--font-head);

@@ -293,3 +293,17 @@ only by dev.ts → prod tree-shake), `shared.ts` with MapCtx + BFS/fog +
 travel/gate wiring, registry entries map-h…map-l + router cases, stub
 placeholders, verify green. Agents write ONLY their own module; no commits;
 I verify + land the batch.
+
+## Addendum 17 — drain FB-169…FB-172 (incl. the 24× calendar)
+
+- FB-169 rail load animation removed (static render; unlock slides stay).
+- FB-170 log line rhythm tightened (padding + leading; block-breaks carry the air).
+- FB-171 COIN joined rice out of the header — Inventory kura card is the home;
+  the market-loop e2e updated in-commit.
+- FB-172 the calendar: docks at the rail's FOOT (own grid-area occupant — the
+  nav's children stay reconciler-owned; phone → footer centre) and runs 24×
+  slower (DAYS_PER_SEASON 28→672). ADR-132 machine verdict: **Δ 0.0 min on
+  every rung** (day-keyed reckoning untouched); t0-pacing.md regenerated
+  in-commit; the m1 season test re-derived from source constants (a copied
+  28×24 magic died). FLAGGED: seasonal spoilage/autumn boost now epoch-rare —
+  the human confirms whether the sink should re-express on days.

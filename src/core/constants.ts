@@ -36,7 +36,14 @@ export const LOG_MAX_IDENTICAL_RUN = 3 as const;
 // week and year are DERIVED on read (D-Q6), never persisted. ───────────────────
 export const TICKS_PER_DAY = 24 as const;
 export const DAYS_PER_WEEK = 7 as const;
-export const DAYS_PER_SEASON = 28 as const;
+/** FB-172 (human, 2026-07-06): the CALENDAR ran ~24× too fast — "I don't know how 4 years
+ *  passed." Was 28; seasons/years now turn 24× slower (28×24=672 days/season) while the
+ *  day/tick chain — and everything keyed on DAYS (the Phase-2 reckoning, day-keyed RNG) —
+ *  is untouched, so the judged-economy cadence is byte-identical. CONSEQUENCE (flagged):
+ *  season-driven events (kura spoilage, the autumn harvest boost) now fire ~24× more
+ *  rarely — epoch events rather than session events; re-express them on a day cadence if
+ *  the sink needs to stay felt (the human confirms after play). */
+export const DAYS_PER_SEASON = 672 as const;
 export const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
 export type Season = (typeof SEASONS)[number];
 

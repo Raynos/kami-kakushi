@@ -21,6 +21,8 @@ import {
   mcCombatStats,
   hpMax,
   RANKS,
+  DAYS_PER_SEASON,
+  TICKS_PER_DAY,
   type GameState,
   type Intent,
 } from './index';
@@ -354,7 +356,9 @@ describe('soft stamina + season', () => {
   it('the clock turns seasons deterministically', () => {
     const s = createInitialState(1);
     expect(season(s)).toBe('spring');
-    expect(season(tick(s, 28 * 24 * 2))).toBe('autumn'); // day 56
+    // two seasons on — derived from the SOURCE constants (ADR-086; the old copied
+    // 28*24 magic broke silently when FB-172 slowed the calendar 24×).
+    expect(season(tick(s, DAYS_PER_SEASON * TICKS_PER_DAY * 2))).toBe('autumn');
   });
 });
 

@@ -656,10 +656,9 @@ export function mount(
   houseMark.textContent = '黒沢家';
   header.append(houseMark);
 
-  // ADR-107 + FB-166 (human, 2026-07-06): ONE carried-wealth pill — COIN (the spendable
-  // currency, base unit mon; reveals at the first wage, readout-coin). RICE left the vitals
-  // strip entirely — its home is the Inventory 蔵 tab (the kura carried/stored rows); the
-  // `readout-rice` unlock survives in core (it still gates rice-costed verbs' visibility).
+  // ADR-107 + FB-166/FB-171 (human, 2026-07-06): NO carried-wealth pills in the header —
+  // RICE and COIN both live on the Inventory 蔵 tab (the kura carried/stored rows). The
+  // `readout-rice`/`readout-coin` unlocks survive in core (they still gate verbs/surfaces).
   // koku is NOT a pill — it is House standing (surfaced elsewhere, Phase 4).
   const coin = vital('coin', 'coin');
   const clock = el('div', 'vital clock');
@@ -687,7 +686,7 @@ export function mount(
   health.append(healthNum);
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
-  header.append(coin.wrap, clock, health, stamina, wood.wrap, sansai.wrap);
+  header.append(health, stamina, wood.wrap, sansai.wrap);
 
   // ── FB-106 (ADR-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
   //    progress bar (the rungMeter toward the next rung) with a HOVER card of detail. This is the
@@ -1051,7 +1050,12 @@ export function mount(
   if (import.meta.env.DEV && dev) footer.classList.add('has-dev-toggle');
 
   // M3 (Andon) — grid areas: title / vitals / nav-rail | work desk | log window / footer.
-  shell.append(header, nav, workspace, logSection, footer);
+  // FB-172 — the calendar (season/year/day) leaves the header: it docks at the FOOT of
+  // the rail (the human's pick), sharing the nav grid AREA without entering the nav
+  // element (whose children are reconciler-owned — the single-owner contract holds).
+  const clockDock = el('div', 'clock-dock');
+  clockDock.append(clock);
+  shell.append(header, nav, workspace, logSection, footer, clockDock);
 
   // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
   const coldOpen = el('div', 'coldopen');
@@ -3495,11 +3499,9 @@ export function mount(
   }
 
   function renderVitals(state: GameState, prev: GameState | null): void {
-    // (FB-166 — rice left the vitals strip; its readout lives on the Inventory 蔵 tab.)
-    // COIN — the first-wage reveal (ADR-107): hidden until the player earns coin (readout-coin).
-    // Rendered in mixed mon/monme/ryō with incremental reveal (ADR-108, formatCoin) — NOT the
-    // plain K/M/B count (rice keeps that; coin is denominated). popValue still fires on the raw
-    // mon delta, so the tally-pop is unaffected by the denomination string.
+    // (FB-166/FB-171 — rice AND coin left the vitals strip; their readouts live on
+    // the Inventory 蔵 tab's kura carried/stored rows. The coin element stays built
+    // and updated for element-contract stability but never mounts.)
     coin.wrap.hidden = !isUnlocked(state, 'readout-coin');
     if (!coin.wrap.hidden) {
       const v = state.resources.coin ?? 0;

@@ -122,10 +122,12 @@ test('market loop: speak with Tokubei, sell the rice, the coin rises', async ({ 
       message: 'the sale must land as carried coin',
     })
     .toBeGreaterThan(coinBefore);
-  // the surface outcome: the header coin readout shows the new sum (not stale)
+  // the surface outcome (FB-171 — coin left the header; the Inventory kura card is
+  // its readout home): the storehouse carried-coin line shows the new sum (not stale)
   const coinNow = await page.evaluate<number>('__qa.state().resources.coin ?? 0');
-  const readout = await page.locator('.vital.coin .value').textContent();
-  expect(readout, 'the coin readout must not be stale').not.toBe('0');
+  await press(page.locator('.nav-tab', { hasText: '蔵' })); // Inventory
+  const kuraCard = page.locator('.slice-do .rung-card, .rung-card').first();
+  await expect(kuraCard, 'the kura card must surface the carried coin').toContainText('coin');
   expect(coinNow).toBeGreaterThan(coinBefore);
   expectNoPageErrors(errors);
 });

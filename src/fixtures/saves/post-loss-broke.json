@@ -34,7 +34,7 @@
     },
     "resources": {
       "coin": 6,
-      "rice": 6698,
+      "rice": 10216,
       "sansai": 2
     },
     "banked": {
@@ -257,7 +257,7 @@
           "voice": "narrator"
         },
         {
-          "key": 143,
+          "key": 141,
           "channel": "narration",
           "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
           "tick": 18,
@@ -265,7 +265,7 @@
           "voice": "narrator"
         },
         {
-          "key": 144,
+          "key": 142,
           "channel": "narration",
           "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
           "tick": 18,
@@ -274,7 +274,7 @@
           "voice": "steward"
         },
         {
-          "key": 145,
+          "key": 143,
           "channel": "narration",
           "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
           "tick": 18,
@@ -283,7 +283,7 @@
           "voice": "steward"
         },
         {
-          "key": 146,
+          "key": 144,
           "channel": "narration",
           "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
           "tick": 18,
@@ -291,7 +291,7 @@
           "voice": "narrator"
         },
         {
-          "key": 147,
+          "key": 145,
           "channel": "narration",
           "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
           "tick": 18,
@@ -300,7 +300,7 @@
           "voice": "villager"
         },
         {
-          "key": 148,
+          "key": 146,
           "channel": "narration",
           "text": "\"The house has my hands.\"",
           "tick": 18,
@@ -309,7 +309,7 @@
           "voice": "player"
         },
         {
-          "key": 149,
+          "key": 147,
           "channel": "narration",
           "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
           "tick": 18,
@@ -318,7 +318,7 @@
           "voice": "steward"
         },
         {
-          "key": 150,
+          "key": 148,
           "channel": "narration",
           "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
           "tick": 18,
@@ -326,7 +326,7 @@
           "voice": "narrator"
         },
         {
-          "key": 151,
+          "key": 149,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 18,
@@ -334,7 +334,7 @@
           "voice": "narrator"
         },
         {
-          "key": 152,
+          "key": 150,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 18,
@@ -342,7 +342,7 @@
           "voice": "narrator"
         },
         {
-          "key": 153,
+          "key": 151,
           "channel": "milestone",
           "text": "Rank ↑ — Kept hand 下人",
           "tick": 18,
@@ -354,7 +354,7 @@
           }
         },
         {
-          "key": 154,
+          "key": 152,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 18,
@@ -362,7 +362,7 @@
           "voice": "narrator"
         },
         {
-          "key": 155,
+          "key": 153,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 18,
@@ -370,7 +370,7 @@
           "voice": "narrator"
         },
         {
-          "key": 638,
+          "key": 617,
           "channel": "narration",
           "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
           "tick": 22,
@@ -378,7 +378,7 @@
           "voice": "narrator"
         },
         {
-          "key": 639,
+          "key": 618,
           "channel": "narration",
           "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
           "tick": 22,
@@ -387,7 +387,7 @@
           "voice": "steward"
         },
         {
-          "key": 640,
+          "key": 619,
           "channel": "narration",
           "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
           "tick": 22,
@@ -396,7 +396,7 @@
           "voice": "steward"
         },
         {
-          "key": 641,
+          "key": 620,
           "channel": "narration",
           "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
           "tick": 22,
@@ -404,7 +404,7 @@
           "voice": "narrator"
         },
         {
-          "key": 642,
+          "key": 621,
           "channel": "narration",
           "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
           "tick": 22,
@@ -413,7 +413,7 @@
           "voice": "villager"
         },
         {
-          "key": 643,
+          "key": 622,
           "channel": "narration",
           "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
           "tick": 22,
@@ -421,7 +421,7 @@
           "voice": "narrator"
         },
         {
-          "key": 644,
+          "key": 623,
           "channel": "narration",
           "text": "\"The stores are the house's life. I'll face it.\"",
           "tick": 22,
@@ -430,7 +430,7 @@
           "voice": "player"
         },
         {
-          "key": 645,
+          "key": 624,
           "channel": "narration",
           "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
           "tick": 22,
@@ -439,7 +439,7 @@
           "voice": "villager"
         },
         {
-          "key": 646,
+          "key": 625,
           "channel": "narration",
           "text": "A way to track what your hands are learning takes shape — your Skills.",
           "tick": 22,
@@ -447,7 +447,7 @@
           "voice": "narrator"
         },
         {
-          "key": 647,
+          "key": 626,
           "channel": "narration",
           "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
           "tick": 22,
@@ -455,7 +455,7 @@
           "voice": "narrator"
         },
         {
-          "key": 648,
+          "key": 627,
           "channel": "narration",
           "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
           "tick": 22,
@@ -463,7 +463,7 @@
           "voice": "narrator"
         },
         {
-          "key": 649,
+          "key": 628,
           "channel": "narration",
           "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
           "tick": 22,
@@ -471,7 +471,7 @@
           "voice": "narrator"
         },
         {
-          "key": 650,
+          "key": 629,
           "channel": "narration",
           "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
           "tick": 22,
@@ -479,7 +479,7 @@
           "voice": "narrator"
         },
         {
-          "key": 651,
+          "key": 630,
           "channel": "milestone",
           "text": "Rank ↑ — Trusted hand 手代",
           "tick": 22,
@@ -491,7 +491,7 @@
           }
         },
         {
-          "key": 652,
+          "key": 631,
           "channel": "narration",
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
           "tick": 22,
@@ -499,10 +499,460 @@
           "voice": "narrator"
         },
         {
-          "key": 1200,
+          "key": 1150,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1151,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1152,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 14,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1153,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1154,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1155,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
           "tick": 4,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1156,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1157,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1158,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 18,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1159,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1160,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1161,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1162,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1163,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1164,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 22,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1165,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1166,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1167,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 12,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1168,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1169,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1170,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1171,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 10,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1172,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1173,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 16,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1174,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1175,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1176,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 6,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1177,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1178,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1179,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 20,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1180,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1181,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1182,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 10,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1183,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1184,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1185,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 0,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1186,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1187,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1188,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 14,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1189,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1190,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1191,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 4,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1192,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1193,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1194,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 18,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1195,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1196,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1197,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1198,
+          "channel": "reward",
+          "text": "Work the home paddies. (+5 rice)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1199,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1200,
+          "channel": "reward",
+          "text": "Work the home paddies. (+6 rice)",
+          "tick": 22,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -511,7 +961,7 @@
           "key": 1201,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
+          "tick": 6,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -520,7 +970,7 @@
           "key": 1202,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -529,7 +979,7 @@
           "key": 1203,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
+          "tick": 12,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -538,7 +988,7 @@
           "key": 1204,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
+          "tick": 20,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -547,7 +997,7 @@
           "key": 1205,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -556,7 +1006,7 @@
           "key": 1206,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
+          "tick": 2,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -565,7 +1015,7 @@
           "key": 1207,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
+          "tick": 10,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -574,7 +1024,7 @@
           "key": 1208,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -583,7 +1033,7 @@
           "key": 1209,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
+          "tick": 16,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -592,7 +1042,7 @@
           "key": 1210,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
+          "tick": 0,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -601,7 +1051,7 @@
           "key": 1211,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -610,7 +1060,7 @@
           "key": 1212,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
+          "tick": 6,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -619,7 +1069,7 @@
           "key": 1213,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
+          "tick": 14,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -628,7 +1078,7 @@
           "key": 1214,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -637,7 +1087,7 @@
           "key": 1215,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
+          "tick": 20,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -646,7 +1096,7 @@
           "key": 1216,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
+          "tick": 4,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -655,7 +1105,7 @@
           "key": 1217,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -664,7 +1114,7 @@
           "key": 1218,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
+          "tick": 10,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -673,7 +1123,7 @@
           "key": 1219,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
+          "tick": 18,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -682,7 +1132,7 @@
           "key": 1220,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -691,7 +1141,7 @@
           "key": 1221,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
+          "tick": 0,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -700,7 +1150,7 @@
           "key": 1222,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
+          "tick": 8,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -709,7 +1159,7 @@
           "key": 1223,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -718,7 +1168,7 @@
           "key": 1224,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
+          "tick": 14,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -727,7 +1177,7 @@
           "key": 1225,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
+          "tick": 22,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -736,7 +1186,7 @@
           "key": 1226,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -745,7 +1195,7 @@
           "key": 1227,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
+          "tick": 4,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -754,7 +1204,7 @@
           "key": 1228,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
+          "tick": 12,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -763,7 +1213,7 @@
           "key": 1229,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -772,7 +1222,7 @@
           "key": 1230,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
+          "tick": 18,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -781,7 +1231,7 @@
           "key": 1231,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
+          "tick": 2,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -790,7 +1240,7 @@
           "key": 1232,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -799,7 +1249,7 @@
           "key": 1233,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
+          "tick": 8,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
@@ -808,7 +1258,7 @@
           "key": 1234,
           "channel": "reward",
           "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
+          "tick": 16,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -817,7 +1267,7 @@
           "key": 1235,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -826,467 +1276,13 @@
           "key": 1236,
           "channel": "reward",
           "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
+          "tick": 22,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 1237,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1238,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1239,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1240,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1241,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1242,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1243,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1244,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1245,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1246,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1247,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1248,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1249,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1250,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1251,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1252,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1253,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1254,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1255,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1256,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1257,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1258,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1259,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1260,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1261,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1262,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1263,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1264,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1265,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1266,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1267,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1268,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1269,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1270,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1271,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1272,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1273,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1274,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1275,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1276,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1277,
-          "channel": "system",
-          "text": "The season turns, and some of your rice has spoiled in the store. (−935 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "season.spoilage",
-          "params": {
-            "total": 935
-          }
-        },
-        {
-          "key": 1278,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1279,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1280,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1281,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1282,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 14,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1283,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1284,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1285,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1286,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1287,
           "channel": "narration",
           "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
           "tick": 0,
@@ -1295,7 +1291,7 @@
           "ephemeral": true
         },
         {
-          "key": 1288,
+          "key": 1238,
           "channel": "narration",
           "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
           "tick": 0,
@@ -1304,7 +1300,7 @@
           "ephemeral": true
         },
         {
-          "key": 1289,
+          "key": 1239,
           "channel": "combat",
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
           "tick": 0,
@@ -1313,7 +1309,7 @@
           "contentKey": "combat.wolfScripted"
         },
         {
-          "key": 1290,
+          "key": 1240,
           "channel": "narration",
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
           "tick": 0,
@@ -1322,7 +1318,7 @@
           "contentKey": "combat.drillmaster"
         },
         {
-          "key": 1291,
+          "key": 1241,
           "channel": "narration",
           "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
           "tick": 14,
@@ -1330,7 +1326,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1292,
+          "key": 1242,
           "channel": "narration",
           "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
           "tick": 14,
@@ -1339,7 +1335,7 @@
           "voice": "arms"
         },
         {
-          "key": 1293,
+          "key": 1243,
           "channel": "narration",
           "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
           "tick": 14,
@@ -1348,7 +1344,7 @@
           "voice": "arms"
         },
         {
-          "key": 1294,
+          "key": 1244,
           "channel": "narration",
           "text": "\"Show me how to end a fight fast.\"",
           "tick": 14,
@@ -1357,7 +1353,7 @@
           "voice": "player"
         },
         {
-          "key": 1295,
+          "key": 1245,
           "channel": "narration",
           "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
           "tick": 14,
@@ -1366,7 +1362,7 @@
           "voice": "arms"
         },
         {
-          "key": 1296,
+          "key": 1246,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 14,
@@ -1374,7 +1370,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1297,
+          "key": 1247,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 14,
@@ -1382,7 +1378,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1298,
+          "key": 1248,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
           "tick": 14,
@@ -1390,7 +1386,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1299,
+          "key": 1249,
           "channel": "milestone",
           "text": "Rank ↑ — Gate-watch 門番",
           "tick": 14,
@@ -1402,7 +1398,7 @@
           }
         },
         {
-          "key": 1300,
+          "key": 1250,
           "channel": "narration",
           "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
           "tick": 14,
@@ -1410,7 +1406,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1301,
+          "key": 1251,
           "channel": "narration",
           "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
           "tick": 14,
@@ -1419,7 +1415,7 @@
           "ephemeral": true
         },
         {
-          "key": 1302,
+          "key": 1252,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 14,
@@ -1428,7 +1424,7 @@
           "ephemeral": true
         },
         {
-          "key": 1303,
+          "key": 1253,
           "channel": "narration",
           "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
           "tick": 16,
@@ -1436,7 +1432,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1304,
+          "key": 1254,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 18,
@@ -1445,7 +1441,7 @@
           "ephemeral": true
         },
         {
-          "key": 1305,
+          "key": 1255,
           "channel": "narration",
           "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
           "tick": 20,
@@ -1454,7 +1450,7 @@
           "ephemeral": true
         },
         {
-          "key": 1306,
+          "key": 1256,
           "channel": "narration",
           "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
           "tick": 20,
@@ -1463,7 +1459,7 @@
           "ephemeral": true
         },
         {
-          "key": 1307,
+          "key": 1257,
           "channel": "reward",
           "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
           "tick": 20,
@@ -1472,7 +1468,7 @@
           "ephemeral": true
         },
         {
-          "key": 1308,
+          "key": 1258,
           "channel": "narration",
           "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
           "tick": 22,
@@ -1481,7 +1477,7 @@
           "ephemeral": true
         },
         {
-          "key": 1309,
+          "key": 1259,
           "channel": "narration",
           "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
           "tick": 22,
@@ -1490,7 +1486,7 @@
           "ephemeral": true
         },
         {
-          "key": 1310,
+          "key": 1260,
           "channel": "narration",
           "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
           "tick": 22,
@@ -1499,7 +1495,7 @@
           "ephemeral": true
         },
         {
-          "key": 1311,
+          "key": 1261,
           "channel": "system",
           "text": "You store 120 rice safe in the kura storehouse.",
           "tick": 22,
@@ -1512,7 +1508,7 @@
           }
         },
         {
-          "key": 1312,
+          "key": 1262,
           "channel": "narration",
           "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
           "tick": 22,
@@ -1521,7 +1517,7 @@
           "ephemeral": true
         },
         {
-          "key": 1313,
+          "key": 1263,
           "channel": "narration",
           "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
           "tick": 22,
@@ -1530,9 +1526,9 @@
           "ephemeral": true
         },
         {
-          "key": 1314,
+          "key": 1264,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1 mon and 1675 rice in the rout. Eat and mend before you take the field again.",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1 mon and 2554 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
           "count": 1,
           "contentKey": "combat.loss",
@@ -1541,12 +1537,12 @@
             "hpBefore": 1,
             "hpAfter": 1,
             "lostCoin": 1,
-            "lostRice": 1675,
+            "lostRice": 2554,
             "lostMats": 0
           }
         }
       ],
-      "seq": 1315
+      "seq": 1265
     },
     "skillXp": {
       "farming": 9142,
