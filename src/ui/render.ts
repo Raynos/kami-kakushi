@@ -1047,7 +1047,7 @@ export function mount(
   footer.append(versionBtn, settingsBtn);
   // FB-92 — the DEV toggle floats as a fixed overlay at the bottom-right corner (dev.ts). Reserve its
   // corner in the footer (DEV builds only) so the Settings button sits clear of it — no collision.
-  if (import.meta.env.DEV && dev) footer.classList.add('has-dev-toggle');
+  if (__DEV_TOOLS__ && dev) footer.classList.add('has-dev-toggle');
 
   // M3 (Andon) — grid areas: title / vitals / nav-rail | work desk | log window / footer.
   // FB-172 — the calendar (season/year/day) leaves the header: it docks at the FOOT of
@@ -1361,7 +1361,7 @@ export function mount(
     //    de-framed sections) ships; B/C live DEV-only behind the variant toggle. The DEV
     //    branch folds to dead code in prod; only a live DEV session takes the wholesale
     //    clear-and-rebuild path (the incremental path below stays the prod/test route). ──
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       estateRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       estatePane.textContent = '';
       if (dev.renderVariant('estate-section', estatePane, state, dispatch)) return;
@@ -1508,7 +1508,7 @@ export function mount(
 
     // ── DEV variant path — a fresh wholesale build each render (the toggle needs a fresh container).
     //    Nulls the incremental refs so returning to the default rebuilds the shell cleanly. ──
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       influenceRefs = null;
       influence.textContent = '';
       const card = el('div', `influence-panel frame${live ? ' live' : ' locked'}`);
@@ -3144,7 +3144,7 @@ export function mount(
           'Strip what the carcasses give up, then forge a real edge at the woodlot smithy — found and made, not tossed off a rack.',
         ),
       );
-      if (!(import.meta.env.DEV && dev && dev.renderVariant('craft', cc, state, dispatch))) {
+      if (!(__DEV_TOOLS__ && dev && dev.renderVariant('craft', cc, state, dispatch))) {
         for (const [mat, need] of Object.entries(recipe.inputs)) {
           const have = state.resources[mat] ?? 0;
           const m = getMaterial(mat);
@@ -3209,7 +3209,7 @@ export function mount(
     if (!show) return;
     // DEV variant sessions keep the wholesale rebuild (the craft/bestiary variant toggles need a
     // fresh container each render). Prod + tests (`dev` undefined) take the incremental path below.
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       combatRefs = null;
       combatPane.textContent = '';
       renderCombatWholesale(state);
@@ -3398,7 +3398,7 @@ export function mount(
   //    (the tab's other sections) render into their own panes; this fn owns training + bestiary. ──
   function renderCharacterSheet(state: GameState): void {
     const onCharacter = activeTab === 'character';
-    const devMode = import.meta.env.DEV && dev;
+    const devMode = __DEV_TOOLS__ && dev;
 
     // ── TRAINING (attrs) — reveals at R3 with combat (readout-combat-level). The +1 buttons spend
     //    attributePoints EARNED from combat leveling (the coupling holds — points still fire from the
@@ -4430,12 +4430,12 @@ export function mount(
     if (!show) return;
     // ── the diverged HOME / belongings presentation (ADR-075) — A = the functional list (default,
     //    ships). B (一間 room cutaway) / C (持ち物帳 ledger) live DEV-only behind the variant toggle
-    //    (ui/dev.ts). This DEV branch folds to dead code in prod (`import.meta.env.DEV` → false,
+    //    (ui/dev.ts). This DEV branch folds to dead code in a STRIP build (`__DEV_TOOLS__` → false,
     //    tree-shaken) and `dev` is undefined in prod AND tests, so ONLY a live DEV session takes it —
     //    where the variant toggle needs the wholesale clear-and-rebuild. Prod/tests use the
     //    incremental path below (FB-81, zero idle churn). Every variant shows the SAME home data + the
     //    SAME live comfort tally, and every buy button drives the real `buy_belonging` intent. ──
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       const tierD = HOME_TIERS[0]!;
       belongingsRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       belongingsPane.textContent = '';
@@ -4690,10 +4690,10 @@ export function mount(
     if (!show) return;
     // ── the diverged goods presentation (ADR-075) — A = the price-button list (default, ships).
     //    B/C live DEV-only behind the variant toggle (ui/dev.ts). This DEV branch folds to dead code
-    //    in prod (`import.meta.env.DEV` → false, tree-shaken) and `dev` is undefined in prod AND
+    //    in a STRIP build (`__DEV_TOOLS__` → false, tree-shaken) and `dev` is undefined there AND
     //    tests, so ONLY a live DEV session takes it — where the variant toggle needs the wholesale
     //    clear-and-rebuild. Prod/tests use the incremental path below (FB-81, zero idle churn). ──
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       marketRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       marketPane.textContent = '';
       const card = el('div', 'rung-card frame market-card');
@@ -4817,7 +4817,7 @@ export function mount(
     //    DEV-only behind the variant toggle (ui/dev.ts), all terse/hint-free, click-to-move. The
     //    DEV branch folds to dead code in prod (tree-shaken) and `dev` is undefined in prod AND
     //    tests, so only a live DEV session takes it; prod/tests use the incremental path below. ──
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       mapRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       mapPane.textContent = '';
       mapPane.append(el('h2', undefined, 'The estate 地図'));
@@ -4951,7 +4951,7 @@ export function mount(
     //    behind the variant toggle (ui/dev.ts). The DEV branch folds to dead code in prod
     //    (tree-shaken) and `dev` is undefined in prod AND tests, so only a live DEV session takes it;
     //    prod/tests use the incremental path below (FB-81, zero idle churn). ──
-    if (import.meta.env.DEV && dev) {
+    if (__DEV_TOOLS__ && dev) {
       questsRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
       questsPane.textContent = '';
       questsPane.append(el('h2', undefined, 'Undertakings 用'));

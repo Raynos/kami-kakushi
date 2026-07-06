@@ -344,3 +344,14 @@ made + built same-day; HR-7 holds the live verdict), review.md link re-pointed,
 snapshot rewritten current + culled back to the 120 cap. Note: the dev-server
 background task exited at session end (restart: `pnpm run dev`); a co-agent
 (w1:p2) owns the verify-budget trim.
+
+## Addendum 21 — deployed-build variant toggles fixed (ADR-138 axis)
+
+The human reported variants dead on the deployed build (?dev=yes). Root
+cause: every ADR-075 variant caller seam in render.ts gated on
+`import.meta.env.DEV && dev` — compiled FALSE in a prod bundle even when the
+harness rides (__DEV_TOOLS__=true), so the panel mounted but the render
+branches were tree-shaken. All 10 seams flipped to `__DEV_TOOLS__ && dev`
+(the ADR-138 axis the ADR-139 story surfaces already used). PH3 proof on a
+real prod build: map-k renders + estate-c replaces the default under
+?dev=yes; no-param build fully inert. verify green.
