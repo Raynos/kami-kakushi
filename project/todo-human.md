@@ -17,8 +17,7 @@
 
 ## TODO
 
-- [ ] Kick off a **fable audit** of story & narrative.
-- [ ] Kick off a **fable redesign** of the story beats.
+_(none open)_
 
 ## Reading queue
 
@@ -40,13 +39,6 @@
   story-bible co-write (cast sheet first), Phase 2 = the T0 prose wave in five
   diverge bundles. **No ADR minted yet, per your call** — approve the plan and
   the ADR is pulled from §1, then Phase 1 starts.
-- [ ] `project/audit/reports/2026-07-06-story-narrative-slop-audit.md` — the
-  **fable story/narrative LLM-slop audit** you asked for: world architecture
-  is NOT slop (protect list §1); the prose has a specific fixable LLM accent
-  (§3) + three canon breaks (§2, wolf continuity / Kihei's creed inverted /
-  the lost shame beat) + the "fairness machine" structural finding (§4); §5
-  is the prioritized brief for the queued story-beats redesign. Read together
-  with HR-8.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
