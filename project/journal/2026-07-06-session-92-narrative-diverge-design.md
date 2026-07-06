@@ -96,6 +96,18 @@ before the redesign). Built the compiler half:
   the switcher confirmation bundled in.
 - Screenshots (desktop + 390px, all variants): `tmp/reader-*.png`.
 
+## Entry 5 — Phase 5 proofs + plan close
+
+- **Strip proof:** `SHIP_DEV_TOOLS=0` build → verify-dev-strip (strip mode)
+  green; 0 hits for take strings (`Ledger-cold`/`storyTakes`/`Explore
+  story`) in `dist/`. Ship-mode build → gate green; take strings ride the
+  DEV fold as intended (T0 default-off, `?dev=yes`).
+- **Prune proof:** parking `takes/demo-r1/` + regen → canon `.gen.ts` +
+  `t0-story.md` byte-identical (shasum), `storyTakes.gen.ts` collapses to
+  the stable empty registry; restore regenerates in sync.
+- Plan **archived** → `project/archive/fable-2026-07-06-narrative-dev-surfaces.md`
+  (Status ✅; the human remainder is HR-9).
+
 ## Landmines
 
 - Do NOT pre-wire or brief the audit/redesign sessions from this one — the
@@ -104,3 +116,11 @@ before the redesign). Built the compiler half:
   half-done (design canon; surfaces unbuilt) — left in place; the human
   section is human-authored, so removal is their call / prepare-to-exit's.
 - R8 stays open as-is (Q21) — don't fold it into the redesign.
+- The demo bundle `demo-r1` is single-unit, so the switcher's per-unit
+  override ROWS have no live UI exercise yet (covered by unit tests only);
+  the first multi-unit real bundle should eyeball them.
+- The floating DEV panel overlays the reader modal's right edge (z-order)
+  — noted in HR-9's scorecards as the shared ✘; collapse the panel while
+  reading, or fix if the human flags it.
+- Prune flow = delete `takes/<bundle>/` + `npm run gen:narrative` + commit
+  both; proven canon-safe (Entry 5).

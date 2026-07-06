@@ -1,12 +1,12 @@
 # Narrative-diverge DEV surfaces — story set-switcher + script-reader modal
 
-**Status:** 🔨 LOCKED & IN BUILD — designed in the ADR-139 grill session,
-run through with the human and locked 2026-07-06 (same day): **routing =
-Fable end-to-end (this session)** · **D-075 touch = lighter split** (the
-set-switcher is utilitarian chrome — single idea + taste brief; the
-script-reader modal gets a FULL 2–3-variant diverge) · **timing = build
-now, before the redesign kickoff** so the first D-139 bundle reviews
-in-game on day one.
+**Status:** ✅ DONE — built & verified in session 92 (same day as the
+design): Phases 1–5 all landed (038c01f take-set compiler · 228a786 Story
+switcher, live-swap proven headless · 7c76a68 3-variant reader modal ·
+strip/ship + prune proofs in the session journal). Open remainder is the
+HUMAN side only: HR-9 (pick the reader variant; confirm the switcher).
+Locked calls: Fable end-to-end · lighter ADR-075 split (switcher
+single-idea + brief, reader full diverge) · built before the redesign.
 **Confidence:** ( 35% Opus, 65% Fable ) — mostly mechanical DEV-panel
 wiring, but the script-reader's reading experience is a taste surface.
 **ADR:** ADR-139 · **Skill:** `.claude/skills/narrative-diverge/SKILL.md` ·
