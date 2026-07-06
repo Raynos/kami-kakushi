@@ -34,6 +34,13 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `project/audit/reports/2026-07-06-story-narrative-slop-audit.md` — the
+  **fable story/narrative LLM-slop audit** you asked for: world architecture
+  is NOT slop (protect list §1); the prose has a specific fixable LLM accent
+  (§3) + three canon breaks (§2, wolf continuity / Kihei's creed inverted /
+  the lost shame beat) + the "fairness machine" structural finding (§4); §5
+  is the prioritized brief for the queued story-beats redesign. Read together
+  with HR-8.
 - [ ] `docs/plans/opus-2026-07-04-ui-v2-andon-steel-migration.md` — **UI-v2 Andon
   Steel migration** (v0.3.6): **BUILD-READY** full-replacement remaster plan,
   co-authored with you. All calls locked (full replacement · Andon composition ·
