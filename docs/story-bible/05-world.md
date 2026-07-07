@@ -38,3 +38,52 @@
   rest reachable by cause).
 - **Backtracking with reasons:** later tiers plant side-quests and
   encounters that send the player back through earlier zones.
+
+## The estate anatomy (human-locked 2026-07-07)
+
+**Layer 1 — the GUEST HOUSE** ("the main house," as everyone calls it
+through T0–T1): a grand winged guest residence of the old jin'ya era;
+an entire estate's functions COMPRESSED into it (the clue hiding in
+plain sight — the kitchen doubles as the steward's room; the shrine
+alcove sits in a corridor).
+
+- *Outer guest house (T0):* the Gate & gateyard · the Forecourt · the
+  Woodshed & yard buildings · the Kitchen + board (threshold, then
+  inside) · Sōan's sickroom · the Drill yard (the old stable court,
+  repurposed) · the working Kura · the home paddy & vegetable rows.
+- *Inner guest house (T1's unlock arc):* the East wing (the family's
+  rooms) · the West wing (closed rooms — Katsuhide's things) · the
+  inner garden · Toku's room · the shrine alcove (the wrong sandals) ·
+  the Shoin, restored last — Shigemasa's one scene, the register.
+
+**Layer 2 — the RUIN** (the TRUE main house: the old jin'ya compound;
+locked scenery until the ~T2 reveal, then the restoration's object,
+opening in the access-grammar the guest house taught):
+
+- *The outer domain (T2 works):* the great gate (crumbled) · the outer
+  court · the old barracks row · the collapsed walls · the gatehouse
+  (rebuilt first — the estate's new face to the valley).
+- *The wings (T3):* the East hall — the old administration's offices
+  (the steward's office migrates here; the day-book gets a room) · the
+  West hall — retainers' quarters (the growing staff moves in).
+- *The inner domain (late T3):* the old lord's residence · the
+  overgrown inner garden · the ORIGINAL family temple-alcove (the
+  guest-house alcove is its compressed echo) · **the sealed
+  storerooms — the BURIED TRUTH**, reachable only by restoration.
+- *The center (T4–T5):* the AUDIENCE HALL — the jin'ya's court,
+  restored last; the venue of the T5 inverse-rung audience-days.
+
+**The function migration (the twist made playable):** steward's office
+→ East hall (T3) · the family → the inner domain (T4–T5) · worship →
+the original temple-alcove (T3) · and at T5 the guest house RETURNS TO
+BEING A GUEST HOUSE — the bakufu's men are lodged in it: the family
+hosts power in the rooms it once hid in. The buildings tell the story;
+no exposition.
+
+**The reveal staging (~T2, early — three converging signals, no
+lecture):** (1) village rumor at the well ("that yard was a town
+once") · (2) the compound's old plans found in the kura — the "main
+house" a small box labeled *guest quarters* · (3) one Toku past-tense
+line. Then THE MAP RE-LABELS ITSELF — "Main house" → "Guest house,"
+the ruin gains its true name: the twist delivered by the UI surface
+(kernel #6).

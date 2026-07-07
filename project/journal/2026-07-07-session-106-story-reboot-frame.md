@@ -173,3 +173,18 @@ REJECTED as too-fast/too-high — replaced by the pending all-tier
 two-paragraph ladder summaries (start · end · theme per tier), with
 village + origin-town as PARALLEL reputation tracks distinct from house
 rungs.
+
+## Addendum 6 — tier ladders v3 + THE RUIN + the guest-house twist
+
+A dense co-design run: tier ladder summaries v2 → human redline → v3
+(rungs + zones per tier); THE RUIN canon (the family lives in the
+grand GUEST HOUSE everyone calls the main house — the true jin'ya
+compound is a ruin restored tier by tier; reveal ~T2, map re-labels
+itself); rung ALTERNATION locked (inside/outside every other rung,
+HARD zone-lock in T2/T3, dropped at T4); T4 ends at the under-steward;
+T5 renamed the DOMAIN (han) with the INVERSE rung engine
+(audience-days); T6 = the HOUSE's ladder (H0→H7). Estate anatomy
+locked into 05-world.md (guest house layers, ruin domains, function
+migration, reveal staging). Buried truth sealed in the ruin's inner
+domain. Docs reorg landed earlier in the sitting (story-bible doc-set,
+guides, living=core-canon, symlink).
