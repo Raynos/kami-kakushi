@@ -43,3 +43,11 @@ _(none open)_
   doc**: the slop-audit findings/fixes condensed live (THE substance you
   asked not to lose) + the mostly-superseded 19 ladder answers as record;
   defines what the reboot's informed pitch agents receive.
+- [ ] `docs/plans/fable-2026-07-07-t0t1-map-rebuild.md` — the **T0/T1 map
+  rebuild plan**: what the blind-agent audit found wrong with the two DEV
+  reference maps (canon + quality + code), the build steps, and the one
+  surfaced fork (night-indigo vs warm-washi substrate — default is night).
+- [ ] `docs/plans/fable-2026-07-07-t0t1-map-spec.md` — the **map baseline
+  spec**: the super-detailed description of what the T0/T1 sheets should
+  depict (one master geography, drawn wrong-things, the AA look bar) + the
+  blind-reader rubric the rebuild iterates against.
