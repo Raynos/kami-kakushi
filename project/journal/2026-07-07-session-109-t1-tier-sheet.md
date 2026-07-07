@@ -79,9 +79,17 @@ with the human one piece per exchange.
   the pure-portrait recommendation): recovery flavor differs by home,
   magnitude sim-owned at the B2 mechanics ADR.
 
+- **A1 piece 6 — combat structure & enemies, LOCKED**
+  (AskUserQuestion): the shapes roster (grinds · chains · set-piece ·
+  night rounds that GROW with the estate; boar-sow night apex kept
+  smaller than the wolf) · **the wolf staged in DAYLIGHT, open
+  fields** (the T0 inversion) · **the east-wing quiet stretch CUT**
+  (human's call over the recommendation — the night round stays
+  all-combat end to end) · forge equipment lane · seasons · carried
+  systems canon.
+
 ## Next intended steps
 
-- Piece 6: combat structure & enemies (organize the locked zones by
-  shape; night rounds T1 escalation; the no-human line).
 - Piece 7 (last): economics + seeding table → then the sheet-complete
-  read.
+  read (t1.md reordered to t0.md's section order, seed scaffolding
+  removed, README status ledger updated).
