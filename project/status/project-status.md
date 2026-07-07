@@ -25,9 +25,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 - **PRD V2.3** — 6-tier reshape rippled; `prd.md` = a stub index →
   `docs/living/prd/*`; §4 + §7 MS2–MS7 provisional (ADR-059).
-- **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the
-  autonomous T0 rebuild (**ADR-107–ADR-116**) + the v0.3.5 deltas
-  (**ADR-118–ADR-125**; R7 capstone designed, build → T1).
+- **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the T0
+  rebuild (**ADR-107–116**) + v0.3.5 deltas (**ADR-118–125**; R7 cap → T1).
 - **✅ THE TASTE LOCK (ADR-126, s57):** `taste.md` (21 principles, capped) ·
   generated tokens · `doc-budgets` gate · FB-10 two-pass flow (ADR-135).
 - **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98, 2026-07-06):** M1–M7
@@ -35,17 +34,19 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   cold open · VN/ceremony heat · variants steel-native · **ADR-144** retires
   the woodblock locks) + drains FB-127–FB-172. **Five REAL illustrated estate
   maps** (ezu · model board · cadastral · lantern · kamon) live for HR-7.
-- **✅ Process/e2e/narrative infra COMPLETE** (s77–s94): FB-1–FB-10 wave ·
-  e2e lane + **ADR-141/142** · s90 hardening (**ADR-140**) · **ADR-139
-  narrative diverge** (first real bundle: `estate-build-beats`, s100).
-- **✅ THE PHASE-2 ECONOMY (ADR-145, s100, 2026-07-07):** the A+B loop shipped —
-  5 deed sources (estate-relevant only) · deed-gated U1–U4 staged build with
-  reveal + E1 "estate stands" beats · build-tracker diverge (HR-11) · textured
-  sim loop + report-only texture metrics · retuned in-band (ratio 0.93–0.94,
-  15/15; deed base 0.04→0.05) · PRD ripple + `t0-deed-sources` gen-region.
-  Plan archived. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137, s101):** the points
-  meter is DEAD — authored hidden lists per rung, %-bar, ADR-139-locked flavor
-  (HR-12/HR-13 ✅). RESIDUE: R4+ predator kills parked (combat-curve retune).
+- **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane
+  (ADR-141/142) · s90 hardening (ADR-140) · ADR-139 story diverge.
+- **✅ THE PHASE-2 ECONOMY (ADR-145, s100):** the A+B loop shipped — 5 deed
+  sources · deed-gated U1–U4 staged build + E1 beats · tracker diverge (HR-11)
+  · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
+  s101):** points meter DEAD — authored hidden lists, %-bar, locked flavor
+  (HR-12/13 ✅). RESIDUE: R4+ predator kills parked (combat-curve retune).
+- **✅ TIMED ACTIONS (ADR-148, s105):** press→instant is DEAD — every action
+  `timed{duration,cooldown}` or `instant` (total, compile-enforced) · shell
+  **ActionClock** (one global, drop-on-interrupt, auto = go-again) · in-button
+  bar (the human's A+C mix, HR-14 ✅) · per-edge travel · targets ÷ wall-cost
+  (G-PACING holds R0–R2). **INTERIM: economy NOT rebalanced (human)** — R3+
+  balloons; suspended gates in `envelopes.ts` ADR148_INTERIM re-enable then.
 
 ## Waiting on the human
 
@@ -56,8 +57,8 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary (HR-5) · the HR-2
   bundle. Picks → I strip (zero flag-debt) + land the two-column Map tab with
   the map winner.
-- **Two small calls** 🔲 (s98 flags): re-express spoilage/autumn on days after
-  the 24× calendar? · does R0–R2 read fine with no header wealth (FB-166/171)?
+- **Two small calls** 🔲 (s98): spoilage/autumn on 24×-calendar days? · R0–R2
+  fine with no header wealth (FB-166/171)?
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
@@ -65,7 +66,6 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
 - **Story track kickoffs** 🔲 — the 2 TODOs: fable story **audit**, then the
   fable **beat redesign** (fresh sessions, ADR-139-bundled).
-
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
