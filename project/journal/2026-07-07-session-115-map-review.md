@@ -81,3 +81,25 @@ substrate question closed, the sheet.ts washi edits reverted un-committed.
 Phase B next: R4 water grammar, west-wing shutters, fine-register
 population, ground texture (night, earned), forest strata, wing fills,
 label collisions.
+
+## Phase B, first batch (same session, later)
+
+The two M-line misses + the composure wart, all verified by fresh
+captures at each step:
+
+- **R4 — the channel reads as WATER now** (`water.ts channel()`): tapered
+  brush banks at working weight, a moonlit silver sheen between them (a
+  dark cut is invisible on the night sheet — the root of the "road"
+  miss), broken current threads (the river's suiha idiom at ditch
+  scale), more downstream chevrons, and sedge flicks along the cut — the
+  same accessory grammar that makes the weir reeds read wet.
+- **The "gold vein" dies:** `terraceRun` gains `fresh` — T1's re-stacked
+  walls keep the gold; T0's old stone drops to survey silver.
+- **R13 — the west wing reads CLOSED:** the faint veil becomes an amado
+  slat grille + a tied cross over the south door; shuttered-but-tended.
+- **V-6 — the house cluster composes:** `drawSealLayer` runs a greedy
+  deterministic caption pass (below → above → suppressed-to-tooltip,
+  boxes tested against every chip + placed caption); suppressed seals go
+  fully quiet (hover/roster carry name + marks). The 改・東棟成 note
+  moves above the wing; the inner-garden anchor drops into the garden
+  gap, clear of the shoin chip.

@@ -248,21 +248,99 @@ export function weirBar(
   parent.append(g);
 }
 
-/** An irrigation ditch — fine double line; silted = the far reach breaks up into
- *  dots and dies (the half-lost work the field-hands keep hinting at). */
+/** An irrigation ditch — and it must read as WATER at fit zoom, not a road
+ *  (rubric R4: blind pass 2 read the old hairline pair as "a path" and its
+ *  works as "a gold vein"): tapered cut banks at working weight, the dark
+ *  ditch cut, a broken current thread RIDING the water (the river's suiha
+ *  idiom at ditch scale), and downstream chevrons. silted = the far reach
+ *  breaks up into dots and dies (the half-lost work the field-hands hint at). */
 export function channel(
   parent: SVGElement,
   pts: readonly Pt[],
   o: { seed: string; silted?: boolean },
 ): void {
   const line = resample(pts, 18);
-  const a = offsetPolyline(line, 1.6);
-  const b = offsetPolyline(line, -1.6);
+  const a = offsetPolyline(line, 2.3);
+  const b = offsetPolyline(line, -2.3);
   if (!o.silted) {
-    // the wet line first — water IN the ditch, then the two cut banks
-    inkLine(parent, line, { seed: `${o.seed}-wet`, w: 4, color: 'var(--steel-0)', opacity: 0.6 });
-    inkLine(parent, a, { seed: `${o.seed}-a`, w: 1.35, color: 'var(--silver-dim)', opacity: 0.9 });
-    inkLine(parent, b, { seed: `${o.seed}-b`, w: 1.35, color: 'var(--silver-dim)', opacity: 0.75 });
+    // the water first — on the night sheet a thin dark cut is INVISIBLE (the
+    // pass-2 "reads as a road" miss); moonlit water is a soft silver sheen
+    // between the banks
+    inkLine(parent, line, {
+      seed: `${o.seed}-wet`,
+      w: 3.4,
+      color: 'var(--silver-dim)',
+      opacity: 0.3,
+    });
+    brushStroke(parent, a, {
+      seed: `${o.seed}-a`,
+      w: 2,
+      color: 'var(--silver-dim)',
+      opacity: 0.9,
+      taperIn: 0.05,
+      taperOut: 0.05,
+      amp: 1.4,
+    });
+    brushStroke(parent, b, {
+      seed: `${o.seed}-b`,
+      w: 1.6,
+      color: 'var(--silver-dim)',
+      opacity: 0.75,
+      taperIn: 0.05,
+      taperOut: 0.05,
+      amp: 1.4,
+    });
+    // water IN the ditch — broken current runs down the centre; a road has none
+    const r = rng(`${o.seed}-cur`);
+    let t0 = 0.05 + r() * 0.08;
+    while (t0 < 0.9) {
+      const t1 = Math.min(0.95, t0 + 0.12 + r() * 0.16);
+      const seg: Pt[] = [];
+      for (let s = t0; s <= t1; s += 0.03) seg.push(along(line, s).p);
+      if (seg.length > 1) {
+        inkLine(parent, seg, {
+          seed: `${o.seed}-cur-${t0.toFixed(2)}`,
+          w: 1,
+          color: 'var(--silver)',
+          opacity: 0.55,
+          amp: 1.1,
+        });
+      }
+      t0 = t1 + 0.1 + r() * 0.18;
+    }
+    let len = 0;
+    for (let i = 1; i < line.length; i++) {
+      len += Math.hypot(line[i]![0] - line[i - 1]![0], line[i]![1] - line[i - 1]![1]);
+    }
+    flowTicks(parent, line, { seed: `${o.seed}-flow`, count: Math.max(3, Math.round(len / 170)) });
+    // sedge along the cut — the accessory that says WET the way the weir reeds
+    // do: small diverging flicks off the bank, alternating sides down the run
+    const sr = rng(`${o.seed}-sedge`);
+    const flicks = Math.max(4, Math.round(len / 95));
+    for (let i = 0; i < flicks; i++) {
+      const t = 0.06 + ((i + sr() * 0.6) / flicks) * 0.88;
+      const { p, tan } = along(i % 2 === 0 ? a : b, Math.min(0.96, t));
+      const side = i % 2 === 0 ? -1 : 1;
+      const bx = p[0] + tan[1] * 1.5 * side;
+      const by = p[1] - tan[0] * 1.5 * side;
+      const h = 4.5 + sr() * 3;
+      for (const lean of [-0.55, 0, 0.5] as const) {
+        inkLine(
+          parent,
+          [
+            [bx, by],
+            [bx + lean * h + tan[1] * side * h * 0.35, by - h + sr() * 1.5],
+          ],
+          {
+            seed: `${o.seed}-sg-${i}-${lean}`,
+            w: 0.8,
+            color: 'var(--silver-dim)',
+            opacity: 0.75,
+            amp: 0.4,
+          },
+        );
+      }
+    }
     return;
   }
   // silted: the first stretch holds, then the line breaks and fades

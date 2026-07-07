@@ -290,6 +290,10 @@ export function terraceRun(
     depth: number;
     letGo?: boolean;
     numberFrom?: number;
+    /** true = the walls read as NEW work (T1's re-stacked runs, gold); false/absent
+     *  = old laid stone in survey silver (T0 — blind pass 2 read the gold there as
+     *  an unexplained "vein", and on the old survey nothing at the terraces is new) */
+    fresh?: boolean;
   },
 ): void {
   const r = rng(o.seed);
@@ -379,7 +383,7 @@ export function terraceRun(
       brushStroke(parent, lo, {
         seed: `${o.seed}:wall${i}`,
         w: 2.6,
-        color: 'var(--gold-dim)',
+        color: o.fresh ? 'var(--gold-dim)' : 'var(--silver-dim)',
         taperIn: 0.07,
         taperOut: 0.09,
         amp: 1.4,

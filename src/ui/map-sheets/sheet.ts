@@ -124,9 +124,54 @@ function drawSealLayer(
   tier: Tier,
   overrides: ReadonlyMap<string, Pt>,
 ): void {
-  for (const n of rosterFor(tier)) {
-    const { x: nx, y: ny } = posFor(n.id, overrides);
+  // collision relief for the house cluster (L9, blind pass 2's "sole place the
+  // sheet stops feeling composed"): each ROOM seal's caption tries below, then
+  // above — a spot is taken if it overlaps any seal chip or an already-placed
+  // caption — and suppresses when neither fits (the name still rides the
+  // tooltip + the roster). Greedy in roster order; fully deterministic.
+  const roster = rosterFor(tier);
+  const pos = new Map(roster.map((n) => [n.id, posFor(n.id, overrides)]));
+  interface Box {
+    x0: number;
+    y0: number;
+    x1: number;
+    y1: number;
+  }
+  const hits = (a: Box, b: Box): boolean =>
+    a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+  const taken: Box[] = roster.map((n) => {
+    const p = pos.get(n.id)!;
+    const r = ANCHORS[n.id]?.room === true;
+    // the chip, inflated a touch so captions never kiss a neighbouring seal
+    return {
+      x0: p.x - (r ? 24 : 30),
+      y0: p.y - (r ? 22 : 28),
+      x1: p.x + (r ? 24 : 30),
+      y1: p.y + (r ? 22 : 28),
+    };
+  });
+  const capBoxFor = (nx: number, ny: number, bh: number, above: boolean): Box =>
+    above
+      ? { x0: nx - 72, y0: ny - bh / 2 - 52, x1: nx + 72, y1: ny - bh / 2 - 4 }
+      : { x0: nx - 72, y0: ny + bh / 2 + 4, x1: nx + 72, y1: ny + bh / 2 + 52 };
+  for (const n of roster) {
+    const { x: nx, y: ny } = pos.get(n.id)!;
     const room = ANCHORS[n.id]?.room === true;
+    let capAbove = false;
+    let capSuppressed = false;
+    if (room) {
+      const bhr = 32;
+      const below = capBoxFor(nx, ny, bhr, false);
+      const above = capBoxFor(nx, ny, bhr, true);
+      if (!taken.some((b) => hits(b, below))) {
+        taken.push(below);
+      } else if (!taken.some((b) => hits(b, above))) {
+        capAbove = true;
+        taken.push(above);
+      } else {
+        capSuppressed = true;
+      }
+    }
     const g = sv('g', {
       class: `t0v2-node t0v2-k-${n.kind}${room ? ' t0v2-room' : ''}`,
     }) as SVGGElement;
@@ -187,17 +232,22 @@ function drawSealLayer(
     // the house never drowns in chips at fit view (spec L9/L10)
     const detail = room ? sv('g', { class: 'ms-fine' }) : sv('g');
     g.append(detail);
-    const cap = sv(
-      'text',
-      {
-        x: String(nx),
-        y: String(ny + bh / 2 + 22),
-        'text-anchor': 'middle',
-        class: 't0v2-caption',
-      },
-      n.name.replace(/^The /, ''),
-    );
-    detail.append(cap);
+    // captions stack downward by default; flipped seals stack upward instead
+    const capY = capAbove ? ny - bh / 2 - 34 : ny + bh / 2 + 22;
+    const markY = capAbove ? ny - bh / 2 - 12 : ny + bh / 2 + 46;
+    if (!capSuppressed) {
+      const cap = sv(
+        'text',
+        {
+          x: String(nx),
+          y: String(capY),
+          'text-anchor': 'middle',
+          class: 't0v2-caption',
+        },
+        n.name.replace(/^The /, ''),
+      );
+      detail.append(cap);
+    }
 
     // the mark row: 戦 combat · 人 folk (count) · 怪 wrong thing — layer-toggleable
     const marks: { glyph: string; cls: string; why: string }[] = [];
@@ -214,6 +264,7 @@ function drawSealLayer(
     if (!n.wrong.startsWith('None')) {
       marks.push({ glyph: '怪', cls: 't0v2-m-wrong', why: n.wrong });
     }
+    if (capSuppressed) marks.length = 0; // fully quiet — hover/roster carry it
     const step = 34;
     let mx = nx - ((marks.length - 1) * step) / 2;
     for (const m of marks) {
@@ -221,7 +272,7 @@ function drawSealLayer(
         'text',
         {
           x: String(mx),
-          y: String(ny + bh / 2 + 46),
+          y: String(markY),
           'text-anchor': 'middle',
           class: `t0v2-mark ${m.cls}`,
         },

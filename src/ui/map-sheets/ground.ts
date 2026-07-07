@@ -222,6 +222,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     seed: 'terr',
     count: tier === 'T1' ? FIELDS.terraces.count : 2,
     depth: FIELDS.terraces.depth,
+    fresh, // T1's re-stacked walls are new work (gold); T0's are old stone
     ...(tier === 'T1' ? { numberFrom: FIELDS.terraces.numberFrom } : {}),
   });
   terraceRun(art, FIELDS.letgo.baseline, {
@@ -389,10 +390,13 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   overrides.set('shoin', house.shoin);
   overrides.set('inner-garden', [
     (house.eastWing[0] + house.westWing[0]) / 2,
-    Math.min(house.eastWing[1], house.westWing[1]) - 52,
+    Math.min(house.eastWing[1], house.westWing[1]) - 14, // in the garden gap, clear of the shoin chip
   ]);
   // the WEST wing is CLOSED (both tiers — Katsuhide's things; the household keeps
-  // it like an open one): a dimming veil + shutter ticks, the drawn refusal
+  // it like an open one): the amado grille + a tied cross over the door — the
+  // drawn refusal, legible at FIT zoom (blind pass 2 read the old faint veil as
+  // nothing and called the wings simply "opened" — R13's closed half must land).
+  // Shuttered-but-TENDED: the slats are neat and regular, no ghost-ruin.
   {
     const [wx, wy] = house.westWing;
     wash(
@@ -403,18 +407,43 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
         [wx + 36, wy + 42],
         [wx - 36, wy + 42],
       ],
-      { seed: 'west-veil', fill: 'var(--steel-0)', opacity: 0.42, amp: 2 },
+      { seed: 'west-veil', fill: 'var(--steel-0)', opacity: 0.5, amp: 2 },
     );
-    for (let i = 0; i < 3; i++) {
+    const slats = rng('west-slats');
+    for (let y = wy - 34; y <= wy + 34; y += 7.5) {
+      const j = (slats() - 0.5) * 1.6;
       inkLine(
         art,
         [
-          [wx - 20 + i * 20, wy - 30],
-          [wx - 20 + i * 20, wy + 30],
+          [wx - 29, y + j],
+          [wx + 29, y + j],
         ],
-        { seed: `shutter-${i}`, w: 1.1, color: 'var(--ink-faint)', opacity: 0.8, amp: 0.8 },
+        {
+          seed: `shutter-${y.toFixed(0)}`,
+          w: 1.2,
+          color: 'var(--ink-soft)',
+          opacity: 0.75,
+          amp: 0.5,
+        },
       );
     }
+    // the tied cross over the south door — sealed, deliberately
+    inkLine(
+      art,
+      [
+        [wx - 13, wy + 26],
+        [wx + 13, wy + 42],
+      ],
+      { seed: 'west-tie-a', w: 1.8, color: 'var(--silver-dim)', opacity: 0.9, amp: 0.6 },
+    );
+    inkLine(
+      art,
+      [
+        [wx + 13, wy + 26],
+        [wx - 13, wy + 42],
+      ],
+      { seed: 'west-tie-b', w: 1.8, color: 'var(--silver-dim)', opacity: 0.9, amp: 0.6 },
+    );
   }
   if (fresh) {
     // the tier's build spine: the east wing + shoin read as NEW WOOD (a light
@@ -430,7 +459,8 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       ],
       { seed: 'east-fresh', fill: 'var(--steel-hi)', opacity: 0.16, amp: 2 },
     );
-    redNote(art, ex + 2, ey + 86, '改・東棟成', 'The east wing, rebuilt (R4–R6)', true);
+    // sits above the wing, clear of the Workshops caption cluster (L9)
+    redNote(art, ex - 6, ey - 66, '改・東棟成', 'The east wing, rebuilt (R4–R6)', true);
     redNote(
       art,
       house.shoin[0] - 44,
