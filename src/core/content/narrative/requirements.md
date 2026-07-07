@@ -28,7 +28,7 @@
 
 ### req rake-the-spill · count act:rake_rice 500
 
-flavor: The spilled stores are swept to rows; {elder} counts them without a word.
+flavor: "Dawn, and he is still raking," {elder} says to the dark, as if the dark had asked.
 drive: rake_rice
 
 ## requirements R1
@@ -38,12 +38,12 @@ drive: rake_rice
 
 ### req take-to-the-fields · count act:farm_paddy 600
 
-flavor: The paddies answer your hand now; the green rows stand straighter for it.
+flavor: The paddy women no longer point out which rows are his; he has learned them.
 drive: farm_paddy
 
 ### req a-porters-back · count act:haul_stores 400
 
-flavor: The porters stop watching you lift. That is its own approval.
+flavor: At the gate the porters shift a strap for him without being asked, as they do among their own.
 drive: haul_stores
 
 ## requirements R2
@@ -53,22 +53,22 @@ drive: haul_stores
 
 ### req learn-the-woodlot · count act:woodcut_edge 350
 
-flavor: The woodlot edge knows your axe; the stack by the kura grows even.
+flavor: The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.
 drive: woodcut_edge
 
 ### req walk-the-hills · count act:forage_satoyama 450
 
-flavor: You come back from the hills with full baskets and no bad stories.
+flavor: The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.
 drive: forage_satoyama
 
 ### req keep-the-stores-moving · count act:haul_stores 300
 
-flavor: A hand that keeps hauling after the field work is a hand the house notes.
+flavor: Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.
 drive: haul_stores
 
 ### req face-the-wolf · flag first-fight-survived
 
-flavor: The grain-store wolf is faced. The story runs the estate faster than you walk it.
+flavor: There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched.
 drive: face_wolf
 
 ## requirements R3
@@ -78,22 +78,22 @@ drive: face_wolf
 
 ### req clear-the-kura-rats · count kill:rice_rats 3
 
-flavor: The rats learn the kura has teeth again.
+flavor: "Quiet in the kura tonight," {drillmaster} lets drop, cleaning his blade by lamplight.
 drive: fight rice_rats
 
 ### req drive-off-the-thieves · count kill:monkey 2
 
-flavor: The paddies' thieves grow careful where you stand a watch.
+flavor: "The monkeys have learned his shape," {drillmaster} is heard to say, almost pleased.
 drive: fight monkey
 
 ### req keep-the-rows · count act:farm_paddy 600
 
-flavor: Watch or no watch, your rows never fall behind — {drillmaster} marks that.
+flavor: "Watch or no watch, his rows never fell behind," {elder} says over the evening rice.
 drive: farm_paddy
 
 ### req timber-for-the-palisade · count act:woodcut_edge 450
 
-flavor: Timber for the palisade, cut on your own hours.
+flavor: "The palisade wood is his cutting," {drillmaster} says, striking a post with the flat of his hand.
 drive: woodcut_edge
 
 ## requirements R4
@@ -109,17 +109,17 @@ drive: woodcut_edge
 
 ### req the-stores-know-you · count act:haul_stores 1300
 
-flavor: The stores move through your hands like they were born to it.
+flavor: New porters are told to watch how he stacks; nobody remembers deciding that.
 drive: haul_stores
 
 ### req mend-your-own-blade · count act:repair_weapon 1
 
-flavor: A blade mended by its own bearer — {elder} hears of it from {smith}.
+flavor: {smith} turns the mended edge to the light and hands it back without a word of correction.
 drive: repair_weapon
 
 ### req a-hundred-mon-held · state resource coin >= 100
 
-flavor: A hundred mon of your own keeping. The house trusts a hand that can hold money.
+flavor: The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.
 drive: sell rice
 
 ## requirements R5
@@ -129,17 +129,17 @@ drive: sell rice
 
 ### req past-the-danger-line · count act:forage_deepwoods 600
 
-flavor: The deep satoyama yields to you now, a hill past where the others turn back.
+flavor: He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.
 drive: forage_deepwoods
 
 ### req the-paddies-still-first · count act:farm_paddy 500
 
-flavor: The paddies still come first. They always came first.
+flavor: Whatever else he is now, the paddies get his mornings first, and {elder} sees that they do.
 drive: farm_paddy
 
 ### req a-made-corner · state belonging bedding
 
-flavor: A made bed in your own corner — you live here now, and the house knows it.
+flavor: There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.
 drive: buy bedding
 
 ## requirements R6
@@ -149,17 +149,17 @@ drive: buy bedding
 
 ### req the-ledgers-agree · count act:haul_stores 1100
 
-flavor: The ledgers and your shoulders have stopped arguing with each other.
+flavor: "The ledgers agree tonight," {steward} says, which is her whole praise.
 drive: haul_stores
 
 ### req three-hundred-mon-steady · state resource coin >= 300
 
-flavor: Three hundred mon held steady through a season's spending.
+flavor: "His purse holds steady," {steward} lets fall, "which is more than this house has managed."
 drive: sell rice
 
 ### req coin-into-the-works · native estate-u1
 
-flavor: The kura-works stand a stage better for coin you put back into the house.
+flavor: "He put his own coin into the kura-works," {steward} tells {elder}, twice, to be sure he heard.
 drive: buy estate_upgrade
 
 ## requirements R7
@@ -169,15 +169,15 @@ drive: buy estate_upgrade
 
 ### req the-fields-run-on-you · count act:farm_paddy 400
 
-flavor: The house's fields run on your rhythm now, not the other way around.
+flavor: "The fields no longer wait on my orders," {lord} says from the veranda, "they wait on his."
 drive: farm_paddy
 
 ### req the-woodlot-runs-on-you · count act:woodcut_edge 400
 
-flavor: The woodlot's stack stands winter-deep, and it was your axe that made it so.
+flavor: "Even the woodlot answers to him," {drillmaster} says to {elder}, who does not disagree.
 drive: woodcut_edge
 
 ### req a-granary-against-winter · state banked rice >= 200
 
-flavor: The granary holds deep against winter, and the ledger names you for it.
+flavor: "There is rice against winter," {lord} says, slowly, as if the words were new to him.
 drive: deposit rice

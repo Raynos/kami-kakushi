@@ -297,47 +297,47 @@
 
 ### R0 · Day-labourer 日雇
 
-- The spilled stores are swept to rows; Genemon counts them without a word. <small>*(rake-the-spill — act:rake_rice ×500)*</small>
+- "Dawn, and he is still raking," Genemon says to the dark, as if the dark had asked. <small>*(rake-the-spill — act:rake_rice ×500)*</small>
 
 ### R1 · Kept hand 下人
 
-- The paddies answer your hand now; the green rows stand straighter for it. <small>*(take-to-the-fields — act:farm_paddy ×600)*</small>
-- The porters stop watching you lift. That is its own approval. <small>*(a-porters-back — act:haul_stores ×400)*</small>
+- The paddy women no longer point out which rows are his; he has learned them. <small>*(take-to-the-fields — act:farm_paddy ×600)*</small>
+- At the gate the porters shift a strap for him without being asked, as they do among their own. <small>*(a-porters-back — act:haul_stores ×400)*</small>
 
 ### R2 · Trusted hand 手代
 
-- The woodlot edge knows your axe; the stack by the kura grows even. <small>*(learn-the-woodlot — act:woodcut_edge ×350)*</small>
-- You come back from the hills with full baskets and no bad stories. <small>*(walk-the-hills — act:forage_satoyama ×450)*</small>
-- A hand that keeps hauling after the field work is a hand the house notes. <small>*(keep-the-stores-moving — act:haul_stores ×300)*</small>
-- The grain-store wolf is faced. The story runs the estate faster than you walk it. <small>*(face-the-wolf — flag first-fight-survived)*</small>
+- The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean. <small>*(learn-the-woodlot — act:woodcut_edge ×350)*</small>
+- The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon. <small>*(walk-the-hills — act:forage_satoyama ×450)*</small>
+- Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted. <small>*(keep-the-stores-moving — act:haul_stores ×300)*</small>
+- There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched. <small>*(face-the-wolf — flag first-fight-survived)*</small>
 
 ### R3 · Gate-watch 門番
 
-- The rats learn the kura has teeth again. <small>*(clear-the-kura-rats — kill:rice_rats ×3)*</small>
-- The paddies' thieves grow careful where you stand a watch. <small>*(drive-off-the-thieves — kill:monkey ×2)*</small>
-- Watch or no watch, your rows never fall behind — Kihei marks that. <small>*(keep-the-rows — act:farm_paddy ×600)*</small>
-- Timber for the palisade, cut on your own hours. <small>*(timber-for-the-palisade — act:woodcut_edge ×450)*</small>
+- "Quiet in the kura tonight," Kihei lets drop, cleaning his blade by lamplight. <small>*(clear-the-kura-rats — kill:rice_rats ×3)*</small>
+- "The monkeys have learned his shape," Kihei is heard to say, almost pleased. <small>*(drive-off-the-thieves — kill:monkey ×2)*</small>
+- "Watch or no watch, his rows never fell behind," Genemon says over the evening rice. <small>*(keep-the-rows — act:farm_paddy ×600)*</small>
+- "The palisade wood is his cutting," Kihei says, striking a post with the flat of his hand. <small>*(timber-for-the-palisade — act:woodcut_edge ×450)*</small>
 
 ### R4 · Kura-warden 蔵番
 
-- The stores move through your hands like they were born to it. <small>*(the-stores-know-you — act:haul_stores ×1300)*</small>
-- A blade mended by its own bearer — Genemon hears of it from Tōzō. <small>*(mend-your-own-blade — act:repair_weapon ×1)*</small>
-- A hundred mon of your own keeping. The house trusts a hand that can hold money. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
+- New porters are told to watch how he stacks; nobody remembers deciding that. <small>*(the-stores-know-you — act:haul_stores ×1300)*</small>
+- Tōzō turns the mended edge to the light and hands it back without a word of correction. <small>*(mend-your-own-blade — act:repair_weapon ×1)*</small>
+- The house learns he keeps coin of his own, strung and counted, spent on nothing foolish. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
 
 ### R5 · House-servant 家人
 
-- The deep satoyama yields to you now, a hill past where the others turn back. <small>*(past-the-danger-line — act:forage_deepwoods ×600)*</small>
-- The paddies still come first. They always came first. <small>*(the-paddies-still-first — act:farm_paddy ×500)*</small>
-- A made bed in your own corner — you live here now, and the house knows it. <small>*(a-made-corner — own bedding)*</small>
+- He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up. <small>*(past-the-danger-line — act:forage_deepwoods ×600)*</small>
+- Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do. <small>*(the-paddies-still-first — act:farm_paddy ×500)*</small>
+- There is bedding in the north corner, bought with his own coin, and the maids sweep around it now. <small>*(a-made-corner — own bedding)*</small>
 
 ### R6 · Steward's man 用人
 
-- The ledgers and your shoulders have stopped arguing with each other. <small>*(the-ledgers-agree — act:haul_stores ×1100)*</small>
-- Three hundred mon held steady through a season's spending. <small>*(three-hundred-mon-steady — resource coin ≥ 300)*</small>
-- The kura-works stand a stage better for coin you put back into the house. <small>*(coin-into-the-works — native estate-u1)*</small>
+- "The ledgers agree tonight," Chiyo says, which is her whole praise. <small>*(the-ledgers-agree — act:haul_stores ×1100)*</small>
+- "His purse holds steady," Chiyo lets fall, "which is more than this house has managed." <small>*(three-hundred-mon-steady — resource coin ≥ 300)*</small>
+- "He put his own coin into the kura-works," Chiyo tells Genemon, twice, to be sure he heard. <small>*(coin-into-the-works — native estate-u1)*</small>
 
 ### R7 · Trusted of the house 内衆
 
-- The house's fields run on your rhythm now, not the other way around. <small>*(the-fields-run-on-you — act:farm_paddy ×400)*</small>
-- The woodlot's stack stands winter-deep, and it was your axe that made it so. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×400)*</small>
-- The granary holds deep against winter, and the ledger names you for it. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
+- "The fields no longer wait on my orders," Shigemasa says from the veranda, "they wait on his." <small>*(the-fields-run-on-you — act:farm_paddy ×400)*</small>
+- "Even the woodlot answers to him," Kihei says to Genemon, who does not disagree. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×400)*</small>
+- "There is rice against winter," Shigemasa says, slowly, as if the words were new to him. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>

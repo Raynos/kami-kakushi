@@ -401,6 +401,26 @@ source); the taste two-pass still ran (ADR-135).
 
 ---
 
+### HR-13 🔲 — FB-121 flavor lines — the ADR-139 blind-takes bundle (per-rung picks)
+
+The 23 requirement-completion flavor lines went through the narrative diverge
+you ordered (2026-07-07): three blind takes under distinct briefs (**A** the
+house notices · **B** the work speaks · **C** a word let drop), self-picked
+**per rung** into canon — R0 C · R1 A · R2 B · R3 C · R4 A · R5 A · R6 C ·
+R7 C (the spoken register lands exactly where a granter leans in; the
+material/house registers carry the grind between). Full bundle + all
+alternates + per-rung rationale:
+[`fb121-flavor-takes.md`](fb121-flavor-takes.md).
+
+- **Deviation flagged:** core-emitted log lines can't live-swap in the DEV
+  Story switcher without render-time log-text resolution — the comparison
+  surface is the bundle doc + `docs/content/t0-story.md`, not in-game. Veto
+  if you want the swap wiring built instead.
+- **Asking for:** per-rung overrides (or a wholesale re-pick) from the bundle.
+- **Verdict:** _(awaiting the human)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).
