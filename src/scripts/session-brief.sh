@@ -72,7 +72,9 @@ herdr_shared_tree() {
   rows="$(HERDR_PEERS_INCLUDE_SELF=1 bash "$ROOT/src/scripts/herdr-peers.sh" "$ROOT" 2>/dev/null || true)"
   [[ -n "$rows" ]] || return 0
 
-  local peer_count; peer_count="$(printf '%s\n' "$rows" | awk -F'\t' 'NF>=4 && $4=="peer"' | grep -c .)"
+  # grep -c exits 1 on zero matches — the || true keeps set -e from killing the
+  # whole brief when this session is the only agent on the tree.
+  local peer_count; peer_count="$(printf '%s\n' "$rows" | awk -F'\t' 'NF>=4 && $4=="peer"' | grep -c . || true)"
   [[ "${peer_count:-0}" -gt 0 ]] || return 0  # solo (only self on tree) → no noise
 
   local total=$((peer_count + 1))
