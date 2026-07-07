@@ -117,18 +117,26 @@ Battered (the new climb arrives wood-rich).
   bar is a requirement read). `prd:drift` CLEAN; gen-prd-regions in sync.
   ADR-137 pre-existed (design lock) — no new ADR needed.
 
-Still owed: the ADR-139 flavor-line diverge bundles (8 per-rung bundles ×
-3 blind takes) — a follow-on pass; roadmap slice line if one names FB-121.
+## 5 · The ADR-139 flavor diverge (blind takes → per-rung picks)
+
+Three blind agents (distinct briefs: A the-house-notices · B the-work-speaks ·
+C a-word-let-drop, none saw canon or each other) each authored all 23 lines;
+self-picked PER RUNG (the human's bundle call): R0 C · R1 A · R2 B · R3 C ·
+R4 A · R5 A · R6 C · R7 C — spoken registers land where a granter leans in.
+Canon-order slips in the blind takes (Tōzō/Kihei/Chiyo observed before their
+story introduction) disqualified per line. Picks transcribed to canon
+(4f01080); bundle + alternates in
+`project/human-in-the-loop/fb121-flavor-takes.md` (**HR-13** — incl. the
+flagged live-swap deviation).
 
 ## Next intended steps
 
-1. Phase 2 — `requirements.md` grammar in gen-narrative (parse/emit/validate),
-   author all 8 rung lists, registry `requirements.gen.ts` + t0-story section
-   (reading-queue it).
-2. Phase 3 — the full cutover: state field swap (`rungMeter` →
-   `rungReqs`), ranks.ts rewire, delete `storyGate` + points constants, save
-   migration, fixtures regen.
-3. Phases 4–7 per the plan.
+1. ~~Phases 1–7~~ ALL DONE (plan archived ✅); the flavor diverge DONE (HR-13).
+2. Push `origin/main` when the shared tree goes green (a background watch is
+   armed; co-agents' WIP has been red repeatedly — capture.ts, session-102).
+3. Human queue: HR-12 + HR-13, the t0-story requirement-lists sign-off, and
+   the parked R4+ predator-kill requirements (need a combat-curve retune —
+   candidate for its own plan).
 
 ## Landmines
 
