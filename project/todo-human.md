@@ -46,3 +46,8 @@ _(none open)_
   **map-rebuild fresh-eyes review**: implementation/tooling/output verdicts
   (incl. a capture bug that hid the zoom-detail layer from every blind
   pass) + the ranked next-level phases; pairs with your HR-12 taste call.
+- [ ] `project/brainstorms/2026-07-07-t0-map-rung-reveal.md` — the
+  **rung-reveal illustration** you asked for: T0R1/R3/R5/R7 renders (fog =
+  unsurveyed paper, 未 ghost chips, rumor notes; images in
+  `project/audit/screens/2026-07-07-t0-rung-reveal/`) + the design calls it
+  takes and the fork it surfaces (sheet vs 地図 as the one unlock source).

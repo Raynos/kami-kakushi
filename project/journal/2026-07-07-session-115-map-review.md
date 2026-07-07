@@ -103,3 +103,16 @@ captures at each step:
   fully quiet (hover/roster carry name + marks). The 改・東棟成 note
   moves above the wing; the inner-garden anchor drops into the garden
   gap, clear of the shoin chip.
+
+## The rung-reveal illustration (same session, human ask mid-flight)
+
+The human asked to SEE how the T0 map opens rung by rung. Built as an
+overlay script on the real sheet (`tmp/rung-reveal.mjs` — zero game-code
+changes): four states T0R1/R3/R5/R7 with fog as UNSURVEYED PAPER (the
+family's own survey simply stops at a scrawled edge; furniture exists
+from R1), 未 ghost chips as next-rung hints, rumor notes in the fiction's
+voice (堰ヨリ水来ル · 古キ構ヘ有リト云フ), the ruin + grove held as the
+LAST fog masses so the G5 twist lands at R7/Phase-2. Renders:
+`project/audit/screens/2026-07-07-t0-rung-reveal/` (local). Design
+write-up + the sheet-vs-地図 unlock-source fork:
+`project/brainstorms/2026-07-07-t0-map-rung-reveal.md` (queued).
