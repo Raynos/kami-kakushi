@@ -48,3 +48,15 @@ the human, pairs with HR-12).
   pathspec commits only, own paths.
 - Phase C (node collapse / geom refactor) needs the golden-hash pin AND
   role-named seeds first, or refactors will silently reshuffle the look.
+
+## Decisions locked (same session, later — ADR-149)
+
+The human answered all four review forks via AskUserQuestion: substrate =
+wire BOTH behind a DEV toggle, pick live during HR-12 · Phase A + full
+Phase B now (ground/void wash waits for the substrate pick) · Phase C now,
+while hot · and the reframe: **the maps are player-bound** — built in the
+DEV panel first as a standalone unit, to swap into the real game when it
+is rewritten to match the story bible. ADR-149 records it; HR-12 updated
+(the substrate pick is now part of the live review); the brainstorm doc's
+status flipped to LOCKED. Build begins: Phase A (capture fix + fresh
+blind pass) → substrate toggle → Phase B → Phase C.

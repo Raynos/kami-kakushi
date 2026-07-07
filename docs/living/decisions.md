@@ -2258,3 +2258,37 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   audit). `__qa` gains an instant-complete switch so headless QA never waits
   wall-clock. Supersedes the press→instant interaction model everywhere but
   combat.
+
+### ADR-149 ✅ — the T0/T1 map sheets are player-bound; substrate picked live; craft + engine phases greenlit
+
+- **created_date:** 2026-07-07
+- **Context:** the map-rebuild fresh-eyes review
+  (`project/brainstorms/2026-07-07-t0t1-map-review-next-level.md`, commit
+  79f169d) surfaced four forks: the night-indigo vs warm-washi substrate
+  (HR-12's open question), the sequencing of the craft pass (Phase A+B),
+  the timing of engine hardening (Phase C), and what the DEV sheets are
+  *for* — the review had treated a player-facing map as a parked PH6
+  question.
+- **Options:** substrate — commit night / commit washi / wire both and
+  pick live; craft — all now / verification only / wait for HR-12; engine
+  — now / park until T2 maps / regression-pin only; player map — BACKLOG /
+  HD-item / design now.
+- **Decision (human, 2026-07-07, via AskUserQuestion):** **(1) Wire BOTH
+  substrates** behind a DEV toggle (the washi fork is a one-table token
+  swap) — the human picks live during the HR-12 look; canon carries only
+  the pick, the alternate is deleted after sign-off. **(2) Phase A + the
+  full Phase B craft pass now** (the ground/void wash item waits for the
+  substrate pick, since washi would erase it). **(3) Phase C engine
+  hardening NOW, while hot** — not parked for T2. **(4) The maps are
+  PLAYER-BOUND, and were always meant to be:** "we build the T0 & T1 maps
+  in the dev panel so we can swap them into the real game, we just did
+  the map first before we rewrite the game to match the story bible. The
+  map is a standalone unit of work" (human, verbatim). The DEV panel is
+  the review venue, not the destination.
+- **Consequences:** the map engine is graduating game code, not DEV
+  scaffolding — mobile perf (node collapse), pinch zoom, and a
+  player-grade entry path are requirements, not nice-to-haves (they fold
+  into Phase C). The game-side integration (when/how the player reaches
+  the map, what fiction causes it) rides the story-bible game-rewrite
+  workstream, not this one. HR-12 stays the taste gate for the sheets
+  themselves and now includes the live substrate pick.

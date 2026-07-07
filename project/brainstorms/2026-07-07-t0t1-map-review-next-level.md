@@ -1,6 +1,9 @@
 # T0/T1 map sheets — fresh-eyes review + the next-level map
 
-**Status:** review complete, proposals awaiting the human's read.
+**Status:** review complete; forks LOCKED by the human 2026-07-07 via
+AskUserQuestion → **ADR-149** (substrate = live A/B toggle · Phase A+B now ·
+Phase C now · the maps are PLAYER-BOUND — they swap into the real game with
+the story-bible rewrite). §5's phases are now the active workstream.
 **Scope:** the rebuilt `src/ui/map-sheets/` (commits dea6b08 + 402f189) —
 implementation, tooling, and the captured output — plus a ranked next-steps
 map. Review by one fresh session (Fable) with two independent code-review
