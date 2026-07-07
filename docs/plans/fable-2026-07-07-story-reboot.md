@@ -74,10 +74,18 @@ taste-risk is highest (the macro pitch), ping-pong everywhere else.
 - **Phase 1 — pillars co-write (in-chat, ping-pong, no subagents).**
   1. ✅ Kernel redline (2026-07-07) — all seven points redlined point by
      point; final composition + full statements in §4.
-  2. Fiction pillars — what the story must be/never be (audit anti-goals
-     distilled; register rules as candidates).
+  2. ✅ The PROSE LAW (2026-07-07 — reframed from "fiction pillars" by
+     the human's arbitrariness/diverge-risk challenge): binds WRITTEN
+     fiction only, never pitch design. Scored one by one: restraint ·
+     one-voice-one-shape · rewards-are-things (coin-in-speech relaxed) +
+     the echo craft rule; problems-motivate folded into kernel #6 as its
+     application note, friction-staged folded into #7 likewise, and the
+     decide-menu clause RELEASED to the pitches. Canon:
+     `story-bible.md §0.5`.
   3. Mechanics-feel pillars — what progression/session/friction must FEEL
-     like, since mechanics are co-designed.
+     like, since mechanics are co-designed. OPEN QUESTION after the step-2
+     reframe: pitches are bound by kernel + constraints ONLY, so step 3's
+     guardrails either fold into the constraints sheet or drop.
   4. Constraints sheet — platform, genre (incremental), scope realities
      (T0 first), the ADR-139/scorecard machinery that still applies.
   Output: the pillars section, committed — the constitution every pitch
