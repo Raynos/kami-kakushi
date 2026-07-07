@@ -124,11 +124,20 @@ with the human one piece per exchange.
   locks, the family voices, the edge cast, the T1 four, the MC's
   use-name, the name-norm sweep.
 
+- **A4 · T2 piece 1 LOCKED** (AskUserQuestion, all three recommended):
+  the eight-rung ladder with the ⌂/⛩ alternation marked · **R5's one
+  authored alternation crossing** (the bandits bring the valley INTO
+  the works — the first human fight as threshold beat) · **the
+  dues-carrier discovery** (T1's tally skill notices Genemon's silver
+  line — the skill the house gave him finds its secret) · the reveal
+  staged (three signals, Toku's mouth closes it, the silent map
+  re-label at her scene's end).
+
 ## Next intended steps
 
-- **A4 now (human steer, skipping ahead): T2 + T3 sheets at half
-  detail, then A5 T4 (quarter) and A6 T5 (fifth).** T2 first: ladder +
-  the reveal staging, then village track / first human combat /
-  economics + seeding.
-- A2 resumes after the tier sheets (four drafts awaiting lock).
-- Then A3 register rules.
+- T2 piece 2 (closes the half-detail sheet): village cast callouts ·
+  village-track ladder · both-arena main-quests sketch · threshold
+  aftermath · economics · seeding.
+- Then T3 (half) · T4 (quarter) · T5 (fifth) · T6 check (tenth).
+- A2 resumes after the tier sheets (four drafts awaiting lock); then
+  A3 register rules.
