@@ -71,9 +71,17 @@ with the human one piece per exchange.
     kitchen; T0's compression wrong-thing repaired on screen; the
     debt panel unlocks IN the room — room and number arrive together).
 
+- **A1 piece 5 — the side-beats roster, LOCKED** (AskUserQuestion):
+  all six beats (Bon #2 lantern-carried · interest day ×2, nengu-shape
+  reuse KEPT deliberately · the night-round ask, the mirror's T1
+  DECIDE · Heikichi's lantern walk · the room offered · the rumor
+  current). The room offer gets **light stakes** (human's pick over
+  the pure-portrait recommendation): recovery flavor differs by home,
+  magnitude sim-owned at the B2 mechanics ADR.
+
 ## Next intended steps
 
-- Piece 5: the authored side-beats roster (Bon #2 · the mirror's T1
-  uses · interest days · the dog thread · rumor current).
-- Then: combat structure & enemies (organize the locked zones by
-  shape; night rounds T1) · economics + seeding table.
+- Piece 6: combat structure & enemies (organize the locked zones by
+  shape; night rounds T1 escalation; the no-human line).
+- Piece 7 (last): economics + seeding table → then the sheet-complete
+  read.
