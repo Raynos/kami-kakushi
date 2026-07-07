@@ -23,27 +23,27 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 
 ## Where we are now
 
-- **PRD V2.3** — 6-tier reshape rippled; `prd.md` = a stub index → `docs/living/prd/*`;
-  §4 balance + §7 MS2–MS7 provisional (ADR-059).
-- **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the autonomous
-  T0 rebuild (**ADR-107–ADR-116**: append-only renderer · koku=standing economy ·
-  7-tab IA · rung VN beats · SCHEMA 6 · changelog gate) + the v0.3.5 deltas
+- **PRD V2.3** — 6-tier reshape rippled; `prd.md` = a stub index →
+  `docs/living/prd/*`; §4 + §7 MS2–MS7 provisional (ADR-059).
+- **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the
+  autonomous T0 rebuild (**ADR-107–ADR-116**) + the v0.3.5 deltas
   (**ADR-118–ADR-125**; R7 capstone designed, build → T1).
 - **✅ THE TASTE LOCK (ADR-126, s57):** `taste.md` (21 principles, capped) ·
   generated tokens · `doc-budgets` gate · FB-10 two-pass flow (ADR-135).
-- **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98, 2026-07-06, one day):**
-  M1–M7 built (tokens/fonts · materials · Andon rail|desk|log-window + phone
-  band · GBA cold open · VN/ceremony + vermillion heat · variants steel-native
-  · doc ripple **ADR-144** retiring the woodblock locks). Drains FB-127–FB-172
-  landed alongside (unbounded durable log · in-modal rung ceremony · 24×
-  calendar Δ0.0-verified · header minimalism — wealth + clock out). **Five
-  REAL illustrated estate maps** (map-h…l: ezu · model board · cadastral ·
-  lantern · kamon) built by parallel xhigh subagents, live for the HR-7 pick.
-- **✅ Process/e2e/narrative infrastructure COMPLETE** (s77–s94): the FB-1–FB-10
-  wave (CI · inbox · sim · saves · cockpit · /ship · taste two-pass · telemetry)
-  · the 3-project e2e lane + HD-23/24 (**ADR-141/142**) · s90 hardening
-  (**ADR-140**) · **ADR-139 narrative diverge** (takes compiler + Story
-  surfaces + galley reader; `takes/` awaits the first real bundle).
+- **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98, 2026-07-06):** M1–M7
+  (tokens/fonts · materials · Andon rail|desk|log-window + phone band · GBA
+  cold open · VN/ceremony heat · variants steel-native · **ADR-144** retires
+  the woodblock locks) + drains FB-127–FB-172. **Five REAL illustrated estate
+  maps** (ezu · model board · cadastral · lantern · kamon) live for HR-7.
+- **✅ Process/e2e/narrative infra COMPLETE** (s77–s94): FB-1–FB-10 wave ·
+  e2e lane + **ADR-141/142** · s90 hardening (**ADR-140**) · **ADR-139
+  narrative diverge** (first real bundle: `estate-build-beats`, s100).
+- **✅ THE PHASE-2 ECONOMY (ADR-145, s100, 2026-07-07):** the A+B loop shipped —
+  5 deed sources (estate-relevant only) · deed-gated U1–U4 staged build with
+  reveal + E1 "estate stands" beats · build-tracker diverge (HR-11) · textured
+  sim loop + report-only texture metrics · retuned in-band (ratio 0.93–0.94,
+  15/15; deed base 0.04→0.05) · PRD ripple + `t0-deed-sources` gen-region.
+  Plan archived. **FB-121 requirements rungs** landed in parallel (s101).
 
 ## Waiting on the human
 
@@ -54,23 +54,23 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary (HR-5) · the HR-2
   bundle. Picks → I strip (zero flag-debt) + land the two-column Map tab with
   the map winner.
-- **Two small calls** 🔲 (s98 flags): seasonal spoilage/autumn now epoch-rare
-  after the 24× calendar — re-express on days?; and does R0–R2 play fine with
-  NO wealth readout pre-Inventory (rice+coin left the header, FB-166/171)?
+- **Two small calls** 🔲 (s98 flags): re-express spoilage/autumn on days after
+  the 24× calendar? · does R0–R2 read fine with no header wealth (FB-166/171)?
+- **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
+  ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
+  C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
 - **Rung cast + R0→R7 beats** 🔲 (HR-8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **Story track kickoffs** 🔲 — the 2 TODOs: fable **audit** of story/narrative,
-  then the fable **beat redesign** (fresh sessions; the redesign = the first
-  real ADR-139 bundle, reviewed in the new Story surfaces).
+- **Story track kickoffs** 🔲 — the 2 TODOs: fable story **audit**, then the
+  fable **beat redesign** (fresh sessions, ADR-139-bundled).
 
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
-**R7 capstone side-quests** → T1 (`capstone-t0-branch.md`) · **status-token
-ladder** → T1–T5 · home grows w/ rung · NPC placement (FB-113) · balance feel-tune
-· `emergent-node-actions` (Phase 0).
+**R7 capstone side-quests** → T1 · **status-token ladder** → T1–T5 · home
+grows w/ rung · NPC placement (FB-113) · `emergent-node-actions` (Phase 0).
 
 ## Toolchain
 
