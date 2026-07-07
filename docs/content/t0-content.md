@@ -7,13 +7,13 @@
 
 | rung | title | kanji | requirements | eligible | granter |
 |---|---|---|---|---|---|
-| R0 | Day-labourer | 日雇 | 1 | rake_rice | — |
-| R1 | Kept hand | 下人 | 2 | farm_paddy, haul_stores | Genemon |
+| R0 | Day-labourer | 日雇 | 3 | rake_rice | — |
+| R1 | Kept hand | 下人 | 3 | farm_paddy, haul_stores | Genemon |
 | R2 | Trusted hand | 手代 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R3 | Gate-watch | 門番 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
-| R4 | Kura-warden | 蔵番 | 3 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R5 | House-servant | 家人 | 3 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R6 | Steward's man | 用人 | 3 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Chiyo |
+| R3 | Gate-watch | 門番 | 5 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
+| R4 | Kura-warden | 蔵番 | 5 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R5 | House-servant | 家人 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R6 | Steward's man | 用人 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Chiyo |
 | R7 | Trusted of the house | 内衆 | 3 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Shigemasa |
 
 ## Skills (v1 labour set)

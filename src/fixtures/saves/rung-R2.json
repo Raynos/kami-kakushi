@@ -242,15 +242,31 @@
           "voice": "narrator"
         },
         {
-          "key": 131,
+          "key": 41,
           "channel": "narration",
-          "text": "The spilled stores are swept to rows; Genemon counts them without a word.",
+          "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 65,
+          "channel": "narration",
+          "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 134,
+          "channel": "narration",
+          "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 132,
+          "key": 135,
           "channel": "narration",
           "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
           "tick": 4,
@@ -258,7 +274,7 @@
           "voice": "narrator"
         },
         {
-          "key": 133,
+          "key": 136,
           "channel": "narration",
           "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
           "tick": 4,
@@ -267,7 +283,7 @@
           "voice": "steward"
         },
         {
-          "key": 134,
+          "key": 137,
           "channel": "narration",
           "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
           "tick": 4,
@@ -276,7 +292,7 @@
           "voice": "steward"
         },
         {
-          "key": 135,
+          "key": 138,
           "channel": "narration",
           "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
           "tick": 4,
@@ -284,7 +300,7 @@
           "voice": "narrator"
         },
         {
-          "key": 136,
+          "key": 139,
           "channel": "narration",
           "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
           "tick": 4,
@@ -293,7 +309,7 @@
           "voice": "villager"
         },
         {
-          "key": 137,
+          "key": 140,
           "channel": "narration",
           "text": "\"The house has my hands.\"",
           "tick": 4,
@@ -302,7 +318,7 @@
           "voice": "player"
         },
         {
-          "key": 138,
+          "key": 141,
           "channel": "narration",
           "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
           "tick": 4,
@@ -311,7 +327,7 @@
           "voice": "steward"
         },
         {
-          "key": 139,
+          "key": 142,
           "channel": "narration",
           "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
           "tick": 4,
@@ -319,7 +335,7 @@
           "voice": "narrator"
         },
         {
-          "key": 140,
+          "key": 143,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 4,
@@ -327,7 +343,7 @@
           "voice": "narrator"
         },
         {
-          "key": 141,
+          "key": 144,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 4,
@@ -335,7 +351,7 @@
           "voice": "narrator"
         },
         {
-          "key": 142,
+          "key": 145,
           "channel": "milestone",
           "text": "Rank ↑ — Kept hand 下人",
           "tick": 4,
@@ -347,7 +363,7 @@
           }
         },
         {
-          "key": 143,
+          "key": 146,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 4,
@@ -355,7 +371,7 @@
           "voice": "narrator"
         },
         {
-          "key": 144,
+          "key": 147,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 4,
@@ -363,15 +379,23 @@
           "voice": "narrator"
         },
         {
-          "key": 420,
+          "key": 249,
           "channel": "narration",
-          "text": "The paddies answer your hand now; the green rows stand straighter for it.",
+          "text": "The first rows he plants alone come up as straight as anyone's.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 423,
+          "key": 424,
+          "channel": "narration",
+          "text": "The paddy women no longer point out which rows are his; he has learned them.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 427,
           "channel": "narration",
           "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
           "tick": 6,
@@ -379,46 +403,10 @@
           "voice": "narrator"
         },
         {
-          "key": 503,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 504,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 505,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 506,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 507,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -427,7 +415,7 @@
           "key": 508,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 10,
+          "tick": 12,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -436,7 +424,7 @@
           "key": 509,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -445,7 +433,7 @@
           "key": 510,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 22,
+          "tick": 0,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -454,7 +442,7 @@
           "key": 511,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -463,7 +451,7 @@
           "key": 512,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 8,
+          "tick": 10,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -472,7 +460,7 @@
           "key": 513,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -481,7 +469,7 @@
           "key": 514,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 20,
+          "tick": 22,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -490,7 +478,7 @@
           "key": 515,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -499,7 +487,7 @@
           "key": 516,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 6,
+          "tick": 8,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -508,7 +496,7 @@
           "key": 517,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -517,7 +505,7 @@
           "key": 518,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 18,
+          "tick": 20,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -526,7 +514,7 @@
           "key": 519,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -535,7 +523,7 @@
           "key": 520,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 4,
+          "tick": 6,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -544,7 +532,7 @@
           "key": 521,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -553,7 +541,7 @@
           "key": 522,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 16,
+          "tick": 18,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -562,7 +550,7 @@
           "key": 523,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -571,7 +559,7 @@
           "key": 524,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
+          "tick": 4,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -580,7 +568,7 @@
           "key": 525,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -589,7 +577,7 @@
           "key": 526,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
+          "tick": 16,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -598,7 +586,7 @@
           "key": 527,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -607,7 +595,7 @@
           "key": 528,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
+          "tick": 2,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -616,7 +604,7 @@
           "key": 529,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -625,7 +613,7 @@
           "key": 530,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
+          "tick": 14,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -634,7 +622,7 @@
           "key": 531,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -643,7 +631,7 @@
           "key": 532,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 22,
+          "tick": 0,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -652,7 +640,7 @@
           "key": 533,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -661,7 +649,7 @@
           "key": 534,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 10,
+          "tick": 12,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -670,7 +658,7 @@
           "key": 535,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -679,7 +667,7 @@
           "key": 536,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 20,
+          "tick": 22,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -688,7 +676,7 @@
           "key": 537,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -697,7 +685,7 @@
           "key": 538,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 8,
+          "tick": 10,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -706,7 +694,7 @@
           "key": 539,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -715,7 +703,7 @@
           "key": 540,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 18,
+          "tick": 20,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -724,7 +712,7 @@
           "key": 541,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -733,7 +721,7 @@
           "key": 542,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 6,
+          "tick": 8,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -742,7 +730,7 @@
           "key": 543,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -751,7 +739,7 @@
           "key": 544,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 16,
+          "tick": 18,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -760,7 +748,7 @@
           "key": 545,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -769,7 +757,7 @@
           "key": 546,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 4,
+          "tick": 6,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -778,7 +766,7 @@
           "key": 547,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -787,7 +775,7 @@
           "key": 548,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
+          "tick": 16,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -796,7 +784,7 @@
           "key": 549,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -805,7 +793,7 @@
           "key": 550,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
+          "tick": 4,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -814,7 +802,7 @@
           "key": 551,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -823,7 +811,7 @@
           "key": 552,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
+          "tick": 14,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -832,7 +820,7 @@
           "key": 553,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -841,7 +829,7 @@
           "key": 554,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
+          "tick": 2,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -850,7 +838,7 @@
           "key": 555,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -859,7 +847,7 @@
           "key": 556,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 10,
+          "tick": 12,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -868,7 +856,7 @@
           "key": 557,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -877,7 +865,7 @@
           "key": 558,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 22,
+          "tick": 0,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -886,7 +874,7 @@
           "key": 559,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -895,7 +883,7 @@
           "key": 560,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 8,
+          "tick": 10,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -904,7 +892,7 @@
           "key": 561,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -913,7 +901,7 @@
           "key": 562,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 20,
+          "tick": 22,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -922,7 +910,7 @@
           "key": 563,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -931,7 +919,7 @@
           "key": 564,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 6,
+          "tick": 8,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -940,7 +928,7 @@
           "key": 565,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -949,7 +937,7 @@
           "key": 566,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 18,
+          "tick": 20,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -958,7 +946,7 @@
           "key": 567,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -967,7 +955,7 @@
           "key": 568,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 4,
+          "tick": 6,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -976,7 +964,7 @@
           "key": 569,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -985,7 +973,7 @@
           "key": 570,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 16,
+          "tick": 18,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -994,7 +982,7 @@
           "key": 571,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1003,7 +991,7 @@
           "key": 572,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
+          "tick": 4,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1012,7 +1000,7 @@
           "key": 573,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1021,7 +1009,7 @@
           "key": 574,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
+          "tick": 16,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1030,7 +1018,7 @@
           "key": 575,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1039,7 +1027,7 @@
           "key": 576,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
+          "tick": 2,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1048,7 +1036,7 @@
           "key": 577,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1057,7 +1045,7 @@
           "key": 578,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
+          "tick": 14,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1066,7 +1054,7 @@
           "key": 579,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1075,7 +1063,7 @@
           "key": 580,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 22,
+          "tick": 0,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1084,7 +1072,7 @@
           "key": 581,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1093,7 +1081,7 @@
           "key": 582,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 10,
+          "tick": 12,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1102,7 +1090,7 @@
           "key": 583,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1111,7 +1099,7 @@
           "key": 584,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 20,
+          "tick": 22,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1120,7 +1108,7 @@
           "key": 585,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1129,7 +1117,7 @@
           "key": 586,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 8,
+          "tick": 10,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1138,7 +1126,7 @@
           "key": 587,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1147,7 +1135,7 @@
           "key": 588,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 18,
+          "tick": 20,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1156,7 +1144,7 @@
           "key": 589,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1165,7 +1153,7 @@
           "key": 590,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 6,
+          "tick": 8,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1174,7 +1162,7 @@
           "key": 591,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1183,7 +1171,7 @@
           "key": 592,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 16,
+          "tick": 18,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1192,7 +1180,7 @@
           "key": 593,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1201,7 +1189,7 @@
           "key": 594,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 4,
+          "tick": 6,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1210,7 +1198,7 @@
           "key": 595,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1219,7 +1207,7 @@
           "key": 596,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
+          "tick": 16,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1228,7 +1216,7 @@
           "key": 597,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1237,7 +1225,7 @@
           "key": 598,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
+          "tick": 4,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
@@ -1246,7 +1234,7 @@
           "key": 599,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1255,7 +1243,7 @@
           "key": 600,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
+          "tick": 14,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
@@ -1264,7 +1252,7 @@
           "key": 601,
           "channel": "system",
           "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1273,21 +1261,57 @@
           "key": 602,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 603,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 604,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 605,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 606,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 20,
           "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 603,
+          "key": 607,
           "channel": "narration",
-          "text": "The porters stop watching you lift. That is its own approval.",
+          "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 604,
+          "key": 608,
           "channel": "narration",
           "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
           "tick": 22,
@@ -1295,7 +1319,7 @@
           "voice": "narrator"
         },
         {
-          "key": 605,
+          "key": 609,
           "channel": "narration",
           "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
           "tick": 22,
@@ -1304,7 +1328,7 @@
           "voice": "steward"
         },
         {
-          "key": 606,
+          "key": 610,
           "channel": "narration",
           "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
           "tick": 22,
@@ -1313,7 +1337,7 @@
           "voice": "steward"
         },
         {
-          "key": 607,
+          "key": 611,
           "channel": "narration",
           "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
           "tick": 22,
@@ -1321,7 +1345,7 @@
           "voice": "narrator"
         },
         {
-          "key": 608,
+          "key": 612,
           "channel": "narration",
           "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
           "tick": 22,
@@ -1330,7 +1354,7 @@
           "voice": "villager"
         },
         {
-          "key": 609,
+          "key": 613,
           "channel": "narration",
           "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
           "tick": 22,
@@ -1338,7 +1362,7 @@
           "voice": "narrator"
         },
         {
-          "key": 610,
+          "key": 614,
           "channel": "narration",
           "text": "\"The stores are the house's life. I'll face it.\"",
           "tick": 22,
@@ -1347,7 +1371,7 @@
           "voice": "player"
         },
         {
-          "key": 611,
+          "key": 615,
           "channel": "narration",
           "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
           "tick": 22,
@@ -1356,7 +1380,7 @@
           "voice": "villager"
         },
         {
-          "key": 612,
+          "key": 616,
           "channel": "narration",
           "text": "A way to track what your hands are learning takes shape — your Skills.",
           "tick": 22,
@@ -1364,7 +1388,7 @@
           "voice": "narrator"
         },
         {
-          "key": 613,
+          "key": 617,
           "channel": "narration",
           "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
           "tick": 22,
@@ -1372,7 +1396,7 @@
           "voice": "narrator"
         },
         {
-          "key": 614,
+          "key": 618,
           "channel": "narration",
           "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
           "tick": 22,
@@ -1380,7 +1404,7 @@
           "voice": "narrator"
         },
         {
-          "key": 615,
+          "key": 619,
           "channel": "narration",
           "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
           "tick": 22,
@@ -1388,7 +1412,7 @@
           "voice": "narrator"
         },
         {
-          "key": 616,
+          "key": 620,
           "channel": "narration",
           "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
           "tick": 22,
@@ -1396,7 +1420,7 @@
           "voice": "narrator"
         },
         {
-          "key": 617,
+          "key": 621,
           "channel": "milestone",
           "text": "Rank ↑ — Trusted hand 手代",
           "tick": 22,
@@ -1408,7 +1432,7 @@
           }
         },
         {
-          "key": 618,
+          "key": 622,
           "channel": "narration",
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
           "tick": 22,
@@ -1416,7 +1440,7 @@
           "voice": "narrator"
         }
       ],
-      "seq": 619
+      "seq": 623
     },
     "skillXp": {
       "farming": 2319,

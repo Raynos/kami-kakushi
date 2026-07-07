@@ -31,6 +31,9 @@ import type {
   RungSceneNode,
 } from './parse';
 
+/** Every rung's requirement-list floor (human, 2026-07-07) — see the check below. */
+export const MIN_REQS_PER_RUNG = 3;
+
 export interface Verdict {
   readonly errors: string[];
   readonly warnings: string[];
@@ -189,6 +192,15 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
           err(block.loc, `duplicate requirements list for ${block.rankKey}`);
         }
         reqRungs.set(block.rankKey, block.loc);
+        // HARD MINIMUM (human, 2026-07-07): every rung carries ≥3 requirements — a
+        // thinner list starves the climb of felt completion beats (the R0 lesson:
+        // one requirement = one flavor line across the whole cold open).
+        if (block.reqs.length < MIN_REQS_PER_RUNG) {
+          err(
+            block.loc,
+            `${block.rankKey} lists ${block.reqs.length} requirement(s) — the hard minimum is ${MIN_REQS_PER_RUNG} (human, 2026-07-07)`,
+          );
+        }
         const seen = new Set<string>();
         for (const r of block.reqs) {
           if (seen.has(r.id)) err(r.loc, `duplicate req id "${r.id}" in ${block.rankKey}`);

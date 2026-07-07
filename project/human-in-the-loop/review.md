@@ -416,6 +416,12 @@ alternates + per-rung rationale:
   Story switcher without render-time log-text resolution — the comparison
   surface is the bundle doc + `docs/content/t0-story.md`, not in-game. Veto
   if you want the swap wiring built instead.
+- **Addendum (2026-07-07, after your staged-milestones call):** the long counts
+  are now staged (R0 rake 100/200/500 per your spec; R1 farm, R3 farm, R4 haul
+  ×3, R5 deep-forage, R6 haul likewise) — the **8 new early-stage flavor
+  lines** were single-authored by me IN each rung's picked register (an
+  extension of the picked take, not a fresh diverge). They're in the t0-story
+  script; veto any and I'll re-diverge that rung.
 - **Asking for:** per-rung overrides (or a wholesale re-pick) from the bundle.
 - **Verdict:** _(awaiting the human)_
 

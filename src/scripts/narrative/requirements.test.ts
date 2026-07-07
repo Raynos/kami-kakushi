@@ -7,19 +7,26 @@ import { RANKS } from '../../core/content/ranks';
 // Fixtures build the md TEXT here, but every EXPECTED value derives from what the
 // text says (or from RANKS, the rung source of truth) — no frozen registry copies.
 
-const goodBlock = (rank: string, id = 'do-a-thing'): string =>
+/** One rung block. `ids` controls how many reqs it authors (default 1 — used by the
+ *  hard-minimum RED test; pass 3 for a valid list). */
+const goodBlock = (rank: string, id = 'do-a-thing', ids: string[] = [id]): string =>
   [
     `## requirements ${rank}`,
     '',
-    `### req ${id} · count act:farm_paddy 25`,
-    '',
-    'flavor: The rows stand straighter.',
-    'drive: farm_paddy',
-    '',
+    ...ids.flatMap((rid, i) => [
+      `### req ${rid} · count act:farm_paddy ${25 + i}`,
+      '',
+      'flavor: The rows stand straighter.',
+      'drive: farm_paddy',
+      '',
+    ]),
   ].join('\n');
 
 const allEight = (): string =>
-  RANKS.map((r) => goodBlock(r.id, `req-${r.id.toLowerCase()}`)).join('\n');
+  RANKS.map((r) => {
+    const base = `req-${r.id.toLowerCase()}`;
+    return goodBlock(r.id, base, [base, `${base}-b`, `${base}-c`]);
+  }).join('\n');
 
 describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', () => {
   it('parses every spec form of the closed grammar', () => {
@@ -80,6 +87,16 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
     expect(() =>
       parseNarrative('## requirements R0\n### req x · flag some-flag\nflavor: f', 'x.md'),
     ).toThrow(/no drive hint/);
+  });
+
+  it('a rung with fewer than 3 requirements is an authoring ERROR (the hard minimum)', () => {
+    // human, 2026-07-07: every rung ≥3 requirements — one req = one flavor beat across
+    // a whole climb (the R0 lesson). goodBlock authors exactly one ⇒ must go RED.
+    const thin = validateNarrative([parseNarrative(goodBlock('R0'), 'x.md')]);
+    expect(thin.errors.some((e) => e.includes('hard minimum is 3'))).toBe(true);
+    // allEight() authors 3 per rung ⇒ no minimum errors
+    const ok = validateNarrative([parseNarrative(allEight(), 'x.md')]);
+    expect(ok.errors.filter((e) => e.includes('hard minimum'))).toEqual([]);
   });
 
   it('validate holds the registry to EXACTLY all eight rungs, no dup lists/ids', () => {

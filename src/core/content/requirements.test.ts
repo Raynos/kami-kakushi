@@ -28,9 +28,11 @@ const EMITTED_TOKENS = new Set<string>([
 const SKILL_ID_SET = new Set<string>(SKILLS.map((s) => s.id));
 
 describe('requirements registry (FB-121) — authored lists resolve against the real game', () => {
-  it('every rung R0–R7 has a non-empty authored list', () => {
+  it('every rung R0–R7 has at least 3 requirements (the hard minimum — human, 2026-07-07)', () => {
+    // One requirement = one flavor beat across a whole climb (the R0 lesson): the
+    // gen-narrative validator blocks it at authoring time; this guards the registry.
     for (const rank of RANKS) {
-      expect(rungRequirements(rank.id).length, `rung ${rank.id}`).toBeGreaterThan(0);
+      expect(rungRequirements(rank.id).length, `rung ${rank.id}`).toBeGreaterThanOrEqual(3);
     }
     expect(Object.keys(RUNG_REQUIREMENTS).sort()).toEqual(RANKS.map((r) => r.id).sort());
   });

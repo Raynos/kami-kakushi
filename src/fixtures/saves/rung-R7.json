@@ -280,15 +280,31 @@
           "voice": "narrator"
         },
         {
-          "key": 131,
+          "key": 41,
           "channel": "narration",
-          "text": "The spilled stores are swept to rows; Genemon counts them without a word.",
+          "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 65,
+          "channel": "narration",
+          "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 134,
+          "channel": "narration",
+          "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 132,
+          "key": 135,
           "channel": "narration",
           "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
           "tick": 4,
@@ -296,7 +312,7 @@
           "voice": "narrator"
         },
         {
-          "key": 133,
+          "key": 136,
           "channel": "narration",
           "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
           "tick": 4,
@@ -305,7 +321,7 @@
           "voice": "steward"
         },
         {
-          "key": 134,
+          "key": 137,
           "channel": "narration",
           "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
           "tick": 4,
@@ -314,7 +330,7 @@
           "voice": "steward"
         },
         {
-          "key": 135,
+          "key": 138,
           "channel": "narration",
           "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
           "tick": 4,
@@ -322,7 +338,7 @@
           "voice": "narrator"
         },
         {
-          "key": 136,
+          "key": 139,
           "channel": "narration",
           "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
           "tick": 4,
@@ -331,7 +347,7 @@
           "voice": "villager"
         },
         {
-          "key": 137,
+          "key": 140,
           "channel": "narration",
           "text": "\"The house has my hands.\"",
           "tick": 4,
@@ -340,7 +356,7 @@
           "voice": "player"
         },
         {
-          "key": 138,
+          "key": 141,
           "channel": "narration",
           "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
           "tick": 4,
@@ -349,7 +365,7 @@
           "voice": "steward"
         },
         {
-          "key": 139,
+          "key": 142,
           "channel": "narration",
           "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
           "tick": 4,
@@ -357,7 +373,7 @@
           "voice": "narrator"
         },
         {
-          "key": 140,
+          "key": 143,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 4,
@@ -365,7 +381,7 @@
           "voice": "narrator"
         },
         {
-          "key": 141,
+          "key": 144,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 4,
@@ -373,7 +389,7 @@
           "voice": "narrator"
         },
         {
-          "key": 142,
+          "key": 145,
           "channel": "milestone",
           "text": "Rank ↑ — Kept hand 下人",
           "tick": 4,
@@ -385,7 +401,7 @@
           }
         },
         {
-          "key": 143,
+          "key": 146,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 4,
@@ -393,7 +409,7 @@
           "voice": "narrator"
         },
         {
-          "key": 144,
+          "key": 147,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 4,
@@ -401,15 +417,23 @@
           "voice": "narrator"
         },
         {
-          "key": 420,
+          "key": 249,
           "channel": "narration",
-          "text": "The paddies answer your hand now; the green rows stand straighter for it.",
+          "text": "The first rows he plants alone come up as straight as anyone's.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 423,
+          "key": 424,
+          "channel": "narration",
+          "text": "The paddy women no longer point out which rows are his; he has learned them.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 427,
           "channel": "narration",
           "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
           "tick": 6,
@@ -417,15 +441,15 @@
           "voice": "narrator"
         },
         {
-          "key": 603,
+          "key": 607,
           "channel": "narration",
-          "text": "The porters stop watching you lift. That is its own approval.",
+          "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 604,
+          "key": 608,
           "channel": "narration",
           "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
           "tick": 22,
@@ -433,7 +457,7 @@
           "voice": "narrator"
         },
         {
-          "key": 605,
+          "key": 609,
           "channel": "narration",
           "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
           "tick": 22,
@@ -442,7 +466,7 @@
           "voice": "steward"
         },
         {
-          "key": 606,
+          "key": 610,
           "channel": "narration",
           "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
           "tick": 22,
@@ -451,7 +475,7 @@
           "voice": "steward"
         },
         {
-          "key": 607,
+          "key": 611,
           "channel": "narration",
           "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
           "tick": 22,
@@ -459,7 +483,7 @@
           "voice": "narrator"
         },
         {
-          "key": 608,
+          "key": 612,
           "channel": "narration",
           "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
           "tick": 22,
@@ -468,7 +492,7 @@
           "voice": "villager"
         },
         {
-          "key": 609,
+          "key": 613,
           "channel": "narration",
           "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
           "tick": 22,
@@ -476,7 +500,7 @@
           "voice": "narrator"
         },
         {
-          "key": 610,
+          "key": 614,
           "channel": "narration",
           "text": "\"The stores are the house's life. I'll face it.\"",
           "tick": 22,
@@ -485,7 +509,7 @@
           "voice": "player"
         },
         {
-          "key": 611,
+          "key": 615,
           "channel": "narration",
           "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
           "tick": 22,
@@ -494,7 +518,7 @@
           "voice": "villager"
         },
         {
-          "key": 612,
+          "key": 616,
           "channel": "narration",
           "text": "A way to track what your hands are learning takes shape — your Skills.",
           "tick": 22,
@@ -502,7 +526,7 @@
           "voice": "narrator"
         },
         {
-          "key": 613,
+          "key": 617,
           "channel": "narration",
           "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
           "tick": 22,
@@ -510,7 +534,7 @@
           "voice": "narrator"
         },
         {
-          "key": 614,
+          "key": 618,
           "channel": "narration",
           "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
           "tick": 22,
@@ -518,7 +542,7 @@
           "voice": "narrator"
         },
         {
-          "key": 615,
+          "key": 619,
           "channel": "narration",
           "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
           "tick": 22,
@@ -526,7 +550,7 @@
           "voice": "narrator"
         },
         {
-          "key": 616,
+          "key": 620,
           "channel": "narration",
           "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
           "tick": 22,
@@ -534,7 +558,7 @@
           "voice": "narrator"
         },
         {
-          "key": 617,
+          "key": 621,
           "channel": "milestone",
           "text": "Rank ↑ — Trusted hand 手代",
           "tick": 22,
@@ -546,7 +570,7 @@
           }
         },
         {
-          "key": 618,
+          "key": 622,
           "channel": "narration",
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
           "tick": 22,
@@ -554,31 +578,31 @@
           "voice": "narrator"
         },
         {
-          "key": 797,
+          "key": 801,
           "channel": "narration",
-          "text": "The woodlot edge knows your axe; the stack by the kura grows even.",
+          "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
           "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 951,
+          "key": 955,
           "channel": "narration",
-          "text": "You come back from the hills with full baskets and no bad stories.",
+          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 22,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1143,
+          "key": 1147,
           "channel": "narration",
-          "text": "A hand that keeps hauling after the field work is a hand the house notes.",
+          "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 12,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1145,
+          "key": 1149,
           "channel": "combat",
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
           "tick": 14,
@@ -587,7 +611,7 @@
           "contentKey": "combat.wolfScripted"
         },
         {
-          "key": 1146,
+          "key": 1150,
           "channel": "narration",
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
           "tick": 14,
@@ -596,15 +620,15 @@
           "contentKey": "combat.drillmaster"
         },
         {
-          "key": 1147,
+          "key": 1151,
           "channel": "narration",
-          "text": "The grain-store wolf is faced. The story runs the estate faster than you walk it.",
+          "text": "There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched.",
           "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1148,
+          "key": 1152,
           "channel": "narration",
           "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
           "tick": 4,
@@ -612,7 +636,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1149,
+          "key": 1153,
           "channel": "narration",
           "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
           "tick": 4,
@@ -621,7 +645,7 @@
           "voice": "arms"
         },
         {
-          "key": 1150,
+          "key": 1154,
           "channel": "narration",
           "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
           "tick": 4,
@@ -630,7 +654,7 @@
           "voice": "arms"
         },
         {
-          "key": 1151,
+          "key": 1155,
           "channel": "narration",
           "text": "\"Show me how to end a fight fast.\"",
           "tick": 4,
@@ -639,7 +663,7 @@
           "voice": "player"
         },
         {
-          "key": 1152,
+          "key": 1156,
           "channel": "narration",
           "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
           "tick": 4,
@@ -648,7 +672,7 @@
           "voice": "arms"
         },
         {
-          "key": 1153,
+          "key": 1157,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 4,
@@ -656,7 +680,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1154,
+          "key": 1158,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 4,
@@ -664,7 +688,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1155,
+          "key": 1159,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
           "tick": 4,
@@ -672,7 +696,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1156,
+          "key": 1160,
           "channel": "milestone",
           "text": "Rank ↑ — Gate-watch 門番",
           "tick": 4,
@@ -684,7 +708,7 @@
           }
         },
         {
-          "key": 1157,
+          "key": 1161,
           "channel": "narration",
           "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
           "tick": 4,
@@ -692,7 +716,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1158,
+          "key": 1162,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 4 monme 63 mon and 725 rice in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -708,7 +732,7 @@
           }
         },
         {
-          "key": 1162,
+          "key": 1166,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 66 mon and 580 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -724,7 +748,7 @@
           }
         },
         {
-          "key": 1165,
+          "key": 1169,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 5 mon and 464 rice in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -740,7 +764,7 @@
           }
         },
         {
-          "key": 1168,
+          "key": 1172,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 2 monme 36 mon and 371 rice in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -756,7 +780,7 @@
           }
         },
         {
-          "key": 1171,
+          "key": 1175,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→13 · +1 mon)",
           "tick": 4,
@@ -772,7 +796,7 @@
           }
         },
         {
-          "key": 1174,
+          "key": 1178,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 77 mon and 297 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -788,7 +812,7 @@
           }
         },
         {
-          "key": 1177,
+          "key": 1181,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→8 · +1 mon)",
           "tick": 8,
@@ -804,7 +828,7 @@
           }
         },
         {
-          "key": 1180,
+          "key": 1184,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→7 · +1 mon, +1 beast sinew)",
           "tick": 18,
@@ -820,15 +844,15 @@
           }
         },
         {
-          "key": 1181,
+          "key": 1185,
           "channel": "narration",
-          "text": "The rats learn the kura has teeth again.",
+          "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
           "tick": 18,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1185,
+          "key": 1189,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 46 mon and 238 rice in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -844,7 +868,7 @@
           }
         },
         {
-          "key": 1188,
+          "key": 1192,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 21 mon and 190 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -860,7 +884,7 @@
           }
         },
         {
-          "key": 1191,
+          "key": 1195,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 16,
@@ -874,7 +898,7 @@
           }
         },
         {
-          "key": 1192,
+          "key": 1196,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 79 mon and 152 rice in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -890,7 +914,7 @@
           }
         },
         {
-          "key": 1195,
+          "key": 1199,
           "channel": "combat",
           "text": "You bring down the crop-raiding monkey. ✓ (HP 58→18 · +3 mon, +1 beast sinew)",
           "tick": 10,
@@ -906,7 +930,7 @@
           }
         },
         {
-          "key": 1198,
+          "key": 1202,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 64 mon and 122 rice in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -922,7 +946,7 @@
           }
         },
         {
-          "key": 1201,
+          "key": 1205,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 51 mon and 97 rice in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -938,7 +962,7 @@
           }
         },
         {
-          "key": 1204,
+          "key": 1208,
           "channel": "combat",
           "text": "You bring down the crop-raiding monkey. ✓ (HP 58→12 · +3 mon)",
           "tick": 6,
@@ -954,31 +978,39 @@
           }
         },
         {
-          "key": 1205,
+          "key": 1209,
           "channel": "narration",
-          "text": "The paddies' thieves grow careful where you stand a watch.",
+          "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
           "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1426,
+          "key": 1330,
           "channel": "narration",
-          "text": "Watch or no watch, your rows never fall behind — Kihei marks that.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 1726,
-          "channel": "narration",
-          "text": "Timber for the palisade, cut on your own hours.",
+          "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1727,
+          "key": 1432,
+          "channel": "narration",
+          "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1732,
+          "channel": "narration",
+          "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1733,
           "channel": "narration",
           "text": "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours.",
           "tick": 4,
@@ -986,7 +1018,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1728,
+          "key": 1734,
           "channel": "narration",
           "text": "\"The kura key. Mind the stores as if the rice were your own — from today it half is. The house is forgetting you were ever a stranger. So am I.\"",
           "tick": 4,
@@ -995,7 +1027,7 @@
           "voice": "steward"
         },
         {
-          "key": 1729,
+          "key": 1735,
           "channel": "narration",
           "text": "He walks you on to the woodlot smithy, where a bent old man coaxes an edge back onto a mattock. He doesn't look up.",
           "tick": 4,
@@ -1003,7 +1035,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1730,
+          "key": 1736,
           "channel": "narration",
           "text": "\"Tōzō. I keep the estate's iron. A blade you don't tend turns on you — bring me the hides and the metal off what you kill, and I'll show you what an edge wants. The forge is yours to use now; try not to ruin my fire.\"",
           "tick": 4,
@@ -1012,7 +1044,7 @@
           "voice": "arms"
         },
         {
-          "key": 1731,
+          "key": 1737,
           "channel": "narration",
           "text": "\"And the omoya's shuttered rooms are aired and swept — the house rises, and you'll walk floors the family walks. Don't let it turn your head.\"",
           "tick": 4,
@@ -1021,7 +1053,7 @@
           "voice": "steward"
         },
         {
-          "key": 1732,
+          "key": 1738,
           "channel": "narration",
           "text": "\"Every grain accounted.\"",
           "tick": 4,
@@ -1030,7 +1062,7 @@
           "voice": "player"
         },
         {
-          "key": 1733,
+          "key": 1739,
           "channel": "narration",
           "text": "\"Spoken like a steward. Good — the house was bled white once by hands that weren't.\"",
           "tick": 4,
@@ -1039,7 +1071,7 @@
           "voice": "steward"
         },
         {
-          "key": 1734,
+          "key": 1740,
           "channel": "narration",
           "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
           "tick": 4,
@@ -1047,7 +1079,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1735,
+          "key": 1741,
           "channel": "narration",
           "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
           "tick": 4,
@@ -1055,7 +1087,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1736,
+          "key": 1742,
           "channel": "narration",
           "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
           "tick": 4,
@@ -1063,7 +1095,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1737,
+          "key": 1743,
           "channel": "milestone",
           "text": "Rank ↑ — Kura-warden 蔵番",
           "tick": 4,
@@ -1075,31 +1107,47 @@
           }
         },
         {
-          "key": 1738,
+          "key": 1744,
           "channel": "narration",
-          "text": "A hundred mon of your own keeping. The house trusts a hand that can hold money.",
+          "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
           "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2562,
+          "key": 2002,
           "channel": "narration",
-          "text": "The stores move through your hands like they were born to it.",
-          "tick": 4,
+          "text": "The porters have stopped counting his loads against their own.",
+          "tick": 12,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2563,
+          "key": 2270,
           "channel": "narration",
-          "text": "A blade mended by its own bearer — Genemon hears of it from Tōzō.",
+          "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
           "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2564,
+          "key": 2571,
+          "channel": "narration",
+          "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2572,
+          "channel": "narration",
+          "text": "Tōzō turns the mended edge to the light and hands it back without a word of correction.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2573,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 6,
@@ -1113,7 +1161,7 @@
           }
         },
         {
-          "key": 2565,
+          "key": 2574,
           "channel": "narration",
           "text": "Genemon calls you to the omoya's inner room — a place season-hands never see.",
           "tick": 6,
@@ -1121,7 +1169,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2566,
+          "key": 2575,
           "channel": "narration",
           "text": "\"No longer a season-hired hand. From today you answer to the house day and night, and it answers for you. The work is the same. The standing is not.\"",
           "tick": 6,
@@ -1130,7 +1178,7 @@
           "voice": "steward"
         },
         {
-          "key": 2567,
+          "key": 2576,
           "channel": "narration",
           "text": "Then he walks you out to the yard, where Kihei waits with two bokken and something that might, on another man, be a smile.",
           "tick": 6,
@@ -1138,7 +1186,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2568,
+          "key": 2577,
           "channel": "narration",
           "text": "\"The standing means the house trusts your judgment now — so I'll trust you with the last of it. Set your stance before a foe: press to end it fast, or guard to outlast it. The call is yours, fight by fight. Show me you understand the choice.\"",
           "tick": 6,
@@ -1147,7 +1195,7 @@
           "voice": "arms"
         },
         {
-          "key": 2569,
+          "key": 2578,
           "channel": "narration",
           "text": "\"Press every fight — end it, don't outlast it.\"",
           "tick": 6,
@@ -1156,7 +1204,7 @@
           "voice": "player"
         },
         {
-          "key": 2570,
+          "key": 2579,
           "channel": "narration",
           "text": "\"The tiger's way. Fast and final. It'll serve — until the day it doesn't. Mind that day.\"",
           "tick": 6,
@@ -1165,7 +1213,7 @@
           "voice": "arms"
         },
         {
-          "key": 2571,
+          "key": 2580,
           "channel": "narration",
           "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
           "tick": 6,
@@ -1173,7 +1221,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2572,
+          "key": 2581,
           "channel": "narration",
           "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
           "tick": 6,
@@ -1181,7 +1229,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2573,
+          "key": 2582,
           "channel": "milestone",
           "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
           "tick": 6,
@@ -1193,7 +1241,7 @@
           }
         },
         {
-          "key": 2574,
+          "key": 2583,
           "channel": "milestone",
           "text": "Rank ↑ — House-servant 家人",
           "tick": 6,
@@ -1205,23 +1253,31 @@
           }
         },
         {
-          "key": 3105,
+          "key": 2811,
           "channel": "narration",
-          "text": "The deep satoyama yields to you now, a hill past where the others turn back.",
+          "text": "The first deep-hill baskets come back full, and no one mentions the danger line twice.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 3115,
+          "channel": "narration",
+          "text": "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
           "tick": 18,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3339,
+          "key": 3349,
           "channel": "narration",
-          "text": "The paddies still come first. They always came first.",
+          "text": "Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do.",
           "tick": 8,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3340,
+          "key": 3350,
           "channel": "milestone",
           "text": "You lay a quilted futon over the straw in your corner. The nights come easier now.",
           "tick": 10,
@@ -1229,15 +1285,15 @@
           "voice": "narrator"
         },
         {
-          "key": 3341,
+          "key": 3351,
           "channel": "narration",
-          "text": "A made bed in your own corner — you live here now, and the house knows it.",
+          "text": "There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3342,
+          "key": 3352,
           "channel": "narration",
           "text": "The omoya's formal room. Lady Chiyo sits behind a low table stacked with the house's ledgers, and studies you the way she'd study a column of figures that doesn't yet add up.",
           "tick": 10,
@@ -1245,7 +1301,7 @@
           "voice": "narrator"
         },
         {
-          "key": 3343,
+          "key": 3353,
           "channel": "narration",
           "text": "\"So you are the river's foundling Genemon would not stop mentioning. Sit. I've errands that need a hand I can trust with more than a hoe — ledgers carried, messages run, the house's small business held close.\"",
           "tick": 10,
@@ -1254,7 +1310,7 @@
           "voice": "steward"
         },
         {
-          "key": 3344,
+          "key": 3354,
           "channel": "narration",
           "text": "\"The workshops wake again on the strength of your work — a forge, a joiner's bench — and a second granary rises behind the kura. They fall under your oversight now. You are being weighed for something larger than a servant. Do not disappoint the scales.\"",
           "tick": 10,
@@ -1263,7 +1319,7 @@
           "voice": "steward"
         },
         {
-          "key": 3345,
+          "key": 3355,
           "channel": "narration",
           "text": "\"The house's name is my name now.\"",
           "tick": 10,
@@ -1272,7 +1328,7 @@
           "voice": "player"
         },
         {
-          "key": 3346,
+          "key": 3356,
           "channel": "narration",
           "text": "\"A large thing to say. Larger to mean. We shall see which you've done.\"",
           "tick": 10,
@@ -1281,7 +1337,7 @@
           "voice": "steward"
         },
         {
-          "key": 3347,
+          "key": 3357,
           "channel": "narration",
           "text": "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
           "tick": 10,
@@ -1289,7 +1345,7 @@
           "voice": "narrator"
         },
         {
-          "key": 3348,
+          "key": 3358,
           "channel": "narration",
           "text": "A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.",
           "tick": 10,
@@ -1297,7 +1353,7 @@
           "voice": "narrator"
         },
         {
-          "key": 3349,
+          "key": 3359,
           "channel": "milestone",
           "text": "Rank ↑ — Steward's man 用人",
           "tick": 10,
@@ -1309,15 +1365,23 @@
           }
         },
         {
-          "key": 3350,
+          "key": 3360,
           "channel": "narration",
-          "text": "Three hundred mon held steady through a season's spending.",
+          "text": "\"His purse holds steady,\" Chiyo lets fall, \"which is more than this house has managed.\"",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3686,
+          "key": 3530,
+          "channel": "narration",
+          "text": "\"The store-room count is early this month,\" Chiyo says, not yet naming why.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 3698,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 16,
@@ -1326,7 +1390,7 @@
           "ephemeral": true
         },
         {
-          "key": 3687,
+          "key": 3699,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 18,
@@ -1335,7 +1399,7 @@
           "ephemeral": true
         },
         {
-          "key": 3688,
+          "key": 3700,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 6,
@@ -1344,7 +1408,7 @@
           "ephemeral": true
         },
         {
-          "key": 3689,
+          "key": 3701,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 8,
@@ -1353,7 +1417,7 @@
           "ephemeral": true
         },
         {
-          "key": 3690,
+          "key": 3702,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 20,
@@ -1362,118 +1426,10 @@
           "ephemeral": true
         },
         {
-          "key": 3691,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3692,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3693,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3694,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3695,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3696,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3697,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 12,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3698,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3699,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 2,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3700,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3701,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3702,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 3703,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 18,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1482,85 +1438,22 @@
           "key": 3704,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
+          "tick": 8,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 3705,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 3706,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 18,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3707,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3708,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3709,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3710,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3711,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3712,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3713,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 12,
@@ -1569,11 +1462,74 @@
           "ephemeral": true
         },
         {
-          "key": 3714,
+          "key": 3707,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 22,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3708,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3709,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 12,
           "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3710,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3711,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 2,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3712,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3713,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3714,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 16,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1581,7 +1537,7 @@
           "key": 3715,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1590,8 +1546,8 @@
           "key": 3716,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
-          "count": 6,
+          "tick": 4,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1599,7 +1555,7 @@
           "key": 3717,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1608,7 +1564,7 @@
           "key": 3718,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
+          "tick": 18,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1617,7 +1573,7 @@
           "key": 3719,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1626,8 +1582,8 @@
           "key": 3720,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
-          "count": 5,
+          "tick": 8,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1635,7 +1591,7 @@
           "key": 3721,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 18,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1644,7 +1600,7 @@
           "key": 3722,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 6,
+          "tick": 22,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1653,7 +1609,7 @@
           "key": 3723,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 8,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1662,8 +1618,8 @@
           "key": 3724,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 20,
-          "count": 6,
+          "tick": 10,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1671,7 +1627,7 @@
           "key": 3725,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 22,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1680,7 +1636,7 @@
           "key": 3726,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
+          "tick": 0,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1689,7 +1645,7 @@
           "key": 3727,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1698,8 +1654,8 @@
           "key": 3728,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
-          "count": 5,
+          "tick": 14,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1707,7 +1663,7 @@
           "key": 3729,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1716,7 +1672,7 @@
           "key": 3730,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 12,
+          "tick": 4,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1725,7 +1681,7 @@
           "key": 3731,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 14,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1734,8 +1690,8 @@
           "key": 3732,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 2,
-          "count": 6,
+          "tick": 16,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1743,7 +1699,7 @@
           "key": 3733,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 4,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1752,7 +1708,7 @@
           "key": 3734,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
+          "tick": 6,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1761,7 +1717,7 @@
           "key": 3735,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1770,8 +1726,8 @@
           "key": 3736,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
-          "count": 5,
+          "tick": 20,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1779,7 +1735,7 @@
           "key": 3737,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1788,7 +1744,7 @@
           "key": 3738,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 18,
+          "tick": 10,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1797,7 +1753,7 @@
           "key": 3739,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 20,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1806,8 +1762,8 @@
           "key": 3740,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
-          "count": 6,
+          "tick": 22,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1815,7 +1771,7 @@
           "key": 3741,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 10,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1824,7 +1780,7 @@
           "key": 3742,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
+          "tick": 12,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1833,7 +1789,7 @@
           "key": 3743,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1842,8 +1798,8 @@
           "key": 3744,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
-          "count": 5,
+          "tick": 2,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1851,7 +1807,7 @@
           "key": 3745,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1860,7 +1816,7 @@
           "key": 3746,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 0,
+          "tick": 16,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1869,7 +1825,7 @@
           "key": 3747,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1878,8 +1834,8 @@
           "key": 3748,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
-          "count": 6,
+          "tick": 4,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1887,7 +1843,7 @@
           "key": 3749,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1896,7 +1852,7 @@
           "key": 3750,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
+          "tick": 18,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1905,7 +1861,7 @@
           "key": 3751,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1914,8 +1870,8 @@
           "key": 3752,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
-          "count": 5,
+          "tick": 8,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1923,7 +1879,7 @@
           "key": 3753,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 18,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1932,7 +1888,7 @@
           "key": 3754,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 6,
+          "tick": 22,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1941,7 +1897,7 @@
           "key": 3755,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 8,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1950,8 +1906,8 @@
           "key": 3756,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 20,
-          "count": 6,
+          "tick": 10,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1959,7 +1915,7 @@
           "key": 3757,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 22,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1968,7 +1924,7 @@
           "key": 3758,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
+          "tick": 0,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -1977,7 +1933,7 @@
           "key": 3759,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1986,8 +1942,8 @@
           "key": 3760,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
-          "count": 5,
+          "tick": 14,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1995,7 +1951,7 @@
           "key": 3761,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2004,7 +1960,7 @@
           "key": 3762,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 12,
+          "tick": 4,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -2013,7 +1969,7 @@
           "key": 3763,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 14,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2022,8 +1978,8 @@
           "key": 3764,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 2,
-          "count": 6,
+          "tick": 16,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2031,7 +1987,7 @@
           "key": 3765,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 4,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2040,7 +1996,7 @@
           "key": 3766,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
+          "tick": 6,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -2049,7 +2005,7 @@
           "key": 3767,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2058,8 +2014,8 @@
           "key": 3768,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
-          "count": 5,
+          "tick": 20,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2067,7 +2023,7 @@
           "key": 3769,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2076,7 +2032,7 @@
           "key": 3770,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 18,
+          "tick": 10,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -2085,7 +2041,7 @@
           "key": 3771,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 20,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2094,8 +2050,8 @@
           "key": 3772,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
-          "count": 6,
+          "tick": 22,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2103,7 +2059,7 @@
           "key": 3773,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 10,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2112,7 +2068,7 @@
           "key": 3774,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
+          "tick": 12,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -2121,7 +2077,7 @@
           "key": 3775,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2130,8 +2086,8 @@
           "key": 3776,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
-          "count": 5,
+          "tick": 2,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2139,7 +2095,7 @@
           "key": 3777,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2148,7 +2104,7 @@
           "key": 3778,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 0,
+          "tick": 16,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
@@ -2157,7 +2113,7 @@
           "key": 3779,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -2166,31 +2122,13 @@
           "key": 3780,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
-          "count": 6,
+          "tick": 4,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 3781,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3782,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3783,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 6,
@@ -2199,7 +2137,133 @@
           "ephemeral": true
         },
         {
+          "key": 3782,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3783,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
           "key": 3784,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 8,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3785,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3786,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 22,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3787,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3788,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 10,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3789,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3790,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 0,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3791,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3792,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3793,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3794,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 4,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3795,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 3796,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 16,
@@ -2208,15 +2272,15 @@
           "ephemeral": true
         },
         {
-          "key": 3785,
+          "key": 3797,
           "channel": "narration",
-          "text": "The ledgers and your shoulders have stopped arguing with each other.",
+          "text": "\"The ledgers agree tonight,\" Chiyo says, which is her whole praise.",
           "tick": 16,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3786,
+          "key": 3798,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 18,
@@ -2225,22 +2289,22 @@
           "ephemeral": true
         },
         {
-          "key": 3787,
+          "key": 3799,
           "channel": "milestone",
           "text": "You spend the house's first surplus mending the cracked kura and re-hanging the rotted door-bar. The stores keep dry now; the estate stops bleeding. (U1 · Stabilising)",
           "tick": 20,
           "count": 1
         },
         {
-          "key": 3788,
+          "key": 3800,
           "channel": "narration",
-          "text": "The kura-works stand a stage better for coin you put back into the house.",
+          "text": "\"He put his own coin into the kura-works,\" Chiyo tells Genemon, twice, to be sure he heard.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3789,
+          "key": 3801,
           "channel": "narration",
           "text": "The shoin — the lord's own writing-room, where the house's real business is done and few servants ever cross the threshold. Shigemasa is smaller than his name, and older, and his eyes miss nothing.",
           "tick": 20,
@@ -2248,7 +2312,7 @@
           "voice": "narrator"
         },
         {
-          "key": 3790,
+          "key": 3802,
           "channel": "narration",
           "text": "\"Come in. Sit — no, closer. I would see the man Chiyo and Genemon and even that flint Kihei agree upon, which they have not done in twenty years.\"",
           "tick": 20,
@@ -2257,7 +2321,7 @@
           "voice": "official"
         },
         {
-          "key": 3791,
+          "key": 3803,
           "channel": "narration",
           "text": "\"You came to us with no name and nothing in your hands. Look what those hands have done — the kura full, the walls kept, the workshops loud again. I admit you to this room. The measure of the House itself takes shape before you now. Few servants ever stand where you stand.\"",
           "tick": 20,
@@ -2266,7 +2330,7 @@
           "voice": "official"
         },
         {
-          "key": 3792,
+          "key": 3804,
           "channel": "narration",
           "text": "\"I'll carry the Kurosawa name as far as it can go.\"",
           "tick": 20,
@@ -2275,7 +2339,7 @@
           "voice": "player"
         },
         {
-          "key": 3793,
+          "key": 3805,
           "channel": "narration",
           "text": "\"The house before the man. It is what I would have said at your age. Whether it was wisdom or only habit, I have never decided.\"",
           "tick": 20,
@@ -2284,7 +2348,7 @@
           "voice": "lord"
         },
         {
-          "key": 3794,
+          "key": 3806,
           "channel": "narration",
           "text": "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
           "tick": 20,
@@ -2292,7 +2356,7 @@
           "voice": "narrator"
         },
         {
-          "key": 3795,
+          "key": 3807,
           "channel": "milestone",
           "text": "Rank ↑ — Trusted of the house 内衆",
           "tick": 20,
@@ -2304,7 +2368,7 @@
           }
         }
       ],
-      "seq": 3796
+      "seq": 3808
     },
     "skillXp": {
       "farming": 6555,

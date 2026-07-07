@@ -10,6 +10,22 @@ import { NAMES } from './names';
 export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[]>> = {
   R0: [
     {
+      id: 'rake-the-first-rows',
+      type: 'count',
+      token: 'act:rake_rice',
+      target: 100,
+      flavor: `"So he can work," ${NAMES.elder} says, in the way another man says good morning.`,
+      drive: 'rake_rice',
+    },
+    {
+      id: 'rake-through-the-night',
+      type: 'count',
+      token: 'act:rake_rice',
+      target: 200,
+      flavor: `"Still at it," ${NAMES.elder} says, passing the granary door without stopping.`,
+      drive: 'rake_rice',
+    },
+    {
       id: 'rake-the-spill',
       type: 'count',
       token: 'act:rake_rice',
@@ -20,6 +36,14 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
   ],
 
   R1: [
+    {
+      id: 'first-rows-of-his-own',
+      type: 'count',
+      token: 'act:farm_paddy',
+      target: 250,
+      flavor: "The first rows he plants alone come up as straight as anyone's.",
+      drive: 'farm_paddy',
+    },
     {
       id: 'take-to-the-fields',
       type: 'count',
@@ -95,6 +119,14 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       drive: 'fight monkey',
     },
     {
+      id: 'the-fields-hold',
+      type: 'count',
+      token: 'act:farm_paddy',
+      target: 300,
+      flavor: `"The fields don't miss him while he drills," ${NAMES.elder} notes, half to himself.`,
+      drive: 'farm_paddy',
+    },
+    {
       id: 'keep-the-rows',
       type: 'count',
       token: 'act:farm_paddy',
@@ -113,6 +145,22 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
   ],
 
   R4: [
+    {
+      id: 'a-load-among-loads',
+      type: 'count',
+      token: 'act:haul_stores',
+      target: 400,
+      flavor: 'The porters have stopped counting his loads against their own.',
+      drive: 'haul_stores',
+    },
+    {
+      id: 'first-name-in-the-yard',
+      type: 'count',
+      token: 'act:haul_stores',
+      target: 800,
+      flavor: 'When the kura needs moving in a hurry, it is his name the yard calls first.',
+      drive: 'haul_stores',
+    },
     {
       id: 'the-stores-know-you',
       type: 'count',
@@ -141,6 +189,15 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
 
   R5: [
     {
+      id: 'first-deep-baskets',
+      type: 'count',
+      token: 'act:forage_deepwoods',
+      target: 250,
+      flavor:
+        'The first deep-hill baskets come back full, and no one mentions the danger line twice.',
+      drive: 'forage_deepwoods',
+    },
+    {
       id: 'past-the-danger-line',
       type: 'count',
       token: 'act:forage_deepwoods',
@@ -168,6 +225,14 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
   ],
 
   R6: [
+    {
+      id: 'the-count-comes-early',
+      type: 'count',
+      token: 'act:haul_stores',
+      target: 400,
+      flavor: `"The store-room count is early this month," ${NAMES.steward} says, not yet naming why.`,
+      drive: 'haul_stores',
+    },
     {
       id: 'the-ledgers-agree',
       type: 'count',

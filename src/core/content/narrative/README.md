@@ -27,7 +27,8 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
   (ADR-143). Re-exported by `../flavor.ts`.
 - `requirements.md` → `../requirements.gen.ts` — the **hidden rung-requirement
   lists** (FB-121 / ADR-137), one `## requirements R<n>` block per rung R0–R7
-  (the validator holds the set to exactly all eight). Each `### req <id> ·
+  (the validator holds the set to exactly all eight, each with **≥3
+  requirements** — the hard minimum, human 2026-07-07). Each `### req <id> ·
   <spec>` is one requirement; the spec grammar is CLOSED — `count
   <verb:subject> <N>` (the quest token grammar), `flag <id>`, `state
   resource|banked <res> >= <N>`, `state belonging <id>`, `state skill <id> >=

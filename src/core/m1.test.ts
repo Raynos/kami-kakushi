@@ -48,10 +48,14 @@ function farm(n: number): Intent[] {
 // FB-121: a promotion is the CURRENT rung's authored requirement list, done. Counts derive
 // from the gen'd registry (ADR-086 — never frozen literals), so a requirements.md retune
 // keeps these tests true. `haul(n)` mirrors `farm(n)` for the multi-requirement rungs.
+// Same-token requirements complete CUMULATIVELY at staged targets (human,
+// 2026-07-07: e.g. R0 rake 100/200/500) — the acts to finish them ALL is the MAX.
 const countFor = (rung: GameState['rung'], token: string): number => {
-  const req = rungRequirements(rung).find((r) => r.type === 'count' && r.token === token);
-  if (!req || req.type !== 'count') throw new Error(`no count req for ${token} at ${rung}`);
-  return req.target;
+  const targets = rungRequirements(rung)
+    .filter((r) => r.type === 'count' && r.token === token)
+    .map((r) => (r.type === 'count' ? r.target : 0));
+  if (targets.length === 0) throw new Error(`no count req for ${token} at ${rung}`);
+  return Math.max(...targets);
 };
 function haul(n: number): Intent[] {
   return Array.from(

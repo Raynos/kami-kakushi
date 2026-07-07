@@ -36,11 +36,14 @@ describe('T0 pacing (single profile, D-056)', () => {
     }
   });
 
-  it('the R0 rake count is the cold-open pace anchor (deliberate copied literal)', () => {
+  it('the R0 rake stages are the cold-open pace anchor (deliberate copied literals)', () => {
     // FB-121: the meter map is gone — the one magic-number mirror moves to the R0 rake
-    // requirement (≈5-min cold-open, ADR-022). Deriving it from the registry would be a
-    // tautology; a requirements.md retune updates this on purpose (re-signed via the sim).
-    const rake = rungRequirements('R0').find((r) => r.type === 'count');
-    expect(rake).toMatchObject({ token: 'act:rake_rice', target: 500 });
+    // stages (≈5-min cold-open, ADR-022; staged 100/200/500 per the human's 2026-07-07
+    // spec). Deriving them from the registry would be a tautology; a requirements.md
+    // retune updates these on purpose (re-signed via the sim).
+    const targets = rungRequirements('R0')
+      .filter((r) => r.type === 'count' && r.token === 'act:rake_rice')
+      .map((r) => (r.type === 'count' ? r.target : 0));
+    expect(targets).toEqual([100, 200, 500]);
   });
 });

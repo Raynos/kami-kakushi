@@ -297,10 +297,13 @@
 
 ### R0 · Day-labourer 日雇
 
+- "So he can work," Genemon says, in the way another man says good morning. <small>*(rake-the-first-rows — act:rake_rice ×100)*</small>
+- "Still at it," Genemon says, passing the granary door without stopping. <small>*(rake-through-the-night — act:rake_rice ×200)*</small>
 - "Dawn, and he is still raking," Genemon says to the dark, as if the dark had asked. <small>*(rake-the-spill — act:rake_rice ×500)*</small>
 
 ### R1 · Kept hand 下人
 
+- The first rows he plants alone come up as straight as anyone's. <small>*(first-rows-of-his-own — act:farm_paddy ×250)*</small>
 - The paddy women no longer point out which rows are his; he has learned them. <small>*(take-to-the-fields — act:farm_paddy ×600)*</small>
 - At the gate the porters shift a strap for him without being asked, as they do among their own. <small>*(a-porters-back — act:haul_stores ×400)*</small>
 
@@ -315,23 +318,28 @@
 
 - "Quiet in the kura tonight," Kihei lets drop, cleaning his blade by lamplight. <small>*(clear-the-kura-rats — kill:rice_rats ×3)*</small>
 - "The monkeys have learned his shape," Kihei is heard to say, almost pleased. <small>*(drive-off-the-thieves — kill:monkey ×2)*</small>
+- "The fields don't miss him while he drills," Genemon notes, half to himself. <small>*(the-fields-hold — act:farm_paddy ×300)*</small>
 - "Watch or no watch, his rows never fell behind," Genemon says over the evening rice. <small>*(keep-the-rows — act:farm_paddy ×600)*</small>
 - "The palisade wood is his cutting," Kihei says, striking a post with the flat of his hand. <small>*(timber-for-the-palisade — act:woodcut_edge ×450)*</small>
 
 ### R4 · Kura-warden 蔵番
 
+- The porters have stopped counting his loads against their own. <small>*(a-load-among-loads — act:haul_stores ×400)*</small>
+- When the kura needs moving in a hurry, it is his name the yard calls first. <small>*(first-name-in-the-yard — act:haul_stores ×800)*</small>
 - New porters are told to watch how he stacks; nobody remembers deciding that. <small>*(the-stores-know-you — act:haul_stores ×1300)*</small>
 - Tōzō turns the mended edge to the light and hands it back without a word of correction. <small>*(mend-your-own-blade — act:repair_weapon ×1)*</small>
 - The house learns he keeps coin of his own, strung and counted, spent on nothing foolish. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
 
 ### R5 · House-servant 家人
 
+- The first deep-hill baskets come back full, and no one mentions the danger line twice. <small>*(first-deep-baskets — act:forage_deepwoods ×250)*</small>
 - He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up. <small>*(past-the-danger-line — act:forage_deepwoods ×600)*</small>
 - Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do. <small>*(the-paddies-still-first — act:farm_paddy ×500)*</small>
 - There is bedding in the north corner, bought with his own coin, and the maids sweep around it now. <small>*(a-made-corner — own bedding)*</small>
 
 ### R6 · Steward's man 用人
 
+- "The store-room count is early this month," Chiyo says, not yet naming why. <small>*(the-count-comes-early — act:haul_stores ×400)*</small>
 - "The ledgers agree tonight," Chiyo says, which is her whole praise. <small>*(the-ledgers-agree — act:haul_stores ×1100)*</small>
 - "His purse holds steady," Chiyo lets fall, "which is more than this house has managed." <small>*(three-hundred-mon-steady — resource coin ≥ 300)*</small>
 - "He put his own coin into the kura-works," Chiyo tells Genemon, twice, to be sure he heard. <small>*(coin-into-the-works — native estate-u1)*</small>

@@ -131,9 +131,13 @@ describe('skill → yield multiplier (audit #4)', () => {
 
   it('rung pacing is independent of skill — requirement counts move per-ACT, not per-yield', () => {
     let atR1 = finishIntro(reduce(createInitialState(SEASON_SPRING_SAFE), { type: 'open_eyes' }));
-    // FB-121: derive the rake count from the R0 requirement registry (never a frozen literal).
-    const rakeReq = rungRequirements('R0').find((r) => r.type === 'count');
-    const rakesToR1 = rakeReq && rakeReq.type === 'count' ? rakeReq.target : 0;
+    // FB-121: derive the rake count from the R0 registry (never a frozen literal);
+    // staged same-token reqs complete cumulatively, so the climb is the MAX target.
+    const rakesToR1 = Math.max(
+      ...rungRequirements('R0')
+        .filter((r) => r.type === 'count')
+        .map((r) => (r.type === 'count' ? r.target : 0)),
+    );
     for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' });
     atR1 = playBeat(atR1); // R0 → R1 via the story beat (ADR-110)
     expect(atR1.rung).toBe('R1');
@@ -141,9 +145,12 @@ describe('skill → yield multiplier (audit #4)', () => {
     const CAP = 5000;
     // Count the farm acts that COMPLETE R1's farm requirement (the design lever: a count
     // requirement ticks once per act, never per yield — skill can't shrink the climb).
-    const farmReq = rungRequirements('R1').find(
-      (r) => r.type === 'count' && r.token === 'act:farm_paddy',
-    )!;
+    // the TERMINAL farm stage (staged same-token reqs — take the max target)
+    const farmReq = rungRequirements('R1')
+      .filter((r) => r.type === 'count' && r.token === 'act:farm_paddy')
+      .sort(
+        (a, b) => (b.type === 'count' ? b.target : 0) - (a.type === 'count' ? a.target : 0),
+      )[0]!;
     const actsToFarmDone = (start: GameState): number => {
       // v0.3.1 Step 5: farm_paddy is spatial — grind at its 'home-paddies' node.
       let s: GameState = { ...start, location: 'home-paddies' };
