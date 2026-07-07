@@ -44,6 +44,12 @@ _(none open)_
   doc**: the slop-audit findings/fixes condensed live (THE substance you
   asked not to lose) + the mostly-superseded 19 ladder answers as record;
   defines what the reboot's informed pitch agents receive.
+- [ ] `project/brainstorms/2026-07-07-salvage-audit-vs-bible-crosscheck.md`
+  — the **salvage/audit vs bible cross-check** (a whole-read companion):
+  the bible absorbed the audit almost completely — verdict up top, then
+  six small residue items (three are one-line bible candidates you can
+  rule on during the read: the anti-thermometer decide rule · the
+  "…"-react owner · D5's per-tier want, dropped silently).
 - [ ] `docs/plans/fable-2026-07-07-t0t1-map-rebuild.md` — the **T0/T1 map
   rebuild plan**: what the blind-agent audit found wrong with the two DEV
   reference maps (canon + quality + code), the build steps, and the one

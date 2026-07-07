@@ -40,6 +40,21 @@ citing the archived record); no ADR was minted here.
 3. Workstream B proceeds per the finish plan (B1 PRD §5 → B2 engine
    ADRs → B3 prose wave → B4 migration → B5 salvage closure).
 
+## Addendum — the salvage/audit vs bible cross-check
+
+Second act of the session (human ask): read the salvage plan + the full
+slop audit and reconcile them against the finished bible. Result:
+`project/brainstorms/2026-07-07-salvage-audit-vs-bible-crosscheck.md`
+(queued for the whole-read). Verdict: the bible absorbed the audit
+nearly whole — canon breaks became rungs, the slop accent became the
+prose law, the fairness machine became kernel #7, the protect-list
+survived ~8/8. Residue: six small items (anti-thermometer decide rule
+unstated · audit-praised lines as B3 salvage stock · kyō-masu/rusui
+died with the old spine, weighing-yard noted as the T4 re-entry ·
+"…"-react unowned · D5 per-tier want silently dropped · Sōan's epigram
+license moved knowingly). No bible edits made — canon is human-locked
+and mid-blessing.
+
 ## Landmines
 
 - Journal/HR-archive entries still cite the old `docs/plans/` path for
