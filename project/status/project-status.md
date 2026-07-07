@@ -72,7 +72,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
 **R7 capstone side-quests** → T1 · **status-token ladder** → T1–T5 · home
-grows w/ rung · NPC placement (FB-113) · `emergent-node-actions` (Phase 0).
+grows w/ rung · NPC placement (FB-113) · node-discovery T1+ tail → `BACKLOG.md`.
 
 ## Toolchain
 
