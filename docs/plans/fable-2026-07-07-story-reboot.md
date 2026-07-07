@@ -94,12 +94,15 @@ taste-risk is highest (the macro pitch), ping-pong everywhere else.
   fiction incl. pitch sample scenes.
 - **Phase 2 — pitches (macro diverge, MIXED FLEET of 5).** Five
   independent agents, blind to each other, each authoring a COMPLETE story
-  pitch: premise, mystery spine, core cast, tier/act arc, and how
-  mechanics and fiction cause each other. **3 blind** (kernel+pillars
-  only — purest divergence) + **2 informed** (also get PRD §5, the built
-  narrative, and the audit, instructed "input, not canon") — blind/informed
-  convergence in the bundle is signal, not anchoring. Reviewed as one
-  coherent bundle (HR-item); the human picks/blends.
+  pitch. **3 blind** (bible + neutral systems inventory only) + **2
+  informed** (+ PRD §5, built narrative, salvage doc, audit — "input, not
+  canon"); blind/informed convergence in the bundle is signal, not
+  anchoring. **The BRIEF is locked (2026-07-07) → §6** (eight fixed
+  sections incl. rung-level T0, a written sample scene, a kernel
+  self-score; ≤4,000 words + scene; kernel ANCHORS for the blind three —
+  #1 mystery / #4 house drama / #7 social world — and STANCES for the
+  informed pair — renovator / reinventor). Reviewed as one coherent
+  bundle (HR-item); the human picks/blends.
 - **Phase 3 — co-write the design.** From the winning pitch: the story
   bible (cast, tiers, world texture, register rules) drafted section by
   section, redlined live, committed when locked. Mechanics decisions
@@ -239,3 +242,85 @@ with what the human softened, opened, demoted, or added, per point.
   `docs/plans/fable-2026-07-07-story-salvage.md` (the 19 answers + the
   audit findings/fixes + protect-list), which also defines what the two
   informed pitch agents receive.
+
+## §6 · The pitch brief — LOCKED 2026-07-07 (handed to each pitch agent)
+
+You are authoring ONE complete story pitch for the kami-kakushi story
+reboot. You work alone; four rivals you cannot see are doing the same.
+The human picks or blends from the five. Your pitch is judged against the
+story bible's kernel (§0), written under its prose law (§0.5), and must
+design within its constraints sheet (§0.9) — all three are in your
+inputs. Design boldly at every altitude those documents leave open: cast,
+arcs, tier meaning, promotion structure, node design, progression feel,
+and every proper noun.
+
+**Your eight sections, in this order:**
+
+1. **The premise, one page** — what this game's story IS, why the title
+   is earned, what the player is doing for sixty hours and why it
+   matters. If you recast names (house, valley, people), say so and why.
+2. **The mystery spine** — the vanishing(s); what actually happened; how
+   truth surfaces across the arc; where the full-truth contract pays out
+   (kernel #5); what the PLAYER DOES to earn each reveal.
+3. **The core cast** — 6–10 named people: role, want, relation to the
+   House, how each can MISREAD the MC (kernel #7), and one line per
+   voice's sentence SHAPE (prose law #2).
+4. **The arc in circles** — all six tiers at act level (one paragraph
+   each: the House's standing, the social line the ascension crosses,
+   the mystery beat that tier owns), then **T0 at rung level** in real
+   detail — T0 is what gets built first.
+5. **Fiction↔mechanics causation** — how the incremental systems and the
+   story cause each other. Distinguish mechanical changes your pitch
+   REQUIRES from those it merely SUGGESTS.
+6. **One written sample scene + 5 log lines** — under the prose law.
+   Pick your strongest moment (a promotion, a suspicion beat, a
+   discovery). Structure is not enough; the words are judged.
+7. **Kernel self-score** — one line per kernel point: how the pitch
+   honors it, or where it strains.
+8. **Length:** sections 1–5 + 7 total ≤4,000 words; the sample scene is
+   extra. Markdown, exactly these section headings.
+
+**Fleet assignments (one per agent, stated in its prompt):**
+
+- Blind A — anchor: kernel #1, the mystery is the spine.
+- Blind B — anchor: kernel #4, the house drama is the spine.
+- Blind C — anchor: kernel #7, the social world is the spine.
+- Informed D — stance: RENOVATOR (current canon is a foundation — keep
+  what's good, fix what's broken, say which is which).
+- Informed E — stance: REINVENTOR (current canon is a quarry — take the
+  stones, not the walls).
+
+An anchor is an emphasis, not a cage: every pitch still covers all eight
+sections. Blind agents receive their inputs IN the prompt and must not
+read the repository; informed agents additionally receive the current
+story materials as files to read, instructed "input, not canon."
+
+### §6.1 · The neutral systems inventory (the blind agents' mechanics map)
+
+What mechanically exists in the built game, stripped of story framing:
+
+- A MAP of named locations (nodes) joined by edges; travel costs
+  in-game time per edge. Nodes carry actions; some actions are HIDDEN
+  and reveal permanently through repeated visits/attempts (discovery
+  latch, hint text that tightens as attempts accrue).
+- LABOUR activities (field work, hauling, foraging, woodcutting…)
+  yielding resources/coin; work banks DEEDS — recorded work-credit;
+  estate-relevant labour banks estate deeds.
+- A RUNG LADDER (R0→R7) inside a tier: each rung gated by a visible
+  requirements list (deeds, items, skills, coin…); promotion fires an
+  authored story scene. TIERS (T0→T5) above it; ascension is a manual,
+  opt-in story event; NOTHING RESETS, ever.
+- COMBAT: stance-based, weapons + skills, an enemy roster, injury and
+  recovery; a field-guide (bestiary) surface unlocked mid-tier.
+- CRAFTING at workshops; a MARKET (buy/sell); a HOME with comfort items
+  affecting recovery.
+- An ESTATE BUILD: staged construction funded by surplus + deeds, each
+  stage firing authored beats; a House STANDING score (post-capstone,
+  re-assessed seasonally, never spent) gating ascension.
+- FIVE ATTRIBUTES + nine PERKS (choice-based bonuses); QUESTS with
+  authored reward beats; DECIDE scenes (choice menus inside story
+  beats).
+- A seasonal CALENDAR + clock; TIMED actions (durations + cooldowns,
+  one in-flight action at a time); an auto-repeat toggle; an EVENT LOG
+  in channels that narrates everything; one seeded RNG; a persistent
+  save.
