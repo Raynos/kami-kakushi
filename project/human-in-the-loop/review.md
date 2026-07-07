@@ -367,40 +367,6 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 ---
 
-### HR-12 🔲 — Requirements rung progression (FB-121/ADR-137) — the % bar + flavor lines
-
-The points meter is replaced: each rung is an authored HIDDEN requirement
-list; the player sees only the rounded-% header bar, and every completion
-lands a story-voiced flavor line in the log — the jump always has a visible
-cause. NOT an ADR-075 diverge (the bar stays the bar — same surface, new data
-source); the taste two-pass still ran (ADR-135).
-
-- **Taste brief (pass 1, from the plan):** T1 the rung-head stays the single
-  progress surface · T2 the bar transitions, never resets mid-watch
-  (quantized steps only ever move forward) · T3 the flavor line lands WITH
-  the jump · T4 every jump has a visible cause; the rounded % is the single
-  number.
-- **Scorecard (pass 2):** 16✔ · 0✘ · 5— (P7/P8/P11/P14/P21 n/a — no type,
-  crash, dialogue, reveal, or app-info surface touched). One judgment call
-  flagged for you: **P16 routing** — completion flavor lines ride the
-  **Story/narration** channel (they are prose with a story cause), not
-  Progress; the terse "Rank ↑" milestone marker stays Progress. Re-route to
-  Progress if you read them as earned-lines-first. [briefed]
-- **Sim verdict (ADR-132):** every climb rung in the signed [3,22] band
-  (4.5–12.7 min), Phase2/Phase1 ratio 1.15 in [0.8,1.2] — t0-pacing.md diff
-  committed (5979fb4).
-- **Also for your read:** kill requirements above R3 are PARKED (the combat
-  curve walls them — wolf ≈0.2% in-loop win rate, bandit 0%); the authored
-  lists are your sign-off artifact in `docs/content/t0-story.md` § "The
-  hidden rung requirements" (reading-queued).
-- **How to look:** `pnpm run dev` → play the cold open (the bar quantizes in
-  10 chunks across the 500 rakes; 100% lights "Answer the summons") · DEV
-  panel → **Rungs** tab = the live cheatlist. Screenshots:
-  `project/audit/screens/2026-07-07-fb121-requirements/`.
-- **Verdict:** _(awaiting the human)_
-
----
-
 ### HR-13 🔲 — FB-121 flavor lines — the ADR-139 blind-takes bundle (per-rung picks)
 
 The 23 requirement-completion flavor lines went through the narrative diverge
