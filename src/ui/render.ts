@@ -5329,9 +5329,6 @@ export function mount(
     bar.style.width = `${toPct}%`;
   }
   function paintActionClock(): void {
-    // the ADR-075 action-row variant (CSS-scoped off this attribute; prod = the default)
-    const v = __DEV_TOOLS__ && dev ? dev.getVariant('action-row') : 'act-a';
-    if (root.dataset.actVariant !== v) root.dataset.actVariant = v;
     const busy = hooks.clock.busy();
     for (const btn of root.querySelectorAll<HTMLElement>('[data-act-key]')) {
       const st = hooks.clock.status(btn.dataset.actKey!);

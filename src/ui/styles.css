@@ -3040,11 +3040,13 @@ html {
   color: var(--ink-soft);
 }
 
-/* ── ADR-148 — timed actions: the clock states + the action-row diverge ─────────
-   ONE bar primitive (.act-bar — taste P2) across every timed button; the running
-   fill / cooldown drain is an inline width transition set by paintActionClock
-   (no per-frame JS — TST2). The three ADR-075 variants restyle the SAME states,
-   scoped off [data-act-variant] on the app root; prod ships act-a. */
+/* ── ADR-148 — timed actions: the clock states (HR-14 CLOSED — the human's pick) ──
+   The shipped treatment is the A+C mix the human tuned live (2026-07-07): the fill
+   TOUCHES the border (C's placement, bottom: 0 — the A gap annoyed), gold while
+   running, the inner-hairline's quiet silver-dim drain on cooldown (never shu),
+   and NOTHING visible at rest — no etched rail, the bar node exists only while
+   running/cooling. ONE bar primitive (taste P2); motion is an inline width
+   transition set by paintActionClock (no per-frame JS — TST2). */
 [data-act-key] {
   position: relative;
   overflow: hidden;
@@ -3052,7 +3054,7 @@ html {
 .act-bar {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 0; /* touching the border (the human's C-placement call) */
   height: 3px;
   width: 0;
   pointer-events: none;
@@ -3068,46 +3070,6 @@ html {
 }
 /* the one-global lock reads as busy-elsewhere, not broken: no extra chrome, just
    the disabled state the button already has (complete-or-absent, taste P6). */
-
-/* A · inner hairline — the picked default: a thin gold fill inside the bottom edge. */
-[data-act-variant='act-a'] .act-bar {
-  height: 3px;
-  bottom: 1px; /* hugs the inner edge, never overpaints the border */
-}
-
-/* B · ink wash — the button's ground floods left→right behind the label. */
-[data-act-variant='act-b'] .act-bar {
-  height: 100%;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(216, 185, 120, 0.16), rgba(216, 185, 120, 0.26));
-  opacity: 1;
-}
-[data-act-variant='act-b'] [data-act-key].act-cooldown .act-bar {
-  background: linear-gradient(180deg, rgba(153, 162, 191, 0.1), rgba(153, 162, 191, 0.18));
-}
-
-/* C · etched gauge — a visible track etched along the bottom frame; the bright
-   segment grows over it, then ebbs on cooldown. */
-[data-act-variant='act-c'] [data-act-key]::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 4px;
-  background: rgba(216, 185, 120, 0.12); /* the etched rail, always visible on timed buttons */
-}
-[data-act-variant='act-c'] .act-bar {
-  height: 4px;
-  bottom: 0;
-  z-index: 1;
-  background: var(--gold-hi);
-  opacity: 0.9;
-}
-[data-act-variant='act-c'] [data-act-key].act-cooldown .act-bar {
-  background: var(--shu-deep);
-  opacity: 0.8;
-}
 
 /* ADR-148 — the ARMED-but-stalled auto toggle: visibly waiting, never vanished. */
 .auto-toggle.waiting {

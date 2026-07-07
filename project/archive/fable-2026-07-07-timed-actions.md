@@ -1,8 +1,12 @@
 # Timed actions — duration + cooldown on every action (FB-174)
 
-**Status: IN-PROGRESS** — all decisions settled with the human (ADR-148 + the
-two walkthrough waves below); Phase 1 (timing data) landed 2026-07-07; next is
-Phase 2 (shell clock + the action-row diverge).
+**Status: DONE** — all four phases built and landed 2026-07-07 (one session).
+Phase 4 note: the human deferred the ECONOMY rebalance ("I'll rebalance
+later") — the coin sinks / XP thresholds keep their old scale, the envelope
+band gates R0–R2 only, the Phase-2 ratio gate + the idler arc-closure are
+explicitly SUSPENDED (see `src/sim/envelopes.ts` ADR148_INTERIM), and
+`verify:balance` / `balance:report` re-run as part of that rebalance. HR-14
+closed same-day: the shipped bar is the human's live-tuned A+C mix.
 
 - **Confidence:** ( 70% Opus, 30% Fable ) — the mechanism is mostly plumbing
   once the seams are locked; judgment concentrates in the pacing/balance
