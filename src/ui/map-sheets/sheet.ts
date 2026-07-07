@@ -375,6 +375,16 @@ const CSS = `
     background:var(--void); overflow:hidden; }
   .t0v2-mapwrap svg { display:block; width:100%; height:100%; cursor:grab; touch-action:none; }
   .t0v2-mapwrap svg.t0v2-panning { cursor:grabbing; }
+  /* maximize: fill the viewport in NORMAL stacking (no Fullscreen top layer), so the
+     backtick-capture overlay + pen still paint over the map. z-index clears the modal
+     card but sits far below the capture layer (~2^31). */
+  .t0v2-mapwrap.t0v2-max { position:fixed; inset:0; z-index:40; border:none; }
+  .t0v2-maxexit { position:absolute; top:.5rem; right:.5rem; z-index:2; display:none;
+    font:12px/1.4 ui-monospace,SFMono-Regular,monospace; cursor:pointer;
+    border:1px solid var(--silver-faint); border-radius:3px; padding:.2rem .6rem;
+    background:var(--steel-2); color:var(--ink-soft); }
+  .t0v2-mapwrap.t0v2-max .t0v2-maxexit { display:block; }
+  .t0v2-maxexit:hover { color:var(--ink); border-color:var(--silver); }
   .t0v2-hint { position:absolute; left:.6rem; bottom:.45rem; font-size:11px;
     color:var(--ink-faint); pointer-events:none; }
   .t0v2-aside { flex:0 0 330px; min-height:0; overflow-y:auto; padding-right:.4rem;
@@ -633,22 +643,28 @@ function openTierMap(tier: Tier): HTMLElement {
     'Zoom out',
   );
   zoomBtn('⤢ fit', fit, 'Fit the whole sheet');
-  // full-screen the map pane itself (native Fullscreen API) — the SVG fills the
-  // whole physical screen so the survey can be read close. Toggles on re-click /
-  // Esc; the fit view re-applies once the resize settles.
+  // Maximize the map pane to fill the viewport so the survey can be read close.
+  // A CSS blow-up on purpose — NOT the native Fullscreen API, which promotes the
+  // pane into the browser's top layer where the ` playtest-capture overlay + its
+  // drawing pen (z-index ~2^31, appended to <body>) can't paint over it. Staying
+  // in normal DOM stacking keeps the capture layer above the map. Toggles on the
+  // head button, an on-pane exit chip (the head is covered when maxed), or Esc.
+  let maxed = false;
+  const exitMax = hd('button', 't0v2-maxexit', '⛶ exit');
+  exitMax.type = 'button';
+  exitMax.setAttribute('aria-label', 'Exit full-screen');
+  mapWrap.append(exitMax);
   const fsBtn = hd('button', 't0v2-zoom', '⛶ full');
   fsBtn.type = 'button';
   fsBtn.setAttribute('aria-label', 'Full-screen the map');
-  fsBtn.addEventListener('click', () => {
-    if (document.fullscreenElement === mapWrap) void document.exitFullscreen();
-    else void mapWrap.requestFullscreen?.().catch(() => {});
-  });
-  mapWrap.addEventListener('fullscreenchange', () => {
-    const on = document.fullscreenElement === mapWrap;
+  const setMax = (on: boolean): void => {
+    maxed = on;
+    mapWrap.classList.toggle('t0v2-max', on);
     fsBtn.textContent = on ? '⛶ exit' : '⛶ full';
-    // the pane just changed size — refit so the whole sheet stays framed
-    fit();
-  });
+    fit(); // the pane just resized — refit so the whole sheet stays framed
+  };
+  fsBtn.addEventListener('click', () => setMax(!maxed));
+  exitMax.addEventListener('click', () => setMax(false));
   zoomGroup.append(fsBtn);
   controls.append(zoomGroup);
 
@@ -714,7 +730,10 @@ function openTierMap(tier: Tier): HTMLElement {
     scrim.remove();
   };
   const onKey = (e: KeyboardEvent): void => {
-    if (e.key === 'Escape') dismiss();
+    if (e.key !== 'Escape') return;
+    if (maxed)
+      setMax(false); // Esc steps out of maximize before closing the modal
+    else dismiss();
   };
   close.addEventListener('click', dismiss);
   scrim.addEventListener('click', (e) => {
