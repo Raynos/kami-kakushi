@@ -223,6 +223,12 @@ with the human one piece per exchange.
     Kurosawa still open to his choosing).
   - **ALL SEVEN tier sheets are now walked to their staged depth.**
     Plan A1/A4/A5/A6/A7 marked ✅; README ledger updated.
+  - **Human REVIEWED + confirmed T5 & T6** (post-commit summary box, 4
+    questions): all four kept as locked — the audience-day inversion +
+    R2 former-equal beat · Genemon's confession-death-and-inherited-
+    paying-duty · the Kuzuhara↔works rhyme + the Kihei→MC→Shinnosuke
+    creed · T6 stays reserved (two-register ink thread). No redlines;
+    the tier spine is human-blessed.
 
 ## Next intended steps
 
