@@ -2026,7 +2026,7 @@ export interface DevQa {
   restoreBackup(): Promise<boolean>;
   /** FB-6 scenario saves: load a NAMED fixture (backup-first) + list the available scenarios. */
   loadFixture(name: string): Promise<unknown>;
-  fixtures(): ReadonlyArray<{ name: string; blurb: string }>;
+  fixtures(): ReadonlyArray<{ name: string; blurb: string; group: string }>;
   /** Read the live rung so the panel can highlight it (structural subset of __qa.selectors). */
   selectors: { rung(): RankId };
   /** FB-8 — the attended-time telemetry handle (absent only in tests that stub qa). The panel's
@@ -2251,9 +2251,12 @@ export function mountDevPanel(
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));
   // FB-68 — a button for EVERY rung in the roster (source of truth: RANKS/ranks.ts), not a partial
-  // set. Clicking teleports in EITHER direction (toRung resets-then-climbs to descend); the CURRENT
-  // rung reads highlighted (the gold #b08d4f active idiom the Speed row + tab bar use). Compact:
-  // id + kanji on the button face, the full English title in the tooltip.
+  // set. Clicking LOADS that rung's hidden `rung-RX` scenario (human, 2026-07-07): the old `toRung`
+  // teleport left an INCOHERENT run (applyPromotion-only — no real unlocks/panels/resources for the
+  // rung), so it read as broken; the fixture is the REAL climb driven to the first tick at that
+  // rung, a coherent state in EITHER direction. Backup-first (like every Load), so it's non-destructive.
+  // The CURRENT rung reads highlighted (the gold #b08d4f idiom); id + kanji on the face, English title
+  // in the tooltip.
   const rungs = section('Rung');
   const rungBtns = new Map<RankId, HTMLButtonElement>();
   const markRung = (active: RankId): void => {
@@ -2266,8 +2269,10 @@ export function mountDevPanel(
   };
   for (const r of RANKS) {
     const b = mono(`${r.id} ${r.kanji}`, () => {
-      qa.toRung(r.id);
-      markRung(qa.selectors.rung());
+      void Promise.resolve(qa.loadFixture(`rung-${r.id}`)).then(() => {
+        markRung(qa.selectors.rung());
+        enableRestore();
+      });
     });
     b.title = r.title;
     rungBtns.set(r.id, b);
@@ -2564,12 +2569,23 @@ export function mountDevPanel(
   };
   footer.append(restoreBtn);
 
-  // FB-6 — populate the Scenarios pane: one row per fixture (name · blurb · Load). loadFixture is
-  // backup-first (it snapshots the current run to the FB-96 slot), so a load can never destroy the
-  // human's real save — lighting "↩ last backup" is the way home. The sentinel stamps the pane so
-  // the strip gate (gh-pages.sh) can grep-prove these DEV bytes never ship (Ph3, R2).
+  // FB-6 — populate the Scenarios pane: one row per fixture (name · blurb · Load), GROUPED into
+  // game-progression sections with a header per section (human, 2026-07-07 — qa.fixtures() sorts
+  // earliest-first + filters the hidden rung-start set). loadFixture is backup-first (it snapshots
+  // the current run to the FB-96 slot), so a load can never destroy the human's real save — lighting
+  // "↩ last backup" is the way home. The sentinel stamps the pane so the strip gate (gh-pages.sh)
+  // can grep-prove these DEV bytes never ship (Ph3, R2).
   scenariosPane.dataset.sentinel = FIXTURES_SENTINEL;
-  for (const { name, blurb } of qa.fixtures()) {
+  let lastGroup: string | null = null;
+  for (const { name, blurb, group } of qa.fixtures()) {
+    if (group !== lastGroup) {
+      const hdr = el('div', undefined, group);
+      hdr.style.cssText =
+        'font-weight:700;color:#b08d4f;text-transform:uppercase;letter-spacing:.05em;font-size:10px;' +
+        `margin-top:${lastGroup === null ? '0' : '.5rem'};padding-bottom:.15rem;border-bottom:1px solid #b08d4f;`;
+      scenariosPane.append(hdr);
+      lastGroup = group;
+    }
     const row = el('div');
     row.style.cssText =
       'display:flex;flex-direction:column;gap:.1rem;padding:.3rem 0;border-bottom:1px solid #3a322a;';

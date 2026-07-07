@@ -1,0 +1,1636 @@
+{
+  "app": "kami-kakushi",
+  "schemaVersion": 8,
+  "saveCounter": 0,
+  "savedAt": 0,
+  "state": {
+    "schemaVersion": 8,
+    "rng": {
+      "seed": 20260626,
+      "cursors": {
+        "combat": 49,
+        "loot": 0,
+        "seasonal": 0,
+        "worldgen": 0
+      }
+    },
+    "clock": {
+      "tick": 4,
+      "day": 255
+    },
+    "character": {
+      "hp": 1,
+      "satiety": 100,
+      "attributePoints": 0,
+      "attrs": {
+        "str": 5,
+        "agi": 4,
+        "int": 7,
+        "spd": 4,
+        "luck": 5
+      },
+      "level": 1,
+      "combatXp": 0
+    },
+    "resources": {
+      "coin": 1913,
+      "rice": 3625,
+      "wood": 1082,
+      "sansai": 896
+    },
+    "banked": {
+      "coin": 0,
+      "rice": 0
+    },
+    "flags": {
+      "awake": true,
+      "dream-1": true,
+      "raked": true,
+      "r1-dutiful": true,
+      "rank-r1": true,
+      "farmed": true,
+      "r2-wolf-heeded": true,
+      "rank-r2": true,
+      "porters-knot": true,
+      "first-fight-survived": true,
+      "mob-wolf_scripted": true,
+      "r3-aggressive": true,
+      "rank-r3": true,
+      "combat-unlocked": true
+    },
+    "unlocked": [
+      "screen-cold-open",
+      "verb-open-eyes",
+      "readout-body",
+      "readout-rice",
+      "verb-rake",
+      "verb-rest",
+      "room-gate-forecourt",
+      "room-home-paddies",
+      "verb-farm",
+      "verb-haul",
+      "readout-clock",
+      "readout-stamina",
+      "panel-rung-ladder",
+      "panel-estate",
+      "verb-eat-rice",
+      "skill-farming",
+      "readout-coin",
+      "tab-skills",
+      "room-woodlot-edge",
+      "room-near-satoyama",
+      "room-deep-satoyama",
+      "verb-woodcut",
+      "verb-forage",
+      "verb-face-wolf",
+      "row-wood",
+      "row-sansai",
+      "skill-conditioning",
+      "verb-cook",
+      "skill-woodcutting",
+      "skill-foraging",
+      "tab-combat",
+      "panel-drill-yard",
+      "readout-combat-level",
+      "panel-bestiary",
+      "panel-house-influence",
+      "panel-home"
+    ],
+    "log": {
+      "entries": [
+        {
+          "key": 0,
+          "channel": "narration",
+          "text": "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1,
+          "channel": "narration",
+          "text": "\"You're awake.\" Sōan the physician sits back on his heels. \"No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 2,
+          "channel": "narration",
+          "text": "You take stock of yourself: bruised, hollow, half-starved — but breathing.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 3,
+          "channel": "narration",
+          "text": "Rice lies scattered across the Kurosawa grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 4,
+          "channel": "narration",
+          "text": "\"Then I'll trust your craft, not the village's ghosts.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 5,
+          "channel": "narration",
+          "text": "\"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don't force them.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 6,
+          "channel": "milestone",
+          "text": "Perk unlocked — Sōan's Counsel: A mind honed sharper than the body it wears. (+1 INT / −1 STR)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 7,
+          "channel": "narration",
+          "text": "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 8,
+          "channel": "narration",
+          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 9,
+          "channel": "narration",
+          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 10,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 11,
+          "channel": "narration",
+          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 12,
+          "channel": "narration",
+          "text": "\"I'll earn my keep. Point me at it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 13,
+          "channel": "narration",
+          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 14,
+          "channel": "milestone",
+          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 16,
+          "channel": "narration",
+          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 17,
+          "channel": "narration",
+          "text": "Your arms are leaden. You could rest a moment against the cool post.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 19,
+          "channel": "narration",
+          "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 21,
+          "channel": "narration",
+          "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 131,
+          "channel": "narration",
+          "text": "The spilled stores are swept to rows; Genemon counts them without a word.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 132,
+          "channel": "narration",
+          "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 133,
+          "channel": "narration",
+          "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 134,
+          "channel": "narration",
+          "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 135,
+          "channel": "narration",
+          "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 136,
+          "channel": "narration",
+          "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Tokubei",
+          "voice": "villager"
+        },
+        {
+          "key": 137,
+          "channel": "narration",
+          "text": "\"The house has my hands.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 138,
+          "channel": "narration",
+          "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 139,
+          "channel": "narration",
+          "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 140,
+          "channel": "narration",
+          "text": "The terraced home paddies open to you — the rice that feeds the house.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 141,
+          "channel": "narration",
+          "text": "You begin to mark the turning of the days, and the four seasons with them.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 142,
+          "channel": "milestone",
+          "text": "Rank ↑ — Kept hand 下人",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "Kept hand",
+            "kanji": "下人"
+          }
+        },
+        {
+          "key": 143,
+          "channel": "narration",
+          "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 144,
+          "channel": "narration",
+          "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 420,
+          "channel": "narration",
+          "text": "The paddies answer your hand now; the green rows stand straighter for it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 423,
+          "channel": "narration",
+          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 603,
+          "channel": "narration",
+          "text": "The porters stop watching you lift. That is its own approval.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 604,
+          "channel": "narration",
+          "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 605,
+          "channel": "narration",
+          "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 606,
+          "channel": "narration",
+          "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 607,
+          "channel": "narration",
+          "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 608,
+          "channel": "narration",
+          "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Rokusuke",
+          "voice": "villager"
+        },
+        {
+          "key": 609,
+          "channel": "narration",
+          "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 610,
+          "channel": "narration",
+          "text": "\"The stores are the house's life. I'll face it.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 611,
+          "channel": "narration",
+          "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Rokusuke",
+          "voice": "villager"
+        },
+        {
+          "key": 612,
+          "channel": "narration",
+          "text": "A way to track what your hands are learning takes shape — your Skills.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 613,
+          "channel": "narration",
+          "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 614,
+          "channel": "narration",
+          "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 615,
+          "channel": "narration",
+          "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 616,
+          "channel": "narration",
+          "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 617,
+          "channel": "milestone",
+          "text": "Rank ↑ — Trusted hand 手代",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "Trusted hand",
+            "kanji": "手代"
+          }
+        },
+        {
+          "key": 618,
+          "channel": "narration",
+          "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 797,
+          "channel": "narration",
+          "text": "The woodlot edge knows your axe; the stack by the kura grows even.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 951,
+          "channel": "narration",
+          "text": "You come back from the hills with full baskets and no bad stories.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1044,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1045,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1046,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1047,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1048,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1049,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1050,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1051,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1052,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1053,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1054,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1055,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1056,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 12,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1057,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1058,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1059,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1060,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1061,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1062,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 10,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1063,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1064,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1065,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1066,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1067,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1068,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1069,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1070,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1071,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1072,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1073,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1074,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 6,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1075,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1076,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 12,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1077,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 18,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1078,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1079,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1080,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 4,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1081,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1082,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 10,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1083,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1084,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1085,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1086,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1087,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1088,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1089,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1090,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1091,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1092,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 0,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1093,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1094,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 6,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1095,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 12,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1096,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1097,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1098,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1099,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1100,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 4,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1101,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 10,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1102,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1103,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1104,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 20,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1105,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1106,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1107,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1108,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1109,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1110,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 18,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1111,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1112,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 0,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1113,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 6,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1114,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1115,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1116,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1117,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1118,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 22,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1119,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 4,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1120,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1121,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1122,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1123,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1124,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 20,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1125,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1126,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1127,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1128,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 12,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1129,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1130,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1131,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 0,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1132,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1133,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1134,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 10,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1135,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1136,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 16,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1137,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1138,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1139,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1140,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1141,
+          "channel": "system",
+          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1142,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1143,
+          "channel": "narration",
+          "text": "A hand that keeps hauling after the field work is a hand the house notes.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1144,
+          "channel": "narration",
+          "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1145,
+          "channel": "combat",
+          "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "combat.wolfScripted"
+        },
+        {
+          "key": 1146,
+          "channel": "narration",
+          "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "combat.drillmaster"
+        },
+        {
+          "key": 1147,
+          "channel": "narration",
+          "text": "The grain-store wolf is faced. The story runs the estate faster than you walk it.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1148,
+          "channel": "narration",
+          "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1149,
+          "channel": "narration",
+          "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 1150,
+          "channel": "narration",
+          "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 1151,
+          "channel": "narration",
+          "text": "\"Show me how to end a fight fast.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 1152,
+          "channel": "narration",
+          "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 1153,
+          "channel": "narration",
+          "text": "The drill yard opens to you — a place to train, and foes that must be met.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1154,
+          "channel": "narration",
+          "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1155,
+          "channel": "narration",
+          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1156,
+          "channel": "milestone",
+          "text": "Rank ↑ — Gate-watch 門番",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "Gate-watch",
+            "kanji": "門番"
+          }
+        },
+        {
+          "key": 1157,
+          "channel": "narration",
+          "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        }
+      ],
+      "seq": 1158
+    },
+    "skillXp": {
+      "farming": 2319,
+      "conditioning": 2723,
+      "woodcutting": 1375,
+      "foraging": 1725
+    },
+    "deliveredDialogue": [
+      "gen-greet",
+      "gen-stores",
+      "gen-rake",
+      "gen-keep",
+      "gen-kept"
+    ],
+    "npcMemory": {
+      "soan": {
+        "regard": "grateful",
+        "warmth": 1
+      },
+      "genemon": {
+        "regard": "dutiful",
+        "warmth": 2
+      },
+      "rokusuke": {
+        "regard": "respected",
+        "warmth": 0
+      },
+      "kihei": {
+        "regard": "eager",
+        "warmth": -1
+      }
+    },
+    "introBeat": 3,
+    "rungBeat": null,
+    "askedTopics": [],
+    "quests": {
+      "accepted": [],
+      "progress": {},
+      "completed": []
+    },
+    "marketBought": {},
+    "belongings": [],
+    "location": "kura",
+    "rung": "R3",
+    "rungReqs": {},
+    "estateStage": 0,
+    "autoActivity": null,
+    "autoRake": false,
+    "equippedWeapon": "carrying_pole",
+    "weaponDurability": 38,
+    "autoCombat": null,
+    "autoCombatRetreat": false,
+    "stance": "chudan",
+    "tier": 0,
+    "influence": {
+      "estate": {
+        "value": 0,
+        "highWater": 0,
+        "judged": 0,
+        "frac": 0
+      }
+    }
+  }
+}

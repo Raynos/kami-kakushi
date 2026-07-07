@@ -23,6 +23,7 @@ import {
 } from '../core';
 import { createBrowserSaveManager, type SaveManager, toBase64 } from '../persistence';
 import { getFixtures, getFixture } from '../fixtures';
+import { FIXTURE_GROUP_ORDER } from '../fixtures/specs';
 import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
 import { createDevApi, mountDevPanel, createBalanceCockpit } from '../ui/dev';
@@ -554,8 +555,20 @@ async function boot(): Promise<void> {
         await save.backup(state);
         return qa.load(toBase64(JSON.stringify(fixture.env)));
       },
-      /** List the available scenarios ({ name, blurb }) — the DEV panel + headless drivers read it. */
-      fixtures: () => getFixtures().map(({ name, blurb }) => ({ name, blurb })),
+      /** List the VISIBLE scenarios for the DEV panel + headless drivers ({ name, blurb, group }),
+       *  hidden rung-start fixtures filtered out, sorted into game-progression sections (FB-6). The
+       *  R0–R7 rung starts stay reachable via `loadFixture`/`?fixture=`, just off this list. */
+      fixtures: () => {
+        const order = (g: string): number => {
+          const i = FIXTURE_GROUP_ORDER.indexOf(g);
+          return i < 0 ? FIXTURE_GROUP_ORDER.length : i;
+        };
+        return getFixtures()
+          .filter((f) => !f.hidden)
+          .map(({ name, blurb, group }, i) => ({ name, blurb, group, i }))
+          .sort((a, b) => order(a.group) - order(b.group) || a.i - b.i)
+          .map(({ name, blurb, group }) => ({ name, blurb, group }));
+      },
       forceState: (patch: Partial<GameState>) => {
         qaTaint('forceState');
         commit({ ...state, ...patch });

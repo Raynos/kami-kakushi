@@ -1,0 +1,129 @@
+{
+  "app": "kami-kakushi",
+  "schemaVersion": 8,
+  "saveCounter": 0,
+  "savedAt": 0,
+  "state": {
+    "schemaVersion": 8,
+    "rng": {
+      "seed": 20260626,
+      "cursors": {
+        "combat": 0,
+        "loot": 0,
+        "seasonal": 0,
+        "worldgen": 0
+      }
+    },
+    "clock": {
+      "tick": 0,
+      "day": 0
+    },
+    "character": {
+      "hp": 58,
+      "satiety": 64,
+      "attributePoints": 0,
+      "attrs": {
+        "str": 5,
+        "agi": 5,
+        "int": 5,
+        "spd": 5,
+        "luck": 5
+      },
+      "level": 1,
+      "combatXp": 0
+    },
+    "resources": {
+      "coin": 0,
+      "rice": 0
+    },
+    "banked": {
+      "coin": 0,
+      "rice": 0
+    },
+    "flags": {
+      "awake": true,
+      "dream-1": true
+    },
+    "unlocked": [
+      "screen-cold-open",
+      "verb-open-eyes",
+      "readout-body",
+      "readout-rice",
+      "verb-rake"
+    ],
+    "log": {
+      "entries": [
+        {
+          "key": 0,
+          "channel": "narration",
+          "text": "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1,
+          "channel": "narration",
+          "text": "\"You're awake.\" Sōan the physician sits back on his heels. \"No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 2,
+          "channel": "narration",
+          "text": "You take stock of yourself: bruised, hollow, half-starved — but breathing.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 3,
+          "channel": "narration",
+          "text": "Rice lies scattered across the Kurosawa grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        }
+      ],
+      "seq": 4
+    },
+    "skillXp": {},
+    "deliveredDialogue": [
+      "gen-greet",
+      "gen-stores"
+    ],
+    "npcMemory": {},
+    "introBeat": 0,
+    "rungBeat": null,
+    "askedTopics": [],
+    "quests": {
+      "accepted": [],
+      "progress": {},
+      "completed": []
+    },
+    "marketBought": {},
+    "belongings": [],
+    "location": "kura",
+    "rung": "R0",
+    "rungReqs": {},
+    "estateStage": 0,
+    "autoActivity": null,
+    "autoRake": false,
+    "equippedWeapon": "carrying_pole",
+    "weaponDurability": 40,
+    "autoCombat": null,
+    "autoCombatRetreat": false,
+    "stance": "chudan",
+    "tier": 0,
+    "influence": {
+      "estate": {
+        "value": 0,
+        "highWater": 0,
+        "judged": 0,
+        "frac": 0
+      }
+    }
+  }
+}

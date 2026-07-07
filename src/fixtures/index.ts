@@ -21,6 +21,10 @@ const saves = import.meta.glob('./saves/*.json', { eager: true }) as Record<
 export interface FixtureEntry {
   readonly name: string;
   readonly blurb: string;
+  /** The Scenarios-pane section header (FB-6 grouping) — mirrors the spec's `group`. */
+  readonly group: string;
+  /** DEV mechanical fixtures (R0–R7 rung starts) — loadable by name, hidden from the pane list. */
+  readonly hidden: boolean;
   readonly env: SaveEnvelope;
 }
 
@@ -37,7 +41,13 @@ export function getFixtures(): readonly FixtureEntry[] {
       throw new Error(
         `fixture save missing for spec "${spec.name}" — run \`pnpm run fixtures:regen\``,
       );
-    return { name: spec.name, blurb: spec.blurb, env: mod.default };
+    return {
+      name: spec.name,
+      blurb: spec.blurb,
+      group: spec.group,
+      hidden: spec.hidden ?? false,
+      env: mod.default,
+    };
   });
 }
 

@@ -27,6 +27,10 @@ import {
   phaseOf,
   balance,
   ESTATE_STAGES,
+  RANKS,
+  introActive,
+  introSceneAt,
+  INTRO_SCENE_COUNT,
   type GameState,
   type Intent,
   type MobId,
@@ -38,6 +42,14 @@ export interface FixtureSpec {
   readonly name: string;
   /** The one-line panel description. */
   readonly blurb: string;
+  /** The Scenarios-pane section header this fixture sits under. Specs sharing a `group` render as one
+   *  block; groups (and the specs within them) are AUTHORED earliest-in-game first, so the pane sorts
+   *  itself by progression (§ FB-6 grouping) with no extra sort key. */
+  readonly group: string;
+  /** DEV-only MECHANICAL scenarios (the R0–R7 rung-start set) — loadable by name (the rung buttons +
+   *  `?fixture=rung-RX` route here) but HIDDEN from the Scenarios pane list, which stays the
+   *  hand-authored playtest waypoints. */
+  readonly hidden?: boolean;
   /** Fixed per fixture ⇒ regen determinism (the RNG is seed + integer cursors in GameState). */
   readonly seed: number;
   /** Drive from `createInitialState(seed)` to the waypoint via REAL intents (reduce) — the shared
@@ -133,9 +145,87 @@ const WEALTHY_COIN_THRESHOLD = 2 * Math.max(...ESTATE_STAGES.map((e) => e.coinCo
 // speculation. The seed is the t0-arc seed (proven to climb the whole ladder R0…R7).
 const T0_ARC_SEED = 20260626;
 
+// ── Scenarios-pane section headers (authored earliest-in-game first) ─────────────────────────────
+const G_FRESH = 'Fresh start';
+const G_RUNG_STARTS = 'Rung starts (R0–R7) · DEV';
+const G_EARLY = 'Early climb (R1–R2)';
+const G_ECONOMY = 'Economy loop (R3)';
+const G_SETBACKS = 'Setbacks (R3–R4)';
+const G_ENDGAME = 'Endgame (R7 → Phase 2)';
+
+/** Section order for the DEV Scenarios pane — earliest-in-game first. The single source both the
+ *  pane's grouping and the `qa.fixtures()` sort read, so a new group slots in one place. A fixture
+ *  whose group is absent here sorts last (defensive; shouldn't happen). */
+export const FIXTURE_GROUP_ORDER: readonly string[] = [
+  G_FRESH,
+  G_RUNG_STARTS,
+  G_EARLY,
+  G_ECONOMY,
+  G_SETBACKS,
+  G_ENDGAME,
+];
+
+// ── the "post-cold-open" fresh start (human ask, 2026-07-07) ─────────────────────────────────────
+// New game with the cold open already ANSWERED: `open_eyes`, then walk each intro scene — ASK the
+// first hub topic on every scene that has one (exactly the two NPC scenes, Sōan then Genemon, so
+// "one question to each character"), then close the scene on its first option. Lands at the first
+// tick of the main game with the intro cursor done — the exact state a player reaches on finishing
+// the cold open, minus the reading. Driven through REAL intents only (no state surgery).
+const POST_COLD_OPEN_SPEC: FixtureSpec = {
+  name: 'post-cold-open',
+  blurb:
+    'New game, cold open already answered — Sōan and Genemon each asked one question, then dropped straight into the main game.',
+  group: G_FRESH,
+  seed: T0_ARC_SEED,
+  play: (s0) => {
+    let s = reduce(s0, { type: 'open_eyes' });
+    let guard = 0;
+    while (introActive(s.introBeat) && guard++ < 32) {
+      const scene = introSceneAt(s.introBeat);
+      if (!scene) break;
+      // one question to each character: the NPC scenes carry topics, the dream scene does not.
+      const topic = scene.topics[0];
+      if (topic) s = reduce(s, { type: 'ask_topic', topicId: topic.id });
+      const opt = scene.decision.options[0];
+      if (!opt) break;
+      s = reduce(s, { type: 'choose_intro', optionId: opt.id });
+    }
+    return s;
+  },
+  expect: (s) => {
+    must(hasFlag(s, 'awake'), 'the player should be awake (open_eyes fired)');
+    must(
+      !introActive(s.introBeat) && s.introBeat === INTRO_SCENE_COUNT,
+      `the cold open should be finished (introBeat at the done cursor ${INTRO_SCENE_COUNT}, got ${s.introBeat})`,
+    );
+    must(
+      s.askedTopics.length >= 2,
+      `expected at least the two asked topics (one per character), got ${s.askedTopics.length}`,
+    );
+  },
+};
+
+// ── the R0–R7 rung-start scenarios (human ask, 2026-07-07) ───────────────────────────────────────
+// One mechanical waypoint per rung: drive the REAL climb from the cold open and stop at the FIRST
+// tick the run reaches that rung — so the DEV panel's rung buttons land in a COHERENT run (real
+// unlocks/panels/resources for that rung) instead of the applyPromotion-only state the old `toRung`
+// teleport left behind. HIDDEN from the pane (mechanical, not a playtest waypoint); loaded by name.
+const RUNG_START_SPECS: readonly FixtureSpec[] = RANKS.map((r) => ({
+  name: `rung-${r.id}`,
+  blurb: `Mechanical DEV start — the real climb driven to the first tick at ${r.id} ${r.kanji} (${r.title}).`,
+  group: G_RUNG_STARTS,
+  hidden: true,
+  seed: T0_ARC_SEED,
+  play: (s0: GameState) => drive(s0, (s) => s.rung === r.id),
+  expect: (s: GameState) => must(s.rung === r.id, `expected rung ${r.id}, got ${s.rung}`),
+}));
+
 export const FIXTURE_SPECS: readonly FixtureSpec[] = [
+  POST_COLD_OPEN_SPEC,
+  ...RUNG_START_SPECS,
   {
     name: 'fresh-R3-pre-wolf',
+    group: G_EARLY,
     // The wolf is faced AT R2 (the fight that OPENS R3); the blurb states it plainly (Risk #7).
     blurb: 'R2, wolf-ready — the fight that opens R3, stopped one click short of facing the wolf.',
     seed: T0_ARC_SEED,
@@ -161,6 +251,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'pre-ascension',
+    group: G_ENDGAME,
     blurb:
       'The full T0 arc climbed to the ascension threshold — Estate EXCELLENT, capstone earned, before the ceremony.',
     seed: T0_ARC_SEED,
@@ -174,6 +265,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'rung-beat-ready',
+    group: G_EARLY,
     blurb:
       'The first rung-up story beat is READY — stopped on the trigger affordance, before the VN modal.',
     seed: T0_ARC_SEED,
@@ -190,6 +282,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'post-loss-broke',
+    group: G_SETBACKS,
     blurb:
       'The post-loss slump (D-113): HP at the floor, carried rice bled in the rout, the kura hoard sheltered — sansai on hand so the cook-to-heal answer (D-076) is one press away.',
     seed: T0_ARC_SEED,
@@ -237,6 +330,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'worn-weapon-no-wood',
+    group: G_SETBACKS,
     blurb:
       'A Battered blade with no wood to mend it — the repair-loop bind (win-rate cliff + the repair CTA).',
     seed: T0_ARC_SEED,
@@ -266,6 +360,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'wealthy-idler',
+    group: G_ENDGAME,
     blurb:
       'Phase 2, coffers full — rice sold and coin banked past 2× the dearest estate stage; idle at the kura.',
     seed: T0_ARC_SEED,
@@ -295,6 +390,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'rice-at-gate',
+    group: G_ECONOMY,
     blurb:
       'R3 with the rice hoard carried to the forecourt — Tokubei one press away (the D-114 talk-to-open market loop).',
     seed: T0_ARC_SEED,
@@ -316,6 +412,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   },
   {
     name: 'at-kura-with-coin',
+    group: G_ECONOMY,
     blurb: 'R3, standing in the kura with sale-coin in the sleeve — the deposit one press away.',
     seed: T0_ARC_SEED,
     // The kura-deposit journey's start (P2): rice sold at the gate, the coin walked home.
