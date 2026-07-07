@@ -2191,3 +2191,38 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   The loop is the template every later tier's Phase-2 economy builds against (ADR-133
   generalises). Build routing: the human switched the building session to Fable 5
   (2026-07-07), superseding the plan's Opus-for-core proposal. Per **ADR-022**, governs.
+
+### ADR-146 ✅ — emergent node actions: the Phase 0 design lock (executes the plan's design pass)
+- **created_date:** 2026-07-07
+- **Context:** `docs/plans/opus-2026-07-03-emergent-node-actions.md` (from the 2026-07-02
+  brainstorm) parks four open shape questions behind a mandatory human design pass
+  (its Phase 0): a map node that reveals new actions over repeat visits, attention,
+  and seeded luck — anti-checklist, diegetic, reusing the reveal engine at finer
+  grain (relates ADR-114/115/116).
+- **Options:** build now as a T0-later layer vs wait for T1 vs primitive-only;
+  permanence per-run vs across the meta; fixed vs tightening hints; explicit
+  discovery-log vs journal echo vs none; hand-authored rumor web vs tag routing.
+- **Decision (human, 2026-07-07, via AskUserQuestion):** **(1) Build now, T0-later**
+  — on the existing estate map; everything it needs already exists. **(2) Permanent
+  ratchet** — found once, known forever. The brainstorm's "per-run vs meta" fork is
+  MOOT: the game has no runs or resets (PRD §1 — "tiers *replace* prestige;
+  everything persists"; NPCs remember across ascension), so per-run rediscovery is
+  incoherent here; the human flagged the confusion and the agent resolved it from
+  canon. **(3) Tightening hints** — the node description sharpens as the attempt
+  counter climbs (ADR-116's hint surface made dynamic). **(4) No discovery-log** —
+  purely diegetic: a discovered action just appears in the node's action list and
+  the description reads differently; no per-node found-list (anti-checklist stays
+  pure). **(5) Rumor routing (agent-designed default, per PH4):** a rumor targets a
+  **discovery tag**, never a hand-authored node id — any node carrying an
+  undiscovered action with that tag resolves at runtime, so no brittle A→B content
+  web. Portable cross-node rumors stay Phase 3, deferred until the human reads the
+  built Phase 1–2 design in the running game.
+- **Why:** the four answers keep the feature exactly what the brainstorm valued —
+  curiosity rewarded, never a checklist, never a "NEW ACTION!" banner — with the
+  cheapest sound state (a write-once `discovered` latch mirroring `unlocked`, plain
+  seeded attempt counters).
+- **Consequences:** the plan flips IN-PROGRESS; Phases 1–2 build on the T0 map (new
+  `discovery` RNG stream, `DISCOVERIES` registry, hidden-activity gating, tightening
+  blurb hints). All discovery fiction text (hints, discovery log-lines, hidden-action
+  labels) rides ADR-139 narrative diverges. Build routing: the human runs the build
+  session on Fable 5 (2026-07-07), superseding the plan's Opus proposal.

@@ -1,9 +1,9 @@
 # Emergent / discovered map-node actions — implementation plan
 
-**Status:** 📋 PROPOSED — a plan skeleton graduated from the parked brainstorm
+**Status:** ▶️ IN-PROGRESS — **Phase 0 locked as ADR-146 (human, 2026-07-07)**; building
+Phases 1–2 on the T0 estate map. Graduated from the parked brainstorm
 ([`project/brainstorms/2026-07-02-emergent-node-actions.md`](../../project/brainstorms/2026-07-02-emergent-node-actions.md)).
-**Scope: T0-later / T1, explicitly NOT R0/R1** (human steer). The open *shape*
-questions (§Open) need a design pass before code — no mechanics are locked yet.
+**Scope: lands now as a T0-later layer** (human, 2026-07-07 — was "T0-later / T1").
 Relates **ADR-114/ADR-115** (who's-here map model) + **ADR-116** (the hint-carrying node
 description).
 
@@ -74,14 +74,35 @@ reproducible under a fixed seed.
 A portable rumor pointer (overheard at A → unlocks at B) with **robust routing**
 (no brittle content web — see §Open). Only build if Phase 0 signs off on it.
 
-## Open questions (Phase 0 must resolve — from the brainstorm)
-- **Permanence:** are unlocks permanent once found (likely yes — discovery is a
-  ratchet)? Per-run vs across the meta?
-- **Hint escalation:** fixed line vs tightening as the attempt counter climbs?
-- **Discovery-log:** a per-node "what you've found" log — or does that reintroduce
-  the checklist we're avoiding?
-- **Rumor routing:** how does a rumor at node A target node B without a brittle
-  hand-authored web?
+## Open questions — RESOLVED (Phase 0 → ADR-146, human, 2026-07-07)
+- ~~**Permanence:** per-run vs across the meta?~~ → **Permanent ratchet.** The
+  fork was moot — the game has no runs/resets (PRD §1: tiers replace prestige,
+  everything persists).
+- ~~**Hint escalation:** fixed vs tightening?~~ → **Tightening** as the attempt
+  counter climbs.
+- ~~**Discovery-log:** log or checklist-risk?~~ → **No log — purely diegetic.**
+  Discovered actions just appear in the action list; the description reads
+  differently.
+- ~~**Rumor routing:** how without a brittle web?~~ → **Tag routing** (agent
+  default): a rumor targets a *discovery tag*; any node holding an undiscovered
+  tagged action resolves at runtime. Phase 3 stays deferred until the human sees
+  Phases 1–2 live.
+
+## Phase 0 outcome — the locked content model (build spec)
+- **State:** `discovered: readonly DiscoveryId[]` (write-once latch, mirrors
+  `unlocked`) + `discoveryProgress: Record<DiscoveryId, number>` (qualifying
+  attempt counters). New `'discovery'` RNG stream on the one seeded RNG.
+- **Registry:** `src/core/content/discoveries.ts` — `DiscoveryDef { id; node;
+  reveals: ActivityId; trigger; hints: string[]; tag? }`. Triggers:
+  `{ watch: ActivityId, chance }` (repeat-action roll, mild pity — effective
+  chance grows with the counter) and `{ onVisit: true, chance }` (the stumble).
+- **Hidden = derivable, single source:** an activity is hidden iff it is some
+  discovery's `reveals` target and its discovery id is not latched — no duplicate
+  `hidden:` flag to drift.
+- **Hints:** a pure selector picks `hints[i]` by counter progress and the UI
+  appends it to the node blurb — same diegetic surface as ADR-116, no banner.
+- **Fiction text** (hints, discovery log-lines, hidden-action labels) rides
+  ADR-139 narrative diverges before canon.
 
 ## Scope & reachability (PH6)
 Parked for **T0-later / T1**, NOT R0/R1 (R0/R1 ship the static node model). It's
