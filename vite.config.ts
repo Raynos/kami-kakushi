@@ -158,6 +158,16 @@ export default defineConfig(({ command }) => {
       // root is 'src' (above), so test globs are resolved relative to it.
       include: ['**/*.test.ts'],
       globals: true,
+      // Speed levers to keep the `vitest` verify gate well under the 5s drift
+      // budget (ADR-072). `threads` spawns workers faster than the default
+      // `forks`, and `isolate: false` reuses each worker's module registry
+      // across files instead of tearing it down per file — together ~4.8s → ~3s.
+      // Safe here because the suite is isolation-clean: the pure core has no
+      // shared mutable module state, and every UI file re-declares its own jsdom
+      // env; validated by 3× shuffled-order runs all-green. If a future test
+      // leaks cross-file state, drop `isolate: false` first (keeps most of the win).
+      pool: 'threads',
+      isolate: false,
     },
   };
 });
