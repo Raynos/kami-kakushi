@@ -64,7 +64,7 @@ import { renderMapKamon } from './map-variants/kamon';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
-import { __setRequirementFlavorOverride, RUNG_REQUIREMENTS } from '../core';
+import { __setRequirementFlavorOverride, RUNG_REQUIREMENTS, getRank } from '../core';
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
 import { COLD_OPEN } from '../core/content/coldOpen';
@@ -2664,6 +2664,14 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
     for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
     for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
   }
+  // a req-flavor bundle reads as the WHOLE ladder: include every registry requirement,
+  // canon-only ones too (their alternate columns show "no take — canon plays"), so a
+  // rung's section is its complete set, never just the diverged subset.
+  if (bundle.takes.some((t) => t.reqFlavor)) {
+    for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
+      for (const r of reqs) keys.add(`req-flavor:${r.id}`);
+    }
+  }
   const order = (k: string): number =>
     k.startsWith('cold-open:')
       ? 0
@@ -2673,8 +2681,16 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
           ? 2
           : k.startsWith('flavor:')
             ? 4
-            : 3;
-  return [...keys].sort((a, b) => order(a) - order(b) || a.localeCompare(b));
+            : k.startsWith('req-flavor:')
+              ? 5
+              : 3;
+  // req-flavor keys order by their REGISTRY placement (rung, then authored position),
+  // never alphabetically — the explore page reads as the ladder.
+  const sub = (k: string): number =>
+    k.startsWith('req-flavor:')
+      ? (reqFlavorPlacement(k.slice('req-flavor:'.length))?.order ?? 9999)
+      : 0;
+  return [...keys].sort((a, b) => order(a) - order(b) || sub(a) - sub(b) || a.localeCompare(b));
 }
 
 /** The content of `unit` in `take` ('canon' reads the LIVE registries). Null ⇒ absent. */
@@ -2761,6 +2777,21 @@ function readerChip(text: string, tone: 'pick' | 'alt' | 'mute' = 'mute'): HTMLE
   return c;
 }
 
+// FB-121 req-flavor placement: units group PER RUNG (human, 2026-07-07 — the explore
+// page reads as the ladder, not 23 flat items), ordered by rung then authored position.
+function reqFlavorPlacement(reqId: string): { section: string; order: number } | null {
+  const rungs = Object.keys(RUNG_REQUIREMENTS) as (keyof typeof RUNG_REQUIREMENTS)[];
+  for (let r = 0; r < rungs.length; r++) {
+    const reqs = RUNG_REQUIREMENTS[rungs[r]!];
+    const i = reqs.findIndex((x) => x.id === reqId);
+    if (i >= 0) {
+      const rank = getRank(rungs[r]!);
+      return { section: `${rungs[r]} · ${rank.title} ${rank.kanji}`, order: r * 100 + i };
+    }
+  }
+  return null;
+}
+
 // Unit kinds that swap LIVE in the running game (rung/intro/flavor at render time;
 // req-flavor via the CORE overlay — ADR-139: every diverge unit reviews in the switcher).
 // dialogue + cold-open pin only the READER's display today (takes/README: wiring the
@@ -2779,7 +2810,22 @@ function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement):
 
 /** Variant "galley" — units as rows, takes as columns (side-by-side compare). */
 function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: DevApi): void {
+  let lastSection: string | null = null;
   for (const unit of readerUnitsOf(bundle)) {
+    // grouped sections (req-flavor groups per rung; other kinds are groupless today):
+    // a heading lands whenever the section changes — the page reads as the ladder.
+    const section = unit.startsWith('req-flavor:')
+      ? (reqFlavorPlacement(unit.slice('req-flavor:'.length))?.section ?? null)
+      : null;
+    if (section !== null && section !== lastSection) {
+      const sh = el('div', undefined, section);
+      sh.style.cssText =
+        'margin:2rem 0 .2rem;font-weight:700;color:var(--gold, #b08d4f);' +
+        'letter-spacing:.08em;text-transform:uppercase;font-size:13px;' +
+        'border-bottom:1px solid var(--ink-faint);padding-bottom:.3rem;';
+      host.append(sh);
+    }
+    lastSection = section;
     // the per-unit override lives HERE, beside the unit it pins (human, 2026-07-07 —
     // the DEV panel section stays a clean set toggle). '·' = follow the bundle set.
     let extra: HTMLElement | undefined;
@@ -2814,7 +2860,8 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
       for (const t of bundle.takes) uBtn(t.id, t.id.toUpperCase(), `${t.id} — ${t.label}`);
       uRefresh();
     }
-    readerUnitHeader(host, LIVE_UNITS.test(unit) ? unit : `${unit} (reader-only)`, extra);
+    const chipLabel = unit.startsWith('req-flavor:') ? unit.slice('req-flavor:'.length) : unit;
+    readerUnitHeader(host, LIVE_UNITS.test(unit) ? chipLabel : `${chipLabel} (reader-only)`, extra);
     const scroll = el('div');
     scroll.style.cssText = 'overflow-x:auto;';
     const row = el('div');
