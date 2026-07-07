@@ -1,6 +1,12 @@
 # T0 Phase-2 economy redesign — make the back half EARN its ~1:1
 
-**Status:** 📐 LOCKED (human design-lock, 2026-07-07) — Phase 0 done, building.
+**Status:** 🔨 IN-PROGRESS (2026-07-07, Fable session-100) — **P0/P1/P2/P4 DONE,
+P5's system-ripple DONE; ONLY PHASE 3 REMAINS** (personas exercise the new
+Phase-2 intents · report-only texture metrics · retune the magnitudes/gates
+in-band via the ADR-132 flow — sequenced AFTER FB-121's requirements pacing
+landed, which it now has). Shipped: ADR-145 · multi-source deeds (5 sources) ·
+deed-gated staged build + reveal/E1 beats (HR-10) · the build tracker diverge
+(HR-11) · the §3.2/§3.3 PRD ripple + t0-deed-sources gen-region.
 All four open questions answered by the human via AskUserQuestion this session:
 
 - **Q2 · Loop = the A+B hybrid** — multiple deed earners (A) driving the visible
