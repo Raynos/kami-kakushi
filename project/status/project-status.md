@@ -13,13 +13,13 @@ metadata:
 
 ## The game
 
-A grounded, story-driven **incremental RPG** in mid-Edo (1780, An'ei 9, fictional)
-rural Japan. A mediocre ~18yo (true name **Tahei**) wakes amnesiac on a declining
-lower-samurai (*goshi*) estate (the **Kurosawa** house) and rises through **6 tiers**
-(T0 Estate-tutorial · T1 Estate-full · T2 Village · T3 Region · T4 Castle-town ·
-T5 Edo). **v1 scope = T0→T3.** Signature: **the UI itself unlocks incrementally.**
-No magic; growth only through perseverance; no reset.
-Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
+A grounded, story-driven **incremental RPG** in mid-Edo (1780, fictional) rural
+Japan: a nameless man rises through a declining *gōshi* house. **BUILT game** =
+the 6-tier PRD (T0 shipped; spec [`prd.md`](../../docs/living/prd.md)).
+**FORWARD canon = the STORY REBOOT** ([`docs/story-bible/`](../../docs/story-bible/README.md)):
+**SEVEN tiers** (Estate-household · Estate-land · Valley · Region · Castle-town ·
+Domain · Edo), time-skips, the ruin/guest-house twist, the succession knot.
+The built T0 ships until the reboot's build wave replaces it. No magic; no reset.
 
 ## Where we are now
 
@@ -41,6 +41,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
   s101):** points meter DEAD — authored hidden lists, %-bar, locked flavor
   (HR-12/13 ✅). RESIDUE: R4+ predator kills parked (combat-curve retune).
+- **✅ THE STORY REBOOT — Phase 3 mid-flight (s106):** kernel · laws · 5-pitch
+  synthesis (HR-15) · the bible born (`docs/story-bible/`: house, 7 tiers,
+  estate anatomy, 6-season calendar) · **T0 sheet COMPLETE**. ADR held.
 - **✅ TIMED ACTIONS (ADR-148, s105):** press→instant is DEAD — every action
   `timed{duration,cooldown}` or `instant` (total, compile-enforced) · shell
   **ActionClock** (one global, drop-on-interrupt, auto = go-again) · in-button
@@ -57,15 +60,11 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary (HR-5) · the HR-2
   bundle. Picks → I strip (zero flag-debt) + land the two-column Map tab with
   the map winner.
-- **Two small calls** 🔲 (s98): spoilage/autumn on 24×-calendar days? · R0–R2
-  fine with no header wealth (FB-166/171)?
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
 - **Rung cast + R0→R7 beats** 🔲 (HR-8) — drafted for your read (3 faces: pedlar
   Tokubei, Rokusuke, smith Tōzō). `project/archive/opus-2026-07-02-rung-up-story-transitions.md`.
-- **Story track kickoffs** 🔲 — the 2 TODOs: fable story **audit**, then the
-  fable **beat redesign** (fresh sessions, ADR-139-bundled).
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -112,9 +111,10 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** — UI-v2 DONE+certified (s98; human picks remain),
-   FB-121 DONE+signed (s101). **Story-quality plan** (`fable-2026-07-06-story-quality-ladder.md`): 19
-   answers in, HUMAN-GATED — approval → ADR → bible co-write. Phase-2 economy =
-   human-parked (`BACKLOG.md`). Balance liquid (ADR-059) — changes run ADR-132
-   (the 24× calendar did, Δ0.0). A co-agent owns the verify-budget trim.
+4. **Next autonomous work** — **the STORY REBOOT Phase 3** (plan
+   `fable-2026-07-07-story-reboot.md`; bible = `docs/story-bible/`): T0 sheet
+   DONE → next = **T1 sheet in equal detail**, **cast voices** (04-cast), then
+   the staged taper (T2–T3 half · T4 ¼ · T5 ⅕ · T6 1/10). Co-write WITH the
+   human (in-chat protocol: info-turn → "ask" → box). Build/PRD ripple +
+   frame ADR wait for Phase 4. UI-v2 picks remain human-gated (HR-5/6/7/9).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
