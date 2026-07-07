@@ -8,6 +8,17 @@ always-loaded context while being editable on its own.
 - [CHANGELOG.md](CHANGELOG.md) — the release log (Keep-a-Changelog, newest-first;
   the footer/About modal link to it). A version bump in `package.json` **must** add
   its `## [x.y.z]` section — the `verify-changelog` gate enforces it (AC-22).
+- [`docs/story-bible/`](docs/story-bible) — **the story bible doc-set** (living,
+  the single home of story canon; born in the 2026-07-07 story reboot): README
+  index + split sections (00-kernel · 01-laws · 02-house · 03-tiers · 04-cast ·
+  05-world) + [`tiers/`](docs/story-bible/tiers) per-tier detail sheets.
+  `docs/living/story-bible.md` is a SYMLINK to its README (links inside are
+  written to resolve from both places).
+- [`docs/guides/`](docs/guides) — **how-to guides** (living, but process not
+  canon): [qa-playtesting.md](docs/guides/qa-playtesting.md) (how Claude
+  play-tests — harness, MCP tools, balance flows) and
+  [sfx-spec.md](docs/guides/sfx-spec.md) (the audio contract). Moved out of
+  `docs/living/` 2026-07-07 so living holds only core canon.
 - [`project/status/`](project/status) — **live operational state** + **live
   trackers** (mutable, edited in place; this is where a checkbox tracker
   belongs, **not** `docs/plans/`, which is pre-canon proposals):
@@ -25,7 +36,7 @@ always-loaded context while being editable on its own.
   **[roadmap.md](docs/living/roadmap.md)** (the milestone tracker),
   **[ui-design.md](docs/living/ui-design.md)** (the woodblock/ink UI bible),
   **[fun-factor.md](docs/living/fun-factor.md)** (what fun is),
-  **[qa-playtesting.md](docs/living/qa-playtesting.md)** (how Claude
+  **[qa-playtesting.md](docs/guides/qa-playtesting.md)** (how Claude
   play-tests). Generated content/balance tables live under
   **[`docs/content/`](docs/content)** (e.g. t0-content.md), produced by
   `src/scripts/gen-docs.ts`. Reviewable **implementation plans / proposals /
@@ -94,7 +105,7 @@ always-loaded context while being editable on its own.
   mobile profiles (Android Chrome + iOS-floor WebKit) against the DEV server.
   `pnpm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a
   `verify` gate — the 5s budget, ADR-072). Spec + rationale:
-  [qa-playtesting.md §1 "Mobile e2e lane"](docs/living/qa-playtesting.md).
+  [qa-playtesting.md §1 "Mobile e2e lane"](docs/guides/qa-playtesting.md).
 - `.github/workflows/` — the CI fan-out: `verify` (push/PR — the gate roster) ·
   `verify-nightly` (clean-clone canary + prod build + strip check +
   `verify:tooling`, the process-scaffolding meta-suite) · `build` · `lint` ·

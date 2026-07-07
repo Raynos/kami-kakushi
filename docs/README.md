@@ -11,9 +11,9 @@ Design docs — **living documents**, each the *current* truth for its concern, 
   - [`roadmap.md`](living/roadmap.md) — the living milestone tracker (**v0.3 shipped the full T0 M0–M4
     arc**; later tiers provisional).
   - [`ui-design.md`](living/ui-design.md) — the woodblock/ink UI design-language bible.
-  - [`sfx-spec.md`](living/sfx-spec.md) — the minimal audio-cue contract (3 cues built in `src/ui/sfx.ts`).
+  - [`sfx-spec.md`](guides/sfx-spec.md) — the minimal audio-cue contract (3 cues built in `src/ui/sfx.ts`).
   - [`fun-factor.md`](living/fun-factor.md) — what fun *is* & how to keep it high.
-  - [`qa-playtesting.md`](living/qa-playtesting.md) — how Claude drives & play-tests the game.
+  - [`qa-playtesting.md`](guides/qa-playtesting.md) — how Claude drives & play-tests the game.
 - **[`philosophy/`](philosophy)** — the **R1–R6 operating register** (the how/why/what-to-reason
   philosophies; D-080…D-085), each summarised in AGENTS.md.
 - **[`plans/`](plans)** — pre-canon **implementation plans / proposals** awaiting sign-off; **active

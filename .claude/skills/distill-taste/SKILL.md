@@ -18,7 +18,7 @@ Input: the corpus file to distill (default: the newest
 
 ## 0 · Read the standard first, fresh
 
-Read `docs/living/taste.md` + `docs/living/qa-playtesting.md` §9 in full
+Read `docs/living/taste.md` + `docs/guides/qa-playtesting.md` §9 in full
 (they're small by design). You cannot triage against a standard you hold
 only from memory.
 

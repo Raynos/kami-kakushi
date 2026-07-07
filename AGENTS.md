@@ -181,13 +181,13 @@ Full version:
   magnitudes, run `pnpm run verify:balance` → `pnpm run balance:report` and commit the
   regenerated `docs/content/t0-pacing.md` WITH the change (its diff is the before/after;
   paste `balance-sim --summary` into the commit body) — the full flow lives in
-  [`qa-playtesting.md` §2](docs/living/qa-playtesting.md).
+  [`qa-playtesting.md` §2](docs/guides/qa-playtesting.md).
   **The human tunes by slider; an agent only transcribes (ADR-134 / ADR-059).** The
   DEV **balance cockpit** (DEV panel → Balance tab) lets the *human* drag a lever
   live and **export** a committable diff to `project/playtest-inbox/`. An **agent
   never moves a slider into canon on the human's behalf** — it reads the exported
   artifact and applies the exact old→new edits (stale-canon guard first), per the
-  apply-flow in [`qa-playtesting.md` §1](docs/living/qa-playtesting.md).
+  apply-flow in [`qa-playtesting.md` §1](docs/guides/qa-playtesting.md).
 - **Story is authored as text — registries are generated (FB-5).** T0 narrative
   content (rung beats, intro scenes, dialogue lines, the cold open) is authored
   as prose-first markdown in
@@ -235,11 +235,11 @@ Full version:
 - **Playtest via code, not synthetic input.** Expose a DEV-only play API on
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
-  [QA & playtesting guide](docs/living/qa-playtesting.md).
+  [QA & playtesting guide](docs/guides/qa-playtesting.md).
 - **Real-play telemetry — read `project/telemetry/` before touching balance
   (FB-8).** The human's DEV sessions auto-drop attended-time pacing reports
   (git-ignored, local sensor data) there; the ADR-132 balance flow's step 0
-  ([qa-playtesting.md §2](docs/living/qa-playtesting.md)) is: if untainted
+  ([qa-playtesting.md §2](docs/guides/qa-playtesting.md)) is: if untainted
   reports exist, quote attended-vs-sim for the touched rungs in the commit
   body, and distill any pacing conclusion into a committed note (the folder
   README's diary rule). Human pacing data never gates.
@@ -285,7 +285,7 @@ Full version:
   to keep it high** → [`docs/living/fun-factor.md`](docs/living/fun-factor.md);
   **how Claude drives / observes / screenshots the game to play-test it** (the
   harness + MCP tools + the fun-proxy *measurement*) →
-  [`docs/living/qa-playtesting.md`](docs/living/qa-playtesting.md); **the visual
+  [`docs/guides/qa-playtesting.md`](docs/guides/qa-playtesting.md); **the visual
   language** → [`docs/living/ui-design.md`](docs/living/ui-design.md). The agent
   reviews its own screenshots with its own vision and iterates; the human is the
   final fun & taste arbiter.

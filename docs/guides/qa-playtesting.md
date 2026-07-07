@@ -1,7 +1,7 @@
 # QA & Playtesting Plan — the harness, the fun-proxies, the visual loop
 
 How we **prove this game is correct, paced, and *fun* — not just that it compiles.** This is the
-plan for the QA spine (built in **MS0**, per [§6.10](prd.md) and the milestone roadmap) and the
+plan for the QA spine (built in **MS0**, per [§6.10](../living/prd.md) and the milestone roadmap) and the
 loops we run on top of it every milestone and in the **MS6 polish pass**.
 
 > **Status:** LIVING GUIDE — the `__qa` harness is BUILT (`src/app/main.ts`, DEV-guarded); the
@@ -311,7 +311,7 @@ balance sim (`src/sim/`, plan `project/archive`-bound `fable-process-F4-balance-
 ## 3. Fun-proxy acceptance tests (measuring the fun-factor targets)
 
 > This section is the **measurement mechanism**. *What* fun is, *why* these targets matter, and *how to
-> improve / keep* fun live in **[`fun-factor.md`](fun-factor.md)** — the design doc this harness serves.
+> improve / keep* fun live in **[`fun-factor.md`](../living/fun-factor.md)** — the design doc this harness serves.
 
 Fun isn't unit-testable, but its **absence** is measurable. The auto-player + `pacing()` assert these proxies
 (the fun-factor.md targets) on every build (the "fun regression suite"); a fail is a design smell to fix:
@@ -335,7 +335,7 @@ Fun isn't unit-testable, but its **absence** is measurable. The auto-player + `p
 ## 4. The visual / feel QA loop (every screen, every transition)
 
 The "UI as progression" is the signature feature, so the UI must look **intentional, not generic**.
-The loop (per the [UI design-language bible](ui-design.md), which the MS1/MS2 renderer is built to):
+The loop (per the [UI design-language bible](../living/ui-design.md), which the MS1/MS2 renderer is built to):
 
 1. **Drive** the game to a target state with `__qa` (or the `capture-game-states` skill).
 2. **Screenshot** it via Playwright / Chrome DevTools MCP (`take_screenshot`) — at desktop **and**
@@ -479,8 +479,8 @@ player-facing standard) at the ADR-126 lock; evidence: the F-items in
   stack title over muted detail; HMR OFF during hand playtests (the
   playtester owns refresh). (FB-16 FB-17 FB-18 FB-21 FB-35 FB-36 FB-43 FB-49 FB-75 FB-101)
 
-> See also: **[`fun-factor.md`](fun-factor.md)** (the *what/why* of fun — this harness measures its
-> targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
-> §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible),
-> [`taste.md`](taste.md) (the player-facing taste standard — this §9 is its workshop twin), and
+> See also: **[`fun-factor.md`](../living/fun-factor.md)** (the *what/why* of fun — this harness measures its
+> targets), [`prd.md`](../living/prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
+> §7 (milestone definitions-of-done), [`ui-design.md`](../living/ui-design.md) (the visual bible),
+> [`taste.md`](../living/taste.md) (the player-facing taste standard — this §9 is its workshop twin), and
 > [`2026-06-26-prd-human-feedback.md`](../../project/feedback-human/2026-06-26-prd-human-feedback.md) §K (the fun/UI process intent).

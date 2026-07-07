@@ -142,7 +142,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 > (devoted / ambitious / humble) ships in T0, but its three unique side quests (→ a
 > unique item + a separate unlock each) are **T1 content** and were deferred here
 > (T1 didn't exist at design time, R6). Full build-ready spec:
-> [`capstone-t0-branch.md`](capstone-t0-branch.md); pattern + board: **ADR-125** /
+> [`capstone-t0-branch.md`](../plans/opus-2026-07-03-t1-capstone-branch.md); pattern + board: **ADR-125** /
 > PRD §3.0.2.
 
 ### T1-M1 — The real grind opens *(the full ladder + the 3-lane flywheel)* — 🆕

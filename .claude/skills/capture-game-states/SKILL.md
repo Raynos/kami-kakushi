@@ -13,7 +13,7 @@ contact sheet → pick the lossless candidate).
 
 The game exposes a **DEV-only play API on `window.__qa`** (`import.meta.env.DEV`, stripped from prod)
 that wraps the same actions the UI sends to the core, plus read access and loop control. The
-**authoritative method list is [`docs/living/qa-playtesting.md`](../../../docs/living/qa-playtesting.md)
+**authoritative method list is [`docs/guides/qa-playtesting.md`](../../../docs/guides/qa-playtesting.md)
 §1** — the verbs you'll use here:
 
 - **Read:** `state()` — the current snapshot; `reveals()`, `pacing()`.
@@ -30,7 +30,7 @@ that wraps the same actions the UI sends to the core, plus read access and loop 
 ## Setup — HEADLESS ONLY
 
 Run the dev server (`pnpm run dev`), then drive the game **headlessly** — never a
-headed browser window ([qa-playtesting.md](../../../docs/living/qa-playtesting.md)
+headed browser window ([qa-playtesting.md](../../../docs/guides/qa-playtesting.md)
 §0; the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook **blocks** the
 Playwright MCP / Chrome DevTools MCP browser tools, so don't reach for them):
 

@@ -1,5 +1,12 @@
 # The T0 capstone branch — designed, DEFERRED to the T1 build
 
+**Status: 📌 PARKED — build WHEN T1 lands.** *(Moved from
+`docs/living/` 2026-07-07 per the docs reorg: living holds only the
+core canon docs; deferred build-detail is plan-shaped. NOTE: the
+story reboot (`fable-2026-07-07-story-reboot.md`) reopened tier
+design — the reboot's T1 tier sheet will ADOPT or SUPERSEDE this
+design when it is drafted.)*
+
 > **⏳ DEFERRED — do NOT build yet.** This is **T1 content** (the side quests land
 > in the full estate, **R8→R15**), and **T1 does not exist yet** — the game is
 > T0-only (`src/core/content/ranks.ts` `RankId` = `R0…R7`). Building these quests

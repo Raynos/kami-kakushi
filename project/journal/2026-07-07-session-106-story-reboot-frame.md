@@ -149,3 +149,27 @@ The human self-cleaned the reading queue (BUNDLE + reboot-plan rows).
 (gen-fixtures spun 36 min; suspected interaction with the in-flight
 ADR-148 travel-through-clock work) — diagnosed, orphan process trees
 killed, commits kept local; retry at checkpoint.
+
+## Addendum 5 — docs reorg (human-directed) + T0 sheet opens
+
+Docs reorg executed per the human's spec: **docs/story-bible/** born
+(README index + 00-kernel/01-laws/02-house/03-tiers/04-cast/05-world +
+tiers/t0.md), split from the single living file; **docs/living/ now
+holds only core canon** (prd, decisions, roadmap, taste, ui-design,
+fun-factor) with `story-bible.md` as a SYMLINK to the bible README
+(links written to resolve from both places); **docs/guides/** born
+(qa-playtesting + sfx-spec moved, sibling links fixed);
+capstone-t0-branch → `docs/plans/opus-2026-07-03-t1-capstone-branch.md`
+(PARKED; reboot's T1 sheet will adopt or supersede). Link sweep over
+live docs + skills + the headless-QA hook; repo-map updated. Historical
+records (journals/archive/brainstorms) deliberately untouched.
+
+Also locked in passing (bible 04-cast): the T0 use-name beat (the
+hand-me-down name, "earn a better") and the SPEAKER-LABEL LADDER —
+cold open reads `You:` until the MC asks his name and Sōan answers,
+then flips to `Nameless:` on screen, witnessed; the use-name takes over
+at T0's end. The T0 tier sheet is open; its piece 1 (the ladder) was
+REJECTED as too-fast/too-high — replaced by the pending all-tier
+two-paragraph ladder summaries (start · end · theme per tier), with
+village + origin-town as PARALLEL reputation tracks distinct from house
+rungs.

@@ -305,7 +305,7 @@ rAF tweens must read the preference themselves and snap to final values.
 
 Anticipation: a gate-bar nearing full intensifies subtly, then releases into the seal. **Audio** follows the
 same significance-gating (taiko hit · shamisen/koto reward · temple-bell at the in-modal ceremony), mapping
-owned by [`sfx-spec.md`](sfx-spec.md); the log still carries the meaning muted.
+owned by [`sfx-spec.md`](../guides/sfx-spec.md); the log still carries the meaning muted.
 
 ## 7. Iconography — emoji as period motifs, not spam
 
@@ -371,7 +371,7 @@ map grows a page wider. Ties/Origin (T3) — a quieter, more intimate page. Cast
 
 Every screen and transition is screenshot-reviewed against THIS bible + [`taste.md`](taste.md) (the agent
 drives `window.__qa` / `capture-game-states`, desktop + mobile, own-vision review) before candidates reach
-the human — per [`qa-playtesting.md`](qa-playtesting.md) §4. Open items: **cross-platform font consistency**
+the human — per [`qa-playtesting.md`](../guides/qa-playtesting.md) §4. Open items: **cross-platform font consistency**
 (optional future polish — self-host a libre Palatino-alike/Avenir-alike; not required for v0.3.x);
 **ambient canvas FX** (permitted, unspecified — spend or keep the steel still?); the open **variant picks**
 (HR-2/5/6/7/9) close M6. Research provenance: the pre-ADR-127 woodblock bible + `ui-demos/10-andon-steel/`

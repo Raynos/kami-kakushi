@@ -146,5 +146,5 @@ When no principle covers, **reason from the four values**.
 
 Game-systems taste (distinct resources, distinct recovery loops — FB-22;
 balance; mechanic shapes) → [prd.md](prd.md) + ADRs. The **workshop bar**
-(DEV-tooling ergonomics) → [qa-playtesting.md](qa-playtesting.md) §9. The
+(DEV-tooling ergonomics) → [qa-playtesting.md](../guides/qa-playtesting.md) §9. The
 pre-ship checklist is the FB-10 scorecard flow — not a section here.

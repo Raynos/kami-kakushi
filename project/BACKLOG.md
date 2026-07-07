@@ -32,7 +32,7 @@
 
 ## T1
 
-- [ ] `docs/living/capstone-t0-branch.md` — **the T0 capstone branch quests**
+- [ ] `docs/plans/opus-2026-07-03-t1-capstone-branch.md` — **the T0 capstone branch quests**
   (settled, human-signed design; ADR-125 / PRD §3.0.2): the R7 devoted /
   ambitious / humble *choice* ships in T0, but its three unique side quests
   (each → a unique item + a separate unlock) are **T1 content** and were

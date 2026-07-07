@@ -27,7 +27,7 @@ never something you _declare_ because the work feels finished.
 - **E1** (v0.3 process-learnings): _"a test that can't go RED is worse than no
   test"_; commit `f92b3da` — _"the guard test protected the wrong experience."_
 - The QA substrate is _"drive real code paths, never synthetic input — the same
-  flow a real player triggers"_ (`docs/living/qa-playtesting.md` §0).
+  flow a real player triggers"_ (`docs/guides/qa-playtesting.md` §0).
 - **ADR-054**: a machine check is what prevents the honest-intention-but-silent-gap
   failure.
 

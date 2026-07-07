@@ -7,8 +7,8 @@
 > doc is the **contract** it implements; the genuinely-deferred part is **§4 (the full bed)**. Locked
 > by **ADR-068** (palette + timing), sequenced within **ADR-041** (a small *synthesized* Web Audio set —
 > no audio-file pipeline).
-> Companion to the look: [`ui-design.md`](ui-design.md) (the woodblock/ink bible) and
-> [`fun-factor.md`](fun-factor.md) (juice = the make-or-break priority).
+> Companion to the look: [`ui-design.md`](../living/ui-design.md) (the woodblock/ink bible) and
+> [`fun-factor.md`](../living/fun-factor.md) (juice = the make-or-break priority).
 
 ---
 
