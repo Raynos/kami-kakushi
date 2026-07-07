@@ -3,7 +3,8 @@
 **Status: 🔶 IN-PROGRESS — workstream A COMPLETE (2026-07-07, session
 109); the bible awaits the human's whole-read blessing; workstream B
 opens at BIBLE DONE.** The execution plan for finishing what the
-story reboot (`fable-2026-07-07-story-reboot.md`, its Phases 3–4)
+story reboot (its Phases 3–4; archived 2026-07-07 as the frame +
+redline record — `project/archive/fable-2026-07-07-story-reboot.md`)
 started: first the BIBLE (workstream A — human co-write), then the
 DOCS-AND-GAME ripple (workstream B — the build wave). Written so a
 FRESH Fable or Opus session can pick up any step without this session's
@@ -28,8 +29,10 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
    exemplar — every other tier sheet imitates its shape) → the
    `tiers/t1..t6.md` seeds (each carries its placed canon + its
    sitting's agenda).
-2. **History, only if needed:** the reboot plan (frame + kernel
-   redline record) · the pitch bundle + human notes
+2. **History, only if needed:** the archived reboot plan (frame +
+   kernel redline record —
+   `project/archive/fable-2026-07-07-story-reboot.md`) · the pitch
+   bundle + human notes
    (`project/brainstorms/2026-07-07-story-pitches/`) · journal
    s106 (seven addenda).
 3. **The working protocol with the human (MANDATORY for A):**
@@ -126,8 +129,10 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
   (Tokubei→Yohei etc.), test-fixture rederivation from the new
   thresholds.
 - **B5 · Salvage & closure** ⬩O — archive
-  `fable-2026-07-07-story-salvage.md` + the reboot plan once their
-  content is fully superseded (forward pointers); HR-8 disposition
+  `fable-2026-07-07-story-salvage.md` once its content is fully
+  superseded (forward pointer; the reboot plan already archived
+  2026-07-07, human call — B0 cites its record at
+  `project/archive/fable-2026-07-07-story-reboot.md`); HR-8 disposition
   (the old-beats read is moot once B3 ships — close with the human);
   CHANGELOG entry with the release that ships the new T0.
 
@@ -137,5 +142,5 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
 rules decided, human-blessed end-to-end. **Reboot spirit:** the frame
 ADR minted; PRD/roadmap rippled; the engine speaks 7 tiers and six
 seasons; the shipped T0 plays the NEW story in the new prose — at
-which point the reboot plan and this plan both archive, and the bible
-alone carries the canon forward.
+which point this plan archives too (the reboot plan already did,
+2026-07-07), and the bible alone carries the canon forward.

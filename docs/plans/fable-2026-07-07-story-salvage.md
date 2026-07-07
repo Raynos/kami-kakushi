@@ -4,11 +4,12 @@
 human's call (2026-07-07):
 the AUDIT is the substance that must not be lost; the 19 ladder answers are
 mostly superseded and kept below only as the record of that pass.** This is
-the small companion to `fable-2026-07-07-story-reboot.md` (the ONE live
-story plan): everything here feeds the reboot (pillar candidates,
-informed-pitch input, pitch judging), and the §1 fixes remain independently
-actionable on the CURRENT game if we ever choose to patch it before the
-reboot's build wave lands.
+the small companion to the story reboot (now archived —
+`project/archive/fable-2026-07-07-story-reboot.md`; the ONE live story
+plan is `fable-2026-07-07-story-bible-finish.md`): everything here fed
+the reboot (pillar candidates, informed-pitch input, pitch judging), and
+the §1 fixes remain independently actionable on the CURRENT game if we
+ever choose to patch it before the finish plan's build wave (B) lands.
 **Confidence: ( 30% Opus, 70% Fable )** — applying any fix is prose work
 (ADR-139); holding the record is free.
 

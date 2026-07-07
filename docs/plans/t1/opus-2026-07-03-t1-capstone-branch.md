@@ -3,7 +3,7 @@
 **Status: 📌 PARKED — build WHEN T1 lands.** *(Moved from
 `docs/living/` 2026-07-07 per the docs reorg: living holds only the
 core canon docs; deferred build-detail is plan-shaped. NOTE: the
-story reboot (`fable-2026-07-07-story-reboot.md`) reopened tier
+story reboot (`project/archive/fable-2026-07-07-story-reboot.md`) reopened tier
 design — the reboot's T1 tier sheet will ADOPT or SUPERSEDE this
 design when it is drafted.)*
 

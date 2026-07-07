@@ -1,11 +1,12 @@
 # The story reboot — full co-design from the kernel
 
-**Status: ▶️ IN-PROGRESS — the frame/record plan. Phases 0–2 complete;
-Phase 3 is mid-flight and its EXECUTION now lives in
-`fable-2026-07-07-story-bible-finish.md` (workstream A = finish the bible,
-workstream B = the docs-and-game ripple). This doc remains the frame +
-kernel-redline record. NO ADR yet, per the human's hold: the frame ADR
-mints at BIBLE DONE + build start (the finish plan's B0).** Supersedes
+**Status: 🗄️ SUPERSEDED (2026-07-07, human call) — finished as a plan
+and archived; kept whole as the frame + kernel-redline RECORD. Phases
+0–2 completed here; Phases 3–4 execution lives in
+`docs/plans/fable-2026-07-07-story-bible-finish.md` (workstream A = the
+bible, COMPLETE; workstream B = the docs-and-game ripple, opens at
+BIBLE DONE). The frame ADR stays HELD per the human: it mints at BIBLE
+DONE + build start (the finish plan's B0), citing this record.** Supersedes
 `fable-2026-07-06-story-quality-ladder.md` in SCOPE (that plan was sized for
 a surface-only rewrite; the human reopened the design layer) — its process
 decisions carry forward, its design decisions revert to candidates (see §2).

@@ -8,8 +8,8 @@
 > written to resolve from either place. Until the reboot's build wave
 > lands, the BUILT game's story is described by the PRD §5 + the
 > narrative sources; this doc-set is the forward canon.
-> History (how each section got decided): the reboot plan
-> `docs/plans/fable-2026-07-07-story-reboot.md`, the pitch bundle in
+> History (how each section got decided): the reboot plan (archived)
+> `project/archive/fable-2026-07-07-story-reboot.md`, the pitch bundle in
 > `project/brainstorms/2026-07-07-story-pitches/`, and the journal.
 
 ## The sections
