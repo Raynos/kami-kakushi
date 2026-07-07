@@ -329,3 +329,38 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).
 > The build the HR-4 decisions feed is `project/archive/2026-06-30-v0.3.1-build.md` (done — archived)._
 
+
+### HR-12 🔲 — the rebuilt T0/T1 review maps (one geography, AA pass)
+
+> Born session 112 (2026-07-07): the map audit
+> ([`plan`](../../docs/plans/fable-2026-07-07-t0t1-map-rebuild.md) ·
+> [`spec/corpus`](../../docs/plans/fable-2026-07-07-t0t1-map-spec.md)) found the
+> old DEV sheets canon-wrong (wings on the ruin; the corner-of-the-precinct
+> twist invisible) and amateur as illustration. Both sheets were rebuilt from a
+> primitive library on ONE master geography (T0 = a window of T1's world) and
+> iterated headlessly ×5 until fresh blind readers recovered every must-say
+> rubric line (spec §5) — including the heart: *"the family now lives behind a
+> tight gold fence in one corner of their own land."*
+
+- **Asking for:** the taste verdict on both sheets — do they read as an
+  intentional lamplit 絵図 (not AI-slop)? Does the T0 sheet SEED the twist
+  without saying it? Is the night-indigo substrate right, or do you want the
+  warm-washi fork (a one-table palette swap — plan §4)?
+- **How to look:** `pnpm run dev` → DEV panel → **Story** tab → "⤢ T0 V2 map"
+  and "⤢ T1 map". Pan/zoom (zoom REWARDS — stall divisions, stone numerals,
+  offering marks live past ~1.6×); click 夜 for the patrol rail; click any
+  seal for its node-grammar pane.
+- **Taste brief (pass 1):** in the plan §3 (one primitive per idiom · seeded
+  determinism · fiction causes every mark · state readable at a glance ·
+  tokens only, shu = the reviser's red).
+- **Scorecard:** 17✔ · 2✘ · 2— (P12 typewriter, P16 log-routing: n/a) —
+  ✘P“contrast floor” [briefed]: the night substrate holds the ruin interior /
+  woodlot floor near the legibility threshold at fit zoom (the T1 blind reader
+  flagged it; the washi fork would erase it); ✘P“legend honesty” [blind spot →
+  FIXED]: T0's legend promised a 新 mark the sheet never carries — caught by
+  the blind reader, legend is now per-tier.
+- **Blind-reader verdicts (fresh eyes, images only):** T0 — "an illustrated
+  place, not a labeled diagram … zooming mostly rewards"; T1 — "the revision
+  layer tells: the water began dying … and the house answered." Full reports
+  in the session journal's raw capture.
+- **Verdict:** _(awaiting the human)_

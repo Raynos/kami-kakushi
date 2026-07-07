@@ -36,7 +36,7 @@ export const ANCHORS: Readonly<Record<string, Anchor>> = {
   woodshed: { x: 1978, y: 1458 },
   kitchen: { x: 2028, y: 1288, room: true },
   shrine: { x: 2130, y: 1178, room: true },
-  kura: { x: 2310, y: 1058 },
+  kura: { x: 2310, y: 1030 },
   sickroom: { x: 1950, y: 1332, room: true },
   'drill-yard': { x: 2318, y: 1362 },
   paddies: { x: 1670, y: 1668 },
@@ -50,10 +50,10 @@ export const ANCHORS: Readonly<Record<string, Anchor>> = {
   'terraced-paddies': { x: 965, y: 905 },
   'woodlot-clamp': { x: 2870, y: 590 },
   'flood-works': { x: 610, y: 760 },
-  'kura-interior': { x: 2310, y: 1140, room: true },
+  'kura-interior': { x: 2310, y: 1124, room: true },
   workshops: { x: 2318, y: 1250, room: true },
   'boundary-fields': { x: 1730, y: 1965 },
-  'family-plot': { x: 2452, y: 476 },
+  'family-plot': { x: 2378, y: 492 },
   'upstream-pools': { x: 665, y: 330 },
   'letgo-terraces': { x: 990, y: 606 },
   'downstream-shallows': { x: 445, y: 1852 },
@@ -156,7 +156,20 @@ export const WATER = {
     [1200, 1425],
     [1420, 1520],
     [1520, 1580],
+    [1572, 1604],
   ] as readonly Pt[],
+  /** feeder ditches — the channel visibly JOINS the paddy grid (both blind
+   *  readers watched it dissolve short of the fields) */
+  paddyDitches: [
+    [
+      [1520, 1582],
+      [1502, 1690],
+    ],
+    [
+      [1570, 1602],
+      [1706, 1582],
+    ],
+  ] as readonly (readonly Pt[])[],
   channelSluice: { at: [1425, 1524] as Pt, angleDeg: 40 },
   /** the silted branch — the hidden sluice the field-work keeps hinting at (T0);
    *  repaired + extended in T1 (fresh ink) */
@@ -274,7 +287,7 @@ export const GUEST = {
   gate: { at: [2140, 1520] as Pt, angleDeg: 0 },
   /** the winged residence (anchors refined by the drawing at composition) */
   house: { at: [2130, 1215] as Pt, scale: 1.35, angleDeg: 0 },
-  kura: [2310, 1100] as Pt,
+  kura: [2310, 1118] as Pt,
   woodshed: [1978, 1442] as Pt,
   sickroom: [1962, 1338] as Pt,
   /** the old stable court = the drill yard: stalls for twenty, one mule (G6) */

@@ -24,13 +24,19 @@ interface Frame {
   readonly h: number;
 }
 
-export const LEGEND_ENTRIES = [
-  { mark: '戦', gloss: 'fighting ground' },
-  { mark: '人', gloss: 'folk work here' },
-  { mark: '怪', markClass: 'shu', gloss: 'something is wrong here' },
-  { mark: '新', markClass: 'gold', gloss: 'new in this survey' },
-  { mark: '夜', markClass: 'shu', gloss: 'the night round (its post at the gate)' },
-];
+/** 新 appears only on the T1 re-survey — a legend must never promise a mark the
+ *  sheet doesn't carry (the blind reader called the dead entry immediately). */
+export function legendEntries(
+  tier: 'T0' | 'T1',
+): { mark: string; markClass?: string; gloss: string }[] {
+  return [
+    { mark: '戦', gloss: 'fighting ground' },
+    { mark: '人', gloss: 'folk work here' },
+    { mark: '怪', markClass: 'shu', gloss: 'something is wrong here' },
+    ...(tier === 'T1' ? [{ mark: '新', markClass: 'gold', gloss: 'new in this survey' }] : []),
+    { mark: '夜', markClass: 'shu', gloss: 'the night round (its post at the gate)' },
+  ];
+}
 
 /** Sheet furniture for a given frame — shared by both tiers (T0's frame is the
  *  window, so the border/cartouche/legend pin to the visible sheet, not world 0,0). */
@@ -47,7 +53,7 @@ export function paintFurniture(art: SVGElement, frame: Frame, tier: 'T0' | 'T1')
   legendBox(fg, 42, frame.h - 238, {
     seed: `legend-${tier}`,
     title: '凡例',
-    entries: LEGEND_ENTRIES,
+    entries: legendEntries(tier),
   });
   scaleBar(fg, 264, frame.h - 54, { seed: `scale-${tier}`, label: '一町', ticks: 2 });
   art.append(fg);

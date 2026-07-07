@@ -75,3 +75,15 @@ west-wing closed veil vs east-wing fresh veil + horizontal red note.
    iter4 shots) → fix any missed M-lines.
 2. Final checkpoint: snapshot + push; HR-item for the live DEV-panel
    review + Pass-2 taste scorecard.
+
+## Verification phase (same session, later still)
+
+Two fresh blind readers (images only, no context) scored iter4/iter5:
+EVERY must-say rubric line passes on both sheets — T0's reader led with
+the twist ("the family now lives behind a tight gold fence in one corner
+of their own land"), T1's rebuilt the whole water/build causal chain from
+the reviser's red. Their converged craft notes became the final polish
+(per-tier legend honesty, shrine seal to the corridor, ditches joining
+the paddy grid, kura/plot seal collisions, T0 silver vs T1 gold grave
+fence, red at full strength). HR-12 filed for the human's live taste
+call; snapshot updated. Iteration closed at iter5.

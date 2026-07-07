@@ -97,7 +97,7 @@ function redNote(
   horizontal = false,
 ): void {
   const g = sv('g');
-  inkText(g, x, y, text, { size: 15, color: 'var(--shu)', opacity: 0.85, vertical: !horizontal });
+  inkText(g, x, y, text, { size: 16, color: 'var(--shu)', opacity: 1, vertical: !horizontal });
   tip(g, why);
   art.append(g);
 }
@@ -244,7 +244,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
         [WATER.pools[0]!.x - 60, WATER.pools[0]!.y - 30],
         [WATER.pools[2]!.x + 55, WATER.pools[2]!.y + 28],
       ],
-      { seed: 'pool-strike', w: 2, color: 'var(--shu)', opacity: 0.7 },
+      { seed: 'pool-strike', w: 2.5, color: 'var(--shu)', opacity: 0.85 },
     );
     redNote(
       art,
@@ -260,6 +260,8 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   sluiceGate(art, WATER.worksSluice.at, WATER.worksSluice.angleDeg, 'works-sluice');
   weirBar(art, WATER.weir.at, WATER.weir.angleDeg, { seed: 'weir' });
   channel(art, WATER.mainChannel, { seed: 'main-ch' });
+  for (let i = 0; i < WATER.paddyDitches.length; i++)
+    channel(art, WATER.paddyDitches[i]!, { seed: `pd-${i}` });
   sluiceGate(art, WATER.channelSluice.at, WATER.channelSluice.angleDeg, 'ch-sluice');
   channel(art, WATER.siltedBranch, { seed: 'silt-br', silted: !fresh });
   bridge(art, WATER.bridge.at, WATER.bridge.angleDeg, { seed: 'bridge' });
@@ -377,7 +379,10 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     scale: GUEST.house.scale,
     angleDeg: GUEST.house.angleDeg,
   });
-  overrides.set('shrine', house.corridor);
+  // the alcove corridor seal sits on the JOINING corridor (hall → east wing),
+  // never the great roof — there it reads as "the house is a shrine" (blind-
+  // reader finding)
+  overrides.set('shrine', [(house.hall[0] + house.eastWing[0]) / 2, house.hall[1] - 8]);
   overrides.set('kitchen', house.kitchen);
   overrides.set('east-wing', house.eastWing);
   overrides.set('west-wing', house.westWing);
@@ -447,7 +452,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   well(art, GUEST.well[0], GUEST.well[1], 'well');
 
   // ── 9 · the family plot (drawn both tiers; sealed in T1) + the bounds (G9) ──
-  gravePlotMark(art);
+  gravePlotMark(art, tier);
   for (const s of BOUNDARY_STONES) {
     if (s.t1Only && tier === 'T0') continue;
     // scaled up so the bounds are FINDABLE at fit view (rubric R6)
@@ -561,22 +566,31 @@ function ropeLine(art: SVGElement): void {
   art.append(g);
 }
 
-/** The family plot: a small walled grave terrace; ONE plot swept and stoneless. */
-function gravePlotMark(art: SVGElement): void {
+/** The family plot: a small walled grave terrace; ONE plot swept and stoneless.
+ *  T0: a quiet old fence (silver ink). T1: NEWLY gold-fenced — so the 新 badge
+ *  reads as "newly fenced," never "the graveyard moved" (blind-reader finding). */
+function gravePlotMark(art: SVGElement, tier: Tier): void {
   const { at, w, h } = WILDS.gravePlot;
   const [cx, cy] = at;
   const g = sv('g');
-  wallRun(
-    g,
-    [
-      [cx - w / 2, cy - h / 2],
-      [cx + w / 2, cy - h / 2],
-      [cx + w / 2, cy + h / 2],
-      [cx - w / 2, cy + h / 2],
-      [cx - w / 2, cy - h / 2],
-    ],
-    { seed: 'grave-wall', state: 'neat' },
-  );
+  const ring: Pt[] = [
+    [cx - w / 2, cy - h / 2],
+    [cx + w / 2, cy - h / 2],
+    [cx + w / 2, cy + h / 2],
+    [cx - w / 2, cy + h / 2],
+    [cx - w / 2, cy - h / 2],
+  ];
+  if (tier === 'T1') {
+    wallRun(g, ring, { seed: 'grave-wall', state: 'neat' });
+  } else {
+    inkLine(g, ring, {
+      seed: 'grave-fence-old',
+      w: 1.2,
+      color: 'var(--silver-dim)',
+      opacity: 0.8,
+      amp: 1.5,
+    });
+  }
   let i = 0;
   for (const [dx, dy] of [
     [-28, -10],

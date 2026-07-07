@@ -36,6 +36,7 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
   the 絵図 survey plan ships as THE map; losing takes stripped.
 - **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane
   (ADR-141/142) · s90 hardening (ADR-140) · ADR-139 story diverge.
+- **✅ T0/T1 REVIEW MAPS REBUILT (s112):** `map-sheets/` primitives, ONE geography (T0 = a window of T1); blind-rubric verified (**HR-12** taste call).
 - **✅ THE PHASE-2 ECONOMY (ADR-145, s100):** the A+B loop shipped — 5 deed
   sources · deed-gated U1–U4 staged build + E1 beats · tracker diverge (HR-11)
   · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
