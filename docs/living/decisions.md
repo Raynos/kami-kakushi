@@ -2341,3 +2341,32 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   reboot and salvage plans are archived with forward pointers; the
   bible alone carries the canon forward. The currently-shipped T0
   remains the live game until B3/B4 replace its text and content.
+
+### ADR-151 ✅ — the sheet IS the player map; rung-reveal builds now; HR-12 closed
+
+- **created_date:** 2026-07-07
+- **Context:** ADR-149 made the T0/T1 sheets player-bound but left the
+  integration shape open. The rung-reveal illustration
+  (`project/brainstorms/2026-07-07-t0-map-rung-reveal.md`) surfaced the
+  fork explicitly: the sheet and the walkable Estate 地図 tab need ONE
+  unlock source of truth. Session 115's review phases (B craft, C engine)
+  awaited ordering; HR-12 (the sheets' taste call) awaited a verdict.
+- **Decision (human, 2026-07-07, via AskUserQuestion):** **(1) The sheet
+  BECOMES the map** — the 地図 tab renders the sheet; zone seals are the
+  travel/interaction nodes; one unlock source of truth (TST1). The
+  node-graph list UI retires (or survives only as an accessibility
+  fallback). **(2) The rung-reveal mechanism builds NOW** — data tables
+  (zone→rung, reveal polys, 未 ghost chips, rumor notes) + the reveal mask
+  in the sheet painter, with the illustration's ladder as PLACEHOLDER
+  data; the T0 build plan later locks the real ladder by editing the
+  table, not the code. **(3) Build order: Phase B craft → Phase C
+  hardening** (the golden-hash pin lands after the look settles).
+  **(4) HR-12 = PASS**, signed off from the session-115 renders: the
+  night sheets read as an intentional lamplit 絵図 and T0 seeds the
+  corner-of-the-precinct twist. Craft polish continues post-sign-off.
+- **Consequences:** the 地図-tab swap rides the ADR-150 build wave (the
+  game rewrite); the sheet grows a rung-gating mechanism + DEV rung
+  previewer now; HR-12 graduates to archive.md (id-collision noted — an
+  earlier FB-121 review also wore HR-12); the map workstream continues
+  autonomously: drain the playtest-inbox map feedback → Phase B remainder
+  → rung mechanism → Phase C.

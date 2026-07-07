@@ -116,3 +116,14 @@ LAST fog masses so the G5 twist lands at R7/Phase-2. Renders:
 `project/audit/screens/2026-07-07-t0-rung-reveal/` (local). Design
 write-up + the sheet-vs-地図 unlock-source fork:
 `project/brainstorms/2026-07-07-t0-map-rung-reveal.md` (queued).
+
+## Four forks locked + HR-12 closed (same session, later — ADR-151)
+
+The human answered the next four forks (AskUserQuestion): the sheet
+BECOMES the player map (地図 renders it, seals = nodes, one unlock
+source) · the rung-reveal mechanism builds NOW (placeholder ladder,
+build plan edits the table later) · Phase B → Phase C order · **HR-12 =
+PASS** from the session renders. ADR-151 records it; HR-12 graduated to
+archive.md (id collision with the FB-121 HR-12 noted). Next: /drain-inbox
+(the human dropped concrete T0/T1 sheet feedback) → Phase B remainder →
+rung mechanism → Phase C.
