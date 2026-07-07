@@ -117,6 +117,7 @@ export {
   settleOnState,
   allRequirementsDone,
   isRequirementDone,
+  requirementTarget,
   rungPercentOf,
   chunkCount,
   NATIVE_PREDICATES,

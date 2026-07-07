@@ -69,6 +69,7 @@ import type { DialogueScene } from '../core/content/intro';
 import { COLD_OPEN } from '../core/content/coldOpen';
 import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
+import { mountRequirementsCheatlist } from './dev-cheatlist';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -2132,6 +2133,11 @@ export function mountDevPanel(
   const storyPane = el('div');
   storyPane.style.cssText = `display:none;flex-direction:column;gap:.4rem;${paneScroll}`;
 
+  // FB-121 (ADR-137 Phase 4) — the requirements CHEATLIST pane: the current rung's hidden
+  // list with live progress (the human's debugging window; the player only ever sees the %).
+  const rungsPane = el('div');
+  rungsPane.style.cssText = `display:none;flex-direction:column;gap:.4rem;${paneScroll}`;
+
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
     b.type = 'button';
@@ -2141,18 +2147,20 @@ export function mountDevPanel(
       'font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
-  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story';
+  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story' | 'rungs';
   const settingsTab = tabBtn('Settings');
   const variantsTab = tabBtn('Variants');
   const scenariosTab = tabBtn('Scenarios');
   const balanceTab = tabBtn('Balance');
   const storyTab = tabBtn('Story');
+  const rungsTab = tabBtn('Rungs');
   const tabs: Record<TabId, { tab: HTMLButtonElement; pane: HTMLElement }> = {
     settings: { tab: settingsTab, pane: settingsPane },
     variants: { tab: variantsTab, pane: variantsPane },
     scenarios: { tab: scenariosTab, pane: scenariosPane },
     balance: { tab: balanceTab, pane: balancePane },
     story: { tab: storyTab, pane: storyPane },
+    rungs: { tab: rungsTab, pane: rungsPane },
   };
   const selectTab = (which: TabId): void => {
     for (const id of Object.keys(tabs) as TabId[]) {
@@ -2169,8 +2177,15 @@ export function mountDevPanel(
       selectTab(id);
     });
   }
-  tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab, storyTab);
-  body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane, storyPane);
+  tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab, storyTab, rungsTab);
+  body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane, storyPane, rungsPane);
+
+  const cheatlist = mountRequirementsCheatlist(rungsPane, qa.state);
+  // refresh the cheatlist whenever its tab is selected + on a slow tick while visible
+  rungsTab.addEventListener('click', () => cheatlist.refresh());
+  setInterval(() => {
+    if (rungsPane.style.display !== 'none') cheatlist.refresh();
+  }, 1000);
 
   // FB-7 — mount the balance cockpit into its pane; the touched count badges the tab label
   // (`Balance (3)`) so a dirty tuning session is obvious no matter which sub-tab is showing.
