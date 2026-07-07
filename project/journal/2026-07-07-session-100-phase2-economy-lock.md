@@ -102,6 +102,21 @@ plan's Opus-for-core routing proposal).
   without a feeder description leaks the "(unmapped" placeholder).
 - `prd:drift` CLEAN. The §4-adjacent retune ripple re-runs after Phase 3.
 
+## Phase 3 built — personas, texture metrics, the in-band retune (same session)
+
+- `focusedOptimalIntent` Phase-2 leg is now the TEXTURED A+B loop: commission
+  the next stage when its gates clear → sell the rice pile at ≥20 (the Q3
+  lever) → rotate fields/stores by day parity. Deterministic, no RNG.
+- Texture proxies (REPORT-ONLY, ADR-132 sound-rung): `phase2DistinctIntents`,
+  `buildStagesDone`, `phase2SeasonalJudges` in RunMetrics + the report table +
+  a summary line. The regression alarm is "1 distinct intent".
+- Retune: the textured loop pushed the ratio to 1.23 (OUT) →
+  `ESTATE_DEED_PER_ACT` 0.04→0.05 → ratio 0.93–0.94 in [0.8, 1.2], all 15
+  cells green. Texture at tune: 8 distinct intents · U4 reached · ~150 judges.
+- FB-8 step 0: 77 telemetry reports scanned — ZERO reach Phase 2, so no
+  attended-vs-sim quote is possible for the touched window.
+- Fixtures regenerated (the tune shifts every waypoint state).
+
 ## Landmines
 
 - **Parallel agent** is building the requirements-rung-progression plan in the

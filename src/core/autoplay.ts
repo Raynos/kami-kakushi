@@ -30,8 +30,14 @@ import { isRequirementDone } from './requirements-engine';
 import { canCraft, getRecipe } from './content/crafting';
 import { hasFlag } from './state';
 import { introActive, introSceneAt } from './content/intro';
-import { promotionReady, pendingPromotionTarget } from './ranks';
+import { promotionReady, pendingPromotionTarget, phaseOf } from './ranks';
+import { estateBuild } from './selectors';
 import { RUNG_BEATS } from './content/rungBeats';
+
+/** ADR-145 Phase-2 player-model knob (NOT canon): the carried-rice pile size at which the
+ *  focused-optimal steward walks the pedlar trade — batching sells keeps the loop textured
+ *  without spamming zero-clock transactions. */
+const PHASE2_SELL_RICE_AT = 20;
 
 /** BFS the REVEALED map graph for the first hop from `from` toward `to` (null if here/unreachable).
  *  The focused-optimal path uses this to WALK to a labour's node before working it. */
@@ -281,6 +287,27 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       const earn = earnCoin();
       if (earn) return earn;
     }
+  }
+  // ADR-145 Phase 3 — the TEXTURED Phase-2 loop (the A+B hybrid, played sensibly): commission
+  // the next build stage the moment its gates are met (the pacing beats), work the rice lever
+  // (sell the pile — a treasury deed + the coin the stages need), and rotate the two
+  // estate-relevant labours so the deed mix is real, not one repeated act. Deterministic
+  // (rotation keys off the day parity — no RNG), so runs reproduce.
+  if (phaseOf(s) === 2 && isUnlocked(s, 'panel-estate')) {
+    const b = estateBuild(s);
+    // (1) the staged build: buy the stage the moment standing + coin clear its gates.
+    if (b.next && b.next.deedsShort === 0 && b.next.coinShort === 0) {
+      return { type: 'improve_estate' };
+    }
+    // (2) the rice lever: sell a worthwhile pile (PHASE2_SELL_RICE_AT is a player-model knob
+    //     like GREEDY_MEND_HP_FRAC — what a sensible steward batches, never canon).
+    if ((s.resources.rice ?? 0) >= PHASE2_SELL_RICE_AT) return { type: 'sell_rice' };
+    // (3) rotate the estate-relevant earners — fields on even days, stores on odd.
+    const rotated = s.clock.day % 2 === 0 ? 'farm_paddy' : 'haul_stores';
+    const go =
+      driveLabour(rotated) ?? driveLabour(rotated === 'farm_paddy' ? 'haul_stores' : 'farm_paddy');
+    if (go) return go;
+    // neither earner reachable — fall through to the generic pool rather than stall.
   }
   // Nothing required remains (or none of it is driveable): the Phase-2 tail. Grind the
   // curated labour pool — estate labour banks the Estate deeds that carry the post-R7 grade

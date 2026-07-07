@@ -66,6 +66,14 @@ export interface RunMetrics {
     firstCoinIntent: number | null;
     /** Intents spent inside Phase 2 (capstone → ascension) — the balance-watch #4 number. */
     phase2Intents: number | null;
+    /** ADR-145 texture proxies — REPORT-ONLY, never gated (a fun proxy proves absence, not
+     *  presence — ADR-132's sound-rung rule). A collapse back to one distinct intent is the
+     *  visible alarm that the loop regressed to a single-action slog. */
+    phase2DistinctIntents: string[];
+    /** Estate build stages standing at run end (the staged E0→E1 ladder, U0..U4). */
+    buildStagesDone: number;
+    /** Seasonal judges that fired inside the Phase-2 window. */
+    phase2SeasonalJudges: number;
   };
   combat: {
     fights: number;
@@ -173,6 +181,8 @@ export function createCollector(personaId: string, seed: number): Collector {
   let maxCarriedRice = 0;
   let firstCoinIntent: number | null = null;
   let capstoneAtIntent: number | null = null;
+  const phase2Distinct = new Set<string>(); // ADR-145 texture (intent types issued post-capstone)
+  let phase2SeasonalJudges = 0;
   const combat = { fights: 0, wins: 0, losses: 0, retreats: 0, lossCoinBled: 0, lossRiceBled: 0 };
   const starvation = { zeroSatietyIntents: 0, belowKneeIntents: 0 };
   const durability = { batteredIntents: 0 };
@@ -247,6 +257,11 @@ export function createCollector(personaId: string, seed: number): Collector {
       maxCarriedRice = Math.max(maxCarriedRice, after.resources.rice ?? 0);
       if (firstCoinIntent === null && totalCoin(after) > 0) firstCoinIntent = total;
       if (capstoneAtIntent === null && hasFlag(after, 't0-capstone')) capstoneAtIntent = total;
+      // ADR-145 texture — recorded only inside the Phase-2 window (post-capstone).
+      if (capstoneAtIntent !== null) {
+        phase2Distinct.add(intent.type);
+        if (after.influence.estate.judged > before.influence.estate.judged) phase2SeasonalJudges++;
+      }
       if (total % SAMPLE_EVERY === 0) {
         samples.push({
           intent: total,
@@ -284,6 +299,9 @@ export function createCollector(personaId: string, seed: number): Collector {
           maxCarriedRice,
           firstCoinIntent,
           phase2Intents: ascended && capstoneAtIntent !== null ? total - capstoneAtIntent : null,
+          phase2DistinctIntents: [...phase2Distinct].sort(),
+          buildStagesDone: final.estateStage,
+          phase2SeasonalJudges,
         },
         combat,
         starvation,

@@ -87,7 +87,7 @@ export let PER_DEED_CAP_NUM = 4;
  *  tuned against the sim to land greedy's Phase 2 inside the ratio band.
  *  // SUPERSEDED by opus-2026-07-04-phase2-economy-redesign (ADR-145): this is now the BASE
  *  // magnitude the multi-source table below multiplies — re-derived at the plan's Phase 3. */
-export let ESTATE_DEED_PER_ACT = 0.04;
+export let ESTATE_DEED_PER_ACT = 0.05;
 /** ADR-145 — the Phase-2 economy is MULTI-SOURCE (the A+B loop): each Estate deed source banks
  *  `ESTATE_DEED_PER_ACT · its multiplier`, so the sources stay distinct in cadence AND magnitude
  *  while the single base stays the one cockpit lever. Estate-relevant work ONLY banks (ADR-145 Q4

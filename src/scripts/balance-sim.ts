@@ -150,9 +150,9 @@ function personaSection(pr: PersonaRuns): string[] {
   L.push(`## ${pr.persona.id} — arc + economy (per seed)`);
   L.push('');
   L.push(
-    '| seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate |',
+    '| seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |',
   );
-  L.push('|---|---|---|---|---|---|---|---|---|');
+  L.push('|---|---|---|---|---|---|---|---|---|---|---|---|');
   for (const r of pr.runs) {
     const p2 = r.economy.phase2Intents;
     const fc = r.economy.firstCoinIntent;
@@ -160,7 +160,8 @@ function personaSection(pr: PersonaRuns): string[] {
       `| ${r.seed} | ${r.ascended ? '✅' : '❌ ' + (r.softLock?.reason ?? 'no')} | ` +
         `${r.totalIntents} | ${min1(r.totalWallMin)} | ${p2 === null ? '—' : min1(wallMinutes(p2))} | ` +
         `${fc === null ? '—' : min1(wallMinutes(fc))} | ${r.economy.endCoin} | ${r.economy.endRice} | ` +
-        `${r.economy.endEstate} |`,
+        `${r.economy.endEstate} | ${r.economy.phase2DistinctIntents.length}: ${r.economy.phase2DistinctIntents.join(' ')} | ` +
+        `U${r.economy.buildStagesDone} | ${r.economy.phase2SeasonalJudges} |`,
     );
   }
   L.push('');
@@ -398,6 +399,15 @@ function summary(): void {
     `Phase-2 window ${min1(wallMinutes(median(p2)))} min · ratio ` +
       `[${r2(rv.measuredMin)}–${r2(rv.measuredMax)}] ${rv.ok ? 'in' : 'OUT OF'} ` +
       `[${rv.bandMin}, ${rv.bandMax}] (D-133); fingerprint ${inputFingerprint()}`,
+  );
+  // ADR-145 texture proxies — REPORT-ONLY (a drop to "1 distinct" is the regression alarm).
+  const tex = runs.map((r) => r.economy.phase2DistinctIntents.length);
+  const stages = runs.map((r) => r.economy.buildStagesDone);
+  const judges = runs.map((r) => r.economy.phase2SeasonalJudges);
+  console.log(
+    `Phase-2 texture (report-only): distinct intents ${Math.min(...tex)}–${Math.max(...tex)} · ` +
+      `build stages U${Math.min(...stages)}–U${Math.max(...stages)} · ` +
+      `seasonal judges ${Math.min(...judges)}–${Math.max(...judges)}`,
   );
   console.log('```');
 }
