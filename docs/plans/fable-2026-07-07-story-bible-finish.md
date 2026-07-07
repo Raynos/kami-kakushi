@@ -1,8 +1,9 @@
 # Story-bible finish — completing the reboot's spirit
 
-**Status: 🔶 IN-PROGRESS — workstream A COMPLETE (2026-07-07, session
-109); the bible awaits the human's whole-read blessing; workstream B
-opens at BIBLE DONE.** The execution plan for finishing what the
+**Status: 🔶 IN-PROGRESS — BIBLE DONE (2026-07-07: workstream A
+complete s109; the human signed off the whole read s116). Workstream B
+is OPEN: B0's frame ADR is MINTED (ADR-150); B1–B4 are the live
+build wave.** The execution plan for finishing what the
 story reboot (its Phases 3–4; archived 2026-07-07 as the frame +
 redline record — `project/archive/fable-2026-07-07-story-reboot.md`)
 started: first the BIBLE (workstream A — human co-write), then the
@@ -101,10 +102,10 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
 
 ## Workstream B — the docs & game ripple (opens at BIBLE DONE)
 
-- **B0 · Mint the frame ADR** ⬩F — the held ADR (reboot §1 + the
-  bible's structural canon: 7 tiers, six-season calendar, alternation,
-  time-skips) lands in `decisions.md` as the build wave's charter.
-  Next free ADR number (147 is a hole — do not backfill).
+- **B0 · Mint the frame ADR** ⬩F — ✅ **DONE (2026-07-07, session
+  116): ADR-150** — the held ADR (reboot §1 + the bible's structural
+  canon: 7 tiers, six-season calendar, alternation, time-skips) landed
+  in `decisions.md` as the build wave's charter.
 - **B1 · PRD §5 rewrite** ⬩F — the world/story section rebuilt from
   the bible (the bible stays the canon home; the PRD §5 becomes a
   pointer-and-summary per ADR-117 gen-region style where derivable).
@@ -128,13 +129,11 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
   regen, `docs/content/t0-story.md`), name sweeps
   (Tokubei→Yohei etc.), test-fixture rederivation from the new
   thresholds.
-- **B5 · Salvage & closure** ⬩O — archive
-  `fable-2026-07-07-story-salvage.md` once its content is fully
-  superseded (forward pointer; the reboot plan already archived
-  2026-07-07, human call — B0 cites its record at
-  `project/archive/fable-2026-07-07-story-reboot.md`); HR-8 disposition
-  (the old-beats read is moot once B3 ships — close with the human);
-  CHANGELOG entry with the release that ships the new T0.
+- **B5 · Closure** ⬩O — HR-8 closes when B3 ships (RULED, human
+  2026-07-07: it stays open until then, then closes as moot — no
+  further ask needed); CHANGELOG entry with the release that ships the
+  new T0. *(The salvage + reboot plans are already archived — human
+  calls, 2026-07-07 — with forward pointers in place.)*
 
 ## Definition of done
 

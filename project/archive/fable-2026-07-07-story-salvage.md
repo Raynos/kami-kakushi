@@ -1,9 +1,13 @@
 # Story salvage — the audit findings/fixes (+ the superseded 19 answers)
 
-**Status: 📌 PARKED (reference/input, not build work) — kept live by the
-human's call (2026-07-07):
-the AUDIT is the substance that must not be lost; the 19 ladder answers are
-mostly superseded and kept below only as the record of that pass.** This is
+**Status: 🗄️ SUPERSEDED (2026-07-07, human call — archived the same day
+the bible was blessed): the audit substance now lives in the bible
+(structural absorption), the cross-check
+(`project/brainstorms/2026-07-07-salvage-audit-vs-bible-crosscheck.md` —
+the verdict map + the B3 protect-list pointer), and the audit report
+itself (`project/audit/reports/2026-07-06-story-narrative-slop-audit.md`,
+permanent). The 19 ladder answers stay below as the record of that
+pass.** This is
 the small companion to the story reboot (now archived —
 `project/archive/fable-2026-07-07-story-reboot.md`; the ONE live story
 plan is `fable-2026-07-07-story-bible-finish.md`): everything here fed

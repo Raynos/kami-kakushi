@@ -68,6 +68,22 @@ T4's weighing-yard). Cross-check doc carries the rulings section;
 queue blurb updated. These bible edits are human-ruled locks landed
 mid-blessing — the whole-read covers them.
 
+## Addendum 3 — BIBLE DONE; ADR-150 minted; salvage archived
+
+The second question batch landed the big one: **the human had already
+read the bible whole and signed off in-session — BIBLE DONE.** Executed
+on that word: **ADR-150 minted** (the held frame ADR — reboot frame +
+the bible's structural canon as the build wave's charter) · the
+**salvage plan archived** (human call; forward pointers to the
+cross-check + the audit report; checkpoint graduated it, 3 active plans
+remain) · **HR-8 ruled** (stays open until B3 ships, then closes as
+moot — condition noted on the item; B5 trimmed to match) · bible README
+ledger → DONE · finish-plan Status → workstream B OPEN, B0 ✅ · the
+snapshot's resume block updated · queue reconciled (bible read, salvage,
+cross-check entries cleared — read/ruled/discussed). Also ruled: Otsuru's
+why stays open for T3 (staged depth honored). **Next: B1 (PRD §5
+rewrite), then B2 engine ADRs (Opus-routed, each its own plan).**
+
 ## Landmines
 
 - Journal/HR-archive entries still cite the old `docs/plans/` path for

@@ -261,7 +261,7 @@ with what the human softened, opened, demoted, or added, per point.
   but the **frame ADR is HELD**: it mints when the design finalizes and
   building starts, not at plan approval (human, 2026-07-07). The ladder
   era's substance is preserved LIVE in
-  `docs/plans/fable-2026-07-07-story-salvage.md` (the 19 answers + the
+  `fable-2026-07-07-story-salvage.md` (archived alongside; the 19 answers + the
   audit findings/fixes + protect-list), which also defines what the two
   informed pitch agents receive.
 

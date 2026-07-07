@@ -2294,3 +2294,50 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   the map, what fiction causes it) rides the story-bible game-rewrite
   workstream, not this one. HR-12 stays the taste gate for the sheets
   themselves and now includes the live substrate pick.
+
+### ADR-150 ✅ — the story-reboot frame ADR: the bible is canon, the build wave is chartered (BIBLE DONE)
+
+- **created_date:** 2026-07-07
+- **Context:** the 2026-07-07 story reboot re-derived the game's story
+  from the kernel up (frame + record:
+  `project/archive/fable-2026-07-07-story-reboot.md`; execution:
+  `docs/plans/fable-2026-07-07-story-bible-finish.md`). The human held
+  this ADR deliberately — "mint at BIBLE DONE + build start," not at
+  plan approval. That gate opened today: the human read the finished
+  bible whole and signed off in-session (s116), after the salvage/audit
+  cross-check residue was ruled and transcribed.
+- **Decision (human, 2026-07-07 — the frame, locked at reboot Phase 0):**
+  **(1) The design layer was REOPENED** — cast, arcs, tier story,
+  premise framing, PRD §5 end to end re-earned their place; nothing was
+  canon by default. **(2) Fixed ground was the KERNEL ONLY** — seven
+  points, redlined and graduated to the bible §0. **(3) Mechanics were
+  FULL CO-DESIGN** — story and mechanics derived together. **(4)
+  In-flight builds ran in parallel** — the shipped T0 keeps shipping
+  until the build wave replaces it.
+- **Decision (the structural canon the bible locks — build-cutting):**
+  **SEVEN tiers T0–T6** (tier enum 0..5 → 0..6 + save migration) · the
+  **six-season manual calendar** (Winter → New Year → Spring → Summer →
+  Bon → Autumn; season containers, exit events, the seasonal judge;
+  seasons unlock at T0-R2) · **alternating inside/outside rungs** with
+  the **T2/T3 HARD LOCK** (T4 drops the gimmick) · **time-skips at tier
+  seams** (~13 years, 1780 → 1793+) · **parallel reputation tracks**
+  (village T2, origin T3; never converting to rungs; T6 flips the
+  ladder's subject to the HOUSE, H0→H7) · **two body economies** (labour
+  never costs HP) · the **speaker-label ladder** and the **map re-label
+  reveal** as story surfaces (kernel #6) · **NO-PRESTIGE stays hard**
+  (§0.9). Each lands as its own implementation ADR/plan at B2; this ADR
+  is their charter, not their spec.
+- **Decision (the canon home):** `docs/story-bible/` is the SINGLE home
+  of story canon (kernel · prose law + constraints · house · tiers ·
+  cast · world · seven tier sheets at staged depth). The PRD §5 becomes
+  a pointer-and-summary at B1 (ADR-117 style); the built game's text is
+  rewritten to the bible at B3 (ADR-139 three-take bundles); content
+  migration at B4.
+- **Consequences:** workstream B is OPEN — B1 (PRD §5 rewrite + drift +
+  roadmap ripple), B2 (engine ADRs: tier enum, calendar, alternation,
+  body economies, night-round runner, speaker/map reveals, coin lanes —
+  each its own plan, Opus-routed), B3 (the T0 prose wave, Fable), B4
+  (content migration, Opus), B5 (HR-8 closes at B3; CHANGELOG). The
+  reboot and salvage plans are archived with forward pointers; the
+  bible alone carries the canon forward. The currently-shipped T0
+  remains the live game until B3/B4 replace its text and content.

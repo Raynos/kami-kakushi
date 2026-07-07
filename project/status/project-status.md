@@ -112,9 +112,9 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
 4. **Next** — **the STORY-BIBLE FINISH plan** (`fable-2026-07-07-story-bible-finish.md`):
-   workstream A is COMPLETE (s109) — the gate is the HUMAN reading
-   `docs/story-bible/` whole and blessing it (**BIBLE DONE**; cast-portrait
-   review rides that read). Then workstream B opens: B0 frame ADR → B1 PRD §5
-   rewrite → B2 engine ADRs (⬩Opus) → B3 T0 prose wave → B4 migration (⬩Opus)
-   → B5 closure. UI-v2 picks stay human-gated.
+   **BIBLE DONE (s116 — the human signed off the whole read) and the frame
+   ADR is MINTED (ADR-150)**. Workstream B is OPEN and B1 is the next step:
+   B1 PRD §5 rewrite → B2 engine ADRs (⬩Opus) → B3 T0 prose wave → B4
+   migration (⬩Opus) → B5 closure (HR-8 closes at B3). The reboot + salvage
+   plans are archived. UI-v2 picks stay human-gated.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.

@@ -240,6 +240,11 @@ stage/coin/rooms data:
 
 ### HR-8 🔲 — Rung-up cast + R0→R7 story beats — read & sign off (FB-97/FB-103, ADR-110)
 
+> **Closing condition RULED (human, 2026-07-07):** stays open until the
+> B3 prose wave ships the new T0 text (ADR-150 build wave), then closes
+> as moot — no further ask needed. The slop audit's §2/§4 stand as the
+> deep read of the text this item covers.
+
 Rung promotions are now **player-triggered VN story beats** (ADR-110) — each
 narratively motivates the unlocks it grants. The **cast** (three invented faces:
 pedlar Tokubei, Rokusuke, smith Tōzō) and the **R0→R7 beat script** are drafted

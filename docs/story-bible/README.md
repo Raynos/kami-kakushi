@@ -67,10 +67,12 @@ contradictions found — and the review's seven open questions were
 walked and ruled (Naoyuki declines the chair · the MC tells Shinnosuke
 · the jizō = O-Ume at T3 · the ambiguity budget reserved for T6 · Toku
 lives to see it · the T2 collision beat authored · **THE FALL authored
-whole** in `02-house.md`). **Awaiting ONLY the human's whole-read
-blessing → BIBLE DONE** (plus the remaining cast-portrait review,
-resumable inside that read). Planned in
-`docs/plans/fable-2026-07-07-story-bible-finish.md`.
+whole** in `02-house.md`). The salvage/audit cross-check residue was
+ruled and transcribed 2026-07-07 (law §0.5.7 · Kihei's "…"-react ·
+the D5 per-tier wants · the B3 salvage banks). **BIBLE DONE — the
+human read it whole and signed off (2026-07-07, in-session).** The
+frame ADR is **ADR-150**; workstream B (the docs-and-game ripple) is
+OPEN — planned in `docs/plans/fable-2026-07-07-story-bible-finish.md`.
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·
 T2–T3 in half detail · T4 in quarter · T5 in fifth · T6 in tenth.

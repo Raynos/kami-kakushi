@@ -1,7 +1,8 @@
 # Salvage/audit vs the new bible — the cross-check (2026-07-07)
 
 **What this is:** a fresh-eyes reconciliation of the story-salvage plan
-(`docs/plans/fable-2026-07-07-story-salvage.md`) and the slop audit
+(`project/archive/fable-2026-07-07-story-salvage.md`; archived
+2026-07-07 after this cross-check absorbed it) and the slop audit
 (`project/audit/reports/2026-07-06-story-narrative-slop-audit.md`)
 against the finished story bible (`docs/story-bible/`), asked by the
 human before the whole-read. Verdict first, residue second.

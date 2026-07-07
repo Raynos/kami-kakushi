@@ -4,7 +4,7 @@
 `fable-2026-07-07-story-reboot.md` (archived alongside, 2026-07-07 — the
 frame + redline record; the live story plan is now
 `docs/plans/fable-2026-07-07-story-bible-finish.md`) +
-`docs/plans/fable-2026-07-07-story-salvage.md` (the live condensation of
+`fable-2026-07-07-story-salvage.md` (archived alongside 2026-07-07; the condensation of
 the audit findings/fixes and this plan's §1 answers).** Walking this plan,
 the human reopened the DESIGN layer (this plan was sized for a surface-only
 rewrite): its process decisions carry into the reboot plan, its design
