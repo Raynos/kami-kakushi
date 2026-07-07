@@ -1,7 +1,12 @@
 # Requirements-based rung progression (FB-121) — implementation plan
 
-**Status:** 📐 LOCKED (design locked in the human grill, 2026-07-05) — build
-not started.
+**Status:** 🔨 IN-PROGRESS (Fable session, started 2026-07-07) — design locked
+2026-07-05.
+**Build decisions (human, 2026-07-07):** flavor lines diverge as **per-rung
+bundles** (8 bundles, 3 blind takes each, ADR-139); build **now, independent**
+of the pending story-quality-ladder plan; Phase-2 sign-off is **async**
+(reading-queue the t0-story section, keep building); **all phases in this
+Fable session**.
 **ADR:** ADR-137. **Source:** playtest capture FB-121 + the grilled brainstorm
 [`project/brainstorms/2026-07-05-requirements-based-rung-progression.md`](../../project/brainstorms/2026-07-05-requirements-based-rung-progression.md).
 
