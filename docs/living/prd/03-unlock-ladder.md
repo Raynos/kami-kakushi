@@ -228,7 +228,7 @@ RS-style grind. **That range is the point** (options need not be equal).
 **⏳ The T0 capstone is DESIGNED but DEFERRED** — its side quests are **T1
 content** (R8→R15), and T1 isn't built yet, so the build waits (the R7 *choice*
 already ships; only its T1 consequences wait). Full build-ready spec:
-[`capstone-t0-branch.md`](../../plans/opus-2026-07-03-t1-capstone-branch.md). **ADR: ADR-125.**
+[`capstone-t0-branch.md`](../../plans/t1/opus-2026-07-03-t1-capstone-branch.md). **ADR: ADR-125.**
 
 ---
 

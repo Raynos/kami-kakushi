@@ -158,6 +158,45 @@ function unArchivedDonePlans(): string[] {
   return planFiles().filter((f) => parseStatusToken(read(`${PLANS_DIR}/${f}`))?.archivable);
 }
 
+// --- stale BACKLOG plan-pointer guard (human, 2026-07-07) ---------------------
+// project/BACKLOG.md holds parked *notes*, not pointers to plans — a parked PLAN
+// lives as a real doc in docs/plans/ (a deferred-tier plan in docs/plans/<tier>/,
+// PARKED). A `docs/plans/…` reference in BACKLOG rots the moment that plan
+// archives out of docs/plans/ (it happened twice — the T0 economy + rung-
+// progression pointers outlived their archived plans). This guard RED-flags any
+// such reference whose target file no longer exists under docs/plans/. A live
+// cross-reference (target present) is fine. Sound rung: a backticked path either
+// resolves on disk or it doesn't — no wolf-crying.
+const BACKLOG = 'project/BACKLOG.md';
+
+/** Every `docs/plans/….md` path referenced in `text` (markdown link, inline-code,
+ *  or bare) — deduped, in source order. Pure. */
+export function extractPlanRefs(text: string): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  const re = /docs\/plans\/[A-Za-z0-9._/-]+\.md/g;
+  for (let m = re.exec(text); m !== null; m = re.exec(text)) {
+    if (!seen.has(m[0])) {
+      seen.add(m[0]);
+      out.push(m[0]);
+    }
+  }
+  return out;
+}
+
+/** Of the plan paths referenced in `backlogText`, those whose file is ABSENT
+ *  (archived / moved / deleted) — the stale pointers BACKLOG must not keep.
+ *  Pure: `exists` (repo-relative → bool) is injected so it is RED-able. */
+export function stalePlanRefs(backlogText: string, exists: (rel: string) => boolean): string[] {
+  return extractPlanRefs(backlogText).filter((p) => !exists(p));
+}
+
+/** Wrapper over the real filesystem: the stale `docs/plans/…` refs in BACKLOG. */
+function staleBacklogRefs(): string[] {
+  if (!existsSync(abs(BACKLOG))) return [];
+  return stalePlanRefs(read(BACKLOG), (rel) => existsSync(abs(rel)));
+}
+
 // --- auto-archive done plans (§2.3–2.4) ---------------------------------------
 // A plan whose token is DONE/SUPERSEDED graduates OUT of docs/plans/. We move the
 // file, recompute every intra-repo markdown link that pointed at it, and rewrite
@@ -441,7 +480,9 @@ function runCli(): void {
       const { before, after } = regenerateFile(f);
       return before !== after;
     });
-    if (bad.length || stale.length) {
+    // 3) stale BACKLOG plan-pointers — a docs/plans/… ref whose target archived
+    const staleRefs = staleBacklogRefs();
+    if (bad.length || stale.length || staleRefs.length) {
       if (bad.length) {
         console.error('  X checkpoint --check FAILED: plan status token(s) outside the closed set');
         console.error(`    (${CLOSED_TOKENS.join(' · ')}):`);
@@ -451,6 +492,12 @@ function runCli(): void {
         console.error('  X checkpoint --check FAILED: generated region(s) are stale:');
         for (const f of stale) console.error(`      ${f}`);
         console.error('    Run `pnpm run checkpoint` to regenerate, then stage the files.');
+      }
+      if (staleRefs.length) {
+        console.error(`  X checkpoint --check FAILED: ${BACKLOG} references plan(s) no longer`);
+        console.error('    in docs/plans/ (archived / moved) — a stale pointer, remove the line:');
+        for (const p of staleRefs) console.error(`      ${p}`);
+        console.error(`    BACKLOG holds parked NOTES, not plan-pointers (see its header).`);
       }
       process.exit(1);
     }
@@ -510,6 +557,10 @@ function runCli(): void {
     console.log(
       `  !! flagged: non-closed status token in ${b.file}: ${b.token ?? '(no **Status: line)'}`,
     );
+
+  // Flagged: stale BACKLOG plan-pointers (the RED gate is --check; here a WARN).
+  for (const p of staleBacklogRefs())
+    console.log(`  !! flagged: ${BACKLOG} points at archived/moved plan: ${p} (remove the line)`);
 
   // Newest journal — a bare run just names it (no scaffolding). Same picker the
   // resume-journal region uses, so the printout and the spliced pointer agree.

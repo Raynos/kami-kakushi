@@ -10,6 +10,8 @@ import {
   newestJournalName,
   slugify,
   fillJournalSkeleton,
+  extractPlanRefs,
+  stalePlanRefs,
 } from './checkpoint';
 
 // Proves the plan-status-token parser (F1a Phase 1). The RED-able risk it guards:
@@ -238,5 +240,48 @@ describe('fillJournalSkeleton', () => {
     expect(out).not.toContain('Session NN');
     expect(out).not.toContain('SHAPE B'); // shape B is excluded
     expect(out.endsWith('\n')).toBe(true);
+  });
+});
+
+// Proves the stale-BACKLOG-plan-pointer guard (human, 2026-07-07). The RED-able
+// risk: BACKLOG keeps a `docs/plans/…` pointer after its plan archives out of
+// docs/plans/ (the T0 economy + rung-progression drift). Each case below goes RED
+// if extraction misses a path form, or the filter stops honoring the exists() map.
+describe('extractPlanRefs', () => {
+  it('pulls every docs/plans/ path form (link, inline-code, bare), deduped', () => {
+    const text = [
+      'see [`cap`](docs/plans/t1/opus-2026-07-03-t1-capstone-branch.md) and',
+      '`docs/plans/opus-2026-07-04-phase2-economy-redesign.md` plus a bare',
+      'docs/plans/fable-2026-07-05-requirements-rung-progression.md — and again',
+      '`docs/plans/t1/opus-2026-07-03-t1-capstone-branch.md` (dup, dropped).',
+    ].join('\n');
+    expect(extractPlanRefs(text)).toEqual([
+      'docs/plans/t1/opus-2026-07-03-t1-capstone-branch.md',
+      'docs/plans/opus-2026-07-04-phase2-economy-redesign.md',
+      'docs/plans/fable-2026-07-05-requirements-rung-progression.md',
+    ]);
+  });
+
+  it('returns nothing when no plan path is referenced', () => {
+    expect(extractPlanRefs('a parked note about the T2 inn board, no plans.')).toEqual([]);
+  });
+});
+
+describe('stalePlanRefs', () => {
+  const backlog = [
+    '`docs/plans/t1/opus-2026-07-07-emergent-node-extensions.md` (live cross-ref)',
+    '`docs/plans/opus-2026-07-04-phase2-economy-redesign.md` (archived — stale)',
+  ].join('\n');
+  const exists = (rel: string) =>
+    rel === 'docs/plans/t1/opus-2026-07-07-emergent-node-extensions.md'; // only the live one
+
+  it('flags a ref whose target is gone, spares a live cross-ref', () => {
+    expect(stalePlanRefs(backlog, exists)).toEqual([
+      'docs/plans/opus-2026-07-04-phase2-economy-redesign.md',
+    ]);
+  });
+
+  it('is clean when every referenced plan still exists', () => {
+    expect(stalePlanRefs(backlog, () => true)).toEqual([]);
   });
 });
