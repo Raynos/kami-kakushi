@@ -32,6 +32,11 @@ house rungs — they never convert 1:1. In **T6 the ladder's subject
 changes: the rungs become the HOUSE'S Edo standing (H0→H7)**, not the
 man's — kernel #4 completed in mechanics.
 
+**The MC carries one small concrete want per tier** *(D5 relocked
+2026-07-07, the salvage cross-check)* — small enough to sit under the
+plot, concrete enough to stage; named beside each tier's theme below.
+T0–T3 are named; T4–T6 name theirs at their design sittings.
+
 **The setting under all of it** (see [`02-house.md`](02-house.md) THE
 RUIN, and [`05-world.md`](05-world.md) the estate anatomy): through
 T0–T1 everything called "the main house" is the grand GUEST HOUSE of
@@ -54,7 +59,8 @@ The ruined true compound looms at the map's edge — visible, locked,
 unexplained.
 
 *Theme: from weather to tool — the house learns his hands, not his
-face.* The tier keeps its variety: the wolf, Kihei's drill yard,
+face.* *Want: to eat at the board, not the threshold — the tier ends
+with him at its edge, half-paid.* The tier keeps its variety: the wolf, Kihei's drill yard,
 forage and crafting-lite, and the market COMES TO HIM (Yohei's
 pedlar at the gate; no town access). Beats carried: the cold-open
 speaker flip (`You:` → `Nameless:`, witnessed) · the wolf
@@ -97,7 +103,8 @@ brought back — Munemasa's only scene. The dying lord writes him into
 the house register as his LAST ENTRY; three lines up, unstruck, no
 death date: Katsuhide. The lord dies at the seam. *Theme: from tool to
 man of the house — literally: the house lets him in one wing at a
-time.* *Skip ~2 years.*
+time.* *Want: a door of his own — the R6 room-offered DECIDE stages
+it, and wanting it survives either answer.* *Skip ~2 years.*
 
 **Rungs:** R0 **The field-hand** (the crews) · R1 **The terrace-hand**
 (the paddies his) · R2 **The woodcutter** (the lot; the charcoal
@@ -133,7 +140,9 @@ waking, and the village rumors it — "that yard was a town once."
 
 It ends at the yard-officer: daily operations his, the regency leaning
 on him in fact but not yet in title. *Theme: carrying a diminished
-name in public while the house grows bones again.* Main-quest work
+name in public while the house grows bones again.* *Want: to be
+greeted at the well by his own name — not "the Kurosawa man," not
+"Tama."* Main-quest work
 runs in BOTH arenas — the village's troubles (the bandit camp made
 playable) and the estate's expansion — under the hard-lock
 alternation: inside rungs shut the valley out; outside rungs shut the
@@ -181,8 +190,9 @@ It ends at the house's factor — a HOUSE office, the outward-facing
 charge — while inside, the ruin's wings and inner domain open (the
 steward's office migrates to the East hall; the sealed storerooms of
 the inner domain come within reach: the BURIED TRUTH). *Theme: where
-nobody knows the house, he IS the house.* Hard-lock alternation, as
-T2.
+nobody knows the house, he IS the house.* *Want: to stand at the
+holding's gate — the knock, and its when, stay the player's.*
+Hard-lock alternation, as T2.
 
 **Rungs:** R0 **The road-guard** *(outside)* · R1 **The house's
 quartermaster** *(inside — provisions and gear for the expeditions)* ·

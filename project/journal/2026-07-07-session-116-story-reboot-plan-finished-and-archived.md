@@ -55,6 +55,19 @@ died with the old spine, weighing-yard noted as the T4 re-entry ·
 license moved knowingly). No bible edits made — canon is human-locked
 and mid-blessing.
 
+## Addendum 2 — the residue ruled and transcribed
+
+The human walked the cross-check residue via AskUserQuestion (all four
+recommendations locked): prose law gains **§0.5 rule 7** (a decide is
+never a morality dial) · **Kihei owns the "…"-react** (cast entry +
+sharp-shapes ration) · **D5 relocked** — the want rule in
+`03-tiers.md` + want lines for T0–T3 (board/door/name-at-the-well/
+holding's-gate), T4–T6 at their sittings · **B3 salvage baked**
+(Munemasa's two lines banked in his cast entry; kyō-masu banked at
+T4's weighing-yard). Cross-check doc carries the rulings section;
+queue blurb updated. These bible edits are human-ruled locks landed
+mid-blessing — the whole-read covers them.
+
 ## Landmines
 
 - Journal/HR-archive entries still cite the old `docs/plans/` path for

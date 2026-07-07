@@ -71,7 +71,8 @@
   reads TRUE from T0.
 - **Sharp shapes are rationed.** A signature way of talking is
   reserved for the few it makes MORE real: Genemon (item, count,
-  condition) · Kihei (imperative → verdict) · Toku (everything dated) ·
+  condition) · Kihei (imperative → verdict; the "…"-react his) · Toku
+  (everything dated) ·
   Katsuhide (the completed tense) · Sayo (declared certainty) · the
   mother (a boy's present tense) · Munemasa (the failing maxims).
   Everyone else sounds like where they're from and what they do — a
@@ -108,7 +109,9 @@ without changing substance.)*
   means is **one student who outlives him**. He reads the MC's scars
   and flinch as a man who once failed to fight, and trains him the way
   you train a coward you like — without ever saying the word. He talks
-  in orders and verdicts, gear-nouns between them, and holds one of
+  in orders and verdicts, gear-nouns between them; the ellipsis-react —
+  the held beat of reappraisal before a verdict (*"…Good."*) — is his
+  ALONE (§0.5.2's one-owner law, assigned 2026-07-07). He holds one of
   the game's two epigram licenses, spent rarely and only on the drill
   ground; the creed is its charter: *"Talent is a story the lucky
   tell. You are not lucky. So you will work."* He sets the grain-watch
@@ -192,8 +195,12 @@ without changing substance.)*
   fail upward — he reaches for the sententious and can't land it,
   which is the house in one voice. His one scene is T1's capstone in
   the restored shoin: the register, his last entry, three lines
-  unstruck above it; he dies at the seam. *Nodes:* through a wall
-  (T0); the Shoin (T1).
+  unstruck above it; he dies at the seam. *B3 salvage (banked
+  2026-07-07):* two built lines survive the rewrite on merit, already
+  in his register — *"Whether it was wisdom or only habit, I have
+  never decided"* · *"I'll not pretend it pleases me less than the
+  safe answer would have"* — candidates for the shoin scene. *Nodes:*
+  through a wall (T0); the Shoin (T1).
 - **Katsuhide** — the elder son, THE WOUND
   ([`02-house.md`](02-house.md)); self-vanished ~1770, alive as a
   **temple registrar** in the castle town — the man who erased his own

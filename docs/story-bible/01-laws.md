@@ -50,6 +50,14 @@ the design.
    quests play in the VN UI**. Ceremony stays expensive by craft, not
    by quota — the log keeps the world alive between scenes.
 
+7. **A decide is never a morality dial** *(locked 2026-07-07, the
+   salvage cross-check)*. Choice menus never grade one
+   dutiful→selfish axis with warmth as the standing reward — that is
+   the pattern a player cracks by the second scene and stops feeling.
+   Consequences arrive from an unexpected quarter (the smith answers
+   instead of the steward); different people read the same choice
+   differently; the warmest answer is not always the rewarded one.
+
 **Craft rule — echo is a choice.** Deliberate repetition goes through
 the `@`-reuse mechanism and means something; accidental
 near-duplication is a defect; a recurring motif (the dream) escalates

@@ -80,6 +80,26 @@ absent by grep, not just by read.
    Sōan; the bible ruled Munemasa + Kihei) — recorded here so the
    change reads as a decision, not drift. No action.
 
+## Rulings (2026-07-07, in-session — all four asked and locked)
+
+The human walked the residue via AskUserQuestion the same day:
+
+1. **Anti-thermometer rule → prose law §0.5 rule 7** (transcribed).
+2. **The "…"-react → Kihei owns it** (cast entry + the sharp-shapes
+   ration, transcribed).
+3. **D5 → re-added, one line per tier**: the rule in `03-tiers.md`'s
+   structure block; wants named for T0 (eat at the board, not the
+   threshold) · T1 (a door of his own) · T2 (greeted at the well by
+   his own name) · T3 (to stand at the holding's gate). T4–T6 name
+   theirs at their design sittings.
+4. **B3 salvage baked now**: Munemasa's two lines banked in his cast
+   entry for the shoin scene; the kyō-masu motif banked at T4's
+   weighing-yard bullet. Item 6 (Sōan's license move) stands recorded;
+   no action, as proposed.
+
+The residue is CLOSED; what this doc still carries for the whole-read
+is the verdict map (what absorbed where).
+
 ## Disposition
 
 The salvage plan's job (don't lose the audit) is DONE by the bible for
