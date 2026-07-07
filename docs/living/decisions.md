@@ -2161,3 +2161,33 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   identity-neutral); PRD re-pointed; `prd:drift` + `doc-budgets` green. The open variant picks
   (HR-2/5/6/7/9) + the M6 strip are the migration's only remaining human gates; a `/prd-compress` sweep
   stays a separate, human-signed event. Per **ADR-022**, governs.
+
+### ADR-145 ✅ — T0 Phase-2 economy: the A+B hybrid loop at literal 1:1 (executes ADR-133's queued redesign)
+- **created_date:** 2026-07-07
+- **Context:** ADR-133 locked the Phase-2 ≈ Phase-1 wall-time *law* (`PHASE2_PHASE1_RATIO_BAND`,
+  a hard `verify:balance` gate) and shipped a stopgap that greens the gate by stretching
+  `ESTATE_DEED_PER_ACT` — 1:1 in *duration* but a single-intent slog in *texture* (its "Known
+  debt (PH5)"). The real redesign plan (`opus-2026-07-04-phase2-economy-redesign.md`, now
+  building) put three loop options + three scope questions to the human.
+- **Options:** A (many earners) · B (staged build) · C (allocation layer) · the A+B hybrid;
+  literal 1:1 vs a rebalanced shorter T0; rice lever in vs ambient; all-labour vs
+  estate-relevant deed gating.
+- **Decision (human, 2026-07-07, via AskUserQuestion):** **(1) The A+B hybrid** — multiple
+  Estate deed sources (shinden / workshop / granary / watch) driving a visible staged E0→E1
+  build whose stages fire authored beats, seasonal judge as the payout rhythm. **(2) Literal
+  1:1** — Phase 1 stays ~83 min; Phase 2 is built to match (T0 total ~2.8 h; tunable in
+  playtest per ADR-059). **(3) The store-vs-sell rice timing lever folds in** as an explicit
+  Phase-2 decision. **(4) Estate-relevant work only banks deeds** (farm/haul yes,
+  forage/woodcut no — TST3, the fiction causes the accrual; resolves the `pillars.ts` L40
+  deferred call at T0).
+- **Why:** A+B is the strongest fun-and-canon answer — variety (A) feeding a visible build
+  (B) delivers the PRD's promised "E1 Stabilising completes as a Phase-2 beat" (§3.2/§3.3)
+  while reusing the existing `accrueDeed`/`ESTATE_STAGES` engine; Option C's management-sim
+  canon risk is avoided while its best idea (the rice lever) is adopted. Estate-relevant
+  gating keeps every deed source a story the R2–R6 rungs already taught.
+- **Consequences:** The stopgap's inflated single-source magnitude is superseded (its
+  breadcrumb comment marks the swap); the ratio-band gate + plumbing are KEPT and stay green
+  at every commit. Phase-2 magnitudes re-derived in the plan's Phase 3 (ADR-132 flow).
+  The loop is the template every later tier's Phase-2 economy builds against (ADR-133
+  generalises). Build routing: the human switched the building session to Fable 5
+  (2026-07-07), superseding the plan's Opus-for-core proposal. Per **ADR-022**, governs.

@@ -1,6 +1,22 @@
 # T0 Phase-2 economy redesign — make the back half EARN its ~1:1
 
-**Status:** 📋 PROPOSED — awaiting sign-off (design divergence; human picks the loop)
+**Status:** 📐 LOCKED (human design-lock, 2026-07-07) — Phase 0 done, building.
+All four open questions answered by the human via AskUserQuestion this session:
+
+- **Q2 · Loop = the A+B hybrid** — multiple deed earners (A) driving the visible
+  staged E0→E1 build (B), seasonal judge as the payout rhythm (§2's recommended
+  shape, human-confirmed).
+- **Q1 · Literal 1:1** — Phase 1 stays as-is (~83 min); Phase 2 is built to
+  match it. T0 total lands ~2.8 h ("a better random ass default", tunable in
+  playtest — the magnitude target for Phase 3).
+- **Q3 · Rice lever folded in** — the store-vs-sell seasonal timing lever
+  (already built) becomes an explicit Phase-2 decision surface.
+- **Q4 · Estate-relevant deeds only** — farm/haul-class work banks Estate deeds;
+  forage/woodcut does not (TST3 — the fiction causes the accrual).
+
+Routing note: the human switched the building session to **Fable 5**
+(2026-07-07, `/model fable`) — the "Opus for the core" proposal below is
+superseded by that explicit steer.
 
 > **What this is.** The REAL Phase-2 redesign that ADR-133 queued as the follow-on
 > to the quick threshold hotfix. ADR-133 locked the *law* (Phase 2 ≈ Phase 1 in
