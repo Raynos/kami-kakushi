@@ -34,16 +34,7 @@ _(none open)_
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
 
-- [ ] `docs/plans/fable-2026-07-07-story-reboot.md` — the **story reboot
-  plan** (supersedes the story-quality ladder): walked through and approved
-  section by section in-session 2026-07-07; frame ADR HELD until the design
-  finalizes, per your call. Queued for re-read/reference — the live
-  artifact as Phase 1 (pillars co-write) proceeds in-chat.
 - [ ] `docs/plans/fable-2026-07-07-story-salvage.md` — the **story salvage
   doc**: the slop-audit findings/fixes condensed live (THE substance you
   asked not to lose) + the mostly-superseded 19 ladder answers as record;
   defines what the reboot's informed pitch agents receive.
-- [ ] `project/brainstorms/2026-07-07-story-pitches/BUNDLE.md` — the
-  **5-pitch story bundle** (HR-15): the reboot's Phase-2 macro diverge —
-  read the bundle, then the five pitches; your pick/blend opens Phase 3
-  (the bible co-write).
