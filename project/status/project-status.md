@@ -43,7 +43,9 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
   reveal + E1 "estate stands" beats · build-tracker diverge (HR-11) · textured
   sim loop + report-only texture metrics · retuned in-band (ratio 0.93–0.94,
   15/15; deed base 0.04→0.05) · PRD ripple + `t0-deed-sources` gen-region.
-  Plan archived. **FB-121 requirements rungs** landed in parallel (s101).
+  Plan archived. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137, s101):** the points
+  meter is DEAD — authored hidden lists per rung, %-bar, ADR-139-locked flavor
+  (HR-12/HR-13 ✅). RESIDUE: R4+ predator kills parked (combat-curve retune).
 
 ## Waiting on the human
 
@@ -110,10 +112,8 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next autonomous work** — UI-v2 is DONE+certified (s98); what remains on it
-   is human picks (above) then the strips. Startable without the human:
-   **requirements rung progression** (ADR-137, human phase-confirm pending).
-   **Story-quality plan** (`fable-2026-07-06-story-quality-ladder.md`): 19
+4. **Next autonomous work** — UI-v2 DONE+certified (s98; human picks remain),
+   FB-121 DONE+signed (s101). **Story-quality plan** (`fable-2026-07-06-story-quality-ladder.md`): 19
    answers in, HUMAN-GATED — approval → ADR → bible co-write. Phase-2 economy =
    human-parked (`BACKLOG.md`). Balance liquid (ADR-059) — changes run ADR-132
    (the 24× calendar did, Δ0.0). A co-agent owns the verify-budget trim.

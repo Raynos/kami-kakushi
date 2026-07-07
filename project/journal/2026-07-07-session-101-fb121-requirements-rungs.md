@@ -129,14 +129,39 @@ story introduction) disqualified per line. Picks transcribed to canon
 `project/human-in-the-loop/fb121-flavor-takes.md` (**HR-13** — incl. the
 flagged live-swap deviation).
 
+## 6 · Live review session — HR-12/HR-13 closed + the DEV review surface hardened
+
+The human reviewed live in-session. Outcomes, in order:
+
+- **HR-12 CLOSED** (signed as-is; flavor stays Story/narration — the P16 call).
+- **R0 experience gap → STAGED MILESTONES** (human spec: rake 100/200/500):
+  same-token count reqs complete cumulatively; all long stretches staged; 8
+  early-stage lines authored in the picked registers (7b1d850).
+- **≥3 requirements per rung, HARD** — gen-narrative validator ERRORS +
+  registry test + a could-go-RED validator test (same commit).
+- **t0-story signed** (read = sign-off) → reading queue cleared.
+- **Review-surface rules (feedback, memorised):** no ad-hoc files in
+  `project/human-in-the-loop/` (queue only — the stray bundle doc deleted);
+  ALL narrative diverges review LIVE in the DEV menu (doc-only is not a
+  review) — takes/README + narrative-diverge SKILL + AGENTS.md now say so.
+- **The wiring built** (0952280 → 55ba8bf): req-flavor takes swap through a
+  CORE overlay (`__setRequirementFlavorOverride`, the balance-lever pattern —
+  future emissions only, T2); ONE explore page per diverge (openStoryReader
+  takes a single bundle); per-unit override pills moved onto the explore page;
+  canon pill labeled via new `canon:` bundle meta; the FB-121 page groups
+  per-rung in registry order with canon-only rows shown.
+- **HR-13 CLOSED** — canon locked as picked; the fb121-req-flavor bundle dir
+  pruned per the takes contract (b183e73).
+
 ## Next intended steps
 
-1. ~~Phases 1–7~~ ALL DONE (plan archived ✅); the flavor diverge DONE (HR-13).
-2. Push `origin/main` when the shared tree goes green (a background watch is
-   armed; co-agents' WIP has been red repeatedly — capture.ts, session-102).
-3. Human queue: HR-12 + HR-13, the t0-story requirement-lists sign-off, and
-   the parked R4+ predator-kill requirements (need a combat-curve retune —
+1. FB-121 is FULLY CLOSED: build ✅ · HR-12 ✅ · HR-13 ✅ · t0-story signed ✅ ·
+   pushed ✅. Nothing in-flight.
+2. The one FB-121 residue: the parked R4+ predator-kill requirements — they
+   return when the combat curve is retuned (wolf ≈0.2% in-loop, bandit 0%;
    candidate for its own plan).
+3. Elsewhere: the story-quality-ladder plan awaits the human's read; HR-1/2/
+   5/6/7/8/9/11 remain open in the queue.
 
 ## Landmines
 
