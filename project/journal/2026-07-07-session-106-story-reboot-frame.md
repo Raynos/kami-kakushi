@@ -58,3 +58,25 @@ explanation are worse.
    full canonical statements as we go).
 2. Steps 2–4 — fiction pillars, mechanics-feel pillars, constraints sheet.
 3. Phase 2 — the 5-pitch mixed fleet (needs pillars locked first).
+
+## Addendum — Phase 1 step 1 complete (same sitting)
+
+The kernel redline ran point by point (info-turn → "ask" → box, per the
+CLI-render workaround now in agent memory). Final kernel — SEVEN points,
+full statements written for the first time (reboot plan §4):
+
+1. Lie of the vanishing — teeth softened (mundane truths MAY out-cruel
+   the myth, not MUST).
+2. Nobody twice unnamed — locked as drafted (arc + mystery + craft rule).
+3. Worth written by work — anti-flattery clause softened (praise scarce
+   and earned, no literal ledger-trail required).
+4. House before the man — the OPEN version (man-vs-House may be staged;
+   the answer honors the House).
+5. Partial justice — locked as drafted (incl. the full-truth contract).
+6. Form is the fiction — enforcement softened to a strong norm.
+7. The world is nobody's mirror — NEW at the closing check: the
+   anti-fairness-machine law as positive ground.
+
+"Woodblock restraint" was DEMOTED (stale — predates UI-v2/Andon Steel,
+ADR-127/144); its redrawn register-wide form is parked as a step-2
+fiction-pillar candidate. Next: step 2, fiction pillars.
