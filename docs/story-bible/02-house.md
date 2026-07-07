@@ -7,7 +7,9 @@
 ## Four generations under one roof
 
 - **Toku** — the dowager, the lord's mother. Knows the vanished heir
-  LIVES (since the second year) and can never say so. Pays **the
+  LIVES (since the second year) and can never say so. **She lives to
+  see him found (locked 2026-07-07):** the packet's decade is answered
+  to her face at T4; she may die at the seam, at peace. Pays **the
   packet**: silver upstream to a temple at the new moon, anonymous alms
   the temple forwards to a wandering lay brother — a grandmother
   feeding a grandson she must pretend the mountain took. The packet's
@@ -24,7 +26,12 @@
   **Shinnosuke** — his son, ~12 at T0, who wants his father to have
   been TAKEN, because taken is kinder than left.
 - **Naoyuki** — the second son, heir by subtraction; his whole life a
-  provisional entry. Ally of the MC eventually — never warm.
+  provisional entry. Ally of the MC eventually — never warm. **When
+  the renunciation finally clears the line (T4), the chair is offered
+  at last — and he DECLINES it (locked 2026-07-07):** he will not be
+  the settled-for lord. The refusal is his one proud scene; he stays
+  regent until Shinnosuke is ready, and "never lord" becomes his
+  choice, not his wound.
 
 ## The succession knot (the spine's engine)
 
@@ -34,7 +41,10 @@ nor renounced. Declaring Katsuhide dead closes the lie forever
 as steward-REGENT, never lord. The mystery and the succession are the
 same object: **until the truth is found and WRITTEN, the house cannot
 complete itself** (kernel #4 — the enemy attacks the House through its
-own register).
+own register). **How it resolves (locked 2026-07-07):** Katsuhide
+strikes his own line (T4) → Naoyuki, offered the cleared chair,
+declines it and holds the regency → **Shinnosuke** is the named heir
+(genpuku at the T4/T5 seam) and lord by T6.
 
 ## The two wounds, the two payments
 

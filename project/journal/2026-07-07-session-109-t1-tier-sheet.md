@@ -307,9 +307,34 @@ with the human one piece per exchange.
   **Workstream A is COMPLETE — the bible awaits the human's
   whole-read blessing → BIBLE DONE.**
 
+- **THE BIBLE-REVIEW Q&A — seven open questions walked** (the human
+  asked for highlights + open decisions; two AskUserQuestion rounds):
+  - **Naoyuki DECLINES the cleared chair** (his one proud scene; regent
+    till Shinnosuke is ready — "never lord" becomes his choice).
+  - **The MC tells Shinnosuke the truth about his father** (T5, the
+    mirror's payoff — the hardest kindness in the game).
+  - **The fall's buried story: author NOW in one sitting** (drafted
+    next — the one big unwritten load-bearing piece).
+  - **The jizō resolves T3 and it is O-UME** (a decade of grief for
+    her drowned husband; the oldest mystery closes warm).
+  - **The ambiguity budget is RESERVED for the T6 ending** (policy —
+    unspent by choice now, not drift).
+  - **Toku LIVES to see Katsuhide found** (the packet's decade
+    answered to her face; may die at the seam, at peace). O-Hisa's
+    ending noted at T4 too.
+  - **The T2 collision beat AUTHORED** (the killed man's burial at
+    Ekai's temple — a true entry in the book of false takings; the
+    village's two stories about the MC meet aloud; Sayo's certainty
+    deepens rather than breaks).
+  All transcribed into 02-house · 03-tiers · 04-cast · t0 · t2 · t3 ·
+  t4 · t5 · t6.
+
 ## Next intended steps
 
-- **The human reads the bible whole and blesses it → BIBLE DONE**
+- **Draft the FALL design cell** (Q3's "author now") — present in
+  chat for redline/ask; it must pay the three signs + Tomita's
+  engineering + the grandfather's guilt in one story.
+- Then: **the human reads the bible whole and blesses it → BIBLE DONE**
   (the remaining cast-portrait review rides that read; redlines
   welcome any time).
 - At BIBLE DONE, workstream B opens: B0 frame ADR · B1 PRD §5

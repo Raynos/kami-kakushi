@@ -212,7 +212,8 @@ wounds (the famine-year arrears that priced Katsuhide's arithmetic;
 the flood-works skim the buried truth names) — now moving to swallow
 the region the house anchors. Mid-saga (≈R3–R4) Katsuhide is FOUND at
 the temple quarter and RENOUNCES IN WRITING; the house, whole at last,
-names its new heir. Then the campaign turns: open contest — and it
+names its new heir — **Shinnosuke** (Naoyuki, offered the cleared
+chair, declines it — [`tiers/t4.md`](tiers/t4.md)). Then the campaign turns: open contest — and it
 ends with the house TAKING the castle town, the enemy's machine
 broken, the town's charge in the house's hands.
 

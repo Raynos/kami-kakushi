@@ -142,8 +142,10 @@ without changing substance.)*
   because the present is a held breath. Once, privately, she permits
   herself the superstition she publicly performs: perhaps the river
   gave the house a man back, in trade for the one the mountain took.
-  *Nodes:* the shrine-alcove corridor; her room (T1); the new-moon
-  walk.
+  **She lives to see him found (locked):** the packet's decade is
+  answered to her face at T4 — the grandmother who fed a vanished
+  grandson learns the alms arrived, all those years. *Nodes:* the
+  shrine-alcove corridor; her room (T1); the new-moon walk.
 - **O-Hisa** — Katsuhide's wife, the widow-who-isn't: ten years
   married to an unstruck line. What she wants is an ending — *either*
   one — some way to stop waiting that doesn't betray the waiting. She
@@ -161,7 +163,10 @@ without changing substance.)*
   from the wall; sneaks the bamboo grove; asks the crest question
   nobody answers. He takes the MC for a natural ally — the one other
   person the house doesn't tell things to. Adopted heir T4–T5; lord by
-  T6, formed at the last by the man who rebuilt the house. *Nodes:*
+  T6, formed at the last by the man who rebuilt the house — **and it
+  is the MC who finally tells him the truth about his father (T5,
+  locked): the mirror's payoff — the one other person the house never
+  told things to breaks the pattern, before the boy takes the house.** *Nodes:*
   the board; the drill-yard wall; the Bamboo grove.
 - **Naoyuki** — the second son, heir by subtraction: his whole life a
   provisional entry, and he knows it. What he wants is to be
@@ -171,7 +176,9 @@ without changing substance.)*
   anyone says in T0 — and his sentences break off when they come too
   near feeling: begins formal, abandons it, restates flat and cold.
   Regent through the lordless years; the MC's ally to the end, and
-  never once warm. *Nodes:* the veranda; the Count; the East wing
+  never once warm. **His ending (locked):** offered the cleared chair
+  after the renunciation, he declines it — the refusal is his one
+  proud scene, and "never lord" becomes his choice. *Nodes:* the veranda; the Count; the East wing
   threshold (T1), carrying his brother's things himself.
 - **Munemasa** — the old lord, dying by inches; in T0 a voice through
   a wall. For ten years his single act of fatherhood has been
@@ -234,9 +241,11 @@ without changing substance.)*
   the kami for what living hands did. T0's on-screen believer: kernel
   #1's whole tenderness in one person, grief-work the game never
   mocks. She is kind to the MC the way you are kind to an omen — the
-  river gave one back. Prime suspect for the jizō offerings; answer or
-  red herring, authored later. *Nodes:* the paddy's edge; the Field
-  margins; the river at Bon.
+  river gave one back. **The jizō offerings are HERS (locked; revealed
+  T3):** a decade of grief-offerings for her drowned husband, left at
+  the spot where the river later gave a man back — the game's oldest
+  mystery closes warm as the origin trail crests. *Nodes:* the paddy's
+  edge; the Field margins; the river at Bon.
 - **Rokusuke** — the named face of the hired hands, who has learned
   the yard's oldest lesson: the noticed hand is the blamed one. He
   agrees early and often, head down, and outlasts everyone who didn't.
