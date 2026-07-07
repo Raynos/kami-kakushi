@@ -48,3 +48,30 @@ verification corpus with a blind-reader rubric) + the rebuild plan.
   when the new sheets wire in — git keeps them; don't half-migrate.
 - Another agent (w2:p2) is live in this tree on story-bible docs — stage
   only own paths, pathspec commits.
+
+## Build phase (same session, later)
+
+Rebuilt both sheets per the spec. `src/ui/map-sheets/` replaces
+`dev-t0v2-map.ts` (deleted, 3,557 lines): `brush.ts` (seeded ink toolkit:
+tapered brushStroke, washes, stipple/hatch, wave combs) · six domain
+primitive modules (terrain/water/fields/flora/built/furniture — five
+authored by a parallel agent fan-out with per-module headless
+gallery-screenshot self-iteration; water hand-written after two agent
+attempts died) · `layout.ts` (the ONE geography — T0's viewBox is a crop
+of T1's world) · `ground.ts` (scene composition, tier deltas: wet/drained
+pools, open/closed breach, cold/lit forge, terrace numerals, the
+reviser's red) · `sheet.ts` (modal shell; room-scale seals zoom-gate
+their captions; art clipped to the sheet border).
+
+Four visual iterations (tmp/iter1–4, headless captures): terrace-slab fix
+(steel-hi washes → quiet steel-2), T0 window widened to catch river +
+hills, precinct ring OPENED so its footings hand over to the guest
+compound's neat wall (the G5 twist drawn), ruin enlarged + interior
+wash, gate rubble apron, channel wet-line, boundary stones 1.5×,
+west-wing closed veil vs east-wing fresh veil + horizontal red note.
+
+## Next intended steps (build phase)
+1. Blind-reader verification vs spec §5 rubric (two fresh agents on
+   iter4 shots) → fix any missed M-lines.
+2. Final checkpoint: snapshot + push; HR-item for the live DEV-panel
+   review + Pass-2 taste scorecard.
