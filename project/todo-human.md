@@ -34,14 +34,8 @@ _(none open)_
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
 
-- [ ] `docs/plans/fable-2026-07-07-timed-actions.md` — the **timed-actions
-  plan** (FB-174): every action gains duration + cooldown + in-button
-  progress; direction locked in the 2026-07-07 drain (core owns duration
-  data / shell owns the clock; trade is `instant`; combat excluded). Four
-  open questions in §Open questions want your call before/at build.
-- [ ] `docs/plans/fable-2026-07-06-story-quality-ladder.md` — the **story-quality
-  umbrella plan**: your 19-answer decision pass recorded verbatim (§1 answer
-  sheet — adopted vs rejected) + the forward phases (§2): Phase 1 = the
-  story-bible co-write (cast sheet first), Phase 2 = the T0 prose wave in five
-  diverge bundles. **No ADR minted yet, per your call** — approve the plan and
-  the ADR is pulled from §1, then Phase 1 starts.
+- [ ] `docs/plans/fable-2026-07-07-story-reboot.md` — the **story reboot
+  plan** (supersedes the story-quality ladder): walked through and approved
+  section by section in-session 2026-07-07 (ADR-147 minted); queued for
+  re-read/reference — the live artifact as Phase 1 (pillars co-write)
+  proceeds. Phase 1 step 1 (kernel redline) runs in-chat.

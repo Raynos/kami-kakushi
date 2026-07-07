@@ -1,7 +1,8 @@
 # Timed actions — duration + cooldown on every action (FB-174)
 
-**Status: PROPOSED** — direction locked with the human (2026-07-07 drain);
-awaiting plan sign-off before build.
+**Status: LOCKED** — direction AND all four open questions settled with the
+human (2026-07-07 drain, AskUserQuestion) — recorded as **ADR-148**. Ready to
+build.
 
 - **Confidence:** ( 70% Opus, 30% Fable ) — the mechanism is mostly plumbing
   once the seams are locked; judgment concentrates in the pacing/balance
@@ -65,20 +66,21 @@ proposal for the human to approve (D-124 — no self-serve lateral switches).
 - **QA/headless:** `__qa` gets an instant-complete switch (the e2e/sim path
   must not wait wall-clock) — same pattern as `QA_INSTANT_TEXT`.
 
-## Open questions (to settle before/while building)
+## Open questions — CLOSED (human, 2026-07-07, ADR-148)
 
-1. **Mid-action interruption** — save/reload or tab-hide while an action is
-   in flight: drop the in-flight action (simplest, active-only per PRD
-   §6.9), or persist remaining time? Proposed default: drop it; no partial
-   credit — the action simply never happened.
-2. **Concurrency** — one global in-flight action, or one per… node/room?
-   Proposed default: ONE global (matches "you are one person").
-3. **Travel durations** — flat per hop, or per-edge data on the map graph?
-   Proposed default: flat per hop to start; per-edge later if the map wants
-   texture.
-4. **What the wolf does meanwhile** — scripted beats that today interleave
-   with instant actions may need their triggers re-checked against a world
-   where actions take seconds. Audit pass in Phase 4.
+1. **Mid-action interruption → DROP.** Save/reload or tab-hide while an
+   action is in flight: the action simply never happened — no partial
+   credit, nothing persisted (active-only per PRD §6.9).
+2. **Concurrency → ONE GLOBAL.** Starting any timed action disables all
+   other timed buttons until its cooldown ends (you are one person).
+3. **Travel durations → PER-EDGE DATA.** Each map edge declares its own
+   walk time from day one — distance texture is content, not a constant.
+4. **Seed table → PACING-NEUTRAL.** Each action's seconds derive from the
+   current pacing sim so total rung wall-times stay ~what they are today
+   with auto running; the human tunes feel from there, not schedule.
+5. **What the wolf does meanwhile** — scripted beats that today interleave
+   with instant actions get their triggers re-checked against a world where
+   actions take seconds: the Phase-4 audit pass (unchanged).
 
 ## Phases
 

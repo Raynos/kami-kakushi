@@ -2226,3 +2226,35 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   blurb hints). All discovery fiction text (hints, discovery log-lines, hidden-action
   labels) rides ADR-139 narrative diverges. Build routing: the human runs the build
   session on Fable 5 (2026-07-07), superseding the plan's Opus proposal.
+
+### ADR-148 ✅ — timed actions: instant dispatch retires; every action is timed or declared instant (FB-174)
+- **created_date:** 2026-07-07
+- **Context:** the 2026-07-07 playtest inbox (FB-174, a full design proposal in a
+  capture note): the human no longer wants press→instant actions — an action
+  should take time, disable its button, show an in-button progress bar, cool
+  down (~2s, bar draining back), and auto = "on cooldown complete, go again".
+  Today the core dispatches instantly and auto is a fixed `AUTO_REPEAT_MS`
+  heartbeat in `src/app/main.ts`; the pure core is deliberately wall-clock-free.
+- **Options:** core-authoritative time (tick intent, big refactor) vs UI-theater
+  only (durations invisible to balance/sim) vs core-owns-DATA / shell-owns-CLOCK;
+  scope forks (travel? craft? trade? combat?); interruption, concurrency, travel
+  granularity, and seed-table derivation forks.
+- **Decision (human, 2026-07-07, via AskUserQuestion in the drain):** **(1) Core
+  owns duration DATA, the shell owns the CLOCK** — durations/cooldowns are core
+  content data (cockpit-tunable); the UI timer dispatches the existing intent on
+  completion; the sim converts action-counts → seconds through the same table.
+  **(2) Scope:** labour + meta verbs + travel + craft/eat; every action is
+  `timed` or explicitly **`instant`** (buy/sell — the word "instant" is the
+  design term); **combat is excluded** pending its own review. **(3) Fast-idle
+  magnitudes** (small 3–5s · labour 5–10s · big 30–90s · ~2s cooldown) as seeds
+  only. **(4)** Interruption **drops** the in-flight action (no partial credit,
+  active-only per PRD §6.9). **(5) One global** in-flight action (you are one
+  person). **(6) Travel is per-edge data** from day one. **(7)** The seed table
+  is **pacing-neutral** — derived from the current pacing sim so rung wall-times
+  hold; the human then tunes feel via the cockpit (ADR-134).
+- **Consequences:** `docs/plans/fable-2026-07-07-timed-actions.md` is LOCKED
+  (Phases 1–4: timing data → shell clock + button UI → travel/craft/eat →
+  pacing reconciliation, incl. G-PACING/ADR-132 re-baseline and a wolf-trigger
+  audit). `__qa` gains an instant-complete switch so headless QA never waits
+  wall-clock. Supersedes the press→instant interaction model everywhere but
+  combat.

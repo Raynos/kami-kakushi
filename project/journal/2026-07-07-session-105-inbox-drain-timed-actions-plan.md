@@ -56,3 +56,14 @@ combat deferred to its own review; fast-idle magnitudes.
 
 - Human reviews the timed-actions plan → build it.
 - Remaining inbox: 0 captures after this drain.
+
+## Addendum — the plan LOCKED in-session (ADR-148)
+
+The human closed the plan's four open questions in the same sitting
+(AskUserQuestion): interruption **drops** the in-flight action; **one
+global** action at a time; travel is **per-edge data** from day one; the
+seed table is **pacing-neutral** (derived from the pacing sim so rung
+wall-times hold). Recorded as **ADR-148** (renumbered from 147 — a parallel
+session minted ADR-147 for the story-reboot lock mid-drain); the plan
+flipped LOCKED and left the reading queue (ADR-089 — built together counts
+as read). Next: build Phases 1–4, routing per the plan's "Who builds this".
