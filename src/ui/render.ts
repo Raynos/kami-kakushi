@@ -95,6 +95,7 @@ import {
   NPC_NAME,
   NPC_VOICE,
   rungRequirements,
+  nodeHint,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import {
@@ -4922,7 +4923,18 @@ export function mount(
       h.append(loc, k);
       fillMapHere(loc, k, here);
       card.append(h);
-      card.append(el('div', 'skill-blurb', here.blurb));
+      // ADR-146 — the DEV path composes the same standing discovery hint as prod (below), with
+      // the story-switcher take applied via the hint's flavor key.
+      const devHint = nodeHint(state, state.location);
+      const devHintText =
+        devHint === null
+          ? ''
+          : devHint.key !== undefined
+            ? dev.subFlavor(devHint.key, devHint.text)
+            : devHint.text;
+      card.append(
+        el('div', 'skill-blurb', devHintText === '' ? here.blurb : `${here.blurb} ${devHintText}`),
+      );
       mapPane.append(card);
       // (b) the navigation section — the selected DEV variant renders its presentation INTO `nav`;
       //     if none is selected (default A), fall through to the terse hint-free paths list.
@@ -4976,7 +4988,17 @@ export function mount(
     const r = mapRefs;
     const here = getNode(state.location);
     fillMapHere(r.loc, r.kanji, here);
-    setText(r.blurb, here.blurb);
+    // ADR-146 — the standing discovery hint reads as PART of the node description (diegetic,
+    // P15 — never a banner/counter); it tightens as attempts climb and vanishes on the latch.
+    // Text patch in place (P4); DEV story switcher live-swaps the line via its flavor key.
+    const hint = nodeHint(state, state.location);
+    const hintText =
+      hint === null
+        ? ''
+        : __DEV_TOOLS__ && dev && hint.key !== undefined
+          ? dev.subFlavor(hint.key, hint.text)
+          : hint.text;
+    setText(r.blurb, hintText === '' ? here.blurb : `${here.blurb} ${hintText}`);
     // the move strip is now zero-churn too (Phase 2): patchStrip only swaps it when the reachable
     // set actually changed, so an idle re-render leaves the live buttons (and their focus) untouched.
     toggle(r.nav, patchStrip(r.strip, state, 'work'));

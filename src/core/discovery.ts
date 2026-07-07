@@ -11,7 +11,12 @@ import type { GameState } from './state';
 import type { MapNodeId } from './content/map';
 import { pushLog } from './log';
 import { nextChance } from './rng';
-import { DISCOVERIES, type DiscoveryDef, type DiscoveryId } from './content/discoveries';
+import {
+  DISCOVERIES,
+  discoveryEmitLine,
+  type DiscoveryDef,
+  type DiscoveryId,
+} from './content/discoveries';
 import { DISCOVERY_PITY_NUM, DISCOVERY_PITY_DEN, DISCOVERY_HINT_STEP } from './content/balance';
 
 /** The reduce-time event a discovery trigger can match (fed by intents.ts). */
@@ -83,13 +88,22 @@ export function discoveryPass(
       next = {
         ...next,
         discovered: [...next.discovered, d.id],
-        log: pushLog(next.log, 'narration', d.discoveryLine, next.clock.tick, {
+        // discoveryEmitLine, not d.discoveryLine: the DEV story switcher overlays takes on
+        // FUTURE emissions (ADR-143); canon everywhere else.
+        log: pushLog(next.log, 'narration', discoveryEmitLine(d), next.clock.tick, {
           voice: 'narrator',
         }),
       };
     }
   }
   return next;
+}
+
+/** A standing hint: the canon text plus (for canon content) the `## prose flavor` key the
+ *  renderer live-swaps through `dev.subFlavor` (ADR-143). */
+export interface NodeHint {
+  readonly text: string;
+  readonly key?: string;
 }
 
 /** The node's CURRENT hint line (ADR-146 tightening hints), or null. First undiscovered
@@ -100,13 +114,14 @@ export function nodeHint(
   state: GameState,
   node: MapNodeId,
   defs: readonly DiscoveryDef[] = DISCOVERIES,
-): string | null {
+): NodeHint | null {
   for (const d of defs) {
     if (d.node !== node || d.hints.length === 0) continue;
     if (state.discovered.includes(d.id)) continue;
     const attempts = state.discoveryProgress[d.id] ?? 0;
     const idx = Math.min(Math.floor(attempts / DISCOVERY_HINT_STEP), d.hints.length - 1);
-    return d.hints[idx]!;
+    const key = d.hintKeys?.[idx];
+    return key === undefined ? { text: d.hints[idx]! } : { text: d.hints[idx]!, key };
   }
   return null;
 }

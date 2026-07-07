@@ -39,6 +39,30 @@ Entered under losses: nothing. The trouble came to the gate and was turned there
 
 Entered: rice sold at market, the coin set down in the house books — owed to no man. The steward has waited some years to write that word.
 
+<!-- ADR-146 emergent node discovery — the woodlot lacquer tree (bundle
+  disc-woodlot-lacquer; alternates in takes/ until the human signs off).
+  Canon = the "woodsman's eye" take (ADR-139 diverge): a purely sensory
+  register — the hints are the body learning the woodlot, tightening every
+  DISCOVERY_HINT_STEP woodcut attempts (lacquerHint0 → 1 → 2, rendered inside
+  the node's standing description, never a banner); lacquerFound is the
+  CORE-emitted permanent log line at the latch moment. -->
+
+### lacquerHint0
+
+Cut wood at the yard's edge and the smell comes back on the axe — pine, mostly, but under it something else, thin and bitter, like nothing else in the stack.
+
+### lacquerHint1
+
+One trunk past the third row wears a scar the wrong color, grey bark weeping a line gone hard and amber-dark. The hand pauses on it before the eye has decided why.
+
+### lacquerHint2
+
+The axe knows before the arm does — that grey trunk takes the blade soft, and the cut beads at once with a slow milk that stiffens on the steel. This is no firewood tree.
+
+### lacquerFound
+
+The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.
+
 ### estateStands
 
 Let it be entered plainly, for whoever keeps these books hereafter: the estate stands. Every line above this one was the building of it.

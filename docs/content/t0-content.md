@@ -34,6 +34,7 @@
 | woodcut_edge | woodcutting | woodlot-edge | 3 wood | 4 | 5 |
 | forage_satoyama | foraging | near-satoyama | 2 sansai, 1 coin | 3 | 5 |
 | forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 coin | 5 | 7 |
+| tap_lacquer | woodcutting | woodlot-edge | 3 coin | 4 | 5 |
 
 ## Estate map (spatial spine — D-093)
 

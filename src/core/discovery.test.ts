@@ -12,7 +12,8 @@ import {
   nodeHint,
   type DiscoveryEvent,
 } from './discovery';
-import type { DiscoveryDef } from './content/discoveries';
+import { DISCOVERIES, type DiscoveryDef } from './content/discoveries';
+import { FLAVOR } from './content/flavor.gen';
 import { DISCOVERY_PITY_NUM, DISCOVERY_PITY_DEN, DISCOVERY_HINT_STEP } from './content/balance';
 import { availableLabours } from './selectors';
 import { getActivity } from './content/activities';
@@ -131,31 +132,84 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
     expect(hiddenActivityIds(found, [WATCH_DEF]).has('forage_deepwoods')).toBe(false);
   });
 
-  it('the wired selectors consult the LIVE registry (empty today → nothing hidden)', () => {
-    // Guards the wiring itself: with the shipped registry, no activity is hidden, so the
-    // selector output is byte-identical to the pre-ADR-146 behaviour. When real content lands
-    // in DISCOVERIES this test documents the contract the content tests take over.
-    const s = at('deep-satoyama');
-    const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-forage'] } as GameState;
-    expect(hiddenActivityIds(unlocked).size).toBe(0);
-    const labels = availableLabours(unlocked).map((o) => o.activity.id);
-    expect(labels).toContain(getActivity('forage_deepwoods').id);
+  it('the wired selectors consult the LIVE registry: tap_lacquer hides until its latch', () => {
+    // The real content path (could-go-RED against a static list): at the woodlot with the
+    // woodcut verb revealed, the lacquer action is ABSENT pre-discovery and appears post-latch.
+    const s = at('woodlot-edge');
+    const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-woodcut'] } as GameState;
+    expect(availableLabours(unlocked).map((o) => o.activity.id)).not.toContain('tap_lacquer');
+    const found = { ...unlocked, discovered: ['disc-woodlot-lacquer'] } as GameState;
+    expect(availableLabours(found).map((o) => o.activity.id)).toContain('tap_lacquer');
+  });
+});
+
+describe('the shipped content (disc-woodlot-lacquer) — registry invariants', () => {
+  it('every discovery resolves: a real activity, at the discovery node, watched at the same node', () => {
+    for (const d of DISCOVERIES) {
+      const revealed = getActivity(d.reveals);
+      expect(revealed.area).toBe(d.node); // the grown action belongs to the growing node
+      expect(d.trigger.chance).toBeGreaterThan(0);
+      expect(d.trigger.chance).toBeLessThanOrEqual(1);
+      if (d.trigger.kind === 'watch') {
+        expect(getActivity(d.trigger.activity).area).toBe(d.node); // attempts happen where you stand
+      }
+    }
+  });
+
+  it('flavor keys and canon text stay in sync (TST1 — one source, pinned)', () => {
+    for (const d of DISCOVERIES) {
+      if (d.hintKeys !== undefined) {
+        expect(d.hintKeys.length).toBe(d.hints.length);
+        d.hintKeys.forEach((k, i) => {
+          expect(FLAVOR[k as keyof typeof FLAVOR]).toBe(d.hints[i]);
+        });
+      }
+      if (d.lineKey !== undefined) {
+        expect(FLAVOR[d.lineKey as keyof typeof FLAVOR]).toBe(d.discoveryLine);
+      }
+    }
+  });
+
+  it('the full player path (done-when): repeat woodcutting discovers the lacquer tree, which then pays', () => {
+    // The REAL engine end-to-end under a fixed seed: stand at the woodlot with the woodcut verb,
+    // cut until the discovery latches (pity-ramped 12% — certain well inside the act budget),
+    // then perform the grown action and watch coin move. RED against a static action list, a
+    // broken reduce wiring, or a latch that doesn't gate the selector.
+    let s = at('woodlot-edge', 20260707);
+    s = { ...s, unlocked: [...s.unlocked, 'verb-woodcut'] } as GameState;
+    expect(availableLabours(s).map((o) => o.activity.id)).not.toContain('tap_lacquer');
+    let acts = 0;
+    while (!s.discovered.includes('disc-woodlot-lacquer') && acts < 200) {
+      s = reduce(s, { type: 'do_activity', activityId: 'woodcut_edge' });
+      s = { ...s, character: { ...s.character, satiety: 50 } }; // hold satiety (rate never gates legality)
+      acts++;
+    }
+    expect(s.discovered).toContain('disc-woodlot-lacquer');
+    expect(acts).toBeGreaterThan(0);
+    // the found line landed in the log, permanent narrator prose
+    expect(s.log.entries.some((e) => e.text === FLAVOR.lacquerFound)).toBe(true);
+    // the hint is gone (latched), and the action now exists and pays
+    expect(nodeHint(s, 'woodlot-edge')).toBeNull();
+    expect(availableLabours(s).map((o) => o.activity.id)).toContain('tap_lacquer');
+    const coinBefore = s.resources.coin ?? 0;
+    const after = reduce(s, { type: 'do_activity', activityId: 'tap_lacquer' });
+    expect(after.resources.coin ?? 0).toBeGreaterThan(coinBefore);
   });
 });
 
 describe('the tightening hint ladder (ADR-146 / ADR-116)', () => {
   it('steps up every DISCOVERY_HINT_STEP attempts and clamps at the last line', () => {
-    let s = at('woodlot-edge');
-    expect(nodeHint(s, 'woodlot-edge', [WATCH_DEF])).toBe('h0'); // the standing foreshadow
+    const s = at('woodlot-edge');
+    expect(nodeHint(s, 'woodlot-edge', [WATCH_DEF])?.text).toBe('h0'); // the standing foreshadow
     // Deterministically set progress (no rolls) to probe the ladder at the source-derived steps.
     const withAttempts = (n: number): GameState =>
       ({ ...s, discoveryProgress: { [WATCH_DEF.id]: n } }) as GameState;
-    expect(nodeHint(withAttempts(DISCOVERY_HINT_STEP - 1), 'woodlot-edge', [WATCH_DEF])).toBe('h0');
-    expect(nodeHint(withAttempts(DISCOVERY_HINT_STEP), 'woodlot-edge', [WATCH_DEF])).toBe('h1');
-    expect(nodeHint(withAttempts(DISCOVERY_HINT_STEP * 2), 'woodlot-edge', [WATCH_DEF])).toBe('h2');
-    expect(nodeHint(withAttempts(DISCOVERY_HINT_STEP * 50), 'woodlot-edge', [WATCH_DEF])).toBe(
-      'h2',
-    );
+    const hintAt = (n: number): string | undefined =>
+      nodeHint(withAttempts(n), 'woodlot-edge', [WATCH_DEF])?.text;
+    expect(hintAt(DISCOVERY_HINT_STEP - 1)).toBe('h0');
+    expect(hintAt(DISCOVERY_HINT_STEP)).toBe('h1');
+    expect(hintAt(DISCOVERY_HINT_STEP * 2)).toBe('h2');
+    expect(hintAt(DISCOVERY_HINT_STEP * 50)).toBe('h2');
   });
 
   it('goes silent once discovered, and for other nodes', () => {
@@ -167,9 +221,9 @@ describe('the tightening hint ladder (ADR-146 / ADR-116)', () => {
 });
 
 describe('reduce wiring (the pass actually fires on the real intents)', () => {
-  it('reducing with the shipped (empty) registry never rolls the discovery stream', () => {
-    // With the shipped (empty) registry the pass is a no-op — assert the seam holds shape:
-    // reducing never throws and the discovery cursor stays put (no phantom rolls).
+  it('a non-qualifying intent never rolls the discovery stream (no phantom rolls)', () => {
+    // `rest` matches no trigger, and the fresh state stands at the kura (no discovery there):
+    // the cursor must not move — a wasted roll would silently reshuffle every later draw.
     const s = createInitialState(1);
     const s2 = reduce(s, { type: 'rest' });
     expect(s2.rng.cursors.discovery).toBe(0);

@@ -243,8 +243,14 @@ export {
   nodeHint,
 } from './discovery';
 export type { DiscoveryEvent } from './discovery';
-export { DISCOVERIES, getDiscovery } from './content/discoveries';
+export {
+  DISCOVERIES,
+  getDiscovery,
+  discoveryEmitLine,
+  __setDiscoveryFlavorOverride,
+} from './content/discoveries';
 export type { DiscoveryDef, DiscoveryId, DiscoveryTrigger } from './content/discoveries';
+export type { NodeHint } from './discovery';
 
 export { applyRewards } from './rewards';
 export type { RewardBundle } from './rewards';

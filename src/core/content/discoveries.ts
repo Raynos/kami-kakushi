@@ -8,6 +8,7 @@
 
 import type { MapNodeId } from './map';
 import type { ActivityId } from './activities';
+import { FLAVOR } from './flavor.gen';
 
 export type DiscoveryId = string;
 
@@ -34,17 +35,64 @@ export interface DiscoveryDef {
   /** The diegetic log line pushed at the latch moment (narrator voice, permanent — the beat that
    *  says the world grew; never "NEW ACTION!"). */
   readonly discoveryLine: string;
+  /** The `## prose flavor` keys behind `hints` (same order) — the DEV story switcher's live-swap
+   *  handle (`dev.subFlavor` at render). Canon entries set these; test fixtures may omit. A
+   *  content test pins FLAVOR[hintKeys[i]] === hints[i] so the pair can't drift (TST1). */
+  readonly hintKeys?: readonly string[];
+  /** The flavor key behind `discoveryLine` — swapped at EMIT time through the core overlay
+   *  (`__setDiscoveryFlavorOverride`, the req-flavor declaring-module pattern), since the line
+   *  is core-emitted log text. */
+  readonly lineKey?: string;
   /** Rumor-routing tag (ADR-146 §5, Phase 3): a rumor targets a TAG, never a node id. Unused
    *  until portable rumors build. */
   readonly tag?: string;
 }
 
-/** The authored registry. Content lands via the ADR-139 narrative diverge (the plan's Phase 2);
- *  the engine (`src/core/discovery.ts`) is registry-driven so tests inject fixtures. */
-export const DISCOVERIES: readonly DiscoveryDef[] = [];
+/** The authored registry (the engine in `src/core/discovery.ts` is registry-driven, so tests
+ *  inject fixtures). Fiction text is the ADR-139 diverge-picked canon, single-sourced from
+ *  `narrative/flavor.md` via the generated FLAVOR registry — key and text are pinned in sync
+ *  by a content test. */
+export const DISCOVERIES: readonly DiscoveryDef[] = [
+  {
+    // The woodlot lacquer tree (ADR-146's first discoverable): repeated woodcutting at the
+    // stables/woodlot node surfaces a coin-paying tapping action. Base 12% per cut, pity-ramped
+    // (balance.ts DISCOVERY_PITY_*) — expected find ~4–6 cuts, near-certain by ~10.
+    id: 'disc-woodlot-lacquer',
+    node: 'woodlot-edge',
+    reveals: 'tap_lacquer',
+    trigger: { kind: 'watch', activity: 'woodcut_edge', chance: 0.12 },
+    hints: [FLAVOR.lacquerHint0, FLAVOR.lacquerHint1, FLAVOR.lacquerHint2],
+    hintKeys: ['lacquerHint0', 'lacquerHint1', 'lacquerHint2'],
+    discoveryLine: FLAVOR.lacquerFound,
+    lineKey: 'lacquerFound',
+    tag: 'lacquer', // ADR-146 §5 — the Phase-3 rumor-routing handle
+  },
+];
 
 export function getDiscovery(id: DiscoveryId): DiscoveryDef {
   const d = DISCOVERIES.find((x) => x.id === id);
   if (!d) throw new Error(`unknown discovery: ${id}`);
   return d;
+}
+
+// ── DEV-only flavor overlay (ADR-139 / ADR-143 — the story set-switcher) ────────────
+// The discovery line is CORE-emitted log text, so the switcher swaps FUTURE emissions
+// here (the same declaring-module pattern as requirements.ts __setRequirementFlavorOverride);
+// already-logged lines stay (T2 — history never rewrites). INERT unless the DEV story
+// switcher calls it; tests, sims and the shipped game read canon.
+let FLAVOR_OVERRIDE: Readonly<Record<string, string>> | null = null;
+
+/** DEV-only: overlay discovery-moment lines by their `## prose flavor` key (null = canon). */
+export function __setDiscoveryFlavorOverride(map: Readonly<Record<string, string>> | null): void {
+  FLAVOR_OVERRIDE = map;
+}
+
+/** The line a latch should emit — the DEV overlay's take if one targets this def's lineKey,
+ *  else the authored canon line. The ONE read discoveryPass uses. */
+export function discoveryEmitLine(def: DiscoveryDef): string {
+  if (def.lineKey !== undefined) {
+    const over = FLAVOR_OVERRIDE?.[def.lineKey];
+    if (over !== undefined) return over;
+  }
+  return def.discoveryLine;
 }

@@ -12,7 +12,7 @@
         "loot": 5,
         "seasonal": 0,
         "worldgen": 0,
-        "discovery": 0
+        "discovery": 4
       }
     },
     "clock": {
@@ -571,7 +571,15 @@
           "voice": "narrator"
         },
         {
-          "key": 801,
+          "key": 625,
+          "channel": "narration",
+          "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 803,
           "channel": "narration",
           "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
           "tick": 4,
@@ -579,7 +587,7 @@
           "voice": "narrator"
         },
         {
-          "key": 955,
+          "key": 957,
           "channel": "narration",
           "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 22,
@@ -587,7 +595,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1147,
+          "key": 1149,
           "channel": "narration",
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 12,
@@ -595,7 +603,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1149,
+          "key": 1151,
           "channel": "combat",
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
           "tick": 14,
@@ -604,7 +612,7 @@
           "contentKey": "combat.wolfScripted"
         },
         {
-          "key": 1150,
+          "key": 1152,
           "channel": "narration",
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
           "tick": 14,
@@ -613,7 +621,7 @@
           "contentKey": "combat.drillmaster"
         },
         {
-          "key": 1151,
+          "key": 1153,
           "channel": "narration",
           "text": "There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched.",
           "tick": 4,
@@ -621,7 +629,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1152,
+          "key": 1154,
           "channel": "narration",
           "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
           "tick": 4,
@@ -629,7 +637,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1153,
+          "key": 1155,
           "channel": "narration",
           "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
           "tick": 4,
@@ -638,7 +646,7 @@
           "voice": "arms"
         },
         {
-          "key": 1154,
+          "key": 1156,
           "channel": "narration",
           "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
           "tick": 4,
@@ -647,7 +655,7 @@
           "voice": "arms"
         },
         {
-          "key": 1155,
+          "key": 1157,
           "channel": "narration",
           "text": "\"Show me how to end a fight fast.\"",
           "tick": 4,
@@ -656,7 +664,7 @@
           "voice": "player"
         },
         {
-          "key": 1156,
+          "key": 1158,
           "channel": "narration",
           "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
           "tick": 4,
@@ -665,7 +673,7 @@
           "voice": "arms"
         },
         {
-          "key": 1157,
+          "key": 1159,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 4,
@@ -673,7 +681,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1158,
+          "key": 1160,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 4,
@@ -681,7 +689,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1159,
+          "key": 1161,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
           "tick": 4,
@@ -689,7 +697,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1160,
+          "key": 1162,
           "channel": "milestone",
           "text": "Rank ↑ — Gate-watch 門番",
           "tick": 4,
@@ -701,7 +709,7 @@
           }
         },
         {
-          "key": 1161,
+          "key": 1163,
           "channel": "narration",
           "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
           "tick": 4,
@@ -709,7 +717,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1162,
+          "key": 1164,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 4 monme 63 mon and 725 rice in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -725,7 +733,7 @@
           }
         },
         {
-          "key": 1166,
+          "key": 1168,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 66 mon and 580 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -741,7 +749,7 @@
           }
         },
         {
-          "key": 1169,
+          "key": 1171,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 5 mon and 464 rice in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -757,7 +765,7 @@
           }
         },
         {
-          "key": 1172,
+          "key": 1174,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 2 monme 36 mon and 371 rice in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -773,7 +781,7 @@
           }
         },
         {
-          "key": 1175,
+          "key": 1177,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→13 · +1 mon)",
           "tick": 4,
@@ -789,7 +797,7 @@
           }
         },
         {
-          "key": 1178,
+          "key": 1180,
           "channel": "combat",
           "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 77 mon and 297 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -805,7 +813,7 @@
           }
         },
         {
-          "key": 1181,
+          "key": 1183,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→8 · +1 mon)",
           "tick": 8,
@@ -821,7 +829,7 @@
           }
         },
         {
-          "key": 1184,
+          "key": 1186,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→7 · +1 mon, +1 beast sinew)",
           "tick": 18,
@@ -837,7 +845,7 @@
           }
         },
         {
-          "key": 1185,
+          "key": 1187,
           "channel": "narration",
           "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
           "tick": 18,
@@ -845,7 +853,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1189,
+          "key": 1191,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 46 mon and 238 rice in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -861,7 +869,7 @@
           }
         },
         {
-          "key": 1192,
+          "key": 1194,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 21 mon and 190 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -877,7 +885,7 @@
           }
         },
         {
-          "key": 1195,
+          "key": 1197,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 16,
@@ -891,7 +899,7 @@
           }
         },
         {
-          "key": 1196,
+          "key": 1198,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 79 mon and 152 rice in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -907,7 +915,7 @@
           }
         },
         {
-          "key": 1199,
+          "key": 1201,
           "channel": "combat",
           "text": "You bring down the crop-raiding monkey. ✓ (HP 58→18 · +3 mon, +1 beast sinew)",
           "tick": 10,
@@ -923,7 +931,7 @@
           }
         },
         {
-          "key": 1202,
+          "key": 1204,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 64 mon and 122 rice in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -939,7 +947,7 @@
           }
         },
         {
-          "key": 1205,
+          "key": 1207,
           "channel": "combat",
           "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 51 mon and 97 rice in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -955,7 +963,7 @@
           }
         },
         {
-          "key": 1208,
+          "key": 1210,
           "channel": "combat",
           "text": "You bring down the crop-raiding monkey. ✓ (HP 58→12 · +3 mon)",
           "tick": 6,
@@ -971,7 +979,7 @@
           }
         },
         {
-          "key": 1209,
+          "key": 1211,
           "channel": "narration",
           "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
           "tick": 6,
@@ -979,7 +987,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1330,
+          "key": 1332,
           "channel": "narration",
           "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
           "tick": 2,
@@ -987,7 +995,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1432,
+          "key": 1434,
           "channel": "narration",
           "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
           "tick": 6,
@@ -995,7 +1003,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1732,
+          "key": 1734,
           "channel": "narration",
           "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
           "tick": 2,
@@ -1003,7 +1011,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1733,
+          "key": 1735,
           "channel": "narration",
           "text": "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours.",
           "tick": 4,
@@ -1011,7 +1019,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1734,
+          "key": 1736,
           "channel": "narration",
           "text": "\"The kura key. Mind the stores as if the rice were your own — from today it half is. The house is forgetting you were ever a stranger. So am I.\"",
           "tick": 4,
@@ -1020,7 +1028,7 @@
           "voice": "steward"
         },
         {
-          "key": 1735,
+          "key": 1737,
           "channel": "narration",
           "text": "He walks you on to the woodlot smithy, where a bent old man coaxes an edge back onto a mattock. He doesn't look up.",
           "tick": 4,
@@ -1028,7 +1036,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1736,
+          "key": 1738,
           "channel": "narration",
           "text": "\"Tōzō. I keep the estate's iron. A blade you don't tend turns on you — bring me the hides and the metal off what you kill, and I'll show you what an edge wants. The forge is yours to use now; try not to ruin my fire.\"",
           "tick": 4,
@@ -1037,7 +1045,7 @@
           "voice": "arms"
         },
         {
-          "key": 1737,
+          "key": 1739,
           "channel": "narration",
           "text": "\"And the omoya's shuttered rooms are aired and swept — the house rises, and you'll walk floors the family walks. Don't let it turn your head.\"",
           "tick": 4,
@@ -1046,7 +1054,7 @@
           "voice": "steward"
         },
         {
-          "key": 1738,
+          "key": 1740,
           "channel": "narration",
           "text": "\"Every grain accounted.\"",
           "tick": 4,
@@ -1055,7 +1063,7 @@
           "voice": "player"
         },
         {
-          "key": 1739,
+          "key": 1741,
           "channel": "narration",
           "text": "\"Spoken like a steward. Good — the house was bled white once by hands that weren't.\"",
           "tick": 4,
@@ -1064,7 +1072,7 @@
           "voice": "steward"
         },
         {
-          "key": 1740,
+          "key": 1742,
           "channel": "narration",
           "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
           "tick": 4,
@@ -1072,7 +1080,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1741,
+          "key": 1743,
           "channel": "narration",
           "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
           "tick": 4,
@@ -1080,7 +1088,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1742,
+          "key": 1744,
           "channel": "narration",
           "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
           "tick": 4,
@@ -1088,7 +1096,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1743,
+          "key": 1745,
           "channel": "milestone",
           "text": "Rank ↑ — Kura-warden 蔵番",
           "tick": 4,
@@ -1100,7 +1108,7 @@
           }
         },
         {
-          "key": 1744,
+          "key": 1746,
           "channel": "narration",
           "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
           "tick": 4,
@@ -1108,7 +1116,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2002,
+          "key": 2004,
           "channel": "narration",
           "text": "The porters have stopped counting his loads against their own.",
           "tick": 12,
@@ -1116,7 +1124,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2270,
+          "key": 2272,
           "channel": "narration",
           "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
           "tick": 6,
@@ -1124,7 +1132,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2471,
+          "key": 2473,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 0,
@@ -1133,28 +1141,10 @@
           "ephemeral": true
         },
         {
-          "key": 2472,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2473,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2474,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1163,13 +1153,31 @@
           "key": 2475,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 20,
+          "tick": 10,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2476,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2477,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2478,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 22,
@@ -1178,28 +1186,10 @@
           "ephemeral": true
         },
         {
-          "key": 2477,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2478,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2479,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1208,13 +1198,31 @@
           "key": 2480,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 18,
+          "tick": 8,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2481,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2482,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2483,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 20,
@@ -1223,28 +1231,10 @@
           "ephemeral": true
         },
         {
-          "key": 2482,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2483,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 6,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2484,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1253,13 +1243,31 @@
           "key": 2485,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
+          "tick": 6,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2486,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2487,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2488,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 18,
@@ -1268,28 +1276,10 @@
           "ephemeral": true
         },
         {
-          "key": 2487,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2488,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2489,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1298,13 +1288,31 @@
           "key": 2490,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
+          "tick": 4,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2491,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2492,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2493,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 16,
@@ -1313,28 +1321,10 @@
           "ephemeral": true
         },
         {
-          "key": 2492,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2493,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 2,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2494,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1343,13 +1333,31 @@
           "key": 2495,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 12,
+          "tick": 2,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2496,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2497,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2498,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 14,
@@ -1358,28 +1366,10 @@
           "ephemeral": true
         },
         {
-          "key": 2497,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2498,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 0,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2499,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1388,13 +1378,31 @@
           "key": 2500,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
+          "tick": 0,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2501,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2502,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 10,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2503,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 12,
@@ -1403,28 +1411,10 @@
           "ephemeral": true
         },
         {
-          "key": 2502,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2503,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2504,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1433,13 +1423,31 @@
           "key": 2505,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
+          "tick": 22,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2506,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2507,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2508,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 10,
@@ -1448,28 +1456,10 @@
           "ephemeral": true
         },
         {
-          "key": 2507,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2508,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 20,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2509,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1478,13 +1468,31 @@
           "key": 2510,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 6,
+          "tick": 20,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2511,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2512,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2513,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 8,
@@ -1493,28 +1501,10 @@
           "ephemeral": true
         },
         {
-          "key": 2512,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2513,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 18,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2514,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1523,13 +1513,31 @@
           "key": 2515,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
+          "tick": 18,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2516,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2517,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2518,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 6,
@@ -1538,28 +1546,10 @@
           "ephemeral": true
         },
         {
-          "key": 2517,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2518,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2519,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1568,13 +1558,31 @@
           "key": 2520,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 2,
+          "tick": 16,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2521,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2522,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2523,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 4,
@@ -1583,28 +1591,10 @@
           "ephemeral": true
         },
         {
-          "key": 2522,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2523,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2524,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1613,13 +1603,31 @@
           "key": 2525,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 0,
+          "tick": 14,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2526,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2527,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2528,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 2,
@@ -1628,28 +1636,10 @@
           "ephemeral": true
         },
         {
-          "key": 2527,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2528,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2529,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1658,13 +1648,31 @@
           "key": 2530,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 22,
+          "tick": 12,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2531,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2532,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2533,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 0,
@@ -1673,28 +1681,10 @@
           "ephemeral": true
         },
         {
-          "key": 2532,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2533,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 10,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2534,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1703,13 +1693,31 @@
           "key": 2535,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 20,
+          "tick": 10,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2536,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2537,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2538,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 22,
@@ -1718,28 +1726,10 @@
           "ephemeral": true
         },
         {
-          "key": 2537,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2538,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 8,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2539,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1748,13 +1738,31 @@
           "key": 2540,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 18,
+          "tick": 8,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2541,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2542,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2543,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 20,
@@ -1763,28 +1771,10 @@
           "ephemeral": true
         },
         {
-          "key": 2542,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2543,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 6,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2544,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1793,13 +1783,31 @@
           "key": 2545,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 16,
+          "tick": 6,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2546,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2547,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2548,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 18,
@@ -1808,28 +1816,10 @@
           "ephemeral": true
         },
         {
-          "key": 2547,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 2548,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 4,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 2549,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1838,13 +1828,31 @@
           "key": 2550,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
-          "tick": 14,
+          "tick": 4,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 2551,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2552,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2553,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 16,
@@ -1853,7 +1861,7 @@
           "ephemeral": true
         },
         {
-          "key": 2552,
+          "key": 2554,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 18,
@@ -1862,7 +1870,7 @@
           "ephemeral": true
         },
         {
-          "key": 2553,
+          "key": 2555,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 2,
@@ -1871,7 +1879,7 @@
           "ephemeral": true
         },
         {
-          "key": 2554,
+          "key": 2556,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 4,
@@ -1880,7 +1888,7 @@
           "ephemeral": true
         },
         {
-          "key": 2555,
+          "key": 2557,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 12,
@@ -1889,7 +1897,7 @@
           "ephemeral": true
         },
         {
-          "key": 2556,
+          "key": 2558,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 14,
@@ -1898,7 +1906,7 @@
           "ephemeral": true
         },
         {
-          "key": 2557,
+          "key": 2559,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 16,
@@ -1907,7 +1915,7 @@
           "ephemeral": true
         },
         {
-          "key": 2558,
+          "key": 2560,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 0,
@@ -1916,7 +1924,7 @@
           "ephemeral": true
         },
         {
-          "key": 2559,
+          "key": 2561,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 2,
@@ -1925,7 +1933,7 @@
           "ephemeral": true
         },
         {
-          "key": 2560,
+          "key": 2562,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 10,
@@ -1934,7 +1942,7 @@
           "ephemeral": true
         },
         {
-          "key": 2561,
+          "key": 2563,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 12,
@@ -1943,7 +1951,7 @@
           "ephemeral": true
         },
         {
-          "key": 2562,
+          "key": 2564,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 14,
@@ -1952,7 +1960,7 @@
           "ephemeral": true
         },
         {
-          "key": 2563,
+          "key": 2565,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 22,
@@ -1961,7 +1969,7 @@
           "ephemeral": true
         },
         {
-          "key": 2564,
+          "key": 2566,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 0,
@@ -1970,7 +1978,7 @@
           "ephemeral": true
         },
         {
-          "key": 2565,
+          "key": 2567,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 8,
@@ -1979,7 +1987,7 @@
           "ephemeral": true
         },
         {
-          "key": 2566,
+          "key": 2568,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 10,
@@ -1988,7 +1996,7 @@
           "ephemeral": true
         },
         {
-          "key": 2567,
+          "key": 2569,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 12,
@@ -1997,7 +2005,7 @@
           "ephemeral": true
         },
         {
-          "key": 2568,
+          "key": 2570,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 20,
@@ -2006,7 +2014,7 @@
           "ephemeral": true
         },
         {
-          "key": 2569,
+          "key": 2571,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 22,
@@ -2015,7 +2023,7 @@
           "ephemeral": true
         },
         {
-          "key": 2570,
+          "key": 2572,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 4,
@@ -2024,7 +2032,7 @@
           "ephemeral": true
         },
         {
-          "key": 2571,
+          "key": 2573,
           "channel": "narration",
           "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
           "tick": 4,
@@ -2032,7 +2040,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2572,
+          "key": 2574,
           "channel": "narration",
           "text": "Tōzō turns the mended edge to the light and hands it back without a word of correction.",
           "tick": 6,
@@ -2040,7 +2048,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2573,
+          "key": 2575,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 6,
@@ -2054,7 +2062,7 @@
           }
         },
         {
-          "key": 2574,
+          "key": 2576,
           "channel": "narration",
           "text": "Genemon calls you to the omoya's inner room — a place season-hands never see.",
           "tick": 6,
@@ -2062,7 +2070,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2575,
+          "key": 2577,
           "channel": "narration",
           "text": "\"No longer a season-hired hand. From today you answer to the house day and night, and it answers for you. The work is the same. The standing is not.\"",
           "tick": 6,
@@ -2071,7 +2079,7 @@
           "voice": "steward"
         },
         {
-          "key": 2576,
+          "key": 2578,
           "channel": "narration",
           "text": "Then he walks you out to the yard, where Kihei waits with two bokken and something that might, on another man, be a smile.",
           "tick": 6,
@@ -2079,7 +2087,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2577,
+          "key": 2579,
           "channel": "narration",
           "text": "\"The standing means the house trusts your judgment now — so I'll trust you with the last of it. Set your stance before a foe: press to end it fast, or guard to outlast it. The call is yours, fight by fight. Show me you understand the choice.\"",
           "tick": 6,
@@ -2088,7 +2096,7 @@
           "voice": "arms"
         },
         {
-          "key": 2578,
+          "key": 2580,
           "channel": "narration",
           "text": "\"Press every fight — end it, don't outlast it.\"",
           "tick": 6,
@@ -2097,7 +2105,7 @@
           "voice": "player"
         },
         {
-          "key": 2579,
+          "key": 2581,
           "channel": "narration",
           "text": "\"The tiger's way. Fast and final. It'll serve — until the day it doesn't. Mind that day.\"",
           "tick": 6,
@@ -2106,7 +2114,7 @@
           "voice": "arms"
         },
         {
-          "key": 2580,
+          "key": 2582,
           "channel": "narration",
           "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
           "tick": 6,
@@ -2114,7 +2122,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2581,
+          "key": 2583,
           "channel": "narration",
           "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
           "tick": 6,
@@ -2122,7 +2130,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2582,
+          "key": 2584,
           "channel": "milestone",
           "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
           "tick": 6,
@@ -2134,7 +2142,7 @@
           }
         },
         {
-          "key": 2583,
+          "key": 2585,
           "channel": "milestone",
           "text": "Rank ↑ — House-servant 家人",
           "tick": 6,
@@ -2146,7 +2154,7 @@
           }
         }
       ],
-      "seq": 2584
+      "seq": 2586
     },
     "skillXp": {
       "farming": 4638,
@@ -2193,8 +2201,12 @@
     "rung": "R5",
     "rungReqs": {},
     "estateStage": 0,
-    "discovered": [],
-    "discoveryProgress": {},
+    "discovered": [
+      "disc-woodlot-lacquer"
+    ],
+    "discoveryProgress": {
+      "disc-woodlot-lacquer": 4
+    },
     "autoActivity": null,
     "autoRake": false,
     "equippedWeapon": "carrying_pole",

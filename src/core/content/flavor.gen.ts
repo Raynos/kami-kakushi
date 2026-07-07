@@ -15,6 +15,14 @@ export const FLAVOR = {
     "Entered under losses: nothing. The trouble came to the gate and was turned there; the ledger's emptiest lines are the dearest bought.",
   estateSourceTreasury:
     'Entered: rice sold at market, the coin set down in the house books — owed to no man. The steward has waited some years to write that word.',
+  lacquerHint0:
+    "Cut wood at the yard's edge and the smell comes back on the axe — pine, mostly, but under it something else, thin and bitter, like nothing else in the stack.",
+  lacquerHint1:
+    'One trunk past the third row wears a scar the wrong color, grey bark weeping a line gone hard and amber-dark. The hand pauses on it before the eye has decided why.',
+  lacquerHint2:
+    'The axe knows before the arm does — that grey trunk takes the blade soft, and the cut beads at once with a slow milk that stiffens on the steel. This is no firewood tree.',
+  lacquerFound:
+    "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
   estateStands:
     'Let it be entered plainly, for whoever keeps these books hereafter: the estate stands. Every line above this one was the building of it.',
 } as const;

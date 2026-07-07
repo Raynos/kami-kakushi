@@ -64,7 +64,12 @@ import { renderMapKamon } from './map-variants/kamon';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
-import { __setRequirementFlavorOverride, RUNG_REQUIREMENTS, getRank } from '../core';
+import {
+  __setRequirementFlavorOverride,
+  __setDiscoveryFlavorOverride,
+  RUNG_REQUIREMENTS,
+  getRank,
+} from '../core';
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
 import { COLD_OPEN } from '../core/content/coldOpen';
@@ -412,6 +417,19 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       }
     }
     __setRequirementFlavorOverride(Object.keys(overlay).length > 0 ? overlay : null);
+    // ADR-146 — the discovery-moment line is core-emitted too: forward the effective FLAVOR
+    // take entries so FUTURE latches voice the selected take (already-logged lines stay, T2).
+    // Keyed by flavor key; only defs whose lineKey matches are affected (discoveries.ts).
+    const discOverlay: Record<string, string> = {};
+    for (const b of bundles) {
+      for (const t of b.takes) {
+        if (!t.flavor) continue;
+        for (const [key, text] of Object.entries(t.flavor)) {
+          if (effective(b.id, `flavor:${key}`) === t.id) discOverlay[key] = text;
+        }
+      }
+    }
+    __setDiscoveryFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a

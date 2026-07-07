@@ -13,7 +13,8 @@ export type ActivityId =
   | 'haul_stores'
   | 'woodcut_edge'
   | 'forage_satoyama'
-  | 'forage_deepwoods';
+  | 'forage_deepwoods'
+  | 'tap_lacquer';
 // ADR-107: labour yields RICE (rake + paddy work), COIN (hauling wage + a little from forage), wood
 // (woodcut), or sansai (forage greens). koku is never labour-earned — it is House standing.
 export type LabourResource = 'rice' | 'coin' | 'wood' | 'sansai';
@@ -96,6 +97,20 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     xp: 7,
     dangerRing: true,
     surface: 'verb-forage',
+  },
+  {
+    // ADR-146 — the woodlot's HIDDEN action: absent from the node's list until the
+    // disc-woodlot-lacquer discovery latches (derived hiddenness — see content/discoveries.ts).
+    // Urushi sap sells — a pocket earner like forage-coin, deliberately NOT estate-relevant
+    // (no deedSource, ADR-145 Q4): tapping trees builds no house standing.
+    id: 'tap_lacquer',
+    label: 'Tap the lacquer tree',
+    skill: 'woodcutting',
+    area: 'woodlot-edge',
+    yields: { coin: 3 },
+    satietyCost: 4,
+    xp: 5,
+    surface: 'verb-woodcut',
   },
 ];
 

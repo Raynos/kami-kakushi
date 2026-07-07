@@ -76,9 +76,40 @@ Applicable (one line each); the rest n/a for a pure-core + node-card feature:
 - **V4/TST4 (single source):** hiddenness is DERIVED (a discovery's `reveals`
   target + the latch) — no duplicate `hidden:` flag to drift (TST1).
 
+## Phase 2 — the woodlot lacquer discovery (player-reachable, ADR-139 diverged)
+
+- **Content:** `tap_lacquer` ActivityDef (woodlot-edge, coin 3, no deedSource —
+  pockets, not house standing) + the `disc-woodlot-lacquer` DiscoveryDef
+  (watch woodcut_edge, 12% pity-ramped — lands ~5 cuts in).
+- **Fiction (ADR-139):** 3 blind takes authored by independent agents under
+  distinct dramatic briefs — A "the woodsman's eye" (sensory), B "the estate's
+  memory" (historical), C "the mountain's reticence" (deniable animism).
+  Self-picked **A** (the sensory register voices the pity-ramp mechanic
+  itself); canon in `narrative/flavor.md` (lacquerHint0/1/2 + lacquerFound),
+  alternates in `takes/disc-woodlot-lacquer/`. **HR-14** filed with Pass-1
+  brief + per-take scorecards.
+- **Live swap (ADR-143):** hints are render-read flavor keys (`dev.subFlavor`
+  — free in the existing switcher); the found line is core-emitted, so
+  discoveries.ts grew `__setDiscoveryFlavorOverride` (the req-flavor
+  declaring-module pattern) and dev.ts forwards the effective flavor takes.
+- **UI:** the hint renders as the closing sentence of the Map node card's
+  blurb (both prod-incremental and DEV paths), patched in place.
+- **Verification:** full vitest + 17 verify gates green; `verify:balance`
+  GREEN (pacing diff = noise, T0 total steady 130.3min — report committed);
+  headless Playwright drive ALL GREEN: hint renders → take C swaps live in
+  the card → discovery latches after 5 cuts → found line logs → hint vanishes
+  → "Tap the lacquer tree" renders and pays (208→213 coin).
+  (`tmp/verify-discovery.mjs`, throwaway.)
+
+## Taste Pass 2 (canon, the built surface)
+
+12✔ · 1✘ · 8— — ✘P17 [briefed, by design]: no NEW-marker on the discovered
+action (the ADR-146 anti-checklist lock; the log line + sharpened blurb are
+the state signal). Full per-take scorecards live in the HR-14 item + the
+bundle doc.
+
 ## Next intended steps
-- Phase 1: `'discovery'` RNG stream + `discovered`/`discoveryProgress` state +
-  `discoveryPass` + hidden-activity gating + fixed-seed/ratchet tests.
-- Phase 2: tightening blurb hints (selector + UI), one real T0 discoverable,
-  fiction text via an ADR-139 narrative diverge; taste Pass 1 before the
-  player-visible wiring.
+- HR-14: the human picks the take bundle + feel-checks discovery pacing.
+- Phase 3 (portable rumors, tag-routed) — deferred until HR-14 closes.
+- More discoverables (a visit-stumble one would exercise the second trigger)
+  once the human signs the pattern.
