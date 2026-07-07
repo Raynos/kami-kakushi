@@ -43,11 +43,14 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
 
 ## Workstream A — finish the bible (human-gated sittings, in order)
 
-- **A1 · The T1 tier sheet** ⬩F+H — FULL detail (t0.md is the shape).
-  Seed + agenda: `tiers/t1.md`. Big rocks: the wings-access ladder ·
-  the kura key/alcove/stubs at R3 · the old breach · the debt-panel
-  reveal at R5 (the number as story beat) · the wolf's return · the
-  shoin restoration → the register capstone → Shigemasa's death.
+- **A1 · The T1 tier sheet** ⬩F+H — ✅ **DONE (2026-07-07, session
+  109)**: walked whole in seven pieces (ladder · cast+four new faces ·
+  land zones+three combat zones · wings+build spine · side-beats ·
+  combat · economics+seeding); `tiers/t1.md` is at full detail, all
+  big rocks landed (wings-access folded into the work titles · the
+  kura key at R3 · the breach at R4 · the debt panel at R5 in the
+  steward's room · the wolf in daylight at R6 · the shoin → register →
+  Shigemasa's death at R7).
 - **A2 · Cast VOICES** ⬩F+H — lock every T0 voice from the sketch
   candidates in `04-cast.md` (want · misreading · shape · license),
   the MC's use-name, the epigram-license assignment, and the name-norm

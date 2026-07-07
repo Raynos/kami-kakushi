@@ -88,8 +88,23 @@ with the human one piece per exchange.
   all-combat end to end) · forge equipment lane · seasons · carried
   systems canon.
 
+- **A1 piece 7 — economics + mystery seeding, LOCKED**
+  (AskUserQuestion): three-ledger T1 state · **the renegotiation scene
+  as the economic capstone, WITH one line for the MC** (human's pick
+  over the silent version — Genemon defers a single point to the man
+  who keeps the tallies) · **"the number MOVES"** as T1's debt victory
+  (first principal dent, magnitude sim-owned) · net-worth flavor
+  target ("a man's poverty, not a stray's") · tier-up deed classes ·
+  the seeding table with the one-answer rule.
+- **A1 COMPLETE.** t1.md rewritten whole to t0.md's section order
+  (seed scaffolding stripped, header now "walked and confirmed whole");
+  README status ledger updated (T0+T1 complete, T2–T6 seeded); the
+  finish plan's A1 step marked ✅.
+
 ## Next intended steps
 
-- Piece 7 (last): economics + seeding table → then the sheet-complete
-  read (t1.md reordered to t0.md's section order, seed scaffolding
-  removed, README status ledger updated).
+- **A2 — the cast VOICES sitting** (next per the finish plan): lock
+  every T0 voice from the 04-cast.md candidates, the MC's use-name,
+  the epigram-license assignment, the name-norm sweep. T1's four new
+  faces (Denshichi · Heikichi · Ribei · Tetsuji) join the docket.
+- Then A3 register rules · A4 T2+T3 half-detail sheets.
