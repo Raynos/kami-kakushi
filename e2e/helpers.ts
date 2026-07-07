@@ -16,6 +16,7 @@ export async function press(locator: Locator): Promise<void> {
  *  test; the `fixture registry drift` test asserts this list matches the live
  *  `__qa.fixtures()` registry — adding a fixture without mobile coverage is RED. */
 export const FIXTURES = [
+  'post-cold-open',
   'fresh-R3-pre-wolf',
   'pre-ascension',
   'rung-beat-ready',
