@@ -24,6 +24,14 @@
 - **Sentence shape:** plainest voice in the game — short declaratives,
   no figures of speech; a question visibly costs him.
 
+## Motifs
+
+- **Shinnosuke is the player's MIRROR** — the house's other outsider:
+  both ask questions the household won't answer, both stand outside
+  its silences. Reused deliberately, multiple times, across T0 and T1
+  (the grove beat, the crest question, onward). The boy watching the
+  drill yard is watching what he'll one day have to become.
+
 ## Entries
 
 *(Filled as each tier sheet locks; T0 first: the family —

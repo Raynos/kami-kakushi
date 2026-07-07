@@ -55,7 +55,7 @@ unexplained.
 
 *Theme: from weather to tool — the house learns his hands, not his
 face.* The tier keeps its variety: the wolf, Kihei's drill yard,
-forage and crafting-lite, and the market COMES TO HIM (Tokubei's
+forage and crafting-lite, and the market COMES TO HIM (Yohei's
 pedlar at the gate; no town access). Beats carried: the cold-open
 speaker flip (`You:` → `Nameless:`, witnessed) · the wolf
 survived-not-won · the shame→begging arc + Kihei's creed · the
