@@ -144,10 +144,45 @@ with the human one piece per exchange.
   under Sōan's hands in the room where the MC was saved; Bon #3 =
   the lantern he chooses to light · economics + seeding.
 
+- **THE ORIGIN RELOCKED — a major human steer (ADR-022: newest intent
+  wins).** I presented three flight-and-guilt origin options per the
+  reboot kernel's "what he fled"; the human asked what the ORIGINAL
+  PRD story was, and on hearing it, restored it whole: *"the reboot
+  kernel is too harsh and brutal. I want accident with a warm reunion
+  waiting."* Locked:
+  - **The MC is TAHEI** (working canon), a kaidō porter a LANDSLIDE
+    took into the river — no flight, no guilt, **no grave**; his
+    family (father Jinpachi, mother, sibling — the latter two named at
+    the sweep) is ALIVE and assumed him missing; his register entry
+    was KEPT OPEN (the second unstruck line — he has stood on both
+    sides of the same refusal).
+  - **The TAMA thread returns whole to T2** ("the whole damn point of
+    the name of the game"): Sayo names him at R0; Tama-vs-farmhand is
+    REAL authored DECIDEs (naming · Bon rites · the well), moving both
+    tracks and changing which scenes exist; Ekai's register now holds
+    TWO false takings (Katsuhide's + Tama's).
+  - **The T3 rails restore the PRD shape:** the Otsuru truth on the
+    SPINE guaranteed (Tama was a girl who ran, found grown at
+    Yanagi-watari); the Tahei reunion OPTIONAL and missable at
+    Sawatari-juku (the O-ladder; Kanta its first face; the
+    name-reclaim at its end). Matsuzō's quiet river and Sōan's ledger
+    both pay warm.
+  - **Kernel #1 softened one line** (human steer, noted in-place):
+    "human cause" → "mundane, worldly cause… or a plain accident";
+    truth "is not required to wound."
+  - **Renames at the restoration:** headman Jinbei→**Mohei** (yields
+    to Jinpachi), villager Tazō→**Ganzō** (yields to Tama/Tahei).
+    Sweep docket: Sayo/O-Sato (Sa-), Kanta/Katsuhide (Ka-).
+  - Rippled: 00-kernel · 02-house (birth-name cell closed) · 03-tiers
+    (T3 overview + zones) · 04-cast (MC origin + tier seeds) · t2.md
+    (Tama thread section) · t3.md (rewritten whole).
+
 ## Next intended steps
 
-- T3 sheet (half detail): the ORIGIN design is its rock (birth-name
-  question, what he fled, the grave, the buried-truth quest).
+- T3 sheet still owes its half-detail sitting pieces: the reunion
+  beats' staging · the Otsuru scenes · the buried-truth quest design ·
+  region cast · expedition systems · economics · T4 seeding.
 - Then T4 (quarter) · T5 (fifth) · T6 check (tenth).
-- A2 resumes after the tier sheets (four drafts awaiting lock); then
-  A3 register rules.
+- A2 resumes after the tier sheets (four drafts awaiting lock; the
+  sweep also owes: mother + sibling names, Sayo/O-Sato, Kanta/
+  Katsuhide); then A3 register rules.

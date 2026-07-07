@@ -8,15 +8,18 @@ cast, arcs, tiers, premise framing — earns its place under these.
 
 1. **The lie of the vanishing.** *Kami-kakushi* — the spirit-abduction the
    title promises — is a lie the world tells itself to bear what it cannot
-   face. Every vanishing has a human cause: debt, flight, shame, violence,
-   cold arithmetic. The folk-belief is never mocked — believing is
-   grief-work, and the game treats believers with kindness — but the
-   truth, when the player finally holds it, is always mundane; it may cut
-   deeper than the myth would have (the best ones do), but it is not
-   required to. The game permits itself at most ONE moment of genuine
-   ambiguity, ever. No supernatural cause is ever real, no yokai ever
-   spawns, and the player is never teased with magic the fiction won't
-   cash.
+   face. Every vanishing has a mundane, worldly cause: debt, flight, shame,
+   violence, cold arithmetic — or a plain accident the story never dresses
+   up (a landslide, an undertow, a child who simply ran). *(Softened from
+   "human cause" by the human, 2026-07-07: a vanishing may be nobody's
+   sin, and its truth may be warm — the MC's own is.)* The folk-belief is
+   never mocked — believing is grief-work, and the game treats believers
+   with kindness — but the truth, when the player finally holds it, is
+   always mundane; it may cut deeper than the myth would have, or it may
+   hand someone back alive — it is not required to wound. The game permits
+   itself at most ONE moment of genuine ambiguity, ever. No supernatural
+   cause is ever real, no yokai ever spawns, and the player is never
+   teased with magic the fiction won't cash.
 
 2. **Nobody twice unnamed.** A person may enter the story nameless — a
    stranger washed up at the gate, a vanished child in a decade-old rumor,

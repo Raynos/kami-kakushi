@@ -24,9 +24,16 @@
   thread, [`03-tiers.md`](03-tiers.md)).
 - **Sentence shape:** plainest voice in the game — short declaratives,
   no figures of speech; a question visibly costs him.
-- **OPEN:** his birth name (never locked; decided by/at the T3 origin
-  design); what he fled (shaped at the T3 sitting under kernel #1 —
-  a human cause, cold arithmetic preferred).
+- **The ORIGIN (relocked by the human, 2026-07-07 — the PRD design
+  restored):** his birth name is **TAHEI** (working canon; §0.9
+  recasting stays open at the name sweep). He fled NOTHING — a kaidō
+  porter, **a landslide took him into the river** (kernel #1's plain
+  accident). His family — **father Jinpachi, his mother, and his
+  sibling — are ALIVE** at the holding outside the post-town, and
+  assumed him MISSING, never dead: his register entry was kept open
+  (the second unstruck line). The reunion is warm, optional, and
+  waiting — full design: [`tiers/t3.md`](tiers/t3.md). The old
+  "what he fled / the grave with his name" origin is void.
 
 ## Motifs
 
@@ -219,12 +226,19 @@ the roster's leading syllables; shapes land at the voices sitting.
 ## Beyond the estate (cast seeds by tier — grown per tier sheet)
 
 T2 the village (named at the T2 sitting — see
-[`tiers/t2.md`](tiers/t2.md)): **Jinbei** the headman · **Ekai** the
-temple keeper (the register of the vanished) · **Kyūbei** the miller ·
-**Funakichi** the ferry keeper · **Seiroku** the bandit chief ("the
-mountain dogs") — plus the ordinary pool (Gonsuke · O-Haru · Tazō ·
-O-Mitsu · Bunta), plot-roleless by design. T3 the region: the origin town's cast (his family's remnant ·
-the register office · whoever tends the grave with his name on it).
+[`tiers/t2.md`](tiers/t2.md)): **Mohei** the headman · **Sayo** his
+daughter, the NAMER — "Tama? You're alive?" (the Tama thread's living
+heart) · **Ekai** the temple keeper (the register of the vanished —
+two false takings in it) · **Kyūbei** the miller · **Funakichi** the
+ferry keeper · **Seiroku** the bandit chief ("the mountain dogs") —
+plus the ordinary pool (Gonsuke · O-Haru · Ganzō · O-Mitsu · Bunta),
+plot-roleless by design. T3 the region (the origin RELOCKED warm —
+see [`tiers/t3.md`](tiers/t3.md)): the family ALIVE at the holding —
+**Jinpachi** the father · the mother · the sibling (names at the
+sweep) · **Kanta** the porter friend · **Otsuru** — the grown woman
+who was "Tama," found at Yanagi-watari · the register office that
+kept his entry open. *(Name-sweep docket: Sayo/O-Sato share Sa-;
+Kanta/Katsuhide share Ka- — the sweep rules on both.)*
 T4: **the enemy — the lord of the castle town** (office/faction with
 hands in BOTH old wounds; the campaign's face; design cell at the T4
 sitting) · Katsuhide met. T5: the bakufu's men · the domain's

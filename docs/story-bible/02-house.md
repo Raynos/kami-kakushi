@@ -83,7 +83,9 @@ in rumor. Full anatomy: [`05-world.md`](05-world.md).
 
 Katsuhide's exile identity (what ten years made of him) · the jizō
 offerings' answer (a resolving mystery — [`tiers/t0.md`](tiers/t0.md))
-· the MC's birth name (T3 design) · the enemy-lord's exact office
+· ~~the MC's birth name (T3 design)~~ *(locked 2026-07-07: **Tahei** —
+the origin relocked warm, [`tiers/t3.md`](tiers/t3.md); §0.9 recast
+stays open at the name sweep)* · the enemy-lord's exact office
 (T4 design).
 
 ## Cast-name norm

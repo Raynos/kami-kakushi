@@ -164,12 +164,18 @@ domain · the rebuilt Gatehouse · the New clearances.
 Starts: the house's EXPEDITIONARY — sent out because he has earned
 trust AND strength: road-guard to the house's goods, opener of routes,
 the house's reach made flesh. The region answers force as often as
-paper. The ORIGIN mainline runs here: the rumor-trail leads to the
-origin town — the nearest LARGER town, a full content hub — and to his
-own name and what his vanishing did. He KNOWS by tier's end; the ink
-waits for the end of the game, his choice. The origin-town reputation
-track opens at zero and colder: there he is a rumor about a dead man,
-and house standing buys nothing.
+paper. The ORIGIN mainline runs here **(RELOCKED warm by the human,
+2026-07-07 — the PRD design restored; full canon:
+[`tiers/t3.md`](tiers/t3.md))**: the MC is **Tahei**, a kaidō porter a
+landslide took into the river — no flight, no guilt, no grave. The
+**Tama truth resolves on the spine** (Tama was a girl who ran —
+Otsuru, found grown), and the **Tahei reunion is an OPTIONAL
+side-track** at the post-town: his family — father, mother, sibling —
+ALIVE at the holding, his register entry kept open by their refusal
+(the second unstruck line). He KNOWS by tier's end; the ink waits for
+the end of the game, his choice. The origin reputation track opens at
+zero: there he is a missing man's rumor, and house standing buys
+nothing — until he knocks.
 
 It ends at the house's factor — a HOUSE office, the outward-facing
 charge — while inside, the ruin's wings and inner domain open (the
@@ -190,9 +196,10 @@ new routes; region alliances)* · R7 **The house's factor** *(inside)*.
 **Zones:** the Mountains (the high passes, the ridge shrines — dead
 white in winter) · the Deep forest (older and darker than the valley
 woods) · the Grasslands (open road country) · the Riverfront (the
-barge towns' edge) · the Post-towns (4–5 zones each) · **the Origin
-town** (a full hub: market · register office · temple · inn quarter ·
-the family holding outside it · the grave that carries his name) ·
+barge towns' edge) · the Post-towns (4–5 zones each; **Sawatari-juku
+the origin-reunion hub** — market · register office · temple · inn
+quarter · **the family holding outside it**) · **Yanagi-watari**, the
+down-valley market town (the Otsuru find) ·
 bandit country proper · the Charcoal valleys — and the estate: the
 East & West halls · the inner domain · the sealed storerooms.
 
