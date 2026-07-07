@@ -215,10 +215,17 @@ truth is found and WRITTEN, the house cannot complete itself** (kernel
 
 1. **The Kuzuhara drowned** (from D) — a generation older: the
    grandfather's flood-works and the hamlet that died under the house's
-   water. Part of the history of the estate's DECLINE. Paid for
-   regularly by someone OTHER than Toku, in a DIFFERENT modality than
-   the packet (who + how: OPEN — under design; candidate: forgiven
-   debts hidden in the ledgers).
+   water. Part of the history of the estate's DECLINE. **Payment
+   (human-locked 2026-07-07): the grandfather's STANDING INSTRUCTION,
+   executed by GENEMON — in silver,** paid regularly, decade after
+   decade. Ask Genemon and you get only rumors: he learned of it when he
+   was a young hand, when he was young. **The full truth is buried or
+   stored somewhere ON THE ESTATE — finding it is an entire mainline
+   quest** (a later tier's beat; the estate map carries the secret from
+   T0). So the house bleeds silver twice, from two hands, for two
+   wounds: **Toku pays for the living; Genemon pays for the dead** —
+   and neither payment can be explained without opening what it
+   protects.
 2. **Katsuhide, the self-vanished heir** (from B) — the living wound,
    the packet, the unstruck line, the succession knot.
 
@@ -244,13 +251,18 @@ on camera.
   vanishing: birth town, own name. He KNOWS at T3; the register says so
   only at the end, his choice (human-locked). Escalation: strangers
   (T0–T2) → self (T3) → the house (T4).
-- **T4 + T5 — the heir found · the heir made** *(the circles' NAMES
-  under confirm — the castle-town-vs-province ordering question)*:
-  T4 — Katsuhide FOUND via the packet-trail + official paper; declines
-  to return; **renounces in writing**; within the tier it is known
-  Shinnosuke will be adopted. *Skip; genpuku at the seam.* T5 — a whole
-  tier of Shinnosuke adopted and LEARNING the house under Naoyuki's
-  regency; the MC the bridge.
+- **T4 · The Castle Town — the heir found** (1788–89; human-locked: the
+  castle town precedes the province — the domain's SEAT is how you hold
+  the domain). The paper-chase through the domain's records + the
+  packet-trail finds **Katsuhide**. He declines to return — and gives
+  the one thing only he can: **renunciation in writing.** Within the
+  tier it is known Shinnosuke will be adopted. *Skip; genpuku at the
+  seam.*
+- **T5 · The Province — the heir made** (1790–92). The domain entire,
+  held THROUGH the castle-town foothold. A whole tier of Shinnosuke
+  adopted and LEARNING the house under Naoyuki's regency; the MC the
+  bridge — the man who rebuilt the house teaching the boy who will hold
+  it.
 - **T6 · Edo — DELIBERATELY OPEN** (human, 2026-07-07). Shinnosuke is
   lord; beyond that, no detail is locked: the Edo tier is a
   game-within-a-game, a PSEUDO-prestige act (nothing resets — §0.9) for
