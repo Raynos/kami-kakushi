@@ -59,9 +59,21 @@ with the human one piece per exchange.
     stones + the otters' dressed-stone den all pay from a single
     authored story at the fall's design (T2/T3).
 
+- **A1 piece 4 — the wings zones + the estate-build spine, LOCKED**
+  (AskUserQuestion, three forks — all recommended options taken):
+  - Four wings zones locked: East wing (mismatched fittings — the
+    house ate itself), West wing (closed all tier; the swept corridor
+    stays PLAIN TEXTURE — O-Sato's ordinary duty, no mystery debt),
+    Inner garden (recovery node; the stone path's gate opens on the
+    ruin — existing debt only), the Shoin (salvage marks; the scene).
+  - The R1–R7 estate-build spine locked as a table — including NEW
+    canon: **the R5 steward's room** (Genemon's papers leave the
+    kitchen; T0's compression wrong-thing repaired on screen; the
+    debt panel unlocks IN the room — room and number arrive together).
+
 ## Next intended steps
 
-- Piece 4: the wings zones + the estate-build stages (which rooms, what
-  order) — tightly coupled, drafted together.
-- Then: Bon #2 · mirror uses · night rounds T1 / combat structure ·
-  economics + seeding.
+- Piece 5: the authored side-beats roster (Bon #2 · the mirror's T1
+  uses · interest days · the dog thread · rumor current).
+- Then: combat structure & enemies (organize the locked zones by
+  shape; night rounds T1) · economics + seeding table.
