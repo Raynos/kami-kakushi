@@ -82,14 +82,16 @@ taste-risk is highest (the macro pitch), ping-pong everywhere else.
      application note, friction-staged folded into #7 likewise, and the
      decide-menu clause RELEASED to the pitches. Canon:
      `story-bible.md §0.5`.
-  3. Mechanics-feel pillars — what progression/session/friction must FEEL
-     like, since mechanics are co-designed. OPEN QUESTION after the step-2
-     reframe: pitches are bound by kernel + constraints ONLY, so step 3's
-     guardrails either fold into the constraints sheet or drop.
-  4. Constraints sheet — platform, genre (incremental), scope realities
-     (T0 first), the ADR-139/scorecard machinery that still applies.
-  Output: the pillars section, committed — the constitution every pitch
-  must honor.
+  3. ✅ MERGED into step 4 (human, 2026-07-07): mechanics-feel judgments
+     are open pitch territory per the frame; no separate pass.
+  4. ✅ Constraints sheet (2026-07-07) — `story-bible.md §0.9`. The big
+     calls: SETTING FIXED (1780 rural Japan, declining house, denylist),
+     NAMES OPEN (Kurosawa/Asagiri/cast recastable); NO-PRESTIGE HARD
+     (persistence is identity); engineering/process/scope buckets as
+     proposed.
+  **PHASE 1 COMPLETE (2026-07-07):** the pitch-binding constitution is
+  bible §0 (kernel) + §0.9 (constraints); §0.5 (prose law) binds written
+  fiction incl. pitch sample scenes.
 - **Phase 2 — pitches (macro diverge, MIXED FLEET of 5).** Five
   independent agents, blind to each other, each authoring a COMPLETE story
   pitch: premise, mystery spine, core cast, tier/act arc, and how

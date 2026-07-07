@@ -80,3 +80,21 @@ full statements written for the first time (reboot plan §4):
 "Woodblock restraint" was DEMOTED (stale — predates UI-v2/Andon Steel,
 ADR-127/144); its redrawn register-wide form is parked as a step-2
 fiction-pillar candidate. Next: step 2, fiction pillars.
+
+## Addendum 2 — Phase 1 COMPLETE (same sitting)
+
+Step 2 was challenged by the human ("reasonable but arbitrary — will it
+restrict the diverge?") and reframed on scoring: the fiction pillars were
+never design pillars — they're a PROSE LAW (bible §0.5) binding written
+fiction only; pitches design under kernel + constraints alone. Kept:
+restraint / one-voice-one-shape / rewards-are-things (coin-in-speech
+relaxed) + echo craft rule; problems-motivate and friction-staged folded
+into kernel #6/#7 as application notes; the decide-menu clause RELEASED
+to pitches. Steps 3+4 merged into one constraints sheet (bible §0.9):
+setting FIXED (1780 rural Japan) with NAMES OPEN (Kurosawa/Asagiri/cast
+recastable); no-prestige HARD; engineering/process/scope buckets.
+
+The bible (docs/living/story-bible.md) was born mid-sitting: §0 kernel +
+application notes, §0.5 prose law, §0.9 constraints. Phase 1 done.
+Next: Phase 2 — design the pitch brief, spawn the 5-pitch mixed fleet
+(3 blind / 2 informed), review as one HR bundle.
