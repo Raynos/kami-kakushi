@@ -60,3 +60,24 @@ is rewritten to match the story bible. ADR-149 records it; HR-12 updated
 (the substrate pick is now part of the live review); the brainstorm doc's
 status flipped to LOCKED. Build begins: Phase A (capture fix + fresh
 blind pass) → substrate toggle → Phase B → Phase C.
+
+## Phase A + the substrate steer (same session, later still)
+
+Phase A done: the capture script graduated to
+`src/scripts/map-audit-shots.mjs` with the LOD fix (it now flips
+`data-zoom` the way the shell's zoom does — the old tmp/ script hid the
+`.ms-fine` register from every iter1–5 shot); 14 corrected captures in
+`project/audit/screens/2026-07-07-t0t1-map-postpolish/`; two fresh blind
+readers scored them (report:
+`project/audit/reports/2026-07-07-t0t1-map-blind-pass-2.md`). Result:
+every M-line passes except **R4 on T0** (the irrigation channel reads as
+a ROAD — it wears path grammar) and the R13 west-wing-CLOSED half on T1;
+R15's terrace-numeral read is direct proof the capture fix mattered
+(numerals live in the fine register pass 1 could never see). The washi
+substrate A/B (ADR-149 decision 1) was built, screenshotted, and **killed
+by the human before commit** ("doesn't fit the style of the rest") —
+night-indigo is the committed substrate, ADR-149 amended, HR-12's
+substrate question closed, the sheet.ts washi edits reverted un-committed.
+Phase B next: R4 water grammar, west-wing shutters, fine-register
+population, ground texture (night, earned), forest strata, wing fills,
+label collisions.

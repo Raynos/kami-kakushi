@@ -2273,10 +2273,12 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   pick live; craft — all now / verification only / wait for HR-12; engine
   — now / park until T2 maps / regression-pin only; player map — BACKLOG /
   HD-item / design now.
-- **Decision (human, 2026-07-07, via AskUserQuestion):** **(1) Wire BOTH
-  substrates** behind a DEV toggle (the washi fork is a one-table token
-  swap) — the human picks live during the HR-12 look; canon carries only
-  the pick, the alternate is deleted after sign-off. **(2) Phase A + the
+- **Decision (human, 2026-07-07, via AskUserQuestion):** **(1)** ~~Wire BOTH
+  substrates behind a DEV toggle — the human picks live during the HR-12
+  look~~ **superseded same day: the washi A/B was built, screenshotted, and
+  KILLED by the human before commit ("doesn't fit the style of the rest") —
+  NIGHT-INDIGO is the committed substrate**, and the ground/void fix is
+  earned by rendering (a texture pass), not a palette swap. **(2) Phase A + the
   full Phase B craft pass now** (the ground/void wash item waits for the
   substrate pick, since washi would erase it). **(3) Phase C engine
   hardening NOW, while hot** — not parked for T2. **(4) The maps are

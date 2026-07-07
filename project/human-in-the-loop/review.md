@@ -344,10 +344,11 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 - **Asking for:** the taste verdict on both sheets — do they read as an
   intentional lamplit 絵図 (not AI-slop)? Does the T0 sheet SEED the twist
-  without saying it? Is the night-indigo substrate right, or do you want the
-  warm-washi fork? **(ADR-149: the substrate is now an A/B toggle in the map
-  shell — flip it live during this review and your pick is the verdict; the
-  losing table is deleted after sign-off.)**
+  without saying it? ~~Is the night-indigo substrate right, or do you want
+  the warm-washi fork?~~ **Substrate RESOLVED (human, 2026-07-07): the washi
+  A/B was built + screenshotted, then killed before commit — "doesn't fit
+  the style of the rest." Night-indigo stays; only the two taste questions
+  above remain open.**
 - **How to look:** `pnpm run dev` → DEV panel → **Story** tab → "⤢ T0 V2 map"
   and "⤢ T1 map". Pan/zoom (zoom REWARDS — stall divisions, stone numerals,
   offering marks live past ~1.6×); click 夜 for the patrol rail; click any
