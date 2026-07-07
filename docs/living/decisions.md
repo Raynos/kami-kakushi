@@ -252,7 +252,7 @@ that list is hand-maintained, and no gate can soundly know a rename happened (au
 - **created_date:** 2026-06-26
 - **Context:** `docs/living/prd.md` (~4820 lines) was right for *authoring & review* but is a liability for *building* (hard to keep current). The human confirmed: freeze prd.md as the vision, explode into living docs — but only **after** the PRD is signed off.
 - **Options:** keep the single PRD as the working doc · **explode into per-concern living docs + generated tables** · author a full doc suite up front.
-- **Decision:** Once the PRD is frozen, **freeze `prd.md` as the vision spec** (read-mostly) and **derive per-concern LIVING docs** (`docs/architecture.md`, `docs/systems/*`, `docs/narrative/*`) plus **GENERATED** content/balance tables (`docs/content/`, via `gen:docs --check`) — **never hand-maintained twice** (the generate-don't-duplicate rule). The ADR log, the journals, and `human-feedback/2026-06-26-prd-human-feedback.md` remain as the history/intent layer. **Hold the explosion until after sign-off** (it is the first step of the build phase). **Refined (2026-06-26) by ADR-021:** sign-off legitimately comes *after* the first **MS0+MS1** build-and-play cycle, so the explosion is held until **then** — it is **not** "the first step of the build phase"; build MS0+MS1 against the current `prd.md`, then reorganise once, on ground that has survived contact with play. "Freeze" is now scoped to **LOCKED INTENT** (§1 vision + the hard constraints + the signed acceptance criteria); the §4 numbers and the §7 MS2–MS7 milestone detail stay **provisional**, and MS2–MS7 are **never** frozen as canon.
+- **Decision:** Once the PRD is frozen, **freeze `prd.md` as the vision spec** (read-mostly) and **derive per-concern LIVING docs** (`docs/architecture.md`, `docs/systems/*`, `docs/narrative/*`) plus **GENERATED** content/balance tables (`docs/content/`, via `gen:docs --check`) — **never hand-maintained twice** (the generate-don't-duplicate rule). The ADR log, the journals, and `feedback-human/2026-06-26-prd-human-feedback.md` remain as the history/intent layer. **Hold the explosion until after sign-off** (it is the first step of the build phase). **Refined (2026-06-26) by ADR-021:** sign-off legitimately comes *after* the first **MS0+MS1** build-and-play cycle, so the explosion is held until **then** — it is **not** "the first step of the build phase"; build MS0+MS1 against the current `prd.md`, then reorganise once, on ground that has survived contact with play. "Freeze" is now scoped to **LOCKED INTENT** (§1 vision + the hard constraints + the signed acceptance criteria); the §4 numbers and the §7 MS2–MS7 milestone detail stay **provisional**, and MS2–MS7 are **never** frozen as canon.
 - **Why:** Living docs that track the code (some generated) cannot drift; a frozen `prd.md` preserves the agreed vision as the single reference.
 - **Consequences:** Do the docs-explosion AFTER the first MS0+MS1 build-and-play cycle (per the ADR-021 refinement), not at the start of the build phase; `gen:docs --check` is part of MS0's `pnpm run verify`; `prd.md` becomes read-mostly once frozen. **🔁 Refined (2026-06-29) by ADR-059:** the §1 vision-freeze (`prd.md` → read-mostly) is now deferred to **end-of-v1**, not the first build-play mark — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs once v1 is built + play-tested. The living-docs/generated-tables explosion already landed (ADR-046); only the *freeze* moves.
 
@@ -356,7 +356,7 @@ that list is hand-maintained, and no gate can soundly know a rename happened (au
 > only the tier/pillar mapping is stale. (The win-rate clause already carries the ADR-057 amendment inline.)
 
 The 5-round adversarial battery on PRD V2 surfaced 14 blocking defects (B1–B14) + ~40 design questions; all 32
-were resolved with the human (full set: **[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**; audit:
+were resolved with the human (full set: **[2026-06-26-prd-human-feedback.md Block N](../../project/feedback-human/2026-06-26-prd-human-feedback.md)**; audit:
 [brainstorms/2026-06-26-prd-v2-audit.md](../../project/brainstorms/2026-06-26-prd-v2-audit.md)). Governing per ADR-022.
 Headline locks: **v1 = ~60h FLOOR** (28.5h is the Phase-1 floor, not the total); **rung-meter ≥30-min floor is
 on the numeric-points objective** (focused-optimal can't go under; unfocused runs longer — resolves B4);
@@ -372,7 +372,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 
 ### ADR-044 ✅ — Crash-recovery: error boundary + last-known-good save ring + safe-mode boot
 - **created_date:** 2026-06-26
-- **Context:** Block N battery defect **B12** (**[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**, item D-Q-B12): an in-tick exception or a corrupted autosave could brick the only save and lose a ~60h run. The PRD V2 had no crash containment — an unhandled error in the per-tick fold or render would tear down the loop, and an autosave fired from an already-bad state would overwrite the only good copy.
+- **Context:** Block N battery defect **B12** (**[2026-06-26-prd-human-feedback.md Block N](../../project/feedback-human/2026-06-26-prd-human-feedback.md)**, item D-Q-B12): an in-tick exception or a corrupted autosave could brick the only save and lose a ~60h run. The PRD V2 had no crash containment — an unhandled error in the per-tick fold or render would tear down the loop, and an autosave fired from an already-bad state would overwrite the only good copy.
 - **Options:** (A) No containment — let exceptions propagate (a single bug bricks the run) · (B) Single try/catch around tick only · (C) Error boundary around tick **and** render + a rolling last-known-good save ring + a crash-counter persisted outside GameState + a safe-mode boot offering rollback, with autosave-poison suppression.
 - **Decision:** **(C)** Wrap **both tick and render** in an error boundary; persist a **crash-counter OUTSIDE GameState** (so a poisoned state can't hide the count); keep a **rolling last-known-good save ring**; **repeated crashes boot into safe-mode** offering rollback to a good ring slot; **suppress autosave-poison** — never overwrite the good ring with a state that just threw.
 - **Why:** A ~60h v1 floor (ADR-043) makes the single-save failure mode unacceptable; containing the blast radius to one tick and preserving a known-good rollback is the cheapest path to "a bug is recoverable, not fatal." Keeping the crash-counter outside GameState is what lets safe-mode trigger even when the state itself is the poison.
@@ -385,7 +385,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 > (the warm sumi `--ink-soft`-on-washi ratios became the cool-grey ramp-on-steel targets; ui-design.md §2
 > carries the current per-token guarantees).
 - **created_date:** 2026-06-26
-- **Context:** Block N a11y review (**[2026-06-26-prd-human-feedback.md Block N](../../project/human-feedback/2026-06-26-prd-human-feedback.md)**, item D-Q-a11y): the woodblock identity palette was carrying *meaning* through coloured text — a coloured WIN/LOSS word, coloured label-text — at contrast ratios that did not pass WCAG AA, and the PRD/ui-design overclaimed "AA on every surface" without stating the real per-token ratios.
+- **Context:** Block N a11y review (**[2026-06-26-prd-human-feedback.md Block N](../../project/feedback-human/2026-06-26-prd-human-feedback.md)**, item D-Q-a11y): the woodblock identity palette was carrying *meaning* through coloured text — a coloured WIN/LOSS word, coloured label-text — at contrast ratios that did not pass WCAG AA, and the PRD/ui-design overclaimed "AA on every surface" without stating the real per-token ratios.
 - **Options:** (A) Keep identity hues on text, accept sub-AA contrast for "atmosphere" · (B) Drop the woodblock identity palette entirely for monochrome legibility · (C) Split the roles — identity hues live only in chrome (fills/accents); all meaning-bearing text renders in AA-passing ink.
 - **Decision:** **(C)** Woodblock identity lives in **chrome only** — fills, bars, pips, borders; **every meaning-bearing text string renders in `--ink-soft`** (contrast ≥7.3, passes WCAG AA). **Drop the coloured WIN/LOSS word-as-text and the coloured label-text**; **drop the bare 'AA on every surface' overclaim** and instead state the **real per-token contrast guarantees**.
 - **Why:** Colour must never be the sole carrier of meaning, and the identity palette's hues can't all clear AA as foreground text — moving them to fills/accents keeps the woodblock look while guaranteeing every word is legible; replacing the blanket "AA everywhere" claim with measured per-token ratios keeps the spec honest and checkable.
@@ -401,7 +401,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 
 ### ADR-047 ✅ — v0.2 audit-fix build; the combat stance pulled forward to R3 (provisional)
 - **created_date:** 2026-06-27
-- **Context:** The 2026-06-27 state-of-the-game battery audit (`project/audit/reports/2026-06-27-state-of-the-game.md`) scored the MS0–MS2 demo a "chassis with no engine" (Fun 4.5 / Incremental 4.5). **v0.2** (tag `v0.2`; `project/audit/reports/2026-06-27-v0.2-changelog.md`) fixes the highest-leverage findings *against locked intent*, without deciding any of the 6 human **HD-items** — re-scored (independent workflow) to Fun 6.5 / UI 8.5 / Incremental 7.0 / PRD-faithful 8.0 / human-feedback 8.0 / README-spirit 7.5 / Laziness 3.0.
+- **Context:** The 2026-06-27 state-of-the-game battery audit (`project/audit/reports/2026-06-27-state-of-the-game.md`) scored the MS0–MS2 demo a "chassis with no engine" (Fun 4.5 / Incremental 4.5). **v0.2** (tag `v0.2`; `project/audit/reports/2026-06-27-v0.2-changelog.md`) fixes the highest-leverage findings *against locked intent*, without deciding any of the 6 human **HD-items** — re-scored (independent workflow) to Fun 6.5 / UI 8.5 / Incremental 7.0 / PRD-faithful 8.0 / feedback-human 8.0 / README-spirit 7.5 / Laziness 3.0.
 - **Decision:** Build v0.2 as scoped (graded combat curve + kendo stance, the work→skill→yield reinvestment loop + cook/estate/attribute sinks, the R3 chapter-close + dream-2 payoff + the greyed House-Influence macro teaser, the cold-open screen, log ×N coalescing, the real RED→GREEN acceptance tests, the wired `migrate()`, the DEMO/REAL pacing profile). **All balance numbers are PROVISIONAL (v0.2) — tune by playtest.** The **combat stance reveal is pulled forward from its PRD-canonical R5 slot to R3** (combat-unlock) so a real combat *decision* exists from the moment combat opens (audit's top ask).
 - **Why:** The audit wants the combat decision *now*; gating it at R5 leaves the freshly-unlocked R3 combat decision-less. The pull-forward is a small, reversible reveal-schedule change — not a vision change — so it does not need an HD-item; it is recorded here so the divergence from the §7.2 reveal ladder is tracked, not silent.
 - **Consequences:** A re-gate to R5 later is a one-line change (`surfaces.ts` predicate). ~~The DEMO balance profile stays the shipped default (the REAL ≥30-min profile is reachable via `pnpm run pacing` / a flag but **not** chosen — that's HD-1, the human's call).~~ **⛔ SUPERSEDED (2026-06-29) by ADR-056** — HD-1 resolved: the real ADR-049 pacing ships as the default; review velocity comes from a DEV-only 2×/4×/8× speed toggle (a time multiplier), and the DEMO/REAL profile fork is retired. The seed-robust win-rate forecast (`combat.foeForecasts`, fixed seed) is now canon for the displayed/guard-tested win-rate. Provisional; supersedes nothing locked. Per **ADR-022**, future human steers win.
@@ -414,7 +414,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 A live human-steered design session (2026-06-28), driven by the v0.1 state-of-the-game audit
 ([`project/audit/reports/2026-06-27-state-of-the-game.md`](../../project/audit/reports/2026-06-27-state-of-the-game.md)),
 reshaped the tier spine and resolved the open HD-items. Full intent record:
-**[`2026-06-28-tier-reshape.md`](../../project/human-feedback/2026-06-28-tier-reshape.md)**. These 8 ADRs are **LOCKED
+**[`2026-06-28-tier-reshape.md`](../../project/feedback-human/2026-06-28-tier-reshape.md)**. These 8 ADRs are **LOCKED
 canon** (governing per **ADR-022**). **✅ Applied to `prd.md` / the living docs 2026-06-29 (session-15)** — the PRD
 body is no longer 5-tier-stale. The **code** application is the Part-2 v0.3 build (tracked in
 **[`project/archive/2026-06-29-path-to-v0.3.md`](../../project/archive/2026-06-29-path-to-v0.3.md)** Part 2 — now
@@ -506,7 +506,7 @@ A human-driven decision pass (2026-06-29) reconciled the v0.2 state-of-the-game 
 ([`2026-06-28-state-of-the-game-v0.2.md`](../../project/audit/reports/2026-06-28-state-of-the-game-v0.2.md)) against the
 tier reshape (**ADR-048…ADR-055**); a verification workflow confirmed the reshape had already closed almost every audit
 item, and this batch resolves the residuals + records the forward calls. Full intent record (23 numbered decisions):
-**[`2026-06-29-decision-session.md`](../../project/human-feedback/2026-06-29-decision-session.md)**. These ADRs are **LOCKED
+**[`2026-06-29-decision-session.md`](../../project/feedback-human/2026-06-29-decision-session.md)**. These ADRs are **LOCKED
 canon** (governing per **ADR-022**) but are **NOT yet applied to `prd.md` / the living docs / code** — they ripple in ONE
 batch with the ADR-048…ADR-055 reshape. **Op-model v2 was reviewed** (2026-06-29 HD-item session) and initially ~~deferred (**ADR-070**)~~ — but
 **⛔ SUPERSEDED 2026-06-29 by ADR-072–ADR-074:** the human reopened it as **"v2 FINAL"** and **ADOPTED** the bundle —
@@ -646,7 +646,7 @@ design ADR.
 - **Options:** (A) adopt the v2-lite bundle wholesale · (B) **defer the bundle; greenlight useful pieces ad hoc** · (C) reject outright.
 - **Decision:** **(B)** **Defer** the v2-lite bundle. **Not a freeze** — useful pieces are greenlit piecemeal as they come up (the `tdd` skill and the lean pre-commit gate **ADR-071** were both greenlit this way). **HD-7 and HD-9 both resolve to DON'T-BUILD:** **ADR-054**'s milestone-integrity policy + CI-manifest check already own the ship-gate *policy* (no bespoke skill), and decision queues are resolved **by hand** (demonstrated this very session via `AskUserQuestion`).
 - **Why:** The bundle's value is real but unproven and its harness cost is ~1 week; piecemeal adoption captures the wins without committing to the whole. Bespoke automation (ship-gate, resolve-queue skills) isn't worth building until the pain actually recurs.
-- **Consequences:** **Closes HD-7, HD-9, HD-10.** The mandatory `diverge` UI gate (DS#10) and the `playcheck` ratchet remain **HELD** (not adopted) and ride with the fuller v2-lite if it's ever revisited — the trigger is the hand-holding cost resurfacing. Intent: [`../../project/human-feedback/2026-06-29-h-item-decisions.md`](../../project/human-feedback/2026-06-29-h-item-decisions.md). Per **ADR-022**, governs.
+- **Consequences:** **Closes HD-7, HD-9, HD-10.** The mandatory `diverge` UI gate (DS#10) and the `playcheck` ratchet remain **HELD** (not adopted) and ride with the fuller v2-lite if it's ever revisited — the trigger is the hand-holding cost resurfacing. Intent: [`../../project/feedback-human/2026-06-29-h-item-decisions.md`](../../project/feedback-human/2026-06-29-h-item-decisions.md). Per **ADR-022**, governs.
 
 ### ADR-071 ⛔ — A lean, content-aware (<5s) pre-commit gate (the one v2-lite piece greenlit; built) — REVERSED by ADR-072 (2026-06-29)
 
@@ -659,7 +659,7 @@ design ADR.
 - **Options:** (A) run the full `verify` (test suite) on every commit · (B) **a content-aware fast (<5s) subset that runs only what's relevant to the staged files** · (C) no gate (keep the journal-only hook).
 - **Decision:** **(B)** A content-aware **<5s** pre-commit subset: staged `.ts` → `tsc --noEmit`; staged `.ts/.md/json/css/html` → `prettier --check` (staged only); staged `src/**` → a pure-core **boot smoke**; then the unchanged journal-hygiene gate. **NOT the full test suite.** Bypass: `SKIP_VERIFY=1` (checks) / `SKIP_JOURNAL=1` (journal).
 - **Why:** A fast gate runs on every commit without friction; the full suite is too slow for a per-commit gate (it belongs in CI / `verify`). The pure-core boot smoke catches "dumb stuff" (a core that won't boot) cheaply.
-- **Consequences:** **Built this session** — [`../../.githooks/pre-commit`](../../.githooks/pre-commit) + [`../../src/scripts/smoke.ts`](../../src/scripts/smoke.ts), measured **~0.87s** on a TS+core commit. Complements **ADR-054** (milestone-integrity / CI-manifest, which stays the heavier CI-side check). The fuller `playcheck` ratchet stays deferred with the v2-lite bundle (**ADR-070**). Intent: [`../../project/human-feedback/2026-06-29-h-item-decisions.md`](../../project/human-feedback/2026-06-29-h-item-decisions.md). Per **ADR-022**, governs.
+- **Consequences:** **Built this session** — [`../../.githooks/pre-commit`](../../.githooks/pre-commit) + [`../../src/scripts/smoke.ts`](../../src/scripts/smoke.ts), measured **~0.87s** on a TS+core commit. Complements **ADR-054** (milestone-integrity / CI-manifest, which stays the heavier CI-side check). The fuller `playcheck` ratchet stays deferred with the v2-lite bundle (**ADR-070**). Intent: [`../../project/feedback-human/2026-06-29-h-item-decisions.md`](../../project/feedback-human/2026-06-29-h-item-decisions.md). Per **ADR-022**, governs.
 
 ### ADR-072 ✅ — Operating Model v2 ADOPTED ("v2 FINAL"): full-`verify` pre-commit + a 5s drift guard (supersedes ADR-070, ADR-071)
 - **created_date:** 2026-06-29
@@ -687,7 +687,7 @@ design ADR.
 
 ## ADR-075…ADR-080 — 2026-06-30 R4, variant-process & operating-philosophy decisions (post-v0.3-playtest, human-steered) ⏳ build PENDING
 
-> Source capture: [`../../project/human-feedback/2026-06-30-r4-playtest-decisions.md`](../../project/human-feedback/2026-06-30-r4-playtest-decisions.md).
+> Source capture: [`../../project/feedback-human/2026-06-30-r4-playtest-decisions.md`](../../project/feedback-human/2026-06-30-r4-playtest-decisions.md).
 
 ### ADR-075 ✅ — Diverge v2: full variants, live in a DEV panel, one review item per variant (refines ADR-073)
 - **created_date:** 2026-06-30
@@ -778,7 +778,7 @@ design ADR.
 
 ## ADR-086…ADR-088 — 2026-06-30 v0.3 process-learnings adoption (human-steered)
 
-> The human read the v0.3 retrospective ([`../../project/brainstorms/2026-06-30-v03-process-learnings.md`](../../project/brainstorms/2026-06-30-v03-process-learnings.md)) and steered which learnings to adopt and how (capture: [`../../project/human-feedback/2026-06-30-process-learnings-decisions.md`](../../project/human-feedback/2026-06-30-process-learnings-decisions.md)). **Guardrail the human set:** an ADR records a decision the _human_ made — so a retrospective does **not** dump 30+ ADRs; only genuine human decisions earn one, the rest fold into living docs / skills as norms. These three are the human's decisions; the F/E/P + A1–A23 learnings land as norms (see the capture).
+> The human read the v0.3 retrospective ([`../../project/brainstorms/2026-06-30-v03-process-learnings.md`](../../project/brainstorms/2026-06-30-v03-process-learnings.md)) and steered which learnings to adopt and how (capture: [`../../project/feedback-human/2026-06-30-process-learnings-decisions.md`](../../project/feedback-human/2026-06-30-process-learnings-decisions.md)). **Guardrail the human set:** an ADR records a decision the _human_ made — so a retrospective does **not** dump 30+ ADRs; only genuine human decisions earn one, the rest fold into living docs / skills as norms. These three are the human's decisions; the F/E/P + A1–A23 learnings land as norms (see the capture).
 
 ### ADR-086 ✅ — Tension over generosity is the default design bias
 - **created_date:** 2026-06-30
@@ -810,7 +810,7 @@ design ADR.
 
 ## ADR-090…ADR-091 — 2026-07-01 v0.3.1 combat-feel build (batch-2 priming, human-steered)
 
-> The human turned the v0.3.1 priming into a design session (two `AskUserQuestion` batches; capture: [`../../project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md`](../../project/human-feedback/2026-06-30-v0.3.1-priming-decisions.md)). These two formalize the genuinely-new combat-feel decisions, built + shipped in v0.3.1 Step 3. They **refine ADR-076**.
+> The human turned the v0.3.1 priming into a design session (two `AskUserQuestion` batches; capture: [`../../project/feedback-human/2026-06-30-v0.3.1-priming-decisions.md`](../../project/feedback-human/2026-06-30-v0.3.1-priming-decisions.md)). These two formalize the genuinely-new combat-feel decisions, built + shipped in v0.3.1 Step 3. They **refine ADR-076**.
 
 ### ADR-090 ✅ — A lost fight bites CARRIED wealth; the kura storehouse shelters BANKED (refines ADR-076)
 
@@ -1539,7 +1539,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   - **`taste.md` + `ui-design.md` are snapshot-class** (replace-in-place,
     never append) with **hard caps 150 / 400 lines** (rewrite targets
     ~110 / ~300), gated by a `verify-doc-budgets` docs-lane verify gate; the
-    F-corpus in `project/human-feedback/` stays the lossless example record.
+    F-corpus in `project/feedback-human/` stays the lossless example record.
     The pre-ship checklist LEAVES `taste.md` → FB-10's generated scorecards.
   - **Derivation corpus:** `2026-07-02-playtest.md` ONLY (the first and only
     playtest); a systems-taste layer waits for a systems playtest.
@@ -2025,7 +2025,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   R0–R7 AND review items `R1–R8`. The human's call (2026-07-06, AskUserQuestion):
   single letters are over-used repo-wide — move ID prefixes to 2/3-letter forms.
 - **Decision (human-locked map):** `D-NNN → ADR-NNN` (ADRs) · `FNNN → FB-NNN`
-  (human-feedback items) · `ANN → AC-NN` (ambient conventions) · `HNN → HD-NN`
+  (feedback-human items) · `ANN → AC-NN` (ambient conventions) · `HNN → HD-NN`
   (human decisions) · review `RN → HR-N` · milestones `MN → MSN` · taste values
   (both `V#` and the drifted `T#`) → `TST1–TST4` · philosophies `R1–R6 →
   PH1–PH6`. **Stay single-letter (the game's fundamental levels):** rungs
@@ -2035,7 +2035,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   roadmap codes** (`T2-M1-F2` keeps its internal letters — it's a structured
   scheme, not a bare prefix).
 - **Scope:** living docs + src/e2e **comments** only. Historical records
-  (`project/journal/`, `project/archive/`, `project/human-feedback/`,
+  (`project/journal/`, `project/archive/`, `project/feedback-human/`,
   `project/human-in-the-loop/archive.md`, brainstorm bodies, CHANGELOG) keep
   the old ids — both vocabularies stay resolvable via this map. String
   literals / identifiers in code were never touched. New docs written mid-sweep

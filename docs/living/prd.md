@@ -2,7 +2,7 @@
 
 > **Status: PRD V2.3 — reshaped from the 79 human-signed V2 decisions** (Block L `Q1–Q56` + Block M `FU1–FU23`)
 > **+ Block N (32 post-battery) + Block N.1 (7); ADRs ADR-043/ADR-044/ADR-045**
-> (2026-06-26; see [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §§L–N).
+> (2026-06-26; see [`2026-06-26-prd-human-feedback.md`](../../project/feedback-human/2026-06-26-prd-human-feedback.md) §§L–N).
 > **V2.3 (2026-06-29):** the 6-tier reshape — ADRs **ADR-048–ADR-069** + the 5 finalized forks — rippled into the body
 > (Part 1 of `path-to-v0.3`; commit `3040844`). Per **ADR ADR-022 (governing)** these
 > V2 decisions **supersede** any conflicting prior lock / canon / ADR — **most-recent-wins, annotate-don't-delete.**

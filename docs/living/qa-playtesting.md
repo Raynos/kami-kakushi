@@ -67,7 +67,7 @@ goes to a committed `<stamp>.json` sidecar and a `modern-screenshot` PNG to a gi
 sitting collects every capture. Because the `.json`'s save reproduces the moment byte-identically
 (§0), each entry **is** a full repro context. The human plays and captures whenever; an agent drains asynchronously with
 [`/drain-inbox`](../../.claude/skills/drain-inbox/SKILL.md) — reproduce from the save headlessly →
-triage → log a **FB-nn** in `project/human-feedback/` → `git mv` the capture to `archive/`. This is
+triage → log a **FB-nn** in `project/feedback-human/` → `git mv` the capture to `archive/`. This is
 the async twin of the human's live playtest loop; it never blocks either side.
 
 ### Observe
@@ -456,7 +456,7 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 The DEV/diverge tooling is held to the game's own standards — if the playtester
 can see it, it is part of the experience. Relocated here from `taste.md` (the
 player-facing standard) at the ADR-126 lock; evidence: the F-items in
-`project/human-feedback/2026-07-02-playtest.md`.
+`project/feedback-human/2026-07-02-playtest.md`.
 
 - **Zero-footprint overlay.** DEV chrome is `position:fixed`, reserves NO
   player-layout space (the game centers on the full viewport as if it's
@@ -483,4 +483,4 @@ player-facing standard) at the ADR-126 lock; evidence: the F-items in
 > targets), [`prd.md`](prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
 > §7 (milestone definitions-of-done), [`ui-design.md`](ui-design.md) (the visual bible),
 > [`taste.md`](taste.md) (the player-facing taste standard — this §9 is its workshop twin), and
-> [`2026-06-26-prd-human-feedback.md`](../../project/human-feedback/2026-06-26-prd-human-feedback.md) §K (the fun/UI process intent).
+> [`2026-06-26-prd-human-feedback.md`](../../project/feedback-human/2026-06-26-prd-human-feedback.md) §K (the fun/UI process intent).

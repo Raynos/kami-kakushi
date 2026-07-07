@@ -33,7 +33,7 @@ always-loaded context while being editable on its own.
   **[`docs/plans/`](docs/plans)** — **active only**; a plan **graduates to
   [`project/archive/`](project/archive)** once it's done (Status line ✅), so
   `docs/plans/` never accumulates finished plans.
-- [`project/human-feedback/`](project/human-feedback) — the human's **direct
+- [`project/feedback-human/`](project/feedback-human) — the human's **direct
   feedback** (a live inbox; one dated file per session); closed records stay
   alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now
   applied to the PRD).

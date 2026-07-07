@@ -13,8 +13,8 @@
 > sequence.**
 >
 > Reflects the **2026-06-28 tier reshape** (ADR-048…ADR-055, 6 tiers) + the **2026-06-29 decision
-> session** (ADR-056…ADR-069; [ledger](../../project/human-feedback/2026-06-29-decision-session.md)) + the **5
-> finalized forks** ([ledger](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md)). Per **ADR-021**
+> session** (ADR-056…ADR-069; [ledger](../../project/feedback-human/2026-06-29-decision-session.md)) + the **5
+> finalized forks** ([ledger](../../project/feedback-human/2026-06-29-roadmap-forks-finalized.md)). Per **ADR-021**
 > the roadmap is **re-planned after each playtest**: **T0/T1/T2 are detailed; T3 stays coarse** (re-detailed on
 > approach), and **PRD §4 balance stays liquid** (ADR-059) — it re-tunes through the build. The 6-lens review that
 > shaped this is at [`…/2026-06-29-roadmap-reaxe-review.md`](../../project/audit/reports/2026-06-29-roadmap-reaxe-review.md).
@@ -348,7 +348,7 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
   The current 4/4/4/3 (+ Ship's 2) reflects the content; expand or contract freely as on-approach detailing warrants.
 
 **Finalized 2026-06-29 — all forks CLOSED (the human confirmed every default; none block the build).** Ledger:
-[`2026-06-29-roadmap-forks-finalized.md`](../../project/human-feedback/2026-06-29-roadmap-forks-finalized.md).
+[`2026-06-29-roadmap-forks-finalized.md`](../../project/feedback-human/2026-06-29-roadmap-forks-finalized.md).
 1. **Per-tier hour floors** (#1) → **ACCEPTED AS PROVISIONAL.** T1 ~5–8h · T2 ~8–10h · per-rung ≈ ≥40 min set
    rung thresholds only; PRD §4 is liquid (ADR-059), playtest re-tunes, and the §4.8 ~28.5h budget **re-derives
    across all 4 v1 tiers together at Ship-M1-F2**.

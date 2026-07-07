@@ -1,4 +1,4 @@
-# human-feedback/
+# feedback-human/
 
 The human's **direct feedback** to the agent — captured as it's given so nothing is lost. This is the live
 inbox; the agent triages each item → fixes it (logging the commit) or routes a design decision to an ADR.

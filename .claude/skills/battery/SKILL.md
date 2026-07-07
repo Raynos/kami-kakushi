@@ -47,7 +47,7 @@ selection palette; don't re-run unchanged areas — re-run proven winners only a
 | `ui-polish` | Woodblock/ink intentionality vs AI-slop. **Screenshot-grounded** via `capture-game-states`. |
 | `prd-faithful` | Build vs the **locked** acceptance criteria (no-magic / mediocre-start / trade ≤⅓ / active-only / the targets). |
 | `readme-spirit` | Vision fidelity — the incremental-UI thesis, the four pillars + estate spine, breadth. |
-| `human-feedback` | Are the human's **signed** locks *verified-real in code + tests* (not merely claimed)? |
+| `feedback-human` | Are the human's **signed** locks *verified-real in code + tests* (not merely claimed)? |
 | `incremental` | The reinvestment loop, the sinks, the no-dead-value ratchet — does value compound? |
 | `laziness` *(↑=lazier)* | Masked corner-cuts: dead code, type-blinding casts, false-green tests, unacted flags. |
 

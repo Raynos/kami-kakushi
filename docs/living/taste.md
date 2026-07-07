@@ -9,7 +9,7 @@ metadata:
 
 > **SNAPSHOT-CLASS — replace in place, never append. Hard cap: 150
 > lines.** To add a line, displace a weaker one. The lossless evidence is
-> `project/human-feedback/2026-07-02-playtest.md` (FB-1–FB-117) — examples
+> `project/feedback-human/2026-07-02-playtest.md` (FB-1–FB-117) — examples
 > live there; judgment lives here. Locked with the human (ADR-126).
 
 Read this **before** building or restyling any surface, feature, or

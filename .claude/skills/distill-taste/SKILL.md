@@ -1,6 +1,6 @@
 ---
 name: distill-taste
-description: Distill a human-feedback corpus into the locked taste standard (docs/living/taste.md) WITHOUT growing it — triage every item into one of five moves, verify coverage + budgets, prediction-test substantial changes, and lock any top-layer change with the human. User-invoked only (/distill-taste [corpus-file]); never auto-invoked.
+description: Distill a feedback-human corpus into the locked taste standard (docs/living/taste.md) WITHOUT growing it — triage every item into one of five moves, verify coverage + budgets, prediction-test substantial changes, and lock any top-layer change with the human. User-invoked only (/distill-taste [corpus-file]); never auto-invoked.
 disable-model-invocation: true
 ---
 
@@ -8,13 +8,13 @@ disable-model-invocation: true
 
 The standard (ADR-126) is a **capped snapshot**: 4 human-locked values →
 touchstones/references → ~21 principles, ≤150 lines, gated by
-`verify-doc-budgets`. The corpus (`project/human-feedback/*.md`) is the
+`verify-doc-budgets`. The corpus (`project/feedback-human/*.md`) is the
 lossless record. **Distillation therefore never appends — it triages.**
 This procedure is the one that built the standard (session 57, prediction-
 tested 24/24); run it after every playtest / feedback session.
 
 Input: the corpus file to distill (default: the newest
-`project/human-feedback/` file with undistilled items).
+`project/feedback-human/` file with undistilled items).
 
 ## 0 · Read the standard first, fresh
 

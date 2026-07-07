@@ -12,7 +12,7 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
    item (e.g. a file split) skips the ADR — recording a no-op as an ADR only dilutes the log.
 3. **Archive it:** add a one-line row to [`archive.md`](archive.md) (H# → ADR + date + intent link) and
    **remove it from this file** so this list stays open-items-only (it's what the session-brief hook scrapes).
-4. Capture verbatim intent in [`../human-feedback/`](../human-feedback) and apply the decision to code/docs.
+4. Capture verbatim intent in [`../feedback-human/`](../feedback-human) and apply the decision to code/docs.
 
 > Closed HD-items: [`archive.md`](archive.md). The ADR log (the durable "why"):
 > [`../../docs/living/decisions.md`](../../docs/living/decisions.md).

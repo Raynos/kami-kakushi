@@ -8,7 +8,7 @@ whenever, the agent drains whenever.
 
 **This directory is machine-written — never hand-edit a session file.** It is
 not part of the human queue (`project/todo-human.md`); the human's window into
-results is the feedback log (`project/human-feedback/<date>-playtest.md`).
+results is the feedback log (`project/feedback-human/<date>-playtest.md`).
 
 ## One file per game session (not per capture)
 
@@ -39,7 +39,7 @@ independent, deterministic repro (`__qa.load(<its save>)`).
 - **`pending/`** — session files (+ their screenshot folders) waiting to be
   drained.
 - **`archive/`** — drained session files, kept **durable long-term** (like
-  `project/human-feedback/`). Completion is a `git mv` of the `.md` + the
+  `project/feedback-human/`). Completion is a `git mv` of the `.md` + the
   folder's `.json`s (and a plain `mv` of the git-ignored `.png`s) from `pending/`
   to here, **not** deletion — the archived `.md` + `.json`s are the raw record;
   the F-log entries are the distilled ones.

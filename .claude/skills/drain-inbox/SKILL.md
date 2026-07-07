@@ -126,8 +126,8 @@ re-routed as they directed), not force-fixed.
 ## 5 · Log the F-entry
 
 F-numbering is **global** — the next free number after the current max across
-`project/human-feedback/*.md` (grep `\bF[0-9]+\b`). Append to a per-drain-day
-file `project/human-feedback/<YYYY-MM-DD>-playtest.md` (create it with the
+`project/feedback-human/*.md` (grep `\bF[0-9]+\b`). Append to a per-drain-day
+file `project/feedback-human/<YYYY-MM-DD>-playtest.md` (create it with the
 standard header if absent, source noted as *"async inbox capture"*), using the
 established per-item template + status legend (🔲 open · 🔧 in progress · ✅
 fixed · 🅿️ parked · 💬 needs-discussion):
@@ -150,7 +150,7 @@ human** (via the HD-item).
 A session file is done when **every** `##` entry in it is drained. Then move it
 from `pending/` to `archive/` along with its sidecar folder — completion is the
 archive move, keeping the raw feedback durable long-term (like
-`project/human-feedback/`). The `.md` and the folder's `.json`s are tracked
+`project/feedback-human/`). The `.md` and the folder's `.json`s are tracked
 (`git mv`); the `.png`s are git-ignored (plain `mv`):
 
 ```

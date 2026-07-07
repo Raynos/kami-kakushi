@@ -28,7 +28,7 @@ A resolved **H-decision or R-review** has **distinct durable homes, no duplicati
 | Live queue | `decisions.md` (H) · `review.md` (R) | **open** items only |
 | Closed index | `archive.md` | one-line crosswalk per closed item |
 | The canon "why" | [`../../docs/living/decisions.md`](../../docs/living/decisions.md) | the **ADR** it graduated to |
-| Verbatim intent | [`../human-feedback/`](../human-feedback) | the human's exact words |
+| Verbatim intent | [`../feedback-human/`](../feedback-human) | the human's exact words |
 
 When an item closes:
 

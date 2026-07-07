@@ -256,7 +256,7 @@ Full version:
   whenever; an agent drains whenever with
   **`/drain-inbox`** — an **interactive** pass, batches of ≤5: reproduce each
   from the save → triage → **propose, and wait for the human's go-ahead** before
-  any fix lands → log a **FB-nn** in `project/human-feedback/` → **`git mv` the
+  any fix lands → log a **FB-nn** in `project/feedback-human/` → **`git mv` the
   capture to `archive/`** (completion is the archive move, not deletion). It's **agent-facing** (not the human queue); the session brief
   surfaces the `pending/` count. See the
   [`drain-inbox`](.claude/skills/drain-inbox/SKILL.md) skill.
@@ -333,7 +333,7 @@ Full version:
   **before** you implement a line of it — no matter the source (your own
   in-context reasoning, a subagent, or a `Workflow`). **Never** let a plan live
   only in the conversation (it dies at compaction) or only as a pointer in a
-  human-feedback/ledger entry (a pointer is not the artifact). Homes:
+  feedback-human/ledger entry (a pointer is not the artifact). Homes:
   **discovery / Q&A / proposals →
   [`project/brainstorms/`](project/brainstorms)**; **implementation plans /
   reel-backs / option-maps → [`docs/plans/`](docs/plans)**; **settled design →
