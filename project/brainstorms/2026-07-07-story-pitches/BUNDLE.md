@@ -1,6 +1,17 @@
 # The pitch bundle — 5 takes on what kami-kakushi's story IS
 
-**For HR-15.** Produced 2026-07-07 by the reboot's Phase-2 mixed fleet
+**VERDICT (human, 2026-07-07 — HR-15 CLOSED): the SYNTHESIS locked.**
+**D as spine** (continuity + the proven canon) with **B's
+self-vanished-heir fused in as the house's own wound**; grafts into the
+bible as norms: C's witnessed-promotion grammar + priced distrust, D's
+no-two-promotions-alike, B's physical-wrongness motifs, A's
+investigation-inside-labor. **Time-skips adopted** (human addition):
+years may pass at tier seams — e.g. a lordless house waits while the
+heir's son comes of age. The human's full reading notes:
+`human-review-notes.md`. Phase 3 (the bible co-write) proceeds from this
+synthesis.
+
+**For HR-15 (now archived).** Produced 2026-07-07 by the reboot's Phase-2 mixed fleet
 (reboot plan §6): five independent agents, blind to each other — three
 BLIND to the current story (bible + systems inventory only, one kernel
 anchor each), two INFORMED (current canon as input-not-canon, opposed

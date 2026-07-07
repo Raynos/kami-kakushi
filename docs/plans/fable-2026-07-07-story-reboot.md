@@ -103,10 +103,29 @@ taste-risk is highest (the macro pitch), ping-pong everywhere else.
   #1 mystery / #4 house drama / #7 social world — and STANCES for the
   informed pair — renovator / reinventor). Reviewed as one coherent
   bundle (HR-item); the human picks/blends.
-- **Phase 3 — co-write the design.** From the winning pitch: the story
-  bible (cast, tiers, world texture, register rules) drafted section by
-  section, redlined live, committed when locked. Mechanics decisions
-  surface as HD/ADR as they land.
+  **PHASE 2 COMPLETE (2026-07-07): HR-15 closed same day — the human
+  locked the SYNTHESIS:** D "The Ledger and the Legend" as spine + B's
+  self-vanished-heir fused as the house's own wound + grafts (C
+  witnessed-promotions/priced distrust · D no-two-promotions-alike · B
+  physical-wrongness motifs · A investigation-inside-labor) + TIME-SKIPS
+  (years may pass at tier seams; the heir's son comes of age). Pitches,
+  bundle, verdict + the human's reading notes:
+  `project/brainstorms/2026-07-07-story-pitches/`.
+- **Phase 3 — co-write the design (OPEN).** From the locked synthesis:
+  the story bible drafted section by section, redlined live, committed
+  when locked. Sections (grown by the HR-15 review): **(1) cast sheet**
+  (D's nine as core, grown for the zone count; succession under
+  time-skips resolved here); **(2) WORLD SHEET** (new, per the human:
+  the tier→map ladder — estate → expanded estate → valley → region →
+  castle town → Edo; node grammar — place + who's-there-when + actions +
+  one wrong thing; the cast↔node duality); **(3) TIER & PACING sheet**
+  (the human's R0–R7-too-fast complaint: what a rung MEANS per tier so
+  the estate story spans T0+T1; time-skip placement; interacts with
+  ADR-148 + the ADR-132 balance flow); **(4) register rules** (dream
+  cadence — candidate: promotions end in sleep, the dream fires there;
+  the vague-but-parseable norm from the Toku-scene confusion; the
+  log-is-the-VN rule — scenes rare and ceremonial, texture in the log).
+  Mechanics decisions surface as HD/ADR as they land.
 - **Phase 4 — re-plan the build.** From the locked bible: the prose wave
   (ADR-139 bundles), the systems build plans, the PRD §5 rewrite/ripple,
   the migration plan for built T0 content. Each sized as its own plan.

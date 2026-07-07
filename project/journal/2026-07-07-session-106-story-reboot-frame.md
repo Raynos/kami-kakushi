@@ -126,3 +126,26 @@ grafts named. Filed as HR-15; queued for the human.
 Also this sitting: an earlier foreground push timed out (pre-push verify
 outpaced by co-agents' churn); a background retry + the co-agent's own
 pushes carried main current through the kernel commit.
+
+## Addendum 4 — HR-15 CLOSED: the synthesis locked (same sitting)
+
+The human read B and D closely (notes captured in
+project/brainstorms/2026-07-07-story-pitches/human-review-notes.md) and
+locked the pick via AskUserQuestion: **D as spine + B's
+self-vanished-heir fused as the house's wound + grafts (C
+witnessed-promotions/priced-distrust, D no-two-alike, B
+physical-wrongness, A investigation-inside-labor) + TIME-SKIPS** (their
+addition: years may pass at tier seams; the heir's son comes of age).
+Phase 3 opens with four bible sections: cast sheet · WORLD SHEET (new —
+tier→map ladder, node grammar, cast↔node duality) · TIER & PACING sheet
+(their R0–R7-too-fast complaint, in scope under full co-design) ·
+register rules (dream cadence, the vague-but-parseable norm, the
+log-is-the-VN rule).
+
+Ops notes: (1) the co-agent's HR-14-closing rewrite of review.md raced
+away the open HR-15 row — recorded directly in archive.md instead. (2)
+The human self-cleaned the reading queue (BUNDLE + reboot-plan rows).
+(3) Push was blocked mid-sitting by a hanging fixtures gate
+(gen-fixtures spun 36 min; suspected interaction with the in-flight
+ADR-148 travel-through-clock work) — diagnosed, orphan process trees
+killed, commits kept local; retry at checkpoint.
