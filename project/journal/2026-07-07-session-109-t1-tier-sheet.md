@@ -26,9 +26,28 @@ with the human one piece per exchange.
   - **The wolf's return:** R6, boundary-stone fields, resolved as a
     player **DECIDE — won or spared** (mirrors T0's dog beat).
 
+- **A1 piece 2 — the T1 cast, LOCKED** (AskUserQuestion, three forks):
+  - **Wings-meeting diegetic law written:** Toku's alcove habit is
+    what the key reveals (she has her own) · O-Sato airs rooms AHEAD
+    of the works schedule · Naoyuki carries Katsuhide's crates to the
+    west wing himself, refusing help (the west wing stays closed —
+    the things cross, the MC never enters).
+  - **Four new faces locked:** Denshichi (crew boss) · Heikichi
+    (master joiner) · Ribei (creditor's clerk) · Tetsuji (smith).
+  - **Heikichi's compound past PAYS** (human picked "keep and use
+    it"): at the shoin restoration he reads the salvage marks — the
+    shoin's bones came from the compound — as craft, not revelation; a
+    seed that turns legible at T2's reveal, NOT a fourth signal.
+  - **Hire = forge locked:** R6's first hiring is Tetsuji, and the
+    choice lights the cold forge.
+  - Entries added to `04-cast.md` (new "works & crews" section);
+    `t1.md` carries the node placements.
+
 ## Next intended steps
 
-- Piece 2: T1 cast at nodes — the diegetic logic for the wings
-  meetings + the NEW T1 faces (crew boss, works/craft hands, etc.).
-- Then per the seed agenda: zone nodes · estate-build stages · Bon #2 ·
-  mirror uses · economics + seeding.
+- Piece 3: T1 land zones to the node grammar (paddies · woodlot+clamp ·
+  weir & flood-works · boundary stones · family plot · kura interior ·
+  workshops), each with its wrong thing.
+- Piece 4: the wings zones + the estate-build stages (which rooms, what
+  order) — tightly coupled, drafted together.
+- Then: Bon #2 · mirror uses · night rounds T1 · economics + seeding.

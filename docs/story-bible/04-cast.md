@@ -130,6 +130,36 @@
   loads at the Count. *(Wider hands + harvest women stay ambient until
   the story touches them twice — kernel #2.)*
 
+## The works & the crews — T1 additions (sketches)
+
+Locked at the T1 sitting (2026-07-07) — names checked clean against
+the roster's leading syllables; shapes land at the voices sitting.
+
+- **Denshichi** — the crew boss. *Canon:* runs the paid seasonal crews
+  from the village; wasn't there for any of T0 and treats the named
+  hand as green (the status reset made human); the first village-side
+  face met as a boss — the T2 village track's labour-side preview.
+  *Nodes:* the morning muster (T1 R0–R1); the terraces at season
+  peaks.
+- **Heikichi** — the master joiner. *Canon:* hired for the works; the
+  MC's carpentry teacher; the shoin is their joint work, the last
+  boards set by the MC alone. Apprenticed on the COMPOUND before the
+  fall — remembers where the orchard lanterns hung, dates nothing out
+  loud; at the shoin restoration he reads the salvage marks in the
+  timbers (the shoin's bones came from the compound), said as craft,
+  not revelation — a seed that turns legible at T2's reveal, never a
+  fourth signal. *Nodes:* the Workshops (joiner's bench); the wings
+  under repair; the Shoin.
+- **Ribei** — the creditor's clerk. *Canon:* the debt's face — comes
+  twice a year on interest days, polite as weather; T1's renegotiation
+  war is fought against that politeness at the board. The lender
+  himself stays offstage (banked; a T4 design-cell candidate for the
+  enemy web). *Nodes:* the board, interest days only.
+- **Tetsuji** — the smith. *Canon:* R6's FIRST HIRING — the foreman's
+  first decision as a hirer lights the cold forge; a dead building
+  wakes because he chose a man. *Nodes:* the Workshops (the forge,
+  late-T1).
+
 ## Beyond the estate (cast seeds by tier — grown per tier sheet)
 
 T2 the village: the headman · the shrine/temple keeper (the register
