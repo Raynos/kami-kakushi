@@ -34,11 +34,12 @@ _(none open)_
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
 
-- [ ] `docs/plans/fable-2026-07-07-story-bible-finish.md` — the **story-bible
-  finish plan**: workstream A (the remaining bible sittings with you — T1,
-  voices, register rules, the staged taper) + workstream B (the docs & game
-  ripple once the bible is blessed), routed Fable/Opus per step, written for
-  fresh sessions to pick up.
+- [ ] `docs/story-bible/README.md` — **the finished story bible, whole-read
+  → BIBLE DONE**: workstream A completed with you in s109 (all 7 tier
+  sheets · full cast · origin relocked warm · names · register rules · the
+  fall). Your end-to-end read + blessing is the one remaining gate; the
+  unreviewed cast portraits (edge → T1 → T2 → T3 → T4/T5) ride this read —
+  redline anything, workstream B opens on your word.
 - [ ] `docs/plans/fable-2026-07-07-story-salvage.md` — the **story salvage
   doc**: the slop-audit findings/fixes condensed live (THE substance you
   asked not to lose) + the mostly-superseded 19 ladder answers as record;

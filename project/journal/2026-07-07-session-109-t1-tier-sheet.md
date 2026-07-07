@@ -353,3 +353,11 @@ with the human one piece per exchange.
 - At BIBLE DONE, workstream B opens: B0 frame ADR · B1 PRD §5
   rewrite + roadmap ripple · B2 engine ADRs (⬩Opus) · B3 T0 prose
   wave · B4 content migration (⬩Opus) · B5 salvage & closure.
+
+- **CHECKPOINT (/prepare-to-exit):** snapshot's reboot bullet + resume
+  step 4 brought current (workstream A complete; the gate is the
+  human's whole-read → BIBLE DONE → workstream B). Reading queue: the
+  finish plan CLEARED (engaged all session — ADR-089 implicit
+  sign-off); **the bible whole-read ADDED** as the pending human gate;
+  salvage + map items untouched, left as-is. All session-109 work
+  pushed through `07b47c4`; co-agents' map WIP left strictly alone.
