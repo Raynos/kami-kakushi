@@ -34,20 +34,24 @@
   anatomy, the world's global rules.
 - [`../story-bible/tiers/`](../story-bible/tiers/) — **the per-tier
   detail sheets**: `t0.md` + `t1.md` COMPLETE (walked whole);
-  `t2.md`–`t6.md` are SEEDS at their staged detail targets, each
-  carrying its placed canon + its sitting's agenda.
+  `t2.md` + `t3.md` walked at HALF detail; `t4.md`–`t6.md` are SEEDS
+  at their staged detail targets, each carrying its placed canon + its
+  sitting's agenda.
 
 ## Status
 
 Canon: §0 · §0.5 · §0.9 · §1 · §2 (structure locked; the seven ladders
 approved in spirit, expected to evolve — especially later tiers) · the
 estate anatomy · the six-season calendar · **the complete T0 and T1
-tier sheets** (each walked whole with the human). Seeded: tier sheets
-T2–T6 (placed canon + sitting agendas) · cast sketches with voice
-candidates (T1's four new faces named and placed) · candidate register
-rules. Awaiting sittings: cast VOICES · register rules · then the
-staged taper (T2+T3 half · T4 quarter · T5 fifth · T6 tenth). The
-finish is planned in `docs/plans/fable-2026-07-07-story-bible-finish.md`.
+tier sheets** (walked whole) · **T2 and T3 walked at half detail**
+(incl. the human's origin RELOCK — Tahei, landslide, the family alive,
+the Tama + reunion threads restored from the PRD). Seeded: tier sheets
+T4–T6 (placed canon + sitting agendas) · cast sketches with voice
+candidates (Genemon + Kihei voices locked; four T1 faces + the T2/T3
+cast named). Awaiting sittings: cast VOICES (parked mid-A2) · register
+rules · the staged taper (T4 quarter · T5 fifth · T6 tenth) · the
+name-norm sweep. The finish is planned in
+`docs/plans/fable-2026-07-07-story-bible-finish.md`.
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·
 T2–T3 in half detail · T4 in quarter · T5 in fifth · T6 in tenth.

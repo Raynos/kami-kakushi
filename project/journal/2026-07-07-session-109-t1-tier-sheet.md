@@ -177,12 +177,26 @@ with the human one piece per exchange.
     (T3 overview + zones) · 04-cast (MC origin + tier seeds) · t2.md
     (Tama thread section) · t3.md (rewritten whole).
 
+- **T3 DONE at half detail** (two AskUserQuestion rounds): the two box
+  locks (sibling = **younger sister**; Tama DECIDEs bite as
+  scenes-differ-**arenas-stay-open**), then the closing piece — reunion
+  staging (basket → Kanta tells the missing years → threshold, the
+  sister doesn't know him, Jinpachi does → the kept **carrying-pole**,
+  twelve years oiled → **O5 register entry CONFIRMED, not struck**) ·
+  the Otsuru spine scenes (Ekai amends the false taking on screen;
+  **why she ran = open cell, kernel-bound**) · the buried-truth ledger
+  (Kuzuhara account **names the office that took the flood-works cut** —
+  T4's first paper shadow; Genemon's silver = the unpaid lines) ·
+  region cast · expeditions (winter closes the passes) · economics
+  (**the debt RETIRES as antagonist at T3's end** — clean baton-pass to
+  T4's enemy). README ledger + T3 header updated.
+
 ## Next intended steps
 
-- T3 sheet still owes its half-detail sitting pieces: the reunion
-  beats' staging · the Otsuru scenes · the buried-truth quest design ·
-  region cast · expedition systems · economics · T4 seeding.
-- Then T4 (quarter) · T5 (fifth) · T6 check (tenth).
-- A2 resumes after the tier sheets (four drafts awaiting lock; the
-  sweep also owes: mother + sibling names, Sayo/O-Sato, Kanta/
-  Katsuhide); then A3 register rules.
+- **T4 sheet at QUARTER detail** (next): the rock is the enemy-lord
+  design cell (office · reason · both-wounds tie) + Katsuhide met. Its
+  first paper shadow (the named office) is already seeded from T3.
+- Then T5 (fifth) · T6 check (tenth).
+- A2 resumes after the tier sheets (four voice drafts awaiting lock;
+  the name sweep owes: mother + sister names, the toiya master,
+  Sayo/O-Sato, Kanta/Katsuhide); then A3 register rules.
