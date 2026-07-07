@@ -34,6 +34,11 @@ _(none open)_
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
 
+- [ ] `docs/plans/fable-2026-07-07-timed-actions.md` — the **timed-actions
+  plan** (FB-174): every action gains duration + cooldown + in-button
+  progress; direction locked in the 2026-07-07 drain (core owns duration
+  data / shell owns the clock; trade is `instant`; combat excluded). Four
+  open questions in §Open questions want your call before/at build.
 - [ ] `docs/plans/fable-2026-07-06-story-quality-ladder.md` — the **story-quality
   umbrella plan**: your 19-answer decision pass recorded verbatim (§1 answer
   sheet — adopted vs rejected) + the forward phases (§2): Phase 1 = the
