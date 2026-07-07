@@ -7,7 +7,7 @@
 
 - Seeds: 20260626, 1, 7, 11, 13 (canonical: 20260626)
 - Personas: greedy, idler, explorer
-- Input fingerprint: `97f4a7bb598576c7` (the evaluated design inputs —
+- Input fingerprint: `55960950db8e68b7` (the evaluated design inputs —
   `balance-sim --check-fresh` compares this against the live constants, so a balance
   VALUE change without a regenerated report is caught; comments/formatting never fire it)
 - Wall model: one intent per 480 ms (the active-loop cadence) — wall-min = intents × 480 / 60000. Every dispatch counts (moves and
