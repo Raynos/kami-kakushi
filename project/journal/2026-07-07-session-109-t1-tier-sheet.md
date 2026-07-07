@@ -117,11 +117,18 @@ with the human one piece per exchange.
   **Genemon + Kihei voice entries LOCKED** (wants, misreadings,
   shapes, nodes — Kihei's want: one student who outlives him).
 
+- **A2 PARKED after piece 1 (human steer):** piece 2's four drafted
+  entries (Sōan · O-Sato · Toku · Chiyo — wants, misreadings, shapes)
+  were preserved in `04-cast.md` explicitly marked DRAFTED/NOT-locked
+  so the pivot loses nothing. Still owed when A2 resumes: those four
+  locks, the family voices, the edge cast, the T1 four, the MC's
+  use-name, the name-norm sweep.
+
 ## Next intended steps
 
-- A2 piece 2: the household women — Sōan · O-Sato · Toku · Chiyo.
-- A2 piece 3: the family — Shinnosuke · Naoyuki · Shigemasa
-  (+ Katsuhide's open cell noted).
-- A2 piece 4: the edge cast + the T1 four; piece 5: the MC's use-name
-  + the name-norm sweep.
-- Then A3 register rules · A4 T2+T3 half-detail sheets.
+- **A4 now (human steer, skipping ahead): T2 + T3 sheets at half
+  detail, then A5 T4 (quarter) and A6 T5 (fifth).** T2 first: ladder +
+  the reveal staging, then village track / first human combat /
+  economics + seeding.
+- A2 resumes after the tier sheets (four drafts awaiting lock).
+- Then A3 register rules.

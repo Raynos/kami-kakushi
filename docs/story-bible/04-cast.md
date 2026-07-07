@@ -88,30 +88,54 @@ not his silence). Naoyuki stays the exception who reads TRUE from T0.
   story the lucky tell. You are not lucky. So you will work."* —
   delivered once, on-screen. *Nodes:* the Drill yard, the Gate at
   watch-change, the Night rounds.
-- **Sōan** — the physician. *Canon:* pulled the MC's examination at
-  the weir; answers the name question in the cold open (the label
-  flip); keeps NOTES on the MC's healing in a ledger he closes when
-  anyone enters — he has clocked what "lost memory" doesn't explain,
-  and says nothing: the origin tier's witness. *Shape candidate:* a
-  question, then a prescription — always the two beats, in that order.
-  *Nodes:* the Sickroom, the Weir on his rounds.
-- **Chiyo** — the lady. *Canon:* the arithmetic of the house's
-  dignity; at the nengu reckoning she pays by inches we SHOW (a quiet
-  sale, never discussed). *Shape candidate:* conditionals — every
-  sentence carries an if or a price. *Nodes:* the board; the inner
-  guest house (T1).
-- **Toku** — the dowager. *Canon:* [`02-house.md`](02-house.md) — the
-  packet, the new-moon walk (seen as a hooded lantern on night rounds
-  long before R5 names it), the night-clothes line at the Count. Her
-  public faith in the taking is both cover and kindness. *Shape
-  candidate:* past-anchored — every utterance dated ("The year the
-  weir went, we sent it at the new moon."). *Nodes:* the shrine-alcove
-  corridor; her room (T1).
-- **O-Sato** — Katsuhide's wife, widow-who-isn't. *Canon:* rules the
-  kitchen & board; leaves mended things at the Woodshed without
-  knocking; met properly in T1's wings, airing a room that was hers.
-  *Shape candidate:* nothing in her mouth is ever certain — "If the
-  rice holds." *Nodes:* the Kitchen; the East wing (T1).
+- **Sōan** — the physician. **DRAFTED at A2 piece 2 — NOT locked (the
+  sitting parked here; the human skipped ahead to the tier sheets).**
+  *Want (draft):* to be WRONG about what he's written — he keeps the
+  closed ledger hoping it reads one day as over-noticing, not the
+  record of a man in trouble; a reluctant witness. *Reading (draft):*
+  the closest reader in T0 — publicly takes "lost memory" at face
+  value, records in ink what doesn't fit; his frame is the patient: a
+  condition to manage, not a mystery to force. *Canon:* pulled the
+  MC's examination at the weir; answers the name question in the cold
+  open (the label flip); keeps NOTES on the MC's healing in a ledger
+  he closes when anyone enters — the origin tier's witness. *Shape
+  (draft):* a question, then a prescription — always the two beats, in
+  that order. *Nodes:* the Sickroom, the Weir on his rounds.
+- **Chiyo** — the lady. **DRAFTED at A2 piece 2 — NOT locked.** *Want
+  (draft):* that the decline never be WITNESSED begging — the house
+  may fall; it will not perform falling. *Misreading (draft, T0–T1):*
+  reads the MC's loyalty as PURCHASED — dependable exactly as far as
+  wages reach; she trusts arrangements, not affection. *Canon:* the
+  arithmetic of the house's dignity; at the nengu reckoning she pays
+  by inches we SHOW (a quiet sale, never discussed). *Shape (draft):*
+  conditionals — every sentence carries an if or a price. *Nodes:* the
+  board; the nengu reckoning; the inner garden + the first restored
+  east-wing room (T1).
+- **Toku** — the dowager. **DRAFTED at A2 piece 2 — NOT locked.**
+  *Want (draft):* the packet kept moving until the line can be read
+  aloud — the grandson fed until the house can say his name again;
+  and not to die while the lie still stands. *Misreading (draft, hers
+  alone, possibly never spoken):* she permits herself the superstition
+  she publicly performs — perhaps the river gave the house a man back,
+  in trade for the one the mountain took. *Canon:*
+  [`02-house.md`](02-house.md) — the packet, the new-moon walk (seen
+  as a hooded lantern on night rounds long before R5 names it), the
+  night-clothes line at the Count. Her public faith in the taking is
+  both cover and kindness. *Shape (draft):* past-anchored — every
+  utterance dated ("The year the weir went, we sent it at the new
+  moon."). *Nodes:* the shrine-alcove corridor; her room (T1); the
+  new-moon walk.
+- **O-Sato** — Katsuhide's wife, widow-who-isn't. **DRAFTED at A2
+  piece 2 — NOT locked.** *Want (draft):* an ending — EITHER one; to
+  stop waiting without betraying the waiting. Ten years married to an
+  unstruck line. *Misreading (draft, T0–T1):* reads the MC as a man
+  someone, somewhere, is waiting FOR — she mends his things because
+  someone should, in someone's place. *Canon:* rules the kitchen &
+  board; leaves mended things at the Woodshed without knocking; met
+  properly in T1's wings, airing a room that was hers. *Shape
+  (draft):* nothing in her mouth is ever certain — "If the rice
+  holds." *Nodes:* the Kitchen; the Woodshed doorstep; the East wing
+  (T1).
 - **Shinnosuke** — the heir's son, ~12 at T0. *Canon:* the MIRROR
   (above); interrogates from the board; watches the drill yard from
   the wall; sneaks into the Bamboo grove (the grove beat); asks the
