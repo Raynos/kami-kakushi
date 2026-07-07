@@ -97,3 +97,19 @@ the registries (5 passing; dropped a seed-uniformity ratchet that would cry
 wolf on legitimate cockpit tuning); gen-docs gains the "Action timing" table.
 A new FILE keeps the parallel ADR-146 lane collision-free. Plan flipped
 IN-PROGRESS.
+
+## Addendum 4 — Phase 2 built: the ActionClock + the action-row diverge
+
+`src/app/action-clock.ts` (injected-timer, 7 tests): one global in-flight,
+per-key cooldowns, cancel-drops-without-dispatch, instant mode. main.ts gains
+the ONE timed-dispatch gate (player presses + the auto heartbeat both press
+the same clock; `__qa.dispatch` bypasses); `__qa.instantActions`; tab-hide /
+every state swap cancels (drop-on-interrupt). render.ts paints every stamped
+`data-act-key` button from the clock (phase classes + the shared `.act-bar`,
+CSS-transition motion, availability-aware locking); an armed auto visibly
+"⏸ waiting" when its activity goes illegal. Three ADR-075 variants (inner
+hairline / ink wash / etched gauge) behind the DEV toggle → HR-14 with
+per-variant scorecards. e2e: journeys boot instantActions; a new
+timed-actions spec drives the REAL 5s cycle (6 pass on 3 profiles). Verified
+live headlessly: press→lock→bar→effect@5s→cooldown→re-enable, and auto
+0→10 rice over 40s through the clock.

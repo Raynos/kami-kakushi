@@ -8,6 +8,7 @@ import {
   tick as coreTick,
   autoModeIntent,
   nextHopToward,
+  timingFor,
   getMob,
   applyPromotion,
   nextRankId,
@@ -31,6 +32,7 @@ import { mountCapture } from '../ui/capture';
 import { snapshotDom, compositeStrokes } from '../ui/capture-screenshot';
 import { createTelemetry } from '../telemetry';
 import { resolveDevGating } from './dev-gating';
+import { createActionClock, actionKey } from './action-clock';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -157,15 +159,21 @@ async function boot(): Promise<void> {
   // the renderer via hooks. honorReducedMotion consults the OS prefers-reduced-motion signal.
   const sfx = createSfx({ honorReducedMotion: true });
 
+  // ADR-148 Phase 2 — the ActionClock: the shell's wall-clock for timed actions. The
+  // renderer reads it for button phases/bars; the timed-dispatch gate below feeds it.
+  const clock = createActionClock();
+
   // app hooks for the Settings/About surface (export/import save, a11y, pause, sound)
   const hooks = {
     sfx,
+    clock,
     exportSave: (): string => save.exportState(state),
     importSave: (b64: string): void => {
       void (async () => {
         const res = await save.importState(b64);
         if ('state' in res) {
           prev = null;
+          clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
           // reconcile the imported save's write-once latch against its state predicates (same
           // load-path back-reveal as boot) before the first render.
           state = revealPass(res.state);
@@ -180,6 +188,7 @@ async function boot(): Promise<void> {
     },
     newGame: (): void => {
       prev = null;
+      clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
       state = createInitialState(DEFAULT_SEED);
       reveals.length = 0;
       actionCount = 0;
@@ -238,20 +247,48 @@ async function boot(): Promise<void> {
     'eat_rice',
     'repair_weapon',
   ]);
+  function disarmAutos(): void {
+    if (state.autoRake) dispatch({ type: 'set_auto_rake', on: false });
+    if (state.autoActivity !== null) dispatch({ type: 'set_auto', activityId: null });
+    if (state.autoCombat !== null) dispatch({ type: 'set_auto_combat', mobId: null });
+  }
   function playerDispatch(intent: Intent): void {
-    if (MANUAL_DISARM.has(intent.type)) {
-      if (state.autoRake) dispatch({ type: 'set_auto_rake', on: false });
-      if (state.autoActivity !== null) dispatch({ type: 'set_auto', activityId: null });
-      if (state.autoCombat !== null) dispatch({ type: 'set_auto_combat', mobId: null });
-    }
+    if (MANUAL_DISARM.has(intent.type)) disarmAutos();
     dispatch(intent);
   }
-  const render = mount(
-    root,
-    telemetry ? telemetry.wrapDispatch(playerDispatch) : playerDispatch,
-    hooks,
-    dev,
-  );
+  // ADR-148 — the timing payload timingFor understands, pulled off the intent union.
+  function timingPayload(
+    intent: Intent,
+  ): { activityId?: ActivityId; to?: string; recipeId?: string } | undefined {
+    if (intent.type === 'do_activity') return { activityId: intent.activityId };
+    if (intent.type === 'move_to') return { to: intent.to };
+    if (intent.type === 'craft_weapon') return { recipeId: intent.recipeId };
+    return undefined;
+  }
+  // DEV-only 2×/4×/8× time multiplier (prod stays 1; set via __qa.speed). ADR-148:
+  // it compresses the CLOCK (shorter durations/cooldowns), never the core.
+  let autoSpeed = 1;
+  // ADR-148 Phase 2 — the ONE timed gate: every PLAYER intent flows through here.
+  // Instant intents dispatch as before; a timed intent starts the clock (disarming
+  // autos at PRESS, FB-146 — the running action must not race an auto) and its
+  // effect lands at completion. The DEV speed multiplier compresses the clock,
+  // never the core (autoSpeed = 1 in prod).
+  const playerBase = telemetry ? telemetry.wrapDispatch(playerDispatch) : playerDispatch;
+  function timedPlayerDispatch(intent: Intent): void {
+    const t = timingFor(intent.type, timingPayload(intent));
+    if (t.kind === 'instant') {
+      playerBase(intent);
+      return;
+    }
+    if (MANUAL_DISARM.has(intent.type)) disarmAutos();
+    clock.press(
+      actionKey(intent.type, timingPayload(intent)),
+      t.durationMs / autoSpeed,
+      t.cooldownMs / autoSpeed,
+      () => playerBase(intent),
+    );
+  }
+  const render = mount(root, timedPlayerDispatch, hooks, dev);
 
   // reveal-on-load: render existing log statically (no re-spam)
   safely(() => render(state, null));
@@ -320,18 +357,28 @@ async function boot(): Promise<void> {
   // ── active-only tick loop (PRD §6.9 / FU23): tab-open auto-repeat labour gives the
   // "leave it running" feel — strictly active-only (no offline catch-up). One autoStep per
   // AUTO_REPEAT_MS; the DEV speed toggle runs N steps per tick (autoSpeed = 1 in prod). ──
-  let autoSpeed = 1; // DEV-only 2×/4×/8× time multiplier (prod stays 1; set via __qa.speed)
   function autoStep(): void {
     if (paused || document.hidden || crashed) return;
     // The DECISION is the pure core's autoModeIntent (FB-4 Ph3 — the sim's idler persona consumes
     // the SAME function, so the shipped auto-loop and the sim can never desync); this loop keeps
     // only the app concerns: the DOM guards above and the dispatch below.
+    // ADR-148 — auto is "on cooldown complete, go again": while an action runs the loop
+    // idles (one person); a timed intent presses through the SAME clock the player uses.
+    // An illegal action makes autoModeIntent return nothing — auto stays armed and this
+    // heartbeat re-fires the moment it's legal again (pause-and-resume, ADR-148).
+    if (clock.busy()) return;
     const intent = autoModeIntent(state);
-    if (intent) dispatch(intent);
+    if (!intent) return;
+    const t = timingFor(intent.type, timingPayload(intent));
+    if (t.kind === 'instant') {
+      dispatch(intent);
+      return;
+    }
+    const key = actionKey(intent.type, timingPayload(intent));
+    if (clock.status(key).phase === 'cooldown') return; // wait out the cooldown, then go again
+    clock.press(key, t.durationMs / autoSpeed, t.cooldownMs / autoSpeed, () => dispatch(intent));
   }
-  window.setInterval(() => {
-    for (let i = 0; i < autoSpeed; i++) autoStep();
-  }, AUTO_REPEAT_MS);
+  window.setInterval(autoStep, AUTO_REPEAT_MS);
 
   // ── tick-interval autosave (Block N M0 DoD) ──
   window.setInterval(() => {
@@ -341,7 +388,10 @@ async function boot(): Promise<void> {
 
   // save on hide / unload (best-effort)
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) void flushSave();
+    if (document.hidden) {
+      clock.cancelAll(); // ADR-148 — tab-hide drops the in-flight action (active-only, §6.9)
+      void flushSave();
+    }
   });
   window.addEventListener('beforeunload', () => {
     void flushSave();
@@ -388,6 +438,13 @@ async function boot(): Promise<void> {
         qaTaint('qa-drive');
         dispatch(intent);
       },
+      /** ADR-148 — instant-complete switch: timed PLAYER presses dispatch synchronously
+       *  (no duration, no cooldown). e2e/QA flows must never wait wall-clock; qa.dispatch
+       *  itself always bypasses the clock. */
+      instantActions: (on = true) => {
+        qaTaint('instant-actions');
+        clock.setInstant(on);
+      },
       // FB-7 — headless balance-cockpit handle: set(path,v) / read / touched / reset / exportMarkdown.
       balance: cockpit,
       activity: (id: ActivityId) => {
@@ -418,6 +475,7 @@ async function boot(): Promise<void> {
           // Mirror newGame: drop to the freshly-climbed target state with NO diff against the old
           // higher-rung state — so no phantom reveal-animation fires and no abandoned panel lingers.
           prev = null;
+          clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
           reveals.length = 0;
           actionCount = 0;
           state = plan.state;
@@ -508,6 +566,7 @@ async function boot(): Promise<void> {
         // envelope is built before the first await), so reassigning `state` below is safe.
         void save.backup(state);
         prev = null;
+        clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
         state = createInitialState(seed);
         reveals.length = 0;
         actionCount = 0;
@@ -521,6 +580,7 @@ async function boot(): Promise<void> {
         const res = await save.restoreBackup();
         if ('state' in res) {
           prev = null;
+          clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
           state = res.state;
           reveals.length = 0;
           actionCount = 0;
@@ -537,6 +597,7 @@ async function boot(): Promise<void> {
         const res = await save.importState(b64);
         if ('state' in res) {
           prev = null;
+          clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
           // reconcile the imported save's write-once latch against its state predicates (same
           // load-path back-reveal as boot) before the first render.
           state = revealPass(res.state);
@@ -575,6 +636,7 @@ async function boot(): Promise<void> {
       },
       setSeed: (seed: number) => {
         prev = null;
+        clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
         state = createInitialState(seed);
         telemetry?.onRunStart('new-game', state); // FB-8
         safely(() => render(state, null));

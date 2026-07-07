@@ -102,6 +102,28 @@ export interface SurfaceDef {
  *  and the renderer both read. Grows as Step 2 adds craft / market / quests. */
 export const SURFACES: SurfaceDef[] = [
   {
+    id: 'action-row',
+    label: 'Action row — timed buttons (ADR-148)',
+    variants: [
+      {
+        id: 'act-a',
+        label: 'A · inner hairline',
+        blurb: 'A thin gold fill hugging the button’s inner bottom edge; cooldown drains silver.',
+      },
+      {
+        id: 'act-b',
+        label: 'B · ink wash',
+        blurb:
+          'The button’s ground floods left→right as a translucent ink tint; drains on cooldown.',
+      },
+      {
+        id: 'act-c',
+        label: 'C · etched gauge',
+        blurb: 'A visible track etched along the bottom frame; a bright segment grows, then ebbs.',
+      },
+    ],
+  },
+  {
     id: 'estate-section',
     label: 'Estate section (FB-157)',
     variants: [

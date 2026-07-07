@@ -367,6 +367,41 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 ---
 
+## HR-14 🔲 — Timed-action row (ADR-148 Phase 2) — pick among the 3 live variants (ADR-075)
+
+Every action button now runs the ADR-148 timed cycle (press → lifetime lock +
+progress fill → effect at duration → ~2s cooldown drain → re-enabled; auto =
+go-again on cooldown end). The DIVERGE is the visual treatment of that cycle —
+the bar, the running/cooldown states — on the same shared `.act-bar` primitive.
+
+- **Pass-1 brief (ADR-135):** one bar primitive across all timed buttons (P2) ·
+  CSS-transition motion, no per-frame JS, in-flight bar survives re-renders
+  (P4/TST2) · the button never resizes (P5) · running / cooldown / auto-waiting
+  distinct at a glance, the stalled auto shows its reason (P17/TST4) · the bar
+  is chrome — thin, tight register (P19).
+- [ ] **A — inner hairline** _(self-picked prod default; ships — the placement
+  you chose in the plan walkthrough)_ — a thin gold fill hugging the button's
+  inner bottom edge; cooldown drains silver-dim; quietest read.
+  - **Scorecard (A):** 19✔ · 0✘ · 2— (P12 typewriter, P15 map: n/a)
+- [ ] **B — ink wash** _(built; DEV-only)_ — the button's ground floods
+  left→right as a translucent gold-ink tint behind the label; drains on
+  cooldown. Boldest read at a distance.
+  - **Scorecard (B):** 18✔ · 1✘ · 2— — ✘P19 [briefed]: the wash colours the
+    whole button face, a louder register than "chrome stays quiet" wants.
+- [ ] **C — etched gauge** _(built; DEV-only)_ — a faint rail etched along the
+  bottom frame, always visible on timed buttons; a bright segment grows over
+  it, ebbs shu-dim on cooldown. Most legible track; adds standing chrome.
+  - **Scorecard (C):** 18✔ · 1✘ · 2— — ✘P19 [briefed]: the always-visible rail
+    is chrome that persists even at rest (idle buttons carry a gauge line).
+
+- **Asking for:** which of A/B/C ships (or a tune — bar height/tone are one-line).
+- **How to look:** `pnpm run dev` → Work tab → press any labour/verb → DEV
+  panel → Variants → "Action row — timed buttons (ADR-148)"; or
+  `?action-row=act-b` / `act-c`. Auto a labour and watch the go-again loop.
+- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

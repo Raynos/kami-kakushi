@@ -50,7 +50,7 @@ export function expectNoPageErrors(errors: string[]): void {
 export async function boot(
   page: Page,
   fixture?: string,
-  opts: { instantText?: boolean } = {},
+  opts: { instantText?: boolean; timedActions?: boolean } = {},
 ): Promise<string[]> {
   const errors = trackErrors(page);
   // `telemetry=no`: automated runs must NOT drop machine-time reports into
@@ -73,6 +73,10 @@ export async function boot(
       () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(null)))),
     ),
   );
+  // ADR-148 — journeys assert FLOWS, not pacing: timed actions complete instantly so a
+  // 5s rake doesn't stretch every spec. The timed path itself is covered explicitly by
+  // the specs that boot `{ timedActions: true }` (real durations, the Phase-2 DoD e2e).
+  if (!opts.timedActions) await page.evaluate('window.__qa.instantActions(true)');
   return errors;
 }
 

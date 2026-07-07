@@ -5,6 +5,7 @@
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount, formatLogText, NOW_TTL_MS, type AppHooks } from './render';
+import { createActionClock } from '../app/action-clock';
 import { LOG_SCALE_MIN, LOG_SCALE_MAX, LOG_SCALE_STEP, LOG_SCALE_DEFAULT } from './ui-prefs';
 import {
   createInitialState,
@@ -85,6 +86,7 @@ function noopHooks(): AppHooks {
       },
       isMuted: () => muted,
     },
+    clock: createActionClock(),
   };
 }
 

@@ -13,6 +13,7 @@
 // plus a few one-intent reductions — rationing the vitest gate's time (AC-17).
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, type AppHooks } from './render';
+import { createActionClock } from '../app/action-clock';
 import { validateEnvelope } from '../persistence/validate';
 import { migrate } from '../persistence/migrate';
 import { getFixtures } from '../fixtures';
@@ -92,6 +93,7 @@ function noopHooks(): AppHooks {
       },
       isMuted: () => muted,
     },
+    clock: createActionClock(),
   };
 }
 

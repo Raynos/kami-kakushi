@@ -27,6 +27,7 @@ import type {
 import {
   availableActions,
   availableLabours,
+  timingFor,
   introActive,
   introSceneAt,
   introStatDelta,
@@ -116,6 +117,7 @@ import {
   saveLogScale,
 } from './ui-prefs';
 import type { Sfx } from './sfx';
+import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
 import type { DevApi } from './dev';
@@ -293,6 +295,10 @@ export interface AppHooks {
   togglePause: () => boolean;
   /** The synth SFX engine (T0-M1-F4 juice). Owned by the app; cue points fire via this. */
   sfx: Sfx;
+  /** ADR-148 — the shell's ActionClock: the renderer reads per-key phases to paint
+   *  button states/bars and subscribes for repaints; only the app ever presses it
+   *  (via the timed-dispatch gate). */
+  clock: ActionClock;
 }
 
 export function pct(n: number): string {
@@ -1400,6 +1406,7 @@ export function mount(
       const hint = el('div', 'rung-hint');
       const btn = el('button', 'verb');
       btn.type = 'button';
+      stampAct(btn, 'improve_estate');
       btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
       card.append(now, ladder, blurb, hint, btn);
       estatePane.append(card);
@@ -1844,6 +1851,7 @@ export function mount(
         btn.dataset.locked = '1';
         btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
       }
+      stampAct(btn, 'move_to', { to: n.id });
       btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
       movesEl.append(btn);
       // the gate reason, VISIBLE (not a hover-only title on a disabled button — ui-design §5.9/§8).
@@ -2587,6 +2595,7 @@ export function mount(
     const row = el('div', 'labour-row');
     const btn = el('button', 'verb', o.activity.label);
     btn.type = 'button';
+    stampAct(btn, 'do_activity', { activityId: o.activity.id });
     btn.addEventListener('click', () =>
       dispatch({ type: 'do_activity', activityId: o.activity.id }),
     );
@@ -2612,11 +2621,21 @@ export function mount(
       toggle(lock, false);
       const on = state.autoActivity === o.activity.id;
       setClass(auto, 'on', on);
+      setClass(auto, 'waiting', false);
       setText(auto, on ? '■ stop' : '▶ auto');
       const pressed = String(on);
       if (auto.getAttribute('aria-pressed') !== pressed) auto.setAttribute('aria-pressed', pressed);
     } else {
-      toggle(auto, false);
+      // ADR-148 — an ARMED auto never vanishes with its activity: it visibly idles
+      // ("pause, resume when legal") and re-fires via the heartbeat once legal again.
+      const on = state.autoActivity === o.activity.id;
+      toggle(auto, on);
+      if (on) {
+        setClass(auto, 'on', true);
+        setClass(auto, 'waiting', true);
+        setText(auto, '⏸ waiting');
+        if (o.reason && auto.title !== o.reason) auto.title = o.reason;
+      }
       toggle(lock, !!o.reason);
       if (o.reason) setText(lock, o.reason);
     }
@@ -2657,11 +2676,13 @@ export function mount(
       const cookRow = el('div', 'labour-row');
       const cookBtn = el('button', 'verb');
       cookBtn.type = 'button';
+      stampAct(cookBtn, 'cook_meal');
       cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
       cookRow.append(cookBtn);
       const eatRiceRow = el('div', 'labour-row');
       const eatRiceBtn = el('button', 'verb');
       eatRiceBtn.type = 'button';
+      stampAct(eatRiceBtn, 'eat_rice');
       eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
       eatRiceRow.append(eatRiceBtn);
       // FB-107 (ADR-112) — the "Walk on 道" nav strip is GONE from Work: the Map tab is navigation's
@@ -2692,6 +2713,7 @@ export function mount(
           const row = el('div', 'labour-row');
           const btn = el('button', 'verb', META_LABELS.rake_rice);
           btn.type = 'button';
+          stampAct(btn, 'rake_rice');
           btn.addEventListener('click', () => dispatch({ type: 'rake_rice' }));
           const auto = el('button', 'auto-toggle');
           auto.type = 'button';
@@ -2703,6 +2725,7 @@ export function mount(
         }
         const btn = el('button', a === 'open_eyes' ? 'verb primary' : 'verb', META_LABELS[a]);
         btn.type = 'button';
+        stampAct(btn, a);
         btn.addEventListener('click', () => dispatch({ type: a } as Intent));
         return btn;
       },
@@ -3085,6 +3108,7 @@ export function mount(
     }
     const craftBtn = el('button', 'verb', recipe.label);
     craftBtn.type = 'button';
+    stampAct(craftBtn, 'craft_weapon', { recipeId: recipe.id });
     craftBtn.addEventListener('click', () =>
       dispatch({ type: 'craft_weapon', recipeId: recipe.id }),
     );
@@ -3167,6 +3191,7 @@ export function mount(
       rep.type = 'button';
       rep.disabled = (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST;
       rep.title = `${balance.REPAIR_WOOD_COST} wood + up to ${formatCoin(balance.REPAIR_COIN_COST)} (waived if you're short)`;
+      stampAct(rep, 'repair_weapon');
       rep.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(rep);
     }
@@ -3210,6 +3235,7 @@ export function mount(
       craftBtn.type = 'button';
       craftBtn.disabled = !can;
       if (!can) craftBtn.title = 'Fell more foes for materials.';
+      stampAct(craftBtn, 'craft_weapon', { recipeId: recipe.id });
       craftBtn.addEventListener('click', () =>
         dispatch({ type: 'craft_weapon', recipeId: recipe.id }),
       );
@@ -3296,6 +3322,7 @@ export function mount(
       const wctrl = el('div', 'labour-row');
       const repairBtn = el('button', 'auto-toggle');
       repairBtn.type = 'button';
+      stampAct(repairBtn, 'repair_weapon');
       repairBtn.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
       wctrl.append(repairBtn);
       wc.append(wctrl);
@@ -4572,6 +4599,7 @@ export function mount(
       const cookRow = el('div', 'labour-row belongings-cook');
       const cookBtn = el('button', 'verb') as HTMLButtonElement;
       cookBtn.type = 'button';
+      stampAct(cookBtn, 'cook_meal');
       cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
       cookRow.append(cookBtn);
       const acquireHead = el('div', 'belongings-subhead', 'Settle your corner');
@@ -5253,7 +5281,79 @@ export function mount(
     }
     introEndingRender = false; // one-shot: the intro-reveal render is done
     firstRender = false;
+    paintActionClock(); // ADR-148 — re-apply clock phases after the render pass repainted buttons
   }
+
+  // ── ADR-148 Phase 2 — the action-clock painting pass ─────────────────────────
+  // Every button that dispatches a TIMED intent is stamped `data-act-key` at build
+  // time (stampAct). This pass paints all of them from the clock: the phase class,
+  // the one-global-action lock, and the inner-bottom progress bar. CSS transitions
+  // carry the motion (no per-frame JS — TST2); it runs after every render (buttons
+  // may have been rebuilt/re-enabled) and on every clock phase change.
+  function stampAct(
+    btn: HTMLElement,
+    type: Intent['type'],
+    payload?: { activityId?: string; to?: string; recipeId?: string },
+  ): void {
+    if (timingFor(type, payload as never).kind !== 'timed') return;
+    btn.dataset.actKey = actionKey(type, payload);
+  }
+  function paintActBar(
+    btn: HTMLButtonElement,
+    phase: string,
+    fraction: number,
+    remainingMs: number,
+  ): void {
+    let bar = btn.querySelector<HTMLElement>(':scope > .act-bar');
+    if (phase === 'idle') {
+      bar?.remove();
+      return;
+    }
+    if (!bar) {
+      bar = el('span', 'act-bar');
+      bar.setAttribute('aria-hidden', 'true');
+      btn.append(bar);
+    }
+    // running fills left→right (fraction 0→1); cooldown drains right→left (fraction 1→0).
+    const fromPct = fraction * 100;
+    const toPct = phase === 'running' ? 100 : 0;
+    if (reduceMotion()) {
+      bar.style.transition = 'none';
+      bar.style.width = `${toPct}%`;
+      return;
+    }
+    bar.style.transition = 'none';
+    bar.style.width = `${fromPct}%`;
+    void bar.offsetWidth; // commit the start width so the transition has a from-edge
+    bar.style.transition = `width ${remainingMs}ms linear`;
+    bar.style.width = `${toPct}%`;
+  }
+  function paintActionClock(): void {
+    // the ADR-075 action-row variant (CSS-scoped off this attribute; prod = the default)
+    const v = __DEV_TOOLS__ && dev ? dev.getVariant('action-row') : 'act-a';
+    if (root.dataset.actVariant !== v) root.dataset.actVariant = v;
+    const busy = hooks.clock.busy();
+    for (const btn of root.querySelectorAll<HTMLButtonElement>('button[data-act-key]')) {
+      const st = hooks.clock.status(btn.dataset.actKey!);
+      setClass(btn, 'act-running', st.phase === 'running');
+      setClass(btn, 'act-cooldown', st.phase === 'cooldown');
+      // ONE global action (ADR-148): while anything runs, every timed button locks;
+      // a cooling button locks only itself. `actLocked` remembers the lock was OURS,
+      // so an availability-disabled button is never wrongly re-enabled here.
+      const lock = busy || st.phase !== 'idle';
+      if (lock) {
+        if (!btn.disabled) {
+          btn.disabled = true;
+          btn.dataset.actLocked = '1';
+        }
+      } else if (btn.dataset.actLocked) {
+        btn.disabled = false;
+        delete btn.dataset.actLocked;
+      }
+      paintActBar(btn, st.phase, st.fraction, st.remainingMs);
+    }
+  }
+  hooks.clock.onChange(() => paintActionClock());
 
   return render;
 }

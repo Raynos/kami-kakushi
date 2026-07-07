@@ -8,6 +8,7 @@
 // B/C asserts flip red; if it always delegated, the prod-default assert flips red.)
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount, type AppHooks } from './render';
+import { createActionClock } from '../app/action-clock';
 import {
   createDevApi,
   mountDevPanel,
@@ -59,6 +60,7 @@ function noopHooks(): AppHooks {
       },
       isMuted: () => muted,
     },
+    clock: createActionClock(),
   };
 }
 
