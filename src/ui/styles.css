@@ -741,6 +741,16 @@ h3 {
   padding-top: var(--space-2);
   border-top: 1px solid var(--ink-faint);
 }
+/* F122 — the interactive tab-row CONTAINERS claim the pointer, so the 3.6px flex
+   gap + padding between the hand-pointer buttons no longer expose the default
+   arrow. Without this the cursor flickered arrow↔hand as the mouse crossed each
+   inter-tab gap (the "fragile CSS" capture). One rule covers the left nav rail
+   and both log tab-bars (their buttons already set cursor:pointer). */
+.nav,
+.log-filter-bar,
+.log-filter-group {
+  cursor: pointer;
+}
 .log-filter-tab {
   font-family: var(--font-head);
   font-size: var(--fs-small);
