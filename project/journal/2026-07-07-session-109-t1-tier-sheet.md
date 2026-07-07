@@ -133,11 +133,21 @@ with the human one piece per exchange.
   staged (three signals, Toku's mouth closes it, the silent map
   re-label at her scene's end).
 
+- **A4 · T2 piece 2 LOCKED — the T2 sheet is DONE at half detail**
+  (redline + AskUserQuestion): village cast (five roles: Jinbei ·
+  Ekai · Kyūbei · Funakichi · Seiroku/"mountain dogs") + **the human's
+  redline: an ordinary-villager pool with no plot roles** (Gonsuke ·
+  O-Haru · Tazō · O-Mitsu · Bunta) · the five-stage village track
+  (can FALL) · both arenas' quest threads · **the register of the
+  vanished holds Katsuhide's official taking-entry** (the lie's public
+  copy) · **the first man DIES** (human's pick over taken-alive) —
+  under Sōan's hands in the room where the MC was saved; Bon #3 =
+  the lantern he chooses to light · economics + seeding.
+
 ## Next intended steps
 
-- T2 piece 2 (closes the half-detail sheet): village cast callouts ·
-  village-track ladder · both-arena main-quests sketch · threshold
-  aftermath · economics · seeding.
-- Then T3 (half) · T4 (quarter) · T5 (fifth) · T6 check (tenth).
+- T3 sheet (half detail): the ORIGIN design is its rock (birth-name
+  question, what he fled, the grave, the buried-truth quest).
+- Then T4 (quarter) · T5 (fifth) · T6 check (tenth).
 - A2 resumes after the tier sheets (four drafts awaiting lock); then
   A3 register rules.

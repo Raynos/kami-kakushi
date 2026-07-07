@@ -218,9 +218,12 @@ the roster's leading syllables; shapes land at the voices sitting.
 
 ## Beyond the estate (cast seeds by tier — grown per tier sheet)
 
-T2 the village: the headman · the shrine/temple keeper (the register
-of the vanished) · the miller · the ferry keeper · the bandit camp's
-faces. T3 the region: the origin town's cast (his family's remnant ·
+T2 the village (named at the T2 sitting — see
+[`tiers/t2.md`](tiers/t2.md)): **Jinbei** the headman · **Ekai** the
+temple keeper (the register of the vanished) · **Kyūbei** the miller ·
+**Funakichi** the ferry keeper · **Seiroku** the bandit chief ("the
+mountain dogs") — plus the ordinary pool (Gonsuke · O-Haru · Tazō ·
+O-Mitsu · Bunta), plot-roleless by design. T3 the region: the origin town's cast (his family's remnant ·
 the register office · whoever tends the grave with his name on it).
 T4: **the enemy — the lord of the castle town** (office/faction with
 hands in BOTH old wounds; the campaign's face; design cell at the T4
