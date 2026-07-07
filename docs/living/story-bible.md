@@ -174,3 +174,93 @@ this says what the game inescapably REMAINS.)
 5. **Scope.** A pitch covers the full arc at act level but T0 in real
    detail — T0 is built first against the winning pitch, while the
    current T0 keeps shipping until the reboot's build wave replaces it.
+
+## §1 · The House — family tree & the succession spine (human-locked 2026-07-07)
+
+From the HR-15 synthesis (D-spine + B-fusion + time-skips; pitches +
+verdict in `project/brainstorms/2026-07-07-story-pitches/`). Working
+proper nouns from pitch D; recasting stays open as its own later call.
+
+**Four generations under one roof:**
+
+- **Toku** — the dowager, the lord's mother. Knows the vanished heir
+  LIVES (since year two) and can never say so. Pays **the packet**:
+  silver upstream to a temple at the new moon, anonymous alms the temple
+  forwards to a wandering lay brother — a grandmother feeding a grandson
+  she must pretend the mountain took. The packet's trail is, eventually,
+  the road to him.
+- **Shigemasa** — the old lord, dying by inches across T0–T1; never
+  struck his son's line and never will. **Chiyo** — his lady, the
+  arithmetic of the house's dignity.
+- **Katsuhide** — the elder son, THE WOUND *(renamed from the pitches'
+  "Naotarō" — too close to "Naoyuki"; human, 2026-07-07)*. Self-vanished
+  in the famine winter ~1770: did the cold arithmetic and walked into
+  the snow so the house could eat and grieve a taking instead of naming
+  a deserter. Alive, elsewhere, under another name. His register line:
+  unstruck, no death date, ten years. **O-Sato** — his wife,
+  widow-who-isn't. **Shinnosuke** — his son, ~12 at T0, who wants his
+  father to have been TAKEN, because taken is kinder than left.
+- **Naoyuki** — the second son, heir by subtraction; his whole life a
+  provisional entry. Ally of the MC eventually — never warm.
+
+**The succession knot (the spine's engine):** a house cannot cleanly
+pass its headship while the heir is neither dead nor renounced.
+Declaring Katsuhide dead closes the lie forever (Shigemasa won't sign);
+leaving the line open means Naoyuki rules only as steward-REGENT, never
+lord. The mystery and the succession are the same object: **until the
+truth is found and WRITTEN, the house cannot complete itself** (kernel
+#4 — the enemy attacks the House through its own register).
+
+**BOTH house wounds are canon (human, 2026-07-07):**
+
+1. **The Kuzuhara drowned** (from D) — a generation older: the
+   grandfather's flood-works and the hamlet that died under the house's
+   water. Part of the history of the estate's DECLINE. Paid for
+   regularly by someone OTHER than Toku, in a DIFFERENT modality than
+   the packet (who + how: OPEN — under design; candidate: forgiven
+   debts hidden in the ledgers).
+2. **Katsuhide, the self-vanished heir** (from B) — the living wound,
+   the packet, the unstruck line, the succession knot.
+
+**Cast-name norm:** no two active cast names share a leading syllable —
+every name distinguishable at a glance in a log line.
+
+## §2 · The tier ladder — seven circles (human-locked 2026-07-07; detail sheets pending)
+
+**SEVEN tiers (T0–T6) — locked; a build/PRD-cutting change** (tier enum
+0..5 → 0..6; the ADR lands with Phase 4's re-plan). Time-skips at tier
+seams; the game spans ~13 years (1780 → 1793+); Shinnosuke grows 12→~25
+on camera.
+
+- **T0 · The Estate — the household** (1780). Rungs = household access
+  (gateyard → register). Shigemasa failing. The wound met as three wrong
+  things: the unstruck line · the alcove kept wrong · the packet.
+- **T1 · The Estate — the land** (1781–82). The estate proper; the debt
+  fought in earnest. Shigemasa dies at/near the seam — without striking
+  the line. *Skip ~2 years.*
+- **T2 · The Valley — the LORDLESS tier** (1784). All village, all
+  social; Naoyuki regent; the valley watches a house with no lord.
+- **T3 · The Region — the ORIGIN tier** (1786). The MC solves his OWN
+  vanishing: birth town, own name. He KNOWS at T3; the register says so
+  only at the end, his choice (human-locked). Escalation: strangers
+  (T0–T2) → self (T3) → the house (T4).
+- **T4 + T5 — the heir found · the heir made** *(the circles' NAMES
+  under confirm — the castle-town-vs-province ordering question)*:
+  T4 — Katsuhide FOUND via the packet-trail + official paper; declines
+  to return; **renounces in writing**; within the tier it is known
+  Shinnosuke will be adopted. *Skip; genpuku at the seam.* T5 — a whole
+  tier of Shinnosuke adopted and LEARNING the house under Naoyuki's
+  regency; the MC the bridge.
+- **T6 · Edo — DELIBERATELY OPEN** (human, 2026-07-07). Shinnosuke is
+  lord; beyond that, no detail is locked: the Edo tier is a
+  game-within-a-game, a PSEUDO-prestige act (nothing resets — §0.9) for
+  which T0–T5 is in effect the demo. Room reserved for more time-skips,
+  plot turns, even the MC attempting a lordship. Do not fill in until
+  its own design pass.
+
+**Per-tier detail sheets (the human's schema — one per tier, the next
+Phase-3 sittings):** the map & zones (which nodes; what unlocks rung by
+rung) · the enemies / antagonists / rivals · the tier-up economics (koku
+thresholds, what the House must WIN, what it wins influence OVER, what
+power it gains). Incremental growth: new zones unlock rung by rung
+within each tier.
