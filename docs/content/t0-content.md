@@ -36,6 +36,52 @@
 | forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 coin | 5 | 7 |
 | tap_lacquer | woodcutting | woodlot-edge | 3 coin | 4 | 5 |
 
+## Action timing (ADR-148 — timed vs instant)
+
+> Every action is `timed {duration, cooldown}` or declared `instant`; seeds are
+> the fast-idle band (human-tunable via the cockpit, ADR-134). Combat is
+> excluded pending its own review; `move_to` gains per-edge seconds in Phase 3.
+
+| action | kind | duration | cooldown |
+|---|---|---|---|
+| do_activity:farm_paddy | timed | 8s | 2s |
+| do_activity:haul_stores | timed | 6s | 2s |
+| do_activity:woodcut_edge | timed | 7s | 2s |
+| do_activity:forage_satoyama | timed | 6s | 2s |
+| do_activity:forage_deepwoods | timed | 9s | 2s |
+| do_activity:tap_lacquer | timed | 7s | 2s |
+| open_eyes | instant | — | — |
+| advance_intro | instant | — | — |
+| ask_topic | instant | — | — |
+| choose_intro | instant | — | — |
+| begin_rung_beat | instant | — | — |
+| advance_rung_beat | instant | — | — |
+| ask_rung_topic | instant | — | — |
+| choose_rung_option | instant | — | — |
+| rake_rice | timed | 5s | 2s |
+| rest | timed | 4s | 2s |
+| set_auto | instant | — | — |
+| set_auto_rake | instant | — | — |
+| face_wolf | instant | — | — |
+| fight | instant | — | — |
+| set_auto_combat | instant | — | — |
+| repair_weapon | timed | 8s | 2s |
+| equip_weapon | instant | — | — |
+| set_stance | instant | — | — |
+| cook_meal | timed | 6s | 2s |
+| eat_rice | timed | 3s | 2s |
+| sell_rice | instant | — | — |
+| improve_estate | timed | 60s | 2s |
+| spend_attribute | instant | — | — |
+| craft_weapon | timed | 45s | 2s |
+| accept_quest | instant | — | — |
+| buy_item | instant | — | — |
+| buy_belonging | instant | — | — |
+| deposit | instant | — | — |
+| withdraw | instant | — | — |
+| move_to | timed | 6s | 2s |
+| ascend | instant | — | — |
+
 ## Estate map (spatial spine — D-093)
 
 > Node ceiling: `MAP_NODE_CEILING = 7` — the T0 hard cap on

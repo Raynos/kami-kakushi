@@ -62,7 +62,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 
 - [`fable-2026-07-07-story-reboot.md`](fable-2026-07-07-story-reboot.md) — IN-PROGRESS
 - [`fable-2026-07-07-story-salvage.md`](fable-2026-07-07-story-salvage.md) — PARKED
-- [`fable-2026-07-07-timed-actions.md`](fable-2026-07-07-timed-actions.md) — LOCKED
+- [`fable-2026-07-07-timed-actions.md`](fable-2026-07-07-timed-actions.md) — IN-PROGRESS
 - [`opus-2026-07-03-emergent-node-actions.md`](opus-2026-07-03-emergent-node-actions.md) — IN-PROGRESS
 <!-- gen:end active-plans -->
 

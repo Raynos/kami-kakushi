@@ -78,3 +78,22 @@ the action row**; **starts now** in parallel with ADR-146; travel shows
 **bar only, no map forecast**; auto **pauses and visibly resumes** across
 legality gaps. Plan updated (§Build decisions); Phases 2–3 reshaped
 accordingly. Build begins with Phase 1 (the timing data).
+
+## Addendum 3 — pacing anchor closed; Phase 1 built
+
+Surfaced a real conflict before writing data: today's auto heartbeat is
+AUTO_REPEAT_MS = 480ms/action, so the fast-idle band is ~15–25× slower per
+action — "pacing-neutral" couldn't mean per-action seconds. Human's call:
+**hold rung minutes, boost yields** (Phase 4 re-baselines yields/requirements
+to the existing t0-pacing targets; the band never compresses). Recorded as
+plan §Build decisions (7).
+
+**Phase 1 landed:** `src/core/content/timing.ts` — `ActionTiming`
+(timed{durationMs,cooldownMs} | instant), `ACTIVITY_TIMING` total over
+ActivityId, `INTENT_TIMING` total over IntentType (a new intent can't ship
+unclassified — compile error), `timingFor()` routing, band seeds (rake 5s per
+the capture; big actions 45–60s; trade/combat/VN instant). Tests derive from
+the registries (5 passing; dropped a seed-uniformity ratchet that would cry
+wolf on legitimate cockpit tuning); gen-docs gains the "Action timing" table.
+A new FILE keeps the parallel ADR-146 lane collision-free. Plan flipped
+IN-PROGRESS.

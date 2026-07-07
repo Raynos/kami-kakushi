@@ -28,7 +28,10 @@ import {
   SETTLED_HOME_REST_BONUS,
   balance,
   rungRequirements,
+  ACTIVITY_TIMING,
+  INTENT_TIMING,
 } from '../core';
+import type { ActionTiming } from '../core';
 
 const OUT = 'docs/content/t0-content.md';
 const OUT_TOKENS = 'docs/content/ui-tokens.md';
@@ -92,6 +95,25 @@ function generate(): string {
       .map(([r, n]) => `${n} ${r}`)
       .join(', ');
     L.push(`| ${a.id} | ${a.skill} | ${a.area} | ${yields} | ${a.satietyCost} | ${a.xp} |`);
+  }
+  L.push('');
+
+  L.push('## Action timing (ADR-148 — timed vs instant)');
+  L.push('');
+  L.push('> Every action is `timed {duration, cooldown}` or declared `instant`; seeds are');
+  L.push('> the fast-idle band (human-tunable via the cockpit, ADR-134). Combat is');
+  L.push('> excluded pending its own review; `move_to` gains per-edge seconds in Phase 3.');
+  L.push('');
+  L.push('| action | kind | duration | cooldown |');
+  L.push('|---|---|---|---|');
+  const timingRow = (name: string, t: ActionTiming): string =>
+    t.kind === 'timed'
+      ? `| ${name} | timed | ${t.durationMs / 1000}s | ${t.cooldownMs / 1000}s |`
+      : `| ${name} | instant | — | — |`;
+  for (const a of ACTIVITIES) L.push(timingRow(`do_activity:${a.id}`, ACTIVITY_TIMING[a.id]));
+  for (const [type, t] of Object.entries(INTENT_TIMING)) {
+    if (type === 'do_activity') continue; // routed per-activity above
+    L.push(timingRow(type, t));
   }
   L.push('');
 

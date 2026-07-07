@@ -1,8 +1,8 @@
 # Timed actions — duration + cooldown on every action (FB-174)
 
-**Status: LOCKED** — direction AND all four open questions settled with the
-human (2026-07-07 drain, AskUserQuestion) — recorded as **ADR-148**. Ready to
-build.
+**Status: IN-PROGRESS** — all decisions settled with the human (ADR-148 + the
+two walkthrough waves below); Phase 1 (timing data) landed 2026-07-07; next is
+Phase 2 (shell clock + the action-row diverge).
 
 - **Confidence:** ( 70% Opus, 30% Fable ) — the mechanism is mostly plumbing
   once the seams are locked; judgment concentrates in the pacing/balance
@@ -37,6 +37,12 @@ AskUserQuestion:
 6. **Auto stall: pause, resume when legal** — the toggle stays ON and
    visibly idles (e.g. "waiting — no wood"), re-firing the moment the
    action is legal again.
+7. **Pacing anchor: hold rung minutes, boost yields.** Today's auto
+   heartbeat is 480ms/action; the fast-idle band is ~15–25× slower per
+   action. "Pacing-neutral" anchors at the RUNG level: Phase 4 keeps the
+   current per-rung wall-time targets (t0-pacing / G-PACING) and scales
+   per-action yields/requirements so fewer, slower actions reach the same
+   rung in the same minutes. The band never compresses.
 
 ## The locked direction (human, 2026-07-07 drain)
 

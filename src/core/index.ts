@@ -176,6 +176,14 @@ export { SKILLS, getSkill, SKILL_IDS } from './content/skills';
 export type { SkillId, SkillDef } from './content/skills';
 export { ACTIVITIES, getActivity, activityLine, ACTIVITY_IDS } from './content/activities';
 export type { ActivityId, ActivityDef, LabourResource } from './content/activities';
+export {
+  ACTIVITY_TIMING,
+  INTENT_TIMING,
+  timingFor,
+  COOLDOWN_SEED_MS,
+  TRAVEL_SEED_MS,
+} from './content/timing';
+export type { ActionTiming } from './content/timing';
 export { AREAS, AREA_IDS } from './content/areas';
 export type { AreaId, AreaDef } from './content/areas';
 export { RANKS, getRank, nextRankId, RANK_IDS } from './content/ranks';
