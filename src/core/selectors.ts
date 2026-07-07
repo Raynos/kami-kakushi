@@ -13,8 +13,9 @@ import {
   STAMINA_FLAT_ABOVE,
   CONDITIONING_GATE_LEVEL,
   SKILL_YIELD_DEN,
+  ESTATE_STAGE_DEED_GATES,
 } from './content/balance';
-import { ESTATE_STAGES } from './content/estate';
+import { ESTATE_STAGES, type EstateStageDef } from './content/estate';
 import {
   BELONGINGS,
   HOME_SURFACE,
@@ -198,4 +199,66 @@ export function peopleHere(state: GameState): NodePerson[] {
     if (p.presence !== undefined && !p.presence(state)) return false;
     return true;
   });
+}
+
+// ── ADR-145 Phase 4 — the estate BUILD read (AC-6: the ONE source the tracker UI, the improve
+// gate, and any sim/forecast consult; the reducer enforces the same constants, so the shown
+// distance can never drift from the real gate). ──────────────────────────────────────────────
+
+export interface EstateBuildRow {
+  readonly def: EstateStageDef;
+  /** 'built' — already commissioned · 'next' — the live target · 'locked' — beyond the next. */
+  readonly status: 'built' | 'next' | 'locked';
+  /** The banked-standing gate this stage needs (ADR-145 the B half). */
+  readonly deedGate: number;
+}
+
+export interface EstateBuild {
+  readonly rows: readonly EstateBuildRow[];
+  /** U4 commissioned — the estate STANDS (the E1 build-complete beat has fired). */
+  readonly complete: boolean;
+  /** The next stage's shortfalls (absent when complete): plain numbers for the TST4 read. */
+  readonly next?: {
+    readonly def: EstateStageDef;
+    readonly deedGate: number;
+    /** Banked Estate standing now vs the gate (koku). */
+    readonly standing: number;
+    readonly deedsShort: number;
+    /** Carried coin now vs the cost (mon). */
+    readonly carried: number;
+    readonly coinShort: number;
+  };
+}
+
+/** The staged E0→E1 build, as the UI reads it (pure; derived — no stored build state). */
+export function estateBuild(state: GameState): EstateBuild {
+  const rows: EstateBuildRow[] = ESTATE_STAGES.map((def) => ({
+    def,
+    status:
+      def.stage <= state.estateStage
+        ? 'built'
+        : def.stage === state.estateStage + 1
+          ? 'next'
+          : 'locked',
+    deedGate: ESTATE_STAGE_DEED_GATES[def.stage - 1] ?? 0,
+  }));
+  const nextRow = rows.find((r) => r.status === 'next');
+  const standing = state.influence.estate.value;
+  const carried = state.resources.coin ?? 0;
+  return {
+    rows,
+    complete: state.estateStage >= ESTATE_STAGES.length,
+    ...(nextRow
+      ? {
+          next: {
+            def: nextRow.def,
+            deedGate: nextRow.deedGate,
+            standing,
+            deedsShort: Math.max(0, nextRow.deedGate - standing),
+            carried,
+            coinShort: Math.max(0, nextRow.def.coinCost - carried),
+          },
+        }
+      : {}),
+  };
 }

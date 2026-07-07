@@ -332,6 +332,41 @@ Three blind takes were authored (ADR-139); canon carries the self-pick:
 
 ---
 
+### HR-11 🔲 — Build-progress tracker (ADR-145 Phase 4) — pick among the 3 live variants (ADR-075)
+
+The staged E0→E1 build now has a **tracker read** inside the Estate tab's
+improve card — all three re-present the SAME pure-core `estateBuild` selector
+(AC-6; the reducer enforces the same gates, so the shown distance can't lie).
+
+- **Taste brief (pass 1):** P1 the tracker EXTENDS the improve card — no second
+  home for the build read; the improve CTA stays put · P2 reuse frame/meter/
+  gold-value idioms, no new primitives · P4/P5 keyed rows patched in place,
+  card never resizes on stage change · P15/TST3 locked future stages stay
+  UNNAMED ("the works continue") — the U4 reveal is a story beat, not a menu
+  spoiler · P19/P20 chrome register, plain tabular numbers
+  ("standing N / M koku") · TST4 gate distance readable at a glance.
+- [ ] **A — ladder rows** _(self-picked prod default; ships)_ — one compact row
+  per stage: built ◆ gold · next ▹ with a standing gauge · locked ▢ unnamed.
+  - **Scorecard (A):** 19✔ · 0✘ · 2— (P12 typewriter, P21 app-info: n/a)
+- [ ] **B — milestone rail** _(built; DEV-only)_ — a horizontal 4-pip rail, the
+  gold standing thread filling toward the next pip; next-stage line beneath.
+  - **Scorecard (B):** 18✔ · 1✘ · 2— — ✘P15 [briefed]: pips reveal the total
+    stage COUNT even while locked (names stay hidden via hover-title only).
+- [ ] **C — ledger entries** _(built; DEV-only)_ — the steward's-ledger
+  register (matches the ADR-145 beat canon): built stages as closed "Entered:"
+  lines, the next as an open entry with a dotted-leader "wants" line; locked
+  stages absent entirely.
+  - **Scorecard (C):** 19✔ · 0✘ · 2— — strictest no-spoiler; boldest register.
+
+- **Asking for:** which of A/B/C ships (or a tune).
+- **How to look:** `pnpm run dev` → **Estate 家** tab → DEV panel → Variants →
+  "Build tracker (ADR-145)". NOTE: the tracker lives in the DEFAULT estate
+  section (variant A of "Estate section (FB-157)"); under estate-section B/C
+  it doesn't render — pick that surface first (HR-9) if you want them merged.
+- **Verdict:** _(awaiting the human — per variant, via the live toggle)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

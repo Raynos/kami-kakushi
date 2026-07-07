@@ -1918,6 +1918,46 @@ h3 {
   font-style: italic;
 }
 
+/* ── ADR-145 build ladder (the Phase-2 estate BUILD tracker, default A) ──
+   one compact row per stage: mark · name · gauge. Built = gold (value earned),
+   next = ink + a plain-number standing gauge, locked = faint & unnamed (TST3). */
+.build-ladder {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.build-ladder-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--fs-small);
+  min-height: 18px;
+}
+.build-ladder-mark {
+  width: 1em;
+  text-align: center;
+  color: var(--silver-dim);
+}
+.build-ladder-row.is-built .build-ladder-mark {
+  color: var(--gold);
+}
+.build-ladder-row.is-built .build-ladder-name {
+  color: var(--ink-soft);
+}
+.build-ladder-row.is-next .build-ladder-name {
+  color: var(--ink);
+}
+.build-ladder-row.is-locked .build-ladder-name {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.build-ladder-gauge {
+  margin-left: auto;
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── meter (rung + skill) — track + ink fill + ease ──────────────────────── */
 .meter {
   /* B.4 — same steel groove as .bar: progress is a gold thread */

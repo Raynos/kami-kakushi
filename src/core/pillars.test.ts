@@ -17,6 +17,7 @@ import {
   type GameState,
   type EstateDeedSource,
   ESTATE_STAGES,
+  estateBuild,
 } from './index';
 
 /** A state parked at the R7 capstone → Phase 2 open (where deeds bank). */
@@ -245,6 +246,41 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
     const second = bankEstateDeed(first, 'fields');
     expect(second.log.entries.length).toBe(revealed); // no repeat — the reveal is one-time
     expect(second.influence.estate.frac).toBeGreaterThan(first.influence.estate.frac ?? 0);
+  });
+});
+
+describe('ADR-145 — estateBuild is the ONE build read (Phase 4 DoD, AC-6/TST4)', () => {
+  it('the shown distances equal the reducer-enforced gates (DISPLAYED==TESTED)', () => {
+    const gates = balance.ESTATE_STAGE_DEED_GATES;
+    // park standing one koku short of U2's gate, coin one mon short of its cost
+    const gate2 = gates[1]!;
+    const cost2 = ESTATE_STAGES[1]!.coinCost;
+    const s: GameState = {
+      ...atPhase2(),
+      estateStage: 1,
+      resources: { coin: cost2 - 1 },
+      influence: { estate: { value: gate2 - 1, highWater: gate2 - 1, judged: 0 } },
+    };
+    const b = estateBuild(s);
+    expect(b.complete).toBe(false);
+    expect(b.next?.def.stage).toBe(2);
+    expect(b.next?.deedGate).toBe(gate2); // the SAME constant improve_estate enforces
+    expect(b.next?.deedsShort).toBe(1);
+    expect(b.next?.coinShort).toBe(1);
+    // …and the reducer indeed refuses at exactly this state (the selector can't drift green)
+    expect(
+      reduce({ ...s, unlocked: [...s.unlocked, 'panel-estate'] }, { type: 'improve_estate' }),
+    ).toEqual(expect.objectContaining({ estateStage: 1 }));
+    // statuses ladder: built ≤ current < next < locked, one row per stage
+    expect(b.rows.map((r) => r.status)).toEqual(['built', 'next', 'locked', 'locked']);
+  });
+
+  it('reports complete at U4 with no next block', () => {
+    const s: GameState = { ...atPhase2(), estateStage: ESTATE_STAGES.length };
+    const b = estateBuild(s);
+    expect(b.complete).toBe(true);
+    expect(b.next).toBeUndefined();
+    expect(b.rows.every((r) => r.status === 'built')).toBe(true);
   });
 });
 
