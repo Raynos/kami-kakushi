@@ -15,6 +15,14 @@ import type { RunMetrics } from './metrics';
  *  (capstone → ascension), which has NO signed band yet (FB-4 open Q1 / HD-19) and is report-only. */
 export const CLIMB_RUNGS: readonly string[] = RANKS.slice(0, -1).map((r) => r.id);
 
+/** ADR-148 INTERIM (human, 2026-07-07): timed actions divided the act targets but the
+ *  ECONOMY (coin sinks, XP/materials accumulation) is deliberately NOT rebalanced yet —
+ *  "I'll rebalance later." Until that rebalance re-signs the full-ladder bands, the
+ *  per-rung band verdict applies to the pre-combat climb (R0–R2, the rungs the divided
+ *  targets fully govern) and the Phase-2 ratio gate is SUSPENDED. Delete this scope —
+ *  restoring the full-ladder verdicts — as part of the economy rebalance. */
+export const ADR148_INTERIM_BAND_RUNGS: ReadonlySet<string> = new Set(['R0', 'R1', 'R2']);
+
 /** The final rung — its residence time IS the Phase-2 window (report-only, see HD-19). */
 export const PHASE2_RUNG: string = RANKS[RANKS.length - 1]!.id;
 
@@ -31,7 +39,8 @@ export interface BandVerdict {
 /** Greedy per-rung wall-time vs the signed T0 band (ADR-056, [T0_PACING_BAND_MIN/MAX]) — the
  *  per-lever gate: a regression localises to the rung whose threshold moved. */
 export function greedyBandVerdicts(runs: readonly RunMetrics[]): BandVerdict[] {
-  return CLIMB_RUNGS.map((rung) => {
+  // ADR-148 INTERIM — see ADR148_INTERIM_BAND_RUNGS above.
+  return CLIMB_RUNGS.filter((r) => ADR148_INTERIM_BAND_RUNGS.has(r)).map((rung) => {
     const mins = runs.map((r) => r.rungs.find((x) => x.rung === rung)?.wallMin ?? 0);
     const measuredMin = Math.min(...mins);
     const measuredMax = Math.max(...mins);

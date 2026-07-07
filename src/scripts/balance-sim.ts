@@ -201,10 +201,12 @@ function generateReport(matrix: PersonaRuns[]): string {
     '  VALUE change without a regenerated report is caught; comments/formatting never fire it)',
   );
   L.push(
-    `- Wall model: one intent per ${balance.AUTO_REPEAT_MS} ms (the active-loop cadence) — ` +
-      `wall-min = intents × ${balance.AUTO_REPEAT_MS} / 60000. Every dispatch counts (moves and`,
+    `- Wall model (ADR-148 — timed actions): a TIMED intent costs its duration + cooldown from ` +
+      `the core timing table (move_to per edge); an instant intent costs one ` +
+      `${balance.AUTO_REPEAT_MS} ms heartbeat.`,
   );
-  L.push('  story beats included), so the model reflects what the auto-loop actually issues.');
+  L.push('  Per-rung/total wall accumulates per intent; intent-INDEXED columns (first-coin etc.)');
+  L.push(`  still convert at the ${balance.AUTO_REPEAT_MS} ms heartbeat and are labelled as such.`);
   L.push(
     `- T0 climb band (D-056): [${balance.T0_PACING_BAND_MIN}, ${balance.T0_PACING_BAND_MAX}] ` +
       'wall-min per climb rung. Envelope VERDICTS land with `verify:balance` (F4 Ph2);',

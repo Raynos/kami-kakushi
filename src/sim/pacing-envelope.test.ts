@@ -44,7 +44,12 @@ describe('T0 pacing envelope tripwire (greedy, canonical seed)', () => {
 });
 
 describe('Phase 2 ≈ Phase 1 ratio gate (D-133 / H19)', () => {
-  it('the real greedy arc lands inside the signed ratio band', () => {
+  // ADR-148 INTERIM (human, 2026-07-07): the divided act targets shrank Phase-1 intents
+  // ~16× while the Phase-2 economy (estate coin sinks) is deliberately unrebalanced
+  // ("I'll rebalance later") — the real-arc ratio is out of band BY SIGNED INTENT until
+  // that rebalance. The verdict machinery + RED-able stubs stay; re-enable this assertion
+  // (delete the .skip) with the economy rebalance — see envelopes.ts ADR148_INTERIM note.
+  it.skip('the real greedy arc lands inside the signed ratio band (SUSPENDED — ADR-148 interim)', () => {
     const v = phase2RatioVerdict([metrics]);
     expect(v.built, 'greedy never reached a built Phase 2').toBeGreaterThan(0);
     expect(

@@ -28,19 +28,19 @@
 
 <!-- Staged milestones (human, 2026-07-07): same-token requirements complete
   CUMULATIVELY (every rake advances all three tallies), so the climb is
-  punctuated at 100 / 200 / 500 — three felt beats, identical total effort. -->
+  punctuated at 10 / 20 / 35 (ADR-148: timed actions — targets ÷ the per-act wall-cost ratio, round numbers) — three felt beats, identical total effort. -->
 
-### req rake-the-first-rows · count act:rake_rice 100
+### req rake-the-first-rows · count act:rake_rice 10
 
 flavor: "So he can work," {elder} says, in the way another man says good morning.
 drive: rake_rice
 
-### req rake-through-the-night · count act:rake_rice 200
+### req rake-through-the-night · count act:rake_rice 20
 
 flavor: "Still at it," {elder} says, passing the granary door without stopping.
 drive: rake_rice
 
-### req rake-the-spill · count act:rake_rice 500
+### req rake-the-spill · count act:rake_rice 35
 
 flavor: "Dawn, and he is still raking," {elder} says to the dark, as if the dark had asked.
 drive: rake_rice
@@ -50,17 +50,17 @@ drive: rake_rice
 <!-- Kept hand: take to the fieldwork (absorbs the old 'farmed' story gate — the
   farm count implies it) and keep hauling at the forecourt. -->
 
-### req first-rows-of-his-own · count act:farm_paddy 250
+### req first-rows-of-his-own · count act:farm_paddy 10
 
 flavor: The first rows he plants alone come up as straight as anyone's.
 drive: farm_paddy
 
-### req take-to-the-fields · count act:farm_paddy 600
+### req take-to-the-fields · count act:farm_paddy 30
 
 flavor: The paddy women no longer point out which rows are his; he has learned them.
 drive: farm_paddy
 
-### req a-porters-back · count act:haul_stores 400
+### req a-porters-back · count act:haul_stores 25
 
 flavor: At the gate the porters shift a strap for him without being asked, as they do among their own.
 drive: haul_stores
@@ -70,17 +70,17 @@ drive: haul_stores
 <!-- Trusted hand: the wider grounds — wood, the hills, the stores — and the
   humbling scripted wolf (absorbs the old first-fight-survived AND-gate). -->
 
-### req learn-the-woodlot · count act:woodcut_edge 350
+### req learn-the-woodlot · count act:woodcut_edge 20
 
 flavor: The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.
 drive: woodcut_edge
 
-### req walk-the-hills · count act:forage_satoyama 450
+### req walk-the-hills · count act:forage_satoyama 25
 
 flavor: The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.
 drive: forage_satoyama
 
-### req keep-the-stores-moving · count act:haul_stores 300
+### req keep-the-stores-moving · count act:haul_stores 20
 
 flavor: Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.
 drive: haul_stores
@@ -105,17 +105,17 @@ drive: fight rice_rats
 flavor: "The monkeys have learned his shape," {drillmaster} is heard to say, almost pleased.
 drive: fight monkey
 
-### req the-fields-hold · count act:farm_paddy 300
+### req the-fields-hold · count act:farm_paddy 15
 
 flavor: "The fields don't miss him while he drills," {elder} notes, half to himself.
 drive: farm_paddy
 
-### req keep-the-rows · count act:farm_paddy 600
+### req keep-the-rows · count act:farm_paddy 30
 
 flavor: "Watch or no watch, his rows never fell behind," {elder} says over the evening rice.
 drive: farm_paddy
 
-### req timber-for-the-palisade · count act:woodcut_edge 450
+### req timber-for-the-palisade · count act:woodcut_edge 25
 
 flavor: "The palisade wood is his cutting," {drillmaster} says, striking a post with the flat of his hand.
 drive: woodcut_edge
@@ -131,17 +131,17 @@ drive: woodcut_edge
   fence-breaker", "clear the woodlot road") returns when combat tuning matures —
   combat above R3 stays the OPTIONAL grind lane it was tuned as. -->
 
-### req a-load-among-loads · count act:haul_stores 400
+### req a-load-among-loads · count act:haul_stores 25
 
 flavor: The porters have stopped counting his loads against their own.
 drive: haul_stores
 
-### req first-name-in-the-yard · count act:haul_stores 800
+### req first-name-in-the-yard · count act:haul_stores 50
 
 flavor: When the kura needs moving in a hurry, it is his name the yard calls first.
 drive: haul_stores
 
-### req the-stores-know-you · count act:haul_stores 1300
+### req the-stores-know-you · count act:haul_stores 75
 
 flavor: New porters are told to watch how he stacks; nobody remembers deciding that.
 drive: haul_stores
@@ -161,17 +161,17 @@ drive: sell rice
 <!-- House-servant: past the danger line, and a corner of the house that is
   actually yours (the bedding — you LIVE here now). -->
 
-### req first-deep-baskets · count act:forage_deepwoods 250
+### req first-deep-baskets · count act:forage_deepwoods 10
 
 flavor: The first deep-hill baskets come back full, and no one mentions the danger line twice.
 drive: forage_deepwoods
 
-### req past-the-danger-line · count act:forage_deepwoods 600
+### req past-the-danger-line · count act:forage_deepwoods 25
 
 flavor: He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.
 drive: forage_deepwoods
 
-### req the-paddies-still-first · count act:farm_paddy 500
+### req the-paddies-still-first · count act:farm_paddy 25
 
 flavor: Whatever else he is now, the paddies get his mornings first, and {elder} sees that they do.
 drive: farm_paddy
@@ -186,12 +186,12 @@ drive: buy bedding
 <!-- Steward's man: the house's arithmetic — held coin, coin put BACK into the
   works — and the road kept safe for it. -->
 
-### req the-count-comes-early · count act:haul_stores 400
+### req the-count-comes-early · count act:haul_stores 25
 
 flavor: "The store-room count is early this month," {steward} says, not yet naming why.
 drive: haul_stores
 
-### req the-ledgers-agree · count act:haul_stores 1100
+### req the-ledgers-agree · count act:haul_stores 65
 
 flavor: "The ledgers agree tonight," {steward} says, which is her whole praise.
 drive: haul_stores
@@ -211,12 +211,12 @@ drive: buy estate_upgrade
 <!-- Trusted of the house: the top of the T0 ladder — the estate runs on your
   rhythm. Gates nothing today (no R8); it seeds the Phase-2 pillar grind. -->
 
-### req the-fields-run-on-you · count act:farm_paddy 400
+### req the-fields-run-on-you · count act:farm_paddy 20
 
 flavor: "The fields no longer wait on my orders," {lord} says from the veranda, "they wait on his."
 drive: farm_paddy
 
-### req the-woodlot-runs-on-you · count act:woodcut_edge 400
+### req the-woodlot-runs-on-you · count act:woodcut_edge 20
 
 flavor: "Even the woodlot answers to him," {drillmaster} says to {elder}, who does not disagree.
 drive: woodcut_edge

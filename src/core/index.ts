@@ -185,6 +185,7 @@ export {
   EDGE_WALK_MS,
   edgeKey,
   walkMs,
+  intentWallMs,
 } from './content/timing';
 export type { ActionTiming } from './content/timing';
 export { AREAS, AREA_IDS } from './content/areas';

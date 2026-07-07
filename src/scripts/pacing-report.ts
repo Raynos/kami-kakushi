@@ -6,11 +6,13 @@
 // T0 climb rung OUT of the sane T0 band (T0 is ≥30-min-floor-EXEMPT; the floor gates from
 // T1). `--check` is the G-PACING gate (in `pnpm run verify` via the pacing:check script).
 //
-// Model: the active-only loop dispatches exactly ONE intent per AUTO_REPEAT_MS while
-// focused, so modeled wall-time per rung = (intents to clear that rung) × AUTO_REPEAT_MS.
-// Intents = productive acts (cheapest eligible activity = focused-optimal) + rests
-// (the auto-loop's satiety<25% rule) + per-rung meta verbs (open_eyes at R0; face_wolf
-// at R2 to satisfy the storyGate). In-game days are flavour; the FLOOR is on wall-minutes.
+// Model (ADR-148 — timed actions): each intent's wall cost comes from the SAME timing
+// table the shell clock runs — timed intents cost durationMs + cooldownMs (move_to per
+// edge via from/to); instant intents cost one AUTO_REPEAT_MS heartbeat (the auto loop's
+// polling cadence). Modeled wall-time per rung = Σ per-intent cost. Intents = productive
+// acts (cheapest eligible activity = focused-optimal) + rests (the auto-loop's
+// satiety<25% rule) + per-rung meta verbs. In-game days are flavour; the FLOOR is on
+// wall-minutes.
 export {};
 
 import {
@@ -20,6 +22,7 @@ import {
   balance,
   focusedOptimalIntent,
   rungRequirements,
+  intentWallMs,
 } from '../core';
 
 const { AUTO_REPEAT_MS, RUNG_WALL_FLOOR_MIN, T0_PACING_BAND_MIN, T0_PACING_BAND_MAX } = balance;
@@ -46,6 +49,7 @@ interface RungTrack {
   acts: number;
   rests: number;
   meta: number;
+  wallMs: number; // ADR-148 — Σ per-intent timing cost (not a flat cadence)
   startTick: number;
   endTick: number;
   act: string;
@@ -59,12 +63,21 @@ export function walkPacing(seed = SEED): RungPacing[] {
   const t: Record<string, RungTrack> = {};
   const abs = (): number => s.clock.day * 24 + s.clock.tick;
   const touch = (r: string): RungTrack =>
-    (t[r] ??= { acts: 0, rests: 0, meta: 0, startTick: abs(), endTick: abs(), act: '-' });
+    (t[r] ??= {
+      acts: 0,
+      rests: 0,
+      meta: 0,
+      wallMs: 0,
+      startTick: abs(),
+      endTick: abs(),
+      act: '-',
+    });
   let guard = 0;
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
     const cur = touch(s.rung);
     const intent = focusedOptimalIntent(s);
     if (!intent) break;
+    cur.wallMs += intentWallMs(intent, s.location, AUTO_REPEAT_MS); // cost BEFORE the move lands
     s = reduce(s, intent);
     if (intent.type === 'open_eyes' || intent.type === 'face_wolf') cur.meta++;
     else if (intent.type === 'rest') cur.rests++;
@@ -103,7 +116,7 @@ export function walkPacing(seed = SEED): RungPacing[] {
       continue;
     }
     const intents = c.acts + c.rests + c.meta;
-    const wallMin = (intents * AUTO_REPEAT_MS) / 1000 / 60;
+    const wallMin = c.wallMs / 1000 / 60;
     rows.push({
       rung: rank.id,
       title: rank.title,

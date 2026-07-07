@@ -8,7 +8,7 @@
     "rng": {
       "seed": 20260626,
       "cursors": {
-        "combat": 747,
+        "combat": 7760,
         "loot": 5,
         "seasonal": 0,
         "worldgen": 0,
@@ -16,11 +16,11 @@
       }
     },
     "clock": {
-      "tick": 10,
-      "day": 622
+      "tick": 4,
+      "day": 363
     },
     "character": {
-      "hp": 12,
+      "hp": 1,
       "satiety": 100,
       "attributePoints": 0,
       "attrs": {
@@ -34,10 +34,10 @@
       "combatXp": 25
     },
     "resources": {
-      "coin": 5118,
-      "rice": 5957,
-      "wood": 2711,
-      "sansai": 3749,
+      "coin": 172,
+      "rice": 220,
+      "wood": 58,
+      "sansai": 142,
       "beast_sinew": 2
     },
     "banked": {
@@ -277,119 +277,119 @@
           "voice": "narrator"
         },
         {
-          "key": 41,
+          "key": 23,
           "channel": "narration",
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 25,
+          "channel": "narration",
+          "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 30,
+          "channel": "narration",
+          "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 65,
+          "key": 31,
           "channel": "narration",
-          "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 134,
-          "channel": "narration",
-          "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
+          "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 135,
-          "channel": "narration",
-          "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 136,
+          "key": 32,
           "channel": "narration",
           "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 137,
+          "key": 33,
           "channel": "narration",
           "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 138,
+          "key": 34,
           "channel": "narration",
           "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 139,
+          "key": 35,
           "channel": "narration",
           "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Tokubei",
           "voice": "villager"
         },
         {
-          "key": 140,
+          "key": 36,
           "channel": "narration",
           "text": "\"The house has my hands.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 141,
+          "key": 37,
           "channel": "narration",
           "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 142,
+          "key": 38,
           "channel": "narration",
           "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 143,
+          "key": 39,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 144,
+          "key": 40,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 145,
+          "key": 41,
           "channel": "milestone",
           "text": "Rank ↑ — Kept hand 下人",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -398,167 +398,167 @@
           }
         },
         {
-          "key": 146,
+          "key": 42,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 147,
+          "key": 43,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 249,
+          "key": 47,
           "channel": "narration",
           "text": "The first rows he plants alone come up as straight as anyone's.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 424,
-          "channel": "narration",
-          "text": "The paddy women no longer point out which rows are his; he has learned them.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 427,
-          "channel": "narration",
-          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 607,
-          "channel": "narration",
-          "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 608,
+          "key": 53,
+          "channel": "narration",
+          "text": "The paddy women no longer point out which rows are his; he has learned them.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 56,
+          "channel": "narration",
+          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 70,
+          "channel": "narration",
+          "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 71,
           "channel": "narration",
           "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 609,
+          "key": 72,
           "channel": "narration",
           "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 610,
+          "key": 73,
           "channel": "narration",
           "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 611,
+          "key": 74,
           "channel": "narration",
           "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 612,
+          "key": 75,
           "channel": "narration",
           "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager"
         },
         {
-          "key": 613,
+          "key": 76,
           "channel": "narration",
           "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 614,
+          "key": 77,
           "channel": "narration",
           "text": "\"The stores are the house's life. I'll face it.\"",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 615,
+          "key": 78,
           "channel": "narration",
           "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager"
         },
         {
-          "key": 616,
+          "key": 79,
           "channel": "narration",
           "text": "A way to track what your hands are learning takes shape — your Skills.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 617,
+          "key": 80,
           "channel": "narration",
           "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 618,
+          "key": 81,
           "channel": "narration",
           "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 619,
+          "key": 82,
           "channel": "narration",
           "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 620,
+          "key": 83,
           "channel": "narration",
           "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 621,
+          "key": 84,
           "channel": "milestone",
           "text": "Rank ↑ — Trusted hand 手代",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -567,144 +567,136 @@
           }
         },
         {
-          "key": 622,
+          "key": 85,
           "channel": "narration",
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
-          "tick": 22,
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 631,
-          "channel": "narration",
-          "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 803,
+          "key": 91,
           "channel": "narration",
           "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 957,
-          "channel": "narration",
-          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 22,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1149,
+          "key": 104,
           "channel": "narration",
-          "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
-          "tick": 12,
+          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
+          "tick": 8,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1151,
+          "key": 116,
+          "channel": "narration",
+          "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 118,
           "channel": "combat",
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
-          "tick": 14,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "combat.wolfScripted"
         },
         {
-          "key": 1152,
+          "key": 119,
           "channel": "narration",
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
-          "tick": 14,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "combat.drillmaster"
         },
         {
-          "key": 1153,
+          "key": 120,
           "channel": "narration",
           "text": "There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched.",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1154,
+          "key": 121,
           "channel": "narration",
           "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1155,
+          "key": 122,
           "channel": "narration",
           "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 1156,
+          "key": 123,
           "channel": "narration",
           "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 1157,
+          "key": 124,
           "channel": "narration",
           "text": "\"Show me how to end a fight fast.\"",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 1158,
+          "key": 125,
           "channel": "narration",
           "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 1159,
+          "key": 126,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1160,
+          "key": 127,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1161,
+          "key": 128,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1162,
+          "key": 129,
           "channel": "milestone",
           "text": "Rank ↑ — Gate-watch 門番",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -713,82 +705,82 @@
           }
         },
         {
-          "key": 1163,
+          "key": 130,
           "channel": "narration",
           "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1164,
+          "key": 131,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 4 monme 63 mon and 725 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 4,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 22 mon and 37 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 383,
-            "lostRice": 725,
+            "lostCoin": 22,
+            "lostRice": 37,
             "lostMats": 0
           }
         },
         {
-          "key": 1168,
+          "key": 135,
           "channel": "combat",
-          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 66 mon and 580 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 22,
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 18 mon and 30 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "grain-rat swarm",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 306,
-            "lostRice": 580,
+            "lostCoin": 18,
+            "lostRice": 30,
             "lostMats": 0
           }
         },
         {
-          "key": 1171,
+          "key": 138,
           "channel": "combat",
-          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 5 mon and 464 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 16,
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 14 mon and 24 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "grain-rat swarm",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 245,
-            "lostRice": 464,
+            "lostCoin": 14,
+            "lostRice": 24,
             "lostMats": 0
           }
         },
         {
-          "key": 1174,
+          "key": 141,
           "channel": "combat",
-          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 2 monme 36 mon and 371 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 10,
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 12 mon and 19 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "grain-rat swarm",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 196,
-            "lostRice": 371,
+            "lostCoin": 12,
+            "lostRice": 19,
             "lostMats": 0
           }
         },
         {
-          "key": 1177,
+          "key": 144,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→13 · +1 mon)",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -801,26 +793,26 @@
           }
         },
         {
-          "key": 1180,
+          "key": 152,
           "channel": "combat",
-          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 77 mon and 297 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 14,
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 10 mon and 15 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "grain-rat swarm",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 157,
-            "lostRice": 297,
+            "lostCoin": 10,
+            "lostRice": 15,
             "lostMats": 0
           }
         },
         {
-          "key": 1183,
+          "key": 167,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→8 · +1 mon)",
-          "tick": 8,
+          "tick": 16,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -833,10 +825,10 @@
           }
         },
         {
-          "key": 1186,
+          "key": 180,
           "channel": "combat",
           "text": "You bring down the grain-rat swarm. ✓ (HP 58→7 · +1 mon, +1 beast sinew)",
-          "tick": 18,
+          "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -849,17 +841,17 @@
           }
         },
         {
-          "key": 1187,
+          "key": 181,
           "channel": "narration",
           "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
-          "tick": 18,
+          "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1191,
+          "key": 193,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 46 mon and 238 rice in the rout. Eat and mend before you take the field again.",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 11 mon and 12 rice in the rout. Eat and mend before you take the field again.",
           "tick": 4,
           "count": 1,
           "contentKey": "combat.loss",
@@ -867,15 +859,141 @@
             "mob": "crop-raiding monkey",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 126,
-            "lostRice": 238,
+            "lostCoin": 11,
+            "lostRice": 12,
             "lostMats": 0
           }
         },
         {
-          "key": 1194,
+          "key": 206,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 21 mon and 190 rice in the rout. Eat and mend before you take the field again.",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 9 mon and 10 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 9,
+            "lostRice": 10,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 218,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 220,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 7 mon and 8 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 7,
+            "lostRice": 8,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 234,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 7 mon and 6 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 7,
+            "lostRice": 6,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 248,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 7 mon and 5 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 7,
+            "lostRice": 5,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 262,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 6 mon and 4 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 6,
+            "lostRice": 4,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 276,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 6 mon and 3 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 6,
+            "lostRice": 3,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 289,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 6 mon and 3 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 6,
+            "lostRice": 3,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 303,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 6 mon and 2 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
           "count": 1,
           "contentKey": "combat.loss",
@@ -883,13 +1001,1217 @@
             "mob": "crop-raiding monkey",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 101,
-            "lostRice": 190,
+            "lostCoin": 6,
+            "lostRice": 2,
             "lostMats": 0
           }
         },
         {
-          "key": 1197,
+          "key": 317,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon and 2 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 2,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 331,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon and 1 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 1,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 345,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon and 1 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 1,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 359,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon and 1 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 1,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 371,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 373,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon and 1 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 1,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 387,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 401,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 415,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 429,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 443,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 456,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 470,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 484,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 498,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 512,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 525,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 527,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 540,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 554,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 568,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 582,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 596,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 610,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 623,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 637,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 651,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 665,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 678,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 680,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 694,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 707,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 721,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 735,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 749,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 763,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 777,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 790,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 804,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 818,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 831,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 833,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 847,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 861,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 874,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 888,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 902,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 916,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 930,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 944,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 957,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 971,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 984,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 986,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1000,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1014,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1028,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1041,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1055,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1069,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1083,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1097,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1111,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1124,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1137,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 1139,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1153,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1167,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1181,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1195,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1208,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1222,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1236,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1250,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1264,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1278,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1290,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 16,
@@ -903,9 +2225,9 @@
           }
         },
         {
-          "key": 1198,
+          "key": 1292,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 79 mon and 152 rice in the rout. Eat and mend before you take the field again.",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
           "count": 1,
           "contentKey": "combat.loss",
@@ -913,47 +2235,127 @@
             "mob": "crop-raiding monkey",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 79,
-            "lostRice": 152,
+            "lostCoin": 3,
+            "lostRice": 0,
             "lostMats": 0
           }
         },
         {
-          "key": 1201,
+          "key": 1306,
           "channel": "combat",
-          "text": "You bring down the crop-raiding monkey. ✓ (HP 58→18 · +3 mon, +1 beast sinew)",
-          "tick": 10,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "crop-raiding monkey",
-            "hpBefore": 58,
-            "hpAfter": 18,
-            "coin": 3,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
-          }
-        },
-        {
-          "key": 1204,
-          "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 64 mon and 122 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 18,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 64,
-            "lostRice": 122,
+            "lostCoin": 4,
+            "lostRice": 0,
             "lostMats": 0
           }
         },
         {
-          "key": 1207,
+          "key": 1320,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 51 mon and 97 rice in the rout. Eat and mend before you take the field again.",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1334,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1348,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1362,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1375,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1387,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1401,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.loss",
@@ -961,149 +2363,1501 @@
             "mob": "crop-raiding monkey",
             "hpBefore": 58,
             "hpAfter": 1,
-            "lostCoin": 51,
-            "lostRice": 97,
+            "lostCoin": 5,
+            "lostRice": 0,
             "lostMats": 0
           }
         },
         {
-          "key": 1210,
+          "key": 1415,
           "channel": "combat",
-          "text": "You bring down the crop-raiding monkey. ✓ (HP 58→12 · +3 mon)",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1427,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1440,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 1442,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1454,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
           "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1468,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1482,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1493,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1507,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1520,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1534,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1547,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1559,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1573,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1586,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 1588,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1600,
+          "channel": "combat",
+          "text": "You bring down the crop-raiding monkey. ✓ (HP 58→2 · +3 mon, +1 beast sinew)",
+          "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 58,
-            "hpAfter": 12,
+            "hpAfter": 2,
+            "coin": 3,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 1612,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1625,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1639,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1652,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1664,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1678,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1692,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1704,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1718,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1729,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 1731,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1745,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1759,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1770,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1782,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1796,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1808,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1820,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1833,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1847,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1858,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1871,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 1874,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1886,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1900,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1912,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1924,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1937,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1951,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1962,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1974,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1988,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2000,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2013,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 2016,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2028,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2042,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2054,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2066,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2079,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2093,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2104,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2116,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2130,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2142,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 2147,
+          "channel": "reward",
+          "text": "Forage the near satoyama. (+3 sansai, +1 coin)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2148,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 2149,
+          "channel": "reward",
+          "text": "Forage the near satoyama. (+3 sansai, +1 coin)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2150,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 2151,
+          "channel": "reward",
+          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2152,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +1 HP)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 1
+          }
+        },
+        {
+          "key": 2153,
+          "channel": "narration",
+          "text": "The stable yard giving onto the woodlot, and the road that leaves the valley.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2154,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 20,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2155,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2156,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 2157,
+          "channel": "narration",
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2158,
+          "channel": "narration",
+          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2159,
+          "channel": "combat",
+          "text": "You bring down the crop-raiding monkey. ✓ (HP 58→1 · +3 mon)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
             "coin": 3,
             "lootQty": 0,
             "lootLabel": ""
           }
         },
         {
-          "key": 1211,
+          "key": 2160,
           "channel": "narration",
           "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
-          "tick": 6,
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1332,
+          "key": 2161,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 10,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2162,
+          "channel": "reward",
+          "text": "Work the home paddies. (+3 rice)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2163,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2164,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 0,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2165,
+          "channel": "reward",
+          "text": "Work the home paddies. (+3 rice)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2166,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2167,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 10,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2168,
           "channel": "narration",
           "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
-          "tick": 2,
+          "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1434,
+          "key": 2169,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2170,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2171,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 6,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2172,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2173,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 20,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2174,
           "channel": "narration",
           "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
-          "tick": 6,
+          "tick": 20,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1734,
+          "key": 2175,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2176,
           "channel": "narration",
-          "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2177,
+          "channel": "narration",
+          "text": "The stable yard giving onto the woodlot, and the road that leaves the valley.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2178,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2179,
+          "channel": "narration",
+          "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1735,
+          "key": 2180,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 6,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2181,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+2 wood)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2182,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2183,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2184,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2185,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 6,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2186,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2187,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2188,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2189,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 0,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2190,
           "channel": "narration",
-          "text": "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours.",
-          "tick": 4,
+          "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
+          "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1736,
+          "key": 2191,
+          "channel": "narration",
+          "text": "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2192,
           "channel": "narration",
           "text": "\"The kura key. Mind the stores as if the rice were your own — from today it half is. The house is forgetting you were ever a stranger. So am I.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 1737,
+          "key": 2193,
           "channel": "narration",
           "text": "He walks you on to the woodlot smithy, where a bent old man coaxes an edge back onto a mattock. He doesn't look up.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1738,
+          "key": 2194,
           "channel": "narration",
           "text": "\"Tōzō. I keep the estate's iron. A blade you don't tend turns on you — bring me the hides and the metal off what you kill, and I'll show you what an edge wants. The forge is yours to use now; try not to ruin my fire.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Tōzō",
           "voice": "arms"
         },
         {
-          "key": 1739,
+          "key": 2195,
           "channel": "narration",
           "text": "\"And the omoya's shuttered rooms are aired and swept — the house rises, and you'll walk floors the family walks. Don't let it turn your head.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 1740,
+          "key": 2196,
           "channel": "narration",
           "text": "\"Every grain accounted.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 1741,
+          "key": 2197,
           "channel": "narration",
           "text": "\"Spoken like a steward. Good — the house was bled white once by hands that weren't.\"",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 1742,
+          "key": 2198,
           "channel": "narration",
           "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1743,
+          "key": 2199,
           "channel": "narration",
           "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1744,
+          "key": 2200,
           "channel": "narration",
           "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1745,
+          "key": 2201,
           "channel": "milestone",
           "text": "Rank ↑ — Kura-warden 蔵番",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -1112,50 +3866,347 @@
           }
         },
         {
-          "key": 1746,
+          "key": 2202,
           "channel": "narration",
-          "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
-          "tick": 4,
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
-          "key": 2004,
+          "key": 2203,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2204,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2205,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 14,
+          "count": 10,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2206,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2207,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2208,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2209,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2210,
           "channel": "narration",
           "text": "The porters have stopped counting his loads against their own.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2211,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 12,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2212,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2213,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 0,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2214,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2215,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 10,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2216,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 12,
           "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2217,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 16,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2218,
+          "channel": "narration",
+          "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
+          "tick": 18,
+          "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2272,
+          "key": 2219,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2220,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2221,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2222,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2223,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2224,
           "channel": "narration",
           "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
-          "tick": 6,
+          "tick": 18,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2573,
-          "channel": "narration",
-          "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
+          "key": 2225,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2226,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2227,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2228,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2229,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 18,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2230,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2231,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2232,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2233,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 16,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2234,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2235,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2236,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
-          "key": 2574,
+          "key": 2237,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2238,
           "channel": "narration",
-          "text": "Tōzō turns the mended edge to the light and hands it back without a word of correction.",
-          "tick": 6,
+          "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
+          "tick": 8,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2575,
+          "key": 2239,
+          "channel": "narration",
+          "text": "Tōzō turns the mended edge to the light and hands it back without a word of correction.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2240,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "craft.repair",
@@ -1166,78 +4217,78 @@
           }
         },
         {
-          "key": 2576,
+          "key": 2241,
           "channel": "narration",
           "text": "Genemon calls you to the omoya's inner room — a place season-hands never see.",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2577,
+          "key": 2242,
           "channel": "narration",
           "text": "\"No longer a season-hired hand. From today you answer to the house day and night, and it answers for you. The work is the same. The standing is not.\"",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 2578,
+          "key": 2243,
           "channel": "narration",
           "text": "Then he walks you out to the yard, where Kihei waits with two bokken and something that might, on another man, be a smile.",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2579,
+          "key": 2244,
           "channel": "narration",
           "text": "\"The standing means the house trusts your judgment now — so I'll trust you with the last of it. Set your stance before a foe: press to end it fast, or guard to outlast it. The call is yours, fight by fight. Show me you understand the choice.\"",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 2580,
+          "key": 2245,
           "channel": "narration",
           "text": "\"Press every fight — end it, don't outlast it.\"",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 2581,
+          "key": 2246,
           "channel": "narration",
           "text": "\"The tiger's way. Fast and final. It'll serve — until the day it doesn't. Mind that day.\"",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 2582,
+          "key": 2247,
           "channel": "narration",
           "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2583,
+          "key": 2248,
           "channel": "narration",
           "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2584,
+          "key": 2249,
           "channel": "milestone",
           "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "rank.wallWeapon",
@@ -1246,10 +4297,10 @@
           }
         },
         {
-          "key": 2585,
+          "key": 2250,
           "channel": "milestone",
           "text": "Rank ↑ — House-servant 家人",
-          "tick": 6,
+          "tick": 10,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -1258,1033 +4309,395 @@
           }
         },
         {
-          "key": 2813,
+          "key": 2251,
           "channel": "narration",
-          "text": "The first deep-hill baskets come back full, and no one mentions the danger line twice.",
+          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
-          "key": 3117,
+          "key": 2252,
           "channel": "narration",
-          "text": "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 3251,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3252,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3253,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
+          "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 3254,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 5,
+          "key": 2253,
+          "channel": "narration",
+          "text": "The wild hill-forest above the managed edge — the forage runs richer here, and the boar dens in its wallow. Ground you earn by daring it.",
+          "tick": 10,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 3255,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 2254,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+7 sansai, +3 coin)",
           "tick": 22,
-          "count": 1,
+          "count": 7,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 3256,
+          "key": 2255,
           "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3257,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3258,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3259,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3260,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3261,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3262,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
+          "text": "Forage the deep satoyama. (+6 sansai, +3 coin)",
           "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3263,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3264,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3265,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3266,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3267,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3268,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3269,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3270,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3271,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3272,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3273,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3274,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3275,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3276,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3277,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3278,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3279,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3280,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3281,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3282,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3283,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3284,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3285,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3286,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3287,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3288,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3289,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3290,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3291,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3292,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3293,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3294,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3295,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3296,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3297,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3298,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3299,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3300,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3301,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3302,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3303,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3304,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3305,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3306,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3307,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3308,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3309,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3310,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3311,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3312,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3313,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3314,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3315,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3316,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3317,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3318,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3319,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3320,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3321,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3322,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3323,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3324,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3325,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3326,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3327,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3328,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3329,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3330,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3331,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3332,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3333,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3334,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3335,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3336,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3337,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3338,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3339,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3340,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3341,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3342,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3343,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3344,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3345,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3346,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3347,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3348,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3349,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 3350,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
           "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 3351,
+          "key": 2256,
+          "channel": "narration",
+          "text": "The first deep-hill baskets come back full, and no one mentions the danger line twice.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2257,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+6 sansai, +3 coin)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2258,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +3 coin)",
+          "tick": 10,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2259,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +2 coin)",
+          "tick": 14,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2260,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+4 sansai, +2 coin)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2261,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2262,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +3 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2263,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +2 coin)",
+          "tick": 0,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2264,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2265,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +3 coin)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2266,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +2 coin)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2267,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+4 sansai, +2 coin)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2268,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2269,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +3 coin)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2270,
+          "channel": "reward",
+          "text": "Forage the deep satoyama. (+5 sansai, +2 coin)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2271,
+          "channel": "narration",
+          "text": "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 2272,
+          "channel": "narration",
+          "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2273,
+          "channel": "narration",
+          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2274,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 20,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2275,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2276,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 10,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2277,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2278,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 0,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2279,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2280,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 14,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2281,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2282,
+          "channel": "reward",
+          "text": "Work the home paddies. (+4 rice)",
+          "tick": 2,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 2283,
           "channel": "narration",
           "text": "Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do.",
-          "tick": 8,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3352,
+          "key": 2284,
           "channel": "milestone",
           "text": "You lay a quilted futon over the straw in your corner. The nights come easier now.",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3353,
+          "key": 2285,
           "channel": "narration",
           "text": "There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3354,
+          "key": 2286,
           "channel": "narration",
           "text": "The omoya's formal room. Lady Chiyo sits behind a low table stacked with the house's ledgers, and studies you the way she'd study a column of figures that doesn't yet add up.",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3355,
+          "key": 2287,
           "channel": "narration",
           "text": "\"So you are the river's foundling Genemon would not stop mentioning. Sit. I've errands that need a hand I can trust with more than a hoe — ledgers carried, messages run, the house's small business held close.\"",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "speaker": "Chiyo",
           "voice": "steward"
         },
         {
-          "key": 3356,
+          "key": 2288,
           "channel": "narration",
           "text": "\"The workshops wake again on the strength of your work — a forge, a joiner's bench — and a second granary rises behind the kura. They fall under your oversight now. You are being weighed for something larger than a servant. Do not disappoint the scales.\"",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "speaker": "Chiyo",
           "voice": "steward"
         },
         {
-          "key": 3357,
+          "key": 2289,
           "channel": "narration",
           "text": "\"The house's name is my name now.\"",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 3358,
+          "key": 2290,
           "channel": "narration",
           "text": "\"A large thing to say. Larger to mean. We shall see which you've done.\"",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "speaker": "Chiyo",
           "voice": "steward"
         },
         {
-          "key": 3359,
+          "key": 2291,
           "channel": "narration",
           "text": "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3360,
+          "key": 2292,
           "channel": "narration",
           "text": "A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3361,
+          "key": 2293,
           "channel": "milestone",
           "text": "Rank ↑ — Steward's man 用人",
-          "tick": 10,
+          "tick": 4,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
             "title": "Steward's man",
             "kanji": "用人"
           }
-        },
-        {
-          "key": 3362,
-          "channel": "narration",
-          "text": "\"His purse holds steady,\" Chiyo lets fall, \"which is more than this house has managed.\"",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
         }
       ],
-      "seq": 3363
+      "seq": 2294
     },
     "skillXp": {
-      "farming": 6555,
-      "conditioning": 7793,
-      "woodcutting": 3125,
-      "foraging": 4844
+      "farming": 345,
+      "conditioning": 479,
+      "woodcutting": 190,
+      "foraging": 2961
     },
     "deliveredDialogue": [
       "gen-greet",
@@ -2329,9 +4742,7 @@
     ],
     "location": "home-paddies",
     "rung": "R6",
-    "rungReqs": {
-      "three-hundred-mon-steady": 1
-    },
+    "rungReqs": {},
     "estateStage": 0,
     "discovered": [
       "disc-woodlot-lacquer"

@@ -291,6 +291,19 @@ export const idler: Persona = {
       ) {
         return { type: 'cook_meal' };
       }
+      // ADR-148 — the divided targets leave no wood SURPLUS: a Battered/Broken blade
+      // provisions (repair when the wood allows, else cut it) before arming the watch —
+      // the same rule the focused driver gained; an idler with a broken pole otherwise
+      // loops the auto-combat stop forever and never closes the arc.
+      const kw = getWeapon(s.equippedWeapon);
+      const kband = durabilityBand(s.weaponDurability, kw.durabilityMax);
+      if (kband.name === 'Battered' || kband.name === 'Broken') {
+        if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+        const woodlot = getActivity('woodcut_edge');
+        if (s.location === woodlot.area) return { type: 'do_activity', activityId: 'woodcut_edge' };
+        const hop = nextHopToward(s.location, woodlot.area, new Set(s.unlocked));
+        if (hop) return { type: 'move_to', to: hop };
+      }
       const target = getMob(killReq.token.slice('kill:'.length) as Parameters<typeof getMob>[0]);
       const foe =
         s.character.level >= target.level

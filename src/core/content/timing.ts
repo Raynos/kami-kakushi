@@ -119,6 +119,22 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
 /** The one lookup the shell clock (Phase 2) and the sim consume: intent → timing.
  *  Routes `do_activity` to its per-activity entry; everything else reads the
  *  intent table. (Phase 3 teaches this the per-edge `move_to` walk seconds.) */
+/** ADR-148 Phase 4 — one intent's modeled WALL cost (the sim/pacing lane's unit):
+ *  timed = duration + cooldown from this same table; instant = one heartbeat of the
+ *  auto loop (AUTO_REPEAT_MS). Both the pacing report and the balance sim consume
+ *  THIS, so the measurement can never desync from the shell clock's data. */
+export function intentWallMs(
+  intent: { readonly type: IntentType; readonly activityId?: string | null; readonly to?: string },
+  location: string,
+  heartbeatMs: number,
+): number {
+  const opts: { activityId?: ActivityId; from?: string; to?: string } = { from: location };
+  if (typeof intent.activityId === 'string') opts.activityId = intent.activityId as ActivityId;
+  if (intent.to !== undefined) opts.to = intent.to;
+  const t = timingFor(intent.type, opts);
+  return t.kind === 'timed' ? t.durationMs + t.cooldownMs : heartbeatMs;
+}
+
 export function timingFor(
   type: IntentType,
   opts?: { readonly activityId?: ActivityId; readonly from?: string; readonly to?: string },

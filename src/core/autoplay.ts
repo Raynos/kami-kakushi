@@ -228,11 +228,13 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       }
       const weapon = getWeapon(s.equippedWeapon);
       const band = durabilityBand(s.weaponDurability, weapon.durabilityMax);
-      if (
-        (band.name === 'Battered' || band.name === 'Broken') &&
-        (s.resources.wood ?? 0) >= REPAIR_WOOD_COST
-      ) {
-        return { type: 'repair_weapon' };
+      if (band.name === 'Battered' || band.name === 'Broken') {
+        if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+        // ADR-148 — the divided requirement targets no longer leave a wood SURPLUS as a
+        // side effect of the climb, so a broken blade must PROVISION (cut the repair wood)
+        // instead of grinding a zero-win-rate loss loop forever (the pre-fix stall).
+        const cut = driveLabour('woodcut_edge');
+        if (cut) return cut;
       }
       // level ladder: an under-levelled fighter TRAINS first — grind the strongest foe at
       // or below the MC's level for XP (and loot), and take on the required foe only once

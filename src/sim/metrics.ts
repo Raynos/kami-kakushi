@@ -1,7 +1,8 @@
 // RunMetrics (FB-4 §2) — what one persona × seed run measures. Collected by classifying each
 // dispatched intent + the state diff around its reduce (the playcheck reward-trace technique).
-// The wall-time model is walkPacing's: the active loop dispatches ONE intent per AUTO_REPEAT_MS,
-// so modeled wall-minutes = intents × AUTO_REPEAT_MS / 60000. Two intent counts are kept per rung:
+// The wall-time model is walkPacing's (ADR-148): a TIMED intent costs its duration + cooldown
+// from the SAME timing table the shell clock runs (move_to per edge); an instant intent costs
+// one AUTO_REPEAT_MS heartbeat. Two intent counts are kept per rung:
 // `intents` counts EVERY dispatch (moves + beats included — the truthful wall model), while the
 // walkPacing-compatible buckets (acts/rests/meta) reproduce the pacing report's rows exactly, so
 // the sim and the in-roster G-PACING gate can be equality-checked against each other (Ph1 DoD).
@@ -15,6 +16,7 @@ import {
   satietyMax,
   rungProgress,
   rungRequirements,
+  intentWallMs,
 } from '../core';
 
 export interface RungMetric {
@@ -36,6 +38,8 @@ export interface RungMetric {
   /** ALL intents dispatched while at this rung (the truthful wall-time numerator). */
   intents: number;
   wallMin: number;
+  /** ADR-148 — the per-rung accumulated per-intent wall cost (ms); wallMin derives from it. */
+  wallMsAcc?: number;
 }
 
 export interface EconomySample {
@@ -107,8 +111,11 @@ export interface RunMetrics {
 export const SAMPLE_EVERY = 250;
 
 const SAMPLE_MINUTES = (SAMPLE_EVERY * balance.AUTO_REPEAT_MS) / 60_000;
-void SAMPLE_MINUTES; // ≈2 min of modeled play between samples at the 480 ms cadence
+void SAMPLE_MINUTES; // sampling stays intent-indexed (report terseness), not wall-indexed
 
+/** LEGACY intent-count → minutes (the pre-ADR-148 flat cadence). Kept for the
+ *  intent-indexed conversions the report still labels as such; per-rung/total wall
+ *  now accumulates per-intent timing costs (see record()). */
 export function wallMinutes(intents: number): number {
   return (intents * balance.AUTO_REPEAT_MS) / 60_000;
 }
@@ -189,6 +196,7 @@ export function createCollector(personaId: string, seed: number): Collector {
   let sinceProgress = 0;
   let maxSinceProgress = 0;
   let total = 0;
+  let totalWallMs = 0; // ADR-148 — Σ per-intent timing cost
 
   const touch = (rung: RankId): RungMetric => {
     let r = rungs.get(rung);
@@ -216,6 +224,10 @@ export function createCollector(personaId: string, seed: number): Collector {
       total = index + 1;
       const r = touch(before.rung);
       r.intents++;
+      // ADR-148 — the per-intent wall cost (duration+cooldown for timed; a heartbeat for instant)
+      const wallMs = intentWallMs(intent, before.location, balance.AUTO_REPEAT_MS);
+      r.wallMsAcc = (r.wallMsAcc ?? 0) + wallMs;
+      totalWallMs += wallMs;
       const kind = classifyIntent(intent);
       if (kind === 'act') r.acts++;
       else if (kind === 'rest') r.rests++;
@@ -278,14 +290,14 @@ export function createCollector(personaId: string, seed: number): Collector {
     },
 
     finish(final, softLock) {
-      for (const r of rungs.values()) r.wallMin = wallMinutes(r.intents);
+      for (const r of rungs.values()) r.wallMin = (r.wallMsAcc ?? 0) / 60_000;
       const ascended = final.tier > 0;
       return {
         personaId,
         seed,
         ascended,
         totalIntents: total,
-        totalWallMin: wallMinutes(total),
+        totalWallMin: totalWallMs / 60_000,
         totalTicks: final.clock.day * 24 + final.clock.tick,
         // RANKS order is R0…R7 and Map preserves insertion order (rungs are entered in order),
         // but sort defensively so the output shape never depends on traversal order.

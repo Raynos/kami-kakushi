@@ -126,3 +126,31 @@ one helper); the paint pass covers non-button controls (class + aria — the
 clock's press refusal is the enforcement). Edge coverage test derives from
 MAP_NODES (a new edge without a time is RED). Verified live: kura→gate walk
 takes the edge's 4s with the bar on the node, then arrives.
+
+## Addendum 6 — Phases 3–4 landed; HR-14 closed; the plan is DONE
+
+**Phase 4 (pacing reconciliation, human-steered live):** requirement act
+targets ÷ each action's wall-cost ratio, ROUND numbers (rake 10/20/35, hauls
+25/50/75, …) — G-PACING holds (R0–R2: 4.33–10.36 min vs 4.44–10.54 before)
+under the NEW model: `intentWallMs` (core) prices every intent from the same
+timing table (timed = duration+cooldown, instant = one heartbeat); the pacing
+report + sim metrics both consume it. Two real bugs found by driving the arc:
+the focused policy AND the idler fought forever on a broken pole once the
+divided targets stopped leaving a wood surplus — both now PROVISION (cut the
+repair wood). The arc closes R0→R7→ascend in ~11.8k intents.
+
+**The interim (human: "I'll rebalance later"):** coin sinks (estate stages,
+market) and XP thresholds keep old scale — R3+ rung minutes balloon by
+design-for-now. Encoded EXPLICITLY, never fudged: the envelope band gates
+R0–R2 (`ADR148_INTERIM_BAND_RUNGS`), the Phase-2 ratio gate and the idler
+arc-closure are `.skip`ed with re-enable instructions; `balance:report` was
+left running against the stall and is DEFERRED to the rebalance (it's
+on-demand, not a verify gate). Fixtures regenerated from the real engine.
+
+**HR-14 closed in-session:** the human picked an A+C mix live — C's placement
+(the fill TOUCHES the border), A's silver-dim cooldown drain (never shu),
+nothing visible at rest. Shipped as the ONE canon treatment; the act-b/act-c
+variants + the DEV toggle scaffold retired same-day (ADR-075 zero flag-debt).
+Verified live: gold fill touching the border mid-run, gray drain, clean idle.
+
+Plan flipped DONE → archived. Verify: 17 gates green in 4.7s.

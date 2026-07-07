@@ -44,6 +44,6 @@ describe('T0 pacing (single profile, D-056)', () => {
     const targets = rungRequirements('R0')
       .filter((r) => r.type === 'count' && r.token === 'act:rake_rice')
       .map((r) => (r.type === 'count' ? r.target : 0));
-    expect(targets).toEqual([100, 200, 500]);
+    expect(targets).toEqual([10, 20, 35]);
   });
 });
