@@ -36,6 +36,9 @@ import {
   type GameState,
   type Intent,
   type RankId,
+  rungRequirements,
+  requirementFlavor,
+  __setRequirementFlavorOverride,
 } from '../core';
 
 function noopHooks(): AppHooks {
@@ -795,6 +798,41 @@ describe('ADR-139 story take-sets', () => {
 // routing proofs. jsdom-level: the galley renders canon (from the LIVE registry) beside the
 // takes; canon-identical take lines DIM (FB-124); Escape dismisses. Visual taste was scored
 // on real screenshots in the HR-9 flow, not here. ──
+describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
+  const bundle: StoryTakeBundle = {
+    id: 'req-test',
+    title: 'Req flavor test',
+    takes: [
+      {
+        id: 'b',
+        label: 'alt voice',
+        brief: 'the alternate register',
+        reqFlavor: { 'rake-the-spill': 'ALT rake line' },
+      },
+    ],
+  };
+  const rakeReq = rungRequirements('R0').find((r) => r.id === 'rake-the-spill')!;
+
+  afterEach(() => __setRequirementFlavorOverride(null));
+
+  it('selecting a take overlays FUTURE emissions; canon restores on switch-back', () => {
+    const dev = createDevApi([bundle]);
+    expect(requirementFlavor(rakeReq)).toBe(rakeReq.flavor); // canon by default
+    dev.setStoryTake('req-test', 'b');
+    expect(requirementFlavor(rakeReq)).toBe('ALT rake line'); // the core read swapped
+    dev.setStoryTake('req-test', 'canon');
+    expect(requirementFlavor(rakeReq)).toBe(rakeReq.flavor); // cleared, not stuck
+  });
+
+  it('a per-unit override wins over the bundle set (and clears)', () => {
+    const dev = createDevApi([bundle]);
+    dev.setStoryUnit('req-test', 'req-flavor:rake-the-spill', 'b');
+    expect(requirementFlavor(rakeReq)).toBe('ALT rake line');
+    dev.setStoryUnit('req-test', 'req-flavor:rake-the-spill', undefined);
+    expect(requirementFlavor(rakeReq)).toBe(rakeReq.flavor);
+  });
+});
+
 describe('ADR-139 story reader modal', () => {
   const scene = (text: string, react: string): RungScene => ({
     id: 'rung-r1',

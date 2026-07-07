@@ -64,6 +64,7 @@ import { renderMapKamon } from './map-variants/kamon';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
+import { __setRequirementFlavorOverride } from '../core';
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
 import { COLD_OPEN } from '../core/content/coldOpen';
@@ -396,6 +397,23 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
   const effective = (b: string, unit: string): string =>
     unitOverride[b]?.[unit] ?? storyTake[b] ?? 'canon';
 
+  // FB-121 — push the effective requirement-flavor overlay into the CORE (the
+  // declaring-module DEV setter, like the balance cockpit's levers): completion lines
+  // are core-emitted log text, so the switcher swaps FUTURE emissions there, not at
+  // render time. Recomputed on every set/unit change; null (all-canon) clears it.
+  const syncReqFlavor = (): void => {
+    const overlay: Record<string, string> = {};
+    for (const b of bundles) {
+      for (const t of b.takes) {
+        if (!t.reqFlavor) continue;
+        for (const [key, text] of Object.entries(t.reqFlavor)) {
+          if (effective(b.id, `req-flavor:${key}`) === t.id) overlay[key] = text;
+        }
+      }
+    }
+    __setRequirementFlavorOverride(Object.keys(overlay).length > 0 ? overlay : null);
+  };
+
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
   // chosen set can be shared as a link. For each surface, `?<surface.id>=<variantId>` overrides the
   // seeded default IFF the id is a real variant of that surface (guard against a stale/typo param).
@@ -413,6 +431,8 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       if (q && validTake(b.id, q)) storyTake[b.id] = q;
     }
   }
+
+  syncReqFlavor(); // honour a ?story-<bundle>= URL selection from the first emission
 
   return {
     getVariant: (s) => variant[s] ?? defaultOf(s),
@@ -445,6 +465,7 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       if (!validTake(b, id)) return;
       storyTake[b] = id;
       storyEpoch++;
+      syncReqFlavor();
       // mirror to the URL like variant picks — 'canon' (the default) keeps a clean URL.
       if (
         typeof location !== 'undefined' &&
@@ -463,11 +484,13 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       if (id === undefined) {
         delete unitOverride[b]?.[unit];
         storyEpoch++;
+        syncReqFlavor();
         return;
       }
       if (!validTake(b, id)) return;
       (unitOverride[b] ??= {})[unit] = id;
       storyEpoch++;
+      syncReqFlavor();
     },
     storyEpoch: () => storyEpoch,
     subRungScene: (scene) => {
@@ -2343,7 +2366,9 @@ export function mountDevPanel(
     openBtn.style.alignSelf = 'flex-start';
     storyPane.append(openBtn);
   }
-  const LIVE_UNITS = /^(rung|intro|flavor):/;
+  // req-flavor is LIVE via the CORE overlay (future completions emit the selected take —
+  // ADR-139: every diverge unit is reviewable in this switcher, never doc-only).
+  const LIVE_UNITS = /^(rung|intro|flavor|req-flavor):/;
   const unitKeysOf = (b: StoryTakeBundle): string[] => {
     const keys = new Set<string>();
     for (const t of b.takes) {
@@ -2352,6 +2377,7 @@ export function mountDevPanel(
       for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
       for (const k of Object.keys(t.coldOpen ?? {})) keys.add(`cold-open:${k}`);
       for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
+      for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
     }
     return [...keys].sort();
   };

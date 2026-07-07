@@ -111,7 +111,12 @@ export {
   phaseOf,
 } from './ranks';
 // ── the rung requirements (FB-121 / ADR-137) ──
-export { RUNG_REQUIREMENTS, rungRequirements } from './content/requirements';
+export {
+  RUNG_REQUIREMENTS,
+  rungRequirements,
+  requirementFlavor,
+  __setRequirementFlavorOverride,
+} from './content/requirements';
 export {
   advanceOnToken,
   settleOnState,

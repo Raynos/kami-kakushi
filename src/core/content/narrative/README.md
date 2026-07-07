@@ -37,7 +37,9 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
   this grammar). Every req carries `flavor:` (the diegetic completion line)
   and `drive:` (the sim bot's satisfaction hint) — both required. Re-exported
   by `../requirements.ts`; counts tune by edit → `gen:narrative` → sim
-  (ADR-132; no balance.ts mirror).
+  (ADR-132; no balance.ts mirror). Flavor diverges review LIVE in the DEV
+  Story switcher via a `## prose req-flavor` takes unit (see
+  [`takes/README.md`](takes/README.md) — the core-overlay pattern).
 - All of the above also compile into the one-page reading script
   [`docs/content/t0-story.md`](../../../../docs/content/t0-story.md) — the
   requirements render there as the human's sign-off section.

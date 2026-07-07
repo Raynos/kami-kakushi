@@ -312,6 +312,10 @@ Full version:
   take**; the agent self-picks (per-option taste scorecard + canon fit) and
   the human overrides from **coherent bundles** — never 25+ atomized taste
   calls. Alternates stay DEV-only until sign-off; canon carries only the pick.
+  **Every diverge reviews LIVE in the DEV menu's Story switcher** (human,
+  2026-07-07) — if the unit can't swap yet, wiring the swap is PART of the
+  diverge (core-emitted text uses the declaring-module DEV-setter pattern);
+  a doc-only review is not a review.
   Procedure:
   [`.claude/skills/narrative-diverge/SKILL.md`](.claude/skills/narrative-diverge/SKILL.md).
 - **Push each quality rule to the highest rung that can _soundly_ hold it** — a

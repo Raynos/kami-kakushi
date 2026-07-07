@@ -12,6 +12,25 @@ import { RUNG_REQUIREMENTS } from './requirements.gen';
 
 export { RUNG_REQUIREMENTS };
 
+// ── DEV-only flavor overlay (ADR-139 / ADR-143 — the story set-switcher) ────────────
+// INERT unless called: only the DEV story switcher (src/ui/dev.ts) ever sets this, and
+// the DEV branch dead-code-eliminates from a strip build — tests, sims and the shipped
+// game read canon. Same declaring-module pattern as balance's __setBalanceLever. The
+// overlay affects FUTURE emissions only; lines already in the log stay (T2 — a watched
+// surface never rewrites history).
+let FLAVOR_OVERRIDE: Readonly<Record<string, string>> | null = null;
+
+/** DEV-only: overlay requirement-completion flavor by requirement id (null = canon). */
+export function __setRequirementFlavorOverride(map: Readonly<Record<string, string>> | null): void {
+  FLAVOR_OVERRIDE = map;
+}
+
+/** The flavor line a completion should voice — the DEV overlay's take if one is
+ *  selected, else the authored canon line. The ONE read progress-events uses. */
+export function requirementFlavor(req: RequirementDef): string {
+  return FLAVOR_OVERRIDE?.[req.id] ?? req.flavor;
+}
+
 /** The CURRENT rung's authored requirement list. Every rung has one (the validator
  *  holds the registry to exactly R0–R7), so an unknown id is a programmer error. */
 export function rungRequirements(id: RankId): readonly RequirementDef[] {

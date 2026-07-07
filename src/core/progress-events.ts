@@ -16,7 +16,7 @@ import {
   type AdvanceResult,
   type RequirementDef,
 } from './requirements-engine';
-import { rungRequirements } from './content/requirements';
+import { requirementFlavor, rungRequirements } from './content/requirements';
 import { applyRewards } from './rewards';
 
 /** Fold an engine advance result back onto the state: store the next progress map and
@@ -30,8 +30,9 @@ function foldAdvance(state: GameState, result: AdvanceResult): GameState {
 }
 
 function voiceFlavor(state: GameState, req: RequirementDef): GameState {
+  // requirementFlavor = canon, or the DEV switcher's selected take (ADR-139 review).
   return applyRewards(state, {
-    log: [{ channel: 'narration', text: req.flavor, voice: 'narrator' }],
+    log: [{ channel: 'narration', text: requirementFlavor(req), voice: 'narrator' }],
   });
 }
 

@@ -172,9 +172,12 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
     L.push('],');
   }
   // Keyed prose routes to a registry field by its group id: `## prose cold-open` → `coldOpen`,
-  // `## prose flavor` → `flavor` (fiction-voiced UI micro-copy — ADR-139 live-switchable lines).
+  // `## prose flavor` → `flavor` (UI micro-copy), `## prose req-flavor` → `reqFlavor`
+  // (FB-121 requirement-completion lines — swapped through the CORE overlay, future
+  // emissions only; ADR-139 live-switchable like every diverge unit).
   for (const prose of doc.blocks.filter((b) => b.kind === 'prose')) {
-    const field = prose.id === 'flavor' ? 'flavor' : 'coldOpen';
+    const field =
+      prose.id === 'flavor' ? 'flavor' : prose.id === 'req-flavor' ? 'reqFlavor' : 'coldOpen';
     L.push(`${field}: {`);
     for (const e of prose.entries) L.push(`${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`);
     L.push('},');

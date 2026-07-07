@@ -30,10 +30,25 @@ file: take-b.md
 Take files use the exact grammar of the sibling canon files
 ([`../README.md`](../README.md)) and are parsed/emitted by the same compiler
 (`pnpm run gen:narrative` → `src/ui/storyTakes.gen.ts`, byte-compared by the
-`gen-narrative` gate). A take may vary any unit type the switcher can swap LIVE
-(ADR-143): rung beats, intro scenes, and **UI flavor lines** (`## prose flavor`
-→ `dev.subFlavor`, live on the weapon-card etc.). Dialogue + cold-open keyed
-prose are still reader-only — diverging one means wiring its live-swap first.
+`gen-narrative` gate).
+
+**THE RULE (human, 2026-07-07): every narrative diverge is reviewed in the DEV
+menu — the Story switcher is the ONE review surface; a doc-only review is not a
+review.** If a unit type can't swap yet, wiring its swap is PART of the diverge,
+not optional. Live unit types (ADR-143):
+
+- **rung beats / intro scenes** — render-time substitution (`dev.subRungScene`
+  / `dev.subIntroScene`).
+- **UI flavor lines** (`## prose flavor`) — render-time (`dev.subFlavor`, live
+  on the weapon-card etc.).
+- **requirement-completion lines** (`## prose req-flavor`, keyed by requirement
+  id — FB-121) — swapped in the CORE via the declaring-module DEV setter
+  (`__setRequirementFlavorOverride`, the balance-cockpit lever pattern):
+  **future emissions** voice the selected take; already-logged lines stay (T2 —
+  history never rewrites). Load a fixture, pick the take, play a completion.
+- Dialogue + cold-open keyed prose have no swap yet — diverging one means
+  building its swap FIRST (core-emitted text follows the req-flavor pattern;
+  render-read text follows subFlavor).
 
 ## Rules
 

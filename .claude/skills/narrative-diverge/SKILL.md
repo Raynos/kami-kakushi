@@ -63,13 +63,18 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    + the "⤢ Explore story" full-page reader; the reader-variant pick is
    HR-9. Source-area spec: `src/core/content/narrative/takes/README.md`).
    **The alternates MUST switch LIVE in the running game (ADR-143), not
-   reader-only.** The set-switcher's live override covers rung beats, intro
-   scenes, and **UI flavor lines** (`## prose flavor` → `dev.subFlavor`); if the
-   unit you diverged is a type the engine can't yet swap live (dialogue,
-   cold-open keyed prose today), **wiring that live-swap is part of the
-   diverge** — extend the override (`dev.ts subRungScene`-pattern) + add the
-   prefix to `LIVE_UNITS` so the human reviews it by *playing to the surface and
-   toggling the take*, never by reading a doc or the reader-only modal.
+   reader-only** (re-affirmed by the human 2026-07-07: ALL narrative diverges
+   review the same way, in the DEV menu). The set-switcher's live override
+   covers rung beats, intro scenes, **UI flavor lines** (`## prose flavor` →
+   `dev.subFlavor`), and **requirement-completion lines** (`## prose
+   req-flavor` → the CORE overlay `__setRequirementFlavorOverride` — future
+   emissions swap; logged history stays, T2). If the unit you diverged is a
+   type the engine can't yet swap live (dialogue, cold-open keyed prose
+   today), **wiring that live-swap is part of the diverge** — render-read
+   text extends the `dev.ts subFlavor` pattern, core-emitted text the
+   req-flavor declaring-module-setter pattern; add the prefix to `LIVE_UNITS`
+   so the human reviews it by *playing to the surface and toggling the take*,
+   never by reading a doc or the reader-only modal.
 8. **File ONE HR-item per bundle** in `project/human-in-the-loop/review.md`:
    the picked script as a continuous read, alternates under each unit, Pass-1
    brief + per-take scorecard blocks, pick rationale, and **exactly how to

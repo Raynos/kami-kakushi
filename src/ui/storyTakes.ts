@@ -31,6 +31,11 @@ export interface StoryTake {
   /** ADR-139 — fiction-voiced UI flavor lines (lock-hints, gate explainers) the
    *  renderer shows outside a VN scene; keyed by the `## prose flavor` key. */
   readonly flavor?: Readonly<Record<string, string>>;
+  /** FB-121 — requirement-completion flavor lines, keyed by requirement id
+   *  (`## prose req-flavor`). Swapped through the CORE overlay
+   *  (`__setRequirementFlavorOverride`): FUTURE completions emit from the
+   *  selected take; already-logged lines stay (T2 — history never rewrites). */
+  readonly reqFlavor?: Readonly<Record<string, string>>;
 }
 
 export interface StoryTakeBundle {
