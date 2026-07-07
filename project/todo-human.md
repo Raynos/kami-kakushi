@@ -17,7 +17,8 @@
 
 ## TODO
 
-_(none open)_
+- [ ] Use Fable to get a guide & a set of skills for making and editing maps
+  using the new map sheet UI library tools etc.
 
 ## Reading queue
 
