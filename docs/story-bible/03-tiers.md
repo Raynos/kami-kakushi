@@ -1,8 +1,7 @@
 # Story Bible §2 — the tier ladder: seven circles
 
-> Part of [the story bible](README.md). Structure human-locked
-> 2026-07-07; the per-tier ladders below carry one ⏳ until the human
-> locks the seven as a whole.
+> Part of [the story bible](README.md). The structure is human-locked
+> canon; the seven per-tier ladders below await one whole-ladder lock.
 
 ## The structure
 
@@ -39,7 +38,7 @@ restored tier by tier. The home base grows EVERY tier.
 
 ---
 
-## ⏳ The seven ladders (awaiting the whole-ladder lock)
+## The seven ladders *(⏳ awaiting the whole-ladder lock)*
 
 ### T0 · The Estate — the household (1780)
 

@@ -1,13 +1,10 @@
 # Story Bible §0 — the kernel
 
-> Part of [the story bible](README.md). Canon, human-locked 2026-07-07.
+> Part of [the story bible](README.md). Human-locked canon.
 
-## §0 · The kernel — seven points, human-locked 2026-07-07
-
-The only fixed ground of the story reboot. Everything else — cast, arcs,
-tiers, premise framing — must re-earn its place under these. Full redline
-history (what was softened, opened, demoted, and why):
-`docs/plans/fable-2026-07-07-story-reboot.md §4`.
+Seven points — the only fixed ground of the story. Everything else —
+cast, arcs, tiers, premise framing — earns its place under these.
+(Redline history: the reboot plan §4.)
 
 1. **The lie of the vanishing.** *Kami-kakushi* — the spirit-abduction the
    title promises — is a lie the world tells itself to bear what it cannot
@@ -82,7 +79,7 @@ history (what was softened, opened, demoted, and why):
    the fiction ever describes the interface (that is the ventriloquism
    this point forbids). When a mechanic and the fiction disagree, exhaust
    redesign before shipping the disagreement.
-   *Application (locked 2026-07-07):* a new panel or capability is
+   *Application:* a new panel or capability is
    dramatized as a NEED the story produced — Kihei sick of burying men
    who can't tell a mamushi from a rat-snake IS the bestiary. No
    grant-list paragraphs, ever.
@@ -95,7 +92,7 @@ history (what was softened, opened, demoted, and why):
    the weather. The player's true standing lives in the ledgers (#3);
    hearts are slower, stranger, and never owed. A stranger who works hard
    is still a stranger.
-   *Application (locked 2026-07-07):* distrust, suspicion, and social
+   *Application:* distrust, suspicion, and social
    cost are DRAMATIZED as obstacles the player feels — never merely
    narrated ("we'll see if you mean it" is telling, not friction).
 
