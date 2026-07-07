@@ -1,7 +1,9 @@
 # Story Bible §2 — the tier ladder: seven circles
 
 > Part of [the story bible](README.md). The structure is human-locked
-> canon; the seven per-tier ladders below await one whole-ladder lock.
+> canon. The seven per-tier ladders are APPROVED IN SPIRIT (human,
+> 2026-07-07): spirit and concept written down, expected to evolve —
+> especially the later tiers.
 
 ## The structure
 
@@ -38,7 +40,7 @@ restored tier by tier. The home base grows EVERY tier.
 
 ---
 
-## The seven ladders *(⏳ awaiting the whole-ladder lock)*
+## The seven ladders *(approved in spirit; detail staged per tier)*
 
 ### T0 · The Estate — the household (1780)
 

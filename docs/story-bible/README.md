@@ -38,7 +38,14 @@
 
 ## Status
 
-Canon: §0 · §0.5 · §0.9 · §1 · §2's structure · the estate anatomy ·
-T0's ladder and zone draft. Awaiting work: the whole-ladder lock on
-§2's seven tiers; cast voices (§3); per-tier economics and enemies;
-tier sheets T1–T6.
+Canon: §0 · §0.5 · §0.9 · §1 · §2 (structure locked; the seven ladders
+approved in spirit, expected to evolve — especially later tiers) · the
+estate anatomy · T0's ladder and zones. Awaiting work: cast voices
+(§3); T0 enemies + economics; tier sheets T1–T6.
+
+**Detail staging (the authoring plan):** T0 and T1 in FULL detail ·
+T2–T3 in half detail · T4 in quarter · T5 in fifth · T6 in tenth.
+Later-tier sheets carry only: the big main story beat · standout cast
+callouts · the tier-up economics · seeds for new factions, enemies,
+and reputation systems. Depth arrives when its tier's build
+approaches.
