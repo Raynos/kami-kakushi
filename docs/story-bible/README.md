@@ -63,7 +63,11 @@ Suzu · Zenbei · Lord Tomita · Hori · the use-name **GONBEI**) and
 dream every second promotion · vague-but-parseable · log-texture /
 VN-scenes split). **The A-final coherence pass has run end-to-end**
 (2026-07-07): names swept clean, open cells reconciled, no
-contradictions found. **Awaiting ONLY the human's whole-read
+contradictions found — and the review's seven open questions were
+walked and ruled (Naoyuki declines the chair · the MC tells Shinnosuke
+· the jizō = O-Ume at T3 · the ambiguity budget reserved for T6 · Toku
+lives to see it · the T2 collision beat authored · **THE FALL authored
+whole** in `02-house.md`). **Awaiting ONLY the human's whole-read
 blessing → BIBLE DONE** (plus the remaining cast-portrait review,
 resumable inside that read). Planned in
 `docs/plans/fable-2026-07-07-story-bible-finish.md`.

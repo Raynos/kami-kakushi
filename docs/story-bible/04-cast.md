@@ -98,7 +98,9 @@ without changing substance.)*
   reached for a metaphor. He runs the accusation night by the book and
   hands over no apology; he writes the use-name at R7; he pays the
   **Kuzuhara silver** on a dead man's standing instruction, decade
-  after decade, and gives only rumors if asked. *Nodes:* the Forecourt
+  after decade — anonymous compensation to the drowned hamlet's
+  scattered survivors ([`02-house.md`](02-house.md) §The fall) — and
+  gives only rumors if asked. *Nodes:* the Forecourt
   window; the board; the day-book; the steward's room from T1-R5.
 - **Kihei** — the drillmaster and watch-keeper: the house's one armed
   retainer, keeping a soldier's habits in a house with nothing left to
@@ -181,8 +183,10 @@ without changing substance.)*
   proud scene, and "never lord" becomes his choice. *Nodes:* the veranda; the Count; the East wing
   threshold (T1), carrying his brother's things himself.
 - **Munemasa** — the old lord, dying by inches; in T0 a voice through
-  a wall. For ten years his single act of fatherhood has been
-  refusal: he will not strike his son's line, will not be the man who
+  a wall. **The witness-heir (locked):** as a young man he watched his
+  father build the fatal works, sign past the warnings, and swallow
+  the fire and the quarrying in silence — his voice has its wound.
+  For ten years his single act of fatherhood has been refusal: he will not strike his son's line, will not be the man who
   wrote his boy dead — hope kept alive as an unfinished entry. His
   sentences turn on themselves and end unsure, and his licensed maxims
   fail upward — he reaches for the sententious and can't land it,

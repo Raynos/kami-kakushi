@@ -71,6 +71,50 @@ they took (the skim the buried truth names). The house's private
 griefs and its public campaign are the same story — full design cell:
 [`tiers/t4.md`](tiers/t4.md).
 
+## The fall (the buried story — locked 2026-07-07)
+
+One story pays every planted sign. At its height the house built **the
+great flood-works** — levees, channels, a weir system to win new
+paddies from the river (the numbered-terrace era; the estate at its
+widest). The domain's contract offices — **Tomita's predecessors** —
+took their cut and forced the works cheap: thin stone, skimped
+foundations. The grandfather KNEW — the warnings are line items in his
+own sealed account — and signed anyway. In the flood year the works
+failed, and the water the house had re-channeled drowned **Kuzuhara**,
+the hamlet downstream. Both sins are true at once: the house built
+fatal works knowingly; the enemy's house made them fatal for profit.
+
+What followed, the house absorbed in silence:
+
+- **The fire.** Grief-mad survivors set fire to the woodlot that dry
+  summer. The house cut and held a firebreak, saved the lot — and
+  never reported it, never named the arsonists: prosecuting them would
+  say aloud WHY they burned. Silence as penance. *(The straight-edged
+  burn line, undated forever — [`tiers/t1.md`](tiers/t1.md).)*
+- **The stones.** Unable to pay compensation openly, the house paid in
+  PERMISSION: survivors, then the village, quarried the failed works'
+  dressed stone and the compound walls for their rebuilding — allowed,
+  wordlessly, for decades. The breach is where the stones walked,
+  never repaired: reclaiming blood-price stone was unthinkable. The
+  flood scattered the rest down the banks. *(The taken breach stones ·
+  the upstream pools · the otters' dressed-stone den.)*
+- **The silver.** Genemon's standing instruction is the compensation
+  the house could never pay openly: anonymous silver to Kuzuhara's
+  scattered survivors, decade after decade — secret because open
+  payment admits the liability Tomita's house would weaponize. **The
+  two payments mirror exactly: Toku pays for the living, Genemon for
+  the dead — both anonymously, both through quiet channels.**
+- **The witness-heir.** Munemasa watched his father build it, sign
+  past the warnings, and swallow the fire and the quarrying. His
+  sentences that turn on themselves — and his maxims that fail
+  upward — come from somewhere.
+
+Then the kill: Tomita's house called the famine arrears at the killing
+moment (~1770, the winter Katsuhide walked), absorbed the lands, took
+the precedence ([`tiers/t4.md`](tiers/t4.md)). The full account —
+contract, cut, warnings, the dead, the compensation lines — is sealed
+in the ruin's inner storerooms; finding it is T3's buried-truth quest.
+
 ## The ruin & the guest house
 
 The family lives in what everyone — the household, the log, the player

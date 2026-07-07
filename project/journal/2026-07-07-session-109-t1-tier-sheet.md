@@ -329,12 +329,25 @@ with the human one piece per exchange.
   All transcribed into 02-house · 03-tiers · 04-cast · t0 · t2 · t3 ·
   t4 · t5 · t6.
 
+- **THE FALL — AUTHORED and LOCKED** (drafted in chat, all four forks
+  taken as recommended): the great flood-works forced cheap by
+  Tomita's predecessors' cut, signed past the warnings by the
+  grandfather (both sins true at once) → Kuzuhara drowned → **the
+  retribution fire** absorbed in silence (the firebreak; the arsonists
+  never named) → **the blood-price quarrying** permitted wordlessly
+  for decades (the breach, the pools, the otter den — and the
+  compound's quarried walls retro-explained) → **Genemon's silver =
+  secret compensation to the survivors** (Toku's packet and the silver
+  now mirror exactly: the house pays anonymously for its living and
+  its dead) → **Munemasa the witness-heir** (his failing maxims have
+  their wound) → the famine-arrears kill (~1770) completes the fall.
+  Written whole into `02-house.md` §The fall; pointers from t1
+  (three-signs note → authored), t3 (buried-truth quest), 04-cast
+  (Genemon + Munemasa portraits); README ledger updated.
+
 ## Next intended steps
 
-- **Draft the FALL design cell** (Q3's "author now") — present in
-  chat for redline/ask; it must pay the three signs + Tomita's
-  engineering + the grandfather's guilt in one story.
-- Then: **the human reads the bible whole and blesses it → BIBLE DONE**
+- **The human reads the bible whole and blesses it → BIBLE DONE**
   (the remaining cast-portrait review rides that read; redlines
   welcome any time).
 - At BIBLE DONE, workstream B opens: B0 frame ADR · B1 PRD §5
