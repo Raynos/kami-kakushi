@@ -74,6 +74,34 @@ plan's Opus-for-core routing proposal).
   main tree mixes the parallel session's narrative-grammar WIP; fixtures +
   pacing report regenerated in the clean worktree and committed from there.
 
+## Phase 4 built — the build-progress tracker diverge (same session)
+
+- `estateBuild(state)` pure-core selector (AC-6): stage rows + next-stage
+  deed/coin shortfalls; DISPLAYED==TESTED test in `pillars.test.ts` (the
+  selector's numbers pinned to the reducer's refusal at the same state).
+- Default A (ladder rows) inline in `render.ts` (keyed rows, patched in
+  place; locked stages unnamed — TST3); B (milestone rail) + C (ledger
+  entries) in `dev.ts` behind the "Build tracker (ADR-145)" toggle.
+- estate-section B/C variants' improve CTA now mirrors the deed gate too
+  (no lying DEV controls).
+- **HR-11** filed (taste brief + per-variant scorecards); self-pick = A
+  (conservative tiebreak; C is the boldest — human may promote).
+- Pass-1 taste walk: P1 extend-don't-duplicate · P2 shared primitives ·
+  P4/P5 append-only stable frame · P15 no-spoiler locked stages · P19/20
+  chrome register plain numbers · TST4 glanceable gate distance. Full
+  scorecards compressed into HR-11.
+
+## Phase 5 (system half) — the PRD ripple landed (same session)
+
+- Classified system/narrative (built territory): the §3.2 "back half REVEALS"
+  note + the tier-span line + the §3.3 E1 row reconciled to the BUILT ADR-145
+  mechanism (multi-source deeds → deed-gated staged build → E1 at U4).
+- New **`t0-deed-sources` gen-region** (gen-prd-regions.ts) transcludes the
+  source table from `ESTATE_DEED_SOURCE_MULT` + `ACTIVITIES.deedSource` —
+  multipliers stay out (§4 ripple-frozen). RED-able test added (a new source
+  without a feeder description leaks the "(unmapped" placeholder).
+- `prd:drift` CLEAN. The §4-adjacent retune ripple re-runs after Phase 3.
+
 ## Landmines
 
 - **Parallel agent** is building the requirements-rung-progression plan in the

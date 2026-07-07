@@ -280,8 +280,8 @@ that reveal is **ENTRY TO PHASE 2**: the player *climbs the rungs first*, then *
 builds (the **Estate** pillar's deeds accrue only from R7 on; Arms reveals at T1).
 
 Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5.1, §5 T0.4) — the rooms reveal
-across Phase 1, but **the E1 "Stabilising" BUILD COMPLETES as a Phase-2 beat** (gated on the pillar-Influence
-floor, not the rungs; §3.3/§2.17).
+across Phase 1, but **the E1 "Stabilising" BUILD COMPLETES as a Phase-2 beat** (the staged U1–U4 build, each stage
+gated on banked Estate standing + coin — ADR-145; §3.3/§2.17).
 
 <!-- gen:begin t0-rung-titles (pnpm run gen:prd-regions — do not edit inside) -->
 > **The T0 rung titles, as the build ships them** — GENERATED from `RANKS`
@@ -329,12 +329,33 @@ floor, not the rungs; §3.3/§2.17).
 > reveals at **T2**, §2.14); **auto-producers** (**T4+**, §2.5); the **origin** track (**T3**, §2.15). The **pillar
 > grind itself is Phase 2** (post-R7). Holding these back keeps the screen lean.
 
-> **T0 Phase 2 — what the back half REVEALS (not a dead consolidation half).**
-> Post-R7 (the **Estate** Influence bar live) is itself a **reveal cadence**, not just a number-climb. As **Estate
-> deeds** accrue, authored beats fire: **the E1 "Stabilising" estate BUILD completes** as a Phase-2 beat — the
-> *shinden* paying out, the workshop's first recorded yield, the granary stocked, the house off the cliff (the
-> estate fabric *finishing* on the influence track, gated on the pillar-Influence floor, **not** the Phase-1
-> rungs; §3.3/§2.17/§4.7.5). Because **T0 reveals a single pillar (Estate)**, the tier-up gate **collapses
+> **T0 Phase 2 — what the back half REVEALS (not a dead consolidation half). BUILT (ADR-145).**
+> Post-R7 (the **Estate** Influence bar live) is itself a **reveal cadence**, not just a number-climb. The
+> back half is a **multi-source deed economy** (the table below) driving a **staged U1–U4 estate build**:
+> each stage needs banked Estate standing beside its coin cost, so the build lands as **paced Phase-2
+> beats** across the deed climb — each deed source fires a one-time reveal beat on its first bank (the
+> *shinden* paying out, the workshop's first recorded yield, the granary stocked), and **the E1
+> "Stabilising" estate BUILD completes** at the final stage as the back half's payoff beat (gated on the
+> staged build's standing gates, **not** the Phase-1 rungs; §3.3/§2.17/§4.7.5 · ADR-145).
+
+<!-- gen:begin t0-deed-sources (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 Phase-2 Estate deed sources, as the build ships them (ADR-145)** — GENERATED
+> from `ESTATE_DEED_SOURCE_MULT` + the `ACTIVITIES` `deedSource` bindings
+> ([`balance.ts`](../../../src/core/content/balance.ts) /
+> [`activities.ts`](../../../src/core/content/activities.ts)) by `pnpm run gen:prd-regions`;
+> **do not edit between the markers**. Identity only — the per-source multipliers are
+> §4 tuning (ripple-frozen, ADR-021). Estate-relevant work ONLY banks (ADR-145 Q4):
+> woodcut/forage carry no source. Each source fires a one-time reveal beat on first bank.
+>
+> | Source | Banks from |
+> |---|---|
+> | fields | the shinden/paddy labour (`farm_paddy`) |
+> | stores | hauling + a rice deposit at the kura (`haul_stores`) |
+> | workshop | a workshop craft (`craft_weapon`) |
+> | watch | a WON grind fight (the house is safer) |
+> | treasury | a rice sale into the house books |
+<!-- gen:end t0-deed-sources -->
+ Because **T0 reveals a single pillar (Estate)**, the tier-up gate **collapses
 > to EXCELLENT in Estate** — and the **shortfall is surfaced from the FIRST Phase-2 season** (the Estate bar
 > reads plainly, e.g. *"Estate is still short"*), so the floor is **never an end-of-phase surprise**
 > (§2.16(b)). Clearing the 1-pillar gate (EXCELLENT in Estate) → **T1, the full-estate
@@ -399,7 +420,7 @@ dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, 
 | **The Main House / *Omoya*** (inner) | E1 | `RANK` R4 | *"The screens slide back — kitchen, inner rooms, the household shrine."* |
 | **The Workshops & Granary** | E1 (build continues) | `RANK` R6 | *"A workshop frame; a granary rising. The Kurosawa works begin."* (E1→E2 itself lands in **T1**, the full estate) |
 | **The lord's study** (ledgers) | E1 | `RANK` R7 | *"You are called to the lord's study, where the ledgers live."* |
-| **E1 "Stabilising" — the estate STANDS (build complete)** | **E1 (build)** | **`PILLAR` (Phase 2, post-R7; the pillar-Influence floor + low rank floor — §2.17)** | *"The frames are filled, the fields bear, the ledger steadies. The house no longer falls — the first build stands."* |
+| **E1 "Stabilising" — the estate STANDS (build complete)** | **E1 (build)** | **`PILLAR` (Phase 2, post-R7; the final U4 stage of the deed-gated build — ADR-145; §2.17)** | *"The frames are filled, the fields bear, the ledger steadies. The house no longer falls — the first build stands."* |
 
 > **Binding:** each is a diegetic beat; building/recruiting is **flavour / light systems wired to the reveal bus
 > — NOT a people-management sim** (no assignment panel, no labour-gang; §2.17). Recruit **Tokujirō**

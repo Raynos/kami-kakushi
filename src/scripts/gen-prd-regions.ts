@@ -30,7 +30,7 @@ export {};
 import { readFileSync, writeFileSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RANKS, WEAPONS, MOBS } from '../core';
+import { RANKS, WEAPONS, MOBS, ACTIVITIES, balance } from '../core';
 import { spliceRegion } from './gen-regions';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -104,6 +104,43 @@ export function genT0Bestiary(): string {
   ].join('\n');
 }
 
+/** The T0 Phase-2 Estate deed sources (ADR-145) — identity only (source · what banks it),
+ *  derived from ESTATE_DEED_SOURCE_MULT's keys + the ACTIVITIES registry's `deedSource`
+ *  bindings. The non-activity feeders (workshop/watch/treasury) are reducer wiring
+ *  (`intents.ts` / `fight.ts`), described here in fixed prose keyed BY the registry key —
+ *  adding/renaming a source without regenerating turns the gate RED. The per-source
+ *  MULTIPLIERS are §4 tuning (ripple-frozen, ADR-021) and stay OUT. Pure fn; exported for test. */
+export function genT0DeedSources(): string {
+  const feeders: Record<string, string> = {
+    fields: 'the shinden/paddy labour',
+    stores: 'hauling + a rice deposit at the kura',
+    workshop: 'a workshop craft (`craft_weapon`)',
+    watch: 'a WON grind fight (the house is safer)',
+    treasury: 'a rice sale into the house books',
+  };
+  const activityOf: Record<string, string[]> = {};
+  for (const a of ACTIVITIES) {
+    if (a.deedSource) (activityOf[a.deedSource] ??= []).push(`\`${a.id}\``);
+  }
+  const rows = Object.keys(balance.ESTATE_DEED_SOURCE_MULT).map((src) => {
+    const acts = activityOf[src]?.join(', ');
+    return `| ${src} | ${feeders[src] ?? '(unmapped — describe me)'}${acts ? ` (${acts})` : ''} |`;
+  });
+  return [
+    '> **The T0 Phase-2 Estate deed sources, as the build ships them (ADR-145)** — GENERATED',
+    '> from `ESTATE_DEED_SOURCE_MULT` + the `ACTIVITIES` `deedSource` bindings',
+    '> ([`balance.ts`](../../../src/core/content/balance.ts) /',
+    '> [`activities.ts`](../../../src/core/content/activities.ts)) by `pnpm run gen:prd-regions`;',
+    '> **do not edit between the markers**. Identity only — the per-source multipliers are',
+    '> §4 tuning (ripple-frozen, ADR-021). Estate-relevant work ONLY banks (ADR-145 Q4):',
+    '> woodcut/forage carry no source. Each source fires a one-time reveal beat on first bank.',
+    '>',
+    '> | Source | Banks from |',
+    '> |---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
 // --- region wiring ------------------------------------------------------------
 
 interface RegionSpec {
@@ -113,6 +150,7 @@ interface RegionSpec {
 }
 const REGIONS: ReadonlyArray<RegionSpec> = [
   { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-rung-titles', gen: genT0RungTitles },
+  { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-deed-sources', gen: genT0DeedSources },
   { file: 'docs/living/prd/02-systems.md', id: 't0-weapon-roster', gen: genT0WeaponRoster },
   { file: 'docs/living/prd/02-systems.md', id: 't0-bestiary', gen: genT0Bestiary },
 ];

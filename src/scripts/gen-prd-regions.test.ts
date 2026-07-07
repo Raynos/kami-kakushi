@@ -1,7 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { genT0RungTitles, genT0WeaponRoster, genT0Bestiary } from './gen-prd-regions';
+import {
+  genT0RungTitles,
+  genT0WeaponRoster,
+  genT0Bestiary,
+  genT0DeedSources,
+} from './gen-prd-regions';
 import { spliceRegion } from './gen-regions';
-import { RANKS, WEAPONS, MOBS, getMob } from '../core';
+import { RANKS, WEAPONS, MOBS, getMob, balance } from '../core';
 
 // Proves the F1b Phase 2 PRD-region generator is DERIVED from RANKS (not
 // hand-copied) and splices cleanly. Each assertion can go RED: a generator that
@@ -93,5 +98,26 @@ describe('genT0Bestiary', () => {
       .filter((l) => t0.some((m) => l.startsWith(`> | ${m.label} |`)));
     expect(rows).toHaveLength(t0.length);
     expect(t0.length).toBe(MOBS.length - 1); // exactly the bandit is held back
+  });
+});
+
+describe('genT0DeedSources (ADR-145)', () => {
+  it('carries every deed source in the mult table, each with a real description', () => {
+    const body = genT0DeedSources();
+    for (const src of Object.keys(balance.ESTATE_DEED_SOURCE_MULT)) {
+      expect(body).toContain(`| ${src} |`);
+    }
+    // RED if a NEW source lands without a feeder description (the placeholder leaks)
+    expect(body).not.toContain('(unmapped');
+    // multipliers are §4 tuning — never transcluded
+    for (const v of Object.values(balance.ESTATE_DEED_SOURCE_MULT)) {
+      expect(body).not.toContain(` ${v} `);
+    }
+  });
+
+  it('activity-fed sources name their activities from the registry', () => {
+    const body = genT0DeedSources();
+    expect(body).toContain('`farm_paddy`');
+    expect(body).toContain('`haul_stores`');
   });
 });
