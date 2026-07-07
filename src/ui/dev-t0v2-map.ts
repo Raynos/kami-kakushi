@@ -7,28 +7,25 @@
 // engine node exists for it. Imported only by dev.ts, so it rides the DEV fold
 // (tree-shaken from prod with the rest of the panel).
 //
-// LAYOUT (human steer, 2026-07-07): a brand-new geography for the V2 scope —
-// NOT the shipped ezu sheet extended. The world canvas is BIG (2400×1600) so
+// LAYOUT (human steer, 2026-07-07): brand-new geographies for the V2 scope —
+// NOT the shipped ezu sheet extended. Both maps use a BIG world canvas so
 // nothing squishes; the view pans (drag) and zooms (wheel / ⊕⊖ / fit), opening
-// at full-sheet fit. The ground plan is T1-AWARE: every T1 zone (t1.md) has
-// reserved, empty ground it can land on without moving a T0 seal —
-//   · Upstream pools (combat)      → the river's upper reach, top-left
-//   · Terraced paddies (up+low)    → the slope between field margins and ruin
-//   · Let-go terraces (combat)     → the scrub above those, under the hills
-//   · Woodlot proper + clamp       → beyond the woodlot edge, top-right
-//   · Boundary stones / far fields → the river-side ground west of the paddies
-//   · Downstream shallows (combat) → the river below the weir reeds, Matsuzō's
-//   · Family plot                  → the knoll between ruin and compound
-//   · Kura interior · Workshops · East/West wings · Inner garden · Shoin
-//                                  → inside the compound (the faint closed-wing
-//                                    blocks drawn on the main house today)
-// The T1 map will be this sheet, bigger — same world, more seals.
+// at full-sheet fit.
+//   · T0 (WORLD 2400×1600) — the tier-0 valley: the guest-house compound is the
+//     estate's whole built face; the great compound to the north is a roped ruin.
+//   · T1 (WORLD_T1 3200×2100) — its OWN, grander sheet: the estate REVEALED at
+//     true scale (human steer, 2026-07-07 — T1 is not the T0 map with sprinkles).
+//     A proper samurai precinct (many buildings, half of them ruins), the main
+//     house half-ruined with the EAST WING rebuilt new, the T0 guest house now
+//     one modest sub-compound in the corner, an organized farm & paddies quarter,
+//     a real forest east, and a coherent river/flood-works corridor west. Every
+//     seal gets its own T1 position (T1_POS); the new-in-T1 zones wear a gold 新.
 //
 // Interactions: click/Enter a seal (or a roster row — the roster also flies the
 // view to the zone) → the detail pane reads that zone's full node-grammar entry
-// (blurb · actions · who · the wrong thing · combat shape); header pills toggle
-// the 戦/人/怪 mark layers; selecting the Night rounds draws its patrol rail.
-// Esc / × / scrim-click closes.
+// (blurb · actions · who · the wrong thing · combat shape; on T1, a "What T1
+// changes here" note for carried zones); header pills toggle the 戦/人/怪 mark
+// layers; selecting the Night rounds draws its patrol rail. Esc / × closes.
 
 // ── tiny SVG/DOM helpers (ezu.ts's idiom, re-implemented so this module stays
 //    standalone — ezu keeps its helpers private and MUST stay untouched) ──────
@@ -949,101 +946,248 @@ const T1_NOTES: Readonly<Record<string, string>> = {
   kitchen:
     "R5: Genemon's papers finally LEAVE the kitchen for the steward's room — T0's " +
     'wrong-thing, repaired on screen. The debt panel unlocks IN that room.',
-  ruined: "Still roped, all tier — but the inner garden's gate is found to open onto it.",
+  gate:
+    "The estate's face is the GREAT gate now — R0's morning muster goes out through it, " +
+    "and Yohei's stall follows to its shadow on market days. (The guest house keeps its " +
+    'small inner gate.)',
   shrine: "Entered now — the kura key makes him a neighbour of Toku's habit (R3).",
 };
 
 const T1_IDS = new Set(T1_NODES.map((n) => n.id));
 
 function rosterFor(tier: Tier): readonly T0V2Node[] {
-  return tier === 'T0' ? T0_NODES : [...T0_NODES, ...T1_NODES];
+  // T1 drops the T0 'ruined compound' node: in T1 the precinct is ENTERED — its
+  // ruined half is the main house's center + west wing, on the sheet as art +
+  // the west-wing node, not a roped mystery blob.
+  return tier === 'T0' ? T0_NODES : [...T0_NODES.filter((n) => n.id !== 'ruined'), ...T1_NODES];
 }
 
-/** T1-only roads — the land zones hang off the T0 network. */
+// ── the T1 WORLD — its own, GRANDER sheet (human steer, 2026-07-07): T1 is not
+//    the T0 map with sprinkles; it is the estate revealed at true scale. A
+//    proper samurai estate precinct (many buildings, half of them ruins), the
+//    main house half-ruined with the EAST WING REBUILT new, the T0 guest house
+//    now one modest sub-compound among many, an organized farm & paddies
+//    quarter, a real forest on the east, and a coherent river/flood-works
+//    corridor down the west. Every seal gets its own T1 position here. ────────
+
+const WORLD_T1 = { w: 3200, h: 2100 } as const;
+
+function worldFor(tier: Tier): { readonly w: number; readonly h: number } {
+  return tier === 'T0' ? WORLD : WORLD_T1;
+}
+
+/** THE T1 layout — one steerable table: world position for every T1 seal
+ *  (carried T0 zones move to their place in the grander plan; new zones land
+ *  in theirs). */
+const T1_POS: Readonly<Record<string, { x: number; y: number }>> = {
+  // the river & flood-works corridor (west, upstream → downstream)
+  'upstream-pools': { x: 660, y: 350 },
+  'flood-works': { x: 620, y: 780 },
+  weir: { x: 620, y: 1180 },
+  'weir-reeds': { x: 570, y: 1450 },
+  'downstream-shallows': { x: 520, y: 1780 },
+  // the field quarter (organized farm + paddies, terraces stepping uphill)
+  'letgo-terraces': { x: 950, y: 400 },
+  'terraced-paddies': { x: 1010, y: 640 },
+  'field-margins': { x: 870, y: 900 },
+  paddies: { x: 1120, y: 1140 },
+  'boundary-fields': { x: 800, y: 1680 },
+  // the great precinct (the samurai estate proper)
+  gate: { x: 1880, y: 1830 },
+  'night-rounds': { x: 2130, y: 1860 },
+  'drill-yard': { x: 1680, y: 1500 },
+  'family-plot': { x: 1550, y: 880 },
+  'west-wing': { x: 1760, y: 1080 },
+  'inner-garden': { x: 1925, y: 1005 },
+  shoin: { x: 2150, y: 795 },
+  'east-wing': { x: 2110, y: 1135 },
+  workshops: { x: 2330, y: 880 },
+  'kura-interior': { x: 2465, y: 1115 },
+  kura: { x: 2380, y: 1235 },
+  // the guest house — the T0 compound, now one sub-compound in the corner
+  kitchen: { x: 2170, y: 1370 },
+  shrine: { x: 2355, y: 1330 },
+  forecourt: { x: 2280, y: 1525 },
+  woodshed: { x: 2455, y: 1600 },
+  sickroom: { x: 2020, y: 1620 },
+  // the greened edges
+  orchard: { x: 1700, y: 560 },
+  grove: { x: 2150, y: 420 },
+  woodlot: { x: 2640, y: 1180 },
+  'woodlot-clamp': { x: 2930, y: 820 },
+};
+
+function posFor(tier: Tier, n: T0V2Node): { x: number; y: number } {
+  return tier === 'T1' ? (T1_POS[n.id] ?? { x: n.x, y: n.y }) : { x: n.x, y: n.y };
+}
+
+/** The T1 road net — the grander plan's own circulation. */
 const T1_ROADS: readonly { pts: readonly Pt[]; seed: string }[] = [
-  // paddies → terraced paddies (up the slope)
+  // the great gate → south, off the sheet (the village road)
   {
     pts: [
-      [610, 880],
-      [575, 700],
-      [565, 580],
+      [1950, 1790],
+      [1945, 1950],
+      [1955, 2070],
+    ],
+    seed: 't1-gs',
+  },
+  // the great gate → the main-house approach (the avenue, straight and proud)
+  {
+    pts: [
+      [1950, 1730],
+      [1952, 1420],
+      [1965, 1180],
+    ],
+    seed: 't1-ga',
+  },
+  // the gate → the guest house sub-compound
+  {
+    pts: [
+      [2005, 1725],
+      [2130, 1620],
+      [2210, 1570],
+    ],
+    seed: 't1-gg',
+  },
+  // the gate → the drill yard (the old stable court)
+  {
+    pts: [
+      [1890, 1715],
+      [1770, 1600],
+      [1715, 1545],
+    ],
+    seed: 't1-gd',
+  },
+  // the precinct's west postern → the paddies (the field road)
+  {
+    pts: [
+      [1465, 1180],
+      [1330, 1160],
+      [1250, 1150],
+    ],
+    seed: 't1-pw',
+  },
+  // paddies → terraced paddies (uphill, orderly)
+  {
+    pts: [
+      [1070, 1010],
+      [1030, 830],
+      [1015, 720],
     ],
     seed: 't1-pt',
   },
-  // terraces → let-go terraces (the numbering keeps going)
+  // terraces → the let-go terraces (the numbering keeps going)
   {
     pts: [
-      [548, 445],
-      [535, 395],
+      [990, 545],
+      [960, 465],
     ],
     seed: 't1-tl',
   },
-  // weir → flood-works (up the bank)
+  // the fields → the flood-works (the water's road)
   {
     pts: [
-      [395, 1060],
-      [385, 950],
-      [390, 850],
+      [880, 780],
+      [740, 780],
+      [680, 785],
     ],
-    seed: 't1-wf',
+    seed: 't1-fw',
   },
-  // flood-works → the breach → the pools (upstream)
+  // the works → the weir → the reeds → the shallows (the bank path)
   {
     pts: [
-      [385, 700],
-      [400, 480],
-      [435, 290],
+      [610, 880],
+      [615, 1080],
+    ],
+    seed: 't1-bank1',
+  },
+  {
+    pts: [
+      [600, 1260],
+      [580, 1390],
+    ],
+    seed: 't1-bank2',
+  },
+  {
+    pts: [
+      [550, 1540],
+      [530, 1700],
+    ],
+    seed: 't1-bank3',
+  },
+  // the works → the breach → the pools (upstream)
+  {
+    pts: [
+      [630, 700],
+      [650, 520],
+      [660, 420],
     ],
     seed: 't1-fp',
   },
-  // reeds → downstream shallows (Matsuzō's stretch)
+  // paddies → the field margins
   {
     pts: [
-      [355, 1395],
-      [335, 1430],
+      [1030, 1050],
+      [920, 960],
     ],
-    seed: 't1-rs',
+    seed: 't1-pm',
   },
-  // the way up → family plot (off the ruin path)
+  // paddies → the boundary stones & far fields (downstream flats)
   {
     pts: [
-      [1255, 700],
-      [1090, 650],
-      [1005, 628],
+      [1050, 1320],
+      [900, 1520],
+      [830, 1620],
     ],
-    seed: 't1-fp2',
+    seed: 't1-pb',
   },
-  // woodlot edge → the lot proper & the clamp
+  // the precinct's north side → the orchard → the grove
   {
     pts: [
-      [2000, 690],
-      [2065, 585],
-      [2085, 535],
+      [1790, 745],
+      [1750, 660],
+      [1715, 620],
+    ],
+    seed: 't1-no',
+  },
+  {
+    pts: [
+      [1830, 545],
+      [2050, 460],
+    ],
+    seed: 't1-og',
+  },
+  // the precinct's east side → the woodlot edge → the lot & the clamp
+  {
+    pts: [
+      [2545, 1130],
+      [2610, 1160],
+    ],
+    seed: 't1-ew',
+  },
+  {
+    pts: [
+      [2680, 1120],
+      [2810, 950],
+      [2905, 875],
     ],
     seed: 't1-wc',
   },
-  // the west road → boundary stones & far fields
-  {
-    pts: [
-      [700, 1355],
-      [590, 1300],
-      [540, 1270],
-    ],
-    seed: 't1-bf',
-  },
 ];
 
-/** The T1 night round — grown by the estate-build (workshops + east wing legs). */
+/** The T1 night round — grown by the estate-build: the avenue, the east wing,
+ *  the workshops and kura, the guest house court, the drill yard. */
 const NIGHT_ROUTE_T1: readonly Pt[] = [
-  [1400, 1420],
-  [1240, 1355],
-  [1230, 1165],
-  [1385, 1030],
-  [1550, 1000],
-  [1590, 1140],
-  [1470, 1230],
-  [1795, 1195],
-  [1415, 1430],
+  [2130, 1840],
+  [1955, 1750],
+  [1958, 1430],
+  [2105, 1160],
+  [2330, 910],
+  [2385, 1250],
+  [2285, 1540],
+  [1700, 1520],
+  [2115, 1845],
 ];
 
 // ── the sheet painter ─────────────────────────────────────────────────────────
@@ -1073,20 +1217,21 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
   defs.append(filter);
   svg.append(defs);
 
-  // plate + double survey frame
+  // plate + double survey frame (per-tier world size)
+  const W = worldFor(tier);
   svg.append(
     sv('rect', {
       x: '8',
       y: '8',
-      width: String(WORLD.w - 16),
-      height: String(WORLD.h - 16),
+      width: String(W.w - 16),
+      height: String(W.h - 16),
       fill: 'var(--steel-1)',
     }),
     sv('rect', {
       x: '8',
       y: '8',
-      width: String(WORLD.w - 16),
-      height: String(WORLD.h - 16),
+      width: String(W.w - 16),
+      height: String(W.h - 16),
       fill: 'none',
       stroke: 'var(--silver-wire)',
       'stroke-width': '1.5',
@@ -1094,8 +1239,8 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     sv('rect', {
       x: '22',
       y: '22',
-      width: String(WORLD.w - 44),
-      height: String(WORLD.h - 44),
+      width: String(W.w - 44),
+      height: String(W.h - 44),
       fill: 'none',
       stroke: 'var(--key)',
       'stroke-width': '1.8',
@@ -1106,6 +1251,37 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
   const seals = sv('g'); // crisp text/click layer
   svg.append(art, seals);
 
+  if (tier === 'T1') {
+    paintT1Ground(art);
+  } else {
+    paintT0Ground(art);
+  }
+
+  const rail = sv('g', { class: 't0v2-nightrail' });
+  const route = tier === 'T1' ? NIGHT_ROUTE_T1 : NIGHT_ROUTE;
+  stroke(rail, scrawl(route, 'rail', 3.5), 'var(--shu)', 2, {
+    'stroke-dasharray': '4 9',
+    opacity: '0.85',
+  });
+  const lantern = sv('circle', {
+    cx: String(route[0]![0]),
+    cy: String(route[0]![1]),
+    r: '7',
+    fill: 'none',
+    stroke: 'var(--shu)',
+    'stroke-width': '1.8',
+  });
+  tip(lantern, 'The round begins and ends at its post by the gate');
+  rail.append(lantern);
+  art.append(rail);
+
+  drawSealLayer(seals, nodeEls, tier);
+  drawFurniture(seals, W.w, tier);
+}
+
+/** The T0 ground — the tier-0 valley: the guest-house compound is the estate's
+ *  whole built face, the great compound to the north is a roped ruin. */
+function paintT0Ground(art: SVGElement): void {
   // ── the land: hills across the north, the river down the west ──
   const hill1: Pt[] = [
     [90, 200],
@@ -1211,8 +1387,7 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
   }
 
   // ── roads ──
-  const tierRoads = tier === 'T1' ? [...ROADS, ...T1_ROADS] : ROADS;
-  for (const { pts, seed } of tierRoads) {
+  for (const { pts, seed } of ROADS) {
     stroke(art, scrawl(pts, seed, 3.5), 'var(--gold-dim)', 7, { opacity: '0.28' });
     stroke(art, scrawl(pts, seed + 'c', 3.5), 'var(--ink-soft)', 1.6, {
       'stroke-dasharray': '10 8',
@@ -1303,16 +1478,10 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
   building(art, 1200, 960, 250, 135, 'omoya');
   building(art, 1042, 945, 105, 175, 'wing-w', true);
   const wingW = art.lastElementChild;
-  if (wingW) {
-    tip(
-      wingW as SVGElement,
-      tier === 'T0' ? 'The west wing — shuttered (T1 ground)' : 'The west wing — closed, all tier',
-    );
-  }
-  // the east wing opens through T1 (tool-first, R4+) — solid there, faint in T0
-  building(art, 1362, 945, 105, 175, 'wing-e', tier === 'T0');
+  if (wingW) tip(wingW as SVGElement, 'The west wing — shuttered (T1 ground)');
+  building(art, 1362, 945, 105, 175, 'wing-e', true);
   const wingE = art.lastElementChild;
-  if (wingE && tier === 'T0') tip(wingE as SVGElement, 'The east wing — shuttered (T1 ground)');
+  if (wingE) tip(wingE as SVGElement, 'The east wing — shuttered (T1 ground)');
   building(art, 1560, 965, 76, 58, 'kura-b'); // the kura
   building(art, 1467, 1200, 42, 32, 'shed'); // the woodshed hut
   building(art, 880, 1132, 52, 34, 'sick', true); // the sickroom lean-to (outside the wall)
@@ -1675,29 +1844,12 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     2.6,
     { 'stroke-dasharray': '9 8', opacity: '0.45' },
   );
+}
 
-  // ── the night-rounds patrol rail (hidden until that node is selected) ──
-  if (tier === 'T1') paintT1Art(art);
-
-  const rail = sv('g', { class: 't0v2-nightrail' });
-  stroke(rail, scrawl(tier === 'T1' ? NIGHT_ROUTE_T1 : NIGHT_ROUTE, 'rail', 3.5), 'var(--shu)', 2, {
-    'stroke-dasharray': '4 9',
-    opacity: '0.85',
-  });
-  const lantern = sv('circle', {
-    cx: '1400',
-    cy: '1420',
-    r: '7',
-    fill: 'none',
-    stroke: 'var(--shu)',
-    'stroke-width': '1.8',
-  });
-  tip(lantern, 'The round begins and ends at its post by the gate');
-  rail.append(lantern);
-  art.append(rail);
-
-  // ── node seals + marks (the interactive layer) ──
+/** The seal layer — the interactive node marks, positions from the tier's plan. */
+function drawSealLayer(seals: SVGElement, nodeEls: Map<string, SVGGElement>, tier: Tier): void {
   for (const n of rosterFor(tier)) {
+    const { x: nx, y: ny } = posFor(tier, n);
     const g = sv('g', { class: `t0v2-node t0v2-k-${n.kind}` }) as SVGGElement;
     g.dataset.zone = n.id;
     seals.append(g);
@@ -1708,8 +1860,8 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     // invisible hit-target spanning seal + caption (the ezu WebKit-gap lesson)
     g.append(
       sv('rect', {
-        x: String(n.x - 70),
-        y: String(n.y - bh / 2 - 8),
+        x: String(nx - 70),
+        y: String(ny - bh / 2 - 8),
         width: '140',
         height: String(bh + 62),
         fill: 'transparent',
@@ -1718,8 +1870,8 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     const tilt = ((rng(`tilt-${n.id}`)() - 0.5) * 3).toFixed(2);
     g.append(
       sv('rect', {
-        x: String(n.x - bw / 2),
-        y: String(n.y - bh / 2),
+        x: String(nx - bw / 2),
+        y: String(ny - bh / 2),
         width: String(bw),
         height: String(bh),
         transform: `rotate(${tilt} ${n.x} ${n.y})`,
@@ -1730,8 +1882,8 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
       sv(
         'text',
         {
-          x: String(n.x),
-          y: String(n.y + 10),
+          x: String(nx),
+          y: String(ny + 10),
           'text-anchor': 'middle',
           class: 't0v2-kanji',
         },
@@ -1743,8 +1895,8 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
       const badge = sv(
         'text',
         {
-          x: String(n.x + bw / 2 + 6),
-          y: String(n.y - bh / 2 + 8),
+          x: String(nx + bw / 2 + 6),
+          y: String(ny - bh / 2 + 8),
           class: 't0v2-newbadge',
         },
         '新',
@@ -1755,8 +1907,8 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     const cap = sv(
       'text',
       {
-        x: String(n.x),
-        y: String(n.y + bh / 2 + 22),
+        x: String(nx),
+        y: String(ny + bh / 2 + 22),
         'text-anchor': 'middle',
         class: 't0v2-caption',
       },
@@ -1780,13 +1932,13 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
       marks.push({ glyph: '怪', cls: 't0v2-m-wrong', why: n.wrong });
     }
     const step = 34;
-    let mx = n.x - ((marks.length - 1) * step) / 2;
+    let mx = nx - ((marks.length - 1) * step) / 2;
     for (const m of marks) {
       const mt = sv(
         'text',
         {
           x: String(mx),
-          y: String(n.y + bh / 2 + 46),
+          y: String(ny + bh / 2 + 46),
           'text-anchor': 'middle',
           class: `t0v2-mark ${m.cls}`,
         },
@@ -1798,8 +1950,10 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     }
     tip(g, n.name);
   }
+}
 
-  // ── sheet furniture: north mark + title cartouche ──
+/** Sheet furniture — the north mark + the title cartouche (pinned to the frame). */
+function drawFurniture(seals: SVGElement, w: number, tier: Tier): void {
   const north = sv('g');
   stroke(
     north,
@@ -1847,7 +2001,7 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
   const cart = sv('g');
   cart.append(
     sv('rect', {
-      x: '2286',
+      x: String(w - 114),
       y: '48',
       width: '58',
       height: '330',
@@ -1857,84 +2011,300 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     }),
   );
   const title = sv('text', {
-    x: '2315',
+    x: String(w - 85),
     y: '72',
     class: 't0v2-kanji',
     style:
       'writing-mode:vertical-rl;font-size:28px;letter-spacing:8px;fill:var(--silver);text-anchor:start;',
   });
   title.textContent = '黒沢家領内絵図・改';
-  tip(cart, 'Survey plan of the Kurosawa holdings, REVISED — the T0 V2 zone draft');
+  tip(
+    cart,
+    tier === 'T0'
+      ? 'Survey plan of the Kurosawa holdings, REVISED — the T0 V2 zone draft'
+      : 'Survey plan of the Kurosawa holdings, REVISED — the T1 estate at its true scale',
+  );
   cart.append(title);
   seals.append(cart);
 }
 
-/** The T1-only ground art, painted onto the reserved ground (t1.md's land + wings). */
-function paintT1Art(art: SVGElement): void {
-  // the terraced paddies — stepped parcels up the NW slope
-  const terraces: readonly { pts: readonly Pt[]; seed: string }[] = [
-    {
-      pts: [
-        [488, 430],
-        [700, 418],
-        [716, 478],
-        [498, 490],
-      ],
-      seed: 't1p1',
-    },
-    {
-      pts: [
-        [478, 502],
-        [724, 490],
-        [736, 548],
-        [488, 560],
-      ],
-      seed: 't1p2',
-    },
-    {
-      pts: [
-        [492, 572],
-        [740, 560],
-        [728, 618],
-        [502, 630],
-      ],
-      seed: 't1p3',
-    },
+/** The T1 ground — the estate at its TRUE scale: a proper samurai precinct
+ *  (many buildings, half of them ruins), the main house half-ruined with the
+ *  east wing rebuilt NEW, the guest house one sub-compound among many, an
+ *  organized farm & paddies quarter, a real forest east, and a coherent
+ *  river/flood-works corridor west. World: 3200×2100 (WORLD_T1). */
+function paintT1Ground(art: SVGElement): void {
+  // ── the land: a wider hill country across the north ──
+  const hill1: Pt[] = [
+    [100, 240],
+    [700, 140],
+    [1400, 100],
+    [2200, 120],
+    [3100, 200],
   ];
-  for (const { pts, seed } of terraces) {
+  const hill2: Pt[] = [
+    [1150, 310],
+    [1850, 265],
+    [2560, 305],
+  ];
+  stroke(art, scrawl(hill1, 't1h1', 4.5), 'var(--ink-faint)', 1.2, { opacity: '0.75' });
+  stroke(art, scrawl(hill2, 't1h2', 4.5), 'var(--ink-faint)', 1.2, { opacity: '0.7' });
+  hachure(art, hill1, 't1hh1');
+  hachure(art, hill2, 't1hh2');
+
+  // ── the river corridor (west): one coherent water system, upstream → down —
+  //    pools · breach · flood-works · weir · reeds · shallows, with floodbanks ──
+  const river: Pt[] = [
+    [760, 90],
+    [640, 300],
+    [560, 520],
+    [500, 760],
+    [480, 1000],
+    [520, 1220],
+    [500, 1420],
+    [450, 1650],
+    [410, 1880],
+    [400, 2060],
+  ];
+  stroke(art, scrawl(river, 't1rv-a', 4), 'var(--silver-dim)', 2.4, { opacity: '0.45' });
+  stroke(
+    art,
+    scrawl(
+      river.map(([x, y]) => [x + 11, y + 3] as const),
+      't1rv-b',
+      4,
+    ),
+    'var(--silver-dim)',
+    1.5,
+    { opacity: '0.3' },
+  );
+  // the floodbanks — levee lines shadowing the working stretch of the river
+  stroke(
+    art,
+    scrawl(
+      [
+        [545, 640],
+        [525, 880],
+        [545, 1110],
+      ],
+      't1-levee1',
+      3,
+    ),
+    'var(--ink-soft)',
+    1.4,
+    { 'stroke-dasharray': '12 7', opacity: '0.5' },
+  );
+  stroke(
+    art,
+    scrawl(
+      [
+        [575, 700],
+        [558, 900],
+        [572, 1080],
+      ],
+      't1-levee2',
+      3,
+    ),
+    'var(--ink-soft)',
+    1.1,
+    { 'stroke-dasharray': '12 9', opacity: '0.35' },
+  );
+  // the upstream pools — standing water behind the breach
+  for (const [px, py, pw, seed] of [
+    [640, 300, 46, 't1-pool1'],
+    [700, 360, 34, 't1-pool2'],
+    [640, 415, 28, 't1-pool3'],
+  ] as const) {
     art.append(
       sv('path', {
-        d: scrawl(pts, seed, 3, true),
-        fill: 'rgba(216,185,120,0.06)',
-        stroke: 'var(--key)',
-        'stroke-width': '1.6',
-        'stroke-linejoin': 'round',
+        d: scrawl(
+          [
+            [px - pw, py],
+            [px, py - pw * 0.45],
+            [px + pw, py],
+            [px, py + pw * 0.5],
+          ],
+          seed,
+          3.2,
+          true,
+        ),
+        fill: 'var(--steel-0)',
+        stroke: 'var(--silver-dim)',
+        'stroke-width': '1',
+        opacity: '0.85',
       }),
     );
   }
-  // the let-go terraces — the same shapes gone to scrub, dashed, still NUMBERED
-  const letgo: readonly { pts: readonly Pt[]; seed: string }[] = [
-    {
-      pts: [
-        [452, 288],
-        [640, 276],
-        [652, 330],
-        [462, 342],
+  // the old breach — a stone-robbed gap in the bank (dressed stones WALKED)
+  const breach = sv('g', { class: 't0v2-m-wrong' });
+  for (const [bx, by, rot] of [
+    [566, 505, -16],
+    [610, 528, 22],
+    [585, 555, -6],
+  ] as const) {
+    breach.append(
+      sv('rect', {
+        x: String(bx),
+        y: String(by),
+        width: '17',
+        height: '9',
+        fill: 'none',
+        stroke: 'var(--shu)',
+        'stroke-width': '1.2',
+        opacity: '0.55',
+        transform: `rotate(${rot} ${bx} ${by})`,
+      }),
+    );
+  }
+  tip(breach, 'The old breach — the stones were TAKEN; the flood came through a hole people made');
+  art.append(breach);
+  // the flood-works: channels fanning east toward the fields + a sluice bar
+  for (const [seed, pts] of [
+    [
+      't1-ch1',
+      [
+        [520, 800],
+        [640, 830],
+        [780, 855],
+        [880, 870],
       ],
-      seed: 't1l1',
-    },
-    {
-      pts: [
-        [462, 354],
-        [660, 342],
-        [672, 396],
-        [474, 408],
+    ],
+    [
+      't1-ch2',
+      [
+        [510, 740],
+        [660, 760],
+        [820, 780],
       ],
-      seed: 't1l2',
-    },
-  ];
+    ],
+  ] as const) {
+    stroke(art, scrawl(pts as readonly Pt[], seed, 2.8), 'var(--silver-dim)', 1.3, {
+      opacity: '0.5',
+    });
+  }
+  stroke(
+    art,
+    scrawl(
+      [
+        [508, 772],
+        [532, 764],
+      ],
+      't1-sluice',
+      0.8,
+    ),
+    'var(--silver)',
+    3.2,
+    { opacity: '0.8' },
+  );
+  // the weir — the bar across the water, the jizō on the bank
+  stroke(
+    art,
+    scrawl(
+      [
+        [492, 1228],
+        [556, 1216],
+      ],
+      't1-weirbar',
+      1,
+    ),
+    'var(--silver)',
+    4.4,
+    { opacity: '0.8' },
+  );
+  const jizo = sv('g');
+  jizo.append(
+    sv('circle', {
+      cx: '640',
+      cy: '1128',
+      r: '5',
+      fill: 'none',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.4',
+    }),
+    sv('rect', {
+      x: '635',
+      y: '1133',
+      width: '10',
+      height: '13',
+      fill: 'none',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.4',
+    }),
+  );
+  tip(jizo, 'The weir-jizō — the offerings still appear');
+  art.append(jizo);
+  // the reeds below the weir
+  const rReed = rng('t1-reeds');
+  for (let i = 0; i < 11; i++) {
+    const bx = 480 + rReed() * 110;
+    const by = 1370 + rReed() * 150;
+    for (let k = -1; k <= 1; k++) {
+      stroke(
+        art,
+        `M${bx},${by} q${k * 4 + (rReed() - 0.5) * 2},${-8 - rReed() * 5} ${k * 7},${-13 - rReed() * 5}`,
+        'var(--ink-faint)',
+        1,
+      );
+    }
+  }
+  // the downstream shallows — fish-weir chevrons + the dressed-stone den
+  for (const [vx, vy] of [
+    [432, 1730],
+    [456, 1790],
+    [428, 1840],
+  ] as const) {
+    stroke(
+      art,
+      `M${vx - 13},${vy - 11} L${vx},${vy} L${vx + 13},${vy - 11}`,
+      'var(--ink-soft)',
+      1.4,
+      { opacity: '0.7' },
+    );
+  }
+  const den = sv('g', { class: 't0v2-m-wrong' });
+  for (const [dx2, dy2] of [
+    [478, 1810],
+    [492, 1823],
+  ] as const) {
+    den.append(
+      sv('rect', {
+        x: String(dx2),
+        y: String(dy2),
+        width: '13',
+        height: '7',
+        fill: 'none',
+        stroke: 'var(--shu)',
+        'stroke-width': '1.1',
+        opacity: '0.55',
+      }),
+    );
+  }
+  tip(den, 'The otters den in STONEWORK — dressed stone, in a riverbank');
+  art.append(den);
+
+  // ── the field quarter (organized): let-go scrub → terraces → home paddies →
+  //    far fields, stepping DOWN the slope in one legible staircase ──
   const rL = rng('t1-letgo');
-  for (const { pts, seed } of letgo) {
+  for (const { pts, seed } of [
+    {
+      pts: [
+        [850, 330],
+        [1090, 318],
+        [1104, 372],
+        [862, 384],
+      ] as readonly Pt[],
+      seed: 't1lg1',
+    },
+    {
+      pts: [
+        [862, 396],
+        [1120, 384],
+        [1134, 438],
+        [874, 450],
+      ] as readonly Pt[],
+      seed: 't1lg2',
+    },
+  ]) {
     art.append(
       sv('path', {
         d: scrawl(pts, seed, 3.4, true),
@@ -1945,8 +2315,8 @@ function paintT1Art(art: SVGElement): void {
         opacity: '0.8',
       }),
     );
-    for (let i = 0; i < 4; i++) {
-      const tx = pts[0]![0] + 20 + rL() * 160;
+    for (let i = 0; i < 5; i++) {
+      const tx = pts[0]![0] + 20 + rL() * 200;
       const ty = pts[0]![1] + 8 + rL() * 40;
       for (let k = -1; k <= 1; k++) {
         stroke(
@@ -1958,15 +2328,81 @@ function paintT1Art(art: SVGElement): void {
       }
     }
   }
+  // the terraced paddies — four ORDERED parcels, gold keylined, water-ticked
+  const terr: readonly { pts: readonly Pt[]; seed: string }[] = [
+    {
+      pts: [
+        [840, 520],
+        [1150, 508],
+        [1166, 574],
+        [852, 586],
+      ],
+      seed: 't1tp1',
+    },
+    {
+      pts: [
+        [830, 598],
+        [1180, 586],
+        [1196, 652],
+        [842, 664],
+      ],
+      seed: 't1tp2',
+    },
+    {
+      pts: [
+        [844, 676],
+        [1210, 664],
+        [1224, 730],
+        [856, 742],
+      ],
+      seed: 't1tp3',
+    },
+    {
+      pts: [
+        [858, 754],
+        [1236, 742],
+        [1224, 806],
+        [870, 818],
+      ],
+      seed: 't1tp4',
+    },
+  ];
+  for (const { pts, seed } of terr) {
+    art.append(
+      sv('path', {
+        d: scrawl(pts, seed, 2.8, true),
+        fill: 'rgba(216,185,120,0.06)',
+        stroke: 'var(--key)',
+        'stroke-width': '1.6',
+        'stroke-linejoin': 'round',
+      }),
+    );
+    const r = rng(seed + 'w');
+    const hy = (pts[0]![1] + pts[2]![1]) / 2 + (r() - 0.5) * 4;
+    stroke(
+      art,
+      scrawl(
+        [
+          [pts[0]![0] + 44, hy],
+          [pts[1]![0] - 44, hy],
+        ],
+        seed + 'h',
+        1.2,
+      ),
+      'var(--ink-faint)',
+      1,
+      { opacity: '0.7' },
+    );
+  }
   // the numbered terrace stones, running PAST the worked rows (the wrong thing)
-  const stones = sv('g', { class: 't0v2-m-wrong' });
+  const numStones = sv('g', { class: 't0v2-m-wrong' });
   for (const [sx, sy] of [
-    [470, 610],
-    [462, 480],
-    [452, 336],
-    [446, 262],
+    [826, 790],
+    [816, 640],
+    [830, 442],
+    [838, 350],
   ] as const) {
-    stones.append(
+    numStones.append(
       sv('rect', {
         x: String(sx),
         y: String(sy),
@@ -1979,239 +2415,132 @@ function paintT1Art(art: SVGElement): void {
       }),
     );
   }
-  tip(stones, 'The numbered terrace stones — the numerals run far past the terraces that exist');
-  art.append(stones);
-
-  // the upstream pools — standing water behind the breach; the breach itself a
-  // stone-robbed gap in the bank (dressed stones walked, they didn't wash)
-  for (const [px, py, pw, seed] of [
-    [452, 262, 40, 't1-pool1'],
-    [500, 300, 30, 't1-pool2'],
-  ] as const) {
+  tip(numStones, 'The numbered terrace stones — the numerals keep counting up into the scrub');
+  art.append(numStones);
+  // the home paddies + the FARM cluster (organized: barn + drying racks)
+  const home: readonly { pts: readonly Pt[]; seed: string }[] = [
+    {
+      pts: [
+        [950, 1000],
+        [1290, 988],
+        [1304, 1082],
+        [962, 1094],
+      ],
+      seed: 't1hp1',
+    },
+    {
+      pts: [
+        [962, 1106],
+        [1320, 1094],
+        [1334, 1188],
+        [974, 1200],
+      ],
+      seed: 't1hp2',
+    },
+    {
+      pts: [
+        [976, 1212],
+        [1348, 1200],
+        [1336, 1294],
+        [988, 1306],
+      ],
+      seed: 't1hp3',
+    },
+  ];
+  for (const { pts, seed } of home) {
     art.append(
       sv('path', {
-        d: scrawl(
+        d: scrawl(pts, seed, 3, true),
+        fill: 'rgba(216,185,120,0.06)',
+        stroke: 'var(--key)',
+        'stroke-width': '1.6',
+        'stroke-linejoin': 'round',
+      }),
+    );
+    const r = rng(seed + 'w');
+    for (let i = 0; i < 2; i++) {
+      const hy = (pts[0]![1] + pts[2]![1]) / 2 - 12 + i * 24 + (r() - 0.5) * 4;
+      stroke(
+        art,
+        scrawl(
           [
-            [px - pw, py],
-            [px, py - pw * 0.45],
-            [px + pw, py],
-            [px, py + pw * 0.5],
+            [pts[0]![0] + 46, hy],
+            [pts[1]![0] - 46, hy],
           ],
-          seed,
-          3,
-          true,
+          seed + 'h' + i,
+          1.2,
         ),
+        'var(--ink-faint)',
+        1,
+        { opacity: '0.7' },
+      );
+    }
+  }
+  building(art, 1420, 1050, 64, 42, 't1-barn'); // the farm barn
+  for (let i = 0; i < 3; i++) {
+    // drying racks — post pairs with a crossbar
+    const rx = 1386 + i * 34;
+    stroke(art, `M${rx},1150 l0,-22`, 'var(--silver-wire)', 1.6, { opacity: '0.85' });
+    stroke(art, `M${rx + 16},1150 l0,-22`, 'var(--silver-wire)', 1.6, { opacity: '0.85' });
+    stroke(art, `M${rx - 3},1132 l${22},0`, 'var(--silver-wire)', 1.3, { opacity: '0.85' });
+  }
+  // the field-margin setts (burrow mouths) in the strip above the paddies
+  const rSett = rng('t1-setts');
+  for (let i = 0; i < 6; i++) {
+    const sx = 790 + rSett() * 220;
+    const sy = 850 + rSett() * 100;
+    art.append(
+      sv('circle', {
+        cx: String(sx),
+        cy: String(sy),
+        r: '3',
         fill: 'var(--steel-0)',
-        stroke: 'var(--silver-dim)',
+        stroke: 'var(--ink-faint)',
         'stroke-width': '1',
-        opacity: '0.85',
       }),
     );
   }
-  const breach = sv('g', { class: 't0v2-m-wrong' });
-  for (const [bx, by, rot] of [
-    [368, 452, -18],
-    [412, 470, 24],
-  ] as const) {
-    breach.append(
-      sv('rect', {
-        x: String(bx),
-        y: String(by),
-        width: '16',
-        height: '9',
-        fill: 'none',
-        stroke: 'var(--shu)',
-        'stroke-width': '1.2',
-        opacity: '0.55',
-        transform: `rotate(${rot} ${bx} ${by})`,
-      }),
-    );
-  }
-  tip(breach, 'The old breach — the stones were TAKEN; the flood came through a hole people made');
-  art.append(breach);
-
-  // the flood-works — channels fanning from the river toward the paddies + a sluice tick
-  for (const [seed, pts] of [
-    [
-      't1-ch1',
-      [
-        [335, 790],
-        [430, 830],
-        [500, 880],
-      ],
-    ],
-    [
-      't1-ch2',
-      [
-        [340, 730],
-        [450, 760],
-        [520, 800],
-      ],
-    ],
-  ] as const) {
-    stroke(art, scrawl(pts as readonly Pt[], seed, 2.5), 'var(--silver-dim)', 1.2, {
-      opacity: '0.5',
-    });
-  }
-  stroke(
+  // the hidden sett — margins → under the precinct's west wall (the 怪 layer)
+  const sett = stroke(
     art,
     scrawl(
       [
-        [352, 758],
-        [372, 752],
+        [960, 900],
+        [1180, 940],
+        [1380, 980],
       ],
-      't1-sluice',
-      0.8,
+      't1-sett',
+      3,
     ),
-    'var(--silver)',
-    3,
-    { opacity: '0.8' },
+    'var(--shu)',
+    1.4,
+    { 'stroke-dasharray': '3 8', opacity: '0.5', class: 't0v2-m-wrong' },
   );
-
-  // the downstream shallows — fish-weir chevrons in Matsuzō's stretch + the den stones
-  for (const [vx, vy] of [
-    [318, 1440],
-    [342, 1490],
-    [322, 1530],
-  ] as const) {
-    stroke(
-      art,
-      `M${vx - 12},${vy - 10} L${vx},${vy} L${vx + 12},${vy - 10}`,
-      'var(--ink-soft)',
-      1.3,
-      { opacity: '0.7' },
-    );
-  }
-  const den = sv('g', { class: 't0v2-m-wrong' });
-  for (const [dx2, dy2] of [
-    [368, 1500],
-    [380, 1512],
-  ] as const) {
-    den.append(
-      sv('rect', {
-        x: String(dx2),
-        y: String(dy2),
-        width: '12',
-        height: '7',
-        fill: 'none',
-        stroke: 'var(--shu)',
-        'stroke-width': '1.1',
-        opacity: '0.55',
-      }),
-    );
-  }
-  tip(den, 'The otters den in STONEWORK — dressed stone, in a riverbank');
-  art.append(den);
-
-  // the family plot — a small walled square on the knoll; one plot swept, stoneless
-  art.append(
-    sv('path', {
-      d: scrawl(
-        [
-          [910, 580],
-          [982, 574],
-          [988, 632],
-          [916, 638],
-        ],
-        't1-plot',
-        2,
-        true,
-      ),
-      fill: 'none',
-      stroke: 'var(--silver-wire)',
-      'stroke-width': '1.2',
-      opacity: '0.8',
-    }),
-  );
-  for (const [gx, gy] of [
-    [928, 598],
-    [946, 594],
-    [964, 592],
-    [930, 620],
-  ] as const) {
-    stroke(art, `M${gx},${gy + 8} l0,-8`, 'var(--silver-wire)', 2.4, { opacity: '0.8' });
-  }
-  const empty = sv('circle', {
-    cx: '962',
-    cy: '620',
-    r: '6',
-    fill: 'none',
-    stroke: 'var(--shu)',
-    'stroke-width': '1',
-    'stroke-dasharray': '2 3',
-    opacity: '0.6',
-    class: 't0v2-m-wrong',
-  });
-  tip(empty, 'One plot swept and weeded with NO STONE in it');
-  art.append(empty);
-
-  // the woodlot proper — a denser stand past the edge, the clamp dome + its smoke,
-  // and the firebreak: a burn line with a STRAIGHT edge (the wrong thing)
-  const rW = rng('t1-lot');
-  for (let i = 0; i < 9; i++) {
-    tree(art, 2110 + rW() * 220, 370 + rW() * 130, 9 + rW() * 3, `t1-lt${i}`);
-  }
-  stroke(
-    art,
-    scrawl(
-      [
-        [2072, 540],
-        [2090, 518],
-        [2110, 540],
-      ],
-      't1-clamp',
-      1.2,
-    ),
-    'var(--silver-wire)',
-    2,
-  );
-  stroke(
-    art,
-    scrawl(
-      [
-        [2091, 512],
-        [2086, 494],
-        [2094, 478],
-      ],
-      't1-smoke',
-      2,
-    ),
-    'var(--ink-faint)',
-    1.2,
-    { opacity: '0.5' },
-  );
-  const firebreak = stroke(art, 'M2064,346 L2258,392', 'var(--shu)', 1.4, {
-    'stroke-dasharray': '9 5',
-    opacity: '0.5',
-    class: 't0v2-m-wrong',
-  });
-  tip(firebreak, 'The burn line with a STRAIGHT edge — a firebreak someone cut and held');
-
-  // the boundary stones & far fields — faint expansion parcels + the stone row,
-  // with ONE newer stone standing a field short (the wrong thing)
+  tip(sett, "The old sett — a way in under the precinct's wall nobody official knows");
+  // the boundary stones & far fields — faint expansion parcels, the stone row
   for (const [seed, pts] of [
     [
       't1-ff1',
       [
-        [430, 1180],
-        [600, 1170],
-        [612, 1250],
-        [442, 1260],
+        [680, 1560],
+        [920, 1548],
+        [934, 1660],
+        [692, 1672],
       ],
     ],
     [
       't1-ff2',
       [
-        [448, 1272],
-        [618, 1262],
-        [606, 1340],
-        [458, 1350],
+        [694, 1684],
+        [948, 1672],
+        [934, 1786],
+        [706, 1798],
       ],
     ],
   ] as const) {
     art.append(
       sv('path', {
-        d: scrawl(pts as readonly Pt[], seed as string, 3.2, true),
+        d: scrawl(pts as readonly Pt[], seed as string, 3.4, true),
         fill: 'none',
         stroke: 'var(--silver-faint)',
         'stroke-width': '1.3',
@@ -2221,8 +2550,8 @@ function paintT1Art(art: SVGElement): void {
     );
   }
   for (const [sx, sy] of [
-    [402, 1200],
-    [396, 1290],
+    [612, 1580],
+    [604, 1700],
   ] as const) {
     art.append(
       sv('rect', {
@@ -2237,8 +2566,8 @@ function paintT1Art(art: SVGElement): void {
     );
   }
   const newer = sv('rect', {
-    x: '432',
-    y: '1244',
+    x: '648',
+    y: '1648',
     width: '8',
     height: '12',
     fill: 'none',
@@ -2250,15 +2579,194 @@ function paintT1Art(art: SVGElement): void {
   tip(newer, 'The newer stone — a field short of where the terrace numbering says it should stand');
   art.append(newer);
 
-  // the workshops — Heikichi's bench along the compound's east side
-  building(art, 1600, 1120, 52, 36, 't1-shop');
+  // ── THE GREAT PRECINCT — the samurai estate proper: an old outer wall (worn,
+  //    part-broken), the NEW great gate, the half-ruined main house, service
+  //    courts, and the guest house as one sub-compound in the corner ──
+  const precinct: Pt[] = [
+    [1450, 760],
+    [2480, 720],
+    [2560, 900],
+    [2540, 1620],
+    [2300, 1740],
+    [1700, 1760],
+    [1480, 1600],
+    [1430, 1000],
+  ];
+  art.append(
+    sv('path', {
+      d: scrawl(precinct, 't1-wall', 3.4, true),
+      fill: 'rgba(216,185,120,0.035)',
+      stroke: 'var(--key)',
+      'stroke-width': '2',
+      'stroke-linejoin': 'round',
+      'stroke-dasharray': '26 9',
+    }),
+  );
+  // crumble ticks where the old wall has gone low
+  for (const [cx2, cy2] of [
+    [1445, 1240],
+    [2550, 1300],
+    [1600, 1710],
+  ] as const) {
+    stroke(art, `M${cx2 - 10},${cy2} l7,-6 l7,7 l7,-5`, 'var(--silver-faint)', 1.3, {
+      opacity: '0.7',
+    });
+  }
+  // the NEW great gate — wide posts, a fresh lintel, a small gatehouse beside it
+  stroke(
+    art,
+    scrawl(
+      [
+        [1922, 1782],
+        [1922, 1742],
+      ],
+      't1-gp1',
+      1,
+    ),
+    'var(--silver)',
+    4,
+  );
+  stroke(
+    art,
+    scrawl(
+      [
+        [1978, 1780],
+        [1978, 1740],
+      ],
+      't1-gp2',
+      1,
+    ),
+    'var(--silver)',
+    4,
+  );
+  stroke(
+    art,
+    scrawl(
+      [
+        [1908, 1740],
+        [1992, 1738],
+      ],
+      't1-gl',
+      1,
+    ),
+    'var(--silver)',
+    3.6,
+  );
+  building(art, 1862, 1700, 44, 32, 't1-gatehouse');
+  // Yohei's stall, moved to the great gate's shadow (market days)
+  const stall = sv('g');
+  stroke(
+    stall,
+    scrawl(
+      [
+        [2030, 1795],
+        [2062, 1795],
+      ],
+      't1-stall-a',
+      1,
+    ),
+    'var(--gold-dim)',
+    2,
+  );
+  stroke(
+    stall,
+    scrawl(
+      [
+        [2032, 1795],
+        [2032, 1812],
+      ],
+      't1-stall-b',
+      0.6,
+    ),
+    'var(--gold-dim)',
+    1.5,
+  );
+  stroke(
+    stall,
+    scrawl(
+      [
+        [2060, 1795],
+        [2060, 1812],
+      ],
+      't1-stall-c',
+      0.6,
+    ),
+    'var(--gold-dim)',
+    1.5,
+  );
+  tip(stall, "Yohei's stall — the market comes to the great gate now");
+  art.append(stall);
 
-  // the inner garden — stepping stones between the wings, running to a gate in
-  // the north wall… which opens on the rope and the ruin
+  // the MAIN HOUSE: center + west wing RUINED (fallen footprints, rubble),
+  // the EAST WING rebuilt NEW, the shoin restored at its head
+  for (const [seed, pts] of [
+    [
+      't1-ruinA',
+      [
+        [1660, 900],
+        [1860, 884],
+        [1876, 1030],
+        [1676, 1046],
+      ],
+    ],
+    [
+      't1-ruinB',
+      [
+        [1700, 1060],
+        [1900, 1046],
+        [1912, 1150],
+        [1712, 1164],
+      ],
+    ],
+  ] as const) {
+    art.append(
+      sv('path', {
+        d: scrawl(pts as readonly Pt[], seed as string, 4.5, true),
+        fill: 'none',
+        stroke: 'var(--silver-faint)',
+        'stroke-width': '1.5',
+        'stroke-dasharray': '11 8',
+        opacity: '0.8',
+      }),
+    );
+  }
+  // fallen roof-lines + rubble inside the ruined halls
+  stroke(
+    art,
+    scrawl(
+      [
+        [1700, 940],
+        [1790, 958],
+        [1836, 946],
+      ],
+      't1-fallen1',
+      3.5,
+    ),
+    'var(--silver-faint)',
+    1.2,
+    { opacity: '0.6' },
+  );
+  const rRub = rng('t1-rubble');
+  for (let i = 0; i < 6; i++) {
+    const rx = 1690 + rRub() * 190;
+    const ry = 930 + rRub() * 200;
+    stroke(
+      art,
+      `M${rx},${ry} l${3 + rRub() * 5},${(rRub() - 0.5) * 4}`,
+      'var(--silver-faint)',
+      1.2,
+      { opacity: '0.6' },
+    );
+  }
+  building(art, 2060, 990, 120, 200, 't1-eastwing'); // the east wing — REBUILT, solid
+  building(art, 2040, 810, 74, 56, 't1-shoin'); // the shoin, restored at the head
+  // the inner garden — stepping stones between the new wing and the ruins,
+  // and the little gate that opens on… the ruin
   for (const [gx, gy] of [
-    [1196, 872],
-    [1206, 850],
-    [1216, 828],
+    [1928, 1062],
+    [1936, 1032],
+    [1944, 1002],
+    [1950, 972],
   ] as const) {
     art.append(
       sv('circle', {
@@ -2275,8 +2783,8 @@ function paintT1Art(art: SVGElement): void {
     art,
     scrawl(
       [
-        [1222, 812],
-        [1236, 806],
+        [1946, 946],
+        [1962, 940],
       ],
       't1-ggate',
       0.8,
@@ -2285,7 +2793,294 @@ function paintT1Art(art: SVGElement): void {
     2.2,
     { opacity: '0.55', class: 't0v2-m-wrong' },
   );
-  tip(gardenGate, 'The garden gate — it opens on the rope and the ruin');
+  tip(gardenGate, 'The garden gate — the stepping stones walk INTO the ruin');
+
+  // the service court NE: workshops (solid) + kura pair + outbuildings — some
+  // standing, some ruined (the "many buildings, half of them ruins" texture)
+  building(art, 2320, 830, 62, 42, 't1-shop'); // the workshops
+  building(art, 2360, 900, 34, 24, 't1-forge'); // the cold forge (lit at R6)
+  building(art, 2400, 1180, 78, 60, 't1-kura'); // the kura (working store)
+  building(art, 2478, 1060, 40, 30, 't1-store2'); // a second store, standing
+  for (const [seed, cx2, cy2, w2, h2] of [
+    ['t1-ruinS1', 2210, 1010, 56, 36],
+    ['t1-ruinS2', 2470, 930, 48, 30],
+    ['t1-ruinS3', 1610, 1290, 66, 40],
+  ] as const) {
+    art.append(
+      sv('path', {
+        d: scrawl(
+          [
+            [cx2 - w2 / 2, cy2 - h2 / 2],
+            [cx2 + w2 / 2, cy2 - h2 / 2],
+            [cx2 + w2 / 2, cy2 + h2 / 2],
+            [cx2 - w2 / 2, cy2 + h2 / 2],
+          ],
+          seed,
+          3.5,
+          true,
+        ),
+        fill: 'none',
+        stroke: 'var(--silver-faint)',
+        'stroke-width': '1.3',
+        'stroke-dasharray': '8 7',
+        opacity: '0.7',
+      }),
+    );
+  }
+  // the drill yard + the ruined stable range beside it (stalls for twenty horses)
+  art.append(
+    sv('path', {
+      d: scrawl(
+        [
+          [1610, 1440],
+          [1760, 1430],
+          [1772, 1548],
+          [1622, 1558],
+        ],
+        't1-dy',
+        2.8,
+        true,
+      ),
+      fill: 'var(--steel-2)',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.4',
+      'stroke-linejoin': 'round',
+    }),
+  );
+  art.append(
+    sv('path', {
+      d: scrawl(
+        [
+          [1560, 1580],
+          [1800, 1570],
+          [1804, 1614],
+          [1564, 1624],
+        ],
+        't1-stables',
+        3.5,
+        true,
+      ),
+      fill: 'none',
+      stroke: 'var(--silver-faint)',
+      'stroke-width': '1.3',
+      'stroke-dasharray': '9 7',
+      opacity: '0.7',
+    }),
+  );
+  // the family plot — a walled square in the quiet NW corner
+  art.append(
+    sv('path', {
+      d: scrawl(
+        [
+          [1512, 842],
+          [1596, 836],
+          [1602, 902],
+          [1518, 908],
+        ],
+        't1-plot',
+        2,
+        true,
+      ),
+      fill: 'none',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.2',
+      opacity: '0.8',
+    }),
+  );
+  for (const [gx, gy] of [
+    [1532, 862],
+    [1552, 858],
+    [1572, 856],
+    [1534, 886],
+  ] as const) {
+    stroke(art, `M${gx},${gy + 9} l0,-9`, 'var(--silver-wire)', 2.4, { opacity: '0.8' });
+  }
+  const empty = sv('circle', {
+    cx: '1572',
+    cy: '886',
+    r: '6',
+    fill: 'none',
+    stroke: 'var(--shu)',
+    'stroke-width': '1',
+    'stroke-dasharray': '2 3',
+    opacity: '0.6',
+    class: 't0v2-m-wrong',
+  });
+  tip(empty, 'One plot swept and weeded with NO STONE in it');
+  art.append(empty);
+
+  // the GUEST HOUSE — the whole T0 world, now one modest sub-compound (SE corner)
+  const guest: Pt[] = [
+    [2080, 1300],
+    [2500, 1285],
+    [2515, 1655],
+    [2100, 1670],
+  ];
+  art.append(
+    sv('path', {
+      d: scrawl(guest, 't1-guest', 2.6, true),
+      fill: 'rgba(216,185,120,0.05)',
+      stroke: 'var(--key)',
+      'stroke-width': '1.5',
+      'stroke-linejoin': 'round',
+    }),
+  );
+  building(art, 2280, 1400, 150, 84, 't1-gh'); // the guest house itself
+  building(art, 2452, 1552, 42, 32, 't1-shed'); // the woodshed
+  building(art, 2028, 1572, 52, 34, 't1-sick', true); // the sickroom lean-to
+  // its small inner gate, west face
+  stroke(
+    art,
+    scrawl(
+      [
+        [2085, 1490],
+        [2085, 1462],
+      ],
+      't1-igate',
+      0.8,
+    ),
+    'var(--silver)',
+    2.6,
+  );
+  art.append(
+    sv('circle', {
+      cx: '2352',
+      cy: '1568',
+      r: '7',
+      fill: 'none',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.5',
+    }),
+  );
+
+  // ── the greened edges: the reclaimed orchard, the grove, and a REAL forest ──
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 5; col++) {
+      tree(art, 1600 + col * 44, 480 + row * 46, 9, `t1-or-${row}-${col}`);
+    }
+  }
+  const rBam = rng('t1-bam');
+  for (let i = 0; i < 18; i++) {
+    const bx = 2060 + rBam() * 200;
+    const by = 320 + rBam() * 110;
+    stroke(
+      art,
+      scrawl(
+        [
+          [bx, by + 36],
+          [bx + (rBam() - 0.5) * 5, by],
+        ],
+        `t1-bam-${i}`,
+        1,
+      ),
+      'var(--ink-soft)',
+      1.3,
+      { opacity: '0.75' },
+    );
+  }
+  const waymark = stroke(
+    art,
+    scrawl(
+      [
+        [2042, 470],
+        [2042, 436],
+      ],
+      't1-waymark',
+      1,
+    ),
+    'var(--shu)',
+    2,
+    { opacity: '0.6', class: 't0v2-m-wrong' },
+  );
+  tip(waymark, 'The cut-bamboo waymark, renewed each season');
+  // the forest — MORE WOODS: a broad stand filling the east, edge → deep lot
+  const rF = rng('t1-forest');
+  for (let i = 0; i < 42; i++) {
+    const fx = 2480 + rF() * 640;
+    const fy = 300 + rF() * 800;
+    tree(art, fx, fy, 8 + rF() * 5, `t1-f${i}`);
+  }
+  // the charcoal clamp — the dome, its smoke, and the firebreak's straight edge
+  stroke(
+    art,
+    scrawl(
+      [
+        [2906, 872],
+        [2930, 844],
+        [2954, 872],
+      ],
+      't1-clamp',
+      1.4,
+    ),
+    'var(--silver-wire)',
+    2.2,
+  );
+  stroke(
+    art,
+    scrawl(
+      [
+        [2932, 836],
+        [2925, 812],
+        [2936, 790],
+      ],
+      't1-smoke',
+      2.2,
+    ),
+    'var(--ink-faint)',
+    1.2,
+    { opacity: '0.5' },
+  );
+  const firebreak = stroke(art, 'M2700,470 L2990,560', 'var(--shu)', 1.5, {
+    'stroke-dasharray': '10 6',
+    opacity: '0.5',
+    class: 't0v2-m-wrong',
+  });
+  tip(firebreak, 'The burn line with a STRAIGHT edge — a firebreak someone cut and held');
+  // char-marked stumps at the woodlot edge (carried from T0)
+  const stumps = sv('g', { class: 't0v2-m-wrong' });
+  for (const [sx, sy] of [
+    [2600, 1240],
+    [2705, 1265],
+  ] as const) {
+    stumps.append(
+      sv('circle', {
+        cx: String(sx),
+        cy: String(sy),
+        r: '4.5',
+        fill: 'none',
+        stroke: 'var(--shu)',
+        'stroke-width': '1.2',
+        opacity: '0.55',
+      }),
+    );
+  }
+  tip(stumps, 'Char marks on old stumps — now legible as the firebreak line');
+  art.append(stumps);
+  // the road east off the sheet, past the wood
+  stroke(
+    art,
+    scrawl(
+      [
+        [2700, 1300],
+        [2920, 1330],
+        [3140, 1320],
+      ],
+      't1-eastroad',
+      2.5,
+    ),
+    'var(--ink-soft)',
+    2.6,
+    { 'stroke-dasharray': '9 8', opacity: '0.45' },
+  );
+
+  // ── the T1 road net ──
+  for (const { pts, seed } of T1_ROADS) {
+    stroke(art, scrawl(pts, seed, 3.5), 'var(--gold-dim)', 7, { opacity: '0.28' });
+    stroke(art, scrawl(pts, seed + 'c', 3.5), 'var(--ink-soft)', 1.6, {
+      'stroke-dasharray': '10 8',
+      opacity: '0.7',
+    });
+  }
 }
 
 // ── the detail pane ───────────────────────────────────────────────────────────
@@ -2303,9 +3098,11 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
       ? 'Source: docs/story-bible/tiers/t0.md (walked whole, 2026-07-07). Review artifact — ' +
           'NOT wired to the game. Drag to pan · scroll to zoom · roster rows fly to the zone. ' +
           'The empty ground is deliberate: every T1 zone has reserved room (see t1.md).'
-      : 'Source: docs/story-bible/tiers/t1.md (walked whole, 2026-07-07). The SAME sheet as ' +
-          'T0, grown: new zones (新, gold) land on the ground T0 reserved; carried zones keep ' +
-          'their seals (their detail notes what T1 changes). Drag to pan · scroll to zoom · ' +
+      : 'Source: docs/story-bible/tiers/t1.md (walked whole, 2026-07-07). The estate at its ' +
+          'TRUE scale — a proper samurai precinct: the great gate, the half-ruined main house ' +
+          '(east wing rebuilt), the T0 guest house now one sub-compound, an organized farm & ' +
+          'paddies quarter, a real forest east, a river/flood-works corridor west. New zones ' +
+          'wear a gold 新; carried zones note what T1 changes. Drag to pan · scroll to zoom · ' +
           'roster rows fly to the zone.',
   );
   aside.append(src);
@@ -2503,7 +3300,7 @@ export function openT0V2Map(): HTMLElement {
   return openTierMap('T0');
 }
 
-/** Open the T1 review map — the same sheet, grown to t1.md's roster. */
+/** Open the T1 review map — the estate at true scale (its own grander sheet). */
 export function openT1Map(): HTMLElement {
   return openTierMap('T1');
 }
@@ -2531,9 +3328,7 @@ function openTierMap(tier: Tier): HTMLElement {
   const roman = hd(
     'span',
     'roman',
-    tier === 'T0'
-      ? 'T0 V2 — the story-bible zone draft'
-      : 'T1 — the land & the wings (the same sheet, grown)',
+    tier === 'T0' ? 'T0 V2 — the story-bible zone draft' : 'T1 — the estate at its true scale',
   );
   title.append(kami, roman);
   head.append(title);
@@ -2542,10 +3337,11 @@ function openTierMap(tier: Tier): HTMLElement {
   head.append(controls);
   card.append(head);
 
+  const W = worldFor(tier);
   const body = hd('div', 't0v2-body');
   const mapWrap = hd('div', 't0v2-mapwrap');
   const svg = sv('svg', {
-    viewBox: `0 0 ${WORLD.w} ${WORLD.h}`,
+    viewBox: `0 0 ${W.w} ${W.h}`,
     role: 'img',
     'aria-label': `${tier} survey plan — the story-bible zone draft`,
     preserveAspectRatio: 'xMidYMid meet',
@@ -2560,21 +3356,18 @@ function openTierMap(tier: Tier): HTMLElement {
   const vb: { x: number; y: number; w: number; h: number } = {
     x: 0,
     y: 0,
-    w: WORLD.w,
-    h: WORLD.h,
+    w: W.w,
+    h: W.h,
   };
   const applyVb = (): void => {
     svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
   };
   const clampVb = (): void => {
-    vb.w = Math.min(Math.max(vb.w, 320), WORLD.w * 1.15);
-    vb.h = (vb.w * WORLD.h) / WORLD.w;
+    vb.w = Math.min(Math.max(vb.w, 320), W.w * 1.15);
+    vb.h = (vb.w * W.h) / W.w;
     const m = vb.w * 0.25; // let the sheet edge pull in a bit, never lose it
-    vb.x = Math.min(Math.max(vb.x, -m), WORLD.w + m - vb.w);
-    vb.y = Math.min(
-      Math.max(vb.y, -(m * WORLD.h) / WORLD.w),
-      WORLD.h + (m * WORLD.h) / WORLD.w - vb.h,
-    );
+    vb.x = Math.min(Math.max(vb.x, -m), W.w + m - vb.w);
+    vb.y = Math.min(Math.max(vb.y, -(m * W.h) / W.w), W.h + (m * W.h) / W.w - vb.h);
   };
   /** client → world coords (getScreenCTM handles viewBox + letterboxing). */
   const toWorld = (cx: number, cy: number): { x: number; y: number } => {
@@ -2641,18 +3434,19 @@ function openTierMap(tier: Tier): HTMLElement {
   const fit = (): void => {
     vb.x = 0;
     vb.y = 0;
-    vb.w = WORLD.w;
-    vb.h = WORLD.h;
+    vb.w = W.w;
+    vb.h = W.h;
     applyVb();
   };
   /** Fly the view to a node (roster navigation) — a readable close-up. */
   const focusNode = (id: string): void => {
     const n = rosterFor(tier).find((x) => x.id === id);
     if (!n) return;
-    vb.w = 900;
-    vb.h = (900 * WORLD.h) / WORLD.w;
-    vb.x = n.x - vb.w / 2;
-    vb.y = n.y - vb.h / 2;
+    const { x: nx, y: ny } = posFor(tier, n);
+    vb.w = tier === 'T1' ? 1100 : 900;
+    vb.h = (vb.w * W.h) / W.w;
+    vb.x = nx - vb.w / 2;
+    vb.y = ny - vb.h / 2;
     clampVb();
     applyVb();
   };

@@ -90,3 +90,39 @@ kitchen…). East wing draws solid on T1, west stays shut.
 
 Proof: verify 17/17 · headless T1 pass (31 seals · new-node fly-to ·
 carried-node T1 note · Esc) · screenshots eyeballed.
+
+## T1 REBUILT — its own grander sheet (human steer: "T1 makes no sense")
+
+The first T1 was rightly rejected: it grafted new zones onto the T0 sheet
+with small changes and read as random. T1 is the REVEAL, so it got its own
+world (WORLD_T1 3200×2100) laid out to the human's spec — a proper samurai
+estate at true scale:
+
+- **The great precinct** — a big worn outer wall (part-broken, crumble ticks),
+  the NEW great gate + gatehouse, Yohei's stall moved to its shadow.
+- **The main house HALF-RUINED** — center + west wing drawn as fallen
+  footprints + rubble; the **east wing rebuilt SOLID**, the shoin restored at
+  its head; the inner garden's stepping stones walk into the ruin.
+- **The guest house is now ONE sub-compound** in the SE corner — the whole T0
+  world (kitchen, forecourt, woodshed, sickroom, shrine, its small inner gate)
+  shrunk to a corner of the estate.
+- **A service court** — workshops + cold forge, a kura pair, standing stores
+  AND ruined outbuildings (the "many buildings, half of them ruins" texture);
+  the drill yard beside the ruined twenty-horse stable range.
+- **Organized farm & paddies quarter** (west-centre) — let-go scrub → four
+  ordered terraces → home paddies → far fields, one legible staircase; a barn
+  + drying racks; the numbered stones running up into the scrub.
+- **A coherent river/flood-works corridor** down the west — upstream pools
+  behind the taken-stone breach → the fanning flood-works + levees → the weir
+  + jizō → the reeds → the downstream shallows (fish-weir chevrons, the
+  dressed-stone otter den).
+- **A REAL forest** filling the east (42 trees edge→deep), the charcoal clamp +
+  its firebreak's straight edge, the road east off the sheet.
+
+Every seal has its own T1 world position (T1_POS); the module is now
+per-tier throughout (worldFor / posFor / paintT0Ground vs paintT1Ground /
+per-tier night rail, cartouche, fit + fly-to). T1 drops the roped `ruined`
+node (in T1 the ruin is ENTERED). 30 seals, 14 gold-新.
+
+Proof: verify 17/17 · headless both maps (T1 30 seals · precinct + guest
+house + river fly-tos) · screenshots eyeballed.

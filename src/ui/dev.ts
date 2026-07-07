@@ -2016,7 +2016,7 @@ export function mountDevPanel(
   });
   t0v2Btn.style.cssText += 'margin-bottom:.2rem;';
   storyPane.append(t0v2Btn);
-  const t1Btn = mono('⤢ T1 map — the land & the wings (grown sheet)', () => {
+  const t1Btn = mono('⤢ T1 map — the estate at its true scale', () => {
     openT1Map();
   });
   t1Btn.style.cssText += 'margin-bottom:.2rem;';
