@@ -101,10 +101,27 @@ with the human one piece per exchange.
   README status ledger updated (T0+T1 complete, T2–T6 seeded); the
   finish plan's A1 step marked ✅.
 
+- **Shared-tree near-miss (logged for honesty):** the A1-complete
+  commit initially swept in ANOTHER AGENT'S staged deletions
+  (`src/ui/map-variants/*.ts`, agent w1:p3) — I printed the staged-set
+  check but chained the commit without reading it. Fixed by soft-reset
+  + pathspec re-commit; their staged state restored untouched. The
+  push stays local while their WIP keeps the tree red (their red, not
+  ours to fight).
+- **A2 opened — piece 1 LOCKED** (AskUserQuestion): **the epigram
+  license = Shigemasa + Kihei**, cap spent (Shigemasa's maxims fail
+  upward; Kihei's creed is the charter) · **the misreading prism is a
+  GUIDELINE, not law** — human redline: misreadings are an EARLY-GAME
+  phenomenon (a stranger with no reputation); they dissolve tier by
+  tier as standing replaces silence as the thing people read ·
+  **Genemon + Kihei voice entries LOCKED** (wants, misreadings,
+  shapes, nodes — Kihei's want: one student who outlives him).
+
 ## Next intended steps
 
-- **A2 — the cast VOICES sitting** (next per the finish plan): lock
-  every T0 voice from the 04-cast.md candidates, the MC's use-name,
-  the epigram-license assignment, the name-norm sweep. T1's four new
-  faces (Denshichi · Heikichi · Ribei · Tetsuji) join the docket.
+- A2 piece 2: the household women — Sōan · O-Sato · Toku · Chiyo.
+- A2 piece 3: the family — Shinnosuke · Naoyuki · Shigemasa
+  (+ Katsuhide's open cell noted).
+- A2 piece 4: the edge cast + the T1 four; piece 5: the MC's use-name
+  + the name-norm sweep.
 - Then A3 register rules · A4 T2+T3 half-detail sheets.

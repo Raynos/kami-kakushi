@@ -32,8 +32,8 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98, 2026-07-06):** M1–M7
   (tokens/fonts · materials · Andon rail|desk|log-window + phone band · GBA
   cold open · VN/ceremony heat · variants steel-native · **ADR-144** retires
-  the woodblock locks) + drains FB-127–FB-172. **Five REAL illustrated estate
-  maps** (ezu · model board · cadastral · lantern · kamon) live for HR-7.
+  the woodblock locks) + drains FB-127–FB-172. **HR-7 RESOLVED (2026-07-07):**
+  the 絵図 survey plan ships as THE map; losing takes stripped.
 - **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane
   (ADR-141/142) · s90 hardening (ADR-140) · ADR-139 story diverge.
 - **✅ THE PHASE-2 ECONOMY (ADR-145, s100):** the A+B loop shipped — 5 deed
@@ -56,10 +56,9 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **REVIEW PASSOVER** 🔲 (HR-1) — play/review the full T0 arc for fun & pacing
   (the LOOK is now certified — UI-v2 PH5, s98).
 - **DEV-variant picks** 🔲 — ALL KEPT live by the human's call (s98) for a
-  detailed pass: **the map H–L** (five real-map takes + interim B/G, HR-7) ·
-  estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary (HR-5) · the HR-2
-  bundle. Picks → I strip (zero flag-debt) + land the two-column Map tab with
-  the map winner.
+  detailed pass: estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary (HR-5) · the HR-2
+  bundle. Picks → I strip (zero flag-debt). (HR-7 map ✅ picked: 絵図 survey
+  plan shipped; two-column Map tab still queued.)
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
@@ -105,7 +104,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-07-session-109-t1-tier-sheet.md`](../journal/2026-07-07-session-109-t1-tier-sheet.md)
+   [`journal/2026-07-07-session-110-hr7-survey-map-ships.md`](../journal/2026-07-07-session-110-hr7-survey-map-ships.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).

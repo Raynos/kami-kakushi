@@ -36,26 +36,58 @@
   the crest question, onward). The boy watching the drill yard is
   watching what he'll one day have to become.
 
-## The household (sketches — voices sitting pending)
+## The voices — how to read the entries
 
-- **Genemon** — the steward. *Canon:* keeps the day-book; folded the
-  MC in at R1 by arithmetic, not kindness; runs the accusation night
-  by the book and hands over no apology; writes the use-name at R7;
-  **executes the grandfather's standing instruction — the Kuzuhara
-  silver** — and gives only rumors if asked (he learned of it when he
-  was a young hand). His secret cannot die with him: the T5
-  stewardship succession exists to pass it. *Shape candidate:* tallies
-  and conditions — item, count, condition; never metaphor; answers
-  surprise by writing something down. *Nodes:* the Forecourt window,
-  the board, the day-book.
-- **Kihei** — the drillmaster. *Canon:* sets the grain-watch; the
-  drill yard is his ground; designs the night rounds; receives the
-  begging and answers with THE CREED — *"Talent is a story the lucky
-  tell. You are not lucky. So you will work."* — delivered once,
-  on-screen. *Want candidates (pick at sitting):* to stop burying men
-  who can't tell a mamushi from a rat-snake · one student who outlives
-  him. *Shape candidate:* imperative first, gear-nouns, verdict last.
-  *Nodes:* the Drill yard, the Gate at watch-change, the Night rounds.
+**The epigram license is assigned (locked 2026-07-07): Shigemasa and
+Kihei, and no one else** — the §0.5.2 cap (≤2 holders, at most one
+maxim per scene, total) is fully spent. Shigemasa's maxims FAIL
+upward — he reaches for the sententious and can't land it, which is
+the house in one voice; Kihei's are drill-ground verdicts, the creed
+their charter, rare by temperament.
+
+**The misreading guideline (not law):** early-tier characters tend to
+misread the MC through their own frame — the steward sees a fled debt,
+the soldier sees a failed fight — a prism around the one man. It is an
+EARLY-GAME phenomenon: misreadings belong to the stranger with no
+reputation, and they dissolve tier by tier as his standing becomes the
+thing people read instead (by T2+ new characters read his reputation,
+not his silence). Naoyuki stays the exception who reads TRUE from T0.
+
+## The household
+
+- **Genemon** — the steward. **VOICE LOCKED (2026-07-07).** *Want:*
+  that the house outlive him COUNTABLE — if it can be written in the
+  day-book, it can be survived; beneath it, someone to hand the silver
+  instruction to before he dies (the T5 succession's root). *Relation:*
+  the steward; learned the house's worst secret as a young hand and has
+  kept its books through the whole decline. *Misreading (T0–T1):* a
+  ledger-shaped guess — a man who fled a DEBT; he reads the MC's
+  silence as a defaulter's silence, and privately respects how the man
+  works it off. *Shape:* item, count, condition — never metaphor;
+  answers surprise by writing something down. *License:* none,
+  deliberately. *Canon:* keeps the day-book; folded the MC in at R1 by
+  arithmetic, not kindness; runs the accusation night by the book and
+  hands over no apology; writes the use-name at R7; **executes the
+  grandfather's standing instruction — the Kuzuhara silver** — and
+  gives only rumors if asked. His secret cannot die with him: the T5
+  stewardship succession exists to pass it. *Nodes:* the Forecourt
+  window, the board, the day-book; the steward's room from T1-R5.
+- **Kihei** — the drillmaster. **VOICE LOCKED (2026-07-07).** *Want:*
+  ONE STUDENT WHO OUTLIVES HIM. (The mamushi/rat-snake line survives as
+  flavor — it's what he says; the student is what he means.)
+  *Relation:* the drillmaster and watch-keeper — the house's one armed
+  retainer, keeping a soldier's habits in a house with nothing left to
+  guard but grain. *Misreading (T0–T1):* reads the scars and the
+  flinch as a man who once FAILED TO FIGHT — ran from conscription or
+  from a beating that mattered — so he trains him the way you train a
+  coward you like: without ever saying the word. *Shape:* imperative
+  first, gear-nouns, verdict last. *License:* YES — the creed-holder;
+  maxims only on the drill ground, and rarely. *Canon:* sets the
+  grain-watch; the drill yard is his ground; designs the night rounds;
+  receives the begging and answers with THE CREED — *"Talent is a
+  story the lucky tell. You are not lucky. So you will work."* —
+  delivered once, on-screen. *Nodes:* the Drill yard, the Gate at
+  watch-change, the Night rounds.
 - **Sōan** — the physician. *Canon:* pulled the MC's examination at
   the weir; answers the name question in the cold open (the label
   flip); keeps NOTES on the MC's healing in a ledger he closes when
@@ -173,10 +205,13 @@ petitioners. T6: reserved.
 
 ## Open calls (the voices sitting's agenda)
 
-1. Lock every T0 voice (shape + want) from the candidates above.
+1. Lock every T0 voice (shape + want) from the candidates above —
+   ~~Genemon · Kihei~~ *(locked)*; remaining: Sōan · Chiyo · Toku ·
+   O-Sato · Shinnosuke · Naoyuki · Shigemasa + the edge cast + the T1
+   four.
 2. The MC's use-name; his birth name (or defer to T3 design).
-3. **Epigram license assignment** (≤2 holders; Shigemasa the leading
-   candidate — prose law §0.5.2).
+3. ~~**Epigram license assignment**~~ *(locked: Shigemasa + Kihei,
+   the cap spent — see "The voices" note above).*
 4. The name-norm sweep: Shigemasa/Shinnosuke share a leading syllable
    (family names — grandfather or rename); any recasting of the
    working proper nouns (Kurosawa itself included — §0.9 names open).
