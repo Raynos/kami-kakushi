@@ -17,13 +17,25 @@ predates the ADR-148 timed-actions build, so it's a baseline only. Report:
   proposal and the save-import sticky-taint observation).
 - `project/journal/2026-07-07-session-113-telemetry-distill.md` — this file.
 
+## Follow-through (same session — both AskUserQuestion calls approved)
+
+- `src/telemetry/taints.ts` — NEW: the taint taxonomy (HARNESS suppresses
+  the auto-drop · ORIGIN MARK softens · everything else = time taint).
+- `src/telemetry/index.ts` — emit()'s session-end auto-drop now guarded by
+  `isHarnessRun()`; the DEV-panel manual drop stays unguarded.
+- `src/telemetry/report.ts` — `save-import` renders as
+  `marked: save-import (origin unknown)`, KEEPS the vs-sim + band columns,
+  and the rung table gains an economy-unknown-origin footnote; time taints
+  keep the old TAINTED exclusion.
+- `src/telemetry/taints.test.ts` — NEW classification proofs;
+  `report.test.ts` + two cases (import keeps comparison · import+speed>1
+  still refuses).
+- Swept the 59 harness-tainted stub files from `project/telemetry/`
+  (git-ignored, human-approved); 23 real reports remain.
+
 ## Next intended steps
 
-1. Human call pending (surfaced in-session via AskUserQuestion): suppress
-   report-FILE drops for harness-tainted runs (`fixture`/`qa-drive`/
-   `forceState`) in `src/telemetry/` + optionally delete the 54 zero-minute
-   stubs (git-ignored, disposable by contract).
-2. The deferred ADR-148 economy rebalance wants FRESH attended-time data on
+1. The deferred ADR-148 economy rebalance wants FRESH attended-time data on
    the timed-actions build — this corpus is the "before" side only.
 
 ## Landmines

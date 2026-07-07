@@ -59,8 +59,12 @@ vs-sim by contract, quoted here for the diary only.
    runs mint one stub file each (54 zero-minute stubs of 82). Proposed:
    suppress the report-file drop for harness-tainted runs
    (`fixture`/`qa-drive`/`forceState`) — the localStorage ring still
-   buffers them; human DEV-tool taints keep dropping files. Surfaced to the
-   human 2026-07-07 (this session) — apply only on their go-ahead.
+   buffers them; human DEV-tool taints keep dropping files. **APPLIED
+   2026-07-07 (human go-ahead, this session):** `src/telemetry/taints.ts`
+   taxonomy + the auto-drop guard; the 59 existing harness stubs swept.
+   Same sign-off also SOFTENED `save-import` to an origin MARK (clock
+   honest → vs-sim comparison kept; economy columns read unknown-origin) —
+   addressing conclusion 3's starvation for the import case.
 5. **For the deferred ADR-148 rebalance:** fresh attended-time data on the
    timed-actions build is the input that matters; this corpus is the
    before/after baseline to quote against it.

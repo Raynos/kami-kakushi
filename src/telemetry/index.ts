@@ -22,6 +22,7 @@ import { formatRunReport, type MilestoneEntry, type RunRecord, type SimRow } fro
 import { attachSignals, INPUT_THROTTLE_MS } from './signals';
 import { createTelemetryStore, TELEMETRY_STORE_KEY } from './store';
 import { postSessionReport } from './drop';
+import { isHarnessRun } from './taints';
 import { walkPacing } from '../scripts/pacing-report';
 
 /** A marker that exists ONLY in this DEV module — verify-dev-strip.sh greps the prod bundle
@@ -123,7 +124,8 @@ export function createTelemetry(opts: {
       }
       // Session-end auto-drop (human-locked): every close re-drops the run's report file into
       // project/telemetry/ — fire-and-forget; the ring is the buffer if the drop fails.
-      postSessionReport(runId, qa.report());
+      // Harness runs (fixture / qa-drive / …) are QA exhaust: ring-only, no file (2026-07-07).
+      if (!isHarnessRun(taints)) postSessionReport(runId, qa.report());
     }
   }
 

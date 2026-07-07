@@ -9,6 +9,7 @@
 import { balance } from '../core';
 import type { Segment, SegmentCloser } from './sessionizer';
 import type { MilestoneEvent } from './milestones';
+import { originMarks, timeTaints } from './taints';
 
 /** A milestone entry as stored on the run record: the pure detector event stamped with the
  *  sessionizer's clocks at commit time (Ph2's wiring does the stamping). */
@@ -26,7 +27,9 @@ export interface RunRecord {
   readonly buildSha: string;
   readonly startedAtISO: string;
   /** The honesty ledger — DEV distortions (speed>1, teleports, forceState, tick, import).
-   *  A tainted run renders labelled and is EXCLUDED from the vs-sim comparison by default. */
+   *  Classified by taints.ts: TIME taints render labelled + EXCLUDED from the vs-sim
+   *  comparison; ORIGIN marks (save-import) keep the comparison — the clock is honest,
+   *  only the economy columns are unknown-origin (human-locked 2026-07-07). */
   readonly taints: readonly string[];
   readonly milestones: readonly MilestoneEntry[];
   readonly segments: readonly Segment[];
@@ -49,8 +52,13 @@ function closerCounts(segments: readonly Segment[]): string {
 
 /** Render one run. Table columns line up with pacing-report.ts's per-rung framing. */
 export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = []): string {
-  const tainted = run.taints.length > 0;
-  const label = tainted ? `TAINTED: ${run.taints.join(', ')}` : 'untainted';
+  const time = timeTaints(run.taints);
+  const marks = originMarks(run.taints);
+  const tainted = time.length > 0;
+  const label = [
+    tainted ? `TAINTED: ${time.join(', ')}` : 'untainted',
+    ...(marks.length > 0 ? [`marked: ${marks.join(', ')} (origin unknown)`] : []),
+  ].join(' · ');
   const lines: string[] = [];
   // buildVersion is printed AS-IS — the __VERSION__ define already carries its own prefix (AC-21:
   // one source for the version string, never re-decorated here into a "vv").
@@ -85,6 +93,7 @@ export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = [])
     prevTicks = snap.tGame;
   }
   if (rungUps.length === 0) lines.push('(no rung-ups this run)');
+  else if (marks.length > 0) lines.push(`  (economy columns unknown-origin: ${marks.join(', ')})`);
 
   const losses = run.milestones.filter((m) => m.event.kind === 'loss').length;
   const ascensions = run.milestones.filter((m) => m.event.kind === 'ascension').length;

@@ -100,6 +100,23 @@ describe('formatRunReport', () => {
     expect(r0).not.toContain('3.1');
   });
 
+  it('a save-import run keeps the vs-sim comparison — origin mark, not a time taint', () => {
+    const out = formatRunReport(record(['save-import']), [{ rung: 'R0', wallMin: 3.1 }]);
+    expect(out).toContain('untainted · marked: save-import (origin unknown)');
+    const r0 = out.split('\n').find((l) => l.startsWith('R0'));
+    expect(r0).toContain('3.1'); // the sim column still compares
+    expect(r0).toContain('ok'); // the band column still judges
+    expect(out).toContain('economy columns unknown-origin: save-import');
+  });
+
+  it('a time taint on top of an import still refuses the comparison', () => {
+    const out = formatRunReport(record(['save-import', 'speed>1']), [{ rung: 'R0', wallMin: 3.1 }]);
+    expect(out).toContain('TAINTED: speed>1 · marked: save-import (origin unknown)');
+    const r0 = out.split('\n').find((l) => l.startsWith('R0'));
+    expect(r0).toContain('tainted');
+    expect(r0).not.toContain('3.1');
+  });
+
   it('totals + closer histogram line up with the segments', () => {
     const out = formatRunReport(record());
     expect(out).toContain('Σ attended 10.0 min');
