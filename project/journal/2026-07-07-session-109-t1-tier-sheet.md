@@ -261,10 +261,33 @@ with the human one piece per exchange.
     plain-cluster MC/Tetsuji/Jinpachi; record-cluster Genemon/
     Katsuhide/Ekai/inspector) — flagged for the human's ear.
 
+- **Cast review, batches 1–2 KEPT; batch 3 stopped on a structural
+  redline.** The household 8 (Sōan/Chiyo/Toku/O-Sato, then
+  Shinnosuke/Naoyuki/Shigemasa/Katsuhide) were all kept as locked. At
+  batch 3 (the edge) the human called the PATTERN broken: *"they are
+  all forced to have specific wants and then specific misreads and
+  then specific speaking things — a rule that's way too tight."*
+  Direction locked via a follow-up box + prose: the field template is
+  a **guideline/palette, not a form**; characters must be interesting
+  in their own right; **some** sharp shapes are fine but not a cast of
+  eccentrics — each character needs its own BEHAVIOR that fits the
+  bigger story.
+- **THE CLEAN PASS (this entry):** `04-cast.md` rewritten whole as
+  **portraits, not stat-blocks** — natural prose per character; the
+  approved household substance preserved but re-rendered; the
+  edge/T1/T2/T3/T4/T5 entries re-authored (forced wants dropped,
+  universal "misreading of the MC" dropped). New ground rules replace
+  the shape-collision machinery: **misreads are engines, not a
+  template** (only Genemon · Kihei · Chiyo · Toku · Sayo · the enemy
+  lord carry one; Naoyuki reads true) and **sharp shapes are
+  rationed** (Genemon · Kihei · Toku · Katsuhide · Sayo · the mother ·
+  Shigemasa; everyone else gets a register, not a tic). The ordinary
+  pool stays voiceless by design.
+
 ## Next intended steps
 
-- **Present the cast for the human's review, 4 at a time** (their
-  requested cadence), starting with the household.
+- **Human reviews the clean-passed cast** (edge → T1 → T2 → T3 →
+  T4/T5), batched at their pace.
 - Then: the MC's use-name + the **name-norm sweep** (docket in
   `04-cast.md`) · **A3 register rules** · **A-final** coherence →
   **BIBLE DONE** → unlocks workstream B.
