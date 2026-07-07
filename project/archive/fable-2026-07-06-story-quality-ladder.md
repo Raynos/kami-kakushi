@@ -1,9 +1,20 @@
 # The story-quality ladder — umbrella plan & answer sheet
 
-**Status: 📋 PROPOSED — all 19 decisions ANSWERED in-session (2026-07-06);
+**Status: 🗄️ SUPERSEDED (2026-07-07) → see
+`docs/plans/fable-2026-07-07-story-reboot.md` (the ONE live story plan;
+frame ADR deferred until the design finalizes) +
+`docs/plans/fable-2026-07-07-story-salvage.md` (the live condensation of
+the audit findings/fixes and this plan's §1 answers).** Walking this plan,
+the human reopened the DESIGN layer (this plan was sized for a surface-only
+rewrite): its process decisions carry into the reboot plan, its design
+decisions — including the §1 rejections — revert to open candidates for the
+reboot's pitch phase. The §1 answer sheet below remains the verbatim record
+of the 2026-07-06 decision pass; no ADR was ever minted from it.
+
+~~**Status: 📋 PROPOSED — all 19 decisions ANSWERED in-session (2026-07-06);
 the assembled plan now awaits your approval as a whole.** Per your call, NO
 ADR has been minted: on plan approval, the §1 answer sheet graduates to an
-ADR pulled from this doc — not before. **Confidence: ( 20% Opus, 80%
+ADR pulled from this doc — not before.~~ **Confidence: ( 20% Opus, 80%
 Fable )** — taste and dramatic judgment concentrate in every phase.
 
 **Sources:** the slop audit

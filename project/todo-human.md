@@ -36,6 +36,10 @@ _(none open)_
 
 - [ ] `docs/plans/fable-2026-07-07-story-reboot.md` — the **story reboot
   plan** (supersedes the story-quality ladder): walked through and approved
-  section by section in-session 2026-07-07 (ADR-147 minted); queued for
-  re-read/reference — the live artifact as Phase 1 (pillars co-write)
-  proceeds. Phase 1 step 1 (kernel redline) runs in-chat.
+  section by section in-session 2026-07-07; frame ADR HELD until the design
+  finalizes, per your call. Queued for re-read/reference — the live
+  artifact as Phase 1 (pillars co-write) proceeds in-chat.
+- [ ] `docs/plans/fable-2026-07-07-story-salvage.md` — the **story salvage
+  doc**: the slop-audit findings/fixes condensed live (THE substance you
+  asked not to lose) + the mostly-superseded 19 ladder answers as record;
+  defines what the reboot's informed pitch agents receive.
