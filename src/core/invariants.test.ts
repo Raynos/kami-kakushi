@@ -7,6 +7,9 @@ import {
   applyGrindFight,
   focusedOptimalIntent,
   type GameState,
+  rungProgress,
+  promotionReady,
+  rungRequirements,
 } from './index';
 
 // STRUCTURAL INVARIANTS across a long real playthrough — a property/fuzz-lite guard that catches a
@@ -119,6 +122,46 @@ describe('structural invariants hold across a full real playthrough', () => {
       const a = order.indexOf(states[i - 1]!.rung);
       const b = order.indexOf(states[i]!.rung);
       expect(b, `rung demoted at step ${i}`).toBeGreaterThanOrEqual(a);
+    }
+  });
+
+  // FB-121 / ADR-137 (the plan's Phase-6 named invariants): the requirement percent is
+  // the player's ONLY progression read, so its contract holds across the whole real arc.
+  it('rung percent: integer in [0,100], monotonic within a rung, resets on promotion', () => {
+    for (let i = 0; i < states.length; i++) {
+      const p = rungProgress(states[i]!).percent;
+      expect(Number.isInteger(p), `non-integer percent at step ${i}`).toBe(true);
+      expect(p, `percent out of range at step ${i}`).toBeGreaterThanOrEqual(0);
+      expect(p, `percent out of range at step ${i}`).toBeLessThanOrEqual(100);
+      if (i === 0) continue;
+      if (states[i]!.rung === states[i - 1]!.rung) {
+        // same rung: the bar NEVER moves backwards (progress accrues, completion latches)
+        expect(p, `percent fell at step ${i}`).toBeGreaterThanOrEqual(
+          rungProgress(states[i - 1]!).percent,
+        );
+      } else {
+        // a promotion resets the map. COUNT progress opens at 0; an ATOMIC (state/flag)
+        // requirement may legitimately pre-latch the same tick — already holding 100 mon
+        // when the rung turns IS the requirement met (the settle pass runs in finish()).
+        for (const req of rungRequirements(states[i]!.rung)) {
+          if (req.type === 'count') {
+            expect(
+              states[i]!.rungReqs[req.id] ?? 0,
+              `count req ${req.id} carried progress across the step-${i} promotion`,
+            ).toBe(0);
+          }
+        }
+        expect(p, `born READY at the step-${i} promotion (no work left?)`).toBeLessThan(100);
+      }
+    }
+  });
+
+  it('100 ⟺ promotionReady — the bar can never lie about the gate (the 99-clamp)', () => {
+    for (let i = 0; i < states.length; i++) {
+      const s = states[i]!;
+      expect(rungProgress(s).percent === 100, `percent/gate disagree at step ${i}`).toBe(
+        promotionReady(s),
+      );
     }
   });
 });
