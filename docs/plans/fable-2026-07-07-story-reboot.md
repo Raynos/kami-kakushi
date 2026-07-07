@@ -98,12 +98,13 @@ taste-risk is highest (the macro pitch), ping-pong everywhere else.
   (ADR-139 bundles), the systems build plans, the PRD §5 rewrite/ripple,
   the migration plan for built T0 content. Each sized as its own plan.
 
-## §4 · Phase 1 output — the kernel, redlined (locked point by point)
+## §4 · Phase 1 step 1 — the kernel redline RECORD
 
-The canonical full statements, written for the first time in the Phase 1
-step-1 redline (the names alone were the only durable form before this).
-Each point below is HUMAN-LOCKED as it lands; this section graduates into
-the pillars doc → `story-bible.md §0`.
+**The canonical kernel now lives at
+[`docs/living/story-bible.md §0`](../living/story-bible.md)** (graduated
+2026-07-07, same sitting it locked — canon doesn't live in a plan). This
+section stays as the REDLINE RECORD: each point's statement as drafted,
+with what the human softened, opened, demoted, or added, per point.
 
 1. **The lie of the vanishing** *(locked 2026-07-07 — teeth softened by
    the human: mundane truths MAY out-cruel the myth, not MUST).*
