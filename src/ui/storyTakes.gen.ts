@@ -13,6 +13,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'the ledger frame voices the mechanic itself (recognised deeds = entries worth recording); lean in the log, coherent with Genemon canon',
+    canonLabel: "the steward's ledger",
     takes: [
       {
         id: 'b',
@@ -67,6 +68,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'picked PER RUNG (human bundle call): R0 C · R1 A · R2 B · R3 C · R4 A · R5 A · R6 C · R7 C — spoken lines land where a granter leans in; house/material registers carry the grind. Canon carries the mixed pick; each take here is a full coherent alternate voice.',
+    canonLabel: 'the per-rung mix (spoken at the granter rungs)',
     takes: [
       {
         id: 'a',

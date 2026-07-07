@@ -20,6 +20,7 @@ takes/<bundle-id>/
 # bundle <id> · <title>
 review: <repo-relative path of the bundle's review doc>
 rationale: <one line — why the canon take was picked>
+canon: <short label for the Canon pill — every option is labeled, canon included>
 
 ## take b · <label>
 brief: <the take's dramatic brief — what it commits to>

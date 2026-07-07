@@ -41,6 +41,9 @@ export interface BundleMeta {
   readonly review?: string;
   /** The agent's pick rationale (the picked take lives in canon). */
   readonly rationale?: string;
+  /** Short textual label for the CANON pill (human, 2026-07-07 — the switcher
+   *  labels every option, canon included: "Canon — <label>"). */
+  readonly canonLabel?: string;
   readonly takes: readonly TakeMeta[];
 }
 
@@ -135,11 +138,13 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   }
   const review = top.get('review');
   const rationale = top.get('rationale');
+  const canonLabel = top.get('canon');
   return {
     id,
     title,
     ...(review !== undefined ? { review } : {}),
     ...(rationale !== undefined ? { rationale } : {}),
+    ...(canonLabel !== undefined ? { canonLabel } : {}),
     takes,
   };
 }
@@ -201,6 +206,7 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[]): string {
     L.push(`title: ${str(b.meta.title)},`);
     if (b.meta.review) L.push(`review: ${str(b.meta.review)},`);
     if (b.meta.rationale) L.push(`rationale: ${str(b.meta.rationale)},`);
+    if (b.meta.canonLabel) L.push(`canonLabel: ${str(b.meta.canonLabel)},`);
     L.push('takes: [');
     b.meta.takes.forEach((t, i) => L.push(emitTake(t, b.docs[i]!)));
     L.push('],');

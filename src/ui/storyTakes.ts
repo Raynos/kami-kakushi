@@ -45,6 +45,8 @@ export interface StoryTakeBundle {
   readonly review?: string;
   /** Why the canon take was picked (the pick itself lives in canon). */
   readonly rationale?: string;
+  /** Short label for the CANON option pill ("Canon — <label>"); absent ⇒ "the pick". */
+  readonly canonLabel?: string;
   readonly takes: readonly StoryTake[];
 }
 

@@ -867,7 +867,7 @@ describe('ADR-139 story reader modal', () => {
   });
 
   it('renders canon (live registry) and the take side by side', () => {
-    const scrim = openStoryReader([bundle]);
+    const scrim = openStoryReader(bundle);
     const text = scrim.textContent ?? '';
     expect(text).toContain('Reader bundle');
     expect(text).toContain('canon · the pick');
@@ -893,7 +893,7 @@ describe('ADR-139 story reader modal', () => {
         },
       ],
     };
-    const scrim = openStoryReader([sharing]);
+    const scrim = openStoryReader(sharing);
     const dimmed = [...scrim.querySelectorAll('.log-line')].filter(
       (n) => (n as HTMLElement).style.opacity === '0.45',
     );
@@ -907,7 +907,7 @@ describe('ADR-139 story reader modal', () => {
   });
 
   it('Escape dismisses the reader', () => {
-    const scrim = openStoryReader([bundle]);
+    const scrim = openStoryReader(bundle);
     expect(document.body.contains(scrim)).toBe(true);
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(document.body.contains(scrim)).toBe(false);

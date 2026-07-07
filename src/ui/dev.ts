@@ -64,7 +64,7 @@ import { renderMapKamon } from './map-variants/kamon';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
-import { __setRequirementFlavorOverride } from '../core';
+import { __setRequirementFlavorOverride, RUNG_REQUIREMENTS } from '../core';
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
 import { COLD_OPEN } from '../core/content/coldOpen';
@@ -2357,36 +2357,20 @@ export function mountDevPanel(
     const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';
     storyPane.append(empty);
-  } else {
-    // the full-page reader entry (the human's "explore story variant" modal — its OWN surface,
-    // full ADR-075 diverge: three reading variants behind the pills in the modal header).
-    const openBtn = mono('⤢ Explore story — full-page reader', () => {
-      openStoryReader(dev.storyBundles);
-    });
-    openBtn.style.alignSelf = 'flex-start';
-    storyPane.append(openBtn);
   }
-  // req-flavor is LIVE via the CORE overlay (future completions emit the selected take —
-  // ADR-139: every diverge unit is reviewable in this switcher, never doc-only).
-  const LIVE_UNITS = /^(rung|intro|flavor|req-flavor):/;
-  const unitKeysOf = (b: StoryTakeBundle): string[] => {
-    const keys = new Set<string>();
-    for (const t of b.takes) {
-      for (const k of Object.keys(t.rungBeats ?? {})) keys.add(`rung:${k}`);
-      for (const s of t.introScenes ?? []) keys.add(`intro:${s.id}`);
-      for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
-      for (const k of Object.keys(t.coldOpen ?? {})) keys.add(`cold-open:${k}`);
-      for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
-      for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
-    }
-    return [...keys].sort();
-  };
+  // ONE explore page per diverge (human, 2026-07-07): each bundle section below carries
+  // its OWN "⤢ Explore" link — no combined all-bundles modal.
   for (const bundle of dev.storyBundles) {
     const sec = el('div');
     sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;padding:.28rem .4rem;';
     const title = el('div', undefined, bundle.title);
     title.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;';
     sec.append(title);
+    const explore = mono('⤢ Explore this diverge', () => {
+      openStoryReader(bundle, dev);
+    });
+    explore.style.cssText += 'margin:.2rem 0;';
+    sec.append(explore);
 
     // the active take's brief (or the pick rationale on Canon) — refreshed on every click.
     const brief = el('div', undefined, '');
@@ -2418,50 +2402,12 @@ export function mountDevPanel(
       setBtns.set(id, b);
       setRow.append(b);
     };
-    takeBtn('canon', 'Canon');
+    // every option carries its textual label — canon included (human, 2026-07-07).
+    takeBtn('canon', `Canon — ${bundle.canonLabel ?? 'the pick'}`);
     for (const t of bundle.takes) takeBtn(t.id, `${t.id.toUpperCase()} — ${t.label}`);
     sec.append(setRow, brief);
-
-    // per-unit override rows — "·" follows the set; a take letter pins THIS unit to that take.
-    // (a single-unit bundle skips the block: the set switch IS the unit switch.)
-    const units = unitKeysOf(bundle);
-    if (units.length > 1) {
-      const uHead = el('div', undefined, 'Per-unit override (· = follow set)');
-      uHead.style.cssText =
-        'color:#b08d4f;font-size:10px;text-transform:uppercase;margin-top:.25rem;';
-      sec.append(uHead);
-      for (const unit of units) {
-        const row = el('div');
-        row.style.cssText = 'display:flex;align-items:center;gap:.25rem;flex-wrap:wrap;';
-        const lbl = el('span', undefined, LIVE_UNITS.test(unit) ? unit : `${unit} (reader-only)`);
-        lbl.style.cssText = 'color:#e7d9bc;font-size:11px;flex:1 1 auto;';
-        row.append(lbl);
-        const uBtns = new Map<string | undefined, HTMLButtonElement>();
-        const uRefresh = (): void => {
-          const cur = dev.getStoryUnit(bundle.id, unit);
-          for (const [id, b] of uBtns) {
-            const on = id === cur;
-            b.style.background = on ? '#b08d4f' : '#3a322a';
-            b.style.color = on ? '#1c1814' : '#e7d9bc';
-          }
-        };
-        const uBtn = (id: string | undefined, label: string): void => {
-          const b = mono(label, () => {
-            dev.setStoryUnit(bundle.id, unit, id);
-            uRefresh();
-            rerender();
-          });
-          b.style.padding = '.05rem .3rem';
-          uBtns.set(id, b);
-          row.append(b);
-        };
-        uBtn(undefined, '·');
-        uBtn('canon', 'canon');
-        for (const t of bundle.takes) uBtn(t.id, t.id.toUpperCase());
-        uRefresh();
-        sec.append(row);
-      }
-    }
+    // Per-unit overrides moved to the per-diverge explore page (human, 2026-07-07) —
+    // this section stays focused: the labeled set toggle + the explore link.
     const hint = el(
       'div',
       undefined,
@@ -2716,6 +2662,7 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
     for (const k of Object.keys(t.rungBeats ?? {})) keys.add(`rung:${k}`);
     for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
     for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
+    for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
   }
   const order = (k: string): number =>
     k.startsWith('cold-open:')
@@ -2762,6 +2709,16 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
     const text = take === 'canon' ? (FLAVOR as Record<string, string>)[key] : take.flavor?.[key];
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
+  if (kind === 'req-flavor') {
+    // FB-121 requirement-completion lines — canon reads the LIVE registry by requirement id.
+    const text =
+      take === 'canon'
+        ? Object.values(RUNG_REQUIREMENTS)
+            .flat()
+            .find((r) => r.id === key)?.flavor
+        : take.reqFlavor?.[key];
+    return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
+  }
   const text = take === 'canon' ? (COLD_OPEN as Record<string, string>)[key] : take.coldOpen?.[key];
   return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
 }
@@ -2804,6 +2761,12 @@ function readerChip(text: string, tone: 'pick' | 'alt' | 'mute' = 'mute'): HTMLE
   return c;
 }
 
+// Unit kinds that swap LIVE in the running game (rung/intro/flavor at render time;
+// req-flavor via the CORE overlay — ADR-139: every diverge unit reviews in the switcher).
+// dialogue + cold-open pin only the READER's display today (takes/README: wiring the
+// live-swap is part of diverging one).
+const LIVE_UNITS = /^(rung|intro|flavor|req-flavor):/;
+
 function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
   const h = el('div');
   h.style.cssText =
@@ -2815,9 +2778,43 @@ function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement):
 }
 
 /** Variant "galley" — units as rows, takes as columns (side-by-side compare). */
-function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle): void {
+function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: DevApi): void {
   for (const unit of readerUnitsOf(bundle)) {
-    readerUnitHeader(host, unit);
+    // the per-unit override lives HERE, beside the unit it pins (human, 2026-07-07 —
+    // the DEV panel section stays a clean set toggle). '·' = follow the bundle set.
+    let extra: HTMLElement | undefined;
+    if (dev) {
+      extra = el('div');
+      extra.style.cssText = 'display:flex;gap:.25rem;align-items:center;';
+      const uBtns = new Map<string | undefined, HTMLButtonElement>();
+      const uRefresh = (): void => {
+        const cur = dev.getStoryUnit(bundle.id, unit);
+        for (const [id, b] of uBtns) {
+          const on = id === cur;
+          b.style.background = on ? 'var(--gold, #b08d4f)' : 'transparent';
+          b.style.color = on ? '#1c1814' : 'var(--ink, #e7d9bc)';
+        }
+      };
+      const uBtn = (id: string | undefined, label: string, title: string): void => {
+        const b = el('button', undefined, label) as HTMLButtonElement;
+        b.type = 'button';
+        b.title = title;
+        b.style.cssText =
+          'border:1px solid var(--ink-faint);border-radius:3px;padding:.05rem .35rem;' +
+          'font:inherit;font-size:11px;cursor:pointer;background:transparent;color:var(--ink);';
+        b.addEventListener('click', () => {
+          dev.setStoryUnit(bundle.id, unit, id);
+          uRefresh();
+        });
+        uBtns.set(id, b);
+        extra!.append(b);
+      };
+      uBtn(undefined, '·', 'follow the bundle set');
+      uBtn('canon', `canon — ${bundle.canonLabel ?? 'the pick'}`, 'pin this unit to canon');
+      for (const t of bundle.takes) uBtn(t.id, t.id.toUpperCase(), `${t.id} — ${t.label}`);
+      uRefresh();
+    }
+    readerUnitHeader(host, LIVE_UNITS.test(unit) ? unit : `${unit} (reader-only)`, extra);
     const scroll = el('div');
     scroll.style.cssText = 'overflow-x:auto;';
     const row = el('div');
@@ -2844,7 +2841,7 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle): void {
     };
     const canonLines = readerUnitLines(unit, 'canon');
     const canonTexts = new Set((canonLines ?? []).map((l) => l.text));
-    cell(readerChip('canon · the pick', 'pick'), canonLines);
+    cell(readerChip(`canon · ${bundle.canonLabel ?? 'the pick'}`, 'pick'), canonLines);
     for (const t of bundle.takes) {
       cell(readerChip(`${t.id} · ${t.label}`, 'alt'), readerUnitLines(unit, t), canonTexts);
     }
@@ -2857,7 +2854,7 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle): void {
  *  Galley-only since FB-125: the human picked Galley columns FIRM (HR-9 ✅);
  *  the annotated/stage variants were retired (recoverable from git history +
  *  the HR-9 archive record). */
-export function openStoryReader(bundles: readonly StoryTakeBundle[]): HTMLElement {
+export function openStoryReader(bundle: StoryTakeBundle, dev?: DevApi): HTMLElement {
   const scrim = el('div');
   scrim.className = 'modal-scrim';
   scrim.dataset['dev'] = DEV_SENTINEL;
@@ -2882,7 +2879,8 @@ export function openStoryReader(bundles: readonly StoryTakeBundle[]): HTMLElemen
   title.className = 'modal-title';
   const kami = el('span', undefined, '物語');
   kami.className = 'kami';
-  const roman = el('span', undefined, 'Explore story — open diverges');
+  // ONE explore page per diverge (human, 2026-07-07) — the page IS the bundle.
+  const roman = el('span', undefined, `Explore story — ${bundle.title}`);
   roman.className = 'roman';
   title.append(kami, roman);
   card.append(title);
@@ -2892,25 +2890,12 @@ export function openStoryReader(bundles: readonly StoryTakeBundle[]): HTMLElemen
   const content = el('div');
   content.style.cssText =
     'flex:1 1 auto;min-height:0;overflow-y:auto;padding-right:.5rem;margin-top:1rem;';
-  if (bundles.length === 0) {
-    const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
-    empty.style.cssText = 'color:var(--ink-faint);margin-top:1rem;';
-    content.append(empty);
+  if (bundle.review) {
+    const rv = el('div', undefined, `review doc: ${bundle.review}`);
+    rv.style.cssText = 'color:var(--ink-faint);font-size:12px;';
+    content.append(rv);
   }
-  for (const bundle of bundles) {
-    const bh = el('div');
-    bh.style.cssText = 'margin-top:1.1rem;display:flex;flex-direction:column;gap:.25rem;';
-    const bt = el('div', undefined, bundle.title);
-    bt.style.cssText = 'font-weight:700;color:var(--ink);letter-spacing:.04em;';
-    bh.append(bt);
-    if (bundle.review) {
-      const rv = el('div', undefined, `review doc: ${bundle.review}`);
-      rv.style.cssText = 'color:var(--ink-faint);font-size:12px;';
-      bh.append(rv);
-    }
-    content.append(bh);
-    renderReaderGalley(content, bundle);
-  }
+  renderReaderGalley(content, bundle, dev);
   card.append(content);
 
   const dismiss = (): void => {

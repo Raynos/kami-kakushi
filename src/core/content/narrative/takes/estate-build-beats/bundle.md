@@ -1,5 +1,6 @@
 # bundle estate-build-beats · Phase-2 build beats (deed-source reveals + E1)
 review: project/human-in-the-loop/review.md
+canon: the steward's ledger
 rationale: the ledger frame voices the mechanic itself (recognised deeds = entries worth recording); lean in the log, coherent with Genemon canon
 
 ## take b · the land remembers
