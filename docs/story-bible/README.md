@@ -34,10 +34,11 @@
   anatomy, the world's global rules.
 - [`../story-bible/tiers/`](../story-bible/tiers/) — **the per-tier
   detail sheets**: `t0.md` + `t1.md` COMPLETE (walked whole);
-  `t2.md` + `t3.md` walked at HALF detail; `t4.md` walked at QUARTER
-  detail (the enemy cell + Katsuhide met); `t5.md`–`t6.md` are SEEDS at
-  their staged detail targets, each carrying its placed canon + its
-  sitting's agenda.
+  `t2.md` + `t3.md` walked at HALF detail; `t4.md` at QUARTER detail
+  (the enemy cell + Katsuhide met); `t5.md` at FIFTH detail (the
+  audience-day inversion + the handover); `t6.md` **check-passed**
+  (deliberately reserved — the tenth-detail Edo tier). **Every tier
+  sheet is now walked to its staged depth.**
 
 ## Status
 
@@ -48,12 +49,14 @@ tier sheets** (walked whole) · **T2 and T3 at half detail** (incl. the
 human's origin RELOCK — Tahei, landslide, the family alive, the Tama +
 reunion threads restored from the PRD) · **T4 at quarter detail** (the
 enemy design cell — a martial lord, scavenger in the old chair; +
-Katsuhide met, temple registrar). Seeded: tier sheets T5–T6 (placed
-canon + sitting agendas) · cast sketches with voice
-candidates (Genemon + Kihei voices locked; four T1 faces + the T2/T3
-cast named). Awaiting sittings: cast VOICES (parked mid-A2) · register
-rules · the staged taper (T4 quarter · T5 fifth · T6 tenth) · the
-name-norm sweep. The finish is planned in
+Katsuhide met, temple registrar) · **T5 at fifth detail** (the
+audience-day inversion — T0 run backwards; Genemon's handover +
+death; the Kuzuhara↔domain-works rhyme) · **T6 check-passed**
+(reserved). **ALL SEVEN tier sheets now walked to their staged
+depth.** Cast: Genemon + Kihei voices locked; four T1 faces + the
+T2/T3 cast named. Awaiting sittings: cast VOICES (parked mid-A2) ·
+register rules · the name-norm sweep · then A-final coherence →
+BIBLE DONE. Planned in
 `docs/plans/fable-2026-07-07-story-bible-finish.md`.
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·

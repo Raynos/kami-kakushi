@@ -205,13 +205,30 @@ with the human one piece per exchange.
   (Shigemasa won't strike · Katsuhide strikes himself · Tahei's family
   refused to strike him). README ledger updated (T4 quarter).
 
+- **T5 DONE at fifth detail + T6 CHECK-PASSED** (the human: "T6 do
+  both in one go, I'll review both" — I locked T5 at its recommended
+  shape and did T6 as the reserved-tier check, no per-fork box):
+  - **T5:** the audience-day system = **T0 run backwards** (he's
+    summoned-to-judge instead of summoned-to-be-judged; petition-as-
+    content; the R2 first-petitioner is a former equal). The handover:
+    **Genemon confesses the whole Kuzuhara truth and dies at R7**, the
+    MC inheriting the DUTY to keep paying the unpaid lines; the
+    **Kuzuhara↔domain-silted-works rhyme is the tier's spine** (heal
+    at domain scale what drowned a hamlet at estate scale); the creed
+    passes **Kihei→MC→Shinnosuke**.
+  - **T6:** verified reserved — nothing crept in. Only reconciliation:
+    the ink thread (in `03-tiers.md`, NOT t6.md — I misattributed it
+    first) updated so the T3 node is the **Tahei reclaim** and the
+    thread now runs across TWO registers (origin confirmed-alive +
+    Kurosawa still open to his choosing).
+  - **ALL SEVEN tier sheets are now walked to their staged depth.**
+    Plan A1/A4/A5/A6/A7 marked ✅; README ledger updated.
+
 ## Next intended steps
 
-- **T5 sheet at FIFTH detail** (next): the rock is the audience-day
-  inverse-rung system + the handover beat (the stewardship succession
-  passes; Genemon's silver secret finally handed on).
-- Then T6 check (tenth — verify nothing crept into the reserved tier).
-- A2 resumes after the tier sheets (four voice drafts awaiting lock;
-  the name sweep owes: mother + sister names, the toiya master, the
-  enemy lord + his house, Sayo/O-Sato, Kanta/Katsuhide); then A3
-  register rules; then A-final coherence pass → BIBLE DONE.
+- **The tier spine is COMPLETE.** Remaining bible work: **A2 cast
+  voices** (resume — four drafts to lock + the family/edge/T1-T3 faces
+  + the MC use-name + the grown **name-norm sweep** docket) · **A3
+  register rules** (the three `01-laws.md` candidates) · **A-final**
+  whole-bible coherence pass → **BIBLE DONE** → unlocks workstream B
+  (ADRs, PRD ripple, prose wave, engine).

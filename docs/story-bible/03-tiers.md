@@ -304,6 +304,10 @@ literal room).
 ## The ink thread
 
 Use-name in the day-book (T0, Genemon) → the house register (T1,
-Shigemasa's last entry) → knows his birth name (T3) → the renunciation
-witnessed (T4) → the stewardship (T5) → what the register finally says
-is his choice, at the end (T6).
+Shigemasa's last entry) → **learns his birth name Tahei, and his
+origin register is confirmed-not-struck (T3, the warm relock)** → the
+renunciation witnessed (T4, Katsuhide strikes his own line) → the
+stewardship + Genemon's book (T5) → what the KUROSAWA register finally
+says about his name is his choice, at the end (T6). The thread runs
+across TWO registers now: the origin's, confirmed alive; the
+Kurosawa's, still open to his choosing.

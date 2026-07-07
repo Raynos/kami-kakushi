@@ -51,24 +51,34 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
   kura key at R3 · the breach at R4 · the debt panel at R5 in the
   steward's room · the wolf in daylight at R6 · the shoin → register →
   Shigemasa's death at R7).
-- **A2 · Cast VOICES** ⬩F+H — lock every T0 voice from the sketch
-  candidates in `04-cast.md` (want · misreading · shape · license),
-  the MC's use-name, the epigram-license assignment, and the name-norm
-  sweep (Shigemasa/Shinnosuke syllable; any recasting incl. Kurosawa).
-  Voices are prose-law-binding for all future text.
+- **A2 · Cast VOICES** ⬩F+H — 🔶 **PARKED mid-sitting (session 109):**
+  the epigram license (Shigemasa + Kihei) and the Genemon + Kihei
+  voice entries are LOCKED; four more (Sōan, O-Sato, Toku, Chiyo) are
+  drafted-but-unlocked in `04-cast.md`. Still owed: those four + the
+  family + edge cast + the T1/T2/T3 faces; the MC's use-name; the
+  **name-norm sweep** (a docket has grown — mother + sister names,
+  the toiya master, the enemy lord + house, Sayo/O-Sato, Kanta/
+  Katsuhide, Shigemasa/Shinnosuke). Voices are prose-law-binding.
 - **A3 · Register rules** ⬩F+H — decide the three candidates in
   `01-laws.md` (dream cadence · vague-but-parseable · log-is-the-VN)
   into locked law or rejection.
-- **A4 · T2 + T3 sheets** ⬩F+H — HALF detail each (agendas in their
-  seeds). T2's rock: the reveal scene + the village track + first
-  human combat. T3's rock: THE ORIGIN (his birth name, what he fled,
-  the grave, the buried-truth quest).
-- **A5 · T4 sheet** ⬩F+H — QUARTER detail. The rock: the enemy-lord
-  design cell (office, reason, both-wounds tie) + Katsuhide met.
-- **A6 · T5 sheet** ⬩F+H — FIFTH detail. The rock: the audience-day
-  inverse-rung system + the handover beat.
-- **A7 · T6 sheet** ⬩F — TENTH detail; verify nothing has crept in
-  (the tier stays reserved).
+- **A4 · T2 + T3 sheets** ⬩F+H — ✅ **DONE (2026-07-07, session 109),
+  HALF detail each.** T2: ladder + reveal + village cast (incl. the
+  ordinary pool) + the Tama thread + the first-man death. T3: **THE
+  ORIGIN RELOCKED WARM by the human** (Tahei, a landslide accident;
+  family alive; the Tama + Tahei reunion threads restored from the
+  PRD; the reboot's "grave with his name" origin voided) + reunion
+  staging + the Otsuru spine + the buried-truth ledger.
+- **A5 · T4 sheet** ⬩F+H — ✅ **DONE (2026-07-07, session 109),
+  QUARTER detail.** The enemy = a martial castle-town lord, scavenger
+  in the old chair (the house's own Kuzuhara guilt survives) +
+  Katsuhide met (temple registrar; authored renunciation).
+- **A6 · T5 sheet** ⬩F+H — ✅ **DONE (2026-07-07, session 109), FIFTH
+  detail.** The audience-day inversion (T0 run backwards) + Genemon's
+  handover-and-death + the Kuzuhara↔domain-works rhyme.
+- **A7 · T6 sheet** ⬩F — ✅ **CHECK-PASSED (2026-07-07, session 109),
+  TENTH detail.** Verified reserved; only the ink-thread T3 node
+  reconciled to the origin relock.
 - **A-final · Bible coherence pass** ⬩F — one read end-to-end:
   contradictions, dead links, prose-law conformance of the bible's own
   text, README status ledger current. Then the human reads the bible
