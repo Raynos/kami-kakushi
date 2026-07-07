@@ -119,12 +119,15 @@ function sweep(state: GameState, seen: Set<IntentType>): void {
   const render = mount(root, (i: Intent) => void seen.add(i.type), noopHooks());
   render(state, null);
 
-  const clicked = new Set<HTMLButtonElement>();
+  const clicked = new Set<Element>();
   const clickPass = (): void => {
     for (let pass = 0; pass < 4; pass++) {
-      const buttons = [...document.querySelectorAll<HTMLButtonElement>('button')].filter(
+      // controls are <button>s PLUS role=button travel seals (the HR-7 survey-plan map wires
+      // its SVG nodes as buttons — wireTravel — so the sweep must reach them too).
+      const buttons = [...document.querySelectorAll<HTMLElement>('button, [role="button"]')].filter(
         (b) =>
-          !b.disabled &&
+          !(b instanceof HTMLButtonElement && b.disabled) &&
+          b.getAttribute('aria-disabled') !== 'true' &&
           b.isConnected &&
           !clicked.has(b) &&
           !b.classList.contains('nav-tab') &&
@@ -133,9 +136,9 @@ function sweep(state: GameState, seen: Set<IntentType>): void {
       );
       if (buttons.length === 0) break;
       for (const b of buttons) {
-        if (!b.isConnected || b.disabled) continue;
+        if (!b.isConnected || (b instanceof HTMLButtonElement && b.disabled)) continue;
         clicked.add(b);
-        b.click();
+        b.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       }
       // let the patch path fold in anything a click revealed through UI-local state
       render(state, state);

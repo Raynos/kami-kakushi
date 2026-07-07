@@ -210,50 +210,7 @@ toggle, each reading the same home data through the same selectors the reducer u
 
 ---
 
-### HR-7 🔲 — Estate-map redesign — pick among the live variants (FB-102, ADR-075)
-
-The estate map was **redesigned + diverged** per FB-102 (a bordered "where you are
-now" flavor panel split from a terse click-to-navigate map that hints nothing
-about the next zone). **Seven** working takes (**V5A–V5G**) ship behind the DEV
-toggle for a live pick; the agent self-picked a coherent prod default.
-
-- **Asking for:** ~~which of V5A–V5G ships~~ → **RE-SCOPED (human verdicts,
-  2026-07-06):** A disliked · **C/D/E/F REJECTED and stripped** (not map-like
-  enough / disorienting) · **B & G survive** as the only takes with real 2D
-  what-is-where navigation, held as interim candidates. The human's direction:
-  **a REAL illustrated 2D estate map** that grows per tier and changes with
-  estate improvements — 10 candidate directions are written up in
-  [`docs/plans/fable-2026-07-06-estate-real-map-options.md`](../archive/fable-2026-07-06-estate-real-map-options.md);
-  the human picks 3, each built by a Fable-5 xhigh subagent (ADR-075).
-  Also: the Map tab goes two-column (flavour card | map).
-- **UPDATE (2026-07-06, same day): ALL FIVE picked takes are BUILT and LIVE** —
-  the human picked 1/4/6/8/9 ("I know I said 3 but 5 is great"); five Fable-5
-  xhigh subagents built them in parallel, one module each:
-  - **H · 絵図 survey plan** — title cartouche, terraced parcels, walled
-    compound, north mark + legend + scale bar; U-stage amendments redraw the
-    sheet; rooms stamp their seals.
-  - **I · model board** — a true tilted CSS-3D diorama: raised plates with
-    side-faces, standing cutout scenery, museum plaques, shōgi koma (people =
-    silver koma; YOU = the lone vermillion 主, walks on travel).
-  - **J · cadastral kokudaka** — the survey drawing + a paired 検地帳 register
-    (kanji-numeral seals key rows to parcels); 改 red-seal amendments margin.
-  - **K · the lantern map** — the whole estate etched on one dark plate,
-    revealed by warm lamplight pools per visited node; standing andon lanterns;
-    the gated lamp GUTTERS; rooms light windows in the house.
-  - **L · kamon medallions** — coin-like struck dies with real engraved scenes
-    (reeding, burin hatching), damascened gold-wire roads, stage rings.
-  All five: real move_to travel (click-verified), conditioning gate + reason,
-  fog-of-war (unnamed frontier), per-node labour/foe/people marks, estate-stage
-  + house-room evolution. **How to look:** `pnpm run dev` → Map 地図 tab → DEV
-  panel → Variants → "Estate map" (H–L; B/G remain as interim schematics), or
-  `?map=map-h` … `?map=map-l`.
-- **NARROWED (human, 2026-07-06):** finalists are **H · 絵図 survey plan** and
-  **I · model board** — the two most opposed takes (flat authored sheet vs.
-  tilted 3-D diorama). All five stay live (J/K/L not stripped yet); the human
-  makes the final H-vs-I pick live in the DEV panel.
-- **Verdict:** _(awaiting the human — final pick between H and I)_
-
-> **UI-v2 note (M6, 2026-07-06):** ALL open variant surfaces (HR-2/5/6/7/9)
+> **UI-v2 note (M6, 2026-07-06):** ALL open variant surfaces (HR-2/5/6/9; HR-7 closed 2026-07-07)
 > now render **Andon-Steel-native** — the M1 token flip re-skinned every
 > variant in place (they are token-built; an M6 sweep verified all 14 takes
 > headlessly, zero washi leftovers). Make your picks in the NEW look.

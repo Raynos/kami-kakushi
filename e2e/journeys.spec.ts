@@ -174,8 +174,9 @@ test('repair bind: chop wood, mend the blade, durability rises', async ({ page }
 
   // walk to the woodlot through the REAL map (home paddies → forecourt → woodlot)
   await press(page.locator('.nav-tab', { hasText: '地図' }));
-  await press(page.locator('button.map-move[data-node="gate-forecourt"]'));
-  await press(page.locator('button.map-move[data-node="woodlot-edge"]'));
+  // the survey-plan sheet (HR-7): each node's seal is an SVG travel control, not a <button>
+  await press(page.locator('.map-nav [data-node="gate-forecourt"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="woodlot-edge"]:not([data-locked])'));
   await page.waitForFunction(`window.__qa.state().location === 'woodlot-edge'`);
 
   // chop twice (3 wood each; repair costs 5) — the recovery loop must not strand
@@ -217,8 +218,9 @@ test('quest slice: take it on, do its act, the step marks done', async ({ page }
 
   // the first quest's cheapest act is gather:wood — walk kura → forecourt → woodlot, chop once
   await press(page.locator('.nav-tab', { hasText: '地図' }));
-  await press(page.locator('button.map-move[data-node="gate-forecourt"]'));
-  await press(page.locator('button.map-move[data-node="woodlot-edge"]'));
+  // the survey-plan sheet (HR-7): each node's seal is an SVG travel control, not a <button>
+  await press(page.locator('.map-nav [data-node="gate-forecourt"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="woodlot-edge"]:not([data-locked])'));
   await page.waitForFunction(`window.__qa.state().location === 'woodlot-edge'`);
   await press(page.locator('.nav-tab', { hasText: 'Work' }));
   await press(page.locator('button.verb', { hasText: 'Cut wood' }).first());

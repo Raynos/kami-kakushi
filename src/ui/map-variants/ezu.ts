@@ -1,8 +1,10 @@
-// REAL-map diverge take H · 絵図 EZU SURVEY PLAN — a hand-surveyed Edo estate
-// plan, top-down: paddies as irregular gold-keylined parcels, buildings as
-// roofed footprints with kanji seals, brushed roads, a north mark, a title
-// cartouche. See docs/plans/fable-2026-07-06-estate-real-map-options.md (#1).
-// Built by a dedicated subagent; this module is the take's ONLY file.
+// THE estate map — 絵図 EZU SURVEY PLAN, a hand-surveyed Edo estate plan,
+// top-down: paddies as irregular gold-keylined parcels, buildings as roofed
+// footprints with kanji seals, brushed roads, a north mark, a title cartouche.
+// Born as take H of the HR-7 real-map diverge
+// (docs/plans/fable-2026-07-06-estate-real-map-options.md #1) and picked by the
+// human as the shipped map (2026-07-07, "V7D"); render.ts mounts it behind a
+// signature guard so it repaints only when an input it reads changes.
 //
 // The drawing EVOLVES with the run: U1 mends the kura roof-line, U2 clears the
 // drill-yard scrub, U3 inks the reclaimed shinden parcel, U4 adds the
@@ -1103,6 +1105,18 @@ export function renderMapEzu(
     const wide = kanji.length > 1;
     const bw = wide ? 52 : 32;
     const bh = 30;
+    // an invisible hit-target spanning seal + caption + marks — without it the group's pointer
+    // target has GAPS (seal→caption), so a tap at its centre falls through to the plate rect
+    // (WebKit hit-testing broke the e2e walk) and a finger between glyphs misses the node.
+    g.append(
+      sv('rect', {
+        x: String(sx - Math.max(bw, 84) / 2),
+        y: String(sy - bh / 2 - 6),
+        width: String(Math.max(bw, 84)),
+        height: String(bh + 44),
+        fill: 'transparent',
+      }),
+    );
     const tilt = ((rng(`tilt-${id}`)() - 0.5) * 3).toFixed(2);
     const box = sv('rect', {
       x: String(sx - bw / 2),

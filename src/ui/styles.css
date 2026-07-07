@@ -2804,34 +2804,11 @@ html {
 .market-grant {
   font-size: var(--fs-small);
 }
-/* T0-M4-F4 / F102: the small walkable estate map. The Map splits into (a) the bordered
-   you-are-here FLAVOR card (.map-here) and (b) the terse, hint-free NAVIGATION section (.map-nav)
-   below it — a sibling of the flavor card, holding a subtle label + the click-to-move paths strip. */
+/* T0-M4-F4 / F102 / HR-7: the estate map. The Map splits into (a) the bordered you-are-here
+   FLAVOR card (.map-here) and (b) the 絵図 survey-plan sheet (.map-nav) below it — a sibling of
+   the flavor card. The sheet styles itself (map-variants/ezu.ts injects its own scoped rules). */
 .map-nav {
   margin-top: var(--space-3);
-}
-/* the subtle nav label ("onward 道") — quiet, so the section reads as terse wayfinding, not a menu. */
-.map-nav-label {
-  margin-bottom: var(--space-1);
-}
-.map-moves {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  margin-top: var(--space-1);
-}
-.map-move {
-  text-align: left;
-}
-.map-move.danger {
-  border-color: var(--beni);
-}
-/* a conditioning-locked road reads GREYED + disabled — visible-but-inert, never a dead grey box
-   (its reason sits beneath it, §5.9). The map is a place with locked edges, not a hint menu (F102). */
-.map-move.locked,
-.map-move:disabled {
-  opacity: 0.72;
-  cursor: default;
 }
 /* ── D-114 vendors-as-people: the Map "who's here 衆" list — a talk affordance per present person
    (a category-coloured hanko seal + name + a one-line tell + a Speak button). ── */
@@ -2882,13 +2859,6 @@ html {
 .person-talk.on {
   border-color: var(--rokusho);
 }
-.map-danger {
-  /* raw --beni (#a93b47) is 4.42:1 on the washi-shade button — below AA for this danger glyph.
-     A deeper red (~5.4:1), mirroring the .house-influence-kanji / .grade-* deeper-tone pattern (D-045). */
-  color: #96303c;
-  font-weight: bold;
-}
-
 /* ── D-111 / F89: the HOME + belongings (Inventory tab) — "a dry corner and a bowl" made real.
    A possession reads as an inked keepsake, not a bare menu row: kanji + name head, an ink blurb,
    a quiet comfort badge, and (for a buyable piece) a left-aligned buy cell. Reuses the room-card

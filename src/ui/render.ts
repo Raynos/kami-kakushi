@@ -93,6 +93,7 @@ import {
   reachableFrom,
   skillLevel,
   balance,
+  PEOPLE,
   NPC_NAME,
   NPC_VOICE,
   rungRequirements,
@@ -117,6 +118,10 @@ import {
   saveLogScale,
 } from './ui-prefs';
 import type { Sfx } from './sfx';
+// the SHIPPED estate map — the 絵図 survey-plan sheet, the human-picked winner of the ADR-075
+// real-map diverge (HR-7, 2026-07-07); the losing takes were stripped (zero flag-debt).
+import { renderMapEzu } from './map-variants/ezu';
+import type { MapCtx } from './map-variants/shared';
 import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
@@ -935,11 +940,12 @@ export function mount(
     kanji: HTMLElement;
     blurb: HTMLElement;
     // FB-102 — the Map splits into TWO sections: (a) the bordered you-are-here FLAVOR card above
-    // (card/loc/kanji/blurb), and (b) a terse, hint-free NAVIGATION section below (nav/navLabel/
-    // strip) — a sibling of the flavor card, not nested in it.
+    // (card/loc/kanji/blurb), and (b) the estate map below — the 絵図 survey-plan sheet (the
+    // HR-7 human pick) — a sibling of the flavor card, not nested in it. The sheet is a wholesale
+    // deterministic SVG paint, so `sig` fingerprints every input it reads: an idle tick repaints
+    // NOTHING (TST2), and only a real change (move / reveal / stage / presence) redraws the sheet.
     nav: HTMLElement;
-    navLabel: HTMLElement;
-    strip: HTMLElement;
+    sig: string;
     // ADR-114 — the Map "who's here" section (built ONCE; the person rows reconcile). Hidden (FB-72
     // ghost-box) when no one is present, so an empty node never leaves a framed ghost card.
     whos: HTMLElement;
@@ -1816,58 +1822,35 @@ export function mount(
   /** The reachable-neighbour move buttons (`→ node`, danger ⚠ + the conditioning lock). The Map tab's
    *  navigation (FB-107 — nav's sole home after the IA reorg). Returns null when nowhere is walkable
    *  from here. `keyPrefix` keeps the described-by ids unique. */
-  function moveStrip(state: GameState, keyPrefix: string): HTMLElement | null {
+  /** The navigation context the shipped survey-plan sheet renders from (the shared map shape):
+   *  clicking a node's seal IS the move (the real move_to — no separate "go" button), and a
+   *  conditioning-gated edge carries the visible reason (§5.9), never a dead grey box. */
+  function mapCtx(state: GameState): MapCtx {
     const revealed = new Set(state.unlocked);
-    const moves = reachableFrom(state.location, revealed);
-    if (moves.length === 0) return null;
-    const movesEl = el('div', 'map-moves');
-    for (const n of moves) {
-      const danger = n.dangerRing === true;
-      const gated = danger && skillLevel(state, 'conditioning') < balance.CONDITIONING_GATE_LEVEL;
-      // FB-102 — TERSE, HINT-FREE navigation (ADR-115 / ADR-116). The road onward is just `→ node 漢字`;
-      // clicking it IS the move (no separate "go" button, no destination preview). We give NO hint
-      // about what waits at the next zone — no loot / foe / yield — because the flavor updates on
-      // ARRIVAL. A node behind the conditioning ring reads as a GREYED, disabled road carrying its
-      // unlock reason (§5.9), never a dead grey box: the map is a place with locked edges, not a menu.
-      const btn = el('button', `verb map-move${danger ? ' danger' : ''}${gated ? ' locked' : ''}`);
-      btn.type = 'button';
-      btn.dataset.node = n.id;
-      btn.append(document.createTextNode(`→ ${n.label} `));
-      if (n.kanji) {
-        const k = el('span');
-        k.lang = 'ja';
-        k.textContent = n.kanji;
-        btn.append(k);
-      }
-      // danger as an INK mark, not a filter-skipping ⚠ emoji (ui-design §7); colour is on .map-danger.
-      // lang=ja so a screen reader announces 険 like the destination kanji, not as English (a11y).
-      if (danger) {
-        const mark = el('span', 'map-danger', ' 険');
-        mark.lang = 'ja';
-        btn.append(mark);
-      }
-      btn.disabled = gated;
-      if (gated) {
-        btn.dataset.locked = '1';
-        btn.title = `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`;
-      }
-      stampAct(btn, 'move_to', { to: n.id });
-      btn.addEventListener('click', () => dispatch({ type: 'move_to', to: n.id }));
-      movesEl.append(btn);
-      // the gate reason, VISIBLE (not a hover-only title on a disabled button — ui-design §5.9/§8).
-      // The keyPrefix keeps ids unique if the strip ever renders in more than one place at once.
-      if (gated) {
-        const lock = el(
-          'div',
-          'lock-hint',
-          `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
-        );
-        lock.id = `move-lock-${keyPrefix}-${n.id}`;
-        btn.setAttribute('aria-describedby', lock.id);
-        movesEl.append(lock);
-      }
-    }
-    return movesEl;
+    return {
+      here: state.location,
+      revealed,
+      condOk: skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL,
+      neighbours: reachableFrom(state.location, revealed),
+      move: (id) => dispatch({ type: 'move_to', to: id }),
+      gateReason: `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
+    };
+  }
+  /** Fingerprint of EVERY input the survey sheet reads — location, the revealed/unlocked set
+   *  (which also carries house rooms + people place-gates), the conditioning gate, the estate
+   *  stage, and each mapped person's live presence — so the sheet's wholesale (deterministic)
+   *  repaint fires only on a real change, never on an idle tick (TST2). */
+  function mapSignature(state: GameState): string {
+    const presence = PEOPLE.map((p) =>
+      p.presence === undefined || p.presence(state) ? '1' : '0',
+    ).join('');
+    return [
+      state.location,
+      String(state.estateStage),
+      skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL ? '1' : '0',
+      presence,
+      state.unlocked.join(','),
+    ].join('|');
   }
 
   // ── the interactive intro VN scene (ADR-104 / FB-47) — the dialogue TREE: meet → ask → decide ──
@@ -2567,25 +2550,6 @@ export function mount(
       buildIntroShell(scene);
     }
     reconcileIntro(scene, state);
-  }
-
-  // ── Phase 2 shared strip mount — moveStrip() is a self-contained keyed strip; rather than
-  //    re-key its interleaved button/hint/lock siblings (a structural churn that would break the
-  //    flat .map-moves flex), we build it fresh OFF-DOM and only swap it into the mounted container
-  //    when it actually CHANGED (isEqualNode). An idle re-render sees an identical strip ⇒ zero
-  //    churn on the live pane (the throwaway node never touches the DOM), while a real move rebuilds
-  //    it. Returns whether the strip has any moves (so the caller can hide an empty wrapper). ──
-  function patchStrip(container: HTMLElement, state: GameState, keyPrefix: string): boolean {
-    const strip = moveStrip(state, keyPrefix);
-    if (!strip) {
-      if (container.firstChild) container.textContent = '';
-      return false;
-    }
-    const existing = container.firstElementChild;
-    if (existing && existing.isEqualNode(strip)) return true; // unchanged ⇒ keep the live node
-    container.textContent = '';
-    container.append(strip);
-    return true;
   }
 
   // build ONE labour row (verb + auto-toggle + lock-hint, all present); patch toggles which show +
@@ -4854,9 +4818,7 @@ export function mount(
     patchSellRice(marketRefs.sellPrice, marketRefs.sellBtn, state);
   }
 
-  // build a fresh you-are-here card (used by the DEV-default wholesale path). The incremental path
-  // below builds this shell ONCE and patches it; the moveStrip is mounted via the shared patchStrip
-  // (Phase 2), so it too is zero-churn — swapped only when the reachable set actually changes.
+  // fill the you-are-here card's header (the incremental map shell builds it ONCE, this patches).
   function fillMapHere(
     loc: HTMLElement,
     kanji: HTMLElement,
@@ -4930,61 +4892,14 @@ export function mount(
     // that had opened isn't satisfied), close the conversation so no stale wares/greeting linger.
     const present = peopleHere(state);
     if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
-    // ── the Map body (FB-102 / ADR-115 / ADR-116) — TWO sections: (a) the bordered you-are-here FLAVOR
-    //    card (the immersive current-node description — SHARED across every variant), then (b) a
-    //    terse, hint-free NAVIGATION section below it. The navigation PRESENTATION is a ADR-075
-    //    diverge: A (the terse paths list) is the self-picked prod default and SHIPS; B…G live
-    //    DEV-only behind the variant toggle (ui/dev.ts), all terse/hint-free, click-to-move. The
-    //    DEV branch folds to dead code in prod (tree-shaken) and `dev` is undefined in prod AND
-    //    tests, so only a live DEV session takes it; prod/tests use the incremental path below. ──
-    if (__DEV_TOOLS__ && dev) {
-      mapRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
-      mapPane.textContent = '';
-      mapPane.append(el('h2', undefined, 'The estate 地図'));
-      const here = getNode(state.location);
-      // (a) the SHARED you-are-here flavor card — the SAME in every variant (only the nav differs).
-      const card = el('div', 'map-here frame');
-      const h = el('div', 'rung-now');
-      const loc = el('span');
-      const k = el('span', 'house-influence-kanji');
-      k.lang = 'ja';
-      h.append(loc, k);
-      fillMapHere(loc, k, here);
-      card.append(h);
-      // ADR-146 — the DEV path composes the same standing discovery hint as prod (below), with
-      // the story-switcher take applied via the hint's flavor key.
-      const devHint = nodeHint(state, state.location);
-      const devHintText =
-        devHint === null
-          ? ''
-          : devHint.key !== undefined
-            ? dev.subFlavor(devHint.key, devHint.text)
-            : devHint.text;
-      card.append(
-        el('div', 'skill-blurb', devHintText === '' ? here.blurb : `${here.blurb} ${devHintText}`),
-      );
-      mapPane.append(card);
-      // (b) the navigation section — the selected DEV variant renders its presentation INTO `nav`;
-      //     if none is selected (default A), fall through to the terse hint-free paths list.
-      const nav = el('div', 'map-nav');
-      if (!dev.renderVariant('map', nav, state, dispatch)) {
-        const strip = moveStrip(state, 'work');
-        if (strip) nav.append(el('div', 'lock-hint map-nav-label', 'onward 道'), strip);
-      }
-      mapPane.append(nav);
-      // ADR-114 who's-here (DEV-default parity with prod, §6.5) — a fresh list each wholesale render.
-      if (present.length > 0) {
-        const whos = el('div', 'whos-here');
-        whos.append(el('div', 'rung-now', 'Who’s here 衆'));
-        const list = el('div', 'whos-list');
-        fillWhosHere(list, present);
-        whos.append(list);
-        mapPane.append(whos);
-      }
-      return;
-    }
-    // prod / test — build the h2 + flavor card + nav section shell ONCE (FB-81), patch text in place.
-    // The moveStrip is mounted via the shared patchStrip (Phase 2), so it's zero-churn on an idle tick.
+    // ── the Map body (FB-102 / ADR-115 / ADR-116 / HR-7) — TWO sections: (a) the bordered
+    //    you-are-here FLAVOR card (the immersive current-node description), then (b) the estate
+    //    map itself: the 絵図 SURVEY-PLAN sheet, the human-picked winner of the ADR-075 real-map
+    //    diverge (HR-7, 2026-07-07 — the losing takes are stripped, zero flag-debt). The sheet
+    //    carries its own what-is-where reads (per-node labour/foe/people marks, fog frontier,
+    //    conditioning-gated edges greyed WITH the visible reason) and moves by clicking a node's
+    //    seal (the real move_to). It repaints wholesale but DETERMINISTICALLY (seeded jitter), so
+    //    it mounts behind the mapSignature guard: an idle tick repaints nothing (TST2). ──
     if (!mapRefs) {
       mapPane.append(el('h2', undefined, 'The estate 地図'));
       // (a) the bordered you-are-here FLAVOR card (FB-102): the immersive current-node description.
@@ -4997,12 +4912,8 @@ export function mount(
       const blurb = el('div', 'skill-blurb');
       card.append(h, blurb);
       mapPane.append(card);
-      // (b) the terse, hint-free NAVIGATION section (FB-102) — a SIBLING of the flavor card. A subtle
-      // label + the click-to-move paths strip; NO destination preview (the flavor updates on arrival).
+      // (b) the survey sheet's mount — a SIBLING of the flavor card, filled behind the sig guard.
       const nav = el('div', 'map-nav');
-      const navLabel = el('div', 'lock-hint map-nav-label', 'onward 道');
-      const strip = el('div', 'map-strip');
-      nav.append(navLabel, strip);
       mapPane.append(nav);
       // ADR-114 — the who's-here section, a sibling of the flavor card (built ONCE; the person rows
       // reconcile). Hidden below when no one is present (FB-72 ghost-box — no empty framed card).
@@ -5011,7 +4922,7 @@ export function mount(
       const whosList = el('div', 'whos-list');
       whos.append(whosList);
       mapPane.append(whos);
-      mapRefs = { card, loc, kanji, blurb, nav, navLabel, strip, whos, whosList };
+      mapRefs = { card, loc, kanji, blurb, nav, sig: '', whos, whosList };
     }
     const r = mapRefs;
     const here = getNode(state.location);
@@ -5027,9 +4938,14 @@ export function mount(
           ? dev.subFlavor(hint.key, hint.text)
           : hint.text;
     setText(r.blurb, hintText === '' ? here.blurb : `${here.blurb} ${hintText}`);
-    // the move strip is now zero-churn too (Phase 2): patchStrip only swaps it when the reachable
-    // set actually changed, so an idle re-render leaves the live buttons (and their focus) untouched.
-    toggle(r.nav, patchStrip(r.strip, state, 'work'));
+    // (b) the survey sheet — repaint ONLY when an input it reads changed (the sig guard): a move,
+    // newly-surveyed ground, the conditioning gate, an estate stage, or a person arriving/leaving.
+    const sig = mapSignature(state);
+    if (sig !== r.sig) {
+      r.sig = sig;
+      r.nav.textContent = '';
+      renderMapEzu(r.nav, mapCtx(state), state, dispatch);
+    }
     // ADR-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
     toggle(r.whos, fillWhosHere(r.whosList, present));
   }

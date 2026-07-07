@@ -360,7 +360,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(seen).toContainEqual({ type: 'do_activity', activityId: 'farm_paddy' });
   });
 
-  it('a map path button dispatches move_to', () => {
+  it('a map node dispatches move_to (the survey-plan sheet — click the seal to walk)', () => {
     const { seen, render } = spyMount();
     const base = createInitialState(1);
     render(
@@ -373,7 +373,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       null,
     );
     openTab('地図');
-    expect(clickText('Home paddies')).toBe(true); // the → Home paddies move
+    // the sheet's nodes are SVG travel controls (role=button), not <button>s — click via data-node.
+    const node = root.querySelector<HTMLElement>(
+      '.map-pane [data-node="home-paddies"]:not([data-locked])',
+    );
+    expect(node).not.toBeNull();
+    node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen.some((i) => i.type === 'move_to')).toBe(true);
   });
 
@@ -479,16 +484,14 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
-    // the default Work tab carries NO move strip (FB-107 — nav's single home is Map).
+    // the default Work tab carries NO travel controls (FB-107 — nav's single home is Map).
     expect(root.querySelector('.actions .walk-on')).toBeNull();
-    expect(root.querySelector('.actions .map-move')).toBeNull();
-    // open the Map tab — the move buttons live there, and moving from Map still works.
+    expect(root.querySelector('.actions [data-node]')).toBeNull();
+    // open the Map tab — the survey sheet's nodes live there, and moving from Map still works.
     openTab('地図');
-    const moveBtn = [...root.querySelectorAll<HTMLButtonElement>('.map-pane .map-move')].find((b) =>
-      (b.textContent ?? '').includes('Home paddies'),
-    );
-    expect(moveBtn).toBeTruthy();
-    moveBtn!.click();
+    const node = root.querySelector<HTMLElement>('.map-pane [data-node="home-paddies"]');
+    expect(node).not.toBeNull();
+    node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
   });
 
@@ -1730,21 +1733,21 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(churnOnReRender(logLines, s, render)).toEqual([]); // idle ticks churn nothing
   });
 
-  it('renderMap — the you-are-here card survives a re-render (identity; moveStrip is Phase 2)', () => {
+  it('renderMap — the you-are-here card + survey sheet survive a re-render (the sig guard)', () => {
     const render = mount(root, () => {}, noopHooks());
     const s = awake(['room-gate-forecourt', 'room-home-paddies'], { location: 'gate-forecourt' });
     render(s, null);
     openTab('地図');
     const card = root.querySelector<HTMLElement>('.map-pane .map-here')!;
     const blurb = card.querySelector<HTMLElement>('.skill-blurb')!;
-    const move = root.querySelector<HTMLElement>('.map-pane .map-move')!;
+    const node = root.querySelector<HTMLElement>('.map-pane [data-node="home-paddies"]')!;
     expect(card).not.toBeNull();
     render(s, s);
-    // the CARD frame + its header/blurb persist — and now (Phase 2) the move strip is zero-churn too:
-    // the same move button survives an idle re-render (patchStrip only swaps it when it changes).
+    // the CARD frame + its header/blurb persist — and the survey sheet is zero-churn behind the
+    // mapSignature guard: the SAME travel node survives an idle re-render (no wholesale repaint).
     expect(root.querySelector('.map-pane .map-here')).toBe(card);
     expect(card.querySelector('.skill-blurb')).toBe(blurb);
-    expect(root.querySelector('.map-pane .map-move')).toBe(move);
+    expect(root.querySelector('.map-pane [data-node="home-paddies"]')).toBe(node);
     expect(card.isConnected).toBe(true);
     expect(churnOnReRender(root.querySelector<HTMLElement>('.map-pane')!, s, render)).toEqual([]);
   });
@@ -2025,7 +2028,7 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
 // terse, HINT-FREE navigation section. You move by CLICKING a road (no separate "go" button), and
 // no unvisited node leaks a loot/foe/reward hint (the flavor updates on ARRIVAL). The prod DEFAULT
 // (map-a) is the terse paths list — these tests drive the SHIPPED path (no DEV harness).
-describe('Estate map — flavor + terse hint-free navigation (F102, prod default)', () => {
+describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7 pick)', () => {
   let root: HTMLElement;
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -2061,7 +2064,7 @@ describe('Estate map — flavor + terse hint-free navigation (F102, prod default
     return { seen, render: mount(root, (i) => seen.push(i), noopHooks()) };
   }
 
-  it('renders the flavor card (current-node blurb) + a SEPARATE terse nav; a road click walks there', () => {
+  it('renders the flavor card (current-node blurb) + the survey sheet; a seal click walks there', () => {
     const { seen, render } = spyRender();
     render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
     openMapTab();
@@ -2071,40 +2074,47 @@ describe('Estate map — flavor + terse hint-free navigation (F102, prod default
     expect(nav).not.toBeNull();
     // (a) the flavor carries the CURRENT node's immersive description…
     expect(flavor.textContent).toContain(getNode('gate-forecourt').blurb);
-    // …and (b) the nav is a SIBLING section, not nested inside the flavor card.
+    // …and (b) the sheet is a SIBLING section, not nested inside the flavor card.
     expect(flavor.contains(nav)).toBe(false);
-    // click-to-move: a terse road button walks there (reuses move_to; no separate go button).
-    const road = nav.querySelector<HTMLButtonElement>('.map-move[data-node="home-paddies"]')!;
-    expect(road).not.toBeNull();
-    road.click();
+    // the sheet actually painted: the title cartouche is on the sheet.
+    expect(nav.textContent).toContain('黒沢家領内絵図');
+    // click-to-move: a node's seal walks there (the real move_to; no separate go button).
+    const seal = nav.querySelector<HTMLElement>('[data-node="home-paddies"]:not([data-locked])')!;
+    expect(seal).not.toBeNull();
+    seal.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
   });
 
-  it('the nav gives NO next-zone hint — no destination blurb, no loot/foe preview', () => {
+  it('unsurveyed ground stays UNNAMED (reveal-as-plot) and no destination blurb leaks', () => {
     const { render } = spyRender();
     render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
     openMapTab();
     const text = root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
-    // the destination's blurb never leaks into navigation (it updates on ARRIVAL, ADR-116)…
+    // the destination's blurb never leaks into the sheet (it updates on ARRIVAL, ADR-116)…
     expect(text).not.toContain(getNode('home-paddies').blurb);
-    // …and there is no loot/foe preview of the next zone (the old default tagged yields + "a foe stirs").
-    expect(text).not.toContain('rice');
     expect(text).not.toContain('a foe stirs');
+    // …and the frontier past surveyed ground is a blank 未測 wash — an unrevealed node is
+    // NEVER named on the sheet (the woodlot sits one step past the revealed forecourt).
+    expect(text).toContain('未測');
+    expect(text).not.toContain(getNode('woodlot-edge').label);
   });
 
-  it('a conditioning-locked road is shown GREYED + disabled with its reason (not hidden)', () => {
-    const { render } = spyRender();
+  it('a conditioning-locked node is GREYED + inert with its reason VISIBLE (not hidden)', () => {
+    const { seen, render } = spyRender();
     render(
       at('home-paddies', ['room-home-paddies', 'room-gate-forecourt', 'room-near-satoyama']),
       null,
     );
     openMapTab();
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
-    const locked = nav.querySelector<HTMLButtonElement>('.map-move[data-node="near-satoyama"]')!;
+    const locked = nav.querySelector<HTMLElement>('[data-locked][data-node="near-satoyama"]')!;
     expect(locked).not.toBeNull();
-    expect(locked.disabled).toBe(true);
     expect(locked.dataset.locked).toBe('1');
-    // the reason is VISIBLE (a lock-hint beneath it), never a dead grey box.
+    expect(locked.getAttribute('aria-disabled')).toBe('true');
+    // inert: clicking a gated seal walks nowhere.
+    locked.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(seen.some((i) => i.type === 'move_to')).toBe(false);
+    // the reason is VISIBLE on the sheet (the 険 caption), never a dead grey box.
     expect(nav.textContent).toContain(`Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`);
   });
 });

@@ -1,8 +1,8 @@
-// Shared plumbing for the REAL-map diverge variants (HR-7 re-scope, the
-// fable-2026-07-06-estate-real-map-options.md plan). Each variant lives in its
-// OWN module in this directory (one Fable-5 xhigh subagent each — disjoint
-// files, zero merge conflicts) and is imported ONLY by src/ui/dev.ts, so the
-// whole directory tree-shakes out of prod with the DEV harness.
+// Shared plumbing for the estate-map sheet (born as the HR-7 REAL-map diverge's
+// shared layer, fable-2026-07-06-estate-real-map-options.md). The diverge is
+// RESOLVED (human pick, 2026-07-07): ezu.ts — the 絵図 survey plan — ships as
+// THE prod map (imported by src/ui/render.ts), and the losing takes were
+// stripped (ADR-075 zero flag-debt). This module now ships in prod with it.
 import type { GameState, Intent } from '../../core';
 import { canMove, getNode, MAP_NODES } from '../../core';
 
