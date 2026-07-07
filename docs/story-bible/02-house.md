@@ -60,16 +60,23 @@ truth is found and WRITTEN, the house cannot complete itself** (kernel
 every name distinguishable at a glance in a log line.
 
 
-**THE RUIN (human, 2026-07-07 — direction locked; details with the tier
-sheets):** the family lives in a barely-maintained GUEST HOUSE at the
-edge of its own compound; the MAIN HOUSE — a multi-building,
-multi-wing complex (outer domains → wings → inner domain → center) —
-is in RUINS. The compound was once a jin'ya-class seat, the
-administrative almost-castle of its region; today's village is the
-shrunken remnant of the machi that served it. The game's estate-build
-IS the restoration, tier by tier: T0 looms-but-locked · T1 the outer
-domain + first wing (~1/3; the shoin restored LAST, for Shigemasa's
-one scene) · T2 the second wing + gatehouse · T3 the inner domain
-opens · T4–T5 the center + the audience hall (where the T5
-audience-days happen). A strong candidate home for the BURIED TRUTH
-(Genemon's silver) is somewhere in the sealed parts of the ruin.
+**THE RUIN & THE GUEST-HOUSE TWIST (human, 2026-07-07 — direction
+locked; zone anatomy under design):** the family lives in what everyone
+— the household, the log, the player — calls the main house. **It is
+the GUEST HOUSE of the glorious past**: a grand guest residence with
+its own wings, segments, outer and inner areas — large enough to fool
+a newcomer, because the house's decline is so total that its shrunken
+present reads as a whole world. The TRUE main house — the ruined
+jin'ya-class compound (outer domain → wings → inner domain → center /
+audience hall) — looms at the edges from T0, locked and unexplained.
+The REVEAL lands ~T2 (village rumor + the compound's old plans + one
+Toku past-tense line): what you earned your way into was the guest
+house; the real restoration now begins. Functions the guest house had
+COMPRESSED into itself migrate back out as the compound is restored,
+tier by tier — and in T5 the bakufu's men are lodged in the guest
+house: the family hosts power in the rooms it once hid in. The game's
+estate-build IS this restoration. The village the player meets in T2
+is the shrunken remnant of the machi that served the old seat — and
+says so in rumor. The BURIED TRUTH (Genemon's silver) is SEALED in the
+ruin's inner domain (human-locked): the restoration arc is the mainline
+quest's road, reachable ~T3.

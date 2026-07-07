@@ -34,27 +34,35 @@ expeditionary → town-taker → steward → the house itself.*
   machi that served it — and the village says so, in rumor and flavor.
 - **The home base grows EVERY tier** — not a T5 bullet; a global rule
   (world sheet).
-- **Rungs ALWAYS name standing within the house/estate.** Outward doings
-  get titles too — via the ALTERNATING pattern drafted below (odd rungs
-  = house title, even rungs = the outside doing) — OR as a parallel
-  title-pair shown beside the house rung. WHICH SYSTEM: open fork.
+- **Rungs ALTERNATE (human-locked):** every other rung you are INSIDE
+  the estate — repairing, growing, strengthening — and every other rung
+  you are OUTSIDE, increasing the house's strength in the world. In
+  **T2/T3 the alternation is a HARD LOCK** (human-locked gimmick): an
+  inside rung locks the world out (T0/T1 map only — forced estate
+  actions/skills/levelling); an outside rung locks the estate closed
+  until the objective is done. **T4 drops the gimmick** — free travel
+  everywhere from then on. (The village/origin/town reputation tracks
+  stay fully parallel and separate from rungs.) Mechanics ADR at build
+  time.
 - **T5 terminology:** the correct unit is the DOMAIN (han) — a lord's
   castle town + all its surrounding lands. "Province" retired.
 
-### T0 · The Estate — the household (1780) — unchanged from v2 except the setting
+### T0 · The Estate — the household (1780) — v2 rungs stand; the setting re-read
 
-As v2 (rungs R0 man-from-the-weir → R7 the named hand; zones as listed)
-— with the RUIN canon behind it: the "estate" the player works is the
-guest house + yards at the edge of a ruined compound. The ruined main
-house LOOMS in T0 — visible, locked, wrong — and is not entered.
+Rungs and zones as v2 (R0 man-from-the-weir → R7 the named hand) — but
+the setting carries the GUEST-HOUSE TWIST (02-house.md): everything the
+player (and the log) calls "the main house" in T0–T1 is the grand guest
+house of the old seat. The RUINED true compound looms at the edges —
+visible, locked, unexplained, not yet even understood as the former
+main house.
 
 ### T1 · The Estate — the land & the first third of the house (1781–82)
 
 Starts: the named hand sent out with the crews — terraces, woodlot,
-works. But the tier's arc is the MAIN HOUSE: the crews begin clearing
-the ruin's OUTER DOMAIN and first wing, and the ladder is the slow
-earning of the right to work — then walk — then be trusted inside it.
-By tier's end he has access to roughly 1/3 of the compound. Ends: the
+works. But the tier's arc is the MAIN HOUSE: the ladder is the slow
+earning of the right to work — then walk — then be trusted inside
+"the main house" (in truth the grand guest house's inner wings). By
+tier's end he has access to roughly a third of it. Ends: the
 register scene IN THE ROOM HE RESTORED — the shoin is the first room of
 the main house brought back, and the dying lord's only scene happens
 inside it: Shigemasa's last entry, the unstruck line, the seam. Other
@@ -73,17 +81,22 @@ R7 **The registered man** (the restored shoin; Shigemasa's last entry).
 **Zones:** the Terraced paddies · the full Woodlot + charcoal clamp ·
 the Weir & flood-works (the OLD BREACH) · the Kura interior · the
 Workshops · the Boundary stones & far fields · the Family plot — and
-the RUIN: the Outer domain (walls, gates, courts) · the East wing
-(cleared room by room) · the Shoin (restored last, for the scene).
+the "main house" (the guest house's) inner reaches: the East wing
+(cleared room by room) · the West wing (closed rooms — Katsuhide's
+things) · the inner garden · the Shoin (restored last, for the scene).
+The true compound stays locked scenery.
 
 ### T2 · The Valley — lordless (1784)
 
 Starts: the house's name in his mouth — a regency's messenger to a
 village that watches. Ends: **the yard-officer** (the regent's-right-
 hand title is DEFERRED to T5 — too early here, human redline). The
-house and staff GROW through the tier: new hires under him, more
-buildings repaired (the second wing; the gatehouse), the compound
-visibly waking — and the village rumors it: "that yard was a town once."
+house and staff GROW through the tier: new hires under him, and THE REVEAL lands early in the tier (village rumor + the
+compound's old plans + one Toku past-tense line): what he earned his
+way into was the GUEST HOUSE — the true main house is the ruin. The
+real restoration begins (the outer domain; the gatehouse), the map
+itself re-labels its zones, and the village rumors it: "that yard was
+a town once."
 *Theme: carrying a diminished name in public while the house grows
 bones again.* Main-quest work in BOTH arenas: the village's troubles
 (the bandit camp is the valley's trouble made playable) AND the
