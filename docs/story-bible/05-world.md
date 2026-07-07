@@ -26,13 +26,17 @@ story mechanism. Canonical cast entries live in
 
 - **The six-season calendar (build-cutting; ADR at build time):** game
   time shows only the DAY OF THE WEEK — the month/year counter is
-  hidden. The year is SIX rotating seasons, each a short block (~three
-  repeating weeks): **Winter → New Year → Spring → Summer → Bon →
-  Autumn**, rotating cleanly. Nodes carry per-season flavor;
-  season-specific actions, content, and enemies exist; unique
-  characters can appear in a specific season because the season sticks
-  around (Iori lodges in New Year and Bon). Time-skips at tier seams
-  ride the same wheel.
+  hidden. The year is SIX rotating seasons, each a short block:
+  **Winter → New Year → Spring → Summer → Bon → Autumn**, rotating
+  cleanly. **Season change is a MANUAL action with a per-season VN
+  overlay** — a season is a container filled at the player's pace.
+  **Season-exit events:** a season may hold an exit gate (Autumn cannot
+  end unreckoned — the nengu), and **the seasonal judge rides every
+  season exit** (the house's standing re-assessed in the season-change
+  ceremony). Nodes carry per-season flavor; season-specific actions,
+  content, enemies, and STALL STOCK exist; unique characters can appear
+  in a specific season because the season sticks around (Iori lodges in
+  New Year and Bon). Time-skips at tier seams ride the same wheel.
 - **Zone growth:** new zones unlock rung by rung within each tier —
   incremental, building on each other, never dumped at tier start.
 - **The home base grows EVERY tier** — the estate expands and repairs
