@@ -34,6 +34,7 @@ import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef } from './content/activities';
 import { PEOPLE, type NodePerson } from './content/people';
 import { isUnlocked } from './unlock';
+import { hiddenActivityIds } from './discovery';
 import { skillLevel } from './skills';
 
 /** hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1). */
@@ -163,9 +164,11 @@ export interface LabourOption {
  *  (`activity.area`), so only the current node's labours are listed. Walk (`move_to`) to work. */
 export function availableLabours(state: GameState): LabourOption[] {
   const out: LabourOption[] = [];
+  const hidden = hiddenActivityIds(state); // ADR-146: undiscovered node actions don't exist yet
   for (const a of ACTIVITIES) {
     if (a.area !== state.location) continue; // ← spatial: only this node's activities
     if (!isUnlocked(state, a.surface)) continue;
+    if (hidden.has(a.id)) continue;
     if (a.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL) {
       out.push({
         activity: a,
@@ -182,6 +185,8 @@ export function availableLabours(state: GameState): LabourOption[] {
 export function canDoActivity(state: GameState, activity: ActivityDef): boolean {
   if (activity.area !== state.location) return false; // ← spatial: must be at the activity's node
   if (!isUnlocked(state, activity.surface)) return false;
+  if (hiddenActivityIds(state).has(activity.id)) return false; // ADR-146: not found yet
+
   if (activity.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL)
     return false;
   return true;

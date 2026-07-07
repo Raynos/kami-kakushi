@@ -19,8 +19,11 @@ export const APP_ID = 'kami-kakushi' as const;
  *  v7 = DEEP HOUSING (ADR-111 / FB-89): adds `belongings` (the ids of BOUGHT comfort furniture for the
  *  home). Additive — an old save defaults it `[]` (owns no furniture; the granted mat + bowl are
  *  derived from the home surface, not stored, so they back-reveal for any R1+ save).
+ *  v9 = EMERGENT NODE DISCOVERY (ADR-146): adds the `discovered` write-once latch +
+ *  `discoveryProgress` attempt counters, and the `discovery` RNG stream cursor. Additive — an old
+ *  save has found nothing yet (both default empty; the cursor hydrates 0).
  *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain. */
-export const SCHEMA_VERSION = 8 as const;
+export const SCHEMA_VERSION = 9 as const;
 
 /** FB-160/FB-161 (human, 2026-07-06): DURABLE log history (story/chat/progress) is
  *  UNBOUNDED — the whole point of the log is a memory that goes far, far back; a

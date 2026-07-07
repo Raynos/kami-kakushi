@@ -189,6 +189,8 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'rung'
     | 'rungReqs'
     | 'estateStage'
+    | 'discovered'
+    | 'discoveryProgress'
     | 'autoActivity'
     | 'autoRake'
     | 'equippedWeapon'
@@ -267,6 +269,13 @@ export function validateState(rawState: unknown): ValidateResult {
     // the current rung restarts -- the same deliberate default as the v7->v8 migration).
     rungReqs: isObject(base.rungReqs) ? (base.rungReqs as GameState['rungReqs']) : {},
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
+    // ── emergent node discovery (v9, additive; ADR-146): the write-once latch + attempt
+    // counters. Absent (any pre-discovery save) → empty (found nothing yet — the correct fresh
+    // default); malformed → empty. Matches the v8→v9 migration.
+    discovered: Array.isArray(base.discovered) ? (base.discovered as readonly string[]) : [],
+    discoveryProgress: isObject(base.discoveryProgress)
+      ? (base.discoveryProgress as GameState['discoveryProgress'])
+      : {},
     // ── in-flight automation is NOT restored on load (FB-32) ──────────────────────────────
     // A loaded save starts IDLE: the "currently auto-doing X" targets (auto-labour,
     // auto-rake, auto-fight) reset to their idle value regardless of what was persisted, so

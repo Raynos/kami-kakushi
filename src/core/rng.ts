@@ -11,7 +11,7 @@
 // Pure: no Math.random, no Math.pow/exp/log/trig (integer/BigInt only). The renderer
 // never calls this; all randomness flows through here and lives in GameState.
 
-export type RngStream = 'combat' | 'loot' | 'seasonal' | 'worldgen';
+export type RngStream = 'combat' | 'loot' | 'seasonal' | 'worldgen' | 'discovery';
 
 export interface Rng {
   readonly seed: number;
@@ -28,6 +28,7 @@ const STREAM_SALT: Record<RngStream, bigint> = {
   loot: 0x13198a2e03707344n,
   seasonal: 0xa4093822299f31d0n,
   worldgen: 0x082efa98ec4e6c89n,
+  discovery: 0x452821e638d01377n,
 };
 
 function mix64(x: bigint): bigint {
@@ -48,7 +49,7 @@ function rawAt(seed: number, stream: RngStream, cursor: number): bigint {
 export function createRng(seed: number): Rng {
   return {
     seed: seed >>> 0,
-    cursors: { combat: 0, loot: 0, seasonal: 0, worldgen: 0 },
+    cursors: { combat: 0, loot: 0, seasonal: 0, worldgen: 0, discovery: 0 },
   };
 }
 

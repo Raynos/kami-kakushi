@@ -1,17 +1,18 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 8,
+    "schemaVersion": 9,
     "rng": {
       "seed": 20260626,
       "cursors": {
         "combat": 747,
         "loot": 5,
         "seasonal": 0,
-        "worldgen": 0
+        "worldgen": 0,
+        "discovery": 0
       }
     },
     "clock": {
@@ -2192,6 +2193,8 @@
     "rung": "R5",
     "rungReqs": {},
     "estateStage": 0,
+    "discovered": [],
+    "discoveryProgress": {},
     "autoActivity": null,
     "autoRake": false,
     "equippedWeapon": "carrying_pole",

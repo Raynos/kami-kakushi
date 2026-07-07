@@ -65,6 +65,19 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
     const { rungMeter: _dropped, ...rest } = s as Record<string, unknown>;
     return { ...rest, rungReqs: {} };
   },
+  // v8 -> v9 (EMERGENT NODE DISCOVERY, ADR-146): additively hydrate the `discovered` latch +
+  // `discoveryProgress` counters (an old save has found nothing), and give the one seeded RNG its
+  // new 'discovery' stream cursor at 0 (the cursors record predates the stream, so spreading the
+  // default in keeps every existing stream's exact position).
+  8: (s) => {
+    const st = s as { rng?: { seed?: number; cursors?: Record<string, number> } };
+    return {
+      ...(s as object),
+      discovered: [],
+      discoveryProgress: {},
+      rng: { ...st.rng, cursors: { discovery: 0, ...st.rng?.cursors } },
+    };
+  },
 };
 
 export function migrate(

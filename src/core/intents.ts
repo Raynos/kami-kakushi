@@ -16,6 +16,7 @@ import {
 } from './state';
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
+import { discoveryPass } from './discovery';
 import { advanceClock } from './step';
 import { clamp } from './math';
 import {
@@ -572,6 +573,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // multi-source; woodcut/forage carry no deedSource and bank nothing; no-op in Phase 1).
       next = bankEstateDeed(next, act.deedSource);
       for (const res of Object.keys(gained)) next = applyProgressEvent(next, `gather:${res}`);
+      // ADR-146 — a repeat attempt at this node's work can surface a hidden discovery (the
+      // seeded repeat-action roll; a no-op when nothing here watches this activity).
+      next = discoveryPass(next, { kind: 'activity', activityId: act.id });
       next = advanceClock(next, TICKS_PER_ACT);
       break;
     }
@@ -957,6 +961,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = applyRewards(next, {
         log: [{ channel: 'narration', text: dest.blurb, voice: 'narrator', ephemeral: true }],
       });
+      // ADR-146 — arriving can stumble onto a hidden discovery (the seeded visit roll; a no-op
+      // when this node has no visit-triggered discovery).
+      next = discoveryPass(next, { kind: 'visit' });
       break;
     }
     case 'ascend': {

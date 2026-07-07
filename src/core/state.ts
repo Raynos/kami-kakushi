@@ -164,6 +164,14 @@ export interface GameState {
   /** Kura-works PURCHASE stage U0…U4 (the coin upgrade ladder; ADR-098/ADR-107). The narrative
    *  CONDITION ladder E0–E5 is a SEPARATE axis (docs only). Flavour, not a sim; PRD §2.17. */
   readonly estateStage: number;
+  /** Write-once DISCOVERY latch (ADR-146, mirrors `unlocked`): ids of node discoveries the player
+   *  has found, in found order. Permanent ratchet — never cleared, survives ascension.
+   *  SCHEMA_VERSION 9. */
+  readonly discovered: readonly string[];
+  /** Per-discovery qualifying-attempt counters (ADR-146): drives the seeded pity roll AND the
+   *  tightening blurb hint. Plain counts (the roll itself rides the 'discovery' RNG stream).
+   *  SCHEMA_VERSION 9. */
+  readonly discoveryProgress: Readonly<Record<string, number>>;
   /** The tab-open auto-repeat labour target, or null (FU23). */
   readonly autoActivity: ActivityId | null;
   /** Auto-repeat the R0 rake (the meta verb has no ActivityId). Additive (default false); clears
@@ -225,6 +233,8 @@ export function createInitialState(seed: number): GameState {
     rung: 'R0',
     rungReqs: {},
     estateStage: 0,
+    discovered: [],
+    discoveryProgress: {},
     autoActivity: null,
     autoRake: false,
     equippedWeapon: 'carrying_pole',

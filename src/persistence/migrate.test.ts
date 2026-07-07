@@ -103,9 +103,29 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     expect(v7.belongings).toEqual([]); // v6→v7: the belongings store
   });
 
-  it('a current (v8) save is unchanged by the chain', () => {
-    const s = { schemaVersion: 8 };
-    expect(migrate(s, 8)).toBe(s); // already at target => identity
+  it('a current (v9) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 9 };
+    expect(migrate(s, 9)).toBe(s); // already at target => identity
+  });
+
+  it('v8 → v9 (ADR-146): discovery latch + counters hydrate empty; the rng grows its stream', () => {
+    const v8 = {
+      schemaVersion: 8,
+      rung: 'R3',
+      rng: { seed: 99, cursors: { combat: 4, loot: 2, seasonal: 0, worldgen: 1 } },
+    };
+    const v9 = migrate(v8, 8, 9) as Record<string, unknown>;
+    expect(v9.discovered).toEqual([]); // an old save has found nothing yet
+    expect(v9.discoveryProgress).toEqual({});
+    // the new stream cursor hydrates 0; every EXISTING stream keeps its exact position
+    expect((v9.rng as { cursors: Record<string, number> }).cursors).toEqual({
+      discovery: 0,
+      combat: 4,
+      loot: 2,
+      seasonal: 0,
+      worldgen: 1,
+    });
+    expect(v9.rung).toBe('R3'); // everything earned rides along untouched
   });
 
   it('v7 → v8 (FB-121): rungMeter drops, rungReqs hydrates empty; nothing else moves', () => {

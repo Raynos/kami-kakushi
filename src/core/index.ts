@@ -234,6 +234,18 @@ export { isUnlocked, unlockedSurfaces, revealPass } from './unlock';
 export { SURFACES, SURFACE_IDS } from './content/surfaces';
 export type { Surface, SurfaceKind } from './content/surfaces';
 
+// ADR-146 — emergent node discovery (the reveal engine at finer grain)
+export {
+  isDiscovered,
+  hiddenActivityIds,
+  effectiveChance,
+  discoveryPass,
+  nodeHint,
+} from './discovery';
+export type { DiscoveryEvent } from './discovery';
+export { DISCOVERIES, getDiscovery } from './content/discoveries';
+export type { DiscoveryDef, DiscoveryId, DiscoveryTrigger } from './content/discoveries';
+
 export { applyRewards } from './rewards';
 export type { RewardBundle } from './rewards';
 
