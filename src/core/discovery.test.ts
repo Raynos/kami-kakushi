@@ -83,6 +83,25 @@ describe('discoveryPass (ADR-146 Phase 1)', () => {
     expect(sure.discovered).toContain(VISIT_DEF.id);
   });
 
+  it('the minAttempts floor: no roll (and no cursor movement) until the floor is paid', () => {
+    // Even at chance 1 a floored def cannot pop early — the first `minAttempts` acts only count.
+    const FLOORED: DiscoveryDef = {
+      ...VISIT_DEF,
+      id: 'disc-test-floored',
+      minAttempts: 3,
+    };
+    let s = at('kura');
+    for (let i = 1; i <= 3; i++) {
+      s = discoveryPass(s, { kind: 'visit' }, [FLOORED]);
+      expect(s.discovered).toEqual([]); // still counting, never rolling…
+      expect(s.rng.cursors.discovery).toBe(0); // …and the stream never moves during the floor
+      expect(s.discoveryProgress[FLOORED.id]).toBe(i);
+    }
+    s = discoveryPass(s, { kind: 'visit' }, [FLOORED]); // attempt 4 — the first real roll
+    expect(s.discovered).toContain(FLOORED.id); // chance 1 latches on it
+    expect(s.rng.cursors.discovery).toBe(1);
+  });
+
   it('is a permanent ratchet: a latched discovery never re-rolls, re-latches, or re-logs', () => {
     let s = at('kura');
     s = discoveryPass(s, { kind: 'visit' }, [VISIT_DEF]);

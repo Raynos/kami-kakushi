@@ -7,53 +7,6 @@ import type { StoryTakeBundle } from './storyTakes';
 
 export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
-    id: 'disc-woodlot-lacquer',
-    title: 'the woodlot lacquer discovery (ADR-146)',
-    review: 'project/human-in-the-loop/review.md',
-    rationale:
-      'the sensory register voices the mechanic itself — the tightening hints ARE the body learning the woodlot, exactly what the attempt-counter pity ramp implements; most concrete, zero canon debt',
-    canonLabel: "the woodsman's eye",
-    takes: [
-      {
-        id: 'b',
-        label: "the estate's memory",
-        brief:
-          'historical register — traces of the workers before; discovery is INHERITANCE (the house once tapped these trees and lost the practice in its decline)',
-        scorecard:
-          '11✔ 1✘ 9— · ✘ V3/P10 [briefed] — "the stablehand says" voices a person the people registry doesn\'t hold (a named speaker must be talkable)',
-        flavor: {
-          lacquerHint0:
-            'Below the stable yard the woodlot thins, and old stumps stand in a line too straight for chance. Someone planted here once, and cut with a purpose.',
-          lacquerHint1:
-            "Under the moss on one trunk, the bark carries ranks of small sickle-scars, healed over dark. Grandfather's grandfather's work, the stablehand says, and will not say whose.",
-          lacquerHint2:
-            'A tapping-knife, rust eaten to lace, lies where a path once ran to a stand of broad-leaved trees. The trees are still there. The scars on their bark match the blade.',
-          lacquerFound:
-            'The old ledgers name it now that there is something to name: urushi, tapped every summer until the house could no longer spare the hands. The trees kept the habit of giving. Someone has only to ask again.',
-        },
-      },
-      {
-        id: 'c',
-        label: "the mountain's reticence",
-        brief:
-          'folk/animist register, fully deniable — the woodlot slowly decides about you; discovery is PERMISSION (the tree was always there; today the woods let you see it)',
-        scorecard:
-          '12✔ 0✘ 9— · the on-title runner-up; slightly less play-legible than canon (TST4 — hints guide the "keep cutting HERE" read more softly)',
-        flavor: {
-          lacquerHint0:
-            'Beyond the stacked rounds the old growth keeps its own counsel. The quiet in there is not an empty quiet.',
-          lacquerHint1:
-            'The woodlot has learned the rhythm of your axe. In the thinned rows one grey trunk stands apart, spared — though no one here remembers sparing it.',
-          lacquerHint2:
-            'The grey tree stands nearer the path than you remembered. Old score-marks in its bark, healed over; the seams weep a dark sap that dries hard as lacquer.',
-          lacquerFound:
-            'It stood there all along, three paces off the path — an urushi tree, its old tap-scars grown shut. Today, for no reason you could name, you saw it.',
-        },
-      },
-    ],
-  },
-
-  {
     id: 'estate-build-beats',
     title: 'Phase-2 build beats (deed-source reveals + E1)',
     review: 'project/human-in-the-loop/review.md',

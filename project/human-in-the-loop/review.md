@@ -367,55 +367,6 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 ---
 
-### HR-14 🔲 — the woodlot lacquer discovery (ADR-146 Phase 2) — pick the take bundle (ADR-139)
-
-The first **emergent node action** is live: at the stables/woodlot node,
-repeated woodcutting discovers a hidden lacquer tree (a coin-paying "Tap the
-lacquer tree" action). The node description carries a **tightening hint**
-(steps every 3 attempts), the latch moment logs a permanent narrator line, and
-the action appears in the Work list — no banner, no counter, no discovery-log
-(the ADR-146 locks). Fiction = the ADR-139 blind-takes bundle
-[`takes/disc-woodlot-lacquer/`](../../src/core/content/narrative/takes/disc-woodlot-lacquer/).
-
-- **Taste brief (pass 1):** P2 hint extends the node blurb + the log primitive,
-  no new widget · P3 narrator voice set in core · P4/P5 blurb text patched in
-  place, action list grows by append · P9 the discovery IS the beat — never a
-  "NEW ACTION!" banner · P10 the hint is a promise: the tree exists, permanent
-  ratchet · P15 hint reads as node flavour, no counters/previews · P16 the
-  found line routes as permanent narration; arrival stays ephemeral · P17
-  DELIBERATE tension: no new-badge/found-list (ADR-146 anti-checklist lock) —
-  the log line + sharpened blurb are the signal · P19 hint is reading-register
-  prose · V3 all fiction diverged (ADR-139).
-- [ ] **Canon — "the woodsman's eye"** _(self-picked; ships)_ — purely sensory:
-  the hints are the body learning the woodlot (smell → scar → the axe knows).
-  - **Scorecard:** 12✔ · 1✘ · 8— — ✘P17 [briefed, by design]: the discovered
-    action carries no NEW marker (the ADR-146 no-log lock; named, not silent).
-  - **Pick rationale:** the sensory register voices the mechanic itself — the
-    tightening hints ARE the attempt-counter pity ramp made fiction; most
-    concrete; zero canon debt.
-- [ ] **B — "the estate's memory"** _(DEV-only)_ — historical: the house once
-  tapped these trees; discovery is inheritance of a lost practice.
-  - **Scorecard:** 11✔ · 1✘ · 9— — ✘V3/P10 [briefed]: "the stablehand says"
-    voices a person the people registry doesn't hold.
-- [ ] **C — "the mountain's reticence"** _(DEV-only)_ — deniable animism: the
-  woodlot decides about you; discovery is permission. The on-title runner-up.
-  - **Scorecard:** 12✔ · 0✘ · 9— — slightly softer play-guidance than canon
-    (TST4).
-
-- **Asking for:** keep canon, or override to B / C; and a feel-check on the
-  discovery pacing (base 12%/cut, pity-ramped — lands ~5 cuts in).
-- **How to look (LIVE, ADR-143):** `pnpm run dev` → DEV panel → **Scenarios →
-  rung R2** (woodlot open, nothing discovered) → Map tab → walk gate forecourt
-  → stables & woodlot edge → the hint is the node card's closing sentence.
-  DEV panel → **Story → "the woodlot lacquer discovery"** → toggle Canon/B/C —
-  the card line swaps in place. Work tab → cut wood ~5–10×: the hint tightens
-  (3 cuts), then the found line lands in the log (voiced by the selected take)
-  and **Tap the lacquer tree** appears. Verified headlessly end-to-end incl.
-  the live swap (session 104).
-- **Verdict:** _(awaiting the human)_
-
----
-
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

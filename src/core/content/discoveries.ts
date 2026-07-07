@@ -28,6 +28,11 @@ export interface DiscoveryDef {
    *  latch (derived hiddenness; see `hiddenActivityIds`). */
   readonly reveals: ActivityId;
   readonly trigger: DiscoveryTrigger;
+  /** The roll FLOOR (human feel-verdict, 2026-07-07 — "rare ambient"): the first `minAttempts`
+   *  qualifying acts only count, no roll fires — a discovery can never pop instantly and the
+   *  hint ladder gets a real arc. The pity ramp counts attempts BEYOND the floor. Absent = 0
+   *  (roll from the first attempt — fixture-test friendly). */
+  readonly minAttempts?: number;
   /** The TIGHTENING hint ladder (ADR-146 / ADR-116): hints[floor(attempts/DISCOVERY_HINT_STEP)],
    *  clamped to the last line. Rendered INSIDE the node's standing description — diegetic node
    *  flavour, never a banner or a counter (P15: the map doesn't spoil). Empty = no hint. */
@@ -55,12 +60,14 @@ export interface DiscoveryDef {
 export const DISCOVERIES: readonly DiscoveryDef[] = [
   {
     // The woodlot lacquer tree (ADR-146's first discoverable): repeated woodcutting at the
-    // stables/woodlot node surfaces a coin-paying tapping action. Base 12% per cut, pity-ramped
-    // (balance.ts DISCOVERY_PITY_*) — expected find ~4–6 cuts, near-certain by ~10.
+    // stables/woodlot node surfaces a coin-paying tapping action. RARE AMBIENT (human,
+    // 2026-07-07): no roll for the first 15 cuts, then 1% gently pity-ramped (balance.ts
+    // DISCOVERY_PITY_*) — a many-visits background surprise, typically ~50+ cuts in.
     id: 'disc-woodlot-lacquer',
     node: 'woodlot-edge',
     reveals: 'tap_lacquer',
-    trigger: { kind: 'watch', activity: 'woodcut_edge', chance: 0.12 },
+    trigger: { kind: 'watch', activity: 'woodcut_edge', chance: 0.01 },
+    minAttempts: 15,
     hints: [FLAVOR.lacquerHint0, FLAVOR.lacquerHint1, FLAVOR.lacquerHint2],
     hintKeys: ['lacquerHint0', 'lacquerHint1', 'lacquerHint2'],
     discoveryLine: FLAVOR.lacquerFound,

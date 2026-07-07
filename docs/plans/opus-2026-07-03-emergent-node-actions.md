@@ -1,11 +1,12 @@
 # Emergent / discovered map-node actions — implementation plan
 
-**Status:** ▶️ IN-PROGRESS — **Phase 0 locked as ADR-146; Phases 1–2 BUILT + verified live
-(session 104)**: the discovery engine + the woodlot lacquer discoverable (HR-14 take bundle
-open). Remaining: Phase 3 (portable rumors) — deferred until the human reviews Phases 1–2
-in-game; the trigger types 1–3 shipped (description hint / repeat-unlock; the visit-stumble
-engine exists with no content yet), portable cross-node rumors (type 2's far half + Phase 3)
-not started. Graduated from the parked brainstorm
+**Status:** ▶️ IN-PROGRESS — **Phase 0 locked as ADR-146; Phases 1–2 BUILT, verified live,
+and HUMAN-SIGNED (HR-14 closed 2026-07-07)**: the discovery engine + the woodlot lacquer
+discoverable; canon = "the woodsman's eye", bundle pruned; pacing re-tuned to the human's
+"rare ambient" verdict (15-cut floor + 1% gently-ramped — median ~42 cuts). Remaining:
+Phase 3 (portable rumors, tag-routed) — the trigger types 1–3 shipped (description hint /
+repeat-unlock; the visit-stumble engine exists with no content yet), portable cross-node
+rumors (type 2's far half + Phase 3) not started. Graduated from the parked brainstorm
 ([`project/brainstorms/2026-07-02-emergent-node-actions.md`](../../project/brainstorms/2026-07-02-emergent-node-actions.md)).
 **Scope: lands now as a T0-later layer** (human, 2026-07-07 — was "T0-later / T1").
 Relates **ADR-114/ADR-115** (who's-here map model) + **ADR-116** (the hint-carrying node

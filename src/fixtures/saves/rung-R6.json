@@ -12,7 +12,7 @@
         "loot": 5,
         "seasonal": 0,
         "worldgen": 0,
-        "discovery": 4
+        "discovery": 11
       }
     },
     "clock": {
@@ -575,7 +575,7 @@
           "voice": "narrator"
         },
         {
-          "key": 625,
+          "key": 631,
           "channel": "narration",
           "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
           "tick": 4,
@@ -2337,7 +2337,7 @@
       "disc-woodlot-lacquer"
     ],
     "discoveryProgress": {
-      "disc-woodlot-lacquer": 4
+      "disc-woodlot-lacquer": 26
     },
     "autoActivity": null,
     "autoRake": false,

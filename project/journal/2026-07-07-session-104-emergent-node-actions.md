@@ -108,8 +108,26 @@ action (the ADR-146 anti-checklist lock; the log line + sharpened blurb are
 the state signal). Full per-take scorecards live in the HR-14 item + the
 bundle doc.
 
+## HR-14 closed same-session (human playtest verdict)
+
+The human played it live and ruled: **canon stays "the woodsman's eye"**
+(bundle pruned per the diverge lifecycle — the archive row + this journal are
+the record), and the pacing was wrong — *"it unlocked in 3 seconds."* The old
+tune (12% base, 1/4 pity slope) made any base a near-certainty within a dozen
+cuts. Re-tuned to the human's **"rare ambient"** pick (AskUserQuestion):
+
+- **`minAttempts` floor** (new `DiscoveryDef` field): the first N qualifying
+  acts only count — no roll, no RNG-cursor movement — so a discovery can
+  never pop instantly and the hint ladder gets a real arc. Lacquer: 15.
+- **Base 12% → 1%**; **pity slope 1/4 → 1/10** (counts attempts BEYOND the
+  floor); **hint step 3 → 12**.
+- Measured over 400 seeds: **min 16 · median ~42 · p75 ~58 · p95 ~84 ·
+  max 125 cuts** — never instant, typically a multi-visit background find.
+- New floor test (no roll + no cursor movement during the floor; chance-1
+  latches on the first real roll); the slope/ladder tests derive from the
+  balance constants so they re-pinned themselves.
+
 ## Next intended steps
-- HR-14: the human picks the take bundle + feel-checks discovery pacing.
-- Phase 3 (portable rumors, tag-routed) — deferred until HR-14 closes.
+- Phase 3 (portable rumors, tag-routed) — the plan's remaining phase.
 - More discoverables (a visit-stumble one would exercise the second trigger)
-  once the human signs the pattern.
+  now that the human has signed the pattern.

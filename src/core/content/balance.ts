@@ -416,16 +416,20 @@ export function kuraRiceCap(estateStage: number): number {
   return KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE;
 }
 
-// ── Emergent node discovery (ADR-146) — the pity ramp + the hint ladder step. Liquid (ADR-059). ──
-/** Each qualifying attempt raises the seeded roll's effective chance by this RELATIVE fraction of
- *  the base (integer fixed-point): eff = chance·(DEN + attempts·NUM)/DEN, clamped to 1. Persistence
- *  pays without a hard wall (the plan's Phase-2 trigger 3): at NUM/DEN = 1/4, attempt 5 rolls at
- *  2.25× the base chance. */
+// ── Emergent node discovery (ADR-146) — the pity ramp + the hint ladder step. Liquid (ADR-059).
+// Re-tuned to the human's "rare ambient" feel-verdict (2026-07-07, HR-14 playtest): a discovery
+// is a many-visits background surprise (~50+ qualifying acts), never an instant pop — each def
+// also carries a `minAttempts` FLOOR (no roll at all before it), so hint 0 → hint 1 is a real
+// arc. The first tune (12% base, 1/4 slope, step 3) latched in ~5 cuts ≈ 3 seconds. ──
+/** Each qualifying attempt BEYOND a def's floor raises the seeded roll's effective chance by this
+ *  RELATIVE fraction of the base (integer fixed-point): eff = chance·(DEN + n·NUM)/DEN, clamped
+ *  to 1. Persistence pays without a hard wall (the plan's Phase-2 trigger 3), gently: at
+ *  NUM/DEN = 1/10, the 20th post-floor attempt rolls at 3× the base chance. */
 export const DISCOVERY_PITY_NUM = 1;
-export const DISCOVERY_PITY_DEN = 4;
+export const DISCOVERY_PITY_DEN = 10;
 /** Attempts per hint-ladder step (ADR-146 tightening hints): hint index = floor(attempts/STEP),
  *  clamped to the authored ladder's last line. */
-export const DISCOVERY_HINT_STEP = 3;
+export const DISCOVERY_HINT_STEP = 12;
 
 // ── DEV-only live-tuning hook (balance cockpit, FB-7 / ADR-059) ─────────────────────────────────────
 // INERT unless called: only the DEV-folded cockpit (src/ui/dev-cockpit.ts) ever calls these, and

@@ -74,10 +74,17 @@ export function discoveryPass(
     if (next.discovered.includes(d.id)) continue;
     if (!matches(d, next.location, event)) continue;
     const attempts = next.discoveryProgress[d.id] ?? 0;
+    // The roll FLOOR (human, 2026-07-07): the first minAttempts acts only count — no roll, no
+    // cursor movement — so a discovery can never pop instantly. Pity counts beyond the floor.
+    const floor = d.minAttempts ?? 0;
+    if (attempts < floor) {
+      next = { ...next, discoveryProgress: { ...next.discoveryProgress, [d.id]: attempts + 1 } };
+      continue;
+    }
     const [found, rng] = nextChance(
       next.rng,
       'discovery',
-      effectiveChance(d.trigger.chance, attempts),
+      effectiveChance(d.trigger.chance, attempts - floor),
     );
     next = {
       ...next,

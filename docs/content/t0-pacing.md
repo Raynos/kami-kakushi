@@ -7,7 +7,7 @@
 
 - Seeds: 20260626, 1, 7, 11, 13 (canonical: 20260626)
 - Personas: greedy, idler, explorer
-- Input fingerprint: `d3fb3efc64dfd0b6` (the evaluated design inputs —
+- Input fingerprint: `64b47624cee270d6` (the evaluated design inputs —
   `balance-sim --check-fresh` compares this against the live constants, so a balance
   VALUE change without a regenerated report is caught; comments/formatting never fire it)
 - Wall model: one intent per 480 ms (the active-loop cadence) — wall-min = intents × 480 / 60000. Every dispatch counts (moves and
@@ -114,10 +114,10 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 12 | 5/7/0 | 7965 | 4431 | 0 | 16144 | 0 | 11 |
+| 20260626 | 12 | 5/7/0 | 7964 | 4431 | 0 | 16144 | 0 | 11 |
 | 1 | 14 | 5/9/0 | 8543 | 4656 | 0 | 16131 | 2677 | 11 |
 | 7 | 13 | 5/8/0 | 8285 | 4556 | 0 | 16147 | 2010 | 11 |
-| 11 | 13 | 5/8/0 | 8286 | 4556 | 0 | 16147 | 2010 | 11 |
+| 11 | 13 | 5/8/0 | 8285 | 4556 | 0 | 16147 | 2010 | 11 |
 | 13 | 11 | 5/6/0 | 7562 | 4275 | 0 | 16144 | 0 | 11 |
 
 ## Skipped intents (per persona — loud, never a silent gap)
