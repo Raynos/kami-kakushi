@@ -210,3 +210,18 @@ The bible was also rewritten wholesale as true living documents
 mid-sitting, and the seven ladders were approved IN SPIRIT (not
 locked — expected to evolve). Next: T1 sheet in equal detail; cast
 voices; then the staged taper (T2–T3 half, T4 ¼, T5 ⅕, T6 1/10).
+
+## Addendum 8 — the bible refreshed whole + the finish plan (session close)
+
+Final batch at the human's direction: every story-bible file brought
+current (04-cast fully built out — 16 sketches with canon facts, shape
+candidates, node homes, voices-sitting agenda; tiers/t1–t6 seeded at
+staged depths with placed canon + sitting agendas; 01-laws gains the
+three CANDIDATE register rules; 02-house gains the both-wounds→one-
+enemy convergence + open cells). And the execution plan authored for
+fresh sessions: `docs/plans/fable-2026-07-07-story-bible-finish.md` —
+workstream A (bible sittings A1–A7 + coherence pass, working protocol
+spelled out incl. the ask-tool CLI workaround) and workstream B (frame
+ADR → PRD rewrite → engine ADRs → T0 prose wave → migration →
+closure), routed ⬩F/⬩O/⬩F+H per step. The reboot plan now points at it
+as executor. Queued for the human.
