@@ -113,8 +113,28 @@ export let PER_DEED_CAP_NUM = 4;
  *  daimyō line — a bigger threshold would collapse the inter-tier koku ladder). This is the ADR-133
  *  STOPGAP: it buys the duration honestly (one day's labour barely moves a household's standing) but
  *  NOT the texture — the real Phase-2 economy redesign (long AND fun) supersedes it. Liquid (ADR-059);
- *  tuned against the sim to land greedy's Phase 2 inside the ratio band. */
+ *  tuned against the sim to land greedy's Phase 2 inside the ratio band.
+ *  // SUPERSEDED by opus-2026-07-04-phase2-economy-redesign (ADR-145): this is now the BASE
+ *  // magnitude the multi-source table below multiplies — re-derived at the plan's Phase 3. */
 export let ESTATE_DEED_PER_ACT = 0.04;
+/** ADR-145 — the Phase-2 economy is MULTI-SOURCE (the A+B loop): each Estate deed source banks
+ *  `ESTATE_DEED_PER_ACT · its multiplier`, so the sources stay distinct in cadence AND magnitude
+ *  while the single base stays the one cockpit lever. Estate-relevant work ONLY banks (ADR-145 Q4
+ *  — TST3, the fiction causes the accrual): woodcut/forage have NO source. All PROVISIONAL /
+ *  liquid (ADR-059) — retuned in the plan's Phase 3 against the ADR-133 ratio band.
+ *   - fields   · farm_paddy — the reclaimed shinden/paddy work, the steady earner
+ *   - stores   · haul_stores + a rice deposit at the kura — granary stocking
+ *   - workshop · craft_weapon — the workshop's recorded yield (rare, bigger)
+ *   - watch    · a WON grind fight — the house is safer (Arms stays T1-gated)
+ *   - treasury · sell_rice — coin into the house books (the Q3 store-vs-sell lever) */
+export type EstateDeedSource = 'fields' | 'stores' | 'workshop' | 'watch' | 'treasury';
+export const ESTATE_DEED_SOURCE_MULT: Record<EstateDeedSource, number> = {
+  fields: 1,
+  stores: 1,
+  workshop: 2,
+  watch: 1.5,
+  treasury: 1.25,
+};
 /** The season judge contributes this fraction of the season's deed-growth — seasonal:deeds =
  *  3:7 = the 70/30 share (ADR-049). */
 export const SEASONAL_OVER_DEEDS_NUM = 3;
@@ -470,6 +490,16 @@ export function readBalanceLever(path: string): number {
       return ESTATE_BANDS.excellent;
     case 'ESTATE_DEED_PER_ACT':
       return ESTATE_DEED_PER_ACT;
+    case 'ESTATE_DEED_SOURCE_MULT.fields':
+      return ESTATE_DEED_SOURCE_MULT.fields;
+    case 'ESTATE_DEED_SOURCE_MULT.stores':
+      return ESTATE_DEED_SOURCE_MULT.stores;
+    case 'ESTATE_DEED_SOURCE_MULT.workshop':
+      return ESTATE_DEED_SOURCE_MULT.workshop;
+    case 'ESTATE_DEED_SOURCE_MULT.watch':
+      return ESTATE_DEED_SOURCE_MULT.watch;
+    case 'ESTATE_DEED_SOURCE_MULT.treasury':
+      return ESTATE_DEED_SOURCE_MULT.treasury;
     case 'PER_DEED_CAP_NUM':
       return PER_DEED_CAP_NUM;
     // Stamina / meals
@@ -577,6 +607,22 @@ export function __setBalanceLever(path: string, value: number): void {
     case 'ESTATE_DEED_PER_ACT':
       ESTATE_DEED_PER_ACT = value;
       return;
+    // ADR-145 — the mult table is a mutable object; assign fields in place (cockpit tuning).
+    case 'ESTATE_DEED_SOURCE_MULT.fields':
+      ESTATE_DEED_SOURCE_MULT.fields = value;
+      return;
+    case 'ESTATE_DEED_SOURCE_MULT.stores':
+      ESTATE_DEED_SOURCE_MULT.stores = value;
+      return;
+    case 'ESTATE_DEED_SOURCE_MULT.workshop':
+      ESTATE_DEED_SOURCE_MULT.workshop = value;
+      return;
+    case 'ESTATE_DEED_SOURCE_MULT.watch':
+      ESTATE_DEED_SOURCE_MULT.watch = value;
+      return;
+    case 'ESTATE_DEED_SOURCE_MULT.treasury':
+      ESTATE_DEED_SOURCE_MULT.treasury = value;
+      return;
     case 'PER_DEED_CAP_NUM':
       PER_DEED_CAP_NUM = value;
       return;
@@ -676,6 +722,11 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   'ESTATE_BANDS.great': ESTATE_BANDS.great,
   'ESTATE_BANDS.excellent': ESTATE_BANDS.excellent,
   ESTATE_DEED_PER_ACT,
+  'ESTATE_DEED_SOURCE_MULT.fields': ESTATE_DEED_SOURCE_MULT.fields,
+  'ESTATE_DEED_SOURCE_MULT.stores': ESTATE_DEED_SOURCE_MULT.stores,
+  'ESTATE_DEED_SOURCE_MULT.workshop': ESTATE_DEED_SOURCE_MULT.workshop,
+  'ESTATE_DEED_SOURCE_MULT.watch': ESTATE_DEED_SOURCE_MULT.watch,
+  'ESTATE_DEED_SOURCE_MULT.treasury': ESTATE_DEED_SOURCE_MULT.treasury,
   PER_DEED_CAP_NUM,
   SATIETY_PER_ACT,
   STAMINA_RATE_FLOOR,

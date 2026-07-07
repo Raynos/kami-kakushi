@@ -11,10 +11,14 @@ import {
   ESTATE_BANDS,
   PER_DEED_CAP_NUM,
   ESTATE_DEED_PER_ACT,
+  ESTATE_DEED_SOURCE_MULT,
   SEASONAL_OVER_DEEDS_NUM,
   SEASONAL_OVER_DEEDS_DEN,
   SEASONAL_SWING,
+  type EstateDeedSource,
 } from './content/balance';
+
+export type { EstateDeedSource } from './content/balance';
 
 export type Grade = 'NONE' | 'GOOD' | 'GREAT' | 'EXCELLENT';
 
@@ -95,6 +99,20 @@ export function seasonalJudge(
   // season (was `pillar.highWater`, which re-judged its own payout → geometric inflation; battery fix).
   // Carry `frac` (the sub-koku deed accumulator) untouched — the seasonal bonus banks whole koku.
   return { pillar: { value, highWater, judged: highWater, frac: pillar.frac ?? 0 }, bonus };
+}
+
+/** ADR-145 — the deed a given SOURCE banks: the single base magnitude × the source's multiplier.
+ *  The one place source→magnitude is derived (AC-21); tests fixture from THIS, never a literal. */
+export function estateDeedMagnitude(source: EstateDeedSource): number {
+  return ESTATE_DEED_PER_ACT * ESTATE_DEED_SOURCE_MULT[source];
+}
+
+/** ADR-145 — bank an Estate deed FROM a source (the multi-source Phase-2 economy). `undefined`
+ *  = the act is not estate-relevant (Q4: woodcut/forage build no house standing) → a structural
+ *  no-op. Phase-1 gating rides on `applyEstateDeed` (deeds never bank pre-capstone). */
+export function bankEstateDeed(state: GameState, source: EstateDeedSource | undefined): GameState {
+  if (source === undefined) return state;
+  return applyEstateDeed(state, estateDeedMagnitude(source));
 }
 
 /** The live Estate grade (the ascension gate + the UI bar read it). */

@@ -7,12 +7,15 @@ import {
   perDeedCap,
   accrueDeed,
   applyEstateDeed,
+  estateDeedMagnitude,
+  bankEstateDeed,
   seasonalJudge,
   estateGrade,
   balance,
   DAYS_PER_SEASON,
   TICKS_PER_DAY,
   type GameState,
+  type EstateDeedSource,
 } from './index';
 
 /** A state parked at the R7 capstone → Phase 2 open (where deeds bank). */
@@ -127,6 +130,59 @@ describe('the seasonal judge is wired into the clock (M2·4)', () => {
     const s1 = advanceClock(s0, SEASON_TICKS);
     expect(s1.influence.estate.value).toBe(100); // no judge before Phase 2
     expect(s1.influence.estate.judged).toBe(0);
+  });
+});
+
+describe('ADR-145 — the multi-source Phase-2 economy (Phase 1 DoD)', () => {
+  // Fixtures derive from the SOURCE OF TRUTH (the balance constants), never copied literals.
+  const base = () => balance.ESTATE_DEED_PER_ACT;
+  const mult = balance.ESTATE_DEED_SOURCE_MULT as Record<EstateDeedSource, number>;
+
+  it('each source banks its OWN magnitude — base × its multiplier (the design lever)', () => {
+    for (const source of Object.keys(mult) as EstateDeedSource[]) {
+      // the derivation itself (AC-21: one place source→magnitude comes from)
+      expect(estateDeedMagnitude(source)).toBeCloseTo(base() * mult[source], 9);
+      // …and banking it lands EXACTLY that in the accumulator (RED if a source is mis-routed)
+      const s = bankEstateDeed(atPhase2(), source);
+      expect(s.influence.estate.frac ?? 0).toBeCloseTo(base() * mult[source], 9);
+    }
+    // the sources are genuinely DISTINCT magnitudes, not one flat rate (RED if the table
+    // collapses to a single value — the "grind with 4 buttons that pay the same" regression)
+    expect(new Set(Object.values(mult)).size).toBeGreaterThan(1);
+  });
+
+  it('a source deed still folds through the per-deed cap (anti-spike holds)', () => {
+    const cap = perDeedCap();
+    for (const source of Object.keys(mult) as EstateDeedSource[]) {
+      expect(estateDeedMagnitude(source)).toBeLessThanOrEqual(cap);
+    }
+  });
+
+  it('an estate-IRRELEVANT act banks NOTHING (Q4 — undefined source is a structural no-op)', () => {
+    const s = atPhase2();
+    expect(bankEstateDeed(s, undefined)).toBe(s);
+  });
+
+  it('Phase-1 gating holds for every source (deeds never bank pre-capstone)', () => {
+    const s = createInitialState(1); // rung R0 → Phase 1
+    for (const source of Object.keys(mult) as EstateDeedSource[]) {
+      expect(bankEstateDeed(s, source)).toBe(s);
+    }
+  });
+
+  it('via the reducer: farm banks FIELDS, woodcut banks ZERO (the Q4 gate end-to-end)', () => {
+    const base2 = atPhase2();
+    const farm = reduce(
+      { ...base2, location: 'home-paddies', unlocked: [...base2.unlocked, 'verb-farm'] },
+      { type: 'do_activity', activityId: 'farm_paddy' },
+    );
+    expect(farm.influence.estate.frac ?? 0).toBeCloseTo(estateDeedMagnitude('fields'), 9);
+    const wood = reduce(
+      { ...base2, location: 'woodlot-edge', unlocked: [...base2.unlocked, 'verb-woodcut'] },
+      { type: 'do_activity', activityId: 'woodcut_edge' },
+    );
+    expect(wood.resources.wood ?? 0).toBeGreaterThan(0); // the act really ran…
+    expect(wood.influence.estate.frac ?? 0).toBe(0); // …but built no house standing
   });
 });
 

@@ -6,6 +6,7 @@
 
 import type { SkillId } from './skills';
 import type { AreaId } from './areas';
+import type { EstateDeedSource } from './balance';
 
 export type ActivityId =
   | 'farm_paddy'
@@ -31,6 +32,9 @@ export interface ActivityDef {
   readonly dangerRing?: boolean;
   /** The verb-surface that must be revealed for this activity to be available. */
   readonly surface: string;
+  /** ADR-145 (Q4) — the Estate deed source this labour banks in Phase 2. OMITTED = the work is
+   *  not estate-relevant (forage/woodcut feed the pockets, not the house's standing — TST3). */
+  readonly deedSource?: EstateDeedSource;
 }
 
 export const ACTIVITIES: readonly ActivityDef[] = [
@@ -44,6 +48,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     xp: 5,
     seasonHarvest: true,
     surface: 'verb-farm',
+    deedSource: 'fields', // ADR-145 — the shinden/paddy work, the steady Phase-2 earner
   },
   {
     id: 'haul_stores',
@@ -55,6 +60,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     satietyCost: 4,
     xp: 5,
     surface: 'verb-haul',
+    deedSource: 'stores', // ADR-145 — granary stocking (with a kura rice deposit)
   },
   {
     id: 'woodcut_edge',

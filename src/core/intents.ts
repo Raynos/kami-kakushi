@@ -31,7 +31,7 @@ import {
 import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel, skillYieldNum } from './skills';
 import { accrueRungMeter, applyPromotion, promotionReady, pendingPromotionTarget } from './ranks';
-import { applyEstateDeed } from './pillars';
+import { bankEstateDeed } from './pillars';
 import { ascend } from './ascension';
 import { isUnlocked } from './unlock';
 import { applyGrindFight, applyScriptedWolf } from './fight';
@@ -561,8 +561,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
         ],
       });
       next = accrueRungMeter(next, act.id);
-      // Phase 2 (post-R7): estate labour also banks an Estate-pillar deed (no-op in Phase 1).
-      next = applyEstateDeed(next);
+      // Phase 2 (post-R7): ESTATE-RELEVANT labour banks its source's Estate deed (ADR-145 —
+      // multi-source; woodcut/forage carry no deedSource and bank nothing; no-op in Phase 1).
+      next = bankEstateDeed(next, act.deedSource);
       // quest advance tokens — 'gather:<resource>' for each thing the act yielded (ADR-037).
       for (const res of Object.keys(gained)) next = applyQuestEvent(next, `gather:${res}`);
       next = advanceClock(next, TICKS_PER_ACT);
@@ -749,6 +750,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
           },
         ],
       });
+      // ADR-145 — the sale enters the house books: a TREASURY Estate deed (Phase-2 only). The
+      // store-vs-sell timing lever (Q3) is thus a real Phase-2 decision, not ambient economy.
+      next = bankEstateDeed(next, 'treasury');
       break;
     }
     case 'improve_estate': {
@@ -799,6 +803,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
         flags: [`crafted-${recipe.outputWeapon}`],
         log: [{ channel: 'milestone', text: recipe.blurb }],
       });
+      // ADR-145 — the workshop's recorded yield: a WORKSHOP Estate deed (Phase-2 only).
+      next = bankEstateDeed(next, 'workshop');
       break;
     }
     case 'accept_quest': {
@@ -888,6 +894,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           },
         ],
       });
+      // ADR-145 — stocking the granary: a rice deposit banks a STORES Estate deed (Phase-2 only).
+      if (intent.resource === 'rice') next = bankEstateDeed(next, 'stores');
       break;
     }
     case 'withdraw': {

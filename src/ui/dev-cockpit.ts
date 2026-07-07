@@ -153,6 +153,37 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     group: 'W4 · capstone pacing',
     watch: 'W4',
   },
+  // ADR-145 — the multi-source Phase-2 economy: per-source multipliers on the base deed.
+  {
+    path: 'ESTATE_DEED_SOURCE_MULT.fields',
+    label: 'Deed mult · fields (farm)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+  },
+  {
+    path: 'ESTATE_DEED_SOURCE_MULT.stores',
+    label: 'Deed mult · stores (haul/deposit)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+  },
+  {
+    path: 'ESTATE_DEED_SOURCE_MULT.workshop',
+    label: 'Deed mult · workshop (craft)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+  },
+  {
+    path: 'ESTATE_DEED_SOURCE_MULT.watch',
+    label: 'Deed mult · watch (won fight)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+  },
+  {
+    path: 'ESTATE_DEED_SOURCE_MULT.treasury',
+    label: 'Deed mult · treasury (sell rice)',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+  },
   {
     path: 'PER_DEED_CAP_NUM',
     label: 'Per-deed cap (%·Good)',

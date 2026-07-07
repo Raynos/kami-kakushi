@@ -125,10 +125,12 @@ export {
   perDeedCap,
   accrueDeed,
   applyEstateDeed,
+  estateDeedMagnitude,
+  bankEstateDeed,
   seasonalJudge,
   estateGrade,
 } from './pillars';
-export type { Grade, GradeBands } from './pillars';
+export type { Grade, GradeBands, EstateDeedSource } from './pillars';
 export { ascensionAvailable, ascensionBoon, ascend } from './ascension';
 export { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 export type { EstateStageDef } from './content/estate';

@@ -31,6 +31,26 @@ plan's Opus-for-core routing proposal).
    toggle → HR-items).
 5. **Phase 5** — PRD ripple (`/prd-ripple`) + docs.
 
+## Phase 1 built — multi-source deeds in the pure core (same session)
+
+- `balance.ts`: `EstateDeedSource` + `ESTATE_DEED_SOURCE_MULT` (fields 1 ·
+  stores 1 · workshop 2 · watch 1.5 · treasury 1.25 — all liquid), registered
+  in the cockpit get/set/canon tables; the stopgap constant carries its
+  SUPERSEDED-by breadcrumb (plan §7).
+- `pillars.ts`: `estateDeedMagnitude(source)` (the one derivation, AC-21) +
+  `bankEstateDeed(state, source)` (undefined = not estate-relevant → no-op).
+- `activities.ts`: `deedSource?` on the def — farm_paddy→fields,
+  haul_stores→stores; woodcut/forage carry none (Q4).
+- Wiring: `do_activity` banks `act.deedSource`; `sell_rice`→treasury (Q3);
+  `craft_weapon`→workshop; rice `deposit`→stores; a WON grind fight→watch
+  (`fight.ts`).
+- `dev-cockpit.ts`: five mult sliders in W4 · capstone pacing.
+- Tests: ADR-145 describe-block in `pillars.test.ts` (lever = base×mult per
+  source, distinct-magnitudes guard, cap holds, Q4 no-op, Phase-1 gate,
+  reducer-level farm-vs-woodcut). **RED-proven**: collapsing the mult table
+  fails the lever test.
+- Fixtures regenerated (`wealthy-idler.json` — deposit now banks a deed).
+
 ## Landmines
 
 - **Parallel agent** is building the requirements-rung-progression plan in the
