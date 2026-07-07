@@ -43,11 +43,25 @@ with the human one piece per exchange.
   - Entries added to `04-cast.md` (new "works & crews" section);
     `t1.md` carries the node placements.
 
+- **A1 piece 3 — the T1 land zones, LOCKED** (redline round on combat
+  density, then AskUserQuestion):
+  - The 7 drafted land zones locked as written (paddies · woodlot +
+    clamp · weir & flood-works · kura interior · workshops · boundary
+    stones · family plot), each with its wrong thing.
+  - **Human steer:** T1's new ground had only ONE combat zone vs T0's
+    five — asked for edge-of-estate combat flavor. Added and locked
+    ALL THREE proposals: **Upstream pools** (grindable; the R4 breach
+    repair retires it), **Let-go terraces** (authored chain — combat →
+    reclamation, the orchard escalated), **Downstream shallows**
+    (kawauso raid Matsuzō's fish weirs — kernel #1's next folk animal).
+    T1 new ground now has 4 combat zones + night-rounds escalation.
+  - **Mystery debt locked at ONE answer:** firebreak + taken breach
+    stones + the otters' dressed-stone den all pay from a single
+    authored story at the fall's design (T2/T3).
+
 ## Next intended steps
 
-- Piece 3: T1 land zones to the node grammar (paddies · woodlot+clamp ·
-  weir & flood-works · boundary stones · family plot · kura interior ·
-  workshops), each with its wrong thing.
 - Piece 4: the wings zones + the estate-build stages (which rooms, what
   order) — tightly coupled, drafted together.
-- Then: Bon #2 · mirror uses · night rounds T1 · economics + seeding.
+- Then: Bon #2 · mirror uses · night rounds T1 / combat structure ·
+  economics + seeding.
