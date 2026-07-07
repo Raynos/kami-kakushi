@@ -633,6 +633,23 @@ function openTierMap(tier: Tier): HTMLElement {
     'Zoom out',
   );
   zoomBtn('⤢ fit', fit, 'Fit the whole sheet');
+  // full-screen the map pane itself (native Fullscreen API) — the SVG fills the
+  // whole physical screen so the survey can be read close. Toggles on re-click /
+  // Esc; the fit view re-applies once the resize settles.
+  const fsBtn = hd('button', 't0v2-zoom', '⛶ full');
+  fsBtn.type = 'button';
+  fsBtn.setAttribute('aria-label', 'Full-screen the map');
+  fsBtn.addEventListener('click', () => {
+    if (document.fullscreenElement === mapWrap) void document.exitFullscreen();
+    else void mapWrap.requestFullscreen?.().catch(() => {});
+  });
+  mapWrap.addEventListener('fullscreenchange', () => {
+    const on = document.fullscreenElement === mapWrap;
+    fsBtn.textContent = on ? '⛶ exit' : '⛶ full';
+    // the pane just changed size — refit so the whole sheet stays framed
+    fit();
+  });
+  zoomGroup.append(fsBtn);
   controls.append(zoomGroup);
 
   for (const [attr, label] of [
