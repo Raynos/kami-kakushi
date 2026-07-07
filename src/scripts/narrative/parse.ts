@@ -145,7 +145,46 @@ export interface ProseDocNode {
   readonly loc: Loc;
 }
 
-export type BlockNode = RungSceneNode | IntroSceneNode | DialogueDefNode | ProseDocNode;
+/** A parsed `### req <id> · <spec>` requirement spec (FB-121 / ADR-137). The declared
+ *  grammar stays THIS small — anything it can't say is `native <key>` (FB-5), never a
+ *  grammar extension. Mirrors core/requirements-engine's RequirementDef shapes. */
+export type ReqSpec =
+  | { readonly type: 'count'; readonly token: string; readonly target: number }
+  | { readonly type: 'flag'; readonly flag: string }
+  | {
+      readonly type: 'state';
+      readonly pred:
+        | { readonly kind: 'resource'; readonly res: string; readonly min: number }
+        | { readonly kind: 'banked'; readonly res: string; readonly min: number }
+        | { readonly kind: 'belonging'; readonly id: string }
+        | { readonly kind: 'skill'; readonly skill: string; readonly min: number }
+        | { readonly kind: 'native'; readonly key: string };
+    };
+
+export interface ReqEntryNode {
+  readonly id: string;
+  readonly spec: ReqSpec;
+  /** The authored diegetic completion line (story voice) — required. */
+  flavor?: string;
+  /** The sim-bot satisfaction hint (Phase 5) — required from day one. */
+  drive?: string;
+  readonly loc: Loc;
+}
+
+/** A `## requirements R0` block (requirements.md) — one rung's hidden list. */
+export interface RequirementsNode {
+  readonly kind: 'requirements';
+  readonly rankKey: string;
+  readonly reqs: ReqEntryNode[];
+  readonly loc: Loc;
+}
+
+export type BlockNode =
+  | RungSceneNode
+  | IntroSceneNode
+  | DialogueDefNode
+  | ProseDocNode
+  | RequirementsNode;
 
 export interface NarrativeDoc {
   readonly file: string;
@@ -172,9 +211,13 @@ const RESERVED = new Set([
   'stat',
   'perk',
   'unrouted',
+  'flavor',
+  'drive',
 ]);
 
 const RE_RUNG = /^## rung (\S+) · (\S+)\s*$/;
+const RE_REQS = /^## requirements (R[0-7])\s*$/;
+const RE_REQ = /^### req ([a-z0-9-]+) · (.+)$/;
 const RE_SCENE = /^## scene (\S+)\s*$/;
 const RE_DIALOGUE = /^## dialogue (\S+) · (\S+)\s*$/;
 const RE_PROSE = /^## prose (\S+)\s*$/;
@@ -244,6 +287,38 @@ function parseWhen(raw: string, loc: Loc): WhenGate {
   );
 }
 
+/** Parse a `### req` spec (FB-121). Forms — the WHOLE declared grammar:
+ *    count <verb:subject> <N> · flag <flag-id> · native <key>
+ *    state resource|banked <res> >= <N> · state belonging <id> · state skill <id> >= <N> */
+function parseReqSpec(raw: string, loc: Loc): ReqSpec {
+  const spec = raw.trim();
+  let m = /^count ([a-z_]+:[a-z0-9_-]+) (\d+)$/.exec(spec);
+  if (m) {
+    const target = Number(m[2]);
+    if (target < 1) throw new NarrativeError(loc, `count target must be ≥ 1 (got ${target})`);
+    return { type: 'count', token: m[1]!, target };
+  }
+  m = /^flag ([a-z][a-z0-9-]*)$/.exec(spec);
+  if (m) return { type: 'flag', flag: m[1]! };
+  m = /^state (resource|banked) ([a-z_]+) >= (\d+)$/.exec(spec);
+  if (m) {
+    const kind = m[1] as 'resource' | 'banked';
+    return { type: 'state', pred: { kind, res: m[2]!, min: Number(m[3]) } };
+  }
+  m = /^state belonging ([a-z0-9_-]+)$/.exec(spec);
+  if (m) return { type: 'state', pred: { kind: 'belonging', id: m[1]! } };
+  m = /^state skill ([a-z_]+) >= (\d+)$/.exec(spec);
+  if (m) return { type: 'state', pred: { kind: 'skill', skill: m[1]!, min: Number(m[2]) } };
+  m = /^native ([a-z0-9-]+)$/.exec(spec);
+  if (m) return { type: 'state', pred: { kind: 'native', key: m[1]! } };
+  throw new NarrativeError(
+    loc,
+    `bad req spec "${spec}" — expected "count <verb:subject> <N>", "flag <id>", ` +
+      `"state resource|banked <res> >= <N>", "state belonging <id>", ` +
+      `"state skill <id> >= <N>", or "native <key>"`,
+  );
+}
+
 /** True when `text`, placed at column 0, would be re-classified as a structural marker —
  *  used by writers/wrappers to avoid a hard-wrap landing on an ambiguous continuation line. */
 export function looksLikeMarker(text: string): boolean {
@@ -266,7 +341,9 @@ type Section =
   | 'dialogue' // between `## dialogue` and its first `### line`
   | 'dialogue-line'
   | 'prose' // between `## prose` and its first `### <key>`
-  | 'prose-entry';
+  | 'prose-entry'
+  | 'requirements' // between `## requirements` and its first `### req`
+  | 'req-entry';
 
 export function parseNarrative(source: string, file: string): NarrativeDoc {
   const lines = source.split('\n');
@@ -275,6 +352,8 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
   let scene: RungSceneNode | IntroSceneNode | undefined;
   let dialogue: DialogueDefNode | undefined;
   let prose: ProseDocNode | undefined;
+  let reqs: RequirementsNode | undefined;
+  let rentry: ReqEntryNode | undefined;
   let section: Section = 'meta';
   let topic: TopicNode | undefined;
   let option: OptionNode | undefined;
@@ -291,6 +370,8 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     scene = undefined;
     dialogue = undefined;
     prose = undefined;
+    reqs = undefined;
+    rentry = undefined;
     topic = undefined;
     option = undefined;
     dline = undefined;
@@ -335,6 +416,14 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         if (key === 'voice') dline.voice = value.trim();
         else if (key === 'when') dline.when = parseWhen(value, loc);
         else return fail(loc.line, `unknown dialogue-line key "${key}" (voice/when)`);
+      } else if (section === 'req-entry' && rentry) {
+        if (key === 'flavor') {
+          if (rentry.flavor !== undefined) return fail(loc.line, 'duplicate req flavor');
+          rentry.flavor = value.trim();
+        } else if (key === 'drive') {
+          if (rentry.drive !== undefined) return fail(loc.line, 'duplicate req drive');
+          rentry.drive = value.trim();
+        } else return fail(loc.line, `unknown req annotation "${key}" (flavor/drive)`);
       } else if (option) {
         switch (key) {
           case 'say':
@@ -466,6 +555,15 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       section = 'prose';
       continue;
     }
+    const reqsM = RE_REQS.exec(raw);
+    if (reqsM) {
+      close();
+      resetBlock();
+      reqs = { kind: 'requirements', rankKey: reqsM[1]!, reqs: [], loc: { file, line: n } };
+      blocks.push(reqs);
+      section = 'requirements';
+      continue;
+    }
     if (raw.startsWith('## ')) return fail(n, `unrecognized block heading "${raw}"`) as never;
 
     // ── sub-headings ──
@@ -480,6 +578,19 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       }
       if (raw.startsWith('#'))
         return fail(n, `unrecognized heading in a dialogue def: "${raw}"`) as never;
+    }
+    if (reqs) {
+      const reqM = RE_REQ.exec(raw);
+      if (reqM) {
+        close();
+        const loc = { file, line: n };
+        rentry = { id: reqM[1]!, spec: parseReqSpec(reqM[2]!, loc), loc };
+        reqs.reqs.push(rentry);
+        section = 'req-entry';
+        continue;
+      }
+      if (raw.startsWith('#'))
+        return fail(n, `unrecognized heading in a requirements block: "${raw}"`) as never;
     }
     if (prose) {
       const keyM = RE_KEY.exec(raw);
@@ -609,6 +720,14 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     } else if (b.kind === 'dialogue') {
       for (const l of b.lines) {
         if (l.text === '') throw new NarrativeError(l.loc, `dialogue line "${l.id}" has no text`);
+      }
+    } else if (b.kind === 'requirements') {
+      if (b.reqs.length === 0) {
+        throw new NarrativeError(b.loc, `requirements ${b.rankKey} lists no requirements`);
+      }
+      for (const r of b.reqs) {
+        if (!r.flavor) throw new NarrativeError(r.loc, `req "${r.id}" has no flavor line`);
+        if (!r.drive) throw new NarrativeError(r.loc, `req "${r.id}" has no drive hint`);
       }
     } else {
       for (const e of b.entries) {

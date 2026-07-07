@@ -201,6 +201,55 @@ committed with the sim summary in the commit body.
 **DoD:** prd:drift clean; no doc references `rungThreshold` /
 `RUNG_POINTS_PER_ACT` outside history/archive.
 
+## Phase-3 cutover worksheet (surveyed 2026-07-07 — the atomic commit's touch list)
+
+Every consumer of the dying model, from a full-tree grep; the cutover lands as
+ONE verified commit (plus test-fixture re-derives):
+
+- `state.ts:160,223` — `rungMeter: number` → `rungReqs:
+  Readonly<Record<string, number>>` (init `{}`).
+- NEW `core/progress-events.ts` (AC-20 glue) — `applyProgressEvent(state,
+  token)` = quests + requirements advance + flavor narration lines;
+  `settleRequirements(state)` for the atomic (state/flag) pass at the reduce
+  tail.
+- `core/ranks.ts` — delete `accrueRungMeter`; `rungProgress` → `{percent,
+  ready}` via the engine; `applyPromotion` resets `rungReqs: {}`.
+- `content/ranks.ts` — delete `meterThreshold` + `storyGate` + `advanceHint`
+  (the "meter full but blocked" cue dies — 100% IS ready). KEEP `eligible`
+  (balance-sim §61 + the interim autoplay still read it; re-audit in Phase 5).
+- `intents.ts` (CONTESTED — after the economy WIP lands) — both
+  `accrueRungMeter` sites → `applyProgressEvent('act:…')`; `gather:` /
+  `kill:` quest-token sites route through the same glue; `repair_weapon`
+  emits `act:repair_weapon`; settle pass at the reduce tail.
+- `fight.ts:132` — `applyQuestEvent` → `applyProgressEvent`.
+- `autoplay.ts` — R2 special-case (§147) + `cheapestEligibleGlobal` →
+  requirement-driven: unfinished `count act:*` → walk-to + do that labour;
+  the R2 flag req → `face_wolf`; `kill:*` → walk-to + fight (R3+); state-pred
+  driving stays Phase 5 (harness reach today is R0→R3, act/flag/kill only).
+- `personas.ts:270` + `fixtures/specs.ts:156` — "meter full → wolf" reads →
+  "only the flag req remains".
+- `playcheck.ts:80,86`, `sim/metrics.ts:138,179`,
+  `telemetry/milestones.ts:89-91` — meter reads → `rungPercent` (milestone
+  "meter-full moment" = percent hitting 100).
+- `persistence/validate.ts:190,266` — SCHEMA_VERSION bump; migration drops
+  `rungMeter`, seeds `rungReqs: {}`.
+- `render.ts:692,1338,2661` — percent fill + drop the `476/1100` readout;
+  advanceHint branch dies; the rake-auto reveal (§2661,
+  `RAKE_AUTO_REVEAL_METER`) re-keys on the rake req's count progress.
+- `dev-cockpit.ts` — retire the Rung-pacing slider group (§200-256, §585) per
+  the locked design; the Phase-4 cheatlist replaces the readout.
+- `balance.ts` (CONTESTED) — delete `RUNG_POINTS_PER_ACT`,
+  `RUNG_METER_THRESHOLDS`, `rungThreshold` + their cockpit getter cases.
+- `verify-content.ts:58-62` — delete the threshold-mirror check.
+- `pacing-report.ts` + `balance-sim.ts:50,61,293` — compile-true rework
+  (percent targets); the real sim policy + band re-derive stays Phase 5.
+- `gen-docs.ts:71` — the t0-content rank table drops meterThreshold (regen).
+- `core/index.ts:106` — export swap. Tests importing `rungThreshold`
+  (`economy.test`, `m1.test`, `rung-beats.test`, `pacing.test`,
+  `invariants.test`, `dev-cockpit.test`, `render.test`,
+  `sim/pacing-envelope.test`, `save.test`, `milestones.test`) — re-derive
+  fixtures from the gen'd registry.
+
 ## Sequencing & landmines
 
 - Phases run 1→7; 2 can start alongside 1 (grammar spec needs the type shapes

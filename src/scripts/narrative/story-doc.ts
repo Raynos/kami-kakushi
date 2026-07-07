@@ -143,6 +143,42 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
     L.push(...sceneLines(scene, resolve));
   }
 
+  // ── the hidden rung requirements (FB-121 / ADR-137) — the human's sign-off
+  // artifact for the authored lists: flavor first (what the player feels), the
+  // mechanical spec as small print (what the engine counts). ──
+  const reqBlocks = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'requirements');
+  if (reqBlocks.length > 0) {
+    L.push('## The hidden rung requirements', '');
+    L.push(
+      '> The player never sees this list — only the rounded % bar and each',
+      "> completion's flavor line. Counts are provisional (the FB-4 sim tunes",
+      '> them; ADR-132).',
+      '',
+    );
+    for (const b of reqBlocks) {
+      const rank = RANK_BY_ID.get(b.rankKey);
+      const title = rank ? `${rank.title} ${rank.kanji}` : b.rankKey;
+      L.push(`### ${b.rankKey} · ${title}`, '');
+      for (const r of b.reqs) {
+        const s = r.spec;
+        const mech =
+          s.type === 'count'
+            ? `${s.token} ×${s.target}`
+            : s.type === 'flag'
+              ? `flag ${s.flag}`
+              : s.pred.kind === 'native'
+                ? `native ${s.pred.key}`
+                : s.pred.kind === 'belonging'
+                  ? `own ${s.pred.id}`
+                  : s.pred.kind === 'skill'
+                    ? `skill ${s.pred.skill} ≥ ${s.pred.min}`
+                    : `${s.pred.kind} ${s.pred.res} ≥ ${s.pred.min}`;
+        L.push(`- ${resolve(r.flavor ?? '')} <small>*(${r.id} — ${mech})*</small>`);
+      }
+      L.push('');
+    }
+  }
+
   while (L[L.length - 1] === '') L.pop();
   return L.join('\n') + '\n';
 }

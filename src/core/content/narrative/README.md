@@ -25,8 +25,21 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
   (`## prose flavor`, `### <key>`). Live-switchable in the DEV set-switcher
   (`dev.subFlavor`) — a diverge on one ships its takes as a `takes/` bundle
   (ADR-143). Re-exported by `../flavor.ts`.
-- All four also compile into the one-page reading script
-  [`docs/content/t0-story.md`](../../../../docs/content/t0-story.md).
+- `requirements.md` → `../requirements.gen.ts` — the **hidden rung-requirement
+  lists** (FB-121 / ADR-137), one `## requirements R<n>` block per rung R0–R7
+  (the validator holds the set to exactly all eight). Each `### req <id> ·
+  <spec>` is one requirement; the spec grammar is CLOSED — `count
+  <verb:subject> <N>` (the quest token grammar), `flag <id>`, `state
+  resource|banked <res> >= <N>`, `state belonging <id>`, `state skill <id> >=
+  <N>`, or `native <key>` (a hand-written predicate in
+  `core/requirements-engine.ts` `NATIVE_PREDICATES` — real logic never grows
+  this grammar). Every req carries `flavor:` (the diegetic completion line)
+  and `drive:` (the sim bot's satisfaction hint) — both required. Re-exported
+  by `../requirements.ts`; counts tune by edit → `gen:narrative` → sim
+  (ADR-132; no balance.ts mirror).
+- All of the above also compile into the one-page reading script
+  [`docs/content/t0-story.md`](../../../../docs/content/t0-story.md) — the
+  requirements render there as the human's sign-off section.
 
 Ph3 grammar quick-reference (details inline below where shared): `when: <flag>`
 gates a dialogue line on a story flag; `when: <npc>.regard is|not <value>` on

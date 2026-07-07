@@ -382,3 +382,38 @@ export function emitFlavor(doc: NarrativeDoc): string {
   const body = `export const FLAVOR = {\n${entries}\n} as const;`;
   return withImports(GENERATED(doc.file, 'flavor.ts'), body, [`import { NAMES } from './names';`]);
 }
+
+/** Compile the requirements narrative doc into the `requirements.gen.ts` module source
+ *  (unformatted) — FB-121 / ADR-137: each rung's authored hidden-requirement list. The
+ *  registry literal matches core/requirements-engine's RequirementDef shape verbatim;
+ *  the flavor line supports `{key}` NAMES interpolation like every authored line. */
+export function emitRequirements(doc: NarrativeDoc): string {
+  const blocks = doc.blocks.filter((b) => b.kind === 'requirements');
+  if (blocks.length === 0) {
+    throw new NarrativeError({ file: doc.file, line: 1 }, 'no `## requirements` block found');
+  }
+  const emitReq = (r: (typeof blocks)[number]['reqs'][number]): string => {
+    const L: string[] = ['{'];
+    L.push(`id: ${str(r.id)},`);
+    const s = r.spec;
+    if (s.type === 'count') {
+      L.push(`type: 'count',`, `token: ${str(s.token)},`, `target: ${s.target},`);
+    } else if (s.type === 'flag') {
+      L.push(`type: 'flag',`, `flag: ${str(s.flag)},`);
+    } else {
+      L.push(`type: 'state',`, `pred: ${JSON.stringify(s.pred)},`);
+    }
+    L.push(`flavor: ${textExpr(r.flavor!, r.loc)},`);
+    L.push(`drive: ${str(r.drive!)},`);
+    L.push('}');
+    return L.join('\n');
+  };
+  const body = `export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[]>> = {\n${blocks
+    .map((b) => `${b.rankKey}: [\n${b.reqs.map(emitReq).join(',\n')},\n],`)
+    .join('\n\n')}\n};`;
+  return withImports(GENERATED(doc.file, 'requirements.ts'), body, [
+    `import type { RequirementDef } from '../requirements-engine';`,
+    `import type { RankId } from './ranks';`,
+    `import { NAMES } from './names';`,
+  ]);
+}

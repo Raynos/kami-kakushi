@@ -34,6 +34,12 @@ _(none open)_
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
 
+- [ ] `docs/content/t0-story.md` § "The hidden rung requirements" — the
+  **authored requirement lists** for all eight rungs (FB-121 / ADR-137, the
+  Phase-2 sign-off artifact — async per your 2026-07-07 call; the build keeps
+  going meanwhile). Flavor first, mechanics as small print; counts are
+  provisional until the Phase-5 sim re-derives the bands.
+
 - [ ] `docs/plans/fable-2026-07-06-story-quality-ladder.md` — the **story-quality
   umbrella plan**: your 19-answer decision pass recorded verbatim (§1 answer
   sheet — adopted vs rejected) + the forward phases (§2): Phase 1 = the

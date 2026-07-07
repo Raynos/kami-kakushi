@@ -34,6 +34,37 @@ whatever economy has landed by then; contested files rebase-aware.
   integer percent, the 99-clamp (a 20-req list where rounding WOULD lie),
   chunk derivation, loud unknown-native error.
 
+## 2 · Phase 2 — the `requirements.md` grammar + gen + authored lists
+
+- `src/scripts/narrative/parse.ts` — `## requirements R<n>` block kind +
+  `### req <id> · <spec>` entries; the CLOSED spec grammar (`count`, `flag`,
+  `state resource|banked|belonging|skill`, `native`) parsed by `parseReqSpec`
+  with authoring-line errors; `flavor:`/`drive:` annotations (both required by
+  the structural floor).
+- `src/scripts/narrative/emit.ts` — `emitRequirements` → the
+  `RUNG_REQUIREMENTS` registry literal (NAMES interpolation in flavor lines).
+- `src/scripts/narrative/validate.ts` — exactly-eight-rungs completeness, no
+  dup lists/req-ids, flavor text resolution.
+- `src/scripts/narrative/story-doc.ts` — t0-story.md gains "The hidden rung
+  requirements" (flavor first, mechanics as small print) — the human's
+  sign-off artifact, reading-queued.
+- `src/core/content/narrative/requirements.md` — NEW: all 8 lists authored
+  (R0 rake-centred; R2 absorbs `first-fight-survived`; R3+ combat/economy;
+  R6 exercises the `native estate-u1` hatch; counts scaled to the old meter's
+  act-equivalents, sim-tuned in Phase 5). Draft flavor lines — the ADR-139
+  per-rung diverge bundles run as a later pass (human call: bundles, async).
+- `src/core/content/requirements.ts` + `requirements.gen.ts` — the wrapper +
+  generated registry; `NATIVE_PREDICATES['estate-u1']` in the engine.
+- Tests: `src/scripts/narrative/requirements.test.ts` (grammar contract) +
+  `src/core/content/requirements.test.ts` (registry-consistency invariants —
+  every count token resolves to a reducer-emitted token, every predicate to
+  real vocabulary; derives from ACTIVITIES/MOBS/BELONGINGS/SKILLS/RANKS).
+
+**Shared-tree hold:** the parallel economy build has uncommitted WIP in
+`intents.ts`/`pillars.ts`/`balance.ts` (tree-red typecheck). Phase 2 commit
+waits for their green; the Phase 3 cutover waits for their `intents.ts`/
+`balance.ts` to land (pathspec commits sweep whole files — no interleaving).
+
 ## Next intended steps
 
 1. Phase 2 — `requirements.md` grammar in gen-narrative (parse/emit/validate),

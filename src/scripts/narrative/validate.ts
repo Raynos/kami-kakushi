@@ -164,6 +164,7 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
   const topicIds = new Map<string, Loc>();
   const optionIds = new Map<string, Loc>();
   const rankKeys = new Map<string, Loc>();
+  const reqRungs = new Map<string, Loc>();
   const introScenes: IntroSceneNode[] = [];
 
   for (const doc of docs) {
@@ -181,11 +182,35 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
         }
         continue;
       }
+      if (block.kind === 'requirements') {
+        // FB-121 / ADR-137: one list per rung, unique req ids within it, resolvable
+        // flavor text. Rung-set completeness (all 8, no dup) is checked below.
+        if (reqRungs.has(block.rankKey)) {
+          err(block.loc, `duplicate requirements list for ${block.rankKey}`);
+        }
+        reqRungs.set(block.rankKey, block.loc);
+        const seen = new Set<string>();
+        for (const r of block.reqs) {
+          if (seen.has(r.id)) err(r.loc, `duplicate req id "${r.id}" in ${block.rankKey}`);
+          seen.add(r.id);
+          if (r.flavor) checkText(r.flavor, r.loc);
+        }
+        continue;
+      }
       const scene = block;
       if (scene.kind === 'scene') introScenes.push(scene);
       validateSceneCommon(scene, err, checkProse, topicIds, optionIds);
       if (scene.kind === 'rung') validateRungExtras(scene, rankKeys, err);
       else validateIntroExtras(scene, err);
+    }
+  }
+
+  // FB-121: a requirements doc must cover EXACTLY the eight rungs (no half-migrated ladder).
+  if (reqRungs.size > 0) {
+    for (const rank of RANKS) {
+      if (!reqRungs.has(rank.id)) {
+        err([...reqRungs.values()][0]!, `requirements list missing for ${rank.id} (all 8 rungs)`);
+      }
     }
   }
 

@@ -54,7 +54,10 @@ export type RequirementProgress = Readonly<Record<string, number>>;
 
 /** Native escape-hatch predicates (FB-5 `native:`) — real logic beyond the declared
  *  grammar lives HERE as hand-written TS, keyed by the `native:` name in the md. */
-export const NATIVE_PREDICATES: Readonly<Record<string, (s: GameState) => boolean>> = {};
+export const NATIVE_PREDICATES: Readonly<Record<string, (s: GameState) => boolean>> = {
+  /** R6 "coin-into-the-works": the first kura-works PURCHASE stage bought (ADR-098/ADR-107). */
+  'estate-u1': (s) => s.estateStage >= 1,
+};
 
 // ── Progress reads ──────────────────────────────────────────────────────────────
 

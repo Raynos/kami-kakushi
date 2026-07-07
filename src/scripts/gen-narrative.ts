@@ -16,7 +16,14 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { parseNarrative, NarrativeError, type NarrativeDoc } from './narrative/parse';
-import { emitColdOpen, emitDialogue, emitFlavor, emitIntro, emitRungBeats } from './narrative/emit';
+import {
+  emitColdOpen,
+  emitDialogue,
+  emitFlavor,
+  emitIntro,
+  emitRequirements,
+  emitRungBeats,
+} from './narrative/emit';
 import { emitStoryDoc } from './narrative/story-doc';
 import { validateNarrative } from './narrative/validate';
 import { emitStoryTakes, parseBundleMeta, type ParsedTakeBundle } from './narrative/takes';
@@ -54,6 +61,11 @@ const TARGETS: readonly Target[] = [
     md: 'src/core/content/narrative/flavor.md',
     out: 'src/core/content/flavor.gen.ts',
     emit: emitFlavor,
+  },
+  {
+    md: 'src/core/content/narrative/requirements.md',
+    out: 'src/core/content/requirements.gen.ts',
+    emit: emitRequirements,
   },
 ];
 
