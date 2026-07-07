@@ -28,7 +28,7 @@ import { mount } from '../ui';
 import { createSfx } from '../ui/sfx';
 import { createDevApi, mountDevPanel, createBalanceCockpit } from '../ui/dev';
 import { mountCapture } from '../ui/capture';
-import { snapshotDom } from '../ui/capture-screenshot';
+import { snapshotDom, compositeStrokes } from '../ui/capture-screenshot';
 import { createTelemetry } from '../telemetry';
 import { resolveDevGating } from './dev-gating';
 
@@ -623,6 +623,7 @@ async function boot(): Promise<void> {
     mountCapture({
       host: root,
       snapshot: snapshotDom,
+      composite: compositeStrokes,
       build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
       buildContext: () => ({
         seed: state.rng.seed,

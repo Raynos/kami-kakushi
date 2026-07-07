@@ -27,6 +27,10 @@ function baseCtx(): CaptureEntryContext {
 }
 
 const flush = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+// The pick arms a one-shot capture-phase click swallow (eats the compatibility click that follows
+// the pick pointerdown). Consume it before dispatching real button clicks in a test.
+const clearSwallow = (): void =>
+  void document.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 const boxEl = (): HTMLElement | null => document.querySelector('[data-kami-capture]');
 const highlightEl = (): HTMLElement | null => document.querySelector('[data-kami-highlight]');
 const hotkey = (target: EventTarget = document): void => {
@@ -230,6 +234,110 @@ describe('mountCapture — submit', () => {
     await typeAndSend('glitch');
     expect(posts[0]!.body.screenshot).toBe(png);
     expect(posts[0]!.body.entry).toContain(`${SESSION}/`);
+  });
+
+  it('bakes drawn markup into the screenshot via the injected compositor', async () => {
+    const base = 'data:image/png;base64,BASE==';
+    const composited = 'data:image/png;base64,COMPOSITED==';
+    let seen: { base: string; strokes: readonly { x: number; y: number }[][] } | null = null;
+    mount({
+      snapshot: async () => base,
+      composite: async (b, strokes) => {
+        seen = { base: b, strokes: strokes as { x: number; y: number }[][] };
+        return composited;
+      },
+    });
+    pick(null);
+    clearSwallow();
+    const canvas = document.querySelector<HTMLCanvasElement>('[data-kami-markup]')!;
+    expect(canvas).not.toBeNull();
+    canvas.getBoundingClientRect = () =>
+      ({
+        left: 0,
+        top: 0,
+        width: 100,
+        height: 100,
+        right: 100,
+        bottom: 100,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      }) as DOMRect;
+    // enter draw mode, then draw one stroke (down → move → up)
+    const btn = (re: RegExp): HTMLButtonElement =>
+      [...boxEl()!.querySelectorAll('button')].find((b) => re.test(b.textContent ?? ''))!;
+    btn(/Draw/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    canvas.dispatchEvent(
+      new MouseEvent('pointerdown', { bubbles: true, clientX: 10, clientY: 12 }),
+    );
+    document.dispatchEvent(
+      new MouseEvent('pointermove', { bubbles: true, clientX: 40, clientY: 50 }),
+    );
+    document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
+    await typeAndSend('the CSS stick is right here');
+    expect(seen).not.toBeNull();
+    expect(seen!.base).toBe(base);
+    expect(seen!.strokes).toHaveLength(1);
+    expect(seen!.strokes[0]).toEqual([
+      { x: 10, y: 12 },
+      { x: 40, y: 50 },
+    ]);
+    expect(posts[0]!.body.screenshot).toBe(composited); // the baked shot, not the bare base
+  });
+
+  it('skips compositing when nothing was drawn (base shot passes through)', async () => {
+    const base = 'data:image/png;base64,BASE==';
+    let called = false;
+    mount({
+      snapshot: async () => base,
+      composite: async (b) => {
+        called = true;
+        return `${b}X`;
+      },
+    });
+    pick(null);
+    await typeAndSend('no drawing, just words');
+    expect(called).toBe(false);
+    expect(posts[0]!.body.screenshot).toBe(base);
+  });
+
+  it('Undo/Clear gate on whether anything is drawn', () => {
+    mount({ snapshot: async () => 'data:image/png;base64,BASE==' });
+    pick(null);
+    clearSwallow();
+    const canvas = document.querySelector<HTMLCanvasElement>('[data-kami-markup]')!;
+    canvas.getBoundingClientRect = () =>
+      ({
+        left: 0,
+        top: 0,
+        width: 100,
+        height: 100,
+        right: 100,
+        bottom: 100,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      }) as DOMRect;
+    const btn = (re: RegExp): HTMLButtonElement =>
+      [...boxEl()!.querySelectorAll('button')].find((b) => re.test(b.textContent ?? ''))!;
+    // nothing drawn yet → Undo/Clear disabled
+    expect(btn(/Undo/).disabled).toBe(true);
+    expect(btn(/Clear/).disabled).toBe(true);
+    btn(/Draw/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    const stroke = (): void => {
+      canvas.dispatchEvent(
+        new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }),
+      );
+      document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
+    };
+    stroke();
+    stroke();
+    expect(btn(/Undo/).disabled).toBe(false);
+    btn(/Undo/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(btn(/Undo/).disabled).toBe(false); // one stroke still left
+    btn(/Clear/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(btn(/Undo/).disabled).toBe(true); // wiped
+    expect(btn(/Clear/).disabled).toBe(true);
   });
 
   it('a failed POST falls back to a file download (no throw)', async () => {
