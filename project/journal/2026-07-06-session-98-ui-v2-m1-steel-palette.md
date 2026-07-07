@@ -355,3 +355,13 @@ branches were tree-shaken. All 10 seams flipped to `__DEV_TOOLS__ && dev`
 (the ADR-138 axis the ADR-139 story surfaces already used). PH3 proof on a
 real prod build: map-k renders + estate-c replaces the default under
 ?dev=yes; no-param build fully inert. verify green.
+
+## Addendum 22 — v0.3.9 "the steel release" SHIPPED · final checkpoint
+
+`/ship patch` ran clean: release commit `3ebeef0` + tag `v0.3.9` on main,
+gh-pages `a337ab6` (strip-hygiene gate green; Pages propagating at ship
+time). The changelog carries the full player-facing story of the day.
+Session closes: UI-v2 built+certified+shipped in one day; the human's open
+queue (variant picks incl. maps H–L, HR-1/8, spoilage + early-readout calls,
+story plan) is recorded in the snapshot. Co-agent WIP left untouched
+(vite.config.ts, w1:p2's verify trim).

@@ -62,8 +62,7 @@ Spec: [`../../docs/living/prd.md`](../../docs/living/prd.md).
 - **Story track kickoffs** 🔲 — the 2 TODOs: fable **audit** of story/narrative,
   then the fable **beat redesign** (fresh sessions; the redesign = the first
   real ADR-139 bundle, reviewed in the new Story surfaces).
-- **/ship** 🔲 — UI-v2 is certified but NOT yet released; say `/ship` for the
-  bump + tag + gh-pages train.
+
 
 (Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
@@ -97,10 +96,11 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 ## How to resume
 
-> 🎮 **v0.3.7 pushed 2026-07-05 via `/ship`** (tooling-only refresh — FB-10 taste +
-> /ship v2 + FB-8 plan lock; nothing player-facing; gh-pages `f4697b5` ← `b1b3403`,
-> not live-verified). On `origin/main` (green), live at raynos.github.io/kami-kakushi; ADRs **ADR-107–ADR-125**.
-> Open = the human queue above; the deferred tail (R7-capstone once **T1**) is next.
+> 🎮 **v0.3.9 "the steel release" shipped 2026-07-06 via `/ship`** (the full
+> Andon Steel UI-v2 + drains FB-127–172 + the deployed-variant-toggle fix,
+> ADR-138 axis; gh-pages `a337ab6` ← main `3ebeef0`; Pages was still
+> propagating at ship time — `ship.sh --verify-live` to confirm). Live at
+> raynos.github.io/kami-kakushi. Open = the human queue above.
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
