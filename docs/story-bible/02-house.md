@@ -52,6 +52,12 @@ neither payment can be explained without opening what it protects.
    packet, the unstruck line, the succession knot. **Toku pays for the
    living; Genemon pays for the dead.**
 
+Both wounds converge on one enemy: **the lord of the castle town**
+(T4) has hands in each — the famine-year arrears that priced
+Katsuhide's arithmetic, and the flood-works skim the buried truth
+names. The house's private griefs and its public campaign are the
+same story.
+
 ## The ruin & the guest house
 
 The family lives in what everyone — the household, the log, the player
@@ -72,6 +78,13 @@ guest house: the family hosts power in the rooms it once hid in. The
 game's estate-build IS this restoration. Today's village is the
 shrunken remnant of the machi that served the old seat — and says so
 in rumor. Full anatomy: [`05-world.md`](05-world.md).
+
+## Open cells
+
+Katsuhide's exile identity (what ten years made of him) · the jizō
+offerings' answer (a resolving mystery — [`tiers/t0.md`](tiers/t0.md))
+· the MC's birth name (T3 design) · the enemy-lord's exact office
+(T4 design).
 
 ## Cast-name norm
 

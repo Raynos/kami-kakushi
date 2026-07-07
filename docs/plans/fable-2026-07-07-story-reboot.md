@@ -1,9 +1,11 @@
 # The story reboot — full co-design from the kernel
 
-**Status: ▶️ IN-PROGRESS — walked through with the human section by section
-and approved whole (2026-07-07); Phase 1 (pillars co-write) is live. NO ADR
-yet, per the human's hold: the frame ADR mints when the design finalizes
-and building starts — not at approval.** Supersedes
+**Status: ▶️ IN-PROGRESS — the frame/record plan. Phases 0–2 complete;
+Phase 3 is mid-flight and its EXECUTION now lives in
+`fable-2026-07-07-story-bible-finish.md` (workstream A = finish the bible,
+workstream B = the docs-and-game ripple). This doc remains the frame +
+kernel-redline record. NO ADR yet, per the human's hold: the frame ADR
+mints at BIBLE DONE + build start (the finish plan's B0).** Supersedes
 `fable-2026-07-06-story-quality-ladder.md` in SCOPE (that plan was sized for
 a surface-only rewrite; the human reopened the design layer) — its process
 decisions carry forward, its design decisions revert to candidates (see §2).

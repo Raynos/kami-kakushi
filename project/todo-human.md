@@ -34,6 +34,11 @@ _(none open)_
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
 
+- [ ] `docs/plans/fable-2026-07-07-story-bible-finish.md` — the **story-bible
+  finish plan**: workstream A (the remaining bible sittings with you — T1,
+  voices, register rules, the staged taper) + workstream B (the docs & game
+  ripple once the bible is blessed), routed Fable/Opus per step, written for
+  fresh sessions to pick up.
 - [ ] `docs/plans/fable-2026-07-07-story-salvage.md` — the **story salvage
   doc**: the slop-audit findings/fixes condensed live (THE substance you
   asked not to lose) + the mostly-superseded 19 ladder answers as record;

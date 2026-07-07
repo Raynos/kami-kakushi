@@ -33,16 +33,20 @@
   world sheet**: the tier→map ladder, the node grammar, the estate
   anatomy, the world's global rules.
 - [`../story-bible/tiers/`](../story-bible/tiers/) — **the per-tier
-  detail sheets**: one per tier — ladder detail, zones as nodes, cast
-  at nodes, enemies, tier-up economics, mystery seeding.
+  detail sheets**: `t0.md` COMPLETE (walked whole); `t1.md`–`t6.md`
+  are SEEDS at their staged detail targets, each carrying its placed
+  canon + its sitting's agenda.
 
 ## Status
 
 Canon: §0 · §0.5 · §0.9 · §1 · §2 (structure locked; the seven ladders
 approved in spirit, expected to evolve — especially later tiers) · the
 estate anatomy · the six-season calendar · **the complete T0 tier
-sheet** (walked whole 2026-07-07). Awaiting work: cast voices (§3);
-tier sheets T1–T6 (T1 in equal detail, then the staged taper).
+sheet**. Seeded: tier sheets T1–T6 (placed canon + sitting agendas) ·
+cast sketches with voice candidates · candidate register rules.
+Awaiting sittings: T1 (full detail) · cast VOICES · register rules ·
+then the staged taper. The finish is planned in
+`docs/plans/fable-2026-07-07-story-bible-finish.md`.
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·
 T2–T3 in half detail · T4 in quarter · T5 in fifth · T6 in tenth.
