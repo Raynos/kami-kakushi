@@ -191,12 +191,27 @@ with the human one piece per exchange.
   (**the debt RETIRES as antagonist at T3's end** — clean baton-pass to
   T4's enemy). README ledger + T3 header updated.
 
+- **T4 DONE at quarter detail** (two AskUserQuestion rounds — the
+  human overrode my drafts twice, productively): the enemy is **a
+  martial castle-town lord**, NOT the administrator I proposed, with a
+  **personal stake** I then had to author: **scavenger in the old
+  chair** — his house took the Kurosawa's precedence as they fell, and
+  helped the fall (sharpened the famine arrears, took the flood-works
+  cut). **The house's OWN Kuzuhara guilt survives** (the grandfather
+  built fatal works; the enemy only profited — full truth cuts both
+  ways). Kernel #5 intact (he keeps his head; the daimyō never a
+  scene). **Katsuhide = temple registrar**, authored renunciation
+  (strikes his own line, does not return) — the ink thread tripled
+  (Shigemasa won't strike · Katsuhide strikes himself · Tahei's family
+  refused to strike him). README ledger updated (T4 quarter).
+
 ## Next intended steps
 
-- **T4 sheet at QUARTER detail** (next): the rock is the enemy-lord
-  design cell (office · reason · both-wounds tie) + Katsuhide met. Its
-  first paper shadow (the named office) is already seeded from T3.
-- Then T5 (fifth) · T6 check (tenth).
+- **T5 sheet at FIFTH detail** (next): the rock is the audience-day
+  inverse-rung system + the handover beat (the stewardship succession
+  passes; Genemon's silver secret finally handed on).
+- Then T6 check (tenth — verify nothing crept into the reserved tier).
 - A2 resumes after the tier sheets (four voice drafts awaiting lock;
-  the name sweep owes: mother + sister names, the toiya master,
-  Sayo/O-Sato, Kanta/Katsuhide); then A3 register rules.
+  the name sweep owes: mother + sister names, the toiya master, the
+  enemy lord + his house, Sayo/O-Sato, Kanta/Katsuhide); then A3
+  register rules; then A-final coherence pass → BIBLE DONE.

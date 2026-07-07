@@ -34,8 +34,9 @@
   anatomy, the world's global rules.
 - [`../story-bible/tiers/`](../story-bible/tiers/) — **the per-tier
   detail sheets**: `t0.md` + `t1.md` COMPLETE (walked whole);
-  `t2.md` + `t3.md` walked at HALF detail; `t4.md`–`t6.md` are SEEDS
-  at their staged detail targets, each carrying its placed canon + its
+  `t2.md` + `t3.md` walked at HALF detail; `t4.md` walked at QUARTER
+  detail (the enemy cell + Katsuhide met); `t5.md`–`t6.md` are SEEDS at
+  their staged detail targets, each carrying its placed canon + its
   sitting's agenda.
 
 ## Status
@@ -43,10 +44,12 @@
 Canon: §0 · §0.5 · §0.9 · §1 · §2 (structure locked; the seven ladders
 approved in spirit, expected to evolve — especially later tiers) · the
 estate anatomy · the six-season calendar · **the complete T0 and T1
-tier sheets** (walked whole) · **T2 and T3 walked at half detail**
-(incl. the human's origin RELOCK — Tahei, landslide, the family alive,
-the Tama + reunion threads restored from the PRD). Seeded: tier sheets
-T4–T6 (placed canon + sitting agendas) · cast sketches with voice
+tier sheets** (walked whole) · **T2 and T3 at half detail** (incl. the
+human's origin RELOCK — Tahei, landslide, the family alive, the Tama +
+reunion threads restored from the PRD) · **T4 at quarter detail** (the
+enemy design cell — a martial lord, scavenger in the old chair; +
+Katsuhide met, temple registrar). Seeded: tier sheets T5–T6 (placed
+canon + sitting agendas) · cast sketches with voice
 candidates (Genemon + Kihei voices locked; four T1 faces + the T2/T3
 cast named). Awaiting sittings: cast VOICES (parked mid-A2) · register
 rules · the staged taper (T4 quarter · T5 fifth · T6 tenth) · the
