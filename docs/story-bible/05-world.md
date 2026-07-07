@@ -21,3 +21,20 @@
 - **Parallel reputation tracks:** the VILLAGE (from T2) and the ORIGIN
   TOWN (T3) each carry their own reputation track, completely distinct
   from house rungs.
+
+## Global rules (human-locked 2026-07-07)
+
+- **The home base grows EVERY tier** — the estate/compound expands and
+  repairs continuously; "the estate levels up" is never one tier's
+  feature.
+- **REPAIR is a first-class world verb:** older parts of the estate
+  (and later the domain) carry visible repaired-vs-ruined state; the
+  restoration arc of the main house (see
+  [`../story-bible/02-house.md`](../story-bible/02-house.md), THE RUIN)
+  is its spine.
+- **Zone scale grammar:** a post-town ≈ 4–5 zones; the castle town is
+  the first LARGE zone — ~5 sectors × ~4 zones each; the domain (T5)
+  holds multiple towns + 20+ named villages (a handful visitable, the
+  rest reachable by cause).
+- **Backtracking with reasons:** later tiers plant side-quests and
+  encounters that send the player back through earlier zones.

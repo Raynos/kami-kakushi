@@ -21,206 +21,191 @@ expeditionary → town-taker → steward → the house itself.*
 
 ---
 
-## ⏳ DRAFT UNDER REDLINE — per-tier ladders, rungs & zones (v2, per the human's steers)
+## ⏳ DRAFT UNDER REDLINE — per-tier ladders, rungs & zones (v3, per the human's second redline)
 
-### T0 · The Estate — the household (1780)
+**New structural canon feeding this draft (human, 2026-07-07):**
 
-It starts with a body at the gate: fed once out of form, day-labor
-bought by the day, the log calling him "the man from the weir." It ends
-with the **use-name written in the day-book by GENEMON** — not the lord;
-T0 ends and he has never properly met Shigemasa — plus a fixed sleeping
-place in the yard buildings. *Theme: from weather to tool — the house
-learns his hands, not his face.* Variety stays (human steer): the wolf,
-Kihei's drill yard, forage, crafting-lite, the pedlar AT the gate (no
-town access — the market comes to him). Beats: the cold open
-speaker-flip (`You:`→`Nameless:`) · the wolf survived-not-won ·
-shame→begging + the creed · the accusation night · the use-name.
+- **THE RUIN.** The family lives in a barely-maintained GUEST HOUSE; the
+  MAIN HOUSE — a multi-building compound across zones and wings (outer
+  domains → wings → inner domain → center) — is in RUINS. The game's
+  estate-build IS its restoration, tier by tier. The compound was once a
+  jin'ya-class seat (the administrative "almost-castle" of the region);
+  the village the player meets in T2 is the shrunken remnant of the
+  machi that served it — and the village says so, in rumor and flavor.
+- **The home base grows EVERY tier** — not a T5 bullet; a global rule
+  (world sheet).
+- **Rungs ALWAYS name standing within the house/estate.** Outward doings
+  get titles too — via the ALTERNATING pattern drafted below (odd rungs
+  = house title, even rungs = the outside doing) — OR as a parallel
+  title-pair shown beside the house rung. WHICH SYSTEM: open fork.
+- **T5 terminology:** the correct unit is the DOMAIN (han) — a lord's
+  castle town + all its surrounding lands. "Province" retired.
 
-**Rungs:** R0 **The man from the weir** (pulled out; raking; the flip) ·
-R1 **The day-hand** (kept by arithmetic — two hands quit) · R2 **The
-yard-hand** (the silent rung: a task not taken back) · R3 **The
-grain-watch** (the wolf — survived, not won; ribs cracked) · R4 **The
-pupil** (he begs; the creed; the drill yard opens) · R5 **The accused**
-(the Count: the packet, the day-book clears him, no apology) · R6 **The
-trusted hand** (first coin errand, counted back to the mon) · R7 **The
-named hand** (Genemon writes the hand-me-down name; sleep; the dream).
+### T0 · The Estate — the household (1780) — unchanged from v2 except the setting
 
-**Zones:** the Weir & riverbank · the Gate & gateyard · the Forecourt ·
-the Woodshed (his corner) · the Kitchen threshold & board-side
-(threshold only) · the Kura EXTERIOR + grain-store (interior locked) ·
-the Drill yard · the Home paddy & vegetable rows · the Woodlot EDGE
-(kindling, forage — wolf country) · the Shrine alcove corner (glimpsed
-once) · Sōan's sickroom. Market = Tokubei's pedlar visits at the gate.
+As v2 (rungs R0 man-from-the-weir → R7 the named hand; zones as listed)
+— with the RUIN canon behind it: the "estate" the player works is the
+guest house + yards at the edge of a ruined compound. The ruined main
+house LOOMS in T0 — visible, locked, wrong — and is not entered.
 
-### T1 · The Estate — the land (1781–82)
+### T1 · The Estate — the land & the first third of the house (1781–82)
 
-Starts: the named hand sent OUT of the yard — the terraces, the woodlot
-proper, the works, one laborer among the paid crews. Trust arrives as
-objects and keys: a tool of his own, then mid-tier THE KURA KEY — and
-with the storehouse's interior, its secrets (the memorial alcove kept
-wrong; the old ledgers' cut page-stubs). Ends: **the house register,
-written by Shigemasa's failing hand as the old lord's LAST ENTRY** —
-the first real audience and nearly the last scene of the man's life;
-three lines up, unstruck: Katsuhide. The lord dies at the seam. *Theme:
-from tool to man of the house — legal personhood, keys, and books,
-under the debt war's daily weather.* *Skip ~2 years.*
+Starts: the named hand sent out with the crews — terraces, woodlot,
+works. But the tier's arc is the MAIN HOUSE: the crews begin clearing
+the ruin's OUTER DOMAIN and first wing, and the ladder is the slow
+earning of the right to work — then walk — then be trusted inside it.
+By tier's end he has access to roughly 1/3 of the compound. Ends: the
+register scene IN THE ROOM HE RESTORED — the shoin is the first room of
+the main house brought back, and the dying lord's only scene happens
+inside it: Shigemasa's last entry, the unstruck line, the seam. Other
+cast members are MET IN THE WINGS as they reopen (O-Sato airing a
+room that was hers; Toku at the alcove; Naoyuki where his brother's
+things are stored). *Theme: from tool to man of the house — literally:
+the house lets him in one wing at a time.* *Skip ~2 years.*
 
-**Rungs:** R0 **The field-hand** (the crews) · R1 **The terrace-hand**
-(the paddies his) · R2 **The woodcutter** (the lot; the charcoal
-clamp) · R3 **The kura-warden** (THE KEY; the alcove; the stubs) ·
-R4 **The works-hand** (the weir & embankment repairs — the OLD BREACH
-under his hands) · R5 **The tally-keeper** (the day-book tallies under
-Genemon) · R6 **The foreman** (crews answer to him; first hiring) ·
-R7 **The registered man** (Shigemasa's last entry; the unstruck line
-seen).
+**Rungs:** R0 **The field-hand** · R1 **The terrace-hand** · R2 **The
+woodcutter** · R3 **The kura-warden** (the key; the alcove; the stubs) ·
+R4 **The wing-hand** (the outer domain cleared; first steps inside) ·
+R5 **The tally-keeper** (the day-book tallies under Genemon) · R6 **The
+wing-warden** (the east wing under his charge — cast met in the wings) ·
+R7 **The registered man** (the restored shoin; Shigemasa's last entry).
 
-**Zones:** the Terraced paddies (upper & lower) · the full Woodlot +
-the charcoal clamp · the Weir & the flood-works (incl. the OLD BREACH —
-the buried-truth site candidate) · the Kura INTERIOR (alcove; old
-ledgers) · the Workshops (joiner's bench; the cold forge, lit
-late-tier) · the Second-granary site (estate build stages) · the
-Boundary stones & far fields (boar) · the Family plot (Bon; the
-sandals) · Shigemasa's shoin (end-tier only).
+**Zones:** the Terraced paddies · the full Woodlot + charcoal clamp ·
+the Weir & flood-works (the OLD BREACH) · the Kura interior · the
+Workshops · the Boundary stones & far fields · the Family plot — and
+the RUIN: the Outer domain (walls, gates, courts) · the East wing
+(cleared room by room) · the Shoin (restored last, for the scene).
 
 ### T2 · The Valley — lordless (1784)
 
-Starts: sent to speak WITH THE HOUSE'S NAME IN HIS MOUTH — a regency's
-messenger to a village that watches. Ends: **the yard-officer, the
-regency's working right hand** — Naoyuki leans on him, on the record,
-grudging. *Theme: carrying a diminished name in public — his
-inside-standing rises exactly while the house's outside-standing
-wobbles.* MAIN-QUEST WORK RUNS IN BOTH ARENAS (human steer): valley
-quests (the village's own troubles) AND estate quests (the expansion —
-new clearances, the mill share, the rebuilt gatehouse). The **village
-reputation track opens at zero, in parallel** — stranger's surcharge,
-watched hands; it never converts 1:1 to rungs. Genemon's silver errand
-(the payment road, "prayer-fees") is carried HERE — estate trust made
-of secrets.
+Starts: the house's name in his mouth — a regency's messenger to a
+village that watches. Ends: **the yard-officer** (the regent's-right-
+hand title is DEFERRED to T5 — too early here, human redline). The
+house and staff GROW through the tier: new hires under him, more
+buildings repaired (the second wing; the gatehouse), the compound
+visibly waking — and the village rumors it: "that yard was a town once."
+*Theme: carrying a diminished name in public while the house grows
+bones again.* Main-quest work in BOTH arenas: the village's troubles
+(the bandit camp is the valley's trouble made playable) AND the
+estate's expansion. The village reputation track opens at zero,
+parallel, never 1:1.
 
-**Rungs:** R0 **The house's messenger** · R1 **The market-man** (stall
-dealings; the surcharge visible) · R2 **The dues-carrier** (village +
-temple dues; Genemon's silver — the payment road) · R3 **The steward's
-shadow** (the ledgers, deeper) · R4 **The works-master** (the
-expansion: clearances, the mill) · R5 **The house's voice** (speaks for
-the house at the village council — witnessed) · R6 **The yard-officer**
-(daily operations his) · R7 **The regent's right hand** (Naoyuki's
-grudging lean, on the record).
+**Rungs:** R0 **The house's messenger** · R1 **The market-man** ·
+R2 **The dues-carrier** (Genemon's silver — the payment road) ·
+R3 **The steward's shadow** · R4 **The works-master** (clearances; the
+mill; the second wing) · R5 **The house's voice** (the council,
+witnessed) · R6 **The hirer of hands** (staff growth under him) ·
+R7 **The yard-officer**.
 
-**Zones:** the Village well & lanes · the Market square · the Shrine &
-temple (the register of the vanished) · the Headman's house · the
-Mill · the Ferry & bridge · other houses' fields (the borrowed-man
-work) — plus estate growth: the New clearances · the rebuilt
-Gatehouse · the Mill share.
+**Zones (grown for combat & fun, human redline):** the Village (well,
+lanes, market square, shrine & temple, headman's house, mill, ferry &
+bridge) · the Valley woods (dark under-forest) · the Hill shrines
+(high paths) · the River gorge · the Old quarry · the Bandit camp (the
+valley's trouble — a real fight arc) · the Night roads · other houses'
+fields — plus estate growth: the New clearances · the rebuilt
+Gatehouse · the Second wing.
 
 ### T3 · The Region — the expeditionary & the origin (1786)
 
-Starts: **the house's EXPEDITIONARY** (human steer — not a roadman):
-sent out because he has earned trust AND strength — road-guard to the
-house's goods, opener of routes, the house's reach made flesh. Ends:
-**the traveling factor** — contracts sight-unseen, alliances with
-region houses, the house's business face abroad. *Theme: where nobody
-knows the house, he IS the house — and the region answers force as
-often as paper.* THE ORIGIN MAINLINE: the rumor-trail leads to his
-birth town; he learns his own name and what his vanishing did — the
-**origin-town reputation track opens at zero and colder**: there he is
-a rumor about a dead man, and house standing buys nothing. He KNOWS by
-tier's end; the register doesn't (the ink waits for T6, his choice).
+Starts: the house's expeditionary — sent out with trust AND strength.
+Ends: **the house's factor** — a HOUSE office, the outward-facing
+charge. The ORIGIN TOWN is the nearest LARGER town (the village is
+small; the town is content-rich, its own hub). He KNOWS his name by
+tier's end; the ink waits. *Theme: where nobody knows the house, he IS
+the house.* Rungs ALTERNATE (the drafted system — odd = house title,
+even = the outside doing):
 
-**Rungs:** R0 **The road-guard** (caravans; real combat) · R1 **The
-pass-walker** (the sekisho, the high routes) · R2 **The
-caravan-master** · R3 **The far-trader** (contracts in his own hand) ·
-R4 **The rumor-follower** (the origin trail — mainline) · R5 **The
-house's factor** · R6 **The expedition-leader** (new routes; region
-alliances) · R7 **The traveling factor** (the house's face abroad).
+**Rungs:** R0 **The road-guard** *(outside)* · R1 **The house's
+quartermaster** *(house — provisions and gear for the expeditions)* ·
+R2 **The caravan-master** *(outside)* · R3 **The keeper of the
+far-ledger** *(house — the expedition books)* · R4 **The
+rumor-follower** *(outside — the origin trail, mainline)* · R5 **The
+inner-wing warden** *(house — the inner domain opens to him)* ·
+R6 **The expedition-leader** *(outside)* · R7 **The house's factor**
+*(house)*.
 
-**Zones:** the High pass & trail-shrines · the Post-towns (inns, their
-registers) · the Market town (brokers) · the River routes & crossings ·
-bandit country (combat) · the Charcoal valleys · **the Birth town**
-(its own sub-zones: the family holding · the village register · the
-grave that carries his name).
+**Zones (a bunch, human redline — named areas with distinct vibes):**
+the Mountains (introduced here — the high passes, the ridge shrines) ·
+the Deep forest (older and darker than the valley woods) · the
+Grasslands (the open road country) · the Riverfront (the barge towns'
+edge) · the Post-towns (4–5 zones each) · **the Origin town** (the
+nearest larger town — a full hub: its market, its register office, its
+temple, its inn quarter, the family holding outside it, the grave that
+carries his name) · bandit country proper · the Charcoal valleys.
 
 ### T4 · The Castle Town — the campaign (1788–89)
 
-Starts: the house's envoy at the town gates — and the tier has a FACE
-for an enemy (human steer): **the lord of the castle town** — the
-office/faction whose hand is in BOTH old wounds (the famine-year
-arrears that priced Katsuhide's arithmetic; the flood-works skim the
-buried truth names — the reason the grandfather paid in silence). He
-is not weather; he is a man with a reason to bury the house, now
-moving to swallow the region it anchors. **Mid-saga (≈R3–R4):
-Katsuhide is found** (the packet-trail ends at the temple quarter)
-**and renounces in writing — the house is whole enough to name its new
-heir.** THEN the campaign turns (R5+): open contest, ending with **the
-house TAKING the castle town** — the enemy's machine broken, the
-town's charge in the house's hands. *Theme: the house stops
-petitioning power and contests it.* (Kernel #5 holds: the enemy-lord
-answers; his patrons above walk; the daimyō is never a scene.) *Skip;
-genpuku at the seam.*
+Starts: **the house's envoy** (kept — diplomatic, a real house title).
+The enemy has a face: the lord of the castle town, hands in both old
+wounds, moving to swallow the region. Mid-saga: Katsuhide found;
+renunciation in writing; the new heir named. Then R5+: open contest —
+the house TAKES the town. Ends: **the under-steward** — the campaign
+won AND the internal ladder lands at the stewardship's doorstep
+(setting up T5's succession). Rungs alternate house/outside as in T3.
+*Skip; genpuku at the seam.*
 
-**Rungs:** R0 **The house's envoy** (doors half-open) · R1 **The
-petitioner** (the humiliation rung — paper power used AGAINST him,
-once, so taking the town later means something) · R2 **The quiet
-buyer** (footholds: a warehouse, merchant allies) · R3 **The finder**
-(Katsuhide, at the temple quarter) · R4 **The witness** (the
-renunciation witnessed; the new heir named) · R5 **The challenger**
-(open contest: the weighing-yard, the tribunal) · R6 **The breaker**
-(the enemy's machine broken — evidence, allies, the town turning) ·
-R7 **The town-taker** *(name under review)* — the house holds the
-town's charge.
+**Rungs:** R0 **The house's envoy** *(house)* · R1 **The petitioner**
+*(outside — the humiliation rung)* · R2 **The keeper of the town-house**
+*(house — the rented room becomes the house's town compound, his
+charge)* · R3 **The finder** *(outside — Katsuhide, the temple
+quarter)* · R4 **The witness** *(house — the renunciation; the heir
+named)* · R5 **The challenger** *(outside — the weighing-yard, the
+tribunal)* · R6 **The master of the town-house** *(house — the compound
+a true second seat)* · R7 **The under-steward** *(house)*.
 
-**Zones:** the Town gates & official quarter (the magistrate's office;
-the tribunal) · the Merchant quarter (warehouses; the weighing-yard) ·
-the Temple quarter (Katsuhide's registry) · the Waterfront & river
-port · the House's town lodging (rented room → the house's compound) ·
-the Enemy's compound (exterior; glimpsed) · the Domain records office.
+**Zones:** THE CASTLE TOWN as the first LARGE zone — five sectors ×
+~four zones each (human spec): the Official quarter (gates, the
+magistrate's office, the tribunal, the records office) · the Merchant
+quarter (warehouses, the weighing-yard, the exchange, the shop rows) ·
+the Temple quarter (Katsuhide's registry among them) · the Waterfront
+(port, docks, the fish market) · the Back streets (the poor quarter,
+the night lanes). PLUS the region stays live: challenging encounters
+and side-quests OUTSIDE the town that send the player BACK through T3/T2
+zones (backtracking with reasons, human redline).
 
-### T5 · The Province — the inherited debt (1790–92)
+### T5 · The Domain — the inherited debt (1790–92)
 
-Starts: **the reward that is a burden** (human steer): men from the
-capital arrive and explain what the house has done — and that the
-PROVINCE is now its problem: in shambles, hungry, its works silted,
-its roads broken. You wanted to right one town; you inherit a
-province's ruin as your debt. The MC begins as the regency's chief man
-in all but title; the tier's inner story is the STEWARDSHIP's
-succession (Genemon failing; his silver-secret cannot die with him)
-and Shinnosuke's formation. Ends: **named STEWARD of the house** —
-Genemon's chair, the day-book his, the highest an outside-born man can
-rise inside a house — and the boy adopted, learning, nearly ready.
-*Theme: from serving the house to carrying it; healing at province
-scale what once drowned Kuzuhara at estate scale — the game rhymes.*
+*(Terminology corrected: a DOMAIN — han — is a lord's castle town plus
+all its surrounding lands; that is what the house inherits the care
+of.)* Starts: the reward that is a burden — the bakufu's men place the
+broken domain under caretaker administration and the house, as the
+region's anchor, carries it. The domain is VAST: multiple towns, 20+
+villages (a handful visitable; all of them REAL — they send people).
+**The rung-up INVERTS (human design): in T0 you were summoned for
+promotion; in T5 the people are summoned to YOU** — each rung is an
+audience-day at the castle town, a wider circle of petitioners
+arriving with a bigger share of the domain's problems. The stewardship
+succession runs beneath it: Genemon failing, the day-book passing, the
+silver-secret formally handed over. Ends: **the steward** — and the boy
+adopted, learning, nearly ready. *Theme: from serving the house to
+carrying it; the game rhymes — healing at domain scale what drowned
+Kuzuhara at estate scale.*
 
-**Rungs:** R0 **The surveyor** (ride the shambles; vanishings at
-scale) · R1 **The relief-hand** (famine logistics) · R2 **The
-road-mender** (the works reopened) · R3 **The house's commissioner**
-(the province's business in his hand) · R4 **The reckoner** (the
-inherited debt reconciled, in ink) · R5 **The chief man in all but
-title** · R6 **The teacher** (Shinnosuke's formation) · R7 **The
-steward** (Genemon's chair; the secret formally handed over).
+**Rungs (alternating, with the inverse engine on the even rungs):**
+R0 **The surveyor** *(outside — ride the shambles)* · R1 **The
+deputy-steward** *(house)* · R2 **The bearer of rice** *(outside —
+famine relief; the first petitioners follow the rice back)* · R3 **The
+keeper of the day-book** *(house — Genemon hands him the book)* ·
+R4 **The hearer of the near villages** *(the audience-days begin)* ·
+R5 **The right hand of the regency** *(house — the T2-deferred title
+lands, correctly late)* · R6 **The hearer of the domain** *(the full
+circle of petitioners)* · R7 **The steward** *(house — Genemon's
+chair; the secret handed over)*.
 
-**Zones:** the Broken post-roads · the Silted flood-works
-(province-scale) · the Hungry villages (two or three, named) · the
-Provincial temple & records · the Domain granaries · an economy anchor
-(the port or the mine — pick at detail time) · the Estate itself (home
-base, now large).
+**Zones (domain-scale, human redline):** the Castle town (now
+home-adjacent, from T4) · the Port town · the Mountain town · the
+village clusters (20+ named; a handful visitable, the rest reachable
+by cause — a petition, a summons, a repair) · the Domain roads (the
+arteries the tier repairs) · the Silted great-works · the Domain
+granaries · the Provincial temple & records.
 
 ### T6 · Edo — the house's ladder (1793+; DELIBERATELY OPEN)
 
-The game changes (human-locked): **no personal rungs — the rungs are
-the HOUSE'S Edo standing, H0→H7.** He arrives as steward of a
-provincial house with a strong but SHORT reputation — twelve months of
-province-healing that mean NOTHING here; the house's name is unread.
-H0 = a name nobody in Edo reads; H7 = the reasonable ceiling for a
-provincial house in the capital — bakufu ink, the banzuke's readable
-ranks, the shogun's clerks and never the shogun (kernel #5 made
-literal). Shinnosuke is lord. Everything else — plot turns, more
-time-skips, even the MC contesting a lordship — is RESERVED: the Edo
-tier is a game-within-a-game, the pseudo-prestige act (nothing resets,
-§0.9) for which T0–T5 is the demo. Zones sketched only when its design
-pass opens (the Edo lodging → yashiki · Nihonbashi, the lone real
-place · the wholesale docks · the waiting rooms of power — the ceiling
-as a literal room).
-
----
+Unchanged from v2: personal rungs retire; **H0→H7 is the HOUSE'S Edo
+standing** (H0 a name nobody reads → H7 the provincial house's honest
+ceiling: bakufu ink, the banzuke's readable ranks, the shogun's clerks
+and never the shogun). Twelve months of domain-healing mean nothing on
+arrival. Everything else RESERVED for its own design pass.
 
 ## The ink thread (locked)
 

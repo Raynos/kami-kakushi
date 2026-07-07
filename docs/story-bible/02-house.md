@@ -59,3 +59,17 @@ truth is found and WRITTEN, the house cannot complete itself** (kernel
 **Cast-name norm:** no two active cast names share a leading syllable —
 every name distinguishable at a glance in a log line.
 
+
+**THE RUIN (human, 2026-07-07 — direction locked; details with the tier
+sheets):** the family lives in a barely-maintained GUEST HOUSE at the
+edge of its own compound; the MAIN HOUSE — a multi-building,
+multi-wing complex (outer domains → wings → inner domain → center) —
+is in RUINS. The compound was once a jin'ya-class seat, the
+administrative almost-castle of its region; today's village is the
+shrunken remnant of the machi that served it. The game's estate-build
+IS the restoration, tier by tier: T0 looms-but-locked · T1 the outer
+domain + first wing (~1/3; the shoin restored LAST, for Shigemasa's
+one scene) · T2 the second wing + gatehouse · T3 the inner domain
+opens · T4–T5 the center + the audience hall (where the T5
+audience-days happen). A strong candidate home for the BURIED TRUTH
+(Genemon's silver) is somewhere in the sealed parts of the ruin.
