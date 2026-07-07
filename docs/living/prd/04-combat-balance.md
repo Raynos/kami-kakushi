@@ -309,7 +309,13 @@ faster than the floor and the meter is *still* short of threshold (you cannot sk
 pace and the meter and the floor land together. The activity *rate* drops slightly at higher rungs (their
 curated activities are richer/slower), so the threshold falls gently (fewer activity-points fill the same ≥30-min floor as each activity is worth less per minute) while every rung stays ≥ 30 min.
 
-**The T0 rung-meter thresholds** *(back-solved from 30 min × the rung's rate)*:
+> **SUPERSEDED for T0 (ADR-137/FB-121, built):** T0's ladder no longer uses a meter/threshold at all —
+> each rung is an authored **hidden requirement list** (`requirements.md` → gen; counts are markdown
+> numbers tuned edit → gen → sim, no balance.ts mirror), and the ADR-132 sim re-signs the per-rung
+> wall-time bands. The threshold model below stands only as **frontier intent for T1+** until each
+> tier's own design pass decides whether it adopts the requirement model.
+
+**The T0 rung-meter thresholds** *(historical/frontier illustration — back-solved from 30 min × the rung's rate)*:
 
 | Rung | Meter | curated-activity examples (the one-to-many set) | rate (pts/min) | threshold (= 30·rate) |
 |---|---|---|---|---|
@@ -327,10 +333,11 @@ is computed against. **Combat Rank** and **Estate Service** advance **independen
 the next on the other; both reset per rung). T1/T2 rung-meter thresholds scale the same way against their
 longer per-rung floors (≥ ~40 min at T1, ≥ ~75 min at T2; §4.8.2/§4.8.3).
 
-**Levers:** `RUNG_FLOOR_MIN = 30` *(a FLOOR — the value is the minimum, not a ceiling)*; each
-rung's `eligibleActivityRate` and the curated-activity set that realises it; the per-rung thresholds above. The
-**per-rung-reset rule, the AND-gate with story, the curated-activities-not-kills feed, and the ≥30-min floor**
-are **not levers** (canon).
+**Levers (T1+ frontier):** `RUNG_FLOOR_MIN = 30` *(a FLOOR — the value is the minimum, not a ceiling)*;
+each rung's `eligibleActivityRate` and the curated-activity set that realises it. For **T0 (built)** the
+levers are the authored requirement **counts** in `requirements.md` (ADR-137). The **per-rung-reset rule**
+and the **≥30-min floor (T1+; T0 exempt — ADR-056)** stay canon; the AND-gate is superseded at T0 (100% of
+the requirement list IS the gate).
 
 ---
 

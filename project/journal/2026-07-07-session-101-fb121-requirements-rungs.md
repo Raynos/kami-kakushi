@@ -98,6 +98,28 @@ requirement stretches read as "dead" while the player watches +3 wood land
 per act); the worn-weapon fixture stores its wood pile before grinding to
 Battered (the new climb arrives wood-rich).
 
+## 4 · Phases 4–7 — UI, sim verdict, tier tests, docs
+
+- **Phase 5 verdict committed** (5979fb4): t0-pacing regen; all rungs in
+  [3,22], ratio 1.15 in [0.8,1.2] — note-and-proceed, no HD-item. FB-8 step 0:
+  no usable untainted rung telemetry (all short DEV sittings).
+- **Phase 6** (3e19f35): percent invariants over the real arc (integer,
+  monotonic-within-rung, count-reset on promotion + the legitimate atomic
+  pre-latch, 100 ⟺ ready).
+- **Phase 4**: DEV **Rungs cheatlist** tab (e6d5baf); five capture-game-states
+  waypoints in `project/audit/screens/2026-07-07-fb121-requirements/`
+  (git-ignored, local); **HR-12** filed with the Pass-2 scorecard (16✔/0✘/5—,
+  P16 routing judgment flagged) (89d3121).
+- **Phase 7**: PRD ripple — §3.2.1 trigger mechanism → requirement lists
+  (fiction table kept as intent), §4.1.1 superseded-for-T0 banner (threshold
+  model stays T1+ frontier), 01-vision Phase-1 mechanism ×4 sites, 06-tech
+  core/ranks + state rows; ui-design §5.4 (the % read); fun-factor §2.2 (the
+  bar is a requirement read). `prd:drift` CLEAN; gen-prd-regions in sync.
+  ADR-137 pre-existed (design lock) — no new ADR needed.
+
+Still owed: the ADR-139 flavor-line diverge bundles (8 per-rung bundles ×
+3 blind takes) — a follow-on pass; roadmap slice line if one names FB-121.
+
 ## Next intended steps
 
 1. Phase 2 — `requirements.md` grammar in gen-narrative (parse/emit/validate),

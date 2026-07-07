@@ -365,8 +365,17 @@ gated on banked Estate standing + coin — ADR-145; §3.3/§2.17).
 ### 3.2.1 The earned-transition spine — *why* each promotion happens
 
 > **Audit rule: no rung is granted for free.** Each promotion has a concrete in-game **trigger** (what you
-> did — a **rung-meter + story** AND-gate, never a pillar threshold), an in-fiction **reason** (why the house
-> grants it), and a **named granter** — and the granters *escalate* as your standing rises.
+> did), an in-fiction **reason** (why the house grants it), and a **named granter** — and the granters
+> *escalate* as your standing rises.
+>
+> **The trigger mechanism (BUILT, ADR-137/FB-121):** each T0 rung carries a finite **authored list of
+> hidden requirements** (counted acts, quest-token goals, economy/state predicates, story flags —
+> order-free), authored in `src/core/content/narrative/requirements.md` and compiled by gen-narrative;
+> the readable lists live in [`docs/content/t0-story.md`](../../content/t0-story.md) § "The hidden rung
+> requirements" (generated — never re-typed here). The player sees only a **rounded integer % bar**;
+> every completion fires a diegetic flavor line, and **100% alone** opens the player-triggered rung
+> beat (ADR-110). The former **rung-meter + storyGate AND-gate is deleted** — story preconditions are
+> requirements IN the list. The table below is the per-rung **fiction intent** those lists realise.
 
 Two engines make a rise from "another mouth" to the lord's bailiff believable inside one tier:
 
@@ -382,7 +391,7 @@ Two engines make a rise from "another mouth" to the lord's bailiff believable in
   *becomes* the counterweight to the village's certainty. (Allegiance goes live at T2; grounded, partial
   payoff at T3-G6. Kept **light** — narrative-only, never gates stats/availability.)
 
-| Promotion | Earned by (trigger — rung-meter + story) | Why the house grants it | Granter |
+| Promotion | Earned by (the fiction the requirement list realises) | Why the house grants it | Granter |
 |---|---|---|---|
 | **R0 → R1** | Complete the spilled-rice task; the rest-bar recovers enough to work (Estate-Service rung-meter + story) | Charity bought you a pallet, not a place. Raking the rice proves you'll work despite your state → casual day-labour ("earn your sleep") | Genemon |
 | **R1 → R2** | A full **season** of reliable labour to the Estate-Service **rung-meter** threshold, never shirking | A casual *hiyatoi* is a transient the house owes nothing. A whole season of reliable work proves you're worth keeping → your name goes on the books (*genin*). *(Porter's-knot beat foreshadows the Origin thread.)* | Genemon |

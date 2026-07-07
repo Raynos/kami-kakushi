@@ -224,15 +224,14 @@ reliable hand who became a fighting one.
 
 **Each tier is climbed in TWO SEQUENTIAL PHASES** (formalised at §1.6.4):
 
-- **Phase 1 — climb the rungs.** Two **rung-meter** sub-tracks drive the ladder (rank-gating progress meters,
-  **not** economy currencies): **Estate Service** (the **labour** rung-meter) gates the labour promotions, and
-  **Combat Rank** (the **martial** rung-meter) gates the martial
-  ones. Each rung promotes on **BOTH** a **numeric rung-meter** — a real §4 curve, **per-rung-reset**, its
-  threshold back-solved from the **≥30-min-per-rung floor** × that rung's eligible-activity rate — **AND** the
-  rung's **story milestones** (an **AND-gate**: the UI reads "awaiting X" when one lags). The meter is
-  fed by **curated, story-consistent per-rung activities** (a designed *one-to-many* set, **not** a single
-  repeat-counter). Smaller responsibility/perk drips fill between gates so there is always a "next reveal"
-  on either track.
+- **Phase 1 — climb the rungs.** **At T0 (BUILT — ADR-137/FB-121)** each rung carries a finite **authored
+  list of hidden requirements** (counted acts, event goals, economy predicates, story beats — order-free,
+  story-consistent, a designed *one-to-many* set); the player sees a **rounded % bar**, completions land
+  as diegetic flavor lines, and **100% alone** opens the player-triggered rung beat. **From T1 (frontier
+  intent)** the ladder splits into two sub-tracks — **Estate Service** (labour) and **Combat Rank**
+  (martial) — each per-rung-reset and floor-paced (≥30 min/rung from T1; whether T1+ keeps a numeric
+  meter or adopts the T0 requirement model is that tier's design pass). Smaller responsibility/perk
+  drips fill between gates so there is always a "next reveal" on either track.
 - **Phase 2 — grind the house up.** **After the final rung** of the tier, the **estate-influence / four-pillar
   grind unlocks** (the capstone rung **OPENS** Phase 2; it does not merely confirm it). The tier's **pillar
   DEEDS accrue here and only here** — they do **not** accrue while climbing the rungs, which prevents the
@@ -422,9 +421,9 @@ ranks/rungs**, optional and fully completable — **accelerants that NEVER gate*
 family/friends at Sawatari-juku) is a one-tier rep side-track with its own `O0→O5` rung ladder (§3.6.2),
 narrative-only.
 
-**Separate earned meters** keep these from collapsing into one bar. The **estate spine** is gated, **per tier**,
-by **two rung-meters** in **Phase 1** — **Estate Service** (labour) and **Combat Rank** (martial) — each
-**per-rung-reset** and **AND-gated** with that rung's story milestones;
+**Separate earned tracks** keep these from collapsing into one bar. The **estate spine** is gated, **per
+tier**, by **Phase-1 rung progression** — at T0 the authored requirement lists (ADR-137); from T1 the
+Estate-Service/Combat-Rank sub-tracks (frontier) — each **per-rung-reset**;
 then, in **Phase 2**, by the separate **four-pillar hybrid tier-gate** (§1.6.3/§1.6.4). Distinctly, the **combat
 systems feed THREE clean, separately-stored tracks** that must never collapse into one: **(1)** kills/combat-XP →
 the **character (combat) level** (HP + attribute points + satietyMax); **(2)** recognised **deeds** → the **Arms
@@ -560,7 +559,7 @@ above-and-beyond**. The **revealed-pillar set grows one per tier**: **T0 = 1**
 the gate is **only ever checked against revealed pillars** (never against an unrevealed one).
 
 This sits **after** the **sequential** climb (§1.5.1/§1.6.4): **Phase 1** — climb **all** the tier's rungs
-(the per-rung rung-meter + story AND-gate); **Phase 2** — the estate-influence/pillar grind unlocks and the
+(at T0 the per-rung requirement lists, ADR-137; T1+ per that tier's design); **Phase 2** — the estate-influence/pillar grind unlocks and the
 **scaled grade-gate** above is what tiers up. The required pillars still **drift** as they reveal — early
 tiers lean **Estate then Arms** ("survive and get strong"); upper tiers lean **Office + Name** ("win it socially").
 The **per-pillar-per-tier thresholds** are **back-solved against the fixed §4 deed inventory**; the numbers
@@ -608,12 +607,13 @@ reference it (exact curves/thresholds live in §4).
 **(1) Sequential per-tier progression.** Each tier is climbed in **two ordered
 phases**:
 
-- **Phase 1 — climb the rungs.** Every rung of the tier's ladder promotes on **BOTH** a **numeric rung-meter**
-  **AND** the rung's **story milestones** (an **AND-gate**; the UI reads "awaiting X" when one side lags). The
-  **rung-meter** is a real §4 curve, **per-rung-reset**, whose threshold is **back-solved from the
-  ≥30-min-per-rung floor × that rung's eligible-activity rate** (the **same ≥30-min floor** the §4.8 pacing
-  model and the §6.6 gate-monotonicity verifier use). It is fed by **curated, story-consistent per-rung
-  activities** — a designed **one-to-many** set, **not** a single repeat-counter. Two sub-tracks run in
+- **Phase 1 — climb the rungs.** Every rung of the tier's ladder promotes when its progression is
+  **fully earned** — **at T0 (BUILT, ADR-137)**: the rung's authored **hidden requirement list** is 100%
+  done (story preconditions are requirements IN the list; the % bar is the read; per-rung-reset). **From
+  T1 (frontier)**: floor-paced per-rung progression (the ≥30-min floor the §4.8 pacing model and the
+  §6.6 gate-monotonicity verifier use), fed by **curated, story-consistent per-rung activities** — a
+  designed **one-to-many** set, **not** a single repeat-counter; meter vs requirement-list mechanism is
+  each tier's design pass. Two sub-tracks run in
   parallel: **Estate Service** (labour) and **Combat Rank** (martial).
 - **Phase 2 — grind the house up.** The **capstone (final) rung OPENS Phase 2** — the **estate-influence /
   four-pillar grind**. **Pillar DEEDS accrue here and ONLY here** (gated post-final-rung), which

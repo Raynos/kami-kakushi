@@ -187,7 +187,12 @@ LAND/TREASURY/TRADE sub-segments with the trade-⅓ cap as a hard registration m
 
 ### 5.4 The rung element (header, top-right — the sole home)
 
-Compact rung name + progress bar; hover/focus card carries the detail. **A rung-up is a player-TRIGGERED
+Compact rung name + progress bar; hover/focus card carries the detail. **The bar reads the ADR-137
+requirement percent** (FB-121): a rounded INTEGER 0–100 from the rung's hidden requirement list — the
+same pure-core read the gate uses (AC-6), so **100% ⟺ ready** and the old "meter full but story-gated"
+cue state is gone. Counted requirements move it in ≤10 quantized chunks; an atomic completion lands its
+whole weight as one jump, and **every jump has a visible cause**: the completion's diegetic flavor line
+in the log (never a checklist, never a raw `476/1100` readout — the % is the single number). **A rung-up is a player-TRIGGERED
 story beat** (ADR-110): the header surfaces a "ready to advance" summons that holds and can be ignored;
 triggering plays the full-screen VN beat (§5.13). **The promotion ceremony lives IN the beat modal**
 (FB-153/FB-159): the outcome control reads "Rung up"; pressing it overlays the whole card with the gold seal

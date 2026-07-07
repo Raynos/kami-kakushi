@@ -83,7 +83,10 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   reward is the *earned scene* + the relationships/flags it moves, with only **occasional small varied**
   bonuses (the intro's three perks were a one-time boost, not the pattern).
 - **Why it's fun:** the **goal-gradient effect** — motivation rises as a visible goal nears, and a rung
-  is always *visibly* near (a labelled next title, a partly-filled meter). Each rung also *delivers a
+  is always *visibly* near (a labelled next title, a partly-filled % bar). **The bar is a requirement
+  read, not a score (ADR-137/FB-121):** hidden authored requirements move it in satisfying quantized
+  jumps, and every jump lands WITH a story-voiced flavor line — the climb reads as *the house noticing
+  you*, never "a random ass number that has to go up" (the FB-121 capture that forced the redesign). Each rung also *delivers a
   reveal* (§2.4), so the climb pays double. "One more rung" is the meso-engine that turns a session into
   "just push to the next promotion." And because the rung is a **triggered, chosen** beat rather than an
   auto-snap, the promotion lands as a moment you *earned and acted on* — a narrative reward that motivates
