@@ -230,11 +230,41 @@ with the human one piece per exchange.
     creed · T6 stays reserved (two-register ink thread). No redlines;
     the tier spine is human-blessed.
 
+- **A2 · FULL T0–T5 CAST AUTHORED** (human: "build the full T0 to T5
+  cast, all of them, then I'll review 4 at a time after complete"). I
+  built a **shape registry first** to satisfy prose-law-#2 (no two
+  characters share a sentence shape) and authored all ~24 entries
+  myself (no fan-out — blind agents would collide on shapes). Locked:
+  - **Household (8):** Sōan · Chiyo · Toku · O-Sato (the Chiyo/O-Sato
+    conditional near-collision split: ledger-price vs protective-hope)
+    · Shinnosuke · Naoyuki (reads TRUE — the prism exception) ·
+    Shigemasa (epigram, fails upward) · Katsuhide (temple registrar,
+    closed/completed tense).
+  - **Edge (6):** Yohei (patter) · O-Yae (reported speech) · Matsuzō
+    (water-talk) · Iori (valedictory, no maxims) · O-Ume (addresses
+    the dead) · Rokusuke (agrees mid-sentence).
+  - **T1 four:** Denshichi (orders-as-facts) · Heikichi (talks to the
+    wood) · Ribei (relentless courtesy) · Tetsuji (short/hot/final).
+  - **T2 village (6 + pool):** Mohei (both-sides-lands-quiet) · Sayo
+    (declares/dares — the Tama misread engine) · Ekai (indexes the
+    missing by when they went) · Kyūbei (grumbles) · Funakichi
+    (first-hand traffic) · Seiroku (hunger-as-fact). The ordinary pool
+    gets NO shapes (a shape is a promise to touch them again).
+  - **T3 region (6):** Jinpachi (deflects to chores) · the mother
+    (present-tense of a boy who never left) · the sister (guarded,
+    "brother" like a foreign word) · Kanta (old-friend shorthand) ·
+    Otsuru (answers only what's asked) · the toiya master (ranks
+    everything).
+  - **T4/T5 (2):** the enemy lord (inheritance/precedence — the
+    anti-kernel-#3 voice) · the bakufu inspector (regulation/code).
+  - **Shape-collision watch** added to the sheet (Chiyo/O-Sato;
+    plain-cluster MC/Tetsuji/Jinpachi; record-cluster Genemon/
+    Katsuhide/Ekai/inspector) — flagged for the human's ear.
+
 ## Next intended steps
 
-- **The tier spine is COMPLETE.** Remaining bible work: **A2 cast
-  voices** (resume — four drafts to lock + the family/edge/T1-T3 faces
-  + the MC use-name + the grown **name-norm sweep** docket) · **A3
-  register rules** (the three `01-laws.md` candidates) · **A-final**
-  whole-bible coherence pass → **BIBLE DONE** → unlocks workstream B
-  (ADRs, PRD ripple, prose wave, engine).
+- **Present the cast for the human's review, 4 at a time** (their
+  requested cadence), starting with the household.
+- Then: the MC's use-name + the **name-norm sweep** (docket in
+  `04-cast.md`) · **A3 register rules** · **A-final** coherence →
+  **BIBLE DONE** → unlocks workstream B.

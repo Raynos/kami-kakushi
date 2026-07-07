@@ -51,14 +51,16 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
   kura key at R3 · the breach at R4 · the debt panel at R5 in the
   steward's room · the wolf in daylight at R6 · the shoin → register →
   Shigemasa's death at R7).
-- **A2 · Cast VOICES** ⬩F+H — 🔶 **PARKED mid-sitting (session 109):**
-  the epigram license (Shigemasa + Kihei) and the Genemon + Kihei
-  voice entries are LOCKED; four more (Sōan, O-Sato, Toku, Chiyo) are
-  drafted-but-unlocked in `04-cast.md`. Still owed: those four + the
-  family + edge cast + the T1/T2/T3 faces; the MC's use-name; the
-  **name-norm sweep** (a docket has grown — mother + sister names,
-  the toiya master, the enemy lord + house, Sayo/O-Sato, Kanta/
-  Katsuhide, Shigemasa/Shinnosuke). Voices are prose-law-binding.
+- **A2 · Cast VOICES** ⬩F+H — 🔶 **FULL T0–T5 CAST AUTHORED
+  (2026-07-07, session 109) — awaiting the human's batched review (4
+  at a time).** Every principal is voice-locked with a distinct
+  sentence shape (household · edge · T1 four · T2 village · T3 region ·
+  T4 lord · T5 inspector); the epigram license (Shigemasa + Kihei) and
+  the shape-collision watch are set. **Still owed after review:** the
+  MC's use-name + the **name-norm sweep** (docket in `04-cast.md`:
+  mother, sister, toiya master, enemy lord + house, bakufu inspector,
+  use-name; collisions Sayo/O-Sato, Kanta/Katsuhide, Shigemasa/
+  Shinnosuke).
 - **A3 · Register rules** ⬩F+H — decide the three candidates in
   `01-laws.md` (dream cadence · vague-but-parseable · log-is-the-VN)
   into locked law or rejection.

@@ -53,11 +53,12 @@ Katsuhide met, temple registrar) · **T5 at fifth detail** (the
 audience-day inversion — T0 run backwards; Genemon's handover +
 death; the Kuzuhara↔domain-works rhyme) · **T6 check-passed**
 (reserved). **ALL SEVEN tier sheets now walked to their staged
-depth.** Cast: Genemon + Kihei voices locked; four T1 faces + the
-T2/T3 cast named. Awaiting sittings: cast VOICES (parked mid-A2) ·
-register rules · the name-norm sweep · then A-final coherence →
-BIBLE DONE. Planned in
-`docs/plans/fable-2026-07-07-story-bible-finish.md`.
+depth.** Cast: **the FULL T0–T5 cast is VOICE-LOCKED** — every
+principal has a distinct sentence shape (household · edge · T1 four ·
+T2 village · T3 region · T4 lord · T5 inspector), awaiting the human's
+batched review. Awaiting: cast-voice review · the MC's use-name + the
+name-norm sweep · register rules · then A-final coherence → BIBLE
+DONE. Planned in `docs/plans/fable-2026-07-07-story-bible-finish.md`.
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·
 T2–T3 in half detail · T4 in quarter · T5 in fifth · T6 in tenth.
