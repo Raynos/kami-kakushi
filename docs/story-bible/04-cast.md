@@ -14,17 +14,20 @@
 
 ## The MC
 
-- **The use-name.** At T0's final rung the house writes him down under
-  its **hand-me-down name** — the name every Kurosawa hired man has
-  carried, handed down like a tool. *"The house's name for you, then.
-  Earn a better."* His name is literally the House's property (kernel
-  #4), and earning a better one is the game. *(The use-name itself:
-  OPEN — chosen at/with the name sweep.)*
+- **The use-name: GONBEI (locked at the name sweep, 2026-07-07).** At
+  T0's final rung the house writes him down under its **hand-me-down
+  name** — the name every Kurosawa hired man has carried, handed down
+  like a tool. *"The house's name for you, then. Earn a better."* The
+  name is **Gonbei** — and the joke is period-true and never spoken:
+  *Nanashi no Gonbei* is what Japanese folk speech calls a man with no
+  name. The house's placeholder name IS the idiom for the nameless;
+  his name is literally the House's property (kernel #4), and earning
+  a better one is the game.
 - **The speaker-label ladder.** The log/VN speaker label is itself a
   story surface (kernel #6): `You:` for the cold open's first lines →
   a small FORCED beat where he asks his own name and Sōan answers that
   he has none → the label flips to **`Nameless:`** on screen, witnessed
-  → the use-name takes over at T0 R7 → he KNOWS his birth name at T3 →
+  → **`Gonbei:`** takes over at T0 R7 → he KNOWS his birth name at T3 →
   what the register finally says is his choice at the end (the ink
   thread, [`03-tiers.md`](03-tiers.md)).
 - **Sentence shape:** plainest voice in the game — short declaratives,
@@ -50,9 +53,9 @@
 
 ## The ground rules (voices sitting, 2026-07-07 + the clean pass)
 
-- **The epigram license: Shigemasa and Kihei, no one else** — the
+- **The epigram license: Munemasa and Kihei, no one else** — the
   §0.5.2 cap (≤2 holders, at most one maxim per scene, total) is fully
-  spent. Shigemasa's maxims FAIL upward — he reaches for the
+  spent. Munemasa's maxims FAIL upward — he reaches for the
   sententious and can't land it, which is the house in one voice;
   Kihei's are drill-ground verdicts, the creed their charter, rare by
   temperament.
@@ -70,11 +73,11 @@
   reserved for the few it makes MORE real: Genemon (item, count,
   condition) · Kihei (imperative → verdict) · Toku (everything dated) ·
   Katsuhide (the completed tense) · Sayo (declared certainty) · the
-  mother (a boy's present tense) · Shigemasa (the failing maxims).
+  mother (a boy's present tense) · Munemasa (the failing maxims).
   Everyone else sounds like where they're from and what they do — a
   register, not a quirk. Where two registers neighbour (Chiyo and
-  O-Sato both lean on "if"), the difference is WHAT the word is doing:
-  Chiyo's if carries a price; O-Sato's protects a hope.
+  O-Hisa both lean on "if"), the difference is WHAT the word is doing:
+  Chiyo's if carries a price; O-Hisa's protects a hope.
 
 ## The household
 
@@ -141,7 +144,7 @@ without changing substance.)*
   gave the house a man back, in trade for the one the mountain took.
   *Nodes:* the shrine-alcove corridor; her room (T1); the new-moon
   walk.
-- **O-Sato** — Katsuhide's wife, the widow-who-isn't: ten years
+- **O-Hisa** — Katsuhide's wife, the widow-who-isn't: ten years
   married to an unstruck line. What she wants is an ending — *either*
   one — some way to stop waiting that doesn't betray the waiting. She
   mends the MC's things and leaves them at the woodshed without
@@ -170,7 +173,7 @@ without changing substance.)*
   Regent through the lordless years; the MC's ally to the end, and
   never once warm. *Nodes:* the veranda; the Count; the East wing
   threshold (T1), carrying his brother's things himself.
-- **Shigemasa** — the old lord, dying by inches; in T0 a voice through
+- **Munemasa** — the old lord, dying by inches; in T0 a voice through
   a wall. For ten years his single act of fatherhood has been
   refusal: he will not strike his son's line, will not be the man who
   wrote his boy dead — hope kept alive as an unfinished entry. His
@@ -321,7 +324,7 @@ without changing substance.)*
   made (the T4 enemy's first shadow, unexplained all tier). The R5
   threshold fight and the R6 campaign are his. *Nodes:* the bandit
   camp; the night roads.
-- **The ordinary pool** — Gonsuke (a tenant farmer; the village's
+- **The ordinary pool** — Kumazō (a tenant farmer; the village's
   loudest laugh) · O-Haru (the pickle stall; a young mother) · Ganzō
   (the well's old man; remembers everything exactly one year wrong) ·
   O-Mitsu (O-Yae's friend on the village side) · Bunta (a boy who
@@ -338,18 +341,20 @@ without changing substance.)*
   the holding's gate, he knows his son before he's through it, and
   everything he cannot say comes out as chores: *"Your pole's where
   you left it."* *Nodes:* the family holding outside Sawatari-juku.
-- **The mother** *(name at the sweep)*. She never struck him from her
+- **O-Nobu** — the mother *(named at the sweep: nobu, "faith" — she
+  kept it)*. She never struck him from her
   own reckoning either, and when he stands in the doorway the twelve
   years collapse: she speaks to him in the present tense of the boy
   who left — old diminutives, old scoldings, time folded in her mouth.
   The reunion's peak and its fewest words. *Nodes:* the holding.
-- **The younger sister** *(name at the sweep)*. A child when the
+- **Suzu** — the younger sister *(named at the sweep: a bell — a
+  small bright sound from his childhood)*. A child when the
   mountain took him, grown now; she barely remembers the brother she
   never stopped hearing about, and she has a life built in his absence
   to protect. Guarded, formal, watching — she says "brother" like a
   word in a language she's forgetting, and means it a little more each
   time. The reunion's sharpest face. *Nodes:* the holding.
-- **Kanta** — the porter friend; the origin side-track's first face.
+- **Kenta** — the porter friend; the origin side-track's first face.
   He talks to the MC as if no time passed — easy, teasing, finishing
   the man's sentences the way he did on the road — and the ache is
   that the MC can't yet return it. He tells him the missing years:
@@ -362,15 +367,18 @@ without changing substance.)*
   forgives, or writes is her own. The Tama truth resolves on the spine
   through her — grounded and partial, exactly as promised. *Nodes:*
   Yanagi-watari.
-- **The toiya master** *(name at the sweep)* — the post-town transport
-  office, where the region's houses are a berth-order and he keeps it.
+- **Zenbei** — the toiya master *(named at the sweep)* — the
+  post-town transport office, where the region's houses are a berth-order and he keeps it.
   He registers the Kurosawa third, behind the two that were always
   there, and says so without cruelty: rank is simply his trade. The
   export ramp to T4 runs through his book. *Nodes:* the toiya.
 
 ## The castle town & the domain — T4–T5 principals
 
-- **The enemy lord** *(name + house at the sweep)* — the lord of the
+- **Lord TOMITA** — the enemy *(house named at the sweep — the PRD's
+  rival-house name, revived; his personal name is deferred to the T4
+  build, and logs read "Lord Tomita"; To-/Toku is a documented
+  class-exception — house name vs given name)* — the lord of the
   castle town: a martial house that rose on the Kurosawa's fall,
   absorbed their lands and their place at the domain's table, and
   helped the falling — the famine arrears called at the killing
@@ -382,7 +390,7 @@ without changing substance.)*
   #3). He answers partially, per kernel #5: the region lost, the truth
   out, his head kept; the daimyō above him never a scene. *Nodes:* the
   official quarter (T4).
-- **The bakufu inspector** *(name at the sweep)* — the shogunate's man
+- **Inspector HORI** — the bakufu's man *(named at the sweep)* — the shogunate's man
   who places the broken domain in the house's care and lodges in the
   guest house while it happens (T5). To him the ruin is a filing
   problem and the MC a competent provincial — useful, ranked, never a
@@ -393,23 +401,21 @@ without changing substance.)*
 *(The wider T4/T5 cast — the town quarters' faces, the domain's
 petitioners — grows at those tiers' build passes; kernel #2.)*
 
-## Open calls (what the voices work still owes)
+## The name-norm sweep (RULED 2026-07-07 — the docket is closed)
 
-1. ~~Author the full T0–T5 cast~~ *(DONE 2026-07-07; clean-passed the
-   same day to the human's redline — portraits over stat-blocks,
-   behavior over quirk, misreads only where they're engines).*
-2. **The MC's use-name** — still OPEN (the hand-me-down name every
-   Kurosawa hired man carries; his birth name Tahei is locked). Chosen
-   at/with the name sweep.
-3. ~~**Epigram license assignment**~~ *(locked: Shigemasa + Kihei.)*
-4. **The name-norm sweep — the docket** (§0.9 names open; no two
-   active names share a leading syllable, every name legible in a log
-   line):
-   - **Collisions flagged:** Sayo / O-Sato (Sa-) · Kanta / Katsuhide
-     (Ka-) · Shigemasa / Shinnosuke (Shi- — family names, grandfather
-     or rename).
-   - **Names still owed:** the MC's mother · his younger sister · the
-     toiya master · the enemy lord + his house · the bakufu inspector ·
-     the MC's use-name.
-   - **Any recasting of the working proper nouns** (Kurosawa itself
-     included).
+- **Collisions ruled:** Shigemasa → **Munemasa** (the lord moved — one
+  scene, cheapest; Shinnosuke keeps) · O-Sato → **O-Hisa** ("enduring"
+  — the widow-who-isn't moved; Sayo the namer keeps her PRD name) ·
+  Kanta → **Kenta** (the porter friend moved; Katsuhide keeps).
+- **Names granted:** the mother **O-Nobu** · the sister **Suzu** · the
+  toiya master **Zenbei** · the enemy house **TOMITA** (the PRD's
+  rival-house name revived; the lord's personal name defers to the T4
+  build) · the inspector **HORI** · the use-name **GONBEI** (pool
+  farmer Gonsuke → **Kumazō** freed the syllable).
+- **Documented exception:** Tomita/Toku share To- — allowed as a
+  CLASS exception (house name vs given name; logs read "Lord Tomita").
+  Recorded in the norm ([`02-house.md`](02-house.md)).
+- **Kurosawa itself:** examined and KEPT — no collision, and the name
+  is load-bearing across the built game.
+- Earlier ruled: Tokubei → **Yohei** (Toku) · Jinbei → **Mohei**
+  (Jinpachi) · Tazō → **Ganzō** (Tama/Tahei).

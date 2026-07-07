@@ -60,7 +60,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 <!-- gen:begin active-plans (pnpm run checkpoint — do not edit inside) -->
 **5 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
-- [`fable-2026-07-07-story-bible-finish.md`](fable-2026-07-07-story-bible-finish.md) — PROPOSED
+- [`fable-2026-07-07-story-bible-finish.md`](fable-2026-07-07-story-bible-finish.md) — IN-PROGRESS
 - [`fable-2026-07-07-story-reboot.md`](fable-2026-07-07-story-reboot.md) — IN-PROGRESS
 - [`fable-2026-07-07-story-salvage.md`](fable-2026-07-07-story-salvage.md) — PARKED
 - [`fable-2026-07-07-t0t1-map-rebuild.md`](fable-2026-07-07-t0t1-map-rebuild.md) — IN-PROGRESS

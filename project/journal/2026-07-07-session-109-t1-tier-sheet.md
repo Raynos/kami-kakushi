@@ -284,10 +284,34 @@ with the human one piece per exchange.
   Shigemasa; everyone else gets a register, not a tic). The ordinary
   pool stays voiceless by design.
 
+- **THE NAME-NORM SWEEP — RULED** (two AskUserQuestion rounds, all
+  recommendations taken): Shigemasa→**Munemasa** · O-Sato→**O-Hisa** ·
+  Kanta→**Kenta** · the bundle **O-Nobu / Suzu / Zenbei / TOMITA
+  (house; PRD revival; lord's personal name defers to T4) / Hori** ·
+  the use-name = **GONBEI** (Nanashi-no-Gonbei — the folk idiom for
+  the nameless as the house's hand-me-down name; Gonsuke→**Kumazō**
+  freed the syllable). Applied mechanically across the whole bible
+  (zero stale names on grep); Tomita/Toku To- recorded as a
+  house-vs-given-name class exception in the 02-house norm.
+- **A3 REGISTER RULES — LOCKED** into `01-laws.md` as §0.5 rules 4–6:
+  the dream cadence (every SECOND sleep-ending promotion from T1;
+  first dream T0-R7) · vague-but-parseable (as written) · the log/VN
+  split in the human's own form ("mixture as needed: flavor in the
+  log, story and side quests in the VN UI").
+- **A-FINAL COHERENCE PASS — RUN:** end-to-end read; 05-world verified
+  (first full read — clean against reveal/anatomy canon); 02-house
+  open cells reconciled (Katsuhide's exile identity → resolved-struck;
+  enemy office → Lord Tomita; why-Tama-ran added as the open cell);
+  the enemy paragraph names Tomita + the scavenger stake; t0-R7 +
+  ink-thread now carry Gonbei; README status ledger rewritten.
+  **Workstream A is COMPLETE — the bible awaits the human's
+  whole-read blessing → BIBLE DONE.**
+
 ## Next intended steps
 
-- **Human reviews the clean-passed cast** (edge → T1 → T2 → T3 →
-  T4/T5), batched at their pace.
-- Then: the MC's use-name + the **name-norm sweep** (docket in
-  `04-cast.md`) · **A3 register rules** · **A-final** coherence →
-  **BIBLE DONE** → unlocks workstream B.
+- **The human reads the bible whole and blesses it → BIBLE DONE**
+  (the remaining cast-portrait review rides that read; redlines
+  welcome any time).
+- At BIBLE DONE, workstream B opens: B0 frame ADR · B1 PRD §5
+  rewrite + roadmap ripple · B2 engine ADRs (⬩Opus) · B3 T0 prose
+  wave · B4 content migration (⬩Opus) · B5 salvage & closure.

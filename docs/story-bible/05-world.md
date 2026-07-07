@@ -69,7 +69,7 @@ alcove sits in a corridor).
 - *Inner guest house (T1's unlock arc):* the East wing (the family's
   rooms) · the West wing (closed rooms — Katsuhide's things) · the
   inner garden · Toku's room · the shrine alcove (the wrong sandals) ·
-  the Shoin, restored last — Shigemasa's one scene, the register.
+  the Shoin, restored last — Munemasa's one scene, the register.
 
 **Layer 2 — the RUIN** (the TRUE main house: the old jin'ya compound;
 locked scenery until the T2 reveal, then the restoration's object,

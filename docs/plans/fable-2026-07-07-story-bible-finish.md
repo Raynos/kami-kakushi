@@ -1,7 +1,8 @@
 # Story-bible finish — completing the reboot's spirit
 
-**Status: 📋 PROPOSED — authored end of session 106 at the human's
-direction; awaiting read.** The execution plan for finishing what the
+**Status: 🔶 IN-PROGRESS — workstream A COMPLETE (2026-07-07, session
+109); the bible awaits the human's whole-read blessing; workstream B
+opens at BIBLE DONE.** The execution plan for finishing what the
 story reboot (`fable-2026-07-07-story-reboot.md`, its Phases 3–4)
 started: first the BIBLE (workstream A — human co-write), then the
 DOCS-AND-GAME ripple (workstream B — the build wave). Written so a
@@ -50,20 +51,26 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
   big rocks landed (wings-access folded into the work titles · the
   kura key at R3 · the breach at R4 · the debt panel at R5 in the
   steward's room · the wolf in daylight at R6 · the shoin → register →
-  Shigemasa's death at R7).
-- **A2 · Cast VOICES** ⬩F+H — 🔶 **FULL T0–T5 CAST AUTHORED
-  (2026-07-07, session 109) — awaiting the human's batched review (4
-  at a time).** Every principal is voice-locked with a distinct
-  sentence shape (household · edge · T1 four · T2 village · T3 region ·
-  T4 lord · T5 inspector); the epigram license (Shigemasa + Kihei) and
-  the shape-collision watch are set. **Still owed after review:** the
-  MC's use-name + the **name-norm sweep** (docket in `04-cast.md`:
-  mother, sister, toiya master, enemy lord + house, bakufu inspector,
-  use-name; collisions Sayo/O-Sato, Kanta/Katsuhide, Shigemasa/
-  Shinnosuke).
-- **A3 · Register rules** ⬩F+H — decide the three candidates in
-  `01-laws.md` (dream cadence · vague-but-parseable · log-is-the-VN)
-  into locked law or rejection.
+  Munemasa's death at R7).
+- **A2 · Cast VOICES** ⬩F+H — ✅ **DONE (2026-07-07, session 109).**
+  Full T0–T5 cast authored; household reviewed & kept (batches 1–2);
+  the whole sheet then CLEAN-PASSED on the human's structural redline
+  (portraits over stat-blocks — the want/misread/shape template
+  demoted to a palette; sharp shapes rationed to seven; misreads only
+  where they're engines). **The name-norm sweep RULED** (docket closed
+  in `04-cast.md`): Shigemasa→Munemasa · O-Sato→O-Hisa · Kanta→Kenta ·
+  Gonsuke→Kumazō · mother=O-Nobu · sister=Suzu · toiya=Zenbei · enemy
+  house=TOMITA (PRD revival; personal name defers to T4 build) ·
+  inspector=Hori · **use-name=GONBEI** (Nanashi-no-Gonbei — the idiom
+  for the nameless, as the house's hand-me-down name). Remaining
+  cast-portrait review rides the human's whole-bible read.
+- **A3 · Register rules** ⬩F+H — ✅ **DONE (2026-07-07, session
+  109).** All three candidates locked into `01-laws.md` §0.5 as rules
+  4–6: **the dream cadence** (every second sleep-ending promotion from
+  T1; first dream T0-R7; escalates, never verbatim) ·
+  **vague-but-parseable** (as written) · **the log/VN split, the
+  human's form** (flavor + texture in the log; story beats AND side
+  quests in the VN UI).
 - **A4 · T2 + T3 sheets** ⬩F+H — ✅ **DONE (2026-07-07, session 109),
   HALF detail each.** T2: ladder + reveal + village cast (incl. the
   ordinary pool) + the Tama thread + the first-man death. T3: **THE
@@ -81,10 +88,13 @@ updates, link sweeps, sim plumbing. Per-step routing marked ⬩F (Fable)
 - **A7 · T6 sheet** ⬩F — ✅ **CHECK-PASSED (2026-07-07, session 109),
   TENTH detail.** Verified reserved; only the ink-thread T3 node
   reconciled to the origin relock.
-- **A-final · Bible coherence pass** ⬩F — one read end-to-end:
-  contradictions, dead links, prose-law conformance of the bible's own
-  text, README status ledger current. Then the human reads the bible
-  whole and blesses it: **BIBLE DONE.**
+- **A-final · Bible coherence pass** ⬩F — ✅ **RUN (2026-07-07,
+  session 109):** end-to-end read of every section + tier sheet; the
+  sweep applied clean (zero stale names); 02-house open cells
+  reconciled to the T3/T4 sittings; 05-world verified against the
+  reveal/anatomy canon; README ledger current; link gate green.
+  **Remaining: the human reads the bible whole and blesses it →
+  BIBLE DONE.**
 
 ## Workstream B — the docs & game ripple (opens at BIBLE DONE)
 

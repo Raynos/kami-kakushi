@@ -54,11 +54,18 @@ audience-day inversion — T0 run backwards; Genemon's handover +
 death; the Kuzuhara↔domain-works rhyme) · **T6 check-passed**
 (reserved). **ALL SEVEN tier sheets now walked to their staged
 depth.** Cast: **the FULL T0–T5 cast is written** — the household
-reviewed & kept (batches 1–2), then the whole sheet **clean-passed to
-the human's redline** (portraits over stat-blocks; sharp shapes
-rationed; misreads only where they're engines). Awaiting: the
-remaining cast review · the MC's use-name + the name-norm sweep ·
-register rules · then A-final coherence → BIBLE DONE. Planned in
+reviewed & kept (batches 1–2), the whole sheet clean-passed to the
+human's redline (portraits over stat-blocks; sharp shapes rationed;
+misreads only where they're engines). **The name-norm sweep is RULED**
+(docket closed in `04-cast.md`: Munemasa · O-Hisa · Kenta · O-Nobu ·
+Suzu · Zenbei · Lord Tomita · Hori · the use-name **GONBEI**) and
+**the register rules are LAW** (`01-laws.md` §0.5 rules 4–6: the
+dream every second promotion · vague-but-parseable · log-texture /
+VN-scenes split). **The A-final coherence pass has run end-to-end**
+(2026-07-07): names swept clean, open cells reconciled, no
+contradictions found. **Awaiting ONLY the human's whole-read
+blessing → BIBLE DONE** (plus the remaining cast-portrait review,
+resumable inside that read). Planned in
 `docs/plans/fable-2026-07-07-story-bible-finish.md`.
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·

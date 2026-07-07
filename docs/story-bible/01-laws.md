@@ -31,15 +31,24 @@ the design.
    name sums in speech when the scene wants it; the Progress line still
    carries the arithmetic.
 
-**Candidate register rules (discussed 2026-07-07; NOT yet locked —
-the register-rules sitting decides):** *the dream cadence* (leading
-candidate: rung promotions end in sleep, and the dream fires there —
-every rung or every second; start tier open) · *vague-but-parseable*
-(a mystery-withholding line must still parse as scene logic: the
-player always knows WHAT happened even when the WHY is hidden) · *the
-log is the VN's texture channel* (scenes are rare and ceremonial —
-promotions, accusations, discoveries; weddings you missed, prices,
-gossip, weather live in the log).
+**Register rules (LOCKED at the A3 sitting, 2026-07-07):**
+
+4. **The dream cadence.** Rung promotions end in sleep, and the dream
+   fires there — at **every second sleep-ending promotion** from T1
+   on; the first dream is T0-R7 (canon). Each recurrence escalates,
+   never repeats verbatim (the echo craft rule below); the dream is
+   the memory's metronome, pacing the return toward T3.
+
+5. **Vague-but-parseable.** A mystery-withholding line must still
+   parse as scene logic: the player always knows WHAT happened even
+   when the WHY is hidden. Withholding is done with clear surfaces —
+   curiosity is the tool, never confusion.
+
+6. **The log and the VN split the work (the human's form).** A mixture
+   as-and-when-needed: **flavor and texture live in the log** (prices,
+   gossip, weather, the weddings you missed); **story beats AND side
+   quests play in the VN UI**. Ceremony stays expensive by craft, not
+   by quota — the log keeps the world alive between scenes.
 
 **Craft rule — echo is a choice.** Deliberate repetition goes through
 the `@`-reuse mechanism and means something; accidental

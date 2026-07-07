@@ -47,7 +47,7 @@ restored tier by tier. The home base grows EVERY tier.
 It starts with a body at the gate: fed once out of form, day-labor
 bought by the day, the log calling him "the man from the weir." It ends
 with the use-name written in the day-book by GENEMON — not the lord: T0
-ends and he has never properly met Shigemasa, who is a figure on a
+ends and he has never properly met Munemasa, who is a figure on a
 veranda, a voice through a wall. He earns a fixed sleeping place in the
 yard buildings, the threshold of the board, and the house's tool-name.
 The ruined true compound looms at the map's edge — visible, locked,
@@ -86,14 +86,14 @@ terraces, the woodlot proper, the works. The tier's arc is access: the
 slow earning of the right to work, then walk, then be trusted inside
 "the main house" — in truth the grand guest house's inner wings — a
 third of it by tier's end. Cast members are met in the wings as they
-reopen: O-Sato airing a room that was hers, Toku at the alcove,
+reopen: O-Hisa airing a room that was hers, Toku at the alcove,
 Naoyuki where his brother's things are stored. Trust arrives as
 objects and keys: a tool of his own, then the KURA KEY — and the
 storehouse's secrets with it (the memorial alcove kept wrong; the old
 ledgers' cut page-stubs).
 
 It ends in the room he himself restored: the shoin, the first room
-brought back — Shigemasa's only scene. The dying lord writes him into
+brought back — Munemasa's only scene. The dying lord writes him into
 the house register as his LAST ENTRY; three lines up, unstruck, no
 death date: Katsuhide. The lord dies at the seam. *Theme: from tool to
 man of the house — literally: the house lets him in one wing at a
@@ -106,7 +106,7 @@ R4 **The works-hand** (the old breach; the wings open to him
 tool-first) · R5 **The tally-keeper** (the day-book tallies under
 Genemon; the debt panel) · R6 **The foreman** (first hiring; the east
 wing under his charge; the wolf's return) · R7 **The registered man**
-(the restored shoin; Shigemasa's last entry). Full ladder:
+(the restored shoin; Munemasa's last entry). Full ladder:
 [`tiers/t1.md`](tiers/t1.md).
 
 **Zones:** the Terraced paddies (upper & lower) · the full Woodlot +
@@ -303,8 +303,8 @@ literal room).
 
 ## The ink thread
 
-Use-name in the day-book (T0, Genemon) → the house register (T1,
-Shigemasa's last entry) → **learns his birth name Tahei, and his
+The use-name Gonbei in the day-book (T0, Genemon) → the house register (T1,
+Munemasa's last entry) → **learns his birth name Tahei, and his
 origin register is confirmed-not-struck (T3, the warm relock)** → the
 renunciation witnessed (T4, Katsuhide strikes his own line) → the
 stewardship + Genemon's book (T5) → what the KUROSAWA register finally
