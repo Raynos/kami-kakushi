@@ -43,3 +43,7 @@ _(none open)_
   doc**: the slop-audit findings/fixes condensed live (THE substance you
   asked not to lose) + the mostly-superseded 19 ladder answers as record;
   defines what the reboot's informed pitch agents receive.
+- [ ] `project/brainstorms/2026-07-07-story-pitches/BUNDLE.md` — the
+  **5-pitch story bundle** (HR-15): the reboot's Phase-2 macro diverge —
+  read the bundle, then the five pitches; your pick/blend opens Phase 3
+  (the bible co-write).

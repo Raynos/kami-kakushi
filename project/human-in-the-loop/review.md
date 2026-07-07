@@ -402,6 +402,36 @@ the bar, the running/cooldown states — on the same shared `.act-bar` primitive
 
 ---
 
+## HR-15 🔲 — Story-reboot pitch bundle — pick/blend among the 5 pitches (reboot plan Phase 2)
+
+The reboot's macro diverge: five complete story pitches from the mixed
+fleet (3 blind with kernel anchors + 2 informed with renovator/reinventor
+stances), each with premise, mystery spine, cast, six-tier arc,
+rung-level T0, fiction↔mechanics section, and a prose-law sample scene.
+This is a DOC-read review (the pitches are designs, not built variants —
+ADR-139's live-swap rule applies later, to the prose waves Phase 3+
+produces from your pick).
+
+- **The bundle (read this first):**
+  [`project/brainstorms/2026-07-07-story-pitches/BUNDLE.md`](../brainstorms/2026-07-07-story-pitches/BUNDLE.md)
+  — capsules, kernel matrix, the five convergence signals, my verdicts.
+- [ ] **A — The Hollow Book** (blind, mystery-spine): three children sold
+  in the 1761 famine; the MC unknowingly one of them.
+- [ ] **B — The Paper House** (blind, house-spine): the heir self-vanished
+  so his family could eat; the unstruck register line at R7.
+- [ ] **C — The Entered Name** (blind, social-spine): a granary-fraud
+  coverup; the village investigates the MC; distrust priced in mon.
+- [ ] **D — The Ledger and the Legend** (informed renovator): keeps
+  Otsuru/Tama + the proven canon, rebuilds everything the audit condemned.
+- [ ] **E — The Ledger of the Vanished** (informed reinventor): the MC
+  vanished on purpose and the player knows; levelling up is self-exposure.
+  _(agent self-pick — primary recommendation, grafts listed in BUNDLE §Verdicts)_
+- **Asking for:** a primary pitch (or blend — name the spine + grafts).
+  Your pick opens Phase 3: the bible co-write, cast sheet first.
+- **Verdict:** _(awaiting the human)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

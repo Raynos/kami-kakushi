@@ -98,3 +98,31 @@ The bible (docs/living/story-bible.md) was born mid-sitting: §0 kernel +
 application notes, §0.5 prose law, §0.9 constraints. Phase 1 done.
 Next: Phase 2 — design the pitch brief, spawn the 5-pitch mixed fleet
 (3 blind / 2 informed), review as one HR bundle.
+
+## Addendum 3 — Phase 2 fleet flown and landed (same sitting)
+
+The pitch brief was co-designed decision by decision (inventory YES,
+anchors+stances YES, sample scene KEEP, 4,000-word bound, sections stand)
+and locked into the reboot plan §6 (+§6.1 neutral systems inventory). On
+"Launch", five agents flew in parallel; all five returned complete
+pitches, captured verbatim in project/brainstorms/2026-07-07-story-pitches/:
+
+- A "The Hollow Book" (blind, mystery) — children sold in the 1761
+  famine; the MC unknowingly one of them.
+- B "The Paper House" (blind, house) — the heir self-vanished to spare
+  the food; the unstruck register line.
+- C "The Entered Name" (blind, social) — granary-fraud coverup; the
+  village investigates the MC; distrust priced in mon.
+- D "The Ledger and the Legend" (informed renovator) — keeps the proven
+  canon, repairs everything the audit condemned.
+- E "The Ledger of the Vanished" (informed reinventor) — the MC vanished
+  on purpose; the player knows; levelling is self-exposure.
+
+BUNDLE.md carries capsules, a kernel matrix, five convergence signals
+(strongest: 5/5 made the ledger the game's spine; 4/5 landed on
+recovery≠return), and the self-pick: E primary, D strong alternative,
+grafts named. Filed as HR-15; queued for the human.
+
+Also this sitting: an earlier foreground push timed out (pre-push verify
+outpaced by co-agents' churn); a background retry + the co-agent's own
+pushes carried main current through the kernel commit.
