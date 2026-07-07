@@ -314,6 +314,12 @@ h3 {
   border-right: 1px solid var(--key);
   pointer-events: none;
 }
+/* FB-173 — pre-unlock (readout-clock) the calendar inside is [hidden], but the dock's
+   padding + border still painted: a stray ~14px hairline "stick" above the version
+   button. An empty dock paints nothing. */
+.shell > .clock-dock:has(> .clock[hidden]) {
+  display: none;
+}
 .clock-dock .vital.clock {
   display: flex;
   flex-direction: column;
@@ -749,15 +755,45 @@ h3 {
 .log-filter-tab.active {
   color: var(--ai);
 }
+/* FB-176 — the six channel tabs group together; Now stands alone at the left. */
+.log-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.log-filter-bar > .tab-now {
+  margin-right: var(--space-2);
+}
+/* FB-175 — the Now ACTIVITY lamp: fleeting text landed in the last ~10s. A warm gold
+   "live" tint (NOT the shu unread dot — Now's lines self-fade, FB-53); lapses back to
+   quiet on its own via the expiry clock. */
+.log-filter-tab.tab-now.live {
+  color: var(--gold-hi);
+  border-color: var(--key);
+  text-shadow: 0 0 6px rgba(216, 185, 120, 0.35);
+}
 .log-filter-tab:focus-visible {
   outline: none;
   box-shadow:
     0 0 0 2px var(--washi),
     0 0 0 3px var(--ai);
 }
-/* C — segmented control (human pick, F21): one joined bar, the active segment inked. */
+/* C — segmented control (human pick, F21): one joined bar, the active segment inked.
+   FB-176 — the six channel tabs join inside .log-filter-group; the standalone Now keeps
+   its own fully-rounded box at the left. */
 .log-filter-bar[data-variant='log-filter-segmented'] {
   gap: 0;
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-group {
+  gap: 0;
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab.tab-now {
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  margin-left: 0;
+}
+.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab.tab-now.live {
+  border-color: var(--key);
 }
 .log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab {
   border: 1px solid var(--ink-faint);

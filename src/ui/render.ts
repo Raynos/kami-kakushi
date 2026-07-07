@@ -774,14 +774,21 @@ export function mount(
   // the bottom filter bar (FB-9) — filters which channels show; Story leads, default 'story'.
   const logFilterBar = el('div', 'log-filter-bar');
   const logFilterBtns = new Map<LogFilter, HTMLButtonElement>();
+  // FB-176 — Now is NOT one of the channel filters: it's the fleeting-flavor scratch view.
+  // It sits ALONE at the bar's left, visually apart from the six-tab channel group.
+  const logFilterGroup = el('div', 'log-filter-group');
   for (const f of LOG_FILTERS) {
     const b = el('button', 'log-filter-tab', f.label) as HTMLButtonElement;
     b.type = 'button';
     b.setAttribute('aria-label', `Show ${f.label} log`);
     b.addEventListener('click', () => setLogFilter(f.id));
     logFilterBtns.set(f.id, b);
-    logFilterBar.append(b);
+    if (f.id === 'now') {
+      b.classList.add('tab-now');
+      logFilterBar.prepend(b);
+    } else logFilterGroup.append(b);
   }
+  logFilterBar.append(logFilterGroup);
   // FB-74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar. It scales ONLY
   // the log's reading text (a log-scoped `--log-scale` CSS var on the log section → `.log-lines`
   // font-size), leaving the FB-73 chrome density alone. The choice PERSISTS in localStorage (the
@@ -3787,6 +3794,7 @@ export function mount(
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
     scrollLogToNewest(animate); // follow the newest line (FB-7); animated appends glide (FB-150)
+    armFreshDividerFade(); // FB-177 — the divider fades after the LAST written line, not the first
   }
   // P2 — a line typewrites only if it is STORY text: a narration line, or any line
   // carrying a speaker `voice` (narrator / player / NPC dialogue). Combat/reward/
@@ -3842,6 +3850,7 @@ export function mount(
     logLines.append(line);
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
     scrollLogToNewest();
+    armFreshDividerFade(); // FB-177 — a typing line keeps the fresh divider alive
 
     const full = formatLogText(entry);
     const isNarrationQuote = entry.channel === 'narration' && entry.voice === undefined;
@@ -3893,6 +3902,7 @@ export function mount(
       // typewriter line — the NEXT pumpReveal is scheduled from the typing-complete
       // callback (a short beat later), so lines never overlap.
       typeLine(entry, () => {
+        armFreshDividerFade(); // FB-177 — the fade counts from the line FINISHING, not starting
         revealTimer = window.setTimeout(() => {
           revealTimer = undefined;
           pumpReveal();
@@ -3962,6 +3972,7 @@ export function mount(
     nowSeen.clear();
     lastEphStampKey = -1;
     nowEmptyEl = undefined;
+    refreshNowLive(); // FB-175 — a reset douses the live lamp with the stamps
   }
   // FB-115 — stamp any NEWLY-observed ephemeral entry with its wall-clock birth, for ANY active view.
   // The monotonic high-water key means an entry whose stamp already aged out of `nowSeen` is never
@@ -3977,6 +3988,24 @@ export function mount(
     }
     lastEphStampKey = maxKey;
     if (nowSeen.size > 0) ensureExpiryClock();
+    refreshNowLive();
+  }
+  // FB-175 — the Now tab's ambient ACTIVITY lamp: fleeting text landed in the last 10s.
+  // Deliberately NOT the red unread dot (Now's lines self-fade — FB-53); a distinct warm
+  // "live" tint that lapses back to quiet on its own. Driven by the same wall-clock stamps
+  // as the fade (`nowSeen`), refreshed by the same 500ms expiry clock — no extra timer.
+  const NOW_LIVE_MS = 10_000;
+  function refreshNowLive(): void {
+    const btn = logFilterBtns.get('now');
+    if (!btn) return;
+    const now = Date.now();
+    let live = false;
+    for (const seen of nowSeen.values())
+      if (now - seen < NOW_LIVE_MS) {
+        live = true;
+        break;
+      }
+    btn.classList.toggle('live', live);
   }
   // F58b — collapse an expired Now line (height → 0, opacity → 0, margins/padding → 0) over
   // ~0.4s so the lines below it glide UP as one, instead of snapping up on an instant remove.
@@ -4024,6 +4053,7 @@ export function mount(
       for (const [key, seen] of nowSeen) if (now - seen >= NOW_TTL_MS) nowSeen.delete(key);
     }
     if (nowSeen.size === 0 && logFilter !== 'now') stopExpiryClock();
+    refreshNowLive(); // FB-175 — the live lamp ages off on the same clock
   }
   // The DOM prune pass (Now active): fade lines entering their last NOW_FADE_MS, expire past NOW_TTL_MS.
   function pruneNowViewDom(now: number): void {
@@ -4107,7 +4137,25 @@ export function mount(
     const d = buildFreshDividerNode(); // same idiom the intro reuses (FB-27/FB-54)
     logLines.append(d); // fresh lines append AFTER it
     freshDivider = d;
+    armFreshDividerFade();
+  }
+  // FB-177 — the fade countdown re-arms on EVERY appended line, so the divider outlives the
+  // typewriter cascade: a batch can take many seconds to type out, and the old fixed 4.5s
+  // timer (armed at batch ARRIVAL) faded the divider while its own lines were still landing.
+  // It now fades 4.5s after the LAST line is written, not the first.
+  function armFreshDividerFade(): void {
+    const d = freshDivider;
+    if (!d) return;
+    if (freshDividerTimer !== undefined) window.clearTimeout(freshDividerTimer);
+    d.classList.remove('fading'); // a late line mid-fade pulls it back
     freshDividerTimer = window.setTimeout(() => {
+      // a single long line can TYPE for longer than the whole countdown — while the
+      // cascade is still writing (typing tick live or lines queued), check back later
+      // instead of fading out from under the reader.
+      if (typeTimer !== undefined || revealTimer !== undefined || revealQueue.length > 0) {
+        armFreshDividerFade();
+        return;
+      }
       d.classList.add('fading');
       window.setTimeout(() => {
         if (freshDivider === d) {
