@@ -367,35 +367,6 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 ---
 
-### HR-13 🔲 — FB-121 flavor lines — the ADR-139 blind-takes bundle (per-rung picks)
-
-The 23 requirement-completion flavor lines went through the narrative diverge
-you ordered (2026-07-07): three blind takes under distinct briefs (**A** the
-house notices · **B** the work speaks · **C** a word let drop), self-picked
-**per rung** into canon — R0 C · R1 A · R2 B · R3 C · R4 A · R5 A · R6 C ·
-R7 C (the spoken register lands exactly where a granter leans in; the
-material/house registers carry the grind between). Full bundle + all
-alternates: `src/core/content/narrative/takes/fb121-req-flavor/` (the ADR-139
-takes area — the stray human-in-the-loop doc is gone, per your call).
-
-- **Review LIVE (the wiring you ordered is built):** DEV panel → **Story** tab
-  → "FB-121 requirement-completion flavor" — pick take a/b/c (or per-line
-  overrides); FUTURE completions voice the selected take (logged history
-  stays, T2). Fastest path: DEV → Scenarios → load `rung-R3` (or any rung
-  fixture) → grind a requirement to completion → read the log line; toggle
-  the take and complete another. The script-reader modal carries the full
-  side-by-side read.
-- **Addendum (2026-07-07, after your staged-milestones call):** the long counts
-  are now staged (R0 rake 100/200/500 per your spec; R1 farm, R3 farm, R4 haul
-  ×3, R5 deep-forage, R6 haul likewise) — the **8 new early-stage flavor
-  lines** were single-authored by me IN each rung's picked register (an
-  extension of the picked take, not a fresh diverge; they read canon under
-  every switcher set). Veto any and I'll re-diverge that rung.
-- **Asking for:** per-rung overrides (or a wholesale re-pick) from the bundle.
-- **Verdict:** _(awaiting the human)_
-
----
-
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).
