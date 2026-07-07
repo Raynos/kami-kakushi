@@ -70,3 +70,23 @@ geography from scratch:
 
 Proof: verify 17/17 · headless pass (pan keeps selection · zoom · fly-to ·
 pills · Esc) · screenshots eyeballed (tmp/t0v2-shots/).
+
+## T1 map (same session — human ask: side-by-side)
+
+Second button in DEV → Story: **"⤢ T1 map — the land & the wings (grown
+sheet)"** — its own full-screen modal, same world as T0 so the two review
+side by side. Implementation: the module went tier-parametric
+(`openTierMap('T0'|'T1')`); T1 = the T0 sheet + 14 new zones from t1.md
+landing on exactly the ground the redesign reserved (terraces + let-go up
+the NW slope, pools behind the breach, flood-works channels, shallows with
+fish-weir chevrons, family plot on the knoll, clamp + firebreak past the
+woodlot, boundary far-fields, and the compound interiors: kura interior,
+workshops, east/west wings, inner garden + its gate-onto-the-ruin, shoin).
+New-in-T1 seals wear a gold 新 badge (roster too); carried T0 zones keep
+their seals and their detail pane gains a "What T1 changes here" section
+(reeds pressure drop, the grown night rail — now threading workshops and
+the east wing — the room offered vs the woodshed, papers leaving the
+kitchen…). East wing draws solid on T1, west stays shut.
+
+Proof: verify 17/17 · headless T1 pass (31 seals · new-node fly-to ·
+carried-node T1 note · Esc) · screenshots eyeballed.

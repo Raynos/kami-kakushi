@@ -66,7 +66,7 @@ import { COLD_OPEN } from '../core/content/coldOpen';
 import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
-import { openT0V2Map } from './dev-t0v2-map';
+import { openT0V2Map, openT1Map } from './dev-t0v2-map';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -2007,14 +2007,20 @@ export function mountDevPanel(
   //    units read in the script-reader. ──
   storyTab.textContent =
     dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
-  // T0 V2 review map (2026-07-07 story reboot) — the rebooted t0.md zone roster drawn as a
-  // full-screen survey sheet BEFORE the engine rebuild. Read-only review artifact, fully
-  // self-contained in dev-t0v2-map.ts (renders from its own bible-distilled data, not core).
+  // T0/T1 review maps (2026-07-07 story reboot) — the rebooted tier-sheet zone rosters drawn
+  // as full-screen survey sheets BEFORE the engine rebuild. Read-only review artifacts, fully
+  // self-contained in dev-t0v2-map.ts (rendering from bible-distilled data, not core). Two
+  // buttons on purpose: the human reviews T0 and T1 side by side (same world, grown roster).
   const t0v2Btn = mono('⤢ T0 V2 map — the story-bible zone draft', () => {
     openT0V2Map();
   });
   t0v2Btn.style.cssText += 'margin-bottom:.2rem;';
   storyPane.append(t0v2Btn);
+  const t1Btn = mono('⤢ T1 map — the land & the wings (grown sheet)', () => {
+    openT1Map();
+  });
+  t1Btn.style.cssText += 'margin-bottom:.2rem;';
+  storyPane.append(t1Btn);
   if (dev.storyBundles.length === 0) {
     const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';
