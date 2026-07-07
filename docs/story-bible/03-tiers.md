@@ -102,10 +102,12 @@ time.* *Skip ~2 years.*
 **Rungs:** R0 **The field-hand** (the crews) · R1 **The terrace-hand**
 (the paddies his) · R2 **The woodcutter** (the lot; the charcoal
 clamp) · R3 **The kura-warden** (the key; the alcove; the stubs) ·
-R4 **The wing-hand** (first steps inside the wings) · R5 **The
-tally-keeper** (the day-book tallies under Genemon) · R6 **The
-wing-warden** (the east wing under his charge) · R7 **The registered
-man** (the restored shoin; Shigemasa's last entry).
+R4 **The works-hand** (the old breach; the wings open to him
+tool-first) · R5 **The tally-keeper** (the day-book tallies under
+Genemon; the debt panel) · R6 **The foreman** (first hiring; the east
+wing under his charge; the wolf's return) · R7 **The registered man**
+(the restored shoin; Shigemasa's last entry). Full ladder:
+[`tiers/t1.md`](tiers/t1.md).
 
 **Zones:** the Terraced paddies (upper & lower) · the full Woodlot +
 the charcoal clamp · the Weir & flood-works (the OLD BREACH among
