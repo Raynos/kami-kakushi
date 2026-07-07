@@ -7,10 +7,28 @@
 // engine node exists for it. Imported only by dev.ts, so it rides the DEV fold
 // (tree-shaken from prod with the rest of the panel).
 //
-// Interactions: click/Enter a seal (or a roster row) → the detail pane reads
-// that zone's full node-grammar entry (blurb · actions · who · the wrong thing
-// · combat shape); header pills toggle the 戦/人/怪 mark layers; selecting the
-// Night rounds draws its patrol rail. Esc / × / scrim-click closes.
+// LAYOUT (human steer, 2026-07-07): a brand-new geography for the V2 scope —
+// NOT the shipped ezu sheet extended. The world canvas is BIG (2400×1600) so
+// nothing squishes; the view pans (drag) and zooms (wheel / ⊕⊖ / fit), opening
+// at full-sheet fit. The ground plan is T1-AWARE: every T1 zone (t1.md) has
+// reserved, empty ground it can land on without moving a T0 seal —
+//   · Upstream pools (combat)      → the river's upper reach, top-left
+//   · Terraced paddies (up+low)    → the slope between field margins and ruin
+//   · Let-go terraces (combat)     → the scrub above those, under the hills
+//   · Woodlot proper + clamp       → beyond the woodlot edge, top-right
+//   · Boundary stones / far fields → the river-side ground west of the paddies
+//   · Downstream shallows (combat) → the river below the weir reeds, Matsuzō's
+//   · Family plot                  → the knoll between ruin and compound
+//   · Kura interior · Workshops · East/West wings · Inner garden · Shoin
+//                                  → inside the compound (the faint closed-wing
+//                                    blocks drawn on the main house today)
+// The T1 map will be this sheet, bigger — same world, more seals.
+//
+// Interactions: click/Enter a seal (or a roster row — the roster also flies the
+// view to the zone) → the detail pane reads that zone's full node-grammar entry
+// (blurb · actions · who · the wrong thing · combat shape); header pills toggle
+// the 戦/人/怪 mark layers; selecting the Night rounds draws its patrol rail.
+// Esc / × / scrim-click closes.
 
 // ── tiny SVG/DOM helpers (ezu.ts's idiom, re-implemented so this module stays
 //    standalone — ezu keeps its helpers private and MUST stay untouched) ──────
@@ -118,7 +136,7 @@ function tree(parent: SVGElement, x: number, y: number, s: number, seed: string)
         1,
       ),
       'var(--ink-soft)',
-      1.1,
+      1.3,
       { opacity: '0.7' },
     );
   }
@@ -133,12 +151,12 @@ function tree(parent: SVGElement, x: number, y: number, s: number, seed: string)
       0.6,
     ),
     'var(--ink-soft)',
-    1.1,
+    1.3,
     { opacity: '0.7' },
   );
 }
 
-/** A roofed building footprint (walls + hips + ridge), simplified from ezu's. */
+/** A roofed building footprint (walls + hips + ridge). `faint` = closed/derelict. */
 function building(
   parent: SVGElement,
   cx: number,
@@ -163,13 +181,14 @@ function building(
           [x0, y1],
         ],
         seed + 'w',
-        1.6,
+        1.8,
         true,
       ),
       fill: 'var(--steel-2)',
       stroke: col,
-      'stroke-width': '1.4',
+      'stroke-width': '1.6',
       'stroke-linejoin': 'round',
+      ...(faint ? { 'stroke-dasharray': '5 4' } : {}),
     }),
   );
   const ins = Math.min(w, hgt) * 0.32;
@@ -181,7 +200,7 @@ function building(
     [[x1, y0] as Pt, [rx1, cy] as Pt],
     [[x1, y1] as Pt, [rx1, cy] as Pt],
   ] as const) {
-    stroke(parent, scrawl([a, b], seed + a.join() + 'h', 0.8), col, 0.9, { opacity: '0.8' });
+    stroke(parent, scrawl([a, b], seed + a.join() + 'h', 0.9), col, 1, { opacity: '0.8' });
   }
   stroke(
     parent,
@@ -191,10 +210,10 @@ function building(
         [rx1, cy],
       ],
       seed + 'r',
-      0.9,
+      1,
     ),
     col,
-    1.5,
+    1.7,
   );
 }
 
@@ -204,15 +223,15 @@ function hachure(parent: SVGElement, pts: readonly Pt[], seed: string): void {
   for (let i = 0; i < pts.length - 1; i++) {
     const [ax, ay] = pts[i]!;
     const [bx, by] = pts[i + 1]!;
-    const steps = Math.max(2, Math.round(Math.hypot(bx - ax, by - ay) / 14));
+    const steps = Math.max(2, Math.round(Math.hypot(bx - ax, by - ay) / 22));
     for (let s = 0; s < steps; s++) {
       const t = (s + 0.5) / steps;
-      const x = ax + (bx - ax) * t + (r() - 0.5) * 3;
-      const y = ay + (by - ay) * t + (r() - 0.5) * 3;
+      const x = ax + (bx - ax) * t + (r() - 0.5) * 4;
+      const y = ay + (by - ay) * t + (r() - 0.5) * 4;
       const dx = (by - ay) / Math.hypot(bx - ax, by - ay);
       const dy = -(bx - ax) / Math.hypot(bx - ax, by - ay);
-      const len = 5 + r() * 4;
-      stroke(parent, `M${x},${y} l${dx * len},${Math.abs(dy) * len}`, 'var(--ink-faint)', 0.8, {
+      const len = 7 + r() * 6;
+      stroke(parent, `M${x},${y} l${dx * len},${Math.abs(dy) * len}`, 'var(--ink-faint)', 1, {
         opacity: '0.55',
       });
     }
@@ -220,8 +239,10 @@ function hachure(parent: SVGElement, pts: readonly Pt[], seed: string): void {
 }
 
 // ── the T0 V2 node roster — docs/story-bible/tiers/t0.md §"The zones" verbatim-
-//    distilled (17 entries: 12 estate/grounds + 4 combat zones + the Night
-//    rounds activity). Coordinates are display-only sheet placement. ───────────
+//    distilled (17 entries). Coordinates are display-only WORLD placement on the
+//    2400×1600 sheet (see the T1 reservation plan in the header comment). ──────
+
+const WORLD = { w: 2400, h: 1600 } as const;
 
 type ZoneKind = 'estate' | 'grounds' | 'combat' | 'activity' | 'scenery';
 
@@ -253,8 +274,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '堰',
     name: 'The Weir & riverbank',
     kind: 'grounds',
-    x: 190,
-    y: 600,
+    x: 400,
+    y: 1120,
     blurb: 'Where the river left him; the weir-jizō stands here.',
     actions: [
       'Mend the weir screen',
@@ -271,8 +292,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '葦',
     name: 'The Weir reeds',
     kind: 'combat',
-    x: 170,
-    y: 735,
+    x: 350,
+    y: 1330,
     blurb:
       'River rats gnaw the weir screens the house leases from Matsuzō; every screen lost is coin owed.',
     actions: [
@@ -291,8 +312,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '門',
     name: 'The Gate & gateyard',
     kind: 'estate',
-    x: 560,
-    y: 758,
+    x: 1230,
+    y: 1370,
     blurb:
       "The estate's face, kept barely. Yohei's pedlar stall sets up here on market days — THE " +
       'market comes to him.',
@@ -309,8 +330,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '庭',
     name: 'The Forecourt',
     kind: 'estate',
-    x: 560,
-    y: 620,
+    x: 1230,
+    y: 1150,
     blurb: "The working heart of the guest house's outer court.",
     actions: ['Rake (the first verb)', 'Haul', 'Stack', 'Odd jobs'],
     who: ["Genemon's window overlooks it; the day-book lives off it"],
@@ -321,8 +342,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '薪',
     name: 'The Woodshed',
     kind: 'estate',
-    x: 660,
-    y: 690,
+    x: 1465,
+    y: 1245,
     blurb: 'His corner: a mat, a chipped bowl, the comfort floor.',
     actions: ['Rest / recover', 'Keep his few things'],
     who: ['O-Sato leaves mended things without knocking (later rungs)'],
@@ -333,8 +354,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '竈',
     name: 'The Kitchen threshold & board-side',
     kind: 'estate',
-    x: 445,
-    y: 545,
+    x: 1015,
+    y: 1085,
     blurb: "Meals at the threshold; the board is where the household's shape is overheard.",
     actions: ['Eat (recovery)', 'Overhear (ambient story)', 'Later: carry dishes in'],
     who: [
@@ -352,8 +373,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '祠',
     name: 'The Shrine-alcove corridor',
     kind: 'estate',
-    x: 545,
-    y: 498,
+    x: 1290,
+    y: 880,
     blurb:
       'A family altar in a CORRIDOR — compressed worship, the twist again. Glimpsed once in T0, ' +
       'entered in T1.',
@@ -368,8 +389,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '蔵',
     name: 'The Kura exterior & grain-store',
     kind: 'estate',
-    x: 700,
-    y: 560,
+    x: 1560,
+    y: 1020,
     blurb: "The working storehouse; the grain-watch's post.",
     actions: ['Load / unload', 'The night watch (R3)', 'The wolf fight'],
     who: ['Kihei sets the watch'],
@@ -382,8 +403,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '薬',
     name: "Sōan's sickroom",
     kind: 'estate',
-    x: 385,
-    y: 668,
+    x: 862,
+    y: 1180,
     blurb:
       'A lean-to surgery off the outer court. Defeat is never game-over — you are carried here ' +
       'and lose days.',
@@ -396,8 +417,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '稽',
     name: 'The Drill yard',
     kind: 'grounds',
-    x: 845,
-    y: 655,
+    x: 1810,
+    y: 1200,
     blurb: "The old stable court, repurposed; Kihei's ground. Opens at R4 — as Kihei's need.",
     actions: [
       'Drills (combat skills)',
@@ -412,8 +433,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '田',
     name: 'The Home paddy & vegetable rows',
     kind: 'grounds',
-    x: 275,
-    y: 480,
+    x: 645,
+    y: 1005,
     blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
     actions: ['Field work', 'Seasonal planting / harvest'],
     who: [
@@ -429,8 +450,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '畦',
     name: 'The Field margins',
     kind: 'combat',
-    x: 255,
-    y: 345,
+    x: 700,
+    y: 655,
     blurb:
       "Tanuki and badger setts at the paddy's edge, raiding the drying racks and seed stores. " +
       'Folk-loaded animals played PLAIN (kernel #1).',
@@ -446,8 +467,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '林',
     name: 'The Woodlot edge',
     kind: 'grounds',
-    x: 960,
-    y: 370,
+    x: 1960,
+    y: 760,
     blurb:
       "Kindling and forage country; the wolf's ground before R3. Nobody here — the first " +
       'solitude node.',
@@ -464,8 +485,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '廃',
     name: 'The ruined compound',
     kind: 'scenery',
-    x: 445,
-    y: 215,
+    x: 1020,
+    y: 320,
     blurb:
       'Beyond a rope and a warning: roofs fallen, a great gate crumbled, walls the village ' +
       'quarried for stones. LOCKED all tier; not even named honestly.',
@@ -478,8 +499,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '園',
     name: 'The Overgrown orchard',
     kind: 'combat',
-    x: 645,
-    y: 260,
+    x: 1330,
+    y: 430,
     blurb:
       "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters " +
       '(dogs bolden in Winter).',
@@ -500,8 +521,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '竹',
     name: 'The Bamboo grove',
     kind: 'combat',
-    x: 815,
-    y: 175,
+    x: 1640,
+    y: 310,
     blurb:
       'Behind the compound; the monkey troop raids the vegetable rows from it (peaks ' +
       'Summer / Bon).',
@@ -521,8 +542,8 @@ const NODES: readonly T0V2Node[] = [
     kanji: '夜',
     name: 'The Night rounds',
     kind: 'activity',
-    x: 655,
-    y: 795,
+    x: 1400,
+    y: 1440,
     blurb:
       'A combat ACTIVITY, not a map state — no day/night system. "Begin the night round" at its ' +
       'post by the gate puts the MC on rails through several zones in their night state: clear ' +
@@ -540,97 +561,106 @@ const NODES: readonly T0V2Node[] = [
 
 /** Roads/paths between zones (display adjacency for review — engine edges come later). */
 const ROADS: readonly { pts: readonly Pt[]; seed: string }[] = [
-  // gate → paddies (west road)
+  // gate → paddies (the west road)
   {
     pts: [
-      [505, 745],
-      [400, 690],
-      [340, 600],
-      [310, 540],
+      [1170, 1385],
+      [980, 1340],
+      [850, 1230],
+      [790, 1120],
     ],
     seed: 'r-gp',
   },
   // gate → weir (southwest)
   {
     pts: [
-      [505, 762],
-      [380, 775],
-      [280, 735],
-      [225, 655],
+      [1175, 1400],
+      [880, 1450],
+      [600, 1380],
+      [455, 1220],
     ],
     seed: 'r-gw',
   },
-  // weir → reeds (the bank)
+  // weir → reeds (down the bank)
   {
     pts: [
-      [195, 640],
-      [180, 695],
+      [395, 1180],
+      [370, 1270],
     ],
     seed: 'r-wr',
   },
   // paddies → field margins
   {
     pts: [
-      [270, 430],
-      [258, 388],
+      [660, 900],
+      [690, 760],
     ],
     seed: 'r-pm',
   },
   // gate → drill yard (east)
   {
     pts: [
-      [615, 745],
-      [745, 705],
-      [812, 675],
+      [1290, 1385],
+      [1580, 1360],
+      [1740, 1280],
     ],
     seed: 'r-gd',
   },
-  // compound east wall → woodlot edge
+  // compound north-east corner → woodlot edge
   {
     pts: [
-      [755, 600],
-      [865, 520],
-      [930, 425],
+      [1665, 1000],
+      [1810, 900],
+      [1905, 810],
     ],
     seed: 'r-cw',
   },
   // woodlot → bamboo grove (up the hill)
   {
     pts: [
-      [935, 320],
-      [880, 240],
-      [845, 205],
+      [1935, 620],
+      [1790, 430],
+      [1690, 350],
     ],
     seed: 'r-wg',
   },
   // orchard → grove
   {
     pts: [
-      [690, 240],
-      [770, 200],
+      [1405, 385],
+      [1545, 330],
     ],
     seed: 'r-og',
   },
-  // compound north side → orchard (the way up past the rope)
+  // compound north wall → the rope line / orchard fork (the way up)
   {
     pts: [
-      [600, 480],
-      [618, 380],
-      [635, 305],
+      [1250, 810],
+      [1265, 620],
+      [1295, 500],
     ],
     seed: 'r-co',
+  },
+  // gate → south, off the sheet (the village road — T2 ground, fading out)
+  {
+    pts: [
+      [1230, 1415],
+      [1225, 1500],
+      [1235, 1580],
+    ],
+    seed: 'r-gs',
   },
 ];
 
 /** The Night rounds patrol rail — drawn only while that node is selected. */
 const NIGHT_ROUTE: readonly Pt[] = [
-  [655, 780],
-  [572, 742],
-  [560, 640],
-  [688, 588],
-  [660, 672],
-  [828, 660],
-  [668, 778],
+  [1400, 1420],
+  [1240, 1355],
+  [1230, 1165],
+  [1550, 1000],
+  [1470, 1230],
+  [1795, 1195],
+  [1415, 1430],
 ];
 
 // ── the sheet painter ─────────────────────────────────────────────────────────
@@ -650,36 +680,42 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
   filter.append(
     sv('feTurbulence', {
       type: 'fractalNoise',
-      baseFrequency: '0.013',
+      baseFrequency: '0.009',
       numOctaves: '2',
       seed: '7',
       result: 'n',
     }),
-    sv('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: '3.5' }),
+    sv('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: '4' }),
   );
   defs.append(filter);
   svg.append(defs);
 
   // plate + double survey frame
   svg.append(
-    sv('rect', { x: '8', y: '8', width: '1184', height: '844', fill: 'var(--steel-1)' }),
     sv('rect', {
       x: '8',
       y: '8',
-      width: '1184',
-      height: '844',
-      fill: 'none',
-      stroke: 'var(--silver-wire)',
-      'stroke-width': '1',
+      width: String(WORLD.w - 16),
+      height: String(WORLD.h - 16),
+      fill: 'var(--steel-1)',
     }),
     sv('rect', {
-      x: '18',
-      y: '18',
-      width: '1164',
-      height: '824',
+      x: '8',
+      y: '8',
+      width: String(WORLD.w - 16),
+      height: String(WORLD.h - 16),
+      fill: 'none',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.5',
+    }),
+    sv('rect', {
+      x: '22',
+      y: '22',
+      width: String(WORLD.w - 44),
+      height: String(WORLD.h - 44),
       fill: 'none',
       stroke: 'var(--key)',
-      'stroke-width': '1.2',
+      'stroke-width': '1.8',
     }),
   );
 
@@ -689,91 +725,113 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
 
   // ── the land: hills across the north, the river down the west ──
   const hill1: Pt[] = [
-    [60, 120],
-    [260, 78],
-    [520, 60],
-    [820, 70],
-    [1130, 105],
+    [90, 200],
+    [560, 120],
+    [1100, 90],
+    [1700, 105],
+    [2320, 175],
   ];
   const hill2: Pt[] = [
-    [300, 145],
-    [560, 118],
-    [880, 128],
-    [1140, 160],
+    [560, 275],
+    [950, 225],
+    [1320, 245],
   ];
-  stroke(art, scrawl(hill1, 'h1', 3), 'var(--ink-faint)', 1, { opacity: '0.75' });
-  stroke(art, scrawl(hill2, 'h2', 3), 'var(--ink-faint)', 1, { opacity: '0.7' });
+  const hill3: Pt[] = [
+    [1780, 210],
+    [2100, 240],
+    [2330, 300],
+  ];
+  stroke(art, scrawl(hill1, 'h1', 4), 'var(--ink-faint)', 1.2, { opacity: '0.75' });
+  stroke(art, scrawl(hill2, 'h2', 4), 'var(--ink-faint)', 1.2, { opacity: '0.7' });
+  stroke(art, scrawl(hill3, 'h3', 4), 'var(--ink-faint)', 1.2, { opacity: '0.7' });
   hachure(art, hill1, 'hh1');
   hachure(art, hill2, 'hh2');
+  hachure(art, hill3, 'hh3');
 
+  // the river: from the hills (upstream — the T1 pools' reach) south past the
+  // weir and off the sheet (downstream — Matsuzō's shallows, T1)
   const river: Pt[] = [
-    [235, 30],
-    [200, 150],
-    [150, 300],
-    [128, 450],
-    [150, 560],
-    [190, 620],
-    [175, 700],
-    [150, 790],
-    [140, 850],
+    [470, 60],
+    [420, 220],
+    [350, 400],
+    [310, 600],
+    [300, 800],
+    [330, 980],
+    [390, 1110],
+    [380, 1240],
+    [340, 1380],
+    [300, 1500],
+    [290, 1580],
   ];
-  stroke(art, scrawl(river, 'rv-a', 3), 'var(--silver-dim)', 1.6, { opacity: '0.45' });
+  stroke(art, scrawl(river, 'rv-a', 4), 'var(--silver-dim)', 2.2, { opacity: '0.45' });
   stroke(
     art,
     scrawl(
-      river.map(([x, y]) => [x + 7, y + 2] as const),
+      river.map(([x, y]) => [x + 10, y + 3] as const),
       'rv-b',
-      3,
+      4,
     ),
     'var(--silver-dim)',
-    1.1,
+    1.4,
     { opacity: '0.3' },
   );
-  // the weir bar across the water + the jizō beside it
+  // the weir bar across the water + the jizō on the bank
   stroke(
     art,
     scrawl(
       [
-        [168, 612],
-        [216, 606],
+        [368, 1125],
+        [428, 1118],
       ],
       'weir-bar',
       1,
     ),
     'var(--silver)',
-    3,
-    {
-      opacity: '0.8',
-    },
+    4,
+    { opacity: '0.8' },
   );
   const jizo = sv('g');
   jizo.append(
     sv('circle', {
-      cx: '232',
-      cy: '585',
-      r: '4',
+      cx: '450',
+      cy: '1078',
+      r: '5',
       fill: 'none',
       stroke: 'var(--silver-wire)',
-      'stroke-width': '1.2',
+      'stroke-width': '1.4',
     }),
     sv('rect', {
-      x: '228',
-      y: '589',
-      width: '8',
-      height: '10',
+      x: '445',
+      y: '1083',
+      width: '10',
+      height: '13',
       fill: 'none',
       stroke: 'var(--silver-wire)',
-      'stroke-width': '1.2',
+      'stroke-width': '1.4',
     }),
   );
   tip(jizo, 'The weir-jizō — offerings appear that nobody admits to leaving');
   art.append(jizo);
+  // reed clumps along the reeds' stretch of bank
+  const rReed = rng('reeds');
+  for (let i = 0; i < 9; i++) {
+    const bx = 320 + rReed() * 90;
+    const by = 1250 + rReed() * 130;
+    for (let k = -1; k <= 1; k++) {
+      stroke(
+        art,
+        `M${bx},${by} q${k * 4 + (rReed() - 0.5) * 2},${-8 - rReed() * 5} ${k * 7},${-13 - rReed() * 5}`,
+        'var(--ink-faint)',
+        1,
+      );
+    }
+  }
 
   // ── roads ──
   for (const { pts, seed } of ROADS) {
-    stroke(art, scrawl(pts, seed, 3), 'var(--gold-dim)', 5, { opacity: '0.3' });
-    stroke(art, scrawl(pts, seed + 'c', 3), 'var(--ink-soft)', 1.3, {
-      'stroke-dasharray': '8 6',
+    stroke(art, scrawl(pts, seed, 3.5), 'var(--gold-dim)', 7, { opacity: '0.28' });
+    stroke(art, scrawl(pts, seed + 'c', 3.5), 'var(--ink-soft)', 1.6, {
+      'stroke-dasharray': '10 8',
       opacity: '0.7',
     });
   }
@@ -782,35 +840,37 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     art,
     scrawl(
       [
-        [268, 322],
-        [330, 290],
-        [395, 268],
+        [740, 610],
+        [840, 500],
+        [905, 425],
       ],
       'sett',
-      2.5,
+      3,
     ),
     'var(--shu)',
-    1.1,
-    { 'stroke-dasharray': '2 6', opacity: '0.55', class: 't0v2-m-wrong' },
+    1.4,
+    { 'stroke-dasharray': '3 8', opacity: '0.5', class: 't0v2-m-wrong' },
   );
   tip(sett, "The old sett — a way in under the ruined compound's wall nobody official knows");
 
-  // ── the estate compound: wall, main house, kura, woodshed, sickroom lean-to ──
+  // ── the estate compound: a BIG walled court (over half the tier lives here;
+  //    T1 opens its interiors, so the house carries faint closed wings today) ──
   const wall: Pt[] = [
-    [408, 470],
-    [640, 452],
-    [758, 505],
-    [762, 700],
-    [648, 742],
-    [472, 740],
-    [402, 655],
+    [950, 820],
+    [1430, 795],
+    [1650, 875],
+    [1668, 1165],
+    [1525, 1300],
+    [1120, 1318],
+    [942, 1235],
+    [928, 985],
   ];
   art.append(
     sv('path', {
-      d: scrawl(wall, 'cw', 2.6, true),
+      d: scrawl(wall, 'cw', 3, true),
       fill: 'rgba(216,185,120,0.045)',
       stroke: 'var(--key)',
-      'stroke-width': '1.6',
+      'stroke-width': '2',
       'stroke-linejoin': 'round',
     }),
   );
@@ -819,115 +879,134 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     art,
     scrawl(
       [
-        [549, 748],
-        [549, 730],
+        [1206, 1332],
+        [1206, 1306],
       ],
       'g-p1',
-      0.8,
+      1,
     ),
     'var(--silver)',
-    2.4,
+    3.2,
   );
   stroke(
     art,
     scrawl(
       [
-        [571, 748],
-        [571, 730],
+        [1254, 1330],
+        [1254, 1304],
       ],
       'g-p2',
-      0.8,
+      1,
     ),
     'var(--silver)',
-    2.4,
+    3.2,
   );
   stroke(
     art,
     scrawl(
       [
-        [544, 730],
-        [576, 730],
+        [1198, 1305],
+        [1262, 1303],
       ],
       'g-l',
-      0.8,
+      1,
     ),
     'var(--silver)',
-    2.2,
+    3,
   );
-  building(art, 520, 522, 128, 66, 'omoya'); // the main house (steward's papers inside)
-  building(art, 700, 528, 54, 40, 'kura-b'); // the kura
-  building(art, 662, 662, 34, 26, 'shed'); // the woodshed hut
-  building(art, 388, 640, 40, 26, 'sick', true); // the sickroom lean-to (off the outer court)
+  // the main house — and its CLOSED wings, faint (T1's interior frontier:
+  // east/west wings, the inner garden between them, the shoin)
+  building(art, 1200, 960, 250, 135, 'omoya');
+  building(art, 1042, 945, 105, 175, 'wing-w', true);
+  const wingW = art.lastElementChild;
+  if (wingW) tip(wingW as SVGElement, 'The west wing — shuttered (T1 ground)');
+  building(art, 1362, 945, 105, 175, 'wing-e', true);
+  const wingE = art.lastElementChild;
+  if (wingE) tip(wingE as SVGElement, 'The east wing — shuttered (T1 ground)');
+  building(art, 1560, 965, 76, 58, 'kura-b'); // the kura
+  building(art, 1467, 1200, 42, 32, 'shed'); // the woodshed hut
+  building(art, 880, 1132, 52, 34, 'sick', true); // the sickroom lean-to (outside the wall)
+  // a well in the forecourt (a lived-in court, not a box)
+  art.append(
+    sv('circle', {
+      cx: '1310',
+      cy: '1120',
+      r: '7',
+      fill: 'none',
+      stroke: 'var(--silver-wire)',
+      'stroke-width': '1.5',
+    }),
+  );
   // Yohei's stall — a small awning outside the gate (market days)
   const stall = sv('g');
   stroke(
     stall,
     scrawl(
       [
-        [598, 772],
-        [622, 772],
+        [1300, 1408],
+        [1330, 1408],
       ],
       'stall-a',
-      0.8,
+      1,
     ),
     'var(--gold-dim)',
-    1.6,
+    2,
   );
   stroke(
     stall,
     scrawl(
       [
-        [600, 772],
-        [600, 784],
+        [1302, 1408],
+        [1302, 1424],
       ],
       'stall-b',
-      0.5,
+      0.6,
     ),
     'var(--gold-dim)',
-    1.2,
+    1.5,
   );
   stroke(
     stall,
     scrawl(
       [
-        [620, 772],
-        [620, 784],
+        [1328, 1408],
+        [1328, 1424],
       ],
       'stall-c',
-      0.5,
+      0.6,
     ),
     'var(--gold-dim)',
-    1.2,
+    1.5,
   );
   tip(stall, "Yohei's pedlar stall — sets up on market days; his coin is finite per visit");
   art.append(stall);
 
-  // ── the paddies: three terraced parcels + water ticks ──
+  // ── the home paddies: three terraced parcels + water ticks ──
   const parcels: readonly { pts: readonly Pt[]; seed: string }[] = [
     {
       pts: [
-        [195, 420],
-        [340, 408],
-        [355, 462],
-        [205, 472],
+        [505, 862],
+        [762, 848],
+        [782, 938],
+        [518, 952],
       ],
       seed: 'p1',
     },
     {
       pts: [
-        [188, 482],
-        [352, 472],
-        [362, 528],
-        [196, 540],
+        [492, 966],
+        [792, 952],
+        [806, 1042],
+        [502, 1056],
       ],
       seed: 'p2',
     },
     {
       pts: [
-        [200, 550],
-        [356, 540],
-        [346, 596],
-        [214, 606],
+        [508, 1070],
+        [800, 1058],
+        [786, 1148],
+        [522, 1160],
       ],
       seed: 'p3',
     },
@@ -935,48 +1014,49 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
   for (const { pts, seed } of parcels) {
     art.append(
       sv('path', {
-        d: scrawl(pts, seed, 2.6, true),
+        d: scrawl(pts, seed, 3, true),
         fill: 'rgba(216,185,120,0.06)',
         stroke: 'var(--key)',
-        'stroke-width': '1.3',
+        'stroke-width': '1.6',
         'stroke-linejoin': 'round',
       }),
     );
     const r = rng(seed + 'w');
     for (let i = 0; i < 2; i++) {
-      const hy = (pts[0]![1] + pts[2]![1]) / 2 - 6 + i * 12 + (r() - 0.5) * 3;
+      const hy = (pts[0]![1] + pts[2]![1]) / 2 - 9 + i * 18 + (r() - 0.5) * 4;
       stroke(
         art,
         scrawl(
           [
-            [pts[0]![0] + 26, hy],
-            [pts[1]![0] - 26, hy],
+            [pts[0]![0] + 40, hy],
+            [pts[1]![0] - 40, hy],
           ],
           seed + 'h' + i,
-          0.9,
+          1.2,
         ),
         'var(--ink-faint)',
-        0.8,
+        1,
         { opacity: '0.7' },
       );
     }
   }
-  // boundary stones far beyond the worked rows (the paddies' wrong thing, drawn)
+  // boundary stones far beyond the worked rows, on the river side (the wrong thing)
   const bstones = sv('g', { class: 't0v2-m-wrong' });
   for (const [bx, by] of [
-    [95, 400],
-    [88, 500],
-    [102, 590],
+    [415, 880],
+    [400, 1000],
+    [420, 1105],
   ] as const) {
     bstones.append(
       sv('rect', {
         x: String(bx),
         y: String(by),
-        width: '6',
-        height: '9',
+        width: '8',
+        height: '12',
         fill: 'none',
-        stroke: 'var(--ink-faint)',
-        'stroke-width': '1',
+        stroke: 'var(--shu)',
+        'stroke-width': '1.2',
+        opacity: '0.55',
         transform: `rotate(${(bx % 7) - 3} ${bx} ${by})`,
       }),
     );
@@ -986,177 +1066,160 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     'Boundary stones far beyond the worked rows — the fields were once four times wider',
   );
   art.append(bstones);
-  // field-margin setts: little burrow dots along the paddies' north edge
+  // field-margin setts: burrow mouths in the strip above the parcels
   const rSett = rng('setts');
-  for (let i = 0; i < 5; i++) {
-    const sx = 205 + rSett() * 130;
-    const sy = 380 + rSett() * 24;
+  for (let i = 0; i < 6; i++) {
+    const sx = 560 + rSett() * 260;
+    const sy = 700 + rSett() * 110;
     art.append(
       sv('circle', {
         cx: String(sx),
         cy: String(sy),
-        r: '2.4',
+        r: '3',
         fill: 'var(--steel-0)',
         stroke: 'var(--ink-faint)',
-        'stroke-width': '0.8',
+        'stroke-width': '1',
       }),
     );
   }
 
   // ── the ruined compound (north): broken walls, fallen gate, the rope line ──
   const ruinWall: Pt[] = [
-    [330, 150],
-    [560, 132],
-    [575, 265],
-    [340, 285],
+    [860, 205],
+    [1180, 185],
+    [1200, 395],
+    [880, 415],
   ];
   art.append(
     sv('path', {
-      d: scrawl(ruinWall, 'ru-w', 4, true),
+      d: scrawl(ruinWall, 'ru-w', 5, true),
       fill: 'none',
       stroke: 'var(--silver-faint)',
-      'stroke-width': '1.4',
-      'stroke-dasharray': '10 7',
+      'stroke-width': '1.6',
+      'stroke-dasharray': '12 9',
       opacity: '0.8',
     }),
   );
-  // fallen roofs — collapsed footprint fragments inside
   stroke(
     art,
     scrawl(
       [
-        [380, 190],
-        [430, 182],
-        [418, 214],
+        [930, 260],
+        [1000, 250],
+        [985, 295],
       ],
       'ru-r1',
-      3,
+      4,
       true,
     ),
     'var(--silver-faint)',
-    1,
-    {
-      opacity: '0.6',
-    },
+    1.2,
+    { opacity: '0.6' },
   );
   stroke(
     art,
     scrawl(
       [
-        [470, 200],
-        [530, 194],
-        [522, 240],
-        [478, 244],
+        [1050, 270],
+        [1130, 262],
+        [1120, 325],
+        [1060, 330],
       ],
       'ru-r2',
-      3.4,
+      4.5,
       true,
     ),
     'var(--silver-faint)',
-    1,
-    {
-      opacity: '0.6',
-    },
+    1.2,
+    { opacity: '0.6' },
   );
   // the crumbled great gate (south face) + the rope across the approach
   stroke(
     art,
     scrawl(
       [
-        [440, 288],
-        [452, 270],
+        [1005, 418],
+        [1018, 396],
       ],
       'ru-g1',
-      1.4,
+      1.8,
     ),
     'var(--silver-faint)',
-    2.2,
-    {
-      opacity: '0.7',
-    },
+    2.8,
+    { opacity: '0.7' },
   );
   stroke(
     art,
     scrawl(
       [
-        [468, 286],
-        [462, 272],
+        [1040, 416],
+        [1032, 398],
       ],
       'ru-g2',
-      1.4,
+      1.8,
     ),
     'var(--silver-faint)',
-    2.2,
-    {
-      opacity: '0.7',
-    },
+    2.8,
+    { opacity: '0.7' },
   );
   const rope = stroke(
     art,
     scrawl(
       [
-        [392, 316],
-        [460, 308],
-        [530, 314],
+        [950, 455],
+        [1030, 445],
+        [1110, 452],
       ],
       'rope',
-      2,
+      2.5,
     ),
-    'var(--shu-dim, var(--shu))',
-    1.2,
-    {
-      'stroke-dasharray': '5 4',
-      opacity: '0.6',
-    },
+    'var(--shu)',
+    1.5,
+    { 'stroke-dasharray': '6 5', opacity: '0.55' },
   );
   tip(rope, 'The rope and the warning — LOCKED all tier');
 
   // ── the orchard: fruit trees in courtyard ROWS (the wrongness is the layout) ──
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 4; col++) {
-      tree(art, 596 + col * 30, 210 + row * 32, 7, `or-${row}-${col}`);
+      tree(art, 1260 + col * 42, 300 + row * 42, 9, `or-${row}-${col}`);
     }
   }
   stroke(
     art,
     scrawl(
       [
-        [588, 196],
-        [700, 196],
+        [1248, 262],
+        [1400, 262],
       ],
       'or-path',
-      1.4,
+      1.6,
     ),
     'var(--ink-faint)',
-    0.8,
-    {
-      'stroke-dasharray': '3 5',
-      opacity: '0.5',
-    },
+    1,
+    { 'stroke-dasharray': '4 6', opacity: '0.5' },
   );
 
   // ── the bamboo grove: vertical culm strokes with leaf ticks ──
   const rBam = rng('bam');
-  for (let i = 0; i < 14; i++) {
-    const bx = 762 + rBam() * 110;
-    const by = 120 + rBam() * 60;
+  for (let i = 0; i < 16; i++) {
+    const bx = 1565 + rBam() * 150;
+    const by = 175 + rBam() * 80;
     stroke(
       art,
       scrawl(
         [
-          [bx, by + 26],
-          [bx + (rBam() - 0.5) * 4, by],
+          [bx, by + 34],
+          [bx + (rBam() - 0.5) * 5, by],
         ],
         `bam-${i}`,
-        0.8,
+        1,
       ),
       'var(--ink-soft)',
-      1.1,
-      {
-        opacity: '0.75',
-      },
+      1.3,
+      { opacity: '0.75' },
     );
-    stroke(art, `M${bx},${by + 6} l${4 + rBam() * 3},${-3 - rBam() * 2}`, 'var(--ink-soft)', 0.8, {
+    stroke(art, `M${bx},${by + 8} l${5 + rBam() * 4},${-4 - rBam() * 3}`, 'var(--ink-soft)', 1, {
       opacity: '0.6',
     });
   }
@@ -1165,45 +1228,42 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     art,
     scrawl(
       [
-        [756, 195],
-        [756, 172],
+        [1548, 300],
+        [1548, 268],
       ],
       'waymark',
-      0.8,
+      1,
     ),
     'var(--shu)',
-    1.6,
-    {
-      opacity: '0.6',
-      class: 't0v2-m-wrong',
-    },
+    2,
+    { opacity: '0.6', class: 't0v2-m-wrong' },
   );
   tip(waymark, 'The cut-bamboo waymark, renewed each season — far too old a habit');
 
   // ── the woodlot: loose trees + char-marked stumps + the road east off-sheet ──
   const spots: readonly Pt[] = [
-    [925, 320],
-    [965, 300],
-    [1010, 330],
-    [945, 400],
-    [995, 385],
-    [1040, 360],
-    [1055, 415],
+    [1900, 590],
+    [1955, 560],
+    [2015, 600],
+    [1925, 680],
+    [1990, 665],
+    [2050, 630],
+    [2070, 700],
   ];
-  spots.forEach(([tx, ty], i) => tree(art, tx, ty, 8, `wl-${i}`));
+  spots.forEach(([tx, ty], i) => tree(art, tx, ty, 10, `wl-${i}`));
   const stumps = sv('g', { class: 't0v2-m-wrong' });
   for (const [sx, sy] of [
-    [905, 430],
-    [1015, 445],
+    [1880, 700],
+    [2035, 730],
   ] as const) {
     stumps.append(
       sv('circle', {
         cx: String(sx),
         cy: String(sy),
-        r: '3.5',
+        r: '4.5',
         fill: 'none',
         stroke: 'var(--shu)',
-        'stroke-width': '1',
+        'stroke-width': '1.2',
         opacity: '0.55',
       }),
     );
@@ -1214,34 +1274,31 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     art,
     scrawl(
       [
-        [1005, 470],
-        [1090, 480],
-        [1170, 472],
+        [2020, 800],
+        [2180, 815],
+        [2350, 805],
       ],
       'wl-road',
-      2,
+      2.5,
     ),
     'var(--ink-soft)',
-    2.2,
-    {
-      'stroke-dasharray': '7 6',
-      opacity: '0.45',
-    },
+    2.6,
+    { 'stroke-dasharray': '9 8', opacity: '0.45' },
   );
 
   // ── the night-rounds patrol rail (hidden until that node is selected) ──
   const rail = sv('g', { class: 't0v2-nightrail' });
-  stroke(rail, scrawl(NIGHT_ROUTE, 'rail', 3), 'var(--shu)', 1.6, {
-    'stroke-dasharray': '3 7',
+  stroke(rail, scrawl(NIGHT_ROUTE, 'rail', 3.5), 'var(--shu)', 2, {
+    'stroke-dasharray': '4 9',
     opacity: '0.85',
   });
   const lantern = sv('circle', {
-    cx: '655',
-    cy: '780',
-    r: '5',
+    cx: '1400',
+    cy: '1420',
+    r: '7',
     fill: 'none',
     stroke: 'var(--shu)',
-    'stroke-width': '1.4',
+    'stroke-width': '1.8',
   });
   tip(lantern, 'The round begins and ends at its post by the gate');
   rail.append(lantern);
@@ -1254,15 +1311,15 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     seals.append(g);
     nodeEls.set(n.id, g);
 
-    const bw = 34;
-    const bh = 32;
+    const bw = 46;
+    const bh = 44;
     // invisible hit-target spanning seal + caption (the ezu WebKit-gap lesson)
     g.append(
       sv('rect', {
-        x: String(n.x - 46),
-        y: String(n.y - bh / 2 - 6),
-        width: '92',
-        height: String(bh + 40),
+        x: String(n.x - 70),
+        y: String(n.y - bh / 2 - 8),
+        width: '140',
+        height: String(bh + 62),
         fill: 'transparent',
       }),
     );
@@ -1282,7 +1339,7 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
         'text',
         {
           x: String(n.x),
-          y: String(n.y + 7),
+          y: String(n.y + 10),
           'text-anchor': 'middle',
           class: 't0v2-kanji',
         },
@@ -1293,7 +1350,7 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
       'text',
       {
         x: String(n.x),
-        y: String(n.y + bh / 2 + 15),
+        y: String(n.y + bh / 2 + 22),
         'text-anchor': 'middle',
         class: 't0v2-caption',
       },
@@ -1316,14 +1373,14 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     if (!n.wrong.startsWith('None')) {
       marks.push({ glyph: '怪', cls: 't0v2-m-wrong', why: n.wrong });
     }
-    const step = 24;
+    const step = 34;
     let mx = n.x - ((marks.length - 1) * step) / 2;
     for (const m of marks) {
       const mt = sv(
         'text',
         {
           x: String(mx),
-          y: String(n.y + bh / 2 + 31),
+          y: String(n.y + bh / 2 + 46),
           'text-anchor': 'middle',
           class: `t0v2-mark ${m.cls}`,
         },
@@ -1342,38 +1399,38 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
     north,
     scrawl(
       [
-        [64, 96],
-        [64, 52],
+        [80, 140],
+        [80, 78],
       ],
       'north-a',
-      1,
+      1.2,
     ),
     'var(--silver)',
-    1.6,
+    2.2,
   );
   stroke(
     north,
     scrawl(
       [
-        [57, 62],
-        [64, 50],
-        [71, 62],
+        [70, 92],
+        [80, 74],
+        [90, 92],
       ],
       'north-h',
-      0.8,
+      1,
     ),
     'var(--silver)',
-    1.6,
+    2.2,
   );
   north.append(
     sv(
       'text',
       {
-        x: '64',
-        y: '120',
+        x: '80',
+        y: '176',
         'text-anchor': 'middle',
         class: 't0v2-kanji',
-        style: 'font-size:17px;fill:var(--silver);',
+        style: 'font-size:26px;fill:var(--silver);',
       },
       '北',
     ),
@@ -1384,21 +1441,21 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>): void
   const cart = sv('g');
   cart.append(
     sv('rect', {
-      x: '1112',
-      y: '34',
-      width: '42',
-      height: '244',
+      x: '2286',
+      y: '48',
+      width: '58',
+      height: '330',
       fill: 'var(--steel-2)',
       stroke: 'var(--key)',
-      'stroke-width': '1.2',
+      'stroke-width': '1.6',
     }),
   );
   const title = sv('text', {
-    x: '1133',
-    y: '52',
+    x: '2315',
+    y: '72',
     class: 't0v2-kanji',
     style:
-      'writing-mode:vertical-rl;font-size:19px;letter-spacing:5px;fill:var(--silver);text-anchor:start;',
+      'writing-mode:vertical-rl;font-size:28px;letter-spacing:8px;fill:var(--silver);text-anchor:start;',
   });
   title.textContent = '黒沢家領内絵図・改';
   tip(cart, 'Survey plan of the Kurosawa holdings, REVISED — the T0 V2 zone draft');
@@ -1415,7 +1472,8 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void): void 
     'div',
     't0v2-aside-src',
     'Source: docs/story-bible/tiers/t0.md (walked whole, 2026-07-07). Review artifact — ' +
-      'NOT wired to the game; the engine rebuild comes after this roster is signed.',
+      'NOT wired to the game. Drag to pan · scroll to zoom · roster rows fly to the zone. ' +
+      'The empty ground is deliberate: every T1 zone has reserved room (see t1.md).',
   );
   aside.append(src);
   const counts = NODES.reduce<Record<ZoneKind, number>>(
@@ -1507,39 +1565,44 @@ const CSS = `
   .t0v2-card { max-width:none; width:100%; height:calc(100dvh - 2rem); overflow:hidden;
     display:flex; flex-direction:column; }
   .t0v2-head { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
-  .t0v2-pills { display:flex; gap:.3rem; margin-left:auto; margin-right:2.4rem; }
-  .t0v2-pill { font:12px/1.4 ui-monospace,SFMono-Regular,monospace; cursor:pointer;
+  .t0v2-controls { display:flex; gap:.3rem; margin-left:auto; margin-right:2.4rem; align-items:center; }
+  .t0v2-pill, .t0v2-zoom { font:12px/1.4 ui-monospace,SFMono-Regular,monospace; cursor:pointer;
     border:1px solid var(--silver-faint); border-radius:3px; padding:.15rem .5rem;
     background:var(--steel-2); color:var(--ink-soft); }
   .t0v2-pill[data-on] { background:var(--gold-dim); color:var(--void); border-color:var(--gold); font-weight:700; }
+  .t0v2-zoom:hover, .t0v2-pill:hover { color:var(--ink); border-color:var(--silver); }
+  .t0v2-zoomgroup { display:flex; gap:.2rem; margin-right:.5rem; }
   .t0v2-body { flex:1 1 auto; min-height:0; display:flex; gap:.8rem; margin-top:.8rem; }
-  .t0v2-mapwrap { flex:1 1 auto; min-width:0; border:1px solid var(--silver-faint);
-    background:var(--void); display:flex; align-items:center; justify-content:center; }
-  .t0v2-mapwrap svg { display:block; width:100%; height:100%; }
+  .t0v2-mapwrap { flex:1 1 auto; min-width:0; position:relative; border:1px solid var(--silver-faint);
+    background:var(--void); overflow:hidden; }
+  .t0v2-mapwrap svg { display:block; width:100%; height:100%; cursor:grab; touch-action:none; }
+  .t0v2-mapwrap svg.t0v2-panning { cursor:grabbing; }
+  .t0v2-hint { position:absolute; left:.6rem; bottom:.45rem; font-size:11px;
+    color:var(--ink-faint); pointer-events:none; }
   .t0v2-aside { flex:0 0 330px; min-height:0; overflow-y:auto; padding-right:.4rem;
     display:flex; flex-direction:column; gap:.45rem; }
   @media (max-width: 900px) {
     .t0v2-body { flex-direction:column; }
     .t0v2-aside { flex:1 1 auto; }
   }
-  .t0v2-kanji { font-family:var(--font-head); font-size:19px; fill:var(--ink); }
-  .t0v2-caption { font-family:var(--font-body); font-size:13px; fill:var(--ink-soft); }
-  .t0v2-mark { font-family:var(--font-head); font-size:13px; }
+  .t0v2-kanji { font-family:var(--font-head); font-size:30px; fill:var(--ink); }
+  .t0v2-caption { font-family:var(--font-body); font-size:17px; fill:var(--ink-soft); }
+  .t0v2-mark { font-family:var(--font-head); font-size:18px; }
   .t0v2-m-combat { fill:var(--ink-soft); }
   .t0v2-m-folk { fill:var(--silver-dim); }
   .t0v2-m-wrong { fill:var(--shu); opacity:.8; }
-  .t0v2-sealbox { fill:var(--steel-2); stroke:var(--silver-wire); stroke-width:1.3; }
+  .t0v2-sealbox { fill:var(--steel-2); stroke:var(--silver-wire); stroke-width:1.6; }
   .t0v2-k-estate .t0v2-sealbox { stroke:var(--gold); }
   .t0v2-k-grounds .t0v2-sealbox { stroke:var(--gold-dim); }
-  .t0v2-k-combat .t0v2-sealbox { stroke:var(--ink-soft); stroke-dasharray:5 3; }
-  .t0v2-k-activity .t0v2-sealbox { stroke:var(--shu); stroke-dasharray:2 3; }
+  .t0v2-k-combat .t0v2-sealbox { stroke:var(--ink-soft); stroke-dasharray:6 4; }
+  .t0v2-k-activity .t0v2-sealbox { stroke:var(--shu); stroke-dasharray:3 4; }
   .t0v2-k-scenery { opacity:.62; }
-  .t0v2-k-scenery .t0v2-sealbox { stroke:var(--silver-faint); stroke-dasharray:3 4; }
+  .t0v2-k-scenery .t0v2-sealbox { stroke:var(--silver-faint); stroke-dasharray:4 5; }
   .t0v2-node { cursor:pointer; outline:none; }
   .t0v2-node:hover .t0v2-sealbox, .t0v2-node:focus-visible .t0v2-sealbox {
-    stroke:var(--gold-hi); stroke-width:1.8; }
+    stroke:var(--gold-hi); stroke-width:2.4; }
   .t0v2-node:hover .t0v2-caption { fill:var(--ink); }
-  .t0v2-node[data-sel] .t0v2-sealbox { stroke:var(--shu); stroke-width:2; }
+  .t0v2-node[data-sel] .t0v2-sealbox { stroke:var(--shu); stroke-width:2.8; }
   .t0v2-node[data-sel] .t0v2-kanji { fill:var(--shu-hi, var(--shu)); }
   .t0v2-nightrail { display:none; }
   svg[data-night] .t0v2-nightrail { display:inline; }
@@ -1605,23 +1668,156 @@ export function openT0V2Map(): HTMLElement {
   title.append(kami, roman);
   head.append(title);
 
-  // the mark-layer pills (戦 / 人 / 怪) — all on by default; state lives on the svg
-  const pills = hd('div', 't0v2-pills');
-  head.append(pills);
+  const controls = hd('div', 't0v2-controls');
+  head.append(controls);
   card.append(head);
 
   const body = hd('div', 't0v2-body');
   const mapWrap = hd('div', 't0v2-mapwrap');
   const svg = sv('svg', {
-    viewBox: '0 0 1200 860',
+    viewBox: `0 0 ${WORLD.w} ${WORLD.h}`,
     role: 'img',
     'aria-label': 'T0 V2 survey plan — the story-bible zone draft',
     preserveAspectRatio: 'xMidYMid meet',
   });
   mapWrap.append(svg);
+  mapWrap.append(hd('div', 't0v2-hint', 'drag to pan · scroll to zoom'));
   const aside = hd('div', 't0v2-aside');
   body.append(mapWrap, aside);
   card.append(body);
+
+  // ── the view: pan (drag) + zoom (wheel / buttons), viewBox-driven ──
+  const vb: { x: number; y: number; w: number; h: number } = {
+    x: 0,
+    y: 0,
+    w: WORLD.w,
+    h: WORLD.h,
+  };
+  const applyVb = (): void => {
+    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+  };
+  const clampVb = (): void => {
+    vb.w = Math.min(Math.max(vb.w, 320), WORLD.w * 1.15);
+    vb.h = (vb.w * WORLD.h) / WORLD.w;
+    const m = vb.w * 0.25; // let the sheet edge pull in a bit, never lose it
+    vb.x = Math.min(Math.max(vb.x, -m), WORLD.w + m - vb.w);
+    vb.y = Math.min(
+      Math.max(vb.y, -(m * WORLD.h) / WORLD.w),
+      WORLD.h + (m * WORLD.h) / WORLD.w - vb.h,
+    );
+  };
+  /** client → world coords (getScreenCTM handles viewBox + letterboxing). */
+  const toWorld = (cx: number, cy: number): { x: number; y: number } => {
+    const m = svg.getScreenCTM();
+    if (!m) return { x: 0, y: 0 };
+    const p = new DOMPoint(cx, cy).matrixTransform(m.inverse());
+    return { x: p.x, y: p.y };
+  };
+  const zoomAt = (cx: number, cy: number, factor: number): void => {
+    const p = toWorld(cx, cy);
+    vb.w *= factor;
+    vb.h *= factor;
+    clampVb();
+    applyVb();
+    // keep the world point under the cursor stationary: re-measure and shift
+    const now = toWorld(cx, cy);
+    vb.x += p.x - now.x;
+    vb.y += p.y - now.y;
+    clampVb();
+    applyVb();
+  };
+  svg.addEventListener(
+    'wheel',
+    (e) => {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? 1.18 : 1 / 1.18);
+    },
+    { passive: false },
+  );
+  let dragging = false;
+  let dragMoved = false;
+  let dragStart = { x: 0, y: 0 };
+  svg.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    dragging = true;
+    dragMoved = false;
+    dragStart = toWorld(e.clientX, e.clientY);
+    svg.classList.add('t0v2-panning');
+  });
+  svg.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const p = toWorld(e.clientX, e.clientY);
+    const dx = dragStart.x - p.x;
+    const dy = dragStart.y - p.y;
+    if (!dragMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      dragMoved = true;
+      // capture only once a REAL drag starts — capturing on pointerdown would
+      // retarget the derived click to the svg and node selection would go dead
+      svg.setPointerCapture(e.pointerId);
+    }
+    if (!dragMoved) return;
+    vb.x += dx;
+    vb.y += dy;
+    clampVb();
+    applyVb();
+  });
+  const endDrag = (): void => {
+    dragging = false;
+    svg.classList.remove('t0v2-panning');
+  };
+  svg.addEventListener('pointerup', endDrag);
+  svg.addEventListener('pointercancel', endDrag);
+
+  const fit = (): void => {
+    vb.x = 0;
+    vb.y = 0;
+    vb.w = WORLD.w;
+    vb.h = WORLD.h;
+    applyVb();
+  };
+  /** Fly the view to a node (roster navigation) — a readable close-up. */
+  const focusNode = (id: string): void => {
+    const n = NODES.find((x) => x.id === id);
+    if (!n) return;
+    vb.w = 900;
+    vb.h = (900 * WORLD.h) / WORLD.w;
+    vb.x = n.x - vb.w / 2;
+    vb.y = n.y - vb.h / 2;
+    clampVb();
+    applyVb();
+  };
+
+  // zoom buttons + layer pills
+  const zoomGroup = hd('div', 't0v2-zoomgroup');
+  const zoomBtn = (label: string, act: () => void, aria: string): void => {
+    const b = hd('button', 't0v2-zoom', label);
+    b.type = 'button';
+    b.setAttribute('aria-label', aria);
+    b.addEventListener('click', () => act());
+    zoomGroup.append(b);
+  };
+  const centre = (): { x: number; y: number } => {
+    const r = svg.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  };
+  zoomBtn(
+    '⊕',
+    () => {
+      const c = centre();
+      zoomAt(c.x, c.y, 1 / 1.35);
+    },
+    'Zoom in',
+  );
+  zoomBtn(
+    '⊖',
+    () => {
+      const c = centre();
+      zoomAt(c.x, c.y, 1.35);
+    },
+    'Zoom out',
+  );
+  zoomBtn('⤢ fit', fit, 'Fit the whole sheet');
+  controls.append(zoomGroup);
 
   for (const [attr, label] of [
     ['combat', '戦 combat'],
@@ -1637,7 +1833,7 @@ export function openT0V2Map(): HTMLElement {
       else delete pill.dataset.on;
       svg.setAttribute(`data-${attr}`, on ? 'on' : 'off');
     });
-    pills.append(pill);
+    controls.append(pill);
   }
 
   const nodeEls = new Map<string, SVGGElement>();
@@ -1656,13 +1852,19 @@ export function openT0V2Map(): HTMLElement {
       renderDetail(aside, n, () => select(null));
     } else {
       svg.removeAttribute('data-night');
-      renderOverview(aside, (nid) => select(nid));
+      renderOverview(aside, (nid) => {
+        select(nid);
+        focusNode(nid);
+      });
     }
   };
   for (const [id, g] of nodeEls) {
     g.setAttribute('tabindex', '0');
     g.setAttribute('role', 'button');
-    g.addEventListener('click', () => select(selected === id ? null : id));
+    g.addEventListener('click', () => {
+      if (dragMoved) return; // a pan that ended on a seal is not a selection
+      select(selected === id ? null : id);
+    });
     g.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Enter') select(selected === id ? null : id);
     });

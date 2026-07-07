@@ -44,3 +44,29 @@ closes; screenshots eyeballed (tmp/t0v2-shots/).
   kanji seals + adjacency roads are all display-draft — steer freely.
 - After sign-off: the engine rebuild (real nodes/edges/actions for the V2
   roster) is its own plan — this artifact is the map's dress rehearsal.
+
+## Redesign pass (same session — human steer)
+
+The first cut squeezed the roster onto the shipped ezu sheet's footprint —
+"too damn busy", and it read as an extension of the old map. Rebuilt the
+geography from scratch:
+
+- **Big world canvas (2400×1600) + a moving view**: drag-to-pan, wheel-zoom
+  (cursor-anchored), ⊕/⊖/fit buttons; opens at full-sheet fit; roster rows
+  FLY the view to their zone. Nothing shares ground any more.
+- **T1-aware layout (t1.md read whole):** every T1 zone has reserved, empty
+  ground — upstream pools up-river (top-left), downstream shallows below the
+  reeds, terraced + let-go terraces on the slope between margins and ruin,
+  woodlot proper beyond the edge, family plot on the knoll, and the wings /
+  inner garden / shoin drawn TODAY as faint shuttered blocks on the big
+  compound's main house. The T1 map = this sheet, more seals (deferred —
+  human wants T0 signed first).
+- **The compound got its real size** (over half the tier lives there): big
+  walled court, house + closed wings, kura, woodshed, sickroom lean-to
+  outside the wall, gate + stall + night post along the south.
+- Pointer-capture bug caught by the QA pass: capturing on pointerdown
+  retargets the derived click to the svg — node selection went dead.
+  Capture now starts only when a real drag begins.
+
+Proof: verify 17/17 · headless pass (pan keeps selection · zoom · fly-to ·
+pills · Esc) · screenshots eyeballed (tmp/t0v2-shots/).
