@@ -419,14 +419,21 @@ export function inkText(
   x: number,
   y: number,
   text: string,
-  o: { size?: number; color?: string; opacity?: number; angle?: number; vertical?: boolean } = {},
+  o: {
+    size?: number;
+    color?: string;
+    opacity?: number;
+    angle?: number;
+    vertical?: boolean;
+    anchor?: 'start' | 'middle' | 'end';
+  } = {},
 ): SVGTextElement {
   const t = sv(
     'text',
     {
       x: String(x),
       y: String(y),
-      'text-anchor': 'middle',
+      'text-anchor': o.anchor ?? 'middle',
       style:
         `font-family:var(--font-head);font-size:${o.size ?? 13}px;` +
         `fill:${o.color ?? 'var(--ink-soft)'};` +

@@ -214,27 +214,14 @@ function drawSealLayer(
         n.kanji,
       ),
     );
-    // a gold 新 tick beside seals that are NEW in T1 (the side-by-side review cue)
-    if (tier === 'T1' && T1_IDS.has(n.id)) {
-      const badge = sv(
-        'text',
-        {
-          x: String(nx + bw / 2 + 6),
-          y: String(ny - bh / 2 + 8),
-          class: 't0v2-newbadge',
-        },
-        '新',
-      );
-      tip(badge, 'New ground in T1');
-      g.append(badge);
-    }
-    // caption + marks: on ROOM seals these ride the zoom-gated detail register so
-    // the house never drowns in chips at fit view (spec L9/L10)
+    // caption: on ROOM seals it rides the zoom-gated detail register so the
+    // house never drowns in chips at fit view (spec L9/L10). The old 戦/人/怪
+    // mark rows are GONE (FB drain 2026-07-07: player-illegible clutter) —
+    // that state lives in the detail pane, where it reads.
     const detail = room ? sv('g', { class: 'ms-fine' }) : sv('g');
     g.append(detail);
     // captions stack downward by default; flipped seals stack upward instead
     const capY = capAbove ? ny - bh / 2 - 34 : ny + bh / 2 + 22;
-    const markY = capAbove ? ny - bh / 2 - 12 : ny + bh / 2 + 46;
     if (!capSuppressed) {
       const cap = sv(
         'text',
@@ -247,40 +234,6 @@ function drawSealLayer(
         n.name.replace(/^The /, ''),
       );
       detail.append(cap);
-    }
-
-    // the mark row: 戦 combat · 人 folk (count) · 怪 wrong thing — layer-toggleable
-    const marks: { glyph: string; cls: string; why: string }[] = [];
-    if (n.kind === 'combat' || n.kind === 'activity') {
-      marks.push({ glyph: '戦', cls: 't0v2-m-combat', why: n.combat ?? 'combat' });
-    }
-    if (n.who.length > 0 && !n.who[0]!.startsWith('Nobody')) {
-      marks.push({
-        glyph: `人${n.who.length > 1 ? `×${n.who.length}` : ''}`,
-        cls: 't0v2-m-folk',
-        why: n.who.join(' · '),
-      });
-    }
-    if (!n.wrong.startsWith('None')) {
-      marks.push({ glyph: '怪', cls: 't0v2-m-wrong', why: n.wrong });
-    }
-    if (capSuppressed) marks.length = 0; // fully quiet — hover/roster carry it
-    const step = 34;
-    let mx = nx - ((marks.length - 1) * step) / 2;
-    for (const m of marks) {
-      const mt = sv(
-        'text',
-        {
-          x: String(mx),
-          y: String(markY),
-          'text-anchor': 'middle',
-          class: `t0v2-mark ${m.cls}`,
-        },
-        m.glyph,
-      );
-      tip(mt, m.why);
-      detail.append(mt);
-      mx += step;
     }
     tip(g, n.name);
   }
@@ -304,7 +257,7 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
       : 'Source: docs/story-bible/tiers/t1.md (walked whole, 2026-07-07). The SAME world as ' +
           'T0, seen whole and one-to-two years on: the land at true extent, the wings opened, ' +
           "the re-survey's red recording what the tier changed. The ruin shows NO new work — " +
-          'its reveal is T2. New zones wear a gold 新. Drag to pan · scroll to zoom.',
+          'its reveal is T2. Drag to pan · scroll to zoom.',
   );
   aside.append(src);
   const counts = roster.reduce<Record<ZoneKind, number>>(
@@ -328,19 +281,6 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
             'rounds, grown building by building.',
     ),
   );
-  const legend = hd('div', 't0v2-aside-legend');
-  for (const [glyph, why] of [
-    ['戦', 'combat here'],
-    ['人', 'folk here'],
-    ['怪', 'a wrong thing — every one has an authored answer'],
-    ['新', 'new ground in T1'],
-  ] as const) {
-    const row = hd('div', 't0v2-legend-row');
-    row.append(hd('span', 't0v2-legend-glyph', glyph), hd('span', undefined, why));
-    legend.append(row);
-  }
-  aside.append(legend);
-
   // the full roster, grouped by kind — a completeness checklist for the review
   const order: readonly ZoneKind[] = ['estate', 'grounds', 'combat', 'activity', 'scenery'];
   for (const kind of order) {
@@ -423,7 +363,8 @@ const CSS = `
   .t0v2-zoomgroup { display:flex; gap:.2rem; margin-right:.5rem; }
   .t0v2-body { flex:1 1 auto; min-height:0; display:flex; gap:.8rem; margin-top:.8rem; }
   .t0v2-mapwrap { flex:1 1 auto; min-width:0; position:relative; border:1px solid var(--silver-faint);
-    background:var(--void); overflow:hidden; }
+    background:var(--void); overflow:hidden;
+    user-select:none; -webkit-user-select:none; } /* drag-pan must never select SVG text */
   .t0v2-mapwrap svg { display:block; width:100%; height:100%; cursor:grab; touch-action:none; }
   .t0v2-mapwrap svg.t0v2-panning { cursor:grabbing; }
   /* maximize: fill the viewport in NORMAL stacking (no Fullscreen top layer), so the
@@ -446,13 +387,8 @@ const CSS = `
   }
   .t0v2-kanji { font-family:var(--font-head); font-size:30px; fill:var(--ink); }
   .t0v2-room .t0v2-kanji { font-size:22px; }
-  .t0v2-caption { font-family:var(--font-body); font-size:17px; fill:var(--ink-soft);
-    paint-order:stroke; stroke:var(--steel-1); stroke-width:4px; stroke-linejoin:round; }
-  .t0v2-mark { font-family:var(--font-head); font-size:18px;
-    paint-order:stroke; stroke:var(--steel-1); stroke-width:3.5px; stroke-linejoin:round; }
-  .t0v2-m-combat { fill:var(--ink-soft); }
-  .t0v2-m-folk { fill:var(--silver-dim); }
-  .t0v2-m-wrong { fill:var(--shu); opacity:.8; }
+  .t0v2-caption { font-family:var(--font-body); font-size:17px; fill:var(--ink);
+    paint-order:stroke; stroke:var(--steel-1); stroke-width:5px; stroke-linejoin:round; }
   .t0v2-sealbox { fill:var(--steel-2); stroke:var(--silver-wire); stroke-width:1.6;
     fill-opacity:.88; }
   .t0v2-k-estate .t0v2-sealbox { stroke:var(--gold); }
@@ -469,15 +405,13 @@ const CSS = `
   .t0v2-node[data-sel] .t0v2-kanji { fill:var(--shu-hi, var(--shu)); }
   .t0v2-nightrail { display:none; }
   svg[data-night] .t0v2-nightrail { display:inline; }
-  svg[data-combat='off'] .t0v2-m-combat { display:none; }
-  svg[data-folk='off'] .t0v2-m-folk { display:none; }
-  svg[data-wrong='off'] .t0v2-m-wrong { display:none; }
-  svg[data-zoom='far'] .ms-fine { display:none; }
+  /* the fine register FADES at the zoom gate (a hard display:none read as a
+     rendering glitch — FB drain 2026-07-07); visibility keeps hidden text
+     unhittable and unpainted once the fade lands */
+  .ms-fine { transition: opacity .18s linear, visibility .18s linear; }
+  svg[data-zoom='far'] .ms-fine { opacity:0; visibility:hidden; }
   .t0v2-aside-title { font-family:var(--font-head); font-size:1.05rem; color:var(--ink); }
   .t0v2-aside-src, .t0v2-aside-sum { font-size:12px; color:var(--ink-faint); line-height:1.5; }
-  .t0v2-aside-legend { display:flex; flex-direction:column; gap:.15rem; margin:.2rem 0; }
-  .t0v2-legend-row { display:flex; gap:.45rem; font-size:12px; color:var(--ink-soft); }
-  .t0v2-legend-glyph { font-family:var(--font-head); color:var(--ink); }
   .t0v2-roster-head { margin-top:.5rem; font-size:11px; letter-spacing:.08em;
     text-transform:uppercase; color:var(--gold-dim); }
   .t0v2-roster-row { display:flex; gap:.5rem; align-items:baseline; text-align:left;
@@ -503,7 +437,6 @@ const CSS = `
   .t0v2-detail-list { margin:.1rem 0 0; padding-left:1.1rem; font-size:13px; line-height:1.5;
     color:var(--ink-soft); }
   .t0v2-hidden-tag { color:var(--shu); font-size:11px; }
-  .t0v2-newbadge { font-family:var(--font-head); font-size:17px; fill:var(--gold); }
   .t0v2-roster-new { font-family:var(--font-head); color:var(--gold); flex:0 0 auto;
     margin-left:auto; font-size:12px; }
   .t0v2-chiprow { display:flex; gap:.35rem; }
@@ -718,23 +651,6 @@ function openTierMap(tier: Tier): HTMLElement {
   exitMax.addEventListener('click', () => setMax(false));
   zoomGroup.append(fsBtn);
   controls.append(zoomGroup);
-
-  for (const [attr, label] of [
-    ['combat', '戦 combat'],
-    ['folk', '人 folk'],
-    ['wrong', '怪 wrong things'],
-  ] as const) {
-    const pill = hd('button', 't0v2-pill', label);
-    pill.type = 'button';
-    pill.dataset.on = '1';
-    pill.addEventListener('click', () => {
-      const on = !pill.dataset.on;
-      if (on) pill.dataset.on = '1';
-      else delete pill.dataset.on;
-      svg.setAttribute(`data-${attr}`, on ? 'on' : 'off');
-    });
-    controls.append(pill);
-  }
 
   const nodeEls = new Map<string, SVGGElement>();
   paintSheet(svg, nodeEls, tier);

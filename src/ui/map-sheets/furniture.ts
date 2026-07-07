@@ -139,6 +139,10 @@ export interface CartoucheOpts {
   readonly title: string;
   /** optional smaller left-hand column (era / commission line) */
   readonly sub?: string;
+  /** optional horizontal English gloss under the slip — the player-legible name
+   *  (FB drain 2026-07-07: the sheet is player-bound; bare kanji furniture
+   *  "means nothing" to the player) */
+  readonly gloss?: string;
 }
 
 /**
@@ -192,7 +196,12 @@ export function cartouche(parent: SVGElement, x: number, y: number, o: Cartouche
       vertical: true,
     });
   }
-  hankoSeal(g, titleX, y + H + 26, '改', { seed: `${o.seed}:kai`, size: 30 });
+  // the red 改 hanko is gone (FB drain 2026-07-07): a static red square read as
+  // a selected/selectable seal to the player — the ・改 in the title carries it
+  if (o.gloss) {
+    // right-aligned to the slip's edge so it never clips the sheet border
+    inkText(g, x + W, y + H + 18, o.gloss, { size: 12, color: 'var(--ink-soft)', anchor: 'end' });
+  }
   parent.append(g);
 }
 

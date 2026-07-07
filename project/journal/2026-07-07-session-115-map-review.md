@@ -127,3 +127,17 @@ PASS** from the session renders. ADR-151 records it; HR-12 graduated to
 archive.md (id collision with the FB-121 HR-12 noted). Next: /drain-inbox
 (the human dropped concrete T0/T1 sheet feedback) → Phase B remainder →
 rung mechanism → Phase C.
+
+## Inbox drain, batch 1 of 1 — the 17-capture map session (later still)
+
+The human's map playtest session (17 captures, one file) drained
+interactively: triaged into mechanical fixes / geometry nudges / three
+forks, all approved via AskUserQuestion — **T1 canon = HYBRID** (guest
+compound stays the rebuild core; ONE fresh element reaches into the
+precinct edge as a T2 promise) · **JP marginalia = strip to
+player-legible** · **LOD = fade, same gate** · batch = fix all. Two
+capture-TOOL bugs found while grounding (map-modal screenshots come out
+empty; the element picker returns null inside the modal) — logged, fix
+queued. First landing (this commit): the strip — marks/pills/legends/
+hanko/新/notes gone, cartouche English gloss, user-select fix, caption
+contrast, LOD fade. Geometry + craft + hybrid-canon landings follow.

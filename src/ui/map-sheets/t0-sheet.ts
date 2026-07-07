@@ -5,17 +5,8 @@
 
 import type { Pt } from './brush';
 import { sv } from './brush';
-import {
-  cartouche,
-  distanceNote,
-  foldCreases,
-  legendBox,
-  northArrow,
-  scaleBar,
-  sheetBorder,
-} from './furniture';
+import { cartouche, foldCreases, northArrow, scaleBar, sheetBorder } from './furniture';
 import { paintWorld } from './ground';
-import { NOTES } from './layout';
 
 interface Frame {
   readonly x: number;
@@ -24,22 +15,11 @@ interface Frame {
   readonly h: number;
 }
 
-/** 新 appears only on the T1 re-survey — a legend must never promise a mark the
- *  sheet doesn't carry (the blind reader called the dead entry immediately). */
-export function legendEntries(
-  tier: 'T0' | 'T1',
-): { mark: string; markClass?: string; gloss: string }[] {
-  return [
-    { mark: '戦', gloss: 'fighting ground' },
-    { mark: '人', gloss: 'folk work here' },
-    { mark: '怪', markClass: 'shu', gloss: 'something is wrong here' },
-    ...(tier === 'T1' ? [{ mark: '新', markClass: 'gold', gloss: 'new in this survey' }] : []),
-    { mark: '夜', markClass: 'shu', gloss: 'the night round (its post at the gate)' },
-  ];
-}
-
 /** Sheet furniture for a given frame — shared by both tiers (T0's frame is the
- *  window, so the border/cartouche/legend pin to the visible sheet, not world 0,0). */
+ *  window, so the border/cartouche pin to the visible sheet, not world 0,0).
+ *  The 凡例 legend box + the vertical distance notes are GONE (FB drain
+ *  2026-07-07: the sheet is player-bound and unexplained kanji marginalia
+ *  read as clutter — the mark grammar they decoded is gone with them). */
 export function paintFurniture(art: SVGElement, frame: Frame, tier: 'T0' | 'T1'): void {
   const fg = sv('g', { transform: `translate(${frame.x} ${frame.y})` });
   sheetBorder(fg, frame.w, frame.h, { seed: `border-${tier}` });
@@ -49,22 +29,10 @@ export function paintFurniture(art: SVGElement, frame: Frame, tier: 'T0' | 'T1')
     seed: `cart-${tier}`,
     title: '黒沢家領内絵図・改',
     sub: tier === 'T0' ? '安永九年' : '天明二年', // 1780 · 1782 — the survey's date
-  });
-  legendBox(fg, 42, frame.h - 238, {
-    seed: `legend-${tier}`,
-    title: '凡例',
-    entries: legendEntries(tier),
+    gloss: tier === 'T0' ? 'The Kurosawa lands — 1780' : 'The Kurosawa lands — resurveyed 1782',
   });
   scaleBar(fg, 264, frame.h - 54, { seed: `scale-${tier}`, label: '一町', ticks: 2 });
   art.append(fg);
-  // period distance notes at the exits — world coords (the crop does the rest)
-  for (const n of NOTES) {
-    if (n.t1Only && tier === 'T0') continue;
-    distanceNote(art, n.x, n.y, n.text, {
-      seed: `note-${n.x}`,
-      ...(n.vertical ? { vertical: true } : {}),
-    });
-  }
 }
 
 /** Paint the T0 ground; returns seal-anchor refinements for the shell. */
