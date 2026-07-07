@@ -12,11 +12,31 @@ build.
 
 ## Who builds this — Fable or Opus?
 
-Opus builds Phases 1–3 (data plumbing, the shell clock, the button UI) — the
-seams below are explicit and the tests are mechanical. Fable (or Opus with
-the human in the loop) takes Phase 4 (pacing/balance reconciliation): that's
-where a wrong call silently changes what the game feels like. Routing is a
-proposal for the human to approve (D-124 — no self-serve lateral switches).
+**Resolved (human, 2026-07-07 walkthrough):** built on **Fable 5 (medium)** —
+the session that authored the plan. The original Opus-for-plumbing proposal
+is superseded by the human's routing call (D-124 satisfied — human-approved).
+
+## Build decisions (human, 2026-07-07 plan walkthrough)
+
+The second decision wave — the plan's remaining judgment calls, closed via
+AskUserQuestion:
+
+1. **Progress bar: inside the border, bottom edge** — a thin fill hugging
+   the button's inner bottom edge; the button never resizes.
+2. **Cooldown is per-action data** — `cooldownMs` in each timing entry,
+   seeded 2000 everywhere; tunable per action later without a schema change.
+3. **FULL diverge on the action row (ADR-075)** — the whole button + auto +
+   progress + cooldown-state treatment ships as 2–3 complete working
+   variants behind the DEV toggle; the human picks live. This is Phase 2's
+   shape, not an optional extra.
+4. **Sequencing: starts NOW**, parallel with the in-flight emergent-node-
+   actions build (ADR-146) — Phase 1 is registry-additive; the shared
+   Work-tab surface coordinates via commits.
+5. **Travel: bar only, no forecast** — walk time is discovered by walking
+   (the same in-button bar); the map stays clean of numbers.
+6. **Auto stall: pause, resume when legal** — the toggle stays ON and
+   visibly idles (e.g. "waiting — no wood"), re-firing the moment the
+   action is legal again.
 
 ## The locked direction (human, 2026-07-07 drain)
 
@@ -88,15 +108,19 @@ proposal for the human to approve (D-124 — no self-serve lateral switches).
   existing action; gen-docs table so `docs/content/` shows the timings.
   DoD: typecheck forces every action classified; a unit test derives the
   classification list from the registry (no copied magic numbers, ADR-086).
-- **Phase 2 — the shell clock + button UI.** ActionClock, disabled states,
-  the in-button progress bar (fill → drain), cooldown; the `instant` class
-  bypasses. Taste-scorecard Pass 1 BEFORE building the bar (ADR-135); the
-  bar itself is a minor restyle of an existing surface (no diverge needed —
-  confirm at build time against ADR-075's "majorly restyled" bar).
+- **Phase 2 — the shell clock + the action-row DIVERGE.** ActionClock,
+  disabled states, the inner-bottom-edge progress bar (fill → drain),
+  per-action cooldown; the `instant` class bypasses; auto pauses-and-resumes
+  on an illegal action (visible idle reason). Taste-scorecard Pass 1 BEFORE
+  building (ADR-135), then a **FULL ADR-075 diverge**: 2–3 complete working
+  treatments of the action row (button + auto + bar + cooldown states)
+  behind the DEV toggle, one HR-item per variant, self-picked prod default.
   DoD: headless e2e — press → disabled → effect at duration → cooldown →
-  re-enabled; auto loops through the clock; `__qa` instant mode.
-- **Phase 3 — travel + craft/eat.** The same machinery over `move_to`,
-  crafting, eating; trade declared `instant`.
+  re-enabled; auto loops through the clock and pauses/resumes across a
+  legality gap; `__qa` instant mode.
+- **Phase 3 — travel + craft/eat.** The same machinery over `move_to`
+  (per-edge walk seconds, bar only — no map forecast), crafting, eating;
+  trade declared `instant`.
   DoD: walk-somewhere e2e under the clock; trade stays zero-second.
 - **Phase 4 — pacing reconciliation.** The sim/pacing lane converts
   action-counts → wall-seconds via the timing table; G-PACING + the ADR-132

@@ -67,3 +67,14 @@ wall-times hold). Recorded as **ADR-148** (renumbered from 147 — a parallel
 session minted ADR-147 for the story-reboot lock mid-drain); the plan
 flipped LOCKED and left the reading queue (ADR-089 — built together counts
 as read). Next: build Phases 1–4, routing per the plan's "Who builds this".
+
+## Addendum 2 — the build-decision wave (plan walkthrough)
+
+The human walked the LOCKED plan and closed the remaining judgment calls
+(AskUserQuestion): routing = **this Fable 5 (medium) session builds it**
+(supersedes the Opus proposal); progress bar **inside the border, bottom
+edge**; **per-action `cooldownMs`** (2s seed); a **FULL ADR-075 diverge on
+the action row**; **starts now** in parallel with ADR-146; travel shows
+**bar only, no map forecast**; auto **pauses and visibly resumes** across
+legality gaps. Plan updated (§Build decisions); Phases 2–3 reshaped
+accordingly. Build begins with Phase 1 (the timing data).
