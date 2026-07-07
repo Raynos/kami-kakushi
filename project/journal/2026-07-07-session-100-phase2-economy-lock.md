@@ -51,6 +51,29 @@ plan's Opus-for-core routing proposal).
   fails the lever test.
 - Fixtures regenerated (`wealthy-idler.json` — deposit now banks a deed).
 
+## Phase 2 built — the staged E0→E1 build as pacing beats (same session)
+
+- `ESTATE_STAGE_DEED_GATES = [0, 90, 220, 380]` (liquid): stage U<k> needs
+  banked Estate standing beside its coin cost — U1 stays Phase-1-buyable, U2+
+  land as paced Phase-2 build beats under the EXCELLENT band.
+- `improve_estate` enforces the gate; U4 fires the one-time `estate-stands`
+  E1 build-complete beat (flag-gated, TST2).
+- `bankEstateDeed` fires each source's ONE-TIME reveal beat on first bank
+  (TST3 discovery; shared glue per AC-20).
+- Beat text: ADR-139 diverge, 3 blind takes (steward's ledger / land
+  remembers / heir's reckoning) → canon = the LEDGER take in `flavor.md`;
+  alternates in `takes/estate-build-beats/`; **HR-10** filed (reader-only
+  class — core-emitted log lines, live-swap not wired, dialogue/cold-open
+  precedent).
+- Estate panel improve button reads the SAME gate (AC-6/TST4): disabled +
+  "standing must reach N koku" title. One-line tweak — ADR-075 exempt; the
+  full build-progress tracker remains plan Phase 4.
+- Phase-2 DoD tests in `pillars.test.ts` (gate blocks at gate−1, ordered
+  stages, E1 beat exactly once, gates under EXCELLENT, reveal once).
+- Commit-set proven green in an ISOLATED WORKTREE on HEAD (17 gates) — the
+  main tree mixes the parallel session's narrative-grammar WIP; fixtures +
+  pacing report regenerated in the clean worktree and committed from there.
+
 ## Landmines
 
 - **Parallel agent** is building the requirements-rung-progression plan in the

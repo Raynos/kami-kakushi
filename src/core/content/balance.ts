@@ -135,6 +135,13 @@ export const ESTATE_DEED_SOURCE_MULT: Record<EstateDeedSource, number> = {
   watch: 1.5,
   treasury: 1.25,
 };
+/** ADR-145 (the B half) — the staged E0→E1 BUILD is Phase 2's spine: estate stage U<k> now needs
+ *  BANKED Estate standing (koku, `influence.estate.value`) ≥ this gate BESIDE its coin cost, so
+ *  the U1–U4 ladder arrives as paced build beats across the deed climb to EXCELLENT (480) instead
+ *  of a fast coin dash. Index = stage−1 (U1..U4). U1 stays 0 — Phase-1 purchasable, today's
+ *  behavior; U2+ imply Phase 2 (deeds only bank post-capstone). PROVISIONAL / liquid (ADR-059) —
+ *  the plan's Phase-3 retune spreads these against the ratio band. */
+export const ESTATE_STAGE_DEED_GATES: readonly number[] = [0, 90, 220, 380];
 /** The season judge contributes this fraction of the season's deed-growth — seasonal:deeds =
  *  3:7 = the 70/30 share (ADR-049). */
 export const SEASONAL_OVER_DEEDS_NUM = 3;

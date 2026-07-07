@@ -51,8 +51,10 @@ import {
   EAT_RICE_SATIETY,
   riceSellPrice,
   kuraRiceCap,
+  ESTATE_STAGE_DEED_GATES,
 } from './content/balance';
-import { ESTATE_STAGES } from './content/estate';
+import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
+import { FLAVOR } from './content/flavor';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
@@ -760,10 +762,23 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!isUnlocked(next, 'panel-estate')) return state;
       const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
       if (!target) return state;
+      // ADR-145 (the B half) — the build is STAGED against banked Estate standing: stage U<k>
+      // also needs the house's recognised deeds at its gate, so U1–U4 land as paced Phase-2
+      // build beats (U1's gate is 0 — Phase-1 purchasable as before).
+      if (next.influence.estate.value < (ESTATE_STAGE_DEED_GATES[target.stage - 1] ?? 0))
+        return state;
       if ((next.resources.coin ?? 0) < target.coinCost) return state;
       next = withResource(next, 'coin', -target.coinCost);
       next = { ...next, estateStage: target.stage };
       next = applyRewards(next, { log: [{ channel: 'milestone', text: target.logLine }] });
+      // ADR-145 — the E1 build-complete beat: the estate STANDS (fires exactly once, at U4;
+      // the PRD's §3.2/§3.3 promised Phase-2 payoff the tier never shipped).
+      if (target.stage === MAX_ESTATE_STAGE && !hasFlag(next, 'estate-stands')) {
+        next = applyRewards(next, {
+          flags: ['estate-stands'],
+          log: [{ channel: 'milestone', text: FLAVOR.estateStands, voice: 'narrator' }],
+        });
+      }
       break;
     }
     case 'spend_attribute': {

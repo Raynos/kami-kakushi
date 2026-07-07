@@ -16,6 +16,7 @@ import {
   TICKS_PER_DAY,
   type GameState,
   type EstateDeedSource,
+  ESTATE_STAGES,
 } from './index';
 
 /** A state parked at the R7 capstone → Phase 2 open (where deeds bank). */
@@ -183,6 +184,67 @@ describe('ADR-145 — the multi-source Phase-2 economy (Phase 1 DoD)', () => {
     );
     expect(wood.resources.wood ?? 0).toBeGreaterThan(0); // the act really ran…
     expect(wood.influence.estate.frac ?? 0).toBe(0); // …but built no house standing
+  });
+});
+
+describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', () => {
+  // All fixtures derive from the SOURCE OF TRUTH: ESTATE_STAGES (coin costs) +
+  // ESTATE_STAGE_DEED_GATES (deed gates) + ESTATE_BANDS (the ascension bands).
+  const gates = balance.ESTATE_STAGE_DEED_GATES;
+  const richPhase2 = (deedValue: number, stage = 0): GameState => {
+    const s = atPhase2();
+    return {
+      ...s,
+      estateStage: stage,
+      unlocked: [...s.unlocked, 'panel-estate'],
+      resources: { ...s.resources, coin: 99999 },
+      influence: { estate: { value: deedValue, highWater: deedValue, judged: 0 } },
+    };
+  };
+
+  it('a stage is BLOCKED below its deed gate even with the coin (the B-half lever)', () => {
+    // U1's gate is 0 (Phase-1 purchasable, unchanged behavior)…
+    expect(gates[0]).toBe(0);
+    // …U2+ are deed-gated: standing one koku short of the gate refuses the buy.
+    for (let stage = 2; stage <= ESTATE_STAGES.length; stage++) {
+      const gate = gates[stage - 1]!;
+      expect(gate).toBeGreaterThan(0);
+      const blocked = richPhase2(gate - 1, stage - 1);
+      expect(reduce(blocked, { type: 'improve_estate' })).toBe(blocked); // RED if the gate is dropped
+      const allowed = reduce(richPhase2(gate, stage - 1), { type: 'improve_estate' });
+      expect(allowed.estateStage).toBe(stage);
+    }
+  });
+
+  it('the gates are ordered along the deed climb and sit under the EXCELLENT band', () => {
+    for (let i = 1; i < gates.length; i++) expect(gates[i]!).toBeGreaterThan(gates[i - 1]!);
+    // the E1 build-complete beat must be reachable BEFORE/AT the ascension gate (plan §6 P2)
+    expect(gates[gates.length - 1]!).toBeLessThanOrEqual(balance.ESTATE_BANDS.excellent);
+  });
+
+  it('the build advances in ORDER and the E1 "estate stands" beat fires exactly once (TST2)', () => {
+    let s = richPhase2(balance.ESTATE_BANDS.excellent); // standing high enough for every gate
+    for (let stage = 1; stage <= ESTATE_STAGES.length; stage++) {
+      s = reduce(s, { type: 'improve_estate' });
+      expect(s.estateStage).toBe(stage); // strictly one stage per commissioning — never skips
+    }
+    expect(s.flags['estate-stands']).toBe(true);
+    const standsLines = s.log.entries.filter((l) => l.text.includes('the estate stands'));
+    expect(standsLines.length).toBe(1); // the build-complete beat fired exactly once
+    // …and a further improve is a no-op that does NOT re-fire it (append-only, TST2)
+    const again = reduce(s, { type: 'improve_estate' });
+    expect(again).toBe(s);
+  });
+
+  it('a deed source fires its reveal beat on FIRST bank only (TST3 discovery, TST2 once)', () => {
+    const s0 = atPhase2();
+    const first = bankEstateDeed(s0, 'fields');
+    expect(first.flags['deed-source-fields']).toBe(true);
+    const revealed = first.log.entries.length;
+    expect(revealed).toBeGreaterThan(s0.log.entries.length); // the beat landed in the log
+    const second = bankEstateDeed(first, 'fields');
+    expect(second.log.entries.length).toBe(revealed); // no repeat — the reveal is one-time
+    expect(second.influence.estate.frac).toBeGreaterThan(first.influence.estate.frac ?? 0);
   });
 });
 

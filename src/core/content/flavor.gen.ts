@@ -5,4 +5,16 @@
 
 export const FLAVOR = {
   mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
+  estateSourceFields:
+    "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
+  estateSourceStores:
+    'Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.',
+  estateSourceWorkshop:
+    "Entered: one piece, workshop-made, sold under the house's mark. The mark will outlast the ink of this entry.",
+  estateSourceWatch:
+    "Entered under losses: nothing. The trouble came to the gate and was turned there; the ledger's emptiest lines are the dearest bought.",
+  estateSourceTreasury:
+    'Entered: rice sold at market, the coin set down in the house books — owed to no man. The steward has waited some years to write that word.',
+  estateStands:
+    'Let it be entered plainly, for whoever keeps these books hereafter: the estate stands. Every line above this one was the building of it.',
 } as const;

@@ -5,4 +5,58 @@
 
 import type { StoryTakeBundle } from './storyTakes';
 
-export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [];
+export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
+  {
+    id: 'estate-build-beats',
+    title: 'Phase-2 build beats (deed-source reveals + E1)',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'the ledger frame voices the mechanic itself (recognised deeds = entries worth recording); lean in the log, coherent with Genemon canon',
+    takes: [
+      {
+        id: 'b',
+        label: 'the land remembers',
+        brief:
+          'third-person earth-and-weather narrator — the world quietly answers the work; sensory, seasonal, unsentimental',
+        scorecard:
+          'strong imagery; ✘ too lush for repeated log lines (TST4 many-small-progressions legibility)',
+        flavor: {
+          estateSourceFields:
+            'The new-broken paddy takes its first flooding and holds it, water standing level where the ground lay sour for years. The house books will say so tomorrow; the field says it tonight.',
+          estateSourceStores:
+            'The kura floor takes the weight of full bales and settles without a creak. A granary sits differently on its stones when there is something in it, and the whole yard knows the sound.',
+          estateSourceWorkshop:
+            'Shavings on the workshop floor, and one finished piece set out in the cold air to be counted. The smell of cut hinoki reaches the gate before the news does.',
+          estateSourceWatch:
+            'By morning the rain has taken the blood, and the path to the storehouse lies quiet. The dogs sleep through the night now; the dark keeps a wider distance from the walls.',
+          estateSourceTreasury:
+            "Rice grown on this ground goes out the gate as silver, and the entry dries slowly in the house books. The land fed the house through the lean years; now it begins to pay the house's debts.",
+          estateStands:
+            "The last ridge-beam is pegged home, and the frame stops answering the wind. On foundation stones that outlasted frost, flood, and the creditor's seal, the Kurosawa estate stands — and the ground takes the full weight of the house again, as a thing it had not forgotten.",
+        },
+      },
+      {
+        id: 'c',
+        label: "the heir's private reckoning",
+        brief:
+          'MC inward first person, diary-of-a-samurai — each source a realization his labour carries the name; closes on the mendHint vow kept',
+        scorecard:
+          'strong mendHint callback; ✘ first-person "I" clashes with the log\'s narrator-voice convention (FB-91/93)',
+        flavor: {
+          estateSourceFields:
+            "Mud to the knee since first light — and tonight the yield goes down under the house's name. My work carries that name now. Let it carry.",
+          estateSourceStores:
+            'The granary takes what I hauled, and the house is one bad winter safer for it. Set it down plainly: full stores, my shoulders.',
+          estateSourceWorkshop:
+            "The workshop's first piece, finished, fit to sell without shame. Made under this roof — by hands this house once hired by the day.",
+          estateSourceWatch:
+            'The fight is won, and the gate stands quieter for it. A house that is defended is a house again; I will keep it so.',
+          estateSourceTreasury:
+            'Rice sold, and the sum entered in the house books in my own hand. A hired man marks a tally. A son keeps the ledger.',
+          estateStands:
+            'The estate stands. Once I told myself: climb higher, then set it right — it is set right, and I lived to stand in its shadow.',
+        },
+      },
+    ],
+  },
+];

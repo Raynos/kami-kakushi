@@ -66,7 +66,9 @@
       "rank-r6": true,
       "r7-devoted": true,
       "rank-r7": true,
-      "t0-capstone": true
+      "t0-capstone": true,
+      "deed-source-fields": true,
+      "deed-source-treasury": true
     },
     "unlocked": [
       "screen-cold-open",
@@ -963,8 +965,16 @@
           }
         },
         {
-          "key": 4277,
+          "key": 4261,
           "channel": "milestone",
+          "text": "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 4279,
+          "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
           "count": 1,
@@ -974,7 +984,7 @@
           }
         },
         {
-          "key": 4300,
+          "key": 4302,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -985,7 +995,7 @@
           }
         },
         {
-          "key": 4322,
+          "key": 4324,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -996,7 +1006,7 @@
           }
         },
         {
-          "key": 4344,
+          "key": 4346,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1007,7 +1017,7 @@
           }
         },
         {
-          "key": 4367,
+          "key": 4369,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1018,7 +1028,7 @@
           }
         },
         {
-          "key": 4389,
+          "key": 4391,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1029,7 +1039,7 @@
           }
         },
         {
-          "key": 4411,
+          "key": 4413,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1040,7 +1050,7 @@
           }
         },
         {
-          "key": 4433,
+          "key": 4435,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1051,7 +1061,7 @@
           }
         },
         {
-          "key": 4456,
+          "key": 4458,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1062,7 +1072,7 @@
           }
         },
         {
-          "key": 4478,
+          "key": 4480,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1073,7 +1083,7 @@
           }
         },
         {
-          "key": 4490,
+          "key": 4492,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1084,7 +1094,7 @@
           }
         },
         {
-          "key": 4512,
+          "key": 4514,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1095,7 +1105,7 @@
           }
         },
         {
-          "key": 4535,
+          "key": 4537,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1106,7 +1116,7 @@
           }
         },
         {
-          "key": 4557,
+          "key": 4559,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1117,7 +1127,7 @@
           }
         },
         {
-          "key": 4579,
+          "key": 4581,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1128,7 +1138,7 @@
           }
         },
         {
-          "key": 4602,
+          "key": 4604,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1139,7 +1149,7 @@
           }
         },
         {
-          "key": 4624,
+          "key": 4626,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1150,7 +1160,7 @@
           }
         },
         {
-          "key": 4636,
+          "key": 4638,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1161,7 +1171,7 @@
           }
         },
         {
-          "key": 4658,
+          "key": 4660,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1172,7 +1182,7 @@
           }
         },
         {
-          "key": 4681,
+          "key": 4683,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1183,7 +1193,7 @@
           }
         },
         {
-          "key": 4703,
+          "key": 4705,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1194,7 +1204,7 @@
           }
         },
         {
-          "key": 4725,
+          "key": 4727,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1205,7 +1215,7 @@
           }
         },
         {
-          "key": 4747,
+          "key": 4749,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1216,7 +1226,7 @@
           }
         },
         {
-          "key": 4770,
+          "key": 4772,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1227,7 +1237,7 @@
           }
         },
         {
-          "key": 4792,
+          "key": 4794,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1238,7 +1248,7 @@
           }
         },
         {
-          "key": 4814,
+          "key": 4816,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1249,7 +1259,7 @@
           }
         },
         {
-          "key": 4826,
+          "key": 4828,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1260,7 +1270,7 @@
           }
         },
         {
-          "key": 4849,
+          "key": 4851,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1271,7 +1281,7 @@
           }
         },
         {
-          "key": 4871,
+          "key": 4873,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1282,7 +1292,7 @@
           }
         },
         {
-          "key": 4893,
+          "key": 4895,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1293,7 +1303,7 @@
           }
         },
         {
-          "key": 4916,
+          "key": 4918,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1304,7 +1314,7 @@
           }
         },
         {
-          "key": 4938,
+          "key": 4940,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1315,7 +1325,7 @@
           }
         },
         {
-          "key": 4960,
+          "key": 4962,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1326,7 +1336,7 @@
           }
         },
         {
-          "key": 4982,
+          "key": 4984,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1337,7 +1347,7 @@
           }
         },
         {
-          "key": 5005,
+          "key": 5007,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1348,7 +1358,7 @@
           }
         },
         {
-          "key": 5017,
+          "key": 5019,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1359,7 +1369,7 @@
           }
         },
         {
-          "key": 5039,
+          "key": 5041,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1370,7 +1380,7 @@
           }
         },
         {
-          "key": 5061,
+          "key": 5063,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1381,7 +1391,7 @@
           }
         },
         {
-          "key": 5084,
+          "key": 5086,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1392,7 +1402,7 @@
           }
         },
         {
-          "key": 5106,
+          "key": 5108,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1403,7 +1413,7 @@
           }
         },
         {
-          "key": 5135,
+          "key": 5137,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1414,7 +1424,7 @@
           }
         },
         {
-          "key": 5168,
+          "key": 5170,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1425,7 +1435,7 @@
           }
         },
         {
-          "key": 5185,
+          "key": 5187,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1436,7 +1446,7 @@
           }
         },
         {
-          "key": 5217,
+          "key": 5219,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1447,7 +1457,7 @@
           }
         },
         {
-          "key": 5249,
+          "key": 5251,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1458,7 +1468,7 @@
           }
         },
         {
-          "key": 5282,
+          "key": 5284,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1469,7 +1479,7 @@
           }
         },
         {
-          "key": 5315,
+          "key": 5317,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1480,7 +1490,7 @@
           }
         },
         {
-          "key": 5347,
+          "key": 5349,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1491,7 +1501,7 @@
           }
         },
         {
-          "key": 5379,
+          "key": 5381,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1502,7 +1512,7 @@
           }
         },
         {
-          "key": 5412,
+          "key": 5414,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1513,7 +1523,7 @@
           }
         },
         {
-          "key": 5444,
+          "key": 5446,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1524,7 +1534,7 @@
           }
         },
         {
-          "key": 5461,
+          "key": 5463,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1535,7 +1545,7 @@
           }
         },
         {
-          "key": 5493,
+          "key": 5495,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1546,7 +1556,7 @@
           }
         },
         {
-          "key": 5526,
+          "key": 5528,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1557,7 +1567,7 @@
           }
         },
         {
-          "key": 5558,
+          "key": 5560,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1568,7 +1578,7 @@
           }
         },
         {
-          "key": 5590,
+          "key": 5592,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1579,7 +1589,7 @@
           }
         },
         {
-          "key": 5623,
+          "key": 5625,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1590,7 +1600,7 @@
           }
         },
         {
-          "key": 5656,
+          "key": 5658,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1601,7 +1611,7 @@
           }
         },
         {
-          "key": 5688,
+          "key": 5690,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1612,7 +1622,7 @@
           }
         },
         {
-          "key": 5720,
+          "key": 5722,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1623,7 +1633,7 @@
           }
         },
         {
-          "key": 5737,
+          "key": 5739,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1634,7 +1644,7 @@
           }
         },
         {
-          "key": 5770,
+          "key": 5772,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1645,7 +1655,7 @@
           }
         },
         {
-          "key": 5802,
+          "key": 5804,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1656,7 +1666,7 @@
           }
         },
         {
-          "key": 5834,
+          "key": 5836,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1667,7 +1677,7 @@
           }
         },
         {
-          "key": 5867,
+          "key": 5869,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1678,7 +1688,7 @@
           }
         },
         {
-          "key": 5899,
+          "key": 5901,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1689,7 +1699,7 @@
           }
         },
         {
-          "key": 5931,
+          "key": 5933,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1700,7 +1710,7 @@
           }
         },
         {
-          "key": 5964,
+          "key": 5966,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1711,7 +1721,7 @@
           }
         },
         {
-          "key": 5997,
+          "key": 5999,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1722,7 +1732,7 @@
           }
         },
         {
-          "key": 6014,
+          "key": 6016,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1733,7 +1743,7 @@
           }
         },
         {
-          "key": 6046,
+          "key": 6048,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1744,7 +1754,7 @@
           }
         },
         {
-          "key": 6079,
+          "key": 6081,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1755,7 +1765,7 @@
           }
         },
         {
-          "key": 6112,
+          "key": 6114,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1766,7 +1776,7 @@
           }
         },
         {
-          "key": 6144,
+          "key": 6146,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1777,7 +1787,7 @@
           }
         },
         {
-          "key": 6176,
+          "key": 6178,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1788,7 +1798,7 @@
           }
         },
         {
-          "key": 6209,
+          "key": 6211,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1799,7 +1809,7 @@
           }
         },
         {
-          "key": 6226,
+          "key": 6228,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1810,7 +1820,7 @@
           }
         },
         {
-          "key": 6258,
+          "key": 6260,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1821,7 +1831,7 @@
           }
         },
         {
-          "key": 6290,
+          "key": 6292,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1832,7 +1842,7 @@
           }
         },
         {
-          "key": 6323,
+          "key": 6325,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1843,7 +1853,7 @@
           }
         },
         {
-          "key": 6355,
+          "key": 6357,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1854,7 +1864,7 @@
           }
         },
         {
-          "key": 6387,
+          "key": 6389,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1865,7 +1875,7 @@
           }
         },
         {
-          "key": 6420,
+          "key": 6422,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1876,7 +1886,7 @@
           }
         },
         {
-          "key": 6454,
+          "key": 6456,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1887,7 +1897,7 @@
           }
         },
         {
-          "key": 6486,
+          "key": 6488,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1898,7 +1908,7 @@
           }
         },
         {
-          "key": 6503,
+          "key": 6505,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1909,7 +1919,7 @@
           }
         },
         {
-          "key": 6536,
+          "key": 6538,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1920,7 +1930,7 @@
           }
         },
         {
-          "key": 6568,
+          "key": 6570,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1931,7 +1941,7 @@
           }
         },
         {
-          "key": 6600,
+          "key": 6602,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1942,7 +1952,7 @@
           }
         },
         {
-          "key": 6633,
+          "key": 6635,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1953,7 +1963,7 @@
           }
         },
         {
-          "key": 6666,
+          "key": 6668,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1964,7 +1974,7 @@
           }
         },
         {
-          "key": 6698,
+          "key": 6700,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1975,7 +1985,7 @@
           }
         },
         {
-          "key": 6730,
+          "key": 6732,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1986,7 +1996,7 @@
           }
         },
         {
-          "key": 6763,
+          "key": 6765,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -1997,7 +2007,7 @@
           }
         },
         {
-          "key": 6780,
+          "key": 6782,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2008,7 +2018,7 @@
           }
         },
         {
-          "key": 6812,
+          "key": 6814,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2019,7 +2029,7 @@
           }
         },
         {
-          "key": 6850,
+          "key": 6852,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2030,7 +2040,7 @@
           }
         },
         {
-          "key": 6893,
+          "key": 6895,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2041,7 +2051,7 @@
           }
         },
         {
-          "key": 6936,
+          "key": 6938,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2052,7 +2062,7 @@
           }
         },
         {
-          "key": 6978,
+          "key": 6980,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2063,7 +2073,7 @@
           }
         },
         {
-          "key": 7021,
+          "key": 7023,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2074,7 +2084,7 @@
           }
         },
         {
-          "key": 7064,
+          "key": 7066,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2085,7 +2095,7 @@
           }
         },
         {
-          "key": 7106,
+          "key": 7108,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2096,7 +2106,7 @@
           }
         },
         {
-          "key": 7128,
+          "key": 7130,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2107,7 +2117,7 @@
           }
         },
         {
-          "key": 7171,
+          "key": 7173,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2118,7 +2128,7 @@
           }
         },
         {
-          "key": 7214,
+          "key": 7216,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2129,7 +2139,7 @@
           }
         },
         {
-          "key": 7256,
+          "key": 7258,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2140,7 +2150,7 @@
           }
         },
         {
-          "key": 7298,
+          "key": 7300,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2151,7 +2161,7 @@
           }
         },
         {
-          "key": 7341,
+          "key": 7343,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2162,7 +2172,7 @@
           }
         },
         {
-          "key": 7384,
+          "key": 7386,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2173,7 +2183,7 @@
           }
         },
         {
-          "key": 7406,
+          "key": 7408,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2184,7 +2194,7 @@
           }
         },
         {
-          "key": 7448,
+          "key": 7450,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2195,7 +2205,7 @@
           }
         },
         {
-          "key": 7491,
+          "key": 7493,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2206,7 +2216,7 @@
           }
         },
         {
-          "key": 7534,
+          "key": 7536,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2217,7 +2227,7 @@
           }
         },
         {
-          "key": 7576,
+          "key": 7578,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2228,7 +2238,7 @@
           }
         },
         {
-          "key": 7619,
+          "key": 7621,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2239,7 +2249,7 @@
           }
         },
         {
-          "key": 7662,
+          "key": 7664,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2250,7 +2260,7 @@
           }
         },
         {
-          "key": 7704,
+          "key": 7706,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2261,7 +2271,7 @@
           }
         },
         {
-          "key": 7746,
+          "key": 7748,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2272,7 +2282,7 @@
           }
         },
         {
-          "key": 7768,
+          "key": 7770,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2283,7 +2293,7 @@
           }
         },
         {
-          "key": 7811,
+          "key": 7813,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2294,7 +2304,7 @@
           }
         },
         {
-          "key": 7853,
+          "key": 7855,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2305,7 +2315,7 @@
           }
         },
         {
-          "key": 7895,
+          "key": 7897,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2316,7 +2326,7 @@
           }
         },
         {
-          "key": 7938,
+          "key": 7940,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2327,7 +2337,7 @@
           }
         },
         {
-          "key": 7981,
+          "key": 7983,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2338,7 +2348,7 @@
           }
         },
         {
-          "key": 8023,
+          "key": 8025,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2349,7 +2359,7 @@
           }
         },
         {
-          "key": 8066,
+          "key": 8068,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2360,7 +2370,7 @@
           }
         },
         {
-          "key": 8109,
+          "key": 8111,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2371,7 +2381,7 @@
           }
         },
         {
-          "key": 8131,
+          "key": 8133,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2382,7 +2392,7 @@
           }
         },
         {
-          "key": 8173,
+          "key": 8175,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2393,7 +2403,7 @@
           }
         },
         {
-          "key": 8216,
+          "key": 8218,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2404,7 +2414,7 @@
           }
         },
         {
-          "key": 8259,
+          "key": 8261,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2415,7 +2425,7 @@
           }
         },
         {
-          "key": 8301,
+          "key": 8303,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2426,7 +2436,7 @@
           }
         },
         {
-          "key": 8343,
+          "key": 8345,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2437,7 +2447,7 @@
           }
         },
         {
-          "key": 8386,
+          "key": 8388,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2448,7 +2458,7 @@
           }
         },
         {
-          "key": 8408,
+          "key": 8410,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2459,7 +2469,7 @@
           }
         },
         {
-          "key": 8450,
+          "key": 8452,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2470,7 +2480,7 @@
           }
         },
         {
-          "key": 8492,
+          "key": 8494,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2481,7 +2491,7 @@
           }
         },
         {
-          "key": 8535,
+          "key": 8537,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2492,7 +2502,7 @@
           }
         },
         {
-          "key": 8578,
+          "key": 8580,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2503,7 +2513,7 @@
           }
         },
         {
-          "key": 8620,
+          "key": 8622,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -2514,522 +2524,133 @@
           }
         },
         {
-          "key": 8649,
+          "key": 8651,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 2,
           "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8650,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8651,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8652,
           "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 8,
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8653,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 16,
-          "count": 4,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8654,
           "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 18,
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8655,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 16,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8656,
           "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 22,
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8657,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 6,
-          "count": 4,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8658,
           "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 8,
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8659,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 6,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8660,
           "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 12,
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8661,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 20,
-          "count": 4,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8662,
           "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 22,
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8663,
-          "channel": "milestone",
-          "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
-          "tick": 0,
-          "count": 1,
-          "contentKey": "season.reckoned",
-          "params": {
-            "bonus": 1
-          }
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 8664,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8665,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8666,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 10,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8667,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8668,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8669,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8670,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 0,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8671,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8672,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8673,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8674,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 14,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8675,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8676,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8677,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8678,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 4,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8679,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8680,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8681,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8682,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 18,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8683,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8684,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8685,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8686,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 8,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8687,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8688,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8689,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8690,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 22,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8691,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8692,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8693,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8694,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8695,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8696,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8697,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8698,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 2,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8699,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8700,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8701,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8702,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 16,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8703,
-          "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8704,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8705,
-          "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 8706,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -3040,133 +2661,522 @@
           }
         },
         {
-          "key": 8707,
+          "key": 8666,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8667,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8668,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
-          "tick": 6,
+          "tick": 10,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 8708,
+          "key": 8669,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8670,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8671,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8672,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8673,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8674,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8675,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8676,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8677,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8678,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8679,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8680,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8681,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8682,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 8709,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 8683,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
           "tick": 10,
           "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8684,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8685,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8686,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8687,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8688,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8689,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8690,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8691,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8692,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8693,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8694,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8695,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8696,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8697,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8698,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8699,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8700,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8701,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8702,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8703,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8704,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8705,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8706,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8707,
+          "channel": "reward",
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8708,
+          "channel": "milestone",
+          "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 1
+          }
+        },
+        {
+          "key": 8709,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 6,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8710,
           "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 12,
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8711,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 20,
-          "count": 4,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8712,
           "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 22,
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8713,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 20,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8714,
           "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 2,
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8715,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 10,
-          "count": 4,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8716,
           "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 12,
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8717,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 10,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8718,
           "channel": "reward",
-          "text": "Work the home paddies. (+9 rice)",
-          "tick": 16,
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8719,
-          "channel": "reward",
-          "text": "Work the home paddies. (+8 rice)",
-          "tick": 0,
-          "count": 4,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8720,
           "channel": "reward",
-          "text": "Work the home paddies. (+7 rice)",
-          "tick": 2,
+          "text": "Work the home paddies. (+9 rice)",
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 8721,
+          "channel": "reward",
+          "text": "Work the home paddies. (+8 rice)",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8722,
+          "channel": "reward",
+          "text": "Work the home paddies. (+7 rice)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 8723,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 4,
@@ -3175,7 +3185,7 @@
           "ephemeral": true
         },
         {
-          "key": 8722,
+          "key": 8724,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 6,
@@ -3184,7 +3194,7 @@
           "ephemeral": true
         },
         {
-          "key": 8723,
+          "key": 8725,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 14,
@@ -3193,7 +3203,7 @@
           "ephemeral": true
         },
         {
-          "key": 8724,
+          "key": 8726,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
           "tick": 16,
@@ -3202,7 +3212,7 @@
           "ephemeral": true
         },
         {
-          "key": 8725,
+          "key": 8727,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 18,
@@ -3211,7 +3221,7 @@
           "ephemeral": true
         },
         {
-          "key": 8726,
+          "key": 8728,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 20,
@@ -3220,7 +3230,7 @@
           "ephemeral": true
         },
         {
-          "key": 8727,
+          "key": 8729,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 4,
@@ -3229,7 +3239,7 @@
           "ephemeral": true
         },
         {
-          "key": 8728,
+          "key": 8730,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
           "tick": 6,
@@ -3238,7 +3248,7 @@
           "ephemeral": true
         },
         {
-          "key": 8729,
+          "key": 8731,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 8,
@@ -3247,7 +3257,7 @@
           "ephemeral": true
         },
         {
-          "key": 8730,
+          "key": 8732,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 10,
@@ -3256,7 +3266,7 @@
           "ephemeral": true
         },
         {
-          "key": 8731,
+          "key": 8733,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 18,
@@ -3265,7 +3275,7 @@
           "ephemeral": true
         },
         {
-          "key": 8732,
+          "key": 8734,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
           "tick": 20,
@@ -3274,7 +3284,7 @@
           "ephemeral": true
         },
         {
-          "key": 8733,
+          "key": 8735,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 22,
@@ -3283,7 +3293,7 @@
           "ephemeral": true
         },
         {
-          "key": 8734,
+          "key": 8736,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 0,
@@ -3292,7 +3302,7 @@
           "ephemeral": true
         },
         {
-          "key": 8735,
+          "key": 8737,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 8,
@@ -3301,7 +3311,7 @@
           "ephemeral": true
         },
         {
-          "key": 8736,
+          "key": 8738,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
           "tick": 10,
@@ -3310,7 +3320,7 @@
           "ephemeral": true
         },
         {
-          "key": 8737,
+          "key": 8739,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 12,
@@ -3319,7 +3329,7 @@
           "ephemeral": true
         },
         {
-          "key": 8738,
+          "key": 8740,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 14,
@@ -3328,7 +3338,7 @@
           "ephemeral": true
         },
         {
-          "key": 8739,
+          "key": 8741,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 22,
@@ -3337,7 +3347,7 @@
           "ephemeral": true
         },
         {
-          "key": 8740,
+          "key": 8742,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
           "tick": 0,
@@ -3346,7 +3356,7 @@
           "ephemeral": true
         },
         {
-          "key": 8741,
+          "key": 8743,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 2,
@@ -3355,7 +3365,7 @@
           "ephemeral": true
         },
         {
-          "key": 8742,
+          "key": 8744,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 4,
@@ -3364,7 +3374,7 @@
           "ephemeral": true
         },
         {
-          "key": 8743,
+          "key": 8745,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 12,
@@ -3373,7 +3383,7 @@
           "ephemeral": true
         },
         {
-          "key": 8744,
+          "key": 8746,
           "channel": "reward",
           "text": "Work the home paddies. (+7 rice)",
           "tick": 14,
@@ -3382,7 +3392,7 @@
           "ephemeral": true
         },
         {
-          "key": 8745,
+          "key": 8747,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 16,
@@ -3391,7 +3401,7 @@
           "ephemeral": true
         },
         {
-          "key": 8746,
+          "key": 8748,
           "channel": "reward",
           "text": "Work the home paddies. (+9 rice)",
           "tick": 18,
@@ -3400,7 +3410,7 @@
           "ephemeral": true
         },
         {
-          "key": 8747,
+          "key": 8749,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 22,
@@ -3409,7 +3419,7 @@
           "ephemeral": true
         },
         {
-          "key": 8748,
+          "key": 8750,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+1 koku)",
           "tick": 0,
@@ -3420,7 +3430,7 @@
           }
         },
         {
-          "key": 8749,
+          "key": 8751,
           "channel": "reward",
           "text": "Work the home paddies. (+8 rice)",
           "tick": 0,
@@ -3429,7 +3439,7 @@
           "ephemeral": true
         },
         {
-          "key": 8750,
+          "key": 8752,
           "channel": "narration",
           "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
           "tick": 2,
@@ -3438,7 +3448,7 @@
           "ephemeral": true
         },
         {
-          "key": 8751,
+          "key": 8753,
           "channel": "narration",
           "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
           "tick": 2,
@@ -3447,7 +3457,7 @@
           "ephemeral": true
         },
         {
-          "key": 8752,
+          "key": 8754,
           "channel": "system",
           "text": "You sell 92140 rice to the pedlar at 4 mon the measure. (+92 ryō 7 monme)",
           "tick": 2,
@@ -3461,7 +3471,15 @@
           }
         },
         {
-          "key": 8753,
+          "key": 8755,
+          "channel": "milestone",
+          "text": "Entered: rice sold at market, the coin set down in the house books — owed to no man. The steward has waited some years to write that word.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 8756,
           "channel": "narration",
           "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
           "tick": 2,
@@ -3469,7 +3487,7 @@
           "voice": "narrator"
         },
         {
-          "key": 8754,
+          "key": 8757,
           "channel": "system",
           "text": "You store 92 ryō 7 monme safe in the kura storehouse.",
           "tick": 2,
@@ -3482,7 +3500,7 @@
           }
         }
       ],
-      "seq": 8755
+      "seq": 8758
     },
     "skillXp": {
       "farming": 64627

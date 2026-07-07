@@ -19,6 +19,9 @@ import {
 } from './content/balance';
 
 export type { EstateDeedSource } from './content/balance';
+import { applyRewards } from './rewards';
+import { setFlag } from './state';
+import { FLAVOR } from './content/flavor';
 
 export type Grade = 'NONE' | 'GOOD' | 'GREAT' | 'EXCELLENT';
 
@@ -109,11 +112,30 @@ export function estateDeedMagnitude(source: EstateDeedSource): number {
 
 /** ADR-145 — bank an Estate deed FROM a source (the multi-source Phase-2 economy). `undefined`
  *  = the act is not estate-relevant (Q4: woodcut/forage build no house standing) → a structural
- *  no-op. Phase-1 gating rides on `applyEstateDeed` (deeds never bank pre-capstone). */
+ *  no-op. Phase-1 gating rides on `applyEstateDeed` (deeds never bank pre-capstone).
+ *  The FIRST deed a source ever banks fires its one-time reveal beat (TST3 — the recurring
+ *  earner is DISCOVERED via the beat, never spawned; flag-gated, append-only per TST2). This is
+ *  shared glue both the activity and fight reducers ride (AC-20 — never a reducer→reducer call). */
 export function bankEstateDeed(state: GameState, source: EstateDeedSource | undefined): GameState {
   if (source === undefined) return state;
-  return applyEstateDeed(state, estateDeedMagnitude(source));
+  const banked = applyEstateDeed(state, estateDeedMagnitude(source));
+  if (banked === state) return state; // Phase 1 / nothing moved — no beat, no flag
+  const flag = `deed-source-${source}`;
+  if (banked.flags[flag]) return banked;
+  return applyRewards(setFlag(banked, flag), {
+    log: [{ channel: 'milestone', text: DEED_SOURCE_REVEAL[source], voice: 'narrator' }],
+  });
 }
+
+/** ADR-145/ADR-139 — the per-source one-time reveal lines (FB-5 canon; authored in
+ *  `content/narrative/flavor.md`, alternates in `takes/` until human sign-off). */
+const DEED_SOURCE_REVEAL: Record<EstateDeedSource, string> = {
+  fields: FLAVOR.estateSourceFields,
+  stores: FLAVOR.estateSourceStores,
+  workshop: FLAVOR.estateSourceWorkshop,
+  watch: FLAVOR.estateSourceWatch,
+  treasury: FLAVOR.estateSourceTreasury,
+};
 
 /** The live Estate grade (the ascension gate + the UI bar read it). */
 export function estateGrade(state: GameState): Grade {

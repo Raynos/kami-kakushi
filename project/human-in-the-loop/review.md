@@ -303,6 +303,35 @@ for your read in
 
 ---
 
+### HR-10 🔲 — Phase-2 build beats (deed-source reveals + E1) — pick the take bundle (ADR-145, ADR-139)
+
+The ADR-145 Phase-2 economy fires **six one-time log beats**: a reveal the
+first time each of the five deed sources banks (fields / stores / workshop /
+watch / treasury) and the **E1 "the estate stands" build-complete beat** at U4.
+Three blind takes were authored (ADR-139); canon carries the self-pick:
+
+- **CANON · a "steward's ledger"** — Genemon's dry book-keeping voice; each
+  line is the moment a thing becomes worth recording (the mechanic itself —
+  recognised deeds — voiced as fiction). In
+  [`flavor.md`](../../src/core/content/narrative/flavor.md).
+- **b · "the land remembers"** — third-person earth-and-weather narrator.
+  ✘ lusher/longer in repeated log real estate (TST4).
+- **c · "the heir's private reckoning"** — MC inward diary, closes on the
+  mendHint vow kept. ✘ first-person "I" clashes with the log's narrator-voice
+  convention (FB-91/93).
+
+- **Asking for:** keep the ledger take, or override to b / c (or per-line mix).
+- **How to look:** read the bundle —
+  [`takes/estate-build-beats/`](../../src/core/content/narrative/takes/estate-build-beats/)
+  (bundle.md + take-b/c.md; canon in flavor.md). NOTE these beats are
+  **core-emitted log lines** — the DEV story switcher lists the bundle but a
+  live in-log swap is not wired (same reader-only class as dialogue/cold-open
+  takes); to see one land in play: load a Phase-2 fixture and trigger the
+  source's first bank (e.g. farm once / sell rice / win a fight).
+- **Verdict:** _(awaiting the human)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

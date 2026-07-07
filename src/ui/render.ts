@@ -1401,12 +1401,18 @@ export function mount(
       setText(r.btn, `${next.label} (${formatCoin(next.coinCost)})`);
       const carried = state.resources.coin ?? 0;
       const banked = state.banked.coin ?? 0;
-      setDisabled(r.btn, carried < next.coinCost);
+      // ADR-145 (the B half) — the build stage is ALSO deed-gated: read the SAME source-of-truth
+      // gate the reducer enforces (AC-6/TST4 — the shown reason can never drift from the real gate).
+      const deedGate = balance.ESTATE_STAGE_DEED_GATES[next.stage - 1] ?? 0;
+      const deedsShort = state.influence.estate.value < deedGate;
+      setDisabled(r.btn, carried < next.coinCost || deedsShort);
       // don't lie "Needs N coin" when the coin is merely sitting safe in the kura — point at the bank.
       const title = r.btn.disabled
-        ? banked >= next.coinCost
-          ? 'Draw coin from the kura storehouse first'
-          : `Needs ${formatCoin(next.coinCost)}`
+        ? deedsShort
+          ? `The house's standing must reach ${deedGate} koku first (now ${state.influence.estate.value})`
+          : banked >= next.coinCost
+            ? 'Draw coin from the kura storehouse first'
+            : `Needs ${formatCoin(next.coinCost)}`
         : '';
       if (r.btn.title !== title) r.btn.title = title;
     } else {
