@@ -58,9 +58,10 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (pnpm run checkpoint — do not edit inside) -->
-**4 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**5 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-2026-07-07-story-bible-finish.md`](fable-2026-07-07-story-bible-finish.md) — IN-PROGRESS
+- [`fable-2026-07-07-storywave-docs.md`](fable-2026-07-07-storywave-docs.md) — PROPOSED
 - [`fable-2026-07-07-storywave-game.md`](fable-2026-07-07-storywave-game.md) — PROPOSED
 - [`fable-2026-07-07-t0t1-map-rebuild.md`](fable-2026-07-07-t0t1-map-rebuild.md) — IN-PROGRESS
 - [`fable-2026-07-07-t0t1-map-spec.md`](fable-2026-07-07-t0t1-map-spec.md) — IN-PROGRESS

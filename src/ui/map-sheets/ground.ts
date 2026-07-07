@@ -242,15 +242,16 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     inkLine(
       art,
       [
-        [WATER.pools[0]!.x - 60, WATER.pools[0]!.y - 30],
-        [WATER.pools[2]!.x + 55, WATER.pools[2]!.y + 28],
+        [WATER.pools[0]!.x - 52, WATER.pools[0]!.y - 30],
+        [WATER.pools[2]!.x + 20, WATER.pools[2]!.y + 14],
       ],
       { seed: 'pool-strike', w: 2.5, color: 'var(--shu)', opacity: 0.85 },
     );
+    // seated just west of the pool group, off the water (FB drain: it floated)
     redNote(
       art,
-      736,
-      372,
+      505,
+      368,
       '改・涸',
       'The re-survey: the pools drained when the breach closed (R4)',
     );

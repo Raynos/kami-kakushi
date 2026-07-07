@@ -120,9 +120,9 @@ export const RIVER = {
 export const WATER = {
   /** T1: the silted pools behind the breach — drained after R4 (drawn drained + red-struck) */
   pools: [
-    { x: 640, y: 300, r: 42 },
-    { x: 702, y: 358, r: 32 },
-    { x: 642, y: 414, r: 26 },
+    { x: 592, y: 308, r: 38 },
+    { x: 566, y: 370, r: 30 },
+    { x: 592, y: 436, r: 24 },
   ],
   /** the old breach in the bank — the stones were TAKEN; T1 shows it CLOSED in fresh work */
   breach: { at: [566, 528] as Pt, angleDeg: 68 },
@@ -208,17 +208,17 @@ export const PRECINCT = {
     [1780, 1530],
     [1350, 1500],
     [1170, 1080],
-    [1150, 520],
-    [1750, 470],
-    [2340, 510],
+    [1150, 565],
+    [1750, 515],
+    [2340, 555],
     [2360, 1046],
   ] as readonly Pt[],
   /** stretches still standing (heavy broken brush, not footings) */
   standing: [
     [
-      [1400, 495],
-      [1750, 470],
-      [1980, 485],
+      [1400, 540],
+      [1750, 515],
+      [1980, 530],
     ],
     [
       [2350, 700],
@@ -237,17 +237,18 @@ export const PRECINCT = {
   /** the fallen main-house group (the jin'ya core) — sized to DOMINATE: the ruin
    *  is the biggest built thing on the sheet, or the twist reads backwards */
   fallenRoofs: [
-    { x: 1700, y: 770, w: 205, h: 115, angleDeg: -4 },
-    { x: 1500, y: 890, w: 135, h: 85, angleDeg: 7 },
-    { x: 1895, y: 905, w: 150, h: 88, angleDeg: -9 },
-    { x: 1640, y: 655, w: 110, h: 64, angleDeg: -11 },
-    { x: 1795, y: 1012, w: 95, h: 58, angleDeg: 6 },
+    { x: 1700, y: 775, w: 244, h: 138, angleDeg: -4 },
+    { x: 1490, y: 900, w: 162, h: 100, angleDeg: 7 },
+    { x: 1905, y: 908, w: 178, h: 104, angleDeg: -9 },
+    { x: 1632, y: 648, w: 132, h: 76, angleDeg: -11 },
+    { x: 1800, y: 1015, w: 112, h: 66, angleDeg: 6 },
+    { x: 1545, y: 742, w: 118, h: 70, angleDeg: -2 },
   ],
   /** the old barracks row along the west wall */
   barracksRow: [
-    { x: 1275, y: 740, w: 88, h: 46, angleDeg: 84 },
-    { x: 1300, y: 880, w: 88, h: 46, angleDeg: 86 },
-    { x: 1325, y: 1020, w: 88, h: 46, angleDeg: 88 },
+    { x: 1275, y: 740, w: 102, h: 54, angleDeg: 84 },
+    { x: 1300, y: 880, w: 102, h: 54, angleDeg: 86 },
+    { x: 1325, y: 1020, w: 102, h: 54, angleDeg: 88 },
   ],
   /** the ORIGINAL family temple-alcove (the guest-house alcove is its echo) */
   templeAlcove: [2020, 720] as Pt,
@@ -255,7 +256,7 @@ export const PRECINCT = {
   rubble: [
     [1440, 640],
     [1990, 600],
-    [2050, 980],
+    [2000, 952],
     [1480, 1030],
   ] as readonly Pt[],
   /** the old inner garden — overgrown (grass + feral tangle, no water) */
@@ -286,7 +287,7 @@ export const GUEST = {
   ] as readonly Pt[],
   gate: { at: [2140, 1520] as Pt, angleDeg: 0 },
   /** the winged residence (anchors refined by the drawing at composition) */
-  house: { at: [2130, 1215] as Pt, scale: 1.35, angleDeg: 0 },
+  house: { at: [2130, 1215] as Pt, scale: 1.22, angleDeg: 0 },
   kura: [2310, 1118] as Pt,
   woodshed: [1978, 1442] as Pt,
   sickroom: [1962, 1338] as Pt,
@@ -392,13 +393,13 @@ export const FIELDS = {
 // ── the wilds (G8) ───────────────────────────────────────────────────────────
 export const WILDS = {
   /** the old compound's orchard — courtyard rows gone feral, aligned to the RUIN */
-  orchard: { origin: [1800, 930] as Pt, cols: 6, rows: 4, spacing: 47, angleDeg: -3 },
+  orchard: { origin: [1842, 968] as Pt, cols: 5, rows: 4, spacing: 45, angleDeg: -3 },
   /** the bamboo grove behind the precinct — the monkeys' ground */
   grove: [
-    [1905, 322],
-    [2262, 310],
-    [2300, 478],
-    [1952, 495],
+    [1900, 398],
+    [2258, 384],
+    [2298, 542],
+    [1950, 556],
   ] as readonly Pt[],
   /** the eastern forest mass (thickens east; its NW boundary is the BURN LINE) */
   forest: [
@@ -406,7 +407,9 @@ export const WILDS = {
     [3150, 250],
     [3160, 1700],
     [2760, 1600],
-    [2660, 1000],
+    [2620, 1380],
+    [2570, 1160],
+    [2652, 985],
     [2705, 500],
   ] as readonly Pt[],
   /** the too-straight firebreak edge — a fire nobody dates, held by someone */
@@ -468,7 +471,7 @@ export const ROADS = {
     [2050, 1092],
     [1982, 952],
     [2000, 700],
-    [2050, 490],
+    [2050, 535],
   ] as readonly Pt[],
   /** east track spur → the charcoal clamp (T1) */
   clampPath: [

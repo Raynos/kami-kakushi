@@ -141,3 +141,12 @@ empty; the element picker returns null inside the modal) — logged, fix
 queued. First landing (this commit): the strip — marks/pills/legends/
 hanko/新/notes gone, cartouche English gloss, user-select fix, caption
 contrast, LOD fade. Geometry + craft + hybrid-canon landings follow.
+
+Second landing — the geometry batch (layout.ts, one geography): the ruin
+core grows ~18% + a sixth fallen mass (the 5× canon now SHOWS), the
+guest house steps down to scale 1.22, the orchard moves off the rubble
+core, the precinct N wall drops ~45u so the bamboo grove gets its own
+ground below the foothills, the upstream pools re-seat on the river's
+west bank (strike ends on the pool group, 改・涸 note clear of the
+water), and a forest tongue reaches into the T0 window's east edge.
+All verified on fresh captures of both sheets.
